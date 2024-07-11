@@ -251,12 +251,19 @@ type Tag = string | {label: string; permalink: string};
 // An author key references an author from the global plugin authors.yml file
 type AuthorKey = string;
 
+// Social platform name -> Social platform link
+// Example: {MyPlatform: 'https://myplatform.com/myusername'}
+// Pre-defined platforms ("x", "github", "twitter", "linkedin", "stackoverflow") accept handles:
+// Example: {github: 'slorber'}
+type AuthorSocials = Record<string, string>;
+
 type Author = {
   key?: AuthorKey;
   name: string;
   title?: string;
   url?: string;
   image_url?: string;
+  socials?: AuthorSocials;
 };
 
 // The front matter authors field allows various possible shapes
@@ -275,6 +282,9 @@ authors:
     title: Co-creator of Docusaurus 1
     url: https://github.com/JoelMarcey
     image_url: https://github.com/JoelMarcey.png
+    socials:
+      x: joelmarcey
+      github: JoelMarcey
 tags: [docusaurus]
 description: This is my first post on Docusaurus.
 image: https://i.imgur.com/mErPwqL.png

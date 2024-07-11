@@ -8,10 +8,10 @@
 import {normalizeUrl} from '@docusaurus/utils';
 import type {
   AuthorSocials,
-  SocialPlatform,
+  SocialPlatformKey,
 } from '@docusaurus/plugin-content-blog';
 
-const socialPlatforms: Record<SocialPlatform, string> = {
+const socialPlatforms: Record<SocialPlatformKey, string> = {
   twitter: 'https://twitter.com/',
   github: 'https://github.com/',
   linkedin: 'https://www.linkedin.com/',
@@ -19,8 +19,10 @@ const socialPlatforms: Record<SocialPlatform, string> = {
   x: 'https://x.com/',
 };
 
+const SocialPlatformKeys = Object.keys(socialPlatforms) as SocialPlatformKey[];
+
 export const normalizeSocials = (value: AuthorSocials): AuthorSocials => {
-  (Object.keys(socialPlatforms) as SocialPlatform[]).forEach((platform) => {
+  SocialPlatformKeys.forEach((platform) => {
     if (
       value[platform] &&
       !value[platform]!.startsWith(socialPlatforms[platform])

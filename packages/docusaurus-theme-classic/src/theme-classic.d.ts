@@ -292,15 +292,28 @@ declare module '@theme/BlogPostItem/Header/Info' {
 }
 
 declare module '@theme/BlogPostItem/Header/Author' {
-  import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
+  import type {Author} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly author: PropBlogPostContent['metadata']['authors'][number];
+    readonly author: Author;
     readonly singleAuthor: boolean;
     readonly className?: string;
   }
 
   export default function BlogPostItemHeaderAuthor(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header/Author/Socials' {
+  import type {Author} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly author: Author;
+    readonly className?: string;
+  }
+
+  export default function BlogPostItemHeaderAuthorSocials(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Header/Authors' {

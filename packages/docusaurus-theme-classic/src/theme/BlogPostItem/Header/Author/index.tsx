@@ -5,18 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ComponentType} from 'react';
 import React from 'react';
 import clsx from 'clsx';
 import Link, {type Props as LinkProps} from '@docusaurus/Link';
+import AuthorSocials from '@theme/BlogPostItem/Header/Author/Socials';
 
 import type {Props} from '@theme/BlogPostItem/Header/Author';
-import Twitter from '@theme/Icon/Socials/Twitter';
-import GitHub from '@theme/Icon/Socials/GitHub';
-import X from '@theme/Icon/Socials/X';
-import StackOverflow from '@theme/Icon/Socials/StackOverflow';
-import LinkedIn from '@theme/Icon/Socials/LinkedIn';
-import DefaultSocialIcon from '@theme/Icon/Socials/Default';
 import styles from './styles.module.css';
 
 function MaybeLink(props: LinkProps): JSX.Element {
@@ -24,33 +18,6 @@ function MaybeLink(props: LinkProps): JSX.Element {
     return <Link {...props} />;
   }
   return <>{props.children}</>;
-}
-
-const PlatformIconsMap: Record<string, ComponentType<{className: string}>> = {
-  twitter: Twitter,
-  github: GitHub,
-  stackoverflow: StackOverflow,
-  linkedin: LinkedIn,
-  x: X,
-};
-
-function SocialLink({platform, link}: {platform: string; link: string}) {
-  const Icon = PlatformIconsMap[platform] ?? DefaultSocialIcon;
-  return (
-    <Link className={styles.authorSocialLink} href={link} title={platform}>
-      <Icon className={clsx(styles.authorSocialLink)} />
-    </Link>
-  );
-}
-
-function AuthorSocials({author}: {author: Props['author']}) {
-  return (
-    <div className={styles.authorSocials}>
-      {Object.entries(author.socials ?? {}).map(([platform, linkUrl]) => {
-        return <SocialLink key={platform} platform={platform} link={linkUrl} />;
-      })}
-    </div>
-  );
 }
 
 function AuthorTitle({title}: {title: string}) {
@@ -62,7 +29,7 @@ function AuthorTitle({title}: {title: string}) {
 }
 
 export default function BlogPostItemHeaderAuthor({
-  // singleAuthor,
+  // singleAuthor, // may be useful in the future, or for swizzle users
   author,
   className,
 }: Props): JSX.Element {
