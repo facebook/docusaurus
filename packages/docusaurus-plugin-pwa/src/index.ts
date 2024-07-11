@@ -19,8 +19,6 @@ import type {PluginOptions} from '@docusaurus/plugin-pwa';
 
 const PluginName = 'docusaurus-plugin-pwa';
 
-const isProd = process.env.NODE_ENV === 'production';
-
 function getSWBabelLoader() {
   return {
     loader: 'babel-loader',
@@ -45,12 +43,21 @@ function getSWBabelLoader() {
 export default function pluginPWA(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<void> {
+): Plugin<void> | null {
+  if (process.env.NODE_ENV !== 'production') {
+    return null;
+  }
+  if (context.siteConfig.future.experimental_router === 'hash') {
+    logger.warn(
+      `${PluginName} does not support the Hash Router and will be disabled.`,
+    );
+    return null;
+  }
+
   const {
     outDir,
     baseUrl,
     i18n: {currentLocale},
-    siteConfig,
   } = context;
   const {
     debug,
@@ -60,13 +67,6 @@ export default function pluginPWA(
     swCustom,
     swRegister,
   } = options;
-
-  if (siteConfig.future.experimental_router === 'hash') {
-    logger.warn(
-      `${PluginName} does not support the Hash Router and will be disabled.`,
-    );
-    return {name: PluginName};
-  }
 
   return {
     name: PluginName,
@@ -79,7 +79,7 @@ export default function pluginPWA(
     },
 
     getClientModules() {
-      return isProd && swRegister ? [swRegister] : [];
+      return swRegister ? [swRegister] : [];
     },
 
     getDefaultCodeTranslationMessages() {
@@ -90,10 +90,6 @@ export default function pluginPWA(
     },
 
     configureWebpack(config) {
-      if (!isProd) {
-        return {};
-      }
-
       return {
         plugins: [
           new webpack.EnvironmentPlugin({
@@ -111,37 +107,31 @@ export default function pluginPWA(
 
     injectHtmlTags() {
       const headTags: HtmlTags = [];
-      if (isProd) {
-        pwaHead.forEach(({tagName, ...attributes}) => {
-          (['href', 'content'] as const).forEach((attribute) => {
-            const attributeValue = attributes[attribute];
+      pwaHead.forEach(({tagName, ...attributes}) => {
+        (['href', 'content'] as const).forEach((attribute) => {
+          const attributeValue = attributes[attribute];
 
-            if (!attributeValue) {
-              return;
-            }
+          if (!attributeValue) {
+            return;
+          }
 
-            const attributePath =
-              !!path.extname(attributeValue) && attributeValue;
+          const attributePath =
+            !!path.extname(attributeValue) && attributeValue;
 
-            if (attributePath && !attributePath.startsWith(baseUrl)) {
-              attributes[attribute] = normalizeUrl([baseUrl, attributeValue]);
-            }
-          });
-
-          return headTags.push({
-            tagName,
-            attributes,
-          });
+          if (attributePath && !attributePath.startsWith(baseUrl)) {
+            attributes[attribute] = normalizeUrl([baseUrl, attributeValue]);
+          }
         });
-      }
+
+        return headTags.push({
+          tagName,
+          attributes,
+        });
+      });
       return {headTags};
     },
 
     async postBuild(props) {
-      if (!isProd) {
-        return;
-      }
-
       const swSourceFileTest = /\.m?js$/;
 
       const swWebpackConfig: Configuration = {

@@ -32,8 +32,10 @@ function createConfigSnippets({
 export default function pluginGoogleGtag(
   context: LoadContext,
   options: PluginOptions,
-): Plugin {
-  const isProd = process.env.NODE_ENV === 'production';
+): Plugin | null {
+  if (process.env.NODE_ENV !== 'production') {
+    return null;
+  }
 
   const firstTrackingId = options.trackingID[0];
 
@@ -45,13 +47,10 @@ export default function pluginGoogleGtag(
     },
 
     getClientModules() {
-      return isProd ? ['./gtag'] : [];
+      return ['./gtag'];
     },
 
     injectHtmlTags() {
-      if (!isProd) {
-        return {};
-      }
       return {
         // Gtag includes GA by default, so we also preconnect to
         // google-analytics.

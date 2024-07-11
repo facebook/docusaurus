@@ -18,21 +18,21 @@ import type {PluginOptions, Options} from './options';
 export default function pluginGoogleAnalytics(
   context: LoadContext,
   options: PluginOptions,
-): Plugin {
+): Plugin | null {
+  if (process.env.NODE_ENV !== 'production') {
+    return null;
+  }
+
   const {trackingID, anonymizeIP} = options;
-  const isProd = process.env.NODE_ENV === 'production';
 
   return {
     name: 'docusaurus-plugin-google-analytics',
 
     getClientModules() {
-      return isProd ? ['./analytics'] : [];
+      return ['./analytics'];
     },
 
     injectHtmlTags() {
-      if (!isProd) {
-        return {};
-      }
       return {
         headTags: [
           {

@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "references": [{"path": "./tsconfig.build.json"}],
   "compilerOptions": {
+    "rootDir": ".",
     "noEmit": true,
     "checkJs": true
   },
