@@ -96,4 +96,13 @@ describe('normalizeSocials', () => {
 
     expect(normalizeSocials(socials)).toEqual(socials);
   });
+
+  it('allow unknown social platforms urls', () => {
+    const socials: AuthorSocials = {
+      twitch: 'https://www.twitch.tv/sebastienlorber',
+      newsletter: 'https://thisweekinreact.com',
+    };
+
+    expect(normalizeSocials(socials)).toEqual(socials);
+  });
 });
