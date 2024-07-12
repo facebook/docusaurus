@@ -289,6 +289,17 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The menu icon component',
       },
+      'Icon/Socials': {
+        actions: {
+          // Forbidden because it's a parent folder, makes the CLI crash atm
+          // TODO the CLI should rather support --eject
+          // Subfolders can be swizzled
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+        description:
+          'The Icon/Socials folder is not directly swizzle-able, but you can swizzle its sub-components.',
+      },
       MDXComponents: {
         actions: {
           eject: 'safe',

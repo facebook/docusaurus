@@ -25,6 +25,7 @@ export default function BlogPostItemHeaderAuthors({
     return null;
   }
   const imageOnly = authors.every(({name}) => !name);
+  const singleAuthor = authors.length === 1;
   return (
     <div
       className={clsx(
@@ -35,11 +36,12 @@ export default function BlogPostItemHeaderAuthors({
       {authors.map((author, idx) => (
         <div
           className={clsx(
-            !imageOnly && 'col col--6',
+            !imageOnly && (singleAuthor ? 'col col--12' : 'col col--6'),
             imageOnly ? styles.imageOnlyAuthorCol : styles.authorCol,
           )}
           key={idx}>
           <BlogPostItemHeaderAuthor
+            singleAuthor={singleAuthor}
             author={{
               ...author,
               // Handle author images using relative paths

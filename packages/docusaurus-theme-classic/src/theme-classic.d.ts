@@ -292,14 +292,28 @@ declare module '@theme/BlogPostItem/Header/Info' {
 }
 
 declare module '@theme/BlogPostItem/Header/Author' {
-  import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
+  import type {Author} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly author: PropBlogPostContent['metadata']['authors'][number];
+    readonly author: Author;
+    readonly singleAuthor: boolean;
     readonly className?: string;
   }
 
   export default function BlogPostItemHeaderAuthor(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header/Author/Socials' {
+  import type {Author} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly author: Author;
+    readonly className?: string;
+  }
+
+  export default function BlogPostItemHeaderAuthorSocials(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Header/Authors' {
@@ -1512,6 +1526,54 @@ declare module '@theme/Icon/WordWrap' {
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconWordWrap(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/Twitter' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Twitter(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/GitHub' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Github(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/X' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function X(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/LinkedIn' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function LinkedIn(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/Default' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function DefaultSocialIcon(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/StackOverflow' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function StackOverflow(props: Props): JSX.Element;
 }
 
 declare module '@theme/TagsListByLetter' {

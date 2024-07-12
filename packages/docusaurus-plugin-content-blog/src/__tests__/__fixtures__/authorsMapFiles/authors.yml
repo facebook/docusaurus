@@ -4,15 +4,21 @@ JMarcey:
   title: Technical Lead & Developer Advocate at Facebook
   url: http://twitter.com/JoelMarcey
   image_url: https://github.com/JoelMarcey.png
-  twitter: JoelMarcey
+  socials:
+    twitter: https://twitter.com/JoelMarcey
+    x: https://x.com/JoelMarcey
+    stackoverflow: https://stackoverflow.com/users/102705/Joel-Marcey
 
 slorber:
   name: Sébastien Lorber
   title: Docusaurus maintainer
   url: https://sebastienlorber.com
   image_url: https://github.com/slorber.png
-  twitter: sebastienlorber
   email: lorber.sebastien@gmail.com
+  socials:
+    twitter: sebastienlorber
+    x: sebastienlorber
+    stackoverflow: 82609
 
 yangshun:
   name: Yangshun Tay

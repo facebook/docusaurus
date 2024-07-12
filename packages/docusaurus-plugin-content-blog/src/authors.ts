@@ -6,14 +6,81 @@
  */
 
 import _ from 'lodash';
-import {normalizeUrl} from '@docusaurus/utils';
+import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
+import {Joi, URISchema} from '@docusaurus/utils-validation';
+import {AuthorSocialsSchema, normalizeSocials} from './authorsSocials';
+import type {BlogContentPaths} from './types';
 import type {
   Author,
-  AuthorsMap,
   BlogPost,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
 } from '@docusaurus/plugin-content-blog';
+
+export type AuthorsMap = {[authorKey: string]: Author};
+
+const AuthorsMapSchema = Joi.object<AuthorsMap>()
+  .pattern(
+    Joi.string(),
+    Joi.object<Author>({
+      name: Joi.string(),
+      url: URISchema,
+      imageURL: URISchema,
+      title: Joi.string(),
+      email: Joi.string(),
+      socials: AuthorSocialsSchema,
+    })
+      .rename('image_url', 'imageURL')
+      .or('name', 'imageURL')
+      .unknown()
+      .required()
+      .messages({
+        'object.base':
+          '{#label} should be an author object containing properties like name, title, and imageURL.',
+        'any.required':
+          '{#label} cannot be undefined. It should be an author object containing properties like name, title, and imageURL.',
+      }),
+  )
+  .messages({
+    'object.base':
+      "The authors map file should contain an object where each entry contains an author key and the corresponding author's data.",
+  });
+
+export function validateAuthorsMap(content: unknown): AuthorsMap {
+  const {error, value} = AuthorsMapSchema.validate(content);
+  if (error) {
+    throw error;
+  }
+  return value;
+}
+
+function normalizeSocialAuthor(author: Author): Author {
+  return {
+    ...author,
+    socials: author.socials ? normalizeSocials(author.socials) : undefined,
+  };
+}
+
+function normalizeAuthorsMap(authorsMap: AuthorsMap): AuthorsMap {
+  return _.mapValues(authorsMap, normalizeSocialAuthor);
+}
+
+export async function getAuthorsMap(params: {
+  authorsMapPath: string;
+  contentPaths: BlogContentPaths;
+}): Promise<AuthorsMap | undefined> {
+  const authorsMap = await getDataFileData(
+    {
+      filePath: params.authorsMapPath,
+      contentPaths: params.contentPaths,
+      fileType: 'authors map',
+    },
+    // TODO annoying to test: tightly coupled FS reads + validation...
+    validateAuthorsMap,
+  );
+
+  return authorsMap ? normalizeAuthorsMap(authorsMap) : undefined;
+}
 
 type AuthorsParam = {
   frontMatter: BlogPostFrontMatter;

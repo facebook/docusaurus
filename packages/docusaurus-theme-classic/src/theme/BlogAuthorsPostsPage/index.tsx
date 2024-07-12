@@ -87,7 +87,6 @@ function BlogAuthorsPostsPageContent({
   );
 }
 export default function BlogAuthorsPostsPage(props: Props): JSX.Element {
-  console.log('props: ', props);
   return (
     <HtmlClassNameProvider
       className={clsx(

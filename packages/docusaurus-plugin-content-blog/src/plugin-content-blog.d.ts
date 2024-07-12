@@ -37,6 +37,29 @@ declare module '@docusaurus/plugin-content-blog' {
     authorsImageUrls: (string | undefined)[];
   };
 
+  /**
+   * Note we don't pre-define all possible platforms
+   * Users can add their own custom platforms if needed
+   */
+  export type SocialPlatformKey =
+    | 'twitter'
+    | 'github'
+    | 'linkedin'
+    | 'stackoverflow'
+    | 'x';
+
+  /**
+   * Social platforms of the author.
+   * The record value is usually the fully qualified link of the social profile.
+   * For pre-defined platforms, it's possible to pass a handle instead
+   */
+  export type AuthorSocials = Partial<Record<SocialPlatformKey, string>> & {
+    /**
+     * Unknown keys are allowed: users can pass additional social platforms
+     */
+    [customAuthorSocialPlatform: string]: string;
+  };
+
   export type AuthorAttributes = {
     /**
      * If `name` doesn't exist, an `imageURL` is expected.
@@ -61,6 +84,11 @@ declare module '@docusaurus/plugin-content-blog' {
      * to generate a fallback `mailto:` URL.
      */
     email?: string;
+    /**
+     * Social platforms of the author
+     * Usually displayed as a list of social icon links.
+     */
+    socials?: AuthorSocials;
     /**
      * Description of the author.
      */
