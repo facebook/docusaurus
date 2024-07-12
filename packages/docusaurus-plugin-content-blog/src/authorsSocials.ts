@@ -16,7 +16,7 @@ export const AuthorSocialsSchema = Joi.object<AuthorSocials>({
   twitter: Joi.string(),
   github: Joi.string(),
   linkedin: Joi.string(),
-  // StackOverflow userIds like '82609' are parsed as numbers by Yarml
+  // StackOverflow userIds like '82609' are parsed as numbers by Yaml
   stackoverflow: Joi.alternatives()
     .try(Joi.number(), Joi.string())
     .custom((val) => String(val)),
