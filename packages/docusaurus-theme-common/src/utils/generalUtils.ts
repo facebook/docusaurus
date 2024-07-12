@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
 import type {TagsListItem} from '@docusaurus/utils';
@@ -29,7 +28,7 @@ interface HasName {
   imageURL?: string;
 }
 
-type Entry = HasLabel | HasName;
+export type Entry = HasLabel | HasName;
 
 export type LetterEntry<T> = {letter: string | undefined; items: T[]};
 
@@ -37,32 +36,44 @@ export type LetterEntry<T> = {letter: string | undefined; items: T[]};
  * Takes a list of tags or author (as provided by the content plugins),
  * and groups them by their initials.
  */
-function listByLetters<T extends Entry>(
+export function listByLetters<T extends Entry>(
   items: readonly T[],
   getLabel: (item: T) => string | undefined,
 ): LetterEntry<T>[] {
   // Group items by their initial letter or undefined
-  const groups = _.groupBy(items, (item) => {
+  const groups: Record<string, T[]> = items.reduce((acc, item) => {
     const label = getLabel(item);
-    return label ? label[0]!.toUpperCase() : 'undefined';
-  });
+    const key = label ? label[0]!.toUpperCase() : 'undefined';
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(item);
+    return acc;
+  }, {} as Record<string, T[]>);
 
   // Convert groups object to array and sort
-  return _.chain(groups)
-    .toPairs()
-    .sortBy(([letter]) => (letter === 'undefined' ? '' : letter))
+  return Object.entries(groups)
+    .sort(([a], [b]) => {
+      if (a === 'undefined') {
+        return 1;
+      } else if (b === 'undefined') {
+        return -1;
+      } else {
+        return a.localeCompare(b);
+      }
+    })
     .map(([letter, groupedItems]) => {
       // Sort items within each group
-      const sortedItems = _.sortBy(
-        groupedItems,
-        (item) => getLabel(item) ?? '',
-      );
+      const sortedItems = groupedItems.slice().sort((a, b) => {
+        const labelA = getLabel(a) ?? '';
+        const labelB = getLabel(b) ?? '';
+        return labelA.localeCompare(labelB);
+      });
       return {
         letter: letter === 'undefined' ? undefined : letter,
         items: sortedItems,
       };
-    })
-    .value();
+    });
 }
 
 export function listTagsByLetters(

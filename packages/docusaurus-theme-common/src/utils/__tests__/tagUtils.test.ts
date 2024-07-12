@@ -51,9 +51,9 @@ describe('listTagsByLetters', () => {
     };
 
     const expectedResult: Result = [
-      {letter: 'A', items: [tagAbc, tagAaa]},
+      {letter: 'A', items: [tagAaa, tagAbc]},
       {letter: 'D', items: [tagDef]},
-      {letter: 'T', items: [tag2, tag1]},
+      {letter: 'T', items: [tag1, tag2]},
       {letter: 'Z', items: [tagZxy]},
     ];
 
