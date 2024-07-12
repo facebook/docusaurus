@@ -167,7 +167,6 @@ linkify
 Linkify
 Localizable
 lockb
-lorber
 Lorber
 Lorber's
 lqip
