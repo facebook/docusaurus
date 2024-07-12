@@ -8,8 +8,10 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link, {type Props as LinkProps} from '@docusaurus/Link';
+import AuthorSocials from '@theme/BlogPostItem/Header/Author/Socials';
 
 import type {Props} from '@theme/BlogPostItem/Header/Author';
+import styles from './styles.module.css';
 
 function MaybeLink(props: LinkProps): JSX.Element {
   if (props.href) {
@@ -18,12 +20,24 @@ function MaybeLink(props: LinkProps): JSX.Element {
   return <>{props.children}</>;
 }
 
+function AuthorTitle({title}: {title: string}) {
+  return (
+    <small className={styles.authorTitle} title={title}>
+      {title}
+    </small>
+  );
+}
+
 export default function BlogPostItemHeaderAuthor({
+  // singleAuthor, // may be useful in the future, or for swizzle users
   author,
   className,
 }: Props): JSX.Element {
-  const {name, title, url, imageURL, email} = author;
+  const {name, title, url, socials, imageURL, email} = author;
   const link = url || (email && `mailto:${email}`) || undefined;
+
+  const hasSocials = socials && Object.keys(socials).length > 0;
+
   return (
     <div className={clsx('avatar margin-bottom--sm', className)}>
       {imageURL && (
@@ -32,14 +46,15 @@ export default function BlogPostItemHeaderAuthor({
         </MaybeLink>
       )}
 
-      {name && (
+      {(name || title) && (
         <div className="avatar__intro">
           <div className="avatar__name">
             <MaybeLink href={link}>
-              <span>{name}</span>
+              <span className={styles.authorName}>{name}</span>
             </MaybeLink>
           </div>
-          {title && <small className="avatar__subtitle">{title}</small>}
+          {!!title && <AuthorTitle title={title} />}
+          {hasSocials && <AuthorSocials author={author} />}
         </div>
       )}
     </div>

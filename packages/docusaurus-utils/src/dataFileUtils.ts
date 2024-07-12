@@ -63,6 +63,7 @@ export async function getDataFileData<T>(
   try {
     const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
     const unsafeContent = Yaml.load(contentString);
+    // TODO we shouldn't validate here: it makes validation harder to test
     return validate(unsafeContent);
   } catch (err) {
     logger.error`The ${params.fileType} file at path=${filePath} looks invalid.`;

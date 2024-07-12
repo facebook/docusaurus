@@ -83,6 +83,7 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/_dogfooding/_blog-tests',
       postsPerPage: 3,
+      blogSidebarCount: 'ALL',
       feedOptions: {
         type: 'all',
         title: 'Docusaurus Tests Blog',

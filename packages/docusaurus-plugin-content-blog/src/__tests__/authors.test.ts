@@ -255,6 +255,52 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
+  it('can normalize inline authors', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [
+            {
+              name: 'Seb1',
+              socials: {
+                x: 'https://x.com/sebastienlorber',
+                twitter: 'sebastienlorber',
+                github: 'slorber',
+              },
+            },
+            {
+              name: 'Seb2',
+              socials: {
+                x: 'sebastienlorber',
+                twitter: 'https://twitter.com/sebastienlorber',
+                github: 'https://github.com/slorber',
+              },
+            },
+          ],
+        },
+        authorsMap: {},
+        baseUrl: '/',
+      }),
+    ).toEqual([
+      {
+        name: 'Seb1',
+        socials: {
+          x: 'https://x.com/sebastienlorber',
+          twitter: 'https://twitter.com/sebastienlorber',
+          github: 'https://github.com/slorber',
+        },
+      },
+      {
+        name: 'Seb2',
+        socials: {
+          x: 'https://x.com/sebastienlorber',
+          twitter: 'https://twitter.com/sebastienlorber',
+          github: 'https://github.com/slorber',
+        },
+      },
+    ]);
+  });
+
   it('throw when using author key with no authorsMap', () => {
     expect(() =>
       getBlogPostAuthors({
@@ -412,6 +458,29 @@ describe('getAuthorsMap', () => {
       }),
     ).resolves.toBeUndefined();
   });
+
+  describe('getAuthorsMap returns normalized', () => {
+    it('socials', async () => {
+      const authorsMap = await getAuthorsMap({
+        contentPaths,
+        authorsMapPath: 'authors.yml',
+      });
+      expect(authorsMap.slorber.socials).toMatchInlineSnapshot(`
+        {
+          "stackoverflow": "https://stackoverflow.com/users/82609",
+          "twitter": "https://twitter.com/sebastienlorber",
+          "x": "https://x.com/sebastienlorber",
+        }
+      `);
+      expect(authorsMap.JMarcey.socials).toMatchInlineSnapshot(`
+        {
+          "stackoverflow": "https://stackoverflow.com/users/102705/Joel-Marcey",
+          "twitter": "https://twitter.com/JoelMarcey",
+          "x": "https://x.com/JoelMarcey",
+        }
+      `);
+    });
+  });
 });
 
 describe('validateAuthorsMap', () => {
@@ -527,5 +596,70 @@ describe('validateAuthorsMap', () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `""slorber" should be an author object containing properties like name, title, and imageURL."`,
     );
+  });
+});
+
+describe('authors socials', () => {
+  it('valid known author map socials', () => {
+    const authorsMap: AuthorsMap = {
+      ozaki: {
+        name: 'ozaki',
+        socials: {
+          twitter: 'ozakione',
+          github: 'ozakione',
+        },
+      },
+    };
+
+    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
+  });
+
+  it('throw socials that are not strings', () => {
+    const authorsMap: AuthorsMap = {
+      ozaki: {
+        name: 'ozaki',
+        socials: {
+          // @ts-expect-error: for tests
+          twitter: 42,
+        },
+      },
+    };
+
+    expect(() =>
+      validateAuthorsMap(authorsMap),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""ozaki.socials.twitter" must be a string"`,
+    );
+  });
+
+  it('throw socials that are objects', () => {
+    const authorsMap: AuthorsMap = {
+      ozaki: {
+        name: 'ozaki',
+        socials: {
+          // @ts-expect-error: for tests
+          twitter: {link: 'ozakione'},
+        },
+      },
+    };
+
+    expect(() =>
+      validateAuthorsMap(authorsMap),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""ozaki.socials.twitter" must be a string"`,
+    );
+  });
+
+  it('valid unknown author map socials', () => {
+    const authorsMap: AuthorsMap = {
+      ozaki: {
+        name: 'ozaki',
+        socials: {
+          random: 'ozakione',
+        },
+      },
+    };
+
+    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
   });
 });
