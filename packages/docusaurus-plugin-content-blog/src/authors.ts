@@ -8,7 +8,7 @@
 import * as _ from 'lodash';
 import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import {normalizeSocials} from './authorsSocials';
+import {AuthorSocialsSchema, normalizeSocials} from './authorsSocials';
 import type {BlogContentPaths} from './types';
 import type {
   Author,
@@ -22,19 +22,13 @@ export type AuthorsMap = {[authorKey: string]: Author};
 const AuthorsMapSchema = Joi.object<AuthorsMap>()
   .pattern(
     Joi.string(),
-    Joi.object({
+    Joi.object<Author>({
       name: Joi.string(),
       url: URISchema,
       imageURL: URISchema,
       title: Joi.string(),
       email: Joi.string(),
-      socials: Joi.object({
-        twitter: Joi.string(),
-        github: Joi.string(),
-        linkedin: Joi.string(),
-        stackoverflow: Joi.string(),
-        x: Joi.string(),
-      }).unknown(),
+      socials: AuthorSocialsSchema,
     })
       .rename('image_url', 'imageURL')
       .or('name', 'imageURL')

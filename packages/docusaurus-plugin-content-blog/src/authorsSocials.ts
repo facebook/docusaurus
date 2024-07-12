@@ -5,10 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {Joi} from '@docusaurus/utils-validation';
+
 import type {
   AuthorSocials,
   SocialPlatformKey,
 } from '@docusaurus/plugin-content-blog';
+
+export const AuthorSocialsSchema = Joi.object<AuthorSocials>({
+  twitter: Joi.string(),
+  github: Joi.string(),
+  linkedin: Joi.string(),
+  // StackOverflow userIds like '82609' are parsed as numbers by Yarml
+  stackoverflow: Joi.alternatives()
+    .try(Joi.number(), Joi.string())
+    .custom((val) => String(val)),
+  x: Joi.string(),
+}).unknown();
 
 type PredefinedPlatformNormalizer = (value: string) => string;
 

@@ -467,12 +467,14 @@ describe('getAuthorsMap', () => {
       });
       expect(authorsMap.slorber.socials).toMatchInlineSnapshot(`
         {
+          "stackoverflow": "https://stackoverflow.com/users/82609",
           "twitter": "https://twitter.com/sebastienlorber",
           "x": "https://x.com/sebastienlorber",
         }
       `);
       expect(authorsMap.JMarcey.socials).toMatchInlineSnapshot(`
         {
+          "stackoverflow": "https://stackoverflow.com/users/102705/Joel-Marcey",
           "twitter": "https://twitter.com/JoelMarcey",
           "x": "https://x.com/JoelMarcey",
         }
