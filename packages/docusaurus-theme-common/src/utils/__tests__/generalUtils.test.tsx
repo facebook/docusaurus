@@ -8,13 +8,8 @@
 import React from 'react';
 import {renderHook} from '@testing-library/react-hooks';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
-import {
-  listByLetters,
-  useTitleFormatter,
-} from '../generalUtils';
-import type {
-  Entry,
-  LetterEntry} from '../generalUtils';
+import {listByLetters, useTitleFormatter} from '../generalUtils';
+import type {Entry, LetterEntry} from '../generalUtils';
 import type {DocusaurusContext} from '@docusaurus/types';
 
 describe('useTitleFormatter', () => {
