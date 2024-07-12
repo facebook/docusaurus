@@ -149,7 +149,7 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
 /**
  * Blog posts grouped by author page permalink (if page exists)
  */
-export function getBlogPostsForAuthorKey({
+export function groupBlogPostsByAuthorKey({
   blogPosts,
   authorsMap,
 }: {

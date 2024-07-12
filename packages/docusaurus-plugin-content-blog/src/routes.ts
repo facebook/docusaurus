@@ -14,7 +14,7 @@ import {
 import {paginateBlogPosts, shouldBeListed} from './blogUtils';
 
 import {toAuthorProp, toBlogSidebarProp, toTagProp, toTagsProp} from './props';
-import {getBlogPostsForAuthorKey} from './authors';
+import {groupBlogPostsByAuthorKey} from './authors';
 import type {
   PluginContentLoadedActions,
   RouteConfig,
@@ -262,13 +262,13 @@ export async function buildAllRoutes({
       return [];
     }
 
-    const blogPostsByAuthorKey = getBlogPostsForAuthorKey({
+    const blogPostsByAuthorKey = groupBlogPostsByAuthorKey({
       authorsMap,
       blogPosts,
     });
-    const authors = Object.values(authorsMap);
+    const authorEntries = Object.entries(authorsMap);
 
-    const blogAuthorsListPath = normalizeUrl([
+    const authorsPageLink = normalizeUrl([
       baseUrl,
       routeBasePath,
       authorsPageBasePath,
@@ -276,23 +276,26 @@ export async function buildAllRoutes({
 
     return Promise.all([
       createAuthorListRoute(),
-      ...Object.entries(authorsMap).flatMap(([authorKey, author]) =>
+      ...authorEntries.flatMap(([authorKey, author]) =>
         createAuthorPaginatedRoute(authorKey, author),
       ),
     ]).then((routes) => routes.flat());
 
-    // Maybe authors with page: false could even appear on the list?
-    // to be defined 🤷
     async function createAuthorListRoute(): Promise<RouteConfig> {
       return {
-        path: blogAuthorsListPath,
+        path: authorsPageLink,
         component: blogAuthorsListComponent,
         exact: true,
         modules: {
           sidebar: sidebarModulePath,
         },
         props: {
-          authors,
+          authors: authorEntries.map(([authorKey, author]) =>
+            toAuthorProp({
+              author,
+              count: blogPostsByAuthorKey[authorKey]?.length ?? 0,
+            }),
+          ),
         },
       };
     }
@@ -301,24 +304,39 @@ export async function buildAllRoutes({
       authorKey: string,
       author: Author,
     ): Promise<RouteConfig[]> {
-      const authorBlogPosts = blogPostsByAuthorKey[authorKey];
-      if (!author.page || !authorBlogPosts) {
+      const authorBlogPosts = blogPostsByAuthorKey[authorKey] ?? [];
+      if (!author.page) {
         return [];
       }
 
-      const data = {
-        items: authorBlogPosts.map((post) => post.id),
-        pages: paginateBlogPosts({
-          blogPosts: authorBlogPosts,
-          basePageUrl: author.page.permalink,
-          blogDescription,
-          blogTitle,
-          pageBasePath: authorsPageBasePath,
-          postsPerPageOption: postsPerPage,
-        }),
-      };
+      // TODO add tests
+      const pages = paginateBlogPosts({
+        blogPosts: authorBlogPosts,
+        basePageUrl: author.page.permalink,
+        blogDescription,
+        blogTitle,
+        pageBasePath: authorsPageBasePath,
+        postsPerPageOption: postsPerPage,
+      });
 
-      return data.pages.map(({metadata, items}) => {
+      if (pages.length === 0) {
+        pages.push({
+          items: [],
+          metadata: {
+            permalink: author.page.permalink,
+            page: 0,
+            postsPerPage: 5,
+            totalPages: 0,
+            totalCount: 0,
+            previousPage: undefined,
+            nextPage: undefined,
+            blogDescription,
+            blogTitle,
+          },
+        });
+      }
+
+      return pages.map(({metadata, items}) => {
         return {
           path: metadata.permalink,
           component: blogAuthorsPostsComponent,
@@ -330,7 +348,7 @@ export async function buildAllRoutes({
           props: {
             author: toAuthorProp({author, count: authorBlogPosts.length}),
             listMetadata: metadata,
-            authorsPageLink: blogAuthorsListPath,
+            authorsPageLink,
           },
         };
       });
