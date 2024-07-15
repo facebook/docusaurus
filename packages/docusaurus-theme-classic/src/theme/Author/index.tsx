@@ -20,11 +20,7 @@ function MaybeLink(props: LinkProps): JSX.Element {
 }
 
 export default function Author({
-  page,
-  name,
-  count,
-  title,
-  imageURL,
+  author: {page, name, count, title, imageURL},
 }: Props): JSX.Element {
   const permalink = page?.permalink;
   return (

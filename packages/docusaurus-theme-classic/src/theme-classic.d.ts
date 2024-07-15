@@ -1624,7 +1624,9 @@ declare module '@theme/AuthorsListInline' {
 declare module '@theme/Author' {
   import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
 
-  export interface Props extends AuthorItemProp {}
+  export interface Props {
+    author: AuthorItemProp;
+  }
 
   export default function Author(props: Props): JSX.Element;
 }
