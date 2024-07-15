@@ -7,7 +7,12 @@
 
 import path from 'path';
 import {getBlogPostAuthors} from '../authors';
-import {getAuthorsMap, validateAuthorsMapInput} from '../authorsMap';
+import {
+  getAuthorsMap,
+  validateAuthorsMap,
+  validateAuthorsMapInput,
+} from '../authorsMap';
+import type {AuthorsMap} from '@docusaurus/plugin-content-blog';
 import type {AuthorsMapInput} from '../authorsMap';
 
 describe('getBlogPostAuthors', () => {
@@ -359,6 +364,8 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
+  // TODO test normalize function individually, normalization are done after
+  // joi validation
   it('can normalize inline authors', () => {
     expect(
       getBlogPostAuthors({
@@ -733,6 +740,8 @@ describe('authors socials', () => {
           twitter: 'ozakione',
           github: 'ozakione',
         },
+        key: 'ozaki',
+        page: false,
       },
     };
 
@@ -782,6 +791,8 @@ describe('authors socials', () => {
         socials: {
           random: 'ozakione',
         },
+        key: 'ozaki',
+        page: false,
       },
     };
 

@@ -8,6 +8,7 @@
 import _ from 'lodash';
 import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
+import {AuthorSocialsSchema, normalizeSocials} from './authorsSocials';
 import type {BlogContentPaths} from './types';
 import type {
   Author,
@@ -36,6 +37,7 @@ const AuthorsMapInputSchema = Joi.object<AuthorsMapInput>()
       title: Joi.string(),
       email: Joi.string(),
       page: Joi.alternatives(Joi.bool(), AuthorPageSchema),
+      socials: AuthorSocialsSchema,
       description: Joi.string(),
     })
       .rename('image_url', 'imageURL')
@@ -112,6 +114,7 @@ function normalizeAuthor({
     ...author,
     key: authorKey,
     page: getAuthorPage(),
+    socials: author.socials ? normalizeSocials(author.socials) : undefined,
   };
 }
 
@@ -145,6 +148,7 @@ async function getAuthorsMapInput(params: {
       contentPaths: params.contentPaths,
       fileType: 'authors map',
     },
+    // TODO annoying to test: tightly coupled FS reads + validation...
     validateAuthorsMapInput,
   );
 }
@@ -160,4 +164,12 @@ export async function getAuthorsMap(params: {
   }
   const authorsMap = normalizeAuthorsMap({authorsMapInput, ...params});
   return authorsMap;
+}
+
+export function validateAuthorsMap(content: unknown): AuthorsMapInput {
+  const {error, value} = AuthorsMapInputSchema.validate(content);
+  if (error) {
+    throw error;
+  }
+  return value;
 }
