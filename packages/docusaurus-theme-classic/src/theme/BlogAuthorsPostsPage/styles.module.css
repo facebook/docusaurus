@@ -1,0 +1,33 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.postsPageAuthor > a > img {
+  width: calc(3rem * 2);
+  height: calc(3rem * 2);
+}
+
+/* .postsPageAuthor>div {
+  justify-content: space-between;
+} */
+
+.postsPageAuthor span {
+  font-size: 1.75rem;
+  line-height: normal;
+}
+
+.postsPageAuthor small {
+  font-size: 1.25rem;
+  line-height: normal;
+  margin-top: 0;
+}
+
+.postsPageAuthor div > a,
+.postsPageAuthor div > a > svg {
+  height: 1.25rem;
+  width: 1.25rem;
+  margin-top: 0;
+}

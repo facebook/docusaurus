@@ -21,6 +21,9 @@ import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/BlogAuthorsPostsPage';
 import BlogPostItems from '@theme/BlogPostItems';
 import Heading from '@theme/Heading';
+import Author from '@theme/BlogPostItem/Header/Author';
+
+import styles from './styles.module.css';
 
 function useBlogAuthorsPostsPageTitle(author: Props['author']): string {
   const blogPostsPlural = useBlogPostsPlural();
@@ -59,20 +62,12 @@ function BlogAuthorsPostsPageContent({
     <BlogLayout sidebar={sidebar}>
       <header className="margin-bottom--xl">
         <Heading as="h1">{title}</Heading>
-        <ul>
-          {author.url && (
-            <li>
-              <Link href={author.url}>
-                <Translate
-                  id="theme.authors.website"
-                  description="The label of the author website link in the author page.">
-                  Personal website
-                </Translate>
-              </Link>
-            </li>
-          )}
-          {author.description && <li>{author.description}</li>}
-        </ul>
+        <Author
+          author={author}
+          singleAuthor
+          className={clsx(styles.postsPageAuthor)}
+        />
+        {author.description && <p>{author.description}</p>}
         <Link href={authorsPageLink}>
           <Translate
             id="theme.authors.authorsPageLink"

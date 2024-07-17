@@ -50,7 +50,11 @@ function SocialLink({platform, link}: {platform: string; link: string}) {
   );
 }
 
-export default function AuthorSocials({author}: {author: Props['author']}) {
+export default function AuthorSocials({
+  author,
+}: {
+  author: Props['author'];
+}): JSX.Element {
   return (
     <div className={styles.authorSocials}>
       {Object.entries(author.socials ?? {}).map(([platform, linkUrl]) => {
