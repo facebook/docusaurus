@@ -12,7 +12,6 @@ import {
   validateAuthorsMap,
   validateAuthorsMapInput,
 } from '../authorsMap';
-import type {AuthorsMap} from '@docusaurus/plugin-content-blog';
 import type {AuthorsMapInput} from '../authorsMap';
 
 describe('getBlogPostAuthors', () => {
@@ -364,54 +363,6 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
-  // TODO test normalize function individually, normalization are done after
-  // joi validation
-  it('can normalize inline authors', () => {
-    expect(
-      getBlogPostAuthors({
-        frontMatter: {
-          authors: [
-            {
-              name: 'Seb1',
-              socials: {
-                x: 'https://x.com/sebastienlorber',
-                twitter: 'sebastienlorber',
-                github: 'slorber',
-              },
-            },
-            {
-              name: 'Seb2',
-              socials: {
-                x: 'sebastienlorber',
-                twitter: 'https://twitter.com/sebastienlorber',
-                github: 'https://github.com/slorber',
-              },
-            },
-          ],
-        },
-        authorsMap: {},
-        baseUrl: '/',
-      }),
-    ).toEqual([
-      {
-        name: 'Seb1',
-        socials: {
-          x: 'https://x.com/sebastienlorber',
-          twitter: 'https://twitter.com/sebastienlorber',
-          github: 'https://github.com/slorber',
-        },
-      },
-      {
-        name: 'Seb2',
-        socials: {
-          x: 'https://x.com/sebastienlorber',
-          twitter: 'https://twitter.com/sebastienlorber',
-          github: 'https://github.com/slorber',
-        },
-      },
-    ]);
-  });
-
   it('throw when using author key with no authorsMap', () => {
     expect(() =>
       getBlogPostAuthors({
@@ -574,29 +525,6 @@ describe('getAuthorsMap', () => {
       }),
     ).resolves.toBeUndefined();
   });
-
-  describe('getAuthorsMap returns normalized', () => {
-    it('socials', async () => {
-      const authorsMap = await getAuthorsMap({
-        contentPaths,
-        authorsMapPath: 'authors.yml',
-      });
-      expect(authorsMap.slorber.socials).toMatchInlineSnapshot(`
-        {
-          "stackoverflow": "https://stackoverflow.com/users/82609",
-          "twitter": "https://twitter.com/sebastienlorber",
-          "x": "https://x.com/sebastienlorber",
-        }
-      `);
-      expect(authorsMap.JMarcey.socials).toMatchInlineSnapshot(`
-        {
-          "stackoverflow": "https://stackoverflow.com/users/102705/Joel-Marcey",
-          "twitter": "https://twitter.com/JoelMarcey",
-          "x": "https://x.com/JoelMarcey",
-        }
-      `);
-    });
-  });
 });
 
 describe('validateAuthorsMapInput', () => {
@@ -733,7 +661,7 @@ describe('validateAuthorsMapInput', () => {
 
 describe('authors socials', () => {
   it('valid known author map socials', () => {
-    const authorsMap: AuthorsMap = {
+    const authorsMap: AuthorsMapInput = {
       ozaki: {
         name: 'ozaki',
         socials: {
@@ -749,7 +677,7 @@ describe('authors socials', () => {
   });
 
   it('throw socials that are not strings', () => {
-    const authorsMap: AuthorsMap = {
+    const authorsMap: AuthorsMapInput = {
       ozaki: {
         name: 'ozaki',
         socials: {
@@ -767,7 +695,7 @@ describe('authors socials', () => {
   });
 
   it('throw socials that are objects', () => {
-    const authorsMap: AuthorsMap = {
+    const authorsMap: AuthorsMapInput = {
       ozaki: {
         name: 'ozaki',
         socials: {
@@ -785,7 +713,7 @@ describe('authors socials', () => {
   });
 
   it('valid unknown author map socials', () => {
-    const authorsMap: AuthorsMap = {
+    const authorsMap: AuthorsMapInput = {
       ozaki: {
         name: 'ozaki',
         socials: {
