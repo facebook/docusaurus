@@ -34,6 +34,7 @@
     "@docusaurus/core": "3.4.0",
     "@docusaurus/logger": "3.4.0",
     "@docusaurus/mdx-loader": "3.4.0",
+    "@docusaurus/theme-common": "3.4.0",
     "@docusaurus/types": "3.4.0",
     "@docusaurus/utils": "3.4.0",
     "@docusaurus/utils-common": "3.4.0",

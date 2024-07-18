@@ -26,11 +26,6 @@ export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
 export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
 
 export {DocProvider, useDoc, type DocContextValue} from './contexts/doc';
-export {
-  BlogPostProvider,
-  useBlogPost,
-  type BlogPostContextValue,
-} from './contexts/blogPost';
 
 export {
   useDocsPreferredVersionByPluginId,
@@ -113,11 +108,6 @@ export {
   type TOCHighlightConfig,
 } from './hooks/useTOCHighlight';
 
-export {
-  useVisibleBlogSidebarItems,
-  groupBlogSidebarItemsByYear,
-  BlogSidebarItemList,
-} from './utils/blogUtils';
 export {useDateTimeFormat} from './utils/IntlUtils';
 
 export {useHideableNavbar} from './hooks/useHideableNavbar';

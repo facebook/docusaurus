@@ -32,7 +32,6 @@
   "dependencies": {
     "@docusaurus/mdx-loader": "3.4.0",
     "@docusaurus/module-type-aliases": "3.4.0",
-    "@docusaurus/plugin-content-blog": "3.4.0",
     "@docusaurus/plugin-content-docs": "3.4.0",
     "@docusaurus/plugin-content-pages": "3.4.0",
     "@docusaurus/utils": "3.4.0",

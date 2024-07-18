@@ -430,7 +430,7 @@ module.exports = {
       excludedFiles: '*.test.{js,ts,tsx}',
       rules: {
         'no-restricted-imports': [
-          'warn',
+          'error',
           {
             patterns: [
               ...LodashImportPatterns,
