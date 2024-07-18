@@ -65,10 +65,10 @@ export function getActiveVersion(
 ): GlobalVersion | undefined {
   // Sort versions: non-root paths first (by length, descending), then root path
   const orderedVersionsMetadata = [...data.versions].sort((a, b) => {
-    if (a.path === '/') {
+    if (a.path === `${data.path}/`) {
       return 1;
     }
-    if (b.path === '/') {
+    if (b.path === `${data.path}/`) {
       return -1;
     }
     return b.path.length - a.path.length;
