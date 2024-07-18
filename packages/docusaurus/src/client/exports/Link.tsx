@@ -157,7 +157,8 @@ function Link(
   const hasInternalTarget = !props.target || props.target === '_self';
 
   // Should we use a regular <a> tag instead of React-Router Link component?
-  const isRegularHtmlLink = !targetLink || !isInternal || !hasInternalTarget;
+  const isRegularHtmlLink =
+    !targetLink || !isInternal || !hasInternalTarget || isAnchorLink;
 
   if (!noBrokenLinkCheck && (isAnchorLink || !isRegularHtmlLink)) {
     brokenLinks.collectLink(targetLink!);
