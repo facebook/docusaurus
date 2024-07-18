@@ -158,7 +158,14 @@ function Link(
 
   // Should we use a regular <a> tag instead of React-Router Link component?
   const isRegularHtmlLink =
-    !targetLink || !isInternal || !hasInternalTarget || isAnchorLink;
+    !targetLink ||
+    !isInternal ||
+    !hasInternalTarget ||
+    // When using the hash router, we can't use the regular <a> link for anchors
+    // We need to use React Router to navigate to /#/pathname/#anchor
+    // And not /#anchor
+    // See also https://github.com/facebook/docusaurus/pull/10311
+    (isAnchorLink && router !== 'hash');
 
   if (!noBrokenLinkCheck && (isAnchorLink || !isRegularHtmlLink)) {
     brokenLinks.collectLink(targetLink!);
