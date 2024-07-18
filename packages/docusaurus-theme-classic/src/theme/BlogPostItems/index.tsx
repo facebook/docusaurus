@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {BlogPostProvider} from '@docusaurus/theme-common/internal';
+import {BlogPostProvider} from '@docusaurus/plugin-content-blog/client';
 import BlogPostItem from '@theme/BlogPostItem';
 import type {Props} from '@theme/BlogPostItems';
 
