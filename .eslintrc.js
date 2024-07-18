@@ -16,8 +16,9 @@ const LodashImportPatterns = ['lodash', 'lodash.**', 'lodash/**'];
 const ContentPluginsImportPatterns = [
   '@docusaurus/plugin-content-blog',
   '@docusaurus/plugin-content-blog/**',
-  '@docusaurus/plugin-content-docs',
-  '@docusaurus/plugin-content-docs/**',
+  // TODO fix theme-common => docs dependency issue
+  // '@docusaurus/plugin-content-docs',
+  // '@docusaurus/plugin-content-docs/**',
   '@docusaurus/plugin-content-pages',
   '@docusaurus/plugin-content-pages/**',
 ];
