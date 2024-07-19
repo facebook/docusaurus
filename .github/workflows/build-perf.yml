@@ -70,11 +70,11 @@ jobs:
 
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)
-        run: yarn workspace website build:website:fast
+        run: yarn build:website:fast
         timeout-minutes: 8
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
-        run: yarn workspace website build:website:fast
+        run: yarn build:website:fast
         timeout-minutes: 2
     # TODO post a GitHub comment with build with perf warnings?
