@@ -7,7 +7,7 @@
 
 import {getDocsVersionSearchTag} from './docsSearch';
 
-describe('docVersionSearchTag', () => {
+describe('getDocsVersionSearchTag', () => {
   it('works', () => {
     expect(getDocsVersionSearchTag('foo', 'bar')).toBe('docs-foo-bar');
   });
