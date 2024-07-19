@@ -19,7 +19,7 @@ import {ThemeClassNames} from '@docusaurus/theme-common';
 import {
   useDocsPreferredVersion,
   useDocsVersion,
-} from '@docusaurus/theme-common/internal';
+} from '@docusaurus/plugin-content-docs/client';
 import type {Props} from '@theme/DocVersionBanner';
 import type {
   VersionBanner,

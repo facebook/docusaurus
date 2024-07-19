@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {useLayoutDoc} from '@docusaurus/theme-common/internal';
+import {useLayoutDoc} from '@docusaurus/plugin-content-docs/client';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 import DocCategoryGeneratedIndexPage from '@theme-original/DocCategoryGeneratedIndexPage';

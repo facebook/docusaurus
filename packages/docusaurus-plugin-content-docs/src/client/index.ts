@@ -21,7 +21,6 @@ import {
 import type {UseDataOptions} from '@docusaurus/types';
 
 export {
-  isDocsPluginEnabled,
   useDocById,
   findSidebarCategory,
   findFirstSidebarItemLink,

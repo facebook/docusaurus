@@ -6,10 +6,8 @@
  */
 
 import React from 'react';
-import {
-  PageMetadata,
-  useCurrentSidebarCategory,
-} from '@docusaurus/theme-common';
+import {PageMetadata} from '@docusaurus/theme-common';
+import {useCurrentSidebarCategory} from '@docusaurus/plugin-content-docs/client';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocCardList from '@theme/DocCardList';
 import DocPaginator from '@theme/DocPaginator';

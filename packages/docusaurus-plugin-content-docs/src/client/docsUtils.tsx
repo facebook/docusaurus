@@ -9,7 +9,6 @@ import {useMemo} from 'react';
 import {matchPath, useLocation} from '@docusaurus/router';
 import renderRoutes from '@docusaurus/renderRoutes';
 import {
-  useAllDocsData,
   useActivePlugin,
   useActiveDocContext,
   useLatestVersion,
@@ -18,11 +17,11 @@ import {
   type GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
 import {isSamePath} from '@docusaurus/theme-common/internal';
+import {uniq} from '@docusaurus/theme-common';
 import type {Props as DocRootProps} from '@theme/DocRoot';
 import {useDocsPreferredVersion} from './docsPreferredVersion';
 import {useDocsVersion} from './docsVersion';
 import {useDocsSidebar} from './docsSidebar';
-import {uniq} from '@docusaurus/theme-common';
 
 import type {
   PropSidebar,
@@ -31,9 +30,6 @@ import type {
   PropVersionDoc,
   PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
-
-// TODO not ideal, see also "useDocs"
-export const isDocsPluginEnabled: boolean = !!useAllDocsData;
 
 /**
  * A null-safe way to access a doc's data by ID in the active version.

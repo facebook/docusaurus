@@ -5,6 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// TODO Docusaurus v4: remove as a breaking change
+//  and remove docs peerDeps n @docusaurus/theme-common/package.json
+//  This is public API surface that we want to keep for v3
+//  See https://github.com/facebook/docusaurus/pull/10316
+export function useCurrentSidebarCategory(): unknown {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  return require('@docusaurus/plugin-content-docs/client').useCurrentSidebarCategory();
+}
+
 /*
  * APIs to document
  */

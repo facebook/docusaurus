@@ -9,7 +9,7 @@ import React, {memo} from 'react';
 import {
   DocSidebarItemsExpandedStateProvider,
   useVisibleSidebarItems,
-} from '@docusaurus/theme-common/internal';
+} from '@docusaurus/plugin-content-docs/client';
 import DocSidebarItem from '@theme/DocSidebarItem';
 
 import type {Props} from '@theme/DocSidebarItems';

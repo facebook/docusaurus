@@ -21,7 +21,6 @@ import {
 } from '@docusaurus/plugin-content-docs/client';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 import {useThemeConfig, type ThemeConfig} from '@docusaurus/theme-common';
-import {isDocsPluginEnabled} from './docsUtils';
 import {
   ReactContextError,
   createStorageSlot,
@@ -178,14 +177,11 @@ export function DocsPreferredVersionContextProvider({
 }: {
   children: ReactNode;
 }): JSX.Element {
-  if (isDocsPluginEnabled) {
-    return (
-      <DocsPreferredVersionContextProviderUnsafe>
-        {children}
-      </DocsPreferredVersionContextProviderUnsafe>
-    );
-  }
-  return <>{children}</>;
+  return (
+    <DocsPreferredVersionContextProviderUnsafe>
+      {children}
+    </DocsPreferredVersionContextProviderUnsafe>
+  );
 }
 
 function useDocsPreferredVersionContext(): ContextValue {
