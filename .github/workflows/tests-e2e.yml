@@ -106,8 +106,7 @@ jobs:
       - name: Install missing dependencies for pnp
         if: matrix.nodeLinker == 'pnp'
         run: |
-          # These dependencies are referenced in the init project, not by our packages
-          yarn add @docusaurus/theme-common @docusaurus/plugin-content-docs
+          yarn add @docusaurus/theme-common @docusaurus/plugin-content-docs @docusaurus/plugin-content-blog
         working-directory: ../test-website
       - name: Install missing dependencies
         if: matrix.variant == '-st' && matrix.nodeLinker == 'pnp'
