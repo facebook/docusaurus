@@ -18,8 +18,8 @@ import {
   useSidebarBreadcrumbs,
   isVisibleSidebarItem,
 } from '../docsUtils';
-import {DocsSidebarProvider} from '../../contexts/docsSidebar';
-import {DocsVersionProvider} from '../../contexts/docsVersion';
+import {DocsSidebarProvider} from '../docsSidebar';
+import {DocsVersionProvider} from '../docsVersion';
 import type {
   PropSidebar,
   PropSidebarItem,

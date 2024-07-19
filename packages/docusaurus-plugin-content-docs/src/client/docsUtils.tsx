@@ -17,12 +17,13 @@ import {
   type GlobalSidebar,
   type GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
+import {isSamePath} from '@docusaurus/theme-common/internal';
 import type {Props as DocRootProps} from '@theme/DocRoot';
-import {useDocsPreferredVersion} from '../contexts/docsPreferredVersion';
-import {useDocsVersion} from '../contexts/docsVersion';
-import {useDocsSidebar} from '../contexts/docsSidebar';
-import {uniq} from './jsUtils';
-import {isSamePath} from './routesUtils';
+import {useDocsPreferredVersion} from './docsPreferredVersion';
+import {useDocsVersion} from './docsVersion';
+import {useDocsSidebar} from './docsSidebar';
+import {uniq} from '@docusaurus/theme-common';
+
 import type {
   PropSidebar,
   PropSidebarItem,

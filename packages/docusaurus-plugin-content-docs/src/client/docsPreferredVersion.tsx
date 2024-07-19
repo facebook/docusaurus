@@ -20,13 +20,14 @@ import {
   type GlobalVersion,
 } from '@docusaurus/plugin-content-docs/client';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
+import {useThemeConfig, type ThemeConfig} from '@docusaurus/theme-common';
+import {isDocsPluginEnabled} from './docsUtils';
 import {
-  useThemeConfig,
-  type DocsVersionPersistence,
-} from '../utils/useThemeConfig';
-import {isDocsPluginEnabled} from '../utils/docsUtils';
-import {ReactContextError} from '../utils/reactUtils';
-import {createStorageSlot} from '../utils/storageUtils';
+  ReactContextError,
+  createStorageSlot,
+} from '@docusaurus/theme-common/internal';
+
+type DocsVersionPersistence = ThemeConfig['docs']['versionPersistence'];
 
 const storageKey = (pluginId: string) => `docs-preferred-version-${pluginId}`;
 

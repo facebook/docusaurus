@@ -34,16 +34,6 @@ export {
 
 export {useContextualSearchFilters} from './utils/searchUtils';
 
-export {
-  useCurrentSidebarCategory,
-  filterDocCardListItems,
-} from './utils/docsUtils';
-
-export {
-  useBlogListPageStructuredData,
-  useBlogPostStructuredData,
-} from './utils/structuredDataUtils';
-
 export {usePluralForm} from './utils/usePluralForm';
 
 export {useCollapsible, Collapsible} from './components/Collapsible';
@@ -93,8 +83,6 @@ export {isRegexpStringMatch} from './utils/regexpUtils';
 export {duplicates, uniq, groupBy} from './utils/jsUtils';
 
 export {usePrismTheme} from './hooks/usePrismTheme';
-
-export {useDocsPreferredVersion} from './contexts/docsPreferredVersion';
 
 export {processAdmonitionProps} from './utils/admonitionUtils';
 

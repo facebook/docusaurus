@@ -6,7 +6,7 @@
  */
 
 import React, {useMemo, type ReactNode, useContext} from 'react';
-import {ReactContextError} from '../utils/reactUtils';
+import {ReactContextError} from '@docusaurus/theme-common/internal';
 import type {PropDocContent} from '@docusaurus/plugin-content-docs';
 
 /**

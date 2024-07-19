@@ -10,7 +10,7 @@ import {
   useActivePluginAndVersion,
 } from '@docusaurus/plugin-content-docs/client';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useDocsPreferredVersionByPluginId} from '../contexts/docsPreferredVersion';
+import {useDocsPreferredVersionByPluginId} from '@docusaurus/plugin-content-docs/src/client/docsPreferredVersion';
 
 export const DEFAULT_SEARCH_TAG = 'default';
 
