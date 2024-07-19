@@ -46,9 +46,11 @@ jobs:
         uses: preactjs/compressed-size-action@f780fd104362cfce9e118f9198df2ee37d12946c # v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          build-script: build:website:en
+          build-script: build:website:fast
           clean-script: clear:website # see https://github.com/facebook/docusaurus/pull/6838
-          pattern: '{website/build/assets/js/main*js,website/build/assets/css/styles*css,website/.docusaurus/globalData.json,website/.docusaurus/registry.js,website/.docusaurus/routes.js,website/.docusaurus/routesChunkNames.json,website/.docusaurus/site-metadata.json,website/.docusaurus/codeTranslations.json,website/.docusaurus/i18n.json,website/.docusaurus/docusaurus.config.mjs,website/build/index.html,website/build/blog/index.html,website/build/blog/**/introducing-docusaurus/*,website/build/docs/index.html,website/build/docs/installation/index.html,website/build/tests/docs/index.html,website/build/tests/docs/standalone/index.html}'
+          pattern: '{website/build/assets/js/main*js,website/build/assets/css/styles*css,website/.docusaurus/globalData.json,website/.docusaurus/registry.js,website/.docusaurus/routes.js,website/.docusaurus/routesChunkNames.json,website/.docusaurus/site-metadata.json,website/.docusaurus/codeTranslations.json,website/.docusaurus/i18n.json,website/.docusaurus/docusaurus.config.mjs,website/build/index.html,website/build/docs.html,website/build/docs/**/*.html,website/build/blog.html,website/build/blog/**/*.html}'
+          # HTML files: exclude versioned docs pages, tags pages, html redirect files
+          exclude: '{website/build/docs/?.?.?/**/*.html,website/build/docs/next/**/*.html,website/build/blog/tags/**/*.html,**/*.html.html}'
           strip-hash: '\.([^;]\w{7})\.'
           minimum-change-threshold: 30
           compression: none
@@ -68,11 +70,11 @@ jobs:
 
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)
-        run: yarn workspace website build --locale en
+        run: yarn build:website:fast
         timeout-minutes: 8
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
-        run: yarn workspace website build --locale en
+        run: yarn build:website:fast
         timeout-minutes: 2
     # TODO post a GitHub comment with build with perf warnings?
