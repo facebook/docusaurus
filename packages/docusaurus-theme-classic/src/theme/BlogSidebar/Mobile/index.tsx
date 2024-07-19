@@ -9,7 +9,7 @@ import React, {memo} from 'react';
 import {
   useVisibleBlogSidebarItems,
   BlogSidebarItemList,
-} from '@docusaurus/theme-common/internal';
+} from '@docusaurus/plugin-content-blog/client';
 import {NavbarSecondaryMenuFiller} from '@docusaurus/theme-common';
 import BlogSidebarContent from '@theme/BlogSidebar/Content';
 import type {Props} from '@theme/BlogSidebar/Mobile';
