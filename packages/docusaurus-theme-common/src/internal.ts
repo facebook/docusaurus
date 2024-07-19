@@ -40,7 +40,7 @@ export {
   containsLineNumbers,
 } from './utils/codeBlockUtils';
 
-export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
+export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
 export {useTitleFormatter} from './utils/generalUtils';
 

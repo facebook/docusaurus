@@ -55,6 +55,11 @@ export {
   DocsPreferredVersionContextProvider,
 } from './docsPreferredVersion';
 
+export {
+  useDocsContextualSearchTags,
+  getDocsVersionSearchTag,
+} from './docsSearch';
+
 export type ActivePlugin = {
   pluginId: string;
   pluginData: GlobalPluginData;

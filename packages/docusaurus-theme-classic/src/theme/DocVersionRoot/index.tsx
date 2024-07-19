@@ -8,9 +8,9 @@
 import React from 'react';
 import {HtmlClassNameProvider, PageMetadata} from '@docusaurus/theme-common';
 import {
-  docVersionSearchTag,
+  getDocsVersionSearchTag,
   DocsVersionProvider,
-} from '@docusaurus/theme-common/internal';
+} from '@docusaurus/plugin-content-docs/client';
 import renderRoutes from '@docusaurus/renderRoutes';
 import SearchMetadata from '@theme/SearchMetadata';
 
@@ -22,7 +22,7 @@ function DocVersionRootMetadata(props: Props): JSX.Element {
     <>
       <SearchMetadata
         version={version.version}
-        tag={docVersionSearchTag(version.pluginId, version.version)}
+        tag={getDocsVersionSearchTag(version.pluginId, version.version)}
       />
       <PageMetadata>
         {version.noIndex && <meta name="robots" content="noindex, nofollow" />}

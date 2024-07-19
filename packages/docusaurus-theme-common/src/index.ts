@@ -32,8 +32,6 @@ export {
   listStorageKeys,
 } from './utils/storageUtils';
 
-export {useContextualSearchFilters} from './utils/searchUtils';
-
 export {usePluralForm} from './utils/usePluralForm';
 
 export {useCollapsible, Collapsible} from './components/Collapsible';
