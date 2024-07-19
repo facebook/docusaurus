@@ -42,21 +42,6 @@ export {
 
 export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
-export {
-  isDocsPluginEnabled,
-  useDocById,
-  findSidebarCategory,
-  findFirstSidebarItemLink,
-  isActiveSidebarItem,
-  isVisibleSidebarItem,
-  useVisibleSidebarItems,
-  useSidebarBreadcrumbs,
-  useDocsVersionCandidates,
-  useLayoutDoc,
-  useLayoutDocsSidebar,
-  useDocRootMetadata,
-} from './utils/docsUtils';
-
 export {useTitleFormatter} from './utils/generalUtils';
 
 export {useLocationChange} from './utils/useLocationChange';
@@ -94,11 +79,6 @@ export {
   type TOCHighlightConfig,
 } from './hooks/useTOCHighlight';
 
-export {
-  useVisibleBlogSidebarItems,
-  groupBlogSidebarItemsByYear,
-  BlogSidebarItemList,
-} from './utils/blogUtils';
 export {useDateTimeFormat} from './utils/IntlUtils';
 
 export {useHideableNavbar} from './hooks/useHideableNavbar';
