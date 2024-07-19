@@ -7,7 +7,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {useBlogPost} from '@docusaurus/theme-common/internal';
+import {useBlogPost} from '@docusaurus/plugin-content-blog/client';
 import BlogPostItemHeaderAuthor from '@theme/BlogPostItem/Header/Author';
 import type {Props} from '@theme/BlogPostItem/Header/Authors';
 import styles from './styles.module.css';

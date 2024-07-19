@@ -6,9 +6,24 @@
  */
 
 import React, {useMemo, type ReactNode, useContext} from 'react';
-import {ReactContextError} from '../utils/reactUtils';
+import {ReactContextError} from '@docusaurus/theme-common/internal';
+import useRouteContext from '@docusaurus/useRouteContext';
 
-import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
+import type {
+  PropBlogPostContent,
+  BlogMetadata,
+} from '@docusaurus/plugin-content-blog';
+
+export function useBlogMetadata(): BlogMetadata {
+  const routeContext = useRouteContext();
+  const blogMetadata = routeContext?.data?.blogMetadata;
+  if (!blogMetadata) {
+    throw new Error(
+      "useBlogMetadata() can't be called on the current route because the blog metadata could not be found in route context",
+    );
+  }
+  return blogMetadata as BlogMetadata;
+}
 
 /**
  * The React context value returned by the `useBlogPost()` hook.

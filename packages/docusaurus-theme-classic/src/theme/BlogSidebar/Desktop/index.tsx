@@ -11,7 +11,7 @@ import {translate} from '@docusaurus/Translate';
 import {
   useVisibleBlogSidebarItems,
   BlogSidebarItemList,
-} from '@docusaurus/theme-common/internal';
+} from '@docusaurus/plugin-content-blog/client';
 import BlogSidebarContent from '@theme/BlogSidebar/Content';
 import type {Props as BlogSidebarContentProps} from '@theme/BlogSidebar/Content';
 import type {Props} from '@theme/BlogSidebar/Desktop';
