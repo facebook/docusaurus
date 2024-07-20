@@ -112,9 +112,13 @@ export default function IdealImage(props: Props): JSX.Element {
         width={width}
         height={height}
         src={img.src.src}
-        srcSet={img.src.images
-          .map((image) => `${image.path} ${image.width}w`)
-          .join(',')}
+        srcSet={
+          (img.src.images.length > 1 &&
+            img.src.images
+              .map((image) => `${image.path} ${image.width}w`)
+              .join(',')) ||
+          undefined
+        }
         style={{
           backgroundImage: `url(${img.preSrc})`,
           backgroundRepeat: 'no-repeat',
