@@ -128,6 +128,16 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
+  // ... other configuration
+  plugins: [
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        // ... other blog options
+        rejectPostsWithoutTruncate: true, // Enable the new feature
+      },
+    ],
+  ],
 };
 
 export default config;
