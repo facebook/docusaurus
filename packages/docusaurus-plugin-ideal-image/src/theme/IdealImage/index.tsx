@@ -11,6 +11,7 @@ import ReactIdealImage, {
   type State,
 } from '@slorber/react-ideal-image';
 import {translate} from '@docusaurus/Translate';
+import {usePluginData} from '@docusaurus/useGlobalData';
 
 import type {Props} from '@theme/IdealImage';
 
@@ -82,27 +83,63 @@ function getMessage(icon: IconKey, state: State) {
 
 export default function IdealImage(props: Props): JSX.Element {
   const {img, ...propsRest} = props;
+  const {useNativeLazyLoad} = usePluginData(
+    'docusaurus-plugin-ideal-image',
+    undefined,
+    {
+      failfast: true,
+    },
+  ) as {useNativeLazyLoad?: boolean};
 
   // In dev env just use regular img with original file
   if (typeof img === 'string' || 'default' in img) {
     return (
       // eslint-disable-next-line jsx-a11y/alt-text
-      <img src={typeof img === 'string' ? img : img.default} {...propsRest} />
+      <img
+        src={typeof img === 'string' ? img : img.default}
+        loading="lazy"
+        {...propsRest}
+      />
     );
   }
 
-  return (
-    <ReactIdealImage
-      {...propsRest}
-      height={img.src.height ?? 100}
-      width={img.src.width ?? 100}
-      placeholder={{lqip: img.preSrc}}
-      src={img.src.src}
-      srcSet={img.src.images.map((image) => ({
-        ...image,
-        src: image.path,
-      }))}
-      getMessage={getMessage}
-    />
-  );
+  const width = img.src.width ?? 100;
+  const height = img.src.height ?? 100;
+  if (useNativeLazyLoad) {
+    return (
+      // eslint-disable-next-line jsx-a11y/alt-text
+      <img
+        width={width}
+        height={height}
+        src={img.src.src}
+        srcSet={img.src.images
+          .map((image) => `${image.path} ${image.width}w`)
+          .join(',')}
+        style={{
+          backgroundImage: `url(${img.preSrc})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          width: '100%',
+          height: 'auto',
+        }}
+        loading="lazy"
+        {...propsRest}
+      />
+    );
+  } else {
+    return (
+      <ReactIdealImage
+        {...propsRest}
+        width={width}
+        height={height}
+        placeholder={{lqip: img.preSrc}}
+        src={img.src.src}
+        srcSet={img.src.images.map((image) => ({
+          ...image,
+          src: image.path,
+        }))}
+        getMessage={getMessage}
+      />
+    );
+  }
 }

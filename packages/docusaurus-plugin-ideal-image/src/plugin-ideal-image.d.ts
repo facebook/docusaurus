@@ -42,6 +42,13 @@ declare module '@docusaurus/plugin-ideal-image' {
      */
     quality?: number;
     /**
+     * Use browser native image lazy load and srcset instead of ReactIdealImage,
+     * this renders the IdealImage as an `img` tag instead of
+     * an `img` inside a `div,
+     * and also allow more direct controll over the `img` element
+     */
+    useNativeLazyLoad?: boolean;
+    /**
      * You can test ideal image behavior in dev mode by setting this to `false`.
      * Tip: use network throttling in your browser to simulate slow networks.
      */

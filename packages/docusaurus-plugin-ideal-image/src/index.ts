@@ -33,6 +33,12 @@ export default function pluginIdealImage(
       return '../src/theme';
     },
 
+    contentLoaded({actions}) {
+      actions.setGlobalData({
+        useNativeLazyLoad: options.useNativeLazyLoad,
+      });
+    },
+
     getDefaultCodeTranslationMessages() {
       return readDefaultCodeTranslationMessages({
         locale: currentLocale,
