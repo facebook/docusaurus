@@ -217,6 +217,7 @@ export type PropSidebarBreadcrumbsItem =
 export type CategoryMetadataFile = {
   label?: string;
   position?: number;
+  description?: string;
   collapsed?: boolean;
   collapsible?: boolean;
   className?: string;

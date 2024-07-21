@@ -67,7 +67,7 @@ function CardLayout({
   href: string;
   icon: ReactNode;
   title: string;
-  description?: string;
+  description: string | undefined;
 }): JSX.Element {
   return (
     <CardContainer href={href}>
