@@ -1,0 +1,5 @@
+{
+  "theme.PwaReloadPopup.closeButtonAriaLabel": "Close",
+  "theme.PwaReloadPopup.info": "New version available",
+  "theme.PwaReloadPopup.refreshButtonText": "Refresh"
+}
