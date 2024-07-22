@@ -12,7 +12,6 @@ import {
   getActiveDocContext,
   getActiveVersion,
   getDocVersionSuggestions,
-  sortVersionsByPathDepth,
 } from '../docsClientUtils';
 import type {
   GlobalPluginData,
@@ -20,13 +19,16 @@ import type {
   ActivePlugin,
   GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
+import type {VersionMetadata} from '@docusaurus/plugin-content-docs';
 
-function createVersion(name: string, path: string, isLast: boolean) {
+function createVersion(
+  partialVersion: Partial<VersionMetadata>,
+): GlobalVersion {
   return {
-    name,
-    label: name,
-    path,
-    isLast,
+    name: partialVersion.label ?? '???',
+    label: partialVersion.label ?? '???',
+    path: partialVersion.path ?? '???',
+    isLast: partialVersion.isLast ?? false,
     docs: [],
     mainDocId: '???',
     draftIds: [],
@@ -203,60 +205,76 @@ describe('docsClientUtils', () => {
     );
   });
 
-  it('sortVersionsByPathDepth without trailing slash', () => {
-    const test = [
-      createVersion('current', '/docs', false),
-      createVersion('version2', '/docs/version2', true),
-      createVersion('version1', '/docs/version1', false),
-    ];
+  it('getActiveVersion without trailing slash', () => {
+    const test: GlobalPluginData = {
+      path: 'docs',
+      versions: [
+        createVersion({label: 'current', path: '/docs', isLast: false}),
+        createVersion({
+          label: 'version2',
+          path: '/docs/version2',
+          isLast: true,
+        }),
+        createVersion({
+          label: 'version1',
+          path: '/docs/version1',
+          isLast: false,
+        }),
+      ],
+      breadcrumbs: true,
+    };
 
-    expect(sortVersionsByPathDepth(test)).toEqual([
-      test[1], // version2
-      test[2], // version1
-      test[0], // current
-    ]);
+    expect(getActiveVersion(test, '/docs')?.name).toBe('current');
   });
 
-  it('sortVersionsByPathDepth with trailing slash', () => {
-    const test = [
-      createVersion('current', '/docs/', false),
-      createVersion('version2', '/docs/version2/', true),
-      createVersion('version1', '/docs/version1/', false),
-    ];
-
-    expect(sortVersionsByPathDepth(test)).toEqual([
-      test[1], // version2
-      test[2], // version1
-      test[0], // current
-    ]);
+  it('getActiveVersion with trailing slash', () => {
+    const test: GlobalPluginData = {
+      path: 'docs',
+      versions: [
+        createVersion({label: 'current', path: '/docs/', isLast: false}),
+        createVersion({
+          label: 'version2',
+          path: '/docs/version2/',
+          isLast: true,
+        }),
+        createVersion({
+          label: 'version1',
+          path: '/docs/version1/',
+          isLast: false,
+        }),
+      ],
+      breadcrumbs: true,
+    };
+    expect(getActiveVersion(test, '/docs')?.name).toBe('current');
   });
 
-  it('sortVersionsByPathDepth docs only without trailing slash', () => {
-    const test = [
-      createVersion('current', '/', false),
-      createVersion('version2', '/version2', true),
-      createVersion('version1', '/version1', false),
-    ];
+  it('getActiveVersion docs only without trailing slash', () => {
+    const test: GlobalPluginData = {
+      path: 'docs',
+      versions: [
+        createVersion({label: 'current', path: '/', isLast: false}),
+        createVersion({label: 'version2', path: '/version2', isLast: true}),
+        createVersion({label: 'version1', path: '/version1', isLast: false}),
+      ],
 
-    expect(sortVersionsByPathDepth(test)).toEqual([
-      test[1], // version2
-      test[2], // version1
-      test[0], // current
-    ]);
+      breadcrumbs: true,
+    };
+
+    expect(getActiveVersion(test, '/')?.name).toBe('current');
   });
 
-  it('sortVersionsByPathDepth docs only with trailing slash', () => {
-    const test = [
-      createVersion('current', '/', false),
-      createVersion('version2', '/version2/', true),
-      createVersion('version1', '/version1/', false),
-    ];
+  it('getActiveVersion docs only with trailing slash', () => {
+    const test: GlobalPluginData = {
+      path: 'docs',
+      versions: [
+        createVersion({label: 'current', path: '/', isLast: false}),
+        createVersion({label: 'version2', path: '/version2/', isLast: true}),
+        createVersion({label: 'version1', path: '/version1/', isLast: false}),
+      ],
+      breadcrumbs: true,
+    };
 
-    expect(sortVersionsByPathDepth(test)).toEqual([
-      test[1], // version2
-      test[2], // version1
-      test[0], // current
-    ]);
+    expect(getActiveVersion(test, '/')?.name).toBe('current');
   });
 
   it('getActiveDocContext', () => {

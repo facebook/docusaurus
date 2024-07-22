@@ -59,10 +59,13 @@ export function getActivePlugin(
 export const getLatestVersion = (data: GlobalPluginData): GlobalVersion =>
   data.versions.find((version) => version.isLast)!;
 
-export function sortVersionsByPathDepth(
-  versions: GlobalVersion[],
-): GlobalVersion[] {
-  return [...versions].sort((a, b) => {
+export function getActiveVersion(
+  data: GlobalPluginData,
+  pathname: string,
+): GlobalVersion | undefined {
+  console.log('data:', data);
+  // Sort paths by depth, deepest first
+  const orderedVersionsMetadata = [...data.versions].sort((a, b) => {
     if (a.path.includes(b.path)) {
       return -1;
     }
@@ -72,14 +75,6 @@ export function sortVersionsByPathDepth(
 
     return 0;
   });
-}
-
-export function getActiveVersion(
-  data: GlobalPluginData,
-  pathname: string,
-): GlobalVersion | undefined {
-  // Sort paths by depth, deepest first
-  const orderedVersionsMetadata = sortVersionsByPathDepth(data.versions);
 
   return orderedVersionsMetadata.find(
     (version) =>
