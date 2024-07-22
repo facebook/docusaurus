@@ -204,58 +204,58 @@ describe('docsClientUtils', () => {
   });
 
   it('sortVersionsByPathDepth without trailing slash', () => {
-    const test1 = [
+    const test = [
       createVersion('current', '/docs', false),
       createVersion('version2', '/docs/version2', true),
       createVersion('version1', '/docs/version1', false),
     ];
 
-    expect(sortVersionsByPathDepth(test1)).toEqual([
-      test1[1], // version2
-      test1[2], // version1
-      test1[0], // current
+    expect(sortVersionsByPathDepth(test)).toEqual([
+      test[1], // version2
+      test[2], // version1
+      test[0], // current
     ]);
   });
 
   it('sortVersionsByPathDepth with trailing slash', () => {
-    const test2 = [
+    const test = [
       createVersion('current', '/docs/', false),
       createVersion('version2', '/docs/version2/', true),
       createVersion('version1', '/docs/version1/', false),
     ];
 
-    expect(sortVersionsByPathDepth(test2)).toEqual([
-      test2[1], // version2
-      test2[2], // version1
-      test2[0], // current
+    expect(sortVersionsByPathDepth(test)).toEqual([
+      test[1], // version2
+      test[2], // version1
+      test[0], // current
     ]);
   });
 
   it('sortVersionsByPathDepth docs only without trailing slash', () => {
-    const test3 = [
+    const test = [
       createVersion('current', '/', false),
       createVersion('version2', '/version2', true),
       createVersion('version1', '/version1', false),
     ];
 
-    expect(sortVersionsByPathDepth(test3)).toEqual([
-      test3[1], // version2
-      test3[2], // version1
-      test3[0], // current
+    expect(sortVersionsByPathDepth(test)).toEqual([
+      test[1], // version2
+      test[2], // version1
+      test[0], // current
     ]);
   });
 
   it('sortVersionsByPathDepth docs only with trailing slash', () => {
-    const test4 = [
+    const test = [
       createVersion('current', '/', false),
       createVersion('version2', '/version2/', true),
       createVersion('version1', '/version1/', false),
     ];
 
-    expect(sortVersionsByPathDepth(test4)).toEqual([
-      test4[1], // version2
-      test4[2], // version1
-      test4[0], // current
+    expect(sortVersionsByPathDepth(test)).toEqual([
+      test[1], // version2
+      test[2], // version1
+      test[0], // current
     ]);
   });
 
