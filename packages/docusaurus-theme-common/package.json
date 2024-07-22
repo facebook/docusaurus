@@ -53,9 +53,7 @@
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "@docusaurus/plugin-content-docs": "*",
-    "@docusaurus/plugin-content-blog": "*",
-    "@docusaurus/plugin-content-pages": "*"
+    "@docusaurus/plugin-content-docs": "*"
   },
   "engines": {
     "node": ">=18.0"
