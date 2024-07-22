@@ -21,6 +21,18 @@ import type {
   GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
 
+function createVersion(name: string, path: string, isLast: boolean) {
+  return {
+    name,
+    label: name,
+    path,
+    isLast,
+    docs: [],
+    mainDocId: '???',
+    draftIds: [],
+  };
+}
+
 describe('docsClientUtils', () => {
   it('getActivePlugin', () => {
     const data: {[key: string]: GlobalPluginData} = {
@@ -191,61 +203,58 @@ describe('docsClientUtils', () => {
     );
   });
 
-  it('sortVersionsByPathDepth', () => {
-    function createVersion(name: string, path: string, isLast: boolean) {
-      return {
-        name,
-        label: name,
-        path,
-        isLast,
-        docs: [],
-        mainDocId: '???',
-        draftIds: [],
-      };
-    }
+  it('sortVersionsByPathDepth without trailing slash', () => {
     const test1 = [
       createVersion('current', '/docs', false),
       createVersion('version2', '/docs/version2', true),
       createVersion('version1', '/docs/version1', false),
     ];
+
+    expect(sortVersionsByPathDepth(test1)).toEqual([
+      test1[1], // version2
+      test1[2], // version1
+      test1[0], // current
+    ]);
+  });
+
+  it('sortVersionsByPathDepth with trailing slash', () => {
     const test2 = [
       createVersion('current', '/docs/', false),
       createVersion('version2', '/docs/version2/', true),
       createVersion('version1', '/docs/version1/', false),
     ];
 
-    // docs only website
+    expect(sortVersionsByPathDepth(test2)).toEqual([
+      test2[1], // version2
+      test2[2], // version1
+      test2[0], // current
+    ]);
+  });
+
+  it('sortVersionsByPathDepth docs only without trailing slash', () => {
     const test3 = [
       createVersion('current', '/', false),
       createVersion('version2', '/version2', true),
       createVersion('version1', '/version1', false),
     ];
 
-    // docs only with trailing slash
+    expect(sortVersionsByPathDepth(test3)).toEqual([
+      test3[1], // version2
+      test3[2], // version1
+      test3[0], // current
+    ]);
+  });
+
+  it('sortVersionsByPathDepth docs only with trailing slash', () => {
     const test4 = [
       createVersion('current', '/', false),
       createVersion('version2', '/version2/', true),
       createVersion('version1', '/version1/', false),
     ];
 
-    expect(sortVersionsByPathDepth(test1)).toEqual([
-      test1[2], // version1
-      test1[1], // version2
-      test1[0], // current
-    ]);
-    expect(sortVersionsByPathDepth(test2)).toEqual([
-      test2[2], // version1
-      test2[1], // version2
-      test2[0], // current
-    ]);
-    expect(sortVersionsByPathDepth(test3)).toEqual([
-      test3[2], // version1
-      test3[1], // version2
-      test3[0], // current
-    ]);
     expect(sortVersionsByPathDepth(test4)).toEqual([
-      test4[2], // version1
       test4[1], // version2
+      test4[2], // version1
       test4[0], // current
     ]);
   });

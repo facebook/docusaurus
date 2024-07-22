@@ -63,24 +63,18 @@ export function sortVersionsByPathDepth(
   versions: GlobalVersion[],
 ): GlobalVersion[] {
   return [...versions].sort((a, b) => {
-    const getDepth = (path: string): number => {
-      if (path === '/') {
-        return 0;
+    if (a.path === b.path) {
+      return 0;
+    } else {
+      if (a.path.includes(b.path)) {
+        return -1;
       }
-      const trimmedPath = path.replace(/^\/|\/$/g, '');
-      return trimmedPath ? trimmedPath.split('/').length : 0;
-    };
-
-    const depthA = getDepth(a.path);
-    const depthB = getDepth(b.path);
-
-    // Sort by depth (descending order)
-    if (depthA !== depthB) {
-      return depthB - depthA;
+      if (b.path.includes(a.path)) {
+        return 1;
+      }
     }
 
-    // else sort alphabetically
-    return a.path.localeCompare(b.path);
+    return 0;
   });
 }
 
