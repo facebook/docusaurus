@@ -32,6 +32,7 @@ export default function BlogPostItemHeaderAuthor({
   // singleAuthor, // may be useful in the future, or for swizzle users
   author,
   className,
+  count,
 }: Props): JSX.Element {
   const {name, title, url, socials, imageURL, email, page} = author;
   const link =
@@ -52,6 +53,7 @@ export default function BlogPostItemHeaderAuthor({
           <div className="avatar__name">
             <MaybeLink href={link}>
               <span className={styles.authorName}>{name}</span>
+              {count && <span className={clsx(styles.count)}>{count}</span>}
             </MaybeLink>
           </div>
           {!!title && <AuthorTitle title={title} />}

@@ -19,3 +19,13 @@
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
+
+.count {
+  background: var(--ifm-color-secondary);
+  color: var(--ifm-color-black);
+  font-size: 0.8rem;
+  line-height: 1.2;
+  border-radius: var(--ifm-global-radius);
+  padding: 0.1rem 0.4rem;
+  margin-left: 0.3rem;
+}

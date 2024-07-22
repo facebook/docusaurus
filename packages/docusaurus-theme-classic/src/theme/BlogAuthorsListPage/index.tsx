@@ -13,7 +13,7 @@ import {
   ThemeClassNames,
 } from '@docusaurus/theme-common';
 import BlogLayout from '@theme/BlogLayout';
-import AuthorsListByLetter from '@theme/AuthorsListByLetter';
+import AuthorsList from '@theme/AuthorsList';
 import type {Props} from '@theme/BlogAuthorsListPage';
 import SearchMetadata from '@theme/SearchMetadata';
 import Heading from '@theme/Heading';
@@ -34,7 +34,7 @@ export default function BlogAuthorsListPage({
       <SearchMetadata tag="blog_authors_list" />
       <BlogLayout sidebar={sidebar}>
         <Heading as="h1">{title}</Heading>
-        <AuthorsListByLetter authors={authors} />
+        <AuthorsList authors={authors} />
       </BlogLayout>
     </HtmlClassNameProvider>
   );

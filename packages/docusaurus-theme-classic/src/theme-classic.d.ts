@@ -298,6 +298,7 @@ declare module '@theme/BlogPostItem/Header/Author' {
     readonly author: Author;
     readonly singleAuthor: boolean;
     readonly className?: string;
+    readonly count?: number;
   }
 
   export default function BlogPostItemHeaderAuthor(props: Props): JSX.Element;
@@ -1603,13 +1604,13 @@ declare module '@theme/Tag' {
   export default function Tag(props: Props): JSX.Element;
 }
 
-declare module '@theme/AuthorsListByLetter' {
+declare module '@theme/AuthorsList' {
   import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly authors: readonly AuthorItemProp[];
   }
-  export default function AuthorsListByLetter(props: Props): JSX.Element;
+  export default function AuthorsList(props: Props): JSX.Element;
 }
 
 declare module '@theme/AuthorsListInline' {

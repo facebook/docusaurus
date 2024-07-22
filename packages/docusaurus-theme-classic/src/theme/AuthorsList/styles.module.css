@@ -9,3 +9,8 @@
   display: inline-block;
   margin: 0.5rem 0.5rem 0 1rem;
 }
+
+section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
