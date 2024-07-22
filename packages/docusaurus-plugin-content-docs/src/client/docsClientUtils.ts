@@ -59,20 +59,37 @@ export function getActivePlugin(
 export const getLatestVersion = (data: GlobalPluginData): GlobalVersion =>
   data.versions.find((version) => version.isLast)!;
 
+export function sortVersionsByPathDepth(
+  versions: GlobalVersion[],
+): GlobalVersion[] {
+  return [...versions].sort((a, b) => {
+    const getDepth = (path: string): number => {
+      if (path === '/') {
+        return 0;
+      }
+      const trimmedPath = path.replace(/^\/|\/$/g, '');
+      return trimmedPath ? trimmedPath.split('/').length : 0;
+    };
+
+    const depthA = getDepth(a.path);
+    const depthB = getDepth(b.path);
+
+    // Sort by depth (descending order)
+    if (depthA !== depthB) {
+      return depthB - depthA;
+    }
+
+    // else sort alphabetically
+    return a.path.localeCompare(b.path);
+  });
+}
+
 export function getActiveVersion(
   data: GlobalPluginData,
   pathname: string,
 ): GlobalVersion | undefined {
-  // Sort versions: non-root paths first (by length, descending), then root path
-  const orderedVersionsMetadata = [...data.versions].sort((a, b) => {
-    if (a.path === `${data.path}/`) {
-      return 1;
-    }
-    if (b.path === `${data.path}/`) {
-      return -1;
-    }
-    return b.path.length - a.path.length;
-  });
+  // Sort paths by depth, deepest first
+  const orderedVersionsMetadata = sortVersionsByPathDepth(data.versions);
 
   return orderedVersionsMetadata.find(
     (version) =>
