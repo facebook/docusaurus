@@ -63,15 +63,11 @@ export function sortVersionsByPathDepth(
   versions: GlobalVersion[],
 ): GlobalVersion[] {
   return [...versions].sort((a, b) => {
-    if (a.path === b.path) {
-      return 0;
-    } else {
-      if (a.path.includes(b.path)) {
-        return -1;
-      }
-      if (b.path.includes(a.path)) {
-        return 1;
-      }
+    if (a.path.includes(b.path)) {
+      return -1;
+    }
+    if (b.path.includes(a.path)) {
+      return 1;
     }
 
     return 0;
