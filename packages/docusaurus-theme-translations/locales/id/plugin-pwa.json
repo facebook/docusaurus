@@ -1,5 +1,5 @@
 {
-  "theme.PwaReloadPopup.closeButtonAriaLabel": "Close",
-  "theme.PwaReloadPopup.info": "New version available",
-  "theme.PwaReloadPopup.refreshButtonText": "Refresh"
+  "theme.PwaReloadPopup.closeButtonAriaLabel": "Tutup",
+  "theme.PwaReloadPopup.info": "Versi baru tersedia",
+  "theme.PwaReloadPopup.refreshButtonText": "Segarkan"
 }
