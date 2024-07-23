@@ -7,7 +7,7 @@
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
-import type {Heading} from 'mdast';
+import type {Heading, Parent, RootContent} from 'mdast';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // TODO upgrade to TS 5.3
@@ -17,6 +17,21 @@ type Plugin = any; // TODO fix this asap
 
 interface PluginOptions {
   removeContentTitle?: boolean;
+}
+
+function wrapHeadingInJsxHeader(
+  headingNode: Heading,
+  parent: Parent,
+  index: number | undefined,
+) {
+  const article: RootContent = {
+    type: 'mdxJsxFlowElement',
+    name: 'header',
+    attributes: [],
+    children: [headingNode],
+  };
+  // @ts-expect-error: TODO how to fix?
+  parent.children[index] = article;
 }
 
 /**
@@ -37,11 +52,15 @@ const plugin: Plugin = function plugin(
     visit(root, ['heading', 'thematicBreak'], (node, index, parent) => {
       if (node.type === 'heading') {
         const headingNode = node as Heading;
+        // console.log('headingNode:', headingNode);
+
         if (headingNode.depth === 1) {
           vfile.data.contentTitle = toString(headingNode);
           if (removeContentTitle) {
             // @ts-expect-error: TODO how to fix?
             parent!.children.splice(index, 1);
+          } else {
+            wrapHeadingInJsxHeader(headingNode, parent, index);
           }
           return EXIT; // We only handle the very first heading
         }

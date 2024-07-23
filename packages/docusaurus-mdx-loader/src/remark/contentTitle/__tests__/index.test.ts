@@ -19,7 +19,8 @@ async function process(
 describe('contentTitle remark plugin', () => {
   describe('extracts data.contentTitle', () => {
     it('extracts h1 heading', async () => {
-      const result = await process(`
+      const result = await process(
+        `
 # contentTitle 1
 
 ## Heading Two {#custom-heading-two}
@@ -27,13 +28,16 @@ describe('contentTitle remark plugin', () => {
 # contentTitle 2
 
 some **markdown** *content*
-  `);
+  `,
+        {removeContentTitle: true},
+      );
 
       expect(result.data.contentTitle).toBe('contentTitle 1');
     });
 
     it('extracts h1 heading alt syntax', async () => {
-      const result = await process(`
+      const result = await process(
+        `
 contentTitle alt
 ===
 
@@ -44,7 +48,9 @@ contentTitle alt
 # contentTitle 2
 
 some **markdown** *content*
-  `);
+  `,
+        {removeContentTitle: true},
+      );
 
       expect(result.data.contentTitle).toBe('contentTitle alt');
     });
@@ -87,11 +93,14 @@ some **markdown** *content*
     });
 
     it('is able to decently serialize Markdown syntax', async () => {
-      const result = await process(`
+      const result = await process(
+        `
 # some **markdown** \`content\` _italic_
 
 some **markdown** *content*
-  `);
+  `,
+        {removeContentTitle: true},
+      );
 
       expect(result.data.contentTitle).toBe('some markdown content italic');
     });
