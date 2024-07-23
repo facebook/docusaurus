@@ -32,8 +32,6 @@
   "dependencies": {
     "@docusaurus/mdx-loader": "3.4.0",
     "@docusaurus/module-type-aliases": "3.4.0",
-    "@docusaurus/plugin-content-docs": "3.4.0",
-    "@docusaurus/plugin-content-pages": "3.4.0",
     "@docusaurus/utils": "3.4.0",
     "@docusaurus/utils-common": "3.4.0",
     "@types/history": "^4.7.11",
@@ -54,7 +52,8 @@
   },
   "peerDependencies": {
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "@docusaurus/plugin-content-docs": "*"
   },
   "engines": {
     "node": ">=18.0"

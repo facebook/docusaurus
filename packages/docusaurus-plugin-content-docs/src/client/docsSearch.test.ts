@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {docVersionSearchTag} from '../searchUtils';
+import {getDocsVersionSearchTag} from './docsSearch';
 
-describe('docVersionSearchTag', () => {
+describe('getDocsVersionSearchTag', () => {
   it('works', () => {
-    expect(docVersionSearchTag('foo', 'bar')).toBe('docs-foo-bar');
+    expect(getDocsVersionSearchTag('foo', 'bar')).toBe('docs-foo-bar');
   });
 });

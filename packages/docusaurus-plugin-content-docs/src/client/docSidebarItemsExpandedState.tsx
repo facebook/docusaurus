@@ -6,7 +6,7 @@
  */
 
 import React, {type ReactNode, useMemo, useState, useContext} from 'react';
-import {ReactContextError} from '../utils/reactUtils';
+import {ReactContextError} from '@docusaurus/theme-common/internal';
 
 type ContextValue = {
   /**

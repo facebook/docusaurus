@@ -19,20 +19,6 @@
 export * from './index';
 
 export {
-  DocSidebarItemsExpandedStateProvider,
-  useDocSidebarItemsExpandedState,
-} from './contexts/docSidebarItemsExpandedState';
-export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
-export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
-
-export {DocProvider, useDoc, type DocContextValue} from './contexts/doc';
-
-export {
-  useDocsPreferredVersionByPluginId,
-  DocsPreferredVersionContextProvider,
-} from './contexts/docsPreferredVersion';
-
-export {
   AnnouncementBarProvider,
   useAnnouncementBar,
 } from './contexts/announcementBar';
@@ -54,22 +40,7 @@ export {
   containsLineNumbers,
 } from './utils/codeBlockUtils';
 
-export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
-
-export {
-  isDocsPluginEnabled,
-  useDocById,
-  findSidebarCategory,
-  findFirstSidebarItemLink,
-  isActiveSidebarItem,
-  isVisibleSidebarItem,
-  useVisibleSidebarItems,
-  useSidebarBreadcrumbs,
-  useDocsVersionCandidates,
-  useLayoutDoc,
-  useLayoutDocsSidebar,
-  useDocRootMetadata,
-} from './utils/docsUtils';
+export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
 export {useTitleFormatter} from './utils/generalUtils';
 

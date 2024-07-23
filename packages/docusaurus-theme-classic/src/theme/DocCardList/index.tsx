@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import {
   useCurrentSidebarCategory,
   filterDocCardListItems,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/plugin-content-docs/client';
 import DocCard from '@theme/DocCard';
 import type {Props} from '@theme/DocCardList';
 

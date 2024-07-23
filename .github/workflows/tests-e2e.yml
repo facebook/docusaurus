@@ -102,19 +102,11 @@ jobs:
         working-directory: ../test-website
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false # Yarn berry should create the lockfile, despite CI env
-      - name: Install missing dependencies
-        if: matrix.variant == '-st' && matrix.nodeLinker == 'pnp'
-        run: |
-          # These dependencies are referenced in the init project, not by our packages
-          yarn add @docusaurus/theme-classic @docusaurus/types @types/node
-          yarn config set packageExtensions --json '{ "unified@^9.2.2": { "dependencies": { "@types/unist": "^2.0.6" } } }'
-        working-directory: ../test-website
       - name: Start test-website project
         run: yarn start --no-open
         working-directory: ../test-website
         env:
           E2E_TEST: true
-
       - name: TypeCheck website
         # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
         if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
