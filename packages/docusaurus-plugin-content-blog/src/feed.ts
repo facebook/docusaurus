@@ -20,7 +20,7 @@ import type {
   Author,
   BlogPost,
   BlogFeedItem,
-  IXslParams,
+  XslParams,
 } from '@docusaurus/plugin-content-blog';
 
 async function generateBlogFeed({
@@ -284,7 +284,7 @@ async function createBlogFeedFile({
   feed: Feed;
   feedType: FeedType;
   generatePath: string;
-  addXSL?: IXslParams;
+  addXSL?: XslParams;
 }) {
   let feedDetails = (() => {
     switch (feedType) {
