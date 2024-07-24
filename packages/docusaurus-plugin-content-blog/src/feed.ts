@@ -171,11 +171,15 @@ async function defaultCreateFeedItems({
  * @param feedDetails array containing blog feed content and name of file
  * @param generatePath path where the file would be copied in website
  */
-async function addXmlStyleSheet(
-  feedDetails: string[],
-  generatePath: string,
-  stylesheet: string,
-) {
+async function addXmlStyleSheet({
+  feedDetails,
+  generatePath,
+  stylesheet,
+}: {
+  feedDetails: string[];
+  generatePath: string;
+  stylesheet: string;
+}) {
   const DEFAULT_RSS_FEED = 'rss-feed.xslt';
   const DEFAULT_ATOM_FEED = 'atom-feed.xslt';
 
@@ -277,12 +281,12 @@ async function createBlogFeedFile({
   feed,
   feedType,
   generatePath,
-  addXSL,
+  xslParams,
 }: {
   feed: Feed;
   feedType: FeedType;
   generatePath: string;
-  addXSL?: XslParams;
+  xslParams?: XslParams;
 }) {
   let feedDetails = (() => {
     switch (feedType) {
@@ -297,14 +301,15 @@ async function createBlogFeedFile({
     }
   })();
   try {
-    if (addXSL?.enable) {
-      feedDetails = await addXmlStyleSheet(
+    if (xslParams?.enable) {
+      feedDetails = await addXmlStyleSheet({
         feedDetails,
         generatePath,
-        feedDetails[1] === 'atom.xml'
-          ? addXSL.atomStylesheet
-          : addXSL.rssStylesheet,
-      );
+        stylesheet:
+          feedDetails[1] === 'atom.xml'
+            ? xslParams.atomStylesheet
+            : xslParams.rssStylesheet,
+      });
     }
 
     await fs.outputFile(
@@ -358,7 +363,7 @@ export async function createBlogFeedFiles({
         feed,
         feedType,
         generatePath: path.join(outDir, options.routeBasePath),
-        addXSL: options.feedOptions.xsl,
+        xslParams: options.feedOptions.xsl,
       }),
     ),
   );
