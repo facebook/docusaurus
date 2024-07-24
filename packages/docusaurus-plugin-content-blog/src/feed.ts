@@ -211,19 +211,18 @@ async function addXmlStyleSheet(
     );
 
     // output rss xslt file to website
-    fs.readFile(rssXsltSourceFilePath, 'utf8').then((xsltContent) =>
-      fs.outputFile(rssXsltDestinationFilePath, xsltContent, 'utf-8'),
-    );
+    const xsltContent = await fs.readFile(rssXsltSourceFilePath, 'utf8');
+    await fs.outputFile(rssXsltDestinationFilePath, xsltContent, 'utf-8');
 
     // output rss stylesheet to website
-    fs.readFile(rssStylesheetSourceFilePath, 'utf8').then(
-      (stylesheetContent) => {
-        fs.outputFile(
-          rssStylesheetDestinationFilePath,
-          stylesheetContent,
-          'utf-8',
-        );
-      },
+    const stylesheetContent = await fs.readFile(
+      rssStylesheetSourceFilePath,
+      'utf8',
+    );
+    await fs.outputFile(
+      rssStylesheetDestinationFilePath,
+      stylesheetContent,
+      'utf-8',
     );
   } else if (feedDetails[1] === 'atom.xml') {
     let xsltLink = `<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="${DEFAULT_ATOM_FEED}"?>`;
@@ -256,19 +255,18 @@ async function addXmlStyleSheet(
     );
 
     // output rss xslt file to website
-    fs.readFile(atomXsltSourceFilePath, 'utf8').then((xsltContent) =>
-      fs.outputFile(atomXsltDestinationFilePath, xsltContent, 'utf-8'),
-    );
+    const xsltContent = await fs.readFile(atomXsltSourceFilePath, 'utf8');
+    await fs.outputFile(atomXsltDestinationFilePath, xsltContent, 'utf-8');
 
     // output rss stylesheet to website
-    fs.readFile(atomStylesheetSourceFilePath, 'utf8').then(
-      (stylesheetContent) => {
-        fs.outputFile(
-          atomStylesheetDestinationFilePath,
-          stylesheetContent,
-          'utf-8',
-        );
-      },
+    const stylesheetContent = await fs.readFile(
+      atomStylesheetSourceFilePath,
+      'utf8',
+    );
+    await fs.outputFile(
+      atomStylesheetDestinationFilePath,
+      stylesheetContent,
+      'utf-8',
     );
   }
 
