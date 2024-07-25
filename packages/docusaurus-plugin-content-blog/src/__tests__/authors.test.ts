@@ -6,13 +6,19 @@
  */
 
 import path from 'path';
-import {getBlogPostAuthors} from '../authors';
+import {fromPartial, type PartialDeep} from '@total-typescript/shoehorn';
+import {getBlogPostAuthors, groupBlogPostsByAuthorKey} from '../authors';
 import {
   getAuthorsMap,
   validateAuthorsMap,
   validateAuthorsMapInput,
 } from '../authorsMap';
+import type {AuthorsMap, BlogPost} from '@docusaurus/plugin-content-blog';
 import type {AuthorsMapInput} from '../authorsMap';
+
+function post(partial: PartialDeep<BlogPost>): BlogPost {
+  return fromPartial(partial);
+}
 
 describe('getBlogPostAuthors', () => {
   it('can read no authors', () => {
@@ -725,5 +731,40 @@ describe('authors socials', () => {
     };
 
     expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
+  });
+});
+
+describe('groupBlogPostsByAuthorKey', () => {
+  const authorsMap: AuthorsMap = fromPartial({
+    ozaki: {},
+    slorber: {},
+    keyWithNoPost: {},
+  });
+
+  it('can group blog posts', () => {
+    const post1 = post({metadata: {authors: [{key: 'ozaki'}]}});
+    const post2 = post({
+      metadata: {authors: [{key: 'slorber'}, {key: 'ozaki'}]},
+    });
+    const post3 = post({metadata: {authors: [{key: 'slorber'}]}});
+    const post4 = post({
+      metadata: {authors: [{name: 'Inline author 1'}, {key: 'slorber'}]},
+    });
+    const post5 = post({
+      metadata: {authors: [{name: 'Inline author 2'}]},
+    });
+    const post6 = post({
+      metadata: {authors: [{key: 'unknownKey'}]},
+    });
+
+    const blogPosts = [post1, post2, post3, post4, post5, post6];
+
+    expect(groupBlogPostsByAuthorKey({authorsMap, blogPosts})).toEqual({
+      ozaki: [post1, post2],
+      slorber: [post2, post3, post4],
+      keyWithNoPost: [],
+      // We don't care about this edge case, it doesn't happen in practice
+      unknownKey: undefined,
+    });
   });
 });
