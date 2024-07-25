@@ -8,7 +8,7 @@
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
       <head>
         <title>RSS Feed | <xsl:value-of select="rss/channel/title" /></title>
-        <link rel="stylesheet" href="/xslt-stylesheet.css" />
+        <link rel="stylesheet" href="custom-rss.css" />
       </head>
       <body>
         <main>
@@ -35,7 +35,7 @@
 </g>
 </svg>
               </div>
-  Custom RSS Feed Preview </h1>
+  RSS Feed Preview </h1>
             <h2>
               <xsl:value-of select="rss/channel/title" />
             </h2>

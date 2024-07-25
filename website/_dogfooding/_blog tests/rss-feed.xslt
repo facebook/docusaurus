@@ -8,7 +8,7 @@
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
       <head>
         <title>RSS Feed | <xsl:value-of select="rss/channel/title" /></title>
-        <link rel="stylesheet" href="rss-feed.stylesheet.css" />
+        <link rel="stylesheet" href="feed.css" />
       </head>
       <body>
         <main>

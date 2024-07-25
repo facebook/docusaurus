@@ -8,7 +8,7 @@
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
       <head>
         <title>Atom Feed | <xsl:value-of select="atom:feed/atom:title" /></title>
-        <link rel="stylesheet" href="atom-feed.stylesheet.css" />
+        <link rel="stylesheet" href="custom-atom.css" />
       </head>
       <body>
         <main>
@@ -35,7 +35,7 @@
                   </g>
                 </svg>
               </div>
-  Atom Feed Preview </h1>
+  Custom Atom Feed Preview </h1>
             <h2>
               <xsl:value-of select="atom:feed/atom:title" />
             </h2>

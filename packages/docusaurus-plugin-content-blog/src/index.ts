@@ -473,6 +473,7 @@ export default async function pluginContentBlog(
         outDir,
         siteConfig,
         locale: currentLocale,
+        contentPaths,
       });
     },
 

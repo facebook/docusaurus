@@ -22,7 +22,14 @@ import type {
 import type {OptionValidationContext} from '@docusaurus/types';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
-  feedOptions: {type: ['rss', 'atom'], copyright: '', limit: 20},
+  feedOptions: {
+    type: ['rss', 'atom'],
+    copyright: '',
+    limit: 20,
+    xsl: false,
+    atomStylesheet: 'atom-feed.xslt',
+    rssStylesheet: 'rss-feed.xslt',
+  },
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: true,
@@ -111,11 +118,13 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
       )
       .allow(null)
       .default(DEFAULT_OPTIONS.feedOptions.type),
-    xsl: Joi.object({
-      enable: Joi.boolean(),
-      atomStylesheet: Joi.string(),
-      rssStylesheet: Joi.string(),
-    }),
+    xsl: Joi.boolean().default(DEFAULT_OPTIONS.feedOptions.xsl),
+    atomStylesheet: Joi.string().default(
+      DEFAULT_OPTIONS.feedOptions.atomStylesheet,
+    ),
+    rssStylesheet: Joi.string().default(
+      DEFAULT_OPTIONS.feedOptions.rssStylesheet,
+    ),
     title: Joi.string().allow(''),
     description: Joi.string().allow(''),
     // Only add default value when user actually wants a feed (type is not null)
