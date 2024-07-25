@@ -56,7 +56,7 @@ const AuthorsMapInputSchema = Joi.object<AuthorsMapInput>()
       "The authors map file should contain an object where each entry contains an author key and the corresponding author's data.",
   });
 
-export function checkPermalinkCollisions(
+export function checkAuthorsMapPermalinkCollisions(
   authorsMap: AuthorsMap | undefined,
 ): void {
   if (!authorsMap) {

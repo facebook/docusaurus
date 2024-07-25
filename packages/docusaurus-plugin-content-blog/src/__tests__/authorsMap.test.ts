@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {checkPermalinkCollisions} from '../authorsMap';
+import {checkAuthorsMapPermalinkCollisions} from '../authorsMap';
 import type {AuthorsMap} from '@docusaurus/plugin-content-blog';
 
-describe('authors permalink collision', () => {
+describe('checkAuthorsMapPermalinkCollisions', () => {
   it('do not throw when permalinks are unique', () => {
     const authors: AuthorsMap = {
       author1: {
@@ -28,7 +28,7 @@ describe('authors permalink collision', () => {
     };
 
     expect(() => {
-      checkPermalinkCollisions(authors);
+      checkAuthorsMapPermalinkCollisions(authors);
     }).not.toThrow();
   });
 
@@ -51,7 +51,7 @@ describe('authors permalink collision', () => {
     };
 
     expect(() => {
-      checkPermalinkCollisions(authors);
+      checkAuthorsMapPermalinkCollisions(authors);
     }).toThrowErrorMatchingInlineSnapshot(`
       "The following permalinks are duplicated:
       Permalink: /author1

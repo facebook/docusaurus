@@ -34,7 +34,7 @@ import {translateContent, getTranslationFiles} from './translations';
 import {createBlogFeedFiles, createFeedHtmlHeadTags} from './feed';
 
 import {createAllRoutes} from './routes';
-import {checkPermalinkCollisions, getAuthorsMap} from './authorsMap';
+import {checkAuthorsMapPermalinkCollisions, getAuthorsMap} from './authorsMap';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
@@ -177,7 +177,7 @@ export default async function pluginContentBlog(
           authorsPageBasePath,
         ]),
       });
-      checkPermalinkCollisions(authorsMap);
+      checkAuthorsMapPermalinkCollisions(authorsMap);
 
       let blogPosts = await generateBlogPosts(
         contentPaths,
