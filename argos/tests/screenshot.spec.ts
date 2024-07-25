@@ -41,6 +41,8 @@ function isBlacklisted(pathname: string) {
     '/feature-requests',
     // Flaky because of dynamic canary version fetched from npm
     '/community/canary',
+    // Flaky because of screenshots being taken dynamically
+    '/showcase',
     // Long blog post with many image carousels, often timeouts
     '/blog/2022/08/01/announcing-docusaurus-2.0',
   ];
