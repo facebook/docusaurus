@@ -26,7 +26,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
     type: ['rss', 'atom'],
     copyright: '',
     limit: 20,
-    xsl: false,
+    xslt: false,
     atomXslt: 'atom.xslt',
     rssXslt: 'rss.xslt',
   },
@@ -118,7 +118,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
       )
       .allow(null)
       .default(DEFAULT_OPTIONS.feedOptions.type),
-    xsl: Joi.boolean().default(DEFAULT_OPTIONS.feedOptions.xsl),
+    xslt: Joi.boolean().default(DEFAULT_OPTIONS.feedOptions.xslt),
     atomXslt: Joi.string().default(DEFAULT_OPTIONS.feedOptions.atomXslt),
     rssXslt: Joi.string().default(DEFAULT_OPTIONS.feedOptions.rssXslt),
     title: Joi.string().allow(''),

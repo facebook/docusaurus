@@ -259,7 +259,7 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
 
   export type XslParams = {
     /** Enable xsl stylesheet */
-    xsl: boolean;
+    xslt: boolean;
     rssXslt: string;
     atomXslt: string;
   };

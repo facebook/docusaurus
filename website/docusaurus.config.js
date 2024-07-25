@@ -420,8 +420,9 @@ module.exports = async function createConfigAsync() {
             feedOptions: {
               type: 'all',
               copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
-              xsl:  true,
-              atomXslt: 'custom-atom.xslt',
+              xslt:  true,
+              // atomXslt: 'custom-atom.xslt',
+              rssXslt: 'custom-rss.xslt',
             },
             blogSidebarCount: 'ALL',
             blogSidebarTitle: 'All our posts',
