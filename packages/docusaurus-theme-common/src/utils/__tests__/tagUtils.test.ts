@@ -6,7 +6,7 @@
  */
 
 import _ from 'lodash';
-import {listTagsByLetters} from '../generalUtils';
+import {listTagsByLetters} from '../tagsUtils';
 import type {TagsListItem} from '@docusaurus/utils';
 
 describe('listTagsByLetters', () => {
@@ -51,10 +51,10 @@ describe('listTagsByLetters', () => {
     };
 
     const expectedResult: Result = [
-      {letter: 'A', items: [tagAaa, tagAbc]},
-      {letter: 'D', items: [tagDef]},
-      {letter: 'T', items: [tag1, tag2]},
-      {letter: 'Z', items: [tagZxy]},
+      {letter: 'A', tags: [tagAaa, tagAbc]},
+      {letter: 'D', tags: [tagDef]},
+      {letter: 'T', tags: [tag1, tag2]},
+      {letter: 'Z', tags: [tagZxy]},
     ];
 
     // Input order shouldn't matter, output is always consistently sorted
