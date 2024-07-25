@@ -98,7 +98,7 @@ function normalizeAuthor({
   authorsBaseRoutePath: string;
   authorKey: string;
   author: AuthorInput;
-}): Author {
+}): Author & {key: string} {
   function getAuthorPage(): AuthorPage | null {
     if (!author.page) {
       return null;
