@@ -6,26 +6,20 @@
  */
 
 import React from 'react';
-import {type LetterEntry} from '@docusaurus/theme-common';
-import {listTagsByLetters} from '@docusaurus/theme-common/internal';
+import {listTagsByLetters, type TagLetterEntry} from '@docusaurus/theme-common';
 import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListByLetter';
 import Heading from '@theme/Heading';
-import type {TagsListItem} from '@docusaurus/utils';
 import styles from './styles.module.css';
 
-function TagLetterEntryItem({
-  letterEntry,
-}: {
-  letterEntry: LetterEntry<TagsListItem>;
-}) {
+function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
   return (
     <article>
       <Heading as="h2" id={letterEntry.letter}>
         {letterEntry.letter}
       </Heading>
       <ul className="padding--none">
-        {letterEntry.items.map((tag) => (
+        {letterEntry.tags.map((tag) => (
           <li key={tag.permalink} className={styles.tag}>
             <Tag {...tag} />
           </li>
