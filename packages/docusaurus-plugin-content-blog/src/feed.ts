@@ -189,14 +189,19 @@ async function addXmlStyleSheet({
 
   if (feedDetails[1] === 'rss.xml') {
     const fileName = path.parse(xslPath).name;
+    const isDefault = xslPath === 'rss.xslt';
+    const directoryPath = isDefault
+      ? path.join(__dirname, '../assets/')
+      : contentPath;
     const xsltLink = `<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="${xslPath}"?>`;
 
     feedDetails[0] = feedDetails[0]?.replace(
       '<?xml version="1.0" encoding="utf-8"?>',
       xsltLink,
     );
-    const defaultRssXsltPath = path.join(contentPath, `./${fileName}.xslt`);
-    const defaultCssPath = path.join(contentPath, `./${fileName}.css`);
+
+    const defaultRssXsltPath = path.join(directoryPath, `${fileName}.xslt`);
+    const defaultCssPath = path.join(directoryPath, `${fileName}.css`);
 
     const rssXsltDestinationFilePath = path.join(
       generatePath,
@@ -220,6 +225,11 @@ async function addXmlStyleSheet({
     );
   } else if (feedDetails[1] === 'atom.xml') {
     const fileName = path.parse(xslPath).name;
+    const isDefault = xslPath === 'rss.xslt';
+    const directoryPath = isDefault
+      ? path.join(__dirname, '../assets/')
+      : contentPath;
+
     const xsltLink = `<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="${xslPath}"?>`;
 
     feedDetails[0] = feedDetails[0]?.replace(
@@ -227,8 +237,8 @@ async function addXmlStyleSheet({
       xsltLink,
     );
 
-    const defaultAtomXsltPath = path.join(contentPath, `./${fileName}.xslt`);
-    const defaultCssPath = path.join(contentPath, `./${fileName}.css`);
+    const defaultAtomXsltPath = path.join(directoryPath, `${fileName}.xslt`);
+    const defaultCssPath = path.join(directoryPath, `${fileName}.css`);
 
     const atomXsltDestinationFilePath = path.join(
       generatePath,
@@ -350,8 +360,8 @@ export async function createBlogFeedFiles({
   // console.log('PLUGIN ID ====:', options.id);
   // console.log('feedTypes ====:', feedTypes);
   // console.log('xslParams:', options.feedOptions.xsl);
-  // console.log('xslParams:', options.feedOptions.atomStylesheet);
-  // console.log('xslParams:', options.feedOptions.rssStylesheet);
+  // console.log('xslParams:', options.feedOptions.atomXslt);
+  // console.log('xslParams:', options.feedOptions.rssXslt);
 
   await Promise.all(
     feedTypes.map((feedType) =>
@@ -360,8 +370,8 @@ export async function createBlogFeedFiles({
         feedType,
         generatePath: path.join(outDir, options.routeBasePath),
         xsl: options.feedOptions.xsl,
-        atom: options.feedOptions.atomStylesheet,
-        rss: options.feedOptions.rssStylesheet,
+        atom: options.feedOptions.atomXslt,
+        rss: options.feedOptions.rssXslt,
         contentPaths,
       }),
     ),

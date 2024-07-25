@@ -68,8 +68,8 @@ const dogfoodingPluginInstances = [
         title: 'Docusaurus Tests Blog',
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
         // xsl: true,
-        // rssStylesheet: 'custom-rss.xslt',
-        // atomStylesheet: 'custom-atom.xslt',
+        // rssXslt: 'custom-rss.xslt',
+        // atomXslt: 'custom-atom.xslt',
       },
       readingTime: ({content, frontMatter, defaultReadingTime}) =>
         frontMatter.hide_reading_time

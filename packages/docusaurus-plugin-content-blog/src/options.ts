@@ -27,8 +27,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
     copyright: '',
     limit: 20,
     xsl: false,
-    atomStylesheet: 'atom-feed.xslt',
-    rssStylesheet: 'rss-feed.xslt',
+    atomXslt: 'atom.xslt',
+    rssXslt: 'rss.xslt',
   },
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
@@ -119,12 +119,8 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
       .allow(null)
       .default(DEFAULT_OPTIONS.feedOptions.type),
     xsl: Joi.boolean().default(DEFAULT_OPTIONS.feedOptions.xsl),
-    atomStylesheet: Joi.string().default(
-      DEFAULT_OPTIONS.feedOptions.atomStylesheet,
-    ),
-    rssStylesheet: Joi.string().default(
-      DEFAULT_OPTIONS.feedOptions.rssStylesheet,
-    ),
+    atomXslt: Joi.string().default(DEFAULT_OPTIONS.feedOptions.atomXslt),
+    rssXslt: Joi.string().default(DEFAULT_OPTIONS.feedOptions.rssXslt),
     title: Joi.string().allow(''),
     description: Joi.string().allow(''),
     // Only add default value when user actually wants a feed (type is not null)

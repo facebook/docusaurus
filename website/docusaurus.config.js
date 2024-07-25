@@ -421,7 +421,7 @@ module.exports = async function createConfigAsync() {
               type: 'all',
               copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
               xsl:  true,
-              atomStylesheet: 'custom-atom.xslt',
+              atomXslt: 'custom-atom.xslt',
             },
             blogSidebarCount: 'ALL',
             blogSidebarTitle: 'All our posts',
