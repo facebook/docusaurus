@@ -6,7 +6,7 @@
  */
 import React, {memo, type ReactNode} from 'react';
 import {useThemeConfig} from '@docusaurus/theme-common';
-import {groupBlogSidebarItemsByYear} from '@docusaurus/theme-common/internal';
+import {groupBlogSidebarItemsByYear} from '@docusaurus/plugin-content-blog/client';
 import Heading from '@theme/Heading';
 import type {Props} from '@theme/BlogSidebar/Content';
 

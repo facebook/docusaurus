@@ -6,7 +6,7 @@
  */
 
 import React, {type ReactNode, useContext} from 'react';
-import {ReactContextError} from '../utils/reactUtils';
+import {ReactContextError} from '@docusaurus/theme-common/internal';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
 
 const Context = React.createContext<PropVersionMetadata | null>(null);

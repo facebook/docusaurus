@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {groupBlogSidebarItemsByYear} from '../blogUtils';
+import {groupBlogSidebarItemsByYear} from './sidebarUtils';
 import type {BlogSidebarItem} from '@docusaurus/plugin-content-blog';
 
 describe('groupBlogSidebarItemsByYear', () => {
