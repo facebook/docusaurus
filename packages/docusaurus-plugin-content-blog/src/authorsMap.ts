@@ -6,7 +6,7 @@
  */
 
 import _ from 'lodash';
-import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
+import {readDataFile, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import {AuthorSocialsSchema, normalizeSocials} from './authorsSocials';
 import type {BlogContentPaths} from './types';
@@ -142,15 +142,11 @@ async function getAuthorsMapInput(params: {
   authorsMapPath: string;
   contentPaths: BlogContentPaths;
 }): Promise<AuthorsMapInput | undefined> {
-  return getDataFileData(
-    {
-      filePath: params.authorsMapPath,
-      contentPaths: params.contentPaths,
-      fileType: 'authors map',
-    },
-    // TODO annoying to test: tightly coupled FS reads + validation...
-    validateAuthorsMapInput,
-  );
+  const content = await readDataFile({
+    filePath: params.authorsMapPath,
+    contentPaths: params.contentPaths,
+  });
+  return content ? validateAuthorsMapInput(content) : undefined;
 }
 
 export async function getAuthorsMap(params: {
