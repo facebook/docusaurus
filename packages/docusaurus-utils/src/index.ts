@@ -109,7 +109,7 @@ export {escapeShellArg} from './shellUtils';
 export {loadFreshModule} from './moduleUtils';
 export {
   getDataFilePath,
-  getDataFileData,
+  readDataFile,
   getContentPathList,
   findFolderContainingFile,
   getFolderContainingFile,
