@@ -58,7 +58,7 @@
   "theme.docs.versionBadge.label": "Versioon: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "viimane versioon",
   "theme.docs.versions.latestVersionSuggestionLabel": "Uuendatud dokumentatsiooni lugemiseks vaata {latestVersionLink} ({versionLabel}).",
-  "theme.docs.versions.unmaintainedVersionLabel": "See on  {siteTitle} {versionLabel} dokumentatsioon, mida enam ei täiendata.",
+  "theme.docs.versions.unmaintainedVersionLabel": "See on {siteTitle} {versionLabel} dokumentatsioon, mida enam ei täiendata.",
   "theme.docs.versions.unreleasedVersionLabel": "See avalikustamata dokumentatsiooni {siteTitle} {versionLabel} versioon.",
   "theme.lastUpdated.atDate": " {date}",
   "theme.lastUpdated.byUser": " {user}",
