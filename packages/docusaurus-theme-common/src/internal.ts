@@ -94,3 +94,5 @@ export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
 export {getPrismCssVariables} from './utils/codeBlockUtils';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
+
+export {useBlogPostsPlural} from './utils/usePluralForm';

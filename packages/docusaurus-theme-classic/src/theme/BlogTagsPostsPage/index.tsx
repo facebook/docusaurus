@@ -12,8 +12,8 @@ import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
-  useBlogPostsPlural,
 } from '@docusaurus/theme-common';
+import {useBlogPostsPlural} from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
