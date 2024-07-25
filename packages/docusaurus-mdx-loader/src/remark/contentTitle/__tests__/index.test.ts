@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {escapeMarkdownHeadingIds} from '@docusaurus/utils';
 import plugin from '../index';
 
 async function process(
@@ -12,15 +13,20 @@ async function process(
   options: {removeContentTitle?: boolean} = {},
 ) {
   const {remark} = await import('remark');
-  const processor = await remark().use({plugins: [[plugin, options]]});
-  return processor.process(content);
+  const {default: mdx} = await import('remark-mdx');
+
+  const result = await remark()
+    .use(mdx)
+    .use(plugin, options)
+    .process(escapeMarkdownHeadingIds(content));
+
+  return result;
 }
 
 describe('contentTitle remark plugin', () => {
   describe('extracts data.contentTitle', () => {
     it('extracts h1 heading', async () => {
-      const result = await process(
-        `
+      const result = await process(`
 # contentTitle 1
 
 ## Heading Two {#custom-heading-two}
@@ -28,9 +34,7 @@ describe('contentTitle remark plugin', () => {
 # contentTitle 2
 
 some **markdown** *content*
-  `,
-        {removeContentTitle: true},
-      );
+  `);
 
       expect(result.data.contentTitle).toBe('contentTitle 1');
     });
@@ -49,7 +53,6 @@ contentTitle alt
 
 some **markdown** *content*
   `,
-        {removeContentTitle: true},
       );
 
       expect(result.data.contentTitle).toBe('contentTitle alt');
@@ -93,21 +96,20 @@ some **markdown** *content*
     });
 
     it('is able to decently serialize Markdown syntax', async () => {
-      const result = await process(
-        `
+      const result = await process(`
 # some **markdown** \`content\` _italic_
 
 some **markdown** *content*
-  `,
-        {removeContentTitle: true},
-      );
+  `);
 
       expect(result.data.contentTitle).toBe('some markdown content italic');
     });
   });
 
   describe('returns appropriate content', () => {
-    it('returns content unmodified', async () => {
+    it('returns heading wrapped in <header>', async () => {
+      // Test case for https://github.com/facebook/docusaurus/issues/8476
+
       const content = `
 # contentTitle 1
 
@@ -120,7 +122,19 @@ some **markdown** *content*
 
       const result = await process(content);
 
-      expect(result.toString().trim()).toEqual(content);
+      expect(result.toString().trim()).toEqual(
+        `
+<header>
+  # contentTitle 1
+</header>
+
+## Heading Two \\{#custom-heading-two}
+
+# contentTitle 2
+
+some **markdown** *content*
+`.trim(),
+      );
     });
 
     it('can strip contentTitle', async () => {
@@ -138,7 +152,7 @@ some **markdown** *content*
 
       expect(result.toString().trim()).toEqual(
         `
-## Heading Two {#custom-heading-two}
+## Heading Two \\{#custom-heading-two}
 
 # contentTitle 2
 
@@ -163,7 +177,7 @@ some **markdown** *content*
 
       expect(result.toString().trim()).toEqual(
         `
-## Heading Two {#custom-heading-two}
+## Heading Two \\{#custom-heading-two}
 
 # contentTitle 2
 

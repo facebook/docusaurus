@@ -7,7 +7,10 @@
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
-import type {Heading, Parent, RootContent} from 'mdast';
+import type {Heading, Parent} from 'mdast';
+
+// @ts-expect-error: ES support...
+import type {MdxJsxFlowElement} from 'mdast-util-mdx';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // TODO upgrade to TS 5.3
@@ -22,16 +25,15 @@ interface PluginOptions {
 function wrapHeadingInJsxHeader(
   headingNode: Heading,
   parent: Parent,
-  index: number | undefined,
+  index: number,
 ) {
-  const article: RootContent = {
+  const header: MdxJsxFlowElement = {
     type: 'mdxJsxFlowElement',
     name: 'header',
     attributes: [],
     children: [headingNode],
   };
-  // @ts-expect-error: TODO how to fix?
-  parent.children[index] = article;
+  parent.children[index] = header;
 }
 
 /**
@@ -48,7 +50,6 @@ const plugin: Plugin = function plugin(
   return async (root, vfile) => {
     const {toString} = await import('mdast-util-to-string');
     const {visit, EXIT} = await import('unist-util-visit');
-
     visit(root, ['heading', 'thematicBreak'], (node, index, parent) => {
       if (node.type === 'heading') {
         const headingNode = node as Heading;
@@ -60,7 +61,7 @@ const plugin: Plugin = function plugin(
             // @ts-expect-error: TODO how to fix?
             parent!.children.splice(index, 1);
           } else {
-            wrapHeadingInJsxHeader(headingNode, parent, index);
+            wrapHeadingInJsxHeader(headingNode, parent, index!);
           }
           return EXIT; // We only handle the very first heading
         }

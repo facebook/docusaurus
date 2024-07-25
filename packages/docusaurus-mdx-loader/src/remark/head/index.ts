@@ -8,7 +8,7 @@
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 
-// @ts-expect-error: ES support...
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {MdxJsxFlowElement} from 'mdast-util-mdx';
 
 // Transform <head> to <Head>
