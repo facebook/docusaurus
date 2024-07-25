@@ -61,6 +61,9 @@ const plugin: Plugin = function plugin(
             // @ts-expect-error: TODO how to fix?
             parent!.children.splice(index, 1);
           } else {
+            // TODO in the future it might be better to export contentTitle as
+            // as JSX node to keep this logic a theme concern?
+            // See https://github.com/facebook/docusaurus/pull/10335#issuecomment-2250187371
             wrapHeadingInJsxHeader(headingNode, parent, index!);
           }
           return EXIT; // We only handle the very first heading
