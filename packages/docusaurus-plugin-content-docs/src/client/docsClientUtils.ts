@@ -63,20 +63,23 @@ export function getActiveVersion(
   data: GlobalPluginData,
   pathname: string,
 ): GlobalVersion | undefined {
-  console.log('data:', data);
-  // Sort paths by depth, deepest first
-  const orderedVersionsMetadata = [...data.versions].sort((a, b) => {
+  // Sort paths so that a match-all version like /docs/* is matched last
+  // Otherwise /docs/* would match /docs/1.0.0/* routes
+  // This is simplified but similar to the core sortRoutes() logic
+  const sortedVersions = [...data.versions].sort((a, b) => {
+    if (a.path === b.path) {
+      return 0;
+    }
     if (a.path.includes(b.path)) {
       return -1;
     }
     if (b.path.includes(a.path)) {
       return 1;
     }
-
     return 0;
   });
 
-  return orderedVersionsMetadata.find(
+  return sortedVersions.find(
     (version) =>
       !!matchPath(pathname, {
         path: version.path,
