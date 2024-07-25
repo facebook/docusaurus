@@ -13,7 +13,12 @@ import {
 } from '@docusaurus/utils';
 import {paginateBlogPosts, shouldBeListed} from './blogUtils';
 
-import {toAuthorProp, toBlogSidebarProp, toTagProp, toTagsProp} from './props';
+import {
+  toAuthorItemProp,
+  toBlogSidebarProp,
+  toTagProp,
+  toTagsProp,
+} from './props';
 import {groupBlogPostsByAuthorKey} from './authors';
 import type {
   PluginContentLoadedActions,
@@ -291,7 +296,7 @@ export async function buildAllRoutes({
         },
         props: {
           authors: authorEntries.map(([authorKey, author]) =>
-            toAuthorProp({
+            toAuthorItemProp({
               author,
               count: blogPostsByAuthorKey[authorKey]?.length ?? 0,
             }),
@@ -346,9 +351,9 @@ export async function buildAllRoutes({
             sidebar: sidebarModulePath,
           },
           props: {
-            author: toAuthorProp({author, count: authorBlogPosts.length}),
+            author: toAuthorItemProp({author, count: authorBlogPosts.length}),
             listMetadata: metadata,
-            authorsPageLink,
+            authorsPageLink, // TODO move to blogMetadata
           },
         };
       });

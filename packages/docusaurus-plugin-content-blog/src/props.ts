@@ -42,7 +42,7 @@ export function toTagProp({
   };
 }
 
-export function toAuthorProp({
+export function toAuthorItemProp({
   author,
   count,
 }: {
