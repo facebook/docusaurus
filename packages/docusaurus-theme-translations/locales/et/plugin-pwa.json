@@ -1,5 +1,5 @@
 {
-  "theme.PwaReloadPopup.closeButtonAriaLabel": "Close",
-  "theme.PwaReloadPopup.info": "New version available",
-  "theme.PwaReloadPopup.refreshButtonText": "Refresh"
+  "theme.PwaReloadPopup.closeButtonAriaLabel": "Sulge",
+  "theme.PwaReloadPopup.info": "Uus versioon on saadaval",
+  "theme.PwaReloadPopup.refreshButtonText": "Värskenda"
 }
