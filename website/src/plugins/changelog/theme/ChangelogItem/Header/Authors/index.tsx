@@ -7,7 +7,7 @@
 
 import React, {useState} from 'react';
 import clsx from 'clsx';
-import {useBlogPost} from '@docusaurus/theme-common/internal';
+import {useBlogPost} from '@docusaurus/plugin-content-blog/client';
 import ChangelogItemHeaderAuthor from '@theme/ChangelogItem/Header/Author';
 import IconExpand from '@theme/Icon/Expand';
 import type {Props} from '@theme/BlogPostItem/Header/Authors';

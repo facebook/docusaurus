@@ -18,7 +18,7 @@ import type {
   GlobalVersion,
   ActivePlugin,
   GlobalDoc,
-} from '@docusaurus/plugin-content-docs/client';
+} from '../index';
 import type {VersionMetadata} from '@docusaurus/plugin-content-docs';
 
 function createVersion(

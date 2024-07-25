@@ -9,9 +9,9 @@ import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {
-  findFirstSidebarItemLink,
   useDocById,
-} from '@docusaurus/theme-common/internal';
+  findFirstSidebarItemLink,
+} from '@docusaurus/plugin-content-docs/client';
 import {usePluralForm} from '@docusaurus/theme-common';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import {translate} from '@docusaurus/Translate';

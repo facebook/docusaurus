@@ -69,7 +69,6 @@ export default function pluginGoogleGtag(
               href: 'https://www.googletagmanager.com',
             },
           },
-          // https://developers.google.com/analytics/devguides/collection/gtagjs/#install_the_global_site_tag
           {
             tagName: 'script',
             attributes: {

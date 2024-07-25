@@ -6,7 +6,7 @@
  */
 
 import React, {useMemo, useContext, type ReactNode} from 'react';
-import {ReactContextError} from '../utils/reactUtils';
+import {ReactContextError} from '@docusaurus/theme-common/internal';
 import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
 // Using a Symbol because null is a valid context value (a doc with no sidebar)

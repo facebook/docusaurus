@@ -9,7 +9,8 @@ import {useBaseUrlUtils, type BaseUrlUtils} from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
 import type {Props as BlogListPageStructuredDataProps} from '@theme/BlogListPage/StructuredData';
-import {useBlogPost} from '../contexts/blogPost';
+import {useBlogPost} from './contexts';
+
 import type {
   Blog,
   BlogPosting,

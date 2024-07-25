@@ -8,8 +8,8 @@
 import React, {type ReactNode, useMemo} from 'react';
 import {useLocation} from '@docusaurus/router';
 import Link from '@docusaurus/Link';
-import {isSamePath} from './routesUtils';
-import {groupBy} from './jsUtils';
+import {groupBy} from '@docusaurus/theme-common';
+import {isSamePath} from '@docusaurus/theme-common/internal';
 import type {BlogSidebarItem} from '@docusaurus/plugin-content-blog';
 
 function isVisible(item: BlogSidebarItem, pathname: string): boolean {

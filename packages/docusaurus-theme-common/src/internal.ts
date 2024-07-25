@@ -19,25 +19,6 @@
 export * from './index';
 
 export {
-  DocSidebarItemsExpandedStateProvider,
-  useDocSidebarItemsExpandedState,
-} from './contexts/docSidebarItemsExpandedState';
-export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
-export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
-
-export {DocProvider, useDoc, type DocContextValue} from './contexts/doc';
-export {
-  BlogPostProvider,
-  useBlogPost,
-  type BlogPostContextValue,
-} from './contexts/blogPost';
-
-export {
-  useDocsPreferredVersionByPluginId,
-  DocsPreferredVersionContextProvider,
-} from './contexts/docsPreferredVersion';
-
-export {
   AnnouncementBarProvider,
   useAnnouncementBar,
 } from './contexts/announcementBar';
@@ -59,22 +40,7 @@ export {
   containsLineNumbers,
 } from './utils/codeBlockUtils';
 
-export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
-
-export {
-  isDocsPluginEnabled,
-  useDocById,
-  findSidebarCategory,
-  findFirstSidebarItemLink,
-  isActiveSidebarItem,
-  isVisibleSidebarItem,
-  useVisibleSidebarItems,
-  useSidebarBreadcrumbs,
-  useDocsVersionCandidates,
-  useLayoutDoc,
-  useLayoutDocsSidebar,
-  useDocRootMetadata,
-} from './utils/docsUtils';
+export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
 export {useTitleFormatter} from './utils/generalUtils';
 
@@ -113,11 +79,6 @@ export {
   type TOCHighlightConfig,
 } from './hooks/useTOCHighlight';
 
-export {
-  useVisibleBlogSidebarItems,
-  groupBlogSidebarItemsByYear,
-  BlogSidebarItemList,
-} from './utils/blogUtils';
 export {useDateTimeFormat} from './utils/IntlUtils';
 
 export {useHideableNavbar} from './hooks/useHideableNavbar';

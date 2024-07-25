@@ -12,8 +12,10 @@ import React, {
   useRef,
   type ReactNode,
 } from 'react';
-import {useDocsPreferredVersion} from '@docusaurus/theme-common';
-import {useVersions} from '@docusaurus/plugin-content-docs/client';
+import {
+  useVersions,
+  useDocsPreferredVersion,
+} from '@docusaurus/plugin-content-docs/client';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';

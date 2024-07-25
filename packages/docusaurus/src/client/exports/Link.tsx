@@ -135,7 +135,7 @@ function Link(
 
   useEffect(() => {
     // If IO is not supported. We prefetch by default (only once).
-    if (!IOSupported && isInternal) {
+    if (!IOSupported && isInternal && ExecutionEnvironment.canUseDOM) {
       if (targetLink != null) {
         window.docusaurus.prefetch(targetLink);
       }
@@ -157,7 +157,15 @@ function Link(
   const hasInternalTarget = !props.target || props.target === '_self';
 
   // Should we use a regular <a> tag instead of React-Router Link component?
-  const isRegularHtmlLink = !targetLink || !isInternal || !hasInternalTarget;
+  const isRegularHtmlLink =
+    !targetLink ||
+    !isInternal ||
+    !hasInternalTarget ||
+    // When using the hash router, we can't use the regular <a> link for anchors
+    // We need to use React Router to navigate to /#/pathname/#anchor
+    // And not /#anchor
+    // See also https://github.com/facebook/docusaurus/pull/10311
+    (isAnchorLink && router !== 'hash');
 
   if (!noBrokenLinkCheck && (isAnchorLink || !isRegularHtmlLink)) {
     brokenLinks.collectLink(targetLink!);
@@ -167,6 +175,12 @@ function Link(
     brokenLinks.collectAnchor(props.id);
   }
 
+  // These props are only added in unit tests to assert/capture the type of link
+  const testOnlyProps =
+    process.env.NODE_ENV === 'test'
+      ? {'data-test-link-type': isRegularHtmlLink ? 'regular' : 'react-router'}
+      : {};
+
   return isRegularHtmlLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content, @docusaurus/no-html-links
     <a
@@ -175,6 +189,7 @@ function Link(
       {...(targetLinkUnprefixed &&
         !isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
       {...props}
+      {...testOnlyProps}
     />
   ) : (
     <LinkComponent
@@ -186,6 +201,7 @@ function Link(
       // Avoid "React does not recognize the `activeClassName` prop on a DOM
       // element"
       {...(isNavLink && {isActive, activeClassName})}
+      {...testOnlyProps}
     />
   );
 }
