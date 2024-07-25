@@ -20,6 +20,7 @@ import type {
   Author,
   BlogPost,
   BlogFeedItem,
+  FeedOptions,
 } from '@docusaurus/plugin-content-blog';
 
 async function generateBlogFeed({
@@ -187,9 +188,7 @@ async function addXmlStyleSheet({
 
   const {contentPath} = contentPaths;
   const fileName = path.parse(xslPath).name;
-  console.log(xslPath);
   const isDefault = xslPath === 'rss.xslt' || xslPath === 'atom.xslt';
-  console.log('isDefault:', isDefault);
   const directoryPath = isDefault
     ? path.join(__dirname, '../assets/')
     : contentPath;
@@ -220,17 +219,13 @@ async function createBlogFeedFile({
   feed,
   feedType,
   generatePath,
-  xslt,
-  atomXslt,
-  rssXslt,
+  feedOptions: {atomXslt, rssXslt, xslt},
   contentPaths,
 }: {
   feed: Feed;
   feedType: FeedType;
   generatePath: string;
-  xslt: boolean;
-  atomXslt: string;
-  rssXslt: string;
+  feedOptions: FeedOptions;
   contentPaths: BlogContentPaths;
 }) {
   let feedDetails = (() => {
@@ -307,9 +302,7 @@ export async function createBlogFeedFiles({
         feed,
         feedType,
         generatePath: path.join(outDir, options.routeBasePath),
-        xslt: options.feedOptions.xslt,
-        atomXslt: options.feedOptions.atomXslt,
-        rssXslt: options.feedOptions.rssXslt,
+        feedOptions: options.feedOptions,
         contentPaths,
       }),
     ),
