@@ -147,7 +147,8 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
 }
 
 /**
- * Blog posts grouped by author page permalink (if page exists)
+ * Group blog posts by author key
+ * Blog posts with only inline authors are ignored
  */
 export function groupBlogPostsByAuthorKey({
   blogPosts,
