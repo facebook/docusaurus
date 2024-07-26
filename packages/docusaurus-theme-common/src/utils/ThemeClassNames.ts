@@ -19,7 +19,7 @@ export const ThemeClassNames = {
     blogTagsListPage: 'blog-tags-list-page',
     blogTagPostListPage: 'blog-tags-post-list-page',
     blogAuthorsListPage: 'blog-authors-list-page',
-    blogAuthorPostListPage: 'blog-authors-post-list-page',
+    blogAuthorsPostsPage: 'blog-authors-posts-page',
 
     docsDocPage: 'docs-doc-page',
     docsTagsListPage: 'docs-tags-list-page',
