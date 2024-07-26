@@ -10,7 +10,7 @@ on:
       - yarn.lock
       - jest.config.mjs
       - packages/**
-      - tsconfig.json
+      - tsconfig.*.json
   pull_request:
     branches:
       - main
@@ -20,7 +20,7 @@ on:
       - yarn.lock
       - jest.config.mjs
       - packages/**
-      - tsconfig.json
+      - tsconfig.*.json
       - admin/verdaccio.yaml
       - .github/workflows/tests-e2e.yml
 
@@ -38,12 +38,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['16.14', '16', '18']
+        node: ['18.0', '20', '22.4']
     steps:
       - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -75,11 +75,11 @@ jobs:
         variant: [-s, -st]
     steps:
       - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
-      - name: Use Node.js 16
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Use Node.js LTS
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '16'
+          node-version: lts/*
           cache: yarn
       - name: Installation
         run: yarn
@@ -102,23 +102,31 @@ jobs:
         working-directory: ../test-website
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false # Yarn berry should create the lockfile, despite CI env
-      - name: Install missing dependencies
-        if: matrix.variant == '-st' && matrix.nodeLinker == 'pnp'
-        run: |
-          # These dependencies are referenced in the init project, not by our packages
-          yarn add @docusaurus/theme-classic @docusaurus/types @types/node
-          yarn config set packageExtensions --json '{ "unified@^9.2.2": { "dependencies": { "@types/unist": "^2.0.6" } } }'
-        working-directory: ../test-website
       - name: Start test-website project
         run: yarn start --no-open
         working-directory: ../test-website
         env:
           E2E_TEST: true
-      - name: Type check
+      - name: TypeCheck website
         # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
         if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
-        run: yarn typecheck
         working-directory: ../test-website
+        run: yarn typecheck
+      - name: TypeCheck website - min version - v5.1
+        # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
+        if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
+        working-directory: ../test-website
+        run: |
+          yarn add typescript@5.1.6 --exact
+          yarn typecheck
+      - name: TypeCheck website - max version - Latest
+        # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
+        if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
+        working-directory: ../test-website
+        run: |
+          yarn add typescript@latest --exact
+          yarn typecheck
+
       - name: Build test-website project
         run: yarn build
         working-directory: ../test-website
@@ -129,11 +137,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
-      - name: Use Node.js 16
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Use Node.js LTS
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '16'
+          node-version: lts/*
           cache: yarn
       - name: Installation
         run: yarn
@@ -159,11 +167,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
-      - name: Use Node.js 16
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Use Node.js LTS
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '16'
+          node-version: lts/*
           cache: yarn
       - name: Installation
         run: yarn

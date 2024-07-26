@@ -1,0 +1,53 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.headingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headingText {
+  display: flex;
+  align-items: baseline;
+}
+
+.headingText > h2 {
+  margin-bottom: 0;
+}
+
+.headingText > span {
+  margin-left: 8px;
+}
+
+.headingButtons {
+  display: flex;
+  align-items: center;
+}
+
+.headingButtons > * {
+  margin-left: 8px;
+}
+
+.tagList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.tagListItem {
+  user-select: none;
+  white-space: nowrap;
+  height: 32px;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.tagListItem:last-child {
+  margin-right: 0;
+}

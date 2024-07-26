@@ -383,3 +383,124 @@ y = times2(x);
 	% highlight-end
 \end{document}
 ```
+
+```vba title="vba.vb"
+Function Factorial(ByVal n As Long) As Long
+    If n < 0 Then
+        Err.Raise 5 ' Invalid argument
+    End If
+    'highlight-next-line
+    Factorial = 1 ' return value
+    Dim i As Long
+    ' highlight-start
+    For i = 2 To n
+        Factorial = Factorial * i
+    Next
+    ' highlight-end
+End Function
+```
+
+```vbnet title="vbnet.vb"
+' highlight-next-line
+Dim languages As New HashSet(Of String) From {
+    "C#",
+    "Visual Basic",
+    _ ' highlight-start
+    "F#",
+    "PowerShell",
+    "TypeScript"
+    _' highlight-end
+}
+```
+
+```batch title="cmd.bat"
+rem highlight-start
+@echo off
+setlocal
+Rem highlight-end
+ipconfig
+REM highlight-next-line
+echo Docusaurus is awesome
+netstat
+```
+
+```fortran title="fortran.f90"
+! highlight-start
+program hello
+! highlight-end
+  implicit none
+  ! highlight-next-line
+  print *, "Hello, World!"
+end program hello
+```
+
+```cobol title="cobol.cob"
+*> highlight-start
+IDENTIFICATION DIVISION.
+PROGRAM-ID. HELLO.
+*> highlight-end
+PROCEDURE DIVISION.
+  *> highlight-next-line
+  DISPLAY "Hello, World!".
+END PROGRAM HELLO.
+```
+
+```fsharp title="fsharp.fsx"
+(* highlight-start *)
+[<EntryPoint>]
+(* highlight-end *)
+let main _ =
+    // highlight-next-line
+    printfn "Hello, World!"
+    0
+```
+
+## HTML - script + style highlighting
+
+See https://github.com/facebook/docusaurus/issues/9517
+
+```html
+<html lang="en">
+  <head>
+    <script>
+      const name = 'Formidable';
+      console.log(name);
+    </script>
+    <style>
+      .some-class {
+        border: solid red thick;
+      }
+    </style>
+  </head>
+</html>
+```
+
+## Empty code blocks edge cases
+
+Empty inline code block: ``
+
+Single space inline code block: ` `
+
+Empty code block
+
+{/* prettier-ignore */}
+```
+```
+
+Empty 1 line code block
+
+```
+
+```
+
+Empty 2 line code block
+
+```
+
+```
+
+Empty live code block
+
+```js live
+
+```

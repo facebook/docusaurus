@@ -7,9 +7,14 @@
 
 export {
   ReportingSeverity,
+  RouterType,
   ThemeConfig,
   MarkdownConfig,
+  DefaultParseFrontMatter,
+  ParseFrontMatter,
   DocusaurusConfig,
+  FutureConfig,
+  StorageConfig,
   Config,
 } from './config';
 
@@ -18,6 +23,7 @@ export {
   DocusaurusContext,
   GlobalData,
   LoadContext,
+  SiteStorage,
   Props,
 } from './context';
 
@@ -43,6 +49,7 @@ export {
 
 export {
   Plugin,
+  PluginIdentifier,
   InitializedPlugin,
   LoadedPlugin,
   PluginModule,
@@ -52,6 +59,7 @@ export {
   PluginVersionInformation,
   Preset,
   PresetConfig,
+  PresetConfigDefined,
   PresetModule,
   OptionValidationContext,
   ThemeConfigValidationContext,
@@ -66,6 +74,8 @@ export {
 
 export {
   RouteConfig,
+  PluginRouteConfig,
+  RouteMetadata,
   RouteContext,
   PluginRouteContext,
   Registry,

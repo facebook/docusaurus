@@ -15,6 +15,7 @@ import {
   aliasedSitePath,
   toMessageRelativeFilePath,
   addTrailingPathSeparator,
+  aliasedSitePathToRelativePath,
 } from '../pathUtils';
 
 describe('isNameTooLong', () => {
@@ -182,6 +183,20 @@ describe('aliasedSitePath', () => {
         asserts[file],
       );
     });
+  });
+});
+
+describe('aliasedSitePathToRelativePath', () => {
+  it('works', () => {
+    expect(aliasedSitePathToRelativePath('@site/site/relative/path')).toBe(
+      'site/relative/path',
+    );
+  });
+
+  it('is fail-fast', () => {
+    expect(() => aliasedSitePathToRelativePath('/site/relative/path')).toThrow(
+      /Unexpected, filePath is not site-aliased: \/site\/relative\/path/,
+    );
   });
 });
 

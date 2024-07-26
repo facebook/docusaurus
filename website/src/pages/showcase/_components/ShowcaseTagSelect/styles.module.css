@@ -28,11 +28,15 @@ input:focus-visible + .checkboxLabel {
 
 input:checked + .checkboxLabel {
   opacity: 0.9;
-  background-color: var(--site-color-checkbox-checked-bg);
+  background-color: hsl(167deg 56% 73% / 25%);
   border: 2px solid var(--ifm-color-primary-darkest);
 }
 
 input:checked + .checkboxLabel:hover {
   opacity: 0.75;
   box-shadow: 0 0 2px 1px var(--ifm-color-primary-dark);
+}
+
+html[data-theme='dark'] input:checked + .checkboxLabel {
+  background-color: hsl(167deg 56% 73% / 10%);
 }

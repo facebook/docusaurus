@@ -15,7 +15,7 @@ import {
   readCodeTranslationFileContent,
   type WriteTranslationsOptions,
   localizePluginTranslationFile,
-  getPluginsDefaultCodeTranslationMessages,
+  loadPluginsDefaultCodeTranslationMessages,
   applyDefaultCodeTranslations,
 } from '../translations';
 import type {
@@ -537,7 +537,7 @@ describe('readCodeTranslationFileContent', () => {
   });
 });
 
-describe('getPluginsDefaultCodeTranslationMessages', () => {
+describe('loadPluginsDefaultCodeTranslationMessages', () => {
   function createTestPlugin(
     fn: InitializedPlugin['getDefaultCodeTranslationMessages'],
   ): InitializedPlugin {
@@ -547,14 +547,14 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
   it('works for empty plugins', async () => {
     const plugins: InitializedPlugin[] = [];
     await expect(
-      getPluginsDefaultCodeTranslationMessages(plugins),
+      loadPluginsDefaultCodeTranslationMessages(plugins),
     ).resolves.toEqual({});
   });
 
   it('works for 1 plugin without lifecycle', async () => {
     const plugins: InitializedPlugin[] = [createTestPlugin(undefined)];
     await expect(
-      getPluginsDefaultCodeTranslationMessages(plugins),
+      loadPluginsDefaultCodeTranslationMessages(plugins),
     ).resolves.toEqual({});
   });
 
@@ -566,7 +566,7 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
       })),
     ];
     await expect(
-      getPluginsDefaultCodeTranslationMessages(plugins),
+      loadPluginsDefaultCodeTranslationMessages(plugins),
     ).resolves.toEqual({
       a: '1',
       b: '2',
@@ -585,7 +585,7 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
       })),
     ];
     await expect(
-      getPluginsDefaultCodeTranslationMessages(plugins),
+      loadPluginsDefaultCodeTranslationMessages(plugins),
     ).resolves.toEqual({
       a: '1',
       b: '2',
@@ -613,7 +613,7 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
       createTestPlugin(undefined),
     ];
     await expect(
-      getPluginsDefaultCodeTranslationMessages(plugins),
+      loadPluginsDefaultCodeTranslationMessages(plugins),
     ).resolves.toEqual({
       // merge, last plugin wins
       b: '2',

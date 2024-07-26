@@ -12,7 +12,7 @@ import {
   normalizePluginOptions,
   normalizeThemeConfig,
 } from '@docusaurus/utils-validation';
-import {getPluginVersion} from '../siteMetadata';
+import {loadPluginVersion} from '../siteMetadata';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
 import {loadPluginConfigs, type NormalizedPluginConfig} from './configs';
 import type {
@@ -49,26 +49,41 @@ function getThemeValidationFunction(
   return normalizedPluginConfig.plugin.validateThemeConfig;
 }
 
+type PluginConfigInitResult = {
+  config: NormalizedPluginConfig;
+  // Plugins might self-disable during initialization by returning null
+  plugin: InitializedPlugin | null;
+};
+
+// This filters self-disabling plugins and returns only the initialized ones
+function onlyInitializedPlugins(
+  initPluginsConfigsResults: PluginConfigInitResult[],
+): InitializedPlugin[] {
+  return initPluginsConfigsResults
+    .map((results) => results.plugin)
+    .filter((p) => p !== null);
+}
+
 /**
  * Runs the plugin constructors and returns their return values. It would load
  * plugin configs from `plugins`, `themes`, and `presets`.
  */
-export async function initPlugins(
+export async function initPluginsConfigs(
   context: LoadContext,
-): Promise<InitializedPlugin[]> {
+  pluginConfigs: NormalizedPluginConfig[],
+): Promise<PluginConfigInitResult[]> {
   // We need to resolve plugins from the perspective of the site config, as if
   // we are using `require.resolve` on those module names.
   const pluginRequire = createRequire(context.siteConfigPath);
-  const pluginConfigs = await loadPluginConfigs(context);
 
-  async function doGetPluginVersion(
+  async function doLoadPluginVersion(
     normalizedPluginConfig: NormalizedPluginConfig,
   ): Promise<PluginVersionInformation> {
     if (normalizedPluginConfig.pluginModule?.path) {
       const pluginPath = pluginRequire.resolve(
         normalizedPluginConfig.pluginModule.path,
       );
-      return getPluginVersion(pluginPath, context.siteDir);
+      return loadPluginVersion(pluginPath, context.siteDir);
     }
     return {type: 'local'};
   }
@@ -108,13 +123,15 @@ export async function initPlugins(
 
   async function initializePlugin(
     normalizedPluginConfig: NormalizedPluginConfig,
-  ): Promise<InitializedPlugin> {
-    const pluginVersion: PluginVersionInformation = await doGetPluginVersion(
+  ): Promise<PluginConfigInitResult> {
+    const pluginVersion: PluginVersionInformation = await doLoadPluginVersion(
       normalizedPluginConfig,
     );
     const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
 
     // Side-effect: merge the normalized theme config in the original one
+    // Note: it's important to do this before calling the plugin constructor
+    // Example: the theme classic plugin will read siteConfig.themeConfig
     context.siteConfig.themeConfig = {
       ...context.siteConfig.themeConfig,
       ...doValidateThemeConfig(normalizedPluginConfig),
@@ -125,19 +142,61 @@ export async function initPlugins(
       pluginOptions,
     );
 
-    return {
+    // Returning null has been explicitly allowed
+    // It's a way for plugins to self-disable depending on context
+    // See https://github.com/facebook/docusaurus/pull/10286
+    if (pluginInstance === null) {
+      return {config: normalizedPluginConfig, plugin: null};
+    }
+    if (pluginInstance === undefined) {
+      throw new Error(
+        `A Docusaurus plugin returned 'undefined', which is forbidden.
+A plugin is expected to return an object having at least a 'name' property.
+If you want a plugin to self-disable depending on context/options, you can explicitly return 'null' instead of 'undefined'`,
+      );
+    }
+
+    if (!pluginInstance?.name) {
+      throw new Error(
+        `A Docusaurus plugin is missing a 'name' property.
+Note that even inline/anonymous plugin functions require a 'name' property.`,
+      );
+    }
+
+    const plugin: InitializedPlugin = {
       ...pluginInstance,
       options: pluginOptions,
       version: pluginVersion,
       path: path.dirname(normalizedPluginConfig.entryPath),
     };
+
+    return {
+      config: normalizedPluginConfig,
+      plugin,
+    };
   }
 
-  const plugins: InitializedPlugin[] = await Promise.all(
-    pluginConfigs.map(initializePlugin),
-  );
+  const plugins: PluginConfigInitResult[] = (
+    await Promise.all(pluginConfigs.map(initializePlugin))
+  ).filter((p) => p !== null);
 
-  ensureUniquePluginInstanceIds(plugins);
+  ensureUniquePluginInstanceIds(onlyInitializedPlugins(plugins));
 
   return plugins;
+}
+
+/**
+ * Runs the plugin constructors and returns their return values
+ * for all the site context plugins that do not return null to self-disable.
+ */
+export async function initPlugins(
+  context: LoadContext,
+): Promise<InitializedPlugin[]> {
+  const pluginConfigs = await loadPluginConfigs(context);
+  const initPluginsConfigsResults = await initPluginsConfigs(
+    context,
+    pluginConfigs,
+  );
+
+  return onlyInitializedPlugins(initPluginsConfigsResults);
 }

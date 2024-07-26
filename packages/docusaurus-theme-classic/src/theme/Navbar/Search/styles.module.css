@@ -5,15 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*
+Workaround to avoid rendering empty search container
+See https://github.com/facebook/docusaurus/pull/9385
+*/
+.navbarSearchContainer:empty {
+  display: none;
+}
+
 @media (max-width: 996px) {
-  .searchBox {
+  .navbarSearchContainer {
     position: absolute;
     right: var(--ifm-navbar-padding-horizontal);
   }
 }
 
 @media (min-width: 997px) {
-  .searchBox {
+  .navbarSearchContainer {
     padding: var(--ifm-navbar-item-padding-vertical)
       var(--ifm-navbar-item-padding-horizontal);
   }

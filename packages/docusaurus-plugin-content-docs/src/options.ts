@@ -10,6 +10,7 @@ import {
   Joi,
   RemarkPluginsSchema,
   RehypePluginsSchema,
+  RecmaPluginsSchema,
   AdmonitionsSchema,
   RouteBasePathSchema,
   URISchema,
@@ -40,6 +41,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   docCategoryGeneratedIndexComponent: '@theme/DocCategoryGeneratedIndexPage',
   remarkPlugins: [],
   rehypePlugins: [],
+  recmaPlugins: [],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
   showLastUpdateTime: false,
@@ -54,6 +56,8 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   sidebarCollapsible: true,
   sidebarCollapsed: true,
   breadcrumbs: true,
+  onInlineTags: 'warn',
+  tags: undefined,
 };
 
 const VersionOptionsSchema = Joi.object({
@@ -121,6 +125,7 @@ const OptionsSchema = Joi.object<PluginOptions>({
   ),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
+  recmaPlugins: RecmaPluginsSchema.default(DEFAULT_OPTIONS.recmaPlugins),
   beforeDefaultRemarkPlugins: RemarkPluginsSchema.default(
     DEFAULT_OPTIONS.beforeDefaultRemarkPlugins,
   ),
@@ -140,6 +145,13 @@ const OptionsSchema = Joi.object<PluginOptions>({
   lastVersion: Joi.string().optional(),
   versions: VersionsOptionsSchema,
   breadcrumbs: Joi.bool().default(DEFAULT_OPTIONS.breadcrumbs),
+  onInlineTags: Joi.string()
+    .equal('ignore', 'log', 'warn', 'throw')
+    .default(DEFAULT_OPTIONS.onInlineTags),
+  tags: Joi.string()
+    .disallow('')
+    .allow(null, false)
+    .default(() => DEFAULT_OPTIONS.tags),
 });
 
 export function validateOptions({

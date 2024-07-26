@@ -7,7 +7,6 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import logger from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import type {
   LoadedPlugin,
@@ -15,7 +14,7 @@ import type {
   SiteMetadata,
 } from '@docusaurus/types';
 
-async function getPackageJsonVersion(
+async function loadPackageJsonVersion(
   packageJsonPath: string,
 ): Promise<string | undefined> {
   if (await fs.pathExists(packageJsonPath)) {
@@ -25,14 +24,20 @@ async function getPackageJsonVersion(
   return undefined;
 }
 
-async function getPackageJsonName(
+async function loadPackageJsonName(
   packageJsonPath: string,
 ): Promise<string | undefined> {
   // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
   return (require(packageJsonPath) as {name?: string}).name;
 }
 
-export async function getPluginVersion(
+export async function loadSiteVersion(
+  siteDir: string,
+): Promise<string | undefined> {
+  return loadPackageJsonVersion(path.join(siteDir, 'package.json'));
+}
+
+export async function loadPluginVersion(
   pluginPath: string,
   siteDir: string,
 ): Promise<PluginVersionInformation> {
@@ -53,8 +58,8 @@ export async function getPluginVersion(
       }
       return {
         type: 'package',
-        name: await getPackageJsonName(packageJsonPath),
-        version: await getPackageJsonVersion(packageJsonPath),
+        name: await loadPackageJsonName(packageJsonPath),
+        version: await loadPackageJsonVersion(packageJsonPath),
       };
     }
     potentialPluginPackageJsonDirectory = path.dirname(
@@ -82,27 +87,24 @@ function checkDocusaurusPackagesVersion(siteMetadata: SiteMetadata) {
         versionInfo.version &&
         versionInfo.version !== docusaurusVersion
       ) {
-        // Should we throw instead? It still could work with different versions
-        logger.error`Invalid name=${plugin} version number=${versionInfo.version}.
+        throw new Error(`Invalid name=${plugin} version number=${versionInfo.version}.
 All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${docusaurusVersion}).
-Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`;
+Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`);
       }
     },
   );
 }
 
-export async function loadSiteMetadata({
+export function createSiteMetadata({
+  siteVersion,
   plugins,
-  siteDir,
 }: {
+  siteVersion: string | undefined;
   plugins: LoadedPlugin[];
-  siteDir: string;
-}): Promise<SiteMetadata> {
+}): SiteMetadata {
   const siteMetadata: SiteMetadata = {
     docusaurusVersion: DOCUSAURUS_VERSION,
-    siteVersion: await getPackageJsonVersion(
-      path.join(siteDir, 'package.json'),
-    ),
+    siteVersion,
     pluginVersions: Object.fromEntries(
       plugins
         .filter(({version: {type}}) => type !== 'synthetic')

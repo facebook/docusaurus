@@ -121,7 +121,7 @@ The next version passes all our automated tests and is used by the Docusaurus si
 
 :::
 
-:::caution
+:::warning
 
 Breaking changes can happen on the next version: detailed upgrade instructions are available in the changelog and pull requests.
 
@@ -155,6 +155,12 @@ We will outline what accounts as the public API surface.
 - Core plugins route component props
 - `@docusaurus/types` TypeScript types
   - We still retain the freedom to make types stricter (which may break type-checking).
+
+❌ Our public API **excludes**:
+
+- Docusaurus config `future`
+- All features prefixed by `experimental_` or `unstable_`
+- All features prefixed by `v<MajorVersion>_` (`v6_` `v7_`, etc.)
 
 :::tip
 

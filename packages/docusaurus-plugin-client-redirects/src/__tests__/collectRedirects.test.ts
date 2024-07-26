@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {removeTrailingSlash} from '@docusaurus/utils';
+import {removeTrailingSlash} from '@docusaurus/utils-common';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import collectRedirects from '../collectRedirects';
 import {validateOptions} from '../options';

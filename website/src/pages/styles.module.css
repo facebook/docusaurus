@@ -6,7 +6,7 @@
  */
 
 .section {
-  padding: 72px 0;
+  padding: 40px 0;
 }
 
 .sectionAlt {
@@ -51,7 +51,7 @@
 
 .topBanner {
   font-size: 20px;
-  padding: 20px;
+  padding: 30px 20px;
   max-width: 900px;
   margin: 0 auto;
   text-align: center;
@@ -68,22 +68,33 @@
 
 @media only screen and (max-width: 768px) {
   .topBannerTitle {
-    font-size: 34px;
+    font-size: 40px;
   }
 }
 
 .topBannerTitleText {
-  background: linear-gradient(45deg, #399cff, #00c775 80%);
+  background: linear-gradient(
+    90deg,
+    rgb(131 58 180 / 100%) 0%,
+    rgb(253 29 29 / 100%) 50%,
+    rgb(252 176 69 / 100%) 100%
+  );
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .topBannerTitleText:hover {
   border-bottom: solid 2px;
+  border-color: rgb(152 0 255);
 }
 
 html[data-theme='dark'] .topBannerTitleText {
-  background: linear-gradient(45deg, #399cff, #00ff95 80%);
+  background: linear-gradient(
+    90deg,
+    rgb(152 0 255) 0%,
+    rgb(246 41 41) 50%,
+    rgb(255 169 8) 100%
+  );
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }

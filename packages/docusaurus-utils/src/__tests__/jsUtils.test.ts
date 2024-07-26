@@ -7,34 +7,7 @@
 
 import {jest} from '@jest/globals';
 import _ from 'lodash';
-import {
-  removeSuffix,
-  removePrefix,
-  mapAsyncSequential,
-  findAsyncSequential,
-} from '../jsUtils';
-
-describe('removeSuffix', () => {
-  it("is no-op when suffix doesn't exist", () => {
-    expect(removeSuffix('abcdef', 'ijk')).toBe('abcdef');
-    expect(removeSuffix('abcdef', 'abc')).toBe('abcdef');
-    expect(removeSuffix('abcdef', '')).toBe('abcdef');
-  });
-  it('removes suffix', () => {
-    expect(removeSuffix('abcdef', 'ef')).toBe('abcd');
-  });
-});
-
-describe('removePrefix', () => {
-  it("is no-op when prefix doesn't exist", () => {
-    expect(removePrefix('abcdef', 'ijk')).toBe('abcdef');
-    expect(removePrefix('abcdef', 'def')).toBe('abcdef');
-    expect(removePrefix('abcdef', '')).toBe('abcdef');
-  });
-  it('removes prefix', () => {
-    expect(removePrefix('prefix', 'pre')).toBe('fix');
-  });
-});
+import {mapAsyncSequential, findAsyncSequential} from '../jsUtils';
 
 describe('mapAsyncSequential', () => {
   function sleep(timeout: number): Promise<void> {

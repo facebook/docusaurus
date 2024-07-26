@@ -10,11 +10,13 @@ import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
 import type {Props} from '@theme/Heading';
 
 import styles from './styles.module.css';
 
 export default function Heading({as: As, id, ...props}: Props): JSX.Element {
+  const brokenLinks = useBrokenLinks();
   const {
     navbar: {hideOnScroll},
   } = useThemeConfig();
@@ -22,6 +24,8 @@ export default function Heading({as: As, id, ...props}: Props): JSX.Element {
   if (As === 'h1' || !id) {
     return <As {...props} id={undefined} />;
   }
+
+  brokenLinks.collectAnchor(id);
 
   const anchorTitle = translate(
     {

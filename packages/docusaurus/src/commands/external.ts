@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import {loadContext} from '../server';
+import {loadContext} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 import type {CommanderStatic} from 'commander';
 

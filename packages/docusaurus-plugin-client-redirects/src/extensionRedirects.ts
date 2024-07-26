@@ -9,7 +9,7 @@ import {
   addTrailingSlash,
   removeSuffix,
   removeTrailingSlash,
-} from '@docusaurus/utils';
+} from '@docusaurus/utils-common';
 import type {RedirectItem} from './types';
 
 const ExtensionAdditionalMessage =

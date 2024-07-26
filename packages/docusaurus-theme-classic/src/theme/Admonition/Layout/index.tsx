@@ -50,7 +50,7 @@ export default function AdmonitionLayout(props: Props): JSX.Element {
   const {type, icon, title, children, className} = props;
   return (
     <AdmonitionContainer type={type} className={className}>
-      <AdmonitionHeading title={title} icon={icon} />
+      {title || icon ? <AdmonitionHeading title={title} icon={icon} /> : null}
       <AdmonitionContent>{children}</AdmonitionContent>
     </AdmonitionContainer>
   );

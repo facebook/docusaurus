@@ -9,15 +9,16 @@ import React from 'react';
 import AdmonitionTypeNote from '@theme/Admonition/Type/Note';
 import AdmonitionTypeTip from '@theme/Admonition/Type/Tip';
 import AdmonitionTypeInfo from '@theme/Admonition/Type/Info';
-import AdmonitionTypeCaution from '@theme/Admonition/Type/Caution';
+import AdmonitionTypeWarning from '@theme/Admonition/Type/Warning';
 import AdmonitionTypeDanger from '@theme/Admonition/Type/Danger';
+import AdmonitionTypeCaution from '@theme/Admonition/Type/Caution';
 import type AdmonitionTypes from '@theme/Admonition/Types';
 
 const admonitionTypes: typeof AdmonitionTypes = {
   note: AdmonitionTypeNote,
   tip: AdmonitionTypeTip,
   info: AdmonitionTypeInfo,
-  caution: AdmonitionTypeCaution,
+  warning: AdmonitionTypeWarning,
   danger: AdmonitionTypeDanger,
 };
 
@@ -28,8 +29,7 @@ const admonitionAliases: typeof AdmonitionTypes = {
   secondary: (props) => <AdmonitionTypeNote title="secondary" {...props} />,
   important: (props) => <AdmonitionTypeInfo title="important" {...props} />,
   success: (props) => <AdmonitionTypeTip title="success" {...props} />,
-  // TODO bad legacy mapping, warning is usually yellow, not red...
-  warning: (props) => <AdmonitionTypeDanger title="warning" {...props} />,
+  caution: AdmonitionTypeCaution,
 };
 
 export default {

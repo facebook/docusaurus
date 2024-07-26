@@ -9,6 +9,7 @@ import {
   Joi,
   RemarkPluginsSchema,
   RehypePluginsSchema,
+  RecmaPluginsSchema,
   AdmonitionsSchema,
   RouteBasePathSchema,
   URISchema,
@@ -36,6 +37,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   truncateMarker: /<!--\s*truncate\s*-->|\{\/\*\s*truncate\s*\*\/\}/,
   rehypePlugins: [],
   remarkPlugins: [],
+  recmaPlugins: [],
   showReadingTime: true,
   blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
   blogTagsListComponent: '@theme/BlogTagsListPage',
@@ -52,11 +54,18 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   routeBasePath: 'blog',
   tagsBasePath: 'tags',
   archiveBasePath: 'archive',
+  pageBasePath: 'page',
   path: 'blog',
   editLocalizedFiles: false,
   authorsMapPath: 'authors.yml',
   readingTime: ({content, defaultReadingTime}) => defaultReadingTime({content}),
   sortPosts: 'descending',
+  showLastUpdateTime: false,
+  showLastUpdateAuthor: false,
+  processBlogPosts: async () => undefined,
+  onInlineTags: 'warn',
+  tags: undefined,
+  onInlineAuthors: 'warn',
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -66,6 +75,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     .allow(null),
   routeBasePath: RouteBasePathSchema.default(DEFAULT_OPTIONS.routeBasePath),
   tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
+  pageBasePath: Joi.string().default(DEFAULT_OPTIONS.pageBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   postsPerPage: Joi.alternatives()
@@ -93,6 +103,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   showReadingTime: Joi.bool().default(DEFAULT_OPTIONS.showReadingTime),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
+  recmaPlugins: RecmaPluginsSchema.default(DEFAULT_OPTIONS.recmaPlugins),
   admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
   editUrl: Joi.alternatives().try(URISchema, Joi.function()),
   editLocalizedFiles: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedFiles),
@@ -142,6 +153,23 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   sortPosts: Joi.string()
     .valid('descending', 'ascending')
     .default(DEFAULT_OPTIONS.sortPosts),
+  showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
+  showLastUpdateAuthor: Joi.bool().default(
+    DEFAULT_OPTIONS.showLastUpdateAuthor,
+  ),
+  processBlogPosts: Joi.function()
+    .optional()
+    .default(() => DEFAULT_OPTIONS.processBlogPosts),
+  onInlineTags: Joi.string()
+    .equal('ignore', 'log', 'warn', 'throw')
+    .default(DEFAULT_OPTIONS.onInlineTags),
+  tags: Joi.string()
+    .disallow('')
+    .allow(null, false)
+    .default(() => DEFAULT_OPTIONS.tags),
+  onInlineAuthors: Joi.string()
+    .equal('ignore', 'log', 'warn', 'throw')
+    .default(DEFAULT_OPTIONS.onInlineAuthors),
 }).default(DEFAULT_OPTIONS);
 
 export function validateOptions({

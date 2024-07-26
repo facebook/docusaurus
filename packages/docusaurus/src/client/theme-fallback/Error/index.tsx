@@ -8,12 +8,13 @@
 // Should we translate theme-fallback?
 /* eslint-disable @docusaurus/no-untranslated-text */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import Head from '@docusaurus/Head';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import {getErrorCausalChain} from '@docusaurus/utils-common';
 import Layout from '@theme/Layout';
 import type {Props} from '@theme/Error';
+import {RouteContextProvider} from '../../routeContext';
 
 function ErrorDisplay({error, tryAgain}: Props): JSX.Element {
   return (
@@ -54,21 +55,38 @@ function ErrorBoundaryError({error}: {error: Error}): JSX.Element {
   return <p style={{whiteSpace: 'pre-wrap'}}>{fullMessage}</p>;
 }
 
+// A bit hacky: we need to add an artificial RouteContextProvider here
+// The goal is to be able to render the error inside the theme layout
+// Without this, our theme classic would crash due to lack of route context
+// See also https://github.com/facebook/docusaurus/pull/9852
+function ErrorRouteContextProvider({children}: {children: ReactNode}) {
+  return (
+    <RouteContextProvider
+      value={{
+        plugin: {name: 'docusaurus-core-error-boundary', id: 'default'},
+      }}>
+      {children}
+    </RouteContextProvider>
+  );
+}
+
 export default function Error({error, tryAgain}: Props): JSX.Element {
   // We wrap the error in its own error boundary because the layout can actually
   // throw too... Only the ErrorDisplay component is simple enough to be
   // considered safe to never throw
   return (
-    <ErrorBoundary
-      // Note: we display the original error here, not the error that we
-      // captured in this extra error boundary
-      fallback={() => <ErrorDisplay error={error} tryAgain={tryAgain} />}>
-      <Head>
-        <title>Page Error</title>
-      </Head>
-      <Layout>
-        <ErrorDisplay error={error} tryAgain={tryAgain} />
-      </Layout>
-    </ErrorBoundary>
+    <ErrorRouteContextProvider>
+      <ErrorBoundary
+        // Note: we display the original error here, not the error that we
+        // captured in this extra error boundary
+        fallback={() => <ErrorDisplay error={error} tryAgain={tryAgain} />}>
+        <Head>
+          <title>Page Error</title>
+        </Head>
+        <Layout>
+          <ErrorDisplay error={error} tryAgain={tryAgain} />
+        </Layout>
+      </ErrorBoundary>
+    </ErrorRouteContextProvider>
   );
 }

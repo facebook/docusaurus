@@ -25,9 +25,7 @@ export default function BlogLayout(props: Props): JSX.Element {
             className={clsx('col', {
               'col--7': hasSidebar,
               'col--9 col--offset-1': !hasSidebar,
-            })}
-            itemScope
-            itemType="https://schema.org/Blog">
+            })}>
             {children}
           </main>
           {toc && <div className="col col--2">{toc}</div>}

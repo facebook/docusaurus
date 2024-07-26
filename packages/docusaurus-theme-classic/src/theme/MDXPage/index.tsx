@@ -18,12 +18,21 @@ import TOC from '@theme/TOC';
 import Unlisted from '@theme/Unlisted';
 import type {Props} from '@theme/MDXPage';
 
+import EditMetaRow from '@theme/EditMetaRow';
 import styles from './styles.module.css';
 
 export default function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
   const {
-    metadata: {title, description, frontMatter, unlisted},
+    metadata: {
+      title,
+      editUrl,
+      description,
+      frontMatter,
+      unlisted,
+      lastUpdatedBy,
+      lastUpdatedAt,
+    },
     assets,
   } = MDXPageContent;
   const {
@@ -32,6 +41,8 @@ export default function MDXPage(props: Props): JSX.Element {
     hide_table_of_contents: hideTableOfContents,
   } = frontMatter;
   const image = assets.image ?? frontMatter.image;
+
+  const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
 
   return (
     <HtmlClassNameProvider
@@ -55,6 +66,17 @@ export default function MDXPage(props: Props): JSX.Element {
                   <MDXPageContent />
                 </MDXContent>
               </article>
+              {canDisplayEditMetaRow && (
+                <EditMetaRow
+                  className={clsx(
+                    'margin-top--sm',
+                    ThemeClassNames.pages.pageFooterEditMetaRow,
+                  )}
+                  editUrl={editUrl}
+                  lastUpdatedAt={lastUpdatedAt}
+                  lastUpdatedBy={lastUpdatedBy}
+                />
+              )}
             </div>
             {!hideTableOfContents && MDXPageContent.toc.length > 0 && (
               <div className="col col--2">

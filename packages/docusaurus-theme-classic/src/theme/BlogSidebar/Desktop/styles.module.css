@@ -43,3 +43,8 @@
     display: none;
   }
 }
+
+.yearGroupHeading {
+  margin-top: 1.6rem;
+  margin-bottom: 0.4rem;
+}

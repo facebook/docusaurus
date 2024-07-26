@@ -22,7 +22,7 @@ To set up your site's blog, start by creating a `blog` directory.
 Then, add an item link to your blog within `docusaurus.config.js`:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   themeConfig: {
     // ...
     navbar: {
@@ -40,22 +40,28 @@ module.exports = {
 
 To publish in the blog, create a Markdown file within the blog directory.
 
-For example, create a file at `website/blog/2019-09-05-hello-docusaurus-v2.md`:
+For example, create a file at `website/blog/2019-09-05-hello-docusaurus.md`:
 
-```md title="website/blog/2019-09-05-hello-docusaurus-v2.md"
+```md title="website/blog/2019-09-05-hello-docusaurus.md"
 ---
-title: Welcome Docusaurus v2
-description: This is my first post on Docusaurus 2.
+title: Welcome Docusaurus
+description: This is my first post on Docusaurus.
 slug: welcome-docusaurus-v2
 authors:
   - name: Joel Marcey
     title: Co-creator of Docusaurus 1
     url: https://github.com/JoelMarcey
     image_url: https://github.com/JoelMarcey.png
+    socials:
+      x: joelmarcey
+      github: JoelMarcey
   - name: Sébastien Lorber
     title: Docusaurus maintainer
     url: https://sebastienlorber.com
     image_url: https://github.com/slorber.png
+    socials:
+      x: sebastienlorber
+      github: slorber
 tags: [hello, docusaurus-v2]
 image: https://i.imgur.com/mErPwqL.png
 hide_table_of_contents: false
@@ -108,7 +114,7 @@ But anything from here on down will not be.
 By default, 10 posts are shown on each blog list page, but you can control pagination with the `postsPerPage` option in the plugin configuration. If you set `postsPerPage: 'ALL'`, pagination will be disabled and all posts will be displayed on the first page. You can also add a meta description to the blog list page for better SEO:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   presets: [
     [
@@ -134,7 +140,7 @@ The blog sidebar displays recent blog posts. The default number of items shown i
 You can also alter the sidebar heading text with the `blogSidebarTitle` option. For example, if you have set `blogSidebarCount: 'ALL'`, instead of the default "Recent posts", you may rather make it say "All posts":
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -214,6 +220,9 @@ authors:
   url: https://github.com/JoelMarcey
   image_url: https://github.com/JoelMarcey.png
   email: jimarcey@gmail.com
+  socials:
+    x: joelmarcey
+    github: JoelMarcey
 ---
 ```
 
@@ -230,10 +239,16 @@ authors:
     url: https://github.com/JoelMarcey
     image_url: https://github.com/JoelMarcey.png
     email: jimarcey@gmail.com
+    socials:
+      x: joelmarcey
+      github: JoelMarcey
   - name: Sébastien Lorber
     title: Docusaurus maintainer
     url: https://sebastienlorber.com
     image_url: https://github.com/slorber.png
+    socials:
+      x: sebastienlorber
+      github: slorber
 ---
 ```
 
@@ -276,12 +291,18 @@ jmarcey:
   url: https://github.com/JoelMarcey
   image_url: https://github.com/JoelMarcey.png
   email: jimarcey@gmail.com
+  socials:
+    x: joelmarcey
+    github: JoelMarcey
 
 slorber:
   name: Sébastien Lorber
   title: Docusaurus maintainer
   url: https://sebastienlorber.com
   image_url: https://github.com/slorber.png
+  socials:
+    x: sebastienlorber
+    github: slorber
 ```
 
 :::tip
@@ -374,18 +395,47 @@ website/i18n/[locale]/docusaurus-plugin-content-blog/authors.yml
 
 An author, either declared through front matter or through the authors map, needs to have a name or an avatar, or both. If all authors of a post don't have names, Docusaurus will display their avatars compactly. See [this test post](/tests/blog/2022/01/20/image-only-authors) for the effect.
 
-:::caution Feed generation
+:::warning Feed generation
 
 [RSS feeds](#feed) require the author's email to be set for the author to appear in the feed.
 
 :::
+
+## Blog post tags {#blog-post-tags}
+
+Tags are declared in the front matter and introduce another dimension of categorization.
+
+It is possible to define tags inline, or to reference predefined tags declared in a [`tags file`](api/plugins/plugin-content-blog.mdx#tags-file) (optional, usually `blog/tags.yml`).
+
+In the following example:
+
+- `docusaurus` references a predefined tag key declared in `blog/tags.yml`
+- `Releases` is an inline tag, because it does not exist in `blog/tags.yml`
+
+```md title="blog/my-post.md"
+---
+title: 'My blog post'
+tags:
+  - Releases
+  - docusaurus
+---
+
+Content
+```
+
+```yml title="blog/tags.yml"
+docusaurus:
+  label: 'Docusaurus'
+  permalink: '/docusaurus'
+  description: 'Blog posts related to the Docusaurus framework'
+```
 
 ## Reading time {#reading-time}
 
 Docusaurus generates a reading time estimation for each blog post based on word count. We provide an option to customize this.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -419,7 +469,7 @@ Use the callback for all your customization needs:
 **Disable reading time on one page:**
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -457,7 +507,7 @@ This page will no longer display the reading time stats!
 **Pass options to the default reading time function:**
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -482,9 +532,9 @@ module.exports = {
 **Use a custom implementation of reading time:**
 
 ```js title="docusaurus.config.js"
-const myReadingTime = require('./myReadingTime');
+import myReadingTime from './myReadingTime';
 
-module.exports = {
+export default {
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -539,7 +589,7 @@ type BlogOptions = {
 Example usage:
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   presets: [
     [
@@ -597,10 +647,10 @@ https://example.com/blog/feed.json
 
 ### Blog-only mode {#blog-only-mode}
 
-You can run your Docusaurus 2 site without a dedicated landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to serve the blog through the root route `example.com/` instead of the subroute `example.com/blog/`.
+You can run your Docusaurus site without a dedicated landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to serve the blog through the root route `example.com/` instead of the subroute `example.com/blog/`.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   presets: [
     [
@@ -619,9 +669,15 @@ module.exports = {
 };
 ```
 
-:::caution
+:::warning
 
 Don't forget to delete the existing homepage at `./src/pages/index.js` or else there will be two files mapping to the same route!
+
+:::
+
+:::warning
+
+If you disable the docs plugin, don't forget to delete references to the docs plugin elsewhere in your configuration file. Notably, make sure to remove the docs-related navbar items.
 
 :::
 
@@ -640,7 +696,7 @@ Set the `routeBasePath` to the URL route that you want your second blog to be ac
 As documented for [multi-instance plugins](./using-plugins.mdx#multi-instance-plugins-and-plugin-ids), you need to assign a unique ID to the plugins.
 
 ```js title="docusaurus.config.js"
-module.exports = {
+export default {
   // ...
   plugins: [
     [

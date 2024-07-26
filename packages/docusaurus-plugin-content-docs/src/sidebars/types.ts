@@ -235,7 +235,6 @@ export type CategoryMetadataFile = {
 export type SidebarItemsGeneratorDoc = Pick<
   DocMetadataBase,
   | 'id'
-  | 'unversionedId'
   | 'title'
   | 'frontMatter'
   | 'source'

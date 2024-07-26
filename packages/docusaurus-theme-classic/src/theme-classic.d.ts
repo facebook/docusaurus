@@ -74,11 +74,20 @@ declare module '@theme/Admonition/Type/Tip' {
   export default function AdmonitionTypeTip(props: Props): JSX.Element;
 }
 
+// TODO remove before v4: Caution replaced by Warning
+// see https://github.com/facebook/docusaurus/issues/7558
 declare module '@theme/Admonition/Type/Caution' {
   import type {Props as AdmonitionProps} from '@theme/Admonition';
 
   export interface Props extends AdmonitionProps {}
   export default function AdmonitionTypeCaution(props: Props): JSX.Element;
+}
+
+declare module '@theme/Admonition/Type/Warning' {
+  import type {Props as AdmonitionProps} from '@theme/Admonition';
+
+  export interface Props extends AdmonitionProps {}
+  export default function AdmonitionTypeWarning(props: Props): JSX.Element;
 }
 
 declare module '@theme/Admonition/Type/Danger' {
@@ -128,12 +137,12 @@ declare module '@theme/Admonition/Icon/Tip' {
   export default function AdmonitionIconTip(props: Props): JSX.Element;
 }
 
-declare module '@theme/Admonition/Icon/Caution' {
+declare module '@theme/Admonition/Icon/Warning' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  export default function AdmonitionIconCaution(props: Props): JSX.Element;
+  export default function AdmonitionIconWarning(props: Props): JSX.Element;
 }
 
 declare module '@theme/Admonition/Icon/Danger' {
@@ -183,6 +192,19 @@ declare module '@theme/BlogListPaginator' {
     readonly metadata: BlogPaginatedMetadata;
   }
   export default function BlogListPaginator(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogSidebar/Content' {
+  import type {ReactNode, ComponentType} from 'react';
+  import type {BlogSidebarItem} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly items: BlogSidebarItem[];
+    readonly ListComponent: ComponentType<{items: BlogSidebarItem[]}>;
+    readonly yearGroupHeadingClassName?: string;
+  }
+
+  export default function BlogSidebarContent(props: Props): ReactNode;
 }
 
 declare module '@theme/BlogSidebar/Desktop' {
@@ -270,14 +292,28 @@ declare module '@theme/BlogPostItem/Header/Info' {
 }
 
 declare module '@theme/BlogPostItem/Header/Author' {
-  import type {PropBlogPostContent} from '@docusaurus/plugin-content-blog';
+  import type {Author} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly author: PropBlogPostContent['metadata']['authors'][number];
+    readonly author: Author;
+    readonly singleAuthor: boolean;
     readonly className?: string;
   }
 
   export default function BlogPostItemHeaderAuthor(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogPostItem/Header/Author/Socials' {
+  import type {Author} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly author: Author;
+    readonly className?: string;
+  }
+
+  export default function BlogPostItemHeaderAuthorSocials(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Header/Authors' {
@@ -354,6 +390,14 @@ declare module '@theme/CodeBlock' {
   export default function CodeBlock(props: Props): JSX.Element;
 }
 
+declare module '@theme/CodeInline' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'code'> {}
+
+  export default function CodeInline(props: Props): JSX.Element;
+}
+
 declare module '@theme/CodeBlock/CopyButton' {
   export interface Props {
     readonly code: string;
@@ -391,23 +435,20 @@ declare module '@theme/CodeBlock/Content/String' {
 }
 
 declare module '@theme/CodeBlock/Line' {
-  import type {ComponentProps} from 'react';
-  import type Highlight from 'prism-react-renderer';
-
-  // Lib does not make this easy
-  type RenderProps = Parameters<
-    ComponentProps<typeof Highlight>['children']
-  >[0];
-  type GetLineProps = RenderProps['getLineProps'];
-  type GetTokenProps = RenderProps['getTokenProps'];
-  type Token = RenderProps['tokens'][number][number];
+  import type {
+    LineInputProps,
+    LineOutputProps,
+    Token,
+    TokenInputProps,
+    TokenOutputProps,
+  } from 'prism-react-renderer';
 
   export interface Props {
     readonly line: Token[];
     readonly classNames: string[] | undefined;
     readonly showLineNumbers: boolean;
-    readonly getLineProps: GetLineProps;
-    readonly getTokenProps: GetTokenProps;
+    readonly getLineProps: (input: LineInputProps) => LineOutputProps;
+    readonly getTokenProps: (input: TokenInputProps) => TokenOutputProps;
   }
 
   export default function CodeBlockLine(props: Props): JSX.Element;
@@ -662,6 +703,16 @@ declare module '@theme/DocVersionSuggestions' {
   export default function DocVersionSuggestions(): JSX.Element;
 }
 
+declare module '@theme/EditMetaRow' {
+  export interface Props {
+    readonly className: string;
+    readonly editUrl: string | null | undefined;
+    readonly lastUpdatedAt: number | undefined;
+    readonly lastUpdatedBy: string | undefined;
+  }
+  export default function EditMetaRow(props: Props): JSX.Element;
+}
+
 declare module '@theme/EditThisPage' {
   export interface Props {
     readonly editUrl: string;
@@ -810,7 +861,6 @@ declare module '@theme/SearchMetadata' {
 declare module '@theme/LastUpdated' {
   export interface Props {
     readonly lastUpdatedAt?: number;
-    readonly formattedLastUpdatedAt?: string;
     readonly lastUpdatedBy?: string;
   }
 
@@ -851,6 +901,14 @@ declare module '@theme/MDXComponents/Ul' {
   export interface Props extends ComponentProps<'ul'> {}
 
   export default function MDXUl(props: Props): JSX.Element;
+}
+
+declare module '@theme/MDXComponents/Li' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'li'> {}
+
+  export default function MDXLi(props: Props): JSX.Element;
 }
 
 declare module '@theme/MDXComponents/Img' {
@@ -1468,6 +1526,54 @@ declare module '@theme/Icon/WordWrap' {
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconWordWrap(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/Twitter' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Twitter(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/GitHub' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Github(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/X' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function X(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/LinkedIn' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function LinkedIn(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/Default' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function DefaultSocialIcon(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Socials/StackOverflow' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function StackOverflow(props: Props): JSX.Element;
 }
 
 declare module '@theme/TagsListByLetter' {

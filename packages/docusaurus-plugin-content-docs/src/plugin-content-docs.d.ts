@@ -15,21 +15,16 @@ declare module '@docusaurus/plugin-content-docs' {
     FrontMatterTag,
     TagsListItem,
     TagModule,
-    Tag,
+    FrontMatterLastUpdate,
+    LastUpdateData,
+    TagMetadata,
+    TagsPluginOptions,
   } from '@docusaurus/utils';
   import type {Plugin, LoadContext} from '@docusaurus/types';
   import type {Overwrite, Required} from 'utility-types';
 
   export type Assets = {
     image?: string;
-  };
-
-  export type FileChange = {
-    author?: string;
-    /** Date can be any
-     * [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).
-     */
-    date?: Date | string;
   };
 
   /**
@@ -70,7 +65,7 @@ declare module '@docusaurus/plugin-content-docs' {
     locale: string;
   }) => string | undefined;
 
-  export type MetadataOptions = {
+  export type MetadataOptions = TagsPluginOptions & {
     /**
      * URL route for the docs section of your site. **DO NOT** include a
      * trailing slash. Use `/` for shipping docs without base path.
@@ -93,9 +88,9 @@ declare module '@docusaurus/plugin-content-docs' {
      */
     editLocalizedFiles: boolean;
     /**	Whether to display the last date the doc was updated. */
-    showLastUpdateTime?: boolean;
+    showLastUpdateTime: boolean;
     /** Whether to display the author who last updated the doc. */
-    showLastUpdateAuthor?: boolean;
+    showLastUpdateAuthor: boolean;
     /**
      * Custom parsing logic to extract number prefixes from file names. Use
      * `false` to disable this behavior and leave the docs untouched, and `true`
@@ -401,30 +396,15 @@ declare module '@docusaurus/plugin-content-docs' {
     /** Should this doc be accessible but hidden in production builds? */
     unlisted?: boolean;
     /** Allows overriding the last updated author and/or date. */
-    last_update?: FileChange;
-  };
-
-  export type LastUpdateData = {
-    /** A timestamp in **seconds**, directly acquired from `git log`. */
-    lastUpdatedAt?: number;
-    /** `lastUpdatedAt` formatted as a date according to the current locale. */
-    formattedLastUpdatedAt?: string;
-    /** The author's name directly acquired from `git log`. */
-    lastUpdatedBy?: string;
+    last_update?: FrontMatterLastUpdate;
   };
 
   export type DocMetadataBase = LastUpdateData & {
-    // TODO
     /**
-     * Legacy versioned ID. Will be refactored in the future to be unversioned.
+     * The document id.
+     * Multiple documents can have the same id, when in different versions.
      */
     id: string;
-    // TODO
-    /**
-     * Unversioned ID. Should be preferred everywhere over `id` until the latter
-     * is refactored.
-     */
-    unversionedId: string;
     /** The name of the version this doc belongs to. */
     version: string;
     /**
@@ -467,7 +447,7 @@ declare module '@docusaurus/plugin-content-docs' {
      */
     editUrl?: string | null;
     /** Tags, normalized. */
-    tags: Tag[];
+    tags: TagMetadata[];
     /** Front matter, as-is. */
     frontMatter: DocFrontMatter & {[key: string]: unknown};
   };

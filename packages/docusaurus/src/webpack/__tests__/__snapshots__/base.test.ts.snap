@@ -16,6 +16,7 @@ exports[`base webpack config creates webpack aliases 1`] = `
   "@docusaurus/renderRoutes": "../../../../client/exports/renderRoutes.ts",
   "@docusaurus/router": "../../../../client/exports/router.ts",
   "@docusaurus/useBaseUrl": "../../../../client/exports/useBaseUrl.ts",
+  "@docusaurus/useBrokenLinks": "../../../../client/exports/useBrokenLinks.ts",
   "@docusaurus/useDocusaurusContext": "../../../../client/exports/useDocusaurusContext.ts",
   "@docusaurus/useGlobalData": "../../../../client/exports/useGlobalData.ts",
   "@docusaurus/useIsBrowser": "../../../../client/exports/useIsBrowser.ts",

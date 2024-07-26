@@ -26,12 +26,38 @@ describe('loadPresets', () => {
     `);
   });
 
-  it('string form', async () => {
+  it('cjs form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
         presets: [
-          path.join(__dirname, '__fixtures__/presets/preset-plugins.js'),
+          path.join(__dirname, '__fixtures__/presets/preset-plugins.cjs.js'),
+        ],
+      },
+    } as LoadContext;
+    const presets = await loadPresets(context);
+    expect(presets).toMatchSnapshot();
+  });
+
+  it('esm form', async () => {
+    const context = {
+      siteConfigPath: __dirname,
+      siteConfig: {
+        presets: [
+          path.join(__dirname, '__fixtures__/presets/preset-plugins.esm.js'),
+        ],
+      },
+    } as LoadContext;
+    const presets = await loadPresets(context);
+    expect(presets).toMatchSnapshot();
+  });
+
+  it('ts form', async () => {
+    const context = {
+      siteConfigPath: __dirname,
+      siteConfig: {
+        presets: [
+          path.join(__dirname, '__fixtures__/presets/preset-plugins.ts'),
         ],
       },
     } as LoadContext;
@@ -44,7 +70,7 @@ describe('loadPresets', () => {
       siteConfigPath: __dirname,
       siteConfig: {
         presets: [
-          path.join(__dirname, '__fixtures__/presets/preset-plugins.js'),
+          path.join(__dirname, '__fixtures__/presets/preset-plugins.cjs.js'),
           path.join(__dirname, '__fixtures__/presets/preset-themes.js'),
         ],
       },
@@ -58,7 +84,7 @@ describe('loadPresets', () => {
       siteConfigPath: __dirname,
       siteConfig: {
         presets: [
-          [path.join(__dirname, '__fixtures__/presets/preset-plugins.js')],
+          [path.join(__dirname, '__fixtures__/presets/preset-plugins.cjs.js')],
         ],
       },
     } as unknown as LoadContext;
@@ -72,7 +98,7 @@ describe('loadPresets', () => {
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/presets/preset-plugins.js'),
+            path.join(__dirname, '__fixtures__/presets/preset-plugins.cjs.js'),
             {docs: {path: '../'}},
           ],
         ],
@@ -88,7 +114,7 @@ describe('loadPresets', () => {
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/presets/preset-plugins.js'),
+            path.join(__dirname, '__fixtures__/presets/preset-plugins.cjs.js'),
             {docs: {path: '../'}},
           ],
           [
@@ -108,7 +134,7 @@ describe('loadPresets', () => {
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/presets/preset-plugins.js'),
+            path.join(__dirname, '__fixtures__/presets/preset-plugins.cjs.js'),
             {docs: {path: '../'}},
           ],
           path.join(__dirname, '__fixtures__/presets/preset-themes.js'),
@@ -125,7 +151,7 @@ describe('loadPresets', () => {
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/presets/preset-plugins.js'),
+            path.join(__dirname, '__fixtures__/presets/preset-plugins.cjs.js'),
             {docs: {path: '../'}},
           ],
           false,

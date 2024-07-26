@@ -19,6 +19,7 @@ describe('toTagDocListProp', () => {
       label: 'tag1',
       permalink: '/tag1',
       docIds: ['id1', 'id3'],
+      unlisted: false,
     };
 
     const doc1 = {
@@ -57,6 +58,7 @@ describe('toTagDocListProp', () => {
       count: 2,
       label: tag.label,
       permalink: tag.permalink,
+      unlisted: false,
       items: [doc3, doc1], // Docs sorted by title, ignore "id5" absence
     });
   });
@@ -69,7 +71,6 @@ describe('toSidebarDocItemLinkProp', () => {
   type Doc = Params['doc'];
 
   const id = 'some-doc-id';
-  const unversionedId = 'some-unversioned-doc-id';
 
   const item: DocSidebarItem = {
     type: 'doc',
@@ -79,7 +80,6 @@ describe('toSidebarDocItemLinkProp', () => {
 
   const doc: Doc = {
     id,
-    unversionedId,
     title: 'doc title',
     permalink: '/docPermalink',
     frontMatter: {},
@@ -94,7 +94,7 @@ describe('toSidebarDocItemLinkProp', () => {
 
     expect(result).toEqual({
       type: 'link',
-      docId: unversionedId,
+      docId: id,
       unlisted: false,
       label: item.label,
       autoAddBaseUrl: undefined,

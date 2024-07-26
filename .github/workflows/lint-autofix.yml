@@ -1,0 +1,47 @@
+name: Lint AutoFix
+
+on:
+  pull_request:
+    branches:
+      - main
+      - docusaurus-v**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  lint-autofix:
+    name: Lint AutoFix
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.head_ref }}
+
+      - name: Installation
+        run: yarn
+
+      - name: AutoFix Format
+        run: yarn format
+
+      - name: AutoFix JS
+        run: yarn lint:js:fix
+
+      - name: AutoFix Style
+        run: yarn lint:style:fix
+
+      - name: AutoFix Spelling
+        run: yarn lint:spelling:fix
+
+      - name: Print Diff
+        run: git diff
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'refactor: apply lint autofix'

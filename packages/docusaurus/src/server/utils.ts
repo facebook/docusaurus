@@ -7,15 +7,6 @@
 
 import path from 'path';
 import {posixPath, Globby} from '@docusaurus/utils';
-import type {RouteConfig} from '@docusaurus/types';
-
-// Recursively get the final routes (routes with no subroutes)
-export function getAllFinalRoutes(routeConfig: RouteConfig[]): RouteConfig[] {
-  function getFinalRoutes(route: RouteConfig): RouteConfig[] {
-    return route.routes ? route.routes.flatMap(getFinalRoutes) : [route];
-  }
-  return routeConfig.flatMap(getFinalRoutes);
-}
 
 // Globby that fix Windows path patterns
 // See https://github.com/facebook/docusaurus/pull/4222#issuecomment-795517329

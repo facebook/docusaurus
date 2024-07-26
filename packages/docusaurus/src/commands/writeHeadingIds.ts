@@ -11,7 +11,7 @@ import {
   writeMarkdownHeadingId,
   type WriteHeadingIDOptions,
 } from '@docusaurus/utils';
-import {loadContext} from '../server';
+import {loadContext} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 import {safeGlobby} from '../server/utils';
 

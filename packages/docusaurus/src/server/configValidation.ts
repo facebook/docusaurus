@@ -6,14 +6,22 @@
  */
 
 import {
+  DEFAULT_PARSE_FRONT_MATTER,
   DEFAULT_STATIC_DIR_NAME,
   DEFAULT_I18N_DIR_NAME,
-  addLeadingSlash,
-  addTrailingSlash,
-  removeTrailingSlash,
 } from '@docusaurus/utils';
 import {Joi, printWarning} from '@docusaurus/utils-validation';
-import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
+import {
+  addTrailingSlash,
+  addLeadingSlash,
+  removeTrailingSlash,
+} from '@docusaurus/utils-common';
+import type {FutureConfig, StorageConfig} from '@docusaurus/types/src/config';
+import type {
+  DocusaurusConfig,
+  I18nConfig,
+  MarkdownConfig,
+} from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
 
@@ -24,10 +32,38 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
   localeConfigs: {},
 };
 
+export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
+  type: 'localStorage',
+  namespace: false,
+};
+
+export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
+  experimental_storage: DEFAULT_STORAGE_CONFIG,
+  experimental_router: 'browser',
+};
+
+export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
+  format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
+  mermaid: false,
+  preprocessor: undefined,
+  parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+  mdx1Compat: {
+    comments: true,
+    admonitions: true,
+    headingIds: true,
+  },
+  anchors: {
+    maintainCase: false,
+  },
+  remarkRehypeOptions: undefined,
+};
+
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'i18n'
+  | 'future'
   | 'onBrokenLinks'
+  | 'onBrokenAnchors'
   | 'onBrokenMarkdownLinks'
   | 'onDuplicateRoutes'
   | 'plugins'
@@ -47,7 +83,9 @@ export const DEFAULT_CONFIG: Pick<
   | 'markdown'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
+  future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
+  onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
   onBrokenMarkdownLinks: 'warn',
   onDuplicateRoutes: 'warn',
   plugins: [],
@@ -64,16 +102,7 @@ export const DEFAULT_CONFIG: Pick<
   tagline: '',
   baseUrlIssueBanner: true,
   staticDirectories: [DEFAULT_STATIC_DIR_NAME],
-  markdown: {
-    format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
-    mermaid: false,
-    preprocessor: undefined,
-    mdx1Compat: {
-      comments: true,
-      admonitions: true,
-      headingIds: true,
-    },
-  },
+  markdown: DEFAULT_MARKDOWN_CONFIG,
 };
 
 function createPluginSchema(theme: boolean) {
@@ -165,6 +194,26 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
+const STORAGE_CONFIG_SCHEMA = Joi.object({
+  type: Joi.string()
+    .equal('localStorage', 'sessionStorage')
+    .default(DEFAULT_STORAGE_CONFIG.type),
+  namespace: Joi.alternatives()
+    .try(Joi.string(), Joi.boolean())
+    .default(DEFAULT_STORAGE_CONFIG.namespace),
+})
+  .optional()
+  .default(DEFAULT_STORAGE_CONFIG);
+
+const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
+  experimental_storage: STORAGE_CONFIG_SCHEMA,
+  experimental_router: Joi.string()
+    .equal('browser', 'hash')
+    .default(DEFAULT_FUTURE_CONFIG.experimental_router),
+})
+  .optional()
+  .default(DEFAULT_FUTURE_CONFIG);
+
 const SiteUrlSchema = Joi.string()
   .required()
   .custom((value: string, helpers) => {
@@ -199,9 +248,13 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   url: SiteUrlSchema,
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
+  future: FUTURE_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),
+  onBrokenAnchors: Joi.string()
+    .equal('ignore', 'log', 'warn', 'throw')
+    .default(DEFAULT_CONFIG.onBrokenAnchors),
   onBrokenMarkdownLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),
@@ -280,6 +333,9 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     format: Joi.string()
       .equal('mdx', 'md', 'detect')
       .default(DEFAULT_CONFIG.markdown.format),
+    parseFrontMatter: Joi.function().default(
+      () => DEFAULT_CONFIG.markdown.parseFrontMatter,
+    ),
     mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
     preprocessor: Joi.function()
       .arity(1)
@@ -296,6 +352,16 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         DEFAULT_CONFIG.markdown.mdx1Compat.headingIds,
       ),
     }).default(DEFAULT_CONFIG.markdown.mdx1Compat),
+    remarkRehypeOptions:
+      // add proper external options validation?
+      // Not sure if it's a good idea, validation is likely to become stale
+      // See https://github.com/remarkjs/remark-rehype#options
+      Joi.object().unknown(),
+    anchors: Joi.object({
+      maintainCase: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.anchors.maintainCase,
+      ),
+    }).default(DEFAULT_CONFIG.markdown.anchors),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':

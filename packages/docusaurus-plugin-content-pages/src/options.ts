@@ -9,8 +9,10 @@ import {
   Joi,
   RemarkPluginsSchema,
   RehypePluginsSchema,
+  RecmaPluginsSchema,
   AdmonitionsSchema,
   RouteBasePathSchema,
+  URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
 import type {OptionValidationContext} from '@docusaurus/types';
@@ -24,9 +26,13 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   mdxPageComponent: '@theme/MDXPage',
   remarkPlugins: [],
   rehypePlugins: [],
+  recmaPlugins: [],
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: true,
+  showLastUpdateTime: false,
+  showLastUpdateAuthor: false,
+  editLocalizedFiles: false,
 };
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -37,6 +43,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   mdxPageComponent: Joi.string().default(DEFAULT_OPTIONS.mdxPageComponent),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
+  recmaPlugins: RecmaPluginsSchema.default(DEFAULT_OPTIONS.recmaPlugins),
   beforeDefaultRehypePlugins: RehypePluginsSchema.default(
     DEFAULT_OPTIONS.beforeDefaultRehypePlugins,
   ),
@@ -44,6 +51,12 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     DEFAULT_OPTIONS.beforeDefaultRemarkPlugins,
   ),
   admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
+  showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
+  showLastUpdateAuthor: Joi.bool().default(
+    DEFAULT_OPTIONS.showLastUpdateAuthor,
+  ),
+  editUrl: Joi.alternatives().try(URISchema, Joi.function()),
+  editLocalizedFiles: Joi.boolean().default(DEFAULT_OPTIONS.editLocalizedFiles),
 });
 
 export function validateOptions({

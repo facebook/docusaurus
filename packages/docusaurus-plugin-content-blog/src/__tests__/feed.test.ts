@@ -8,6 +8,8 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
+import {DEFAULT_PARSE_FRONT_MATTER} from '@docusaurus/utils';
+import {fromPartial} from '@total-typescript/shoehorn';
 import {DEFAULT_OPTIONS} from '../options';
 import {generateBlogPosts} from '../blogUtils';
 import {createBlogFeedFiles} from '../feed';
@@ -30,6 +32,8 @@ const DefaultI18N: I18n = {
     },
   },
 };
+
+const markdown = {parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER};
 
 function getBlogContentPaths(siteDir: string): BlogContentPaths {
   return {
@@ -72,16 +76,17 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
     const outDir = path.join(siteDir, 'build-snap');
 
     await testGenerateFeeds(
-      {
+      fromPartial({
         siteDir,
         siteConfig,
         i18n: DefaultI18N,
         outDir,
-      } as LoadContext,
+      }),
       {
         path: 'invalid-blog-path',
         routeBasePath: 'blog',
@@ -95,6 +100,8 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
+        onInlineTags: 'ignore',
+        onInlineAuthors: 'ignore',
       } as PluginOptions,
     );
 
@@ -110,17 +117,18 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and
     // copied the output to the fixture...
     await testGenerateFeeds(
-      {
+      fromPartial({
         siteDir,
         siteConfig,
         i18n: DefaultI18N,
         outDir,
-      } as LoadContext,
+      }),
       {
         path: 'blog',
         routeBasePath: 'blog',
@@ -135,6 +143,8 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
+        onInlineTags: 'ignore',
+        onInlineAuthors: 'ignore',
       } as PluginOptions,
     );
 
@@ -152,17 +162,18 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and
     // copied the output to the fixture...
     await testGenerateFeeds(
-      {
+      fromPartial({
         siteDir,
         siteConfig,
         i18n: DefaultI18N,
         outDir,
-      } as LoadContext,
+      }),
       {
         path: 'blog',
         routeBasePath: 'blog',
@@ -187,6 +198,8 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
+        onInlineTags: 'ignore',
+        onInlineAuthors: 'ignore',
       } as PluginOptions,
     );
 
@@ -204,17 +217,18 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and
     // copied the output to the fixture...
     await testGenerateFeeds(
-      {
+      fromPartial({
         siteDir,
         siteConfig,
         i18n: DefaultI18N,
         outDir,
-      } as LoadContext,
+      }),
       {
         path: 'blog',
         routeBasePath: 'blog',
@@ -230,6 +244,54 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
+        onInlineTags: 'ignore',
+        onInlineAuthors: 'ignore',
+      } as PluginOptions,
+    );
+
+    expect(
+      fsMock.mock.calls.map((call) => call[1] as string),
+    ).toMatchSnapshot();
+    fsMock.mockClear();
+  });
+
+  it('has feed item for each post - with trailing slash', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const outDir = path.join(siteDir, 'build-snap');
+    const siteConfig = {
+      title: 'Hello',
+      baseUrl: '/myBaseUrl/',
+      url: 'https://docusaurus.io',
+      favicon: 'image/favicon.ico',
+      trailingSlash: true,
+      markdown,
+    };
+
+    // Build is quite difficult to mock, so we built the blog beforehand and
+    // copied the output to the fixture...
+    await testGenerateFeeds(
+      fromPartial({
+        siteDir,
+        siteConfig,
+        i18n: DefaultI18N,
+        outDir,
+      }),
+      {
+        path: 'blog',
+        routeBasePath: 'blog',
+        tagsBasePath: 'tags',
+        authorsMapPath: 'authors.yml',
+        include: DEFAULT_OPTIONS.include,
+        exclude: DEFAULT_OPTIONS.exclude,
+        feedOptions: {
+          type: [feedType],
+          copyright: 'Copyright',
+        },
+        readingTime: ({content, defaultReadingTime}) =>
+          defaultReadingTime({content}),
+        truncateMarker: /<!--\s*truncate\s*-->/,
+        onInlineTags: 'ignore',
+        onInlineAuthors: 'ignore',
       } as PluginOptions,
     );
 

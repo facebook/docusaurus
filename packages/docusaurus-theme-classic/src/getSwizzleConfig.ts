@@ -19,13 +19,6 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The folder containing all admonition icons',
       },
-      'Admonition/Icon/Caution': {
-        actions: {
-          eject: 'safe',
-          wrap: 'safe',
-        },
-        description: 'The admonition caution icon',
-      },
       'Admonition/Icon/Danger': {
         actions: {
           eject: 'safe',
@@ -53,6 +46,13 @@ export default function getSwizzleConfig(): SwizzleConfig {
           wrap: 'safe',
         },
         description: 'The admonition tip icon',
+      },
+      'Admonition/Icon/Warning': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The admonition warning icon',
       },
       'Admonition/Layout': {
         actions: {
@@ -109,6 +109,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description:
           'The component responsible for rendering a :::tip admonition type',
+      },
+      'Admonition/Type/Warning': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component responsible for rendering a :::warning admonition type',
       },
       'Admonition/Types': {
         actions: {
@@ -280,6 +288,17 @@ export default function getSwizzleConfig(): SwizzleConfig {
           wrap: 'safe',
         },
         description: 'The menu icon component',
+      },
+      'Icon/Socials': {
+        actions: {
+          // Forbidden because it's a parent folder, makes the CLI crash atm
+          // TODO the CLI should rather support --eject
+          // Subfolders can be swizzled
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+        description:
+          'The Icon/Socials folder is not directly swizzle-able, but you can swizzle its sub-components.',
       },
       MDXComponents: {
         actions: {

@@ -11,4 +11,16 @@ module.exports = {
   url: 'https://your-docusaurus-site.example.com',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
+  markdown: {
+    parseFrontMatter: async (params) => {
+      // Reuse the default parser
+      const result = await params.defaultParseFrontMatter(params);
+      if (result.frontMatter.last_update?.author) {
+        result.frontMatter.last_update.author =
+          result.frontMatter.last_update.author +
+          ' (processed by parseFrontMatter)';
+      }
+      return result;
+    },
+  },
 };

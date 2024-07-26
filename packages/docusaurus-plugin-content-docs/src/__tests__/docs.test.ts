@@ -6,9 +6,15 @@
  */
 
 import {jest} from '@jest/globals';
-import path from 'path';
-import {loadContext} from '@docusaurus/core/src/server/index';
-import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import * as path from 'path';
+import {loadContext} from '@docusaurus/core/src/server/site';
+import {
+  createSlugger,
+  posixPath,
+  DEFAULT_PLUGIN_ID,
+  LAST_UPDATE_FALLBACK,
+} from '@docusaurus/utils';
+import {getTagsFile} from '@docusaurus/utils-validation';
 import {createSidebarsUtils} from '../sidebars/utils';
 import {
   processDocMetadata,
@@ -68,13 +74,18 @@ type TestUtilsArg = {
   env?: DocEnv;
 };
 
-function createTestUtils({
+async function createTestUtils({
   siteDir,
   context,
   versionMetadata,
   options,
   env = 'production',
 }: TestUtilsArg) {
+  const tagsFile = await getTagsFile({
+    contentPaths: versionMetadata,
+    tags: options.tags,
+  });
+
   async function readDoc(docFileSource: string) {
     return readDocFile(versionMetadata, docFileSource);
   }
@@ -88,6 +99,7 @@ function createTestUtils({
       options,
       context,
       env,
+      tagsFile,
     });
   }
 
@@ -134,6 +146,7 @@ function createTestUtils({
       context,
       options,
       env,
+      tagsFile: null,
     });
     expect(metadata.permalink).toEqual(expectedPermalink);
   }
@@ -154,6 +167,7 @@ function createTestUtils({
           context,
           options,
           env,
+          tagsFile: null,
         }),
       ),
     );
@@ -176,7 +190,6 @@ function createTestUtils({
       pagination: addDocNavigation({
         docs: rawDocs,
         sidebarsUtils,
-        sidebarFilePath: versionMetadata.sidebarFilePath as string,
       }).map((doc) => ({prev: doc.previous, next: doc.next, id: doc.id})),
       sidebars,
     };
@@ -209,7 +222,7 @@ describe('simple site', () => {
     expect(versionsMetadata).toHaveLength(1);
     const currentVersion = versionsMetadata[0]!;
 
-    function createTestUtilsPartial(args: Partial<TestUtilsArg>) {
+    async function createTestUtilsPartial(args: Partial<TestUtilsArg>) {
       return createTestUtils({
         siteDir,
         context,
@@ -219,7 +232,7 @@ describe('simple site', () => {
       });
     }
 
-    const defaultTestUtils = createTestUtilsPartial({});
+    const defaultTestUtils = await createTestUtilsPartial({});
 
     return {
       siteDir,
@@ -268,7 +281,6 @@ describe('simple site', () => {
     await defaultTestUtils.testMeta(path.join('foo', 'bar.md'), {
       version: 'current',
       id: 'foo/bar',
-      unversionedId: 'foo/bar',
       sourceDirName: 'foo',
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
@@ -287,12 +299,12 @@ describe('simple site', () => {
     await defaultTestUtils.testMeta(path.join('hello.md'), {
       version: 'current',
       id: 'hello',
-      unversionedId: 'hello',
       sourceDirName: '.',
       permalink: '/docs/',
       slug: '/',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
+      sidebarPosition: undefined,
       frontMatter: {
         id: 'hello',
         title: 'Hello, World !',
@@ -303,11 +315,15 @@ describe('simple site', () => {
       tags: [
         {
           label: 'tag-1',
+          inline: true,
           permalink: '/docs/tags/tag-1',
+          description: undefined,
         },
         {
           label: 'tag 3',
+          inline: true,
           permalink: '/docs/tags/tag-3',
+          description: undefined,
         },
       ],
       unlisted: false,
@@ -322,7 +338,7 @@ describe('simple site', () => {
         },
       });
 
-    const testUtilsLocal = createTestUtilsPartial({
+    const testUtilsLocal = await createTestUtilsPartial({
       siteDir,
       context,
       options,
@@ -332,11 +348,11 @@ describe('simple site', () => {
     await testUtilsLocal.testMeta(path.join('foo', 'baz.md'), {
       version: 'current',
       id: 'foo/baz',
-      unversionedId: 'foo/baz',
       sourceDirName: 'foo',
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
       title: 'baz',
+      sidebarPosition: undefined,
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/docs/foo/baz.md',
       description: 'Images',
@@ -347,17 +363,34 @@ describe('simple site', () => {
         pagination_label: 'baz pagination_label',
         tags: [
           'tag 1',
+          'globalTag1',
           'tag-1',
           {label: 'tag 2', permalink: 'tag2-custom-permalink'},
         ],
       },
       tags: [
         {
+          description: undefined,
+          inline: true,
           label: 'tag 1',
           permalink: '/docs/tags/tag-1',
         },
         {
+          description: 'Global Tag 1 description',
+          inline: false,
+          label: 'Global Tag 1 label',
+          permalink: '/docs/tags/global-tag-1-permalink',
+        },
+        {
+          description: undefined,
+          inline: true,
+          label: 'tag-1',
+          permalink: '/docs/tags/tag-1',
+        },
+        {
           label: 'tag 2',
+          description: undefined,
+          inline: true,
           permalink: '/docs/tags/tag2-custom-permalink',
         },
       ],
@@ -371,7 +404,6 @@ describe('simple site', () => {
     await defaultTestUtils.testMeta('lorem.md', {
       version: 'current',
       id: 'lorem',
-      unversionedId: 'lorem',
       sourceDirName: '.',
       permalink: '/docs/lorem',
       slug: '/lorem',
@@ -399,7 +431,7 @@ describe('simple site', () => {
         },
       });
 
-    const testUtilsLocal = createTestUtilsPartial({
+    const testUtilsLocal = await createTestUtilsPartial({
       siteDir,
       context,
       options,
@@ -409,13 +441,13 @@ describe('simple site', () => {
     await testUtilsLocal.testMeta(path.join('foo', 'baz.md'), {
       version: 'current',
       id: 'foo/baz',
-      unversionedId: 'foo/baz',
       sourceDirName: 'foo',
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
       title: 'baz',
       editUrl: hardcodedEditUrl,
       description: 'Images',
+      sidebarPosition: undefined,
       frontMatter: {
         id: 'baz',
         slug: 'bazSlug.html',
@@ -423,16 +455,33 @@ describe('simple site', () => {
         pagination_label: 'baz pagination_label',
         tags: [
           'tag 1',
+          'globalTag1',
           'tag-1',
           {label: 'tag 2', permalink: 'tag2-custom-permalink'},
         ],
       },
       tags: [
         {
+          description: undefined,
+          inline: true,
           label: 'tag 1',
           permalink: '/docs/tags/tag-1',
         },
         {
+          description: 'Global Tag 1 description',
+          inline: false,
+          label: 'Global Tag 1 label',
+          permalink: '/docs/tags/global-tag-1-permalink',
+        },
+        {
+          description: undefined,
+          inline: true,
+          label: 'tag-1',
+          permalink: '/docs/tags/tag-1',
+        },
+        {
+          description: undefined,
+          inline: true,
           label: 'tag 2',
           permalink: '/docs/tags/tag2-custom-permalink',
         },
@@ -459,7 +508,7 @@ describe('simple site', () => {
         },
       });
 
-    const testUtilsLocal = createTestUtilsPartial({
+    const testUtilsLocal = await createTestUtilsPartial({
       siteDir,
       context,
       options,
@@ -469,7 +518,6 @@ describe('simple site', () => {
     await testUtilsLocal.testMeta('lorem.md', {
       version: 'current',
       id: 'lorem',
-      unversionedId: 'lorem',
       sourceDirName: '.',
       permalink: '/docs/lorem',
       slug: '/lorem',
@@ -480,9 +528,8 @@ describe('simple site', () => {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
         unrelated_front_matter: "won't be part of metadata",
       },
-      lastUpdatedAt: 1539502055,
-      formattedLastUpdatedAt: 'Oct 14, 2018',
-      lastUpdatedBy: 'Author',
+      lastUpdatedAt: LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdatedBy: LAST_UPDATE_FALLBACK.lastUpdatedBy,
       tags: [],
       unlisted: false,
     });
@@ -491,7 +538,7 @@ describe('simple site', () => {
   it('docs with draft frontmatter', async () => {
     const {createTestUtilsPartial} = await loadSite();
 
-    const testUtilsProd = createTestUtilsPartial({
+    const testUtilsProd = await createTestUtilsPartial({
       env: 'production',
     });
     await expect(
@@ -500,7 +547,7 @@ describe('simple site', () => {
       draft: true,
     });
 
-    const testUtilsDev = createTestUtilsPartial({
+    const testUtilsDev = await createTestUtilsPartial({
       env: 'development',
     });
     await expect(
@@ -516,7 +563,6 @@ describe('simple site', () => {
     const baseMeta = {
       version: 'current',
       id: 'doc-unlisted',
-      unversionedId: 'doc-unlisted',
       sourceDirName: '.',
       permalink: '/docs/doc-unlisted',
       slug: '/doc-unlisted',
@@ -529,7 +575,7 @@ describe('simple site', () => {
       tags: [],
     };
 
-    const testUtilsProd = createTestUtilsPartial({
+    const testUtilsProd = await createTestUtilsPartial({
       env: 'production',
     });
 
@@ -538,7 +584,7 @@ describe('simple site', () => {
       unlisted: true,
     });
 
-    const testUtilsDev = createTestUtilsPartial({
+    const testUtilsDev = await createTestUtilsPartial({
       env: 'development',
     });
 
@@ -557,7 +603,7 @@ describe('simple site', () => {
         },
       });
 
-    const testUtilsLocal = createTestUtilsPartial({
+    const testUtilsLocal = await createTestUtilsPartial({
       siteDir,
       context,
       options,
@@ -567,7 +613,6 @@ describe('simple site', () => {
     await testUtilsLocal.testMeta('customLastUpdate.md', {
       version: 'current',
       id: 'customLastUpdate',
-      unversionedId: 'customLastUpdate',
       sourceDirName: '.',
       permalink: '/docs/customLastUpdate',
       slug: '/customLastUpdate',
@@ -575,14 +620,13 @@ describe('simple site', () => {
       description: 'Custom last update',
       frontMatter: {
         last_update: {
-          author: 'Custom Author',
+          author: 'Custom Author (processed by parseFrontMatter)',
           date: '1/1/2000',
         },
         title: 'Custom Last Update',
       },
-      lastUpdatedAt: new Date('1/1/2000').getTime() / 1000,
-      formattedLastUpdatedAt: 'Jan 1, 2000',
-      lastUpdatedBy: 'Custom Author',
+      lastUpdatedAt: new Date('1/1/2000').getTime(),
+      lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],
       unlisted: false,
@@ -598,7 +642,7 @@ describe('simple site', () => {
         },
       });
 
-    const testUtilsLocal = createTestUtilsPartial({
+    const testUtilsLocal = await createTestUtilsPartial({
       siteDir,
       context,
       options,
@@ -608,7 +652,6 @@ describe('simple site', () => {
     await testUtilsLocal.testMeta('lastUpdateAuthorOnly.md', {
       version: 'current',
       id: 'lastUpdateAuthorOnly',
-      unversionedId: 'lastUpdateAuthorOnly',
       sourceDirName: '.',
       permalink: '/docs/lastUpdateAuthorOnly',
       slug: '/lastUpdateAuthorOnly',
@@ -616,13 +659,12 @@ describe('simple site', () => {
       description: 'Only custom author, so it will still use the date from Git',
       frontMatter: {
         last_update: {
-          author: 'Custom Author',
+          author: 'Custom Author (processed by parseFrontMatter)',
         },
         title: 'Last Update Author Only',
       },
-      lastUpdatedAt: 1539502055,
-      formattedLastUpdatedAt: 'Oct 14, 2018',
-      lastUpdatedBy: 'Custom Author',
+      lastUpdatedAt: LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],
       unlisted: false,
@@ -638,7 +680,7 @@ describe('simple site', () => {
         },
       });
 
-    const testUtilsLocal = createTestUtilsPartial({
+    const testUtilsLocal = await createTestUtilsPartial({
       siteDir,
       context,
       options,
@@ -648,7 +690,6 @@ describe('simple site', () => {
     await testUtilsLocal.testMeta('lastUpdateDateOnly.md', {
       version: 'current',
       id: 'lastUpdateDateOnly',
-      unversionedId: 'lastUpdateDateOnly',
       sourceDirName: '.',
       permalink: '/docs/lastUpdateDateOnly',
       slug: '/lastUpdateDateOnly',
@@ -660,8 +701,7 @@ describe('simple site', () => {
         },
         title: 'Last Update Date Only',
       },
-      lastUpdatedAt: new Date('1/1/2000').getTime() / 1000,
-      formattedLastUpdatedAt: 'Jan 1, 2000',
+      lastUpdatedAt: new Date('1/1/2000').getTime(),
       lastUpdatedBy: 'Author',
       sidebarPosition: undefined,
       tags: [],
@@ -678,7 +718,7 @@ describe('simple site', () => {
         },
       });
 
-    const testUtilsLocal = createTestUtilsPartial({
+    const testUtilsLocal = await createTestUtilsPartial({
       siteDir,
       context,
       options,
@@ -688,7 +728,6 @@ describe('simple site', () => {
     await testUtilsLocal.testMeta('customLastUpdate.md', {
       version: 'current',
       id: 'customLastUpdate',
-      unversionedId: 'customLastUpdate',
       sourceDirName: '.',
       permalink: '/docs/customLastUpdate',
       slug: '/customLastUpdate',
@@ -696,13 +735,12 @@ describe('simple site', () => {
       description: 'Custom last update',
       frontMatter: {
         last_update: {
-          author: 'Custom Author',
+          author: 'Custom Author (processed by parseFrontMatter)',
           date: '1/1/2000',
         },
         title: 'Custom Last Update',
       },
       lastUpdatedAt: undefined,
-      formattedLastUpdatedAt: undefined,
       lastUpdatedBy: undefined,
       sidebarPosition: undefined,
       tags: [],
@@ -772,7 +810,7 @@ describe('simple site', () => {
   it('custom pagination - production', async () => {
     const {createTestUtilsPartial, options, versionsMetadata} =
       await loadSite();
-    const testUtils = createTestUtilsPartial({env: 'production'});
+    const testUtils = await createTestUtilsPartial({env: 'production'});
     const docs = await readVersionDocs(versionsMetadata[0]!, options);
     await expect(testUtils.generateNavigation(docs)).resolves.toMatchSnapshot();
   });
@@ -780,7 +818,7 @@ describe('simple site', () => {
   it('custom pagination - development', async () => {
     const {createTestUtilsPartial, options, versionsMetadata} =
       await loadSite();
-    const testUtils = createTestUtilsPartial({env: 'development'});
+    const testUtils = await createTestUtilsPartial({env: 'development'});
     const docs = await readVersionDocs(versionsMetadata[0]!, options);
     await expect(testUtils.generateNavigation(docs)).resolves.toMatchSnapshot();
   });
@@ -829,27 +867,27 @@ describe('versioned site', () => {
     const version100 = versionsMetadata[2]!;
     const versionWithSlugs = versionsMetadata[3]!;
 
-    const currentVersionTestUtils = createTestUtils({
+    const currentVersionTestUtils = await createTestUtils({
       siteDir,
       context,
       options,
       versionMetadata: currentVersion,
     });
-    const version101TestUtils = createTestUtils({
+    const version101TestUtils = await createTestUtils({
       siteDir,
       context,
       options,
       versionMetadata: version101,
     });
 
-    const version100TestUtils = createTestUtils({
+    const version100TestUtils = await createTestUtils({
       siteDir,
       context,
       options,
       versionMetadata: version100,
     });
 
-    const versionWithSlugsTestUtils = createTestUtils({
+    const versionWithSlugsTestUtils = await createTestUtils({
       siteDir,
       context,
       options,
@@ -875,12 +913,12 @@ describe('versioned site', () => {
     await currentVersionTestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'foo/bar',
       version: 'current',
-      unversionedId: 'foo/bar',
       sourceDirName: 'foo',
       permalink: '/docs/next/foo/barSlug',
       slug: '/foo/barSlug',
       title: 'bar',
       description: 'This is next version of bar.',
+      sidebarPosition: undefined,
       frontMatter: {
         slug: 'barSlug',
         tags: [
@@ -895,15 +933,21 @@ describe('versioned site', () => {
       tags: [
         {
           label: 'barTag 1',
+          inline: true,
           permalink: '/docs/next/tags/bar-tag-1',
+          description: undefined,
         },
         {
           label: 'barTag-2',
+          inline: true,
           permalink: '/docs/next/tags/bar-tag-2',
+          description: undefined,
         },
         {
           label: 'barTag 3',
+          inline: true,
           permalink: '/docs/next/tags/barTag-3-permalink',
+          description: undefined,
         },
       ],
       unlisted: false,
@@ -911,7 +955,6 @@ describe('versioned site', () => {
     await currentVersionTestUtils.testMeta(path.join('hello.md'), {
       id: 'hello',
       version: 'current',
-      unversionedId: 'hello',
       sourceDirName: '.',
       permalink: '/docs/next/',
       slug: '/',
@@ -929,8 +972,7 @@ describe('versioned site', () => {
     const {version101TestUtils, version100TestUtils} = await loadSite();
 
     await version100TestUtils.testMeta(path.join('foo', 'bar.md'), {
-      id: 'version-1.0.0/foo/bar',
-      unversionedId: 'foo/bar',
+      id: 'foo/bar',
       sourceDirName: 'foo',
       permalink: '/docs/1.0.0/foo/barSlug',
       slug: '/foo/barSlug',
@@ -942,8 +984,7 @@ describe('versioned site', () => {
       unlisted: false,
     });
     await version100TestUtils.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
-      unversionedId: 'hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/docs/1.0.0/',
       slug: '/',
@@ -951,16 +992,29 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated en)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (en)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (en)',
+          permalink: '/docs/1.0.0/tags/globalTag-v1.0.0 permalink (en)',
+        },
+      ],
       unlisted: false,
     });
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
-      id: 'version-1.0.1/foo/bar',
-      unversionedId: 'foo/bar',
+      id: 'foo/bar',
       sourceDirName: 'foo',
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
@@ -972,8 +1026,7 @@ describe('versioned site', () => {
       unlisted: false,
     });
     await version101TestUtils.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.1/hello',
-      unversionedId: 'hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/docs/',
       slug: '/',
@@ -982,8 +1035,22 @@ describe('versioned site', () => {
       version: '1.0.1',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.1', 'globalTag-v1.0.1'],
       },
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.1',
+          permalink: '/docs/tags/inline-tag-v-1-0-1',
+        },
+        {
+          description: 'globalTag-v1.0.1 description',
+          inline: false,
+          label: 'globalTag-v1.0.1 label',
+          permalink: '/docs/tags/globalTag-v1.0.1 permalink',
+        },
+      ],
       unlisted: false,
     });
   });
@@ -1058,7 +1125,7 @@ describe('versioned site', () => {
       },
     });
 
-    const testUtilsLocal = createTestUtils({
+    const testUtilsLocal = await createTestUtils({
       siteDir,
       context,
       options,
@@ -1066,8 +1133,7 @@ describe('versioned site', () => {
     });
 
     await testUtilsLocal.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
-      unversionedId: 'hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/docs/1.0.0/',
       slug: '/',
@@ -1075,12 +1141,26 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated en)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl: hardcodedEditUrl,
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (en)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (en)',
+          permalink: '/docs/1.0.0/tags/globalTag-v1.0.0 permalink (en)',
+        },
+      ],
       unlisted: false,
     });
 
@@ -1101,7 +1181,7 @@ describe('versioned site', () => {
       },
     });
 
-    const testUtilsLocal = createTestUtils({
+    const testUtilsLocal = await createTestUtils({
       siteDir,
       context,
       options,
@@ -1109,8 +1189,7 @@ describe('versioned site', () => {
     });
 
     await testUtilsLocal.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
-      unversionedId: 'hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/docs/1.0.0/',
       slug: '/',
@@ -1118,13 +1197,27 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated en)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0/hello.md',
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (en)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (en)',
+          permalink: '/docs/1.0.0/tags/globalTag-v1.0.0 permalink (en)',
+        },
+      ],
       unlisted: false,
     });
   });
@@ -1137,7 +1230,7 @@ describe('versioned site', () => {
       },
     });
 
-    const testUtilsLocal = createTestUtils({
+    const testUtilsLocal = await createTestUtils({
       siteDir,
       context,
       options,
@@ -1145,8 +1238,7 @@ describe('versioned site', () => {
     });
 
     await testUtilsLocal.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
-      unversionedId: 'hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/docs/1.0.0/',
       slug: '/',
@@ -1154,13 +1246,27 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated en)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/docs/hello.md',
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (en)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (en)',
+          permalink: '/docs/1.0.0/tags/globalTag-v1.0.0 permalink (en)',
+        },
+      ],
       unlisted: false,
     });
   });
@@ -1174,7 +1280,7 @@ describe('versioned site', () => {
       locale: 'fr',
     });
 
-    const testUtilsLocal = createTestUtils({
+    const testUtilsLocal = await createTestUtils({
       siteDir,
       context,
       options,
@@ -1182,8 +1288,7 @@ describe('versioned site', () => {
     });
 
     await testUtilsLocal.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
-      unversionedId: 'hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/fr/docs/1.0.0/',
       slug: '/',
@@ -1191,13 +1296,27 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated fr)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/fr/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (fr)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (fr)',
+          permalink: '/fr/docs/1.0.0/tags/globalTag-v1.0.0 permalink (fr)',
+        },
+      ],
       unlisted: false,
     });
   });
@@ -1212,7 +1331,7 @@ describe('versioned site', () => {
       locale: 'fr',
     });
 
-    const testUtilsLocal = createTestUtils({
+    const testUtilsLocal = await createTestUtils({
       siteDir,
       context,
       options,
@@ -1220,8 +1339,7 @@ describe('versioned site', () => {
     });
 
     await testUtilsLocal.testMeta(path.join('hello.md'), {
-      id: 'version-1.0.0/hello',
-      unversionedId: 'hello',
+      id: 'hello',
       sourceDirName: '.',
       permalink: '/fr/docs/1.0.0/',
       slug: '/',
@@ -1229,13 +1347,27 @@ describe('versioned site', () => {
       description: 'Hello 1.0.0 ! (translated fr)',
       frontMatter: {
         slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
       },
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/fr/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description (fr)',
+          inline: false,
+          label: 'globalTag-v1.0.0 label (fr)',
+          permalink: '/fr/docs/1.0.0/tags/globalTag-v1.0.0 permalink (fr)',
+        },
+      ],
       unlisted: false,
     });
   });

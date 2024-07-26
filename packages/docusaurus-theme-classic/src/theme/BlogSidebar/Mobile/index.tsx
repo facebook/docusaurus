@@ -5,32 +5,42 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import Link from '@docusaurus/Link';
-import {useVisibleBlogSidebarItems} from '@docusaurus/theme-common/internal';
+import React, {memo} from 'react';
+import {
+  useVisibleBlogSidebarItems,
+  BlogSidebarItemList,
+} from '@docusaurus/plugin-content-blog/client';
 import {NavbarSecondaryMenuFiller} from '@docusaurus/theme-common';
+import BlogSidebarContent from '@theme/BlogSidebar/Content';
 import type {Props} from '@theme/BlogSidebar/Mobile';
+import type {Props as BlogSidebarContentProps} from '@theme/BlogSidebar/Content';
+
+import styles from './styles.module.css';
+
+const ListComponent: BlogSidebarContentProps['ListComponent'] = ({items}) => {
+  return (
+    <BlogSidebarItemList
+      items={items}
+      ulClassName="menu__list"
+      liClassName="menu__list-item"
+      linkClassName="menu__link"
+      linkActiveClassName="menu__link--active"
+    />
+  );
+};
 
 function BlogSidebarMobileSecondaryMenu({sidebar}: Props): JSX.Element {
   const items = useVisibleBlogSidebarItems(sidebar.items);
   return (
-    <ul className="menu__list">
-      {items.map((item) => (
-        <li key={item.permalink} className="menu__list-item">
-          <Link
-            isNavLink
-            to={item.permalink}
-            className="menu__link"
-            activeClassName="menu__link--active">
-            {item.title}
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <BlogSidebarContent
+      items={items}
+      ListComponent={ListComponent}
+      yearGroupHeadingClassName={styles.yearGroupHeading}
+    />
   );
 }
 
-export default function BlogSidebarMobile(props: Props): JSX.Element {
+function BlogSidebarMobile(props: Props): JSX.Element {
   return (
     <NavbarSecondaryMenuFiller
       component={BlogSidebarMobileSecondaryMenu}
@@ -38,3 +48,5 @@ export default function BlogSidebarMobile(props: Props): JSX.Element {
     />
   );
 }
+
+export default memo(BlogSidebarMobile);

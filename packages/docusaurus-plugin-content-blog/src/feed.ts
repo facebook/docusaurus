@@ -10,10 +10,13 @@ import fs from 'fs-extra';
 import {Feed, type Author as FeedAuthor} from 'feed';
 import * as srcset from 'srcset';
 import {normalizeUrl, readOutputHTMLFile} from '@docusaurus/utils';
-import {blogPostContainerID} from '@docusaurus/utils-common';
+import {
+  blogPostContainerID,
+  applyTrailingSlash,
+} from '@docusaurus/utils-common';
 import {load as cheerioLoad} from 'cheerio';
 import type {BlogContentPaths} from './types';
-import type {DocusaurusConfig} from '@docusaurus/types';
+import type {DocusaurusConfig, HtmlTags, LoadContext} from '@docusaurus/types';
 import type {
   FeedType,
   PluginOptions,
@@ -41,8 +44,14 @@ async function generateBlogFeed({
   }
 
   const {feedOptions, routeBasePath} = options;
-  const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
-  const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
+  const {url: siteUrl, baseUrl, title, favicon, trailingSlash} = siteConfig;
+  const blogBaseUrl = applyTrailingSlash(
+    normalizeUrl([siteUrl, baseUrl, routeBasePath]),
+    {
+      trailingSlash,
+      baseUrl,
+    },
+  );
 
   const blogPostsForFeed =
     feedOptions.limit === false || feedOptions.limit === null
@@ -86,7 +95,7 @@ async function defaultCreateFeedItems({
   siteConfig: DocusaurusConfig;
   outDir: string;
 }): Promise<BlogFeedItem[]> {
-  const {url: siteUrl} = siteConfig;
+  const {url: siteUrl, baseUrl, trailingSlash} = siteConfig;
 
   function toFeedAuthor(author: Author): FeedAuthor {
     return {name: author.name, link: author.url, email: author.email};
@@ -106,13 +115,19 @@ async function defaultCreateFeedItems({
       } = post;
 
       const content = await readOutputHTMLFile(
-        permalink.replace(siteConfig.baseUrl, ''),
+        permalink.replace(baseUrl, ''),
         outDir,
-        siteConfig.trailingSlash,
+        trailingSlash,
       );
       const $ = cheerioLoad(content);
 
-      const blogPostAbsoluteUrl = normalizeUrl([siteUrl, permalink]);
+      const blogPostAbsoluteUrl = applyTrailingSlash(
+        normalizeUrl([siteUrl, permalink]),
+        {
+          trailingSlash,
+          baseUrl,
+        },
+      );
 
       const toAbsoluteUrl = (src: string) =>
         String(new URL(src, blogPostAbsoluteUrl));
@@ -307,4 +322,60 @@ export async function createBlogFeedFiles({
       }),
     ),
   );
+}
+
+export function createFeedHtmlHeadTags({
+  context,
+  options,
+}: {
+  context: LoadContext;
+  options: PluginOptions;
+}): HtmlTags {
+  const feedTypes = options.feedOptions.type;
+  if (!feedTypes) {
+    return [];
+  }
+  const feedTitle = options.feedOptions.title ?? context.siteConfig.title;
+  const feedsConfig = {
+    rss: {
+      type: 'application/rss+xml',
+      path: 'rss.xml',
+      title: `${feedTitle} RSS Feed`,
+    },
+    atom: {
+      type: 'application/atom+xml',
+      path: 'atom.xml',
+      title: `${feedTitle} Atom Feed`,
+    },
+    json: {
+      type: 'application/json',
+      path: 'feed.json',
+      title: `${feedTitle} JSON Feed`,
+    },
+  };
+  const headTags: HtmlTags = [];
+
+  feedTypes.forEach((feedType) => {
+    const {
+      type,
+      path: feedConfigPath,
+      title: feedConfigTitle,
+    } = feedsConfig[feedType];
+
+    headTags.push({
+      tagName: 'link',
+      attributes: {
+        rel: 'alternate',
+        type,
+        href: normalizeUrl([
+          context.siteConfig.baseUrl,
+          options.routeBasePath,
+          feedConfigPath,
+        ]),
+        title: feedConfigTitle,
+      },
+    });
+  });
+
+  return headTags;
 }

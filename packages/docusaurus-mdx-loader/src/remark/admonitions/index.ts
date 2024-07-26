@@ -4,7 +4,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import visit from 'unist-util-visit';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer, Processor} from 'unified';
 
@@ -67,6 +66,7 @@ function parseDirective(directive: ContainerDirective): {
   contentNodes: DirectiveContent;
 } {
   const hasDirectiveLabel =
+    // @ts-expect-error: fine
     directive.children?.[0]?.data?.directiveLabel === true;
   if (hasDirectiveLabel) {
     const [directiveLabel, ...contentNodes] = directive.children;
@@ -92,6 +92,8 @@ const plugin: Plugin = function plugin(
   const {keywords} = normalizeAdmonitionOptions(optionsInput);
 
   return async (root) => {
+    const {visit} = await import('unist-util-visit');
+
     visit(root, (node) => {
       if (node.type === 'containerDirective') {
         const directive = node as ContainerDirective;

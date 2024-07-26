@@ -12,24 +12,33 @@ import createSitemap from './createSitemap';
 import type {PluginOptions, Options} from './options';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 
+const PluginName = 'docusaurus-plugin-sitemap';
+
 export default function pluginSitemap(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<void> {
-  return {
-    name: 'docusaurus-plugin-sitemap',
+): Plugin<void> | null {
+  if (context.siteConfig.future.experimental_router === 'hash') {
+    logger.warn(
+      `${PluginName} does not support the Hash Router and will be disabled.`,
+    );
+    return null;
+  }
 
-    async postBuild({siteConfig, routesPaths, outDir, head}) {
+  return {
+    name: PluginName,
+
+    async postBuild({siteConfig, routes, outDir, head}) {
       if (siteConfig.noIndex) {
         return;
       }
       // Generate sitemap.
-      const generatedSitemap = await createSitemap(
+      const generatedSitemap = await createSitemap({
         siteConfig,
-        routesPaths,
+        routes,
         head,
         options,
-      );
+      });
       if (!generatedSitemap) {
         return;
       }

@@ -47,6 +47,8 @@ declare module '@docusaurus/plugin-ideal-image' {
      */
     disableInDev?: boolean;
   };
+
+  export type Options = Partial<PluginOptions>;
 }
 
 declare module '@theme/IdealImage' {

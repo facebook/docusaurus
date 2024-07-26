@@ -46,3 +46,17 @@ export const isMacOS = typeof window !== 'undefined' && navigator.platform.start
 ```
 
 When clicking tabs above, they should stay under cursor and we should adjust the scroll position.
+
+## Tabs with className and lazy loading
+
+<Tabs lazy>
+  <TabItem value="apple" label="Apple" className="alert alert--primary" default>
+    This is an apple 🍎
+  </TabItem>
+  <TabItem value="orange" label="Orange" className="alert alert--secondary">
+    This is an orange 🍊
+  </TabItem>
+  <TabItem value="banana" label="Banana" className="alert alert--success">
+    This is a banana 🍌
+  </TabItem>
+</Tabs>

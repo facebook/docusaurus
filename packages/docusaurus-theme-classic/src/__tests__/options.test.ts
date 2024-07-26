@@ -5,14 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import {
   normalizeThemeConfig,
   normalizePluginOptions,
 } from '@docusaurus/utils-validation';
-import theme from 'prism-react-renderer/themes/github';
-import darkTheme from 'prism-react-renderer/themes/dracula';
+import {themes} from 'prism-react-renderer';
 import {ThemeConfigSchema, DEFAULT_CONFIG, validateOptions} from '../options';
 import type {Options, PluginOptions} from '@docusaurus/theme-classic';
 import type {ThemeConfig} from '@docusaurus/theme-common';
@@ -33,11 +32,15 @@ function testValidateOptions(options: Options) {
 }
 
 describe('themeConfig', () => {
+  it('accepts empty theme config', () => {
+    expect(testValidateThemeConfig({})).toEqual(DEFAULT_CONFIG);
+  });
+
   it('accepts valid theme config', () => {
     const userConfig = {
       prism: {
-        theme,
-        darkTheme,
+        theme: themes.github,
+        darkTheme: themes.dracula,
         defaultLanguage: 'javaSCRIPT',
         additionalLanguages: ['koTLin', 'jaVa'],
         magicComments: [
@@ -53,6 +56,11 @@ describe('themeConfig', () => {
         sidebar: {
           hideable: true,
           autoCollapseCategories: false,
+        },
+      },
+      blog: {
+        sidebar: {
+          groupByYear: false,
         },
       },
       announcementBar: {
@@ -579,7 +587,7 @@ describe('themeConfig', () => {
       const prismConfig = {
         prism: {
           additionalLanguages: ['kotlin', 'java'],
-          theme: darkTheme,
+          theme: themes.dracula,
           magicComments: [],
         },
       };
@@ -590,7 +598,7 @@ describe('themeConfig', () => {
       const prismConfig2 = {
         prism: {
           additionalLanguages: [],
-          theme: darkTheme,
+          theme: themes.dracula,
           magicComments: [
             {
               className: 'a',
@@ -606,7 +614,7 @@ describe('themeConfig', () => {
       const prismConfig3 = {
         prism: {
           additionalLanguages: [],
-          theme: darkTheme,
+          theme: themes.dracula,
           magicComments: [
             {
               className: 'a',

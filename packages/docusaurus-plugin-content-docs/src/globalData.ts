@@ -21,7 +21,7 @@ import type {Sidebars} from './sidebars/types';
 
 function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
   return {
-    id: doc.unversionedId,
+    id: doc.id,
     path: doc.permalink,
 
     // optimize global data size: do not add unlisted: false/undefined
@@ -56,10 +56,7 @@ function toGlobalSidebars(
         path:
           firstLink.type === 'generated-index'
             ? firstLink.permalink
-            : version.docs.find(
-                (doc) =>
-                  doc.id === firstLink.id || doc.unversionedId === firstLink.id,
-              )!.permalink,
+            : version.docs.find((doc) => doc.id === firstLink.id)!.permalink,
         label: firstLink.label,
       },
     };
@@ -76,7 +73,7 @@ export function toGlobalDataVersion(version: FullVersion): GlobalVersion {
     docs: version.docs
       .map(toGlobalDataDoc)
       .concat(version.categoryGeneratedIndices.map(toGlobalDataGeneratedIndex)),
-    draftIds: version.drafts.map((doc) => doc.unversionedId),
+    draftIds: version.drafts.map((doc) => doc.id),
     sidebars: toGlobalSidebars(version.sidebars, version),
   };
 }

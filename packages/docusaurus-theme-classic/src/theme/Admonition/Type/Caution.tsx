@@ -10,12 +10,12 @@ import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import type {Props} from '@theme/Admonition/Type/Caution';
 import AdmonitionLayout from '@theme/Admonition/Layout';
-import IconCaution from '@theme/Admonition/Icon/Caution';
+import IconWarning from '@theme/Admonition/Icon/Warning';
 
 const infimaClassName = 'alert alert--warning';
 
 const defaultProps = {
-  icon: <IconCaution />,
+  icon: <IconWarning />,
   title: (
     <Translate
       id="theme.admonition.caution"
@@ -25,6 +25,8 @@ const defaultProps = {
   ),
 };
 
+// TODO remove before v4: Caution replaced by Warning
+// see https://github.com/facebook/docusaurus/issues/7558
 export default function AdmonitionTypeCaution(props: Props): JSX.Element {
   return (
     <AdmonitionLayout

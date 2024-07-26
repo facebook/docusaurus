@@ -141,7 +141,16 @@ export default async function beforeCli() {
       margin: 1,
       align: 'center',
       borderColor: 'yellow',
-      borderStyle: 'round',
+      borderStyle: {
+        topLeft: ' ',
+        topRight: ' ',
+        bottomLeft: ' ',
+        bottomRight: ' ',
+        top: '-',
+        bottom: '-',
+        left: ' ',
+        right: ' ',
+      },
     };
 
     const docusaurusUpdateMessage = boxen(

@@ -9,3 +9,8 @@
   white-space: pre-wrap;
   color: red;
 }
+
+.errorBoundaryFallback {
+  color: red;
+  padding: 0.55rem;
+}

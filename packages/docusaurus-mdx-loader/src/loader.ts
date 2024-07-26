@@ -8,15 +8,16 @@
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {
-  parseFrontMatter,
-  parseMarkdownContentTitle,
+  DEFAULT_PARSE_FRONT_MATTER,
   escapePath,
   getFileLoaderUtils,
+  getWebpackLoaderCompilerName,
 } from '@docusaurus/utils';
 import stringifyObject from 'stringify-object';
 import preprocessor from './preprocessor';
 import {validateMDXFrontMatter} from './frontMatter';
 import {createProcessorCached} from './processor';
+import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
 import type {MDXOptions} from './processor';
 
 import type {MarkdownConfig} from '@docusaurus/types';
@@ -28,7 +29,7 @@ import type {LoaderContext} from 'webpack';
 type Pluggable = any; // TODO fix this asap
 
 const {
-  loaders: {inlineMarkdownImageFileLoader},
+  loaders: {inlineMarkdownAssetImageFileLoader},
 } = getFileLoaderUtils();
 
 export type MDXPlugin = Pluggable;
@@ -45,6 +46,7 @@ export type Options = Partial<MDXOptions> & {
     frontMatter: {[key: string]: unknown};
     metadata: {[key: string]: unknown};
   }) => {[key: string]: unknown};
+  resolveMarkdownLink?: ResolveMarkdownLink;
 };
 
 /**
@@ -92,8 +94,9 @@ function createAssetsExportCode(assets: unknown) {
     if (typeof assetValue === 'string' && assetValue.startsWith('./')) {
       // TODO do we have other use-cases than image assets?
       // Probably not worth adding more support, as we want to move to Webpack 5 new asset system (https://github.com/facebook/docusaurus/pull/4708)
-      const inlineLoader = inlineMarkdownImageFileLoader;
-      return `require("${inlineLoader}${escapePath(assetValue)}").default`;
+      return `require("${inlineMarkdownAssetImageFileLoader}${escapePath(
+        assetValue,
+      )}").default`;
     }
     return undefined;
   }
@@ -121,28 +124,36 @@ function ensureMarkdownConfig(reqOptions: Options) {
   }
 }
 
+/**
+ * data.contentTitle is set by the remark contentTitle plugin
+ */
+function extractContentTitleData(data: {
+  [key: string]: unknown;
+}): string | undefined {
+  return data.contentTitle as string | undefined;
+}
+
 export async function mdxLoader(
   this: LoaderContext<Options>,
-  fileString: string,
+  fileContent: string,
 ): Promise<void> {
+  const compilerName = getWebpackLoaderCompilerName(this);
   const callback = this.async();
   const filePath = this.resourcePath;
   const reqOptions: Options = this.getOptions();
   const {query} = this;
+
   ensureMarkdownConfig(reqOptions);
 
-  const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
+  const {frontMatter} = await reqOptions.markdownConfig.parseFrontMatter({
+    filePath,
+    fileContent,
+    defaultParseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+  });
   const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
 
-  const {content: contentUnprocessed, contentTitle} = parseMarkdownContentTitle(
-    contentWithTitle,
-    {
-      removeContentTitle: reqOptions.removeContentTitle,
-    },
-  );
-
-  const content = preprocessor({
-    fileContent: contentUnprocessed,
+  const preprocessedContent = preprocessor({
+    fileContent,
     filePath,
     admonitions: reqOptions.admonitions,
     markdownConfig: reqOptions.markdownConfig,
@@ -157,9 +168,14 @@ export async function mdxLoader(
     mdxFrontMatter,
   });
 
-  let result: string;
+  let result: {content: string; data: {[key: string]: unknown}};
   try {
-    result = await processor.process({content, filePath});
+    result = await processor.process({
+      content: preprocessedContent,
+      filePath,
+      frontMatter,
+      compilerName,
+    });
   } catch (errorUnknown) {
     const error = errorUnknown as Error;
 
@@ -182,6 +198,8 @@ export async function mdxLoader(
       ),
     );
   }
+
+  const contentTitle = extractContentTitleData(result.data);
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have associated metadata files or front matter
@@ -243,7 +261,7 @@ ${assets ? `export const assets = ${createAssetsExportCode(assets)};` : ''}
 
   const code = `
 ${exportsCode}
-${result}
+${result.content}
 `;
 
   return callback(null, code);

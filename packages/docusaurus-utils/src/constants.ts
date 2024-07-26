@@ -83,7 +83,9 @@ export const DEFAULT_I18N_DIR_NAME = 'i18n';
 export const CODE_TRANSLATIONS_FILE_NAME = 'code.json';
 
 /** Dev server opens on this port by default. */
-export const DEFAULT_PORT = 3000;
+export const DEFAULT_PORT = process.env.PORT
+  ? parseInt(process.env.PORT, 10)
+  : 3000;
 
 /** Default plugin ID. */
 export const DEFAULT_PLUGIN_ID = 'default';

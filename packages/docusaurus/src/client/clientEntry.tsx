@@ -5,15 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import {BrowserRouter} from 'react-router-dom';
+import React, {startTransition, type ReactNode} from 'react';
+import ReactDOM, {type ErrorInfo} from 'react-dom/client';
 import {HelmetProvider} from 'react-helmet-async';
-
+import {BrowserRouter, HashRouter} from 'react-router-dom';
+import siteConfig from '@generated/docusaurus.config';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
+
+function Router({children}: {children: ReactNode}): ReactNode {
+  return siteConfig.future.experimental_router === 'hash' ? (
+    <HashRouter>{children}</HashRouter>
+  ) : (
+    <BrowserRouter>{children}</BrowserRouter>
+  );
+}
 
 declare global {
   interface NodeModule {
@@ -31,32 +39,39 @@ if (ExecutionEnvironment.canUseDOM) {
 
   const app = (
     <HelmetProvider>
-      <BrowserRouter>
+      <Router>
         <App />
-      </BrowserRouter>
+      </Router>
     </HelmetProvider>
   );
 
-  const onRecoverableError = (error: unknown): void => {
-    console.error('Docusaurus React Root onRecoverableError:', error);
+  const onRecoverableError = (error: unknown, errorInfo: ErrorInfo): void => {
+    console.error(
+      'Docusaurus React Root onRecoverableError:',
+      error,
+      errorInfo,
+    );
   };
 
   const renderApp = () => {
+    if (window.docusaurusRoot) {
+      window.docusaurusRoot.render(app);
+      return;
+    }
     if (hydrate) {
-      React.startTransition(() => {
-        ReactDOM.hydrateRoot(container, app, {
-          onRecoverableError,
-        });
+      window.docusaurusRoot = ReactDOM.hydrateRoot(container, app, {
+        onRecoverableError,
       });
     } else {
       const root = ReactDOM.createRoot(container, {onRecoverableError});
-      React.startTransition(() => {
-        root.render(app);
-      });
+      root.render(app);
+      window.docusaurusRoot = root;
     }
   };
 
-  preload(window.location.pathname).then(renderApp);
+  preload(window.location.pathname).then(() => {
+    startTransition(renderApp);
+  });
 
   // Webpack Hot Module Replacement API
   if (module.hot) {

@@ -9,9 +9,10 @@ import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {
-  findFirstSidebarItemLink,
   useDocById,
-} from '@docusaurus/theme-common/internal';
+  findFirstSidebarItemLink,
+} from '@docusaurus/plugin-content-docs/client';
+import {usePluralForm} from '@docusaurus/theme-common';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import {translate} from '@docusaurus/Translate';
 
@@ -23,6 +24,23 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 
 import styles from './styles.module.css';
+
+function useCategoryItemsPlural() {
+  const {selectMessage} = usePluralForm();
+  return (count: number) =>
+    selectMessage(
+      count,
+      translate(
+        {
+          message: '1 item|{count} items',
+          id: 'theme.docs.DocCard.categoryDescription.plurals',
+          description:
+            'The default description for a category card in the generated index about how many items this category includes',
+        },
+        {count},
+      ),
+    );
+}
 
 function CardContainer({
   href,
@@ -76,6 +94,7 @@ function CardCategory({
   item: PropSidebarItemCategory;
 }): JSX.Element | null {
   const href = findFirstSidebarItemLink(item);
+  const categoryItemsPlural = useCategoryItemsPlural();
 
   // Unexpected: categories that don't have a link have been filtered upfront
   if (!href) {
@@ -87,18 +106,7 @@ function CardCategory({
       href={href}
       icon="🗃️"
       title={item.label}
-      description={
-        item.description ??
-        translate(
-          {
-            message: '{count} items',
-            id: 'theme.docs.DocCard.categoryDescription',
-            description:
-              'The default description for a category card in the generated index about how many items this category includes',
-          },
-          {count: item.items.length},
-        )
-      }
+      description={item.description ?? categoryItemsPlural(item.items.length)}
     />
   );
 }

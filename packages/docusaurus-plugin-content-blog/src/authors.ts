@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getDataFileData} from '@docusaurus/utils';
+import * as _ from 'lodash';
+import {getDataFileData, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
+import {AuthorSocialsSchema, normalizeSocials} from './authorsSocials';
 import type {BlogContentPaths} from './types';
 import type {
   Author,
@@ -20,12 +22,13 @@ export type AuthorsMap = {[authorKey: string]: Author};
 const AuthorsMapSchema = Joi.object<AuthorsMap>()
   .pattern(
     Joi.string(),
-    Joi.object({
+    Joi.object<Author>({
       name: Joi.string(),
       url: URISchema,
       imageURL: URISchema,
       title: Joi.string(),
       email: Joi.string(),
+      socials: AuthorSocialsSchema,
     })
       .rename('image_url', 'imageURL')
       .or('name', 'imageURL')
@@ -51,34 +54,68 @@ export function validateAuthorsMap(content: unknown): AuthorsMap {
   return value;
 }
 
+function normalizeAuthor(author: Author): Author {
+  return {
+    ...author,
+    socials: author.socials ? normalizeSocials(author.socials) : undefined,
+  };
+}
+
+function normalizeAuthorsMap(authorsMap: AuthorsMap): AuthorsMap {
+  return _.mapValues(authorsMap, normalizeAuthor);
+}
+
 export async function getAuthorsMap(params: {
   authorsMapPath: string;
   contentPaths: BlogContentPaths;
 }): Promise<AuthorsMap | undefined> {
-  return getDataFileData(
+  const authorsMap = await getDataFileData(
     {
       filePath: params.authorsMapPath,
       contentPaths: params.contentPaths,
       fileType: 'authors map',
     },
+    // TODO annoying to test: tightly coupled FS reads + validation...
     validateAuthorsMap,
   );
+
+  return authorsMap ? normalizeAuthorsMap(authorsMap) : undefined;
 }
 
 type AuthorsParam = {
   frontMatter: BlogPostFrontMatter;
   authorsMap: AuthorsMap | undefined;
+  baseUrl: string;
 };
+
+function normalizeImageUrl({
+  imageURL,
+  baseUrl,
+}: {
+  imageURL: string | undefined;
+  baseUrl: string;
+}) {
+  return imageURL?.startsWith('/')
+    ? normalizeUrl([baseUrl, imageURL])
+    : imageURL;
+}
 
 // Legacy v1/early-v2 front matter fields
 // We may want to deprecate those in favor of using only frontMatter.authors
-function getFrontMatterAuthorLegacy(
-  frontMatter: BlogPostFrontMatter,
-): Author | undefined {
+function getFrontMatterAuthorLegacy({
+  baseUrl,
+  frontMatter,
+}: {
+  baseUrl: string;
+  frontMatter: BlogPostFrontMatter;
+}): Author | undefined {
   const name = frontMatter.author;
   const title = frontMatter.author_title ?? frontMatter.authorTitle;
   const url = frontMatter.author_url ?? frontMatter.authorURL;
-  const imageURL = frontMatter.author_image_url ?? frontMatter.authorImageURL;
+  const imageURL = normalizeImageUrl({
+    imageURL: frontMatter.author_image_url ?? frontMatter.authorImageURL,
+    baseUrl,
+  });
 
   if (name || title || url || imageURL) {
     return {
@@ -95,7 +132,7 @@ function getFrontMatterAuthorLegacy(
 function normalizeFrontMatterAuthors(
   frontMatterAuthors: BlogPostFrontMatterAuthors = [],
 ): BlogPostFrontMatterAuthor[] {
-  function normalizeAuthor(
+  function normalizeFrontMatterAuthor(
     authorInput: string | Author,
   ): BlogPostFrontMatterAuthor {
     if (typeof authorInput === 'string') {
@@ -108,8 +145,8 @@ function normalizeFrontMatterAuthors(
   }
 
   return Array.isArray(frontMatterAuthors)
-    ? frontMatterAuthors.map(normalizeAuthor)
-    : [normalizeAuthor(frontMatterAuthors)];
+    ? frontMatterAuthors.map(normalizeFrontMatterAuthor)
+    : [normalizeFrontMatterAuthor(frontMatterAuthors)];
 }
 
 function getFrontMatterAuthors(params: AuthorsParam): Author[] {
@@ -138,24 +175,36 @@ ${Object.keys(authorsMap)
   }
 
   function toAuthor(frontMatterAuthor: BlogPostFrontMatterAuthor): Author {
-    return {
+    return normalizeAuthor({
       // Author def from authorsMap can be locally overridden by front matter
       ...getAuthorsMapAuthor(frontMatterAuthor.key),
       ...frontMatterAuthor,
-    };
+    });
   }
 
   return frontMatterAuthors.map(toAuthor);
 }
 
+function fixAuthorImageBaseURL(
+  authors: Author[],
+  {baseUrl}: {baseUrl: string},
+) {
+  return authors.map((author) => ({
+    ...author,
+    imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
+  }));
+}
+
 export function getBlogPostAuthors(params: AuthorsParam): Author[] {
-  const authorLegacy = getFrontMatterAuthorLegacy(params.frontMatter);
+  const authorLegacy = getFrontMatterAuthorLegacy(params);
   const authors = getFrontMatterAuthors(params);
+
+  const updatedAuthors = fixAuthorImageBaseURL(authors, params);
 
   if (authorLegacy) {
     // Technically, we could allow mixing legacy/authors front matter, but do we
     // really want to?
-    if (authors.length > 0) {
+    if (updatedAuthors.length > 0) {
       throw new Error(
         `To declare blog post authors, use the 'authors' front matter in priority.
 Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time.`,
@@ -164,5 +213,5 @@ Don't mix 'authors' with other existing 'author_*' front matter. Choose one or t
     return [authorLegacy];
   }
 
-  return authors;
+  return updatedAuthors;
 }

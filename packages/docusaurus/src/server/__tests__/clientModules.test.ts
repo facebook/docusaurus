@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loadClientModules} from '../clientModules';
+import {getAllClientModules} from '../clientModules';
 import type {LoadedPlugin} from '@docusaurus/types';
 
 const pluginEmpty = {
@@ -33,14 +33,14 @@ const pluginHelloWorld = {
   },
 } as unknown as LoadedPlugin;
 
-describe('loadClientModules', () => {
+describe('getAllClientModules', () => {
   it('loads an empty plugin', () => {
-    const clientModules = loadClientModules([pluginEmpty]);
+    const clientModules = getAllClientModules([pluginEmpty]);
     expect(clientModules).toMatchInlineSnapshot(`[]`);
   });
 
   it('loads a non-empty plugin', () => {
-    const clientModules = loadClientModules([pluginFooBar]);
+    const clientModules = getAllClientModules([pluginFooBar]);
     expect(clientModules).toMatchInlineSnapshot(`
       [
         "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/foo",
@@ -50,7 +50,7 @@ describe('loadClientModules', () => {
   });
 
   it('loads multiple non-empty plugins', () => {
-    const clientModules = loadClientModules([pluginFooBar, pluginHelloWorld]);
+    const clientModules = getAllClientModules([pluginFooBar, pluginHelloWorld]);
     expect(clientModules).toMatchInlineSnapshot(`
       [
         "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/foo",
@@ -62,7 +62,7 @@ describe('loadClientModules', () => {
   });
 
   it('loads multiple non-empty plugins in different order', () => {
-    const clientModules = loadClientModules([pluginHelloWorld, pluginFooBar]);
+    const clientModules = getAllClientModules([pluginHelloWorld, pluginFooBar]);
     expect(clientModules).toMatchInlineSnapshot(`
       [
         "/hello",
@@ -74,7 +74,7 @@ describe('loadClientModules', () => {
   });
 
   it('loads both empty and non-empty plugins', () => {
-    const clientModules = loadClientModules([
+    const clientModules = getAllClientModules([
       pluginHelloWorld,
       pluginEmpty,
       pluginFooBar,
@@ -90,7 +90,7 @@ describe('loadClientModules', () => {
   });
 
   it('loads empty and non-empty in a different order', () => {
-    const clientModules = loadClientModules([
+    const clientModules = getAllClientModules([
       pluginHelloWorld,
       pluginFooBar,
       pluginEmpty,

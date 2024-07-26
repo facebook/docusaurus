@@ -251,7 +251,7 @@ const Users: User[] = [
     title: "Bruce's Wiki",
     description: 'A personal wiki by Bruce Song',
     preview: require('./showcase/bruce-wiki.png'),
-    website: 'https://wiki.bruceworld.top/',
+    website: 'https://wiki.brucesong.xyz/',
     source: 'https://github.com/recallwei/wiki',
     tags: ['opensource', 'design', 'personal'],
   },
@@ -263,14 +263,6 @@ const Users: User[] = [
     website: 'https://buildtracker.dev',
     source: 'https://github.com/paularmstrong/build-tracker/tree/main/docs',
     tags: ['opensource'],
-  },
-  {
-    title: 'Butterfly',
-    description: 'The note taking app Linwood Butterfly',
-    preview: require('./showcase/docs-butterfly.png'),
-    website: 'https://docs.butterfly.linwood.dev',
-    source: 'https://github.com/LinwoodCloud/Butterfly/tree/develop/docs',
-    tags: ['opensource', 'i18n', 'versioning'],
   },
   {
     title: 'Chaos Mesh',
@@ -2110,14 +2102,6 @@ const Users: User[] = [
     website: 'https://stylable.io',
     source: 'https://github.com/wixplosives/stylable.io',
     tags: ['opensource'],
-  },
-  {
-    title: 'Supabase',
-    description: 'Open Source Realtime and RESTful APIs for Postgres',
-    preview: require('./showcase/supabase.png'),
-    website: 'https://www.supabase.io/docs',
-    source: 'https://github.com/supabase/supabase/tree/master/web',
-    tags: ['opensource', 'favorite', 'design', 'large', 'product'],
   },
   {
     title: 'Svix',

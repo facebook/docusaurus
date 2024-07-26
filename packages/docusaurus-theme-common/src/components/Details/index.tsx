@@ -12,6 +12,7 @@ import React, {
   type ReactElement,
 } from 'react';
 import clsx from 'clsx';
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {useCollapsible, Collapsible} from '../Collapsible';
 import styles from './styles.module.css';
@@ -47,6 +48,8 @@ export function Details({
   children,
   ...props
 }: DetailsProps): JSX.Element {
+  useBrokenLinks().collectAnchor(props.id);
+
   const isBrowser = useIsBrowser();
   const detailsRef = useRef<HTMLDetailsElement>(null);
 

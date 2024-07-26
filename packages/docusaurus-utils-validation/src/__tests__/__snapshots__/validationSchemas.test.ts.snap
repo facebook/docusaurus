@@ -30,6 +30,22 @@ exports[`validation schemas contentVisibilitySchema: for value={"unlisted":"bad 
 
 exports[`validation schemas contentVisibilitySchema: for value={"unlisted":42} 1`] = `""unlisted" must be a boolean"`;
 
+exports[`validation schemas frontMatterLastUpdateSchema schema: for value="string" 1`] = `""value" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date."`;
+
+exports[`validation schemas frontMatterLastUpdateSchema schema: for value=[] 1`] = `""value" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date."`;
+
+exports[`validation schemas frontMatterLastUpdateSchema schema: for value={"author":23} 1`] = `""author" must be a string"`;
+
+exports[`validation schemas frontMatterLastUpdateSchema schema: for value={"date":"20-20-20"} 1`] = `""date" must be a valid date"`;
+
+exports[`validation schemas frontMatterLastUpdateSchema schema: for value={} 1`] = `""value" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date."`;
+
+exports[`validation schemas frontMatterLastUpdateSchema schema: for value=42 1`] = `""value" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date."`;
+
+exports[`validation schemas frontMatterLastUpdateSchema schema: for value=null 1`] = `""value" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date."`;
+
+exports[`validation schemas frontMatterLastUpdateSchema schema: for value=true 1`] = `""value" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date."`;
+
 exports[`validation schemas pathnameSchema: for value="foo" 1`] = `""value" (foo) is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
 
 exports[`validation schemas pathnameSchema: for value="https://github.com/foo" 1`] = `""value" (https://github.com/foo) is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;

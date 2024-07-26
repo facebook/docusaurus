@@ -8,6 +8,7 @@
 import React, {type ComponentProps} from 'react';
 import Translate from '@docusaurus/Translate';
 import {getErrorCausalChain} from '@docusaurus/utils-common';
+import type {Props as ErrorProps} from '@theme/Error';
 import styles from './errorBoundaryUtils.module.css';
 
 export function ErrorBoundaryTryAgainButton(
@@ -23,6 +24,20 @@ export function ErrorBoundaryTryAgainButton(
     </button>
   );
 }
+
+// A very simple reusable ErrorBoundary fallback component
+export function ErrorBoundaryErrorMessageFallback({
+  error,
+  tryAgain,
+}: ErrorProps): JSX.Element {
+  return (
+    <div className={styles.errorBoundaryFallback}>
+      <p>{error.message}</p>
+      <ErrorBoundaryTryAgainButton onClick={tryAgain} />
+    </div>
+  );
+}
+
 export function ErrorBoundaryError({error}: {error: Error}): JSX.Element {
   const causalChain = getErrorCausalChain(error);
   const fullMessage = causalChain.map((e) => e.message).join('\n\nCause:\n');

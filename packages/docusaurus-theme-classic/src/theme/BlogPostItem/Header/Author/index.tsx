@@ -8,8 +8,10 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link, {type Props as LinkProps} from '@docusaurus/Link';
+import AuthorSocials from '@theme/BlogPostItem/Header/Author/Socials';
 
 import type {Props} from '@theme/BlogPostItem/Header/Author';
+import styles from './styles.module.css';
 
 function MaybeLink(props: LinkProps): JSX.Element {
   if (props.href) {
@@ -18,41 +20,41 @@ function MaybeLink(props: LinkProps): JSX.Element {
   return <>{props.children}</>;
 }
 
+function AuthorTitle({title}: {title: string}) {
+  return (
+    <small className={styles.authorTitle} title={title}>
+      {title}
+    </small>
+  );
+}
+
 export default function BlogPostItemHeaderAuthor({
+  // singleAuthor, // may be useful in the future, or for swizzle users
   author,
   className,
 }: Props): JSX.Element {
-  const {name, title, url, imageURL, email} = author;
+  const {name, title, url, socials, imageURL, email} = author;
   const link = url || (email && `mailto:${email}`) || undefined;
+
+  const hasSocials = socials && Object.keys(socials).length > 0;
+
   return (
     <div className={clsx('avatar margin-bottom--sm', className)}>
       {imageURL && (
         <MaybeLink href={link} className="avatar__photo-link">
-          <img
-            className="avatar__photo"
-            src={imageURL}
-            alt={name}
-            itemProp="image"
-          />
+          <img className="avatar__photo" src={imageURL} alt={name} />
         </MaybeLink>
       )}
 
-      {name && (
-        <div
-          className="avatar__intro"
-          itemProp="author"
-          itemScope
-          itemType="https://schema.org/Person">
+      {(name || title) && (
+        <div className="avatar__intro">
           <div className="avatar__name">
-            <MaybeLink href={link} itemProp="url">
-              <span itemProp="name">{name}</span>
+            <MaybeLink href={link}>
+              <span className={styles.authorName}>{name}</span>
             </MaybeLink>
           </div>
-          {title && (
-            <small className="avatar__subtitle" itemProp="description">
-              {title}
-            </small>
-          )}
+          {!!title && <AuthorTitle title={title} />}
+          {hasSocials && <AuthorSocials author={author} />}
         </div>
       )}
     </div>
