@@ -8,4 +8,4 @@ slorber:
 
 ozaki:
   name: ozaki
-  page: true
+  page: {permalink: '/custom/ozaki/permalink'}
