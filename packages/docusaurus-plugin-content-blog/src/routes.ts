@@ -83,6 +83,12 @@ export async function buildAllRoutes({
     authorsMap,
   } = content;
 
+  const authorsListPath = normalizeUrl([
+    baseUrl,
+    routeBasePath,
+    authorsPageBasePath,
+  ]);
+
   const listedBlogPosts = blogPosts.filter(shouldBeListed);
 
   const blogPostsById = _.keyBy(blogPosts, (post) => post.id);
@@ -115,6 +121,7 @@ export async function buildAllRoutes({
     const blogMetadata: BlogMetadata = {
       blogBasePath: normalizeUrl([baseUrl, routeBasePath]),
       blogTitle,
+      authorsListPath,
     };
     const modulePath = await createData(
       `blogMetadata-${pluginId}.json`,
@@ -273,12 +280,6 @@ export async function buildAllRoutes({
     });
     const authors = Object.values(authorsMap);
 
-    const authorsPageLink = normalizeUrl([
-      baseUrl,
-      routeBasePath,
-      authorsPageBasePath,
-    ]);
-
     return [
       createAuthorListRoute(),
       ...authors.flatMap(createAuthorPaginatedRoute),
@@ -286,7 +287,7 @@ export async function buildAllRoutes({
 
     function createAuthorListRoute(): RouteConfig {
       return {
-        path: authorsPageLink,
+        path: authorsListPath,
         component: blogAuthorsListComponent,
         exact: true,
         modules: {
@@ -348,7 +349,6 @@ export async function buildAllRoutes({
           props: {
             author: toAuthorItemProp({author, count: authorBlogPosts.length}),
             listMetadata: metadata,
-            authorsPageLink, // TODO move to blogMetadata
           },
         };
       });

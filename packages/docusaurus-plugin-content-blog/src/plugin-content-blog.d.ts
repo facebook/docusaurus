@@ -554,6 +554,8 @@ declare module '@docusaurus/plugin-content-blog' {
   export type BlogMetadata = {
     /** the path to the base of the blog */
     blogBasePath: string;
+    /** the path to the authors list page */
+    authorsListPath: string;
     /** title of the overall blog */
     blogTitle: string;
   };
@@ -743,8 +745,6 @@ declare module '@theme/BlogAuthorsPostsPage' {
     readonly sidebar: BlogSidebar;
     /** Metadata of this author. */
     readonly author: AuthorItemProp;
-    /** Link to the page of all authors. */
-    readonly authorsPageLink: string;
     /** Looks exactly the same as the posts list page */
     readonly listMetadata: BlogPaginatedMetadata;
     /**

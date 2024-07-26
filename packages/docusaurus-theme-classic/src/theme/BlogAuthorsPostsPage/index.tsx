@@ -17,6 +17,7 @@ import {
   BlogAuthorsViewAllLabel,
 } from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
+import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
@@ -37,12 +38,20 @@ function BlogAuthorsPostsPageMetadata({author}: Props): JSX.Element {
   );
 }
 
+function ViewAllAuthorsLink() {
+  const {authorsListPath} = useBlogMetadata();
+  return (
+    <Link href={authorsListPath}>
+      <BlogAuthorsViewAllLabel />
+    </Link>
+  );
+}
+
 function BlogAuthorsPostsPageContent({
   author,
   items,
   sidebar,
   listMetadata,
-  authorsPageLink,
 }: Props): JSX.Element {
   const title = useBlogAuthorsPostsPageTitle(author);
   return (
@@ -55,9 +64,7 @@ function BlogAuthorsPostsPageContent({
           className={clsx(styles.postsPageAuthor)}
         />
         {author.description && <p>{author.description}</p>}
-        <Link href={authorsPageLink}>
-          <BlogAuthorsViewAllLabel />
-        </Link>
+        <ViewAllAuthorsLink />
       </header>
       <BlogPostItems items={items} />
       <BlogListPaginator metadata={listMetadata} />
