@@ -262,8 +262,8 @@ export async function buildAllRoutes({
     return [tagsListRoute, ...tagsPaginatedRoutes];
   }
 
-  async function createAuthorsRoutes(): Promise<RouteConfig[]> {
-    if (authorsMap === undefined) {
+  function createAuthorsRoutes(): RouteConfig[] {
+    if (authorsMap === undefined || Object.keys(authorsMap).length === 0) {
       return [];
     }
 
@@ -279,12 +279,12 @@ export async function buildAllRoutes({
       authorsPageBasePath,
     ]);
 
-    return Promise.all([
+    return [
       createAuthorListRoute(),
       ...authors.flatMap(createAuthorPaginatedRoute),
-    ]).then((routes) => routes.flat());
+    ];
 
-    async function createAuthorListRoute(): Promise<RouteConfig> {
+    function createAuthorListRoute(): RouteConfig {
       return {
         path: authorsPageLink,
         component: blogAuthorsListComponent,
@@ -303,9 +303,7 @@ export async function buildAllRoutes({
       };
     }
 
-    async function createAuthorPaginatedRoute(
-      author: AuthorWithKey,
-    ): Promise<RouteConfig[]> {
+    function createAuthorPaginatedRoute(author: AuthorWithKey): RouteConfig[] {
       const authorBlogPosts = blogPostsByAuthorKey[author.key] ?? [];
       if (!author.page) {
         return [];
@@ -362,6 +360,6 @@ export async function buildAllRoutes({
     ...createBlogPostsPaginatedRoutes(),
     ...createTagsRoutes(),
     ...createArchiveRoute(),
-    ...(await createAuthorsRoutes()),
+    ...createAuthorsRoutes(),
   ];
 }
