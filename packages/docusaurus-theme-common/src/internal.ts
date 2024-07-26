@@ -42,7 +42,7 @@ export {
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
-export {useTitleFormatter, listTagsByLetters} from './utils/generalUtils';
+export {useTitleFormatter} from './utils/generalUtils';
 
 export {useLocationChange} from './utils/useLocationChange';
 
