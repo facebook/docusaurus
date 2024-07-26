@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {
   PageMetadata,
@@ -17,19 +17,25 @@ import type {Props} from '@theme/Blog/Pages/BlogAuthorsListPage';
 import SearchMetadata from '@theme/SearchMetadata';
 import Heading from '@theme/Heading';
 import Author from '@theme/Blog/Components/Author';
+import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
 import styles from './styles.module.css';
 
-function AuthorsList({authors}: {authors: Props['authors']}): JSX.Element {
+function AuthorListItem({author}: {author: AuthorItemProp}) {
   return (
-    <section className={clsx('margin-vert--lg', styles.section)}>
-      {authors.map((author) => (
-        <Author
-          key={author.key}
-          author={author}
-          singleAuthor
-          count={author.count}
-        />
-      ))}
+    <li className={styles.authorListItem}>
+      <Author as="h2" author={author} count={author.count} />
+    </li>
+  );
+}
+
+function AuthorsList({authors}: {authors: Props['authors']}) {
+  return (
+    <section className={clsx('margin-vert--lg', styles.authorsListSection)}>
+      <ul>
+        {authors.map((author) => (
+          <AuthorListItem key={author.key} author={author} />
+        ))}
+      </ul>
     </section>
   );
 }
@@ -37,7 +43,7 @@ function AuthorsList({authors}: {authors: Props['authors']}): JSX.Element {
 export default function BlogAuthorsListPage({
   authors,
   sidebar,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const title: string = translateBlogAuthorsListPageTitle();
   return (
     <HtmlClassNameProvider

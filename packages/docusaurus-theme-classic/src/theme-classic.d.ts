@@ -189,8 +189,8 @@ declare module '@theme/Blog/Components/Author' {
   import type {Author} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
+    readonly as?: 'h1' | 'h2';
     readonly author: Author;
-    readonly singleAuthor: boolean;
     readonly className?: string;
     readonly count?: number;
   }

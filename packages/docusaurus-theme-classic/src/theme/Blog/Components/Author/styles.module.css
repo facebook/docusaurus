@@ -5,8 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+.avatarImage {
+  --ifm-avatar-photo-size: 3.2rem;
+}
+
+.author-as-h1 .avatarImage {
+  --ifm-avatar-photo-size: 6rem;
+}
+
+.author-as-h2 .avatarImage {
+  --ifm-avatar-photo-size: 5.2rem;
+}
+
 .authorName {
   font-size: 1.1rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.author-as-h1 .authorName {
+  font-size: 2.4rem;
+  display: inline;
+}
+
+.author-as-h2 .authorName {
+  font-size: 1.4rem;
+  display: inline;
 }
 
 .authorTitle {
@@ -18,6 +42,20 @@
   line-clamp: 1;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+
+.author-as-h1 .authorTitle {
+  margin-top: 0.4rem;
+  margin-bottom: 0.2rem;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+}
+
+.author-as-h2 .authorTitle {
+  margin-top: 0.3rem;
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+  line-height: 1rem;
 }
 
 .count {

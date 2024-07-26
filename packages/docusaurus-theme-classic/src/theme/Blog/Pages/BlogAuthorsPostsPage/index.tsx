@@ -23,10 +23,7 @@ import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/Blog/Pages/BlogAuthorsPostsPage';
 import BlogPostItems from '@theme/BlogPostItems';
-import Heading from '@theme/Heading';
 import Author from '@theme/Blog/Components/Author';
-
-import styles from './styles.module.css';
 
 function Metadata({author}: Props): JSX.Element {
   const title = useBlogAuthorPageTitle(author);
@@ -48,19 +45,14 @@ function ViewAllAuthorsLink() {
 }
 
 function Content({author, items, sidebar, listMetadata}: Props): JSX.Element {
-  const title = useBlogAuthorPageTitle(author);
   return (
     <BlogLayout sidebar={sidebar}>
       <header className="margin-bottom--xl">
-        <Heading as="h1">{title}</Heading>
-        <Author
-          author={author}
-          singleAuthor
-          className={clsx(styles.postsPageAuthor)}
-        />
+        <Author as="h1" author={author} />
         {author.description && <p>{author.description}</p>}
         <ViewAllAuthorsLink />
       </header>
+      <hr />
       <BlogPostItems items={items} />
       <BlogListPaginator metadata={listMetadata} />
     </BlogLayout>
