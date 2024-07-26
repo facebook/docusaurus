@@ -38,7 +38,13 @@ describe('validateOptions', () => {
   it('accepts correctly defined user options', () => {
     const userOptions: Options = {
       ...defaultOptions,
-      feedOptions: {type: 'rss' as const, title: 'myTitle'},
+      feedOptions: {
+        type: 'rss' as const,
+        title: 'myTitle',
+        xslt: false,
+        atomXslt: 'atom.xslt',
+        rssXslt: 'rss.xslt',
+      },
       path: 'not_blog',
       routeBasePath: '/myBlog',
       postsPerPage: 5,
@@ -48,7 +54,15 @@ describe('validateOptions', () => {
     };
     expect(testValidate(userOptions)).toEqual({
       ...userOptions,
-      feedOptions: {type: ['rss'], title: 'myTitle', copyright: '', limit: 20},
+      feedOptions: {
+        type: ['rss'],
+        title: 'myTitle',
+        copyright: '',
+        limit: 20,
+        xslt: false,
+        atomXslt: 'atom.xslt',
+        rssXslt: 'rss.xslt',
+      },
     });
   });
 
@@ -108,7 +122,13 @@ describe('validateOptions', () => {
       }),
     ).toEqual({
       ...defaultOptions,
-      feedOptions: {type: null, limit: 20},
+      feedOptions: {
+        type: null,
+        limit: 20,
+        xslt: false,
+        rssXslt: 'rss.xslt',
+        atomXslt: 'atom.xslt',
+      },
     });
   });
 
@@ -132,6 +152,9 @@ describe('validateOptions', () => {
         title: 'title',
         copyright: '',
         limit: 20,
+        xslt: false,
+        rssXslt: 'rss.xslt',
+        atomXslt: 'atom.xslt',
       },
     });
   });

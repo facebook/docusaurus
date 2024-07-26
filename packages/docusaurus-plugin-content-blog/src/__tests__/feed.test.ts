@@ -51,11 +51,8 @@ async function testGenerateFeeds(
   context: LoadContext,
   options: PluginOptions,
 ): Promise<void> {
-  const blogPosts = await generateBlogPosts(
-    getBlogContentPaths(context.siteDir),
-    context,
-    options,
-  );
+  const contentPaths = getBlogContentPaths(context.siteDir);
+  const blogPosts = await generateBlogPosts(contentPaths, context, options);
 
   await createBlogFeedFiles({
     blogPosts,
@@ -63,6 +60,7 @@ async function testGenerateFeeds(
     siteConfig: context.siteConfig,
     outDir: context.outDir,
     locale: 'en',
+    contentPaths,
   });
 }
 
@@ -330,9 +328,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         feedOptions: {
           type: [feedType],
           copyright: 'Copyright',
-          xsl: {
-            enable: true,
-          },
+          xslt: true,
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
@@ -375,11 +371,9 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         feedOptions: {
           type: [feedType],
           copyright: 'Copyright',
-          xsl: {
-            enable: true,
-            rssStylesheet: 'custom-rss.stylesheet.xsl',
-            atomStylesheet: 'custom-atom.stylesheet.xsl',
-          },
+          xslt: true,
+          rssXslt: 'custom-rss.stylesheet.xsl',
+          atomXslt: 'custom-atom.stylesheet.xsl',
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
