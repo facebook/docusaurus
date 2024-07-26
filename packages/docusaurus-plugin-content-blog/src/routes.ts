@@ -32,7 +32,7 @@ import type {
   BlogContent,
   PluginOptions,
   BlogPost,
-  Author,
+  AuthorWithKey,
 } from '@docusaurus/plugin-content-blog';
 
 type CreateAllRoutesParam = {
@@ -271,7 +271,7 @@ export async function buildAllRoutes({
       authorsMap,
       blogPosts,
     });
-    const authorEntries = Object.entries(authorsMap);
+    const authors = Object.values(authorsMap);
 
     const authorsPageLink = normalizeUrl([
       baseUrl,
@@ -281,9 +281,7 @@ export async function buildAllRoutes({
 
     return Promise.all([
       createAuthorListRoute(),
-      ...authorEntries.flatMap(([authorKey, author]) =>
-        createAuthorPaginatedRoute(authorKey, author),
-      ),
+      ...authors.flatMap(createAuthorPaginatedRoute),
     ]).then((routes) => routes.flat());
 
     async function createAuthorListRoute(): Promise<RouteConfig> {
@@ -295,10 +293,10 @@ export async function buildAllRoutes({
           sidebar: sidebarModulePath,
         },
         props: {
-          authors: authorEntries.map(([authorKey, author]) =>
+          authors: authors.map((author) =>
             toAuthorItemProp({
               author,
-              count: blogPostsByAuthorKey[authorKey]?.length ?? 0,
+              count: blogPostsByAuthorKey[author.key]?.length ?? 0,
             }),
           ),
         },
@@ -306,10 +304,9 @@ export async function buildAllRoutes({
     }
 
     async function createAuthorPaginatedRoute(
-      authorKey: string,
-      author: Author,
+      author: AuthorWithKey,
     ): Promise<RouteConfig[]> {
-      const authorBlogPosts = blogPostsByAuthorKey[authorKey] ?? [];
+      const authorBlogPosts = blogPostsByAuthorKey[author.key] ?? [];
       if (!author.page) {
         return [];
       }

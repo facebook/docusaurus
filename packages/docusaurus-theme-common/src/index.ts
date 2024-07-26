@@ -86,8 +86,6 @@ export {useWindowSize} from './hooks/useWindowSize';
  * Note: we still guarantee retro-compatibility on those
  */
 
-export {translateAuthorsPageTitle} from './utils/authorsUtils';
-
 export {
   translateTagsPageTitle,
   listTagsByLetters,

@@ -9,9 +9,9 @@ import clsx from 'clsx';
 import {
   PageMetadata,
   HtmlClassNameProvider,
-  translateAuthorsPageTitle,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
+import {translateBlogAuthorsPageTitle} from '@docusaurus/theme-common/internal';
 import BlogLayout from '@theme/BlogLayout';
 import AuthorsList from '@theme/AuthorsList';
 import type {Props} from '@theme/BlogAuthorsListPage';
@@ -22,7 +22,7 @@ export default function BlogAuthorsListPage({
   authors,
   sidebar,
 }: Props): JSX.Element {
-  const title: string = translateAuthorsPageTitle();
+  const title: string = translateBlogAuthorsPageTitle();
   return (
     <HtmlClassNameProvider
       className={clsx(

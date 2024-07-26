@@ -7,13 +7,15 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import Translate, {translate} from '@docusaurus/Translate';
 import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
-import {useBlogPostsPlural} from '@docusaurus/theme-common/internal';
+import {
+  useBlogAuthorsPostsPageTitle,
+  BlogAuthorsViewAllLabel,
+} from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
@@ -24,21 +26,6 @@ import Heading from '@theme/Heading';
 import Author from '@theme/BlogPostItem/Header/Author';
 
 import styles from './styles.module.css';
-
-function useBlogAuthorsPostsPageTitle(author: Props['author']): string {
-  const blogPostsPlural = useBlogPostsPlural();
-  return translate(
-    {
-      id: 'theme.blog.authorTitle',
-      description: 'The title of the page for a blog author',
-      message: '{nPosts} contributed by "{authorName}"',
-    },
-    {
-      nPosts: blogPostsPlural(author.count),
-      authorName: author.name || author.imageURL || '',
-    },
-  );
-}
 
 function BlogAuthorsPostsPageMetadata({author}: Props): JSX.Element {
   const title = useBlogAuthorsPostsPageTitle(author);
@@ -69,11 +56,7 @@ function BlogAuthorsPostsPageContent({
         />
         {author.description && <p>{author.description}</p>}
         <Link href={authorsPageLink}>
-          <Translate
-            id="theme.authors.authorsPageLink"
-            description="The label of the link targeting the author list page">
-            View All Authors
-          </Translate>
+          <BlogAuthorsViewAllLabel />
         </Link>
       </header>
       <BlogPostItems items={items} />

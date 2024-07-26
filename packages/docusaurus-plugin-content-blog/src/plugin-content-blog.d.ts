@@ -120,8 +120,11 @@ declare module '@docusaurus/plugin-content-blog' {
     page: AuthorPage | null;
   };
 
+  /** Authors coming from the AuthorsMap always have a key */
+  export type AuthorWithKey = Author & {key: string};
+
   /** What the authors list page should know about each author. */
-  export type AuthorItemProp = Author & {
+  export type AuthorItemProp = AuthorWithKey & {
     /** Number of blog posts with this author. */
     count: number;
   };
@@ -537,7 +540,7 @@ declare module '@docusaurus/plugin-content-blog' {
     items: BlogSidebarItem[];
   };
 
-  export type AuthorsMap = {[authorKey: string]: Author & {key: string}};
+  export type AuthorsMap = {[authorKey: string]: AuthorWithKey};
 
   export type BlogContent = {
     blogSidebarTitle: string;

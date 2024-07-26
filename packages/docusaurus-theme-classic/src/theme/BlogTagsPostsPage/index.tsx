@@ -7,13 +7,13 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import Translate, {translate} from '@docusaurus/Translate';
+import Translate from '@docusaurus/Translate';
 import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
-import {useBlogPostsPlural} from '@docusaurus/theme-common/internal';
+import {useBlogTagsPostsPageTitle} from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
@@ -22,18 +22,6 @@ import type {Props} from '@theme/BlogTagsPostsPage';
 import BlogPostItems from '@theme/BlogPostItems';
 import Unlisted from '@theme/Unlisted';
 import Heading from '@theme/Heading';
-
-function useBlogTagsPostsPageTitle(tag: Props['tag']): string {
-  const blogPostsPlural = useBlogPostsPlural();
-  return translate(
-    {
-      id: 'theme.blog.tagTitle',
-      description: 'The title of the page for a blog tag',
-      message: '{nPosts} tagged with "{tagName}"',
-    },
-    {nPosts: blogPostsPlural(tag.count), tagName: tag.label},
-  );
-}
 
 function BlogTagsPostsPageMetadata({tag}: Props): JSX.Element {
   const title = useBlogTagsPostsPageTitle(tag);
