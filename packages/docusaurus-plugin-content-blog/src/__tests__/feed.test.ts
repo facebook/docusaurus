@@ -307,17 +307,18 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and
     // copied the output to the fixture...
     await testGenerateFeeds(
-      {
+      fromPartial({
         siteDir,
         siteConfig,
         i18n: DefaultI18N,
         outDir,
-      } as LoadContext,
+      }),
       {
         path: 'blog',
         routeBasePath: 'blog',
@@ -333,6 +334,8 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
+        onInlineTags: 'ignore',
+        onInlineAuthors: 'ignore',
       } as PluginOptions,
     );
 
@@ -350,17 +353,18 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
       baseUrl: '/myBaseUrl/',
       url: 'https://docusaurus.io',
       favicon: 'image/favicon.ico',
+      markdown,
     };
 
     // Build is quite difficult to mock, so we built the blog beforehand and
     // copied the output to the fixture...
     await testGenerateFeeds(
-      {
+      fromPartial({
         siteDir,
         siteConfig,
         i18n: DefaultI18N,
         outDir,
-      } as LoadContext,
+      }),
       {
         path: 'blog',
         routeBasePath: 'blog',
@@ -372,12 +376,14 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
           type: [feedType],
           copyright: 'Copyright',
           xslt: true,
-          rssXslt: 'custom-rss.stylesheet.xsl',
-          atomXslt: 'custom-atom.stylesheet.xsl',
+          rssXslt: 'custom-rss.xslt',
+          atomXslt: 'custom-atom.xslt',
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
+        onInlineTags: 'ignore',
+        onInlineAuthors: 'ignore',
       } as PluginOptions,
     );
 
