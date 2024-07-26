@@ -313,7 +313,6 @@ export async function buildAllRoutes({
         return [];
       }
 
-      // TODO add tests
       const pages = paginateBlogPosts({
         blogPosts: authorBlogPosts,
         basePageUrl: author.page.permalink,
@@ -322,23 +321,6 @@ export async function buildAllRoutes({
         pageBasePath: authorsBasePath,
         postsPerPageOption: postsPerPage,
       });
-
-      if (pages.length === 0) {
-        pages.push({
-          items: [],
-          metadata: {
-            permalink: author.page.permalink,
-            page: 0,
-            postsPerPage: 5,
-            totalPages: 0,
-            totalCount: 0,
-            previousPage: undefined,
-            nextPage: undefined,
-            blogDescription,
-            blogTitle,
-          },
-        });
-      }
 
       return pages.map(({metadata, items}) => {
         return {

@@ -65,7 +65,7 @@ export function paginateBlogPosts({
   const totalCount = blogPosts.length;
   const postsPerPage =
     postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
-  const numberOfPages = Math.ceil(totalCount / postsPerPage);
+  const numberOfPages = Math.max(1, Math.ceil(totalCount / postsPerPage));
 
   const pages: BlogPaginated[] = [];
 
