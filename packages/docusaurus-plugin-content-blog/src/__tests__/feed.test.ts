@@ -330,6 +330,8 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
           type: [feedType],
           copyright: 'Copyright',
           xslt: true,
+          rssXslt: 'rss.xslt',
+          atomXslt: 'atom.xslt',
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
