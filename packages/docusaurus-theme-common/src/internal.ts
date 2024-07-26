@@ -93,7 +93,7 @@ export {useBackToTopButton} from './hooks/useBackToTopButton';
 
 export {
   useBlogTagsPostsPageTitle,
-  useBlogAuthorsPostsPageTitle,
-  translateBlogAuthorsPageTitle,
+  useBlogAuthorPageTitle,
+  translateBlogAuthorsListPageTitle,
   BlogAuthorsViewAllLabel,
 } from './translations/blogTranslations';

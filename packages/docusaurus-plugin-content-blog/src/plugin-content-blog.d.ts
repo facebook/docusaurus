@@ -502,7 +502,7 @@ declare module '@docusaurus/plugin-content-blog' {
        */
       processBlogPosts: ProcessBlogPostsFn;
       /* Base path for the authors page */
-      authorsPageBasePath: string;
+      authorsBasePath: string;
       /** The behavior of Docusaurus when it finds inline authors. */
       onInlineAuthors: 'ignore' | 'log' | 'warn' | 'throw';
     };

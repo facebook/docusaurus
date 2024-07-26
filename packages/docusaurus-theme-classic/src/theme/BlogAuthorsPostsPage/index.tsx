@@ -13,7 +13,7 @@ import {
   ThemeClassNames,
 } from '@docusaurus/theme-common';
 import {
-  useBlogAuthorsPostsPageTitle,
+  useBlogAuthorPageTitle,
   BlogAuthorsViewAllLabel,
 } from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
@@ -29,7 +29,7 @@ import Author from '@theme/BlogPostItem/Header/Author';
 import styles from './styles.module.css';
 
 function BlogAuthorsPostsPageMetadata({author}: Props): JSX.Element {
-  const title = useBlogAuthorsPostsPageTitle(author);
+  const title = useBlogAuthorPageTitle(author);
   return (
     <>
       <PageMetadata title={title} />
@@ -53,7 +53,7 @@ function BlogAuthorsPostsPageContent({
   sidebar,
   listMetadata,
 }: Props): JSX.Element {
-  const title = useBlogAuthorsPostsPageTitle(author);
+  const title = useBlogAuthorPageTitle(author);
   return (
     <BlogLayout sidebar={sidebar}>
       <header className="margin-bottom--xl">

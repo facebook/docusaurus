@@ -9,7 +9,7 @@ import React, {type ReactNode} from 'react';
 import Translate, {translate} from '@docusaurus/Translate';
 import {usePluralForm} from '../utils/usePluralForm';
 
-// Only used internally
+// Only used locally
 function useBlogPostsPlural(): (count: number) => string {
   const {selectMessage} = usePluralForm();
   return (count: number) =>
@@ -42,7 +42,7 @@ export function useBlogTagsPostsPageTitle(tag: {
   );
 }
 
-export function useBlogAuthorsPostsPageTitle(author: {
+export function useBlogAuthorPageTitle(author: {
   key: string;
   name?: string;
   count: number;
@@ -61,9 +61,9 @@ export function useBlogAuthorsPostsPageTitle(author: {
   );
 }
 
-export const translateBlogAuthorsPageTitle = (): string =>
+export const translateBlogAuthorsListPageTitle = (): string =>
   translate({
-    id: 'theme.blog.authors.pageTitle',
+    id: 'theme.blog.authorsList.pageTitle',
     message: 'Authors',
     description: 'The title of the authors page',
   });

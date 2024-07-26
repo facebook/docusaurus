@@ -161,7 +161,7 @@ export default async function pluginContentBlog(
         blogTitle,
         blogSidebarTitle,
         pageBasePath,
-        authorsPageBasePath,
+        authorsBasePath,
         authorsMapPath,
       } = options;
 
@@ -174,7 +174,7 @@ export default async function pluginContentBlog(
         authorsBaseRoutePath: normalizeUrl([
           baseUrl,
           routeBasePath,
-          authorsPageBasePath,
+          authorsBasePath,
         ]),
       });
       checkAuthorsMapPermalinkCollisions(authorsMap);

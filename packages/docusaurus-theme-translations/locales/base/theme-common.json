@@ -41,7 +41,7 @@
   "theme.admonition.tip___DESCRIPTION": "The default label used for the Tip admonition (:::tip)",
   "theme.admonition.warning": "warning",
   "theme.admonition.warning___DESCRIPTION": "The default label used for the Warning admonition (:::warning)",
-  "theme.blog.authors.pageTitle": "Authors",
+  "theme.blog.authorsList.pageTitle": "Authors",
   "theme.blog.authors.viewAll": "View All Authors",
   "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
   "theme.blog.archive.description": "Archive",

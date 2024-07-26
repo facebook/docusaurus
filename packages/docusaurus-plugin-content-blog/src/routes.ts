@@ -68,7 +68,7 @@ export async function buildAllRoutes({
     routeBasePath,
     archiveBasePath,
     blogTitle,
-    authorsPageBasePath,
+    authorsBasePath,
     postsPerPage,
     blogDescription,
   } = options;
@@ -86,7 +86,7 @@ export async function buildAllRoutes({
   const authorsListPath = normalizeUrl([
     baseUrl,
     routeBasePath,
-    authorsPageBasePath,
+    authorsBasePath,
   ]);
 
   const listedBlogPosts = blogPosts.filter(shouldBeListed);
@@ -316,7 +316,7 @@ export async function buildAllRoutes({
         basePageUrl: author.page.permalink,
         blogDescription,
         blogTitle,
-        pageBasePath: authorsPageBasePath,
+        pageBasePath: authorsBasePath,
         postsPerPageOption: postsPerPage,
       });
 
