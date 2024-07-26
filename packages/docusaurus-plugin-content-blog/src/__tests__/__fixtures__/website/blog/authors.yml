@@ -1,5 +1,5 @@
 slorber:
-  name: Sébastien Lorber
+  name: Sébastien Lsdsdorber
   title: Docusaurus maintainer
   email: lorber.sebastien@gmail.com
   url: https://sebastienlorber.com
@@ -7,3 +7,4 @@ slorber:
     twitter: sebastienlorber
     x: https://x.com/sebastienlorber
     github: slorber
+  page: true

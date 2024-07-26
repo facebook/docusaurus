@@ -230,7 +230,7 @@ describe('blog plugin', () => {
           name: 'Sébastien Lorber (translated)',
           title: 'Docusaurus maintainer (translated)',
           imageURL: undefined,
-          page: null,
+          page: {permalink: '/blog/authors/slorber-custom-permalink-localized'},
         },
       ],
       date: new Date('2018-12-14'),
