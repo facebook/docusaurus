@@ -196,8 +196,6 @@ describe('blog plugin', () => {
           permalink: '/blog/tags/date',
         },
       ],
-      lastUpdatedAt: undefined,
-      lastUpdatedBy: undefined,
       nextItem: {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
         title: 'Happy 1st Birthday Slash! (translated)',
@@ -260,8 +258,6 @@ describe('blog plugin', () => {
           permalink: '/blog/tags/global-tag-permalink (en)',
         },
       ],
-      lastUpdatedAt: undefined,
-      lastUpdatedBy: undefined,
       prevItem: {
         permalink: '/blog/date-matter',
         title: 'date-matter',
@@ -347,8 +343,6 @@ describe('blog plugin', () => {
         title: 'Simple Slug',
       },
       tags: [],
-      lastUpdatedAt: undefined,
-      lastUpdatedBy: undefined,
       hasTruncateMarker: false,
       unlisted: false,
     });
