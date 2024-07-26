@@ -111,7 +111,14 @@ describe('validateOptions', () => {
       }),
     ).toEqual({
       ...defaultOptions,
-      feedOptions: {type: ['rss', 'atom', 'json'], copyright: '', limit: 20},
+      feedOptions: {
+        type: ['rss', 'atom', 'json'],
+        copyright: '',
+        limit: 20,
+        xslt: false,
+        rssXslt: 'rss.xslt',
+        atomXslt: 'atom.xslt',
+      },
     });
   });
 
