@@ -51,8 +51,8 @@ export default function BlogAuthor({
           <div className="avatar__name">
             <MaybeLink href={link}>
               <span className={styles.authorName}>{name}</span>
-              {count && <span className={clsx(styles.count)}>{count}</span>}
             </MaybeLink>
+            {count && <span className={clsx(styles.count)}>{count}</span>}
           </div>
           {!!title && <AuthorTitle title={title} />}
           {hasSocials && <AuthorSocials author={author} />}
