@@ -68,10 +68,10 @@ export const translateBlogAuthorsListPageTitle = (): string =>
     description: 'The title of the authors page',
   });
 
-export function BlogAuthorsViewAllLabel(): ReactNode {
+export function BlogAuthorsListViewAllLabel(): ReactNode {
   return (
     <Translate
-      id="theme.blog.authors.viewAll"
+      id="theme.blog.authorsList.viewAll"
       description="The label of the link targeting the blog authors page">
       View All Authors
     </Translate>

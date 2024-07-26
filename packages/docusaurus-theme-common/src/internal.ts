@@ -95,5 +95,5 @@ export {
   useBlogTagsPostsPageTitle,
   useBlogAuthorPageTitle,
   translateBlogAuthorsListPageTitle,
-  BlogAuthorsViewAllLabel,
+  BlogAuthorsListViewAllLabel,
 } from './translations/blogTranslations';

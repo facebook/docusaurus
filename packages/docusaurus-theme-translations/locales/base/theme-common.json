@@ -42,7 +42,7 @@
   "theme.admonition.warning": "warning",
   "theme.admonition.warning___DESCRIPTION": "The default label used for the Warning admonition (:::warning)",
   "theme.blog.authorsList.pageTitle": "Authors",
-  "theme.blog.authors.viewAll": "View All Authors",
+  "theme.blog.authorsList.viewAll": "View All Authors",
   "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
   "theme.blog.archive.description": "Archive",
   "theme.blog.archive.description___DESCRIPTION": "The page & hero description of the blog archive page",

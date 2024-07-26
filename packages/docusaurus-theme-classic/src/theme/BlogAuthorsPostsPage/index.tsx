@@ -14,7 +14,7 @@ import {
 } from '@docusaurus/theme-common';
 import {
   useBlogAuthorPageTitle,
-  BlogAuthorsViewAllLabel,
+  BlogAuthorsListViewAllLabel,
 } from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
@@ -42,7 +42,7 @@ function ViewAllAuthorsLink() {
   const {authorsListPath} = useBlogMetadata();
   return (
     <Link href={authorsListPath}>
-      <BlogAuthorsViewAllLabel />
+      <BlogAuthorsListViewAllLabel />
     </Link>
   );
 }
