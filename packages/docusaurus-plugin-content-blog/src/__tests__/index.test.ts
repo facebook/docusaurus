@@ -490,8 +490,6 @@ describe('blog plugin', () => {
       tags: [],
       prevItem: undefined,
       nextItem: undefined,
-      lastUpdatedAt: undefined,
-      lastUpdatedBy: undefined,
       hasTruncateMarker: false,
       unlisted: false,
     });
