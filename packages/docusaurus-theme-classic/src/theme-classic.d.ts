@@ -185,6 +185,30 @@ declare module '@theme/BackToTopButton' {
   export default function BackToTopButton(): JSX.Element;
 }
 
+declare module '@theme/Blog/Components/Author' {
+  import type {Author} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly author: Author;
+    readonly singleAuthor: boolean;
+    readonly className?: string;
+    readonly count?: number;
+  }
+
+  export default function BlogAuthor(props: Props): JSX.Element;
+}
+
+declare module '@theme/Blog/Components/Author/Socials' {
+  import type {Author} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly author: Author;
+    readonly className?: string;
+  }
+
+  export default function BlogAuthorSocials(props: Props): JSX.Element;
+}
+
 declare module '@theme/BlogListPaginator' {
   import type {BlogPaginatedMetadata} from '@docusaurus/plugin-content-blog';
 
@@ -289,32 +313,6 @@ declare module '@theme/BlogPostItem/Header/Info' {
   }
 
   export default function BlogPostItemHeaderInfo(): JSX.Element;
-}
-
-declare module '@theme/BlogPostItem/Header/Author' {
-  import type {Author} from '@docusaurus/plugin-content-blog';
-
-  export interface Props {
-    readonly author: Author;
-    readonly singleAuthor: boolean;
-    readonly className?: string;
-    readonly count?: number;
-  }
-
-  export default function BlogPostItemHeaderAuthor(props: Props): JSX.Element;
-}
-
-declare module '@theme/BlogPostItem/Header/Author/Socials' {
-  import type {Author} from '@docusaurus/plugin-content-blog';
-
-  export interface Props {
-    readonly author: Author;
-    readonly className?: string;
-  }
-
-  export default function BlogPostItemHeaderAuthorSocials(
-    props: Props,
-  ): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem/Header/Authors' {
@@ -1602,15 +1600,6 @@ declare module '@theme/Tag' {
   export interface Props extends Optional<TagsListItem, 'count'> {}
 
   export default function Tag(props: Props): JSX.Element;
-}
-
-declare module '@theme/AuthorsList' {
-  import type {AuthorItemProp} from '@docusaurus/plugin-content-blog';
-
-  export interface Props {
-    readonly authors: readonly AuthorItemProp[];
-  }
-  export default function AuthorsList(props: Props): JSX.Element;
 }
 
 declare module '@theme/Unlisted' {

@@ -21,14 +21,14 @@ import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
-import type {Props} from '@theme/BlogAuthorsPostsPage';
+import type {Props} from '@theme/Blog/Pages/BlogAuthorsPostsPage';
 import BlogPostItems from '@theme/BlogPostItems';
 import Heading from '@theme/Heading';
-import Author from '@theme/BlogPostItem/Header/Author';
+import Author from '@theme/Blog/Components/Author';
 
 import styles from './styles.module.css';
 
-function BlogAuthorsPostsPageMetadata({author}: Props): JSX.Element {
+function Metadata({author}: Props): JSX.Element {
   const title = useBlogAuthorPageTitle(author);
   return (
     <>
@@ -47,12 +47,7 @@ function ViewAllAuthorsLink() {
   );
 }
 
-function BlogAuthorsPostsPageContent({
-  author,
-  items,
-  sidebar,
-  listMetadata,
-}: Props): JSX.Element {
+function Content({author, items, sidebar, listMetadata}: Props): JSX.Element {
   const title = useBlogAuthorPageTitle(author);
   return (
     <BlogLayout sidebar={sidebar}>
@@ -71,6 +66,7 @@ function BlogAuthorsPostsPageContent({
     </BlogLayout>
   );
 }
+
 export default function BlogAuthorsPostsPage(props: Props): JSX.Element {
   return (
     <HtmlClassNameProvider
@@ -78,8 +74,8 @@ export default function BlogAuthorsPostsPage(props: Props): JSX.Element {
         ThemeClassNames.wrapper.blogPages,
         ThemeClassNames.page.blogAuthorPostListPage,
       )}>
-      <BlogAuthorsPostsPageMetadata {...props} />
-      <BlogAuthorsPostsPageContent {...props} />
+      <Metadata {...props} />
+      <Content {...props} />
     </HtmlClassNameProvider>
   );
 }

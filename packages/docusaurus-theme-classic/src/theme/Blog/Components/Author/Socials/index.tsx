@@ -9,7 +9,7 @@ import type {ComponentType} from 'react';
 import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import type {Props} from '@theme/BlogPostItem/Header/Author/Socials';
+import type {Props} from '@theme/Blog/Components/Author/Socials';
 
 import Twitter from '@theme/Icon/Socials/Twitter';
 import GitHub from '@theme/Icon/Socials/GitHub';
@@ -50,7 +50,7 @@ function SocialLink({platform, link}: {platform: string; link: string}) {
   );
 }
 
-export default function AuthorSocials({
+export default function BlogAuthorSocials({
   author,
 }: {
   author: Props['author'];

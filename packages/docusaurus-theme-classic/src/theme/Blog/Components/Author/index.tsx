@@ -8,9 +8,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link, {type Props as LinkProps} from '@docusaurus/Link';
-import AuthorSocials from '@theme/BlogPostItem/Header/Author/Socials';
-
-import type {Props} from '@theme/BlogPostItem/Header/Author';
+import AuthorSocials from '@theme/Blog/Components/Author/Socials';
+import type {Props} from '@theme/Blog/Components/Author';
 import styles from './styles.module.css';
 
 function MaybeLink(props: LinkProps): JSX.Element {
@@ -28,8 +27,7 @@ function AuthorTitle({title}: {title: string}) {
   );
 }
 
-export default function BlogPostItemHeaderAuthor({
-  // singleAuthor, // may be useful in the future, or for swizzle users
+export default function BlogAuthor({
   author,
   className,
   count,

@@ -716,7 +716,7 @@ declare module '@theme/BlogTagsListPage' {
   export default function BlogTagsListPage(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogAuthorsListPage' {
+declare module '@theme/Blog/Pages/BlogAuthorsListPage' {
   import type {
     AuthorItemProp,
     BlogSidebar,
@@ -732,7 +732,7 @@ declare module '@theme/BlogAuthorsListPage' {
   export default function BlogAuthorsListPage(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogAuthorsPostsPage' {
+declare module '@theme/Blog/Pages/BlogAuthorsPostsPage' {
   import type {Content} from '@theme/BlogPostPage';
   import type {
     AuthorItemProp,

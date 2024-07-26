@@ -8,7 +8,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {useBlogPost} from '@docusaurus/plugin-content-blog/client';
-import BlogPostItemHeaderAuthor from '@theme/BlogPostItem/Header/Author';
+import BlogAuthor from '@theme/Blog/Components/Author';
 import type {Props} from '@theme/BlogPostItem/Header/Authors';
 import styles from './styles.module.css';
 
@@ -40,7 +40,7 @@ export default function BlogPostItemHeaderAuthors({
             imageOnly ? styles.imageOnlyAuthorCol : styles.authorCol,
           )}
           key={idx}>
-          <BlogPostItemHeaderAuthor
+          <BlogAuthor
             singleAuthor={singleAuthor}
             author={{
               ...author,

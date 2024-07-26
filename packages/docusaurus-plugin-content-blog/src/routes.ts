@@ -301,6 +301,9 @@ export async function buildAllRoutes({
             }),
           ),
         },
+        context: {
+          blogMetadata: blogMetadataModulePath,
+        },
       };
     }
 
@@ -349,6 +352,9 @@ export async function buildAllRoutes({
           props: {
             author: toAuthorItemProp({author, count: authorBlogPosts.length}),
             listMetadata: metadata,
+          },
+          context: {
+            blogMetadata: blogMetadataModulePath,
           },
         };
       });

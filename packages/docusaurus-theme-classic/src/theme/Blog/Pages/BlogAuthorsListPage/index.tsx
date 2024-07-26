@@ -13,10 +13,26 @@ import {
 } from '@docusaurus/theme-common';
 import {translateBlogAuthorsListPageTitle} from '@docusaurus/theme-common/internal';
 import BlogLayout from '@theme/BlogLayout';
-import AuthorsList from '@theme/AuthorsList';
-import type {Props} from '@theme/BlogAuthorsListPage';
+import type {Props} from '@theme/Blog/Pages/BlogAuthorsListPage';
 import SearchMetadata from '@theme/SearchMetadata';
 import Heading from '@theme/Heading';
+import Author from '@theme/Blog/Components/Author';
+import styles from './styles.module.css';
+
+function AuthorsList({authors}: {authors: Props['authors']}): JSX.Element {
+  return (
+    <section className={clsx('margin-vert--lg', styles.section)}>
+      {authors.map((author) => (
+        <Author
+          key={author.key}
+          author={author}
+          singleAuthor
+          count={author.count}
+        />
+      ))}
+    </section>
+  );
+}
 
 export default function BlogAuthorsListPage({
   authors,
@@ -30,7 +46,6 @@ export default function BlogAuthorsListPage({
         ThemeClassNames.page.blogAuthorsListPage,
       )}>
       <PageMetadata title={title} />
-      <PageMetadata title="Author page" />
       <SearchMetadata tag="blog_authors_list" />
       <BlogLayout sidebar={sidebar}>
         <Heading as="h1">{title}</Heading>
