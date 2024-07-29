@@ -403,38 +403,36 @@ An author, either declared through front matter or through the authors map, need
 
 ### Authors page {#authors-page}
 
-Docusaurus generate an author's page listing all authors with their respective blog posts the author have `page: true`.
+Docusaurus generate an author's page listing all authors with their respective blog posts if the author have `page: true`.
 
-By default the feature is disabled and will not generate the authors page.
+By default the permalink of the author is the author's key, this ensure unique permalink between authors. You can customize the permalink for the author, see example below.
+
+Blog posts must reference the author's key to be displayed on the author's page. Inline authors are not supported on the author's page.
 
 ```yml title="website/blog/authors.yml"
-slorber:
+slorber: # author key
   name: Sébastien Lorber
   title: Docusaurus maintainer
   url: https://sebastienlorber.com
   image_url: https://github.com/slorber.png
-  page: true # Enable the authors page for this author
+  page: true # Enable the authors page for this author (route will be /authors/slorber)
   socials:
     x: sebastienlorber
     github: slorber
+
+jmarcey:
+  name: Joel Marcey
+  title: Co-creator of Docusaurus 1
+  url: https://github.com/JoelMarcey
+  image_url: https://github.com/JoelMarcey.png
+  page:
+    permalink: '/joel marcey'
+  socials:
+    x: joelmarcey
+    github: JoelMarcey
 ```
 
-You can configure the route base path for the authors page using the `authorsPagePath` option in the plugin configuration.
-
-```js title="docusaurus.config.js"
-export default {
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        blog: {
-          authorsPagePath: '/authors',
-        },
-      },
-    ],
-  ],
-};
-```
+You can configure the route path for the authors page using the [`authorsPagePath`](api/plugins/plugin-content-blog.mdx#authorsPagePath).
 
 ## Blog post tags {#blog-post-tags}
 
