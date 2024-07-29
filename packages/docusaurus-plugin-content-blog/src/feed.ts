@@ -183,51 +183,50 @@ async function defaultCreateFeedItems({
 
 /**
  * @description addXmlStyleSheet appends a xsl stylesheet to the generated xml feed
- * @param feedDetails array containing blog feed content and name of file
+ * @param feedDetails the feed content
  * @param generatePath path where the file would be copied in website
+ * @param xsltFile path to the xslt file
+ * @param contentPaths path to the content directory
  */
-async function addXmlStyleSheet({
+async function transformFeedWithStylesheet({
   feedDetails,
   generatePath,
-  xslPath,
-  contentPaths,
+  xsltFile,
+  contentPaths: {contentPath},
 }: {
-  feedDetails: string[];
+  feedDetails: string;
   generatePath: string;
-  xslPath: string;
+  xsltFile: string;
   contentPaths: BlogContentPaths;
 }) {
-  if (!feedDetails[0]) {
+  // TODO idk why there is this check
+  if (!feedDetails) {
     return feedDetails;
   }
 
-  const {contentPath} = contentPaths;
-  const fileName = path.parse(xslPath).name;
-  const isDefault = xslPath === 'rss.xslt' || xslPath === 'atom.xslt';
+  const fileName = path.parse(xsltFile).name;
+  const isDefault = xsltFile === 'rss.xslt' || xsltFile === 'atom.xslt';
   const directoryPath = isDefault
     ? path.join(__dirname, '../assets/')
     : contentPath;
-  const xsltLink = `<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="${xslPath}"?>`;
 
-  feedDetails[0] = feedDetails[0]?.replace(
+  const xsltLink = `<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="${xsltFile}"?>`;
+  const transformedFeed = feedDetails.replace(
     '<?xml version="1.0" encoding="utf-8"?>',
     xsltLink,
   );
 
   const xsltPath = path.join(directoryPath, `${fileName}.xslt`);
-  const cssPath = path.join(directoryPath, `${fileName}.css`);
-  const xsltGeneratePath = path.join(generatePath, `${fileName}.xslt`);
-  const cssGeneratePath = path.join(generatePath, `${fileName}.css`);
-
-  // output xslt file to website
   const xsltContent = await fs.readFile(xsltPath, 'utf8');
+  const xsltGeneratePath = path.join(generatePath, `${fileName}.xslt`);
   await fs.outputFile(xsltGeneratePath, xsltContent, 'utf-8');
 
-  // output stylesheet to website
+  const cssPath = path.join(directoryPath, `${fileName}.css`);
   const stylesheetContent = await fs.readFile(cssPath, 'utf8');
+  const cssGeneratePath = path.join(generatePath, `${fileName}.css`);
   await fs.outputFile(cssGeneratePath, stylesheetContent, 'utf-8');
 
-  return feedDetails;
+  return transformedFeed;
 }
 
 async function createBlogFeedFile({
@@ -243,34 +242,49 @@ async function createBlogFeedFile({
   feedOptions: FeedOptions;
   contentPaths: BlogContentPaths;
 }) {
-  let feedDetails = (() => {
+  const [feedContent, feedPath] = await (async () => {
     switch (feedType) {
-      case 'rss':
-        return [feed.rss2(), 'rss.xml'];
+      case 'rss': {
+        const rssFeed = feed.rss2();
+        const outputPath = 'rss.xml';
+        if (xslt) {
+          const xsltFeed = await transformFeedWithStylesheet({
+            feedDetails: rssFeed,
+            generatePath,
+            xsltFile: rssXslt,
+            contentPaths,
+          });
+          return [xsltFeed, outputPath];
+        }
+        return [rssFeed, outputPath];
+      }
       case 'json':
         return [feed.json1(), 'feed.json'];
-      case 'atom':
-        return [feed.atom1(), 'atom.xml'];
+      case 'atom': {
+        const atomFeed = feed.atom1();
+        const outputPath = 'atom.xml';
+        if (xslt) {
+          const xsltFeed = await transformFeedWithStylesheet({
+            feedDetails: atomFeed,
+            generatePath,
+            xsltFile: atomXslt,
+            contentPaths,
+          });
+          return [xsltFeed, outputPath];
+        }
+        return [atomFeed, outputPath];
+      }
       default:
         throw new Error(`Feed type ${feedType} not supported.`);
     }
   })();
-  try {
-    if (xslt) {
-      feedDetails = await addXmlStyleSheet({
-        feedDetails,
-        generatePath,
-        xslPath: feedDetails[1] === 'atom.xml' ? atomXslt : rssXslt,
-        contentPaths,
-      });
-    }
 
-    await fs.outputFile(
-      path.join(generatePath, `${feedDetails[1]}`),
-      feedDetails[0],
-    );
+  try {
+    await fs.outputFile(path.join(generatePath, feedPath), feedContent);
   } catch (err) {
-    throw new Error(`Error creating feed file: ${feedType}`, {cause: err});
+    throw new Error(`Generating ${feedType} feed failed.`, {
+      cause: err as Error,
+    });
   }
 }
 

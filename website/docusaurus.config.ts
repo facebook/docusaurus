@@ -488,6 +488,7 @@ export default async function createConfigAsync() {
             feedOptions: {
               type: 'all',
               copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+              xslt: true,
             },
             blogTitle: 'Docusaurus blog',
             blogDescription: 'Read blog posts about Docusaurus from the team',
