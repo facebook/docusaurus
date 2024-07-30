@@ -63,6 +63,12 @@ import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {DocFile, FullVersion} from './types';
 import type {RuleSetUseItem} from 'webpack';
 
+// Reduces number of concurrent Git processes spawned to get file commit date
+// See https://github.com/facebook/docusaurus/issues/10348
+const Concurrency = process.env.DOCUSAURUS_GIT_CONCURRENCY
+  ? parseInt(process.env.DOCUSAURUS_GIT_CONCURRENCY, 10)
+  : 100;
+
 // TODO this is bad, we should have a better way to do this (new lifecycle?)
 //  The source to permalink is currently a mutable map passed to the mdx loader
 //  for link resolution
@@ -191,7 +197,13 @@ export default async function pluginContentDocs(
             tagsFile,
           });
         }
-        return Promise.all(docFiles.map(processVersionDoc));
+        const results = [];
+        while (docFiles.length > 0) {
+          const batch = docFiles.splice(0, Concurrency);
+          const batchResults = await Promise.all(batch.map(processVersionDoc));
+          results.push(...batchResults);
+        }
+        return results;
       }
 
       async function doLoadVersion(
