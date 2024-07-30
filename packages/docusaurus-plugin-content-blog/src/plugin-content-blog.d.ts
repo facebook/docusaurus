@@ -291,10 +291,12 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
   export type FeedType = 'rss' | 'atom' | 'json';
 
   export type XslParams = {
-    /** Enable xsl stylesheet */
-    xslt: boolean;
-    rssXslt: string;
-    atomXslt: string;
+    /** Enable xslt stylesheet */
+    xslt: {
+      enabled: boolean;
+      rssXslt: string;
+      atomXslt: string;
+    };
   };
 
   /**
@@ -491,6 +493,11 @@ yarn workspace v1.22.19image` is a collocated image path, this entry will be the
     {
       /** Type of feed to be generated. Use `null` to disable generation. */
       type?: FeedOptions['type'] | 'all' | FeedType;
+      xslt?: {
+        enabled?: boolean;
+        rssXslt?: string;
+        atomXslt?: string;
+      };
     }
   >;
   /**

@@ -233,7 +233,7 @@ async function createBlogFeedFile({
   feed,
   feedType,
   generatePath,
-  feedOptions: {atomXslt, rssXslt, xslt},
+  feedOptions: {xslt},
   contentPaths,
 }: {
   feed: Feed;
@@ -247,11 +247,11 @@ async function createBlogFeedFile({
       case 'rss': {
         const rssFeed = feed.rss2();
         const outputPath = 'rss.xml';
-        if (xslt) {
+        if (xslt.enabled) {
           const xsltFeed = await transformFeedWithStylesheet({
             feedDetails: rssFeed,
             generatePath,
-            xsltFile: rssXslt,
+            xsltFile: xslt.rssXslt,
             contentPaths,
           });
           return [xsltFeed, outputPath];
@@ -263,11 +263,11 @@ async function createBlogFeedFile({
       case 'atom': {
         const atomFeed = feed.atom1();
         const outputPath = 'atom.xml';
-        if (xslt) {
+        if (xslt.enabled) {
           const xsltFeed = await transformFeedWithStylesheet({
             feedDetails: atomFeed,
             generatePath,
-            xsltFile: atomXslt,
+            xsltFile: xslt.atomXslt,
             contentPaths,
           });
           return [xsltFeed, outputPath];

@@ -27,9 +27,11 @@ export const DEFAULT_OPTIONS: PluginOptions = {
     type: ['rss', 'atom'],
     copyright: '',
     limit: 20,
-    xslt: false,
-    atomXslt: 'atom.xslt',
-    rssXslt: 'rss.xslt',
+    xslt: {
+      enabled: false,
+      atomXslt: 'atom.xslt',
+      rssXslt: 'rss.xslt',
+    },
   },
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
@@ -129,9 +131,11 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
       )
       .allow(null)
       .default(DEFAULT_OPTIONS.feedOptions.type),
-    xslt: Joi.boolean().default(DEFAULT_OPTIONS.feedOptions.xslt),
-    atomXslt: Joi.string().default(DEFAULT_OPTIONS.feedOptions.atomXslt),
-    rssXslt: Joi.string().default(DEFAULT_OPTIONS.feedOptions.rssXslt),
+    xslt: Joi.object({
+      enabled: Joi.boolean().default(DEFAULT_OPTIONS.feedOptions.xslt.enabled),
+      atomXslt: Joi.string().default(DEFAULT_OPTIONS.feedOptions.xslt.atomXslt),
+      rssXslt: Joi.string().default(DEFAULT_OPTIONS.feedOptions.xslt.rssXslt),
+    }).default(DEFAULT_OPTIONS.feedOptions.xslt),
     title: Joi.string().allow(''),
     description: Joi.string().allow(''),
     // Only add default value when user actually wants a feed (type is not null)

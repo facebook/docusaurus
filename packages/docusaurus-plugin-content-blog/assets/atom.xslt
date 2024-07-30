@@ -35,7 +35,7 @@
                 </g>
                 </svg>
               </div>
-              Custom Atom Feed Preview </h1>
+              Atom Feed Preview </h1>
             <h2>
               <xsl:value-of select="atom:feed/atom:title" />
             </h2>
