@@ -7,16 +7,16 @@
   <xsl:template match="/">
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
       <head>
-        <title>Atom Feed | <xsl:value-of select="atom:feed/atom:title" /></title>
+        <title>RSS Feed | <xsl:value-of select="rss/channel/title" /></title>
         <link rel="stylesheet" href="custom-rss.css" />
       </head>
       <body>
         <main>
           <div class="description">
             <div class="info">
-              <strong>This is an Atom feed</strong>. Subscribe by copying the URL from the address
-  bar into your newsreader. Visit <a href="https://aboutfeeds.com/">About Feeds</a> to learn more
-  and get started. It’s free. </div>
+              <strong>This is an RSS feed</strong>. Subscribe by copying the URL from the address
+              bar into your newsreader. Visit <a href="https://aboutfeeds.com/">About Feeds</a> to learn more
+              and get started. It’s free. </div>
             <h1 class="flex items-start">
               <div class="rss-icon">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
@@ -35,24 +35,25 @@
                   </g>
                 </svg>
               </div>
-  Custom Atom Feed Preview </h1>
+  Custom RSS Feed Preview </h1>
             <h2>
-              <xsl:value-of select="atom:feed/atom:title" />
+              <xsl:value-of select="rss/channel/title" />
             </h2>
-            <p>Description: <xsl:value-of select="atom:feed/atom:subtitle" /></p>
+            <p>Description: <xsl:value-of select="rss/channel/description" /></p>
           </div>
           <h2>Recent Posts</h2>
           <div class="postsList">
-            <xsl:for-each select="atom:feed/atom:entry">
+            <xsl:for-each select="rss/channel/item">
               <div class="pb-7">
-                <a href="{atom:link[@rel='alternate']/@href}">
-                  <xsl:value-of select="atom:title" />
+                <a href="{link}">
+                  <xsl:value-of select="title" />
                 </a>
                 <div class="text-2 text-offset"> Published on <xsl:value-of
-                    select="substring(atom:updated, 0, 17)" />
+                    select="substring(pubDate,0,17)" />
                 </div>
                 <div class="text-2 text-offset italic">
-                  <xsl:value-of select="atom:summary" />
+                  <xsl:value-of
+                    select="description" />
                 </div>
               </div>
             </xsl:for-each>

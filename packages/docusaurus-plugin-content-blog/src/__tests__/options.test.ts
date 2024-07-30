@@ -41,9 +41,6 @@ describe('validateOptions', () => {
       feedOptions: {
         type: 'rss' as const,
         title: 'myTitle',
-        xslt: false,
-        atomXslt: 'atom.xslt',
-        rssXslt: 'rss.xslt',
       },
       path: 'not_blog',
       routeBasePath: '/myBlog',
@@ -59,9 +56,7 @@ describe('validateOptions', () => {
         title: 'myTitle',
         copyright: '',
         limit: 20,
-        xslt: false,
-        atomXslt: 'atom.xslt',
-        rssXslt: 'rss.xslt',
+        xslt: {enabled: false, atomXslt: 'atom.xslt', rssXslt: 'rss.xslt'},
       },
     });
   });
@@ -115,9 +110,7 @@ describe('validateOptions', () => {
         type: ['rss', 'atom', 'json'],
         copyright: '',
         limit: 20,
-        xslt: false,
-        rssXslt: 'rss.xslt',
-        atomXslt: 'atom.xslt',
+        xslt: {enabled: false, atomXslt: 'atom.xslt', rssXslt: 'rss.xslt'},
       },
     });
   });
@@ -132,9 +125,7 @@ describe('validateOptions', () => {
       feedOptions: {
         type: null,
         limit: 20,
-        xslt: false,
-        rssXslt: 'rss.xslt',
-        atomXslt: 'atom.xslt',
+        xslt: {enabled: false, atomXslt: 'atom.xslt', rssXslt: 'rss.xslt'},
       },
     });
   });
@@ -159,9 +150,11 @@ describe('validateOptions', () => {
         title: 'title',
         copyright: '',
         limit: 20,
-        xslt: false,
-        rssXslt: 'rss.xslt',
-        atomXslt: 'atom.xslt',
+        xslt: {
+          enabled: false,
+          rssXslt: 'rss.xslt',
+          atomXslt: 'atom.xslt',
+        },
       },
     });
   });
