@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import os from 'os';
 import logger from '@docusaurus/logger';
-import shell from 'shelljs';
+import execa from 'execa';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
 import {loadContext, type LoadContextParams} from '../server/site';
 import {build} from './build';
@@ -32,8 +32,10 @@ function obfuscateGitPass(str: string) {
 // for example: https://github.com/facebook/docusaurus/issues/3875
 function shellExecLog(cmd: string) {
   try {
-    const result = shell.exec(cmd);
-    logger.info`code=${obfuscateGitPass(cmd)} subdue=${`code: ${result.code}`}`;
+    const result = execa.command(cmd);
+    logger.info`code=${obfuscateGitPass(
+      cmd,
+    )} subdue=${`code: ${result.exitCode}`}`;
     return result;
   } catch (err) {
     logger.error`code=${obfuscateGitPass(cmd)}`;
@@ -61,19 +63,21 @@ This behavior can have SEO impacts and create relative link issues.
   }
 
   logger.info('Deploy command invoked...');
-  if (!shell.which('git')) {
+  try {
+    await execa.command('git --version');
+  } catch (err) {
     throw new Error('Git not installed or on the PATH!');
   }
 
   // Source repo is the repo from where the command is invoked
-  const sourceRepoUrl = shell
-    .exec('git remote get-url origin', {silent: true})
-    .stdout.trim();
+  // TODO silent
+  const {stdout} = await execa.command('git remote get-url origin');
+  const sourceRepoUrl = stdout.trim();
 
   // The source branch; defaults to the currently checked out branch
   const sourceBranch =
     process.env.CURRENT_BRANCH ??
-    shell.exec('git rev-parse --abbrev-ref HEAD', {silent: true}).stdout.trim();
+    execa.command('git rev-parse --abbrev-ref HEAD')?.stdout?.toString().trim();
 
   const gitUser = process.env.GIT_USER;
 
@@ -118,8 +122,8 @@ This behavior can have SEO impacts and create relative link issues.
   const isPullRequest =
     process.env.CI_PULL_REQUEST ?? process.env.CIRCLE_PULL_REQUEST;
   if (isPullRequest) {
-    shell.echo('Skipping deploy on a pull request.');
-    shell.exit(0);
+    await execa.command('echo "Skipping deploy on a pull request."');
+    process.exit(0);
   }
 
   // github.io indicates organization repos that deploy via default branch. All
@@ -183,7 +187,9 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
 
   // Save the commit hash that triggers publish-gh-pages before checking
   // out to deployment branch.
-  const currentCommit = shellExecLog('git rev-parse HEAD').stdout.trim();
+  const currentCommit = shellExecLog('git rev-parse HEAD')
+    ?.stdout?.toString()
+    .trim();
 
   const runDeploy = async (outputDirectory: string) => {
     const targetDirectory = cliOptions.targetDir ?? '.';
@@ -191,7 +197,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
-    shell.cd(toPath);
+    await execa.command(`cd ${toPath}`);
 
     // Clones the repo into the temp folder and checks out the target branch.
     // If the branch doesn't exist, it creates a new one based on the
@@ -199,7 +205,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     if (
       shellExecLog(
         `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} "${toPath}"`,
-      ).code !== 0
+      ).exitCode !== 0
     ) {
       shellExecLog(`git clone --depth 1 ${deploymentRepoURL} "${toPath}"`);
       shellExecLog(`git checkout -b ${deploymentBranch}`);
@@ -232,12 +238,12 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
       `Deploy website - based on ${currentCommit}`;
     const commitResults = shellExecLog(`git commit -m "${commitMessage}"`);
     if (
-      shellExecLog(`git push --force origin ${deploymentBranch}`).code !== 0
+      shellExecLog(`git push --force origin ${deploymentBranch}`).exitCode !== 0
     ) {
       throw new Error(
         'Running "git push" command failed. Does the GitHub user account you are using have push access to the repository?',
       );
-    } else if (commitResults.code === 0) {
+    } else if (commitResults.exitCode === 0) {
       // The commit might return a non-zero value when site is up to date.
       let websiteURL = '';
       if (githubHost === 'github.com') {
@@ -248,8 +254,12 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
         // GitHub enterprise hosting.
         websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
       }
-      shell.echo(`Website is live at "${websiteURL}".`);
-      shell.exit(0);
+      try {
+        await execa.command(`echo "Website is live at ${websiteURL}."`);
+        process.exit(0);
+      } catch (err) {
+        throw new Error(`Failed to execute command: ${err}`);
+      }
     }
   };
 

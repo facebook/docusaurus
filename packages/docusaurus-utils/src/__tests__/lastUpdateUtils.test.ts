@@ -10,6 +10,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import {createTempRepo} from '@testing-utils/git';
 import shell from 'shelljs';
+// import execa from 'execa';
 import {
   getGitLastUpdate,
   LAST_UPDATE_FALLBACK,
@@ -69,6 +70,7 @@ describe('getGitLastUpdate', () => {
   });
 
   it('git does not exist', async () => {
+    // TODO how to mock execa command ?
     const mock = jest.spyOn(shell, 'which').mockImplementationOnce(() => null);
     const consoleMock = jest
       .spyOn(console, 'warn')
