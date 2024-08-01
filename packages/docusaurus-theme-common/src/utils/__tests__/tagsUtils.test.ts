@@ -7,42 +7,47 @@
 
 import _ from 'lodash';
 import {listTagsByLetters} from '../tagsUtils';
+import type {TagsListItem} from '@docusaurus/utils';
 
 describe('listTagsByLetters', () => {
-  type Param = Parameters<typeof listTagsByLetters>[0];
-  type Tag = Param[number];
   type Result = ReturnType<typeof listTagsByLetters>;
 
   it('creates letters list', () => {
-    const tag1: Tag = {
+    const tag1: TagsListItem = {
       label: 'tag1',
       permalink: '/tag1',
       count: 1,
+      description: '',
     };
-    const tag2: Tag = {
+    const tag2: TagsListItem = {
       label: 'Tag2',
       permalink: '/tag2',
       count: 11,
+      description: '',
     };
-    const tagZxy: Tag = {
+    const tagZxy: TagsListItem = {
       label: 'zxy',
       permalink: '/zxy',
       count: 987,
+      description: '',
     };
-    const tagAbc: Tag = {
+    const tagAbc: TagsListItem = {
       label: 'Abc',
       permalink: '/abc',
       count: 123,
+      description: '',
     };
-    const tagDef: Tag = {
+    const tagDef: TagsListItem = {
       label: 'def',
       permalink: '/def',
       count: 1,
+      description: '',
     };
-    const tagAaa: Tag = {
+    const tagAaa: TagsListItem = {
       label: 'aaa',
       permalink: '/aaa',
       count: 10,
+      description: '',
     };
 
     const expectedResult: Result = [

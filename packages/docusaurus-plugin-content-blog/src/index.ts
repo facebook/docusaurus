@@ -34,6 +34,7 @@ import {translateContent, getTranslationFiles} from './translations';
 import {createBlogFeedFiles, createFeedHtmlHeadTags} from './feed';
 
 import {createAllRoutes} from './routes';
+import {checkAuthorsMapPermalinkCollisions, getAuthorsMap} from './authorsMap';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
@@ -160,11 +161,30 @@ export default async function pluginContentBlog(
         blogTitle,
         blogSidebarTitle,
         pageBasePath,
+        authorsBasePath,
+        authorsMapPath,
       } = options;
 
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
       const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
-      let blogPosts = await generateBlogPosts(contentPaths, context, options);
+
+      const authorsMap = await getAuthorsMap({
+        contentPaths,
+        authorsMapPath,
+        authorsBaseRoutePath: normalizeUrl([
+          baseUrl,
+          routeBasePath,
+          authorsBasePath,
+        ]),
+      });
+      checkAuthorsMapPermalinkCollisions(authorsMap);
+
+      let blogPosts = await generateBlogPosts(
+        contentPaths,
+        context,
+        options,
+        authorsMap,
+      );
       blogPosts = await applyProcessBlogPosts({
         blogPosts,
         processBlogPosts: options.processBlogPosts,
@@ -178,6 +198,7 @@ export default async function pluginContentBlog(
           blogListPaginated: [],
           blogTags: {},
           blogTagsListPath,
+          authorsMap,
         };
       }
 
@@ -226,6 +247,7 @@ export default async function pluginContentBlog(
         blogListPaginated,
         blogTags,
         blogTagsListPath,
+        authorsMap,
       };
     },
 

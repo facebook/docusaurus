@@ -10,7 +10,12 @@
 }
 
 .authorSocials {
-  margin-top: 0.2rem;
+  /*
+  This ensures that container takes height even if there's no social link
+  This keeps author names aligned even if only some have socials
+   */
+  height: var(--docusaurus-blog-social-icon-size);
+
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -25,7 +30,7 @@
   height: var(--docusaurus-blog-social-icon-size);
   width: var(--docusaurus-blog-social-icon-size);
   line-height: 0;
-  margin-right: 0.3rem;
+  margin-right: 0.4rem;
 }
 
 .authorSocialIcon {

@@ -127,6 +127,27 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The object mapping admonition type to a React component.\nUse it to add custom admonition type components, or replace existing ones.\nCan be ejected or wrapped (only manually, see our documentation).',
       },
+      Blog: {
+        actions: {
+          // Forbidden because it's a parent folder, makes the CLI crash atm
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+      },
+      'Blog/Components': {
+        actions: {
+          // Forbidden because it's a parent folder, makes the CLI crash atm
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+      },
+      'Blog/Pages': {
+        actions: {
+          // Forbidden because it's a parent folder, makes the CLI crash atm
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+      },
       CodeBlock: {
         actions: {
           eject: 'safe',

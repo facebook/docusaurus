@@ -4,3 +4,8 @@ slorber:
   url: https://sebastienlorber.com
   image_url: https://github.com/slorber.png
   twitter: sebastienlorber
+  page: true
+
+ozaki:
+  name: ozaki
+  page: {permalink: '/custom/ozaki/permalink'}

@@ -34,6 +34,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   showReadingTime: true,
   blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
   blogTagsListComponent: '@theme/BlogTagsListPage',
+  blogAuthorsPostsComponent: '@theme/Blog/Pages/BlogAuthorsPostsPage',
+  blogAuthorsListComponent: '@theme/Blog/Pages/BlogAuthorsListPage',
   blogPostComponent: '@theme/BlogPostPage',
   blogListComponent: '@theme/BlogListPage',
   blogArchiveComponent: '@theme/BlogArchivePage',
@@ -58,6 +60,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   processBlogPosts: async () => undefined,
   onInlineTags: 'warn',
   tags: undefined,
+  authorsBasePath: 'authors',
   onInlineAuthors: 'warn',
 };
 
@@ -81,6 +84,12 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   ),
   blogTagsPostsComponent: Joi.string().default(
     DEFAULT_OPTIONS.blogTagsPostsComponent,
+  ),
+  blogAuthorsPostsComponent: Joi.string().default(
+    DEFAULT_OPTIONS.blogAuthorsPostsComponent,
+  ),
+  blogAuthorsListComponent: Joi.string().default(
+    DEFAULT_OPTIONS.blogAuthorsListComponent,
   ),
   blogArchiveComponent: Joi.string().default(
     DEFAULT_OPTIONS.blogArchiveComponent,
@@ -157,6 +166,9 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     .disallow('')
     .allow(null, false)
     .default(() => DEFAULT_OPTIONS.tags),
+  authorsBasePath: Joi.string()
+    .default(DEFAULT_OPTIONS.authorsBasePath)
+    .disallow(''),
   onInlineAuthors: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_OPTIONS.onInlineAuthors),

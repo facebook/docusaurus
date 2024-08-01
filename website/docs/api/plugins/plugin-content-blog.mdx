@@ -50,6 +50,7 @@ Accepted fields:
 | `tagsBasePath` | `string` | `'tags'` | URL route for the tags section of your blog. Will be appended to `routeBasePath`. |
 | `pageBasePath` | `string` | `'page'` | URL route for the pages section of your blog. Will be appended to `routeBasePath`. |
 | `archiveBasePath` | <code>string \| null</code> | `'archive'` | URL route for the archive section of your blog. Will be appended to `routeBasePath`. **DO NOT** include a trailing slash. Use `null` to disable generation of archive. |
+| `authorsBasePath` | `string` | `'authors'` | URL route for the authors pages of your blog. Will be appended to `path`. |
 | `include` | `string[]` | `['**/*.{md,mdx}']` | Array of glob patterns matching Markdown files to be built, relative to the content path. |
 | `exclude` | `string[]` | _See example configuration_ | Array of glob patterns matching Markdown files to be excluded. Serves as refinement based on the `include` option. |
 | `postsPerPage` | <code>number \| 'ALL'</code> | `10` | Number of posts to show per page in the listing page. Use `'ALL'` to display all posts on one listing page. |
@@ -58,6 +59,8 @@ Accepted fields:
 | `blogTagsListComponent` | `string` | `'@theme/BlogTagsListPage'` | Root component of the tags list page. |
 | `blogTagsPostsComponent` | `string` | `'@theme/BlogTagsPostsPage'` | Root component of the "posts containing tag" page. |
 | `blogArchiveComponent` | `string` | `'@theme/BlogArchivePage'` | Root component of the blog archive page. |
+| `blogAuthorsPostsComponent` | `string` | `'@theme/Blog/Pages/BlogAuthorsPostsPage'` | Root component of the blog author page. |
+| `blogAuthorsListComponent` | `string` | `'@theme/Blog/Pages/BlogAuthorsListPage'` | Root component of the blog authors page index. |
 | `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
 | `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
 | `rehypePlugins` | `any[]` | `[]` | Recma plugins passed to MDX. |
@@ -297,6 +300,72 @@ A Markdown blog post
 import TagsFileApiRefSection from './_partial-tags-file-api-ref-section.mdx';
 
 <TagsFileApiRefSection />
+
+## Authors File {#authors-file}
+
+Use the [`authors` plugin option](#authors) to configure the path of a YAML authors file.
+
+By convention, the plugin will look for a `authors.yml` file at the root of your blog content folder(s).
+
+This file can contain a list of predefined [global blog authors](../../blog.mdx#global-authors). You can reference these authors by their keys in Markdown files thanks to the [`authors` front matter](#markdown-front-matter).
+
+### Types {#authors-file-types}
+
+The YAML content of the provided authors file should respect the following shape:
+
+```tsx
+type AuthorsMapInput = {
+  [authorKey: string]: AuthorInput;
+};
+
+type AuthorInput = {
+  name?: string;
+  title?: string;
+  description?: string;
+  imageURL?: string;
+  url?: string;
+  email?: string;
+  page?: boolean | {permalink: string};
+  socials?: Record<string, string>;
+  [customAuthorAttribute: string]: unknown;
+};
+```
+
+### Example {#authors-file-example}
+
+```yml title="tags.yml"
+slorber:
+  name: Sébastien Lorber
+  title: Docusaurus maintainer
+  url: https://sebastienlorber.com
+  image_url: https://github.com/slorber.png
+  page: true
+  socials:
+    x: sebastienlorber
+    github: slorber
+
+jmarcey:
+  name: Joel Marcey
+  title: Co-creator of Docusaurus 1
+  url: https://github.com/JoelMarcey
+  image_url: https://github.com/JoelMarcey.png
+  email: jimarcey@gmail.com
+  page:
+    permalink: '/joel-marcey'
+  socials:
+    x: joelmarcey
+    github: JoelMarcey
+```
+
+```md title="blog/my-blog-post.md"
+---
+authors: [slorber, jmarcey]
+---
+
+# My Blog Post
+
+Content
+```
 
 ## i18n {#i18n}
 

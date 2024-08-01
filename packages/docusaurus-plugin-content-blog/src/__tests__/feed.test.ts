@@ -13,6 +13,7 @@ import {fromPartial} from '@total-typescript/shoehorn';
 import {DEFAULT_OPTIONS} from '../options';
 import {generateBlogPosts} from '../blogUtils';
 import {createBlogFeedFiles} from '../feed';
+import {getAuthorsMap} from '../authorsMap';
 import type {LoadContext, I18n} from '@docusaurus/types';
 import type {BlogContentPaths} from '../types';
 import type {PluginOptions} from '@docusaurus/plugin-content-blog';
@@ -51,10 +52,18 @@ async function testGenerateFeeds(
   context: LoadContext,
   options: PluginOptions,
 ): Promise<void> {
+  const contentPaths = getBlogContentPaths(context.siteDir);
+  const authorsMap = await getAuthorsMap({
+    contentPaths,
+    authorsMapPath: options.authorsMapPath,
+    authorsBaseRoutePath: '/authors',
+  });
+
   const blogPosts = await generateBlogPosts(
-    getBlogContentPaths(context.siteDir),
+    contentPaths,
     context,
     options,
+    authorsMap,
   );
 
   await createBlogFeedFiles({

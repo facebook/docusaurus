@@ -401,6 +401,39 @@ An author, either declared through front matter or through the authors map, need
 
 :::
 
+### Authors pages {#authors-pages}
+
+The authors pages feature is optional, and mainly useful for multi-author blogs.
+
+You can activate it independently for each author by adding a `page: true` attribute to the [global author configuration](#global-authors):
+
+```yml title="website/blog/authors.yml"
+slorber:
+  name: Sébastien Lorber
+  // highlight-start
+  page: true # Turns the feature on - route will be /authors/slorber
+  // highlight-end
+
+jmarcey:
+  name: Joel Marcey
+  // highlight-start
+  page:
+    # Turns the feature on - route will be /authors/custom-author-url
+    permalink: '/custom-author-url'
+  // highlight-end
+```
+
+The blog plugin will now generate:
+
+- a dedicated author page for each author ([example](/blog/authors/slorber)) listing all the blog posts they contributed to
+- an authors index page ([example](/blog/authors)) listing all these authors, in the order they appear in `authors.yml`
+
+:::warning About inline authors
+
+Only [global authors](#global-authors) can activate this feature. [Inline authors](#inline-authors) are not supported.
+
+:::
+
 ## Blog post tags {#blog-post-tags}
 
 Tags are declared in the front matter and introduce another dimension of categorization.
