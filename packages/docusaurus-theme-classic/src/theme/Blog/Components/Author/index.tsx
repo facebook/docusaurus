@@ -40,6 +40,10 @@ function AuthorName({name, as}: {name: string; as: Props['as']}) {
   }
 }
 
+// Note: in the future we might want to have multiple "BlogAuthor" components
+// Creating different display modes with the "as" prop may not be the best idea
+// Explainer: https://kyleshevlin.com/prefer-multiple-compositions/
+// For now, we almost use the same design for all cases, so it's good enough
 export default function BlogAuthor({
   as,
   author,
