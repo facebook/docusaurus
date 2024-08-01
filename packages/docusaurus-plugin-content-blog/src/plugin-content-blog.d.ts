@@ -316,19 +316,18 @@ declare module '@docusaurus/plugin-content-blog' {
 
   export type FeedType = 'rss' | 'atom' | 'json';
 
-  export type XslParams = {
-    /** Enable xslt stylesheet */
-    xslt: {
-      enabled: boolean;
-      rssXslt: string;
-      atomXslt: string;
-    };
+  export type FeedXSLTOptions = {
+    enabled: boolean;
+    rssXslt: string;
+    atomXslt: string;
   };
 
   /**
    * Normalized feed options used within code.
    */
-  export type FeedOptions = XslParams & {
+  export type FeedOptions = {
+    /** Enable feeds xslt stylesheets */
+    xslt?: FeedXSLTOptions;
     /** If `null`, no feed is generated. */
     type?: FeedType[] | null;
     /** Title of generated feed. */
