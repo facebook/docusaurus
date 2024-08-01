@@ -327,7 +327,7 @@ declare module '@docusaurus/plugin-content-blog' {
    */
   export type FeedOptions = {
     /** Enable feeds xslt stylesheets */
-    xslt?: FeedXSLTOptions;
+    xslt: FeedXSLTOptions;
     /** If `null`, no feed is generated. */
     type?: FeedType[] | null;
     /** Title of generated feed. */
