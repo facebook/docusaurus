@@ -108,6 +108,7 @@ FOUC
 froms
 funboxteam
 gabrielcsapo
+getcanary
 Gifs
 Goss
 Goyal
@@ -238,6 +239,8 @@ Outerbounds
 overrideable
 ozaki
 ozakione
+pagefind
+Pagefind
 pageview
 palenight
 Palenight
