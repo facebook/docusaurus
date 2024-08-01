@@ -405,7 +405,7 @@ An author, either declared through front matter or through the authors map, need
 
 The authors pages feature is optional, and mainly useful for multi-author blogs.
 
-You can activate it independently for each author by adding `page: true` to the [global author configuration](#global-authors).
+You can activate it independently for each author by adding `page: true` or `page: {permalink: string}` to the [global author configuration](#global-authors).
 
 ```yml title="website/blog/authors.yml"
 slorber:
@@ -423,14 +423,14 @@ jmarcey:
   // highlight-end
 ```
 
-The blog plugin will now generate for each of these authors:
+The blog plugin will now generate:
 
-- a dedicated author page, listing all the blog posts they contributed to ([example](/blog/authors/slorber)
-- an index page listing all the authors ([example](/blog/authors))
+- a dedicated author page for each author ([example](/blog/authors/slorber)) listing all the blog posts they contributed to
+- an authors index page ([example](/blog/authors)) listing all these authors, in the order they appear in `authors.yml`
 
 :::warning About inline authors
 
-Only [global authors](#global-authors) can opt in for this feature. [Inline authors](#inline-authors) are not supported.
+Only [global authors](#global-authors) can activate this feature. [Inline authors](#inline-authors) are not supported.
 
 :::
 
