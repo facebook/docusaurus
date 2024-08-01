@@ -401,38 +401,38 @@ An author, either declared through front matter or through the authors map, need
 
 :::
 
-### Authors page {#authors-page}
+### Authors pages {#authors-pages}
 
-Docusaurus generate an author's page listing all authors with their respective blog posts if the author have `page: true`.
+The authors pages feature is optional, and mainly useful for multi-author blogs.
 
-By default the permalink of the author is the author's key, this ensure unique permalink between authors. You can customize the permalink for the author, see example below.
-
-Blog posts must reference the author's key to be displayed on the author's page. Inline authors are not supported on the author's page.
+You can activate it independently for each author by adding `page: true` to the [global author configuration](#global-authors).
 
 ```yml title="website/blog/authors.yml"
-slorber: # author key
+slorber:
   name: Sébastien Lorber
-  title: Docusaurus maintainer
-  url: https://sebastienlorber.com
-  image_url: https://github.com/slorber.png
-  page: true # Enable the authors page for this author (route will be /authors/slorber)
-  socials:
-    x: sebastienlorber
-    github: slorber
+  // highlight-start
+  page: true # Turns the feature on - route will be /authors/slorber
+  // highlight-end
 
 jmarcey:
   name: Joel Marcey
-  title: Co-creator of Docusaurus 1
-  url: https://github.com/JoelMarcey
-  image_url: https://github.com/JoelMarcey.png
+  // highlight-start
   page:
-    permalink: '/joel marcey'
-  socials:
-    x: joelmarcey
-    github: JoelMarcey
+    # Turns the feature on - route will be /authors/custom-author-url
+    permalink: '/custom-author-url'
+  // highlight-end
 ```
 
-You can configure the route base path for the authors page using the [`authorsBasePath`](api/plugins/plugin-content-blog.mdx#authorsBasePath).
+The blog plugin will now generate for each of these authors:
+
+- a dedicated author page, listing all the blog posts they contributed to ([example](/blog/authors/slorber)
+- an index page listing all the authors ([example](/blog/authors))
+
+:::warning About inline authors
+
+Only [global authors](#global-authors) can opt in for this feature. [Inline authors](#inline-authors) are not supported.
+
+:::
 
 ## Blog post tags {#blog-post-tags}
 
