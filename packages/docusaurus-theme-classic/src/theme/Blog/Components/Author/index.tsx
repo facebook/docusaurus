@@ -40,6 +40,10 @@ function AuthorName({name, as}: {name: string; as: Props['as']}) {
   }
 }
 
+function AuthorBlogPostCount({count}: {count: number}) {
+  return <span className={clsx(styles.authorBlogPostCount)}>{count}</span>;
+}
+
 // Note: in the future we might want to have multiple "BlogAuthor" components
 // Creating different display modes with the "as" prop may not be the best idea
 // Explainer: https://kyleshevlin.com/prefer-multiple-compositions/
@@ -50,11 +54,9 @@ export default function BlogAuthor({
   className,
   count,
 }: Props): JSX.Element {
-  const {name, title, url, socials, imageURL, email, page} = author;
+  const {name, title, url, imageURL, email, page} = author;
   const link =
     page?.permalink || url || (email && `mailto:${email}`) || undefined;
-
-  const hasSocials = socials && Object.keys(socials).length > 0;
 
   return (
     <div
@@ -66,7 +68,7 @@ export default function BlogAuthor({
       {imageURL && (
         <MaybeLink href={link} className="avatar__photo-link">
           <img
-            className={clsx('avatar__photo', styles.avatarImage)}
+            className={clsx('avatar__photo', styles.authorImage)}
             src={imageURL}
             alt={name}
           />
@@ -74,17 +76,22 @@ export default function BlogAuthor({
       )}
 
       {(name || title) && (
-        <div className="avatar__intro">
+        <div className={clsx('avatar__intro', styles.authorDetails)}>
           <div className="avatar__name">
             {name && (
               <MaybeLink href={link}>
                 <AuthorName name={name} as={as} />
               </MaybeLink>
             )}
-            {count && <span className={clsx(styles.count)}>{count}</span>}
+            {count && <AuthorBlogPostCount count={count} />}
           </div>
           {!!title && <AuthorTitle title={title} />}
-          {hasSocials && <AuthorSocials author={author} />}
+
+          {/*
+            We always render AuthorSocials even if there's none
+            This keeps other things aligned with flexbox layout
+          */}
+          <AuthorSocials author={author} />
         </div>
       )}
     </div>

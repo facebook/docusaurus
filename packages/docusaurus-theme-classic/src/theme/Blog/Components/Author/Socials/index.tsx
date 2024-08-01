@@ -55,9 +55,10 @@ export default function BlogAuthorSocials({
 }: {
   author: Props['author'];
 }): JSX.Element {
+  const entries = Object.entries(author.socials ?? {});
   return (
     <div className={styles.authorSocials}>
-      {Object.entries(author.socials ?? {}).map(([platform, linkUrl]) => {
+      {entries.map(([platform, linkUrl]) => {
         return <SocialLink key={platform} platform={platform} link={linkUrl} />;
       })}
     </div>
