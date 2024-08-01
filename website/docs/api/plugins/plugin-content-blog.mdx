@@ -301,6 +301,72 @@ import TagsFileApiRefSection from './_partial-tags-file-api-ref-section.mdx';
 
 <TagsFileApiRefSection />
 
+## Authors File {#authors-file}
+
+Use the [`authors` plugin option](#authors) to configure the path of a YAML authors file.
+
+By convention, the plugin will look for a `authors.yml` file at the root of your blog content folder(s).
+
+This file can contain a list of predefined [global blog authors](../../blog.mdx#global-authors). You can reference these authors by their keys in Markdown files thanks to the [`authors` front matter](#markdown-front-matter).
+
+### Types {#authors-file-types}
+
+The YAML content of the provided authors file should respect the following shape:
+
+```tsx
+type AuthorsMapInput = {
+  [authorKey: string]: AuthorInput;
+};
+
+type AuthorInput = {
+  name?: string;
+  title?: string;
+  description?: string;
+  imageURL?: string;
+  url?: string;
+  email?: string;
+  page?: boolean | {permalink: string};
+  socials?: Record<string, string>;
+  [customAuthorAttribute: string]: unknown;
+};
+```
+
+### Example {#authors-file-example}
+
+```yml title="tags.yml"
+slorber:
+  name: Sébastien Lorber
+  title: Docusaurus maintainer
+  url: https://sebastienlorber.com
+  image_url: https://github.com/slorber.png
+  page: true
+  socials:
+    x: sebastienlorber
+    github: slorber
+
+jmarcey:
+  name: Joel Marcey
+  title: Co-creator of Docusaurus 1
+  url: https://github.com/JoelMarcey
+  image_url: https://github.com/JoelMarcey.png
+  email: jimarcey@gmail.com
+  page:
+    permalink: '/joel-marcey'
+  socials:
+    x: joelmarcey
+    github: JoelMarcey
+```
+
+```md title="blog/my-blog-post.md"
+---
+authors: [slorber, jmarcey]
+---
+
+# My Blog Post
+
+Content
+```
+
 ## i18n {#i18n}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
