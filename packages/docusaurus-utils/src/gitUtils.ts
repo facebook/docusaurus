@@ -9,6 +9,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
 import shell from 'shelljs'; // TODO replace with async-first version
+import simpleGit from 'simple-git';
 
 const realHasGitFn = () => !!shell.which('git');
 
@@ -101,6 +102,7 @@ export async function getFileCommitDate(
     );
   }
 
+  const git = simpleGit(path.dirname(file));
   if (!(await fs.pathExists(file))) {
     throw new Error(
       `Failed to retrieve git history for "${file}" because the file does not exist.`,
@@ -110,42 +112,13 @@ export async function getFileCommitDate(
   // We add a "RESULT:" prefix to make parsing easier
   // See why: https://github.com/facebook/docusaurus/pull/10022
   const resultFormat = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
+  const args = ['log', `--format=${resultFormat}`, '--max-count=1'];
 
-  const args = [
-    `--format=${resultFormat}`,
-    '--max-count=1',
-    age === 'oldest' ? '--follow --diff-filter=A' : undefined,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  const command = `git -c log.showSignature=false log ${args} -- "${path.basename(
-    file,
-  )}"`;
-
-  const result = await new Promise<{
-    code: number;
-    stdout: string;
-    stderr: string;
-  }>((resolve) => {
-    shell.exec(
-      command,
-      {
-        // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
-        cwd: path.dirname(file),
-        silent: true,
-      },
-      (code, stdout, stderr) => {
-        resolve({code, stdout, stderr});
-      },
-    );
-  });
-
-  if (result.code !== 0) {
-    throw new Error(
-      `Failed to retrieve the git history for file "${file}" with exit code ${result.code}: ${result.stderr}`,
-    );
+  if (age === 'oldest') {
+    args.push('--follow', '--diff-filter=A');
   }
+
+  args.push('--', path.basename(file));
 
   // We only parse the output line starting with our "RESULT:" prefix
   // See why https://github.com/facebook/docusaurus/pull/10022
@@ -153,9 +126,9 @@ export async function getFileCommitDate(
     ? /(?:^|\n)RESULT:(?<timestamp>\d+),(?<author>.+)(?:$|\n)/
     : /(?:^|\n)RESULT:(?<timestamp>\d+)(?:$|\n)/;
 
-  const output = result.stdout.trim();
+  const output = await git.raw(args);
 
-  if (!output) {
+  if (!output.trim()) {
     throw new FileNotTrackedError(
       `Failed to retrieve the git history for file "${file}" because the file is not tracked by git.`,
     );

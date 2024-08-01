@@ -34,6 +34,7 @@
     "prompts": "^2.4.2",
     "resolve-pathname": "^3.0.0",
     "shelljs": "^0.8.5",
+    "simple-git": "^3.25.0",
     "tslib": "^2.6.0",
     "url-loader": "^4.1.1",
     "utility-types": "^3.10.0",
