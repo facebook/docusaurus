@@ -54,6 +54,24 @@ describe('paginateBlogPosts', () => {
     ).toMatchSnapshot();
   });
 
+  it('generates pages - 0 blog post', () => {
+    const pages = paginateBlogPosts({
+      blogPosts: [],
+      basePageUrl: '/blog',
+      blogTitle: 'Blog Title',
+      blogDescription: 'Blog Description',
+      postsPerPageOption: 2,
+      pageBasePath: 'page',
+    });
+    // As part ot https://github.com/facebook/docusaurus/pull/10216
+    // it was decided that authors with "page: true" that haven't written any
+    // blog posts yet should still have a dedicated author page
+    // For this purpose, we generate an empty first page
+    expect(pages).toHaveLength(1);
+    expect(pages[0]!.items).toHaveLength(0);
+    expect(pages).toMatchSnapshot();
+  });
+
   it('generates pages at blog root', () => {
     expect(
       paginateBlogPosts({

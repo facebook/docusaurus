@@ -29,11 +29,12 @@ import {
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
-import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {getBlogPostAuthors} from './authors';
 import {reportAuthorsProblems} from './authorsProblems';
 import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
+  AuthorsMap,
   PluginOptions,
   ReadingTimeFunction,
   BlogPost,
@@ -64,7 +65,7 @@ export function paginateBlogPosts({
   const totalCount = blogPosts.length;
   const postsPerPage =
     postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
-  const numberOfPages = Math.ceil(totalCount / postsPerPage);
+  const numberOfPages = Math.max(1, Math.ceil(totalCount / postsPerPage));
 
   const pages: BlogPaginated[] = [];
 
@@ -366,6 +367,7 @@ export async function generateBlogPosts(
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
+  authorsMap?: AuthorsMap,
 ): Promise<BlogPost[]> {
   const {include, exclude} = options;
 
@@ -376,11 +378,6 @@ export async function generateBlogPosts(
   const blogSourceFiles = await Globby(include, {
     cwd: contentPaths.contentPath,
     ignore: exclude,
-  });
-
-  const authorsMap = await getAuthorsMap({
-    contentPaths,
-    authorsMapPath: options.authorsMapPath,
   });
 
   const tagsFile = await getTagsFile({contentPaths, tags: options.tags});

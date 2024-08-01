@@ -121,7 +121,9 @@ exports[`blog plugin process blog posts load content 2`] = `
       "authors": [
         {
           "imageURL": undefined,
+          "key": null,
           "name": "Sébastien Lorber",
+          "page": null,
           "title": "Docusaurus maintainer",
           "url": "https://sebastienlorber.com",
         },

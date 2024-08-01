@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as path from 'path';
-import {
-  type AuthorsMap,
-  getAuthorsMap,
-  getBlogPostAuthors,
-  validateAuthorsMap,
-} from '../authors';
+import {fromPartial, type PartialDeep} from '@total-typescript/shoehorn';
+import {getBlogPostAuthors, groupBlogPostsByAuthorKey} from '../authors';
+import type {AuthorsMap, BlogPost} from '@docusaurus/plugin-content-blog';
+
+function post(partial: PartialDeep<BlogPost>): BlogPost {
+  return fromPartial(partial);
+}
 
 describe('getBlogPostAuthors', () => {
   it('can read no authors', () => {
@@ -42,7 +42,15 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/',
       }),
-    ).toEqual([{name: 'Sébastien Lorber'}]);
+    ).toEqual([
+      {
+        name: 'Sébastien Lorber',
+        imageURL: undefined,
+        key: null,
+        page: null,
+        title: undefined,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -51,7 +59,15 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/',
       }),
-    ).toEqual([{title: 'maintainer'}]);
+    ).toEqual([
+      {
+        title: 'maintainer',
+        imageURL: undefined,
+        key: null,
+        name: undefined,
+        page: null,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -60,7 +76,14 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/',
       }),
-    ).toEqual([{imageURL: 'https://github.com/slorber.png'}]);
+    ).toEqual([
+      {
+        imageURL: 'https://github.com/slorber.png',
+        key: null,
+        name: undefined,
+        page: null,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -69,7 +92,14 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/',
       }),
-    ).toEqual([{imageURL: '/img/slorber.png'}]);
+    ).toEqual([
+      {
+        imageURL: '/img/slorber.png',
+        key: null,
+        name: undefined,
+        page: null,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -78,7 +108,15 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/baseURL',
       }),
-    ).toEqual([{imageURL: '/baseURL/img/slorber.png'}]);
+    ).toEqual([
+      {
+        imageURL: '/baseURL/img/slorber.png',
+
+        key: null,
+        name: undefined,
+        page: null,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -99,6 +137,8 @@ describe('getBlogPostAuthors', () => {
         title: 'maintainer1',
         imageURL: 'https://github.com/slorber1.png',
         url: 'https://github.com/slorber1',
+        key: null,
+        page: null,
       },
     ]);
   });
@@ -109,10 +149,19 @@ describe('getBlogPostAuthors', () => {
         frontMatter: {
           authors: 'slorber',
         },
-        authorsMap: {slorber: {name: 'Sébastien Lorber'}},
+        authorsMap: {
+          slorber: {name: 'Sébastien Lorber', key: 'slorber', page: null},
+        },
         baseUrl: '/',
       }),
-    ).toEqual([{key: 'slorber', name: 'Sébastien Lorber'}]);
+    ).toEqual([
+      {
+        key: 'slorber',
+        name: 'Sébastien Lorber',
+        imageURL: undefined,
+        page: null,
+      },
+    ]);
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -122,6 +171,8 @@ describe('getBlogPostAuthors', () => {
           slorber: {
             name: 'Sébastien Lorber',
             imageURL: 'https://github.com/slorber.png',
+            key: 'slorber',
+            page: null,
           },
         },
         baseUrl: '/',
@@ -131,6 +182,7 @@ describe('getBlogPostAuthors', () => {
         key: 'slorber',
         name: 'Sébastien Lorber',
         imageURL: 'https://github.com/slorber.png',
+        page: null,
       },
     ]);
     expect(
@@ -142,6 +194,8 @@ describe('getBlogPostAuthors', () => {
           slorber: {
             name: 'Sébastien Lorber',
             imageURL: '/img/slorber.png',
+            key: 'slorber',
+            page: null,
           },
         },
         baseUrl: '/',
@@ -151,6 +205,7 @@ describe('getBlogPostAuthors', () => {
         key: 'slorber',
         name: 'Sébastien Lorber',
         imageURL: '/img/slorber.png',
+        page: null,
       },
     ]);
     expect(
@@ -162,6 +217,8 @@ describe('getBlogPostAuthors', () => {
           slorber: {
             name: 'Sébastien Lorber',
             imageURL: '/img/slorber.png',
+            key: 'slorber',
+            page: null,
           },
         },
         baseUrl: '/baseUrl',
@@ -171,6 +228,7 @@ describe('getBlogPostAuthors', () => {
         key: 'slorber',
         name: 'Sébastien Lorber',
         imageURL: '/baseUrl/img/slorber.png',
+        page: null,
       },
     ]);
   });
@@ -182,14 +240,31 @@ describe('getBlogPostAuthors', () => {
           authors: ['slorber', 'yangshun'],
         },
         authorsMap: {
-          slorber: {name: 'Sébastien Lorber', title: 'maintainer'},
-          yangshun: {name: 'Yangshun Tay'},
+          slorber: {
+            name: 'Sébastien Lorber',
+            title: 'maintainer',
+            key: 'slorber',
+            page: null,
+          },
+          yangshun: {name: 'Yangshun Tay', key: 'yangshun', page: null},
         },
         baseUrl: '/',
       }),
     ).toEqual([
-      {key: 'slorber', name: 'Sébastien Lorber', title: 'maintainer'},
-      {key: 'yangshun', name: 'Yangshun Tay'},
+      {
+        key: 'slorber',
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        page: null,
+      },
+      {
+        key: 'yangshun',
+        name: 'Yangshun Tay',
+        imageURL: undefined,
+
+        page: null,
+      },
     ]);
   });
 
@@ -202,7 +277,15 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
         baseUrl: '/',
       }),
-    ).toEqual([{name: 'Sébastien Lorber', title: 'maintainer'}]);
+    ).toEqual([
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        key: null,
+        page: null,
+      },
+    ]);
   });
 
   it('can read authors Author[]', () => {
@@ -218,8 +301,14 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toEqual([
-      {name: 'Sébastien Lorber', title: 'maintainer'},
-      {name: 'Yangshun Tay'},
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        key: null,
+        page: null,
+      },
+      {name: 'Yangshun Tay', imageURL: undefined, key: null, page: null},
     ]);
   });
 
@@ -238,66 +327,38 @@ describe('getBlogPostAuthors', () => {
           ],
         },
         authorsMap: {
-          slorber: {name: 'Sébastien Lorber', title: 'maintainer'},
-          yangshun: {name: 'Yangshun Tay', title: 'Yangshun title original'},
+          slorber: {
+            name: 'Sébastien Lorber',
+            title: 'maintainer',
+            key: 'slorber',
+            page: null,
+          },
+          yangshun: {
+            name: 'Yangshun Tay',
+            title: 'Yangshun title original',
+            key: 'yangshun',
+            page: null,
+          },
         },
         baseUrl: '/',
       }),
     ).toEqual([
-      {key: 'slorber', name: 'Sébastien Lorber', title: 'maintainer'},
+      {
+        key: 'slorber',
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        page: null,
+      },
       {
         key: 'yangshun',
         name: 'Yangshun Tay',
         title: 'Yangshun title local override',
         extra: 42,
+        imageURL: undefined,
+        page: null,
       },
-      {name: 'Alexey'},
-    ]);
-  });
-
-  it('can normalize inline authors', () => {
-    expect(
-      getBlogPostAuthors({
-        frontMatter: {
-          authors: [
-            {
-              name: 'Seb1',
-              socials: {
-                x: 'https://x.com/sebastienlorber',
-                twitter: 'sebastienlorber',
-                github: 'slorber',
-              },
-            },
-            {
-              name: 'Seb2',
-              socials: {
-                x: 'sebastienlorber',
-                twitter: 'https://twitter.com/sebastienlorber',
-                github: 'https://github.com/slorber',
-              },
-            },
-          ],
-        },
-        authorsMap: {},
-        baseUrl: '/',
-      }),
-    ).toEqual([
-      {
-        name: 'Seb1',
-        socials: {
-          x: 'https://x.com/sebastienlorber',
-          twitter: 'https://twitter.com/sebastienlorber',
-          github: 'https://github.com/slorber',
-        },
-      },
-      {
-        name: 'Seb2',
-        socials: {
-          x: 'https://x.com/sebastienlorber',
-          twitter: 'https://twitter.com/sebastienlorber',
-          github: 'https://github.com/slorber',
-        },
-      },
+      {name: 'Alexey', imageURL: undefined, key: null, page: null},
     ]);
   });
 
@@ -339,8 +400,8 @@ describe('getBlogPostAuthors', () => {
         },
 
         authorsMap: {
-          yangshun: {name: 'Yangshun Tay'},
-          jmarcey: {name: 'Joel Marcey'},
+          yangshun: {name: 'Yangshun Tay', key: 'yangshun', page: null},
+          jmarcey: {name: 'Joel Marcey', key: 'jmarcey', page: null},
         },
         baseUrl: '/',
       }),
@@ -360,8 +421,8 @@ describe('getBlogPostAuthors', () => {
         },
 
         authorsMap: {
-          yangshun: {name: 'Yangshun Tay'},
-          jmarcey: {name: 'Joel Marcey'},
+          yangshun: {name: 'Yangshun Tay', key: 'yangshun', page: null},
+          jmarcey: {name: 'Joel Marcey', key: 'jmarcey', page: null},
         },
         baseUrl: '/',
       }),
@@ -381,8 +442,8 @@ describe('getBlogPostAuthors', () => {
         },
 
         authorsMap: {
-          yangshun: {name: 'Yangshun Tay'},
-          jmarcey: {name: 'Joel Marcey'},
+          yangshun: {name: 'Yangshun Tay', key: 'yangshun', page: null},
+          jmarcey: {name: 'Joel Marcey', key: 'jmarcey', page: null},
         },
         baseUrl: '/',
       }),
@@ -415,7 +476,9 @@ describe('getBlogPostAuthors', () => {
           authors: [{key: 'slorber'}],
           author_title: 'legacy title',
         },
-        authorsMap: {slorber: {name: 'Sébastien Lorber'}},
+        authorsMap: {
+          slorber: {name: 'Sébastien Lorber', key: 'slorber', page: null},
+        },
         baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
@@ -425,241 +488,37 @@ describe('getBlogPostAuthors', () => {
   });
 });
 
-describe('getAuthorsMap', () => {
-  const fixturesDir = path.join(__dirname, '__fixtures__/authorsMapFiles');
-  const contentPaths = {
-    contentPathLocalized: fixturesDir,
-    contentPath: fixturesDir,
-  };
-
-  it('getAuthorsMap can read yml file', async () => {
-    await expect(
-      getAuthorsMap({
-        contentPaths,
-        authorsMapPath: 'authors.yml',
-      }),
-    ).resolves.toBeDefined();
+describe('groupBlogPostsByAuthorKey', () => {
+  const authorsMap: AuthorsMap = fromPartial({
+    ozaki: {},
+    slorber: {},
+    keyWithNoPost: {},
   });
 
-  it('getAuthorsMap can read json file', async () => {
-    await expect(
-      getAuthorsMap({
-        contentPaths,
-        authorsMapPath: 'authors.json',
-      }),
-    ).resolves.toBeDefined();
-  });
-
-  it('getAuthorsMap can return undefined if yaml file not found', async () => {
-    await expect(
-      getAuthorsMap({
-        contentPaths,
-        authorsMapPath: 'authors_does_not_exist.yml',
-      }),
-    ).resolves.toBeUndefined();
-  });
-
-  describe('getAuthorsMap returns normalized', () => {
-    it('socials', async () => {
-      const authorsMap = await getAuthorsMap({
-        contentPaths,
-        authorsMapPath: 'authors.yml',
-      });
-      expect(authorsMap.slorber.socials).toMatchInlineSnapshot(`
-        {
-          "stackoverflow": "https://stackoverflow.com/users/82609",
-          "twitter": "https://twitter.com/sebastienlorber",
-          "x": "https://x.com/sebastienlorber",
-        }
-      `);
-      expect(authorsMap.JMarcey.socials).toMatchInlineSnapshot(`
-        {
-          "stackoverflow": "https://stackoverflow.com/users/102705/Joel-Marcey",
-          "twitter": "https://twitter.com/JoelMarcey",
-          "x": "https://x.com/JoelMarcey",
-        }
-      `);
+  it('can group blog posts', () => {
+    const post1 = post({metadata: {authors: [{key: 'ozaki'}]}});
+    const post2 = post({
+      metadata: {authors: [{key: 'slorber'}, {key: 'ozaki'}]},
     });
-  });
-});
-
-describe('validateAuthorsMap', () => {
-  it('accept valid authors map', () => {
-    const authorsMap: AuthorsMap = {
-      slorber: {
-        name: 'Sébastien Lorber',
-        title: 'maintainer',
-        url: 'https://sebastienlorber.com',
-        imageURL: 'https://github.com/slorber.png',
-      },
-      yangshun: {
-        name: 'Yangshun Tay',
-        imageURL: 'https://github.com/yangshun.png',
-        randomField: 42,
-      },
-      jmarcey: {
-        name: 'Joel',
-        title: 'creator of Docusaurus',
-        hello: new Date(),
-      },
-    };
-    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
-  });
-
-  it('rename snake case image_url to camelCase imageURL', () => {
-    const authorsMap: AuthorsMap = {
-      slorber: {
-        name: 'Sébastien Lorber',
-        image_url: 'https://github.com/slorber.png',
-      },
-    };
-    expect(validateAuthorsMap(authorsMap)).toEqual({
-      slorber: {
-        name: 'Sébastien Lorber',
-        imageURL: 'https://github.com/slorber.png',
-      },
+    const post3 = post({metadata: {authors: [{key: 'slorber'}]}});
+    const post4 = post({
+      metadata: {authors: [{name: 'Inline author 1'}, {key: 'slorber'}]},
     });
-  });
+    const post5 = post({
+      metadata: {authors: [{name: 'Inline author 2'}]},
+    });
+    const post6 = post({
+      metadata: {authors: [{key: 'unknownKey'}]},
+    });
 
-  it('accept author with only image', () => {
-    const authorsMap: AuthorsMap = {
-      slorber: {
-        imageURL: 'https://github.com/slorber.png',
-        url: 'https://github.com/slorber',
-      },
-    };
-    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
-  });
+    const blogPosts = [post1, post2, post3, post4, post5, post6];
 
-  it('reject author without name or image', () => {
-    const authorsMap: AuthorsMap = {
-      slorber: {
-        title: 'foo',
-      },
-    };
-    expect(() =>
-      validateAuthorsMap(authorsMap),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""slorber" must contain at least one of [name, imageURL]"`,
-    );
-  });
-
-  it('reject undefined author', () => {
-    expect(() =>
-      validateAuthorsMap({
-        slorber: undefined,
-      }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""slorber" cannot be undefined. It should be an author object containing properties like name, title, and imageURL."`,
-    );
-  });
-
-  it('reject null author', () => {
-    expect(() =>
-      validateAuthorsMap({
-        slorber: null,
-      }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
-    );
-  });
-
-  it('reject array author', () => {
-    expect(() =>
-      validateAuthorsMap({slorber: []}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
-    );
-  });
-
-  it('reject array content', () => {
-    expect(() => validateAuthorsMap([])).toThrowErrorMatchingInlineSnapshot(
-      `"The authors map file should contain an object where each entry contains an author key and the corresponding author's data."`,
-    );
-  });
-
-  it('reject flat author', () => {
-    expect(() =>
-      validateAuthorsMap({name: 'Sébastien'}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""name" should be an author object containing properties like name, title, and imageURL."`,
-    );
-  });
-
-  it('reject non-map author', () => {
-    const authorsMap: AuthorsMap = {
-      // @ts-expect-error: for tests
-      slorber: [],
-    };
-    expect(() =>
-      validateAuthorsMap(authorsMap),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
-    );
-  });
-});
-
-describe('authors socials', () => {
-  it('valid known author map socials', () => {
-    const authorsMap: AuthorsMap = {
-      ozaki: {
-        name: 'ozaki',
-        socials: {
-          twitter: 'ozakione',
-          github: 'ozakione',
-        },
-      },
-    };
-
-    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
-  });
-
-  it('throw socials that are not strings', () => {
-    const authorsMap: AuthorsMap = {
-      ozaki: {
-        name: 'ozaki',
-        socials: {
-          // @ts-expect-error: for tests
-          twitter: 42,
-        },
-      },
-    };
-
-    expect(() =>
-      validateAuthorsMap(authorsMap),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""ozaki.socials.twitter" must be a string"`,
-    );
-  });
-
-  it('throw socials that are objects', () => {
-    const authorsMap: AuthorsMap = {
-      ozaki: {
-        name: 'ozaki',
-        socials: {
-          // @ts-expect-error: for tests
-          twitter: {link: 'ozakione'},
-        },
-      },
-    };
-
-    expect(() =>
-      validateAuthorsMap(authorsMap),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""ozaki.socials.twitter" must be a string"`,
-    );
-  });
-
-  it('valid unknown author map socials', () => {
-    const authorsMap: AuthorsMap = {
-      ozaki: {
-        name: 'ozaki',
-        socials: {
-          random: 'ozakione',
-        },
-      },
-    };
-
-    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
+    expect(groupBlogPostsByAuthorKey({authorsMap, blogPosts})).toEqual({
+      ozaki: [post1, post2],
+      slorber: [post2, post3, post4],
+      keyWithNoPost: [],
+      // We don't care about this edge case, it doesn't happen in practice
+      unknownKey: undefined,
+    });
   });
 });

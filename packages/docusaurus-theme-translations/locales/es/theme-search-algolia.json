@@ -13,7 +13,7 @@
   "theme.SearchModal.footer.selectText": "seleccionar",
   "theme.SearchModal.noResultsScreen.noResultsText": "Sin resultados para",
   "theme.SearchModal.noResultsScreen.reportMissingResultsLinkText": "Háganos saber.",
-  "theme.SearchModal.noResultsScreen.reportMissingResultsText": "Creo que esta consulta debería devolver resultados?",
+  "theme.SearchModal.noResultsScreen.reportMissingResultsText": "Crees que esta consulta debería devolver resultados?",
   "theme.SearchModal.noResultsScreen.suggestedQueryText": "Intenta buscando por",
   "theme.SearchModal.placeholder": "Buscar documentos",
   "theme.SearchModal.searchBox.cancelButtonText": "Cancelar",

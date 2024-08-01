@@ -10,7 +10,7 @@ import {
   findFolderContainingFile,
   getFolderContainingFile,
   getDataFilePath,
-  getDataFileData,
+  readDataFile,
 } from '../dataFileUtils';
 
 describe('getDataFilePath', () => {
@@ -125,46 +125,40 @@ describe('getDataFilePath', () => {
 });
 
 describe('getDataFileData', () => {
-  const fixturesDir = path.join(__dirname, '__fixtures__/dataFiles/actualData');
-  function readDataFile(filePath: string) {
-    return getDataFileData(
-      {
-        filePath,
-        contentPaths: {contentPath: fixturesDir, contentPathLocalized: ''},
-        fileType: 'test',
-      },
-      (content) => {
-        // @ts-expect-error: good enough
-        if (content.a !== 1) {
-          throw new Error('Nope');
-        }
-        return content;
-      },
+  function testFile(filePath: string) {
+    const contentPath = path.join(
+      __dirname,
+      '__fixtures__/dataFiles/dataFiles',
     );
+    const contentPathLocalized = path.join(contentPath, 'localized');
+    return readDataFile({
+      filePath,
+      contentPaths: {contentPath, contentPathLocalized},
+    });
   }
 
   it('returns undefined for nonexistent file', async () => {
-    await expect(readDataFile('nonexistent.yml')).resolves.toBeUndefined();
-  });
-
-  it('read valid yml author file', async () => {
-    await expect(readDataFile('valid.yml')).resolves.toEqual({a: 1});
+    await expect(testFile('nonexistent.yml')).resolves.toBeUndefined();
   });
 
   it('read valid json author file', async () => {
-    await expect(readDataFile('valid.json')).resolves.toEqual({a: 1});
+    await expect(testFile('dataFile.json')).resolves.toEqual({
+      content: 'json',
+    });
   });
 
-  it('fail to read invalid yml', async () => {
-    await expect(
-      readDataFile('bad.yml'),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`"Nope"`);
+  it('read valid yml author file using localized source in priority', async () => {
+    await expect(testFile('dataFile.yml')).resolves.toEqual({
+      content: 'localized yaml',
+    });
   });
 
-  it('fail to read invalid json', async () => {
+  it('throw for invalid file', async () => {
     await expect(
-      readDataFile('bad.json'),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`"Nope"`);
+      testFile('invalid.yml'),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"The file at "packages/docusaurus-utils/src/__tests__/__fixtures__/dataFiles/dataFiles/invalid.yml" looks invalid (not Yaml nor JSON)."`,
+    );
   });
 });
 
