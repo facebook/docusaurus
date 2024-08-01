@@ -405,7 +405,10 @@ An author, either declared through front matter or through the authors map, need
 
 The authors pages feature is optional, and mainly useful for multi-author blogs.
 
-You can activate it independently for each author by adding `page: true` or `page: {permalink: string}` to the [global author configuration](#global-authors).
+You can activate it independently for each author by adding a `page` attribute to the [global author configuration](#global-authors):
+
+- `page: true`
+- `page: {permalink: string}`
 
 ```yml title="website/blog/authors.yml"
 slorber:
