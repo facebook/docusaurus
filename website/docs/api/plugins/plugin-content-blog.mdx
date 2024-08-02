@@ -77,6 +77,7 @@ Accepted fields:
 | `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
 | `feedOptions.description` | `string` | <code>\`$\{siteConfig.title} Blog\`</code> | Description of the feed. |
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
+| `feedOptions.xslt` | <code>boolean \| [FeedXSLTOptions](#FeedXSLTOptions)</code> | `undefined` | Copyright message. |
 | `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
 | `sortPosts` | <code>'descending' \| 'ascending' </code> | `'descending'` | Governs the direction of blog post sorting. |
 | `processBlogPosts` | <code>[ProcessBlogPostsFn](#ProcessBlogPostsFn)</code> | `undefined` | An optional function which can be used to transform blog posts (filter, modify, delete, etc...). |
@@ -127,6 +128,25 @@ type ReadingTimeFn = (params: {
 
 ```ts
 type FeedType = 'rss' | 'atom' | 'json';
+```
+
+#### `FeedXSLTOptions` {#FeedXSLTOptions}
+
+Permits to style the blog XML feeds so that browsers render them nicely with [XSLT](https://developer.mozilla.org/en-US/docs/Web/XSLT).
+
+- Use `true` to let the blog use its built-in `.xsl` and `.css` files to style the blog feed
+- Use a falsy value (`undefined | null | false`) to disable the feature
+- Use a `string` to provide a file path to a custom `.xsl` file relative to the blog content folder. By convention, you must provide a `.css` file with the exact same name.
+
+```ts
+type FeedXSLTOptions =
+  | boolean
+  | undefined
+  | null
+  | {
+      rss?: string | boolean | null | undefined;
+      atom?: string | boolean | null | undefined;
+    };
 ```
 
 #### `CreateFeedItemsFn` {#CreateFeedItemsFn}

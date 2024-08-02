@@ -602,9 +602,18 @@ type BlogOptions = {
     title?: string;
     description?: string;
     copyright: string;
+
     language?: string; // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
     limit?: number | false | null; // defaults to 20
-    /** Allow control over the construction of BlogFeedItems */
+    // XSLT permits browsers to style and render nicely the feed XML files
+    xslt?:
+      | boolean
+      | {
+          //
+          rss?: string | boolean;
+          atom?: string | boolean;
+        };
+    // Allow control over the construction of BlogFeedItems
     createFeedItems?: (params: {
       blogPosts: BlogPost[];
       siteConfig: DocusaurusConfig;

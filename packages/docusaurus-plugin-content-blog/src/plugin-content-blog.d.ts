@@ -523,6 +523,14 @@ declare module '@docusaurus/plugin-content-blog' {
       onInlineAuthors: 'ignore' | 'log' | 'warn' | 'throw';
     };
 
+  export type UserFeedXSLTOptions =
+    | boolean
+    | null
+    | {
+        rss?: string | boolean | null;
+        atom?: string | boolean | null;
+      };
+
   /**
    * Feed options, as provided by user config. `type` accepts `all` as shortcut
    */
@@ -532,13 +540,7 @@ declare module '@docusaurus/plugin-content-blog' {
       /** Type of feed to be generated. Use `null` to disable generation. */
       type?: FeedOptions['type'] | 'all' | FeedType;
       /** User-provided XSLT config for feeds, un-normalized */
-      xslt?:
-        | boolean
-        | null
-        | {
-            rss?: string | boolean | null;
-            atom?: string | boolean | null;
-          };
+      xslt?: UserFeedXSLTOptions;
     }
   >;
   /**
