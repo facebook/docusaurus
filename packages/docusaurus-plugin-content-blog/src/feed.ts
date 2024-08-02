@@ -205,7 +205,7 @@ async function transformFeedWithStylesheet({
   }
 
   const fileName = path.parse(xsltFile).name;
-  const isDefault = xsltFile === 'rss.xslt' || xsltFile === 'atom.xslt';
+  const isDefault = false; // xsltFile === 'rss.xslt' || xsltFile === 'atom.xslt';
   const directoryPath = isDefault
     ? path.join(__dirname, '../assets/')
     : contentPath;

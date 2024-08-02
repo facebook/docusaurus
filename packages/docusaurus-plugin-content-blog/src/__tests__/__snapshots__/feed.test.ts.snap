@@ -237,7 +237,7 @@ h2:not(:first-child) {
   font-style: italic;
 }
 ",
-  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="custom-atom.xslt"?>
+  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="custom-atom.xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
@@ -770,7 +770,7 @@ h2:not(:first-child) {
   font-style: italic;
 }
 ",
-  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xslt"?>
+  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
@@ -1598,7 +1598,7 @@ h2:not(:first-child) {
   font-style: italic;
 }
 ",
-  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="custom-rss.xslt"?>
+  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="custom-rss.xsl"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Hello Blog</title>
@@ -2104,7 +2104,7 @@ h2:not(:first-child) {
   font-style: italic;
 }
 ",
-  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="rss.xslt"?>
+  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="rss.xsl"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Hello Blog</title>
