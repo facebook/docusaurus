@@ -5,6 +5,8 @@ build
 coverage
 .docusaurus
 
+.svg
+
 jest/vendor
 
 packages/lqip-loader/lib/
