@@ -92,7 +92,7 @@ function normalizeXsltOption(
   return null;
 }
 
-function createXLSTFilePathSchema(type: 'atom' | 'rss') {
+function createXSLTFilePathSchema(type: 'atom' | 'rss') {
   return Joi.alternatives()
     .try(
       Joi.string().required(),
@@ -107,8 +107,8 @@ function createXLSTFilePathSchema(type: 'atom' | 'rss') {
 const FeedXSLTOptionsSchema = Joi.alternatives()
   .try(
     Joi.object<FeedXSLTOptions>({
-      rss: createXLSTFilePathSchema('rss'),
-      atom: createXLSTFilePathSchema('atom'),
+      rss: createXSLTFilePathSchema('rss'),
+      atom: createXSLTFilePathSchema('atom'),
     }).required(),
     Joi.boolean()
       .allow(null, () => undefined)

@@ -165,104 +165,104 @@ describe('validateOptions', () => {
         return testValidate({feedOptions: {xslt}}).feedOptions.xslt;
       }
 
-      it('accepts xlst: true', () => {
+      it('accepts xslt: true', () => {
         expect(testXSLT(true)).toEqual({
           rss: XSLTBuiltInPaths.rss,
           atom: XSLTBuiltInPaths.atom,
         });
       });
 
-      it('accepts xlst: false', () => {
+      it('accepts xslt: false', () => {
         expect(testXSLT(false)).toEqual({
           rss: null,
           atom: null,
         });
       });
 
-      it('accepts xlst: null', () => {
+      it('accepts xslt: null', () => {
         expect(testXSLT(null)).toEqual({
           rss: null,
           atom: null,
         });
       });
 
-      it('accepts xlst: undefined', () => {
+      it('accepts xslt: undefined', () => {
         expect(testXSLT(undefined)).toEqual({
           rss: null,
           atom: null,
         });
       });
 
-      it('accepts xlst: {rss: true}', () => {
+      it('accepts xslt: {rss: true}', () => {
         expect(testXSLT({rss: true})).toEqual({
           rss: XSLTBuiltInPaths.rss,
           atom: null,
         });
       });
 
-      it('accepts xlst: {atom: true}', () => {
+      it('accepts xslt: {atom: true}', () => {
         expect(testXSLT({atom: true})).toEqual({
           rss: null,
           atom: XSLTBuiltInPaths.atom,
         });
       });
 
-      it('accepts xlst: {rss: true, atom: true}', () => {
+      it('accepts xslt: {rss: true, atom: true}', () => {
         expect(testXSLT({rss: true, atom: true})).toEqual({
           rss: XSLTBuiltInPaths.rss,
           atom: XSLTBuiltInPaths.atom,
         });
       });
 
-      it('accepts xlst: {rss: "custom-path"}', () => {
+      it('accepts xslt: {rss: "custom-path"}', () => {
         expect(testXSLT({rss: 'custom-path'})).toEqual({
           rss: 'custom-path',
           atom: null,
         });
       });
 
-      it('accepts xlst: {rss: true, atom: "custom-path"}', () => {
+      it('accepts xslt: {rss: true, atom: "custom-path"}', () => {
         expect(testXSLT({rss: true, atom: 'custom-path'})).toEqual({
           rss: XSLTBuiltInPaths.rss,
           atom: 'custom-path',
         });
       });
 
-      it('accepts xlst: {rss: null, atom: true}', () => {
+      it('accepts xslt: {rss: null, atom: true}', () => {
         expect(testXSLT({rss: null, atom: true})).toEqual({
           rss: null,
           atom: XSLTBuiltInPaths.atom,
         });
       });
 
-      it('accepts xlst: {rss: false, atom: null}', () => {
+      it('accepts xslt: {rss: false, atom: null}', () => {
         expect(testXSLT({rss: false, atom: null})).toEqual({
           rss: null,
           atom: null,
         });
       });
 
-      it('rejects xlst: 42', () => {
+      it('rejects xslt: 42', () => {
         // @ts-expect-error: bad type
         expect(() => testXSLT(42)).toThrowErrorMatchingInlineSnapshot(
           `""feedOptions.xslt" must be one of [object, boolean]"`,
         );
       });
-      it('rejects xlst: []', () => {
+      it('rejects xslt: []', () => {
         // @ts-expect-error: bad type
         expect(() => testXSLT([])).toThrowErrorMatchingInlineSnapshot(
           `""feedOptions.xslt" must be one of [object, boolean]"`,
         );
       });
 
-      it('rejects xlst: {rss: 42}', () => {
+      it('rejects xslt: {rss: 42}', () => {
         // @ts-expect-error: bad type
         expect(() => testXSLT({rss: 42})).toThrowErrorMatchingInlineSnapshot(
           `""feedOptions.xslt.rss" must be one of [string, boolean]"`,
         );
       });
 
-      it('rejects xlst: {rss: []}', () => {
+      it('rejects xslt: {rss: []}', () => {
         // @ts-expect-error: bad type
         expect(() => testXSLT({rss: 42})).toThrowErrorMatchingInlineSnapshot(
           `""feedOptions.xslt.rss" must be one of [string, boolean]"`,
