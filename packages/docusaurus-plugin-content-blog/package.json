@@ -59,6 +59,7 @@
     "node": ">=18.0"
   },
   "devDependencies": {
-    "@total-typescript/shoehorn": "^0.1.2"
+    "@total-typescript/shoehorn": "^0.1.2",
+    "tree-node-cli": "^1.6.0"
   }
 }

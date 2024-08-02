@@ -315,10 +315,26 @@ declare module '@docusaurus/plugin-content-blog' {
   }) => string | undefined;
 
   export type FeedType = 'rss' | 'atom' | 'json';
+
+  export type FeedXSLTOptions = {
+    /**
+     * RSS XSLT file path, relative to the blog content folder.
+     * If null, no XSLT file is used and the feed will be displayed as raw XML.
+     */
+    rss: string | null;
+    /**
+     * Atom XSLT file path, relative to the blog content folder.
+     * If null, no XSLT file is used and the feed will be displayed as raw XML.
+     */
+    atom: string | null;
+  };
+
   /**
    * Normalized feed options used within code.
    */
   export type FeedOptions = {
+    /** Enable feeds xslt stylesheets */
+    xslt: FeedXSLTOptions;
     /** If `null`, no feed is generated. */
     type?: FeedType[] | null;
     /** Title of generated feed. */
@@ -507,6 +523,14 @@ declare module '@docusaurus/plugin-content-blog' {
       onInlineAuthors: 'ignore' | 'log' | 'warn' | 'throw';
     };
 
+  export type UserFeedXSLTOptions =
+    | boolean
+    | null
+    | {
+        rss?: string | boolean | null;
+        atom?: string | boolean | null;
+      };
+
   /**
    * Feed options, as provided by user config. `type` accepts `all` as shortcut
    */
@@ -515,6 +539,8 @@ declare module '@docusaurus/plugin-content-blog' {
     {
       /** Type of feed to be generated. Use `null` to disable generation. */
       type?: FeedOptions['type'] | 'all' | FeedType;
+      /** User-provided XSLT config for feeds, un-normalized */
+      xslt?: UserFeedXSLTOptions;
     }
   >;
   /**

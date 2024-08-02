@@ -32,6 +32,8 @@
     "website/_dogfooding/_pages tests/diagrams.mdx",
     "*.xyz",
     "*.docx",
+    "*.xsl",
+    "*.xslt",
     "*.gitignore",
     "versioned_docs",
     "*.min.*",

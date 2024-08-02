@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import {
   Joi,
   RemarkPluginsSchema,
@@ -19,11 +20,20 @@ import type {
   PluginOptions,
   Options,
   FeedType,
+  FeedXSLTOptions,
 } from '@docusaurus/plugin-content-blog';
 import type {OptionValidationContext} from '@docusaurus/types';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
-  feedOptions: {type: ['rss', 'atom'], copyright: '', limit: 20},
+  feedOptions: {
+    type: ['rss', 'atom'],
+    copyright: '',
+    limit: 20,
+    xslt: {
+      rss: null,
+      atom: null,
+    },
+  },
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: true,
@@ -63,6 +73,94 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   authorsBasePath: 'authors',
   onInlineAuthors: 'warn',
 };
+
+export const XSLTBuiltInPaths = {
+  rss: path.resolve(__dirname, '..', 'assets', 'rss.xsl'),
+  atom: path.resolve(__dirname, '..', 'assets', 'atom.xsl'),
+};
+
+function normalizeXsltOption(
+  option: string | null | boolean,
+  type: 'rss' | 'atom',
+): string | null {
+  if (typeof option === 'string') {
+    return option;
+  }
+  if (option === true) {
+    return XSLTBuiltInPaths[type];
+  }
+  return null;
+}
+
+function createXSLTFilePathSchema(type: 'atom' | 'rss') {
+  return Joi.alternatives()
+    .try(
+      Joi.string().required(),
+      Joi.boolean()
+        .allow(null, () => undefined)
+        .custom((val) => normalizeXsltOption(val, type)),
+    )
+    .optional()
+    .default(null);
+}
+
+const FeedXSLTOptionsSchema = Joi.alternatives()
+  .try(
+    Joi.object<FeedXSLTOptions>({
+      rss: createXSLTFilePathSchema('rss'),
+      atom: createXSLTFilePathSchema('atom'),
+    }).required(),
+    Joi.boolean()
+      .allow(null, () => undefined)
+      .custom((val) => ({
+        rss: normalizeXsltOption(val, 'rss'),
+        atom: normalizeXsltOption(val, 'atom'),
+      })),
+  )
+  .optional()
+  .custom((val) => {
+    if (val === null) {
+      return {
+        rss: null,
+        atom: null,
+      };
+    }
+    return val;
+  })
+  .default(DEFAULT_OPTIONS.feedOptions.xslt);
+
+const FeedOptionsSchema = Joi.object({
+  type: Joi.alternatives()
+    .try(
+      Joi.array().items(Joi.string().equal('rss', 'atom', 'json')),
+      Joi.alternatives().conditional(
+        Joi.string().equal('all', 'rss', 'atom', 'json'),
+        {
+          then: Joi.custom((val: FeedType | 'all') =>
+            val === 'all' ? ['rss', 'atom', 'json'] : [val],
+          ),
+        },
+      ),
+    )
+    .allow(null)
+    .default(DEFAULT_OPTIONS.feedOptions.type),
+  xslt: FeedXSLTOptionsSchema,
+  title: Joi.string().allow(''),
+  description: Joi.string().allow(''),
+  // Only add default value when user actually wants a feed (type is not null)
+  copyright: Joi.when('type', {
+    is: Joi.any().valid(null),
+    then: Joi.string().optional(),
+    otherwise: Joi.string()
+      .allow('')
+      .default(DEFAULT_OPTIONS.feedOptions.copyright),
+  }),
+  language: Joi.string(),
+  createFeedItems: Joi.function(),
+  limit: Joi.alternatives()
+    .try(Joi.number(), Joi.valid(null), Joi.valid(false))
+    .default(DEFAULT_OPTIONS.feedOptions.limit),
+}).default(DEFAULT_OPTIONS.feedOptions);
 
 const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
@@ -116,37 +214,7 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   beforeDefaultRehypePlugins: RehypePluginsSchema.default(
     DEFAULT_OPTIONS.beforeDefaultRehypePlugins,
   ),
-  feedOptions: Joi.object({
-    type: Joi.alternatives()
-      .try(
-        Joi.array().items(Joi.string().equal('rss', 'atom', 'json')),
-        Joi.alternatives().conditional(
-          Joi.string().equal('all', 'rss', 'atom', 'json'),
-          {
-            then: Joi.custom((val: FeedType | 'all') =>
-              val === 'all' ? ['rss', 'atom', 'json'] : [val],
-            ),
-          },
-        ),
-      )
-      .allow(null)
-      .default(DEFAULT_OPTIONS.feedOptions.type),
-    title: Joi.string().allow(''),
-    description: Joi.string().allow(''),
-    // Only add default value when user actually wants a feed (type is not null)
-    copyright: Joi.when('type', {
-      is: Joi.any().valid(null),
-      then: Joi.string().optional(),
-      otherwise: Joi.string()
-        .allow('')
-        .default(DEFAULT_OPTIONS.feedOptions.copyright),
-    }),
-    language: Joi.string(),
-    createFeedItems: Joi.function(),
-    limit: Joi.alternatives()
-      .try(Joi.number(), Joi.valid(null), Joi.valid(false))
-      .default(DEFAULT_OPTIONS.feedOptions.limit),
-  }).default(DEFAULT_OPTIONS.feedOptions),
+  feedOptions: FeedOptionsSchema,
   authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
   readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),
   sortPosts: Joi.string()
