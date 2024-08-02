@@ -531,6 +531,7 @@ declare module '@docusaurus/plugin-content-blog' {
     {
       /** Type of feed to be generated. Use `null` to disable generation. */
       type?: FeedOptions['type'] | 'all' | FeedType;
+      /** User-provided XSLT config for feeds, un-normalized */
       xslt?:
         | boolean
         | null
