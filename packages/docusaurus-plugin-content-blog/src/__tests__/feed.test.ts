@@ -106,7 +106,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         feedOptions: {
           type: [feedType],
           copyright: 'Copyright',
-          xslt: {enabled: false},
+          xslt: {atom: null, rss: null},
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
@@ -150,7 +150,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         feedOptions: {
           type: [feedType],
           copyright: 'Copyright',
-          xslt: {enabled: false},
+          xslt: {atom: null, rss: null},
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
@@ -206,7 +206,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
               ...rest,
             });
           },
-          xslt: {enabled: false},
+          xslt: {atom: null, rss: null},
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
@@ -253,7 +253,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
           type: [feedType],
           copyright: 'Copyright',
           limit: 2,
-          xslt: {enabled: false},
+          xslt: {atom: null, rss: null},
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
@@ -300,7 +300,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         feedOptions: {
           type: [feedType],
           copyright: 'Copyright',
-          xslt: {enabled: false},
+          xslt: {atom: null, rss: null},
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
@@ -346,7 +346,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         feedOptions: {
           type: [feedType],
           copyright: 'Copyright',
-          xslt: {enabled: true, rssXslt: 'rss.xslt', atomXslt: 'atom.xslt'},
+          xslt: {rss: 'rss.xslt', atom: 'atom.xslt'},
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
@@ -393,9 +393,8 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
           type: [feedType],
           copyright: 'Copyright',
           xslt: {
-            enabled: true,
-            rssXslt: 'custom-rss.xslt',
-            atomXslt: 'custom-atom.xslt',
+            rss: 'custom-rss.xslt',
+            atom: 'custom-atom.xslt',
           },
         },
         readingTime: ({content, defaultReadingTime}) =>
