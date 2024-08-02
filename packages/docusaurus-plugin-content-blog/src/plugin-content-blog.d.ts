@@ -317,9 +317,16 @@ declare module '@docusaurus/plugin-content-blog' {
   export type FeedType = 'rss' | 'atom' | 'json';
 
   export type FeedXSLTOptions = {
-    enabled: boolean;
-    rssXslt: string;
-    atomXslt: string;
+    /**
+     * RSS XSLT file path, relative to the blog content folder.
+     * If null, no XSLT file is used and the feed will be displayed as raw XML.
+     */
+    rss: string | null;
+    /**
+     * Atom XSLT file path, relative to the blog content folder.
+     * If null, no XSLT file is used and the feed will be displayed as raw XML.
+     */
+    atom: string | null;
   };
 
   /**
@@ -524,11 +531,13 @@ declare module '@docusaurus/plugin-content-blog' {
     {
       /** Type of feed to be generated. Use `null` to disable generation. */
       type?: FeedOptions['type'] | 'all' | FeedType;
-      xslt?: {
-        enabled?: boolean;
-        rssXslt?: string;
-        atomXslt?: string;
-      };
+      xslt?:
+        | boolean
+        | null
+        | {
+            rss?: string | boolean | null;
+            atom?: string | boolean | null;
+          };
     }
   >;
   /**

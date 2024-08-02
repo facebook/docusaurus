@@ -247,11 +247,11 @@ async function createBlogFeedFile({
       case 'rss': {
         const rssFeed = feed.rss2();
         const outputPath = 'rss.xml';
-        if (xslt.enabled) {
+        if (xslt.rss) {
           const xsltFeed = await transformFeedWithStylesheet({
             feedDetails: rssFeed,
             generatePath,
-            xsltFile: xslt.rssXslt,
+            xsltFile: xslt.rss,
             contentPaths,
           });
           return [xsltFeed, outputPath];
@@ -263,11 +263,11 @@ async function createBlogFeedFile({
       case 'atom': {
         const atomFeed = feed.atom1();
         const outputPath = 'atom.xml';
-        if (xslt.enabled) {
+        if (xslt.atom) {
           const xsltFeed = await transformFeedWithStylesheet({
             feedDetails: atomFeed,
             generatePath,
-            xsltFile: xslt.atomXslt,
+            xsltFile: xslt.atom,
             contentPaths,
           });
           return [xsltFeed, outputPath];
