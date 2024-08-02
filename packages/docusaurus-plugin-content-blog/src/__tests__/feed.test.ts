@@ -10,13 +10,15 @@ import path from 'path';
 import fs from 'fs-extra';
 import {DEFAULT_PARSE_FRONT_MATTER} from '@docusaurus/utils';
 import {fromPartial} from '@total-typescript/shoehorn';
-import {DEFAULT_OPTIONS} from '../options';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
+import tree from 'tree-node-cli';
+import {DEFAULT_OPTIONS, validateOptions} from '../options';
 import {generateBlogPosts} from '../blogUtils';
 import {createBlogFeedFiles} from '../feed';
 import {getAuthorsMap} from '../authorsMap';
-import type {LoadContext, I18n} from '@docusaurus/types';
+import type {LoadContext, I18n, Validate} from '@docusaurus/types';
 import type {BlogContentPaths} from '../types';
-import type {PluginOptions} from '@docusaurus/plugin-content-blog';
+import type {Options, PluginOptions} from '@docusaurus/plugin-content-blog';
 
 const DefaultI18N: I18n = {
   currentLocale: 'en',
@@ -50,8 +52,16 @@ function getBlogContentPaths(siteDir: string): BlogContentPaths {
 
 async function testGenerateFeeds(
   context: LoadContext,
-  options: PluginOptions,
+  optionsInput: Options,
 ): Promise<void> {
+  const options = validateOptions({
+    validate: normalizePluginOptions as Validate<
+      Options | undefined,
+      PluginOptions
+    >,
+    options: optionsInput,
+  });
+
   const contentPaths = getBlogContentPaths(context.siteDir);
   const authorsMap = await getAuthorsMap({
     contentPaths,
@@ -76,7 +86,7 @@ async function testGenerateFeeds(
   });
 }
 
-describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
+describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
   const fsMock = jest.spyOn(fs, 'outputFile').mockImplementation(() => {});
 
   it('does not get generated without posts', async () => {
@@ -113,7 +123,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
-      } as PluginOptions,
+      },
     );
 
     expect(fsMock).toHaveBeenCalledTimes(0);
@@ -157,7 +167,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
-      } as PluginOptions,
+      },
     );
 
     expect(
@@ -213,7 +223,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
-      } as PluginOptions,
+      },
     );
 
     expect(
@@ -260,7 +270,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
-      } as PluginOptions,
+      },
     );
 
     expect(
@@ -307,7 +317,7 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
-      } as PluginOptions,
+      },
     );
 
     expect(
@@ -346,19 +356,19 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         feedOptions: {
           type: [feedType],
           copyright: 'Copyright',
-          xslt: {rss: 'rss.xsl', atom: 'atom.xsl'},
+          xslt: true,
         },
         readingTime: ({content, defaultReadingTime}) =>
           defaultReadingTime({content}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
-      } as PluginOptions,
+      },
     );
 
-    expect(
-      fsMock.mock.calls.map((call) => call[1] as string),
-    ).toMatchSnapshot();
+    expect(tree(path.join(outDir, 'blog'))).toMatchSnapshot('blog tree');
+
+    expect(fsMock.mock.calls).toMatchSnapshot();
     fsMock.mockClear();
   });
 
@@ -402,12 +412,12 @@ describe.each(['atom', 'rss', 'json'])('%s', (feedType) => {
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
-      } as PluginOptions,
+      },
     );
 
-    expect(
-      fsMock.mock.calls.map((call) => call[1] as string),
-    ).toMatchSnapshot();
+    expect(tree(path.join(outDir, 'blog'))).toMatchSnapshot('blog tree');
+
+    expect(fsMock.mock.calls).toMatchSnapshot();
     fsMock.mockClear();
   });
 });

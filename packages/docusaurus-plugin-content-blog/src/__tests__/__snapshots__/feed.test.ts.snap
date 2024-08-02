@@ -94,150 +94,9 @@ exports[`atom filters to the first two entries using limit 1`] = `
 
 exports[`atom has custom xslt files for feed 1`] = `
 [
-  "<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:atom="http://www.w3.org/2005/Atom">
-
-  <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes" />
-
-  <xsl:template match="/">
-    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-      <head>
-        <title>Atom Feed | <xsl:value-of select="atom:feed/atom:title" /></title>
-        <link rel="stylesheet" href="custom-atom.css" />
-      </head>
-      <body>
-        <main>
-          <div class="description">
-            <div class="info">
-              <strong>This is an Atom feed</strong>. Subscribe by copying the URL from the address
-  bar into your newsreader. Visit <a href="https://aboutfeeds.com/">About Feeds</a> to learn more
-  and get started. It’s free. </div>
-            <h1 class="flex items-start">
-              <div class="rss-icon">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  viewBox="0 0 455.731 455.731" xml:space="preserve">
-                  <g>
-                    <rect x="0" y="0" style="fill:#F78422;" width="455.731" height="455.731"/>
-                    <g>
-                      <path style="fill:#FFFFFF;" d="M296.208,159.16C234.445,97.397,152.266,63.382,64.81,63.382v64.348
-                        c70.268,0,136.288,27.321,185.898,76.931c49.609,49.61,76.931,115.63,76.931,185.898h64.348
-                        C391.986,303.103,357.971,220.923,296.208,159.16z"/>
-                      <path style="fill:#FFFFFF;" d="M64.143,172.273v64.348c84.881,0,153.938,69.056,153.938,153.939h64.348
-                        C282.429,270.196,184.507,172.273,64.143,172.273z"/>
-                      <circle style="fill:#FFFFFF;" cx="109.833" cy="346.26" r="46.088"/>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-  Custom Atom Feed Preview </h1>
-            <h2>
-              <xsl:value-of select="atom:feed/atom:title" />
-            </h2>
-            <p>Description: <xsl:value-of select="atom:feed/atom:subtitle" /></p>
-          </div>
-          <h2>Recent Posts</h2>
-          <div class="postsList">
-            <xsl:for-each select="atom:feed/atom:entry">
-              <div class="pb-7">
-                <a href="{atom:link[@rel='alternate']/@href}">
-                  <xsl:value-of select="atom:title" />
-                </a>
-                <div class="text-2 text-offset"> Published on <xsl:value-of
-                    select="substring(atom:updated, 0, 17)" />
-                </div>
-                <div class="text-2 text-offset italic">
-                  <xsl:value-of select="atom:summary" />
-                </div>
-              </div>
-            </xsl:for-each>
-          </div>
-        </main>
-      </body>
-    </html>
-  </xsl:template>
-
-</xsl:stylesheet>
-",
-  "/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-* {
-  color: #0d1137;
-}
-
-main {
-  flex: 1 0 auto;
-  width: 100%;
-  margin: 4rem auto;
-  padding: 1.5 rem;
-  max-width: 800px;
-  /* stylelint-disable-next-line font-family-name-quotes */
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell;
-}
-
-.info {
-  display: block;
-  margin: 3rem 0;
-  padding: 2rem 3rem;
-  border: 1px solid dodgerblue;
-  border-left-width: 0.5rem;
-  border-radius: 0.4rem;
-  background-color: #e52165;
-}
-
-.rss-icon {
-  height: 3.8rem;
-  width: 3.8rem;
-  margin-right: 1rem;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-start {
-  align-items: flex-start;
-}
-
-.pb-7 {
-  padding-bottom: 3rem;
-}
-
-a {
-  color: #005aff;
-  text-decoration: none;
-}
-
-h1 {
-  text-wrap: balance;
-  font-size: 3.8rem;
-  line-height: 1;
-  font-weight: 800;
-  margin-bottom: 4rem;
-}
-
-h2 {
-  font-size: 3rem;
-  line-height: 1.2;
-  font-weight: 700;
-  margin-bottom: 3rem;
-}
-
-h2:not(:first-child) {
-  margin-top: 5.8rem;
-}
-
-.italic {
-  font-style: italic;
-}
-",
-  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="custom-atom.xsl"?>
+  [
+    "<PROJECT_ROOT>/packages/docusaurus-plugin-content-blog/src/__tests__/__fixtures__/website/build-snap/blog/atom.xml",
+    "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="custom-atom.xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
@@ -362,7 +221,61 @@ h2:not(:first-child) {
         <category label="Global Tag label (en)" term="Global Tag label (en)"/>
     </entry>
 </feed>",
+  ],
 ]
+`;
+
+exports[`atom has custom xslt files for feed: blog tree 1`] = `
+"blog
+├── 2018
+│   └── 12
+│       └── 14
+│           └── Happy-First-Birthday-Slash
+│               └── index.html
+├── archive
+│   └── index.html
+├── atom.css
+├── atom.xml
+├── atom.xsl
+├── blog-with-links
+│   └── index.html
+├── custom-atom.css
+├── custom-atom.xsl
+├── custom-rss.css
+├── custom-rss.xsl
+├── date-matter
+│   └── index.html
+├── feed.json
+├── heading-as-title
+│   └── index.html
+├── hey
+│   └── my super path
+│       └── héllô
+│           └── index.html
+├── index.html
+├── mdx-blog-post
+│   └── index.html
+├── mdx-require-blog-post
+│   └── index.html
+├── page
+│   ├── 2
+│   │   └── index.html
+│   └── 3
+│       └── index.html
+├── rss.css
+├── rss.xml
+├── rss.xsl
+├── simple
+│   └── slug
+│       └── index.html
+├── tags
+│   ├── complex
+│   │   └── index.html
+│   ├── date
+│   │   └── index.html
+│   └── index.html
+└── unlisted
+    └── index.html"
 `;
 
 exports[`atom has feed item for each post - with trailing slash 1`] = `
@@ -627,150 +540,9 @@ exports[`atom has feed item for each post 1`] = `
 
 exports[`atom has xslt files for feed 1`] = `
 [
-  "<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:atom="http://www.w3.org/2005/Atom">
-
-  <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes" />
-
-  <xsl:template match="/">
-    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-      <head>
-        <title>Atom Feed | <xsl:value-of select="atom:feed/atom:title" /></title>
-        <link rel="stylesheet" href="atom.css" />
-      </head>
-      <body>
-        <main>
-          <div class="description">
-            <div class="info">
-              <strong>This is an Atom feed</strong>. Subscribe by copying the URL from the address
-              bar into your newsreader. Visit <a href="https://aboutfeeds.com/">About Feeds</a> to
-              learn more and get started. It’s free. </div>
-            <h1 class="flex items-start">
-              <div class="rss-icon">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                     viewBox="0 0 455.731 455.731" xml:space="preserve">
-                <g>
-                <rect x="0" y="0" style="fill:#F78422;" width="455.731" height="455.731"/>
-                <g>
-                <path style="fill:#FFFFFF;" d="M296.208,159.16C234.445,97.397,152.266,63.382,64.81,63.382v64.348
-                c70.268,0,136.288,27.321,185.898,76.931c49.609,49.61,76.931,115.63,76.931,185.898h64.348
-                C391.986,303.103,357.971,220.923,296.208,159.16z"/>
-                <path style="fill:#FFFFFF;" d="M64.143,172.273v64.348c84.881,0,153.938,69.056,153.938,153.939h64.348
-                C282.429,270.196,184.507,172.273,64.143,172.273z"/>
-                <circle style="fill:#FFFFFF;" cx="109.833" cy="346.26" r="46.088"/>
-                </g>
-                </g>
-                </svg>
-              </div>
-              Atom Feed Preview </h1>
-            <h2>
-              <xsl:value-of select="atom:feed/atom:title" />
-            </h2>
-            <p>Description: <xsl:value-of select="atom:feed/atom:subtitle" /></p>
-          </div>
-          <h2>Recent Posts</h2>
-          <div class="postsList">
-            <xsl:for-each select="atom:feed/atom:entry">
-              <div class="pb-7">
-                <a href="{atom:link[@rel='alternate']/@href}">
-                  <xsl:value-of select="atom:title" />
-                </a>
-                <div class="text-2 text-offset"> Published on <xsl:value-of
-                    select="substring(atom:updated, 0, 17)" />
-                </div>
-                <div class="text-2 text-offset italic">
-                  <xsl:value-of select="atom:summary" />
-                </div>
-              </div>
-            </xsl:for-each>
-          </div>
-        </main>
-      </body>
-    </html>
-  </xsl:template>
-
-</xsl:stylesheet>
-",
-  "/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-* {
-  color: #0d1137;
-}
-
-main {
-  flex: 1 0 auto;
-  width: 100%;
-  margin: 4rem auto;
-  padding: 1.5 rem;
-  max-width: 800px;
-  /* stylelint-disable-next-line font-family-name-quotes */
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell;
-}
-
-.info {
-  display: block;
-  margin: 3rem 0;
-  padding: 2rem 3rem;
-  border: 1px solid dodgerblue;
-  border-left-width: 0.5rem;
-  border-radius: 0.4rem;
-  background-color: #edf5ff;
-}
-
-.rss-icon {
-  height: 3.8rem;
-  width: 3.8rem;
-  margin-right: 1rem;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-start {
-  align-items: flex-start;
-}
-
-.pb-7 {
-  padding-bottom: 3rem;
-}
-
-a {
-  color: #005aff;
-  text-decoration: none;
-}
-
-h1 {
-  text-wrap: balance;
-  font-size: 3.8rem;
-  line-height: 1;
-  font-weight: 800;
-  margin-bottom: 4rem;
-}
-
-h2 {
-  font-size: 3rem;
-  line-height: 1.2;
-  font-weight: 700;
-  margin-bottom: 3rem;
-}
-
-h2:not(:first-child) {
-  margin-top: 5.8rem;
-}
-
-.italic {
-  font-style: italic;
-}
-",
-  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xsl"?>
+  [
+    "<PROJECT_ROOT>/packages/docusaurus-plugin-content-blog/src/__tests__/__fixtures__/website/build-snap/blog/atom.xml",
+    "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
@@ -895,7 +667,61 @@ h2:not(:first-child) {
         <category label="Global Tag label (en)" term="Global Tag label (en)"/>
     </entry>
 </feed>",
+  ],
 ]
+`;
+
+exports[`atom has xslt files for feed: blog tree 1`] = `
+"blog
+├── 2018
+│   └── 12
+│       └── 14
+│           └── Happy-First-Birthday-Slash
+│               └── index.html
+├── archive
+│   └── index.html
+├── atom.css
+├── atom.xml
+├── atom.xsl
+├── blog-with-links
+│   └── index.html
+├── custom-atom.css
+├── custom-atom.xsl
+├── custom-rss.css
+├── custom-rss.xsl
+├── date-matter
+│   └── index.html
+├── feed.json
+├── heading-as-title
+│   └── index.html
+├── hey
+│   └── my super path
+│       └── héllô
+│           └── index.html
+├── index.html
+├── mdx-blog-post
+│   └── index.html
+├── mdx-require-blog-post
+│   └── index.html
+├── page
+│   ├── 2
+│   │   └── index.html
+│   └── 3
+│       └── index.html
+├── rss.css
+├── rss.xml
+├── rss.xsl
+├── simple
+│   └── slug
+│       └── index.html
+├── tags
+│   ├── complex
+│   │   └── index.html
+│   ├── date
+│   │   └── index.html
+│   └── index.html
+└── unlisted
+    └── index.html"
 `;
 
 exports[`json filters to the first two entries 1`] = `
@@ -962,7 +788,9 @@ exports[`json filters to the first two entries using limit 1`] = `
 
 exports[`json has custom xslt files for feed 1`] = `
 [
-  "{
+  [
+    "<PROJECT_ROOT>/packages/docusaurus-plugin-content-blog/src/__tests__/__fixtures__/website/build-snap/blog/feed.json",
+    "{
     "version": "https://jsonfeed.org/version/1",
     "title": "Hello Blog",
     "home_page_url": "https://docusaurus.io/myBaseUrl/blog",
@@ -1056,7 +884,61 @@ exports[`json has custom xslt files for feed 1`] = `
         }
     ]
 }",
+  ],
 ]
+`;
+
+exports[`json has custom xslt files for feed: blog tree 1`] = `
+"blog
+├── 2018
+│   └── 12
+│       └── 14
+│           └── Happy-First-Birthday-Slash
+│               └── index.html
+├── archive
+│   └── index.html
+├── atom.css
+├── atom.xml
+├── atom.xsl
+├── blog-with-links
+│   └── index.html
+├── custom-atom.css
+├── custom-atom.xsl
+├── custom-rss.css
+├── custom-rss.xsl
+├── date-matter
+│   └── index.html
+├── feed.json
+├── heading-as-title
+│   └── index.html
+├── hey
+│   └── my super path
+│       └── héllô
+│           └── index.html
+├── index.html
+├── mdx-blog-post
+│   └── index.html
+├── mdx-require-blog-post
+│   └── index.html
+├── page
+│   ├── 2
+│   │   └── index.html
+│   └── 3
+│       └── index.html
+├── rss.css
+├── rss.xml
+├── rss.xsl
+├── simple
+│   └── slug
+│       └── index.html
+├── tags
+│   ├── complex
+│   │   └── index.html
+│   ├── date
+│   │   └── index.html
+│   └── index.html
+└── unlisted
+    └── index.html"
 `;
 
 exports[`json has feed item for each post - with trailing slash 1`] = `
@@ -1259,7 +1141,9 @@ exports[`json has feed item for each post 1`] = `
 
 exports[`json has xslt files for feed 1`] = `
 [
-  "{
+  [
+    "<PROJECT_ROOT>/packages/docusaurus-plugin-content-blog/src/__tests__/__fixtures__/website/build-snap/blog/feed.json",
+    "{
     "version": "https://jsonfeed.org/version/1",
     "title": "Hello Blog",
     "home_page_url": "https://docusaurus.io/myBaseUrl/blog",
@@ -1353,7 +1237,61 @@ exports[`json has xslt files for feed 1`] = `
         }
     ]
 }",
+  ],
 ]
+`;
+
+exports[`json has xslt files for feed: blog tree 1`] = `
+"blog
+├── 2018
+│   └── 12
+│       └── 14
+│           └── Happy-First-Birthday-Slash
+│               └── index.html
+├── archive
+│   └── index.html
+├── atom.css
+├── atom.xml
+├── atom.xsl
+├── blog-with-links
+│   └── index.html
+├── custom-atom.css
+├── custom-atom.xsl
+├── custom-rss.css
+├── custom-rss.xsl
+├── date-matter
+│   └── index.html
+├── feed.json
+├── heading-as-title
+│   └── index.html
+├── hey
+│   └── my super path
+│       └── héllô
+│           └── index.html
+├── index.html
+├── mdx-blog-post
+│   └── index.html
+├── mdx-require-blog-post
+│   └── index.html
+├── page
+│   ├── 2
+│   │   └── index.html
+│   └── 3
+│       └── index.html
+├── rss.css
+├── rss.xml
+├── rss.xsl
+├── simple
+│   └── slug
+│       └── index.html
+├── tags
+│   ├── complex
+│   │   └── index.html
+│   ├── date
+│   │   └── index.html
+│   └── index.html
+└── unlisted
+    └── index.html"
 `;
 
 exports[`rss filters to the first two entries 1`] = `
@@ -1454,151 +1392,9 @@ exports[`rss filters to the first two entries using limit 1`] = `
 
 exports[`rss has custom xslt files for feed 1`] = `
 [
-  "<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:atom="http://www.w3.org/2005/Atom">
-
-  <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes" />
-
-  <xsl:template match="/">
-    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-      <head>
-        <title>RSS Feed | <xsl:value-of select="rss/channel/title" /></title>
-        <link rel="stylesheet" href="custom-rss.css" />
-      </head>
-      <body>
-        <main>
-          <div class="description">
-            <div class="info">
-              <strong>This is an RSS feed</strong>. Subscribe by copying the URL from the address
-              bar into your newsreader. Visit <a href="https://aboutfeeds.com/">About Feeds</a> to learn more
-              and get started. It’s free. </div>
-            <h1 class="flex items-start">
-              <div class="rss-icon">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  viewBox="0 0 455.731 455.731" xml:space="preserve">
-                  <g>
-                    <rect x="0" y="0" style="fill:#F78422;" width="455.731" height="455.731"/>
-                    <g>
-                      <path style="fill:#FFFFFF;" d="M296.208,159.16C234.445,97.397,152.266,63.382,64.81,63.382v64.348
-                        c70.268,0,136.288,27.321,185.898,76.931c49.609,49.61,76.931,115.63,76.931,185.898h64.348
-                        C391.986,303.103,357.971,220.923,296.208,159.16z"/>
-                      <path style="fill:#FFFFFF;" d="M64.143,172.273v64.348c84.881,0,153.938,69.056,153.938,153.939h64.348
-                        C282.429,270.196,184.507,172.273,64.143,172.273z"/>
-                      <circle style="fill:#FFFFFF;" cx="109.833" cy="346.26" r="46.088"/>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-  Custom RSS Feed Preview </h1>
-            <h2>
-              <xsl:value-of select="rss/channel/title" />
-            </h2>
-            <p>Description: <xsl:value-of select="rss/channel/description" /></p>
-          </div>
-          <h2>Recent Posts</h2>
-          <div class="postsList">
-            <xsl:for-each select="rss/channel/item">
-              <div class="pb-7">
-                <a href="{link}">
-                  <xsl:value-of select="title" />
-                </a>
-                <div class="text-2 text-offset"> Published on <xsl:value-of
-                    select="substring(pubDate,0,17)" />
-                </div>
-                <div class="text-2 text-offset italic">
-                  <xsl:value-of
-                    select="description" />
-                </div>
-              </div>
-            </xsl:for-each>
-          </div>
-        </main>
-      </body>
-    </html>
-  </xsl:template>
-
-</xsl:stylesheet>
-",
-  "/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-* {
-  color: #0d1137;
-}
-
-main {
-  flex: 1 0 auto;
-  width: 100%;
-  margin: 4rem auto;
-  padding: 1.5 rem;
-  max-width: 800px;
-  /* stylelint-disable-next-line font-family-name-quotes */
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell;
-}
-
-.info {
-  display: block;
-  margin: 3rem 0;
-  padding: 2rem 3rem;
-  border: 1px solid dodgerblue;
-  border-left-width: 0.5rem;
-  border-radius: 0.4rem;
-  background-color: #e52165;
-}
-
-.rss-icon {
-  height: 3.8rem;
-  width: 3.8rem;
-  margin-right: 1rem;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-start {
-  align-items: flex-start;
-}
-
-.pb-7 {
-  padding-bottom: 3rem;
-}
-
-a {
-  color: #005aff;
-  text-decoration: none;
-}
-
-h1 {
-  text-wrap: balance;
-  font-size: 3.8rem;
-  line-height: 1;
-  font-weight: 800;
-  margin-bottom: 4rem;
-}
-
-h2 {
-  font-size: 3rem;
-  line-height: 1.2;
-  font-weight: 700;
-  margin-bottom: 3rem;
-}
-
-h2:not(:first-child) {
-  margin-top: 5.8rem;
-}
-
-.italic {
-  font-style: italic;
-}
-",
-  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="custom-rss.xsl"?>
+  [
+    "<PROJECT_ROOT>/packages/docusaurus-plugin-content-blog/src/__tests__/__fixtures__/website/build-snap/blog/rss.xml",
+    "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="custom-rss.xsl"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Hello Blog</title>
@@ -1715,7 +1511,61 @@ h2:not(:first-child) {
         </item>
     </channel>
 </rss>",
+  ],
 ]
+`;
+
+exports[`rss has custom xslt files for feed: blog tree 1`] = `
+"blog
+├── 2018
+│   └── 12
+│       └── 14
+│           └── Happy-First-Birthday-Slash
+│               └── index.html
+├── archive
+│   └── index.html
+├── atom.css
+├── atom.xml
+├── atom.xsl
+├── blog-with-links
+│   └── index.html
+├── custom-atom.css
+├── custom-atom.xsl
+├── custom-rss.css
+├── custom-rss.xsl
+├── date-matter
+│   └── index.html
+├── feed.json
+├── heading-as-title
+│   └── index.html
+├── hey
+│   └── my super path
+│       └── héllô
+│           └── index.html
+├── index.html
+├── mdx-blog-post
+│   └── index.html
+├── mdx-require-blog-post
+│   └── index.html
+├── page
+│   ├── 2
+│   │   └── index.html
+│   └── 3
+│       └── index.html
+├── rss.css
+├── rss.xml
+├── rss.xsl
+├── simple
+│   └── slug
+│       └── index.html
+├── tags
+│   ├── complex
+│   │   └── index.html
+│   ├── date
+│   │   └── index.html
+│   └── index.html
+└── unlisted
+    └── index.html"
 `;
 
 exports[`rss has feed item for each post - with trailing slash 1`] = `
@@ -1964,147 +1814,9 @@ exports[`rss has feed item for each post 1`] = `
 
 exports[`rss has xslt files for feed 1`] = `
 [
-  "<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:atom="http://www.w3.org/2005/Atom">
-
-  <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes" />
-
-  <xsl:template match="/">
-    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-      <head>
-        <title>RSS Feed | <xsl:value-of select="rss/channel/title" /></title>
-        <link rel="stylesheet" href="rss.css" />
-      </head>
-      <body>
-        <main>
-          <div class="description">
-            <div class="info">
-              <strong>This is an RSS feed</strong>. Subscribe by copying the URL from the address
-              bar into your newsreader. Visit <a href="https://aboutfeeds.com/">About Feeds</a> to
-              learn more and get started. It’s free. </div>
-            <h1 class="flex items-start">
-              <div class="rss-icon">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                     viewBox="0 0 455.731 455.731" xml:space="preserve">
-                <g>
-                <rect x="0" y="0" style="fill:#F78422;" width="455.731" height="455.731"/>
-                <g>
-                <path style="fill:#FFFFFF;" d="M296.208,159.16C234.445,97.397,152.266,63.382,64.81,63.382v64.348
-                c70.268,0,136.288,27.321,185.898,76.931c49.609,49.61,76.931,115.63,76.931,185.898h64.348
-                C391.986,303.103,357.971,220.923,296.208,159.16z"/>
-                <path style="fill:#FFFFFF;" d="M64.143,172.273v64.348c84.881,0,153.938,69.056,153.938,153.939h64.348
-                C282.429,270.196,184.507,172.273,64.143,172.273z"/>
-                <circle style="fill:#FFFFFF;" cx="109.833" cy="346.26" r="46.088"/>
-                </g>
-                </g>
-                </svg>
-              </div>
-              RSS Feed Preview </h1>
-            <h2>
-              <xsl:value-of select="rss/channel/title" />
-            </h2>
-            <p>Description: <xsl:value-of select="rss/channel/description" /></p>
-          </div>
-          <h2>Recent Posts</h2>
-          <div class="postsList">
-            <xsl:for-each select="rss/channel/item">
-              <div class="pb-7">
-                <a href="{link}">
-                  <xsl:value-of select="title" />
-                </a>
-                <div class="text-2 text-offset"> Published on <xsl:value-of
-                    select="substring(pubDate,0,17)" />
-                </div>
-                <div class="text-2 text-offset italic">
-                  <xsl:value-of
-                    select="description" />
-                </div>
-              </div>
-            </xsl:for-each>
-          </div>
-        </main>
-      </body>
-    </html>
-  </xsl:template>
-
-</xsl:stylesheet>
-",
-  "/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-main {
-  flex: 1 0 auto;
-  width: 100%;
-  margin: 4rem auto;
-  padding: 1.5 rem;
-  max-width: 800px;
-  /* stylelint-disable-next-line font-family-name-quotes */
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell;
-}
-
-.info {
-  display: block;
-  margin: 3rem 0;
-  padding: 2rem 3rem;
-  border: 1px solid dodgerblue;
-  border-left-width: 0.5rem;
-  border-radius: 0.4rem;
-  background-color: #edf5ff;
-}
-
-.rss-icon {
-  height: 3.8rem;
-  width: 3.8rem;
-  margin-right: 1rem;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-start {
-  align-items: flex-start;
-}
-
-.pb-7 {
-  padding-bottom: 3rem;
-}
-
-a {
-  color: #005aff;
-  text-decoration: none;
-}
-
-h1 {
-  text-wrap: balance;
-  font-size: 3.8rem;
-  line-height: 1;
-  font-weight: 800;
-  margin-bottom: 4rem;
-}
-
-h2 {
-  font-size: 3rem;
-  line-height: 1.2;
-  font-weight: 700;
-  margin-bottom: 3rem;
-}
-
-h2:not(:first-child) {
-  margin-top: 5.8rem;
-}
-
-.italic {
-  font-style: italic;
-}
-",
-  "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="rss.xsl"?>
+  [
+    "<PROJECT_ROOT>/packages/docusaurus-plugin-content-blog/src/__tests__/__fixtures__/website/build-snap/blog/rss.xml",
+    "<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="rss.xsl"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Hello Blog</title>
@@ -2221,5 +1933,59 @@ h2:not(:first-child) {
         </item>
     </channel>
 </rss>",
+  ],
 ]
+`;
+
+exports[`rss has xslt files for feed: blog tree 1`] = `
+"blog
+├── 2018
+│   └── 12
+│       └── 14
+│           └── Happy-First-Birthday-Slash
+│               └── index.html
+├── archive
+│   └── index.html
+├── atom.css
+├── atom.xml
+├── atom.xsl
+├── blog-with-links
+│   └── index.html
+├── custom-atom.css
+├── custom-atom.xsl
+├── custom-rss.css
+├── custom-rss.xsl
+├── date-matter
+│   └── index.html
+├── feed.json
+├── heading-as-title
+│   └── index.html
+├── hey
+│   └── my super path
+│       └── héllô
+│           └── index.html
+├── index.html
+├── mdx-blog-post
+│   └── index.html
+├── mdx-require-blog-post
+│   └── index.html
+├── page
+│   ├── 2
+│   │   └── index.html
+│   └── 3
+│       └── index.html
+├── rss.css
+├── rss.xml
+├── rss.xsl
+├── simple
+│   └── slug
+│       └── index.html
+├── tags
+│   ├── complex
+│   │   └── index.html
+│   ├── date
+│   │   └── index.html
+│   └── index.html
+└── unlisted
+    └── index.html"
 `;
