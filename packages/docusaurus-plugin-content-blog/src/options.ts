@@ -74,10 +74,9 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   onInlineAuthors: 'warn',
 };
 
-// TODO
 export const XSLTBuiltInPaths = {
-  rss: path.resolve(__dirname, 'assets', 'rss.xsl'),
-  atom: path.resolve(__dirname, 'assets', 'atom.xsl'),
+  rss: path.resolve(__dirname, '..', 'assets', 'rss.xsl'),
+  atom: path.resolve(__dirname, '..', 'assets', 'atom.xsl'),
 };
 
 function normalizeXsltOption(
