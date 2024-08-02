@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import {
   Joi,
   RemarkPluginsSchema,
@@ -75,8 +76,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
 
 // TODO
 export const XSLTBuiltInPaths = {
-  rss: 'todo path RSS xslt',
-  atom: 'todo path Atom xslt',
+  rss: path.resolve(__dirname, 'assets', 'rss.xsl'),
+  atom: path.resolve(__dirname, 'assets', 'atom.xsl'),
 };
 
 function normalizeXsltOption(
@@ -98,10 +99,7 @@ function createXLSTFilePathSchema(type: 'atom' | 'rss') {
       Joi.string().required(),
       Joi.boolean()
         .allow(null, () => undefined)
-        .custom((val) => {
-          console.log({val});
-          return normalizeXsltOption(val, type);
-        }),
+        .custom((val) => normalizeXsltOption(val, type)),
     )
     .optional()
     .default(null);
