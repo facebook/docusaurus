@@ -5,15 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-* {
-  color: #0d1137;
-}
-
 main {
   flex: 1 0 auto;
   width: 100%;
-  margin: 4rem auto;
-  padding: 1.5 rem;
+  margin: 2rem auto;
   max-width: 800px;
   /* stylelint-disable-next-line font-family-name-quotes */
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell;
@@ -21,30 +16,12 @@ main {
 
 .info {
   display: block;
-  margin: 3rem 0;
-  padding: 2rem 3rem;
+  margin: 2rem 0;
+  padding: 1.6rem 2.4rem;
   border: 1px solid dodgerblue;
   border-left-width: 0.5rem;
   border-radius: 0.4rem;
   background-color: #edf5ff;
-}
-
-.rss-icon {
-  height: 3.8rem;
-  width: 3.8rem;
-  margin-right: 1rem;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-start {
-  align-items: flex-start;
-}
-
-.pb-7 {
-  padding-bottom: 3rem;
 }
 
 a {
@@ -54,23 +31,45 @@ a {
 
 h1 {
   text-wrap: balance;
-  font-size: 3.8rem;
-  line-height: 1;
+  font-size: 3.4rem;
   font-weight: 800;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+h1 .rss-icon {
+  height: 3.2rem;
+  width: 3.2rem;
+  margin-right: 1rem;
 }
 
 h2 {
-  font-size: 3rem;
-  line-height: 1.2;
+  font-size: 2.2rem;
   font-weight: 700;
-  margin-bottom: 3rem;
+  margin-bottom: 0.2rem;
 }
 
-h2:not(:first-child) {
-  margin-top: 5.8rem;
+h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.1rem;
 }
 
-.italic {
+.blog-description {
+  font-size: 1.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.blog-post-date {
+  font-size: 1rem;
+  line-height: 1.4rem;
   font-style: italic;
+  color: #797b7e;
+}
+
+.blog-post-description {
+  font-size: 1rem;
+  line-height: 1.4rem;
+  color: #434349;
 }
