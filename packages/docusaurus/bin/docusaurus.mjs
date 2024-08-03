@@ -257,7 +257,7 @@ function isInternalCommand(command) {
 
 // There is no subcommand
 // TODO: can we use commander to handle this case?
-if (process.argv.length < 3 || process.argv[2]?.startsWith('--')) {
+if (process.argv.length < 3 || process.argv[2]?.startsWith('--') && process.argv[2]?!="--version") {
   cli.outputHelp();
   process.exit(1);
 }
