@@ -1,6 +1,6 @@
 <div align="center">
   <h1 align="center">
-    Docusaurus
+    Docusaurusd
     <br />
     <br />
     <a href="https://docusaurus.io">
