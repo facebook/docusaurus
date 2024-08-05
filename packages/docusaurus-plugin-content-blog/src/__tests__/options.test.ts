@@ -374,4 +374,45 @@ describe('validateOptions', () => {
       );
     });
   });
+
+  describe('onUntruncatedBlogPost', () => {
+    it('accepts onUntruncatedBlogPost - undefined', () => {
+      expect(
+        testValidate({onUntruncatedBlogPost: undefined}).onUntruncatedBlogPost,
+      ).toBe('warn');
+    });
+
+    it('accepts onUntruncatedBlogPost - "throw"', () => {
+      expect(
+        testValidate({onUntruncatedBlogPost: 'throw'}).onUntruncatedBlogPost,
+      ).toBe('throw');
+    });
+
+    it('rejects onUntruncatedBlogPost - "trace"', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onUntruncatedBlogPost: 'trace'}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onUntruncatedBlogPost" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
+
+    it('rejects onUntruncatedBlogPost - null', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onUntruncatedBlogPost: 42}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onUntruncatedBlogPost" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
+
+    it('rejects onUntruncatedBlogPost - 42', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onUntruncatedBlogPost: 42}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onUntruncatedBlogPost" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
+  });
 });
