@@ -391,6 +391,7 @@ unlocalized
 Unlocalized
 unnormalized
 unswizzle
+Untruncated
 upvotes
 urlset
 Vannicatte
@@ -412,8 +413,6 @@ webpackbar
 webstorm
 Wolcott
 Xplorer
-xslt
-XSLT
 XSOAR
 Yacop
 yangshun
