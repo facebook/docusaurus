@@ -475,6 +475,7 @@ export default async function createConfigAsync() {
           blog: {
             // routeBasePath: '/',
             path: 'blog',
+            onUntruncatedBlogPost: 'throw',
             showLastUpdateAuthor: true,
             showLastUpdateTime: true,
             editUrl: ({locale, blogDirPath, blogPath}) => {

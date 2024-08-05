@@ -47,6 +47,24 @@ export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
+function reportTruncateMarkerProblem({
+  blogSourceRelative,
+  truncateMarker,
+  options,
+  content,
+}: {
+  content: string;
+  truncateMarker: RegExp;
+  blogSourceRelative: string;
+  options: Pick<PluginOptions, 'onUntruncatedBlogPost'>;
+}): void {
+  if (!truncateMarker.test(content)) {
+    logger.report(options.onUntruncatedBlogPost)(
+      logger.interpolate`Blog post path=${blogSourceRelative} is not truncated.`,
+    );
+  }
+}
+
 export function paginateBlogPosts({
   blogPosts,
   basePageUrl,
@@ -227,6 +245,13 @@ async function processBlogSourceFile(
       filePath: blogSourceAbsolute,
       parseFrontMatter,
     });
+
+  reportTruncateMarkerProblem({
+    blogSourceRelative,
+    truncateMarker,
+    options,
+    content,
+  });
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
