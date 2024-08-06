@@ -19,6 +19,7 @@ import Unlisted from '@theme/Unlisted';
 import type {Props} from '@theme/MDXPage';
 
 import EditMetaRow from '@theme/EditMetaRow';
+import Drafted from '@theme/Drafted';
 import styles from './styles.module.css';
 
 export default function MDXPage(props: Props): JSX.Element {
@@ -60,7 +61,8 @@ export default function MDXPage(props: Props): JSX.Element {
         <main className="container container--fluid margin-vert--lg">
           <div className={clsx('row', styles.mdxPageWrapper)}>
             <div className={clsx('col', !hideTableOfContents && 'col--8')}>
-              {unlisted && <Unlisted />}
+              {(unlisted || frontMatter.unlisted) && <Unlisted />}
+              {frontMatter.draft && <Drafted />}
               <article>
                 <MDXContent>
                   <MDXPageContent />

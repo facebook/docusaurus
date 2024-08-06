@@ -20,6 +20,7 @@ import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import Unlisted from '@theme/Unlisted';
 import type {Props} from '@theme/DocItem/Layout';
 
+import Drafted from '@theme/Drafted';
 import styles from './styles.module.css';
 
 /**
@@ -49,12 +50,13 @@ function useDocTOC() {
 export default function DocItemLayout({children}: Props): JSX.Element {
   const docTOC = useDocTOC();
   const {
-    metadata: {unlisted},
+    metadata: {unlisted, frontMatter},
   } = useDoc();
   return (
     <div className="row">
       <div className={clsx('col', !docTOC.hidden && styles.docItemCol)}>
-        {unlisted && <Unlisted />}
+        {(unlisted || frontMatter.unlisted) && <Unlisted />}
+        {frontMatter.draft && <Drafted />}
         <DocVersionBanner />
         <div className={styles.docItemContainer}>
           <article>

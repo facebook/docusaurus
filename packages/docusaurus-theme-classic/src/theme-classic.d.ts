@@ -1610,6 +1610,14 @@ declare module '@theme/Unlisted' {
   export default function Unlisted(props: Props): JSX.Element;
 }
 
+declare module '@theme/Drafted' {
+  export interface Props {
+    className?: string;
+  }
+
+  export default function Unlisted(props: Props): JSX.Element;
+}
+
 declare module '@theme/prism-include-languages' {
   import type * as PrismNamespace from 'prismjs';
 

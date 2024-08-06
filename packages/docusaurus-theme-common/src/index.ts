@@ -125,6 +125,8 @@ export {
   UnlistedMetadata,
 } from './utils/unlistedUtils';
 
+export {DraftedBannerTitle, DraftedBannerMessage} from './utils/draftedUtils';
+
 export {
   ErrorBoundaryTryAgainButton,
   ErrorBoundaryError,

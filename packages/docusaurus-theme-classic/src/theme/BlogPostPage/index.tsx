@@ -20,6 +20,7 @@ import BlogPostPageStructuredData from '@theme/BlogPostPage/StructuredData';
 import TOC from '@theme/TOC';
 import type {Props} from '@theme/BlogPostPage';
 import Unlisted from '@theme/Unlisted';
+import Drafted from '@theme/Drafted';
 import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
 function BlogPostPageContent({
@@ -48,7 +49,8 @@ function BlogPostPageContent({
           />
         ) : undefined
       }>
-      {unlisted && <Unlisted />}
+      {(unlisted || frontMatter.unlisted) && <Unlisted />}
+      {frontMatter.draft && <Drafted />}
 
       <BlogPostItem>{children}</BlogPostItem>
 
