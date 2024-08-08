@@ -26,10 +26,10 @@ jobs:
       - name: Build packages
         run: yarn build:packages
 
-      - name: Fresh templates
+      - name: Initialize fresh templates
         run: |
-          yarn create-docusaurus fresh-examples/docusaurus-classic classic --javascript -p npm -s 
-          yarn create-docusaurus fresh-examples/docusaurus-classic-typescript classic --typescript -p npm -s
+          yarn create-docusaurus template/docusaurus-classic-js classic --javascript -p npm
+          yarn create-docusaurus template/docusaurus-classic-ts classic --typescript -p npm
 
       - name: Release
-        run: npx pkg-pr-new publish './packages/*' --template './fresh-examples/*' --compact --comment=off
+        run: npx pkg-pr-new publish './packages/*' --template './template/*' --compact --comment=off
