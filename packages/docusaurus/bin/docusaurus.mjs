@@ -247,24 +247,16 @@ function isInternalCommand(command) {
   );
 }
 
-// process.argv always looks like this:
-// [
-//   '/path/to/node',
-//   '/path/to/docusaurus.mjs',
-//   '<subcommand>',
-//   ...subcommandArgs
-// ]
-
-// There is no subcommand
-// TODO: can we use commander to handle this case?
-if (process.argv.length < 3 || process.argv[2]?.startsWith('--') && process.argv[2]?!="--version") {
-  cli.outputHelp();
-  process.exit(1);
+/**
+ * @param {string | undefined} command
+ */
+function isExternalCommand(command) {
+  return !!(command && !isInternalCommand(command) && !command.startsWith('-'));
 }
 
 // There is an unrecognized subcommand
 // Let plugins extend the CLI before parsing
-if (!isInternalCommand(process.argv[2])) {
+if (isExternalCommand(process.argv[2])) {
   // TODO: in this step, we must assume default site structure because there's
   // no way to know the siteDir/config yet. Maybe the root cli should be
   // responsible for parsing these arguments?
