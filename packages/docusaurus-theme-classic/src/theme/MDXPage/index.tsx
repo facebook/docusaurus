@@ -15,8 +15,7 @@ import {
 import Layout from '@theme/Layout';
 import MDXContent from '@theme/MDXContent';
 import TOC from '@theme/TOC';
-import Unlisted from '@theme/ContentVisibility/Unlisted';
-import Draft from '@theme/ContentVisibility/Draft';
+import ContentVisibility from '@theme/ContentVisibility';
 import type {Props} from '@theme/MDXPage';
 
 import EditMetaRow from '@theme/EditMetaRow';
@@ -61,8 +60,10 @@ export default function MDXPage(props: Props): JSX.Element {
         <main className="container container--fluid margin-vert--lg">
           <div className={clsx('row', styles.mdxPageWrapper)}>
             <div className={clsx('col', !hideTableOfContents && 'col--8')}>
-              {(unlisted || frontMatter.unlisted) && <Unlisted />}
-              {frontMatter.draft && <Draft />}
+              <ContentVisibility
+                unlisted={unlisted}
+                frontMatter={frontMatter}
+              />
               <article>
                 <MDXContent>
                   <MDXPageContent />
