@@ -254,6 +254,14 @@ function isExternalCommand(command) {
   return !!(command && !isInternalCommand(command) && !command.startsWith('-'));
 }
 
+// No command? We print the help message because Commander doesn't
+// Note argv looks like this: ['../node','../docusaurus.mjs','<command>',...rest]
+if (process.argv.length < 3) {
+  logger.error("You haven't provided any Docusaurus CLI command.");
+  cli.outputHelp();
+  process.exit(1);
+}
+
 // There is an unrecognized subcommand
 // Let plugins extend the CLI before parsing
 if (isExternalCommand(process.argv[2])) {
