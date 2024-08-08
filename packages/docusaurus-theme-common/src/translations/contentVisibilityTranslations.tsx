@@ -12,7 +12,7 @@ import Head from '@docusaurus/Head';
 export function UnlistedBannerTitle(): JSX.Element {
   return (
     <Translate
-      id="theme.unlistedContent.title"
+      id="theme.contentVisibility.unlistedBanner.title"
       description="The unlisted content banner title">
       Unlisted page
     </Translate>
@@ -22,7 +22,7 @@ export function UnlistedBannerTitle(): JSX.Element {
 export function UnlistedBannerMessage(): JSX.Element {
   return (
     <Translate
-      id="theme.unlistedContent.message"
+      id="theme.contentVisibility.unlistedBanner.message"
       description="The unlisted content banner message">
       This page is unlisted. Search engines will not index it, and only users
       having a direct link can access it.

@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Merki:",
   "theme.tags.tagsPageLink": "Skoða Öll Merki",
   "theme.tags.tagsPageTitle": "Merki",
-  "theme.unlistedContent.message": "Þessi síða er ólistuð. Leitarvélar munu ekki skrá hana, eingöngu notendur með beinan hlekk geta opnað hana.",
-  "theme.unlistedContent.title": "Óskráð síða"
+  "theme.contentVisibility.unlistedBanner.message": "Þessi síða er ólistuð. Leitarvélar munu ekki skrá hana, eingöngu notendur með beinan hlekk geta opnað hana.",
+  "theme.contentVisibility.unlistedBanner.title": "Óskráð síða"
 }

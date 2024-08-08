@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Etiquetas:",
   "theme.tags.tagsPageLink": "Ver Todas las Etiquetas",
   "theme.tags.tagsPageTitle": "Etiquetas",
-  "theme.unlistedContent.message": "Esta página está sin clasificar. Los motores de búsqueda no la indexaran, y solo los usuarios con el enlace directo podrán acceder a esta.",
-  "theme.unlistedContent.title": "Página sin clasificar"
+  "theme.contentVisibility.unlistedBanner.message": "Esta página está sin clasificar. Los motores de búsqueda no la indexaran, y solo los usuarios con el enlace directo podrán acceder a esta.",
+  "theme.contentVisibility.unlistedBanner.title": "Página sin clasificar"
 }

@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Tag:",
   "theme.tags.tagsPageLink": "Lihat Semua Tag",
   "theme.tags.tagsPageTitle": "Tag",
-  "theme.unlistedContent.message": "Halaman ini tidak terdaftar. Mesin pencari tidak akan mengindeksnya, dan hanya pengguna yang memiliki tautan langsung yang dapat mengaksesnya.",
-  "theme.unlistedContent.title": "Halaman tak terdaftar"
+  "theme.contentVisibility.unlistedBanner.message": "Halaman ini tidak terdaftar. Mesin pencari tidak akan mengindeksnya, dan hanya pengguna yang memiliki tautan langsung yang dapat mengaksesnya.",
+  "theme.contentVisibility.unlistedBanner.title": "Halaman tak terdaftar"
 }

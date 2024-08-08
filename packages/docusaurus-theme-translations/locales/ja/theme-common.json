@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "タグ:",
   "theme.tags.tagsPageLink": "全てのタグを見る",
   "theme.tags.tagsPageTitle": "タグ",
-  "theme.unlistedContent.message": "このページは非公開です。 検索対象外となり、このページのリンクに直接アクセスできるユーザーのみに公開されます。",
-  "theme.unlistedContent.title": "非公開のページ"
+  "theme.contentVisibility.unlistedBanner.message": "このページは非公開です。 検索対象外となり、このページのリンクに直接アクセスできるユーザーのみに公開されます。",
+  "theme.contentVisibility.unlistedBanner.title": "非公開のページ"
 }

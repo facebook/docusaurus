@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "برچسب‌ها:",
   "theme.tags.tagsPageLink": "مشاهده تمام برچسب‌ها",
   "theme.tags.tagsPageTitle": "برچسب‌ها",
-  "theme.unlistedContent.message": "این صفحه فهرست نشده است. موتورهای جستجو آن را ایندکس نمی کنند و فقط کاربرانی که لینک مستقیم دارند می توانند به آن دسترسی داشته باشند.",
-  "theme.unlistedContent.title": "صفحه فهرست نشده"
+  "theme.contentVisibility.unlistedBanner.message": "این صفحه فهرست نشده است. موتورهای جستجو آن را ایندکس نمی کنند و فقط کاربرانی که لینک مستقیم دارند می توانند به آن دسترسی داشته باشند.",
+  "theme.contentVisibility.unlistedBanner.title": "صفحه فهرست نشده"
 }

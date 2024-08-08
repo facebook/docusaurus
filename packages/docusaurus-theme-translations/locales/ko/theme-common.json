@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "태그:",
   "theme.tags.tagsPageLink": "모든 태그 보기",
   "theme.tags.tagsPageTitle": "태그",
-  "theme.unlistedContent.message": "이 문서는 색인되지 않습니다. 검색 엔진이 이 문서를 색인하지 않으며, 주소를 알고 있는 사용자만 접근할 수 있습니다.",
-  "theme.unlistedContent.title": "색인되지 않은 문서"
+  "theme.contentVisibility.unlistedBanner.message": "이 문서는 색인되지 않습니다. 검색 엔진이 이 문서를 색인하지 않으며, 주소를 알고 있는 사용자만 접근할 수 있습니다.",
+  "theme.contentVisibility.unlistedBanner.title": "색인되지 않은 문서"
 }

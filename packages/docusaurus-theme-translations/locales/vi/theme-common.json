@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Thẻ:",
   "theme.tags.tagsPageLink": "Xem tất cả Thẻ",
   "theme.tags.tagsPageTitle": "Thẻ",
-  "theme.unlistedContent.message": "Trang này không được công khai. Công cụ tìm kiếm sẽ không đánh chỉ mục cho trang này và chỉ những người có liên kết mới có thể truy cập được trang.",
-  "theme.unlistedContent.title": "Trang không công khai"
+  "theme.contentVisibility.unlistedBanner.message": "Trang này không được công khai. Công cụ tìm kiếm sẽ không đánh chỉ mục cho trang này và chỉ những người có liên kết mới có thể truy cập được trang.",
+  "theme.contentVisibility.unlistedBanner.title": "Trang không công khai"
 }

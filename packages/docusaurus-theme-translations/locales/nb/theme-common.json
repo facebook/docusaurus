@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Tagger:",
   "theme.tags.tagsPageLink": "Vis alle tagger",
   "theme.tags.tagsPageTitle": "Tagger",
-  "theme.unlistedContent.message": "Denne siden er ikke oppført. Søkemotorer vil ikke indeksere den, og bare brukere som har en direkte lenke kan få tilgang til den.",
-  "theme.unlistedContent.title": "Uoppført side"
+  "theme.contentVisibility.unlistedBanner.message": "Denne siden er ikke oppført. Søkemotorer vil ikke indeksere den, og bare brukere som har en direkte lenke kan få tilgang til den.",
+  "theme.contentVisibility.unlistedBanner.title": "Uoppført side"
 }

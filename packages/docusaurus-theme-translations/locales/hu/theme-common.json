@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Címkék:",
   "theme.tags.tagsPageLink": "Összes címke megtekintése",
   "theme.tags.tagsPageTitle": "Címkék",
-  "theme.unlistedContent.message": "Ez az oldal nem nyilvános. A keresőmotorok nem indexelik, és csak a közvetlen hivatkozással rendelkező felhasználók érhetik el.",
-  "theme.unlistedContent.title": "Nem nyilvános oldal"
+  "theme.contentVisibility.unlistedBanner.message": "Ez az oldal nem nyilvános. A keresőmotorok nem indexelik, és csak a közvetlen hivatkozással rendelkező felhasználók érhetik el.",
+  "theme.contentVisibility.unlistedBanner.title": "Nem nyilvános oldal"
 }

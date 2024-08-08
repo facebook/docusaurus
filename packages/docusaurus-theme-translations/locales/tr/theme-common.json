@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Etiketler:",
   "theme.tags.tagsPageLink": "Tüm Etiketleri Görüntüle",
   "theme.tags.tagsPageTitle": "Etiketler",
-  "theme.unlistedContent.message": "Bu sayfa listelenmemiş. Arama motorları dizine eklemez ve yalnızca doğrudan bağlantısı olan kullanıcılar buna erişebilir.",
-  "theme.unlistedContent.title": "Listelenmeyen sayfa"
+  "theme.contentVisibility.unlistedBanner.message": "Bu sayfa listelenmemiş. Arama motorları dizine eklemez ve yalnızca doğrudan bağlantısı olan kullanıcılar buna erişebilir.",
+  "theme.contentVisibility.unlistedBanner.title": "Listelenmeyen sayfa"
 }

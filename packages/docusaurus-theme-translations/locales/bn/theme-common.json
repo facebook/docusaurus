@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "ট্যাগ্স:",
   "theme.tags.tagsPageLink": "সমস্ত ট্যাগ্স দেখুন",
   "theme.tags.tagsPageTitle": "ট্যাগ্স",
-  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
-  "theme.unlistedContent.title": "Unlisted page"
+  "theme.contentVisibility.unlistedBanner.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.contentVisibility.unlistedBanner.title": "Unlisted page"
 }

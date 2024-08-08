@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Етикети:",
   "theme.tags.tagsPageLink": "Вижте всички етикети",
   "theme.tags.tagsPageTitle": "Етикети",
-  "theme.unlistedContent.message": "Тази страница е скрита. Търсачките няма да я индексират и само потребители с директна връзка имат достъп до него.",
-  "theme.unlistedContent.title": "Скрита страница"
+  "theme.contentVisibility.unlistedBanner.message": "Тази страница е скрита. Търсачките няма да я индексират и само потребители с директна връзка имат достъп до него.",
+  "theme.contentVisibility.unlistedBanner.title": "Скрита страница"
 }

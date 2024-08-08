@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Tegler:",
   "theme.tags.tagsPageLink": "Ähli tegleri gör",
   "theme.tags.tagsPageTitle": "Tegler",
-  "theme.unlistedContent.message": "Bu sahypa sanawda ýok. Bu sahypa gözleg enjamlarynda indekslemezler, diňe göni baglanyşygy bolan ulanyjylar elýeterli bolar.",
-  "theme.unlistedContent.title": "Sanawda ýok sahypa"
+  "theme.contentVisibility.unlistedBanner.message": "Bu sahypa sanawda ýok. Bu sahypa gözleg enjamlarynda indekslemezler, diňe göni baglanyşygy bolan ulanyjylar elýeterli bolar.",
+  "theme.contentVisibility.unlistedBanner.title": "Sanawda ýok sahypa"
 }

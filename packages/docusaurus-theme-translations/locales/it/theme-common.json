@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Etichette:",
   "theme.tags.tagsPageLink": "Guarda tutte le etichette",
   "theme.tags.tagsPageTitle": "Etichette",
-  "theme.unlistedContent.message": "Questa pagina non è in elenco. I motori di ricerca non lo indicheranno e solo gli utenti con collegamento diretto possono accedervi.",
-  "theme.unlistedContent.title": "Pagina non in elenco"
+  "theme.contentVisibility.unlistedBanner.message": "Questa pagina non è in elenco. I motori di ricerca non lo indicheranno e solo gli utenti con collegamento diretto possono accedervi.",
+  "theme.contentVisibility.unlistedBanner.title": "Pagina non in elenco"
 }

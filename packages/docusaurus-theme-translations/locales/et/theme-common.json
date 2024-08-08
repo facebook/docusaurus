@@ -69,6 +69,6 @@
   "theme.tags.tagsListLabel": "Märked:",
   "theme.tags.tagsPageLink": "Näaita Kõiki Märkeid",
   "theme.tags.tagsPageTitle": "Märked",
-  "theme.unlistedContent.message": "See leht ei ole avalik. Otsingumootorid ei indekseeri seda. Sellele lehele pääseb ainult lingiga ligi.",
-  "theme.unlistedContent.title": "avalikustamata leht"
+  "theme.contentVisibility.unlistedBanner.message": "See leht ei ole avalik. Otsingumootorid ei indekseeri seda. Sellele lehele pääseb ainult lingiga ligi.",
+  "theme.contentVisibility.unlistedBanner.title": "avalikustamata leht"
 }
