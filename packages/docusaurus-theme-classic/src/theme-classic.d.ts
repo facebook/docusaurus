@@ -1604,9 +1604,11 @@ declare module '@theme/Tag' {
 
 declare module '@theme/ContentVisibility' {
   export interface Props {
-    // these are the common data our 3 content plugins share in common
-    readonly unlisted: boolean;
-    readonly frontMatter: {draft?: boolean; unlisted?: boolean};
+    readonly metadata: {
+      // the visibility metadata our 3 content plugins share in common
+      readonly unlisted: boolean;
+      readonly frontMatter: {draft?: boolean; unlisted?: boolean};
+    };
   }
 
   export default function ContentVisibility(props: Props): JSX.Element;

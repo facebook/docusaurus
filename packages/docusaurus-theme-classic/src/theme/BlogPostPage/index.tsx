@@ -30,7 +30,7 @@ function BlogPostPageContent({
   children: ReactNode;
 }): JSX.Element {
   const {metadata, toc} = useBlogPost();
-  const {nextItem, prevItem, frontMatter, unlisted} = metadata;
+  const {nextItem, prevItem, frontMatter} = metadata;
   const {
     hide_table_of_contents: hideTableOfContents,
     toc_min_heading_level: tocMinHeadingLevel,
@@ -48,7 +48,7 @@ function BlogPostPageContent({
           />
         ) : undefined
       }>
-      <ContentVisibility unlisted={unlisted} frontMatter={frontMatter} />
+      <ContentVisibility metadata={metadata} />
 
       <BlogPostItem>{children}</BlogPostItem>
 

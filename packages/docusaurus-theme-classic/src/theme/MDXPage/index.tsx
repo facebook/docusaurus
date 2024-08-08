@@ -23,18 +23,15 @@ import styles from './styles.module.css';
 
 export default function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
+  const {metadata, assets} = MDXPageContent;
   const {
-    metadata: {
-      title,
-      editUrl,
-      description,
-      frontMatter,
-      unlisted,
-      lastUpdatedBy,
-      lastUpdatedAt,
-    },
-    assets,
-  } = MDXPageContent;
+    title,
+    editUrl,
+    description,
+    frontMatter,
+    lastUpdatedBy,
+    lastUpdatedAt,
+  } = metadata;
   const {
     keywords,
     wrapperClassName,
@@ -60,10 +57,7 @@ export default function MDXPage(props: Props): JSX.Element {
         <main className="container container--fluid margin-vert--lg">
           <div className={clsx('row', styles.mdxPageWrapper)}>
             <div className={clsx('col', !hideTableOfContents && 'col--8')}>
-              <ContentVisibility
-                unlisted={unlisted}
-                frontMatter={frontMatter}
-              />
+              <ContentVisibility metadata={metadata} />
               <article>
                 <MDXContent>
                   <MDXPageContent />

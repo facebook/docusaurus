@@ -48,13 +48,11 @@ function useDocTOC() {
 
 export default function DocItemLayout({children}: Props): JSX.Element {
   const docTOC = useDocTOC();
-  const {
-    metadata: {unlisted, frontMatter},
-  } = useDoc();
+  const {metadata} = useDoc();
   return (
     <div className="row">
       <div className={clsx('col', !docTOC.hidden && styles.docItemCol)}>
-        <ContentVisibility unlisted={unlisted} frontMatter={frontMatter} />
+        <ContentVisibility metadata={metadata} />
         <DocVersionBanner />
         <div className={styles.docItemContainer}>
           <article>
