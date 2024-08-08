@@ -123,9 +123,9 @@ export {
   UnlistedBannerTitle,
   UnlistedBannerMessage,
   UnlistedMetadata,
-} from './utils/unlistedUtils';
-
-export {DraftBannerTitle, DraftBannerMessage} from './utils/draftUtils';
+  DraftBannerTitle,
+  DraftBannerMessage,
+} from './translations/contentVisibilityTranslations';
 
 export {
   ErrorBoundaryTryAgainButton,

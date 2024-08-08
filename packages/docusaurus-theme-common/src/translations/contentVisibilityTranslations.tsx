@@ -30,10 +30,32 @@ export function UnlistedBannerMessage(): JSX.Element {
   );
 }
 
+// TODO Docusaurus v4 breaking change (since it's v3 public theme-common API :/)
+//  Move this to theme/ContentVisibility/Unlisted
 export function UnlistedMetadata(): JSX.Element {
   return (
     <Head>
       <meta name="robots" content="noindex, nofollow" />
     </Head>
+  );
+}
+
+export function DraftBannerTitle(): JSX.Element {
+  return (
+    <Translate
+      id="theme.draftContent.title"
+      description="The drafted content banner title">
+      Drafted page
+    </Translate>
+  );
+}
+
+export function DraftBannerMessage(): JSX.Element {
+  return (
+    <Translate
+      id="theme.draftContent.message"
+      description="The drafted content banner message">
+      This page is drafted and will be excluded from production build.
+    </Translate>
   );
 }
