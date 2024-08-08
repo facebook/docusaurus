@@ -22,6 +22,9 @@
   "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "Archief",
   "theme.blog.archive.title": "Archief",
+  "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
+  "theme.blog.authorsList.pageTitle": "Authors",
+  "theme.blog.authorsList.viewAll": "View All Authors",
   "theme.blog.paginator.navAriaLabel": "Paginanavigatie blog",
   "theme.blog.paginator.newerEntries": "Nieuwere items",
   "theme.blog.paginator.olderEntries": "Oudere items",
@@ -40,6 +43,10 @@
   "theme.common.editThisPage": "Bewerk deze pagina",
   "theme.common.headingLinkTitle": "Direct link naar {heading}",
   "theme.common.skipToMainContent": "Ga naar hoofdinhoud",
+  "theme.contentVisibility.draftBanner.message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
+  "theme.contentVisibility.draftBanner.title": "Draft page",
+  "theme.contentVisibility.unlistedBanner.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.contentVisibility.unlistedBanner.title": "Unlisted page",
   "theme.docs.DocCard.categoryDescription.plurals": "1 artikel|{count} artikelen",
   "theme.docs.breadcrumbs.home": "Homepagina",
   "theme.docs.breadcrumbs.navAriaLabel": "Broodkruimels",
@@ -68,7 +75,5 @@
   "theme.navbar.mobileVersionsDropdown.label": "Versies",
   "theme.tags.tagsListLabel": "Tags:",
   "theme.tags.tagsPageLink": "Laat alle tags zien",
-  "theme.tags.tagsPageTitle": "Tags",
-  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
-  "theme.unlistedContent.title": "Unlisted page"
+  "theme.tags.tagsPageTitle": "Tags"
 }

@@ -17,7 +17,7 @@ import {
 import Translate, {translate} from '@docusaurus/Translate';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/DocTagDocListPage';
-import Unlisted from '@theme/Unlisted';
+import Unlisted from '@theme/ContentVisibility/Unlisted';
 import Heading from '@theme/Heading';
 
 // Very simple pluralization: probably good enough for now

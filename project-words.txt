@@ -412,8 +412,6 @@ webpackbar
 webstorm
 Wolcott
 Xplorer
-xslt
-XSLT
 XSOAR
 Yacop
 yangshun

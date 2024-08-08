@@ -22,6 +22,9 @@
   "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "Archiwum",
   "theme.blog.archive.title": "Archiwum",
+  "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
+  "theme.blog.authorsList.pageTitle": "Authors",
+  "theme.blog.authorsList.viewAll": "View All Authors",
   "theme.blog.paginator.navAriaLabel": "Nawigacja na stronie listy wpisów na blogu",
   "theme.blog.paginator.newerEntries": "Nowsze wpisy",
   "theme.blog.paginator.olderEntries": "Starsze wpisy",
@@ -40,6 +43,10 @@
   "theme.common.editThisPage": "Edytuj tę stronę",
   "theme.common.headingLinkTitle": "Bezpośredni link do {heading}",
   "theme.common.skipToMainContent": "Przejdź do głównej zawartości",
+  "theme.contentVisibility.draftBanner.message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
+  "theme.contentVisibility.draftBanner.title": "Draft page",
+  "theme.contentVisibility.unlistedBanner.message": "Ta strona jest niepubliczna. Wyszukiwarki nie będą jej indeksować, a dostęp do niej będą mieli tylko użytkownicy posiadający bezpośredni link.",
+  "theme.contentVisibility.unlistedBanner.title": "Niepubliczna strona",
   "theme.docs.DocCard.categoryDescription.plurals": "1 element|{count} elementy|{count} elementów",
   "theme.docs.breadcrumbs.home": "Strona główna",
   "theme.docs.breadcrumbs.navAriaLabel": "Pasek nawigacji",
@@ -68,7 +75,5 @@
   "theme.navbar.mobileVersionsDropdown.label": "Wersje",
   "theme.tags.tagsListLabel": "Tagi:",
   "theme.tags.tagsPageLink": "Wyświetl wszystkie tagi",
-  "theme.tags.tagsPageTitle": "Tagi",
-  "theme.unlistedContent.message": "Ta strona jest niepubliczna. Wyszukiwarki nie będą jej indeksować, a dostęp do niej będą mieli tylko użytkownicy posiadający bezpośredni link.",
-  "theme.unlistedContent.title": "Niepubliczna strona"
+  "theme.tags.tagsPageTitle": "Tagi"
 }

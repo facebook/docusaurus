@@ -1602,12 +1602,32 @@ declare module '@theme/Tag' {
   export default function Tag(props: Props): JSX.Element;
 }
 
-declare module '@theme/Unlisted' {
+declare module '@theme/ContentVisibility' {
+  export interface Props {
+    readonly metadata: {
+      // the visibility metadata our 3 content plugins share in common
+      readonly unlisted: boolean;
+      readonly frontMatter: {draft?: boolean; unlisted?: boolean};
+    };
+  }
+
+  export default function ContentVisibility(props: Props): JSX.Element;
+}
+
+declare module '@theme/ContentVisibility/Unlisted' {
   export interface Props {
     className?: string;
   }
 
   export default function Unlisted(props: Props): JSX.Element;
+}
+
+declare module '@theme/ContentVisibility/Draft' {
+  export interface Props {
+    className?: string;
+  }
+
+  export default function Draft(props: Props): JSX.Element;
 }
 
 declare module '@theme/prism-include-languages' {
