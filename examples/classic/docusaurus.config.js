@@ -6,7 +6,6 @@
 
 import {themes as prismThemes} from 'prism-react-renderer';
 
-console.log('A test!');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'My Site',
