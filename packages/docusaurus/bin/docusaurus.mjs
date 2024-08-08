@@ -222,7 +222,8 @@ cli
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
-  logger.error`    Unknown command name=${cmd}.`;
+  logger.error`Unknown Docusaurus CLI command name=${cmd}.`;
+  process.exit(1);
 });
 
 // === The above is the commander configuration ===
@@ -257,8 +258,8 @@ function isExternalCommand(command) {
 // No command? We print the help message because Commander doesn't
 // Note argv looks like this: ['../node','../docusaurus.mjs','<command>',...rest]
 if (process.argv.length < 3) {
-  logger.error("You haven't provided any Docusaurus CLI command.");
   cli.outputHelp();
+  logger.error`Please provide a Docusaurus CLI command.`;
   process.exit(1);
 }
 
