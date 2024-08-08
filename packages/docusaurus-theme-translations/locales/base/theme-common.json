@@ -123,8 +123,6 @@
   "theme.docs.versions.unmaintainedVersionLabel___DESCRIPTION": "The label used to tell the user that he's browsing an unmaintained doc version",
   "theme.docs.versions.unreleasedVersionLabel": "This is unreleased documentation for {siteTitle} {versionLabel} version.",
   "theme.docs.versions.unreleasedVersionLabel___DESCRIPTION": "The label used to tell the user that he's browsing an unreleased doc version",
-  "theme.draftContent.title": "Draft page",
-  "theme.draftContent.message": "This page is a draft and will be excluded from production build.",
   "theme.lastUpdated.atDate": " on {date}",
   "theme.lastUpdated.atDate___DESCRIPTION": "The words used to describe on which date a page has been last updated",
   "theme.lastUpdated.byUser": " by {user}",
