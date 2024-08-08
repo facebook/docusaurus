@@ -43,7 +43,7 @@ export const ThemeClassNames = {
     codeBlock: 'theme-code-block',
     admonition: 'theme-admonition',
     unlistedBanner: 'theme-unlisted-banner',
-    draftedBanner: 'theme-drafted-banner',
+    draftBanner: 'theme-drafted-banner',
 
     admonitionType: (type: string) => `theme-admonition-${type}`,
   },

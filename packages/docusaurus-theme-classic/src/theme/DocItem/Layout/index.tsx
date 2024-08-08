@@ -17,10 +17,10 @@ import DocItemTOCMobile from '@theme/DocItem/TOC/Mobile';
 import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
-import Unlisted from '@theme/Unlisted';
+import Unlisted from '@theme/ContentVisibility/Unlisted';
+import Draft from '@theme/ContentVisibility/Draft';
 import type {Props} from '@theme/DocItem/Layout';
 
-import Drafted from '@theme/Drafted';
 import styles from './styles.module.css';
 
 /**
@@ -56,7 +56,7 @@ export default function DocItemLayout({children}: Props): JSX.Element {
     <div className="row">
       <div className={clsx('col', !docTOC.hidden && styles.docItemCol)}>
         {(unlisted || frontMatter.unlisted) && <Unlisted />}
-        {frontMatter.draft && <Drafted />}
+        {frontMatter.draft && <Draft />}
         <DocVersionBanner />
         <div className={styles.docItemContainer}>
           <article>

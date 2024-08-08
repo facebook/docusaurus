@@ -8,20 +8,20 @@
 import React from 'react';
 import Translate from '@docusaurus/Translate';
 
-export function DraftedBannerTitle(): JSX.Element {
+export function DraftBannerTitle(): JSX.Element {
   return (
     <Translate
-      id="theme.draftedContent.title"
+      id="theme.draftContent.title"
       description="The drafted content banner title">
       Drafted page
     </Translate>
   );
 }
 
-export function DraftedBannerMessage(): JSX.Element {
+export function DraftBannerMessage(): JSX.Element {
   return (
     <Translate
-      id="theme.draftedContent.message"
+      id="theme.draftContent.message"
       description="The drafted content banner message">
       This page is drafted and will be excluded from production build.
     </Translate>

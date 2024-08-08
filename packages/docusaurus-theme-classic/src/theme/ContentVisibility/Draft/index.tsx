@@ -9,19 +9,19 @@ import React from 'react';
 import clsx from 'clsx';
 import {
   ThemeClassNames,
-  DraftedBannerTitle,
-  DraftedBannerMessage,
+  DraftBannerTitle,
+  DraftBannerMessage,
 } from '@docusaurus/theme-common';
 import Admonition from '@theme/Admonition';
-import type {Props} from '@theme/Drafted';
+import type {Props} from '@theme/ContentVisibility/Draft';
 
-export default function Drafted({className}: Props): JSX.Element | null {
+export default function Draft({className}: Props): JSX.Element | null {
   return (
     <Admonition
       type="caution"
-      title={<DraftedBannerTitle />}
-      className={clsx(className, ThemeClassNames.common.draftedBanner)}>
-      <DraftedBannerMessage />
+      title={<DraftBannerTitle />}
+      className={clsx(className, ThemeClassNames.common.draftBanner)}>
+      <DraftBannerMessage />
     </Admonition>
   );
 }

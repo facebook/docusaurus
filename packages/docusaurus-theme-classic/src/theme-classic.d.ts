@@ -1602,7 +1602,7 @@ declare module '@theme/Tag' {
   export default function Tag(props: Props): JSX.Element;
 }
 
-declare module '@theme/Unlisted' {
+declare module '@theme/ContentVisibility/Unlisted' {
   export interface Props {
     className?: string;
   }
@@ -1610,12 +1610,12 @@ declare module '@theme/Unlisted' {
   export default function Unlisted(props: Props): JSX.Element;
 }
 
-declare module '@theme/Drafted' {
+declare module '@theme/ContentVisibility/Draft' {
   export interface Props {
     className?: string;
   }
 
-  export default function Unlisted(props: Props): JSX.Element;
+  export default function Draft(props: Props): JSX.Element;
 }
 
 declare module '@theme/prism-include-languages' {

@@ -15,11 +15,11 @@ import {
 import Layout from '@theme/Layout';
 import MDXContent from '@theme/MDXContent';
 import TOC from '@theme/TOC';
-import Unlisted from '@theme/Unlisted';
+import Unlisted from '@theme/ContentVisibility/Unlisted';
+import Draft from '@theme/ContentVisibility/Draft';
 import type {Props} from '@theme/MDXPage';
 
 import EditMetaRow from '@theme/EditMetaRow';
-import Drafted from '@theme/Drafted';
 import styles from './styles.module.css';
 
 export default function MDXPage(props: Props): JSX.Element {
@@ -62,7 +62,7 @@ export default function MDXPage(props: Props): JSX.Element {
           <div className={clsx('row', styles.mdxPageWrapper)}>
             <div className={clsx('col', !hideTableOfContents && 'col--8')}>
               {(unlisted || frontMatter.unlisted) && <Unlisted />}
-              {frontMatter.draft && <Drafted />}
+              {frontMatter.draft && <Draft />}
               <article>
                 <MDXContent>
                   <MDXPageContent />
