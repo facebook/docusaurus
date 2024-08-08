@@ -43,9 +43,9 @@ export function UnlistedMetadata(): JSX.Element {
 export function DraftBannerTitle(): JSX.Element {
   return (
     <Translate
-      id="theme.draftContent.title"
-      description="The drafted content banner title">
-      Drafted page
+      id="theme.contentVisibility.draftBanner.title"
+      description="The draft content banner title">
+      Draft page
     </Translate>
   );
 }
@@ -53,9 +53,10 @@ export function DraftBannerTitle(): JSX.Element {
 export function DraftBannerMessage(): JSX.Element {
   return (
     <Translate
-      id="theme.draftContent.message"
-      description="The drafted content banner message">
-      This page is drafted and will be excluded from production build.
+      id="theme.contentVisibility.draftBanner.message"
+      description="The draft content banner message">
+      This page is a draft. It will only be visible in dev and be excluded from
+      the production build.
     </Translate>
   );
 }
