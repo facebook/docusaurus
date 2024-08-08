@@ -14,7 +14,6 @@ import logger from '@docusaurus/logger';
 import semver from 'semver';
 import {program} from 'commander';
 
-console.log('A test!');
 const packageJson = /** @type {import("../package.json")} */ (
   createRequire(import.meta.url)('../package.json')
 );

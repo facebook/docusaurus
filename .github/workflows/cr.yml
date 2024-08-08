@@ -26,5 +26,10 @@ jobs:
       - name: Build packages
         run: yarn build:packages
 
+      - name: Fresh templates
+        run: |
+          yarn create-docusaurus fresh-examples/docusaurus-classic classic --javascript -p npm -s 
+          yarn create-docusaurus fresh-examples/docusaurus-classic-typescript classic --typescript -p npm -s
+
       - name: Release
-        run: npx pkg-pr-new publish './packages/*' --template './examples/*' --compact
+        run: npx pkg-pr-new publish './packages/*' --template './fresh-examples/*' --compact --comment=off
