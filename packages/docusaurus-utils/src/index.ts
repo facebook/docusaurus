@@ -22,6 +22,8 @@ export {
   DEFAULT_PORT,
   DEFAULT_PLUGIN_ID,
   WEBPACK_URL_LOADER_LIMIT,
+  SVGO_CONFIG_FILE_NAME,
+  SVGO_DEFAULT_CONFIG,
 } from './constants';
 export {generate, readOutputHTMLFile} from './emitUtils';
 export {
