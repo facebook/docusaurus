@@ -22,6 +22,9 @@
   "theme.admonition.warning": "vigyázat",
   "theme.blog.archive.description": "Archívum",
   "theme.blog.archive.title": "Archívum",
+  "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
+  "theme.blog.authorsList.pageTitle": "Authors",
+  "theme.blog.authorsList.viewAll": "View All Authors",
   "theme.blog.paginator.navAriaLabel": "Bloglista oldalának navigációja",
   "theme.blog.paginator.newerEntries": "Újabb bejegyzések",
   "theme.blog.paginator.olderEntries": "Régebbi bejegyzések",
@@ -40,6 +43,10 @@
   "theme.common.editThisPage": "Szerkesztés GitHub-on",
   "theme.common.headingLinkTitle": "Közvetlen hivatkozás erre: {heading}",
   "theme.common.skipToMainContent": "Ugrás a fő tartalomhoz",
+  "theme.contentVisibility.draftBanner.message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
+  "theme.contentVisibility.draftBanner.title": "Draft page",
+  "theme.contentVisibility.unlistedBanner.message": "Ez az oldal nem nyilvános. A keresőmotorok nem indexelik, és csak a közvetlen hivatkozással rendelkező felhasználók érhetik el.",
+  "theme.contentVisibility.unlistedBanner.title": "Nem nyilvános oldal",
   "theme.docs.DocCard.categoryDescription.plurals": "1 elem|{count} elemek",
   "theme.docs.breadcrumbs.home": "Kezdőlap",
   "theme.docs.breadcrumbs.navAriaLabel": "Navigációs sáv a jelenlegi oldalhoz",
@@ -68,7 +75,5 @@
   "theme.navbar.mobileVersionsDropdown.label": "Verziók",
   "theme.tags.tagsListLabel": "Címkék:",
   "theme.tags.tagsPageLink": "Összes címke megtekintése",
-  "theme.tags.tagsPageTitle": "Címkék",
-  "theme.unlistedContent.message": "Ez az oldal nem nyilvános. A keresőmotorok nem indexelik, és csak a közvetlen hivatkozással rendelkező felhasználók érhetik el.",
-  "theme.unlistedContent.title": "Nem nyilvános oldal"
+  "theme.tags.tagsPageTitle": "Címkék"
 }

@@ -64,6 +64,7 @@ function postProcessSidebarItem(
         .map((subItem) => postProcessSidebarItem(subItem, params))
         .filter((v): v is SidebarItem => Boolean(v)),
     };
+
     // If the current category doesn't have subitems, we render a normal link
     // instead.
     if (category.items.length === 0) {

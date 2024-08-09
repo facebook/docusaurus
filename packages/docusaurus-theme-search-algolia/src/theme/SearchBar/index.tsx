@@ -156,6 +156,10 @@ function DocSearch({
 
   const handleInput = useCallback(
     (event: KeyboardEvent) => {
+      if (event.key === 'f' && (event.metaKey || event.ctrlKey)) {
+        // ignore browser's ctrl+f
+        return;
+      }
       // prevents duplicate key insertion in the modal input
       event.preventDefault();
       setInitialQuery(event.key);

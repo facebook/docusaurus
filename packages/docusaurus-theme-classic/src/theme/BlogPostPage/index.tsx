@@ -18,8 +18,8 @@ import BlogPostPaginator from '@theme/BlogPostPaginator';
 import BlogPostPageMetadata from '@theme/BlogPostPage/Metadata';
 import BlogPostPageStructuredData from '@theme/BlogPostPage/StructuredData';
 import TOC from '@theme/TOC';
+import ContentVisibility from '@theme/ContentVisibility';
 import type {Props} from '@theme/BlogPostPage';
-import Unlisted from '@theme/Unlisted';
 import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
 function BlogPostPageContent({
@@ -30,7 +30,7 @@ function BlogPostPageContent({
   children: ReactNode;
 }): JSX.Element {
   const {metadata, toc} = useBlogPost();
-  const {nextItem, prevItem, frontMatter, unlisted} = metadata;
+  const {nextItem, prevItem, frontMatter} = metadata;
   const {
     hide_table_of_contents: hideTableOfContents,
     toc_min_heading_level: tocMinHeadingLevel,
@@ -48,7 +48,7 @@ function BlogPostPageContent({
           />
         ) : undefined
       }>
-      {unlisted && <Unlisted />}
+      <ContentVisibility metadata={metadata} />
 
       <BlogPostItem>{children}</BlogPostItem>
 

@@ -22,6 +22,9 @@
   "theme.admonition.warning": "aviso",
   "theme.blog.archive.description": "Archivo",
   "theme.blog.archive.title": "Archivo",
+  "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
+  "theme.blog.authorsList.pageTitle": "Authors",
+  "theme.blog.authorsList.viewAll": "View All Authors",
   "theme.blog.paginator.navAriaLabel": "Navegación por la página de la lista de blogs ",
   "theme.blog.paginator.newerEntries": "Entradas más recientes",
   "theme.blog.paginator.olderEntries": "Entradas más antiguas",
@@ -40,6 +43,10 @@
   "theme.common.editThisPage": "Editar esta página",
   "theme.common.headingLinkTitle": "Enlace directo al {heading}",
   "theme.common.skipToMainContent": "Saltar al contenido principal",
+  "theme.contentVisibility.draftBanner.message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
+  "theme.contentVisibility.draftBanner.title": "Draft page",
+  "theme.contentVisibility.unlistedBanner.message": "Esta página está sin clasificar. Los motores de búsqueda no la indexaran, y solo los usuarios con el enlace directo podrán acceder a esta.",
+  "theme.contentVisibility.unlistedBanner.title": "Página sin clasificar",
   "theme.docs.DocCard.categoryDescription.plurals": "1 artículo|{count} artículos",
   "theme.docs.breadcrumbs.home": "Página de Inicio",
   "theme.docs.breadcrumbs.navAriaLabel": "Migas de pan",
@@ -68,7 +75,5 @@
   "theme.navbar.mobileVersionsDropdown.label": "Versiones",
   "theme.tags.tagsListLabel": "Etiquetas:",
   "theme.tags.tagsPageLink": "Ver Todas las Etiquetas",
-  "theme.tags.tagsPageTitle": "Etiquetas",
-  "theme.unlistedContent.message": "Esta página está sin clasificar. Los motores de búsqueda no la indexaran, y solo los usuarios con el enlace directo podrán acceder a esta.",
-  "theme.unlistedContent.title": "Página sin clasificar"
+  "theme.tags.tagsPageTitle": "Etiquetas"
 }

@@ -331,6 +331,7 @@ describe('DefaultSidebarItemsGenerator', () => {
       categoriesMetadata: {
         Category: {
           label: 'Category label',
+          description: 'Category description',
           link: {
             type: 'doc',
             id: 'doc3', // Using a "local doc id" ("doc1" instead of "parent/doc1") on purpose

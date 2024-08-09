@@ -249,6 +249,9 @@ Available doc IDs:
         ...(customProps !== undefined && {customProps}),
         ...(className !== undefined && {className}),
         items,
+        ...(categoryMetadata?.description && {
+          description: categoryMetadata?.description,
+        }),
         ...(link && {link}),
       };
     }

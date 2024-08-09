@@ -167,6 +167,7 @@ export function validateSidebars(sidebars: {
 
 const categoryMetadataFileSchema = Joi.object<CategoryMetadataFile>({
   label: Joi.string(),
+  description: Joi.string(),
   position: Joi.number(),
   collapsed: Joi.boolean(),
   collapsible: Joi.boolean(),
