@@ -26,6 +26,7 @@ import {
   isDraft,
   readLastUpdateData,
   normalizeTags,
+  aliasedSitePathToRelativePath,
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
@@ -47,21 +48,25 @@ export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
-function reportTruncateMarkerProblem({
-  blogSourceRelative,
-  truncateMarker,
-  options,
-  content,
+function getPath(value: BlogPost) {
+  return aliasedSitePathToRelativePath(value.metadata.source);
+}
+
+export function reportTruncateMarkerProblem({
+  blogPosts,
+  onUntruncatedBlogPost,
 }: {
-  content: string;
-  truncateMarker: RegExp;
-  blogSourceRelative: string;
-  options: Pick<PluginOptions, 'onUntruncatedBlogPost'>;
+  blogPosts: BlogPost[];
+  onUntruncatedBlogPost: PluginOptions['onUntruncatedBlogPost'];
 }): void {
-  if (!truncateMarker.test(content)) {
-    logger.report(options.onUntruncatedBlogPost)(
-      logger.interpolate`Blog post path=${blogSourceRelative} is not truncated.`,
-    );
+  const untruncatedBlogPosts = blogPosts.filter(
+    (p) => !p.metadata.hasTruncateMarker,
+  );
+  if (onUntruncatedBlogPost !== 'ignore' && untruncatedBlogPosts.length > 0) {
+    const message = `Docusaurus found untruncated blog posts:
+${untruncatedBlogPosts.map(getPath).join('\n- ')}
+You can turn off this settings by setting onUntruncatedBlogPost to 'ignore' in your docusaurus config file`;
+    logger.report(onUntruncatedBlogPost)(message);
   }
 }
 
@@ -245,13 +250,6 @@ async function processBlogSourceFile(
       filePath: blogSourceAbsolute,
       parseFrontMatter,
     });
-
-  reportTruncateMarkerProblem({
-    blogSourceRelative,
-    truncateMarker,
-    options,
-    content,
-  });
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
