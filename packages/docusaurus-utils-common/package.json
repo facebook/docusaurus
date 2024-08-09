@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/utils-common",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "Common (Node/Browser) utility functions for Docusaurus packages.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
