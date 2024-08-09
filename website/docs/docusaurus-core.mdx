@@ -413,7 +413,7 @@ Returns `true` when the React app has successfully hydrated in the browser.
 
 :::warning
 
-Use this hook instead of `typeof windows !== 'undefined'` in React rendering logic.
+Use this hook instead of `typeof windows !== 'undefined'` in React rendering logic because `window` may be defined but hydration may not necessarily have been completed yet.
 
 The first client-side render output (in the browser) **must be exactly the same** as the server-side render output (Node.js). Not following this rule can lead to unexpected hydration behaviors, as described in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
 
@@ -427,9 +427,24 @@ import useIsBrowser from '@docusaurus/useIsBrowser';
 
 const MyComponent = () => {
   // highlight-start
+  // Recommended
   const isBrowser = useIsBrowser();
+
+  // Not Recommended
+  // using typeof window !== 'undefined' will lead to mismatching render output
+  const isWindowDefined = typeof window !== 'undefined';
   // highlight-end
-  return <div>{isBrowser ? 'Client' : 'Server'}</div>;
+  return (
+    <div>
+      {/* Recommended */}
+      {isBrowser ? 'Client (hydration completed)' : 'Server'}
+
+      {/* Not Recommended */}
+      {isWindowDefined
+        ? 'Client (hydration NOT completed, will mismatch)'
+        : 'Server'}
+    </div>
+  );
 };
 ```
 
