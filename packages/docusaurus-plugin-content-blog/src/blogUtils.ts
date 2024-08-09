@@ -59,11 +59,13 @@ export function reportUntruncatedBlogPosts({
     (p) => !p.metadata.hasTruncateMarker,
   );
   if (onUntruncatedBlogPosts !== 'ignore' && untruncatedBlogPosts.length > 0) {
-    const message = `Docusaurus found untruncated blog posts:
-${untruncatedBlogPosts
-  .map((p) => aliasedSitePathToRelativePath(p.metadata.source))
-  .join('\n- ')}
-You can turn off this settings by setting onUntruncatedBlogPosts to 'ignore' in your docusaurus config file`;
+    const message = logger.interpolate`Docusaurus found blog posts without truncation markers:
+- ${untruncatedBlogPosts
+      .map((p) => logger.path(aliasedSitePathToRelativePath(p.metadata.source)))
+      .join('\n- ')}
+
+We recommend using truncation markers (code=${`<!-- truncate -->`} or code=${`{/* truncate */}`}) in blog posts to create shorter previews on blog paginated lists.
+Tip: turn this security off with the code=${`onUntruncatedBlogPosts: 'ignore'`} blog plugin option.`;
     logger.report(onUntruncatedBlogPosts)(message);
   }
 }
