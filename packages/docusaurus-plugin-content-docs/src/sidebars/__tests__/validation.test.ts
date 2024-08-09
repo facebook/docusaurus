@@ -282,6 +282,7 @@ describe('validateCategoryMetadataFile', () => {
     const content: CategoryMetadataFile = {
       className: 'className',
       label: 'Category Label',
+      description: 'Category Description',
       link: {
         type: 'generated-index',
         slug: 'slug',
