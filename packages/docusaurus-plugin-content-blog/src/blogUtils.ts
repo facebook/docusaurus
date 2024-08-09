@@ -48,11 +48,7 @@ export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
-function getPath(value: BlogPost) {
-  return aliasedSitePathToRelativePath(value.metadata.source);
-}
-
-export function reportTruncateMarkerProblem({
+export function reportUntruncatedBlogPosts({
   blogPosts,
   onUntruncatedBlogPost,
 }: {
@@ -64,7 +60,9 @@ export function reportTruncateMarkerProblem({
   );
   if (onUntruncatedBlogPost !== 'ignore' && untruncatedBlogPosts.length > 0) {
     const message = `Docusaurus found untruncated blog posts:
-${untruncatedBlogPosts.map(getPath).join('\n- ')}
+${untruncatedBlogPosts
+  .map((p) => aliasedSitePathToRelativePath(p.metadata.source))
+  .join('\n- ')}
 You can turn off this settings by setting onUntruncatedBlogPost to 'ignore' in your docusaurus config file`;
     logger.report(onUntruncatedBlogPost)(message);
   }
