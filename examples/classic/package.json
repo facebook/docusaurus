@@ -15,8 +15,8 @@
     "dev": "docusaurus start"
   },
   "dependencies": {
-    "@docusaurus/core": "3.5.0",
-    "@docusaurus/preset-classic": "3.5.0",
+    "@docusaurus/core": "3.5.1",
+    "@docusaurus/preset-classic": "3.5.1",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.3.0",
@@ -24,8 +24,8 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.5.0",
-    "@docusaurus/types": "3.5.0"
+    "@docusaurus/module-type-aliases": "3.5.1",
+    "@docusaurus/types": "3.5.1"
   },
   "browserslist": {
     "production": [
