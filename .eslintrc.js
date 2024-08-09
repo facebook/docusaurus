@@ -344,6 +344,7 @@ module.exports = {
     'react/require-default-props': [ERROR, {ignoreFunctionalComponents: true}],
 
     '@typescript-eslint/consistent-type-definitions': OFF,
+    '@typescript-eslint/no-explicit-any': OFF,
     '@typescript-eslint/require-await': OFF,
 
     '@typescript-eslint/ban-ts-comment': [
@@ -381,7 +382,6 @@ module.exports = {
     // function placeholder params are always ignored, and any other unused
     // locals must be justified with a disable comment.
     '@typescript-eslint/no-unused-vars': [ERROR, {ignoreRestSiblings: true}],
-    '@typescript-eslint/prefer-optional-chain': ERROR,
     '@docusaurus/no-html-links': ERROR,
     '@docusaurus/prefer-docusaurus-heading': ERROR,
     '@docusaurus/no-untranslated-text': [

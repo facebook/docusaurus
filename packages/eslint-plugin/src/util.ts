@@ -6,7 +6,7 @@
  */
 
 import {ESLintUtils} from '@typescript-eslint/utils';
-import type {TSESTree} from '@typescript-eslint/types/dist/ts-estree';
+import type {TSESTree} from '@typescript-eslint/types';
 
 type CheckTranslateChildOptions = {
   ignoredStrings?: string[];

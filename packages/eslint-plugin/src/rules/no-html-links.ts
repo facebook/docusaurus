@@ -6,7 +6,7 @@
  */
 
 import {createRule} from '../util';
-import type {TSESTree} from '@typescript-eslint/types/dist/ts-estree';
+import type {TSESTree} from '@typescript-eslint/types';
 
 const docsUrl = 'https://docusaurus.io/docs/docusaurus-core#link';
 
@@ -35,7 +35,6 @@ export default createRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description: 'enforce using Docusaurus Link component instead of <a> tag',
-      recommended: false,
     },
     schema: [
       {

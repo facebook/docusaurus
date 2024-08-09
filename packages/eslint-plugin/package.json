@@ -21,7 +21,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^5.62.0",
+    "@typescript-eslint/utils": "^7.15.0",
     "tslib": "^2.6.0"
   },
   "devDependencies": {

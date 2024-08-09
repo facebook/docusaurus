@@ -194,7 +194,6 @@ export type RouteChunkNames = {
  */
 export type Registry = {
   readonly [chunkName: string]: [
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Loader: () => Promise<any>,
     ModuleName: string,
     ResolvedModuleName: string,

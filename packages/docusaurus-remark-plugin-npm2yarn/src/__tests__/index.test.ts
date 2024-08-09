@@ -11,7 +11,7 @@ import dedent from 'dedent';
 import npm2yarn from '../index';
 
 const process = async (
-  content: any,
+  content: vfile.Compatible | undefined,
   options?: Parameters<typeof npm2yarn>[0],
 ) => {
   const {remark} = await import('remark');

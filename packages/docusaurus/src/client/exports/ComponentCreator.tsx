@@ -45,7 +45,6 @@ export default function ComponentCreator(
   }
 
   const chunkNames = routesChunkNames[`${path}-${hash}`]!;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const loader: {[key: string]: () => Promise<any>} = {};
   const modules: string[] = [];
   const optsWebpack: string[] = [];
