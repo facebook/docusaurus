@@ -66,7 +66,7 @@ Check the [blog authors pages guide](/docs/blog#authors-pages) for details.
 
 ### Blog Feeds Styling
 
-In [#9252](https://github.com/facebook/docusaurus/pull/9252), we added support for providing custom XSLT `.xls` files to style the blog RSS and Atom feeds.
+In [#9252](https://github.com/facebook/docusaurus/pull/9252), we added support for [styling your blog feeds](https://darekkay.com/blog/rss-styling/) by providing custom XSLT `.xls` files for the RSS and Atom feeds. This allows browsers to render the feeds in a more visually appealing way, like a regular HTML page, instead of the default XML view.
 
 ```js title="website/docusaurus.config.js"
 const blogOptions = {
@@ -76,19 +76,19 @@ const blogOptions = {
       rss: 'custom-rss.xsl',
       atom: 'custom-atom.xsl',
     },
-    // highlight-start
+    // highlight-end
   },
 };
 ```
 
-Writing your own XSLT can be complex. But we got you covered: we provide built-in styling that you can conveniently enable with `xslt: true`:
+Writing your own XSLT can be complex, but you can also use `xslt: true` to turn on the built-in style:
 
 ```js title="website/docusaurus.config.js"
 const blogOptions = {
   feedOptions: {
     // highlight-start
     xslt: true,
-    // highlight-start
+    // highlight-end
   },
 };
 ```
