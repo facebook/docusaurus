@@ -18,7 +18,7 @@ Upgrading should be easy. Our [release process](/community/release-process) resp
 
 ## Highlights
 
-### Blog social icons
+### Blog Social Icons
 
 In [#10222](https://github.com/facebook/docusaurus/pull/10222), we added the possibility to associate social links to blog authors, for inline authors declared in front matter or global through the `authors.yml` file.
 
@@ -39,33 +39,85 @@ slorber:
 
 Icons and handle shortcuts are provided for pre-defined platforms `x`, `linkedin`, `github` and `stackoverflow`. It's possible to provide any additional platform entry (like `newsletter` in the example above) with a full URL.
 
-### Blog authors pages
+### Blog Authors Pages
 
-In [#10216](https://github.com/facebook/docusaurus/pull/10216), we added the possibility for [global blog authors](/docs/blog#global-authors) (declared in `authors.yml`) to have their own dedicated page listing all the blog posts they contributed to. This feature is opt-in and mostly relevant for multi-author blogs.
+In [#10216](https://github.com/facebook/docusaurus/pull/10216), we added the possibility for [global blog authors](/docs/blog#global-authors) (declared in `authors.yml`) to have their own dedicated page listing all the blog posts they contributed to.
+
+This feature is opt-in and mostly relevant for **multi-author blogs**. You can turn it on for a specific author by setting the `page: true` property:
 
 ```yml title="blog/authors.yml"
 slorber:
   name: Sébastien Lorber
+  # the description will be displayed on the author's page
   description: 'A freelance React and React-Native developer...'
   # highlight-next-line
   page: true # Turns the feature on
 ```
 
-![Author page screenshot for  `slorber` global author](./img/author-page.png)
+This creates a [dedicated author page](/blog/authors/slorber) at `/blog/authors/slorber`.
 
-An author index page is also created, listing all the global authors having the feature turned on.
+![Author page screenshot for `slorber` global author](./img/author-page.png)
+
+An [authors index page](/blog/authors) is also created, listing all the blog authors.
 
 ![Author index page listing multiple authors](./img/author-index.png)
 
-### Blog styled feeds
+Check the [blog authors pages guide](/docs/blog#authors-pages) for details.
 
-[#9252](https://github.com/facebook/docusaurus/pull/9252) feat(blog): add feed xlst options to render beautiful RSS and Atom feeds
+### Blog Feeds Styling
 
-### Other blog improvements
+In [#9252](https://github.com/facebook/docusaurus/pull/9252), we added support for providing custom XSLT `.xls` files to style the blog RSS and Atom feeds.
 
-- [#10252](https://github.com/facebook/docusaurus/pull/10252) feat(blog): group sidebar items by year (`themeConfig.blog.sidebar.groupByYear`) ([@alicelovescake](https://github.com/alicelovescake))
-- [#10224](https://github.com/facebook/docusaurus/pull/10224) feat(blog): warn duplicate and inline authors ([@OzakIOne](https://github.com/OzakIOne))
-- onUntruncatedBlogPost
+```js title="website/docusaurus.config.js"
+const blogOptions = {
+  feedOptions: {
+    // highlight-start
+    xslt: {
+      rss: 'custom-rss.xsl',
+      atom: 'custom-atom.xsl',
+    },
+    // highlight-start
+  },
+};
+```
+
+Writing your own XSLT can be complex. But we got you covered: we provide built-in styling that you can conveniently enable with `xslt: true`:
+
+```js title="website/docusaurus.config.js"
+const blogOptions = {
+  feedOptions: {
+    // highlight-start
+    xslt: true,
+    // highlight-start
+  },
+};
+```
+
+![Screenshot of the Docusaurus blog RSS feed, beautifully styled](./img/blog-feed-xslt.png)
+
+### Blog Sidebar Grouping
+
+In [#10252](https://github.com/facebook/docusaurus/pull/10252), we added support for grouping blog posts by years in the blog sidebar.
+
+![Screenshot of the Docusaurus blog, in particular the sidebar items grouped by year](./img/blog-sidebar-years.png)
+
+This feature is now turned on by default, but can be disabled with `themeConfig.blog.sidebar.groupByYear: false`.
+
+### Blog Consistency Options
+
+We added new blog options to enforce recommended practices for your blog posts:
+
+#### `onInlineAuthors`
+
+We believe large multi-blogs are easier to manage by using [global authors](/docs/blog#global-authors), declared in `authors.yml`. This notably permits to avoids duplicating author information across multiple blog posts, and now permits to generate [author pages](/docs/blog#authors-pages).
+
+In [#10224](https://github.com/facebook/docusaurus/pull/10224), we added the `onInlineAuthors` option. Use `onInlineAuthors: 'throw'` to forbid [inline authors](/docs/blog#inline-authors), and enforce a consistent usage of [global authors](/docs/blog#global-authors).
+
+#### `onUntruncatedBlogPost`
+
+We believe blog posts are better using [truncation markers](/docs/blog#blog-list) (`<!-- truncate -->` or `{/* truncate */}`). On paginated lists (blog home, tags pages, authors pages), this permits to render a more concise preview of the blog post instead of a full blog post.
+
+In [#10375](https://github.com/facebook/docusaurus/pull/10375), we added the `onUntruncatedBlogPost` option. Use `onUntruncatedBlogPost: 'throw'` to enforce a consistent usage of [truncation markers](/docs/blog#blog-list).
 
 ## Translations
 
