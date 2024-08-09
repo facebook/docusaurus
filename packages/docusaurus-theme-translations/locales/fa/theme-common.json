@@ -22,6 +22,9 @@
   "theme.admonition.warning": "هشدار",
   "theme.blog.archive.description": "آرشیو",
   "theme.blog.archive.title": "آرشیو",
+  "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
+  "theme.blog.authorsList.pageTitle": "Authors",
+  "theme.blog.authorsList.viewAll": "View All Authors",
   "theme.blog.paginator.navAriaLabel": "کنترل لیست مطالب وبلاگ",
   "theme.blog.paginator.newerEntries": "مطالب جدید‌تر",
   "theme.blog.paginator.olderEntries": "مطالب قدیمی‌تر",
@@ -40,6 +43,10 @@
   "theme.common.editThisPage": "ویرایش مطالب این صفحه",
   "theme.common.headingLinkTitle": "لینک مستقیم به {heading}",
   "theme.common.skipToMainContent": "پرش به مطلب اصلی",
+  "theme.contentVisibility.draftBanner.message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
+  "theme.contentVisibility.draftBanner.title": "Draft page",
+  "theme.contentVisibility.unlistedBanner.message": "این صفحه فهرست نشده است. موتورهای جستجو آن را ایندکس نمی کنند و فقط کاربرانی که لینک مستقیم دارند می توانند به آن دسترسی داشته باشند.",
+  "theme.contentVisibility.unlistedBanner.title": "صفحه فهرست نشده",
   "theme.docs.DocCard.categoryDescription.plurals": "{count} مورد",
   "theme.docs.breadcrumbs.home": "صفحه اصلی",
   "theme.docs.breadcrumbs.navAriaLabel": "نشانگر صفحات",
@@ -68,7 +75,5 @@
   "theme.navbar.mobileVersionsDropdown.label": "نسخه‌ها",
   "theme.tags.tagsListLabel": "برچسب‌ها:",
   "theme.tags.tagsPageLink": "مشاهده تمام برچسب‌ها",
-  "theme.tags.tagsPageTitle": "برچسب‌ها",
-  "theme.unlistedContent.message": "این صفحه فهرست نشده است. موتورهای جستجو آن را ایندکس نمی کنند و فقط کاربرانی که لینک مستقیم دارند می توانند به آن دسترسی داشته باشند.",
-  "theme.unlistedContent.title": "صفحه فهرست نشده"
+  "theme.tags.tagsPageTitle": "برچسب‌ها"
 }

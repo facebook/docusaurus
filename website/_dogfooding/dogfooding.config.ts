@@ -88,6 +88,10 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
         type: 'all',
         title: 'Docusaurus Tests Blog',
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+        xslt: {
+          rss: 'custom-rss.xsl',
+          atom: 'custom-atom.xsl',
+        },
       },
       readingTime: ({content, frontMatter, defaultReadingTime}) =>
         frontMatter.hide_reading_time

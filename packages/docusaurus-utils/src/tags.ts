@@ -45,6 +45,7 @@ export type TagsListItem = Tag & {
 /** What the tag's own page should know about the tag. */
 export type TagModule = TagsListItem & {
   /** The tags list page's permalink. */
+  // TODO move this global value to a shared docs/blog bundle
   allTagsPath: string;
   /** Is this tag unlisted? (when it only contains unlisted items) */
   unlisted: boolean;

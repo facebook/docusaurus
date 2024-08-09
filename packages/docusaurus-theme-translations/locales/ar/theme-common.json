@@ -22,6 +22,9 @@
   "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "أرشيف",
   "theme.blog.archive.title": "أرشيف",
+  "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
+  "theme.blog.authorsList.pageTitle": "Authors",
+  "theme.blog.authorsList.viewAll": "View All Authors",
   "theme.blog.paginator.navAriaLabel": "التنقل في صفحة قائمة المدونة",
   "theme.blog.paginator.newerEntries": "إدخالات أحدث",
   "theme.blog.paginator.olderEntries": "إدخالات أقدم",
@@ -40,6 +43,10 @@
   "theme.common.editThisPage": "تعديل هذه الصفحة",
   "theme.common.headingLinkTitle": "ارتباط مباشر بالعنوان {heading}",
   "theme.common.skipToMainContent": "انتقل إلى المحتوى الرئيسي",
+  "theme.contentVisibility.draftBanner.message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
+  "theme.contentVisibility.draftBanner.title": "Draft page",
+  "theme.contentVisibility.unlistedBanner.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+  "theme.contentVisibility.unlistedBanner.title": "Unlisted page",
   "theme.docs.DocCard.categoryDescription.plurals": "{count} مواد",
   "theme.docs.breadcrumbs.home": "الرئيسية",
   "theme.docs.breadcrumbs.navAriaLabel": "التنقل التفصيلي",
@@ -68,7 +75,5 @@
   "theme.navbar.mobileVersionsDropdown.label": "إصدارات",
   "theme.tags.tagsListLabel": "الوسوم:",
   "theme.tags.tagsPageLink": "عرض كل الوسوم",
-  "theme.tags.tagsPageTitle": "الوسوم",
-  "theme.unlistedContent.message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
-  "theme.unlistedContent.title": "Unlisted page"
+  "theme.tags.tagsPageTitle": "الوسوم"
 }

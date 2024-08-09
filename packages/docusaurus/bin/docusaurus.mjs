@@ -222,7 +222,8 @@ cli
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
-  logger.error`    Unknown command name=${cmd}.`;
+  logger.error`Unknown Docusaurus CLI command name=${cmd}.`;
+  process.exit(1);
 });
 
 // === The above is the commander configuration ===
@@ -247,24 +248,24 @@ function isInternalCommand(command) {
   );
 }
 
-// process.argv always looks like this:
-// [
-//   '/path/to/node',
-//   '/path/to/docusaurus.mjs',
-//   '<subcommand>',
-//   ...subcommandArgs
-// ]
+/**
+ * @param {string | undefined} command
+ */
+function isExternalCommand(command) {
+  return !!(command && !isInternalCommand(command) && !command.startsWith('-'));
+}
 
-// There is no subcommand
-// TODO: can we use commander to handle this case?
-if (process.argv.length < 3 || process.argv[2]?.startsWith('--')) {
+// No command? We print the help message because Commander doesn't
+// Note argv looks like this: ['../node','../docusaurus.mjs','<command>',...rest]
+if (process.argv.length < 3) {
   cli.outputHelp();
+  logger.error`Please provide a Docusaurus CLI command.`;
   process.exit(1);
 }
 
 // There is an unrecognized subcommand
 // Let plugins extend the CLI before parsing
-if (!isInternalCommand(process.argv[2])) {
+if (isExternalCommand(process.argv[2])) {
   // TODO: in this step, we must assume default site structure because there's
   // no way to know the siteDir/config yet. Maybe the root cli should be
   // responsible for parsing these arguments?

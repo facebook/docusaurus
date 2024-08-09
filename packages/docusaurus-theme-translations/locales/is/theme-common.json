@@ -22,6 +22,9 @@
   "theme.admonition.warning": "aðvörun",
   "theme.blog.archive.description": "Skjalasafn",
   "theme.blog.archive.title": "Skjalasafn",
+  "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
+  "theme.blog.authorsList.pageTitle": "Authors",
+  "theme.blog.authorsList.viewAll": "View All Authors",
   "theme.blog.paginator.navAriaLabel": "Blogg listsíðu yfirlit",
   "theme.blog.paginator.newerEntries": "Nýrri færslur",
   "theme.blog.paginator.olderEntries": "Eldri færslur",
@@ -40,7 +43,12 @@
   "theme.common.editThisPage": "Breyttu þessari síðu",
   "theme.common.headingLinkTitle": "Beinn hlekkur að {heading}",
   "theme.common.skipToMainContent": "Hoppa yfir á aðal efni",
+  "theme.contentVisibility.draftBanner.message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
+  "theme.contentVisibility.draftBanner.title": "Draft page",
+  "theme.contentVisibility.unlistedBanner.message": "Þessi síða er ólistuð. Leitarvélar munu ekki skrá hana, eingöngu notendur með beinan hlekk geta opnað hana.",
+  "theme.contentVisibility.unlistedBanner.title": "Óskráð síða",
   "theme.docs.DocCard.categoryDescription": "{count} atriði",
+  "theme.docs.DocCard.categoryDescription.plurals": "1 item|{count} items",
   "theme.docs.breadcrumbs.home": "Heimasíða",
   "theme.docs.breadcrumbs.navAriaLabel": "Brauðteningar",
   "theme.docs.paginator.navAriaLabel": "Skjala síður",
@@ -68,7 +76,5 @@
   "theme.navbar.mobileVersionsDropdown.label": "Útgáfur",
   "theme.tags.tagsListLabel": "Merki:",
   "theme.tags.tagsPageLink": "Skoða Öll Merki",
-  "theme.tags.tagsPageTitle": "Merki",
-  "theme.unlistedContent.message": "Þessi síða er ólistuð. Leitarvélar munu ekki skrá hana, eingöngu notendur með beinan hlekk geta opnað hana.",
-  "theme.unlistedContent.title": "Óskráð síða"
+  "theme.tags.tagsPageTitle": "Merki"
 }

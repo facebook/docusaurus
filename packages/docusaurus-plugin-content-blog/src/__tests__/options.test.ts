@@ -6,8 +6,12 @@
  */
 
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {validateOptions, DEFAULT_OPTIONS} from '../options';
-import type {Options, PluginOptions} from '@docusaurus/plugin-content-blog';
+import {validateOptions, DEFAULT_OPTIONS, XSLTBuiltInPaths} from '../options';
+import type {
+  Options,
+  PluginOptions,
+  UserFeedOptions,
+} from '@docusaurus/plugin-content-blog';
 import type {Validate} from '@docusaurus/types';
 
 function testValidate(options?: Options) {
@@ -38,7 +42,10 @@ describe('validateOptions', () => {
   it('accepts correctly defined user options', () => {
     const userOptions: Options = {
       ...defaultOptions,
-      feedOptions: {type: 'rss' as const, title: 'myTitle'},
+      feedOptions: {
+        type: 'rss' as const,
+        title: 'myTitle',
+      },
       path: 'not_blog',
       routeBasePath: '/myBlog',
       postsPerPage: 5,
@@ -48,7 +55,13 @@ describe('validateOptions', () => {
     };
     expect(testValidate(userOptions)).toEqual({
       ...userOptions,
-      feedOptions: {type: ['rss'], title: 'myTitle', copyright: '', limit: 20},
+      feedOptions: {
+        type: ['rss'],
+        title: 'myTitle',
+        copyright: '',
+        limit: 20,
+        xslt: {rss: null, atom: null},
+      },
     });
   });
 
@@ -79,60 +92,182 @@ describe('validateOptions', () => {
     ).toThrowErrorMatchingSnapshot();
   });
 
-  it('throws Error in case of invalid feed type', () => {
-    expect(() =>
-      testValidate({
+  describe('feed', () => {
+    it('throws Error in case of invalid feed type', () => {
+      expect(() =>
+        testValidate({
+          feedOptions: {
+            // @ts-expect-error: test
+            type: 'none',
+          },
+        }),
+      ).toThrowErrorMatchingSnapshot();
+    });
+
+    it('converts all feed type to array with other feed type', () => {
+      expect(
+        testValidate({
+          feedOptions: {type: 'all'},
+        }),
+      ).toEqual({
+        ...defaultOptions,
         feedOptions: {
-          // @ts-expect-error: test
-          type: 'none',
+          type: ['rss', 'atom', 'json'],
+          copyright: '',
+          limit: 20,
+          xslt: {rss: null, atom: null},
         },
-      }),
-    ).toThrowErrorMatchingSnapshot();
-  });
-
-  it('converts all feed type to array with other feed type', () => {
-    expect(
-      testValidate({
-        feedOptions: {type: 'all'},
-      }),
-    ).toEqual({
-      ...defaultOptions,
-      feedOptions: {type: ['rss', 'atom', 'json'], copyright: '', limit: 20},
+      });
     });
-  });
 
-  it('accepts null type and return same', () => {
-    expect(
-      testValidate({
-        feedOptions: {type: null},
-      }),
-    ).toEqual({
-      ...defaultOptions,
-      feedOptions: {type: null, limit: 20},
+    it('accepts null feed type and return same', () => {
+      expect(
+        testValidate({
+          feedOptions: {type: null},
+        }),
+      ).toEqual({
+        ...defaultOptions,
+        feedOptions: {
+          type: null,
+          limit: 20,
+          xslt: {rss: null, atom: null},
+        },
+      });
     });
-  });
 
-  it('contains array with rss + atom for missing feed type', () => {
-    expect(
-      testValidate({
-        feedOptions: {},
-      }),
-    ).toEqual(defaultOptions);
-  });
+    it('contains array with rss + atom for missing feed type', () => {
+      expect(
+        testValidate({
+          feedOptions: {},
+        }),
+      ).toEqual(defaultOptions);
+    });
 
-  it('has array with rss + atom, title for missing feed type', () => {
-    expect(
-      testValidate({
-        feedOptions: {title: 'title'},
-      }),
-    ).toEqual({
-      ...defaultOptions,
-      feedOptions: {
-        type: ['rss', 'atom'],
-        title: 'title',
-        copyright: '',
-        limit: 20,
-      },
+    it('has array with rss + atom, title for missing feed type', () => {
+      expect(
+        testValidate({
+          feedOptions: {title: 'title'},
+        }),
+      ).toEqual({
+        ...defaultOptions,
+        feedOptions: {
+          type: ['rss', 'atom'],
+          title: 'title',
+          copyright: '',
+          limit: 20,
+          xslt: {rss: null, atom: null},
+        },
+      });
+    });
+
+    describe('feed xslt', () => {
+      function testXSLT(xslt: UserFeedOptions['xslt']) {
+        return testValidate({feedOptions: {xslt}}).feedOptions.xslt;
+      }
+
+      it('accepts xslt: true', () => {
+        expect(testXSLT(true)).toEqual({
+          rss: XSLTBuiltInPaths.rss,
+          atom: XSLTBuiltInPaths.atom,
+        });
+      });
+
+      it('accepts xslt: false', () => {
+        expect(testXSLT(false)).toEqual({
+          rss: null,
+          atom: null,
+        });
+      });
+
+      it('accepts xslt: null', () => {
+        expect(testXSLT(null)).toEqual({
+          rss: null,
+          atom: null,
+        });
+      });
+
+      it('accepts xslt: undefined', () => {
+        expect(testXSLT(undefined)).toEqual({
+          rss: null,
+          atom: null,
+        });
+      });
+
+      it('accepts xslt: {rss: true}', () => {
+        expect(testXSLT({rss: true})).toEqual({
+          rss: XSLTBuiltInPaths.rss,
+          atom: null,
+        });
+      });
+
+      it('accepts xslt: {atom: true}', () => {
+        expect(testXSLT({atom: true})).toEqual({
+          rss: null,
+          atom: XSLTBuiltInPaths.atom,
+        });
+      });
+
+      it('accepts xslt: {rss: true, atom: true}', () => {
+        expect(testXSLT({rss: true, atom: true})).toEqual({
+          rss: XSLTBuiltInPaths.rss,
+          atom: XSLTBuiltInPaths.atom,
+        });
+      });
+
+      it('accepts xslt: {rss: "custom-path"}', () => {
+        expect(testXSLT({rss: 'custom-path'})).toEqual({
+          rss: 'custom-path',
+          atom: null,
+        });
+      });
+
+      it('accepts xslt: {rss: true, atom: "custom-path"}', () => {
+        expect(testXSLT({rss: true, atom: 'custom-path'})).toEqual({
+          rss: XSLTBuiltInPaths.rss,
+          atom: 'custom-path',
+        });
+      });
+
+      it('accepts xslt: {rss: null, atom: true}', () => {
+        expect(testXSLT({rss: null, atom: true})).toEqual({
+          rss: null,
+          atom: XSLTBuiltInPaths.atom,
+        });
+      });
+
+      it('accepts xslt: {rss: false, atom: null}', () => {
+        expect(testXSLT({rss: false, atom: null})).toEqual({
+          rss: null,
+          atom: null,
+        });
+      });
+
+      it('rejects xslt: 42', () => {
+        // @ts-expect-error: bad type
+        expect(() => testXSLT(42)).toThrowErrorMatchingInlineSnapshot(
+          `""feedOptions.xslt" must be one of [object, boolean]"`,
+        );
+      });
+      it('rejects xslt: []', () => {
+        // @ts-expect-error: bad type
+        expect(() => testXSLT([])).toThrowErrorMatchingInlineSnapshot(
+          `""feedOptions.xslt" must be one of [object, boolean]"`,
+        );
+      });
+
+      it('rejects xslt: {rss: 42}', () => {
+        // @ts-expect-error: bad type
+        expect(() => testXSLT({rss: 42})).toThrowErrorMatchingInlineSnapshot(
+          `""feedOptions.xslt.rss" must be one of [string, boolean]"`,
+        );
+      });
+
+      it('rejects xslt: {rss: []}', () => {
+        // @ts-expect-error: bad type
+        expect(() => testXSLT({rss: 42})).toThrowErrorMatchingInlineSnapshot(
+          `""feedOptions.xslt.rss" must be one of [string, boolean]"`,
+        );
+      });
     });
   });
 

@@ -14,7 +14,7 @@ import {
   UnlistedMetadata,
 } from '@docusaurus/theme-common';
 import Admonition from '@theme/Admonition';
-import type {Props} from '@theme/Unlisted';
+import type {Props} from '@theme/ContentVisibility/Unlisted';
 
 function UnlistedBanner({className}: Props) {
   return (

@@ -18,6 +18,8 @@ export const ThemeClassNames = {
     blogPostPage: 'blog-post-page',
     blogTagsListPage: 'blog-tags-list-page',
     blogTagPostListPage: 'blog-tags-post-list-page',
+    blogAuthorsListPage: 'blog-authors-list-page',
+    blogAuthorsPostsPage: 'blog-authors-posts-page',
 
     docsDocPage: 'docs-doc-page',
     docsTagsListPage: 'docs-tags-list-page',
@@ -41,6 +43,7 @@ export const ThemeClassNames = {
     codeBlock: 'theme-code-block',
     admonition: 'theme-admonition',
     unlistedBanner: 'theme-unlisted-banner',
+    draftBanner: 'theme-draft-banner',
 
     admonitionType: (type: string) => `theme-admonition-${type}`,
   },

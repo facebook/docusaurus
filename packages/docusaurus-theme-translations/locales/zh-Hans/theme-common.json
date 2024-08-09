@@ -22,6 +22,9 @@
   "theme.admonition.warning": "注意",
   "theme.blog.archive.description": "历史博文",
   "theme.blog.archive.title": "历史博文",
+  "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
+  "theme.blog.authorsList.pageTitle": "Authors",
+  "theme.blog.authorsList.viewAll": "View All Authors",
   "theme.blog.paginator.navAriaLabel": "博文列表分页导航",
   "theme.blog.paginator.newerEntries": "较新的博文",
   "theme.blog.paginator.olderEntries": "较旧的博文",
@@ -40,6 +43,10 @@
   "theme.common.editThisPage": "编辑此页",
   "theme.common.headingLinkTitle": "{heading}的直接链接",
   "theme.common.skipToMainContent": "跳到主要内容",
+  "theme.contentVisibility.draftBanner.message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
+  "theme.contentVisibility.draftBanner.title": "Draft page",
+  "theme.contentVisibility.unlistedBanner.message": "此页面未列出。搜索引擎不会对其索引，只有拥有直接链接的用户才能访问。",
+  "theme.contentVisibility.unlistedBanner.title": "未列出页",
   "theme.docs.DocCard.categoryDescription.plurals": "{count} 个项目",
   "theme.docs.breadcrumbs.home": "主页面",
   "theme.docs.breadcrumbs.navAriaLabel": "页面路径",
@@ -68,7 +75,5 @@
   "theme.navbar.mobileVersionsDropdown.label": "选择版本",
   "theme.tags.tagsListLabel": "标签：",
   "theme.tags.tagsPageLink": "查看所有标签",
-  "theme.tags.tagsPageTitle": "标签",
-  "theme.unlistedContent.message": "此页面未列出。搜索引擎不会对其索引，只有拥有直接链接的用户才能访问。",
-  "theme.unlistedContent.title": "未列出页"
+  "theme.tags.tagsPageTitle": "标签"
 }
