@@ -65,10 +65,6 @@ function postProcessSidebarItem(
         .filter((v): v is SidebarItem => Boolean(v)),
     };
 
-    if (item.description !== undefined) {
-      category.description = item.description;
-    }
-
     // If the current category doesn't have subitems, we render a normal link
     // instead.
     if (category.items.length === 0) {
