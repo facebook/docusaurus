@@ -28,6 +28,7 @@ import {
   shouldBeListed,
   applyProcessBlogPosts,
   generateBlogPosts,
+  reportUntruncatedBlogPosts,
 } from './blogUtils';
 import footnoteIDFixer from './remark/footnoteIDFixer';
 import {translateContent, getTranslationFiles} from './translations';
@@ -188,6 +189,10 @@ export default async function pluginContentBlog(
       blogPosts = await applyProcessBlogPosts({
         blogPosts,
         processBlogPosts: options.processBlogPosts,
+      });
+      reportUntruncatedBlogPosts({
+        blogPosts,
+        onUntruncatedBlogPosts: options.onUntruncatedBlogPosts,
       });
       const listedBlogPosts = blogPosts.filter(shouldBeListed);
 

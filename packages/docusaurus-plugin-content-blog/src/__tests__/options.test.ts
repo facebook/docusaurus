@@ -374,4 +374,46 @@ describe('validateOptions', () => {
       );
     });
   });
+
+  describe('onUntruncatedBlogPosts', () => {
+    it('accepts onUntruncatedBlogPosts - undefined', () => {
+      expect(
+        testValidate({onUntruncatedBlogPosts: undefined})
+          .onUntruncatedBlogPosts,
+      ).toBe('warn');
+    });
+
+    it('accepts onUntruncatedBlogPosts - "throw"', () => {
+      expect(
+        testValidate({onUntruncatedBlogPosts: 'throw'}).onUntruncatedBlogPosts,
+      ).toBe('throw');
+    });
+
+    it('rejects onUntruncatedBlogPosts - "trace"', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onUntruncatedBlogPosts: 'trace'}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
+
+    it('rejects onUntruncatedBlogPosts - null', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onUntruncatedBlogPosts: 42}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
+
+    it('rejects onUntruncatedBlogPosts - 42', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onUntruncatedBlogPosts: 42}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
+  });
 });
