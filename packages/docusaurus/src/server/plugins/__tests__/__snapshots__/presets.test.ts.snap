@@ -63,6 +63,38 @@ exports[`loadPresets array form with options 1`] = `
 }
 `;
 
+exports[`loadPresets cjs form 1`] = `
+{
+  "plugins": [
+    [
+      "@docusaurus/plugin-content-docs",
+      undefined,
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      undefined,
+    ],
+  ],
+  "themes": [],
+}
+`;
+
+exports[`loadPresets esm form 1`] = `
+{
+  "plugins": [
+    [
+      "@docusaurus/plugin-content-docs",
+      undefined,
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      undefined,
+    ],
+  ],
+  "themes": [],
+}
+`;
+
 exports[`loadPresets mixed form 1`] = `
 {
   "plugins": [
@@ -127,22 +159,6 @@ exports[`loadPresets mixed form with themes 1`] = `
 }
 `;
 
-exports[`loadPresets string form 1`] = `
-{
-  "plugins": [
-    [
-      "@docusaurus/plugin-content-docs",
-      undefined,
-    ],
-    [
-      "@docusaurus/plugin-content-blog",
-      undefined,
-    ],
-  ],
-  "themes": [],
-}
-`;
-
 exports[`loadPresets string form composite 1`] = `
 {
   "plugins": [
@@ -164,6 +180,25 @@ exports[`loadPresets string form composite 1`] = `
       "@docusaurus/theme-algolia",
       undefined,
     ],
+  ],
+}
+`;
+
+exports[`loadPresets ts form 1`] = `
+{
+  "plugins": [
+    [
+      "@docusaurus/plugin-test",
+      undefined,
+    ],
+    false,
+  ],
+  "themes": [
+    [
+      "@docusaurus/theme-classic",
+      undefined,
+    ],
+    null,
   ],
 }
 `;

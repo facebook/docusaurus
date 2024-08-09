@@ -8,6 +8,7 @@
 import React from 'react';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
+import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
 function TwitterLink() {
@@ -63,7 +64,9 @@ export default function ChangelogListHeader({
 }): JSX.Element {
   return (
     <header className="margin-bottom--lg">
-      <h1 style={{fontSize: '3rem'}}>{blogTitle}</h1>
+      <Heading as="h1" style={{fontSize: '3rem'}}>
+        {blogTitle}
+      </Heading>
       <p>
         <Translate
           id="changelog.description"

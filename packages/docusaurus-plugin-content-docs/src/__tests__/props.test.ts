@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {toTagDocListProp} from '../props';
+import {toSidebarDocItemLinkProp, toTagDocListProp} from '../props';
 
 describe('toTagDocListProp', () => {
   type Params = Parameters<typeof toTagDocListProp>[0];
@@ -19,6 +19,7 @@ describe('toTagDocListProp', () => {
       label: 'tag1',
       permalink: '/tag1',
       docIds: ['id1', 'id3'],
+      unlisted: false,
     };
 
     const doc1 = {
@@ -57,7 +58,77 @@ describe('toTagDocListProp', () => {
       count: 2,
       label: tag.label,
       permalink: tag.permalink,
+      unlisted: false,
       items: [doc3, doc1], // Docs sorted by title, ignore "id5" absence
     });
+  });
+});
+
+describe('toSidebarDocItemLinkProp', () => {
+  type Params = Parameters<typeof toSidebarDocItemLinkProp>[0];
+  type Result = ReturnType<typeof toSidebarDocItemLinkProp>;
+  type DocSidebarItem = Params['item'];
+  type Doc = Params['doc'];
+
+  const id = 'some-doc-id';
+
+  const item: DocSidebarItem = {
+    type: 'doc',
+    id,
+    label: 'doc sidebar item label',
+  };
+
+  const doc: Doc = {
+    id,
+    title: 'doc title',
+    permalink: '/docPermalink',
+    frontMatter: {},
+    unlisted: false,
+  };
+
+  it('works', () => {
+    const result = toSidebarDocItemLinkProp({
+      item,
+      doc,
+    });
+
+    expect(result).toEqual({
+      type: 'link',
+      docId: id,
+      unlisted: false,
+      label: item.label,
+      autoAddBaseUrl: undefined,
+      className: undefined,
+      href: doc.permalink,
+      customProps: undefined,
+    } as Result);
+  });
+
+  it('uses unlisted from metadata and ignores frontMatter', () => {
+    expect(
+      toSidebarDocItemLinkProp({
+        item,
+        doc: {
+          ...doc,
+          unlisted: true,
+          frontMatter: {
+            unlisted: false,
+          },
+        },
+      }).unlisted,
+    ).toBe(true);
+
+    expect(
+      toSidebarDocItemLinkProp({
+        item,
+        doc: {
+          ...doc,
+          unlisted: false,
+          frontMatter: {
+            unlisted: true,
+          },
+        },
+      }).unlisted,
+    ).toBe(false);
   });
 });

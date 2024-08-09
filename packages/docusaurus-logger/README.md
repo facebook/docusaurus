@@ -22,7 +22,7 @@ It exports a single object as default export: `logger`. `logger` has the followi
 - The `interpolate` function. It is a template literal tag. The syntax can be found below.
 - Logging functions. All logging functions can both be used as normal functions (similar to the `console.log` family, but only accepts one parameter) or template literal tags.
   - `info`: prints information.
-  - `warn`: prints a warning that should be payed attention to.
+  - `warn`: prints a warning that should be paid attention to.
   - `error`: prints an error (not necessarily halting the program) that signals significant problems.
   - `success`: prints a success message.
 - The `report` function. It takes a `ReportingSeverity` value (`ignore`, `log`, `warn`, `throw`) and reports a message according to the severity.
@@ -40,6 +40,8 @@ In addition, `warn` and `error` will color the **entire** message for better att
 The template literal tag evaluates the template and expressions embedded. `interpolate` returns a new string, while other logging functions prints it. Below is a typical usage:
 
 ```js
+import logger from '@docusaurus/logger';
+
 logger.info`Hello name=${name}! You have number=${money} dollars. Here are the ${
   items.length > 1 ? 'items' : 'item'
 } on the shelf: ${items}
@@ -57,4 +59,4 @@ An embedded expression is optionally preceded by a flag in the form `[a-z]+=` (a
 
 If the expression is an array, it's formatted by `` `\n- ${array.join('\n- ')}\n` `` (note it automatically gets a leading line end). Each member is formatted by itself and the bullet is not formatted. So you would see the above message printed as:
 
-![demo](./demo.png)
+![Some text output in the terminal, containing array, code, name, and number formatting](./demo.png)

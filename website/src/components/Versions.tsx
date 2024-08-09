@@ -12,9 +12,12 @@ import React, {
   useRef,
   type ReactNode,
 } from 'react';
-import {useDocsPreferredVersion} from '@docusaurus/theme-common';
-import {useVersions} from '@docusaurus/plugin-content-docs/client';
+import {
+  useVersions,
+  useDocsPreferredVersion,
+} from '@docusaurus/plugin-content-docs/client';
 import Translate from '@docusaurus/Translate';
+import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
 
 type ContextValue = {
@@ -90,6 +93,43 @@ export function CanaryVersion(): JSX.Element {
 export function StableVersion(): JSX.Element {
   const currentVersion = useStableVersion();
   return <span>{currentVersion}</span>;
+}
+
+// TODO temporary: assumes main is already on v3 (not the case yet)
+function useNextMajorVersionNumber(): number {
+  return 3; // TODO later read from main@package.json or something...
+}
+function useStableMajorVersionNumber(): number {
+  // -1 because website is published from main, which is the next version
+  return useNextMajorVersionNumber() - 1;
+}
+
+export function NextMajorVersion(): JSX.Element {
+  const majorVersionNumber = useNextMajorVersionNumber();
+  return <span>{majorVersionNumber}</span>;
+}
+
+export function StableMajorVersion(): JSX.Element {
+  const majorVersionNumber = useStableMajorVersionNumber();
+  return <span>{majorVersionNumber}</span>;
+}
+
+function GitBranchLink({branch}: {branch: string}): JSX.Element {
+  return (
+    <Link to={`https://github.com/facebook/docusaurus/tree/${branch}`}>
+      <code>{branch}</code>
+    </Link>
+  );
+}
+
+export function StableMajorBranchLink(): JSX.Element {
+  const majorVersionNumber = useStableMajorVersionNumber();
+  const branch = `docusaurus-v${majorVersionNumber}`;
+  return <GitBranchLink branch={branch} />;
+}
+
+export function NextMajorBranchLink(): JSX.Element {
+  return <GitBranchLink branch="main" />;
 }
 
 export function InsertIfCanaryVersionUnknown({

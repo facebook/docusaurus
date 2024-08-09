@@ -14,6 +14,12 @@ exports[`toGlobalDataVersion generates the right docs, sidebars, and metadata 1`
       "sidebar": "tutorial",
     },
     {
+      "id": "docNoSidebarUnlisted",
+      "path": "/current/docNoSidebarUnlisted",
+      "sidebar": undefined,
+      "unlisted": true,
+    },
+    {
       "id": "/current/generated",
       "path": "/current/generated",
       "sidebar": "tutorial",

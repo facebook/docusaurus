@@ -64,9 +64,9 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 2,
           frontMatter: {
             sidebar_label: 'doc1 sidebar label',
+            sidebar_custom_props: {custom: 'prop'},
           },
           title: '',
-          unversionedId: 'doc1',
         },
         {
           id: 'doc2',
@@ -75,7 +75,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 3,
           frontMatter: {},
           title: '',
-          unversionedId: 'doc2',
         },
         {
           id: 'doc3',
@@ -84,7 +83,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 1,
           frontMatter: {},
           title: '',
-          unversionedId: 'doc3',
         },
         {
           id: 'doc4',
@@ -93,7 +91,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 1.5,
           frontMatter: {},
           title: '',
-          unversionedId: 'doc4',
         },
         {
           id: 'doc5',
@@ -102,7 +99,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: undefined,
           frontMatter: {},
           title: '',
-          unversionedId: 'doc5',
         },
       ],
       isCategoryIndex: () => false,
@@ -149,7 +145,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 0,
           frontMatter: {},
           title: '',
-          unversionedId: 'intro',
         },
         {
           id: 'tutorials-index',
@@ -158,7 +153,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 2,
           frontMatter: {},
           title: 'Tutorials',
-          unversionedId: 'tutorials-index',
         },
         {
           id: 'tutorial2',
@@ -167,7 +161,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 2,
           frontMatter: {},
           title: '',
-          unversionedId: 'tutorial2',
         },
         {
           id: 'tutorial1',
@@ -176,7 +169,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 1,
           frontMatter: {},
           title: '',
-          unversionedId: 'tutorial1',
         },
         {
           id: 'guides-index',
@@ -184,7 +176,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '02-Guides',
           frontMatter: {},
           title: 'Guides',
-          unversionedId: 'guides-index',
         },
         {
           id: 'guide2',
@@ -193,7 +184,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 2,
           frontMatter: {},
           title: '',
-          unversionedId: 'guide2',
         },
         {
           id: 'guide1',
@@ -204,7 +194,6 @@ describe('DefaultSidebarItemsGenerator', () => {
             sidebar_class_name: 'foo',
           },
           title: '',
-          unversionedId: 'guide1',
         },
         {
           id: 'nested-guide',
@@ -213,7 +202,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: undefined,
           frontMatter: {},
           title: '',
-          unversionedId: 'nested-guide',
         },
         {
           id: 'end',
@@ -222,7 +210,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 3,
           frontMatter: {},
           title: '',
-          unversionedId: 'end',
         },
       ],
     });
@@ -267,7 +254,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           title: 'Subsubsubfolder category label',
           sidebarPosition: undefined,
           frontMatter: {},
-          unversionedId: 'doc1',
         },
         {
           id: 'doc2',
@@ -276,7 +262,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: undefined,
           frontMatter: {},
           title: '',
-          unversionedId: 'doc2',
         },
         {
           id: 'doc3',
@@ -285,7 +270,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: undefined,
           frontMatter: {},
           title: '',
-          unversionedId: 'doc2',
         },
         {
           id: 'doc4',
@@ -294,7 +278,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: undefined,
           frontMatter: {},
           title: '',
-          unversionedId: 'doc4',
         },
         {
           id: 'doc5',
@@ -303,7 +286,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: undefined,
           frontMatter: {},
           title: '',
-          unversionedId: 'doc5',
         },
         {
           id: 'doc6',
@@ -312,7 +294,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: undefined,
           frontMatter: {},
           title: '',
-          unversionedId: 'doc6',
         },
         {
           id: 'doc7',
@@ -321,7 +302,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 2,
           frontMatter: {},
           title: '',
-          unversionedId: 'doc7',
         },
         {
           id: 'doc8',
@@ -330,7 +310,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 1,
           frontMatter: {},
           title: '',
-          unversionedId: 'doc8',
         },
       ],
     });
@@ -352,6 +331,7 @@ describe('DefaultSidebarItemsGenerator', () => {
       categoriesMetadata: {
         Category: {
           label: 'Category label',
+          description: 'Category description',
           link: {
             type: 'doc',
             id: 'doc3', // Using a "local doc id" ("doc1" instead of "parent/doc1") on purpose
@@ -369,7 +349,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'Category',
           frontMatter: {},
           title: '',
-          unversionedId: 'parent/doc1',
         },
         {
           id: 'parent/doc2',
@@ -377,7 +356,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'Category',
           frontMatter: {},
           title: '',
-          unversionedId: 'parent/doc2',
         },
         {
           id: 'parent/doc3',
@@ -385,7 +363,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'Category',
           frontMatter: {},
           title: '',
-          unversionedId: 'parent/doc3',
         },
         {
           id: 'parent/doc4',
@@ -393,7 +370,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'Category2',
           frontMatter: {},
           title: '',
-          unversionedId: 'parent/doc4',
         },
         {
           id: 'parent/doc5',
@@ -401,7 +377,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'Category2',
           frontMatter: {},
           title: '',
-          unversionedId: 'parent/doc5',
         },
         {
           id: 'parent/doc6',
@@ -409,7 +384,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'Category2',
           frontMatter: {},
           title: '',
-          unversionedId: 'parent/doc6',
         },
       ],
       isCategoryIndex: () => false,
@@ -448,7 +422,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 0,
           frontMatter: {},
           title: '',
-          unversionedId: 'intro',
         },
         {
           id: 'tutorials-index',
@@ -457,7 +430,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 2,
           frontMatter: {},
           title: 'Tutorials',
-          unversionedId: 'tutorials-index',
         },
         {
           id: 'tutorial2',
@@ -466,7 +438,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 2,
           frontMatter: {},
           title: '',
-          unversionedId: 'tutorial2',
         },
         {
           id: 'tutorial1',
@@ -475,7 +446,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 1,
           frontMatter: {},
           title: '',
-          unversionedId: 'tutorial1',
         },
         {
           id: 'not-guides-index',
@@ -483,7 +453,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '02-Guides',
           frontMatter: {},
           title: 'Guides',
-          unversionedId: 'not-guides-index',
         },
         {
           id: 'guide2',
@@ -492,7 +461,6 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 2,
           frontMatter: {},
           title: 'guide2',
-          unversionedId: 'guide2',
         },
         {
           id: 'guide1',
@@ -503,7 +471,6 @@ describe('DefaultSidebarItemsGenerator', () => {
             sidebar_class_name: 'foo',
           },
           title: '',
-          unversionedId: 'guide1',
         },
       ],
     });
@@ -535,7 +502,6 @@ describe('DefaultSidebarItemsGenerator', () => {
         docs: [
           {
             id: 'intro',
-            unversionedId: 'intro',
             source: '@site/docs/category/intro.md',
             sourceDirName: 'category',
             frontMatter: {},

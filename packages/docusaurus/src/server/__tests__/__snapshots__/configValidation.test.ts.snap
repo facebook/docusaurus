@@ -138,11 +138,6 @@ exports[`normalizeConfig should throw error if themes is not array for the input
 "
 `;
 
-exports[`normalizeConfig throws error for baseUrl without trailing \`/\` 1`] = `
-""baseUrl" must be a string with a trailing slash.
-"
-`;
-
 exports[`normalizeConfig throws error for required fields 1`] = `
 ""baseUrl" is required
 "title" is required

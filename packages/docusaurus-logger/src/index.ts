@@ -60,6 +60,9 @@ function stringify(msg: unknown): string {
   if (String(msg) === '[object Object]') {
     return JSON.stringify(msg);
   }
+  if (msg instanceof Date) {
+    return msg.toUTCString();
+  }
   return String(msg);
 }
 

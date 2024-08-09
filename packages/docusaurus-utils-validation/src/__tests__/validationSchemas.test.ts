@@ -14,6 +14,9 @@ import {
   PluginIdSchema,
   URISchema,
   PathnameSchema,
+  RouteBasePathSchema,
+  ContentVisibilitySchema,
+  FrontMatterLastUpdateSchema,
 } from '../validationSchemas';
 
 function createTestHelpers({
@@ -23,8 +26,9 @@ function createTestHelpers({
   schema: Joi.Schema;
   defaultValue?: unknown;
 }) {
-  function testOK(value: unknown) {
-    expect(Joi.attempt(value, schema)).toEqual(value ?? defaultValue);
+  function testOK(value: unknown, options?: {normalizedValue?: unknown}) {
+    const expectedValue = options?.normalizedValue ?? value ?? defaultValue;
+    expect(Joi.attempt(value, schema)).toEqual(expectedValue);
   }
 
   function testFail(value: unknown) {
@@ -94,15 +98,22 @@ describe('validation schemas', () => {
     testOK(true);
     testOK(false);
     testOK({});
-    testOK({tag: '+++'});
     testOK({keywords: ['info', 'tip']});
-    testOK({tag: '+++', keywords: ['info', 'tip']});
+    testOK({keywords: ['info', 'tip'], extendDefaults: true});
+    testOK({keywords: ['info', 'tip'], extendDefaults: false});
+    testOK({keywords: []});
+    testOK({keywords: [], extendDefaults: true}); // noop
+    testOK({keywords: [], extendDefaults: false}); // disable admonitions
+    testOK({keywords: ['custom-keyword'], extendDefaults: true});
+    testOK({keywords: ['custom-keyword'], extendDefaults: false});
 
     testFail(3);
     testFail([]);
     testFail({unknownAttribute: 'val'});
     testFail({tag: ''});
-    testFail({keywords: []});
+    testFail({keywords: ['custom-keyword'], extendDefaults: 42});
+    testFail({tag: '+++'});
+    testFail({tag: '+++', keywords: ['info', 'tip']});
 
     // Legacy types
     testFail({
@@ -158,5 +169,76 @@ describe('validation schemas', () => {
     testOK('/foo');
     testFail('foo');
     testFail('https://github.com/foo');
+  });
+
+  it('routeBasePathSchema', () => {
+    const {testFail, testOK} = createTestHelpers({
+      schema: RouteBasePathSchema,
+      defaultValue: undefined,
+    });
+
+    testOK('', {normalizedValue: '/'});
+    testOK('/');
+    testOK('/foo', {normalizedValue: '/foo'});
+    testOK('foo', {normalizedValue: '/foo'});
+    testOK('blog', {normalizedValue: '/blog'});
+    testOK('blog/', {normalizedValue: '/blog/'});
+    testOK('prefix/blog', {normalizedValue: '/prefix/blog'});
+    testOK('prefix/blog/', {normalizedValue: '/prefix/blog/'});
+    testOK('/prefix/blog', {normalizedValue: '/prefix/blog'});
+    testOK(undefined);
+
+    testFail(3);
+    testFail([]);
+    testFail(null);
+    testFail({});
+  });
+
+  it('contentVisibilitySchema', () => {
+    const {testFail, testOK} = createTestHelpers({
+      schema: ContentVisibilitySchema,
+    });
+
+    testOK({});
+    testOK({draft: false});
+    testOK({draft: true});
+    testOK({unlisted: false});
+    testOK({unlisted: true});
+
+    testOK({draft: false, unlisted: false});
+    testOK({draft: true, unlisted: false});
+    testOK({draft: false, unlisted: true});
+    testOK({draft: true, unlisted: undefined});
+    testOK({draft: undefined, unlisted: true});
+
+    testFail({draft: 'bad string'});
+    testFail({draft: 42});
+    testFail({unlisted: 'bad string'});
+    testFail({unlisted: 42});
+    testFail({draft: true, unlisted: true});
+  });
+
+  it('frontMatterLastUpdateSchema schema', () => {
+    const {testFail, testOK} = createTestHelpers({
+      schema: FrontMatterLastUpdateSchema,
+    });
+
+    testOK(undefined);
+    testOK({date: '2021-01-01'});
+    testOK({date: '2021-01'});
+    testOK({date: '2021'});
+    testOK({date: new Date()});
+    testOK({author: 'author'});
+    testOK({author: 'author', date: '2021-01-01'});
+    testOK({author: 'author', date: new Date()});
+
+    testFail(null);
+    testFail({});
+    testFail('string');
+    testFail(42);
+    testFail(true);
+    testFail([]);
+    testFail({author: 23});
+    testFail({date: '20-20-20'});
   });
 });

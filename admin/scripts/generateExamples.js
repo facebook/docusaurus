@@ -10,16 +10,6 @@
 import fs from 'fs-extra';
 import shell from 'shelljs';
 
-const NODE_MAJOR_VERSION = parseInt(
-  /** @type {string} */ (process.versions.node.split('.')[0]),
-  10,
-);
-if (NODE_MAJOR_VERSION < 16) {
-  throw new Error(
-    'This generateExamples Docusaurus script requires at least Node.js 16 and npm 7. See why here: https://github.com/facebook/docusaurus/pull/5722#issuecomment-948847891',
-  );
-}
-
 /**
  * Generate one example per init template
  * We use those generated examples as CodeSandbox projects
@@ -35,13 +25,15 @@ async function generateTemplateExample(template) {
     // Run the docusaurus script to create the template in the examples folder
     const command = template.endsWith('-typescript')
       ? template.replace('-typescript', ' -- --typescript')
-      : template;
+      : `${template} -- --javascript`;
+
     shell.exec(
       // We use the published init script on purpose, because the local init is
       // too new and could generate upcoming/unavailable config options.
       // Remember CodeSandbox templates will use the published version,
       // not the repo version.
-      `npm init docusaurus@latest examples/${template} ${command}`,
+      // Using "yarn create" because "npm init" still try to use local pkg
+      `yarn create docusaurus examples/${template} ${command}`,
     );
 
     const templatePackageJson =
@@ -77,9 +69,9 @@ async function generateTemplateExample(template) {
       hardReloadOnChange: true,
       view: 'browser',
       template: 'docusaurus',
-      node: '14',
+      node: '18',
       container: {
-        node: '14',
+        node: '18',
       },
     };
     await fs.writeFile(
@@ -181,7 +173,6 @@ console.log(`-------
 `);
 await fs.rm('./examples/classic', {recursive: true, force: true});
 await fs.rm('./examples/classic-typescript', {recursive: true, force: true});
-await fs.rm('./examples/facebook', {recursive: true, force: true});
 
 // Get the list of all available templates
 console.log(`

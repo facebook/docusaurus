@@ -12,6 +12,7 @@ import React, {
   type ReactElement,
 } from 'react';
 import clsx from 'clsx';
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {useCollapsible, Collapsible} from '../Collapsible';
 import styles from './styles.module.css';
@@ -31,8 +32,11 @@ function hasParent(node: HTMLElement | null, parent: HTMLElement): boolean {
 }
 
 export type DetailsProps = {
-  /** Summary is provided as props, including the wrapping `<summary>` tag */
-  summary?: ReactElement;
+  /**
+   * Summary is provided as props, optionally including the wrapping
+   * `<summary>` tag
+   */
+  summary?: ReactElement | string;
 } & ComponentProps<'details'>;
 
 /**
@@ -44,6 +48,8 @@ export function Details({
   children,
   ...props
 }: DetailsProps): JSX.Element {
+  useBrokenLinks().collectAnchor(props.id);
+
   const isBrowser = useIsBrowser();
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -53,6 +59,12 @@ export function Details({
   // Use a separate state for the actual details prop, because it must be set
   // only after animation completes, otherwise close animations won't work
   const [open, setOpen] = useState(props.open);
+
+  const summaryElement = React.isValidElement(summary) ? (
+    summary
+  ) : (
+    <summary>{summary ?? 'Details'}</summary>
+  );
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
@@ -91,8 +103,7 @@ export function Details({
           // setOpen(false);
         }
       }}>
-      {/* eslint-disable-next-line @docusaurus/no-untranslated-text */}
-      {summary ?? <summary>Details</summary>}
+      {summaryElement}
 
       <Collapsible
         lazy={false} // Content might matter for SEO in this case

@@ -24,7 +24,7 @@
   opacity: inherit;
   width: inherit;
   height: inherit;
-  transition: all 0.15s ease;
+  transition: all var(--ifm-transition-fast) ease;
 }
 
 .copyButtonSuccessIcon {

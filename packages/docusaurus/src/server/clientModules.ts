@@ -12,7 +12,7 @@ import type {LoadedPlugin} from '@docusaurus/types';
  * Runs the `getClientModules` lifecycle. The returned file paths are all
  * absolute.
  */
-export function loadClientModules(plugins: LoadedPlugin[]): string[] {
+export function getAllClientModules(plugins: LoadedPlugin[]): string[] {
   return plugins.flatMap(
     (plugin) =>
       plugin.getClientModules?.().map((p) => path.resolve(plugin.path, p)) ??

@@ -23,7 +23,10 @@ export type RedirectFile = {
 };
 
 export function createToUrl(baseUrl: string, to: string): string {
-  return normalizeUrl([baseUrl, to]);
+  if (to.startsWith('/')) {
+    return normalizeUrl([baseUrl, to]);
+  }
+  return to;
 }
 
 // Create redirect file path

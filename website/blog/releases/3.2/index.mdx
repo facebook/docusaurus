@@ -1,0 +1,112 @@
+---
+title: Docusaurus 3.2
+authors: [slorber]
+tags: [release]
+image: ./img/social-card.png
+date: 2024-03-29
+---
+
+We are happy to announce **Docusaurus 3.2**.
+
+The upgrade should be easy: as explained in our [release process documentation](/community/release-process), minor versions respect [Semantic Versioning](https://semver.org/).
+
+![Docusaurus blog post social card](./img/social-card.png)
+
+<!--truncate-->
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
+import ErrorBoundaryTestButton from '@site/src/components/ErrorBoundaryTestButton';
+
+## Highlights
+
+### Faster builds
+
+We worked hard to reduce the time it takes to build a Docusaurus site in production mode.
+
+Between v3.1.0 and v3.2.0, several changes have been made, leading to significantly faster production builds for many sites.
+
+Let's take an example. Our benchmark on the [React Native website upgrading to v3.2](https://github.com/facebook/react-native-website/pull/4072) reports the following results:
+
+- 🔥 Cold builds: 95s ➡️ 66s (~30% faster)
+- 🔥 Incremental builds: 55s ➡️ 22s (~60% faster)
+
+The results will vary depending on your site's topology and the options you turned on, but we expect the largest sites will see the most significant improvements.
+
+Note that this is only the beginning, and Docusaurus performance can still be significantly improved, notably the bundling time and the memory consumption. Track our [performance issue](https://github.com/facebook/docusaurus/issues/4765) for upcoming improvements.
+
+<details>
+  <summary>What is the difference between a cold build and an incremental build?</summary>
+
+A cold build is when the Docusaurus caches are empty, generally after running `docusaurus clear`.
+
+An incremental build happens when you run another time the `docusaurus build` command. Docusaurus automatically tries to "re-use" computations from former builds to make subsequent builds faster. In practice it's based on [Webpack persistent caching](https://webpack.js.org/guides/build-performance/#persistent-cache). To enable incremental builds on your CI server, you can persist the `node_modules/.cache` folder across builds.
+
+</details>
+
+### Faster Dev Server
+
+We also worked on improving the performance of the dev server, so that you can get a faster feedback when editing Markdown/MDX files.
+
+The way we initially implemented content reloading wasn't great. For example, editing a blog post file would also trigger a useless reload of the unrelated docs plugin. From now on, when editing a plugin's content, only that plugin will reload. It's hard to measure precisely the impact of this change, but I estimate edits should appear in your browser at least 50% faster 🔥.
+
+We plan to keep improving the speed of our dev server, with even more granular hot reloads, ensuring we don't run useless computations that would always keep giving the same result.
+
+### MDX partials table-of-contents
+
+With [#9684](https://github.com/facebook/docusaurus/pull/9684), Docusaurus is now able to render headings coming from an imported partial into the table-of-contents.
+
+Docusaurus and MDX allows you to [import one Markdown file into another](/docs/markdown-features/react#importing-markdown). We usually call the imported Markdown file a "partial", and use the `_` prefix so that this file does not lead to the creation of a new page.
+
+```md title="myDoc.mdx"
+# My Doc
+
+## Doc heading
+
+Content is imported from another MDX file:
+
+import ImportedDoc from './\_importedDoc.mdx';
+
+<ImportedDoc />
+```
+
+```md title="_myPartial.mdx"
+## Partial heading
+
+Some paragraph
+```
+
+Previously, the heading `Partial heading` did not appear in the table-of-contents, but now it will!
+
+### Blog improvements
+
+We improved the blog plugin with several new options to make it even more powerful and flexible:
+
+- [#9912](https://github.com/facebook/docusaurus/pull/9912): you can now display the last update time and author of a blog post, a feature the docs plugin already had.
+- [#9886](https://github.com/facebook/docusaurus/pull/9886): a new `processBlogPosts` option allow you to filter/transform/sort blog posts.
+- [#9838](https://github.com/facebook/docusaurus/pull/9838): a new `pageBasePath` option allows you to customize the blog pagination URL segment (`/blog/page/2`)
+
+### Sitemap lastmod
+
+With [#9954](https://github.com/facebook/docusaurus/pull/9954), the sitemap plugin has a new `lastmod` option that can now emit a `<lastmod>` tag on the XML. The value is read from the Git history by default, but can be overridden with docs and blog `last_update` front matter.
+
+We also made it possible to opt-out of emitting `<priority>` and `<frequency>` tags, which are generally ignored by crawlers (notably [Google](https://developers.google.com/search/blog/2023/06/sitemaps-lastmod-ping)).
+
+We recommend using the following sitemap plugin config, that will become the default in Docusaurus V4:
+
+```js
+{
+  lastmod: 'date',
+  priority: null,
+  changefreq: null,
+}
+```
+
+## Other changes
+
+- [#9687](https://github.com/facebook/docusaurus/pull/9687): new Vercel Analytics plugin
+- [#9681](https://github.com/facebook/docusaurus/pull/9681) and [#9442](https://github.com/facebook/docusaurus/pull/9442): `docusaurus swizzle` and `create-docusaurus` CLIs now ask users if they prefer to use TypeScript
+- [#9928](https://github.com/facebook/docusaurus/pull/9928): new Icelandic translation
+- [#9928](https://github.com/facebook/docusaurus/pull/9931): new `allContentLoaded` plugin lifecycle (experimental)
+
+Check the **[3.2.0 changelog entry](/changelog/3.2.0)** for an exhaustive list of changes.

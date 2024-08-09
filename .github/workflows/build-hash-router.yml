@@ -1,0 +1,83 @@
+name: Build Hash Router
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches:
+      - main
+      - docusaurus-v**
+    paths:
+      - packages/**
+      - .github/workflows/build-hash-router.yml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Hash Router
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Set up Node
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: '18'
+          cache: yarn
+      - name: Installation
+        run: yarn
+
+      - name: Build Hash Router
+        run: yarn build:website:fast
+        env:
+          DOCUSAURUS_ROUTER: 'hash'
+          # Note: hash router + baseUrl do not play well together
+          # This would host at https://facebook.github.io/docusaurus/#/docusaurus/
+          # BASE_URL: '/docusaurus/' # hash router +
+
+      - name: Upload Website artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-hash-router-archive
+          path: website/build
+
+      #- name: Upload Website Pages artifact
+      #  uses: actions/upload-pages-artifact@v3
+      #  with:
+      #    path: website/build
+
+      # Deploy to https://facebook.github.io/docusaurus/
+      - name: Deploy to GitHub Pages
+        if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: website/build
+
+  ## TODO we should be able to use this new deploy-pages action
+  ## However this requires a Meta admin to configure it here
+  ## https://github.com/facebook/docusaurus/settings/pages
+  ## So for now we keep using the former method
+  ## See https://docusaurus.io/docs/deployment#triggering-deployment-with-github-actions
+  #deploy:
+  #  name: Deploy to GitHub Pages
+  #  if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
+  #  needs: build
+  #  permissions:
+  #    pages: write
+  #    id-token: write
+  #  environment:
+  #    name: github-pages
+  #    url: ${{ steps.deployment.outputs.page_url }}
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #     - name: Deploy to GitHub Pages
+  #      id: deployment
+  #      uses: actions/deploy-pages@v4

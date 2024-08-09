@@ -35,6 +35,7 @@ the background in custom CSS file due bug https://github.com/facebook/docusaurus
   left: 0;
   padding: 0 var(--ifm-pre-padding);
   background: var(--ifm-pre-background);
+  overflow-wrap: normal;
 }
 
 .codeLineNumber::before {

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateThemeConfig, DEFAULT_CONFIG} from '../validateThemeConfig';
+import {DEFAULT_CONFIG, validateThemeConfig} from '../validateThemeConfig';
 import type {Joi} from '@docusaurus/utils-validation';
 
 function testValidateThemeConfig(themeConfig: {[key: string]: unknown}) {
@@ -118,6 +118,53 @@ describe('validateThemeConfig', () => {
         ...DEFAULT_CONFIG,
         ...algolia,
       },
+    });
+  });
+
+  describe('replaceSearchResultPathname', () => {
+    it('escapes from string', () => {
+      const algolia = {
+        appId: 'BH4D9OD16A',
+        indexName: 'index',
+        apiKey: 'apiKey',
+        replaceSearchResultPathname: {
+          from: '/docs/some-\\special-.[regexp]{chars*}',
+          to: '/abc',
+        },
+      };
+      expect(testValidateThemeConfig({algolia})).toEqual({
+        algolia: {
+          ...DEFAULT_CONFIG,
+          ...algolia,
+          replaceSearchResultPathname: {
+            from: '/docs/some\\x2d\\\\special\\x2d\\.\\[regexp\\]\\{chars\\*\\}',
+            to: '/abc',
+          },
+        },
+      });
+    });
+
+    it('converts from regexp to string', () => {
+      const algolia = {
+        appId: 'BH4D9OD16A',
+        indexName: 'index',
+        apiKey: 'apiKey',
+        replaceSearchResultPathname: {
+          from: /^\/docs\/(?:1\.0|next)/,
+          to: '/abc',
+        },
+      };
+
+      expect(testValidateThemeConfig({algolia})).toEqual({
+        algolia: {
+          ...DEFAULT_CONFIG,
+          ...algolia,
+          replaceSearchResultPathname: {
+            from: '^\\/docs\\/(?:1\\.0|next)',
+            to: '/abc',
+          },
+        },
+      });
     });
   });
 

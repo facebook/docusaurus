@@ -10,11 +10,15 @@
 
 [build.environment]
   NETLIFY_USE_YARN = "true"
-  YARN_VERSION = "1.22.5"
-  NODE_VERSION = "16"
+  YARN_VERSION = "1.22.19"
+  NODE_VERSION = "18"
+  NODE_OPTIONS = "--max_old_space_size=8192"
 
 [context.production]
   command = "yarn --cwd .. build:packages && yarn netlify:build:production"
+
+[context.branch-deploy]
+  command = "yarn --cwd .. build:packages && yarn netlify:build:branchDeploy"
 
 [context.deploy-preview]
   command = "yarn --cwd .. build:packages && yarn netlify:build:deployPreview"

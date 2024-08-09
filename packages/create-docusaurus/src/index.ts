@@ -13,14 +13,28 @@ import logger from '@docusaurus/logger';
 import shell from 'shelljs';
 import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
-import {escapeShellArg} from '@docusaurus/utils';
+import {escapeShellArg, askPreferredLanguage} from '@docusaurus/utils';
 
-type CLIOptions = {
+type LanguagesOptions = {
+  javascript?: boolean;
+  typescript?: boolean;
+};
+
+type CLIOptions = LanguagesOptions & {
   packageManager?: PackageManager;
   skipInstall?: boolean;
-  typescript?: boolean;
   gitStrategy?: GitStrategy;
 };
+
+async function getLanguage(options: LanguagesOptions) {
+  if (options.typescript) {
+    return 'typescript';
+  }
+  if (options.javascript) {
+    return 'javascript';
+  }
+  return askPreferredLanguage();
+}
 
 // Only used in the rare, rare case of running globally installed create +
 // using --skip-install. We need a default name to show the tip text
@@ -30,6 +44,7 @@ const lockfileNames = {
   npm: 'package-lock.json',
   yarn: 'yarn.lock',
   pnpm: 'pnpm-lock.yaml',
+  bun: 'bun.lockb',
 };
 
 type PackageManager = keyof typeof lockfileNames;
@@ -57,11 +72,12 @@ function findPackageManagerFromUserAgent(): PackageManager | undefined {
 async function askForPackageManagerChoice(): Promise<PackageManager> {
   const hasYarn = shell.exec('yarn --version', {silent: true}).code === 0;
   const hasPnpm = shell.exec('pnpm --version', {silent: true}).code === 0;
+  const hasBun = shell.exec('bun --version', {silent: true}).code === 0;
 
-  if (!hasYarn && !hasPnpm) {
+  if (!hasYarn && !hasPnpm && !hasBun) {
     return 'npm';
   }
-  const choices = ['npm', hasYarn && 'yarn', hasPnpm && 'pnpm']
+  const choices = ['npm', hasYarn && 'yarn', hasPnpm && 'pnpm', hasBun && 'bun']
     .filter((p): p is string => Boolean(p))
     .map((p) => ({title: p, value: p}));
 
@@ -151,22 +167,14 @@ async function readTemplates(): Promise<Template[]> {
 async function copyTemplate(
   template: Template,
   dest: string,
-  typescript: boolean,
+  language: 'javascript' | 'typescript',
 ): Promise<void> {
   await fs.copy(path.join(templatesDir, 'shared'), dest);
 
-  // TypeScript variants will copy duplicate resources like CSS & config from
-  // base template
-  if (typescript) {
-    await fs.copy(template.path, dest, {
-      filter: async (filePath) =>
-        (await fs.stat(filePath)).isDirectory() ||
-        path.extname(filePath) === '.css' ||
-        path.basename(filePath) === 'docusaurus.config.js',
-    });
-  }
+  const sourcePath =
+    language === 'typescript' ? template.tsVariantPath! : template.path;
 
-  await fs.copy(typescript ? template.tsVariantPath! : template.path, dest, {
+  await fs.copy(sourcePath, dest, {
     // Symlinks don't exist in published npm packages anymore, so this is only
     // to prevent errors during local testing
     filter: async (filePath) => !(await fs.lstat(filePath)).isSymbolicLink(),
@@ -192,12 +200,39 @@ function createTemplateChoices(templates: Template[]): Choice[] {
   ];
 }
 
+async function askTemplateChoice({
+  templates,
+  cliOptions,
+}: {
+  templates: Template[];
+  cliOptions: CLIOptions;
+}) {
+  return cliOptions.gitStrategy
+    ? 'Git repository'
+    : (
+        (await prompts(
+          {
+            type: 'select',
+            name: 'template',
+            message: 'Select a template below...',
+            choices: createTemplateChoices(templates),
+          },
+          {
+            onCancel() {
+              logger.error('A choice is required.');
+              process.exit(1);
+            },
+          },
+        )) as {template: Template | 'Git repository' | 'Local template'}
+      ).template;
+}
+
 function isValidGitRepoUrl(gitRepoUrl: string): boolean {
   return ['https://', 'git@'].some((item) => gitRepoUrl.startsWith(item));
 }
 
 const gitStrategies = ['deep', 'shallow', 'copy', 'custom'] as const;
-type GitStrategy = typeof gitStrategies[number];
+type GitStrategy = (typeof gitStrategies)[number];
 
 async function getGitCommand(gitStrategy: GitStrategy): Promise<string> {
   switch (gitStrategy) {
@@ -241,7 +276,7 @@ async function getSiteName(
     return true;
   }
   if (reqName) {
-    const res = validateSiteName(reqName);
+    const res = await validateSiteName(reqName);
     if (typeof res === 'string') {
       throw new Error(res);
     }
@@ -269,7 +304,7 @@ type Source =
   | {
       type: 'template';
       template: Template;
-      typescript: boolean;
+      language: 'javascript' | 'typescript';
     }
   | {
       type: 'git';
@@ -281,166 +316,193 @@ type Source =
       path: string;
     };
 
+async function createTemplateSource({
+  template,
+  cliOptions,
+}: {
+  template: Template;
+  cliOptions: CLIOptions;
+}): Promise<Source> {
+  const language = await getLanguage(cliOptions);
+  if (language === 'typescript' && !template.tsVariantPath) {
+    logger.error`Template name=${template.name} doesn't provide a TypeScript variant.`;
+    process.exit(1);
+  }
+  return {
+    type: 'template',
+    template,
+    language,
+  };
+}
+
+async function getTemplateSource({
+  templateName,
+  templates,
+  cliOptions,
+}: {
+  templateName: string;
+  templates: Template[];
+  cliOptions: CLIOptions;
+}): Promise<Source> {
+  const template = templates.find((t) => t.name === templateName);
+  if (!template) {
+    logger.error('Invalid template.');
+    process.exit(1);
+  }
+  return createTemplateSource({template, cliOptions});
+}
+
+// Get the template source explicitly requested by the user provided cli option
+async function getUserProvidedSource({
+  reqTemplate,
+  templates,
+  cliOptions,
+}: {
+  reqTemplate: string;
+  templates: Template[];
+  cliOptions: CLIOptions;
+}): Promise<Source> {
+  if (isValidGitRepoUrl(reqTemplate)) {
+    if (
+      cliOptions.gitStrategy &&
+      !gitStrategies.includes(cliOptions.gitStrategy)
+    ) {
+      logger.error`Invalid git strategy: name=${
+        cliOptions.gitStrategy
+      }. Value must be one of ${gitStrategies.join(', ')}.`;
+      process.exit(1);
+    }
+    return {
+      type: 'git',
+      url: reqTemplate,
+      strategy: cliOptions.gitStrategy ?? 'deep',
+    };
+  }
+  if (await fs.pathExists(path.resolve(reqTemplate))) {
+    return {
+      type: 'local',
+      path: path.resolve(reqTemplate),
+    };
+  }
+  return getTemplateSource({
+    templateName: reqTemplate,
+    templates,
+    cliOptions,
+  });
+}
+
+async function askGitRepositorySource({
+  cliOptions,
+}: {
+  cliOptions: CLIOptions;
+}): Promise<Source> {
+  const {gitRepoUrl} = (await prompts(
+    {
+      type: 'text',
+      name: 'gitRepoUrl',
+      validate: (url?: string) => {
+        if (url && isValidGitRepoUrl(url)) {
+          return true;
+        }
+        return logger.red('Invalid repository URL');
+      },
+      message: logger.interpolate`Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.
+(e.g: url=${'https://github.com/ownerName/repoName.git'})`,
+    },
+    {
+      onCancel() {
+        logger.error('A git repo URL is required.');
+        process.exit(1);
+      },
+    },
+  )) as {gitRepoUrl: string};
+  let strategy = cliOptions.gitStrategy;
+  if (!strategy) {
+    ({strategy} = (await prompts(
+      {
+        type: 'select',
+        name: 'strategy',
+        message: 'How should we clone this repo?',
+        choices: [
+          {title: 'Deep clone: preserve full history', value: 'deep'},
+          {title: 'Shallow clone: clone with --depth=1', value: 'shallow'},
+          {
+            title: 'Copy: do a shallow clone, but do not create a git repo',
+            value: 'copy',
+          },
+          {
+            title: 'Custom: enter your custom git clone command',
+            value: 'custom',
+          },
+        ],
+      },
+      {
+        onCancel() {
+          logger.info`Falling back to name=${'deep'}`;
+        },
+      },
+    )) as {strategy?: GitStrategy});
+  }
+  return {
+    type: 'git',
+    url: gitRepoUrl,
+    strategy: strategy ?? 'deep',
+  };
+}
+
+async function askLocalSource(): Promise<Source> {
+  const {templateDir} = (await prompts(
+    {
+      type: 'text',
+      name: 'templateDir',
+      validate: async (dir?: string) => {
+        if (dir) {
+          const fullDir = path.resolve(dir);
+          if (await fs.pathExists(fullDir)) {
+            return true;
+          }
+          return logger.red(
+            logger.interpolate`path=${fullDir} does not exist.`,
+          );
+        }
+        return logger.red('Please enter a valid path.');
+      },
+      message:
+        'Enter a local folder path, relative to the current working directory.',
+    },
+    {
+      onCancel() {
+        logger.error('A file path is required.');
+        process.exit(1);
+      },
+    },
+  )) as {templateDir: string};
+  return {
+    type: 'local',
+    path: templateDir,
+  };
+}
+
 async function getSource(
   reqTemplate: string | undefined,
   templates: Template[],
   cliOptions: CLIOptions,
 ): Promise<Source> {
   if (reqTemplate) {
-    if (isValidGitRepoUrl(reqTemplate)) {
-      if (
-        cliOptions.gitStrategy &&
-        !gitStrategies.includes(cliOptions.gitStrategy)
-      ) {
-        logger.error`Invalid git strategy: name=${
-          cliOptions.gitStrategy
-        }. Value must be one of ${gitStrategies.join(', ')}.`;
-        process.exit(1);
-      }
-      return {
-        type: 'git',
-        url: reqTemplate,
-        strategy: cliOptions.gitStrategy ?? 'deep',
-      };
-    } else if (await fs.pathExists(path.resolve(reqTemplate))) {
-      return {
-        type: 'local',
-        path: path.resolve(reqTemplate),
-      };
-    }
-    const template = templates.find((t) => t.name === reqTemplate);
-    if (!template) {
-      logger.error('Invalid template.');
-      process.exit(1);
-    }
-    if (cliOptions.typescript && !template.tsVariantPath) {
-      logger.error`Template name=${reqTemplate} doesn't provide the TypeScript variant.`;
-      process.exit(1);
-    }
-    return {
-      type: 'template',
-      template,
-      typescript: cliOptions.typescript ?? false,
-    };
+    return getUserProvidedSource({reqTemplate, templates, cliOptions});
   }
-  const template = cliOptions.gitStrategy
-    ? 'Git repository'
-    : (
-        (await prompts(
-          {
-            type: 'select',
-            name: 'template',
-            message: 'Select a template below...',
-            choices: createTemplateChoices(templates),
-          },
-          {
-            onCancel() {
-              logger.error('A choice is required.');
-              process.exit(1);
-            },
-          },
-        )) as {template: Template | 'Git repository' | 'Local template'}
-      ).template;
+
+  const template = await askTemplateChoice({templates, cliOptions});
   if (template === 'Git repository') {
-    const {gitRepoUrl} = (await prompts(
-      {
-        type: 'text',
-        name: 'gitRepoUrl',
-        validate: (url?: string) => {
-          if (url && isValidGitRepoUrl(url)) {
-            return true;
-          }
-          return logger.red('Invalid repository URL');
-        },
-        message: logger.interpolate`Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.
-(e.g: url=${'https://github.com/ownerName/repoName.git'})`,
-      },
-      {
-        onCancel() {
-          logger.error('A git repo URL is required.');
-          process.exit(1);
-        },
-      },
-    )) as {gitRepoUrl: string};
-    let strategy = cliOptions.gitStrategy;
-    if (!strategy) {
-      ({strategy} = (await prompts(
-        {
-          type: 'select',
-          name: 'strategy',
-          message: 'How should we clone this repo?',
-          choices: [
-            {title: 'Deep clone: preserve full history', value: 'deep'},
-            {title: 'Shallow clone: clone with --depth=1', value: 'shallow'},
-            {
-              title: 'Copy: do a shallow clone, but do not create a git repo',
-              value: 'copy',
-            },
-            {
-              title: 'Custom: enter your custom git clone command',
-              value: 'custom',
-            },
-          ],
-        },
-        {
-          onCancel() {
-            logger.info`Falling back to name=${'deep'}`;
-          },
-        },
-      )) as {strategy?: GitStrategy});
-    }
-    return {
-      type: 'git',
-      url: gitRepoUrl,
-      strategy: strategy ?? 'deep',
-    };
-  } else if (template === 'Local template') {
-    const {templateDir} = (await prompts(
-      {
-        type: 'text',
-        name: 'templateDir',
-        validate: async (dir?: string) => {
-          if (dir) {
-            const fullDir = path.resolve(dir);
-            if (await fs.pathExists(fullDir)) {
-              return true;
-            }
-            return logger.red(
-              logger.interpolate`path=${fullDir} does not exist.`,
-            );
-          }
-          return logger.red('Please enter a valid path.');
-        },
-        message:
-          'Enter a local folder path, relative to the current working directory.',
-      },
-      {
-        onCancel() {
-          logger.error('A file path is required.');
-          process.exit(1);
-        },
-      },
-    )) as {templateDir: string};
-    return {
-      type: 'local',
-      path: templateDir,
-    };
+    return askGitRepositorySource({cliOptions});
   }
-  let useTS = cliOptions.typescript;
-  if (!useTS && template.tsVariantPath) {
-    ({useTS} = (await prompts({
-      type: 'confirm',
-      name: 'useTS',
-      message:
-        'This template is available in TypeScript. Do you want to use the TS variant?',
-      initial: false,
-    })) as {useTS?: boolean});
+  if (template === 'Local template') {
+    return askLocalSource();
   }
-  return {
-    type: 'template',
+  return createTemplateSource({
     template,
-    typescript: useTS ?? false,
-  };
+    cliOptions,
+  });
 }
 
 async function updatePkg(pkgPath: string, obj: {[key: string]: unknown}) {
@@ -456,9 +518,12 @@ export default async function init(
   reqTemplate?: string,
   cliOptions: CLIOptions = {},
 ): Promise<void> {
-  const templates = await readTemplates();
-  const siteName = await getSiteName(reqName, rootDir);
+  const [templates, siteName] = await Promise.all([
+    readTemplates(),
+    getSiteName(reqName, rootDir),
+  ]);
   const dest = path.resolve(rootDir, siteName);
+
   const source = await getSource(reqTemplate, templates, cliOptions);
 
   logger.info('Creating new Docusaurus project...');
@@ -477,7 +542,7 @@ export default async function init(
     }
   } else if (source.type === 'template') {
     try {
-      await copyTemplate(source.template, dest, source.typescript);
+      await copyTemplate(source.template, dest, source.language);
     } catch (err) {
       logger.error`Copying Docusaurus template name=${source.template.name} failed!`;
       throw err;
@@ -522,7 +587,11 @@ export default async function init(
     logger.info`Installing dependencies with name=${pkgManager}...`;
     if (
       shell.exec(
-        pkgManager === 'yarn' ? 'yarn' : `${pkgManager} install --color always`,
+        pkgManager === 'yarn'
+          ? 'yarn'
+          : pkgManager === 'bun'
+          ? 'bun install'
+          : `${pkgManager} install --color always`,
         {
           env: {
             ...process.env,
@@ -543,19 +612,21 @@ export default async function init(
   }
 
   const useNpm = pkgManager === 'npm';
+  const useBun = pkgManager === 'bun';
+  const useRunCommand = useNpm || useBun;
   logger.success`Created name=${cdpath}.`;
   logger.info`Inside that directory, you can run several commands:
 
   code=${`${pkgManager} start`}
     Starts the development server.
 
-  code=${`${pkgManager} ${useNpm ? 'run ' : ''}build`}
+  code=${`${pkgManager} ${useRunCommand ? 'run ' : ''}build`}
     Bundles your website into static files for production.
 
-  code=${`${pkgManager} ${useNpm ? 'run ' : ''}serve`}
+  code=${`${pkgManager} ${useRunCommand ? 'run ' : ''}serve`}
     Serves the built website locally.
 
-  code=${`${pkgManager} deploy`}
+  code=${`${pkgManager} ${useRunCommand ? 'run ' : ''}deploy`}
     Publishes the website to GitHub pages.
 
 We recommend that you begin by typing:

@@ -1,8 +1,271 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`blog plugin process blog posts load content 1`] = `
+{
+  "/blog/tags/tag-1": {
+    "description": undefined,
+    "inline": true,
+    "items": [
+      "/simple/slug/another",
+      "/another/tags",
+      "/another/tags2",
+    ],
+    "label": "tag1",
+    "pages": [
+      {
+        "items": [
+          "/simple/slug/another",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": "/blog/tags/tag-1/page/2",
+          "page": 1,
+          "permalink": "/blog/tags/tag-1",
+          "postsPerPage": 1,
+          "previousPage": undefined,
+          "totalCount": 3,
+          "totalPages": 3,
+        },
+      },
+      {
+        "items": [
+          "/another/tags",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": "/blog/tags/tag-1/page/3",
+          "page": 2,
+          "permalink": "/blog/tags/tag-1/page/2",
+          "postsPerPage": 1,
+          "previousPage": "/blog/tags/tag-1",
+          "totalCount": 3,
+          "totalPages": 3,
+        },
+      },
+      {
+        "items": [
+          "/another/tags2",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": undefined,
+          "page": 3,
+          "permalink": "/blog/tags/tag-1/page/3",
+          "postsPerPage": 1,
+          "previousPage": "/blog/tags/tag-1/page/2",
+          "totalCount": 3,
+          "totalPages": 3,
+        },
+      },
+    ],
+    "permalink": "/blog/tags/tag-1",
+    "unlisted": false,
+  },
+  "/blog/tags/tag-2": {
+    "description": undefined,
+    "inline": true,
+    "items": [
+      "/another/tags",
+      "/another/tags2",
+    ],
+    "label": "tag2",
+    "pages": [
+      {
+        "items": [
+          "/another/tags",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": "/blog/tags/tag-2/page/2",
+          "page": 1,
+          "permalink": "/blog/tags/tag-2",
+          "postsPerPage": 1,
+          "previousPage": undefined,
+          "totalCount": 2,
+          "totalPages": 2,
+        },
+      },
+      {
+        "items": [
+          "/another/tags2",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": undefined,
+          "page": 2,
+          "permalink": "/blog/tags/tag-2/page/2",
+          "postsPerPage": 1,
+          "previousPage": "/blog/tags/tag-2",
+          "totalCount": 2,
+          "totalPages": 2,
+        },
+      },
+    ],
+    "permalink": "/blog/tags/tag-2",
+    "unlisted": false,
+  },
+}
+`;
+
+exports[`blog plugin process blog posts load content 2`] = `
+[
+  {
+    "content": "simple url slug",
+    "id": "/simple/slug/another",
+    "metadata": {
+      "authors": [
+        {
+          "imageURL": undefined,
+          "key": null,
+          "name": "Sébastien Lorber",
+          "page": null,
+          "title": "Docusaurus maintainer",
+          "url": "https://sebastienlorber.com",
+        },
+      ],
+      "date": 2020-08-15T00:00:00.000Z,
+      "description": "simple url slug",
+      "editUrl": "https://baseEditUrl.com/edit/blog/another-simple-slug-with-tags.md",
+      "frontMatter": {
+        "author": "Sébastien Lorber",
+        "author_title": "Docusaurus maintainer",
+        "author_url": "https://sebastienlorber.com",
+        "date": 2020-08-15T00:00:00.000Z,
+        "slug": "/simple/slug/another",
+        "tags": [
+          "tag1",
+        ],
+        "title": "Another Simple Slug",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": undefined,
+      "nextItem": {
+        "permalink": "/blog/another/tags",
+        "title": "Another With Tag",
+      },
+      "permalink": "/blog/simple/slug/another",
+      "readingTime": 0.015,
+      "source": "@site/blog/another-simple-slug-with-tags.md",
+      "tags": [
+        {
+          "description": undefined,
+          "inline": true,
+          "label": "tag1",
+          "permalink": "/blog/tags/tag-1",
+        },
+      ],
+      "title": "Another Simple Slug",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "with tag",
+    "id": "/another/tags",
+    "metadata": {
+      "authors": [],
+      "date": 2020-08-15T00:00:00.000Z,
+      "description": "with tag",
+      "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags.md",
+      "frontMatter": {
+        "date": 2020-08-15T00:00:00.000Z,
+        "slug": "/another/tags",
+        "tags": [
+          "tag1",
+          "tag2",
+        ],
+        "title": "Another With Tag",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": undefined,
+      "nextItem": {
+        "permalink": "/blog/another/tags2",
+        "title": "Another With Tag",
+      },
+      "permalink": "/blog/another/tags",
+      "prevItem": {
+        "permalink": "/blog/simple/slug/another",
+        "title": "Another Simple Slug",
+      },
+      "readingTime": 0.01,
+      "source": "@site/blog/another-with-tags.md",
+      "tags": [
+        {
+          "description": undefined,
+          "inline": true,
+          "label": "tag1",
+          "permalink": "/blog/tags/tag-1",
+        },
+        {
+          "description": undefined,
+          "inline": true,
+          "label": "tag2",
+          "permalink": "/blog/tags/tag-2",
+        },
+      ],
+      "title": "Another With Tag",
+      "unlisted": false,
+    },
+  },
+  {
+    "content": "with tag",
+    "id": "/another/tags2",
+    "metadata": {
+      "authors": [],
+      "date": 2020-08-15T00:00:00.000Z,
+      "description": "with tag",
+      "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags2.md",
+      "frontMatter": {
+        "date": 2020-08-15T00:00:00.000Z,
+        "slug": "/another/tags2",
+        "tags": [
+          "tag1",
+          "tag2",
+        ],
+        "title": "Another With Tag",
+      },
+      "hasTruncateMarker": false,
+      "lastUpdatedAt": undefined,
+      "lastUpdatedBy": undefined,
+      "permalink": "/blog/another/tags2",
+      "prevItem": {
+        "permalink": "/blog/another/tags",
+        "title": "Another With Tag",
+      },
+      "readingTime": 0.01,
+      "source": "@site/blog/another-with-tags2.md",
+      "tags": [
+        {
+          "description": undefined,
+          "inline": true,
+          "label": "tag1",
+          "permalink": "/blog/tags/tag-1",
+        },
+        {
+          "description": undefined,
+          "inline": true,
+          "label": "tag2",
+          "permalink": "/blog/tags/tag-2",
+        },
+      ],
+      "title": "Another With Tag",
+      "unlisted": false,
+    },
+  },
+]
+`;
+
 exports[`blog plugin works on blog tags without pagination 1`] = `
 {
   "/blog/tags/tag-1": {
+    "description": undefined,
+    "inline": true,
     "items": [
       "/simple/slug/another",
       "/another/tags",
@@ -30,8 +293,11 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
       },
     ],
     "permalink": "/blog/tags/tag-1",
+    "unlisted": false,
   },
   "/blog/tags/tag-2": {
+    "description": undefined,
+    "inline": true,
     "items": [
       "/another/tags",
       "/another/tags2",
@@ -57,6 +323,35 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
       },
     ],
     "permalink": "/blog/tags/tag-2",
+    "unlisted": false,
+  },
+  "/blog/tags/unlisted": {
+    "description": undefined,
+    "inline": true,
+    "items": [
+      "/another/blog-with-tags-unlisted",
+    ],
+    "label": "unlisted",
+    "pages": [
+      {
+        "items": [
+          "/another/blog-with-tags-unlisted",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": undefined,
+          "page": 1,
+          "permalink": "/blog/tags/unlisted",
+          "postsPerPage": 1,
+          "previousPage": undefined,
+          "totalCount": 1,
+          "totalPages": 1,
+        },
+      },
+    ],
+    "permalink": "/blog/tags/unlisted",
+    "unlisted": false,
   },
 }
 `;
@@ -64,6 +359,8 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
 exports[`blog plugin works with blog tags 1`] = `
 {
   "/blog/tags/tag-1": {
+    "description": undefined,
+    "inline": true,
     "items": [
       "/simple/slug/another",
       "/another/tags",
@@ -106,8 +403,11 @@ exports[`blog plugin works with blog tags 1`] = `
       },
     ],
     "permalink": "/blog/tags/tag-1",
+    "unlisted": false,
   },
   "/blog/tags/tag-2": {
+    "description": undefined,
+    "inline": true,
     "items": [
       "/another/tags",
       "/another/tags2",
@@ -133,6 +433,35 @@ exports[`blog plugin works with blog tags 1`] = `
       },
     ],
     "permalink": "/blog/tags/tag-2",
+    "unlisted": false,
+  },
+  "/blog/tags/unlisted": {
+    "description": undefined,
+    "inline": true,
+    "items": [
+      "/another/blog-with-tags-unlisted",
+    ],
+    "label": "unlisted",
+    "pages": [
+      {
+        "items": [
+          "/another/blog-with-tags-unlisted",
+        ],
+        "metadata": {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": undefined,
+          "page": 1,
+          "permalink": "/blog/tags/unlisted",
+          "postsPerPage": 2,
+          "previousPage": undefined,
+          "totalCount": 1,
+          "totalPages": 1,
+        },
+      },
+    ],
+    "permalink": "/blog/tags/unlisted",
+    "unlisted": false,
   },
 }
 `;

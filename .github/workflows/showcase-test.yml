@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - docusaurus-v**
     paths:
       - website/src/data/**
 
@@ -21,11 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Set up Node
-        uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # v3
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '16'
+          node-version: 20
           cache: yarn
       - name: Installation
         run: yarn

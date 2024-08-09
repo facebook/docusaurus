@@ -6,22 +6,30 @@
  */
 
 import path from 'path';
-import remark from 'remark';
-import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
 
 const processFixture = async (name: string) => {
-  const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
-  const file = await vfile.read(filePath);
-  const result = await remark()
-    .use(headings)
-    .use(mdx)
-    .use(plugin)
-    .process(file);
+  const {default: gfm} = await import('remark-gfm');
 
-  return result.toString();
+  const {compile} = await import('@mdx-js/mdx');
+
+  const filePath = path.join(
+    __dirname,
+    '__fixtures__',
+    name.endsWith('.mdx') ? name : `${name}.md`,
+  );
+
+  const file = await vfile.read(filePath);
+
+  const result = await compile(file, {
+    format: 'mdx',
+    remarkPlugins: [[headings, {anchorsMaintainCase: false}], gfm, plugin],
+    rehypePlugins: [],
+  });
+
+  return result.value;
 };
 
 describe('toc remark plugin', () => {
@@ -65,6 +73,23 @@ describe('toc remark plugin', () => {
 
   it('handles empty headings', async () => {
     const result = await processFixture('empty-headings');
+    expect(result).toMatchSnapshot();
+  });
+
+  it('works with imported markdown', async () => {
+    const result = await processFixture('partials/index.mdx');
+    expect(result).toMatchSnapshot();
+  });
+
+  it('works with partials importing other partials', async () => {
+    const result = await processFixture('partials/_partial2.mdx');
+    expect(result).toMatchSnapshot();
+  });
+
+  it('works with partial imported after its usage', async () => {
+    const result = await processFixture(
+      'partials/partial-used-before-import.mdx',
+    );
     expect(result).toMatchSnapshot();
   });
 });

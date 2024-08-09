@@ -7,26 +7,12 @@
 
 import React, {
   useCallback,
-  useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   type ComponentType,
   type ReactNode,
 } from 'react';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-
-/**
- * This hook is like `useLayoutEffect`, but without the SSR warning.
- * It seems hacky but it's used in many React libs (Redux, Formik...).
- * Also mentioned here: https://github.com/facebook/react/issues/16956
- *
- * It is useful when you need to update a ref as soon as possible after a React
- * render (before `useEffect`).
- */
-export const useIsomorphicLayoutEffect = ExecutionEnvironment.canUseDOM
-  ? useLayoutEffect
-  : useEffect;
+import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
 
 /**
  * Temporary userland implementation until an official hook is implemented

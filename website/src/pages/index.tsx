@@ -5,10 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
 import clsx from 'clsx';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -21,14 +19,16 @@ import Tweet from '@site/src/components/Tweet';
 import Tweets, {type TweetItem} from '@site/src/data/tweets';
 import Quotes from '@site/src/data/quotes';
 import Features, {type FeatureItem} from '@site/src/data/features';
+import Heading from '@theme/Heading';
 
 import styles from './styles.module.css';
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
 function HeroBanner() {
   return (
     <div className={styles.hero} data-theme="dark">
       <div className={styles.heroInner}>
-        <h1 className={styles.heroProjectTagline}>
+        <Heading as="h1" className={styles.heroProjectTagline}>
           <img
             alt={translate({message: 'Docusaurus with Keytar'})}
             className={styles.heroLogo}
@@ -49,7 +49,7 @@ function HeroBanner() {
               }),
             }}
           />
-        </h1>
+        </Heading>
         <div className={styles.indexCtas}>
           <Link className="button button--primary" to="/docs">
             <Translate>Get Started</Translate>
@@ -72,32 +72,6 @@ function HeroBanner() {
   );
 }
 
-function MigrationAnnouncement() {
-  return (
-    <div
-      className={clsx(styles.announcement, styles.announcementDark)}
-      data-theme="dark">
-      <div className={styles.announcementInner}>
-        <Translate
-          values={{
-            docusaurusV1Link: (
-              <Link to="https://v1.docusaurus.io/">
-                <Translate>Docusaurus v1</Translate>
-              </Link>
-            ),
-            migrationGuideLink: (
-              <Link to="/docs/migration">
-                <Translate>v1 to v2 migration guide</Translate>
-              </Link>
-            ),
-          }}>
-          {`Coming from {docusaurusV1Link}? Check out our {migrationGuideLink}.`}
-        </Translate>
-      </div>
-    </div>
-  );
-}
-
 function TweetsSection() {
   const tweetColumns: TweetItem[][] = [[], [], []];
   Tweets.filter((tweet) => tweet.showOnHomepage).forEach((tweet, i) =>
@@ -107,9 +81,9 @@ function TweetsSection() {
   return (
     <div className={clsx(styles.section, styles.sectionAlt)}>
       <div className="container">
-        <h2 className={clsx('margin-bottom--lg', 'text--center')}>
+        <Heading as="h2" className={clsx('margin-bottom--lg', 'text--center')}>
           <Translate>Loved by many engineers</Translate>
-        </h2>
+        </Heading>
         <div className={clsx('row', styles.tweetsSection)}>
           {tweetColumns.map((tweetItems, i) => (
             <div className="col col--4" key={i}>
@@ -156,12 +130,12 @@ function QuotesSection() {
 
 function VideoContainer() {
   return (
-    <div className="container text--center margin-bottom--xl">
+    <div className="container text--center margin-top--xl">
       <div className="row">
         <div className="col">
-          <h2>
+          <Heading as="h2">
             <Translate>Check it out in the intro video</Translate>
-          </h2>
+          </Heading>
           <div className="video-container">
             <LiteYouTubeEmbed
               id="_An9EsKPhp0"
@@ -196,7 +170,9 @@ function Feature({
         src={withBaseUrl(feature.image.src)}
         loading="lazy"
       />
-      <h3 className={clsx(styles.featureHeading)}>{feature.title}</h3>
+      <Heading as="h3" className={clsx(styles.featureHeading)}>
+        {feature.title}
+      </Heading>
       <p className="padding-horiz--md">{feature.text}</p>
     </div>
   );
@@ -208,10 +184,7 @@ function FeaturesContainer() {
 
   return (
     <div className="container text--center">
-      <h2>
-        <Translate>Main features</Translate>
-      </h2>
-      <div className="row margin-bottom--lg">
+      <div className="row margin-top--lg margin-bottom--lg">
         {firstRow.map((feature, idx) => (
           <Feature feature={feature} key={idx} />
         ))}
@@ -229,6 +202,61 @@ function FeaturesContainer() {
   );
 }
 
+function TopBanner() {
+  // TODO We should be able to strongly type customFields
+  //  Refactor to use a CustomFields interface + TS declaration merging
+  const announcedVersion = useDocusaurusContext().siteConfig.customFields
+    ?.announcedVersion as string;
+
+  return (
+    <div className={styles.topBanner}>
+      <div className={styles.topBannerTitle}>
+        {'🎉\xa0'}
+        <Link
+          to={`/blog/releases/${announcedVersion}`}
+          className={styles.topBannerTitleText}>
+          <Translate
+            id="homepage.banner.launch.newVersion"
+            values={{newVersion: announcedVersion}}>
+            {'Docusaurus\xa0{newVersion} is\xa0out!️'}
+          </Translate>
+        </Link>
+        {'\xa0🥳'}
+      </div>
+      {/*
+      <div style={{display: 'flex', alignItems: 'center', flexWrap: 'wrap'}}>
+        <div style={{flex: 1, whiteSpace: 'nowrap'}}>
+          <div className={styles.topBannerDescription}>
+            We are on{' '}
+            <b>
+              <Link to="https://www.producthunt.com/posts/docusaurus-2-0">
+                ProductHunt
+              </Link>{' '}
+              and{' '}
+              <Link to="https://news.ycombinator.com/item?id=32303052">
+                Hacker News
+              </Link>{' '}
+              today!
+            </b>
+          </div>
+        </div>
+        <div
+          style={{
+            flexGrow: 1,
+            flexShrink: 0,
+            padding: '0.5rem',
+            display: 'flex',
+            justifyContent: 'center',
+          }}>
+          <ProductHuntCard />
+          <HackerNewsIcon />
+        </div>
+      </div>
+      */}
+    </div>
+  );
+}
+
 export default function Home(): JSX.Element {
   const {
     siteConfig: {customFields, tagline},
@@ -237,28 +265,11 @@ export default function Home(): JSX.Element {
   return (
     <Layout title={tagline} description={description}>
       <main>
-        <div>
-          <div className={styles.banner}>
-            <Translate
-              id="homepage.banner"
-              values={{
-                link: (
-                  <Link to="https://opensource.facebook.com/support-ukraine">
-                    <Translate id="homepage.banner.link">
-                      Help Provide Humanitarian Aid to Ukraine
-                    </Translate>
-                  </Link>
-                ),
-              }}>
-              {'Support Ukraine 🇺🇦 {link}.'}
-            </Translate>
-          </div>
-        </div>
+        <TopBanner />
         <HeroBanner />
-        <MigrationAnnouncement />
         <div className={styles.section}>
-          <VideoContainer />
           <FeaturesContainer />
+          <VideoContainer />
         </div>
         <TweetsSection />
         <QuotesSection />

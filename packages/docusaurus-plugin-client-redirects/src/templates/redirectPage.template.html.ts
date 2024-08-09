@@ -14,7 +14,7 @@ export default `
     <link rel="canonical" href="<%= it.toUrl %>" />
   </head>
   <script>
-    window.location.href = '<%= it.toUrl %>';
+    window.location.href = '<%= it.toUrl %>'<%= it.searchAnchorForwarding ? ' + window.location.search + window.location.hash' : '' %>;
   </script>
 </html>
 `;

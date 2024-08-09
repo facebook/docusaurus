@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`load loads props for site with custom i18n path 1`] = `
+{
+  "baseUrl": "/",
+  "codeTranslations": {},
+  "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site/.docusaurus",
+  "headTags": "",
+  "i18n": {
+    "currentLocale": "en",
+    "defaultLocale": "en",
+    "localeConfigs": {
+      "en": {
+        "calendar": "gregory",
+        "direction": "ltr",
+        "htmlLang": "en",
+        "label": "English",
+        "path": "en-custom",
+      },
+      "zh-Hans": {
+        "calendar": "gregory",
+        "direction": "ltr",
+        "htmlLang": "zh-Hans",
+        "label": "简体中文",
+        "path": "zh-Hans-custom",
+      },
+    },
+    "locales": [
+      "en",
+      "zh-Hans",
+    ],
+    "path": "i18n",
+  },
+  "localizationDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site/i18n/en-custom",
+  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site/build",
+  "plugins": [
+    {
+      "content": undefined,
+      "defaultCodeTranslations": {},
+      "getClientModules": [Function],
+      "globalData": undefined,
+      "injectHtmlTags": [Function],
+      "name": "docusaurus-bootstrap-plugin",
+      "options": {
+        "id": "default",
+      },
+      "path": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site",
+      "routes": [],
+      "version": {
+        "type": "synthetic",
+      },
+    },
+    {
+      "configureWebpack": [Function],
+      "content": undefined,
+      "defaultCodeTranslations": {},
+      "globalData": undefined,
+      "name": "docusaurus-mdx-fallback-plugin",
+      "options": {
+        "id": "default",
+      },
+      "path": ".",
+      "routes": [],
+      "version": {
+        "type": "synthetic",
+      },
+    },
+  ],
+  "postBodyTags": "",
+  "preBodyTags": "",
+  "routes": [],
+  "routesPaths": [
+    "/404.html",
+  ],
+  "siteConfig": {
+    "baseUrl": "/",
+    "baseUrlIssueBanner": true,
+    "clientModules": [],
+    "customFields": {},
+    "future": {
+      "experimental_router": "browser",
+      "experimental_storage": {
+        "namespace": false,
+        "type": "localStorage",
+      },
+    },
+    "headTags": [],
+    "i18n": {
+      "defaultLocale": "en",
+      "localeConfigs": {
+        "en": {
+          "direction": "ltr",
+          "path": "en-custom",
+        },
+        "zh-Hans": {
+          "direction": "ltr",
+          "path": "zh-Hans-custom",
+        },
+      },
+      "locales": [
+        "en",
+        "zh-Hans",
+      ],
+      "path": "i18n",
+    },
+    "markdown": {
+      "anchors": {
+        "maintainCase": false,
+      },
+      "format": "mdx",
+      "mdx1Compat": {
+        "admonitions": true,
+        "comments": true,
+        "headingIds": true,
+      },
+      "mermaid": false,
+      "parseFrontMatter": [Function],
+      "preprocessor": undefined,
+      "remarkRehypeOptions": undefined,
+    },
+    "noIndex": false,
+    "onBrokenAnchors": "warn",
+    "onBrokenLinks": "throw",
+    "onBrokenMarkdownLinks": "warn",
+    "onDuplicateRoutes": "warn",
+    "plugins": [],
+    "presets": [],
+    "scripts": [],
+    "staticDirectories": [
+      "static",
+    ],
+    "stylesheets": [],
+    "tagline": "",
+    "themeConfig": {},
+    "themes": [],
+    "title": "Site",
+    "titleDelimiter": "|",
+    "url": "https://example.com",
+  },
+  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site/docusaurus.config.js",
+  "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site",
+  "siteMetadata": {
+    "docusaurusVersion": "<CURRENT_VERSION>",
+    "pluginVersions": {},
+    "siteVersion": undefined,
+  },
+  "siteStorage": {
+    "namespace": "",
+    "type": "localStorage",
+  },
+  "siteVersion": undefined,
+}
+`;

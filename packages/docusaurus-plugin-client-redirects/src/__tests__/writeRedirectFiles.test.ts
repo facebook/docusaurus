@@ -24,8 +24,12 @@ describe('createToUrl', () => {
     expect(createToUrl('/', '/docs/something/else/')).toBe(
       '/docs/something/else/',
     );
-    expect(createToUrl('/', 'docs/something/else')).toBe(
-      '/docs/something/else',
+    expect(createToUrl('/', 'docs/something/else')).toBe('docs/something/else');
+    expect(createToUrl('/', './docs/something/else')).toBe(
+      './docs/something/else',
+    );
+    expect(createToUrl('/', 'https://docs/something/else')).toBe(
+      'https://docs/something/else',
     );
   });
 
@@ -37,12 +41,45 @@ describe('createToUrl', () => {
       '/baseUrl/docs/something/else/',
     );
     expect(createToUrl('/baseUrl/', 'docs/something/else')).toBe(
-      '/baseUrl/docs/something/else',
+      'docs/something/else',
+    );
+    expect(createToUrl('/baseUrl/', './docs/something/else')).toBe(
+      './docs/something/else',
+    );
+    expect(createToUrl('/baseUrl/', 'https://docs/something/else')).toBe(
+      'https://docs/something/else',
     );
   });
 });
 
 describe('toRedirectFiles', () => {
+  it('creates appropriate metadata absolute url', () => {
+    const pluginContext = {
+      outDir: '/tmp/someFixedOutDir',
+      baseUrl: '/',
+    };
+
+    const redirectFiles = toRedirectFiles(
+      [
+        {from: '/abc', to: 'https://docusaurus.io/'},
+        {from: '/def', to: 'https://docusaurus.io/docs/intro?a=1'},
+        {from: '/ijk', to: 'https://docusaurus.io/docs/intro#anchor'},
+      ],
+      pluginContext,
+      undefined,
+    );
+
+    expect(redirectFiles.map((f) => f.fileAbsolutePath)).toEqual([
+      path.join(pluginContext.outDir, '/abc/index.html'),
+      path.join(pluginContext.outDir, '/def/index.html'),
+      path.join(pluginContext.outDir, '/ijk/index.html'),
+    ]);
+
+    expect(redirectFiles.map((f) => f.fileContent)).toMatchSnapshot(
+      'fileContent',
+    );
+  });
+
   it('creates appropriate metadata trailingSlash=undefined', () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',

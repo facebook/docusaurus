@@ -12,7 +12,7 @@ exports[`error prints objects 1`] = `
     "[ERROR] 1,2,3",
   ],
   [
-    "[ERROR] Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
+    "[ERROR] Sat, 13 Nov 2021 00:00:00 GMT",
   ],
 ]
 `;
@@ -29,7 +29,7 @@ exports[`info prints objects 1`] = `
     "[INFO] 1,2,3",
   ],
   [
-    "[INFO] Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
+    "[INFO] Sat, 13 Nov 2021 00:00:00 GMT",
   ],
 ]
 `;
@@ -46,7 +46,7 @@ exports[`success prints objects 1`] = `
     "[SUCCESS] 1,2,3",
   ],
   [
-    "[SUCCESS] Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
+    "[SUCCESS] Sat, 13 Nov 2021 00:00:00 GMT",
   ],
 ]
 `;
@@ -63,7 +63,7 @@ exports[`warn prints objects 1`] = `
     "[WARNING] 1,2,3",
   ],
   [
-    "[WARNING] Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
+    "[WARNING] Sat, 13 Nov 2021 00:00:00 GMT",
   ],
 ]
 `;

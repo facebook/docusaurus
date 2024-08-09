@@ -7,32 +7,32 @@
 
 /* eslint-disable jsx-a11y/no-autofocus */
 
-import React, {useEffect, useState, useReducer, useRef} from 'react';
+import React, {useEffect, useReducer, useRef, useState} from 'react';
 import clsx from 'clsx';
 
-import algoliaSearch from 'algoliasearch/lite';
 import algoliaSearchHelper from 'algoliasearch-helper';
+import algoliaSearch from 'algoliasearch/lite';
 
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import {
   HtmlClassNameProvider,
-  usePluralForm,
-  isRegexpStringMatch,
   useEvent,
+  usePluralForm,
+  useSearchQueryString,
 } from '@docusaurus/theme-common';
-import {
-  useTitleFormatter,
-  useSearchPage,
-} from '@docusaurus/theme-common/internal';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
+import {useTitleFormatter} from '@docusaurus/theme-common/internal';
 import Translate, {translate} from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {
+  useAlgoliaThemeConfig,
+  useSearchResultUrlProcessor,
+} from '@docusaurus/theme-search-algolia/client';
 import Layout from '@theme/Layout';
-
+import Heading from '@theme/Heading';
 import styles from './styles.module.css';
-import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
 
 // Very simple pluralization: probably good enough for now
 function useDocumentsFoundPlural() {
@@ -156,16 +156,17 @@ type ResultDispatcher =
 
 function SearchPageContent(): JSX.Element {
   const {
-    siteConfig: {themeConfig},
     i18n: {currentLocale},
   } = useDocusaurusContext();
   const {
-    algolia: {appId, apiKey, indexName, externalUrlRegex},
-  } = themeConfig as ThemeConfig;
+    algolia: {appId, apiKey, indexName, contextualSearch},
+  } = useAlgoliaThemeConfig();
+
+  const processSearchResultUrl = useSearchResultUrlProcessor();
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
-  const {searchQuery, setSearchQuery} = useSearchPage();
+  const [searchQuery, setSearchQuery] = useSearchQueryString();
   const initialSearchResultState: ResultDispatcherState = {
     items: [],
     query: null,
@@ -213,11 +214,18 @@ function SearchPageContent(): JSX.Element {
     initialSearchResultState,
   );
 
+  // respect settings from the theme config for facets
+  const disjunctiveFacets = contextualSearch
+    ? ['language', 'docusaurus_tag']
+    : [];
+
   const algoliaClient = algoliaSearch(appId, apiKey);
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore: why errors happens after upgrading to TS 5.5 ?
     hitsPerPage: 15,
     advancedSyntax: true,
-    disjunctiveFacets: ['language', 'docusaurus_tag'],
+    disjunctiveFacets,
   });
 
   algoliaHelper.on(
@@ -244,16 +252,12 @@ function SearchPageContent(): JSX.Element {
           _highlightResult: {hierarchy: {[key: string]: {value: string}}};
           _snippetResult: {content?: {value: string}};
         }) => {
-          const parsedURL = new URL(url);
           const titles = Object.keys(hierarchy).map((key) =>
             sanitizeValue(hierarchy[key]!.value),
           );
-
           return {
             title: titles.pop()!,
-            url: isRegexpStringMatch(externalUrlRegex, parsedURL.href)
-              ? parsedURL.href
-              : parsedURL.pathname + parsedURL.hash,
+            url: processSearchResultUrl(url),
             summary: snippet.content
               ? `${sanitizeValue(snippet.content.value)}...`
               : '',
@@ -317,17 +321,19 @@ function SearchPageContent(): JSX.Element {
         });
 
   const makeSearch = useEvent((page: number = 0) => {
-    algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
-    algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
+    if (contextualSearch) {
+      algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
+      algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 
-    Object.entries(docsSearchVersionsHelpers.searchVersions).forEach(
-      ([pluginId, searchVersion]) => {
-        algoliaHelper.addDisjunctiveFacetRefinement(
-          'docusaurus_tag',
-          `docs-${pluginId}-${searchVersion}`,
-        );
-      },
-    );
+      Object.entries(docsSearchVersionsHelpers.searchVersions).forEach(
+        ([pluginId, searchVersion]) => {
+          algoliaHelper.addDisjunctiveFacetRefinement(
+            'docusaurus_tag',
+            `docs-${pluginId}-${searchVersion}`,
+          );
+        },
+      );
+    }
 
     algoliaHelper.setQuery(searchQuery).setPage(page).search();
   });
@@ -376,7 +382,7 @@ function SearchPageContent(): JSX.Element {
       </Head>
 
       <div className="container margin-vert--lg">
-        <h1>{getTitle()}</h1>
+        <Heading as="h1">{getTitle()}</Heading>
 
         <form className="row" onSubmit={(e) => e.preventDefault()}>
           <div
@@ -405,7 +411,7 @@ function SearchPageContent(): JSX.Element {
             />
           </div>
 
-          {docsSearchVersionsHelpers.versioningEnabled && (
+          {contextualSearch && docsSearchVersionsHelpers.versioningEnabled && (
             <SearchVersionSelectList
               docsSearchVersionsHelpers={docsSearchVersionsHelpers}
             />
@@ -425,10 +431,8 @@ function SearchPageContent(): JSX.Element {
               'text--right',
               styles.searchLogoColumn,
             )}>
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://www.algolia.com/"
+            <Link
+              to="https://www.algolia.com/"
               aria-label={translate({
                 id: 'theme.SearchPage.algoliaLabel',
                 message: 'Search by Algolia',
@@ -450,7 +454,7 @@ function SearchPageContent(): JSX.Element {
                   />
                 </g>
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -459,9 +463,9 @@ function SearchPageContent(): JSX.Element {
             {searchResultState.items.map(
               ({title, url, summary, breadcrumbs}, i) => (
                 <article key={i} className={styles.searchResultItem}>
-                  <h2 className={styles.searchResultItemHeading}>
+                  <Heading as="h2" className={styles.searchResultItemHeading}>
                     <Link to={url} dangerouslySetInnerHTML={{__html: title}} />
-                  </h2>
+                  </Heading>
 
                   {breadcrumbs.length > 0 && (
                     <nav aria-label="breadcrumbs">

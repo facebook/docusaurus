@@ -7,7 +7,7 @@
 
 import _ from 'lodash';
 import {createDocsByIdIndex} from './docs';
-import type {VersionTag} from './types';
+import type {VersionTag, VersionTags} from './types';
 import type {
   SidebarItemDoc,
   SidebarItem,
@@ -21,11 +21,43 @@ import type {
   PropSidebarItemCategory,
   PropTagDocList,
   PropTagDocListDoc,
+  PropTagsListPage,
   PropSidebarItemLink,
   PropVersionDocs,
   DocMetadata,
   LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
+
+export function toSidebarDocItemLinkProp({
+  item,
+  doc,
+}: {
+  item: SidebarItemDoc;
+  doc: Pick<
+    DocMetadata,
+    'id' | 'title' | 'permalink' | 'unlisted' | 'frontMatter'
+  >;
+}): PropSidebarItemLink {
+  const {
+    id,
+    title,
+    permalink,
+    frontMatter: {
+      sidebar_label: sidebarLabel,
+      sidebar_custom_props: customProps,
+    },
+    unlisted,
+  } = doc;
+  return {
+    type: 'link',
+    label: sidebarLabel ?? item.label ?? title,
+    href: permalink,
+    className: item.className,
+    customProps: item.customProps ?? customProps,
+    docId: id,
+    unlisted,
+  };
+}
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
   const docsById = createDocsByIdIndex(loadedVersion.docs);
@@ -43,21 +75,8 @@ Available document ids are:
   }
 
   const convertDocLink = (item: SidebarItemDoc): PropSidebarItemLink => {
-    const docMetadata = getDocById(item.id);
-    const {
-      title,
-      permalink,
-      frontMatter: {sidebar_label: sidebarLabel},
-    } = docMetadata;
-    return {
-      type: 'link',
-      label: sidebarLabel ?? item.label ?? title,
-      href: permalink,
-      className: item.className,
-      customProps:
-        item.customProps ?? docMetadata.frontMatter.sidebar_custom_props,
-      docId: docMetadata.unversionedId,
-    };
+    const doc = getDocById(item.id);
+    return toSidebarDocItemLinkProp({item, doc});
   };
 
   function getCategoryLinkHref(
@@ -71,6 +90,15 @@ Available document ids are:
       default:
         return undefined;
     }
+  }
+
+  function getCategoryLinkUnlisted(
+    link: SidebarItemCategoryLink | undefined,
+  ): boolean {
+    if (link?.type === 'doc') {
+      return getDocById(link.id).unlisted;
+    }
+    return false;
   }
 
   function getCategoryLinkCustomProps(
@@ -87,12 +115,14 @@ Available document ids are:
   function convertCategory(item: SidebarItemCategory): PropSidebarItemCategory {
     const {link, ...rest} = item;
     const href = getCategoryLinkHref(link);
+    const linkUnlisted = getCategoryLinkUnlisted(link);
     const customProps = item.customProps ?? getCategoryLinkCustomProps(link);
 
     return {
       ...rest,
       items: item.items.map(normalizeItem),
       ...(href && {href}),
+      ...(linkUnlisted && {linkUnlisted}),
       ...(customProps && {customProps}),
     };
   }
@@ -121,9 +151,9 @@ Available document ids are:
 function toVersionDocsProp(loadedVersion: LoadedVersion): PropVersionDocs {
   return Object.fromEntries(
     loadedVersion.docs.map((doc) => [
-      doc.unversionedId,
+      doc.id,
       {
-        id: doc.unversionedId,
+        id: doc.id,
         title: doc.title,
         description: doc.description,
         sidebar: doc.sidebar,
@@ -142,6 +172,7 @@ export function toVersionMetadataProp(
     label: loadedVersion.label,
     banner: loadedVersion.banner,
     badge: loadedVersion.badge,
+    noIndex: loadedVersion.noIndex,
     className: loadedVersion.className,
     isLast: loadedVersion.isLast,
     docsSidebars: toSidebarsProp(loadedVersion),
@@ -175,8 +206,23 @@ export function toTagDocListProp({
   return {
     label: tag.label,
     permalink: tag.permalink,
+    description: tag.description,
     allTagsPath,
     count: tag.docIds.length,
     items: toDocListProp(),
+    unlisted: tag.unlisted,
   };
+}
+
+export function toTagsListTagsProp(
+  versionTags: VersionTags,
+): PropTagsListPage['tags'] {
+  return Object.values(versionTags)
+    .filter((tagValue) => !tagValue.unlisted)
+    .map((tagValue) => ({
+      label: tagValue.label,
+      permalink: tagValue.permalink,
+      description: tagValue.description,
+      count: tagValue.docIds.length,
+    }));
 }

@@ -31,13 +31,14 @@ program
   .arguments('[siteName] [template] [rootDir]')
   .option(
     '-p, --package-manager <manager>',
-    'The package manager used to install dependencies. One of yarn, npm, and pnpm.',
+    'The package manager used to install dependencies. One of yarn, npm, pnpm, and bun.',
   )
   .option(
     '-s, --skip-install',
     'Do not run package manager immediately after scaffolding',
   )
   .option('-t, --typescript', 'Use the TypeScript template variant')
+  .option('-j, --javascript', 'Use the JavaScript template variant')
   .option(
     '-g, --git-strategy <strategy>',
     `Only used if the template is a git repository.

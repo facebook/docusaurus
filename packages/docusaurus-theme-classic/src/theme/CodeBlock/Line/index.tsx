@@ -28,7 +28,7 @@ export default function CodeBlockLine({
   });
 
   const lineTokens = line.map((token, key) => (
-    <span key={key} {...getTokenProps({token, key})} />
+    <span key={key} {...getTokenProps({token})} />
   ));
 
   return (
@@ -39,11 +39,9 @@ export default function CodeBlockLine({
           <span className={styles.codeLineContent}>{lineTokens}</span>
         </>
       ) : (
-        <>
-          {lineTokens}
-          <br />
-        </>
+        lineTokens
       )}
+      <br />
     </span>
   );
 }

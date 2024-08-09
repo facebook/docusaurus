@@ -8,6 +8,10 @@
 import logger from '@docusaurus/logger';
 import matter from 'gray-matter';
 import {createSlugger, type Slugger, type SluggerOptions} from './slugger';
+import type {
+  ParseFrontMatter,
+  DefaultParseFrontMatter,
+} from '@docusaurus/types';
 
 // Some utilities for parsing Markdown content. These things are only used on
 // server-side when we infer metadata like `title` and `description` from the
@@ -39,6 +43,77 @@ export function parseMarkdownHeadingId(heading: string): {
   return {text: heading, id: undefined};
 }
 
+/**
+ * MDX 2 requires escaping { with a \ so our anchor syntax need that now.
+ * See https://mdxjs.com/docs/troubleshooting-mdx/#could-not-parse-expression-with-acorn-error
+ */
+export function escapeMarkdownHeadingIds(content: string): string {
+  const markdownHeadingRegexp = /(?:^|\n)#{1,6}(?!#).*/g;
+  return content.replaceAll(markdownHeadingRegexp, (substring) =>
+    // TODO probably not the most efficient impl...
+    substring
+      .replace('{#', '\\{#')
+      // prevent duplicate escaping
+      .replace('\\\\{#', '\\{#'),
+  );
+}
+
+/**
+ * Hacky temporary escape hatch for Crowdin bad MDX support
+ * See https://docusaurus.io/docs/i18n/crowdin#mdx
+ *
+ * TODO Titus suggested a clean solution based on ```mdx eval and Remark
+ * See https://github.com/mdx-js/mdx/issues/701#issuecomment-947030041
+ *
+ * @param content
+ */
+export function unwrapMdxCodeBlocks(content: string): string {
+  // We only support 3/4 backticks on purpose, should be good enough
+  const regexp3 =
+    /(?<begin>^|\r?\n)(?<indentStart>\x20*)```(?<spaces>\x20*)mdx-code-block\r?\n(?<children>.*?)\r?\n(?<indentEnd>\x20*)```(?<end>\r?\n|$)/gs;
+  const regexp4 =
+    /(?<begin>^|\r?\n)(?<indentStart>\x20*)````(?<spaces>\x20*)mdx-code-block\r?\n(?<children>.*?)\r?\n(?<indentEnd>\x20*)````(?<end>\r?\n|$)/gs;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const replacer = (substring: string, ...args: any[]) => {
+    const groups = args.at(-1);
+    return `${groups.begin}${groups.children}${groups.end}`;
+  };
+
+  return content.replaceAll(regexp3, replacer).replaceAll(regexp4, replacer);
+}
+
+/**
+ * Add support for our legacy ":::note Title" admonition syntax
+ * Not supported by https://github.com/remarkjs/remark-directive
+ * Syntax is transformed to ":::note[Title]" (container directive label)
+ * See https://talk.commonmark.org/t/generic-directives-plugins-syntax/444
+ *
+ * @param content
+ * @param admonitionContainerDirectives
+ */
+export function admonitionTitleToDirectiveLabel(
+  content: string,
+  admonitionContainerDirectives: string[],
+): string {
+  // this will also process ":::note Title" inside docs code blocks
+  // good enough: we fixed older versions docs to not be affected
+
+  const directiveNameGroup = `(${admonitionContainerDirectives.join('|')})`;
+  const regexp = new RegExp(
+    `^(?<quote>(> ?)*)(?<indentation>( +|\t+))?(?<directive>:{3,}${directiveNameGroup}) +(?<title>.*)$`,
+    'gm',
+  );
+
+  return content.replaceAll(regexp, (substring, ...args: any[]) => {
+    const groups = args.at(-1);
+
+    return `${groups.quote ?? ''}${groups.indentation ?? ''}${
+      groups.directive
+    }[${groups.title}]`;
+  });
+}
+
 // TODO: Find a better way to do so, possibly by compiling the Markdown content,
 // stripping out HTML tags and obtaining the first line.
 /**
@@ -55,16 +130,18 @@ export function createExcerpt(fileString: string): string | undefined {
   const fileLines = fileString
     .trimStart()
     // Remove Markdown alternate title
-    .replace(/^[^\n]*\n[=]+/g, '')
-    .split('\n');
+    .replace(/^[^\r\n]*\r?\n[=]+/g, '')
+    .split(/\r?\n/);
   let inCode = false;
   let inImport = false;
   let lastCodeFence = '';
 
   for (const fileLine of fileLines) {
-    if (fileLine === '' && inImport) {
+    // An empty line marks the end of imports
+    if (!fileLine.trim() && inImport) {
       inImport = false;
     }
+
     // Skip empty line.
     if (!fileLine.trim()) {
       continue;
@@ -98,7 +175,7 @@ export function createExcerpt(fileString: string): string | undefined {
       // Remove Title headers
       .replace(/^#[^#]+#?/gm, '')
       // Remove Markdown + ATX-style headers
-      .replace(/^#{1,6}\s*(?<text>[^#]*)\s*#{0,6}/gm, '$1')
+      .replace(/^#{1,6}\s*(?<text>[^#]*?)\s*#{0,6}/gm, '$1')
       // Remove emphasis.
       .replace(/(?<opening>[*_]{1,3})(?<text>.*?)\1/g, '$2')
       // Remove strikethroughs.
@@ -141,24 +218,42 @@ export function createExcerpt(fileString: string): string | undefined {
  * ---
  * ```
  */
-export function parseFrontMatter(markdownFileContent: string): {
+export function parseFileContentFrontMatter(fileContent: string): {
   /** Front matter as parsed by gray-matter. */
   frontMatter: {[key: string]: unknown};
   /** The remaining content, trimmed. */
   content: string;
 } {
-  const {data, content} = matter(markdownFileContent);
+  // TODO Docusaurus v4: replace gray-matter by a better lib
+  // gray-matter is unmaintained, not flexible, and the code doesn't look good
+  const {data, content} = matter(fileContent);
+
+  // gray-matter has an undocumented front matter caching behavior
+  // https://github.com/jonschlinkert/gray-matter/blob/ce67a86dba419381db0dd01cc84e2d30a1d1e6a5/index.js#L39
+  // Unfortunately, this becomes a problem when we mutate returned front matter
+  // We want to make it possible as part of the parseFrontMatter API
+  // So we make it safe to mutate by always providing a deep copy
+  const frontMatter =
+    // And of course structuredClone() doesn't work well with Date in Jest...
+    // See https://github.com/jestjs/jest/issues/2549
+    // So we parse again for tests with a {} option object
+    // This undocumented empty option object disables gray-matter caching..
+    process.env.JEST_WORKER_ID
+      ? matter(fileContent, {}).data
+      : structuredClone(data);
+
   return {
-    frontMatter: data,
+    frontMatter,
     content: content.trim(),
   };
 }
 
+export const DEFAULT_PARSE_FRONT_MATTER: DefaultParseFrontMatter = async (
+  params,
+) => parseFileContentFrontMatter(params.fileContent);
+
 function toTextContentTitle(contentTitle: string): string {
-  if (contentTitle.startsWith('`') && contentTitle.endsWith('`')) {
-    return contentTitle.substring(1, contentTitle.length - 1);
-  }
-  return contentTitle;
+  return contentTitle.replace(/`(?<text>[^`]*)`/g, '$<text>');
 }
 
 type ParseMarkdownContentTitleOptions = {
@@ -239,10 +334,16 @@ export function parseMarkdownContentTitle(
  * @throws Throws when `parseFrontMatter` throws, usually because of invalid
  * syntax.
  */
-export function parseMarkdownString(
-  markdownFileContent: string,
-  options?: ParseMarkdownContentTitleOptions,
-): {
+export async function parseMarkdownFile({
+  filePath,
+  fileContent,
+  parseFrontMatter,
+  removeContentTitle,
+}: {
+  filePath: string;
+  fileContent: string;
+  parseFrontMatter: ParseFrontMatter;
+} & ParseMarkdownContentTitleOptions): Promise<{
   /** @see {@link parseFrontMatter} */
   frontMatter: {[key: string]: unknown};
   /** @see {@link parseMarkdownContentTitle} */
@@ -254,14 +355,18 @@ export function parseMarkdownString(
    * the `removeContentTitle` option.
    */
   content: string;
-} {
+}> {
   try {
     const {frontMatter, content: contentWithoutFrontMatter} =
-      parseFrontMatter(markdownFileContent);
+      await parseFrontMatter({
+        filePath,
+        fileContent,
+        defaultParseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+      });
 
     const {content, contentTitle} = parseMarkdownContentTitle(
       contentWithoutFrontMatter,
-      options,
+      {removeContentTitle},
     );
 
     const excerpt = createExcerpt(content);

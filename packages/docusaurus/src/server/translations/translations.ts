@@ -20,6 +20,7 @@ import type {
   TranslationFile,
   CodeTranslations,
   InitializedPlugin,
+  LoadedPlugin,
 } from '@docusaurus/types';
 
 export type WriteTranslationsOptions = {
@@ -242,17 +243,33 @@ export async function localizePluginTranslationFile({
   return translationFile;
 }
 
-export async function getPluginsDefaultCodeTranslationMessages(
+export function mergeCodeTranslations(
+  codeTranslations: CodeTranslations[],
+): CodeTranslations {
+  return codeTranslations.reduce(
+    (allCodeTranslations, current) => ({
+      ...allCodeTranslations,
+      ...current,
+    }),
+    {},
+  );
+}
+
+export async function loadPluginsDefaultCodeTranslationMessages(
   plugins: InitializedPlugin[],
 ): Promise<CodeTranslations> {
   const pluginsMessages = await Promise.all(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
   );
+  return mergeCodeTranslations(pluginsMessages);
+}
 
-  return pluginsMessages.reduce(
-    (allMessages, pluginMessages) => ({...allMessages, ...pluginMessages}),
-    {},
-  );
+export function getPluginsDefaultCodeTranslations({
+  plugins,
+}: {
+  plugins: LoadedPlugin[];
+}): CodeTranslations {
+  return mergeCodeTranslations(plugins.map((p) => p.defaultCodeTranslations));
 }
 
 export function applyDefaultCodeTranslations({
@@ -278,4 +295,16 @@ Please report this Docusaurus issue. name=${unusedDefaultCodeMessages}`;
       message: defaultCodeMessages[messageId] ?? messageTranslation.message,
     }),
   );
+}
+
+export async function loadSiteCodeTranslations({
+  localizationDir,
+}: {
+  localizationDir: string;
+}): Promise<CodeTranslations> {
+  const codeTranslationFileContent =
+    (await readCodeTranslationFileContent({localizationDir})) ?? {};
+
+  // We only need key->message for code translations
+  return _.mapValues(codeTranslationFileContent, (value) => value.message);
 }

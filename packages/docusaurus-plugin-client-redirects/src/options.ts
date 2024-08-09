@@ -45,11 +45,11 @@ export const DEFAULT_OPTIONS: Partial<PluginOptions> = {
 };
 
 const RedirectPluginOptionValidation = Joi.object<RedirectOption>({
-  to: PathnameSchema.required(),
   from: Joi.alternatives().try(
     PathnameSchema.required(),
     Joi.array().items(PathnameSchema.required()),
   ),
+  to: Joi.string().required(),
 });
 
 const isString = Joi.string().required().not(null);

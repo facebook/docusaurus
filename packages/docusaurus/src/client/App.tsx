@@ -23,10 +23,21 @@ import SiteMetadataDefaults from './SiteMetadataDefaults';
 // TODO, quick fix for CSS insertion order
 // eslint-disable-next-line import/order
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
+import HasHydratedDataAttribute from './hasHydratedDataAttribute';
+
+const routesElement = renderRoutes(routes);
+
+function AppNavigation() {
+  const location = useLocation();
+  const normalizedLocation = normalizeLocation(location);
+  return (
+    <PendingNavigation location={normalizedLocation}>
+      {routesElement}
+    </PendingNavigation>
+  );
+}
 
 export default function App(): JSX.Element {
-  const routeElement = renderRoutes(routes);
-  const location = useLocation();
   return (
     <ErrorBoundary>
       <DocusaurusContextProvider>
@@ -35,10 +46,9 @@ export default function App(): JSX.Element {
             <SiteMetadataDefaults />
             <SiteMetadata />
             <BaseUrlIssueBanner />
-            <PendingNavigation location={normalizeLocation(location)}>
-              {routeElement}
-            </PendingNavigation>
+            <AppNavigation />
           </Root>
+          <HasHydratedDataAttribute />
         </BrowserContextProvider>
       </DocusaurusContextProvider>
     </ErrorBoundary>

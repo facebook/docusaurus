@@ -7,7 +7,12 @@
 
 import path from 'path';
 import type {RuleSetRule} from 'webpack';
-import type {HtmlTagObject, LoadedPlugin, LoadContext} from '@docusaurus/types';
+import type {
+  HtmlTagObject,
+  LoadContext,
+  InitializedPlugin,
+} from '@docusaurus/types';
+import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader';
 
 /**
  * Make a synthetic plugin to:
@@ -17,15 +22,15 @@ import type {HtmlTagObject, LoadedPlugin, LoadContext} from '@docusaurus/types';
 export function createBootstrapPlugin({
   siteDir,
   siteConfig,
-}: LoadContext): LoadedPlugin {
+}: LoadContext): InitializedPlugin {
   const {
     stylesheets,
     scripts,
+    headTags,
     clientModules: siteConfigClientModules,
   } = siteConfig;
   return {
     name: 'docusaurus-bootstrap-plugin',
-    content: null,
     options: {
       id: 'default',
     },
@@ -58,7 +63,7 @@ export function createBootstrapPlugin({
             },
       );
       return {
-        headTags: [...stylesheetsTags, ...scriptsTags],
+        headTags: [...headTags, ...stylesheetsTags, ...scriptsTags],
       };
     },
   };
@@ -73,17 +78,16 @@ export function createBootstrapPlugin({
 export function createMDXFallbackPlugin({
   siteDir,
   siteConfig,
-}: LoadContext): LoadedPlugin {
+}: LoadContext): InitializedPlugin {
   return {
     name: 'docusaurus-mdx-fallback-plugin',
-    content: null,
     options: {
       id: 'default',
     },
     version: {type: 'synthetic'},
     // Synthetic, the path doesn't matter much
     path: '.',
-    configureWebpack(config, isServer, {getJSLoader}) {
+    configureWebpack(config) {
       // We need the mdx fallback loader to exclude files that were already
       // processed by content plugins mdx loaders. This works, but a bit
       // hacky... Not sure there's a way to handle that differently in webpack
@@ -95,7 +99,7 @@ export function createMDXFallbackPlugin({
           return isMDXRule ? (rule.include as string[]) : [];
         });
       }
-      const mdxLoaderOptions = {
+      const mdxLoaderOptions: MDXLoaderOptions = {
         admonitions: true,
         staticDirs: siteConfig.staticDirectories.map((dir) =>
           path.resolve(siteDir, dir),
@@ -105,6 +109,7 @@ export function createMDXFallbackPlugin({
         isMDXPartial: () => true,
         // External MDX files might have front matter, just disable the warning
         isMDXPartialFrontMatterWarningDisabled: true,
+        markdownConfig: siteConfig.markdown,
       };
 
       return {
@@ -114,7 +119,6 @@ export function createMDXFallbackPlugin({
               test: /\.mdx?$/i,
               exclude: getMDXFallbackExcludedPaths(),
               use: [
-                getJSLoader({isServer}),
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: mdxLoaderOptions,

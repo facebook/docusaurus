@@ -59,7 +59,7 @@ describe('normalizePluginOptions', () => {
         options,
       ),
     ).toEqual({foo: 'a', id: 'default'});
-    expect(consoleMock).toBeCalledWith(
+    expect(consoleMock).toHaveBeenCalledWith(
       expect.stringMatching(/"foo" deprecated/),
     );
   });
@@ -110,7 +110,7 @@ describe('normalizeThemeConfig', () => {
         themeConfig,
       ),
     ).toEqual(themeConfig);
-    expect(consoleMock).toBeCalledWith(
+    expect(consoleMock).toHaveBeenCalledWith(
       expect.stringMatching(/"foo" deprecated/),
     );
   });

@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - docusaurus-v**
   pull_request:
     branches:
       - main
+      - docusaurus-v**
   schedule:
     - cron: 25 22 * * 3
 
@@ -31,12 +33,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@3f62b754e23e0dd60f91b744033e1dc1654c0ec6 # v2
+        uses: github/codeql-action/init@2d790406f505036ef40ecba973cc774a50395aac # 3.25.13
         with:
           languages: ${{ matrix.language }}
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@3f62b754e23e0dd60f91b744033e1dc1654c0ec6 # v2
+        uses: github/codeql-action/analyze@2d790406f505036ef40ecba973cc774a50395aac # 3.25.13

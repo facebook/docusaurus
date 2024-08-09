@@ -1,5 +1,0 @@
-# Doc 2
-
-Inside folder with space
-
-[doc 1](./doc%201.md)

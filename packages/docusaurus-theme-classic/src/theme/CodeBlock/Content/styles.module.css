@@ -59,6 +59,7 @@
   display: flex;
   column-gap: 0.2rem;
   position: absolute;
+  /* rtl:ignore */
   right: calc(var(--ifm-pre-padding) / 2);
   top: calc(var(--ifm-pre-padding) / 2);
 }
@@ -72,7 +73,7 @@
   border-radius: var(--ifm-global-radius);
   padding: 0.4rem;
   line-height: 0;
-  transition: opacity 200ms ease-in-out;
+  transition: opacity var(--ifm-transition-fast) ease-in-out;
   opacity: 0;
 }
 

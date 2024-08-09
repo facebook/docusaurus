@@ -1,0 +1,110 @@
+# Canary releases
+
+```mdx-code-block
+import {
+  VersionsProvider,
+  CanaryVersion,
+  StableVersion,
+  InsertIfCanaryVersionUnknown,
+  InsertIfCanaryVersionKnown,
+  PackageJSONDiff,
+  PublishTime,
+} from "@site/src/components/Versions";
+
+<VersionsProvider>
+```
+
+Docusaurus has a canary releases system.
+
+It permits you to **test new unreleased features** as soon as the pull requests are merged on the [next version](./5-release-process.mdx#next-version) of Docusaurus.
+
+It is a good way to **give feedback to maintainers**, ensuring the newly implemented feature works as intended.
+
+:::note
+
+Using a canary release in production might seem risky, but in practice, it's not.
+
+A canary release passes all automated tests and is used in production by the Docusaurus site itself.
+
+:::
+
+```mdx-code-block
+<InsertIfCanaryVersionUnknown>
+```
+
+:::warning
+
+The canary version shown below **may not be up-to-date**. Please go to the [npm page](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) to find the actual version name.
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionUnknown>
+<InsertIfCanaryVersionKnown>
+```
+
+:::tip
+
+The canary version shown below is directly fetched from npm and **is up-to-date**. You can directly use these numbers in your package.json.
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionKnown>
+```
+
+## Canary npm dist tag
+
+For any code-related commit on `main`, the continuous integration will publish a canary release under the `@canary` npm dist tag. It generally takes up to 10 minutes.
+
+You can see on [npm](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) the current dist tags:
+
+- `latest`: stable releases (Current: <StableVersion />)
+- `canary`: canary releases (<CanaryVersion />)
+
+:::tip
+
+Make sure to use the latest canary release and check the publication date (sometimes the publish process fails). <PublishTime />
+
+:::
+
+:::note
+
+Canary versions follow the naming convention `0.0.0-commitNumber`.
+
+:::
+
+## Using a canary release
+
+Take the latest version published under the [canary npm dist tag](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) (<CanaryVersion />).
+
+Use it for all the `@docusaurus/*` dependencies in your `package.json`:
+
+```mdx-code-block
+<PackageJSONDiff />
+```
+
+Then, install the dependencies again and start your site:
+
+```bash npm2yarn
+npm install
+npm start
+```
+
+You can also upgrade the `@docusaurus/*` packages with command line:
+
+```bash npm2yarn
+npm install --save-exact @docusaurus/core@canary @docusaurus/preset-classic@canary
+```
+
+:::warning
+
+Make sure to include all the `@docusaurus/*` packages.
+
+For canary releases, prefer using an exact version instead of a semver range (avoid the `^` prefix).
+
+:::
+
+```mdx-code-block
+</VersionsProvider>
+```

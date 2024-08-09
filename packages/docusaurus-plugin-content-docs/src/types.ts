@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {BrokenMarkdownLink, Tag} from '@docusaurus/utils';
+import type {TagMetadata} from '@docusaurus/utils';
 import type {
-  VersionMetadata,
   LoadedVersion,
   CategoryGeneratedIndexMetadata,
 } from '@docusaurus/plugin-content-docs';
@@ -20,13 +19,10 @@ export type DocFile = {
   content: string;
 };
 
-export type SourceToPermalink = {
-  [source: string]: string;
-};
-
-export type VersionTag = Tag & {
+export type VersionTag = TagMetadata & {
   /** All doc ids having this tag. */
   docIds: string[];
+  unlisted: boolean;
 };
 export type VersionTags = {
   [permalink: string]: VersionTag;
@@ -35,13 +31,4 @@ export type VersionTags = {
 export type FullVersion = LoadedVersion & {
   sidebarsUtils: SidebarsUtils;
   categoryGeneratedIndices: CategoryGeneratedIndexMetadata[];
-};
-
-export type DocBrokenMarkdownLink = BrokenMarkdownLink<VersionMetadata>;
-
-export type DocsMarkdownOption = {
-  versionsMetadata: VersionMetadata[];
-  siteDir: string;
-  sourceToPermalink: SourceToPermalink;
-  onBrokenMarkdownLink: (brokenMarkdownLink: DocBrokenMarkdownLink) => void;
 };

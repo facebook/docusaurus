@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {applyRouteTrailingSlash, sortConfig} from '../routeConfig';
+import {applyRouteTrailingSlash, sortRoutes} from '../routeConfig';
 import type {RouteConfig} from '@docusaurus/types';
 import type {ApplyTrailingSlashParams} from '@docusaurus/utils-common';
 
@@ -164,7 +164,7 @@ describe('applyRouteTrailingSlash', () => {
   });
 });
 
-describe('sortConfig', () => {
+describe('sortRoutes', () => {
   it('sorts route config correctly', () => {
     const routes: RouteConfig[] = [
       {
@@ -202,9 +202,51 @@ describe('sortConfig', () => {
       },
     ];
 
-    sortConfig(routes);
+    expect(sortRoutes(routes, '/')).toMatchSnapshot();
+  });
 
-    expect(routes).toMatchSnapshot();
+  it('sorts route config recursively', () => {
+    const routes: RouteConfig[] = [
+      {
+        path: '/docs',
+        component: '',
+        routes: [
+          {
+            path: '/docs/tags',
+            component: '',
+            exact: true,
+          },
+          {
+            path: '/docs',
+            component: '',
+            routes: [
+              {
+                path: '/docs/doc1',
+                component: '',
+                exact: true,
+              },
+              {
+                path: '/docs/doc2',
+                component: '',
+                exact: true,
+              },
+            ],
+          },
+          {
+            path: '/docs/tags/someTag',
+            component: '',
+            exact: true,
+          },
+        ],
+      },
+      {
+        path: '/some/page',
+        component: '',
+        exact: true,
+      },
+    ];
+
+    expect(sortRoutes(routes, '/')).toMatchSnapshot();
   });
 
   it('sorts route config given a baseURL', () => {
@@ -244,8 +286,27 @@ describe('sortConfig', () => {
       },
     ];
 
-    sortConfig(routes, baseURL);
+    expect(sortRoutes(routes, baseURL)).toMatchSnapshot();
+  });
 
-    expect(routes).toMatchSnapshot();
+  it('sorts parent route configs when one included in another', () => {
+    const r1: RouteConfig = {
+      path: '/one',
+      component: '',
+      routes: [{path: `/one/myDoc`, component: ''}],
+    };
+    const r2: RouteConfig = {
+      path: '/',
+      component: '',
+      routes: [{path: `/someDoc`, component: ''}],
+    };
+    const r3: RouteConfig = {
+      path: '/one/another',
+      component: '',
+      routes: [{path: `/one/another/myDoc`, component: ''}],
+    };
+
+    expect(sortRoutes([r1, r2, r3], '/')).toEqual([r3, r1, r2]);
+    expect(sortRoutes([r3, r1, r2], '/')).toEqual([r3, r1, r2]);
   });
 });

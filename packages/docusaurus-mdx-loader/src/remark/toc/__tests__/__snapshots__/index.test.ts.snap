@@ -1,231 +1,601 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`toc remark plugin does not overwrite TOC var if no TOC 1`] = `
-"foo
-
-\`bar\`
-
-\`\`\`js
-baz
-\`\`\`
-
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
 export const toc = 1;
+function _createMdxContent(props) {
+  const _components = {
+    code: "code",
+    p: "p",
+    pre: "pre",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.p, {
+      children: "foo"
+    }), "/n", _jsx(_components.p, {
+      children: _jsx(_components.code, {
+        children: "bar"
+      })
+    }), "/n", _jsx(_components.pre, {
+      children: _jsx(_components.code, {
+        className: "language-js",
+        children: "baz/n"
+      })
+    })]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
 "
 `;
 
 exports[`toc remark plugin escapes inline code 1`] = `
-"export const toc = [
-	{
-		value: '<code>&lt;Head /&gt;</code>',
-		id: 'head-',
-		level: 2
-	},
-	{
-		value: '<code>&lt;Head&gt;Test&lt;/Head&gt;</code>',
-		id: 'headtesthead',
-		level: 3
-	},
-	{
-		value: '<code>&lt;div /&gt;</code>',
-		id: 'div-',
-		level: 2
-	},
-	{
-		value: '<code>&lt;div&gt; Test &lt;/div&gt;</code>',
-		id: 'div-test-div',
-		level: 2
-	},
-	{
-		value: '<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>',
-		id: 'divitestidiv',
-		level: 2
-	},
-	{
-		value: '<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>',
-		id: 'divitestidiv-1',
-		level: 2
-	}
-];
-
-## \`<Head />\`
-
-### \`<Head>Test</Head>\`
-
-## \`<div />\`
-
-## \`<div> Test </div>\`
-
-## \`<div><i>Test</i></div>\`
-
-## [\`<div><i>Test</i></div>\`](/some/link)
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+export const toc = [{
+  "value": "<code>&lt;Head /&gt;</code>",
+  "id": "head-",
+  "level": 2
+}, {
+  "value": "<code>&lt;Head&gt;Test&lt;/Head&gt;</code>",
+  "id": "headtesthead",
+  "level": 3
+}, {
+  "value": "<code>&lt;div /&gt;</code>",
+  "id": "div-",
+  "level": 2
+}, {
+  "value": "<code>&lt;div&gt; Test &lt;/div&gt;</code>",
+  "id": "div-test-div",
+  "level": 2
+}, {
+  "value": "<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>",
+  "id": "divitestidiv",
+  "level": 2
+}, {
+  "value": "<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>",
+  "id": "divitestidiv-1",
+  "level": 2
+}];
+function _createMdxContent(props) {
+  const _components = {
+    a: "a",
+    code: "code",
+    h2: "h2",
+    h3: "h3",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.h2, {
+      id: "head-",
+      children: _jsx(_components.code, {
+        children: "<Head />"
+      })
+    }), "/n", _jsx(_components.h3, {
+      id: "headtesthead",
+      children: _jsx(_components.code, {
+        children: "<Head>Test</Head>"
+      })
+    }), "/n", _jsx(_components.h2, {
+      id: "div-",
+      children: _jsx(_components.code, {
+        children: "<div />"
+      })
+    }), "/n", _jsx(_components.h2, {
+      id: "div-test-div",
+      children: _jsx(_components.code, {
+        children: "<div> Test </div>"
+      })
+    }), "/n", _jsx(_components.h2, {
+      id: "divitestidiv",
+      children: _jsx(_components.code, {
+        children: "<div><i>Test</i></div>"
+      })
+    }), "/n", _jsx(_components.h2, {
+      id: "divitestidiv-1",
+      children: _jsx(_components.a, {
+        href: "/some/link",
+        children: _jsx(_components.code, {
+          children: "<div><i>Test</i></div>"
+        })
+      })
+    })]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
 "
 `;
 
 exports[`toc remark plugin exports even with existing name 1`] = `
-"export const toc = [
-	{
-		value: 'Thanos',
-		id: 'thanos',
-		level: 2
-	},
-	{
-		value: 'Tony Stark',
-		id: 'tony-stark',
-		level: 2
-	},
-	{
-		value: 'Avengers',
-		id: 'avengers',
-		level: 3
-	}
-];
-
-## Thanos
-
-## Tony Stark
-
-### Avengers
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+export const toc = ['replaceMe'];
+function _createMdxContent(props) {
+  const _components = {
+    h2: "h2",
+    h3: "h3",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.h2, {
+      id: "thanos",
+      children: "Thanos"
+    }), "/n", _jsx(_components.h2, {
+      id: "tony-stark",
+      children: "Tony Stark"
+    }), "/n", _jsx(_components.h3, {
+      id: "avengers",
+      children: "Avengers"
+    })]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
 "
 `;
 
 exports[`toc remark plugin handles empty headings 1`] = `
-"export const toc = [];
-
-# Ignore this
-
-## 
-
-## ![](an-image.svg)
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+export const toc = [];
+function _createMdxContent(props) {
+  const _components = {
+    h1: "h1",
+    h2: "h2",
+    img: "img",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.h1, {
+      id: "ignore-this",
+      children: "Ignore this"
+    }), "/n", _jsx(_components.h2, {
+      id: ""
+    }), "/n", _jsx(_components.h2, {
+      id: "-1",
+      children: _jsx(_components.img, {
+        src: "an-image.svg",
+        alt: ""
+      })
+    })]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
 "
 `;
 
 exports[`toc remark plugin inserts below imports 1`] = `
-"import something from 'something';
-
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+import something from 'something';
 import somethingElse from 'something-else';
-
-export const toc = [
-	{
-		value: 'Title',
-		id: 'title',
-		level: 2
-	},
-	{
-		value: 'Test',
-		id: 'test',
-		level: 2
-	},
-	{
-		value: 'Again',
-		id: 'again',
-		level: 3
-	}
-];
-
-## Title
-
-## Test
-
-### Again
-
-Content.
+export const toc = [{
+  "value": "Title",
+  "id": "title",
+  "level": 2
+}, {
+  "value": "Test",
+  "id": "test",
+  "level": 2
+}, {
+  "value": "Again",
+  "id": "again",
+  "level": 3
+}];
+function _createMdxContent(props) {
+  const _components = {
+    h2: "h2",
+    h3: "h3",
+    p: "p",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.h2, {
+      id: "title",
+      children: "Title"
+    }), "/n", _jsx(_components.h2, {
+      id: "test",
+      children: "Test"
+    }), "/n", _jsx(_components.h3, {
+      id: "again",
+      children: "Again"
+    }), "/n", _jsx(_components.p, {
+      children: "Content."
+    })]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
 "
 `;
 
 exports[`toc remark plugin outputs empty array for no TOC 1`] = `
-"export const toc = [];
-
-foo
-
-\`bar\`
-
-\`\`\`js
-baz
-\`\`\`
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+export const toc = [];
+function _createMdxContent(props) {
+  const _components = {
+    code: "code",
+    p: "p",
+    pre: "pre",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.p, {
+      children: "foo"
+    }), "/n", _jsx(_components.p, {
+      children: _jsx(_components.code, {
+        children: "bar"
+      })
+    }), "/n", _jsx(_components.pre, {
+      children: _jsx(_components.code, {
+        className: "language-js",
+        children: "baz/n"
+      })
+    })]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
 "
 `;
 
 exports[`toc remark plugin works on non text phrasing content 1`] = `
-"export const toc = [
-	{
-		value: '<em>Emphasis</em>',
-		id: 'emphasis',
-		level: 2
-	},
-	{
-		value: '<strong>Importance</strong>',
-		id: 'importance',
-		level: 3
-	},
-	{
-		value: '<del>Strikethrough</del>',
-		id: 'strikethrough',
-		level: 2
-	},
-	{
-		value: '<i>HTML</i>',
-		id: 'html',
-		level: 2
-	},
-	{
-		value: '<code>inline.code()</code>',
-		id: 'inlinecode',
-		level: 2
-	}
-];
-
-## _Emphasis_
-
-### **Importance**
-
-## ~~Strikethrough~~
-
-## <i>HTML</i>
-
-## \`inline.code()\`
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+export const toc = [{
+  "value": "<em>Emphasis</em>",
+  "id": "emphasis",
+  "level": 2
+}, {
+  "value": "<strong>Importance</strong>",
+  "id": "importance",
+  "level": 3
+}, {
+  "value": "<del>Strikethrough</del>",
+  "id": "strikethrough",
+  "level": 2
+}, {
+  "value": "<i>HTML</i>",
+  "id": "html",
+  "level": 2
+}, {
+  "value": "<code>inline.code()</code>",
+  "id": "inlinecode",
+  "level": 2
+}, {
+  "value": "some <span class=\\"some-class\\">styled</span> <strong>heading</strong> <span class=\\"myClassName &lt;&gt; weird char\\"></span> test",
+  "id": "some-styled-heading--test",
+  "level": 2
+}];
+function _createMdxContent(props) {
+  const _components = {
+    code: "code",
+    del: "del",
+    em: "em",
+    h2: "h2",
+    h3: "h3",
+    strong: "strong",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.h2, {
+      id: "emphasis",
+      children: _jsx(_components.em, {
+        children: "Emphasis"
+      })
+    }), "/n", _jsx(_components.h3, {
+      id: "importance",
+      children: _jsx(_components.strong, {
+        children: "Importance"
+      })
+    }), "/n", _jsx(_components.h2, {
+      id: "strikethrough",
+      children: _jsx(_components.del, {
+        children: "Strikethrough"
+      })
+    }), "/n", _jsx(_components.h2, {
+      id: "html",
+      children: _jsx("i", {
+        children: "HTML"
+      })
+    }), "/n", _jsx(_components.h2, {
+      id: "inlinecode",
+      children: _jsx(_components.code, {
+        children: "inline.code()"
+      })
+    }), "/n", _jsxs(_components.h2, {
+      id: "some-styled-heading--test",
+      children: ["some ", _jsx("span", {
+        className: "some-class",
+        style: {
+          border: "solid"
+        },
+        children: "styled"
+      }), " ", _jsx("strong", {
+        children: "heading"
+      }), " ", _jsx("span", {
+        class: "myClass",
+        className: "myClassName <> weird char",
+        "data-random-attr": "456"
+      }), " test"]
+    })]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
 "
 `;
 
 exports[`toc remark plugin works on text content 1`] = `
-"export const toc = [
-	{
-		value: 'Endi',
-		id: 'endi',
-		level: 3
-	},
-	{
-		value: 'Endi',
-		id: 'endi-1',
-		level: 2
-	},
-	{
-		value: 'Yangshun',
-		id: 'yangshun',
-		level: 3
-	},
-	{
-		value: 'I ♥ unicode.',
-		id: 'i--unicode',
-		level: 2
-	}
-];
-
-### Endi
-
-\`\`\`md
-## This is ignored
-\`\`\`
-
-## Endi
-
-Lorem ipsum
-
-### Yangshun
-
-Some content here
-
-## I ♥ unicode.
-
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
 export const c = 1;
+export const toc = [{
+  "value": "Endi",
+  "id": "endi",
+  "level": 3
+}, {
+  "value": "Endi",
+  "id": "endi-1",
+  "level": 2
+}, {
+  "value": "Yangshun",
+  "id": "yangshun",
+  "level": 3
+}, {
+  "value": "I ♥ unicode.",
+  "id": "i--unicode",
+  "level": 2
+}];
+function _createMdxContent(props) {
+  const _components = {
+    code: "code",
+    h2: "h2",
+    h3: "h3",
+    p: "p",
+    pre: "pre",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.h3, {
+      id: "endi",
+      children: "Endi"
+    }), "/n", _jsx(_components.pre, {
+      children: _jsx(_components.code, {
+        className: "language-md",
+        children: "## This is ignored/n"
+      })
+    }), "/n", _jsx(_components.h2, {
+      id: "endi-1",
+      children: "Endi"
+    }), "/n", _jsx(_components.p, {
+      children: "Lorem ipsum"
+    }), "/n", _jsx(_components.h3, {
+      id: "yangshun",
+      children: "Yangshun"
+    }), "/n", _jsx(_components.p, {
+      children: "Some content here"
+    }), "/n", _jsx(_components.h2, {
+      id: "i--unicode",
+      children: "I ♥ unicode."
+    })]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
+"
+`;
+
+exports[`toc remark plugin works with imported markdown 1`] = `
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+import Partial1, {toc as __tocPartial1} from './_partial1.md';
+import SomeComponent from './SomeComponent';
+import Partial2, {toc as __tocPartial2} from './_partial2.md';
+import UnusedPartialImport from './_partial3.md';
+import DoesNotExist, {toc as __tocDoesNotExist} from './_doesNotExist.md';
+export const toc = [{
+  "value": "Index section 1",
+  "id": "index-section-1",
+  "level": 2
+}, ...__tocPartial1, {
+  "value": "Index section 2",
+  "id": "index-section-2",
+  "level": 2
+}, ...__tocPartial2, {
+  "value": "Unused partials",
+  "id": "unused-partials",
+  "level": 2
+}, {
+  "value": "NonExisting Partials",
+  "id": "nonexisting-partials",
+  "level": 2
+}, ...__tocDoesNotExist, {
+  "value": "Duplicate partials",
+  "id": "duplicate-partials",
+  "level": 2
+}, ...__tocPartial1, ...__tocPartial1];
+function _createMdxContent(props) {
+  const _components = {
+    h1: "h1",
+    h2: "h2",
+    p: "p",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.h1, {
+      id: "index",
+      children: "Index"
+    }), "/n", _jsx(_components.p, {
+      children: "Some text"
+    }), "/n", "/n", _jsx(_components.h2, {
+      id: "index-section-1",
+      children: "Index section 1"
+    }), "/n", _jsx(_components.p, {
+      children: "Foo"
+    }), "/n", _jsx(Partial1, {}), "/n", _jsx(_components.p, {
+      children: "Some text"
+    }), "/n", _jsx(SomeComponent, {}), "/n", _jsx(_components.h2, {
+      id: "index-section-2",
+      children: "Index section 2"
+    }), "/n", _jsx(Partial2, {}), "/n", _jsx(_components.h2, {
+      id: "unused-partials",
+      children: "Unused partials"
+    }), "/n", _jsx(_components.p, {
+      children: "Unused partials (that are only imported but not rendered) shouldn't alter the TOC"
+    }), "/n", "/n", _jsx(_components.h2, {
+      id: "nonexisting-partials",
+      children: "NonExisting Partials"
+    }), "/n", _jsx(_components.p, {
+      children: "Partials that do not exist should alter the TOC"
+    }), "/n", _jsx(_components.p, {
+      children: "It's not the responsibility of the Remark plugin to check for their existence"
+    }), "/n", "/n", _jsx(DoesNotExist, {}), "/n", _jsx(_components.h2, {
+      id: "duplicate-partials",
+      children: "Duplicate partials"
+    }), "/n", _jsx(_components.p, {
+      children: "It's fine if we use partials at the end"
+    }), "/n", _jsx(Partial1, {}), "/n", _jsx(_components.p, {
+      children: "And we can use the partial multiple times!"
+    }), "/n", _jsx(Partial1, {})]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
+"
+`;
+
+exports[`toc remark plugin works with partial imported after its usage 1`] = `
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+import Partial, {toc as __tocPartial} from './_partial.md';
+export const toc = [...__tocPartial];
+function _createMdxContent(props) {
+  const _components = {
+    h1: "h1",
+    p: "p",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.h1, {
+      id: "partial-used-before-import",
+      children: "Partial used before import"
+    }), "/n", _jsx(_components.p, {
+      children: "While it looks weird to import after usage, this remains valid MDX usage."
+    }), "/n", _jsx(Partial, {})]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
+"
+`;
+
+exports[`toc remark plugin works with partials importing other partials 1`] = `
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+import Partial2Nested, {toc as __tocPartial2Nested} from './partial2-nested.md';
+export const toc = [{
+  "value": "Partial 2",
+  "id": "partial-2",
+  "level": 2
+}, {
+  "value": "Partial 2 Sub Heading",
+  "id": "partial-2-sub-heading",
+  "level": 3
+}, ...__tocPartial2Nested];
+function _createMdxContent(props) {
+  const _components = {
+    h2: "h2",
+    h3: "h3",
+    p: "p",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.h2, {
+      id: "partial-2",
+      children: "Partial 2"
+    }), "/n", _jsx(_components.p, {
+      children: "Partial 2"
+    }), "/n", _jsx(_components.h3, {
+      id: "partial-2-sub-heading",
+      children: "Partial 2 Sub Heading"
+    }), "/n", _jsx(_components.p, {
+      children: "Content"
+    }), "/n", "/n", _jsx(Partial2Nested, {})]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
 "
 `;

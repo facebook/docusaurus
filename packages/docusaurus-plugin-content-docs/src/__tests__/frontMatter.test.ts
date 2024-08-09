@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import escapeStringRegexp from 'escape-string-regexp';
+import {escapeRegexp} from '@docusaurus/utils';
 import {validateDocFrontMatter} from '../frontMatter';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 
@@ -44,20 +44,17 @@ function testField(params: {
     params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
       try {
         validateDocFrontMatter(frontMatter);
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail(
-          new Error(
-            `Doc front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
-              frontMatter,
-              null,
-              2,
-            )}`,
-          ),
+        throw new Error(
+          `Doc front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+            frontMatter,
+            null,
+            2,
+          )}`,
         );
       } catch (err) {
         // eslint-disable-next-line jest/no-conditional-expect
         expect((err as Error).message).toMatch(
-          new RegExp(escapeStringRegexp(message)),
+          new RegExp(escapeRegexp(message)),
         );
       }
     });
@@ -397,6 +394,41 @@ describe('validateDocFrontMatter draft', () => {
   });
 });
 
+describe('validateDocFrontMatter unlisted', () => {
+  testField({
+    prefix: 'unlisted',
+    validFrontMatters: [{unlisted: true}, {unlisted: false}],
+    convertibleFrontMatter: [
+      [{unlisted: 'true'}, {unlisted: true}],
+      [{unlisted: 'false'}, {unlisted: false}],
+    ],
+    invalidFrontMatters: [
+      [{unlisted: 'yes'}, 'must be a boolean'],
+      [{unlisted: 'no'}, 'must be a boolean'],
+      [{unlisted: ''}, 'must be a boolean'],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter draft XOR unlisted', () => {
+  testField({
+    prefix: 'draft XOR unlisted',
+    validFrontMatters: [
+      {draft: false},
+      {unlisted: false},
+      {draft: false, unlisted: false},
+      {draft: true, unlisted: false},
+      {draft: false, unlisted: true},
+    ],
+    invalidFrontMatters: [
+      [
+        {draft: true, unlisted: true},
+        "Can't be draft and unlisted at the same time.",
+      ],
+    ],
+  });
+});
+
 describe('validateDocFrontMatter last_update', () => {
   testField({
     prefix: 'last_update',
@@ -412,19 +444,19 @@ describe('validateDocFrontMatter last_update', () => {
     invalidFrontMatters: [
       [
         {last_update: null},
-        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
       ],
       [
         {last_update: {}},
-        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
       ],
       [
         {last_update: ''},
-        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
       ],
       [
         {last_update: {invalid: 'key'}},
-        'does not look like a valid front matter FileChange object. Please use a FileChange object (with an author and/or date).',
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
       ],
       [
         {last_update: {author: 'test author', date: 'I am not a date :('}},

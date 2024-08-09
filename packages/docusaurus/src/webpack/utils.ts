@@ -11,25 +11,34 @@ import crypto from 'crypto';
 import logger from '@docusaurus/logger';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import {
-  mergeWithCustomize,
-  customizeArray,
-  customizeObject,
-} from 'webpack-merge';
-import webpack, {
-  type Configuration,
-  type RuleSetRule,
-  type WebpackPluginInstance,
-} from 'webpack';
-import TerserPlugin from 'terser-webpack-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
+import webpack, {type Configuration, type RuleSetRule} from 'webpack';
+import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import type {TransformOptions} from '@babel/core';
-import type {
-  Plugin,
-  PostCssOptions,
-  ConfigureWebpackUtils,
-} from '@docusaurus/types';
+
+export function formatStatsErrorMessage(
+  statsJson: ReturnType<webpack.Stats['toJson']> | undefined,
+): string | undefined {
+  if (statsJson?.errors?.length) {
+    // TODO formatWebpackMessages does not print stack-traces
+    // Also the error causal chain is lost here
+    // We log the stacktrace inside serverEntry.tsx for now (not ideal)
+    const {errors} = formatWebpackMessages(statsJson);
+    return errors
+      .map((str) => logger.red(str))
+      .join(`\n\n${logger.yellow('--------------------------')}\n\n`);
+  }
+  return undefined;
+}
+
+export function printStatsWarnings(
+  statsJson: ReturnType<webpack.Stats['toJson']> | undefined,
+): void {
+  if (statsJson?.warnings?.length) {
+    statsJson.warnings?.forEach((warning) => {
+      logger.warn(warning);
+    });
+  }
+}
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -161,74 +170,6 @@ export const getCustomizableJSLoader =
       ? getDefaultBabelLoader({isServer, babelOptions})
       : jsLoader(isServer);
 
-/**
- * Helper function to modify webpack config
- * @param configureWebpack a webpack config or a function to modify config
- * @param config initial webpack config
- * @param isServer indicates if this is a server webpack configuration
- * @param jsLoader custom js loader config
- * @param content content loaded by the plugin
- * @returns final/ modified webpack config
- */
-export function applyConfigureWebpack(
-  configureWebpack: NonNullable<Plugin['configureWebpack']>,
-  config: Configuration,
-  isServer: boolean,
-  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined,
-  content: unknown,
-): Configuration {
-  // Export some utility functions
-  const utils: ConfigureWebpackUtils = {
-    getStyleLoaders,
-    getJSLoader: getCustomizableJSLoader(jsLoader),
-  };
-  if (typeof configureWebpack === 'function') {
-    const {mergeStrategy, ...res} =
-      configureWebpack(config, isServer, utils, content) ?? {};
-    const customizeRules = mergeStrategy ?? {};
-    return mergeWithCustomize({
-      customizeArray: customizeArray(customizeRules),
-      customizeObject: customizeObject(customizeRules),
-    })(config, res);
-  }
-  return config;
-}
-
-export function applyConfigurePostCss(
-  configurePostCss: NonNullable<Plugin['configurePostCss']>,
-  config: Configuration,
-): Configuration {
-  type LocalPostCSSLoader = object & {
-    options: {postcssOptions: PostCssOptions};
-  };
-
-  // Not ideal heuristic but good enough for our use-case?
-  function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
-    return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
-  }
-
-  // Does not handle all edge cases, but good enough for now
-  function overridePostCssOptions(entry: RuleSetRule) {
-    if (isPostCssLoader(entry)) {
-      entry.options.postcssOptions = configurePostCss(
-        entry.options.postcssOptions,
-      );
-    } else if (Array.isArray(entry.oneOf)) {
-      entry.oneOf.forEach(overridePostCssOptions);
-    } else if (Array.isArray(entry.use)) {
-      entry.use
-        .filter((u) => typeof u === 'object')
-        .forEach((rule) => overridePostCssOptions(rule as RuleSetRule));
-    }
-  }
-
-  config.module?.rules?.forEach((rule) =>
-    overridePostCssOptions(rule as RuleSetRule),
-  );
-
-  return config;
-}
-
 declare global {
   interface Error {
     /** @see https://webpack.js.org/api/node/#error-handling */
@@ -236,7 +177,7 @@ declare global {
   }
 }
 
-export function compile(config: Configuration[]): Promise<void> {
+export function compile(config: Configuration[]): Promise<webpack.MultiStats> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
@@ -250,13 +191,15 @@ export function compile(config: Configuration[]): Promise<void> {
       // Let plugins consume all the stats
       const errorsWarnings = stats?.toJson('errors-warnings');
       if (stats?.hasErrors()) {
-        reject(new Error('Failed to compile with errors.'));
+        const statsErrorMessage = formatStatsErrorMessage(errorsWarnings);
+        reject(
+          new Error(
+            `Failed to compile due to Webpack errors.\n${statsErrorMessage}`,
+          ),
+        );
       }
-      if (errorsWarnings && stats?.hasWarnings()) {
-        errorsWarnings.warnings?.forEach((warning) => {
-          logger.warn(warning);
-        });
-      }
+      printStatsWarnings(errorsWarnings);
+
       // Webpack 5 requires calling close() so that persistent caching works
       // See https://github.com/webpack/webpack.js.org/pull/4775
       compiler.close((errClose) => {
@@ -264,7 +207,7 @@ export function compile(config: Configuration[]): Promise<void> {
           logger.error(`Error while closing Webpack compiler: ${errClose}`);
           reject(errClose);
         } else {
-          resolve();
+          resolve(stats!);
         }
       });
     });
@@ -333,89 +276,4 @@ export async function getHttpsConfig(): Promise<
     return config;
   }
   return isHttps;
-}
-
-// See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
-function getTerserParallel() {
-  let terserParallel: boolean | number = true;
-  if (process.env.TERSER_PARALLEL === 'false') {
-    terserParallel = false;
-  } else if (
-    process.env.TERSER_PARALLEL &&
-    parseInt(process.env.TERSER_PARALLEL, 10) > 0
-  ) {
-    terserParallel = parseInt(process.env.TERSER_PARALLEL, 10);
-  }
-  return terserParallel;
-}
-
-export function getMinimizer(
-  useSimpleCssMinifier = false,
-): WebpackPluginInstance[] {
-  const minimizer: WebpackPluginInstance[] = [
-    new TerserPlugin({
-      parallel: getTerserParallel(),
-      terserOptions: {
-        parse: {
-          // We want uglify-js to parse ecma 8 code. However, we don't want it
-          // to apply any minification steps that turns valid ecma 5 code
-          // into invalid ecma 5 code. This is why the 'compress' and 'output'
-          // sections only apply transformations that are ecma 5 safe
-          // https://github.com/facebook/create-react-app/pull/4234
-          ecma: 2020,
-        },
-        compress: {
-          ecma: 5,
-          warnings: false,
-        },
-        mangle: {
-          safari10: true,
-        },
-        output: {
-          ecma: 5,
-          comments: false,
-          // Turned on because emoji and regex is not minified properly using
-          // default. See https://github.com/facebook/create-react-app/issues/2488
-          ascii_only: true,
-        },
-      },
-    }),
-  ];
-  if (useSimpleCssMinifier) {
-    minimizer.push(new CssMinimizerPlugin());
-  } else {
-    minimizer.push(
-      // Using the array syntax to add 2 minimizers
-      // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
-      new CssMinimizerPlugin<[CssNanoOptions, CustomOptions]>({
-        minimizerOptions: [
-          // CssNano options
-          {
-            preset: require.resolve('@docusaurus/cssnano-preset'),
-          },
-          // CleanCss options
-          {
-            inline: false,
-            level: {
-              1: {
-                all: false,
-                removeWhitespace: true,
-              },
-              2: {
-                all: true,
-                restructureRules: true,
-                removeUnusedAtRules: false,
-              },
-            },
-          },
-        ],
-        minify: [
-          CssMinimizerPlugin.cssnanoMinify,
-          CssMinimizerPlugin.cleanCssMinify,
-        ],
-      }),
-    );
-  }
-
-  return minimizer;
 }

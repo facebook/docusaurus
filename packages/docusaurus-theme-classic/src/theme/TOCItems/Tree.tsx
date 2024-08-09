@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import Link from '@docusaurus/Link';
 import type {Props} from '@theme/TOCItems/Tree';
 
 // Recursive component rendering the toc tree
@@ -22,12 +23,10 @@ function TOCItemTree({
     <ul className={isChild ? undefined : className}>
       {toc.map((heading) => (
         <li key={heading.id}>
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <a
-            href={`#${heading.id}`}
+          <Link
+            to={`#${heading.id}`}
             className={linkClassName ?? undefined}
             // Developer provided the HTML, so assume it's safe.
-            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{__html: heading.value}}
           />
           <TOCItemTree

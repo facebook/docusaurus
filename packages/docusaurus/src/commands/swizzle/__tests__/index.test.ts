@@ -28,7 +28,7 @@ async function createTestSiteConfig(siteDir: string) {
 module.exports = {
   title: 'My Site',
   tagline: 'Dinosaurs are cool',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://your-docusaurus-site.example.com',
   baseUrl: '/',
   themes: [
     function fixtureTheme() {
@@ -115,6 +115,7 @@ async function createTestSite() {
       wrap: true,
       danger: true,
       typescript,
+      javascript: !typescript,
     });
   }
 
@@ -129,6 +130,7 @@ async function createTestSite() {
       eject: true,
       danger: true,
       typescript,
+      javascript: !typescript,
     });
   }
 

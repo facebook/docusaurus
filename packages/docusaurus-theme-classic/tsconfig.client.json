@@ -1,15 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "noEmit": false,
-    "composite": true,
-    "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo-client",
-    "rootDir": "src",
-    "outDir": "lib",
-    "module": "esnext",
-    "target": "esnext"
-  },
+  "extends": "../../tsconfig.base.client.json",
   "include": [
     "src/nprogress.ts",
     "src/prism-include-languages.ts",

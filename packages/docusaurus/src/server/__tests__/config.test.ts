@@ -19,6 +19,20 @@ describe('loadSiteConfig', () => {
     expect(config).not.toEqual({});
   });
 
+  it('website with ts + js config', async () => {
+    const config = await loadSiteConfig({
+      siteDir: path.join(
+        __dirname,
+        '__fixtures__',
+        'config/sites/ts-and-js-site',
+      ),
+    });
+    expect(config).toMatchSnapshot();
+    // Docusaurus uses in priority a TS config
+    expect(config.siteConfig.title).toBe('TS title');
+    expect(config).not.toEqual({});
+  });
+
   it('website with .cjs siteConfig', async () => {
     const config = await loadSiteConfig({siteDir});
     expect(config).toMatchSnapshot();
@@ -47,6 +61,42 @@ describe('loadSiteConfig', () => {
     const config = await loadSiteConfig({
       siteDir,
       customConfigFilePath: 'createConfigAsync.config.js',
+    });
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
+  it('website with valid JS CJS config', async () => {
+    const config = await loadSiteConfig({
+      siteDir,
+      customConfigFilePath: 'configCJS.js',
+    });
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
+  it('website with valid JS ESM config', async () => {
+    const config = await loadSiteConfig({
+      siteDir,
+      customConfigFilePath: 'configESM.js',
+    });
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
+  it('website with valid TypeScript CJS config', async () => {
+    const config = await loadSiteConfig({
+      siteDir,
+      customConfigFilePath: 'configCJS.ts',
+    });
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
+  it('website with valid TypeScript ESM config', async () => {
+    const config = await loadSiteConfig({
+      siteDir,
+      customConfigFilePath: 'configESM.ts',
     });
     expect(config).toMatchSnapshot();
     expect(config).not.toEqual({});

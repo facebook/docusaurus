@@ -5,75 +5,38 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useCallback, useEffect, useState} from 'react';
-import {useHistory} from '@docusaurus/router';
+import {useCallback} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useQueryString} from '../utils/historyUtils';
+import type {ThemeConfig as AlgoliaThemeConfig} from '@docusaurus/theme-search-algolia';
 
 const SEARCH_PARAM_QUERY = 'q';
 
-/** Some utility functions around search queries. */
-export function useSearchPage(): {
-  /**
-   * Works hand-in-hand with `setSearchQuery`; whatever the user has inputted
-   * into the search box.
-   */
-  searchQuery: string;
-  /**
-   * Set a new search query. In addition to updating `searchQuery`, this handle
-   * also mutates the location and appends the query.
-   */
-  setSearchQuery: (newSearchQuery: string) => void;
-  /**
-   * Given a query, this handle generates the corresponding search page link,
-   * with base URL prepended.
-   */
-  generateSearchPageLink: (targetSearchQuery: string) => string;
-} {
-  const history = useHistory();
+/**
+ * Permits to read/write the current search query string
+ */
+export function useSearchQueryString(): [string, (newValue: string) => void] {
+  return useQueryString(SEARCH_PARAM_QUERY);
+}
+
+/**
+ * Permits to create links to the search page with the appropriate query string
+ */
+export function useSearchLinkCreator(): (searchValue: string) => string {
   const {
-    siteConfig: {baseUrl},
+    siteConfig: {baseUrl, themeConfig},
   } = useDocusaurusContext();
+  const {
+    algolia: {searchPagePath},
+  } = themeConfig as AlgoliaThemeConfig;
 
-  const [searchQuery, setSearchQueryState] = useState('');
-
-  // Init search query just after React hydration
-  useEffect(() => {
-    const searchQueryStringValue =
-      new URLSearchParams(window.location.search).get(SEARCH_PARAM_QUERY) ?? '';
-
-    setSearchQueryState(searchQueryStringValue);
-  }, []);
-
-  const setSearchQuery = useCallback(
-    (newSearchQuery: string) => {
-      const searchParams = new URLSearchParams(window.location.search);
-
-      if (newSearchQuery) {
-        searchParams.set(SEARCH_PARAM_QUERY, newSearchQuery);
-      } else {
-        searchParams.delete(SEARCH_PARAM_QUERY);
-      }
-
-      history.replace({
-        search: searchParams.toString(),
-      });
-      setSearchQueryState(newSearchQuery);
-    },
-    [history],
-  );
-
-  const generateSearchPageLink = useCallback(
-    (targetSearchQuery: string) =>
+  return useCallback(
+    (searchValue: string) =>
       // Refer to https://github.com/facebook/docusaurus/pull/2838
-      `${baseUrl}search?${SEARCH_PARAM_QUERY}=${encodeURIComponent(
-        targetSearchQuery,
-      )}`,
-    [baseUrl],
+      // Note: if searchPagePath is falsy, useSearchPage() will not be called
+      `${baseUrl}${
+        searchPagePath as string
+      }?${SEARCH_PARAM_QUERY}=${encodeURIComponent(searchValue)}`,
+    [baseUrl, searchPagePath],
   );
-
-  return {
-    searchQuery,
-    setSearchQuery,
-    generateSearchPageLink,
-  };
 }

@@ -155,7 +155,7 @@ describe('postProcess', () => {
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
           version: {path: 'version'},
-          drafts: [{id: 'foo', unversionedId: 'foo'}],
+          drafts: [{id: 'foo'}],
         } as unknown as SidebarPostProcessorParams,
       ),
     ).toMatchSnapshot();

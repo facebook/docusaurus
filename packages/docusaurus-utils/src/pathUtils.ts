@@ -58,12 +58,7 @@ export function shortName(str: string): string {
 export function posixPath(str: string): string {
   const isExtendedLengthPath = str.startsWith('\\\\?\\');
 
-  // Forward slashes are only valid Windows paths when they don't contain non-
-  // ascii characters.
-  // eslint-disable-next-line no-control-regex
-  const hasNonAscii = /[^\u0000-\u0080]+/.test(str);
-
-  if (isExtendedLengthPath || hasNonAscii) {
+  if (isExtendedLengthPath) {
     return str;
   }
   return str.replace(/\\/g, '/');
@@ -98,15 +93,33 @@ export function aliasedSitePath(filePath: string, siteDir: string): string {
 }
 
 /**
+ * Converts back the aliased site path (starting with "@site/...") to a relative path
+ *
+ * TODO method this is a workaround, we shouldn't need to alias/un-alias paths
+ *  we should refactor the codebase to not have aliased site paths everywhere
+ *  We probably only need aliasing for client-only paths required by Webpack
+ */
+export function aliasedSitePathToRelativePath(filePath: string): string {
+  if (filePath.startsWith('@site/')) {
+    return filePath.replace('@site/', '');
+  }
+  throw new Error(`Unexpected, filePath is not site-aliased: ${filePath}`);
+}
+
+/**
  * When you have a path like C:\X\Y
  * It is not safe to use directly when generating code
  * For example, this would fail due to unescaped \:
- * `<img src={require('${filePath}')} />`
- * But this would work: `<img src={require('${escapePath(filePath)}')} />`
+ * `<img src={require("${filePath}")} />`
+ * But this would work: `<img src={require("${escapePath(filePath)}")} />`
  *
  * posixPath can't be used in all cases, because forward slashes are only valid
  * Windows paths when they don't contain non-ascii characters, and posixPath
  * doesn't escape those that fail to be converted.
+ *
+ * This function escapes double quotes but not single quotes (because it uses
+ * `JSON.stringify`). Therefore, you must put the escaped path inside double
+ * quotes when generating code.
  */
 export function escapePath(str: string): string {
   const escaped = JSON.stringify(str);
@@ -119,5 +132,5 @@ export function addTrailingPathSeparator(str: string): string {
   return str.endsWith(path.sep)
     ? str
     : // If this is Windows, we need to change the forward slash to backward
-      `${str.replace(/\/$/, '')}${path.sep}`;
+      `${str.replace(/[\\/]$/, '')}${path.sep}`;
 }

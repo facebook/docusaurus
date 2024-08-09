@@ -5,20 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'path';
+import vfile from 'to-vfile';
+
 import {simpleHash} from '@docusaurus/utils';
-import mdx from '@mdx-js/mdx';
 import footnoteIDFixer from '../footnoteIDFixer';
 
 const processFixture = async (name: string) => {
-  const filepath = path.join(__dirname, `__fixtures__/${name}.md`);
-  const result = await mdx(await fs.readFile(filepath, 'utf8'), {
-    filepath,
-    remarkPlugins: [footnoteIDFixer],
+  const mdx = await import('@mdx-js/mdx');
+  const {default: gfm} = await import('remark-gfm');
+
+  const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
+  const file = await vfile.read(filePath);
+
+  const result = await mdx.compile(file, {
+    remarkPlugins: [gfm, footnoteIDFixer],
   });
 
-  return result.toString();
+  return result.value;
 };
 
 describe('footnoteIDFixer remark plugin', () => {

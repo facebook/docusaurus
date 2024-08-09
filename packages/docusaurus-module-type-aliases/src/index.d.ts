@@ -26,6 +26,13 @@ declare module '@generated/site-metadata' {
   export = siteMetadata;
 }
 
+declare module '@generated/site-storage' {
+  import type {SiteStorage} from '@docusaurus/types';
+
+  const siteStorage: SiteStorage;
+  export = siteStorage;
+}
+
 declare module '@generated/registry' {
   import type {Registry} from '@docusaurus/types';
 
@@ -242,6 +249,12 @@ declare module '@docusaurus/router' {
   export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
 }
 
+declare module '@docusaurus/useIsomorphicLayoutEffect' {
+  import {useLayoutEffect} from 'react';
+
+  export = useLayoutEffect;
+}
+
 declare module '@docusaurus/useDocusaurusContext' {
   import type {DocusaurusContext} from '@docusaurus/types';
 
@@ -252,6 +265,15 @@ declare module '@docusaurus/useRouteContext' {
   import type {PluginRouteContext} from '@docusaurus/types';
 
   export default function useRouteContext(): PluginRouteContext;
+}
+
+declare module '@docusaurus/useBrokenLinks' {
+  export type BrokenLinks = {
+    collectLink: (link: string | undefined) => void;
+    collectAnchor: (anchor: string | undefined) => void;
+  };
+
+  export default function useBrokenLinks(): BrokenLinks;
 }
 
 declare module '@docusaurus/useIsBrowser' {
@@ -350,7 +372,9 @@ declare module '@docusaurus/useGlobalData' {
 declare module '*.svg' {
   import type {ComponentType, SVGProps} from 'react';
 
-  const ReactComponent: ComponentType<SVGProps<SVGSVGElement>>;
+  const ReactComponent: ComponentType<
+    SVGProps<SVGSVGElement> & {title?: string}
+  >;
 
   export default ReactComponent;
 }
@@ -370,4 +394,5 @@ interface Window {
     prefetch: (url: string) => false | Promise<void[]>;
     preload: (url: string) => false | Promise<void[]>;
   };
+  docusaurusRoot?: import('react-dom/client').Root;
 }

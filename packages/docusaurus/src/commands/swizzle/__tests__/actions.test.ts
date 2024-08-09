@@ -24,13 +24,18 @@ function stableCreatedFiles(
 }
 
 describe('eject', () => {
-  async function testEject(action: SwizzleAction, componentName: string) {
+  async function testEject(
+    action: SwizzleAction,
+    componentName: string,
+    {typescript}: {typescript: boolean} = {typescript: true},
+  ) {
     const siteDir = await createTempSiteDir();
     const siteThemePath = path.join(siteDir, 'src/theme');
     const result = await eject({
       siteDir,
       componentName,
       themePath: ThemePath,
+      typescript,
     });
     return {
       siteDir,
@@ -50,6 +55,22 @@ describe('eject', () => {
       "theme
       ├── FirstLevelComponent.css
       └── FirstLevelComponent.tsx"
+    `);
+  });
+
+  it(`eject ${Components.JsComponent} JS`, async () => {
+    const result = await testEject('eject', Components.JsComponent, {
+      typescript: false,
+    });
+    expect(result.createdFiles).toEqual([
+      'JsComponent/index.css',
+      'JsComponent/index.js',
+    ]);
+    expect(result.tree).toMatchInlineSnapshot(`
+      "theme
+      └── JsComponent
+          ├── index.css
+          └── index.js"
     `);
   });
 
@@ -89,9 +110,10 @@ describe('eject', () => {
   it(`eject ${Components.ComponentInFolder}`, async () => {
     const result = await testEject('eject', Components.ComponentInFolder);
     expect(result.createdFiles).toEqual([
-      // TODO do we really want to copy those Sibling components?
-      // It's hard to filter those reliably
-      // (index.* is not good, we need to include styles.css too)
+      'ComponentInFolder/ComponentInSubFolder/index.css',
+      'ComponentInFolder/ComponentInSubFolder/index.tsx',
+      'ComponentInFolder/ComponentInSubFolder/styles.css',
+      'ComponentInFolder/ComponentInSubFolder/styles.module.css',
       'ComponentInFolder/Sibling.css',
       'ComponentInFolder/Sibling.tsx',
       'ComponentInFolder/index.css',
@@ -100,6 +122,11 @@ describe('eject', () => {
     expect(result.tree).toMatchInlineSnapshot(`
       "theme
       └── ComponentInFolder
+          ├── ComponentInSubFolder
+          │   ├── index.css
+          │   ├── index.tsx
+          │   ├── styles.css
+          │   └── styles.module.css
           ├── Sibling.css
           ├── Sibling.tsx
           ├── index.css

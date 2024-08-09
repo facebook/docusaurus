@@ -8,6 +8,7 @@
 
 // @ts-check
 
+import {inspect} from 'node:util';
 import logger from '@docusaurus/logger';
 import cli from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
@@ -24,6 +25,12 @@ import {
 } from '../lib/index.js';
 import beforeCli from './beforeCli.mjs';
 
+// Env variables are initialized to dev, but can be overridden by each command
+// For example, "docusaurus build" overrides them to "production"
+// See also https://github.com/facebook/docusaurus/issues/8599
+process.env.BABEL_ENV ??= 'development';
+process.env.NODE_ENV ??= 'development';
+
 await beforeCli();
 
 cli.version(DOCUSAURUS_VERSION).usage('<command> [options]');
@@ -31,6 +38,10 @@ cli.version(DOCUSAURUS_VERSION).usage('<command> [options]');
 cli
   .command('build [siteDir]')
   .description('Build website.')
+  .option(
+    '--dev',
+    'Builds the website in dev mode, including full React error messages.',
+  )
   .option(
     '--bundle-analyzer',
     'visualize size of webpack output files with an interactive zoomable tree map (default: false)',
@@ -51,8 +62,6 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  // @ts-expect-error: Promise<string> is not assignable to Promise<void>... but
-  // good enough here.
   .action(build);
 
 cli
@@ -76,7 +85,15 @@ cli
     '-t, --typescript',
     'copy TypeScript theme files when possible (default: false)',
   )
+  .option(
+    '-j, --javascript',
+    'copy JavaScript theme files when possible (default: false)',
+  )
   .option('--danger', 'enable swizzle for unsafe component of themes')
+  .option(
+    '--config <config>',
+    'path to Docusaurus config file (default: `[siteDir]/docusaurus.config.js`)',
+  )
   .action(swizzle);
 
 cli
@@ -98,7 +115,28 @@ cli
     '--skip-build',
     'skip building website before deploy it (default: false)',
   )
+  .option(
+    '--target-dir <dir>',
+    'path to the target directory to deploy to (default: `.`)',
+  )
   .action(deploy);
+
+/**
+ * @param {string | undefined} value
+ * @returns {boolean | number}
+ */
+function normalizePollValue(value) {
+  if (value === undefined || value === '') {
+    return false;
+  }
+
+  const parsedIntValue = Number.parseInt(value, 10);
+  if (!Number.isNaN(parsedIntValue)) {
+    return parsedIntValue;
+  }
+
+  return value === 'true';
+}
 
 cli
   .command('start [siteDir]')
@@ -118,6 +156,7 @@ cli
   .option(
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
+    normalizePollValue,
   )
   .option(
     '--no-minify',
@@ -183,8 +222,12 @@ cli
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
-  logger.error`    Unknown command name=${cmd}.`;
+  logger.error`Unknown Docusaurus CLI command name=${cmd}.`;
+  process.exit(1);
 });
+
+// === The above is the commander configuration ===
+// They don't start any code execution yet until cli.parse() is called below
 
 /**
  * @param {string | undefined} command
@@ -205,17 +248,42 @@ function isInternalCommand(command) {
   );
 }
 
-if (!isInternalCommand(process.argv.slice(2)[0])) {
-  await externalCommand(cli);
+/**
+ * @param {string | undefined} command
+ */
+function isExternalCommand(command) {
+  return !!(command && !isInternalCommand(command) && !command.startsWith('-'));
 }
 
-if (!process.argv.slice(2).length) {
+// No command? We print the help message because Commander doesn't
+// Note argv looks like this: ['../node','../docusaurus.mjs','<command>',...rest]
+if (process.argv.length < 3) {
   cli.outputHelp();
+  logger.error`Please provide a Docusaurus CLI command.`;
+  process.exit(1);
+}
+
+// There is an unrecognized subcommand
+// Let plugins extend the CLI before parsing
+if (isExternalCommand(process.argv[2])) {
+  // TODO: in this step, we must assume default site structure because there's
+  // no way to know the siteDir/config yet. Maybe the root cli should be
+  // responsible for parsing these arguments?
+  // https://github.com/facebook/docusaurus/issues/8903
+  await externalCommand(cli);
 }
 
 cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
-  logger.error(err instanceof Error ? err.stack : err);
+  console.log('');
+
+  // We need to use inspect with increased depth to log the full causal chain
+  // By default Node logging has depth=2
+  // see also https://github.com/nodejs/node/issues/51637
+  logger.error(inspect(err, {depth: Infinity}));
+
+  logger.info`Docusaurus version: number=${DOCUSAURUS_VERSION}
+Node version: number=${process.version}`;
   process.exit(1);
 });

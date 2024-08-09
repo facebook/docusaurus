@@ -24,3 +24,7 @@ html.plugin-pages.plugin-id-pages-tests .navbar {
 #z-index-test {
   z-index: 100;
 }
+
+html:has(#navbar-dropdown-tests) .navbar__item.dropdown ~ a {
+  display: none;
+}

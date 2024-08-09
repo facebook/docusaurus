@@ -14,12 +14,12 @@ import {
   Collapsible,
   useCollapsible,
 } from '@docusaurus/theme-common';
+import {isSamePath} from '@docusaurus/theme-common/internal';
 import {
   isActiveSidebarItem,
-  findFirstCategoryLink,
+  findFirstSidebarItemLink,
   useDocSidebarItemsExpandedState,
-  isSamePath,
-} from '@docusaurus/theme-common/internal';
+} from '@docusaurus/plugin-content-docs/client';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -59,7 +59,7 @@ function useCategoryHrefWithSSRFallback(
 ): string | undefined {
   const isBrowser = useIsBrowser();
   return useMemo(() => {
-    if (item.href) {
+    if (item.href && !item.linkUnlisted) {
       return item.href;
     }
     // In these cases, it's not necessary to render a fallback
@@ -67,28 +67,41 @@ function useCategoryHrefWithSSRFallback(
     if (isBrowser || !item.collapsible) {
       return undefined;
     }
-    return findFirstCategoryLink(item);
+    return findFirstSidebarItemLink(item);
   }, [item, isBrowser]);
 }
 
 function CollapseButton({
+  collapsed,
   categoryLabel,
   onClick,
 }: {
+  collapsed: boolean;
   categoryLabel: string;
   onClick: ComponentProps<'button'>['onClick'];
 }) {
   return (
     <button
-      aria-label={translate(
-        {
-          id: 'theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel',
-          message: "Toggle the collapsible sidebar category '{label}'",
-          description:
-            'The ARIA label to toggle the collapsible sidebar category',
-        },
-        {label: categoryLabel},
-      )}
+      aria-label={
+        collapsed
+          ? translate(
+              {
+                id: 'theme.DocSidebarItem.expandCategoryAriaLabel',
+                message: "Expand sidebar category '{label}'",
+                description: 'The ARIA label to expand the sidebar category',
+              },
+              {label: categoryLabel},
+            )
+          : translate(
+              {
+                id: 'theme.DocSidebarItem.collapseCategoryAriaLabel',
+                message: "Collapse sidebar category '{label}'",
+                description: 'The ARIA label to collapse the sidebar category',
+              },
+              {label: categoryLabel},
+            )
+      }
+      aria-expanded={!collapsed}
       type="button"
       className="clean-btn menu__caret"
       onClick={onClick}
@@ -136,7 +149,7 @@ export default function DocSidebarItemCategory({
   useEffect(() => {
     if (
       collapsible &&
-      expandedItem &&
+      expandedItem != null &&
       expandedItem !== index &&
       autoCollapseCategories
     ) {
@@ -181,13 +194,15 @@ export default function DocSidebarItemCategory({
                 }
           }
           aria-current={isCurrentPage ? 'page' : undefined}
-          aria-expanded={collapsible ? !collapsed : undefined}
+          role={collapsible && !href ? 'button' : undefined}
+          aria-expanded={collapsible && !href ? !collapsed : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
           {label}
         </Link>
         {href && collapsible && (
           <CollapseButton
+            collapsed={collapsed}
             categoryLabel={label}
             onClick={(e) => {
               e.preventDefault();

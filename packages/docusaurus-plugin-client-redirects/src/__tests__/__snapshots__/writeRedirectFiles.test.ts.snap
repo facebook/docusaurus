@@ -1,5 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`toRedirectFiles creates appropriate metadata absolute url: fileContent 1`] = `
+[
+  "<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/">
+    <link rel="canonical" href="https://docusaurus.io/" />
+  </head>
+  <script>
+    window.location.href = 'https://docusaurus.io/' + window.location.search + window.location.hash;
+  </script>
+</html>",
+  "<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/docs/intro?a=1">
+    <link rel="canonical" href="https://docusaurus.io/docs/intro?a=1" />
+  </head>
+  <script>
+    window.location.href = 'https://docusaurus.io/docs/intro?a=1';
+  </script>
+</html>",
+  "<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://docusaurus.io/docs/intro#anchor">
+    <link rel="canonical" href="https://docusaurus.io/docs/intro#anchor" />
+  </head>
+  <script>
+    window.location.href = 'https://docusaurus.io/docs/intro#anchor';
+  </script>
+</html>",
+]
+`;
+
 exports[`toRedirectFiles creates appropriate metadata for empty baseUrl: fileContent baseUrl=empty 1`] = `
 [
   "<!DOCTYPE html>
@@ -10,7 +48,7 @@ exports[`toRedirectFiles creates appropriate metadata for empty baseUrl: fileCon
     <link rel="canonical" href="/abc" />
   </head>
   <script>
-    window.location.href = '/abc';
+    window.location.href = '/abc' + window.location.search + window.location.hash;
   </script>
 </html>",
 ]
@@ -26,7 +64,7 @@ exports[`toRedirectFiles creates appropriate metadata for root baseUrl: fileCont
     <link rel="canonical" href="/abc" />
   </head>
   <script>
-    window.location.href = '/abc';
+    window.location.href = '/abc' + window.location.search + window.location.hash;
   </script>
 </html>",
 ]
@@ -42,7 +80,7 @@ exports[`toRedirectFiles creates appropriate metadata trailingSlash=false: fileC
     <link rel="canonical" href="https://docusaurus.io/abc" />
   </head>
   <script>
-    window.location.href = 'https://docusaurus.io/abc';
+    window.location.href = 'https://docusaurus.io/abc' + window.location.search + window.location.hash;
   </script>
 </html>",
   "<!DOCTYPE html>
@@ -53,7 +91,7 @@ exports[`toRedirectFiles creates appropriate metadata trailingSlash=false: fileC
     <link rel="canonical" href="https://docusaurus.io/def.html" />
   </head>
   <script>
-    window.location.href = 'https://docusaurus.io/def.html';
+    window.location.href = 'https://docusaurus.io/def.html' + window.location.search + window.location.hash;
   </script>
 </html>",
   "<!DOCTYPE html>
@@ -64,7 +102,7 @@ exports[`toRedirectFiles creates appropriate metadata trailingSlash=false: fileC
     <link rel="canonical" href="https://docusaurus.io/" />
   </head>
   <script>
-    window.location.href = 'https://docusaurus.io/';
+    window.location.href = 'https://docusaurus.io/' + window.location.search + window.location.hash;
   </script>
 </html>",
 ]
@@ -80,7 +118,7 @@ exports[`toRedirectFiles creates appropriate metadata trailingSlash=true: fileCo
     <link rel="canonical" href="https://docusaurus.io/abc" />
   </head>
   <script>
-    window.location.href = 'https://docusaurus.io/abc';
+    window.location.href = 'https://docusaurus.io/abc' + window.location.search + window.location.hash;
   </script>
 </html>",
   "<!DOCTYPE html>
@@ -91,7 +129,7 @@ exports[`toRedirectFiles creates appropriate metadata trailingSlash=true: fileCo
     <link rel="canonical" href="https://docusaurus.io/def.html" />
   </head>
   <script>
-    window.location.href = 'https://docusaurus.io/def.html';
+    window.location.href = 'https://docusaurus.io/def.html' + window.location.search + window.location.hash;
   </script>
 </html>",
   "<!DOCTYPE html>
@@ -102,7 +140,7 @@ exports[`toRedirectFiles creates appropriate metadata trailingSlash=true: fileCo
     <link rel="canonical" href="https://docusaurus.io/" />
   </head>
   <script>
-    window.location.href = 'https://docusaurus.io/';
+    window.location.href = 'https://docusaurus.io/' + window.location.search + window.location.hash;
   </script>
 </html>",
 ]
@@ -118,7 +156,7 @@ exports[`toRedirectFiles creates appropriate metadata trailingSlash=undefined: f
     <link rel="canonical" href="https://docusaurus.io/abc" />
   </head>
   <script>
-    window.location.href = 'https://docusaurus.io/abc';
+    window.location.href = 'https://docusaurus.io/abc' + window.location.search + window.location.hash;
   </script>
 </html>",
   "<!DOCTYPE html>
@@ -129,7 +167,7 @@ exports[`toRedirectFiles creates appropriate metadata trailingSlash=undefined: f
     <link rel="canonical" href="https://docusaurus.io/def.html" />
   </head>
   <script>
-    window.location.href = 'https://docusaurus.io/def.html';
+    window.location.href = 'https://docusaurus.io/def.html' + window.location.search + window.location.hash;
   </script>
 </html>",
   "<!DOCTYPE html>
@@ -140,7 +178,7 @@ exports[`toRedirectFiles creates appropriate metadata trailingSlash=undefined: f
     <link rel="canonical" href="https://docusaurus.io/" />
   </head>
   <script>
-    window.location.href = 'https://docusaurus.io/';
+    window.location.href = 'https://docusaurus.io/' + window.location.search + window.location.hash;
   </script>
 </html>",
 ]

@@ -5,91 +5,93 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {docuHash, createSlugger} from '@docusaurus/utils';
-import {toVersionMetadataProp} from './props';
-import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
-import type {FullVersion} from './types';
+import {
+  docuHash,
+  normalizeUrl,
+  aliasedSitePathToRelativePath,
+  groupTaggedItems,
+  getTagVisibility,
+} from '@docusaurus/utils';
+import {
+  toTagDocListProp,
+  toTagsListTagsProp,
+  toVersionMetadataProp,
+} from './props';
+import type {
+  PluginContentLoadedActions,
+  RouteConfig,
+  RouteMetadata,
+} from '@docusaurus/types';
+import type {FullVersion, VersionTag, VersionTags} from './types';
 import type {
   CategoryGeneratedIndexMetadata,
   DocMetadata,
+  PluginOptions,
 } from '@docusaurus/plugin-content-docs';
 
-export async function createCategoryGeneratedIndexRoutes({
-  version,
-  actions,
-  docCategoryGeneratedIndexComponent,
-  aliasedSource,
-}: {
-  version: FullVersion;
-  actions: PluginContentLoadedActions;
-  docCategoryGeneratedIndexComponent: string;
-  aliasedSource: (str: string) => string;
-}): Promise<RouteConfig[]> {
-  const slugs = createSlugger();
+function createDocRouteMetadata(docMeta: DocMetadata): RouteMetadata {
+  return {
+    sourceFilePath: aliasedSitePathToRelativePath(docMeta.source),
+    lastUpdatedAt: docMeta.lastUpdatedAt,
+  };
+}
 
-  async function createCategoryGeneratedIndexRoute(
+async function buildVersionCategoryGeneratedIndexRoutes({
+  version,
+  options,
+}: BuildVersionRoutesParam): Promise<RouteConfig[]> {
+  async function buildCategoryGeneratedIndexRoute(
     categoryGeneratedIndex: CategoryGeneratedIndexMetadata,
   ): Promise<RouteConfig> {
-    const {sidebar, ...prop} = categoryGeneratedIndex;
-
-    const propFileName = slugs.slug(
-      `${version.path}-${categoryGeneratedIndex.sidebar}-category-${categoryGeneratedIndex.title}`,
-    );
-
-    const propData = await actions.createData(
-      `${docuHash(`category/${propFileName}`)}.json`,
-      JSON.stringify(prop, null, 2),
-    );
-
     return {
       path: categoryGeneratedIndex.permalink,
-      component: docCategoryGeneratedIndexComponent,
+      component: options.docCategoryGeneratedIndexComponent,
       exact: true,
-      modules: {
-        categoryGeneratedIndex: aliasedSource(propData),
+      props: {
+        categoryGeneratedIndex,
       },
       // Same as doc, this sidebar route attribute permits to associate this
       // subpage to the given sidebar
-      ...(sidebar && {sidebar}),
+      ...(categoryGeneratedIndex.sidebar && {
+        sidebar: categoryGeneratedIndex.sidebar,
+      }),
     };
   }
 
   return Promise.all(
-    version.categoryGeneratedIndices.map(createCategoryGeneratedIndexRoute),
+    version.categoryGeneratedIndices.map(buildCategoryGeneratedIndexRoute),
   );
 }
 
-export async function createDocRoutes({
-  docs,
+async function buildVersionDocRoutes({
+  version,
   actions,
-  docItemComponent,
-}: {
-  docs: DocMetadata[];
-  actions: PluginContentLoadedActions;
-  docItemComponent: string;
-}): Promise<RouteConfig[]> {
+  options,
+}: BuildVersionRoutesParam): Promise<RouteConfig[]> {
   return Promise.all(
-    docs.map(async (metadataItem) => {
+    version.docs.map(async (doc) => {
       await actions.createData(
         // Note that this created data path must be in sync with
         // metadataPath provided to mdx-loader.
-        `${docuHash(metadataItem.source)}.json`,
-        JSON.stringify(metadataItem, null, 2),
+        `${docuHash(doc.source)}.json`,
+        doc,
       );
 
       const docRoute: RouteConfig = {
-        path: metadataItem.permalink,
-        component: docItemComponent,
+        path: doc.permalink,
+        component: options.docItemComponent,
         exact: true,
         modules: {
-          content: metadataItem.source,
+          content: doc.source,
         },
-        // Because the parent (DocPage) comp need to access it easily
+        metadata: createDocRouteMetadata(doc),
+        // Because the parent (DocRoot) comp need to access it easily
         // This permits to render the sidebar once without unmount/remount when
         // navigating (and preserve sidebar state)
-        ...(metadataItem.sidebar && {
-          sidebar: metadataItem.sidebar,
+        ...(doc.sidebar && {
+          sidebar: doc.sidebar,
         }),
       };
 
@@ -98,62 +100,164 @@ export async function createDocRoutes({
   );
 }
 
-export async function createVersionRoutes({
-  version,
-  actions,
-  docItemComponent,
-  docLayoutComponent,
-  docCategoryGeneratedIndexComponent,
-  pluginId,
-  aliasedSource,
-}: {
-  version: FullVersion;
-  actions: PluginContentLoadedActions;
-  docLayoutComponent: string;
-  docItemComponent: string;
-  docCategoryGeneratedIndexComponent: string;
-  pluginId: string;
-  aliasedSource: (str: string) => string;
-}): Promise<void> {
-  async function doCreateVersionRoutes(): Promise<void> {
-    const versionMetadata = toVersionMetadataProp(pluginId, version);
-    const versionMetadataPropPath = await actions.createData(
-      `${docuHash(`version-${version.versionName}-metadata-prop`)}.json`,
-      JSON.stringify(versionMetadata, null, 2),
-    );
+async function buildVersionSidebarRoute(param: BuildVersionRoutesParam) {
+  const [docRoutes, categoryGeneratedIndexRoutes] = await Promise.all([
+    buildVersionDocRoutes(param),
+    buildVersionCategoryGeneratedIndexRoutes(param),
+  ]);
+  const subRoutes = [...docRoutes, ...categoryGeneratedIndexRoutes];
+  return {
+    path: param.version.path,
+    exact: false,
+    component: param.options.docRootComponent,
+    routes: subRoutes,
+  };
+}
+function getVersionTags(docs: DocMetadata[]): VersionTags {
+  const groups = groupTaggedItems(docs, (doc) => doc.tags);
+  return _.mapValues(groups, ({tag, items: tagDocs}) => {
+    const tagVisibility = getTagVisibility({
+      items: tagDocs,
+      isUnlisted: (item) => item.unlisted,
+    });
+    return {
+      inline: tag.inline,
+      label: tag.label,
+      permalink: tag.permalink,
+      description: tag.description,
+      docIds: tagVisibility.listedItems.map((item) => item.id),
+      unlisted: tagVisibility.unlisted,
+    };
+  });
+}
 
-    async function createVersionSubRoutes() {
-      const [docRoutes, sidebarsRoutes] = await Promise.all([
-        createDocRoutes({docs: version.docs, actions, docItemComponent}),
-        createCategoryGeneratedIndexRoutes({
-          version,
-          actions,
-          docCategoryGeneratedIndexComponent,
-          aliasedSource,
-        }),
-      ]);
+async function buildVersionTagsRoutes(
+  param: BuildVersionRoutesParam,
+): Promise<RouteConfig[]> {
+  const {version, options} = param;
+  const versionTags = getVersionTags(version.docs);
 
-      const routes = [...docRoutes, ...sidebarsRoutes];
-      return routes.sort((a, b) => a.path.localeCompare(b.path));
+  async function buildTagsListRoute(): Promise<RouteConfig | null> {
+    const tags = toTagsListTagsProp(versionTags);
+    // Don't create a tags list page if there's no tag
+    if (tags.length === 0) {
+      return null;
     }
+    return {
+      path: version.tagsPath,
+      exact: true,
+      component: options.docTagsListComponent,
+      props: {
+        tags,
+      },
+    };
+  }
 
-    actions.addRoute({
+  async function buildTagDocListRoute(tag: VersionTag): Promise<RouteConfig> {
+    return {
+      path: tag.permalink,
+      component: options.docTagDocListComponent,
+      exact: true,
+      props: {
+        tag: toTagDocListProp({
+          allTagsPath: version.tagsPath,
+          tag,
+          docs: version.docs,
+        }),
+      },
+    };
+  }
+
+  const [tagsListRoute, allTagsDocListRoutes] = await Promise.all([
+    buildTagsListRoute(),
+    Promise.all(Object.values(versionTags).map(buildTagDocListRoute)),
+  ]);
+
+  return _.compact([tagsListRoute, ...allTagsDocListRoutes]);
+}
+
+type BuildVersionRoutesParam = Omit<BuildAllRoutesParam, 'versions'> & {
+  version: FullVersion;
+};
+
+async function buildVersionRoutes(
+  param: BuildVersionRoutesParam,
+): Promise<RouteConfig> {
+  const {version, options} = param;
+
+  async function buildVersionSubRoutes() {
+    const [sidebarRoute, tagsRoutes] = await Promise.all([
+      buildVersionSidebarRoute(param),
+      buildVersionTagsRoutes(param),
+    ]);
+
+    return [sidebarRoute, ...tagsRoutes];
+  }
+
+  async function doBuildVersionRoutes(): Promise<RouteConfig> {
+    return {
       path: version.path,
-      // Allow matching /docs/* since this is the wrapping route
       exact: false,
-      component: docLayoutComponent,
-      routes: await createVersionSubRoutes(),
-      modules: {
-        versionMetadata: aliasedSource(versionMetadataPropPath),
+      component: options.docVersionRootComponent,
+      routes: await buildVersionSubRoutes(),
+      props: {
+        // TODO Docusaurus v4 breaking change?
+        //  expose version metadata as route context instead of props
+        version: toVersionMetadataProp(options.id, version),
       },
       priority: version.routePriority,
-    });
+    };
   }
 
   try {
-    return await doCreateVersionRoutes();
+    return await doBuildVersionRoutes();
   } catch (err) {
     logger.error`Can't create version routes for version name=${version.versionName}`;
     throw err;
   }
+}
+
+type BuildAllRoutesParam = Omit<CreateAllRoutesParam, 'actions'> & {
+  actions: Omit<PluginContentLoadedActions, 'addRoute' | 'setGlobalData'>;
+};
+
+// TODO we want this buildAllRoutes function to be easily testable
+// Ideally, we should avoid side effects here (ie not injecting actions)
+export async function buildAllRoutes(
+  param: BuildAllRoutesParam,
+): Promise<RouteConfig[]> {
+  const subRoutes = await Promise.all(
+    param.versions.map((version) =>
+      buildVersionRoutes({
+        ...param,
+        version,
+      }),
+    ),
+  );
+
+  // all docs routes are wrapped under a single parent route, this ensures
+  // the theme layout never unmounts/remounts when navigating between versions
+  return [
+    {
+      path: normalizeUrl([param.baseUrl, param.options.routeBasePath]),
+      exact: false,
+      component: param.options.docsRootComponent,
+      routes: subRoutes,
+    },
+  ];
+}
+
+type CreateAllRoutesParam = {
+  baseUrl: string;
+  versions: FullVersion[];
+  options: PluginOptions;
+  actions: PluginContentLoadedActions;
+  aliasedSource: (str: string) => string;
+};
+
+export async function createAllRoutes(
+  param: CreateAllRoutesParam,
+): Promise<void> {
+  const routes = await buildAllRoutes(param);
+  routes.forEach(param.actions.addRoute);
 }

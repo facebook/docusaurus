@@ -13,11 +13,30 @@
 
 storage: ../storage
 
+# Verdaccio does not allow to publish packages when the client is offline, to avoid
+# errors on publish
+# https://verdaccio.org/docs/configuration#offline-publish
+publish:
+  allow_offline: false
+
 # A list of other known repositories we can talk to
 uplinks:
   npmjs:
     url: https://registry.npmjs.org/
 packages:
+  # Forked packages need to be fetched from npm
+  '@docusaurus/react-loadable':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  # Group and isolate all local packages, avoid being proxy from outside
+  '@docusaurus/*':
+    access: $all
+    publish: $all
+  '@*/*':
+    access: $all
+    publish: $authenticated
+    proxy: npmjs
   '**':
     # Allow all users (including non-authenticated users) to read and
     # publish all packages

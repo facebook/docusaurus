@@ -6,10 +6,8 @@
  */
 
 import React from 'react';
-import {
-  PageMetadata,
-  useCurrentSidebarCategory,
-} from '@docusaurus/theme-common';
+import {PageMetadata} from '@docusaurus/theme-common';
+import {useCurrentSidebarCategory} from '@docusaurus/plugin-content-docs/client';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocCardList from '@theme/DocCardList';
 import DocPaginator from '@theme/DocPaginator';
@@ -40,37 +38,28 @@ function DocCategoryGeneratedIndexPageContent({
 }: Props): JSX.Element {
   const category = useCurrentSidebarCategory();
   return (
-    <>
-      <PageMetadata
-        title={categoryGeneratedIndex.title}
-        description={categoryGeneratedIndex.description}
-        keywords={categoryGeneratedIndex.keywords}
-        // TODO `require` this?
-        image={useBaseUrl(categoryGeneratedIndex.image)}
-      />
-      <div className={styles.generatedIndexPage}>
-        <DocVersionBanner />
-        <DocBreadcrumbs />
-        <DocVersionBadge />
-        <header>
-          <Heading as="h1" className={styles.title}>
-            {categoryGeneratedIndex.title}
-          </Heading>
-          {categoryGeneratedIndex.description && (
-            <p>{categoryGeneratedIndex.description}</p>
-          )}
-        </header>
-        <article className="margin-top--lg">
-          <DocCardList items={category.items} className={styles.list} />
-        </article>
-        <footer className="margin-top--lg">
-          <DocPaginator
-            previous={categoryGeneratedIndex.navigation.previous}
-            next={categoryGeneratedIndex.navigation.next}
-          />
-        </footer>
-      </div>
-    </>
+    <div className={styles.generatedIndexPage}>
+      <DocVersionBanner />
+      <DocBreadcrumbs />
+      <DocVersionBadge />
+      <header>
+        <Heading as="h1" className={styles.title}>
+          {categoryGeneratedIndex.title}
+        </Heading>
+        {categoryGeneratedIndex.description && (
+          <p>{categoryGeneratedIndex.description}</p>
+        )}
+      </header>
+      <article className="margin-top--lg">
+        <DocCardList items={category.items} className={styles.list} />
+      </article>
+      <footer className="margin-top--lg">
+        <DocPaginator
+          previous={categoryGeneratedIndex.navigation.previous}
+          next={categoryGeneratedIndex.navigation.next}
+        />
+      </footer>
+    </div>
   );
 }
 

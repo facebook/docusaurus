@@ -9,13 +9,15 @@ import React from 'react';
 import {listTagsByLetters, type TagLetterEntry} from '@docusaurus/theme-common';
 import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListByLetter';
-
+import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
 function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
   return (
     <article>
-      <h2>{letterEntry.letter}</h2>
+      <Heading as="h2" id={letterEntry.letter}>
+        {letterEntry.letter}
+      </Heading>
       <ul className="padding--none">
         {letterEntry.tags.map((tag) => (
           <li key={tag.permalink} className={styles.tag}>

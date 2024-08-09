@@ -19,33 +19,12 @@
 export * from './index';
 
 export {
-  DocSidebarItemsExpandedStateProvider,
-  useDocSidebarItemsExpandedState,
-} from './contexts/docSidebarItemsExpandedState';
-export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
-export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
-
-export {DocProvider, useDoc, type DocContextValue} from './contexts/doc';
-export {
-  BlogPostProvider,
-  useBlogPost,
-  type BlogPostContextValue,
-} from './contexts/blogPost';
-
-export {
-  useDocsPreferredVersionByPluginId,
-  DocsPreferredVersionContextProvider,
-} from './contexts/docsPreferredVersion';
-
-export {
   AnnouncementBarProvider,
   useAnnouncementBar,
 } from './contexts/announcementBar';
 
-export {
-  useTabGroupChoice,
-  TabGroupChoiceProvider,
-} from './contexts/tabGroupChoice';
+export {useTabs, sanitizeTabsChildren} from './utils/tabsUtils';
+export type {TabValue, TabsProps, TabItemProps} from './utils/tabsUtils';
 
 export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
 export {useNavbarSecondaryMenu} from './contexts/navbarSecondaryMenu/display';
@@ -61,20 +40,7 @@ export {
   containsLineNumbers,
 } from './utils/codeBlockUtils';
 
-export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
-
-export {
-  isDocsPluginEnabled,
-  useDocById,
-  findSidebarCategory,
-  findFirstCategoryLink,
-  isActiveSidebarItem,
-  useSidebarBreadcrumbs,
-  useDocsVersionCandidates,
-  useLayoutDoc,
-  useLayoutDocsSidebar,
-  useDocRouteMetadata,
-} from './utils/docsUtils';
+export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
 export {useTitleFormatter} from './utils/generalUtils';
 
@@ -82,7 +48,11 @@ export {useLocationChange} from './utils/useLocationChange';
 
 export {useLocalPathname} from './utils/useLocalPathname';
 
-export {useHistoryPopHandler} from './utils/historyUtils';
+export {
+  useHistoryPopHandler,
+  useHistorySelector,
+  useQueryStringValue,
+} from './utils/historyUtils';
 
 export {
   useFilteredAndTreeifiedTOC,
@@ -109,14 +79,21 @@ export {
   type TOCHighlightConfig,
 } from './hooks/useTOCHighlight';
 
+export {useDateTimeFormat} from './utils/IntlUtils';
+
 export {useHideableNavbar} from './hooks/useHideableNavbar';
 export {
   useKeyboardNavigation,
   keyboardFocusedClassName,
 } from './hooks/useKeyboardNavigation';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
-export {useSearchPage} from './hooks/useSearchPage';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
-export {useSkipToContent} from './hooks/useSkipToContent';
 export {getPrismCssVariables} from './utils/codeBlockUtils';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
+
+export {
+  useBlogTagsPostsPageTitle,
+  useBlogAuthorPageTitle,
+  translateBlogAuthorsListPageTitle,
+  BlogAuthorsListViewAllLabel,
+} from './translations/blogTranslations';

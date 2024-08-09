@@ -15,16 +15,25 @@ describe('toGlobalDataVersion', () => {
   it('generates the right docs, sidebars, and metadata', () => {
     const docs = [
       {
-        unversionedId: 'main',
+        id: 'main',
         permalink: '/current/main',
         sidebar: 'tutorial',
         frontMatter: {},
+        unlisted: false,
       },
       {
-        unversionedId: 'doc',
+        id: 'doc',
         permalink: '/current/doc',
         sidebar: 'tutorial',
         frontMatter: {},
+        unlisted: undefined,
+      },
+      {
+        id: 'docNoSidebarUnlisted',
+        permalink: '/current/docNoSidebarUnlisted',
+        sidebar: undefined,
+        frontMatter: {},
+        unlisted: true,
       },
     ] as DocMetadata[];
     const sidebars: Sidebars = {
@@ -93,7 +102,7 @@ describe('toGlobalDataVersion', () => {
         docs,
         drafts: [
           {
-            unversionedId: 'some-draft-id',
+            id: 'some-draft-id',
             permalink: '/current/draft',
             sidebar: undefined,
           },

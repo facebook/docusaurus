@@ -5,14 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
 import {extractThemeCodeMessages} from '../../src/utils';
-
-// Seems the 5s default timeout fails sometimes
-jest.setTimeout(15000);
 
 describe('theme translations', () => {
   it('has base messages files contain EXACTLY all the translations extracted from the theme. Please run "yarn workspace @docusaurus/theme-translations update" to keep base messages files up-to-date', async () => {

@@ -26,16 +26,21 @@ const ignorePatterns = [
   '/packages/docusaurus-theme-common/lib',
   '/packages/docusaurus-migrate/lib',
   '/jest',
+  '/argos',
 ];
 
 export default {
   rootDir: fileURLToPath(new URL('.', import.meta.url)),
   verbose: true,
+  setupFiles: ['./jest/setup.js'],
   testEnvironmentOptions: {
     url: 'https://docusaurus.io/',
   },
   testEnvironment: 'node',
   testPathIgnorePatterns: ignorePatterns,
+  // Default 5s timeout often fails on Windows :s,
+  // see https://github.com/facebook/docusaurus/pull/8259
+  testTimeout: 15000,
   coveragePathIgnorePatterns: [
     ...ignorePatterns,
     // We also ignore all package entry points
@@ -77,6 +82,24 @@ export default {
       '@docusaurus/plugin-content-docs/src/client/index.ts',
 
     '@testing-utils/(.*)': '<rootDir>/jest/utils/$1.ts',
+
+    // MDX packages are ESM-only and it is a pain to use in Jest
+    // So we use them in Jest tests as CJS versions
+    // see https://mdxjs.com/docs/troubleshooting-mdx/#problems-integrating-mdx
+    '^@mdx-js/mdx$': '<rootDir>/jest/vendor/@mdx-js__mdx@3.0.0.js',
+    '^remark$': '<rootDir>/jest/vendor/remark@15.0.1.js',
+    '^remark-rehype$': '<rootDir>/jest/vendor/remark-rehype@11.0.0.js',
+    '^remark-mdx$': '<rootDir>/jest/vendor/remark-mdx@3.0.0.js',
+    '^remark-directive$': '<rootDir>/jest/vendor/remark-directive@3.0.0.js',
+    '^remark-gfm$': '<rootDir>/jest/vendor/remark-gfm@4.0.0.js',
+    '^estree-util-value-to-estree$':
+      '<rootDir>/jest/vendor/estree-util-value-to-estree@3.0.1.js',
+    '^mdast-util-to-string$':
+      '<rootDir>/jest/vendor/mdast-util-to-string@4.0.0.js',
+    '^unist-util-visit$': '<rootDir>/jest/vendor/unist-util-visit@5.0.0.js',
+    '^unist-util-remove-position$':
+      '<rootDir>/jest/vendor/unist-util-remove-position@5.0.0.js',
+    '^rehype-stringify$': '<rootDir>/jest/vendor/rehype-stringify@10.0.0.js',
   },
   snapshotSerializers: [
     '<rootDir>/jest/snapshotPathNormalizer.ts',

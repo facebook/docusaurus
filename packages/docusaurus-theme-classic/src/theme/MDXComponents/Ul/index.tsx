@@ -11,7 +11,11 @@ import type {Props} from '@theme/MDXComponents/Ul';
 
 import styles from './styles.module.css';
 
-function transformUlClassName(className?: string): string {
+function transformUlClassName(className?: string): string | undefined {
+  // Fix https://github.com/facebook/docusaurus/issues/9098
+  if (typeof className === 'undefined') {
+    return undefined;
+  }
   return clsx(
     className,
     // This class is set globally by GitHub/MDX. We keep the global class, and

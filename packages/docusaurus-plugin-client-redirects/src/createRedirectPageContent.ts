@@ -13,9 +13,24 @@ const getCompiledRedirectPageTemplate = _.memoize(() =>
   eta.compile(redirectPageTemplate.trim()),
 );
 
-function renderRedirectPageTemplate(data: {toUrl: string}) {
+function renderRedirectPageTemplate(data: {
+  toUrl: string;
+  searchAnchorForwarding: boolean;
+}) {
   const compiled = getCompiledRedirectPageTemplate();
   return compiled(data, eta.defaultConfig);
+}
+
+// if the target url does not include ?search#anchor,
+// we forward search/anchor that the redirect page receives
+function searchAnchorForwarding(toUrl: string): boolean {
+  try {
+    const url = new URL(toUrl, 'https://example.com');
+    const containsSearchOrAnchor = url.search || url.hash;
+    return !containsSearchOrAnchor;
+  } catch (e) {
+    return false;
+  }
 }
 
 export default function createRedirectPageContent({
@@ -25,5 +40,6 @@ export default function createRedirectPageContent({
 }): string {
   return renderRedirectPageTemplate({
     toUrl: encodeURI(toUrl),
+    searchAnchorForwarding: searchAnchorForwarding(toUrl),
   });
 }

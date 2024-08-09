@@ -9,19 +9,17 @@ import React from 'react';
 import {composeProviders} from '@docusaurus/theme-common';
 import {
   ColorModeProvider,
-  TabGroupChoiceProvider,
   AnnouncementBarProvider,
-  DocsPreferredVersionContextProvider,
   ScrollControllerProvider,
   NavbarProvider,
   PluginHtmlClassNameProvider,
 } from '@docusaurus/theme-common/internal';
+import {DocsPreferredVersionContextProvider} from '@docusaurus/plugin-content-docs/client';
 import type {Props} from '@theme/Layout/Provider';
 
 const Provider = composeProviders([
   ColorModeProvider,
   AnnouncementBarProvider,
-  TabGroupChoiceProvider,
   ScrollControllerProvider,
   DocsPreferredVersionContextProvider,
   PluginHtmlClassNameProvider,

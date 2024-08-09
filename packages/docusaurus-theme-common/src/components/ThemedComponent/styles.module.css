@@ -1,0 +1,26 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.themedComponent {
+  display: none;
+}
+
+[data-theme='light'] .themedComponent--light {
+  display: initial;
+}
+
+[data-theme='dark'] .themedComponent--dark {
+  display: initial;
+}
+
+/*
+JS disabled??? Show light version by default => better than showing nothing
+TODO bad, but we currently always show light mode when there's no data-theme
+ */
+html:not([data-theme]) .themedComponent--light {
+  display: initial;
+}

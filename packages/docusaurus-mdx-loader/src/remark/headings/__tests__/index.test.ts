@@ -7,18 +7,27 @@
 
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
-import remark from 'remark';
 import u from 'unist-builder';
-import removePosition from 'unist-util-remove-position';
-import toString from 'mdast-util-to-string';
-import visit from 'unist-util-visit';
-import slug from '../index';
+import {removePosition} from 'unist-util-remove-position';
+import {toString} from 'mdast-util-to-string';
+import {visit} from 'unist-util-visit';
+import plugin from '../index';
+import type {PluginOptions} from '../index';
 import type {Plugin} from 'unified';
 import type {Parent} from 'unist';
 
-function process(doc: string, plugins: Plugin[] = []) {
-  const processor = remark().use({plugins: [...plugins, slug]});
-  return removePosition(processor.runSync(processor.parse(doc)), true);
+async function process(
+  doc: string,
+  plugins: Plugin[] = [],
+  options: PluginOptions = {anchorsMaintainCase: false},
+) {
+  const {remark} = await import('remark');
+  const processor = await remark().use({
+    plugins: [...plugins, [plugin, options]],
+  });
+  const result = await processor.run(processor.parse(doc));
+  removePosition(result, {force: true});
+  return result;
 }
 
 function heading(label: string | null, id: string) {
@@ -30,8 +39,8 @@ function heading(label: string | null, id: string) {
 }
 
 describe('headings remark plugin', () => {
-  it('patches `id`s and `data.hProperties.id', () => {
-    const result = process('# Normal\n\n## Table of Contents\n\n# Baz\n');
+  it('patches `id`s and `data.hProperties.id', async () => {
+    const result = await process('# Normal\n\n## Table of Contents\n\n# Baz\n');
     const expected = u('root', [
       u(
         'heading',
@@ -57,8 +66,8 @@ describe('headings remark plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  it('does not overwrite `data` on headings', () => {
-    const result = process('# Normal\n', [
+  it('does not overwrite `data` on headings', async () => {
+    const result = await process('# Normal\n', [
       () => (root) => {
         (root as Parent).children[0]!.data = {foo: 'bar'};
       },
@@ -77,8 +86,8 @@ describe('headings remark plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  it('does not overwrite `data.hProperties` on headings', () => {
-    const result = process('# Normal\n', [
+  it('does not overwrite `data.hProperties` on headings', async () => {
+    const result = await process('# Normal\n', [
       () => (root) => {
         (root as Parent).children[0]!.data = {
           hProperties: {className: ['foo']},
@@ -99,8 +108,8 @@ describe('headings remark plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  it('generates `id`s and `hProperties.id`s, based on `hProperties.id` if they exist', () => {
-    const result = process(
+  it('generates `id`s and `hProperties.id`s, based on `hProperties.id` if they exist', async () => {
+    const result = await process(
       [
         '## Something',
         '## Something here',
@@ -152,8 +161,8 @@ describe('headings remark plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  it('creates GitHub-style headings ids', () => {
-    const result = process(
+  it('creates GitHub-style headings ids', async () => {
+    const result = await process(
       [
         '## I ♥ unicode',
         '',
@@ -223,8 +232,10 @@ describe('headings remark plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  it('generates id from only text contents of headings if they contains HTML tags', () => {
-    const result = process('# <span class="normal-header">Normal</span>\n');
+  it('generates id from only text contents of headings if they contains HTML tags', async () => {
+    const result = await process(
+      '# <span class="normal-header">Normal</span>\n',
+    );
     const expected = u('root', [
       u(
         'heading',
@@ -243,8 +254,8 @@ describe('headings remark plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  it('creates custom headings ids', () => {
-    const result = process(`
+  it('creates custom headings ids', async () => {
+    const result = await process(`
 # Heading One {#custom_h1}
 
 ## Heading Two {#custom-heading-two}
@@ -307,5 +318,26 @@ describe('headings remark plugin', () => {
         text: '{#text-after} custom ID',
       },
     ]);
+  });
+
+  it('preserve anchors case then "anchorsMaintainCase" option is set', async () => {
+    const result = await process('# Case Sensitive Heading', [], {
+      anchorsMaintainCase: true,
+    });
+    const expected = u('root', [
+      u(
+        'heading',
+        {
+          depth: 1,
+          data: {
+            hProperties: {id: 'Case-Sensitive-Heading'},
+            id: 'Case-Sensitive-Heading',
+          },
+        },
+        [u('text', 'Case Sensitive Heading')],
+      ),
+    ]);
+
+    expect(result).toEqual(expected);
   });
 });

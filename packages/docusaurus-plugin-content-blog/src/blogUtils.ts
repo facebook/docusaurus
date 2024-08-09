@@ -11,41 +11,63 @@ import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import readingTime from 'reading-time';
 import {
-  parseMarkdownString,
+  parseMarkdownFile,
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
   getFolderContainingFile,
   posixPath,
-  replaceMarkdownLinks,
   Globby,
-  normalizeFrontMatterTags,
   groupTaggedItems,
+  getTagVisibility,
   getFileCommitDate,
   getContentPathList,
+  isUnlisted,
+  isDraft,
+  readLastUpdateData,
+  normalizeTags,
+  aliasedSitePathToRelativePath,
 } from '@docusaurus/utils';
+import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
-import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
-import type {LoadContext} from '@docusaurus/types';
+import {getBlogPostAuthors} from './authors';
+import {reportAuthorsProblems} from './authorsProblems';
+import type {TagsFile} from '@docusaurus/utils';
+import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
+  AuthorsMap,
   PluginOptions,
   ReadingTimeFunction,
   BlogPost,
   BlogTags,
   BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
-import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
+import type {BlogContentPaths} from './types';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
-export function getSourceToPermalink(blogPosts: BlogPost[]): {
-  [aliasedPath: string]: string;
-} {
-  return Object.fromEntries(
-    blogPosts.map(({metadata: {source, permalink}}) => [source, permalink]),
+export function reportUntruncatedBlogPosts({
+  blogPosts,
+  onUntruncatedBlogPosts,
+}: {
+  blogPosts: BlogPost[];
+  onUntruncatedBlogPosts: PluginOptions['onUntruncatedBlogPosts'];
+}): void {
+  const untruncatedBlogPosts = blogPosts.filter(
+    (p) => !p.metadata.hasTruncateMarker,
   );
+  if (onUntruncatedBlogPosts !== 'ignore' && untruncatedBlogPosts.length > 0) {
+    const message = logger.interpolate`Docusaurus found blog posts without truncation markers:
+- ${untruncatedBlogPosts
+      .map((p) => logger.path(aliasedSitePathToRelativePath(p.metadata.source)))
+      .join('\n- ')}
+
+We recommend using truncation markers (code=${`<!-- truncate -->`} or code=${`{/* truncate */}`}) in blog posts to create shorter previews on blog paginated lists.
+Tip: turn this security off with the code=${`onUntruncatedBlogPosts: 'ignore'`} blog plugin option.`;
+    logger.report(onUntruncatedBlogPosts)(message);
+  }
 }
 
 export function paginateBlogPosts({
@@ -54,23 +76,25 @@ export function paginateBlogPosts({
   blogTitle,
   blogDescription,
   postsPerPageOption,
+  pageBasePath,
 }: {
   blogPosts: BlogPost[];
   basePageUrl: string;
   blogTitle: string;
   blogDescription: string;
   postsPerPageOption: number | 'ALL';
+  pageBasePath: string;
 }): BlogPaginated[] {
   const totalCount = blogPosts.length;
   const postsPerPage =
     postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
-  const numberOfPages = Math.ceil(totalCount / postsPerPage);
+  const numberOfPages = Math.max(1, Math.ceil(totalCount / postsPerPage));
 
   const pages: BlogPaginated[] = [];
 
   function permalink(page: number) {
     return page > 0
-      ? normalizeUrl([basePageUrl, `page/${page + 1}`])
+      ? normalizeUrl([basePageUrl, pageBasePath, `${page + 1}`])
       : basePageUrl;
   }
 
@@ -96,6 +120,10 @@ export function paginateBlogPosts({
   return pages;
 }
 
+export function shouldBeListed(blogPost: BlogPost): boolean {
+  return !blogPost.metadata.unlisted;
+}
+
 export function getBlogTags({
   blogPosts,
   ...params
@@ -104,22 +132,31 @@ export function getBlogTags({
   blogTitle: string;
   blogDescription: string;
   postsPerPageOption: number | 'ALL';
+  pageBasePath: string;
 }): BlogTags {
   const groups = groupTaggedItems(
     blogPosts,
     (blogPost) => blogPost.metadata.tags,
   );
-
-  return _.mapValues(groups, ({tag, items: tagBlogPosts}) => ({
-    label: tag.label,
-    items: tagBlogPosts.map((item) => item.id),
-    permalink: tag.permalink,
-    pages: paginateBlogPosts({
-      blogPosts: tagBlogPosts,
-      basePageUrl: tag.permalink,
-      ...params,
-    }),
-  }));
+  return _.mapValues(groups, ({tag, items: tagBlogPosts}) => {
+    const tagVisibility = getTagVisibility({
+      items: tagBlogPosts,
+      isUnlisted: (item) => item.metadata.unlisted,
+    });
+    return {
+      inline: tag.inline,
+      label: tag.label,
+      permalink: tag.permalink,
+      description: tag.description,
+      items: tagVisibility.listedItems.map((item) => item.id),
+      pages: paginateBlogPosts({
+        blogPosts: tagVisibility.listedItems,
+        basePageUrl: tag.permalink,
+        ...params,
+      }),
+      unlisted: tagVisibility.unlisted,
+    };
+  });
 }
 
 const DATE_FILENAME_REGEX =
@@ -148,29 +185,19 @@ export function parseBlogFileName(
   return {date: undefined, text, slug};
 }
 
-function formatBlogPostDate(
-  locale: string,
-  date: Date,
-  calendar: string,
-): string {
+async function parseBlogPostMarkdownFile({
+  filePath,
+  parseFrontMatter,
+}: {
+  filePath: string;
+  parseFrontMatter: ParseFrontMatter;
+}) {
+  const fileContent = await fs.readFile(filePath, 'utf-8');
   try {
-    return new Intl.DateTimeFormat(locale, {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-      timeZone: 'UTC',
-      calendar,
-    }).format(date);
-  } catch (err) {
-    logger.error`Can't format blog post date "${String(date)}"`;
-    throw err;
-  }
-}
-
-async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
-  const markdownString = await fs.readFile(blogSourceAbsolute, 'utf-8');
-  try {
-    const result = parseMarkdownString(markdownString, {
+    const result = await parseMarkdownFile({
+      filePath,
+      fileContent,
+      parseFrontMatter,
       removeContentTitle: true,
     });
     return {
@@ -178,7 +205,7 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
       frontMatter: validateBlogPostFrontMatter(result.frontMatter),
     };
   } catch (err) {
-    logger.error`Error while parsing blog post file path=${blogSourceAbsolute}.`;
+    logger.error`Error while parsing blog post file path=${filePath}.`;
     throw err;
   }
 }
@@ -191,10 +218,14 @@ async function processBlogSourceFile(
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
+  tagsFile: TagsFile | null,
   authorsMap?: AuthorsMap,
 ): Promise<BlogPost | undefined> {
   const {
-    siteConfig: {baseUrl},
+    siteConfig: {
+      baseUrl,
+      markdown: {parseFrontMatter},
+    },
     siteDir,
     i18n,
   } = context;
@@ -215,11 +246,23 @@ async function processBlogSourceFile(
   const blogSourceAbsolute = path.join(blogDirPath, blogSourceRelative);
 
   const {frontMatter, content, contentTitle, excerpt} =
-    await parseBlogPostMarkdownFile(blogSourceAbsolute);
+    await parseBlogPostMarkdownFile({
+      filePath: blogSourceAbsolute,
+      parseFrontMatter,
+    });
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
-  if (frontMatter.draft && process.env.NODE_ENV === 'production') {
+  const lastUpdate = await readLastUpdateData(
+    blogSourceAbsolute,
+    options,
+    frontMatter.last_update,
+  );
+
+  const draft = isDraft({frontMatter});
+  const unlisted = isUnlisted({frontMatter});
+
+  if (draft) {
     return undefined;
   }
 
@@ -243,10 +286,11 @@ async function processBlogSourceFile(
     }
 
     try {
-      const result = getFileCommitDate(blogSourceAbsolute, {
+      const result = await getFileCommitDate(blogSourceAbsolute, {
         age: 'oldest',
         includeAuthor: false,
       });
+
       return result.date;
     } catch (err) {
       logger.warn(err);
@@ -255,11 +299,6 @@ async function processBlogSourceFile(
   }
 
   const date = await getDate();
-  const formattedDate = formatBlogPostDate(
-    i18n.currentLocale,
-    date,
-    i18n.localeConfigs[i18n.currentLocale]!.calendar,
-  );
 
   const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
   const description = frontMatter.description ?? excerpt ?? '';
@@ -298,12 +337,26 @@ async function processBlogSourceFile(
     return undefined;
   }
 
-  const tagsBasePath = normalizeUrl([
+  const tagsBaseRoutePath = normalizeUrl([
     baseUrl,
     routeBasePath,
     tagsRouteBasePath,
   ]);
-  const authors = getBlogPostAuthors({authorsMap, frontMatter});
+
+  const authors = getBlogPostAuthors({authorsMap, frontMatter, baseUrl});
+  reportAuthorsProblems({
+    authors,
+    blogSourceRelative,
+    options,
+  });
+
+  const tags = normalizeTags({
+    options,
+    source: blogSourceRelative,
+    frontMatterTags: frontMatter.tags,
+    tagsBaseRoutePath,
+    tagsFile,
+  });
 
   return {
     id: slug,
@@ -314,8 +367,7 @@ async function processBlogSourceFile(
       title,
       description,
       date,
-      formattedDate,
-      tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
+      tags,
       readingTime: showReadingTime
         ? options.readingTime({
             content,
@@ -326,6 +378,9 @@ async function processBlogSourceFile(
       hasTruncateMarker: truncateMarker.test(content),
       authors,
       frontMatter,
+      unlisted,
+      lastUpdatedAt: lastUpdate.lastUpdatedAt,
+      lastUpdatedBy: lastUpdate.lastUpdatedBy,
     },
     content,
   };
@@ -335,6 +390,7 @@ export async function generateBlogPosts(
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
+  authorsMap?: AuthorsMap,
 ): Promise<BlogPost[]> {
   const {include, exclude} = options;
 
@@ -347,28 +403,28 @@ export async function generateBlogPosts(
     ignore: exclude,
   });
 
-  const authorsMap = await getAuthorsMap({
-    contentPaths,
-    authorsMapPath: options.authorsMapPath,
-  });
+  const tagsFile = await getTagsFile({contentPaths, tags: options.tags});
+
+  async function doProcessBlogSourceFile(blogSourceFile: string) {
+    try {
+      return await processBlogSourceFile(
+        blogSourceFile,
+        contentPaths,
+        context,
+        options,
+        tagsFile,
+        authorsMap,
+      );
+    } catch (err) {
+      throw new Error(
+        `Processing of blog source file path=${blogSourceFile} failed.`,
+        {cause: err as Error},
+      );
+    }
+  }
 
   const blogPosts = (
-    await Promise.all(
-      blogSourceFiles.map(async (blogSourceFile: string) => {
-        try {
-          return await processBlogSourceFile(
-            blogSourceFile,
-            contentPaths,
-            context,
-            options,
-            authorsMap,
-          );
-        } catch (err) {
-          logger.error`Processing of blog source file path=${blogSourceFile} failed.`;
-          throw err;
-        }
-      }),
-    )
+    await Promise.all(blogSourceFiles.map(doProcessBlogSourceFile))
   ).filter(Boolean) as BlogPost[];
 
   blogPosts.sort(
@@ -381,31 +437,18 @@ export async function generateBlogPosts(
   return blogPosts;
 }
 
-export type LinkifyParams = {
-  filePath: string;
-  fileString: string;
-} & Pick<
-  BlogMarkdownLoaderOptions,
-  'sourceToPermalink' | 'siteDir' | 'contentPaths' | 'onBrokenMarkdownLink'
->;
+export async function applyProcessBlogPosts({
+  blogPosts,
+  processBlogPosts,
+}: {
+  blogPosts: BlogPost[];
+  processBlogPosts: PluginOptions['processBlogPosts'];
+}): Promise<BlogPost[]> {
+  const processedBlogPosts = await processBlogPosts({blogPosts});
 
-export function linkify({
-  filePath,
-  contentPaths,
-  fileString,
-  siteDir,
-  sourceToPermalink,
-  onBrokenMarkdownLink,
-}: LinkifyParams): string {
-  const {newContent, brokenMarkdownLinks} = replaceMarkdownLinks({
-    siteDir,
-    fileString,
-    filePath,
-    contentPaths,
-    sourceToPermalink,
-  });
+  if (Array.isArray(processedBlogPosts)) {
+    return processedBlogPosts;
+  }
 
-  brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
-
-  return newContent;
+  return blogPosts;
 }

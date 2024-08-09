@@ -1,66 +1,103 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`footnoteIDFixer remark plugin appends a hash to each footnote def/ref 1`] = `
-"/* @jsxRuntime classic */
-/* @jsx mdx */
-
-
-
-const layoutProps = {
-  
-};
-const MDXLayout = "wrapper"
-export default function MDXContent({
-  components,
-  ...props
-}) {
-  return <MDXLayout {...layoutProps} {...props} components={components} mdxType="MDXLayout">
-    <p>{\`foo\`}<sup parentName="p" {...{
-        "id": "fnref-1-[HASH]"
-      }}><a parentName="sup" {...{
-          "href": "#fn-1-[HASH]",
-          "className": "footnote-ref"
-        }}>{\`1\`}</a></sup></p>
-    <p>{\`bar\`}<sup parentName="p" {...{
-        "id": "fnref-2-[HASH]"
-      }}><a parentName="sup" {...{
-          "href": "#fn-2-[HASH]",
-          "className": "footnote-ref"
-        }}>{\`2\`}</a></sup></p>
-    <p>{\`baz\`}<sup parentName="p" {...{
-        "id": "fnref-3-[HASH]"
-      }}><a parentName="sup" {...{
-          "href": "#fn-3-[HASH]",
-          "className": "footnote-ref"
-        }}>{\`3\`}</a></sup></p>
-    <div {...{
-      "className": "footnotes"
-    }}>
-      <hr parentName="div"></hr>
-      <ol parentName="div">
-        <li parentName="ol" {...{
-          "id": "fn-1-[HASH]"
-        }}>{\`foo\`}<a parentName="li" {...{
-            "href": "#fnref-1-[HASH]",
-            "className": "footnote-backref"
-          }}>{\`↩\`}</a></li>
-        <li parentName="ol" {...{
-          "id": "fn-2-[HASH]"
-        }}>{\`foo\`}<a parentName="li" {...{
-            "href": "#fnref-2-[HASH]",
-            "className": "footnote-backref"
-          }}>{\`↩\`}</a></li>
-        <li parentName="ol" {...{
-          "id": "fn-3-[HASH]"
-        }}>{\`foo\`}<a parentName="li" {...{
-            "href": "#fnref-3-[HASH]",
-            "className": "footnote-backref"
-          }}>{\`↩\`}</a></li>
-      </ol>
-    </div>
-    </MDXLayout>;
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+function _createMdxContent(props) {
+  const _components = {
+    a: "a",
+    h2: "h2",
+    li: "li",
+    ol: "ol",
+    p: "p",
+    section: "section",
+    sup: "sup",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsxs(_components.p, {
+      children: ["foo", _jsx(_components.sup, {
+        children: _jsx(_components.a, {
+          href: "#user-content-fn-1-[HASH]",
+          id: "user-content-fnref-1-[HASH]",
+          "data-footnote-ref": true,
+          "aria-describedby": "footnote-label",
+          children: "1"
+        })
+      })]
+    }), "/n", _jsxs(_components.p, {
+      children: ["bar", _jsx(_components.sup, {
+        children: _jsx(_components.a, {
+          href: "#user-content-fn-2-[HASH]",
+          id: "user-content-fnref-2-[HASH]",
+          "data-footnote-ref": true,
+          "aria-describedby": "footnote-label",
+          children: "2"
+        })
+      })]
+    }), "/n", _jsxs(_components.p, {
+      children: ["baz", _jsx(_components.sup, {
+        children: _jsx(_components.a, {
+          href: "#user-content-fn-3-[HASH]",
+          id: "user-content-fnref-3-[HASH]",
+          "data-footnote-ref": true,
+          "aria-describedby": "footnote-label",
+          children: "3"
+        })
+      })]
+    }), "/n", _jsxs(_components.section, {
+      "data-footnotes": true,
+      className: "footnotes",
+      children: [_jsx(_components.h2, {
+        className: "sr-only",
+        id: "footnote-label",
+        children: "Footnotes"
+      }), "/n", _jsxs(_components.ol, {
+        children: ["/n", _jsxs(_components.li, {
+          id: "user-content-fn-1-[HASH]",
+          children: ["/n", _jsxs(_components.p, {
+            children: ["foo ", _jsx(_components.a, {
+              href: "#user-content-fnref-1-[HASH]",
+              "data-footnote-backref": "",
+              "aria-label": "Back to reference 1",
+              className: "data-footnote-backref",
+              children: "↩"
+            })]
+          }), "/n"]
+        }), "/n", _jsxs(_components.li, {
+          id: "user-content-fn-2-[HASH]",
+          children: ["/n", _jsxs(_components.p, {
+            children: ["foo ", _jsx(_components.a, {
+              href: "#user-content-fnref-2-[HASH]",
+              "data-footnote-backref": "",
+              "aria-label": "Back to reference 2",
+              className: "data-footnote-backref",
+              children: "↩"
+            })]
+          }), "/n"]
+        }), "/n", _jsxs(_components.li, {
+          id: "user-content-fn-3-[HASH]",
+          children: ["/n", _jsxs(_components.p, {
+            children: ["foo ", _jsx(_components.a, {
+              href: "#user-content-fnref-3-[HASH]",
+              "data-footnote-backref": "",
+              "aria-label": "Back to reference 3",
+              className: "data-footnote-backref",
+              children: "↩"
+            })]
+          }), "/n"]
+        }), "/n"]
+      }), "/n"]
+    })]
+  });
 }
-
-;
-MDXContent.isMDXComponent = true;"
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
+"
 `;

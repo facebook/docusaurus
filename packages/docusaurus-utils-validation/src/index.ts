@@ -19,9 +19,15 @@ export {
   PluginIdSchema,
   RemarkPluginsSchema,
   RehypePluginsSchema,
+  RecmaPluginsSchema,
   AdmonitionsSchema,
+  RouteBasePathSchema,
   URISchema,
   PathnameSchema,
   FrontMatterTagsSchema,
   FrontMatterTOCHeadingLevels,
+  ContentVisibilitySchema,
+  FrontMatterLastUpdateErrorMessage,
+  FrontMatterLastUpdateSchema,
 } from './validationSchemas';
+export {getTagsFilePathsToWatch, getTagsFile} from './tagsFile';

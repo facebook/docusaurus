@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {normalizeUrl, posixPath} from '@docusaurus/utils';
+import {getContentPathList, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {CURRENT_VERSION_NAME} from '../constants';
 import {validateVersionsOptions} from './validation';
 import {
@@ -14,12 +14,16 @@ import {
   getVersionMetadataPaths,
   readVersionNames,
 } from './files';
+import {createSidebarsUtils} from '../sidebars/utils';
+import {getCategoryGeneratedIndexMetadataList} from '../categoryGeneratedIndex';
+import type {FullVersion} from '../types';
+import type {LoadContext} from '@docusaurus/types';
 import type {
+  LoadedVersion,
   PluginOptions,
   VersionBanner,
   VersionMetadata,
 } from '@docusaurus/plugin-content-docs';
-import type {LoadContext} from '@docusaurus/types';
 
 export type VersionContext = {
   /** The version name to get banner of. */
@@ -122,6 +126,13 @@ export function getVersionBadge({
   return options.versions[versionName]?.badge ?? defaultVersionBadge;
 }
 
+export function getVersionNoIndex({
+  versionName,
+  options,
+}: VersionContext): VersionMetadata['noIndex'] {
+  return options.versions[versionName]?.noIndex ?? false;
+}
+
 function getVersionClassName({
   versionName,
   options,
@@ -179,6 +190,7 @@ async function createVersionMetadata(
     label: getVersionLabel(context),
     banner: getVersionBanner(context),
     badge: getVersionBadge(context),
+    noIndex: getVersionNoIndex(context),
     className: getVersionClassName(context),
     path: routePath,
     tagsPath: normalizeUrl([routePath, options.tagsBasePath]),
@@ -243,4 +255,33 @@ export async function readVersionsMetadata({
     ),
   );
   return versionsMetadata;
+}
+
+export function toFullVersion(version: LoadedVersion): FullVersion {
+  const sidebarsUtils = createSidebarsUtils(version.sidebars);
+  return {
+    ...version,
+    sidebarsUtils,
+    categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
+      docs: version.docs,
+      sidebarsUtils,
+    }),
+  };
+}
+
+export function getVersionFromSourceFilePath(
+  filePath: string,
+  versionsMetadata: VersionMetadata[],
+): VersionMetadata {
+  const versionFound = versionsMetadata.find((version) =>
+    getContentPathList(version).some((docsDirPath) =>
+      filePath.startsWith(docsDirPath),
+    ),
+  );
+  if (!versionFound) {
+    throw new Error(
+      `Unexpected error: file at "${filePath}" does not belong to any docs version!`,
+    );
+  }
+  return versionFound;
 }

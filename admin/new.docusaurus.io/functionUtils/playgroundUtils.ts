@@ -10,18 +10,17 @@ import type {HandlerEvent, HandlerResponse} from '@netlify/functions';
 const CookieName = 'DocusaurusPlaygroundName';
 
 const PlaygroundConfigs = {
-  // Do not use this one, see
-  // https://github.com/codesandbox/codesandbox-client/issues/5683#issuecomment-1023252459
-  // codesandbox: 'https://codesandbox.io/s/docusaurus',
   codesandbox:
-    'https://codesandbox.io/s/github/facebook/docusaurus/tree/main/examples/classic',
+    'https://codesandbox.io/p/sandbox/github/facebook/docusaurus/tree/main/examples/classic?file=%2FREADME.md&privacy=public',
+  'codesandbox-ts':
+    'https://codesandbox.io/p/sandbox/github/facebook/docusaurus/tree/main/examples/classic-typescript?file=%2FREADME.md&privacy=public',
 
-  // Not updated
-  // stackblitz: 'https://stackblitz.com/fork/docusaurus',
   // Slow to load
   // stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/main/examples/classic',
   // Dedicated branch: faster load
   stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/starter',
+  'stackblitz-ts':
+    'https://stackblitz.com/github/facebook/docusaurus/tree/main/examples/classic-typescript',
 };
 
 const PlaygroundDocumentationUrl = 'https://docusaurus.io/docs/playground';

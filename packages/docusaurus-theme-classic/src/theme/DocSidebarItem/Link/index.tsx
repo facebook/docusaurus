@@ -8,7 +8,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
-import {isActiveSidebarItem} from '@docusaurus/theme-common/internal';
+import {isActiveSidebarItem} from '@docusaurus/plugin-content-docs/client';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import IconExternalLink from '@theme/Icon/ExternalLink';
@@ -24,7 +24,7 @@ export default function DocSidebarItemLink({
   index,
   ...props
 }: Props): JSX.Element {
-  const {href, label, className} = item;
+  const {href, label, className, autoAddBaseUrl} = item;
   const isActive = isActiveSidebarItem(item, activePath);
   const isInternalLink = isInternalUrl(href);
   return (
@@ -44,6 +44,7 @@ export default function DocSidebarItemLink({
             'menu__link--active': isActive,
           },
         )}
+        autoAddBaseUrl={autoAddBaseUrl}
         aria-current={isActive ? 'page' : undefined}
         to={href}
         {...(isInternalLink && {

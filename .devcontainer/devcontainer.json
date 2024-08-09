@@ -1,5 +1,5 @@
 {
-  "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu-20.04",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
   "settings": {
     "[typescript]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode",

@@ -5,19 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {isValidElement} from 'react';
-import CodeBlock from '@theme/CodeBlock';
+import React, {type ReactNode} from 'react';
 import type {Props} from '@theme/MDXComponents/Pre';
 
-export default function MDXPre(props: Props): JSX.Element {
-  return (
-    <CodeBlock
-      // If this pre is created by a ``` fenced codeblock, unwrap the children
-      {...(isValidElement(props.children) &&
-      (props.children.props as {originalType: string} | null)?.originalType ===
-        'code'
-        ? props.children.props
-        : {...props})}
-    />
-  );
+export default function MDXPre(props: Props): ReactNode | undefined {
+  // With MDX 2, this element is only used for fenced code blocks
+  // It always receives a MDXComponents/Code as children
+  return <>{props.children}</>;
 }

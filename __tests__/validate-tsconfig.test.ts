@@ -31,38 +31,27 @@ async function getTsconfigFiles(): Promise<TsconfigFile[]> {
 }
 
 const tsconfigSchema = Joi.object({
-  extends: '../../tsconfig.json',
-  compilerOptions: Joi.alternatives().conditional(
-    Joi.object({noEmit: true}).unknown(),
-    {
-      then: Joi.object({
-        noEmit: Joi.valid(true).required(),
-        incremental: Joi.forbidden(),
-        tsBuildInfoFile: Joi.forbidden(),
-        outDir: Joi.forbidden(),
-      }).unknown(),
-      otherwise: Joi.object({
-        noEmit: Joi.valid(false).required(),
-        incremental: Joi.valid(true).required(),
-        rootDir: Joi.valid('src').required(),
-        outDir: Joi.valid('lib').required(),
-      }).unknown(),
-    },
+  extends: Joi.valid(
+    '../../tsconfig.base.json',
+    '../../tsconfig.base.client.json',
   ),
 }).unknown();
 
 describe('tsconfig files', () => {
   it('contain all required fields', async () => {
     const tsconfigFiles = await getTsconfigFiles();
-    tsconfigFiles.forEach((file) => {
-      try {
-        Joi.attempt(file.content, tsconfigSchema);
-      } catch (e) {
-        (
-          e as Error
-        ).message += `\n${file.file} does not match the required schema.`;
-        throw e;
-      }
-    });
+
+    tsconfigFiles
+      // Ignore noEmit configs
+      .forEach((file) => {
+        try {
+          Joi.attempt(file.content, tsconfigSchema);
+        } catch (e) {
+          (
+            e as Error
+          ).message += `\n${file.file} does not match the required schema.`;
+          throw e;
+        }
+      });
   });
 });

@@ -17,13 +17,24 @@ declare module '@docusaurus/theme-search-algolia' {
       indexName: string;
       searchParameters: {[key: string]: unknown};
       searchPagePath: string | false | null;
+      replaceSearchResultPathname?: {
+        from: string;
+        to: string;
+      };
+      insights?: boolean;
     };
   };
   export type UserThemeConfig = DeepPartial<ThemeConfig>;
 }
 
 declare module '@docusaurus/theme-search-algolia/client' {
+  import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
+
+  export function useAlgoliaThemeConfig(): ThemeConfig;
+
   export function useAlgoliaContextualFacetFilters(): [string, string[]];
+
+  export function useSearchResultUrlProcessor(): (url: string) => string;
 }
 
 declare module '@theme/SearchPage' {

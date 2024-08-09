@@ -31,7 +31,6 @@ const EXPECTED_CSS_MARKERS = [
   // See https://github.com/facebook/docusaurus/pull/6222
   '.markdown>h2',
   '.button--outline.button--active',
-  '.DocSearch-Hit-content-wrapper',
   '--ifm-color-scheme:light',
   '.col[class*=col--]',
   '.padding-vert--xl',
@@ -49,6 +48,7 @@ const EXPECTED_CSS_MARKERS = [
 
   // Lazy-loaded lib
   '.DocSearch-Modal',
+  '.DocSearch-Hit-content-wrapper',
 ];
 
 const cssDirName = fileURLToPath(new URL('build/assets/css', import.meta.url));

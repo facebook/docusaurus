@@ -8,7 +8,7 @@
 set -euo pipefail
 
 CUSTOM_REGISTRY_URL="http://localhost:4873"
-NEW_VERSION="$(node -p "require('./packages/docusaurus/package.json').version").NEW"
+NEW_VERSION="$(node -p "require('./packages/docusaurus/package.json').version")-NEW"
 CONTAINER_NAME="verdaccio"
 EXTRA_OPTS=""
 
@@ -52,7 +52,7 @@ git diff --name-only -- '*.json' | sed 's, ,\\&,g' | xargs git checkout --
 cd ..
 
 # Build skeleton website with new version
-npm_config_registry="$CUSTOM_REGISTRY_URL" npx create-docusaurus@"$NEW_VERSION" test-website classic $EXTRA_OPTS
+npm_config_registry="$CUSTOM_REGISTRY_URL" npx create-docusaurus@"$NEW_VERSION" test-website classic --javascript $EXTRA_OPTS
 
 # Stop Docker container
 if [[ -z "${KEEP_CONTAINER:-true}" ]] && ( $(docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1) ); then

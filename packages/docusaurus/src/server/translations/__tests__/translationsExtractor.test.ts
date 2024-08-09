@@ -64,7 +64,7 @@ const default => {
       extractSourceCodeFileTranslations(sourceCodeFilePath, TestBabelOptions),
     ).rejects.toThrow();
 
-    expect(errorMock).toBeCalledWith(
+    expect(errorMock).toHaveBeenCalledWith(
       expect.stringMatching(
         /Error while attempting to extract Docusaurus translations from source code file at/,
       ),

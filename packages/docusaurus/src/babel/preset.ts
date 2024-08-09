@@ -38,7 +38,12 @@ function getTransformOptions(isServer: boolean): TransformOptions {
               exclude: ['transform-typeof-symbol'],
             },
           ],
-      require.resolve('@babel/preset-react'),
+      [
+        require.resolve('@babel/preset-react'),
+        {
+          runtime: 'automatic',
+        },
+      ],
       require.resolve('@babel/preset-typescript'),
     ],
     plugins: [

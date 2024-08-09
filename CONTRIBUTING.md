@@ -1,13 +1,13 @@
 # Contributing to Docusaurus
 
-[Docusaurus](https://docusaurus.io) is our way to hopefully help to create open source documentation easier. We currently have [multiple open source projects using it](https://docusaurus.io/showcase), with many more planned. If you're interested in contributing to Docusaurus, hopefully, this document makes the process for contributing clear.
+[Docusaurus](https://docusaurus.io) is our way to hopefully help make open source documentation easier. We currently have [multiple open source projects using it](https://docusaurus.io/showcase), with many more planned. If you're interested in contributing to Docusaurus, hopefully, this document makes the process for contributing clear.
 
 The [Open Source Guides](https://opensource.guide/) website has a collection of resources for individuals, communities, and companies who want to learn how to run and contribute to an open source project. Contributors and people new to open source alike will find the following guides especially useful:
 
 - [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
 - [Building Welcoming Communities](https://opensource.guide/building-community/)
 
-## [Code of Conduct](https://code.fb.com/codeofconduct)
+## Code of Conduct
 
 Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
 
@@ -15,9 +15,9 @@ Facebook has adopted a Code of Conduct that we expect project participants to ad
 
 There are many ways to contribute to Docusaurus, and many of them do not involve writing any code. Here's a few ideas to get started:
 
-- Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/installation) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#reporting-new-issues).
+- Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/installation) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#issues).
 - Look through the [open issues](https://github.com/facebook/docusaurus/issues). Provide workarounds, ask for clarification, or suggest labels. Help [triage issues](#triaging-issues-and-pull-requests).
-- If you find an issue you would like to fix, [open a pull request](#your-first-pull-request). Issues tagged as [_Good first issue_](https://github.com/facebook/docusaurus/labels/Good%20first%20issue) are a good place to get started.
+- If you find an issue you would like to fix, [open a pull request](#pull-requests). Issues tagged as [_Good first issue_](https://github.com/facebook/docusaurus/labels/Good%20first%20issue) are a good place to get started.
 - Read through the [Docusaurus docs](https://docusaurus.io/docs/installation). If you find anything that is confusing or can be improved, you can click "Edit this page" at the bottom of most docs, which takes you to the GitHub interface to make and propose changes.
 - Take a look at the [features requested](https://github.com/facebook/docusaurus/labels/feature) by others in the community and consider opening a pull request if you see something you want to work on.
 
@@ -25,7 +25,7 @@ Contributions are very welcome. If you think you need help planning your contrib
 
 ### Join our Discord Channel
 
-We have the [`#contributors`](https://discord.gg/6g6ASPA) channel on [Discord](https://discord.gg/docusaurus) to discuss all things about Docusaurus development. You can also be of great help by helping other users in the help channel.
+We have the [`#contributors`](https://discord.gg/6g6ASPA) channel on [Discord](https://discord.gg/docusaurus) to discuss all things about Docusaurus development. You can also be of great help by helping other users in the [`#help-and-questions`](https://discord.gg/fwbcrQ3dHR) channel.
 
 ### Triaging Issues and Pull Requests
 
@@ -166,7 +166,7 @@ feat(core): allow overriding of webpack config
 |   |
 |   +-> The package(s) that this change affected.
 |
-+-------> Type: see below for the list we use.
++-------> Type: see above for the list we use.
 ```
 
 ### Versioned Docs
@@ -182,7 +182,7 @@ Do not edit the auto-generated files within `versioned_docs/` or `versioned_side
 
 A good test plan has the exact commands you ran and their output and provides screenshots or videos if the pull request changes UI. If you've changed APIs, update the documentation.
 
-Tests are integrated into our continuous integration system, so you don't always need to run local tests. However, for significant code changes, it's saves both your and the maintainers' time if you can do exhaustive tests locally first to make sure your PR is in good shape. There are many types of tests:
+Tests are integrated into our continuous integration system, so you don't always need to run local tests. However, for significant code changes, it saves both your and the maintainers' time if you can do exhaustive tests locally first to make sure your PR is in good shape. There are many types of tests:
 
 - **Build and typecheck.** We use TypeScript in our codebase, which can make sure your code is consistent and catches some obvious mistakes early.
 - **Unit tests.** We use [Jest](https://jestjs.io/) for unit tests of API endpoints' behavior. You can run `yarn test` in the root directory to run all tests, or `yarn test path/to/your/file.test.ts` to run a specific test.
@@ -229,4 +229,4 @@ When adding a new breaking change, follow this template in your pull request:
 
 ### What Happens Next?
 
-The core Docusaurus team will be monitoring for pull requests. Do help us by keeping pull requests consistent by following the guidelines above.
+The core Docusaurus team will be monitoring pull requests. Do help us by keeping pull requests consistent by following the guidelines above.

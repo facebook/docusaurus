@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {removeTrailingSlash} from '@docusaurus/utils';
+import {removeTrailingSlash} from '@docusaurus/utils-common';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import collectRedirects from '../collectRedirects';
 import {validateOptions} from '../options';
@@ -96,12 +96,50 @@ describe('collectRedirects', () => {
                 to: '/somePath',
               },
               {
+                from: '/someLegacyPath2',
+                to: '/some Path2',
+              },
+              {
+                from: '/someLegacyPath3',
+                to: '/some%20Path3',
+              },
+              {
                 from: ['/someLegacyPathArray1', '/someLegacyPathArray2'],
                 to: '/',
               },
+
+              {
+                from: '/localQS',
+                to: '/somePath?a=1&b=2',
+              },
+              {
+                from: '/localAnchor',
+                to: '/somePath#anchor',
+              },
+              {
+                from: '/localQSAnchor',
+                to: '/somePath?a=1&b=2#anchor',
+              },
+
+              {
+                from: '/absolute',
+                to: 'https://docusaurus.io/somePath',
+              },
+              {
+                from: '/absoluteQS',
+                to: 'https://docusaurus.io/somePath?a=1&b=2',
+              },
+              {
+                from: '/absoluteAnchor',
+                to: 'https://docusaurus.io/somePath#anchor',
+              },
+              {
+                from: '/absoluteQSAnchor',
+                to: 'https://docusaurus.io/somePath?a=1&b=2#anchor',
+              },
             ],
           },
-          ['/', '/somePath'],
+          ['/', '/somePath', '/some%20Path2', '/some Path3'],
         ),
         undefined,
       ),
@@ -111,12 +149,49 @@ describe('collectRedirects', () => {
         to: '/somePath',
       },
       {
+        from: '/someLegacyPath2',
+        to: '/some Path2',
+      },
+      {
+        from: '/someLegacyPath3',
+        to: '/some%20Path3',
+      },
+      {
         from: '/someLegacyPathArray1',
         to: '/',
       },
       {
         from: '/someLegacyPathArray2',
         to: '/',
+      },
+      {
+        from: '/localQS',
+        to: '/somePath?a=1&b=2',
+      },
+      {
+        from: '/localAnchor',
+        to: '/somePath#anchor',
+      },
+      {
+        from: '/localQSAnchor',
+        to: '/somePath?a=1&b=2#anchor',
+      },
+
+      {
+        from: '/absolute',
+        to: 'https://docusaurus.io/somePath',
+      },
+      {
+        from: '/absoluteQS',
+        to: 'https://docusaurus.io/somePath?a=1&b=2',
+      },
+      {
+        from: '/absoluteAnchor',
+        to: 'https://docusaurus.io/somePath#anchor',
+      },
+      {
+        from: '/absoluteQSAnchor',
+        to: 'https://docusaurus.io/somePath?a=1&b=2#anchor',
       },
     ]);
   });
@@ -209,11 +284,78 @@ describe('collectRedirects', () => {
               },
               {
                 from: '/someLegacyPath',
-                to: '/this/path/does/not/exist2',
+                to: '/this/path/does/not/exist3',
+              },
+              {
+                from: '/someLegacyPath',
+                to: '/this/path/does/not/exist4?a=b#anchor',
               },
             ],
           },
           ['/', '/someExistingPath', '/anotherExistingPath'],
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingSnapshot();
+  });
+
+  it('tolerates mismatched trailing slash if option is undefined', () => {
+    expect(
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/somePath',
+              },
+            ],
+          },
+          ['/', '/somePath/'],
+          {trailingSlash: undefined},
+        ),
+        undefined,
+      ),
+    ).toEqual([
+      {
+        from: '/someLegacyPath',
+        to: '/somePath',
+      },
+    ]);
+  });
+
+  it('throw if plugin option redirects contain to paths with mismatching trailing slash', () => {
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/someExistingPath/',
+              },
+            ],
+          },
+          ['/', '/someExistingPath', '/anotherExistingPath'],
+          {trailingSlash: false},
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingSnapshot();
+
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/someExistingPath',
+              },
+            ],
+          },
+          ['/', '/someExistingPath/', '/anotherExistingPath/'],
+          {trailingSlash: true},
         ),
         undefined,
       ),

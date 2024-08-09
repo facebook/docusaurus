@@ -8,7 +8,7 @@
 module.exports = {
   title: 'My Site',
   tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://your-docusaurus-site.example.com',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
   plugins: [
@@ -21,10 +21,14 @@ module.exports = {
       },
       {it: 'should work'},
     ],
+    function (context, options) {
+      // it's ok for a plugin to self-disable
+      return null;
+    },
     './plugin3.js',
     ['./plugin4.js', {}],
+    './pluginEsm',
+    './pluginTypeScript',
   ],
-  presets: [
-    './preset.js',
-  ],
+  presets: ['./preset.js'],
 };

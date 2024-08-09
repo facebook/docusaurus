@@ -15,7 +15,7 @@ export default function CustomDogfoodNavbarItem(props: {
   mobile?: boolean;
 }): JSX.Element | null {
   const {pathname} = useLocation();
-  const shouldRender = pathname.includes('/tests/');
+  const shouldRender = pathname === '/tests' || pathname.startsWith('/tests/');
   if (!shouldRender) {
     return null;
   }

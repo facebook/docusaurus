@@ -8,13 +8,21 @@
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
 import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
-import visit from 'unist-util-visit';
-import mdastToString from 'mdast-util-to-string';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 import type {Heading, Text} from 'mdast';
 
-export default function plugin(): Transformer {
-  return (root) => {
+export interface PluginOptions {
+  anchorsMaintainCase: boolean;
+}
+
+export default function plugin({
+  anchorsMaintainCase,
+}: PluginOptions): Transformer {
+  return async (root) => {
+    const {toString} = await import('mdast-util-to-string');
+    const {visit} = await import('unist-util-visit');
+
     const slugs = createSlugger();
     visit(root, 'heading', (headingNode: Heading) => {
       const data = headingNode.data ?? (headingNode.data = {});
@@ -29,14 +37,16 @@ export default function plugin(): Transformer {
         const headingTextNodes = headingNode.children.filter(
           ({type}) => !['html', 'jsx'].includes(type),
         );
-        const heading = mdastToString(
+        const heading = toString(
           headingTextNodes.length > 0 ? headingTextNodes : headingNode,
         );
 
         // Support explicit heading IDs
         const parsedHeading = parseMarkdownHeadingId(heading);
 
-        id = parsedHeading.id ?? slugs.slug(heading);
+        id =
+          parsedHeading.id ??
+          slugs.slug(heading, {maintainCase: anchorsMaintainCase});
 
         if (parsedHeading.id) {
           // When there's an id, it is always in the last child node

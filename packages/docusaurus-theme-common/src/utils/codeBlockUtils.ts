@@ -7,21 +7,38 @@
 
 import type {CSSProperties} from 'react';
 import rangeParser from 'parse-numeric-range';
-import type {PrismTheme} from 'prism-react-renderer';
+import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
 
 // Supported types of highlight comments
-const commentPatterns = {
+const popularCommentPatterns = {
   js: {start: '\\/\\/', end: ''},
   jsBlock: {start: '\\/\\*', end: '\\*\\/'},
   jsx: {start: '\\{\\s*\\/\\*', end: '\\*\\/\\s*\\}'},
   bash: {start: '#', end: ''},
   html: {start: '<!--', end: '-->'},
-};
+} as const;
+
+const commentPatterns = {
+  ...popularCommentPatterns, // shallow copy is sufficient
+  // minor comment styles
+  lua: {start: '--', end: ''},
+  wasm: {start: '\\;\\;', end: ''},
+  tex: {start: '%', end: ''},
+  vb: {start: "['‘’]", end: ''},
+  vbnet: {start: "(?:_\\s*)?['‘’]", end: ''}, // Visual Studio 2019 or later
+  rem: {start: '[Rr][Ee][Mm]\\b', end: ''},
+  f90: {start: '!', end: ''}, // Free format only
+  ml: {start: '\\(\\*', end: '\\*\\)'},
+  cobol: {start: '\\*>', end: ''}, // Free format only
+} as const;
 
 type CommentType = keyof typeof commentPatterns;
+const popularCommentTypes = Object.keys(
+  popularCommentPatterns,
+) as CommentType[];
 
 export type MagicCommentConfig = {
   className: string;
@@ -83,12 +100,48 @@ function getAllMagicCommentDirectiveStyles(
       // Text uses HTML, front matter uses bash
       return getCommentPattern(['html', 'jsx', 'bash'], magicCommentDirectives);
 
+    case 'tex':
+    case 'latex':
+    case 'matlab':
+      return getCommentPattern(['tex'], magicCommentDirectives);
+
+    case 'lua':
+    case 'haskell':
+    case 'sql':
+      return getCommentPattern(['lua'], magicCommentDirectives);
+
+    case 'wasm':
+      return getCommentPattern(['wasm'], magicCommentDirectives);
+
+    case 'vb':
+    case 'vba':
+    case 'visual-basic':
+      return getCommentPattern(['vb', 'rem'], magicCommentDirectives);
+    case 'vbnet':
+      return getCommentPattern(['vbnet', 'rem'], magicCommentDirectives);
+
+    case 'batch':
+      return getCommentPattern(['rem'], magicCommentDirectives);
+
+    case 'basic': // https://github.com/PrismJS/prism/blob/master/components/prism-basic.js#L3
+      return getCommentPattern(['rem', 'f90'], magicCommentDirectives);
+
+    case 'fsharp':
+      return getCommentPattern(['js', 'ml'], magicCommentDirectives);
+
+    case 'ocaml':
+    case 'sml':
+      return getCommentPattern(['ml'], magicCommentDirectives);
+
+    case 'fortran':
+      return getCommentPattern(['f90'], magicCommentDirectives);
+
+    case 'cobol':
+      return getCommentPattern(['cobol'], magicCommentDirectives);
+
     default:
-      // All comment types
-      return getCommentPattern(
-        Object.keys(commentPatterns) as CommentType[],
-        magicCommentDirectives,
-      );
+      // All popular comment types
+      return getCommentPattern(popularCommentTypes, magicCommentDirectives);
   }
 }
 
@@ -235,14 +288,14 @@ export function parseLines(
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
-  const mapping: {[name: keyof PrismTheme['plain']]: string} = {
+  const mapping: PrismThemeEntry = {
     color: '--prism-color',
     backgroundColor: '--prism-background-color',
   };
 
   const properties: {[key: string]: string} = {};
   Object.entries(prismTheme.plain).forEach(([key, value]) => {
-    const varName = mapping[key];
+    const varName = mapping[key as keyof PrismThemeEntry];
     if (varName && typeof value === 'string') {
       properties[varName] = value;
     }

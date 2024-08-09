@@ -16,6 +16,10 @@ exports[`getTranslationFiles returns translation files matching snapshot 1`] = `
         "description": "Navbar item with label Dropdown item 2",
         "message": "Dropdown item 2",
       },
+      "logo.alt": {
+        "description": "The alt text of navbar logo",
+        "message": "navbar alt text logo",
+      },
       "title": {
         "description": "The title in the navbar",
         "message": "navbar title",
@@ -49,6 +53,10 @@ exports[`getTranslationFiles returns translation files matching snapshot 1`] = `
         "description": "The title of the footer links column with title=Footer link column 2 in the footer",
         "message": "Footer link column 2",
       },
+      "logo.alt": {
+        "description": "The alt text of footer logo",
+        "message": "footer alt text logo",
+      },
     },
     "path": "footer",
   },
@@ -71,6 +79,10 @@ exports[`getTranslationFiles returns translation files matching snapshot 2`] = `
         "description": "Navbar item with label Dropdown item 2",
         "message": "Dropdown item 2",
       },
+      "logo.alt": {
+        "description": "The alt text of navbar logo",
+        "message": "navbar alt text logo",
+      },
       "title": {
         "description": "The title in the navbar",
         "message": "navbar title",
@@ -91,6 +103,10 @@ exports[`getTranslationFiles returns translation files matching snapshot 2`] = `
       "link.item.label.Link 2": {
         "description": "The label of footer link with label=Link 2 linking to https://facebook.com",
         "message": "Link 2",
+      },
+      "logo.alt": {
+        "description": "The alt text of footer logo",
+        "message": "footer alt text logo",
       },
     },
     "path": "footer",
@@ -131,6 +147,10 @@ exports[`translateThemeConfig returns translated themeConfig 1`] = `
         "title": "Footer link column 2 (translated)",
       },
     ],
+    "logo": {
+      "alt": "footer alt text logo (translated)",
+      "src": "img/docusaurus.svg",
+    },
     "style": "light",
   },
   "navbar": {
@@ -150,6 +170,10 @@ exports[`translateThemeConfig returns translated themeConfig 1`] = `
         "label": "Dropdown (translated)",
       },
     ],
+    "logo": {
+      "alt": "navbar alt text logo (translated)",
+      "src": "img/docusaurus.svg",
+    },
     "style": "dark",
     "title": "navbar title (translated)",
   },

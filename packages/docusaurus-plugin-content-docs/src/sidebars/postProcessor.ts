@@ -7,7 +7,6 @@
 
 import _ from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
-import {getDocIds} from '../docs';
 import type {
   SidebarItem,
   Sidebars,
@@ -65,6 +64,7 @@ function postProcessSidebarItem(
         .map((subItem) => postProcessSidebarItem(subItem, params))
         .filter((v): v is SidebarItem => Boolean(v)),
     };
+
     // If the current category doesn't have subitems, we render a normal link
     // instead.
     if (category.items.length === 0) {
@@ -102,7 +102,7 @@ export function postProcessSidebars(
   sidebars: ProcessedSidebars,
   params: SidebarProcessorParams,
 ): Sidebars {
-  const draftIds = new Set(params.drafts.flatMap(getDocIds));
+  const draftIds = new Set(params.drafts.map((d) => d.id));
 
   return _.mapValues(sidebars, (sidebar) =>
     sidebar

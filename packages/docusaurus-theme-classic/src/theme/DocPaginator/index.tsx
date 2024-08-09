@@ -17,7 +17,7 @@ export default function DocPaginator(props: Props): JSX.Element {
       className="pagination-nav docusaurus-mt-lg"
       aria-label={translate({
         id: 'theme.docs.paginator.navAriaLabel',
-        message: 'Docs pages navigation',
+        message: 'Docs pages',
         description: 'The ARIA label for the docs pagination',
       })}>
       {previous && (

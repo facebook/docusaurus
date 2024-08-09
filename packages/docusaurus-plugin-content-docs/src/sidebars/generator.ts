@@ -8,7 +8,7 @@
 import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {addTrailingSlash} from '@docusaurus/utils';
+import {addTrailingSlash} from '@docusaurus/utils-common';
 import {createDocsByIdIndex, toCategoryIndexMatcherParam} from '../docs';
 import type {
   SidebarItemDoc,
@@ -138,7 +138,11 @@ Available doc IDs:
     ): WithPosition<SidebarItemDoc> {
       const {
         sidebarPosition: position,
-        frontMatter: {sidebar_label: label, sidebar_class_name: className},
+        frontMatter: {
+          sidebar_label: label,
+          sidebar_class_name: className,
+          sidebar_custom_props: customProps,
+        },
       } = getDoc(id);
       return {
         type: 'doc',
@@ -149,6 +153,7 @@ Available doc IDs:
         // sidebar
         ...(label !== undefined && {label}),
         ...(className !== undefined && {className}),
+        ...(customProps !== undefined && {customProps}),
       };
     }
     function createCategoryItem(
@@ -244,6 +249,9 @@ Available doc IDs:
         ...(customProps !== undefined && {customProps}),
         ...(className !== undefined && {className}),
         items,
+        ...(categoryMetadata?.description && {
+          description: categoryMetadata?.description,
+        }),
         ...(link && {link}),
       };
     }

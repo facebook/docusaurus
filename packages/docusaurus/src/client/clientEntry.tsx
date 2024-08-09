@@ -5,15 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {BrowserRouter} from 'react-router-dom';
+import React, {startTransition, type ReactNode} from 'react';
+import ReactDOM, {type ErrorInfo} from 'react-dom/client';
 import {HelmetProvider} from 'react-helmet-async';
-
+import {BrowserRouter, HashRouter} from 'react-router-dom';
+import siteConfig from '@generated/docusaurus.config';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
+
+function Router({children}: {children: ReactNode}): ReactNode {
+  return siteConfig.future.experimental_router === 'hash' ? (
+    <HashRouter>{children}</HashRouter>
+  ) : (
+    <BrowserRouter>{children}</BrowserRouter>
+  );
+}
 
 declare global {
   interface NodeModule {
@@ -21,25 +29,48 @@ declare global {
   }
 }
 
+const hydrate = Boolean(process.env.HYDRATE_CLIENT_ENTRY);
+
 // Client-side render (e.g: running in browser) to become single-page
 // application (SPA).
 if (ExecutionEnvironment.canUseDOM) {
   window.docusaurus = docusaurus;
-  // For production, attempt to hydrate existing markup for performant
-  // first-load experience.
-  // For development, there is no existing markup so we had to render it.
-  // We also preload async component to avoid first-load loading screen.
-  const renderMethod =
-    process.env.NODE_ENV === 'production' ? ReactDOM.hydrate : ReactDOM.render;
-  preload(window.location.pathname).then(() => {
-    renderMethod(
-      <HelmetProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </HelmetProvider>,
-      document.getElementById('__docusaurus'),
+  const container = document.getElementById('__docusaurus')!;
+
+  const app = (
+    <HelmetProvider>
+      <Router>
+        <App />
+      </Router>
+    </HelmetProvider>
+  );
+
+  const onRecoverableError = (error: unknown, errorInfo: ErrorInfo): void => {
+    console.error(
+      'Docusaurus React Root onRecoverableError:',
+      error,
+      errorInfo,
     );
+  };
+
+  const renderApp = () => {
+    if (window.docusaurusRoot) {
+      window.docusaurusRoot.render(app);
+      return;
+    }
+    if (hydrate) {
+      window.docusaurusRoot = ReactDOM.hydrateRoot(container, app, {
+        onRecoverableError,
+      });
+    } else {
+      const root = ReactDOM.createRoot(container, {onRecoverableError});
+      root.render(app);
+      window.docusaurusRoot = root;
+    }
+  };
+
+  preload(window.location.pathname).then(() => {
+    startTransition(renderApp);
   });
 
   // Webpack Hot Module Replacement API

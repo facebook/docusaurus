@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+@import url('react-medium-image-zoom/dist/styles.css');
+
 :root {
   /*
   See css var + hsl color palette technique:
@@ -12,12 +14,7 @@
    */
   --site-primary-hue-saturation: 167 68%;
   --site-primary-hue-saturation-light: 167 56%; /* do we really need this extra one? */
-  --site-color-favorite-background: #f6fdfd;
-  --site-color-tooltip: #fff;
-  --site-color-tooltip-background: #353738;
-  --site-color-svg-icon-favorite: #e9669e;
-  --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 25%);
-  --site-color-feedback-background: #fff;
+  --site-color-feedback-background: #f0f8ff;
   --docusaurus-highlighted-code-line-bg: rgb(0 0 0 / 10%);
   /* Use a darker color to ensure contrast, ideally we don't need important */
   --ifm-breadcrumb-color-active: var(--ifm-color-primary-darker) !important;
@@ -25,9 +22,7 @@
 }
 
 html[data-theme='dark'] {
-  --site-color-feedback-background: #f0f8ff;
-  --site-color-favorite-background: #1d1e1e;
-  --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 10%);
+  --site-color-feedback-background: #2a2929;
   --docusaurus-highlighted-code-line-bg: rgb(66 66 66 / 35%);
 }
 
@@ -69,22 +64,19 @@ html[data-theme='dark'] {
   );
 }
 
-.header-github-link:hover {
-  opacity: 0.6;
-}
-
 .header-github-link::before {
   content: '';
   width: 24px;
   height: 24px;
   display: flex;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E")
-    no-repeat;
+  background-color: var(--ifm-navbar-link-color);
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E");
+  transition: background-color var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
 }
 
-[data-theme='dark'] .header-github-link::before {
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='white' d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E")
-    no-repeat;
+.header-github-link:hover::before {
+  background-color: var(--ifm-navbar-link-hover-color);
 }
 
 .footer--dark {
@@ -152,12 +144,19 @@ html[data-theme='dark'] {
 }
 
 div[class^='announcementBar_'] {
+  font-size: 20px;
+
+  /*
   --site-announcement-bar-stripe-color1: hsl(
     var(--site-primary-hue-saturation) 85%
   );
   --site-announcement-bar-stripe-color2: hsl(
     var(--site-primary-hue-saturation) 95%
   );
+   */
+  --site-announcement-bar-stripe-color1: #e8d7ff;
+  --site-announcement-bar-stripe-color2: #ffe9d1;
+
   background: repeating-linear-gradient(
     35deg,
     var(--site-announcement-bar-stripe-color1),
@@ -219,4 +218,20 @@ div[class^='announcementBar_'] {
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
   border-left: 3px solid #ff000080;
+}
+
+[data-rmiz-modal-overlay='visible'] {
+  background-color: rgba(255 255 255 / 95%);
+}
+
+[data-theme='dark'] [data-rmiz-modal-overlay='visible'] {
+  background-color: rgba(0 0 0 / 95%);
+}
+
+html[data-navbar='false'] .navbar {
+  display: none;
+}
+
+html[data-red-border] div#__docusaurus {
+  border: red solid thick;
 }

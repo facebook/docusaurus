@@ -4,6 +4,8 @@
 
 ![img](static/img.png)
 
+in paragraph ![img](static/img.png)
+
 ![img from second static folder](/img2.png)
 
 ![img from second static folder](./static2/img2.png)
@@ -16,11 +18,9 @@
 
 ![site alias](@site/static/img.png)
 
-![img with hash](/img.png#light)
-![img with hash](/img.png#dark)
+![img with hash](/img.png#light) ![img with hash](/img.png#dark)
 
-![img with query](/img.png?w=10)
-![img with query](/img.png?w=10&h=10)
+![img with query](/img.png?w=10) ![img with query](/img.png?w=10&h=10)
 
 ![img with both](/img.png?w=10&h=10#light)
 

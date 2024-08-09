@@ -1,0 +1,47 @@
+name: Argos CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types:
+      # Those 3 are the default PR workflow activity types,
+      # see https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
+      - opened
+      - synchronize
+      - reopened
+      # We want trigger workflow on labeled too!
+      - labeled
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  take-screenshots:
+    # Argos is heavy to run
+    # We only want to trigger Argos on PRs with the 'Argos' label
+    # See https://stackoverflow.com/questions/62325286/run-github-actions-when-pull-requests-have-a-specific-label
+    if: ${{ (github.event_name != 'pull_request' && github.ref_name == 'main') || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'Argos')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Use Node.js
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Build website fast
+        run: yarn build:website:fast --dev
+
+      - name: Take Argos screenshots
+        run: yarn argos:screenshot

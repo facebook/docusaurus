@@ -5,20 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/** Removes a given string suffix from `str`. */
-export function removeSuffix(str: string, suffix: string): string {
-  if (suffix === '') {
-    // str.slice(0, 0) is ""
-    return str;
-  }
-  return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
-}
-
-/** Removes a given string prefix from `str`. */
-export function removePrefix(str: string, prefix: string): string {
-  return str.startsWith(prefix) ? str.slice(prefix.length) : str;
-}
-
 /**
  * `Array#map` for async operations where order matters.
  * @param array The array to traverse.

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
@@ -81,9 +80,9 @@ export default function Version(): JSX.Element {
                   </Link>
                 </td>
                 <td>
-                  <a href={`${repoUrl}/releases/tag/v${latestVersion.name}`}>
+                  <Link to={`${repoUrl}/releases/tag/v${latestVersion.name}`}>
                     <ReleaseNotesLabel />
-                  </a>
+                  </Link>
                 </td>
               </tr>
             </tbody>
@@ -168,11 +167,11 @@ export default function Version(): JSX.Element {
           </div>
         )}
         <div className="margin-bottom--lg">
-          <h3 id="legacy">
+          <Heading as="h3" id="legacy">
             <Translate id="versionsPage.legacy.title">
               Docusaurus v1 (Legacy)
             </Translate>
-          </h3>
+          </Heading>
           <p>
             <Translate id="versionsPage.legacy.description">
               Here you can find documentation for legacy version of Docusaurus.

@@ -45,7 +45,20 @@ function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
     ? {title: {message: navbar.title, description: 'The title in the navbar'}}
     : {};
 
-  return mergeTranslations([titleTranslations, navbarItemsTranslations]);
+  const logoAlt: TranslationFileContent = navbar.logo?.alt
+    ? {
+        'logo.alt': {
+          message: navbar.logo.alt,
+          description: 'The alt text of navbar logo',
+        },
+      }
+    : {};
+
+  return mergeTranslations([
+    titleTranslations,
+    logoAlt,
+    navbarItemsTranslations,
+  ]);
 }
 function translateNavbar(
   navbar: Navbar,
@@ -54,9 +67,18 @@ function translateNavbar(
   if (!navbarTranslations) {
     return navbar;
   }
+
+  const logo = navbar.logo
+    ? {
+        ...navbar.logo,
+        alt: navbarTranslations[`logo.alt`]?.message ?? navbar.logo?.alt,
+      }
+    : undefined;
+
   return {
     ...navbar,
     title: navbarTranslations.title?.message ?? navbar.title,
+    logo,
     //  TODO handle properly all the navbar item types here!
     items: navbar.items.map((item) => {
       const subItems = item.items?.map((subItem) => ({
@@ -119,7 +141,21 @@ function getFooterTranslationFile(footer: Footer): TranslationFileContent {
       }
     : {};
 
-  return mergeTranslations([footerLinkTitles, footerLinkLabels, copyright]);
+  const logoAlt: TranslationFileContent = footer.logo?.alt
+    ? {
+        'logo.alt': {
+          message: footer.logo.alt,
+          description: 'The alt text of footer logo',
+        },
+      }
+    : {};
+
+  return mergeTranslations([
+    footerLinkTitles,
+    footerLinkLabels,
+    copyright,
+    logoAlt,
+  ]);
 }
 function translateFooter(
   footer: Footer,
@@ -149,10 +185,18 @@ function translateFooter(
 
   const copyright = footerTranslations.copyright?.message ?? footer.copyright;
 
+  const logo = footer.logo
+    ? {
+        ...footer.logo,
+        alt: footerTranslations[`logo.alt`]?.message ?? footer.logo?.alt,
+      }
+    : undefined;
+
   return {
     ...footer,
     links,
     copyright,
+    logo,
   };
 }
 

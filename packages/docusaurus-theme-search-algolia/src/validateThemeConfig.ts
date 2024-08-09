@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {escapeRegexp} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import type {
   ThemeConfig,
@@ -39,6 +40,19 @@ export const Schema = Joi.object<ThemeConfig>({
       .try(Joi.boolean().invalid(true), Joi.string())
       .allow(null)
       .default(DEFAULT_CONFIG.searchPagePath),
+    replaceSearchResultPathname: Joi.object({
+      from: Joi.custom((from) => {
+        if (typeof from === 'string') {
+          return escapeRegexp(from);
+        } else if (from instanceof RegExp) {
+          return from.source;
+        }
+        throw new Error(
+          `it should be a RegExp or a string, but received ${from}`,
+        );
+      }).required(),
+      to: Joi.string().required(),
+    }).optional(),
   })
     .label('themeConfig.algolia')
     .required()

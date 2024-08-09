@@ -6,13 +6,34 @@
  */
 
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {normalizeUrl} from './urlUtils';
+import type {Optional} from 'utility-types';
 
-/** What the user configures. */
 export type Tag = {
+  /** The display label of a tag */
   label: string;
   /** Permalink to this tag's page, without the `/tags/` base path. */
   permalink: string;
+  /** An optional description of the tag */
+  description: string | undefined;
+};
+
+export type TagsFileInput = Record<string, Partial<Tag> | null>;
+
+export type TagsFile = Record<string, Tag>;
+
+// Tags plugins options shared between docs/blog
+export type TagsPluginOptions = {
+  // TODO allow option tags later? | TagsFile;
+  /** Path to the tags file. */
+  tags: string | false | null | undefined;
+  /** The behavior of Docusaurus when it finds inline tags. */
+  onInlineTags: 'ignore' | 'log' | 'warn' | 'throw';
+};
+
+export type TagMetadata = Tag & {
+  inline: boolean;
 };
 
 /** What the tags list page should know about each tag. */
@@ -24,65 +45,132 @@ export type TagsListItem = Tag & {
 /** What the tag's own page should know about the tag. */
 export type TagModule = TagsListItem & {
   /** The tags list page's permalink. */
+  // TODO move this global value to a shared docs/blog bundle
   allTagsPath: string;
+  /** Is this tag unlisted? (when it only contains unlisted items) */
+  unlisted: boolean;
 };
 
-export type FrontMatterTag = string | Tag;
+export type FrontMatterTag = string | Optional<Tag, 'description'>;
 
-function normalizeFrontMatterTag(
-  tagsPath: string,
+// We always apply tagsBaseRoutePath on purpose. For versioned docs, v1/doc.md
+// and v2/doc.md tags with custom permalinks don't lead to the same created
+// page. tagsBaseRoutePath is different for each doc version
+function normalizeTagPermalink({
+  tagsBaseRoutePath,
+  permalink,
+}: {
+  tagsBaseRoutePath: string;
+  permalink: string;
+}): string {
+  return normalizeUrl([tagsBaseRoutePath, permalink]);
+}
+
+function normalizeInlineTag(
+  tagsBaseRoutePath: string,
   frontMatterTag: FrontMatterTag,
-): Tag {
-  function toTagObject(tagString: string): Tag {
+): TagMetadata {
+  function toTagObject(tagString: string): TagMetadata {
     return {
+      inline: true,
       label: tagString,
       permalink: _.kebabCase(tagString),
+      description: undefined,
     };
-  }
-
-  // TODO maybe make ensure the permalink is valid url path?
-  function normalizeTagPermalink(permalink: string): string {
-    // Note: we always apply tagsPath on purpose. For versioned docs, v1/doc.md
-    // and v2/doc.md tags with custom permalinks don't lead to the same created
-    // page. tagsPath is different for each doc version
-    return normalizeUrl([tagsPath, permalink]);
   }
 
   const tag: Tag =
     typeof frontMatterTag === 'string'
       ? toTagObject(frontMatterTag)
-      : frontMatterTag;
+      : {...frontMatterTag, description: frontMatterTag.description};
 
   return {
+    inline: true,
     label: tag.label,
-    permalink: normalizeTagPermalink(tag.permalink),
+    permalink: normalizeTagPermalink({
+      permalink: tag.permalink,
+      tagsBaseRoutePath,
+    }),
+    description: tag.description,
   };
 }
 
-/**
- * Takes tag objects as they are defined in front matter, and normalizes each
- * into a standard tag object. The permalink is created by appending the
- * sluggified label to `tagsPath`. Front matter tags already containing
- * permalinks would still have `tagsPath` prepended.
- *
- * The result will always be unique by permalinks. The behavior with colliding
- * permalinks is undetermined.
- */
-export function normalizeFrontMatterTags(
-  /** Base path to append the tag permalinks to. */
-  tagsPath: string,
-  /** Can be `undefined`, so that we can directly pipe in `frontMatter.tags`. */
-  frontMatterTags: FrontMatterTag[] | undefined = [],
-): Tag[] {
-  const tags = frontMatterTags.map((tag) =>
-    normalizeFrontMatterTag(tagsPath, tag),
-  );
+export function normalizeTag({
+  tag,
+  tagsFile,
+  tagsBaseRoutePath,
+}: {
+  tag: FrontMatterTag;
+  tagsBaseRoutePath: string;
+  tagsFile: TagsFile | null;
+}): TagMetadata {
+  if (typeof tag === 'string') {
+    const tagDescription = tagsFile?.[tag];
+    if (tagDescription) {
+      // pre-defined tag from tags.yml
+      return {
+        inline: false,
+        label: tagDescription.label,
+        permalink: normalizeTagPermalink({
+          permalink: tagDescription.permalink,
+          tagsBaseRoutePath,
+        }),
+        description: tagDescription.description,
+      };
+    }
+  }
+  // legacy inline tag object, always inline, unknown because isn't a string
+  return normalizeInlineTag(tagsBaseRoutePath, tag);
+}
 
-  return _.uniqBy(tags, (tag) => tag.permalink);
+export function normalizeTags({
+  options,
+  source,
+  frontMatterTags,
+  tagsBaseRoutePath,
+  tagsFile,
+}: {
+  options: TagsPluginOptions;
+  source: string;
+  frontMatterTags: FrontMatterTag[] | undefined;
+  tagsBaseRoutePath: string;
+  tagsFile: TagsFile | null;
+}): TagMetadata[] {
+  const tags = (frontMatterTags ?? []).map((tag) =>
+    normalizeTag({tag, tagsBaseRoutePath, tagsFile}),
+  );
+  if (tagsFile !== null) {
+    reportInlineTags({tags, source, options});
+  }
+  return tags;
+}
+
+export function reportInlineTags({
+  tags,
+  source,
+  options,
+}: {
+  tags: TagMetadata[];
+  source: string;
+  options: TagsPluginOptions;
+}): void {
+  if (options.onInlineTags === 'ignore') {
+    return;
+  }
+  const inlineTags = tags.filter((tag) => tag.inline);
+  if (inlineTags.length > 0) {
+    const uniqueUnknownTags = [...new Set(inlineTags.map((tag) => tag.label))];
+    const tagListString = uniqueUnknownTags.join(', ');
+    logger.report(options.onInlineTags)(
+      `Tags [${tagListString}] used in ${source} are not defined in ${
+        options.tags ?? 'tags.yml'
+      }`,
+    );
+  }
 }
 
 type TaggedItemGroup<Item> = {
-  tag: Tag;
+  tag: TagMetadata;
   items: Item[];
 };
 
@@ -100,7 +188,7 @@ export function groupTaggedItems<Item>(
    * A callback telling me how to get the tags list of the current item. Usually
    * simply getting it from some metadata of the current item.
    */
-  getItemTags: (item: Item) => readonly Tag[],
+  getItemTags: (item: Item) => readonly TagMetadata[],
 ): {[permalink: string]: TaggedItemGroup<Item>} {
   const result: {[permalink: string]: TaggedItemGroup<Item>} = {};
 
@@ -127,4 +215,33 @@ export function groupTaggedItems<Item>(
   });
 
   return result;
+}
+
+/**
+ * Permits to get the "tag visibility" (hard to find a better name)
+ * IE, is this tag listed or unlisted
+ * And which items should be listed when this tag is browsed
+ */
+export function getTagVisibility<Item>({
+  items,
+  isUnlisted,
+}: {
+  items: Item[];
+  isUnlisted: (item: Item) => boolean;
+}): {
+  unlisted: boolean;
+  listedItems: Item[];
+} {
+  const allItemsUnlisted = items.every(isUnlisted);
+  // When a tag is full of unlisted items, we display all the items
+  // when tag is browsed, but we mark the tag as unlisted
+  if (allItemsUnlisted) {
+    return {unlisted: true, listedItems: items};
+  }
+  // When a tag has some listed items, the tag remains listed
+  // but we filter its unlisted items
+  return {
+    unlisted: false,
+    listedItems: items.filter((item) => !isUnlisted(item)),
+  };
 }

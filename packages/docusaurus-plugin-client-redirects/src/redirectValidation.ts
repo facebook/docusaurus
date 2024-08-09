@@ -10,7 +10,7 @@ import type {RedirectItem} from './types';
 
 const RedirectSchema = Joi.object<RedirectItem>({
   from: PathnameSchema.required(),
-  to: PathnameSchema.required(),
+  to: Joi.string().required(),
 });
 
 export function validateRedirect(redirect: RedirectItem): void {

@@ -7,7 +7,13 @@
 
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
-import {getThemeName, getThemePath, getThemeNames} from './themes';
+import {askPreferredLanguage} from '@docusaurus/utils';
+import {
+  getThemeName,
+  getThemePath,
+  getThemeNames,
+  getPluginByThemeName,
+} from './themes';
 import {getThemeComponents, getComponentName} from './components';
 import {helpTables, themeComponentsTable} from './tables';
 import {normalizeOptions} from './common';
@@ -18,6 +24,41 @@ import {initSwizzleContext} from './context';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleCLIOptions, SwizzlePlugin} from './common';
 import type {ActionResult} from './actions';
+
+async function getLanguageForThemeName({
+  themeName,
+  plugins,
+  options,
+}: {
+  themeName: string;
+  plugins: SwizzlePlugin[];
+  options: SwizzleCLIOptions;
+}): Promise<'javascript' | 'typescript'> {
+  const plugin = getPluginByThemeName(plugins, themeName);
+  const supportsTS = !!plugin.instance.getTypeScriptThemePath?.();
+
+  if (options.typescript) {
+    if (!supportsTS) {
+      throw new Error(
+        logger.interpolate`Theme name=${
+          plugin.instance.name
+        } does not support the code=${'--typescript'} CLI option.`,
+      );
+    }
+    return 'typescript';
+  }
+
+  if (options.javascript) {
+    return 'javascript';
+  }
+
+  // It's only useful to prompt the user for themes that support both JS/TS
+  if (supportsTS) {
+    return askPreferredLanguage({exit: true});
+  }
+
+  return 'javascript';
+}
 
 async function listAllThemeComponents({
   themeNames,
@@ -96,17 +137,30 @@ export async function swizzle(
   const siteDir = await fs.realpath(siteDirParam);
 
   const options = normalizeOptions(optionsParam);
-  const {list, danger, typescript} = options;
+  const {list, danger} = options;
 
-  const {plugins} = await initSwizzleContext(siteDir);
+  const {plugins} = await initSwizzleContext(siteDir, options);
   const themeNames = getThemeNames(plugins);
 
   if (list && !themeNameParam) {
-    await listAllThemeComponents({themeNames, plugins, typescript});
+    await listAllThemeComponents({
+      themeNames,
+      plugins,
+      typescript: options.typescript,
+    });
   }
 
   const themeName = await getThemeName({themeNameParam, themeNames, list});
-  const themePath = getThemePath({themeName, plugins, typescript});
+
+  const language = await getLanguageForThemeName({themeName, plugins, options});
+  const typescript = language === 'typescript';
+
+  const themePath = getThemePath({
+    themeName,
+    plugins,
+    typescript,
+  });
+
   const swizzleConfig = getThemeSwizzleConfig(themeName, plugins);
 
   const themeComponents = await getThemeComponents({
@@ -145,6 +199,7 @@ Created wrapper of name=${componentName} from name=${themeName} in path=${result
           siteDir,
           themePath,
           componentName,
+          typescript,
         });
         logger.success`
 Ejected name=${componentName} from name=${themeName} to path=${result.createdFiles}
