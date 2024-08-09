@@ -41,6 +41,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Sidebar item description tests',
+          description: 'Some custom category description',
           link: {
             type: 'generated-index',
           },

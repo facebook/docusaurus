@@ -25,6 +25,25 @@ exports[`paginateBlogPosts generates a single page 1`] = `
 ]
 `;
 
+exports[`paginateBlogPosts generates pages - 0 blog post 1`] = `
+[
+  {
+    "items": [],
+    "metadata": {
+      "blogDescription": "Blog Description",
+      "blogTitle": "Blog Title",
+      "nextPage": undefined,
+      "page": 1,
+      "permalink": "/blog",
+      "postsPerPage": 2,
+      "previousPage": undefined,
+      "totalCount": 0,
+      "totalPages": 1,
+    },
+  },
+]
+`;
+
 exports[`paginateBlogPosts generates pages 1`] = `
 [
   {

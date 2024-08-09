@@ -173,6 +173,7 @@ Lorber's
 lqip
 LQIP
 lunrjs
+marcey
 Marcey
 Marcey's
 markprompt
