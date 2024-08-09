@@ -375,43 +375,44 @@ describe('validateOptions', () => {
     });
   });
 
-  describe('onUntruncatedBlogPost', () => {
-    it('accepts onUntruncatedBlogPost - undefined', () => {
+  describe('onUntruncatedBlogPosts', () => {
+    it('accepts onUntruncatedBlogPosts - undefined', () => {
       expect(
-        testValidate({onUntruncatedBlogPost: undefined}).onUntruncatedBlogPost,
+        testValidate({onUntruncatedBlogPosts: undefined})
+          .onUntruncatedBlogPosts,
       ).toBe('warn');
     });
 
-    it('accepts onUntruncatedBlogPost - "throw"', () => {
+    it('accepts onUntruncatedBlogPosts - "throw"', () => {
       expect(
-        testValidate({onUntruncatedBlogPost: 'throw'}).onUntruncatedBlogPost,
+        testValidate({onUntruncatedBlogPosts: 'throw'}).onUntruncatedBlogPosts,
       ).toBe('throw');
     });
 
-    it('rejects onUntruncatedBlogPost - "trace"', () => {
+    it('rejects onUntruncatedBlogPosts - "trace"', () => {
       expect(() =>
         // @ts-expect-error: test
-        testValidate({onUntruncatedBlogPost: 'trace'}),
+        testValidate({onUntruncatedBlogPosts: 'trace'}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""onUntruncatedBlogPost" must be one of [ignore, log, warn, throw]"`,
+        `""onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]"`,
       );
     });
 
-    it('rejects onUntruncatedBlogPost - null', () => {
+    it('rejects onUntruncatedBlogPosts - null', () => {
       expect(() =>
         // @ts-expect-error: test
-        testValidate({onUntruncatedBlogPost: 42}),
+        testValidate({onUntruncatedBlogPosts: 42}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""onUntruncatedBlogPost" must be one of [ignore, log, warn, throw]"`,
+        `""onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]"`,
       );
     });
 
-    it('rejects onUntruncatedBlogPost - 42', () => {
+    it('rejects onUntruncatedBlogPosts - 42', () => {
       expect(() =>
         // @ts-expect-error: test
-        testValidate({onUntruncatedBlogPost: 42}),
+        testValidate({onUntruncatedBlogPosts: 42}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""onUntruncatedBlogPost" must be one of [ignore, log, warn, throw]"`,
+        `""onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]"`,
       );
     });
   });

@@ -50,21 +50,21 @@ export function truncate(fileString: string, truncateMarker: RegExp): string {
 
 export function reportUntruncatedBlogPosts({
   blogPosts,
-  onUntruncatedBlogPost,
+  onUntruncatedBlogPosts,
 }: {
   blogPosts: BlogPost[];
-  onUntruncatedBlogPost: PluginOptions['onUntruncatedBlogPost'];
+  onUntruncatedBlogPosts: PluginOptions['onUntruncatedBlogPosts'];
 }): void {
   const untruncatedBlogPosts = blogPosts.filter(
     (p) => !p.metadata.hasTruncateMarker,
   );
-  if (onUntruncatedBlogPost !== 'ignore' && untruncatedBlogPosts.length > 0) {
+  if (onUntruncatedBlogPosts !== 'ignore' && untruncatedBlogPosts.length > 0) {
     const message = `Docusaurus found untruncated blog posts:
 ${untruncatedBlogPosts
   .map((p) => aliasedSitePathToRelativePath(p.metadata.source))
   .join('\n- ')}
-You can turn off this settings by setting onUntruncatedBlogPost to 'ignore' in your docusaurus config file`;
-    logger.report(onUntruncatedBlogPost)(message);
+You can turn off this settings by setting onUntruncatedBlogPosts to 'ignore' in your docusaurus config file`;
+    logger.report(onUntruncatedBlogPosts)(message);
   }
 }
 

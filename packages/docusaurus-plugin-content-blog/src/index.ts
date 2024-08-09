@@ -192,7 +192,7 @@ export default async function pluginContentBlog(
       });
       reportUntruncatedBlogPosts({
         blogPosts,
-        onUntruncatedBlogPost: options.onUntruncatedBlogPost,
+        onUntruncatedBlogPosts: options.onUntruncatedBlogPosts,
       });
       const listedBlogPosts = blogPosts.filter(shouldBeListed);
 

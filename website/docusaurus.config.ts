@@ -475,7 +475,6 @@ export default async function createConfigAsync() {
           blog: {
             // routeBasePath: '/',
             path: 'blog',
-            onUntruncatedBlogPost: 'throw',
             showLastUpdateAuthor: true,
             showLastUpdateTime: true,
             editUrl: ({locale, blogDirPath, blogPath}) => {
@@ -497,6 +496,7 @@ export default async function createConfigAsync() {
             blogDescription: 'Read blog posts about Docusaurus from the team',
             blogSidebarCount: 'ALL',
             blogSidebarTitle: 'All our posts',
+            onUntruncatedBlogPosts: 'throw',
             onInlineTags:
               process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
                 ? 'warn'
