@@ -1,5 +1,19 @@
 # Docusaurus Changelog
 
+## 3.5.1 (2024-08-09)
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-search-algolia`
+  - [#10384](https://github.com/facebook/docusaurus/pull/10384) fix(core): algolia context import ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-search-algolia`
+  - [#10382](https://github.com/facebook/docusaurus/pull/10382) fix(theme-algolia): useDocusaurusContext import error ([@anaclumos](https://github.com/anaclumos))
+
+#### Committers: 2
+
+- Sunghyun Cho ([@anaclumos](https://github.com/anaclumos))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 3.5.0 (2024-08-09)
 
 #### :rocket: New Feature
