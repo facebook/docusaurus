@@ -239,7 +239,6 @@ Available doc IDs:
       return {
         type: 'category',
         label: categoryMetadata?.label ?? categoryLinkedDoc?.label ?? filename,
-        description: categoryMetadata?.description,
         collapsible: categoryMetadata?.collapsible,
         collapsed: categoryMetadata?.collapsed,
         position:
@@ -250,6 +249,9 @@ Available doc IDs:
         ...(customProps !== undefined && {customProps}),
         ...(className !== undefined && {className}),
         items,
+        ...(categoryMetadata?.description && {
+          description: categoryMetadata?.description,
+        }),
         ...(link && {link}),
       };
     }
