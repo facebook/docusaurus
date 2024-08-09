@@ -496,6 +496,10 @@ export default async function createConfigAsync() {
             blogDescription: 'Read blog posts about Docusaurus from the team',
             blogSidebarCount: 'ALL',
             blogSidebarTitle: 'All our posts',
+            onUntruncatedBlogPosts:
+              process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
+                ? 'warn'
+                : 'throw',
             onInlineTags:
               process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
                 ? 'warn'

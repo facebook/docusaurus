@@ -521,6 +521,8 @@ declare module '@docusaurus/plugin-content-blog' {
       authorsBasePath: string;
       /** The behavior of Docusaurus when it finds inline authors. */
       onInlineAuthors: 'ignore' | 'log' | 'warn' | 'throw';
+      /** The behavior of Docusaurus when it finds untruncated blog posts. */
+      onUntruncatedBlogPosts: 'ignore' | 'log' | 'warn' | 'throw';
     };
 
   export type UserFeedXSLTOptions =
