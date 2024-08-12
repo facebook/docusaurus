@@ -9,6 +9,7 @@
     "website",
     "test-website-in-workspace",
     "packages/create-docusaurus/templates/*",
+    "admin/test-bad-package",
     "admin/new.docusaurus.io"
   ],
   "scripts": {
