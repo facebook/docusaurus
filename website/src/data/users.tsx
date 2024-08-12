@@ -1574,15 +1574,7 @@ const Users: User[] = [
     source: 'https://github.com/fairdataihub/SODA-for-SPARC-Docs',
     tags: ['opensource', 'versioning'],
   },
-  {
-    title: 'Some Engineering Inc.',
-    description:
-      'Startup developing open-source tools to make cloud infrastructure searchable and accessible.',
-    preview: require('./showcase/someengineering.png'),
-    website: 'https://some.engineering',
-    source: 'https://github.com/someengineering/some.engineering',
-    tags: ['opensource', 'design'],
-  },
+  
   {
     title: 'Spicetify',
     description: 'Powerful CLI tool to take control of the Spotify client.',
