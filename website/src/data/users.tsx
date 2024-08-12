@@ -1398,15 +1398,7 @@ const Users: User[] = [
       'https://github.com/sgenoud/replicad/tree/main/packages/replicad-docs',
     tags: ['opensource'],
   },
-  {
-    title: 'Resoto',
-    description:
-      'Open-source cloud infrastructure management tool—find leaky resources, manage quota limits, detect drift, and clean up!',
-    preview: null,
-    website: 'https://resoto.com',
-    source: 'https://github.com/someengineering/resoto.com',
-    tags: ['opensource', 'product', 'design'],
-  },
+  
   {
     title: 'Rooks',
     description:
