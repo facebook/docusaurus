@@ -1142,14 +1142,7 @@ const Users: User[] = [
     source: null,
     tags: ['product'],
   },
-  {
-    title: 'Profilo',
-    description: 'An Android performance library',
-    preview: require('./showcase/profilo.png'),
-    website: 'https://facebookincubator.github.io/profilo/',
-    source: 'https://github.com/facebookincubator/profilo/tree/main/website',
-    tags: ['opensource', 'meta'],
-  },
+  
   {
     title: 'Pyre',
     description: 'A performant type-checker for Python 3',
