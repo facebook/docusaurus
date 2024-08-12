@@ -2195,14 +2195,7 @@ const Users: User[] = [
     source: 'https://github.com/TRPGEngine/Server/tree/master/services/Website',
     tags: ['opensource'],
   },
-  {
-    title: 'Tuist',
-    description: 'A tool to maintain and interact with Xcode projects at scale',
-    preview: require('./showcase/tuist.png'),
-    website: 'https://docs.tuist.io/',
-    source: 'https://github.com/tuist/tuist/tree/main/projects/docs',
-    tags: ['opensource'],
-  },
+  ,
   {
     title: 'uniforms',
     description: 'A set of React libraries for building forms',
