@@ -1096,14 +1096,7 @@ const Users: User[] = [
     source: 'https://github.com/orbitjs/orbit/tree/main/website',
     tags: ['opensource', 'versioning'],
   },
-  {
-    title: 'Orca',
-    description: 'Modern, open-source community platform.',
-    preview: require('./showcase/getorca.org-dark.png'),
-    website: 'https://getorca.org',
-    source: 'https://github.com/elevensymbols/getorca.org',
-    tags: ['opensource', 'design', 'product'],
-  },
+  
   {
     title: 'Ory',
     description:
