@@ -119,7 +119,8 @@
   },
   "peerDependencies": {
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "@mdx-js/react": "^3.0.0"
   },
   "engines": {
     "node": ">=18.0"
