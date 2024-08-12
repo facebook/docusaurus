@@ -1617,15 +1617,7 @@ const Users: User[] = [
     source: 'https://github.com/stackql/registry.stackql.io',
     tags: ['opensource', 'product', 'large'],
   },
-  {
-    title: 'StarfishQL - ✴️ A graph database and query engine',
-    description:
-      'StarfishQL is experimental graph database and query engine to enable graph analysis and visualization on the web.',
-    preview: require('./showcase/StarfishQL.png'),
-    website: 'https://www.sea-ql.org/StarfishQL/',
-    source: 'https://github.com/SeaQL/seaql.github.io/tree/master/StarfishQL',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Stryker Mutator',
     description: 'Mutation testing for JavaScript, .NET and JVM',
