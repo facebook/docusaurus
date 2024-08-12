@@ -1194,14 +1194,7 @@ const Users: User[] = [
     source: null,
     tags: ['favorite', 'product', 'design'],
   },
-  {
-    title: "pincman's website",
-    description: 'A very good full stack development teaching website',
-    preview: require('./showcase/pincman.png'),
-    website: 'https://pincman.com/',
-    source: 'https://github.com/rowfishjs/rowfish',
-    tags: ['opensource', 'design', 'personal'],
-  },
+  
   {
     title: 'Pipeline UI',
     description: 'Pipeline UI Documentation',
