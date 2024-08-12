@@ -1472,15 +1472,7 @@ const Users: User[] = [
     source: 'https://github.com/Samsung/qaboard/tree/master/website',
     tags: ['opensource'],
   },
-  {
-    title: 'QuantCDN',
-    description:
-      'An all-in-one Static Web solution and global Content Delivery Network',
-    preview: require('./showcase/quantcdn.png'),
-    website: 'https://docs.quantcdn.io',
-    source: 'https://github.com/quantcdn/docs',
-    tags: ['opensource', 'product'],
-  },
+  ,
   {
     title: 'Quickwit',
     description:
