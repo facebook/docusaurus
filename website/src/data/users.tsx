@@ -249,15 +249,7 @@ const Users: User[] = [
     source: 'https://github.com/lyft/clutch/tree/main/docs/_website',
     tags: ['opensource'],
   },
-  {
-    title: 'CodeYourFuture',
-    description:
-      'The syllabus for CodeYourFuture - a free code school for refugees, asylum seekers and disadvantaged people',
-    preview: require('./showcase/codeyourfuture.png'),
-    website: 'https://syllabus.codeyourfuture.io/',
-    source: 'https://github.com/CodeYourFuture/syllabus',
-    tags: ['opensource', 'product'],
-  },
+  
   {
     title: 'Comp Labs',
     description: 'Tech-based Blog, Enterprise-Grade Solutions and more...',
