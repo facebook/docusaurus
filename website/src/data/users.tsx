@@ -654,14 +654,7 @@ const Users: User[] = [
     source: 'https://github.com/HaochenQ/Haochen-Blog',
     tags: ['personal', 'opensource'],
   },
-  {
-    title: 'Hashnode Support',
-    description: 'A help portal for Hashnode users',
-    preview: require('./showcase/hashnode.png'),
-    website: 'https://support.hashnode.com/',
-    source: 'https://github.com/Hashnode/support',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Hasura',
     description:
