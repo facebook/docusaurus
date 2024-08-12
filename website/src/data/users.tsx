@@ -2339,14 +2339,7 @@ const Users: User[] = [
     source: 'https://github.com/HiChen404/MyWikiSite',
     tags: ['opensource', 'personal'],
   },
-  {
-    title: "7Wate's Wiki",
-    description: 'Developer Wiki and Blog',
-    preview: require('./showcase/7wate-wiki.png'),
-    website: 'https://wiki.7wate.com/',
-    source: 'https://github.com/7Wate/wiki',
-    tags: ['opensource', 'personal'],
-  },
+  ,
   {
     title: 'Discord API Types',
     description: 'Discord API Types',
