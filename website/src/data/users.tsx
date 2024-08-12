@@ -1176,15 +1176,7 @@ const Users: User[] = [
       'https://github.com/agrawal-rohit/pearl-ui/tree/main/documentationwebsite',
     tags: ['opensource', 'design', 'product'],
   },
-  {
-    title: 'Peradaban',
-    description:
-      'Peradaban is a Discord Server Bots made with NAFF designed only for Warung International Discord Server',
-    preview: require('./showcase/peradaban.png'),
-    website: 'https://docs.warunginternational.eu.org/',
-    source: 'https://github.com/warung-international/docs',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Pglet',
     description:
