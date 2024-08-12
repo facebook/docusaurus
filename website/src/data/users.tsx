@@ -2077,14 +2077,7 @@ const Users: User[] = [
     source: 'https://github.com/kanekotic/barklarm-website',
     tags: ['opensource','product'],
   },
-  {
-    title: 'Nikita\'s Everything I Know Wiki',
-    description: 'Digital wiki with notes/links.',
-    preview: null,
-    website: 'https://wiki.nikiv.dev/',
-    source: 'https://github.com/nikitavoloboev/knowledge',
-    tags: ['opensource','personal','large'],
-  },
+  
   {
     title: 'Infinity Works Company Handbook',
     description: 'An online company handbook, acting as a one-stop shop for all relevant information needed for colleagues.',
