@@ -367,15 +367,7 @@ const Users: User[] = [
     source: 'https://github.com/cryptodevhub/site',
     tags: ['opensource'],
   },
-  {
-    title: 'CyberDrain Improved Partner Portal (CIPP)',
-    description:
-      'Free and open-source multi-tenant management for Microsoft 365.',
-    preview: require('./showcase/CIPP.png'),
-    website: 'https://cipp.app',
-    source: 'https://github.com/KelvinTegelaar/CIPP/tree/website',
-    tags: ['opensource'],
-  },
+  ,
   {
     title: 'Daily Digest - COVID-19 IN FRANCE',
     description:
