@@ -68,9 +68,9 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   processBlogPosts: async () => undefined,
-  onInlineTags: 'warn',
   tags: undefined,
   authorsBasePath: 'authors',
+  onInlineTags: 'warn',
   onInlineAuthors: 'warn',
   onUntruncatedBlogPosts: 'warn',
 };
