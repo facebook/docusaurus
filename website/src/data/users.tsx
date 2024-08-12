@@ -250,14 +250,7 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   
-  {
-    title: 'Comp Labs',
-    description: 'Tech-based Blog, Enterprise-Grade Solutions and more...',
-    preview: require('./showcase/comp-labs.png'),
-    website: 'https://complabs.in/',
-    source: 'https://github.com/Comp-Labs/comp-labs-website',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Component Kit',
     description: 'A declarative UI framework for iOS',
