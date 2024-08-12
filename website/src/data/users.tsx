@@ -2646,14 +2646,7 @@ const Users: User[] = [
     source: null,
     tags: ['product','design'], // TODO add web3 tag
   },
-  {
-    title: 'Embedded IDE',
-    description: 'A c/c++ development environment for microcontrollers',
-    preview: null,
-    website: 'https://em-ide.com/',
-    source: 'https://github.com/github0null/eide-docs',
-    tags: ['opensource','i18n'],
-  },
+  
   {
     title: 'ShellHub Documentation',
     description: 'A centralized SSH server for the the edge and cloud computing',
