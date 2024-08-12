@@ -1290,15 +1290,7 @@ const Users: User[] = [
     source: 'https://github.com/pingcap/ossinsight',
     tags: ['opensource', 'design'],
   },
-  {
-    title: 'Outerbounds',
-    description:
-      'Resources for data scientists and engineers, authored in jupyter notebooks using nbdoc and docusaurus.',
-    preview: require('./showcase/outerbounds.png'),
-    website: 'https://outerbounds.com',
-    source: null,
-    tags: ['favorite', 'product', 'design'],
-  },
+  ,
   {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
