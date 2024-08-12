@@ -31,6 +31,14 @@ const LibrariesToTranspileRegex = new RegExp(
   LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
 );
 
+const ReactAliases: Record<string, string> = process.env
+  .DOCUSAURUS_NO_REACT_ALIASES
+  ? {}
+  : {
+      react: path.dirname(require.resolve('react/package.json')),
+      'react-dom': path.dirname(require.resolve('react-dom/package.json')),
+    };
+
 export function excludeJS(modulePath: string): boolean {
   // Always transpile client dir
   if (modulePath.startsWith(clientDir)) {
@@ -136,6 +144,7 @@ export async function createBaseConfig({
         process.cwd(),
       ],
       alias: {
+        ...ReactAliases,
         '@site': siteDir,
         '@generated': generatedFilesDir,
         ...(await loadDocusaurusAliases()),
