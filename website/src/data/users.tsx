@@ -1599,15 +1599,7 @@ const Users: User[] = [
       'https://github.com/meliorence/react-native-render-html/tree/master/apps/website',
     tags: ['opensource', 'design'],
   },
-  {
-    title: 'React Native Testing Library',
-    description: 'Helps you to write better tests with less effort.',
-    preview: require('./showcase/react-native-testing-library.png'),
-    website: 'https://callstack.github.io/react-native-testing-library/',
-    source:
-      'https://github.com/callstack/react-native-testing-library/tree/main/website',
-    tags: ['opensource'],
-  },
+  ,
   {
     title: 'React Navigation',
     description: 'Routing and navigation for your React Native apps',
