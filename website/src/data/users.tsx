@@ -298,14 +298,7 @@ const Users: User[] = [
     source: 'https://github.com/lyft/clutch/tree/main/docs/_website',
     tags: ['opensource'],
   },
-  {
-    title: 'CodeSweetly',
-    description: 'The Home of Simplified Web Development Tutorials',
-    preview: require('./showcase/codesweetly.png'),
-    website: 'https://codesweetly.com/',
-    source: null,
-    tags: ['personal'],
-  },
+  ,
   {
     title: 'CodeYourFuture',
     description:
