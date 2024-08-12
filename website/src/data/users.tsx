@@ -2078,14 +2078,7 @@ const Users: User[] = [
     tags: ['opensource','product'],
   },
   
-  {
-    title: 'Infinity Works Company Handbook',
-    description: 'An online company handbook, acting as a one-stop shop for all relevant information needed for colleagues.',
-    preview: null,
-    website: 'https://handbook.infinityworks.com/',
-    source: null,
-    tags: ['design'], // TODO need a tag for company's corporate websites?
-  },
+  
   {
     title: 'Neo Blockchain Developer Portal',
     description: 'A collection of tools and resources to help you build outstanding applications on Neo',
