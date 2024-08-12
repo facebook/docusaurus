@@ -1026,14 +1026,7 @@ const Users: User[] = [
     source: 'https://github.com/nextauthjs/next-auth/tree/main/docs',
     tags: ['opensource', 'design'],
   },
-  {
-    title: 'Nhost',
-    description: 'The Open Source Firebase Alternative with GraphQL',
-    preview: require('./showcase/nhost.png'),
-    website: 'https://docs.nhost.io',
-    source: 'https://github.com/nhost/nhost/tree/main/docs',
-    tags: ['opensource', 'product', 'design'],
-  },
+  
   {
     title: 'Novu',
     description: 'The open-source notification infrastructure for developers',
