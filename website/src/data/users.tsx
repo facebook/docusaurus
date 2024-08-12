@@ -2597,14 +2597,7 @@ const Users: User[] = [
     source: null,
     tags: ['product'],
   },
-  {
-    title: 'HiCA',
-    description: 'Free SSL Certificate Provider, supports ACME',
-    preview: null,
-    website: 'https://www1.hi.cn/',
-    source: null,
-    tags: ['product'],
-  },
+  
   {
     title: 'Ouch1978',
     description: 'Personal site of @Ouch1978',
