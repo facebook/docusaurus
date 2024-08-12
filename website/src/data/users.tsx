@@ -755,14 +755,7 @@ const Users: User[] = [
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
-  {
-    title: 'Joel PO',
-    description: 'A minimalist personal website',
-    preview: require('./showcase/joelpo.png'),
-    website: 'https://joelpo.github.io',
-    source: 'https://github.com/Joelpo/joelpo.github.io',
-    tags: ['personal', 'opensource'],
-  },
+  
   {
     title: 'Junjie',
     description: 'A personal website',
