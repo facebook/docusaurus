@@ -1421,14 +1421,7 @@ const Users: User[] = [
     source: 'https://gitlab.com/postgres-ai/docs',
     tags: ['opensource', 'product'],
   },
-  {
-    title: "Power's Wiki",
-    description: 'An example of personal wiki ',
-    preview: require('./showcase/power.png'),
-    website: 'https://wiki-power.com/',
-    source: 'https://github.com/linyuxuanlin/Wiki_Docusaurus',
-    tags: ['opensource', 'large', 'personal'],
-  },
+  ,
   {
     title: 'PptxGenJS',
     description: 'PowerPoint JavaScript Library',
