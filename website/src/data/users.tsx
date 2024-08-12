@@ -182,7 +182,6 @@ const Users: User[] = [
     source: 'https://github.com/Bandwidth/api-docs',
     tags: ['opensource', 'large', 'product'],
   },
-  ,
   {
     title: 'Blink Shell',
     description: 'A professional, desktop grade terminal for iOS',
@@ -298,7 +297,6 @@ const Users: User[] = [
     source: 'https://github.com/lyft/clutch/tree/main/docs/_website',
     tags: ['opensource'],
   },
-  ,
   {
     title: 'CodeYourFuture',
     description:
@@ -367,7 +365,6 @@ const Users: User[] = [
     source: 'https://github.com/cryptodevhub/site',
     tags: ['opensource'],
   },
-  ,
   {
     title: 'Daily Digest - COVID-19 IN FRANCE',
     description:
@@ -922,7 +919,6 @@ const Users: User[] = [
     source: 'https://github.com/junjieweb/junjieweb.github.io',
     tags: ['personal', 'opensource'],
   },
-  ,
   {
     title: 'KaustubhK24',
     description: 'KaustubhK24 blog + Portfolio website',
@@ -1255,7 +1251,6 @@ const Users: User[] = [
     source: 'https://github.com/serialport/website',
     tags: ['opensource', 'versioning'],
   },
-  ,
   {
     title: 'Orbit.js',
     description: 'The Universal Data Layer',
@@ -1290,7 +1285,6 @@ const Users: User[] = [
     source: 'https://github.com/pingcap/ossinsight',
     tags: ['opensource', 'design'],
   },
-  ,
   {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
@@ -1421,7 +1415,6 @@ const Users: User[] = [
     source: 'https://gitlab.com/postgres-ai/docs',
     tags: ['opensource', 'product'],
   },
-  ,
   {
     title: 'PptxGenJS',
     description: 'PowerPoint JavaScript Library',
@@ -1472,7 +1465,6 @@ const Users: User[] = [
     source: 'https://github.com/Samsung/qaboard/tree/master/website',
     tags: ['opensource'],
   },
-  ,
   {
     title: 'Quickwit',
     description:
@@ -1599,7 +1591,6 @@ const Users: User[] = [
       'https://github.com/meliorence/react-native-render-html/tree/master/apps/website',
     tags: ['opensource', 'design'],
   },
-  ,
   {
     title: 'React Navigation',
     description: 'Routing and navigation for your React Native apps',
@@ -2195,7 +2186,6 @@ const Users: User[] = [
     source: 'https://github.com/TRPGEngine/Server/tree/master/services/Website',
     tags: ['opensource'],
   },
-  ,
   {
     title: 'uniforms',
     description: 'A set of React libraries for building forms',
@@ -2339,7 +2329,6 @@ const Users: User[] = [
     source: 'https://github.com/HiChen404/MyWikiSite',
     tags: ['opensource', 'personal'],
   },
-  ,
   {
     title: 'Discord API Types',
     description: 'Discord API Types',
