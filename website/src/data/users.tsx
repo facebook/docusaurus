@@ -120,15 +120,7 @@ const Users: User[] = [
     source: 'https://github.com/astronomer/docs',
     tags: ['product', 'versioning', 'opensource'],
   },
-  {
-    title: 'Avana Wallet',
-    description:
-      'Solana blockchain non-custodial wallet that connects you to Web3 dapps, DeFi, GameFi and NFT marketplaces.',
-    preview: require('./showcase/avana-wallet.png'),
-    website: 'https://docs.avanawallet.com/',
-    source: null,
-    tags: ['product'],
-  },
+  
   {
     title: 'AvN Gateway',
     description:
