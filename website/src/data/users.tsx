@@ -2241,14 +2241,7 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   
-  {
-    title: 'Nango',
-    description: 'Open-source infrastructure for native integrations in SaaS products',
-    preview: null,
-    website: 'https://docs.nango.dev/',
-    source: 'https://github.com/NangoHQ/nango/tree/main/docs',
-    tags: ['opensource','product'],
-  },
+  
   {
     title: 'YepCode Docs',
     description: 'Docs for the all-in-one platform that connects your services and APIs',
