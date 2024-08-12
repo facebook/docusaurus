@@ -1866,14 +1866,7 @@ const Users: User[] = [
     tags: ['opensource', 'design', 'large', 'favorite'],
   },
   
-  {
-    title: 'Whirl',
-    description: "Whirl's Personal Website and Blog",
-    preview: require('./showcase/whirlcodes.png'),
-    website: 'https://whirl.codes',
-    source: 'https://github.com/whirl21/website',
-    tags: ['opensource', 'personal'],
-  },
+  
   {
     title: 'WoodpeckerCI',
     description: 'A simple CI engine with great extensibility.',
