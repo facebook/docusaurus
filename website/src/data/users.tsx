@@ -1665,15 +1665,7 @@ const Users: User[] = [
       'https://github.com/single-spa/single-spa.js.org/tree/master/website',
     tags: ['opensource', 'large', 'versioning', 'i18n'],
   },
-  {
-    title: 'Shabad OS',
-    description:
-      'Browse the latest docs, including tutorial guides, sample code, product articles, and API references',
-    preview: require('./showcase/shabados.png'),
-    website: 'https://docs.shabados.com',
-    source: 'https://github.com/shabados/docs',
-    tags: ['opensource', 'design'],
-  },
+  
   {
     title: 'Shotstack',
     description: 'The cloud video editing API',
