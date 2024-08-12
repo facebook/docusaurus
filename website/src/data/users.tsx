@@ -812,15 +812,7 @@ const Users: User[] = [
     source: null,
     tags: ['personal'],
   },
-  {
-    title: 'Khyron Realm',
-    description:
-      'Free-to-Play social MMO game that stimulates strategic thinking for achieving goals.',
-    preview: require('./showcase/khyron_realm.png'),
-    website: 'https://khyron-realm.com',
-    source: 'https://github.com/khyron-realm/khyron-realm-website',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Kosko',
     description: 'Organize Kubernetes manifests in JavaScript',
