@@ -931,14 +931,7 @@ const Users: User[] = [
     source: null,
     tags: ['personal'],
   },
-  {
-    title: 'MediaMachine',
-    description: 'Infrastructure for User-Generated Video content',
-    preview: require('./showcase/mediamachine.png'),
-    website: 'https://mediamachine.io/',
-    source: null,
-    tags: ['product'],
-  },
+  
   {
     title: 'Meli',
     description:
