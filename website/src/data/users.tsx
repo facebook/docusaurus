@@ -339,15 +339,7 @@ const Users: User[] = [
     source: 'https://github.com/difranca/difranca.github.io',
     tags: ['opensource', 'personal'],
   },
-  {
-    title: 'Dime.Scheduler',
-    description:
-      'The resource and project planning solution for the Microsoft Dynamics product suite. Stop puzzling and start planning.',
-    preview: require('./showcase/dimeschedulersdk.png'),
-    website: 'https://sdk.dimescheduler.com',
-    source: 'https://github.com/dime-scheduler/sdk-dotnet/tree/master/docs',
-    tags: ['product', 'opensource'],
-  },
+  
   {
     title: 'Digital Support Services Notes',
     description: 'Open source documented notes for Digital Support Services.',
