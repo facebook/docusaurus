@@ -1814,15 +1814,7 @@ const Users: User[] = [
     source: 'https://github.com/NervJS/taro/tree/docs',
     tags: ['opensource', 'versioning', 'large', 'i18n'],
   },
-  {
-    title: 'Tasit',
-    description:
-      'A JavaScript SDK for building native mobile Ethereum dapps with React Native',
-    preview: require('./showcase/tasit.png'),
-    website: 'https://docs.tasit.io/',
-    source: 'https://github.com/tasitlabs/tasit-sdk/tree/develop/packages/docs',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Tauri',
     description:
