@@ -45,7 +45,7 @@
 
 .authorTitle {
   font-size: 0.8rem;
-  line-height: 0.8rem;
+  line-height: 1rem;
   display: -webkit-box;
   overflow: hidden;
   line-clamp: 1;
@@ -55,12 +55,12 @@
 
 .author-as-h1 .authorTitle {
   font-size: 1.2rem;
-  line-height: 1.2rem;
+  line-height: 1.6rem;
 }
 
 .author-as-h2 .authorTitle {
   font-size: 1rem;
-  line-height: 1rem;
+  line-height: 1.3rem;
 }
 
 .authorBlogPostCount {
