@@ -878,14 +878,7 @@ const Users: User[] = [
     source: 'https://github.com/liqvidjs/liqvidjs.org',
     tags: ['opensource'],
   },
-  {
-    title: 'Lux Algo',
-    description: 'Creation of technical trading tools',
-    preview: require('./showcase/lux-algo.png'),
-    website: 'https://docs.luxalgo.com',
-    source: null,
-    tags: ['design', 'i18n', 'product'],
-  },
+  
   {
     title: 'Mailgo',
     description: 'A new concept of mailto and tel links',
