@@ -1,0 +1,10 @@
+{
+  "name": "test-bad-package",
+  "version": "3.5.1",
+  "private": true,
+  "dependencies": {
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "@mdx-js/react": "1.0.1"
+  }
+}
