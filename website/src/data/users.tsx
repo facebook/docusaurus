@@ -538,14 +538,7 @@ const Users: User[] = [
     source: 'https://github.com/facebook/flipper/tree/main/website',
     tags: ['opensource', 'design', 'meta'],
   },
-  {
-    title: 'Flux',
-    description: 'Application architecture for building user interfaces',
-    preview: require('./showcase/flux.png'),
-    website: 'https://facebook.github.io/flux/',
-    source: 'https://github.com/facebook/flux/tree/main/website',
-    tags: ['opensource', 'meta'],
-  },
+  
   {
     title: 'FoalTS',
     description: 'Node.JS framework for building web applications',
