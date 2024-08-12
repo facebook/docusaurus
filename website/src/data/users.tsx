@@ -1013,16 +1013,7 @@ const Users: User[] = [
     source: 'https://github.com/DTStack/molecule/tree/main/website',
     tags: ['opensource', 'i18n'],
   },
-  {
-    title: 'Motion Layout',
-    description:
-      'Create beautiful immersive React.js animations using shared components',
-    preview: require('./showcase/motion-layout.png'),
-    website: 'https://motion-layout.azurewebsites.net',
-    source:
-      'https://github.com/jeffersonlicet/react-motion-layout/tree/master/website',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'nanos world',
     description: 'The next-generation multiplayer open world sandbox game.',
