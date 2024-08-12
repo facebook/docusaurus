@@ -148,14 +148,7 @@ const Users: User[] = [
     source: 'https://github.com/Bandwidth/api-docs',
     tags: ['opensource', 'large', 'product'],
   },
-  {
-    title: 'Blink Shell',
-    description: 'A professional, desktop grade terminal for iOS',
-    preview: require('./showcase/blinkshell.png'),
-    website: 'https://docs.blink.sh/',
-    source: 'https://github.com/blinksh/docs',
-    tags: ['opensource', 'design', 'product'],
-  },
+  
   {
     title: 'johnnyreilly.com',
     description: 'The blog of John Reilly ❤️🌻',
