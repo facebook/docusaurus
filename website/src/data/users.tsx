@@ -932,15 +932,7 @@ const Users: User[] = [
     tags: ['personal'],
   },
   
-  {
-    title: 'Meli',
-    description:
-      'Platform to deploy static sites, frontend applications and hosted forms',
-    preview: require('./showcase/meli.png'),
-    website: 'https://docs.meli.sh/',
-    source: 'https://github.com/getmeli/meli-docs',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Memgraph',
     description:
