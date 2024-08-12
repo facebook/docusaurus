@@ -166,14 +166,6 @@ const Users: User[] = [
     tags: ['opensource', 'i18n', 'versioning'],
   },
   {
-    title: 'Axioms',
-    description: 'Axioms Developer Hub and Documentation Portal',
-    preview: require('./showcase/axioms.png'),
-    website: 'https://axioms.io/',
-    source: 'https://github.com/axioms-io/developer',
-    tags: ['opensource', 'product'],
-  },
-  {
     title: 'Bandwidth',
     description:
       'Add powerful communications capabilities to your app from the only API platform with it’s own tier-1 carrier network.',
