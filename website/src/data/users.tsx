@@ -120,7 +120,6 @@ const Users: User[] = [
     source: 'https://github.com/astronomer/docs',
     tags: ['product', 'versioning', 'opensource'],
   },
-  
   {
     title: 'AvN Gateway',
     description:
@@ -148,7 +147,6 @@ const Users: User[] = [
     source: 'https://github.com/Bandwidth/api-docs',
     tags: ['opensource', 'large', 'product'],
   },
-  
   {
     title: 'johnnyreilly.com',
     description: 'The blog of John Reilly ❤️🌻',
@@ -223,7 +221,6 @@ const Users: User[] = [
     source: 'https://github.com/chaos-mesh/website',
     tags: ['opensource', 'product', 'i18n'],
   },
-  
   {
     title: 'ChatKitty',
     description: 'A full suite of developer tools for any chat use-case.',
@@ -293,7 +290,6 @@ const Users: User[] = [
       'https://github.com/facebook/create-react-app/tree/main/docusaurus/website',
     tags: ['opensource', 'meta'],
   },
-  
   {
     title: 'Daily Digest - COVID-19 IN FRANCE',
     description:
@@ -303,7 +299,6 @@ const Users: User[] = [
     source: 'https://github.com/MisterFISHUP/covid-19-in-france',
     tags: ['opensource', 'i18n', 'large'],
   },
-  
   {
     title: 'Dart Code Metrics',
     description:
@@ -339,7 +334,6 @@ const Users: User[] = [
     source: 'https://github.com/difranca/difranca.github.io',
     tags: ['opensource', 'personal'],
   },
-  
   {
     title: 'Digital Support Services Notes',
     description: 'Open source documented notes for Digital Support Services.',
@@ -411,7 +405,6 @@ const Users: User[] = [
     source: 'https://github.com/sandypockets/easy-dates/tree/main/docs',
     tags: ['opensource'],
   },
-  
   {
     title: 'Easypanel',
     description: 'Server control panel based on Docker',
@@ -420,7 +413,6 @@ const Users: User[] = [
     source: null,
     tags: ['product'],
   },
-  
   {
     title: 'Eightshift',
     description:
@@ -439,7 +431,6 @@ const Users: User[] = [
     source: 'https://github.com/enarx/enarx.github.io',
     tags: ['opensource'],
   },
-  
   {
     title: 'Erxes',
     description:
@@ -654,7 +645,6 @@ const Users: User[] = [
     source: 'https://github.com/HaochenQ/Haochen-Blog',
     tags: ['personal', 'opensource'],
   },
-  
   {
     title: 'Hasura',
     description:
@@ -812,7 +802,6 @@ const Users: User[] = [
     source: null,
     tags: ['personal'],
   },
-  
   {
     title: 'Kosko',
     description: 'Organize Kubernetes manifests in JavaScript',
@@ -897,7 +886,6 @@ const Users: User[] = [
     source: 'https://github.com/liqvidjs/liqvidjs.org',
     tags: ['opensource'],
   },
-  
   {
     title: 'Lux Algo',
     description: 'Creation of technical trading tools',
@@ -951,7 +939,6 @@ const Users: User[] = [
     source: 'https://github.com/cxOrz/meoo.space',
     tags: ['opensource', 'personal'],
   },
-  
   {
     title: 'Metro',
     description: 'The JavaScript bundler for React Native',
@@ -1013,7 +1000,6 @@ const Users: User[] = [
     source: 'https://github.com/DTStack/molecule/tree/main/website',
     tags: ['opensource', 'i18n'],
   },
-  
   {
     title: 'nanos world',
     description: 'The next-generation multiplayer open world sandbox game.',
@@ -1096,7 +1082,6 @@ const Users: User[] = [
     source: 'https://github.com/orbitjs/orbit/tree/main/website',
     tags: ['opensource', 'versioning'],
   },
-  
   {
     title: 'Ory',
     description:
@@ -1176,7 +1161,6 @@ const Users: User[] = [
       'https://github.com/agrawal-rohit/pearl-ui/tree/main/documentationwebsite',
     tags: ['opensource', 'design', 'product'],
   },
-  
   {
     title: 'Pglet',
     description:
@@ -1281,7 +1265,6 @@ const Users: User[] = [
     source: null,
     tags: ['favorite', 'design'],
   },
-  
   {
     title: 'RaspiSuite',
     description:
@@ -1291,7 +1274,6 @@ const Users: User[] = [
     source: null,
     tags: ['design', 'product'],
   },
-  
   {
     title: 'react-chat-elements',
     description: 'Chat UI package for React',
@@ -1665,7 +1647,6 @@ const Users: User[] = [
       'https://github.com/single-spa/single-spa.js.org/tree/master/website',
     tags: ['opensource', 'large', 'versioning', 'i18n'],
   },
-  
   {
     title: 'Shotstack',
     description: 'The cloud video editing API',
@@ -2515,7 +2496,6 @@ const Users: User[] = [
     source: 'https://github.com/keebio/keebio-docs',
     tags: ['opensource','product'],
   },
-  
   {
     title: '前端大刘',
     description: 'Record and share to make progress every day!',
@@ -2556,7 +2536,6 @@ const Users: User[] = [
     source: 'https://github.com/ent/ent/tree/master/doc/website',
     tags: ['opensource','i18n'],
   },
-  
   {
     title: 'WPShop',
     description: 'Docs site for the ShopWP WordPress plugin',
@@ -2597,7 +2576,6 @@ const Users: User[] = [
     source: null,
     tags: ['product'],
   },
-  
   {
     title: 'Ouch1978',
     description: 'Personal site of @Ouch1978',
@@ -2646,7 +2624,6 @@ const Users: User[] = [
     source: null,
     tags: ['product','design'], // TODO add web3 tag
   },
-  
   {
     title: 'ShellHub Documentation',
     description: 'A centralized SSH server for the the edge and cloud computing',
