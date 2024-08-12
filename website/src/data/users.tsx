@@ -1291,15 +1291,7 @@ const Users: User[] = [
     source: null,
     tags: ['design', 'product'],
   },
-  {
-    title: 'Rivalis',
-    description:
-      'An open source framework for developing servers for real-time applications and games',
-    preview: require('./showcase/rivalis.png'),
-    website: 'https://rivalis.io',
-    source: 'https://github.com/rivalis/rivalis.github.io',
-    tags: ['opensource', 'design', 'product'],
-  },
+  
   {
     title: 'react-chat-elements',
     description: 'Chat UI package for React',
