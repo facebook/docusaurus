@@ -182,14 +182,7 @@ const Users: User[] = [
     source: 'https://github.com/Bandwidth/api-docs',
     tags: ['opensource', 'large', 'product'],
   },
-  {
-    title: 'Benthos',
-    description: 'A stream processor for mundane tasks',
-    preview: require('./showcase/benthos.png'),
-    website: 'https://benthos.dev/',
-    source: 'https://github.com/Jeffail/benthos/tree/main/website',
-    tags: ['opensource', 'large'],
-  },
+  ,
   {
     title: 'Blink Shell',
     description: 'A professional, desktop grade terminal for iOS',
