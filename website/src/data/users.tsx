@@ -1399,15 +1399,7 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   
-  {
-    title: 'Rooks',
-    description:
-      'Supercharge your components with this collection of React hooks.',
-    preview: require('./showcase/rooks.png'),
-    website: 'https://react-hooks.org/',
-    source: 'https://github.com/imbhargav5/rooks',
-    tags: ['opensource', 'versioning'],
-  },
+  
   {
     title: 'RSocket',
     description: 'Application protocol providing Reactive Streams semantics.',
