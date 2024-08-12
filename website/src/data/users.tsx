@@ -1829,14 +1829,7 @@ const Users: User[] = [
     source: null,
     tags: ['product'],
   },
-  {
-    title: 'Vital',
-    description: 'Wearables and Lab test API for digital health companies.',
-    preview: require('./showcase/vital.png'),
-    website: 'https://docs.tryvital.io',
-    source: 'https://github.com/tryVital/vital-docs-new',
-    tags: ['opensource', 'product', 'design'],
-  },
+  
   {
     title: 'Vue NodeGui',
     description: 'A cross-platform native desktop app library',
