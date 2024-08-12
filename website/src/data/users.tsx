@@ -1281,14 +1281,7 @@ const Users: User[] = [
     source: null,
     tags: ['favorite', 'design'],
   },
-  {
-    title: 'Rainbond',
-    description: 'A cloud native multi cloud application management platform',
-    preview: require('./showcase/rainbond.png'),
-    website: 'https://www.rainbond.com',
-    source: 'https://github.com/goodrain/rainbond-docs',
-    tags: ['opensource', 'product'],
-  },
+  
   {
     title: 'RaspiSuite',
     description:
