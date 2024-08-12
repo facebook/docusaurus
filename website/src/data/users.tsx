@@ -1511,15 +1511,7 @@ const Users: User[] = [
     source: 'https://github.com/sicope-model/sicope-model-website',
     tags: ['opensource'],
   },
-  {
-    title: 'SigNoz',
-    description:
-      'Open source Application Performance Monitoring (APM), observability, and troubleshooting tool',
-    preview: require('./showcase/signoz.png'),
-    website: 'https://signoz.io/',
-    source: null,
-    tags: ['product', 'design'],
-  },
+  
   {
     title: 'Single SPA',
     description: 'A javascript router for front-end microservices',
