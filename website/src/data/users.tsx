@@ -1255,15 +1255,7 @@ const Users: User[] = [
     source: 'https://github.com/serialport/website',
     tags: ['opensource', 'versioning'],
   },
-  {
-    title: 'Nodify',
-    description:
-      'High-performance WPF node editor component designed for MVVM.',
-    preview: require('./showcase/nodify.png'),
-    website: 'https://miroiu.github.io/nodify/',
-    source: 'https://github.com/miroiu/nodify/tree/docs',
-    tags: ['opensource', 'design'],
-  },
+  ,
   {
     title: 'Orbit.js',
     description: 'The Universal Data Layer',
