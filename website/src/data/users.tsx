@@ -897,15 +897,7 @@ const Users: User[] = [
     source: 'https://github.com/liqvidjs/liqvidjs.org',
     tags: ['opensource'],
   },
-  {
-    title: 'LiveKit',
-    description:
-      'Open source, scalable, real-time audio and video rooms over WebRTC',
-    preview: require('./showcase/livekit.png'),
-    website: 'https://docs.livekit.io',
-    source: 'https://github.com/livekit/livekit-docs',
-    tags: ['opensource', 'product', 'design'],
-  },
+  
   {
     title: 'Lux Algo',
     description: 'Creation of technical trading tools',
