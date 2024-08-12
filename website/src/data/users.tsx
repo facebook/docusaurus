@@ -965,14 +965,7 @@ const Users: User[] = [
     source: 'https://github.com/netdata/netdata-learn-docusaurus',
     tags: ['opensource', 'product', 'large'],
   },
-  {
-    title: 'Neutron JS',
-    description: 'An open source CLI to work with Redux + Redux Saga',
-    preview: require('./showcase/neutronjs.png'),
-    website: 'https://www.neutronjs.com/',
-    source: 'https://github.com/neutronjs/neutron/tree/master/website',
-    tags: ['opensource', 'versioning'],
-  },
+  
   {
     title: 'NextAuth.js',
     description: 'An open source serverless authentication library for next.js',
