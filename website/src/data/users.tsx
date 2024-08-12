@@ -121,15 +121,6 @@ const Users: User[] = [
     tags: ['product', 'versioning', 'opensource'],
   },
   {
-    title: 'AttoBot',
-    description:
-      'A multi-purpose Discord bot with many features and API integrations that will enhance your Discord experience.',
-    preview: require('./showcase/attobot.png'),
-    website: 'https://attobot.xyz',
-    source: 'https://github.com/attobot-discord/website',
-    tags: ['opensource'],
-  },
-  {
     title: 'Avana Wallet',
     description:
       'Solana blockchain non-custodial wallet that connects you to Web3 dapps, DeFi, GameFi and NFT marketplaces.',
