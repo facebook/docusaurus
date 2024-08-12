@@ -2515,14 +2515,7 @@ const Users: User[] = [
     source: 'https://github.com/keebio/keebio-docs',
     tags: ['opensource','product'],
   },
-  {
-    title: 'SR50 Finance',
-    description: 'Reference handbook for personal finance',
-    preview: null,
-    website: 'https://sr50.finance/',
-    source: 'https://github.com/tpascarella/sr50',
-    tags: ['opensource'],
-  },
+  
   {
     title: '前端大刘',
     description: 'Record and share to make progress every day!',
