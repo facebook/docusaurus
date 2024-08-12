@@ -2556,14 +2556,7 @@ const Users: User[] = [
     source: 'https://github.com/ent/ent/tree/master/doc/website',
     tags: ['opensource','i18n'],
   },
-  {
-    title: 'NAYAtel ',
-    description: 'Documentation for TAC Department',
-    preview: null,
-    website: 'https://nayatel.shoaibsajid.com/',
-    source: null,
-    tags: [], // TODO not sure which tag to use here
-  },
+  
   {
     title: 'WPShop',
     description: 'Docs site for the ShopWP WordPress plugin',
