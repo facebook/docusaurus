@@ -1,6 +1,6 @@
 # test-bad-package
 
-This package declares a wrong React version on purpose (v15.7.0)
+This package declares a wrong React version on purpose (16.14.0)
 
 The goal is to test that the MD/MDX content of this package can still be imported/rendered by our website.
 
@@ -12,12 +12,13 @@ import {version as ReactVersion} from 'react';
 import {version as ReactDOMVersion} from 'react-dom';
 
 export function TestComponent() {
-  if (ReactVersion.startsWith('15')) {
+  const expectedVersion = 18;
+  if (!ReactVersion.startsWith(`${expectedVersion}`)) {
     throw new Error(
       `'test-bad-package/README.mdx' is rendered with bad React version: ${ReactVersion}`,
     );
   }
-  if (ReactDOMVersion.startsWith('15')) {
+  if (!ReactVersion.startsWith(`${expectedVersion}`)) {
     throw new Error(
       `'test-bad-package/README.mdx' is rendered with bad React-DOM version: ${ReactDOMVersion}`,
     );
