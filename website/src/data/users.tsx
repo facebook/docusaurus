@@ -663,14 +663,6 @@ const Users: User[] = [
     tags: ['product'],
   },
   {
-    title: 'Hermes',
-    description: 'JavaScript engine optimized for React Native',
-    preview: require('./showcase/hermes.png'),
-    website: 'https://hermesengine.dev',
-    source: 'https://github.com/facebook/hermes/tree/main/website',
-    tags: ['opensource', 'meta'],
-  },
-  {
     title: 'Home Assistant',
     description: 'All you need to start developing',
     preview: require('./showcase/home-assistant.png'),
