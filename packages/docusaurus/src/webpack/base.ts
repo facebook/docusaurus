@@ -37,6 +37,7 @@ const ReactAliases: Record<string, string> = process.env
   : {
       react: path.dirname(require.resolve('react/package.json')),
       'react-dom': path.dirname(require.resolve('react-dom/package.json')),
+      '@mdx-js/react': path.dirname(require.resolve('@mdx-js/react')),
     };
 
 export function excludeJS(modulePath: string): boolean {
