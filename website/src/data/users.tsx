@@ -293,15 +293,7 @@ const Users: User[] = [
       'https://github.com/facebook/create-react-app/tree/main/docusaurus/website',
     tags: ['opensource', 'meta'],
   },
-  {
-    title: 'CryptoDevHub',
-    description:
-      'The place where Blockchain- and Crypto developers learn, meet and grow.',
-    preview: require('./showcase/cryptodevhub.png'),
-    website: 'https://cryptodevhub.io',
-    source: 'https://github.com/cryptodevhub/site',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Daily Digest - COVID-19 IN FRANCE',
     description:
