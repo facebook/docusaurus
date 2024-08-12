@@ -2240,14 +2240,7 @@ const Users: User[] = [
     source: 'https://github.com/batect/batect.dev',
     tags: ['opensource'],
   },
-  {
-    title: 'Boyka-Framework',
-    description: 'Ultimate test automation for testing any application on any platform',
-    preview: null,
-    website: 'https://wasiqbhamla.github.io/boyka-framework/',
-    source: 'https://github.com/WasiqBhamla/boyka-framework/tree/main/website',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Nango',
     description: 'Open-source infrastructure for native integrations in SaaS products',
