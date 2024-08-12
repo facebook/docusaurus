@@ -2215,14 +2215,7 @@ const Users: User[] = [
     source: 'https://github.com/modrinth/docs',
     tags: ['opensource'],
   },
-  {
-    title: 'Codiga Documentation',
-    description: 'Documentation for Codiga, your Code Analysis & Coding Assistant',
-    preview: null,
-    website: 'https://doc.codiga.io/',
-    source: 'https://github.com/codiga/doc.codiga.io/tree/main/website',
-    tags: ['opensource','product'],
-  },
+  
   {
     title: 'Takken.io',
     description: 'Webber\'s personal website',
