@@ -1781,14 +1781,7 @@ const Users: User[] = [
     source: 'https://github.com/sado0823/sado0823.github.io',
     tags: ['opensource', 'personal'],
   },
-  {
-    title: 'T-Regx',
-    description: 'Programmer-oriented Regular Expressions library for PHP',
-    preview: require('./showcase/t-regx.png'),
-    website: 'https://t-regx.com/',
-    source: 'https://github.com/T-Regx/T-Regx.github.io',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'TalentBrick',
     description:
