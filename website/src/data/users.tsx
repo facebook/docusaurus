@@ -246,8 +246,6 @@ const Users: User[] = [
     source: 'https://github.com/lyft/clutch/tree/main/docs/_website',
     tags: ['opensource'],
   },
-  
-  
   {
     title: 'Component Kit',
     description: 'A declarative UI framework for iOS',
@@ -431,7 +429,6 @@ const Users: User[] = [
     source: 'https://github.com/enarx/enarx.github.io',
     tags: ['opensource'],
   },
-  
   {
     title: 'Eta',
     description: 'Faster embedded JS template engine in TypeScript',
@@ -538,7 +535,6 @@ const Users: User[] = [
     source: 'https://github.com/facebook/flipper/tree/main/website',
     tags: ['opensource', 'design', 'meta'],
   },
-  
   {
     title: 'FoalTS',
     description: 'Node.JS framework for building web applications',
@@ -755,7 +751,6 @@ const Users: User[] = [
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
-  
   {
     title: 'Junjie',
     description: 'A personal website',
@@ -764,7 +759,6 @@ const Users: User[] = [
     source: 'https://github.com/junjieweb/junjieweb.github.io',
     tags: ['personal', 'opensource'],
   },
-  
   {
     title: 'Kosko',
     description: 'Organize Kubernetes manifests in JavaScript',
@@ -849,7 +843,6 @@ const Users: User[] = [
     source: 'https://github.com/liqvidjs/liqvidjs.org',
     tags: ['opensource'],
   },
-  
   {
     title: 'Mailgo',
     description: 'A new concept of mailto and tel links',
@@ -965,7 +958,6 @@ const Users: User[] = [
     source: 'https://github.com/netdata/netdata-learn-docusaurus',
     tags: ['opensource', 'product', 'large'],
   },
-  
   {
     title: 'NextAuth.js',
     description: 'An open source serverless authentication library for next.js',
@@ -974,8 +966,6 @@ const Users: User[] = [
     source: 'https://github.com/nextauthjs/next-auth/tree/main/docs',
     tags: ['opensource', 'design'],
   },
-  
-  
   {
     title: 'Nocalhost',
     description:
@@ -1027,7 +1017,6 @@ const Users: User[] = [
     source: 'https://github.com/oxidizer-rs/website',
     tags: ['opensource'],
   },
-  
   {
     title: 'Paubox',
     description: 'Paubox API Documentation',
@@ -1090,8 +1079,6 @@ const Users: User[] = [
     source: null,
     tags: ['favorite', 'product', 'design'],
   },
-  
-  
   {
     title: 'Plausible Analytics',
     description:
@@ -1142,7 +1129,6 @@ const Users: User[] = [
     source: null,
     tags: ['product'],
   },
-  
   {
     title: 'Pyre',
     description: 'A performant type-checker for Python 3',
@@ -1312,8 +1298,6 @@ const Users: User[] = [
     source: null,
     tags: [],
   },
-  
-  
   {
     title: 'Redux',
     description: 'A Predictable State Container for JS Apps',
@@ -1398,8 +1382,6 @@ const Users: User[] = [
       'https://github.com/sgenoud/replicad/tree/main/packages/replicad-docs',
     tags: ['opensource'],
   },
-  
-  
   {
     title: 'RSocket',
     description: 'Application protocol providing Reactive Streams semantics.',
@@ -1408,7 +1390,6 @@ const Users: User[] = [
     source: 'https://github.com/rsocket/rsocket-website',
     tags: ['opensource'],
   },
-  
   {
     title: 'Runiac',
     description: 'Run IaC Anywhere with Ease',
@@ -1511,7 +1492,6 @@ const Users: User[] = [
     source: 'https://github.com/sicope-model/sicope-model-website',
     tags: ['opensource'],
   },
-  
   {
     title: 'Single SPA',
     description: 'A javascript router for front-end microservices',
@@ -1574,7 +1554,6 @@ const Users: User[] = [
     source: 'https://github.com/fairdataihub/SODA-for-SPARC-Docs',
     tags: ['opensource', 'versioning'],
   },
-  
   {
     title: 'Spicetify',
     description: 'Powerful CLI tool to take control of the Spotify client.',
@@ -1617,7 +1596,6 @@ const Users: User[] = [
     source: 'https://github.com/stackql/registry.stackql.io',
     tags: ['opensource', 'product', 'large'],
   },
-  
   {
     title: 'Stryker Mutator',
     description: 'Mutation testing for JavaScript, .NET and JVM',
@@ -1668,7 +1646,6 @@ const Users: User[] = [
     source: 'https://github.com/sado0823/sado0823.github.io',
     tags: ['opensource', 'personal'],
   },
-  
   {
     title: 'TalentBrick',
     description:
@@ -1694,7 +1671,6 @@ const Users: User[] = [
     source: 'https://github.com/NervJS/taro/tree/docs',
     tags: ['opensource', 'versioning', 'large', 'i18n'],
   },
-  
   {
     title: 'Tauri',
     description:
@@ -1829,7 +1805,6 @@ const Users: User[] = [
     source: null,
     tags: ['product'],
   },
-  
   {
     title: 'Vue NodeGui',
     description: 'A cross-platform native desktop app library',
@@ -1865,8 +1840,6 @@ const Users: User[] = [
     source: 'https://github.com/webdriverio/webdriverio/tree/main/website',
     tags: ['opensource', 'design', 'large', 'favorite'],
   },
-  
-  
   {
     title: 'WoodpeckerCI',
     description: 'A simple CI engine with great extensibility.',
@@ -2077,8 +2050,6 @@ const Users: User[] = [
     source: 'https://github.com/kanekotic/barklarm-website',
     tags: ['opensource','product'],
   },
-  
-  
   {
     title: 'Neo Blockchain Developer Portal',
     description: 'A collection of tools and resources to help you build outstanding applications on Neo',
@@ -2215,7 +2186,6 @@ const Users: User[] = [
     source: 'https://github.com/modrinth/docs',
     tags: ['opensource'],
   },
-  
   {
     title: 'Takken.io',
     description: 'Webber\'s personal website',
@@ -2240,8 +2210,6 @@ const Users: User[] = [
     source: 'https://github.com/batect/batect.dev',
     tags: ['opensource'],
   },
-  
-  
   {
     title: 'YepCode Docs',
     description: 'Docs for the all-in-one platform that connects your services and APIs',
@@ -2378,7 +2346,6 @@ const Users: User[] = [
     source: null,
     tags: ['product'],
   },
-  
   {
     title: 'OKP4',
     description: 'Documentation portal for the OKP4 blockchain',
