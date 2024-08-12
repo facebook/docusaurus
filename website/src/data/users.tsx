@@ -1865,15 +1865,7 @@ const Users: User[] = [
     source: 'https://github.com/webdriverio/webdriverio/tree/main/website',
     tags: ['opensource', 'design', 'large', 'favorite'],
   },
-  {
-    title: 'Webiny',
-    description:
-      'Serverless application framework and CMS for building full-stack applications, GraphQL APIs, websites & microservices.',
-    preview: require('./showcase/webiny.png'),
-    website: 'https://www.webiny.com/docs/',
-    source: 'https://github.com/webiny/docs.webiny.com',
-    tags: ['opensource', 'product'],
-  },
+  
   {
     title: 'Whirl',
     description: "Whirl's Personal Website and Blog",
