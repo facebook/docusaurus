@@ -303,15 +303,7 @@ const Users: User[] = [
     source: 'https://github.com/MisterFISHUP/covid-19-in-france',
     tags: ['opensource', 'i18n', 'large'],
   },
-  {
-    title: 'Darklang',
-    description:
-      'A new way of building serverless backends, with no infra, framework or deployment nightmares.',
-    preview: require('./showcase/darklang.png'),
-    website: 'https://docs.darklang.com/',
-    source: 'https://github.com/darklang/docs',
-    tags: ['product', 'opensource'],
-  },
+  
   {
     title: 'Dart Code Metrics',
     description:
