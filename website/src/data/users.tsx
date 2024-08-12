@@ -1408,14 +1408,7 @@ const Users: User[] = [
     source: 'https://github.com/rsocket/rsocket-website',
     tags: ['opensource'],
   },
-  {
-    title: 'Runlet',
-    description: 'A cloud-based job manager that integrates your devices',
-    preview: require('./showcase/runlet.png'),
-    website: 'https://runlet.app',
-    source: 'https://github.com/runletapp/website',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Runiac',
     description: 'Run IaC Anywhere with Ease',
