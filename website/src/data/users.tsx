@@ -411,14 +411,7 @@ const Users: User[] = [
     source: 'https://github.com/sandypockets/easy-dates/tree/main/docs',
     tags: ['opensource'],
   },
-  {
-    title: 'Easyjwt',
-    description: 'JWT creation and validation library',
-    preview: require('./showcase/easyjwt.png'),
-    website: 'https://www.easyjwt.org',
-    source: 'https://github.com/authdog/easyjwt/tree/master/docs',
-    tags: ['opensource', 'i18n'],
-  },
+  
   {
     title: 'Easypanel',
     description: 'Server control panel based on Docker',
