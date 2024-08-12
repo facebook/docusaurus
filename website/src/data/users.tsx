@@ -2378,14 +2378,7 @@ const Users: User[] = [
     source: null,
     tags: ['product'],
   },
-  {
-    title: 'Computer Science Turkish Resource',
-    description: 'A Computer Science portal for enthusiasts.',
-    preview: null,
-    website: 'https://bb-tr-kaynak.netlify.app/',
-    source: 'https://github.com/Fire-Oceann/bb-tr-kaynak/',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'OKP4',
     description: 'Documentation portal for the OKP4 blockchain',
