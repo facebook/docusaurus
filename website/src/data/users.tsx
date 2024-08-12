@@ -1195,15 +1195,7 @@ const Users: User[] = [
     tags: ['favorite', 'product', 'design'],
   },
   
-  {
-    title: 'Pipeline UI',
-    description: 'Pipeline UI Documentation',
-    preview: require('./showcase/pipeline-ui.png'),
-    website: 'https://www.pipeline-ui.com/',
-    source:
-      'https://github.com/headline-design/pipeline-ui/tree/main/design-site',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Plausible Analytics',
     description:
