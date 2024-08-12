@@ -431,15 +431,7 @@ const Users: User[] = [
     source: 'https://github.com/enarx/enarx.github.io',
     tags: ['opensource'],
   },
-  {
-    title: 'Erxes',
-    description:
-      'Combine all your business tools into one streamlined and integrated open-source framework',
-    preview: require('./showcase/erxes.png'),
-    website: 'https://docs.erxes.io/',
-    source: 'https://github.com/erxes/erxes/tree/master/docs',
-    tags: ['opensource'],
-  },
+  
   {
     title: 'Eta',
     description: 'Faster embedded JS template engine in TypeScript',
