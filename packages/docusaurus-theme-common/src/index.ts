@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
+
 // TODO Docusaurus v4: remove these workarounds as a breaking change
 //  and remove docs plugin peerDeps in theme-common/package.json
 //  This is public API surface that we need to keep for v3
@@ -26,6 +29,14 @@ export function useDocsPreferredVersion(...args: unknown[]): unknown {
   return require('@docusaurus/plugin-content-docs/client').useDocsPreferredVersion(
     ...args,
   );
+}
+export function useContextualSearchFilters() {
+  const {i18n} = useDocusaurusContext();
+  const docsTags =
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    require('@docusaurus/plugin-content-docs/client').useDocsContextualSearchTags();
+  const tags = [DEFAULT_SEARCH_TAG, ...docsTags];
+  return {locale: i18n.currentLocale, tags};
 }
 
 /*
