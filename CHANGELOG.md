@@ -1,5 +1,38 @@
 # Docusaurus Changelog
 
+## 3.5.2 (2024-08-13)
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-common`
+  - [#10397](https://github.com/facebook/docusaurus/pull/10397) fix(theme-common): restore useContextualSearchFilters public API for retrocompatibility ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#10391](https://github.com/facebook/docusaurus/pull/10391) fix(core): always alias React/ReactDOM to site dependency so that importing MDX from anywhere works ([@slorber](https://github.com/slorber))
+- `create-docusaurus`, `docusaurus-plugin-content-blog`
+  - [#10392](https://github.com/facebook/docusaurus/pull/10392) fix(create-docusaurus): Improve init templates blog setup + fix warnings ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#10390](https://github.com/facebook/docusaurus/pull/10390) fix(theme): Adjust blog authors line height to show descenders in lowercase letters (`g`, `j`, `p`, `q`, and `y`) ([@josh-wong](https://github.com/josh-wong))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-translations`
+  - [#10394](https://github.com/facebook/docusaurus/pull/10394) fix(translations): change casing of some en labels ([@cstangerup](https://github.com/cstangerup))
+
+#### :memo: Documentation
+
+- [#10393](https://github.com/facebook/docusaurus/pull/10393) docs(showcase): remove sites not using Docusaurus anymore ([@GatienBoquet](https://github.com/GatienBoquet))
+
+#### :robot: Dependencies
+
+- [#10396](https://github.com/facebook/docusaurus/pull/10396) chore(deps): bump github/codeql-action from 3.25.13 to 3.26.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 4
+
+- Christian Stangerup ([@cstangerup](https://github.com/cstangerup))
+- Gatien Boquet ([@GatienBoquet](https://github.com/GatienBoquet))
+- Josh Wong ([@josh-wong](https://github.com/josh-wong))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 3.5.1 (2024-08-09)
 
 #### :bug: Bug Fix
