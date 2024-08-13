@@ -16,7 +16,7 @@ function ReadMoreLabel() {
       <Translate
         id="theme.blog.post.readMore"
         description="The label used in blog post item excerpts to link to full blog posts">
-        Read More
+        Read more
       </Translate>
     </b>
   );
