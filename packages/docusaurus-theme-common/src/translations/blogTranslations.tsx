@@ -73,7 +73,7 @@ export function BlogAuthorsListViewAllLabel(): ReactNode {
     <Translate
       id="theme.blog.authorsList.viewAll"
       description="The label of the link targeting the blog authors page">
-      View All Authors
+      View all authors
     </Translate>
   );
 }

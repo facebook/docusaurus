@@ -29,7 +29,7 @@ export default function BlogListPaginator(props: Props): JSX.Element {
             <Translate
               id="theme.blog.paginator.newerEntries"
               description="The label used to navigate to the newer blog posts page (previous page)">
-              Newer Entries
+              Newer entries
             </Translate>
           }
         />
@@ -41,7 +41,7 @@ export default function BlogListPaginator(props: Props): JSX.Element {
             <Translate
               id="theme.blog.paginator.olderEntries"
               description="The label used to navigate to the older blog posts page (next page)">
-              Older Entries
+              Older entries
             </Translate>
           }
           isNext
