@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import webpack, {type Configuration} from 'webpack';
+import webpack, {rspack, type Configuration} from 'webpack';
 import WebpackBar from 'webpackbar';
 import Terser from 'terser-webpack-plugin';
 import {injectManifest} from 'workbox-build';
@@ -89,18 +89,22 @@ export default function pluginPWA(
       });
     },
 
+    // @ts-expect-error: todo fix
     configureWebpack(config) {
       return {
         plugins: [
-          new webpack.EnvironmentPlugin({
-            PWA_DEBUG: debug,
-            PWA_SERVICE_WORKER_URL: path.posix.resolve(
-              `${(config.output?.publicPath as string) || '/'}`,
-              'sw.js',
-            ),
-            PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES:
-              offlineModeActivationStrategies,
-          }),
+          new rspack.EnvironmentPlugin(
+            // @ts-expect-error: todo fix
+            {
+              PWA_DEBUG: debug,
+              PWA_SERVICE_WORKER_URL: path.posix.resolve(
+                `${(config.output?.publicPath as string) || '/'}`,
+                'sw.js',
+              ),
+              PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES:
+                offlineModeActivationStrategies,
+            },
+          ),
         ],
       };
     },
@@ -157,7 +161,7 @@ export default function pluginPWA(
               ],
         },
         plugins: [
-          new webpack.EnvironmentPlugin({
+          new rspack.EnvironmentPlugin({
             // Fallback value required with Webpack 5
             PWA_SW_CUSTOM: swCustom ?? '',
           }),
@@ -177,7 +181,6 @@ export default function pluginPWA(
         },
       };
 
-      // @ts-expect-error: todo fix
       await compile([swWebpackConfig]);
 
       const swDest = path.resolve(props.outDir, 'sw.js');

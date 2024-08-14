@@ -34,7 +34,7 @@
     "core-js": "^3.31.1",
     "terser-webpack-plugin": "^5.3.9",
     "tslib": "^2.6.0",
-    "webpack": "^5.88.1",
+    "webpack": "npm:@rspack/core@1.0.0-beta.4",
     "webpack-merge": "^5.9.0",
     "webpackbar": "^5.0.2",
     "workbox-build": "^7.0.0",
