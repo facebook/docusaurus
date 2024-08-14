@@ -7,7 +7,7 @@
 
 import path from 'path';
 import merge from 'webpack-merge';
-import webpack from 'webpack';
+import {rspack} from 'webpack';
 import logger from '@docusaurus/logger';
 import WebpackDevServer from 'webpack-dev-server';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
@@ -139,6 +139,7 @@ async function getStartClientConfig({
     plugins,
     config,
     isServer: false,
+    // @ts-expect-error: todo fix
     jsLoader: siteConfig.webpack?.jsLoader,
   });
   return config;
@@ -159,7 +160,7 @@ export async function createWebpackDevServer({
     poll: cliOptions.poll,
   });
 
-  const compiler = webpack(config);
+  const compiler = rspack(config);
   registerWebpackE2ETestHook(compiler);
 
   const defaultDevServerConfig = await createDevServerConfig({
@@ -174,5 +175,6 @@ export async function createWebpackDevServer({
     [defaultDevServerConfig, config.devServer].filter(Boolean),
   );
 
+  // @ts-expect-error: todo fix
   return new WebpackDevServer(devServerConfig, compiler);
 }

@@ -7,7 +7,9 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import {CssExtractRspackPlugin as MiniCssExtractPlugin} from 'webpack';
+
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {
   getCustomizableJSLoader,
@@ -87,6 +89,7 @@ export async function createBaseConfig({
   return {
     mode,
     name,
+    // @ts-expect-error: TODO fix this
     cache: {
       type: 'filesystem',
       // Can we share the same cache across locales?
@@ -131,6 +134,7 @@ export async function createBaseConfig({
     },
     devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
+      // @ts-expect-error: TODO fix this
       unsafeCache: false, // Not enabled, does not seem to improve perf much
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true, // See https://github.com/facebook/docusaurus/issues/3272
@@ -202,15 +206,21 @@ export async function createBaseConfig({
     },
     module: {
       rules: [
+        // @ts-expect-error: TODO fix this
         fileLoaderUtils.rules.images(),
+        // @ts-expect-error: TODO fix this
         fileLoaderUtils.rules.fonts(),
+        // @ts-expect-error: TODO fix this
         fileLoaderUtils.rules.media(),
+        // @ts-expect-error: TODO fix this
         fileLoaderUtils.rules.svg(),
+        // @ts-expect-error: TODO fix this
         fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           use: [
+            // @ts-expect-error: TODO fix this
             getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
               isServer,
               babelOptions: await getCustomBabelConfigFilePath(siteDir),
@@ -220,6 +230,7 @@ export async function createBaseConfig({
         {
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
+          // @ts-expect-error: TODO fix this
           use: getStyleLoaders(isServer, {
             importLoaders: 1,
             sourceMap: !isProd,
@@ -229,6 +240,7 @@ export async function createBaseConfig({
         // using the extension .module.css
         {
           test: CSS_MODULE_REGEX,
+          // @ts-expect-error: TODO fix this
           use: getStyleLoaders(isServer, {
             modules: {
               localIdentName: isProd
@@ -241,6 +253,9 @@ export async function createBaseConfig({
           }),
         },
       ],
+    },
+    experiments: {
+      css: false,
     },
     plugins: [
       new MiniCssExtractPlugin({

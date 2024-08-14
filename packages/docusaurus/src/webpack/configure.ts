@@ -38,11 +38,14 @@ export function applyConfigureWebpack(
 ): Configuration {
   // Export some utility functions
   const utils: ConfigureWebpackUtils = {
+    // @ts-expect-error: todo fix
     getStyleLoaders,
+    // @ts-expect-error: todo fix
     getJSLoader: getCustomizableJSLoader(jsLoader),
   };
   if (typeof configureWebpack === 'function') {
     const {mergeStrategy, ...res} =
+      // @ts-expect-error: todo fix
       configureWebpack(config, isServer, utils, content) ?? {};
     const customizeRules = mergeStrategy ?? {};
     return mergeWithCustomize({

@@ -353,6 +353,7 @@ async function getBuildClientConfig({
     plugins,
     config,
     isServer: false,
+    // @ts-expect-error: todo fix
     jsLoader: props.siteConfig.webpack?.jsLoader,
   });
   return {clientConfig: config, clientManifestPath: result.clientManifestPath};
@@ -368,6 +369,7 @@ async function getBuildServerConfig({props}: {props: Props}) {
     plugins,
     config,
     isServer: true,
+    // @ts-expect-error: todo fix
     jsLoader: props.siteConfig.webpack?.jsLoader,
   });
   return {serverConfig: config, serverBundlePath: result.serverBundlePath};

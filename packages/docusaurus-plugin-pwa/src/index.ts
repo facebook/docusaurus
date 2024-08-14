@@ -177,6 +177,7 @@ export default function pluginPWA(
         },
       };
 
+      // @ts-expect-error: todo fix
       await compile([swWebpackConfig]);
 
       const swDest = path.resolve(props.outDir, 'sw.js');

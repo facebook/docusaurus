@@ -22,6 +22,7 @@ const pluginName = 'chunk-asset-plugin';
  */
 export default class ChunkAssetPlugin {
   apply(compiler: Compiler): void {
+    /*
     compiler.hooks.thisCompilation.tap(pluginName, ({mainTemplate}) => {
       mainTemplate.hooks.requireExtensions.tap(pluginName, (source, chunk) => {
         const chunkIdToName = chunk.getChunkMaps(false).name;
@@ -51,5 +52,7 @@ export default class ChunkAssetPlugin {
         return webpack.Template.asString(buf);
       });
     });
+
+     */
   }
 }

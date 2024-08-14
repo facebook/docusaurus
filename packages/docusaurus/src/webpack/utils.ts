@@ -10,8 +10,13 @@ import path from 'path';
 import crypto from 'crypto';
 import logger from '@docusaurus/logger';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import webpack, {type Configuration, type RuleSetRule} from 'webpack';
+// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import webpack, {
+  rspack,
+  CssExtractRspackPlugin as MiniCssExtractPlugin,
+  type Configuration,
+  type RuleSetRule,
+} from 'webpack';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import type {TransformOptions} from '@babel/core';
 
@@ -179,7 +184,7 @@ declare global {
 
 export function compile(config: Configuration[]): Promise<webpack.MultiStats> {
   return new Promise((resolve, reject) => {
-    const compiler = webpack(config);
+    const compiler = rspack(config);
     compiler.run((err, stats) => {
       if (err) {
         logger.error(err.stack ?? err);

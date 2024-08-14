@@ -24,9 +24,11 @@ import type webpack from 'webpack';
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
+/*
 const ContextReplacementPlugin = requireFromDocusaurusCore(
   'webpack/lib/ContextReplacementPlugin',
 ) as typeof webpack.ContextReplacementPlugin;
+ */
 
 function getInfimaCSSFile(direction: string) {
   return `infima/dist/css/default/default${
@@ -99,10 +101,13 @@ export default function themeClassic(
           // This allows better optimization by only bundling those components
           // that the user actually needs, because the modules are dynamically
           // required and can't be known during compile time.
+          /*
+          ContextReplacementPlugin is not supported yet, tracked here https://github.com/web-infra-dev/rspack/issues/7474
           new ContextReplacementPlugin(
             /prismjs[\\/]components$/,
             new RegExp(`^./(${prismLanguages})$`),
           ),
+           */
         ],
       };
     },
