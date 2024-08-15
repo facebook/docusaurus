@@ -7,8 +7,8 @@
 
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import {rspack, type WebpackPluginInstance} from 'webpack';
 import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
-import type {WebpackPluginInstance} from 'webpack';
 
 // See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
 function getTerserParallel() {
@@ -86,17 +86,21 @@ function getAdvancedCssMinifier() {
 }
 
 export function getMinimizer(): WebpackPluginInstance[] {
+  const minimizer: WebpackPluginInstance[] = [
+    new rspack.SwcJsMinimizerRspackPlugin(),
+    new rspack.SwcCssMinimizerRspackPlugin(),
+  ];
+
+  /*
   // This is an historical env variable to opt-out of the advanced minifier
   // Sometimes there's a bug in it and people are happy to disable it
   const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
-
-  const minimizer: WebpackPluginInstance[] = [getJsMinifierPlugin()];
-
   if (useSimpleCssMinifier) {
     minimizer.push(new CssMinimizerPlugin());
   } else {
     minimizer.push(getAdvancedCssMinifier());
   }
+ */
 
   return minimizer;
 }

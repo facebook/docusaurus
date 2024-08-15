@@ -104,10 +104,12 @@ export async function build(
         logger.info`Use code=${'npm run serve'} command to test your build locally.`;
       }
 
+      /*
       // TODO do we really need this historical forceTerminate exit???
       if (forceTerminate && isLastLocale && !cliOptions.bundleAnalyzer) {
         process.exit(0);
       }
+       */
     }),
   );
 }
