@@ -216,6 +216,8 @@ export async function createBaseConfig({
         fileLoaderUtils.rules.svg(),
         // @ts-expect-error: TODO fix this
         fileLoaderUtils.rules.otherAssets(),
+
+        /*
         {
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
@@ -227,6 +229,71 @@ export async function createBaseConfig({
             }),
           ],
         },
+         */
+
+        // TODO do we really need 3 different loaders for js, ts, tsx?
+        {
+          test: /\.jsx?$/,
+          exclude: excludeJS,
+          use: {
+            loader: 'builtin:swc-loader',
+            options: {
+              jsc: {
+                parser: {
+                  syntax: 'ecmascript',
+                  jsx: true,
+                },
+                transform: {
+                  react: {
+                    runtime: 'automatic',
+                  },
+                },
+              },
+            },
+          },
+        },
+
+        {
+          test: /\.tsx$/,
+          exclude: excludeJS,
+          use: {
+            loader: 'builtin:swc-loader',
+            options: {
+              jsc: {
+                parser: {
+                  syntax: 'typescript',
+                  tsx: true,
+                },
+                transform: {
+                  react: {
+                    runtime: 'automatic',
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          test: /\.ts$/,
+          exclude: excludeJS,
+          use: {
+            loader: 'builtin:swc-loader',
+            options: {
+              jsc: {
+                parser: {
+                  syntax: 'typescript',
+                  tsx: false,
+                },
+                transform: {
+                  react: {
+                    runtime: 'automatic',
+                  },
+                },
+              },
+            },
+          },
+        },
+
         {
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
