@@ -8,6 +8,8 @@ import path from 'path';
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import {RsdoctorRspackPlugin} from '@rsdoctor/rspack-plugin';
+
 import configTabs from './src/remark/configTabs';
 
 import versions from './versions.json';
@@ -23,7 +25,8 @@ import ConfigLocalized from './docusaurus.config.localized.json';
 
 import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
-import type {Config, DocusaurusConfig} from '@docusaurus/types';
+
+import type {Config, DocusaurusConfig, PluginConfig} from '@docusaurus/types';
 
 import type * as Preset from '@docusaurus/preset-classic';
 import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
@@ -31,6 +34,22 @@ import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
 import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 import type {Options as IdealImageOptions} from '@docusaurus/plugin-ideal-image';
 import type {Options as ClientRedirectsOptions} from '@docusaurus/plugin-client-redirects';
+
+const RsdoctorPlugin: PluginConfig = () => {
+  console.log('RsdoctorPlugin enabled');
+  return {
+    name: 'docusaurus-rsdoctor-plugin',
+    configureWebpack: () => {
+      return {
+        plugins: [
+          new RsdoctorRspackPlugin({
+            // plugin options
+          }),
+        ],
+      };
+    },
+  };
+};
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
@@ -270,6 +289,7 @@ export default async function createConfigAsync() {
     ],
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
+      process.env.RSDOCTOR ? RsdoctorPlugin : null,
       [
         './src/plugins/changelog/index.js',
         {
@@ -417,7 +437,7 @@ export default async function createConfigAsync() {
       '@docusaurus/theme-mermaid',
       './src/plugins/featureRequests/FeatureRequestsPlugin.js',
       ...dogfoodingPluginInstances,
-    ],
+    ].filter(Boolean),
     presets: [
       [
         'classic',

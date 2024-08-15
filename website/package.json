@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "cross-env RSPACK_CONFIG_VALIDATE=loose-silent docusaurus start",
-    "build": "cross-env RSPACK_CONFIG_VALIDATE=loose-silent docusaurus build",
+    "start": "cross-env RSDOCTOR=true RSPACK_CONFIG_VALIDATE=loose-silent docusaurus start",
+    "build": "cross-env RSDOCTOR=true RSPACK_CONFIG_VALIDATE=loose-silent docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear && rimraf changelog && rimraf _dogfooding/_swizzle_theme_tests",
@@ -84,6 +84,7 @@
   "devDependencies": {
     "@docusaurus/eslint-plugin": "3.5.2",
     "@docusaurus/tsconfig": "3.5.2",
+    "@rsdoctor/rspack-plugin": "^0.3.11",
     "@types/color": "^3.0.4",
     "@types/jest": "^29.5.3",
     "cross-env": "^7.0.3",
