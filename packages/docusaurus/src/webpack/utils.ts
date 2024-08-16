@@ -10,10 +10,9 @@ import path from 'path';
 import crypto from 'crypto';
 import logger from '@docusaurus/logger';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
-// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {
   rspack,
-  CssExtractRspackPlugin as MiniCssExtractPlugin,
+  CssExtractRspackPlugin,
   type Configuration,
   type RuleSetRule,
 } from 'webpack';
@@ -68,7 +67,7 @@ export function getStyleLoaders(
         ]
       : [
           {
-            loader: MiniCssExtractPlugin.loader,
+            loader: CssExtractRspackPlugin.loader,
             options: {
               // Don't emit CSS files for SSR (previously used null-loader)
               // See https://github.com/webpack-contrib/mini-css-extract-plugin/issues/90#issuecomment-811991738
@@ -84,7 +83,7 @@ export function getStyleLoaders(
 
   return [
     {
-      loader: MiniCssExtractPlugin.loader,
+      loader: CssExtractRspackPlugin.loader,
       options: {
         esModule: true,
       },
@@ -93,6 +92,7 @@ export function getStyleLoaders(
       loader: require.resolve('css-loader'),
       options: cssOptions,
     },
+    /*
     {
       // Options for PostCSS as we reference these options twice
       // Adds vendor prefixing based on your specified browser support in
@@ -110,6 +110,7 @@ export function getStyleLoaders(
         },
       },
     },
+     */
   ];
 }
 

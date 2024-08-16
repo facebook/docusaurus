@@ -7,8 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import {CssExtractRspackPlugin as MiniCssExtractPlugin} from 'webpack';
+import {CssExtractRspackPlugin} from 'webpack';
 
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {
@@ -303,6 +302,7 @@ export async function createBaseConfig({
             sourceMap: !isProd,
           }),
         },
+
         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
         // using the extension .module.css
         {
@@ -325,7 +325,7 @@ export async function createBaseConfig({
       css: false,
     },
     plugins: [
-      new MiniCssExtractPlugin({
+      new CssExtractRspackPlugin({
         filename: isProd
           ? 'assets/css/[name].[contenthash:8].css'
           : '[name].css',
