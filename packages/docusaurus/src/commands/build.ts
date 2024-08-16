@@ -48,11 +48,6 @@ export type BuildCLIOptions = Pick<
 export async function build(
   siteDirParam: string = '.',
   cliOptions: Partial<BuildCLIOptions> = {},
-  // When running build, we force terminate the process to prevent async
-  // operations from never returning. However, if run as part of docusaurus
-  // deploy, we have to let deploy finish.
-  // See https://github.com/facebook/docusaurus/pull/2496
-  forceTerminate: boolean = true,
 ): Promise<void> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
@@ -98,18 +93,11 @@ export async function build(
 
   await PerfLogger.async(`Build`, () =>
     mapAsyncSequential(locales, async (locale) => {
-      const isLastLocale = locales.indexOf(locale) === locales.length - 1;
       await tryToBuildLocale({locale});
-      if (isLastLocale) {
-        logger.info`Use code=${'npm run serve'} command to test your build locally.`;
-      }
-
-      // TODO do we really need this historical forceTerminate exit???
-      if (forceTerminate && isLastLocale && !cliOptions.bundleAnalyzer) {
-        process.exit(0);
-      }
     }),
   );
+
+  logger.info`Use code=${'npm run serve'} command to test your build locally.`;
 }
 
 async function getLocalesToBuild({
