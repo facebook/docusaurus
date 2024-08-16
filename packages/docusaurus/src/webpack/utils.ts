@@ -61,17 +61,9 @@ export function getStyleLoaders(
     return cssOptions.modules
       ? [
           {
-            loader: 'builtin:lightningcss-loader',
-            options: {
-              targets: 'ie 10',
-            },
-          },
-          /*
-          {
             loader: require.resolve('css-loader'),
             options: cssOptions,
           },
-         */
         ]
       : [
           {
@@ -83,17 +75,9 @@ export function getStyleLoaders(
             },
           },
           {
-            loader: 'builtin:lightningcss-loader',
-            options: {
-              targets: 'ie 10',
-            },
-          },
-          /*
-          {
             loader: require.resolve('css-loader'),
             options: cssOptions,
           },
-         */
         ];
   }
 
@@ -105,16 +89,10 @@ export function getStyleLoaders(
       },
     },
     {
-      loader: 'builtin:lightningcss-loader',
-      options: {
-        targets: 'ie 10',
-      },
-    },
-    /*
-    {
       loader: require.resolve('css-loader'),
       options: cssOptions,
     },
+    /*
     {
       // Options for PostCSS as we reference these options twice
       // Adds vendor prefixing based on your specified browser support in
