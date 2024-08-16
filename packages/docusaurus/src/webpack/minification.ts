@@ -88,7 +88,7 @@ function getAdvancedCssMinifier() {
 export function getMinimizer(): WebpackPluginInstance[] {
   const minimizer: WebpackPluginInstance[] = [
     new rspack.SwcJsMinimizerRspackPlugin(),
-    new rspack.SwcCssMinimizerRspackPlugin(),
+    new rspack.LightningCssMinimizerRspackPlugin(),
   ];
 
   /*
