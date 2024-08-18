@@ -1,4 +1,14 @@
-/**
+build:
+    stage: build
+    script:
+        - "dotnet build"
+    artifacts:
+      paths:
+        - bin/
+          stages:
+    - build
+    - testimage: microsoft/dotnet:latest
+      juntylprogaminginc/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
