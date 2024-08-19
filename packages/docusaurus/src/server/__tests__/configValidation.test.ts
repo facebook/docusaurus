@@ -429,8 +429,14 @@ describe('markdown', () => {
   });
 
   it('throw for bad markdown format', () => {
-    expect(() => normalizeConfig({markdown: {format: null}}))
-      .toThrowErrorMatchingInlineSnapshot(`
+    expect(() =>
+      normalizeConfig({
+        markdown: {
+          // @ts-expect-error: bad value
+          format: null,
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
       ""markdown.format" must be one of [mdx, md, detect]
       "markdown.format" must be a string
       "
@@ -449,6 +455,7 @@ describe('markdown', () => {
   it('throw for null object', () => {
     expect(() => {
       normalizeConfig({
+        // @ts-expect-error: bad value
         markdown: null,
       });
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -754,6 +761,7 @@ describe('future', () => {
     });
 
     it('rejects router - null', () => {
+      // @ts-expect-error: bad value
       const router: DocusaurusConfig['future']['experimental_router'] = null;
       expect(() =>
         normalizeConfig({
@@ -993,6 +1001,7 @@ describe('future', () => {
       });
 
       it('rejects namespace - null', () => {
+        // @ts-expect-error: bad value
         const storage: Partial<StorageConfig> = {namespace: null};
         expect(() =>
           normalizeConfig({
