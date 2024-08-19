@@ -84,6 +84,7 @@
   "devDependencies": {
     "@docusaurus/eslint-plugin": "3.5.2",
     "@docusaurus/tsconfig": "3.5.2",
+    "@rsdoctor/webpack-plugin": "^0.3.11",
     "@types/color": "^3.0.4",
     "@types/jest": "^29.5.3",
     "cross-env": "^7.0.3",

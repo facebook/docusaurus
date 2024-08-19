@@ -9,6 +9,7 @@ import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import configTabs from './src/remark/configTabs';
+import RsdoctorPlugin from './src/plugins/rsdoctor/RsdoctorPlugin';
 
 import versions from './versions.json';
 import VersionsArchived from './versionsArchived.json';
@@ -270,6 +271,7 @@ export default async function createConfigAsync() {
     ],
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
+      RsdoctorPlugin,
       [
         './src/plugins/changelog/index.js',
         {
