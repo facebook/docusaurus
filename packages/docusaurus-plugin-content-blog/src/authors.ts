@@ -7,6 +7,7 @@
 
 import _ from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
+import {normalizeSocials} from './authorsSocials';
 import type {
   Author,
   AuthorsMap,
@@ -123,6 +124,7 @@ ${Object.keys(authorsMap)
       key: author.key ?? null,
       page: author.page ?? null,
       imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
+      socials: normalizeSocials(author.socials ?? {}),
     };
   }
 }
