@@ -85,6 +85,7 @@ function getFrontMatterAuthors(params: AuthorsParam): Author[] {
         // becoming a name and may end up unnoticed
         return {key: authorInput};
       }
+
       return authorInput;
     }
 
@@ -118,13 +119,16 @@ ${Object.keys(authorsMap)
       ...getAuthorsMapAuthor(frontMatterAuthor.key),
       ...frontMatterAuthor,
     };
+    const normalizedSocials = normalizeSocials(frontMatterAuthor.socials ?? {});
 
     return {
       ...author,
       key: author.key ?? null,
       page: author.page ?? null,
       imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
-      socials: normalizeSocials(author.socials ?? {}),
+      ...(Object.keys(normalizedSocials).length > 0 && {
+        socials: normalizedSocials,
+      }),
     };
   }
 }
