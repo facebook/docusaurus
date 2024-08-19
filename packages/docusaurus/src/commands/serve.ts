@@ -42,14 +42,10 @@ export async function serve(
   const outDir = path.resolve(siteDir, buildDir);
 
   if (cliOptions.build) {
-    await build(
-      siteDir,
-      {
-        config: cliOptions.config,
-        outDir,
-      },
-      false,
-    );
+    await build(siteDir, {
+      config: cliOptions.config,
+      outDir,
+    });
   }
 
   const {host, port} = await getHostPort(cliOptions);
