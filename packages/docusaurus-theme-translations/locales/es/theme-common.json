@@ -49,7 +49,7 @@
   "theme.contentVisibility.unlistedBanner.title": "Página sin clasificar",
   "theme.docs.DocCard.categoryDescription.plurals": "1 artículo|{count} artículos",
   "theme.docs.breadcrumbs.home": "Página de Inicio",
-  "theme.docs.breadcrumbs.navAriaLabel": "Migas de pan",
+  "theme.docs.breadcrumbs.navAriaLabel": "Rastro de navegación",
   "theme.docs.paginator.navAriaLabel": "Página del documento",
   "theme.docs.paginator.next": "Siguiente",
   "theme.docs.paginator.previous": "Anterior",
