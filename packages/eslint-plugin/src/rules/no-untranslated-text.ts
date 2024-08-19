@@ -6,7 +6,7 @@
  */
 
 import {isTextLabelChild, createRule} from '../util';
-import type {TSESTree} from '@typescript-eslint/types/dist/ts-estree';
+import type {TSESTree} from '@typescript-eslint/types';
 
 type Options = [
   {
@@ -22,7 +22,6 @@ export default createRule<Options, MessageIds>({
     docs: {
       description:
         'enforce text labels in JSX to be wrapped by translate calls',
-      recommended: false,
     },
     schema: [
       {

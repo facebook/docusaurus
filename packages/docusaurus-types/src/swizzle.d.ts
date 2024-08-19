@@ -30,7 +30,6 @@ export type SwizzleConfig = {
  * @see https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/60766
  */
 export type WrapperProps<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>,
 > = T extends JSXElementConstructor<infer P>
   ? unknown extends P

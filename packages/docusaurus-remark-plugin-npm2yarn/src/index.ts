@@ -111,7 +111,7 @@ const transformNode = (
         ...converters.flatMap(createConvertedTabItem),
       ],
     },
-  ] as any[];
+  ];
 };
 
 const isMdxEsmLiteral = (node: Node): node is Literal =>

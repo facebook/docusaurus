@@ -10,12 +10,12 @@ import {fromPartial} from '@total-typescript/shoehorn';
 import {loadPlugins, reloadPlugin} from '../plugins';
 import type {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
 
-async function testLoad({
+async function testLoad<Content = unknown>({
   plugins,
   themes,
 }: {
-  plugins: PluginConfig<any>[];
-  themes: PluginConfig<any>[];
+  plugins: PluginConfig<Content>[];
+  themes: PluginConfig<Content>[];
 }) {
   const siteDir = path.join(__dirname, '__fixtures__/site-with-plugin');
 
