@@ -229,31 +229,29 @@ type ProcessorsCacheEntry = {
 const ProcessorsCache = new Map<string | Options, ProcessorsCacheEntry>();
 
 async function createProcessorsCacheEntry({
-  query,
-  reqOptions,
+  options,
 }: {
-  query: string | Options;
-  reqOptions: Options;
+  options: Options;
 }): Promise<ProcessorsCacheEntry> {
   const {createProcessorSync} = await createProcessorFactory();
 
-  const compilers = ProcessorsCache.get(query);
+  const compilers = ProcessorsCache.get(options);
   if (compilers) {
     return compilers;
   }
 
   const compilerCacheEntry: ProcessorsCacheEntry = {
     mdProcessor: createProcessorSync({
-      options: reqOptions,
+      options,
       format: 'md',
     }),
     mdxProcessor: createProcessorSync({
-      options: reqOptions,
+      options,
       format: 'mdx',
     }),
   };
 
-  ProcessorsCache.set(query, compilerCacheEntry);
+  ProcessorsCache.set(options, compilerCacheEntry);
 
   return compilerCacheEntry;
 }
@@ -261,20 +259,18 @@ async function createProcessorsCacheEntry({
 export async function createProcessorCached({
   filePath,
   mdxFrontMatter,
-  query,
-  reqOptions,
+  options,
 }: {
   filePath: string;
   mdxFrontMatter: MDXFrontMatter;
-  query: string | Options;
-  reqOptions: Options;
+  options: Options;
 }): Promise<SimpleProcessor> {
-  const compilers = await createProcessorsCacheEntry({query, reqOptions});
+  const compilers = await createProcessorsCacheEntry({options});
 
   const format = getFormat({
     filePath,
     frontMatterFormat: mdxFrontMatter.format,
-    markdownConfigFormat: reqOptions.markdownConfig.format,
+    markdownConfigFormat: options.markdownConfig.format,
   });
 
   return format === 'md' ? compilers.mdProcessor : compilers.mdxProcessor;

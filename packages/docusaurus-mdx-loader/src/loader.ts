@@ -140,12 +140,11 @@ export async function mdxLoader(
   const compilerName = getWebpackLoaderCompilerName(this);
   const callback = this.async();
   const filePath = this.resourcePath;
-  const reqOptions: Options = this.getOptions();
-  const {query} = this;
+  const options: Options = this.getOptions();
 
-  ensureMarkdownConfig(reqOptions);
+  ensureMarkdownConfig(options);
 
-  const {frontMatter} = await reqOptions.markdownConfig.parseFrontMatter({
+  const {frontMatter} = await options.markdownConfig.parseFrontMatter({
     filePath,
     fileContent,
     defaultParseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
@@ -155,16 +154,15 @@ export async function mdxLoader(
   const preprocessedContent = preprocessor({
     fileContent,
     filePath,
-    admonitions: reqOptions.admonitions,
-    markdownConfig: reqOptions.markdownConfig,
+    admonitions: options.admonitions,
+    markdownConfig: options.markdownConfig,
   });
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
   const processor = await createProcessorCached({
     filePath,
-    reqOptions,
-    query,
+    options,
     mdxFrontMatter,
   });
 
@@ -203,14 +201,14 @@ export async function mdxLoader(
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have associated metadata files or front matter
-  const isMDXPartial = reqOptions.isMDXPartial?.(filePath);
+  const isMDXPartial = options.isMDXPartial?.(filePath);
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain front matter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.
 File at ${filePath} contains front matter that will be ignored:
 ${JSON.stringify(frontMatter, null, 2)}`;
 
-    if (!reqOptions.isMDXPartialFrontMatterWarningDisabled) {
+    if (!options.isMDXPartialFrontMatterWarningDisabled) {
       const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
       if (shouldError) {
         return callback(new Error(errorMessage));
@@ -222,11 +220,8 @@ ${JSON.stringify(frontMatter, null, 2)}`;
   function getMetadataPath(): string | undefined {
     if (!isMDXPartial) {
       // Read metadata for this MDX and export it.
-      if (
-        reqOptions.metadataPath &&
-        typeof reqOptions.metadataPath === 'function'
-      ) {
-        return reqOptions.metadataPath(filePath);
+      if (options.metadataPath && typeof options.metadataPath === 'function') {
+        return options.metadataPath(filePath);
       }
     }
     return undefined;
@@ -246,8 +241,8 @@ ${JSON.stringify(frontMatter, null, 2)}`;
     : undefined;
 
   const assets =
-    reqOptions.createAssets && metadata
-      ? reqOptions.createAssets({frontMatter, metadata})
+    options.createAssets && metadata
+      ? options.createAssets({frontMatter, metadata})
       : undefined;
 
   // TODO use remark plugins to insert extra exports instead of string concat?
