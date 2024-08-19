@@ -93,7 +93,7 @@ exports[`plugins should throw error if plugins is not array for the input of: {}
 "
 `;
 
-exports[`plugins should throw error if themes is not a string and it's not an array #1 for the input of: [123] 1`] = `
+exports[`themes should throw error if themes is not a string and it's not an array #1 for the input of: [123] 1`] = `
 " => Bad Docusaurus theme value themes[0].
 Example valid theme config:
 {
@@ -109,7 +109,7 @@ Example valid theme config:
 "
 `;
 
-exports[`plugins should throw error if themes is not an array of [string, object][] #1 for the input of: [[Array]] 1`] = `
+exports[`themes should throw error if themes is not an array of [string, object][] #1 for the input of: [[Array]] 1`] = `
 " => Bad Docusaurus theme value themes[0].
 Example valid theme config:
 {
@@ -125,7 +125,7 @@ Example valid theme config:
 "
 `;
 
-exports[`plugins should throw error if themes is not an array of [string, object][] #2 for the input of: [[Array]] 1`] = `
+exports[`themes should throw error if themes is not an array of [string, object][] #2 for the input of: [[Array]] 1`] = `
 " => Bad Docusaurus theme value themes[0].
 Example valid theme config:
 {
@@ -141,7 +141,7 @@ Example valid theme config:
 "
 `;
 
-exports[`plugins should throw error if themes is not an array of [string, object][] #3 for the input of: [[Array]] 1`] = `
+exports[`themes should throw error if themes is not an array of [string, object][] #3 for the input of: [[Array]] 1`] = `
 " => Bad Docusaurus theme value themes[0].
 Example valid theme config:
 {
@@ -157,7 +157,7 @@ Example valid theme config:
 "
 `;
 
-exports[`plugins should throw error if themes is not array for the input of: {} 1`] = `
+exports[`themes should throw error if themes is not array for the input of: {} 1`] = `
 ""themes" must be an array
 "
 `;

@@ -12,7 +12,7 @@ import {
   validateConfig,
 } from '../configValidation';
 import type {StorageConfig} from '@docusaurus/types/src/config';
-import type {Config, DocusaurusConfig} from '@docusaurus/types';
+import type {Config, DocusaurusConfig, PluginConfig} from '@docusaurus/types';
 import type {DeepPartial} from 'utility-types';
 
 const baseConfig = {
@@ -466,6 +466,11 @@ describe('markdown', () => {
 });
 
 describe('plugins', () => {
+  // Only here to verify typing
+  function ensurePlugins(plugins: PluginConfig[]): PluginConfig[] {
+    return plugins;
+  }
+
   it.each([
     ['should throw error if plugins is not array', {}],
     [
@@ -494,6 +499,97 @@ describe('plugins', () => {
   });
 
   it.each([
+    ['should accept [string] for plugins', ensurePlugins(['plain/string'])],
+    [
+      'should accept string[] for plugins',
+      ensurePlugins(['plain/string', 'another/plain/string/path']),
+    ],
+    [
+      'should accept [string, object] for plugins',
+      ensurePlugins([['plain/string', {it: 'should work'}]]),
+    ],
+    [
+      'should accept [string, object][] for plugins',
+      ensurePlugins([
+        ['plain/string', {it: 'should work'}],
+        ['this/should/work', {too: 'yes'}],
+      ]),
+    ],
+    [
+      'should accept ([string, object]|string)[] for plugins',
+      ensurePlugins([
+        'plain/string',
+        ['plain', {it: 'should work'}],
+        ['this/should/work', {too: 'yes'}],
+      ]),
+    ],
+    [
+      'should accept function returning null',
+      ensurePlugins([
+        function plugin() {
+          return null;
+        },
+      ]),
+    ],
+    [
+      'should accept function returning plugin',
+      ensurePlugins([
+        function plugin() {
+          return {name: 'plugin'};
+        },
+      ]),
+    ],
+    [
+      'should accept function returning plugin or null',
+      ensurePlugins([
+        function plugin() {
+          return Math.random() > 0.5 ? null : {name: 'plugin'};
+        },
+      ]),
+    ],
+    [
+      'should accept async function returning null',
+      ensurePlugins([
+        async function plugin() {
+          return null;
+        },
+      ]),
+    ],
+    [
+      'should accept async function returning plugin',
+      ensurePlugins([
+        async function plugin() {
+          return {name: 'plugin'};
+        },
+      ]),
+    ],
+    [
+      'should accept function returning plugin or null',
+      ensurePlugins([
+        async function plugin() {
+          return Math.random() > 0.5 ? null : {name: 'plugin'};
+        },
+      ]),
+    ],
+    [
+      'should accept [function, object] for plugin',
+      [[() => {}, {it: 'should work'}]],
+    ],
+    [
+      'should accept false/null for plugin',
+      ensurePlugins([false as const, null, 'classic']),
+    ],
+  ])(`%s for the input of: %p`, (_message, plugins) => {
+    expect(() => {
+      normalizeConfig({
+        plugins,
+      } as Config);
+    }).not.toThrow();
+  });
+});
+
+describe('themes', () => {
+  it.each([
     ['should throw error if themes is not array', {}],
     [
       "should throw error if themes is not a string and it's not an array #1",
@@ -520,48 +616,6 @@ describe('plugins', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
-  it.each([
-    ['should accept [string] for plugins', ['plain/string']],
-    [
-      'should accept string[] for plugins',
-      ['plain/string', 'another/plain/string/path'],
-    ],
-    [
-      'should accept [string, object] for plugins',
-      [['plain/string', {it: 'should work'}]],
-    ],
-    [
-      'should accept [string, object][] for plugins',
-      [
-        ['plain/string', {it: 'should work'}],
-        ['this/should/work', {too: 'yes'}],
-      ],
-    ],
-    [
-      'should accept ([string, object]|string)[] for plugins',
-      [
-        'plain/string',
-        ['plain', {it: 'should work'}],
-        ['this/should/work', {too: 'yes'}],
-      ],
-    ],
-    ['should accept function for plugin', [function plugin() {}]],
-    ['should accept async function for plugin', [async function plugin() {}]],
-    [
-      'should accept [function, object] for plugin',
-      [[() => {}, {it: 'should work'}]],
-    ],
-    ['should accept false/null for plugin', [false as const, null, 'classic']],
-  ])(`%s for the input of: %p`, (_message, plugins) => {
-    expect(() => {
-      normalizeConfig({
-        plugins,
-      } as Config);
-    }).not.toThrow();
-  });
-});
-
-describe('themes', () => {
   it.each([
     ['should accept [string] for themes', ['plain/string']],
     [
