@@ -272,7 +272,13 @@ describe('getBlogPostAuthors', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
-          authors: {name: 'Sébastien Lorber', title: 'maintainer'},
+          authors: {
+            name: 'Sébastien Lorber',
+            title: 'maintainer',
+            socials: {
+              github: 'slorber',
+            },
+          },
         },
         authorsMap: undefined,
         baseUrl: '/',
@@ -282,6 +288,9 @@ describe('getBlogPostAuthors', () => {
         name: 'Sébastien Lorber',
         title: 'maintainer',
         imageURL: undefined,
+        socials: {
+          github: 'https://github.com/slorber',
+        },
         key: null,
         page: null,
       },
@@ -293,8 +302,19 @@ describe('getBlogPostAuthors', () => {
       getBlogPostAuthors({
         frontMatter: {
           authors: [
-            {name: 'Sébastien Lorber', title: 'maintainer'},
-            {name: 'Yangshun Tay'},
+            {
+              name: 'Sébastien Lorber',
+              title: 'maintainer',
+              socials: {
+                github: 'slorber',
+              },
+            },
+            {
+              name: 'Yangshun Tay',
+              socials: {
+                github: 'https://github.com/yangshun',
+              },
+            },
           ],
         },
         authorsMap: undefined,
@@ -306,9 +326,20 @@ describe('getBlogPostAuthors', () => {
         title: 'maintainer',
         imageURL: undefined,
         key: null,
+        socials: {
+          github: 'https://github.com/slorber',
+        },
         page: null,
       },
-      {name: 'Yangshun Tay', imageURL: undefined, key: null, page: null},
+      {
+        name: 'Yangshun Tay',
+        imageURL: undefined,
+        key: null,
+        page: null,
+        socials: {
+          github: 'https://github.com/yangshun',
+        },
+      },
     ]);
   });
 
@@ -323,7 +354,12 @@ describe('getBlogPostAuthors', () => {
               title: 'Yangshun title local override',
               extra: 42,
             },
-            {name: 'Alexey'},
+            {
+              name: 'Alexey',
+              socials: {
+                github: 'lex111',
+              },
+            },
           ],
         },
         authorsMap: {
@@ -358,7 +394,15 @@ describe('getBlogPostAuthors', () => {
         imageURL: undefined,
         page: null,
       },
-      {name: 'Alexey', imageURL: undefined, key: null, page: null},
+      {
+        name: 'Alexey',
+        imageURL: undefined,
+        key: null,
+        page: null,
+        socials: {
+          github: 'https://github.com/lex111',
+        },
+      },
     ]);
   });
 

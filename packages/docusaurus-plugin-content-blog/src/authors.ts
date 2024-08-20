@@ -85,8 +85,14 @@ function getFrontMatterAuthors(params: AuthorsParam): Author[] {
         // becoming a name and may end up unnoticed
         return {key: authorInput};
       }
+      const normalizedSocials = normalizeSocials(authorInput.socials ?? {});
 
-      return authorInput;
+      return {
+        ...authorInput,
+        ...(Object.keys(normalizedSocials).length > 0 && {
+          socials: normalizedSocials,
+        }),
+      };
     }
 
     return Array.isArray(frontMatter.authors)
@@ -119,16 +125,12 @@ ${Object.keys(authorsMap)
       ...getAuthorsMapAuthor(frontMatterAuthor.key),
       ...frontMatterAuthor,
     };
-    const normalizedSocials = normalizeSocials(frontMatterAuthor.socials ?? {});
 
     return {
       ...author,
       key: author.key ?? null,
       page: author.page ?? null,
       imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
-      ...(Object.keys(normalizedSocials).length > 0 && {
-        socials: normalizedSocials,
-      }),
     };
   }
 }
