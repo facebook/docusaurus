@@ -10,10 +10,8 @@ import type {PluginConfig} from '@docusaurus/types';
 async function createRsdoctorBundlerPlugin() {
   // TODO Shitty workaround to bypass lib typechecking
   //  package does not work will with skipLibCheck false
-
   // eslint-disable-next-line
-  const {RsdoctorWebpackMultiplePlugin} = require('@rsdoctor/' +
-    'webpack-plugin');
+  const {RsdoctorWebpackMultiplePlugin} = require('@rsdoctor/webpack-plugin');
 
   return new RsdoctorWebpackMultiplePlugin({
     disableTOSUpload: true,
