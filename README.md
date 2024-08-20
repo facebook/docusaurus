@@ -80,7 +80,7 @@ We have a few channels for contact:
 - [Discord](https://discord.gg/docusaurus):
   - `#general` for those using Docusaurus.
   - `#contributors` for those wanting to contribute to the Docusaurus core.
-- [@docusaurus](https://twitter.com/docusaurus) on Twitter
+- [@docusaurus](https://x.com/docusaurus) X (Twitter)
 - [GitHub Issues](https://github.com/facebook/docusaurus/issues)
 
 ## Contributors
