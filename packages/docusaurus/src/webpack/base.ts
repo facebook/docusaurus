@@ -231,9 +231,9 @@ export async function createBaseConfig({
           test: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
             modules: {
-              localIdentName: isProd
-                ? `[local]_[contenthash:base64:4]`
-                : `[local]_[path][name]`,
+              // Using the same CSS Module class pattern in dev/prod on purpose
+              // See https://github.com/facebook/docusaurus/pull/10423
+              localIdentName: `[local]_[contenthash:base64:4]`,
               exportOnlyLocals: isServer,
             },
             importLoaders: 1,
