@@ -255,7 +255,7 @@ describe('authors socials', () => {
   });
 
   it('throw socials that are not strings', () => {
-    const authorsMap: AuthorsMapInput = {
+    const socialnumber: AuthorsMapInput = {
       ozaki: {
         name: 'ozaki',
         socials: {
@@ -265,10 +265,38 @@ describe('authors socials', () => {
       },
     };
 
+    const socialnull: AuthorsMapInput = {
+      ozaki: {
+        name: 'ozaki',
+        socials: {
+          // @ts-expect-error: for tests
+          twitter: null,
+        },
+      },
+    };
+
+    const socialnull2: AuthorsMapInput = {
+      ozaki: {
+        name: 'ozaki',
+        // @ts-expect-error: for tests
+        socials: null,
+      },
+    };
+
     expect(() =>
-      validateAuthorsMap(authorsMap),
+      validateAuthorsMap(socialnumber),
     ).toThrowErrorMatchingInlineSnapshot(
       `""ozaki.socials.twitter" must be a string"`,
+    );
+    expect(() =>
+      validateAuthorsMap(socialnull),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""ozaki.socials.twitter" must be a string"`,
+    );
+    expect(() =>
+      validateAuthorsMap(socialnull2),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""ozaki.socials" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 

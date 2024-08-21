@@ -85,13 +85,9 @@ function getFrontMatterAuthors(params: AuthorsParam): Author[] {
         // becoming a name and may end up unnoticed
         return {key: authorInput};
       }
-      const normalizedSocials = normalizeSocials(authorInput.socials ?? {});
-
       return {
         ...authorInput,
-        ...(Object.keys(normalizedSocials).length > 0 && {
-          socials: normalizedSocials,
-        }),
+        socials: normalizeSocials(authorInput.socials ?? {}),
       };
     }
 
