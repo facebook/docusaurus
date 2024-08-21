@@ -28,10 +28,6 @@ import type {LoaderContext} from 'webpack';
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 type Pluggable = any; // TODO fix this asap
 
-const {
-  loaders: {inlineMarkdownAssetImageFileLoader},
-} = getFileLoaderUtils();
-
 export type MDXPlugin = Pluggable;
 
 export type Options = Partial<MDXOptions> & {
@@ -72,7 +68,13 @@ async function readMetadataPath(metadataPath: string) {
  *
  * `{image: "./myImage.png"}` => `{image: require("./myImage.png")}`
  */
-function createAssetsExportCode(assets: unknown) {
+function createAssetsExportCode({
+  assets,
+  inlineMarkdownAssetImageFileLoader,
+}: {
+  assets: unknown;
+  inlineMarkdownAssetImageFileLoader: string;
+}) {
   if (
     typeof assets !== 'object' ||
     !assets ||
@@ -245,13 +247,23 @@ ${JSON.stringify(frontMatter, null, 2)}`;
       ? options.createAssets({frontMatter, metadata})
       : undefined;
 
+  const fileLoaderUtils = getFileLoaderUtils(compilerName === 'server');
+
   // TODO use remark plugins to insert extra exports instead of string concat?
   // cf how the toc is exported
   const exportsCode = `
 export const frontMatter = ${stringifyObject(frontMatter)};
 export const contentTitle = ${stringifyObject(contentTitle)};
 ${metadataJsonString ? `export const metadata = ${metadataJsonString};` : ''}
-${assets ? `export const assets = ${createAssetsExportCode(assets)};` : ''}
+${
+  assets
+    ? `export const assets = ${createAssetsExportCode({
+        assets,
+        inlineMarkdownAssetImageFileLoader:
+          fileLoaderUtils.loaders.inlineMarkdownAssetImageFileLoader,
+      })};`
+    : ''
+}
 `;
 
   const code = `
