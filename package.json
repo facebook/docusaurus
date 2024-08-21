@@ -28,6 +28,7 @@
     "build:website:deployPreview:build": "cross-env NETLIFY=true CONTEXT='deploy-preview' yarn workspace website build",
     "build:website:deployPreview": "yarn build:website:deployPreview:testWrap && yarn build:website:deployPreview:build",
     "build:website:fast": "yarn workspace website build:fast",
+    "build:website:fast:profile": "yarn workspace website build:fast:profile",
     "build:website:en": "yarn workspace website build --locale en",
     "clear:website": "yarn workspace website clear",
     "serve:website": "yarn workspace website serve",
