@@ -15,10 +15,10 @@ import {
 import {
   useBlogAuthorPageTitle,
   BlogAuthorsListViewAllLabel,
+  BlogAuthorNoPostLabel,
 } from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
-import Translate from '@docusaurus/Translate';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
@@ -55,11 +55,7 @@ function Content({author, items, sidebar, listMetadata}: Props): JSX.Element {
       </header>
       {items.length === 0 ? (
         <p>
-          <Translate
-            id="theme.BlogAuthorsPostsPage.Content.noPosts"
-            description="The text for authors with 0 blog post">
-            This author has not written any posts yet.
-          </Translate>
+          <BlogAuthorNoPostLabel />
         </p>
       ) : (
         <>
