@@ -78,7 +78,7 @@ export function BlogAuthorsListViewAllLabel(): ReactNode {
   );
 }
 
-export function BlogAuthorNoPostLabel(): ReactNode {
+export function BlogAuthorNoPostsLabel(): ReactNode {
   return (
     <Translate
       id="theme.blog.author.noPosts"

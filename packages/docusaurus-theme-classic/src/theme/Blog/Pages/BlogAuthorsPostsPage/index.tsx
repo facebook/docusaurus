@@ -15,7 +15,7 @@ import {
 import {
   useBlogAuthorPageTitle,
   BlogAuthorsListViewAllLabel,
-  BlogAuthorNoPostLabel,
+  BlogAuthorNoPostsLabel,
 } from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
@@ -55,7 +55,7 @@ function Content({author, items, sidebar, listMetadata}: Props): JSX.Element {
       </header>
       {items.length === 0 ? (
         <p>
-          <BlogAuthorNoPostLabel />
+          <BlogAuthorNoPostsLabel />
         </p>
       ) : (
         <>
