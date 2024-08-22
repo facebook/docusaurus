@@ -96,6 +96,14 @@ function getNextVersionName() {
 // Test with: DOCUSAURUS_CRASH_TEST=true yarn build:website:fast
 const crashTest = process.env.DOCUSAURUS_CRASH_TEST === 'true';
 
+// By default, we use Docusaurus Faster
+// DOCUSAURUS_SLOWER=true is useful for benchmarking faster against slower
+// hyperfine --prepare 'yarn clear:website' --runs 3 'DOCUSAURUS_SLOWER=true yarn build:website:fast' 'yarn build:website:fast'
+const isSlower = process.env.DOCUSAURUS_SLOWER === 'true';
+if (isSlower) {
+  console.log('🐢 Using slower Docusaurus build');
+}
+
 const router = process.env
   .DOCUSAURUS_ROUTER as DocusaurusConfig['future']['experimental_router'];
 
@@ -152,7 +160,7 @@ export default async function createConfigAsync() {
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
     future: {
-      experimental_faster: true,
+      experimental_faster: !isSlower,
       experimental_storage: {
         namespace: true,
       },

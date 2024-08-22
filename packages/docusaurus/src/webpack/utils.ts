@@ -180,7 +180,6 @@ export async function createJsLoaderFactory({
     return ({isServer}) => jsLoader(isServer);
   }
   if (siteConfig.future?.experimental_faster.swcJsLoader) {
-    logger.info`Will use experimental swc js loader`;
     return getSwcJsLoaderFactory();
   }
   if (jsLoader === 'babel') {
