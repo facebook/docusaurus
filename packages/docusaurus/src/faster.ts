@@ -6,6 +6,7 @@
  */
 
 async function importFaster() {
+   
   return import('@docusaurus/faster');
 }
 
@@ -20,7 +21,7 @@ async function ensureFaster() {
   }
 }
 
-export async function getJsLoader() {
+export async function getFasterJsLoader() {
   const faster = await ensureFaster();
   return faster.jsLoader;
 }
