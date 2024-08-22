@@ -7,6 +7,7 @@
 
 .authorImage {
   --ifm-avatar-photo-size: 3.6rem;
+  background: grey;
 }
 
 .author-as-h1 .authorImage {
