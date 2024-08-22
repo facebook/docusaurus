@@ -8,7 +8,7 @@ import path from 'path';
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import {RsdoctorRspackPlugin} from '@rsdoctor/rspack-plugin';
+import {RsdoctorRspackMultiplePlugin} from '@rsdoctor/rspack-plugin';
 
 import configTabs from './src/remark/configTabs';
 
@@ -42,7 +42,7 @@ const RsdoctorPlugin: PluginConfig = () => {
     configureWebpack: () => {
       return {
         plugins: [
-          new RsdoctorRspackPlugin({
+          new RsdoctorRspackMultiplePlugin({
             // plugin options
           }),
         ],
