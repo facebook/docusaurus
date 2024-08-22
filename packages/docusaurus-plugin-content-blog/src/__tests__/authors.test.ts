@@ -7,7 +7,11 @@
 
 import {fromPartial, type PartialDeep} from '@total-typescript/shoehorn';
 import {getBlogPostAuthors, groupBlogPostsByAuthorKey} from '../authors';
-import type {AuthorsMap, BlogPost} from '@docusaurus/plugin-content-blog';
+import type {
+  AuthorAttributes,
+  AuthorsMap,
+  BlogPost,
+} from '@docusaurus/plugin-content-blog';
 
 function post(partial: PartialDeep<BlogPost>): BlogPost {
   return fromPartial(partial);
@@ -268,6 +272,50 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
+  it('read different values from socials', () => {
+    function testSocials(socials: AuthorAttributes['socials'] | undefined) {
+      return getBlogPostAuthors({
+        frontMatter: {
+          authors: {
+            name: 'Sébastien Lorber',
+            title: 'maintainer',
+            socials,
+          },
+        },
+        authorsMap: undefined,
+        baseUrl: '/',
+      });
+    }
+
+    // @ts-expect-error test
+    expect(() => testSocials(null)).not.toThrow();
+    // @ts-expect-error test
+    expect(testSocials(null)).toEqual([
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        socials: {},
+        key: null,
+        page: null,
+      },
+    ]);
+    expect(() => () => testSocials(undefined)).not.toThrow();
+    // @ts-expect-error test
+    expect(() => testSocials({twitter: undefined}))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+      Social platform 'twitter' has illegal value 'undefined'"
+    `);
+    expect(
+      // @ts-expect-error test
+      () => testSocials({twitter: null}),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+      Social platform 'twitter' has illegal value 'null'"
+    `);
+  });
+
   it('can read empty socials', () => {
     expect(
       getBlogPostAuthors({
@@ -384,7 +432,7 @@ describe('getBlogPostAuthors', () => {
               },
             },
             {
-              name: 'Slorber',
+              name: 'Seb',
               socials: {
                 github: 'https://github.com/slorber',
                 linkedin: 'https://www.linkedin.com/in/sebastienlorber/',
@@ -414,7 +462,7 @@ describe('getBlogPostAuthors', () => {
         page: null,
       },
       {
-        name: 'Slorber',
+        name: 'Seb',
         imageURL: undefined,
         key: null,
         socials: {
