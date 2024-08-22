@@ -180,28 +180,6 @@ export default async function createConfigAsync() {
           : // Production locales
             [defaultLocale, 'fr', 'pt-BR', 'ko', 'zh-CN'],
     },
-    webpack: {
-      jsLoader: (isServer) => ({
-        loader: require.resolve('swc-loader'),
-        options: {
-          jsc: {
-            parser: {
-              syntax: 'typescript',
-              tsx: true,
-            },
-            transform: {
-              react: {
-                runtime: 'automatic',
-              },
-            },
-            target: 'es2017',
-          },
-          module: {
-            type: isServer ? 'commonjs' : 'es6',
-          },
-        },
-      }),
-    },
     markdown: {
       format: 'detect',
       mermaid: true,
