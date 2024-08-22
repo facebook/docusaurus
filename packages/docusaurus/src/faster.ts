@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {ConfigureWebpackUtils} from '@docusaurus/types';
+
 async function importFaster() {
    
   return import('@docusaurus/faster');
@@ -21,7 +23,9 @@ async function ensureFaster() {
   }
 }
 
-export async function getFasterJsLoader() {
+export async function getSwcJsLoaderFactory(): Promise<
+  ConfigureWebpackUtils['getJSLoader']
+> {
   const faster = await ensureFaster();
-  return faster.jsLoader;
+  return faster.getSwcJsLoaderFactory;
 }

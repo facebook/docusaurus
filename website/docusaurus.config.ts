@@ -152,6 +152,7 @@ export default async function createConfigAsync() {
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
     future: {
+      experimental_faster: true,
       experimental_storage: {
         namespace: true,
       },

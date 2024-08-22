@@ -5,23 +5,31 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export const jsLoader = (isServer: boolean) => ({
-  loader: require.resolve('swc-loader'),
-  options: {
-    jsc: {
-      parser: {
-        syntax: 'typescript',
-        tsx: true,
-      },
-      transform: {
-        react: {
-          runtime: 'automatic',
+import type {RuleSetRule} from 'webpack';
+
+export function getSwcJsLoaderFactory({
+  isServer,
+}: {
+  isServer: boolean;
+}): RuleSetRule {
+  return {
+    loader: require.resolve('swc-loader'),
+    options: {
+      jsc: {
+        parser: {
+          syntax: 'typescript',
+          tsx: true,
         },
+        transform: {
+          react: {
+            runtime: 'automatic',
+          },
+        },
+        target: 'es2017',
       },
-      target: 'es2017',
+      module: {
+        type: isServer ? 'commonjs' : 'es6',
+      },
     },
-    module: {
-      type: isServer ? 'commonjs' : 'es6',
-    },
-  },
-});
+  };
+}

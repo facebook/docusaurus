@@ -18,6 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "webpack": "^5.88.1",
     "@swc/core": "1.2.197",
     "swc-loader": "^0.2.3"
   },
