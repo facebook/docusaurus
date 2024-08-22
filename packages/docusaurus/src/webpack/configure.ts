@@ -10,7 +10,7 @@ import {
   customizeArray,
   customizeObject,
 } from 'webpack-merge';
-import {createGetJSLoaderUtil, getStyleLoaders} from './utils';
+import {createJsLoaderFactory, getStyleLoaders} from './utils';
 
 import type {Configuration, RuleSetRule} from 'webpack';
 import type {
@@ -32,7 +32,7 @@ export function createConfigureWebpackUtils({
 }): ConfigureWebpackUtils {
   return {
     getStyleLoaders,
-    getJSLoader: createGetJSLoaderUtil({siteConfig}),
+    getJSLoader: createJsLoaderFactory({siteConfig}),
   };
 }
 

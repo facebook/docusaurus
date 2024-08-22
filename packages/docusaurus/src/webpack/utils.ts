@@ -158,14 +158,14 @@ function getDefaultBabelLoader({
   };
 }
 
-export const createGetJSLoaderUtil = ({
+export const createJsLoaderFactory = ({
   siteConfig,
 }: {
   siteConfig: Pick<DocusaurusConfig, 'webpack'>;
 }): ConfigureWebpackUtils['getJSLoader'] => {
   const jsLoader = siteConfig.webpack?.jsLoader ?? 'babel';
 
-  return function getJsLoader({
+  return function createJsLoader({
     isServer,
     babelOptions,
   }: {

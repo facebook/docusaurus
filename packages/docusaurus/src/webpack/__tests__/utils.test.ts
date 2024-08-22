@@ -6,17 +6,17 @@
  */
 
 import path from 'path';
-import {createGetJSLoaderUtil, getHttpsConfig} from '../utils';
+import {createJsLoaderFactory, getHttpsConfig} from '../utils';
 import type {RuleSetRule} from 'webpack';
 import type {DeepPartial} from 'utility-types';
 
 describe('customize JS loader', () => {
-  function testCreateGetJSLoaderUtil(
+  function testJsLoaderFactory(
     siteConfig?: DeepPartial<
-      Parameters<typeof createGetJSLoaderUtil>[0]['siteConfig']
+      Parameters<typeof createJsLoaderFactory>[0]['siteConfig']
     >,
   ) {
-    return createGetJSLoaderUtil({
+    return createJsLoaderFactory({
       siteConfig: {
         ...siteConfig,
         webpack: {
@@ -27,41 +27,41 @@ describe('customize JS loader', () => {
     });
   }
 
-  it('createGetJSLoaderUtil defaults to babel loader', () => {
-    expect(testCreateGetJSLoaderUtil()({isServer: true}).loader).toBe(
+  it('createJsLoaderFactory defaults to babel loader', () => {
+    expect(testJsLoaderFactory()({isServer: true}).loader).toBe(
       require.resolve('babel-loader'),
     );
-    expect(testCreateGetJSLoaderUtil()({isServer: false}).loader).toBe(
+    expect(testJsLoaderFactory()({isServer: false}).loader).toBe(
       require.resolve('babel-loader'),
     );
   });
 
-  it('createGetJSLoaderUtil accepts loaders with preset', () => {
+  it('createJsLoaderFactory accepts loaders with preset', () => {
     expect(
-      testCreateGetJSLoaderUtil({webpack: {jsLoader: 'babel'}})({
+      testJsLoaderFactory({webpack: {jsLoader: 'babel'}})({
         isServer: true,
       }).loader,
     ).toBe(require.resolve('babel-loader'));
     expect(
-      testCreateGetJSLoaderUtil({webpack: {jsLoader: 'babel'}})({
+      testJsLoaderFactory({webpack: {jsLoader: 'babel'}})({
         isServer: false,
       }).loader,
     ).toBe(require.resolve('babel-loader'));
   });
 
-  it('createGetJSLoaderUtil allows customization', () => {
+  it('createJsLoaderFactory allows customization', () => {
     const customJSLoader = (isServer: boolean): RuleSetRule => ({
       loader: 'my-fast-js-loader',
       options: String(isServer),
     });
 
     expect(
-      testCreateGetJSLoaderUtil({webpack: {jsLoader: customJSLoader}})({
+      testJsLoaderFactory({webpack: {jsLoader: customJSLoader}})({
         isServer: true,
       }),
     ).toEqual(customJSLoader(true));
     expect(
-      testCreateGetJSLoaderUtil({webpack: {jsLoader: customJSLoader}})({
+      testJsLoaderFactory({webpack: {jsLoader: customJSLoader}})({
         isServer: false,
       }),
     ).toEqual(customJSLoader(false));
