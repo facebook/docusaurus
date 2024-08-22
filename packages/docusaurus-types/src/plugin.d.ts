@@ -60,7 +60,7 @@ export type ConfigureWebpackUtils = {
   ) => RuleSetRule[];
   getJSLoader: (options: {
     isServer: boolean;
-    babelOptions?: {[key: string]: unknown};
+    babelOptions?: string | {[key: string]: unknown};
   }) => RuleSetRule;
 };
 

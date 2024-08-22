@@ -10,7 +10,7 @@ import {
   customizeArray,
   customizeObject,
 } from 'webpack-merge';
-import {getCustomizableJSLoader, getStyleLoaders} from './utils';
+import {createGetJSLoaderUtil, getStyleLoaders} from './utils';
 
 import type {Configuration, RuleSetRule} from 'webpack';
 import type {
@@ -30,10 +30,9 @@ export function createConfigureWebpackUtils({
 }: {
   siteConfig: Pick<DocusaurusConfig, 'webpack'>;
 }): ConfigureWebpackUtils {
-  // Export some utility functions
   return {
     getStyleLoaders,
-    getJSLoader: getCustomizableJSLoader(siteConfig.webpack?.jsLoader),
+    getJSLoader: createGetJSLoaderUtil({siteConfig}),
   };
 }
 

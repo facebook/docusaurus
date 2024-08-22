@@ -6,40 +6,65 @@
  */
 
 import path from 'path';
-import {getCustomizableJSLoader, getHttpsConfig} from '../utils';
+import {createGetJSLoaderUtil, getHttpsConfig} from '../utils';
 import type {RuleSetRule} from 'webpack';
+import type {DeepPartial} from 'utility-types';
 
 describe('customize JS loader', () => {
-  it('getCustomizableJSLoader defaults to babel loader', () => {
-    expect(getCustomizableJSLoader()({isServer: true}).loader).toBe(
+  function testCreateGetJSLoaderUtil(
+    siteConfig?: DeepPartial<
+      Parameters<typeof createGetJSLoaderUtil>[0]['siteConfig']
+    >,
+  ) {
+    return createGetJSLoaderUtil({
+      siteConfig: {
+        ...siteConfig,
+        webpack: {
+          jsLoader: 'babel',
+          ...siteConfig?.webpack,
+        },
+      },
+    });
+  }
+
+  it('createGetJSLoaderUtil defaults to babel loader', () => {
+    expect(testCreateGetJSLoaderUtil()({isServer: true}).loader).toBe(
       require.resolve('babel-loader'),
     );
-    expect(getCustomizableJSLoader()({isServer: false}).loader).toBe(
+    expect(testCreateGetJSLoaderUtil()({isServer: false}).loader).toBe(
       require.resolve('babel-loader'),
     );
   });
 
-  it('getCustomizableJSLoader accepts loaders with preset', () => {
-    expect(getCustomizableJSLoader('babel')({isServer: true}).loader).toBe(
-      require.resolve('babel-loader'),
-    );
-    expect(getCustomizableJSLoader('babel')({isServer: false}).loader).toBe(
-      require.resolve('babel-loader'),
-    );
+  it('createGetJSLoaderUtil accepts loaders with preset', () => {
+    expect(
+      testCreateGetJSLoaderUtil({webpack: {jsLoader: 'babel'}})({
+        isServer: true,
+      }).loader,
+    ).toBe(require.resolve('babel-loader'));
+    expect(
+      testCreateGetJSLoaderUtil({webpack: {jsLoader: 'babel'}})({
+        isServer: false,
+      }).loader,
+    ).toBe(require.resolve('babel-loader'));
   });
 
-  it('getCustomizableJSLoader allows customization', () => {
+  it('createGetJSLoaderUtil allows customization', () => {
     const customJSLoader = (isServer: boolean): RuleSetRule => ({
       loader: 'my-fast-js-loader',
       options: String(isServer),
     });
 
-    expect(getCustomizableJSLoader(customJSLoader)({isServer: true})).toEqual(
-      customJSLoader(true),
-    );
-    expect(getCustomizableJSLoader(customJSLoader)({isServer: false})).toEqual(
-      customJSLoader(false),
-    );
+    expect(
+      testCreateGetJSLoaderUtil({webpack: {jsLoader: customJSLoader}})({
+        isServer: true,
+      }),
+    ).toEqual(customJSLoader(true));
+    expect(
+      testCreateGetJSLoaderUtil({webpack: {jsLoader: customJSLoader}})({
+        isServer: false,
+      }),
+    ).toEqual(customJSLoader(false));
   });
 });
 

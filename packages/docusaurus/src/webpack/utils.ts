@@ -13,6 +13,7 @@ import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {type Configuration, type RuleSetRule} from 'webpack';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
+import type {ConfigureWebpackUtils, DocusaurusConfig} from '@docusaurus/types';
 import type {TransformOptions} from '@babel/core';
 
 export function formatStatsErrorMessage(
@@ -157,18 +158,25 @@ function getDefaultBabelLoader({
   };
 }
 
-export const getCustomizableJSLoader =
-  (jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) = 'babel') =>
-  ({
+export const createGetJSLoaderUtil = ({
+  siteConfig,
+}: {
+  siteConfig: Pick<DocusaurusConfig, 'webpack'>;
+}): ConfigureWebpackUtils['getJSLoader'] => {
+  const jsLoader = siteConfig.webpack?.jsLoader ?? 'babel';
+
+  return function getJsLoader({
     isServer,
     babelOptions,
   }: {
     isServer: boolean;
     babelOptions?: TransformOptions | string;
-  }): RuleSetRule =>
-    jsLoader === 'babel'
+  }): RuleSetRule {
+    return jsLoader === 'babel'
       ? getDefaultBabelLoader({isServer, babelOptions})
       : jsLoader(isServer);
+  };
+};
 
 declare global {
   interface Error {

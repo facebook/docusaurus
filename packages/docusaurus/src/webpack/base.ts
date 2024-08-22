@@ -10,7 +10,7 @@ import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {
-  getCustomizableJSLoader,
+  createGetJSLoaderUtil,
   getStyleLoaders,
   getCustomBabelConfigFilePath,
 } from './utils';
@@ -211,7 +211,7 @@ export async function createBaseConfig({
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           use: [
-            getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
+            createGetJSLoaderUtil({siteConfig})({
               isServer,
               babelOptions: await getCustomBabelConfigFilePath(siteDir),
             }),
