@@ -8,7 +8,6 @@
 import type {ConfigureWebpackUtils} from '@docusaurus/types';
 
 async function importFaster() {
-   
   return import('@docusaurus/faster');
 }
 
