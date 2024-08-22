@@ -7,14 +7,12 @@
 
 import path from 'path';
 import {createJsLoaderFactory, getHttpsConfig} from '../utils';
+import {DEFAULT_FUTURE_CONFIG} from '../../server/configValidation';
 import type {RuleSetRule} from 'webpack';
-import type {DeepPartial} from 'utility-types';
 
 describe('customize JS loader', () => {
   function testJsLoaderFactory(
-    siteConfig?: DeepPartial<
-      Parameters<typeof createJsLoaderFactory>[0]['siteConfig']
-    >,
+    siteConfig?: Parameters<typeof createJsLoaderFactory>[0]['siteConfig'],
   ) {
     return createJsLoaderFactory({
       siteConfig: {
@@ -23,45 +21,58 @@ describe('customize JS loader', () => {
           jsLoader: 'babel',
           ...siteConfig?.webpack,
         },
+        future: {
+          ...DEFAULT_FUTURE_CONFIG,
+          ...siteConfig?.future,
+        },
       },
     });
   }
 
-  it('createJsLoaderFactory defaults to babel loader', () => {
-    expect(testJsLoaderFactory()({isServer: true}).loader).toBe(
+  it('createJsLoaderFactory defaults to babel loader', async () => {
+    const createJsLoader = await testJsLoaderFactory();
+    expect(createJsLoader({isServer: true}).loader).toBe(
       require.resolve('babel-loader'),
     );
-    expect(testJsLoaderFactory()({isServer: false}).loader).toBe(
+    expect(createJsLoader({isServer: false}).loader).toBe(
       require.resolve('babel-loader'),
     );
   });
 
-  it('createJsLoaderFactory accepts loaders with preset', () => {
+  it('createJsLoaderFactory accepts loaders with preset', async () => {
+    const createJsLoader = await testJsLoaderFactory({
+      webpack: {jsLoader: 'babel'},
+    });
+
     expect(
-      testJsLoaderFactory({webpack: {jsLoader: 'babel'}})({
+      createJsLoader({
         isServer: true,
       }).loader,
     ).toBe(require.resolve('babel-loader'));
     expect(
-      testJsLoaderFactory({webpack: {jsLoader: 'babel'}})({
+      createJsLoader({
         isServer: false,
       }).loader,
     ).toBe(require.resolve('babel-loader'));
   });
 
-  it('createJsLoaderFactory allows customization', () => {
+  it('createJsLoaderFactory allows customization', async () => {
     const customJSLoader = (isServer: boolean): RuleSetRule => ({
       loader: 'my-fast-js-loader',
       options: String(isServer),
     });
 
+    const createJsLoader = await testJsLoaderFactory({
+      webpack: {jsLoader: customJSLoader},
+    });
+
     expect(
-      testJsLoaderFactory({webpack: {jsLoader: customJSLoader}})({
+      createJsLoader({
         isServer: true,
       }),
     ).toEqual(customJSLoader(true));
     expect(
-      testJsLoaderFactory({webpack: {jsLoader: customJSLoader}})({
+      createJsLoader({
         isServer: false,
       }),
     ).toEqual(customJSLoader(false));

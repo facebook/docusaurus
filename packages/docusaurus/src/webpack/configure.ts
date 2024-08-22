@@ -18,21 +18,20 @@ import type {
   PostCssOptions,
   ConfigureWebpackUtils,
   LoadedPlugin,
-  DocusaurusConfig,
 } from '@docusaurus/types';
 
 /**
  * Creates convenient utils to inject into the configureWebpack() lifecycle
  * @param config the Docusaurus config
  */
-export function createConfigureWebpackUtils({
+export async function createConfigureWebpackUtils({
   siteConfig,
 }: {
-  siteConfig: Pick<DocusaurusConfig, 'webpack'>;
-}): ConfigureWebpackUtils {
+  siteConfig: Parameters<typeof createJsLoaderFactory>[0]['siteConfig'];
+}): Promise<ConfigureWebpackUtils> {
   return {
     getStyleLoaders,
-    getJSLoader: createJsLoaderFactory({siteConfig}),
+    getJSLoader: await createJsLoaderFactory({siteConfig}),
   };
 }
 

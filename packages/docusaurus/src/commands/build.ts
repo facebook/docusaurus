@@ -337,12 +337,13 @@ async function getBuildClientConfig({
     bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;
-
   config = executePluginsConfigureWebpack({
     plugins,
     config,
     isServer: false,
-    utils: createConfigureWebpackUtils({siteConfig: props.siteConfig}),
+    utils: await createConfigureWebpackUtils({
+      siteConfig: props.siteConfig,
+    }),
   });
   return {clientConfig: config, clientManifestPath: result.clientManifestPath};
 }
@@ -357,7 +358,9 @@ async function getBuildServerConfig({props}: {props: Props}) {
     plugins,
     config,
     isServer: true,
-    utils: createConfigureWebpackUtils({siteConfig: props.siteConfig}),
+    utils: await createConfigureWebpackUtils({
+      siteConfig: props.siteConfig,
+    }),
   });
   return {serverConfig: config, serverBundlePath: result.serverBundlePath};
 }

@@ -84,6 +84,8 @@ export async function createBaseConfig({
 
   const themeAliases = await loadThemeAliases({siteDir, plugins});
 
+  const createJsLoader = await createJsLoaderFactory({siteConfig});
+
   return {
     mode,
     name,
@@ -211,7 +213,7 @@ export async function createBaseConfig({
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           use: [
-            createJsLoaderFactory({siteConfig})({
+            createJsLoader({
               isServer,
               babelOptions: await getCustomBabelConfigFilePath(siteDir),
             }),

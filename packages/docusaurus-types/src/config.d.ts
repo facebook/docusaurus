@@ -422,6 +422,9 @@ export type DocusaurusConfig = {
      * Babel loader and preset; otherwise, you can provide your custom Webpack
      * rule set.
      */
+    // TODO Docusaurus v4
+    //  Use an object type ({isServer}) so that it conforms to jsLoaderFactory
+    //  Eventually deprecate this if swc loader becomes stable?
     jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
   /** Markdown-related options. */

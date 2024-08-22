@@ -142,7 +142,7 @@ async function getStartClientConfig({
     plugins,
     config,
     isServer: false,
-    utils: createConfigureWebpackUtils({siteConfig}),
+    utils: await createConfigureWebpackUtils({siteConfig}),
   });
   return config;
 }
