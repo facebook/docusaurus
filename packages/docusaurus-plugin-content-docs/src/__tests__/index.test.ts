@@ -13,7 +13,10 @@ import {isMatch} from 'picomatch';
 import commander from 'commander';
 import webpack from 'webpack';
 import {loadContext} from '@docusaurus/core/src/server/site';
-import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/configure';
+import {
+  applyConfigureWebpack,
+  createConfigureWebpackUtils,
+} from '@docusaurus/core/src/webpack/configure';
 import {sortRoutes} from '@docusaurus/core/src/server/plugins/routeConfig';
 import {posixPath} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
@@ -273,19 +276,23 @@ describe('simple website', () => {
 
     const content = await plugin.loadContent?.();
 
-    const config = applyConfigureWebpack(
-      plugin.configureWebpack as NonNullable<Plugin['configureWebpack']>,
-      {
+    const config = applyConfigureWebpack({
+      configureWebpack: plugin.configureWebpack as NonNullable<
+        Plugin['configureWebpack']
+      >,
+      config: {
         entry: './src/index.js',
         output: {
           filename: 'main.js',
           path: path.resolve(__dirname, 'dist'),
         },
       },
-      false,
-      undefined,
+      isServer: false,
+      utils: createConfigureWebpackUtils({
+        siteConfig: {webpack: {jsLoader: 'babel'}},
+      }),
       content,
-    );
+    });
     const errors = webpack.validate(config);
     expect(errors).toBeUndefined();
   });
