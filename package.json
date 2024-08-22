@@ -71,8 +71,8 @@
   "devDependencies": {
     "@crowdin/cli": "^3.13.0",
     "@prettier/plugin-xml": "^2.2.0",
-    "@swc/core": "1.2.197",
-    "@swc/jest": "^0.2.26",
+    "@swc/core": "^1.7.14",
+    "@swc/jest": "^0.2.36",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^29.5.3",
