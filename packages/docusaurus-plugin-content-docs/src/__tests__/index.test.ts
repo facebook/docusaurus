@@ -25,7 +25,7 @@ import pluginContentDocs from '../index';
 import {toSidebarsProp} from '../props';
 import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {DisabledSidebars} from '../sidebars';
-import * as cliDocs from '../cli';
+import cliDocs from '../cli';
 import {validateOptions} from '../options';
 
 import type {RouteConfig, Validate, Plugin} from '@docusaurus/types';
