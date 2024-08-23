@@ -93,7 +93,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-header": "^3.1.1",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jest": "^28.8.0",
+    "eslint-plugin-jest": "^27.2.3",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
