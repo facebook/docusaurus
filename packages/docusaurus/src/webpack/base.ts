@@ -10,7 +10,7 @@ import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {
-  getCustomizableJSLoader,
+  createJsLoaderFactory,
   getStyleLoaders,
   getCustomBabelConfigFilePath,
 } from './utils';
@@ -83,6 +83,8 @@ export async function createBaseConfig({
   const mode = isProd ? 'production' : 'development';
 
   const themeAliases = await loadThemeAliases({siteDir, plugins});
+
+  const createJsLoader = await createJsLoaderFactory({siteConfig});
 
   return {
     mode,
@@ -211,7 +213,7 @@ export async function createBaseConfig({
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           use: [
-            getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
+            createJsLoader({
               isServer,
               babelOptions: await getCustomBabelConfigFilePath(siteDir),
             }),
