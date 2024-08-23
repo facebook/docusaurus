@@ -40,7 +40,7 @@ import {
   readVersionsMetadata,
   toFullVersion,
 } from './versions';
-import {cliDocsVersionCommand} from './cli';
+import cliDocs from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {toGlobalDataVersion} from './globalData';
 import {
@@ -134,7 +134,7 @@ export default async function pluginContentDocs(
         .arguments('<version>')
         .description(commandDescription)
         .action((version: unknown) =>
-          cliDocsVersionCommand(version, options, context),
+          cliDocs.cliDocsVersionCommand(version, options, context),
         );
     },
 

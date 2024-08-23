@@ -15,7 +15,10 @@ import {handleBrokenLinks} from '../server/brokenLinks';
 
 import {createBuildClientConfig} from '../webpack/client';
 import createServerConfig from '../webpack/server';
-import {executePluginsConfigureWebpack} from '../webpack/configure';
+import {
+  createConfigureWebpackUtils,
+  executePluginsConfigureWebpack,
+} from '../webpack/configure';
 import {compile} from '../webpack/utils';
 import {PerfLogger} from '../utils';
 
@@ -196,10 +199,7 @@ async function buildLocale({
     }),
   );
 
-  // Remove server.bundle.js because it is not needed.
-  await PerfLogger.async('Deleting server bundle', () =>
-    ensureUnlink(serverBundlePath),
-  );
+  await cleanupServerBundle(serverBundlePath);
 
   // Plugin Lifecycle - postBuild.
   await PerfLogger.async('postBuild()', () =>
@@ -341,7 +341,9 @@ async function getBuildClientConfig({
     plugins,
     config,
     isServer: false,
-    jsLoader: props.siteConfig.webpack?.jsLoader,
+    utils: await createConfigureWebpackUtils({
+      siteConfig: props.siteConfig,
+    }),
   });
   return {clientConfig: config, clientManifestPath: result.clientManifestPath};
 }
@@ -356,13 +358,24 @@ async function getBuildServerConfig({props}: {props: Props}) {
     plugins,
     config,
     isServer: true,
-    jsLoader: props.siteConfig.webpack?.jsLoader,
+    utils: await createConfigureWebpackUtils({
+      siteConfig: props.siteConfig,
+    }),
   });
   return {serverConfig: config, serverBundlePath: result.serverBundlePath};
 }
 
-async function ensureUnlink(filepath: string) {
-  if (await fs.pathExists(filepath)) {
-    await fs.unlink(filepath);
+// Remove /build/server server.bundle.js because it is not needed.
+async function cleanupServerBundle(serverBundlePath: string) {
+  if (process.env.DOCUSAURUS_KEEP_SERVER_BUNDLE === 'true') {
+    logger.warn(
+      "Will NOT delete server bundle because DOCUSAURUS_KEEP_SERVER_BUNDLE is set to 'true'",
+    );
+  } else {
+    await PerfLogger.async('Deleting server bundle', async () => {
+      // For now we assume server entry is at the root of the server out dir
+      const serverDir = path.dirname(serverBundlePath);
+      await fs.rm(serverDir, {recursive: true, force: true});
+    });
   }
 }

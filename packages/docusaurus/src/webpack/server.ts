@@ -27,7 +27,8 @@ export default async function createServerConfig(params: {
   });
 
   const outputFilename = 'server.bundle.js';
-  const serverBundlePath = path.join(props.outDir, outputFilename);
+  const outputDir = path.join(props.outDir, '__server');
+  const serverBundlePath = path.join(outputDir, outputFilename);
 
   const config = merge(baseConfig, {
     target: `node${NODE_MAJOR_VERSION}.${NODE_MINOR_VERSION}`,
@@ -35,6 +36,7 @@ export default async function createServerConfig(params: {
       main: path.resolve(__dirname, '../client/serverEntry.js'),
     },
     output: {
+      path: outputDir,
       filename: outputFilename,
       libraryTarget: 'commonjs2',
       // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)

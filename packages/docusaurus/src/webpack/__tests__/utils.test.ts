@@ -6,40 +6,76 @@
  */
 
 import path from 'path';
-import {getCustomizableJSLoader, getHttpsConfig} from '../utils';
+import {createJsLoaderFactory, getHttpsConfig} from '../utils';
+import {DEFAULT_FUTURE_CONFIG} from '../../server/configValidation';
 import type {RuleSetRule} from 'webpack';
 
 describe('customize JS loader', () => {
-  it('getCustomizableJSLoader defaults to babel loader', () => {
-    expect(getCustomizableJSLoader()({isServer: true}).loader).toBe(
+  function testJsLoaderFactory(
+    siteConfig?: Parameters<typeof createJsLoaderFactory>[0]['siteConfig'],
+  ) {
+    return createJsLoaderFactory({
+      siteConfig: {
+        ...siteConfig,
+        webpack: {
+          jsLoader: 'babel',
+          ...siteConfig?.webpack,
+        },
+        future: {
+          ...DEFAULT_FUTURE_CONFIG,
+          ...siteConfig?.future,
+        },
+      },
+    });
+  }
+
+  it('createJsLoaderFactory defaults to babel loader', async () => {
+    const createJsLoader = await testJsLoaderFactory();
+    expect(createJsLoader({isServer: true}).loader).toBe(
       require.resolve('babel-loader'),
     );
-    expect(getCustomizableJSLoader()({isServer: false}).loader).toBe(
+    expect(createJsLoader({isServer: false}).loader).toBe(
       require.resolve('babel-loader'),
     );
   });
 
-  it('getCustomizableJSLoader accepts loaders with preset', () => {
-    expect(getCustomizableJSLoader('babel')({isServer: true}).loader).toBe(
-      require.resolve('babel-loader'),
-    );
-    expect(getCustomizableJSLoader('babel')({isServer: false}).loader).toBe(
-      require.resolve('babel-loader'),
-    );
+  it('createJsLoaderFactory accepts loaders with preset', async () => {
+    const createJsLoader = await testJsLoaderFactory({
+      webpack: {jsLoader: 'babel'},
+    });
+
+    expect(
+      createJsLoader({
+        isServer: true,
+      }).loader,
+    ).toBe(require.resolve('babel-loader'));
+    expect(
+      createJsLoader({
+        isServer: false,
+      }).loader,
+    ).toBe(require.resolve('babel-loader'));
   });
 
-  it('getCustomizableJSLoader allows customization', () => {
+  it('createJsLoaderFactory allows customization', async () => {
     const customJSLoader = (isServer: boolean): RuleSetRule => ({
       loader: 'my-fast-js-loader',
       options: String(isServer),
     });
 
-    expect(getCustomizableJSLoader(customJSLoader)({isServer: true})).toEqual(
-      customJSLoader(true),
-    );
-    expect(getCustomizableJSLoader(customJSLoader)({isServer: false})).toEqual(
-      customJSLoader(false),
-    );
+    const createJsLoader = await testJsLoaderFactory({
+      webpack: {jsLoader: customJSLoader},
+    });
+
+    expect(
+      createJsLoader({
+        isServer: true,
+      }),
+    ).toEqual(customJSLoader(true));
+    expect(
+      createJsLoader({
+        isServer: false,
+      }),
+    ).toEqual(customJSLoader(false));
   });
 });
 
