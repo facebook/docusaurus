@@ -93,10 +93,12 @@ export function checkAuthorsMapPermalinkCollisions(
 function normalizeAuthor({
   authorsBaseRoutePath,
   authorKey,
+  baseUrl,
   author,
 }: {
   authorsBaseRoutePath: string;
   authorKey: string;
+  baseUrl: string;
   author: AuthorInput;
 }): Author & {key: string} {
   function getAuthorPage(): AuthorPage | null {
@@ -109,11 +111,15 @@ function normalizeAuthor({
       permalink: normalizeUrl([authorsBaseRoutePath, slug]),
     };
   }
+  console.log('baseUrl:', baseUrl);
 
   return {
     ...author,
     key: authorKey,
     page: getAuthorPage(),
+    imageURL: author.imageURL?.startsWith('/')
+      ? normalizeUrl([baseUrl, author.imageURL])
+      : author.imageURL,
     socials: author.socials ? normalizeSocials(author.socials) : undefined,
   };
 }
@@ -121,12 +127,14 @@ function normalizeAuthor({
 function normalizeAuthorsMap({
   authorsBaseRoutePath,
   authorsMapInput,
+  baseUrl,
 }: {
   authorsBaseRoutePath: string;
   authorsMapInput: AuthorsMapInput;
+  baseUrl: string;
 }): AuthorsMap {
   return _.mapValues(authorsMapInput, (author, authorKey) => {
-    return normalizeAuthor({authorsBaseRoutePath, authorKey, author});
+    return normalizeAuthor({authorsBaseRoutePath, authorKey, author, baseUrl});
   });
 }
 
@@ -153,6 +161,7 @@ export async function getAuthorsMap(params: {
   authorsMapPath: string;
   authorsBaseRoutePath: string;
   contentPaths: BlogContentPaths;
+  baseUrl: string;
 }): Promise<AuthorsMap | undefined> {
   const authorsMapInput = await getAuthorsMapInput(params);
   if (!authorsMapInput) {

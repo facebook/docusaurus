@@ -80,6 +80,7 @@ describe('getAuthorsMap', () => {
         contentPaths,
         authorsMapPath: 'authors.yml',
         authorsBaseRoutePath: '/authors',
+        baseUrl: '/',
       }),
     ).resolves.toBeDefined();
   });
@@ -90,6 +91,7 @@ describe('getAuthorsMap', () => {
         contentPaths,
         authorsMapPath: 'authors.json',
         authorsBaseRoutePath: '/authors',
+        baseUrl: '/',
       }),
     ).resolves.toBeDefined();
   });
@@ -100,8 +102,20 @@ describe('getAuthorsMap', () => {
         contentPaths,
         authorsMapPath: 'authors_does_not_exist.yml',
         authorsBaseRoutePath: '/authors',
+        baseUrl: '/',
       }),
     ).resolves.toBeUndefined();
+  });
+
+  it('getAuthorsMap can return img with relative path if baseUrl is set', async () => {
+    const authorsMap = await getAuthorsMap({
+      contentPaths,
+      authorsMapPath: 'authors.yml',
+      authorsBaseRoutePath: '/authors',
+      baseUrl: '/baseUrl',
+    });
+    expect(authorsMap).toBeDefined();
+    expect(authorsMap?.ozaki?.imageURL).toBe('/baseUrl/img/ozaki.jpg');
   });
 });
 

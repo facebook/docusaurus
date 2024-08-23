@@ -177,6 +177,7 @@ export default async function pluginContentBlog(
           routeBasePath,
           authorsBasePath,
         ]),
+        baseUrl,
       });
       checkAuthorsMapPermalinkCollisions(authorsMap);
 
