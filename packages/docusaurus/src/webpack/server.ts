@@ -21,9 +21,8 @@ export default async function createServerConfig(params: {
   const baseConfig = await createBaseConfig({
     props,
     isServer: true,
-
-    // Minification of server bundle reduces size but doubles bundle time :/
     minify: false,
+    faster: props.siteConfig.future.experimental_faster,
   });
 
   const outputFilename = 'server.bundle.js';

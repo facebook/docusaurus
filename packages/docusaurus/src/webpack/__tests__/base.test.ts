@@ -11,7 +11,10 @@ import _ from 'lodash';
 import * as utils from '@docusaurus/utils/lib/webpackUtils';
 import {posixPath} from '@docusaurus/utils';
 import {excludeJS, clientDir, createBaseConfig} from '../base';
-import {DEFAULT_FUTURE_CONFIG} from '../../server/configValidation';
+import {
+  DEFAULT_FASTER_CONFIG,
+  DEFAULT_FUTURE_CONFIG,
+} from '../../server/configValidation';
 import type {Props} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
@@ -107,7 +110,12 @@ describe('base webpack config', () => {
 
   it('creates webpack aliases', async () => {
     const aliases = ((
-      await createBaseConfig({props, isServer: true, minify: true})
+      await createBaseConfig({
+        props,
+        isServer: true,
+        minify: true,
+        faster: DEFAULT_FASTER_CONFIG,
+      })
     ).resolve?.alias ?? {}) as {[alias: string]: string};
     // Make aliases relative so that test work on all computers
     const relativeAliases = _.mapValues(aliases, (a) =>
@@ -123,7 +131,12 @@ describe('base webpack config', () => {
       .spyOn(utils, 'getFileLoaderUtils')
       .mockImplementation(() => fileLoaderUtils);
 
-    await createBaseConfig({props, isServer: false, minify: false});
+    await createBaseConfig({
+      props,
+      isServer: false,
+      minify: false,
+      faster: DEFAULT_FASTER_CONFIG,
+    });
     expect(mockSvg).toHaveBeenCalled();
   });
 });
