@@ -22,6 +22,7 @@
   "theme.admonition.warning": "aviso",
   "theme.blog.archive.description": "Archivo",
   "theme.blog.archive.title": "Archivo",
+  "theme.blog.author.noPosts": "This author has not written any posts yet.",
   "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
   "theme.blog.authorsList.pageTitle": "Authors",
   "theme.blog.authorsList.viewAll": "View All Authors",

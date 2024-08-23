@@ -90,7 +90,7 @@ export default function BlogAuthor({
                 <AuthorName name={name} as={as} />
               </MaybeLink>
             )}
-            {count && <AuthorBlogPostCount count={count} />}
+            {count !== undefined && <AuthorBlogPostCount count={count} />}
           </div>
           {!!title && <AuthorTitle title={title} />}
 

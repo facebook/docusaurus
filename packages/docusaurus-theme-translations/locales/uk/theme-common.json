@@ -22,6 +22,7 @@
   "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "Архів",
   "theme.blog.archive.title": "Архів",
+  "theme.blog.author.noPosts": "This author has not written any posts yet.",
   "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
   "theme.blog.authorsList.pageTitle": "Authors",
   "theme.blog.authorsList.viewAll": "View All Authors",
