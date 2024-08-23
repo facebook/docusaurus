@@ -47,6 +47,7 @@ describe('normalizeConfig', () => {
       future: {
         experimental_faster: {
           swcJsLoader: true,
+          swcJsMinimizer: true,
         },
         experimental_storage: {
           type: 'sessionStorage',
@@ -741,6 +742,7 @@ describe('future', () => {
     const future: DocusaurusConfig['future'] = {
       experimental_faster: {
         swcJsLoader: true,
+        swcJsMinimizer: true,
       },
       experimental_storage: {
         type: 'sessionStorage',
@@ -1196,6 +1198,76 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.experimental_faster.swcJsLoader" must be a boolean
+          "
+        `);
+      });
+    });
+    describe('swcJsMinimizer', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          swcJsMinimizer: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({swcJsMinimizer: false}));
+      });
+
+      it('accepts - true', () => {
+        const faster: Partial<FasterConfig> = {
+          swcJsMinimizer: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({swcJsMinimizer: true}));
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          swcJsMinimizer: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({swcJsMinimizer: false}));
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {swcJsMinimizer: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.swcJsMinimizer" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {swcJsMinimizer: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.swcJsMinimizer" must be a boolean
           "
         `);
       });

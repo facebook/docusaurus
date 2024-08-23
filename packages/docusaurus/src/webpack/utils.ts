@@ -13,7 +13,7 @@ import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {type Configuration, type RuleSetRule} from 'webpack';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
-import {getSwcJsLoaderFactory} from '../faster';
+import {importSwcJsLoaderFactory} from '../faster';
 import type {ConfigureWebpackUtils, DocusaurusConfig} from '@docusaurus/types';
 import type {TransformOptions} from '@babel/core';
 
@@ -180,7 +180,7 @@ export async function createJsLoaderFactory({
     return ({isServer}) => jsLoader(isServer);
   }
   if (siteConfig.future?.experimental_faster.swcJsLoader) {
-    return getSwcJsLoaderFactory();
+    return importSwcJsLoaderFactory();
   }
   if (jsLoader === 'babel') {
     return BabelJsLoaderFactory;

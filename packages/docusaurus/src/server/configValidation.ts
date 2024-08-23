@@ -43,11 +43,13 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
 
 export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   swcJsLoader: false,
+  swcJsMinimizer: false,
 };
 
 // When using the "faster: true" shortcut
 export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   swcJsLoader: true,
+  swcJsMinimizer: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
@@ -212,6 +214,9 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
   .try(
     Joi.object<FasterConfig>({
       swcJsLoader: Joi.boolean().default(DEFAULT_FASTER_CONFIG.swcJsLoader),
+      swcJsMinimizer: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.swcJsMinimizer,
+      ),
     }),
     Joi.boolean()
       .required()
