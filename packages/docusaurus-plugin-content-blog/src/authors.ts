@@ -28,7 +28,7 @@ function normalizeImageUrl({
   imageURL: string | undefined;
   baseUrl: string;
 }) {
-  return imageURL?.startsWith('/')
+  return imageURL?.startsWith('/') && !imageURL.startsWith(baseUrl)
     ? normalizeUrl([baseUrl, imageURL])
     : imageURL;
 }

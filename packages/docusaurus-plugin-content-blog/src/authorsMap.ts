@@ -111,7 +111,6 @@ function normalizeAuthor({
       permalink: normalizeUrl([authorsBaseRoutePath, slug]),
     };
   }
-  console.log('baseUrl:', baseUrl);
 
   return {
     ...author,
