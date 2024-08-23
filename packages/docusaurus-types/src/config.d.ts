@@ -442,7 +442,7 @@ export type Config = Overwrite<
     title: DocusaurusConfig['title'];
     url: DocusaurusConfig['url'];
     baseUrl: DocusaurusConfig['baseUrl'];
-    future: Overwrite<
+    future?: Overwrite<
       DeepPartial<FutureConfig>,
       {
         experimental_faster?: boolean | FasterConfig;
