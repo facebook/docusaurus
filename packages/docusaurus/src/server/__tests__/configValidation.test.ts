@@ -742,6 +742,7 @@ describe('future', () => {
     const future: DocusaurusConfig['future'] = {
       experimental_faster: {
         swcJsLoader: true,
+        swcJsMinimizer: true,
       },
       experimental_storage: {
         type: 'sessionStorage',
