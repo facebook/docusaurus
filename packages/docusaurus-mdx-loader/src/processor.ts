@@ -240,6 +240,8 @@ async function createProcessorsCacheEntry({
     return compilers;
   }
 
+  console.log('createProcessorsCacheEntry - cache miss', ProcessorsCache.size);
+
   const compilerCacheEntry: ProcessorsCacheEntry = {
     mdProcessor: createProcessorSync({
       options,

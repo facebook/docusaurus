@@ -266,7 +266,7 @@ export async function loadPlugins(
     // TODO probably not the ideal place to hardcode those plugins
     initializedPlugins.push(
       createBootstrapPlugin(context),
-      createMDXFallbackPlugin(context),
+      await createMDXFallbackPlugin(context),
     );
 
     const plugins = await executeAllPluginsContentLoading({

@@ -23,6 +23,10 @@ import {
 } from '@docusaurus/utils';
 import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {
+  createMDXLoaderItem,
+  type Options as MDXLoaderOptions,
+} from '@docusaurus/mdx-loader';
+import {
   getBlogTags,
   paginateBlogPosts,
   shouldBeListed,
@@ -47,8 +51,7 @@ import type {
   BlogContent,
   BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
-import type {Options as MDXLoaderOptions} from '@docusaurus/mdx-loader/lib/loader';
-import type {RuleSetUseItem} from 'webpack';
+import type {RuleSetRule, RuleSetUseItem} from 'webpack';
 
 const PluginName = 'docusaurus-plugin-content-blog';
 
@@ -126,6 +129,97 @@ export default async function pluginContentBlog(
   });
 
   const sourceToPermalinkHelper = createSourceToPermalinkHelper();
+
+  async function createBlogMDXLoaderRule(): Promise<RuleSetRule> {
+    const {
+      admonitions,
+      rehypePlugins,
+      remarkPlugins,
+      recmaPlugins,
+      truncateMarker,
+      beforeDefaultRemarkPlugins,
+      beforeDefaultRehypePlugins,
+    } = options;
+
+    const contentDirs = getContentPathList(contentPaths);
+
+    const loaderOptions: MDXLoaderOptions = {
+      admonitions,
+      remarkPlugins,
+      rehypePlugins,
+      recmaPlugins,
+      beforeDefaultRemarkPlugins: [
+        footnoteIDFixer,
+        ...beforeDefaultRemarkPlugins,
+      ],
+      beforeDefaultRehypePlugins,
+      staticDirs: siteConfig.staticDirectories.map((dir) =>
+        path.resolve(siteDir, dir),
+      ),
+      siteDir,
+      isMDXPartial: createAbsoluteFilePathMatcher(options.exclude, contentDirs),
+      metadataPath: (mdxPath: string) => {
+        // Note that metadataPath must be the same/in-sync as
+        // the path from createData for each MDX.
+        const aliasedPath = aliasedSitePath(mdxPath, siteDir);
+        return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
+      },
+      // For blog posts a title in markdown is always removed
+      // Blog posts title are rendered separately
+      removeContentTitle: true,
+      // Assets allow to convert some relative images paths to
+      // require() calls
+      // @ts-expect-error: TODO fix typing issue
+      createAssets: ({
+        frontMatter,
+        metadata,
+      }: {
+        frontMatter: BlogPostFrontMatter;
+        metadata: BlogPostMetadata;
+      }): Assets => ({
+        image: frontMatter.image,
+        authorsImageUrls: metadata.authors.map((author) => author.imageURL),
+      }),
+      markdownConfig: siteConfig.markdown,
+      resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
+        const permalink = resolveMarkdownLinkPathname(linkPathname, {
+          sourceFilePath,
+          sourceToPermalink: sourceToPermalinkHelper.get(),
+          siteDir,
+          contentPaths,
+        });
+        if (permalink === null) {
+          logger.report(
+            onBrokenMarkdownLinks,
+          )`Blog markdown link couldn't be resolved: (url=${linkPathname}) in source file path=${sourceFilePath}`;
+        }
+        return permalink;
+      },
+    };
+
+    function createBlogMarkdownLoader(): RuleSetUseItem {
+      const markdownLoaderOptions: BlogMarkdownLoaderOptions = {
+        truncateMarker,
+      };
+      return {
+        loader: path.resolve(__dirname, './markdownLoader.js'),
+        options: markdownLoaderOptions,
+      };
+    }
+
+    return {
+      test: /\.mdx?$/i,
+      include: contentDirs
+        // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
+        .map(addTrailingPathSeparator),
+      use: [
+        await createMDXLoaderItem(loaderOptions),
+        createBlogMarkdownLoader(),
+      ],
+    };
+  }
+
+  const blogMDXLoaderRule = await createBlogMDXLoaderRule();
 
   return {
     name: PluginName,
@@ -273,91 +367,6 @@ export default async function pluginContentBlog(
     },
 
     configureWebpack() {
-      const {
-        admonitions,
-        rehypePlugins,
-        remarkPlugins,
-        recmaPlugins,
-        truncateMarker,
-        beforeDefaultRemarkPlugins,
-        beforeDefaultRehypePlugins,
-      } = options;
-
-      const contentDirs = getContentPathList(contentPaths);
-
-      function createMDXLoader(): RuleSetUseItem {
-        const loaderOptions: MDXLoaderOptions = {
-          admonitions,
-          remarkPlugins,
-          rehypePlugins,
-          recmaPlugins,
-          beforeDefaultRemarkPlugins: [
-            footnoteIDFixer,
-            ...beforeDefaultRemarkPlugins,
-          ],
-          beforeDefaultRehypePlugins,
-          staticDirs: siteConfig.staticDirectories.map((dir) =>
-            path.resolve(siteDir, dir),
-          ),
-          siteDir,
-          isMDXPartial: createAbsoluteFilePathMatcher(
-            options.exclude,
-            contentDirs,
-          ),
-          metadataPath: (mdxPath: string) => {
-            // Note that metadataPath must be the same/in-sync as
-            // the path from createData for each MDX.
-            const aliasedPath = aliasedSitePath(mdxPath, siteDir);
-            return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
-          },
-          // For blog posts a title in markdown is always removed
-          // Blog posts title are rendered separately
-          removeContentTitle: true,
-          // Assets allow to convert some relative images paths to
-          // require() calls
-          // @ts-expect-error: TODO fix typing issue
-          createAssets: ({
-            frontMatter,
-            metadata,
-          }: {
-            frontMatter: BlogPostFrontMatter;
-            metadata: BlogPostMetadata;
-          }): Assets => ({
-            image: frontMatter.image,
-            authorsImageUrls: metadata.authors.map((author) => author.imageURL),
-          }),
-          markdownConfig: siteConfig.markdown,
-          resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
-            const permalink = resolveMarkdownLinkPathname(linkPathname, {
-              sourceFilePath,
-              sourceToPermalink: sourceToPermalinkHelper.get(),
-              siteDir,
-              contentPaths,
-            });
-            if (permalink === null) {
-              logger.report(
-                onBrokenMarkdownLinks,
-              )`Blog markdown link couldn't be resolved: (url=${linkPathname}) in source file path=${sourceFilePath}`;
-            }
-            return permalink;
-          },
-        };
-        return {
-          loader: require.resolve('@docusaurus/mdx-loader'),
-          options: loaderOptions,
-        };
-      }
-
-      function createBlogMarkdownLoader(): RuleSetUseItem {
-        const loaderOptions: BlogMarkdownLoaderOptions = {
-          truncateMarker,
-        };
-        return {
-          loader: path.resolve(__dirname, './markdownLoader.js'),
-          options: loaderOptions,
-        };
-      }
-
       return {
         resolve: {
           alias: {
@@ -365,15 +374,7 @@ export default async function pluginContentBlog(
           },
         },
         module: {
-          rules: [
-            {
-              test: /\.mdx?$/i,
-              include: contentDirs
-                // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
-                .map(addTrailingPathSeparator),
-              use: [createMDXLoader(), createBlogMarkdownLoader()],
-            },
-          ],
+          rules: [blogMDXLoaderRule],
         },
       };
     },
