@@ -75,11 +75,13 @@ export default function BlogAuthor({
           />
         </MaybeLink>
       ) : (
-        <GeneratedImage
-          name={name!}
-          link={link}
-          className={clsx(styles.authorImage)}
-        />
+        <MaybeLink href={link} className="avatar__photo-link">
+          <GeneratedImage
+            name={name!}
+            link={link}
+            className={clsx(styles.authorImage, styles.authorGeneratedImage)}
+          />
+        </MaybeLink>
       )}
 
       {(name || title) && (
