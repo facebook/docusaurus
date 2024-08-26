@@ -1,4 +1,3 @@
-
 JMarcey:
   name: Joel Marcey
   title: Technical Lead & Developer Advocate at Facebook
@@ -36,4 +35,9 @@ lex111:
 ozaki:
   name: ozaki
   title: ozaki
-  image_url: /img/ozaki.jpg
+  image_url: /ozaki.png
+
+ozakione:
+  name: ozakione
+  title: ozakione
+  image_url: /img/ozaki.png

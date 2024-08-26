@@ -227,7 +227,7 @@ describe('getBlogPostAuthors', () => {
       {
         key: 'slorber',
         name: 'Sébastien Lorber',
-        imageURL: '/baseUrl/img/slorber.png',
+        imageURL: '/img/slorber.png',
         page: null,
       },
     ]);
@@ -520,5 +520,195 @@ describe('groupBlogPostsByAuthorKey', () => {
       // We don't care about this edge case, it doesn't happen in practice
       unknownKey: undefined,
     });
+  });
+});
+
+describe('getBlogPostAuthors baseUrl', () => {
+  // Global author without baseUrl
+  it('getBlogPostAuthors do not modify global authors imageUrl without baseUrl', async () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: ['ozaki'],
+        },
+        authorsMap: {
+          ozaki: {
+            name: 'ozaki',
+            key: 'ozaki',
+            imageURL: 'ozaki.png',
+            page: null,
+          },
+        },
+        baseUrl: '/',
+      }),
+    ).toEqual([
+      {
+        imageURL: 'ozaki.png',
+        key: 'ozaki',
+        name: 'ozaki',
+        page: null,
+      },
+    ]);
+  });
+
+  // Global author with baseUrl
+  it('getBlogPostAuthors do not modify global authors imageUrl with baseUrl', async () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: ['ozaki'],
+        },
+        authorsMap: {
+          ozaki: {
+            name: 'ozaki',
+            key: 'ozaki',
+            imageURL: 'ozaki.png',
+            page: null,
+          },
+        },
+        baseUrl: '/img/',
+      }),
+    ).toEqual([
+      {
+        imageURL: 'ozaki.png',
+        key: 'ozaki',
+        name: 'ozaki',
+        page: null,
+      },
+    ]);
+  });
+
+  // Inline author without baseUrl
+  it('getBlogPostAuthors can return imageURL without baseUrl for inline authors', async () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [{name: 'ozaki', imageURL: 'ozaki.png'}],
+        },
+        authorsMap: undefined,
+        baseUrl: '/',
+      }),
+    ).toEqual([
+      {
+        imageURL: 'ozaki.png',
+        key: null,
+        name: 'ozaki',
+        page: null,
+      },
+    ]);
+  });
+
+  // Inline author with baseUrl
+  it('getBlogPostAuthors normalize imageURL with baseUrl for inline authors', async () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [{name: 'ozaki', imageURL: '/ozaki.png'}],
+        },
+        authorsMap: undefined,
+        baseUrl: '/img/',
+      }),
+    ).toEqual([
+      {
+        imageURL: '/img/ozaki.png',
+        key: null,
+        name: 'ozaki',
+        page: null,
+      },
+    ]);
+  });
+
+  // Global author without baseUrl with a subfolder in img
+  it('getBlogPostAuthors do not modify globalAuthor imageUrl with subfolder without baseUrl', async () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: ['ozaki'],
+        },
+        authorsMap: {
+          ozaki: {
+            name: 'ozaki',
+            key: 'ozaki',
+            imageURL: 'img/ozaki.png',
+            page: null,
+          },
+        },
+        baseUrl: '/',
+      }),
+    ).toEqual([
+      {
+        imageURL: 'img/ozaki.png',
+        key: 'ozaki',
+        name: 'ozaki',
+        page: null,
+      },
+    ]);
+  });
+
+  // Global author with baseUrl with a subfolder in img
+  it('getBlogPostAuthors do not modify globalAuthor imageUrl with subfolder with baseUrl', async () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: ['ozaki'],
+        },
+        authorsMap: {
+          ozaki: {
+            name: 'ozaki',
+            key: 'ozaki',
+            imageURL: 'img/ozaki.png',
+            page: null,
+          },
+        },
+        baseUrl: '/img/',
+      }),
+    ).toEqual([
+      {
+        imageURL: 'img/ozaki.png',
+        key: 'ozaki',
+        name: 'ozaki',
+        page: null,
+      },
+    ]);
+  });
+
+  // Inline author without baseUrl with a subfolder in img
+  it('getBlogPostAuthors normalize imageURL from subfolder without baseUrl for inline authors', async () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [{name: 'ozaki', imageURL: 'img/ozaki.png'}],
+        },
+        authorsMap: undefined,
+        baseUrl: '/',
+      }),
+    ).toEqual([
+      {
+        imageURL: 'img/ozaki.png',
+        key: null,
+        name: 'ozaki',
+        page: null,
+      },
+    ]);
+  });
+
+  // Inline author with baseUrl with a subfolder in img
+  it('getBlogPostAuthors normalize imageURL from subfolder with baseUrl for inline authors', async () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [{name: 'ozaki', imageURL: '/img/ozaki.png'}],
+        },
+        authorsMap: undefined,
+        baseUrl: '/img/',
+      }),
+    ).toEqual([
+      {
+        imageURL: '/img/img/ozaki.png',
+        key: null,
+        name: 'ozaki',
+        page: null,
+      },
+    ]);
   });
 });

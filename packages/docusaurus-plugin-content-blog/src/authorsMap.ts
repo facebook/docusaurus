@@ -9,6 +9,7 @@ import _ from 'lodash';
 import {readDataFile, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import {AuthorSocialsSchema, normalizeSocials} from './authorsSocials';
+import {normalizeImageUrl} from './authors';
 import type {BlogContentPaths} from './types';
 import type {
   Author,
@@ -116,9 +117,7 @@ function normalizeAuthor({
     ...author,
     key: authorKey,
     page: getAuthorPage(),
-    imageURL: author.imageURL?.startsWith('/')
-      ? normalizeUrl([baseUrl, author.imageURL])
-      : author.imageURL,
+    imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
     socials: author.socials ? normalizeSocials(author.socials) : undefined,
   };
 }

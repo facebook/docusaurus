@@ -21,14 +21,14 @@ type AuthorsParam = {
   baseUrl: string;
 };
 
-function normalizeImageUrl({
+export function normalizeImageUrl({
   imageURL,
   baseUrl,
 }: {
   imageURL: string | undefined;
   baseUrl: string;
-}) {
-  return imageURL?.startsWith('/') && !imageURL.startsWith(baseUrl)
+}): string | undefined {
+  return imageURL?.startsWith('/')
     ? normalizeUrl([baseUrl, imageURL])
     : imageURL;
 }
@@ -122,7 +122,9 @@ ${Object.keys(authorsMap)
       ...author,
       key: author.key ?? null,
       page: author.page ?? null,
-      imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
+      imageURL: author.key
+        ? author.imageURL
+        : normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
     };
   }
 }
