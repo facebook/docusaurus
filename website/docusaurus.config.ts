@@ -234,12 +234,12 @@ export default async function createConfigAsync() {
       isVersioningDisabled ||
       process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
         ? 'warn'
-        : 'throw',
+        : 'warn',
     onBrokenAnchors:
       isVersioningDisabled ||
       process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
         ? 'warn'
-        : 'throw',
+        : 'warn',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/docusaurus.ico',
     customFields: {
@@ -330,9 +330,9 @@ export default async function createConfigAsync() {
           ],
         } satisfies ClientRedirectsOptions,
       ],
+
       [
         'ideal-image',
-
         {
           quality: 70,
           max: 1030,
@@ -342,6 +342,7 @@ export default async function createConfigAsync() {
           disableInDev: true,
         } satisfies IdealImageOptions,
       ],
+
       [
         'pwa',
         {

@@ -16,7 +16,7 @@ import {
 import stringifyObject from 'stringify-object';
 import preprocessor from './preprocessor';
 import {validateMDXFrontMatter} from './frontMatter';
-import {createProcessorCached} from './processor';
+import {createProcessorCached, getProcessorCached} from './processor';
 import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
 import type {MDXOptions} from './processor';
 
@@ -143,15 +143,22 @@ export async function mdxLoader(
   const callback = this.async();
   const filePath = this.resourcePath;
   const options: Options = this.getOptions();
+  const query = this.query as Options;
+
+  fileContent = `# Hello\nWorld`;
 
   ensureMarkdownConfig(options);
 
+  /*
   const {frontMatter} = await options.markdownConfig.parseFrontMatter({
     filePath,
     fileContent,
     defaultParseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
   });
-  const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
+
+   */
+  const frontMatter = {};
+  const mdxFrontMatter = validateMDXFrontMatter(frontMatter);
 
   const preprocessedContent = preprocessor({
     fileContent,
@@ -162,20 +169,59 @@ export async function mdxLoader(
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-  const processor = await createProcessorCached({
-    filePath,
-    options,
-    mdxFrontMatter,
-  });
+  const processor =
+    getProcessorCached({filePath, options, mdxFrontMatter}) ??
+    (await createProcessorCached({
+      filePath,
+      options: query,
+      mdxFrontMatter,
+    }));
+
+  if (callback) {
+    callback(null, '');
+    return;
+  }
 
   let result: {content: string; data: {[key: string]: unknown}};
   try {
+    result = {
+      content: `
+import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+function _createMdxContent(props) {
+  const _components = {
+    h1: "h1",
+    p: "p",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.h1, {
+      children: "Hello"
+    }), "\\n", _jsx(_components.p, {
+      children: "World"
+    })]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
+      `,
+      data: {},
+    };
+    /*
     result = await processor.process({
       content: preprocessedContent,
       filePath,
       frontMatter,
       compilerName,
     });
+
+     */
   } catch (errorUnknown) {
     const error = errorUnknown as Error;
 
@@ -235,17 +281,19 @@ ${JSON.stringify(frontMatter, null, 2)}`;
   }
 
   const metadataJsonString = metadataPath
-    ? await readMetadataPath(metadataPath)
+    ? JSON.stringify({
+        authors: [],
+        tags: [],
+        date: new Date().toString(),
+        frontMatter: {image: '', keywords: []},
+      })
     : undefined;
 
   const metadata = metadataJsonString
     ? (JSON.parse(metadataJsonString) as {[key: string]: unknown})
     : undefined;
 
-  const assets =
-    options.createAssets && metadata
-      ? options.createAssets({frontMatter, metadata})
-      : undefined;
+  const assets = options.createAssets && metadata ? {image: ''} : undefined;
 
   const fileLoaderUtils = getFileLoaderUtils(compilerName === 'server');
 

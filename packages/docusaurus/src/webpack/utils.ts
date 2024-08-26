@@ -55,6 +55,10 @@ export function getStyleLoaders(
     ...cssOptionsArg,
   };
 
+  if (isServer || !isServer) {
+    return [{loader: require.resolve('null-loader')}];
+  }
+
   // On the server we don't really need to extract/emit CSS
   // We only need to transform CSS module imports to a styles object
   if (isServer) {
@@ -79,29 +83,6 @@ export function getStyleLoaders(
     {
       loader: require.resolve('css-loader'),
       options: cssOptions,
-    },
-
-    // TODO apart for configurePostCss(), do we really need this loader?
-    // Note: using postcss here looks inefficient/duplicate
-    // But in practice, it's not a big deal because css-loader also uses postcss
-    // and is able to reuse the parsed AST from postcss-loader
-    // See https://github.com/webpack-contrib/css-loader/blob/master/src/index.js#L159
-    {
-      // Options for PostCSS as we reference these options twice
-      // Adds vendor prefixing based on your specified browser support in
-      // package.json
-      loader: require.resolve('postcss-loader'),
-      options: {
-        postcssOptions: {
-          // Necessary for external CSS imports to work
-          // https://github.com/facebook/create-react-app/issues/2677
-          ident: 'postcss',
-          plugins: [
-            // eslint-disable-next-line global-require
-            require('autoprefixer'),
-          ],
-        },
-      },
     },
   ];
 }

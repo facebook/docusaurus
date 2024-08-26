@@ -190,6 +190,10 @@ async function buildLocale({
     }
   });
 
+  if (router === 'browser') {
+    return outDir;
+  }
+
   const {collectedData} = await PerfLogger.async('SSG', () =>
     executeSSG({
       props,

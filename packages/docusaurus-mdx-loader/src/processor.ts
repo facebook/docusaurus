@@ -75,6 +75,8 @@ function getAdmonitionsPlugins(
 
 // Need to be async due to ESM dynamic imports...
 async function createProcessorFactory() {
+  console.log('createProcessorFactory');
+
   const {createProcessor: createMdxProcessor} = await import('@mdx-js/mdx');
   const {default: frontmatter} = await import('remark-frontmatter');
   const {default: rehypeRaw} = await import('rehype-raw');
@@ -226,19 +228,21 @@ type ProcessorsCacheEntry = {
 
 // Compilers are cached so that Remark/Rehype plugins can run
 // expensive code during initialization
-const ProcessorsCache = new Map<string | Options, ProcessorsCacheEntry>();
+const ProcessorsCache = new Map<Options, ProcessorsCacheEntry>();
 
-async function createProcessorsCacheEntry({
+export async function createProcessorsCacheEntry({
   options,
 }: {
   options: Options;
 }): Promise<ProcessorsCacheEntry> {
-  const {createProcessorSync} = await createProcessorFactory();
-
   const compilers = ProcessorsCache.get(options);
   if (compilers) {
+    console.log('createProcessorsCacheEntry - cache hit');
     return compilers;
   }
+  console.log('createProcessorsCacheEntry - cache MISS!', ProcessorsCache.size);
+
+  const {createProcessorSync} = await createProcessorFactory();
 
   const compilerCacheEntry: ProcessorsCacheEntry = {
     mdProcessor: createProcessorSync({
@@ -265,7 +269,32 @@ export async function createProcessorCached({
   mdxFrontMatter: MDXFrontMatter;
   options: Options;
 }): Promise<SimpleProcessor> {
+  console.log('createProcessorCached (async)');
   const compilers = await createProcessorsCacheEntry({options});
+
+  const format = getFormat({
+    filePath,
+    frontMatterFormat: mdxFrontMatter.format,
+    markdownConfigFormat: options.markdownConfig.format,
+  });
+
+  return format === 'md' ? compilers.mdProcessor : compilers.mdxProcessor;
+}
+
+export function getProcessorCached({
+  filePath,
+  mdxFrontMatter,
+  options,
+}: {
+  filePath: string;
+  mdxFrontMatter: MDXFrontMatter;
+  options: Options;
+}): SimpleProcessor | null {
+  const compilers = ProcessorsCache.get(options);
+
+  if (!compilers) {
+    return null;
+  }
 
   const format = getFormat({
     filePath,

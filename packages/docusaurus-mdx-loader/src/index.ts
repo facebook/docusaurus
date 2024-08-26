@@ -5,9 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {mdxLoader} from './loader';
+import {mdxLoader, type Options} from './loader';
 
 import type {TOCItem as TOCItemImported} from './remark/toc/types';
+import type {RuleSetUseItem} from 'webpack';
+import {createProcessorsCacheEntry} from './processor';
+
+export async function prepareMDXLoaderCache(options: Options): Promise<void> {
+  // pre-fill the processor cache
+  await createProcessorsCacheEntry({options});
+}
 
 export default mdxLoader;
 
