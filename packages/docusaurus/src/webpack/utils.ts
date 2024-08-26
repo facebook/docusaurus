@@ -55,6 +55,8 @@ export function getStyleLoaders(
     ...cssOptionsArg,
   };
 
+  // On the server we don't really need to extract/emit CSS
+  // We only need to transform CSS module imports to a styles object
   if (isServer) {
     return cssOptions.modules
       ? [
@@ -63,20 +65,8 @@ export function getStyleLoaders(
             options: cssOptions,
           },
         ]
-      : [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              // Don't emit CSS files for SSR (previously used null-loader)
-              // See https://github.com/webpack-contrib/mini-css-extract-plugin/issues/90#issuecomment-811991738
-              emit: false,
-            },
-          },
-          {
-            loader: require.resolve('css-loader'),
-            options: cssOptions,
-          },
-        ];
+      : // Ignore regular CSS files
+        [{loader: require.resolve('null-loader')}];
   }
 
   return [
@@ -90,6 +80,12 @@ export function getStyleLoaders(
       loader: require.resolve('css-loader'),
       options: cssOptions,
     },
+
+    // TODO apart for configurePostCss(), do we really need this loader?
+    // Note: using postcss here looks inefficient/duplicate
+    // But in practice, it's not a big deal because css-loader also uses postcss
+    // and is able to reuse the parsed AST from postcss-loader
+    // See https://github.com/webpack-contrib/css-loader/blob/master/src/index.js#L159
     {
       // Options for PostCSS as we reference these options twice
       // Adds vendor prefixing based on your specified browser support in
