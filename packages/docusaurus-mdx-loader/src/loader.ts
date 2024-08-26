@@ -16,9 +16,12 @@ import {
 import stringifyObject from 'stringify-object';
 import preprocessor from './preprocessor';
 import {validateMDXFrontMatter} from './frontMatter';
-import {createProcessorCached} from './processor';
+import {
+  createProcessorCached,
+  type SimpleProcessors,
+  type MDXOptions,
+} from './processor';
 import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
-import type {MDXOptions} from './processor';
 
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {LoaderContext} from 'webpack';
@@ -43,6 +46,9 @@ export type Options = Partial<MDXOptions> & {
     metadata: {[key: string]: unknown};
   }) => {[key: string]: unknown};
   resolveMarkdownLink?: ResolveMarkdownLink;
+
+  // Will usually be created by "createMDXLoaderItem"
+  processors?: SimpleProcessors;
 };
 
 /**
