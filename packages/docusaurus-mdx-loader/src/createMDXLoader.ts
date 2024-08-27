@@ -9,18 +9,27 @@ import {createProcessors} from './processor';
 import type {Options} from './loader';
 import type {RuleSetRule, RuleSetUseItem} from 'webpack';
 
-export async function createMDXLoaderItem(
-  options: Options,
-): Promise<RuleSetUseItem> {
+async function enhancedOptions(options: Options): Promise<Options> {
+  // Because Jest doesn't like ESM / createProcessors()
+  if (process.env.N0DE_ENV === 'test' || process.env.JEST_WORKER_ID) {
+    return options;
+  }
+
   // We create the processor earlier here, to avoid the lazy processor creating
   // Lazy creation messes-up with Rsdoctor ability to measure mdx-loader perf
   const newOptions: Options = options.processors
     ? options
     : {...options, processors: await createProcessors({options})};
 
+  return newOptions;
+}
+
+export async function createMDXLoaderItem(
+  options: Options,
+): Promise<RuleSetUseItem> {
   return {
     loader: require.resolve('@docusaurus/mdx-loader'),
-    options: newOptions,
+    options: await enhancedOptions(options),
   };
 }
 
