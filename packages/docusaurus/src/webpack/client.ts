@@ -17,19 +17,26 @@ import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import CleanWebpackPlugin from './plugins/CleanWebpackPlugin';
 import ForceTerminatePlugin from './plugins/ForceTerminatePlugin';
 import {createStaticDirectoriesCopyPlugin} from './plugins/StaticDirectoriesCopyPlugin';
-import type {Props} from '@docusaurus/types';
+import type {FasterConfig, Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
 async function createBaseClientConfig({
   props,
   hydrate,
   minify,
+  faster,
 }: {
   props: Props;
   hydrate: boolean;
   minify: boolean;
+  faster: FasterConfig;
 }): Promise<Configuration> {
-  const baseConfig = await createBaseConfig({props, isServer: false, minify});
+  const baseConfig = await createBaseConfig({
+    props,
+    isServer: false,
+    minify,
+    faster,
+  });
 
   return merge(baseConfig, {
     // Useless, disabled on purpose (errors on existing sites with no
@@ -60,10 +67,12 @@ export async function createStartClientConfig({
   props,
   minify,
   poll,
+  faster,
 }: {
   props: Props;
   minify: boolean;
   poll: number | boolean | undefined;
+  faster: FasterConfig;
 }): Promise<{clientConfig: Configuration}> {
   const {siteConfig, headTags, preBodyTags, postBodyTags} = props;
 
@@ -72,6 +81,7 @@ export async function createStartClientConfig({
       props,
       minify,
       hydrate: false,
+      faster,
     }),
     {
       watchOptions: {
@@ -105,10 +115,12 @@ export async function createStartClientConfig({
 export async function createBuildClientConfig({
   props,
   minify,
+  faster,
   bundleAnalyzer,
 }: {
   props: Props;
   minify: boolean;
+  faster: FasterConfig;
   bundleAnalyzer: boolean;
 }): Promise<{config: Configuration; clientManifestPath: string}> {
   // Apply user webpack config.
@@ -125,7 +137,7 @@ export async function createBuildClientConfig({
   );
 
   const config: Configuration = merge(
-    await createBaseClientConfig({props, minify, hydrate}),
+    await createBaseClientConfig({props, minify, faster, hydrate}),
     {
       plugins: [
         new ForceTerminatePlugin(),

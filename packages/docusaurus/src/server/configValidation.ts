@@ -16,7 +16,11 @@ import {
   addLeadingSlash,
   removeTrailingSlash,
 } from '@docusaurus/utils-common';
-import type {FutureConfig, StorageConfig} from '@docusaurus/types/src/config';
+import type {
+  FasterConfig,
+  FutureConfig,
+  StorageConfig,
+} from '@docusaurus/types/src/config';
 import type {
   DocusaurusConfig,
   I18nConfig,
@@ -37,7 +41,19 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
   namespace: false,
 };
 
+export const DEFAULT_FASTER_CONFIG: FasterConfig = {
+  swcJsLoader: false,
+  swcJsMinimizer: false,
+};
+
+// When using the "faster: true" shortcut
+export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
+  swcJsLoader: true,
+  swcJsMinimizer: true,
+};
+
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
+  experimental_faster: DEFAULT_FASTER_CONFIG,
   experimental_storage: DEFAULT_STORAGE_CONFIG,
   experimental_router: 'browser',
 };
@@ -194,6 +210,23 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
+const FASTER_CONFIG_SCHEMA = Joi.alternatives()
+  .try(
+    Joi.object<FasterConfig>({
+      swcJsLoader: Joi.boolean().default(DEFAULT_FASTER_CONFIG.swcJsLoader),
+      swcJsMinimizer: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.swcJsMinimizer,
+      ),
+    }),
+    Joi.boolean()
+      .required()
+      .custom((bool) =>
+        bool ? DEFAULT_FASTER_CONFIG_TRUE : DEFAULT_FASTER_CONFIG,
+      ),
+  )
+  .optional()
+  .default(DEFAULT_FASTER_CONFIG);
+
 const STORAGE_CONFIG_SCHEMA = Joi.object({
   type: Joi.string()
     .equal('localStorage', 'sessionStorage')
@@ -206,6 +239,7 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   .default(DEFAULT_STORAGE_CONFIG);
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
+  experimental_faster: FASTER_CONFIG_SCHEMA,
   experimental_storage: STORAGE_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')

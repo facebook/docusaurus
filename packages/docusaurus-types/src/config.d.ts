@@ -7,7 +7,7 @@
 
 import type {SiteStorage} from './context';
 import type {RuleSetRule} from 'webpack';
-import type {Required as RequireKeys, DeepPartial} from 'utility-types';
+import type {DeepPartial, Overwrite} from 'utility-types';
 import type {I18nConfig} from './i18n';
 import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
 
@@ -123,7 +123,14 @@ export type StorageConfig = {
   namespace: boolean | string;
 };
 
+export type FasterConfig = {
+  swcJsLoader: boolean;
+  swcJsMinimizer: boolean;
+};
+
 export type FutureConfig = {
+  experimental_faster: FasterConfig;
+
   experimental_storage: StorageConfig;
 
   /**
@@ -416,6 +423,9 @@ export type DocusaurusConfig = {
      * Babel loader and preset; otherwise, you can provide your custom Webpack
      * rule set.
      */
+    // TODO Docusaurus v4
+    //  Use an object type ({isServer}) so that it conforms to jsLoaderFactory
+    //  Eventually deprecate this if swc loader becomes stable?
     jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
   /** Markdown-related options. */
@@ -423,11 +433,21 @@ export type DocusaurusConfig = {
 };
 
 /**
- * Docusaurus config, as provided by the user (partial/unnormalized). This type
+ * Docusaurus config, as provided by the user (partial/un-normalized). This type
  * is used to provide type-safety / IDE auto-complete on the config file.
  * @see https://docusaurus.io/docs/typescript-support
  */
-export type Config = RequireKeys<
+export type Config = Overwrite<
   DeepPartial<DocusaurusConfig>,
-  'title' | 'url' | 'baseUrl'
+  {
+    title: DocusaurusConfig['title'];
+    url: DocusaurusConfig['url'];
+    baseUrl: DocusaurusConfig['baseUrl'];
+    future?: Overwrite<
+      DeepPartial<FutureConfig>,
+      {
+        experimental_faster?: boolean | FasterConfig;
+      }
+    >;
+  }
 >;

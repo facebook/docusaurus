@@ -10,14 +10,14 @@ import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {
-  getCustomizableJSLoader,
+  createJsLoaderFactory,
   getStyleLoaders,
   getCustomBabelConfigFilePath,
 } from './utils';
-import {getMinimizer} from './minification';
+import {getMinimizers} from './minification';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import type {Configuration} from 'webpack';
-import type {Props} from '@docusaurus/types';
+import type {FasterConfig, Props} from '@docusaurus/types';
 
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
@@ -57,10 +57,12 @@ export async function createBaseConfig({
   props,
   isServer,
   minify,
+  faster,
 }: {
   props: Props;
   isServer: boolean;
   minify: boolean;
+  faster: FasterConfig;
 }): Promise<Configuration> {
   const {
     outDir,
@@ -83,6 +85,8 @@ export async function createBaseConfig({
   const mode = isProd ? 'production' : 'development';
 
   const themeAliases = await loadThemeAliases({siteDir, plugins});
+
+  const createJsLoader = await createJsLoaderFactory({siteConfig});
 
   return {
     mode,
@@ -170,7 +174,7 @@ export async function createBaseConfig({
       // Only minimize client bundle in production because server bundle is only
       // used for static site generation
       minimize: minimizeEnabled,
-      minimizer: minimizeEnabled ? getMinimizer() : undefined,
+      minimizer: minimizeEnabled ? await getMinimizers({faster}) : undefined,
       splitChunks: isServer
         ? false
         : {
@@ -211,7 +215,7 @@ export async function createBaseConfig({
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           use: [
-            getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
+            createJsLoader({
               isServer,
               babelOptions: await getCustomBabelConfigFilePath(siteDir),
             }),

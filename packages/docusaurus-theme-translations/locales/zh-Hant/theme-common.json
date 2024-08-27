@@ -22,6 +22,7 @@
   "theme.admonition.warning": "注意",
   "theme.blog.archive.description": "歷史文章",
   "theme.blog.archive.title": "歷史文章",
+  "theme.blog.author.noPosts": "This author has not written any posts yet.",
   "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
   "theme.blog.authorsList.pageTitle": "Authors",
   "theme.blog.authorsList.viewAll": "View All Authors",

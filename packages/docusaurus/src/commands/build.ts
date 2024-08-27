@@ -15,7 +15,10 @@ import {handleBrokenLinks} from '../server/brokenLinks';
 
 import {createBuildClientConfig} from '../webpack/client';
 import createServerConfig from '../webpack/server';
-import {executePluginsConfigureWebpack} from '../webpack/configure';
+import {
+  createConfigureWebpackUtils,
+  executePluginsConfigureWebpack,
+} from '../webpack/configure';
 import {compile} from '../webpack/utils';
 import {PerfLogger} from '../utils';
 
@@ -331,6 +334,7 @@ async function getBuildClientConfig({
   const result = await createBuildClientConfig({
     props,
     minify: cliOptions.minify ?? true,
+    faster: props.siteConfig.future.experimental_faster,
     bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;
@@ -338,7 +342,9 @@ async function getBuildClientConfig({
     plugins,
     config,
     isServer: false,
-    jsLoader: props.siteConfig.webpack?.jsLoader,
+    utils: await createConfigureWebpackUtils({
+      siteConfig: props.siteConfig,
+    }),
   });
   return {clientConfig: config, clientManifestPath: result.clientManifestPath};
 }
@@ -353,7 +359,9 @@ async function getBuildServerConfig({props}: {props: Props}) {
     plugins,
     config,
     isServer: true,
-    jsLoader: props.siteConfig.webpack?.jsLoader,
+    utils: await createConfigureWebpackUtils({
+      siteConfig: props.siteConfig,
+    }),
   });
   return {serverConfig: config, serverBundlePath: result.serverBundlePath};
 }

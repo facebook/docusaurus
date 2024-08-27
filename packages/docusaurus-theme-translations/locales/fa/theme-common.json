@@ -22,6 +22,7 @@
   "theme.admonition.warning": "هشدار",
   "theme.blog.archive.description": "آرشیو",
   "theme.blog.archive.title": "آرشیو",
+  "theme.blog.author.noPosts": "This author has not written any posts yet.",
   "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
   "theme.blog.authorsList.pageTitle": "Authors",
   "theme.blog.authorsList.viewAll": "View All Authors",

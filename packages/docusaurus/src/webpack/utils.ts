@@ -13,6 +13,8 @@ import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {type Configuration, type RuleSetRule} from 'webpack';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
+import {importSwcJsLoaderFactory} from '../faster';
+import type {ConfigureWebpackUtils, DocusaurusConfig} from '@docusaurus/types';
 import type {TransformOptions} from '@babel/core';
 
 export function formatStatsErrorMessage(
@@ -53,6 +55,8 @@ export function getStyleLoaders(
     ...cssOptionsArg,
   };
 
+  // On the server we don't really need to extract/emit CSS
+  // We only need to transform CSS module imports to a styles object
   if (isServer) {
     return cssOptions.modules
       ? [
@@ -61,20 +65,8 @@ export function getStyleLoaders(
             options: cssOptions,
           },
         ]
-      : [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              // Don't emit CSS files for SSR (previously used null-loader)
-              // See https://github.com/webpack-contrib/mini-css-extract-plugin/issues/90#issuecomment-811991738
-              emit: false,
-            },
-          },
-          {
-            loader: require.resolve('css-loader'),
-            options: cssOptions,
-          },
-        ];
+      : // Ignore regular CSS files
+        [{loader: require.resolve('null-loader')}];
   }
 
   return [
@@ -88,6 +80,12 @@ export function getStyleLoaders(
       loader: require.resolve('css-loader'),
       options: cssOptions,
     },
+
+    // TODO apart for configurePostCss(), do we really need this loader?
+    // Note: using postcss here looks inefficient/duplicate
+    // But in practice, it's not a big deal because css-loader also uses postcss
+    // and is able to reuse the parsed AST from postcss-loader
+    // See https://github.com/webpack-contrib/css-loader/blob/master/src/index.js#L159
     {
       // Options for PostCSS as we reference these options twice
       // Adds vendor prefixing based on your specified browser support in
@@ -142,33 +140,49 @@ export function getBabelOptions({
   };
 }
 
-// Name is generic on purpose
-// we want to support multiple js loader implementations (babel + esbuild)
-function getDefaultBabelLoader({
+const BabelJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = ({
   isServer,
   babelOptions,
-}: {
-  isServer: boolean;
-  babelOptions?: TransformOptions | string;
-}): RuleSetRule {
+}) => {
   return {
     loader: require.resolve('babel-loader'),
     options: getBabelOptions({isServer, babelOptions}),
   };
-}
+};
 
-export const getCustomizableJSLoader =
-  (jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) = 'babel') =>
-  ({
-    isServer,
-    babelOptions,
-  }: {
-    isServer: boolean;
-    babelOptions?: TransformOptions | string;
-  }): RuleSetRule =>
-    jsLoader === 'babel'
-      ? getDefaultBabelLoader({isServer, babelOptions})
-      : jsLoader(isServer);
+// Confusing: function that creates a function that creates actual js loaders
+// This is done on purpose because the js loader factory is a public API
+// It is injected in configureWebpack plugin lifecycle for plugin authors
+export async function createJsLoaderFactory({
+  siteConfig,
+}: {
+  siteConfig: {
+    webpack?: DocusaurusConfig['webpack'];
+    future?: {
+      experimental_faster: DocusaurusConfig['future']['experimental_faster'];
+    };
+  };
+}): Promise<ConfigureWebpackUtils['getJSLoader']> {
+  const jsLoader = siteConfig.webpack?.jsLoader ?? 'babel';
+  if (
+    jsLoader instanceof Function &&
+    siteConfig.future?.experimental_faster.swcJsLoader
+  ) {
+    throw new Error(
+      "You can't use a custom webpack.jsLoader and experimental_faster.swcJsLoader at the same time",
+    );
+  }
+  if (jsLoader instanceof Function) {
+    return ({isServer}) => jsLoader(isServer);
+  }
+  if (siteConfig.future?.experimental_faster.swcJsLoader) {
+    return importSwcJsLoaderFactory();
+  }
+  if (jsLoader === 'babel') {
+    return BabelJsLoaderFactory;
+  }
+  throw new Error(`Docusaurus bug: unexpected jsLoader value${jsLoader}`);
+}
 
 declare global {
   interface Error {

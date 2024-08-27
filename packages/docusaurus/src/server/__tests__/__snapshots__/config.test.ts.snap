@@ -8,6 +8,10 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_faster": {
+        "swcJsLoader": false,
+        "swcJsMinimizer": false,
+      },
       "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
@@ -69,6 +73,10 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_faster": {
+        "swcJsLoader": false,
+        "swcJsMinimizer": false,
+      },
       "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
@@ -130,6 +138,10 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_faster": {
+        "swcJsLoader": false,
+        "swcJsMinimizer": false,
+      },
       "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
@@ -191,6 +203,10 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_faster": {
+        "swcJsLoader": false,
+        "swcJsMinimizer": false,
+      },
       "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
@@ -252,6 +268,10 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_faster": {
+        "swcJsLoader": false,
+        "swcJsMinimizer": false,
+      },
       "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
@@ -313,6 +333,10 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_faster": {
+        "swcJsLoader": false,
+        "swcJsMinimizer": false,
+      },
       "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
@@ -374,6 +398,10 @@ exports[`loadSiteConfig website with valid async config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_faster": {
+        "swcJsLoader": false,
+        "swcJsMinimizer": false,
+      },
       "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
@@ -437,6 +465,10 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_faster": {
+        "swcJsLoader": false,
+        "swcJsMinimizer": false,
+      },
       "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
@@ -500,6 +532,10 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
+      "experimental_faster": {
+        "swcJsLoader": false,
+        "swcJsMinimizer": false,
+      },
       "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,
@@ -566,6 +602,10 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
     "customFields": {},
     "favicon": "img/docusaurus.ico",
     "future": {
+      "experimental_faster": {
+        "swcJsLoader": false,
+        "swcJsMinimizer": false,
+      },
       "experimental_router": "browser",
       "experimental_storage": {
         "namespace": false,

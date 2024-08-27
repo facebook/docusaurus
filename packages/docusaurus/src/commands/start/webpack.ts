@@ -17,7 +17,10 @@ import {
   getHttpsConfig,
   printStatsWarnings,
 } from '../../webpack/utils';
-import {executePluginsConfigureWebpack} from '../../webpack/configure';
+import {
+  createConfigureWebpackUtils,
+  executePluginsConfigureWebpack,
+} from '../../webpack/configure';
 import {createStartClientConfig} from '../../webpack/client';
 import type {StartCLIOptions} from './start';
 import type {Props} from '@docusaurus/types';
@@ -133,13 +136,14 @@ async function getStartClientConfig({
   let {clientConfig: config} = await createStartClientConfig({
     props,
     minify,
+    faster: props.siteConfig.future.experimental_faster,
     poll,
   });
   config = executePluginsConfigureWebpack({
     plugins,
     config,
     isServer: false,
-    jsLoader: siteConfig.webpack?.jsLoader,
+    utils: await createConfigureWebpackUtils({siteConfig}),
   });
   return config;
 }

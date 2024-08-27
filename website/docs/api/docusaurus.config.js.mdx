@@ -197,6 +197,10 @@ Example:
 ```js title="docusaurus.config.js"
 export default {
   future: {
+    experimental_faster: {
+      swcJsLoader: true,
+      swcJsMinimizer: true,
+    },
     experimental_storage: {
       type: 'localStorage',
       namespace: true,
@@ -206,6 +210,9 @@ export default {
 };
 ```
 
+- `experimental_faster`: An object containing feature flags to make the Docusaurus build faster. This requires adding the `@docusaurus/faster` package to your site's dependencies. Use `true` as a shorthand to enable all flags.
+  - `swcJsLoader`: Use `true` to replace the default [Babel](https://babeljs.io/) JS loader by the [SWC](https://swc.rs/) JS loader to speed up the bundling phase.
+  - `swcJsMinimizer`: Use `true` to replace the default [`terser-webpack-plugin`](https://github.com/webpack-contrib/terser-webpack-plugin) JS minimizer ([Terser](https://terser.org/)) by the [SWC JS minimizer](https://swc.rs/docs/configuration/minification) to speed up the bundling minification phase.
 - `experimental_storage`: Site-wide browser storage options that theme authors should strive to respect.
   - `type`: The browser storage theme authors should use. Possible values are `localStorage` and `sessionStorage`. Defaults to `localStorage`.
   - `namespace`: Whether to namespace the browser storage keys to avoid storage key conflicts when Docusaurus sites are hosted under the same domain, or on localhost. Possible values are `string | boolean`. The namespace is appended at the end of the storage keys `key-namespace`. Use `true` to automatically generate a random namespace from your site `url + baseUrl`. Defaults to `false` (no namespace, historical behavior).

@@ -1,0 +1,31 @@
+{
+  "name": "@docusaurus/faster",
+  "version": "3.5.2",
+  "description": "Docusaurus experimental package exposing new modern dependencies to make the build faster.",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-faster"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "webpack": "^5.88.1",
+    "@swc/core": "^1.7.14",
+    "swc-loader": "^0.2.6"
+  },
+  "engines": {
+    "node": ">=18.0"
+  },
+  "peerDependencies": {
+    "@docusaurus/types": "*"
+  }
+}
