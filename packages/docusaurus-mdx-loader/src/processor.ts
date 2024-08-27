@@ -31,10 +31,13 @@ import type {ProcessorOptions} from '@mdx-js/mdx';
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 type Pluggable = any; // TODO fix this asap
 
-type SimpleProcessorResult = {content: string; data: {[key: string]: unknown}};
+export type SimpleProcessorResult = {
+  content: string;
+  data: {[key: string]: unknown};
+};
 
 // TODO alt interface because impossible to import type Processor (ESM + TS :/)
-type SimpleProcessor = {
+export type SimpleProcessor = {
   process: ({
     content,
     filePath,
@@ -219,28 +222,22 @@ export async function createProcessorUncached(parameters: {
 }
 
 // We use different compilers depending on the file type (md vs mdx)
-type ProcessorsCacheEntry = {
+export type SimpleProcessors = {
   mdProcessor: SimpleProcessor;
   mdxProcessor: SimpleProcessor;
 };
 
 // Compilers are cached so that Remark/Rehype plugins can run
 // expensive code during initialization
-const ProcessorsCache = new Map<string | Options, ProcessorsCacheEntry>();
+const ProcessorsCache = new Map<string | Options, SimpleProcessors>();
 
-async function createProcessorsCacheEntry({
+export async function createProcessors({
   options,
 }: {
   options: Options;
-}): Promise<ProcessorsCacheEntry> {
+}): Promise<SimpleProcessors> {
   const {createProcessorSync} = await createProcessorFactory();
-
-  const compilers = ProcessorsCache.get(options);
-  if (compilers) {
-    return compilers;
-  }
-
-  const compilerCacheEntry: ProcessorsCacheEntry = {
+  return {
     mdProcessor: createProcessorSync({
       options,
       format: 'md',
@@ -250,13 +247,23 @@ async function createProcessorsCacheEntry({
       format: 'mdx',
     }),
   };
-
-  ProcessorsCache.set(options, compilerCacheEntry);
-
-  return compilerCacheEntry;
 }
 
-export async function createProcessorCached({
+async function createProcessorsCacheEntry({
+  options,
+}: {
+  options: Options;
+}): Promise<SimpleProcessors> {
+  const compilers = ProcessorsCache.get(options);
+  if (compilers) {
+    return compilers;
+  }
+  const processors = await createProcessors({options});
+  ProcessorsCache.set(options, processors);
+  return processors;
+}
+
+export async function getProcessor({
   filePath,
   mdxFrontMatter,
   options,
@@ -265,7 +272,8 @@ export async function createProcessorCached({
   mdxFrontMatter: MDXFrontMatter;
   options: Options;
 }): Promise<SimpleProcessor> {
-  const compilers = await createProcessorsCacheEntry({options});
+  const processors =
+    options.processors ?? (await createProcessorsCacheEntry({options}));
 
   const format = getFormat({
     filePath,
@@ -273,5 +281,5 @@ export async function createProcessorCached({
     markdownConfigFormat: options.markdownConfig.format,
   });
 
-  return format === 'md' ? compilers.mdProcessor : compilers.mdxProcessor;
+  return format === 'md' ? processors.mdProcessor : processors.mdxProcessor;
 }

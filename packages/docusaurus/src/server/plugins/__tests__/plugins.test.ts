@@ -28,6 +28,7 @@ async function testLoad({
       baseUrl: '/',
       trailingSlash: true,
       themeConfig: {},
+      staticDirectories: [],
       presets: [],
       plugins,
       themes,
