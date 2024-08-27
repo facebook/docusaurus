@@ -31,10 +31,13 @@ import type {ProcessorOptions} from '@mdx-js/mdx';
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 type Pluggable = any; // TODO fix this asap
 
-type SimpleProcessorResult = {content: string; data: {[key: string]: unknown}};
+export type SimpleProcessorResult = {
+  content: string;
+  data: {[key: string]: unknown};
+};
 
 // TODO alt interface because impossible to import type Processor (ESM + TS :/)
-type SimpleProcessor = {
+export type SimpleProcessor = {
   process: ({
     content,
     filePath,
@@ -260,7 +263,7 @@ async function createProcessorsCacheEntry({
   return processors;
 }
 
-export async function createProcessorCached({
+export async function getProcessor({
   filePath,
   mdxFrontMatter,
   options,
