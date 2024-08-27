@@ -12,10 +12,10 @@ import {AuthorSocialsSchema, normalizeSocials} from './authorsSocials';
 import {normalizeImageUrl} from './authors';
 import type {BlogContentPaths} from './types';
 import type {
-  Author,
   AuthorAttributes,
   AuthorPage,
   AuthorsMap,
+  AuthorWithKey,
 } from '@docusaurus/plugin-content-blog';
 
 type AuthorInput = AuthorAttributes & {
@@ -101,7 +101,7 @@ function normalizeAuthor({
   authorKey: string;
   baseUrl: string;
   author: AuthorInput;
-}): Author & {key: string} {
+}): AuthorWithKey {
   function getAuthorPage(): AuthorPage | null {
     if (!author.page) {
       return null;

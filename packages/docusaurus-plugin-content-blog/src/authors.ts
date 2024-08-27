@@ -122,6 +122,7 @@ ${Object.keys(authorsMap)
       ...author,
       key: author.key ?? null,
       page: author.page ?? null,
+      // global author images have already been normalized
       imageURL: author.key
         ? author.imageURL
         : normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
