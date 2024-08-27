@@ -33,6 +33,29 @@ export function normalizeImageUrl({
     : imageURL;
 }
 
+function normalizeAuthorUrl({
+  author,
+  baseUrl,
+}: {
+  author: Author;
+  baseUrl: string;
+}): string | undefined {
+  if (author.key) {
+    if (
+      author.imageURL &&
+      !author.imageURL.match(/^https?:\/\//) &&
+      !author.imageURL.startsWith(baseUrl)
+    ) {
+      throw new Error(
+        `Docusaurus bug: global authors image ${author.imageURL} should start with the expected baseUrl=${baseUrl}`,
+      );
+    }
+
+    return author.imageURL;
+  }
+  return normalizeImageUrl({imageURL: author.imageURL, baseUrl});
+}
+
 // Legacy v1/early-v2 front matter fields
 // We may want to deprecate those in favor of using only frontMatter.authors
 // TODO Docusaurus v4: remove this legacy front matter
@@ -116,16 +139,14 @@ ${Object.keys(authorsMap)
       // Author def from authorsMap can be locally overridden by front matter
       ...getAuthorsMapAuthor(frontMatterAuthor.key),
       ...frontMatterAuthor,
-    };
+    } as Author;
 
     return {
       ...author,
       key: author.key ?? null,
       page: author.page ?? null,
       // global author images have already been normalized
-      imageURL: author.key
-        ? author.imageURL
-        : normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
+      imageURL: normalizeAuthorUrl({author, baseUrl}),
     };
   }
 }

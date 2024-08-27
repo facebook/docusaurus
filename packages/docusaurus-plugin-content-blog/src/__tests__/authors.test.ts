@@ -419,7 +419,6 @@ describe('getBlogPostAuthors', () => {
         frontMatter: {
           authors: ['yangshun', 'jmarcey', 'slorber'],
         },
-
         authorsMap: {
           yangshun: {name: 'Yangshun Tay', key: 'yangshun', page: null},
           jmarcey: {name: 'Joel Marcey', key: 'jmarcey', page: null},
@@ -496,7 +495,6 @@ describe('getBlogPostAuthors', () => {
         },
         authorsMap: {
           ozaki: {
-            name: 'ozaki',
             key: 'ozaki',
             imageURL: '/ozaki.png',
             page: null,
@@ -508,7 +506,6 @@ describe('getBlogPostAuthors', () => {
       {
         imageURL: '/ozaki.png',
         key: 'ozaki',
-        name: 'ozaki',
         page: null,
       },
     ]);
@@ -523,7 +520,6 @@ describe('getBlogPostAuthors', () => {
         },
         authorsMap: {
           ozaki: {
-            name: 'ozaki',
             key: 'ozaki',
             imageURL: '/img/ozaki.png',
             page: null,
@@ -535,7 +531,6 @@ describe('getBlogPostAuthors', () => {
       {
         imageURL: '/img/ozaki.png',
         key: 'ozaki',
-        name: 'ozaki',
         page: null,
       },
     ]);
@@ -550,7 +545,6 @@ describe('getBlogPostAuthors', () => {
         },
         authorsMap: {
           ozaki: {
-            name: 'ozaki',
             key: 'ozaki',
             imageURL: '/img/ozaki.png',
             page: null,
@@ -562,7 +556,6 @@ describe('getBlogPostAuthors', () => {
       {
         imageURL: '/img/ozaki.png',
         key: 'ozaki',
-        name: 'ozaki',
         page: null,
       },
     ]);
@@ -577,7 +570,6 @@ describe('getBlogPostAuthors', () => {
         },
         authorsMap: {
           ozaki: {
-            name: 'ozaki',
             key: 'ozaki',
             imageURL: '/img/ozaki.png',
             page: null,
@@ -589,10 +581,29 @@ describe('getBlogPostAuthors', () => {
       {
         imageURL: '/img/ozaki.png',
         key: 'ozaki',
-        name: 'ozaki',
         page: null,
       },
     ]);
+  });
+
+  it('getBlogPostAuthors throws if global author does not have baseUrl', async () => {
+    expect(() =>
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: ['ozaki'],
+        },
+        authorsMap: {
+          ozaki: {
+            key: 'ozaki',
+            imageURL: '/ozaki.png',
+            page: null,
+          },
+        },
+        baseUrl: '/baseUrl/',
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Docusaurus bug: global authors image /ozaki.png should start with the expected baseUrl=/baseUrl/"`,
+    );
   });
 
   // Inline author without baseUrl
