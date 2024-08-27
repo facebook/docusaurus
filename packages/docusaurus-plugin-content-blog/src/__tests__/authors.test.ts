@@ -586,7 +586,7 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
-  it('getBlogPostAuthors throws if global author does not have baseUrl', async () => {
+  it('getBlogPostAuthors throws if global author imageURL does not have baseUrl', async () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -606,12 +606,45 @@ describe('getBlogPostAuthors', () => {
     );
   });
 
+  it('getBlogPostAuthors do not throws if inline author imageURL is a link to a file', async () => {
+    const baseUrlTest = getBlogPostAuthors({
+      frontMatter: {
+        authors: [{imageURL: './ozaki.png'}],
+      },
+      authorsMap: undefined,
+      baseUrl: '/baseUrl/',
+    });
+    const withoutBaseUrlTest = getBlogPostAuthors({
+      frontMatter: {
+        authors: [{imageURL: './ozaki.png'}],
+      },
+      authorsMap: undefined,
+      baseUrl: '/',
+    });
+    expect(() => baseUrlTest).not.toThrow();
+    expect(baseUrlTest).toEqual([
+      {
+        imageURL: './ozaki.png',
+        key: null,
+        page: null,
+      },
+    ]);
+    expect(() => withoutBaseUrlTest).not.toThrow();
+    expect(withoutBaseUrlTest).toEqual([
+      {
+        imageURL: './ozaki.png',
+        key: null,
+        page: null,
+      },
+    ]);
+  });
+
   // Inline author without baseUrl
   it('getBlogPostAuthors can return imageURL without baseUrl for inline authors', async () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
-          authors: [{name: 'ozaki', imageURL: '/ozaki.png'}],
+          authors: [{imageURL: '/ozaki.png'}],
         },
         authorsMap: undefined,
         baseUrl: '/',
@@ -620,7 +653,6 @@ describe('getBlogPostAuthors', () => {
       {
         imageURL: '/ozaki.png',
         key: null,
-        name: 'ozaki',
         page: null,
       },
     ]);
@@ -631,7 +663,7 @@ describe('getBlogPostAuthors', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
-          authors: [{name: 'ozaki', imageURL: '/ozaki.png'}],
+          authors: [{imageURL: '/ozaki.png'}],
         },
         authorsMap: undefined,
         baseUrl: '/img/',
@@ -640,7 +672,6 @@ describe('getBlogPostAuthors', () => {
       {
         imageURL: '/img/ozaki.png',
         key: null,
-        name: 'ozaki',
         page: null,
       },
     ]);
@@ -651,7 +682,7 @@ describe('getBlogPostAuthors', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
-          authors: [{name: 'ozaki', imageURL: '/img/ozaki.png'}],
+          authors: [{imageURL: '/img/ozaki.png'}],
         },
         authorsMap: undefined,
         baseUrl: '/',
@@ -660,7 +691,6 @@ describe('getBlogPostAuthors', () => {
       {
         imageURL: '/img/ozaki.png',
         key: null,
-        name: 'ozaki',
         page: null,
       },
     ]);
@@ -671,7 +701,7 @@ describe('getBlogPostAuthors', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
-          authors: [{name: 'ozaki', imageURL: '/img/ozaki.png'}],
+          authors: [{imageURL: '/img/ozaki.png'}],
         },
         authorsMap: undefined,
         baseUrl: '/img/',
@@ -680,7 +710,6 @@ describe('getBlogPostAuthors', () => {
       {
         imageURL: '/img/img/ozaki.png',
         key: null,
-        name: 'ozaki',
         page: null,
       },
     ]);

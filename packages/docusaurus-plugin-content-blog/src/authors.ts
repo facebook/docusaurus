@@ -44,7 +44,8 @@ function normalizeAuthorUrl({
     if (
       author.imageURL &&
       !author.imageURL.match(/^https?:\/\//) &&
-      !author.imageURL.startsWith(baseUrl)
+      !author.imageURL.startsWith(baseUrl) &&
+      !author.imageURL.startsWith('./')
     ) {
       throw new Error(
         `Docusaurus bug: global authors image ${author.imageURL} should start with the expected baseUrl=${baseUrl}`,
