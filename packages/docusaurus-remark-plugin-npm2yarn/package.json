@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "mdast-util-mdx": "^3.0.0",
-    "npm-to-yarn": "^2.2.1",
+    "npm-to-yarn": "^3.0.0",
     "tslib": "^2.6.0",
     "unified": "^11.0.3",
     "unist-util-visit": "^5.0.0"
