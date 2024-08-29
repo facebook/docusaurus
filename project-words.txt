@@ -191,6 +191,7 @@ MDXAST
 MDXHAST
 mdxjs
 Mdxjs
+medata
 meilisearch
 Meilisearch
 merveilleuse
