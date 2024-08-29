@@ -602,7 +602,7 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/baseUrl/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus bug: global authors image /ozaki.png should start with the expected baseUrl=/baseUrl/"`,
+      `"Docusaurus internal bug: global authors image /ozaki.png should start with the expected baseUrl=/baseUrl/"`,
     );
   });
 

@@ -41,14 +41,13 @@ function normalizeAuthorUrl({
   baseUrl: string;
 }): string | undefined {
   if (author.key) {
+    // Ensures invariant: global authors should have already been normalized
     if (
-      author.imageURL &&
-      !author.imageURL.match(/^https?:\/\//) &&
-      !author.imageURL.startsWith(baseUrl) &&
-      !author.imageURL.startsWith('./')
+      author.imageURL?.startsWith('/') &&
+      !author.imageURL.startsWith(baseUrl)
     ) {
       throw new Error(
-        `Docusaurus bug: global authors image ${author.imageURL} should start with the expected baseUrl=${baseUrl}`,
+        `Docusaurus internal bug: global authors image ${author.imageURL} should start with the expected baseUrl=${baseUrl}`,
       );
     }
 
