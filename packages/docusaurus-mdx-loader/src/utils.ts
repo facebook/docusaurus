@@ -19,9 +19,9 @@ import type {Options} from './loader';
  * starting with _). That's why it's important to provide the `isMDXPartial`
  * function in config
  */
-export async function readMetadataPath(metadataPath: string): Promise<string> {
+export async function readMetadataPath(metadataPath: string): Promise<unknown> {
   try {
-    return await fs.readFile(metadataPath, 'utf8');
+    return await fs.readJSON(metadataPath, 'utf8');
   } catch (error) {
     throw new Error(
       logger.interpolate`MDX loader can't read MDX metadata file path=${metadataPath}. Maybe the isMDXPartial option function was not provided?`,

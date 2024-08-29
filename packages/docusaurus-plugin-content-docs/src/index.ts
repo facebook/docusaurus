@@ -19,7 +19,6 @@ import {
   createSlugger,
   resolveMarkdownLinkPathname,
   DEFAULT_PLUGIN_ID,
-  type SourceToPermalink,
   type TagsFile,
 } from '@docusaurus/utils';
 import {
@@ -54,6 +53,7 @@ import {
 import {createAllRoutes} from './routes';
 import {createSidebarsUtils} from './sidebars/utils';
 
+import {createContentHelpers} from './contentHelpers';
 import type {
   PluginOptions,
   DocMetadataBase,
@@ -65,29 +65,6 @@ import type {
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {DocFile, FullVersion} from './types';
 import type {RuleSetRule} from 'webpack';
-
-// TODO this is bad, we should have a better way to do this (new lifecycle?)
-//  The source to permalink is currently a mutable map passed to the mdx loader
-//  for link resolution
-//  see https://github.com/facebook/docusaurus/pull/10185
-function createSourceToPermalinkHelper() {
-  const sourceToPermalink: SourceToPermalink = new Map();
-
-  function computeSourceToPermalink(content: LoadedContent): SourceToPermalink {
-    const allDocs = content.loadedVersions.flatMap((v) => v.docs);
-    return new Map(allDocs.map(({source, permalink}) => [source, permalink]));
-  }
-
-  // Mutable map update :/
-  function update(content: LoadedContent): void {
-    sourceToPermalink.clear();
-    computeSourceToPermalink(content).forEach((value, key) => {
-      sourceToPermalink.set(key, value);
-    });
-  }
-
-  return {get: () => sourceToPermalink, update};
-}
 
 export default async function pluginContentDocs(
   context: LoadContext,
@@ -115,7 +92,7 @@ export default async function pluginContentDocs(
   // TODO env should be injected into all plugins
   const env = process.env.NODE_ENV as DocEnv;
 
-  const sourceToPermalinkHelper = createSourceToPermalinkHelper();
+  const contentHelpers = createContentHelpers();
 
   async function createDocsMDXLoaderRule(): Promise<RuleSetRule> {
     const {
@@ -146,7 +123,15 @@ export default async function pluginContentDocs(
         // Note that metadataPath must be the same/in-sync as
         // the path from createData for each MDX.
         const aliasedPath = aliasedSitePath(mdxPath, siteDir);
-        return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
+        const metadataPath = path.join(
+          dataDir,
+          `${docuHash(aliasedPath)}.json`,
+        );
+        const metadataContent = contentHelpers.sourceToDoc.get(aliasedPath);
+        return {
+          metadataPath,
+          metadataContent,
+        };
       },
       // Assets allow to convert some relative images paths to
       // require(...) calls
@@ -161,7 +146,7 @@ export default async function pluginContentDocs(
         );
         const permalink = resolveMarkdownLinkPathname(linkPathname, {
           sourceFilePath,
-          sourceToPermalink: sourceToPermalinkHelper.get(),
+          sourceToPermalink: contentHelpers.sourceToPermalink,
           siteDir,
           contentPaths: version,
         });
@@ -335,7 +320,7 @@ export default async function pluginContentDocs(
     },
 
     async contentLoaded({content, actions}) {
-      sourceToPermalinkHelper.update(content);
+      contentHelpers.updateContent(content);
 
       const versions: FullVersion[] = content.loadedVersions.map(toFullVersion);
 
