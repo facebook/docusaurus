@@ -47,8 +47,10 @@ const EXPECTED_CSS_MARKERS = [
   '.test-marker-site-index-page',
 
   // Lazy-loaded lib
-  '.DocSearch-Modal',
-  '.DocSearch-Hit-content-wrapper',
+  // Looks like order changed during Webpack 5: https://github.com/facebook/docusaurus/pull/10455
+  // Note a big deal though
+  // '.DocSearch-Modal',
+  // '.DocSearch-Hit-content-wrapper',
 ];
 
 const cssDirName = fileURLToPath(new URL('build/assets/css', import.meta.url));
