@@ -107,6 +107,7 @@ const getPlugin = async (
     url: 'https://docusaurus.io',
     markdown,
     future: {},
+    staticDirectories: ['static'],
   } as DocusaurusConfig;
   return pluginContentBlog(
     {

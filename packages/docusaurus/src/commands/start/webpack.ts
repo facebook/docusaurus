@@ -136,6 +136,7 @@ async function getStartClientConfig({
   let {clientConfig: config} = await createStartClientConfig({
     props,
     minify,
+    faster: props.siteConfig.future.experimental_faster,
     poll,
   });
   config = executePluginsConfigureWebpack({

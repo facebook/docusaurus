@@ -334,6 +334,7 @@ async function getBuildClientConfig({
   const result = await createBuildClientConfig({
     props,
     minify: cliOptions.minify ?? true,
+    faster: props.siteConfig.future.experimental_faster,
     bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;

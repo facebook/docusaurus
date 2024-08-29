@@ -67,6 +67,7 @@ async function testGenerateFeeds(
     contentPaths,
     authorsMapPath: options.authorsMapPath,
     authorsBaseRoutePath: '/authors',
+    baseUrl: '/',
   });
 
   const blogPosts = await generateBlogPosts(
