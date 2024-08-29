@@ -44,6 +44,8 @@ jobs:
         run: yarn workspace @docusaurus/theme-common removeThemeInternalReexport
       - name: Docusaurus Build
         run: yarn build:website:fast
+      - name: Docusaurus site CSS order
+        run: yarn workspace website test:css-order
 
       - name: TypeCheck website
         run: yarn workspace website typecheck
