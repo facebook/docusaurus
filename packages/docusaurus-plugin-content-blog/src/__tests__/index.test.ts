@@ -224,6 +224,7 @@ describe('blog plugin', () => {
           imageURL: undefined,
           key: null,
           page: null,
+          socials: {},
         },
         {
           email: 'lorber.sebastien@gmail.com',
@@ -231,6 +232,7 @@ describe('blog plugin', () => {
           name: 'Sébastien Lorber (translated)',
           title: 'Docusaurus maintainer (translated)',
           imageURL: undefined,
+          socials: undefined,
           page: {permalink: '/blog/authors/slorber-custom-permalink-localized'},
         },
       ],

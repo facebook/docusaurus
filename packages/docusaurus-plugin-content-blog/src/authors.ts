@@ -7,6 +7,7 @@
 
 import _ from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
+import {normalizeSocials} from './authorsSocials';
 import type {
   Author,
   AuthorsMap,
@@ -107,7 +108,10 @@ function getFrontMatterAuthors(params: AuthorsParam): Author[] {
         // becoming a name and may end up unnoticed
         return {key: authorInput};
       }
-      return authorInput;
+      return {
+        ...authorInput,
+        socials: normalizeSocials(authorInput.socials ?? {}),
+      };
     }
 
     return Array.isArray(frontMatter.authors)

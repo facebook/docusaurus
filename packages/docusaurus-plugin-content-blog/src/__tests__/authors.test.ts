@@ -7,7 +7,11 @@
 
 import {fromPartial, type PartialDeep} from '@total-typescript/shoehorn';
 import {getBlogPostAuthors, groupBlogPostsByAuthorKey} from '../authors';
-import type {AuthorsMap, BlogPost} from '@docusaurus/plugin-content-blog';
+import type {
+  AuthorAttributes,
+  AuthorsMap,
+  BlogPost,
+} from '@docusaurus/plugin-content-blog';
 
 function post(partial: PartialDeep<BlogPost>): BlogPost {
   return fromPartial(partial);
@@ -268,11 +272,90 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
-  it('can read authors Author', () => {
+  it('read different values from socials', () => {
+    function testSocials(socials: AuthorAttributes['socials'] | undefined) {
+      return getBlogPostAuthors({
+        frontMatter: {
+          authors: {
+            name: 'Sébastien Lorber',
+            title: 'maintainer',
+            socials,
+          },
+        },
+        authorsMap: undefined,
+        baseUrl: '/',
+      });
+    }
+
+    // @ts-expect-error test
+    expect(() => testSocials(null)).not.toThrow();
+    // @ts-expect-error test
+    expect(testSocials(null)).toEqual([
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        socials: {},
+        key: null,
+        page: null,
+      },
+    ]);
+    expect(() => () => testSocials(undefined)).not.toThrow();
+    // @ts-expect-error test
+    expect(() => testSocials({twitter: undefined}))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+      Social platform 'twitter' has illegal value 'undefined'"
+    `);
+    expect(
+      // @ts-expect-error test
+      () => testSocials({twitter: null}),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+      Social platform 'twitter' has illegal value 'null'"
+    `);
+  });
+
+  it('can read empty socials', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
-          authors: {name: 'Sébastien Lorber', title: 'maintainer'},
+          authors: {
+            name: 'Sébastien Lorber',
+            title: 'maintainer',
+            socials: {},
+          },
+        },
+        authorsMap: undefined,
+        baseUrl: '/',
+      }),
+    ).toEqual([
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        socials: {},
+        key: null,
+        page: null,
+      },
+    ]);
+  });
+
+  it('can normalize full socials from Author', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: {
+            name: 'Sébastien Lorber',
+            title: 'maintainer',
+            socials: {
+              github: 'https://github.com/slorber',
+              linkedin: 'https://www.linkedin.com/in/sebastienlorber/',
+              stackoverflow: 'https://stackoverflow.com/users/82609',
+              twitter: 'https://twitter.com/sebastienlorber',
+              x: 'https://x.com/sebastienlorber',
+            },
+          },
         },
         authorsMap: undefined,
         baseUrl: '/',
@@ -283,18 +366,81 @@ describe('getBlogPostAuthors', () => {
         title: 'maintainer',
         imageURL: undefined,
         key: null,
+        socials: {
+          github: 'https://github.com/slorber',
+          linkedin: 'https://www.linkedin.com/in/sebastienlorber/',
+          stackoverflow: 'https://stackoverflow.com/users/82609',
+          twitter: 'https://twitter.com/sebastienlorber',
+          x: 'https://x.com/sebastienlorber',
+        },
         page: null,
       },
     ]);
   });
 
-  it('can read authors Author[]', () => {
+  it('can normalize handle socials from Author', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: {
+            name: 'Sébastien Lorber',
+            title: 'maintainer',
+            socials: {
+              github: 'slorber',
+              x: 'sebastienlorber',
+              linkedin: 'sebastienlorber',
+              stackoverflow: '82609',
+              twitter: 'sebastienlorber',
+            },
+          },
+        },
+        authorsMap: undefined,
+        baseUrl: '/',
+      }),
+    ).toEqual([
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        key: null,
+        socials: {
+          github: 'https://github.com/slorber',
+          linkedin: 'https://www.linkedin.com/in/sebastienlorber/',
+          stackoverflow: 'https://stackoverflow.com/users/82609',
+          twitter: 'https://twitter.com/sebastienlorber',
+          x: 'https://x.com/sebastienlorber',
+        },
+        page: null,
+      },
+    ]);
+  });
+
+  it('can normalize socials from Author[]', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
           authors: [
-            {name: 'Sébastien Lorber', title: 'maintainer'},
-            {name: 'Yangshun Tay'},
+            {
+              name: 'Sébastien Lorber',
+              title: 'maintainer',
+              socials: {
+                github: 'slorber',
+                x: 'sebastienlorber',
+                linkedin: 'sebastienlorber',
+                stackoverflow: '82609',
+                twitter: 'sebastienlorber',
+              },
+            },
+            {
+              name: 'Seb',
+              socials: {
+                github: 'https://github.com/slorber',
+                linkedin: 'https://www.linkedin.com/in/sebastienlorber/',
+                stackoverflow: 'https://stackoverflow.com/users/82609',
+                twitter: 'https://twitter.com/sebastienlorber',
+                x: 'https://x.com/sebastienlorber',
+              },
+            },
           ],
         },
         authorsMap: undefined,
@@ -306,9 +452,64 @@ describe('getBlogPostAuthors', () => {
         title: 'maintainer',
         imageURL: undefined,
         key: null,
+        socials: {
+          github: 'https://github.com/slorber',
+          linkedin: 'https://www.linkedin.com/in/sebastienlorber/',
+          stackoverflow: 'https://stackoverflow.com/users/82609',
+          twitter: 'https://twitter.com/sebastienlorber',
+          x: 'https://x.com/sebastienlorber',
+        },
         page: null,
       },
-      {name: 'Yangshun Tay', imageURL: undefined, key: null, page: null},
+      {
+        name: 'Seb',
+        imageURL: undefined,
+        key: null,
+        socials: {
+          github: 'https://github.com/slorber',
+          linkedin: 'https://www.linkedin.com/in/sebastienlorber/',
+          stackoverflow: 'https://stackoverflow.com/users/82609',
+          twitter: 'https://twitter.com/sebastienlorber',
+          x: 'https://x.com/sebastienlorber',
+        },
+        page: null,
+      },
+    ]);
+  });
+
+  it('can read authors Author[]', () => {
+    expect(
+      getBlogPostAuthors({
+        frontMatter: {
+          authors: [
+            {
+              name: 'Sébastien Lorber',
+              title: 'maintainer',
+            },
+            {
+              name: 'Yangshun Tay',
+            },
+          ],
+        },
+        authorsMap: undefined,
+        baseUrl: '/',
+      }),
+    ).toEqual([
+      {
+        name: 'Sébastien Lorber',
+        title: 'maintainer',
+        imageURL: undefined,
+        key: null,
+        socials: {},
+        page: null,
+      },
+      {
+        name: 'Yangshun Tay',
+        imageURL: undefined,
+        socials: {},
+        key: null,
+        page: null,
+      },
     ]);
   });
 
@@ -323,7 +524,12 @@ describe('getBlogPostAuthors', () => {
               title: 'Yangshun title local override',
               extra: 42,
             },
-            {name: 'Alexey'},
+            {
+              name: 'Alexey',
+              socials: {
+                github: 'lex111',
+              },
+            },
           ],
         },
         authorsMap: {
@@ -355,10 +561,19 @@ describe('getBlogPostAuthors', () => {
         name: 'Yangshun Tay',
         title: 'Yangshun title local override',
         extra: 42,
+        socials: {},
         imageURL: undefined,
         page: null,
       },
-      {name: 'Alexey', imageURL: undefined, key: null, page: null},
+      {
+        name: 'Alexey',
+        imageURL: undefined,
+        key: null,
+        page: null,
+        socials: {
+          github: 'https://github.com/lex111',
+        },
+      },
     ]);
   });
 
@@ -627,6 +842,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: './ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
     expect(() => withoutBaseUrlTest).not.toThrow();
@@ -635,6 +851,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: './ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
   });
@@ -654,6 +871,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: '/ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
   });
@@ -673,6 +891,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: '/img/ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
   });
@@ -692,6 +911,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: '/img/ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
   });
@@ -711,6 +931,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: '/img/img/ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
   });
