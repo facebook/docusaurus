@@ -1,4 +1,3 @@
-
 JMarcey:
   name: Joel Marcey
   title: Technical Lead & Developer Advocate at Facebook
@@ -32,3 +31,13 @@ lex111:
   title: Open-source enthusiast
   url: https://github.com/lex111
   image_url: https://github.com/lex111.png
+
+ozaki:
+  name: ozaki
+  title: ozaki
+  image_url: /ozaki.png
+
+ozakione:
+  name: ozakione
+  title: ozakione
+  image_url: /img/ozaki.png

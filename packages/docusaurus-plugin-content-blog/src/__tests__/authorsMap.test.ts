@@ -80,6 +80,7 @@ describe('getAuthorsMap', () => {
         contentPaths,
         authorsMapPath: 'authors.yml',
         authorsBaseRoutePath: '/authors',
+        baseUrl: '/',
       }),
     ).resolves.toBeDefined();
   });
@@ -90,6 +91,7 @@ describe('getAuthorsMap', () => {
         contentPaths,
         authorsMapPath: 'authors.json',
         authorsBaseRoutePath: '/authors',
+        baseUrl: '/',
       }),
     ).resolves.toBeDefined();
   });
@@ -100,8 +102,59 @@ describe('getAuthorsMap', () => {
         contentPaths,
         authorsMapPath: 'authors_does_not_exist.yml',
         authorsBaseRoutePath: '/authors',
+        baseUrl: '/',
       }),
     ).resolves.toBeUndefined();
+  });
+
+  it('getAuthorsMap return imageURL with relative path', async () => {
+    const authorsMap = await getAuthorsMap({
+      contentPaths,
+      authorsMapPath: 'authors.yml',
+      authorsBaseRoutePath: '/authors',
+      baseUrl: '/',
+    });
+    expect(authorsMap?.ozaki?.imageURL).toBe('/ozaki.png');
+  });
+
+  it('getAuthorsMap normalize imageURL with baseUrl', async () => {
+    const authorsMap = await getAuthorsMap({
+      contentPaths,
+      authorsMapPath: 'authors.yml',
+      authorsBaseRoutePath: '/authors',
+      baseUrl: '/baseUrl/',
+    });
+    expect(authorsMap?.ozaki?.imageURL).toBe('/baseUrl/ozaki.png');
+  });
+
+  it('getAuthorsMap return imageURL with relative subdir path', async () => {
+    const authorsMap = await getAuthorsMap({
+      contentPaths,
+      authorsMapPath: 'authors.yml',
+      authorsBaseRoutePath: '/authors',
+      baseUrl: '/',
+    });
+    expect(authorsMap?.ozakione?.imageURL).toBe('/img/ozaki.png');
+  });
+
+  it('getAuthorsMap normalize imageURL with baseUrl and subdir same value', async () => {
+    const authorsMap = await getAuthorsMap({
+      contentPaths,
+      authorsMapPath: 'authors.yml',
+      authorsBaseRoutePath: '/authors',
+      baseUrl: '/img/',
+    });
+    expect(authorsMap?.ozakione?.imageURL).toBe('/img/img/ozaki.png');
+  });
+
+  it('getAuthorsMap normalize imageURL subdir with baseUrl', async () => {
+    const authorsMap = await getAuthorsMap({
+      contentPaths,
+      authorsMapPath: 'authors.yml',
+      authorsBaseRoutePath: '/authors',
+      baseUrl: '/blog/',
+    });
+    expect(authorsMap?.ozakione?.imageURL).toBe('/blog/img/ozaki.png');
   });
 });
 
