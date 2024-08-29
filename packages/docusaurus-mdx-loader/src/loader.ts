@@ -126,6 +126,12 @@ ${JSON.stringify(frontMatter, null, 2)}`;
             metadataContent: await readMetadataPath(metadata),
           };
         }
+        if (!metadata.metadataPath) {
+          throw new Error(`Metadata path missing for file ${filePath}`);
+        }
+        if (!metadata.metadataContent) {
+          throw new Error(`Metadata content missing for file ${filePath}`);
+        }
         return metadata;
       }
     }
