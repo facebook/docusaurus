@@ -842,6 +842,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: './ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
     expect(() => withoutBaseUrlTest).not.toThrow();
@@ -850,6 +851,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: './ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
   });
@@ -869,6 +871,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: '/ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
   });
@@ -888,6 +891,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: '/img/ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
   });
@@ -907,6 +911,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: '/img/ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
   });
@@ -926,6 +931,7 @@ describe('getBlogPostAuthors', () => {
         imageURL: '/img/img/ozaki.png',
         key: null,
         page: null,
+        socials: {},
       },
     ]);
   });
