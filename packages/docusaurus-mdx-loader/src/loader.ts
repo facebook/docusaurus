@@ -35,7 +35,7 @@ type Pluggable = any; // TODO fix this asap
 
 export type MDXPlugin = Pluggable;
 
-// This represents the path to the mdx medata + its content
+// This represents the path to the mdx metadata bundle path + its loaded content
 export type LoadedMetadata = {
   metadataPath: string;
   metadataContent: unknown;
