@@ -63,17 +63,19 @@ export default function CodeBlockString({
     showLineNumbersProp ?? containsLineNumbers(metastring);
 
   function ButtonGroup() {
-  return <div className={styles.buttonGroup}>
-      {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
-        <WordWrapButton
-          className={styles.codeButton}
-          onClick={() => wordWrap.toggle()}
-          isEnabled={wordWrap.isEnabled}
-        />
-      )}
-      <CopyButton className={styles.codeButton} code={code} />
-    </div>
-}
+    return (
+      <div className={styles.buttonGroup}>
+        {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
+          <WordWrapButton
+            className={styles.codeButton}
+            onClick={() => wordWrap.toggle()}
+            isEnabled={wordWrap.isEnabled}
+          />
+        )}
+        <CopyButton className={styles.codeButton} code={code} />
+      </div>
+    );
+  }
 
   return (
     <Container
