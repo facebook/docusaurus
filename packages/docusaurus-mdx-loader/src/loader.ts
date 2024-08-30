@@ -35,6 +35,12 @@ type Pluggable = any; // TODO fix this asap
 
 export type MDXPlugin = Pluggable;
 
+// This represents the path to the mdx metadata bundle path + its loaded content
+export type LoadedMetadata = {
+  metadataPath: string;
+  metadataContent: unknown;
+};
+
 export type Options = Partial<MDXOptions> & {
   markdownConfig: MarkdownConfig;
   staticDirs: string[];
@@ -42,10 +48,13 @@ export type Options = Partial<MDXOptions> & {
   isMDXPartial?: (filePath: string) => boolean;
   isMDXPartialFrontMatterWarningDisabled?: boolean;
   removeContentTitle?: boolean;
-  metadataPath?: string | ((filePath: string) => string);
+
+  // TODO Docusaurus v4: rename to just "metadata"?
+  //  We kept retro-compatibility in v3 in case plugins/sites use mdx loader
+  metadataPath?: string | ((filePath: string) => string | LoadedMetadata);
   createAssets?: (metadata: {
     frontMatter: {[key: string]: unknown};
-    metadata: {[key: string]: unknown};
+    metadata: unknown;
   }) => {[key: string]: unknown};
   resolveMarkdownLink?: ResolveMarkdownLink;
 
@@ -103,32 +112,40 @@ ${JSON.stringify(frontMatter, null, 2)}`;
     }
   }
 
-  function getMetadataPath(): string | undefined {
+  async function loadMetadata(): Promise<LoadedMetadata | undefined> {
     if (!isMDXPartial) {
       // Read metadata for this MDX and export it.
       if (options.metadataPath && typeof options.metadataPath === 'function') {
-        return options.metadataPath(filePath);
+        const metadata = options.metadataPath(filePath);
+        if (!metadata) {
+          return undefined;
+        }
+        if (typeof metadata === 'string') {
+          return {
+            metadataPath: metadata,
+            metadataContent: await readMetadataPath(metadata),
+          };
+        }
+        if (!metadata.metadataPath) {
+          throw new Error(`Metadata path missing for file ${filePath}`);
+        }
+        if (!metadata.metadataContent) {
+          throw new Error(`Metadata content missing for file ${filePath}`);
+        }
+        return metadata;
       }
     }
     return undefined;
   }
 
-  const metadataPath = getMetadataPath();
-  if (metadataPath) {
-    this.addDependency(metadataPath);
+  const metadata = await loadMetadata();
+  if (metadata) {
+    this.addDependency(metadata.metadataPath);
   }
-
-  const metadataJsonString = metadataPath
-    ? await readMetadataPath(metadataPath)
-    : undefined;
-
-  const metadata = metadataJsonString
-    ? (JSON.parse(metadataJsonString) as {[key: string]: unknown})
-    : undefined;
 
   const assets =
     options.createAssets && metadata
-      ? options.createAssets({frontMatter, metadata})
+      ? options.createAssets({frontMatter, metadata: metadata.metadataContent})
       : undefined;
 
   const fileLoaderUtils = getFileLoaderUtils(compilerName === 'server');
@@ -138,7 +155,11 @@ ${JSON.stringify(frontMatter, null, 2)}`;
   const exportsCode = `
 export const frontMatter = ${stringifyObject(frontMatter)};
 export const contentTitle = ${stringifyObject(contentTitle)};
-${metadataJsonString ? `export const metadata = ${metadataJsonString};` : ''}
+${
+  metadata
+    ? `export const metadata = ${JSON.stringify(metadata.metadataContent)};`
+    : ''
+}
 ${
   assets
     ? `export const assets = ${createAssetsExportCode({

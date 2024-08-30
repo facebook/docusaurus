@@ -19,7 +19,6 @@ import {
   getDataFilePath,
   DEFAULT_PLUGIN_ID,
   resolveMarkdownLinkPathname,
-  type SourceToPermalink,
 } from '@docusaurus/utils';
 import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {
@@ -40,6 +39,7 @@ import {createBlogFeedFiles, createFeedHtmlHeadTags} from './feed';
 
 import {createAllRoutes} from './routes';
 import {checkAuthorsMapPermalinkCollisions, getAuthorsMap} from './authorsMap';
+import {createContentHelpers} from './contentHelpers';
 import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
@@ -54,33 +54,6 @@ import type {
 import type {RuleSetRule, RuleSetUseItem} from 'webpack';
 
 const PluginName = 'docusaurus-plugin-content-blog';
-
-// TODO this is bad, we should have a better way to do this (new lifecycle?)
-//  The source to permalink is currently a mutable map passed to the mdx loader
-//  for link resolution
-//  see https://github.com/facebook/docusaurus/pull/10185
-function createSourceToPermalinkHelper() {
-  const sourceToPermalink: SourceToPermalink = new Map();
-
-  function computeSourceToPermalink(content: BlogContent): SourceToPermalink {
-    return new Map(
-      content.blogPosts.map(({metadata: {source, permalink}}) => [
-        source,
-        permalink,
-      ]),
-    );
-  }
-
-  // Mutable map update :/
-  function update(content: BlogContent): void {
-    sourceToPermalink.clear();
-    computeSourceToPermalink(content).forEach((value, key) => {
-      sourceToPermalink.set(key, value);
-    });
-  }
-
-  return {get: () => sourceToPermalink, update};
-}
 
 export default async function pluginContentBlog(
   context: LoadContext,
@@ -128,7 +101,7 @@ export default async function pluginContentBlog(
     contentPaths,
   });
 
-  const sourceToPermalinkHelper = createSourceToPermalinkHelper();
+  const contentHelpers = createContentHelpers();
 
   async function createBlogMDXLoaderRule(): Promise<RuleSetRule> {
     const {
@@ -162,7 +135,16 @@ export default async function pluginContentBlog(
         // Note that metadataPath must be the same/in-sync as
         // the path from createData for each MDX.
         const aliasedPath = aliasedSitePath(mdxPath, siteDir);
-        return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
+        const metadataPath = path.join(
+          dataDir,
+          `${docuHash(aliasedPath)}.json`,
+        );
+        const metadataContent =
+          contentHelpers.sourceToBlogPost.get(aliasedPath)!.metadata;
+        return {
+          metadataPath,
+          metadataContent,
+        };
       },
       // For blog posts a title in markdown is always removed
       // Blog posts title are rendered separately
@@ -184,7 +166,7 @@ export default async function pluginContentBlog(
       resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
         const permalink = resolveMarkdownLinkPathname(linkPathname, {
           sourceFilePath,
-          sourceToPermalink: sourceToPermalinkHelper.get(),
+          sourceToPermalink: contentHelpers.sourceToPermalink,
           siteDir,
           contentPaths,
         });
@@ -352,7 +334,7 @@ export default async function pluginContentBlog(
     },
 
     async contentLoaded({content, actions}) {
-      sourceToPermalinkHelper.update(content);
+      contentHelpers.updateContent(content);
 
       await createAllRoutes({
         baseUrl,

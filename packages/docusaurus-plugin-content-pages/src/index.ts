@@ -24,6 +24,7 @@ import {
   getContentPathList,
   loadPagesContent,
 } from './content';
+import {createContentHelpers} from './contentHelpers';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
   PluginOptions,
@@ -45,6 +46,8 @@ export default async function pluginContentPages(
     'docusaurus-plugin-content-pages',
   );
   const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
+
+  const contentHelpers = createContentHelpers();
 
   async function createPagesMDXLoaderRule(): Promise<RuleSetRule> {
     const {
@@ -73,7 +76,15 @@ export default async function pluginContentPages(
         // Note that metadataPath must be the same/in-sync as
         // the path from createData for each MDX.
         const aliasedSource = aliasedSitePath(mdxPath, siteDir);
-        return path.join(dataDir, `${docuHash(aliasedSource)}.json`);
+        const metadataPath = path.join(
+          dataDir,
+          `${docuHash(aliasedSource)}.json`,
+        );
+        const metadataContent = contentHelpers.sourceToPage.get(aliasedSource);
+        return {
+          metadataPath,
+          metadataContent,
+        };
       },
       // Assets allow to convert some relative images paths to
       // require(...) calls
@@ -114,6 +125,7 @@ export default async function pluginContentPages(
       if (!content) {
         return;
       }
+      contentHelpers.updateContent(content);
       await createAllRoutes({content, options, actions});
     },
 
