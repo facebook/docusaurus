@@ -62,6 +62,19 @@ export default function CodeBlockString({
   const showLineNumbers =
     showLineNumbersProp ?? containsLineNumbers(metastring);
 
+  function ButtonGroup() {
+  return <div className={styles.buttonGroup}>
+      {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
+        <WordWrapButton
+          className={styles.codeButton}
+          onClick={() => wordWrap.toggle()}
+          isEnabled={wordWrap.isEnabled}
+        />
+      )}
+      <CopyButton className={styles.codeButton} code={code} />
+    </div>
+}
+
   return (
     <Container
       as="div"
@@ -74,18 +87,7 @@ export default function CodeBlockString({
       {title && (
         <div className={styles.codeBlockTitle}>
           {title}
-          {title && (
-            <div className={styles.buttonGroup}>
-              {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
-                <WordWrapButton
-                  className={styles.codeButton}
-                  onClick={() => wordWrap.toggle()}
-                  isEnabled={wordWrap.isEnabled}
-                />
-              )}
-              <CopyButton className={styles.codeButton} code={code} />
-            </div>
-          )}
+          <ButtonGroup />
         </div>
       )}
       <div className={styles.codeBlockContent}>
@@ -119,18 +121,7 @@ export default function CodeBlockString({
             </pre>
           )}
         </Highlight>
-        {!title && (
-          <div className={styles.buttonGroup}>
-            {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
-              <WordWrapButton
-                className={styles.codeButton}
-                onClick={() => wordWrap.toggle()}
-                isEnabled={wordWrap.isEnabled}
-              />
-            )}
-            <CopyButton className={styles.codeButton} code={code} />
-          </div>
-        )}
+        {!title && <ButtonGroup />}
       </div>
     </Container>
   );
