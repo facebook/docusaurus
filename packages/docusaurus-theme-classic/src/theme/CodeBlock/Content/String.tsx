@@ -71,7 +71,23 @@ export default function CodeBlockString({
           !blockClassName.includes(`language-${language}`) &&
           `language-${language}`,
       )}>
-      {title && <div className={styles.codeBlockTitle}>{title}</div>}
+      {title && (
+        <div className={styles.codeBlockTitle}>
+          {title}
+          {title && (
+            <div className={styles.buttonGroup}>
+              {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
+                <WordWrapButton
+                  className={styles.codeButton}
+                  onClick={() => wordWrap.toggle()}
+                  isEnabled={wordWrap.isEnabled}
+                />
+              )}
+              <CopyButton className={styles.codeButton} code={code} />
+            </div>
+          )}
+        </div>
+      )}
       <div className={styles.codeBlockContent}>
         <Highlight
           theme={prismTheme}
@@ -103,16 +119,18 @@ export default function CodeBlockString({
             </pre>
           )}
         </Highlight>
-        <div className={styles.buttonGroup}>
-          {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
-            <WordWrapButton
-              className={styles.codeButton}
-              onClick={() => wordWrap.toggle()}
-              isEnabled={wordWrap.isEnabled}
-            />
-          )}
-          <CopyButton className={styles.codeButton} code={code} />
-        </div>
+        {!title && (
+          <div className={styles.buttonGroup}>
+            {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
+              <WordWrapButton
+                className={styles.codeButton}
+                onClick={() => wordWrap.toggle()}
+                isEnabled={wordWrap.isEnabled}
+              />
+            )}
+            <CopyButton className={styles.codeButton} code={code} />
+          </div>
+        )}
       </div>
     </Container>
   );
