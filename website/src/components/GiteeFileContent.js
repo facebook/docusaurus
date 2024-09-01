@@ -26,7 +26,7 @@ const GiteeFileContent = ({ owner, repo, filePath, branch = 'main' }) => {
   }, [owner, repo, filePath, branch]); // 监听这些参数的变化
 
   return (
-    <CodeBlock language="java" title={filePath}>
+    <CodeBlock language="java">
       {fileContent}
     </CodeBlock>
   );
