@@ -5,30 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {escapePath, type WebpackCompilerName} from '@docusaurus/utils';
 import {getProcessor, type SimpleProcessorResult} from './processor';
 import {validateMDXFrontMatter} from './frontMatter';
 import preprocessor from './preprocessor';
 import type {Options} from './loader';
-
-/**
- * When this throws, it generally means that there's no metadata file associated
- * with this MDX document. It can happen when using MDX partials (usually
- * starting with _). That's why it's important to provide the `isMDXPartial`
- * function in config
- */
-export async function readMetadataPath(metadataPath: string): Promise<unknown> {
-  try {
-    return await fs.readJSON(metadataPath, 'utf8');
-  } catch (error) {
-    throw new Error(
-      logger.interpolate`MDX loader can't read MDX metadata file path=${metadataPath}. Maybe the isMDXPartial option function was not provided?`,
-      {cause: error as Error},
-    );
-  }
-}
 
 /**
  * Converts assets an object with Webpack require calls code.

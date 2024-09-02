@@ -44,8 +44,6 @@ import type {BlogContentPaths, BlogMarkdownLoaderOptions} from './types';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
   PluginOptions,
-  BlogPostFrontMatter,
-  BlogPostMetadata,
   Assets,
   BlogTags,
   BlogContent,
@@ -135,33 +133,26 @@ export default async function pluginContentBlog(
         // Note that metadataPath must be the same/in-sync as
         // the path from createData for each MDX.
         const aliasedPath = aliasedSitePath(mdxPath, siteDir);
-        const metadataPath = path.join(
-          dataDir,
-          `${docuHash(aliasedPath)}.json`,
-        );
-        const metadataContent =
-          contentHelpers.sourceToBlogPost.get(aliasedPath)!.metadata;
-        return {
-          metadataPath,
-          metadataContent,
-        };
+        return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
       },
       // For blog posts a title in markdown is always removed
       // Blog posts title are rendered separately
       removeContentTitle: true,
-      // Assets allow to convert some relative images paths to
-      // require() calls
-      // @ts-expect-error: TODO fix typing issue
-      createAssets: ({
-        frontMatter,
-        metadata,
-      }: {
-        frontMatter: BlogPostFrontMatter;
-        metadata: BlogPostMetadata;
-      }): Assets => ({
-        image: frontMatter.image,
-        authorsImageUrls: metadata.authors.map((author) => author.imageURL),
-      }),
+      // createAssets converts relative paths to require() calls
+      createAssets: ({filePath}: {filePath: string}): Assets => {
+        const blogPost = contentHelpers.sourceToBlogPost.get(
+          aliasedSitePath(filePath, siteDir),
+        )!;
+        if (!blogPost) {
+          throw new Error(`Blog post not found for  filePath=${filePath}`);
+        }
+        return {
+          image: blogPost.metadata.frontMatter.image as string,
+          authorsImageUrls: blogPost.metadata.authors.map(
+            (author) => author.imageURL,
+          ),
+        };
+      },
       markdownConfig: siteConfig.markdown,
       resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
         const permalink = resolveMarkdownLinkPathname(linkPathname, {
