@@ -113,6 +113,9 @@ ${JSON.stringify(frontMatter, null, 2)}`;
     }
   }
 
+  // TODO we might not need to load metadata after this PR:
+  //  https://github.com/facebook/docusaurus/pull/10470
+  //  Note the metadata object is only used in options.createAssets({metadata})
   async function loadMetadata(): Promise<LoadedMetadata | undefined> {
     if (!isMDXPartial) {
       // Read metadata for this MDX and export it.
@@ -140,9 +143,6 @@ ${JSON.stringify(frontMatter, null, 2)}`;
   }
 
   const metadata = await loadMetadata();
-  if (metadata) {
-    this.addDependency(metadata.metadataPath);
-  }
 
   const assets =
     options.createAssets && metadata
