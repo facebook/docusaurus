@@ -7,6 +7,7 @@
 
 import logger from '@docusaurus/logger';
 import {
+  aliasedSitePath,
   DEFAULT_PARSE_FRONT_MATTER,
   getFileLoaderUtils,
   getWebpackLoaderCompilerName,
@@ -157,7 +158,10 @@ export const frontMatter = ${stringifyObject(frontMatter)};
 export const contentTitle = ${stringifyObject(contentTitle)};
 ${
   metadata
-    ? `export const metadata = ${JSON.stringify(metadata.metadataContent)};`
+    ? `export {default as metadata} from '${aliasedSitePath(
+        metadata.metadataPath,
+        options.siteDir,
+      )}'`
     : ''
 }
 ${
