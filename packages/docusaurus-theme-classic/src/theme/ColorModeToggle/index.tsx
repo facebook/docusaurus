@@ -48,7 +48,7 @@ function ColorModeToggle({
           }),
         system: () =>
           translate({
-            message: 'autsystemo mode',
+            message: 'system mode',
             id: 'theme.colorToggle.ariaLabel.mode.system',
             description: 'The name for the system color mode',
           }),
