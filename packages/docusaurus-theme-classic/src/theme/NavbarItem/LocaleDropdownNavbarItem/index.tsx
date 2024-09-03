@@ -6,13 +6,14 @@
  */
 
 import React from 'react';
-import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
-import IconLanguage from '@theme/IconLanguage';
-import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useAlternatePageUtils} from '@docusaurus/theme-common';
+import {useAlternatePageUtils} from '@docusaurus/theme-common/internal';
 import {translate} from '@docusaurus/Translate';
+import {useLocation} from '@docusaurus/router';
+import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
+import IconLanguage from '@theme/Icon/Language';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
+import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 
 import styles from './styles.module.css';
 
@@ -20,25 +21,38 @@ export default function LocaleDropdownNavbarItem({
   mobile,
   dropdownItemsBefore,
   dropdownItemsAfter,
+  queryString = '',
   ...props
 }: Props): JSX.Element {
   const {
     i18n: {currentLocale, locales, localeConfigs},
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
+  const {search, hash} = useLocation();
 
   const localeItems = locales.map((locale): LinkLikeNavbarItemProps => {
-    const to = `pathname://${alternatePageUtils.createUrl({
+    const baseTo = `pathname://${alternatePageUtils.createUrl({
       locale,
       fullyQualified: false,
     })}`;
+    // preserve ?search#hash suffix on locale switches
+    const to = `${baseTo}${search}${hash}${queryString}`;
     return {
-      isNavLink: true,
       label: localeConfigs[locale]!.label,
+      lang: localeConfigs[locale]!.htmlLang,
       to,
       target: '_self',
       autoAddBaseUrl: false,
-      className: locale === currentLocale ? 'dropdown__link--active' : '',
+      className:
+        // eslint-disable-next-line no-nested-ternary
+        locale === currentLocale
+          ? // Similar idea as DefaultNavbarItem: select the right Infima active
+            // class name. This cannot be substituted with isActive, because the
+            // target URLs contain `pathname://` and therefore are not NavLinks!
+            mobile
+            ? 'menu__link--active'
+            : 'dropdown__link--active'
+          : '',
     };
   });
 
@@ -58,10 +72,10 @@ export default function LocaleDropdownNavbarItem({
       {...props}
       mobile={mobile}
       label={
-        <span>
+        <>
           <IconLanguage className={styles.iconLanguage} />
-          <span>{dropdownLabel}</span>
-        </span>
+          {dropdownLabel}
+        </>
       }
       items={items}
     />

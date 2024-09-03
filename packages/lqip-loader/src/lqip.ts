@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
 import path from 'path';
+import logger from '@docusaurus/logger';
 import sharp from 'sharp';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const {version} = require('../package.json');
+// eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+const {version} = require('../package.json') as {version: string};
 
 const ERROR_EXT = `Error: Input file is missing or uses unsupported image format, lqip v${version}`;
 
@@ -21,8 +21,8 @@ const SUPPORTED_MIMES: {[ext: string]: string} = {
 };
 
 /**
- * it returns a Base64 image string with required formatting
- * to work on the web (<img src=".." /> or in CSS url('..'))
+ * It returns a Base64 image string with required formatting to work on the web
+ * (<img src=".." /> or in CSS url('..'))
  */
 const toBase64 = (extMimeType: string, data: Buffer): string =>
   `data:${extMimeType};base64,${data.toString('base64')}`;

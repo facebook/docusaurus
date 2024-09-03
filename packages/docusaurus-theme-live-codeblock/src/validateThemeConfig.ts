@@ -15,7 +15,7 @@ export const DEFAULT_CONFIG = {
   playgroundPosition: 'bottom',
 };
 
-export const Schema = Joi.object({
+export const Schema = Joi.object<ThemeConfig>({
   liveCodeBlock: Joi.object({
     playgroundPosition: Joi.string()
       .equal('top', 'bottom')

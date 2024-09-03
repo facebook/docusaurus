@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import Head from '../Head';
 import {type FilledContext, HelmetProvider} from 'react-helmet-async';
 import renderer from 'react-test-renderer';
+import Head from '../Head';
 
 describe('Head', () => {
   it('does exactly what Helmet does', () => {

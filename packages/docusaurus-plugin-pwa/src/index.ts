@@ -5,20 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
-import type {PluginOptions} from '@docusaurus/plugin-pwa';
-import {normalizeUrl} from '@docusaurus/utils';
-import {compile} from '@docusaurus/core/lib/webpack/utils';
-import LogPlugin from '@docusaurus/core/lib/webpack/plugins/LogPlugin';
-import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
-
 import path from 'path';
 import webpack, {type Configuration} from 'webpack';
+import WebpackBar from 'webpackbar';
 import Terser from 'terser-webpack-plugin';
-
 import {injectManifest} from 'workbox-build';
+import {normalizeUrl} from '@docusaurus/utils';
+import logger from '@docusaurus/logger';
+import {compile} from '@docusaurus/core/lib/webpack/utils';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
+import type {PluginOptions} from '@docusaurus/plugin-pwa';
 
-const isProd = process.env.NODE_ENV === 'production';
+const PluginName = 'docusaurus-plugin-pwa';
 
 function getSWBabelLoader() {
   return {
@@ -44,7 +43,17 @@ function getSWBabelLoader() {
 export default function pluginPWA(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<void> {
+): Plugin<void> | null {
+  if (process.env.NODE_ENV !== 'production') {
+    return null;
+  }
+  if (context.siteConfig.future.experimental_router === 'hash') {
+    logger.warn(
+      `${PluginName} does not support the Hash Router and will be disabled.`,
+    );
+    return null;
+  }
+
   const {
     outDir,
     baseUrl,
@@ -54,14 +63,13 @@ export default function pluginPWA(
     debug,
     offlineModeActivationStrategies,
     injectManifestConfig,
-    reloadPopup,
     pwaHead,
     swCustom,
     swRegister,
   } = options;
 
   return {
-    name: 'docusaurus-plugin-pwa',
+    name: PluginName,
 
     getThemePath() {
       return '../lib/theme';
@@ -71,7 +79,7 @@ export default function pluginPWA(
     },
 
     getClientModules() {
-      return isProd && swRegister ? [swRegister] : [];
+      return swRegister ? [swRegister] : [];
     },
 
     getDefaultCodeTranslationMessages() {
@@ -82,59 +90,53 @@ export default function pluginPWA(
     },
 
     configureWebpack(config) {
-      if (!isProd) {
-        return {};
-      }
-
       return {
         plugins: [
-          new webpack.EnvironmentPlugin({
-            PWA_DEBUG: debug,
-            PWA_SERVICE_WORKER_URL: path.posix.resolve(
-              `${config.output?.publicPath || '/'}`,
-              'sw.js',
-            ),
-            PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES:
-              offlineModeActivationStrategies,
-            PWA_RELOAD_POPUP: reloadPopup,
-          }),
+          new webpack.EnvironmentPlugin(
+            // See https://github.com/facebook/docusaurus/pull/10455#issuecomment-2317593528
+            // See https://github.com/webpack/webpack/commit/adf2a6b7c6077fd806ea0e378c1450cccecc9ed0#r145989788
+            // @ts-expect-error: bad Webpack type?
+            {
+              PWA_DEBUG: debug,
+              PWA_SERVICE_WORKER_URL: path.posix.resolve(
+                `${(config.output?.publicPath as string) || '/'}`,
+                'sw.js',
+              ),
+              PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES:
+                offlineModeActivationStrategies,
+            },
+          ),
         ],
       };
     },
 
     injectHtmlTags() {
       const headTags: HtmlTags = [];
-      if (isProd && pwaHead) {
-        pwaHead.forEach(({tagName, ...attributes}) => {
-          (['href', 'content'] as const).forEach((attribute) => {
-            const attributeValue = attributes[attribute];
+      pwaHead.forEach(({tagName, ...attributes}) => {
+        (['href', 'content'] as const).forEach((attribute) => {
+          const attributeValue = attributes[attribute];
 
-            if (!attributeValue) {
-              return;
-            }
+          if (!attributeValue) {
+            return;
+          }
 
-            const attributePath =
-              !!path.extname(attributeValue) && attributeValue;
+          const attributePath =
+            !!path.extname(attributeValue) && attributeValue;
 
-            if (attributePath && !attributePath.startsWith(baseUrl)) {
-              attributes[attribute] = normalizeUrl([baseUrl, attributeValue]);
-            }
-          });
-
-          return headTags.push({
-            tagName,
-            attributes,
-          });
+          if (attributePath && !attributePath.startsWith(baseUrl)) {
+            attributes[attribute] = normalizeUrl([baseUrl, attributeValue]);
+          }
         });
-      }
+
+        return headTags.push({
+          tagName,
+          attributes,
+        });
+      });
       return {headTags};
     },
 
     async postBuild(props) {
-      if (!isProd) {
-        return;
-      }
-
       const swSourceFileTest = /\.m?js$/;
 
       const swWebpackConfig: Configuration = {
@@ -150,7 +152,7 @@ export default function pluginPWA(
         optimization: {
           splitChunks: false,
           minimize: !debug,
-          // see https://developers.google.com/web/tools/workbox/guides/using-bundlers#webpack
+          // See https://developers.google.com/web/tools/workbox/guides/using-bundlers#webpack
           minimizer: debug
             ? []
             : [
@@ -161,9 +163,10 @@ export default function pluginPWA(
         },
         plugins: [
           new webpack.EnvironmentPlugin({
-            PWA_SW_CUSTOM: swCustom || '', // fallback value required with Webpack 5
+            // Fallback value required with Webpack 5
+            PWA_SW_CUSTOM: swCustom ?? '',
           }),
-          new LogPlugin({
+          new WebpackBar({
             name: 'Service Worker',
             color: 'red',
           }),
@@ -190,9 +193,9 @@ export default function pluginPWA(
           '**/*.{png,jpg,jpeg,gif,svg,ico}',
           '**/*.{woff,woff2,eot,ttf,otf}',
           // @ts-expect-error: internal API?
-          ...(injectManifest.globPatterns ?? []),
+          ...((injectManifest.globPatterns as string[] | undefined) ?? []),
         ],
-        // those attributes are not overrideable
+        // Those attributes are not overrideable
         swDest,
         swSrc: swDest,
         globDirectory: props.outDir,

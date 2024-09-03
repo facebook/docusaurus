@@ -6,11 +6,11 @@
  */
 
 import path from 'path';
-import {loadContext} from '@docusaurus/core/lib/server';
+import {loadContext} from '@docusaurus/core/src/server/site';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 import pluginContentPages from '../index';
 import {validateOptions} from '../options';
-import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 describe('docusaurus-plugin-content-pages', () => {
   it('loads simple pages', async () => {
@@ -32,19 +32,33 @@ describe('docusaurus-plugin-content-pages', () => {
 
   it('loads simple pages with french translations', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const context = await loadContext({siteDir});
+    const context = await loadContext({siteDir, locale: 'fr'});
     const plugin = await pluginContentPages(
-      {
-        ...context,
-        i18n: {
-          ...context.i18n,
-          currentLocale: 'fr',
-        },
-      },
+      context,
       validateOptions({
         validate: normalizePluginOptions,
         options: {
           path: 'src/pages',
+        },
+      }),
+    );
+    const pagesMetadata = await plugin.loadContent!();
+
+    expect(pagesMetadata).toMatchSnapshot();
+  });
+
+  it('loads simple pages with last update', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const context = await loadContext({siteDir});
+    const plugin = await pluginContentPages(
+      context,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'src/pages',
+          editUrl: () => 'url placeholder',
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
         },
       }),
     );

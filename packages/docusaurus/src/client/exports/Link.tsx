@@ -11,23 +11,14 @@ import React, {
   useRef,
   type ComponentType,
 } from 'react';
-
 import {NavLink, Link as RRLink} from 'react-router-dom';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
-import {useLinksCollector} from '../LinksCollector';
+import useBrokenLinks from './useBrokenLinks';
 import {useBaseUrlUtils} from './useBaseUrl';
-import {applyTrailingSlash} from '@docusaurus/utils-common';
-
 import type {Props} from '@docusaurus/Link';
-import type docusaurus from '../docusaurus';
-
-declare global {
-  interface Window {
-    docusaurus: typeof docusaurus;
-  }
-}
 
 // TODO all this wouldn't be necessary if we used ReactRouter basename feature
 // We don't automatically add base urls to all links,
@@ -49,17 +40,14 @@ function Link(
   }: Props,
   forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
 ): JSX.Element {
-  const {
-    siteConfig: {trailingSlash, baseUrl},
-  } = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
+  const {trailingSlash, baseUrl} = siteConfig;
+  const router = siteConfig.future.experimental_router;
   const {withBaseUrl} = useBaseUrlUtils();
-  const linksCollector = useLinksCollector();
+  const brokenLinks = useBrokenLinks();
   const innerRef = useRef<HTMLAnchorElement | null>(null);
 
-  useImperativeHandle(
-    forwardedRef,
-    () => innerRef.current as HTMLAnchorElement,
-  );
+  useImperativeHandle(forwardedRef, () => innerRef.current!);
 
   // IMPORTANT: using to or href should not change anything
   // For example, MDX links will ALWAYS give us the href props
@@ -92,6 +80,15 @@ function Link(
     typeof targetLinkWithoutPathnameProtocol !== 'undefined'
       ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
+
+  // TODO find a way to solve this problem properly
+  // Fix edge case when useBaseUrl is used on a link
+  // "./" is useful for images and other resources
+  // But we don't need it for <Link>
+  // unfortunately we can't really make the difference :/
+  if (router === 'hash' && targetLink?.startsWith('./')) {
+    targetLink = targetLink?.slice(1);
+  }
 
   if (targetLink && isInternal) {
     targetLink = applyTrailingSlash(targetLink, {trailingSlash, baseUrl});
@@ -129,7 +126,7 @@ function Link(
     }
   };
 
-  const onMouseEnter = () => {
+  const onInteractionEnter = () => {
     if (!preloaded.current && targetLink != null) {
       window.docusaurus.preload(targetLink);
       preloaded.current = true;
@@ -138,7 +135,7 @@ function Link(
 
   useEffect(() => {
     // If IO is not supported. We prefetch by default (only once).
-    if (!IOSupported && isInternal) {
+    if (!IOSupported && isInternal && ExecutionEnvironment.canUseDOM) {
       if (targetLink != null) {
         window.docusaurus.prefetch(targetLink);
       }
@@ -152,31 +149,59 @@ function Link(
     };
   }, [ioRef, targetLink, IOSupported, isInternal]);
 
+  // It is simple local anchor link targeting current page?
   const isAnchorLink = targetLink?.startsWith('#') ?? false;
-  const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
 
-  if (!isRegularHtmlLink && !noBrokenLinkCheck) {
-    linksCollector.collectLink(targetLink!);
+  // See also RR logic:
+  // https://github.com/remix-run/react-router/blob/v5/packages/react-router-dom/modules/Link.js#L47
+  const hasInternalTarget = !props.target || props.target === '_self';
+
+  // Should we use a regular <a> tag instead of React-Router Link component?
+  const isRegularHtmlLink =
+    !targetLink ||
+    !isInternal ||
+    !hasInternalTarget ||
+    // When using the hash router, we can't use the regular <a> link for anchors
+    // We need to use React Router to navigate to /#/pathname/#anchor
+    // And not /#anchor
+    // See also https://github.com/facebook/docusaurus/pull/10311
+    (isAnchorLink && router !== 'hash');
+
+  if (!noBrokenLinkCheck && (isAnchorLink || !isRegularHtmlLink)) {
+    brokenLinks.collectLink(targetLink!);
   }
 
+  if (props.id) {
+    brokenLinks.collectAnchor(props.id);
+  }
+
+  // These props are only added in unit tests to assert/capture the type of link
+  const testOnlyProps =
+    process.env.NODE_ENV === 'test'
+      ? {'data-test-link-type': isRegularHtmlLink ? 'regular' : 'react-router'}
+      : {};
+
   return isRegularHtmlLink ? (
-    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    // eslint-disable-next-line jsx-a11y/anchor-has-content, @docusaurus/no-html-links
     <a
       ref={innerRef}
       href={targetLink}
       {...(targetLinkUnprefixed &&
         !isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
       {...props}
+      {...testOnlyProps}
     />
   ) : (
     <LinkComponent
       {...props}
-      onMouseEnter={onMouseEnter}
+      onMouseEnter={onInteractionEnter}
+      onTouchStart={onInteractionEnter}
       innerRef={handleRef}
       to={targetLink}
-      // avoid "React does not recognize the `activeClassName` prop on a DOM
+      // Avoid "React does not recognize the `activeClassName` prop on a DOM
       // element"
       {...(isNavLink && {isActive, activeClassName})}
+      {...testOnlyProps}
     />
   );
 }

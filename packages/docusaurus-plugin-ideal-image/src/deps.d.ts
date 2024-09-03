@@ -12,7 +12,7 @@
  * Note: the original type definition is WRONG. getIcon & getMessage receive
  * full state object.
  */
-declare module '@endiliey/react-ideal-image' {
+declare module '@slorber/react-ideal-image' {
   import type {ComponentProps, ComponentType, CSSProperties} from 'react';
 
   export type LoadingState = 'initial' | 'loading' | 'loaded' | 'error';
@@ -42,7 +42,8 @@ declare module '@endiliey/react-ideal-image' {
 
   type ThemeKey = 'placeholder' | 'img' | 'icon' | 'noscript';
 
-  export interface ImageProps extends ComponentProps<'img'> {
+  export interface ImageProps
+    extends Omit<ComponentProps<'img'>, 'srcSet' | 'placeholder'> {
     /**
      * This function decides what icon to show based on the current state of the
      * component.

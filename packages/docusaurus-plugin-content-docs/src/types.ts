@@ -5,54 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/// <reference types="@docusaurus/module-type-aliases" />
-
-import type {Sidebars} from './sidebars/types';
-import type {BrokenMarkdownLink} from '@docusaurus/utils';
+import type {TagMetadata} from '@docusaurus/utils';
 import type {
-  VersionMetadata,
-  LastUpdateData,
-  DocMetadata,
+  LoadedVersion,
   CategoryGeneratedIndexMetadata,
 } from '@docusaurus/plugin-content-docs';
-import type {Tag} from '@docusaurus/types';
+import type {SidebarsUtils} from './sidebars/utils';
 
 export type DocFile = {
   contentPath: string; // /!\ may be localized
   filePath: string; // /!\ may be localized
   source: string;
   content: string;
-  lastUpdate: LastUpdateData;
 };
 
-export type SourceToPermalink = {
-  [source: string]: string;
-};
-
-export type VersionTag = Tag & {
-  /** all doc ids having this tag. */
+export type VersionTag = TagMetadata & {
+  /** All doc ids having this tag. */
   docIds: string[];
+  unlisted: boolean;
 };
 export type VersionTags = {
   [permalink: string]: VersionTag;
 };
 
-export type LoadedVersion = VersionMetadata & {
-  mainDocId: string;
-  docs: DocMetadata[];
-  sidebars: Sidebars;
+export type FullVersion = LoadedVersion & {
+  sidebarsUtils: SidebarsUtils;
   categoryGeneratedIndices: CategoryGeneratedIndexMetadata[];
-};
-
-export type LoadedContent = {
-  loadedVersions: LoadedVersion[];
-};
-
-export type DocBrokenMarkdownLink = BrokenMarkdownLink<VersionMetadata>;
-
-export type DocsMarkdownOption = {
-  versionsMetadata: VersionMetadata[];
-  siteDir: string;
-  sourceToPermalink: SourceToPermalink;
-  onBrokenMarkdownLink: (brokenMarkdownLink: DocBrokenMarkdownLink) => void;
 };

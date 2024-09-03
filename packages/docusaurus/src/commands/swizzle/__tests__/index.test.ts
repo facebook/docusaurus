@@ -8,10 +8,10 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
-import {ThemePath, createTempSiteDir, Components} from './testUtils';
 import tree from 'tree-node-cli';
-import {swizzle} from '../index';
 import {escapePath, Globby, posixPath} from '@docusaurus/utils';
+import {ThemePath, createTempSiteDir, Components} from './testUtils';
+import {swizzle} from '../index';
 
 const FixtureThemeName = 'fixture-theme-name';
 
@@ -28,7 +28,7 @@ async function createTestSiteConfig(siteDir: string) {
 module.exports = {
   title: 'My Site',
   tagline: 'Dinosaurs are cool',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://your-docusaurus-site.example.com',
   baseUrl: '/',
   themes: [
     function fixtureTheme() {
@@ -55,17 +55,17 @@ class MockExitError extends Error {
 }
 
 function createExitMock() {
-  let mock: jest.SpyInstance;
+  let mock: jest.SpyInstance<(code?: number) => never>;
 
   // eslint-disable-next-line jest/require-top-level-describe
   beforeEach(async () => {
     mock = jest.spyOn(process, 'exit').mockImplementation((code) => {
-      throw new MockExitError(code);
-    });
+      throw new MockExitError(code!);
+    }) as jest.SpyInstance<(code?: number) => never>;
   });
   // eslint-disable-next-line jest/require-top-level-describe
   afterEach(async () => {
-    mock?.mockRestore();
+    mock.mockRestore();
   });
 
   return {
@@ -111,10 +111,11 @@ async function createTestSite() {
     component: string;
     typescript?: boolean;
   }) {
-    return swizzleWithExit(siteDir, FixtureThemeName, component, {
+    return swizzleWithExit(FixtureThemeName, component, siteDir, {
       wrap: true,
       danger: true,
       typescript,
+      javascript: !typescript,
     });
   }
 
@@ -125,10 +126,11 @@ async function createTestSite() {
     component: string;
     typescript?: boolean;
   }) {
-    return swizzleWithExit(siteDir, FixtureThemeName, component, {
+    return swizzleWithExit(FixtureThemeName, component, siteDir, {
       eject: true,
       danger: true,
       typescript,
+      javascript: !typescript,
     });
   }
 

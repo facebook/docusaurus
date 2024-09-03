@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// Should we translate theme-fallback?
+/* eslint-disable @docusaurus/no-untranslated-text */
+
 import React from 'react';
 import type {LoadingComponentProps} from 'react-loadable';
 
@@ -34,7 +37,7 @@ export default function Loading({
           maxWidth: '50%',
           width: '100%',
         }}>
-        <p>{error.message}</p>
+        <p>{String(error)}</p>
         <div>
           <button type="button" onClick={retry}>
             Retry

@@ -6,14 +6,17 @@
  */
 
 import {createRequire} from 'module';
-import importFresh from 'import-fresh';
+import {loadFreshModule} from '@docusaurus/utils';
+import {resolveModuleName} from './moduleShorthand';
 import type {
   LoadContext,
-  PluginConfig,
-  ImportedPresetModule,
+  PresetConfigDefined,
+  PresetModule,
+  Preset,
   DocusaurusConfig,
 } from '@docusaurus/types';
-import {resolveModuleName} from './moduleShorthand';
+
+type ImportedPresetModule = PresetModule & {default?: PresetModule};
 
 /**
  * Calls preset functions, aggregates each of their return values, and returns
@@ -26,16 +29,13 @@ export async function loadPresets(
   // we are using `require.resolve` on those module names.
   const presetRequire = createRequire(context.siteConfigPath);
 
-  const {presets} = context.siteConfig;
-  const plugins: PluginConfig[] = [];
-  const themes: PluginConfig[] = [];
+  const presets = context.siteConfig.presets.filter(
+    (p): p is PresetConfigDefined => !!p,
+  );
 
-  presets.forEach((presetItem) => {
+  async function loadPreset(presetItem: PresetConfigDefined): Promise<Preset> {
     let presetModuleImport: string;
     let presetOptions = {};
-    if (!presetItem) {
-      return;
-    }
     if (typeof presetItem === 'string') {
       presetModuleImport = presetItem;
     } else {
@@ -47,21 +47,20 @@ export async function loadPresets(
       'preset',
     );
 
-    const presetModule = importFresh<ImportedPresetModule>(
-      presetRequire.resolve(presetName),
-    );
-    const preset = (presetModule.default ?? presetModule)(
-      context,
-      presetOptions,
-    );
+    const presetPath = presetRequire.resolve(presetName);
+    const presetModule = (await loadFreshModule(
+      presetPath,
+    )) as ImportedPresetModule;
 
-    if (preset.plugins) {
-      plugins.push(...preset.plugins);
-    }
-    if (preset.themes) {
-      themes.push(...preset.themes);
-    }
-  });
+    const presetFunction = presetModule.default ?? presetModule;
+
+    return presetFunction(context, presetOptions);
+  }
+
+  const loadedPresets = await Promise.all(presets.map(loadPreset));
+
+  const plugins = loadedPresets.flatMap((preset) => preset.plugins ?? []);
+  const themes = loadedPresets.flatMap((preset) => preset.themes ?? []);
 
   return {plugins, themes};
 }

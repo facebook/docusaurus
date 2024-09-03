@@ -7,11 +7,11 @@
 
 // @ts-check
 
-import logger from '@docusaurus/logger';
 import path from 'path';
 import {fileURLToPath} from 'url';
 import fs from 'fs-extra';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {getThemes, extractThemeCodeMessages} from './lib/utils.js';
 
 const LocalesDirPath = fileURLToPath(new URL('locales', import.meta.url));
@@ -55,7 +55,7 @@ async function readMessagesFile(filePath) {
     logger.info`File path=${filePath} not found. Creating new translation base file.`;
     await fs.outputFile(filePath, '{}\n');
   }
-  return JSON.parse((await fs.readFile(filePath)).toString());
+  return fs.readJSON(filePath);
 }
 
 /**

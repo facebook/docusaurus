@@ -12,15 +12,25 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export default function SiteMetadataDefaults(): JSX.Element {
   const {
-    siteConfig: {favicon, tagline, title},
+    siteConfig: {favicon, title, noIndex},
     i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
   const faviconUrl = useBaseUrl(favicon);
   const {htmlLang, direction: htmlDir} = localeConfigs[currentLocale]!;
 
   return (
-    <Head defaultTitle={`${title}${tagline ? ` · ${tagline}` : ''}`}>
+    <Head>
+      {/*
+        charSet + generator are handled in the html templates
+        See https://github.com/facebook/docusaurus/pull/7952
+        <meta charSet="UTF-8" />
+        <meta name="generator" content={`Docusaurus v${docusaurusVersion}`} />
+      */}
       <html lang={htmlLang} dir={htmlDir} />
+      <title>{title}</title>
+      <meta property="og:title" content={title} />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      {noIndex && <meta name="robots" content="noindex, nofollow" />}
       {favicon && <link rel="icon" href={faviconUrl} />}
     </Head>
   );

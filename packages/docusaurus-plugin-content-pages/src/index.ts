@@ -8,64 +8,89 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {
-  encodePath,
-  fileToPath,
   aliasedSitePath,
   docuHash,
-  getPluginI18nPath,
-  getFolderContainingFile,
   addTrailingPathSeparator,
-  Globby,
   createAbsoluteFilePathMatcher,
-  normalizeUrl,
   DEFAULT_PLUGIN_ID,
-  parseMarkdownString,
 } from '@docusaurus/utils';
+import {
+  createMDXLoaderRule,
+  type Options as MDXLoaderOptions,
+} from '@docusaurus/mdx-loader';
+import {createAllRoutes} from './routes';
+import {
+  createPagesContentPaths,
+  getContentPathList,
+  loadPagesContent,
+} from './content';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import admonitions from 'remark-admonitions';
-import {validatePageFrontMatter} from './frontMatter';
-
-import type {LoadedContent, PagesContentPaths} from './types';
-import type {PluginOptions, Metadata} from '@docusaurus/plugin-content-pages';
-
-export function getContentPathList(contentPaths: PagesContentPaths): string[] {
-  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
-}
-
-const isMarkdownSource = (source: string) =>
-  source.endsWith('.md') || source.endsWith('.mdx');
+import type {
+  PluginOptions,
+  LoadedContent,
+  PageFrontMatter,
+} from '@docusaurus/plugin-content-pages';
+import type {RuleSetRule} from 'webpack';
 
 export default async function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
 ): Promise<Plugin<LoadedContent | null>> {
-  if (options.admonitions) {
-    options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, options.admonitions],
-    ]);
-  }
-  const {
-    siteConfig,
-    siteDir,
-    generatedFilesDir,
-    i18n: {currentLocale},
-  } = context;
+  const {siteConfig, siteDir, generatedFilesDir} = context;
 
-  const contentPaths: PagesContentPaths = {
-    contentPath: path.resolve(siteDir, options.path),
-    contentPathLocalized: getPluginI18nPath({
-      siteDir,
-      locale: currentLocale,
-      pluginName: 'docusaurus-plugin-content-pages',
-      pluginId: options.id,
-    }),
-  };
+  const contentPaths = createPagesContentPaths({context, options});
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-pages',
   );
   const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
+
+  async function createPagesMDXLoaderRule(): Promise<RuleSetRule> {
+    const {
+      admonitions,
+      rehypePlugins,
+      remarkPlugins,
+      recmaPlugins,
+      beforeDefaultRehypePlugins,
+      beforeDefaultRemarkPlugins,
+    } = options;
+    const contentDirs = getContentPathList(contentPaths);
+
+    const loaderOptions: MDXLoaderOptions = {
+      admonitions,
+      remarkPlugins,
+      rehypePlugins,
+      recmaPlugins,
+      beforeDefaultRehypePlugins,
+      beforeDefaultRemarkPlugins,
+      staticDirs: siteConfig.staticDirectories.map((dir) =>
+        path.resolve(siteDir, dir),
+      ),
+      siteDir,
+      isMDXPartial: createAbsoluteFilePathMatcher(options.exclude, contentDirs),
+      metadataPath: (mdxPath: string) => {
+        // Note that metadataPath must be the same/in-sync as
+        // the path from createData for each MDX.
+        const aliasedSource = aliasedSitePath(mdxPath, siteDir);
+        return path.join(dataDir, `${docuHash(aliasedSource)}.json`);
+      },
+      // createAssets converts relative paths to require() calls
+      createAssets: ({frontMatter}: {frontMatter: PageFrontMatter}) => ({
+        image: frontMatter.image,
+      }),
+      markdownConfig: siteConfig.markdown,
+    };
+
+    return createMDXLoaderRule({
+      include: contentDirs
+        // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
+        .map(addTrailingPathSeparator),
+      options: loaderOptions,
+    });
+  }
+
+  const pagesMDXLoaderRule = await createPagesMDXLoaderRule();
 
   return {
     name: 'docusaurus-plugin-content-pages',
@@ -78,157 +103,23 @@ export default async function pluginContentPages(
     },
 
     async loadContent() {
-      const {include} = options;
-
       if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
       }
-
-      const {baseUrl} = siteConfig;
-      const pagesFiles = await Globby(include, {
-        cwd: contentPaths.contentPath,
-        ignore: options.exclude,
-      });
-
-      async function toMetadata(relativeSource: string): Promise<Metadata> {
-        // Lookup in localized folder in priority
-        const contentPath = await getFolderContainingFile(
-          getContentPathList(contentPaths),
-          relativeSource,
-        );
-
-        const source = path.join(contentPath, relativeSource);
-        const aliasedSourcePath = aliasedSitePath(source, siteDir);
-        const permalink = normalizeUrl([
-          baseUrl,
-          options.routeBasePath,
-          encodePath(fileToPath(relativeSource)),
-        ]);
-        if (!isMarkdownSource(relativeSource)) {
-          return {
-            type: 'jsx',
-            permalink,
-            source: aliasedSourcePath,
-          };
-        }
-        const content = await fs.readFile(source, 'utf-8');
-        const {
-          frontMatter: unsafeFrontMatter,
-          contentTitle,
-          excerpt,
-        } = parseMarkdownString(content);
-        const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
-        return {
-          type: 'mdx',
-          permalink,
-          source: aliasedSourcePath,
-          title: frontMatter.title ?? contentTitle,
-          description: frontMatter.description ?? excerpt,
-          frontMatter,
-        };
-      }
-
-      return Promise.all(pagesFiles.map(toMetadata));
+      return loadPagesContent({context, options, contentPaths});
     },
 
     async contentLoaded({content, actions}) {
       if (!content) {
         return;
       }
-
-      const {addRoute, createData} = actions;
-
-      await Promise.all(
-        content.map(async (metadata) => {
-          const {permalink, source} = metadata;
-          if (metadata.type === 'mdx') {
-            await createData(
-              // Note that this created data path must be in sync with
-              // metadataPath provided to mdx-loader.
-              `${docuHash(metadata.source)}.json`,
-              JSON.stringify(metadata, null, 2),
-            );
-            addRoute({
-              path: permalink,
-              component: options.mdxPageComponent,
-              exact: true,
-              modules: {
-                content: source,
-              },
-            });
-          } else {
-            addRoute({
-              path: permalink,
-              component: source,
-              exact: true,
-              modules: {
-                config: `@generated/docusaurus.config`,
-              },
-            });
-          }
-        }),
-      );
+      await createAllRoutes({content, options, actions});
     },
 
-    configureWebpack(config, isServer, {getJSLoader}) {
-      const {
-        rehypePlugins,
-        remarkPlugins,
-        beforeDefaultRehypePlugins,
-        beforeDefaultRemarkPlugins,
-      } = options;
-      const contentDirs = getContentPathList(contentPaths);
+    configureWebpack() {
       return {
-        resolve: {
-          alias: {
-            '~pages': pluginDataDirRoot,
-          },
-        },
         module: {
-          rules: [
-            {
-              test: /\.mdx?$/i,
-              include: contentDirs
-                // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
-                .map(addTrailingPathSeparator),
-              use: [
-                getJSLoader({isServer}),
-                {
-                  loader: require.resolve('@docusaurus/mdx-loader'),
-                  options: {
-                    remarkPlugins,
-                    rehypePlugins,
-                    beforeDefaultRehypePlugins,
-                    beforeDefaultRemarkPlugins,
-                    staticDirs: siteConfig.staticDirectories.map((dir) =>
-                      path.resolve(siteDir, dir),
-                    ),
-                    siteDir,
-                    isMDXPartial: createAbsoluteFilePathMatcher(
-                      options.exclude,
-                      contentDirs,
-                    ),
-                    metadataPath: (mdxPath: string) => {
-                      // Note that metadataPath must be the same/in-sync as
-                      // the path from createData for each MDX.
-                      const aliasedSource = aliasedSitePath(mdxPath, siteDir);
-                      return path.join(
-                        dataDir,
-                        `${docuHash(aliasedSource)}.json`,
-                      );
-                    },
-                  },
-                },
-                {
-                  loader: path.resolve(__dirname, './markdownLoader.js'),
-                  options: {
-                    // siteDir,
-                    // contentPath,
-                  },
-                },
-              ].filter(Boolean),
-            },
-          ],
+          rules: [pagesMDXLoaderRule],
         },
       };
     },

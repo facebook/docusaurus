@@ -8,13 +8,13 @@
 // Forked from https://github.com/tribou/jest-serializer-path/blob/master/lib/index.js
 // Added some project-specific handlers
 
-import _ from 'lodash';
-import {escapePath} from '@docusaurus/utils';
-import stripAnsi from 'strip-ansi';
-import {version} from '@docusaurus/core/package.json';
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
+import _ from 'lodash';
+import {escapePath} from '@docusaurus/utils';
+import {version} from '@docusaurus/core/package.json';
+import stripAnsi from 'strip-ansi';
 
 export function print(
   val: unknown,
@@ -90,7 +90,7 @@ function normalizePaths<T>(value: T): T {
     (val) => val.split(homeDirReal).join('<HOME_DIR>'),
     (val) => val.split(homeDir).join('<HOME_DIR>'),
 
-    // handle HOME_DIR nested inside TEMP_DIR
+    // Handle HOME_DIR nested inside TEMP_DIR
     (val) =>
       val
         .split(`<TEMP_DIR>${path.sep + homeRelativeToTemp}`)
@@ -98,7 +98,7 @@ function normalizePaths<T>(value: T): T {
     (val) =>
       val
         .split(`<TEMP_DIR>${path.sep + homeRelativeToTempReal}`)
-        .join('<HOME_DIR>'), // untested
+        .join('<HOME_DIR>'),
     (val) =>
       val
         .split(`<TEMP_DIR>${path.sep + homeRealRelativeToTempReal}`)
@@ -106,7 +106,7 @@ function normalizePaths<T>(value: T): T {
     (val) =>
       val
         .split(`<TEMP_DIR>${path.sep + homeRealRelativeToTemp}`)
-        .join('<HOME_DIR>'), // untested
+        .join('<HOME_DIR>'),
 
     // Replace the Docusaurus version with a stub
     (val) => val.split(version).join('<CURRENT_VERSION>'),
@@ -134,7 +134,6 @@ function normalizePaths<T>(value: T): T {
 }
 
 function shouldUpdate(value: unknown) {
-  // return true if value is different from normalized value
   return typeof value === 'string' && normalizePaths(value) !== value;
 }
 
@@ -143,7 +142,7 @@ function getRealPath(pathname: string) {
     // eslint-disable-next-line no-restricted-properties
     const realPath = fs.realpathSync(pathname);
     return realPath;
-  } catch (error) {
+  } catch (err) {
     return pathname;
   }
 }

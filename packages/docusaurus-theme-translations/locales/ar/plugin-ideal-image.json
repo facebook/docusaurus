@@ -1,7 +1,7 @@
 {
-  "theme.IdealImageMessage.404error": "404. Image not found",
-  "theme.IdealImageMessage.error": "Error. Click to reload",
-  "theme.IdealImageMessage.load": "Click to load{sizeMessage}",
-  "theme.IdealImageMessage.loading": "Loading...",
-  "theme.IdealImageMessage.offline": "Your browser is offline. Image not loaded"
+  "theme.IdealImageMessage.404error": "404. لم يتم العثور على الصورة",
+  "theme.IdealImageMessage.error": "خطا. قم بالضغط لاعادة التحميل",
+  "theme.IdealImageMessage.load": "قم بالضغط للتحميل{sizeMessage}",
+  "theme.IdealImageMessage.loading": "جاري التحميل...",
+  "theme.IdealImageMessage.offline": "متصفحك غير متصل, لم يتم تحميل الصورة"
 }

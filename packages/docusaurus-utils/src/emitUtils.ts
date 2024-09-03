@@ -12,6 +12,10 @@ import {findAsyncSequential} from './jsUtils';
 
 const fileHash = new Map<string, string>();
 
+const hashContent = (content: string): string => {
+  return createHash('md5').update(content).digest('hex');
+};
+
 /**
  * Outputs a file to the generated files directory. Only writes files if content
  * differs from cache (for hot reload performance).
@@ -38,7 +42,7 @@ export async function generate(
     // first "A" remains in cache. But if the file never existed in cache, no
     // need to register it.
     if (fileHash.get(filepath)) {
-      fileHash.set(filepath, createHash('md5').update(content).digest('hex'));
+      fileHash.set(filepath, hashContent(content));
     }
     return;
   }
@@ -50,11 +54,11 @@ export async function generate(
   // overwriting and we can reuse old file.
   if (!lastHash && (await fs.pathExists(filepath))) {
     const lastContent = await fs.readFile(filepath, 'utf8');
-    lastHash = createHash('md5').update(lastContent).digest('hex');
+    lastHash = hashContent(lastContent);
     fileHash.set(filepath, lastHash);
   }
 
-  const currentHash = createHash('md5').update(content).digest('hex');
+  const currentHash = hashContent(content);
 
   if (lastHash !== currentHash) {
     await fs.outputFile(filepath, content);
@@ -79,20 +83,22 @@ export async function readOutputHTMLFile(
   trailingSlash: boolean | undefined,
 ): Promise<Buffer> {
   const withTrailingSlashPath = path.join(outDir, permalink, 'index.html');
-  const withoutTrailingSlashPath = path.join(
-    outDir,
-    `${permalink.replace(/\/$/, '')}.html`,
-  );
-  const HTMLPath = await findAsyncSequential(
-    [
-      trailingSlash !== false && withTrailingSlashPath,
-      trailingSlash !== true && withoutTrailingSlashPath,
-    ].filter((p): p is string => Boolean(p)),
-    fs.pathExists,
-  );
+  const withoutTrailingSlashPath = (() => {
+    const basePath = path.join(outDir, permalink.replace(/\/$/, ''));
+    const htmlSuffix = /\.html?$/i.test(basePath) ? '' : '.html';
+    return `${basePath}${htmlSuffix}`;
+  })();
+
+  const possibleHtmlPaths = [
+    trailingSlash !== false && withTrailingSlashPath,
+    trailingSlash !== true && withoutTrailingSlashPath,
+  ].filter((p): p is string => Boolean(p));
+
+  const HTMLPath = await findAsyncSequential(possibleHtmlPaths, fs.pathExists);
+
   if (!HTMLPath) {
     throw new Error(
-      `Expected output HTML file to be found at ${withTrailingSlashPath}.`,
+      `Expected output HTML file to be found at ${withTrailingSlashPath} for permalink ${permalink}.`,
     );
   }
   return fs.readFile(HTMLPath);

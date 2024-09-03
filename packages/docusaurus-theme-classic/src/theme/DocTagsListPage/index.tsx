@@ -6,8 +6,7 @@
  */
 
 import React from 'react';
-
-import Layout from '@theme/Layout';
+import clsx from 'clsx';
 import {
   PageMetadata,
   HtmlClassNameProvider,
@@ -15,30 +14,46 @@ import {
   translateTagsPageTitle,
 } from '@docusaurus/theme-common';
 import TagsListByLetter from '@theme/TagsListByLetter';
-import type {Props} from '@theme/DocTagsListPage';
 import SearchMetadata from '@theme/SearchMetadata';
-import clsx from 'clsx';
+import type {Props} from '@theme/DocTagsListPage';
+import Heading from '@theme/Heading';
 
-export default function DocTagsListPage({tags}: Props): JSX.Element {
-  const title = translateTagsPageTitle();
+function DocTagsListPageMetadata({
+  title,
+}: Props & {title: string}): JSX.Element {
   return (
-    <HtmlClassNameProvider
-      className={clsx(
-        ThemeClassNames.wrapper.docsPages,
-        ThemeClassNames.page.docsTagsListPage,
-      )}>
+    <>
       <PageMetadata title={title} />
       <SearchMetadata tag="doc_tags_list" />
-      <Layout>
-        <div className="container margin-vert--lg">
-          <div className="row">
-            <main className="col col--8 col--offset-2">
-              <h1>{title}</h1>
-              <TagsListByLetter tags={tags} />
-            </main>
-          </div>
+    </>
+  );
+}
+
+function DocTagsListPageContent({
+  tags,
+  title,
+}: Props & {title: string}): JSX.Element {
+  return (
+    <HtmlClassNameProvider
+      className={clsx(ThemeClassNames.page.docsTagsListPage)}>
+      <div className="container margin-vert--lg">
+        <div className="row">
+          <main className="col col--8 col--offset-2">
+            <Heading as="h1">{title}</Heading>
+            <TagsListByLetter tags={tags} />
+          </main>
         </div>
-      </Layout>
+      </div>
     </HtmlClassNameProvider>
+  );
+}
+
+export default function DocTagsListPage(props: Props): JSX.Element {
+  const title = translateTagsPageTitle();
+  return (
+    <>
+      <DocTagsListPageMetadata {...props} title={title} />
+      <DocTagsListPageContent {...props} title={title} />
+    </>
   );
 }

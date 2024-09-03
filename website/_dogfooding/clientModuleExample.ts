@@ -5,13 +5,54 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import siteConfig from '@generated/docusaurus.config';
+import type {Location} from 'history';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function onRouteUpdate({location}: {location: Location}): void {
-  // console.log('onRouteUpdate', {location});
+function logPage(
+  event: string,
+  location: Location,
+  previousLocation: Location | null,
+): void {
+  console.log(event, location.pathname, {
+    location,
+    prevLocation: previousLocation,
+    heading: document.getElementsByTagName('h1')[0]?.innerText,
+    title: document.title,
+    description: document.querySelector<HTMLMetaElement>(
+      'meta[name="description"]',
+    )?.content,
+    htmlClassName: document.getElementsByTagName('html')[0]?.className,
+  });
 }
 
-if (ExecutionEnvironment.canUseDOM) {
-  // console.log('client module example log');
+export function onRouteUpdate({
+  location,
+  previousLocation,
+}: {
+  location: Location;
+  previousLocation: Location | null;
+}): (() => void) | void {
+  if (
+    process.env.NODE_ENV === 'development' ||
+    siteConfig.customFields!.isDeployPreview
+  ) {
+    logPage('onRouteUpdate', location, previousLocation);
+    return () => logPage('onRouteUpdate cleanup', location, previousLocation);
+  }
+  return undefined;
+}
+
+export function onRouteDidUpdate({
+  location,
+  previousLocation,
+}: {
+  location: Location;
+  previousLocation: Location | null;
+}): void {
+  if (
+    process.env.NODE_ENV === 'development' ||
+    siteConfig.customFields!.isDeployPreview
+  ) {
+    logPage('onRouteDidUpdate', location, previousLocation);
+  }
 }

@@ -9,22 +9,24 @@ import {jest} from '@jest/globals';
 import webpack from 'webpack';
 
 import createServerConfig from '../server';
-import loadSetup from '../../server/__tests__/testUtils';
+import {loadSetup} from '../../server/__tests__/testUtils';
 
 describe('webpack production config', () => {
   it('simple', async () => {
     jest.spyOn(console, 'log').mockImplementation(() => {});
-    const props = await loadSetup('simple');
-    const config = await createServerConfig({props});
-    const errors = webpack.validate(config);
-    expect(errors).toBeUndefined();
+    const {props} = await loadSetup('simple-site');
+    const {config} = await createServerConfig({
+      props,
+    });
+    webpack.validate(config);
   });
 
   it('custom', async () => {
     jest.spyOn(console, 'log').mockImplementation(() => {});
-    const props = await loadSetup('custom');
-    const config = await createServerConfig({props});
-    const errors = webpack.validate(config);
-    expect(errors).toBeUndefined();
+    const {props} = await loadSetup('custom-site');
+    const {config} = await createServerConfig({
+      props,
+    });
+    webpack.validate(config);
   });
 });

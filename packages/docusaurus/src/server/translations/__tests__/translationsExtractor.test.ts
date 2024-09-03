@@ -6,16 +6,16 @@
  */
 
 import {jest} from '@jest/globals';
+import path from 'path';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
+import {SRC_DIR_NAME} from '@docusaurus/utils';
 import {
   extractSourceCodeFileTranslations,
   extractSiteSourceCodeTranslations,
 } from '../translationsExtractor';
 import {getBabelOptions} from '../../../webpack/utils';
-import path from 'path';
-import type {InitializedPlugin} from '@docusaurus/types';
-import {SRC_DIR_NAME} from '@docusaurus/utils';
+import type {InitializedPlugin, LoadedPlugin} from '@docusaurus/types';
 
 const TestBabelOptions = getBabelOptions({
   isServer: true,
@@ -64,7 +64,7 @@ const default => {
       extractSourceCodeFileTranslations(sourceCodeFilePath, TestBabelOptions),
     ).rejects.toThrow();
 
-    expect(errorMock).toBeCalledWith(
+    expect(errorMock).toHaveBeenCalledWith(
       expect.stringMatching(
         /Error while attempting to extract Docusaurus translations from source code file at/,
       ),
@@ -693,7 +693,7 @@ export default function MyComponent(props: Props) {
       plugin1,
       plugin2,
       {name: 'dummy', options: {}, version: {type: 'synthetic'}} as const,
-    ];
+    ] as LoadedPlugin[];
     const translations = await extractSiteSourceCodeTranslations(
       siteDir,
       plugins,
@@ -721,7 +721,7 @@ export default function MyComponent(props: Props) {
         message: 'plugin2 message 2',
       },
     });
-    expect(consoleWarnMock.mock.calls[0][0]).toMatch(
+    expect(consoleWarnMock.mock.calls[0]![0]).toMatch(
       /.*\[WARNING\].* Translation extraction warnings for file .*src.theme.file4\.jsx.*\n.*- translate\(\) first arg should be a statically evaluable object\./,
     );
   });

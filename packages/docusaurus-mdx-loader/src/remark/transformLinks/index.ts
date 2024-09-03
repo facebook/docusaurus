@@ -5,25 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import url from 'url';
+import fs from 'fs-extra';
 import {
   toMessageRelativeFilePath,
   posixPath,
   escapePath,
-  getFileLoaderUtils,
   findAsyncSequential,
+  getFileLoaderUtils,
 } from '@docusaurus/utils';
-import visit from 'unist-util-visit';
-import path from 'path';
-import url from 'url';
-import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
-import {stringifyContent} from '../utils';
+import {assetRequireAttributeValue, transformNode} from '../utils';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {MdxJsxTextElement} from 'mdast-util-mdx';
+import type {Parent} from 'unist';
 import type {Link, Literal} from 'mdast';
-
-const {
-  loaders: {inlineMarkdownLinkFileLoader},
-} = getFileLoaderUtils();
 
 type PluginOptions = {
   staticDirs: string[];
@@ -32,38 +31,97 @@ type PluginOptions = {
 
 type Context = PluginOptions & {
   filePath: string;
+  inlineMarkdownLinkFileLoader: string;
 };
 
-// transform the link node to a jsx link with a require() call
-function toAssetRequireNode(node: Link, assetPath: string, filePath: string) {
-  const jsxNode = node as Literal & Partial<Link>;
-  let relativeAssetPath = posixPath(
-    path.relative(path.dirname(filePath), assetPath),
-  );
+type Target = [node: Link, index: number, parent: Parent];
+
+/**
+ * Transforms the link node to a JSX `<a>` element with a `require()` call.
+ */
+async function toAssetRequireNode(
+  [node]: Target,
+  assetPath: string,
+  context: Context,
+) {
+  // MdxJsxTextElement => see https://github.com/facebook/docusaurus/pull/8288#discussion_r1125871405
+  const jsxNode = node as unknown as MdxJsxTextElement;
+  const attributes: MdxJsxTextElement['attributes'] = [];
+
   // require("assets/file.pdf") means requiring from a package called assets
-  relativeAssetPath = `./${relativeAssetPath}`;
+  const relativeAssetPath = `./${posixPath(
+    path.relative(path.dirname(context.filePath), assetPath),
+  )}`;
 
   const parsedUrl = url.parse(node.url);
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
 
-  const href = `require('${
+  const requireString = `${
     // A hack to stop Webpack from using its built-in loader to parse JSON
     path.extname(relativeAssetPath) === '.json'
       ? `${relativeAssetPath.replace('.json', '.raw')}!=`
       : ''
-  }${inlineMarkdownLinkFileLoader}${
+  }${context.inlineMarkdownLinkFileLoader}${
     escapePath(relativeAssetPath) + search
-  }').default${hash ? ` + '${hash}'` : ''}`;
-  const children = stringifyContent(node);
-  const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
+  }`;
 
-  Object.keys(jsxNode).forEach(
-    (key) => delete jsxNode[key as keyof typeof jsxNode],
-  );
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'target',
+    value: '_blank',
+  });
 
-  (jsxNode as Literal).type = 'jsx';
-  jsxNode.value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
+  // Assets are not routes, and are required by Webpack already
+  // They should not trigger the broken link checker
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'data-noBrokenLinkCheck',
+    value: {
+      type: 'mdxJsxAttributeValueExpression',
+      value: 'true',
+      data: {
+        estree: {
+          type: 'Program',
+          body: [
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'Literal',
+                value: true,
+                raw: 'true',
+              },
+            },
+          ],
+          sourceType: 'module',
+          comments: [],
+        },
+      },
+    },
+  });
+
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'href',
+    value: assetRequireAttributeValue(requireString, hash),
+  });
+
+  if (node.title) {
+    attributes.push({
+      type: 'mdxJsxAttribute',
+      name: 'title',
+      value: escapeHtml(node.title),
+    });
+  }
+
+  const {children} = node;
+
+  transformNode(jsxNode, {
+    type: 'mdxJsxTextElement',
+    name: 'a',
+    attributes,
+    children,
+  });
 }
 
 async function ensureAssetFileExist(assetPath: string, sourceFilePath: string) {
@@ -104,12 +162,14 @@ async function getAssetAbsolutePath(
   return null;
 }
 
-async function processLinkNode(node: Link, context: Context) {
+async function processLinkNode(target: Target, context: Context) {
+  const [node] = target;
   if (!node.url) {
-    // try to improve error feedback
+    // Try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
-    const title = node.title || (node.children[0] as Literal)?.value || '?';
-    const line = node?.position?.start?.line || '?';
+    const title =
+      node.title ?? (node.children[0] as Literal | undefined)?.value ?? '?';
+    const line = node.position?.start.line ?? '?';
     throw new Error(
       `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
         context.filePath,
@@ -135,15 +195,27 @@ async function processLinkNode(node: Link, context: Context) {
     context,
   );
   if (assetPath) {
-    toAssetRequireNode(node, assetPath, context.filePath);
+    await toAssetRequireNode(target, assetPath, context);
   }
 }
 
 export default function plugin(options: PluginOptions): Transformer {
   return async (root, vfile) => {
+    const {visit} = await import('unist-util-visit');
+
+    const fileLoaderUtils = getFileLoaderUtils(
+      vfile.data.compilerName === 'server',
+    );
+    const context: Context = {
+      ...options,
+      filePath: vfile.path!,
+      inlineMarkdownLinkFileLoader:
+        fileLoaderUtils.loaders.inlineMarkdownLinkFileLoader,
+    };
+
     const promises: Promise<void>[] = [];
-    visit(root, 'link', (node: Link) => {
-      promises.push(processLinkNode(node, {...options, filePath: vfile.path!}));
+    visit(root, 'link', (node: Link, index, parent) => {
+      promises.push(processLinkNode([node, index, parent!], context));
     });
     await Promise.all(promises);
   };

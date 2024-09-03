@@ -5,18 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import React, {
   useState,
   useEffect,
   useRef,
   useCallback,
-  useLayoutEffect,
   type RefObject,
   type Dispatch,
   type SetStateAction,
   type ReactNode,
 } from 'react';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
+import {prefersReducedMotion} from '../../utils/accessibilityUtils';
 
 const DefaultAnimationEasing = 'ease-in-out';
 
@@ -27,7 +28,7 @@ export function useCollapsible({
   initialState,
 }: {
   /** The initial state. Will be non-collapsed by default. */
-  initialState: boolean | (() => boolean);
+  initialState?: boolean | (() => boolean);
 }): {
   collapsed: boolean;
   setCollapsed: Dispatch<SetStateAction<boolean>>;
@@ -72,6 +73,11 @@ https://material.io/archive/guidelines/motion/duration-easing.html#duration-easi
 https://github.com/mui-org/material-ui/blob/e724d98eba018e55e1a684236a2037e24bcf050c/packages/material-ui/src/styles/createTransitions.js#L40-L43
  */
 function getAutoHeightDuration(height: number) {
+  if (prefersReducedMotion()) {
+    // Not using 0 because it prevents onTransitionEnd to fire and bubble up :/
+    // See https://github.com/facebook/docusaurus/pull/8906
+    return 1;
+  }
   const constant = height / 36;
   return Math.round((4 + 15 * constant ** 0.25 + constant / 5) * 10);
 }
@@ -196,9 +202,7 @@ function CollapsibleBase({
   className,
   disableSSRStyle,
 }: CollapsibleBaseProps) {
-  // any because TS is a pain for HTML element refs, see https://twitter.com/sebastienlorber/status/1412784677795110914
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const collapsibleRef = useRef<any>(null);
+  const collapsibleRef = useRef<HTMLElement>(null);
 
   useCollapseAnimation({collapsibleRef, collapsed, animation});
 
@@ -206,7 +210,7 @@ function CollapsibleBase({
     <As
       // @ts-expect-error: the "too complicated type" is produced from
       // "CollapsibleElementType" being a huge union
-      ref={collapsibleRef}
+      ref={collapsibleRef as RefObject<never>} // Refs are contravariant, which is not expressible in TS
       style={disableSSRStyle ? undefined : getSSRStyle(collapsed)}
       onTransitionEnd={(e: React.TransitionEvent) => {
         if (e.propertyName !== 'height') {
@@ -224,16 +228,16 @@ function CollapsibleBase({
 
 function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
   const [mounted, setMounted] = useState(!collapsed);
+  // Updated in effect so that first expansion transition can work
+  const [lazyCollapsed, setLazyCollapsed] = useState(collapsed);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!collapsed) {
       setMounted(true);
     }
   }, [collapsed]);
 
-  // lazyCollapsed updated in effect so that first expansion transition can work
-  const [lazyCollapsed, setLazyCollapsed] = useState(collapsed);
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (mounted) {
       setLazyCollapsed(collapsed);
     }

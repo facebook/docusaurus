@@ -5,20 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {updateTranslationFileMessages} from '@docusaurus/utils';
 import {getTranslationFiles, translateThemeConfig} from '../translations';
 import type {ThemeConfig} from '@docusaurus/theme-common';
-import {updateTranslationFileMessages} from '@docusaurus/utils';
 
-const ThemeConfigSample: ThemeConfig = {
+const ThemeConfigSample = {
   colorMode: {},
   announcementBar: {},
   prism: {},
   docs: {
     versionPersistence: 'none',
   },
-  hideableSidebar: true,
   navbar: {
     title: 'navbar title',
+    logo: {
+      alt: 'navbar alt text logo',
+      src: 'img/docusaurus.svg',
+    },
     style: 'dark',
     hideOnScroll: false,
     items: [
@@ -32,6 +35,10 @@ const ThemeConfigSample: ThemeConfig = {
     ],
   },
   footer: {
+    logo: {
+      alt: 'footer alt text logo',
+      src: 'img/docusaurus.svg',
+    },
     copyright: 'Copyright FB',
     style: 'light',
     links: [
@@ -48,11 +55,15 @@ const ThemeConfigSample: ThemeConfig = {
       },
     ],
   },
-};
+} as unknown as ThemeConfig;
 
 const ThemeConfigSampleSimpleFooter: ThemeConfig = {
   ...ThemeConfigSample,
   footer: {
+    logo: {
+      alt: 'footer alt text logo',
+      src: 'img/docusaurus.svg',
+    },
     copyright: 'Copyright FB',
     style: 'light',
     links: [
@@ -125,7 +136,7 @@ describe('getTranslationFiles and translateThemeConfig isomorphism', () => {
     verifyIsomorphism(ThemeConfigSampleSimpleFooter);
   });
 
-  // undefined footer should not make the translation code crash
+  // Undefined footer should not make the translation code crash
   // See https://github.com/facebook/docusaurus/issues/3936
   it('is verified for sample without footer', () => {
     verifyIsomorphism({...ThemeConfigSample, footer: undefined});

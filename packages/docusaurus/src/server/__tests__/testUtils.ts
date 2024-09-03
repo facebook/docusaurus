@@ -6,20 +6,14 @@
  */
 
 import path from 'path';
-import {load} from '../index';
-import type {Props} from '@docusaurus/types';
+import {loadSite, type LoadContextParams} from '../site';
+import type {Site} from '@docusaurus/types';
 
 // Helper methods to setup dummy/fake projects.
-export default async function loadSetup(name: string): Promise<Props> {
+export async function loadSetup(
+  name: string,
+  options?: Partial<LoadContextParams>,
+): Promise<Site> {
   const fixtures = path.join(__dirname, '__fixtures__');
-  const simpleSite = path.join(fixtures, 'simple-site');
-  const customSite = path.join(fixtures, 'custom-site');
-
-  switch (name) {
-    case 'custom':
-      return load({siteDir: customSite});
-    case 'simple':
-    default:
-      return load({siteDir: simpleSite});
-  }
+  return loadSite({siteDir: path.join(fixtures, name), ...options});
 }

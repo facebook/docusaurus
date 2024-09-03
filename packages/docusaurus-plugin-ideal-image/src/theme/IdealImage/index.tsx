@@ -9,7 +9,7 @@ import React from 'react';
 import ReactIdealImage, {
   type IconKey,
   type State,
-} from '@endiliey/react-ideal-image';
+} from '@slorber/react-ideal-image';
 import {translate} from '@docusaurus/Translate';
 
 import type {Props} from '@theme/IdealImage';
@@ -22,9 +22,9 @@ function bytesToSize(bytes: number) {
   }
   const scale = Math.floor(Math.log(bytes) / Math.log(1024));
   if (scale === 0) {
-    return `${bytes} ${sizes[scale]}`;
+    return `${bytes} ${sizes[scale]!}`;
   }
-  return `${(bytes / 1024 ** scale).toFixed(1)} ${sizes[scale]}`;
+  return `${(bytes / 1024 ** scale).toFixed(1)} ${sizes[scale]!}`;
 }
 
 // Adopted from https://github.com/endiliey/react-ideal-image/blob/master/src/components/IdealImage/index.js#L43-L75
@@ -40,7 +40,7 @@ function getMessage(icon: IconKey, state: State) {
         description: 'When the full-scale image is loading',
       });
     case 'load': {
-      // we can show `alt` here
+      // We can show `alt` here
       const {pickedSrc} = state;
       const {size} = pickedSrc;
       const sizeMessage = size ? ` (${bytesToSize(size)})` : '';
@@ -81,27 +81,21 @@ function getMessage(icon: IconKey, state: State) {
 }
 
 export default function IdealImage(props: Props): JSX.Element {
-  const {alt, className, img} = props;
+  const {img, ...propsRest} = props;
 
   // In dev env just use regular img with original file
   if (typeof img === 'string' || 'default' in img) {
     return (
-      <img
-        src={typeof img === 'string' ? img : img.default}
-        className={className}
-        alt={alt}
-        {...props}
-      />
+      // eslint-disable-next-line jsx-a11y/alt-text
+      <img src={typeof img === 'string' ? img : img.default} {...propsRest} />
     );
   }
 
   return (
     <ReactIdealImage
-      {...props}
-      alt={alt}
-      className={className}
-      height={img.src.height || 100}
-      width={img.src.width || 100}
+      {...propsRest}
+      height={img.src.height ?? 100}
+      width={img.src.width ?? 100}
       placeholder={{lqip: img.preSrc}}
       src={img.src.src}
       srcSet={img.src.images.map((image) => ({

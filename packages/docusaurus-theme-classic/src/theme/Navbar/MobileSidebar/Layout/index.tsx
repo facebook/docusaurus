@@ -7,8 +7,8 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import {useNavbarSecondaryMenu} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/Navbar/MobileSidebar/Layout';
-import {useNavbarSecondaryMenu} from '@docusaurus/theme-common';
 
 export default function NavbarMobileSidebarLayout({
   header,

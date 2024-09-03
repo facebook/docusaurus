@@ -6,7 +6,7 @@
  */
 
 .section {
-  padding: 72px 0;
+  padding: 40px 0;
 }
 
 .sectionAlt {
@@ -49,13 +49,64 @@
   max-width: 768px;
 }
 
-.banner {
-  font-weight: bold;
+.topBanner {
   font-size: 20px;
-  padding: 20px;
-  max-width: 768px;
+  padding: 30px 20px;
+  max-width: 900px;
   margin: 0 auto;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topBannerTitle {
+  font-size: 54px;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .topBannerTitle {
+    font-size: 40px;
+  }
+}
+
+.topBannerTitleText {
+  background: linear-gradient(
+    90deg,
+    rgb(131 58 180 / 100%) 0%,
+    rgb(253 29 29 / 100%) 50%,
+    rgb(252 176 69 / 100%) 100%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.topBannerTitleText:hover {
+  border-bottom: solid 2px;
+  border-color: rgb(152 0 255);
+}
+
+html[data-theme='dark'] .topBannerTitleText {
+  background: linear-gradient(
+    90deg,
+    rgb(152 0 255) 0%,
+    rgb(246 41 41) 50%,
+    rgb(255 169 8) 100%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.topBannerDescription {
+  font-size: 20px;
+}
+@media only screen and (max-width: 768px) {
+  .topBannerDescription {
+    font-size: 16px;
+    white-space: normal;
+  }
 }
 
 .hero {
@@ -80,7 +131,7 @@
 }
 
 @keyframes jack-in-the-box {
-  from {
+  0% {
     opacity: 0;
     transform: scale(0.1) rotate(30deg);
     transform-origin: center bottom;
@@ -94,7 +145,7 @@
     transform: rotate(3deg);
   }
 
-  to {
+  100% {
     opacity: 1;
     transform: scale(1);
   }

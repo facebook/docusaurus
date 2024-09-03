@@ -95,7 +95,11 @@ function selectPluralMessage(
   }
   if (parts.length > localePluralForms.pluralForms.length) {
     console.error(
-      `For locale=${localePluralForms.locale}, a maximum of ${localePluralForms.pluralForms.length} plural forms are expected (${localePluralForms.pluralForms}), but the message contains ${parts.length}: ${pluralMessages}`,
+      `For locale=${localePluralForms.locale}, a maximum of ${
+        localePluralForms.pluralForms.length
+      } plural forms are expected (${localePluralForms.pluralForms.join(
+        ',',
+      )}), but the message contains ${parts.length}: ${pluralMessages}`,
     );
   }
   const pluralForm = localePluralForms.select(count);

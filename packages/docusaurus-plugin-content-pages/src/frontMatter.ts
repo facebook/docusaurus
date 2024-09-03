@@ -9,19 +9,27 @@ import {
   Joi,
   validateFrontMatter,
   FrontMatterTOCHeadingLevels,
+  ContentVisibilitySchema,
+  URISchema,
+  FrontMatterLastUpdateSchema,
 } from '@docusaurus/utils-validation';
-import type {FrontMatter} from '@docusaurus/plugin-content-pages';
+import type {PageFrontMatter} from '@docusaurus/plugin-content-pages';
 
-const PageFrontMatterSchema = Joi.object<FrontMatter>({
-  title: Joi.string(),
-  description: Joi.string(),
+const PageFrontMatterSchema = Joi.object<PageFrontMatter>({
+  // See https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
+  title: Joi.string().allow(''),
+  // See https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
+  description: Joi.string().allow(''),
+  keywords: Joi.array().items(Joi.string().required()),
+  image: URISchema,
   wrapperClassName: Joi.string(),
   hide_table_of_contents: Joi.boolean(),
   ...FrontMatterTOCHeadingLevels,
-});
+  last_update: FrontMatterLastUpdateSchema,
+}).concat(ContentVisibilitySchema);
 
 export function validatePageFrontMatter(frontMatter: {
   [key: string]: unknown;
-}): FrontMatter {
+}): PageFrontMatter {
   return validateFrontMatter(frontMatter, PageFrontMatterSchema);
 }

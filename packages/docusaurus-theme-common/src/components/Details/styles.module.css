@@ -56,3 +56,11 @@ CSS variables, meant to be overridden by final theme
   border-top: 1px solid var(--docusaurus-details-decoration-color);
   padding-top: 1rem;
 }
+
+.collapsibleContent p:last-child {
+  margin-bottom: 0;
+}
+
+.details > summary > p:last-child {
+  margin-bottom: 0;
+}

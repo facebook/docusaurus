@@ -6,49 +6,64 @@
  */
 
 import fs from 'fs-extra';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
-import type {Configuration} from 'webpack';
-import type {Props} from '@docusaurus/types';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {
-  getCustomizableJSLoader,
+  createJsLoaderFactory,
   getStyleLoaders,
   getCustomBabelConfigFilePath,
-  getMinimizer,
 } from './utils';
+import {getMinimizers} from './minification';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
-import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
+import type {Configuration} from 'webpack';
+import type {FasterConfig, Props} from '@docusaurus/types';
 
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
 
 const LibrariesToTranspile = [
-  'copy-text-to-clipboard', // contains optional catch binding, incompatible with recent versions of Edge
+  'copy-text-to-clipboard', // Contains optional catch binding, incompatible with recent versions of Edge
 ];
 
 const LibrariesToTranspileRegex = new RegExp(
   LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
 );
 
+const ReactAliases: Record<string, string> = process.env
+  .DOCUSAURUS_NO_REACT_ALIASES
+  ? {}
+  : {
+      react: path.dirname(require.resolve('react/package.json')),
+      'react-dom': path.dirname(require.resolve('react-dom/package.json')),
+      '@mdx-js/react': path.dirname(require.resolve('@mdx-js/react')),
+    };
+
 export function excludeJS(modulePath: string): boolean {
-  // always transpile client dir
+  // Always transpile client dir
   if (modulePath.startsWith(clientDir)) {
     return false;
   }
   // Don't transpile node_modules except any docusaurus npm package
   return (
-    /node_modules/.test(modulePath) &&
+    modulePath.includes('node_modules') &&
     !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath) &&
     !LibrariesToTranspileRegex.test(modulePath)
   );
 }
 
-export async function createBaseConfig(
-  props: Props,
-  isServer: boolean,
-  minify: boolean = true,
-): Promise<Configuration> {
+export async function createBaseConfig({
+  props,
+  isServer,
+  minify,
+  faster,
+}: {
+  props: Props;
+  isServer: boolean;
+  minify: boolean;
+  faster: FasterConfig;
+}): Promise<Configuration> {
   const {
     outDir,
     siteDir,
@@ -62,15 +77,16 @@ export async function createBaseConfig(
   } = props;
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
-  const minimizeEnabled = minify && isProd && !isServer;
-  const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
+  const minimizeEnabled = minify && isProd;
 
-  const fileLoaderUtils = getFileLoaderUtils();
+  const fileLoaderUtils = getFileLoaderUtils(isServer);
 
   const name = isServer ? 'server' : 'client';
   const mode = isProd ? 'production' : 'development';
 
   const themeAliases = await loadThemeAliases({siteDir, plugins});
+
+  const createJsLoader = await createJsLoaderFactory({siteConfig});
 
   return {
     mode,
@@ -109,7 +125,8 @@ export async function createBaseConfig(
       chunkFilename: isProd
         ? 'assets/js/[name].[contenthash:8].js'
         : '[name].js',
-      publicPath: baseUrl,
+      publicPath:
+        siteConfig.future.experimental_router === 'hash' ? 'auto' : baseUrl,
       hashFunction: 'xxhash64',
     },
     // Don't throw warning when asset created is over 250kb
@@ -118,9 +135,9 @@ export async function createBaseConfig(
     },
     devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
-      unsafeCache: false, // not enabled, does not seem to improve perf much
+      unsafeCache: false, // Not enabled, does not seem to improve perf much
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
-      symlinks: true, // see https://github.com/facebook/docusaurus/issues/3272
+      symlinks: true, // See https://github.com/facebook/docusaurus/issues/3272
       roots: [
         // Allow resolution of url("/fonts/xyz.ttf") by webpack
         // See https://webpack.js.org/configuration/resolve/#resolveroots
@@ -132,6 +149,7 @@ export async function createBaseConfig(
         process.cwd(),
       ],
       alias: {
+        ...ReactAliases,
         '@site': siteDir,
         '@generated': generatedFilesDir,
         ...(await loadDocusaurusAliases()),
@@ -156,9 +174,7 @@ export async function createBaseConfig(
       // Only minimize client bundle in production because server bundle is only
       // used for static site generation
       minimize: minimizeEnabled,
-      minimizer: minimizeEnabled
-        ? getMinimizer(useSimpleCssMinifier)
-        : undefined,
+      minimizer: minimizeEnabled ? await getMinimizers({faster}) : undefined,
       splitChunks: isServer
         ? false
         : {
@@ -167,7 +183,7 @@ export async function createBaseConfig(
             // include [name] in the filenames
             name: false,
             cacheGroups: {
-              // disable the built-in cacheGroups
+              // Disable the built-in cacheGroups
               default: false,
               common: {
                 name: 'common',
@@ -199,7 +215,7 @@ export async function createBaseConfig(
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           use: [
-            getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
+            createJsLoader({
               isServer,
               babelOptions: await getCustomBabelConfigFilePath(siteDir),
             }),
@@ -219,9 +235,9 @@ export async function createBaseConfig(
           test: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
             modules: {
-              localIdentName: isProd
-                ? `[local]_[contenthash:base64:4]`
-                : `[local]_[path][name]`,
+              // Using the same CSS Module class pattern in dev/prod on purpose
+              // See https://github.com/facebook/docusaurus/pull/10423
+              localIdentName: `[local]_[contenthash:base64:4]`,
               exportOnlyLocals: isServer,
             },
             importLoaders: 1,
@@ -238,7 +254,7 @@ export async function createBaseConfig(
         chunkFilename: isProd
           ? 'assets/css/[name].[contenthash:8].css'
           : '[name].css',
-        // remove css order warnings if css imports are not sorted
+        // Remove css order warnings if css imports are not sorted
         // alphabetically. See https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422
         // for more reasoning
         ignoreOrder: true,

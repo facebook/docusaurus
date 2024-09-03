@@ -6,6 +6,7 @@
  */
 
 import {jest} from '@jest/globals';
+import path from 'path';
 import {
   isNameTooLong,
   shortName,
@@ -14,8 +15,8 @@ import {
   aliasedSitePath,
   toMessageRelativeFilePath,
   addTrailingPathSeparator,
+  aliasedSitePathToRelativePath,
 } from '../pathUtils';
-import path from 'path';
 
 describe('isNameTooLong', () => {
   it('works', () => {
@@ -37,21 +38,24 @@ describe('isNameTooLong', () => {
     };
     const oldProcessPlatform = process.platform;
     Object.defineProperty(process, 'platform', {value: 'darwin'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(isNameTooLong(file)).toBe(
-        typeof asserts[file] === 'boolean' ? asserts[file] : asserts[file].apfs,
+        typeof expected === 'boolean' ? expected : expected.apfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: 'win32'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(isNameTooLong(file)).toBe(
-        typeof asserts[file] === 'boolean' ? asserts[file] : asserts[file].apfs,
+        typeof expected === 'boolean' ? expected : expected.apfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: 'android'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(isNameTooLong(file)).toBe(
-        typeof asserts[file] === 'boolean' ? asserts[file] : asserts[file].xfs,
+        typeof expected === 'boolean' ? expected : expected.xfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: oldProcessPlatform});
@@ -79,21 +83,24 @@ describe('shortName', () => {
     };
     const oldProcessPlatform = process.platform;
     Object.defineProperty(process, 'platform', {value: 'darwin'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(shortName(file)).toBe(
-        typeof asserts[file] === 'string' ? asserts[file] : asserts[file].apfs,
+        typeof expected === 'string' ? expected : expected.apfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: 'win32'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(shortName(file)).toBe(
-        typeof asserts[file] === 'string' ? asserts[file] : asserts[file].apfs,
+        typeof expected === 'string' ? expected : expected.apfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: 'android'});
-    Object.keys(asserts).forEach((file) => {
+    (Object.keys(asserts) as (keyof typeof asserts)[]).forEach((file) => {
+      const expected = asserts[file];
       expect(shortName(file)).toBe(
-        typeof asserts[file] === 'string' ? asserts[file] : asserts[file].xfs,
+        typeof expected === 'string' ? expected : expected.xfs,
       );
     });
     Object.defineProperty(process, 'platform', {value: oldProcessPlatform});
@@ -150,7 +157,7 @@ describe('posixPath', () => {
   it('works', () => {
     const asserts: {[key: string]: string} = {
       'c:/aaaa\\bbbb': 'c:/aaaa/bbbb',
-      'c:\\aaaa\\bbbb\\★': 'c:\\aaaa\\bbbb\\★',
+      'c:\\aaaa\\bbbb\\★': 'c:/aaaa/bbbb/★',
       '\\\\?\\c:\\aaaa\\bbbb': '\\\\?\\c:\\aaaa\\bbbb',
       'c:\\aaaa\\bbbb': 'c:/aaaa/bbbb',
       'foo\\bar': 'foo/bar',
@@ -176,6 +183,20 @@ describe('aliasedSitePath', () => {
         asserts[file],
       );
     });
+  });
+});
+
+describe('aliasedSitePathToRelativePath', () => {
+  it('works', () => {
+    expect(aliasedSitePathToRelativePath('@site/site/relative/path')).toBe(
+      'site/relative/path',
+    );
+  });
+
+  it('is fail-fast', () => {
+    expect(() => aliasedSitePathToRelativePath('/site/relative/path')).toThrow(
+      /Unexpected, filePath is not site-aliased: \/site\/relative\/path/,
+    );
   });
 });
 

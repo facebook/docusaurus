@@ -7,12 +7,221 @@
 
 import React from 'react';
 import {renderHook} from '@testing-library/react-hooks';
-import useBaseUrl, {useBaseUrlUtils} from '../useBaseUrl';
+import {fromPartial} from '@total-typescript/shoehorn';
+import useBaseUrl, {addBaseUrl, useBaseUrlUtils} from '../useBaseUrl';
 import {Context} from '../../docusaurusContext';
-import type {DocusaurusContext} from '@docusaurus/types';
+import type {DocusaurusContext, FutureConfig} from '@docusaurus/types';
 import type {BaseUrlOptions} from '@docusaurus/useBaseUrl';
 
+type AddBaseUrlParams = Parameters<typeof addBaseUrl>[0];
+
+const future: FutureConfig = fromPartial({
+  experimental_router: 'browser',
+});
+
 const forcePrepend = {forcePrependBaseUrl: true};
+
+// TODO migrate more tests here, it's easier to test a pure function
+describe('addBaseUrl', () => {
+  function baseTest(params: Partial<AddBaseUrlParams>) {
+    return addBaseUrl({
+      siteUrl: 'https://docusaurus.io',
+      baseUrl: '/baseUrl/',
+      url: 'hello',
+      router: 'browser',
+      ...params,
+    });
+  }
+
+  describe('with browser router', () => {
+    function test(params: {
+      url: AddBaseUrlParams['url'];
+      baseUrl: AddBaseUrlParams['baseUrl'];
+      options?: AddBaseUrlParams['options'];
+    }) {
+      return baseTest({
+        ...params,
+        router: 'browser',
+      });
+    }
+
+    it('/baseUrl/ + hello', () => {
+      expect(
+        test({
+          baseUrl: '/baseUrl/',
+          url: 'hello',
+        }),
+      ).toBe('/baseUrl/hello');
+    });
+
+    it('/baseUrl/ + hello - absolute option', () => {
+      expect(
+        test({
+          baseUrl: '/baseUrl/',
+          url: 'hello',
+          options: {absolute: true},
+        }),
+      ).toBe('https://docusaurus.io/baseUrl/hello');
+    });
+
+    it('/baseUrl/ + /hello', () => {
+      expect(
+        test({
+          baseUrl: '/baseUrl/',
+          url: '/hello',
+        }),
+      ).toBe('/baseUrl/hello');
+    });
+
+    it('/baseUrl/ + /hello - absolute option', () => {
+      expect(
+        test({
+          baseUrl: '/baseUrl/',
+          url: '/hello',
+          options: {absolute: true},
+        }),
+      ).toBe('https://docusaurus.io/baseUrl/hello');
+    });
+
+    it('/ + hello', () => {
+      expect(
+        test({
+          baseUrl: '/',
+          url: 'hello',
+        }),
+      ).toBe('/hello');
+    });
+
+    it('/ + hello - absolute', () => {
+      expect(
+        test({
+          baseUrl: '/',
+          url: 'hello',
+          options: {absolute: true},
+        }),
+      ).toBe('https://docusaurus.io/hello');
+    });
+
+    it('/ + /hello', () => {
+      expect(
+        test({
+          baseUrl: '/',
+          url: '/hello',
+        }),
+      ).toBe('/hello');
+    });
+
+    it('/ + /hello - absolute', () => {
+      expect(
+        test({
+          baseUrl: '/',
+          url: '/hello',
+          options: {absolute: true},
+        }),
+      ).toBe('https://docusaurus.io/hello');
+    });
+  });
+
+  describe('with hash router', () => {
+    function test(params: {
+      url: AddBaseUrlParams['url'];
+      baseUrl: AddBaseUrlParams['baseUrl'];
+      options?: AddBaseUrlParams['options'];
+    }) {
+      return baseTest({
+        ...params,
+        router: 'hash',
+      });
+    }
+
+    it('/baseUrl/ + hello', () => {
+      expect(
+        test({
+          baseUrl: '/baseUrl/',
+          url: 'hello',
+        }),
+      ).toBe('./hello');
+    });
+
+    it('/baseUrl/ + hello - absolute option', () => {
+      expect(
+        test({
+          baseUrl: '/baseUrl/',
+          url: 'hello',
+          options: {absolute: true},
+        }),
+      ).toBe('./hello');
+    });
+
+    it('/baseUrl/ + /hello', () => {
+      expect(
+        test({
+          baseUrl: '/baseUrl/',
+          url: '/hello',
+        }),
+      ).toBe('./hello');
+    });
+
+    it('/baseUrl/ + /hello - absolute option', () => {
+      expect(
+        test({
+          baseUrl: '/baseUrl/',
+          url: '/hello',
+          options: {absolute: true},
+        }),
+      ).toBe('./hello');
+    });
+
+    it('/ + hello', () => {
+      expect(
+        test({
+          baseUrl: '/',
+          url: 'hello',
+        }),
+      ).toBe('./hello');
+    });
+
+    it('/ + hello - absolute', () => {
+      expect(
+        test({
+          baseUrl: '/',
+          url: 'hello',
+          options: {absolute: true},
+        }),
+      ).toBe('./hello');
+    });
+
+    it('/ + /hello', () => {
+      expect(
+        test({
+          baseUrl: '/',
+          url: 'hello',
+          options: {absolute: true},
+        }),
+      ).toBe('./hello');
+    });
+
+    it('/ + /hello - absolute', () => {
+      expect(
+        test({
+          baseUrl: '/',
+          url: 'hello',
+          options: {absolute: true},
+        }),
+      ).toBe('./hello');
+    });
+  });
+
+  /*
+
+src
+:
+"img/docusaurus.svg"
+srcDark
+:
+"img/docusaurus_keytar.svg"
+   */
+});
 
 describe('useBaseUrl', () => {
   const createUseBaseUrlMock =
@@ -27,8 +236,9 @@ describe('useBaseUrl', () => {
       siteConfig: {
         baseUrl: '/',
         url: 'https://docusaurus.io',
+        future,
       },
-    });
+    } as DocusaurusContext);
 
     expect(mockUseBaseUrl('hello')).toBe('/hello');
     expect(mockUseBaseUrl('/hello')).toBe('/hello');
@@ -55,8 +265,9 @@ describe('useBaseUrl', () => {
       siteConfig: {
         baseUrl: '/docusaurus/',
         url: 'https://docusaurus.io',
+        future,
       },
-    });
+    } as DocusaurusContext);
 
     expect(mockUseBaseUrl('')).toBe('');
     expect(mockUseBaseUrl('hello')).toBe('/docusaurus/hello');
@@ -96,8 +307,9 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
       siteConfig: {
         baseUrl: '/',
         url: 'https://docusaurus.io',
+        future,
       },
-    });
+    } as DocusaurusContext);
 
     expect(withBaseUrl('hello')).toBe('/hello');
     expect(withBaseUrl('/hello')).toBe('/hello');
@@ -124,8 +336,9 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
       siteConfig: {
         baseUrl: '/docusaurus/',
         url: 'https://docusaurus.io',
+        future,
       },
-    });
+    } as DocusaurusContext);
 
     expect(withBaseUrl('hello')).toBe('/docusaurus/hello');
     expect(withBaseUrl('/hello')).toBe('/docusaurus/hello');

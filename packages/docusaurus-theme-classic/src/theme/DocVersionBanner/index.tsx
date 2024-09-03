@@ -6,6 +6,7 @@
  */
 
 import React, {type ComponentType} from 'react';
+import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
@@ -14,14 +15,12 @@ import {
   useDocVersionSuggestions,
   type GlobalVersion,
 } from '@docusaurus/plugin-content-docs/client';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 import {
-  ThemeClassNames,
   useDocsPreferredVersion,
   useDocsVersion,
-} from '@docusaurus/theme-common';
-
+} from '@docusaurus/plugin-content-docs/client';
 import type {Props} from '@theme/DocVersionBanner';
-import clsx from 'clsx';
 import type {
   VersionBanner,
   PropVersionMetadata,
@@ -136,8 +135,8 @@ function DocVersionBannerEnabled({
   const {latestDocSuggestion, latestVersionSuggestion} =
     useDocVersionSuggestions(pluginId);
 
-  // try to link to same doc in latest version (not always possible)
-  // fallback to main doc of latest version
+  // Try to link to same doc in latest version (not always possible), falling
+  // back to main doc of latest version
   const latestVersionSuggestedDoc =
     latestDocSuggestion ?? getVersionMainDoc(latestVersionSuggestion);
 

@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import leven from 'leven';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
+import leven from 'leven';
+import type {NormalizedPluginConfig} from '../../server/plugins/configs';
 import type {
   InitializedPlugin,
   SwizzleAction,
   SwizzleActionStatus,
-  NormalizedPluginConfig,
 } from '@docusaurus/types';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
@@ -61,23 +61,27 @@ export type SwizzlePlugin = {
 
 export type SwizzleContext = {plugins: SwizzlePlugin[]};
 
-export type SwizzleOptions = {
+export type SwizzleCLIOptions = {
   typescript: boolean;
+  javascript: boolean;
   danger: boolean;
   list: boolean;
   wrap: boolean;
   eject: boolean;
+  config?: string;
 };
 
 export function normalizeOptions(
-  options: Partial<SwizzleOptions>,
-): SwizzleOptions {
+  options: Partial<SwizzleCLIOptions>,
+): SwizzleCLIOptions {
   return {
     typescript: options.typescript ?? false,
+    javascript: options.javascript ?? false,
     danger: options.danger ?? false,
     list: options.list ?? false,
     wrap: options.wrap ?? false,
     eject: options.eject ?? false,
+    config: options.config ?? undefined,
   };
 }
 

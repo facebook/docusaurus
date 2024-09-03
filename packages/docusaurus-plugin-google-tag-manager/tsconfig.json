@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "references": [{"path": "./tsconfig.client.json"}],
+  "compilerOptions": {
+    "noEmit": false
+  },
+  "include": ["src"],
+  "exclude": ["**/__tests__/**"]
+}

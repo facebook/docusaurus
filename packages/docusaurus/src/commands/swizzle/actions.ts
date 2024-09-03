@@ -5,20 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {Globby, posixPath, THEME_PATH} from '@docusaurus/utils';
-import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
-import type {SwizzleOptions} from './common';
 import {askSwizzleAction} from './prompts';
+import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
+import type {SwizzleCLIOptions} from './common';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
 
 export async function getAction(
   componentConfig: SwizzleComponentConfig,
-  options: Pick<SwizzleOptions, 'wrap' | 'eject'>,
+  options: Pick<SwizzleCLIOptions, 'wrap' | 'eject'>,
 ): Promise<SwizzleAction> {
   if (options.wrap) {
     return 'wrap';
@@ -33,6 +33,7 @@ export type ActionParams = {
   siteDir: string;
   themePath: string;
   componentName: string;
+  typescript: boolean;
 };
 
 export type ActionResult = {
@@ -49,18 +50,25 @@ export async function eject({
   siteDir,
   themePath,
   componentName,
+  typescript,
 }: ActionParams): Promise<ActionResult> {
   const fromPath = path.join(themePath, componentName);
   const isDirectory = await isDir(fromPath);
   const globPattern = isDirectory
-    ? // do we really want to copy all components?
-      path.join(fromPath, '*')
+    ? // Do we really want to copy all components?
+      path.join(fromPath, '**/*')
     : `${fromPath}.*`;
 
   const globPatternPosix = posixPath(globPattern);
 
   const filesToCopy = await Globby(globPatternPosix, {
-    ignore: ['**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}'],
+    ignore: _.compact([
+      '**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}',
+      // When ejecting JS components, we want to avoid emitting TS files
+      // In particular the .d.ts files that theme build output contains
+      typescript ? null : '**/*.{d.ts,ts,tsx}',
+      '**/{__fixtures__,__tests__}/*',
+    ]),
   });
 
   if (filesToCopy.length === 0) {
@@ -70,16 +78,16 @@ export async function eject({
     );
   }
 
-  const toPath = isDirectory
-    ? path.join(siteDir, THEME_PATH, componentName)
-    : path.join(siteDir, THEME_PATH);
+  const toPath = path.join(siteDir, THEME_PATH);
 
   await fs.ensureDir(toPath);
 
   const createdFiles = await Promise.all(
     filesToCopy.map(async (sourceFile: string) => {
-      const fileName = path.basename(sourceFile);
-      const targetFile = path.join(toPath, fileName);
+      const targetFile = path.join(
+        toPath,
+        path.relative(themePath, sourceFile),
+      );
       try {
         const fileContents = await fs.readFile(sourceFile, 'utf-8');
         await fs.outputFile(
@@ -87,9 +95,8 @@ export async function eject({
           fileContents.trimStart().replace(/^\/\*.+?\*\/\s*/ms, ''),
         );
       } catch (err) {
-        throw new Error(
-          logger.interpolate`Could not copy file from path=${sourceFile} to path=${targetFile}`,
-        );
+        logger.error`Could not copy file from path=${sourceFile} to path=${targetFile}`;
+        throw err;
       }
       return targetFile;
     }),
@@ -104,13 +111,12 @@ export async function wrap({
   typescript,
   importType = 'original',
 }: ActionParams & {
-  typescript: boolean;
   importType?: 'original' | 'init';
 }): Promise<ActionResult> {
   const isDirectory = await isDir(path.join(themePath, themeComponentName));
 
   // Top/Parent/ComponentName => ComponentName
-  const componentName = _.last(themeComponentName.split('/'));
+  const componentName = _.last(themeComponentName.split('/'))!;
   const wrapperComponentName = `${componentName}Wrapper`;
 
   const wrapperFileName = `${themeComponentName}${isDirectory ? '/index' : ''}${
@@ -122,11 +128,12 @@ export async function wrap({
   const toPath = path.resolve(siteDir, THEME_PATH, wrapperFileName);
 
   const content = typescript
-    ? `import React, {ComponentProps} from 'react';
-import type ${componentName}Type from '@theme/${themeComponentName}';
+    ? `import React from 'react';
 import ${componentName} from '@theme-${importType}/${themeComponentName}';
+import type ${componentName}Type from '@theme/${themeComponentName}';
+import type {WrapperProps} from '@docusaurus/types';
 
-type Props = ComponentProps<typeof ${componentName}Type>;
+type Props = WrapperProps<typeof ${componentName}Type>;
 
 export default function ${wrapperComponentName}(props: Props): JSX.Element {
   return (

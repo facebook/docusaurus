@@ -5,31 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import globalData from '@generated/globalData';
-import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
+import type {ClientModule} from '@docusaurus/types';
 
-export default (function gtagModule() {
-  if (!ExecutionEnvironment.canUseDOM) {
-    return null;
-  }
-
-  const {trackingID} = globalData['docusaurus-plugin-google-gtag']!
-    .default as PluginOptions;
-
-  return {
-    onRouteUpdate({location}: {location: Location}) {
-      // Always refer to the variable on window in case it gets overridden
-      // elsewhere.
-      window.gtag('config', trackingID, {
-        page_path: location.pathname,
-        page_title: document.title,
+const clientModule: ClientModule = {
+  onRouteDidUpdate({location, previousLocation}) {
+    if (
+      previousLocation &&
+      (location.pathname !== previousLocation.pathname ||
+        location.search !== previousLocation.search ||
+        location.hash !== previousLocation.hash)
+    ) {
+      // Normally, the document title is updated in the next tick due to how
+      // `react-helmet-async` updates it. We want to send the current document's
+      // title to gtag instead of the old one's, so we use `setTimeout` to defer
+      // execution to the next tick.
+      // See: https://github.com/facebook/docusaurus/issues/7420
+      setTimeout(() => {
+        // Always refer to the variable on window in case it gets overridden
+        // elsewhere.
+        window.gtag(
+          'set',
+          'page_path',
+          location.pathname + location.search + location.hash,
+        );
+        window.gtag('event', 'page_view');
       });
-      window.gtag('event', 'page_view', {
-        page_title: document.title,
-        page_location: location.href,
-        page_path: location.pathname,
-      });
-    },
-  };
-})();
+    }
+  },
+};
+
+export default clientModule;

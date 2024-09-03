@@ -4,11 +4,17 @@ on:
   push:
     branches:
       - main
+      - docusaurus-v**
   pull_request:
     branches:
       - main
+      - docusaurus-v**
   schedule:
     - cron: 25 22 * * 3
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   analyze:
@@ -26,13 +32,13 @@ jobs:
           - javascript
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
+        uses: github/codeql-action/init@2c779ab0d087cd7fe7b826087247c2c81f27bfa6 # 3.26.5
         with:
           languages: ${{ matrix.language }}
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
+        uses: github/codeql-action/analyze@2c779ab0d087cd7fe7b826087247c2c81f27bfa6 # 3.26.5

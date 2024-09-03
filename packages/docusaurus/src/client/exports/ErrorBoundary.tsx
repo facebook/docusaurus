@@ -6,14 +6,22 @@
  */
 
 import React, {type ReactNode} from 'react';
-
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import type {Props} from '@docusaurus/ErrorBoundary';
-import DefaultFallback from '@theme/Error';
+import ThemeError from '@theme/Error';
+import type {
+  FallbackFunction,
+  FallbackParams,
+  Props,
+} from '@docusaurus/ErrorBoundary';
 
 type State = {
   error: Error | null;
 };
+
+// eslint-disable-next-line react/function-component-definition
+const DefaultFallback: FallbackFunction = (params) => (
+  <ThemeError {...params} />
+);
 
 export default class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -33,17 +41,15 @@ export default class ErrorBoundary extends React.Component<Props, State> {
     const {error} = this.state;
 
     if (error) {
-      const fallback = this.props.fallback ?? DefaultFallback;
-      return fallback({
+      const fallbackParams: FallbackParams = {
         error,
         tryAgain: () => this.setState({error: null}),
-      });
+      };
+      const fallback: FallbackFunction = this.props.fallback ?? DefaultFallback;
+      return fallback(fallbackParams);
     }
 
-    return (
-      children ??
-      // See https://github.com/facebook/docusaurus/issues/6337#issuecomment-1012913647
-      null
-    );
+    // See https://github.com/facebook/docusaurus/issues/6337#issuecomment-1012913647
+    return children ?? null;
   }
 }

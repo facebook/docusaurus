@@ -42,7 +42,7 @@ describe('normalizePluginOptions', () => {
   it('throws for invalid options', () => {
     const options = {foo: 1};
     expect(() =>
-      normalizePluginOptions(Joi.object({foo: Joi.string()}), options),
+      normalizePluginOptions(Joi.object<object>({foo: Joi.string()}), options),
     ).toThrowErrorMatchingInlineSnapshot(`""foo" must be a string"`);
   });
 
@@ -59,7 +59,7 @@ describe('normalizePluginOptions', () => {
         options,
       ),
     ).toEqual({foo: 'a', id: 'default'});
-    expect(consoleMock).toBeCalledWith(
+    expect(consoleMock).toHaveBeenCalledWith(
       expect.stringMatching(/"foo" deprecated/),
     );
   });
@@ -90,7 +90,10 @@ describe('normalizeThemeConfig', () => {
   it('throws for invalid options', () => {
     const themeConfig = {foo: 1, bar: 1};
     expect(() =>
-      normalizeThemeConfig(Joi.object({foo: Joi.string()}), themeConfig),
+      normalizeThemeConfig(
+        Joi.object<object>({foo: Joi.string()}),
+        themeConfig,
+      ),
     ).toThrowErrorMatchingInlineSnapshot(`""foo" must be a string"`);
   });
 
@@ -107,7 +110,7 @@ describe('normalizeThemeConfig', () => {
         themeConfig,
       ),
     ).toEqual(themeConfig);
-    expect(consoleMock).toBeCalledWith(
+    expect(consoleMock).toHaveBeenCalledWith(
       expect.stringMatching(/"foo" deprecated/),
     );
   });

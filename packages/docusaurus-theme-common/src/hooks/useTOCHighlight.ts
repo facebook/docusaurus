@@ -38,15 +38,12 @@ function getAnchors({
 }: {
   minHeadingLevel: number;
   maxHeadingLevel: number;
-}) {
+}): HTMLElement[] {
   const selectors = [];
   for (let i = minHeadingLevel; i <= maxHeadingLevel; i += 1) {
     selectors.push(`h${i}.anchor`);
   }
-
-  return Array.from(
-    document.querySelectorAll(selectors.join()),
-  ) as HTMLElement[];
+  return Array.from(document.querySelectorAll(selectors.join()));
 }
 
 function getActiveAnchor(
@@ -81,8 +78,8 @@ function getActiveAnchor(
     // https://github.com/facebook/docusaurus/issues/5318
     return anchors[anchors.indexOf(nextVisibleAnchor) - 1] ?? null;
   }
-  // no anchor under viewport top? (ie we are at the bottom of the page)
-  // => highlight the last anchor found
+  // No anchor under viewport top (i.e. we are at the bottom of the page),
+  // highlight the last anchor found
   return anchors[anchors.length - 1] ?? null;
 }
 
@@ -140,7 +137,7 @@ export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
 
   useEffect(() => {
     if (!config) {
-      // no-op, highlighting is disabled
+      // No-op, highlighting is disabled
       return () => {};
     }
 
@@ -154,7 +151,7 @@ export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
     function updateLinkActiveClass(link: HTMLAnchorElement, active: boolean) {
       if (active) {
         if (lastActiveLinkRef.current && lastActiveLinkRef.current !== link) {
-          lastActiveLinkRef.current?.classList.remove(linkActiveClassName);
+          lastActiveLinkRef.current.classList.remove(linkActiveClassName);
         }
         link.classList.add(linkActiveClassName);
         lastActiveLinkRef.current = link;

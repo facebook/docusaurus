@@ -7,13 +7,13 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import tree from 'tree-node-cli';
+import {posixPath} from '@docusaurus/utils';
+import {eject, wrap} from '../actions';
 import {ThemePath, Components, createTempSiteDir} from './testUtils';
 import type {SwizzleAction} from '@docusaurus/types';
-import tree from 'tree-node-cli';
-import {eject, wrap} from '../actions';
-import {posixPath} from '@docusaurus/utils';
 
-// use relative paths and sort files for tests
+// Use relative paths and sort files for tests
 function stableCreatedFiles(
   siteThemePath: string,
   createdFiles: string[],
@@ -24,13 +24,18 @@ function stableCreatedFiles(
 }
 
 describe('eject', () => {
-  async function testEject(action: SwizzleAction, componentName: string) {
+  async function testEject(
+    action: SwizzleAction,
+    componentName: string,
+    {typescript}: {typescript: boolean} = {typescript: true},
+  ) {
     const siteDir = await createTempSiteDir();
     const siteThemePath = path.join(siteDir, 'src/theme');
     const result = await eject({
       siteDir,
       componentName,
       themePath: ThemePath,
+      typescript,
     });
     return {
       siteDir,
@@ -53,6 +58,22 @@ describe('eject', () => {
     `);
   });
 
+  it(`eject ${Components.JsComponent} JS`, async () => {
+    const result = await testEject('eject', Components.JsComponent, {
+      typescript: false,
+    });
+    expect(result.createdFiles).toEqual([
+      'JsComponent/index.css',
+      'JsComponent/index.js',
+    ]);
+    expect(result.tree).toMatchInlineSnapshot(`
+      "theme
+      └── JsComponent
+          ├── index.css
+          └── index.js"
+    `);
+  });
+
   it(`eject ${Components.ComponentInSubFolder}`, async () => {
     const result = await testEject('eject', Components.ComponentInSubFolder);
     expect(result.createdFiles).toEqual([
@@ -72,12 +93,27 @@ describe('eject', () => {
     `);
   });
 
+  it(`eject ${Components.Sibling}`, async () => {
+    const result = await testEject('eject', Components.Sibling);
+    expect(result.createdFiles).toEqual([
+      'ComponentInFolder/Sibling.css',
+      'ComponentInFolder/Sibling.tsx',
+    ]);
+    expect(result.tree).toMatchInlineSnapshot(`
+      "theme
+      └── ComponentInFolder
+          ├── Sibling.css
+          └── Sibling.tsx"
+    `);
+  });
+
   it(`eject ${Components.ComponentInFolder}`, async () => {
     const result = await testEject('eject', Components.ComponentInFolder);
     expect(result.createdFiles).toEqual([
-      // TODO do we really want to copy those Sibling components?
-      // It's hard to filter those reliably
-      // (index.* is not good, we need to include styles.css too)
+      'ComponentInFolder/ComponentInSubFolder/index.css',
+      'ComponentInFolder/ComponentInSubFolder/index.tsx',
+      'ComponentInFolder/ComponentInSubFolder/styles.css',
+      'ComponentInFolder/ComponentInSubFolder/styles.module.css',
       'ComponentInFolder/Sibling.css',
       'ComponentInFolder/Sibling.tsx',
       'ComponentInFolder/index.css',
@@ -86,6 +122,11 @@ describe('eject', () => {
     expect(result.tree).toMatchInlineSnapshot(`
       "theme
       └── ComponentInFolder
+          ├── ComponentInSubFolder
+          │   ├── index.css
+          │   ├── index.tsx
+          │   ├── styles.css
+          │   └── styles.module.css
           ├── Sibling.css
           ├── Sibling.tsx
           ├── index.css
@@ -112,7 +153,7 @@ describe('wrap', () => {
       siteDir,
       siteThemePath,
       createdFiles: stableCreatedFiles(siteThemePath, result.createdFiles),
-      firstFileContent: () => fs.readFile(result.createdFiles[0], 'utf8'),
+      firstFileContent: () => fs.readFile(result.createdFiles[0]!, 'utf8'),
       tree: tree(siteThemePath),
     };
   }

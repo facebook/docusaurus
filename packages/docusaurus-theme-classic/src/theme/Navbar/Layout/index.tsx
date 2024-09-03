@@ -7,13 +7,14 @@
 
 import React, {type ComponentProps} from 'react';
 import clsx from 'clsx';
-import NavbarMobileSidebar from '@theme/Navbar/MobileSidebar';
-import type {Props} from '@theme/Navbar/Layout';
+import {useThemeConfig} from '@docusaurus/theme-common';
 import {
-  useThemeConfig,
   useHideableNavbar,
   useNavbarMobileSidebar,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
+import {translate} from '@docusaurus/Translate';
+import NavbarMobileSidebar from '@theme/Navbar/MobileSidebar';
+import type {Props} from '@theme/Navbar/Layout';
 
 import styles from './styles.module.css';
 
@@ -36,6 +37,11 @@ export default function NavbarLayout({children}: Props): JSX.Element {
   return (
     <nav
       ref={navbarRef}
+      aria-label={translate({
+        id: 'theme.NavBar.navAriaLabel',
+        message: 'Main',
+        description: 'The ARIA label for the main navigation',
+      })}
       className={clsx(
         'navbar',
         'navbar--fixed-top',

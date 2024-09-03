@@ -5,23 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import nodePath from 'path';
 import fs from 'fs-extra';
+import logger from '@docusaurus/logger';
 import traverse, {type Node} from '@babel/traverse';
 import generate from '@babel/generator';
-import logger from '@docusaurus/logger';
 import {
   parse,
   type types as t,
   type NodePath,
   type TransformOptions,
 } from '@babel/core';
+import {SRC_DIR_NAME} from '@docusaurus/utils';
+import {safeGlobby} from '../utils';
 import type {
   InitializedPlugin,
   TranslationFileContent,
 } from '@docusaurus/types';
-import nodePath from 'path';
-import {SRC_DIR_NAME} from '@docusaurus/utils';
-import {safeGlobby} from '../utils';
 
 // We only support extracting source code translations from these kind of files
 const TranslatableSourceCodeExtension = new Set([
@@ -160,7 +160,7 @@ export async function extractSourceCodeFileTranslations(
       filename: sourceCodeFilePath,
     }) as Node;
 
-    const translations = await extractSourceCodeAstTranslations(
+    const translations = extractSourceCodeAstTranslations(
       ast,
       sourceCodeFilePath,
     );
@@ -184,7 +184,7 @@ function extractSourceCodeAstTranslations(
   sourceCodeFilePath: string,
 ): SourceCodeFileTranslations {
   function sourceWarningPart(node: Node) {
-    return `File: ${sourceCodeFilePath} at line ${node.loc?.start.line}
+    return `File: ${sourceCodeFilePath} at line ${node.loc?.start.line ?? '?'}
 Full code: ${generate(node).code}`;
   }
 
@@ -243,9 +243,7 @@ Full code: ${generate(node).code}`;
             .find(
               (attr) =>
                 attr.isJSXAttribute() &&
-                (attr as NodePath<t.JSXAttribute>)
-                  .get('name')
-                  .isJSXIdentifier({name: propName}),
+                attr.get('name').isJSXIdentifier({name: propName}),
             );
 
           if (attributePath) {
@@ -315,7 +313,9 @@ ${sourceWarningPart(path.node)}`);
         if (isJSXText || isJSXExpressionContainer) {
           message = isJSXText
             ? singleChildren.node.value.trim().replace(/\s+/g, ' ')
-            : (singleChildren.get('expression') as NodePath).evaluate().value;
+            : String(
+                (singleChildren.get('expression') as NodePath).evaluate().value,
+              );
 
           translations[id ?? message] = {
             message,
@@ -347,10 +347,12 @@ ${sourceWarningPart(path.node)}`,
             firstArgEvaluated.confident &&
             typeof firstArgEvaluated.value === 'object'
           ) {
-            const {message, id, description} = firstArgEvaluated.value;
-            translations[id ?? message] = {
-              message: message ?? id,
-              ...(description && {description}),
+            const {message, id, description} = firstArgEvaluated.value as {
+              [propName: string]: unknown;
+            };
+            translations[String(id ?? message)] = {
+              message: String(message ?? id),
+              ...(Boolean(description) && {description: String(description)}),
             };
           } else {
             warnings.push(

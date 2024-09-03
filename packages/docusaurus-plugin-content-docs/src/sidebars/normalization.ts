@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
+import logger from '@docusaurus/logger';
+import {isCategoriesShorthand} from './utils';
 import type {
   NormalizedSidebarItem,
   NormalizedSidebar,
@@ -16,9 +19,6 @@ import type {
   SidebarsConfig,
   NormalizedSidebarItemCategory,
 } from './types';
-import {isCategoriesShorthand} from './utils';
-import _ from 'lodash';
-import logger from '@docusaurus/logger';
 
 function normalizeCategoriesShorthand(
   sidebar: SidebarCategoriesShorthand,
@@ -43,6 +43,12 @@ export function normalizeItem(
   if (isCategoriesShorthand(item)) {
     // This will never throw anyways
     return normalizeSidebar(item, 'sidebar items slice');
+  }
+  if (
+    (item.type === 'doc' || item.type === 'ref') &&
+    typeof item.label === 'string'
+  ) {
+    return [{...item, translatable: true}];
   }
   if (item.type === 'category') {
     const normalizedCategory: NormalizedSidebarItemCategory = {

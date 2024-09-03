@@ -1,6 +1,0 @@
-copyUntypedFiles.mjs
-.tsbuildinfo
-tsconfig*
-__tests__
-
-src

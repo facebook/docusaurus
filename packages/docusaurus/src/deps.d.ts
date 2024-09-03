@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare module 'remark-admonitions';
-
 declare module 'react-loadable-ssr-addon-v5-slorber' {
+  import type {WebpackPluginInstance, Compiler} from 'webpack';
+
   type Asset = {
     file: string;
     hash: string;
@@ -18,51 +18,41 @@ declare module 'react-loadable-ssr-addon-v5-slorber' {
   export type Manifest = {
     entrypoints: string[];
     origins: {[key: string]: number[]};
-    assets: Array<{[key: string]: Asset[]}>;
+    assets: {[key: string]: Asset[]}[];
   };
 
   export function getBundles(
     manifest: Manifest,
     modulesToBeLoaded: string[],
-  ): {js: Asset[]; css: Asset[]};
+  ): {js?: Asset[]; css?: Asset[]};
 
-  type ReactLoadableSSRAddon = {
-    new (props: {filename: string});
-  };
-
-  const plugin: ReactLoadableSSRAddon;
-  export default plugin;
-}
-
-declare module '@slorber/static-site-generator-webpack-plugin' {
-  export type Locals = {
-    routesLocation: {[filePath: string]: string};
-    generatedFilesDir: string;
-    headTags: string;
-    preBodyTags: string;
-    postBodyTags: string;
-    onLinksCollected: (staticPagePath: string, links: string[]) => void;
-    baseUrl: string;
-    ssrTemplate: string;
-    noIndex: boolean;
-  };
-
-  type StaticSiteGeneratorPlugin = {
-    new (props: {
-      entry: string;
-      locals: Locals;
-      paths: string[];
-      preferFoldersOutput?: boolean;
-      globals: {[key: string]: unknown};
-    });
-  };
-
-  const plugin: StaticSiteGeneratorPlugin;
-  export default plugin;
+  export default class ReactLoadableSSRAddon implements WebpackPluginInstance {
+    constructor(props: {filename: string});
+    apply(compiler: Compiler): void;
+  }
 }
 
 declare module 'webpack/lib/HotModuleReplacementPlugin' {
   import type {HotModuleReplacementPlugin} from 'webpack';
 
   export default HotModuleReplacementPlugin;
+}
+
+// TODO incompatible declaration file: https://github.com/unjs/webpackbar/pull/108
+declare module 'webpackbar' {
+  import webpack from 'webpack';
+
+  export default class WebpackBarPlugin extends webpack.ProgressPlugin {
+    constructor(options: {name: string; color?: string});
+  }
+}
+
+// TODO incompatible declaration file
+declare module 'eta' {
+  export const defaultConfig: object;
+
+  export function compile(
+    template: string,
+    options?: object,
+  ): (data: object, config: object) => string;
 }

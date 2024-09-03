@@ -1,8 +1,5 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "module": "esnext",
-    "jsx": "react-native"
-  },
-  "include": ["src/theme/", "src/*.d.ts", "src/custom-buble.ts"]
+  "extends": "../../tsconfig.base.client.json",
+  "include": ["src/theme", "src/*.d.ts", "src/custom-buble.ts"],
+  "exclude": ["**/__tests__/**"]
 }

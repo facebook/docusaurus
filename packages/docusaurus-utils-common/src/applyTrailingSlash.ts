@@ -5,12 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {addPrefix, removeSuffix} from './stringUtils';
 import type {DocusaurusConfig} from '@docusaurus/types';
 
 export type ApplyTrailingSlashParams = Pick<
   DocusaurusConfig,
   'trailingSlash' | 'baseUrl'
 >;
+
+export function addTrailingSlash(str: string): string {
+  return str.endsWith('/') ? str : `${str}/`;
+}
 
 // Trailing slash handling depends in some site configuration options
 export default function applyTrailingSlash(
@@ -24,13 +29,6 @@ export default function applyTrailingSlash(
     return path;
   }
 
-  // TODO deduplicate: also present in @docusaurus/utils
-  function addTrailingSlash(str: string): string {
-    return str.endsWith('/') ? str : `${str}/`;
-  }
-  function removeTrailingSlash(str: string): string {
-    return str.endsWith('/') ? str.slice(0, -1) : str;
-  }
   function handleTrailingSlash(str: string, trailing: boolean): string {
     return trailing ? addTrailingSlash(str) : removeTrailingSlash(str);
   }
@@ -54,4 +52,14 @@ export default function applyTrailingSlash(
     : handleTrailingSlash(pathname, trailingSlash);
 
   return path.replace(pathname, newPathname);
+}
+
+/** Appends a leading slash to `str`, if one doesn't exist. */
+export function addLeadingSlash(str: string): string {
+  return addPrefix(str, '/');
+}
+
+/** Removes the trailing slash from `str`. */
+export function removeTrailingSlash(str: string): string {
+  return removeSuffix(str, '/');
 }

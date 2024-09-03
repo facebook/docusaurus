@@ -5,17 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadedContent, LoadedVersion} from '../types';
+import {updateTranslationFileMessages} from '@docusaurus/utils';
 import {CURRENT_VERSION_NAME} from '../constants';
 import {
   getLoadedContentTranslationFiles,
   translateLoadedContent,
 } from '../translations';
-import type {DocMetadata} from '@docusaurus/plugin-content-docs';
-import {updateTranslationFileMessages} from '@docusaurus/utils';
+import type {
+  DocMetadata,
+  LoadedContent,
+  LoadedVersion,
+} from '@docusaurus/plugin-content-docs';
 
 function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
   return {
+    sourceDirName: '',
+    draft: false,
+    tags: [],
     editUrl: 'any',
     lastUpdatedAt: 0,
     lastUpdatedBy: 'any',
@@ -24,10 +30,11 @@ function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
     permalink: 'any',
     slug: 'any',
     source: 'any',
-    unversionedId: 'any',
     version: 'any',
     title: `${doc.id} title`,
-    sidebar_label: `${doc.id} title`,
+    frontMatter: {
+      sidebar_label: `${doc.id} title`,
+    },
     description: `${doc.id} description`,
     ...doc,
   };
@@ -39,12 +46,16 @@ function createSampleVersion(
   return {
     label: `${version.versionName} label`,
     path: '/docs/',
-    mainDocId: '',
     routePriority: undefined,
     sidebarFilePath: 'any',
     isLast: true,
     contentPath: 'any',
     contentPathLocalized: 'any',
+    tagsPath: '/tags/',
+    banner: null,
+    badge: true,
+    className: '',
+    drafts: [],
     docs: [
       createSampleDoc({id: 'doc1'}),
       createSampleDoc({id: 'doc2'}),
@@ -58,6 +69,7 @@ function createSampleVersion(
           type: 'category',
           label: 'Getting started',
           collapsed: false,
+          collapsible: true,
           link: {
             type: 'generated-index',
             slug: '/category/getting-started-index-slug',
@@ -73,6 +85,8 @@ function createSampleVersion(
             {
               type: 'doc',
               id: 'doc2',
+              label: 'Second doc translatable',
+              translatable: true,
             },
             {
               type: 'link',
@@ -96,8 +110,10 @@ function createSampleVersion(
           id: 'doc4',
         },
         {
-          type: 'doc',
+          type: 'ref',
           id: 'doc5',
+          label: 'Fifth doc translatable',
+          translatable: true,
         },
       ],
     },
@@ -133,7 +149,7 @@ function getSampleTranslationFilesTranslated() {
 }
 
 describe('getLoadedContentTranslationFiles', () => {
-  it('returns translation files', async () => {
+  it('returns translation files', () => {
     expect(getSampleTranslationFiles()).toMatchSnapshot();
   });
 });

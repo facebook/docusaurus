@@ -13,6 +13,9 @@ And then both try to dl the translations at the same time, and then we have a
 Used in conjunction with waitForCrowdin.js (which is not enough)
  */
 
+/**
+ * @param {number} ms
+ */
 async function delay(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);

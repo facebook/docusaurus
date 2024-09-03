@@ -100,10 +100,13 @@ describe('createSidebarsUtils', () => {
   const sidebar4: Sidebar = [
     {
       type: 'category',
+      collapsed: false,
+      collapsible: true,
+      label: 'Related',
       items: [
-        {type: 'link', href: 'https://facebook.com'},
-        {type: 'link', href: 'https://reactjs.org'},
-        {type: 'link', href: 'https://docusaurus.io'},
+        {type: 'link', href: 'https://facebook.com', label: 'Facebook'},
+        {type: 'link', href: 'https://reactjs.org', label: 'React'},
+        {type: 'link', href: 'https://docusaurus.io', label: 'Docusaurus'},
       ],
     },
     {
@@ -134,11 +137,11 @@ describe('createSidebarsUtils', () => {
     getFirstLink,
   } = createSidebarsUtils(sidebars);
 
-  it('getFirstDocIdOfFirstSidebar', async () => {
+  it('getFirstDocIdOfFirstSidebar', () => {
     expect(getFirstDocIdOfFirstSidebar()).toBe('doc1');
   });
 
-  it('getSidebarNameByDocId', async () => {
+  it('getSidebarNameByDocId', () => {
     expect(getSidebarNameByDocId('doc1')).toBe('sidebar1');
     expect(getSidebarNameByDocId('doc2')).toBe('sidebar1');
     expect(getSidebarNameByDocId('doc3')).toBe('sidebar2');
@@ -149,8 +152,14 @@ describe('createSidebarsUtils', () => {
     expect(getSidebarNameByDocId('unknown_id')).toBeUndefined();
   });
 
-  it('getDocNavigation', async () => {
-    expect(getDocNavigation('doc1', 'doc1', undefined)).toEqual({
+  it('getDocNavigation', () => {
+    expect(
+      getDocNavigation({
+        docId: 'doc1',
+        displayedSidebar: undefined,
+        unlistedIds: new Set(),
+      }),
+    ).toEqual({
       sidebarName: 'sidebar1',
       previous: undefined,
       next: {
@@ -158,7 +167,13 @@ describe('createSidebarsUtils', () => {
         id: 'doc2',
       },
     });
-    expect(getDocNavigation('doc2', 'doc2', undefined)).toEqual({
+    expect(
+      getDocNavigation({
+        docId: 'doc2',
+        displayedSidebar: undefined,
+        unlistedIds: new Set(),
+      }),
+    ).toEqual({
       sidebarName: 'sidebar1',
       previous: {
         type: 'doc',
@@ -167,7 +182,13 @@ describe('createSidebarsUtils', () => {
       next: undefined,
     });
 
-    expect(getDocNavigation('doc3', 'doc3', undefined)).toEqual({
+    expect(
+      getDocNavigation({
+        docId: 'doc3',
+        displayedSidebar: undefined,
+        unlistedIds: new Set(),
+      }),
+    ).toEqual({
       sidebarName: 'sidebar2',
       previous: undefined,
       next: {
@@ -175,7 +196,13 @@ describe('createSidebarsUtils', () => {
         id: 'doc4',
       },
     });
-    expect(getDocNavigation('doc4', 'doc4', undefined)).toEqual({
+    expect(
+      getDocNavigation({
+        docId: 'doc4',
+        displayedSidebar: undefined,
+        unlistedIds: new Set(),
+      }),
+    ).toEqual({
       sidebarName: 'sidebar2',
       previous: {
         type: 'doc',
@@ -185,7 +212,13 @@ describe('createSidebarsUtils', () => {
       next: undefined,
     });
 
-    expect(getDocNavigation('doc5', 'doc5', undefined)).toMatchObject({
+    expect(
+      getDocNavigation({
+        docId: 'doc5',
+        displayedSidebar: undefined,
+        unlistedIds: new Set(),
+      }),
+    ).toMatchObject({
       sidebarName: 'sidebar3',
       previous: undefined,
       next: {
@@ -193,7 +226,13 @@ describe('createSidebarsUtils', () => {
         label: 'S3 SubCategory',
       },
     });
-    expect(getDocNavigation('doc6', 'doc6', undefined)).toMatchObject({
+    expect(
+      getDocNavigation({
+        docId: 'doc6',
+        displayedSidebar: undefined,
+        unlistedIds: new Set(),
+      }),
+    ).toMatchObject({
       sidebarName: 'sidebar3',
       previous: {
         type: 'category',
@@ -204,7 +243,13 @@ describe('createSidebarsUtils', () => {
         id: 'doc7',
       },
     });
-    expect(getDocNavigation('doc7', 'doc7', undefined)).toEqual({
+    expect(
+      getDocNavigation({
+        docId: 'doc7',
+        displayedSidebar: undefined,
+        unlistedIds: new Set(),
+      }),
+    ).toEqual({
       sidebarName: 'sidebar3',
       previous: {
         type: 'doc',
@@ -212,24 +257,40 @@ describe('createSidebarsUtils', () => {
       },
       next: undefined,
     });
-    expect(getDocNavigation('doc3', 'doc3', null)).toEqual({
+    expect(
+      getDocNavigation({
+        docId: 'doc3',
+        displayedSidebar: null,
+        unlistedIds: new Set(),
+      }),
+    ).toEqual({
       sidebarName: undefined,
       previous: undefined,
       next: undefined,
     });
     expect(() =>
-      getDocNavigation('doc3', 'doc3', 'foo'),
+      getDocNavigation({
+        docId: 'doc3',
+        displayedSidebar: 'foo',
+        unlistedIds: new Set(),
+      }),
     ).toThrowErrorMatchingInlineSnapshot(
       `"Doc with ID doc3 wants to display sidebar foo but a sidebar with this name doesn't exist"`,
     );
-    expect(getDocNavigation('doc3', 'doc3', 'sidebar1')).toEqual({
+    expect(
+      getDocNavigation({
+        docId: 'doc3',
+        displayedSidebar: 'sidebar1',
+        unlistedIds: new Set(),
+      }),
+    ).toEqual({
       sidebarName: 'sidebar1',
       previous: undefined,
       next: undefined,
     });
   });
 
-  it('getCategoryGeneratedIndexNavigation', async () => {
+  it('getCategoryGeneratedIndexNavigation', () => {
     expect(
       getCategoryGeneratedIndexNavigation('/s3-subcategory-index-permalink'),
     ).toMatchObject({
@@ -259,7 +320,7 @@ describe('createSidebarsUtils', () => {
     });
   });
 
-  it('getCategoryGeneratedIndexList', async () => {
+  it('getCategoryGeneratedIndexList', () => {
     expect(getCategoryGeneratedIndexList()).toMatchObject([
       {
         type: 'category',
@@ -301,7 +362,7 @@ describe('createSidebarsUtils', () => {
 });
 
 describe('collectSidebarDocItems', () => {
-  it('can collect docs', async () => {
+  it('can collect docs', () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -357,7 +418,7 @@ describe('collectSidebarDocItems', () => {
 });
 
 describe('collectSidebarCategories', () => {
-  it('can collect categories', async () => {
+  it('can collect categories', () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -415,7 +476,7 @@ describe('collectSidebarCategories', () => {
 });
 
 describe('collectSidebarLinks', () => {
-  it('can collect links', async () => {
+  it('can collect links', () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -453,7 +514,7 @@ describe('collectSidebarLinks', () => {
 });
 
 describe('collectSidebarsDocIds', () => {
-  it('can collect sidebars doc items', async () => {
+  it('can collect sidebars doc items', () => {
     const sidebar1: Sidebar = [
       {
         type: 'category',
@@ -499,7 +560,7 @@ describe('collectSidebarsDocIds', () => {
 });
 
 describe('transformSidebarItems', () => {
-  it('can transform sidebar items', async () => {
+  it('can transform sidebar items', () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -658,6 +719,22 @@ describe('toDocNavigationLink', () => {
     } as PropNavigationLink);
   });
 
+  it('with sidebar item label', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {},
+        }),
+        {sidebarItemLabel: 'Doc sidebar item label'},
+      ),
+    ).toEqual({
+      title: 'Doc sidebar item label',
+      permalink: '/docPermalink',
+    } as PropNavigationLink);
+  });
+
   it('with pagination_label + sidebar_label front matter', () => {
     expect(
       toDocNavigationLink(
@@ -672,6 +749,24 @@ describe('toDocNavigationLink', () => {
       ),
     ).toEqual({
       title: 'pagination_label',
+      permalink: '/docPermalink',
+    } as PropNavigationLink);
+  });
+
+  it('with sidebar_label + sidebar item label', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {
+            sidebar_label: 'sidebar_label',
+          },
+        }),
+        {sidebarItemLabel: 'Doc sidebar item label'},
+      ),
+    ).toEqual({
+      title: 'sidebar_label',
       permalink: '/docPermalink',
     } as PropNavigationLink);
   });
@@ -696,10 +791,10 @@ describe('toNavigationLink', () => {
 
   it('with doc items', () => {
     expect(toNavigationLink({type: 'doc', id: 'doc1'}, docsById)).toEqual(
-      toDocNavigationLink(docsById.doc1),
+      toDocNavigationLink(docsById.doc1!),
     );
     expect(toNavigationLink({type: 'doc', id: 'doc2'}, docsById)).toEqual(
-      toDocNavigationLink(docsById.doc2),
+      toDocNavigationLink(docsById.doc2!),
     );
     expect(() =>
       toNavigationLink({type: 'doc', id: 'doc3'}, docsById),
@@ -724,7 +819,7 @@ describe('toNavigationLink', () => {
         },
         docsById,
       ),
-    ).toEqual(toDocNavigationLink(docsById.doc1));
+    ).toEqual(toDocNavigationLink(docsById.doc1!));
     expect(() =>
       toNavigationLink(
         {

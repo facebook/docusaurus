@@ -5,9 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {BlogContent, BlogPaginated} from './types';
 import type {TranslationFileContent, TranslationFile} from '@docusaurus/types';
-import type {PluginOptions} from '@docusaurus/plugin-content-blog';
+import type {
+  PluginOptions,
+  BlogContent,
+  BlogPaginated,
+} from '@docusaurus/plugin-content-blog';
 
 function translateListPage(
   blogListPaginated: BlogPaginated[],

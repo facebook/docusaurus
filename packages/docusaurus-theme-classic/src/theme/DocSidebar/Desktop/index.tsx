@@ -18,7 +18,9 @@ import styles from './styles.module.css';
 function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
   const {
     navbar: {hideOnScroll},
-    hideableSidebar,
+    docs: {
+      sidebar: {hideable},
+    },
   } = useThemeConfig();
 
   return (
@@ -30,7 +32,7 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
       )}>
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
       <Content path={path} sidebar={sidebar} />
-      {hideableSidebar && <CollapseButton onClick={onCollapse} />}
+      {hideable && <CollapseButton onClick={onCollapse} />}
     </div>
   );
 }

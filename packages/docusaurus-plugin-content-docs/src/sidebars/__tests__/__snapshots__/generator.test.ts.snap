@@ -86,6 +86,9 @@ exports[`DefaultSidebarItemsGenerator generates simple flat sidebar 1`] = `
     "type": "doc",
   },
   {
+    "customProps": {
+      "custom": "prop",
+    },
     "id": "doc1",
     "label": "doc1 sidebar label",
     "type": "doc",
@@ -214,6 +217,7 @@ exports[`DefaultSidebarItemsGenerator uses explicit link over the index/readme.{
   {
     "collapsed": undefined,
     "collapsible": undefined,
+    "description": "Category description",
     "items": [
       {
         "id": "parent/doc2",

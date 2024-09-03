@@ -5,11 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/// <reference types="@docusaurus/module-type-aliases" />
+
 declare module '@docusaurus/plugin-content-docs' {
-  import type {MDXOptions} from '@docusaurus/mdx-loader';
-  import type {ContentPaths, FrontMatterTag} from '@docusaurus/utils';
-  import type {TagsListItem, TagModule, Tag} from '@docusaurus/types';
-  import type {Required} from 'utility-types';
+  import type {MDXOptions, LoadedMDXContent} from '@docusaurus/mdx-loader';
+
+  import type {
+    ContentPaths,
+    FrontMatterTag,
+    TagsListItem,
+    TagModule,
+    FrontMatterLastUpdate,
+    LastUpdateData,
+    TagMetadata,
+    TagsPluginOptions,
+  } from '@docusaurus/utils';
+  import type {Plugin, LoadContext} from '@docusaurus/types';
+  import type {Overwrite, Required} from 'utility-types';
 
   export type Assets = {
     image?: string;
@@ -19,7 +31,7 @@ declare module '@docusaurus/plugin-content-docs' {
    * Custom callback for parsing number prefixes from file/folder names.
    */
   export type NumberPrefixParser = (filename: string) => {
-    /** file name without number prefix, without any other modification. */
+    /** File name without number prefix, without any other modification. */
     filename: string;
     /** The number prefix. Can be float, integer, negative, or anything. */
     numberPrefix?: number;
@@ -53,7 +65,7 @@ declare module '@docusaurus/plugin-content-docs' {
     locale: string;
   }) => string | undefined;
 
-  export type MetadataOptions = {
+  export type MetadataOptions = TagsPluginOptions & {
     /**
      * URL route for the docs section of your site. **DO NOT** include a
      * trailing slash. Use `/` for shipping docs without base path.
@@ -76,9 +88,9 @@ declare module '@docusaurus/plugin-content-docs' {
      */
     editLocalizedFiles: boolean;
     /**	Whether to display the last date the doc was updated. */
-    showLastUpdateTime?: boolean;
+    showLastUpdateTime: boolean;
     /** Whether to display the author who last updated the doc. */
-    showLastUpdateAuthor?: boolean;
+    showLastUpdateAuthor: boolean;
     /**
      * Custom parsing logic to extract number prefixes from file names. Use
      * `false` to disable this behavior and leave the docs untouched, and `true`
@@ -108,6 +120,25 @@ declare module '@docusaurus/plugin-content-docs' {
   // TODO support custom version banner?
   // {type: "error", content: "html content"}
   export type VersionBanner = 'unreleased' | 'unmaintained';
+
+  export type VersionOptions = {
+    /**
+     * The base path of the version, will be appended to `baseUrl` +
+     * `routeBasePath`.
+     */
+    path?: string;
+    /** The label of the version to be used in badges, dropdowns, etc. */
+    label?: string;
+    /** The banner to show at the top of a doc of that version. */
+    banner?: 'none' | VersionBanner;
+    /** Show a badge with the version label at the top of each doc. */
+    badge?: boolean;
+    /** Prevents search engines from indexing this version */
+    noIndex?: boolean;
+    /** Add a custom class name to the <html> element of each doc. */
+    className?: string;
+  };
+
   export type VersionsOptions = {
     /**
      * The version navigated to in priority and displayed by default for docs
@@ -127,23 +158,7 @@ declare module '@docusaurus/plugin-content-docs' {
     /** Include the current version of your docs. */
     includeCurrentVersion: boolean;
     /** Independent customization of each version's properties. */
-    versions: {
-      [versionName: string]: {
-        /**
-         * The base path of the version, will be appended to `baseUrl` +
-         * `routeBasePath`.
-         */
-        path?: string;
-        /** The label of the version to be used in badges, dropdowns, etc. */
-        label?: string;
-        /** The banner to show at the top of a doc of that version. */
-        banner?: 'none' | VersionBanner;
-        /** Show a badge with the version label at the top of each doc. */
-        badge?: boolean;
-        /** Add a custom class name to the <html> element of each doc. */
-        className?: string;
-      };
-    };
+    versions: {[versionName: string]: VersionOptions};
   };
   export type SidebarOptions = {
     /**
@@ -178,10 +193,24 @@ declare module '@docusaurus/plugin-content-docs' {
        */
       exclude: string[];
       /**
-       * Root layout component of each doc page. Provides the version data
-       * context, and is not unmounted when switching docs.
+       * Parent component of all the docs plugin pages (including all versions).
+       * Stays mounted when navigation between docs pages and versions.
        */
-      docLayoutComponent: string;
+      docsRootComponent: string;
+      /**
+       * Parent component of all docs pages of an individual version:
+       * - docs pages with sidebars
+       * - tags pages
+       * Stays mounted when navigation between pages of that specific version.
+       */
+      docVersionRootComponent: string;
+      /**
+       * Parent component of all docs pages with sidebars:
+       * - regular docs pages
+       * - category generated index pages
+       * Stays mounted when navigation between such pages.
+       */
+      docRootComponent: string;
       /** Main doc container, with TOC, pagination, etc. */
       docItemComponent: string;
       /** Root component of the "docs containing tag X" page. */
@@ -190,7 +219,6 @@ declare module '@docusaurus/plugin-content-docs' {
       docTagsListComponent: string;
       /** Root component of the generated category index page. */
       docCategoryGeneratedIndexComponent: string;
-      admonitions: {[key: string]: unknown};
       sidebarItemsGenerator: import('./sidebars/types').SidebarItemsGeneratorOption;
       /**
        * URL route for the tags section of your doc version. Will be appended to
@@ -198,7 +226,22 @@ declare module '@docusaurus/plugin-content-docs' {
        */
       tagsBasePath: string;
     };
-  export type Options = Partial<PluginOptions>;
+  export type Options = Partial<
+    Overwrite<
+      PluginOptions,
+      {
+        /**
+         * Custom parsing logic to extract number prefixes from file names. Use
+         * `false` to disable this behavior and leave the docs untouched, and
+         * `true` to use the default parser.
+         *
+         * @param filename One segment of the path, without any slashes.
+         * @see https://docusaurus.io/docs/sidebar#using-number-prefixes
+         */
+        numberPrefixParser: PluginOptions['numberPrefixParser'] | boolean;
+      }
+    >
+  >;
   export type SidebarsConfig = import('./sidebars/types').SidebarsConfig;
 
   export type VersionMetadata = ContentPaths & {
@@ -232,6 +275,8 @@ declare module '@docusaurus/plugin-content-docs' {
     banner: VersionBanner | null;
     /** Show a badge with the version label at the top of each doc. */
     badge: boolean;
+    /** Prevents search engines from indexing this version */
+    noIndex: boolean;
     /** Add a custom class name to the <html> element of each doc. */
     className: string;
     /**
@@ -346,29 +391,20 @@ declare module '@docusaurus/plugin-content-docs' {
      * @see {@link DocMetadata.prev}
      */
     pagination_prev?: string | null;
-  };
-
-  export type LastUpdateData = {
-    /** A timestamp in **seconds**, directly acquired from `git log`. */
-    lastUpdatedAt?: number;
-    /** `lastUpdatedAt` formatted as a date according to the current locale. */
-    formattedLastUpdatedAt?: string;
-    /** The author's name directly acquired from `git log`. */
-    lastUpdatedBy?: string;
+    /** Should this doc be excluded from production builds? */
+    draft?: boolean;
+    /** Should this doc be accessible but hidden in production builds? */
+    unlisted?: boolean;
+    /** Allows overriding the last updated author and/or date. */
+    last_update?: FrontMatterLastUpdate;
   };
 
   export type DocMetadataBase = LastUpdateData & {
-    // TODO
     /**
-     * Legacy versioned ID. Will be refactored in the future to be unversioned.
+     * The document id.
+     * Multiple documents can have the same id, when in different versions.
      */
     id: string;
-    // TODO
-    /**
-     * Unversioned ID. Should be preferred everywhere over `id` until the latter
-     * is refactored.
-     */
-    unversionedId: string;
     /** The name of the version this doc belongs to. */
     version: string;
     /**
@@ -391,6 +427,15 @@ declare module '@docusaurus/plugin-content-docs' {
     /** Full URL to this doc, with base URL and version path. */
     permalink: string;
     /**
+     * Draft docs will be excluded for production environment.
+     */
+    draft: boolean;
+    /**
+     * Unlisted docs are accessible when directly visible, but will be hidden
+     * from the sidebar and pagination in production.
+     */
+    unlisted: boolean;
+    /**
      * Position in an autogenerated sidebar slice, acquired through front matter
      * or number prefix.
      */
@@ -402,7 +447,7 @@ declare module '@docusaurus/plugin-content-docs' {
      */
     editUrl?: string | null;
     /** Tags, normalized. */
-    tags: Tag[];
+    tags: TagMetadata[];
     /** Front matter, as-is. */
     frontMatter: DocFrontMatter & {[key: string]: unknown};
   };
@@ -453,9 +498,15 @@ declare module '@docusaurus/plugin-content-docs' {
     [docId: string]: PropVersionDoc;
   };
 
+  export type PropDocContent = LoadedMDXContent<
+    DocFrontMatter,
+    DocMetadata,
+    Assets
+  >;
+
   export type PropVersionMetadata = Pick<
     VersionMetadata,
-    'label' | 'banner' | 'badge' | 'className' | 'isLast'
+    'label' | 'banner' | 'badge' | 'className' | 'isLast' | 'noIndex'
   > & {
     /** ID of the docs plugin this version belongs to. */
     pluginId: string;
@@ -493,16 +544,25 @@ declare module '@docusaurus/plugin-content-docs' {
   export type PropTagsListPage = {
     tags: TagsListItem[];
   };
+
+  export type LoadedVersion = VersionMetadata & {
+    docs: DocMetadata[];
+    drafts: DocMetadata[];
+    sidebars: import('./sidebars/types').Sidebars;
+  };
+
+  export type LoadedContent = {
+    loadedVersions: LoadedVersion[];
+  };
+
+  export default function pluginContentDocs(
+    context: LoadContext,
+    options: PluginOptions,
+  ): Promise<Plugin<LoadedContent>>;
 }
 
 declare module '@theme/DocItem' {
-  import type {TOCItem} from '@docusaurus/types';
-  import type {
-    PropVersionMetadata,
-    Assets,
-    DocMetadata,
-    DocFrontMatter,
-  } from '@docusaurus/plugin-content-docs';
+  import type {PropDocContent} from '@docusaurus/plugin-content-docs';
 
   export type DocumentRoute = {
     readonly component: () => JSX.Element;
@@ -513,15 +573,7 @@ declare module '@theme/DocItem' {
 
   export interface Props {
     readonly route: DocumentRoute;
-    readonly versionMetadata: PropVersionMetadata;
-    readonly content: {
-      readonly frontMatter: DocFrontMatter;
-      readonly metadata: DocMetadata;
-      readonly toc: readonly TOCItem[];
-      readonly contentTitle: string | undefined;
-      readonly assets: Assets;
-      (): JSX.Element;
-    };
+    readonly content: PropDocContent;
   }
 
   export default function DocItem(props: Props): JSX.Element;
@@ -559,121 +611,32 @@ declare module '@theme/DocBreadcrumbs' {
   export default function DocBreadcrumbs(): JSX.Element;
 }
 
-declare module '@theme/DocPage' {
+declare module '@theme/DocsRoot' {
+  import type {RouteConfigComponentProps} from 'react-router-config';
+  import type {Required} from 'utility-types';
+
+  export interface Props extends Required<RouteConfigComponentProps, 'route'> {}
+
+  export default function DocsRoot(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocVersionRoot' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
-  import type {DocumentRoute} from '@theme/DocItem';
+  import type {RouteConfigComponentProps} from 'react-router-config';
+  import type {Required} from 'utility-types';
 
-  export interface Props {
-    readonly location: {readonly pathname: string};
-    readonly versionMetadata: PropVersionMetadata;
-    readonly route: {
-      readonly path: string;
-      readonly component: () => JSX.Element;
-      readonly routes: DocumentRoute[];
-    };
+  export interface Props extends Required<RouteConfigComponentProps, 'route'> {
+    readonly version: PropVersionMetadata;
   }
 
-  export default function DocPage(props: Props): JSX.Element;
+  export default function DocVersionRoot(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocPage/Layout' {
-  import type {ReactNode} from 'react';
+declare module '@theme/DocRoot' {
+  import type {RouteConfigComponentProps} from 'react-router-config';
+  import type {Required} from 'utility-types';
 
-  export interface Props {
-    children: ReactNode;
-  }
+  export interface Props extends Required<RouteConfigComponentProps, 'route'> {}
 
-  export default function DocPageLayout(props: Props): JSX.Element;
-}
-
-declare module '@theme/DocPage/Layout/Aside' {
-  import type {Dispatch, SetStateAction} from 'react';
-  import type {PropSidebar} from '@docusaurus/plugin-content-docs';
-
-  export interface Props {
-    sidebar: PropSidebar;
-    hiddenSidebarContainer: boolean;
-    setHiddenSidebarContainer: Dispatch<SetStateAction<boolean>>;
-  }
-
-  export default function DocPageLayoutAside(props: Props): JSX.Element;
-}
-
-declare module '@theme/DocPage/Layout/Main' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    hiddenSidebarContainer: boolean;
-    children: ReactNode;
-  }
-
-  export default function DocPageLayoutMain(props: Props): JSX.Element;
-}
-
-// TODO until TS supports exports field... hope it's in 4.6
-declare module '@docusaurus/plugin-content-docs/client' {
-  export type ActivePlugin = {
-    pluginId: string;
-    pluginData: GlobalPluginData;
-  };
-  export type ActiveDocContext = {
-    activeVersion?: GlobalVersion;
-    activeDoc?: GlobalDoc;
-    alternateDocVersions: {[versionName: string]: GlobalDoc};
-  };
-  export type GlobalDoc = {
-    id: string;
-    path: string;
-    sidebar: string | undefined;
-  };
-
-  export type GlobalVersion = {
-    name: string;
-    label: string;
-    isLast: boolean;
-    path: string;
-    mainDocId: string; // home doc (if docs homepage configured), or first doc
-    docs: GlobalDoc[];
-    sidebars?: {[sidebarId: string]: GlobalSidebar};
-  };
-
-  export type GlobalSidebar = {
-    link?: {
-      label: string;
-      path: string;
-    };
-    // ... we may add other things here later
-  };
-  export type GlobalPluginData = {
-    path: string;
-    versions: GlobalVersion[];
-    breadcrumbs: boolean;
-  };
-  export type DocVersionSuggestions = {
-    // suggest the latest version
-    latestVersionSuggestion: GlobalVersion;
-    // suggest the same doc, in latest version (if exist)
-    latestDocSuggestion?: GlobalDoc;
-  };
-  export type GetActivePluginOptions = {failfast?: boolean}; // use fail-fast option if you know for sure one plugin instance is active
-
-  export const useAllDocsData: () => {[pluginId: string]: GlobalPluginData};
-  export const useDocsData: (pluginId?: string) => GlobalPluginData;
-  export const useActivePlugin: (
-    options?: GetActivePluginOptions,
-  ) => ActivePlugin | undefined;
-  export const useActivePluginAndVersion: (
-    options?: GetActivePluginOptions,
-  ) =>
-    | {activePlugin: ActivePlugin; activeVersion: GlobalVersion | undefined}
-    | undefined;
-  export const useVersions: (pluginId?: string) => GlobalVersion[];
-  export const useLatestVersion: (pluginId?: string) => GlobalVersion;
-  export const useActiveVersion: (
-    pluginId?: string,
-  ) => GlobalVersion | undefined;
-  export const useActiveDocContext: (pluginId?: string) => ActiveDocContext;
-  export const useDocVersionSuggestions: (
-    pluginId?: string,
-  ) => DocVersionSuggestions;
+  export default function DocRoot(props: Props): JSX.Element;
 }

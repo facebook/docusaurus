@@ -1,0 +1,7 @@
+{
+  "theme.IdealImageMessage.404error": "404. Bildet kunne ikke lastes inn",
+  "theme.IdealImageMessage.error": "Noe gikk galt. Klikk for å laste på nytt",
+  "theme.IdealImageMessage.load": "Klikk for å laste inn på nytt{sizeMessage}",
+  "theme.IdealImageMessage.loading": "Laster inn...",
+  "theme.IdealImageMessage.offline": "Nettleseren din er offline. Bildet ble ikke lastet inn."
+}

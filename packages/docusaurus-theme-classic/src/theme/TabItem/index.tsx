@@ -6,7 +6,10 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import type {Props} from '@theme/TabItem';
+
+import styles from './styles.module.css';
 
 export default function TabItem({
   children,
@@ -14,7 +17,10 @@ export default function TabItem({
   className,
 }: Props): JSX.Element {
   return (
-    <div role="tabpanel" {...{hidden, className}}>
+    <div
+      role="tabpanel"
+      className={clsx(styles.tabItem, className)}
+      {...{hidden}}>
       {children}
     </div>
   );

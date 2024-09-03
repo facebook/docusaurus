@@ -5,19 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  getVersionsFilePath,
-  getVersionedDocsDirPath,
-  getVersionedSidebarsDirPath,
-  getDocsDirPathLocalized,
-} from './versions';
 import fs from 'fs-extra';
 import path from 'path';
-import type {PluginOptions} from '@docusaurus/plugin-content-docs';
-import {loadSidebarsFileUnsafe, resolveSidebarPathOption} from './sidebars';
-import {CURRENT_VERSION_NAME} from './constants';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import {
+  getVersionsFilePath,
+  getVersionDocsDirPath,
+  getVersionSidebarsPath,
+  getDocsDirPathLocalized,
+  readVersionsFile,
+} from './versions/files';
+import {validateVersionName} from './versions/validation';
+import {loadSidebarsFile} from './sidebars';
+import {CURRENT_VERSION_NAME} from './constants';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 
 async function createVersionedSidebarFile({
@@ -35,20 +37,15 @@ async function createVersionedSidebarFile({
   // Note: we don't need the sidebars file to be normalized: it's ok to let
   // plugin option changes to impact older, versioned sidebars
   // We don't validate here, assuming the user has already built the version
-  const sidebars = await loadSidebarsFileUnsafe(sidebarPath);
+  const sidebars = await loadSidebarsFile(sidebarPath);
 
   // Do not create a useless versioned sidebars file if sidebars file is empty
   // or sidebars are disabled/false)
   const shouldCreateVersionedSidebarFile = Object.keys(sidebars).length > 0;
 
   if (shouldCreateVersionedSidebarFile) {
-    const versionedSidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
-    const newSidebarFile = path.join(
-      versionedSidebarsDir,
-      `version-${version}-sidebars.json`,
-    );
     await fs.outputFile(
-      newSidebarFile,
+      getVersionSidebarsPath(siteDir, pluginId, version),
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
     );
@@ -56,8 +53,8 @@ async function createVersionedSidebarFile({
 }
 
 // Tests depend on non-default export for mocking.
-export async function cliDocsVersionCommand(
-  version: string | null | undefined,
+async function cliDocsVersionCommand(
+  version: unknown,
   {id: pluginId, path: docsPath, sidebarPath}: PluginOptions,
   {siteDir, i18n}: LoadContext,
 ): Promise<void> {
@@ -66,45 +63,14 @@ export async function cliDocsVersionCommand(
   const pluginIdLogPrefix =
     pluginId === DEFAULT_PLUGIN_ID ? '[docs]' : `[${pluginId}]`;
 
-  if (!version) {
-    throw new Error(
-      `${pluginIdLogPrefix}: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0.`,
-    );
+  try {
+    validateVersionName(version);
+  } catch (err) {
+    logger.info`${pluginIdLogPrefix}: Invalid version name provided. Try something like: 1.0.0`;
+    throw err;
   }
 
-  if (version.includes('/') || version.includes('\\')) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Do not include slash (/) or backslash (\\). Try something like: 1.0.0.`,
-    );
-  }
-
-  if (version.length > 32) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Length cannot exceed 32 characters. Try something like: 1.0.0.`,
-    );
-  }
-
-  // Since we are going to create `version-${version}` folder, we need to make
-  // sure it's a valid pathname.
-  // eslint-disable-next-line no-control-regex
-  if (/[<>:"|?*\x00-\x1F]/.test(version)) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0.`,
-    );
-  }
-
-  if (/^\.\.?$/.test(version)) {
-    throw new Error(
-      `${pluginIdLogPrefix}: invalid version tag specified! Do not name your version "." or "..". Try something like: 1.0.0.`,
-    );
-  }
-
-  // Load existing versions.
-  let versions = [];
-  const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
-  if (await fs.pathExists(versionsJSONFile)) {
-    versions = JSON.parse(await fs.readFile(versionsJSONFile, 'utf8'));
-  }
+  const versions = (await readVersionsFile(siteDir, pluginId)) ?? [];
 
   // Check if version already exists.
   if (versions.includes(version)) {
@@ -119,13 +85,17 @@ export async function cliDocsVersionCommand(
 
   await Promise.all(
     i18n.locales.map(async (locale) => {
+      const localizationDir = path.resolve(
+        siteDir,
+        i18n.path,
+        i18n.localeConfigs[locale]!.path,
+      );
       // Copy docs files.
       const docsDir =
         locale === i18n.defaultLocale
           ? path.resolve(siteDir, docsPath)
           : getDocsDirPathLocalized({
-              siteDir,
-              locale,
+              localizationDir,
               pluginId,
               versionName: CURRENT_VERSION_NAME,
             });
@@ -146,13 +116,9 @@ export async function cliDocsVersionCommand(
 
       const newVersionDir =
         locale === i18n.defaultLocale
-          ? path.join(
-              getVersionedDocsDirPath(siteDir, pluginId),
-              `version-${version}`,
-            )
+          ? getVersionDocsDirPath(siteDir, pluginId, version)
           : getDocsDirPathLocalized({
-              siteDir,
-              locale,
+              localizationDir,
               pluginId,
               versionName: version,
             });
@@ -164,15 +130,29 @@ export async function cliDocsVersionCommand(
     siteDir,
     pluginId,
     version,
-    sidebarPath: resolveSidebarPathOption(siteDir, sidebarPath),
+    sidebarPath,
   });
 
   // Update versions.json file.
   versions.unshift(version);
   await fs.outputFile(
-    versionsJSONFile,
+    getVersionsFilePath(siteDir, pluginId),
     `${JSON.stringify(versions, null, 2)}\n`,
   );
 
   logger.success`name=${pluginIdLogPrefix}: version name=${version} created!`;
 }
+
+// TODO try to remove this workaround
+// Why use a default export instead of named exports here?
+// This is only to make Jest mocking happy
+// After upgrading Jest/SWC we got this weird mocking error in extendCli tests
+// "spyOn: Cannot redefine property cliDocsVersionCommand"
+// I tried various workarounds, and it's the only one that worked :/
+// See also:
+// - https://pyk.sh/fixing-typeerror-cannot-redefine-property-x-error-in-jest-tests#heading-solution-2-using-barrel-imports
+// - https://github.com/aelbore/esbuild-jest/issues/26
+// - https://stackoverflow.com/questions/67872622/jest-spyon-not-working-on-index-file-cannot-redefine-property/69951703#69951703
+export default {
+  cliDocsVersionCommand,
+};

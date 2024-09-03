@@ -38,7 +38,12 @@ function getTransformOptions(isServer: boolean): TransformOptions {
               exclude: ['transform-typeof-symbol'],
             },
           ],
-      require.resolve('@babel/preset-react'),
+      [
+        require.resolve('@babel/preset-react'),
+        {
+          runtime: 'automatic',
+        },
+      ],
       require.resolve('@babel/preset-typescript'),
     ],
     plugins: [
@@ -53,7 +58,8 @@ function getTransformOptions(isServer: boolean): TransformOptions {
           // better to explicitly specify the version so that it can reuse the
           // helper better. See https://github.com/babel/babel/issues/10261
           // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-          version: require('@babel/runtime/package.json').version,
+          version: (require('@babel/runtime/package.json') as {version: string})
+            .version,
           regenerator: true,
           useESModules: true,
           // Undocumented option that lets us encapsulate our runtime, ensuring

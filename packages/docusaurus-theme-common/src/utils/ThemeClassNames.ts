@@ -18,6 +18,8 @@ export const ThemeClassNames = {
     blogPostPage: 'blog-post-page',
     blogTagsListPage: 'blog-tags-list-page',
     blogTagPostListPage: 'blog-tags-post-list-page',
+    blogAuthorsListPage: 'blog-authors-list-page',
+    blogAuthorsPostsPage: 'blog-authors-posts-page',
 
     docsDocPage: 'docs-doc-page',
     docsTagsListPage: 'docs-tags-list-page',
@@ -27,23 +29,31 @@ export const ThemeClassNames = {
   },
   wrapper: {
     main: 'main-wrapper',
+    // TODO these wrapper class names are now quite useless
+    // TODO do breaking change later in 3.0
+    // we already add plugin name/id class on <html>: that's enough
     blogPages: 'blog-wrapper',
     docsPages: 'docs-wrapper',
     mdxPages: 'mdx-wrapper',
   },
-
-  /**
-   * Follows the naming convention "theme-{blog,doc,version,page}?-<suffix>"
-   */
   common: {
     editThisPage: 'theme-edit-this-page',
     lastUpdated: 'theme-last-updated',
     backToTopButton: 'theme-back-to-top-button',
     codeBlock: 'theme-code-block',
+    admonition: 'theme-admonition',
+    unlistedBanner: 'theme-unlisted-banner',
+    draftBanner: 'theme-draft-banner',
+
+    admonitionType: (type: string) => `theme-admonition-${type}`,
   },
   layout: {
     // TODO add other stable classNames here
   },
+
+  /**
+   * Follows the naming convention "theme-{blog,doc,version,page}?-<suffix>"
+   */
   docs: {
     docVersionBanner: 'theme-doc-version-banner',
     docVersionBadge: 'theme-doc-version-badge',
@@ -66,5 +76,10 @@ export const ThemeClassNames = {
   },
   blog: {
     // TODO add other stable classNames here
+    blogFooterTagsRow: 'theme-blog-footer-tags-row',
+    blogFooterEditMetaRow: 'theme-blog-footer-edit-meta-row',
+  },
+  pages: {
+    pageFooterEditMetaRow: 'theme-pages-footer-edit-meta-row',
   },
 } as const;

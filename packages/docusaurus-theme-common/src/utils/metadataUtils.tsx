@@ -6,8 +6,8 @@
  */
 
 import React, {type ReactNode} from 'react';
-import Head from '@docusaurus/Head';
 import clsx from 'clsx';
+import Head from '@docusaurus/Head';
 import useRouteContext from '@docusaurus/useRouteContext';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import {useTitleFormatter} from './generalUtils';

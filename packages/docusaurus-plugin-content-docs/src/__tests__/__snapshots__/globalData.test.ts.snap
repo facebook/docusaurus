@@ -14,10 +14,24 @@ exports[`toGlobalDataVersion generates the right docs, sidebars, and metadata 1`
       "sidebar": "tutorial",
     },
     {
+      "id": "docNoSidebarUnlisted",
+      "path": "/current/docNoSidebarUnlisted",
+      "sidebar": undefined,
+      "unlisted": true,
+    },
+    {
       "id": "/current/generated",
       "path": "/current/generated",
       "sidebar": "tutorial",
     },
+    {
+      "id": "/current/generated-2",
+      "path": "/current/generated-2",
+      "sidebar": "another",
+    },
+  ],
+  "draftIds": [
+    "some-draft-id",
   ],
   "isLast": true,
   "label": "Label",
@@ -28,7 +42,7 @@ exports[`toGlobalDataVersion generates the right docs, sidebars, and metadata 1`
     "another": {
       "link": {
         "label": "Generated",
-        "path": "/current/generated",
+        "path": "/current/generated-2",
       },
     },
     "links": {},

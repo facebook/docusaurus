@@ -41,12 +41,12 @@ describe('flat', () => {
       null: null,
       undefined,
     };
-    Object.keys(primitives).forEach((key) => {
+    (Object.keys(primitives) as (keyof typeof primitives)[]).forEach((key) => {
       const value = primitives[key];
       expect(
         flat({
           foo: {
-            bar: value,
+            bar: value as string,
           },
         }),
       ).toEqual({

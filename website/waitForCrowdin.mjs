@@ -24,10 +24,13 @@ const pollInterval = 5000;
 const timeout = 5 * 60 * 1000;
 
 const projectId = 428890;
-const token = process.env.CROWDIN_PERSONAL_TOKEN; // set on Netlify
+const token = process.env.CROWDIN_PERSONAL_TOKEN; // Set on Netlify
 
 const translations = new Translations({token});
 
+/**
+ * @param {number} ms
+ */
 async function delay(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);

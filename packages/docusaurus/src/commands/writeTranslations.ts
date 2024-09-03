@@ -5,16 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ConfigOptions, InitializedPlugin} from '@docusaurus/types';
+import fs from 'fs-extra';
 import path from 'path';
-import {loadContext} from '../server';
+import {loadContext, type LoadContextParams} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
-
 import {
   writePluginTranslations,
   writeCodeTranslations,
   type WriteTranslationsOptions,
-  getPluginsDefaultCodeTranslationMessages,
+  loadPluginsDefaultCodeTranslationMessages,
   applyDefaultCodeTranslations,
 } from '../server/translations/translations';
 import {
@@ -22,6 +21,21 @@ import {
   globSourceCodeFilePaths,
 } from '../server/translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
+import type {InitializedPlugin} from '@docusaurus/types';
+
+export type WriteTranslationsCLIOptions = Pick<
+  LoadContextParams,
+  'config' | 'locale'
+> &
+  WriteTranslationsOptions;
+
+function resolveThemeCommonLibDir(): string | undefined {
+  try {
+    return path.dirname(require.resolve('@docusaurus/theme-common'));
+  } catch {
+    return undefined;
+  }
+}
 
 /**
  * This is a hack, so that @docusaurus/theme-common translations are extracted!
@@ -31,25 +45,20 @@ import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
  * We just make an exception and assume that user is using an official theme
  */
 async function getExtraSourceCodeFilePaths(): Promise<string[]> {
-  try {
-    const themeCommonSourceDir = path.dirname(
-      require.resolve('@docusaurus/theme-common/lib'),
-    );
-    return globSourceCodeFilePaths([themeCommonSourceDir]);
-  } catch {
+  const themeCommonLibDir = resolveThemeCommonLibDir();
+  if (!themeCommonLibDir) {
     return []; // User may not use a Docusaurus official theme? Quite unlikely...
   }
+  return globSourceCodeFilePaths([themeCommonLibDir]);
 }
 
 async function writePluginTranslationFiles({
-  siteDir,
+  localizationDir,
   plugin,
-  locale,
   options,
 }: {
-  siteDir: string;
+  localizationDir: string;
   plugin: InitializedPlugin;
-  locale: string;
   options: WriteTranslationsOptions;
 }) {
   if (plugin.getTranslationFiles) {
@@ -61,10 +70,9 @@ async function writePluginTranslationFiles({
     await Promise.all(
       translationFiles.map(async (translationFile) => {
         await writePluginTranslations({
-          siteDir,
+          localizationDir,
           plugin,
           translationFile,
-          locale,
           options,
         });
       }),
@@ -73,14 +81,17 @@ async function writePluginTranslationFiles({
 }
 
 export async function writeTranslations(
-  siteDir: string,
-  options: WriteTranslationsOptions & ConfigOptions & {locale?: string},
+  siteDirParam: string = '.',
+  options: Partial<WriteTranslationsCLIOptions> = {},
 ): Promise<void> {
+  const siteDir = await fs.realpath(siteDirParam);
+
   const context = await loadContext({
     siteDir,
-    customConfigFilePath: options.config,
+    config: options.config,
     locale: options.locale,
   });
+  const {localizationDir} = context;
   const plugins = await initPlugins(context);
 
   const locale = options.locale ?? context.i18n.defaultLocale;
@@ -102,7 +113,8 @@ Available locales are: ${context.i18n.locales.join(',')}.`,
     babelOptions,
     await getExtraSourceCodeFilePaths(),
   );
-  const defaultCodeMessages = await getPluginsDefaultCodeTranslationMessages(
+
+  const defaultCodeMessages = await loadPluginsDefaultCodeTranslationMessages(
     plugins,
   );
 
@@ -111,11 +123,11 @@ Available locales are: ${context.i18n.locales.join(',')}.`,
     defaultCodeMessages,
   });
 
-  await writeCodeTranslations({siteDir, locale}, codeTranslations, options);
+  await writeCodeTranslations({localizationDir}, codeTranslations, options);
 
   await Promise.all(
     plugins.map(async (plugin) => {
-      await writePluginTranslationFiles({siteDir, plugin, locale, options});
+      await writePluginTranslationFiles({localizationDir, plugin, options});
     }),
   );
 }

@@ -7,10 +7,9 @@
 
 import React from 'react';
 import {interpolate, type InterpolateValues} from '@docusaurus/Interpolate';
-import type {TranslateParam, TranslateProps} from '@docusaurus/Translate';
-
 // Can't read it from context, due to exposing imperative API
 import codeTranslations from '@generated/codeTranslations';
+import type {TranslateParam, TranslateProps} from '@docusaurus/Translate';
 
 function getLocalizedMessage({
   id,

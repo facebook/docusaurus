@@ -6,19 +6,24 @@
  */
 
 import React from 'react';
-import IconMenu from '@theme/IconMenu';
-import {useNavbarMobileSidebar} from '@docusaurus/theme-common';
+import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
+import {translate} from '@docusaurus/Translate';
+import IconMenu from '@theme/Icon/Menu';
 
 export default function MobileSidebarToggle(): JSX.Element {
-  const mobileSidebar = useNavbarMobileSidebar();
+  const {toggle, shown} = useNavbarMobileSidebar();
   return (
     <button
-      onClick={mobileSidebar.toggle}
-      onKeyDown={mobileSidebar.toggle}
-      aria-label="Navigation bar toggle"
+      onClick={toggle}
+      aria-label={translate({
+        id: 'theme.docs.sidebar.toggleSidebarButtonAriaLabel',
+        message: 'Toggle navigation bar',
+        description:
+          'The ARIA label for hamburger menu button of mobile navigation',
+      })}
+      aria-expanded={shown}
       className="navbar__toggle clean-btn"
-      type="button"
-      tabIndex={0}>
+      type="button">
       <IconMenu />
     </button>
   );

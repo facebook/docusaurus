@@ -5,27 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import url from 'url';
+import fs from 'fs-extra';
+import {promisify} from 'util';
 import {
   toMessageRelativeFilePath,
   posixPath,
   escapePath,
-  getFileLoaderUtils,
   findAsyncSequential,
+  getFileLoaderUtils,
 } from '@docusaurus/utils';
-import visit from 'unist-util-visit';
-import path from 'path';
-import url from 'url';
-import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import sizeOf from 'image-size';
-import {promisify} from 'util';
-import type {Transformer} from 'unified';
-import type {Image, Literal} from 'mdast';
 import logger from '@docusaurus/logger';
-
-const {
-  loaders: {inlineMarkdownImageFileLoader},
-} = getFileLoaderUtils();
+import {assetRequireAttributeValue, transformNode} from '../utils';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {Transformer} from 'unified';
+// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+import type {MdxJsxTextElement} from 'mdast-util-mdx';
+import type {Image} from 'mdast';
+import type {Parent} from 'unist';
 
 type PluginOptions = {
   staticDirs: string[];
@@ -34,37 +34,68 @@ type PluginOptions = {
 
 type Context = PluginOptions & {
   filePath: string;
+  inlineMarkdownImageFileLoader: string;
 };
 
+type Target = [node: Image, index: number, parent: Parent];
+
 async function toImageRequireNode(
-  node: Image,
+  [node]: Target,
   imagePath: string,
-  filePath: string,
+  context: Context,
 ) {
-  const jsxNode = node as Literal & Partial<Image>;
+  // MdxJsxTextElement => see https://github.com/facebook/docusaurus/pull/8288#discussion_r1125871405
+  const jsxNode = node as unknown as MdxJsxTextElement;
+  const attributes: MdxJsxTextElement['attributes'] = [];
+
   let relativeImagePath = posixPath(
-    path.relative(path.dirname(filePath), imagePath),
+    path.relative(path.dirname(context.filePath), imagePath),
   );
   relativeImagePath = `./${relativeImagePath}`;
 
   const parsedUrl = url.parse(node.url);
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
-
-  const alt = node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : '';
-  const src = `require("${inlineMarkdownImageFileLoader}${
+  const requireString = `${context.inlineMarkdownImageFileLoader}${
     escapePath(relativeImagePath) + search
-  }").default${hash ? ` + '${hash}'` : ''}`;
-  const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
-  let width = '';
-  let height = '';
+  }`;
+  if (node.alt) {
+    attributes.push({
+      type: 'mdxJsxAttribute',
+      name: 'alt',
+      value: escapeHtml(node.alt),
+    });
+  }
+
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'src',
+    value: assetRequireAttributeValue(requireString, hash),
+  });
+
+  if (node.title) {
+    attributes.push({
+      type: 'mdxJsxAttribute',
+      name: 'title',
+      value: escapeHtml(node.title),
+    });
+  }
+
   try {
     const size = (await promisify(sizeOf)(imagePath))!;
     if (size.width) {
-      width = ` width="${size.width}"`;
+      attributes.push({
+        type: 'mdxJsxAttribute',
+        name: 'width',
+        value: String(size.width),
+      });
     }
     if (size.height) {
-      height = ` height="${size.height}"`;
+      attributes.push({
+        type: 'mdxJsxAttribute',
+        name: 'height',
+        value: String(size.height),
+      });
     }
   } catch (err) {
     // Workaround for https://github.com/yarnpkg/berry/pull/3889#issuecomment-1034469784
@@ -75,12 +106,12 @@ ${(err as Error).message}`;
     }
   }
 
-  Object.keys(jsxNode).forEach(
-    (key) => delete jsxNode[key as keyof typeof jsxNode],
-  );
-
-  (jsxNode as Literal).type = 'jsx';
-  jsxNode.value = `<img ${alt}src={${src}}${title}${width}${height} />`;
+  transformNode(jsxNode, {
+    type: 'mdxJsxTextElement',
+    name: 'img',
+    attributes,
+    children: [],
+  });
 }
 
 async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
@@ -103,7 +134,7 @@ async function getImageAbsolutePath(
     await ensureImageFileExist(imageFilePath, filePath);
     return imageFilePath;
   } else if (path.isAbsolute(imagePath)) {
-    // absolute paths are expected to exist in the static folder
+    // Absolute paths are expected to exist in the static folder.
     const possiblePaths = staticDirs.map((dir) => path.join(dir, imagePath));
     const imageFilePath = await findAsyncSequential(
       possiblePaths,
@@ -129,7 +160,8 @@ async function getImageAbsolutePath(
   return imageFilePath;
 }
 
-async function processImageNode(node: Image, context: Context) {
+async function processImageNode(target: Target, context: Context) {
+  const [node] = target;
   if (!node.url) {
     throw new Error(
       `Markdown image URL is mandatory in "${toMessageRelativeFilePath(
@@ -151,16 +183,26 @@ async function processImageNode(node: Image, context: Context) {
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time
   const imagePath = await getImageAbsolutePath(parsedUrl.pathname, context);
-  await toImageRequireNode(node, imagePath, context.filePath);
+  await toImageRequireNode(target, imagePath, context);
 }
 
 export default function plugin(options: PluginOptions): Transformer {
   return async (root, vfile) => {
+    const {visit} = await import('unist-util-visit');
+
+    const fileLoaderUtils = getFileLoaderUtils(
+      vfile.data.compilerName === 'server',
+    );
+    const context: Context = {
+      ...options,
+      filePath: vfile.path!,
+      inlineMarkdownImageFileLoader:
+        fileLoaderUtils.loaders.inlineMarkdownImageFileLoader,
+    };
+
     const promises: Promise<void>[] = [];
-    visit(root, 'image', (node: Image) => {
-      promises.push(
-        processImageNode(node, {...options, filePath: vfile.path!}),
-      );
+    visit(root, 'image', (node: Image, index, parent) => {
+      promises.push(processImageNode([node, index, parent!], context));
     });
     await Promise.all(promises);
   };

@@ -4,14 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
 import {
+  ContentVisibilitySchema,
+  FrontMatterLastUpdateSchema,
+  FrontMatterTOCHeadingLevels,
+  FrontMatterTagsSchema,
   JoiFrontMatter as Joi, // Custom instance for front matter
   URISchema,
   validateFrontMatter,
-  FrontMatterTagsSchema,
-  FrontMatterTOCHeadingLevels,
 } from '@docusaurus/utils-validation';
+import {AuthorSocialsSchema} from './authorsSocials';
 import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 
 const BlogPostFrontMatterAuthorSchema = Joi.object({
@@ -20,6 +22,7 @@ const BlogPostFrontMatterAuthorSchema = Joi.object({
   title: Joi.string(),
   url: URISchema,
   imageURL: Joi.string(),
+  socials: AuthorSocialsSchema,
 })
   .or('key', 'name', 'imageURL')
   .rename('image_url', 'imageURL', {alias: true});
@@ -32,7 +35,6 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   title: Joi.string().allow(''),
   description: Joi.string().allow(''),
   tags: FrontMatterTagsSchema,
-  draft: Joi.boolean(),
   date: Joi.date().raw(),
 
   // New multi-authors front matter:
@@ -69,10 +71,13 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   hide_table_of_contents: Joi.boolean(),
 
   ...FrontMatterTOCHeadingLevels,
-}).messages({
-  'deprecate.error':
-    '{#label} blog frontMatter field is deprecated. Please use {#alternative} instead.',
-});
+  last_update: FrontMatterLastUpdateSchema,
+})
+  .messages({
+    'deprecate.error':
+      '{#label} blog frontMatter field is deprecated. Please use {#alternative} instead.',
+  })
+  .concat(ContentVisibilitySchema);
 
 export function validateBlogPostFrontMatter(frontMatter: {
   [key: string]: unknown;

@@ -5,11 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {DEFAULT_CONFIG, validateThemeConfig} from '../validateThemeConfig';
 import type {Joi} from '@docusaurus/utils-validation';
-import {validateThemeConfig, DEFAULT_CONFIG} from '../validateThemeConfig';
 
 function testValidateThemeConfig(themeConfig: {[key: string]: unknown}) {
-  function validate(schema: Joi.Schema, cfg: {[key: string]: unknown}) {
+  function validate(
+    schema: Joi.ObjectSchema<{[key: string]: unknown}>,
+    cfg: {[key: string]: unknown},
+  ) {
     const {value, error} = schema.validate(cfg, {
       convert: false,
     });
@@ -115,6 +118,53 @@ describe('validateThemeConfig', () => {
         ...DEFAULT_CONFIG,
         ...algolia,
       },
+    });
+  });
+
+  describe('replaceSearchResultPathname', () => {
+    it('escapes from string', () => {
+      const algolia = {
+        appId: 'BH4D9OD16A',
+        indexName: 'index',
+        apiKey: 'apiKey',
+        replaceSearchResultPathname: {
+          from: '/docs/some-\\special-.[regexp]{chars*}',
+          to: '/abc',
+        },
+      };
+      expect(testValidateThemeConfig({algolia})).toEqual({
+        algolia: {
+          ...DEFAULT_CONFIG,
+          ...algolia,
+          replaceSearchResultPathname: {
+            from: '/docs/some\\x2d\\\\special\\x2d\\.\\[regexp\\]\\{chars\\*\\}',
+            to: '/abc',
+          },
+        },
+      });
+    });
+
+    it('converts from regexp to string', () => {
+      const algolia = {
+        appId: 'BH4D9OD16A',
+        indexName: 'index',
+        apiKey: 'apiKey',
+        replaceSearchResultPathname: {
+          from: /^\/docs\/(?:1\.0|next)/,
+          to: '/abc',
+        },
+      };
+
+      expect(testValidateThemeConfig({algolia})).toEqual({
+        algolia: {
+          ...DEFAULT_CONFIG,
+          ...algolia,
+          replaceSearchResultPathname: {
+            from: '^\\/docs\\/(?:1\\.0|next)',
+            to: '/abc',
+          },
+        },
+      });
     });
   });
 

@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
+import {fromPartial} from '@total-typescript/shoehorn';
 import {
   getActivePlugin,
   getLatestVersion,
@@ -16,8 +18,16 @@ import type {
   GlobalPluginData,
   GlobalVersion,
   ActivePlugin,
-} from '@docusaurus/plugin-content-docs/client';
-import _ from 'lodash';
+  GlobalDoc,
+} from '../index';
+
+function globalVersion(partial: Partial<GlobalVersion>): GlobalVersion {
+  return fromPartial<GlobalVersion>(partial);
+}
+
+function globalDoc(partial: Partial<GlobalDoc>): GlobalDoc {
+  return fromPartial<GlobalDoc>(partial);
+}
 
 describe('docsClientUtils', () => {
   it('getActivePlugin', () => {
@@ -25,10 +35,12 @@ describe('docsClientUtils', () => {
       pluginIosId: {
         path: '/ios',
         versions: [],
+        breadcrumbs: true,
       },
       pluginAndroidId: {
         path: '/android',
         versions: [],
+        breadcrumbs: true,
       },
     };
 
@@ -48,7 +60,7 @@ describe('docsClientUtils', () => {
 
     const activePluginIos: ActivePlugin = {
       pluginId: 'pluginIosId',
-      pluginData: data.pluginIosId,
+      pluginData: data.pluginIosId!,
     };
     expect(getActivePlugin(data, '/ios')).toEqual(activePluginIos);
     expect(getActivePlugin(data, '/ios/')).toEqual(activePluginIos);
@@ -56,177 +68,304 @@ describe('docsClientUtils', () => {
 
     const activePluginAndroid: ActivePlugin = {
       pluginId: 'pluginAndroidId',
-      pluginData: data.pluginAndroidId,
+      pluginData: data.pluginAndroidId!,
     };
     expect(getActivePlugin(data, '/android')).toEqual(activePluginAndroid);
     expect(getActivePlugin(data, '/android/')).toEqual(activePluginAndroid);
     expect(getActivePlugin(data, '/android/ijk')).toEqual(activePluginAndroid);
 
     // https://github.com/facebook/docusaurus/issues/6434
-    const onePluginAtRoot = {
+    const onePluginAtRoot: {[key: string]: GlobalPluginData} = {
       pluginIosId: {
         path: '/',
         versions: [],
+        breadcrumbs: true,
       },
       pluginAndroidId: {
         path: '/android',
         versions: [],
+        breadcrumbs: true,
       },
     };
-    expect(getActivePlugin(onePluginAtRoot, '/android/foo').pluginId).toBe(
+    expect(getActivePlugin(onePluginAtRoot, '/android/foo')!.pluginId).toBe(
       'pluginAndroidId',
     );
-    const onePluginAtRootReversed = {
+    const onePluginAtRootReversed: {[key: string]: GlobalPluginData} = {
       pluginAndroidId: {
         path: '/android',
         versions: [],
+        breadcrumbs: true,
       },
       pluginIosId: {
         path: '/',
         versions: [],
+        breadcrumbs: true,
       },
     };
     expect(
-      getActivePlugin(onePluginAtRootReversed, '/android/foo').pluginId,
+      getActivePlugin(onePluginAtRootReversed, '/android/foo')!.pluginId,
     ).toBe('pluginAndroidId');
   });
 
   it('getLatestVersion', () => {
     const versions: GlobalVersion[] = [
-      {
-        name: 'version1',
-        label: 'version1',
-        path: '/???',
+      globalVersion({
         isLast: false,
-        docs: [],
-        mainDocId: '???',
-      },
-      {
-        name: 'version2',
-        label: 'version2',
-        path: '/???',
+      }),
+      globalVersion({
         isLast: true,
-        docs: [],
-        mainDocId: '???',
-      },
-      {
-        name: 'version3',
-        label: 'version3',
-        path: '/???',
+      }),
+      globalVersion({
         isLast: false,
-        docs: [],
-        mainDocId: '???',
-      },
+      }),
     ];
 
     expect(
-      getLatestVersion({
-        path: '???',
-        versions,
-      }),
+      getLatestVersion(
+        fromPartial({
+          versions,
+        }),
+      ),
     ).toEqual(versions[1]);
   });
 
-  it('getActiveVersion', () => {
-    const data: GlobalPluginData = {
-      path: 'docs',
-      versions: [
-        {
+  describe('getActiveVersion', () => {
+    function testActiveVersion(versions: GlobalVersion[], path: string) {
+      return getActiveVersion(fromPartial({versions}), path);
+    }
+
+    it('getActiveVersion for regular docs versions', () => {
+      const versions: GlobalVersion[] = [
+        globalVersion({
           name: 'next',
-          label: 'next',
-          isLast: false,
           path: '/docs/next',
-          docs: [],
-          mainDocId: '???',
-        },
-        {
+        }),
+        globalVersion({
           name: 'version2',
-          label: 'version2',
-          isLast: true,
           path: '/docs',
-          docs: [],
-          mainDocId: '???',
-        },
-        {
+        }),
+        globalVersion({
           name: 'version1',
-          label: 'version1',
-          isLast: false,
           path: '/docs/version1',
-          docs: [],
-          mainDocId: '???',
-        },
-      ],
-    };
+        }),
+      ];
 
-    expect(getActiveVersion(data, '/someUnknownPath')).toBeUndefined();
+      expect(testActiveVersion(versions, '/someUnknownPath')).toBeUndefined();
 
-    expect(getActiveVersion(data, '/docs/next')?.name).toBe('next');
-    expect(getActiveVersion(data, '/docs/next/')?.name).toBe('next');
-    expect(getActiveVersion(data, '/docs/next/someDoc')?.name).toBe('next');
+      expect(testActiveVersion(versions, '/docs/next')?.name).toBe('next');
+      expect(testActiveVersion(versions, '/docs/next/')?.name).toBe('next');
+      expect(testActiveVersion(versions, '/docs/next/someDoc')?.name).toBe(
+        'next',
+      );
 
-    expect(getActiveVersion(data, '/docs')?.name).toBe('version2');
-    expect(getActiveVersion(data, '/docs/')?.name).toBe('version2');
-    expect(getActiveVersion(data, '/docs/someDoc')?.name).toBe('version2');
+      expect(testActiveVersion(versions, '/docs')?.name).toBe('version2');
+      expect(testActiveVersion(versions, '/docs/')?.name).toBe('version2');
+      expect(testActiveVersion(versions, '/docs/someDoc')?.name).toBe(
+        'version2',
+      );
 
-    expect(getActiveVersion(data, '/docs/version1')?.name).toBe('version1');
-    expect(getActiveVersion(data, '/docs/version1')?.name).toBe('version1');
-    expect(getActiveVersion(data, '/docs/version1/someDoc')?.name).toBe(
-      'version1',
-    );
+      expect(testActiveVersion(versions, '/docs/version1')?.name).toBe(
+        'version1',
+      );
+      expect(testActiveVersion(versions, '/docs/version1/')?.name).toBe(
+        'version1',
+      );
+      expect(testActiveVersion(versions, '/docs/version1/someDoc')?.name).toBe(
+        'version1',
+      );
+    });
+
+    it('getActiveVersion is not sensitive to version order', () => {
+      const v1 = globalVersion({
+        name: 'version1',
+        path: '/docs',
+      });
+      const v2 = globalVersion({
+        name: 'version2',
+        path: '/docs/v2',
+      });
+
+      expect(testActiveVersion([v1, v2], '/docs')?.name).toBe('version1');
+      expect(testActiveVersion([v2, v1], '/docs')?.name).toBe('version1');
+      expect(testActiveVersion([v1, v2], '/docs/myDoc')?.name).toBe('version1');
+      expect(testActiveVersion([v2, v1], '/docs/myDoc')?.name).toBe('version1');
+
+      expect(testActiveVersion([v1, v2], '/docs/v2')?.name).toBe('version2');
+      expect(testActiveVersion([v2, v1], '/docs/v2')?.name).toBe('version2');
+      expect(testActiveVersion([v1, v2], '/docs/v2/myDoc')?.name).toBe(
+        'version2',
+      );
+      expect(testActiveVersion([v2, v1], '/docs/v2/myDoc')?.name).toBe(
+        'version2',
+      );
+    });
+
+    it('getActiveVersion is not sensitive to isLast attribute', () => {
+      const v1 = globalVersion({
+        name: 'version1',
+        path: '/docs',
+        isLast: false,
+      });
+      const v2 = globalVersion({
+        name: 'version2',
+        path: '/docs/v2',
+        isLast: false,
+      });
+
+      expect(testActiveVersion([v1, v2], '/docs')?.name).toBe('version1');
+      expect(testActiveVersion([v1, v2], '/docs/v2')?.name).toBe('version2');
+
+      expect(
+        testActiveVersion([{...v1, isLast: true}, v2], '/docs')?.name,
+      ).toBe('version1');
+      expect(
+        testActiveVersion([{...v1, isLast: true}, v2], '/docs/v2')?.name,
+      ).toBe('version2');
+
+      expect(
+        testActiveVersion([v1, {...v2, isLast: true}], '/docs')?.name,
+      ).toBe('version1');
+      expect(
+        testActiveVersion([v1, {...v2, isLast: true}], '/docs/v2')?.name,
+      ).toBe('version2');
+    });
+
+    it('getActiveVersion matches first version when same paths', () => {
+      const v1 = globalVersion({
+        name: 'version1',
+        path: '/docs',
+      });
+      const v2 = globalVersion({
+        name: 'version2',
+        path: '/docs',
+      });
+
+      expect(testActiveVersion([v1, v2], '/docs')?.name).toBe('version1');
+      expect(testActiveVersion([v2, v1], '/docs')?.name).toBe('version2');
+      expect(testActiveVersion([v1, v2], '/docs/myDoc')?.name).toBe('version1');
+      expect(testActiveVersion([v2, v1], '/docs/myDoc')?.name).toBe('version2');
+    });
+
+    it('getActiveVersion without trailing slash', () => {
+      const versions = [
+        globalVersion({
+          name: 'current',
+          path: '/docs',
+        }),
+        globalVersion({
+          name: 'version2',
+          path: '/docs/version2',
+        }),
+        globalVersion({
+          name: 'version1',
+          path: '/docs/version1',
+        }),
+      ];
+
+      expect(testActiveVersion(versions, '/docs')?.name).toBe('current');
+    });
+
+    it('getActiveVersion with trailing slash', () => {
+      const versions = [
+        globalVersion({
+          name: 'current',
+          path: '/docs/',
+        }),
+        globalVersion({
+          name: 'version2',
+          path: '/docs/version2/',
+        }),
+        globalVersion({
+          name: 'version1',
+          path: '/docs/version1/',
+        }),
+      ];
+
+      expect(testActiveVersion(versions, '/docs')?.name).toBe('current');
+    });
+
+    it('getActiveVersion - docs only without trailing slash', () => {
+      const versions = [
+        globalVersion({
+          name: 'current',
+          path: '/',
+        }),
+        globalVersion({
+          name: 'version2',
+          path: '/version2',
+        }),
+        globalVersion({
+          name: 'version1',
+          path: '/version1',
+        }),
+      ];
+
+      expect(testActiveVersion(versions, '/')?.name).toBe('current');
+    });
+
+    it('getActiveVersion - docs only with trailing slash', () => {
+      const versions = [
+        globalVersion({
+          name: 'current',
+          path: '/',
+        }),
+        globalVersion({
+          name: 'version2',
+          path: '/version2/',
+        }),
+        globalVersion({
+          name: 'version1',
+          path: '/version1/',
+        }),
+      ];
+
+      expect(testActiveVersion(versions, '/')?.name).toBe('current');
+    });
   });
 
   it('getActiveDocContext', () => {
-    const versionNext: GlobalVersion = {
+    const versionNext: GlobalVersion = globalVersion({
       name: 'next',
-      label: 'next',
       path: '/docs/next',
-      isLast: false,
-      mainDocId: 'doc1',
       docs: [
-        {
+        globalDoc({
           id: 'doc1',
           path: '/docs/next/',
-        },
-        {
+        }),
+        globalDoc({
           id: 'doc2',
           path: '/docs/next/doc2',
-        },
+        }),
       ],
-    };
+    });
 
-    const version2: GlobalVersion = {
+    const version2: GlobalVersion = globalVersion({
       name: 'version2',
-      label: 'version2',
-      isLast: true,
       path: '/docs',
-      mainDocId: 'doc1',
       docs: [
-        {
+        globalDoc({
           id: 'doc1',
           path: '/docs/',
-        },
-        {
+        }),
+        globalDoc({
           id: 'doc2',
           path: '/docs/doc2',
-        },
+        }),
       ],
-    };
+    });
 
-    const version1: GlobalVersion = {
+    const version1: GlobalVersion = globalVersion({
       name: 'version1',
-      label: 'version1',
       path: '/docs/version1',
-      isLast: false,
-      mainDocId: 'doc1',
       docs: [
-        {
+        globalDoc({
           id: 'doc1',
           path: '/docs/version1/',
-        },
+        }),
       ],
-    };
+    });
 
-    // shuffle, because order shouldn't matter
+    // Shuffle, because order shouldn't matter
     const versions: GlobalVersion[] = _.shuffle([
       versionNext,
       version2,
@@ -236,6 +375,7 @@ describe('docsClientUtils', () => {
     const data: GlobalPluginData = {
       path: 'docs',
       versions,
+      breadcrumbs: true,
     };
 
     expect(getActiveDocContext(data, '/doesNotExist')).toEqual({
@@ -305,57 +445,49 @@ describe('docsClientUtils', () => {
   });
 
   it('getDocVersionSuggestions', () => {
-    const versionNext: GlobalVersion = {
+    const versionNext: GlobalVersion = globalVersion({
       name: 'next',
-      label: 'next',
-      isLast: false,
       path: '/docs/next',
-      mainDocId: 'doc1',
       docs: [
-        {
+        globalDoc({
           id: 'doc1',
           path: '/docs/next/',
-        },
-        {
+        }),
+        globalDoc({
           id: 'doc2',
           path: '/docs/next/doc2',
-        },
+        }),
       ],
-    };
+    });
 
-    const version2: GlobalVersion = {
+    const version2: GlobalVersion = globalVersion({
       name: 'version2',
-      label: 'version2',
       path: '/docs',
       isLast: true,
-      mainDocId: 'doc1',
       docs: [
-        {
+        globalDoc({
           id: 'doc1',
           path: '/docs/',
-        },
-        {
+        }),
+        globalDoc({
           id: 'doc2',
           path: '/docs/doc2',
-        },
+        }),
       ],
-    };
+    });
 
-    const version1: GlobalVersion = {
+    const version1: GlobalVersion = globalVersion({
       name: 'version1',
-      label: 'version1',
-      isLast: false,
       path: '/docs/version1',
-      mainDocId: 'doc1',
       docs: [
-        {
+        globalDoc({
           id: 'doc1',
           path: '/docs/version1/',
-        },
+        }),
       ],
-    };
+    });
 
-    // shuffle, because order shouldn't matter
+    // Shuffle, because order shouldn't matter
     const versions: GlobalVersion[] = _.shuffle([
       versionNext,
       version2,
@@ -365,6 +497,7 @@ describe('docsClientUtils', () => {
     const data: GlobalPluginData = {
       path: 'docs',
       versions,
+      breadcrumbs: true,
     };
 
     expect(getDocVersionSuggestions(data, '/doesNotExist')).toEqual({
@@ -395,7 +528,7 @@ describe('docsClientUtils', () => {
       latestVersionSuggestion: version2,
     });
     expect(getDocVersionSuggestions(data, '/docs/version1/doc2')).toEqual({
-      latestDocSuggestion: undefined, // because /docs/version1/doc2 does not exist
+      latestDocSuggestion: undefined, // Because /docs/version1/doc2 does not exist
       latestVersionSuggestion: version2,
     });
   });

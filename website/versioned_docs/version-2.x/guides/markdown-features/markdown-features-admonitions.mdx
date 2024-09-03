@@ -1,0 +1,258 @@
+---
+id: admonitions
+description: Handling admonitions/callouts in Docusaurus Markdown
+slug: /markdown-features/admonitions
+---
+
+# Admonitions
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
+
+In addition to the basic Markdown syntax, we have a special admonitions syntax by wrapping text with a set of 3 colons, followed by a label denoting its type.
+
+Example:
+
+```md
+:::note
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::tip
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::info
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::caution
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::danger
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::note
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::tip
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::info
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::caution
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::danger
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+</BrowserWindow>
+```
+
+## Usage with Prettier {#usage-with-prettier}
+
+If you use [Prettier](https://prettier.io) to format your Markdown files, Prettier might auto-format your code to invalid admonition syntax. To avoid this problem, add empty lines around the starting and ending directives. This is also why the examples we show here all have empty lines around the content.
+
+{/* prettier-ignore */}
+```md
+<!-- Prettier doesn't change this -->
+:::note
+
+Hello world
+
+:::
+
+<!-- Prettier changes this -->
+:::note
+Hello world
+:::
+
+<!-- to this -->
+::: note Hello world:::
+```
+
+## Specifying title {#specifying-title}
+
+You may also specify an optional title.
+
+```md
+:::note Your Title
+
+Some **content** with _Markdown_ `syntax`.
+
+:::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::note Your Title
+
+Some **content** with _Markdown_ `syntax`.
+
+:::
+
+</BrowserWindow>
+```
+
+## Admonitions with MDX {#admonitions-with-mdx}
+
+You can use MDX inside admonitions too!
+
+```jsx
+import Tabs from '@theme/Tabs';
+
+import TabItem from '@theme/TabItem';
+
+:::tip
+
+Use tabs in admonitions
+
+<Tabs>
+  <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+:::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::tip
+
+Use tabs in admonitions
+
+<Tabs>
+  <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+:::
+
+</BrowserWindow>
+```
+
+## Usage in JSX {#usage-in-jsx}
+
+Outside of Markdown, you can use the `@theme/Admonition` component to get the same output.
+
+```jsx title="MyReactPage.jsx"
+import Admonition from '@theme/Admonition';
+
+export default function MyReactPage() {
+  return (
+    <div>
+      <Admonition type="info">
+        <p>Some information</p>
+      </Admonition>
+    </div>
+  );
+}
+```
+
+The types that are accepted are the same as above: `note`, `tip`, `danger`, `info`, `caution`. Optionally, you can specify an icon by passing a JSX element or a string, or a title:
+
+```jsx title="MyReactPage.jsx"
+<Admonition type="tip" icon="💡" title="Did you know...">
+  <p>
+    Use plugins to introduce shorter syntax for the most commonly used JSX
+    elements in your project.
+  </p>
+</Admonition>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Admonition type="tip" icon="💡" title="Did you know...">
+    Use plugins to introduce shorter syntax for the most commonly used JSX
+    elements in your project.
+  </Admonition>
+</BrowserWindow>
+```
+
+## Customizing admonitions {#customizing-admonitions}
+
+There are two kinds of customizations possible with admonitions: **parsing** and **rendering**.
+
+### Customizing rendering behavior {#customizing-rendering-behavior}
+
+You can customize how each individual admonition type is rendered through [swizzling](../../swizzling.mdx). You can often achieve your goal through a simple wrapper. For example, in the follow example, we swap out the icon for `info` admonitions only.
+
+```jsx title="src/theme/Admonition.js"
+import React from 'react';
+import Admonition from '@theme-original/Admonition';
+import MyIcon from '@site/static/img/info.svg';
+
+export default function AdmonitionWrapper(props) {
+  if (props.type !== 'info') {
+    return <Admonition {...props} />;
+  }
+  return <Admonition icon={<MyIcon />} {...props} />;
+}
+```
+
+### Customizing parsing behavior {#customizing-parsing-behavior}
+
+Admonitions are implemented with a [Remark plugin](./markdown-features-plugins.mdx). The plugin is designed to be configurable. To customize the Remark plugin for a specific content plugin (docs, blog, pages), pass the options through the `admonitions` key.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          admonitions: {
+            tag: ':::',
+            keywords: ['note', 'tip', 'info', 'caution', 'danger'],
+          },
+        },
+      },
+    ],
+  ],
+};
+```
+
+The plugin accepts two options:
+
+- `tag`: The tag that encloses the admonition. Defaults to `:::`.
+- `keywords`: An array of keywords that can be used as the type for the admonition. Note that if you override this, the default values will not be applied.
+
+The `keyword` will be passed as the `type` prop of the `Admonition` component. If you register more types than the default, you are also responsible for providing their implementation—including the container's style, icon, default title text, etc. You would usually need to [eject](../../swizzling.mdx#ejecting) the `@theme/Admonition` component, so you could re-use the same infrastructure as the other types.

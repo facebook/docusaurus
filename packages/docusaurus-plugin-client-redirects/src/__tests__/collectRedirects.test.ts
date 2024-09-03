@@ -5,22 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {PluginContext} from '../types';
+import {removeTrailingSlash} from '@docusaurus/utils-common';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import collectRedirects from '../collectRedirects';
 import {validateOptions} from '../options';
-import {removeTrailingSlash} from '@docusaurus/utils';
-import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import type {Options} from '@docusaurus/plugin-client-redirects';
+import type {DocusaurusConfig} from '@docusaurus/types';
+import type {Options} from '../options';
+import type {PluginContext} from '../types';
 
 function createTestPluginContext(
   options?: Options,
   relativeRoutesPaths: string[] = [],
+  siteConfig: Partial<DocusaurusConfig> = {},
 ): PluginContext {
   return {
     outDir: '/tmp',
     baseUrl: 'https://docusaurus.io',
     relativeRoutesPaths,
     options: validateOptions({validate: normalizePluginOptions, options}),
+    siteConfig: {onDuplicateRoutes: 'warn', ...siteConfig} as DocusaurusConfig,
   };
 }
 
@@ -93,12 +96,50 @@ describe('collectRedirects', () => {
                 to: '/somePath',
               },
               {
+                from: '/someLegacyPath2',
+                to: '/some Path2',
+              },
+              {
+                from: '/someLegacyPath3',
+                to: '/some%20Path3',
+              },
+              {
                 from: ['/someLegacyPathArray1', '/someLegacyPathArray2'],
                 to: '/',
               },
+
+              {
+                from: '/localQS',
+                to: '/somePath?a=1&b=2',
+              },
+              {
+                from: '/localAnchor',
+                to: '/somePath#anchor',
+              },
+              {
+                from: '/localQSAnchor',
+                to: '/somePath?a=1&b=2#anchor',
+              },
+
+              {
+                from: '/absolute',
+                to: 'https://docusaurus.io/somePath',
+              },
+              {
+                from: '/absoluteQS',
+                to: 'https://docusaurus.io/somePath?a=1&b=2',
+              },
+              {
+                from: '/absoluteAnchor',
+                to: 'https://docusaurus.io/somePath#anchor',
+              },
+              {
+                from: '/absoluteQSAnchor',
+                to: 'https://docusaurus.io/somePath?a=1&b=2#anchor',
+              },
             ],
           },
-          ['/', '/somePath'],
+          ['/', '/somePath', '/some%20Path2', '/some Path3'],
         ),
         undefined,
       ),
@@ -108,12 +149,49 @@ describe('collectRedirects', () => {
         to: '/somePath',
       },
       {
+        from: '/someLegacyPath2',
+        to: '/some Path2',
+      },
+      {
+        from: '/someLegacyPath3',
+        to: '/some%20Path3',
+      },
+      {
         from: '/someLegacyPathArray1',
         to: '/',
       },
       {
         from: '/someLegacyPathArray2',
         to: '/',
+      },
+      {
+        from: '/localQS',
+        to: '/somePath?a=1&b=2',
+      },
+      {
+        from: '/localAnchor',
+        to: '/somePath#anchor',
+      },
+      {
+        from: '/localQSAnchor',
+        to: '/somePath?a=1&b=2#anchor',
+      },
+
+      {
+        from: '/absolute',
+        to: 'https://docusaurus.io/somePath',
+      },
+      {
+        from: '/absoluteQS',
+        to: 'https://docusaurus.io/somePath?a=1&b=2',
+      },
+      {
+        from: '/absoluteAnchor',
+        to: 'https://docusaurus.io/somePath#anchor',
+      },
+      {
+        from: '/absoluteQSAnchor',
+        to: 'https://docusaurus.io/somePath?a=1&b=2#anchor',
       },
     ]);
   });
@@ -206,11 +284,78 @@ describe('collectRedirects', () => {
               },
               {
                 from: '/someLegacyPath',
-                to: '/this/path/does/not/exist2',
+                to: '/this/path/does/not/exist3',
+              },
+              {
+                from: '/someLegacyPath',
+                to: '/this/path/does/not/exist4?a=b#anchor',
               },
             ],
           },
           ['/', '/someExistingPath', '/anotherExistingPath'],
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingSnapshot();
+  });
+
+  it('tolerates mismatched trailing slash if option is undefined', () => {
+    expect(
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/somePath',
+              },
+            ],
+          },
+          ['/', '/somePath/'],
+          {trailingSlash: undefined},
+        ),
+        undefined,
+      ),
+    ).toEqual([
+      {
+        from: '/someLegacyPath',
+        to: '/somePath',
+      },
+    ]);
+  });
+
+  it('throw if plugin option redirects contain to paths with mismatching trailing slash', () => {
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/someExistingPath/',
+              },
+            ],
+          },
+          ['/', '/someExistingPath', '/anotherExistingPath'],
+          {trailingSlash: false},
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingSnapshot();
+
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/someExistingPath',
+              },
+            ],
+          },
+          ['/', '/someExistingPath/', '/anotherExistingPath/'],
+          {trailingSlash: true},
         ),
         undefined,
       ),
@@ -308,9 +453,10 @@ describe('collectRedirects', () => {
       collectRedirects(
         createTestPluginContext(
           {
-            createRedirects: (routePath) => {
+            // @ts-expect-error: for test
+            createRedirects(routePath) {
               if (routePath === '/') {
-                return [[`/fromPath`]] as unknown as string;
+                return [[`/fromPath`]];
               }
               return undefined;
             },
@@ -355,5 +501,45 @@ describe('collectRedirects', () => {
         to: '/fromShouldWork.html',
       },
     ]);
+  });
+
+  it('throws when creating duplicate redirect routes and onDuplicateRoutes=throw', () => {
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            createRedirects() {
+              return '/random-path';
+            },
+          },
+          ['/path-one', '/path-two'],
+          {onDuplicateRoutes: 'throw'},
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "@docusaurus/plugin-client-redirects: multiple redirects are created with the same "from" pathname: "/random-path"
+      It is not possible to redirect the same pathname to multiple destinations:
+      - {"from":"/random-path","to":"/path-one"}
+      - {"from":"/random-path","to":"/path-two"}"
+    `);
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {from: '/path-three', to: '/path-one'},
+              {from: '/path-two', to: '/path-one'},
+            ],
+          },
+          ['/path-one', '/path-two'],
+          {onDuplicateRoutes: 'throw'},
+        ),
+        undefined,
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "@docusaurus/plugin-client-redirects: some redirects would override existing paths, and will be ignored:
+      - {"from":"/path-two","to":"/path-one"}"
+    `);
   });
 });

@@ -1,7 +1,7 @@
 {
-  "theme.IdealImageMessage.404error": "404. Image not found",
-  "theme.IdealImageMessage.error": "Error. Click to reload",
-  "theme.IdealImageMessage.load": "Click to load{sizeMessage}",
-  "theme.IdealImageMessage.loading": "Loading...",
-  "theme.IdealImageMessage.offline": "Your browser is offline. Image not loaded"
+  "theme.IdealImageMessage.404error": "404. Resim Bulunamadı!",
+  "theme.IdealImageMessage.error": "Hata. Yeniden yüklemek için tıklayın",
+  "theme.IdealImageMessage.load": "Yüklemek için tıklayın{sizeMessage}",
+  "theme.IdealImageMessage.loading": "Yükleniyor...",
+  "theme.IdealImageMessage.offline": "Tarayıcınız çevrimdışı. Resim yüklenemedi"
 }

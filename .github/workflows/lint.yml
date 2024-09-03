@@ -4,6 +4,14 @@ on:
   pull_request:
     branches:
       - main
+      - docusaurus-v**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   lint:
@@ -11,19 +19,27 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Set up Node
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '16'
+          node-version: lts/*
           cache: yarn
       - name: Installation
         run: yarn
-        # run: yarn install --immutable # Fails if yarn.lock is modified  (unfortunately only works for Yarn 2, and --frozen-lockfile is not the same!)
+        # run: yarn install --immutable # Fails if yarn.lock is modified (unfortunately only works for Yarn 2, and --frozen-lockfile is not the same!)
       - name: Check immutable yarn.lock
         run: git diff --exit-code
+
+      - name: Check for suspicious yarn.lock
+        # for allowed aliases, see https://github.com/yargs/cliui/pull/139/files#r1670711112
+        run: yarn lockfile-lint --path yarn.lock --type yarn --allowed-hosts yarn --validate-https --validate-package-names --validate-integrity --empty-hostname=false --allowed-package-name-aliases serve-handler react-loadable string-width-cjs strip-ansi-cjs wrap-ansi-cjs
+
       - name: Lint
         run: |
           echo "::add-matcher::.github/workflows/cspell-problem-matcher.json"
           yarn lint:ci
+
       - name: Prettier Code
         run: yarn format:diff

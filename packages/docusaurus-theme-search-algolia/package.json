@@ -1,11 +1,20 @@
 {
   "name": "@docusaurus/theme-search-algolia",
-  "version": "2.0.0-beta.18",
+  "version": "3.5.2",
   "description": "Algolia search component for Docusaurus.",
   "main": "lib/index.js",
+  "sideEffects": [
+    "*.css"
+  ],
   "exports": {
-    "./client": "./lib/client/index.js",
-    ".": "./lib/index.js"
+    "./client": {
+      "types": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    ".": {
+      "types": "./src/theme-search-algolia.d.ts",
+      "default": "./lib/index.js"
+    }
   },
   "types": "src/theme-search-algolia.d.ts",
   "publishConfig": {
@@ -18,38 +27,37 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "yarn build:server && yarn build:client && yarn build:copy && yarn build:format",
-    "build:server": "tsc --project tsconfig.server.json",
-    "build:client": "tsc --project tsconfig.client.json",
-    "build:copy": "node copyUntypedFiles.mjs",
-    "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "dependencies": {
-    "@docsearch/react": "^3.0.0",
-    "@docusaurus/core": "2.0.0-beta.18",
-    "@docusaurus/logger": "2.0.0-beta.18",
-    "@docusaurus/plugin-content-docs": "2.0.0-beta.18",
-    "@docusaurus/theme-common": "2.0.0-beta.18",
-    "@docusaurus/theme-translations": "2.0.0-beta.18",
-    "@docusaurus/utils": "2.0.0-beta.18",
-    "@docusaurus/utils-validation": "2.0.0-beta.18",
-    "algoliasearch": "^4.13.0",
-    "algoliasearch-helper": "^3.7.4",
-    "clsx": "^1.1.1",
-    "eta": "^1.12.3",
-    "fs-extra": "^10.0.1",
+    "@docsearch/react": "^3.5.2",
+    "@docusaurus/core": "3.5.2",
+    "@docusaurus/logger": "3.5.2",
+    "@docusaurus/plugin-content-docs": "3.5.2",
+    "@docusaurus/theme-common": "3.5.2",
+    "@docusaurus/theme-translations": "3.5.2",
+    "@docusaurus/utils": "3.5.2",
+    "@docusaurus/utils-validation": "3.5.2",
+    "algoliasearch": "^4.18.0",
+    "algoliasearch-helper": "^3.13.3",
+    "clsx": "^2.0.0",
+    "eta": "^2.2.0",
+    "fs-extra": "^11.1.1",
     "lodash": "^4.17.21",
-    "tslib": "^2.3.1",
+    "tslib": "^2.6.0",
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.18"
+    "@docusaurus/module-type-aliases": "3.5.2"
   },
   "peerDependencies": {
-    "react": "^16.8.4 || ^17.0.0",
-    "react-dom": "^16.8.4 || ^17.0.0"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18.0"
   }
 }

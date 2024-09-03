@@ -47,16 +47,6 @@ declare module '@docusaurus/plugin-pwa' {
      */
     injectManifestConfig: InjectManifestOptions;
     /**
-     * Module path to reload popup component. This popup is rendered when a new
-     * service worker is waiting to be installed, and we suggest a reload to
-     * the user.
-     *
-     * Passing `false` will disable the popup, but this is not recommended:
-     * users won't have a way to get up-to-date content.
-     * @see {@link @theme/PwaReloadPopup}
-     */
-    reloadPopup: string | false;
-    /**
      * Array of objects containing `tagName` and key-value pairs for attributes
      * to inject into the `<head>` tag. Technically you can inject any head tag
      * through this, but it's ideally used for tags to make your site PWA-
@@ -66,7 +56,7 @@ declare module '@docusaurus/plugin-pwa' {
       tagName: string;
       href?: string;
       content?: string;
-      [attributeName: string]: string | boolean;
+      [attributeName: string]: string | boolean | undefined;
     }[];
     /**
      * Useful for additional Workbox rules. You can do whatever a service worker
@@ -81,6 +71,8 @@ declare module '@docusaurus/plugin-pwa' {
      */
     swRegister: string | false;
   };
+
+  export type Options = Partial<PluginOptions>;
 }
 
 declare module '@theme/PwaReloadPopup' {

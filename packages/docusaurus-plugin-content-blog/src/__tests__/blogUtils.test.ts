@@ -6,21 +6,15 @@
  */
 
 import {jest} from '@jest/globals';
+import {fromPartial} from '@total-typescript/shoehorn';
 import {
   truncate,
   parseBlogFileName,
-  linkify,
-  getSourceToPermalink,
   paginateBlogPosts,
-  type LinkifyParams,
+  applyProcessBlogPosts,
+  reportUntruncatedBlogPosts,
 } from '../blogUtils';
-import fs from 'fs-extra';
-import path from 'path';
-import type {
-  BlogBrokenMarkdownLink,
-  BlogContentPaths,
-  BlogPost,
-} from '../types';
+import type {BlogPost} from '@docusaurus/plugin-content-blog';
 
 describe('truncate', () => {
   it('truncates texts', () => {
@@ -40,15 +34,119 @@ describe('truncate', () => {
   });
 });
 
-describe('paginateBlogPosts', () => {
-  it('generates right pages', () => {
+describe('reportUntruncatedBlogPosts', () => {
+  function testPost({
+    source,
+    hasTruncateMarker,
+  }: {
+    source: string;
+    hasTruncateMarker: boolean;
+  }): BlogPost {
+    return fromPartial({
+      metadata: {
+        source,
+        hasTruncateMarker,
+      },
+    });
+  }
+
+  it('throw for untruncated blog posts', () => {
     const blogPosts = [
-      {id: 'post1', metadata: {}, content: 'Foo 1'},
-      {id: 'post2', metadata: {}, content: 'Foo 2'},
-      {id: 'post3', metadata: {}, content: 'Foo 3'},
-      {id: 'post4', metadata: {}, content: 'Foo 4'},
-      {id: 'post5', metadata: {}, content: 'Foo 5'},
-    ] as BlogPost[];
+      testPost({source: '@site/blog/post1.md', hasTruncateMarker: false}),
+      testPost({source: '@site/blog/post2.md', hasTruncateMarker: true}),
+      testPost({
+        source: '@site/blog/subDir/post3.md',
+        hasTruncateMarker: false,
+      }),
+    ];
+    expect(() =>
+      reportUntruncatedBlogPosts({blogPosts, onUntruncatedBlogPosts: 'throw'}),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found blog posts without truncation markers:
+      - "blog/post1.md"
+      - "blog/subDir/post3.md"
+
+      We recommend using truncation markers (\`<!-- truncate -->\` or \`{/* truncate */}\`) in blog posts to create shorter previews on blog paginated lists.
+      Tip: turn this security off with the \`onUntruncatedBlogPosts: 'ignore'\` blog plugin option."
+    `);
+  });
+
+  it('warn for untruncated blog posts', () => {
+    const consoleMock = jest.spyOn(console, 'warn');
+
+    const blogPosts = [
+      testPost({source: '@site/blog/post1.md', hasTruncateMarker: false}),
+      testPost({source: '@site/blog/post2.md', hasTruncateMarker: true}),
+      testPost({
+        source: '@site/blog/subDir/post3.md',
+        hasTruncateMarker: false,
+      }),
+    ];
+    expect(() =>
+      reportUntruncatedBlogPosts({blogPosts, onUntruncatedBlogPosts: 'warn'}),
+    ).not.toThrow();
+
+    expect(consoleMock.mock.calls).toMatchInlineSnapshot(`
+      [
+        [
+          "[WARNING] Docusaurus found blog posts without truncation markers:
+      - "blog/post1.md"
+      - "blog/subDir/post3.md"
+
+      We recommend using truncation markers (\`<!-- truncate -->\` or \`{/* truncate */}\`) in blog posts to create shorter previews on blog paginated lists.
+      Tip: turn this security off with the \`onUntruncatedBlogPosts: 'ignore'\` blog plugin option.",
+        ],
+      ]
+    `);
+    consoleMock.mockRestore();
+  });
+
+  it('ignore untruncated blog posts', () => {
+    const logMock = jest.spyOn(console, 'log');
+    const warnMock = jest.spyOn(console, 'warn');
+    const errorMock = jest.spyOn(console, 'error');
+
+    const blogPosts = [
+      testPost({source: '@site/blog/post1.md', hasTruncateMarker: false}),
+      testPost({source: '@site/blog/post2.md', hasTruncateMarker: true}),
+      testPost({
+        source: '@site/blog/subDir/post3.md',
+        hasTruncateMarker: false,
+      }),
+    ];
+    expect(() =>
+      reportUntruncatedBlogPosts({blogPosts, onUntruncatedBlogPosts: 'ignore'}),
+    ).not.toThrow();
+
+    expect(logMock).not.toHaveBeenCalled();
+    expect(warnMock).not.toHaveBeenCalled();
+    expect(errorMock).not.toHaveBeenCalled();
+    logMock.mockRestore();
+    warnMock.mockRestore();
+    errorMock.mockRestore();
+  });
+
+  it('does not throw for truncated posts', () => {
+    const blogPosts = [
+      testPost({source: '@site/blog/post1.md', hasTruncateMarker: true}),
+      testPost({source: '@site/blog/post2.md', hasTruncateMarker: true}),
+    ];
+    expect(() =>
+      reportUntruncatedBlogPosts({blogPosts, onUntruncatedBlogPosts: 'throw'}),
+    ).not.toThrow();
+  });
+});
+
+describe('paginateBlogPosts', () => {
+  const blogPosts = [
+    {id: 'post1', metadata: {}, content: 'Foo 1'},
+    {id: 'post2', metadata: {}, content: 'Foo 2'},
+    {id: 'post3', metadata: {}, content: 'Foo 3'},
+    {id: 'post4', metadata: {}, content: 'Foo 4'},
+    {id: 'post5', metadata: {}, content: 'Foo 5'},
+  ] as BlogPost[];
+
+  it('generates pages', () => {
     expect(
       paginateBlogPosts({
         blogPosts,
@@ -56,8 +154,30 @@ describe('paginateBlogPosts', () => {
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
         postsPerPageOption: 2,
+        pageBasePath: 'page',
       }),
     ).toMatchSnapshot();
+  });
+
+  it('generates pages - 0 blog post', () => {
+    const pages = paginateBlogPosts({
+      blogPosts: [],
+      basePageUrl: '/blog',
+      blogTitle: 'Blog Title',
+      blogDescription: 'Blog Description',
+      postsPerPageOption: 2,
+      pageBasePath: 'page',
+    });
+    // As part ot https://github.com/facebook/docusaurus/pull/10216
+    // it was decided that authors with "page: true" that haven't written any
+    // blog posts yet should still have a dedicated author page
+    // For this purpose, we generate an empty first page
+    expect(pages).toHaveLength(1);
+    expect(pages[0]!.items).toHaveLength(0);
+    expect(pages).toMatchSnapshot();
+  });
+
+  it('generates pages at blog root', () => {
     expect(
       paginateBlogPosts({
         blogPosts,
@@ -65,8 +185,12 @@ describe('paginateBlogPosts', () => {
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
         postsPerPageOption: 2,
+        pageBasePath: 'page',
       }),
     ).toMatchSnapshot();
+  });
+
+  it('generates a single page', () => {
     expect(
       paginateBlogPosts({
         blogPosts,
@@ -74,6 +198,20 @@ describe('paginateBlogPosts', () => {
         blogTitle: 'Blog Title',
         blogDescription: 'Blog Description',
         postsPerPageOption: 10,
+        pageBasePath: 'page',
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('generates pages with custom pageBasePath', () => {
+    expect(
+      paginateBlogPosts({
+        blogPosts,
+        basePageUrl: '/blog',
+        blogTitle: 'Blog Title',
+        blogDescription: 'Blog Description',
+        postsPerPageOption: 2,
+        pageBasePath: 'customPageBasePath',
       }),
     ).toMatchSnapshot();
   });
@@ -187,87 +325,80 @@ describe('parseBlogFileName', () => {
   });
 });
 
-describe('linkify', () => {
-  const siteDir = path.join(__dirname, '__fixtures__', 'website');
-  const contentPaths: BlogContentPaths = {
-    contentPath: path.join(siteDir, 'blog-with-ref'),
-    contentPathLocalized: path.join(siteDir, 'blog-with-ref-localized'),
-  };
-  const pluginDir = 'blog-with-ref';
-
-  const blogPosts: BlogPost[] = [
-    {
-      id: 'Happy 1st Birthday Slash!',
-      metadata: {
-        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
-        source: path.posix.join(
-          '@site',
-          pluginDir,
-          '2018-12-14-Happy-First-Birthday-Slash.md',
-        ),
-        title: 'Happy 1st Birthday Slash!',
-        description: `pattern name`,
-        date: new Date('2018-12-14'),
-        tags: [],
-        prevItem: {
-          permalink: '/blog/2019/01/01/date-matter',
-          title: 'date-matter',
-        },
-        truncated: false,
-      },
-    },
-  ];
-
-  async function transform(filePath: string, options?: Partial<LinkifyParams>) {
-    const fileContent = await fs.readFile(filePath, 'utf-8');
-    const transformedContent = linkify({
-      filePath,
-      fileString: fileContent,
-      siteDir,
-      contentPaths,
-      sourceToPermalink: getSourceToPermalink(blogPosts),
-      onBrokenMarkdownLink: (brokenMarkdownLink) => {
-        throw new Error(
-          `Broken markdown link found: ${JSON.stringify(brokenMarkdownLink)}`,
-        );
-      },
-      ...options,
-    });
-    return [fileContent, transformedContent];
-  }
-
-  it('transforms to correct link', async () => {
-    const post = path.join(contentPaths.contentPath, 'post.md');
-    const [content, transformedContent] = await transform(post);
-    expect(transformedContent).toMatchSnapshot();
-    expect(transformedContent).toContain(
-      '](/blog/2018/12/14/Happy-First-Birthday-Slash',
-    );
-    expect(transformedContent).not.toContain(
-      '](2018-12-14-Happy-First-Birthday-Slash.md)',
-    );
-    expect(content).not.toEqual(transformedContent);
+describe('processBlogPosts', () => {
+  const blogPost2022: BlogPost = fromPartial({
+    metadata: {date: new Date('2022-01-01')},
+  });
+  const blogPost2023: BlogPost = fromPartial({
+    metadata: {date: new Date('2023-01-01')},
+  });
+  const blogPost2024: BlogPost = fromPartial({
+    metadata: {date: new Date('2024-01-01')},
   });
 
-  it('reports broken markdown links', async () => {
-    const filePath = 'post-with-broken-links.md';
-    const folderPath = contentPaths.contentPath;
-    const postWithBrokenLinks = path.join(folderPath, filePath);
-    const onBrokenMarkdownLink = jest.fn();
-    const [, transformedContent] = await transform(postWithBrokenLinks, {
-      onBrokenMarkdownLink,
+  it('filter blogs only from 2024', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2022, blogPost2023, blogPost2024],
+      processBlogPosts: async ({blogPosts}: {blogPosts: BlogPost[]}) =>
+        blogPosts.filter(
+          (blogPost) => blogPost.metadata.date.getFullYear() === 2024,
+        ),
     });
-    expect(transformedContent).toMatchSnapshot();
-    expect(onBrokenMarkdownLink).toHaveBeenCalledTimes(2);
-    expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(1, {
-      filePath: path.resolve(folderPath, filePath),
-      contentPaths,
-      link: 'postNotExist1.md',
-    } as BlogBrokenMarkdownLink);
-    expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(2, {
-      filePath: path.resolve(folderPath, filePath),
-      contentPaths,
-      link: './postNotExist2.mdx',
-    } as BlogBrokenMarkdownLink);
+
+    expect(processedBlogPosts).toEqual([blogPost2024]);
+  });
+
+  it('sort blogs by date in ascending order', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: async ({blogPosts}: {blogPosts: BlogPost[]}) =>
+        blogPosts.sort(
+          (a, b) => a.metadata.date.getTime() - b.metadata.date.getTime(),
+        ),
+    });
+
+    expect(processedBlogPosts).toEqual([
+      blogPost2022,
+      blogPost2023,
+      blogPost2024,
+    ]);
+  });
+
+  it('sort blogs by date in descending order', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: async ({blogPosts}: {blogPosts: BlogPost[]}) =>
+        blogPosts.sort(
+          (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
+        ),
+    });
+
+    expect(processedBlogPosts).toEqual([
+      blogPost2024,
+      blogPost2023,
+      blogPost2022,
+    ]);
+  });
+
+  it('processBlogPosts return 2022 only', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: async () => [blogPost2022],
+    });
+
+    expect(processedBlogPosts).toEqual([blogPost2022]);
+  });
+
+  it('processBlogPosts return undefined', async () => {
+    const processedBlogPosts = await applyProcessBlogPosts({
+      blogPosts: [blogPost2023, blogPost2022, blogPost2024],
+      processBlogPosts: async () => {},
+    });
+
+    expect(processedBlogPosts).toEqual([
+      blogPost2023,
+      blogPost2022,
+      blogPost2024,
+    ]);
   });
 });

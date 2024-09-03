@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "${configDir}/lib/.tsbuildinfo-client",
+    "noEmit": false,
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "target": "esnext"
+  }
+}

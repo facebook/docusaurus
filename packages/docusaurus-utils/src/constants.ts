@@ -16,6 +16,11 @@ export const NODE_MINOR_VERSION = parseInt(
   10,
 );
 
+/** Docusaurus core version. */
+export const DOCUSAURUS_VERSION =
+  // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+  (require('../package.json') as {version: string}).version;
+
 /**
  * Can be overridden with cli option `--out-dir`. Code should generally use
  * `context.outDir` instead (which is always absolute and localized).
@@ -25,8 +30,11 @@ export const DEFAULT_BUILD_DIR_NAME = 'build';
 /**
  * Can be overridden with cli option `--config`. Code should generally use
  * `context.siteConfigPath` instead (which is always absolute).
+ *
+ * This does not have extensions, so that we can substitute different ones
+ * when resolving the path.
  */
-export const DEFAULT_CONFIG_FILE_NAME = 'docusaurus.config.js';
+export const DEFAULT_CONFIG_FILE_NAME = 'docusaurus.config';
 
 /** Can be absolute or relative to site directory. */
 export const BABEL_CONFIG_FILE_NAME =
@@ -67,7 +75,7 @@ export const THEME_PATH = `${SRC_DIR_NAME}/theme`;
  * All translation-related data live here, relative to site directory. Content
  * will be namespaced by locale.
  */
-export const I18N_DIR_NAME = 'i18n';
+export const DEFAULT_I18N_DIR_NAME = 'i18n';
 
 /**
  * Translations for React code.
@@ -75,7 +83,9 @@ export const I18N_DIR_NAME = 'i18n';
 export const CODE_TRANSLATIONS_FILE_NAME = 'code.json';
 
 /** Dev server opens on this port by default. */
-export const DEFAULT_PORT = 3000;
+export const DEFAULT_PORT = process.env.PORT
+  ? parseInt(process.env.PORT, 10)
+  : 3000;
 
 /** Default plugin ID. */
 export const DEFAULT_PLUGIN_ID = 'default';

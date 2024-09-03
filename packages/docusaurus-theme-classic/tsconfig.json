@@ -1,11 +1,14 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
+  "references": [{"path": "./tsconfig.client.json"}],
   "compilerOptions": {
-    "lib": ["DOM", "ES2019"],
-    "module": "esnext",
-    "noEmit": true,
-    "jsx": "react-native",
-    "baseUrl": "src"
+    "noEmit": false
   },
-  "include": ["src/"]
+  "include": ["src"],
+  "exclude": [
+    "src/nprogress.ts",
+    "src/prism-include-languages.ts",
+    "src/theme",
+    "**/__tests__/**"
+  ]
 }

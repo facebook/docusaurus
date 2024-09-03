@@ -29,9 +29,10 @@
 // Modified to optimize performance for Docusaurus specific use case
 // More context: https://github.com/facebook/docusaurus/pull/1839
 
-import type {Compiler, Stats} from 'webpack';
 import path from 'path';
+import fs from 'fs-extra';
 import {sync as delSync} from 'del';
+import type {Compiler, Stats} from 'webpack';
 
 export type Options = {
   /**
@@ -116,7 +117,7 @@ export default class CleanWebpackPlugin {
   }
 
   apply(compiler: Compiler): void {
-    if (!compiler.options.output || !compiler.options.output.path) {
+    if (!compiler.options.output.path) {
       console.warn(
         'clean-webpack-plugin: options.output.path not defined. Plugin disabled...',
       );
@@ -152,6 +153,17 @@ export default class CleanWebpackPlugin {
       return;
     }
 
+    if (
+      // eslint-disable-next-line no-restricted-properties
+      fs.pathExistsSync(this.outputPath) &&
+      // eslint-disable-next-line no-restricted-properties
+      fs.statSync(this.outputPath).isFile()
+    ) {
+      throw new Error(
+        `A file '${this.outputPath}' already exists. Docusaurus needs this directory to save the build output. Either remove/change the file or choose a different build directory via '--out-dir'.`,
+      );
+    }
+
     this.initialClean = true;
 
     this.removeFiles(this.cleanOnceBeforeBuildPatterns);
@@ -185,7 +197,7 @@ export default class CleanWebpackPlugin {
      * (relies on del's cwd: outputPath option)
      */
     const staleFiles = this.currentAssets.filter(
-      (previousAsset) => assets.includes(previousAsset) === false,
+      (previousAsset) => !assets.includes(previousAsset),
     );
 
     /**
@@ -198,7 +210,7 @@ export default class CleanWebpackPlugin {
     /**
      * Remove unused webpack assets
      */
-    if (this.cleanStaleWebpackAssets === true && staleFiles.length !== 0) {
+    if (this.cleanStaleWebpackAssets && staleFiles.length !== 0) {
       removePatterns.push(...staleFiles);
     }
 
@@ -234,10 +246,9 @@ export default class CleanWebpackPlugin {
         });
       }
     } catch (err) {
-      const needsForce =
-        /Cannot delete files\/folders outside the current working directory\./.test(
-          (err as Error).message,
-        );
+      const needsForce = (err as Error).message.includes(
+        'Cannot delete files/folders outside the current working directory.',
+      );
 
       if (needsForce) {
         const message =

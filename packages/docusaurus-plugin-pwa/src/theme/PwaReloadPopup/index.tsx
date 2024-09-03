@@ -8,7 +8,6 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
 import Translate, {translate} from '@docusaurus/Translate';
-
 import type {Props} from '@theme/PwaReloadPopup';
 
 import styles from './styles.module.css';

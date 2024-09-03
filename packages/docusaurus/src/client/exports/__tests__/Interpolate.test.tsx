@@ -31,7 +31,6 @@ describe('interpolate', () => {
       object: {hello: 'world'},
       array: ['Hello'],
     };
-    // Do we need to improve the JS type -> String conversion logic here?
     expect(interpolate(text, values)).toMatchInlineSnapshot(
       `"42 Hello [object Object] Hello"`,
     );
@@ -125,12 +124,16 @@ describe('<Interpolate>', () => {
     expect(() =>
       renderer.create(
         <Interpolate>
-          {/* @ts-expect-error: for test */}
           <span>aaa</span>
         </Interpolate>,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
       `"The Docusaurus <Interpolate> component only accept simple string values. Received: React element"`,
+    );
+    expect(() =>
+      renderer.create(<Interpolate>{null}</Interpolate>),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"The Docusaurus <Interpolate> component only accept simple string values. Received: object"`,
     );
   });
 });

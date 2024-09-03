@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-module.exports = {
+/** @type {import('@docusaurus/types').Config} */
+export default {
   title: 'Docusaurus blog only!',
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
@@ -17,7 +18,7 @@ module.exports = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   themes: ['live-codeblock'],
-  plugins: [],
+  plugins: ['ideal-image'],
   presets: [
     [
       'classic',
@@ -35,13 +36,13 @@ module.exports = {
           },
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: './src/css/custom.css',
         },
       },
     ],
   ],
   themeConfig: {
-    image: 'img/docusaurus-soc.png',
+    image: 'img/docusaurus-social-card.jpg',
     algolia: {
       appId: 'X1Z85QJPUV',
       apiKey: 'bf7211c161e8205da2f933a02534105a',
@@ -56,15 +57,6 @@ module.exports = {
         src: 'img/docusaurus.svg',
         srcDark: 'img/docusaurus_keytar.svg',
       },
-    },
-    footer: {
-      style: 'dark',
-      logo: {
-        alt: 'Facebook Open Source Logo',
-        src: 'img/oss_logo.png',
-        href: 'https://opensource.facebook.com',
-      },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
     },
   },
 };

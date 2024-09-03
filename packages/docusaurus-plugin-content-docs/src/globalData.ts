@@ -6,9 +6,8 @@
  */
 
 import _ from 'lodash';
-import type {Sidebars} from './sidebars/types';
-import {createSidebarsUtils} from './sidebars/utils';
-import type {LoadedVersion} from './types';
+import {getMainDocId} from './docs';
+import type {FullVersion} from './types';
 import type {
   CategoryGeneratedIndexMetadata,
   DocMetadata,
@@ -18,11 +17,17 @@ import type {
   GlobalSidebar,
   GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
+import type {Sidebars} from './sidebars/types';
 
 function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
   return {
-    id: doc.unversionedId,
+    id: doc.id,
     path: doc.permalink,
+
+    // optimize global data size: do not add unlisted: false/undefined
+    ...(doc.unlisted && {unlisted: doc.unlisted}),
+
+    // TODO optimize size? remove attribute when no sidebar (breaking change?)
     sidebar: doc.sidebar,
   };
 }
@@ -39,11 +44,10 @@ function toGlobalDataGeneratedIndex(
 
 function toGlobalSidebars(
   sidebars: Sidebars,
-  version: LoadedVersion,
+  version: FullVersion,
 ): {[sidebarId: string]: GlobalSidebar} {
-  const {getFirstLink} = createSidebarsUtils(sidebars);
   return _.mapValues(sidebars, (sidebar, sidebarId) => {
-    const firstLink = getFirstLink(sidebarId);
+    const firstLink = version.sidebarsUtils.getFirstLink(sidebarId);
     if (!firstLink) {
       return {};
     }
@@ -52,26 +56,24 @@ function toGlobalSidebars(
         path:
           firstLink.type === 'generated-index'
             ? firstLink.permalink
-            : version.docs.find(
-                (doc) =>
-                  doc.id === firstLink.id || doc.unversionedId === firstLink.id,
-              )!.permalink,
+            : version.docs.find((doc) => doc.id === firstLink.id)!.permalink,
         label: firstLink.label,
       },
     };
   });
 }
 
-export function toGlobalDataVersion(version: LoadedVersion): GlobalVersion {
+export function toGlobalDataVersion(version: FullVersion): GlobalVersion {
   return {
     name: version.versionName,
     label: version.label,
     isLast: version.isLast,
     path: version.path,
-    mainDocId: version.mainDocId,
+    mainDocId: getMainDocId(version),
     docs: version.docs
       .map(toGlobalDataDoc)
       .concat(version.categoryGeneratedIndices.map(toGlobalDataGeneratedIndex)),
+    draftIds: version.drafts.map((doc) => doc.id),
     sidebars: toGlobalSidebars(version.sidebars, version),
   };
 }

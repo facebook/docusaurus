@@ -1,0 +1,85 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.carousel {
+  position: relative;
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20px;
+  height: 40px;
+  width: 40px;
+
+  background-color: rgb(0 0 0 / 30%);
+  transition: all var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
+}
+
+.navButton:hover {
+  background-color: rgb(0 0 0 / 45%);
+}
+
+.dotGroup {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.dotGroup > :global(.carousel__dot) {
+  pointer-events: auto;
+  display: inline-block;
+  border: none;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+  margin: 2px;
+  background: rgb(0 0 0 / 20%);
+}
+
+.dotGroup > :global(.carousel__dot--selected) {
+  background: rgb(0 0 0 / 45%);
+}
+
+.siteSlide {
+  position: relative;
+}
+
+.siteLink {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  padding: 0 12px;
+  background-color: rgb(0 0 0 / 30%);
+  border-radius: 6px;
+  font-size: 16px;
+  --ifm-link-color: var(--ifm-color-gray-400);
+  transition: all var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
+}
+
+.siteLink:hover {
+  background-color: rgb(0 0 0 / 45%);
+  --ifm-link-color: var(--ifm-color-gray-200);
+  --ifm-link-hover-color: var(--ifm-color-gray-200);
+  --ifm-link-hover-decoration: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .siteLink {
+    font-size: 12px;
+    padding: 0 8px;
+  }
+}

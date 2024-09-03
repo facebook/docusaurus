@@ -9,6 +9,20 @@ const OFF = 0;
 const WARNING = 1;
 const ERROR = 2;
 
+// Prevent importing lodash, usually for browser bundle size reasons
+const LodashImportPatterns = ['lodash', 'lodash.**', 'lodash/**'];
+
+// Prevent importing content plugins, usually for coupling reasons
+const ContentPluginsImportPatterns = [
+  '@docusaurus/plugin-content-blog',
+  '@docusaurus/plugin-content-blog/**',
+  // TODO fix theme-common => docs dependency issue
+  // '@docusaurus/plugin-content-docs',
+  // '@docusaurus/plugin-content-docs/**',
+  '@docusaurus/plugin-content-pages',
+  '@docusaurus/plugin-content-pages/**',
+];
+
 module.exports = {
   root: true,
   env: {
@@ -19,7 +33,8 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    allowImportExportEverywhere: true,
+    // tsconfigRootDir: __dirname,
+    // project: ['./tsconfig.base.json', './website/tsconfig.base.json'],
   },
   globals: {
     JSX: true,
@@ -30,8 +45,11 @@ module.exports = {
     'plugin:jest/recommended',
     'airbnb',
     'plugin:@typescript-eslint/recommended',
+    // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    // 'plugin:@typescript-eslint/strict',
     'plugin:regexp/recommended',
     'prettier',
+    'plugin:@docusaurus/all',
   ],
   settings: {
     'import/resolver': {
@@ -41,8 +59,17 @@ module.exports = {
     },
   },
   reportUnusedDisableDirectives: true,
-  plugins: ['react-hooks', 'header', 'jest', '@typescript-eslint', 'regexp'],
+  plugins: [
+    'react-hooks',
+    'header',
+    'jest',
+    '@typescript-eslint',
+    'regexp',
+    '@docusaurus',
+  ],
   rules: {
+    'react/jsx-uses-react': OFF, // JSX runtime: automatic
+    'react/react-in-jsx-scope': OFF, // JSX runtime: automatic
     'array-callback-return': WARNING,
     camelcase: WARNING,
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
@@ -60,12 +87,14 @@ module.exports = {
         ignorePattern: '(eslint-disable|@)',
       },
     ],
+    'arrow-body-style': OFF,
     'no-await-in-loop': OFF,
     'no-case-declarations': WARNING,
     'no-console': OFF,
+    'no-constant-binary-expression': ERROR,
     'no-continue': OFF,
     'no-control-regex': WARNING,
-    'no-else-return': [WARNING, {allowElseIf: true}],
+    'no-else-return': OFF,
     'no-empty': [WARNING, {allowEmptyCatch: true}],
     'no-lonely-if': WARNING,
     'no-nested-ternary': WARNING,
@@ -74,7 +103,7 @@ module.exports = {
     'no-restricted-exports': OFF,
     'no-restricted-properties': [
       ERROR,
-      ...[
+      .../** @type {[string, string][]} */ ([
         // TODO: TS doesn't make Boolean a narrowing function yet,
         // so filter(Boolean) is problematic type-wise
         // ['compact', 'Array#filter(Boolean)'],
@@ -105,7 +134,7 @@ module.exports = {
         ['take', 'Array#slice(0, n)'],
         ['takeRight', 'Array#slice(-n)'],
         ['tail', 'Array#slice(1)'],
-      ].map(([property, alternative]) => ({
+      ]).map(([property, alternative]) => ({
         object: '_',
         property,
         message: `Use ${alternative} instead.`,
@@ -177,8 +206,12 @@ module.exports = {
       })),
     ],
     'no-template-curly-in-string': WARNING,
-    'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
+    'no-unused-expressions': [
+      WARNING,
+      {allowTaggedTemplates: true, allowShortCircuit: true},
+    ],
     'no-useless-escape': WARNING,
+    'no-void': [ERROR, {allowAsStatement: true}],
     'prefer-destructuring': WARNING,
     'prefer-named-capture-group': WARNING,
     'prefer-template': WARNING,
@@ -198,10 +231,12 @@ module.exports = {
     ],
 
     'import/extensions': OFF,
-    // Ignore certain webpack aliases because they can't be resolved
+    // This rule doesn't yet support resolving .js imports when the actual file
+    // is .ts. Plus it's not all that useful when our code is fully TS-covered.
     'import/no-unresolved': [
-      ERROR,
+      OFF,
       {
+        // Ignore certain webpack aliases because they can't be resolved
         ignore: [
           '^@theme',
           '^@docusaurus',
@@ -211,7 +246,50 @@ module.exports = {
         ],
       },
     ],
-    'import/order': OFF,
+    'import/order': [
+      WARNING,
+      {
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          ['parent', 'sibling', 'index'],
+          'type',
+        ],
+        pathGroups: [
+          // always put css import to the last, ref:
+          // https://github.com/import-js/eslint-plugin-import/issues/1239
+          {
+            pattern: '*.+(css|sass|less|scss|pcss|styl)',
+            group: 'unknown',
+            patternOptions: {matchBase: true},
+            position: 'after',
+          },
+          {pattern: '@jest/globals', group: 'builtin', position: 'before'},
+          {pattern: 'react', group: 'builtin', position: 'before'},
+          {pattern: 'react-dom', group: 'builtin', position: 'before'},
+          {pattern: 'react-dom/**', group: 'builtin', position: 'before'},
+          {pattern: 'stream', group: 'builtin', position: 'before'},
+          {pattern: 'fs-extra', group: 'builtin'},
+          {pattern: 'lodash', group: 'external', position: 'before'},
+          {pattern: 'clsx', group: 'external', position: 'before'},
+          // 'Bit weird to not use the `import/internal-regex` option, but this
+          // way, we can make `import type { Props } from "@theme/*"` appear
+          // before `import styles from "styles.module.css"`, which is what we
+          // always did. This should be removable once we stop using ambient
+          // module declarations for theme aliases.
+          {pattern: '@theme/**', group: 'internal'},
+          {pattern: '@site/**', group: 'internal'},
+          {pattern: '@theme-init/**', group: 'internal'},
+          {pattern: '@theme-original/**', group: 'internal'},
+        ],
+        pathGroupsExcludedImportTypes: [],
+        // example: let `import './nprogress.css';` after importing others
+        // in `packages/docusaurus-theme-classic/src/nprogress.ts`
+        // see more: https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md#warnonunassignedimports-truefalse
+        warnOnUnassignedImports: true,
+      },
+    ],
     'import/prefer-default-export': OFF,
 
     'jest/consistent-test-it': WARNING,
@@ -265,14 +343,14 @@ module.exports = {
     'react/prop-types': OFF,
     'react/require-default-props': [ERROR, {ignoreFunctionalComponents: true}],
 
+    '@typescript-eslint/consistent-type-definitions': OFF,
+    '@typescript-eslint/require-await': OFF,
+
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
     ],
-    '@typescript-eslint/consistent-indexed-object-style': [
-      WARNING,
-      'index-signature',
-    ],
+    '@typescript-eslint/consistent-indexed-object-style': OFF,
     '@typescript-eslint/consistent-type-imports': [
       WARNING,
       {disallowTypeAnnotations: false},
@@ -304,28 +382,101 @@ module.exports = {
     // locals must be justified with a disable comment.
     '@typescript-eslint/no-unused-vars': [ERROR, {ignoreRestSiblings: true}],
     '@typescript-eslint/prefer-optional-chain': ERROR,
+    '@docusaurus/no-html-links': ERROR,
+    '@docusaurus/prefer-docusaurus-heading': ERROR,
+    '@docusaurus/no-untranslated-text': [
+      WARNING,
+      {
+        ignoredStrings: [
+          '·',
+          '-',
+          '—',
+          '×',
+          '​', // zwj: &#8203;
+          '@',
+          'WebContainers',
+          'Twitter',
+          'GitHub',
+          'Dev.to',
+          '1.x',
+        ],
+      },
+    ],
   },
   overrides: [
     {
+      files: ['packages/docusaurus/src/client/**/*.{js,ts,tsx}'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              ...LodashImportPatterns,
+              ...ContentPluginsImportPatterns,
+              // Prevent importing server code in client bundle
+              '**/../babel/**',
+              '**/../server/**',
+              '**/../commands/**',
+              '**/../webpack/**',
+            ],
+          },
+        ],
+      },
+    },
+    {
       files: [
-        'packages/docusaurus-*/src/theme/**/*.js',
-        'packages/docusaurus-*/src/theme/**/*.ts',
-        'packages/docusaurus-*/src/theme/**/*.tsx',
+        'packages/docusaurus-theme-common/src/**/*.{js,ts,tsx}',
+        'packages/docusaurus-utils-common/src/**/*.{js,ts,tsx}',
+      ],
+      excludedFiles: '*.test.{js,ts,tsx}',
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              ...LodashImportPatterns,
+              ...ContentPluginsImportPatterns,
+            ],
+          },
+        ],
+      },
+    },
+    {
+      files: ['packages/docusaurus-*/src/theme/**/*.{js,ts,tsx}'],
+      excludedFiles: '*.test.{js,ts,tsx}',
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: LodashImportPatterns.concat(
+              // Prevents relative imports between React theme components
+              [
+                '../**',
+                './**',
+                // Allows relative styles module import with consistent filename
+                '!./styles.module.css',
+              ],
+            ),
+          },
+        ],
+      },
+    },
+    {
+      files: [
+        'packages/docusaurus-*/src/theme/**/*.{js,ts,tsx}',
+        'packages/docusaurus/src/client/theme-fallback/**/*.{js,ts,tsx}',
       ],
       rules: {
         'import/no-named-export': ERROR,
       },
     },
     {
-      files: [
-        'packages/create-docusaurus/templates/**/*.js',
-        'packages/create-docusaurus/templates/**/*.ts',
-        'packages/create-docusaurus/templates/**/*.tsx',
-      ],
+      files: ['packages/create-docusaurus/templates/**/*.{js,ts,tsx}'],
       rules: {
         'header/header': OFF,
         'global-require': OFF,
         '@typescript-eslint/no-var-requires': OFF,
+        '@docusaurus/no-untranslated-text': OFF,
       },
     },
     {
@@ -335,14 +486,14 @@ module.exports = {
       },
     },
     {
-      files: ['*.ts', '*.tsx'],
+      files: ['*.{ts,tsx}'],
       rules: {
         'no-undef': OFF,
         'import/no-import-module-exports': OFF,
       },
     },
     {
-      files: ['*.js', '*.mjs', '.cjs'],
+      files: ['*.{js,mjs,cjs}'],
       rules: {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,
@@ -350,19 +501,42 @@ module.exports = {
       },
     },
     {
+      files: [
+        '**/__tests__/**',
+        'packages/docusaurus-plugin-debug/**',
+        'website/_dogfooding/**',
+      ],
+      rules: {
+        '@docusaurus/no-untranslated-text': OFF,
+      },
+    },
+    {
       // Internal files where extraneous deps don't matter much at long as
       // they run
       files: [
-        '*.test.ts',
-        '*.test.tsx',
+        '*.test.{js,ts,tsx}',
         'admin/**',
         'jest/**',
         'website/**',
+        'packages/docusaurus-theme-common/removeThemeInternalReexport.mjs',
         'packages/docusaurus-theme-translations/update.mjs',
         'packages/docusaurus-theme-translations/src/utils.ts',
       ],
       rules: {
         'import/no-extraneous-dependencies': OFF,
+      },
+    },
+    {
+      files: ['packages/eslint-plugin/**/*.{js,ts}'],
+      extends: ['plugin:eslint-plugin/recommended'],
+    },
+    {
+      files: [
+        'packages/docusaurus-plugin-debug/**',
+        'packages/docusaurus/src/**',
+      ],
+      rules: {
+        '@docusaurus/prefer-docusaurus-heading': OFF,
       },
     },
   ],

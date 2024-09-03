@@ -12,9 +12,8 @@ import {
 } from '../globUtils';
 
 describe('createMatcher', () => {
-  const matcher = createMatcher(GlobExcludeDefault);
-
   it('match default exclude MD/MDX partials correctly', () => {
+    const matcher = createMatcher(GlobExcludeDefault);
     expect(matcher('doc.md')).toBe(false);
     expect(matcher('category/doc.md')).toBe(false);
     expect(matcher('category/subcategory/doc.md')).toBe(false);
@@ -32,6 +31,7 @@ describe('createMatcher', () => {
   });
 
   it('match default exclude tests correctly', () => {
+    const matcher = createMatcher(GlobExcludeDefault);
     expect(matcher('xyz.js')).toBe(false);
     expect(matcher('xyz.ts')).toBe(false);
     expect(matcher('xyz.jsx')).toBe(false);
@@ -62,6 +62,13 @@ describe('createMatcher', () => {
     expect(matcher('folder/__tests__/xyz.ts')).toBe(true);
     expect(matcher('folder/__tests__/xyz.jsx')).toBe(true);
     expect(matcher('folder/__tests__/xyz.tsx')).toBe(true);
+  });
+
+  it('matches nothing given nothing', () => {
+    const matcher = createMatcher([]);
+    expect(matcher('foo')).toBe(false);
+    expect(matcher('')).toBe(false);
+    expect(matcher('we/are/the/champions')).toBe(false);
   });
 });
 
@@ -105,5 +112,22 @@ describe('createAbsoluteFilePathMatcher', () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `"createAbsoluteFilePathMatcher unexpected error, absoluteFilePath=/bad/path/myDoc.md was not contained in any of the root folders: /_root/docs, /root/_docs/, /__test__/website/src"`,
     );
+  });
+
+  it('matches paths with overlapping paths', () => {
+    const overlapMatcher = createAbsoluteFilePathMatcher(GlobExcludeDefault, [
+      '/root/docs',
+      '/root/versioned_docs/version-2.0.0',
+      '/root/versioned_docs/version-2.0.0-rc.1',
+    ]);
+    expect(
+      overlapMatcher('/root/versioned_docs/version-2.0.0-rc.1/_partial.mdx'),
+    ).toBe(true);
+    expect(
+      overlapMatcher('/root/versioned_docs/version-2.0.0/_partial.mdx'),
+    ).toBe(true);
+    expect(
+      overlapMatcher('/root/versioned_docs/version-2.0.0/no-partial.mdx'),
+    ).toBe(false);
   });
 });

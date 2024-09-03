@@ -16,11 +16,14 @@ exports[`base webpack config creates webpack aliases 1`] = `
   "@docusaurus/renderRoutes": "../../../../client/exports/renderRoutes.ts",
   "@docusaurus/router": "../../../../client/exports/router.ts",
   "@docusaurus/useBaseUrl": "../../../../client/exports/useBaseUrl.ts",
+  "@docusaurus/useBrokenLinks": "../../../../client/exports/useBrokenLinks.ts",
   "@docusaurus/useDocusaurusContext": "../../../../client/exports/useDocusaurusContext.ts",
   "@docusaurus/useGlobalData": "../../../../client/exports/useGlobalData.ts",
   "@docusaurus/useIsBrowser": "../../../../client/exports/useIsBrowser.ts",
+  "@docusaurus/useIsomorphicLayoutEffect": "../../../../client/exports/useIsomorphicLayoutEffect.tsx",
   "@docusaurus/useRouteContext": "../../../../client/exports/useRouteContext.tsx",
   "@generated": "../../../../../../..",
+  "@mdx-js/react": "../../../../../../../node_modules/@mdx-js/react",
   "@site": "",
   "@theme-init/PluginThemeComponentEnhanced": "pluginThemeFolder/PluginThemeComponentEnhanced.js",
   "@theme-original/Error": "../../../../client/theme-fallback/Error/index.tsx",
@@ -45,5 +48,7 @@ exports[`base webpack config creates webpack aliases 1`] = `
   "@theme/UserThemeComponent1": "src/theme/UserThemeComponent1.js",
   "@theme/subfolder/PluginThemeComponent2": "pluginThemeFolder/subfolder/PluginThemeComponent2.js",
   "@theme/subfolder/UserThemeComponent2": "src/theme/subfolder/UserThemeComponent2.js",
+  "react": "../../../../../../../node_modules/react",
+  "react-dom": "../../../../../../../node_modules/react-dom",
 }
 `;

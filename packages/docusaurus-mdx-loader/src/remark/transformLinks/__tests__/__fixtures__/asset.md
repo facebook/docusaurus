@@ -4,6 +4,8 @@
 
 [asset](./asset.pdf)
 
+in paragraph [asset](./asset.pdf)
+
 [asset with URL encoded chars](./asset%20%282%29.pdf)
 
 [asset with hash](./asset.pdf#page=2)
@@ -38,6 +40,6 @@
 
 [<span style={{color: "red"}}>Stylized link to asset file</span>](./asset.pdf)
 
-[json](./data.json)
+[JSON](./data.json)
 
-[static json](/static-json.json)
+[static JSON](/static-json.json)

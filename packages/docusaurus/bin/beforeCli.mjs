@@ -7,22 +7,31 @@
 
 // @ts-check
 
-import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
-import semver from 'semver';
 import path from 'path';
+import {createRequire} from 'module';
+import shell from 'shelljs';
+import logger from '@docusaurus/logger';
+import semver from 'semver';
 import updateNotifier from 'update-notifier';
 import boxen from 'boxen';
-import {createRequire} from 'module';
+import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
-const packageJson = createRequire(import.meta.url)('../package.json');
-const sitePkg = createRequire(path.join(process.cwd(), 'package.json'))(
-  './package.json',
+const packageJson = /** @type {import("../package.json")} */ (
+  createRequire(import.meta.url)('../package.json')
 );
+/** @type {Record<string, any>} */
+let sitePkg;
+try {
+  sitePkg = createRequire(path.resolve('package.json'))('./package.json');
+} catch {
+  logger.warn`path=${'package.json'} file not found at CWD: path=${process.cwd()}.`;
+  logger.info`This is non-critical, but could lead to undesired behavior downstream. Docusaurus assumes that path=${'package.json'} exists at CWD, because it's where the package manager looks up the script at. A common reason is because you have changed directory in the script. Instead of writing code=${'"start": "cd website && docusaurus start"'}, consider using the code=${'[siteDir]'} argument: code=${'"start": "docusaurus start website"'}.`;
+  sitePkg = {};
+}
 
 const {
   name,
-  version,
   engines: {node: requiredVersion},
 } = packageJson;
 
@@ -40,12 +49,11 @@ export default async function beforeCli() {
   const notifier = updateNotifier({
     pkg: {
       name,
-      version,
+      version: DOCUSAURUS_VERSION,
     },
     // Check is in background so it's fine to use a small value like 1h
     // Use 0 for debugging
     updateCheckInterval: 1000 * 60 * 60,
-    // updateCheckInterval: 0
   });
 
   // Hacky way to ensure we check for updates on first run
@@ -97,10 +105,35 @@ export default async function beforeCli() {
       .filter((p) => p.startsWith('@docusaurus'))
       .map((p) => p.concat('@latest'))
       .join(' ');
-    const isYarnUsed = await fs.pathExists(path.resolve('yarn.lock'));
-    const upgradeCommand = isYarnUsed
-      ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
-      : `npm i ${siteDocusaurusPackagesForUpdate}`;
+
+    const getYarnVersion = async () => {
+      if (!(await fs.pathExists(path.resolve('yarn.lock')))) {
+        return undefined;
+      }
+
+      const yarnVersionResult = shell.exec('yarn --version', {silent: true});
+      if (yarnVersionResult?.code === 0) {
+        const majorVersion = parseInt(
+          yarnVersionResult.stdout?.trim().split('.')[0] ?? '',
+          10,
+        );
+        if (!Number.isNaN(majorVersion)) {
+          return majorVersion;
+        }
+      }
+
+      return undefined;
+    };
+
+    const getUpgradeCommand = async () => {
+      const yarnVersion = await getYarnVersion();
+      if (!yarnVersion) {
+        return `npm i ${siteDocusaurusPackagesForUpdate}`;
+      }
+      return yarnVersion >= 2
+        ? `yarn up ${siteDocusaurusPackagesForUpdate}`
+        : `yarn upgrade ${siteDocusaurusPackagesForUpdate}`;
+    };
 
     /** @type {import('boxen').Options} */
     const boxenOptions = {
@@ -108,7 +141,16 @@ export default async function beforeCli() {
       margin: 1,
       align: 'center',
       borderColor: 'yellow',
-      borderStyle: 'round',
+      borderStyle: {
+        topLeft: ' ',
+        topRight: ' ',
+        bottomLeft: ' ',
+        bottomRight: ' ',
+        top: '-',
+        bottom: '-',
+        left: ' ',
+        right: ' ',
+      },
     };
 
     const docusaurusUpdateMessage = boxen(
@@ -117,14 +159,14 @@ export default async function beforeCli() {
       )} → ${logger.green(`${notifier.update.latest}`)}
 
   To upgrade Docusaurus packages with the latest version, run the following command:
-  ${logger.code(upgradeCommand)}`,
+  ${logger.code(await getUpgradeCommand())}`,
       boxenOptions,
     );
 
     console.log(docusaurusUpdateMessage);
   }
 
-  // notify user if node version needs to be updated
+  // Notify user if node version needs to be updated
   if (!semver.satisfies(process.version, requiredVersion)) {
     logger.error('Minimum Node.js version not met :(');
     logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;

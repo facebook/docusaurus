@@ -1,17 +1,29 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-beta.18",
+  "version": "3.5.2",
   "description": "Docs plugin for Docusaurus.",
   "main": "lib/index.js",
+  "sideEffects": false,
   "exports": {
-    "./client": "./lib/client/index.js",
-    "./server": "./lib/server-export.js",
-    ".": "./lib/index.js"
+    "./lib/*": "./lib/*",
+    "./src/*": "./src/*",
+    "./client": {
+      "type": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    "./server": {
+      "type": "./lib/server-export.d.ts",
+      "default": "./lib/server-export.js"
+    },
+    ".": {
+      "types": "./src/plugin-content-docs.d.ts",
+      "default": "./lib/index.js"
+    }
   },
   "types": "src/plugin-content-docs.d.ts",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
   },
   "publishConfig": {
     "access": "public"
@@ -23,37 +35,36 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.18",
-    "@docusaurus/logger": "2.0.0-beta.18",
-    "@docusaurus/mdx-loader": "2.0.0-beta.18",
-    "@docusaurus/utils": "2.0.0-beta.18",
-    "@docusaurus/utils-validation": "2.0.0-beta.18",
+    "@docusaurus/core": "3.5.2",
+    "@docusaurus/logger": "3.5.2",
+    "@docusaurus/mdx-loader": "3.5.2",
+    "@docusaurus/module-type-aliases": "3.5.2",
+    "@docusaurus/theme-common": "3.5.2",
+    "@docusaurus/types": "3.5.2",
+    "@docusaurus/utils": "3.5.2",
+    "@docusaurus/utils-common": "3.5.2",
+    "@docusaurus/utils-validation": "3.5.2",
+    "@types/react-router-config": "^5.0.7",
     "combine-promises": "^1.1.0",
-    "fs-extra": "^10.0.1",
-    "import-fresh": "^3.3.0",
+    "fs-extra": "^11.1.1",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "remark-admonitions": "^1.2.1",
-    "tslib": "^2.3.1",
+    "tslib": "^2.6.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.70.1"
+    "webpack": "^5.88.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.18",
-    "@docusaurus/types": "2.0.0-beta.18",
     "@types/js-yaml": "^4.0.5",
     "@types/picomatch": "^2.3.0",
     "commander": "^5.1.0",
-    "escape-string-regexp": "^4.0.0",
     "picomatch": "^2.3.1",
-    "shelljs": "^0.8.5",
-    "utility-types": "^3.10.0"
+    "shelljs": "^0.8.5"
   },
   "peerDependencies": {
-    "react": "^16.8.4 || ^17.0.0",
-    "react-dom": "^16.8.4 || ^17.0.0"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18.0"
   }
 }

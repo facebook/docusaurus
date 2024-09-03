@@ -18,9 +18,7 @@
 }
 
 .sidebarItemList {
-  list-style: none;
   font-size: 0.9rem;
-  padding-left: 0;
 }
 
 .sidebarItem {
@@ -29,6 +27,7 @@
 
 .sidebarItemLink {
   color: var(--ifm-font-color-base);
+  display: block;
 }
 
 .sidebarItemLink:hover {
@@ -43,4 +42,9 @@
   .sidebar {
     display: none;
   }
+}
+
+.yearGroupHeading {
+  margin-top: 1.6rem;
+  margin-bottom: 0.4rem;
 }

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {escapeRegexp} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import type {
   ThemeConfig,
@@ -12,7 +13,7 @@ import type {
 } from '@docusaurus/types';
 
 export const DEFAULT_CONFIG = {
-  // enabled by default, as it makes sense in most cases
+  // Enabled by default, as it makes sense in most cases
   // see also https://github.com/facebook/docusaurus/issues/5880
   contextualSearch: true,
 
@@ -20,7 +21,7 @@ export const DEFAULT_CONFIG = {
   searchPagePath: 'search',
 };
 
-export const Schema = Joi.object({
+export const Schema = Joi.object<ThemeConfig>({
   algolia: Joi.object({
     // Docusaurus attributes
     contextualSearch: Joi.boolean().default(DEFAULT_CONFIG.contextualSearch),
@@ -39,6 +40,19 @@ export const Schema = Joi.object({
       .try(Joi.boolean().invalid(true), Joi.string())
       .allow(null)
       .default(DEFAULT_CONFIG.searchPagePath),
+    replaceSearchResultPathname: Joi.object({
+      from: Joi.custom((from) => {
+        if (typeof from === 'string') {
+          return escapeRegexp(from);
+        } else if (from instanceof RegExp) {
+          return from.source;
+        }
+        throw new Error(
+          `it should be a RegExp or a string, but received ${from}`,
+        );
+      }).required(),
+      to: Joi.string().required(),
+    }).optional(),
   })
     .label('themeConfig.algolia')
     .required()

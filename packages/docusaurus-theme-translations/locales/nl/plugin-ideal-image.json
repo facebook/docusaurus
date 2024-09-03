@@ -1,0 +1,7 @@
+{
+  "theme.IdealImageMessage.404error": "404. Afbeelding niet gevonden",
+  "theme.IdealImageMessage.error": "Fout. Klik om te vernieuwen",
+  "theme.IdealImageMessage.load": "Klik om {sizeMessage} te laden",
+  "theme.IdealImageMessage.loading": "Laden...",
+  "theme.IdealImageMessage.offline": "Je browser is offline. De afbeelding is niet geladen"
+}

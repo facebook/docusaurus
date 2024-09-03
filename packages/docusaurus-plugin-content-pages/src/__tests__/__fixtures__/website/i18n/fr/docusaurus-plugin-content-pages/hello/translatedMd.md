@@ -1,1 +1,1 @@
-translated markdown page (fr)
+translated Markdown page (fr)

@@ -7,13 +7,13 @@
 
 import path from 'path';
 import _ from 'lodash';
+import {DEFAULT_PLUGIN_ID} from './constants';
+import {normalizeUrl} from './urlUtils';
 import type {
   TranslationFileContent,
   TranslationFile,
   I18n,
 } from '@docusaurus/types';
-import {DEFAULT_PLUGIN_ID, I18N_DIR_NAME} from './constants';
-import {normalizeUrl} from './urlUtils';
 
 /**
  * Takes a list of translation file contents, and shallow-merges them into one.
@@ -46,24 +46,18 @@ export function updateTranslationFileMessages(
  * expect everything it needs for translations to be found under this path.
  */
 export function getPluginI18nPath({
-  siteDir,
-  locale,
+  localizationDir,
   pluginName,
   pluginId = DEFAULT_PLUGIN_ID,
   subPaths = [],
 }: {
-  siteDir: string;
-  locale: string;
+  localizationDir: string;
   pluginName: string;
   pluginId?: string | undefined;
   subPaths?: string[];
 }): string {
   return path.join(
-    siteDir,
-    I18N_DIR_NAME,
-    // namespace first by locale: convenient to work in a single folder for a
-    // translator
-    locale,
+    localizationDir,
     // Make it convenient to use for single-instance
     // ie: return "docs", not "docs-default" nor "docs/default"
     `${pluginName}${pluginId === DEFAULT_PLUGIN_ID ? '' : `-${pluginId}`}`,
@@ -74,6 +68,9 @@ export function getPluginI18nPath({
 /**
  * Takes a path and returns a localized a version (which is basically `path +
  * i18n.currentLocale`).
+ *
+ * This is used to resolve the `outDir` and `baseUrl` of each locale; it is NOT
+ * used to determine plugin localization file locations.
  */
 export function localizePath({
   pathType,
@@ -100,13 +97,15 @@ export function localizePath({
   };
 }): string {
   const shouldLocalizePath: boolean =
-    //
     options.localizePath ?? i18n.currentLocale !== i18n.defaultLocale;
 
   if (!shouldLocalizePath) {
     return originalPath;
   }
-  // FS paths need special care, for Windows support
+  // FS paths need special care, for Windows support. Note: we don't use the
+  // locale config's `path` here, because this function is used for resolving
+  // outDir, which must be the same as baseUrl. When we have the baseUrl config,
+  // we need to sync the two.
   if (pathType === 'fs') {
     return path.join(originalPath, i18n.currentLocale);
   }

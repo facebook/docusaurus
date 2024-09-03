@@ -16,9 +16,11 @@ exports[`getDocusaurusAliases returns appropriate webpack aliases 1`] = `
   "@docusaurus/renderRoutes": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/renderRoutes.ts",
   "@docusaurus/router": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/router.ts",
   "@docusaurus/useBaseUrl": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useBaseUrl.ts",
+  "@docusaurus/useBrokenLinks": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useBrokenLinks.ts",
   "@docusaurus/useDocusaurusContext": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useDocusaurusContext.ts",
   "@docusaurus/useGlobalData": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useGlobalData.ts",
   "@docusaurus/useIsBrowser": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useIsBrowser.ts",
+  "@docusaurus/useIsomorphicLayoutEffect": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useIsomorphicLayoutEffect.tsx",
   "@docusaurus/useRouteContext": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/useRouteContext.tsx",
 }
 `;

@@ -6,17 +6,16 @@
  */
 
 import React from 'react';
-
+import routes from '@generated/routes';
 import DebugLayout from '@theme/DebugLayout';
 import DebugJsonView from '@theme/DebugJsonView';
-import routes from '@generated/routes';
 import styles from './styles.module.css';
 
 export default function DebugRoutes(): JSX.Element {
   return (
     <DebugLayout>
       <h2>Routes</h2>
-      <ul className={styles.list}>
+      <ul className="clean-list">
         {routes.map(({path, exact, routes: childRoutes}) => (
           <li key={path} className={styles.listItem}>
             <div className={styles.route}>

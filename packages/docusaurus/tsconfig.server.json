@@ -1,12 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo",
-    "rootDir": "src",
-    "outDir": "lib",
-    "allowJs": true
+    "noEmit": false,
+    "tsBuildInfoFile": "${configDir}/lib/.tsbuildinfo-server"
   },
   "include": ["src"],
-  "exclude": ["**/__tests__/**/*", "src/client"]
+  "exclude": ["src/client", "**/__tests__/**"]
 }

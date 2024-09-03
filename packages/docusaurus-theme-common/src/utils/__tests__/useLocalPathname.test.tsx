@@ -6,10 +6,10 @@
  */
 
 import React from 'react';
-import {useLocalPathname} from '../useLocalPathname';
 import {renderHook} from '@testing-library/react-hooks';
 import {StaticRouter} from 'react-router-dom';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
+import {useLocalPathname} from '../useLocalPathname';
 import type {DocusaurusContext} from '@docusaurus/types';
 
 describe('useLocalPathname', () => {
@@ -25,14 +25,14 @@ describe('useLocalPathname', () => {
   it('works for baseUrl: /', () => {
     const mockUseLocalPathname = createUseLocalPathnameMock({
       siteConfig: {baseUrl: '/'},
-    });
+    } as DocusaurusContext);
     expect(mockUseLocalPathname('/foo')).toBe('/foo');
   });
 
   it('works for non-root baseUrl', () => {
     const mockUseLocalPathname = createUseLocalPathnameMock({
       siteConfig: {baseUrl: '/base/'},
-    });
+    } as DocusaurusContext);
     expect(mockUseLocalPathname('/base/foo')).toBe('/foo');
   });
 });

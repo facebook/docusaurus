@@ -5,6 +5,44 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
+
+// TODO Docusaurus v4: remove these workarounds as a breaking change
+//  and remove docs plugin peerDeps in theme-common/package.json
+//  This is public API surface that we need to keep for v3
+//  See https://github.com/facebook/docusaurus/pull/10316
+export function useCurrentSidebarCategory(...args: unknown[]): unknown {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  return require('@docusaurus/plugin-content-docs/client').useCurrentSidebarCategory(
+    ...args,
+  );
+}
+export function filterDocCardListItems(...args: unknown[]): unknown {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  return require('@docusaurus/plugin-content-docs/client').filterDocCardListItems(
+    ...args,
+  );
+}
+export function useDocsPreferredVersion(...args: unknown[]): unknown {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  return require('@docusaurus/plugin-content-docs/client').useDocsPreferredVersion(
+    ...args,
+  );
+}
+export function useContextualSearchFilters() {
+  const {i18n} = useDocusaurusContext();
+  const docsTags =
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    require('@docusaurus/plugin-content-docs/client').useDocsContextualSearchTags();
+  const tags = [DEFAULT_SEARCH_TAG, ...docsTags];
+  return {locale: i18n.currentLocale, tags};
+}
+
+/*
+ * APIs to document
+ */
+
 export {
   useThemeConfig,
   type ThemeConfig,
@@ -19,68 +57,45 @@ export {
   type FooterLinkItem,
   type ColorModeConfig,
 } from './utils/useThemeConfig';
-export {
-  DocSidebarItemsExpandedStateProvider,
-  useDocSidebarItemsExpandedState,
-} from './contexts/docSidebarItemsExpandedState';
-export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
-export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
 
-export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
-
-export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
+export {default as ThemedComponent} from './components/ThemedComponent';
 
 export {
-  parseCodeBlockTitle,
-  parseLanguage,
-  parseLines,
-} from './utils/codeBlockUtils';
-
-export {
-  docVersionSearchTag,
-  DEFAULT_SEARCH_TAG,
-  useContextualSearchFilters,
-} from './utils/searchUtils';
-
-export {
-  isDocsPluginEnabled,
-  useDocById,
-  findSidebarCategory,
-  findFirstCategoryLink,
-  useCurrentSidebarCategory,
-  isActiveSidebarItem,
-  useSidebarBreadcrumbs,
-  useDocsVersionCandidates,
-  useLayoutDoc,
-  useLayoutDocsSidebar,
-} from './utils/docsUtils';
-
-export {useTitleFormatter} from './utils/generalUtils';
+  createStorageSlot,
+  useStorageSlot,
+  listStorageKeys,
+} from './utils/storageUtils';
 
 export {usePluralForm} from './utils/usePluralForm';
 
-export {useLocationChange} from './utils/useLocationChange';
-
 export {useCollapsible, Collapsible} from './components/Collapsible';
-
-export {Details, type DetailsProps} from './components/Details';
-
-export {
-  useDocsPreferredVersion,
-  useDocsPreferredVersionByPluginId,
-  DocsPreferredVersionContextProvider,
-} from './contexts/docsPreferredVersion';
-
-export {duplicates, uniq} from './utils/jsUtils';
 
 export {ThemeClassNames} from './utils/ThemeClassNames';
 
-export {
-  AnnouncementBarProvider,
-  useAnnouncementBar,
-} from './contexts/announcementBar';
+export {prefersReducedMotion} from './utils/accessibilityUtils';
 
-export {useLocalPathname} from './utils/useLocalPathname';
+export {
+  useEvent,
+  usePrevious,
+  composeProviders,
+  ReactContextError,
+} from './utils/reactUtils';
+
+export {PageMetadata, HtmlClassNameProvider} from './utils/metadataUtils';
+
+export {useColorMode, type ColorMode} from './contexts/colorMode';
+
+export {
+  NavbarSecondaryMenuFiller,
+  type NavbarSecondaryMenuComponent,
+} from './contexts/navbarSecondaryMenu/content';
+
+export {useWindowSize} from './hooks/useWindowSize';
+
+/*
+ * APIs kept undocumented, on purpose
+ * Note: we still guarantee retro-compatibility on those
+ */
 
 export {
   translateTagsPageTitle,
@@ -88,73 +103,44 @@ export {
   type TagLetterEntry,
 } from './utils/tagsUtils';
 
-export {useHistoryPopHandler} from './utils/historyUtils';
-
 export {
-  useTOCHighlight,
-  type TOCHighlightConfig,
-} from './hooks/useTOCHighlight';
-
-export {
-  useFilteredAndTreeifiedTOC,
-  useTreeifiedTOC,
-  type TOCTreeNode,
-} from './utils/tocUtils';
+  useSearchQueryString,
+  useSearchLinkCreator,
+} from './hooks/useSearchPage';
 
 export {isMultiColumnFooterLinks} from './utils/footerUtils';
 
-export {
-  ScrollControllerProvider,
-  useScrollController,
-  useScrollPosition,
-  useScrollPositionBlocker,
-  useSmoothScrollTo,
-} from './utils/scrollUtils';
-
-export {
-  useIsomorphicLayoutEffect,
-  useDynamicCallback,
-  usePrevious,
-  ReactContextError,
-} from './utils/reactUtils';
-
 export {isRegexpStringMatch} from './utils/regexpUtils';
 
-export {useHomePageRoute, isSamePath} from './utils/routesUtils';
+export {duplicates, uniq, groupBy} from './utils/jsUtils';
 
-export {
-  PageMetadata,
-  HtmlClassNameProvider,
-  PluginHtmlClassNameProvider,
-} from './utils/metadataUtils';
-
-export {
-  useColorMode,
-  ColorModeProvider,
-  type ColorMode,
-} from './contexts/colorMode';
-
-export {splitNavbarItems, NavbarProvider} from './utils/navbarUtils';
-
-export {
-  useTabGroupChoice,
-  TabGroupChoiceProvider,
-} from './contexts/tabGroupChoice';
-
-export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
-export {
-  NavbarSecondaryMenuFiller,
-  type NavbarSecondaryMenuComponent,
-} from './contexts/navbarSecondaryMenu/content';
-export {useNavbarSecondaryMenu} from './contexts/navbarSecondaryMenu/display';
-
-export {useBackToTopButton} from './hooks/useBackToTopButton';
-export {useHideableNavbar} from './hooks/useHideableNavbar';
-export {
-  useKeyboardNavigation,
-  keyboardFocusedClassName,
-} from './hooks/useKeyboardNavigation';
 export {usePrismTheme} from './hooks/usePrismTheme';
-export {useLockBodyScroll} from './hooks/useLockBodyScroll';
-export {useWindowSize} from './hooks/useWindowSize';
-export {useSearchPage} from './hooks/useSearchPage';
+
+export {processAdmonitionProps} from './utils/admonitionUtils';
+
+export {
+  useHistorySelector,
+  useQueryString,
+  useQueryStringList,
+  useClearQueryString,
+} from './utils/historyUtils';
+
+export {
+  SkipToContentFallbackId,
+  SkipToContentLink,
+} from './utils/skipToContentUtils';
+
+export {
+  UnlistedBannerTitle,
+  UnlistedBannerMessage,
+  UnlistedMetadata,
+  DraftBannerTitle,
+  DraftBannerMessage,
+} from './translations/contentVisibilityTranslations';
+
+export {
+  ErrorBoundaryTryAgainButton,
+  ErrorBoundaryError,
+  ErrorBoundaryErrorMessageFallback,
+  ErrorCauseBoundary,
+} from './utils/errorBoundaryUtils';

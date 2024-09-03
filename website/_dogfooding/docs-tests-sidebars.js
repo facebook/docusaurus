@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+/**
+ * @typedef {import('@docusaurus/plugin-content-docs').SidebarsConfig} SidebarsConfig
+ * @typedef {import('@docusaurus/plugin-content-docs/lib/sidebars/types').SidebarItemConfig} SidebarItemConfig
+ */
+
+/** @type {SidebarsConfig} */
 const sidebars = {
   sidebar: [
     {
@@ -16,6 +21,7 @@ const sidebars = {
     },
     'doc-without-sidebar',
     'doc-with-another-sidebar',
+    'doc-with-last-update',
     {
       type: 'category',
       label: 'Tests',
@@ -32,13 +38,51 @@ const sidebars = {
           label: 'External Link test',
           href: 'https://docusaurus.io',
         },
+        {
+          type: 'category',
+          label: 'Sidebar item description tests',
+          description: 'Some custom category description',
+          link: {
+            type: 'generated-index',
+          },
+          items: [
+            {
+              type: 'link',
+              label: 'Link without description',
+              href: 'https://docusaurus.io',
+            },
+            {
+              type: 'link',
+              label: 'Link with description',
+              href: 'https://docusaurus.io',
+              description: 'Some link description',
+            },
+            {
+              type: 'category',
+              label: 'Category without description',
+              items: [
+                {
+                  type: 'link',
+                  label: 'Link ',
+                  href: 'https://docusaurus.io',
+                },
+              ],
+            },
+            {
+              type: 'category',
+              label: 'Category with description',
+              description: 'Some category description',
+              items: [
+                {
+                  type: 'link',
+                  label: 'Link ',
+                  href: 'https://docusaurus.io',
+                },
+              ],
+            },
+          ],
+        },
       ],
-    },
-    {
-      type: 'category',
-      label: 'section',
-      collapsible: false,
-      items: ['index', 'more-test'],
     },
     {
       type: 'category',
@@ -64,10 +108,27 @@ const sidebars = {
       ],
     },
     {
-      type: 'link',
-      label: 'External link',
-      href: 'https://github.com/facebook/docusaurus',
+      type: 'category',
+      label: 'Link tests',
       className: 'red',
+      items: [
+        {
+          type: 'link',
+          label: 'External link absolute',
+          href: 'https://github.com/facebook/docusaurus',
+        },
+        {
+          type: 'link',
+          label: 'pathname:/// link',
+          href: 'pathname:///some/local/path',
+        },
+        {
+          type: 'link',
+          label: 'pathname:/// link (no baseUrl)',
+          href: 'pathname:///some/local/path',
+          autoAddBaseUrl: false,
+        },
+      ],
     },
     {
       type: 'category',
@@ -86,7 +147,7 @@ const sidebars = {
       collapsed: false,
       collapsible: false,
       items: [
-        //  title
+        // Title
         {
           type: 'html',
           value: 'Some Text',
@@ -118,6 +179,11 @@ function generateHugeSidebarItems() {
   const linksCount = 8;
   const categoriesCount = 8;
 
+  /**
+   * @param {number} maxLevel
+   * @param {number} currentLevel
+   * @returns {SidebarItemConfig[]}
+   */
   function generateRecursive(maxLevel, currentLevel = 0) {
     if (currentLevel === maxLevel) {
       return [
@@ -129,17 +195,19 @@ function generateHugeSidebarItems() {
       ];
     }
 
-    const linkItems = [...Array(linksCount).keys()].map((index) => ({
+    const linkItems = Array.from(Array(linksCount).keys()).map((index) => ({
       type: 'link',
       href: '/',
       label: `Link ${index} (level ${currentLevel + 1})`,
     }));
 
-    const categoryItems = [...Array(categoriesCount).keys()].map((index) => ({
-      type: 'category',
-      label: `Category ${index} (level ${currentLevel + 1})`,
-      items: generateRecursive(maxLevel, currentLevel + 1),
-    }));
+    const categoryItems = Array.from(Array(categoriesCount).keys()).map(
+      (index) => ({
+        type: 'category',
+        label: `Category ${index} (level ${currentLevel + 1})`,
+        items: generateRecursive(maxLevel, currentLevel + 1),
+      }),
+    );
 
     return [...linkItems, ...categoryItems];
   }

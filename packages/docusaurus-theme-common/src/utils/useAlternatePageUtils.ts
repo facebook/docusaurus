@@ -7,6 +7,7 @@
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useLocation} from '@docusaurus/router';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 
 /**
  * Permits to obtain the url of the current page in another locale, useful to
@@ -35,17 +36,25 @@ export function useAlternatePageUtils(): {
   }) => string;
 } {
   const {
-    siteConfig: {baseUrl, url},
+    siteConfig: {baseUrl, url, trailingSlash},
     i18n: {defaultLocale, currentLocale},
   } = useDocusaurusContext();
+
+  // TODO using useLocation().pathname is not a super idea
+  // See https://github.com/facebook/docusaurus/issues/9170
   const {pathname} = useLocation();
+
+  const canonicalPathname = applyTrailingSlash(pathname, {
+    trailingSlash,
+    baseUrl,
+  });
 
   const baseUrlUnlocalized =
     currentLocale === defaultLocale
       ? baseUrl
       : baseUrl.replace(`/${currentLocale}/`, '/');
 
-  const pathnameSuffix = pathname.replace(baseUrl, '');
+  const pathnameSuffix = canonicalPathname.replace(baseUrl, '');
 
   function getLocalizedBaseUrl(locale: string) {
     return locale === defaultLocale

@@ -6,11 +6,9 @@
  */
 
 import React from 'react';
-
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import DebugLayout from '@theme/DebugLayout';
 import DebugJsonView from '@theme/DebugJsonView';
-
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 export default function DebugMetadata(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();

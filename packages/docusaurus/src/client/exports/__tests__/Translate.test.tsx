@@ -67,6 +67,7 @@ describe('<Translate>', () => {
   it('rejects when children is not a string', () => {
     expect(() =>
       renderer.create(
+        // eslint-disable-next-line @docusaurus/string-literal-i18n-messages
         <Translate id="foo">
           {/* @ts-expect-error: for test */}
           <span>aaa</span>

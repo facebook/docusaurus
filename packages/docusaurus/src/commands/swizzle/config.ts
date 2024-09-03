@@ -5,19 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import logger from '@docusaurus/logger';
 import {Joi} from '@docusaurus/utils-validation';
-import type {SwizzleComponentConfig, SwizzleConfig} from '@docusaurus/types';
-import type {SwizzlePlugin} from './common';
 import {SwizzleActions, SwizzleActionsStatuses} from './common';
 import {getPluginByThemeName} from './themes';
+import type {SwizzleComponentConfig, SwizzleConfig} from '@docusaurus/types';
+import type {SwizzlePlugin} from './common';
 
 function getModuleSwizzleConfig(
   swizzlePlugin: SwizzlePlugin,
 ): SwizzleConfig | undefined {
   const getSwizzleConfig =
-    swizzlePlugin.plugin.plugin?.getSwizzleConfig ??
-    swizzlePlugin.plugin.pluginModule?.module.getSwizzleConfig ??
-    swizzlePlugin.plugin.pluginModule?.module?.getSwizzleConfig;
+    swizzlePlugin.plugin.plugin.getSwizzleConfig ??
+    swizzlePlugin.plugin.pluginModule?.module.getSwizzleConfig;
 
   if (getSwizzleConfig) {
     return getSwizzleConfig();
@@ -25,9 +25,8 @@ function getModuleSwizzleConfig(
 
   // TODO deprecate getSwizzleComponentList later
   const getSwizzleComponentList =
-    swizzlePlugin.plugin.plugin?.getSwizzleComponentList ??
-    swizzlePlugin.plugin.pluginModule?.module.getSwizzleComponentList ??
-    swizzlePlugin.plugin.pluginModule?.module?.getSwizzleComponentList;
+    swizzlePlugin.plugin.plugin.getSwizzleComponentList ??
+    swizzlePlugin.plugin.pluginModule?.module.getSwizzleComponentList;
 
   if (getSwizzleComponentList) {
     const safeComponents = getSwizzleComponentList() ?? [];
@@ -48,33 +47,35 @@ function getModuleSwizzleConfig(
   return undefined;
 }
 
-export function normalizeSwizzleConfig(
-  unsafeSwizzleConfig: unknown,
-): SwizzleConfig {
-  const schema = Joi.object<SwizzleConfig>({
-    components: Joi.object()
-      .pattern(
-        Joi.string(),
-        Joi.object({
-          actions: Joi.object().pattern(
-            Joi.string().valid(...SwizzleActions),
-            Joi.string().valid(...SwizzleActionsStatuses),
-          ),
-          description: Joi.string(),
-        }),
-      )
-      .required(),
-  });
+const SwizzleConfigSchema = Joi.object<SwizzleConfig>({
+  components: Joi.object()
+    .pattern(
+      Joi.string(),
+      Joi.object({
+        actions: Joi.object().pattern(
+          Joi.string().valid(...SwizzleActions),
+          Joi.string().valid(...SwizzleActionsStatuses),
+        ),
+        description: Joi.string(),
+      }),
+    )
+    .required(),
+});
 
-  const result = schema.validate(unsafeSwizzleConfig);
-
+function validateSwizzleConfig(unsafeSwizzleConfig: unknown): SwizzleConfig {
+  const result = SwizzleConfigSchema.validate(unsafeSwizzleConfig);
   if (result.error) {
     throw new Error(
       `Swizzle config does not match expected schema: ${result.error.message}`,
     );
   }
+  return result.value;
+}
 
-  const swizzleConfig: SwizzleConfig = result.value;
+export function normalizeSwizzleConfig(
+  unsafeSwizzleConfig: unknown,
+): SwizzleConfig {
+  const swizzleConfig = validateSwizzleConfig(unsafeSwizzleConfig);
 
   // Ensure all components always declare all actions
   Object.values(swizzleConfig.components).forEach((componentConfig) => {
@@ -101,12 +102,9 @@ export function getThemeSwizzleConfig(
   if (config) {
     try {
       return normalizeSwizzleConfig(config);
-    } catch (e) {
-      throw new Error(
-        `Invalid Swizzle config for theme ${themeName}.\n${
-          (e as Error).message
-        }`,
-      );
+    } catch (err) {
+      logger.error`Invalid Swizzle config for theme name=${themeName}.`;
+      throw err;
     }
   }
   return FallbackSwizzleConfig;

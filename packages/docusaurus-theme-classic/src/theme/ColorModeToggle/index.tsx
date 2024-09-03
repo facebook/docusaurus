@@ -6,16 +6,21 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/ColorModeToggle';
+import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {translate} from '@docusaurus/Translate';
-import IconLightMode from '@theme/IconLightMode';
-import IconDarkMode from '@theme/IconDarkMode';
+import IconLightMode from '@theme/Icon/LightMode';
+import IconDarkMode from '@theme/Icon/DarkMode';
+import type {Props} from '@theme/ColorModeToggle';
 
-import clsx from 'clsx';
 import styles from './styles.module.css';
 
-function ColorModeToggle({className, value, onChange}: Props): JSX.Element {
+function ColorModeToggle({
+  className,
+  buttonClassName,
+  value,
+  onChange,
+}: Props): JSX.Element {
   const isBrowser = useIsBrowser();
 
   const title = translate(
@@ -47,12 +52,14 @@ function ColorModeToggle({className, value, onChange}: Props): JSX.Element {
           'clean-btn',
           styles.toggleButton,
           !isBrowser && styles.toggleButtonDisabled,
+          buttonClassName,
         )}
         type="button"
         onClick={() => onChange(value === 'dark' ? 'light' : 'dark')}
         disabled={!isBrowser}
         title={title}
-        aria-label={title}>
+        aria-label={title}
+        aria-live="polite">
         <IconLightMode
           className={clsx(styles.toggleIcon, styles.lightToggleIcon)}
         />

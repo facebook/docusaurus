@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {escapeRegexp} from '@docusaurus/utils';
 import {validateDocFrontMatter} from '../frontMatter';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
-import escapeStringRegexp from 'escape-string-regexp';
 
 function testField(params: {
   prefix: string;
@@ -44,19 +44,18 @@ function testField(params: {
     params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
       try {
         validateDocFrontMatter(frontMatter);
-        // eslint-disable-next-line jest/no-jasmine-globals
-        fail(
-          new Error(
-            `Doc front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
-              frontMatter,
-              null,
-              2,
-            )}`,
-          ),
+        throw new Error(
+          `Doc front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+            frontMatter,
+            null,
+            2,
+          )}`,
         );
       } catch (err) {
         // eslint-disable-next-line jest/no-conditional-expect
-        expect(err.message).toMatch(new RegExp(escapeStringRegexp(message)));
+        expect((err as Error).message).toMatch(
+          new RegExp(escapeRegexp(message)),
+        );
       }
     });
   });
@@ -374,6 +373,106 @@ describe('toc min/max consistency', () => {
       [
         {toc_min_heading_level: 6, toc_max_heading_level: 2},
         '"toc_min_heading_level" must be less than or equal to ref:toc_max_heading_level',
+      ],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter draft', () => {
+  testField({
+    prefix: 'draft',
+    validFrontMatters: [{draft: true}, {draft: false}],
+    convertibleFrontMatter: [
+      [{draft: 'true'}, {draft: true}],
+      [{draft: 'false'}, {draft: false}],
+    ],
+    invalidFrontMatters: [
+      [{draft: 'yes'}, 'must be a boolean'],
+      [{draft: 'no'}, 'must be a boolean'],
+      [{draft: ''}, 'must be a boolean'],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter unlisted', () => {
+  testField({
+    prefix: 'unlisted',
+    validFrontMatters: [{unlisted: true}, {unlisted: false}],
+    convertibleFrontMatter: [
+      [{unlisted: 'true'}, {unlisted: true}],
+      [{unlisted: 'false'}, {unlisted: false}],
+    ],
+    invalidFrontMatters: [
+      [{unlisted: 'yes'}, 'must be a boolean'],
+      [{unlisted: 'no'}, 'must be a boolean'],
+      [{unlisted: ''}, 'must be a boolean'],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter draft XOR unlisted', () => {
+  testField({
+    prefix: 'draft XOR unlisted',
+    validFrontMatters: [
+      {draft: false},
+      {unlisted: false},
+      {draft: false, unlisted: false},
+      {draft: true, unlisted: false},
+      {draft: false, unlisted: true},
+    ],
+    invalidFrontMatters: [
+      [
+        {draft: true, unlisted: true},
+        "Can't be draft and unlisted at the same time.",
+      ],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter last_update', () => {
+  testField({
+    prefix: 'last_update',
+    validFrontMatters: [
+      {last_update: undefined},
+      {last_update: {author: 'test author', date: undefined}},
+      {last_update: {author: undefined, date: '1/1/2000'}},
+      {last_update: {author: undefined, date: new Date('1/1/2000')}},
+      {last_update: {author: 'test author', date: '1/1/2000'}},
+      {last_update: {author: 'test author', date: '1995-12-17T03:24:00'}},
+      {last_update: {author: undefined, date: 'December 17, 1995 03:24:00'}},
+    ],
+    invalidFrontMatters: [
+      [
+        {last_update: null},
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
+      ],
+      [
+        {last_update: {}},
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
+      ],
+      [
+        {last_update: ''},
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
+      ],
+      [
+        {last_update: {invalid: 'key'}},
+        '"last_update" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date',
+      ],
+      [
+        {last_update: {author: 'test author', date: 'I am not a date :('}},
+        'must be a valid date',
+      ],
+      [
+        {last_update: {author: 'test author', date: '2011-10-45'}},
+        'must be a valid date',
+      ],
+      [
+        {last_update: {author: 'test author', date: '2011-0-10'}},
+        'must be a valid date',
+      ],
+      [
+        {last_update: {author: 'test author', date: ''}},
+        'must be a valid date',
       ],
     ],
   });

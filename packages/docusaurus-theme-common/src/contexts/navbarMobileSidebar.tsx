@@ -58,9 +58,9 @@ function useContextValue(): ContextValue {
   useHistoryPopHandler(() => {
     if (shown) {
       setShown(false);
-      // Should we prevent the navigation here?
+      // Prevent pop navigation; seems desirable enough
       // See https://github.com/facebook/docusaurus/pull/5462#issuecomment-911699846
-      return false; // prevent pop navigation
+      return false;
     }
     return undefined;
   });

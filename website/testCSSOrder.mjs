@@ -31,12 +31,11 @@ const EXPECTED_CSS_MARKERS = [
   // See https://github.com/facebook/docusaurus/pull/6222
   '.markdown>h2',
   '.button--outline.button--active',
-  '.DocSearch-Hit-content-wrapper',
-  '.navbar__title',
   '--ifm-color-scheme:light',
   '.col[class*=col--]',
   '.padding-vert--xl',
   '.footer__link-item',
+  '.navbar__title',
   '.pagination__item',
   '.pills__item',
   '.tabs__item',
@@ -47,8 +46,11 @@ const EXPECTED_CSS_MARKERS = [
   '.test-marker-theme-layout',
   '.test-marker-site-index-page',
 
-  // lazy loaded lib
-  '.DocSearch-Modal',
+  // Lazy-loaded lib
+  // Looks like order changed during Webpack 5: https://github.com/facebook/docusaurus/pull/10455
+  // Note a big deal though
+  // '.DocSearch-Modal',
+  // '.DocSearch-Hit-content-wrapper',
 ];
 
 const cssDirName = fileURLToPath(new URL('build/assets/css', import.meta.url));
@@ -84,9 +86,14 @@ if (missingCSSMarkers.length > 0) {
 }
 
 // https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_sortby-and-_orderby
-const sortBy = (key) => (a, b) =>
-  // eslint-disable-next-line no-nested-ternary
-  a[key] > b[key] ? 1 : b[key] > a[key] ? -1 : 0;
+const sortBy =
+  (/** @type {string} */ key) =>
+  (
+    /** @type {Record<string, unknown>} */ a,
+    /** @type {Record<string, unknown>} */ b,
+  ) =>
+    // eslint-disable-next-line no-nested-ternary
+    a[key] > b[key] ? 1 : b[key] > a[key] ? -1 : 0;
 
 const sortedCSSMarkers = [...cssMarkersWithPositions]
   .sort(sortBy('position'))

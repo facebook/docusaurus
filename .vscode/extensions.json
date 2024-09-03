@@ -1,0 +1,12 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=827846 to learn about workspace recommendations.
+  "recommendations": [
+    "streetsidesoftware.code-spell-checker",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "stylelint.vscode-stylelint",
+    "EditorConfig.EditorConfig",
+    "Gruntfuggly.todo-tree"
+  ],
+  "unwantedRecommendations": []
+}

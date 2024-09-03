@@ -6,9 +6,10 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/TOCInline';
-import styles from './styles.module.css';
 import TOCItems from '@theme/TOCItems';
+import type {Props} from '@theme/TOCInline';
+
+import styles from './styles.module.css';
 
 export default function TOCInline({
   toc,

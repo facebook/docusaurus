@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/// <reference types="@docusaurus/theme-classic" />
+/// <reference types="@docusaurus/module-type-aliases" />
+
 declare module '@docusaurus/theme-live-codeblock' {
   export type ThemeConfig = {
     liveCodeBlock: {
@@ -14,10 +17,15 @@ declare module '@docusaurus/theme-live-codeblock' {
 }
 
 declare module '@theme/Playground' {
-  import type {LiveProviderProps} from 'react-live';
+  import type {Props as BaseProps} from '@theme/CodeBlock';
+  import type {LiveProvider} from 'react-live';
 
-  export interface Props extends LiveProviderProps {
-    children: string;
+  type CodeBlockProps = Omit<BaseProps, 'className' | 'language' | 'title'>;
+  type LiveProviderProps = React.ComponentProps<typeof LiveProvider>;
+
+  export interface Props extends CodeBlockProps, LiveProviderProps {
+    // Allow empty live playgrounds
+    children?: string;
   }
   export default function Playground(props: LiveProviderProps): JSX.Element;
 }

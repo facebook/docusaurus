@@ -7,9 +7,9 @@
 
 import {jest} from '@jest/globals';
 import {DefaultSidebarItemsGenerator} from '../generator';
-import type {SidebarItemsGenerator} from '../types';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 import {isCategoryIndex} from '../../docs';
+import type {SidebarItemsGenerator} from '../types';
 
 describe('DefaultSidebarItemsGenerator', () => {
   function testDefaultSidebarItemsGenerator(
@@ -27,10 +27,6 @@ describe('DefaultSidebarItemsGenerator', () => {
         contentPath: 'docs',
       },
       docs: [],
-      options: {
-        sidebarCollapsed: true,
-        sidebarCollapsible: true,
-      },
       categoriesMetadata: {},
       ...params,
     });
@@ -68,7 +64,9 @@ describe('DefaultSidebarItemsGenerator', () => {
           sidebarPosition: 2,
           frontMatter: {
             sidebar_label: 'doc1 sidebar label',
+            sidebar_custom_props: {custom: 'prop'},
           },
+          title: '',
         },
         {
           id: 'doc2',
@@ -76,6 +74,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '.',
           sidebarPosition: 3,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'doc3',
@@ -83,6 +82,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '.',
           sidebarPosition: 1,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'doc4',
@@ -90,6 +90,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '.',
           sidebarPosition: 1.5,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'doc5',
@@ -97,12 +98,11 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '.',
           sidebarPosition: undefined,
           frontMatter: {},
+          title: '',
         },
       ],
-      options: {
-        sidebarCollapsed: true,
-        sidebarCollapsible: true,
-      },
+      isCategoryIndex: () => false,
+      categoriesMetadata: {},
     });
 
     expect(sidebarSlice).toMatchSnapshot();
@@ -144,6 +144,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '.',
           sidebarPosition: 0,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'tutorials-index',
@@ -151,6 +152,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '01-Tutorials',
           sidebarPosition: 2,
           frontMatter: {},
+          title: 'Tutorials',
         },
         {
           id: 'tutorial2',
@@ -158,6 +160,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '01-Tutorials',
           sidebarPosition: 2,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'tutorial1',
@@ -165,12 +168,14 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '01-Tutorials',
           sidebarPosition: 1,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'guides-index',
           source: '@site/docs/02-Guides/02-Guides.md', // TODO should we allow to just use "Guides.md" to have an index?
           sourceDirName: '02-Guides',
           frontMatter: {},
+          title: 'Guides',
         },
         {
           id: 'guide2',
@@ -178,6 +183,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '02-Guides',
           sidebarPosition: 2,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'guide1',
@@ -187,6 +193,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           frontMatter: {
             sidebar_class_name: 'foo',
           },
+          title: '',
         },
         {
           id: 'nested-guide',
@@ -194,6 +201,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '02-Guides/01-SubGuides',
           sidebarPosition: undefined,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'end',
@@ -201,12 +209,9 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '.',
           sidebarPosition: 3,
           frontMatter: {},
+          title: '',
         },
       ],
-      options: {
-        sidebarCollapsed: true,
-        sidebarCollapsible: true,
-      },
     });
 
     expect(sidebarSlice).toMatchSnapshot();
@@ -256,6 +261,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'subfolder',
           sidebarPosition: undefined,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'doc3',
@@ -263,6 +269,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '.',
           sidebarPosition: undefined,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'doc4',
@@ -270,6 +277,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'subfolder/subsubfolder',
           sidebarPosition: undefined,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'doc5',
@@ -277,6 +285,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'subfolder/subsubfolder/subsubsubfolder',
           sidebarPosition: undefined,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'doc6',
@@ -284,6 +293,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'subfolder/subsubfolder/subsubsubfolder2',
           sidebarPosition: undefined,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'doc7',
@@ -291,6 +301,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'subfolder/subsubfolder/subsubsubfolder3',
           sidebarPosition: 2,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'doc8',
@@ -298,12 +309,9 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'subfolder/subsubfolder/subsubsubfolder3',
           sidebarPosition: 1,
           frontMatter: {},
+          title: '',
         },
       ],
-      options: {
-        sidebarCollapsed: true,
-        sidebarCollapsible: true,
-      },
     });
 
     expect(sidebarSlice).toMatchSnapshot();
@@ -323,6 +331,7 @@ describe('DefaultSidebarItemsGenerator', () => {
       categoriesMetadata: {
         Category: {
           label: 'Category label',
+          description: 'Category description',
           link: {
             type: 'doc',
             id: 'doc3', // Using a "local doc id" ("doc1" instead of "parent/doc1") on purpose
@@ -339,42 +348,45 @@ describe('DefaultSidebarItemsGenerator', () => {
           source: '@site/docs/Category/index.md',
           sourceDirName: 'Category',
           frontMatter: {},
+          title: '',
         },
         {
           id: 'parent/doc2',
           source: '@site/docs/Category/doc2.md',
           sourceDirName: 'Category',
           frontMatter: {},
+          title: '',
         },
         {
           id: 'parent/doc3',
           source: '@site/docs/Category/doc3.md',
           sourceDirName: 'Category',
           frontMatter: {},
+          title: '',
         },
         {
           id: 'parent/doc4',
           source: '@site/docs/Category2/doc1.md',
           sourceDirName: 'Category2',
           frontMatter: {},
+          title: '',
         },
         {
           id: 'parent/doc5',
           source: '@site/docs/Category2/index.md',
           sourceDirName: 'Category2',
           frontMatter: {},
+          title: '',
         },
         {
           id: 'parent/doc6',
           source: '@site/docs/Category2/doc3.md',
           sourceDirName: 'Category2',
           frontMatter: {},
+          title: '',
         },
       ],
-      options: {
-        sidebarCollapsed: true,
-        sidebarCollapsible: true,
-      },
+      isCategoryIndex: () => false,
     });
 
     expect(sidebarSlice).toMatchSnapshot();
@@ -387,7 +399,7 @@ describe('DefaultSidebarItemsGenerator', () => {
         return (
           fileName.replace(
             `${DefaultNumberPrefixParser(
-              directories[0],
+              directories[0]!,
             ).filename.toLowerCase()}-`,
             '',
           ) === 'index'
@@ -409,6 +421,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '.',
           sidebarPosition: 0,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'tutorials-index',
@@ -416,6 +429,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '01-Tutorials',
           sidebarPosition: 2,
           frontMatter: {},
+          title: 'Tutorials',
         },
         {
           id: 'tutorial2',
@@ -423,6 +437,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '01-Tutorials',
           sidebarPosition: 2,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'tutorial1',
@@ -430,12 +445,14 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '01-Tutorials',
           sidebarPosition: 1,
           frontMatter: {},
+          title: '',
         },
         {
           id: 'not-guides-index',
           source: '@site/docs/02-Guides/README.md',
           sourceDirName: '02-Guides',
           frontMatter: {},
+          title: 'Guides',
         },
         {
           id: 'guide2',
@@ -443,6 +460,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '02-Guides',
           sidebarPosition: 2,
           frontMatter: {},
+          title: 'guide2',
         },
         {
           id: 'guide1',
@@ -452,18 +470,15 @@ describe('DefaultSidebarItemsGenerator', () => {
           frontMatter: {
             sidebar_class_name: 'foo',
           },
+          title: '',
         },
       ],
-      options: {
-        sidebarCollapsed: true,
-        sidebarCollapsible: true,
-      },
     });
 
     expect(sidebarSlice).toMatchSnapshot();
   });
 
-  it('throws for unknown index link', async () => {
+  it('throws for unknown index link', () => {
     const generateSidebar = () =>
       DefaultSidebarItemsGenerator({
         numberPrefixParser: DefaultNumberPrefixParser,
@@ -487,19 +502,15 @@ describe('DefaultSidebarItemsGenerator', () => {
         docs: [
           {
             id: 'intro',
-            unversionedId: 'intro',
             source: '@site/docs/category/intro.md',
             sourceDirName: 'category',
             frontMatter: {},
+            title: '',
           },
         ],
-        options: {
-          sidebarCollapsed: true,
-          sidebarCollapsible: true,
-        },
       });
 
-    await expect(generateSidebar).rejects.toThrowErrorMatchingInlineSnapshot(`
+    expect(() => generateSidebar()).toThrowErrorMatchingInlineSnapshot(`
             "Can't find any doc with ID foo.
             Available doc IDs:
             - intro"

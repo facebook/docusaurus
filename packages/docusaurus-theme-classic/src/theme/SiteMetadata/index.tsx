@@ -9,15 +9,15 @@ import React from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import SearchMetadata from '@theme/SearchMetadata';
+import {PageMetadata, useThemeConfig} from '@docusaurus/theme-common';
 import {
-  PageMetadata,
   DEFAULT_SEARCH_TAG,
   useAlternatePageUtils,
-  useThemeConfig,
   keyboardFocusedClassName,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
 import {useLocation} from '@docusaurus/router';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
+import SearchMetadata from '@theme/SearchMetadata';
 
 // TODO move to SiteMetadataDefaults or theme-common ?
 // Useful for i18n/SEO
@@ -25,9 +25,18 @@ import {useLocation} from '@docusaurus/router';
 // See https://github.com/facebook/docusaurus/issues/3317
 function AlternateLangHeaders(): JSX.Element {
   const {
-    i18n: {defaultLocale, localeConfigs},
+    i18n: {currentLocale, defaultLocale, localeConfigs},
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
+
+  const currentHtmlLang = localeConfigs[currentLocale]!.htmlLang;
+
+  // HTML lang is a BCP 47 tag, but the Open Graph protocol requires
+  // using underscores instead of dashes.
+  // See https://ogp.me/#optional
+  // See https://en.wikipedia.org/wiki/IETF_language_tag)
+  const bcp47ToOpenGraphLocale = (code: string): string =>
+    code.replace('-', '_');
 
   // Note: it is fine to use both "x-default" and "en" to target the same url
   // See https://www.searchviu.com/en/multiple-hreflang-tags-one-url/
@@ -52,6 +61,20 @@ function AlternateLangHeaders(): JSX.Element {
         })}
         hrefLang="x-default"
       />
+
+      <meta
+        property="og:locale"
+        content={bcp47ToOpenGraphLocale(currentHtmlLang)}
+      />
+      {Object.values(localeConfigs)
+        .filter((config) => currentHtmlLang !== config.htmlLang)
+        .map((config) => (
+          <meta
+            key={`meta-og-${config.htmlLang}`}
+            property="og:locale:alternate"
+            content={bcp47ToOpenGraphLocale(config.htmlLang)}
+          />
+        ))}
     </Head>
   );
 }
@@ -59,10 +82,19 @@ function AlternateLangHeaders(): JSX.Element {
 // Default canonical url inferred from current page location pathname
 function useDefaultCanonicalUrl() {
   const {
-    siteConfig: {url: siteUrl},
+    siteConfig: {url: siteUrl, baseUrl, trailingSlash},
   } = useDocusaurusContext();
+
+  // TODO using useLocation().pathname is not a super idea
+  // See https://github.com/facebook/docusaurus/issues/9170
   const {pathname} = useLocation();
-  return siteUrl + useBaseUrl(pathname);
+
+  const canonicalPathname = applyTrailingSlash(useBaseUrl(pathname), {
+    trailingSlash,
+    baseUrl,
+  });
+
+  return siteUrl + canonicalPathname;
 }
 
 // TODO move to SiteMetadataDefaults or theme-common ?
@@ -109,16 +141,16 @@ export default function SiteMetadata(): JSX.Element {
 
       <SearchMetadata tag={DEFAULT_SEARCH_TAG} locale={currentLocale} />
 
-      <Head
-      // it's important to have an additional <Head> element here,
-      // as it allows react-helmet to override values set in previous <Head>
-      // ie we can override default metadata such as "twitter:card"
-      // In same Head, the same meta would appear twice instead of overriding
-      // See react-helmet doc
-      >
+      {/*
+        It's important to have an additional <Head> element here, as it allows
+        react-helmet to override default metadata values set in previous <Head>
+        like "twitter:card". In same Head, the same meta would appear twice
+        instead of overriding.
+      */}
+      <Head>
         {/* Yes, "metadatum" is the grammatically correct term */}
         {metadata.map((metadatum, i) => (
-          <meta key={`metadata_${i}`} {...metadatum} />
+          <meta key={i} {...metadatum} />
         ))}
       </Head>
     </>

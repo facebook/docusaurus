@@ -7,16 +7,46 @@
 
 import {jest} from '@jest/globals';
 import path from 'path';
-import pluginContentBlog from '../index';
-import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
-import {validateOptions} from '../options';
-import type {BlogPost} from '../types';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {posixPath, getFileCommitDate} from '@docusaurus/utils';
+import {
+  posixPath,
+  getFileCommitDate,
+  LAST_UPDATE_FALLBACK,
+} from '@docusaurus/utils';
+import pluginContentBlog from '../index';
+import {validateOptions} from '../options';
 import type {
+  DocusaurusConfig,
+  LoadContext,
+  I18n,
+  Validate,
+  MarkdownConfig,
+} from '@docusaurus/types';
+import type {
+  BlogPost,
+  Options,
   PluginOptions,
   EditUrlFunction,
 } from '@docusaurus/plugin-content-blog';
+
+const markdown: MarkdownConfig = {
+  format: 'mdx',
+  mermaid: true,
+  mdx1Compat: {
+    comments: true,
+    headingIds: true,
+    admonitions: true,
+  },
+  parseFrontMatter: async (params) => {
+    // Reuse the default parser
+    const result = await params.defaultParseFrontMatter(params);
+    if (result.frontMatter.title === 'Complex Slug') {
+      result.frontMatter.custom_frontMatter = 'added by parseFrontMatter';
+    }
+    return result;
+  },
+  remarkRehypeOptions: undefined,
+};
 
 function findByTitle(
   blogPosts: BlogPost[],
@@ -41,7 +71,16 @@ function getI18n(locale: string): I18n {
     currentLocale: locale,
     locales: [locale],
     defaultLocale: locale,
-    localeConfigs: {},
+    path: 'i18n',
+    localeConfigs: {
+      [locale]: {
+        calendar: 'gregory',
+        label: locale,
+        htmlLang: locale,
+        direction: 'ltr',
+        path: locale,
+      },
+    },
   };
 }
 
@@ -57,10 +96,18 @@ const getPlugin = async (
   i18n: I18n = DefaultI18N,
 ) => {
   const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
+  const localizationDir = path.join(
+    siteDir,
+    i18n.path,
+    i18n.localeConfigs[i18n.currentLocale]!.path,
+  );
   const siteConfig = {
     title: 'Hello',
     baseUrl: '/',
     url: 'https://docusaurus.io',
+    markdown,
+    future: {},
+    staticDirectories: ['static'],
   } as DocusaurusConfig;
   return pluginContentBlog(
     {
@@ -68,15 +115,19 @@ const getPlugin = async (
       siteConfig,
       generatedFilesDir,
       i18n,
+      localizationDir,
     } as LoadContext,
     validateOptions({
-      validate: normalizePluginOptions,
+      validate: normalizePluginOptions as Validate<
+        Options | undefined,
+        PluginOptions
+      >,
       options: {
         path: PluginPath,
         editUrl: BaseEditUrl,
         ...pluginOptions,
       },
-    }) as PluginOptions,
+    }),
   );
 };
 
@@ -110,6 +161,8 @@ describe('blog plugin', () => {
     );
     expect(relativePathsToWatch).toEqual([
       'i18n/en/docusaurus-plugin-content-blog/authors.yml',
+      'i18n/en/docusaurus-plugin-content-blog/tags.yml',
+      'blog/tags.yml',
       'i18n/en/docusaurus-plugin-content-blog/**/*.{md,mdx}',
       'blog/**/*.{md,mdx}',
     ]);
@@ -131,7 +184,6 @@ describe('blog plugin', () => {
       description: `date inside front matter`,
       authors: [],
       date: new Date('2019-01-01'),
-      formattedDate: 'January 1, 2019',
       frontMatter: {
         date: new Date('2019-01-01'),
         tags: ['date'],
@@ -139,6 +191,8 @@ describe('blog plugin', () => {
       prevItem: undefined,
       tags: [
         {
+          description: undefined,
+          inline: true,
           label: 'date',
           permalink: '/blog/tags/date',
         },
@@ -147,7 +201,8 @@ describe('blog plugin', () => {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
         title: 'Happy 1st Birthday Slash! (translated)',
       },
-      truncated: false,
+      hasTruncateMarker: false,
+      unlisted: false,
     });
 
     expect(
@@ -158,7 +213,6 @@ describe('blog plugin', () => {
       readingTime: 0.015,
       source: path.posix.join(
         '@site',
-        // pluginPath,
         path.posix.join('i18n', 'en', 'docusaurus-plugin-content-blog'),
         '2018-12-14-Happy-First-Birthday-Slash.md',
       ),
@@ -167,16 +221,22 @@ describe('blog plugin', () => {
       authors: [
         {
           name: 'Yangshun Tay (translated)',
+          imageURL: undefined,
+          key: null,
+          page: null,
+          socials: {},
         },
         {
           email: 'lorber.sebastien@gmail.com',
           key: 'slorber',
           name: 'Sébastien Lorber (translated)',
           title: 'Docusaurus maintainer (translated)',
+          imageURL: undefined,
+          socials: undefined,
+          page: {permalink: '/blog/authors/slorber-custom-permalink-localized'},
         },
       ],
       date: new Date('2018-12-14'),
-      formattedDate: 'December 14, 2018',
       frontMatter: {
         authors: [
           {
@@ -184,14 +244,29 @@ describe('blog plugin', () => {
           },
           'slorber',
         ],
+        tags: ['inlineTag', 'globalTag'],
         title: 'Happy 1st Birthday Slash! (translated)',
       },
-      tags: [],
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag',
+          permalink: '/blog/tags/inline-tag',
+        },
+        {
+          description: 'Global Tag description (en)',
+          inline: false,
+          label: 'Global Tag label (en)',
+          permalink: '/blog/tags/global-tag-permalink (en)',
+        },
+      ],
       prevItem: {
         permalink: '/blog/date-matter',
         title: 'date-matter',
       },
-      truncated: false,
+      hasTruncateMarker: false,
+      unlisted: false,
     });
 
     expect({
@@ -211,24 +286,29 @@ describe('blog plugin', () => {
         title: 'Simple Slug',
       },
       date: new Date('2020-08-16'),
-      formattedDate: 'August 16, 2020',
       frontMatter: {
         date: '2020/08/16',
         slug: '/hey/my super path/héllô',
         title: 'Complex Slug',
         tags: ['date', 'complex'],
+        custom_frontMatter: 'added by parseFrontMatter',
       },
       tags: [
         {
+          description: undefined,
+          inline: true,
           label: 'date',
           permalink: '/blog/tags/date',
         },
         {
+          description: undefined,
+          inline: true,
           label: 'complex',
           permalink: '/blog/tags/complex',
         },
       ],
-      truncated: false,
+      hasTruncateMarker: false,
+      unlisted: false,
     });
 
     expect({
@@ -247,6 +327,8 @@ describe('blog plugin', () => {
           title: 'Docusaurus maintainer',
           url: 'https://sebastienlorber.com',
           imageURL: undefined,
+          page: null,
+          key: null,
         },
       ],
       prevItem: undefined,
@@ -255,7 +337,6 @@ describe('blog plugin', () => {
         title: 'draft',
       },
       date: new Date('2020-08-15'),
-      formattedDate: 'August 15, 2020',
       frontMatter: {
         author: 'Sébastien Lorber',
         author_title: 'Docusaurus maintainer',
@@ -265,7 +346,8 @@ describe('blog plugin', () => {
         title: 'Simple Slug',
       },
       tags: [],
-      truncated: false,
+      hasTruncateMarker: false,
+      unlisted: false,
     });
 
     expect({
@@ -280,7 +362,6 @@ describe('blog plugin', () => {
       description: '',
       authors: [],
       date: new Date('2019-01-02'),
-      formattedDate: 'January 2, 2019',
       frontMatter: {
         date: new Date('2019-01-02'),
       },
@@ -290,38 +371,9 @@ describe('blog plugin', () => {
         permalink: '/blog/date-matter',
         title: 'date-matter',
       },
-      truncated: false,
+      hasTruncateMarker: false,
+      unlisted: false,
     });
-  });
-
-  it('builds simple website blog with localized dates', async () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const blogPostsFrench = await getBlogPosts(siteDir, {}, getI18n('fr'));
-    expect(blogPostsFrench).toHaveLength(8);
-    expect(blogPostsFrench[0].metadata.formattedDate).toMatchInlineSnapshot(
-      `"6 mars 2021"`,
-    );
-    expect(blogPostsFrench[1].metadata.formattedDate).toMatchInlineSnapshot(
-      `"5 mars 2021"`,
-    );
-    expect(blogPostsFrench[2].metadata.formattedDate).toMatchInlineSnapshot(
-      `"16 août 2020"`,
-    );
-    expect(blogPostsFrench[3].metadata.formattedDate).toMatchInlineSnapshot(
-      `"15 août 2020"`,
-    );
-    expect(blogPostsFrench[4].metadata.formattedDate).toMatchInlineSnapshot(
-      `"27 février 2020"`,
-    );
-    expect(blogPostsFrench[5].metadata.formattedDate).toMatchInlineSnapshot(
-      `"2 janvier 2019"`,
-    );
-    expect(blogPostsFrench[6].metadata.formattedDate).toMatchInlineSnapshot(
-      `"1 janvier 2019"`,
-    );
-    expect(blogPostsFrench[7].metadata.formattedDate).toMatchInlineSnapshot(
-      `"14 décembre 2018"`,
-    );
   });
 
   it('handles edit URL with editLocalizedBlogs: true', async () => {
@@ -349,7 +401,7 @@ describe('blog plugin', () => {
       expect(blogPost.metadata.editUrl).toEqual(hardcodedEditUrl);
     });
 
-    expect(editUrlFunction).toHaveBeenCalledTimes(8);
+    expect(editUrlFunction).toHaveBeenCalledTimes(10);
 
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
@@ -421,14 +473,9 @@ describe('blog plugin', () => {
     const blogPosts = await getBlogPosts(siteDir);
     const noDateSource = path.posix.join('@site', PluginPath, 'no date.md');
     const noDateSourceFile = path.posix.join(siteDir, PluginPath, 'no date.md');
-    // we know the file exist and we know we have git
-    const result = getFileCommitDate(noDateSourceFile, {age: 'oldest'});
+    // We know the file exists and we know we have git
+    const result = await getFileCommitDate(noDateSourceFile, {age: 'oldest'});
     const noDateSourceTime = result.date;
-    const formattedDate = Intl.DateTimeFormat('en', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    }).format(noDateSourceTime);
 
     expect({
       ...getByTitle(blogPosts, 'no date').metadata,
@@ -442,12 +489,12 @@ describe('blog plugin', () => {
       description: `no date`,
       authors: [],
       date: noDateSourceTime,
-      formattedDate,
       frontMatter: {},
       tags: [],
       prevItem: undefined,
       nextItem: undefined,
-      truncated: false,
+      hasTruncateMarker: false,
+      unlisted: false,
     });
   });
 
@@ -472,7 +519,7 @@ describe('blog plugin', () => {
       postsPerPage: 2,
     });
 
-    expect(Object.keys(blogTags)).toHaveLength(2);
+    expect(Object.keys(blogTags)).toHaveLength(3);
     expect(blogTags).toMatchSnapshot();
   });
 
@@ -487,5 +534,168 @@ describe('blog plugin', () => {
     });
 
     expect(blogTags).toMatchSnapshot();
+  });
+
+  it('process blog posts load content', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'website-blog-with-tags',
+    );
+    const plugin = await getPlugin(
+      siteDir,
+      {
+        postsPerPage: 1,
+        processBlogPosts: async ({blogPosts}) =>
+          blogPosts.filter((blog) => blog.metadata.tags[0]?.label === 'tag1'),
+        onInlineTags: 'ignore',
+        tags: false,
+      },
+      DefaultI18N,
+    );
+    const {blogPosts, blogTags, blogListPaginated} =
+      (await plugin.loadContent!())!;
+
+    expect(blogListPaginated).toHaveLength(3);
+
+    expect(Object.keys(blogTags)).toHaveLength(2);
+    expect(blogTags).toMatchSnapshot();
+
+    expect(blogPosts).toHaveLength(3);
+    expect(blogPosts).toMatchSnapshot();
+  });
+});
+
+describe('last update', () => {
+  const siteDir = path.join(
+    __dirname,
+    '__fixtures__',
+    'website-blog-with-last-update',
+  );
+
+  const lastUpdateFor = (date: string) => new Date(date).getTime();
+
+  it('author and time', async () => {
+    const plugin = await getPlugin(
+      siteDir,
+      {
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      },
+      DefaultI18N,
+    );
+    const {blogPosts} = (await plugin.loadContent!())!;
+
+    expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
+    expect(blogPosts[0]?.metadata.lastUpdatedAt).toBe(
+      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+    );
+
+    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(
+      LAST_UPDATE_FALLBACK.lastUpdatedBy,
+    );
+    expect(blogPosts[1]?.metadata.lastUpdatedAt).toBe(
+      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+    );
+
+    expect(blogPosts[2]?.metadata.lastUpdatedBy).toBe('seb');
+    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(
+      lastUpdateFor('2021-01-01'),
+    );
+
+    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(
+      LAST_UPDATE_FALLBACK.lastUpdatedBy,
+    );
+    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(
+      lastUpdateFor('2021-01-01'),
+    );
+  });
+
+  it('time only', async () => {
+    const plugin = await getPlugin(
+      siteDir,
+      {
+        showLastUpdateAuthor: false,
+        showLastUpdateTime: true,
+      },
+      DefaultI18N,
+    );
+    const {blogPosts} = (await plugin.loadContent!())!;
+
+    expect(blogPosts[0]?.metadata.title).toBe('Author');
+    expect(blogPosts[0]?.metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[0]?.metadata.lastUpdatedAt).toBe(
+      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+    );
+
+    expect(blogPosts[1]?.metadata.title).toBe('Nothing');
+    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[1]?.metadata.lastUpdatedAt).toBe(
+      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+    );
+
+    expect(blogPosts[2]?.metadata.title).toBe('Both');
+    expect(blogPosts[2]?.metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(
+      lastUpdateFor('2021-01-01'),
+    );
+
+    expect(blogPosts[3]?.metadata.title).toBe('Last update date');
+    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(
+      lastUpdateFor('2021-01-01'),
+    );
+  });
+
+  it('author only', async () => {
+    const plugin = await getPlugin(
+      siteDir,
+      {
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: false,
+      },
+      DefaultI18N,
+    );
+    const {blogPosts} = (await plugin.loadContent!())!;
+
+    expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
+    expect(blogPosts[0]?.metadata.lastUpdatedAt).toBeUndefined();
+
+    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(
+      LAST_UPDATE_FALLBACK.lastUpdatedBy,
+    );
+    expect(blogPosts[1]?.metadata.lastUpdatedAt).toBeUndefined();
+
+    expect(blogPosts[2]?.metadata.lastUpdatedBy).toBe('seb');
+    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBeUndefined();
+
+    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(
+      LAST_UPDATE_FALLBACK.lastUpdatedBy,
+    );
+    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBeUndefined();
+  });
+
+  it('none', async () => {
+    const plugin = await getPlugin(
+      siteDir,
+      {
+        showLastUpdateAuthor: false,
+        showLastUpdateTime: false,
+      },
+      DefaultI18N,
+    );
+    const {blogPosts} = (await plugin.loadContent!())!;
+
+    expect(blogPosts[0]?.metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[0]?.metadata.lastUpdatedAt).toBeUndefined();
+
+    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[1]?.metadata.lastUpdatedAt).toBeUndefined();
+
+    expect(blogPosts[2]?.metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBeUndefined();
+
+    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBeUndefined();
+    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBeUndefined();
   });
 });

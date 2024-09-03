@@ -6,16 +6,22 @@
  */
 
 import React from 'react';
-import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import {usePrismTheme} from '@docusaurus/theme-common';
-import styles from './styles.module.css';
-import useIsBrowser from '@docusaurus/useIsBrowser';
+import {
+  ErrorBoundaryErrorMessageFallback,
+  usePrismTheme,
+} from '@docusaurus/theme-common';
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
+
 import type {Props} from '@theme/Playground';
 import type {ThemeConfig} from '@docusaurus/theme-live-codeblock';
+
+import styles from './styles.module.css';
 
 function Header({children}: {children: React.ReactNode}) {
   return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
@@ -23,7 +29,28 @@ function Header({children}: {children: React.ReactNode}) {
 
 function LivePreviewLoader() {
   // Is it worth improving/translating?
+  // eslint-disable-next-line @docusaurus/no-untranslated-text
   return <div>Loading...</div>;
+}
+
+function Preview() {
+  // No SSR for the live preview
+  // See https://github.com/facebook/docusaurus/issues/5747
+  return (
+    <BrowserOnly fallback={<LivePreviewLoader />}>
+      {() => (
+        <>
+          <ErrorBoundary
+            fallback={(params) => (
+              <ErrorBoundaryErrorMessageFallback {...params} />
+            )}>
+            <LivePreview />
+          </ErrorBoundary>
+          <LiveError />
+        </>
+      )}
+    </BrowserOnly>
+  );
 }
 
 function ResultWithHeader() {
@@ -38,14 +65,7 @@ function ResultWithHeader() {
       </Header>
       {/* https://github.com/facebook/docusaurus/issues/5747 */}
       <div className={styles.playgroundPreview}>
-        <BrowserOnly fallback={<LivePreviewLoader />}>
-          {() => (
-            <>
-              <LivePreview />
-              <LiveError />
-            </>
-          )}
-        </BrowserOnly>
+        <Preview />
       </div>
     </>
   );
@@ -78,6 +98,10 @@ function EditorWithHeader() {
   );
 }
 
+// this should rather be a stable function
+// see https://github.com/facebook/docusaurus/issues/9630#issuecomment-1855682643
+const DEFAULT_TRANSFORM_CODE = (code: string) => `${code};`;
+
 export default function Playground({
   children,
   transformCode,
@@ -91,12 +115,14 @@ export default function Playground({
   } = themeConfig as ThemeConfig;
   const prismTheme = usePrismTheme();
 
+  const noInline = props.metastring?.includes('noInline') ?? false;
+
   return (
     <div className={styles.playgroundContainer}>
-      {/* @ts-expect-error: type incompatibility with refs */}
       <LiveProvider
-        code={children.replace(/\n$/, '')}
-        transformCode={transformCode || ((code) => `${code};`)}
+        code={children?.replace(/\n$/, '')}
+        noInline={noInline}
+        transformCode={transformCode ?? DEFAULT_TRANSFORM_CODE}
         theme={prismTheme}
         {...props}>
         {playgroundPosition === 'top' ? (

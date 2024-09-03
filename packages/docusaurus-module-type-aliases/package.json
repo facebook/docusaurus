@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/module-type-aliases",
-  "version": "2.0.0-beta.18",
+  "version": "3.5.2",
   "description": "Docusaurus module type aliases.",
   "types": "./src/index.d.ts",
   "publishConfig": {
@@ -12,11 +12,13 @@
     "directory": "packages/docusaurus-module-type-aliases"
   },
   "dependencies": {
-    "@docusaurus/types": "2.0.0-beta.18",
+    "@docusaurus/types": "3.5.2",
+    "@types/history": "^4.7.11",
     "@types/react": "*",
     "@types/react-router-config": "*",
     "@types/react-router-dom": "*",
-    "react-helmet-async": "*"
+    "react-helmet-async": "*",
+    "react-loadable": "npm:@docusaurus/react-loadable@6.0.0"
   },
   "peerDependencies": {
     "react": "*",

@@ -11,25 +11,6 @@
   margin: 1rem 0;
 }
 
-.tocCollapsibleButton {
-  font-size: inherit;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.4rem 0.8rem;
-  width: 100%;
-}
-
-.tocCollapsibleButton::after {
-  content: '';
-  background: var(--ifm-menu-link-sublist-icon) 50% 50% / 2rem 2rem no-repeat;
-  filter: var(--ifm-menu-link-sublist-icon-filter);
-  height: 1.25rem;
-  width: 1.25rem;
-  transform: rotate(180deg);
-  transition: transform var(--ifm-transition-fast);
-}
-
 .tocCollapsibleContent > ul {
   border-left: none;
   border-top: 1px solid var(--ifm-color-emphasis-300);
@@ -45,6 +26,6 @@
   display: block;
 }
 
-.tocCollapsibleExpanded .tocCollapsibleButton::after {
+.tocCollapsibleExpanded {
   transform: none;
 }

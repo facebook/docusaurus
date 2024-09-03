@@ -1,9 +1,0 @@
-{
-  "arrowParens": "always",
-  "bracketSameLine": true,
-  "bracketSpacing": false,
-  "printWidth": 80,
-  "proseWrap": "never",
-  "singleQuote": true,
-  "trailingComma": "all"
-}

@@ -8,20 +8,25 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
-
-import type {PluginContext, RedirectMetadata} from './types';
-import createRedirectPageContent from './createRedirectPageContent';
+import logger from '@docusaurus/logger';
 import {normalizeUrl} from '@docusaurus/utils';
+
+import createRedirectPageContent from './createRedirectPageContent';
+
+import type {PluginContext, RedirectItem} from './types';
 
 export type WriteFilesPluginContext = Pick<PluginContext, 'baseUrl' | 'outDir'>;
 
-export type RedirectFileMetadata = {
+export type RedirectFile = {
   fileAbsolutePath: string;
   fileContent: string;
 };
 
 export function createToUrl(baseUrl: string, to: string): string {
-  return normalizeUrl([baseUrl, to]);
+  if (to.startsWith('/')) {
+    return normalizeUrl([baseUrl, to]);
+  }
+  return to;
 }
 
 // Create redirect file path
@@ -55,11 +60,11 @@ function getRedirectFilePath(
   return path.join(filePath, `${fileName}/index.html`);
 }
 
-export function toRedirectFilesMetadata(
-  redirects: RedirectMetadata[],
+export function toRedirectFiles(
+  redirects: RedirectItem[],
   pluginContext: WriteFilesPluginContext,
   trailingSlash: boolean | undefined,
-): RedirectFileMetadata[] {
+): RedirectFile[] {
   // Perf: avoid rendering the template twice with the exact same "props"
   // We might create multiple redirect pages for the same destination url
   // note: the first fn arg is the cache key!
@@ -67,7 +72,7 @@ export function toRedirectFilesMetadata(
     createRedirectPageContent({toUrl}),
   );
 
-  const createFileMetadata = (redirect: RedirectMetadata) => {
+  const createFileMetadata = (redirect: RedirectItem) => {
     const fileRelativePath = getRedirectFilePath(redirect.from, trailingSlash);
     const fileAbsolutePath = path.join(pluginContext.outDir, fileRelativePath);
     const toUrl = createToUrl(pluginContext.baseUrl, redirect.to);
@@ -82,9 +87,7 @@ export function toRedirectFilesMetadata(
   return redirects.map(createFileMetadata);
 }
 
-export async function writeRedirectFile(
-  file: RedirectFileMetadata,
-): Promise<void> {
+export async function writeRedirectFile(file: RedirectFile): Promise<void> {
   try {
     // User-friendly security to prevent file overrides
     if (await fs.pathExists(file.fileAbsolutePath)) {
@@ -100,14 +103,13 @@ export async function writeRedirectFile(
       {flag: 'wx'},
     );
   } catch (err) {
-    throw new Error(
-      `Redirect file creation error for "${file.fileAbsolutePath}" path: ${err}.`,
-    );
+    logger.error`Redirect file creation error for path=${file.fileAbsolutePath}.`;
+    throw err;
   }
 }
 
 export default async function writeRedirectFiles(
-  redirectFiles: RedirectFileMetadata[],
+  redirectFiles: RedirectFile[],
 ): Promise<void> {
   await Promise.all(redirectFiles.map(writeRedirectFile));
 }

@@ -6,25 +6,46 @@
  */
 
 import path from 'path';
-import remark from 'remark';
-import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
 
-const processFixture = async (name, options?) => {
-  const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
-  const file = await vfile.read(filePath);
-  const result = await remark()
-    .use(headings)
-    .use(mdx)
-    .use(plugin, options)
-    .process(file);
+const processFixture = async (name: string) => {
+  const {default: gfm} = await import('remark-gfm');
 
-  return result.toString();
+  const {compile} = await import('@mdx-js/mdx');
+
+  const filePath = path.join(
+    __dirname,
+    '__fixtures__',
+    name.endsWith('.mdx') ? name : `${name}.md`,
+  );
+
+  const file = await vfile.read(filePath);
+
+  const result = await compile(file, {
+    format: 'mdx',
+    remarkPlugins: [[headings, {anchorsMaintainCase: false}], gfm, plugin],
+    rehypePlugins: [],
+  });
+
+  return result.value;
 };
 
 describe('toc remark plugin', () => {
+  it('outputs empty array for no TOC', async () => {
+    const result = await processFixture('no-heading');
+    expect(result).toMatchSnapshot();
+  });
+
+  // A very implicit API: we allow users to hand-write the toc variable. It will
+  // get overwritten in most cases, but until we find a better way, better keep
+  // supporting this
+  it('does not overwrite TOC var if no TOC', async () => {
+    const result = await processFixture('no-heading-with-toc-export');
+    expect(result).toMatchSnapshot();
+  });
+
   it('works on non text phrasing content', async () => {
     const result = await processFixture('non-text-content');
     expect(result).toMatchSnapshot();
@@ -45,14 +66,6 @@ describe('toc remark plugin', () => {
     expect(result).toMatchSnapshot();
   });
 
-  it('exports with custom name', async () => {
-    const options = {
-      name: 'customName',
-    };
-    const result = await processFixture('just-content', options);
-    expect(result).toMatchSnapshot();
-  });
-
   it('inserts below imports', async () => {
     const result = await processFixture('insert-below-imports');
     expect(result).toMatchSnapshot();
@@ -60,6 +73,23 @@ describe('toc remark plugin', () => {
 
   it('handles empty headings', async () => {
     const result = await processFixture('empty-headings');
+    expect(result).toMatchSnapshot();
+  });
+
+  it('works with imported markdown', async () => {
+    const result = await processFixture('partials/index.mdx');
+    expect(result).toMatchSnapshot();
+  });
+
+  it('works with partials importing other partials', async () => {
+    const result = await processFixture('partials/_partial2.mdx');
+    expect(result).toMatchSnapshot();
+  });
+
+  it('works with partial imported after its usage', async () => {
+    const result = await processFixture(
+      'partials/partial-used-before-import.mdx',
+    );
     expect(result).toMatchSnapshot();
   });
 });

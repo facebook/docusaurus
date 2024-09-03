@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
-import {getPluginVersion, loadSiteMetadata} from '../siteMetadata';
 import path from 'path';
+import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
+import {loadPluginVersion, createSiteMetadata} from '../siteMetadata';
+import type {LoadedPlugin} from '@docusaurus/types';
 
-describe('getPluginVersion', () => {
+describe('loadPluginVersion', () => {
   it('detects external packages plugins versions', async () => {
     await expect(
-      getPluginVersion(
+      loadPluginVersion(
         path.join(__dirname, '__fixtures__/siteMetadata/dummy-plugin.js'),
         // Make the plugin appear external.
         path.join(__dirname, '..', '..', '..', '..', '..', '..', 'website'),
@@ -22,7 +23,7 @@ describe('getPluginVersion', () => {
 
   it('detects project plugins versions', async () => {
     await expect(
-      getPluginVersion(
+      loadPluginVersion(
         path.join(__dirname, '__fixtures__/siteMetadata/dummy-plugin.js'),
         // Make the plugin appear project local.
         path.join(__dirname, '__fixtures__/siteMetadata'),
@@ -31,17 +32,14 @@ describe('getPluginVersion', () => {
   });
 
   it('detects local packages versions', async () => {
-    await expect(getPluginVersion('/', '/')).resolves.toEqual({type: 'local'});
+    await expect(loadPluginVersion('/', '/')).resolves.toEqual({type: 'local'});
   });
 });
 
-describe('loadSiteMetadata', () => {
-  it('warns about plugin version mismatch', async () => {
-    const consoleMock = jest
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
-    await expect(
-      loadSiteMetadata({
+describe('createSiteMetadata', () => {
+  it('throws if plugin versions mismatch', () => {
+    expect(() =>
+      createSiteMetadata({
         plugins: [
           {
             name: 'docusaurus-plugin-content-docs',
@@ -51,14 +49,11 @@ describe('loadSiteMetadata', () => {
               name: '@docusaurus/plugin-content-docs',
             },
           },
-        ],
-        siteDir: path.join(__dirname, '__fixtures__/siteMetadata'),
+        ] as LoadedPlugin[],
+        siteVersion: 'some-random-version',
       }),
-    ).resolves.toMatchSnapshot();
-    expect(consoleMock.mock.calls[0][0]).toMatchInlineSnapshot(`
-      "[ERROR] Invalid docusaurus-plugin-content-docs version 1.0.0.
-      All official @docusaurus/* packages should have the exact same version as @docusaurus/core (<CURRENT_VERSION>).
-      Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?"
-    `);
+    ).toThrow(`Invalid name=docusaurus-plugin-content-docs version number=1.0.0.
+All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${DOCUSAURUS_VERSION}).
+Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`);
   });
 });

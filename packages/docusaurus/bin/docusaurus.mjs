@@ -8,10 +8,10 @@
 
 // @ts-check
 
+import {inspect} from 'node:util';
 import logger from '@docusaurus/logger';
-import fs from 'fs-extra';
 import cli from 'commander';
-import {createRequire} from 'module';
+import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {
   build,
   swizzle,
@@ -26,17 +26,23 @@ import {
 } from '../lib/index.js';
 import beforeCli from './beforeCli.mjs';
 
+// Env variables are initialized to dev, but can be overridden by each command
+// For example, "docusaurus build" overrides them to "production"
+// See also https://github.com/facebook/docusaurus/issues/8599
+process.env.BABEL_ENV ??= 'development';
+process.env.NODE_ENV ??= 'development';
+
 await beforeCli();
 
-const resolveDir = (dir = '.') => fs.realpath(dir);
-
-cli
-  .version(createRequire(import.meta.url)('../package.json').version)
-  .usage('<command> [options]');
+cli.version(DOCUSAURUS_VERSION).usage('<command> [options]');
 
 cli
   .command('build [siteDir]')
   .description('Build website.')
+  .option(
+    '--dev',
+    'Builds the website in dev mode, including full React error messages.',
+  )
   .option(
     '--bundle-analyzer',
     'visualize size of webpack output files with an interactive zoomable tree map (default: false)',
@@ -57,15 +63,7 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  .action(async (siteDir, {bundleAnalyzer, config, outDir, locale, minify}) => {
-    build(await resolveDir(siteDir), {
-      bundleAnalyzer,
-      outDir,
-      config,
-      locale,
-      minify,
-    });
-  });
+  .action(build);
 
 cli
   .command('swizzle [themeName] [componentName] [siteDir]')
@@ -88,10 +86,16 @@ cli
     '-t, --typescript',
     'copy TypeScript theme files when possible (default: false)',
   )
+  .option(
+    '-j, --javascript',
+    'copy JavaScript theme files when possible (default: false)',
+  )
   .option('--danger', 'enable swizzle for unsafe component of themes')
-  .action(async (themeName, componentName, siteDir, options) => {
-    swizzle(await resolveDir(siteDir), themeName, componentName, options);
-  });
+  .option(
+    '--config <config>',
+    'path to Docusaurus config file (default: `[siteDir]/docusaurus.config.js`)',
+  )
+  .action(swizzle);
 
 cli
   .command('deploy [siteDir]')
@@ -112,13 +116,28 @@ cli
     '--skip-build',
     'skip building website before deploy it (default: false)',
   )
-  .action(async (siteDir, {outDir, skipBuild, config}) => {
-    deploy(await resolveDir(siteDir), {
-      outDir,
-      config,
-      skipBuild,
-    });
-  });
+  .option(
+    '--target-dir <dir>',
+    'path to the target directory to deploy to (default: `.`)',
+  )
+  .action(deploy);
+
+/**
+ * @param {string | undefined} value
+ * @returns {boolean | number}
+ */
+function normalizePollValue(value) {
+  if (value === undefined || value === '') {
+    return false;
+  }
+
+  const parsedIntValue = Number.parseInt(value, 10);
+  if (!Number.isNaN(parsedIntValue)) {
+    return parsedIntValue;
+  }
+
+  return value === 'true';
+}
 
 cli
   .command('start [siteDir]')
@@ -138,20 +157,13 @@ cli
   .option(
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
+    normalizePollValue,
   )
-  .action(
-    async (siteDir, {port, host, locale, config, hotOnly, open, poll}) => {
-      start(await resolveDir(siteDir), {
-        port,
-        host,
-        locale,
-        config,
-        hotOnly,
-        open,
-        poll,
-      });
-    },
-  );
+  .option(
+    '--no-minify',
+    'build website without minimizing JS bundles (default: false)',
+  )
+  .action(start);
 
 cli
   .command('serve [siteDir]')
@@ -167,33 +179,16 @@ cli
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('--build', 'build website before serving (default: false)')
   .option('-h, --host <host>', 'use specified host (default: localhost)')
-  .action(
-    async (
-      siteDir,
-      {
-        dir = 'build',
-        port = 3000,
-        host = 'localhost',
-        build: buildSite = false,
-        config,
-      },
-    ) => {
-      serve(await resolveDir(siteDir), {
-        dir,
-        port,
-        build: buildSite,
-        config,
-        host,
-      });
-    },
-  );
+  .option(
+    '--no-open',
+    'do not open page in the browser (default: false, or true in CI)',
+  )
+  .action(serve);
 
 cli
   .command('clear [siteDir]')
   .description('Remove build artifacts.')
-  .action(async (siteDir) => {
-    clear(await resolveDir(siteDir));
-  });
+  .action(clear);
 
 cli
   .command('upgrade [siteDir]')
@@ -211,11 +206,11 @@ cli
   .description('Extract required translations of your site.')
   .option(
     '-l, --locale <locale>',
-    'the locale folder to write the translations\n"--locale fr" will write translations in ./i18n/fr folder)',
+    'the locale folder to write the translations.\n"--locale fr" will write translations in the ./i18n/fr folder.',
   )
   .option(
     '--override',
-    'by default, we only append missing translation messages to existing translation files. This option allows to override existing translation messages. Make sure to commit or backup your existing translations, as they may be overridden',
+    'By default, we only append missing translation messages to existing translation files. This option allows to override existing translation messages. Make sure to commit or backup your existing translations, as they may be overridden. (default: false)',
   )
   .option(
     '--config <config>',
@@ -223,21 +218,9 @@ cli
   )
   .option(
     '--messagePrefix <messagePrefix>',
-    'allows to init new written messages with a given prefix. This might help you to highlight untranslated message to make them stand out in the UI',
+    'Allows to init new written messages with a given prefix. This might help you to highlight untranslated message by making them stand out in the UI (default: "")',
   )
-  .action(
-    async (
-      siteDir,
-      {locale = undefined, override = false, messagePrefix = '', config},
-    ) => {
-      writeTranslations(await resolveDir(siteDir), {
-        locale,
-        override,
-        config,
-        messagePrefix,
-      });
-    },
-  );
+  .action(writeTranslations);
 
 cli
   .command('write-heading-ids [siteDir] [files...]')
@@ -247,14 +230,16 @@ cli
     "keep the headings' casing, otherwise make all lowercase (default: false)",
   )
   .option('--overwrite', 'overwrite existing heading IDs (default: false)')
-  .action(async (siteDir, files, options) =>
-    writeHeadingIds(await resolveDir(siteDir), files, options),
-  );
+  .action(writeHeadingIds);
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
-  logger.error`    Unknown command name=${cmd}.`;
+  logger.error`Unknown Docusaurus CLI command name=${cmd}.`;
+  process.exit(1);
 });
+
+// === The above is the commander configuration ===
+// They don't start any code execution yet until cli.parse() is called below
 
 /**
  * @param {string | undefined} command
@@ -276,17 +261,42 @@ function isInternalCommand(command) {
   );
 }
 
-if (!isInternalCommand(process.argv.slice(2)[0])) {
-  await externalCommand(cli, await resolveDir('.'));
+/**
+ * @param {string | undefined} command
+ */
+function isExternalCommand(command) {
+  return !!(command && !isInternalCommand(command) && !command.startsWith('-'));
 }
 
-if (!process.argv.slice(2).length) {
+// No command? We print the help message because Commander doesn't
+// Note argv looks like this: ['../node','../docusaurus.mjs','<command>',...rest]
+if (process.argv.length < 3) {
   cli.outputHelp();
+  logger.error`Please provide a Docusaurus CLI command.`;
+  process.exit(1);
+}
+
+// There is an unrecognized subcommand
+// Let plugins extend the CLI before parsing
+if (isExternalCommand(process.argv[2])) {
+  // TODO: in this step, we must assume default site structure because there's
+  // no way to know the siteDir/config yet. Maybe the root cli should be
+  // responsible for parsing these arguments?
+  // https://github.com/facebook/docusaurus/issues/8903
+  await externalCommand(cli);
 }
 
 cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
-  logger.error(err);
+  console.log('');
+
+  // We need to use inspect with increased depth to log the full causal chain
+  // By default Node logging has depth=2
+  // see also https://github.com/nodejs/node/issues/51637
+  logger.error(inspect(err, {depth: Infinity}));
+
+  logger.info`Docusaurus version: number=${DOCUSAURUS_VERSION}
+Node version: number=${process.version}`;
   process.exit(1);
 });

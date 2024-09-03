@@ -6,13 +6,12 @@
  */
 
 import React, {type ReactNode} from 'react';
-import type {DocusaurusContext} from '@docusaurus/types';
-
 import siteConfig from '@generated/docusaurus.config';
 import globalData from '@generated/globalData';
 import i18n from '@generated/i18n';
 import codeTranslations from '@generated/codeTranslations';
 import siteMetadata from '@generated/site-metadata';
+import type {DocusaurusContext} from '@docusaurus/types';
 
 // Static value on purpose: don't make it dynamic!
 // Using context is still useful for testability reasons.

@@ -6,18 +6,18 @@
  */
 
 import React from 'react';
-
-import BlogLayout from '@theme/BlogLayout';
-import TagsListByLetter from '@theme/TagsListByLetter';
-import type {Props} from '@theme/BlogTagsListPage';
+import clsx from 'clsx';
 import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
   translateTagsPageTitle,
 } from '@docusaurus/theme-common';
-import SearchMetadata from '../SearchMetadata';
-import clsx from 'clsx';
+import BlogLayout from '@theme/BlogLayout';
+import TagsListByLetter from '@theme/TagsListByLetter';
+import type {Props} from '@theme/BlogTagsListPage';
+import SearchMetadata from '@theme/SearchMetadata';
+import Heading from '@theme/Heading';
 
 export default function BlogTagsListPage({tags, sidebar}: Props): JSX.Element {
   const title = translateTagsPageTitle();
@@ -30,7 +30,7 @@ export default function BlogTagsListPage({tags, sidebar}: Props): JSX.Element {
       <PageMetadata title={title} />
       <SearchMetadata tag="blog_tags_list" />
       <BlogLayout sidebar={sidebar}>
-        <h1>{title}</h1>
+        <Heading as="h1">{title}</Heading>
         <TagsListByLetter tags={tags} />
       </BlogLayout>
     </HtmlClassNameProvider>

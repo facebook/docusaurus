@@ -20,3 +20,11 @@ html.plugin-blog.plugin-id-blog-tests .navbar {
 html.plugin-pages.plugin-id-pages-tests .navbar {
   border-bottom: solid thin yellow;
 }
+
+#z-index-test {
+  z-index: 100;
+}
+
+html:has(#navbar-dropdown-tests) .navbar__item.dropdown ~ a {
+  display: none;
+}

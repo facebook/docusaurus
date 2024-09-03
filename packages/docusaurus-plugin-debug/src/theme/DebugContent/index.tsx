@@ -38,7 +38,7 @@ function PluginContent({
       <h3>{pluginName}</h3>
       <div>
         {Object.entries(pluginContent)
-          // filter plugin instances with no content
+          // Filter plugin instances with no content
           .filter(([, pluginInstanceContent]) => !!pluginInstanceContent)
           .map(([pluginId, pluginInstanceContent]) => (
             <PluginInstanceContent
@@ -58,7 +58,7 @@ export default function DebugContent({allContent}: Props): JSX.Element {
       <h2>Plugin content</h2>
       <div>
         {Object.entries(allContent)
-          // filter plugins with no content
+          // Filter plugins with no content
           .filter(([, pluginContent]) =>
             Object.values(pluginContent).some(
               (instanceContent) => !!instanceContent,

@@ -5,22 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateOptions, DEFAULT_OPTIONS} from '../options';
+import {GlobExcludeDefault} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
+import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {
   DefaultNumberPrefixParser,
   DisabledNumberPrefixParser,
 } from '../numberPrefix';
-import {GlobExcludeDefault} from '@docusaurus/utils';
-import type {Options} from '@docusaurus/plugin-content-docs';
+import type {Options, PluginOptions} from '@docusaurus/plugin-content-docs';
+import type {Validate} from '@docusaurus/types';
 
-// the type of remark/rehype plugins is function
+// The type of remark/rehype plugins can be function/object
 const markdownPluginsFunctionStub = () => {};
 const markdownPluginsObjectStub = {};
 
 function testValidate(options: Options) {
-  return validateOptions({validate: normalizePluginOptions, options});
+  return validateOptions({
+    validate: normalizePluginOptions as Validate<Options, PluginOptions>,
+    options,
+  });
 }
 
 const defaultOptions = {
@@ -31,38 +35,44 @@ const defaultOptions = {
 };
 
 describe('normalizeDocsPluginOptions', () => {
-  it('returns default options for undefined user options', async () => {
+  it('returns default options for undefined user options', () => {
     expect(testValidate({})).toEqual(defaultOptions);
   });
 
-  it('accepts correctly defined user options', async () => {
-    const userOptions = {
+  it('accepts correctly defined user options', () => {
+    const userOptions: Options = {
       path: 'my-docs', // Path to data on filesystem, relative to site dir.
-      routeBasePath: 'my-docs', // URL Route.
+      routeBasePath: '/my-docs', // URL Route.
       tagsBasePath: 'tags', // URL Tags Route.
       include: ['**/*.{md,mdx}'], // Extensions to include.
       exclude: GlobExcludeDefault,
       sidebarPath: 'my-sidebar', // Path to sidebar configuration for showing a list of markdown pages.
       sidebarItemsGenerator: DefaultSidebarItemsGenerator,
       numberPrefixParser: DefaultNumberPrefixParser,
-      docLayoutComponent: '@theme/DocPage',
+      docsRootComponent: '@theme/DocsRoot',
+      docVersionRootComponent: '@theme/DocVersionRoot',
+      docRootComponent: '@theme/DocRoot',
       docItemComponent: '@theme/DocItem',
       docTagDocListComponent: '@theme/DocTagDocListPage',
       docTagsListComponent: '@theme/DocTagsListPage',
       docCategoryGeneratedIndexComponent:
         '@theme/DocCategoryGeneratedIndexPage',
+      // @ts-expect-error: it seems to work in practice?
       remarkPlugins: [markdownPluginsObjectStub],
       rehypePlugins: [markdownPluginsFunctionStub],
+      recmaPlugins: [markdownPluginsFunctionStub],
       beforeDefaultRehypePlugins: [],
       beforeDefaultRemarkPlugins: [],
       breadcrumbs: true,
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
-      admonitions: {},
+      admonitions: false,
       includeCurrentVersion: false,
       disableVersioning: true,
       editCurrentVersion: true,
       editLocalizedFiles: true,
+      tags: 'docsTags.yml',
+      onInlineTags: 'throw',
       versions: {
         current: {
           path: 'next',
@@ -71,6 +81,7 @@ describe('normalizeDocsPluginOptions', () => {
         version1: {
           path: 'hello',
           label: 'world',
+          noIndex: true,
         },
       },
       sidebarCollapsible: false,
@@ -79,16 +90,16 @@ describe('normalizeDocsPluginOptions', () => {
     expect(testValidate(userOptions)).toEqual({
       ...defaultOptions,
       ...userOptions,
-      remarkPlugins: [...userOptions.remarkPlugins, expect.any(Array)],
     });
   });
 
-  it('accepts correctly defined remark and rehype plugin options', async () => {
-    const userOptions = {
+  it('accepts correctly defined remark and rehype plugin options', () => {
+    const userOptions: Options = {
       beforeDefaultRemarkPlugins: [],
       beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
       remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],
       rehypePlugins: [
+        // @ts-expect-error: it seems to work in practice
         markdownPluginsObjectStub,
         [markdownPluginsFunctionStub, {option1: '42'}],
       ],
@@ -96,12 +107,11 @@ describe('normalizeDocsPluginOptions', () => {
     expect(testValidate(userOptions)).toEqual({
       ...defaultOptions,
       ...userOptions,
-      remarkPlugins: [...userOptions.remarkPlugins, expect.any(Array)],
     });
   });
 
-  it('accepts admonitions false', async () => {
-    const admonitionsFalse = {
+  it('accepts admonitions false', () => {
+    const admonitionsFalse: Options = {
       admonitions: false,
     };
     expect(testValidate(admonitionsFalse)).toEqual({
@@ -110,21 +120,24 @@ describe('normalizeDocsPluginOptions', () => {
     });
   });
 
-  it('rejects admonitions true', async () => {
-    const admonitionsTrue = {
-      admonitions: true,
-    };
+  it('rejects admonitions array', () => {
     expect(() =>
-      testValidate(admonitionsTrue),
+      testValidate({
+        // @ts-expect-error: rejected value
+        admonitions: [],
+      }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""admonitions" contains an invalid value"`,
+      `""admonitions" does not look like a valid admonitions config"`,
     );
   });
 
   it('accepts numberPrefixParser function', () => {
     function customNumberPrefixParser() {}
     expect(
-      testValidate({numberPrefixParser: customNumberPrefixParser}),
+      testValidate({
+        numberPrefixParser:
+          customNumberPrefixParser as unknown as Options['numberPrefixParser'],
+      }),
     ).toEqual({
       ...defaultOptions,
       numberPrefixParser: customNumberPrefixParser,
@@ -148,6 +161,7 @@ describe('normalizeDocsPluginOptions', () => {
   it('rejects invalid remark plugin options', () => {
     expect(() =>
       testValidate({
+        // @ts-expect-error: test
         remarkPlugins: [[{option1: '42'}, markdownPluginsFunctionStub]],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
@@ -161,6 +175,7 @@ describe('normalizeDocsPluginOptions', () => {
     expect(() =>
       testValidate({
         rehypePlugins: [
+          // @ts-expect-error: test
           [
             markdownPluginsFunctionStub,
             {option1: '42'},
@@ -176,6 +191,7 @@ describe('normalizeDocsPluginOptions', () => {
   });
 
   it('rejects bad path inputs', () => {
+    // @ts-expect-error: test
     expect(() => testValidate({path: 2})).toThrowErrorMatchingInlineSnapshot(
       `""path" must be a string"`,
     );
@@ -183,12 +199,14 @@ describe('normalizeDocsPluginOptions', () => {
 
   it('rejects bad include inputs', () => {
     expect(() =>
+      // @ts-expect-error: test
       testValidate({include: '**/*.{md,mdx}'}),
     ).toThrowErrorMatchingInlineSnapshot(`""include" must be an array"`);
   });
 
   it('rejects bad showLastUpdateTime inputs', () => {
     expect(() =>
+      // @ts-expect-error: test
       testValidate({showLastUpdateTime: 'true'}),
     ).toThrowErrorMatchingInlineSnapshot(
       `""showLastUpdateTime" must be a boolean"`,
@@ -197,12 +215,14 @@ describe('normalizeDocsPluginOptions', () => {
 
   it('rejects bad remarkPlugins input', () => {
     expect(() =>
+      // @ts-expect-error: test
       testValidate({remarkPlugins: 'remark-math'}),
     ).toThrowErrorMatchingInlineSnapshot(`""remarkPlugins" must be an array"`);
   });
 
   it('rejects bad lastVersion', () => {
     expect(() =>
+      // @ts-expect-error: test
       testValidate({lastVersion: false}),
     ).toThrowErrorMatchingInlineSnapshot(`""lastVersion" must be a string"`);
   });
@@ -212,6 +232,7 @@ describe('normalizeDocsPluginOptions', () => {
       testValidate({
         versions: {
           current: {
+            // @ts-expect-error: test
             hey: 3,
           },
 
@@ -247,5 +268,69 @@ describe('normalizeDocsPluginOptions', () => {
         sidebarCollapsed: true,
       }).sidebarCollapsed,
     ).toBe(false);
+  });
+
+  describe('tags', () => {
+    it('accepts tags - undefined', () => {
+      expect(testValidate({tags: undefined}).tags).toBeUndefined();
+    });
+
+    it('accepts tags - null', () => {
+      expect(testValidate({tags: null}).tags).toBeNull();
+    });
+
+    it('accepts tags - false', () => {
+      expect(testValidate({tags: false}).tags).toBeFalsy();
+    });
+
+    it('accepts tags - customTags.yml', () => {
+      expect(testValidate({tags: 'customTags.yml'}).tags).toBe(
+        'customTags.yml',
+      );
+    });
+
+    it('rejects tags - 42', () => {
+      // @ts-expect-error: test
+      expect(() => testValidate({tags: 42})).toThrowErrorMatchingInlineSnapshot(
+        `""tags" must be a string"`,
+      );
+    });
+  });
+
+  describe('onInlineTags', () => {
+    it('accepts onInlineTags - undefined', () => {
+      expect(testValidate({onInlineTags: undefined}).onInlineTags).toBe('warn');
+    });
+
+    it('accepts onInlineTags - "throw"', () => {
+      expect(testValidate({onInlineTags: 'throw'}).onInlineTags).toBe('throw');
+    });
+
+    it('rejects onInlineTags - "trace"', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onInlineTags: 'trace'}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onInlineTags" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
+
+    it('rejects onInlineTags - null', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onInlineTags: 42}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onInlineTags" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
+
+    it('rejects onInlineTags - 42', () => {
+      expect(() =>
+        // @ts-expect-error: test
+        testValidate({onInlineTags: 42}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""onInlineTags" must be one of [ignore, log, warn, throw]"`,
+      );
+    });
   });
 });

@@ -28,10 +28,17 @@
     "__snapshots__",
     "website/src/data/users.tsx",
     "website/src/data/tweets.tsx",
+    "website/docusaurus.config.localized.json",
+    "website/_dogfooding/_pages tests/diagrams.mdx",
     "*.xyz",
     "*.docx",
+    "*.xsl",
+    "*.xslt",
+    "*.gitignore",
     "versioned_docs",
-    "*.min.*"
+    "*.min.*",
+    "jest/vendor"
   ],
-  "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"]
+  "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"],
+  "enableFiletypes": ["mdx"]
 }

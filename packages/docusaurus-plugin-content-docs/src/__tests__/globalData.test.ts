@@ -6,86 +6,113 @@
  */
 
 import {toGlobalDataVersion} from '../globalData';
+import {createSidebarsUtils} from '../sidebars/utils';
+import {getCategoryGeneratedIndexMetadataList} from '../categoryGeneratedIndex';
+import type {Sidebars} from '../sidebars/types';
+import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 
 describe('toGlobalDataVersion', () => {
   it('generates the right docs, sidebars, and metadata', () => {
+    const docs = [
+      {
+        id: 'main',
+        permalink: '/current/main',
+        sidebar: 'tutorial',
+        frontMatter: {},
+        unlisted: false,
+      },
+      {
+        id: 'doc',
+        permalink: '/current/doc',
+        sidebar: 'tutorial',
+        frontMatter: {},
+        unlisted: undefined,
+      },
+      {
+        id: 'docNoSidebarUnlisted',
+        permalink: '/current/docNoSidebarUnlisted',
+        sidebar: undefined,
+        frontMatter: {},
+        unlisted: true,
+      },
+    ] as DocMetadata[];
+    const sidebars: Sidebars = {
+      tutorial: [
+        {
+          type: 'doc',
+          id: 'main',
+        },
+        {
+          type: 'category',
+          label: 'Generated',
+          link: {
+            type: 'generated-index',
+            permalink: '/current/generated',
+            slug: '/current/generated',
+          },
+          items: [
+            {
+              type: 'doc',
+              id: 'doc',
+            },
+          ],
+          collapsed: false,
+          collapsible: true,
+        },
+      ],
+      links: [
+        {
+          type: 'link',
+          href: 'foo',
+          label: 'Foo',
+        },
+        {
+          type: 'link',
+          href: 'bar',
+          label: 'Bar',
+        },
+      ],
+      another: [
+        {
+          type: 'category',
+          label: 'Generated',
+          link: {
+            type: 'generated-index',
+            permalink: '/current/generated-2',
+            slug: '/current/generated-2',
+          },
+          items: [
+            {
+              type: 'doc',
+              id: 'doc',
+            },
+          ],
+          collapsed: false,
+          collapsible: true,
+        },
+      ],
+    };
+    const sidebarsUtils = createSidebarsUtils(sidebars);
     expect(
       toGlobalDataVersion({
         versionName: 'current',
         label: 'Label',
         isLast: true,
         path: '/current',
-        mainDocId: 'main',
-        docs: [
+        docs,
+        drafts: [
           {
-            unversionedId: 'main',
-            permalink: '/current/main',
-            sidebar: 'tutorial',
+            id: 'some-draft-id',
+            permalink: '/current/draft',
+            sidebar: undefined,
           },
-          {
-            unversionedId: 'doc',
-            permalink: '/current/doc',
-            sidebar: 'tutorial',
-          },
-        ],
-        sidebars: {
-          another: [
-            {
-              type: 'category',
-              label: 'Generated',
-              link: {
-                type: 'generated-index',
-                permalink: '/current/generated',
-              },
-              items: [
-                {
-                  type: 'doc',
-                  id: 'doc',
-                },
-              ],
-            },
-          ],
-          tutorial: [
-            {
-              type: 'doc',
-              id: 'main',
-            },
-            {
-              type: 'category',
-              label: 'Generated',
-              link: {
-                type: 'generated-index',
-                permalink: '/current/generated',
-              },
-              items: [
-                {
-                  type: 'doc',
-                  id: 'doc',
-                },
-              ],
-            },
-          ],
-          links: [
-            {
-              type: 'link',
-              href: 'foo',
-              label: 'Foo',
-            },
-            {
-              type: 'link',
-              href: 'bar',
-              label: 'Bar',
-            },
-          ],
-        },
-        categoryGeneratedIndices: [
-          {
-            title: 'Generated',
-            slug: '/current/generated',
-            permalink: '/current/generated',
-            sidebar: 'tutorial',
-          },
-        ],
+        ] as DocMetadata[],
+        sidebars,
+        categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
+          docs,
+          sidebarsUtils,
+        }),
+        sidebarsUtils,
         banner: 'unreleased',
         badge: true,
         className: 'current-cls',

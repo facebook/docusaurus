@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useEffect} from 'react';
+import {useCallback, useEffect, useMemo, useSyncExternalStore} from 'react';
 import {useHistory} from '@docusaurus/router';
-import {useDynamicCallback} from './reactUtils';
-import type {Location, Action} from 'history';
+import {useEvent} from './reactUtils';
+
+import type {History, Location, Action} from 'history';
 
 type HistoryBlockHandler = (location: Location, action: Action) => void | false;
 
@@ -18,12 +19,12 @@ type HistoryBlockHandler = (location: Location, action: Action) => void | false;
  * will be blocked/cancelled.
  */
 function useHistoryActionHandler(handler: HistoryBlockHandler): void {
-  const {block} = useHistory();
-  const stableHandler = useDynamicCallback(handler);
+  const history = useHistory();
+  const stableHandler = useEvent(handler);
   useEffect(
     // See https://github.com/remix-run/history/blob/main/docs/blocking-transitions.md
-    () => block((location, action) => stableHandler(location, action)),
-    [block, stableHandler],
+    () => history.block((location, action) => stableHandler(location, action)),
+    [history, stableHandler],
   );
 }
 
@@ -42,4 +43,117 @@ export function useHistoryPopHandler(handler: HistoryBlockHandler): void {
     // Don't block other navigation actions
     return undefined;
   });
+}
+
+/**
+ * Permits to efficiently subscribe to a slice of the history
+ * See https://thisweekinreact.com/articles/useSyncExternalStore-the-underrated-react-api
+ * @param selector
+ */
+export function useHistorySelector<Value>(
+  selector: (history: History<unknown>) => Value,
+): Value {
+  const history = useHistory();
+  return useSyncExternalStore(
+    history.listen,
+    () => selector(history),
+    () => selector(history),
+  );
+}
+
+/**
+ * Permits to efficiently subscribe to a specific querystring value
+ * @param key
+ */
+export function useQueryStringValue(key: string | null): string | null {
+  return useHistorySelector((history) => {
+    if (key === null) {
+      return null;
+    }
+    return new URLSearchParams(history.location.search).get(key);
+  });
+}
+
+function useQueryStringUpdater(
+  key: string,
+): (newValue: string | null, options?: {push: boolean}) => void {
+  const history = useHistory();
+  return useCallback(
+    (newValue, options) => {
+      const searchParams = new URLSearchParams(history.location.search);
+      if (newValue) {
+        searchParams.set(key, newValue);
+      } else {
+        searchParams.delete(key);
+      }
+      const updateHistory = options?.push ? history.push : history.replace;
+      updateHistory({
+        search: searchParams.toString(),
+      });
+    },
+    [key, history],
+  );
+}
+
+export function useQueryString(
+  key: string,
+): [string, (newValue: string | null, options?: {push: boolean}) => void] {
+  const value = useQueryStringValue(key) ?? '';
+  const update = useQueryStringUpdater(key);
+  return [value, update];
+}
+
+function useQueryStringListValues(key: string): string[] {
+  // Unfortunately we can't just use searchParams.getAll(key) in the selector
+  // It would create a new array every time and lead to an infinite loop...
+  // The selector has to return a primitive/string value to avoid that...
+  const arrayJsonString = useHistorySelector((history) => {
+    const values = new URLSearchParams(history.location.search).getAll(key);
+    return JSON.stringify(values);
+  });
+  return useMemo(() => JSON.parse(arrayJsonString), [arrayJsonString]);
+}
+
+type ListUpdate = string[] | ((oldValues: string[]) => string[]);
+type ListUpdateFunction = (
+  update: ListUpdate,
+  options?: {push: boolean},
+) => void;
+
+function useQueryStringListUpdater(key: string): ListUpdateFunction {
+  const history = useHistory();
+  const setValues: ListUpdateFunction = useCallback(
+    (update, options) => {
+      const searchParams = new URLSearchParams(history.location.search);
+      const newValues = Array.isArray(update)
+        ? update
+        : update(searchParams.getAll(key));
+      searchParams.delete(key);
+      newValues.forEach((v) => searchParams.append(key, v));
+
+      const updateHistory = options?.push ? history.push : history.replace;
+      updateHistory({
+        search: searchParams.toString(),
+      });
+    },
+    [history, key],
+  );
+  return setValues;
+}
+
+export function useQueryStringList(
+  key: string,
+): [string[], ListUpdateFunction] {
+  const values = useQueryStringListValues(key);
+  const setValues = useQueryStringListUpdater(key);
+  return [values, setValues];
+}
+
+export function useClearQueryString(): () => void {
+  const history = useHistory();
+  return useCallback(() => {
+    history.replace({
+      search: undefined,
+    });
+  }, [history]);
 }

@@ -16,6 +16,12 @@ export const Components = {
   Sibling: 'ComponentInFolder/Sibling',
   ComponentInFolder: 'ComponentInFolder',
   FirstLevelComponent: 'FirstLevelComponent',
+  JsComponent: 'JsComponent',
+  NoIndex: 'NoIndex',
+  NoIndexComp1: 'NoIndex/NoIndexComp1',
+  NoIndexComp2: 'NoIndex/NoIndexComp2',
+  NoIndexSub: 'NoIndex/NoIndexSub',
+  NoIndexSubComp: 'NoIndex/NoIndexSub/NoIndexSubComp',
 };
 
 export async function createTempSiteDir(): Promise<string> {

@@ -8,7 +8,7 @@
 declare module '@generated/client-modules' {
   import type {ClientModule} from '@docusaurus/types';
 
-  const clientModules: readonly (ClientModule & {default: ClientModule})[];
+  const clientModules: readonly (ClientModule & {default?: ClientModule})[];
   export default clientModules;
 }
 
@@ -26,6 +26,13 @@ declare module '@generated/site-metadata' {
   export = siteMetadata;
 }
 
+declare module '@generated/site-storage' {
+  import type {SiteStorage} from '@docusaurus/types';
+
+  const siteStorage: SiteStorage;
+  export = siteStorage;
+}
+
 declare module '@generated/registry' {
   import type {Registry} from '@docusaurus/types';
 
@@ -35,9 +42,11 @@ declare module '@generated/registry' {
 
 declare module '@generated/routes' {
   import type {RouteConfig as RRRouteConfig} from 'react-router-config';
+  import type Loadable from 'react-loadable';
 
   type RouteConfig = RRRouteConfig & {
     path: string;
+    component: ReturnType<typeof Loadable>;
   };
   const routes: RouteConfig[];
   export default routes;
@@ -75,10 +84,9 @@ declare module '@theme-original/*';
 declare module '@theme-init/*';
 
 declare module '@theme/Error' {
-  export interface Props {
-    readonly error: Error;
-    readonly tryAgain: () => void;
-  }
+  import type {FallbackParams} from '@docusaurus/ErrorBoundary';
+
+  export interface Props extends FallbackParams {}
   export default function Error(props: Props): JSX.Element;
 }
 
@@ -120,18 +128,24 @@ declare module '@docusaurus/constants' {
 
 declare module '@docusaurus/ErrorBoundary' {
   import type {ReactNode} from 'react';
-  import type ErrorComponent from '@theme/Error';
+
+  export type FallbackParams = {
+    readonly error: Error;
+    readonly tryAgain: () => void;
+  };
+
+  export type FallbackFunction = (params: FallbackParams) => JSX.Element;
 
   export interface Props {
-    readonly fallback?: typeof ErrorComponent;
+    readonly fallback?: FallbackFunction;
     readonly children: ReactNode;
   }
   export default function ErrorBoundary(props: Props): JSX.Element;
 }
 
 declare module '@docusaurus/Head' {
-  import type {HelmetProps} from 'react-helmet-async';
   import type {ReactNode} from 'react';
+  import type {HelmetProps} from 'react-helmet-async';
 
   export type Props = HelmetProps & {children: ReactNode};
 
@@ -152,9 +166,7 @@ declare module '@docusaurus/Link' {
       readonly href?: string;
       readonly autoAddBaseUrl?: boolean;
 
-      /**
-       * escape hatch in case broken links check is annoying for a specific link
-       */
+      /** Escape hatch in case broken links check doesn't make sense. */
       readonly 'data-noBrokenLinkCheck'?: boolean;
     };
   export default function Link(props: Props): JSX.Element;
@@ -237,6 +249,12 @@ declare module '@docusaurus/router' {
   export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
 }
 
+declare module '@docusaurus/useIsomorphicLayoutEffect' {
+  import {useLayoutEffect} from 'react';
+
+  export = useLayoutEffect;
+}
+
 declare module '@docusaurus/useDocusaurusContext' {
   import type {DocusaurusContext} from '@docusaurus/types';
 
@@ -247,6 +265,15 @@ declare module '@docusaurus/useRouteContext' {
   import type {PluginRouteContext} from '@docusaurus/types';
 
   export default function useRouteContext(): PluginRouteContext;
+}
+
+declare module '@docusaurus/useBrokenLinks' {
+  export type BrokenLinks = {
+    collectLink: (link: string | undefined) => void;
+    collectAnchor: (anchor: string | undefined) => void;
+  };
+
+  export default function useBrokenLinks(): BrokenLinks;
 }
 
 declare module '@docusaurus/useIsBrowser' {
@@ -315,15 +342,28 @@ declare module '@docusaurus/renderRoutes' {
 }
 
 declare module '@docusaurus/useGlobalData' {
-  import type {GlobalData} from '@docusaurus/types';
+  import type {GlobalData, UseDataOptions} from '@docusaurus/types';
 
   export function useAllPluginInstancesData(
     pluginName: string,
+    options: {failfast: true},
   ): GlobalData[string];
+
+  export function useAllPluginInstancesData(
+    pluginName: string,
+    options?: UseDataOptions,
+  ): GlobalData[string] | undefined;
+
+  export function usePluginData(
+    pluginName: string,
+    pluginId: string | undefined,
+    options: {failfast: true},
+  ): NonNullable<GlobalData[string][string]>;
 
   export function usePluginData(
     pluginName: string,
     pluginId?: string,
+    options?: UseDataOptions,
   ): GlobalData[string][string];
 
   export default function useGlobalData(): GlobalData;
@@ -332,7 +372,9 @@ declare module '@docusaurus/useGlobalData' {
 declare module '*.svg' {
   import type {ComponentType, SVGProps} from 'react';
 
-  const ReactComponent: ComponentType<SVGProps<SVGSVGElement>>;
+  const ReactComponent: ComponentType<
+    SVGProps<SVGSVGElement> & {title?: string}
+  >;
 
   export default ReactComponent;
 }
@@ -345,4 +387,12 @@ declare module '*.module.css' {
 declare module '*.css' {
   const src: string;
   export default src;
+}
+
+interface Window {
+  docusaurus: {
+    prefetch: (url: string) => false | Promise<void[]>;
+    preload: (url: string) => false | Promise<void[]>;
+  };
+  docusaurusRoot?: import('react-dom/client').Root;
 }

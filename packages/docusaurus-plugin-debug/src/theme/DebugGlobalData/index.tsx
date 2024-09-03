@@ -6,10 +6,9 @@
  */
 
 import React from 'react';
-
+import useGlobalData from '@docusaurus/useGlobalData';
 import DebugLayout from '@theme/DebugLayout';
 import DebugJsonView from '@theme/DebugJsonView';
-import useGlobalData from '@docusaurus/useGlobalData';
 
 export default function DebugMetadata(): JSX.Element {
   const globalData = useGlobalData();

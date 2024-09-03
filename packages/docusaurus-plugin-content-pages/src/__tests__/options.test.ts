@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
+import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import type {Options} from '@docusaurus/plugin-content-pages';
 
 function testValidate(options: Options) {
@@ -33,7 +33,7 @@ describe('normalizePagesPluginOptions', () => {
   it('accepts correctly defined user options', () => {
     const userOptions = {
       path: 'src/my-pages',
-      routeBasePath: 'my-pages',
+      routeBasePath: '/my-pages',
       include: ['**/*.{js,jsx,ts,tsx}'],
       exclude: ['**/$*/'],
     };
@@ -50,5 +50,16 @@ describe('normalizePagesPluginOptions', () => {
         path: 42,
       });
     }).toThrowErrorMatchingInlineSnapshot(`""path" must be a string"`);
+  });
+
+  it('empty routeBasePath replace default path("/")', () => {
+    expect(
+      testValidate({
+        routeBasePath: '',
+      }),
+    ).toEqual({
+      ...defaultOptions,
+      routeBasePath: '/',
+    });
   });
 });

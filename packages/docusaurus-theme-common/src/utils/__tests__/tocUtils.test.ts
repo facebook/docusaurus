@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {TOCItem} from '@docusaurus/types';
 import {renderHook} from '@testing-library/react-hooks';
 import {useFilteredAndTreeifiedTOC, useTreeifiedTOC} from '../tocUtils';
+import type {TOCItem} from '@docusaurus/mdx-loader';
 
 const mockTOC: TOCItem[] = [
   {

@@ -7,8 +7,8 @@
 
 import path from 'path';
 import {getThemeComponents, readComponentNames} from '../components';
-import type {SwizzleConfig} from '@docusaurus/types';
 import {Components} from './testUtils';
+import type {SwizzleConfig} from '@docusaurus/types';
 
 const FixtureThemePath = path.join(__dirname, '__fixtures__/theme');
 
@@ -19,6 +19,10 @@ describe('readComponentNames', () => {
       Components.ComponentInSubFolder,
       Components.Sibling,
       Components.FirstLevelComponent,
+      Components.JsComponent,
+      Components.NoIndexComp1,
+      Components.NoIndexComp2,
+      Components.NoIndexSubComp,
     ]);
   });
 });
@@ -66,6 +70,12 @@ describe('getThemeComponents', () => {
       Components.ComponentInSubFolder,
       Components.Sibling,
       Components.FirstLevelComponent,
+      Components.JsComponent,
+      Components.NoIndex,
+      Components.NoIndexComp1,
+      Components.NoIndexComp2,
+      Components.NoIndexSub,
+      Components.NoIndexSubComp,
     ]);
   });
 
@@ -154,6 +164,39 @@ describe('getThemeComponents', () => {
     ).toBe('unsafe');
     expect(
       themeComponents.getActionStatus(Components.FirstLevelComponent, 'eject'),
+    ).toBe('unsafe');
+
+    expect(
+      themeComponents.getActionStatus(Components.NoIndexComp1, 'wrap'),
+    ).toBe('unsafe');
+    expect(
+      themeComponents.getActionStatus(Components.NoIndexComp1, 'eject'),
+    ).toBe('unsafe');
+    expect(
+      themeComponents.getActionStatus(Components.NoIndexComp2, 'wrap'),
+    ).toBe('unsafe');
+    expect(
+      themeComponents.getActionStatus(Components.NoIndexComp2, 'eject'),
+    ).toBe('unsafe');
+    expect(
+      themeComponents.getActionStatus(Components.NoIndexSubComp, 'wrap'),
+    ).toBe('unsafe');
+    expect(
+      themeComponents.getActionStatus(Components.NoIndexSubComp, 'eject'),
+    ).toBe('unsafe');
+
+    // Intermediate folders are not real components: forbidden to wrap!
+    expect(themeComponents.getActionStatus(Components.NoIndex, 'wrap')).toBe(
+      'forbidden',
+    );
+    expect(themeComponents.getActionStatus(Components.NoIndex, 'eject')).toBe(
+      'unsafe',
+    );
+    expect(themeComponents.getActionStatus(Components.NoIndexSub, 'wrap')).toBe(
+      'forbidden',
+    );
+    expect(
+      themeComponents.getActionStatus(Components.NoIndexSub, 'eject'),
     ).toBe('unsafe');
   });
 

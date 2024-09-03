@@ -13,6 +13,7 @@ import {
   sortAliases,
   createAliasesForTheme,
 } from '../index';
+import type {LoadedPlugin} from '@docusaurus/types';
 
 describe('sortAliases', () => {
   // https://github.com/facebook/docusaurus/issues/6878
@@ -197,7 +198,7 @@ describe('loadThemeAliases', () => {
       plugins: [
         {getThemePath: () => theme1Path},
         {getThemePath: () => theme2Path},
-      ],
+      ] as LoadedPlugin[],
     });
 
     // Testing entries, because order matters!

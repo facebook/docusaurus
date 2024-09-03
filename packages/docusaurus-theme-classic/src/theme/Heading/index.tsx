@@ -7,20 +7,36 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import type {Props} from '@theme/Heading';
 import {translate} from '@docusaurus/Translate';
 import {useThemeConfig} from '@docusaurus/theme-common';
+import Link from '@docusaurus/Link';
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
+import type {Props} from '@theme/Heading';
 
 import styles from './styles.module.css';
 
-function AnchorHeading({as: As, id, ...props}: Props) {
+export default function Heading({as: As, id, ...props}: Props): JSX.Element {
+  const brokenLinks = useBrokenLinks();
   const {
     navbar: {hideOnScroll},
   } = useThemeConfig();
-
-  if (!id) {
-    return <As {...props} />;
+  // H1 headings do not need an id because they don't appear in the TOC.
+  if (As === 'h1' || !id) {
+    return <As {...props} id={undefined} />;
   }
+
+  brokenLinks.collectAnchor(id);
+
+  const anchorTitle = translate(
+    {
+      id: 'theme.common.headingLinkTitle',
+      message: 'Direct link to {heading}',
+      description: 'Title for link to heading',
+    },
+    {
+      heading: typeof props.children === 'string' ? props.children : id,
+    },
+  );
 
   return (
     <As
@@ -30,33 +46,17 @@ function AnchorHeading({as: As, id, ...props}: Props) {
         hideOnScroll
           ? styles.anchorWithHideOnScrollNavbar
           : styles.anchorWithStickyNavbar,
+        props.className,
       )}
       id={id}>
       {props.children}
-      <a
+      <Link
         className="hash-link"
-        href={`#${id}`}
-        title={translate({
-          id: 'theme.common.headingLinkTitle',
-          message: 'Direct link to heading',
-          description: 'Title for link to heading',
-        })}>
+        to={`#${id}`}
+        aria-label={anchorTitle}
+        title={anchorTitle}>
         &#8203;
-      </a>
+      </Link>
     </As>
   );
-}
-
-export default function Heading({as, ...props}: Props): JSX.Element {
-  if (as === 'h1') {
-    return (
-      <h1
-        {...props}
-        id={undefined} // h1 headings do not need an id because they don't appear in the TOC
-      >
-        {props.children}
-      </h1>
-    );
-  }
-  return <AnchorHeading as={as} {...props} />;
 }

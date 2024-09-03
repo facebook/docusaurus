@@ -6,7 +6,7 @@
  */
 
 export function hasProtocol(url: string): boolean {
-  return /^(?:\w*:|\/\/)/.test(url) === true;
+  return /^(?:\w*:|\/\/)/.test(url);
 }
 
 export default function isInternalUrl(url?: string): boolean {

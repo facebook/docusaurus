@@ -7,9 +7,14 @@
 
 import {jest} from '@jest/globals';
 import path from 'path';
+import {createSlugger} from '@docusaurus/utils';
 import {loadSidebars, DisabledSidebars} from '../index';
-import type {SidebarProcessorParams} from '../types';
 import {DefaultSidebarItemsGenerator} from '../generator';
+import type {SidebarProcessorParams} from '../types';
+import type {
+  DocMetadata,
+  VersionMetadata,
+} from '@docusaurus/plugin-content-docs';
 
 describe('loadSidebars', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__', 'sidebars');
@@ -23,17 +28,29 @@ describe('loadSidebars', () => {
         id: 'bar',
         frontMatter: {},
       },
-    ],
+    ] as DocMetadata[],
+    drafts: [],
     version: {
+      path: 'version',
       contentPath: path.join(fixtureDir, 'docs'),
       contentPathLocalized: path.join(fixtureDir, 'docs'),
-    },
-    categoryLabelSlugger: null,
+    } as VersionMetadata,
+    categoryLabelSlugger: {slug: (v) => v},
     sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
   };
   it('sidebars with known sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars.json');
     const result = await loadSidebars(sidebarPath, params);
+    expect(result).toMatchSnapshot();
+  });
+
+  it('sidebars with some draft items', async () => {
+    const sidebarPath = path.join(fixtureDir, 'sidebars.json');
+    const paramsWithDrafts: SidebarProcessorParams = {
+      ...params,
+      drafts: [{id: 'foo/baz'} as DocMetadata, {id: 'hello'} as DocMetadata],
+    };
+    const result = await loadSidebars(sidebarPath, paramsWithDrafts);
     expect(result).toMatchSnapshot();
   });
 
@@ -112,6 +129,32 @@ describe('loadSidebars', () => {
     expect(result).toMatchSnapshot();
   });
 
+  it('loads sidebars with index-only categories', async () => {
+    const sidebarPath = path.join(fixtureDir, 'sidebars-category-index.json');
+    const result = await loadSidebars(sidebarPath, {
+      ...params,
+      docs: [
+        {
+          id: 'tutorials/tutorial-basics',
+          source: '@site/docs/tutorials/tutorial-basics/index.md',
+          sourceDirName: 'tutorials/tutorial-basics',
+          frontMatter: {},
+        },
+      ] as DocMetadata[],
+    });
+    expect(result).toMatchSnapshot();
+  });
+
+  it('loads sidebars with interspersed draft items', async () => {
+    const sidebarPath = path.join(fixtureDir, 'sidebars-drafts.json');
+    const result = await loadSidebars(sidebarPath, {
+      ...params,
+      drafts: [{id: 'draft1'}, {id: 'draft2'}, {id: 'draft3'}] as DocMetadata[],
+      categoryLabelSlugger: createSlugger(),
+    });
+    expect(result).toMatchSnapshot();
+  });
+
   it('duplicate category metadata files', async () => {
     const sidebarPath = path.join(
       fixtureDir,
@@ -129,15 +172,15 @@ describe('loadSidebars', () => {
         version: {
           contentPath: path.join(fixtureDir, 'invalid-docs'),
           contentPathLocalized: path.join(fixtureDir, 'invalid-docs'),
-        },
+        } as VersionMetadata,
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`""foo" is not allowed"`);
-    expect(consoleWarnMock).toBeCalledWith(
+    expect(consoleWarnMock).toHaveBeenCalledWith(
       expect.stringMatching(
         /.*\[WARNING\].* There are more than one category metadata files for .*foo.*: foo\/_category_.json, foo\/_category_.yml. The behavior is undetermined./,
       ),
     );
-    expect(consoleErrorMock).toBeCalledWith(
+    expect(consoleErrorMock).toHaveBeenCalledWith(
       expect.stringMatching(
         /.*\[ERROR\].* The docs sidebar category metadata file .*foo\/_category_.json.* looks invalid!/,
       ),

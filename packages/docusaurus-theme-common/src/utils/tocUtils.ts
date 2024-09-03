@@ -6,7 +6,7 @@
  */
 
 import {useMemo} from 'react';
-import type {TOCItem} from '@docusaurus/types';
+import type {TOCItem} from '@docusaurus/mdx-loader';
 
 export type TOCTreeNode = {
   readonly value: string;
@@ -27,14 +27,14 @@ function treeifyTOC(flatTOC: readonly TOCItem[]): TOCTreeNode[] {
   // level <i>. We will modify these indices as we iterate through all headings.
   // e.g. if an ### H3 was last seen at index 2, then prevIndexForLevel[3] === 2
   // indices 0 and 1 will remain unused.
-  const prevIndexForLevel = Array(7).fill(-1);
+  const prevIndexForLevel = Array<number>(7).fill(-1);
 
   headings.forEach((curr, currIndex) => {
-    // take the last seen index for each ancestor level. the highest
-    // index will be the direct ancestor of the current heading.
+    // Take the last seen index for each ancestor level. the highest index will
+    // be the direct ancestor of the current heading.
     const ancestorLevelIndexes = prevIndexForLevel.slice(2, curr.level);
     curr.parentIndex = Math.max(...ancestorLevelIndexes);
-    // mark that curr.level was last seen at the current index
+    // Mark that curr.level was last seen at the current index.
     prevIndexForLevel[curr.level] = currIndex;
   });
 

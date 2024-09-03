@@ -8,6 +8,7 @@
 export {
   NODE_MAJOR_VERSION,
   NODE_MINOR_VERSION,
+  DOCUSAURUS_VERSION,
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   BABEL_CONFIG_FILE_NAME,
@@ -16,7 +17,7 @@ export {
   DEFAULT_STATIC_DIR_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
   THEME_PATH,
-  I18N_DIR_NAME,
+  DEFAULT_I18N_DIR_NAME,
   CODE_TRANSLATIONS_FILE_NAME,
   DEFAULT_PORT,
   DEFAULT_PLUGIN_ID,
@@ -34,13 +35,7 @@ export {
   getPluginI18nPath,
   localizePath,
 } from './i18nUtils';
-export {
-  removeSuffix,
-  removePrefix,
-  mapAsyncSequential,
-  findAsyncSequential,
-  reportMessage,
-} from './jsUtils';
+export {mapAsyncSequential, findAsyncSequential} from './jsUtils';
 export {
   normalizeUrl,
   getEditUrl,
@@ -48,31 +43,44 @@ export {
   encodePath,
   isValidPathname,
   resolvePathname,
-  addLeadingSlash,
-  addTrailingSlash,
-  removeTrailingSlash,
+  parseURLPath,
+  parseLocalURLPath,
+  parseURLOrPath,
+  toURLPath,
+  serializeURLPath,
   hasSSHProtocol,
   buildHttpsUrl,
   buildSshUrl,
 } from './urlUtils';
+export type {URLPath} from './urlUtils';
 export {
+  type Tag,
+  type TagsFile,
+  type TagsFileInput,
+  type TagMetadata,
+  type TagsListItem,
+  type TagModule,
   type FrontMatterTag,
-  normalizeFrontMatterTags,
+  type TagsPluginOptions,
   groupTaggedItems,
+  getTagVisibility,
 } from './tags';
 export {
   parseMarkdownHeadingId,
+  escapeMarkdownHeadingIds,
+  unwrapMdxCodeBlocks,
+  admonitionTitleToDirectiveLabel,
   createExcerpt,
-  parseFrontMatter,
+  DEFAULT_PARSE_FRONT_MATTER,
   parseMarkdownContentTitle,
-  parseMarkdownString,
+  parseMarkdownFile,
   writeMarkdownHeadingId,
   type WriteHeadingIDOptions,
 } from './markdownUtils';
 export {
   type ContentPaths,
-  type BrokenMarkdownLink,
-  replaceMarkdownLinks,
+  type SourceToPermalink,
+  resolveMarkdownLinkPathname,
 } from './markdownLinks';
 export {type SluggerOptions, type Slugger, createSlugger} from './slugger';
 export {
@@ -81,6 +89,7 @@ export {
   posixPath,
   toMessageRelativeFilePath,
   aliasedSitePath,
+  aliasedSitePathToRelativePath,
   escapePath,
   addTrailingPathSeparator,
 } from './pathUtils';
@@ -91,11 +100,32 @@ export {
   createMatcher,
   createAbsoluteFilePathMatcher,
 } from './globUtils';
-export {getFileLoaderUtils} from './webpackUtils';
+export {
+  getFileLoaderUtils,
+  getWebpackLoaderCompilerName,
+  type WebpackCompilerName,
+} from './webpackUtils';
+export {escapeShellArg} from './shellUtils';
+export {loadFreshModule} from './moduleUtils';
 export {
   getDataFilePath,
-  getDataFileData,
+  readDataFile,
   getContentPathList,
   findFolderContainingFile,
   getFolderContainingFile,
 } from './dataFileUtils';
+export {isDraft, isUnlisted} from './contentVisibilityUtils';
+export {escapeRegexp} from './regExpUtils';
+export {askPreferredLanguage} from './cliUtils';
+export {flattenRoutes} from './routeUtils';
+
+export {
+  getGitLastUpdate,
+  getLastUpdate,
+  readLastUpdateData,
+  LAST_UPDATE_FALLBACK,
+  type LastUpdateData,
+  type FrontMatterLastUpdate,
+} from './lastUpdateUtils';
+
+export {normalizeTags, reportInlineTags} from './tags';

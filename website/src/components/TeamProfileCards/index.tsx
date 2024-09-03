@@ -8,11 +8,12 @@
 import React, {type ReactNode} from 'react';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
+import Heading from '@theme/Heading';
 
 function WebsiteLink({to, children}: {to: string; children?: ReactNode}) {
   return (
     <Link to={to}>
-      {children || (
+      {children ?? (
         <Translate id="team.profile.websiteLinkLabel">website</Translate>
       )}
     </Link>
@@ -23,7 +24,7 @@ type ProfileProps = {
   className?: string;
   name: string;
   children: ReactNode;
-  githubUrl?: string;
+  githubUrl: string;
   twitterUrl?: string;
 };
 
@@ -45,7 +46,9 @@ function TeamProfileCard({
               alt={`${name}'s avatar`}
             />
             <div className="avatar__intro">
-              <h3 className="avatar__name">{name}</h3>
+              <Heading as="h3" className="avatar__name">
+                {name}
+              </Heading>
             </div>
           </div>
         </div>
@@ -53,14 +56,14 @@ function TeamProfileCard({
         <div className="card__footer">
           <div className="button-group button-group--block">
             {githubUrl && (
-              <a className="button button--secondary" href={githubUrl}>
+              <Link className="button button--secondary" href={githubUrl}>
                 GitHub
-              </a>
+              </Link>
             )}
             {twitterUrl && (
-              <a className="button button--secondary" href={twitterUrl}>
+              <Link className="button button--secondary" href={twitterUrl}>
                 Twitter
-              </a>
+              </Link>
             )}
           </div>
         </div>
@@ -78,23 +81,6 @@ function TeamProfileCardCol(props: ProfileProps) {
 export function ActiveTeamRow(): JSX.Element {
   return (
     <div className="row">
-      <TeamProfileCardCol
-        name="Alexey Pyltsyn"
-        githubUrl="https://github.com/lex111">
-        <Translate id="team.profile.Alexey Pyltsyn.body">
-          Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️
-          Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
-        </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Joel Marcey"
-        githubUrl="https://github.com/JoelMarcey"
-        twitterUrl="https://twitter.com/joelmarcey">
-        <Translate id="team.profile.Joel Marcey.body">
-          Docusaurus founder and now ever grateful Docusaurus cheerleader to
-          those who actually write code for it.
-        </Translate>
-      </TeamProfileCardCol>
       <TeamProfileCardCol
         name="Sébastien Lorber"
         githubUrl="https://github.com/slorber"
@@ -120,13 +106,11 @@ export function ActiveTeamRow(): JSX.Element {
         </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
-        name="Yangshun Tay"
-        githubUrl="https://github.com/yangshun"
-        twitterUrl="https://twitter.com/yangshunz">
-        <Translate id="team.profile.Yangshun Tay.body">
-          Full Front End Stack developer who likes working on the Jamstack.
-          Working on Docusaurus made him Facebook&apos;s unofficial part-time
-          Open Source webmaster, which is an awesome role to be in.
+        name="Clément Couriol"
+        githubUrl="https://github.com/ozakione">
+        <Translate id="team.profile.Clement Couriol.body">
+          Student from CPE Lyon, France. Passionate web developer who tries to
+          become an expert web developer.
         </Translate>
       </TeamProfileCardCol>
     </div>
@@ -136,6 +120,33 @@ export function ActiveTeamRow(): JSX.Element {
 export function HonoraryAlumniTeamRow(): JSX.Element {
   return (
     <div className="row">
+      <TeamProfileCardCol
+        name="Joel Marcey"
+        githubUrl="https://github.com/JoelMarcey"
+        twitterUrl="https://twitter.com/joelmarcey">
+        <Translate id="team.profile.Joel Marcey.body">
+          Docusaurus founder and now ever grateful Docusaurus cheerleader to
+          those who actually write code for it.
+        </Translate>
+      </TeamProfileCardCol>
+      <TeamProfileCardCol
+        name="Alexey Pyltsyn"
+        githubUrl="https://github.com/lex111">
+        <Translate id="team.profile.Alexey Pyltsyn.body">
+          Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️
+          Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
+        </Translate>
+      </TeamProfileCardCol>
+      <TeamProfileCardCol
+        name="Yangshun Tay"
+        githubUrl="https://github.com/yangshun"
+        twitterUrl="https://twitter.com/yangshunz">
+        <Translate id="team.profile.Yangshun Tay.body">
+          Full Front End Stack developer who likes working on the Jamstack.
+          Working on Docusaurus made him Facebook&apos;s unofficial part-time
+          Open Source webmaster, which is an awesome role to be in.
+        </Translate>
+      </TeamProfileCardCol>
       <TeamProfileCardCol
         name="Endilie Yacop Sucipto"
         githubUrl="https://github.com/endiliey"

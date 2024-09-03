@@ -5,12 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  addLeadingSlash,
-  addTrailingSlash,
-  isValidPathname,
-  resolvePathname,
-} from '@docusaurus/utils';
+import {isValidPathname, resolvePathname} from '@docusaurus/utils';
+import {addLeadingSlash, addTrailingSlash} from '@docusaurus/utils-common';
 import {
   DefaultNumberPrefixParser,
   stripPathNumberPrefixes,
@@ -58,7 +54,7 @@ export default function getSlug({
     ) {
       return dirNameSlug;
     }
-    const baseSlug = frontMatterSlug || baseID;
+    const baseSlug = frontMatterSlug ?? baseID;
     return resolvePathname(baseSlug, getDirNameSlug());
   }
 

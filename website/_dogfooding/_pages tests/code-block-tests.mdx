@@ -1,7 +1,17 @@
 import CodeBlock from '@theme/CodeBlock';
 import BrowserWindow from '@site/src/components/BrowserWindow';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Code block tests
+
+:::danger legacy test page - MDX v1
+
+This test page is quite outdated: MDX v2 lowercase tags are not substituted anymore in the same way as they were in v1.
+
+:::
+
+---
 
 ```java
 class HelloWorld {
@@ -17,6 +27,41 @@ See:
 - https://github.com/facebook/docusaurus/pull/3749
 - https://github.com/facebook/docusaurus/pull/6177
 
+## Code block prism language tests
+
+Code block with/without the good prism language case(lower or upper) in `additionalLanguages[]`
+
+```php title="php"
+<?php
+$x=15;
+$y=30;
+$z=$x+$y;
+echo "Sum: ",$z;
+?>
+```
+
+```PHP title="PHP"
+<?php
+$x=15;
+$y=30;
+$z=$x+$y;
+echo "Sum: ",$z;
+?>
+```
+
+```pHp title="pHp"
+<?php
+$x=15;
+$y=30;
+$z=$x+$y;
+echo "Sum: ",$z;
+?>
+```
+
+See:
+
+- https://github.com/facebook/docusaurus/pull/9183
+
 ## `pre`
 
 ### `pre > string`
@@ -25,7 +70,7 @@ Multi-line text inside `pre` will turn into one-liner, but it's okay (https://gi
 
 <pre>1 2 3</pre>
 
-<!-- prettier-ignore -->
+{/* prettier-ignore */}
 <pre>
 1
 2
@@ -142,3 +187,320 @@ Multi-line text inside `pre` will turn into one-liner, but it's okay (https://gi
   </strong>cd", at which time b is a substring.
   <br />
 </CodeBlock>
+
+## Code blocks with line numbering tests
+
+```jsx
+function PageLayout(props) {
+  // highlight-next-line
+  return <Layout title="Awesome Docusaurus page" description="Test Test Test Test Test Test Test Test Test Test Test Test Test Test ">;
+}
+```
+
+```jsx showLineNumbers
+function PageLayout(props) {
+  // highlight-next-line
+  return <Layout title="Awesome Docusaurus page" description="Test Test Test Test Test Test Test Test Test Test Test Test Test Test ">;
+}
+```
+
+```jsx {1,3,6} showLineNumbers
+function PageLayout(props) {
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+  console.log(
+    'Test Test Test Test Test Test Test Test Test Test Test Test Test Test ',
+  );
+}
+```
+
+## Code block wrapping tests
+
+[// spell-checker:disable]: #
+
+```bash
+mkdir this_is_a_loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong_string_to_test_code_block_wrapping
+echo "this is a long string made up of many separate words that should be broken between words when possible"
+curl https://docusaurus.io/tests/pages/code-block-tests
+```
+
+<Tabs>
+
+<TabItem value="short-tab-1" label="Short tab">
+
+```bash
+echo "hi"
+```
+
+</TabItem>
+<TabItem value="long-tab" label="Long tab">
+
+```bash
+echo this will test whether a long string that is initially hidden will have the option to wrap when made visible
+```
+
+</TabItem>
+
+<TabItem value="short-tab-2" label="Short tab">
+
+```bash
+rm short_initially_hidden_string
+```
+
+</TabItem>
+</Tabs>
+
+<Tabs>
+
+<TabItem value="long-tab" label="Long tab">
+
+```bash
+echo medium_length_string_will_have_the_option_to_wrap_after_window_resized_while_it_is_hidden
+```
+
+</TabItem>
+
+<TabItem value="short-tab" label="Short tab">
+
+```bash
+echo "short_initially_hidden_string"
+```
+
+</TabItem>
+</Tabs>
+
+[// spell-checker:enable]: #
+
+```jsx showLineNumbers
+import React from 'react';
+import Layout from '@theme/Layout';
+
+export default function MyReactPage() {
+  return (
+    <Layout>
+      <h1>My React page</h1>
+      <p>
+        This is a React page. Let's make this sentence bit long. Some more words
+        to make sure... Some more words to make sure... Some more words to make
+        sure...
+      </p>
+    </Layout>
+  );
+}
+```
+
+## Magic comments tests
+
+```lua title="lua_sum.lua"
+function sum(n)
+  -- highlight-next-line
+  local result = 0
+  for i = 1, n do
+   -- highlight-start
+    result = result + i
+  end
+  -- highlight-end
+  print(result)
+end
+```
+
+```haskell title="haskell.hs"
+stringLength :: String -> Int
+-- highlight-next-line
+stringLength [] = 0
+stringLength (x:xs) = 1 + stringLength xs
+```
+
+```wasm title="sum_webAssembly.wasm"
+(module
+  ;; highlight-next-line
+  (func $add (param $a i32) (param $b i32) (result i32)
+    local.get $a
+    ;; highlight-start
+    local.get $b
+    i32.add)
+    ;; highlight-end
+  (export "add" (func $add)))
+```
+
+```sql title="sql_query.sql"
+-- highlight-start
+SELECT *
+FROM orders
+-- highlight-end
+WHERE customer_id IN (
+  SELECT customer_id
+  -- highlight-next-line
+  FROM customers
+  WHERE country = 'USA'
+)
+```
+
+```matlab title="matlab.m"
+% highlight-start
+function result = times2(n)
+  result = n * 2;
+end
+% highlight-end
+
+x = 10;
+% highlight-next-line
+y = times2(x);
+```
+
+```latex title="latex.tex"
+\begin{document}
+	\section{Triangles}
+	% highlight-next-line
+	\subsection{Pythagoras' Theorem}
+	Pythagoras's theorem is:
+	% highlight-start
+	\begin{equation}
+		c^2 = a^2 + b^2
+	\end{equation}
+	% highlight-end
+\end{document}
+```
+
+```vba title="vba.vb"
+Function Factorial(ByVal n As Long) As Long
+    If n < 0 Then
+        Err.Raise 5 ' Invalid argument
+    End If
+    'highlight-next-line
+    Factorial = 1 ' return value
+    Dim i As Long
+    ' highlight-start
+    For i = 2 To n
+        Factorial = Factorial * i
+    Next
+    ' highlight-end
+End Function
+```
+
+```vbnet title="vbnet.vb"
+' highlight-next-line
+Dim languages As New HashSet(Of String) From {
+    "C#",
+    "Visual Basic",
+    _ ' highlight-start
+    "F#",
+    "PowerShell",
+    "TypeScript"
+    _' highlight-end
+}
+```
+
+```batch title="cmd.bat"
+rem highlight-start
+@echo off
+setlocal
+Rem highlight-end
+ipconfig
+REM highlight-next-line
+echo Docusaurus is awesome
+netstat
+```
+
+```fortran title="fortran.f90"
+! highlight-start
+program hello
+! highlight-end
+  implicit none
+  ! highlight-next-line
+  print *, "Hello, World!"
+end program hello
+```
+
+```cobol title="cobol.cob"
+*> highlight-start
+IDENTIFICATION DIVISION.
+PROGRAM-ID. HELLO.
+*> highlight-end
+PROCEDURE DIVISION.
+  *> highlight-next-line
+  DISPLAY "Hello, World!".
+END PROGRAM HELLO.
+```
+
+```fsharp title="fsharp.fsx"
+(* highlight-start *)
+[<EntryPoint>]
+(* highlight-end *)
+let main _ =
+    // highlight-next-line
+    printfn "Hello, World!"
+    0
+```
+
+## HTML - script + style highlighting
+
+See https://github.com/facebook/docusaurus/issues/9517
+
+```html
+<html lang="en">
+  <head>
+    <script>
+      const name = 'Formidable';
+      console.log(name);
+    </script>
+    <style>
+      .some-class {
+        border: solid red thick;
+      }
+    </style>
+  </head>
+</html>
+```
+
+## Empty code blocks edge cases
+
+Empty inline code block: ``
+
+Single space inline code block: ` `
+
+Empty code block
+
+{/* prettier-ignore */}
+```
+```
+
+Empty 1 line code block
+
+```
+
+```
+
+Empty 2 line code block
+
+```
+
+```
+
+Empty live code block
+
+```js live
+
+```

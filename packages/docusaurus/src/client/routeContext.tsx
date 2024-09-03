@@ -15,7 +15,8 @@ function mergeContexts({
   value,
 }: {
   parent: PluginRouteContext | null;
-  value: RouteContext | null;
+  // Only topmost route has the `plugin` attribute
+  value: PluginRouteContext | RouteContext | null;
 }): PluginRouteContext {
   if (!parent) {
     if (!value) {
@@ -32,7 +33,7 @@ function mergeContexts({
   const data = {...parent.data, ...value?.data};
 
   return {
-    // nested routes are not supposed to override plugin attribute
+    // Nested routes are not supposed to override plugin attribute
     plugin: parent.plugin,
     data,
   };

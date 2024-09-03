@@ -8,11 +8,15 @@
 import {loadHtmlTags} from '../htmlTags';
 import type {LoadedPlugin} from '@docusaurus/types';
 
-const pluginEmpty: LoadedPlugin = {
-  name: 'plugin-empty',
-};
+function testHtmlTags(plugins: LoadedPlugin[]) {
+  return loadHtmlTags({plugins, router: 'browser'});
+}
 
-const pluginPreBodyTags: LoadedPlugin = {
+const pluginEmpty = {
+  name: 'plugin-empty',
+} as LoadedPlugin;
+
+const pluginPreBodyTags = {
   name: 'plugin-preBodyTags',
   injectHtmlTags() {
     return {
@@ -26,9 +30,9 @@ const pluginPreBodyTags: LoadedPlugin = {
       },
     };
   },
-};
+} as unknown as LoadedPlugin;
 
-const pluginHeadTags: LoadedPlugin = {
+const pluginHeadTags = {
   name: 'plugin-headTags-only',
   injectHtmlTags() {
     return {
@@ -59,9 +63,9 @@ const pluginHeadTags: LoadedPlugin = {
       ],
     };
   },
-};
+} as unknown as LoadedPlugin;
 
-const pluginPostBodyTags: LoadedPlugin = {
+const pluginPostBodyTags = {
   name: 'plugin-postBody-tags',
   injectHtmlTags() {
     return {
@@ -74,18 +78,18 @@ const pluginPostBodyTags: LoadedPlugin = {
       ],
     };
   },
-};
+} as unknown as LoadedPlugin;
 
-const pluginMaybeInjectHeadTags: LoadedPlugin = {
+const pluginMaybeInjectHeadTags = {
   name: 'plugin-postBody-tags',
   injectHtmlTags() {
     return undefined;
   },
-};
+} as unknown as LoadedPlugin;
 
 describe('loadHtmlTags', () => {
   it('works for an empty plugin', () => {
-    const htmlTags = loadHtmlTags([pluginEmpty]);
+    const htmlTags = testHtmlTags([pluginEmpty]);
     expect(htmlTags).toMatchInlineSnapshot(`
       {
         "headTags": "",
@@ -96,7 +100,7 @@ describe('loadHtmlTags', () => {
   });
 
   it('only injects headTags', () => {
-    const htmlTags = loadHtmlTags([pluginHeadTags]);
+    const htmlTags = testHtmlTags([pluginHeadTags]);
     expect(htmlTags).toMatchInlineSnapshot(`
       {
         "headTags": "<link rel="preconnect" href="www.google-analytics.com">
@@ -109,7 +113,7 @@ describe('loadHtmlTags', () => {
   });
 
   it('only injects preBodyTags', () => {
-    const htmlTags = loadHtmlTags([pluginPreBodyTags]);
+    const htmlTags = testHtmlTags([pluginPreBodyTags]);
     expect(htmlTags).toMatchInlineSnapshot(`
       {
         "headTags": "",
@@ -120,7 +124,7 @@ describe('loadHtmlTags', () => {
   });
 
   it('only injects postBodyTags', () => {
-    const htmlTags = loadHtmlTags([pluginPostBodyTags]);
+    const htmlTags = testHtmlTags([pluginPostBodyTags]);
     expect(htmlTags).toMatchInlineSnapshot(`
       {
         "headTags": "",
@@ -132,7 +136,7 @@ describe('loadHtmlTags', () => {
   });
 
   it('allows multiple plugins that inject different part of html tags', () => {
-    const htmlTags = loadHtmlTags([
+    const htmlTags = testHtmlTags([
       pluginHeadTags,
       pluginPostBodyTags,
       pluginPreBodyTags,
@@ -150,7 +154,7 @@ describe('loadHtmlTags', () => {
   });
 
   it('allows multiple plugins that might/might not inject html tags', () => {
-    const htmlTags = loadHtmlTags([
+    const htmlTags = testHtmlTags([
       pluginEmpty,
       pluginHeadTags,
       pluginPostBodyTags,
@@ -169,7 +173,8 @@ describe('loadHtmlTags', () => {
   });
   it('throws for invalid tag', () => {
     expect(() =>
-      loadHtmlTags([
+      testHtmlTags([
+        // @ts-expect-error: test
         {
           injectHtmlTags() {
             return {
@@ -190,8 +195,9 @@ describe('loadHtmlTags', () => {
 
   it('throws for invalid tagName', () => {
     expect(() =>
-      loadHtmlTags([
+      testHtmlTags([
         {
+          // @ts-expect-error: test
           injectHtmlTags() {
             return {
               headTags: {
@@ -208,8 +214,9 @@ describe('loadHtmlTags', () => {
 
   it('throws for invalid tag object', () => {
     expect(() =>
-      loadHtmlTags([
+      testHtmlTags([
         {
+          // @ts-expect-error: test
           injectHtmlTags() {
             return {
               headTags: 2,

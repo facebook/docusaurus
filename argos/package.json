@@ -1,0 +1,17 @@
+{
+  "name": "argos",
+  "version": "3.5.2",
+  "description": "Argos visual diff tests",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "screenshot": "playwright test",
+    "upload": "npx @argos-ci/cli upload ./screenshots",
+    "report": "playwright show-report"
+  },
+  "dependencies": {
+    "@argos-ci/playwright": "^1.9.3",
+    "@playwright/test": "^1.41.2",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}

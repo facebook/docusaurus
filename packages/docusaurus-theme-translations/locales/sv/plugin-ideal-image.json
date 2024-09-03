@@ -1,0 +1,7 @@
+{
+  "theme.IdealImageMessage.404error": "404. Bilden laddades inte",
+  "theme.IdealImageMessage.error": "Något gick fel. Klicka för att ladda om",
+  "theme.IdealImageMessage.load": "Klicka för att ladda om{sizeMessage}",
+  "theme.IdealImageMessage.loading": "Laddar...",
+  "theme.IdealImageMessage.offline": "Din webbläsare är offline. Bilden laddades inte."
+}

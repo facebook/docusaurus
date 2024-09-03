@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/Layout';
 import Layout from '@theme-original/Layout';
+import type {Props} from '@theme/Layout';
 
 // This component is only used to test for CSS insertion order
 import './styles.module.css';

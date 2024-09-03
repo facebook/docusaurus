@@ -9,14 +9,14 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   type ReactNode,
 } from 'react';
-import {useDynamicCallback, ReactContextError} from './reactUtils';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
+import {useEvent, ReactContextError} from './reactUtils';
 
 type ScrollController = {
   /** A boolean ref tracking whether scroll events are enabled. */
@@ -104,7 +104,7 @@ export function useScrollPosition(
   const {scrollEventsEnabledRef} = useScrollController();
   const lastPositionRef = useRef<ScrollPosition | null>(getScrollPosition());
 
-  const dynamicEffect = useDynamicCallback(effect);
+  const dynamicEffect = useEvent(effect);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -112,11 +112,7 @@ export function useScrollPosition(
         return;
       }
       const currentPosition = getScrollPosition()!;
-
-      if (dynamicEffect) {
-        dynamicEffect(currentPosition, lastPositionRef.current);
-      }
-
+      dynamicEffect(currentPosition, lastPositionRef.current);
       lastPositionRef.current = currentPosition;
     };
 
@@ -225,8 +221,11 @@ export function useScrollPositionBlocker(): {
     [scrollController, scrollPositionSaver],
   );
 
-  useLayoutEffect(() => {
-    nextLayoutEffectCallbackRef.current?.();
+  useIsomorphicLayoutEffect(() => {
+    // Queuing permits to restore scroll position after all useLayoutEffect
+    // have run, and yet preserve the sync nature of the scroll restoration
+    // See https://github.com/facebook/docusaurus/issues/8625
+    queueMicrotask(() => nextLayoutEffectCallbackRef.current?.());
   });
 
   return {

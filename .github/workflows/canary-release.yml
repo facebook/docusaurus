@@ -4,21 +4,26 @@ on:
   push:
     branches:
       - main
+      - docusaurus-v**
     paths:
       - packages/**
+
+permissions:
+  contents: read
 
 jobs:
   publish-canary:
     name: Publish Canary
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           fetch-depth: 0 # Needed to get the commit number with "git rev-list --count HEAD"
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: '16'
+          node-version: lts/*
           cache: yarn
       - name: Prepare git
         run: |

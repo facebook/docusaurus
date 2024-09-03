@@ -5,9 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {
+  isValidPathname,
+  DEFAULT_PLUGIN_ID,
+  type FrontMatterTag,
+} from '@docusaurus/utils';
+import {addLeadingSlash} from '@docusaurus/utils-common';
 import Joi from './Joi';
-import {isValidPathname, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import type {Tag} from '@docusaurus/types';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
 export const PluginIdSchema = Joi.string()
@@ -32,8 +36,30 @@ const MarkdownPluginsSchema = Joi.array()
 
 export const RemarkPluginsSchema = MarkdownPluginsSchema;
 export const RehypePluginsSchema = MarkdownPluginsSchema;
+export const RecmaPluginsSchema = MarkdownPluginsSchema;
 
-export const AdmonitionsSchema = Joi.object().default({});
+export const AdmonitionsSchema = JoiFrontMatter.alternatives()
+  .try(
+    JoiFrontMatter.boolean().required(),
+    JoiFrontMatter.object({
+      keywords: JoiFrontMatter.array().items(
+        JoiFrontMatter.string(),
+        // Apparently this is how we tell job to accept empty arrays...
+        // .required(),
+      ),
+      extendDefaults: JoiFrontMatter.boolean(),
+
+      // TODO Remove before 2024
+      tag: Joi.any().forbidden().messages({
+        'any.unknown': `It is not possible anymore to use a custom admonition tag. The only admonition tag supported is ':::' (Markdown Directive syntax)`,
+      }),
+    }).required(),
+  )
+  .default(true)
+  .messages({
+    'alternatives.types':
+      '{{#label}} does not look like a valid admonitions config',
+  });
 
 // TODO how can we make this emit a custom error message :'(
 //  Joi is such a pain, good luck to annoying trying to improve this
@@ -41,10 +67,13 @@ export const URISchema = Joi.alternatives(
   Joi.string().uri({allowRelative: true}),
   // This custom validation logic is required notably because Joi does not
   // accept paths like /a/b/c ...
-  Joi.custom((val, helpers) => {
+  Joi.custom((val: unknown, helpers) => {
+    if (typeof val !== 'string') {
+      return helpers.error('any.invalid');
+    }
     try {
       // eslint-disable-next-line no-new
-      new URL(val);
+      new URL(String(val));
       return val;
     } catch {
       return helpers.error('any.invalid');
@@ -56,20 +85,42 @@ export const URISchema = Joi.alternatives(
 });
 
 export const PathnameSchema = Joi.string()
-  .custom((val) => {
+  .custom((val: string) => {
     if (!isValidPathname(val)) {
       throw new Error();
     }
     return val;
   })
   .message(
-    '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
+    '{{#label}} ({{#value}}) is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
+  );
+
+// Normalized schema for url path segments: baseUrl + routeBasePath...
+// Note we only add a leading slash
+// we don't always want to enforce a trailing slash on urls such as /docs
+//
+// Examples:
+// '' => '/'
+// 'docs' => '/docs'
+// '/docs' => '/docs'
+// 'docs/' => '/docs'
+// 'prefix/docs' => '/prefix/docs'
+// TODO tighter validation: not all strings are valid path segments
+export const RouteBasePathSchema = Joi
+  // Weird Joi trick needed, otherwise value '' is not normalized...
+  .alternatives()
+  .try(Joi.string().required().allow(''))
+  .custom((value: string) =>
+    // /!\ do not add trailing slash here
+    addLeadingSlash(value),
   );
 
 const FrontMatterTagSchema = JoiFrontMatter.alternatives()
   .try(
     JoiFrontMatter.string().required(),
-    JoiFrontMatter.object<Tag>({
+    // TODO Docusaurus v4 remove this legacy front matter tag object form
+    //  users should use tags.yml instead
+    JoiFrontMatter.object<FrontMatterTag>({
       label: JoiFrontMatter.string().required(),
       permalink: JoiFrontMatter.string().required(),
     }).required(),
@@ -96,3 +147,39 @@ export const FrontMatterTOCHeadingLevels = {
   }),
   toc_max_heading_level: JoiFrontMatter.number().min(2).max(6),
 };
+
+export type ContentVisibility = {
+  draft: boolean;
+  unlisted: boolean;
+};
+
+export const ContentVisibilitySchema = JoiFrontMatter.object<ContentVisibility>(
+  {
+    draft: JoiFrontMatter.boolean(),
+    unlisted: JoiFrontMatter.boolean(),
+  },
+)
+  .custom((frontMatter: ContentVisibility, helpers) => {
+    if (frontMatter.draft && frontMatter.unlisted) {
+      return helpers.error('frontMatter.draftAndUnlistedError');
+    }
+    return frontMatter;
+  })
+  .messages({
+    'frontMatter.draftAndUnlistedError':
+      "Can't be draft and unlisted at the same time.",
+  })
+  .unknown();
+
+export const FrontMatterLastUpdateErrorMessage =
+  '{{#label}} does not look like a valid last update object. Please use an author key with a string or a date with a string or Date.';
+
+export const FrontMatterLastUpdateSchema = Joi.object({
+  author: Joi.string(),
+  date: Joi.date().raw(),
+})
+  .or('author', 'date')
+  .messages({
+    'object.missing': FrontMatterLastUpdateErrorMessage,
+    'object.base': FrontMatterLastUpdateErrorMessage,
+  });

@@ -6,31 +6,25 @@
  */
 
 import type {ComponentProps} from 'react';
-import React, {isValidElement} from 'react';
+import React from 'react';
 import CodeBlock from '@theme/CodeBlock';
+import CodeInline from '@theme/CodeInline';
 import type {Props} from '@theme/MDXComponents/Code';
 
-export default function MDXCode(props: Props): JSX.Element {
-  const inlineElements = [
-    'a',
-    'b',
-    'big',
-    'i',
-    'span',
-    'em',
-    'strong',
-    'sup',
-    'sub',
-    'small',
-  ];
-  const shouldBeInline = React.Children.toArray(props.children).every(
-    (el) =>
-      (typeof el === 'string' && !el.includes('\n')) ||
-      (isValidElement(el) && inlineElements.includes(el.props.mdxType)),
+function shouldBeInline(props: Props) {
+  return (
+    // empty code blocks have no props.children,
+    // see https://github.com/facebook/docusaurus/pull/9704
+    typeof props.children !== 'undefined' &&
+    React.Children.toArray(props.children).every(
+      (el) => typeof el === 'string' && !el.includes('\n'),
+    )
   );
+}
 
-  return shouldBeInline ? (
-    <code {...props} />
+export default function MDXCode(props: Props): JSX.Element {
+  return shouldBeInline(props) ? (
+    <CodeInline {...props} />
   ) : (
     <CodeBlock {...(props as ComponentProps<typeof CodeBlock>)} />
   );

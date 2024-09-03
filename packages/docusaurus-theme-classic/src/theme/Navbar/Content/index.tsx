@@ -6,17 +6,18 @@
  */
 
 import React, {type ReactNode} from 'react';
-import type {Props as NavbarItemConfig} from '@theme/NavbarItem';
-import NavbarItem from '@theme/NavbarItem';
-import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
-import SearchBar from '@theme/SearchBar';
+import {useThemeConfig, ErrorCauseBoundary} from '@docusaurus/theme-common';
 import {
   splitNavbarItems,
   useNavbarMobileSidebar,
-  useThemeConfig,
-} from '@docusaurus/theme-common';
+} from '@docusaurus/theme-common/internal';
+import NavbarItem, {type Props as NavbarItemConfig} from '@theme/NavbarItem';
+import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
+import SearchBar from '@theme/SearchBar';
 import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme/Navbar/Logo';
+import NavbarSearch from '@theme/Navbar/Search';
+
 import styles from './styles.module.css';
 
 function useNavbarItems() {
@@ -28,7 +29,18 @@ function NavbarItems({items}: {items: NavbarItemConfig[]}): JSX.Element {
   return (
     <>
       {items.map((item, i) => (
-        <NavbarItem {...item} key={i} />
+        <ErrorCauseBoundary
+          key={i}
+          onError={(error) =>
+            new Error(
+              `A theme navbar item failed to render.
+Please double-check the following navbar item (themeConfig.navbar.items) of your Docusaurus config:
+${JSON.stringify(item, null, 2)}`,
+              {cause: error},
+            )
+          }>
+          <NavbarItem {...item} />
+        </ErrorCauseBoundary>
       ))}
     </>
   );
@@ -55,7 +67,7 @@ export default function NavbarContent(): JSX.Element {
   const items = useNavbarItems();
   const [leftItems, rightItems] = splitNavbarItems(items);
 
-  const autoAddSearchBar = !items.some((item) => item.type === 'search');
+  const searchBarItem = items.find((item) => item.type === 'search');
 
   return (
     <NavbarContentLayout
@@ -73,7 +85,11 @@ export default function NavbarContent(): JSX.Element {
         <>
           <NavbarItems items={rightItems} />
           <NavbarColorModeToggle className={styles.colorModeToggle} />
-          {autoAddSearchBar && <SearchBar />}
+          {!searchBarItem && (
+            <NavbarSearch>
+              <SearchBar />
+            </NavbarSearch>
+          )}
         </>
       }
     />

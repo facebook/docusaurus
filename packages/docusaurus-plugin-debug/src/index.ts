@@ -5,23 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {normalizeUrl} from '@docusaurus/utils';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import {docuHash, normalizeUrl, posixPath} from '@docusaurus/utils';
-import path from 'path';
-
-export const routeBasePath = '__docusaurus/debug';
 
 export default function pluginDebug({
   siteConfig: {baseUrl},
-  generatedFilesDir,
-}: LoadContext): Plugin<void> {
-  const pluginDataDirRoot = path.join(
-    generatedFilesDir,
-    'docusaurus-plugin-debug',
-  );
-  const aliasedSource = (source: string) =>
-    `~debug/${posixPath(path.relative(pluginDataDirRoot, source))}`;
-
+}: LoadContext): Plugin<undefined> {
   return {
     name: 'docusaurus-plugin-debug',
 
@@ -32,69 +21,52 @@ export default function pluginDebug({
       return '../src/theme';
     },
 
-    async contentLoaded({actions: {createData, addRoute}, allContent}) {
-      const allContentPath = await createData(
-        // Note that this created data path must be in sync with
-        // metadataPath provided to mdx-loader.
-        `${docuHash('docusaurus-debug-allContent')}.json`,
-        JSON.stringify(allContent, null, 2),
-      );
-
+    async allContentLoaded({actions: {addRoute}, allContent}) {
       // Home is config (duplicate for now)
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath]),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug']),
         component: '@theme/DebugConfig',
         exact: true,
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'config']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/config']),
         component: '@theme/DebugConfig',
         exact: true,
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'metadata']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/metadata']),
         component: '@theme/DebugSiteMetadata',
         exact: true,
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'registry']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/registry']),
         component: '@theme/DebugRegistry',
         exact: true,
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'routes']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/routes']),
         component: '@theme/DebugRoutes',
         exact: true,
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'content']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/content']),
         component: '@theme/DebugContent',
         exact: true,
-        modules: {
-          allContent: aliasedSource(allContentPath),
+        props: {
+          allContent,
         },
       });
 
       addRoute({
-        path: normalizeUrl([baseUrl, routeBasePath, 'globalData']),
+        path: normalizeUrl([baseUrl, '__docusaurus/debug/globalData']),
         component: '@theme/DebugGlobalData',
         exact: true,
       });
-    },
-
-    configureWebpack() {
-      return {
-        resolve: {
-          alias: {
-            '~debug': pluginDataDirRoot,
-          },
-        },
-      };
     },
   };
 }
