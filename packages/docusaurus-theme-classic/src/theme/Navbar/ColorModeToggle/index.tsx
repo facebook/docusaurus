@@ -16,7 +16,7 @@ export default function NavbarColorModeToggle({
 }: Props): JSX.Element | null {
   const navbarStyle = useThemeConfig().navbar.style;
   const disabled = useThemeConfig().colorMode.disableSwitch;
-  const {colorMode, setColorMode} = useColorMode();
+  const {colorMode, colorModeChoice, setColorMode} = useColorMode();
 
   if (disabled) {
     return null;
@@ -29,6 +29,7 @@ export default function NavbarColorModeToggle({
         navbarStyle === 'dark' ? styles.darkNavbarColorModeToggle : undefined
       }
       value={colorMode}
+      choice={colorModeChoice}
       onChange={setColorMode}
     />
   );
