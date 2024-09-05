@@ -37,5 +37,6 @@ export type LoadedMDXContent<FrontMatter, Metadata, Assets = undefined> = {
   (): JSX.Element;
 };
 
-export type {Options, MDXPlugin} from './loader';
+export type {MDXPlugin} from './loader';
 export type {MDXOptions} from './processor';
+export type {Options} from './options';

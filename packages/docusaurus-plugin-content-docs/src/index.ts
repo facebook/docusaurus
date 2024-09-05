@@ -25,10 +25,7 @@ import {
   getTagsFile,
   getTagsFilePathsToWatch,
 } from '@docusaurus/utils-validation';
-import {
-  createMDXLoaderRule,
-  type Options as MDXLoaderOptions,
-} from '@docusaurus/mdx-loader';
+import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
 import {loadSidebars, resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {
@@ -107,50 +104,56 @@ export default async function pluginContentDocs(
       // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
       .map(addTrailingPathSeparator);
 
-    const loaderOptions: MDXLoaderOptions = {
-      admonitions: options.admonitions,
-      remarkPlugins,
-      rehypePlugins,
-      recmaPlugins,
-      beforeDefaultRehypePlugins,
-      beforeDefaultRemarkPlugins,
-      staticDirs: siteConfig.staticDirectories.map((dir) =>
-        path.resolve(siteDir, dir),
-      ),
-      siteDir,
-      isMDXPartial: createAbsoluteFilePathMatcher(options.exclude, contentDirs),
-      metadataPath: (mdxPath: string) => {
-        // Note that metadataPath must be the same/in-sync as
-        // the path from createData for each MDX.
-        const aliasedPath = aliasedSitePath(mdxPath, siteDir);
-        return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
+    return createMDXLoaderRule({
+      include: contentDirs,
+      options: {
+        useCrossCompilerCache:
+          siteConfig.future.experimental_faster.mdxCrossCompilerCache,
+        admonitions: options.admonitions,
+        remarkPlugins,
+        rehypePlugins,
+        recmaPlugins,
+        beforeDefaultRehypePlugins,
+        beforeDefaultRemarkPlugins,
+        staticDirs: siteConfig.staticDirectories.map((dir) =>
+          path.resolve(siteDir, dir),
+        ),
+        siteDir,
+        isMDXPartial: createAbsoluteFilePathMatcher(
+          options.exclude,
+          contentDirs,
+        ),
+        metadataPath: (mdxPath: string) => {
+          // Note that metadataPath must be the same/in-sync as
+          // the path from createData for each MDX.
+          const aliasedPath = aliasedSitePath(mdxPath, siteDir);
+          return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
+        },
+        // createAssets converts relative paths to require() calls
+        createAssets: ({frontMatter}: {frontMatter: DocFrontMatter}) => ({
+          image: frontMatter.image,
+        }),
+        markdownConfig: siteConfig.markdown,
+        resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
+          const version = getVersionFromSourceFilePath(
+            sourceFilePath,
+            versionsMetadata,
+          );
+          const permalink = resolveMarkdownLinkPathname(linkPathname, {
+            sourceFilePath,
+            sourceToPermalink: contentHelpers.sourceToPermalink,
+            siteDir,
+            contentPaths: version,
+          });
+          if (permalink === null) {
+            logger.report(
+              siteConfig.onBrokenMarkdownLinks,
+            )`Docs markdown link couldn't be resolved: (url=${linkPathname}) in source file path=${sourceFilePath} for version number=${version.versionName}`;
+          }
+          return permalink;
+        },
       },
-      // createAssets converts relative paths to require() calls
-      createAssets: ({frontMatter}: {frontMatter: DocFrontMatter}) => ({
-        image: frontMatter.image,
-      }),
-      markdownConfig: siteConfig.markdown,
-      resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
-        const version = getVersionFromSourceFilePath(
-          sourceFilePath,
-          versionsMetadata,
-        );
-        const permalink = resolveMarkdownLinkPathname(linkPathname, {
-          sourceFilePath,
-          sourceToPermalink: contentHelpers.sourceToPermalink,
-          siteDir,
-          contentPaths: version,
-        });
-        if (permalink === null) {
-          logger.report(
-            siteConfig.onBrokenMarkdownLinks,
-          )`Docs markdown link couldn't be resolved: (url=${linkPathname}) in source file path=${sourceFilePath} for version number=${version.versionName}`;
-        }
-        return permalink;
-      },
-    };
-
-    return createMDXLoaderRule({include: contentDirs, options: loaderOptions});
+    });
   }
 
   const docsMDXLoaderRule = await createDocsMDXLoaderRule();

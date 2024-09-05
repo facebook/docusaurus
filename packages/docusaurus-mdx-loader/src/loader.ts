@@ -19,10 +19,7 @@ import {
   extractContentTitleData,
 } from './utils';
 import type {WebpackCompilerName} from '@docusaurus/utils';
-import type {SimpleProcessors, MDXOptions} from './processor';
-import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
-
-import type {MarkdownConfig} from '@docusaurus/types';
+import type {Options} from './options';
 import type {LoaderContext} from 'webpack';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
@@ -31,25 +28,6 @@ import type {LoaderContext} from 'webpack';
 type Pluggable = any; // TODO fix this asap
 
 export type MDXPlugin = Pluggable;
-
-export type Options = Partial<MDXOptions> & {
-  markdownConfig: MarkdownConfig;
-  staticDirs: string[];
-  siteDir: string;
-  isMDXPartial?: (filePath: string) => boolean;
-  isMDXPartialFrontMatterWarningDisabled?: boolean;
-  removeContentTitle?: boolean;
-  metadataPath?: (filePath: string) => string;
-  createAssets?: (metadata: {
-    filePath: string;
-    frontMatter: {[key: string]: unknown};
-  }) => {[key: string]: unknown};
-  resolveMarkdownLink?: ResolveMarkdownLink;
-
-  // Will usually be created by "createMDXLoaderItem"
-  processors?: SimpleProcessors;
-  crossCompilerCache?: Map<string, Promise<string>>; // MDX => Promise<JSX> cache
-};
 
 async function loadMDX({
   fileContent,
@@ -144,6 +122,13 @@ ${result.content}
   return code;
 }
 
+// Note: we cache promises instead of strings
+// This is because client/server compilations might be triggered in parallel
+// When this happens for the same file, we don't want to compile it twice
+// Note we use fileContent instead of filePath as cache key
+// This is because the same file can be compiled with different options
+// This is notably the case for blog posts that can be truncated
+// An alternative would be to use this.resource (including ?query#hash)
 async function loadMDXWithCaching({
   fileContent,
   filePath,
@@ -155,13 +140,13 @@ async function loadMDXWithCaching({
   options: Options;
   compilerName: WebpackCompilerName;
 }): Promise<string> {
-  // Note: we cache promises instead of strings
-  // This is because client/server compilations might be triggered in parallel
-  // When this happens for the same file, we don't want to compile it twice
   const cachedPromise = options.crossCompilerCache?.get(fileContent);
   if (cachedPromise) {
     // We can clean up the cache and free memory here
     // We know there are only 2 compilations for the same file
+    // Note: once we introduce RSCs we'll probably have 3 compilations
+    // Note: we can't use string keys in WeakMap
+    // But we could eventually use WeakRef for the values
     options.crossCompilerCache?.delete(fileContent);
     return cachedPromise;
   }

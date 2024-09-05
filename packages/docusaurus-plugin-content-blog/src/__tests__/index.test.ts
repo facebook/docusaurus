@@ -13,6 +13,7 @@ import {
   getFileCommitDate,
   LAST_UPDATE_FALLBACK,
 } from '@docusaurus/utils';
+import {DEFAULT_FUTURE_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
 import type {
@@ -106,7 +107,7 @@ const getPlugin = async (
     baseUrl: '/',
     url: 'https://docusaurus.io',
     markdown,
-    future: {},
+    future: DEFAULT_FUTURE_CONFIG,
     staticDirectories: ['static'],
   } as DocusaurusConfig;
   return pluginContentBlog(
