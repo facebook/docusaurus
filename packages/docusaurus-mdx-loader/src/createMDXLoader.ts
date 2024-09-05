@@ -19,7 +19,11 @@ async function enhancedOptions(options: Options): Promise<Options> {
   // Lazy creation messes-up with Rsdoctor ability to measure mdx-loader perf
   const newOptions: Options = options.processors
     ? options
-    : {...options, processors: await createProcessors({options})};
+    : {
+        ...options,
+        processors: await createProcessors({options}),
+        crossCompilerCache: new Map(),
+      };
 
   return newOptions;
 }

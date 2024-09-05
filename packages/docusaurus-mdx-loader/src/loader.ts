@@ -48,6 +48,7 @@ export type Options = Partial<MDXOptions> & {
 
   // Will usually be created by "createMDXLoaderItem"
   processors?: SimpleProcessors;
+  crossCompilerCache?: Map<string, Promise<string>>; // MDX => Promise<JSX> cache
 };
 
 async function loadMDX({
@@ -143,6 +144,37 @@ ${result.content}
   return code;
 }
 
+async function loadMDXWithCaching({
+  fileContent,
+  filePath,
+  options,
+  compilerName,
+}: {
+  fileContent: string;
+  filePath: string;
+  options: Options;
+  compilerName: WebpackCompilerName;
+}): Promise<string> {
+  // Note: we cache promises instead of strings
+  // This is because client/server compilations might be triggered in parallel
+  // When this happens for the same file, we don't want to compile it twice
+  const cachedPromise = options.crossCompilerCache?.get(fileContent);
+  if (cachedPromise) {
+    // We can clean up the cache and free memory here
+    // We know there are only 2 compilations for the same file
+    options.crossCompilerCache?.delete(fileContent);
+    return cachedPromise;
+  }
+  const promise = loadMDX({
+    fileContent,
+    filePath,
+    options,
+    compilerName,
+  });
+  options.crossCompilerCache?.set(fileContent, promise);
+  return promise;
+}
+
 export async function mdxLoader(
   this: LoaderContext<Options>,
   fileContent: string,
@@ -151,9 +183,8 @@ export async function mdxLoader(
   const callback = this.async();
   const filePath = this.resourcePath;
   const options: Options = this.getOptions();
-
   try {
-    const result = await loadMDX({
+    const result = await loadMDXWithCaching({
       fileContent,
       filePath,
       options,
