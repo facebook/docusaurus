@@ -20,7 +20,7 @@ import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
 import {getFormat} from './format';
 import type {WebpackCompilerName} from '@docusaurus/utils';
 import type {MDXFrontMatter} from './frontMatter';
-import type {Options} from './loader';
+import type {Options} from './options';
 import type {AdmonitionOptions} from './remark/admonitions';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
