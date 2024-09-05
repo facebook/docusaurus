@@ -18,11 +18,8 @@ import {
   createAssetsExportCode,
   extractContentTitleData,
 } from './utils';
-import type {
-  SimpleProcessors,
-  MDXOptions,
-  SimpleProcessorResult,
-} from './processor';
+import type {WebpackCompilerName} from '@docusaurus/utils';
+import type {SimpleProcessors, MDXOptions} from './processor';
 import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
 
 import type {MarkdownConfig} from '@docusaurus/types';
@@ -53,15 +50,17 @@ export type Options = Partial<MDXOptions> & {
   processors?: SimpleProcessors;
 };
 
-export async function mdxLoader(
-  this: LoaderContext<Options>,
-  fileContent: string,
-): Promise<void> {
-  const compilerName = getWebpackLoaderCompilerName(this);
-  const callback = this.async();
-  const filePath = this.resourcePath;
-  const options: Options = this.getOptions();
-
+async function loadMDX({
+  fileContent,
+  filePath,
+  options,
+  compilerName,
+}: {
+  fileContent: string;
+  filePath: string;
+  options: Options;
+  compilerName: WebpackCompilerName;
+}): Promise<string> {
   const {frontMatter} = await options.markdownConfig.parseFrontMatter({
     filePath,
     fileContent,
@@ -70,18 +69,13 @@ export async function mdxLoader(
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-  let result: SimpleProcessorResult;
-  try {
-    result = await compileToJSX({
-      fileContent,
-      filePath,
-      frontMatter,
-      options,
-      compilerName,
-    });
-  } catch (error) {
-    return callback(error as Error);
-  }
+  const result = await compileToJSX({
+    fileContent,
+    filePath,
+    frontMatter,
+    options,
+    compilerName,
+  });
 
   const contentTitle = extractContentTitleData(result.data);
 
@@ -97,7 +91,7 @@ ${JSON.stringify(frontMatter, null, 2)}`;
     if (!options.isMDXPartialFrontMatterWarningDisabled) {
       const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
       if (shouldError) {
-        return callback(new Error(errorMessage));
+        throw new Error(errorMessage);
       }
       logger.warn(errorMessage);
     }
@@ -146,5 +140,27 @@ ${exportsCode}
 ${result.content}
 `;
 
-  return callback(null, code);
+  return code;
+}
+
+export async function mdxLoader(
+  this: LoaderContext<Options>,
+  fileContent: string,
+): Promise<void> {
+  const compilerName = getWebpackLoaderCompilerName(this);
+  const callback = this.async();
+  const filePath = this.resourcePath;
+  const options: Options = this.getOptions();
+
+  try {
+    const result = await loadMDX({
+      fileContent,
+      filePath,
+      options,
+      compilerName,
+    });
+    return callback(null, result);
+  } catch (error) {
+    return callback(error as Error);
+  }
 }
