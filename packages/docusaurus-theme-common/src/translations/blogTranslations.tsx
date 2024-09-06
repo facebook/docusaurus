@@ -77,3 +77,13 @@ export function BlogAuthorsListViewAllLabel(): ReactNode {
     </Translate>
   );
 }
+
+export function BlogAuthorNoPostsLabel(): ReactNode {
+  return (
+    <Translate
+      id="theme.blog.author.noPosts"
+      description="The text for authors with 0 blog post">
+      This author has not written any posts yet.
+    </Translate>
+  );
+}

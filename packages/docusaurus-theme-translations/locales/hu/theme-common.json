@@ -22,6 +22,7 @@
   "theme.admonition.warning": "vigyázat",
   "theme.blog.archive.description": "Archívum",
   "theme.blog.archive.title": "Archívum",
+  "theme.blog.author.noPosts": "This author has not written any posts yet.",
   "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
   "theme.blog.authorsList.pageTitle": "Authors",
   "theme.blog.authorsList.viewAll": "View All Authors",

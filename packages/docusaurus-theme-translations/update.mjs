@@ -11,7 +11,7 @@ import path from 'path';
 import {fileURLToPath} from 'url';
 import fs from 'fs-extra';
 import _ from 'lodash';
-import logger from '@docusaurus/logger';
+import {logger} from '@docusaurus/logger';
 import {getThemes, extractThemeCodeMessages} from './lib/utils.js';
 
 const LocalesDirPath = fileURLToPath(new URL('locales', import.meta.url));

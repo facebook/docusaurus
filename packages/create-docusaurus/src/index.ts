@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import {fileURLToPath} from 'url';
 import path from 'path';
 import _ from 'lodash';
-import logger from '@docusaurus/logger';
+import {logger} from '@docusaurus/logger';
 import shell from 'shelljs';
 import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';

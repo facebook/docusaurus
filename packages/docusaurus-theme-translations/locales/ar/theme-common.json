@@ -22,6 +22,7 @@
   "theme.admonition.warning": "warning",
   "theme.blog.archive.description": "أرشيف",
   "theme.blog.archive.title": "أرشيف",
+  "theme.blog.author.noPosts": "This author has not written any posts yet.",
   "theme.blog.author.pageTitle": "{authorName} - {nPosts}",
   "theme.blog.authorsList.pageTitle": "Authors",
   "theme.blog.authorsList.viewAll": "View All Authors",

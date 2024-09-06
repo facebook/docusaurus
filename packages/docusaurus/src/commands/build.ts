@@ -8,16 +8,17 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
-import logger from '@docusaurus/logger';
+import logger, {PerfLogger} from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
 import {loadSite, loadContext, type LoadContextParams} from '../server/site';
 import {handleBrokenLinks} from '../server/brokenLinks';
-
 import {createBuildClientConfig} from '../webpack/client';
 import createServerConfig from '../webpack/server';
-import {executePluginsConfigureWebpack} from '../webpack/configure';
+import {
+  createConfigureWebpackUtils,
+  executePluginsConfigureWebpack,
+} from '../webpack/configure';
 import {compile} from '../webpack/utils';
-import {PerfLogger} from '../utils';
 
 import {loadI18n} from '../server/i18n';
 import {
@@ -48,11 +49,6 @@ export type BuildCLIOptions = Pick<
 export async function build(
   siteDirParam: string = '.',
   cliOptions: Partial<BuildCLIOptions> = {},
-  // When running build, we force terminate the process to prevent async
-  // operations from never returning. However, if run as part of docusaurus
-  // deploy, we have to let deploy finish.
-  // See https://github.com/facebook/docusaurus/pull/2496
-  forceTerminate: boolean = true,
 ): Promise<void> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
@@ -98,20 +94,11 @@ export async function build(
 
   await PerfLogger.async(`Build`, () =>
     mapAsyncSequential(locales, async (locale) => {
-      const isLastLocale = locales.indexOf(locale) === locales.length - 1;
       await tryToBuildLocale({locale});
-      if (isLastLocale) {
-        logger.info`Use code=${'npm run serve'} command to test your build locally.`;
-      }
-
-      /*
-      // TODO do we really need this historical forceTerminate exit???
-      if (forceTerminate && isLastLocale && !cliOptions.bundleAnalyzer) {
-        process.exit(0);
-      }
-       */
     }),
   );
+
+  logger.info`Use code=${'npm run serve'} command to test your build locally.`;
 }
 
 async function getLocalesToBuild({
@@ -210,10 +197,7 @@ async function buildLocale({
     }),
   );
 
-  // Remove server.bundle.js because it is not needed.
-  await PerfLogger.async('Deleting server bundle', () =>
-    ensureUnlink(serverBundlePath),
-  );
+  await cleanupServerBundle(serverBundlePath);
 
   // Plugin Lifecycle - postBuild.
   await PerfLogger.async('postBuild()', () =>
@@ -348,6 +332,7 @@ async function getBuildClientConfig({
   const result = await createBuildClientConfig({
     props,
     minify: cliOptions.minify ?? true,
+    faster: props.siteConfig.future.experimental_faster,
     bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;
@@ -355,8 +340,9 @@ async function getBuildClientConfig({
     plugins,
     config,
     isServer: false,
-    // @ts-expect-error: todo fix
-    jsLoader: props.siteConfig.webpack?.jsLoader,
+    utils: await createConfigureWebpackUtils({
+      siteConfig: props.siteConfig,
+    }),
   });
   return {clientConfig: config, clientManifestPath: result.clientManifestPath};
 }
@@ -371,14 +357,24 @@ async function getBuildServerConfig({props}: {props: Props}) {
     plugins,
     config,
     isServer: true,
-    // @ts-expect-error: todo fix
-    jsLoader: props.siteConfig.webpack?.jsLoader,
+    utils: await createConfigureWebpackUtils({
+      siteConfig: props.siteConfig,
+    }),
   });
   return {serverConfig: config, serverBundlePath: result.serverBundlePath};
 }
 
-async function ensureUnlink(filepath: string) {
-  if (await fs.pathExists(filepath)) {
-    await fs.unlink(filepath);
+// Remove /build/server server.bundle.js because it is not needed.
+async function cleanupServerBundle(serverBundlePath: string) {
+  if (process.env.DOCUSAURUS_KEEP_SERVER_BUNDLE === 'true') {
+    logger.warn(
+      "Will NOT delete server bundle because DOCUSAURUS_KEEP_SERVER_BUNDLE is set to 'true'",
+    );
+  } else {
+    await PerfLogger.async('Deleting server bundle', async () => {
+      // For now we assume server entry is at the root of the server out dir
+      const serverDir = path.dirname(serverBundlePath);
+      await fs.rm(serverDir, {recursive: true, force: true});
+    });
   }
 }

@@ -5,12 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {AsyncLocalStorage} from 'async_hooks';
-import logger from '@docusaurus/logger';
+import logger from './logger';
 
 // For now this is a private env variable we use internally
 // But we'll want to expose this feature officially some day
-export const PerfDebuggingEnabled: boolean =
-  !!process.env.DOCUSAURUS_PERF_LOGGER;
+const PerfDebuggingEnabled: boolean = !!process.env.DOCUSAURUS_PERF_LOGGER;
 
 const Thresholds = {
   min: 5,

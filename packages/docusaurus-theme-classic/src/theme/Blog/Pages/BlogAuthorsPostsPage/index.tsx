@@ -15,6 +15,7 @@ import {
 import {
   useBlogAuthorPageTitle,
   BlogAuthorsListViewAllLabel,
+  BlogAuthorNoPostsLabel,
 } from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
@@ -52,9 +53,17 @@ function Content({author, items, sidebar, listMetadata}: Props): JSX.Element {
         {author.description && <p>{author.description}</p>}
         <ViewAllAuthorsLink />
       </header>
-      <hr />
-      <BlogPostItems items={items} />
-      <BlogListPaginator metadata={listMetadata} />
+      {items.length === 0 ? (
+        <p>
+          <BlogAuthorNoPostsLabel />
+        </p>
+      ) : (
+        <>
+          <hr />
+          <BlogPostItems items={items} />
+          <BlogListPaginator metadata={listMetadata} />
+        </>
+      )}
     </BlogLayout>
   );
 }

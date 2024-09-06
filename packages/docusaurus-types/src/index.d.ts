@@ -14,6 +14,7 @@ export {
   ParseFrontMatter,
   DocusaurusConfig,
   FutureConfig,
+  FasterConfig,
   StorageConfig,
   Config,
 } from './config';

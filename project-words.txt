@@ -310,6 +310,9 @@ Retrocompatibility
 retrocompatible
 Retrocompatible
 rmiz
+rsdoctor
+Rsdoctor
+RSDOCTOR
 rtcts
 rtlcss
 saurus

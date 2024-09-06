@@ -9,12 +9,13 @@ import _ from 'lodash';
 import {readDataFile, normalizeUrl} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import {AuthorSocialsSchema, normalizeSocials} from './authorsSocials';
+import {normalizeImageUrl} from './authors';
 import type {BlogContentPaths} from './types';
 import type {
-  Author,
   AuthorAttributes,
   AuthorPage,
   AuthorsMap,
+  AuthorWithKey,
 } from '@docusaurus/plugin-content-blog';
 
 type AuthorInput = AuthorAttributes & {
@@ -93,12 +94,14 @@ export function checkAuthorsMapPermalinkCollisions(
 function normalizeAuthor({
   authorsBaseRoutePath,
   authorKey,
+  baseUrl,
   author,
 }: {
   authorsBaseRoutePath: string;
   authorKey: string;
+  baseUrl: string;
   author: AuthorInput;
-}): Author & {key: string} {
+}): AuthorWithKey {
   function getAuthorPage(): AuthorPage | null {
     if (!author.page) {
       return null;
@@ -114,6 +117,7 @@ function normalizeAuthor({
     ...author,
     key: authorKey,
     page: getAuthorPage(),
+    imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
     socials: author.socials ? normalizeSocials(author.socials) : undefined,
   };
 }
@@ -121,12 +125,14 @@ function normalizeAuthor({
 function normalizeAuthorsMap({
   authorsBaseRoutePath,
   authorsMapInput,
+  baseUrl,
 }: {
   authorsBaseRoutePath: string;
   authorsMapInput: AuthorsMapInput;
+  baseUrl: string;
 }): AuthorsMap {
   return _.mapValues(authorsMapInput, (author, authorKey) => {
-    return normalizeAuthor({authorsBaseRoutePath, authorKey, author});
+    return normalizeAuthor({authorsBaseRoutePath, authorKey, author, baseUrl});
   });
 }
 
@@ -153,6 +159,7 @@ export async function getAuthorsMap(params: {
   authorsMapPath: string;
   authorsBaseRoutePath: string;
   contentPaths: BlogContentPaths;
+  baseUrl: string;
 }): Promise<AuthorsMap | undefined> {
   const authorsMapInput = await getAuthorsMapInput(params);
   if (!authorsMapInput) {

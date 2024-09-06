@@ -41,6 +41,12 @@ type SocialEntry = [string, string];
 
 function normalizeSocialEntry([platform, value]: SocialEntry): SocialEntry {
   const normalizer = PredefinedPlatformNormalizers[platform.toLowerCase()];
+  if (typeof value !== 'string') {
+    throw new Error(
+      `Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+Social platform '${platform}' has illegal value '${value}'`,
+    );
+  }
   const isAbsoluteUrl =
     value.startsWith('http://') || value.startsWith('https://');
   if (isAbsoluteUrl) {

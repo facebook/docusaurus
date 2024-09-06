@@ -80,6 +80,7 @@ describe('getAuthorsMap', () => {
         contentPaths,
         authorsMapPath: 'authors.yml',
         authorsBaseRoutePath: '/authors',
+        baseUrl: '/',
       }),
     ).resolves.toBeDefined();
   });
@@ -90,6 +91,7 @@ describe('getAuthorsMap', () => {
         contentPaths,
         authorsMapPath: 'authors.json',
         authorsBaseRoutePath: '/authors',
+        baseUrl: '/',
       }),
     ).resolves.toBeDefined();
   });
@@ -100,8 +102,59 @@ describe('getAuthorsMap', () => {
         contentPaths,
         authorsMapPath: 'authors_does_not_exist.yml',
         authorsBaseRoutePath: '/authors',
+        baseUrl: '/',
       }),
     ).resolves.toBeUndefined();
+  });
+
+  it('getAuthorsMap return imageURL with relative path', async () => {
+    const authorsMap = await getAuthorsMap({
+      contentPaths,
+      authorsMapPath: 'authors.yml',
+      authorsBaseRoutePath: '/authors',
+      baseUrl: '/',
+    });
+    expect(authorsMap?.ozaki?.imageURL).toBe('/ozaki.png');
+  });
+
+  it('getAuthorsMap normalize imageURL with baseUrl', async () => {
+    const authorsMap = await getAuthorsMap({
+      contentPaths,
+      authorsMapPath: 'authors.yml',
+      authorsBaseRoutePath: '/authors',
+      baseUrl: '/baseUrl/',
+    });
+    expect(authorsMap?.ozaki?.imageURL).toBe('/baseUrl/ozaki.png');
+  });
+
+  it('getAuthorsMap return imageURL with relative subdir path', async () => {
+    const authorsMap = await getAuthorsMap({
+      contentPaths,
+      authorsMapPath: 'authors.yml',
+      authorsBaseRoutePath: '/authors',
+      baseUrl: '/',
+    });
+    expect(authorsMap?.ozakione?.imageURL).toBe('/img/ozaki.png');
+  });
+
+  it('getAuthorsMap normalize imageURL with baseUrl and subdir same value', async () => {
+    const authorsMap = await getAuthorsMap({
+      contentPaths,
+      authorsMapPath: 'authors.yml',
+      authorsBaseRoutePath: '/authors',
+      baseUrl: '/img/',
+    });
+    expect(authorsMap?.ozakione?.imageURL).toBe('/img/img/ozaki.png');
+  });
+
+  it('getAuthorsMap normalize imageURL subdir with baseUrl', async () => {
+    const authorsMap = await getAuthorsMap({
+      contentPaths,
+      authorsMapPath: 'authors.yml',
+      authorsBaseRoutePath: '/authors',
+      baseUrl: '/blog/',
+    });
+    expect(authorsMap?.ozakione?.imageURL).toBe('/blog/img/ozaki.png');
   });
 });
 
@@ -255,7 +308,7 @@ describe('authors socials', () => {
   });
 
   it('throw socials that are not strings', () => {
-    const authorsMap: AuthorsMapInput = {
+    const socialNumber: AuthorsMapInput = {
       ozaki: {
         name: 'ozaki',
         socials: {
@@ -265,10 +318,38 @@ describe('authors socials', () => {
       },
     };
 
+    const socialNull: AuthorsMapInput = {
+      ozaki: {
+        name: 'ozaki',
+        socials: {
+          // @ts-expect-error: for tests
+          twitter: null,
+        },
+      },
+    };
+
+    const socialNull2: AuthorsMapInput = {
+      ozaki: {
+        name: 'ozaki',
+        // @ts-expect-error: for tests
+        socials: null,
+      },
+    };
+
     expect(() =>
-      validateAuthorsMap(authorsMap),
+      validateAuthorsMap(socialNumber),
     ).toThrowErrorMatchingInlineSnapshot(
       `""ozaki.socials.twitter" must be a string"`,
+    );
+    expect(() =>
+      validateAuthorsMap(socialNull),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""ozaki.socials.twitter" must be a string"`,
+    );
+    expect(() =>
+      validateAuthorsMap(socialNull2),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""ozaki.socials" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 

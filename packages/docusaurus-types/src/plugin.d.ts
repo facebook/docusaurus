@@ -60,7 +60,9 @@ export type ConfigureWebpackUtils = {
   ) => RuleSetRule[];
   getJSLoader: (options: {
     isServer: boolean;
-    babelOptions?: {[key: string]: unknown};
+    // TODO Docusaurus v4 remove?
+    //  not ideal because JS Loader might not use Babel...
+    babelOptions?: string | {[key: string]: unknown};
   }) => RuleSetRule;
 };
 
@@ -122,8 +124,9 @@ export type Plugin<Content = unknown> = {
       head: {[location: string]: HelmetServerState};
     },
   ) => Promise<void> | void;
-  // TODO refactor the configureWebpack API surface: use an object instead of
-  // multiple params (requires breaking change)
+  // TODO Docusaurus v4 ?
+  //  refactor the configureWebpack API surface: use an object instead of
+  //  multiple params (requires breaking change)
   configureWebpack?: (
     config: WebpackConfiguration,
     isServer: boolean,
@@ -191,9 +194,8 @@ export type LoadedPlugin = InitializedPlugin & {
 export type PluginModule<Content = unknown> = {
   (context: LoadContext, options: unknown):
     | Plugin<Content>
-    | Promise<Plugin<Content>>
     | null
-    | Promise<null>;
+    | Promise<Plugin<Content> | null>;
 
   validateOptions?: <T, U>(data: OptionValidationContext<T, U>) => U;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;

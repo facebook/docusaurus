@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import webpack, {rspack, type Configuration} from 'webpack';
+import {rspack, type Configuration} from 'webpack';
 import WebpackBar from 'webpackbar';
 import Terser from 'terser-webpack-plugin';
 import {injectManifest} from 'workbox-build';
@@ -94,7 +94,9 @@ export default function pluginPWA(
       return {
         plugins: [
           new rspack.EnvironmentPlugin(
-            // @ts-expect-error: todo fix
+            // See https://github.com/facebook/docusaurus/pull/10455#issuecomment-2317593528
+            // See https://github.com/webpack/webpack/commit/adf2a6b7c6077fd806ea0e378c1450cccecc9ed0#r145989788
+            // @ts-expect-error: bad Webpack type?
             {
               PWA_DEBUG: debug,
               PWA_SERVICE_WORKER_URL: path.posix.resolve(

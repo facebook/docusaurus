@@ -8,9 +8,8 @@ import path from 'path';
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import {RsdoctorRspackMultiplePlugin} from '@rsdoctor/rspack-plugin';
-
 import configTabs from './src/remark/configTabs';
+import RsdoctorPlugin from './src/plugins/rsdoctor/RsdoctorPlugin';
 
 import versions from './versions.json';
 import VersionsArchived from './versionsArchived.json';
@@ -26,7 +25,7 @@ import ConfigLocalized from './docusaurus.config.localized.json';
 import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
 
-import type {Config, DocusaurusConfig, PluginConfig} from '@docusaurus/types';
+import type {Config, DocusaurusConfig} from '@docusaurus/types';
 
 import type * as Preset from '@docusaurus/preset-classic';
 import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
@@ -34,22 +33,6 @@ import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
 import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 import type {Options as IdealImageOptions} from '@docusaurus/plugin-ideal-image';
 import type {Options as ClientRedirectsOptions} from '@docusaurus/plugin-client-redirects';
-
-const RsdoctorPlugin: PluginConfig = () => {
-  console.log('RsdoctorPlugin enabled');
-  return {
-    name: 'docusaurus-rsdoctor-plugin',
-    configureWebpack: () => {
-      return {
-        plugins: [
-          new RsdoctorRspackMultiplePlugin({
-            // plugin options
-          }),
-        ],
-      };
-    },
-  };
-};
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
@@ -114,6 +97,14 @@ function getNextVersionName() {
 // Test with: DOCUSAURUS_CRASH_TEST=true yarn build:website:fast
 const crashTest = process.env.DOCUSAURUS_CRASH_TEST === 'true';
 
+// By default, we use Docusaurus Faster
+// DOCUSAURUS_SLOWER=true is useful for benchmarking faster against slower
+// hyperfine --prepare 'yarn clear:website' --runs 3 'DOCUSAURUS_SLOWER=true yarn build:website:fast' 'yarn build:website:fast'
+const isSlower = process.env.DOCUSAURUS_SLOWER === 'true';
+if (isSlower) {
+  console.log('🐢 Using slower Docusaurus build');
+}
+
 const router = process.env
   .DOCUSAURUS_ROUTER as DocusaurusConfig['future']['experimental_router'];
 
@@ -170,6 +161,7 @@ export default async function createConfigAsync() {
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
     future: {
+      experimental_faster: !isSlower,
       experimental_storage: {
         namespace: true,
       },
@@ -197,28 +189,6 @@ export default async function createConfigAsync() {
             [defaultLocale, 'ja']
           : // Production locales
             [defaultLocale, 'fr', 'pt-BR', 'ko', 'zh-CN'],
-    },
-    webpack: {
-      jsLoader: (isServer) => ({
-        loader: require.resolve('swc-loader'),
-        options: {
-          jsc: {
-            parser: {
-              syntax: 'typescript',
-              tsx: true,
-            },
-            transform: {
-              react: {
-                runtime: 'automatic',
-              },
-            },
-            target: 'es2017',
-          },
-          module: {
-            type: isServer ? 'commonjs' : 'es6',
-          },
-        },
-      }),
     },
     markdown: {
       format: 'detect',
@@ -289,7 +259,7 @@ export default async function createConfigAsync() {
     ],
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
-      process.env.RSDOCTOR ? RsdoctorPlugin : null,
+      RsdoctorPlugin,
       [
         './src/plugins/changelog/index.js',
         {
@@ -437,7 +407,7 @@ export default async function createConfigAsync() {
       '@docusaurus/theme-mermaid',
       './src/plugins/featureRequests/FeatureRequestsPlugin.js',
       ...dogfoodingPluginInstances,
-    ].filter(Boolean),
+    ],
     presets: [
       [
         'classic',

@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {PerfLogger} from '@docusaurus/logger';
 import {initPlugins} from './init';
 import {createBootstrapPlugin, createMDXFallbackPlugin} from './synthetic';
 import {localizePluginTranslationFile} from '../translations/translations';
 import {sortRoutes} from './routeConfig';
-import {PerfLogger} from '../../utils';
 import {createPluginActionsUtils} from './actions';
 import {
   aggregateAllContent,
@@ -266,7 +266,7 @@ export async function loadPlugins(
     // TODO probably not the ideal place to hardcode those plugins
     initializedPlugins.push(
       createBootstrapPlugin(context),
-      createMDXFallbackPlugin(context),
+      await createMDXFallbackPlugin(context),
     );
 
     const plugins = await executeAllPluginsContentLoading({
