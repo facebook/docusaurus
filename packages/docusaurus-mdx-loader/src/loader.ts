@@ -125,29 +125,33 @@ ${result.content}
 // Note: we cache promises instead of strings
 // This is because client/server compilations might be triggered in parallel
 // When this happens for the same file, we don't want to compile it twice
-// Note we use fileContent instead of filePath as cache key
-// This is because the same file can be compiled with different options
-// This is notably the case for blog posts that can be truncated
-// An alternative would be to use this.resource (including ?query#hash)
 async function loadMDXWithCaching({
+  resource,
   fileContent,
   filePath,
   options,
   compilerName,
 }: {
+  resource: string; // path?query#hash
+  filePath: string; // path
   fileContent: string;
-  filePath: string;
   options: Options;
   compilerName: WebpackCompilerName;
 }): Promise<string> {
-  const cachedPromise = options.crossCompilerCache?.get(fileContent);
+  // Note we "resource" as cache key, not "filePath" nor "fileContent"
+  // This is because:
+  // - the same file can be compiled in different variants (blog.mdx?truncated)
+  // - the same content can be processed differently (versioned docs links)
+  const cacheKey = resource;
+
+  const cachedPromise = options.crossCompilerCache?.get(cacheKey);
   if (cachedPromise) {
     // We can clean up the cache and free memory here
     // We know there are only 2 compilations for the same file
     // Note: once we introduce RSCs we'll probably have 3 compilations
     // Note: we can't use string keys in WeakMap
     // But we could eventually use WeakRef for the values
-    options.crossCompilerCache?.delete(fileContent);
+    options.crossCompilerCache?.delete(cacheKey);
     return cachedPromise;
   }
   const promise = loadMDX({
@@ -156,7 +160,7 @@ async function loadMDXWithCaching({
     options,
     compilerName,
   });
-  options.crossCompilerCache?.set(fileContent, promise);
+  options.crossCompilerCache?.set(cacheKey, promise);
   return promise;
 }
 
@@ -166,12 +170,12 @@ export async function mdxLoader(
 ): Promise<void> {
   const compilerName = getWebpackLoaderCompilerName(this);
   const callback = this.async();
-  const filePath = this.resourcePath;
   const options: Options = this.getOptions();
   try {
     const result = await loadMDXWithCaching({
+      resource: this.resource,
+      filePath: this.resourcePath,
       fileContent,
-      filePath,
       options,
       compilerName,
     });
