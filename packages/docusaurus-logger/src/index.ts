@@ -5,5 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export {default} from './logger';
+export {
+  default,
+  // Extra named export to avoid problems in ESM modules (create-docusaurus)
+  // See https://github.com/facebook/docusaurus/pull/6661
+  // See https://github.com/facebook/docusaurus/pull/7295
+  default as logger,
+} from './logger';
+
 export {PerfLogger} from './perfLogger';
