@@ -14,10 +14,7 @@ import {
   createAbsoluteFilePathMatcher,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import {
-  createMDXLoaderRule,
-  type Options as MDXLoaderOptions,
-} from '@docusaurus/mdx-loader';
+import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
 import {createAllRoutes} from './routes';
 import {
   createPagesContentPaths,
@@ -57,36 +54,39 @@ export default async function pluginContentPages(
     } = options;
     const contentDirs = getContentPathList(contentPaths);
 
-    const loaderOptions: MDXLoaderOptions = {
-      admonitions,
-      remarkPlugins,
-      rehypePlugins,
-      recmaPlugins,
-      beforeDefaultRehypePlugins,
-      beforeDefaultRemarkPlugins,
-      staticDirs: siteConfig.staticDirectories.map((dir) =>
-        path.resolve(siteDir, dir),
-      ),
-      siteDir,
-      isMDXPartial: createAbsoluteFilePathMatcher(options.exclude, contentDirs),
-      metadataPath: (mdxPath: string) => {
-        // Note that metadataPath must be the same/in-sync as
-        // the path from createData for each MDX.
-        const aliasedSource = aliasedSitePath(mdxPath, siteDir);
-        return path.join(dataDir, `${docuHash(aliasedSource)}.json`);
-      },
-      // createAssets converts relative paths to require() calls
-      createAssets: ({frontMatter}: {frontMatter: PageFrontMatter}) => ({
-        image: frontMatter.image,
-      }),
-      markdownConfig: siteConfig.markdown,
-    };
-
     return createMDXLoaderRule({
       include: contentDirs
         // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
         .map(addTrailingPathSeparator),
-      options: loaderOptions,
+      options: {
+        useCrossCompilerCache:
+          siteConfig.future.experimental_faster.mdxCrossCompilerCache,
+        admonitions,
+        remarkPlugins,
+        rehypePlugins,
+        recmaPlugins,
+        beforeDefaultRehypePlugins,
+        beforeDefaultRemarkPlugins,
+        staticDirs: siteConfig.staticDirectories.map((dir) =>
+          path.resolve(siteDir, dir),
+        ),
+        siteDir,
+        isMDXPartial: createAbsoluteFilePathMatcher(
+          options.exclude,
+          contentDirs,
+        ),
+        metadataPath: (mdxPath: string) => {
+          // Note that metadataPath must be the same/in-sync as
+          // the path from createData for each MDX.
+          const aliasedSource = aliasedSitePath(mdxPath, siteDir);
+          return path.join(dataDir, `${docuHash(aliasedSource)}.json`);
+        },
+        // createAssets converts relative paths to require() calls
+        createAssets: ({frontMatter}: {frontMatter: PageFrontMatter}) => ({
+          image: frontMatter.image,
+        }),
+        markdownConfig: siteConfig.markdown,
+      },
     });
   }
 

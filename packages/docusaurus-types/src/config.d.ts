@@ -126,6 +126,7 @@ export type StorageConfig = {
 export type FasterConfig = {
   swcJsLoader: boolean;
   swcJsMinimizer: boolean;
+  mdxCrossCompilerCache: boolean;
 };
 
 export type FutureConfig = {

@@ -10,7 +10,7 @@ import {escapePath, type WebpackCompilerName} from '@docusaurus/utils';
 import {getProcessor, type SimpleProcessorResult} from './processor';
 import {validateMDXFrontMatter} from './frontMatter';
 import preprocessor from './preprocessor';
-import type {Options} from './loader';
+import type {Options} from './options';
 
 /**
  * Converts assets an object with Webpack require calls code.

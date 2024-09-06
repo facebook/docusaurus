@@ -21,10 +21,7 @@ import {
   resolveMarkdownLinkPathname,
 } from '@docusaurus/utils';
 import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
-import {
-  createMDXLoaderItem,
-  type Options as MDXLoaderOptions,
-} from '@docusaurus/mdx-loader';
+import {createMDXLoaderItem} from '@docusaurus/mdx-loader';
 import {
   getBlogTags,
   paginateBlogPosts,
@@ -114,7 +111,9 @@ export default async function pluginContentBlog(
 
     const contentDirs = getContentPathList(contentPaths);
 
-    const loaderOptions: MDXLoaderOptions = {
+    const mdxLoaderItem = await createMDXLoaderItem({
+      useCrossCompilerCache:
+        siteConfig.future.experimental_faster.mdxCrossCompilerCache,
       admonitions,
       remarkPlugins,
       rehypePlugins,
@@ -168,7 +167,7 @@ export default async function pluginContentBlog(
         }
         return permalink;
       },
-    };
+    });
 
     function createBlogMarkdownLoader(): RuleSetUseItem {
       const markdownLoaderOptions: BlogMarkdownLoaderOptions = {
@@ -185,10 +184,7 @@ export default async function pluginContentBlog(
       include: contentDirs
         // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
         .map(addTrailingPathSeparator),
-      use: [
-        await createMDXLoaderItem(loaderOptions),
-        createBlogMarkdownLoader(),
-      ],
+      use: [mdxLoaderItem, createBlogMarkdownLoader()],
     };
   }
 

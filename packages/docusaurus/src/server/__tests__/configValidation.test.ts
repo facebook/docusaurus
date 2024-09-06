@@ -48,6 +48,7 @@ describe('normalizeConfig', () => {
         experimental_faster: {
           swcJsLoader: true,
           swcJsMinimizer: true,
+          mdxCrossCompilerCache: true,
         },
         experimental_storage: {
           type: 'sessionStorage',
@@ -743,6 +744,7 @@ describe('future', () => {
       experimental_faster: {
         swcJsLoader: true,
         swcJsMinimizer: true,
+        mdxCrossCompilerCache: true,
       },
       experimental_storage: {
         type: 'sessionStorage',
@@ -1091,6 +1093,8 @@ describe('future', () => {
     it('accepts faster - full', () => {
       const faster: FasterConfig = {
         swcJsLoader: true,
+        swcJsMinimizer: true,
+        mdxCrossCompilerCache: true,
       };
       expect(
         normalizeConfig({
@@ -1202,6 +1206,7 @@ describe('future', () => {
         `);
       });
     });
+
     describe('swcJsMinimizer', () => {
       it('accepts - undefined', () => {
         const faster: Partial<FasterConfig> = {
@@ -1268,6 +1273,77 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.experimental_faster.swcJsMinimizer" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('mdxCrossCompilerCache', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          mdxCrossCompilerCache: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
+      });
+
+      it('accepts - true', () => {
+        const faster: Partial<FasterConfig> = {
+          mdxCrossCompilerCache: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({mdxCrossCompilerCache: true}));
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          mdxCrossCompilerCache: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {mdxCrossCompilerCache: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.mdxCrossCompilerCache" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {mdxCrossCompilerCache: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.mdxCrossCompilerCache" must be a boolean
           "
         `);
       });

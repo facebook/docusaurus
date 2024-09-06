@@ -18,14 +18,8 @@ import {
   createAssetsExportCode,
   extractContentTitleData,
 } from './utils';
-import type {
-  SimpleProcessors,
-  MDXOptions,
-  SimpleProcessorResult,
-} from './processor';
-import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
-
-import type {MarkdownConfig} from '@docusaurus/types';
+import type {WebpackCompilerName} from '@docusaurus/utils';
+import type {Options} from './options';
 import type {LoaderContext} from 'webpack';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
@@ -35,33 +29,17 @@ type Pluggable = any; // TODO fix this asap
 
 export type MDXPlugin = Pluggable;
 
-export type Options = Partial<MDXOptions> & {
-  markdownConfig: MarkdownConfig;
-  staticDirs: string[];
-  siteDir: string;
-  isMDXPartial?: (filePath: string) => boolean;
-  isMDXPartialFrontMatterWarningDisabled?: boolean;
-  removeContentTitle?: boolean;
-  metadataPath?: (filePath: string) => string;
-  createAssets?: (metadata: {
-    filePath: string;
-    frontMatter: {[key: string]: unknown};
-  }) => {[key: string]: unknown};
-  resolveMarkdownLink?: ResolveMarkdownLink;
-
-  // Will usually be created by "createMDXLoaderItem"
-  processors?: SimpleProcessors;
-};
-
-export async function mdxLoader(
-  this: LoaderContext<Options>,
-  fileContent: string,
-): Promise<void> {
-  const compilerName = getWebpackLoaderCompilerName(this);
-  const callback = this.async();
-  const filePath = this.resourcePath;
-  const options: Options = this.getOptions();
-
+async function loadMDX({
+  fileContent,
+  filePath,
+  options,
+  compilerName,
+}: {
+  fileContent: string;
+  filePath: string;
+  options: Options;
+  compilerName: WebpackCompilerName;
+}): Promise<string> {
   const {frontMatter} = await options.markdownConfig.parseFrontMatter({
     filePath,
     fileContent,
@@ -70,18 +48,13 @@ export async function mdxLoader(
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-  let result: SimpleProcessorResult;
-  try {
-    result = await compileToJSX({
-      fileContent,
-      filePath,
-      frontMatter,
-      options,
-      compilerName,
-    });
-  } catch (error) {
-    return callback(error as Error);
-  }
+  const result = await compileToJSX({
+    fileContent,
+    filePath,
+    frontMatter,
+    options,
+    compilerName,
+  });
 
   const contentTitle = extractContentTitleData(result.data);
 
@@ -97,7 +70,7 @@ ${JSON.stringify(frontMatter, null, 2)}`;
     if (!options.isMDXPartialFrontMatterWarningDisabled) {
       const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
       if (shouldError) {
-        return callback(new Error(errorMessage));
+        throw new Error(errorMessage);
       }
       logger.warn(errorMessage);
     }
@@ -146,5 +119,68 @@ ${exportsCode}
 ${result.content}
 `;
 
-  return callback(null, code);
+  return code;
+}
+
+// Note: we cache promises instead of strings
+// This is because client/server compilations might be triggered in parallel
+// When this happens for the same file, we don't want to compile it twice
+async function loadMDXWithCaching({
+  resource,
+  fileContent,
+  filePath,
+  options,
+  compilerName,
+}: {
+  resource: string; // path?query#hash
+  filePath: string; // path
+  fileContent: string;
+  options: Options;
+  compilerName: WebpackCompilerName;
+}): Promise<string> {
+  // Note we "resource" as cache key, not "filePath" nor "fileContent"
+  // This is because:
+  // - the same file can be compiled in different variants (blog.mdx?truncated)
+  // - the same content can be processed differently (versioned docs links)
+  const cacheKey = resource;
+
+  const cachedPromise = options.crossCompilerCache?.get(cacheKey);
+  if (cachedPromise) {
+    // We can clean up the cache and free memory here
+    // We know there are only 2 compilations for the same file
+    // Note: once we introduce RSCs we'll probably have 3 compilations
+    // Note: we can't use string keys in WeakMap
+    // But we could eventually use WeakRef for the values
+    options.crossCompilerCache?.delete(cacheKey);
+    return cachedPromise;
+  }
+  const promise = loadMDX({
+    fileContent,
+    filePath,
+    options,
+    compilerName,
+  });
+  options.crossCompilerCache?.set(cacheKey, promise);
+  return promise;
+}
+
+export async function mdxLoader(
+  this: LoaderContext<Options>,
+  fileContent: string,
+): Promise<void> {
+  const compilerName = getWebpackLoaderCompilerName(this);
+  const callback = this.async();
+  const options: Options = this.getOptions();
+  try {
+    const result = await loadMDXWithCaching({
+      resource: this.resource,
+      filePath: this.resourcePath,
+      fileContent,
+      options,
+      compilerName,
+    });
+    return callback(null, result);
+  } catch (error) {
+    return callback(error as Error);
+  }
 }

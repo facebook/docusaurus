@@ -8,6 +8,7 @@
 import path from 'path';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {loadPlugins, reloadPlugin} from '../plugins';
+import {DEFAULT_FUTURE_CONFIG} from '../../configValidation';
 import type {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
 
 async function testLoad({
@@ -27,6 +28,7 @@ async function testLoad({
     siteConfig: {
       baseUrl: '/',
       trailingSlash: true,
+      future: DEFAULT_FUTURE_CONFIG,
       themeConfig: {},
       staticDirectories: [],
       presets: [],
