@@ -22,8 +22,18 @@ const pluginName = 'chunk-asset-plugin';
  */
 export default class ChunkAssetPlugin {
   apply(compiler: Compiler): void {
-    /*
-    compiler.hooks.thisCompilation.tap(pluginName, ({mainTemplate}) => {
+    compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
+      // @ts-expect-error: fix this
+      const {mainTemplate} = compilation;
+      // TODO fix this bug
+      if (!mainTemplate) {
+        console.log(
+          'ChunkAssetPlugin broken!\nRspack bug: not providing mainTemplate!',
+        );
+        return;
+      }
+
+      // @ts-expect-error: fix this
       mainTemplate.hooks.requireExtensions.tap(pluginName, (source, chunk) => {
         const chunkIdToName = chunk.getChunkMaps(false).name;
         const chunkNameToId = Object.fromEntries(
@@ -52,7 +62,5 @@ export default class ChunkAssetPlugin {
         return webpack.Template.asString(buf);
       });
     });
-
-     */
   }
 }
