@@ -8,7 +8,7 @@
 import {RsdoctorRspackMultiplePlugin} from '@rsdoctor/rspack-plugin';
 import type {PluginConfig} from '@docusaurus/types';
 
-async function createRsdoctorBundlerPlugin() {
+function createRsdoctorBundlerPlugin({isServer}: {isServer: boolean}) {
   // TODO Shitty workaround to bypass lib typechecking
   //  package does not work will with skipLibCheck false
   // // eslint-disable-next-line
@@ -16,6 +16,7 @@ async function createRsdoctorBundlerPlugin() {
 
   // return new RsdoctorWebpackMultiplePlugin({
   return new RsdoctorRspackMultiplePlugin({
+    name: isServer ? 'server' : 'client',
     disableTOSUpload: true,
     supports: {
       // https://rsdoctor.dev/config/options/options#generatetilegraph
@@ -33,11 +34,13 @@ export default (async function RsdoctorPlugin() {
   if (!process.env.RSDOCTOR) {
     return null;
   }
-  const plugin = await createRsdoctorBundlerPlugin();
+  const pluginClient = await createRsdoctorBundlerPlugin({isServer: false});
+  const pluginServer = await createRsdoctorBundlerPlugin({isServer: true});
   console.log('Rsdoctor plugin enabled');
   return {
     name: 'rsdoctor-plugin',
-    configureWebpack: () => {
+    configureWebpack: (__config, isServer) => {
+      const plugin = isServer ? pluginServer : pluginClient;
       return {
         plugins: [plugin],
       };
