@@ -9,7 +9,7 @@
 // @ts-check
 
 import {inspect} from 'node:util';
-import logger from '@docusaurus/logger';
+import {logger} from '@docusaurus/logger';
 import cli from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {
