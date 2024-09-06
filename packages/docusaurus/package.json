@@ -97,7 +97,7 @@
     "tslib": "^2.6.0",
     "update-notifier": "^6.0.2",
     "url-loader": "^4.1.1",
-    "webpack": "npm:@rspack/core@1.0.0-beta.4",
+    "webpack": "npm:@rspack/core@1.0.3",
     "webpack-bundle-analyzer": "^4.9.0",
     "webpack-dev-server": "^4.15.1",
     "webpack-merge": "^5.9.0",
