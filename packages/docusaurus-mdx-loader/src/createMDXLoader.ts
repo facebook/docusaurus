@@ -33,7 +33,11 @@ async function normalizeOptions(
   // We don't want to cache in dev mode (docusaurus start)
   // We only have multiple compilers in production mode (docusaurus build)
   // TODO wrong but good enough for now (example: "docusaurus build --dev")
-  if (options.useCrossCompilerCache && process.env.NODE_ENV === 'production') {
+  if (
+    options.useCrossCompilerCache &&
+    process.env.NODE_ENV === 'production' &&
+    process.env.DOCUSAURUS_AB_BENCHMARK === 'true'
+  ) {
     options = {
       ...options,
       crossCompilerCache: new Map(),
