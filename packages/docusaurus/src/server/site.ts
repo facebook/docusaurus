@@ -11,6 +11,7 @@ import {
   DEFAULT_BUILD_DIR_NAME,
   GENERATED_FILES_DIR_NAME,
 } from '@docusaurus/utils';
+import {PerfLogger} from '@docusaurus/logger';
 import combinePromises from 'combine-promises';
 import {loadSiteConfig} from './config';
 import {getAllClientModules} from './clientModules';
@@ -22,7 +23,6 @@ import {
   loadSiteCodeTranslations,
   getPluginsDefaultCodeTranslations,
 } from './translations/translations';
-import {PerfLogger} from '../utils';
 import {generateSiteFiles} from './codegen/codegen';
 import {getRoutesPaths, handleDuplicateRoutes} from './routes';
 import {createSiteStorage} from './storage';

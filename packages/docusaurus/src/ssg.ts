@@ -12,8 +12,7 @@ import _ from 'lodash';
 import evaluate from 'eval';
 import pMap from 'p-map';
 import {minify} from 'html-minifier-terser';
-import logger from '@docusaurus/logger';
-import {PerfLogger} from './utils';
+import logger, {PerfLogger} from '@docusaurus/logger';
 import {renderSSRTemplate} from './templates/templates';
 import type {AppRenderer, AppRenderResult, SiteCollectedData} from './common';
 
