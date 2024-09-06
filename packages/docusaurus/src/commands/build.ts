@@ -8,11 +8,10 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
-import logger from '@docusaurus/logger';
+import logger, {PerfLogger} from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
 import {loadSite, loadContext, type LoadContextParams} from '../server/site';
 import {handleBrokenLinks} from '../server/brokenLinks';
-
 import {createBuildClientConfig} from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {
@@ -20,7 +19,6 @@ import {
   executePluginsConfigureWebpack,
 } from '../webpack/configure';
 import {compile} from '../webpack/utils';
-import {PerfLogger} from '../utils';
 
 import {loadI18n} from '../server/i18n';
 import {

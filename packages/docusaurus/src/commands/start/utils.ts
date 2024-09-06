@@ -9,9 +9,8 @@ import fs from 'fs-extra';
 import _ from 'lodash';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import {normalizeUrl} from '@docusaurus/utils';
-import logger from '@docusaurus/logger';
+import logger, {PerfLogger} from '@docusaurus/logger';
 import {getHostPort} from '../../server/getHostPort';
-import {PerfLogger} from '../../utils';
 import {
   loadSite,
   type LoadSiteParams,
