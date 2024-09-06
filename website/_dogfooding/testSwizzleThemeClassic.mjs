@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import {fileURLToPath} from 'url';
-import logger from '@docusaurus/logger';
+import {logger} from '@docusaurus/logger';
 
 import classicTheme from '@docusaurus/theme-classic';
 
