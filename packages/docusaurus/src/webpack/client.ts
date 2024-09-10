@@ -13,7 +13,7 @@ import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {createBaseConfig} from './base';
-import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
+import GetChunkAssetRuntimePlugin from './plugins/GetChunkAssetRuntimePlugin';
 import CleanWebpackPlugin from './plugins/CleanWebpackPlugin';
 import ForceTerminatePlugin from './plugins/ForceTerminatePlugin';
 import {createStaticDirectoriesCopyPlugin} from './plugins/StaticDirectoriesCopyPlugin';
@@ -52,7 +52,7 @@ async function createBaseClientConfig({
       new webpack.DefinePlugin({
         'process.env.HYDRATE_CLIENT_ENTRY': JSON.stringify(hydrate),
       }),
-      new ChunkAssetPlugin(),
+      new GetChunkAssetRuntimePlugin(),
       // Show compilation progress bar and build time.
       new WebpackBar({
         name: 'Client',
