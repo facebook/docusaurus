@@ -120,6 +120,6 @@
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
-    "typescript": "~5.5.2"
+    "typescript": "~5.6.2"
   }
 }
