@@ -67,7 +67,7 @@ export default class ChunkAssetPlugin {
 // Inspired by https://github.com/webpack/webpack/blob/v5.94.0/lib/runtime/CompatRuntimeModule.js
 class ChunkAssetRuntimeModule extends webpack.RuntimeModule {
   constructor() {
-    super('compat', webpack.RuntimeModule.STAGE_ATTACH);
+    super('ChunkAssetRuntimeModule', webpack.RuntimeModule.STAGE_ATTACH);
     this.fullHash = true;
   }
 
