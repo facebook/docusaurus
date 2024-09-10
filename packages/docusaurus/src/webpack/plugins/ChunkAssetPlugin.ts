@@ -7,11 +7,14 @@
 
 import webpack, {type Compiler} from 'webpack';
 
-// Custom Docusaurus Webpack runtime function to convert from chunk name to url
-// This generates a __webpack_require__.gca fn to the Webpack runtime chunk
-// It is called in Core docusaurus.ts for chunk prefetching
+// Adds a custom Docusaurus Webpack runtime function `__webpack_require__.gca`
+// gca = Get Chunk Asset, it converts a chunkName to a JS asset URL
+// It is called in Core client/docusaurus.ts for chunk preloading/prefetching
+// Example: gca("814f3328") = "/baseUrl/assets/js/814f3328.03fcc178.js"
 // See also: https://github.com/facebook/docusaurus/pull/10485
-const DocusaurusGetChunkAsset = '__webpack_require__.gca';
+
+// The name of the custom Docusaurus Webpack runtime function
+const DocusaurusGetChunkAssetFn = '__webpack_require__.gca';
 
 const PluginName = 'Docusaurus-ChunkAssetPlugin';
 
@@ -37,7 +40,7 @@ function generateGetChunkAssetRuntimeCode(chunk: webpack.Chunk): string {
   } = webpack.RuntimeGlobals;
 
   const code = `// Docusaurus function to get chunk asset
-${DocusaurusGetChunkAsset} = function(chunkId) { chunkId = ${JSON.stringify(
+${DocusaurusGetChunkAssetFn} = function(chunkId) { chunkId = ${JSON.stringify(
     chunkNameToId,
   )}[chunkId]||chunkId; return ${publicPath} + ${getChunkScriptFilename}(chunkId); };`;
 
@@ -70,7 +73,6 @@ class ChunkAssetRuntimeModule extends webpack.RuntimeModule {
     super('ChunkAssetRuntimeModule', webpack.RuntimeModule.STAGE_ATTACH);
     this.fullHash = true;
   }
-
   override generate() {
     return generateGetChunkAssetRuntimeCode(this.chunk!);
   }
