@@ -18,7 +18,9 @@ const DocusaurusGetChunkAssetFn = '__webpack_require__.gca';
 
 const PluginName = 'Docusaurus-ChunkAssetPlugin';
 
+// eslint-disable-next-line
 function generateGetChunkAssetRuntimeCode(chunk: webpack.Chunk): string {
+  // @ts-expect-error: fix
   const chunkIdToName = chunk.getChunkMaps(false).name;
   const chunkNameToId = Object.fromEntries(
     Object.entries(chunkIdToName).map(([chunkId, chunkName]) => [
@@ -59,8 +61,9 @@ export default class ChunkAssetPlugin {
     compiler.hooks.thisCompilation.tap(PluginName, (compilation) => {
       compilation.hooks.additionalTreeRuntimeRequirements.tap(
         PluginName,
+        // eslint-disable-next-line
         (chunk) => {
-          compilation.addRuntimeModule(chunk, new ChunkAssetRuntimeModule());
+          // compilation.addRuntimeModule(chunk, new ChunkAssetRuntimeModule());
         },
       );
     });
@@ -68,6 +71,7 @@ export default class ChunkAssetPlugin {
 }
 
 // Inspired by https://github.com/webpack/webpack/blob/v5.94.0/lib/runtime/CompatRuntimeModule.js
+/*
 class ChunkAssetRuntimeModule extends webpack.RuntimeModule {
   constructor() {
     super('ChunkAssetRuntimeModule', webpack.RuntimeModule.STAGE_ATTACH);
@@ -77,3 +81,4 @@ class ChunkAssetRuntimeModule extends webpack.RuntimeModule {
     return generateGetChunkAssetRuntimeCode(this.chunk!);
   }
 }
+ */
