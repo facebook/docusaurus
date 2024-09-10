@@ -7,10 +7,14 @@
 
 import webpack, {type Compiler} from 'webpack';
 
+// Custom Docusaurus Webpack runtime function to convert from chunk name to url
+// This generates a __webpack_require__.gca fn to the Webpack runtime chunk
+// It is called in Core docusaurus.ts for chunk prefetching
+// See also: https://github.com/facebook/docusaurus/pull/10485
+const DocusaurusGetChunkAsset = '__webpack_require__.gca';
+
 const PluginName = 'Docusaurus-ChunkAssetPlugin';
 
-// This generates a __webpack_require__.gca fn to the Webpack runtime chunk
-// It is called in docusaurus.ts for chunk prefetching
 function generateGetChunkAssetRuntimeCode(chunk: webpack.Chunk): string {
   const chunkIdToName = chunk.getChunkMaps(false).name;
   const chunkNameToId = Object.fromEntries(
@@ -19,9 +23,6 @@ function generateGetChunkAssetRuntimeCode(chunk: webpack.Chunk): string {
       chunkId,
     ]),
   );
-
-  // Custom Docusaurus runtime function to convert from chunkId to chunk url
-  const DocusaurusGetChunkAsset = '__webpack_require__.gca';
 
   const {
     // publicPath = __webpack_require__.p
@@ -44,13 +45,13 @@ ${DocusaurusGetChunkAsset} = function(chunkId) { chunkId = ${JSON.stringify(
 }
 
 /*
- Note: we previously used "mainTemplate.hooks.requireExtensions.tap"
+ Note: we previously used `MainTemplate.hooks.requireExtensions.tap()`
  But it will be removed in Webpack 6 and is not supported by Rspack
  So instead we use equivalent code inspired by:
  - https://github.com/webpack/webpack/blob/v5.94.0/lib/RuntimePlugin.js#L462
  - https://github.com/webpack/webpack/blob/v5.94.0/lib/runtime/CompatRuntimeModule.js
  */
-export default class GetChunkAssetRuntimePlugin {
+export default class ChunkAssetPlugin {
   apply(compiler: Compiler): void {
     compiler.hooks.thisCompilation.tap(PluginName, (compilation) => {
       compilation.hooks.additionalTreeRuntimeRequirements.tap(
