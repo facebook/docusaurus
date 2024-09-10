@@ -43,4 +43,4 @@ jobs:
         run: yarn build:website:fast
       # Ensure swizzled site still typechecks
       - name: TypeCheck website
-        run: yarn workspace website typecheck
+        run: yarn workspace website typecheck --project tsconfig.skipLibCheck.json

@@ -38,8 +38,6 @@ export default async function createServerConfig(params: {
       path: outputDir,
       filename: outputFilename,
       libraryTarget: 'commonjs2',
-      // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)
-      globalObject: 'this',
     },
     plugins: [
       // Show compilation progress bar.
