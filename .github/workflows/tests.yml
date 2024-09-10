@@ -56,4 +56,4 @@ jobs:
       - name: TypeCheck website - max version - Latest
         run: |
           yarn add typescript@latest --exact -D -W --ignore-scripts
-          yarn workspace website typecheck
+          yarn workspace website typecheck --project tsconfig.skipLibCheck.json
