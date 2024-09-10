@@ -158,7 +158,6 @@ function createFileLoaderUtils({
                   ],
                 },
                 titleProp: true,
-                ref: ![path],
               },
             },
           ],

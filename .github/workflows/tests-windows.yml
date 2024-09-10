@@ -55,12 +55,16 @@ jobs:
         run: yarn build:website:fast
 
       - name: TypeCheck website
-        run: yarn workspace website typecheck
+        # TODO temporary, remove TS skipLibCheck
+        # see https://github.com/facebook/docusaurus/pull/10486
+        run: yarn workspace website typecheck --project tsconfig.skipLibCheck.json
       - name: TypeCheck website - min version - v5.1
         run: |
           yarn add typescript@5.1.6 --exact -D -W --ignore-scripts
           yarn workspace website typecheck
       - name: TypeCheck website - max version - Latest
+        # For latest TS there are often lib check errors, so we disable it
+        # Details: https://github.com/facebook/docusaurus/pull/10486
         run: |
           yarn add typescript@latest --exact -D -W --ignore-scripts
-          yarn workspace website typecheck
+          yarn workspace website typecheck --project tsconfig.skipLibCheck.json
