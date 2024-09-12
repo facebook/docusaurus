@@ -15,6 +15,7 @@ import type {ThemeConfig} from './config';
 import type {LoadContext, Props} from './context';
 import type {SwizzleConfig} from './swizzle';
 import type {RouteConfig} from './routing';
+import type {CurrentBundler} from './bundler';
 
 export type PluginOptions = {id?: string} & {[key: string]: unknown};
 
@@ -54,6 +55,7 @@ export type PluginContentLoadedActions = {
 };
 
 export type ConfigureWebpackUtils = {
+  currentBundler: CurrentBundler;
   getStyleLoaders: (
     isServer: boolean,
     cssOptions: {[key: string]: unknown},

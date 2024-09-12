@@ -45,6 +45,7 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   swcJsLoader: false,
   swcJsMinimizer: false,
   mdxCrossCompilerCache: false,
+  rspackBundler: false,
 };
 
 // When using the "faster: true" shortcut
@@ -52,6 +53,7 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   swcJsLoader: true,
   swcJsMinimizer: true,
   mdxCrossCompilerCache: true,
+  rspackBundler: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
@@ -222,6 +224,7 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
       mdxCrossCompilerCache: Joi.boolean().default(
         DEFAULT_FASTER_CONFIG.mdxCrossCompilerCache,
       ),
+      rspackBundler: Joi.boolean().default(DEFAULT_FASTER_CONFIG.rspackBundler),
     }),
     Joi.boolean()
       .required()

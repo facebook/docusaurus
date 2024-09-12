@@ -14,17 +14,22 @@ import {
   executePluginsConfigureWebpack,
   createConfigureWebpackUtils,
 } from '../configure';
+import {DEFAULT_FUTURE_CONFIG} from '../../server/configValidation';
 import type {Configuration} from 'webpack';
 import type {LoadedPlugin, Plugin} from '@docusaurus/types';
 
-const utils = createConfigureWebpackUtils({
-  siteConfig: {webpack: {jsLoader: 'babel'}},
-});
+function createTestConfigureWebpackUtils() {
+  return createConfigureWebpackUtils({
+    siteConfig: {webpack: {jsLoader: 'babel'}, future: DEFAULT_FUTURE_CONFIG},
+  });
+}
 
 const isServer = false;
 
 describe('extending generated webpack config', () => {
   it('direct mutation on generated webpack config object', async () => {
+    const utils = await createTestConfigureWebpackUtils();
+
     // Fake generated webpack config
     let config: Configuration = {
       output: {
@@ -69,6 +74,8 @@ describe('extending generated webpack config', () => {
   });
 
   it('webpack-merge with user webpack config object', async () => {
+    const utils = await createTestConfigureWebpackUtils();
+
     let config: Configuration = {
       output: {
         path: __dirname,
@@ -105,6 +112,8 @@ describe('extending generated webpack config', () => {
   });
 
   it('webpack-merge with custom strategy', async () => {
+    const utils = await createTestConfigureWebpackUtils();
+
     const config: Configuration = {
       module: {
         rules: [{use: 'xxx'}, {use: 'yyy'}],
@@ -293,7 +302,9 @@ describe('executePluginsConfigureWebpack', () => {
     });
   }
 
-  it('can merge Webpack aliases of 2 plugins into base config', () => {
+  it('can merge Webpack aliases of 2 plugins into base config', async () => {
+    const utils = await createTestConfigureWebpackUtils();
+
     const config = executePluginsConfigureWebpack({
       config: {resolve: {alias: {'initial-alias': 'initial-alias-value'}}},
       isServer,
@@ -328,7 +339,9 @@ describe('executePluginsConfigureWebpack', () => {
     );
   });
 
-  it('can configurePostCSS() for all loaders added through configureWebpack()', () => {
+  it('can configurePostCSS() for all loaders added through configureWebpack()', async () => {
+    const utils = await createTestConfigureWebpackUtils();
+
     const config = executePluginsConfigureWebpack({
       config: {},
       isServer,

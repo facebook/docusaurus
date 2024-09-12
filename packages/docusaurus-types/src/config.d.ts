@@ -127,6 +127,7 @@ export type FasterConfig = {
   swcJsLoader: boolean;
   swcJsMinimizer: boolean;
   mdxCrossCompilerCache: boolean;
+  rspackBundler: boolean;
 };
 
 export type FutureConfig = {

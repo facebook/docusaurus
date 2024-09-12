@@ -11,7 +11,7 @@ import {
   customizeObject,
 } from 'webpack-merge';
 import {createJsLoaderFactory, getStyleLoaders} from './utils';
-
+import {getCurrentBundler} from './currentBundler';
 import type {Configuration, RuleSetRule} from 'webpack';
 import type {
   Plugin,
@@ -27,9 +27,12 @@ import type {
 export async function createConfigureWebpackUtils({
   siteConfig,
 }: {
-  siteConfig: Parameters<typeof createJsLoaderFactory>[0]['siteConfig'];
+  siteConfig: Parameters<typeof createJsLoaderFactory>[0]['siteConfig'] &
+    Parameters<typeof getCurrentBundler>[0]['siteConfig'];
 }): Promise<ConfigureWebpackUtils> {
+  const currentBundler = await getCurrentBundler({siteConfig});
   return {
+    currentBundler,
     getStyleLoaders,
     getJSLoader: await createJsLoaderFactory({siteConfig}),
   };
