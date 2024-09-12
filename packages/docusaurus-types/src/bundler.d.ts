@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type webpack from 'webpack';
+import type * as webpack from 'webpack';
 
 // We use Webpack and Rspack interchangeably because most Rspack APIs are
 // compatible with Webpack. So it's ok to use Webpack types for Rspack too.
