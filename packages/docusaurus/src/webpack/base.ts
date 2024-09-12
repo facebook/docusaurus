@@ -8,11 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
-import {
-  createJsLoaderFactory,
-  getStyleLoaders,
-  getCustomBabelConfigFilePath,
-} from './utils';
+import {createJsLoaderFactory, getCustomBabelConfigFilePath} from './utils';
 import {getMinimizers} from './minification';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import {getCSSExtractPlugin} from './currentBundler';
@@ -94,7 +90,7 @@ export async function createBaseConfig({
 
   const createJsLoader = await createJsLoaderFactory({siteConfig});
 
-  const CSSExtractPlugin = getCSSExtractPlugin({
+  const CSSExtractPlugin = await getCSSExtractPlugin({
     currentBundler: configureWebpackUtils.currentBundler,
   });
 
@@ -234,7 +230,7 @@ export async function createBaseConfig({
         {
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
-          use: getStyleLoaders(isServer, {
+          use: configureWebpackUtils.getStyleLoaders(isServer, {
             importLoaders: 1,
             sourceMap: !isProd,
           }),
@@ -243,7 +239,7 @@ export async function createBaseConfig({
         // using the extension .module.css
         {
           test: CSS_MODULE_REGEX,
-          use: getStyleLoaders(isServer, {
+          use: configureWebpackUtils.getStyleLoaders(isServer, {
             modules: {
               // Using the same CSS Module class pattern in dev/prod on purpose
               // See https://github.com/facebook/docusaurus/pull/10423

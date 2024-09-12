@@ -64,7 +64,10 @@ async function createBaseClientConfig({
       new WebpackBar({
         name: 'Client',
       }),
-      await createStaticDirectoriesCopyPlugin({props}),
+      await createStaticDirectoriesCopyPlugin({
+        props,
+        currentBundler: configureWebpackUtils.currentBundler,
+      }),
     ].filter(Boolean),
   });
 }

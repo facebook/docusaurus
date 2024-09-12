@@ -7,6 +7,7 @@
 
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import logger from '@docusaurus/logger';
 import type {CurrentBundler, DocusaurusConfig} from '@docusaurus/types';
 
@@ -41,13 +42,25 @@ export async function getCurrentBundler({
   };
 }
 
-export function getCSSExtractPlugin({
+export async function getCSSExtractPlugin({
   currentBundler,
 }: {
   currentBundler: CurrentBundler;
-}): typeof MiniCssExtractPlugin {
+}): Promise<typeof MiniCssExtractPlugin> {
   if (currentBundler.name === 'rspack') {
     throw new Error('Rspack bundler is not supported yet');
   }
   return MiniCssExtractPlugin;
+}
+
+export async function getCopyPlugin({
+  currentBundler,
+}: {
+  currentBundler: CurrentBundler;
+}): Promise<typeof CopyWebpackPlugin> {
+  if (currentBundler.name === 'rspack') {
+    throw new Error('Rspack bundler is not supported yet');
+  }
+  // https://github.com/webpack-contrib/copy-webpack-plugin
+  return CopyWebpackPlugin;
 }

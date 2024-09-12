@@ -10,7 +10,7 @@ import {
   customizeArray,
   customizeObject,
 } from 'webpack-merge';
-import {createJsLoaderFactory, getStyleLoaders} from './utils';
+import {createJsLoaderFactory, createStyleLoadersFactory} from './utils';
 import {getCurrentBundler} from './currentBundler';
 import type {Configuration, RuleSetRule} from 'webpack';
 import type {
@@ -31,10 +31,12 @@ export async function createConfigureWebpackUtils({
     Parameters<typeof getCurrentBundler>[0]['siteConfig'];
 }): Promise<ConfigureWebpackUtils> {
   const currentBundler = await getCurrentBundler({siteConfig});
+  const getStyleLoaders = await createStyleLoadersFactory({currentBundler});
+  const getJSLoader = await createJsLoaderFactory({siteConfig});
   return {
     currentBundler,
     getStyleLoaders,
-    getJSLoader: await createJsLoaderFactory({siteConfig}),
+    getJSLoader,
   };
 }
 
