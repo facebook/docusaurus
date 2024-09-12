@@ -10,6 +10,14 @@ import webpack from 'webpack';
 
 import createServerConfig from '../server';
 import {loadSetup} from '../../server/__tests__/testUtils';
+import {createConfigureWebpackUtils} from '../configure';
+import {DEFAULT_FUTURE_CONFIG} from '../../server/configValidation';
+
+function createTestConfigureWebpackUtils() {
+  return createConfigureWebpackUtils({
+    siteConfig: {webpack: {jsLoader: 'babel'}, future: DEFAULT_FUTURE_CONFIG},
+  });
+}
 
 describe('webpack production config', () => {
   it('simple', async () => {
@@ -17,6 +25,7 @@ describe('webpack production config', () => {
     const {props} = await loadSetup('simple-site');
     const {config} = await createServerConfig({
       props,
+      configureWebpackUtils: await createTestConfigureWebpackUtils(),
     });
     webpack.validate(config);
   });
@@ -26,6 +35,7 @@ describe('webpack production config', () => {
     const {props} = await loadSetup('custom-site');
     const {config} = await createServerConfig({
       props,
+      configureWebpackUtils: await createTestConfigureWebpackUtils(),
     });
     webpack.validate(config);
   });
