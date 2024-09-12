@@ -57,7 +57,7 @@ describe('extending generated webpack config', () => {
       configureWebpack,
       config,
       isServer,
-      utils,
+      configureWebpackUtils: utils,
       content: {
         content: 42,
       },
@@ -95,7 +95,7 @@ describe('extending generated webpack config', () => {
       configureWebpack,
       config,
       isServer,
-      utils,
+      configureWebpackUtils: utils,
       content: {
         content: 42,
       },
@@ -135,7 +135,7 @@ describe('extending generated webpack config', () => {
       configureWebpack: createConfigureWebpack(),
       config,
       isServer,
-      utils,
+      configureWebpackUtils: utils,
       content: {content: 42},
     });
     expect(defaultStrategyMergeConfig).toEqual({
@@ -148,7 +148,7 @@ describe('extending generated webpack config', () => {
       configureWebpack: createConfigureWebpack({'module.rules': 'prepend'}),
       config,
       isServer,
-      utils,
+      configureWebpackUtils: utils,
       content: {content: 42},
     });
     expect(prependRulesStrategyConfig).toEqual({
@@ -163,7 +163,7 @@ describe('extending generated webpack config', () => {
       }),
       config,
       isServer,
-      utils,
+      configureWebpackUtils: utils,
       content: {content: 42},
     });
     expect(uselessMergeStrategyConfig).toEqual({
@@ -308,7 +308,7 @@ describe('executePluginsConfigureWebpack', () => {
     const config = executePluginsConfigureWebpack({
       config: {resolve: {alias: {'initial-alias': 'initial-alias-value'}}},
       isServer,
-      utils,
+      configureWebpackUtils: utils,
       plugins: [
         fakePlugin({
           configureWebpack: () => {
@@ -345,7 +345,7 @@ describe('executePluginsConfigureWebpack', () => {
     const config = executePluginsConfigureWebpack({
       config: {},
       isServer,
-      utils,
+      configureWebpackUtils: utils,
       plugins: [
         fakePlugin({
           configurePostCss: (postCssOptions) => {

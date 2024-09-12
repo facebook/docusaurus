@@ -6,26 +6,48 @@
  */
 
 import webpack from 'webpack';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import logger from '@docusaurus/logger';
 import type {CurrentBundler, DocusaurusConfig} from '@docusaurus/types';
+
+// We inject a site config slice because the Rspack flag might change place
+type SiteConfigSlice = {
+  future: {
+    experimental_faster: Pick<
+      DocusaurusConfig['future']['experimental_faster'],
+      'rspackBundler'
+    >;
+  };
+};
+
+function isRspack(siteConfig: SiteConfigSlice): boolean {
+  return siteConfig.future.experimental_faster.rspackBundler;
+}
 
 export async function getCurrentBundler({
   siteConfig,
 }: {
-  siteConfig: {
-    future: {
-      experimental_faster: Pick<
-        DocusaurusConfig['future']['experimental_faster'],
-        'rspackBundler'
-      >;
-    };
-  };
+  siteConfig: SiteConfigSlice;
 }): Promise<CurrentBundler> {
-  if (siteConfig.future.experimental_faster.rspackBundler) {
+  if (isRspack(siteConfig)) {
     // TODO add support for Rspack
-    throw new Error('Rspack bundler is not supported yet');
+    logger.error(
+      'Rspack bundler is not supported yet, will use Webpack instead',
+    );
   }
   return {
     name: 'webpack',
     instance: webpack,
   };
+}
+
+export function getCSSExtractPlugin({
+  currentBundler,
+}: {
+  currentBundler: CurrentBundler;
+}): typeof MiniCssExtractPlugin {
+  if (currentBundler.name === 'rspack') {
+    throw new Error('Rspack bundler is not supported yet');
+  }
+  return MiniCssExtractPlugin;
 }

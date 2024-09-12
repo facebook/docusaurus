@@ -140,12 +140,13 @@ async function getStartClientConfig({
     minify,
     faster: props.siteConfig.future.experimental_faster,
     poll,
+    configureWebpackUtils,
   });
   config = executePluginsConfigureWebpack({
     plugins,
     config,
     isServer: false,
-    utils: configureWebpackUtils,
+    configureWebpackUtils,
   });
   return config;
 }

@@ -344,6 +344,7 @@ async function getBuildClientConfig({
     props,
     minify: cliOptions.minify ?? true,
     faster: props.siteConfig.future.experimental_faster,
+    configureWebpackUtils,
     bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;
@@ -351,7 +352,7 @@ async function getBuildClientConfig({
     plugins,
     config,
     isServer: false,
-    utils: configureWebpackUtils,
+    configureWebpackUtils,
   });
   return {clientConfig: config, clientManifestPath: result.clientManifestPath};
 }
@@ -366,13 +367,14 @@ async function getBuildServerConfig({
   const {plugins} = props;
   const result = await createServerConfig({
     props,
+    configureWebpackUtils,
   });
   let {config} = result;
   config = executePluginsConfigureWebpack({
     plugins,
     config,
     isServer: true,
-    utils: configureWebpackUtils,
+    configureWebpackUtils,
   });
   return {serverConfig: config, serverBundlePath: result.serverBundlePath};
 }

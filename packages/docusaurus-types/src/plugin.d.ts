@@ -132,7 +132,7 @@ export type Plugin<Content = unknown> = {
   configureWebpack?: (
     config: WebpackConfiguration,
     isServer: boolean,
-    utils: ConfigureWebpackUtils,
+    configureWebpackUtils: ConfigureWebpackUtils,
     content: Content,
   ) => WebpackConfiguration & {
     mergeStrategy?: {

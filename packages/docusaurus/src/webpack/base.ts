@@ -7,7 +7,6 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {
   createJsLoaderFactory,
@@ -16,8 +15,13 @@ import {
 } from './utils';
 import {getMinimizers} from './minification';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
+import {getCSSExtractPlugin} from './currentBundler';
 import type {Configuration} from 'webpack';
-import type {FasterConfig, Props} from '@docusaurus/types';
+import type {
+  ConfigureWebpackUtils,
+  FasterConfig,
+  Props,
+} from '@docusaurus/types';
 
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
@@ -58,11 +62,13 @@ export async function createBaseConfig({
   isServer,
   minify,
   faster,
+  configureWebpackUtils,
 }: {
   props: Props;
   isServer: boolean;
   minify: boolean;
   faster: FasterConfig;
+  configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<Configuration> {
   const {
     outDir,
@@ -87,6 +93,10 @@ export async function createBaseConfig({
   const themeAliases = await loadThemeAliases({siteDir, plugins});
 
   const createJsLoader = await createJsLoaderFactory({siteConfig});
+
+  const CSSExtractPlugin = getCSSExtractPlugin({
+    currentBundler: configureWebpackUtils.currentBundler,
+  });
 
   return {
     mode,
@@ -247,7 +257,7 @@ export async function createBaseConfig({
       ],
     },
     plugins: [
-      new MiniCssExtractPlugin({
+      new CSSExtractPlugin({
         filename: isProd
           ? 'assets/css/[name].[contenthash:8].css'
           : '[name].css',

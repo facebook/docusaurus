@@ -51,18 +51,18 @@ export function applyConfigureWebpack({
   configureWebpack,
   config,
   isServer,
-  utils,
+  configureWebpackUtils,
   content,
 }: {
   configureWebpack: NonNullable<Plugin['configureWebpack']>;
   config: Configuration;
   isServer: boolean;
-  utils: ConfigureWebpackUtils;
+  configureWebpackUtils: ConfigureWebpackUtils;
   content: unknown;
 }): Configuration {
   if (typeof configureWebpack === 'function') {
     const {mergeStrategy, ...res} =
-      configureWebpack(config, isServer, utils, content) ?? {};
+      configureWebpack(config, isServer, configureWebpackUtils, content) ?? {};
     const customizeRules = mergeStrategy ?? {};
     return mergeWithCustomize({
       customizeArray: customizeArray(customizeRules),
@@ -137,12 +137,12 @@ export function executePluginsConfigureWebpack({
   plugins,
   config: configInput,
   isServer,
-  utils,
+  configureWebpackUtils,
 }: {
   plugins: LoadedPlugin[];
   config: Configuration;
   isServer: boolean;
-  utils: ConfigureWebpackUtils;
+  configureWebpackUtils: ConfigureWebpackUtils;
 }): Configuration {
   let config = configInput;
 
@@ -154,7 +154,7 @@ export function executePluginsConfigureWebpack({
         configureWebpack: configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         config,
         isServer,
-        utils,
+        configureWebpackUtils,
         content: plugin.content,
       });
     }

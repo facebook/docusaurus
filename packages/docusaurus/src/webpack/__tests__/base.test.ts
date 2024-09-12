@@ -15,7 +15,14 @@ import {
   DEFAULT_FASTER_CONFIG,
   DEFAULT_FUTURE_CONFIG,
 } from '../../server/configValidation';
+import {createConfigureWebpackUtils} from '../configure';
 import type {Props} from '@docusaurus/types';
+
+function createTestConfigureWebpackUtils() {
+  return createConfigureWebpackUtils({
+    siteConfig: {webpack: {jsLoader: 'babel'}, future: DEFAULT_FUTURE_CONFIG},
+  });
+}
 
 describe('babel transpilation exclude logic', () => {
   it('always transpiles client dir files', () => {
@@ -115,6 +122,7 @@ describe('base webpack config', () => {
         isServer: true,
         minify: true,
         faster: DEFAULT_FASTER_CONFIG,
+        configureWebpackUtils: await createTestConfigureWebpackUtils(),
       })
     ).resolve?.alias ?? {}) as {[alias: string]: string};
     // Make aliases relative so that test work on all computers
@@ -125,7 +133,8 @@ describe('base webpack config', () => {
   });
 
   it('uses svg rule', async () => {
-    const fileLoaderUtils = utils.getFileLoaderUtils();
+    const isServer = true;
+    const fileLoaderUtils = utils.getFileLoaderUtils(isServer);
     const mockSvg = jest.spyOn(fileLoaderUtils.rules, 'svg');
     jest
       .spyOn(utils, 'getFileLoaderUtils')
@@ -136,6 +145,7 @@ describe('base webpack config', () => {
       isServer: false,
       minify: false,
       faster: DEFAULT_FASTER_CONFIG,
+      configureWebpackUtils: await createTestConfigureWebpackUtils(),
     });
     expect(mockSvg).toHaveBeenCalled();
   });
