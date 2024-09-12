@@ -313,6 +313,7 @@ rmiz
 rsdoctor
 Rsdoctor
 RSDOCTOR
+rspack
 Rspack
 rtcts
 rtlcss
