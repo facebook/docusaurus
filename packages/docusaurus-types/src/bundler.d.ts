@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type * as webpack from 'webpack';
+import type webpack from 'webpack';
 
 // We use Webpack and Rspack interchangeably because most Rspack APIs are
 // compatible with Webpack. So it's ok to use Webpack types for Rspack too.
@@ -13,5 +13,5 @@ import type * as webpack from 'webpack';
 // See https://github.com/facebook/docusaurus/pull/10402
 export type CurrentBundler = {
   name: 'webpack' | 'rspack';
-  instance: webpack;
+  instance: typeof webpack;
 };
