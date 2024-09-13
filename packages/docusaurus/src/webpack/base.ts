@@ -219,12 +219,10 @@ export async function createBaseConfig({
         {
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
-          oneOf: [
-            configureWebpackUtils.getJSLoader({
-              isServer,
-              babelOptions: await getCustomBabelConfigFilePath(siteDir),
-            }),
-          ],
+          use: configureWebpackUtils.getJSLoader({
+            isServer,
+            babelOptions: await getCustomBabelConfigFilePath(siteDir),
+          }),
         },
 
         {

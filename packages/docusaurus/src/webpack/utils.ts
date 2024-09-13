@@ -164,67 +164,21 @@ const BabelJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = ({
 
 const RspackJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = () => {
   return {
-    test: /\.[jt]sx?$/i,
-    oneOf: [
-      // TODO do we really need 3 different loaders for js, ts, tsx?
-      {
-        test: /\.jsx?$/,
-        use: {
-          loader: 'builtin:swc-loader',
-          options: {
-            jsc: {
-              parser: {
-                syntax: 'ecmascript',
-                jsx: true,
-              },
-              transform: {
-                react: {
-                  runtime: 'automatic',
-                },
-              },
-            },
+    loader: 'builtin:swc-loader',
+    options: {
+      jsc: {
+        parser: {
+          syntax: 'typescript',
+          jsx: true,
+          tsx: true,
+        },
+        transform: {
+          react: {
+            runtime: 'automatic',
           },
         },
       },
-      {
-        test: /\.tsx$/,
-        use: {
-          loader: 'builtin:swc-loader',
-          options: {
-            jsc: {
-              parser: {
-                syntax: 'typescript',
-                tsx: true,
-              },
-              transform: {
-                react: {
-                  runtime: 'automatic',
-                },
-              },
-            },
-          },
-        },
-      },
-      {
-        test: /\.ts$/,
-        use: {
-          loader: 'builtin:swc-loader',
-          options: {
-            jsc: {
-              parser: {
-                syntax: 'typescript',
-                tsx: false,
-              },
-              transform: {
-                react: {
-                  runtime: 'automatic',
-                },
-              },
-            },
-          },
-        },
-      },
-    ],
+    },
   };
 };
 
