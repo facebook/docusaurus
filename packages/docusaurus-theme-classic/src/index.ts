@@ -90,14 +90,16 @@ export default function themeClassic(
       return modules;
     },
 
-    configureWebpack(config, __isServer, {currentBundler}) {
+    configureWebpack(config, isServer, {currentBundler}) {
       if (currentBundler.name === 'rspack') {
         // ContextReplacementPlugin is not supported yet, tracked here https://github.com/web-infra-dev/rspack/issues/7474
         // TODO fix this
         logger.warn(
           'Rspack does not support ContextReplacementPlugin, and Prism syntax highlighter will not be optimized',
         );
-        return config;
+
+        // TODO why can't we just return config?
+        return {};
       }
 
       const prismLanguages = additionalLanguages
