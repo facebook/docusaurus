@@ -32,7 +32,7 @@ export default function prismIncludeLanguages(
     }
 
     // TODO fix this for Rspack
-     
+
     // require(`prismjs/components/prism-${lang}`);
   });
 
