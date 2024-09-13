@@ -7,7 +7,7 @@
 
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import {rspack, type WebpackPluginInstance} from 'webpack';
+import webpack, {type WebpackPluginInstance} from 'webpack';
 import {importSwcJsMinifierOptions} from '../faster';
 import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import type {FasterConfig} from '@docusaurus/types';
@@ -117,8 +117,8 @@ export async function getMinimizers(
   // TODO wire option properly
   if (params) {
     return [
-      new rspack.SwcJsMinimizerRspackPlugin(),
-      new rspack.LightningCssMinimizerRspackPlugin(),
+      // new rspack.SwcJsMinimizerRspackPlugin(),
+      // new rspack.LightningCssMinimizerRspackPlugin(),
     ];
   }
 

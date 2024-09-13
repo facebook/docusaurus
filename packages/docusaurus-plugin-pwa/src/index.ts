@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {rspack, type Configuration} from 'webpack';
+import webpack, {type Configuration} from 'webpack';
 import WebpackBar from 'webpackbar';
 import Terser from 'terser-webpack-plugin';
 import {injectManifest} from 'workbox-build';
@@ -89,11 +89,10 @@ export default function pluginPWA(
       });
     },
 
-    // @ts-expect-error: todo fix
     configureWebpack(config) {
       return {
         plugins: [
-          new rspack.EnvironmentPlugin(
+          new webpack.EnvironmentPlugin(
             // See https://github.com/facebook/docusaurus/pull/10455#issuecomment-2317593528
             // See https://github.com/webpack/webpack/commit/adf2a6b7c6077fd806ea0e378c1450cccecc9ed0#r145989788
             // @ts-expect-error: bad Webpack type?
@@ -163,7 +162,7 @@ export default function pluginPWA(
               ],
         },
         plugins: [
-          new rspack.EnvironmentPlugin({
+          new webpack.EnvironmentPlugin({
             // Fallback value required with Webpack 5
             PWA_SW_CUSTOM: swCustom ?? '',
           }),

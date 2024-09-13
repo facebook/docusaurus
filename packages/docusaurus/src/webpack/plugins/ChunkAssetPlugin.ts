@@ -20,7 +20,6 @@ const PluginName = 'Docusaurus-ChunkAssetPlugin';
 
 // eslint-disable-next-line
 function generateGetChunkAssetRuntimeCode(chunk: webpack.Chunk): string {
-  // @ts-expect-error: fix
   const chunkIdToName = chunk.getChunkMaps(false).name;
   const chunkNameToId = Object.fromEntries(
     Object.entries(chunkIdToName).map(([chunkId, chunkName]) => [

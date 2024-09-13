@@ -8,11 +8,6 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
-import {
-  createJsLoaderFactory,
-  getStyleLoaders,
-  getCustomBabelConfigFilePath,
-} from './utils';
 import {getMinimizers} from './minification';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import {getCSSExtractPlugin} from './currentBundler';
