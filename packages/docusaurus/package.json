@@ -101,7 +101,7 @@
     "webpack-bundle-analyzer": "^4.9.0",
     "webpack-dev-server": "^4.15.1",
     "webpack-merge": "^5.9.0",
-    "webpackbar": "^5.0.2"
+    "webpackbar": "^6.0.1"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.5.2",

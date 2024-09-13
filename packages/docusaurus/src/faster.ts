@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type webpack from 'webpack';
 import type {ConfigureWebpackUtils} from '@docusaurus/types';
 import type {MinimizerOptions, CustomOptions} from 'terser-webpack-plugin';
 
@@ -21,6 +22,11 @@ async function ensureFaster() {
       {cause: error},
     );
   }
+}
+
+export async function importRspack(): Promise<typeof webpack> {
+  const faster = await ensureFaster();
+  return faster.getRspack() as unknown as typeof webpack;
 }
 
 export async function importSwcJsLoaderFactory(): Promise<

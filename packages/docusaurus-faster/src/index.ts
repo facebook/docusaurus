@@ -5,8 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import Rspack from '@rspack/core';
 import type {RuleSetRule} from 'webpack';
 import type {JsMinifyOptions} from '@swc/core';
+
+export function getRspack(): typeof Rspack {
+  return Rspack;
+}
 
 export function getSwcJsLoaderFactory({
   isServer,

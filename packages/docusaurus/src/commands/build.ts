@@ -188,13 +188,14 @@ async function buildLocale({
       ]),
     );
 
-  // Run webpack to build JS bundle (client) and static html files (server).
+  // Run bundler to build the client bundle and server bundle (used for SSG)
   await PerfLogger.async('Bundling with Webpack', () => {
-    if (router === 'hash') {
-      return compile([clientConfig]);
-    } else {
-      return compile([clientConfig, serverConfig]);
-    }
+    return compile({
+      configs:
+        // For hash router we don't do SSG and can skip the server bundle
+        router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
+      currentBundler: configureWebpackUtils.currentBundler,
+    });
   });
 
   const {collectedData} = await PerfLogger.async('SSG', () =>

@@ -8,8 +8,8 @@
 import path from 'path';
 import merge from 'webpack-merge';
 import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '@docusaurus/utils';
-import WebpackBar from 'webpackbar';
 import {createBaseConfig} from './base';
+import {getProgressBarPlugin} from './currentBundler';
 import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
@@ -28,6 +28,10 @@ export default async function createServerConfig({
     configureWebpackUtils,
   });
 
+  const ProgressBarPlugin = await getProgressBarPlugin({
+    currentBundler: configureWebpackUtils.currentBundler,
+  });
+
   const outputFilename = 'server.bundle.js';
   const outputDir = path.join(props.outDir, '__server');
   const serverBundlePath = path.join(outputDir, outputFilename);
@@ -44,7 +48,7 @@ export default async function createServerConfig({
     },
     plugins: [
       // Show compilation progress bar.
-      new WebpackBar({
+      new ProgressBarPlugin({
         name: 'Server',
         color: 'yellow',
       }),

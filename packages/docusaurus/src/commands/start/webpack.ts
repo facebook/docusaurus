@@ -7,7 +7,6 @@
 
 import path from 'path';
 import merge from 'webpack-merge';
-import webpack from 'webpack';
 import logger from '@docusaurus/logger';
 import WebpackDevServer from 'webpack-dev-server';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
@@ -22,6 +21,7 @@ import {
   executePluginsConfigureWebpack,
 } from '../../webpack/configure';
 import {createStartClientConfig} from '../../webpack/client';
+import {getCurrentBundler} from '../../webpack/currentBundler';
 import type {StartCLIOptions} from './start';
 import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
 import type {Compiler} from 'webpack';
@@ -171,8 +171,10 @@ export async function createWebpackDevServer({
     configureWebpackUtils,
   });
 
-  // TODO wire rspack
-  const compiler = webpack(config);
+  const currentBundler = await getCurrentBundler({
+    siteConfig: props.siteConfig,
+  });
+  const compiler = currentBundler.instance(config);
   registerWebpackE2ETestHook(compiler);
 
   const defaultDevServerConfig = await createDevServerConfig({

@@ -7,8 +7,6 @@
 
 import path from 'path';
 import merge from 'webpack-merge';
-import WebpackBar from 'webpackbar';
-import webpack from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -17,6 +15,7 @@ import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import CleanWebpackPlugin from './plugins/CleanWebpackPlugin';
 import ForceTerminatePlugin from './plugins/ForceTerminatePlugin';
 import {createStaticDirectoriesCopyPlugin} from './plugins/StaticDirectoriesCopyPlugin';
+import {getProgressBarPlugin} from './currentBundler';
 import type {
   ConfigureWebpackUtils,
   FasterConfig,
@@ -45,6 +44,10 @@ async function createBaseClientConfig({
     configureWebpackUtils,
   });
 
+  const ProgressBarPlugin = await getProgressBarPlugin({
+    currentBundler: configureWebpackUtils.currentBundler,
+  });
+
   return merge(baseConfig, {
     // Useless, disabled on purpose (errors on existing sites with no
     // browserslist config)
@@ -56,12 +59,12 @@ async function createBaseClientConfig({
       runtimeChunk: true,
     },
     plugins: [
-      new webpack.DefinePlugin({
+      new configureWebpackUtils.currentBundler.instance.DefinePlugin({
         'process.env.HYDRATE_CLIENT_ENTRY': JSON.stringify(hydrate),
       }),
       new ChunkAssetPlugin(),
       // Show compilation progress bar and build time.
-      new WebpackBar({
+      new ProgressBarPlugin({
         name: 'Client',
       }),
       await createStaticDirectoriesCopyPlugin({
@@ -88,7 +91,7 @@ export async function createStartClientConfig({
 }): Promise<{clientConfig: Configuration}> {
   const {siteConfig, headTags, preBodyTags, postBodyTags} = props;
 
-  const clientConfig: webpack.Configuration = merge(
+  const clientConfig = merge(
     await createBaseClientConfig({
       props,
       minify,

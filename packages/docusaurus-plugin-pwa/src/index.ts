@@ -89,10 +89,10 @@ export default function pluginPWA(
       });
     },
 
-    configureWebpack(config) {
+    configureWebpack(config, isServer, {currentBundler}) {
       return {
         plugins: [
-          new webpack.EnvironmentPlugin(
+          new currentBundler.instance.EnvironmentPlugin(
             // See https://github.com/facebook/docusaurus/pull/10455#issuecomment-2317593528
             // See https://github.com/webpack/webpack/commit/adf2a6b7c6077fd806ea0e378c1450cccecc9ed0#r145989788
             // @ts-expect-error: bad Webpack type?
@@ -162,6 +162,7 @@ export default function pluginPWA(
               ],
         },
         plugins: [
+          // TODO fix Rspack issue
           new webpack.EnvironmentPlugin({
             // Fallback value required with Webpack 5
             PWA_SW_CUSTOM: swCustom ?? '',
@@ -182,7 +183,15 @@ export default function pluginPWA(
         },
       };
 
-      await compile([swWebpackConfig]);
+      await compile({
+        configs: [swWebpackConfig],
+
+        // TODO wire Rspack here
+        currentBundler: {
+          name: 'webpack',
+          instance: webpack,
+        },
+      });
 
       const swDest = path.resolve(props.outDir, 'sw.js');
 
