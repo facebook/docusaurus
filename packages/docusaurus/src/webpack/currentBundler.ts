@@ -85,5 +85,6 @@ export async function getProgressBarPlugin({
     }
     return CustomRspackProgressPlugin as typeof WebpackBar;
   }
+
   return WebpackBar;
 }
