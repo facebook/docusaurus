@@ -7,13 +7,14 @@
 
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import webpack, {type WebpackPluginInstance} from 'webpack';
+import {type WebpackPluginInstance} from 'webpack';
 import {importSwcJsMinifierOptions} from '../faster';
 import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
-import type {FasterConfig} from '@docusaurus/types';
+import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
 
 export type MinimizersConfig = {
   faster: Pick<FasterConfig, 'swcJsMinimizer'>;
+  currentBundler: CurrentBundler;
 };
 
 // See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
@@ -111,16 +112,27 @@ function getCssMinimizer(): WebpackPluginInstance {
   }
 }
 
+export async function getWebpackMinimizers(
+  params: MinimizersConfig,
+): Promise<WebpackPluginInstance[]> {
+  return Promise.all([getJsMinimizer(params), getCssMinimizer()]);
+}
+
+export async function getRspackMinimizers({
+  currentBundler,
+}: MinimizersConfig): Promise<WebpackPluginInstance[]> {
+  return [
+    // @ts-expect-error: Rspack has this built-in
+    new currentBundler.instance.SwcJsMinimizerRspackPlugin(),
+    // @ts-expect-error: Rspack has this built-in
+    new currentBundler.instance.LightningCssMinimizerRspackPlugin(),
+  ];
+}
+
 export async function getMinimizers(
   params: MinimizersConfig,
 ): Promise<WebpackPluginInstance[]> {
-  // TODO wire option properly
-  if (params) {
-    return [
-      // new rspack.SwcJsMinimizerRspackPlugin(),
-      // new rspack.LightningCssMinimizerRspackPlugin(),
-    ];
-  }
-
-  return Promise.all([getJsMinimizer(params), getCssMinimizer()]);
+  return params.currentBundler.name === 'rspack'
+    ? getRspackMinimizers(params)
+    : getWebpackMinimizers(params);
 }
