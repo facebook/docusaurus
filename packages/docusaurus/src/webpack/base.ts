@@ -11,6 +11,7 @@ import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {getMinimizers} from './minification';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import {getCSSExtractPlugin} from './currentBundler';
+import {getCustomBabelConfigFilePath} from './utils';
 import type {Configuration} from 'webpack';
 import type {
   ConfigureWebpackUtils,
@@ -86,8 +87,6 @@ export async function createBaseConfig({
   const mode = isProd ? 'production' : 'development';
 
   const themeAliases = await loadThemeAliases({siteDir, plugins});
-
-  // const createJsLoader = await createJsLoaderFactory({siteConfig});
 
   const CSSExtractPlugin = await getCSSExtractPlugin({
     currentBundler: configureWebpackUtils.currentBundler,
@@ -217,82 +216,15 @@ export async function createBaseConfig({
         fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
 
-        /*
         {
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
-          use: [
-            // @ts-expect-error: TODO fix this
-            getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
-            createJsLoader({
+          oneOf: [
+            configureWebpackUtils.getJSLoader({
               isServer,
               babelOptions: await getCustomBabelConfigFilePath(siteDir),
             }),
           ],
-        },
-         */
-
-        // TODO do we really need 3 different loaders for js, ts, tsx?
-        {
-          test: /\.jsx?$/,
-          exclude: excludeJS,
-          use: {
-            loader: 'builtin:swc-loader',
-            options: {
-              jsc: {
-                parser: {
-                  syntax: 'ecmascript',
-                  jsx: true,
-                },
-                transform: {
-                  react: {
-                    runtime: 'automatic',
-                  },
-                },
-              },
-            },
-          },
-        },
-
-        {
-          test: /\.tsx$/,
-          exclude: excludeJS,
-          use: {
-            loader: 'builtin:swc-loader',
-            options: {
-              jsc: {
-                parser: {
-                  syntax: 'typescript',
-                  tsx: true,
-                },
-                transform: {
-                  react: {
-                    runtime: 'automatic',
-                  },
-                },
-              },
-            },
-          },
-        },
-        {
-          test: /\.ts$/,
-          exclude: excludeJS,
-          use: {
-            loader: 'builtin:swc-loader',
-            options: {
-              jsc: {
-                parser: {
-                  syntax: 'typescript',
-                  tsx: false,
-                },
-                transform: {
-                  react: {
-                    runtime: 'automatic',
-                  },
-                },
-              },
-            },
-          },
         },
 
         {

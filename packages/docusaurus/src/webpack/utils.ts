@@ -12,7 +12,7 @@ import logger from '@docusaurus/logger';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import {importSwcJsLoaderFactory} from '../faster';
-import {getCSSExtractPlugin} from './currentBundler';
+import {getCSSExtractPlugin, getCurrentBundler} from './currentBundler';
 import type webpack from 'webpack';
 import type {Configuration} from 'webpack';
 import type {
@@ -94,7 +94,7 @@ export async function createStyleLoadersFactory({
 
       // TODO apart for configurePostCss(), do we really need this loader?
       // Note: using postcss here looks inefficient/duplicate
-      // But in practice, it's not a big deal because css-loader also uses postcss
+      // In practice, it's not a big deal because css-loader also uses postcss
       // and is able to reuse the parsed AST from postcss-loader
       // See https://github.com/webpack-contrib/css-loader/blob/master/src/index.js#L159
       {
@@ -162,6 +162,72 @@ const BabelJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = ({
   };
 };
 
+const RspackJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = () => {
+  return {
+    test: /\.[jt]sx?$/i,
+    oneOf: [
+      // TODO do we really need 3 different loaders for js, ts, tsx?
+      {
+        test: /\.jsx?$/,
+        use: {
+          loader: 'builtin:swc-loader',
+          options: {
+            jsc: {
+              parser: {
+                syntax: 'ecmascript',
+                jsx: true,
+              },
+              transform: {
+                react: {
+                  runtime: 'automatic',
+                },
+              },
+            },
+          },
+        },
+      },
+      {
+        test: /\.tsx$/,
+        use: {
+          loader: 'builtin:swc-loader',
+          options: {
+            jsc: {
+              parser: {
+                syntax: 'typescript',
+                tsx: true,
+              },
+              transform: {
+                react: {
+                  runtime: 'automatic',
+                },
+              },
+            },
+          },
+        },
+      },
+      {
+        test: /\.ts$/,
+        use: {
+          loader: 'builtin:swc-loader',
+          options: {
+            jsc: {
+              parser: {
+                syntax: 'typescript',
+                tsx: false,
+              },
+              transform: {
+                react: {
+                  runtime: 'automatic',
+                },
+              },
+            },
+          },
+        },
+      },
+    ],
+  };
+};
+
 // Confusing: function that creates a function that creates actual js loaders
 // This is done on purpose because the js loader factory is a public API
 // It is injected in configureWebpack plugin lifecycle for plugin authors
@@ -170,11 +236,22 @@ export async function createJsLoaderFactory({
 }: {
   siteConfig: {
     webpack?: DocusaurusConfig['webpack'];
-    future?: {
+    future: {
       experimental_faster: DocusaurusConfig['future']['experimental_faster'];
     };
   };
 }): Promise<ConfigureWebpackUtils['getJSLoader']> {
+  const currentBundler = await getCurrentBundler({siteConfig});
+  const isSWCLoader = siteConfig.future.experimental_faster.swcJsLoader;
+
+  if (currentBundler.name === 'rspack') {
+    if (!isSWCLoader) {
+      throw new Error(
+        'When using Rspack bundler, it is required to enable swcJsLoader too',
+      );
+    }
+    return RspackJsLoaderFactory;
+  }
   const jsLoader = siteConfig.webpack?.jsLoader ?? 'babel';
   if (
     jsLoader instanceof Function &&
