@@ -169,7 +169,6 @@ const RspackJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = () => {
       jsc: {
         parser: {
           syntax: 'typescript',
-          jsx: true,
           tsx: true,
         },
         transform: {
