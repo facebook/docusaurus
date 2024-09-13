@@ -76,6 +76,7 @@ export async function getProgressBarPlugin({
     class CustomRspackProgressPlugin extends currentBundler.instance
       .ProgressPlugin {
       constructor({name}: {name: string}) {
+        // TODO add support for color
         // Unfortunately the rspack.ProgressPlugin does not have a name option
         // See https://rspack.dev/plugins/webpack/progress-plugin
         // @ts-expect-error: adapt Rspack ProgressPlugin constructor
