@@ -30,8 +30,10 @@ export default function prismIncludeLanguages(
       // eslint-disable-next-line global-require
       require('prismjs/components/prism-markup-templating.js');
     }
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    require(`prismjs/components/prism-${lang}`);
+
+    // TODO fix this for Rspack
+     
+    // require(`prismjs/components/prism-${lang}`);
   });
 
   delete (globalThis as Optional<typeof globalThis, 'Prism'>).Prism;
