@@ -77,6 +77,7 @@ export async function createBaseConfig({
     siteMetadata,
     plugins,
   } = props;
+  const {currentBundler} = configureWebpackUtils;
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd;
@@ -89,7 +90,7 @@ export async function createBaseConfig({
   const themeAliases = await loadThemeAliases({siteDir, plugins});
 
   const CSSExtractPlugin = await getCSSExtractPlugin({
-    currentBundler: configureWebpackUtils.currentBundler,
+    currentBundler,
   });
 
   return {
@@ -178,7 +179,9 @@ export async function createBaseConfig({
       // Only minimize client bundle in production because server bundle is only
       // used for static site generation
       minimize: minimizeEnabled,
-      minimizer: minimizeEnabled ? await getMinimizers({faster}) : undefined,
+      minimizer: minimizeEnabled
+        ? await getMinimizers({faster, currentBundler})
+        : undefined,
       splitChunks: isServer
         ? false
         : {
