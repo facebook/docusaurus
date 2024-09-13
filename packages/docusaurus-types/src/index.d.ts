@@ -73,6 +73,8 @@ export {
   HtmlTags,
 } from './plugin';
 
+export {CurrentBundler} from './bundler';
+
 export {
   RouteConfig,
   PluginRouteConfig,

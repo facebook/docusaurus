@@ -10,8 +10,8 @@ import {
   customizeArray,
   customizeObject,
 } from 'webpack-merge';
-import {createJsLoaderFactory, getStyleLoaders} from './utils';
-
+import {createJsLoaderFactory, createStyleLoadersFactory} from './utils';
+import {getCurrentBundler} from './currentBundler';
 import type {Configuration, RuleSetRule} from 'webpack';
 import type {
   Plugin,
@@ -27,12 +27,16 @@ import type {
 export async function createConfigureWebpackUtils({
   siteConfig,
 }: {
-  siteConfig: Parameters<typeof createJsLoaderFactory>[0]['siteConfig'];
+  siteConfig: Parameters<typeof createJsLoaderFactory>[0]['siteConfig'] &
+    Parameters<typeof getCurrentBundler>[0]['siteConfig'];
 }): Promise<ConfigureWebpackUtils> {
+  const currentBundler = await getCurrentBundler({siteConfig});
+  const getStyleLoaders = await createStyleLoadersFactory({currentBundler});
+  const getJSLoader = await createJsLoaderFactory({siteConfig});
   return {
-    // @ts-expect-error: todo fix
+    currentBundler,
     getStyleLoaders,
-    getJSLoader: await createJsLoaderFactory({siteConfig}),
+    getJSLoader,
   };
 }
 
@@ -49,19 +53,18 @@ export function applyConfigureWebpack({
   configureWebpack,
   config,
   isServer,
-  utils,
+  configureWebpackUtils,
   content,
 }: {
   configureWebpack: NonNullable<Plugin['configureWebpack']>;
   config: Configuration;
   isServer: boolean;
-  utils: ConfigureWebpackUtils;
+  configureWebpackUtils: ConfigureWebpackUtils;
   content: unknown;
 }): Configuration {
   if (typeof configureWebpack === 'function') {
     const {mergeStrategy, ...res} =
-      // @ts-expect-error: todo fix
-      configureWebpack(config, isServer, utils, content) ?? {};
+      configureWebpack(config, isServer, configureWebpackUtils, content) ?? {};
     const customizeRules = mergeStrategy ?? {};
     return mergeWithCustomize({
       customizeArray: customizeArray(customizeRules),
@@ -136,12 +139,12 @@ export function executePluginsConfigureWebpack({
   plugins,
   config: configInput,
   isServer,
-  utils,
+  configureWebpackUtils,
 }: {
   plugins: LoadedPlugin[];
   config: Configuration;
   isServer: boolean;
-  utils: ConfigureWebpackUtils;
+  configureWebpackUtils: ConfigureWebpackUtils;
 }): Configuration {
   let config = configInput;
 
@@ -153,7 +156,7 @@ export function executePluginsConfigureWebpack({
         configureWebpack: configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         config,
         isServer,
-        utils,
+        configureWebpackUtils,
         content: plugin.content,
       });
     }

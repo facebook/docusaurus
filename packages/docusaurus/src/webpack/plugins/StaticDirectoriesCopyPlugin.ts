@@ -7,15 +7,21 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-// import CopyWebpackPlugin from 'copy-webpack-plugin';
-import {rspack} from 'webpack';
-import type {Props} from '@docusaurus/types';
+import {getCopyPlugin} from '../currentBundler';
+import type {CurrentBundler, Props} from '@docusaurus/types';
+import type {WebpackPluginInstance} from 'webpack';
 
 export async function createStaticDirectoriesCopyPlugin({
   props,
+  currentBundler,
 }: {
   props: Props;
-}): Promise<any | undefined> {
+  currentBundler: CurrentBundler;
+}): Promise<WebpackPluginInstance | undefined> {
+  const CopyPlugin = await getCopyPlugin({
+    currentBundler,
+  });
+
   const {
     outDir,
     siteDir,
@@ -45,7 +51,7 @@ export async function createStaticDirectoriesCopyPlugin({
     return undefined;
   }
 
-  return new rspack.CopyRspackPlugin({
+  return new CopyPlugin({
     patterns: staticDirectories.map((dir) => ({
       from: dir,
       to: outDir,

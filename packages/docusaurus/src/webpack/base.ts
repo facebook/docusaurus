@@ -7,14 +7,21 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {CssExtractRspackPlugin} from 'webpack';
-
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
-import {getStyleLoaders} from './utils';
+import {
+  createJsLoaderFactory,
+  getStyleLoaders,
+  getCustomBabelConfigFilePath,
+} from './utils';
 import {getMinimizers} from './minification';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
+import {getCSSExtractPlugin} from './currentBundler';
 import type {Configuration} from 'webpack';
-import type {FasterConfig, Props} from '@docusaurus/types';
+import type {
+  ConfigureWebpackUtils,
+  FasterConfig,
+  Props,
+} from '@docusaurus/types';
 
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
@@ -55,11 +62,13 @@ export async function createBaseConfig({
   isServer,
   minify,
   faster,
+  configureWebpackUtils,
 }: {
   props: Props;
   isServer: boolean;
   minify: boolean;
   faster: FasterConfig;
+  configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<Configuration> {
   const {
     outDir,
@@ -85,10 +94,13 @@ export async function createBaseConfig({
 
   // const createJsLoader = await createJsLoaderFactory({siteConfig});
 
+  const CSSExtractPlugin = await getCSSExtractPlugin({
+    currentBundler: configureWebpackUtils.currentBundler,
+  });
+
   return {
     mode,
     name,
-    // @ts-expect-error: TODO fix this
     cache: {
       type: 'filesystem',
       // Can we share the same cache across locales?
@@ -133,7 +145,6 @@ export async function createBaseConfig({
     },
     devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
-      // @ts-expect-error: TODO fix this
       unsafeCache: false, // Not enabled, does not seem to improve perf much
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true, // See https://github.com/facebook/docusaurus/issues/3272
@@ -205,15 +216,10 @@ export async function createBaseConfig({
     },
     module: {
       rules: [
-        // @ts-expect-error: TODO fix this
         fileLoaderUtils.rules.images(),
-        // @ts-expect-error: TODO fix this
         fileLoaderUtils.rules.fonts(),
-        // @ts-expect-error: TODO fix this
         fileLoaderUtils.rules.media(),
-        // @ts-expect-error: TODO fix this
         fileLoaderUtils.rules.svg(),
-        // @ts-expect-error: TODO fix this
         fileLoaderUtils.rules.otherAssets(),
 
         /*
@@ -297,19 +303,16 @@ export async function createBaseConfig({
         {
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
-          // @ts-expect-error: TODO fix this
-          use: getStyleLoaders(isServer, {
+          use: configureWebpackUtils.getStyleLoaders(isServer, {
             importLoaders: 1,
             sourceMap: !isProd,
           }),
         },
-
         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
         // using the extension .module.css
         {
           test: CSS_MODULE_REGEX,
-          // @ts-expect-error: TODO fix this
-          use: getStyleLoaders(isServer, {
+          use: configureWebpackUtils.getStyleLoaders(isServer, {
             modules: {
               // Using the same CSS Module class pattern in dev/prod on purpose
               // See https://github.com/facebook/docusaurus/pull/10423
@@ -322,11 +325,8 @@ export async function createBaseConfig({
         },
       ],
     },
-    experiments: {
-      css: false,
-    },
     plugins: [
-      new CssExtractRspackPlugin({
+      new CSSExtractPlugin({
         filename: isProd
           ? 'assets/css/[name].[contenthash:8].css'
           : '[name].css',
