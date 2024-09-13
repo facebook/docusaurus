@@ -10,19 +10,22 @@ import merge from 'webpack-merge';
 import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '@docusaurus/utils';
 import WebpackBar from 'webpackbar';
 import {createBaseConfig} from './base';
-import type {Props} from '@docusaurus/types';
+import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
-export default async function createServerConfig(params: {
+export default async function createServerConfig({
+  props,
+  configureWebpackUtils,
+}: {
   props: Props;
+  configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<{config: Configuration; serverBundlePath: string}> {
-  const {props} = params;
-
   const baseConfig = await createBaseConfig({
     props,
     isServer: true,
     minify: false,
     faster: props.siteConfig.future.experimental_faster,
+    configureWebpackUtils,
   });
 
   const outputFilename = 'server.bundle.js';

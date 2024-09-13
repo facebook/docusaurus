@@ -49,6 +49,7 @@ describe('normalizeConfig', () => {
           swcJsLoader: true,
           swcJsMinimizer: true,
           mdxCrossCompilerCache: true,
+          rspackBundler: true,
         },
         experimental_storage: {
           type: 'sessionStorage',
@@ -745,6 +746,7 @@ describe('future', () => {
         swcJsLoader: true,
         swcJsMinimizer: true,
         mdxCrossCompilerCache: true,
+        rspackBundler: true,
       },
       experimental_storage: {
         type: 'sessionStorage',
@@ -1095,6 +1097,7 @@ describe('future', () => {
         swcJsLoader: true,
         swcJsMinimizer: true,
         mdxCrossCompilerCache: true,
+        rspackBundler: true,
       };
       expect(
         normalizeConfig({
@@ -1344,6 +1347,77 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.experimental_faster.mdxCrossCompilerCache" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('rspackBundler', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackBundler: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackBundler: false}));
+      });
+
+      it('accepts - true', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackBundler: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackBundler: true}));
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackBundler: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackBundler: false}));
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {rspackBundler: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.rspackBundler" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {rspackBundler: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.rspackBundler" must be a boolean
           "
         `);
       });

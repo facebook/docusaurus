@@ -34,7 +34,12 @@ import defaultSSRTemplate from '../templates/ssr.html.template';
 import type {SSGParams} from '../ssg';
 
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import type {LoadedPlugin, Props, RouterType} from '@docusaurus/types';
+import type {
+  ConfigureWebpackUtils,
+  LoadedPlugin,
+  Props,
+  RouterType,
+} from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
 
 export type BuildCLIOptions = Pick<
@@ -165,6 +170,8 @@ async function buildLocale({
 
   const router = siteConfig.future.experimental_router;
 
+  const configureWebpackUtils = await createConfigureWebpackUtils({siteConfig});
+
   // We can build the 2 configs in parallel
   const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
     await PerfLogger.async('Creating webpack configs', () =>
@@ -172,9 +179,11 @@ async function buildLocale({
         getBuildClientConfig({
           props,
           cliOptions,
+          configureWebpackUtils,
         }),
         getBuildServerConfig({
           props,
+          configureWebpackUtils,
         }),
       ]),
     );
@@ -324,15 +333,18 @@ async function executeBrokenLinksCheck({
 async function getBuildClientConfig({
   props,
   cliOptions,
+  configureWebpackUtils,
 }: {
   props: Props;
   cliOptions: BuildCLIOptions;
+  configureWebpackUtils: ConfigureWebpackUtils;
 }) {
   const {plugins} = props;
   const result = await createBuildClientConfig({
     props,
     minify: cliOptions.minify ?? true,
     faster: props.siteConfig.future.experimental_faster,
+    configureWebpackUtils,
     bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;
@@ -340,26 +352,29 @@ async function getBuildClientConfig({
     plugins,
     config,
     isServer: false,
-    utils: await createConfigureWebpackUtils({
-      siteConfig: props.siteConfig,
-    }),
+    configureWebpackUtils,
   });
   return {clientConfig: config, clientManifestPath: result.clientManifestPath};
 }
 
-async function getBuildServerConfig({props}: {props: Props}) {
+async function getBuildServerConfig({
+  props,
+  configureWebpackUtils,
+}: {
+  props: Props;
+  configureWebpackUtils: ConfigureWebpackUtils;
+}) {
   const {plugins} = props;
   const result = await createServerConfig({
     props,
+    configureWebpackUtils,
   });
   let {config} = result;
   config = executePluginsConfigureWebpack({
     plugins,
     config,
     isServer: true,
-    utils: await createConfigureWebpackUtils({
-      siteConfig: props.siteConfig,
-    }),
+    configureWebpackUtils,
   });
   return {serverConfig: config, serverBundlePath: result.serverBundlePath};
 }

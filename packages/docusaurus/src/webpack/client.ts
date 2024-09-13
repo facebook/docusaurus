@@ -17,7 +17,11 @@ import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import CleanWebpackPlugin from './plugins/CleanWebpackPlugin';
 import ForceTerminatePlugin from './plugins/ForceTerminatePlugin';
 import {createStaticDirectoriesCopyPlugin} from './plugins/StaticDirectoriesCopyPlugin';
-import type {FasterConfig, Props} from '@docusaurus/types';
+import type {
+  ConfigureWebpackUtils,
+  FasterConfig,
+  Props,
+} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
 async function createBaseClientConfig({
@@ -25,17 +29,20 @@ async function createBaseClientConfig({
   hydrate,
   minify,
   faster,
+  configureWebpackUtils,
 }: {
   props: Props;
   hydrate: boolean;
   minify: boolean;
   faster: FasterConfig;
+  configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<Configuration> {
   const baseConfig = await createBaseConfig({
     props,
     isServer: false,
     minify,
     faster,
+    configureWebpackUtils,
   });
 
   return merge(baseConfig, {
@@ -57,7 +64,10 @@ async function createBaseClientConfig({
       new WebpackBar({
         name: 'Client',
       }),
-      await createStaticDirectoriesCopyPlugin({props}),
+      await createStaticDirectoriesCopyPlugin({
+        props,
+        currentBundler: configureWebpackUtils.currentBundler,
+      }),
     ].filter(Boolean),
   });
 }
@@ -68,11 +78,13 @@ export async function createStartClientConfig({
   minify,
   poll,
   faster,
+  configureWebpackUtils,
 }: {
   props: Props;
   minify: boolean;
   poll: number | boolean | undefined;
   faster: FasterConfig;
+  configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<{clientConfig: Configuration}> {
   const {siteConfig, headTags, preBodyTags, postBodyTags} = props;
 
@@ -82,6 +94,7 @@ export async function createStartClientConfig({
       minify,
       hydrate: false,
       faster,
+      configureWebpackUtils,
     }),
     {
       watchOptions: {
@@ -116,11 +129,13 @@ export async function createBuildClientConfig({
   props,
   minify,
   faster,
+  configureWebpackUtils,
   bundleAnalyzer,
 }: {
   props: Props;
   minify: boolean;
   faster: FasterConfig;
+  configureWebpackUtils: ConfigureWebpackUtils;
   bundleAnalyzer: boolean;
 }): Promise<{config: Configuration; clientManifestPath: string}> {
   // Apply user webpack config.
@@ -137,7 +152,13 @@ export async function createBuildClientConfig({
   );
 
   const config: Configuration = merge(
-    await createBaseClientConfig({props, minify, faster, hydrate}),
+    await createBaseClientConfig({
+      props,
+      minify,
+      faster,
+      configureWebpackUtils,
+      hydrate,
+    }),
     {
       plugins: [
         new ForceTerminatePlugin(),
