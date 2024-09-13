@@ -174,7 +174,7 @@ async function buildLocale({
 
   // We can build the 2 configs in parallel
   const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
-    await PerfLogger.async('Creating webpack configs', () =>
+    await PerfLogger.async('Creating bundler configs', () =>
       Promise.all([
         getBuildClientConfig({
           props,
@@ -189,14 +189,17 @@ async function buildLocale({
     );
 
   // Run bundler to build the client bundle and server bundle (used for SSG)
-  await PerfLogger.async('Bundling with Webpack', () => {
-    return compile({
-      configs:
-        // For hash router we don't do SSG and can skip the server bundle
-        router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
-      currentBundler: configureWebpackUtils.currentBundler,
-    });
-  });
+  await PerfLogger.async(
+    `Bundling with ${configureWebpackUtils.currentBundler.name}`,
+    () => {
+      return compile({
+        configs:
+          // For hash router we don't do SSG and can skip the server bundle
+          router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
+        currentBundler: configureWebpackUtils.currentBundler,
+      });
+    },
+  );
 
   const {collectedData} = await PerfLogger.async('SSG', () =>
     executeSSG({
