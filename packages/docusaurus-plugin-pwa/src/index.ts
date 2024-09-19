@@ -7,11 +7,14 @@
 
 import path from 'path';
 import {type Configuration} from 'webpack';
-import {getProgressBarPlugin, getMinimizers} from '@docusaurus/bundler';
+import {
+  compile,
+  getProgressBarPlugin,
+  getMinimizers,
+} from '@docusaurus/bundler';
 import {injectManifest} from 'workbox-build';
 import {normalizeUrl} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
-import {compile} from '@docusaurus/core/lib/webpack/utils';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';

@@ -14,40 +14,12 @@ import {
 } from '@docusaurus/bundler';
 import logger from '@docusaurus/logger';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
-import {type Configuration} from 'webpack';
-import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
-import type webpack from 'webpack';
 import type {
   ConfigureWebpackUtils,
   CurrentBundler,
   DocusaurusConfig,
 } from '@docusaurus/types';
 import type {TransformOptions} from '@babel/core';
-
-export function formatStatsErrorMessage(
-  statsJson: ReturnType<webpack.Stats['toJson']> | undefined,
-): string | undefined {
-  if (statsJson?.errors?.length) {
-    // TODO formatWebpackMessages does not print stack-traces
-    // Also the error causal chain is lost here
-    // We log the stacktrace inside serverEntry.tsx for now (not ideal)
-    const {errors} = formatWebpackMessages(statsJson);
-    return errors
-      .map((str) => logger.red(str))
-      .join(`\n\n${logger.yellow('--------------------------')}\n\n`);
-  }
-  return undefined;
-}
-
-export function printStatsWarnings(
-  statsJson: ReturnType<webpack.Stats['toJson']> | undefined,
-): void {
-  if (statsJson?.warnings?.length) {
-    statsJson.warnings?.forEach((warning) => {
-      logger.warn(warning);
-    });
-  }
-}
 
 export async function createStyleLoadersFactory({
   currentBundler,
@@ -196,56 +168,6 @@ export async function createJsLoaderFactory({
     return BabelJsLoaderFactory;
   }
   throw new Error(`Docusaurus bug: unexpected jsLoader value${jsLoader}`);
-}
-
-declare global {
-  interface Error {
-    /** @see https://webpack.js.org/api/node/#error-handling */
-    details: unknown;
-  }
-}
-
-export function compile({
-  configs,
-  currentBundler,
-}: {
-  configs: Configuration[];
-  currentBundler: CurrentBundler;
-}): Promise<webpack.MultiStats> {
-  return new Promise((resolve, reject) => {
-    const compiler = currentBundler.instance(configs);
-    compiler.run((err, stats) => {
-      if (err) {
-        logger.error(err.stack ?? err);
-        if (err.details) {
-          logger.error(err.details);
-        }
-        reject(err);
-      }
-      // Let plugins consume all the stats
-      const errorsWarnings = stats?.toJson('errors-warnings');
-      if (stats?.hasErrors()) {
-        const statsErrorMessage = formatStatsErrorMessage(errorsWarnings);
-        reject(
-          new Error(
-            `Failed to compile due to Webpack errors.\n${statsErrorMessage}`,
-          ),
-        );
-      }
-      printStatsWarnings(errorsWarnings);
-
-      // Webpack 5 requires calling close() so that persistent caching works
-      // See https://github.com/webpack/webpack.js.org/pull/4775
-      compiler.close((errClose) => {
-        if (errClose) {
-          logger.error(`Error while closing Webpack compiler: ${errClose}`);
-          reject(errClose);
-        } else {
-          resolve(stats!);
-        }
-      });
-    });
-  });
 }
 
 // Ensure the certificate and key provided are valid and if not

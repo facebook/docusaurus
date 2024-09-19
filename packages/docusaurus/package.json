@@ -44,7 +44,6 @@
     "@babel/runtime-corejs3": "^7.22.6",
     "@babel/traverse": "^7.22.8",
     "@docusaurus/bundler": "3.5.2",
-    "@docusaurus/cssnano-preset": "3.5.2",
     "@docusaurus/logger": "3.5.2",
     "@docusaurus/mdx-loader": "3.5.2",
     "@docusaurus/utils": "3.5.2",

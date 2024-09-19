@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
+import {compile} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
 import {loadSite, loadContext, type LoadContextParams} from '../server/site';
@@ -18,7 +19,6 @@ import {
   createConfigureWebpackUtils,
   executePluginsConfigureWebpack,
 } from '../webpack/configure';
-import {compile} from '../webpack/utils';
 
 import {loadI18n} from '../server/i18n';
 import {

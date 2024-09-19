@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export {printStatsWarnings, formatStatsErrorMessage, compile} from './compiler';
+
 export {importSwcJsMinifierOptions, importSwcJsLoaderFactory} from './faster';
 
 export {
