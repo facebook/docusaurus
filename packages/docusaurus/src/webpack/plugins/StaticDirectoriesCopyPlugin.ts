@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {getCopyPlugin} from '../currentBundler';
+import {getCopyPlugin} from '@docusaurus/bundler';
 import type {Props} from '@docusaurus/types';
 import type {WebpackPluginInstance} from 'webpack';
 

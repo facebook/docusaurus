@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {type Configuration} from 'webpack';
-import WebpackBar from 'webpackbar';
+import {getProgressBarPlugin} from '@docusaurus/bundler';
 import Terser from 'terser-webpack-plugin';
 import {injectManifest} from 'workbox-build';
 import {normalizeUrl} from '@docusaurus/utils';
@@ -139,6 +139,10 @@ export default function pluginPWA(
     async postBuild(props) {
       const swSourceFileTest = /\.m?js$/;
 
+      const ProgressBarPlugin = await getProgressBarPlugin({
+        currentBundler: props.currentBundler,
+      });
+
       const swWebpackConfig: Configuration = {
         entry: require.resolve('./sw.js'),
         output: {
@@ -166,9 +170,7 @@ export default function pluginPWA(
             // Fallback value required with Webpack 5
             PWA_SW_CUSTOM: swCustom ?? '',
           }),
-
-          // TODO fix progress bar plugin
-          new WebpackBar({
+          new ProgressBarPlugin({
             name: 'Service Worker',
             color: 'red',
           }),

@@ -1,0 +1,31 @@
+{
+  "name": "@docusaurus/bundler",
+  "version": "3.5.2",
+  "description": "Docusaurus util package to abstract the current bundler.",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-utils"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/logger": "3.5.2",
+    "@docusaurus/types": "3.5.2",
+    "copy-webpack-plugin": "^12.0.2",
+    "mini-css-extract-plugin": "^2.9.1",
+    "webpack": "^5.88.1",
+    "webpackbar": "^6.0.1"
+  },
+  "engines": {
+    "node": ">=18.0"
+  }
+}

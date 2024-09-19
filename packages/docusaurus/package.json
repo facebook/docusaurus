@@ -43,6 +43,7 @@
     "@babel/runtime": "^7.22.6",
     "@babel/runtime-corejs3": "^7.22.6",
     "@babel/traverse": "^7.22.8",
+    "@docusaurus/bundler": "3.5.2",
     "@docusaurus/cssnano-preset": "3.5.2",
     "@docusaurus/logger": "3.5.2",
     "@docusaurus/mdx-loader": "3.5.2",
@@ -59,7 +60,6 @@
     "cli-table3": "^0.6.3",
     "combine-promises": "^1.1.0",
     "commander": "^5.1.0",
-    "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.31.1",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
@@ -76,7 +76,6 @@
     "html-webpack-plugin": "^5.5.3",
     "leven": "^3.1.0",
     "lodash": "^4.17.21",
-    "mini-css-extract-plugin": "^2.7.6",
     "null-loader": "^4.0.1",
     "p-map": "^4.0.0",
     "postcss": "^8.4.26",
@@ -100,8 +99,7 @@
     "webpack": "^5.88.1",
     "webpack-bundle-analyzer": "^4.9.0",
     "webpack-dev-server": "^4.15.1",
-    "webpack-merge": "^5.9.0",
-    "webpackbar": "^6.0.1"
+    "webpack-merge": "^5.9.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.5.2",

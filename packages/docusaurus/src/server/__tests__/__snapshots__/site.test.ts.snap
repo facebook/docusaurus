@@ -4,6 +4,10 @@ exports[`load loads props for site with custom i18n path 1`] = `
 {
   "baseUrl": "/",
   "codeTranslations": {},
+  "currentBundler": {
+    "instance": [Function],
+    "name": "webpack",
+  },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site/.docusaurus",
   "headTags": "",
   "i18n": {

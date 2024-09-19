@@ -10,8 +10,8 @@ import {
   customizeArray,
   customizeObject,
 } from 'webpack-merge';
+import {getCurrentBundler} from '@docusaurus/bundler';
 import {createJsLoaderFactory, createStyleLoadersFactory} from './utils';
-import {getCurrentBundler} from './currentBundler';
 import type {Configuration, RuleSetRule} from 'webpack';
 import type {
   Plugin,

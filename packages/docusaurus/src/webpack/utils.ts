@@ -8,12 +8,12 @@
 import fs from 'fs-extra';
 import path from 'path';
 import crypto from 'crypto';
+import {getCSSExtractPlugin} from '@docusaurus/bundler';
 import logger from '@docusaurus/logger';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 import {type Configuration} from 'webpack';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import {importSwcJsLoaderFactory} from '../faster';
-import {getCSSExtractPlugin} from './currentBundler';
 import type webpack from 'webpack';
 import type {
   ConfigureWebpackUtils,

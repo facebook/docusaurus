@@ -13,6 +13,7 @@ import {
 } from '@docusaurus/utils';
 import {PerfLogger} from '@docusaurus/logger';
 import combinePromises from 'combine-promises';
+import {getCurrentBundler} from '@docusaurus/bundler';
 import {loadSiteConfig} from './config';
 import {getAllClientModules} from './clientModules';
 import {loadPlugins, reloadPlugin} from './plugins/plugins';
@@ -26,7 +27,6 @@ import {
 import {generateSiteFiles} from './codegen/codegen';
 import {getRoutesPaths, handleDuplicateRoutes} from './routes';
 import {createSiteStorage} from './storage';
-import {getCurrentBundler} from '../webpack/currentBundler';
 import type {LoadPluginsResult} from './plugins/plugins';
 import type {
   DocusaurusConfig,
