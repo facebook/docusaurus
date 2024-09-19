@@ -21,7 +21,7 @@ There are many ways to contribute to Docusaurus, and many of them do not involve
 - Read through the [Docusaurus docs](https://docusaurus.io/docs/installation). If you find anything that is confusing or can be improved, you can click "Edit this page" at the bottom of most docs, which takes you to the GitHub interface to make and propose changes.
 - Take a look at the [features requested](https://github.com/facebook/docusaurus/labels/feature) by others in the community and consider opening a pull request if you see something you want to work on.
 
-Contributions are very welcome. If you think you need help planning your contribution, please ping us on Twitter at [@docusaurus](https://twitter.com/docusaurus) and let us know you are looking for a bit of help.
+Contributions are very welcome. If you think you need help planning your contribution, please ping us on X at [@docusaurus](https://x.com/docusaurus) and let us know you are looking for a bit of help.
 
 ### Join our Discord Channel
 

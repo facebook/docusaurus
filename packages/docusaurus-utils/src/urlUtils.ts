@@ -211,7 +211,7 @@ export function toURLPath(url: URL): URLPath {
 
 /**
  * Let's name the concept of (pathname + search + hash) as URLPath
- * See also https://twitter.com/kettanaito/status/1741768992866308120
+ * See also https://x.com/kettanaito/status/1741768992866308120
  * Note: this function also resolves relative pathnames while parsing!
  */
 export function parseURLPath(urlPath: string, fromPath?: string): URLPath {

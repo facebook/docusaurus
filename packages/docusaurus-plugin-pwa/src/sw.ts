@@ -20,7 +20,7 @@ function parseSwParams() {
 
 // Doc advises against dynamic imports in SW
 // https://developers.google.com/web/tools/workbox/guides/using-bundlers#code_splitting_and_dynamic_imports
-// https://twitter.com/sebastienlorber/status/1280155204575518720
+// https://x.com/sebastienlorber/status/1280155204575518720
 // but looks it's working fine as it's inlined by webpack, need to double check
 async function runSWCustomCode(params: {offlineMode: boolean; debug: boolean}) {
   if (process.env.PWA_SW_CUSTOM) {

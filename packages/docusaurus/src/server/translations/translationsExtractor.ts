@@ -156,7 +156,7 @@ export async function extractSourceCodeFileTranslations(
       ast: true,
       // filename is important, because babel does not process the same files
       // according to their js/ts extensions.
-      // See https://twitter.com/NicoloRibaudo/status/1321130735605002243
+      // See https://x.com/NicoloRibaudo/status/1321130735605002243
       filename: sourceCodeFilePath,
     }) as Node;
 

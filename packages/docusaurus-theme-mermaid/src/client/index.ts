@@ -103,7 +103,7 @@ export function useMermaidRenderResult({
       .then(setResult)
       .catch((e) => {
         // Funky way to trigger parent React error boundary
-        // See https://twitter.com/sebastienlorber/status/1628340871899893768
+        // See https://x.com/sebastienlorber/status/1628340871899893768
         setResult(() => {
           throw e;
         });
