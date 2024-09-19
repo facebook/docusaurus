@@ -1098,7 +1098,7 @@ describe('escapeMarkdownHeadingIds', () => {
 
         ## News {#news}
 
-        For the latest news about Docusaurus, [follow **@docusaurus** on Twitter](https://twitter.com/docusaurus) and the [official Docusaurus blog](/blog) on this website.
+        For the latest news about Docusaurus, [follow **@docusaurus** on X](https://x.com/docusaurus) and the [official Docusaurus blog](/blog) on this website.
     `),
     ).toEqual(dedent`
         # Support
@@ -1128,7 +1128,7 @@ describe('escapeMarkdownHeadingIds', () => {
 
         ## News \{#news}
 
-        For the latest news about Docusaurus, [follow **@docusaurus** on Twitter](https://twitter.com/docusaurus) and the [official Docusaurus blog](/blog) on this website.
+        For the latest news about Docusaurus, [follow **@docusaurus** on X](https://x.com/docusaurus) and the [official Docusaurus blog](/blog) on this website.
     `);
   });
 });

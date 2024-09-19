@@ -110,8 +110,8 @@ const config: Config = {
               href: 'https://discordapp.com/invite/docusaurus',
             },
             {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
+              label: 'X',
+              href: 'https://x.com/docusaurus',
             },
           ],
         },
