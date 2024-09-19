@@ -26,6 +26,7 @@ import {
 import {generateSiteFiles} from './codegen/codegen';
 import {getRoutesPaths, handleDuplicateRoutes} from './routes';
 import {createSiteStorage} from './storage';
+import {getCurrentBundler} from '../webpack/currentBundler';
 import type {LoadPluginsResult} from './plugins/plugins';
 import type {
   DocusaurusConfig,
@@ -88,6 +89,10 @@ export async function loadContext(
     }),
   });
 
+  const currentBundler = await getCurrentBundler({
+    siteConfig: initialSiteConfig,
+  });
+
   const i18n = await loadI18n(initialSiteConfig, {locale});
 
   const baseUrl = localizePath({
@@ -126,6 +131,7 @@ export async function loadContext(
     baseUrl,
     i18n,
     codeTranslations,
+    currentBundler,
   };
 }
 
@@ -145,6 +151,7 @@ function createSiteProps(
     i18n,
     localizationDir,
     codeTranslations: siteCodeTranslations,
+    currentBundler,
   } = context;
 
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags({
@@ -181,6 +188,7 @@ function createSiteProps(
     preBodyTags,
     postBodyTags,
     codeTranslations,
+    currentBundler,
   };
 }
 

@@ -10,10 +10,11 @@ import path from 'path';
 import crypto from 'crypto';
 import logger from '@docusaurus/logger';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
-import webpack, {type Configuration} from 'webpack';
+import {type Configuration} from 'webpack';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import {importSwcJsLoaderFactory} from '../faster';
 import {getCSSExtractPlugin} from './currentBundler';
+import type webpack from 'webpack';
 import type {
   ConfigureWebpackUtils,
   CurrentBundler,
@@ -202,9 +203,15 @@ declare global {
   }
 }
 
-export function compile(config: Configuration[]): Promise<webpack.MultiStats> {
+export function compile({
+  configs,
+  currentBundler,
+}: {
+  configs: Configuration[];
+  currentBundler: CurrentBundler;
+}): Promise<webpack.MultiStats> {
   return new Promise((resolve, reject) => {
-    const compiler = webpack(config);
+    const compiler = currentBundler.instance(configs);
     compiler.run((err, stats) => {
       if (err) {
         logger.error(err.stack ?? err);

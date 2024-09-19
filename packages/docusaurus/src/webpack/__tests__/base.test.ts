@@ -8,6 +8,7 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import _ from 'lodash';
+import webpack from 'webpack';
 import * as utils from '@docusaurus/utils/lib/webpackUtils';
 import {posixPath} from '@docusaurus/utils';
 import {excludeJS, clientDir, createBaseConfig} from '../base';
@@ -87,6 +88,7 @@ describe('base webpack config', () => {
     siteMetadata: {
       docusaurusVersion: '2.0.0-alpha.70',
     },
+    currentBundler: {name: 'webpack', instance: webpack},
     plugins: [
       {
         getThemePath() {

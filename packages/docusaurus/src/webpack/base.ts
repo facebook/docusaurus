@@ -91,7 +91,7 @@ export async function createBaseConfig({
   const createJsLoader = await createJsLoaderFactory({siteConfig});
 
   const CSSExtractPlugin = await getCSSExtractPlugin({
-    currentBundler: configureWebpackUtils.currentBundler,
+    currentBundler: props.currentBundler,
   });
 
   return {
