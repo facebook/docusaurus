@@ -18,10 +18,13 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@docusaurus/faster": "3.5.2",
     "@docusaurus/logger": "3.5.2",
     "@docusaurus/types": "3.5.2",
     "copy-webpack-plugin": "^11.0.0",
+    "css-minimizer-webpack-plugin": "^5.0.1",
     "mini-css-extract-plugin": "^2.9.1",
+    "terser-webpack-plugin": "^5.3.9",
     "tslib": "^2.6.0",
     "webpack": "^5.88.1",
     "webpackbar": "^6.0.1"

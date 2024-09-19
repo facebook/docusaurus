@@ -7,8 +7,7 @@
 
 import path from 'path';
 import {type Configuration} from 'webpack';
-import {getProgressBarPlugin} from '@docusaurus/bundler';
-import Terser from 'terser-webpack-plugin';
+import {getProgressBarPlugin, getMinimizers} from '@docusaurus/bundler';
 import {injectManifest} from 'workbox-build';
 import {normalizeUrl} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
@@ -159,11 +158,10 @@ export default function pluginPWA(
           // See https://developers.google.com/web/tools/workbox/guides/using-bundlers#webpack
           minimizer: debug
             ? []
-            : [
-                new Terser({
-                  test: swSourceFileTest,
-                }),
-              ],
+            : await getMinimizers({
+                faster: props.siteConfig.future.experimental_faster,
+                currentBundler: props.currentBundler,
+              }),
         },
         plugins: [
           new props.currentBundler.instance.EnvironmentPlugin({

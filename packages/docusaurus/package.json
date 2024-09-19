@@ -92,7 +92,6 @@
     "semver": "^7.5.4",
     "serve-handler": "npm:@docusaurus/serve-handler@6.2.0",
     "shelljs": "^0.8.5",
-    "terser-webpack-plugin": "^5.3.10",
     "tslib": "^2.6.0",
     "update-notifier": "^6.0.2",
     "url-loader": "^4.1.1",
