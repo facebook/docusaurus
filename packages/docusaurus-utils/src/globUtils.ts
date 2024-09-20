@@ -103,3 +103,25 @@ export async function safeGlobby(
 
   return Globby(globPaths, options);
 }
+
+// A bit weird to put this here, but it's used by core + theme-translations
+export async function globTranslatableSourceFiles(
+  patterns: string[],
+): Promise<string[]> {
+  // We only support extracting source code translations from these kind of files
+  const extensionsAllowed = new Set([
+    '.js',
+    '.jsx',
+    '.ts',
+    '.tsx',
+    // TODO support md/mdx too? (may be overkill)
+    // need to compile the MDX to JSX first and remove front matter
+    // '.md',
+    // '.mdx',
+  ]);
+
+  const filePaths = await safeGlobby(patterns);
+  return filePaths.filter((filePath) =>
+    extensionsAllowed.has(path.extname(filePath)),
+  );
+}

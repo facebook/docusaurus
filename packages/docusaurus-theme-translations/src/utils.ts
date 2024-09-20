@@ -13,8 +13,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-// Unsafe import, should we create a package for the translationsExtractor ?;
-import {globSourceCodeFilePaths} from '@docusaurus/core/lib/server/translations/translationsExtractor';
+import {globTranslatableSourceFiles} from '@docusaurus/utils';
 import {extractAllSourceCodeFileTranslations} from '@docusaurus/babel';
 import type {TranslationFileContent} from '@docusaurus/types';
 
@@ -60,7 +59,7 @@ export async function extractThemeCodeMessages(
   // eslint-disable-next-line no-param-reassign
   targetDirs ??= (await getThemes()).flatMap((theme) => theme.src);
 
-  const filePaths = (await globSourceCodeFilePaths(targetDirs)).filter(
+  const filePaths = (await globTranslatableSourceFiles(targetDirs)).filter(
     (filePath) => ['.js', '.jsx'].includes(path.extname(filePath)),
   );
 

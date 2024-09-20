@@ -98,6 +98,7 @@ export {
   Globby,
   GlobExcludeDefault,
   safeGlobby,
+  globTranslatableSourceFiles,
   createMatcher,
   createAbsoluteFilePathMatcher,
 } from './globUtils';

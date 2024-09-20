@@ -7,7 +7,7 @@
 
 import nodePath from 'path';
 import logger from '@docusaurus/logger';
-import {safeGlobby, SRC_DIR_NAME} from '@docusaurus/utils';
+import {globTranslatableSourceFiles, SRC_DIR_NAME} from '@docusaurus/utils';
 import {
   getBabelOptions,
   getCustomBabelConfigFilePath,
@@ -17,21 +17,6 @@ import type {
   InitializedPlugin,
   TranslationFileContent,
 } from '@docusaurus/types';
-
-// We only support extracting source code translations from these kind of files
-const TranslatableSourceCodeExtension = new Set([
-  '.js',
-  '.jsx',
-  '.ts',
-  '.tsx',
-  // TODO support md/mdx too? (may be overkill)
-  // need to compile the MDX to JSX first and remove front matter
-  // '.md',
-  // '.mdx',
-]);
-function isTranslatableSourceCodePath(filePath: string): boolean {
-  return TranslatableSourceCodeExtension.has(nodePath.extname(filePath));
-}
 
 function getSiteSourceCodeFilePaths(siteDir: string): string[] {
   return [nodePath.join(siteDir, SRC_DIR_NAME)];
@@ -53,13 +38,6 @@ function getPluginSourceCodeFilePaths(plugin: InitializedPlugin): string[] {
   return codePaths.map((p) => nodePath.resolve(plugin.path, p));
 }
 
-export async function globSourceCodeFilePaths(
-  dirPaths: string[],
-): Promise<string[]> {
-  const filePaths = await safeGlobby(dirPaths);
-  return filePaths.filter(isTranslatableSourceCodePath);
-}
-
 async function getSourceCodeFilePaths(
   siteDir: string,
   plugins: InitializedPlugin[],
@@ -74,7 +52,7 @@ async function getSourceCodeFilePaths(
 
   const allPaths = [...sitePaths, ...pluginsPaths];
 
-  return globSourceCodeFilePaths(allPaths);
+  return globTranslatableSourceFiles(allPaths);
 }
 
 export async function extractSiteSourceCodeTranslations({
