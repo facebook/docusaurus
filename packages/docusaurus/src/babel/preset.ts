@@ -6,4 +6,11 @@
  */
 
 // TODO Docusaurus v4, do breaking change and expose babel preset cleanly
+/*
+this just ensure retro-compatibility with our former init template .babelrc.js:
+
+module.exports = {
+  presets: [require.resolve('@docusaurus/core/lib/babel/preset')],
+};
+ */
 export {babelPreset as default} from '@docusaurus/bundler';
