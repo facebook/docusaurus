@@ -10,7 +10,7 @@
 import path from 'path';
 import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
 import {addSuffix} from '@docusaurus/utils-common';
-import Globby from 'Globby';
+import Globby from 'globby';
 import {posixPath} from './pathUtils';
 
 /** A re-export of the globby instance. */
