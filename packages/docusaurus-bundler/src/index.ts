@@ -23,5 +23,3 @@ export {
 } from './loaders/jsLoader';
 
 export {createStyleLoadersFactory} from './loaders/styleLoader';
-
-export {default as babelPreset} from './loaders/babelPreset';

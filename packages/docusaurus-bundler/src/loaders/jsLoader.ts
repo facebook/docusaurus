@@ -39,7 +39,9 @@ export function getBabelOptions({
     };
   }
   return {
-    ...(babelOptions ?? {presets: [require.resolve('./babelPreset')]}),
+    ...(babelOptions ?? {
+      presets: [require.resolve('@docusaurus/babel/preset')],
+    }),
     babelrc: false,
     configFile: false,
     caller: {name: isServer ? 'server' : 'client'},

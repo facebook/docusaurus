@@ -13,4 +13,6 @@ module.exports = {
   presets: [require.resolve('@docusaurus/core/lib/babel/preset')],
 };
  */
-export {babelPreset as default} from '@docusaurus/bundler';
+import BabelPreset from '@docusaurus/babel/preset';
+
+export default BabelPreset;
