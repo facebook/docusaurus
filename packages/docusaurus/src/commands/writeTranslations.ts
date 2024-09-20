@@ -7,7 +7,6 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {getCustomBabelConfigFilePath, getBabelOptions} from '@docusaurus/babel';
 import {loadContext, type LoadContextParams} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 import {
@@ -103,16 +102,11 @@ Available locales are: ${context.i18n.locales.join(',')}.`,
     );
   }
 
-  const babelOptions = getBabelOptions({
-    isServer: true,
-    babelOptions: await getCustomBabelConfigFilePath(siteDir),
-  });
-  const extractedCodeTranslations = await extractSiteSourceCodeTranslations(
+  const extractedCodeTranslations = await extractSiteSourceCodeTranslations({
     siteDir,
     plugins,
-    babelOptions,
-    await getExtraSourceCodeFilePaths(),
-  );
+    extraSourceCodeFilePaths: await getExtraSourceCodeFilePaths(),
+  });
 
   const defaultCodeMessages = await loadPluginsDefaultCodeTranslationMessages(
     plugins,

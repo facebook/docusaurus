@@ -27,6 +27,8 @@ export function getBabelOptions({
   babelOptions,
 }: {
   isServer?: boolean;
+  // TODO Docusaurus v4 fix this
+  //  weird to have getBabelOptions take a babelOptions param
   babelOptions?: TransformOptions | string;
 } = {}): TransformOptions {
   const caller = {name: isServer ? 'server' : 'client'};

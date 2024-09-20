@@ -17,6 +17,7 @@ import {
   type TransformOptions,
 } from '@babel/core';
 import {SRC_DIR_NAME} from '@docusaurus/utils';
+import {getBabelOptions, getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {safeGlobby} from '../utils';
 import type {
   InitializedPlugin,
@@ -82,12 +83,20 @@ async function getSourceCodeFilePaths(
   return globSourceCodeFilePaths(allPaths);
 }
 
-export async function extractSiteSourceCodeTranslations(
-  siteDir: string,
-  plugins: InitializedPlugin[],
-  babelOptions: TransformOptions,
-  extraSourceCodeFilePaths: string[] = [],
-): Promise<TranslationFileContent> {
+export async function extractSiteSourceCodeTranslations({
+  siteDir,
+  plugins,
+  extraSourceCodeFilePaths = [],
+}: {
+  siteDir: string;
+  plugins: InitializedPlugin[];
+  extraSourceCodeFilePaths?: string[];
+}): Promise<TranslationFileContent> {
+  const babelOptions = getBabelOptions({
+    isServer: true,
+    babelOptions: await getCustomBabelConfigFilePath(siteDir),
+  });
+
   // Should we warn here if the same translation "key" is found in multiple
   // source code files?
   function toTranslationFileContent(

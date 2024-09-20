@@ -694,11 +694,10 @@ export default function MyComponent(props: Props) {
       plugin2,
       {name: 'dummy', options: {}, version: {type: 'synthetic'}} as const,
     ] as LoadedPlugin[];
-    const translations = await extractSiteSourceCodeTranslations(
+    const translations = await extractSiteSourceCodeTranslations({
       siteDir,
       plugins,
-      TestBabelOptions,
-    );
+    });
     expect(translations).toEqual({
       siteComponentFileId1: {
         description: 'site component 1 desc',
