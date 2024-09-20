@@ -15,11 +15,5 @@ export {
 } from './currentBundler';
 
 export {getMinimizers} from './minification';
-
-export {
-  getBabelOptions,
-  getCustomBabelConfigFilePath,
-  createJsLoaderFactory,
-} from './loaders/jsLoader';
-
+export {createJsLoaderFactory} from './loaders/jsLoader';
 export {createStyleLoadersFactory} from './loaders/styleLoader';

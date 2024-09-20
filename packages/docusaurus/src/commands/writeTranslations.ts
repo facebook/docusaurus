@@ -7,10 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {
-  getCustomBabelConfigFilePath,
-  getBabelOptions,
-} from '@docusaurus/bundler';
+import {getCustomBabelConfigFilePath, getBabelOptions} from '@docusaurus/babel';
 import {loadContext, type LoadContextParams} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 import {

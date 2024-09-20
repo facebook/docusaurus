@@ -7,10 +7,10 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import {getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {
   getCSSExtractPlugin,
   getMinimizers,
-  getCustomBabelConfigFilePath,
   createJsLoaderFactory,
 } from '@docusaurus/bundler';
 

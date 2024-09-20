@@ -9,7 +9,7 @@ import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
-import {getBabelOptions} from '@docusaurus/bundler';
+import {getBabelOptions} from '@docusaurus/babel';
 import {SRC_DIR_NAME} from '@docusaurus/utils';
 import {
   extractSourceCodeFileTranslations,
