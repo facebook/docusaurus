@@ -7,8 +7,6 @@
 
 export {printStatsWarnings, formatStatsErrorMessage, compile} from './compiler';
 
-export {importSwcJsMinifierOptions, importSwcJsLoaderFactory} from './faster';
-
 export {
   getCurrentBundler,
   getCSSExtractPlugin,
@@ -17,3 +15,9 @@ export {
 } from './currentBundler';
 
 export {getMinimizers} from './minification';
+
+export {
+  getBabelOptions,
+  getCustomBabelConfigFilePath,
+  createJsLoaderFactory,
+} from './loaders/jsLoader';

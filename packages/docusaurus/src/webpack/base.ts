@@ -7,9 +7,14 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {getCSSExtractPlugin, getMinimizers} from '@docusaurus/bundler';
+import {
+  getCSSExtractPlugin,
+  getMinimizers,
+  getCustomBabelConfigFilePath,
+  createJsLoaderFactory,
+} from '@docusaurus/bundler';
+
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
-import {createJsLoaderFactory, getCustomBabelConfigFilePath} from './utils';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import type {Configuration} from 'webpack';
 import type {

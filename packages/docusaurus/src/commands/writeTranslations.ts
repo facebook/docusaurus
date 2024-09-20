@@ -7,6 +7,10 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import {
+  getCustomBabelConfigFilePath,
+  getBabelOptions,
+} from '@docusaurus/bundler';
 import {loadContext, type LoadContextParams} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 import {
@@ -20,7 +24,6 @@ import {
   extractSiteSourceCodeTranslations,
   globSourceCodeFilePaths,
 } from '../server/translations/translationsExtractor';
-import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
 import type {InitializedPlugin} from '@docusaurus/types';
 
 export type WriteTranslationsCLIOptions = Pick<
