@@ -23,6 +23,7 @@
     "tslib": "^2.6.0"
   },
   "devDependencies": {
+    "@docusaurus/babel": "3.5.2",
     "@docusaurus/core": "3.5.2",
     "@docusaurus/logger": "3.5.2",
     "lodash": "^4.17.21"

@@ -6,3 +6,5 @@
  */
 
 export {getCustomBabelConfigFilePath, getBabelOptions} from './utils';
+
+export {extractAllSourceCodeFileTranslations} from './babelTranslationsExtractor';

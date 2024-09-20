@@ -33,9 +33,6 @@
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "dependencies": {
-    "@babel/core": "^7.23.3",
-    "@babel/generator": "^7.23.3",
-    "@babel/traverse": "^7.22.8",
     "@docusaurus/babel": "3.5.2",
     "@docusaurus/bundler": "3.5.2",
     "@docusaurus/logger": "3.5.2",

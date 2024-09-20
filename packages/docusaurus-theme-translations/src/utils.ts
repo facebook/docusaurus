@@ -14,10 +14,8 @@
 import path from 'path';
 import fs from 'fs-extra';
 // Unsafe import, should we create a package for the translationsExtractor ?;
-import {
-  globSourceCodeFilePaths,
-  extractAllSourceCodeFileTranslations,
-} from '@docusaurus/core/lib/server/translations/translationsExtractor';
+import {globSourceCodeFilePaths} from '@docusaurus/core/lib/server/translations/translationsExtractor';
+import {extractAllSourceCodeFileTranslations} from '@docusaurus/babel';
 import type {TranslationFileContent} from '@docusaurus/types';
 
 async function getPackageCodePath(packageName: string) {
@@ -69,7 +67,7 @@ export async function extractThemeCodeMessages(
   const filesExtractedTranslations = await extractAllSourceCodeFileTranslations(
     filePaths,
     {
-      presets: [require.resolve('@docusaurus/core/lib/babel/preset')],
+      presets: ['@docusaurus/babel/preset'],
     },
   );
 

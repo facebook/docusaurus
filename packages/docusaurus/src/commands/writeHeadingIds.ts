@@ -8,12 +8,12 @@
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {
+  safeGlobby,
   writeMarkdownHeadingId,
   type WriteHeadingIDOptions,
 } from '@docusaurus/utils';
 import {loadContext} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
-import {safeGlobby} from '../server/utils';
 
 async function transformMarkdownFile(
   filepath: string,
