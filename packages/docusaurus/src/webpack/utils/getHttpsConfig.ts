@@ -53,7 +53,7 @@ async function readEnvFile(file: string, type: string) {
 
 // Get the https config
 // Return cert files if provided in env, otherwise just true or false
-export async function getHttpsConfig(): Promise<
+export default async function getHttpsConfig(): Promise<
   boolean | {cert: Buffer; key: Buffer}
 > {
   const appDirectory = await fs.realpath(process.cwd());

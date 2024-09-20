@@ -9,12 +9,12 @@ import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
+import {getBabelOptions} from '@docusaurus/bundler';
 import {SRC_DIR_NAME} from '@docusaurus/utils';
 import {
   extractSourceCodeFileTranslations,
   extractSiteSourceCodeTranslations,
 } from '../translationsExtractor';
-import {getBabelOptions} from '../../../webpack/utils';
 import type {InitializedPlugin, LoadedPlugin} from '@docusaurus/types';
 
 const TestBabelOptions = getBabelOptions({

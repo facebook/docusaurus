@@ -13,7 +13,7 @@ import logger from '@docusaurus/logger';
 import WebpackDevServer from 'webpack-dev-server';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import {createPollingOptions} from './watcher';
-import {getHttpsConfig} from '../../webpack/utils';
+import getHttpsConfig from '../../webpack/utils/getHttpsConfig';
 import {
   createConfigureWebpackUtils,
   executePluginsConfigureWebpack,
