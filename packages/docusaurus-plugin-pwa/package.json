@@ -22,6 +22,7 @@
   "dependencies": {
     "@babel/core": "^7.23.3",
     "@babel/preset-env": "^7.23.3",
+    "@docusaurus/bundler": "3.5.2",
     "@docusaurus/core": "3.5.2",
     "@docusaurus/logger": "3.5.2",
     "@docusaurus/theme-common": "3.5.2",
@@ -32,11 +33,9 @@
     "babel-loader": "^9.1.3",
     "clsx": "^2.0.0",
     "core-js": "^3.31.1",
-    "terser-webpack-plugin": "^5.3.9",
     "tslib": "^2.6.0",
     "webpack": "^5.88.1",
     "webpack-merge": "^5.9.0",
-    "webpackbar": "^5.0.2",
     "workbox-build": "^7.0.0",
     "workbox-precaching": "^7.0.0",
     "workbox-window": "^7.0.0"

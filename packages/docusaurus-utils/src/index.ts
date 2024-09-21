@@ -97,6 +97,8 @@ export {md5Hash, simpleHash, docuHash} from './hashUtils';
 export {
   Globby,
   GlobExcludeDefault,
+  safeGlobby,
+  globTranslatableSourceFiles,
   createMatcher,
   createAbsoluteFilePathMatcher,
 } from './globUtils';

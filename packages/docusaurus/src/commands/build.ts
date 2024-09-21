@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
+import {compile} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
 import {loadSite, loadContext, type LoadContextParams} from '../server/site';
@@ -18,7 +19,6 @@ import {
   createConfigureWebpackUtils,
   executePluginsConfigureWebpack,
 } from '../webpack/configure';
-import {compile} from '../webpack/utils';
 
 import {loadI18n} from '../server/i18n';
 import {
@@ -174,7 +174,7 @@ async function buildLocale({
 
   // We can build the 2 configs in parallel
   const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
-    await PerfLogger.async('Creating webpack configs', () =>
+    await PerfLogger.async('Creating bundler configs', () =>
       Promise.all([
         getBuildClientConfig({
           props,
@@ -189,13 +189,17 @@ async function buildLocale({
     );
 
   // Run webpack to build JS bundle (client) and static html files (server).
-  await PerfLogger.async('Bundling with Webpack', () => {
-    if (router === 'hash') {
-      return compile([clientConfig]);
-    } else {
-      return compile([clientConfig, serverConfig]);
-    }
-  });
+  await PerfLogger.async(
+    `Bundling with ${configureWebpackUtils.currentBundler.name}`,
+    () => {
+      return compile({
+        configs:
+          // For hash router we don't do SSG and can skip the server bundle
+          router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
+        currentBundler: configureWebpackUtils.currentBundler,
+      });
+    },
+  );
 
   const {collectedData} = await PerfLogger.async('SSG', () =>
     executeSSG({

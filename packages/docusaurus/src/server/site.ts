@@ -13,6 +13,7 @@ import {
 } from '@docusaurus/utils';
 import {PerfLogger} from '@docusaurus/logger';
 import combinePromises from 'combine-promises';
+import {getCurrentBundler} from '@docusaurus/bundler';
 import {loadSiteConfig} from './config';
 import {getAllClientModules} from './clientModules';
 import {loadPlugins, reloadPlugin} from './plugins/plugins';
@@ -88,6 +89,10 @@ export async function loadContext(
     }),
   });
 
+  const currentBundler = await getCurrentBundler({
+    siteConfig: initialSiteConfig,
+  });
+
   const i18n = await loadI18n(initialSiteConfig, {locale});
 
   const baseUrl = localizePath({
@@ -126,6 +131,7 @@ export async function loadContext(
     baseUrl,
     i18n,
     codeTranslations,
+    currentBundler,
   };
 }
 
@@ -145,6 +151,7 @@ function createSiteProps(
     i18n,
     localizationDir,
     codeTranslations: siteCodeTranslations,
+    currentBundler,
   } = context;
 
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags({
@@ -181,6 +188,7 @@ function createSiteProps(
     preBodyTags,
     postBodyTags,
     codeTranslations,
+    currentBundler,
   };
 }
 

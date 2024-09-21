@@ -8,15 +8,12 @@
 import path from 'path';
 import merge from 'webpack-merge';
 import webpack from 'webpack';
+import {formatStatsErrorMessage, printStatsWarnings} from '@docusaurus/bundler';
 import logger from '@docusaurus/logger';
 import WebpackDevServer from 'webpack-dev-server';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import {createPollingOptions} from './watcher';
-import {
-  formatStatsErrorMessage,
-  getHttpsConfig,
-  printStatsWarnings,
-} from '../../webpack/utils';
+import getHttpsConfig from '../../webpack/utils/getHttpsConfig';
 import {
   createConfigureWebpackUtils,
   executePluginsConfigureWebpack,

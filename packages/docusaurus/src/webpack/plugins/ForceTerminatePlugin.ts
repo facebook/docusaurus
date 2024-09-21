@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {formatStatsErrorMessage} from '@docusaurus/bundler';
 import logger from '@docusaurus/logger';
-import {formatStatsErrorMessage} from '../utils';
 import type webpack from 'webpack';
 
 // When building, include the plugin to force terminate building if errors

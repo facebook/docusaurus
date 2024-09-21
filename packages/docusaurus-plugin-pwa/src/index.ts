@@ -6,13 +6,15 @@
  */
 
 import path from 'path';
-import webpack, {type Configuration} from 'webpack';
-import WebpackBar from 'webpackbar';
-import Terser from 'terser-webpack-plugin';
+import {type Configuration} from 'webpack';
+import {
+  compile,
+  getProgressBarPlugin,
+  getMinimizers,
+} from '@docusaurus/bundler';
 import {injectManifest} from 'workbox-build';
 import {normalizeUrl} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
-import {compile} from '@docusaurus/core/lib/webpack/utils';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';
@@ -89,10 +91,10 @@ export default function pluginPWA(
       });
     },
 
-    configureWebpack(config) {
+    configureWebpack(config, isServer, {currentBundler}) {
       return {
         plugins: [
-          new webpack.EnvironmentPlugin(
+          new currentBundler.instance.EnvironmentPlugin(
             // See https://github.com/facebook/docusaurus/pull/10455#issuecomment-2317593528
             // See https://github.com/webpack/webpack/commit/adf2a6b7c6077fd806ea0e378c1450cccecc9ed0#r145989788
             // @ts-expect-error: bad Webpack type?
@@ -139,6 +141,10 @@ export default function pluginPWA(
     async postBuild(props) {
       const swSourceFileTest = /\.m?js$/;
 
+      const ProgressBarPlugin = await getProgressBarPlugin({
+        currentBundler: props.currentBundler,
+      });
+
       const swWebpackConfig: Configuration = {
         entry: require.resolve('./sw.js'),
         output: {
@@ -155,18 +161,17 @@ export default function pluginPWA(
           // See https://developers.google.com/web/tools/workbox/guides/using-bundlers#webpack
           minimizer: debug
             ? []
-            : [
-                new Terser({
-                  test: swSourceFileTest,
-                }),
-              ],
+            : await getMinimizers({
+                faster: props.siteConfig.future.experimental_faster,
+                currentBundler: props.currentBundler,
+              }),
         },
         plugins: [
-          new webpack.EnvironmentPlugin({
+          new props.currentBundler.instance.EnvironmentPlugin({
             // Fallback value required with Webpack 5
             PWA_SW_CUSTOM: swCustom ?? '',
           }),
-          new WebpackBar({
+          new ProgressBarPlugin({
             name: 'Service Worker',
             color: 'red',
           }),
@@ -182,7 +187,10 @@ export default function pluginPWA(
         },
       };
 
-      await compile([swWebpackConfig]);
+      await compile({
+        configs: [swWebpackConfig],
+        currentBundler: props.currentBundler,
+      });
 
       const swDest = path.resolve(props.outDir, 'sw.js');
 

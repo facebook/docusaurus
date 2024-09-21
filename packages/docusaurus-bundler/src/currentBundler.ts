@@ -6,6 +6,7 @@
  */
 
 import webpack from 'webpack';
+import WebpackBar from 'webpackbar';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import logger from '@docusaurus/logger';
@@ -63,4 +64,26 @@ export async function getCopyPlugin({
   }
   // https://github.com/webpack-contrib/copy-webpack-plugin
   return CopyWebpackPlugin;
+}
+
+export async function getProgressBarPlugin({
+  currentBundler,
+}: {
+  currentBundler: CurrentBundler;
+}): Promise<typeof WebpackBar> {
+  if (currentBundler.name === 'rspack') {
+    class CustomRspackProgressPlugin extends currentBundler.instance
+      .ProgressPlugin {
+      constructor({name}: {name: string}) {
+        // TODO add support for color
+        // Unfortunately the rspack.ProgressPlugin does not have a name option
+        // See https://rspack.dev/plugins/webpack/progress-plugin
+        // @ts-expect-error: adapt Rspack ProgressPlugin constructor
+        super({prefix: name});
+      }
+    }
+    return CustomRspackProgressPlugin as typeof WebpackBar;
+  }
+
+  return WebpackBar;
 }

@@ -7,19 +7,17 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {getCopyPlugin} from '../currentBundler';
-import type {CurrentBundler, Props} from '@docusaurus/types';
+import {getCopyPlugin} from '@docusaurus/bundler';
+import type {Props} from '@docusaurus/types';
 import type {WebpackPluginInstance} from 'webpack';
 
 export async function createStaticDirectoriesCopyPlugin({
   props,
-  currentBundler,
 }: {
   props: Props;
-  currentBundler: CurrentBundler;
 }): Promise<WebpackPluginInstance | undefined> {
   const CopyPlugin = await getCopyPlugin({
-    currentBundler,
+    currentBundler: props.currentBundler,
   });
 
   const {

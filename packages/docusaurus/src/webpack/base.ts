@@ -7,11 +7,15 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import {getCustomBabelConfigFilePath} from '@docusaurus/babel';
+import {
+  getCSSExtractPlugin,
+  getMinimizers,
+  createJsLoaderFactory,
+} from '@docusaurus/bundler';
+
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
-import {createJsLoaderFactory, getCustomBabelConfigFilePath} from './utils';
-import {getMinimizers} from './minification';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
-import {getCSSExtractPlugin} from './currentBundler';
 import type {Configuration} from 'webpack';
 import type {
   ConfigureWebpackUtils,
@@ -91,7 +95,7 @@ export async function createBaseConfig({
   const createJsLoader = await createJsLoaderFactory({siteConfig});
 
   const CSSExtractPlugin = await getCSSExtractPlugin({
-    currentBundler: configureWebpackUtils.currentBundler,
+    currentBundler: props.currentBundler,
   });
 
   return {
@@ -180,7 +184,9 @@ export async function createBaseConfig({
       // Only minimize client bundle in production because server bundle is only
       // used for static site generation
       minimize: minimizeEnabled,
-      minimizer: minimizeEnabled ? await getMinimizers({faster}) : undefined,
+      minimizer: minimizeEnabled
+        ? await getMinimizers({faster, currentBundler: props.currentBundler})
+        : undefined,
       splitChunks: isServer
         ? false
         : {
