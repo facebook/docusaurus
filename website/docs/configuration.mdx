@@ -275,7 +275,15 @@ If you just want to use those fields on the client side, you could create your o
 
 ## Customizing Babel Configuration {#customizing-babel-configuration}
 
-For new Docusaurus projects, we automatically generated a `babel.config.js` in the project root.
+Docusaurus transpiles your site's source code using Babel by default. If you want to customize the Babel configuration, you can do so by creating a `babel.config.js` file in your project root.
+
+To use the built-in preset as a base configuration, install the following package and use it
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-live-codeblock
+```
+
+Then use the preset in your `babel.config.js` file:
 
 ```js title="babel.config.js"
 export default {
@@ -283,4 +291,4 @@ export default {
 };
 ```
 
-Most of the time, this configuration will work just fine. If you want to customize your Babel configuration (e.g. to add support for Flow), you can directly edit this file. For your changes to take effect, you need to restart the Docusaurus dev server.
+Most of the time, the default preset configuration will work just fine. If you want to customize your Babel configuration (e.g. to add support for Flow), you can directly edit this file. For your changes to take effect, you need to restart the Docusaurus dev server.
