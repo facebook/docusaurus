@@ -10,12 +10,12 @@ import merge from 'webpack-merge';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import {getProgressBarPlugin} from '@docusaurus/bundler';
 import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import CleanWebpackPlugin from './plugins/CleanWebpackPlugin';
 import ForceTerminatePlugin from './plugins/ForceTerminatePlugin';
 import {createStaticDirectoriesCopyPlugin} from './plugins/StaticDirectoriesCopyPlugin';
-import {getProgressBarPlugin} from './currentBundler';
 import type {
   ConfigureWebpackUtils,
   FasterConfig,
@@ -45,7 +45,7 @@ async function createBaseClientConfig({
   });
 
   const ProgressBarPlugin = await getProgressBarPlugin({
-    currentBundler: configureWebpackUtils.currentBundler,
+    currentBundler: props.currentBundler,
   });
 
   return merge(baseConfig, {
@@ -55,21 +55,19 @@ async function createBaseClientConfig({
     entry: path.resolve(__dirname, '../client/clientEntry.js'),
     optimization: {
       // Keep the runtime chunk separated to enable long term caching
-      // https://twitter.com/wSokra/status/969679223278505985
+      // https://x.com/wSokra/status/969679223278505985
       runtimeChunk: true,
     },
     plugins: [
-      new configureWebpackUtils.currentBundler.instance.DefinePlugin({
+      new props.currentBundler.instance.DefinePlugin({
         'process.env.HYDRATE_CLIENT_ENTRY': JSON.stringify(hydrate),
       }),
       new ChunkAssetPlugin(),
-      // Show compilation progress bar and build time.
       new ProgressBarPlugin({
         name: 'Client',
       }),
       await createStaticDirectoriesCopyPlugin({
         props,
-        currentBundler: configureWebpackUtils.currentBundler,
       }),
     ].filter(Boolean),
   });

@@ -7,9 +7,9 @@
 
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import {type WebpackPluginInstance} from 'webpack';
-import {importSwcJsMinifierOptions} from '../faster';
+import {importSwcJsMinifierOptions} from './importFaster';
 import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
+import type {WebpackPluginInstance} from 'webpack';
 import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
 
 export type MinimizersConfig = {
@@ -112,13 +112,13 @@ function getCssMinimizer(): WebpackPluginInstance {
   }
 }
 
-export async function getWebpackMinimizers(
+async function getWebpackMinimizers(
   params: MinimizersConfig,
 ): Promise<WebpackPluginInstance[]> {
   return Promise.all([getJsMinimizer(params), getCssMinimizer()]);
 }
 
-export async function getRspackMinimizers({
+async function getRspackMinimizers({
   currentBundler,
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
   return [

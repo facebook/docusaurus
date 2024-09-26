@@ -7,21 +7,17 @@
 
 import path from 'path';
 import merge from 'webpack-merge';
+import {formatStatsErrorMessage, printStatsWarnings} from '@docusaurus/bundler';
 import logger from '@docusaurus/logger';
 import WebpackDevServer from 'webpack-dev-server';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import {createPollingOptions} from './watcher';
-import {
-  formatStatsErrorMessage,
-  getHttpsConfig,
-  printStatsWarnings,
-} from '../../webpack/utils';
+import getHttpsConfig from '../../webpack/utils/getHttpsConfig';
 import {
   createConfigureWebpackUtils,
   executePluginsConfigureWebpack,
 } from '../../webpack/configure';
 import {createStartClientConfig} from '../../webpack/client';
-import {getCurrentBundler} from '../../webpack/currentBundler';
 import type {StartCLIOptions} from './start';
 import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
 import type {Compiler} from 'webpack';
@@ -171,10 +167,7 @@ export async function createWebpackDevServer({
     configureWebpackUtils,
   });
 
-  const currentBundler = await getCurrentBundler({
-    siteConfig: props.siteConfig,
-  });
-  const compiler = currentBundler.instance(config);
+  const compiler = props.currentBundler.instance(config);
   registerWebpackE2ETestHook(compiler);
 
   const defaultDevServerConfig = await createDevServerConfig({

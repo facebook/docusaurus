@@ -8,6 +8,7 @@ import type {DocusaurusConfig} from './config';
 import type {CodeTranslations, I18n} from './i18n';
 import type {LoadedPlugin, PluginVersionInformation} from './plugin';
 import type {PluginRouteConfig} from './routing';
+import type {CurrentBundler} from './bundler';
 
 export type DocusaurusContext = {
   siteConfig: DocusaurusConfig;
@@ -74,6 +75,11 @@ export type LoadContext = {
    * Defines the default browser storage behavior for a site
    */
   siteStorage: SiteStorage;
+
+  /**
+   * The bundler used to build the site (Webpack or Rspack)
+   */
+  currentBundler: CurrentBundler;
 };
 
 export type Props = LoadContext & {

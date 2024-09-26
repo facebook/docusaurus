@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
+import {compile} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
 import {loadSite, loadContext, type LoadContextParams} from '../server/site';
@@ -18,7 +19,6 @@ import {
   createConfigureWebpackUtils,
   executePluginsConfigureWebpack,
 } from '../webpack/configure';
-import {compile} from '../webpack/utils';
 
 import {loadI18n} from '../server/i18n';
 import {
@@ -188,18 +188,15 @@ async function buildLocale({
       ]),
     );
 
-  // Run bundler to build the client bundle and server bundle (used for SSG)
-  await PerfLogger.async(
-    `Bundling with ${configureWebpackUtils.currentBundler.name}`,
-    () => {
-      return compile({
-        configs:
-          // For hash router we don't do SSG and can skip the server bundle
-          router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
-        currentBundler: configureWebpackUtils.currentBundler,
-      });
-    },
-  );
+  // Run webpack to build JS bundle (client) and static html files (server).
+  await PerfLogger.async(`Bundling with ${props.currentBundler.name}`, () => {
+    return compile({
+      configs:
+        // For hash router we don't do SSG and can skip the server bundle
+        router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
+      currentBundler: configureWebpackUtils.currentBundler,
+    });
+  });
 
   const {collectedData} = await PerfLogger.async('SSG', () =>
     executeSSG({

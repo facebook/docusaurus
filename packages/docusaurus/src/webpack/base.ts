@@ -7,11 +7,15 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import {getCustomBabelConfigFilePath} from '@docusaurus/babel';
+import {
+  getCSSExtractPlugin,
+  getMinimizers,
+  createJsLoaderFactory,
+} from '@docusaurus/bundler';
+
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
-import {getMinimizers} from './minification';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
-import {getCSSExtractPlugin} from './currentBundler';
-import {getCustomBabelConfigFilePath} from './utils';
 import type {Configuration} from 'webpack';
 import type {
   ConfigureWebpackUtils,
@@ -77,7 +81,6 @@ export async function createBaseConfig({
     siteMetadata,
     plugins,
   } = props;
-  const {currentBundler} = configureWebpackUtils;
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd;
@@ -89,8 +92,10 @@ export async function createBaseConfig({
 
   const themeAliases = await loadThemeAliases({siteDir, plugins});
 
+  const createJsLoader = await createJsLoaderFactory({siteConfig});
+
   const CSSExtractPlugin = await getCSSExtractPlugin({
-    currentBundler,
+    currentBundler: props.currentBundler,
   });
 
   return {
@@ -180,7 +185,7 @@ export async function createBaseConfig({
       // used for static site generation
       minimize: minimizeEnabled,
       minimizer: minimizeEnabled
-        ? await getMinimizers({faster, currentBundler})
+        ? await getMinimizers({faster, currentBundler: props.currentBundler})
         : undefined,
       splitChunks: isServer
         ? false
@@ -218,16 +223,16 @@ export async function createBaseConfig({
         fileLoaderUtils.rules.media(),
         fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
-
         {
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
-          use: configureWebpackUtils.getJSLoader({
-            isServer,
-            babelOptions: await getCustomBabelConfigFilePath(siteDir),
-          }),
+          use: [
+            createJsLoader({
+              isServer,
+              babelOptions: await getCustomBabelConfigFilePath(siteDir),
+            }),
+          ],
         },
-
         {
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,

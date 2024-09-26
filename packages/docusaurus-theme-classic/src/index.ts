@@ -6,9 +6,7 @@
  */
 
 import path from 'path';
-import {createRequire} from 'module';
 import rtlcss from 'rtlcss';
-import logger from '@docusaurus/logger';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import {
@@ -20,14 +18,6 @@ import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import type {Plugin as PostCssPlugin} from 'postcss';
 import type {PluginOptions} from '@docusaurus/theme-classic';
-import type webpack from 'webpack';
-
-const requireFromDocusaurusCore = createRequire(
-  require.resolve('@docusaurus/core/package.json'),
-);
-const ContextReplacementPlugin = requireFromDocusaurusCore(
-  'webpack/lib/ContextReplacementPlugin',
-) as typeof webpack.ContextReplacementPlugin;
 
 function getInfimaCSSFile(direction: string) {
   return `infima/dist/css/default/default${
@@ -90,18 +80,7 @@ export default function themeClassic(
       return modules;
     },
 
-    configureWebpack(config, isServer, {currentBundler}) {
-      if (currentBundler.name === 'rspack') {
-        // ContextReplacementPlugin is not supported yet, tracked here https://github.com/web-infra-dev/rspack/issues/7474
-        // TODO fix this
-        logger.warn(
-          'Rspack does not support ContextReplacementPlugin, and Prism syntax highlighter will not be optimized',
-        );
-
-        // TODO why can't we just return config?
-        return {};
-      }
-
+    configureWebpack(__config, __isServer, {currentBundler}) {
       const prismLanguages = additionalLanguages
         .map((lang) => `prism-${lang}`)
         .join('|');
@@ -111,7 +90,7 @@ export default function themeClassic(
           // This allows better optimization by only bundling those components
           // that the user actually needs, because the modules are dynamically
           // required and can't be known during compile time.
-          new ContextReplacementPlugin(
+          new currentBundler.instance.ContextReplacementPlugin(
             /prismjs[\\/]components$/,
             new RegExp(`^./(${prismLanguages})$`),
           ),

@@ -33,7 +33,7 @@ The `docusaurus.config.js` file supports:
 
 Constraints:
 
-- **Required:** use `export default /* your config*/` (or `module.exports` to export your Docusaurus config
+- **Required:** use `export default /* your config*/` (or `module.exports`) to export your Docusaurus config
 - **Optional:** use `import Lib from 'lib'` (or `require('lib')`) to import Node.js packages
 
 :::
@@ -130,7 +130,7 @@ The high-level overview of Docusaurus configuration can be categorized into:
 
 Site metadata contains the essential global metadata such as `title`, `url`, `baseUrl`, and `favicon`.
 
-They are used in several places such as your site's title and headings, browser tab icon, social sharing (Facebook, Twitter) information or even to generate the correct path to serve your static files.
+They are used in several places such as your site's title and headings, browser tab icon, social sharing (Facebook, X) information or even to generate the correct path to serve your static files.
 
 ### Deployment configurations {#deployment-configurations}
 
@@ -275,12 +275,20 @@ If you just want to use those fields on the client side, you could create your o
 
 ## Customizing Babel Configuration {#customizing-babel-configuration}
 
-For new Docusaurus projects, we automatically generated a `babel.config.js` in the project root.
+Docusaurus transpiles your site's source code using Babel by default. If you want to customize the Babel configuration, you can do so by creating a `babel.config.js` file in your project root.
+
+To use the built-in preset as a base configuration, install the following package and use it
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-live-codeblock
+```
+
+Then use the preset in your `babel.config.js` file:
 
 ```js title="babel.config.js"
 export default {
-  presets: ['@docusaurus/core/lib/babel/preset'],
+  presets: ['@docusaurus/babel/preset'],
 };
 ```
 
-Most of the time, this configuration will work just fine. If you want to customize your Babel configuration (e.g. to add support for Flow), you can directly edit this file. For your changes to take effect, you need to restart the Docusaurus dev server.
+Most of the time, the default preset configuration will work just fine. If you want to customize your Babel configuration (e.g. to add support for Flow), you can directly edit this file. For your changes to take effect, you need to restart the Docusaurus dev server.
