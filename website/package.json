@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "cross-env RSPACK_CONFIG_VALIDATE=loose-silent docusaurus start",
-    "build": "cross-env RSPACK_CONFIG_VALIDATE=loose-silent docusaurus build",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear && rimraf changelog && rimraf _dogfooding/_swizzle_theme_tests",
