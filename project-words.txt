@@ -164,6 +164,7 @@ lastmod
 Lastmod
 lifecycles
 Lifecycles
+lightningcss
 linkify
 Linkify
 Localizable
