@@ -9,7 +9,7 @@ import webpack from 'webpack';
 import WebpackBar from 'webpackbar';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import {importRspack} from '../faster';
+import {importRspack} from './importFaster';
 import type {CurrentBundler, DocusaurusConfig} from '@docusaurus/types';
 
 // We inject a site config slice because the Rspack flag might change place
