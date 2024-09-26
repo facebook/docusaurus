@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@rspack/core": "^1.0.7",
+    "@rspack/core": "npm:@rspack/core-canary@1.0.8-canary-8286125d-20240926091417",
     "@swc/core": "^1.7.28",
     "swc-loader": "^0.2.6",
     "webpack": "^5.88.1"

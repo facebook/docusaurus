@@ -62,10 +62,7 @@ async function createBaseClientConfig({
       new props.currentBundler.instance.DefinePlugin({
         'process.env.HYDRATE_CLIENT_ENTRY': JSON.stringify(hydrate),
       }),
-
-      // TODO restore plugin
-      true ? null : new ChunkAssetPlugin(),
-
+      new ChunkAssetPlugin(),
       new ProgressBarPlugin({
         name: 'Client',
       }),
