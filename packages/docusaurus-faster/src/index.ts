@@ -41,7 +41,7 @@ export function getSwcJsLoaderFactory({
 // They should rather be kept in sync for now to avoid any unexpected behavior
 // The goal of faster minifier is not to fine-tune options but only to be faster
 // See core minification.ts
-export function getSwcJsMinifierOptions(): JsMinifyOptions {
+export function getSwcJsMinimizerOptions(): JsMinifyOptions {
   return {
     ecma: 2020,
     compress: {

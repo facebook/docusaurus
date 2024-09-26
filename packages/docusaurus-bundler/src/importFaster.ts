@@ -34,11 +34,11 @@ export async function importSwcJsLoaderFactory(): Promise<
   return faster.getSwcJsLoaderFactory;
 }
 
-export async function importSwcJsMinifierOptions(): Promise<
+export async function importSwcJsMinimizerOptions(): Promise<
   JsMinimizerOptions<CustomOptions>
 > {
   const faster = await ensureFaster();
-  return faster.getSwcJsMinifierOptions() as JsMinimizerOptions<CustomOptions>;
+  return faster.getSwcJsMinimizerOptions() as JsMinimizerOptions<CustomOptions>;
 }
 
 export async function importLightningCssMinimizerOptions(): Promise<
