@@ -5,14 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {fromPartial} from '@total-typescript/shoehorn';
+import {fromPartial, type PartialDeep} from '@total-typescript/shoehorn';
 import {createJsLoaderFactory} from '../jsLoader';
 
 import type {RuleSetRule} from 'webpack';
 
 describe('createJsLoaderFactory', () => {
   function testJsLoaderFactory(
-    siteConfig?: Parameters<typeof createJsLoaderFactory>[0]['siteConfig'],
+    siteConfig?: PartialDeep<
+      Parameters<typeof createJsLoaderFactory>[0]['siteConfig']
+    >,
   ) {
     return createJsLoaderFactory({
       siteConfig: {
@@ -21,7 +23,12 @@ describe('createJsLoaderFactory', () => {
           jsLoader: 'babel',
           ...siteConfig?.webpack,
         },
-        future: fromPartial(siteConfig?.future),
+        future: fromPartial({
+          ...siteConfig?.future,
+          experimental_faster: fromPartial({
+            ...siteConfig?.future?.experimental_faster,
+          }),
+        }),
       },
     });
   }
