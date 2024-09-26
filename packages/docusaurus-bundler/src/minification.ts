@@ -7,7 +7,10 @@
 
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import {importSwcJsMinifierOptions} from './importFaster';
+import {
+  importSwcJsMinifierOptions,
+  importLightningCssMinimizerOptions,
+} from './importFaster';
 import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import type {WebpackPluginInstance} from 'webpack';
 import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
@@ -69,6 +72,13 @@ async function getJsMinimizer({faster}: MinimizersConfig) {
   });
 }
 
+async function getLightningCssMinimizer() {
+  return new CssMinimizerPlugin({
+    minify: CssMinimizerPlugin.lightningCssMinify,
+    minimizerOptions: await importLightningCssMinimizerOptions(),
+  });
+}
+
 function getAdvancedCssMinifier() {
   // Using the array syntax to add 2 minimizers
   // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
@@ -101,10 +111,23 @@ function getAdvancedCssMinifier() {
   });
 }
 
-function getCssMinimizer(): WebpackPluginInstance {
+async function getCssMinimizer(): Promise<WebpackPluginInstance> {
   // This is an historical env variable to opt-out of the advanced minifier
   // Sometimes there's a bug in it and people are happy to disable it
   const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
+
+  // TODO wire this to options
+  const useLightningCssMinimizer = true;
+
+  if (useLightningCssMinimizer) {
+    if (useSimpleCssMinifier) {
+      throw new Error(
+        "You can't use LightningCSS and the USE_SIMPLE_CSS_MINIFIER=true env variable at the same time",
+      );
+    }
+    return getLightningCssMinimizer();
+  }
+
   if (useSimpleCssMinifier) {
     return new CssMinimizerPlugin();
   } else {
