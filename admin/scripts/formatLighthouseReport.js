@@ -52,7 +52,8 @@ const createMarkdownTableRow = ({url, summary, reportUrl}) => {
       Object.keys(summaryKeys)
     ).map((k) => scoreEntry(summary[k])),
 
-    reportUrl ? `Report N/A` : `[Report](${reportUrl})`,
+    // See https://github.com/facebook/docusaurus/pull/10527
+    reportUrl ? `[Report](${reportUrl})` : `Report N/A`,
   ];
 
   return `| ${columns.join(' | ')} |`;
