@@ -7,13 +7,16 @@
 
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import {importSwcJsMinifierOptions} from './importFaster';
+import {
+  importSwcJsMinimizerOptions,
+  importLightningCssMinimizerOptions,
+} from './importFaster';
 import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import type {WebpackPluginInstance} from 'webpack';
 import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
 
 export type MinimizersConfig = {
-  faster: Pick<FasterConfig, 'swcJsMinimizer'>;
+  faster: Pick<FasterConfig, 'swcJsMinimizer' | 'lightningCssMinimizer'>;
   currentBundler: CurrentBundler;
 };
 
@@ -31,9 +34,11 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-async function getJsMinimizer({faster}: MinimizersConfig) {
+async function getJsMinimizer({
+  faster,
+}: MinimizersConfig): Promise<WebpackPluginInstance> {
   if (faster.swcJsMinimizer) {
-    const terserOptions = await importSwcJsMinifierOptions();
+    const terserOptions = await importSwcJsMinimizerOptions();
     return new TerserPlugin({
       parallel: getTerserParallel(),
       minify: TerserPlugin.swcMinify,
@@ -69,7 +74,21 @@ async function getJsMinimizer({faster}: MinimizersConfig) {
   });
 }
 
-function getAdvancedCssMinifier() {
+async function getLightningCssMinimizer(): Promise<WebpackPluginInstance> {
+  return new CssMinimizerPlugin({
+    minify: CssMinimizerPlugin.lightningCssMinify,
+    minimizerOptions: await importLightningCssMinimizerOptions(),
+  });
+}
+
+async function getCssNanoMinimizer(): Promise<WebpackPluginInstance> {
+  // This is an historical env variable to opt-out of the advanced minimizer
+  // Sometimes there's a bug in it and people are happy to disable it
+  const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
+  if (useSimpleCssMinifier) {
+    return new CssMinimizerPlugin();
+  }
+
   // Using the array syntax to add 2 minimizers
   // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
   return new CssMinimizerPlugin<[CssNanoOptions, CustomOptions]>({
@@ -101,21 +120,18 @@ function getAdvancedCssMinifier() {
   });
 }
 
-function getCssMinimizer(): WebpackPluginInstance {
-  // This is an historical env variable to opt-out of the advanced minifier
-  // Sometimes there's a bug in it and people are happy to disable it
-  const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
-  if (useSimpleCssMinifier) {
-    return new CssMinimizerPlugin();
-  } else {
-    return getAdvancedCssMinifier();
-  }
+async function getCssMinimizer(
+  params: MinimizersConfig,
+): Promise<WebpackPluginInstance> {
+  return params.faster.lightningCssMinimizer
+    ? getLightningCssMinimizer()
+    : getCssNanoMinimizer();
 }
 
 async function getWebpackMinimizers(
   params: MinimizersConfig,
 ): Promise<WebpackPluginInstance[]> {
-  return Promise.all([getJsMinimizer(params), getCssMinimizer()]);
+  return Promise.all([getJsMinimizer(params), getCssMinimizer(params)]);
 }
 
 async function getRspackMinimizers({

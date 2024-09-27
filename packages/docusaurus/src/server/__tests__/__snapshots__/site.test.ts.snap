@@ -83,6 +83,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
     "customFields": {},
     "future": {
       "experimental_faster": {
+        "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
         "swcJsLoader": false,

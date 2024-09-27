@@ -6,7 +6,11 @@
  */
 
 import type {ConfigureWebpackUtils} from '@docusaurus/types';
-import type {MinimizerOptions, CustomOptions} from 'terser-webpack-plugin';
+import type {
+  MinimizerOptions as JsMinimizerOptions,
+  CustomOptions,
+} from 'terser-webpack-plugin';
+import type {MinimizerOptions as CssMinimizerOptions} from 'css-minimizer-webpack-plugin';
 
 async function importFaster() {
   return import('@docusaurus/faster');
@@ -30,9 +34,16 @@ export async function importSwcJsLoaderFactory(): Promise<
   return faster.getSwcJsLoaderFactory;
 }
 
-export async function importSwcJsMinifierOptions(): Promise<
-  MinimizerOptions<CustomOptions>
+export async function importSwcJsMinimizerOptions(): Promise<
+  JsMinimizerOptions<CustomOptions>
 > {
   const faster = await ensureFaster();
-  return faster.getSwcJsMinifierOptions() as MinimizerOptions<CustomOptions>;
+  return faster.getSwcJsMinimizerOptions() as JsMinimizerOptions<CustomOptions>;
+}
+
+export async function importLightningCssMinimizerOptions(): Promise<
+  CssMinimizerOptions<CustomOptions>
+> {
+  const faster = await ensureFaster();
+  return faster.getLightningCssMinimizerOptions() as CssMinimizerOptions<CustomOptions>;
 }
