@@ -64,7 +64,8 @@ const createMarkdownTableHeader = () => [
  * @param {Record<string, string>} param0.links
  * @param {{url: string, summary: LighthouseSummary}[]} param0.results
  */
-const createLighthouseReport = ({results, links}) => {
+export default function createLighthouseReport({results, links}) {
+  console.log('createLighthouseReport', {results, links});
   const tableHeader = createMarkdownTableHeader();
   const tableBody = results.map((result) => {
     const testUrl = /** @type {string} */ (
@@ -86,6 +87,4 @@ const createLighthouseReport = ({results, links}) => {
     '',
   ];
   return comment.join('\n');
-};
-
-export default createLighthouseReport;
+}
