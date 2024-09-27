@@ -63,6 +63,15 @@ export function getSwcJsMinimizerOptions(): JsMinifyOptions {
   };
 }
 
+export function getBrowserslistQueries(): string[] {
+  // Not sure why browserslist has no direct method to retrieve queries
+  const configFile = browserslist.findConfigFile(process.cwd());
+  const queries = browserslist.loadConfig({path: configFile}) ?? [
+    ...browserslist.defaults,
+  ];
+  return queries;
+}
+
 // LightningCSS doesn't expose any type for css-minimizer-webpack-plugin setup
 // So we derive it ourselves
 // see https://lightningcss.dev/docs.html#with-webpack
@@ -72,6 +81,6 @@ type LightningCssMinimizerOptions = Omit<
 >;
 
 export function getLightningCssMinimizerOptions(): LightningCssMinimizerOptions {
-  const queries = browserslist();
+  const queries = browserslist(getBrowserslistQueries());
   return {targets: lightningcss.browserslistToTargets(queries)};
 }

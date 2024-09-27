@@ -47,6 +47,11 @@ export async function importSwcJsMinimizerOptions(): Promise<
   return faster.getSwcJsMinimizerOptions() as JsMinimizerOptions<CustomOptions>;
 }
 
+export async function importBrowserslistQueries(): Promise<string[]> {
+  const faster = await ensureFaster();
+  return faster.getBrowserslistQueries();
+}
+
 export async function importLightningCssMinimizerOptions(): Promise<
   CssMinimizerOptions<CustomOptions>
 > {

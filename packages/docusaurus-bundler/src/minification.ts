@@ -10,6 +10,7 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import {
   importSwcJsMinimizerOptions,
   importLightningCssMinimizerOptions,
+  importBrowserslistQueries,
 } from './importFaster';
 import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import type {WebpackPluginInstance} from 'webpack';
@@ -137,11 +138,22 @@ async function getWebpackMinimizers(
 async function getRspackMinimizers({
   currentBundler,
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
+  const browserslistQueries = await importBrowserslistQueries();
   return [
     // @ts-expect-error: Rspack has this built-in
     new currentBundler.instance.SwcJsMinimizerRspackPlugin(),
     // @ts-expect-error: Rspack has this built-in
-    new currentBundler.instance.LightningCssMinimizerRspackPlugin(),
+    new currentBundler.instance.LightningCssMinimizerRspackPlugin({
+      minimizerOptions: {
+        ...(await importLightningCssMinimizerOptions()),
+        // Not sure why but Rspack takes browserslist queries directly
+        // While LightningCSS targets are normally not browserslist queries
+        // We have to override the option to avoid errors
+        // See https://rspack.dev/plugins/rspack/lightning-css-minimizer-rspack-plugin#minimizeroptions
+        // See https://lightningcss.dev/transpilation.html
+        targets: browserslistQueries,
+      },
+    }),
   ];
 }
 
