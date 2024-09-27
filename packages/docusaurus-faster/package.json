@@ -18,8 +18,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@rspack/core": "npm:@rspack/core-canary@1.0.8-canary-8286125d-20240926091417",
     "@swc/core": "^1.7.28",
+    "browserslist": "^4.24.0",
+    "lightningcss": "^1.27.0",
     "swc-loader": "^0.2.6",
     "webpack": "^5.88.1"
   },

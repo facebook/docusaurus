@@ -6,6 +6,8 @@
  */
 
 import Rspack from '@rspack/core';
+import * as lightningcss from 'lightningcss';
+import browserslist from 'browserslist';
 import type {RuleSetRule} from 'webpack';
 import type {JsMinifyOptions} from '@swc/core';
 
@@ -44,7 +46,7 @@ export function getSwcJsLoaderFactory({
 // They should rather be kept in sync for now to avoid any unexpected behavior
 // The goal of faster minifier is not to fine-tune options but only to be faster
 // See core minification.ts
-export function getSwcJsMinifierOptions(): JsMinifyOptions {
+export function getSwcJsMinimizerOptions(): JsMinifyOptions {
   return {
     ecma: 2020,
     compress: {
@@ -59,4 +61,17 @@ export function getSwcJsMinifierOptions(): JsMinifyOptions {
       ascii_only: true,
     },
   };
+}
+
+// LightningCSS doesn't expose any type for css-minimizer-webpack-plugin setup
+// So we derive it ourselves
+// see https://lightningcss.dev/docs.html#with-webpack
+type LightningCssMinimizerOptions = Omit<
+  lightningcss.TransformOptions<never>,
+  'filename' | 'code'
+>;
+
+export function getLightningCssMinimizerOptions(): LightningCssMinimizerOptions {
+  const queries = browserslist();
+  return {targets: lightningcss.browserslistToTargets(queries)};
 }
