@@ -300,7 +300,7 @@ This feature is experimental and might be subject to breaking API changes in the
 
 ## Importing Markdown {#importing-markdown}
 
-You can use Markdown files as components and import them elsewhere, either in Markdown files or in React pages.
+You can use Markdown files as components and import them elsewhere, either in Markdown files or in React pages. Each MDX file default-exports its page content as a React component. In the `import` statement, you can default-import this component with any name, but it must be capitalized following React's naming rules.
 
 By convention, using the **`_` filename prefix** will not create any doc page and means the Markdown file is a **"partial"**, to be imported by other files.
 
