@@ -17,6 +17,7 @@ import {
   compileToJSX,
   createAssetsExportCode,
   extractContentTitleData,
+  promiseWithResolvers,
 } from './utils';
 import type {WebpackCompilerName} from '@docusaurus/utils';
 import type {Options} from './options';
@@ -144,24 +145,56 @@ async function loadMDXWithCaching({
   // - the same content can be processed differently (versioned docs links)
   const cacheKey = resource;
 
-  const cachedPromise = options.crossCompilerCache?.get(cacheKey);
-  if (cachedPromise) {
-    // We can clean up the cache and free memory here
-    // We know there are only 2 compilations for the same file
-    // Note: once we introduce RSCs we'll probably have 3 compilations
-    // Note: we can't use string keys in WeakMap
-    // But we could eventually use WeakRef for the values
+  // We can clean up the cache and free memory after cache entry consumption
+  // We know there are only 2 compilations for the same file
+  // Note: once we introduce RSCs we'll probably have 3 compilations
+  // Note: we can't use string keys in WeakMap
+  // But we could eventually use WeakRef for the values
+  function deleteCacheEntry() {
     options.crossCompilerCache?.delete(cacheKey);
-    return cachedPromise;
   }
-  const promise = loadMDX({
-    fileContent,
-    filePath,
-    options,
-    compilerName,
-  });
-  options.crossCompilerCache?.set(cacheKey, promise);
-  return promise;
+
+  const cacheEntry = options.crossCompilerCache?.get(cacheKey);
+
+  // When deduplicating client/server compilations, we always use the client
+  // compilation and not the server compilation
+  // This is important because the server compilation usually skips some steps
+  // Notably: the server compilation does not emit file-loader assets
+  // Using the server compilation otherwise leads to broken images
+  // See https://github.com/facebook/docusaurus/issues/10544#issuecomment-2390943794
+  if (compilerName === 'client') {
+    const promise = loadMDX({
+      fileContent,
+      filePath,
+      options,
+      compilerName,
+    });
+    if (cacheEntry) {
+      promise.then(cacheEntry.resolve, cacheEntry.reject);
+      deleteCacheEntry();
+    } else {
+      const noop = () => {
+        throw new Error('this should never be called');
+      };
+      options.crossCompilerCache?.set(cacheKey, {
+        promise,
+        resolve: noop,
+        reject: noop,
+      });
+    }
+    return promise;
+  } else if (compilerName === 'server') {
+    if (cacheEntry) {
+      deleteCacheEntry();
+      return cacheEntry.promise;
+    } else {
+      const {promise, resolve, reject} = promiseWithResolvers<string>();
+      options.crossCompilerCache?.set(cacheKey, {promise, resolve, reject});
+      return promise;
+    }
+  } else {
+    throw new Error(`Unexpected compilerName=${compilerName}`);
+  }
 }
 
 export async function mdxLoader(
