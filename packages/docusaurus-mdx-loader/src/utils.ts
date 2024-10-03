@@ -132,3 +132,20 @@ export async function compileToJSX({
     );
   }
 }
+
+// TODO Docusaurus v4, remove temporary polyfill when upgrading to Node 22+
+export interface PromiseWithResolvers<T> {
+  promise: Promise<T>;
+  resolve: (value: T | PromiseLike<T>) => void;
+  reject: (reason?: any) => void;
+}
+// TODO Docusaurus v4, remove temporary polyfill when upgrading to Node 22+
+export function promiseWithResolvers<T>(): PromiseWithResolvers<T> {
+  // @ts-expect-error: it's fine
+  const out: PromiseWithResolvers<T> = {};
+  out.promise = new Promise((resolve, reject) => {
+    out.resolve = resolve;
+    out.reject = reject;
+  });
+  return out;
+}

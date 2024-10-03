@@ -172,7 +172,7 @@ export async function createBuildClientConfig({
         new ReactLoadableSSRAddon({
           filename: clientManifestPath,
         }),
-      ].filter(<T>(x: T | undefined | false): x is T => Boolean(x)),
+      ],
     },
   );
 

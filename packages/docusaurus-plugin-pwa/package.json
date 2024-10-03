@@ -34,7 +34,7 @@
     "clsx": "^2.0.0",
     "core-js": "^3.31.1",
     "tslib": "^2.6.0",
-    "webpack": "^5.88.1",
+    "webpack": "^5.95.0",
     "webpack-merge": "^5.9.0",
     "workbox-build": "^7.0.0",
     "workbox-precaching": "^7.0.0",

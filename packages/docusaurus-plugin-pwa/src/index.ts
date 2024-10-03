@@ -94,20 +94,15 @@ export default function pluginPWA(
     configureWebpack(config, isServer, {currentBundler}) {
       return {
         plugins: [
-          new currentBundler.instance.EnvironmentPlugin(
-            // See https://github.com/facebook/docusaurus/pull/10455#issuecomment-2317593528
-            // See https://github.com/webpack/webpack/commit/adf2a6b7c6077fd806ea0e378c1450cccecc9ed0#r145989788
-            // @ts-expect-error: bad Webpack type?
-            {
-              PWA_DEBUG: debug,
-              PWA_SERVICE_WORKER_URL: path.posix.resolve(
-                `${(config.output?.publicPath as string) || '/'}`,
-                'sw.js',
-              ),
-              PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES:
-                offlineModeActivationStrategies,
-            },
-          ),
+          new currentBundler.instance.EnvironmentPlugin({
+            PWA_DEBUG: debug,
+            PWA_SERVICE_WORKER_URL: path.posix.resolve(
+              `${(config.output?.publicPath as string) || '/'}`,
+              'sw.js',
+            ),
+            PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES:
+              offlineModeActivationStrategies,
+          }),
         ],
       };
     },
