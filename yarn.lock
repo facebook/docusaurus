@@ -3116,6 +3116,74 @@
   resolved "https://registry.yarnpkg.com/@swc/counter/-/counter-0.1.3.tgz#cc7463bd02949611c6329596fccd2b0ec782b0e9"
   integrity sha512-e2BR4lsJkkRlKZ/qCHPw9ZaSxc0MVUd7gtbtaB7aMvHeJVYe8sOB8DBZkP2DtISHGSku9sCK6T6cnY0CtXrOCQ==
 
+"@swc/html-darwin-arm64@1.7.28":
+  version "1.7.28"
+  resolved "https://registry.yarnpkg.com/@swc/html-darwin-arm64/-/html-darwin-arm64-1.7.28.tgz#19a6b8d50620bccd75e357b3409c17dacb951a27"
+  integrity sha512-vWxqVn8pUW/TG6NCnqNTGblJ70Rvet93rCIklo7AqAmEYnuSEyxmCo40CgAYLmpQS9Ql9OlEalH36ymPaQBiIA==
+
+"@swc/html-darwin-x64@1.7.28":
+  version "1.7.28"
+  resolved "https://registry.yarnpkg.com/@swc/html-darwin-x64/-/html-darwin-x64-1.7.28.tgz#babe74ab7427bce9f09bf4c2f85a170a5c2b9fac"
+  integrity sha512-p+4vsRWUqSkvpqil9YItYRWwQ+DAD1553t6LMbyYPzT02LOw8pHxdvt7ZMIfoGn7mjgWhkl07/VeMsXfUtiWaA==
+
+"@swc/html-linux-arm-gnueabihf@1.7.28":
+  version "1.7.28"
+  resolved "https://registry.yarnpkg.com/@swc/html-linux-arm-gnueabihf/-/html-linux-arm-gnueabihf-1.7.28.tgz#3369d6f905c44a721a71bfde271c393308a2d770"
+  integrity sha512-267layBwsXW0MsAiO085dckbLki2e4ZHlDsrPnCX4qLyzw6JykKplWeqWkg+Py2jNKw+YafYlHhlsKR/hN+olQ==
+
+"@swc/html-linux-arm64-gnu@1.7.28":
+  version "1.7.28"
+  resolved "https://registry.yarnpkg.com/@swc/html-linux-arm64-gnu/-/html-linux-arm64-gnu-1.7.28.tgz#84eaefe7460169228f7f28b6f967beadb9e5ae04"
+  integrity sha512-3xEEepFXOZ7ZPcAbFzWhUqkYK3qUIhKjdr+VUut0fXeKRY8Y1qc79CvAAWxT1rQKuK4LLTUYCOJUskUbYWHAXg==
+
+"@swc/html-linux-arm64-musl@1.7.28":
+  version "1.7.28"
+  resolved "https://registry.yarnpkg.com/@swc/html-linux-arm64-musl/-/html-linux-arm64-musl-1.7.28.tgz#e2ef51295f761074153ce5a32c1e754aa0eb97f8"
+  integrity sha512-P3wraHA2/vU8aXreNtIyYcqn0dj4o4gpT60s3Kj79L0G8dUdnTaXxiqX/7WRyB25asuGn608iwrzlMXQnX5c8A==
+
+"@swc/html-linux-x64-gnu@1.7.28":
+  version "1.7.28"
+  resolved "https://registry.yarnpkg.com/@swc/html-linux-x64-gnu/-/html-linux-x64-gnu-1.7.28.tgz#96c72c5f76df444b46d6a4587d3e81f5c117ee70"
+  integrity sha512-VW98fYTgU6Bz6++paBMe4gaNbxKjN+hO/Jb+8Cfh1ln8fvjMTk/FxzqU1gHJMh4R2xJo4NbUxSkzBFiKN0Dq6w==
+
+"@swc/html-linux-x64-musl@1.7.28":
+  version "1.7.28"
+  resolved "https://registry.yarnpkg.com/@swc/html-linux-x64-musl/-/html-linux-x64-musl-1.7.28.tgz#dbae82d638b656d916c2af25c653729e5ca78063"
+  integrity sha512-/GHYvo6SJr6vfkvhreXc+9va20isZle252GtrcyWGxKz+9t20T6fsbtX07U2XYTIVS1KXMCwaFooHBVu1zT7Pg==
+
+"@swc/html-win32-arm64-msvc@1.7.28":
+  version "1.7.28"
+  resolved "https://registry.yarnpkg.com/@swc/html-win32-arm64-msvc/-/html-win32-arm64-msvc-1.7.28.tgz#4dab56c4671ef18b91620baf2cad360cd50de834"
+  integrity sha512-WZu4xje+tSZvDu09jwdmuwP78GmNhWBUzFUV/xulmJtcWRZOAHZyByPNV7Sp4fpcewSPiPoHjFdyhVR1MvGl1A==
+
+"@swc/html-win32-ia32-msvc@1.7.28":
+  version "1.7.28"
+  resolved "https://registry.yarnpkg.com/@swc/html-win32-ia32-msvc/-/html-win32-ia32-msvc-1.7.28.tgz#9520d1d50d422a833c685afa9b9a2812d82e7216"
+  integrity sha512-qzBNJUZ5zBOJGmcsejJyNi4WBcYFPGnmtDCMzRP5uF1eMbQC+ye3nL8AP5BKCV8+i7kq8y+IGh6l6ieRnxwx0w==
+
+"@swc/html-win32-x64-msvc@1.7.28":
+  version "1.7.28"
+  resolved "https://registry.yarnpkg.com/@swc/html-win32-x64-msvc/-/html-win32-x64-msvc-1.7.28.tgz#0e9234614e883209e2513be94ae3114d14ee813d"
+  integrity sha512-9/wQWVwYJLPmeztj6Pg5Q7/Man96hwDTh5mRcSGNpAdaXyWMDYJWk0JTbZvPJUSrTBX0lKv9F7jhHcsOBKGErQ==
+
+"@swc/html@^1.7.28":
+  version "1.7.28"
+  resolved "https://registry.yarnpkg.com/@swc/html/-/html-1.7.28.tgz#413a14c1351da81a99903beac8cb6f461e3c7607"
+  integrity sha512-eVPIz/goSyoNjDobwoB16dxX8RDu4gE1sNjFCpR/ZwrmqUTDvGhnLkQ7tz7rAdLdCIEW/iIO2hlrMyUHZzJW+A==
+  dependencies:
+    "@swc/counter" "^0.1.3"
+  optionalDependencies:
+    "@swc/html-darwin-arm64" "1.7.28"
+    "@swc/html-darwin-x64" "1.7.28"
+    "@swc/html-linux-arm-gnueabihf" "1.7.28"
+    "@swc/html-linux-arm64-gnu" "1.7.28"
+    "@swc/html-linux-arm64-musl" "1.7.28"
+    "@swc/html-linux-x64-gnu" "1.7.28"
+    "@swc/html-linux-x64-musl" "1.7.28"
+    "@swc/html-win32-arm64-msvc" "1.7.28"
+    "@swc/html-win32-ia32-msvc" "1.7.28"
+    "@swc/html-win32-x64-msvc" "1.7.28"
+
 "@swc/jest@^0.2.36":
   version "0.2.36"
   resolved "https://registry.yarnpkg.com/@swc/jest/-/jest-0.2.36.tgz#2797450a30d28b471997a17e901ccad946fe693e"

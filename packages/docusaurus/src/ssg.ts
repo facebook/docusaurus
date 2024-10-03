@@ -11,7 +11,8 @@ import path from 'path';
 import _ from 'lodash';
 import evaluate from 'eval';
 import pMap from 'p-map';
-import {minify} from 'html-minifier-terser';
+// import {minify} from 'html-minifier-terser';
+import {minify} from '@swc/html';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {renderSSRTemplate} from './templates/templates';
 import type {AppRenderer, AppRenderResult, SiteCollectedData} from './common';
@@ -269,15 +270,17 @@ async function minifyHtml(html: string): Promise<string> {
       return html;
     }
     // Minify html with https://github.com/DanielRuf/html-minifier-terser
-    return await minify(html, {
+    const result = await minify(Buffer.from(html), {
+      preserveComments: [],
       removeComments: false,
-      removeRedundantAttributes: true,
+      // @ts-expect-error: type
+      removeRedundantAttributes: 'all',
       removeEmptyAttributes: true,
-      removeScriptTypeAttributes: true,
-      removeStyleLinkTypeAttributes: true,
-      useShortDoctype: true,
-      minifyJS: true,
+      minifyJs: true,
+      minifyJson: true,
+      minifyCss: true,
     });
+    return result.code;
   } catch (err) {
     throw new Error('HTML minification failed', {cause: err as Error});
   }
