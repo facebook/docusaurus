@@ -163,6 +163,12 @@ Then, in the directory containing `package.json`, run your package manager's ins
 npm install
 ```
 
+:::tip
+
+`npm install` may report several vulnerabilities and recommend running `npm audit` to address them. Typically, these reported vulnerabilities, such as RegExp DOS vulnerabilities, are harmless and can be safely ignored. Also read this article, which reflects our thinking: [npm audit: Broken by Design](https://overreacted.io/npm-audit-broken-by-design/).
+
+:::
+
 To check that the update occurred successfully, run:
 
 ```bash
