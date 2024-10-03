@@ -8,6 +8,7 @@
 import type {MDXOptions, SimpleProcessors} from './processor';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
+import type {PromiseWithResolvers} from './utils';
 
 export type Options = Partial<MDXOptions> & {
   markdownConfig: MarkdownConfig;
@@ -25,5 +26,7 @@ export type Options = Partial<MDXOptions> & {
 
   // Will usually be created by "createMDXLoaderItem"
   processors?: SimpleProcessors;
-  crossCompilerCache?: Map<string, Promise<string>>; // MDX => Promise<JSX> cache
+  crossCompilerCache?: Map<string, CrossCompilerCacheEntry>; // MDX => Promise<JSX> cache
 };
+
+type CrossCompilerCacheEntry = PromiseWithResolvers<string>;
