@@ -150,9 +150,7 @@ async function loadMDXWithCaching({
   // Note: once we introduce RSCs we'll probably have 3 compilations
   // Note: we can't use string keys in WeakMap
   // But we could eventually use WeakRef for the values
-  function deleteCacheEntry() {
-    options.crossCompilerCache?.delete(cacheKey);
-  }
+  const deleteCacheEntry = () => options.crossCompilerCache?.delete(cacheKey);
 
   const cacheEntry = options.crossCompilerCache?.get(cacheKey);
 
@@ -187,7 +185,9 @@ async function loadMDXWithCaching({
       });
     }
     return promise;
-  } else if (compilerName === 'server') {
+  }
+  // Server compilation always uses the result of the client compilation above
+  else if (compilerName === 'server') {
     if (cacheEntry) {
       deleteCacheEntry();
       return cacheEntry.promise;
