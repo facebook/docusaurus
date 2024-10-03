@@ -139,6 +139,16 @@ async function loadMDXWithCaching({
   options: Options;
   compilerName: WebpackCompilerName;
 }): Promise<string> {
+  const {crossCompilerCache} = options;
+  if (!crossCompilerCache) {
+    return loadMDX({
+      fileContent,
+      filePath,
+      options,
+      compilerName,
+    });
+  }
+
   // Note we "resource" as cache key, not "filePath" nor "fileContent"
   // This is because:
   // - the same file can be compiled in different variants (blog.mdx?truncated)
@@ -150,9 +160,9 @@ async function loadMDXWithCaching({
   // Note: once we introduce RSCs we'll probably have 3 compilations
   // Note: we can't use string keys in WeakMap
   // But we could eventually use WeakRef for the values
-  const deleteCacheEntry = () => options.crossCompilerCache?.delete(cacheKey);
+  const deleteCacheEntry = () => crossCompilerCache.delete(cacheKey);
 
-  const cacheEntry = options.crossCompilerCache?.get(cacheKey);
+  const cacheEntry = crossCompilerCache?.get(cacheKey);
 
   // When deduplicating client/server compilations, we always use the client
   // compilation and not the server compilation
@@ -178,7 +188,7 @@ async function loadMDXWithCaching({
       const noop = () => {
         throw new Error('this should never be called');
       };
-      options.crossCompilerCache?.set(cacheKey, {
+      crossCompilerCache.set(cacheKey, {
         promise,
         resolve: noop,
         reject: noop,
@@ -193,7 +203,7 @@ async function loadMDXWithCaching({
       return cacheEntry.promise;
     } else {
       const {promise, resolve, reject} = promiseWithResolvers<string>();
-      options.crossCompilerCache?.set(cacheKey, {promise, resolve, reject});
+      crossCompilerCache.set(cacheKey, {promise, resolve, reject});
       return promise;
     }
   } else {
