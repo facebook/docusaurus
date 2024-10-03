@@ -17,6 +17,7 @@ import {loadSiteConfig} from '../server/config';
 import {build} from './build';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 import type {LoadContextParams} from '../server/site';
+import { Command } from 'commander';
 
 function redirect(res: http.ServerResponse, location: string) {
   res.writeHead(302, {
@@ -36,6 +37,14 @@ export async function serve(
   siteDirParam: string = '.',
   cliOptions: Partial<ServeCLIOptions> = {},
 ): Promise<void> {
+  const program = new Command();
+
+  program
+	.option('--no-clean-urls', 'Disable clean URLs (keep .html extensions)')
+	.parse(process.argv);
+
+  const { noCleanUrls } = program.opts();
+
   const siteDir = await fs.realpath(siteDirParam);
 
   const buildDir = cliOptions.dir ?? DEFAULT_BUILD_DIR_NAME;
