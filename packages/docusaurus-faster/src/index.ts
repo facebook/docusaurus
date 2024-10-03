@@ -63,10 +63,10 @@ export function getSwcJsMinimizerOptions(): JsMinifyOptions {
   };
 }
 
+// We need this because of Rspack built-in LightningCSS integration
+// See https://github.com/orgs/browserslist/discussions/846
 export function getBrowserslistQueries(): string[] {
-  // Not sure why browserslist has no direct method to retrieve queries
-  const configFile = browserslist.findConfigFile(process.cwd());
-  const queries = browserslist.loadConfig({path: configFile}) ?? [
+  const queries = browserslist.loadConfig({path: process.cwd()}) ?? [
     ...browserslist.defaults,
   ];
   return queries;
