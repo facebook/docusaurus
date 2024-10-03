@@ -162,6 +162,10 @@ async function loadMDXWithCaching({
   // Notably: the server compilation does not emit file-loader assets
   // Using the server compilation otherwise leads to broken images
   // See https://github.com/facebook/docusaurus/issues/10544#issuecomment-2390943794
+  // See https://github.com/facebook/docusaurus/pull/10553
+  // TODO a problem with this: server bundle will use client inline loaders
+  //  This means server bundle will use ?emit=true for assets
+  //  We should try to get rid of inline loaders to cleanup this caching logic
   if (compilerName === 'client') {
     const promise = loadMDX({
       fileContent,
