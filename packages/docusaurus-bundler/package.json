@@ -41,7 +41,7 @@
     "terser-webpack-plugin": "^5.3.9",
     "tslib": "^2.6.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.88.1",
+    "webpack": "^5.95.0",
     "webpackbar": "^6.0.1"
   },
   "devDependencies": {

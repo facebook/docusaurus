@@ -73,10 +73,10 @@
     "shelljs": "^0.8.5",
     "tslib": "^2.6.0",
     "update-notifier": "^6.0.2",
-    "webpack": "^5.88.1",
-    "webpack-bundle-analyzer": "^4.9.0",
-    "webpack-dev-server": "^4.15.1",
-    "webpack-merge": "^5.9.0"
+    "webpack": "^5.95.0",
+    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack-dev-server": "^4.15.2",
+    "webpack-merge": "^6.0.1"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.5.2",
@@ -88,7 +88,7 @@
     "@types/rtl-detect": "^1.0.0",
     "@types/serve-handler": "^6.1.4",
     "@types/update-notifier": "^6.0.4",
-    "@types/webpack-bundle-analyzer": "^4.6.0",
+    "@types/webpack-bundle-analyzer": "^4.7.0",
     "react-test-renderer": "^18.0.0",
     "tmp-promise": "^3.0.3",
     "tree-node-cli": "^1.6.0"

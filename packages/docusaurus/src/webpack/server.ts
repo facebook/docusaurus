@@ -51,7 +51,7 @@ export default async function createServerConfig({
         name: 'Server',
         color: 'yellow',
       }),
-    ].filter(Boolean),
+    ],
   });
 
   return {config, serverBundlePath};
