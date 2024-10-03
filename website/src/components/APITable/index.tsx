@@ -58,18 +58,13 @@ function APITableRow(
       tabIndex={0}
       ref={history.location.hash === anchor ? ref : undefined}
       onClick={(e) => {
-        const isClickOnCodeName =
-          (e.target as HTMLElement).tagName.toUpperCase() === 'CODE';
-        const isLinkClick =
-          (e.target as HTMLElement).tagName.toUpperCase() === 'A';
-        if (!isLinkClick) {
-          /**
-           * Don't navigate if the user clicks on the name
-           * to let user doubleclick on the name for highlight
-           */
-          if (!isClickOnCodeName) {
-            history.push(anchor);
-          }
+        const isTDClick =
+          (e.target as HTMLElement).tagName.toUpperCase() === 'TD';
+        const hasSelectedText = !!window.getSelection()?.toString();
+
+        const shouldNavigate = isTDClick && !hasSelectedText;
+        if (shouldNavigate) {
+          history.push(anchor);
         }
       }}
       onKeyDown={(e: React.KeyboardEvent) => {
