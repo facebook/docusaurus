@@ -11,10 +11,10 @@ import path from 'path';
 import _ from 'lodash';
 import evaluate from 'eval';
 import pMap from 'p-map';
-import {minify} from 'html-minifier-terser';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {renderSSRTemplate} from './templates/templates';
 import type {AppRenderer, AppRenderResult, SiteCollectedData} from './common';
+import type {HtmlMinifier} from '@docusaurus/bundler';
 
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {SSRTemplateCompiled} from './templates/templates';
@@ -114,10 +114,12 @@ export async function generateStaticFiles({
   pathnames,
   renderer,
   params,
+  htmlMinifier,
 }: {
   pathnames: string[];
   renderer: AppRenderer;
   params: SSGParams;
+  htmlMinifier: HtmlMinifier;
 }): Promise<{collectedData: SiteCollectedData}> {
   type SSGSuccess = {pathname: string; error: null; result: AppRenderResult};
   type SSGError = {pathname: string; error: Error; result: null};
@@ -132,6 +134,7 @@ export async function generateStaticFiles({
         pathname,
         renderer,
         params,
+        htmlMinifier,
       }).then(
         (result) => ({pathname, result, error: null}),
         (error) => ({pathname, result: null, error: error as Error}),
@@ -170,10 +173,12 @@ async function generateStaticFile({
   pathname,
   renderer,
   params,
+  htmlMinifier,
 }: {
   pathname: string;
   renderer: AppRenderer;
   params: SSGParams;
+  htmlMinifier: HtmlMinifier;
 }) {
   try {
     // This only renders the app HTML
@@ -185,7 +190,7 @@ async function generateStaticFile({
       params,
       result,
     });
-    const content = await minifyHtml(fullPageHtml);
+    const content = await htmlMinifier.minify(fullPageHtml);
     await writeStaticFile({
       pathname,
       content,
@@ -261,24 +266,4 @@ async function writeStaticFile({
   const filePath = path.join(params.outDir, filename);
   await fs.ensureDir(path.dirname(filePath));
   await fs.writeFile(filePath, content);
-}
-
-async function minifyHtml(html: string): Promise<string> {
-  try {
-    if (process.env.SKIP_HTML_MINIFICATION === 'true') {
-      return html;
-    }
-    // Minify html with https://github.com/DanielRuf/html-minifier-terser
-    return await minify(html, {
-      removeComments: false,
-      removeRedundantAttributes: true,
-      removeEmptyAttributes: true,
-      removeScriptTypeAttributes: true,
-      removeStyleLinkTypeAttributes: true,
-      useShortDoctype: true,
-      minifyJS: true,
-    });
-  } catch (err) {
-    throw new Error('HTML minification failed', {cause: err as Error});
-  }
 }

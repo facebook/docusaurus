@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
-import {compile} from '@docusaurus/bundler';
+import {compile, getHtmlMinifier} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
 import {loadSite, loadContext, type LoadContextParams} from '../server/site';
@@ -271,17 +271,23 @@ async function executeSSG({
     return {collectedData: {}};
   }
 
-  const renderer = await PerfLogger.async('Load App renderer', () =>
-    loadAppRenderer({
-      serverBundlePath,
-    }),
-  );
+  const [renderer, htmlMinifier] = await Promise.all([
+    PerfLogger.async('Load App renderer', () =>
+      loadAppRenderer({
+        serverBundlePath,
+      }),
+    ),
+    PerfLogger.async('Load HTML minifier', () =>
+      getHtmlMinifier({siteConfig: props.siteConfig}),
+    ),
+  ]);
 
   const ssgResult = await PerfLogger.async('Generate static files', () =>
     generateStaticFiles({
       pathnames: props.routesPaths,
       renderer,
       params,
+      htmlMinifier,
     }),
   );
 

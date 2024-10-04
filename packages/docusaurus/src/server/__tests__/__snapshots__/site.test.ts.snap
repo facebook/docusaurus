@@ -86,6 +86,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
+        "swcHtmlMinimizer": false,
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },

@@ -7,8 +7,13 @@
 
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
+import {minify as swcHtmlMinifier} from '@swc/html';
 import type {RuleSetRule} from 'webpack';
 import type {JsMinifyOptions} from '@swc/core';
+
+export function getSwcHtmlMinifier(): typeof swcHtmlMinifier {
+  return swcHtmlMinifier;
+}
 
 export function getSwcJsLoaderFactory({
   isServer,
