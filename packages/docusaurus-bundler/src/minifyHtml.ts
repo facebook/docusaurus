@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import logger from '@docusaurus/logger';
 import {minify as terserHtmlMinifier} from 'html-minifier-terser';
 import {importSwcHtmlMinifier} from './importFaster';
 import type {DocusaurusConfig} from '@docusaurus/types';
@@ -59,7 +60,9 @@ async function getTerserMinifier(): Promise<HtmlMinifier> {
           minifyJS: true,
         });
       } catch (err) {
-        throw new Error('HTML minification failed', {cause: err as Error});
+        throw new Error(`HTML minification failed (Terser)`, {
+          cause: err as Error,
+        });
       }
     },
   };
@@ -91,9 +94,54 @@ async function getSwcMinifier(): Promise<HtmlMinifier> {
           minifyJson: true,
           minifyCss: true,
         });
+
+        // Escape hatch because SWC is quite aggressive to report errors
+        // TODO figure out what to do with these errors: throw or swallow?
+        //  See https://github.com/facebook/docusaurus/pull/10554
+        //  See https://github.com/swc-project/swc/discussions/9616#discussioncomment-10846201
+        const ignoreSwcMinifierErrors =
+          process.env.DOCUSAURUS_IGNORE_SWC_HTML_MINIFIER_ERRORS === 'true';
+        if (!ignoreSwcMinifierErrors && result.errors) {
+          const ignoredErrors: string[] = [
+            // TODO Docusaurus seems to emit NULL chars, and minifier detects it
+            //  see https://github.com/facebook/docusaurus/issues/9985
+            'Unexpected null character',
+          ];
+          result.errors = result.errors.filter(
+            (diagnostic) => !ignoredErrors.includes(diagnostic.message),
+          );
+          if (result.errors.length) {
+            throw new Error(
+              `HTML minification diagnostic errors:
+- ${result.errors
+                .map(
+                  (diagnostic) =>
+                    `[${diagnostic.level}] ${
+                      diagnostic.message
+                    } - ${JSON.stringify(diagnostic.span)}`,
+                )
+                .join('\n- ')}
+Note: please report the problem to the Docusaurus team
+In the meantime, you can skip this error with ${logger.code(
+                'DOCUSAURUS_IGNORE_SWC_HTML_MINIFIER_ERRORS=true',
+              )}`,
+            );
+          }
+          /*
+          if (result.errors.length) {
+            throw new AggregateError(
+              result.errors.map(
+                (diagnostic) => new Error(JSON.stringify(diagnostic, null, 2)),
+              ),
+            );
+          }
+           */
+        }
         return result.code;
       } catch (err) {
-        throw new Error('HTML minification failed', {cause: err as Error});
+        throw new Error(`HTML minification failed (SWC)`, {
+          cause: err as Error,
+        });
       }
     },
   };
