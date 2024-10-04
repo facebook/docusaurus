@@ -271,8 +271,15 @@ async function minifyHtml(html: string): Promise<string> {
     }
     // Minify html with https://github.com/DanielRuf/html-minifier-terser
     const result = await minify(Buffer.from(html), {
-      preserveComments: [],
+      // Removing comments can lead to React hydration errors
+      // See https://x.com/sebastienlorber/status/1841966927440478577
       removeComments: false,
+      // TODO maybe it's fine to only keep <!-- --> React comments?
+      preserveComments: [],
+
+      // Sorting space attributes like class can lead to React hydration errors
+      sortSpaceSeparatedAttributeValues: false,
+
       // @ts-expect-error: type
       removeRedundantAttributes: 'all',
       removeEmptyAttributes: true,
