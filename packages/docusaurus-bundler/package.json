@@ -35,6 +35,7 @@
     "postcss": "^8.4.26",
     "postcss-loader": "^7.3.3",
     "file-loader": "^6.2.0",
+    "html-minifier-terser": "^7.2.0",
     "mini-css-extract-plugin": "^2.9.1",
     "null-loader": "^4.0.1",
     "react-dev-utils": "^12.0.1",

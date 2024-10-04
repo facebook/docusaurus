@@ -12,11 +12,13 @@ import type {
 } from 'terser-webpack-plugin';
 import type {MinimizerOptions as CssMinimizerOptions} from 'css-minimizer-webpack-plugin';
 
-async function importFaster() {
+type FasterModule = Awaited<typeof import('@docusaurus/faster')>;
+
+async function importFaster(): Promise<FasterModule> {
   return import('@docusaurus/faster');
 }
 
-async function ensureFaster() {
+async function ensureFaster(): Promise<FasterModule> {
   try {
     return await importFaster();
   } catch (error) {
@@ -39,6 +41,13 @@ export async function importSwcJsMinimizerOptions(): Promise<
 > {
   const faster = await ensureFaster();
   return faster.getSwcJsMinimizerOptions() as JsMinimizerOptions<CustomOptions>;
+}
+
+export async function importSwcHtmlMinifier(): Promise<
+  ReturnType<FasterModule['getSwcHtmlMinifier']>
+> {
+  const faster = await ensureFaster();
+  return faster.getSwcHtmlMinifier();
 }
 
 export async function importLightningCssMinimizerOptions(): Promise<
