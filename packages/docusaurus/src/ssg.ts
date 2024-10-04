@@ -279,8 +279,9 @@ async function minifyHtml(html: string): Promise<string> {
 
       // Sorting space attributes like class can lead to React hydration errors
       sortSpaceSeparatedAttributeValues: false,
+      sortAttributes: false,
 
-      // @ts-expect-error: type
+      // @ts-expect-error: bad type https://github.com/swc-project/swc/pull/9615
       removeRedundantAttributes: 'all',
       removeEmptyAttributes: true,
       minifyJs: true,
