@@ -65,7 +65,7 @@
     "rehype-katex": "^7.0.0",
     "remark-math": "^6.0.0",
     "unist-util-visit": "^5.0.0",
-    "webpack": "^5.88.1",
+    "webpack": "^5.95.0",
     "workbox-routing": "^7.0.0",
     "workbox-strategies": "^7.0.0"
   },

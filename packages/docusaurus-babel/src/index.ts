@@ -5,6 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-module.exports = {
-  presets: [require.resolve('@docusaurus/core/lib/babel/preset')],
-};
+export {getCustomBabelConfigFilePath, getBabelOptions} from './utils';
+
+export {extractAllSourceCodeFileTranslations} from './babelTranslationsExtractor';

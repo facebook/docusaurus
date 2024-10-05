@@ -20,7 +20,7 @@
     "joi": "^17.9.2",
     "react-helmet-async": "^1.3.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.88.1",
+    "webpack": "^5.95.0",
     "webpack-merge": "^5.9.0"
   },
   "peerDependencies": {

@@ -48,6 +48,8 @@ describe('normalizeConfig', () => {
         experimental_faster: {
           swcJsLoader: true,
           swcJsMinimizer: true,
+          swcHtmlMinimizer: true,
+          lightningCssMinimizer: true,
           mdxCrossCompilerCache: true,
           rspackBundler: true,
         },
@@ -745,6 +747,8 @@ describe('future', () => {
       experimental_faster: {
         swcJsLoader: true,
         swcJsMinimizer: true,
+        swcHtmlMinimizer: true,
+        lightningCssMinimizer: true,
         mdxCrossCompilerCache: true,
         rspackBundler: true,
       },
@@ -1096,6 +1100,8 @@ describe('future', () => {
       const faster: FasterConfig = {
         swcJsLoader: true,
         swcJsMinimizer: true,
+        swcHtmlMinimizer: true,
+        lightningCssMinimizer: true,
         mdxCrossCompilerCache: true,
         rspackBundler: true,
       };
@@ -1276,6 +1282,148 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.experimental_faster.swcJsMinimizer" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('swcHtmlMinimizer', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          swcHtmlMinimizer: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
+      });
+
+      it('accepts - true', () => {
+        const faster: Partial<FasterConfig> = {
+          swcHtmlMinimizer: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({swcHtmlMinimizer: true}));
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          swcHtmlMinimizer: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {swcHtmlMinimizer: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.swcHtmlMinimizer" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {swcHtmlMinimizer: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.swcHtmlMinimizer" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('lightningCssMinimizer', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          lightningCssMinimizer: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({lightningCssMinimizer: false}));
+      });
+
+      it('accepts - true', () => {
+        const faster: Partial<FasterConfig> = {
+          lightningCssMinimizer: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({lightningCssMinimizer: true}));
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          lightningCssMinimizer: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({lightningCssMinimizer: false}));
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {lightningCssMinimizer: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.lightningCssMinimizer" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {lightningCssMinimizer: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.lightningCssMinimizer" must be a boolean
           "
         `);
       });

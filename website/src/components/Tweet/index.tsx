@@ -36,7 +36,7 @@ export default function Tweet({
           <img
             alt={name}
             className="avatar__photo"
-            src={`https://unavatar.io/twitter/${handle}?fallback=https://github.com/${githubUsername}.png`}
+            src={`https://unavatar.io/x/${handle}?fallback=https://github.com/${githubUsername}.png`}
             width="48"
             height="48"
             loading="lazy"

@@ -396,6 +396,7 @@ module.exports = {
           '@',
           'WebContainers',
           'Twitter',
+          'X',
           'GitHub',
           'Dev.to',
           '1.x',

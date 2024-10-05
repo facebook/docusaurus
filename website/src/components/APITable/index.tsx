@@ -58,9 +58,12 @@ function APITableRow(
       tabIndex={0}
       ref={history.location.hash === anchor ? ref : undefined}
       onClick={(e) => {
-        const isLinkClick =
-          (e.target as HTMLElement).tagName.toUpperCase() === 'A';
-        if (!isLinkClick) {
+        const isTDClick =
+          (e.target as HTMLElement).tagName.toUpperCase() === 'TD';
+        const hasSelectedText = !!window.getSelection()?.toString();
+
+        const shouldNavigate = isTDClick && !hasSelectedText;
+        if (shouldNavigate) {
           history.push(anchor);
         }
       }}

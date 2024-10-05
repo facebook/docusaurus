@@ -155,6 +155,7 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
     // We only enable these warnings for the client compiler
     // This avoids emitting duplicate warnings in prod mode
     // Note: the client compiler is used in both dev/prod modes
+    // Also: the client compiler is what gets used when using crossCompilerCache
     if (file.data.compilerName === 'client') {
       logUnusedDirectivesWarning({
         directives: unusedDirectives,

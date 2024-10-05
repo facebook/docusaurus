@@ -17,6 +17,7 @@ import {
   compileToJSX,
   createAssetsExportCode,
   extractContentTitleData,
+  promiseWithResolvers,
 } from './utils';
 import type {WebpackCompilerName} from '@docusaurus/utils';
 import type {Options} from './options';
@@ -138,30 +139,76 @@ async function loadMDXWithCaching({
   options: Options;
   compilerName: WebpackCompilerName;
 }): Promise<string> {
+  const {crossCompilerCache} = options;
+  if (!crossCompilerCache) {
+    return loadMDX({
+      fileContent,
+      filePath,
+      options,
+      compilerName,
+    });
+  }
+
   // Note we "resource" as cache key, not "filePath" nor "fileContent"
   // This is because:
   // - the same file can be compiled in different variants (blog.mdx?truncated)
   // - the same content can be processed differently (versioned docs links)
   const cacheKey = resource;
 
-  const cachedPromise = options.crossCompilerCache?.get(cacheKey);
-  if (cachedPromise) {
-    // We can clean up the cache and free memory here
-    // We know there are only 2 compilations for the same file
-    // Note: once we introduce RSCs we'll probably have 3 compilations
-    // Note: we can't use string keys in WeakMap
-    // But we could eventually use WeakRef for the values
-    options.crossCompilerCache?.delete(cacheKey);
-    return cachedPromise;
+  // We can clean up the cache and free memory after cache entry consumption
+  // We know there are only 2 compilations for the same file
+  // Note: once we introduce RSCs we'll probably have 3 compilations
+  // Note: we can't use string keys in WeakMap
+  // But we could eventually use WeakRef for the values
+  const deleteCacheEntry = () => crossCompilerCache.delete(cacheKey);
+
+  const cacheEntry = crossCompilerCache?.get(cacheKey);
+
+  // When deduplicating client/server compilations, we always use the client
+  // compilation and not the server compilation
+  // This is important because the server compilation usually skips some steps
+  // Notably: the server compilation does not emit file-loader assets
+  // Using the server compilation otherwise leads to broken images
+  // See https://github.com/facebook/docusaurus/issues/10544#issuecomment-2390943794
+  // See https://github.com/facebook/docusaurus/pull/10553
+  // TODO a problem with this: server bundle will use client inline loaders
+  //  This means server bundle will use ?emit=true for assets
+  //  We should try to get rid of inline loaders to cleanup this caching logic
+  if (compilerName === 'client') {
+    const promise = loadMDX({
+      fileContent,
+      filePath,
+      options,
+      compilerName,
+    });
+    if (cacheEntry) {
+      promise.then(cacheEntry.resolve, cacheEntry.reject);
+      deleteCacheEntry();
+    } else {
+      const noop = () => {
+        throw new Error('this should never be called');
+      };
+      crossCompilerCache.set(cacheKey, {
+        promise,
+        resolve: noop,
+        reject: noop,
+      });
+    }
+    return promise;
   }
-  const promise = loadMDX({
-    fileContent,
-    filePath,
-    options,
-    compilerName,
-  });
-  options.crossCompilerCache?.set(cacheKey, promise);
-  return promise;
+  // Server compilation always uses the result of the client compilation above
+  else if (compilerName === 'server') {
+    if (cacheEntry) {
+      deleteCacheEntry();
+      return cacheEntry.promise;
+    } else {
+      const {promise, resolve, reject} = promiseWithResolvers<string>();
+      crossCompilerCache.set(cacheKey, {promise, resolve, reject});
+      return promise;
+    }
+  } else {
+    throw new Error(`Unexpected compilerName=${compilerName}`);
+  }
 }
 
 export async function mdxLoader(

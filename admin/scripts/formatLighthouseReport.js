@@ -41,16 +41,23 @@ function createURL(url) {
  * @param {Object} param0
  * @param {string} param0.url
  * @param {LighthouseSummary} param0.summary
- * @param {string} param0.reportUrl
+ * @param {string | undefined} param0.reportUrl
+ * @return {string}
  */
-const createMarkdownTableRow = ({url, summary, reportUrl}) =>
-  [
-    `| [${createURL(url).pathname}](${url})`,
+const createMarkdownTableRow = ({url, summary, reportUrl}) => {
+  const columns = [
+    `[${createURL(url).pathname}](${url})`,
+
     .../** @type {(keyof LighthouseSummary)[]} */ (
       Object.keys(summaryKeys)
     ).map((k) => scoreEntry(summary[k])),
-    `[Report](${reportUrl}) |`,
-  ].join(' | ');
+
+    // See https://github.com/facebook/docusaurus/pull/10527
+    reportUrl ? `[Report](${reportUrl})` : `Report N/A`,
+  ];
+
+  return `| ${columns.join(' | ')} |`;
+};
 
 const createMarkdownTableHeader = () => [
   ['| URL', ...Object.values(summaryKeys), 'Report |'].join(' | '),
@@ -64,18 +71,15 @@ const createMarkdownTableHeader = () => [
  * @param {Record<string, string>} param0.links
  * @param {{url: string, summary: LighthouseSummary}[]} param0.results
  */
-const createLighthouseReport = ({results, links}) => {
+export default function formatLighthouseReport({results, links}) {
   const tableHeader = createMarkdownTableHeader();
   const tableBody = results.map((result) => {
-    const testUrl = /** @type {string} */ (
-      Object.keys(links).find((key) => key === result.url)
-    );
-    const reportPublicUrl = /** @type {string} */ (links[testUrl]);
-
+    const {url, summary} = result;
+    const reportUrl = /** @type {string | undefined} */ (links[result.url]);
     return createMarkdownTableRow({
-      url: testUrl,
-      summary: result.summary,
-      reportUrl: reportPublicUrl,
+      url,
+      summary,
+      reportUrl,
     });
   });
   const comment = [
@@ -86,6 +90,4 @@ const createLighthouseReport = ({results, links}) => {
     '',
   ];
   return comment.join('\n');
-};
-
-export default createLighthouseReport;
+}
