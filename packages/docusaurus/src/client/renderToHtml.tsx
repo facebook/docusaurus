@@ -8,7 +8,10 @@
 import type {ReactNode} from 'react';
 // @ts-expect-error: see https://github.com/facebook/react/issues/31134
 import {renderToReadableStream as renderToReadableStreamImpl} from 'react-dom/server.browser';
-import type {renderToReadableStream as renderToReadableStreamType} from 'react-dom/server';
+import {
+  renderToString,
+  type renderToReadableStream as renderToReadableStreamType,
+} from 'react-dom/server';
 import {text} from 'stream/consumers';
 
 const renderToReadableStream: typeof renderToReadableStreamType =
@@ -21,7 +24,13 @@ export async function renderToHtml(app: ReactNode): Promise<string> {
     }).then(async (stream) => {
       await stream.allReady;
       // @ts-expect-error: it works fine
-      const html = text(stream);
+      const html = await text(stream);
+
+      // TODO remove this test
+      if (html !== renderToString(app)) {
+        throw new Error('Bad');
+      }
+
       resolve(html);
     }, reject);
   });
