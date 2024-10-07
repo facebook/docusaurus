@@ -256,7 +256,6 @@ philpl
 photoshop
 Photoshop
 picomatch
-Pipeable
 playbtn
 pluggable
 Pluggable
