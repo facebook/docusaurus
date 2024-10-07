@@ -31,6 +31,8 @@ You can type this command into Command Prompt, Powershell, Terminal, or any othe
 
 The command also installs all necessary dependencies you need to run Docusaurus.
 
+**Important!** There may be some vulnerabilities found during installation. You will want to review & resolve those before going live.
+
 ## Start your site
 
 Run the development server:
