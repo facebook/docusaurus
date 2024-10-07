@@ -105,7 +105,7 @@ async function getSwcMinifier(): Promise<HtmlMinifier> {
           const ignoredErrors: string[] = [
             // TODO Docusaurus seems to emit NULL chars, and minifier detects it
             //  see https://github.com/facebook/docusaurus/issues/9985
-            'Unexpected null character',
+            // 'Unexpected null character',
           ];
           result.errors = result.errors.filter(
             (diagnostic) => !ignoredErrors.includes(diagnostic.message),
