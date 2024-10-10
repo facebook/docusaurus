@@ -49,7 +49,7 @@ export async function loadSiteConfig({
     throw new Error(`Config file at "${siteConfigPath}" not found.`);
   }
 
-  const importedConfig = await loadFreshModule(siteConfigPath);
+  const importedConfig = loadFreshModule(siteConfigPath);
 
   const loadedConfig: unknown =
     typeof importedConfig === 'function'
