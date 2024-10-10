@@ -21,7 +21,6 @@
     "@babel/core": "^7.23.3",
     "@docusaurus/babel": "3.5.2",
     "@docusaurus/cssnano-preset": "3.5.2",
-    "@docusaurus/faster": "3.5.2",
     "@docusaurus/logger": "3.5.2",
     "@docusaurus/types": "3.5.2",
     "@docusaurus/utils": "3.5.2",
@@ -44,6 +43,14 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.95.0",
     "webpackbar": "^6.0.1"
+  },
+  "peerDependencies": {
+    "@docusaurus/faster": "3.5.2"
+  },
+  "peerDependenciesMeta": {
+    "@docusaurus/faster": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@total-typescript/shoehorn": "^0.1.2"
