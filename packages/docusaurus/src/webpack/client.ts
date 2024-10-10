@@ -45,7 +45,7 @@ async function createBaseClientConfig({
   });
 
   const ProgressBarPlugin = await getProgressBarPlugin({
-    currentBundler: configureWebpackUtils.currentBundler,
+    currentBundler: props.currentBundler,
   });
 
   return merge(baseConfig, {

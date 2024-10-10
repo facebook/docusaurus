@@ -24,6 +24,7 @@ import ConfigLocalized from './docusaurus.config.localized.json';
 
 import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
+
 import type {Config, DocusaurusConfig} from '@docusaurus/types';
 
 import type * as Preset from '@docusaurus/preset-classic';

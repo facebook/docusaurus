@@ -174,32 +174,31 @@ async function buildLocale({
 
   // We can build the 2 configs in parallel
   const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
-    await PerfLogger.async('Creating bundler configs', () =>
-      Promise.all([
-        getBuildClientConfig({
-          props,
-          cliOptions,
-          configureWebpackUtils,
-        }),
-        getBuildServerConfig({
-          props,
-          configureWebpackUtils,
-        }),
-      ]),
+    await PerfLogger.async(
+      `Creating ${props.currentBundler.name} bundler configs`,
+      () =>
+        Promise.all([
+          getBuildClientConfig({
+            props,
+            cliOptions,
+            configureWebpackUtils,
+          }),
+          getBuildServerConfig({
+            props,
+            configureWebpackUtils,
+          }),
+        ]),
     );
 
   // Run webpack to build JS bundle (client) and static html files (server).
-  await PerfLogger.async(
-    `Bundling with ${configureWebpackUtils.currentBundler.name}`,
-    () => {
-      return compile({
-        configs:
-          // For hash router we don't do SSG and can skip the server bundle
-          router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
-        currentBundler: configureWebpackUtils.currentBundler,
-      });
-    },
-  );
+  await PerfLogger.async(`Bundling with ${props.currentBundler.name}`, () => {
+    return compile({
+      configs:
+        // For hash router we don't do SSG and can skip the server bundle
+        router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
+      currentBundler: configureWebpackUtils.currentBundler,
+    });
+  });
 
   const {collectedData} = await PerfLogger.async('SSG', () =>
     executeSSG({

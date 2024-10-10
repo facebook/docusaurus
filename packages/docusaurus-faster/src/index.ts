@@ -5,11 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import Rspack from '@rspack/core';
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
 import {minify as swcHtmlMinifier} from '@swc/html';
 import type {RuleSetRule} from 'webpack';
 import type {JsMinifyOptions} from '@swc/core';
+
+export const rspack = Rspack;
 
 export function getSwcHtmlMinifier(): typeof swcHtmlMinifier {
   return swcHtmlMinifier;
@@ -61,6 +64,15 @@ export function getSwcJsMinimizerOptions(): JsMinifyOptions {
       ascii_only: true,
     },
   };
+}
+
+// We need this because of Rspack built-in LightningCSS integration
+// See https://github.com/orgs/browserslist/discussions/846
+export function getBrowserslistQueries(): string[] {
+  const queries = browserslist.loadConfig({path: process.cwd()}) ?? [
+    ...browserslist.defaults,
+  ];
+  return queries;
 }
 
 // LightningCSS doesn't expose any type for css-minimizer-webpack-plugin setup

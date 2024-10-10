@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@docusaurus/core": "3.5.2",
+    "@docusaurus/logger": "3.5.2",
     "@docusaurus/mdx-loader": "3.5.2",
     "@docusaurus/module-type-aliases": "3.5.2",
     "@docusaurus/plugin-content-blog": "3.5.2",
