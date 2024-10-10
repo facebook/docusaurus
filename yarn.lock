@@ -2772,20 +2772,20 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@rsdoctor/client@0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@rsdoctor/client/-/client-0.4.5.tgz#4cf012c509b210c3419be033870af0dd5d7609c0"
-  integrity sha512-JzTBH4UAI70ftV5GfwF+oCs6Hf9Jq2FXerg9AlRwQgPpQoLLdke0tJYwvuEzSVxuVqAWKB3Z1mQwRm/fwo08xg==
+"@rsdoctor/client@0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@rsdoctor/client/-/client-0.4.6.tgz#06bf2a13b5208bf1222154e1a9bf273ef8ce4517"
+  integrity sha512-ph10wCq7CRLssc83lMvk09HsInD5FpxboJxl6EF4M5vBp17DE7htbgVoq8ftGjDxF5Mzbk/MsOgjB4Ae52tpsw==
 
-"@rsdoctor/core@0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@rsdoctor/core/-/core-0.4.5.tgz#aab0195ff00b569543242fb402745fc1b398492a"
-  integrity sha512-5KiDjIKK4psRRPeCwIcudKaTkR+rz854SezHqEhCnLAhsfOcFVDjfjyRFTyevdCaAnK6qnQgM3qNRuxiw+3kdw==
+"@rsdoctor/core@0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@rsdoctor/core/-/core-0.4.6.tgz#8563ee06c6a2968ded3c79cbbd41a4620996d52e"
+  integrity sha512-mYzKo5Mjl3Nhn8mOfJ1hVNP59fDL8zK/JrsHVfATQx9QsAgCFfbjMyRnOo8rTZuBjIS9LmDqLs31h7Dr3Lts6g==
   dependencies:
-    "@rsdoctor/graph" "0.4.5"
-    "@rsdoctor/sdk" "0.4.5"
-    "@rsdoctor/types" "0.4.5"
-    "@rsdoctor/utils" "0.4.5"
+    "@rsdoctor/graph" "0.4.6"
+    "@rsdoctor/sdk" "0.4.6"
+    "@rsdoctor/types" "0.4.6"
+    "@rsdoctor/utils" "0.4.6"
     axios "^1.7.7"
     enhanced-resolve "5.12.0"
     filesize "^10.1.6"
@@ -2796,38 +2796,38 @@
     source-map "^0.7.4"
     webpack-bundle-analyzer "^4.10.2"
 
-"@rsdoctor/graph@0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@rsdoctor/graph/-/graph-0.4.5.tgz#b730bdcb2f4fc340f32faa0e95215fac264c1306"
-  integrity sha512-ugDDVoWJZ1djlqE0F9tJPNmFXCA6j49oCPeL7fIhYcxayQlrMiQOCHmgqbD84QFCuOJoyCHm44w6y+BAs9nTgw==
+"@rsdoctor/graph@0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@rsdoctor/graph/-/graph-0.4.6.tgz#a9cee01b4b0a037816204ed6353c19b05f43e429"
+  integrity sha512-mn2cMKzyqqkc0WXN7Cr1OGNS7JhMAvlUsCyEV/pwJYiJ6OBqEE/g/xpZzA6QTT4nFqRNI2zneYsxgLNrFA4OvQ==
   dependencies:
-    "@rsdoctor/types" "0.4.5"
-    "@rsdoctor/utils" "0.4.5"
+    "@rsdoctor/types" "0.4.6"
+    "@rsdoctor/utils" "0.4.6"
     lodash "^4.17.21"
     socket.io "4.7.2"
     source-map "^0.7.4"
 
-"@rsdoctor/rspack-plugin@^0.4.1":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@rsdoctor/rspack-plugin/-/rspack-plugin-0.4.5.tgz#c37b2bd340ae1bcc09bcd68f270b9271d89a21cd"
-  integrity sha512-pAKN2hS4s+47GXfolHwC+uAe8Dxh4Y/VWinMaxpZmnDt1LeUX2ynvz7Hy8r1Q5vaG1mC6FxdKMrEDGMB9Ck1WQ==
+"@rsdoctor/rspack-plugin@^0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@rsdoctor/rspack-plugin/-/rspack-plugin-0.4.6.tgz#a25095f4928b8d6938da87833d083fc50c599200"
+  integrity sha512-Akq5ca0JoYSbm4aQfiGs3k56vNIeYBsaZu2x6uEql86PHyQT5zd1ygwCNEG8qZTZdiJMgVvWjstKGBKMQFu9cQ==
   dependencies:
-    "@rsdoctor/core" "0.4.5"
-    "@rsdoctor/graph" "0.4.5"
-    "@rsdoctor/sdk" "0.4.5"
-    "@rsdoctor/types" "0.4.5"
-    "@rsdoctor/utils" "0.4.5"
+    "@rsdoctor/core" "0.4.6"
+    "@rsdoctor/graph" "0.4.6"
+    "@rsdoctor/sdk" "0.4.6"
+    "@rsdoctor/types" "0.4.6"
+    "@rsdoctor/utils" "0.4.6"
     lodash "^4.17.21"
 
-"@rsdoctor/sdk@0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@rsdoctor/sdk/-/sdk-0.4.5.tgz#63ae3c58ae3174bf065e759e09f278c42e595259"
-  integrity sha512-j5lQOJt0UOkLUU2fWyeL6kP/EZVZTavg/1p5hCBWlarYpUECl/iH2m/EDT1nxqrPf2tlxTaEfzTlGy9TH4Cm0w==
+"@rsdoctor/sdk@0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@rsdoctor/sdk/-/sdk-0.4.6.tgz#98a810c61cda7be87dd9eb3d823a0c57399d1468"
+  integrity sha512-DmpuMCCB+Uuoi6mCHKVop3F/ap6XpTrcrFWt8McuqOOUI3SaFwXc9YYnXjzssgcXvxXgJjQ3kwnLsxGpADUt0A==
   dependencies:
-    "@rsdoctor/client" "0.4.5"
-    "@rsdoctor/graph" "0.4.5"
-    "@rsdoctor/types" "0.4.5"
-    "@rsdoctor/utils" "0.4.5"
+    "@rsdoctor/client" "0.4.6"
+    "@rsdoctor/graph" "0.4.6"
+    "@rsdoctor/types" "0.4.6"
+    "@rsdoctor/utils" "0.4.6"
     "@types/fs-extra" "^11.0.4"
     body-parser "1.20.3"
     cors "2.8.5"
@@ -2840,23 +2840,23 @@
     source-map "^0.7.4"
     tapable "2.2.1"
 
-"@rsdoctor/types@0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@rsdoctor/types/-/types-0.4.5.tgz#c30ba651ec9c4edb72024340a20879eb2a9de49f"
-  integrity sha512-KZamdG7Vc7d26DkPizO5EKvSeI+OFR35UcyMxRfiswDAo3EJJxtuebKh8TsHDBDvYNhOgAWTT5DcvouhBYJRhg==
+"@rsdoctor/types@0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@rsdoctor/types/-/types-0.4.6.tgz#f400b6a6da749eeeed7439945656cddcf66165a3"
+  integrity sha512-AoqUFliSgaHr73yFIooAggsMljkaUz+SGgVqG+jgHsVYll0BeIK4/MM0dlpWIGrN5/Hgl+OHNgPA8kt+4i5gfg==
   dependencies:
     "@types/connect" "3.4.38"
     "@types/estree" "1.0.5"
     "@types/tapable" "2.2.7"
     source-map "^0.7.4"
 
-"@rsdoctor/utils@0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@rsdoctor/utils/-/utils-0.4.5.tgz#269e6c8cd5aedeeed3387966c418373fce1a0b3c"
-  integrity sha512-ueEpGDRCufy2s60Q4mI83qYEroeaELFQr3QdxCCjC+BJylRNJiPYe9fb1o6gnSWHw2QKhCC/HUPLcz+twbMvyg==
+"@rsdoctor/utils@0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@rsdoctor/utils/-/utils-0.4.6.tgz#852b2cd0643defa46bdec0ddba091d6d3998b301"
+  integrity sha512-/5Oqdip/HCCX9cAqaEF/F5mXacm1/lgw8bq5IUTkomrUfK4QVShUc4UJCqM4VOuec0vKUhXEfirsg3PgOj1chw==
   dependencies:
     "@babel/code-frame" "7.24.7"
-    "@rsdoctor/types" "0.4.5"
+    "@rsdoctor/types" "0.4.6"
     "@types/estree" "1.0.5"
     acorn "^8.10.0"
     acorn-import-assertions "1.9.0"
@@ -2874,16 +2874,16 @@
     rslog "^1.2.3"
     strip-ansi "^6.0.1"
 
-"@rsdoctor/webpack-plugin@^0.4.1":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@rsdoctor/webpack-plugin/-/webpack-plugin-0.4.5.tgz#58084b2f254da615a60044d369f74f3a857f11c1"
-  integrity sha512-SFaLvi6I53KRfHwYnAomi5pU9ZnBtpmfQpEl7L8HzxyAtfNRNFGPl+WFOM4V6xiE6JguffJcm0j6DkClGF5TUQ==
+"@rsdoctor/webpack-plugin@^0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@rsdoctor/webpack-plugin/-/webpack-plugin-0.4.6.tgz#3469d5997d9729ff6af4ad1d8f1a67a311015c3b"
+  integrity sha512-kSWugOcQVEWKs2CT+YovU5kQdrDYIHBuEP7eyWbrnxV8evIqRvS4Xu4TUiMP7QEcgljeFQwI/beeHLvgeEd49Q==
   dependencies:
-    "@rsdoctor/core" "0.4.5"
-    "@rsdoctor/graph" "0.4.5"
-    "@rsdoctor/sdk" "0.4.5"
-    "@rsdoctor/types" "0.4.5"
-    "@rsdoctor/utils" "0.4.5"
+    "@rsdoctor/core" "0.4.6"
+    "@rsdoctor/graph" "0.4.6"
+    "@rsdoctor/sdk" "0.4.6"
+    "@rsdoctor/types" "0.4.6"
+    "@rsdoctor/utils" "0.4.6"
     fs-extra "^11.1.1"
     lodash "^4.17.21"
 
