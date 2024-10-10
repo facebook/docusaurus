@@ -150,6 +150,7 @@ async function getRspackMinimizers({
         minify: true,
         compress: {
           ecma: 6,
+          // to minimize function to arrow, like Terser did before
           unsafe_arrows: true,
         },
         mangle: {
