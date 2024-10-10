@@ -174,18 +174,20 @@ async function buildLocale({
 
   // We can build the 2 configs in parallel
   const [{clientConfig, clientManifestPath}, {serverConfig, serverBundlePath}] =
-    await PerfLogger.async('Creating bundler configs', () =>
-      Promise.all([
-        getBuildClientConfig({
-          props,
-          cliOptions,
-          configureWebpackUtils,
-        }),
-        getBuildServerConfig({
-          props,
-          configureWebpackUtils,
-        }),
-      ]),
+    await PerfLogger.async(
+      `Creating ${props.currentBundler.name} bundler configs`,
+      () =>
+        Promise.all([
+          getBuildClientConfig({
+            props,
+            cliOptions,
+            configureWebpackUtils,
+          }),
+          getBuildServerConfig({
+            props,
+            configureWebpackUtils,
+          }),
+        ]),
     );
 
   // Run webpack to build JS bundle (client) and static html files (server).
