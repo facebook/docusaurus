@@ -69,6 +69,7 @@ const prefetch: Docusaurus['prefetch'] = (
       // the name of the chunk you want to load and it will return its URL.
       // eslint-disable-next-line camelcase
       const chunkAsset = __webpack_require__.gca(chunkName);
+
       // In some cases, webpack might decide to optimize further, leading to
       // the chunk assets being merged to another chunk. In this case, we can
       // safely filter it out and don't need to load it.
