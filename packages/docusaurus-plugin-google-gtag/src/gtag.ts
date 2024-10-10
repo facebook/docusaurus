@@ -10,6 +10,7 @@ import type {ClientModule} from '@docusaurus/types';
 const clientModule: ClientModule = {
   onRouteDidUpdate({location, previousLocation}) {
     if (
+      window.gtag &&
       previousLocation &&
       (location.pathname !== previousLocation.pathname ||
         location.search !== previousLocation.search ||
