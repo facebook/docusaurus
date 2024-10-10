@@ -14,7 +14,15 @@ import Link from '@docusaurus/Link';
 import Image from '@theme/IdealImage';
 import Heading from '@theme/Heading';
 
-const Playgrounds = [
+interface Playground {
+  name: string;
+  image: string;
+  url: string;
+  urlTS: string;
+  description: React.ReactNode;
+}
+
+const Playgrounds: Playground[] = [
   {
     name: '📦 CodeSandbox',
     image: require('@site/static/img/playgrounds/codesandbox.png'),
@@ -56,7 +64,7 @@ interface Props {
   image: string;
   url: string;
   urlTS: string;
-  description: JSX.Element;
+  description: React.ReactNode;
 }
 
 function PlaygroundCard({name, image, url, urlTS, description}: Props) {
@@ -80,10 +88,10 @@ function PlaygroundCard({name, image, url, urlTS, description}: Props) {
           </div>
           <div className="button-group button-group--block">
             <Link className="button button--secondary" to={url}>
-              JavaScript
+              <Translate id="playground.javaScriptButton">JavaScript</Translate>{' '}
             </Link>
             <Link className="button button--secondary" to={urlTS}>
-              TypeScript
+              <Translate id="playground.typeScriptButton">TypeScript</Translate>{' '}
             </Link>
           </div>
         </div>
@@ -95,8 +103,15 @@ function PlaygroundCard({name, image, url, urlTS, description}: Props) {
 export function PlaygroundCardsRow(): JSX.Element {
   return (
     <div className="row">
-      {Playgrounds.map((playground) => (
-        <PlaygroundCard key={playground.name} {...playground} />
+      {Playgrounds.map(({name, image, url, urlTS, description}) => (
+        <PlaygroundCard
+          key={name}
+          name={name}
+          image={image}
+          url={url}
+          urlTS={urlTS}
+          description={description}
+        />
       ))}
     </div>
   );

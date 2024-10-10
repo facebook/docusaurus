@@ -28,6 +28,13 @@ type ProfileProps = {
   xUrl?: string;
 };
 
+type TeamMember = {
+  name: string;
+  githubUrl: string;
+  xUrl?: string;
+  body: ReactNode;
+};
+
 function TeamProfileCard({
   className,
   name,
@@ -78,13 +85,13 @@ function TeamProfileCardCol(props: ProfileProps) {
   );
 }
 
-export function ActiveTeamRow(): JSX.Element {
-  return (
-    <div className="row">
-      <TeamProfileCardCol
-        name="Sébastien Lorber"
-        githubUrl="https://github.com/slorber"
-        xUrl="https://x.com/sebastienlorber">
+const teamMembers = {
+  active: [
+    {
+      name: 'Sébastien Lorber',
+      githubUrl: 'https://github.com/slorber',
+      xUrl: 'https://x.com/sebastienlorber',
+      body: (
         <Translate
           id="team.profile.Sebastien Lorber.body"
           values={{
@@ -95,86 +102,92 @@ export function ActiveTeamRow(): JSX.Element {
             'React lover since 2014. Freelance, helping Facebook ship Docusaurus v2. He writes regularly, on his {website} and {devto}.'
           }
         </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Sida Chen"
-        githubUrl="https://github.com/Josh-Cena"
-        xUrl="https://x.com/SidaChen63">
+      ),
+    },
+    {
+      name: 'Sida Chen',
+      githubUrl: 'https://github.com/Josh-Cena',
+      xUrl: 'https://x.com/SidaChen63',
+      body: (
         <Translate id="team.profile.Sida Chen.body">
           Student from Shanghai, China. Enthusiastic open-source project
-          creator, but never actually works hard on those projects he created.
+          creator.
         </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Clément Couriol"
-        githubUrl="https://github.com/ozakione">
+      ),
+    },
+    {
+      name: 'Clément Couriol',
+      githubUrl: 'https://github.com/ozakione',
+      body: (
         <Translate id="team.profile.Clement Couriol.body">
           Student from CPE Lyon, France. Passionate web developer who tries to
           become an expert web developer.
         </Translate>
-      </TeamProfileCardCol>
-    </div>
-  );
-}
-
-export function HonoraryAlumniTeamRow(): JSX.Element {
-  return (
-    <div className="row">
-      <TeamProfileCardCol
-        name="Joel Marcey"
-        githubUrl="https://github.com/JoelMarcey"
-        xUrl="https://x.com/joelmarcey">
+      ),
+    },
+  ],
+  honoraryAlumni: [
+    {
+      name: 'Joel Marcey',
+      githubUrl: 'https://github.com/JoelMarcey',
+      xUrl: 'https://x.com/joelmarcey',
+      body: (
         <Translate id="team.profile.Joel Marcey.body">
           Docusaurus founder and now ever grateful Docusaurus cheerleader to
           those who actually write code for it.
         </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Alexey Pyltsyn"
-        githubUrl="https://github.com/lex111">
+      ),
+    },
+    {
+      name: 'Alexey Pyltsyn',
+      githubUrl: 'https://github.com/lex111',
+      body: (
         <Translate id="team.profile.Alexey Pyltsyn.body">
           Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️
           Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
         </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Yangshun Tay"
-        githubUrl="https://github.com/yangshun"
-        xUrl="https://x.com/yangshunz">
+      ),
+    },
+    {
+      name: 'Yangshun Tay',
+      githubUrl: 'https://github.com/yangshun',
+      xUrl: 'https://x.com/yangshunz',
+      body: (
         <Translate id="team.profile.Yangshun Tay.body">
           Full Front End Stack developer who likes working on the Jamstack.
           Working on Docusaurus made him Facebook&apos;s unofficial part-time
           Open Source webmaster, which is an awesome role to be in.
         </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Endilie Yacop Sucipto"
-        githubUrl="https://github.com/endiliey"
-        xUrl="https://x.com/endiliey">
+      ),
+    },
+    {
+      name: 'Endilie Yacop Sucipto',
+      githubUrl: 'https://github.com/endiliey',
+      xUrl: 'https://x.com/endiliey',
+      body: (
         <Translate id="team.profile.Endilie Yacop Sucipto.body">
           Maintainer @docusaurus · 🔥🔥🔥
         </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Wei Gao"
-        githubUrl="https://github.com/wgao19"
-        xUrl="https://x.com/wgao19">
+      ),
+    },
+    {
+      name: 'Wei Gao',
+      githubUrl: 'https://github.com/wgao19',
+      xUrl: 'https://x.com/wgao19',
+      body: (
         <Translate id="team.profile.Wei Gao.body">
           🏻‍🌾 Work in progress React developer, maintains Docusaurus, writes
           docs and spams this world with many websites.
         </Translate>
-      </TeamProfileCardCol>
-    </div>
-  );
-}
-
-export function StudentFellowsTeamRow(): JSX.Element {
-  return (
-    <div className="row">
-      <TeamProfileCardCol
-        name="Anshul Goyal"
-        githubUrl="https://github.com/anshulrgoyal"
-        xUrl="https://x.com/ar_goyal">
+      ),
+    },
+  ],
+  studentFellows: [
+    {
+      name: 'Anshul Goyal',
+      githubUrl: 'https://github.com/anshulrgoyal',
+      xUrl: 'https://x.com/ar_goyal',
+      body: (
         <Translate
           id="team.profile.Anshul Goyal.body"
           values={{
@@ -190,19 +203,23 @@ export function StudentFellowsTeamRow(): JSX.Element {
             'Fullstack developer who loves to code and try new technologies. In his free time, he contributes to open source, writes blog posts on his {websiteLink} and watches Anime.'
           }
         </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Drew Alexander"
-        githubUrl="https://github.com/drewbi">
+      ),
+    },
+    {
+      name: 'Drew Alexander',
+      githubUrl: 'https://github.com/drewbi',
+      body: (
         <Translate id="team.profile.Drew Alexander.body">
           Developer and Creative, trying to gain the skills to build whatever he
           can think of.
         </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Fanny Vieira"
-        githubUrl="https://github.com/fanny"
-        xUrl="https://x.com/fannyvieiira">
+      ),
+    },
+    {
+      name: 'Fanny Vieira',
+      githubUrl: 'https://github.com/fanny',
+      xUrl: 'https://x.com/fannyvieiira',
+      body: (
         <Translate
           id="team.profile.Fanny Vieira.body"
           values={{
@@ -225,11 +242,13 @@ export function StudentFellowsTeamRow(): JSX.Element {
             'Fanny got started with web development in high school, building a project for the school kitchen. In her free time she loves contributing to Open Source, occasionally writing on {blogLink} about her experiences, cooking, and creating {spotifyLink}.'
           }
         </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Sam Zhou"
-        githubUrl="https://github.com/SamChou19815"
-        xUrl="https://x.com/SamChou19815">
+      ),
+    },
+    {
+      name: 'Sam Zhou',
+      githubUrl: 'https://github.com/SamChou19815',
+      xUrl: 'https://x.com/SamChou19815',
+      body: (
         <Translate
           id="team.profile.Sam Zhou.body"
           values={{
@@ -259,27 +278,55 @@ export function StudentFellowsTeamRow(): JSX.Element {
             'Sam started programming in 2011 and built his {websiteLink} in 2015. He is interested in programming languages, dev infra and web development, and has built his own {samLangLink} and {miniReactLink}.'
           }
         </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Tan Teik Jun"
-        githubUrl="https://github.com/teikjun"
-        xUrl="https://x.com/teik_jun">
+      ),
+    },
+    {
+      name: 'Tan Teik Jun',
+      githubUrl: 'https://github.com/teikjun',
+      xUrl: 'https://x.com/teik_jun',
+      body: (
         <Translate id="team.profile.Tan Teik Jun.body">
           Open-source enthusiast who aims to become as awesome as the other
           humans on this page. Working on Docusaurus brought him closer to his
           goal. 🌱
         </Translate>
-      </TeamProfileCardCol>
-      <TeamProfileCardCol
-        name="Nisarag Bhatt"
-        githubUrl="https://github.com/FocalChord"
-        xUrl="https://x.com/focalchord_">
+      ),
+    },
+    {
+      name: 'Nisarag Bhatt',
+      githubUrl: 'https://github.com/FocalChord',
+      xUrl: 'https://x.com/focalchord_',
+      body: (
         <Translate id="team.profile.Nisarag Bhatt.body">
           Fullstack web developer who loves learning new technologies and
           applying them! Loves contributing to open source as well as writing
           content articles and tutorials.
         </Translate>
-      </TeamProfileCardCol>
+      ),
+    },
+  ],
+};
+
+export function TeamRow({profiles}: {profiles: TeamMember[]}): JSX.Element {
+  return (
+    <div className="row">
+      {profiles.map((profile) => (
+        <TeamProfileCardCol {...profile} key={profile.name}>
+          {profile.body}
+        </TeamProfileCardCol>
+      ))}
     </div>
   );
+}
+
+export function ActiveTeamRow(): JSX.Element {
+  return <TeamRow profiles={teamMembers.active} />;
+}
+
+export function HonoraryAlumniTeamRow(): JSX.Element {
+  return <TeamRow profiles={teamMembers.honoraryAlumni} />;
+}
+
+export function StudentFellowsTeamRow(): JSX.Element {
+  return <TeamRow profiles={teamMembers.studentFellows} />;
 }
