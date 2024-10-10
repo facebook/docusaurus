@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {RsdoctorRspackMultiplePlugin} from '@rsdoctor/rspack-plugin';
 import type {PluginConfig} from '@docusaurus/types';
 
 function createRsdoctorBundlerPlugin({isServer}: {isServer: boolean}) {
@@ -13,6 +12,8 @@ function createRsdoctorBundlerPlugin({isServer}: {isServer: boolean}) {
   //  package does not work will with skipLibCheck false
   // // eslint-disable-next-line
   // const {RsdoctorWebpackMultiplePlugin} = require('@rsdoctor/webpack-plugin');
+  // eslint-disable-next-line
+  const {RsdoctorRspackMultiplePlugin} = require('@rsdoctor/rspack-plugin');
 
   // return new RsdoctorWebpackMultiplePlugin({
   return new RsdoctorRspackMultiplePlugin({
