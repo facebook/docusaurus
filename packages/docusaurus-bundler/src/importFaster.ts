@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type webpack from 'webpack';
 import type {ConfigureWebpackUtils} from '@docusaurus/types';
 import type {
   MinimizerOptions as JsMinimizerOptions,
@@ -13,7 +12,7 @@ import type {
 } from 'terser-webpack-plugin';
 import type {MinimizerOptions as CssMinimizerOptions} from 'css-minimizer-webpack-plugin';
 
-type FasterModule = Awaited<typeof import('@docusaurus/faster')>;
+export type FasterModule = Awaited<typeof import('@docusaurus/faster')>;
 
 async function importFaster(): Promise<FasterModule> {
   return import('@docusaurus/faster');
@@ -30,9 +29,9 @@ async function ensureFaster(): Promise<FasterModule> {
   }
 }
 
-export async function importRspack(): Promise<typeof webpack> {
+export async function importRspack(): Promise<FasterModule['rspack']> {
   const faster = await ensureFaster();
-  return faster.getRspack() as unknown as typeof webpack;
+  return faster.rspack;
 }
 
 export async function importSwcJsLoaderFactory(): Promise<

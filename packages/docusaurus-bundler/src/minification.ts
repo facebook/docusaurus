@@ -12,6 +12,7 @@ import {
   importLightningCssMinimizerOptions,
   importBrowserslistQueries,
 } from './importFaster';
+import {getCurrentBundlerAsRspack} from './currentBundler';
 import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import type {WebpackPluginInstance} from 'webpack';
 import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
@@ -49,6 +50,7 @@ async function getJsMinimizer({
 
   return new TerserPlugin({
     parallel: getTerserParallel(),
+    // See https://terser.org/docs/options/
     terserOptions: {
       parse: {
         // We want uglify-js to parse ecma 8 code. However, we don't want it
@@ -138,12 +140,31 @@ async function getWebpackMinimizers(
 async function getRspackMinimizers({
   currentBundler,
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
+  const rspack = getCurrentBundlerAsRspack({currentBundler});
   const browserslistQueries = await importBrowserslistQueries();
   return [
-    // @ts-expect-error: Rspack has this built-in
-    new currentBundler.instance.SwcJsMinimizerRspackPlugin(),
-    // @ts-expect-error: Rspack has this built-in
-    new currentBundler.instance.LightningCssMinimizerRspackPlugin({
+    // See https://rspack.dev/plugins/rspack/swc-js-minimizer-rspack-plugin
+    // See https://swc.rs/docs/configuration/minification
+    new rspack.SwcJsMinimizerRspackPlugin({
+      minimizerOptions: {
+        minify: true,
+        compress: {
+          ecma: 6,
+          unsafe_arrows: true,
+        },
+        mangle: {
+          safari10: true,
+        },
+        format: {
+          ecma: 6,
+          // Turned on because emoji and regex is not minified properly using
+          // default. See https://github.com/facebook/create-react-app/issues/2488
+          ascii_only: true,
+          comments: false,
+        },
+      },
+    }),
+    new rspack.LightningCssMinimizerRspackPlugin({
       minimizerOptions: {
         ...(await importLightningCssMinimizerOptions()),
         // Not sure why but Rspack takes browserslist queries directly
@@ -154,7 +175,7 @@ async function getRspackMinimizers({
         targets: browserslistQueries,
       },
     }),
-  ];
+  ] as unknown as WebpackPluginInstance[];
 }
 
 export async function getMinimizers(

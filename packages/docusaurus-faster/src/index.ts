@@ -12,9 +12,7 @@ import {minify as swcHtmlMinifier} from '@swc/html';
 import type {RuleSetRule} from 'webpack';
 import type {JsMinifyOptions} from '@swc/core';
 
-export function getRspack(): typeof Rspack {
-  return Rspack;
-}
+export const rspack = Rspack;
 
 export function getSwcHtmlMinifier(): typeof swcHtmlMinifier {
   return swcHtmlMinifier;
