@@ -17,7 +17,7 @@ const loaded = new Set<string>();
 
 declare global {
   // eslint-disable-next-line camelcase, no-underscore-dangle
-  const __webpack_require__: {gca?: (name: string) => string};
+  const __webpack_require__: {gca: (name: string) => string};
   interface Navigator {
     connection?: {effectiveType: string; saveData: boolean};
   }
@@ -65,11 +65,6 @@ const prefetch: Docusaurus['prefetch'] = (
   // Prefetch all webpack chunk assets file needed.
   return Promise.all(
     chunkNamesNeeded.map((chunkName) => {
-      // TODO
-      if (!__webpack_require__.gca) {
-        console.warn('Rspack bug to fix: unable to prefetch');
-        return Promise.resolve();
-      }
       // "__webpack_require__.gca" is injected by ChunkAssetPlugin. Pass it
       // the name of the chunk you want to load and it will return its URL.
       // eslint-disable-next-line camelcase
@@ -80,7 +75,6 @@ const prefetch: Docusaurus['prefetch'] = (
       if (chunkAsset && !chunkAsset.includes('undefined')) {
         return prefetchHelper(chunkAsset);
       }
-
       return Promise.resolve();
     }),
   );
