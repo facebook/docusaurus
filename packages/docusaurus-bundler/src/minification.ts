@@ -10,7 +10,9 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import {
   importSwcJsMinimizerOptions,
   importLightningCssMinimizerOptions,
+  importBrowserslistQueries,
 } from './importFaster';
+import {getCurrentBundlerAsRspack} from './currentBundler';
 import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import type {WebpackPluginInstance} from 'webpack';
 import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
@@ -48,6 +50,7 @@ async function getJsMinimizer({
 
   return new TerserPlugin({
     parallel: getTerserParallel(),
+    // See https://terser.org/docs/options/
     terserOptions: {
       parse: {
         // We want uglify-js to parse ecma 8 code. However, we don't want it
@@ -137,8 +140,30 @@ async function getWebpackMinimizers(
 async function getRspackMinimizers({
   currentBundler,
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
-  console.log('currentBundler', currentBundler.name);
-  throw new Error('TODO Rspack minimizers not implemented yet');
+  const rspack = getCurrentBundlerAsRspack({currentBundler});
+  const browserslistQueries = await importBrowserslistQueries();
+  const swcJsMinimizerOptions = await importSwcJsMinimizerOptions();
+  return [
+    // See https://rspack.dev/plugins/rspack/swc-js-minimizer-rspack-plugin
+    // See https://swc.rs/docs/configuration/minification
+    new rspack.SwcJsMinimizerRspackPlugin({
+      minimizerOptions: {
+        minify: true,
+        ...swcJsMinimizerOptions,
+      },
+    }),
+    new rspack.LightningCssMinimizerRspackPlugin({
+      minimizerOptions: {
+        ...(await importLightningCssMinimizerOptions()),
+        // Not sure why but Rspack takes browserslist queries directly
+        // While LightningCSS targets are normally not browserslist queries
+        // We have to override the option to avoid errors
+        // See https://rspack.dev/plugins/rspack/lightning-css-minimizer-rspack-plugin#minimizeroptions
+        // See https://lightningcss.dev/transpilation.html
+        targets: browserslistQueries,
+      },
+    }),
+  ] as unknown as WebpackPluginInstance[];
 }
 
 export async function getMinimizers(

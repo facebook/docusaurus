@@ -68,6 +68,8 @@ export default class ChunkAssetPlugin {
 }
 
 // Inspired by https://github.com/webpack/webpack/blob/v5.94.0/lib/runtime/CompatRuntimeModule.js
+// See also https://rspack.dev/api/javascript-api/compilation#addruntimemodule
+// See also https://rspack.dev/api/plugin-api/compilation-hooks#additionaltreeruntimerequirements
 class ChunkAssetRuntimeModule extends webpack.RuntimeModule {
   constructor() {
     super('ChunkAssetRuntimeModule', webpack.RuntimeModule.STAGE_ATTACH);

@@ -9,7 +9,8 @@ import webpack from 'webpack';
 import WebpackBar from 'webpackbar';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import logger from '@docusaurus/logger';
+import {importRspack} from './importFaster';
+import type {FasterModule} from './importFaster';
 import type {CurrentBundler, DocusaurusConfig} from '@docusaurus/types';
 
 // We inject a site config slice because the Rspack flag might change place
@@ -32,15 +33,28 @@ export async function getCurrentBundler({
   siteConfig: SiteConfigSlice;
 }): Promise<CurrentBundler> {
   if (isRspack(siteConfig)) {
-    // TODO add support for Rspack
-    logger.error(
-      'Rspack bundler is not supported yet, will use Webpack instead',
-    );
+    return {
+      name: 'rspack',
+      instance: (await importRspack()) as unknown as typeof webpack,
+    };
   }
   return {
     name: 'webpack',
     instance: webpack,
   };
+}
+
+export function getCurrentBundlerAsRspack({
+  currentBundler,
+}: {
+  currentBundler: CurrentBundler;
+}): FasterModule['rspack'] {
+  if (currentBundler.name !== 'rspack') {
+    throw new Error(
+      `Can't getCurrentBundlerAsRspack() because current bundler is ${currentBundler.name}`,
+    );
+  }
+  return currentBundler.instance as unknown as FasterModule['rspack'];
 }
 
 export async function getCSSExtractPlugin({
@@ -49,7 +63,8 @@ export async function getCSSExtractPlugin({
   currentBundler: CurrentBundler;
 }): Promise<typeof MiniCssExtractPlugin> {
   if (currentBundler.name === 'rspack') {
-    throw new Error('Rspack bundler is not supported yet');
+    // @ts-expect-error: this exists only in Rspack
+    return currentBundler.instance.CssExtractRspackPlugin;
   }
   return MiniCssExtractPlugin;
 }
@@ -60,9 +75,9 @@ export async function getCopyPlugin({
   currentBundler: CurrentBundler;
 }): Promise<typeof CopyWebpackPlugin> {
   if (currentBundler.name === 'rspack') {
-    throw new Error('Rspack bundler is not supported yet');
+    // @ts-expect-error: this exists only in Rspack
+    return currentBundler.instance.CopyRspackPlugin;
   }
-  // https://github.com/webpack-contrib/copy-webpack-plugin
   return CopyWebpackPlugin;
 }
 

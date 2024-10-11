@@ -7,7 +7,6 @@
 
 import path from 'path';
 import merge from 'webpack-merge';
-import webpack from 'webpack';
 import {formatStatsErrorMessage, printStatsWarnings} from '@docusaurus/bundler';
 import logger from '@docusaurus/logger';
 import WebpackDevServer from 'webpack-dev-server';
@@ -168,7 +167,7 @@ export async function createWebpackDevServer({
     configureWebpackUtils,
   });
 
-  const compiler = webpack(config);
+  const compiler = props.currentBundler.instance(config);
   registerWebpackE2ETestHook(compiler);
 
   const defaultDevServerConfig = await createDevServerConfig({

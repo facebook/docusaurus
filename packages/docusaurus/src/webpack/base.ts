@@ -98,10 +98,14 @@ export async function createBaseConfig({
     currentBundler: props.currentBundler,
   });
 
-  return {
-    mode,
-    name,
-    cache: {
+  function getCache(): Configuration['cache'] {
+    if (props.currentBundler.name === 'rspack') {
+      // TODO Rspack only supports memory cache (as of Sept 2024)
+      // TODO re-enable file persistent cache one Rspack supports it
+      //  See also https://rspack.dev/config/cache#cache
+      return undefined;
+    }
+    return {
       type: 'filesystem',
       // Can we share the same cache across locales?
       // Exploring that question at https://github.com/webpack/webpack/issues/13034
@@ -127,7 +131,13 @@ export async function createBaseConfig({
           siteConfigPath,
         ],
       },
-    },
+    };
+  }
+
+  return {
+    mode,
+    name,
+    cache: getCache(),
     output: {
       pathinfo: false,
       path: outDir,
@@ -145,7 +155,6 @@ export async function createBaseConfig({
     },
     devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
-      unsafeCache: false, // Not enabled, does not seem to improve perf much
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true, // See https://github.com/facebook/docusaurus/issues/3272
       roots: [
