@@ -142,27 +142,14 @@ async function getRspackMinimizers({
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
   const rspack = getCurrentBundlerAsRspack({currentBundler});
   const browserslistQueries = await importBrowserslistQueries();
+  const swcJsMinimizerOptions = await importSwcJsMinimizerOptions();
   return [
     // See https://rspack.dev/plugins/rspack/swc-js-minimizer-rspack-plugin
     // See https://swc.rs/docs/configuration/minification
     new rspack.SwcJsMinimizerRspackPlugin({
       minimizerOptions: {
         minify: true,
-        compress: {
-          ecma: 6,
-          // to minimize function to arrow, like Terser did before
-          unsafe_arrows: true,
-        },
-        mangle: {
-          safari10: true,
-        },
-        format: {
-          ecma: 6,
-          // Turned on because emoji and regex is not minified properly using
-          // default. See https://github.com/facebook/create-react-app/issues/2488
-          ascii_only: true,
-          comments: false,
-        },
+        ...swcJsMinimizerOptions,
       },
     }),
     new rspack.LightningCssMinimizerRspackPlugin({
