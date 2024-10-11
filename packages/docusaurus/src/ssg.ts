@@ -213,6 +213,8 @@ export async function generateStaticFiles({
     {concurrency: Concurrency},
   );
 
+  printSSGWarnings(results);
+
   const [allSSGErrors, allSSGSuccesses] = _.partition(
     results,
     (result): result is SSGError => !!result.error,
@@ -231,8 +233,6 @@ export async function generateStaticFiles({
       cause: new AggregateError(allSSGErrors.map((ssgError) => ssgError.error)),
     });
   }
-
-  printSSGWarnings(results);
 
   const collectedData: SiteCollectedData = _.chain(allSSGSuccesses)
     .keyBy((success) => success.pathname)
