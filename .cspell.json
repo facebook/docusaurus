@@ -1,44 +1,89 @@
-{
-  "version": "0.2",
-  "gitignoreRoot": ".",
-  "useGitignore": true,
-  "dictionaries": [
-    "css",
-    "html",
-    "fonts",
-    "typescript",
-    "softwareTerms",
-    "companies",
-    "lorem-ipsum",
-    "project-words"
-  ],
-  "dictionaryDefinitions": [
-    {
-      "name": "project-words",
-      "path": "./project-words.txt",
-      "noSuggest": true
-    }
-  ],
-  "ignorePaths": [
+import os
+import re
+
+# Sample dictionaries
+css_words = {"color", "font", "margin", "padding"}
+html_words = {"html", "body", "head", "div", "span"}
+typescript_words = {"typescript", "interface", "function", "variable"}
+
+# Custom project-specific words from project-words.txt (could be populated dynamically)
+project_words = {"docusaurus", "transpilation", "CI", "CD"}
+
+# Load words into a dictionary set
+global_dictionary = css_words.union(html_words).union(typescript_words).union(project_words)
+
+# Ignored files and patterns
+ignored_paths = [
     "CHANGELOG.md",
-    "packages/docusaurus-theme-translations/locales",
-    "package.json",
     "yarn.lock",
     "project-words.txt",
     "__snapshots__",
-    "website/src/data/users.tsx",
-    "website/src/data/tweets.tsx",
-    "website/docusaurus.config.localized.json",
-    "website/_dogfooding/_pages tests/diagrams.mdx",
     "*.xyz",
     "*.docx",
     "*.xsl",
     "*.xslt",
-    "*.gitignore",
     "versioned_docs",
     "*.min.*",
     "jest/vendor"
-  ],
-  "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"],
-  "enableFiletypes": ["mdx"]
-}
+]
+
+# Regex patterns to ignore
+ignored_patterns = [
+    r"\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b",  # Email pattern
+    r"https?://[^\s]+",                 # URLs
+    r"#[\w-]*"                          # Hash-based identifiers
+]
+
+# Function to check if a file should be ignored
+def is_ignored(file_path):
+    for pattern in ignored_paths:
+        if re.match(pattern.replace("*", ".*"), file_path):
+            return True
+    return False
+
+# Function to check if a word should be ignored based on regex
+def ignore_word_by_regex(word):
+    for pattern in ignored_patterns:
+        if re.match(pattern, word):
+            return True
+    return False
+
+# Function to spell-check a file
+def spell_check_file(file_path):
+    if is_ignored(file_path):
+        print(f"Ignoring file: {file_path}")
+        return
+
+    try:
+        with open(file_path, 'r') as file:
+            content = file.read()
+
+            words = re.findall(r"\b\w+\b", content)
+            misspelled_words = []
+
+            for word in words:
+                if word.lower() not in global_dictionary and not ignore_word_by_regex(word):
+                    misspelled_words.append(word)
+
+            if misspelled_words:
+                print(f"Misspelled words in {file_path}: {misspelled_words}")
+            else:
+                print(f"No spelling errors found in {file_path}.")
+    except Exception as e:
+        print(f"Error reading {file_path}: {str(e)}")
+
+# Function to recursively check all files in a directory
+def spell_check_directory(directory):
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            file_path = os.path.join(root, file)
+            spell_check_file(file_path)
+
+# Main function
+def main():
+    # Example directory to spell-check
+    directory_to_check = "./"  # Current directory
+    spell_check_directory(directory_to_check)
+
+if __name__ == "__main__":
+    main()
