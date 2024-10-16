@@ -301,6 +301,8 @@ async function processBlogSourceFile(
   const date = await getDate();
 
   const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
+  const title_meta = frontMatter.title_meta ?? frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
+
   const description = frontMatter.description ?? excerpt ?? '';
 
   const slug = frontMatter.slug ?? parsedBlogFileName.slug;
@@ -365,6 +367,7 @@ async function processBlogSourceFile(
       editUrl: getBlogEditUrl(),
       source: aliasedSource,
       title,
+      title_meta,
       description,
       date,
       tags,

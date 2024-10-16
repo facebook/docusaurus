@@ -144,6 +144,11 @@ declare module '@docusaurus/plugin-content-blog' {
      */
     title?: string;
     /**
+     * Will override the title collected from the frontMatter.
+     * @see {@link BlogPostMetadata.title_meta}
+     */
+    title_meta?: string;
+    /**
      * Will override the default excerpt.
      * @see {@link BlogPostMetadata.description}
      */
@@ -249,6 +254,10 @@ declare module '@docusaurus/plugin-content-blog' {
      * Used to generate the page h1 heading, tab title, and pagination title.
      */
     readonly title: string;
+    /**
+     * Used to generate the <head><title> and <meta>.
+     */
+    readonly title_meta?: string;
     /**
      * The publish date of the post. On client side, this will be serialized
      * into a string.
