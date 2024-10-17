@@ -44,6 +44,11 @@ jobs:
         run: yarn workspace @docusaurus/theme-common removeThemeInternalReexport
       - name: Docusaurus Build
         run: yarn build:website:fast
+        env:
+          # Our website should build even with limited memory
+          # See https://github.com/facebook/docusaurus/pull/10590
+          NODE_OPTIONS: '--max-old-space-size=350'
+          DOCUSAURUS_PERF_LOGGER: 'true'
       - name: Docusaurus site CSS order
         run: yarn workspace website test:css-order
 
