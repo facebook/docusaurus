@@ -34,10 +34,6 @@ export default (async function pluginRsdoctor(
   context: LoadContext,
   options: PluginOptions,
 ): Promise<Plugin | null> {
-  if (!process.env.RSDOCTOR) {
-    return null;
-  }
-  console.log('Rsdoctor plugin enabled');
   return {
     name: 'docusaurus-plugin-rsdoctor',
     configureWebpack: (__config, isServer) => {
