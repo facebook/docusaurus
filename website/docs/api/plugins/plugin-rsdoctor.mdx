@@ -7,7 +7,13 @@ slug: /api/plugins/@docusaurus/plugin-rsdoctor
 
 import APITable from '@site/src/components/APITable';
 
-A [Rsdoctor](https://rsdoctor.dev/) plugin can help you troubleshoot the bundling of your Docusaurus app. It can help you figure out which plugin or loader is slowing down the bundler, so you can focus your efforts on optimizing what matters. It supports both Webpack and Rspack bundlers.
+A [Rsdoctor](https://rsdoctor.dev/) plugin can help you troubleshoot the bundling phase of your Docusaurus site, supporting both Webpack and Rspack.
+
+:::tip
+
+Use it to figure out which plugin or loader is slowing down the bundler, and focus your efforts on optimizing the bottleneck.
+
+:::
 
 ## Installation {#installation}
 
@@ -25,7 +31,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `rsdoctorOptions` | `object` | `{}` | The [Rsdoctor options](https://rsdoctor.dev/config/options/options) |
+| `rsdoctorOptions` | `object` | `{}` | The [Rsdoctor bundler plugin options](https://rsdoctor.dev/config/options/options), forwarded as is |
 
 ```mdx-code-block
 </APITable>
