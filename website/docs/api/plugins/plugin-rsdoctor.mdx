@@ -1,0 +1,51 @@
+---
+sidebar_position: 7
+slug: /api/plugins/@docusaurus/plugin-google-gtag
+---
+
+# 📦 plugin-rsdoctor
+
+import APITable from '@site/src/components/APITable';
+
+A [Rsdoctor](https://rsdoctor.dev/) plugin can help you troubleshoot the bundling of your Docusaurus app. It can help you figure out which plugin or loader is slowing down the bundler, so you can focus your efforts on optimizing what matters. It supports both Webpack and Rspack bundlers.
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-rsdoctor
+```
+
+## Configuration {#configuration}
+
+Accepted fields:
+
+```mdx-code-block
+<APITable>
+```
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `rsdoctorOptions` | `object` | `{}` | The [Rsdoctor options](https://rsdoctor.dev/config/options/options) |
+
+```mdx-code-block
+</APITable>
+```
+
+### Example configuration {#ex-config}
+
+You can configure this plugin through plugin options.
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      'rsdoctor',
+      {
+        rsdoctorOptions: {
+          mode: 'lite',
+        },
+      },
+    ],
+  ],
+};
+```
