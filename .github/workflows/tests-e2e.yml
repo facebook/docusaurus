@@ -63,6 +63,10 @@ jobs:
           E2E_TEST: true
       - name: Build test-website project
         run: yarn build
+        env:
+          # Our website should build even with limited memory
+          # See https://github.com/facebook/docusaurus/pull/10590
+          NODE_OPTIONS: '--max-old-space-size=150'
         working-directory: ../test-website
 
   yarn-berry:
@@ -129,6 +133,10 @@ jobs:
 
       - name: Build test-website project
         run: yarn build
+        env:
+          # Our website should build even with limited memory
+          # See https://github.com/facebook/docusaurus/pull/10590
+          NODE_OPTIONS: '--max-old-space-size=150'
         working-directory: ../test-website
 
   npm:
