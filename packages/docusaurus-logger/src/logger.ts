@@ -178,6 +178,7 @@ const logger = {
   red: (msg: string | number): string => chalk.red(msg),
   yellow: (msg: string | number): string => chalk.yellow(msg),
   green: (msg: string | number): string => chalk.green(msg),
+  cyan: (msg: string | number): string => chalk.cyan(msg),
   bold: (msg: string | number): string => chalk.bold(msg),
   dim: (msg: string | number): string => chalk.dim(msg),
   path,

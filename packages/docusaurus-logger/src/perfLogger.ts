@@ -37,6 +37,11 @@ type PerfLoggerAPI = {
   ) => Promise<Result>;
 };
 
+type Memory = {
+  before: NodeJS.MemoryUsage;
+  after: NodeJS.MemoryUsage;
+};
+
 function createPerfLogger(): PerfLoggerAPI {
   if (!PerfDebuggingEnabled) {
     const noop = () => {};
@@ -58,19 +63,56 @@ function createPerfLogger(): PerfLoggerAPI {
     }
   };
 
-  const logDuration = (label: string, duration: number) => {
+  const formatMemory = (memory: Memory): string => {
+    const fmtHead = (bytes: number) =>
+      logger.cyan(`${(bytes / 1000000).toFixed(0)}mb`);
+    return logger.dim(
+      `(${fmtHead(memory.before.heapUsed)} -> ${fmtHead(
+        memory.after.heapUsed,
+      )})`,
+    );
+  };
+
+  const printPerfLog = ({
+    label,
+    duration,
+    memory,
+  }: {
+    label: string;
+    duration: number;
+    memory: Memory;
+  }) => {
     if (duration < Thresholds.min) {
       return;
     }
-    console.log(`${PerfPrefix + label} - ${formatDuration(duration)}`);
+    console.log(
+      `${PerfPrefix + label} - ${formatDuration(duration)} - ${formatMemory(
+        memory,
+      )}`,
+    );
   };
 
-  const start: PerfLoggerAPI['start'] = (label) => performance.mark(label);
+  const start: PerfLoggerAPI['start'] = (label) =>
+    performance.mark(label, {
+      detail: {
+        memoryUsage: process.memoryUsage(),
+      },
+    });
 
   const end: PerfLoggerAPI['end'] = (label) => {
-    const {duration} = performance.measure(label);
+    const {
+      duration,
+      detail: {memoryUsage},
+    } = performance.measure(label);
     performance.clearMarks(label);
-    logDuration(applyParentPrefix(label), duration);
+    printPerfLog({
+      label: applyParentPrefix(label),
+      duration,
+      memory: {
+        before: memoryUsage,
+        after: process.memoryUsage(),
+      },
+    });
   };
 
   const log: PerfLoggerAPI['log'] = (label: string) =>
@@ -79,9 +121,18 @@ function createPerfLogger(): PerfLoggerAPI {
   const async: PerfLoggerAPI['async'] = async (label, asyncFn) => {
     const finalLabel = applyParentPrefix(label);
     const before = performance.now();
+    const memoryBefore = process.memoryUsage();
     const result = await ParentPrefix.run(finalLabel, () => asyncFn());
+    const memoryAfter = process.memoryUsage();
     const duration = performance.now() - before;
-    logDuration(finalLabel, duration);
+    printPerfLog({
+      label: finalLabel,
+      duration,
+      memory: {
+        before: memoryBefore,
+        after: memoryAfter,
+      },
+    });
     return result;
   };
 
