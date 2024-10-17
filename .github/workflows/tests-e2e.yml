@@ -137,7 +137,7 @@ jobs:
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=250'
+          NODE_OPTIONS: '--max-old-space-size=300'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
 
