@@ -66,7 +66,7 @@ jobs:
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=200'
+          NODE_OPTIONS: '--max-old-space-size=250'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
 
@@ -137,7 +137,7 @@ jobs:
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=200'
+          NODE_OPTIONS: '--max-old-space-size=250'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
 
@@ -169,6 +169,11 @@ jobs:
           E2E_TEST: true
       - name: Build test-website project
         run: npm run build
+        env:
+          # Our website should build even with limited memory
+          # See https://github.com/facebook/docusaurus/pull/10590
+          NODE_OPTIONS: '--max-old-space-size=250'
+          DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
 
   pnpm:
@@ -202,4 +207,9 @@ jobs:
           E2E_TEST: true
       - name: Build test-website project
         run: pnpm run build
+        env:
+          # Our website should build even with limited memory
+          # See https://github.com/facebook/docusaurus/pull/10590
+          NODE_OPTIONS: '--max-old-space-size=250'
+          DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
