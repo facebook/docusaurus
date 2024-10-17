@@ -68,7 +68,7 @@
     "react-router-dom": "^5.3.4",
     "rtl-detect": "^1.0.4",
     "semver": "^7.5.4",
-    "serve-handler": "npm:@docusaurus/serve-handler@6.2.0",
+    "serve-handler": "^6.1.6",
     "shelljs": "^0.8.5",
     "tslib": "^2.6.0",
     "update-notifier": "^6.0.2",

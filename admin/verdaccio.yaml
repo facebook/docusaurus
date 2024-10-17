@@ -29,10 +29,6 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@docusaurus/serve-handler':
-    access: $all
-    publish: $all
-    proxy: npmjs
   # Group and isolate all local packages, avoid being proxy from outside
   '@docusaurus/*':
     access: $all
