@@ -48,9 +48,7 @@ export async function loadPresets(
     );
 
     const presetPath = presetRequire.resolve(presetName);
-    const presetModule = (await loadFreshModule(
-      presetPath,
-    )) as ImportedPresetModule;
+    const presetModule = loadFreshModule(presetPath) as ImportedPresetModule;
 
     const presetFunction = presetModule.default ?? presetModule;
 

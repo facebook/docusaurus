@@ -98,3 +98,27 @@ export const DEFAULT_PLUGIN_ID = 'default';
  */
 export const WEBPACK_URL_LOADER_LIMIT =
   process.env.WEBPACK_URL_LOADER_LIMIT ?? 10000;
+
+/**
+ * SVGO config file to tweak settings.
+ *
+ * @see https://github.com/svg/svgo?tab=readme-ov-file#configuration
+ */
+export const SVGO_CONFIG_FILE_NAME = 'svgo.config.js';
+
+/**
+ * Default SVGO config to use if not configured otherwise.
+ */
+export const SVGO_DEFAULT_CONFIG = {
+  plugins: [
+    {
+      name: 'preset-default',
+      params: {
+        overrides: {
+          removeTitle: false,
+          removeViewBox: false,
+        },
+      },
+    },
+  ],
+};

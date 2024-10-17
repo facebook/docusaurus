@@ -88,7 +88,7 @@ async function loadSidebarsFileUnsafe(
   }
 
   // We don't want sidebars to be cached because of hot reloading.
-  const module = await loadFreshModule(sidebarFilePath);
+  const module = loadFreshModule(sidebarFilePath);
 
   // TODO unsafe, need to refactor and improve validation
   return module as SidebarsConfig;
