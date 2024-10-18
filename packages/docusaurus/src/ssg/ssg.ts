@@ -12,34 +12,15 @@ import _ from 'lodash';
 import evaluate from 'eval';
 import pMap from 'p-map';
 import logger, {PerfLogger} from '@docusaurus/logger';
-import {renderSSRTemplate} from '../templates/templates';
+import {getHtmlMinifier} from '@docusaurus/bundler';
+import {
+  compileSSRTemplate,
+  renderSSRTemplate,
+  type SSRTemplateCompiled,
+} from '../templates/templates';
+import {SSGConcurrency, writeStaticFile, type SSGParams} from './ssgUtils';
 import type {AppRenderer, AppRenderResult, SiteCollectedData} from '../common';
 import type {HtmlMinifier} from '@docusaurus/bundler';
-
-import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import type {SSRTemplateCompiled} from '../templates/templates';
-
-export type SSGParams = {
-  trailingSlash: boolean | undefined;
-  manifest: Manifest;
-  headTags: string;
-  preBodyTags: string;
-  postBodyTags: string;
-  outDir: string;
-  baseUrl: string;
-  noIndex: boolean;
-  DOCUSAURUS_VERSION: string;
-  ssrTemplate: SSRTemplateCompiled;
-};
-
-// Secret way to set SSR plugin concurrency option
-// Waiting for feedback before documenting this officially?
-const Concurrency = process.env.DOCUSAURUS_SSR_CONCURRENCY
-  ? parseInt(process.env.DOCUSAURUS_SSR_CONCURRENCY, 10)
-  : // Not easy to define a reasonable option default
-    // Will still be better than Infinity
-    // See also https://github.com/sindresorhus/p-map/issues/24
-    32;
 
 export async function loadAppRenderer({
   serverBundlePath,
@@ -84,30 +65,6 @@ export async function loadAppRenderer({
     );
   }
   return serverEntry.default;
-}
-
-function pathnameToFilename({
-  pathname,
-  trailingSlash,
-}: {
-  pathname: string;
-  trailingSlash?: boolean;
-}): string {
-  const outputFileName = pathname.replace(/^[/\\]/, ''); // Remove leading slashes for webpack-dev-server
-  // Paths ending with .html are left untouched
-  if (/\.html?$/i.test(outputFileName)) {
-    return outputFileName;
-  }
-  // Legacy retro-compatible behavior
-  if (typeof trailingSlash === 'undefined') {
-    return path.join(outputFileName, 'index.html');
-  }
-  // New behavior: we can say if we prefer file/folder output
-  // Useful resource: https://github.com/slorber/trailing-slash-guide
-  if (pathname === '' || pathname.endsWith('/') || trailingSlash) {
-    return path.join(outputFileName, 'index.html');
-  }
-  return `${outputFileName}.html`;
 }
 
 export function printSSGWarnings(
@@ -163,15 +120,27 @@ Troubleshooting guide: https://github.com/facebook/docusaurus/discussions/10580
 
 export async function generateStaticFiles({
   pathnames,
-  renderer,
   params,
-  htmlMinifier,
 }: {
   pathnames: string[];
-  renderer: AppRenderer;
   params: SSGParams;
-  htmlMinifier: HtmlMinifier;
 }): Promise<{collectedData: SiteCollectedData}> {
+  const [renderer, htmlMinifier, ssrTemplate] = await Promise.all([
+    PerfLogger.async('Load App renderer', () =>
+      loadAppRenderer({
+        serverBundlePath: params.serverBundlePath,
+      }),
+    ),
+    PerfLogger.async('Load HTML minifier', () =>
+      getHtmlMinifier({
+        type: params.htmlMinifierType,
+      }),
+    ),
+    PerfLogger.async('Compile SSR template', () =>
+      compileSSRTemplate(params.ssrTemplateContent),
+    ),
+  ]);
+
   type SSGSuccess = {
     pathname: string;
     error: null;
@@ -196,6 +165,7 @@ export async function generateStaticFiles({
         renderer,
         params,
         htmlMinifier,
+        ssrTemplate,
       }).then(
         (result) => ({
           pathname,
@@ -210,7 +180,7 @@ export async function generateStaticFiles({
           warnings: [],
         }),
       ),
-    {concurrency: Concurrency},
+    {concurrency: SSGConcurrency},
   );
 
   printSSGWarnings(results);
@@ -247,11 +217,13 @@ async function generateStaticFile({
   renderer,
   params,
   htmlMinifier,
+  ssrTemplate,
 }: {
   pathname: string;
   renderer: AppRenderer;
   params: SSGParams;
   htmlMinifier: HtmlMinifier;
+  ssrTemplate: SSRTemplateCompiled;
 }): Promise<AppRenderResult & {warnings: string[]}> {
   try {
     // This only renders the app HTML
@@ -262,6 +234,7 @@ async function generateStaticFile({
     const fullPageHtml = renderSSRTemplate({
       params,
       result,
+      ssrTemplate,
     });
     const minifierResult = await htmlMinifier.minify(fullPageHtml);
     await writeStaticFile({
@@ -306,41 +279,4 @@ It might also require to wrap your client code in ${logger.code(
   }
 
   return parts.join('\n');
-}
-
-export async function generateHashRouterEntrypoint({
-  content,
-  params,
-}: {
-  content: string;
-  params: SSGParams;
-}): Promise<void> {
-  await writeStaticFile({
-    pathname: '/',
-    content,
-    params,
-  });
-}
-
-async function writeStaticFile({
-  content,
-  pathname,
-  params,
-}: {
-  content: string;
-  pathname: string;
-  params: SSGParams;
-}) {
-  function removeBaseUrl(p: string, baseUrl: string): string {
-    return baseUrl === '/' ? p : p.replace(new RegExp(`^${baseUrl}`), '/');
-  }
-
-  const filename = pathnameToFilename({
-    pathname: removeBaseUrl(pathname, params.baseUrl),
-    trailingSlash: params.trailingSlash,
-  });
-
-  const filePath = path.join(params.outDir, filename);
-  await fs.ensureDir(path.dirname(filePath));
-  await fs.writeFile(filePath, content);
 }

@@ -7,11 +7,12 @@
 
 import * as eta from 'eta';
 import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
-import type {SSGParams} from '../ssg/ssg';
+import {PerfLogger} from '@docusaurus/logger';
+import type {SSGParams} from '../ssg/ssgUtils';
 import type {AppRenderResult} from '../common';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 
-// TODO this is historical server template data
+// TODO Docusaurus v4 breaking change - this is historical server template data
 //  that does not look super clean nor typesafe
 //  Note: changing it is a breaking change because template is configurable
 export type SSRTemplateData = {
@@ -65,9 +66,11 @@ function getScriptsAndStylesheets({
 export function renderSSRTemplate({
   params,
   result,
+  ssrTemplate,
 }: {
   params: SSGParams;
   result: AppRenderResult;
+  ssrTemplate: SSRTemplateCompiled;
 }): string {
   const {
     baseUrl,
@@ -77,7 +80,6 @@ export function renderSSRTemplate({
     manifest,
     noIndex,
     DOCUSAURUS_VERSION,
-    ssrTemplate,
   } = params;
   const {
     html: appHtml,
@@ -114,11 +116,11 @@ export function renderSSRTemplate({
   return ssrTemplate(data);
 }
 
-export function renderHashRouterTemplate({
+export async function renderHashRouterTemplate({
   params,
 }: {
   params: SSGParams;
-}): string {
+}): Promise<string> {
   const {
     // baseUrl,
     headTags,
@@ -126,8 +128,12 @@ export function renderHashRouterTemplate({
     postBodyTags,
     manifest,
     DOCUSAURUS_VERSION,
-    ssrTemplate,
+    ssrTemplateContent,
   } = params;
+
+  const ssrTemplate = await PerfLogger.async('Compile SSR template', () =>
+    compileSSRTemplate(ssrTemplateContent),
+  );
 
   const {scripts, stylesheets} = getScriptsAndStylesheets({
     manifest,

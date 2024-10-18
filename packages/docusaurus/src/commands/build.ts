@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
-import {compile, getHtmlMinifier} from '@docusaurus/bundler';
+import {compile} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
 import {loadSite, loadContext, type LoadContextParams} from '../server/site';
@@ -21,17 +21,10 @@ import {
 } from '../webpack/configure';
 
 import {loadI18n} from '../server/i18n';
-import {
-  generateHashRouterEntrypoint,
-  generateStaticFiles,
-  loadAppRenderer,
-} from '../ssg/ssg';
-import {
-  compileSSRTemplate,
-  renderHashRouterTemplate,
-} from '../templates/templates';
+import {generateStaticFiles} from '../ssg/ssg';
+import {renderHashRouterTemplate} from '../templates/templates';
 import defaultSSRTemplate from '../templates/ssr.html.template';
-import type {SSGParams} from '../ssg/ssg';
+import {generateHashRouterEntrypoint, type SSGParams} from '../ssg/ssgUtils';
 
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {
@@ -243,10 +236,6 @@ async function executeSSG({
     () => fs.readJSON(clientManifestPath, 'utf-8'),
   );
 
-  const ssrTemplate = await PerfLogger.async('Compile SSR template', () =>
-    compileSSRTemplate(props.siteConfig.ssrTemplate ?? defaultSSRTemplate),
-  );
-
   const params: SSGParams = {
     trailingSlash: props.siteConfig.trailingSlash,
     outDir: props.outDir,
@@ -255,36 +244,28 @@ async function executeSSG({
     headTags: props.headTags,
     preBodyTags: props.preBodyTags,
     postBodyTags: props.postBodyTags,
-    ssrTemplate,
+    ssrTemplateContent: props.siteConfig.ssrTemplate ?? defaultSSRTemplate,
     noIndex: props.siteConfig.noIndex,
     DOCUSAURUS_VERSION,
+    serverBundlePath,
+    htmlMinifierType: props.siteConfig.future.experimental_faster
+      .swcHtmlMinimizer
+      ? 'swc'
+      : 'terser',
   };
 
   if (router === 'hash') {
     PerfLogger.start('Generate Hash Router entry point');
-    const content = renderHashRouterTemplate({params});
+    const content = await renderHashRouterTemplate({params});
     await generateHashRouterEntrypoint({content, params});
     PerfLogger.end('Generate Hash Router entry point');
     return {collectedData: {}};
   }
 
-  const [renderer, htmlMinifier] = await Promise.all([
-    PerfLogger.async('Load App renderer', () =>
-      loadAppRenderer({
-        serverBundlePath,
-      }),
-    ),
-    PerfLogger.async('Load HTML minifier', () =>
-      getHtmlMinifier({siteConfig: props.siteConfig}),
-    ),
-  ]);
-
   const ssgResult = await PerfLogger.async('Generate static files', () =>
     generateStaticFiles({
       pathnames: props.routesPaths,
-      renderer,
       params,
-      htmlMinifier,
     }),
   );
 

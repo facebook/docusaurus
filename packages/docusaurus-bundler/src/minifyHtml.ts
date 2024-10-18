@@ -7,10 +7,11 @@
 
 import {minify as terserHtmlMinifier} from 'html-minifier-terser';
 import {importSwcHtmlMinifier} from './importFaster';
-import type {DocusaurusConfig} from '@docusaurus/types';
 
 // Historical env variable
 const SkipHtmlMinification = process.env.SKIP_HTML_MINIFICATION === 'true';
+
+export type HtmlMinifierType = 'swc' | 'terser';
 
 export type HtmlMinifierResult = {
   code: string;
@@ -25,24 +26,15 @@ const NoopMinifier: HtmlMinifier = {
   minify: async (html: string) => ({code: html, warnings: []}),
 };
 
-type SiteConfigSlice = {
-  future: {
-    experimental_faster: Pick<
-      DocusaurusConfig['future']['experimental_faster'],
-      'swcHtmlMinimizer'
-    >;
-  };
-};
-
 export async function getHtmlMinifier({
-  siteConfig,
+  type,
 }: {
-  siteConfig: SiteConfigSlice;
+  type: HtmlMinifierType;
 }): Promise<HtmlMinifier> {
   if (SkipHtmlMinification) {
     return NoopMinifier;
   }
-  if (siteConfig.future.experimental_faster.swcHtmlMinimizer) {
+  if (type === 'swc') {
     return getSwcMinifier();
   } else {
     return getTerserMinifier();
