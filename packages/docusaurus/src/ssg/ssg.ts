@@ -23,6 +23,27 @@ import type {SSGParams} from './ssgParams';
 import type {AppRenderer, AppRenderResult, SiteCollectedData} from '../common';
 import type {HtmlMinifier} from '@docusaurus/bundler';
 
+type SSGSuccessResult = {
+  collectedData: AppRenderResult['collectedData'];
+  // html: we don't include it on purpose!
+  // we don't need to aggregate all html contents in memory!
+  // html contents can be GC as soon as they are written to disk
+};
+
+type SSGSuccess = {
+  pathname: string;
+  error: null;
+  result: SSGSuccessResult;
+  warnings: string[];
+};
+type SSGError = {
+  pathname: string;
+  error: Error;
+  result: null;
+  warnings: string[];
+};
+type SSGResult = SSGSuccess | SSGError;
+
 export async function loadAppRenderer({
   serverBundlePath,
 }: {
@@ -142,20 +163,6 @@ export async function generateStaticFiles({
     ),
   ]);
 
-  type SSGSuccess = {
-    pathname: string;
-    error: null;
-    result: AppRenderResult;
-    warnings: string[];
-  };
-  type SSGError = {
-    pathname: string;
-    error: Error;
-    result: null;
-    warnings: string[];
-  };
-  type SSGResult = SSGSuccess | SSGError;
-
   // Note that we catch all async errors on purpose
   // Docusaurus presents all the SSG errors to the user, not just the first one
   const results: SSGResult[] = await pMap(
@@ -225,7 +232,7 @@ async function generateStaticFile({
   params: SSGParams;
   htmlMinifier: HtmlMinifier;
   ssgTemplate: SSGTemplateCompiled;
-}): Promise<AppRenderResult & {warnings: string[]}> {
+}): Promise<SSGSuccessResult & {warnings: string[]}> {
   try {
     // This only renders the app HTML
     const result = await renderer({
@@ -244,7 +251,7 @@ async function generateStaticFile({
       params,
     });
     return {
-      ...result,
+      collectedData: result.collectedData,
       // As of today, only the html minifier can emit SSG warnings
       warnings: minifierResult.warnings,
     };
