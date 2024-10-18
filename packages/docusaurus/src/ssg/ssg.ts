@@ -14,9 +14,9 @@ import pMap from 'p-map';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {getHtmlMinifier} from '@docusaurus/bundler';
 import {
-  compileSSRTemplate,
-  renderSSRTemplate,
-  type SSRTemplateCompiled,
+  compileSSGTemplate,
+  renderSSGTemplate,
+  type SSGTemplateCompiled,
 } from '../templates/templates';
 import {SSGConcurrency, writeStaticFile} from './ssgUtils';
 import type {SSGParams} from './ssgParams';
@@ -126,7 +126,7 @@ export async function generateStaticFiles({
   pathnames: string[];
   params: SSGParams;
 }): Promise<{collectedData: SiteCollectedData}> {
-  const [renderer, htmlMinifier, ssrTemplate] = await Promise.all([
+  const [renderer, htmlMinifier, ssgTemplate] = await Promise.all([
     PerfLogger.async('Load App renderer', () =>
       loadAppRenderer({
         serverBundlePath: params.serverBundlePath,
@@ -137,8 +137,8 @@ export async function generateStaticFiles({
         type: params.htmlMinifierType,
       }),
     ),
-    PerfLogger.async('Compile SSR template', () =>
-      compileSSRTemplate(params.ssrTemplateContent),
+    PerfLogger.async('Compile SSG template', () =>
+      compileSSGTemplate(params.ssgTemplateContent),
     ),
   ]);
 
@@ -166,7 +166,7 @@ export async function generateStaticFiles({
         renderer,
         params,
         htmlMinifier,
-        ssrTemplate,
+        ssgTemplate,
       }).then(
         (result) => ({
           pathname,
@@ -218,13 +218,13 @@ async function generateStaticFile({
   renderer,
   params,
   htmlMinifier,
-  ssrTemplate,
+  ssgTemplate,
 }: {
   pathname: string;
   renderer: AppRenderer;
   params: SSGParams;
   htmlMinifier: HtmlMinifier;
-  ssrTemplate: SSRTemplateCompiled;
+  ssgTemplate: SSGTemplateCompiled;
 }): Promise<AppRenderResult & {warnings: string[]}> {
   try {
     // This only renders the app HTML
@@ -232,10 +232,10 @@ async function generateStaticFile({
       pathname,
     });
     // This renders the full page HTML, including head tags...
-    const fullPageHtml = renderSSRTemplate({
+    const fullPageHtml = renderSSGTemplate({
       params,
       result,
-      ssrTemplate,
+      ssgTemplate,
     });
     const minifierResult = await htmlMinifier.minify(fullPageHtml);
     await writeStaticFile({

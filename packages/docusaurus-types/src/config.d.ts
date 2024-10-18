@@ -403,6 +403,7 @@ export type DocusaurusConfig = {
    *
    * @see https://docusaurus.io/docs/api/docusaurus-config#ssrTemplate
    */
+  // TODO Docusaurus v4 - rename to ssgTemplate?
   ssrTemplate?: string;
   /**
    * Will be used as title delimiter in the generated `<title>` tag.

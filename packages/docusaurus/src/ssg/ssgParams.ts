@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {PerfLogger} from '@docusaurus/logger';
-import defaultSSRTemplate from '../templates/ssr.html.template';
+import defaultSSGTemplate from '../templates/ssg.html.template';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {Props} from '@docusaurus/types';
 
@@ -29,7 +29,7 @@ export type SSGParams = {
 
   htmlMinifierType: HtmlMinifierType;
   serverBundlePath: string;
-  ssrTemplateContent: string;
+  ssgTemplateContent: string;
 };
 
 export async function createSSGParams({
@@ -54,7 +54,7 @@ export async function createSSGParams({
     headTags: props.headTags,
     preBodyTags: props.preBodyTags,
     postBodyTags: props.postBodyTags,
-    ssrTemplateContent: props.siteConfig.ssrTemplate ?? defaultSSRTemplate,
+    ssgTemplateContent: props.siteConfig.ssrTemplate ?? defaultSSGTemplate,
     noIndex: props.siteConfig.noIndex,
     DOCUSAURUS_VERSION,
     serverBundlePath,
