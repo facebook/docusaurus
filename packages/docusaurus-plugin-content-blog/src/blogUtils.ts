@@ -301,7 +301,6 @@ async function processBlogSourceFile(
   const date = await getDate();
 
   const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
-
   const description = frontMatter.description ?? excerpt ?? '';
 
   const slug = frontMatter.slug ?? parsedBlogFileName.slug;
