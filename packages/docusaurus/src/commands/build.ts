@@ -147,7 +147,7 @@ async function buildLocale({
   siteDir: string;
   locale: string;
   cliOptions: Partial<BuildCLIOptions>;
-}): Promise<string> {
+}): Promise<void> {
   // Temporary workaround to unlock the ability to translate the site config
   // We'll remove it if a better official API can be designed
   // See https://github.com/facebook/docusaurus/issues/4542
@@ -225,8 +225,6 @@ async function buildLocale({
     process.cwd(),
     outDir,
   )}.`;
-
-  return outDir;
 }
 
 async function executeSSG({
