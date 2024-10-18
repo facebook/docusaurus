@@ -7,27 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-
-import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import type {HtmlMinifierType} from '@docusaurus/bundler';
-
-// Keep these params serializable
-// This makes it possible to use workers
-export type SSGParams = {
-  trailingSlash: boolean | undefined;
-  manifest: Manifest;
-  headTags: string;
-  preBodyTags: string;
-  postBodyTags: string;
-  outDir: string;
-  baseUrl: string;
-  noIndex: boolean;
-  DOCUSAURUS_VERSION: string;
-
-  htmlMinifierType: HtmlMinifierType;
-  serverBundlePath: string;
-  ssrTemplateContent: string;
-};
+import type {SSGParams} from './ssgParams';
 
 // Secret way to set SSR plugin concurrency option
 // Waiting for feedback before documenting this officially?

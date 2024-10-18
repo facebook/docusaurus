@@ -10,7 +10,7 @@ import path from 'path';
 import _ from 'lodash';
 import {compile} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
-import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
+import {mapAsyncSequential} from '@docusaurus/utils';
 import {loadSite, loadContext, type LoadContextParams} from '../server/site';
 import {handleBrokenLinks} from '../server/brokenLinks';
 import {createBuildClientConfig} from '../webpack/client';
@@ -23,10 +23,9 @@ import {
 import {loadI18n} from '../server/i18n';
 import {generateStaticFiles} from '../ssg/ssg';
 import {renderHashRouterTemplate} from '../templates/templates';
-import defaultSSRTemplate from '../templates/ssr.html.template';
-import {generateHashRouterEntrypoint, type SSGParams} from '../ssg/ssgUtils';
+import {generateHashRouterEntrypoint} from '../ssg/ssgUtils';
 
-import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
+import {createSSGParams} from '../ssg/ssgParams';
 import type {
   ConfigureWebpackUtils,
   LoadedPlugin,
@@ -231,28 +230,11 @@ async function executeSSG({
   clientManifestPath: string;
   router: RouterType;
 }): Promise<{collectedData: SiteCollectedData}> {
-  const manifest: Manifest = await PerfLogger.async(
-    'Read client manifest',
-    () => fs.readJSON(clientManifestPath, 'utf-8'),
-  );
-
-  const params: SSGParams = {
-    trailingSlash: props.siteConfig.trailingSlash,
-    outDir: props.outDir,
-    baseUrl: props.baseUrl,
-    manifest,
-    headTags: props.headTags,
-    preBodyTags: props.preBodyTags,
-    postBodyTags: props.postBodyTags,
-    ssrTemplateContent: props.siteConfig.ssrTemplate ?? defaultSSRTemplate,
-    noIndex: props.siteConfig.noIndex,
-    DOCUSAURUS_VERSION,
+  const params = await createSSGParams({
     serverBundlePath,
-    htmlMinifierType: props.siteConfig.future.experimental_faster
-      .swcHtmlMinimizer
-      ? 'swc'
-      : 'terser',
-  };
+    clientManifestPath,
+    props,
+  });
 
   if (router === 'hash') {
     PerfLogger.start('Generate Hash Router entry point');

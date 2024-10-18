@@ -18,7 +18,8 @@ import {
   renderSSRTemplate,
   type SSRTemplateCompiled,
 } from '../templates/templates';
-import {SSGConcurrency, writeStaticFile, type SSGParams} from './ssgUtils';
+import {SSGConcurrency, writeStaticFile} from './ssgUtils';
+import type {SSGParams} from './ssgParams';
 import type {AppRenderer, AppRenderResult, SiteCollectedData} from '../common';
 import type {HtmlMinifier} from '@docusaurus/bundler';
 
