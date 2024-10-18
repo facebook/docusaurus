@@ -309,11 +309,6 @@ declare module '@docusaurus/plugin-content-docs' {
      */
     title?: string;
     /**
-     * Will override the title collected from the frontMatter.
-     * @see {@link DocMetadata.title_meta}
-     */
-    title_meta?: string;
-    /**
      * Front matter tags, unnormalized.
      * @see {@link DocMetadata.tags}
      */
@@ -416,10 +411,6 @@ declare module '@docusaurus/plugin-content-docs' {
      * Used to generate the page h1 heading, tab title, and pagination title.
      */
     title: string;
-    /**
-     * Used to generate the <head><title> and <meta>.
-     */
-    title_meta?: string;
     /**
      * Description used in the meta. Could be an empty string (empty content)
      */

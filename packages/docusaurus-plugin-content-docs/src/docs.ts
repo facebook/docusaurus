@@ -177,8 +177,6 @@ async function doProcessDocMetadata({
   // pagination buttons... frontMatter.title should be used in priority over
   // contentTitle (because it can contain markdown/JSX syntax)
   const title: string = frontMatter.title ?? contentTitle ?? baseID;
-  // To be passed to `<PageMetadata>`. Will override the title.
-  const title_meta: string = frontMatter.title_meta ?? frontMatter.title ?? contentTitle ?? baseID;
 
   const description: string = frontMatter.description ?? excerpt ?? '';
 
@@ -226,7 +224,6 @@ async function doProcessDocMetadata({
   return {
     id,
     title,
-    title_meta,
     description,
     source: aliasedSitePath(filePath, siteDir),
     sourceDirName,
