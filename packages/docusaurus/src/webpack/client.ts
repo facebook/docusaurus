@@ -109,7 +109,7 @@ export async function createStartClientConfig({
       plugins: [
         // Generates an `index.html` file with the <script> injected.
         new HtmlWebpackPlugin({
-          template: path.join(__dirname, '../templates/dev.html.template.ejs'),
+          template: path.join(__dirname, './templates/dev.html.template.ejs'),
           // So we can define the position where the scripts are injected.
           inject: false,
           filename: 'index.html',
