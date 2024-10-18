@@ -9,7 +9,8 @@ import logger from './logger';
 
 // For now this is a private env variable we use internally
 // But we'll want to expose this feature officially some day
-const PerfDebuggingEnabled: boolean = !!process.env.DOCUSAURUS_PERF_LOGGER;
+const PerfDebuggingEnabled: boolean =
+  process.env.DOCUSAURUS_PERF_LOGGER === 'true';
 
 const Thresholds = {
   min: 5,
@@ -17,7 +18,7 @@ const Thresholds = {
   red: 1000,
 };
 
-const PerfPrefix = logger.yellow(`[PERF] `);
+const PerfPrefix = logger.yellow(`[PERF]`);
 
 // This is what enables to "see the parent stack" for each log
 // Parent1 > Parent2 > Parent3 > child trace
@@ -41,6 +42,14 @@ type Memory = {
   before: NodeJS.MemoryUsage;
   after: NodeJS.MemoryUsage;
 };
+
+function getMemory(): NodeJS.MemoryUsage {
+  // Before reading memory stats, we explicitly call the GC
+  // Note: this only works when Node.js option "--expose-gc" is provided
+  globalThis.gc?.();
+
+  return process.memoryUsage();
+}
 
 function createPerfLogger(): PerfLoggerAPI {
   if (!PerfDebuggingEnabled) {
@@ -73,29 +82,35 @@ function createPerfLogger(): PerfLoggerAPI {
     );
   };
 
+  const formatStatus = (error: Error | undefined): string => {
+    return error ? logger.red('[KO]') : ''; // logger.green('[OK]');
+  };
+
   const printPerfLog = ({
     label,
     duration,
     memory,
+    error,
   }: {
     label: string;
     duration: number;
     memory: Memory;
+    error: Error | undefined;
   }) => {
     if (duration < Thresholds.min) {
       return;
     }
     console.log(
-      `${PerfPrefix + label} - ${formatDuration(duration)} - ${formatMemory(
-        memory,
-      )}`,
+      `${PerfPrefix}${formatStatus(error)} ${label} - ${formatDuration(
+        duration,
+      )} - ${formatMemory(memory)}`,
     );
   };
 
   const start: PerfLoggerAPI['start'] = (label) =>
     performance.mark(label, {
       detail: {
-        memoryUsage: process.memoryUsage(),
+        memoryUsage: getMemory(),
       },
     });
 
@@ -110,30 +125,42 @@ function createPerfLogger(): PerfLoggerAPI {
       duration,
       memory: {
         before: memoryUsage,
-        after: process.memoryUsage(),
+        after: getMemory(),
       },
+      error: undefined,
     });
   };
 
   const log: PerfLoggerAPI['log'] = (label: string) =>
-    console.log(PerfPrefix + applyParentPrefix(label));
+    console.log(`${PerfPrefix} ${applyParentPrefix(label)}`);
 
   const async: PerfLoggerAPI['async'] = async (label, asyncFn) => {
     const finalLabel = applyParentPrefix(label);
     const before = performance.now();
-    const memoryBefore = process.memoryUsage();
-    const result = await ParentPrefix.run(finalLabel, () => asyncFn());
-    const memoryAfter = process.memoryUsage();
-    const duration = performance.now() - before;
-    printPerfLog({
-      label: finalLabel,
-      duration,
-      memory: {
-        before: memoryBefore,
-        after: memoryAfter,
-      },
-    });
-    return result;
+    const memoryBefore = getMemory();
+
+    const asyncEnd = ({error}: {error: Error | undefined}) => {
+      const memoryAfter = getMemory();
+      const duration = performance.now() - before;
+      printPerfLog({
+        error,
+        label: finalLabel,
+        duration,
+        memory: {
+          before: memoryBefore,
+          after: memoryAfter,
+        },
+      });
+    };
+
+    try {
+      const result = await ParentPrefix.run(finalLabel, () => asyncFn());
+      asyncEnd({error: undefined});
+      return result;
+    } catch (e) {
+      asyncEnd({error: e as Error});
+      throw e;
+    }
   };
 
   return {

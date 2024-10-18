@@ -7,14 +7,15 @@
 
 import * as eta from 'eta';
 import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
-import type {SSGParams} from '../ssg';
+import {PerfLogger} from '@docusaurus/logger';
+import type {SSGParams} from './ssgParams';
 import type {AppRenderResult} from '../common';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 
-// TODO this is historical server template data
+// TODO Docusaurus v4 breaking change - this is historical server template data
 //  that does not look super clean nor typesafe
 //  Note: changing it is a breaking change because template is configurable
-export type SSRTemplateData = {
+export type SSGTemplateData = {
   appHtml: string;
   baseUrl: string;
   htmlAttributes: string;
@@ -29,16 +30,16 @@ export type SSRTemplateData = {
   version: string;
 };
 
-export type SSRTemplateCompiled = (data: SSRTemplateData) => string;
+export type SSGTemplateCompiled = (data: SSGTemplateData) => string;
 
-export async function compileSSRTemplate(
+export async function compileSSGTemplate(
   template: string,
-): Promise<SSRTemplateCompiled> {
+): Promise<SSGTemplateCompiled> {
   const compiledTemplate = eta.compile(template.trim(), {
     rmWhitespace: true,
   });
 
-  return (data: SSRTemplateData) => compiledTemplate(data, eta.defaultConfig);
+  return (data: SSGTemplateData) => compiledTemplate(data, eta.defaultConfig);
 }
 
 /**
@@ -62,12 +63,14 @@ function getScriptsAndStylesheets({
   return {scripts, stylesheets};
 }
 
-export function renderSSRTemplate({
+export function renderSSGTemplate({
   params,
   result,
+  ssgTemplate,
 }: {
   params: SSGParams;
   result: AppRenderResult;
+  ssgTemplate: SSGTemplateCompiled;
 }): string {
   const {
     baseUrl,
@@ -77,7 +80,6 @@ export function renderSSRTemplate({
     manifest,
     noIndex,
     DOCUSAURUS_VERSION,
-    ssrTemplate,
   } = params;
   const {
     html: appHtml,
@@ -96,7 +98,7 @@ export function renderSSRTemplate({
   ];
   const metaAttributes = metaStrings.filter(Boolean);
 
-  const data: SSRTemplateData = {
+  const data: SSGTemplateData = {
     appHtml,
     baseUrl,
     htmlAttributes,
@@ -111,14 +113,14 @@ export function renderSSRTemplate({
     version: DOCUSAURUS_VERSION,
   };
 
-  return ssrTemplate(data);
+  return ssgTemplate(data);
 }
 
-export function renderHashRouterTemplate({
+export async function renderHashRouterTemplate({
   params,
 }: {
   params: SSGParams;
-}): string {
+}): Promise<string> {
   const {
     // baseUrl,
     headTags,
@@ -126,15 +128,19 @@ export function renderHashRouterTemplate({
     postBodyTags,
     manifest,
     DOCUSAURUS_VERSION,
-    ssrTemplate,
+    ssgTemplateContent,
   } = params;
+
+  const ssgTemplate = await PerfLogger.async('Compile SSG template', () =>
+    compileSSGTemplate(ssgTemplateContent),
+  );
 
   const {scripts, stylesheets} = getScriptsAndStylesheets({
     manifest,
     modules: [],
   });
 
-  const data: SSRTemplateData = {
+  const data: SSGTemplateData = {
     appHtml: '',
     baseUrl: './',
     htmlAttributes: '',
@@ -149,5 +155,5 @@ export function renderHashRouterTemplate({
     version: DOCUSAURUS_VERSION,
   };
 
-  return ssrTemplate(data);
+  return ssgTemplate(data);
 }

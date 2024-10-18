@@ -20,7 +20,10 @@ export type AppRenderer = (params: {
 }) => Promise<AppRenderResult>;
 
 export type PageCollectedData = {
+  // TODO Docusaurus v4 refactor: helmet state is non-serializable
+  //  this makes it impossible to run SSG in a worker thread
   helmet: HelmetServerState;
+
   links: string[];
   anchors: string[];
   modules: string[];

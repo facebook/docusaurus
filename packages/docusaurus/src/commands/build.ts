@@ -8,9 +8,9 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
-import {compile, getHtmlMinifier} from '@docusaurus/bundler';
+import {compile} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
-import {DOCUSAURUS_VERSION, mapAsyncSequential} from '@docusaurus/utils';
+import {mapAsyncSequential} from '@docusaurus/utils';
 import {loadSite, loadContext, type LoadContextParams} from '../server/site';
 import {handleBrokenLinks} from '../server/brokenLinks';
 import {createBuildClientConfig} from '../webpack/client';
@@ -19,26 +19,12 @@ import {
   createConfigureWebpackUtils,
   executePluginsConfigureWebpack,
 } from '../webpack/configure';
-
 import {loadI18n} from '../server/i18n';
-import {
-  generateHashRouterEntrypoint,
-  generateStaticFiles,
-  loadAppRenderer,
-} from '../ssg';
-import {
-  compileSSRTemplate,
-  renderHashRouterTemplate,
-} from '../templates/templates';
-import defaultSSRTemplate from '../templates/ssr.html.template';
-import type {SSGParams} from '../ssg';
-
-import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
+import {executeSSG} from '../ssg/ssgExecutor';
 import type {
   ConfigureWebpackUtils,
   LoadedPlugin,
   Props,
-  RouterType,
 } from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
 
@@ -147,7 +133,7 @@ async function buildLocale({
   siteDir: string;
   locale: string;
   cliOptions: Partial<BuildCLIOptions>;
-}): Promise<string> {
+}): Promise<void> {
   // Temporary workaround to unlock the ability to translate the site config
   // We'll remove it if a better official API can be designed
   // See https://github.com/facebook/docusaurus/issues/4542
@@ -225,72 +211,6 @@ async function buildLocale({
     process.cwd(),
     outDir,
   )}.`;
-
-  return outDir;
-}
-
-async function executeSSG({
-  props,
-  serverBundlePath,
-  clientManifestPath,
-  router,
-}: {
-  props: Props;
-  serverBundlePath: string;
-  clientManifestPath: string;
-  router: RouterType;
-}): Promise<{collectedData: SiteCollectedData}> {
-  const manifest: Manifest = await PerfLogger.async(
-    'Read client manifest',
-    () => fs.readJSON(clientManifestPath, 'utf-8'),
-  );
-
-  const ssrTemplate = await PerfLogger.async('Compile SSR template', () =>
-    compileSSRTemplate(props.siteConfig.ssrTemplate ?? defaultSSRTemplate),
-  );
-
-  const params: SSGParams = {
-    trailingSlash: props.siteConfig.trailingSlash,
-    outDir: props.outDir,
-    baseUrl: props.baseUrl,
-    manifest,
-    headTags: props.headTags,
-    preBodyTags: props.preBodyTags,
-    postBodyTags: props.postBodyTags,
-    ssrTemplate,
-    noIndex: props.siteConfig.noIndex,
-    DOCUSAURUS_VERSION,
-  };
-
-  if (router === 'hash') {
-    PerfLogger.start('Generate Hash Router entry point');
-    const content = renderHashRouterTemplate({params});
-    await generateHashRouterEntrypoint({content, params});
-    PerfLogger.end('Generate Hash Router entry point');
-    return {collectedData: {}};
-  }
-
-  const [renderer, htmlMinifier] = await Promise.all([
-    PerfLogger.async('Load App renderer', () =>
-      loadAppRenderer({
-        serverBundlePath,
-      }),
-    ),
-    PerfLogger.async('Load HTML minifier', () =>
-      getHtmlMinifier({siteConfig: props.siteConfig}),
-    ),
-  ]);
-
-  const ssgResult = await PerfLogger.async('Generate static files', () =>
-    generateStaticFiles({
-      pathnames: props.routesPaths,
-      renderer,
-      params,
-      htmlMinifier,
-    }),
-  );
-
-  return ssgResult;
 }
 
 async function executePluginsPostBuild({
