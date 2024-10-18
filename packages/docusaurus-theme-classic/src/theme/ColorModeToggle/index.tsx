@@ -59,7 +59,8 @@ function ColorModeToggle({
         disabled={!isBrowser}
         title={title}
         aria-label={title}
-        aria-live="polite">
+        aria-live="polite"
+        aria-pressed={value === 'dark' ? 'true' : 'false'}>
         <IconLightMode
           className={clsx(styles.toggleIcon, styles.lightToggleIcon)}
         />
