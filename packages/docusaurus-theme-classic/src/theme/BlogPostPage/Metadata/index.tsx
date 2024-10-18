@@ -17,7 +17,7 @@ export default function BlogPostPageMetadata(): JSX.Element {
   const image = assets.image ?? frontMatter.image;
   return (
     <PageMetadata
-      title={title}
+      title={frontMatter.title_meta ?? title}
       description={description}
       keywords={keywords}
       image={image}>
