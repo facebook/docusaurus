@@ -25,13 +25,13 @@ import {
   generateHashRouterEntrypoint,
   generateStaticFiles,
   loadAppRenderer,
-} from '../ssg';
+} from '../ssg/ssg';
 import {
   compileSSRTemplate,
   renderHashRouterTemplate,
 } from '../templates/templates';
 import defaultSSRTemplate from '../templates/ssr.html.template';
-import type {SSGParams} from '../ssg';
+import type {SSGParams} from '../ssg/ssg';
 
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {

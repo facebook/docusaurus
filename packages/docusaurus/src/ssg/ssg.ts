@@ -12,12 +12,12 @@ import _ from 'lodash';
 import evaluate from 'eval';
 import pMap from 'p-map';
 import logger, {PerfLogger} from '@docusaurus/logger';
-import {renderSSRTemplate} from './templates/templates';
-import type {AppRenderer, AppRenderResult, SiteCollectedData} from './common';
+import {renderSSRTemplate} from '../templates/templates';
+import type {AppRenderer, AppRenderResult, SiteCollectedData} from '../common';
 import type {HtmlMinifier} from '@docusaurus/bundler';
 
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import type {SSRTemplateCompiled} from './templates/templates';
+import type {SSRTemplateCompiled} from '../templates/templates';
 
 export type SSGParams = {
   trailingSlash: boolean | undefined;

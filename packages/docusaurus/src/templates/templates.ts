@@ -7,7 +7,7 @@
 
 import * as eta from 'eta';
 import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
-import type {SSGParams} from '../ssg';
+import type {SSGParams} from '../ssg/ssg';
 import type {AppRenderResult} from '../common';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 
