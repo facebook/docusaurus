@@ -8,7 +8,7 @@
 import * as eta from 'eta';
 import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
 import {PerfLogger} from '@docusaurus/logger';
-import type {SSGParams} from '../ssg/ssgParams';
+import type {SSGParams} from './ssgParams';
 import type {AppRenderResult} from '../common';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 

@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {PerfLogger} from '@docusaurus/logger';
-import defaultSSGTemplate from '../templates/ssg.html.template';
+import DefaultSSGTemplate from './ssgTemplate.html';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {Props} from '@docusaurus/types';
 
@@ -54,7 +54,7 @@ export async function createSSGParams({
     headTags: props.headTags,
     preBodyTags: props.preBodyTags,
     postBodyTags: props.postBodyTags,
-    ssgTemplateContent: props.siteConfig.ssrTemplate ?? defaultSSGTemplate,
+    ssgTemplateContent: props.siteConfig.ssrTemplate ?? DefaultSSGTemplate,
     noIndex: props.siteConfig.noIndex,
     DOCUSAURUS_VERSION,
     serverBundlePath,
@@ -64,6 +64,6 @@ export async function createSSGParams({
       : 'terser',
   };
 
-  // Useless ensures that SSG params remain serializable
+  // Useless but ensures that SSG params remain serializable
   return structuredClone(params);
 }

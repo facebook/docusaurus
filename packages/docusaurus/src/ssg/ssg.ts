@@ -17,7 +17,7 @@ import {
   compileSSGTemplate,
   renderSSGTemplate,
   type SSGTemplateCompiled,
-} from '../templates/templates';
+} from './ssgTemplate';
 import {SSGConcurrency, writeStaticFile} from './ssgUtils';
 import type {SSGParams} from './ssgParams';
 import type {AppRenderer, AppRenderResult, SiteCollectedData} from '../common';

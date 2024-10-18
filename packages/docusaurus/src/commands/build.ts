@@ -19,18 +19,12 @@ import {
   createConfigureWebpackUtils,
   executePluginsConfigureWebpack,
 } from '../webpack/configure';
-
 import {loadI18n} from '../server/i18n';
-import {generateStaticFiles} from '../ssg/ssg';
-import {renderHashRouterTemplate} from '../templates/templates';
-import {generateHashRouterEntrypoint} from '../ssg/ssgUtils';
-
-import {createSSGParams} from '../ssg/ssgParams';
+import {executeSSG} from '../ssg/ssgExecutor';
 import type {
   ConfigureWebpackUtils,
   LoadedPlugin,
   Props,
-  RouterType,
 } from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
 
@@ -217,41 +211,6 @@ async function buildLocale({
     process.cwd(),
     outDir,
   )}.`;
-}
-
-async function executeSSG({
-  props,
-  serverBundlePath,
-  clientManifestPath,
-  router,
-}: {
-  props: Props;
-  serverBundlePath: string;
-  clientManifestPath: string;
-  router: RouterType;
-}): Promise<{collectedData: SiteCollectedData}> {
-  const params = await createSSGParams({
-    serverBundlePath,
-    clientManifestPath,
-    props,
-  });
-
-  if (router === 'hash') {
-    PerfLogger.start('Generate Hash Router entry point');
-    const content = await renderHashRouterTemplate({params});
-    await generateHashRouterEntrypoint({content, params});
-    PerfLogger.end('Generate Hash Router entry point');
-    return {collectedData: {}};
-  }
-
-  const ssgResult = await PerfLogger.async('Generate static files', () =>
-    generateStaticFiles({
-      pathnames: props.routesPaths,
-      params,
-    }),
-  );
-
-  return ssgResult;
 }
 
 async function executePluginsPostBuild({
