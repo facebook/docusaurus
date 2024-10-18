@@ -42,6 +42,14 @@ type Memory = {
   after: NodeJS.MemoryUsage;
 };
 
+function getMemory(): NodeJS.MemoryUsage {
+  // Before reading memory stats, we explicitly call the GC
+  // Note: this only works when Node.js option "--expose-gc" is provided
+  globalThis.gc?.();
+
+  return process.memoryUsage();
+}
+
 function createPerfLogger(): PerfLoggerAPI {
   if (!PerfDebuggingEnabled) {
     const noop = () => {};
@@ -95,7 +103,7 @@ function createPerfLogger(): PerfLoggerAPI {
   const start: PerfLoggerAPI['start'] = (label) =>
     performance.mark(label, {
       detail: {
-        memoryUsage: process.memoryUsage(),
+        memoryUsage: getMemory(),
       },
     });
 
@@ -110,7 +118,7 @@ function createPerfLogger(): PerfLoggerAPI {
       duration,
       memory: {
         before: memoryUsage,
-        after: process.memoryUsage(),
+        after: getMemory(),
       },
     });
   };
@@ -121,9 +129,9 @@ function createPerfLogger(): PerfLoggerAPI {
   const async: PerfLoggerAPI['async'] = async (label, asyncFn) => {
     const finalLabel = applyParentPrefix(label);
     const before = performance.now();
-    const memoryBefore = process.memoryUsage();
+    const memoryBefore = getMemory();
     const result = await ParentPrefix.run(finalLabel, () => asyncFn());
-    const memoryAfter = process.memoryUsage();
+    const memoryAfter = getMemory();
     const duration = performance.now() - before;
     printPerfLog({
       label: finalLabel,
