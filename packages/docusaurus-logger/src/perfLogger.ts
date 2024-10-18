@@ -9,7 +9,8 @@ import logger from './logger';
 
 // For now this is a private env variable we use internally
 // But we'll want to expose this feature officially some day
-const PerfDebuggingEnabled: boolean = !!process.env.DOCUSAURUS_PERF_LOGGER;
+const PerfDebuggingEnabled: boolean =
+  process.env.DOCUSAURUS_PERF_LOGGER === 'true';
 
 const Thresholds = {
   min: 5,
