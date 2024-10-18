@@ -17,7 +17,7 @@ const Thresholds = {
   red: 1000,
 };
 
-const PerfPrefix = logger.yellow(`[PERF] `);
+const PerfPrefix = logger.yellow(`[PERF]`);
 
 // This is what enables to "see the parent stack" for each log
 // Parent1 > Parent2 > Parent3 > child trace
@@ -81,22 +81,28 @@ function createPerfLogger(): PerfLoggerAPI {
     );
   };
 
+  const formatStatus = (error: Error | undefined): string => {
+    return error ? logger.red('[KO]') : ''; // logger.green('[OK]');
+  };
+
   const printPerfLog = ({
     label,
     duration,
     memory,
+    error,
   }: {
     label: string;
     duration: number;
     memory: Memory;
+    error: Error | undefined;
   }) => {
     if (duration < Thresholds.min) {
       return;
     }
     console.log(
-      `${PerfPrefix + label} - ${formatDuration(duration)} - ${formatMemory(
-        memory,
-      )}`,
+      `${PerfPrefix}${formatStatus(error)} ${label} - ${formatDuration(
+        duration,
+      )} - ${formatMemory(memory)}`,
     );
   };
 
@@ -120,28 +126,40 @@ function createPerfLogger(): PerfLoggerAPI {
         before: memoryUsage,
         after: getMemory(),
       },
+      error: undefined,
     });
   };
 
   const log: PerfLoggerAPI['log'] = (label: string) =>
-    console.log(PerfPrefix + applyParentPrefix(label));
+    console.log(`${PerfPrefix} ${applyParentPrefix(label)}`);
 
   const async: PerfLoggerAPI['async'] = async (label, asyncFn) => {
     const finalLabel = applyParentPrefix(label);
     const before = performance.now();
     const memoryBefore = getMemory();
-    const result = await ParentPrefix.run(finalLabel, () => asyncFn());
-    const memoryAfter = getMemory();
-    const duration = performance.now() - before;
-    printPerfLog({
-      label: finalLabel,
-      duration,
-      memory: {
-        before: memoryBefore,
-        after: memoryAfter,
-      },
-    });
-    return result;
+
+    const asyncEnd = ({error}: {error: Error | undefined}) => {
+      const memoryAfter = getMemory();
+      const duration = performance.now() - before;
+      printPerfLog({
+        error,
+        label: finalLabel,
+        duration,
+        memory: {
+          before: memoryBefore,
+          after: memoryAfter,
+        },
+      });
+    };
+
+    try {
+      const result = await ParentPrefix.run(finalLabel, () => asyncFn());
+      asyncEnd({error: undefined});
+      return result;
+    } catch (e) {
+      asyncEnd({error: e as Error});
+      throw e;
+    }
   };
 
   return {
