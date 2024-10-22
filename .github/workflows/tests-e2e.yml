@@ -174,7 +174,7 @@ jobs:
       - name: Build test-website project
         # We build 2 locales to ensure a localized site doesn't leak memory
         # See https://github.com/facebook/docusaurus/pull/10599
-        run: npm run build --locale en --locale fr
+        run: npm run build -- --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
