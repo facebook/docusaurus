@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        DOCUSAURUS_FASTER: ['true', 'false']
+        DOCUSAURUS_INFRA: ['SLOWER', 'FASTER']
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
@@ -59,9 +59,9 @@ jobs:
           strip-hash: '\.([^;]\w{7})\.'
           minimum-change-threshold: 30
           compression: none
-          comment-key: DOCUSAURUS_FASTER-${{ secrets.DOCUSAURUS_FASTER }}
+          comment-key: DOCUSAURUS_INFRA_${{ secrets.DOCUSAURUS_INFRA }}
         env:
-          DOCUSAURUS_FASTER: ${{ matrix.DOCUSAURUS_FASTER }}
+          DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
 
   # Ensures build times stay under reasonable thresholds
   build-time:
@@ -70,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        DOCUSAURUS_FASTER: ['true', 'false']
+        DOCUSAURUS_INFRA: ['SLOWER', 'FASTER']
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
@@ -87,13 +87,13 @@ jobs:
         run: yarn build:website:fast
         timeout-minutes: 2
         env:
-          DOCUSAURUS_FASTER: ${{ matrix.DOCUSAURUS_FASTER }}
+          DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
         run: yarn build:website:fast
         timeout-minutes: 2
         env:
-          DOCUSAURUS_FASTER: ${{ matrix.DOCUSAURUS_FASTER }}
+          DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
 
     # TODO post a GitHub comment with build with perf warnings?
