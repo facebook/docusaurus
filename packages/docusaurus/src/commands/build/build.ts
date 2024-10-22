@@ -12,10 +12,8 @@ import {loadContext, type LoadContextParams} from '../../server/site';
 import {loadI18n} from '../../server/i18n';
 import {buildLocale, type BuildLocaleParams} from './buildLocale';
 
-export type BuildCLIOptions = Pick<
-  LoadContextParams,
-  'config' | 'locale' | 'outDir'
-> & {
+export type BuildCLIOptions = Pick<LoadContextParams, 'config' | 'outDir'> & {
+  locale?: [string, ...string[]];
   bundleAnalyzer?: boolean;
   minify?: boolean;
   dev?: boolean;
@@ -27,7 +25,7 @@ export async function build(
 ): Promise<void> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
-  process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale;
+  process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale?.[0];
   if (cliOptions.dev) {
     logger.info`Building in dev mode`;
     process.env.BABEL_ENV = 'development';
@@ -57,6 +55,25 @@ export async function build(
   logger.info`Use code=${'npm run serve'} command to test your build locally.`;
 }
 
+// We need the default locale to always be the 1st in the list. If we build it
+// last, it would "erase" the localized sites built in sub-folders
+function orderLocales({
+  locales,
+  defaultLocale,
+}: {
+  locales: [string, ...string[]];
+  defaultLocale: string;
+}): [string, ...string[]] {
+  if (locales.includes(defaultLocale)) {
+    return [
+      defaultLocale,
+      ...locales.filter((locale) => locale !== defaultLocale),
+    ];
+  } else {
+    return locales;
+  }
+}
+
 async function getLocalesToBuild({
   siteDir,
   cliOptions,
@@ -64,30 +81,25 @@ async function getLocalesToBuild({
   siteDir: string;
   cliOptions: BuildCLIOptions;
 }): Promise<[string, ...string[]]> {
-  if (cliOptions.locale) {
-    return [cliOptions.locale];
-  }
+  // We disable locale path localization if CLI has single "--locale" option
+  // yarn build --locale fr => baseUrl=/ instead of baseUrl=/fr/
+  const localizePath = cliOptions.locale?.length === 1 ? false : undefined;
 
   const context = await loadContext({
     siteDir,
     outDir: cliOptions.outDir,
     config: cliOptions.config,
-    locale: cliOptions.locale,
-    localizePath: cliOptions.locale ? false : undefined,
+    localizePath,
   });
-  const i18n = await loadI18n(context.siteConfig, {
-    locale: cliOptions.locale,
-  });
-  if (i18n.locales.length > 1) {
-    logger.info`Website will be built for all these locales: ${i18n.locales}`;
-  }
 
-  // We need the default locale to always be the 1st in the list. If we build it
-  // last, it would "erase" the localized sites built in sub-folders
-  return [
-    i18n.defaultLocale,
-    ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
-  ];
+  const i18n = await loadI18n(context.siteConfig);
+
+  const locales = cliOptions.locale ?? i18n.locales;
+
+  return orderLocales({
+    locales: locales as [string, ...string[]],
+    defaultLocale: i18n.defaultLocale,
+  });
 }
 
 async function tryToBuildLocale(params: BuildLocaleParams) {
