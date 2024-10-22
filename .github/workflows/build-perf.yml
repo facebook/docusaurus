@@ -59,7 +59,7 @@ jobs:
           strip-hash: '\.([^;]\w{7})\.'
           minimum-change-threshold: 30
           compression: none
-          comment-key: DOCUSAURUS_FASTER-${{ secrets.GITHUB_TOKEN }}
+          comment-key: DOCUSAURUS_FASTER-${{ secrets.DOCUSAURUS_FASTER }}
         env:
           DOCUSAURUS_FASTER: ${{ matrix.DOCUSAURUS_FASTER }}
 
