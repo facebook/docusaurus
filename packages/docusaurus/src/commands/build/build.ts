@@ -10,7 +10,7 @@ import logger, {PerfLogger} from '@docusaurus/logger';
 import {mapAsyncSequential} from '@docusaurus/utils';
 import {loadContext, type LoadContextParams} from '../../server/site';
 import {loadI18n} from '../../server/i18n';
-import {buildLocale} from './buildLocale';
+import {buildLocale, type BuildLocaleParams} from './buildLocale';
 
 export type BuildCLIOptions = Pick<
   LoadContextParams,
@@ -90,29 +90,33 @@ async function getLocalesToBuild({
   ];
 }
 
-async function tryToBuildLocale({
-  siteDir,
-  locale,
-  cliOptions,
-}: {
-  siteDir: string;
-  locale: string;
-  cliOptions: BuildCLIOptions;
-}) {
+async function tryToBuildLocale(params: BuildLocaleParams) {
   try {
-    await PerfLogger.async(`${logger.name(locale)}`, async () => {
-      await buildLocale({
-        siteDir,
-        locale,
-        cliOptions,
-      });
+    await PerfLogger.async(`${logger.name(params.locale)}`, async () => {
+      // Note: I tried to run buildLocale in worker_threads (still sequentially)
+      // It didn't work and I got SIGSEGV / SIGBUS errors
+      // See https://x.com/sebastienlorber/status/1848413716372480338
+      await runBuildLocaleTask(params);
     });
   } catch (err) {
     throw new Error(
-      logger.interpolate`Unable to build website for locale name=${locale}.`,
+      logger.interpolate`Unable to build website for locale name=${params.locale}.`,
       {
         cause: err,
       },
     );
   }
+}
+
+async function runBuildLocaleTask(params: BuildLocaleParams) {
+  // Note: I tried to run buildLocale task in worker_threads (sequentially)
+  // It didn't work and I got SIGSEGV / SIGBUS errors
+  // Goal was to isolate memory of each localized site build
+  // See also https://x.com/sebastienlorber/status/1848413716372480338
+  //
+  // Running in child_process worked but is more complex and requires
+  // specifying the memory of the child process + weird logging issues to fix
+  //
+  // Note in the future we could try to enable concurrent localized site builds
+  await buildLocale(params);
 }

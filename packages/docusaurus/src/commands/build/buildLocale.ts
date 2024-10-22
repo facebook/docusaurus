@@ -27,15 +27,17 @@ import type {
 import type {SiteCollectedData} from '../../common';
 import {BuildCLIOptions} from './build';
 
+export type BuildLocaleParams = {
+  siteDir: string;
+  locale: string;
+  cliOptions: Partial<BuildCLIOptions>;
+};
+
 export async function buildLocale({
   siteDir,
   locale,
   cliOptions,
-}: {
-  siteDir: string;
-  locale: string;
-  cliOptions: Partial<BuildCLIOptions>;
-}): Promise<void> {
+}: BuildLocaleParams): Promise<void> {
   // Temporary workaround to unlock the ability to translate the site config
   // We'll remove it if a better official API can be designed
   // See https://github.com/facebook/docusaurus/issues/4542
