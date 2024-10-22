@@ -25,6 +25,7 @@ permissions:
   contents: read
 
 jobs:
+  # Posts a PR comment with build size differences from PR vs main branches
   build-size:
     permissions:
       checks: write # for preactjs/compressed-size-action to create and update the checks
@@ -34,6 +35,9 @@ jobs:
     name: Build Size Report
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        DOCUSAURUS_FASTER: ['true', 'false']
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
@@ -54,10 +58,18 @@ jobs:
           strip-hash: '\.([^;]\w{7})\.'
           minimum-change-threshold: 30
           compression: none
+          comment-key: DOCUSAURUS_FASTER-${{ secrets.GITHUB_TOKEN }}
+        env:
+          DOCUSAURUS_FASTER: ${{ matrix.DOCUSAURUS_FASTER }}
+
+  # Ensures build times stay under reasonable thresholds
   build-time:
     name: Build Time Perf
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        DOCUSAURUS_FASTER: ['true', 'false']
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
@@ -72,10 +84,15 @@ jobs:
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)
         run: yarn build:website:fast
-        timeout-minutes: 8
+        timeout-minutes: 2
+        env:
+          DOCUSAURUS_FASTER: ${{ matrix.DOCUSAURUS_FASTER }}
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
         run: yarn build:website:fast
         timeout-minutes: 2
+        env:
+          DOCUSAURUS_FASTER: ${{ matrix.DOCUSAURUS_FASTER }}
+
     # TODO post a GitHub comment with build with perf warnings?
