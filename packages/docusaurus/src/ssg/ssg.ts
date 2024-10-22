@@ -8,6 +8,8 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
+// TODO eval is archived / unmaintained: https://github.com/pierrec/node-eval
+//  We should internalize/modernise it
 import evaluate from 'eval';
 import pMap from 'p-map';
 import logger, {PerfLogger} from '@docusaurus/logger';
