@@ -14,7 +14,7 @@ package-lock.json
 .eslintcache
 
 yarn-error.log
-build
+website/build
 coverage
 .docusaurus
 .cache-loader

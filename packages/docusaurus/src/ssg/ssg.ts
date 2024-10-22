@@ -6,9 +6,10 @@
  */
 
 import fs from 'fs-extra';
-import {createRequire} from 'module';
 import path from 'path';
 import _ from 'lodash';
+// TODO eval is archived / unmaintained: https://github.com/pierrec/node-eval
+//  We should internalize/modernize it
 import evaluate from 'eval';
 import pMap from 'p-map';
 import logger, {PerfLogger} from '@docusaurus/logger';
@@ -19,6 +20,7 @@ import {
   type SSGTemplateCompiled,
 } from './ssgTemplate';
 import {SSGConcurrency, writeStaticFile} from './ssgUtils';
+import {createSSGRequire} from './ssgNodeRequire';
 import type {SSGParams} from './ssgParams';
 import type {AppRenderer, AppRenderResult, SiteCollectedData} from '../common';
 import type {HtmlMinifier} from '@docusaurus/bundler';
@@ -58,6 +60,8 @@ export async function loadAppRenderer({
 
   const filename = path.basename(serverBundlePath);
 
+  const ssgRequire = createSSGRequire(serverBundlePath);
+
   const globals = {
     // When using "new URL('file.js', import.meta.url)", Webpack will emit
     // __filename, and this plugin will throw. not sure the __filename value
@@ -67,7 +71,7 @@ export async function loadAppRenderer({
 
     // This uses module.createRequire() instead of very old "require-like" lib
     // See also: https://github.com/pierrec/node-eval/issues/33
-    require: createRequire(serverBundlePath),
+    require: ssgRequire.require,
   };
 
   const serverEntry = await PerfLogger.async(
@@ -86,7 +90,15 @@ export async function loadAppRenderer({
       `Server bundle export from "${filename}" must be a function that renders the Docusaurus React app.`,
     );
   }
-  return serverEntry.default;
+
+  async function shutdown() {
+    ssgRequire.cleanup();
+  }
+
+  return {
+    render: serverEntry.default,
+    shutdown,
+  };
 }
 
 export function printSSGWarnings(
@@ -191,6 +203,8 @@ export async function generateStaticFiles({
     {concurrency: SSGConcurrency},
   );
 
+  await renderer.shutdown();
+
   printSSGWarnings(results);
 
   const [allSSGErrors, allSSGSuccesses] = _.partition(
@@ -235,7 +249,7 @@ async function generateStaticFile({
 }): Promise<SSGSuccessResult & {warnings: string[]}> {
   try {
     // This only renders the app HTML
-    const result = await renderer({
+    const result = await renderer.render({
       pathname,
     });
     // This renders the full page HTML, including head tags...

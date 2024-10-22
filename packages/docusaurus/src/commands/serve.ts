@@ -14,7 +14,7 @@ import serveHandler from 'serve-handler';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {loadSiteConfig} from '../server/config';
-import {build} from './build';
+import {build} from './build/build';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
 import type {LoadContextParams} from '../server/site';
 
