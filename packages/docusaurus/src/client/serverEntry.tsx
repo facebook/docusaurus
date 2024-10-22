@@ -18,7 +18,7 @@ import {
 } from './BrokenLinksContext';
 import type {PageCollectedData, AppRenderer} from '../common';
 
-const render: AppRenderer = async ({pathname}) => {
+const render: AppRenderer['render'] = async ({pathname}) => {
   await preload(pathname);
 
   const modules = new Set<string>();
