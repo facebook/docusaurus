@@ -11,6 +11,7 @@ on:
       - main
       - docusaurus-v**
     paths:
+      - .github/workflows/build-perf.yml
       - package.json
       - yarn.lock
       - packages/**
