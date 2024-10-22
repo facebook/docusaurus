@@ -206,6 +206,7 @@ Mindmap
 mkdn
 mkdocs
 mkdown
+modernise
 moesif
 Moesif
 msapplication
