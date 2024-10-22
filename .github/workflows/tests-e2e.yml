@@ -62,7 +62,9 @@ jobs:
         env:
           E2E_TEST: true
       - name: Build test-website project
-        run: yarn build
+        # We build 2 locales to ensure a localized site doesn't leak memory
+        # See https://github.com/facebook/docusaurus/pull/10599
+        run: yarn build --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
@@ -133,7 +135,9 @@ jobs:
           yarn typecheck
 
       - name: Build test-website project
-        run: yarn build
+        # We build 2 locales to ensure a localized site doesn't leak memory
+        # See https://github.com/facebook/docusaurus/pull/10599
+        run: yarn build --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
@@ -168,7 +172,9 @@ jobs:
         env:
           E2E_TEST: true
       - name: Build test-website project
-        run: npm run build
+        # We build 2 locales to ensure a localized site doesn't leak memory
+        # See https://github.com/facebook/docusaurus/pull/10599
+        run: npm run build -- --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
@@ -206,7 +212,9 @@ jobs:
         env:
           E2E_TEST: true
       - name: Build test-website project
-        run: pnpm run build
+        # We build 2 locales to ensure a localized site doesn't leak memory
+        # See https://github.com/facebook/docusaurus/pull/10599
+        run: pnpm run build --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
