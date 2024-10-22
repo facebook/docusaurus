@@ -88,11 +88,11 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
 
 export async function loadI18n(
   config: DocusaurusConfig,
-  options: Pick<LoadContextParams, 'locale'>,
+  options?: Pick<LoadContextParams, 'locale'>,
 ): Promise<I18n> {
   const {i18n: i18nConfig} = config;
 
-  const currentLocale = options.locale ?? i18nConfig.defaultLocale;
+  const currentLocale = options?.locale ?? i18nConfig.defaultLocale;
 
   if (!i18nConfig.locales.includes(currentLocale)) {
     logger.warn`The locale name=${currentLocale} was not found in your site configuration: Available locales are: ${i18nConfig.locales}

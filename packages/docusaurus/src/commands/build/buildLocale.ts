@@ -51,7 +51,7 @@ export async function buildLocale({
       outDir: cliOptions.outDir,
       config: cliOptions.config,
       locale,
-      localizePath: cliOptions.locale ? false : undefined,
+      localizePath: cliOptions.locale?.length === 1 ? false : undefined,
     }),
   );
 

@@ -33,6 +33,15 @@ process.env.NODE_ENV ??= 'development';
 
 await beforeCli();
 
+/**
+ * @param {string} locale
+ * @param {string[]} locales
+ * @returns {string[]}
+ */
+function concatLocaleOptions(locale, locales = []) {
+  return locales.concat(locale);
+}
+
 cli.version(DOCUSAURUS_VERSION).usage('<command> [options]');
 
 cli
@@ -55,8 +64,9 @@ cli
     'path to docusaurus config file (default: `[siteDir]/docusaurus.config.js`)',
   )
   .option(
-    '-l, --locale <locale>',
-    'build the site in a specified locale. Build all known locales otherwise',
+    '-l, --locale <locale...>',
+    'build the site in the specified locale(s). Build all known locales otherwise',
+    concatLocaleOptions,
   )
   .option(
     '--no-minify',
@@ -101,7 +111,8 @@ cli
   .description('Deploy website to GitHub pages.')
   .option(
     '-l, --locale <locale>',
-    'deploy the site in a specified locale. Deploy all known locales otherwise',
+    'deploy the site in the specified locale(s). Deploy all known locales otherwise',
+    concatLocaleOptions,
   )
   .option(
     '--out-dir <dir>',
