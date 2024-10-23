@@ -12,8 +12,8 @@ Creating a sidebar is useful to:
 
 To use sidebars on your Docusaurus site:
 
-1. Define a file that exports a dictionary of [sidebar objects](#sidebar-object).
-2. Pass this object into the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`.
+1. Define a sidebars file that exports a dictionary of [sidebar objects](#sidebar-object).
+2. Pass its path to the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`.
 
 ```js title="docusaurus.config.js"
 export default {
@@ -30,6 +30,12 @@ export default {
   ],
 };
 ```
+
+:::important Node.js runtime
+
+The sidebars file is run with Node.js. You can't use or import browsers APIs, React or JSX in it.
+
+:::
 
 This section serves as an overview of miscellaneous features of the doc sidebar. In the following sections, we will more systematically introduce the following concepts:
 
