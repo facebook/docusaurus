@@ -43,11 +43,13 @@ jobs:
       - name: Remove Theme Internal Re-export
         run: yarn workspace @docusaurus/theme-common removeThemeInternalReexport
       - name: Docusaurus Build
-        run: yarn build:website:fast
+        # We build 2 locales to ensure a localized site doesn't leak memory
+        # See https://github.com/facebook/docusaurus/pull/10599
+        run: yarn build:website:fast --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=350'
+          NODE_OPTIONS: '--max-old-space-size=400'
           DOCUSAURUS_PERF_LOGGER: 'true'
       - name: Docusaurus site CSS order
         run: yarn workspace website test:css-order
