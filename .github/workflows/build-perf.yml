@@ -59,7 +59,7 @@ jobs:
           strip-hash: '\.([^;]\w{7})\.'
           minimum-change-threshold: 30
           compression: none
-          comment-key: DOCUSAURUS_INFRA_${{ secrets.DOCUSAURUS_INFRA }}
+          comment-key: DOCUSAURUS_INFRA_${{ matrix.DOCUSAURUS_INFRA }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
 
