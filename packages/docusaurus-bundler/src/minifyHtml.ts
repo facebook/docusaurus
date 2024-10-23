@@ -84,7 +84,6 @@ async function getSwcMinifier(): Promise<HtmlMinifier> {
           sortSpaceSeparatedAttributeValues: false,
           sortAttributes: false,
 
-          // @ts-expect-error: bad type https://github.com/swc-project/swc/pull/9615
           removeRedundantAttributes: 'all',
           removeEmptyAttributes: true,
           minifyJs: true,
