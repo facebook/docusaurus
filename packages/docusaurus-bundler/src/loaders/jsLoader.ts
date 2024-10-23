@@ -6,7 +6,7 @@
  */
 
 import {getBabelOptions} from '@docusaurus/babel';
-import {importSwcJsLoaderFactory} from '../importFaster';
+import {importSwcLoader, importGetSwcLoaderOptions} from '../importFaster';
 import {getCurrentBundler} from '../currentBundler';
 import type {ConfigureWebpackUtils, DocusaurusConfig} from '@docusaurus/types';
 
@@ -20,24 +20,32 @@ const BabelJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = ({
   };
 };
 
-const RspackJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = () => {
-  return {
-    loader: 'builtin:swc-loader',
-    options: {
-      jsc: {
-        parser: {
-          syntax: 'typescript',
-          tsx: true,
-        },
-        transform: {
-          react: {
-            runtime: 'automatic',
-          },
-        },
-      },
-    },
+async function createSwcLoaderFactory(): Promise<
+  ConfigureWebpackUtils['getJSLoader']
+> {
+  const loader = await importSwcLoader();
+  const getOptions = await importGetSwcLoaderOptions();
+  return ({isServer}) => {
+    return {
+      loader,
+      options: getOptions({isServer}),
+    };
   };
-};
+}
+
+// Same as swcLoader, except we use the built-in SWC loader
+async function createRspackLoaderFactory(): Promise<
+  ConfigureWebpackUtils['getJSLoader']
+> {
+  const loader = 'builtin:swc-loader';
+  const getOptions = await importGetSwcLoaderOptions();
+  return ({isServer}) => {
+    return {
+      loader,
+      options: getOptions({isServer}),
+    };
+  };
+}
 
 // Confusing: function that creates a function that creates actual js loaders
 // This is done on purpose because the js loader factory is a public API
@@ -61,7 +69,7 @@ export async function createJsLoaderFactory({
         'When using Rspack bundler, it is required to enable swcJsLoader too',
       );
     }
-    return RspackJsLoaderFactory;
+    return createRspackLoaderFactory();
   }
   const jsLoader = siteConfig.webpack?.jsLoader ?? 'babel';
   if (
@@ -76,7 +84,7 @@ export async function createJsLoaderFactory({
     return ({isServer}) => jsLoader(isServer);
   }
   if (siteConfig.future?.experimental_faster.swcJsLoader) {
-    return importSwcJsLoaderFactory();
+    return createSwcLoaderFactory();
   }
   if (jsLoader === 'babel') {
     return BabelJsLoaderFactory;

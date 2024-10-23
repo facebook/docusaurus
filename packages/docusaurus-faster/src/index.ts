@@ -9,40 +9,37 @@ import Rspack from '@rspack/core';
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
 import {minify as swcHtmlMinifier} from '@swc/html';
-import type {RuleSetRule} from 'webpack';
-import type {JsMinifyOptions} from '@swc/core';
+import type {JsMinifyOptions, Options as SwcOptions} from '@swc/core';
+
+export const swcLoader = require.resolve('swc-loader');
+
+export const getSwcLoaderOptions = ({
+  isServer,
+}: {
+  isServer: boolean;
+}): SwcOptions => {
+  return {
+    env: {
+      targets: getBrowserslistQueries({isServer}),
+    },
+    jsc: {
+      parser: {
+        syntax: 'typescript',
+        tsx: true,
+      },
+      transform: {
+        react: {
+          runtime: 'automatic',
+        },
+      },
+    },
+  };
+};
 
 export const rspack = Rspack;
 
 export function getSwcHtmlMinifier(): typeof swcHtmlMinifier {
   return swcHtmlMinifier;
-}
-
-export function getSwcJsLoaderFactory({
-  isServer,
-}: {
-  isServer: boolean;
-}): RuleSetRule {
-  return {
-    loader: require.resolve('swc-loader'),
-    options: {
-      jsc: {
-        parser: {
-          syntax: 'typescript',
-          tsx: true,
-        },
-        transform: {
-          react: {
-            runtime: 'automatic',
-          },
-        },
-        target: 'es2017',
-      },
-      module: {
-        type: isServer ? 'commonjs' : 'es6',
-      },
-    },
-  };
 }
 
 // Note: these options are similar to what we use in core
@@ -68,7 +65,15 @@ export function getSwcJsMinimizerOptions(): JsMinifyOptions {
 
 // We need this because of Rspack built-in LightningCSS integration
 // See https://github.com/orgs/browserslist/discussions/846
-export function getBrowserslistQueries(): string[] {
+export function getBrowserslistQueries({
+  isServer,
+}: {
+  isServer: boolean;
+}): string[] {
+  if (isServer) {
+    return [`node ${process.versions.node}`];
+  }
+
   const queries = browserslist.loadConfig({path: process.cwd()}) ?? [
     ...browserslist.defaults,
   ];
