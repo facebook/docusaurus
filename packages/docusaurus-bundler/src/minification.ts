@@ -10,7 +10,7 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import {
   importSwcJsMinimizerOptions,
   importLightningCssMinimizerOptions,
-  importBrowserslistQueries,
+  importGetBrowserslistQueries,
 } from './importFaster';
 import {getCurrentBundlerAsRspack} from './currentBundler';
 import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
@@ -141,7 +141,8 @@ async function getRspackMinimizers({
   currentBundler,
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
   const rspack = getCurrentBundlerAsRspack({currentBundler});
-  const browserslistQueries = await importBrowserslistQueries();
+  const getBrowserslistQueries = await importGetBrowserslistQueries();
+  const browserslistQueries = getBrowserslistQueries({isServer: false});
   const swcJsMinimizerOptions = await importSwcJsMinimizerOptions();
   return [
     // See https://rspack.dev/plugins/rspack/swc-js-minimizer-rspack-plugin

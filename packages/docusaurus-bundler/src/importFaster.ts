@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ConfigureWebpackUtils} from '@docusaurus/types';
 import type {
   MinimizerOptions as JsMinimizerOptions,
   CustomOptions,
@@ -34,11 +33,16 @@ export async function importRspack(): Promise<FasterModule['rspack']> {
   return faster.rspack;
 }
 
-export async function importSwcJsLoaderFactory(): Promise<
-  ConfigureWebpackUtils['getJSLoader']
+export async function importSwcLoader(): Promise<string> {
+  const faster = await ensureFaster();
+  return faster.swcLoader;
+}
+
+export async function importGetSwcLoaderOptions(): Promise<
+  FasterModule['getSwcLoaderOptions']
 > {
   const faster = await ensureFaster();
-  return faster.getSwcJsLoaderFactory;
+  return faster.getSwcLoaderOptions;
 }
 
 export async function importSwcJsMinimizerOptions(): Promise<
@@ -55,9 +59,11 @@ export async function importSwcHtmlMinifier(): Promise<
   return faster.getSwcHtmlMinifier();
 }
 
-export async function importBrowserslistQueries(): Promise<string[]> {
+export async function importGetBrowserslistQueries(): Promise<
+  FasterModule['getBrowserslistQueries']
+> {
   const faster = await ensureFaster();
-  return faster.getBrowserslistQueries();
+  return faster.getBrowserslistQueries;
 }
 
 export async function importLightningCssMinimizerOptions(): Promise<
