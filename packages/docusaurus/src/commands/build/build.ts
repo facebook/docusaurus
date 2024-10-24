@@ -25,7 +25,6 @@ export async function build(
 ): Promise<void> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
-  process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale?.[0];
   if (cliOptions.dev) {
     logger.info`Building in dev mode`;
     process.env.BABEL_ENV = 'development';
