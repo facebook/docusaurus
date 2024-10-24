@@ -30,7 +30,7 @@ const paraisoStyles: JsonViewProps['style'] = {
   collapseIcon: styles.collapseIconParaiso!,
   expandIcon: styles.expandIconParaiso!,
   collapsedContent: styles.collapseContentParaiso!,
-} satisfies Partial<JsonViewProps['style']> as JsonViewProps['style'];
+};
 
 export default function DebugJsonView({
   src,
