@@ -6,11 +6,17 @@
  */
 
 import React from 'react';
-import {JsonView} from 'react-json-view-lite';
+import {
+  JsonView,
+  defaultStyles,
+  type Props as JsonViewProps,
+} from 'react-json-view-lite';
 import type {Props} from '@theme/DebugJsonView';
 import styles from './styles.module.css';
 
-const paraisoStyles = {
+const paraisoStyles: JsonViewProps['style'] = {
+  clickableLabel: defaultStyles.clickableLabel,
+  noQuotesForStringValues: false,
   container: styles.containerParaiso!,
   basicChildStyle: styles.basicElementParaiso!,
   label: styles.labelParaiso!,

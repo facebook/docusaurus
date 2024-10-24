@@ -130,24 +130,22 @@ export const DEFAULT_CONFIG: Pick<
 };
 
 function createPluginSchema(theme: boolean) {
-  return (
-    Joi.alternatives()
-      .try(
-        Joi.function(),
-        Joi.array()
-          .ordered(Joi.function().required(), Joi.object().required())
-          .length(2),
-        Joi.string(),
-        Joi.array()
-          .ordered(Joi.string().required(), Joi.object().required())
-          .length(2),
-        Joi.any().valid(false, null),
-      )
-      // @ts-expect-error: bad lib def, doesn't recognize an array of reports
-      .error((errors) => {
-        errors.forEach((error) => {
-          const validConfigExample = theme
-            ? `Example valid theme config:
+  return Joi.alternatives()
+    .try(
+      Joi.function(),
+      Joi.array()
+        .ordered(Joi.function().required(), Joi.object().required())
+        .length(2),
+      Joi.string(),
+      Joi.array()
+        .ordered(Joi.string().required(), Joi.object().required())
+        .length(2),
+      Joi.any().valid(false, null),
+    )
+    .error((errors) => {
+      errors.forEach((error) => {
+        const validConfigExample = theme
+          ? `Example valid theme config:
 {
   themes: [
     ["@docusaurus/theme-classic",options],
@@ -157,7 +155,7 @@ function createPluginSchema(theme: boolean) {
     [function myTheme() { },options]
   ],
 };`
-            : `Example valid plugin config:
+          : `Example valid plugin config:
 {
   plugins: [
     ["@docusaurus/plugin-content-docs",options],
@@ -168,17 +166,16 @@ function createPluginSchema(theme: boolean) {
   ],
 };`;
 
-          error.message = ` => Bad Docusaurus ${
-            theme ? 'theme' : 'plugin'
-          } value ${error.path.reduce((acc, cur) =>
-            typeof cur === 'string' ? `${acc}.${cur}` : `${acc}[${cur}]`,
-          )}.
+        error.message = ` => Bad Docusaurus ${
+          theme ? 'theme' : 'plugin'
+        } value ${error.path.reduce((acc, cur) =>
+          typeof cur === 'string' ? `${acc}.${cur}` : `${acc}[${cur}]`,
+        )}.
 ${validConfigExample}
 `;
-        });
-        return errors;
-      })
-  );
+      });
+      return errors;
+    });
 }
 
 const PluginSchema = createPluginSchema(false);
