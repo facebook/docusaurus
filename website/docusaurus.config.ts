@@ -559,9 +559,8 @@ export default async function createConfigAsync() {
         },
       },
       colorMode: {
-        defaultMode: 'light',
+        defaultMode: 'system',
         disableSwitch: false,
-        respectPrefersColorScheme: true,
       },
       announcementBar: {
         id: `announcementBar-v${announcedVersion}`,

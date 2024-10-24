@@ -15,7 +15,7 @@ const ThemeQueryStringKey = 'docusaurus-theme';
 const DataQueryStringPrefixKey = 'docusaurus-data-';
 
 export function getThemeInlineScript({
-  colorMode: {defaultMode, respectPrefersColorScheme},
+  colorMode: {defaultMode},
   siteStorage,
 }: {
   colorMode: ThemeConfig['colorMode'];
@@ -29,7 +29,6 @@ export function getThemeInlineScript({
   /* language=js */
   return `(function() {
     var defaultMode = '${defaultMode}';
-    var respectPrefersColorScheme = ${respectPrefersColorScheme};
 
     function setDataThemeAttribute(theme) {
       document.documentElement.setAttribute('data-theme', theme);

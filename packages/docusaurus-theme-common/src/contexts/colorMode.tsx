@@ -22,9 +22,10 @@ import {useThemeConfig} from '../utils/useThemeConfig';
 type ContextValue = {
   /** Current color mode. */
   readonly colorMode: ColorMode;
+  /** Current color mode choice (can be 'system'). */
+  readonly colorModeChoice: ColorModeChoice;
   /** Set new color mode. */
-  readonly setColorMode: (colorMode: ColorMode) => void;
-
+  readonly setColorMode: (colorMode: ColorModeChoice) => void;
   // TODO legacy APIs kept for retro-compatibility: deprecate them
   readonly isDarkTheme: boolean;
   readonly setLightTheme: () => void;
@@ -36,6 +37,15 @@ const Context = React.createContext<ContextValue | undefined>(undefined);
 const ColorModeStorageKey = 'theme';
 const ColorModeStorage = createStorageSlot(ColorModeStorageKey);
 
+const ColorModeChoices = {
+  system: 'system',
+  light: 'light',
+  dark: 'dark',
+} as const;
+
+export type ColorModeChoice =
+  (typeof ColorModeChoices)[keyof typeof ColorModeChoices];
+
 const ColorModes = {
   light: 'light',
   dark: 'dark',
@@ -43,26 +53,56 @@ const ColorModes = {
 
 export type ColorMode = (typeof ColorModes)[keyof typeof ColorModes];
 
-// Ensure to always return a valid colorMode even if input is invalid
-const coerceToColorMode = (colorMode?: string | null): ColorMode =>
-  colorMode === ColorModes.dark ? ColorModes.dark : ColorModes.light;
+// Ensure to always return a valid colorModeChoice even if input is invalid
+const coerceToColorMode = (
+  colorModeChoice?: string | null,
+): ColorModeChoice => {
+  switch (colorModeChoice) {
+    case ColorModeChoices.light:
+      return ColorModeChoices.light;
+    case ColorModeChoices.dark:
+      return ColorModeChoices.dark;
+    case ColorModeChoices.system:
+    default:
+      return ColorModeChoices.system;
+  }
+};
 
-const getInitialColorMode = (defaultMode: ColorMode | undefined): ColorMode =>
-  ExecutionEnvironment.canUseDOM
-    ? coerceToColorMode(document.documentElement.getAttribute('data-theme'))
-    : coerceToColorMode(defaultMode);
+const getInitialColorMode = (
+  defaultMode: ColorModeChoice | undefined,
+): ColorModeChoice =>
+  coerceToColorMode(
+    ExecutionEnvironment.canUseDOM
+      ? document.documentElement.getAttribute('data-theme-choice') ??
+          document.documentElement.getAttribute('data-theme')
+      : defaultMode,
+  );
 
-const storeColorMode = (newColorMode: ColorMode) => {
+const storeColorMode = (newColorMode: ColorModeChoice) => {
   ColorModeStorage.set(coerceToColorMode(newColorMode));
 };
 
 function useContextValue(): ContextValue {
   const {
-    colorMode: {defaultMode, disableSwitch, respectPrefersColorScheme},
+    colorMode: {defaultMode, disableSwitch},
   } = useThemeConfig();
-  const [colorMode, setColorModeState] = useState(
+  const [colorModeChoice, setColorModeState] = useState(
     getInitialColorMode(defaultMode),
   );
+  const colorMode = useMemo(() => {
+    switch (colorModeChoice) {
+      case ColorModeChoices.light:
+        return ColorModes.light;
+      case ColorModeChoices.dark:
+        return ColorModes.dark;
+      case ColorModeChoices.system:
+      default:
+        return ExecutionEnvironment.canUseDOM &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? ColorModes.dark
+          : ColorModes.light;
+    }
+  }, [colorModeChoice]);
 
   useEffect(() => {
     // A site is deployed without disableSwitch
@@ -75,7 +115,10 @@ function useContextValue(): ContextValue {
   }, [disableSwitch]);
 
   const setColorMode = useCallback(
-    (newColorMode: ColorMode | null, options: {persist?: boolean} = {}) => {
+    (
+      newColorMode: ColorModeChoice | null,
+      options: {persist?: boolean} = {},
+    ) => {
       const {persist = true} = options;
       if (newColorMode) {
         setColorModeState(newColorMode);
@@ -83,27 +126,17 @@ function useContextValue(): ContextValue {
           storeColorMode(newColorMode);
         }
       } else {
-        if (respectPrefersColorScheme) {
-          setColorModeState(
-            window.matchMedia('(prefers-color-scheme: dark)').matches
-              ? ColorModes.dark
-              : ColorModes.light,
-          );
-        } else {
-          setColorModeState(defaultMode);
-        }
+        setColorModeState(defaultMode);
         ColorModeStorage.del();
       }
     },
-    [respectPrefersColorScheme, defaultMode],
+    [defaultMode],
   );
 
   useEffect(() => {
-    document.documentElement.setAttribute(
-      'data-theme',
-      coerceToColorMode(colorMode),
-    );
-  }, [colorMode]);
+    document.documentElement.setAttribute('data-theme', colorMode);
+    document.documentElement.setAttribute('data-theme-choice', colorModeChoice);
+  }, [colorMode, colorModeChoice]);
 
   useEffect(() => {
     if (disableSwitch) {
@@ -129,7 +162,7 @@ function useContextValue(): ContextValue {
   const previousMediaIsPrint = useRef(false);
 
   useEffect(() => {
-    if (disableSwitch && !respectPrefersColorScheme) {
+    if (disableSwitch && colorModeChoice !== 'system') {
       return undefined;
     }
     const mql = window.matchMedia('(prefers-color-scheme: dark)');
@@ -142,12 +175,13 @@ function useContextValue(): ContextValue {
     };
     mql.addListener(onChange);
     return () => mql.removeListener(onChange);
-  }, [setColorMode, disableSwitch, respectPrefersColorScheme]);
+  }, [setColorMode, disableSwitch, colorModeChoice]);
 
   return useMemo(
     () => ({
       colorMode,
       setColorMode,
+      colorModeChoice,
       get isDarkTheme() {
         if (process.env.NODE_ENV === 'development') {
           console.error(
@@ -173,7 +207,7 @@ function useContextValue(): ContextValue {
         setColorMode(ColorModes.dark);
       },
     }),
-    [colorMode, setColorMode],
+    [colorModeChoice, colorMode, setColorMode],
   );
 }
 
