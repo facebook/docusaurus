@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "screenshot": "playwright test",
-    "upload": "npx @argos-ci/cli upload ./screenshots",
+    "upload": "npx @argos-ci/cli upload ./chromium/screenshots",
     "report": "playwright show-report"
   },
   "dependencies": {
