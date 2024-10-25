@@ -20,7 +20,7 @@ const BabelJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = ({
   };
 };
 
-async function createSwcLoaderFactory(): Promise<
+async function createSwcJsLoaderFactory(): Promise<
   ConfigureWebpackUtils['getJSLoader']
 > {
   const loader = await importSwcLoader();
@@ -34,7 +34,7 @@ async function createSwcLoaderFactory(): Promise<
 }
 
 // Same as swcLoader, except we use the built-in SWC loader
-async function createRspackLoaderFactory(): Promise<
+async function createRspackSwcJsLoaderFactory(): Promise<
   ConfigureWebpackUtils['getJSLoader']
 > {
   const loader = 'builtin:swc-loader';
@@ -62,14 +62,10 @@ export async function createJsLoaderFactory({
 }): Promise<ConfigureWebpackUtils['getJSLoader']> {
   const currentBundler = await getCurrentBundler({siteConfig});
   const isSWCLoader = siteConfig.future.experimental_faster.swcJsLoader;
-
   if (currentBundler.name === 'rspack') {
-    if (!isSWCLoader) {
-      throw new Error(
-        'When using Rspack bundler, it is required to enable swcJsLoader too',
-      );
-    }
-    return createRspackLoaderFactory();
+    return isSWCLoader
+      ? createRspackSwcJsLoaderFactory()
+      : BabelJsLoaderFactory;
   }
   const jsLoader = siteConfig.webpack?.jsLoader ?? 'babel';
   if (
@@ -84,7 +80,7 @@ export async function createJsLoaderFactory({
     return ({isServer}) => jsLoader(isServer);
   }
   if (siteConfig.future?.experimental_faster.swcJsLoader) {
-    return createSwcLoaderFactory();
+    return createSwcJsLoaderFactory();
   }
   if (jsLoader === 'babel') {
     return BabelJsLoaderFactory;
