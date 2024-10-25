@@ -1,11 +1,14 @@
 name: Canary Release
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
       - docusaurus-v**
     paths:
+      - .github/workflows/canary-release.yml
+      - package.json
       - packages/**
 
 permissions:
