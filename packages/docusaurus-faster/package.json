@@ -24,6 +24,7 @@
     "browserslist": "^4.24.2",
     "lightningcss": "^1.27.0",
     "swc-loader": "^0.2.6",
+    "tslib": "^2.6.0",
     "webpack": "^5.95.0"
   },
   "engines": {
