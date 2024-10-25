@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import logger from '@docusaurus/logger';
 import type {
   MinimizerOptions as JsMinimizerOptions,
   CustomOptions,
@@ -22,7 +23,9 @@ async function ensureFaster(): Promise<FasterModule> {
     return await importFaster();
   } catch (error) {
     throw new Error(
-      'Your Docusaurus site need to add the @docusaurus/faster package as a dependency.',
+      `To enable Docusaurus Faster options, your site must add the ${logger.name(
+        '@docusaurus/faster',
+      )} package as a dependency.`,
       {cause: error},
     );
   }
