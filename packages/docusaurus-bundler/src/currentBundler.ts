@@ -87,17 +87,19 @@ export async function getProgressBarPlugin({
   currentBundler: CurrentBundler;
 }): Promise<typeof WebpackBar> {
   if (currentBundler.name === 'rspack') {
-    class CustomRspackProgressPlugin extends currentBundler.instance
-      .ProgressPlugin {
-      constructor({name}: {name: string}) {
-        // TODO add support for color
-        // Unfortunately the rspack.ProgressPlugin does not have a name option
+    const rspack = getCurrentBundlerAsRspack({currentBundler});
+    class CustomRspackProgressPlugin extends rspack.ProgressPlugin {
+      constructor({name, color = 'green'}: {name?: string; color?: string}) {
+        // Unfortunately rspack.ProgressPlugin does not have name/color options
         // See https://rspack.dev/plugins/webpack/progress-plugin
-        // @ts-expect-error: adapt Rspack ProgressPlugin constructor
-        super({prefix: name});
+        super({
+          prefix: name,
+          template: `● {prefix:.bold} {bar:50.${color}/white.dim} ({percent}%) {wide_msg:.dim}`,
+          progressChars: '■■',
+        });
       }
     }
-    return CustomRspackProgressPlugin as typeof WebpackBar;
+    return CustomRspackProgressPlugin as unknown as typeof WebpackBar;
   }
 
   return WebpackBar;

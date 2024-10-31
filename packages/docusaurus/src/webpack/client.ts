@@ -65,6 +65,7 @@ async function createBaseClientConfig({
       new ChunkAssetPlugin(),
       new ProgressBarPlugin({
         name: 'Client',
+        color: 'green',
       }),
       await createStaticDirectoriesCopyPlugin({
         props,
