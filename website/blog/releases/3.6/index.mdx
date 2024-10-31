@@ -79,7 +79,23 @@ RSDOCTOR=true npm run build
 
 ## Mermaid
 
-- [#10510](https://github.com/facebook/docusaurus/pull/10510): feat(theme-mermaid): support Mermaid 11+ including new types of diagrams ([@slorber](https://github.com/slorber))
+In [#10510](https://github.com/facebook/docusaurus/pull/10510), we relaxed our [Mermaid diagrams](https://mermaid.js.org/) dependency range to allow newer major versions of Mermaid. We now support both Mermaid 10/11, and expect upcoming versions to be compatible, letting you upgrade on your own terms.
+
+This unlocks new types of diagrams, such as [Architecture Diagrams](https://mermaid.js.org/syntax/architecture):
+
+```mermaid
+architecture-beta
+    group api(cloud)[API]
+
+    service db(database)[Database] in api
+    service disk1(disk)[Storage] in api
+    service disk2(disk)[Storage] in api
+    service server(server)[Server] in api
+
+    db:L -- R:server
+    disk1:T -- B:server
+    disk2:T -- B:db
+```
 
 ## Translations
 
