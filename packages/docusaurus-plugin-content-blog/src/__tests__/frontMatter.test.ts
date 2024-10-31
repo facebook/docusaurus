@@ -93,6 +93,21 @@ describe('validateBlogPostFrontMatter title', () => {
       {title: ''},
       {title: 'title'},
     ],
+    invalidFrontMatters: [
+      [{title: null}, 'must be a string'],
+      [{title: false}, 'must be a string'],
+    ],
+  });
+});
+
+describe('validateBlogPostFrontMatter title_meta', () => {
+  testField({
+    prefix: 'title_meta',
+    validFrontMatters: [{title: ''}, {title_meta: 'title'}],
+    invalidFrontMatters: [
+      [{title_meta: null}, 'must be a string'],
+      [{title_meta: false}, 'must be a string'],
+    ],
   });
 });
 
