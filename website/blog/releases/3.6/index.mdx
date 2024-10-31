@@ -23,42 +23,79 @@ This release has been mostly focused on build performance through the [Docusauru
 ## Docusaurus Faster
 
 - [#10590](https://github.com/facebook/docusaurus/pull/10590) feat(core): add Node.js memory perf logging ([@slorber](https://github.com/slorber))
-
-- [#10588](https://github.com/facebook/docusaurus/pull/10588) feat: new Rsdoctor official plugin ([@slorber](https://github.com/slorber))
-
-#### :bug: Bug Fix
-
-- [#10581](https://github.com/facebook/docusaurus/pull/10581) fix(core): fix handling of Swc html minifier warnings ([@slorber](https://github.com/slorber))
-- [#10553](https://github.com/facebook/docusaurus/pull/10553) fix(mdx-loader): fix cross-compiler cache randomly loading mdx with client/server envs ([@slorber](https://github.com/slorber))
-- [#10547](https://github.com/facebook/docusaurus/pull/10547) fix(tsconfig): add `@docusaurus/tsconfig` target es2022 ([@slorber](https://github.com/slorber))
-- [#10440](https://github.com/facebook/docusaurus/pull/10440) fix(blog): apply baseUrl to relative image in blog authors ([@OzakIOne](https://github.com/OzakIOne))
-- [#10431](https://github.com/facebook/docusaurus/pull/10431) fix(blog): authors count incorrectly rendered ([@OzakIOne](https://github.com/OzakIOne))
 - [#10601](https://github.com/facebook/docusaurus/pull/10601) perf(ci): Add CI checks to prevent memory, build-time and build-size regressions ([@slorber](https://github.com/slorber))
+- [#10410](https://github.com/facebook/docusaurus/pull/10410) refactor(core): remove useless build forceTerminate exit ([@slorber](https://github.com/slorber))
+- [#10590](https://github.com/facebook/docusaurus/pull/10590) feat(core): add Node.js memory perf logging ([@slorber](https://github.com/slorber))
+- [#10581](https://github.com/facebook/docusaurus/pull/10581) fix(core): fix handling of Swc html minifier warnings ([@slorber](https://github.com/slorber))
 - [#10599](https://github.com/facebook/docusaurus/pull/10599) fix(core): fix i18n sites SSG memory leak - require.cache ([@slorber](https://github.com/slorber))
 
-- [#10612](https://github.com/facebook/docusaurus/pull/10612) chore: fix canary version prefix ([@slorber](https://github.com/slorber))
-- [#10418](https://github.com/facebook/docusaurus/pull/10418) chore(website): add Rsdoctor plugin ([@slorber](https://github.com/slorber))
-- [#10410](https://github.com/facebook/docusaurus/pull/10410) refactor(core): remove useless build forceTerminate exit ([@slorber](https://github.com/slorber))
-- [#10514](https://github.com/facebook/docusaurus/pull/10514) refactor: remove babel.config.js from init templates + website ([@slorber](https://github.com/slorber))
-- [#10454](https://github.com/facebook/docusaurus/pull/10454) chore: upgrade npm-to-yarn to v3 ([@slorber](https://github.com/slorber))
+## Rsdoctor plugin
+
+In [#10588](https://github.com/facebook/docusaurus/pull/10588), we created a Docusaurus plugin for [Rsdoctor](https://rsdoctor.dev/). It permits to analyze the bundling phase of Docusaurus and can help you figure out what slows down the bundler in terms of loaders, plugins and minimizers. It works for both webpack and Rspack.
+
+![Loader timeline example](./img/rsdoctor.jpg)
+
+To use it, install the new [`@docusaurus/plugin-rsdoctor`](/docs/api/plugins/@docusaurus/plugin-rsdoctor) package, and then use the plugin in your config:
+
+```ts title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      'rsdoctor',
+      {
+        /* options */
+      },
+    ],
+  ],
+};
+```
+
+:::tip
+
+Turn it on conditionally, based on an environment variable:
+
+```ts title="docusaurus.config.js"
+export default {
+  plugins: [
+    process.env.RSDOCTOR === 'true' && [
+      'rsdoctor',
+      {
+        /* options */
+      },
+    ],
+  ],
+};
+```
+
+```bash
+# Build without Rsdoctor
+npm run build
+
+# Build with Rsdoctor
+RSDOCTOR=true npm run build
+```
+
+:::
+
+## Mermaid
+
+- [#10510](https://github.com/facebook/docusaurus/pull/10510): feat(theme-mermaid): support Mermaid 11+ including new types of diagrams ([@slorber](https://github.com/slorber))
 
 ## Translations
 
-- [#10551](https://github.com/facebook/docusaurus/pull/10551) fix(translations): complete missing slovenian theme translations ([@patik123](https://github.com/patik123))
-- [#10507](https://github.com/facebook/docusaurus/pull/10507) fix(theme-translations): add missing Vietnamese translations ([@namnguyenthanhwork](https://github.com/namnguyenthanhwork))
-- [#10413](https://github.com/facebook/docusaurus/pull/10413) fix(translations): fix Spanish translation for "breadcrumbs" ([@TheMineWay](https://github.com/TheMineWay))
-
-- 🇪🇪 [#10339](https://github.com/facebook/docusaurus/pull/10339): Add Estonian theme translations.
-- 🇮🇩 [#10325](https://github.com/facebook/docusaurus/pull/10325): Add Indonesian theme translations.
-- 🇪🇸 [#10360](https://github.com/facebook/docusaurus/pull/10360): Improve Spanish theme translations.
+- 🇸🇮 [#10551](https://github.com/facebook/docusaurus/pull/10551): Improve Slovenian theme translations.
+- 🇻🇳 [#10507](https://github.com/facebook/docusaurus/pull/10507): Improve Vietnamese theme translations.
+- 🇪🇸 [#10413](https://github.com/facebook/docusaurus/pull/10413): Improve Spanish theme translations.
 
 ## Other changes
 
 Other notable changes include:
 
-- [#10510](https://github.com/facebook/docusaurus/pull/10510) feat(theme-mermaid): support Mermaid 11+ including new types of diagrams ([@slorber](https://github.com/slorber))
-- [#10586](https://github.com/facebook/docusaurus/pull/10586): Add blog support for `frontMatter.title_meta` to override title for SEO.
-- [#10600](https://github.com/facebook/docusaurus/pull/10600) feat(cli): build/deploy should allow multiple `--locale` options ([@slorber](https://github.com/slorber))
-- [#10590](https://github.com/facebook/docusaurus/pull/10590) feat(core): add Node.js memory perf logging ([@slorber](https://github.com/slorber))
+- [#10586](https://github.com/facebook/docusaurus/pull/10586): Blog support for `frontMatter.title_meta` to override `frontMatter.title` for SEO reason.
+- [#10600](https://github.com/facebook/docusaurus/pull/10600): `docusaurus build` and `docusaurus deploy` now support multiple `--locale` CLI args.
+- [#10454](https://github.com/facebook/docusaurus/pull/10454): `docusaurus-remark-plugin-npm2yarn` upgrades to [`npm-to-yarn` v3](https://github.com/nebrelbug/npm-to-yarn/releases/tag/v3.0.0) and can convert `npx` commands.
+- [#10612](https://github.com/facebook/docusaurus/pull/10612): Canary releases will use `3.5.2-canary-<number>` instead of `0.0.0-canary-<number>` to respect plugins `peerDependency` constraints.
+- [#10547](https://github.com/facebook/docusaurus/pull/10547): `@docusaurus/tsconfig` upgrades to `target: 'es2022'`.
+- [#10514](https://github.com/facebook/docusaurus/pull/10514): Remove `babel.config.js` from Docusaurus init templates to discourage customizing Babel.
 
 Check the **[3.6.0 changelog entry](/changelog/3.6.0)** for an exhaustive list of changes.
