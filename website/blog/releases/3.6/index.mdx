@@ -24,19 +24,47 @@ This release has been mostly focused on build performance through the [Docusauru
 
 The [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) project's goal is to reduce the build times and memory consumption.
 
-We are modernizing our infrastructure to use modern faster Rust-based tools, notably:
+We have worked on multiple optimizations and modernized our infrastructure to use faster Rust-based tools, notably:
 
 - [Rspack](https://rspack.dev/): Fast Rust-based web bundler, almost drop-in replacement for [webpack](https://webpack.js.org/).
 - [SWC](https://swc.rs/): Speedy Web Compiler, Rust-based platform for the Web (HTML, CSS, JS).
 - [Lightning CSS](https://lightningcss.dev/): An extremely fast CSS parser, transformer, bundler, and minifier.
 
-### Expected Impact
+### Impact
 
-Benchmarks on community site show that you can expect your site to build ⚡️**~3 times faster**! 🔥
+Adopting a new infrastructure can have various impacts. It's impossible to list them all exhaustively
+
+To help you adopt it easily, we have been fairly conservative in terms of expected static site output and [browser support](/docs/browser-support).
+
+#### Build Time
+
+Benchmarks on community site show that you can expect your production site to build ⚡️**2 to 4 times faster**! 🔥:
 
 - [React Native website](https://github.com/facebook/react-native-website/pull/4268): 3.04x faster 🔥
 - [Babel website](https://github.com/babel/website/pull/2997): 3.27x faster 🔥
 - [Lexical website](https://github.com/facebook/lexical/pull/6761): 2x faster 🔥
+
+[How to benchmark](https://github.com/facebook/docusaurus/issues/10556#issuecomment-2407671873)
+
+:::note About rebuilds
+
+[Rspack doesn't support persistent caching yet](https://rspack.dev/misc/planning/roadmap#persistent-cache), but it's on the roadmap and should be implemented soon. We think it's not a problem for the adoption of Rspack considering a cold Rspack build is usually as fast as warm Webpack build using persistent caching.
+
+:::
+
+#### Memory Consumption
+
+Apart from the new infrastructure, you should also see memory consumption improvements:
+
+- Rspack consumes way less memory during the bundling phase
+- We fixed an important [memory leak](https://github.com/facebook/docusaurus/pull/10599) that affects in particular i18n sites
+- We added [CI checks](https://github.com/facebook/docusaurus/pull/10601) to ensure that we don't regress, and that Docusaurus can build in a memory-constrained environment
+- We worked on [internal tooling](https://github.com/facebook/docusaurus/pull/10590) to better understand which step of a Docusaurus build consumes memory
+- We [removed a `process.exit(0)`](https://github.com/facebook/docusaurus/pull/10410) that may hide a memory leak you have in your own code
+
+#### Other Impacts
+
+- Our HTML minifier now [emits warnings in case of invalid HTML markup](https://github.com/facebook/docusaurus/discussions/10580)
 
 ### Adoption Strategy
 
