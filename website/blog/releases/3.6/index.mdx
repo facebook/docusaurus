@@ -22,12 +22,67 @@ This release has been mostly focused on build performance through the [Docusauru
 
 ## Docusaurus Faster
 
-- [#10590](https://github.com/facebook/docusaurus/pull/10590) feat(core): add Node.js memory perf logging ([@slorber](https://github.com/slorber))
-- [#10601](https://github.com/facebook/docusaurus/pull/10601) perf(ci): Add CI checks to prevent memory, build-time and build-size regressions ([@slorber](https://github.com/slorber))
-- [#10410](https://github.com/facebook/docusaurus/pull/10410) refactor(core): remove useless build forceTerminate exit ([@slorber](https://github.com/slorber))
-- [#10590](https://github.com/facebook/docusaurus/pull/10590) feat(core): add Node.js memory perf logging ([@slorber](https://github.com/slorber))
-- [#10581](https://github.com/facebook/docusaurus/pull/10581) fix(core): fix handling of Swc html minifier warnings ([@slorber](https://github.com/slorber))
-- [#10599](https://github.com/facebook/docusaurus/pull/10599) fix(core): fix i18n sites SSG memory leak - require.cache ([@slorber](https://github.com/slorber))
+The [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) project's goal is to reduce the build times and memory consumption.
+
+We are modernizing our infrastructure to use modern faster Rust-based tools, notably:
+
+- [Rspack](https://rspack.dev/): Fast Rust-based web bundler, almost drop-in replacement for [webpack](https://webpack.js.org/).
+- [SWC](https://swc.rs/): Speedy Web Compiler, Rust-based platform for the Web (HTML, CSS, JS).
+- [Lightning CSS](https://lightningcss.dev/): An extremely fast CSS parser, transformer, bundler, and minifier.
+
+### Expected Impact
+
+Benchmarks on community site show that you can expect your site to build ⚡️**~3 times faster**! 🔥
+
+- [React Native website](https://github.com/facebook/react-native-website/pull/4268): 3.04x faster 🔥
+- [Babel website](https://github.com/babel/website/pull/2997): 3.27x faster 🔥
+- [Lexical website](https://github.com/facebook/lexical/pull/6761): 2x faster 🔥
+
+### Adoption Strategy
+
+This new infrastructure is a breaking change, but it is opt-in and does not require a new major version of Docusaurus.
+
+Before using Docusaurus Faster, you will have to install a new package that encapsulates all the modern tools:
+
+```bash npm2yarn
+npm install @docusaurus/faster
+```
+
+To help you **adopt it incrementally under Docusaurus v3**, we are releasing it as part of a set of feature flags you can turn on progressively.
+
+We recommend turning them on all at once with this simple boolean shortcut:
+
+```js
+const config = {
+  future: {
+    experimental_faster: true,
+  },
+};
+```
+
+In case one of the flags does not work for your site, it's possible to turn feature flags on independently:
+
+- [`swcJsLoader`](https://github.com/facebook/docusaurus/pull/10435): Use [SWC](https://swc.rs/) to transpile JS (instead of [Babel](https://babeljs.io/)).
+- [`swcJsMinimizer`](https://github.com/facebook/docusaurus/pull/10441): Use [SWC](https://swc.rs/) to minify JS (instead of [Terser](https://github.com/terser/terser)).
+- [`swcHtmlMinimizer `](https://github.com/facebook/docusaurus/pull/10554): Use [SWC](https://swc.rs/) to minify HTML and inlined JS/CSS (instead of [html-minifier-terser](https://github.com/terser/html-minifier-terser)).
+- [`lightningCssMinimizer`](https://github.com/facebook/docusaurus/pull/10522): Use [Lightning CSS](https://lightningcss.dev/) to minify CSS (instead of [cssnano](https://github.com/cssnano/cssnano) and [clean-css](https://github.com/clean-css/clean-css)).
+- [`rspackBundler`](https://github.com/facebook/docusaurus/pull/10402): Use [Rspack](https://rspack.dev/) to bundle your app (instead of [webpack](https://webpack.js.org/)).
+- [`mdxCrossCompilerCache`](https://github.com/facebook/docusaurus/pull/10479): Compile MDX files only once for both browser/Node.js environments instead of twice.
+
+```ts
+const config = {
+  future: {
+    experimental_faster: {
+      swcJsLoader: true,
+      swcJsMinimizer: true,
+      swcHtmlMinimizer: true,
+      lightningCssMinimizer: true,
+      rspackBundler: true,
+      mdxCrossCompilerCache: true,
+    },
+  },
+};
+```
 
 ## Rsdoctor plugin
 
