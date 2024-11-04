@@ -1,5 +1,172 @@
 # Docusaurus Changelog
 
+## 3.6.0 (2024-11-04)
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`
+  - [#10586](https://github.com/facebook/docusaurus/pull/10586) feat(blog): Add `frontMatter.title_meta` to override title for SEO ([@ilg-ul](https://github.com/ilg-ul))
+- `docusaurus`
+  - [#10600](https://github.com/facebook/docusaurus/pull/10600) feat(cli): build/deploy should allow multiple `--locale` options ([@slorber](https://github.com/slorber))
+- `docusaurus-logger`
+  - [#10590](https://github.com/facebook/docusaurus/pull/10590) feat(core): add Node.js memory perf logging ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-rsdoctor`
+  - [#10588](https://github.com/facebook/docusaurus/pull/10588) feat: new Rsdoctor official plugin ([@slorber](https://github.com/slorber))
+- `docusaurus-bundler`, `docusaurus-faster`, `docusaurus-theme-classic`, `docusaurus`
+  - [#10402](https://github.com/facebook/docusaurus/pull/10402) feat(core): Replace Webpack with Rspack - `siteConfig.future.experimental_faster.rspackBundler` ([@slorber](https://github.com/slorber))
+- `docusaurus-bundler`, `docusaurus-faster`, `docusaurus-types`, `docusaurus`
+  - [#10554](https://github.com/facebook/docusaurus/pull/10554) feat(core): faster HTML minimizer - `siteConfig.future.experimental_faster.swcHtmlMinimizer` ([@slorber](https://github.com/slorber))
+  - [#10522](https://github.com/facebook/docusaurus/pull/10522) feat(core): faster CSS minimizer - `siteConfig.future.experimental_faster.lightningCssMinimizer` ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-mermaid`
+  - [#10510](https://github.com/facebook/docusaurus/pull/10510) feat(theme-mermaid): support Mermaid 11+ including new types of diagrams ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-types`, `docusaurus`
+  - [#10479](https://github.com/facebook/docusaurus/pull/10479) feat(core, mdx-loader): deduplicate MDX compilation - `siteConfig.future.experimental_faster.mdxCrossCompilerCache` ([@slorber](https://github.com/slorber))
+- `docusaurus-faster`, `docusaurus-types`, `docusaurus`
+  - [#10441](https://github.com/facebook/docusaurus/pull/10441) feat(core): faster JS minimizer - `siteConfig.future.experimental_faster.swcJsMinimizer` ([@slorber](https://github.com/slorber))
+- `docusaurus-faster`, `docusaurus-plugin-content-docs`, `docusaurus-types`, `docusaurus`
+  - [#10435](https://github.com/facebook/docusaurus/pull/10435) feat(core): faster transpiler option - `siteConfig.future.experimental_faster.swcJsLoader` ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-bundler`, `docusaurus`
+  - [#10632](https://github.com/facebook/docusaurus/pull/10632) fix(core): restore Rspack ProgressBar colors ([@slorber](https://github.com/slorber))
+  - [#10581](https://github.com/facebook/docusaurus/pull/10581) fix(core): fix handling of Swc html minifier warnings ([@slorber](https://github.com/slorber))
+  - [#10573](https://github.com/facebook/docusaurus/pull/10573) fix(core): move @docusaurus/faster to bundler peerDeps ([@slorber](https://github.com/slorber))
+- `docusaurus-bundler`
+  - [#10617](https://github.com/facebook/docusaurus/pull/10617) fix(faster): allow Rspack + babel-loader ([@slorber](https://github.com/slorber))
+  - [#10614](https://github.com/facebook/docusaurus/pull/10614) fix(faster): fix error message typo + add color ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+  - [#10618](https://github.com/facebook/docusaurus/pull/10618) fix(theme): Restore former globalThis.Prism ([@slorber](https://github.com/slorber))
+  - [#10585](https://github.com/facebook/docusaurus/pull/10585) fix(theme): light & dark mode checkbox doesn't announce state switches ([@andrewasche](https://github.com/andrewasche))
+  - [#10439](https://github.com/facebook/docusaurus/pull/10439) fix(theme): upgrade infima, fix footer link width bug ([@slorber](https://github.com/slorber))
+- `docusaurus-faster`
+  - [#10616](https://github.com/facebook/docusaurus/pull/10616) fix(faster): add missing tslib dependency ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#10611](https://github.com/facebook/docusaurus/pull/10611) fix(core): fix DOCUSAURUS_CURRENT_LOCALE = 'undefined' ([@slorber](https://github.com/slorber))
+  - [#10423](https://github.com/facebook/docusaurus/pull/10423) fix(core): always use hash for CSS module class names ([@slorber](https://github.com/slorber))
+- `docusaurus-bundler`, `docusaurus-faster`
+  - [#10605](https://github.com/facebook/docusaurus/pull/10605) fix(core): Use proper swc loader options ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-translations`
+  - [#10551](https://github.com/facebook/docusaurus/pull/10551) fix(translations): complete missing slovenian theme translations ([@patik123](https://github.com/patik123))
+  - [#10507](https://github.com/facebook/docusaurus/pull/10507) fix(theme-translations): add missing Vietnamese translations ([@namnguyenthanhwork](https://github.com/namnguyenthanhwork))
+  - [#10413](https://github.com/facebook/docusaurus/pull/10413) fix(translations): fix Spanish translation for "breadcrumbs" ([@TheMineWay](https://github.com/TheMineWay))
+- `docusaurus-mdx-loader`
+  - [#10553](https://github.com/facebook/docusaurus/pull/10553) fix(mdx-loader): fix cross-compiler cache randomly loading mdx with client/server envs ([@slorber](https://github.com/slorber))
+- `docusaurus-tsconfig`
+  - [#10547](https://github.com/facebook/docusaurus/pull/10547) fix(tsconfig): add `@docusaurus/tsconfig` target es2022 ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-blog`
+  - [#10424](https://github.com/facebook/docusaurus/pull/10424) fix(blog): normalize inline authors socials ([@OzakIOne](https://github.com/OzakIOne))
+  - [#10440](https://github.com/facebook/docusaurus/pull/10440) fix(blog): apply baseUrl to relative image in blog authors ([@OzakIOne](https://github.com/OzakIOne))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-translations`
+  - [#10431](https://github.com/facebook/docusaurus/pull/10431) fix(blog): authors count incorrectly rendered ([@OzakIOne](https://github.com/OzakIOne))
+- `docusaurus-types`, `docusaurus`
+  - [#10420](https://github.com/facebook/docusaurus/pull/10420) fix(types): fix type of PluginModule ([@slorber](https://github.com/slorber))
+
+#### :running_woman: Performance
+
+- `docusaurus-bundler`, `docusaurus-faster`
+  - [#10605](https://github.com/facebook/docusaurus/pull/10605) fix(core): Use proper swc loader options ([@slorber](https://github.com/slorber))
+- Other
+  - [#10601](https://github.com/facebook/docusaurus/pull/10601) perf(ci): Add CI checks to prevent memory, build-time and build-size regressions ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#10599](https://github.com/facebook/docusaurus/pull/10599) fix(core): fix i18n sites SSG memory leak - require.cache ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`
+  - [#10470](https://github.com/facebook/docusaurus/pull/10470) refactor(mdx-loader): re-export metadata module instead of serializing it ([@slorber](https://github.com/slorber))
+  - [#10457](https://github.com/facebook/docusaurus/pull/10457) refactor(mdx-loader): read metadata from memory (loaded content) instead of fs ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- Other
+  - [#10631](https://github.com/facebook/docusaurus/pull/10631) docs: fix frontMatter.mdx.format docs ([@slorber](https://github.com/slorber))
+  - [#10630](https://github.com/facebook/docusaurus/pull/10630) docs: Add missing API ref docs for Docusaurus Faster options ([@slorber](https://github.com/slorber))
+  - [#10592](https://github.com/facebook/docusaurus/pull/10592) docs: resource add docusaurus-i18n ([@moonrailgun](https://github.com/moonrailgun))
+  - [#10535](https://github.com/facebook/docusaurus/pull/10535) docs: add tip about harmless vulnerabilities ([@ilg-ul](https://github.com/ilg-ul))
+  - [#10545](https://github.com/facebook/docusaurus/pull/10545) docs: clarify component naming for markdown import ([@jackrabbit128](https://github.com/jackrabbit128))
+  - [#10416](https://github.com/facebook/docusaurus/pull/10416) docs: corrected typo in search.mdx ([@B0r1sD](https://github.com/B0r1sD))
+  - [#10405](https://github.com/facebook/docusaurus/pull/10405) docs(website): small spellfix on 3.5 update notes ([@Zenahr](https://github.com/Zenahr))
+- `create-docusaurus`
+  - [#10608](https://github.com/facebook/docusaurus/pull/10608) docs: mention config/sidebars run in Node.js runtime ([@slorber](https://github.com/slorber))
+
+#### :robot: Dependencies
+
+- Other
+  - [#10623](https://github.com/facebook/docusaurus/pull/10623) chore(deps): bump actions/setup-node from 4.0.4 to 4.1.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#10624](https://github.com/facebook/docusaurus/pull/10624) chore(deps): bump actions/dependency-review-action from 4.3.4 to 4.4.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#10539](https://github.com/facebook/docusaurus/pull/10539) chore(deps): bump preactjs/compressed-size-action from 2.6.0 to 2.7.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#10530](https://github.com/facebook/docusaurus/pull/10530) chore(deps): bump rollup from 2.79.1 to 2.79.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#10518](https://github.com/facebook/docusaurus/pull/10518) chore(deps): bump actions/setup-node from 4.0.2 to 4.0.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#10505](https://github.com/facebook/docusaurus/pull/10505) chore(deps): bump dompurify from 3.0.5 to 3.1.6 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#10488](https://github.com/facebook/docusaurus/pull/10488) chore(deps): bump express from 4.19.2 to 4.20.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#10449](https://github.com/facebook/docusaurus/pull/10449) chore(deps): bump github/codeql-action from 3.26.3 to 3.26.5 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#10444](https://github.com/facebook/docusaurus/pull/10444) chore(deps): bump micromatch from 4.0.5 to 4.0.8 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  - [#10425](https://github.com/facebook/docusaurus/pull/10425) chore(deps): bump github/codeql-action from 3.26.0 to 3.26.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- `docusaurus-plugin-pwa`
+  - [#10455](https://github.com/facebook/docusaurus/pull/10455) chore(deps): bump webpack from 5.88.1 to 5.94.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### :wrench: Maintenance
+
+- Other
+  - [#10612](https://github.com/facebook/docusaurus/pull/10612) chore: fix canary version prefix ([@slorber](https://github.com/slorber))
+  - [#10438](https://github.com/facebook/docusaurus/pull/10438) chore(ci): fix setup-node, use LTS by default ([@slorber](https://github.com/slorber))
+  - [#10418](https://github.com/facebook/docusaurus/pull/10418) chore(website): add Rsdoctor plugin ([@slorber](https://github.com/slorber))
+- `docusaurus-babel`, `docusaurus-bundler`, `docusaurus-mdx-loader`, `docusaurus-plugin-debug`, `docusaurus-plugin-pwa`, `docusaurus-plugin-rsdoctor`, `docusaurus-theme-live-codeblock`, `docusaurus`
+  - [#10610](https://github.com/facebook/docusaurus/pull/10610) chore: upgrade minor dependencies ([@slorber](https://github.com/slorber))
+- `docusaurus-bundler`, `docusaurus-faster`
+  - [#10609](https://github.com/facebook/docusaurus/pull/10609) chore: upgrade faster packages ([@slorber](https://github.com/slorber))
+- `docusaurus-bundler`, `docusaurus-logger`, `docusaurus-types`, `docusaurus`
+  - [#10593](https://github.com/facebook/docusaurus/pull/10593) refactor(core): refactor SSG infrastructure ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#10587](https://github.com/facebook/docusaurus/pull/10587) refactor(core): replace serve-handler fork by official deps ([@slorber](https://github.com/slorber))
+  - [#10579](https://github.com/facebook/docusaurus/pull/10579) refactor(core): remove useless Webpack wait plugin ([@slorber](https://github.com/slorber))
+  - [#10485](https://github.com/facebook/docusaurus/pull/10485) refactor(core): rewrite Webpack ChunkAssetPlugin with RuntimeModule ([@slorber](https://github.com/slorber))
+  - [#10448](https://github.com/facebook/docusaurus/pull/10448) refactor(core): Restore null-loader ([@slorber](https://github.com/slorber))
+  - [#10442](https://github.com/facebook/docusaurus/pull/10442) fix(core): use serve-handler fork to remove annoying punycode warning ([@slorber](https://github.com/slorber))
+  - [#10410](https://github.com/facebook/docusaurus/pull/10410) refactor(core): remove useless build forceTerminate exit ([@slorber](https://github.com/slorber))
+- `docusaurus-bundler`, `docusaurus-plugin-pwa`, `docusaurus-types`, `docusaurus`
+  - [#10548](https://github.com/facebook/docusaurus/pull/10548) chore: upgrade Webpack to 5.95 and related deps ([@slorber](https://github.com/slorber))
+- `create-docusaurus`
+  - [#10514](https://github.com/facebook/docusaurus/pull/10514) refactor: remove babel.config.js from init templates + website ([@slorber](https://github.com/slorber))
+- `create-docusaurus`, `docusaurus-babel`, `docusaurus-bundler`, `docusaurus-mdx-loader`, `docusaurus-plugin-pwa`, `docusaurus-theme-classic`, `docusaurus-theme-translations`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#10511](https://github.com/facebook/docusaurus/pull/10511) refactor: create `@docusaurus/bundler` and `@docusaurus/babel` packages ([@slorber](https://github.com/slorber))
+- `create-docusaurus`, `docusaurus-plugin-pwa`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-mermaid`, `docusaurus-utils`, `docusaurus`, `eslint-plugin`
+  - [#10509](https://github.com/facebook/docusaurus/pull/10509) chore: Rename Twitter links/labels to X ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-types`, `docusaurus`
+  - [#10497](https://github.com/facebook/docusaurus/pull/10497) refactor(core): prepare codebase for swappable bundler ([@slorber](https://github.com/slorber))
+- `create-docusaurus`, `docusaurus-utils`
+  - [#10486](https://github.com/facebook/docusaurus/pull/10486) chore: upgrade to TS 5.6 + temporarily use skipLibCheck for TS 5.6 ([@slorber](https://github.com/slorber))
+- `create-docusaurus`, `docusaurus-logger`, `docusaurus-theme-translations`, `docusaurus`
+  - [#10480](https://github.com/facebook/docusaurus/pull/10480) refactor: move PerfLogger from core to @docusaurus/logger ([@slorber](https://github.com/slorber))
+- `docusaurus-remark-plugin-npm2yarn`
+  - [#10454](https://github.com/facebook/docusaurus/pull/10454) chore: upgrade npm-to-yarn to v3 ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus`
+  - [#10450](https://github.com/facebook/docusaurus/pull/10450) refactor(mdx-loader): refactor mdx-loader, expose loader creation utils ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`, `docusaurus-utils`, `docusaurus`
+  - [#10429](https://github.com/facebook/docusaurus/pull/10429) refactor(core): improve handling of server bundle ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`
+  - [#10422](https://github.com/facebook/docusaurus/pull/10422) refactor(mdx-loader): remove useless usage of mdx loader this.query ([@slorber](https://github.com/slorber))
+
+#### Committers: 19
+
+- Andrew Asche ([@andrewasche](https://github.com/andrewasche))
+- Boris Depoortere ([@B0r1sD](https://github.com/B0r1sD))
+- Chris Cho ([@ccho-mongodb](https://github.com/ccho-mongodb))
+- Flix ([@flixyudh](https://github.com/flixyudh))
+- Joel Campos ([@TheMineWay](https://github.com/TheMineWay))
+- Kamil Moskała ([@moskalakamil](https://github.com/moskalakamil))
+- Kenrick ([@kenrick95](https://github.com/kenrick95))
+- Liviu Ionescu ([@ilg-ul](https://github.com/ilg-ul))
+- Nguyễn Thành Nam ([@namnguyenthanhwork](https://github.com/namnguyenthanhwork))
+- Patrick ([@patik123](https://github.com/patik123))
+- Raghav ([@raghav2005](https://github.com/raghav2005))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Zenahr Barzani ([@Zenahr](https://github.com/Zenahr))
+- [@Olexandr88](https://github.com/Olexandr88)
+- [@Radovenchyk](https://github.com/Radovenchyk)
+- [@jackrabbit128](https://github.com/jackrabbit128)
+- [@k-seltzer](https://github.com/k-seltzer)
+- moonrailgun ([@moonrailgun](https://github.com/moonrailgun))
+- ozaki ([@OzakIOne](https://github.com/OzakIOne))
+
 ## 3.5.2 (2024-08-13)
 
 #### :bug: Bug Fix
