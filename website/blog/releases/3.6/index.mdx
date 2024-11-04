@@ -30,7 +30,7 @@ We have worked on multiple optimizations and modernized our infrastructure to us
 - 🦀 [SWC](https://swc.rs/): Speedy Web Compiler, Rust-based platform for the Web (HTML, CSS, JS)
 - 🦀 [Lightning CSS](https://lightningcss.dev/): An extremely fast CSS parser, transformer, bundler, and minifier
 
-### Impact
+### Impacts
 
 Adopting a new infrastructure can have various impacts. It's impossible to list them all exhaustively, so let's focus on the major ones.
 
@@ -118,7 +118,7 @@ const config = {
 
 Don't be afraid to turn this feature on. What's experimental is the config options.
 
-The new infrastructure is robust and well-tested by our CI pipeline. The [Docusaurus site](https://docusaurus.io/) already uses it in production, and we plan to use it on other Meta docs sites.
+The new infrastructure is robust and well-tested by our CI pipeline. The [Docusaurus site](https://docusaurus.io/) already uses it in production, and we plan to use it on other Meta docs sites as well.
 
 :::
 
@@ -128,7 +128,7 @@ The new infrastructure uses [Rspack](https://rspack.dev/). By chance, Rspack is 
 
 Most Docusaurus plugins should work out of the box with Rspack, even those implementing [`configureWebpack`](/docs/api/plugin-methods/lifecycle-apis#configureWebpack).
 
-However, some of them will require little modifications to make them work under Rspack. The general idea is that you should avoid importing `webpack` directly, and use the "provided" webpack instance instead (it can be webpack/Rspack):
+However, some of them will require small modifications to make them compatible with Rspack. The general idea is to avoid importing `webpack` directly, and use the "dynamically provided" webpack instance instead:
 
 ```diff
 -import webpack from 'webpack';
@@ -151,7 +151,7 @@ export default function (context, options) {
 
 :::tip For plugins authors
 
-We have a [dedicated issue to help plugins authors add Rspack support](https://github.com/facebook/docusaurus/issues/10572). Please contact us if you need help.
+Check the [dedicated issue](https://github.com/facebook/docusaurus/issues/10572) for guidelines and support.
 
 :::
 
@@ -165,7 +165,7 @@ Depending on [your feedback](https://github.com/facebook/docusaurus/issues/10556
 
 ## Rsdoctor plugin
 
-In [#10588](https://github.com/facebook/docusaurus/pull/10588), we created a Docusaurus plugin for [Rsdoctor](https://rsdoctor.dev/). It permits to analyze the bundling phase of Docusaurus and can help you figure out what slows down the bundler in terms of loaders, plugins and minimizers. It works for both webpack and Rspack.
+In [#10588](https://github.com/facebook/docusaurus/pull/10588), we created a Docusaurus plugin for [Rsdoctor](https://rsdoctor.dev/). It analyzes the bundling phase of Docusaurus and helps you figure out what slows down the bundler in terms of loaders, plugins and minimizers. It works for both webpack and Rspack.
 
 ![Loader timeline example](./img/rsdoctor.jpg)
 
