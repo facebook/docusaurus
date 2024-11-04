@@ -1,6 +1,6 @@
 # Docusaurus Changelog
 
-## 3.6.0 (2024-10-31)
+## 3.6.0 (2024-11-04)
 
 #### :rocket: New Feature
 

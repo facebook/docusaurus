@@ -3,7 +3,7 @@ title: Docusaurus 3.6
 authors: [slorber]
 tags: [release]
 image: ./img/social-card.png
-date: 2024-10-31
+date: 2024-11-04
 ---
 
 We are happy to announce **Docusaurus 3.6**.
@@ -26,13 +26,13 @@ The [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) pro
 
 We have worked on multiple optimizations and modernized our infrastructure to use faster Rust-based tools, notably:
 
-- [Rspack](https://rspack.dev/): Fast Rust-based web bundler, almost drop-in replacement for [webpack](https://webpack.js.org/).
-- [SWC](https://swc.rs/): Speedy Web Compiler, Rust-based platform for the Web (HTML, CSS, JS).
-- [Lightning CSS](https://lightningcss.dev/): An extremely fast CSS parser, transformer, bundler, and minifier.
+- 🦀 [Rspack](https://rspack.dev/): Fast Rust-based web bundler, almost drop-in replacement for [webpack](https://webpack.js.org/)
+- 🦀 [SWC](https://swc.rs/): Speedy Web Compiler, Rust-based platform for the Web (HTML, CSS, JS)
+- 🦀 [Lightning CSS](https://lightningcss.dev/): An extremely fast CSS parser, transformer, bundler, and minifier
 
 ### Impact
 
-Adopting a new infrastructure can have various impacts. It's impossible to list them all exhaustively
+Adopting a new infrastructure can have various impacts. It's impossible to list them all exhaustively, so let's focus on the major ones.
 
 To help you adopt it easily, we have been fairly conservative in terms of expected static site output and [browser support](/docs/browser-support).
 
@@ -48,35 +48,37 @@ Benchmarks on community site show that you can expect your production site to bu
 
 :::note About rebuilds
 
-[Rspack doesn't support persistent caching yet](https://rspack.dev/misc/planning/roadmap#persistent-cache), but it's on the roadmap and should be implemented soon. We think it's not a problem for the adoption of Rspack considering a cold Rspack build is usually as fast as warm Webpack build using persistent caching.
+[Rspack doesn't support persistent caching yet](https://rspack.dev/misc/planning/roadmap#persistent-cache), but it's on the roadmap and should be implemented soon. We think it's not a problem for the adoption of Rspack considering a cold Rspack build is usually as fast as a warm Webpack build using persistent caching.
 
 :::
 
 #### Memory Consumption
 
-Apart from the new infrastructure, you should also see memory consumption improvements:
+You should also notice an improvement in memory consumption:
 
-- Rspack consumes way less memory during the bundling phase
+- The new infrastructure consumes less memory overall
 - We fixed an important [memory leak](https://github.com/facebook/docusaurus/pull/10599) that affects in particular i18n sites
-- We added [CI checks](https://github.com/facebook/docusaurus/pull/10601) to ensure that we don't regress, and that Docusaurus can build in a memory-constrained environment
-- We worked on [internal tooling](https://github.com/facebook/docusaurus/pull/10590) to better understand which step of a Docusaurus build consumes memory
-- We [removed a `process.exit(0)`](https://github.com/facebook/docusaurus/pull/10410) that may hide a memory leak you have in your own code
+- We added [CI checks](https://github.com/facebook/docusaurus/pull/10601) to ensure that we don't regress, and that our site and init template can both build in a memory-constrained environments
+- We added [internal tooling](https://github.com/facebook/docusaurus/pull/10590) to better understand which step of a build consumes memory
+- We [removed a `process.exit(0)`](https://github.com/facebook/docusaurus/pull/10410) that can hide memory leaks in your own code and third-party plugins
 
 #### Other Impacts
 
-- Our HTML minifier now [emits warnings in case of invalid HTML markup](https://github.com/facebook/docusaurus/discussions/10580)
+- The HTML minifier now [emits warnings in case of invalid HTML markup](https://github.com/facebook/docusaurus/discussions/10580)
+- The static HTML output is [~5% smaller](https://github.com/facebook/docusaurus/pull/10554)
+- Some bugs are automatically fixed by the new infrastructure
 
 ### Adoption Strategy
 
 This new infrastructure is a breaking change, but it is opt-in and does not require a new major version of Docusaurus.
 
-Before using Docusaurus Faster, you will have to install a new package that encapsulates all the modern tools:
+Before using Docusaurus Faster, add this new package:
 
 ```bash npm2yarn
 npm install @docusaurus/faster
 ```
 
-To help you **adopt it incrementally under Docusaurus v3**, we are releasing it as part of a set of feature flags you can turn on progressively.
+To help you **adopt it incrementally under Docusaurus v3**, we're introducing a set of feature flags that you can activate progressively.
 
 We recommend turning them on all at once with this simple boolean shortcut:
 
@@ -89,13 +91,6 @@ const config = {
 ```
 
 In case one of the flags does not work for your site, it's possible to turn feature flags on independently:
-
-- [`swcJsLoader`](https://github.com/facebook/docusaurus/pull/10435): Use [SWC](https://swc.rs/) to transpile JS (instead of [Babel](https://babeljs.io/)).
-- [`swcJsMinimizer`](https://github.com/facebook/docusaurus/pull/10441): Use [SWC](https://swc.rs/) to minify JS (instead of [Terser](https://github.com/terser/terser)).
-- [`swcHtmlMinimizer `](https://github.com/facebook/docusaurus/pull/10554): Use [SWC](https://swc.rs/) to minify HTML and inlined JS/CSS (instead of [html-minifier-terser](https://github.com/terser/html-minifier-terser)).
-- [`lightningCssMinimizer`](https://github.com/facebook/docusaurus/pull/10522): Use [Lightning CSS](https://lightningcss.dev/) to minify CSS (instead of [cssnano](https://github.com/cssnano/cssnano) and [clean-css](https://github.com/clean-css/clean-css)).
-- [`rspackBundler`](https://github.com/facebook/docusaurus/pull/10402): Use [Rspack](https://rspack.dev/) to bundle your app (instead of [webpack](https://webpack.js.org/)).
-- [`mdxCrossCompilerCache`](https://github.com/facebook/docusaurus/pull/10479): Compile MDX files only once for both browser/Node.js environments instead of twice.
 
 ```ts
 const config = {
@@ -111,6 +106,60 @@ const config = {
   },
 };
 ```
+
+- [`swcJsLoader`](https://github.com/facebook/docusaurus/pull/10435): Use [SWC](https://swc.rs/) to transpile JS (instead of [Babel](https://babeljs.io/))
+- [`swcJsMinimizer`](https://github.com/facebook/docusaurus/pull/10441): Use [SWC](https://swc.rs/) to minify JS (instead of [Terser](https://github.com/terser/terser))
+- [`swcHtmlMinimizer `](https://github.com/facebook/docusaurus/pull/10554): Use [SWC](https://swc.rs/) to minify HTML and inlined JS/CSS (instead of [html-minifier-terser](https://github.com/terser/html-minifier-terser))
+- [`lightningCssMinimizer`](https://github.com/facebook/docusaurus/pull/10522): Use [Lightning CSS](https://lightningcss.dev/) to minify CSS (instead of [cssnano](https://github.com/cssnano/cssnano) and [clean-css](https://github.com/clean-css/clean-css))
+- [`rspackBundler`](https://github.com/facebook/docusaurus/pull/10402): Use [Rspack](https://rspack.dev/) to bundle your app (instead of [webpack](https://webpack.js.org/))
+- [`mdxCrossCompilerCache`](https://github.com/facebook/docusaurus/pull/10479): Compile MDX files once for both browser/Node.js environments instead of twice
+
+:::tip Experimental but safe
+
+Don't be afraid to turn this feature on. What's experimental is the config options.
+
+The new infrastructure is robust and well-tested by our CI pipeline. The [Docusaurus site](https://docusaurus.io/) already uses it in production, and we plan to use it on other Meta docs sites.
+
+:::
+
+#### Plugins
+
+The new infrastructure uses [Rspack](https://rspack.dev/). By chance, Rspack is almost 100% compatible with [webpack](https://webpack.js.org/), and Rspack shouldn't break our plugin ecosystem.
+
+Most Docusaurus plugins should work out of the box with Rspack, even those implementing [`configureWebpack`](/docs/api/plugin-methods/lifecycle-apis#configureWebpack).
+
+However, some of them will require little modifications to make them work under Rspack. The general idea is that you should avoid importing `webpack` directly, and use the "provided" webpack instance instead (it can be webpack/Rspack):
+
+```diff
+-import webpack from 'webpack';
+
+export default function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+-   configureWebpack(config, isServer) {
++   configureWebpack(config, isServer, {currentBundler}) {
+      return {
+        plugins: [
+-         new webpack.DefinePlugin({}),
++         new currentBundler.instance.DefinePlugin({}),
+        ]
+      };
+    },
+  };
+}
+```
+
+:::tip For plugins authors
+
+We have a [dedicated issue to help plugins authors add Rspack support](https://github.com/facebook/docusaurus/issues/10572). Please contact us if you need help.
+
+:::
+
+### Next Step
+
+We will continue working on the [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) project and already have a few more performance improvements planned.
+
+Depending on [your feedback](https://github.com/facebook/docusaurus/issues/10556), we plan to make this new infrastructure the default in an upcoming major version of Docusaurus.
 
 ## Rsdoctor plugin
 
