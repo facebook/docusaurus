@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/faster",
-  "version": "3.5.2",
+  "version": "3.6.0",
   "description": "Docusaurus experimental package exposing new modern dependencies to make the build faster.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
