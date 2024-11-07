@@ -52,6 +52,11 @@ function isBlacklisted(pathname: string) {
     pathname.startsWith('/changelog') ||
     // versioned docs
     pathname.match(/^\/docs\/((\d\.\d\.\d)|(next))\//) ||
+    // verbose useless dogfooding pages
+    pathname.startsWith('/tests/docs/toc/') ||
+    pathname.startsWith('/tests/docs/tags/') ||
+    pathname.startsWith('/tests/blog/page/') ||
+    pathname.startsWith('/tests/blog/tags/') ||
     // manually excluded urls
     BlacklistedPathnames.includes(pathname)
   );
