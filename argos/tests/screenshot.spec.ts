@@ -45,11 +45,24 @@ function isBlacklisted(pathname: string) {
     '/showcase',
     // Long blog post with many image carousels, often timeouts
     '/blog/2022/08/01/announcing-docusaurus-2.0',
+
+    // DOGFOOD TESTS
+    // React key errors:
+    '/tests/docs/tests/toc-partials',
+    // Console errors
+    '/tests/pages/diagrams',
+    '/tests/pages/markdown-tests-md',
     // Flaky because of hydration error
     '/tests/blog/archive',
+    '/tests/docs/tests/custom-props',
+    '/tests/pages/code-block-tests',
+    '/tests/pages/embeds',
     // Flaky because of hydration error with docusaurus serve + .html
     '/tests/blog/x/y/z.html',
     '/tests/docs/dummy.html',
+    // Cause weird docusaurus serve errors:
+    '/tests/docs/tests/ascii/%C3%A6%C3%B8%C3%A5',
+    '/tests/docs/tests/ascii/folder/%C3%A6%C3%B8%C3%A5',
   ];
 
   return (
