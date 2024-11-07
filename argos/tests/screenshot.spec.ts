@@ -73,6 +73,8 @@ function isBlacklisted(pathname: string) {
     // verbose useless dogfooding pages
     pathname.startsWith('/tests/docs/toc/') ||
     pathname.startsWith('/tests/docs/tags/') ||
+    pathname.startsWith('/tests/docs/tests/category-links') ||
+    pathname.startsWith('/tests/docs/tests/visibility') ||
     pathname.startsWith('/tests/blog/page/') ||
     pathname.startsWith('/tests/blog/tags/') ||
     // manually excluded urls
