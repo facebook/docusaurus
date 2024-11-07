@@ -45,6 +45,24 @@ function isBlacklisted(pathname: string) {
     '/showcase',
     // Long blog post with many image carousels, often timeouts
     '/blog/2022/08/01/announcing-docusaurus-2.0',
+
+    // DOGFOOD TESTS
+    // React key errors:
+    '/tests/docs/tests/toc-partials',
+    // Console errors
+    '/tests/pages/diagrams',
+    '/tests/pages/markdown-tests-md',
+    // Flaky because of hydration error
+    '/tests/blog/archive',
+    '/tests/docs/tests/custom-props',
+    '/tests/pages/code-block-tests',
+    '/tests/pages/embeds',
+    // Flaky because of hydration error with docusaurus serve + .html
+    '/tests/blog/x/y/z.html',
+    '/tests/docs/dummy.html',
+    // Cause weird docusaurus serve errors:
+    '/tests/docs/tests/ascii/%C3%A6%C3%B8%C3%A5',
+    '/tests/docs/tests/ascii/folder/%C3%A6%C3%B8%C3%A5',
   ];
 
   return (
@@ -52,6 +70,13 @@ function isBlacklisted(pathname: string) {
     pathname.startsWith('/changelog') ||
     // versioned docs
     pathname.match(/^\/docs\/((\d\.\d\.\d)|(next))\//) ||
+    // verbose useless dogfooding pages
+    pathname.startsWith('/tests/docs/toc/') ||
+    pathname.startsWith('/tests/docs/tags/') ||
+    pathname.startsWith('/tests/docs/tests/category-links') ||
+    pathname.startsWith('/tests/docs/tests/visibility') ||
+    pathname.startsWith('/tests/blog/page/') ||
+    pathname.startsWith('/tests/blog/tags/') ||
     // manually excluded urls
     BlacklistedPathnames.includes(pathname)
   );
@@ -127,6 +152,9 @@ function throwOnConsole(page: Page) {
     //  on /docs/markdown-features/math-equations
     'Failed to decode downloaded font: http://localhost:3000/katex/fonts/',
     'OTS parsing error: Failed to convert WOFF 2.0 font to SFNT',
+
+    // Mermaid warning, see https://github.com/mermaid-js/mermaid/issues/6031
+    'Do not assign mappings to elements without corresponding data',
   ];
 
   page.on('console', (message) => {

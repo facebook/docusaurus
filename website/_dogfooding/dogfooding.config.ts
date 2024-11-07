@@ -12,6 +12,14 @@ import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
 import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
 import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 
+export const isArgosBuild = process.env.DOCUSAURUS_ARGOS_BUILD === 'true';
+
+if (isArgosBuild) {
+  console.warn(
+    'Building site for Argos CI - additional dogfooding pages will be preserved in sitemap',
+  );
+}
+
 export function dogfoodingTransformFrontMatter(frontMatter: {
   [key: string]: unknown;
 }): {[key: string]: unknown} {
@@ -39,7 +47,7 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       sidebarPath: '_dogfooding/docs-tests-sidebars.js',
       versions: {
         current: {
-          noIndex: true,
+          noIndex: !isArgosBuild,
         },
       },
       onInlineTags: 'warn',

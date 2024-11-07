@@ -41,6 +41,8 @@
     "crowdin:upload:website": "crowdin upload sources --config ./crowdin-v2.yaml",
     "crowdin:download": "crowdin download --config ./crowdin-v2.yaml",
     "crowdin:download:website": "yarn crowdin:download --language fr --language ko --language pt-BR --language zh-CN --language ja",
+    "argos": "yarn argos:build && yarn argos:screenshot",
+    "argos:build": "cross-env DOCUSAURUS_ARGOS_BUILD=true yarn build:website:fast --dev",
     "argos:screenshot": "yarn workspace argos screenshot",
     "canary": "yarn canary:bumpVersion && yarn canary:publish",
     "canary:getCoreVersion": "node -p \"require('./packages/docusaurus/package.json').version\"",
