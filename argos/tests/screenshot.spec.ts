@@ -127,6 +127,9 @@ function throwOnConsole(page: Page) {
     //  on /docs/markdown-features/math-equations
     'Failed to decode downloaded font: http://localhost:3000/katex/fonts/',
     'OTS parsing error: Failed to convert WOFF 2.0 font to SFNT',
+
+    // Mermaid warning, see https://github.com/mermaid-js/mermaid/issues/6031
+    'Do not assign mappings to elements without corresponding data',
   ];
 
   page.on('console', (message) => {
