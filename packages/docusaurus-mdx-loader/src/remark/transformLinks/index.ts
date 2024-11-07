@@ -216,7 +216,7 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
     };
 
     const promises: Promise<void>[] = [];
-    visit(root, 'link', (node: Link, index, parent) => {
+    visit(root, 'link', (node, index, parent) => {
       if (!parent || index === undefined) {
         return;
       }
