@@ -21,10 +21,10 @@ import sizeOf from 'image-size';
 import logger from '@docusaurus/logger';
 import {assetRequireAttributeValue, transformNode} from '../utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer} from 'unified';
+import type {Plugin, Transformer} from 'unified';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {MdxJsxTextElement} from 'mdast-util-mdx';
-import type {Image} from 'mdast';
+import type {Image, Root} from 'mdast';
 import type {Parent} from 'unist';
 
 type PluginOptions = {
@@ -186,7 +186,9 @@ async function processImageNode(target: Target, context: Context) {
   await toImageRequireNode(target, imagePath, context);
 }
 
-export default function plugin(options: PluginOptions): Transformer {
+const plugin: Plugin<PluginOptions[], Root> = function plugin(
+  options,
+): Transformer<Root> {
   return async (root, vfile) => {
     const {visit} = await import('unist-util-visit');
 
@@ -201,9 +203,14 @@ export default function plugin(options: PluginOptions): Transformer {
     };
 
     const promises: Promise<void>[] = [];
-    visit(root, 'image', (node: Image, index, parent) => {
+    visit(root, 'image', (node, index, parent) => {
+      if (!parent || index === undefined) {
+        return;
+      }
       promises.push(processImageNode([node, index, parent!], context));
     });
     await Promise.all(promises);
   };
-}
+};
+
+export default plugin;
