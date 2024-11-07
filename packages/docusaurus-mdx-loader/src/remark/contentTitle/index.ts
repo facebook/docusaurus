@@ -48,23 +48,22 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
         return undefined;
       }
       if (node.type === 'heading') {
-        const headingNode = node as Heading;
         // console.log('headingNode:', headingNode);
 
-        if (headingNode.depth === 1) {
-          vfile.data.contentTitle = toString(headingNode);
+        if (node.depth === 1) {
+          vfile.data.contentTitle = toString(node);
           if (removeContentTitle) {
             parent.children.splice(index, 1);
           } else {
             // TODO in the future it might be better to export contentTitle as
             // as JSX node to keep this logic a theme concern?
             // See https://github.com/facebook/docusaurus/pull/10335#issuecomment-2250187371
-            wrapHeadingInJsxHeader(headingNode, parent, index);
+            wrapHeadingInJsxHeader(node, parent, index);
           }
           return EXIT; // We only handle the very first heading
         }
         // We only handle contentTitle if it's the very first heading found
-        if (headingNode.depth >= 1) {
+        if (node.depth >= 1) {
           return EXIT;
         }
       }
