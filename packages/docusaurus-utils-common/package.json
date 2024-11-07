@@ -19,15 +19,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@docusaurus/types": "3.6.0",
     "tslib": "^2.6.0"
-  },
-  "peerDependencies": {
-    "@docusaurus/types": "*"
-  },
-  "peerDependenciesMeta": {
-    "@docusaurus/types": {
-      "optional": true
-    }
   },
   "engines": {
     "node": ">=18.0"
