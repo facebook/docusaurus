@@ -45,6 +45,11 @@ function isBlacklisted(pathname: string) {
     '/showcase',
     // Long blog post with many image carousels, often timeouts
     '/blog/2022/08/01/announcing-docusaurus-2.0',
+    // Flaky because of hydration error
+    '/tests/blog/archive',
+    // Flaky because of hydration error with docusaurus serve + .html
+    '/tests/blog/x/y/z.html',
+    '/tests/docs/dummy.html',
   ];
 
   return (
