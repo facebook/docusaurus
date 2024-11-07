@@ -134,10 +134,23 @@ export async function createBaseConfig({
     };
   }
 
+  function getExperiments(): Configuration['experiments'] {
+    if (props.currentBundler.name === 'rspack') {
+      return {
+        // Doesn't work well for now
+        // See https://rspack.dev/blog/announcing-1-1#new-incremental-rebuild
+        // @ts-expect-error: Rspack-only
+        incremental: true,
+      };
+    }
+    return undefined;
+  }
+
   return {
     mode,
     name,
     cache: getCache(),
+    experiments: getExperiments(),
     output: {
       pathinfo: false,
       path: outDir,
