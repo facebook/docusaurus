@@ -56,7 +56,7 @@ export async function createStaticDirectoriesCopyPlugin({
       toType: 'dir',
       info: {
         // Prevents Webpack from minimizing static files (js/css)
-        // see https://github.com/facebook/docusaurus/issues/10460
+        // see https://github.com/facebook/docusaurus/pull/10658
         // see https://github.com/webpack-contrib/copy-webpack-plugin#skip-running-javascript-files-through-a-minimizer
         minimized: true,
       },
