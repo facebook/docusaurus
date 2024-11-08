@@ -21,3 +21,4 @@ packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/facebook
 
 website/_dogfooding/_swizzle_theme_tests
+website/_dogfooding/_asset-tests/badSyntax.js

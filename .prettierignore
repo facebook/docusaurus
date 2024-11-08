@@ -29,3 +29,5 @@ website/static/katex/katex.min.css
 
 website/changelog
 website/_dogfooding/_swizzle_theme_tests
+website/_dogfooding/_asset-tests/badSyntax.js
+website/_dogfooding/_asset-tests/badSyntax.css
