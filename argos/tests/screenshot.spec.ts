@@ -52,6 +52,7 @@ function isBlacklisted(pathname: string) {
     // Console errors
     '/tests/pages/diagrams',
     '/tests/pages/markdown-tests-md',
+    '/tests/pages/react-18',
     // Flaky because of hydration error
     '/tests/blog/archive',
     '/tests/docs/tests/custom-props',
