@@ -27,6 +27,7 @@ import {
 import {generateSiteFiles} from './codegen/codegen';
 import {getRoutesPaths, handleDuplicateRoutes} from './routes';
 import {createSiteStorage} from './storage';
+import {emitSiteMessages} from './siteMessages';
 import type {LoadPluginsResult} from './plugins/plugins';
 import type {
   DocusaurusConfig,
@@ -54,7 +55,9 @@ export type LoadContextParams = {
   localizePath?: boolean;
 };
 
-export type LoadSiteParams = LoadContextParams;
+export type LoadSiteParams = LoadContextParams & {
+  isReload?: boolean;
+};
 
 export type Site = {
   props: Props;
@@ -236,7 +239,7 @@ async function createSiteFiles({
  * lifecycles to generate content and other data. It is side-effect-ful because
  * it generates temp files in the `.docusaurus` folder for the bundler.
  */
-export async function loadSite(params: LoadContextParams): Promise<Site> {
+export async function loadSite(params: LoadSiteParams): Promise<Site> {
   const context = await PerfLogger.async('Load context', () =>
     loadContext(params),
   );
@@ -252,6 +255,11 @@ export async function loadSite(params: LoadContextParams): Promise<Site> {
     globalData,
   });
 
+  // For now, we don't re-emit messages on site reloads, it's too verbose
+  if (!params.isReload) {
+    await emitSiteMessages({site});
+  }
+
   return site;
 }
 
@@ -259,7 +267,10 @@ export async function reloadSite(site: Site): Promise<Site> {
   // TODO this can be optimized, for example:
   //  - plugins loading same data as before should not recreate routes/bundles
   //  - codegen does not need to re-run if nothing changed
-  return loadSite(site.params);
+  return loadSite({
+    ...site.params,
+    isReload: true,
+  });
 }
 
 export async function reloadSitePlugin(
