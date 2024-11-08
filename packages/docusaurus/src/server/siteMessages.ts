@@ -37,7 +37,9 @@ const uselessBabelConfigMessages: SiteMessageCreator = async ({site}) => {
   return [];
 };
 
-async function collectAllSiteMessages(params: Params): Promise<SiteMessage[]> {
+export async function collectAllSiteMessages(
+  params: Params,
+): Promise<SiteMessage[]> {
   const messageCreators: SiteMessageCreator[] = [uselessBabelConfigMessages];
   return (
     await Promise.all(
