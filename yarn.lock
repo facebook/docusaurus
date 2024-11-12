@@ -84,7 +84,7 @@
     "@algolia/requester-fetch" "5.13.0"
     "@algolia/requester-node-http" "5.13.0"
 
-"@algolia/client-search@5.13.0":
+"@algolia/client-search@5.13.0", "@algolia/client-search@^5.13.0":
   version "5.13.0"
   resolved "https://registry.yarnpkg.com/@algolia/client-search/-/client-search-5.13.0.tgz#7469d59fd2cb38f229c2bde981c1b2898a7759bb"
   integrity sha512-s2ge3uZ6Zg2sPSFibqijgEYsuorxcc8KVHg3I95nOPHvFHdnBtSHymhZvq4sp/fu8ijt/Y8jLwkuqm5myn+2Sg==

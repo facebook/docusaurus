@@ -33,6 +33,7 @@
     "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "dependencies": {
+    "@algolia/client-search": "^5.13.0",
     "@docsearch/react": "^3.8.0",
     "@docusaurus/core": "3.6.1",
     "@docusaurus/logger": "3.6.1",
