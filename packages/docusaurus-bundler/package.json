@@ -45,7 +45,9 @@
     "webpackbar": "^6.0.1"
   },
   "peerDependencies": {
-    "@docusaurus/faster": "*"
+    "@docusaurus/faster": "*",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "peerDependenciesMeta": {
     "@docusaurus/faster": {

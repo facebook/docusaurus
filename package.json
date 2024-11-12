@@ -73,6 +73,7 @@
   },
   "devDependencies": {
     "@crowdin/cli": "^3.13.0",
+    "@mdx-js/react": "^3.0.0",
     "@prettier/plugin-xml": "^2.2.0",
     "@swc/core": "^1.7.14",
     "@swc/jest": "^0.2.36",

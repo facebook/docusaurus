@@ -2195,7 +2195,7 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-1.0.1.tgz#565acea8375b02a2039a5afefdeb3758ccc13988"
   integrity sha512-8jFmVrU6uAg94zh6sYCNtZnh9YovEvXmwaD9O8HxzQWNcEyn3ZZXG7r5ZcOpvtaQLnM+4+nwN4T42sfs2D+DvA==
 
-"@mdx-js/react@^3.0.0":
+"@mdx-js/react@^3.0.0", "@mdx-js/react@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-3.1.0.tgz#c4522e335b3897b9a845db1dbdd2f966ae8fb0ed"
   integrity sha512-QjHtSaoameoalGnKDT3FoIl4+9RwyTmo9ZJGBdLOks/YOiWHoRDI3PUwEzOE7kEmGcV3AFcp9K6dYu9rEuKLAQ==
