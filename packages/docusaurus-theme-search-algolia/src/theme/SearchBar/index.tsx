@@ -30,7 +30,7 @@ import type {
 } from '@docsearch/react';
 
 import type {AutocompleteState} from '@algolia/autocomplete-core';
-import type {FacetFilters, SearchForHits} from 'algoliasearch/lite';
+import type {FacetFilters} from 'algoliasearch/lite';
 
 type DocSearchProps = Omit<
   DocSearchModalProps,
@@ -101,7 +101,7 @@ function DocSearch({
       configFacetFilters;
 
   // We let user override default searchParameters if she wants to
-  const searchParameters: SearchForHits = {
+  const searchParameters: DocSearchModalProps['searchParameters'] = {
     ...props.searchParameters,
     facetFilters,
     indexName: props.indexName,
