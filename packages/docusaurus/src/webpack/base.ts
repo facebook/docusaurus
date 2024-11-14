@@ -134,10 +134,25 @@ export async function createBaseConfig({
     };
   }
 
+  function getExperiments(): Configuration['experiments'] {
+    if (props.currentBundler.name === 'rspack') {
+      return {
+        // This is mostly useful in dev
+        // See https://rspack.dev/config/experiments#experimentsincremental
+        // Produces warnings in production builds
+        // See https://github.com/web-infra-dev/rspack/pull/8311#issuecomment-2476014664
+        // @ts-expect-error: Rspack-only
+        incremental: !isProd,
+      };
+    }
+    return undefined;
+  }
+
   return {
     mode,
     name,
     cache: getCache(),
+    experiments: getExperiments(),
     output: {
       pathinfo: false,
       path: outDir,
