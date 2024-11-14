@@ -6,10 +6,9 @@
  */
 
 import {getFileLoaderUtils} from '@docusaurus/utils';
-import type {Config as SVGRConfig} from '@svgr/core';
-import type {RuleSetRule} from 'webpack';
 
-type SVGOConfig = NonNullable<SVGRConfig['svgoConfig']>;
+import type {SVGRConfig, SVGOConfig} from './types';
+import type {RuleSetRule} from 'webpack';
 
 // TODO Docusaurus v4: change these defaults?
 //  see https://github.com/facebook/docusaurus/issues/8297

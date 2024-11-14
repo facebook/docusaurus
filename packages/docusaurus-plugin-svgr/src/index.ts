@@ -9,6 +9,8 @@ import {createLoader} from './svgrLoader';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Options} from './options';
 
+export type {SVGRConfig, SVGOConfig} from './types';
+
 export default function pluginSVGR(
   context: LoadContext,
   options: PluginOptions,
