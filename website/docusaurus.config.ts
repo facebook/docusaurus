@@ -547,6 +547,11 @@ export default async function createConfigAsync() {
             priority: null,
             changefreq: null,
           },
+          svgr: {
+            svgrConfig: {
+              svgoConfig: undefined, // Use .svgo.config.js
+            },
+          },
         } satisfies Preset.Options,
       ],
     ],
