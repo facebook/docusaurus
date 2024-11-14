@@ -5,17 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {createLoader} from './svgrLoader';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Options} from './options';
 
 export default function pluginSVGR(
-  _context: LoadContext,
-  _options: PluginOptions,
+  context: LoadContext,
+  options: PluginOptions,
 ): Plugin {
   return {
     name: 'docusaurus-plugin-svgr',
-    configureWebpack: () => {
-      return {};
+    configureWebpack: (config, isServer) => {
+      return {
+        mergeStrategy: {
+          module: {
+            rules: {
+              test: 'match',
+              use: {
+                loader: 'match',
+                options: 'replace',
+              },
+            },
+          },
+        },
+        module: {
+          rules: [createLoader({isServer, svgrConfig: options.svgrConfig})],
+        },
+      };
     },
   };
 }

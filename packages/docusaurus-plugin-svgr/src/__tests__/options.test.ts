@@ -59,22 +59,22 @@ describe('validateOptions', () => {
     ).toThrowErrorMatchingInlineSnapshot(`""value" must be of type object"`);
   });
 
-  describe('svgrOptions', () => {
+  describe('svgrConfig', () => {
     it('accepts undefined', () => {
-      expect(validate({svgrOptions: undefined})).toEqual(
+      expect(validate({svgrConfig: undefined})).toEqual(
         result(DEFAULT_OPTIONS),
       );
     });
 
     it('accepts empty', () => {
-      expect(validate({svgrOptions: {}})).toEqual(result(DEFAULT_OPTIONS));
+      expect(validate({svgrConfig: {}})).toEqual(result(DEFAULT_OPTIONS));
     });
 
     it('accepts any record', () => {
-      expect(validate({svgrOptions: {any: 'value', evenNumbers: 42}})).toEqual(
+      expect(validate({svgrConfig: {any: 'value', evenNumbers: 42}})).toEqual(
         result({
           ...DEFAULT_OPTIONS,
-          svgrOptions: {
+          svgrConfig: {
             any: 'value',
             evenNumbers: 42,
           },
@@ -83,7 +83,7 @@ describe('validateOptions', () => {
     });
 
     it('accepts default', () => {
-      expect(validate({svgrOptions: DEFAULT_OPTIONS.svgrOptions})).toEqual(
+      expect(validate({svgrConfig: DEFAULT_OPTIONS.svgrConfig})).toEqual(
         result(DEFAULT_OPTIONS),
       );
     });
@@ -91,9 +91,9 @@ describe('validateOptions', () => {
     it('rejects number values', () => {
       expect(() =>
         // @ts-expect-error: invalid type
-        validate({svgrOptions: 42}),
+        validate({svgrConfig: 42}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""svgrOptions" must be of type object"`,
+        `""svgrConfig" must be of type object"`,
       );
     });
   });

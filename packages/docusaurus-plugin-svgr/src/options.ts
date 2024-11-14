@@ -6,26 +6,25 @@
  */
 import {Joi} from '@docusaurus/utils-validation';
 import type {OptionValidationContext} from '@docusaurus/types';
-
-type SVGROptions = Record<string, unknown>;
+import type {Config as SVGRConfig} from '@svgr/core';
 
 export type PluginOptions = {
-  svgrOptions: SVGROptions;
+  svgrConfig: SVGRConfig;
 };
 
 export type Options = {
-  svgrOptions?: Partial<SVGROptions>;
+  svgrConfig?: Partial<SVGRConfig>;
 };
 
 export const DEFAULT_OPTIONS: Partial<PluginOptions> = {
-  svgrOptions: {},
+  svgrConfig: {},
 };
 
 const pluginOptionsSchema = Joi.object<PluginOptions>({
-  svgrOptions: Joi.object()
+  svgrConfig: Joi.object()
     .pattern(Joi.string(), Joi.any())
     .optional()
-    .default(DEFAULT_OPTIONS.svgrOptions),
+    .default(DEFAULT_OPTIONS.svgrConfig),
 }).default(DEFAULT_OPTIONS);
 
 export function validateOptions({
