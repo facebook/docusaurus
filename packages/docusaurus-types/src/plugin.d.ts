@@ -7,7 +7,7 @@
 
 import type {CodeTranslations, TranslationFile} from './i18n';
 import type {RuleSetRule, Configuration as WebpackConfiguration} from 'webpack';
-import type {CustomizeRuleString} from 'webpack-merge';
+import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
 import type Joi from 'joi';
 import type {HelmetServerState} from 'react-helmet-async';
