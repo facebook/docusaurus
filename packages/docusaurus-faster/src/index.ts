@@ -36,7 +36,7 @@ export const getSwcLoaderOptions = ({
   };
 };
 
-export const rspack = Rspack;
+export const rspack: typeof Rspack = Rspack;
 
 export function getSwcHtmlMinifier(): typeof swcHtmlMinifier {
   return swcHtmlMinifier;

@@ -95,7 +95,7 @@ export async function getProgressBarPlugin({
         super({
           prefix: name,
           template: `● {prefix:.bold} {bar:50.${color}/white.dim} ({percent}%) {wide_msg:.dim}`,
-          progressChars: '■■',
+          progressChars: '██',
         });
       }
     }
