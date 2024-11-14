@@ -18,11 +18,11 @@ import {
 import escapeHtml from 'escape-html';
 import {assetRequireAttributeValue, transformNode} from '../utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer} from 'unified';
+import type {Plugin, Transformer} from 'unified';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Parent} from 'unist';
-import type {Link, Literal} from 'mdast';
+import type {Link, Literal, Root} from 'mdast';
 
 type PluginOptions = {
   staticDirs: string[];
@@ -199,7 +199,9 @@ async function processLinkNode(target: Target, context: Context) {
   }
 }
 
-export default function plugin(options: PluginOptions): Transformer {
+const plugin: Plugin<PluginOptions[], Root> = function plugin(
+  options,
+): Transformer<Root> {
   return async (root, vfile) => {
     const {visit} = await import('unist-util-visit');
 
@@ -214,9 +216,14 @@ export default function plugin(options: PluginOptions): Transformer {
     };
 
     const promises: Promise<void>[] = [];
-    visit(root, 'link', (node: Link, index, parent) => {
-      promises.push(processLinkNode([node, index, parent!], context));
+    visit(root, 'link', (node, index, parent) => {
+      if (!parent || index === undefined) {
+        return;
+      }
+      promises.push(processLinkNode([node, index, parent], context));
     });
     await Promise.all(promises);
   };
-}
+};
+
+export default plugin;

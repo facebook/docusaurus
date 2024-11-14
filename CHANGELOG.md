@@ -1,5 +1,35 @@
 # Docusaurus Changelog
 
+## 3.6.1 (2024-11-08)
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#10658](https://github.com/facebook/docusaurus/pull/10658) fix(core): bundler should not minimize static assets ([@slorber](https://github.com/slorber))
+- `docusaurus-bundler`, `docusaurus-faster`, `docusaurus-utils-common`, `docusaurus-utils`
+  - [#10649](https://github.com/facebook/docusaurus/pull/10649) fix(faster,utils): fix faster/types peerDependencies ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus-bundler`, `docusaurus-types`, `docusaurus`
+  - [#10655](https://github.com/facebook/docusaurus/pull/10655) refactor(faster,bundler,core): improve js loader DX ([@slorber](https://github.com/slorber))
+
+#### :memo: Documentation
+
+- [#10657](https://github.com/facebook/docusaurus/pull/10657) docs: fix old base ts config ref ([@slorber](https://github.com/slorber))
+
+#### :wrench: Maintenance
+
+- `docusaurus-mdx-loader`
+  - [#10651](https://github.com/facebook/docusaurus/pull/10651) refactor(mdx-loader): streamline typescript usage for remark plugin types ([@lebalz](https://github.com/lebalz))
+- Other
+  - [#10650](https://github.com/facebook/docusaurus/pull/10650) chore: Argos screenshot dogfooding test pages ([@slorber](https://github.com/slorber))
+
+#### Committers: 2
+
+- Balthasar Hofer ([@lebalz](https://github.com/lebalz))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 3.6.0 (2024-11-04)
 
 #### :rocket: New Feature

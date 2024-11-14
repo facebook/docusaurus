@@ -9,22 +9,22 @@
 
 import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer} from 'unified';
-import type {Heading, Text} from 'mdast';
+import type {Plugin, Transformer} from 'unified';
+import type {Root, Text} from 'mdast';
 
 export interface PluginOptions {
   anchorsMaintainCase: boolean;
 }
 
-export default function plugin({
+const plugin: Plugin<PluginOptions[], Root> = function plugin({
   anchorsMaintainCase,
-}: PluginOptions): Transformer {
+}): Transformer<Root> {
   return async (root) => {
     const {toString} = await import('mdast-util-to-string');
     const {visit} = await import('unist-util-visit');
 
     const slugs = createSlugger();
-    visit(root, 'heading', (headingNode: Heading) => {
+    visit(root, 'heading', (headingNode) => {
       const data = headingNode.data ?? (headingNode.data = {});
       const properties = (data.hProperties || (data.hProperties = {})) as {
         id: string;
@@ -77,4 +77,6 @@ export default function plugin({
       properties.id = id;
     });
   };
-}
+};
+
+export default plugin;

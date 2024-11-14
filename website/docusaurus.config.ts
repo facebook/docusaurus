@@ -17,6 +17,7 @@ import {
   dogfoodingThemeInstances,
   dogfoodingRedirects,
   dogfoodingTransformFrontMatter,
+  isArgosBuild,
 } from './_dogfooding/dogfooding.config';
 
 import ConfigLocalized from './docusaurus.config.localized.json';
@@ -538,8 +539,10 @@ export default async function createConfigAsync() {
               }
             : undefined,
           sitemap: {
-            // Note: /tests/docs already has noIndex: true
-            ignorePatterns: ['/tests/{blog,pages}/**'],
+            ignorePatterns: isArgosBuild
+              ? undefined
+              : // Note: /tests/docs already has noIndex: true
+                ['/tests/{blog,pages}/**'],
             lastmod: 'date',
             priority: null,
             changefreq: null,

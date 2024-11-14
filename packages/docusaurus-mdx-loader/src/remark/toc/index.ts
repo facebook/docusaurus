@@ -15,7 +15,7 @@ import {
 } from './utils';
 import type {Heading, Root} from 'mdast';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer} from 'unified';
+import type {Plugin, Transformer} from 'unified';
 import type {
   MdxjsEsm,
   MdxJsxFlowElement,
@@ -155,7 +155,9 @@ async function collectTOCItems({
   }
 }
 
-export default function plugin(options: PluginOptions = {}): Transformer<Root> {
+const plugin: Plugin<PluginOptions[], Root> = function plugin(
+  options = {},
+): Transformer<Root> {
   const tocExportName = options.name || 'toc';
 
   return async (root) => {
@@ -184,4 +186,6 @@ export default function plugin(options: PluginOptions = {}): Transformer<Root> {
       }),
     );
   };
-}
+};
+
+export default plugin;

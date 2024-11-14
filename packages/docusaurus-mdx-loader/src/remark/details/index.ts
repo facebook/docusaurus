@@ -8,15 +8,14 @@
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 
-// @ts-expect-error: ES support...
-import type {MdxJsxFlowElement} from 'mdast-util-mdx';
+import type {Root} from 'mdast';
 
 // Transform <details> to <Details>
 // MDX 2 doesn't allow to substitute html elements with the provider anymore
-export default function plugin(): Transformer {
+export default function plugin(): Transformer<Root> {
   return async (root) => {
     const {visit} = await import('unist-util-visit');
-    visit(root, 'mdxJsxFlowElement', (node: MdxJsxFlowElement) => {
+    visit(root, 'mdxJsxFlowElement', (node) => {
       if (node.name === 'details') {
         node.name = 'Details';
       }

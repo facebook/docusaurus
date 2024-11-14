@@ -12,8 +12,8 @@ import {
 } from '@docusaurus/utils';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer} from 'unified';
-import type {Definition, Link} from 'mdast';
+import type {Plugin, Transformer} from 'unified';
+import type {Definition, Link, Root} from 'mdast';
 
 type ResolveMarkdownLinkParams = {
   /**
@@ -34,12 +34,6 @@ export type ResolveMarkdownLink = (
 export interface PluginOptions {
   resolveMarkdownLink: ResolveMarkdownLink;
 }
-
-// TODO as of April 2023, no way to import/re-export this ESM type easily :/
-// TODO upgrade to TS 5.3
-// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
-// import type {Plugin} from 'unified';
-type Plugin = any; // TODO fix this asap
 
 const HAS_MARKDOWN_EXTENSION = /\.mdx?$/i;
 
@@ -64,7 +58,9 @@ function parseMarkdownLinkURLPath(link: string): URLPath | null {
  * This is exposed as "data.contentTitle" to the processed vfile
  * Also gives the ability to strip that content title (used for the blog plugin)
  */
-const plugin: Plugin = function plugin(options: PluginOptions): Transformer {
+const plugin: Plugin<PluginOptions[], Root> = function plugin(
+  options,
+): Transformer<Root> {
   const {resolveMarkdownLink} = options;
   return async (root, file) => {
     const {visit} = await import('unist-util-visit');

@@ -6,8 +6,8 @@
  */
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer, Processor} from 'unified';
-import type {Code} from 'mdast';
+import type {Transformer, Plugin} from 'unified';
+import type {Root} from 'mdast';
 
 // Solution inspired by https://github.com/pomber/docusaurus-mdx-2/blob/main/packages/mdx-loader/src/remark/codeCompat/index.ts
 // TODO after MDX 2 we probably don't need this - remove soon?
@@ -16,11 +16,11 @@ import type {Code} from 'mdast';
 
 // To make theme-classic/src/theme/MDXComponents/Pre work
 // we need to fill two properties that mdx v2 doesn't provide anymore
-export default function codeCompatPlugin(this: Processor): Transformer {
+const plugin: Plugin<unknown[], Root> = function plugin(): Transformer<Root> {
   return async (root) => {
     const {visit} = await import('unist-util-visit');
 
-    visit(root, 'code', (node: Code) => {
+    visit(root, 'code', (node) => {
       node.data = node.data || {};
 
       node.data.hProperties = node.data.hProperties || {};
@@ -31,4 +31,6 @@ export default function codeCompatPlugin(this: Processor): Transformer {
       node.data.hProperties.live = node.meta?.split(' ').includes('live');
     });
   };
-}
+};
+
+export default plugin;

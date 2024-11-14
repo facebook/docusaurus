@@ -36,5 +36,5 @@
     "skipLibCheck": false,
     "types": ["jest"]
   },
-  "exclude": ["src/sw.js"]
+  "exclude": ["build", ".docusaurus", "src/sw.js", "_dogfooding/_asset-tests"]
 }

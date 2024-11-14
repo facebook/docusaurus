@@ -431,7 +431,7 @@ export type DocusaurusConfig = {
     // TODO Docusaurus v4
     //  Use an object type ({isServer}) so that it conforms to jsLoaderFactory
     //  Eventually deprecate this if swc loader becomes stable?
-    jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
+    jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
   /** Markdown-related options. */
   markdown: MarkdownConfig;
