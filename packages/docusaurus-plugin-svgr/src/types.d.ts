@@ -6,7 +6,3 @@
  */
 
 /// <reference types="@docusaurus/module-type-aliases" />
-
-export type {Config as SVGRConfig} from '@svgr/core';
-
-export type SVGOConfig = NonNullable<SVGRConfig['svgoConfig']>;

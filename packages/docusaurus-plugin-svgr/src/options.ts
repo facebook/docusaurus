@@ -6,7 +6,13 @@
  */
 import {Joi} from '@docusaurus/utils-validation';
 import type {OptionValidationContext} from '@docusaurus/types';
-import type {Config as SVGRConfig} from '@svgr/core';
+
+// TODO unfortunately there's a SVGR TS error when skipLibCheck=false
+//  related to prettier, see https://github.com/gregberge/svgr/issues/904
+// import type {Config as SVGRConfig} from '@svgr/core';
+// export type {SVGRConfig};
+export type SVGRConfig = any;
+export type SVGOConfig = NonNullable<SVGRConfig['svgoConfig']>;
 
 export type PluginOptions = {
   svgrConfig: SVGRConfig;

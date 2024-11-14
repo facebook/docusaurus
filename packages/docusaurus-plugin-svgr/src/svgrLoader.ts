@@ -7,7 +7,7 @@
 
 import {getFileLoaderUtils} from '@docusaurus/utils';
 
-import type {SVGRConfig, SVGOConfig} from './types';
+import type {SVGRConfig, SVGOConfig} from './options';
 import type {RuleSetRule} from 'webpack';
 
 // TODO Docusaurus v4: change these defaults?
