@@ -30,7 +30,7 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: true,
-    githubUsername: 'acemarke',
+    githubUsername: 'markerikson',
   },
   {
     url: 'https://x.com/arcanis/status/1351620354561732608',
@@ -58,7 +58,7 @@ const TWEETS: TweetItem[] = [
       </>
     ),
     showOnHomepage: true,
-    githubUsername: 'maxlynch',
+    githubUsername: 'mlynch',
   },
   {
     url: 'https://x.com/supabase/status/1328960757149671425',
