@@ -132,20 +132,4 @@ describe('base webpack config', () => {
     );
     expect(relativeAliases).toMatchSnapshot();
   });
-
-  it('uses svg rule', async () => {
-    const config = await createBaseConfig({
-      props,
-      isServer: false,
-      minify: false,
-      faster: DEFAULT_FASTER_CONFIG,
-      configureWebpackUtils: await createTestConfigureWebpackUtils(),
-    });
-
-    const svgRule = (config.module?.rules ?? []).find((rule) => {
-      return rule && (rule as any).test.toString().includes('.svg');
-    });
-    expect(svgRule).toBeDefined();
-    expect(svgRule).toMatchSnapshot();
-  });
 });
