@@ -69,8 +69,13 @@ export async function createStyleLoadersFactory({
             // https://github.com/facebook/create-react-app/issues/2677
             ident: 'postcss',
             plugins: [
-              // eslint-disable-next-line global-require
-              require('autoprefixer'),
+              [
+                require.resolve('postcss-preset-env'),
+                {
+                  // Keeping this empty options object on purpose
+                  // It could be more convenient for configurePostCss() usage
+                },
+              ],
             ],
           },
         },
