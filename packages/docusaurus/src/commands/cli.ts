@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {inspect} from 'node:util';
 import {logger} from '@docusaurus/logger';
-import cli from 'commander';
+import Commander, {type CommanderStatic} from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
 import {build} from './build/build';
@@ -40,10 +39,43 @@ function isInternalCommand(command: string | undefined) {
   );
 }
 
+// TODO Docusaurus v4: use Command instead of CommanderStatic here
+type CLIProgram = CommanderStatic;
+
 // Something like ['../node','../docusaurus.mjs','<command>',...rest]
 type CLIArgs = [string, string, ...string[]];
 
+// TODO: Annoying, we must assume default site dir is '.' because there's
+//  no way to know the siteDir/config yet.
+//  The individual CLI commands can declare/read siteDir on their own
+//  The env variable is an escape hatch
+//  See https://github.com/facebook/docusaurus/issues/8903
+const DEFAULT_SITE_DIR = process.env.DOCUSAURUS_CLI_SITE_DIR ?? '.';
+// Similarly we give an env escape hatch for config
+// See https://github.com/facebook/docusaurus/issues/8903
+const DEFAULT_CONFIG = process.env.DOCUSAURUS_CLI_CONFIG ?? undefined;
+
 export async function runCLI(cliArgs: CLIArgs): Promise<void> {
+  const program = await createCLIProgram({
+    cli: Commander,
+    cliArgs,
+    siteDir: DEFAULT_SITE_DIR,
+    config: DEFAULT_CONFIG,
+  });
+  program.parse(cliArgs);
+}
+
+export async function createCLIProgram({
+  cli,
+  cliArgs,
+  siteDir,
+  config,
+}: {
+  cli: CLIProgram;
+  cliArgs: CLIArgs;
+  siteDir: string;
+  config: string | undefined;
+}): Promise<CLIProgram> {
   const command = cliArgs[2];
 
   cli.version(DOCUSAURUS_VERSION).usage('<command> [options]');
@@ -231,35 +263,16 @@ export async function runCLI(cliArgs: CLIArgs): Promise<void> {
 
   cli.arguments('<command>').action((cmd) => {
     cli.outputHelp();
-    logger.error`Unknown Docusaurus CLI command name=${cmd}.`;
-    process.exit(1);
+    throw new Error(
+      logger.interpolate`Unknown Docusaurus CLI command name=${cmd}.`,
+    );
   });
-
-  // === The above is the commander configuration ===
-  // They don't start any code execution yet until cli.parse() is called below
 
   // There is an unrecognized subcommand
   // Let plugins extend the CLI before parsing
   if (!isInternalCommand(command)) {
-    // TODO: in this step, we must assume default site structure because there's
-    // no way to know the siteDir/config yet. Maybe the root cli should be
-    // responsible for parsing these arguments?
-    // https://github.com/facebook/docusaurus/issues/8903
-    await externalCommand(cli);
+    await externalCommand({cli, siteDir, config});
   }
 
-  cli.parse(cliArgs);
-
-  process.on('unhandledRejection', (err) => {
-    console.log('');
-
-    // We need to use inspect with increased depth to log the full causal chain
-    // By default Node logging has depth=2
-    // see also https://github.com/nodejs/node/issues/51637
-    logger.error(inspect(err, {depth: Infinity}));
-
-    logger.info`Docusaurus version: number=${DOCUSAURUS_VERSION}
-Node version: number=${process.version}`;
-    process.exit(1);
-  });
+  return cli;
 }
