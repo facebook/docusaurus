@@ -70,7 +70,7 @@ export async function createStyleLoadersFactory({
             ident: 'postcss',
             plugins: [
               [
-                'postcss-preset-env',
+                require.resolve('postcss-preset-env'),
                 {
                   // Keeping this empty options object on purpose
                   // It could be more convenient for configurePostCss() usage
