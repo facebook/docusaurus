@@ -145,9 +145,9 @@ const TWEETS: TweetItem[] = [
     date: 'Nov 4, 2020',
     content: (
       <>
-        https://testing-library.com just got a nice update! We&apos;re now on the
-        latest version of <b>@docusaurus</b> thanks to @matanbobi, @TensorNo,
-        and @nickemccurdy 💙
+        https://testing-library.com just got a nice update! We&apos;re now on
+        the latest version of <b>@docusaurus</b> thanks to @matanbobi,
+        @TensorNo, and @nickemccurdy 💙
         <br />
         <br />
         My favorite new feature: dark mode!! 🌑/☀️
