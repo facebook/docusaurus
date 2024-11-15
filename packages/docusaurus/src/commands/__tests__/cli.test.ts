@@ -56,18 +56,125 @@ async function testCommand(args: string[]) {
 }
 
 describe('CLI', () => {
-  it('docusaurus --help', async () => {
-    const result = await testCommand(['--help']);
+  describe('general', () => {
+    describe('help', () => {
+      it('docusaurus --help', async () => {
+        const result = await testCommand(['--help']);
 
-    expect(result).toMatchInlineSnapshot(`
-      {
-        "exit": {
-          "code": "commander.helpDisplayed",
-          "exitCode": 0,
-        },
-        "stderr": "todo",
-        "stdout": "todo",
-      }
-    `);
+        expect(result).toMatchInlineSnapshot(`
+                {
+                  "exit": {
+                    "code": "commander.helpDisplayed",
+                    "exitCode": 0,
+                  },
+                  "stderr": "todo",
+                  "stdout": "todo",
+                }
+            `);
+      });
+
+      it('docusaurus -h', async () => {
+        const result = await testCommand(['-h']);
+
+        expect(result).toMatchInlineSnapshot(`
+                {
+                  "exit": {
+                    "code": "commander.helpDisplayed",
+                    "exitCode": 0,
+                  },
+                  "stderr": "todo",
+                  "stdout": "todo",
+                }
+            `);
+      });
+    });
+
+    describe('version', () => {
+      it('docusaurus --version', async () => {
+        const result = await testCommand(['--version']);
+
+        expect(result).toMatchInlineSnapshot(`
+          {
+            "exit": {
+              "code": "commander.version",
+              "exitCode": 0,
+            },
+            "stderr": "todo",
+            "stdout": "todo",
+          }
+        `);
+      });
+
+      it('docusaurus -V', async () => {
+        const result = await testCommand(['-V']);
+
+        expect(result).toMatchInlineSnapshot(`
+          {
+            "exit": {
+              "code": "commander.version",
+              "exitCode": 0,
+            },
+            "stderr": "todo",
+            "stdout": "todo",
+          }
+        `);
+      });
+    });
+
+    describe('errors', () => {
+      it('docusaurus', async () => {
+        await expect(
+          testCommand(['']),
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Missing Docusaurus CLI command."`,
+        );
+      });
+
+      it('docusaurus unknown', async () => {
+        await expect(
+          testCommand(['unknown']),
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Unknown Docusaurus CLI command \`unknown\`"`,
+        );
+      });
+
+      it('docusaurus --unknown', async () => {
+        const result = await testCommand(['--unknown']);
+        expect(result).toMatchInlineSnapshot(`
+          {
+            "exit": {
+              "code": "commander.unknownOption",
+              "exitCode": 1,
+            },
+            "stderr": "todo",
+            "stdout": "todo",
+          }
+        `);
+      });
+    });
+  });
+
+  describe('extendCLI', () => {
+    it('docusaurus cliPlugin:test', async () => {
+      const result = await testCommand(['cliPlugin:test']);
+      expect(result).toMatchInlineSnapshot(`
+        {
+          "exit": undefined,
+          "stderr": "todo",
+          "stdout": "todo",
+        }
+      `);
+    });
+
+    it('docusaurus cliPlugin:test --test-option', async () => {
+      const result = await testCommand(['cliPlugin:test', '--test-option']);
+      expect(result).toMatchInlineSnapshot(`
+        {
+          "exit": undefined,
+          "stderr": "todo",
+          "stdout": "todo",
+        }
+      `);
+    });
   });
 });

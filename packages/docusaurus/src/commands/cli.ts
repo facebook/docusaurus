@@ -263,8 +263,11 @@ export async function createCLIProgram({
 
   cli.arguments('<command>').action((cmd) => {
     cli.outputHelp();
+    if (!cmd) {
+      throw new Error(logger.interpolate`Missing Docusaurus CLI command.`);
+    }
     throw new Error(
-      logger.interpolate`Unknown Docusaurus CLI command name=${cmd}.`,
+      logger.interpolate`Unknown Docusaurus CLI command code=${cmd}`,
     );
   });
 
