@@ -12,5 +12,6 @@ export {externalCommand} from './commands/external';
 export {serve} from './commands/serve';
 export {start} from './commands/start/start';
 export {swizzle} from './commands/swizzle';
+export {upgrade} from './commands/upgrade';
 export {writeHeadingIds} from './commands/writeHeadingIds';
 export {writeTranslations} from './commands/writeTranslations';

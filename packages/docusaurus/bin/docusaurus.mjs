@@ -20,6 +20,7 @@ import {
   externalCommand,
   serve,
   clear,
+  upgrade,
   writeTranslations,
   writeHeadingIds,
 } from '../lib/index.js';
@@ -201,6 +202,17 @@ cli
   .action(clear);
 
 cli
+  .command('upgrade [siteDir]')
+  .description('Upgrade @docusaurus packages.')
+  .option(
+    '-t, --tag <tag>',
+    'Tag of npm to look for upgrading. This option accepts any of: <alpha, beta, next, latest>',
+  )
+  .action(async (siteDir, {tag = undefined}) => {
+    upgrade(await resolveDir(siteDir), {tag});
+  });
+
+cli
   .command('write-translations [siteDir]')
   .description('Extract required translations of your site.')
   .option(
@@ -250,6 +262,7 @@ function isInternalCommand(command) {
       'start',
       'build',
       'swizzle',
+      'upgrade',
       'deploy',
       'serve',
       'clear',
