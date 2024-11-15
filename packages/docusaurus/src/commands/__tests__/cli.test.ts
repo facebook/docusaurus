@@ -20,11 +20,20 @@ async function testCommand(args: string[]) {
   const siteDir = path.resolve(__dirname, '__fixtures__', 'site');
 
   // TODO Docusaurus v4: upgrade Commander
-  //  unfortunately we can't assert console output because current (v5) doesn't
-  //  let us do so easily
+  //  new versions make it easier to intercept logs
   //  see https://github.com/tj/commander.js#override-exit-and-output-handling
-  const stdout = 'todo';
-  const stderr = 'todo';
+  let stdout = '';
+  let stderr = '';
+  jest.spyOn(console, 'log').mockImplementation((msg: string) => {
+    stdout += msg;
+  });
+  // @ts-expect-error: only used with strings
+  jest.spyOn(process.stdout, 'write').mockImplementation((msg: string) => {
+    stdout += String(msg);
+  });
+  jest.spyOn(console, 'error').mockImplementation((msg: string) => {
+    stderr += msg;
+  });
 
   const cli = await createCLIProgram({
     cli: new Command() as CommanderStatic,
@@ -41,12 +50,14 @@ async function testCommand(args: string[]) {
   });
 
   try {
-    cli.parse(cliArgs);
+    await cli.parseAsync(cliArgs);
   } catch (e) {
     if (e !== ExitOverrideError) {
       throw e;
     }
   }
+
+  jest.restoreAllMocks();
 
   return {
     exit,
@@ -62,30 +73,62 @@ describe('CLI', () => {
         const result = await testCommand(['--help']);
 
         expect(result).toMatchInlineSnapshot(`
-                {
-                  "exit": {
-                    "code": "commander.helpDisplayed",
-                    "exitCode": 0,
-                  },
-                  "stderr": "todo",
-                  "stdout": "todo",
-                }
-            `);
+          {
+            "exit": {
+              "code": "commander.helpDisplayed",
+              "exitCode": 0,
+            },
+            "stderr": "",
+            "stdout": "Usage: docusaurus <command> [options]
+
+          Options:
+            -V, --version                                            output the version number
+            -h, --help                                               display help for command
+
+          Commands:
+            build [options] [siteDir]                                Build website.
+            swizzle [options] [themeName] [componentName] [siteDir]  Wraps or ejects the original theme files into website folder for customization.
+            deploy [options] [siteDir]                               Deploy website to GitHub pages.
+            start [options] [siteDir]                                Start the development server.
+            serve [options] [siteDir]                                Serve website locally.
+            clear [siteDir]                                          Remove build artifacts.
+            write-translations [options] [siteDir]                   Extract required translations of your site.
+            write-heading-ids [options] [siteDir] [files...]         Generate heading ids in Markdown content.
+            cliPlugin:test [options]                                 Run test cli command
+          ",
+          }
+        `);
       });
 
       it('docusaurus -h', async () => {
         const result = await testCommand(['-h']);
 
         expect(result).toMatchInlineSnapshot(`
-                {
-                  "exit": {
-                    "code": "commander.helpDisplayed",
-                    "exitCode": 0,
-                  },
-                  "stderr": "todo",
-                  "stdout": "todo",
-                }
-            `);
+          {
+            "exit": {
+              "code": "commander.helpDisplayed",
+              "exitCode": 0,
+            },
+            "stderr": "",
+            "stdout": "Usage: docusaurus <command> [options]
+
+          Options:
+            -V, --version                                            output the version number
+            -h, --help                                               display help for command
+
+          Commands:
+            build [options] [siteDir]                                Build website.
+            swizzle [options] [themeName] [componentName] [siteDir]  Wraps or ejects the original theme files into website folder for customization.
+            deploy [options] [siteDir]                               Deploy website to GitHub pages.
+            start [options] [siteDir]                                Start the development server.
+            serve [options] [siteDir]                                Serve website locally.
+            clear [siteDir]                                          Remove build artifacts.
+            write-translations [options] [siteDir]                   Extract required translations of your site.
+            write-heading-ids [options] [siteDir] [files...]         Generate heading ids in Markdown content.
+            cliPlugin:test [options]                                 Run test cli command
+          ",
+          }
+        `);
       });
     });
 
@@ -99,8 +142,9 @@ describe('CLI', () => {
               "code": "commander.version",
               "exitCode": 0,
             },
-            "stderr": "todo",
-            "stdout": "todo",
+            "stderr": "",
+            "stdout": "<CURRENT_VERSION>
+          ",
           }
         `);
       });
@@ -114,8 +158,9 @@ describe('CLI', () => {
               "code": "commander.version",
               "exitCode": 0,
             },
-            "stderr": "todo",
-            "stdout": "todo",
+            "stderr": "",
+            "stdout": "<CURRENT_VERSION>
+          ",
           }
         `);
       });
@@ -146,8 +191,8 @@ describe('CLI', () => {
               "code": "commander.unknownOption",
               "exitCode": 1,
             },
-            "stderr": "todo",
-            "stdout": "todo",
+            "stderr": "error: unknown option '--unknown'",
+            "stdout": "",
           }
         `);
       });
@@ -160,8 +205,9 @@ describe('CLI', () => {
       expect(result).toMatchInlineSnapshot(`
         {
           "exit": undefined,
-          "stderr": "todo",
-          "stdout": "todo",
+          "stderr": "",
+          "stdout": "TEST ACTION
+        ",
         }
       `);
     });
@@ -171,8 +217,9 @@ describe('CLI', () => {
       expect(result).toMatchInlineSnapshot(`
         {
           "exit": undefined,
-          "stderr": "todo",
-          "stdout": "todo",
+          "stderr": "",
+          "stdout": "TEST ACTION
+        ",
         }
       `);
     });

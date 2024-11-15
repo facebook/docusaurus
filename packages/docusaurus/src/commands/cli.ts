@@ -62,7 +62,7 @@ export async function runCLI(cliArgs: CLIArgs): Promise<void> {
     siteDir: DEFAULT_SITE_DIR,
     config: DEFAULT_CONFIG,
   });
-  program.parse(cliArgs);
+  await program.parseAsync(cliArgs);
 }
 
 export async function createCLIProgram({
