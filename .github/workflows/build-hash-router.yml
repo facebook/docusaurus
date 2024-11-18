@@ -32,7 +32,7 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
 
       - name: Build Hash Router
         run: yarn build:website:fast

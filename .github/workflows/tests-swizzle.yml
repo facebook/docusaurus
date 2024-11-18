@@ -33,7 +33,7 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
 
       # Swizzle all the theme components
       - name: Swizzle (${{matrix.action}} - ${{matrix.variant}})

@@ -27,7 +27,7 @@ jobs:
           cache: yarn
 
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
 
       - name: Build packages
         run: yarn build:packages
