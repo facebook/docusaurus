@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Installation
-        run: yarn || yarn || yarn # 3 attempts to avoid timeout errors...
+        run: yarn || yarn || yarn
       - name: Docusaurus Jest Tests
         run: yarn test
       - name: Create a deep path
