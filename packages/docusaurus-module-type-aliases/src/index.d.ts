@@ -389,6 +389,22 @@ declare module '*.css' {
   export default src;
 }
 
+declare module '*.md' {
+  import type {ComponentType} from 'react';
+
+  const ReactComponent: ComponentType<unknown>;
+
+  export default ReactComponent;
+}
+
+declare module '*.mdx' {
+  import type {ComponentType} from 'react';
+
+  const ReactComponent: ComponentType<unknown>;
+
+  export default ReactComponent;
+}
+
 interface Window {
   docusaurus: {
     prefetch: (url: string) => false | Promise<void[]>;
