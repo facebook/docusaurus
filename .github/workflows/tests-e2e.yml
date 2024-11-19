@@ -160,12 +160,15 @@ jobs:
       - name: Installation
         run: yarn || yarn || yarn
       - name: Generate test-website project against main branch
-        run: yarn test:build:website -s
+        run: yarn test:build:website -st
       - name: Install test-website project with npm
         run: npm install
         working-directory: ../test-website
         env:
           npm_config_registry: http://localhost:4873
+      - name: TypeCheck website
+        working-directory: ../test-website
+        run: yarn typecheck
       - name: Start test-website project
         run: npm run start -- --no-open
         working-directory: ../test-website
@@ -197,15 +200,17 @@ jobs:
       - name: Installation
         run: yarn || yarn || yarn
       - name: Generate test-website project against main branch
-        run: yarn test:build:website -s
+        run: yarn test:build:website -st
       - name: Install test-website project with pnpm
         run: |
           npm install -g pnpm
-          # Fix some peer dependencies errors
-          pnpm add @algolia/client-search @types/react@17 typescript
+          pnpm install
         working-directory: ../test-website
         env:
           npm_config_registry: http://localhost:4873
+      - name: TypeCheck website
+        working-directory: ../test-website
+        run: yarn typecheck
       - name: Start test-website project
         run: pnpm start --no-open
         working-directory: ../test-website
