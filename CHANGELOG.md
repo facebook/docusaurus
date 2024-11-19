@@ -1,5 +1,34 @@
 # Docusaurus Changelog
 
+## 3.6.2 (2024-11-19)
+
+#### :bug: Bug Fix
+
+- `docusaurus-module-type-aliases`
+  - [#10693](https://github.com/facebook/docusaurus/pull/10693) fix(types): add missing ambiant TS declarations for .md / .mdx partials ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-translations`
+  - [#10688](https://github.com/facebook/docusaurus/pull/10688) fix(theme-translation): add and update Japanese translations ([@Ryoga-exe](https://github.com/Ryoga-exe))
+- `docusaurus`
+  - [#10685](https://github.com/facebook/docusaurus/pull/10685) fix(cli): `docusaurus --help` should print plugin commands using `extendCli()` ([@slorber](https://github.com/slorber))
+- `docusaurus-bundler`
+  - [#10680](https://github.com/facebook/docusaurus/pull/10680) fix(bundler): allow CSS nesting by default, restore postcss-preset-env ([@slorber](https://github.com/slorber))
+- `create-docusaurus`
+  - [#10676](https://github.com/facebook/docusaurus/pull/10676) fix(create-docusaurus): add ts exclude to TS init template ([@slorber](https://github.com/slorber))
+- `docusaurus-bundler`, `docusaurus-faster`, `docusaurus`
+  - [#10648](https://github.com/facebook/docusaurus/pull/10648) fix(faster): Upgrade to Rspack 1.1.1, fix build progress bar display ([@slorber](https://github.com/slorber))
+
+#### :wrench: Maintenance
+
+- [#10691](https://github.com/facebook/docusaurus/pull/10691) chore(ci): retry `yarn install` to ignore temporary network errors ([@slorber](https://github.com/slorber))
+
+#### Committers: 5
+
+- Junior_Gx ([@goffxnca](https://github.com/goffxnca))
+- Kyle Tsang ([@kyletsang](https://github.com/kyletsang))
+- Ryoga ([@Ryoga-exe](https://github.com/Ryoga-exe))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Zwyx ([@Zwyx](https://github.com/Zwyx))
+
 ## 3.6.1 (2024-11-08)
 
 #### :bug: Bug Fix
