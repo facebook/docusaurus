@@ -50,5 +50,9 @@
     "@types/react-dom": "^18.2.7",
     "dedent": "^0.7.0",
     "tmp-promise": "^3.0.3"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   }
 }

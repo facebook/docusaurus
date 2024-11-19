@@ -30,6 +30,10 @@
   "devDependencies": {
     "tmp-promise": "^3.0.3"
   },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
   "engines": {
     "node": ">=18.0"
   }

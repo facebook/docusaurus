@@ -37,6 +37,7 @@
     "fs-extra": "^11.1.0"
   },
   "peerDependencies": {
+    "@mdx-js/react": "^3.0.0",
     "jimp": "*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

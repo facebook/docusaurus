@@ -28,6 +28,7 @@
     "webpack": "^5.88.1"
   },
   "peerDependencies": {
+    "@mdx-js/react": "^3.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
