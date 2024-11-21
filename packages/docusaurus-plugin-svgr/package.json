@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-svgr",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "description": "SVGR plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
