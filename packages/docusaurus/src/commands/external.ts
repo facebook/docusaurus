@@ -10,9 +10,17 @@ import {loadContext} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 import type {CommanderStatic} from 'commander';
 
-export async function externalCommand(cli: CommanderStatic): Promise<void> {
-  const siteDir = await fs.realpath('.');
-  const context = await loadContext({siteDir});
+export async function externalCommand({
+  cli,
+  siteDir: siteDirInput,
+  config,
+}: {
+  cli: CommanderStatic;
+  siteDir: string;
+  config: string | undefined;
+}): Promise<void> {
+  const siteDir = await fs.realpath(siteDirInput);
+  const context = await loadContext({siteDir, config});
   const plugins = await initPlugins(context);
 
   // Plugin Lifecycle - extendCli.

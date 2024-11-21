@@ -41,7 +41,7 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
       - name: Publish Canary release
         run: |
           yarn canary

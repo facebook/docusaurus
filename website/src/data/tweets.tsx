@@ -132,7 +132,7 @@ const TWEETS: TweetItem[] = [
         have the honor of being a favorite. We are really happy that we found
         this project. It helped us a lot to improve the documentation. And we
         still have a lot of plans with things like tutorials, versioning and
-        i8n.
+        i18n.
       </>
     ),
     showOnHomepage: true,
@@ -145,9 +145,9 @@ const TWEETS: TweetItem[] = [
     date: 'Nov 4, 2020',
     content: (
       <>
-        http://testing-library.com just got a nice update! We&apos;re now on the
-        latest version of <b>@docusaurus</b> thanks to @matanbobi, @TensorNo,
-        and @nickemccurdy 💙
+        https://testing-library.com just got a nice update! We&apos;re now on
+        the latest version of <b>@docusaurus</b> thanks to @matanbobi,
+        @TensorNo, and @nickemccurdy 💙
         <br />
         <br />
         My favorite new feature: dark mode!! 🌑/☀️
@@ -176,7 +176,7 @@ const TWEETS: TweetItem[] = [
         <b>@docusaurus</b>!
         <br />
         <br />
-        @temporalio uses it for http://docs.temporal.io, and it has been a huge
+        @temporalio uses it for https://docs.temporal.io, and it has been a huge
         boon to our docs team. @sebastienlorber is an incredible steward of the
         project, support it if you can!
       </>
@@ -264,7 +264,7 @@ const TWEETS: TweetItem[] = [
         🧐 @algolia DocSearch v3 <br />
         💥 @mdx_js enable many new possibilities <br />
         <br />
-        Check it out: http://reactnative.dev
+        Check it out: https://reactnative.dev
       </>
     ),
     showOnHomepage: false,

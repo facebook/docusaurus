@@ -29,6 +29,6 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
       - name: Build blog-only
         run: yarn workspace website build:blogOnly

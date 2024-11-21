@@ -48,11 +48,11 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
       - name: Install test-website project with Yarn v1
-        run: yarn install
+        run: yarn || yarn || yarn
         working-directory: ../test-website
         env:
           npm_config_registry: http://localhost:4873
@@ -89,7 +89,7 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
       - name: Generate test-website project with ${{ matrix.variant }} against main branch
         run: yarn test:build:website ${{ matrix.variant }}
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
@@ -105,7 +105,7 @@ jobs:
           # https://yarnpkg.com/features/pnp#fallback-mode
           yarn config set pnpFallbackMode none
 
-          yarn install
+          yarn || yarn || yarn
         working-directory: ../test-website
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false # Yarn berry should create the lockfile, despite CI env
@@ -158,14 +158,17 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
       - name: Generate test-website project against main branch
-        run: yarn test:build:website -s
+        run: yarn test:build:website -st
       - name: Install test-website project with npm
         run: npm install
         working-directory: ../test-website
         env:
           npm_config_registry: http://localhost:4873
+      - name: TypeCheck website
+        working-directory: ../test-website
+        run: yarn typecheck
       - name: Start test-website project
         run: npm run start -- --no-open
         working-directory: ../test-website
@@ -195,17 +198,19 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
       - name: Generate test-website project against main branch
-        run: yarn test:build:website -s
+        run: yarn test:build:website -st
       - name: Install test-website project with pnpm
         run: |
           npm install -g pnpm
-          # Fix some peer dependencies errors
-          pnpm add @algolia/client-search @types/react@17 typescript
+          pnpm install
         working-directory: ../test-website
         env:
           npm_config_registry: http://localhost:4873
+      - name: TypeCheck website
+        working-directory: ../test-website
+        run: yarn typecheck
       - name: Start test-website project
         run: pnpm start --no-open
         working-directory: ../test-website

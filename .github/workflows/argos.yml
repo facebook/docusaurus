@@ -35,7 +35,7 @@ jobs:
           node-version: lts/*
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn || yarn || yarn
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium

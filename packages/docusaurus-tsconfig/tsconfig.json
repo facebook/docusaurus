@@ -11,11 +11,6 @@
     "moduleResolution": "bundler",
     "module": "esnext",
     "noEmit": true,
-    "types": [
-      "node",
-      "@docusaurus/module-type-aliases",
-      "@docusaurus/theme-classic"
-    ],
     "baseUrl": ".",
     "paths": {
       "@site/*": ["./*"]

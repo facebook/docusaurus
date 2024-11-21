@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export {runCLI} from './commands/cli';
 export {build} from './commands/build/build';
 export {clear} from './commands/clear';
 export {deploy} from './commands/deploy';
