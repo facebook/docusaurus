@@ -5,9 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import clsx from 'clsx';
-import {useNavbarSecondaryMenu} from '@docusaurus/theme-common/internal';
+import {
+  useNavbarMobileSidebar,
+  useNavbarSecondaryMenu,
+} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/Navbar/MobileSidebar/Layout';
 
 export default function NavbarMobileSidebarLayout({
@@ -16,8 +19,42 @@ export default function NavbarMobileSidebarLayout({
   secondaryMenu,
 }: Props): JSX.Element {
   const {shown: secondaryMenuShown} = useNavbarSecondaryMenu();
+  const navbarModalDialog = useRef<HTMLDialogElement | null>(null);
+  const {shown, toggle} = useNavbarMobileSidebar();
+
+  useEffect(() => {
+    const {current: dialogEl} = navbarModalDialog;
+
+    if (!dialogEl) {
+      return;
+    }
+    if (shown) {
+      dialogEl.showModal();
+    } else {
+      dialogEl.close();
+    }
+  });
+
+  useEffect(() => {
+    const {current: dialogEl} = navbarModalDialog;
+
+    function toggleOnEscape(e: {key: string}) {
+      if (e.key === 'Escape') {
+        if (shown) {
+          toggle();
+        }
+      }
+    }
+
+    dialogEl?.addEventListener('keydown', toggleOnEscape);
+
+    return () => {
+      dialogEl?.removeEventListener('keydown', toggleOnEscape);
+    };
+  }, [shown, toggle]);
+
   return (
-    <div className="navbar-sidebar">
+    <dialog className="navbar-sidebar" ref={navbarModalDialog}>
       {header}
       <div
         className={clsx('navbar-sidebar__items', {
@@ -26,6 +63,6 @@ export default function NavbarMobileSidebarLayout({
         <div className="navbar-sidebar__item menu">{primaryMenu}</div>
         <div className="navbar-sidebar__item menu">{secondaryMenu}</div>
       </div>
-    </div>
+    </dialog>
   );
 }
