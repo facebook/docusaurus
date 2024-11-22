@@ -1,6 +1,6 @@
 {
   "name": "test-bad-package",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "private": true,
   "dependencies": {
     "@mdx-js/react": "1.0.1",
