@@ -1,5 +1,16 @@
 # Docusaurus Changelog
 
+## 3.6.3 (2024-11-22)
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#10712](https://github.com/facebook/docusaurus/pull/10712) fix(core): disable Rspack incremental in dev ([@slorber](https://github.com/slorber))
+
+#### Committers: 1
+
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 3.6.2 (2024-11-19)
 
 #### :bug: Bug Fix
