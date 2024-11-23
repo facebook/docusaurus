@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import jiti from 'jiti';
+import {createJiti} from 'jiti';
 import logger from '@docusaurus/logger';
 
 /*
@@ -18,12 +18,12 @@ export async function loadFreshModule(modulePath: string): Promise<unknown> {
         logger.interpolate`Invalid module path of type name=${modulePath}`,
       );
     }
-    const load = jiti(__filename, {
+    const jiti = createJiti(__dirname, {
       // Transpilation cache, can be safely enabled
-      cache: true,
+      fsCache: true,
       // Bypass Node.js runtime require cache
       // Same as "import-fresh" package we used previously
-      requireCache: false,
+      moduleCache: false,
       // Only take into consideration the default export
       // For now we don't need named exports
       // This also helps normalize return value for both CJS/ESM/TS modules
@@ -31,7 +31,21 @@ export async function loadFreshModule(modulePath: string): Promise<unknown> {
       // debug: true,
     });
 
-    return load(modulePath);
+    const module = await jiti.import(modulePath);
+    if (!module) {
+      return undefined;
+    }
+
+    if (typeof module !== 'object') {
+      return module;
+    }
+
+    if ('default' in module) {
+      const {default: def, ...rest} = module;
+      return {...(def || {}), ...rest};
+    }
+
+    return module;
   } catch (error) {
     throw new Error(
       logger.interpolate`Docusaurus could not load module at path path=${modulePath}\nCause: ${
