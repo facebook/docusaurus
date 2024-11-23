@@ -32,20 +32,8 @@ export async function loadFreshModule(modulePath: string): Promise<unknown> {
     });
 
     const module = await jiti.import(modulePath);
-    if (!module) {
-      return undefined;
-    }
-
-    if (typeof module !== 'object') {
-      return module;
-    }
-
-    if ('default' in module) {
-      const {default: def, ...rest} = module;
-      return {...(def || {}), ...rest};
-    }
-
-    return module;
+    const {interopDefault} = await import('mlly');
+    return interopDefault(module);
   } catch (error) {
     throw new Error(
       logger.interpolate`Docusaurus could not load module at path path=${modulePath}\nCause: ${
