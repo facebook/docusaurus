@@ -18,7 +18,7 @@ export async function loadFreshModule(modulePath: string): Promise<unknown> {
         logger.interpolate`Invalid module path of type name=${modulePath}`,
       );
     }
-    const jiti = createJiti(__dirname, {
+    const jiti = createJiti(__filename, {
       // Transpilation cache, can be safely enabled
       fsCache: true,
       // Bypass Node.js runtime require cache
