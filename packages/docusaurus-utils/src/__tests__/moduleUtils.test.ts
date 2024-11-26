@@ -122,8 +122,10 @@ describe('loadFreshModule', () => {
         import dependency1 from "./dependency1";
         import dependency2 from "./dependency2";
 
+        export const entryValue = "entryVal1";
+
         export default {
-          someEntryValue: "entryVal",
+          someEntryValue: "entryVal2",
           dependency1,
           dependency2
         };
@@ -132,7 +134,8 @@ describe('loadFreshModule', () => {
 
       // Should be able to read the initial module graph
       await expect(entryFile.load()).resolves.toEqual({
-        someEntryValue: 'entryVal',
+        entryValue: 'entryVal1',
+        someEntryValue: 'entryVal2',
         dependency1: {
           dep1Export: 'dep1 val1',
           dep1Val: 'dep1 val2',
@@ -159,7 +162,8 @@ describe('loadFreshModule', () => {
         `,
       );
       await expect(entryFile.load()).resolves.toEqual({
-        someEntryValue: 'entryVal',
+        entryValue: 'entryVal1',
+        someEntryValue: 'entryVal2',
         dependency1: {
           dep1Export: 'dep1 val1 updated',
           dep1Val: 'dep1 val2 updated',
@@ -184,7 +188,8 @@ describe('loadFreshModule', () => {
         `,
       );
       await expect(entryFile.load()).resolves.toEqual({
-        someEntryValue: 'entryVal',
+        entryValue: 'entryVal1',
+        someEntryValue: 'entryVal2',
         dependency1: {
           dep1Export: 'dep1 val1 updated',
           dep1Val: 'dep1 val2 updated',
@@ -208,8 +213,10 @@ describe('loadFreshModule', () => {
         import dependency1 from "./dependency1";
         import dependency2 from "./dependency2";
 
+        export const entryValue = "entryVal1 updated";
+
         export default {
-          someEntryValue: "entryVal updated",
+          someEntryValue: "entryVal2 updated",
           dependency1,
           dependency2,
           newAttribute: "is there"
@@ -217,7 +224,8 @@ describe('loadFreshModule', () => {
         `,
       );
       await expect(entryFile.load()).resolves.toEqual({
-        someEntryValue: 'entryVal updated',
+        entryValue: 'entryVal1 updated',
+        someEntryValue: 'entryVal2 updated',
         newAttribute: 'is there',
         dependency1: {
           dep1Export: 'dep1 val1 updated',
