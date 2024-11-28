@@ -48,5 +48,15 @@ in paragraph <img alt="img" src={require("!<PROJECT_ROOT>/node_modules/url-loade
 \`\`\`md
 ![img](./static/img.png)
 \`\`\`
+
+## Images with spaces
+
+<img alt="img" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img with spaces.png").default} width="200" height="200" />
+
+<img alt="img" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img with spaces.png").default} width="200" height="200" />
+
+<img alt="img" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img with one encoded%20space.png").default} width="200" height="200" />
+
+<img alt="img" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img with one encoded%20space.png").default} width="200" height="200" />
 "
 `;
