@@ -228,7 +228,10 @@ ${JSON.stringify(routeConfig)}`,
     routeHash: string;
   } {
     const hashes = [
-      () => simpleHash(JSON.stringify(routeConfig), 3), // OG algo
+      // // OG algo to keep former snapshots
+      () => simpleHash(JSON.stringify(routeConfig), 3),
+      // Other attempts, not ideal but good enough
+      // Technically we could use Math.random() here but it's annoying for tests
       () => simpleHash(`${level}${index}`, 3),
       () => simpleHash(JSON.stringify(routeConfig), 4),
       () => simpleHash(`${level}${index}`, 4),
