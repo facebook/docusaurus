@@ -250,6 +250,7 @@ Accepted fields:
 | `author_image_url` | `string` | `undefined` | ⚠️ Prefer using `authors`. The URL to the author's thumbnail image. |
 | `author_title` | `string` | `undefined` | ⚠️ Prefer using `authors`. A description of the author. |
 | `title` | `string` | Markdown title | The blog post title. |
+| `sidebar_label` | `string` | `title` | A custom label for the blog sidebar, replacing the default one (`title`). |
 | `date` | `string` | File name or file creation time | The blog post creation date. If not specified, this can be extracted from the file or folder name, e.g, `2021-04-15-blog-post.mdx`, `2021-04-15-blog-post/index.mdx`, `2021/04/15/blog-post.mdx`. Otherwise, it is the Markdown file creation time. |
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. Strings can be a reference to keys of a [tags file](#tags-file) (usually `tags.yml`) |
 | `draft` | `boolean` | `false` | Draft blog posts will only be available during development. |
