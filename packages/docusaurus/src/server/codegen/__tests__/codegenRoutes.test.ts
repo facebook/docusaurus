@@ -5,12 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {fromPartial} from '@total-typescript/shoehorn';
 import {
   generateRoutesCode,
   genChunkName,
   generateRoutePropFilename,
 } from '../codegenRoutes';
 import type {RouteConfig} from '@docusaurus/types';
+
+function route(routeConfig: Partial<RouteConfig>): RouteConfig {
+  return fromPartial(routeConfig);
+}
 
 describe('generateRoutePropFilename', () => {
   it('generate filename based on route path', () => {
@@ -206,9 +211,7 @@ describe('loadRoutes', () => {
         },
       ],
     };
-    expect(
-      generateRoutesCode([nestedRouteConfig], '/', 'ignore'),
-    ).toMatchSnapshot();
+    expect(generateRoutesCode([nestedRouteConfig])).toMatchSnapshot();
   });
 
   it('loads flat route config', () => {
@@ -243,9 +246,7 @@ describe('loadRoutes', () => {
         ],
       },
     };
-    expect(
-      generateRoutesCode([flatRouteConfig], '/', 'ignore'),
-    ).toMatchSnapshot();
+    expect(generateRoutesCode([flatRouteConfig])).toMatchSnapshot();
   });
 
   it('rejects invalid route config', () => {
@@ -253,7 +254,7 @@ describe('loadRoutes', () => {
       component: 'hello/world.js',
     } as RouteConfig;
 
-    expect(() => generateRoutesCode([routeConfigWithoutPath], '/', 'ignore'))
+    expect(() => generateRoutesCode([routeConfigWithoutPath]))
       .toThrowErrorMatchingInlineSnapshot(`
       "Invalid route config: path must be a string and component is required.
       {"component":"hello/world.js"}"
@@ -263,9 +264,8 @@ describe('loadRoutes', () => {
       path: '/hello/world',
     } as RouteConfig;
 
-    expect(() =>
-      generateRoutesCode([routeConfigWithoutComponent], '/', 'ignore'),
-    ).toThrowErrorMatchingInlineSnapshot(`
+    expect(() => generateRoutesCode([routeConfigWithoutComponent]))
+      .toThrowErrorMatchingInlineSnapshot(`
       "Invalid route config: path must be a string and component is required.
       {"path":"/hello/world"}"
     `);
@@ -277,6 +277,56 @@ describe('loadRoutes', () => {
       component: 'hello/world.js',
     } as RouteConfig;
 
-    expect(generateRoutesCode([routeConfig], '/', 'ignore')).toMatchSnapshot();
+    expect(generateRoutesCode([routeConfig])).toMatchSnapshot();
+  });
+
+  it('generates an entry for each route and handle hash collisions', () => {
+    // See bug https://github.com/facebook/docusaurus/issues/10718#issuecomment-2507635907
+    const routeConfigs = [
+      route({
+        path: '/docs',
+        component: '@theme/Root',
+        routes: [
+          route({
+            path: '/docs',
+            component: '@theme/Version',
+            children: [],
+          }),
+        ],
+      }),
+      route({
+        path: '/docs',
+        component: '@theme/Root',
+        routes: [
+          route({
+            path: '/docs',
+            component: '@theme/Version',
+            children: [],
+          }),
+        ],
+      }),
+    ];
+
+    const result = generateRoutesCode(routeConfigs);
+
+    // We absolutely want to have 2 entries here, even if routes are the same
+    // One should not override the other
+    expect(Object.keys(result.routesChunkNames)).toHaveLength(4);
+    expect(result.routesChunkNames).toMatchInlineSnapshot(`
+      {
+        "/docs-611": {
+          "__comp": "__comp---theme-version-6-f-8-19f",
+        },
+        "/docs-96a": {
+          "__comp": "__comp---theme-root-1-dd-d3a",
+        },
+        "/docs-d3d": {
+          "__comp": "__comp---theme-version-6-f-8-19f",
+        },
+        "/docs-e4f": {
+          "__comp": "__comp---theme-root-1-dd-d3a",
+        },
+      }
+    `);
   });
 });
