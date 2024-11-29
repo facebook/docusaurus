@@ -18,13 +18,13 @@ function useBoom(): boolean {
   return (customFields as {crashTest?: boolean}).crashTest ?? false;
 }
 
-function boomRoot() {
+function boomRoot(): never {
   throw new Error('Boom root');
 }
 
 function boomParent() {
   try {
-    boomRoot();
+    return boomRoot();
   } catch (err) {
     throw new Error('Boom parent', {cause: err as Error});
   }

@@ -142,7 +142,10 @@ export async function createBaseConfig({
         // Produces warnings in production builds
         // See https://github.com/web-infra-dev/rspack/pull/8311#issuecomment-2476014664
         // @ts-expect-error: Rspack-only
-        incremental: !isProd,
+        // incremental: !isProd,
+        // TODO restore incremental mode in dev + opt-in/opt-out flag?
+        //  temporarily disabled due to https://github.com/facebook/docusaurus/issues/10646#issuecomment-2490675451
+        incremental: undefined,
       };
     }
     return undefined;
