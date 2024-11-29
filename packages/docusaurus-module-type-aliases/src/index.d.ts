@@ -369,6 +369,9 @@ declare module '@docusaurus/useGlobalData' {
   export default function useGlobalData(): GlobalData;
 }
 
+// TODO find a way to move this ambient type to the SVGR plugin?
+//  unfortunately looks complicated in practice
+//  see https://x.com/sebastienlorber/status/1859543512661832053
 declare module '*.svg' {
   import type {ComponentType, SVGProps} from 'react';
 

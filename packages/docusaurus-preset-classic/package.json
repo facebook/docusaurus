@@ -27,6 +27,7 @@
     "@docusaurus/plugin-google-gtag": "3.6.3",
     "@docusaurus/plugin-google-tag-manager": "3.6.3",
     "@docusaurus/plugin-sitemap": "3.6.3",
+    "@docusaurus/plugin-svgr": "3.6.3",
     "@docusaurus/theme-classic": "3.6.3",
     "@docusaurus/theme-common": "3.6.3",
     "@docusaurus/theme-search-algolia": "3.6.3",

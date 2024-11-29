@@ -248,7 +248,6 @@ export async function createBaseConfig({
         fileLoaderUtils.rules.images(),
         fileLoaderUtils.rules.fonts(),
         fileLoaderUtils.rules.media(),
-        fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.[jt]sx?$/i,

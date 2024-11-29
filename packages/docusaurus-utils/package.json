@@ -21,7 +21,6 @@
     "@docusaurus/logger": "3.6.3",
     "@docusaurus/types": "3.6.3",
     "@docusaurus/utils-common": "3.6.3",
-    "@svgr/webpack": "^8.1.0",
     "escape-string-regexp": "^4.0.0",
     "file-loader": "^6.2.0",
     "fs-extra": "^11.1.1",

@@ -45,7 +45,6 @@ type FileLoaderUtils = {
     images: () => RuleSetRule;
     fonts: () => RuleSetRule;
     media: () => RuleSetRule;
-    svg: () => RuleSetRule;
     otherAssets: () => RuleSetRule;
   };
 };
@@ -132,45 +131,6 @@ function createFileLoaderUtils({
     media: () => ({
       use: [loaders.url({folder: 'medias'})],
       test: /\.(?:mp4|avi|mov|mkv|mpg|mpeg|vob|wmv|m4v|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/i,
-    }),
-
-    svg: () => ({
-      test: /\.svg$/i,
-      oneOf: [
-        {
-          use: [
-            {
-              loader: require.resolve('@svgr/webpack'),
-              options: {
-                prettier: false,
-                svgo: true,
-                svgoConfig: {
-                  plugins: [
-                    {
-                      name: 'preset-default',
-                      params: {
-                        overrides: {
-                          removeTitle: false,
-                          removeViewBox: false,
-                        },
-                      },
-                    },
-                  ],
-                },
-                titleProp: true,
-              },
-            },
-          ],
-          // We don't want to use SVGR loader for non-React source code
-          // ie we don't want to use SVGR for CSS files...
-          issuer: {
-            and: [/\.(?:tsx?|jsx?|mdx?)$/i],
-          },
-        },
-        {
-          use: [loaders.url({folder: 'images'})],
-        },
-      ],
     }),
 
     otherAssets: () => ({
