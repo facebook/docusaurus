@@ -228,7 +228,13 @@ export function useStorageSlot(
 
   const currentValue = useSyncExternalStore(
     listen,
-    () => storageSlot.get(),
+    () => {
+      // react-test-renderer (deprecated) never call getServerSnapshot() :/
+      if (process.env.NODE_ENV === 'test') {
+        return null;
+      }
+      return storageSlot.get();
+    },
     () => null,
   );
 
