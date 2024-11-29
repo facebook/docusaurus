@@ -145,7 +145,6 @@ declare module '@docusaurus/plugin-content-blog' {
     title?: string;
     /**
      * Will be used for SEO page metadata and override BlogPostMetadata.title.
-     * @see {@link BlogPostMetadata.title_meta}
      */
     title_meta?: string;
     /**
@@ -153,6 +152,10 @@ declare module '@docusaurus/plugin-content-blog' {
      * @see {@link BlogPostMetadata.description}
      */
     description?: string;
+    /**
+     * Will override the default excerpt.
+     */
+    sidebar_label?: string;
     /**
      * Front matter tags, unnormalized.
      * @see {@link BlogPostMetadata.tags}
