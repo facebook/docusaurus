@@ -347,6 +347,10 @@ export default async function createConfigAsync() {
               from: ['/docs/resources', '/docs/next/resources'],
               to: '/community/resources',
             },
+            {
+              from: '/docs/api/misc/docusaurus-init',
+              to: '/docs/api/misc/create-docusaurus',
+            },
             ...dogfoodingRedirects,
           ],
         } satisfies ClientRedirectsOptions,
