@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 
@@ -35,7 +35,7 @@ function BoomComponent() {
   return <>{boom && boomParent()}</>;
 }
 
-export default function CrashTestPage(): JSX.Element {
+export default function CrashTestPage(): ReactNode {
   return (
     <Layout>
       {/* eslint-disable-next-line @docusaurus/prefer-docusaurus-heading */}

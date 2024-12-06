@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import {useDocsVersionCandidates} from '@docusaurus/plugin-content-docs/client';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import type {Props} from '@theme/NavbarItem/DocsVersionNavbarItem';
@@ -19,7 +19,7 @@ export default function DocsVersionNavbarItem({
   to: staticTo,
   docsPluginId,
   ...props
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const version = useDocsVersionCandidates(docsPluginId)[0];
   const label = staticLabel ?? version.label;
   const path = staticTo ?? getVersionMainDoc(version).path;

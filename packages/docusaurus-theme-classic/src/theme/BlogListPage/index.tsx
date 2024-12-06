@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -21,7 +21,7 @@ import type {Props} from '@theme/BlogListPage';
 import BlogPostItems from '@theme/BlogPostItems';
 import BlogListPageStructuredData from '@theme/BlogListPage/StructuredData';
 
-function BlogListPageMetadata(props: Props): JSX.Element {
+function BlogListPageMetadata(props: Props): ReactNode {
   const {metadata} = props;
   const {
     siteConfig: {title: siteTitle},
@@ -37,7 +37,7 @@ function BlogListPageMetadata(props: Props): JSX.Element {
   );
 }
 
-function BlogListPageContent(props: Props): JSX.Element {
+function BlogListPageContent(props: Props): ReactNode {
   const {metadata, items, sidebar} = props;
   return (
     <BlogLayout sidebar={sidebar}>
@@ -47,7 +47,7 @@ function BlogListPageContent(props: Props): JSX.Element {
   );
 }
 
-export default function BlogListPage(props: Props): JSX.Element {
+export default function BlogListPage(props: Props): ReactNode {
   return (
     <HtmlClassNameProvider
       className={clsx(

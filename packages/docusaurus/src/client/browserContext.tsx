@@ -22,7 +22,7 @@ export function BrowserContextProvider({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element {
+}): ReactNode {
   const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {

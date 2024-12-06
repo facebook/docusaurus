@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ComponentType} from 'react';
+import type {ComponentType, ReactNode} from 'react';
 import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
@@ -54,7 +54,7 @@ export default function BlogAuthorSocials({
   author,
 }: {
   author: Props['author'];
-}): JSX.Element {
+}): ReactNode {
   const entries = Object.entries(author.socials ?? {});
   return (
     <div className={styles.authorSocials}>

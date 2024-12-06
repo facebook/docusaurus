@@ -5,15 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 
 import type {Props} from '@theme/ContentVisibility';
 import Draft from '@theme/ContentVisibility/Draft';
 import Unlisted from '@theme/ContentVisibility/Unlisted';
 
-export default function ContentVisibility({
-  metadata,
-}: Props): JSX.Element | null {
+export default function ContentVisibility({metadata}: Props): ReactNode {
   const {unlisted, frontMatter} = metadata;
   // Reading draft/unlisted status from frontMatter is useful to display
   // the banners in dev mode (in dev, metadata.unlisted is always false)

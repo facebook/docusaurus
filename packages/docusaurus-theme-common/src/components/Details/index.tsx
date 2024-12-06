@@ -10,6 +10,7 @@ import React, {
   useState,
   type ComponentProps,
   type ReactElement,
+  type ReactNode,
 } from 'react';
 import clsx from 'clsx';
 import useBrokenLinks from '@docusaurus/useBrokenLinks';
@@ -47,7 +48,7 @@ export function Details({
   summary,
   children,
   ...props
-}: DetailsProps): JSX.Element {
+}: DetailsProps): ReactNode {
   useBrokenLinks().collectAnchor(props.id);
 
   const isBrowser = useIsBrowser();

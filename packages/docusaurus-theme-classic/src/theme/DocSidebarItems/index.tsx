@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {memo} from 'react';
+import React, {memo, type ReactNode} from 'react';
 import {
   DocSidebarItemsExpandedStateProvider,
   useVisibleSidebarItems,
@@ -14,7 +14,7 @@ import DocSidebarItem from '@theme/DocSidebarItem';
 
 import type {Props} from '@theme/DocSidebarItems';
 
-function DocSidebarItems({items, ...props}: Props): JSX.Element {
+function DocSidebarItems({items, ...props}: Props): ReactNode {
   const visibleItems = useVisibleSidebarItems(items, props.activePath);
   return (
     <DocSidebarItemsExpandedStateProvider>

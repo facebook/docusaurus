@@ -5,7 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
 import {createPortal} from 'react-dom';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import Head from '@docusaurus/Head';
@@ -114,7 +120,8 @@ function DocSearch({
 
   const history = useHistory();
   const searchContainer = useRef<HTMLDivElement | null>(null);
-  const searchButtonRef = useRef<HTMLButtonElement>(null);
+  // TODO remove after React 19 upgrade?
+  const searchButtonRef = useRef<HTMLButtonElement>(null as any);
   const [isOpen, setIsOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState<string | undefined>(
     undefined,
@@ -192,11 +199,12 @@ function DocSearch({
           })),
   ).current;
 
+  // @ts-expect-error: TODO fix lib issue after React 19, using JSX.Element
   const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
     useMemo(
       () =>
         // eslint-disable-next-line react/no-unstable-nested-components
-        (footerProps: Omit<ResultsFooterProps, 'onClose'>): JSX.Element =>
+        (footerProps: Omit<ResultsFooterProps, 'onClose'>): ReactNode =>
           <ResultsFooter {...footerProps} onClose={closeModal} />,
       [closeModal],
     );
@@ -269,7 +277,7 @@ function DocSearch({
   );
 }
 
-export default function SearchBar(): JSX.Element {
+export default function SearchBar(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   return <DocSearch {...(siteConfig.themeConfig.algolia as DocSearchProps)} />;
 }

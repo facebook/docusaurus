@@ -92,7 +92,7 @@ function useCollapseAnimation({
   collapsed,
   animation,
 }: {
-  collapsibleRef: RefObject<HTMLElement>;
+  collapsibleRef: RefObject<HTMLElement | null>;
   collapsed: boolean;
   animation?: CollapsibleAnimationConfig;
 }) {
@@ -263,7 +263,7 @@ type CollapsibleProps = CollapsibleBaseProps & {
  * component will be invisible (zero height) when collapsed. Doesn't provide
  * interactivity by itself: collapse state is toggled through props.
  */
-export function Collapsible({lazy, ...props}: CollapsibleProps): JSX.Element {
+export function Collapsible({lazy, ...props}: CollapsibleProps): ReactNode {
   const Comp = lazy ? CollapsibleLazy : CollapsibleBase;
   return <Comp {...props} />;
 }

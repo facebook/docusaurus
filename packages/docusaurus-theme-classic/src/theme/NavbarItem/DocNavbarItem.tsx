@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import {
   useActiveDocContext,
   useLayoutDoc,
@@ -18,7 +18,7 @@ export default function DocNavbarItem({
   label: staticLabel,
   docsPluginId,
   ...props
-}: Props): JSX.Element | null {
+}: Props): ReactNode {
   const {activeDoc} = useActiveDocContext(docsPluginId);
   const doc = useLayoutDoc(docId, docsPluginId);
   const pageActive = activeDoc?.path === doc?.path;

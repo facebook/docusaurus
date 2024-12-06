@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ComponentType} from 'react';
+import React, {type ComponentType, type ReactNode} from 'react';
 import {processAdmonitionProps} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Admonition';
 import AdmonitionTypes from '@theme/Admonition/Types';
@@ -21,7 +21,7 @@ function getAdmonitionTypeComponent(type: string): ComponentType<Props> {
   return AdmonitionTypes.info!;
 }
 
-export default function Admonition(unprocessedProps: Props): JSX.Element {
+export default function Admonition(unprocessedProps: Props): ReactNode {
   const props = processAdmonitionProps(unprocessedProps);
   const AdmonitionTypeComponent = getAdmonitionTypeComponent(props.type);
   return <AdmonitionTypeComponent {...props} />;

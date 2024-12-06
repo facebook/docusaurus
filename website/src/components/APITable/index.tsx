@@ -84,7 +84,7 @@ const APITableRowComp = React.forwardRef(APITableRow);
  * assumptions about how the children looks; however, those assumptions
  * should be generally correct in the MDX context.
  */
-export default function APITable({children, name}: Props): JSX.Element {
+export default function APITable({children, name}: Props): ReactNode {
   if (children.type !== 'table') {
     throw new Error(
       'Bad usage of APITable component.\nIt is probably that your Markdown table is malformed.\nMake sure to double-check you have the appropriate number of columns for each table row.',

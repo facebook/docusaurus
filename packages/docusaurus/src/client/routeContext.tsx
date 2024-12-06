@@ -46,7 +46,7 @@ export function RouteContextProvider({
   children: ReactNode;
   // Only topmost route has the `plugin` attribute
   value: PluginRouteContext | RouteContext | null;
-}): JSX.Element {
+}): ReactNode {
   const parent = React.useContext(Context);
 
   const mergedValue = useMemo(

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
@@ -23,7 +23,7 @@ import type {ThemeConfig} from '@docusaurus/theme-live-codeblock';
 
 import styles from './styles.module.css';
 
-function Header({children}: {children: React.ReactNode}) {
+function Header({children}: {children: ReactNode}) {
   return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
 }
 
@@ -106,7 +106,7 @@ export default function Playground({
   children,
   transformCode,
   ...props
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const {
     siteConfig: {themeConfig},
   } = useDocusaurusContext();
