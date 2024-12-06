@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useMemo} from 'react';
+import {type ReactNode, useMemo} from 'react';
 import {matchPath, useLocation} from '@docusaurus/router';
 import renderRoutes from '@docusaurus/renderRoutes';
 import {
@@ -363,7 +363,7 @@ Available doc ids are:
  */
 export function useDocRootMetadata({route}: DocRootProps): null | {
   /** The element that should be rendered at the current location. */
-  docElement: JSX.Element;
+  docElement: ReactNode;
   /**
    * The name of the sidebar associated with the current doc. `sidebarName` and
    * `sidebarItems` correspond to the value of {@link useDocsSidebar}.

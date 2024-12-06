@@ -30,7 +30,7 @@ export function DocsSidebarProvider({
   children: ReactNode;
   name: string | undefined;
   items: PropSidebar | undefined;
-}): JSX.Element {
+}): ReactNode {
   const stableValue: ContextValue | null = useMemo(
     () => (name && items ? {name, items} : null),
     [name, items],

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ComponentProps} from 'react';
+import React, {type ComponentProps, type ReactNode} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import {
@@ -28,7 +28,7 @@ function NavbarBackdrop(props: ComponentProps<'div'>) {
   );
 }
 
-export default function NavbarLayout({children}: Props): JSX.Element {
+export default function NavbarLayout({children}: Props): ReactNode {
   const {
     navbar: {hideOnScroll, style},
   } = useThemeConfig();

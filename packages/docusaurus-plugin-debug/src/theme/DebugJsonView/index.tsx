@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import {
   JsonView,
   defaultStyles,
@@ -32,10 +32,7 @@ const paraisoStyles: JsonViewProps['style'] = {
   collapsedContent: styles.collapseContentParaiso!,
 };
 
-export default function DebugJsonView({
-  src,
-  collapseDepth,
-}: Props): JSX.Element {
+export default function DebugJsonView({src, collapseDepth}: Props): ReactNode {
   return (
     <JsonView
       data={src as object}

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {Suspense} from 'react';
+import React, {type ReactNode, Suspense} from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
@@ -14,7 +14,7 @@ const HeavyComponentLazy = React.lazy(
   () => import('./_components/heavyComponent'),
 );
 
-export default function React18Tests(): JSX.Element {
+export default function React18Tests(): ReactNode {
   return (
     <Layout>
       <main style={{padding: 30}}>

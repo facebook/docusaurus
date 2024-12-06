@@ -37,7 +37,7 @@ export default function ComponentCreator(
           <RouteContextProvider
             // Do we want a better name than native-default?
             value={{plugin: {name: 'native', id: 'default'}}}>
-            <NotFound {...(props as JSX.IntrinsicAttributes)} />
+            <NotFound {...(props as React.JSX.IntrinsicAttributes)} />
           </RouteContextProvider>
         );
       },

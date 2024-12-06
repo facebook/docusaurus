@@ -13,7 +13,7 @@ export default function Highlight({
 }: {
   children: ReactNode;
   color: string;
-}): JSX.Element {
+}): ReactNode {
   return (
     <span
       style={{

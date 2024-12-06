@@ -7,7 +7,7 @@
 
 /* eslint-disable global-require */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
@@ -56,7 +56,7 @@ interface Props {
   image: string;
   url: string;
   urlTS: string;
-  description: JSX.Element;
+  description: ReactNode;
 }
 
 function PlaygroundCard({name, image, url, urlTS, description}: Props) {
@@ -92,7 +92,7 @@ function PlaygroundCard({name, image, url, urlTS, description}: Props) {
   );
 }
 
-export function PlaygroundCardsRow(): JSX.Element {
+export function PlaygroundCardsRow(): ReactNode {
   return (
     <div className="row">
       {Playgrounds.map((playground) => (

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {
   PageMetadata,
@@ -21,7 +21,7 @@ import type {Props} from '@theme/MDXPage';
 import EditMetaRow from '@theme/EditMetaRow';
 import styles from './styles.module.css';
 
-export default function MDXPage(props: Props): JSX.Element {
+export default function MDXPage(props: Props): ReactNode {
   const {content: MDXPageContent} = props;
   const {metadata, assets} = MDXPageContent;
   const {

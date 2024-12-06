@@ -32,7 +32,7 @@ export function splitNavbarItems<T extends {position?: 'left' | 'right'}>(
  * Composes multiple navbar state providers that are mutually dependent and
  * hence can't be re-ordered.
  */
-export function NavbarProvider({children}: {children: ReactNode}): JSX.Element {
+export function NavbarProvider({children}: {children: ReactNode}): ReactNode {
   return (
     <NavbarSecondaryMenuContentProvider>
       <NavbarMobileSidebarProvider>

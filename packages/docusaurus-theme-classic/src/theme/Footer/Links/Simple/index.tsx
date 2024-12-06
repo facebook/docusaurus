@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import LinkItem from '@theme/Footer/LinkItem';
 import type {Props} from '@theme/Footer/Links/Simple';
 
@@ -26,7 +26,7 @@ function SimpleLinkItem({item}: {item: Props['links'][number]}) {
   );
 }
 
-export default function FooterLinksSimple({links}: Props): JSX.Element {
+export default function FooterLinksSimple({links}: Props): ReactNode {
   return (
     <div className="footer__links text--center">
       <div className="footer__links">

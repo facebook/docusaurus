@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {
   useCurrentSidebarCategory,
@@ -19,7 +19,7 @@ function DocCardListForCurrentSidebarCategory({className}: Props) {
   return <DocCardList items={category.items} className={className} />;
 }
 
-export default function DocCardList(props: Props): JSX.Element {
+export default function DocCardList(props: Props): ReactNode {
   const {items, className} = props;
   if (!items) {
     return <DocCardListForCurrentSidebarCategory {...props} />;

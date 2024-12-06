@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {
   PageMetadata,
@@ -26,7 +26,7 @@ import type {Props} from '@theme/Blog/Pages/BlogAuthorsPostsPage';
 import BlogPostItems from '@theme/BlogPostItems';
 import Author from '@theme/Blog/Components/Author';
 
-function Metadata({author}: Props): JSX.Element {
+function Metadata({author}: Props): ReactNode {
   const title = useBlogAuthorPageTitle(author);
   return (
     <>
@@ -45,7 +45,7 @@ function ViewAllAuthorsLink() {
   );
 }
 
-function Content({author, items, sidebar, listMetadata}: Props): JSX.Element {
+function Content({author, items, sidebar, listMetadata}: Props): ReactNode {
   return (
     <BlogLayout sidebar={sidebar}>
       <header className="margin-bottom--xl">
@@ -68,7 +68,7 @@ function Content({author, items, sidebar, listMetadata}: Props): JSX.Element {
   );
 }
 
-export default function BlogAuthorsPostsPage(props: Props): JSX.Element {
+export default function BlogAuthorsPostsPage(props: Props): ReactNode {
   return (
     <HtmlClassNameProvider
       className={clsx(

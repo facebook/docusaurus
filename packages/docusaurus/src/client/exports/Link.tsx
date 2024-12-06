@@ -10,6 +10,7 @@ import React, {
   useImperativeHandle,
   useRef,
   type ComponentType,
+  type ReactNode,
 } from 'react';
 import {NavLink, Link as RRLink} from 'react-router-dom';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
@@ -39,7 +40,7 @@ function Link(
     ...props
   }: Props,
   forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
-): JSX.Element {
+): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const {trailingSlash, baseUrl} = siteConfig;
   const router = siteConfig.future.experimental_router;

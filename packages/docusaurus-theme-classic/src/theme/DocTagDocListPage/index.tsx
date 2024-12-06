@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {
@@ -50,7 +50,7 @@ function usePageTitle(props: Props): string {
   );
 }
 
-function DocItem({doc}: {doc: Props['tag']['items'][number]}): JSX.Element {
+function DocItem({doc}: {doc: Props['tag']['items'][number]}): ReactNode {
   return (
     <article className="margin-vert--lg">
       <Link to={doc.permalink}>
@@ -64,7 +64,7 @@ function DocItem({doc}: {doc: Props['tag']['items'][number]}): JSX.Element {
 function DocTagDocListPageMetadata({
   title,
   tag,
-}: Props & {title: string}): JSX.Element {
+}: Props & {title: string}): ReactNode {
   return (
     <>
       <PageMetadata title={title} description={tag.description} />
@@ -76,7 +76,7 @@ function DocTagDocListPageMetadata({
 function DocTagDocListPageContent({
   tag,
   title,
-}: Props & {title: string}): JSX.Element {
+}: Props & {title: string}): ReactNode {
   return (
     <HtmlClassNameProvider
       className={clsx(ThemeClassNames.page.docsTagDocListPage)}>
@@ -107,7 +107,7 @@ function DocTagDocListPageContent({
   );
 }
 
-export default function DocTagDocListPage(props: Props): JSX.Element {
+export default function DocTagDocListPage(props: Props): ReactNode {
   const title = usePageTitle(props);
   return (
     <>

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {blogPostContainerID} from '@docusaurus/utils-common';
 import {useBlogPost} from '@docusaurus/plugin-content-blog/client';
@@ -15,7 +15,7 @@ import type {Props} from '@theme/BlogPostItem/Content';
 export default function BlogPostItemContent({
   children,
   className,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const {isBlogPostPage} = useBlogPost();
   return (
     <div

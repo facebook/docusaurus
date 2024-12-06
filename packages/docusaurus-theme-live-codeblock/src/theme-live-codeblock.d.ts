@@ -17,6 +17,7 @@ declare module '@docusaurus/theme-live-codeblock' {
 }
 
 declare module '@theme/Playground' {
+  import type {ReactNode} from 'react';
   import type {Props as BaseProps} from '@theme/CodeBlock';
   import type {LiveProvider} from 'react-live';
 
@@ -27,7 +28,7 @@ declare module '@theme/Playground' {
     // Allow empty live playgrounds
     children?: string;
   }
-  export default function Playground(props: LiveProviderProps): JSX.Element;
+  export default function Playground(props: LiveProviderProps): ReactNode;
 }
 
 declare module '@theme/ReactLiveScope' {
