@@ -52,7 +52,7 @@ function useSkipToContent(): {
    * so that keyboard navigators can instantly interact with the link and jump
    * to content.
    */
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
   /**
    * Callback fired when the skip to content link has been clicked.
    * It will programmatically focus the main content.
