@@ -11,7 +11,7 @@ import {useMutationObserver} from './useMutationObserver';
 // Callback fires when the "hidden" attribute of a tabpanel changes
 // See https://github.com/facebook/docusaurus/pull/7485
 function useTabBecameVisibleCallback(
-  codeBlockRef: RefObject<HTMLPreElement | null>,
+  codeBlockRef: RefObject<HTMLPreElement>,
   callback: () => void,
 ) {
   const [hiddenTabElement, setHiddenTabElement] = useState<
@@ -53,7 +53,7 @@ function useTabBecameVisibleCallback(
 }
 
 export function useCodeWordWrap(): {
-  readonly codeBlockRef: RefObject<HTMLPreElement | null>;
+  readonly codeBlockRef: RefObject<HTMLPreElement>;
   readonly isEnabled: boolean;
   readonly isCodeScrollable: boolean;
   readonly toggle: () => void;

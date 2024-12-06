@@ -199,6 +199,7 @@ function DocSearch({
           })),
   ).current;
 
+  // @ts-expect-error: TODO fix lib issue after React 19, using JSX.Element
   const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
     useMemo(
       () =>

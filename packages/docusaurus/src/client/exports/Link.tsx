@@ -100,7 +100,7 @@ function Link(
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
-  const ioRef = useRef<IntersectionObserver>(undefined);
+  const ioRef = useRef<IntersectionObserver>();
 
   const handleRef = (el: HTMLAnchorElement | null) => {
     innerRef.current = el;
