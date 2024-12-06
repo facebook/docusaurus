@@ -83,7 +83,11 @@ export {
 
 export {PageMetadata, HtmlClassNameProvider} from './utils/metadataUtils';
 
-export {useColorMode, type ColorMode} from './contexts/colorMode';
+export {
+  useColorMode,
+  type ColorMode,
+  type ColorModeChoice,
+} from './contexts/colorMode';
 
 export {
   NavbarSecondaryMenuFiller,
