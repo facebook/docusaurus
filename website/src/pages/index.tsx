@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import Link from '@docusaurus/Link';
@@ -23,7 +24,6 @@ import Heading from '@theme/Heading';
 
 import styles from './styles.module.css';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
-import type {ReactNode} from 'react';
 
 function HeroBanner() {
   return (
