@@ -14,7 +14,7 @@
   "dependencies": {
     "@docusaurus/types": "3.6.3",
     "@types/history": "^4.7.11",
-    "@types/react": "*",
+    "@types/react": "^19.0.0",
     "@types/react-router-config": "*",
     "@types/react-router-dom": "*",
     "react-helmet-async": "*",
