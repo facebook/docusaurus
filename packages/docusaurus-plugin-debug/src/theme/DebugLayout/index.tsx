@@ -29,7 +29,7 @@ export default function DebugLayout({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element {
+}): ReactNode {
   return (
     <>
       <Head>

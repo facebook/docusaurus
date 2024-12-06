@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {SVGProps} from 'react';
+import type {ReactNode, SVGProps} from 'react';
 
 // SVG Source: https://svgl.app/
-function LinkedIn(props: SVGProps<SVGSVGElement>): JSX.Element {
+function LinkedIn(props: SVGProps<SVGSVGElement>): ReactNode {
   return (
     <svg
       width="1em"

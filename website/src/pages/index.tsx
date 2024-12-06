@@ -23,6 +23,7 @@ import Heading from '@theme/Heading';
 
 import styles from './styles.module.css';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+import type {ReactNode} from 'react';
 
 function HeroBanner() {
   return (
@@ -257,7 +258,7 @@ function TopBanner() {
   );
 }
 
-export default function Home(): JSX.Element {
+export default function Home(): ReactNode {
   const {
     siteConfig: {customFields, tagline},
   } = useDocusaurusContext();

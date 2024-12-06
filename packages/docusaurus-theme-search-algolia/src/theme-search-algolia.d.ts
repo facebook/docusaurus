@@ -38,11 +38,15 @@ declare module '@docusaurus/theme-search-algolia/client' {
 }
 
 declare module '@theme/SearchPage' {
-  export default function SearchPage(): JSX.Element;
+  import type {ReactNode} from 'react';
+
+  export default function SearchPage(): ReactNode;
 }
 
 declare module '@theme/SearchBar' {
-  export default function SearchBar(): JSX.Element;
+  import type {ReactNode} from 'react';
+
+  export default function SearchBar(): ReactNode;
 }
 
 declare module '@theme/SearchTranslations' {

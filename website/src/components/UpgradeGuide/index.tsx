@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import {
   useLatestVersion,
   useActiveDocContext,
@@ -114,7 +114,7 @@ function VersionNotice() {
   return null;
 }
 
-export default function UpgradeGuide(): JSX.Element {
+export default function UpgradeGuide(): ReactNode {
   return (
     <>
       <VersionNotice />

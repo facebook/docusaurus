@@ -15,7 +15,7 @@ export default function ErrorBoundaryTestButton({
   children?: ReactNode;
   message?: string;
   cause?: string;
-}): JSX.Element {
+}): ReactNode {
   const [state, setState] = useState(false);
   if (state) {
     throw new Error(message, {

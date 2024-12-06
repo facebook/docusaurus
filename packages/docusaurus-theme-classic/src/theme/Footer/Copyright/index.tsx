@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import type {Props} from '@theme/Footer/Copyright';
 
-export default function FooterCopyright({copyright}: Props): JSX.Element {
+export default function FooterCopyright({copyright}: Props): ReactNode {
   return (
     <div
       className="footer__copyright"

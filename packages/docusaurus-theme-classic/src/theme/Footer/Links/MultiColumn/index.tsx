@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import LinkItem from '@theme/Footer/LinkItem';
 import type {Props} from '@theme/Footer/Links/MultiColumn';
 
@@ -40,7 +40,7 @@ function Column({column}: {column: ColumnType}) {
   );
 }
 
-export default function FooterLinksMultiColumn({columns}: Props): JSX.Element {
+export default function FooterLinksMultiColumn({columns}: Props): ReactNode {
   return (
     <div className="row footer__links">
       {columns.map((column, i) => (

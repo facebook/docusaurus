@@ -7,7 +7,7 @@
 
 /* eslint-disable global-require */
 
-import React, {type ComponentProps} from 'react';
+import React, {type ComponentProps, type ReactNode} from 'react';
 import {
   CarouselProvider,
   Slider,
@@ -48,7 +48,7 @@ export default function ShowcaseCarousel({
 }: {
   sites: Site[];
   aspectRatio: number;
-}): JSX.Element {
+}): ReactNode {
   return (
     <CarouselProvider
       naturalSlideWidth={1}
@@ -72,7 +72,7 @@ export default function ShowcaseCarousel({
   );
 }
 
-export function ShowcaseCarouselV1(): JSX.Element {
+export function ShowcaseCarouselV1(): ReactNode {
   return (
     <ShowcaseCarousel
       aspectRatio={1072 / 584}
@@ -107,7 +107,7 @@ export function ShowcaseCarouselV1(): JSX.Element {
   );
 }
 
-export function ShowcaseCarouselV2(): JSX.Element {
+export function ShowcaseCarouselV2(): ReactNode {
   return (
     <ShowcaseCarousel
       aspectRatio={2148 / 1194}
@@ -172,7 +172,7 @@ export function ShowcaseCarouselV2(): JSX.Element {
   );
 }
 
-export function ShowcaseCarouselV2Theming(): JSX.Element {
+export function ShowcaseCarouselV2Theming(): ReactNode {
   return (
     <ShowcaseCarousel
       aspectRatio={2148 / 1194}

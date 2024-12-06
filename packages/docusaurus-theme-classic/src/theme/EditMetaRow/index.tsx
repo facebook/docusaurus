@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import EditThisPage from '@theme/EditThisPage';
 import type {Props} from '@theme/EditMetaRow';
@@ -17,7 +17,7 @@ export default function EditMetaRow({
   editUrl,
   lastUpdatedAt,
   lastUpdatedBy,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   return (
     <div className={clsx('row', className)}>
       <div className="col">{editUrl && <EditThisPage editUrl={editUrl} />}</div>

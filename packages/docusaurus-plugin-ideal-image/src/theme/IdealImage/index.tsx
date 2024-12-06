@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import ReactIdealImage, {
   type IconKey,
   type State,
@@ -80,7 +80,7 @@ function getMessage(icon: IconKey, state: State) {
   }
 }
 
-export default function IdealImage(props: Props): JSX.Element {
+export default function IdealImage(props: Props): ReactNode {
   const {img, ...propsRest} = props;
 
   // In dev env just use regular img with original file
