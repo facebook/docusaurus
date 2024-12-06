@@ -43,14 +43,14 @@ export default function FirstLevelComponentWrapper(props) {
 `;
 
 exports[`wrap TypeScript wrap ComponentInFolder 2`] = `
-"import React from 'react';
+"import React, {type ReactNode} from 'react';
 import ComponentInFolder from '@theme-original/ComponentInFolder';
 import type ComponentInFolderType from '@theme/ComponentInFolder';
 import type {WrapperProps} from '@docusaurus/types';
 
 type Props = WrapperProps<typeof ComponentInFolderType>;
 
-export default function ComponentInFolderWrapper(props: Props): JSX.Element {
+export default function ComponentInFolderWrapper(props: Props): ReactNode {
   return (
     <>
       <ComponentInFolder {...props} />
@@ -61,14 +61,14 @@ export default function ComponentInFolderWrapper(props: Props): JSX.Element {
 `;
 
 exports[`wrap TypeScript wrap ComponentInFolder/ComponentInSubFolder 2`] = `
-"import React from 'react';
+"import React, {type ReactNode} from 'react';
 import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
 import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
 import type {WrapperProps} from '@docusaurus/types';
 
 type Props = WrapperProps<typeof ComponentInSubFolderType>;
 
-export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
+export default function ComponentInSubFolderWrapper(props: Props): ReactNode {
   return (
     <>
       <ComponentInSubFolder {...props} />
@@ -79,14 +79,14 @@ export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
 `;
 
 exports[`wrap TypeScript wrap FirstLevelComponent 2`] = `
-"import React from 'react';
+"import React, {type ReactNode} from 'react';
 import FirstLevelComponent from '@theme-original/FirstLevelComponent';
 import type FirstLevelComponentType from '@theme/FirstLevelComponent';
 import type {WrapperProps} from '@docusaurus/types';
 
 type Props = WrapperProps<typeof FirstLevelComponentType>;
 
-export default function FirstLevelComponentWrapper(props: Props): JSX.Element {
+export default function FirstLevelComponentWrapper(props: Props): ReactNode {
   return (
     <>
       <FirstLevelComponent {...props} />
