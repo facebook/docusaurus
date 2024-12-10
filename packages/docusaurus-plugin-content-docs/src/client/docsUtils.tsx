@@ -168,6 +168,7 @@ export function isVisibleSidebarItem(
     case 'category':
       return (
         isActiveSidebarItem(item, activePath) ||
+        (typeof item.href !== 'undefined' && !item.linkUnlisted) ||
         item.items.some((subItem) => isVisibleSidebarItem(subItem, activePath))
       );
     case 'link':
