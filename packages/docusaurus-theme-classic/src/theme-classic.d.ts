@@ -1708,6 +1708,22 @@ declare module '@theme/Icon/Socials/StackOverflow' {
   export default function StackOverflow(props: Props): ReactNode;
 }
 
+declare module '@theme/Icon/Socials/Mastodon' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Mastodon(props: Props): ReactNode;
+}
+
+declare module '@theme/Icon/Socials/Bluesky' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Bluesky(props: Props): ReactNode;
+}
+
 declare module '@theme/TagsListByLetter' {
   import type {ReactNode} from 'react';
   import type {TagsListItem} from '@docusaurus/utils';
