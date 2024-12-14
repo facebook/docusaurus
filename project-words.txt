@@ -25,6 +25,9 @@ beforeinstallprompt
 Bhatt
 blockquotes
 Blockquotes
+bluesky
+Bluesky
+BLUESKY
 Bokmål
 bunx
 caabernathy
@@ -95,6 +98,8 @@ funboxteam
 gabrielcsapo
 getcanary
 Gifs
+gingergeek
+gingergeekuk
 Goss
 Goyal
 gtag
@@ -175,6 +180,7 @@ metrica
 Metrika
 microdata
 Microdata
+Milnes
 mindmap
 Mindmap
 mkdn
@@ -367,6 +373,7 @@ Yacop
 yangshun
 Yangshun
 yangshunz
+zedspencermilnes
 Zhou
 zoomable
 zpao
