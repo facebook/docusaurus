@@ -16,6 +16,8 @@ import GitHub from '@theme/Icon/Socials/GitHub';
 import X from '@theme/Icon/Socials/X';
 import StackOverflow from '@theme/Icon/Socials/StackOverflow';
 import LinkedIn from '@theme/Icon/Socials/LinkedIn';
+import Mastodon from '@theme/Icon/Socials/Mastodon';
+import Bluesky from '@theme/Icon/Socials/Bluesky';
 import DefaultSocialIcon from '@theme/Icon/Socials/Default';
 
 import styles from './styles.module.css';
@@ -30,6 +32,8 @@ const SocialPlatformConfigs: Record<string, SocialPlatformConfig> = {
   stackoverflow: {Icon: StackOverflow, label: 'Stack Overflow'},
   linkedin: {Icon: LinkedIn, label: 'LinkedIn'},
   x: {Icon: X, label: 'X'},
+  mastodon: {Icon: Mastodon, label: 'Mastodon'},
+  bluesky: {Icon: Bluesky, label: 'Bluesky'},
 };
 
 function getSocialPlatformConfig(platformKey: string): SocialPlatformConfig {
