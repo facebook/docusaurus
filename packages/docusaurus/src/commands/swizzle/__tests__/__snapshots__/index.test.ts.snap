@@ -283,14 +283,14 @@ exports[`swizzle wrap ComponentInFolder JS: theme dir tree 1`] = `
 `;
 
 exports[`swizzle wrap ComponentInFolder TS: ComponentInFolder/index.tsx 1`] = `
-"import React from 'react';
+"import React, {type ReactNode} from 'react';
 import ComponentInFolder from '@theme-original/ComponentInFolder';
 import type ComponentInFolderType from '@theme/ComponentInFolder';
 import type {WrapperProps} from '@docusaurus/types';
 
 type Props = WrapperProps<typeof ComponentInFolderType>;
 
-export default function ComponentInFolderWrapper(props: Props): JSX.Element {
+export default function ComponentInFolderWrapper(props: Props): ReactNode {
   return (
     <>
       <ComponentInFolder {...props} />
@@ -328,14 +328,14 @@ exports[`swizzle wrap ComponentInFolder/ComponentInSubFolder JS: theme dir tree 
 `;
 
 exports[`swizzle wrap ComponentInFolder/ComponentInSubFolder TS: ComponentInFolder/ComponentInSubFolder/index.tsx 1`] = `
-"import React from 'react';
+"import React, {type ReactNode} from 'react';
 import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
 import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
 import type {WrapperProps} from '@docusaurus/types';
 
 type Props = WrapperProps<typeof ComponentInSubFolderType>;
 
-export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
+export default function ComponentInSubFolderWrapper(props: Props): ReactNode {
   return (
     <>
       <ComponentInSubFolder {...props} />
@@ -373,14 +373,14 @@ exports[`swizzle wrap ComponentInFolder/Sibling JS: theme dir tree 1`] = `
 `;
 
 exports[`swizzle wrap ComponentInFolder/Sibling TS: ComponentInFolder/Sibling.tsx 1`] = `
-"import React from 'react';
+"import React, {type ReactNode} from 'react';
 import Sibling from '@theme-original/ComponentInFolder/Sibling';
 import type SiblingType from '@theme/ComponentInFolder/Sibling';
 import type {WrapperProps} from '@docusaurus/types';
 
 type Props = WrapperProps<typeof SiblingType>;
 
-export default function SiblingWrapper(props: Props): JSX.Element {
+export default function SiblingWrapper(props: Props): ReactNode {
   return (
     <>
       <Sibling {...props} />
@@ -416,14 +416,14 @@ exports[`swizzle wrap FirstLevelComponent JS: theme dir tree 1`] = `
 `;
 
 exports[`swizzle wrap FirstLevelComponent TS: FirstLevelComponent.tsx 1`] = `
-"import React from 'react';
+"import React, {type ReactNode} from 'react';
 import FirstLevelComponent from '@theme-original/FirstLevelComponent';
 import type FirstLevelComponentType from '@theme/FirstLevelComponent';
 import type {WrapperProps} from '@docusaurus/types';
 
 type Props = WrapperProps<typeof FirstLevelComponentType>;
 
-export default function FirstLevelComponentWrapper(props: Props): JSX.Element {
+export default function FirstLevelComponentWrapper(props: Props): ReactNode {
   return (
     <>
       <FirstLevelComponent {...props} />

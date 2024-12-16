@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import Translate from '@docusaurus/Translate';
 import Head from '@docusaurus/Head';
 
-export function UnlistedBannerTitle(): JSX.Element {
+export function UnlistedBannerTitle(): ReactNode {
   return (
     <Translate
       id="theme.contentVisibility.unlistedBanner.title"
@@ -19,7 +19,7 @@ export function UnlistedBannerTitle(): JSX.Element {
   );
 }
 
-export function UnlistedBannerMessage(): JSX.Element {
+export function UnlistedBannerMessage(): ReactNode {
   return (
     <Translate
       id="theme.contentVisibility.unlistedBanner.message"
@@ -32,7 +32,7 @@ export function UnlistedBannerMessage(): JSX.Element {
 
 // TODO Docusaurus v4 breaking change (since it's v3 public theme-common API :/)
 //  Move this to theme/ContentVisibility/Unlisted
-export function UnlistedMetadata(): JSX.Element {
+export function UnlistedMetadata(): ReactNode {
   return (
     <Head>
       <meta name="robots" content="noindex, nofollow" />
@@ -40,7 +40,7 @@ export function UnlistedMetadata(): JSX.Element {
   );
 }
 
-export function DraftBannerTitle(): JSX.Element {
+export function DraftBannerTitle(): ReactNode {
   return (
     <Translate
       id="theme.contentVisibility.draftBanner.title"
@@ -50,7 +50,7 @@ export function DraftBannerTitle(): JSX.Element {
   );
 }
 
-export function DraftBannerMessage(): JSX.Element {
+export function DraftBannerMessage(): ReactNode {
   return (
     <Translate
       id="theme.contentVisibility.draftBanner.message"

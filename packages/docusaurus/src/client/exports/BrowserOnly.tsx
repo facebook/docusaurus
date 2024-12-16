@@ -5,16 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {isValidElement} from 'react';
+import React, {isValidElement, type ReactNode} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import type {Props} from '@docusaurus/BrowserOnly';
 
 // Similar comp to the one described here:
 // https://www.joshwcomeau.com/react/the-perils-of-rehydration/#abstractions
-export default function BrowserOnly({
-  children,
-  fallback,
-}: Props): JSX.Element | null {
+export default function BrowserOnly({children, fallback}: Props): ReactNode {
   const isBrowser = useIsBrowser();
 
   if (isBrowser) {

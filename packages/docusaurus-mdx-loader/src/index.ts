@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {ReactNode} from 'react';
+
 import {mdxLoader} from './loader';
 
 import type {TOCItem as TOCItemImported} from './remark/toc/types';
@@ -34,7 +36,7 @@ export type LoadedMDXContent<FrontMatter, Metadata, Assets = undefined> = {
    * in priority.
    */
   readonly assets: Assets;
-  (): JSX.Element;
+  (): ReactNode;
 };
 
 export type {MDXPlugin} from './loader';

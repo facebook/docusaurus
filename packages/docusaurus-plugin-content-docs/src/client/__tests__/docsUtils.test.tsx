@@ -440,6 +440,7 @@ describe('isVisibleSidebarItem', () => {
   it('works with category', () => {
     const subCategoryAllUnlisted = testCategory({
       href: '/sub-category-path',
+      linkUnlisted: true,
       items: [
         {
           type: 'link',
@@ -455,6 +456,7 @@ describe('isVisibleSidebarItem', () => {
         },
         testCategory({
           href: '/sub-sub-category-path',
+          linkUnlisted: true,
           items: [
             {
               type: 'link',
@@ -499,6 +501,22 @@ describe('isVisibleSidebarItem', () => {
     );
     expect(
       isVisibleSidebarItem(categorySomeUnlisted, categorySomeUnlisted.href!),
+    ).toBe(true);
+
+    const categoryOnlyIndexListed = testCategory({
+      href: '/category-only-index-listed',
+      items: [
+        {
+          type: 'link',
+          href: '/sub-link-path',
+          label: 'Label',
+          unlisted: true,
+        },
+        subCategoryAllUnlisted,
+      ],
+    });
+    expect(
+      isVisibleSidebarItem(categoryOnlyIndexListed, '/nonexistentPath'),
     ).toBe(true);
   });
 });

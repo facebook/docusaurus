@@ -78,7 +78,7 @@ function TeamProfileCardCol(props: ProfileProps) {
   );
 }
 
-export function ActiveTeamRow(): JSX.Element {
+export function ActiveTeamRow(): ReactNode {
   return (
     <div className="row">
       <TeamProfileCardCol
@@ -117,7 +117,7 @@ export function ActiveTeamRow(): JSX.Element {
   );
 }
 
-export function HonoraryAlumniTeamRow(): JSX.Element {
+export function HonoraryAlumniTeamRow(): ReactNode {
   return (
     <div className="row">
       <TeamProfileCardCol
@@ -168,7 +168,7 @@ export function HonoraryAlumniTeamRow(): JSX.Element {
   );
 }
 
-export function StudentFellowsTeamRow(): JSX.Element {
+export function StudentFellowsTeamRow(): ReactNode {
   return (
     <div className="row">
       <TeamProfileCardCol

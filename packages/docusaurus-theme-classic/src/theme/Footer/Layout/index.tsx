@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import type {Props} from '@theme/Footer/Layout';
 
@@ -14,7 +14,7 @@ export default function FooterLayout({
   links,
   logo,
   copyright,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   return (
     <footer
       className={clsx('footer', {

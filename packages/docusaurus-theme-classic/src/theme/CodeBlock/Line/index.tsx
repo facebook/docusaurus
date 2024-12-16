@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import type {Props} from '@theme/CodeBlock/Line';
 
@@ -17,7 +17,7 @@ export default function CodeBlockLine({
   showLineNumbers,
   getLineProps,
   getTokenProps,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   if (line.length === 1 && line[0]!.content === '\n') {
     line[0]!.content = '';
   }

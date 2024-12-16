@@ -562,10 +562,11 @@ declare module '@docusaurus/plugin-content-docs' {
 }
 
 declare module '@theme/DocItem' {
+  import type {ReactNode} from 'react';
   import type {PropDocContent} from '@docusaurus/plugin-content-docs';
 
   export type DocumentRoute = {
-    readonly component: () => JSX.Element;
+    readonly component: () => ReactNode;
     readonly exact: boolean;
     readonly path: string;
     readonly sidebar?: string;
@@ -576,10 +577,11 @@ declare module '@theme/DocItem' {
     readonly content: PropDocContent;
   }
 
-  export default function DocItem(props: Props): JSX.Element;
+  export default function DocItem(props: Props): ReactNode;
 }
 
 declare module '@theme/DocCategoryGeneratedIndexPage' {
+  import type {ReactNode} from 'react';
   import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
@@ -588,39 +590,45 @@ declare module '@theme/DocCategoryGeneratedIndexPage' {
 
   export default function DocCategoryGeneratedIndexPage(
     props: Props,
-  ): JSX.Element;
+  ): ReactNode;
 }
 
 declare module '@theme/DocTagsListPage' {
+  import type {ReactNode} from 'react';
   import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
 
   export interface Props extends PropTagsListPage {}
-  export default function DocTagsListPage(props: Props): JSX.Element;
+  export default function DocTagsListPage(props: Props): ReactNode;
 }
 
 declare module '@theme/DocTagDocListPage' {
+  import type {ReactNode} from 'react';
   import type {PropTagDocList} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
     readonly tag: PropTagDocList;
   }
-  export default function DocTagDocListPage(props: Props): JSX.Element;
+  export default function DocTagDocListPage(props: Props): ReactNode;
 }
 
 declare module '@theme/DocBreadcrumbs' {
-  export default function DocBreadcrumbs(): JSX.Element;
+  import type {ReactNode} from 'react';
+
+  export default function DocBreadcrumbs(): ReactNode;
 }
 
 declare module '@theme/DocsRoot' {
+  import type {ReactNode} from 'react';
   import type {RouteConfigComponentProps} from 'react-router-config';
   import type {Required} from 'utility-types';
 
   export interface Props extends Required<RouteConfigComponentProps, 'route'> {}
 
-  export default function DocsRoot(props: Props): JSX.Element;
+  export default function DocsRoot(props: Props): ReactNode;
 }
 
 declare module '@theme/DocVersionRoot' {
+  import type {ReactNode} from 'react';
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
   import type {RouteConfigComponentProps} from 'react-router-config';
   import type {Required} from 'utility-types';
@@ -629,14 +637,15 @@ declare module '@theme/DocVersionRoot' {
     readonly version: PropVersionMetadata;
   }
 
-  export default function DocVersionRoot(props: Props): JSX.Element;
+  export default function DocVersionRoot(props: Props): ReactNode;
 }
 
 declare module '@theme/DocRoot' {
+  import type {ReactNode} from 'react';
   import type {RouteConfigComponentProps} from 'react-router-config';
   import type {Required} from 'utility-types';
 
   export interface Props extends Required<RouteConfigComponentProps, 'route'> {}
 
-  export default function DocRoot(props: Props): JSX.Element;
+  export default function DocRoot(props: Props): ReactNode;
 }

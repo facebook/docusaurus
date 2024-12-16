@@ -65,7 +65,8 @@ export function toBlogSidebarProp({
   return {
     title: blogSidebarTitle,
     items: blogPosts.map((blogPost) => ({
-      title: blogPost.metadata.title,
+      title:
+        blogPost.metadata.frontMatter.sidebar_label ?? blogPost.metadata.title,
       permalink: blogPost.metadata.permalink,
       unlisted: blogPost.metadata.unlisted,
       date: blogPost.metadata.date,

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {memo} from 'react';
+import React, {memo, type ReactNode} from 'react';
 import {
   useVisibleBlogSidebarItems,
   BlogSidebarItemList,
@@ -29,7 +29,7 @@ const ListComponent: BlogSidebarContentProps['ListComponent'] = ({items}) => {
   );
 };
 
-function BlogSidebarMobileSecondaryMenu({sidebar}: Props): JSX.Element {
+function BlogSidebarMobileSecondaryMenu({sidebar}: Props): ReactNode {
   const items = useVisibleBlogSidebarItems(sidebar.items);
   return (
     <BlogSidebarContent
@@ -40,7 +40,7 @@ function BlogSidebarMobileSecondaryMenu({sidebar}: Props): JSX.Element {
   );
 }
 
-function BlogSidebarMobile(props: Props): JSX.Element {
+function BlogSidebarMobile(props: Props): ReactNode {
   return (
     <NavbarSecondaryMenuFiller
       component={BlogSidebarMobileSecondaryMenu}

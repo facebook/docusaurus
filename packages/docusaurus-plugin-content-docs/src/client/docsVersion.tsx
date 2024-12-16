@@ -20,7 +20,7 @@ export function DocsVersionProvider({
 }: {
   children: ReactNode;
   version: PropVersionMetadata | null;
-}): JSX.Element {
+}): ReactNode {
   return <Context.Provider value={version}>{children}</Context.Provider>;
 }
 

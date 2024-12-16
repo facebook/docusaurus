@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import Tag from '@theme/Tag';
@@ -13,7 +13,7 @@ import type {Props} from '@theme/TagsListInline';
 
 import styles from './styles.module.css';
 
-export default function TagsListInline({tags}: Props): JSX.Element {
+export default function TagsListInline({tags}: Props): ReactNode {
   return (
     <>
       <b>

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {JSXElementConstructor} from 'react';
+import type {JSX, JSXElementConstructor} from 'react';
 
 export type SwizzleAction = 'eject' | 'wrap';
 export type SwizzleActionStatus = 'safe' | 'unsafe' | 'forbidden';

@@ -29,6 +29,6 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
       - name: Test
         run: yarn test website/src/data/__tests__/user.test.ts

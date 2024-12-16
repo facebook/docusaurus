@@ -33,7 +33,8 @@ const FrontMatterAuthorErrorMessage =
 const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   id: Joi.string(),
   title: Joi.string().allow(''),
-  title_meta: Joi.string(),
+  title_meta: Joi.string().allow(''),
+  sidebar_label: Joi.string().allow(''),
   description: Joi.string().allow(''),
   tags: FrontMatterTagsSchema,
   date: Joi.date().raw(),

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {useBlogPost} from '@docusaurus/plugin-content-blog/client';
 import BlogAuthor from '@theme/Blog/Components/Author';
@@ -15,7 +15,7 @@ import styles from './styles.module.css';
 // Component responsible for the authors layout
 export default function BlogPostItemHeaderAuthors({
   className,
-}: Props): JSX.Element | null {
+}: Props): ReactNode {
   const {
     metadata: {authors},
     assets,

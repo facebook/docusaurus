@@ -194,7 +194,12 @@ function genChunkNames(
  * config node, it returns the node's serialized form, and mutates `registry`,
  * `routesPaths`, and `routesChunkNames` accordingly.
  */
-function genRouteCode(routeConfig: RouteConfig, res: RoutesCode): string {
+function genRouteCode(
+  routeConfig: RouteConfig,
+  res: RoutesCode,
+  index: number,
+  level: number,
+): string {
   const {
     path: routePath,
     component,
@@ -216,8 +221,39 @@ ${JSON.stringify(routeConfig)}`,
     );
   }
 
-  const routeHash = simpleHash(JSON.stringify(routeConfig), 3);
-  res.routesChunkNames[`${routePath}-${routeHash}`] = {
+  // Because 2 routes with the same path could lead to hash collisions
+  // See https://github.com/facebook/docusaurus/issues/10718#issuecomment-2498516394
+  function generateUniqueRouteKey(): {
+    routeKey: string;
+    routeHash: string;
+  } {
+    const hashes = [
+      // // OG algo to keep former snapshots
+      () => simpleHash(JSON.stringify(routeConfig), 3),
+      // Other attempts, not ideal but good enough
+      // Technically we could use Math.random() here but it's annoying for tests
+      () => simpleHash(`${level}${index}`, 3),
+      () => simpleHash(JSON.stringify(routeConfig), 4),
+      () => simpleHash(`${level}${index}`, 4),
+    ];
+
+    for (const tryHash of hashes) {
+      const routeHash = tryHash();
+      const routeKey = `${routePath}-${routeHash}`;
+      if (!res.routesChunkNames[routeKey]) {
+        return {routeKey, routeHash};
+      }
+    }
+    throw new Error(
+      `Docusaurus couldn't generate a unique hash for route ${routeConfig.path} (level=${level} - index=${index}).
+This is a bug, please report it here!
+https://github.com/facebook/docusaurus/issues/10718`,
+    );
+  }
+
+  const {routeKey, routeHash} = generateUniqueRouteKey();
+
+  res.routesChunkNames[routeKey] = {
     // Avoid clash with a prop called "component"
     ...genChunkNames({__comp: component}, 'component', component, res),
     ...(context &&
@@ -228,7 +264,9 @@ ${JSON.stringify(routeConfig)}`,
   return serializeRouteConfig({
     routePath: routePath.replace(/'/g, "\\'"),
     routeHash,
-    subroutesCodeStrings: subroutes?.map((r) => genRouteCode(r, res)),
+    subroutesCodeStrings: subroutes?.map((r, i) =>
+      genRouteCode(r, res, i, level + 1),
+    ),
     exact,
     attributes,
   });
@@ -253,7 +291,7 @@ export function generateRoutesCode(routeConfigs: RouteConfig[]): RoutesCode {
 
   // `genRouteCode` would mutate `res`
   const routeConfigSerialized = routeConfigs
-    .map((r) => genRouteCode(r, res))
+    .map((r, i) => genRouteCode(r, res, i, 0))
     .join(',\n');
 
   res.routesConfig = `import React from 'react';

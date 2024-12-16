@@ -80,7 +80,7 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
 
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)

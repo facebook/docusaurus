@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import {composeProviders} from '@docusaurus/theme-common';
 import {
   ColorModeProvider,
@@ -26,6 +26,6 @@ const Provider = composeProviders([
   NavbarProvider,
 ]);
 
-export default function LayoutProvider({children}: Props): JSX.Element {
+export default function LayoutProvider({children}: Props): ReactNode {
   return <Provider>{children}</Provider>;
 }

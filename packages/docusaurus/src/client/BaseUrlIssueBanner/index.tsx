@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import {useLocation} from '@docusaurus/router';
 import Head from '@docusaurus/Head';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
@@ -95,7 +95,7 @@ function BaseUrlIssueBanner() {
  *
  * @see https://github.com/facebook/docusaurus/pull/3621
  */
-export default function MaybeBaseUrlIssueBanner(): JSX.Element | null {
+export default function MaybeBaseUrlIssueBanner(): ReactNode {
   const {
     siteConfig: {baseUrl, baseUrlIssueBanner},
   } = useDocusaurusContext();

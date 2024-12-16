@@ -108,6 +108,12 @@ export type HtmlTagObject = {
 
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
+export type ConfigureWebpackResult = WebpackConfiguration & {
+  mergeStrategy?: {
+    [key: string]: CustomizeRuleString;
+  };
+};
+
 export type Plugin<Content = unknown> = {
   name: string;
   loadContent?: () => Promise<Content> | Content;
@@ -134,11 +140,7 @@ export type Plugin<Content = unknown> = {
     isServer: boolean,
     configureWebpackUtils: ConfigureWebpackUtils,
     content: Content,
-  ) => WebpackConfiguration & {
-    mergeStrategy?: {
-      [key: string]: CustomizeRuleString;
-    };
-  };
+  ) => ConfigureWebpackResult;
   configurePostCss?: (options: PostCssOptions) => PostCssOptions;
   getThemePath?: () => string;
   getTypeScriptThemePath?: () => string;

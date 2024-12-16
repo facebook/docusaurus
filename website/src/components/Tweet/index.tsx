@@ -28,7 +28,7 @@ export default function Tweet({
   content,
   date,
   githubUsername,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   return (
     <div className={clsx('card', styles.tweet)}>
       <div className="card__header">

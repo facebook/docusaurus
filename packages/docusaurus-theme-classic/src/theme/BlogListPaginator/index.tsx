@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import Translate, {translate} from '@docusaurus/Translate';
 import PaginatorNavLink from '@theme/PaginatorNavLink';
 import type {Props} from '@theme/BlogListPaginator';
 
-export default function BlogListPaginator(props: Props): JSX.Element {
+export default function BlogListPaginator(props: Props): ReactNode {
   const {metadata} = props;
   const {previousPage, nextPage} = metadata;
 

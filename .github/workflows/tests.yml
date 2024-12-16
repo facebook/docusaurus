@@ -37,7 +37,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
       - name: Test
         run: yarn test
       - name: Remove Theme Internal Re-export

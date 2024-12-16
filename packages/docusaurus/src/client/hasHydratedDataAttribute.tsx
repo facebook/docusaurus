@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {ReactNode} from 'react';
 import React from 'react';
 import Head from '@docusaurus/Head';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 
 // See https://github.com/facebook/docusaurus/pull/9256
 // Docusaurus adds a <html data-has-hydrated="true"> after hydration
-export default function HasHydratedDataAttribute(): JSX.Element {
+export default function HasHydratedDataAttribute(): ReactNode {
   const isBrowser = useIsBrowser();
   return (
     <Head>

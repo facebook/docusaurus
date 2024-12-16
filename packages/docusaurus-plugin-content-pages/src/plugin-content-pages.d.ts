@@ -85,6 +85,7 @@ declare module '@docusaurus/plugin-content-pages' {
 }
 
 declare module '@theme/MDXPage' {
+  import type {ReactNode} from 'react';
   import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
   import type {
     MDXPageMetadata,
@@ -100,5 +101,5 @@ declare module '@theme/MDXPage' {
     >;
   }
 
-  export default function MDXPage(props: Props): JSX.Element;
+  export default function MDXPage(props: Props): ReactNode;
 }
