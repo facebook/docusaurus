@@ -33,6 +33,7 @@ import type {
   DocSearchModal as DocSearchModalType,
   DocSearchModalProps,
   StoredDocSearchHit,
+  DocSearchTransformClient,
 } from '@docsearch/react';
 
 import type {AutocompleteState} from '@algolia/autocomplete-core';
@@ -204,10 +205,8 @@ function DocSearch({
       [closeModal],
     );
 
-  const transformSearchClient = useCallback<
-    NonNullable<DocSearchModalProps['transformSearchClient']>
-  >(
-    (searchClient) => {
+  const transformSearchClient = useCallback(
+    (searchClient: DocSearchTransformClient) => {
       searchClient.addAlgoliaAgent(
         'docusaurus',
         siteMetadata.docusaurusVersion,
