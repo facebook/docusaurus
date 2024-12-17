@@ -97,9 +97,7 @@ function DocSearch({
     useAlgoliaContextualFacetFilters() as FacetFilters;
 
   const configFacetFilters: FacetFilters =
-    ('facetFilters' in props.searchParameters!
-      ? props.searchParameters?.facetFilters
-      : []) ?? [];
+    props.searchParameters?.facetFilters ?? [];
 
   const facetFilters: FacetFilters = contextualSearch
     ? // Merge contextual search filters with config filters
@@ -108,7 +106,7 @@ function DocSearch({
       configFacetFilters;
 
   // We let user override default searchParameters if she wants to
-  const searchParameters: DocSearchModalProps['searchParameters'] = {
+  const searchParameters: DocSearchProps['searchParameters'] = {
     ...props.searchParameters,
     facetFilters,
   };
