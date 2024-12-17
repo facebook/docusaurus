@@ -28,17 +28,16 @@ import {
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import translations from '@theme/SearchTranslations';
-
-import type {AutocompleteState} from '@algolia/autocomplete-core';
-import type {
-  DocSearchModal as DocSearchModalType,
-  DocSearchModalProps,
-} from '@docsearch/react';
 import type {
   InternalDocSearchHit,
+  DocSearchModal as DocSearchModalType,
+  DocSearchModalProps,
   StoredDocSearchHit,
-} from '@docsearch/react/dist/esm/types';
-import type {SearchClient} from 'algoliasearch/lite';
+  DocSearchTransformClient,
+} from '@docsearch/react';
+
+import type {AutocompleteState} from '@algolia/autocomplete-core';
+import type {FacetFilters} from 'algoliasearch/lite';
 
 type DocSearchProps = Omit<
   DocSearchModalProps,
@@ -80,16 +79,10 @@ function ResultsFooter({state, onClose}: ResultsFooterProps) {
   );
 }
 
-type FacetFilters = Required<
-  Required<DocSearchProps>['searchParameters']
->['facetFilters'];
-
 function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
-  const normalize = (
-    f: FacetFilters,
-  ): readonly string[] | readonly (string | readonly string[])[] =>
+  const normalize = (f: FacetFilters): FacetFilters =>
     typeof f === 'string' ? [f] : f;
-  return [...normalize(f1), ...normalize(f2)] as FacetFilters;
+  return [...normalize(f1), ...normalize(f2)];
 }
 
 function DocSearch({
@@ -159,6 +152,7 @@ function DocSearch({
   const closeModal = useCallback(() => {
     setIsOpen(false);
     searchButtonRef.current?.focus();
+    setInitialQuery(undefined);
   }, []);
 
   const handleInput = useCallback(
@@ -210,7 +204,7 @@ function DocSearch({
     );
 
   const transformSearchClient = useCallback(
-    (searchClient: SearchClient) => {
+    (searchClient: DocSearchTransformClient) => {
       searchClient.addAlgoliaAgent(
         'docusaurus',
         siteMetadata.docusaurusVersion,
