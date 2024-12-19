@@ -107,8 +107,10 @@ function getAllMagicCommentDirectiveStyles(
 
     case 'lua':
     case 'haskell':
-    case 'sql':
       return getCommentPattern(['lua'], magicCommentDirectives);
+
+    case 'sql':
+      return getCommentPattern(['lua', 'jsBlock'], magicCommentDirectives);
 
     case 'wasm':
       return getCommentPattern(['wasm'], magicCommentDirectives);
