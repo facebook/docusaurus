@@ -358,6 +358,19 @@ WHERE customer_id IN (
 )
 ```
 
+```sql title="sql_query_block.sql"
+/* highlight-start */
+SELECT *
+FROM orders
+/* highlight-end */
+WHERE customer_id IN (
+  SELECT customer_id
+  /* highlight-next-line */
+  FROM customers
+  WHERE country = 'USA'
+)
+```
+
 ```matlab title="matlab.m"
 % highlight-start
 function result = times2(n)
