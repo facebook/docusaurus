@@ -91,7 +91,6 @@ Flightcontrol
 Flightcontrol's
 FOUC
 froms
-funboxteam
 gabrielcsapo
 getcanary
 Gifs
@@ -202,7 +201,6 @@ Nuxt
 opensearch
 opensearchdescription
 opensource
-optimizt
 orama
 Orama
 orta
@@ -283,7 +281,6 @@ Sebastien
 Sébastien
 sebastienlorber
 sensical
-setaf
 setext
 setlocal
 SFNT
@@ -299,7 +296,6 @@ solana
 Solana
 spâce
 stackblitz
-stackblitzrc
 stackoverflow
 Stormkit
 Strikethrough
