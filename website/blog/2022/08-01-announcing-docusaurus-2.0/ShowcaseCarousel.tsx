@@ -12,7 +12,6 @@ import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
 import Image from '@theme/IdealImage';
-import 'pure-react-carousel/dist/react-carousel.es.css';
 import styles from './ShowcaseCarousel.module.css';
 
 type Site = {
