@@ -56,7 +56,6 @@
     "color": "^4.2.3",
     "fs-extra": "^11.1.1",
     "netlify-plugin-cache": "^1.0.3",
-    "pure-react-carousel": "^1.30.1",
     "raw-loader": "^4.0.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
