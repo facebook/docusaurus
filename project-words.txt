@@ -143,7 +143,6 @@ lightningcss
 linkify
 Linkify
 lockb
-loglevel
 lorber
 Lorber
 Lorber's
@@ -362,7 +361,6 @@ webfactory
 webpackbar
 webstorm
 Wolcott
-xeuo
 Xplorer
 XSOAR
 Yacop
