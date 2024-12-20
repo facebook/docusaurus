@@ -7,7 +7,7 @@
 
 set -xeuo pipefail
 
-rm -rf test-website
+rm -rf ../test-website
 
 CUSTOM_REGISTRY_URL="http://localhost:4873"
 NEW_VERSION="$(node -p "require('./packages/docusaurus/package.json').version")-NEW"
