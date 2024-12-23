@@ -93,7 +93,7 @@ async function getSwcMinifier(): Promise<HtmlMinifier> {
           // When enabled => hydration error for className=""
           removeEmptyAttributes: false,
           // When enabled => hydration error for <a target="_self">
-          removeRedundantAttributes: 'smart',
+          removeRedundantAttributes: 'none',
 
           minifyJs: true,
           minifyJson: true,
