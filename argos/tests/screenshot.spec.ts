@@ -131,21 +131,11 @@ function throwOnConsole(page: Page) {
   const typesToCheck = ['error', 'warning'];
 
   const ignoreMessages = [
-    // This mismatch warning looks like a React 18 bug to me
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s className "null" ""',
-
     // TODO this fetch error message is unexpected and should be fixed
     //  it's already happening in main branch
     'Failed to load resource: the server responded with a status of 404 (Not Found)',
 
-    // TODO looks like a legit hydration bug to fix
-    // on /blog/releases/2.4
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-theme=light"',
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-theme=dark"',
-    // on /blog/releases/3.0
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-data-navbar=false&docusaurus-data-red-border"',
-    // on /docs/styling-layout
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-data-navbar=false&docusaurus-data-red-border"',
+    // TODO looks like legit hydration bugs to fix
     'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs/configuration" "/docs/configuration?docusaurus-theme=light"',
     'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs/configuration" "/docs/configuration?docusaurus-theme=dark"',
 
