@@ -10,7 +10,12 @@ import type {ReactNode, SVGProps} from 'react';
 // SVG Source: https://svgl.app/
 function StackOverflow(props: SVGProps<SVGSVGElement>): ReactNode {
   return (
-    <svg viewBox="0 0 169.61 200" width="1em" height="1em" {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 169.61 200"
+      width="1em"
+      height="1em"
+      {...props}>
       <path
         d="M140.44 178.38v-48.65h21.61V200H0v-70.27h21.61v48.65z"
         fill="#bcbbbb"

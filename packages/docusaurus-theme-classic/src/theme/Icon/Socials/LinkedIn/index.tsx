@@ -13,6 +13,7 @@ function LinkedIn(props: SVGProps<SVGSVGElement>): ReactNode {
     <svg
       width="1em"
       height="1em"
+      xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="xMidYMid"
       viewBox="0 0 256 256"
       {...props}>
