@@ -47,9 +47,13 @@ async function getTerserMinifier(): Promise<HtmlMinifier> {
     minify: async function minifyHtmlWithTerser(html) {
       try {
         const code = await terserHtmlMinifier(html, {
+          // When enabled => React hydration errors
           removeComments: false,
-          removeRedundantAttributes: true,
-          removeEmptyAttributes: true,
+          removeRedundantAttributes: false,
+          removeEmptyAttributes: false,
+          sortAttributes: false,
+          sortClassName: false,
+
           removeScriptTypeAttributes: true,
           removeStyleLinkTypeAttributes: true,
           useShortDoctype: true,
@@ -84,8 +88,13 @@ async function getSwcMinifier(): Promise<HtmlMinifier> {
           sortSpaceSeparatedAttributeValues: false,
           sortAttributes: false,
 
-          removeRedundantAttributes: 'all',
-          removeEmptyAttributes: true,
+          // When enabled => hydration error for className={"yt-lite "}
+          normalizeAttributes: false,
+          // When enabled => hydration error for className=""
+          removeEmptyAttributes: false,
+          // When enabled => hydration error for <a target="_self">
+          removeRedundantAttributes: 'none',
+
           minifyJs: true,
           minifyJson: true,
           minifyCss: true,
