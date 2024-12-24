@@ -804,11 +804,12 @@ export default async function createConfigAsync() {
           },
           {
             title: 'Legal',
-            // Please don't remove the privacy and terms, it's a legal
-            // requirement.
+            className: 'footer-column-legal',
+            // Don't remove the privacy and terms, it's a legal requirement.
             items: [
               {
                 label: 'Privacy',
+                className: 'footer-item-privacy',
                 href: 'https://opensource.facebook.com/legal/privacy/',
               },
               {

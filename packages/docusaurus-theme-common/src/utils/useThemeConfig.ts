@@ -67,6 +67,7 @@ export type PrismConfig = {
 
 export type FooterLinkItem = {
   label?: string;
+  className?: string;
   to?: string;
   href?: string;
   html?: string;
