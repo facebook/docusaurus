@@ -25,6 +25,7 @@ beforeinstallprompt
 Bhatt
 blockquotes
 Blockquotes
+bluesky
 Bokmål
 bunx
 caabernathy
@@ -155,6 +156,7 @@ Marcey's
 markprompt
 Markprompt
 Massoud
+mastodon
 mathjax
 maxlynch
 maxresdefault
