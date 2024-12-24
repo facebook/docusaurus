@@ -16,6 +16,7 @@ import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build/build';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
+import {forceV4OnRemoteContainers} from '../server/remoteContainersHook';
 import type {LoadContextParams} from '../server/site';
 
 function redirect(res: http.ServerResponse, location: string) {
@@ -40,6 +41,8 @@ export async function serve(
 
   const buildDir = cliOptions.dir ?? DEFAULT_BUILD_DIR_NAME;
   const outDir = path.resolve(siteDir, buildDir);
+
+  forceV4OnRemoteContainers(cliOptions);
 
   if (cliOptions.build) {
     await build(siteDir, {

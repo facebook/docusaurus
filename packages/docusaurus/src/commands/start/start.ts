@@ -10,6 +10,7 @@ import openBrowser from 'react-dev-utils/openBrowser';
 import {setupSiteFileWatchers} from './watcher';
 import {createWebpackDevServer} from './webpack';
 import {createReloadableSite} from './utils';
+import {forceV4OnRemoteContainers} from '../../server/remoteContainersHook';
 import type {LoadContextParams} from '../../server/site';
 import type {HostPortOptions} from '../../server/getHostPort';
 
@@ -30,6 +31,8 @@ export async function start(
   // We'll remove it if a better official API can be designed
   // See https://github.com/facebook/docusaurus/issues/4542
   process.env.DOCUSAURUS_CURRENT_LOCALE = cliOptions.locale;
+
+  forceV4OnRemoteContainers(cliOptions);
 
   const reloadableSite = await createReloadableSite({siteDirParam, cliOptions});
 
