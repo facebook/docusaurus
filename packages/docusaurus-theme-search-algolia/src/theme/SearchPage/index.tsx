@@ -17,7 +17,7 @@ import React, {
 import clsx from 'clsx';
 
 import algoliaSearchHelper from 'algoliasearch-helper';
-import algoliaSearch from 'algoliasearch/lite';
+import {liteClient} from 'algoliasearch/lite';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Head from '@docusaurus/Head';
@@ -225,7 +225,7 @@ function SearchPageContent(): ReactNode {
     ? ['language', 'docusaurus_tag']
     : [];
 
-  const algoliaClient = algoliaSearch(appId, apiKey);
+  const algoliaClient = liteClient(appId, apiKey);
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: why errors happens after upgrading to TS 5.5 ?
