@@ -35,14 +35,19 @@ const LibrariesToTranspileRegex = new RegExp(
   LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
 );
 
-const ReactAliases: Record<string, string> = process.env
-  .DOCUSAURUS_NO_REACT_ALIASES
-  ? {}
-  : {
-      react: path.dirname(require.resolve('react/package.json')),
-      'react-dom': path.dirname(require.resolve('react-dom/package.json')),
-      '@mdx-js/react': path.dirname(require.resolve('@mdx-js/react')),
-    };
+function getReactAliases(siteDir: string): Record<string, string> {
+  // Escape hatch
+  if (process.env.DOCUSAURUS_NO_REACT_ALIASES) {
+    return {};
+  }
+  const resolveSitePkg = (id: string) =>
+    require.resolve(id, {paths: [siteDir]});
+  return {
+    react: path.dirname(resolveSitePkg('react/package.json')),
+    'react-dom': path.dirname(resolveSitePkg('react-dom/package.json')),
+    '@mdx-js/react': path.dirname(resolveSitePkg('@mdx-js/react')),
+  };
+}
 
 export function excludeJS(modulePath: string): boolean {
   // Always transpile client dir
@@ -186,7 +191,7 @@ export async function createBaseConfig({
         process.cwd(),
       ],
       alias: {
-        ...ReactAliases,
+        ...getReactAliases(siteDir),
         '@site': siteDir,
         '@generated': generatedFilesDir,
         ...(await loadDocusaurusAliases()),
