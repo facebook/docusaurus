@@ -51,6 +51,21 @@ type DocSearchProps = Omit<
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
 
+function importDocSearchModalIfNeeded() {
+  if (DocSearchModal) {
+    return Promise.resolve();
+  }
+  return Promise.all([
+    import('@docsearch/react/modal') as Promise<
+      typeof import('@docsearch/react')
+    >,
+    import('@docsearch/react/style'),
+    import('./styles.css'),
+  ]).then(([{DocSearchModal: Modal}]) => {
+    DocSearchModal = Modal;
+  });
+}
+
 function useNavigator({
   externalUrlRegex,
 }: Pick<DocSearchProps, 'externalUrlRegex'>) {
@@ -175,8 +190,9 @@ function useSearchParameters({
 
 function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
   const navigator = useNavigator({externalUrlRegex});
-
   const searchParameters = useSearchParameters({...props});
+  const transformItems = useTransformItems(props);
+  const transformSearchClient = useTransformSearchClient();
 
   const searchContainer = useRef<HTMLDivElement | null>(null);
   // TODO remove "as any" after React 19 upgrade
@@ -185,22 +201,6 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
   const [initialQuery, setInitialQuery] = useState<string | undefined>(
     undefined,
   );
-
-  const importDocSearchModalIfNeeded = useCallback(() => {
-    if (DocSearchModal) {
-      return Promise.resolve();
-    }
-
-    return Promise.all([
-      import('@docsearch/react/modal') as Promise<
-        typeof import('@docsearch/react')
-      >,
-      import('@docsearch/react/style'),
-      import('./styles.css'),
-    ]).then(([{DocSearchModal: Modal}]) => {
-      DocSearchModal = Modal;
-    });
-  }, []);
 
   const prepareSearchContainer = useCallback(() => {
     if (!searchContainer.current) {
@@ -213,7 +213,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
   const openModal = useCallback(() => {
     prepareSearchContainer();
     importDocSearchModalIfNeeded().then(() => setIsOpen(true));
-  }, [importDocSearchModalIfNeeded, prepareSearchContainer]);
+  }, [prepareSearchContainer]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
@@ -235,11 +235,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
     [openModal],
   );
 
-  const transformItems = useTransformItems(props);
-
   const resultsFooterComponent = useResultsFooterComponent({closeModal});
-
-  const transformSearchClient = useTransformSearchClient();
 
   useDocSearchKeyboardEvents({
     isOpen,
