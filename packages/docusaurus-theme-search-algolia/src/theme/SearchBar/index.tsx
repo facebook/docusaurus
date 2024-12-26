@@ -13,7 +13,10 @@ import React, {
   type ReactNode,
 } from 'react';
 import {createPortal} from 'react-dom';
-import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
+import {
+  DocSearchButton,
+  useDocSearchKeyboardEvents,
+} from '@docsearch/react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import {useHistory} from '@docusaurus/router';
@@ -34,7 +37,8 @@ import type {
   DocSearchModalProps,
   StoredDocSearchHit,
   DocSearchTransformClient,
-} from '@docsearch/react';
+
+  DocSearchHit} from '@docsearch/react';
 
 import type {AutocompleteState} from '@algolia/autocomplete-core';
 import type {FacetFilters} from 'algoliasearch/lite';
@@ -68,6 +72,37 @@ function useNavigator({
     };
   });
   return navigator;
+}
+
+function useTransformSearchClient(): DocSearchModalProps['transformSearchClient'] {
+  const {
+    siteMetadata: {docusaurusVersion},
+  } = useDocusaurusContext();
+  return useCallback(
+    (searchClient: DocSearchTransformClient) => {
+      searchClient.addAlgoliaAgent('docusaurus', docusaurusVersion);
+      return searchClient;
+    },
+    [docusaurusVersion],
+  );
+}
+
+function useTransformItems(props: Pick<DocSearchProps, 'transformItems'>) {
+  const processSearchResultUrl = useSearchResultUrlProcessor();
+  const [transformItems] = useState<DocSearchModalProps['transformItems']>(
+    () => {
+      return (items: DocSearchHit[]) =>
+        props.transformItems
+          ? // Custom transformItems
+            props.transformItems(items)
+          : // Default transformItems
+            items.map((item) => ({
+              ...item,
+              url: processSearchResultUrl(item.url),
+            }));
+    },
+  );
+  return transformItems;
 }
 
 function useResultsFooterComponent({
@@ -124,9 +159,6 @@ function DocSearch({
   ...props
 }: DocSearchProps) {
   const navigator = useNavigator({externalUrlRegex});
-
-  const {siteMetadata} = useDocusaurusContext();
-  const processSearchResultUrl = useSearchResultUrlProcessor();
 
   const contextualSearchFacetFilters =
     useAlgoliaContextualFacetFilters() as FacetFilters;
@@ -203,31 +235,11 @@ function DocSearch({
     [openModal],
   );
 
-  const transformItems = useRef<DocSearchModalProps['transformItems']>(
-    (items) =>
-      props.transformItems
-        ? // Custom transformItems
-          props.transformItems(items)
-        : // Default transformItems
-          items.map((item) => ({
-            ...item,
-            url: processSearchResultUrl(item.url),
-          })),
-  ).current;
+  const transformItems = useTransformItems(props);
 
   const resultsFooterComponent = useResultsFooterComponent({closeModal});
 
-  const transformSearchClient = useCallback(
-    (searchClient: DocSearchTransformClient) => {
-      searchClient.addAlgoliaAgent(
-        'docusaurus',
-        siteMetadata.docusaurusVersion,
-      );
-
-      return searchClient;
-    },
-    [siteMetadata.docusaurusVersion],
-  );
+  const transformSearchClient = useTransformSearchClient();
 
   useDocSearchKeyboardEvents({
     isOpen,
