@@ -50,6 +50,26 @@ type DocSearchProps = Omit<
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
 
+function useNavigator({
+  externalUrlRegex,
+}: Pick<DocSearchProps, 'externalUrlRegex'>) {
+  const history = useHistory();
+  const [navigator] = useState<DocSearchModalProps['navigator']>(() => {
+    return {
+      navigate(params) {
+        // Algolia results could contain URL's from other domains which cannot
+        // be served through history and should navigate with window.location
+        if (isRegexpStringMatch(externalUrlRegex, params.itemUrl)) {
+          window.location.href = params.itemUrl;
+        } else {
+          history.push(params.itemUrl);
+        }
+      },
+    };
+  });
+  return navigator;
+}
+
 function Hit({
   hit,
   children,
@@ -90,6 +110,8 @@ function DocSearch({
   externalUrlRegex,
   ...props
 }: DocSearchProps) {
+  const navigator = useNavigator({externalUrlRegex});
+
   const {siteMetadata} = useDocusaurusContext();
   const processSearchResultUrl = useSearchResultUrlProcessor();
 
@@ -111,7 +133,6 @@ function DocSearch({
     facetFilters,
   };
 
-  const history = useHistory();
   const searchContainer = useRef<HTMLDivElement | null>(null);
   // TODO remove after React 19 upgrade?
   const searchButtonRef = useRef<HTMLButtonElement>(null as any);
@@ -169,18 +190,6 @@ function DocSearch({
     [openModal],
   );
 
-  const navigator = useRef({
-    navigate({itemUrl}: {itemUrl?: string}) {
-      // Algolia results could contain URL's from other domains which cannot
-      // be served through history and should navigate with window.location
-      if (isRegexpStringMatch(externalUrlRegex, itemUrl)) {
-        window.location.href = itemUrl!;
-      } else {
-        history.push(itemUrl!);
-      }
-    },
-  }).current;
-
   const transformItems = useRef<DocSearchModalProps['transformItems']>(
     (items) =>
       props.transformItems
@@ -193,13 +202,12 @@ function DocSearch({
           })),
   ).current;
 
-  // @ts-expect-error: TODO fix lib issue after React 19, using JSX.Element
   const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
     useMemo(
       () =>
         // eslint-disable-next-line react/no-unstable-nested-components
-        (footerProps: Omit<ResultsFooterProps, 'onClose'>): ReactNode =>
-          <ResultsFooter {...footerProps} onClose={closeModal} />,
+        ({state}) =>
+          <ResultsFooter state={state} onClose={closeModal} />,
       [closeModal],
     );
 
