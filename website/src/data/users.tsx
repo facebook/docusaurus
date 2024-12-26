@@ -1,4 +1,30 @@
-/**
+/<table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 12px;">
+    <thead>
+        <tr style="background-color: #f2f2f2; border-bottom: 2px solid #000;">
+            <th style="text-align: left; padding: 10px; border: 1px solid #ddd;">Invoice Number</th>
+            <th style="text-align: left; padding: 10px; border: 1px solid #ddd;">Customer Name</th>
+            <th style="text-align: left; padding: 10px; border: 1px solid #ddd;">Date</th>
+            <th style="text-align: left; padding: 10px; border: 1px solid #ddd;">Due Date</th>
+            <th style="text-align: right; padding: 10px; border: 1px solid #ddd;">Total Amount</th>
+            <th style="text-align: right; padding: 10px; border: 1px solid #ddd;">Amount Paid</th>
+            <th style="text-align: right; padding: 10px; border: 1px solid #ddd;">Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for invoice in invoices %}
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ invoice.number }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ invoice.customer.name }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ invoice.date | date: "%d/%m/%Y" }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ invoice.due_date | date: "%d/%m/%Y" }}</td>
+            <td style="text-align: right; padding: 10px; border: 1px solid #ddd;">{{ invoice.total | money }}</td>
+            <td style="text-align: right; padding: 10px; border: 1px solid #ddd;">{{ invoice.amount_paid | money }}</td>
+            <td style="text-align: right; padding: 10px; border: 1px solid #ddd;">{{ invoice.balance_due | money }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
