@@ -11,9 +11,9 @@ import type {ReactNode, SVGProps} from 'react';
 function LinkedIn(props: SVGProps<SVGSVGElement>): ReactNode {
   return (
     <svg
+      xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
-      xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="xMidYMid"
       viewBox="0 0 256 256"
       {...props}>
