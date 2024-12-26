@@ -67,11 +67,18 @@ export type PrismConfig = {
 
 export type FooterLinkItem = {
   label?: string;
+  className?: string;
   to?: string;
   href?: string;
   html?: string;
   prependBaseUrlToHref?: string;
 } & {[key: string]: unknown};
+
+export type FooterColumnItem = {
+  title: string | null;
+  className?: string;
+  items: FooterLinkItem[];
+};
 
 export type FooterLogo = BaseLogo;
 
@@ -82,10 +89,7 @@ export type FooterBase = {
 };
 
 export type MultiColumnFooter = FooterBase & {
-  links: {
-    title: string | null;
-    items: FooterLinkItem[];
-  }[];
+  links: FooterColumnItem[];
 };
 
 export type SimpleFooter = FooterBase & {
