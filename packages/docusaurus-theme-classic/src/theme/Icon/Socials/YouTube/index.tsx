@@ -6,6 +6,7 @@
  */
 import type {SVGProps, ReactNode} from 'react';
 
+// SVG Source: https://svgl.app/
 function YouTube(props: SVGProps<SVGSVGElement>): ReactNode {
   return (
     <svg
