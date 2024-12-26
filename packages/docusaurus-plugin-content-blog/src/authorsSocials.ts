@@ -22,6 +22,7 @@ export const AuthorSocialsSchema = Joi.object<AuthorSocials>({
     .custom((val) => String(val)),
   x: Joi.string(),
   bluesky: Joi.string(),
+  instagram: Joi.string(),
   threads: Joi.string(),
   mastodon: Joi.string(),
   twitch: Joi.string(),
@@ -41,6 +42,7 @@ const PredefinedPlatformNormalizers: Record<
   stackoverflow: (userId: string) =>
     `https://stackoverflow.com/users/${userId}`,
   bluesky: (handle: string) => `https://bsky.app/profile/${handle}`,
+  instagram: (handle: string) => `https://www.instagram.com/${handle}`,
   threads: (handle: string) => `https://www.threads.net/@${handle}`,
   mastodon: (handle: string) => `https://mastodon.social/@${handle}`, // can be in format user@other.server and it will redirect if needed
   twitch: (handle: string) => `https://twitch.tv/${handle}`,

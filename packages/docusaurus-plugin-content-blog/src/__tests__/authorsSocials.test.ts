@@ -17,6 +17,7 @@ describe('normalizeSocials', () => {
       stackoverflow: 'ozakione',
       threads: 'gingergeekuk',
       bluesky: 'gingergeek.co.uk',
+      instagram: 'thisweekinreact',
       twitch: 'gingergeek',
       youtube: 'gingergeekuk',
       mastodon: 'Mastodon',
@@ -27,6 +28,7 @@ describe('normalizeSocials', () => {
       {
         "bluesky": "https://bsky.app/profile/gingergeek.co.uk",
         "github": "https://github.com/ozakione",
+        "instagram": "https://www.instagram.com/thisweekinreact",
         "linkedin": "https://www.linkedin.com/in/ozakione/",
         "mastodon": "https://mastodon.social/@Mastodon",
         "stackoverflow": "https://stackoverflow.com/users/ozakione",
@@ -44,6 +46,7 @@ describe('normalizeSocials', () => {
       linkedIn: 'ozakione',
       gitHub: 'ozakione',
       STACKoverflow: 'ozakione',
+      instaGRam: 'thisweekinreact',
       BLUESKY: 'gingergeek.co.uk',
       tHrEaDs: 'gingergeekuk',
     };
@@ -52,6 +55,7 @@ describe('normalizeSocials', () => {
       {
         "bluesky": "https://bsky.app/profile/gingergeek.co.uk",
         "github": "https://github.com/ozakione",
+        "instagram": "https://www.instagram.com/thisweekinreact",
         "linkedin": "https://www.linkedin.com/in/ozakione/",
         "stackoverflow": "https://stackoverflow.com/users/ozakione",
         "threads": "https://www.threads.net/@gingergeekuk",

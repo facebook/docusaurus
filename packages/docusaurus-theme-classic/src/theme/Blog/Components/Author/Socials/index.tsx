@@ -18,6 +18,7 @@ import StackOverflow from '@theme/Icon/Socials/StackOverflow';
 import LinkedIn from '@theme/Icon/Socials/LinkedIn';
 import DefaultSocialIcon from '@theme/Icon/Socials/Default';
 import Bluesky from '@theme/Icon/Socials/Bluesky';
+import Instagram from '@theme/Icon/Socials/Instagram';
 import Threads from '@theme/Icon/Socials/Threads';
 import Youtube from '@theme/Icon/Socials/YouTube';
 import Mastodon from '@theme/Icon/Socials/Mastodon';
@@ -36,6 +37,7 @@ const SocialPlatformConfigs: Record<string, SocialPlatformConfig> = {
   linkedin: {Icon: LinkedIn, label: 'LinkedIn'},
   x: {Icon: X, label: 'X'},
   bluesky: {Icon: Bluesky, label: 'Bluesky'},
+  instagram: {Icon: Instagram, label: 'Instagram'},
   threads: {Icon: Threads, label: 'Threads'},
   mastodon: {Icon: Mastodon, label: 'Mastodon'},
   youtube: {Icon: Youtube, label: 'YouTube'},

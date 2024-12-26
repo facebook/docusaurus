@@ -1716,6 +1716,14 @@ declare module '@theme/Icon/Socials/Bluesky' {
   export default function Bluesky(props: Props): ReactNode;
 }
 
+declare module '@theme/Icon/Socials/Instagram' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Instagram(props: Props): ReactNode;
+}
+
 declare module '@theme/Icon/Socials/Threads' {
   import type {ComponentProps, ReactNode} from 'react';
 

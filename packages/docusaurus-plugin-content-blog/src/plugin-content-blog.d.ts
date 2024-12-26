@@ -48,9 +48,9 @@ declare module '@docusaurus/plugin-content-blog' {
     | 'stackoverflow'
     | 'x'
     | 'bluesky'
+    | 'instagram'
     | 'threads'
     | 'mastodon'
-    | 'bluesky'
     | 'youtube'
     | 'twitch';
 
