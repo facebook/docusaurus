@@ -82,11 +82,14 @@ export type FooterBase = {
   copyright?: string;
 };
 
+export type FooterColumnItem = {
+  title: string | null;
+  className?: string;
+  items: FooterLinkItem[];
+};
+
 export type MultiColumnFooter = FooterBase & {
-  links: {
-    title: string | null;
-    items: FooterLinkItem[];
-  }[];
+  links: FooterColumnItem[];
 };
 
 export type SimpleFooter = FooterBase & {
