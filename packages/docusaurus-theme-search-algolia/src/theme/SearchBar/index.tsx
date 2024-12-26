@@ -13,10 +13,7 @@ import React, {
   type ReactNode,
 } from 'react';
 import {createPortal} from 'react-dom';
-import {
-  DocSearchButton,
-  useDocSearchKeyboardEvents,
-} from '@docsearch/react';
+import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import {useHistory} from '@docusaurus/router';
@@ -37,8 +34,8 @@ import type {
   DocSearchModalProps,
   StoredDocSearchHit,
   DocSearchTransformClient,
-
-  DocSearchHit} from '@docsearch/react';
+  DocSearchHit,
+} from '@docsearch/react';
 
 import type {AutocompleteState} from '@algolia/autocomplete-core';
 import type {FacetFilters} from 'algoliasearch/lite';
@@ -147,18 +144,15 @@ function ResultsFooter({state, onClose}: ResultsFooterProps) {
   );
 }
 
-function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
-  const normalize = (f: FacetFilters): FacetFilters =>
-    typeof f === 'string' ? [f] : f;
-  return [...normalize(f1), ...normalize(f2)];
-}
-
-function DocSearch({
+function useSearchParameters({
   contextualSearch,
-  externalUrlRegex,
   ...props
-}: DocSearchProps) {
-  const navigator = useNavigator({externalUrlRegex});
+}: DocSearchProps): DocSearchProps['searchParameters'] {
+  function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
+    const normalize = (f: FacetFilters): FacetFilters =>
+      typeof f === 'string' ? [f] : f;
+    return [...normalize(f1), ...normalize(f2)];
+  }
 
   const contextualSearchFacetFilters =
     useAlgoliaContextualFacetFilters() as FacetFilters;
@@ -172,11 +166,17 @@ function DocSearch({
     : // ... or use config facetFilters
       configFacetFilters;
 
-  // We let user override default searchParameters if she wants to
-  const searchParameters: DocSearchProps['searchParameters'] = {
+  // We let users override default searchParameters if they want to
+  return {
     ...props.searchParameters,
     facetFilters,
   };
+}
+
+function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
+  const navigator = useNavigator({externalUrlRegex});
+
+  const searchParameters = useSearchParameters({...props});
 
   const searchContainer = useRef<HTMLDivElement | null>(null);
   // TODO remove after React 19 upgrade?
