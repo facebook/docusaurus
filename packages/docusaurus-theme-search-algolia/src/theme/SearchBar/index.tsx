@@ -70,6 +70,19 @@ function useNavigator({
   return navigator;
 }
 
+function useResultsFooterComponent({
+  closeModal,
+}: {
+  closeModal: () => void;
+}): DocSearchProps['resultsFooterComponent'] {
+  return useMemo(
+    () =>
+      ({state}) =>
+        <ResultsFooter state={state} onClose={closeModal} />,
+    [closeModal],
+  );
+}
+
 function Hit({
   hit,
   children,
@@ -202,14 +215,7 @@ function DocSearch({
           })),
   ).current;
 
-  const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
-    useMemo(
-      () =>
-        // eslint-disable-next-line react/no-unstable-nested-components
-        ({state}) =>
-          <ResultsFooter state={state} onClose={closeModal} />,
-      [closeModal],
-    );
+  const resultsFooterComponent = useResultsFooterComponent({closeModal});
 
   const transformSearchClient = useCallback(
     (searchClient: DocSearchTransformClient) => {
