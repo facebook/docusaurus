@@ -179,7 +179,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
   const searchParameters = useSearchParameters({...props});
 
   const searchContainer = useRef<HTMLDivElement | null>(null);
-  // TODO remove after React 19 upgrade?
+  // TODO remove "as any" after React 19 upgrade
   const searchButtonRef = useRef<HTMLButtonElement>(null as any);
   const [isOpen, setIsOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState<string | undefined>(
