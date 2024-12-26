@@ -34,6 +34,7 @@ import type {
   DocSearchModalProps,
   StoredDocSearchHit,
   DocSearchTransformClient,
+  DocSearchHit,
 } from '@docsearch/react';
 
 import type {AutocompleteState} from '@algolia/autocomplete-core';
@@ -49,6 +50,85 @@ type DocSearchProps = Omit<
 };
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
+
+function importDocSearchModalIfNeeded() {
+  if (DocSearchModal) {
+    return Promise.resolve();
+  }
+  return Promise.all([
+    import('@docsearch/react/modal') as Promise<
+      typeof import('@docsearch/react')
+    >,
+    import('@docsearch/react/style'),
+    import('./styles.css'),
+  ]).then(([{DocSearchModal: Modal}]) => {
+    DocSearchModal = Modal;
+  });
+}
+
+function useNavigator({
+  externalUrlRegex,
+}: Pick<DocSearchProps, 'externalUrlRegex'>) {
+  const history = useHistory();
+  const [navigator] = useState<DocSearchModalProps['navigator']>(() => {
+    return {
+      navigate(params) {
+        // Algolia results could contain URL's from other domains which cannot
+        // be served through history and should navigate with window.location
+        if (isRegexpStringMatch(externalUrlRegex, params.itemUrl)) {
+          window.location.href = params.itemUrl;
+        } else {
+          history.push(params.itemUrl);
+        }
+      },
+    };
+  });
+  return navigator;
+}
+
+function useTransformSearchClient(): DocSearchModalProps['transformSearchClient'] {
+  const {
+    siteMetadata: {docusaurusVersion},
+  } = useDocusaurusContext();
+  return useCallback(
+    (searchClient: DocSearchTransformClient) => {
+      searchClient.addAlgoliaAgent('docusaurus', docusaurusVersion);
+      return searchClient;
+    },
+    [docusaurusVersion],
+  );
+}
+
+function useTransformItems(props: Pick<DocSearchProps, 'transformItems'>) {
+  const processSearchResultUrl = useSearchResultUrlProcessor();
+  const [transformItems] = useState<DocSearchModalProps['transformItems']>(
+    () => {
+      return (items: DocSearchHit[]) =>
+        props.transformItems
+          ? // Custom transformItems
+            props.transformItems(items)
+          : // Default transformItems
+            items.map((item) => ({
+              ...item,
+              url: processSearchResultUrl(item.url),
+            }));
+    },
+  );
+  return transformItems;
+}
+
+function useResultsFooterComponent({
+  closeModal,
+}: {
+  closeModal: () => void;
+}): DocSearchProps['resultsFooterComponent'] {
+  return useMemo(
+    () =>
+      ({state}) =>
+        <ResultsFooter state={state} onClose={closeModal} />,
+    [closeModal],
+  );
+}
 
 function Hit({
   hit,
@@ -79,19 +159,15 @@ function ResultsFooter({state, onClose}: ResultsFooterProps) {
   );
 }
 
-function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
-  const normalize = (f: FacetFilters): FacetFilters =>
-    typeof f === 'string' ? [f] : f;
-  return [...normalize(f1), ...normalize(f2)];
-}
-
-function DocSearch({
+function useSearchParameters({
   contextualSearch,
-  externalUrlRegex,
   ...props
-}: DocSearchProps) {
-  const {siteMetadata} = useDocusaurusContext();
-  const processSearchResultUrl = useSearchResultUrlProcessor();
+}: DocSearchProps): DocSearchProps['searchParameters'] {
+  function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
+    const normalize = (f: FacetFilters): FacetFilters =>
+      typeof f === 'string' ? [f] : f;
+    return [...normalize(f1), ...normalize(f2)];
+  }
 
   const contextualSearchFacetFilters =
     useAlgoliaContextualFacetFilters() as FacetFilters;
@@ -105,36 +181,26 @@ function DocSearch({
     : // ... or use config facetFilters
       configFacetFilters;
 
-  // We let user override default searchParameters if she wants to
-  const searchParameters: DocSearchProps['searchParameters'] = {
+  // We let users override default searchParameters if they want to
+  return {
     ...props.searchParameters,
     facetFilters,
   };
+}
 
-  const history = useHistory();
+function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
+  const navigator = useNavigator({externalUrlRegex});
+  const searchParameters = useSearchParameters({...props});
+  const transformItems = useTransformItems(props);
+  const transformSearchClient = useTransformSearchClient();
+
   const searchContainer = useRef<HTMLDivElement | null>(null);
-  // TODO remove after React 19 upgrade?
+  // TODO remove "as any" after React 19 upgrade
   const searchButtonRef = useRef<HTMLButtonElement>(null as any);
   const [isOpen, setIsOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState<string | undefined>(
     undefined,
   );
-
-  const importDocSearchModalIfNeeded = useCallback(() => {
-    if (DocSearchModal) {
-      return Promise.resolve();
-    }
-
-    return Promise.all([
-      import('@docsearch/react/modal') as Promise<
-        typeof import('@docsearch/react')
-      >,
-      import('@docsearch/react/style'),
-      import('./styles.css'),
-    ]).then(([{DocSearchModal: Modal}]) => {
-      DocSearchModal = Modal;
-    });
-  }, []);
 
   const prepareSearchContainer = useCallback(() => {
     if (!searchContainer.current) {
@@ -147,7 +213,7 @@ function DocSearch({
   const openModal = useCallback(() => {
     prepareSearchContainer();
     importDocSearchModalIfNeeded().then(() => setIsOpen(true));
-  }, [importDocSearchModalIfNeeded, prepareSearchContainer]);
+  }, [prepareSearchContainer]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
@@ -169,51 +235,7 @@ function DocSearch({
     [openModal],
   );
 
-  const navigator = useRef({
-    navigate({itemUrl}: {itemUrl?: string}) {
-      // Algolia results could contain URL's from other domains which cannot
-      // be served through history and should navigate with window.location
-      if (isRegexpStringMatch(externalUrlRegex, itemUrl)) {
-        window.location.href = itemUrl!;
-      } else {
-        history.push(itemUrl!);
-      }
-    },
-  }).current;
-
-  const transformItems = useRef<DocSearchModalProps['transformItems']>(
-    (items) =>
-      props.transformItems
-        ? // Custom transformItems
-          props.transformItems(items)
-        : // Default transformItems
-          items.map((item) => ({
-            ...item,
-            url: processSearchResultUrl(item.url),
-          })),
-  ).current;
-
-  // @ts-expect-error: TODO fix lib issue after React 19, using JSX.Element
-  const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
-    useMemo(
-      () =>
-        // eslint-disable-next-line react/no-unstable-nested-components
-        (footerProps: Omit<ResultsFooterProps, 'onClose'>): ReactNode =>
-          <ResultsFooter {...footerProps} onClose={closeModal} />,
-      [closeModal],
-    );
-
-  const transformSearchClient = useCallback(
-    (searchClient: DocSearchTransformClient) => {
-      searchClient.addAlgoliaAgent(
-        'docusaurus',
-        siteMetadata.docusaurusVersion,
-      );
-
-      return searchClient;
-    },
-    [siteMetadata.docusaurusVersion],
-  );
+  const resultsFooterComponent = useResultsFooterComponent({closeModal});
 
   useDocSearchKeyboardEvents({
     isOpen,
