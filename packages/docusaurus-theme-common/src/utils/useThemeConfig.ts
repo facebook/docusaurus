@@ -74,18 +74,18 @@ export type FooterLinkItem = {
   prependBaseUrlToHref?: string;
 } & {[key: string]: unknown};
 
+export type FooterColumnItem = {
+  title: string | null;
+  className?: string;
+  items: FooterLinkItem[];
+};
+
 export type FooterLogo = BaseLogo;
 
 export type FooterBase = {
   style: 'light' | 'dark';
   logo?: FooterLogo;
   copyright?: string;
-};
-
-export type FooterColumnItem = {
-  title: string | null;
-  className?: string;
-  items: FooterLinkItem[];
 };
 
 export type MultiColumnFooter = FooterBase & {
