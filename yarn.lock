@@ -4259,11 +4259,6 @@
   resolved "https://registry.yarnpkg.com/@types/retry/-/retry-0.12.0.tgz#2b35eccfcee7d38cd72ad99232fbd58bffb3c84d"
   integrity sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==
 
-"@types/rtl-detect@^1.0.0":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@types/rtl-detect/-/rtl-detect-1.0.3.tgz#2b9849ece923d767712e95efa01ca75724de0de5"
-  integrity sha512-qpstuHivwg/HoXxRrBo5/r/OVx5M2SkqJpVu2haasdLctt+jMGHWjqdbI0LL7Rk2wRmN/UHdHK4JZg9RUMcvKA==
-
 "@types/rtlcss@^3.5.1":
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/@types/rtlcss/-/rtlcss-3.5.4.tgz#8db1e02fe911cf5b71f4cb42dafce8ccaef8e1e1"
@@ -15898,11 +15893,6 @@ rslog@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/rslog/-/rslog-1.2.3.tgz#9114d93056312fbe35c11b3fea3f2774a7debe56"
   integrity sha512-antALPJaKBRPBU1X2q9t085K4htWDOOv/K1qhTUk7h0l1ePU/KbDqKJn19eKP0dk7PqMioeA0+fu3gyPXCsXxQ==
-
-rtl-detect@^1.0.4:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/rtl-detect/-/rtl-detect-1.1.2.tgz#ca7f0330af5c6bb626c15675c642ba85ad6273c6"
-  integrity sha512-PGMBq03+TTG/p/cRB7HCLKJ1MgDIi07+QU1faSjiYRfmY5UsAttV9Hs08jDAHVwcOwmVLcSJkpwyfXszVjWfIQ==
 
 rtlcss@^4.1.0:
   version "4.3.0"
