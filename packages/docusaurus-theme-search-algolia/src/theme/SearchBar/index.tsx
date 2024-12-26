@@ -242,7 +242,7 @@ function DocSearch({
         onMouseOver={importDocSearchModalIfNeeded}
         onClick={openModal}
         ref={searchButtonRef}
-        translations={translations.button}
+        translations={props.translations?.button ?? translations.button}
       />
 
       {isOpen &&
@@ -260,10 +260,10 @@ function DocSearch({
             {...(props.searchPagePath && {
               resultsFooterComponent,
             })}
-            {...props}
-            searchParameters={searchParameters}
             placeholder={translations.placeholder}
-            translations={translations.modal}
+            {...props}
+            translations={props.translations?.modal ?? translations.modal}
+            searchParameters={searchParameters}
           />,
           searchContainer.current,
         )}
