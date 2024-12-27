@@ -24,14 +24,13 @@ slorber:
   url: https://thisweekinreact.com
   image_url: https://github.com/slorber.png
   page: true
-  description: >
-    A freelance React and React-Native developer near Paris and Docusaurus maintainer. Also runs ThisWeekInReact.com, a newsletter to stay updated with the React ecosystem.
-
-
+  description: A freelance React and React-Native developer near Paris and Docusaurus maintainer. Also runs ThisWeekInReact.com, a newsletter to stay updated with the React ecosystem.
   socials:
+    bluesky: sebastienlorber.com
     x: sebastienlorber
     linkedin: sebastienlorber
     github: slorber
+    instagram: thisweekinreact
     newsletter: https://thisweekinreact.com
 
 yangshun:

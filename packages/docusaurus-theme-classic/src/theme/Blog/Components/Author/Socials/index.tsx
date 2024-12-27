@@ -17,6 +17,12 @@ import X from '@theme/Icon/Socials/X';
 import StackOverflow from '@theme/Icon/Socials/StackOverflow';
 import LinkedIn from '@theme/Icon/Socials/LinkedIn';
 import DefaultSocialIcon from '@theme/Icon/Socials/Default';
+import Bluesky from '@theme/Icon/Socials/Bluesky';
+import Instagram from '@theme/Icon/Socials/Instagram';
+import Threads from '@theme/Icon/Socials/Threads';
+import Youtube from '@theme/Icon/Socials/YouTube';
+import Mastodon from '@theme/Icon/Socials/Mastodon';
+import Twitch from '@theme/Icon/Socials/Twitch';
 
 import styles from './styles.module.css';
 
@@ -30,6 +36,12 @@ const SocialPlatformConfigs: Record<string, SocialPlatformConfig> = {
   stackoverflow: {Icon: StackOverflow, label: 'Stack Overflow'},
   linkedin: {Icon: LinkedIn, label: 'LinkedIn'},
   x: {Icon: X, label: 'X'},
+  bluesky: {Icon: Bluesky, label: 'Bluesky'},
+  instagram: {Icon: Instagram, label: 'Instagram'},
+  threads: {Icon: Threads, label: 'Threads'},
+  mastodon: {Icon: Mastodon, label: 'Mastodon'},
+  youtube: {Icon: Youtube, label: 'YouTube'},
+  twitch: {Icon: Twitch, label: 'Twitch'},
 };
 
 function getSocialPlatformConfig(platformKey: string): SocialPlatformConfig {

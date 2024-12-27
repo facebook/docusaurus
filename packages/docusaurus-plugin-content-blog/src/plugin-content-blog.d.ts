@@ -46,7 +46,13 @@ declare module '@docusaurus/plugin-content-blog' {
     | 'github'
     | 'linkedin'
     | 'stackoverflow'
-    | 'x';
+    | 'x'
+    | 'bluesky'
+    | 'instagram'
+    | 'threads'
+    | 'mastodon'
+    | 'youtube'
+    | 'twitch';
 
   /**
    * Social platforms of the author.

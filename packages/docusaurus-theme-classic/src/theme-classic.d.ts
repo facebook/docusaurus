@@ -1708,6 +1708,54 @@ declare module '@theme/Icon/Socials/StackOverflow' {
   export default function StackOverflow(props: Props): ReactNode;
 }
 
+declare module '@theme/Icon/Socials/Bluesky' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Bluesky(props: Props): ReactNode;
+}
+
+declare module '@theme/Icon/Socials/Instagram' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Instagram(props: Props): ReactNode;
+}
+
+declare module '@theme/Icon/Socials/Threads' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Threads(props: Props): ReactNode;
+}
+
+declare module '@theme/Icon/Socials/YouTube' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function YouTube(props: Props): ReactNode;
+}
+
+declare module '@theme/Icon/Socials/Twitch' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Twitch(props: Props): ReactNode;
+}
+
+declare module '@theme/Icon/Socials/Mastodon' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Mastodon(props: Props): ReactNode;
+}
+
 declare module '@theme/TagsListByLetter' {
   import type {ReactNode} from 'react';
   import type {TagsListItem} from '@docusaurus/utils';

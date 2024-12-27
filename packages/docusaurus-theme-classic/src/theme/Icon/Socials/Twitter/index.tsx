@@ -11,10 +11,10 @@ import type {ReactNode, SVGProps} from 'react';
 function Twitter(props: SVGProps<SVGSVGElement>): ReactNode {
   return (
     <svg
+      xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 256 209"
       width="1em"
       height="1em"
-      xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="xMidYMid"
       {...props}>
       <path
