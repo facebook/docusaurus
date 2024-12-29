@@ -109,6 +109,12 @@ describe('npm2yarn plugin', () => {
     expect(result).toMatchSnapshot();
   });
 
+  it('work with bun converter', async () => {
+    const result = await processFixture('plugin', {converters: ['bun']});
+
+    expect(result).toMatchSnapshot();
+  });
+
   it('work with custom converter', async () => {
     const result = await processFixture('plugin', {
       converters: [['Turbo', (code) => code.replace(/npm/g, 'turbo')]],
