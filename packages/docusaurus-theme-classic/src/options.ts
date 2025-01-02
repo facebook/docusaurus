@@ -78,6 +78,9 @@ export const DEFAULT_CONFIG: ThemeConfig = {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
   },
+  codeBlock: {
+    useLanguageAsTitle: false,
+  },
 };
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');

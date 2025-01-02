@@ -561,6 +561,7 @@ export default async function createConfigAsync() {
     ],
 
     themeConfig: {
+      codeBlock: {useLanguageAsTitle: true},
       liveCodeBlock: {
         playgroundPosition: 'bottom',
       },

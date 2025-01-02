@@ -41,6 +41,7 @@ export default function CodeBlockString({
 }: Props): ReactNode {
   const {
     prism: {defaultLanguage, magicComments},
+    codeBlock: {useLanguageAsTitle},
   } = useThemeConfig();
   const language = normalizeLanguage(
     languageProp ?? parseLanguage(blockClassName) ?? defaultLanguage,
@@ -52,7 +53,10 @@ export default function CodeBlockString({
   // We still parse the metastring in case we want to support more syntax in the
   // future. Note that MDX doesn't strip quotes when parsing metastring:
   // "title=\"xyz\"" => title: "\"xyz\""
-  const title = parseCodeBlockTitle(metastring) || titleProp;
+  const title =
+    parseCodeBlockTitle(metastring) ||
+    titleProp ||
+    (useLanguageAsTitle && language);
 
   const {lineClassNames, code} = parseLines(children, {
     metastring,

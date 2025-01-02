@@ -103,6 +103,10 @@ export type TableOfContents = {
   maxHeadingLevel: number;
 };
 
+export type CodeBlock = {
+  useLanguageAsTitle: boolean;
+};
+
 // Theme config after validation/normalization
 export type ThemeConfig = {
   docs: {
@@ -132,6 +136,7 @@ export type ThemeConfig = {
   image?: string;
   metadata: {[key: string]: string}[];
   tableOfContents: TableOfContents;
+  codeBlock: CodeBlock;
 };
 
 // User-provided theme config, unnormalized
