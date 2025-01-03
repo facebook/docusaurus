@@ -146,11 +146,11 @@ export async function createBaseConfig({
         // See https://rspack.dev/config/experiments#experimentsincremental
         // Produces warnings in production builds
         // See https://github.com/web-infra-dev/rspack/pull/8311#issuecomment-2476014664
-        // @ts-expect-error: Rspack-only
-        // incremental: !isProd,
-        // TODO restore incremental mode in dev + opt-in/opt-out flag?
-        //  temporarily disabled due to https://github.com/facebook/docusaurus/issues/10646#issuecomment-2490675451
-        incremental: undefined,
+        // We use the same integration as Rspress, with ability to disable
+        // See https://github.com/web-infra-dev/rspress/pull/1631
+        // See https://github.com/facebook/docusaurus/issues/10646
+        // @ts-expect-error: Rspack-only, not available in Webpack typedefs
+        incremental: !isProd && !process.env.DISABLE_RSPACK_INCREMENTAL,
       };
     }
     return undefined;

@@ -279,6 +279,8 @@ Rsdoctor
 RSDOCTOR
 rspack
 Rspack
+RSPACK
+Rspress
 rtcts
 saurus
 Scaleway
