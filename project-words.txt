@@ -327,8 +327,8 @@ swizzlable
 Tagkey
 Teik
 Therox
-toplevel
 thisweekinreact
+toplevel
 Transifex
 transpiles
 treeified
