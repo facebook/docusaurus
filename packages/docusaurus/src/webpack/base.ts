@@ -251,6 +251,7 @@ export async function createBaseConfig({
     module: {
       rules: [
         fileLoaderUtils.rules.images(),
+        fileLoaderUtils.rules.svgs(),
         fileLoaderUtils.rules.fonts(),
         fileLoaderUtils.rules.media(),
         fileLoaderUtils.rules.otherAssets(),

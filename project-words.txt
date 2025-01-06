@@ -323,6 +323,7 @@ Sucipto
 sunsetting
 supabase
 Supabase
+svgs
 swizzlable
 Tagkey
 Teik

@@ -140,7 +140,7 @@ export type Plugin<Content = unknown> = {
     isServer: boolean,
     configureWebpackUtils: ConfigureWebpackUtils,
     content: Content,
-  ) => ConfigureWebpackResult;
+  ) => ConfigureWebpackResult | void;
   configurePostCss?: (options: PostCssOptions) => PostCssOptions;
   getThemePath?: () => string;
   getTypeScriptThemePath?: () => string;
