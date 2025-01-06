@@ -24,7 +24,7 @@
     "@docusaurus/types": "3.7.0",
     "@docusaurus/utils": "3.7.0",
     "fs-extra": "^11.1.1",
-    "react-json-view-lite": "^1.2.0",
+    "react-json-view-lite": "^2.1.0",
     "tslib": "^2.6.0"
   },
   "peerDependencies": {
