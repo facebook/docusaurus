@@ -7,7 +7,7 @@
 
 import React from 'react';
 import {StaticRouter} from 'react-router-dom';
-import {HelmetProvider, type FilledContext} from 'react-helmet-async';
+import {HelmetProvider} from 'react-helmet-async';
 import Loadable from 'react-loadable';
 import {renderToHtml} from './renderToHtml';
 import preload from './preload';
@@ -44,7 +44,9 @@ const render: AppRenderer['render'] = async ({pathname}) => {
   const collectedData: PageCollectedData = {
     // TODO Docusaurus v4 refactor: helmet state is non-serializable
     //  this makes it impossible to run SSG in a worker thread
-    helmet: (helmetContext as FilledContext).helmet,
+    // helmet: (helmetContext as FilledContext).helmet,
+    // @ts-expect-error: temp disabled
+    helmet: undefined,
 
     anchors: statefulBrokenLinks.getCollectedAnchors(),
     links: statefulBrokenLinks.getCollectedLinks(),
