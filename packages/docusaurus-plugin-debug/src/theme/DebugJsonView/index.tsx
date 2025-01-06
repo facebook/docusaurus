@@ -30,6 +30,7 @@ const paraisoStyles: JsonViewProps['style'] = {
   collapseIcon: styles.collapseIconParaiso!,
   expandIcon: styles.expandIconParaiso!,
   collapsedContent: styles.collapseContentParaiso!,
+  childFieldsContainer: styles.childFieldsContainerParaiso!,
 };
 
 export default function DebugJsonView({src, collapseDepth}: Props): ReactNode {
