@@ -120,7 +120,10 @@ function createFileLoaderUtils({
       test: /\.(?:ico|jpe?g|png|gif|webp|avif)(?:\?.*)?$/i,
     }),
 
-    // SVG rule is isolated on purpose: our SVGR plugin enhances it
+    /**
+     * The SVG rule is isolated on purpose: our SVGR plugin enhances it
+     * See https://github.com/facebook/docusaurus/pull/10820
+     */
     svgs: () => ({
       use: [loaders.url({folder: 'images'})],
       test: /\.svg$/i,
