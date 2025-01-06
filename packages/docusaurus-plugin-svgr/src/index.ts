@@ -17,7 +17,6 @@ export default function pluginSVGR(
     name: 'docusaurus-plugin-svgr',
     configureWebpack: (config, isServer) => {
       enhanceConfig(config, {isServer, svgrConfig: options.svgrConfig});
-      return {};
     },
   };
 }
