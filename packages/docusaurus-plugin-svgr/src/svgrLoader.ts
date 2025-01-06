@@ -8,7 +8,7 @@
 import {getFileLoaderUtils} from '@docusaurus/utils';
 
 import type {SVGRConfig, SVGOConfig} from './options';
-import type {RuleSetRule} from 'webpack';
+import type {Configuration, RuleSetRule} from 'webpack';
 
 // TODO Docusaurus v4: change these defaults?
 //  see https://github.com/facebook/docusaurus/issues/8297
@@ -37,7 +37,7 @@ const DefaultSVGRConfig: SVGRConfig = {
 
 type Params = {isServer: boolean; svgrConfig: SVGRConfig};
 
-function createSVGRLoader(params: Params): RuleSetRule {
+function createSVGRRule(params: Params): RuleSetRule {
   const options: SVGRConfig = {
     ...DefaultSVGRConfig,
     ...params.svgrConfig,
@@ -48,22 +48,42 @@ function createSVGRLoader(params: Params): RuleSetRule {
   };
 }
 
-export function createLoader(params: Params): RuleSetRule {
+export function enhanceConfig(config: Configuration, params: Params): void {
   const utils = getFileLoaderUtils(params.isServer);
-  return {
+
+  const rules = config?.module?.rules as RuleSetRule[];
+
+  const existingSvgRule: RuleSetRule = (() => {
+    const rule = rules.find(
+      (r) => String(r.test) === String(utils.rules.svgs().test),
+    );
+    if (!rule) {
+      throw new Error(
+        "Docusaurus built-in SVG rule couldn't be found. The SVGR plugin can't enhance it.",
+      );
+    }
+    return rule;
+  })();
+
+  const newSvgRule: RuleSetRule = {
     test: /\.svg$/i,
     oneOf: [
       {
-        use: [createSVGRLoader(params)],
+        use: [createSVGRRule(params)],
         // We don't want to use SVGR loader for non-React source code
         // ie we don't want to use SVGR for CSS files...
         issuer: {
           and: [/\.(?:tsx?|jsx?|mdx?)$/i],
         },
       },
-      {
-        use: [utils.loaders.url({folder: 'images'})],
-      },
+      existingSvgRule,
     ],
   };
+
+  // This is annoying, but we have to "wrap" the existing SVG rule
+  // Adding another extra SVG rule (first or last) will not "override"
+  // the default: both rules will be applied (from last to bottom) leading to
+  // conflicting behavior.
+  const index = rules.indexOf(existingSvgRule);
+  rules[index] = newSvgRule;
 }

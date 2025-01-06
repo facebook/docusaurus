@@ -43,6 +43,7 @@ type FileLoaderUtils = {
   };
   rules: {
     images: () => RuleSetRule;
+    svgs: () => RuleSetRule;
     fonts: () => RuleSetRule;
     media: () => RuleSetRule;
     otherAssets: () => RuleSetRule;
@@ -117,6 +118,12 @@ function createFileLoaderUtils({
     images: () => ({
       use: [loaders.url({folder: 'images'})],
       test: /\.(?:ico|jpe?g|png|gif|webp|avif)(?:\?.*)?$/i,
+    }),
+
+    // SVG rule is isolated on purpose: our SVGR plugin enhances it
+    svgs: () => ({
+      use: [loaders.url({folder: 'images'})],
+      test: /\.svg$/i,
     }),
 
     fonts: () => ({
