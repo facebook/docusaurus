@@ -10,6 +10,15 @@ html {
     &.plugin-docs.plugin-id-docs-tests {
       .red > a {
         color: red;
+
+        &::after {
+          background-image: url('./red.svg');
+          background-size: contain;
+          margin-left: 0.5rem;
+          width: 1rem;
+          height: 1rem;
+          content: ' ';
+        }
       }
 
       .navbar {
