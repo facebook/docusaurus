@@ -74,7 +74,7 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
     async () => {
       const Tinypool = await import('tinypool').then((m) => m.default);
       return new Tinypool({
-        filename: path.resolve(__dirname, './ssg.js'),
+        filename: path.posix.resolve(__dirname, './ssg.js'),
         minThreads: numberOfThreads,
         maxThreads: numberOfThreads,
         concurrentTasksPerWorker: 1,
