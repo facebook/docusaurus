@@ -152,13 +152,15 @@ Troubleshooting guide: https://github.com/facebook/docusaurus/discussions/10580
   }
 }
 
+export type GenerateStaticFilesResult = {collectedData: SiteCollectedData};
+
 export async function generateStaticFiles({
   pathnames,
   params,
 }: {
   pathnames: string[];
   params: SSGParams;
-}): Promise<{collectedData: SiteCollectedData}> {
+}): Promise<GenerateStaticFilesResult> {
   const [renderer, htmlMinifier, ssgTemplate] = await Promise.all([
     PerfLogger.async('Load App renderer', () =>
       loadAppRenderer({
@@ -301,4 +303,11 @@ It might also require to wrap your client code in ${logger.code(
   }
 
   return parts.join('\n');
+}
+
+export default async function worker(arg: {
+  pathnames: string[];
+  params: SSGParams;
+}): Promise<{collectedData: SiteCollectedData}> {
+  return generateStaticFiles(arg);
 }
