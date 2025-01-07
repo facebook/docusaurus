@@ -83,18 +83,22 @@ export function renderSSGTemplate({
   } = params;
   const {
     html: appHtml,
-    collectedData: {modules, helmet},
+    collectedData: {modules},
   } = result;
 
   const {scripts, stylesheets} = getScriptsAndStylesheets({manifest, modules});
 
-  const htmlAttributes = helmet.htmlAttributes.toString();
-  const bodyAttributes = helmet.bodyAttributes.toString();
+  const htmlAttributes = ''; // helmet.htmlAttributes.toString();
+  const bodyAttributes = ''; // helmet.bodyAttributes.toString();
   const metaStrings = [
+    '',
+    /*
     helmet.title.toString(),
     helmet.meta.toString(),
     helmet.link.toString(),
     helmet.script.toString(),
+
+     */
   ];
   const metaAttributes = metaStrings.filter(Boolean);
 

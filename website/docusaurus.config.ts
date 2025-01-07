@@ -357,7 +357,6 @@ export default async function createConfigAsync() {
       ],
       [
         'ideal-image',
-
         {
           quality: 70,
           max: 1030,

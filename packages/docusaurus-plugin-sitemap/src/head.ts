@@ -36,7 +36,7 @@ export function isNoIndexMetaRoute({
   };
 
   // https://github.com/staylor/react-helmet-async/pull/167
-  const meta = head[route]?.meta.toComponent() as unknown as
+  const meta = head?.[route]?.meta.toComponent() as unknown as
     | ReactElement<{name?: string; content?: string}>[]
     | undefined;
   return (

@@ -126,7 +126,7 @@ async function executePluginsPostBuild({
   props: Props;
   collectedData: SiteCollectedData;
 }) {
-  const head = _.mapValues(collectedData, (d) => d.helmet);
+  // const head = _.mapValues(collectedData, (d) => d.helmet);
   await Promise.all(
     plugins.map(async (plugin) => {
       if (!plugin.postBuild) {
@@ -134,7 +134,8 @@ async function executePluginsPostBuild({
       }
       await plugin.postBuild({
         ...props,
-        head,
+        // @ts-expect-error: temp test
+        head: undefined,
         content: plugin.content,
       });
     }),
