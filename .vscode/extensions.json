@@ -1,4 +1,22 @@
-{
+.vscodenpm init docusaurus@latest<details>
+<summary>Some details containing headings</summary>
+<h2 id="#heading-id">I'm a heading that will not show up in the TOC</h2>
+
+Some content...
+
+</details>import TOCInline from '@theme/TOCInline';
+
+<TOCInline
+  // Only show h2 and h4 headings
+  toc={toc.filter((node) => node.level === 2 || node.level === 4)}
+  minHeadingLevel={2}
+  // Show h4 headings in addition to the default h2 and h3 headings
+  maxHeadingLevel={4}
+/>node.level2declare const toc: {
+  value: string;
+  id: string;
+  level: number;
+}[];{
   // See https://go.microsoft.com/fwlink/?LinkId=827846 to learn about workspace recommendations.
   "recommendations": [
     "streetsidesoftware.code-spell-checker",
