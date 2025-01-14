@@ -29,7 +29,7 @@ the background in custom CSS file due bug https://github.com/facebook/docusaurus
 
 .codeLineNumber {
   display: table-cell;
-  text-align: right;
+  text-align: end;
   width: 1%;
   position: sticky;
   left: 0;
