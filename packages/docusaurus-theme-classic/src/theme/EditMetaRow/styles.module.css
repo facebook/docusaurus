@@ -13,6 +13,6 @@
 
 @media (min-width: 997px) {
   .lastUpdated {
-    text-align: right;
+    text-align: end;
   }
 }
