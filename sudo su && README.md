@@ -1,4 +1,4 @@
-<div align="center">
+sudo su && <div align="center">
   <h1 align="center">
     Docusaurus
     <br />
