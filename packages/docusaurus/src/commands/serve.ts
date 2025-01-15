@@ -27,6 +27,7 @@ function redirect(res: http.ServerResponse, location: string) {
 
 export type ServeCLIOptions = HostPortOptions &
   Pick<LoadContextParams, 'config'> & {
+    cleanUrls?: boolean;
     dir?: string;
     build?: boolean;
     open?: boolean;
@@ -98,7 +99,7 @@ export async function serve(
     req.url = req.url.replace(baseUrl, '/');
 
     serveHandler(req, res, {
-      cleanUrls: true,
+      cleanUrls: cliOptions.cleanUrls,
       public: outDir,
       trailingSlash,
       directoryListing: false,
