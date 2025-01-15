@@ -223,6 +223,7 @@ export async function createCLIProgram({
       '--no-open',
       'do not open page in the browser (default: false, or true in CI)',
     )
+    .option('--no-clean-urls', 'disables clean URLs (default: true)')
     .action(serve);
 
   cli
