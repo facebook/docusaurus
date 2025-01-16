@@ -395,18 +395,12 @@ The `Line` component will receive the list of class names, based on which you ca
 You can enable line numbering for your code block by using `showLineNumbers` key within the language meta string (don't forget to add space directly before the key).
 
 ````md
-```jsx {1,4-6,11} showLineNumbers
+```jsx showLineNumbers
 import React from 'react';
 
-function MyComponent(props) {
-  if (props.isBar) {
-    return <div>Bar</div>;
-  }
-
+export default function MyComponent(props) {
   return <div>Foo</div>;
 }
-
-export default MyComponent;
 ```
 ````
 
@@ -414,18 +408,36 @@ export default MyComponent;
 <BrowserWindow>
 ```
 
-```jsx {1,4-6,11} showLineNumbers
+```jsx showLineNumbers
 import React from 'react';
 
-function MyComponent(props) {
-  if (props.isBar) {
-    return <div>Bar</div>;
-  }
-
+export default function MyComponent(props) {
   return <div>Foo</div>;
 }
+```
 
-export default MyComponent;
+```mdx-code-block
+</BrowserWindow>
+```
+
+By default, the counter starts at line number 1. It's possible to pass a custom counter start value to split large code blocks for readability:
+
+````md
+```jsx showLineNumbers=3
+export default function MyComponent(props) {
+  return <div>Foo</div>;
+}
+```
+````
+
+```mdx-code-block
+<BrowserWindow>
+```
+
+```jsx showLineNumbers=3
+export default function MyComponent(props) {
+  return <div>Foo</div>;
+}
 ```
 
 ```mdx-code-block
