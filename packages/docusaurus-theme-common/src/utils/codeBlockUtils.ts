@@ -151,8 +151,37 @@ export function parseCodeBlockTitle(metastring?: string): string {
   return metastring?.match(codeBlockTitleRegex)?.groups!.title ?? '';
 }
 
-export function containsLineNumbers(metastring?: string): boolean {
-  return Boolean(metastring?.includes('showLineNumbers'));
+function getMetaLineNumbersStart(metastring?: string): number | undefined {
+  const showLineNumbersMeta = metastring
+    ?.split(' ')
+    .find((str) => str.startsWith('showLineNumbers'));
+
+  if (showLineNumbersMeta) {
+    if (showLineNumbersMeta.startsWith('showLineNumbers=')) {
+      const value = showLineNumbersMeta.replace('showLineNumbers=', '');
+      return parseInt(value, 10);
+    }
+    return 1;
+  }
+
+  return undefined;
+}
+
+export function getLineNumbersStart({
+  showLineNumbers,
+  metastring,
+}: {
+  showLineNumbers: boolean | number | undefined;
+  metastring: string | undefined;
+}): number | undefined {
+  const defaultStart = 1;
+  if (typeof showLineNumbers === 'boolean') {
+    return showLineNumbers ? defaultStart : undefined;
+  }
+  if (typeof showLineNumbers === 'number') {
+    return showLineNumbers;
+  }
+  return getMetaLineNumbersStart(metastring);
 }
 
 /**
