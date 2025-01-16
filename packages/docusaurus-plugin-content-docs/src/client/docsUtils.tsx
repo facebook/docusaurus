@@ -132,6 +132,25 @@ export function useCurrentSidebarCategory(): PropSidebarItemCategory {
   return deepestCategory;
 }
 
+/**
+ * Gets the category associated with the current location. Should only be used
+ * on category index pages.
+ */
+export function useCurrentSidebarSiblings(): PropSidebarItem[] {
+  const {pathname} = useLocation();
+  const sidebar = useDocsSidebar();
+  if (!sidebar) {
+    throw new Error('Unexpected: cant find current sidebar in context');
+  }
+  const categoryBreadcrumbs = getSidebarBreadcrumbs({
+    sidebarItems: sidebar.items,
+    pathname,
+    onlyCategories: true,
+  });
+  const deepestCategory = categoryBreadcrumbs.slice(-1)[0];
+  return deepestCategory?.items ?? sidebar.items;
+}
+
 const isActive = (testedPath: string | undefined, activePath: string) =>
   typeof testedPath !== 'undefined' && isSamePath(testedPath, activePath);
 const containsActiveSidebarItem = (

@@ -33,6 +33,7 @@ export {
   useLayoutDocsSidebar,
   useDocRootMetadata,
   useCurrentSidebarCategory,
+  useCurrentSidebarSiblings,
   filterDocCardListItems,
 } from './docsUtils';
 
