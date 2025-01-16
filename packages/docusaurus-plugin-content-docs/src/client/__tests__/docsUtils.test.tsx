@@ -15,6 +15,7 @@ import {
   useDocById,
   findSidebarCategory,
   useCurrentSidebarCategory,
+  useCurrentSidebarSiblings,
   useSidebarBreadcrumbs,
   isVisibleSidebarItem,
 } from '../docsUtils';
@@ -773,6 +774,131 @@ describe('useCurrentSidebarCategory', () => {
 
   it('throws when sidebar is missing', () => {
     const mockUseCurrentSidebarCategory = createUseCurrentSidebarCategoryMock();
+    expect(() =>
+      mockUseCurrentSidebarCategory('/cat'),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected: cant find current sidebar in context"`,
+    );
+  });
+});
+
+describe('useCurrentSidebarSiblings', () => {
+  const createUseCurrentSidebarSiblingsMock =
+    (sidebar?: PropSidebar) => (location: string) =>
+      renderHook(() => useCurrentSidebarSiblings(), {
+        wrapper: ({children}) => (
+          <DocsSidebarProvider name="sidebarName" items={sidebar}>
+            <StaticRouter location={location}>{children}</StaticRouter>
+          </DocsSidebarProvider>
+        ),
+      }).result.current;
+
+  it('works for sidebar category', () => {
+    const category: PropSidebarItemCategory = testCategory({
+      href: '/cat',
+      items: [testLink(), testLink()],
+    });
+    const sidebar: PropSidebar = [
+      testLink(),
+      testLink(),
+      category,
+      testCategory(),
+    ];
+
+    const mockUseCurrentSidebarCategory =
+      createUseCurrentSidebarSiblingsMock(sidebar);
+
+    expect(mockUseCurrentSidebarCategory('/cat')).toEqual(category.items);
+  });
+
+  it('works for sidebar root', () => {
+    const category: PropSidebarItemCategory = testCategory({
+      href: '/cat',
+      items: [testLink(), testLink()],
+    });
+    const sidebar: PropSidebar = [
+      testLink({href: '/rootLink'}),
+      testLink(),
+      category,
+      testCategory(),
+    ];
+
+    const mockUseCurrentSidebarCategory =
+      createUseCurrentSidebarSiblingsMock(sidebar);
+
+    expect(mockUseCurrentSidebarCategory('/rootLink')).toEqual(sidebar);
+  });
+
+  it('works for nested sidebar category', () => {
+    const category2: PropSidebarItemCategory = testCategory({
+      href: '/cat2',
+      items: [testLink(), testCategory()],
+    });
+    const category1: PropSidebarItemCategory = testCategory({
+      href: '/cat1',
+      items: [testLink(), testLink(), category2, testCategory()],
+    });
+    const sidebar: PropSidebar = [
+      testLink(),
+      testLink(),
+      category1,
+      testCategory(),
+    ];
+
+    const mockUseCurrentSidebarCategory =
+      createUseCurrentSidebarSiblingsMock(sidebar);
+
+    expect(mockUseCurrentSidebarCategory('/cat2')).toEqual(category2.items);
+  });
+
+  it('works for category link item', () => {
+    const link = testLink({href: '/my/link/path'});
+    const category: PropSidebarItemCategory = testCategory({
+      href: '/cat1',
+      items: [testLink(), testLink(), link, testCategory()],
+    });
+    const sidebar: PropSidebar = [
+      testLink(),
+      testLink(),
+      category,
+      testCategory(),
+    ];
+
+    const mockUseCurrentSidebarCategory =
+      createUseCurrentSidebarSiblingsMock(sidebar);
+
+    expect(mockUseCurrentSidebarCategory('/my/link/path')).toEqual(
+      category.items,
+    );
+  });
+
+  it('works for nested category link item', () => {
+    const link = testLink({href: '/my/link/path'});
+    const category2: PropSidebarItemCategory = testCategory({
+      href: '/cat2',
+      items: [testLink(), testLink(), link, testCategory()],
+    });
+    const category1: PropSidebarItemCategory = testCategory({
+      href: '/cat1',
+      items: [testLink(), testLink(), category2, testCategory()],
+    });
+    const sidebar: PropSidebar = [
+      testLink(),
+      testLink(),
+      category1,
+      testCategory(),
+    ];
+
+    const mockUseCurrentSidebarCategory =
+      createUseCurrentSidebarSiblingsMock(sidebar);
+
+    expect(mockUseCurrentSidebarCategory('/my/link/path')).toEqual(
+      category2.items,
+    );
+  });
+
+  it('throws when sidebar is missing', () => {
+    const mockUseCurrentSidebarCategory = createUseCurrentSidebarSiblingsMock();
     expect(() =>
       mockUseCurrentSidebarCategory('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
