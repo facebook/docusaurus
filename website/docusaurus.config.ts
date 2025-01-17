@@ -163,6 +163,7 @@ export default async function createConfigAsync() {
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
     future: {
+      v4: !isSlower, // Not accurate, but good enough
       experimental_faster: !isSlower,
       experimental_storage: {
         namespace: true,
@@ -261,6 +262,15 @@ export default async function createConfigAsync() {
     ],
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
+      // TODO remove
+      function testPlugin() {
+        return {
+          name: 'test-plugin',
+          postBuild: ({head}) => {
+            console.log('head', head);
+          },
+        };
+      },
       isRsdoctor && [
         'rsdoctor',
         {

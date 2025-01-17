@@ -251,6 +251,8 @@ async function generateStaticFile({
     // This only renders the app HTML
     const result = await renderer.render({
       pathname,
+      v4RemoveLegacyPostBuildHeadAttribute:
+        params.v4RemoveLegacyPostBuildHeadAttribute,
     });
     // This renders the full page HTML, including head tags...
     const fullPageHtml = renderSSGTemplate({

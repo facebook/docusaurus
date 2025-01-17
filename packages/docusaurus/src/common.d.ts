@@ -17,7 +17,12 @@ export type AppRenderResult = {
 };
 
 export type AppRenderer = {
-  render: (params: {pathname: string}) => Promise<AppRenderResult>;
+  render: (params: {
+    pathname: string;
+
+    // TODO Docusaurus v4: remove deprecated postBuild({head}) API
+    v4RemoveLegacyPostBuildHeadAttribute: boolean;
+  }) => Promise<AppRenderResult>;
 
   // It's important to shut down the app renderer
   // Otherwise Node.js require cache leaks memory

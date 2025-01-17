@@ -1,8 +1,6 @@
 import type {ReactElement} from 'react';
 import type {PageCollectedData} from '../../common';
 import {RouteBuildMetadata} from '@docusaurus/types';
-import {HelmetServerState} from 'react-helmet-async';
-import logger from '@docusaurus/logger';
 
 type BuildMetaTag = {name?: string; content?: string};
 
@@ -35,26 +33,4 @@ export function toRouteBuildMetadata(
   // PageCollectedData is an internal data structure
   // RouteBuildMetadata is a public API data structure used in postBuild()
   return {noIndex};
-}
-
-// TODO Docusaurus v4 remove old helmet APIs
-//  see https://github.com/facebook/docusaurus/pull/10850
-export function toDeprecatedHeadEntry(
-  pageCollectedData: PageCollectedData,
-): HelmetServerState {
-  return (
-    pageCollectedData.metadata.helmet ??
-    (new Proxy(
-      {},
-      {
-        get(target, prop) {
-          throw new Error(
-            logger.interpolate`Docusaurus detected the usage of legacy ${logger.code(
-              'plugin.postBuild({head})',
-            )} API. You get this error because you turned on a Docusaurus v4 future flag. If your site is not compatible, you can turn the flag off until you make it compatible.`,
-          );
-        },
-      },
-    ) as HelmetServerState)
-  );
 }
