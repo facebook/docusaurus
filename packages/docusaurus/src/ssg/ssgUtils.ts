@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import type {SSGParams} from './ssgParams';
 
-// Secret way to set SSR plugin concurrency option
+// Secret way to set SSR plugin async concurrency option
 // Waiting for feedback before documenting this officially?
 export const SSGConcurrency = process.env.DOCUSAURUS_SSR_CONCURRENCY
   ? parseInt(process.env.DOCUSAURUS_SSR_CONCURRENCY, 10)
@@ -17,6 +17,13 @@ export const SSGConcurrency = process.env.DOCUSAURUS_SSR_CONCURRENCY
     // Will still be better than Infinity
     // See also https://github.com/sindresorhus/p-map/issues/24
     32;
+
+// Secret way to set SSR plugin async concurrency option
+// Waiting for feedback before documenting this officially?
+export const SSGWorkerThreads: number | undefined = process.env
+  .DOCUSAURUS_SSG_WORKER_THREADS
+  ? parseInt(process.env.DOCUSAURUS_SSG_WORKER_THREADS, 10)
+  : undefined;
 
 function pathnameToFilename({
   pathname,

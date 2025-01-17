@@ -307,6 +307,9 @@ It might also require to wrap your client code in ${logger.code(
 export default async function worker(arg: {
   pathnames: string[];
   params: SSGParams;
+  worker: number;
 }): Promise<{collectedData: SiteCollectedData}> {
-  return generateStaticFiles(arg);
+  return PerfLogger.async(`SSG Worker ${arg.worker}`, () =>
+    generateStaticFiles(arg),
+  );
 }
