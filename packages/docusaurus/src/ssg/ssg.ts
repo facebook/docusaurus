@@ -54,9 +54,6 @@ export async function loadAppRenderer({
   const source = await PerfLogger.async(`Load server bundle`, () =>
     fs.readFile(serverBundlePath),
   );
-  PerfLogger.log(
-    `Server bundle size = ${(source.length / 1024000).toFixed(3)} MB`,
-  );
 
   const filename = path.basename(serverBundlePath);
 
