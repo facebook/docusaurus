@@ -23,7 +23,6 @@ import type {
   ConfigureWebpackUtils,
   LoadedPlugin,
   Props,
-  PostBuildProps,
 } from '@docusaurus/types';
 import type {SiteCollectedData} from '../../common';
 import {BuildCLIOptions} from './build';
@@ -139,15 +138,12 @@ async function executePluginsPostBuild({
       if (!plugin.postBuild) {
         return;
       }
-
-      const postBuildProps: PostBuildProps = {
+      await plugin.postBuild({
         ...props,
         head,
         routesBuildMetadata,
         content: plugin.content,
-      };
-
-      await plugin.postBuild(postBuildProps);
+      });
     }),
   );
 }

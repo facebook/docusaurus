@@ -67,7 +67,6 @@ export {
   Validate,
   ValidationSchema,
   AllContent,
-  PostBuildProps,
   RouteBuildMetadata,
   ConfigureWebpackUtils,
   PostCssOptions,
