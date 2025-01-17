@@ -28,7 +28,7 @@ export default function pluginSitemap(
   return {
     name: PluginName,
 
-    async postBuild({siteConfig, routes, outDir, head}) {
+    async postBuild({siteConfig, routes, outDir, routesBuildMetadata}) {
       if (siteConfig.noIndex) {
         return;
       }
@@ -36,7 +36,7 @@ export default function pluginSitemap(
       const generatedSitemap = await createSitemap({
         siteConfig,
         routes,
-        head,
+        routesBuildMetadata,
         options,
       });
       if (!generatedSitemap) {

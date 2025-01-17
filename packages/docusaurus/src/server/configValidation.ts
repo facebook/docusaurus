@@ -19,6 +19,7 @@ import {
 import type {
   FasterConfig,
   FutureConfig,
+  FutureV4Config,
   StorageConfig,
 } from '@docusaurus/types/src/config';
 import type {
@@ -60,7 +61,17 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   rspackBundler: true,
 };
 
+export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
+  removeLegacyPostBuildHeadAttribute: false,
+};
+
+// When using the "v4: true" shortcut
+export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
+  removeLegacyPostBuildHeadAttribute: true,
+};
+
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
+  v4: DEFAULT_FUTURE_V4_CONFIG,
   experimental_faster: DEFAULT_FASTER_CONFIG,
   experimental_storage: DEFAULT_STORAGE_CONFIG,
   experimental_router: 'browser',
@@ -242,6 +253,22 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
   .optional()
   .default(DEFAULT_FASTER_CONFIG);
 
+const FUTURE_V4_SCHEMA = Joi.alternatives()
+  .try(
+    Joi.object<FutureV4Config>({
+      removeLegacyPostBuildHeadAttribute: Joi.boolean().default(
+        DEFAULT_FUTURE_V4_CONFIG.removeLegacyPostBuildHeadAttribute,
+      ),
+    }),
+    Joi.boolean()
+      .required()
+      .custom((bool) =>
+        bool ? DEFAULT_FUTURE_V4_CONFIG_TRUE : DEFAULT_FUTURE_V4_CONFIG,
+      ),
+  )
+  .optional()
+  .default(DEFAULT_FUTURE_V4_CONFIG);
+
 const STORAGE_CONFIG_SCHEMA = Joi.object({
   type: Joi.string()
     .equal('localStorage', 'sessionStorage')
@@ -254,6 +281,7 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   .default(DEFAULT_STORAGE_CONFIG);
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
+  v4: FUTURE_V4_SCHEMA,
   experimental_faster: FASTER_CONFIG_SCHEMA,
   experimental_storage: STORAGE_CONFIG_SCHEMA,
   experimental_router: Joi.string()

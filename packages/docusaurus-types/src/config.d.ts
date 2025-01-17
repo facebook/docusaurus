@@ -132,7 +132,16 @@ export type FasterConfig = {
   rspackBundler: boolean;
 };
 
+export type FutureV4Config = {
+  removeLegacyPostBuildHeadAttribute: boolean;
+};
+
 export type FutureConfig = {
+  /**
+   * Turns v4 future flags on
+   */
+  v4: FutureV4Config;
+
   experimental_faster: FasterConfig;
 
   experimental_storage: StorageConfig;
@@ -451,6 +460,7 @@ export type Config = Overwrite<
     future?: Overwrite<
       DeepPartial<FutureConfig>,
       {
+        v4?: boolean | FutureV4Config;
         experimental_faster?: boolean | FasterConfig;
       }
     >;
