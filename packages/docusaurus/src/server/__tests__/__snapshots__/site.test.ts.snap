@@ -95,6 +95,9 @@ exports[`load loads props for site with custom i18n path 1`] = `
         "namespace": false,
         "type": "localStorage",
       },
+      "v4": {
+        "removeLegacyPostBuildHeadAttribute": false,
+      },
     },
     "headTags": [],
     "i18n": {

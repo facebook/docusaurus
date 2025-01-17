@@ -186,7 +186,7 @@ It is also a way to opt-in for upcoming breaking changes coming in the next majo
 
 Features prefixed by `experimental_` or `unstable_` are subject to changes in **minor versions**, and not considered as [Semantic Versioning breaking changes](/community/release-process).
 
-Features prefixed by `v<MajorVersion>_` (`v6_` `v7_`, etc.) are future flags that are expected to be turned on by default in the next major versions. These are less likely to change, but we keep the possibility to do so.
+Features namespaced by `v<MajorVersion>` (`v6` `v7`, etc.) are future flags that are expected to be turned on by default in the next major versions. These are less likely to change, but we keep the possibility to do so.
 
 `future` API breaking changes should be easy to handle, and will be documented in minor/major version blog posts.
 
@@ -197,6 +197,9 @@ Example:
 ```js title="docusaurus.config.js"
 export default {
   future: {
+    v4: {
+      removeLegacyPostBuildHeadAttribute: true,
+    },
     experimental_faster: {
       swcJsLoader: true,
       swcJsMinimizer: true,
@@ -214,6 +217,8 @@ export default {
 };
 ```
 
+- `v4`: Permits to opt-in for upcoming Docusaurus v4 breaking changes and features, to prepare your site in advance for this new version. Use `true` as a shorthand to enable all the flags.
+  - [`removeLegacyPostBuildHeadAttribute`](https://github.com/facebook/docusaurus/pull/10435): Removes the legacy `plugin.postBuild({head})` API that prevents us from applying useful SSG optimizations ([explanations](https://github.com/facebook/docusaurus/pull/10850)).
 - `experimental_faster`: An object containing feature flags to make the Docusaurus build faster. This requires adding the `@docusaurus/faster` package to your site's dependencies. Use `true` as a shorthand to enable all flags. Read more on the [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) issue. Available feature flags:
   - [`swcJsLoader`](https://github.com/facebook/docusaurus/pull/10435): Use [SWC](https://swc.rs/) to transpile JS (instead of [Babel](https://babeljs.io/)).
   - [`swcJsMinimizer`](https://github.com/facebook/docusaurus/pull/10441): Use [SWC](https://swc.rs/) to minify JS (instead of [Terser](https://github.com/terser/terser)).
