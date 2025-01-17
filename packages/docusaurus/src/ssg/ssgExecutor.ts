@@ -113,7 +113,6 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
   };
 };
 
-// TODO Docusaurus v4 - introduce SSG worker threads
 export async function executeSSG({
   props,
   serverBundlePath,
