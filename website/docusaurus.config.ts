@@ -262,15 +262,6 @@ export default async function createConfigAsync() {
     ],
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
-      // TODO remove
-      function testPlugin() {
-        return {
-          name: 'test-plugin',
-          postBuild: ({head}) => {
-            console.log('head', head);
-          },
-        };
-      },
       isRsdoctor && [
         'rsdoctor',
         {
