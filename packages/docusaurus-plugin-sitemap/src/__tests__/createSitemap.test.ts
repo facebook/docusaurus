@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createElement} from 'react';
 import {fromPartial} from '@total-typescript/shoehorn';
 import createSitemap from '../createSitemap';
 import type {PluginOptions} from '../options';
@@ -39,7 +38,7 @@ describe('createSitemap', () => {
     const sitemap = await createSitemap({
       siteConfig,
       routes: routes(['/', '/test']),
-      head: {},
+      routesBuildMetadata: {},
       options,
     });
     expect(sitemap).toContain(
@@ -51,7 +50,7 @@ describe('createSitemap', () => {
     const sitemap = await createSitemap({
       siteConfig,
       routes: routes([]),
-      head: {},
+      routesBuildMetadata: {},
       options,
     });
     expect(sitemap).toBeNull();
@@ -67,7 +66,7 @@ describe('createSitemap', () => {
         '/search/foo',
         '/tags/foo/bar',
       ]),
-      head: {},
+      routesBuildMetadata: {},
       options: {
         ...options,
         ignorePatterns: [
@@ -94,7 +93,7 @@ describe('createSitemap', () => {
         '/search/foo',
         '/tags/foo/bar',
       ]),
-      head: {},
+      routesBuildMetadata: {},
       options: {
         ...options,
         createSitemapItems: async (params) => {
@@ -119,7 +118,7 @@ describe('createSitemap', () => {
     const sitemap = await createSitemap({
       siteConfig,
       routes: routes(['/', '/docs/myDoc/', '/blog/post']),
-      head: {},
+      routesBuildMetadata: {},
       options: {
         ...options,
         createSitemapItems: async () => {
@@ -135,7 +134,7 @@ describe('createSitemap', () => {
     const sitemap = await createSitemap({
       siteConfig,
       routes: routes(['/', '/test', '/nested/test', '/nested/test2/']),
-      head: {},
+      routesBuildMetadata: {},
       options,
     });
 
@@ -149,7 +148,7 @@ describe('createSitemap', () => {
     const sitemap = await createSitemap({
       siteConfig: {...siteConfig, trailingSlash: true},
       routes: routes(['/', '/test', '/nested/test', '/nested/test2/']),
-      head: {},
+      routesBuildMetadata: {},
       options,
     });
 
@@ -167,7 +166,7 @@ describe('createSitemap', () => {
         trailingSlash: false,
       },
       routes: routes(['/', '/test', '/nested/test', '/nested/test2/']),
-      head: {},
+      routesBuildMetadata: {},
       options,
     });
 
@@ -180,19 +179,10 @@ describe('createSitemap', () => {
   it('filters pages with noindex', async () => {
     const sitemap = await createSitemap({
       siteConfig,
-      routesPaths: ['/', '/noindex', '/nested/test', '/nested/test2/'],
       routes: routes(['/', '/noindex', '/nested/test', '/nested/test2/']),
-      head: {
+      routesBuildMetadata: {
         '/noindex': {
-          meta: {
-            // @ts-expect-error: bad lib def
-            toComponent: () => [
-              createElement('meta', {
-                name: 'robots',
-                content: 'NoFolloW, NoiNDeX',
-              }),
-            ],
-          },
+          noIndex: true,
         },
       },
       options,
@@ -204,24 +194,13 @@ describe('createSitemap', () => {
   it('does not generate anything for all pages with noindex', async () => {
     const sitemap = await createSitemap({
       siteConfig,
-      routesPaths: ['/', '/noindex'],
       routes: routes(['/', '/noindex']),
-      head: {
+      routesBuildMetadata: {
         '/': {
-          meta: {
-            // @ts-expect-error: bad lib def
-            toComponent: () => [
-              createElement('meta', {name: 'robots', content: 'noindex'}),
-            ],
-          },
+          noIndex: true,
         },
         '/noindex': {
-          meta: {
-            // @ts-expect-error: bad lib def
-            toComponent: () => [
-              createElement('meta', {name: 'robots', content: 'noindex'}),
-            ],
-          },
+          noIndex: true,
         },
       },
       options,
