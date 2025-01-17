@@ -46,7 +46,7 @@ type SSGError = {
 };
 type SSGResult = SSGSuccess | SSGError;
 
-export async function loadAppRenderer({
+async function loadAppRenderer({
   serverBundlePath,
 }: {
   serverBundlePath: string;
