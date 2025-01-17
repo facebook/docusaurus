@@ -42,9 +42,9 @@ export type RouteBuildMetadataInternal = {
 
 // This data structure must remain serializable!
 // See why: https://github.com/facebook/docusaurus/pull/10826
-export type PageCollectedMetadata = RouteBuildMetadata & {
+export type PageCollectedMetadata = {
+  public: RouteBuildMetadata;
   internal: RouteBuildMetadataInternal;
-
   // TODO Docusaurus v4 remove legacy unserializable helmet data structure
   // See https://github.com/facebook/docusaurus/pull/10850
   helmet: HelmetServerState | null;

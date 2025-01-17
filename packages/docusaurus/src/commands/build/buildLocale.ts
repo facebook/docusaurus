@@ -26,7 +26,6 @@ import type {
 } from '@docusaurus/types';
 import type {SiteCollectedData} from '../../common';
 import {BuildCLIOptions} from './build';
-import {toRouteBuildMetadata} from './buildMetaUtils';
 
 export type BuildLocaleParams = {
   siteDir: string;
@@ -131,7 +130,10 @@ async function executePluginsPostBuild({
     ? {}
     : _.mapValues(collectedData, (d) => d.metadata.helmet!);
 
-  const routesBuildMetadata = _.mapValues(collectedData, toRouteBuildMetadata);
+  const routesBuildMetadata = _.mapValues(
+    collectedData,
+    (d) => d.metadata.public,
+  );
 
   await Promise.all(
     plugins.map(async (plugin) => {

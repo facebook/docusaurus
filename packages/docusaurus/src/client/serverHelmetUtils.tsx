@@ -40,7 +40,9 @@ export function toPageCollectedMetadata({
 
   return {
     helmet, // TODO Docusaurus v4 remove
-    noIndex,
+    public: {
+      noIndex,
+    },
     internal: {
       htmlAttributes: helmet.htmlAttributes.toString(),
       bodyAttributes: helmet.bodyAttributes.toString(),
