@@ -41,7 +41,7 @@ const render: AppRenderer['render'] = async ({pathname}) => {
 
   const html = await renderToHtml(app);
 
-  const {helmet} = (helmetContext as FilledContext);
+  const {helmet} = helmetContext as FilledContext;
 
   const collectedData: PageCollectedData = {
     // TODO Docusaurus v4 refactor: helmet state is non-serializable
