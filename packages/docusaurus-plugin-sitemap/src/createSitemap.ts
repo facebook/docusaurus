@@ -10,7 +10,7 @@ import {sitemapItemsToXmlString} from './xml';
 import {createSitemapItem} from './createSitemapItem';
 import {isNoIndexMetaRoute} from './head';
 import type {CreateSitemapItemsFn, CreateSitemapItemsParams} from './types';
-import type {RouteConfig} from '@docusaurus/types';
+import type {RouteConfig, RouteBuildMetadata} from '@docusaurus/types';
 import type {PluginOptions} from './options';
 import type {HelmetServerState} from 'react-helmet-async';
 
@@ -18,14 +18,20 @@ import type {HelmetServerState} from 'react-helmet-async';
 // - parent routes, used for layouts
 // - routes matching options.ignorePatterns
 // - routes with no index metadata
-function getSitemapRoutes({routes, head, options}: CreateSitemapParams) {
+function getSitemapRoutes({
+  routes,
+  head,
+  routesBuildMetadata,
+  options,
+}: CreateSitemapParams) {
   const {ignorePatterns} = options;
 
   const ignoreMatcher = createMatcher(ignorePatterns);
 
   function isRouteExcluded(route: RouteConfig) {
     return (
-      ignoreMatcher(route.path) || isNoIndexMetaRoute({head, route: route.path})
+      ignoreMatcher(route.path) ||
+      isNoIndexMetaRoute({head, routesBuildMetadata, route: route.path})
     );
   }
 
@@ -35,7 +41,10 @@ function getSitemapRoutes({routes, head, options}: CreateSitemapParams) {
 // Our default implementation receives some additional parameters on purpose
 // Params such as "head" are "messy" and not directly exposed to the user
 function createDefaultCreateSitemapItems(
-  internalParams: Pick<CreateSitemapParams, 'head' | 'options'>,
+  internalParams: Pick<
+    CreateSitemapParams,
+    'head' | 'routesBuildMetadata' | 'options'
+  >,
 ): CreateSitemapItemsFn {
   return async (params) => {
     const sitemapRoutes = getSitemapRoutes({...params, ...internalParams});
@@ -56,16 +65,17 @@ function createDefaultCreateSitemapItems(
 
 type CreateSitemapParams = CreateSitemapItemsParams & {
   head: {[location: string]: HelmetServerState};
+  routesBuildMetadata: {[location: string]: RouteBuildMetadata};
   options: PluginOptions;
 };
 
 export default async function createSitemap(
   params: CreateSitemapParams,
 ): Promise<string | null> {
-  const {head, options, routes, siteConfig} = params;
+  const {head, routesBuildMetadata, options, routes, siteConfig} = params;
 
   const defaultCreateSitemapItems: CreateSitemapItemsFn =
-    createDefaultCreateSitemapItems({head, options});
+    createDefaultCreateSitemapItems({head, routesBuildMetadata, options});
 
   const sitemapItems = params.options.createSitemapItems
     ? await params.options.createSitemapItems({

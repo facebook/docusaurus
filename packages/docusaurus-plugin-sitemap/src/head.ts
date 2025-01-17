@@ -7,16 +7,27 @@
 
 import type {ReactElement} from 'react';
 import type {HelmetServerState} from 'react-helmet-async';
+import type {RouteBuildMetadata} from '@docusaurus/types';
 
 // Maybe we want to add a routeConfig.metadata.noIndex instead?
 // But using Helmet is more reliable for third-party plugins...
 export function isNoIndexMetaRoute({
   head,
+  routesBuildMetadata,
   route,
 }: {
   head: {[location: string]: HelmetServerState};
+  routesBuildMetadata: {[location: string]: RouteBuildMetadata};
   route: string;
 }): boolean {
+  const routeBuildMetadata = routesBuildMetadata[route];
+
+  if (routeBuildMetadata) {
+    return routeBuildMetadata.noIndex;
+  }
+
+  // TODO Docusaurus v4 remove legacy mess
+  //  logic has been moved to core to create routeBuildMetadata
   const isNoIndexMetaTag = ({
     name,
     content,

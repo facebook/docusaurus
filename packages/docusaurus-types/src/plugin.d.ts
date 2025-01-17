@@ -114,6 +114,21 @@ export type ConfigureWebpackResult = WebpackConfiguration & {
   };
 };
 
+export type RouteBuildMetadata = {
+  // We'll add extra metadata on a case by case basis here
+  // For now the only need is our sitemap plugin to filter noindex pages
+  noIndex: boolean;
+};
+export type PostBuildProps = Props & {
+  content: Content;
+
+  // TODO Docusaurus v4: remove old messy unserializable "head" API
+  //  breaking change, replaced by routesBuildMetadata
+  //  Reason: https://github.com/facebook/docusaurus/pull/10826
+  head: {[location: string]: HelmetServerState};
+  routesBuildMetadata: {[location: string]: RouteBuildMetadata};
+};
+
 export type Plugin<Content = unknown> = {
   name: string;
   loadContent?: () => Promise<Content> | Content;
@@ -126,12 +141,7 @@ export type Plugin<Content = unknown> = {
     allContent: AllContent;
     actions: PluginContentLoadedActions;
   }) => Promise<void> | void;
-  postBuild?: (
-    props: Props & {
-      content: Content;
-      head: {[location: string]: HelmetServerState};
-    },
-  ) => Promise<void> | void;
+  postBuild?: (props: PostBuildProps) => Promise<void> | void;
   // TODO Docusaurus v4 ?
   //  refactor the configureWebpack API surface: use an object instead of
   //  multiple params (requires breaking change)

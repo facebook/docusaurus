@@ -23,9 +23,11 @@ import type {
   ConfigureWebpackUtils,
   LoadedPlugin,
   Props,
+  PostBuildProps,
 } from '@docusaurus/types';
 import type {SiteCollectedData} from '../../common';
 import {BuildCLIOptions} from './build';
+import {toRouteBuildMetadata} from './buildMetaUtils';
 
 export type BuildLocaleParams = {
   siteDir: string;
@@ -127,16 +129,24 @@ async function executePluginsPostBuild({
   collectedData: SiteCollectedData;
 }) {
   const head = _.mapValues(collectedData, (d) => d.helmet);
+  const routesBuildMetadata = _.mapValues(collectedData, toRouteBuildMetadata);
+
+  const isV4RoutesBuildMetadata = true; // TODO wire feature flag
+
   await Promise.all(
     plugins.map(async (plugin) => {
       if (!plugin.postBuild) {
         return;
       }
-      await plugin.postBuild({
+
+      const postBuildProps: PostBuildProps = {
         ...props,
-        head,
+        head: isV4RoutesBuildMetadata ? {} : head,
+        routesBuildMetadata: isV4RoutesBuildMetadata ? routesBuildMetadata : {},
         content: plugin.content,
-      });
+      };
+
+      await plugin.postBuild(postBuildProps);
     }),
   );
 }
