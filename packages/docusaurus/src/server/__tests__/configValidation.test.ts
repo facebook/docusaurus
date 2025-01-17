@@ -11,12 +11,15 @@ import {
   DEFAULT_FASTER_CONFIG,
   DEFAULT_FASTER_CONFIG_TRUE,
   DEFAULT_FUTURE_CONFIG,
+  DEFAULT_FUTURE_V4_CONFIG,
+  DEFAULT_FUTURE_V4_CONFIG_TRUE,
   DEFAULT_STORAGE_CONFIG,
   validateConfig,
 } from '../configValidation';
 import type {
   FasterConfig,
   FutureConfig,
+  FutureV4Config,
   StorageConfig,
 } from '@docusaurus/types/src/config';
 import type {Config, DocusaurusConfig, PluginConfig} from '@docusaurus/types';
@@ -45,6 +48,9 @@ describe('normalizeConfig', () => {
       ...DEFAULT_CONFIG,
       ...baseConfig,
       future: {
+        v4: {
+          removeLegacyPostBuildHeadAttribute: true,
+        },
         experimental_faster: {
           swcJsLoader: true,
           swcJsMinimizer: true,
@@ -744,6 +750,9 @@ describe('future', () => {
 
   it('accepts future - full', () => {
     const future: DocusaurusConfig['future'] = {
+      v4: {
+        removeLegacyPostBuildHeadAttribute: true,
+      },
       experimental_faster: {
         swcJsLoader: true,
         swcJsMinimizer: true,
@@ -1566,6 +1575,151 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.experimental_faster.rspackBundler" must be a boolean
+          "
+        `);
+      });
+    });
+  });
+
+  describe('v4', () => {
+    function v4Containing(v4: Partial<FutureV4Config>) {
+      return futureContaining({
+        v4: expect.objectContaining(v4),
+      });
+    }
+
+    it('accepts v4 - undefined', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            v4: undefined,
+          },
+        }),
+      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
+    });
+
+    it('accepts v4 - empty', () => {
+      expect(
+        normalizeConfig({
+          future: {v4: {}},
+        }),
+      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
+    });
+
+    it('accepts v4 - full', () => {
+      const v4: FutureV4Config = {
+        removeLegacyPostBuildHeadAttribute: true,
+      };
+      expect(
+        normalizeConfig({
+          future: {
+            v4,
+          },
+        }),
+      ).toEqual(v4Containing(v4));
+    });
+
+    it('accepts v4 - false', () => {
+      expect(
+        normalizeConfig({
+          future: {v4: false},
+        }),
+      ).toEqual(v4Containing(DEFAULT_FUTURE_V4_CONFIG));
+    });
+
+    it('accepts v4 - true', () => {
+      expect(
+        normalizeConfig({
+          future: {v4: true},
+        }),
+      ).toEqual(v4Containing(DEFAULT_FUTURE_V4_CONFIG_TRUE));
+    });
+
+    it('rejects v4 - number', () => {
+      // @ts-expect-error: invalid
+      const v4: Partial<FutureV4Config> = 42;
+      expect(() =>
+        normalizeConfig({
+          future: {
+            v4,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""future.v4" must be one of [object, boolean]
+        "
+      `);
+    });
+
+    describe('removeLegacyPostBuildHeadAttribute', () => {
+      it('accepts - undefined', () => {
+        const v4: Partial<FutureV4Config> = {
+          removeLegacyPostBuildHeadAttribute: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: false}));
+      });
+
+      it('accepts - true', () => {
+        const v4: Partial<FutureV4Config> = {
+          removeLegacyPostBuildHeadAttribute: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: true}));
+      });
+
+      it('accepts - false', () => {
+        const v4: Partial<FutureV4Config> = {
+          removeLegacyPostBuildHeadAttribute: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: false}));
+      });
+
+      it('rejects - null', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          removeLegacyPostBuildHeadAttribute: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          removeLegacyPostBuildHeadAttribute: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
           "
         `);
       });
