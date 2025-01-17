@@ -131,8 +131,6 @@ async function executePluginsPostBuild({
   const head = _.mapValues(collectedData, (d) => d.helmet);
   const routesBuildMetadata = _.mapValues(collectedData, toRouteBuildMetadata);
 
-  const isV4RoutesBuildMetadata = true; // TODO wire feature flag
-
   await Promise.all(
     plugins.map(async (plugin) => {
       if (!plugin.postBuild) {
@@ -141,8 +139,8 @@ async function executePluginsPostBuild({
 
       const postBuildProps: PostBuildProps = {
         ...props,
-        head: isV4RoutesBuildMetadata ? {} : head,
-        routesBuildMetadata: isV4RoutesBuildMetadata ? routesBuildMetadata : {},
+        head,
+        routesBuildMetadata,
         content: plugin.content,
       };
 
