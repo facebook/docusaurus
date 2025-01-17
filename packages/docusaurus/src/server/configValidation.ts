@@ -16,6 +16,7 @@ import {
   addLeadingSlash,
   removeTrailingSlash,
 } from '@docusaurus/utils-common';
+import logger from '@docusaurus/logger';
 import type {
   FasterConfig,
   FutureConfig,
@@ -63,11 +64,13 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: false,
+  enableSSGWorkerThreads: false,
 };
 
 // When using the "v4: true" shortcut
 export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: true,
+  enableSSGWorkerThreads: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
@@ -259,6 +262,27 @@ const FUTURE_V4_SCHEMA = Joi.alternatives()
       removeLegacyPostBuildHeadAttribute: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.removeLegacyPostBuildHeadAttribute,
       ),
+      enableSSGWorkerThreads: Joi.boolean()
+        .default(DEFAULT_FUTURE_V4_CONFIG.enableSSGWorkerThreads)
+        .custom((value, helpers) => {
+          const {removeLegacyPostBuildHeadAttribute} =
+            helpers.state.ancestors[0];
+          if (
+            value === true &&
+            (removeLegacyPostBuildHeadAttribute === false ||
+              removeLegacyPostBuildHeadAttribute === undefined)
+          ) {
+            return helpers.error('any.custom', {key: 'B'});
+          }
+          return value; // Return the valid value
+        })
+        .messages({
+          'any.custom': `Docusaurus v4 future flag ${logger.code(
+            'enableSSGWorkerThreads',
+          )} requires ${logger.code(
+            'removeLegacyPostBuildHeadAttribute',
+          )} to be enabled first.`,
+        }),
     }),
     Joi.boolean()
       .required()

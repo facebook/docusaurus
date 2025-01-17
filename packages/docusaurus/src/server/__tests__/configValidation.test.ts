@@ -50,6 +50,7 @@ describe('normalizeConfig', () => {
       future: {
         v4: {
           removeLegacyPostBuildHeadAttribute: true,
+          enableSSGWorkerThreads: true,
         },
         experimental_faster: {
           swcJsLoader: true,
@@ -752,6 +753,7 @@ describe('future', () => {
     const future: DocusaurusConfig['future'] = {
       v4: {
         removeLegacyPostBuildHeadAttribute: true,
+        enableSSGWorkerThreads: true,
       },
       experimental_faster: {
         swcJsLoader: true,
@@ -1609,6 +1611,7 @@ describe('future', () => {
     it('accepts v4 - full', () => {
       const v4: FutureV4Config = {
         removeLegacyPostBuildHeadAttribute: true,
+        enableSSGWorkerThreads: true,
       };
       expect(
         normalizeConfig({
@@ -1720,6 +1723,116 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('enableSSGWorkerThreads', () => {
+      it('accepts - undefined', () => {
+        const v4: Partial<FutureV4Config> = {
+          enableSSGWorkerThreads: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({enableSSGWorkerThreads: false}));
+      });
+
+      it('accepts - true', () => {
+        const v4: Partial<FutureV4Config> = {
+          removeLegacyPostBuildHeadAttribute: true, // required dependency
+          enableSSGWorkerThreads: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({enableSSGWorkerThreads: true}));
+      });
+
+      it('accepts - false', () => {
+        const v4: Partial<FutureV4Config> = {
+          enableSSGWorkerThreads: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({enableSSGWorkerThreads: false}));
+      });
+
+      it('rejects - true if removeLegacyPostBuildHeadAttribute is false', () => {
+        const v4: Partial<FutureV4Config> = {
+          removeLegacyPostBuildHeadAttribute: false,
+          enableSSGWorkerThreads: true,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          "Docusaurus v4 future flag \`enableSSGWorkerThreads\` requires \`removeLegacyPostBuildHeadAttribute\` to be enabled first.
+          "
+        `);
+      });
+
+      it('rejects - true if removeLegacyPostBuildHeadAttribute is undefined', () => {
+        const v4: Partial<FutureV4Config> = {
+          removeLegacyPostBuildHeadAttribute: undefined,
+          enableSSGWorkerThreads: true,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          "Docusaurus v4 future flag \`enableSSGWorkerThreads\` requires \`removeLegacyPostBuildHeadAttribute\` to be enabled first.
+          "
+        `);
+      });
+
+      it('rejects - null', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          enableSSGWorkerThreads: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.enableSSGWorkerThreads" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          enableSSGWorkerThreads: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.enableSSGWorkerThreads" must be a boolean
           "
         `);
       });

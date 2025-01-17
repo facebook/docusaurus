@@ -134,6 +134,7 @@ export type FasterConfig = {
 
 export type FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: boolean;
+  enableSSGWorkerThreads: boolean;
 };
 
 export type FutureConfig = {
