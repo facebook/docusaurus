@@ -9,6 +9,7 @@
 // In particular the interface between SSG and serverEntry code
 
 import type {HelmetServerState} from 'react-helmet-async';
+import type {RouteBuildMetadata} from '@docusaurus/types';
 
 export type AppRenderResult = {
   html: string;
@@ -23,11 +24,29 @@ export type AppRenderer = {
   shutdown: () => Promise<void>;
 };
 
-export type PageCollectedData = {
-  // TODO Docusaurus v4 refactor: helmet state is non-serializable
-  //  this makes it impossible to run SSG in a worker thread
-  helmet: HelmetServerState;
+// Attributes we need internally, for the SSG html template
+// They are not exposed to the user in postBuild({routesBuildMetadata})
+export type RouteBuildMetadataInternal = {
+  htmlAttributes: string;
+  bodyAttributes: string;
+  title: string;
+  meta: string;
+  link: string;
+  script: string;
+};
 
+// This data structure must remain serializable!
+// See why: https://github.com/facebook/docusaurus/pull/10826
+export type PageCollectedMetadata = RouteBuildMetadata & {
+  internal: RouteBuildMetadataInternal;
+
+  // TODO Docusaurus v4 remove legacy unserializable helmet data structure
+  // See https://github.com/facebook/docusaurus/pull/10850
+  helmet: HelmetServerState | null;
+};
+
+export type PageCollectedData = {
+  metadata: PageCollectedMetadata;
   links: string[];
   anchors: string[];
   modules: string[];

@@ -41,10 +41,24 @@ const render: AppRenderer['render'] = async ({pathname}) => {
 
   const html = await renderToHtml(app);
 
+  const {helmet} = (helmetContext as FilledContext);
+
   const collectedData: PageCollectedData = {
     // TODO Docusaurus v4 refactor: helmet state is non-serializable
     //  this makes it impossible to run SSG in a worker thread
-    helmet: (helmetContext as FilledContext).helmet,
+
+    metadata: {
+      helmet,
+      internal: {
+        htmlAttributes: helmet.htmlAttributes.toString(),
+        bodyAttributes: helmet.bodyAttributes.toString(),
+        title: helmet.title.toString(),
+        meta: helmet.meta.toString(),
+        link: helmet.link.toString(),
+        script: helmet.script.toString(),
+      },
+      noIndex: true, // TODO
+    },
 
     anchors: statefulBrokenLinks.getCollectedAnchors(),
     links: statefulBrokenLinks.getCollectedLinks(),

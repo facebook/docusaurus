@@ -27,7 +27,7 @@ import type {
 } from '@docusaurus/types';
 import type {SiteCollectedData} from '../../common';
 import {BuildCLIOptions} from './build';
-import {toRouteBuildMetadata} from './buildMetaUtils';
+import {toDeprecatedHeadEntry, toRouteBuildMetadata} from './buildMetaUtils';
 
 export type BuildLocaleParams = {
   siteDir: string;
@@ -128,7 +128,7 @@ async function executePluginsPostBuild({
   props: Props;
   collectedData: SiteCollectedData;
 }) {
-  const head = _.mapValues(collectedData, (d) => d.helmet);
+  const head = _.mapValues(collectedData, toDeprecatedHeadEntry);
   const routesBuildMetadata = _.mapValues(collectedData, toRouteBuildMetadata);
 
   await Promise.all(
