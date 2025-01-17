@@ -96,6 +96,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
         "type": "localStorage",
       },
       "v4": {
+        "enableSSGWorkerThreads": false,
         "removeLegacyPostBuildHeadAttribute": false,
       },
     },
