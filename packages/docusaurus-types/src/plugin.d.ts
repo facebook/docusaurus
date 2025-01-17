@@ -119,15 +119,6 @@ export type RouteBuildMetadata = {
   // For now the only need is our sitemap plugin to filter noindex pages
   noIndex: boolean;
 };
-export type PostBuildProps<Content> = Props & {
-  content: Content;
-
-  // TODO Docusaurus v4: remove old messy unserializable "head" API
-  //  breaking change, replaced by routesBuildMetadata
-  //  Reason: https://github.com/facebook/docusaurus/pull/10826
-  head: {[location: string]: HelmetServerState};
-  routesBuildMetadata: {[location: string]: RouteBuildMetadata};
-};
 
 export type Plugin<Content = unknown> = {
   name: string;
