@@ -16,13 +16,42 @@ import {translate} from '@docusaurus/Translate';
 import {useLocation} from '@docusaurus/router';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
-import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+import type {
+  Props,
+  PropVersions,
+  PropVersionItem,
+} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 import type {
   GlobalVersion,
   GlobalDoc,
   ActiveDocContext,
 } from '@docusaurus/plugin-content-docs/client';
+
+type VersionConfiguration = {name: string} & PropVersionItem;
+
+function getVersionConfigurations(
+  versions: PropVersions,
+): VersionConfiguration[] {
+  if (versions instanceof Array) {
+    return versions.map((name): VersionConfiguration => {
+      return {name};
+    });
+  } else {
+    return Object.entries(versions).map(
+      ([name, version]): VersionConfiguration => {
+        return {name, ...version};
+      },
+    );
+  }
+}
+
+function getVersionConfigurationName(version: GlobalVersion): string {
+  // 'version.name' has special conventions for current and next versions,
+  // that's why we use 'version.label' as a canonical version name that can be
+  // referenced in configuration.
+  return version.label;
+}
 
 function getVersionMainDoc(version: GlobalVersion): GlobalDoc {
   return version.docs.find((doc) => doc.id === version.mainDocId)!;
@@ -46,17 +75,40 @@ export default function DocsVersionDropdownNavbarItem({
   dropdownActiveClassDisabled,
   dropdownItemsBefore,
   dropdownItemsAfter,
+  versions: staticVersions,
   ...props
 }: Props): ReactNode {
+  // Prepare version configurations
+  const versionConfigurations = staticVersions
+    ? new Map<string, VersionConfiguration>(
+        getVersionConfigurations(staticVersions).map((configuration) => [
+          configuration.name,
+          configuration,
+        ]),
+      )
+    : undefined;
+
+  // Build version list
+  let versions = useVersions(docsPluginId);
+  if (versionConfigurations) {
+    // Keep configured versions only
+    versions = versions.filter((version) =>
+      versionConfigurations.has(getVersionConfigurationName(version)),
+    );
+  }
+
+  // Build item list
   const {search, hash} = useLocation();
   const activeDocContext = useActiveDocContext(docsPluginId);
-  const versions = useVersions(docsPluginId);
   const {savePreferredVersionName} = useDocsPreferredVersion(docsPluginId);
 
-  function versionToLink(version: GlobalVersion): LinkLikeNavbarItemProps {
+  function versionToLink(
+    version: GlobalVersion,
+    versionConfiguration?: VersionConfiguration,
+  ): LinkLikeNavbarItemProps {
     const targetDoc = getVersionTargetDoc(version, activeDocContext);
     return {
-      label: version.label,
+      label: versionConfiguration?.label ?? version.label,
       // preserve ?search#hash suffix on version switches
       to: `${targetDoc.path}${search}${hash}`,
       isActive: () => version === activeDocContext.activeVersion,
@@ -66,7 +118,12 @@ export default function DocsVersionDropdownNavbarItem({
 
   const items: LinkLikeNavbarItemProps[] = [
     ...dropdownItemsBefore,
-    ...versions.map(versionToLink),
+    ...versions.map((x) =>
+      versionToLink(
+        x,
+        versionConfigurations?.get(getVersionConfigurationName(x)),
+      ),
+    ),
     ...dropdownItemsAfter,
   ];
 

@@ -8,6 +8,10 @@
 import {themes} from 'prism-react-renderer';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {Options, PluginOptions} from '@docusaurus/theme-classic';
+import type {
+  PropVersionItem,
+  PropVersionItems,
+} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import type {
   ThemeConfigValidationContext,
@@ -204,12 +208,23 @@ const DropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   items: Joi.array().items(DropdownSubitemSchema).required(),
 });
 
+const DocsVersionNameSchema = Joi.string().min(1);
+
 const DocsVersionDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersionDropdown').required(),
   docsPluginId: Joi.string(),
   dropdownActiveClassDisabled: Joi.boolean(),
   dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
+  versions: Joi.alternatives().try(
+    Joi.array().items(DocsVersionNameSchema),
+    Joi.object<PropVersionItems>().pattern(
+      DocsVersionNameSchema,
+      Joi.object<PropVersionItem>({
+        label: Joi.string().min(1),
+      }),
+    ),
+  ),
 });
 
 const LocaleDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
