@@ -597,7 +597,7 @@ Accepted fields:
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
 | `dropdownActiveClassDisabled` | `boolean` | `false` | Do not add the link active class when browsing docs. |
-| `versions` | <code>string[] \| object</code> | `undefined` | Specify a custom list of versions to include in the dropdown, or an object with more detailed version configurations. |
+| `versions` | <code>string[] \| object</code> | `undefined` | Specify a custom list of versions to include in the dropdown, or specify an object with detailed version configurations. |
 
 ```mdx-code-block
 </APITable>
@@ -658,7 +658,7 @@ For example, if you are using semantic versioning, you may have versions such as
 1.0.0
 ```
 
-And maybe you want to have in the dropdown:
+And maybe you want to have them in the dropdown as:
 
 ```
 2.1
@@ -666,7 +666,7 @@ And maybe you want to have in the dropdown:
 1.0
 ```
 
-Or maybe just:
+or maybe just:
 
 ```
 1.x
@@ -685,8 +685,8 @@ export default {
           position: 'left',
           // highlight-start
           versions: {
-            "1.0.1": {label: "1.x"},
-            "2.1.1": {label: "2.x"},
+            '1.0.1': {label: '1.x'},
+            '2.1.1': {label: '2.x'},
           },
           // highlight-end
         },
@@ -704,7 +704,7 @@ The fields accepted by the custom version configuration:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `label` | `string` | Optional | The name to be shown for this version. |
+| `label` | `string` | Optional | The custom name to be shown for this version. |
 
 ```mdx-code-block
 </APITable>
