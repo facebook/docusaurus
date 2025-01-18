@@ -53,6 +53,11 @@ function getVersionConfigurationName(version: GlobalVersion): string {
   return version.label;
 }
 
+type ConfiguredVersion = {
+  version: GlobalVersion;
+  configuration?: VersionConfiguration;
+};
+
 function getVersionMainDoc(version: GlobalVersion): GlobalDoc {
   return version.docs.find((doc) => doc.id === version.mainDocId)!;
 }
@@ -78,23 +83,33 @@ export default function DocsVersionDropdownNavbarItem({
   versions: staticVersions,
   ...props
 }: Props): ReactNode {
-  // Prepare version configurations
-  const versionConfigurations = staticVersions
-    ? new Map<string, VersionConfiguration>(
-        getVersionConfigurations(staticVersions).map((configuration) => [
-          configuration.name,
-          configuration,
-        ]),
-      )
-    : undefined;
-
   // Build version list
-  let versions = useVersions(docsPluginId);
-  if (versionConfigurations) {
-    // Keep configured versions only
-    versions = versions.filter((version) =>
-      versionConfigurations.has(getVersionConfigurationName(version)),
+  const versions = useVersions(docsPluginId);
+
+  let configuredVersions: ConfiguredVersion[];
+  if (staticVersions) {
+    // Keep only versions specified in configuration, reorder them accordingly
+    const versionMap = new Map<string, GlobalVersion>(
+      versions.map((version) => [
+        getVersionConfigurationName(version),
+        version,
+      ]),
     );
+
+    configuredVersions = [];
+    for (const configuration of getVersionConfigurations(staticVersions)) {
+      let version = versionMap.get(configuration.name);
+      if (!version) {
+        // A version configuration references a non-existing version, ignore it
+        continue;
+      }
+      configuredVersions.push({version, configuration});
+    }
+  } else {
+    // The versions are not configured
+    configuredVersions = versions.map((version): ConfiguredVersion => {
+      return {version};
+    });
   }
 
   // Build item list
@@ -118,12 +133,7 @@ export default function DocsVersionDropdownNavbarItem({
 
   const items: LinkLikeNavbarItemProps[] = [
     ...dropdownItemsBefore,
-    ...versions.map((x) =>
-      versionToLink(
-        x,
-        versionConfigurations?.get(getVersionConfigurationName(x)),
-      ),
-    ),
+    ...configuredVersions.map((x) => versionToLink(x.version, x.configuration)),
     ...dropdownItemsAfter,
   ];
 
