@@ -46,17 +46,51 @@ function getVersionConfigurations(
   }
 }
 
-function getVersionConfigurationName(version: GlobalVersion): string {
-  // 'version.name' has special conventions for current and next versions,
-  // that's why we use 'version.label' as a canonical version name that can be
-  // referenced in configuration.
-  return version.label;
-}
-
 type ConfiguredVersion = {
   version: GlobalVersion;
   configuration?: VersionConfiguration;
 };
+
+function configureVersions(
+  versions: GlobalVersion[],
+  staticVersions?: PropVersions,
+): ConfiguredVersion[] {
+  if (staticVersions) {
+    // The versions are configured.
+
+    // Collect all the versions we have
+    const versionMap = new Map<string, GlobalVersion>(
+      versions.map((version) => [version.name, version]),
+    );
+
+    // Add secondary version identifiers to make the configuration process
+    // more natural to a user
+    for (const version of versions) {
+      // 'version.name' has special conventions for current and next versions,
+      // that's why we use 'version.label' as a secondary version identifier
+      // that can be referenced in configuration.
+      const label = version.label;
+      if (!versionMap.has(label)) versionMap.set(label, version);
+    }
+
+    // Keep only versions specified in configuration, reorder them accordingly
+    const configuredVersions: ConfiguredVersion[] = [];
+    for (const configuration of getVersionConfigurations(staticVersions)) {
+      let version = versionMap.get(configuration.name);
+      if (!version) {
+        // A version configuration references a non-existing version, ignore it
+        continue;
+      }
+      configuredVersions.push({version, configuration});
+    }
+    return configuredVersions;
+  } else {
+    // The versions are not configured
+    return versions.map((version): ConfiguredVersion => {
+      return {version};
+    });
+  }
+}
 
 function getVersionMainDoc(version: GlobalVersion): GlobalDoc {
   return version.docs.find((doc) => doc.id === version.mainDocId)!;
@@ -84,33 +118,10 @@ export default function DocsVersionDropdownNavbarItem({
   ...props
 }: Props): ReactNode {
   // Build version list
-  const versions = useVersions(docsPluginId);
-
-  let configuredVersions: ConfiguredVersion[];
-  if (staticVersions) {
-    // Keep only versions specified in configuration, reorder them accordingly
-    const versionMap = new Map<string, GlobalVersion>(
-      versions.map((version) => [
-        getVersionConfigurationName(version),
-        version,
-      ]),
-    );
-
-    configuredVersions = [];
-    for (const configuration of getVersionConfigurations(staticVersions)) {
-      let version = versionMap.get(configuration.name);
-      if (!version) {
-        // A version configuration references a non-existing version, ignore it
-        continue;
-      }
-      configuredVersions.push({version, configuration});
-    }
-  } else {
-    // The versions are not configured
-    configuredVersions = versions.map((version): ConfiguredVersion => {
-      return {version};
-    });
-  }
+  const configuredVersions = configureVersions(
+    useVersions(docsPluginId),
+    staticVersions,
+  );
 
   // Build item list
   const {search, hash} = useLocation();
