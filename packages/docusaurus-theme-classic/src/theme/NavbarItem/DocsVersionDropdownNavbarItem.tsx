@@ -56,7 +56,7 @@ function configureVersions(
   staticVersions?: PropVersions,
 ): ConfiguredVersion[] {
   if (staticVersions) {
-    // The versions are configured.
+    // The versions are configured
 
     // Collect all the versions we have
     const versionMap = new Map<string, GlobalVersion>(
@@ -68,7 +68,7 @@ function configureVersions(
     for (const version of versions) {
       // 'version.name' has special conventions for current and next versions,
       // that's why we use 'version.label' as a secondary version identifier
-      // that can be referenced in configuration.
+      // that can be referenced in configuration
       const label = version.label;
       if (!versionMap.has(label)) versionMap.set(label, version);
     }
@@ -76,7 +76,7 @@ function configureVersions(
     // Keep only versions specified in configuration, reorder them accordingly
     const configuredVersions: ConfiguredVersion[] = [];
     for (const configuration of getVersionConfigurations(staticVersions)) {
-      let version = versionMap.get(configuration.name);
+      const version = versionMap.get(configuration.name);
       if (!version) {
         // A version configuration references a non-existing version, ignore it
         continue;
