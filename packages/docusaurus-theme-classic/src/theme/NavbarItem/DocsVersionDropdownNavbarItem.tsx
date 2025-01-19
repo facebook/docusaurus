@@ -33,7 +33,7 @@ type VersionConfiguration = {name: string} & PropVersionItem;
 function getVersionConfigurations(
   versions: PropVersions,
 ): VersionConfiguration[] {
-  if (versions instanceof Array) {
+  if (Array.isArray(versions)) {
     return versions.map((name): VersionConfiguration => {
       return {name};
     });
