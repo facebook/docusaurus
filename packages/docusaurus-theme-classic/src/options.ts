@@ -208,8 +208,6 @@ const DropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   items: Joi.array().items(DropdownSubitemSchema).required(),
 });
 
-const DocsVersionNameSchema = Joi.string().min(1);
-
 const DocsVersionDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersionDropdown').required(),
   docsPluginId: Joi.string(),
@@ -217,9 +215,9 @@ const DocsVersionDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
   versions: Joi.alternatives().try(
-    Joi.array().items(DocsVersionNameSchema),
+    Joi.array().items(Joi.string().min(1)),
     Joi.object<PropVersionItems>().pattern(
-      DocsVersionNameSchema,
+      Joi.string().min(1),
       Joi.object<PropVersionItem>({
         label: Joi.string().min(1),
       }),
