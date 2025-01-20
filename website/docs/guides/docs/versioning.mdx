@@ -271,6 +271,78 @@ These links would all look for an appropriate version to link to, in the followi
 2. **Preferred version**: the version that the user last viewed. If there's no history, fall back to...
 3. **Latest version**: the default version that we navigate to, configured by the `lastVersion` option.
 
+## Configuring versioning representation {#configuring-versioning-representation}
+
+By default, the [`docsVersionDropdown`](../../api/themes/theme-configuration.mdx#navbar-docs-version-dropdown) displays all the versions provided by the docs.
+However, sometimes it may be beneficial to restrict the number of displayed versions to simplify the user experience.
+To achieve that, it is possible to specify a custom list of versions that should be offered in the dropdown:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          versions: ['2024.3', '2024.2', '2024.1', '2023.4'],
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```
+
+Some versioning schemes may benefit from an even more detailed configuration of displayed versions.
+For example, if you are using semantic versioning, you may have versions such as:
+
+```
+2.1.1
+2.1.0
+2.0.1
+2.0.0
+1.0.1
+1.0.0
+```
+
+And maybe you want to have them in the dropdown as:
+
+```
+2.1
+2.0
+1.0
+```
+
+or maybe just:
+
+```
+1.x
+2.x
+```
+
+To achieve that, you can specify a custom configuration for every version that should be displayed in the dropdown:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          versions: {
+            '1.0.1': {label: '1.x'},
+            '2.1.1': {label: '2.x'},
+          },
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```
+
 ## Recommended practices {#recommended-practices}
 
 ### Version your documentation only when needed {#version-your-documentation-only-when-needed}
