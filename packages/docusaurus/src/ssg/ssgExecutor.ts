@@ -9,25 +9,19 @@ import * as path from 'path';
 import os from 'os';
 import _ from 'lodash';
 import {PerfLogger} from '@docusaurus/logger';
-import {generateStaticFiles} from './ssg';
 import {createSSGParams} from './ssgParams';
 import {renderHashRouterTemplate} from './ssgTemplate';
 import {generateHashRouterEntrypoint, SSGWorkerThreads} from './ssgUtils';
+import {createGlobalSSGResult} from './ssgGlobalResult';
+import {executeSSGInlineTask} from './ssgWorkerInline';
 import type {Props, RouterType} from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
-import type {GenerateStaticFilesResult} from './ssg';
 import type {SSGParams} from './ssgParams';
-
-function mergeResults(
-  results: GenerateStaticFilesResult[],
-): GenerateStaticFilesResult {
-  return {
-    collectedData: Object.assign({}, ...results.map((r) => r.collectedData)),
-  };
-}
+import type {SSGGlobalResult} from './ssgGlobalResult';
+import type {ExecuteSSGWorkerThreadTask} from './ssgWorkerThread';
 
 type SSGExecutor = {
-  run: () => Promise<GenerateStaticFilesResult>;
+  run: () => Promise<SSGGlobalResult>;
   destroy: () => Promise<void>;
 };
 
@@ -43,12 +37,14 @@ const createSimpleSSGExecutor: CreateSSGExecutor = async ({
   return {
     run: () => {
       return PerfLogger.async(
-        'Generate static files - Using current worker thread',
-        () =>
-          generateStaticFiles({
+        'Generate static files (current thread)',
+        async () => {
+          const ssgResults = await executeSSGInlineTask({
             pathnames,
             params,
-          }),
+          });
+          return createGlobalSSGResult(ssgResults);
+        },
       );
     },
 
@@ -113,52 +109,50 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
     return createSimpleSSGExecutor({params, pathnames});
   }
 
-  // TODO this is not ideal for performance
-  //  Some chunks may contain more expensive pages
-  //  and we have to wait for the slowest chunk to finish to complete SSG
-  //  There can be a significant time lapse between the fastest/slowest worker
-  const pathnamesChunks = _.chunk(
-    pathnames,
-    Math.ceil(pathnames.length / numberOfThreads),
-  );
-
   const pool = await PerfLogger.async(
     `Create SSG pool with ${numberOfThreads} threads`,
     async () => {
       const Tinypool = await import('tinypool').then((m) => m.default);
       return new Tinypool({
-        filename: path.posix.resolve(__dirname, './ssg.js'),
+        filename: path.posix.resolve(__dirname, './ssgWorkerThread.js'),
         minThreads: numberOfThreads,
         maxThreads: numberOfThreads,
         concurrentTasksPerWorker: 1,
         runtime: 'worker_threads',
+        isolateWorkers: false,
+        workerData: {params},
       });
     },
   );
 
+  //  Some chunks may contain more expensive pages
+  //  and we have to wait for the slowest chunk to finish to complete SSG
+  //  There can be a significant time lapse between the fastest/slowest worker
+  // TODO this param is not easy to fine-tune! need to be exposed
+  const pathnamesPerWorkerTask = 5;
+
+  const pathnamesChunks = _.chunk(pathnames, pathnamesPerWorkerTask);
+
+  // Tiny wrapper for type-safety
+  const submitTask: ExecuteSSGWorkerThreadTask = (task) => pool.run(task);
+
   return {
     run: async () => {
       const results = await PerfLogger.async(
-        'Generate static files - Using worker threads pool',
+        `Generate static files (${numberOfThreads} worker threads)`,
         async () => {
           return Promise.all(
-            pathnamesChunks.map((chunk, chunkIndex) => {
-              return PerfLogger.async(
-                `Generate static files for chunk=${chunkIndex} with ${chunk.length} pathnames`,
-                () => {
-                  return pool.run({
-                    pathnames: chunk,
-                    params,
-                    worker: chunkIndex + 1,
-                  }) as Promise<GenerateStaticFilesResult>;
-                },
-              );
+            pathnamesChunks.map((taskPathnames, taskIndex) => {
+              return submitTask({
+                id: taskIndex + 1,
+                pathnames: taskPathnames,
+              });
             }),
           );
         },
       );
-
-      return mergeResults(results);
+      const allResults = results.flat();
+      return createGlobalSSGResult(allResults);
     },
 
     destroy: async () => {
@@ -197,6 +191,7 @@ export async function executeSSG({
     : createSimpleSSGExecutor;
 
   const executor = await createExecutor({params, pathnames: props.routesPaths});
-
-  return executor.run();
+  const result = await executor.run();
+  await executor.destroy();
+  return result;
 }
