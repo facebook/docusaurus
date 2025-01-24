@@ -20,7 +20,7 @@ import type {SiteCollectedData} from '../common';
 import type {SSGParams} from './ssgParams';
 import type {SSGGlobalResult} from './ssgGlobalResult';
 
-// @ts-expect-error: add with resolution
+// @ts-expect-error: with resolution
 import type {ExecuteSSGWorkerThreadTask} from './ssgWorkerThread.mts';
 
 type SSGExecutor = {
