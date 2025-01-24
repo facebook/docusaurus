@@ -123,7 +123,6 @@ interactiveness
 interpolatable
 Interpolatable
 Investec
-JLFN
 jmarcey
 jodyheavener
 joelmarcey
@@ -330,8 +329,6 @@ Tagkey
 Teik
 Therox
 thisweekinreact
-tinypool
-Tinypool
 toplevel
 Transifex
 transpiles
