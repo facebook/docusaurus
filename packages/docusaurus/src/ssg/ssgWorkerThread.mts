@@ -7,8 +7,10 @@
 
 import {workerData} from 'node:worker_threads';
 import logger, {PerfLogger} from '@docusaurus/logger';
-import {loadSSGRenderer, type SSGResult} from './ssgRenderer';
-import type {SSGParams} from './ssgParams';
+import {loadSSGRenderer, type SSGResult} from './ssgRenderer.js';
+import type {SSGParams} from './ssgParams.js';
+
+console.log("TEST ESM WORKER")
 
 // eslint-disable-next-line no-underscore-dangle
 const workerId = process?.__tinypool_state__?.workerId;
@@ -21,7 +23,7 @@ if (!params) {
   throw new Error(`SSG Worker Thread workerData params missing`);
 }
 
-const WorkerLogPrefix = `SSG Worker ${logger.name(workerId)}`;
+const WorkerLogPrefix = `SSG Worker ${logger.default.name(workerId)}`;
 
 // We only load once the SSG rendered (expensive), NOT once per worker task
 // TODO check potential memory leak?
@@ -44,9 +46,9 @@ export default async function executeSSGWorkerThreadTask(
   const appRenderer = await appRendererPromise;
 
   const ssgResults = await PerfLogger.async(
-    `${WorkerLogPrefix} - Task ${logger.name(
+    `${WorkerLogPrefix} - Task ${logger.default.name(
       task.id,
-    )} - Rendering ${logger.cyan(task.pathnames.length)} pathnames`,
+    )} - Rendering ${logger.default.cyan(task.pathnames.length)} pathnames`,
     () => appRenderer.renderPathnames(task.pathnames),
   );
 

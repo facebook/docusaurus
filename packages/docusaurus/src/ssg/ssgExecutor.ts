@@ -19,7 +19,9 @@ import type {Props, RouterType} from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
 import type {SSGParams} from './ssgParams';
 import type {SSGGlobalResult} from './ssgGlobalResult';
-import type {ExecuteSSGWorkerThreadTask} from './ssgWorkerThread';
+import type {ExecuteSSGWorkerThreadTask} from './ssgWorkerThread.mts' with {
+    "resolution-mode": "require"
+};
 
 type SSGExecutor = {
   run: () => Promise<SSGGlobalResult>;
@@ -116,7 +118,7 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
       const Tinypool = await import('tinypool').then((m) => m.default);
 
       const workerURL = pathToFileURL(
-        path.resolve(__dirname, 'ssgWorkerThread.js'),
+        path.resolve(__dirname, 'ssgWorkerThread.mjs'),
       );
       console.log('workerURL', workerURL);
 
