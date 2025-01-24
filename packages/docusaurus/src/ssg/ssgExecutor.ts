@@ -6,6 +6,7 @@
  */
 
 import * as path from 'path';
+import {pathToFileURL} from 'node:url';
 import os from 'os';
 import _ from 'lodash';
 import {PerfLogger} from '@docusaurus/logger';
@@ -114,20 +115,13 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
     async () => {
       const Tinypool = await import('tinypool').then((m) => m.default);
 
-      const filename = path.resolve(__dirname, 'ssgWorkerThread.js');
-      console.log('TEST WINDOWS filename', filename);
-
-      console.log(
-        'TEST WINDOWS 1',
+      const workerURL = pathToFileURL(
         path.resolve(__dirname, 'ssgWorkerThread.js'),
       );
-      console.log(
-        'TEST WINDOWS 1',
-        path.posix.resolve(__dirname, 'ssgWorkerThread.js'),
-      );
+      console.log('workerURL', workerURL);
 
       return new Tinypool({
-        filename,
+        filename: workerURL.href,
         minThreads: numberOfThreads,
         maxThreads: numberOfThreads,
         concurrentTasksPerWorker: 1,
@@ -191,6 +185,7 @@ export async function executeSSG({
     props,
   });
 
+  // TODO doesn't look like the appropriate place for hash router entry
   if (router === 'hash') {
     PerfLogger.start('Generate Hash Router entry point');
     const content = await renderHashRouterTemplate({params});
