@@ -19,9 +19,9 @@ import type {Props, RouterType} from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
 import type {SSGParams} from './ssgParams';
 import type {SSGGlobalResult} from './ssgGlobalResult';
-import type {ExecuteSSGWorkerThreadTask} from './ssgWorkerThread.mts' with {
-    "resolution-mode": "require"
-};
+
+// @ts-expect-error: add with resolution
+import type {ExecuteSSGWorkerThreadTask} from './ssgWorkerThread.mts';
 
 type SSGExecutor = {
   run: () => Promise<SSGGlobalResult>;
