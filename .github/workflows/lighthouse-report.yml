@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           # pull_request_target checks out the base branch by default
-          ref: ${{ steps.merge-commit.outputs.mergedSha }}
+          ref: "${{ github.event.pull_request.merge_commit_sha }}"
           # Fetches the merge commit and its parents
           fetch-depth: 2
       - name: Use Node.js
