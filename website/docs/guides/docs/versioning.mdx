@@ -271,11 +271,9 @@ These links would all look for an appropriate version to link to, in the followi
 2. **Preferred version**: the version that the user last viewed. If there's no history, fall back to...
 3. **Latest version**: the default version that we navigate to, configured by the `lastVersion` option.
 
-## Configuring representation of versions {#configuring-representation}
+## `docsVersionDropdown` {#docsVersionDropdown}
 
-By default, the [`docsVersionDropdown`](../../api/themes/theme-configuration.mdx#navbar-docs-version-dropdown) displays all the versions provided by the docs.
-However, sometimes it may be beneficial to restrict the number of displayed versions to simplify the user experience.
-To achieve that, it is possible to specify a custom list of versions that should be offered in the dropdown:
+By default, the [`docsVersionDropdown`](../../api/themes/theme-configuration.mdx#navbar-docs-version-dropdown) displays all the versions provided by the docs. However, sometimes it may be beneficial to restrict the number of displayed versions to simplify the user experience. To achieve that, it is possible to specify a custom list of versions that should be offered in the dropdown:
 
 ```js title="docusaurus.config.js"
 export default {
@@ -294,8 +292,7 @@ export default {
 };
 ```
 
-Some versioning schemes may benefit from an even more detailed configuration of displayed versions.
-For example, if you are using semantic versioning, you may have versions such as:
+Some versioning schemes may benefit from an even more detailed configuration of displayed versions. For example, if you are using semantic versioning, you may have versions such as:
 
 ```
 2.1.1
