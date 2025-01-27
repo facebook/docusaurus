@@ -118,7 +118,6 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
       const workerURL = pathToFileURL(
         path.resolve(__dirname, 'ssgWorkerThread.js'),
       );
-      console.log('workerURL', workerURL);
 
       return new Tinypool({
         filename: workerURL.pathname,
