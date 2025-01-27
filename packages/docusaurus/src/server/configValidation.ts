@@ -50,6 +50,7 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   lightningCssMinimizer: false,
   mdxCrossCompilerCache: false,
   rspackBundler: false,
+  ssgWorkerThreads: false,
 };
 
 // When using the "faster: true" shortcut
@@ -60,17 +61,16 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   lightningCssMinimizer: true,
   mdxCrossCompilerCache: true,
   rspackBundler: true,
+  ssgWorkerThreads: true,
 };
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: false,
-  enableSSGWorkerThreads: false,
 };
 
 // When using the "v4: true" shortcut
 export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: true,
-  enableSSGWorkerThreads: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
@@ -246,6 +246,9 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
         DEFAULT_FASTER_CONFIG.mdxCrossCompilerCache,
       ),
       rspackBundler: Joi.boolean().default(DEFAULT_FASTER_CONFIG.rspackBundler),
+      ssgWorkerThreads: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.ssgWorkerThreads,
+      ),
     }),
     Joi.boolean()
       .required()
@@ -262,27 +265,6 @@ const FUTURE_V4_SCHEMA = Joi.alternatives()
       removeLegacyPostBuildHeadAttribute: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.removeLegacyPostBuildHeadAttribute,
       ),
-      enableSSGWorkerThreads: Joi.boolean()
-        .default(DEFAULT_FUTURE_V4_CONFIG.enableSSGWorkerThreads)
-        .custom((value, helpers) => {
-          const {removeLegacyPostBuildHeadAttribute} =
-            helpers.state.ancestors[0];
-          if (
-            value === true &&
-            (removeLegacyPostBuildHeadAttribute === false ||
-              removeLegacyPostBuildHeadAttribute === undefined)
-          ) {
-            return helpers.error('any.custom', {key: 'B'});
-          }
-          return value; // Return the valid value
-        })
-        .messages({
-          'any.custom': `Docusaurus v4 future flag ${logger.code(
-            'enableSSGWorkerThreads',
-          )} requires ${logger.code(
-            'removeLegacyPostBuildHeadAttribute',
-          )} to be enabled first.`,
-        }),
     }),
     Joi.boolean()
       .required()
@@ -469,6 +451,26 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
 });
 
+// Expressing this kind of logic in Joi is a pain
+// We also want to decouple logic from Joi: easier to remove it later!
+function ensureDocusaurusConfigConsistency(config: DocusaurusConfig) {
+  if (
+    config.future.experimental_faster.ssgWorkerThreads &&
+    !config.future.v4.removeLegacyPostBuildHeadAttribute
+  ) {
+    throw new Error(
+      `Docusaurus config ${logger.code(
+        'future.experimental_faster.ssgWorkerThreads',
+      )} requires the future flag ${logger.code(
+        'future.v4.removeLegacyPostBuildHeadAttribute',
+      )} to be turned on.
+If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: ${logger.code(
+        '{future: {v4: true}}',
+      )}`,
+    );
+  }
+}
+
 // TODO move to @docusaurus/utils-validation
 export function validateConfig(
   config: unknown,
@@ -500,7 +502,9 @@ export function validateConfig(
       ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${siteConfigPath}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/api/docusaurus-config/#customfields`
       : formattedError;
     throw new Error(formattedError);
-  } else {
-    return value;
   }
+
+  ensureDocusaurusConfigConsistency(value);
+
+  return value;
 }
