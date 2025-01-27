@@ -63,16 +63,6 @@ function configureVersions(
       versions.map((version) => [version.name, version]),
     );
 
-    // Add secondary version identifiers to make the configuration process
-    // more natural to a user
-    for (const version of versions) {
-      // 'version.name' has special conventions for current and next versions,
-      // that's why we use 'version.label' as a secondary version identifier
-      // that can be referenced in configuration
-      const label = version.label;
-      if (!versionMap.has(label)) versionMap.set(label, version);
-    }
-
     // Keep only versions specified in configuration, reorder them accordingly
     const configuredVersions: ConfiguredVersion[] = [];
     for (const configuration of getVersionConfigurations(staticVersions)) {
