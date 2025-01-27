@@ -10,8 +10,6 @@ import logger, {PerfLogger} from '@docusaurus/logger';
 import {loadSSGRenderer, type SSGResult} from './ssgRenderer.js';
 import type {SSGParams} from './ssgParams.js';
 
-console.log('TEST ESM WORKER');
-
 // eslint-disable-next-line no-underscore-dangle
 const workerId = process?.__tinypool_state__?.workerId;
 if (!workerId) {
