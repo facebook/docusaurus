@@ -58,6 +58,7 @@ describe('normalizeConfig', () => {
           lightningCssMinimizer: true,
           mdxCrossCompilerCache: true,
           rspackBundler: true,
+          ssgWorkerThreads: true,
         },
         experimental_storage: {
           type: 'sessionStorage',
@@ -760,6 +761,7 @@ describe('future', () => {
         lightningCssMinimizer: true,
         mdxCrossCompilerCache: true,
         rspackBundler: true,
+        ssgWorkerThreads: true,
       },
       experimental_storage: {
         type: 'sessionStorage',
@@ -1113,10 +1115,12 @@ describe('future', () => {
         lightningCssMinimizer: true,
         mdxCrossCompilerCache: true,
         rspackBundler: true,
+        ssgWorkerThreads: true,
       };
       expect(
         normalizeConfig({
           future: {
+            v4: true,
             experimental_faster: faster,
           },
         }),
@@ -1131,12 +1135,43 @@ describe('future', () => {
       ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
     });
 
-    it('accepts faster - true', () => {
+    it('accepts faster - true (v4: true)', () => {
       expect(
         normalizeConfig({
-          future: {experimental_faster: true},
+          future: {
+            v4: true,
+            experimental_faster: true,
+          },
         }),
       ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
+    });
+
+    it('rejects faster - true (v4: false)', () => {
+      expect(() =>
+        normalizeConfig({
+          future: {
+            v4: false,
+            experimental_faster: true,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`"
+      `);
+    });
+
+    it('rejects faster - true (v4: undefined)', () => {
+      expect(() =>
+        normalizeConfig({
+          future: {
+            v4: false,
+            experimental_faster: true,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`"
+      `);
     });
 
     it('rejects faster - number', () => {
@@ -1575,6 +1610,112 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.experimental_faster.rspackBundler" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('ssgWorkerThreads', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          ssgWorkerThreads: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({ssgWorkerThreads: false}));
+      });
+
+      it('accepts - true (v4: true)', () => {
+        const faster: Partial<FasterConfig> = {
+          ssgWorkerThreads: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4: true,
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({ssgWorkerThreads: true}));
+      });
+
+      it('rejects - true (v4: false)', () => {
+        const faster: Partial<FasterConfig> = {
+          ssgWorkerThreads: true,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4: false,
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`"
+        `);
+      });
+
+      it('rejects - true (v4: undefined)', () => {
+        const faster: Partial<FasterConfig> = {
+          ssgWorkerThreads: true,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4: undefined,
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`"
+        `);
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          ssgWorkerThreads: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({ssgWorkerThreads: false}));
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {ssgWorkerThreads: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.ssgWorkerThreads" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {ssgWorkerThreads: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.ssgWorkerThreads" must be a boolean
           "
         `);
       });

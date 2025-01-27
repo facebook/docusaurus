@@ -7,7 +7,6 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import _ from 'lodash';
 // TODO eval is archived / unmaintained: https://github.com/pierrec/node-eval
 //  We should internalize/modernize it
 import evaluate from 'eval';
@@ -19,43 +18,40 @@ import {
   renderSSGTemplate,
   type SSGTemplateCompiled,
 } from './ssgTemplate';
-import {SSGConcurrency, writeStaticFile} from './ssgUtils';
+import {SSGConcurrency} from './ssgEnv';
+import {writeStaticFile} from './ssgUtils';
 import {createSSGRequire} from './ssgNodeRequire';
 import type {SSGParams} from './ssgParams';
-import type {AppRenderer, AppRenderResult, SiteCollectedData} from '../common';
+import type {AppRenderer, AppRenderResult} from '../common';
 import type {HtmlMinifier} from '@docusaurus/bundler';
 
-type SSGSuccessResult = {
-  collectedData: AppRenderResult['collectedData'];
-  // html: we don't include it on purpose!
-  // we don't need to aggregate all html contents in memory!
-  // html contents can be GC as soon as they are written to disk
+export type SSGSuccess = {
+  success: true;
+  pathname: string;
+  result: {
+    collectedData: AppRenderResult['collectedData'];
+    warnings: string[];
+    // html: we don't include it on purpose!
+    // we don't need to aggregate all html contents in memory!
+    // html contents can be GC as soon as they are written to disk
+  };
 };
 
-type SSGSuccess = {
-  pathname: string;
-  error: null;
-  result: SSGSuccessResult;
-  warnings: string[];
-};
-type SSGError = {
+export type SSGError = {
+  success: false;
   pathname: string;
   error: Error;
-  result: null;
-  warnings: string[];
 };
-type SSGResult = SSGSuccess | SSGError;
 
-export async function loadAppRenderer({
+export type SSGResult = SSGSuccess | SSGError;
+
+async function loadAppRenderer({
   serverBundlePath,
 }: {
   serverBundlePath: string;
 }): Promise<AppRenderer> {
   const source = await PerfLogger.async(`Load server bundle`, () =>
     fs.readFile(serverBundlePath),
-  );
-  PerfLogger.log(
-    `Server bundle size = ${(source.length / 1024000).toFixed(3)} MB`,
   );
 
   const filename = path.basename(serverBundlePath);
@@ -101,65 +97,17 @@ export async function loadAppRenderer({
   };
 }
 
-export function printSSGWarnings(
-  results: {
-    pathname: string;
-    warnings: string[];
-  }[],
-): void {
-  // Escape hatch because SWC is quite aggressive to report errors
-  // See https://github.com/facebook/docusaurus/pull/10554
-  // See https://github.com/swc-project/swc/discussions/9616#discussioncomment-10846201
-  if (process.env.DOCUSAURUS_IGNORE_SSG_WARNINGS === 'true') {
-    return;
-  }
+export type SSGRenderer = {
+  shutdown: () => Promise<void>;
+  renderPathnames: (pathnames: string[]) => Promise<SSGResult[]>;
+};
 
-  const ignoredWarnings: string[] = [
-    // TODO React/Docusaurus emit NULL chars, and minifier detects it
-    //  see https://github.com/facebook/docusaurus/issues/9985
-    'Unexpected null character',
-  ];
-
-  const keepWarning = (warning: string) => {
-    return !ignoredWarnings.some((iw) => warning.includes(iw));
-  };
-
-  const resultsWithWarnings = results
-    .map((result) => {
-      return {
-        ...result,
-        warnings: result.warnings.filter(keepWarning),
-      };
-    })
-    .filter((result) => result.warnings.length > 0);
-
-  if (resultsWithWarnings.length) {
-    const message = `Docusaurus static site generation process emitted warnings for ${
-      resultsWithWarnings.length
-    } path${resultsWithWarnings.length ? 's' : ''}
-This is non-critical and can be disabled with DOCUSAURUS_IGNORE_SSG_WARNINGS=true
-Troubleshooting guide: https://github.com/facebook/docusaurus/discussions/10580
-
-- ${resultsWithWarnings
-      .map(
-        (result) => `${logger.path(result.pathname)}:
-  - ${result.warnings.join('\n  - ')}
-`,
-      )
-      .join('\n- ')}`;
-
-    logger.warn(message);
-  }
-}
-
-export async function generateStaticFiles({
-  pathnames,
+export async function loadSSGRenderer({
   params,
 }: {
-  pathnames: string[];
   params: SSGParams;
-}): Promise<{collectedData: SiteCollectedData}> {
-  const [renderer, htmlMinifier, ssgTemplate] = await Promise.all([
+}): Promise<SSGRenderer> {
+  const [appRenderer, htmlMinifier, ssgTemplate] = await Promise.all([
     PerfLogger.async('Load App renderer', () =>
       loadAppRenderer({
         serverBundlePath: params.serverBundlePath,
@@ -175,81 +123,43 @@ export async function generateStaticFiles({
     ),
   ]);
 
-  // Note that we catch all async errors on purpose
-  // Docusaurus presents all the SSG errors to the user, not just the first one
-  const results: SSGResult[] = await pMap(
-    pathnames,
-    async (pathname) =>
-      generateStaticFile({
-        pathname,
-        renderer,
-        params,
-        htmlMinifier,
-        ssgTemplate,
-      }).then(
-        (result) => ({
-          pathname,
-          result,
-          error: null,
-          warnings: result.warnings,
-        }),
-        (error) => ({
-          pathname,
-          result: null,
-          error: error as Error,
-          warnings: [],
-        }),
-      ),
-    {concurrency: SSGConcurrency},
-  );
-
-  await renderer.shutdown();
-
-  printSSGWarnings(results);
-
-  const [allSSGErrors, allSSGSuccesses] = _.partition(
-    results,
-    (result): result is SSGError => !!result.error,
-  );
-
-  if (allSSGErrors.length > 0) {
-    const message = `Docusaurus static site generation failed for ${
-      allSSGErrors.length
-    } path${allSSGErrors.length ? 's' : ''}:\n- ${allSSGErrors
-      .map((ssgError) => logger.path(ssgError.pathname))
-      .join('\n- ')}`;
-
-    // Note logging this error properly require using inspect(error,{depth})
-    // See https://github.com/nodejs/node/issues/51637
-    throw new Error(message, {
-      cause: new AggregateError(allSSGErrors.map((ssgError) => ssgError.error)),
-    });
-  }
-
-  const collectedData: SiteCollectedData = _.chain(allSSGSuccesses)
-    .keyBy((success) => success.pathname)
-    .mapValues((ssgSuccess) => ssgSuccess.result.collectedData)
-    .value();
-
-  return {collectedData};
+  return {
+    renderPathnames: (pathnames) => {
+      return pMap<string, SSGResult>(
+        pathnames,
+        async (pathname) =>
+          generateStaticFile({
+            pathname,
+            appRenderer,
+            params,
+            htmlMinifier,
+            ssgTemplate,
+          }),
+        {concurrency: SSGConcurrency},
+      );
+    },
+    shutdown: async () => {
+      await appRenderer.shutdown();
+    },
+  };
 }
 
 async function generateStaticFile({
   pathname,
-  renderer,
+  appRenderer,
   params,
   htmlMinifier,
   ssgTemplate,
 }: {
   pathname: string;
-  renderer: AppRenderer;
+  appRenderer: AppRenderer;
   params: SSGParams;
   htmlMinifier: HtmlMinifier;
   ssgTemplate: SSGTemplateCompiled;
-}): Promise<SSGSuccessResult & {warnings: string[]}> {
+}): Promise<SSGResult> {
   try {
     // This only renders the app HTML
-    const result = await renderer.render({
+    const appRenderResult = await appRenderer.render({
       pathname,
       v4RemoveLegacyPostBuildHeadAttribute:
         params.v4RemoveLegacyPostBuildHeadAttribute,
@@ -257,7 +167,7 @@ async function generateStaticFile({
     // This renders the full page HTML, including head tags...
     const fullPageHtml = renderSSGTemplate({
       params,
-      result,
+      result: appRenderResult,
       ssgTemplate,
     });
     const minifierResult = await htmlMinifier.minify(fullPageHtml);
@@ -267,9 +177,13 @@ async function generateStaticFile({
       params,
     });
     return {
-      collectedData: result.collectedData,
-      // As of today, only the html minifier can emit SSG warnings
-      warnings: minifierResult.warnings,
+      success: true,
+      pathname,
+      result: {
+        collectedData: appRenderResult.collectedData,
+        // As of today, only the html minifier can emit SSG warnings
+        warnings: minifierResult.warnings,
+      },
     };
   } catch (errorUnknown) {
     const error = errorUnknown as Error;
@@ -277,9 +191,13 @@ async function generateStaticFile({
     const message = logger.interpolate`Can't render static file for pathname path=${pathname}${
       tips ? `\n\n${tips}` : ''
     }`;
-    throw new Error(message, {
-      cause: error,
-    });
+    return {
+      success: false,
+      pathname,
+      error: new Error(message, {
+        cause: error,
+      }),
+    };
   }
 }
 
