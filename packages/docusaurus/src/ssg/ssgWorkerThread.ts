@@ -23,7 +23,7 @@ if (!params) {
   throw new Error(`SSG Worker Thread workerData params missing`);
 }
 
-const WorkerLogPrefix = `SSG Worker ${logger.default.name(workerId)}`;
+const WorkerLogPrefix = `SSG Worker ${logger.name(workerId)}`;
 
 // We only load once the SSG rendered (expensive), NOT once per worker task
 // TODO check potential memory leak?
@@ -46,9 +46,9 @@ export default async function executeSSGWorkerThreadTask(
   const appRenderer = await appRendererPromise;
 
   const ssgResults = await PerfLogger.async(
-    `${WorkerLogPrefix} - Task ${logger.default.name(
+    `${WorkerLogPrefix} - Task ${logger.name(
       task.id,
-    )} - Rendering ${logger.default.cyan(task.pathnames.length)} pathnames`,
+    )} - Rendering ${logger.cyan(task.pathnames.length)} pathnames`,
     () => appRenderer.renderPathnames(task.pathnames),
   );
 
