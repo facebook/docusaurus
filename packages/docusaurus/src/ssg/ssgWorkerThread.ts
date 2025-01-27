@@ -50,7 +50,8 @@ export default async function executeSSGWorkerThreadTask(
     () => appRenderer.renderPathnames(task.pathnames),
   );
 
-  // TODO do not shutdown for every single render task
+  // Afaik it's not needed to shutdown here,
+  // The thread pool destroys worker thread and releases worker thread memory
   // await appRenderer.shutdown();
 
   return ssgResults;
