@@ -9,10 +9,11 @@ import * as path from 'path';
 import {pathToFileURL} from 'node:url';
 import os from 'os';
 import _ from 'lodash';
-import {PerfLogger} from '@docusaurus/logger';
+import logger, {PerfLogger} from '@docusaurus/logger';
 import {createSSGParams} from './ssgParams';
 import {renderHashRouterTemplate} from './ssgTemplate';
-import {generateHashRouterEntrypoint, SSGWorkerThreads} from './ssgUtils';
+import {SSGWorkerThreadCount, SSGWorkerThreadTaskSize} from './ssgEnv';
+import {generateHashRouterEntrypoint} from './ssgUtils';
 import {createGlobalSSGResult} from './ssgGlobalResult';
 import {executeSSGInlineTask} from './ssgWorkerInline';
 import type {Props, RouterType} from '@docusaurus/types';
@@ -64,34 +65,29 @@ function inferNumberOfThreads({
   pageCount,
   cpuCount,
   minPagesPerCpu,
-  maxThreads,
 }: {
   pageCount: number;
   cpuCount: number;
   minPagesPerCpu: number;
-  maxThreads: number;
 }) {
   // Calculate "ideal" amount of threads based on the number of pages to render
   const threadsByWorkload = Math.ceil(pageCount / minPagesPerCpu);
   // Use the smallest of threadsByWorkload or cpuCount, ensuring min=1 thread
-  const threads = Math.max(1, Math.min(threadsByWorkload, cpuCount));
-  return Math.min(maxThreads, threads);
+  return Math.max(1, Math.min(threadsByWorkload, cpuCount));
 }
 
 function getNumberOfThreads(pathnames: string[]) {
-  if (typeof SSGWorkerThreads !== 'undefined') {
-    return SSGWorkerThreads;
+  if (typeof SSGWorkerThreadCount !== 'undefined') {
+    return SSGWorkerThreadCount;
   }
   return inferNumberOfThreads({
     pageCount: pathnames.length,
+    // TODO use "physical CPUs" instead of "logical CPUs" (like Tinypool does)
+    // See also https://github.com/tinylibs/tinypool/pull/108
     cpuCount: os.cpus().length,
-
     // These are "magic value" that we should refine based on user feedback
     // Local tests show that it's not worth spawning new workers for few pages
     minPagesPerCpu: 100,
-    // Local tests show that even if there are many CPUs and pages
-    // Using too many threads decrease performance, probably because of IOs
-    maxThreads: 8,
   });
 }
 
@@ -99,9 +95,7 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
   params,
   pathnames,
 }) => {
-  // Sensible default that gives the best improvement so far:
   const numberOfThreads = getNumberOfThreads(pathnames);
-
   // When the inferred or provided number of threads is just 1
   // It's not worth it to use a thread pool
   // This also allows users to disable the thread pool with the env variable
@@ -111,7 +105,7 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
   }
 
   const pool = await PerfLogger.async(
-    `Create SSG pool with ${numberOfThreads} threads`,
+    `Create SSG pool - ${logger.cyan(numberOfThreads)} threads`,
     async () => {
       const Tinypool = await import('tinypool').then((m) => m.default);
 
@@ -131,13 +125,7 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
     },
   );
 
-  //  Some chunks may contain more expensive pages
-  //  and we have to wait for the slowest chunk to finish to complete SSG
-  //  There can be a significant time lapse between the fastest/slowest worker
-  // TODO this param is not easy to fine-tune! need to be exposed
-  const pathnamesPerWorkerTask = 5;
-
-  const pathnamesChunks = _.chunk(pathnames, pathnamesPerWorkerTask);
+  const pathnamesChunks = _.chunk(pathnames, SSGWorkerThreadTaskSize);
 
   // Tiny wrapper for type-safety
   const submitTask: ExecuteSSGWorkerThreadTask = (task) => pool.run(task);

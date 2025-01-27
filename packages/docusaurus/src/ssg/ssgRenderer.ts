@@ -18,7 +18,8 @@ import {
   renderSSGTemplate,
   type SSGTemplateCompiled,
 } from './ssgTemplate';
-import {SSGConcurrency, writeStaticFile} from './ssgUtils';
+import {SSGConcurrency} from './ssgEnv';
+import {writeStaticFile} from './ssgUtils';
 import {createSSGRequire} from './ssgNodeRequire';
 import type {SSGParams} from './ssgParams';
 import type {AppRenderer, AppRenderResult} from '../common';
