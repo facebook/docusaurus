@@ -14,6 +14,7 @@ import {
   getVersionDocsDirPath,
   getVersionSidebarsPath,
   getDocsDirPathLocalized,
+  getPluginDirPathLocalized,
   readVersionsFile,
 } from './versions/files';
 import {validateVersionName} from './versions/validation';
@@ -123,6 +124,30 @@ async function cliDocsVersionCommand(
               versionName: version,
             });
       await fs.copy(docsDir, newVersionDir);
+
+      // Copy i18n resource file for this locale
+      if (locale !== i18n.defaultLocale) {
+        const pluginDir =
+          getPluginDirPathLocalized({
+            localizationDir,
+            pluginId,
+          });
+
+        const currentI18nPath = path.join(
+          pluginDir,
+          'current.json',
+        );
+        const versionedI18nPath = path.join(
+          pluginDir,
+          `version-${version}.json`,
+        );
+
+        if (await fs.pathExists(currentI18nPath)) {
+          await fs.copy(currentI18nPath, versionedI18nPath);
+        } else {
+          logger.warn`${pluginIdLogPrefix}: i18n resource file does not exist in path=${currentI18nPath}. Skipping.`;
+        }
+      }
     }),
   );
 
