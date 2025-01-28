@@ -28,34 +28,16 @@ import type {
   ActiveDocContext,
 } from '@docusaurus/plugin-content-docs/client';
 
-type VersionConfiguration = {name: string} & PropVersionItem;
-
-function getVersionConfigurations(
-  versions: PropVersions,
-): VersionConfiguration[] {
-  if (Array.isArray(versions)) {
-    return versions.map((name): VersionConfiguration => {
-      return {name};
-    });
-  } else {
-    return Object.entries(versions).map(
-      ([name, version]): VersionConfiguration => {
-        return {name, ...version};
-      },
-    );
-  }
-}
-
-type ConfiguredVersion = {
+type VersionItem = {
   version: GlobalVersion;
-  configuration?: VersionConfiguration;
+  config?: PropVersionItem;
 };
 
-function configureVersions(
+function getDropdownVersions(
   versions: GlobalVersion[],
-  staticVersions?: PropVersions,
-): ConfiguredVersion[] {
-  if (staticVersions) {
+  configs?: PropVersions,
+): VersionItem[] {
+  if (configs) {
     // The versions are configured
 
     // Collect all the versions we have
@@ -63,21 +45,34 @@ function configureVersions(
       versions.map((version) => [version.name, version]),
     );
 
-    // Keep only versions specified in configuration, reorder them accordingly
-    const configuredVersions: ConfiguredVersion[] = [];
-    for (const configuration of getVersionConfigurations(staticVersions)) {
-      const version = versionMap.get(configuration.name);
+    function getVersionItem(
+      name: string,
+      config?: PropVersionItem,
+    ): VersionItem | undefined {
+      const version = versionMap.get(name);
       if (!version) {
         // A version configuration references a non-existing version, ignore it
-        continue;
+        return undefined;
       }
-      configuredVersions.push({version, configuration});
+      return {version, config};
     }
-    return configuredVersions;
+
+    // Keep only versions specified in configuration, reorder them accordingly
+    let versionItems: (VersionItem | undefined)[];
+    if (Array.isArray(configs)) {
+      versionItems = configs.map((name) => getVersionItem(name, undefined));
+    } else {
+      versionItems = Object.entries(configs).map(([name, config]) =>
+        getVersionItem(name, config),
+      );
+    }
+
+    // Filter out ignored items
+    return versionItems.filter((x) => x !== undefined);
   } else {
     // The versions are not configured
-    return versions.map((version): ConfiguredVersion => {
-      return {version};
+    return versions.map((version) => {
+      return {version, config: undefined};
     });
   }
 }
@@ -104,13 +99,13 @@ export default function DocsVersionDropdownNavbarItem({
   dropdownActiveClassDisabled,
   dropdownItemsBefore,
   dropdownItemsAfter,
-  versions: staticVersions,
+  versions: versionConfigs,
   ...props
 }: Props): ReactNode {
   // Build version list
-  const configuredVersions = configureVersions(
+  const dropdownVersions = getDropdownVersions(
     useVersions(docsPluginId),
-    staticVersions,
+    versionConfigs,
   );
 
   // Build item list
@@ -120,11 +115,11 @@ export default function DocsVersionDropdownNavbarItem({
 
   function versionToLink(
     version: GlobalVersion,
-    versionConfiguration?: VersionConfiguration,
+    config?: PropVersionItem,
   ): LinkLikeNavbarItemProps {
     const targetDoc = getVersionTargetDoc(version, activeDocContext);
     return {
-      label: versionConfiguration?.label ?? version.label,
+      label: config?.label ?? version.label,
       // preserve ?search#hash suffix on version switches
       to: `${targetDoc.path}${search}${hash}`,
       isActive: () => version === activeDocContext.activeVersion,
@@ -134,7 +129,7 @@ export default function DocsVersionDropdownNavbarItem({
 
   const items: LinkLikeNavbarItemProps[] = [
     ...dropdownItemsBefore,
-    ...configuredVersions.map((x) => versionToLink(x.version, x.configuration)),
+    ...dropdownVersions.map((item) => versionToLink(item.version, item.config)),
     ...dropdownItemsAfter,
   ];
 
