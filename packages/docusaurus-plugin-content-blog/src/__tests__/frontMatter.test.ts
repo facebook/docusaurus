@@ -119,7 +119,7 @@ describe('validateBlogPostFrontMatter title_meta', () => {
 
 describe('validateBlogPostFrontMatter sidebar_label', () => {
   testField({
-    prefix: 'title_meta',
+    prefix: 'sidebar_label',
     validFrontMatters: [
       {sidebar_label: undefined},
       {sidebar_label: ''},
