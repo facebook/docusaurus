@@ -92,6 +92,21 @@ describe('validateDocFrontMatter title', () => {
   });
 });
 
+describe('validateDocFrontMatter title_meta', () => {
+  testField({
+    prefix: 'title_meta',
+    validFrontMatters: [
+      {title_meta: undefined},
+      {title_meta: ''},
+      {title_meta: 'title'},
+    ],
+    invalidFrontMatters: [
+      [{title_meta: null}, 'must be a string'],
+      [{title_meta: false}, 'must be a string'],
+    ],
+  });
+});
+
 describe('validateDocFrontMatter hide_title', () => {
   testField({
     prefix: 'hide_title',

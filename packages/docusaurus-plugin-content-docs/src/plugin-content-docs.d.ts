@@ -309,6 +309,10 @@ declare module '@docusaurus/plugin-content-docs' {
      */
     title?: string;
     /**
+     * Will be used for SEO page metadata and override DocMetadata.title.
+     */
+    title_meta?: string;
+    /**
      * Front matter tags, unnormalized.
      * @see {@link DocMetadata.tags}
      */
