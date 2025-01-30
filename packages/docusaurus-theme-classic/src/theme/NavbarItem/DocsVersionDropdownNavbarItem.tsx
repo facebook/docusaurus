@@ -33,7 +33,7 @@ type VersionItem = {
   config?: PropVersionItem;
 };
 
-function getDropdownVersions(
+function getVersionItems(
   versions: GlobalVersion[],
   configs?: PropVersions,
 ): VersionItem[] {
@@ -45,6 +45,7 @@ function getDropdownVersions(
       versions.map((version) => [version.name, version]),
     );
 
+    // eslint-disable-next-line no-inner-declarations
     function getVersionItem(
       name: string,
       config?: PropVersionItem,
@@ -77,6 +78,16 @@ function getDropdownVersions(
   }
 }
 
+function useVersionItems({
+  docsPluginId,
+  configs,
+}: {
+  docsPluginId: Props['docsPluginId'];
+  configs: Props['versions'];
+}): VersionItem[] {
+  return getVersionItems(useVersions(docsPluginId), configs);
+}
+
 function getVersionMainDoc(version: GlobalVersion): GlobalDoc {
   return version.docs.find((doc) => doc.id === version.mainDocId)!;
 }
@@ -99,24 +110,18 @@ export default function DocsVersionDropdownNavbarItem({
   dropdownActiveClassDisabled,
   dropdownItemsBefore,
   dropdownItemsAfter,
-  versions: versionConfigs,
+  versions: configs,
   ...props
 }: Props): ReactNode {
-  // Build version list
-  const dropdownVersions = getDropdownVersions(
-    useVersions(docsPluginId),
-    versionConfigs,
-  );
-
-  // Build item list
   const {search, hash} = useLocation();
   const activeDocContext = useActiveDocContext(docsPluginId);
   const {savePreferredVersionName} = useDocsPreferredVersion(docsPluginId);
+  const versionItems = useVersionItems({docsPluginId, configs});
 
-  function versionToLink(
-    version: GlobalVersion,
-    config?: PropVersionItem,
-  ): LinkLikeNavbarItemProps {
+  function versionItemToLink({
+    version,
+    config,
+  }: VersionItem): LinkLikeNavbarItemProps {
     const targetDoc = getVersionTargetDoc(version, activeDocContext);
     return {
       label: config?.label ?? version.label,
@@ -129,7 +134,7 @@ export default function DocsVersionDropdownNavbarItem({
 
   const items: LinkLikeNavbarItemProps[] = [
     ...dropdownItemsBefore,
-    ...dropdownVersions.map((item) => versionToLink(item.version, item.config)),
+    ...versionItems.map(versionItemToLink),
     ...dropdownItemsAfter,
   ];
 
