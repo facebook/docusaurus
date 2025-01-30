@@ -844,6 +844,24 @@ describe('themeConfig', () => {
         testValidateThemeConfig(config);
       });
 
+      it('rejects empty array of strings', () => {
+        const config = {
+          navbar: {
+            items: [
+              {
+                type: 'docsVersionDropdown',
+                versions: [],
+              },
+            ],
+          },
+        };
+        expect(() =>
+          testValidateThemeConfig(config),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `""navbar.items[0].versions" must contain at least 1 items"`,
+        );
+      });
+
       it('rejects array of non-strings', () => {
         const config = {
           navbar: {
@@ -874,6 +892,24 @@ describe('themeConfig', () => {
           },
         };
         testValidateThemeConfig(config);
+      });
+
+      it('rejects empty dictionary of objects', () => {
+        const config = {
+          navbar: {
+            items: [
+              {
+                type: 'docsVersionDropdown',
+                versions: {},
+              },
+            ],
+          },
+        };
+        expect(() =>
+          testValidateThemeConfig(config),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `""navbar.items[0].versions" must have at least 1 key"`,
+        );
       });
 
       it('rejects dictionary of invalid objects', () => {

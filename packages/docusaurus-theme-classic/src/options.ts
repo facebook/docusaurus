@@ -215,13 +215,15 @@ const DocsVersionDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
   versions: Joi.alternatives().try(
-    Joi.array().items(Joi.string().min(1)),
-    Joi.object<PropVersionItems>().pattern(
-      Joi.string().min(1),
-      Joi.object<PropVersionItem>({
-        label: Joi.string().min(1),
-      }),
-    ),
+    Joi.array().items(Joi.string().min(1)).min(1),
+    Joi.object<PropVersionItems>()
+      .pattern(
+        Joi.string().min(1),
+        Joi.object<PropVersionItem>({
+          label: Joi.string().min(1),
+        }),
+      )
+      .min(1),
   ),
 });
 
