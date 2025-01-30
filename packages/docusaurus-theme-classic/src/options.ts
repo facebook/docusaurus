@@ -7,11 +7,11 @@
 
 import {themes} from 'prism-react-renderer';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import type {Options, PluginOptions} from '@docusaurus/theme-classic';
 import type {
   PropVersionItem,
   PropVersionItems,
 } from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
+import type {Options, PluginOptions} from '@docusaurus/theme-classic';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import type {
   ThemeConfigValidationContext,
