@@ -45,33 +45,26 @@ function getVersionItems(
       versions.map((version) => [version.name, version]),
     );
 
-    // eslint-disable-next-line no-inner-declarations
-    function getVersionItem(
+    const toVersionItem = (
       name: string,
       config?: PropVersionItem,
-    ): VersionItem | undefined {
+    ): VersionItem => {
       const version = versionMap.get(name);
       if (!version) {
-        // A version configuration references a non-existing version, ignore it
-        return undefined;
+        throw new Error(`No docs version exist for name '${name}', please verify your 'docsVersionDropdown' navbar item versions config.
+Available version names:\n- ${versions.map((v) => `${v.name}`).join('\n- ')}`);
       }
       return {version, config};
-    }
+    };
 
-    // Keep only versions specified in configuration, reorder them accordingly
-    let versionItems: (VersionItem | undefined)[];
     if (Array.isArray(configs)) {
-      versionItems = configs.map((name) => getVersionItem(name, undefined));
+      return configs.map((name) => toVersionItem(name, undefined));
     } else {
-      versionItems = Object.entries(configs).map(([name, config]) =>
-        getVersionItem(name, config),
+      return Object.entries(configs).map(([name, config]) =>
+        toVersionItem(name, config),
       );
     }
-
-    // Filter out ignored items
-    return versionItems.filter((x) => x !== undefined);
   } else {
-    // The versions are not configured
     return versions.map((version) => {
       return {version, config: undefined};
     });
@@ -85,7 +78,8 @@ function useVersionItems({
   docsPluginId: Props['docsPluginId'];
   configs: Props['versions'];
 }): VersionItem[] {
-  return getVersionItems(useVersions(docsPluginId), configs);
+  const versions = useVersions(docsPluginId);
+  return getVersionItems(versions, configs);
 }
 
 function getVersionMainDoc(version: GlobalVersion): GlobalDoc {
