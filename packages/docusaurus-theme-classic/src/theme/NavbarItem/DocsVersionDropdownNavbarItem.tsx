@@ -102,15 +102,12 @@ function useDisplayedVersionItem({
   docsPluginId: Props['docsPluginId'];
   versionItems: VersionItem[];
 }): VersionItem {
+  // The order of the candidates matters!
   const candidates = useDocsVersionCandidates(docsPluginId);
-  const displayedVersion =
-    candidates.find((candidate) =>
-      versionItems.some((vi) => vi.version === candidate),
-    ) ?? versionItems[0]!.version;
-  const displayedVersionItem = versionItems.find(
-    (vi) => vi.version === displayedVersion,
-  )!;
-  return displayedVersionItem;
+  const candidateItems = candidates
+    .map((candidate) => versionItems.find((vi) => vi.version === candidate))
+    .filter((vi) => vi !== undefined);
+  return candidateItems[0] ?? versionItems[0]!;
 }
 
 export default function DocsVersionDropdownNavbarItem({
