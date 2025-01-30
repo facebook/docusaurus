@@ -30,7 +30,7 @@ import type {
 
 type VersionItem = {
   version: GlobalVersion;
-  config?: PropVersionItem;
+  label: string;
 };
 
 function getVersionItems(
@@ -38,8 +38,6 @@ function getVersionItems(
   configs?: PropVersions,
 ): VersionItem[] {
   if (configs) {
-    // The versions are configured
-
     // Collect all the versions we have
     const versionMap = new Map<string, GlobalVersion>(
       versions.map((version) => [version.name, version]),
@@ -54,7 +52,7 @@ function getVersionItems(
         throw new Error(`No docs version exist for name '${name}', please verify your 'docsVersionDropdown' navbar item versions config.
 Available version names:\n- ${versions.map((v) => `${v.name}`).join('\n- ')}`);
       }
-      return {version, config};
+      return {version, label: config?.label ?? version.label};
     };
 
     if (Array.isArray(configs)) {
@@ -65,9 +63,7 @@ Available version names:\n- ${versions.map((v) => `${v.name}`).join('\n- ')}`);
       );
     }
   } else {
-    return versions.map((version) => {
-      return {version, config: undefined};
-    });
+    return versions.map((version) => ({version, label: version.label}));
   }
 }
 
@@ -98,6 +94,25 @@ function getVersionTargetDoc(
   );
 }
 
+// The version item to use for the "dropdown button"
+function useDisplayedVersionItem({
+  docsPluginId,
+  versionItems,
+}: {
+  docsPluginId: Props['docsPluginId'];
+  versionItems: VersionItem[];
+}): VersionItem {
+  const candidates = useDocsVersionCandidates(docsPluginId);
+  const displayedVersion =
+    candidates.find((candidate) =>
+      versionItems.some((vi) => vi.version === candidate),
+    ) ?? versionItems[0]!.version;
+  const displayedVersionItem = versionItems.find(
+    (vi) => vi.version === displayedVersion,
+  )!;
+  return displayedVersionItem;
+}
+
 export default function DocsVersionDropdownNavbarItem({
   mobile,
   docsPluginId,
@@ -111,14 +126,18 @@ export default function DocsVersionDropdownNavbarItem({
   const activeDocContext = useActiveDocContext(docsPluginId);
   const {savePreferredVersionName} = useDocsPreferredVersion(docsPluginId);
   const versionItems = useVersionItems({docsPluginId, configs});
+  const displayedVersionItem = useDisplayedVersionItem({
+    docsPluginId,
+    versionItems,
+  });
 
   function versionItemToLink({
     version,
-    config,
+    label,
   }: VersionItem): LinkLikeNavbarItemProps {
     const targetDoc = getVersionTargetDoc(version, activeDocContext);
     return {
-      label: config?.label ?? version.label,
+      label,
       // preserve ?search#hash suffix on version switches
       to: `${targetDoc.path}${search}${hash}`,
       isActive: () => version === activeDocContext.activeVersion,
@@ -132,8 +151,6 @@ export default function DocsVersionDropdownNavbarItem({
     ...dropdownItemsAfter,
   ];
 
-  const dropdownVersion = useDocsVersionCandidates(docsPluginId)[0];
-
   // Mobile dropdown is handled a bit differently
   const dropdownLabel =
     mobile && items.length > 1
@@ -143,11 +160,13 @@ export default function DocsVersionDropdownNavbarItem({
           description:
             'The label for the navbar versions dropdown on mobile view',
         })
-      : dropdownVersion.label;
+      : displayedVersionItem.label;
+
   const dropdownTo =
     mobile && items.length > 1
       ? undefined
-      : getVersionTargetDoc(dropdownVersion, activeDocContext).path;
+      : getVersionTargetDoc(displayedVersionItem.version, activeDocContext)
+          .path;
 
   // We don't want to render a version dropdown with 0 or 1 item. If we build
   // the site with a single docs version (onlyIncludeVersions: ['1.0.0']),
