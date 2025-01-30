@@ -258,7 +258,7 @@ See [docs plugin configuration](../../api/plugins/plugin-content-docs.mdx#config
 
 ## Navbar items {#navbar-items}
 
-We offer several navbar items to help you quickly set up navigation without worrying about versioned routes.
+We offer several docs navbar items to help you quickly set up navigation without worrying about versioned routes.
 
 - [`doc`](../../api/themes/theme-configuration.mdx#navbar-doc-link): a link to a doc.
 - [`docSidebar`](../../api/themes/theme-configuration.mdx#navbar-doc-sidebar): a link to the first item in a sidebar.
@@ -273,7 +273,9 @@ These links would all look for an appropriate version to link to, in the followi
 
 ## `docsVersionDropdown` {#docsVersionDropdown}
 
-By default, the [`docsVersionDropdown`](../../api/themes/theme-configuration.mdx#navbar-docs-version-dropdown) displays all the versions provided by the docs. However, sometimes it may be beneficial to restrict the number of displayed versions to simplify the user experience. To achieve that, it is possible to specify a custom list of versions that should be offered in the dropdown:
+By default, the [`docsVersionDropdown`](../../api/themes/theme-configuration.mdx#navbar-docs-version-dropdown) displays a dropdown with all the available docs versions.
+
+The `versions` attribute allows you to display a subset of the available docs versions in a given order:
 
 ```js title="docusaurus.config.js"
 export default {
@@ -283,7 +285,7 @@ export default {
         {
           type: 'docsVersionDropdown',
           // highlight-start
-          versions: ['current', '2024.2', '2024.1', '2023.4'],
+          versions: ['current', '3.0', '2.0'],
           // highlight-end
         },
       ],
@@ -292,33 +294,7 @@ export default {
 };
 ```
 
-Some versioning schemes may benefit from an even more detailed configuration of displayed versions. For example, if you are using semantic versioning, you may have versions such as:
-
-```
-2.1.1
-2.1.0
-2.0.1
-2.0.0
-1.0.1
-1.0.0
-```
-
-And maybe you want to have them in the dropdown as:
-
-```
-2.1
-2.0
-1.0
-```
-
-or maybe just:
-
-```
-1.x
-2.x
-```
-
-To achieve that, you can specify a custom configuration for every version that should be displayed in the dropdown:
+Passing a `versions` object, lets you override the display label of each version:
 
 ```js title="docusaurus.config.js"
 export default {
@@ -329,8 +305,9 @@ export default {
           type: 'docsVersionDropdown',
           // highlight-start
           versions: {
-            '1.0.1': {label: '1.x'},
-            '2.1.1': {label: '2.x'},
+            current: {label: 'Version 4.0'},
+            '3.0': {label: 'Version 3.0'},
+            '2.0': {label: 'Version 2.0'},
           },
           // highlight-end
         },
