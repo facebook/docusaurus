@@ -1257,11 +1257,22 @@ declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
   import type {Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
+  type PropVersionItem = {
+    readonly label?: string;
+  };
+
+  type PropVersionItems = {
+    readonly [version: string]: PropVersionItem;
+  };
+
+  type PropVersions = string[] | PropVersionItems;
+
   export interface Props extends DropdownNavbarItemProps {
     readonly docsPluginId?: string;
     readonly dropdownActiveClassDisabled?: boolean;
     readonly dropdownItemsBefore: LinkLikeNavbarItemProps[];
     readonly dropdownItemsAfter: LinkLikeNavbarItemProps[];
+    readonly versions?: PropVersions;
   }
 
   export default function DocsVersionDropdownNavbarItem(
