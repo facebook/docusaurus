@@ -15,5 +15,11 @@ import DocPaginator from '@theme/DocPaginator';
  */
 export default function DocItemPaginator(): ReactNode {
   const {metadata} = useDoc();
-  return <DocPaginator previous={metadata.previous} next={metadata.next} />;
+  return (
+    <DocPaginator
+      className="docusaurus-mt-lg"
+      previous={metadata.previous}
+      next={metadata.next}
+    />
+  );
 }
