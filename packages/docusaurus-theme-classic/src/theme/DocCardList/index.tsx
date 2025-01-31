@@ -39,7 +39,7 @@ export default function DocCardList(props: Props): ReactNode {
   }
   const filteredItems = filterDocCardListItems(items);
   return (
-    <section className={clsx('row', 'margin-top--md', className)}>
+    <section className={clsx('row', className)}>
       {filteredItems.map((item, index) => (
         <DocCardListItem key={index} item={item} />
       ))}

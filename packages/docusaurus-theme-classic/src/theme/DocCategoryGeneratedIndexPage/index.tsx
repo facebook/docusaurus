@@ -50,10 +50,10 @@ function DocCategoryGeneratedIndexPageContent({
           <p>{categoryGeneratedIndex.description}</p>
         )}
       </header>
-      <article className="margin-top--md">
+      <article className="margin-top--lg">
         <DocCardList items={category.items} className={styles.list} />
       </article>
-      <footer>
+      <footer className="margin-top--md">
         <DocPaginator
           previous={categoryGeneratedIndex.navigation.previous}
           next={categoryGeneratedIndex.navigation.next}
