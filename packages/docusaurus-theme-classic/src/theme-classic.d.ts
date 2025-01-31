@@ -624,7 +624,9 @@ declare module '@theme/DocPaginator' {
   import type {PropNavigation} from '@docusaurus/plugin-content-docs';
 
   // May be simpler to provide a {navigation: PropNavigation} prop?
-  export interface Props extends PropNavigation {}
+  export interface Props extends PropNavigation {
+    className?: string;
+  }
 
   export default function DocPaginator(props: Props): ReactNode;
 }
