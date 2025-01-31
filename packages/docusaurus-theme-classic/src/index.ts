@@ -14,7 +14,7 @@ import {
   getAnnouncementBarInlineScript,
   DataAttributeQueryStringInlineJavaScript,
 } from './inlineScripts';
-import {SvgSpriteSymbols} from './inlineSvgSprites';
+import {SvgSpriteDefs} from './inlineSvgSprites';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import type {Plugin as PostCssPlugin} from 'postcss';
@@ -128,7 +128,7 @@ export default function themeClassic(
               xmlns: 'http://www.w3.org/2000/svg',
               style: 'display: none;',
             },
-            innerHTML: SvgSpriteSymbols,
+            innerHTML: SvgSpriteDefs,
           },
           {
             tagName: 'script',
