@@ -125,18 +125,14 @@ async function cliDocsVersionCommand(
             });
       await fs.copy(docsDir, newVersionDir);
 
-      // Copy i18n resource file for this locale
+      // Copy version JSON translation file for this locale
       if (locale !== i18n.defaultLocale) {
-        const pluginDir =
-          getPluginDirPathLocalized({
-            localizationDir,
-            pluginId,
-          });
+        const pluginDir = getPluginDirPathLocalized({
+          localizationDir,
+          pluginId,
+        });
 
-        const currentI18nPath = path.join(
-          pluginDir,
-          'current.json',
-        );
+        const currentI18nPath = path.join(pluginDir, 'current.json');
         const versionedI18nPath = path.join(
           pluginDir,
           `version-${version}.json`,
