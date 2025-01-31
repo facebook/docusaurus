@@ -126,22 +126,19 @@ async function cliDocsVersionCommand(
       await fs.copy(docsDir, newVersionDir);
 
       // Copy version JSON translation file for this locale
+      // i18n/<l>/docusaurus-plugin-content-docs/current.json => version-v1.json
+      // See https://docusaurus.io/docs/next/api/plugins/@docusaurus/plugin-content-docs#translation-files-location
       if (locale !== i18n.defaultLocale) {
-        const pluginDir = getPluginDirPathLocalized({
+        const dir = getPluginDirPathLocalized({
           localizationDir,
           pluginId,
         });
-
-        const currentI18nPath = path.join(pluginDir, 'current.json');
-        const versionedI18nPath = path.join(
-          pluginDir,
-          `version-${version}.json`,
-        );
-
-        if (await fs.pathExists(currentI18nPath)) {
-          await fs.copy(currentI18nPath, versionedI18nPath);
+        const sourceFile = path.join(dir, 'current.json');
+        const dest = path.join(dir, `version-${version}.json`);
+        if (await fs.pathExists(sourceFile)) {
+          await fs.copy(sourceFile, dest);
         } else {
-          logger.warn`${pluginIdLogPrefix}: i18n resource file does not exist in path=${currentI18nPath}. Skipping.`;
+          logger.warn`${pluginIdLogPrefix}: i18n translation file does not exist in path=${sourceFile}. Skipping.`;
         }
       }
     }),
