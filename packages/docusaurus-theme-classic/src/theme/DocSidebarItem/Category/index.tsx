@@ -188,7 +188,14 @@ export default function DocSidebarItemCategory({
               ? (e) => {
                   onItemClick?.(item);
                   if (href) {
-                    updateCollapsed(false);
+                    if (isActive) {
+                      e.preventDefault();
+                      updateCollapsed();
+                    } else {
+                      // When navigating to a new category, we always expand
+                      // see https://github.com/facebook/docusaurus/issues/10854#issuecomment-2609616182
+                      updateCollapsed(false);
+                    }
                   } else {
                     e.preventDefault();
                     updateCollapsed();
