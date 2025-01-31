@@ -14,6 +14,7 @@ import {
   getAnnouncementBarInlineScript,
   DataAttributeQueryStringInlineJavaScript,
 } from './inlineScripts';
+import {SvgSpriteDefs} from './inlineSvgSprites';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import type {Plugin as PostCssPlugin} from 'postcss';
@@ -121,6 +122,14 @@ export default function themeClassic(
     injectHtmlTags() {
       return {
         preBodyTags: [
+          {
+            tagName: 'svg',
+            attributes: {
+              xmlns: 'http://www.w3.org/2000/svg',
+              style: 'display: none;',
+            },
+            innerHTML: SvgSpriteDefs,
+          },
           {
             tagName: 'script',
             innerHTML: `
