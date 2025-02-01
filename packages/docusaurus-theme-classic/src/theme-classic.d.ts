@@ -1846,3 +1846,14 @@ declare module '@theme/DocBreadcrumbs/Items/Home' {
 
   export default function HomeBreadcrumbItem(): ReactNode;
 }
+
+declare module '@theme/DocBreadcrumbs/StructuredData' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarBreadcrumbsItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly breadcrumbs: PropSidebarBreadcrumbsItem[];
+  }
+
+  export default function DocBreadcrumbsStructuredData(props: Props): ReactNode;
+}
