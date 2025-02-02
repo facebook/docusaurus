@@ -10,7 +10,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "EliteUS",
+  title: "L33TSP3AK_ELITE_BOT",
   tagline: "Only for those dedicated",
   favicon: "img/favicon.ico",
 
@@ -45,8 +45,8 @@ const config = {
           sidebarPath: "./sidebars.js",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+          editUrl: "https://github.com/L33TSP3AK/",
+          // Add a custom plugin for Telegram authentication
         },
         blog: {
           showReadingTime: true,
@@ -56,8 +56,7 @@ const config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+          editUrl: "https://github.com/L33TSP3AK/",
           // Useful options to enforce blogging best practices
           onInlineTags: "warn",
           onInlineAuthors: "warn",
@@ -76,7 +75,7 @@ const config = {
       // Replace with your project's social card
       image: "img/docusaurus-social-card.jpg",
       navbar: {
-        title: "EliteUS",
+        title: "L33TSP3AK_ELITE_BOT",
         logo: {
           alt: "My Site Logo",
           src: "img/logo.svg",
@@ -90,7 +89,7 @@ const config = {
           },
           { to: "/blog", label: "Blog", position: "left" },
           {
-            href: "https://github.com/facebook/docusaurus",
+            href: "https://github.com/L33TSP3AK",
             label: "GitHub",
             position: "right",
           },
@@ -100,11 +99,40 @@ const config = {
         style: "dark",
         links: [
           {
-            title: "Docs",
+            title: "Guides",
             items: [
               {
-                label: "Tutorial",
+                label: "BootCamp",
                 to: "/docs/intro",
+              },
+              {
+                label: "Stealer Logs",
+                to: "/docs/tutorial-basics/stealer-logs-overview",
+              },
+              {
+                label: "Carding",
+                to: "/docs/tutorial-basics/bank-check",
+              },
+              {
+                label: "ULP Logs",
+                to: "/docs/tutorial-basics/Request ULP",
+              },
+            ],
+          },
+          {
+            title: "Membership",
+            items: [
+              {
+                label: "Levels & Access",
+                to: "/docs/intro",
+              },
+              {
+                label: "Members Promos",
+                to: "/docs/tutorial-basics/stealer-logs-overview",
+              },
+              {
+                label: "Referral System",
+                to: "/docs/tutorial-basics/bank-check",
               },
             ],
           },
@@ -113,15 +141,15 @@ const config = {
             items: [
               {
                 label: "Github",
-                href: "https://stackoverflow.com/questions/tagged/docusaurus",
+                href: "https://github.com/L33TSP3AK",
               },
               {
                 label: "Telegram",
-                href: "https://discordapp.com/invite/docusaurus",
+                href: "https://t.me/DiamondDumper",
               },
               {
                 label: "XSS",
-                href: "https://x.com/docusaurus",
+                href: "https://xss.is/members/335408/",
               },
             ],
           },
@@ -133,8 +161,16 @@ const config = {
                 to: "/blog",
               },
               {
+                label: "Launch Bot Profile",
+                href: "https://t.me/L33TSP3AK_ELITE_BOT?start=profile",
+              },
+              {
+                label: "Bot Status",
+                href: "https://t.me/L33TSP3AK_ELITE_BOT?start=status",
+              },
+              {
                 label: "GitHub",
-                href: "https://github.com/facebook/docusaurus",
+                href: "https://github.com/L33TSP3AK",
               },
             ],
           },

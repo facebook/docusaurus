@@ -1,25 +1,55 @@
 /* src/components/CardingGuidesButton.module.css */
 .buttonContainer {
   text-align: center; /* Center the button */
-  margin: 20px 0; /* Add some margin */
+  margin: 5px 0; /* Add some margin */
 }
 
-.button {
+const Button = styled.button`
   padding: 1em 1.5em;
   font-size: 1em;
   font-weight: 400;
   font-family: "Helvetica", "Arial", sans-serif;
-  border-radius: 4px;
+  border-radius: 1px;
   cursor: pointer;
   appearance: none;
   border: none;
   color: #ffffff;
   margin-bottom: 20px;
-}
+  text-align: center; /* Center the button text */
+
+  &.primary {
+    background: linear-gradient(to right, #e55d87, #5fc3e4);
+    box-shadow: 0 2px 15px rgba(229, 93, 135, 0.5);
+
+    &:hover {
+      background: linear-gradient(to right, rgba(229, 93, 135, 0.9), rgba(95, 195, 228, 0.9));
+    }
+  }
+
+  &.secondary {
+    background: linear-gradient(to right, #1488cc, #2b32b2);
+    box-shadow: 0 2px 25px rgba(20, 137, 204, 0.5);
+
+    &:hover {
+      background: linear-gradient(to right, rgba(20, 136, 204, 0.9), rgba(43, 50, 178, 0.9));
+    }
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+  }
+
+  @media (max-width: 600px) {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+`;
+
 
 .button-first {
   background: linear-gradient(to right, #e55d87, #5fc3e4);
-  box-shadow: 0 2px 25px rgba(229, 93, 135, 0.5);
+  box-shadow: 0 2px 15px rgba(229, 93, 135, 0.5);
 }
 
 .button-first:active {

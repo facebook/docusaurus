@@ -1,0 +1,23 @@
+.callout {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.callout_note {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+
+.callout_warning {
+  background-color: #fff0f0;
+  border-color: #f4c2c2;
+}
+
+.callout_info {
+  background-color: #e6f7ff;
+  border-color: #b8daff;
+}
+
+/* Add more callout styles as needed */

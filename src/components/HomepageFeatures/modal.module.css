@@ -26,7 +26,7 @@
 }
 
 button {
-  padding: 10px 15px; /* Button padding */
+  padding: 5px 5px; /* Button padding */
   background-color: #05eaff; /* Button color */
   border: none; /* Remove default border */
   border-radius: 5px; /* Rounded corners for button */

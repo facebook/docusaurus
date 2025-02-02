@@ -1,3 +1,4 @@
+/* HeroBanner styles (unchanged) */
 .heroBanner {
   padding: 4rem 0;
   text-align: center;
@@ -11,89 +12,148 @@
   }
 }
 
-/* src/components/CardingGuidesButton.module.css */
-.buttonContainer {
-  text-align: center; /* Center the button */
-  margin: 20px 0; /* Add some margin */
-}
-
-.buttonRow {
-  display: flex;
-  justify-content: center; /* Center align buttons in each row */
-  margin-bottom: 20px; /* Increased space between rows */
-}
-
-.buttonRow .button {
-  margin: 0 10px; /* Horizontal space between buttons */
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover effects */
-}
-
-.buttonRow .button:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Lighten on hover */
-  transform: translateY(-2px); /* Slight lift effect on hover */
-}
-
-.buttonRow .button:first-child {
-  margin-left: 0; /* Remove left margin for the first button */
-}
-
-.buttonRow .button:last-child {
-  margin-right: 0; /* Remove right margin for the last button */
+.button {
+  display: inline-block;
+  padding: 1rem 2rem; /* Adjust padding as needed */
+  border-radius: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s ease; /* Transition for all relevant properties */
+  font-family: "Roboto", sans-serif;
 }
 
 .button:hover {
-  background-color: #45a049; /* Darker green on hover */
+  transform: translateY(-2px); /* Subtle hover effect */
 }
 
-.button:focus {
-  outline: none; /* Remove default outline */
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8); /* Custom focus effect */
+.button--primary {
+  background-color: var(--primary-color);
+  color: #fff;
 }
 
-.button-first {
-  background-color: #4caf50; /* Green background */
-  color: white; /* White text */
-  padding: 15px 25px; /* Padding */
-  text-align: center; /* Center text */
-  text-decoration: none; /* Remove underline */
-  display: inline-block; /* Make it inline-block */
-  font-size: 16px; /* Font size */
-  border-radius: 5px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-}
-.button-first:hover {
-  background-color: #45a049; /* Darker green on hover */
-}
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .button {
-    padding: 10px 20px; /* Adjust padding for smaller screens */
-    font-size: 14px; /* Smaller font size on mobile devices */
-  }
+.button--primary:hover {
+  background-color: darken(var(--primary-color), 10%); /* Darken on hover */
 }
 
-/* Styles for the checklist items */
+.button--secondary {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc; /* Add a subtle border */
+}
+
+.button--secondary:hover {
+  background-color: #e0e0e0;
+  border-color: #999;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  align-items: flex-start; /* Align items to the start */
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.col {
+  flex: 1; /* Allow columns to grow */
+  margin: 1rem; /* Add spacing between columns */
+  background-color: #ffffff; /* White background for contrast */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+}
+
+.col:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Darker shadow on hover for emphasis */
+  transform: translateY(-5px); /* Slight lift effect on hover */
+}
+
+.text--center {
+  text-align: center; /* Center align text for better presentation */
+}
+
+.text--center h3 {
+  color: #333; /* Darker color for headings */
+}
+
+.text--center p {
+  color: #666; /* Lighter color for descriptions */
+}
+
+/* Checklist styles */
+.analyzing-section {
+  background-color: #2c2c2c; /* Dark background */
+  color: #e0e0e0; /* Light text color */
+  padding: 20px; /* Padding around the section */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+}
+
+.analyzing-section h3 {
+  color: #00bcd4; /* Highlight color for headings */
+  font-size: 1.8rem; /* Larger font size for headings */
+}
+
 .checklist {
-  list-style-type: none; /* Remove default list style */
-  padding-left: 0; /* Remove padding from left */
+  list-style-type: none; /* Remove default list styling */
+  padding: 0; /* Remove padding */
 }
 
 .checklist li {
-  cursor: pointer; /* Pointer cursor on hover */
-  position: relative; /* Position relative for pseudo-elements */
-  padding-left: 20px; /* Space for checkbox */
-  margin-bottom: 10px; /* Space between items */
+  background-color: #3f51b5; /* Light blue background for checkboxes */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px; /* Padding for spacing */
+  margin: 5px 0; /* Space between items */
+  display: flex; /* Flexbox for alignment */
+  align-items: center; /* Center items vertically */
+  transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
 }
 
 .checklist li:hover {
-  background-color: rgba(0, 0, 0, 0.05); /* Light background on hover */
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5); /* Glow effect on hover */
 }
 
-.checklist li.checked::before {
-  content: "✔"; /* Checkmark symbol when checked */
-  position: absolute;
-  left: -20px; /* Position checkmark to the left of the text */
-  color: green; /* Color of the checkmark */
-  font-size: larger; /* Size of the checkmark */
-  transition: opacity 0.3s ease; /* Smooth transition for checkmark appearance */
+.checkbox {
+  width: 20px; /* Width of checkbox */
+  height: 20px; /* Height of checkbox */
+  margin-right: 10px; /* Space between checkbox and text */
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: relative; /* Position relative for absolute positioning of tooltip */
+  display: inline-block; /* Allow for hover effect */
+}
+
+.tooltiptext {
+  visibility: hidden; /* Hidden by default */
+  width: auto; /* Set width of tooltip automatically based on content */
+  min-width: 120px; /* Minimum width of tooltip */
+  background-color: rgba(
+    51,
+    51,
+    51,
+    0.9
+  ); /* Dark background with transparency for tooltip */
+  color: #fff; /* White text color */
+  text-align: center; /* Center text */
+  border-radius: 6px; /* Rounded corners for tooltip */
+  padding: 5px; /* Padding inside tooltip */
+
+  position: absolute; /* Positioning the tooltip */
+  z-index: 1; /* Ensure it appears above other content */
+
+  bottom: calc(
+    100% + 5px
+  ); /* Position above the tooltip element with a small gap */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 0.9;
 }

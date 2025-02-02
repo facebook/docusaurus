@@ -3,7 +3,7 @@ import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
-
+import "../css/custom.css"; // Go one level up in the directory structure
 import Heading from "@theme/Heading";
 import styles from "./index.module.css";
 
@@ -18,15 +18,11 @@ function HomepageHeader() {
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttonContainer}>
           <div className={styles.buttonRow}>
-            <Link
-              className="button button-first"
-              data-type="square" // Corrected: Removed extra quotation mark
-              to="/docs/intro"
-            >
-              Tutorial Basics - 5min ⏱️
+            <Link className="button button-first" to="/docs/intro">
+              Stealer Log Basic
             </Link>
             <Link
-              className="button button--secondary button--lg"
+              className="button button-first button--sm"
               to="/docs/advanced"
             >
               Advanced Tutorial - 10min ⏱️
@@ -34,19 +30,21 @@ function HomepageHeader() {
           </div>
           <div className={styles.buttonRow}>
             <Link
-              className="button button--secondary button--lg"
+              className="button button-first button--sm"
               to="/docs/features"
             >
-              Explore Features - 8min ⏱️
+              <div class="callout callout_success">
+                Explore Features - 8min ⏱️
+              </div>
             </Link>
             <Link
-              className="button button--secondary button--lg"
+              className="button button-first button--sm"
               to="/docs/getting-started"
             >
               Getting Started - 6min ⏱️
             </Link>
             <Link
-              className="button button--secondary button--lg"
+              className="button button-first button--sm"
               to="/docs/api-reference"
             >
               API Reference - 7min ⏱️
@@ -98,13 +96,13 @@ function createParticle(x, y, type) {
   const animation = particle.animate(
     [
       {
-        // Set the origin position of the particle
-        // We offset the particle with half its size to center it around the mouse
+        //Set the origin position of the particle
+        //We offset the particle with half its size to center it around the mouse
         transform: `translate(${x - size / 2}px, ${y - size / 2}px)`,
         opacity: 1,
       },
       {
-        // We define the final coordinates as the second keyframe
+        //We define the final coordinates as the second keyframe
         transform: `translate(${destinationX}px, ${destinationY}px)`,
         opacity: 0,
       },

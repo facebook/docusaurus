@@ -17,9 +17,11 @@
   "dependencies": {
     "@docusaurus/core": "3.6.0",
     "@docusaurus/preset-classic": "3.6.0",
+    "@fireworks-js/react": "^2.10.8",
     "@mdx-js/react": "^3.0.0",
-    "clsx": "^2.0.0",
     "animejs": "^3.2.1",
+    "clsx": "^2.0.0",
+    "fireworks-js": "^2.10.8",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

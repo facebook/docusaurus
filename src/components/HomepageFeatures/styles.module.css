@@ -102,3 +102,14 @@
 .tooltip:hover .tooltiptext {
   visibility: visible; /* Show tooltip on hover */
 }
+
+.docSidebarItem {
+  display: flex;
+  align-items: center;
+}
+
+.docSidebarItemIcon {
+  margin-right: 0.5rem; /* Adjust margin as needed */
+  width: 20px; /* Adjust size as needed */
+  height: 20px;
+}
