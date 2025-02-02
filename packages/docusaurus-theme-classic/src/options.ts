@@ -7,6 +7,10 @@
 
 import {themes} from 'prism-react-renderer';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
+import type {
+  PropVersionItem,
+  PropVersionItems,
+} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import type {Options, PluginOptions} from '@docusaurus/theme-classic';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import type {
@@ -210,6 +214,17 @@ const DocsVersionDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   dropdownActiveClassDisabled: Joi.boolean(),
   dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
+  versions: Joi.alternatives().try(
+    Joi.array().items(Joi.string().min(1)).min(1),
+    Joi.object<PropVersionItems>()
+      .pattern(
+        Joi.string().min(1),
+        Joi.object<PropVersionItem>({
+          label: Joi.string().min(1),
+        }),
+      )
+      .min(1),
+  ),
 });
 
 const LocaleDropdownNavbarItemSchema = NavbarItemBaseSchema.append({

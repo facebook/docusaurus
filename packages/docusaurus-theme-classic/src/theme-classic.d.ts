@@ -624,7 +624,9 @@ declare module '@theme/DocPaginator' {
   import type {PropNavigation} from '@docusaurus/plugin-content-docs';
 
   // May be simpler to provide a {navigation: PropNavigation} prop?
-  export interface Props extends PropNavigation {}
+  export interface Props extends PropNavigation {
+    className?: string;
+  }
 
   export default function DocPaginator(props: Props): ReactNode;
 }
@@ -1257,11 +1259,22 @@ declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
   import type {Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
+  type PropVersionItem = {
+    readonly label?: string;
+  };
+
+  type PropVersionItems = {
+    readonly [version: string]: PropVersionItem;
+  };
+
+  type PropVersions = string[] | PropVersionItems;
+
   export interface Props extends DropdownNavbarItemProps {
     readonly docsPluginId?: string;
     readonly dropdownActiveClassDisabled?: boolean;
     readonly dropdownItemsBefore: LinkLikeNavbarItemProps[];
     readonly dropdownItemsAfter: LinkLikeNavbarItemProps[];
+    readonly versions?: PropVersions;
   }
 
   export default function DocsVersionDropdownNavbarItem(

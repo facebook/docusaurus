@@ -53,7 +53,7 @@ function DocCategoryGeneratedIndexPageContent({
       <article className="margin-top--lg">
         <DocCardList items={category.items} className={styles.list} />
       </article>
-      <footer className="margin-top--lg">
+      <footer className="margin-top--md">
         <DocPaginator
           previous={categoryGeneratedIndex.navigation.previous}
           next={categoryGeneratedIndex.navigation.next}

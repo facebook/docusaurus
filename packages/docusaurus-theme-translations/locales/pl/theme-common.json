@@ -61,7 +61,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Rozszerz boczny panel",
   "theme.docs.sidebar.navAriaLabel": "Panel boczny dokumentów",
   "theme.docs.sidebar.toggleSidebarButtonAriaLabel": "Przełączanie panelu nawigacyjnego",
-  "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged} dla \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "Jedna strona dokumentacji otagowana|{count} strony dokumentacji otagowane|{count} stron dokumentacji otagowanych",
   "theme.docs.versionBadge.label": "Wersja: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "bieżącej wersji",
