@@ -1,0 +1,1 @@
+**🛀 Request Logs** feature will allow each member to give a specific request for a high valued target or a priority target that the staff will hunt down, validate, and then fulfill your request daily.

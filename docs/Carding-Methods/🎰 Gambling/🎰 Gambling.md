@@ -1,0 +1,1 @@
+You have various sources like Bookmakers, Sweepstake Casinos, Sports Betting, Drawings and more. Alot of these sources can be exploited in a variety of ways - however most will require a stronger form of account security when opening up accounts such as Photos of Documents, KYC, and AVS Enforcement / Geo Enforcement.

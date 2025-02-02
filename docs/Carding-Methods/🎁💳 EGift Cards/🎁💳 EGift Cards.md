@@ -1,0 +1,1 @@
+E Gift cards can be tricky - and risky - but that is depending on how you work with your resources. Some of the more "Known" or "Established" sources and websites such as Fanatics are known to cancel your E-Gifts as soon as there is a dispute or claim to be made on it. Other sources however - can take much longer to rectify any issues.

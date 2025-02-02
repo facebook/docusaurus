@@ -1,0 +1,1 @@
+You can get access to **==Daily.. Fresh... FREE... First hand==** cards that are acquired daily.
