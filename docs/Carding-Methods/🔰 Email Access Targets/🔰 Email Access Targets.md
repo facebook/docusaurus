@@ -1,3 +1,6 @@
+# What is it⁉
+
+
 These are various targets and leads that you can easily exploit with just having access to the emails. A lot of these guides will include primarily functions such as:
 
 Go to target >> Forgot Password >> Then change password with Email Access.

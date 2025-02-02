@@ -1,0 +1,62 @@
+// capitalOnePhoneBanking.js
+
+/**
+ * Generates the Capital One Phone Banking documentation in Markdown format.
+ * @returns {string} - The complete Markdown string for Capital One Phone Banking.
+ */
+function generateCapitalOnePhoneBankingMarkdown() {
+  return `
+# Capital One Phone Banking
+
+## Introduction
+
+Capital One offers a robust phone banking system that allows customers to manage their accounts easily and securely over the phone.
+
+<!-- Tip Callout -->
+<div style="border-left: 4px solid #4CAF50; background-color: #f9f9f9; padding: 10px; margin: 10px 0;">
+    <strong>Tip:</strong> Always keep your account information secure and do not share it over the phone.
+</div>
+
+## Key Features
+
+- **Account Management**: Check balances, view transactions, and manage account settings.
+- **Payments**: Make payments directly from your phone.
+- **Customer Support**: Speak with a representative for assistance with your account.
+- **Fraud Alerts**: Report suspicious activity immediately.
+
+<!-- Note Callout -->
+<div style="border-left: 4px solid #2196F3; background-color: #e3f2fd; padding: 10px; margin: 10px 0;">
+    <strong>Note:</strong> The Capital One mobile app also allows you to manage your accounts on the go, including viewing statements and making payments.
+</div>
+
+## How to Access
+
+To access Capital One's phone banking services, call their customer service number at **1-800-655-2265**. Follow the prompts to navigate through the system.
+
+<!-- Warning Callout -->
+<div style="border-left: 4px solid #f44336; background-color: #ffebee; padding: 10px; margin: 10px 0;">
+    <strong>Warning:</strong> Never provide your PIN or password to anyone over the phone. If you suspect fraud, report it immediately.
+</div>
+
+## Additional Features
+
+### Mobile App Integration
+The Capital One mobile app enhances your banking experience by allowing you to:
+- View statements and transaction history.
+- Make payments and transfer funds.
+- Lock and unlock credit cards in case of loss or theft.
+
+<!-- Did You Know Callout -->
+<div style="border-left: 4px solid #FF9800; background-color: #fff3e0; padding: 10px; margin: 10px 0;">
+    <strong>Did You Know?</strong> You can use the app to set up virtual cards for online shopping, providing an extra layer of security by not exposing your actual card number.
+</div>
+
+## Notes
+
+- Ensure you have your account information ready when calling.
+- Phone banking is available **24/7** for your convenience.
+`;
+}
+
+// Example usage:
+console.log(generateCapitalOnePhoneBankingMarkdown());

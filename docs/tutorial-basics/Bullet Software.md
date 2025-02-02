@@ -1,4 +1,4 @@
-Includes: Openbullet, Openbullet2, Silverbullet, Silverbullet Pro, and Cookie Bullet
+# Configs, Scripts, & Codes
 
 
 ## OpenBullet
