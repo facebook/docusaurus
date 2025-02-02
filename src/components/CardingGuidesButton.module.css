@@ -1,0 +1,101 @@
+/* src/components/CardingGuidesButton.module.css */
+.buttonContainer {
+  text-align: center; /* Center the button */
+  margin: 20px 0; /* Add some margin */
+}
+
+.button {
+  padding: 1em 1.5em;
+  font-size: 1em;
+  font-weight: 400;
+  font-family: "Helvetica", "Arial", sans-serif;
+  border-radius: 4px;
+  cursor: pointer;
+  appearance: none;
+  border: none;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.button-first {
+  background: linear-gradient(to right, #e55d87, #5fc3e4);
+  box-shadow: 0 2px 25px rgba(229, 93, 135, 0.5);
+}
+
+.button-first:active {
+  background: linear-gradient(
+    to right,
+    rgba(229, 93, 135, 0.9),
+    rgba(95, 195, 228, 0.9)
+  );
+}
+
+.button-second {
+  background: linear-gradient(to right, #1488cc, #2b32b2);
+  box-shadow: 0 2px 25px rgba(20, 137, 204, 0.5);
+}
+
+.button-second:active {
+  background: linear-gradient(
+    to right,
+    rgba(20, 136, 204, 0.9),
+    rgba(43, 50, 178, 0.9)
+  );
+}
+
+.button:focus {
+  outline: none;
+}
+
+particle {
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  position: fixed;
+  opacity: 0;
+}
+
+.frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  margin-top: -200px;
+  margin-left: -200px;
+  border-radius: 4px;
+  box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background: #fff;
+  color: #333;
+  font-family: "Open Sans", Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.button:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8); /* Custom focus effect */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .button {
+    padding: 10px 20px; /* Adjust padding for smaller screens */
+    font-size: 14px; /* Smaller font size on mobile devices */
+  }
+}

@@ -1,0 +1,104 @@
+.features {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+  align-items: flex-start; /* Aligns items to the start */
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.col {
+  flex: 1; /* Allow columns to grow */
+  margin: 1rem; /* Add spacing between columns */
+  background-color: #ffffff; /* White background for contrast */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+}
+
+.col:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Darker shadow on hover for emphasis */
+  transform: translateY(-5px); /* Slight lift effect on hover */
+}
+
+.text--center {
+  text-align: center; /* Center align text for better presentation */
+}
+
+.text--center h3 {
+  color: #333; /* Darker color for headings */
+}
+
+.text--center p {
+  color: #666; /* Lighter color for descriptions */
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: relative; /* Position relative for absolute positioning of tooltip */
+  display: inline-block; /* Allow for hover effect */
+}
+
+.tooltiptext {
+  visibility: hidden; /* Hidden by default */
+  width: auto; /* Set width of tooltip automatically based on content */
+  min-width: 220px; /* Minimum width of tooltip */
+  background-color: rgba(0, 0, 0, 0.75); /* Dark background with transparency */
+  color: #fff; /* White text color */
+  text-align: center; /* Center text */
+  border-radius: 5px; /* Rounded corners */
+  padding: 5px; /* Padding inside tooltip */
+  position: absolute; /* Positioning */
+  z-index: 1; /* Ensure it appears above other content */
+  bottom: calc(
+    100% + 5px
+  ); /* Position above the tooltip element with a small gap */
+  left: 50%; /* Center horizontally relative to parent element */
+  transform: translateX(-50%); /* Adjust left margin to center it properly */
+  opacity: 0; /* Start invisible */
+  transition: opacity 0.3s ease-in-out; /* Smooth transition for visibility */
+}
+
+.checklist li:hover .tooltiptext {
+  visibility: visible; /* Show tooltip on hover */
+  opacity: 1; /* Fade in effect */
+}
+.checklist {
+  list-style-type: none; /* Remove default list styling */
+  padding: 0; /* Remove padding */
+}
+
+.checklist li {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Light background for contrast */
+  border: 1px solid #05eaff; /* Border color matching theme */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px; /* Padding for spacing */
+  margin: 5px 0; /* Space between items */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions */
+}
+
+.checklist li:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.tooltiptext {
+  visibility: hidden; /* Hide tooltip text by default */
+  width: 120px; /* Set tooltip width */
+  background-color: #333; /* Dark background for tooltip */
+  color: #fff; /* White text color */
+  text-align: center; /* Center text */
+  border-radius: 6px; /* Rounded corners for tooltip */
+
+  /* Positioning the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible; /* Show tooltip on hover */
+}

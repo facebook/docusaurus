@@ -1,0 +1,99 @@
+.heroBanner {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+
+/* src/components/CardingGuidesButton.module.css */
+.buttonContainer {
+  text-align: center; /* Center the button */
+  margin: 20px 0; /* Add some margin */
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: center; /* Center align buttons in each row */
+  margin-bottom: 20px; /* Increased space between rows */
+}
+
+.buttonRow .button {
+  margin: 0 10px; /* Horizontal space between buttons */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover effects */
+}
+
+.buttonRow .button:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Lighten on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.buttonRow .button:first-child {
+  margin-left: 0; /* Remove left margin for the first button */
+}
+
+.buttonRow .button:last-child {
+  margin-right: 0; /* Remove right margin for the last button */
+}
+
+.button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.button:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8); /* Custom focus effect */
+}
+
+.button-first {
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  padding: 15px 25px; /* Padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make it inline-block */
+  font-size: 16px; /* Font size */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+.button-first:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .button {
+    padding: 10px 20px; /* Adjust padding for smaller screens */
+    font-size: 14px; /* Smaller font size on mobile devices */
+  }
+}
+
+/* Styles for the checklist items */
+.checklist {
+  list-style-type: none; /* Remove default list style */
+  padding-left: 0; /* Remove padding from left */
+}
+
+.checklist li {
+  cursor: pointer; /* Pointer cursor on hover */
+  position: relative; /* Position relative for pseudo-elements */
+  padding-left: 20px; /* Space for checkbox */
+  margin-bottom: 10px; /* Space between items */
+}
+
+.checklist li:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* Light background on hover */
+}
+
+.checklist li.checked::before {
+  content: "✔"; /* Checkmark symbol when checked */
+  position: absolute;
+  left: -20px; /* Position checkmark to the left of the text */
+  color: green; /* Color of the checkmark */
+  font-size: larger; /* Size of the checkmark */
+  transition: opacity 0.3s ease; /* Smooth transition for checkmark appearance */
+}

@@ -1,0 +1,39 @@
+/* modal.module.css */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex; /* Center the modal */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.modalContent {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: translateY(-20px); /* Slightly move up initially */
+  opacity: 0; /* Start invisible */
+  max-width: 500px; /* Limit width on larger screens */
+  width: calc(100% - 40px); /* Responsive width with some margin */
+}
+
+.modalContent.show {
+  transform: translateY(0); /* Move back to original position */
+  opacity: 1; /* Fade in effect */
+}
+
+button {
+  padding: 10px 15px; /* Button padding */
+  background-color: #05eaff; /* Button color */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners for button */
+  color: white; /* Text color */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+button:hover {
+  background-color: #03a9f4; /* Darker shade on hover */
+}

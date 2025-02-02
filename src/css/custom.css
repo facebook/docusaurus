@@ -1,0 +1,134 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #2e8555;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme="dark"] {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Added callout warning styles */
+.markdown-body .callout.callout_warn {
+  --text: #6a737d; /* theme text color default */
+  --title: inherit; /* theme title color (falls back to text color by default) */
+  --background: #f8f8f9;
+  --border: #8b939c;
+}
+
+.callout-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* Space between callouts */
+}
+
+.callout {
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.3s ease-out;
+  width: calc(30% - 1rem); /* Adjust width as needed */
+}
+
+.callout summary {
+  cursor: pointer;
+}
+
+.callout summary::-webkit-details-marker {
+  display: none; /* Hide default marker */
+}
+
+.callout summary::before {
+  content: "▶";
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.callout[open] summary::before {
+  transform: rotate(90deg);
+}
+
+/* Theme Colors */
+.theme-cookie {
+  background-color: #ffebcd;
+  border: 1px solid #deb887;
+}
+.theme-login {
+  background-color: #e6ffe6;
+  border: 1px solid #98fb98;
+}
+
+.theme-session {
+  background-color: #ffe4e1;
+  border: 1px solid #ff69b4;
+}
+.theme-wallet {
+  background-color: #fffacd;
+  border: 1px solid #ffd700;
+}
+.theme-fingerprint {
+  background-color: #e6e6fa;
+  border: 1px solid #8a2be2;
+}
+.theme-token {
+  background-color: #f0f8ff;
+  border: 1px solid #4682b4;
+}
+.theme-dat {
+  background-color: #f5f5dc;
+  border: 1px solid #daa520;
+}
+.theme-app {
+  background-color: #fff5ee;
+  border: 1px solid #fa8072;
+}
+.theme-misc {
+  background-color: #f5f5f5;
+  border: 1px solid #a9a9a9;
+}
+
+/* Styles for the checklist items */
+.checklist {
+  list-style-type: none; /* Remove default list style */
+  padding-left: 0; /* Remove padding from left */
+}
+
+.checklist li {
+  cursor: pointer; /* Pointer cursor on hover */
+  position: relative; /* Position relative for pseudo-elements */
+  padding-left: 20px; /* Space for checkbox */
+  margin-bottom: 10px; /* Space between items */
+}
+
+.checklist li::before {
+  content: "[ ]"; /* Default checkbox representation */
+  position: absolute;
+  left: 0;
+  color: #007bff; /* Blue color for checkbox */
+}
+
+.checklist li.checked::before {
+  content: "[x]"; /* Checked representation */
+  color: red; /* Change color when checked */
+  text-decoration: line-through; /* Strikethrough effect when checked */
+}
