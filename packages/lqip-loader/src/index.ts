@@ -48,7 +48,11 @@ export default async function lqipLoader(
   try {
     const preSrc = await lqip.base64(imgPath);
     const finalObject = JSON.stringify({src: 'STUB', preSrc});
-    const result = `module.exports = ${finalObject.replace('"STUB"', source)};`;
+    // Caller of toString() will need the original source
+    const result = `module.exports = Object.assign(Object.create({toString(){return this.src.toString();}}),${finalObject.replace(
+      '"STUB"',
+      source,
+    )});`;
     callback(null, result);
   } catch (err) {
     console.error(err);
