@@ -118,7 +118,7 @@ function useCollapseAnimation({
 
     // On mount, we just apply styles, no animated transition
     if (!mounted.current) {
-      queueMicrotask(() => applyCollapsedStyle(el, collapsed));
+      applyCollapsedStyle(el, collapsed);
       mounted.current = true;
       return undefined;
     }
