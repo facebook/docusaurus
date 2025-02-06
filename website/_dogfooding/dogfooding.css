@@ -24,6 +24,20 @@ html {
       .navbar {
         border-bottom: solid thin cyan;
       }
+
+      .dogfood_sidebar_class_name_test {
+        &.theme-doc-sidebar-item-link > a {
+          color: cyan;
+        }
+
+        &.theme-doc-sidebar-item-category > div > a {
+          color: cyan;
+        }
+
+        &.card {
+          border: solid thin cyan;
+        }
+      }
     }
 
     &.plugin-blog.plugin-id-blog-tests {
