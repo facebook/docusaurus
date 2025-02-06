@@ -55,7 +55,6 @@ function isBlacklisted(pathname: string) {
     '/tests/pages/react-18',
     // Flaky because of hydration error
     '/tests/blog/archive',
-    '/tests/docs/tests/custom-props',
     '/tests/pages/code-block-tests',
     '/tests/pages/embeds',
     // Flaky because of hydration error with docusaurus serve + .html

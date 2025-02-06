@@ -43,34 +43,38 @@ function useCategoryItemsPlural() {
 }
 
 function CardContainer({
+  className,
   href,
   children,
 }: {
+  className?: string;
   href: string;
   children: ReactNode;
 }): ReactNode {
   return (
     <Link
       href={href}
-      className={clsx('card padding--lg', styles.cardContainer)}>
+      className={clsx('card padding--lg', styles.cardContainer, className)}>
       {children}
     </Link>
   );
 }
 
 function CardLayout({
+  className,
   href,
   icon,
   title,
   description,
 }: {
+  className?: string;
   href: string;
   icon: ReactNode;
   title: string;
   description?: string;
 }): ReactNode {
   return (
-    <CardContainer href={href}>
+    <CardContainer href={href} className={className}>
       <Heading
         as="h2"
         className={clsx('text--truncate', styles.cardTitle)}
@@ -99,6 +103,7 @@ function CardCategory({item}: {item: PropSidebarItemCategory}): ReactNode {
 
   return (
     <CardLayout
+      className={item.className}
       href={href}
       icon="🗃️"
       title={item.label}
@@ -112,6 +117,7 @@ function CardLink({item}: {item: PropSidebarItemLink}): ReactNode {
   const doc = useDocById(item.docId ?? undefined);
   return (
     <CardLayout
+      className={item.className}
       href={item.href}
       icon={icon}
       title={item.label}
