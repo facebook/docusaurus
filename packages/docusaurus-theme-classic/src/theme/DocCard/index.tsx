@@ -103,6 +103,7 @@ function CardCategory({item}: {item: PropSidebarItemCategory}): ReactNode {
 
   return (
     <CardLayout
+      className={item.className}
       href={href}
       icon="🗃️"
       title={item.label}
