@@ -20,30 +20,34 @@ export const DocPropsList = ({category}) => {
   const items = [category, ...category.items];
   return (
     <table>
-      <tr>
-        <th>
-          <code>type</code>
-        </th>
-        <th>
-          <code>label</code>
-        </th>
-        <th>
-          <code>customProps</code>
-        </th>
-        <th>
-          <code>className</code>
-        </th>
-      </tr>
-      {items.map((item, index) => (
-        <tr key={index}>
-          <td>{item.type}</td>
-          <td>
-            <Link to={item.href}>{item.label}</Link>
-          </td>
-          <td>{JSON.stringify(item.customProps)}</td>
-          <td>{JSON.stringify(item.className)}</td>
+      <thead>
+        <tr>
+          <th>
+            <code>type</code>
+          </th>
+          <th>
+            <code>label</code>
+          </th>
+          <th>
+            <code>customProps</code>
+          </th>
+          <th>
+            <code>className</code>
+          </th>
         </tr>
-      ))}
+      </thead>
+      <tbody>
+        {items.map((item, index) => (
+          <tr key={index}>
+            <td>{item.type}</td>
+            <td>
+              <Link to={item.href}>{item.label}</Link>
+            </td>
+            <td>{JSON.stringify(item.customProps)}</td>
+            <td>{JSON.stringify(item.className)}</td>
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 };
