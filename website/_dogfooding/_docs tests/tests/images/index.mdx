@@ -2,7 +2,7 @@
 image: ./img/oss_logo.png
 ---
 
-# Image tests
+# Image Tests
 
 import Image from '@theme/IdealImage';
 
@@ -14,6 +14,8 @@ export const docusaurusRequire = require('@site/static/img/docusaurus.png');
 
 ## Regular images
 
+Those only render in DEV when IdealImage plugin is disabled.
+
 <img src={docusaurusImport} />
 
 <img src={docusaurusRequire.default} />
@@ -23,3 +25,13 @@ export const docusaurusRequire = require('@site/static/img/docusaurus.png');
 <Image img={docusaurusImport} />
 
 <Image img={docusaurusRequire} />
+
+## CSS Image
+
+import './img-tests.css';
+
+This should display a div with have a background image
+
+<div
+  className="dogfood-image-test-css"
+  style={{border: 'solid', height: '10rem'}}></div>
