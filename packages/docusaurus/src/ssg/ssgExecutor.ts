@@ -80,11 +80,17 @@ function getNumberOfThreads(pathnames: string[]) {
   if (typeof SSGWorkerThreadCount !== 'undefined') {
     return SSGWorkerThreadCount;
   }
+
+  // See also https://github.com/tinylibs/tinypool/pull/108
+  const cpuCount =
+    // TODO Docusaurus v4: bump node, availableParallelism() now always exists
+    typeof os.availableParallelism === 'function'
+      ? os.availableParallelism()
+      : os.cpus().length;
+
   return inferNumberOfThreads({
     pageCount: pathnames.length,
-    // TODO use "physical CPUs" instead of "logical CPUs" (like Tinypool does)
-    // See also https://github.com/tinylibs/tinypool/pull/108
-    cpuCount: os.cpus().length,
+    cpuCount,
     // These are "magic value" that we should refine based on user feedback
     // Local tests show that it's not worth spawning new workers for few pages
     minPagesPerCpu: 100,
