@@ -109,7 +109,6 @@ export function Details({
       <Collapsible
         lazy={false} // Content might matter for SEO in this case
         collapsed={collapsed}
-        disableSSRStyle // Allows component to work fine even with JS disabled!
         onCollapseTransitionEnd={(newCollapsed) => {
           setCollapsed(newCollapsed);
           setOpen(!newCollapsed);
