@@ -68,6 +68,7 @@ export default function DocBreadcrumbs(): ReactNode {
 
   return (
     <>
+      <DocBreadcrumbsStructuredData breadcrumbs={breadcrumbs} />
       <nav
         className={clsx(
           ThemeClassNames.docs.docBreadcrumbs,
@@ -96,7 +97,6 @@ export default function DocBreadcrumbs(): ReactNode {
           })}
         </ul>
       </nav>
-      <DocBreadcrumbsStructuredData breadcrumbs={breadcrumbs} />
     </>
   );
 }

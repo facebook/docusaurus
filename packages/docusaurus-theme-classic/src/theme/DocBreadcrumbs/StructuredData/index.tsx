@@ -7,23 +7,13 @@
 
 import React, {type ReactNode} from 'react';
 import Head from '@docusaurus/Head';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useBreadcrumbsStructuredData} from '@docusaurus/plugin-content-docs/client';
 import type {Props} from '@theme/DocBreadcrumbs/StructuredData';
 
 export default function DocBreadcrumbsStructuredData(props: Props): ReactNode {
-  const {siteConfig} = useDocusaurusContext();
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: props.breadcrumbs
-      .filter((breadcrumb) => breadcrumb.href)
-      .map((breadcrumb, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        name: breadcrumb.label,
-        item: `${siteConfig.url}${breadcrumb.href}`,
-      })),
-  };
+  const structuredData = useBreadcrumbsStructuredData({
+    breadcrumbs: props.breadcrumbs,
+  });
   return (
     <Head>
       <script type="application/ld+json">

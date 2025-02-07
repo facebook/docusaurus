@@ -60,6 +60,8 @@ export {
   getDocsVersionSearchTag,
 } from './docsSearch';
 
+export {useBreadcrumbsStructuredData} from './structuredDataUtils';
+
 export type ActivePlugin = {
   pluginId: string;
   pluginData: GlobalPluginData;
