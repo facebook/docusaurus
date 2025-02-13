@@ -1819,7 +1819,7 @@ const Users: User[] = [
     description:
       'A DSL for building full-stack web apps with less boilerplate.',
     preview: require('./showcase/wasp.png'),
-    website: 'https://wasp-lang.dev/',
+    website: 'https://wasp.sh/',
     source: 'https://github.com/wasp-lang/wasp/tree/main/web',
     tags: ['opensource'],
   },
