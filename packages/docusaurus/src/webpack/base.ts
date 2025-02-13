@@ -14,7 +14,11 @@ import {
   createJsLoaderFactory,
 } from '@docusaurus/bundler';
 
-import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
+import {
+  md5Hash,
+  getFileLoaderUtils,
+  DOCUSAURUS_VERSION,
+} from '@docusaurus/utils';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import type {Configuration} from 'webpack';
 import type {
@@ -115,7 +119,7 @@ export async function createBaseConfig({
   // Can we share the same cache across locales?
   // Exploring that question at https://github.com/webpack/webpack/issues/13034
   function getCacheName() {
-    return `${name}-${mode}-${props.i18n.currentLocale}`;
+    return `${name}-${mode}-${props.i18n.currentLocale}-${DOCUSAURUS_VERSION}`;
   }
 
   function getCacheBuildDependencies(): string[] {
