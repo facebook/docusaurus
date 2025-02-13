@@ -16,7 +16,12 @@ declare module '@docusaurus/plugin-content-blog' {
     FrontMatterLastUpdate,
     TagsPluginOptions,
   } from '@docusaurus/utils';
-  import type {DocusaurusConfig, Plugin, LoadContext} from '@docusaurus/types';
+  import type {
+    DocusaurusConfig,
+    Plugin,
+    LoadContext,
+    OptionValidationContext,
+  } from '@docusaurus/types';
   import type {Item as FeedItem} from 'feed';
   import type {Overwrite} from 'utility-types';
 
@@ -666,6 +671,10 @@ declare module '@docusaurus/plugin-content-blog' {
     context: LoadContext,
     options: PluginOptions,
   ): Promise<Plugin<BlogContent>>;
+
+  export function validateOptions(
+    args: OptionValidationContext<Options | undefined, PluginOptions>,
+  ): PluginOptions;
 }
 
 declare module '@theme/BlogPostPage' {
