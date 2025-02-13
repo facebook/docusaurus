@@ -24,7 +24,7 @@ If you use a standalone plugin, you may need to achieve the same effect by check
 export default {
   plugins: [
     // highlight-next-line
-    process.env.NODE_ENV === 'production' && '@docusaurus/plugin-debug',
+    process.env.NODE_ENV !== 'production' && '@docusaurus/plugin-debug',
   ].filter(Boolean),
 };
 ```
