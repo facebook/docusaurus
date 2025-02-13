@@ -40,7 +40,7 @@ export async function clear(siteDirParam: string = '.'): Promise<void> {
   // In Yarn PnP, cache is stored in `.yarn/.cache` because n_m doesn't exist
   const cacheFolders = ['node_modules', '.yarn'].map((p) => ({
     path: path.join(siteDir, p, '.cache'),
-    description: 'Webpack persistent cache folder',
+    description: 'Bundler persistent cache folder',
   }));
   await Promise.all(
     [generatedFolder, buildFolder, ...cacheFolders].map(removePath),
