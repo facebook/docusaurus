@@ -113,7 +113,7 @@ function toChangelogEntries(fileContent: string): ChangelogEntry[] {
   return fileContent
     .split(/(?=\n## )/)
     .map(toChangelogEntry)
-    .filter((s) => s !== null);
+    .filter((s): s is ChangelogEntry => s !== null);
 }
 
 async function createBlogFiles(
