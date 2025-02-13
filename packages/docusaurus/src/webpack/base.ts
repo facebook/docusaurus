@@ -112,19 +112,37 @@ export async function createBaseConfig({
     currentBundler: props.currentBundler,
   });
 
+  // Can we share the same cache across locales?
+  // Exploring that question at https://github.com/webpack/webpack/issues/13034
+  function getCacheName() {
+    return `${name}-${mode}-${props.i18n.currentLocale}`;
+  }
+
+  function getCacheBuildDependencies(): string[] {
+    return [
+      __filename,
+      path.join(__dirname, isServer ? 'server.js' : 'client.js'),
+      // Docusaurus config changes can affect MDX/JSX compilation, so we'd
+      // rather evict the cache.
+      // See https://github.com/questdb/questdb.io/issues/493
+      siteConfigPath,
+    ];
+  }
+
   function getCache(): Configuration['cache'] {
     if (props.currentBundler.name === 'rspack') {
-      // TODO Rspack only supports memory cache (as of Sept 2024)
-      // TODO re-enable file persistent cache one Rspack supports it
-      //  See also https://rspack.dev/config/cache#cache
-      return undefined;
+      if (Env.noPersistentCache) {
+        // Use default: memory cache in dev, nothing in prod
+        // See https://rspack.dev/config/cache#cache
+        return undefined;
+      }
+      // Use cache: true + experiments.cache.type: "persistent"
+      // See https://rspack.dev/config/experiments#persistent-cache
+      return true;
     }
     return {
       type: 'filesystem',
-      // Can we share the same cache across locales?
-      // Exploring that question at https://github.com/webpack/webpack/issues/13034
-      // name: `${name}-${mode}`,
-      name: `${name}-${mode}-${props.i18n.currentLocale}`,
+      name: getCacheName(),
       // When version string changes, cache is evicted
       version: [
         siteMetadata.docusaurusVersion,
@@ -136,20 +154,24 @@ export async function createBaseConfig({
       // When one of those modules/dependencies change (including transitive
       // deps), cache is invalidated
       buildDependencies: {
-        config: [
-          __filename,
-          path.join(__dirname, isServer ? 'server.js' : 'client.js'),
-          // Docusaurus config changes can affect MDX/JSX compilation, so we'd
-          // rather evict the cache.
-          // See https://github.com/questdb/questdb.io/issues/493
-          siteConfigPath,
-        ],
+        config: getCacheBuildDependencies(),
       },
     };
   }
 
   function getExperiments(): Configuration['experiments'] {
     if (props.currentBundler.name === 'rspack') {
+      const PersistentCacheAttributes = Env.noPersistentCache
+        ? {}
+        : {
+            cache: {
+              type: 'persistent',
+              version: getCacheName(),
+              buildDependencies: getCacheBuildDependencies(),
+            },
+          };
+
+      // TODO find a way to type this
       return {
         // This is mostly useful in dev
         // See https://rspack.dev/config/experiments#experimentsincremental
@@ -159,7 +181,9 @@ export async function createBaseConfig({
         // See https://github.com/web-infra-dev/rspress/pull/1631
         // See https://github.com/facebook/docusaurus/issues/10646
         // @ts-expect-error: Rspack-only, not available in Webpack typedefs
-        incremental: !isProd && !Env.noRspackIncremental,
+        incremental: !Env.isProd && !Env.noRspackIncremental,
+
+        ...PersistentCacheAttributes,
       };
     }
     return undefined;
