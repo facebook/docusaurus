@@ -218,6 +218,7 @@ export async function mdxLoader(
   const compilerName = getWebpackLoaderCompilerName(this);
   const callback = this.async();
   const options: Options = this.getOptions();
+  options.dependencies?.forEach(this.addDependency);
   try {
     const result = await loadMDXWithCaching({
       resource: this.resource,
