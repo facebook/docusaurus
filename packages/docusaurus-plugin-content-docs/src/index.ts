@@ -6,6 +6,7 @@
  */
 
 import path from 'path';
+import fs from 'fs-extra';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {
@@ -63,6 +64,41 @@ import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {DocFile, FullVersion} from './types';
 import type {RuleSetRule} from 'webpack';
 
+// MDX loader is not 100% deterministic, leading to cache invalidation issue
+// It's possible to use env variables to build a site in different flavors
+// and you end-up using stale mdx loader cache hits
+//
+// This doesn't happen when modifying docusaurus.config.js because doing so
+// will invalidate the entire site cache, but can happen with other changes
+// such as env variables, or after creating a new docs version.
+//
+// This happens notably because of the resolveMarkdownLink() callback
+// Depending on docs options suck as "lastVersion" and "onlyIncludeVersions"
+// When docs versions change over time, the callback may behave differently
+// Depending on env variables, @site/docs/my-doc.md might resolve to:
+// - /docs/my-doc
+// - docs/next/my-doc
+// - docs/<otherVersion>/my-doc
+//
+// To avoid this kind of problem, we invalidate the mdx cache
+// whenever docs versions are updated in any way
+async function createMdxLoaderDependencyFile({
+  dataDir,
+  versionsMetadata,
+}: {
+  dataDir: string;
+  versionsMetadata: VersionMetadata[];
+}) {
+  const filePath = path.join(dataDir, '__mdx-loader-dependency.json');
+  // the cache is invalidated whenever this file content changes
+  const fileContent = {
+    versionsMetadata,
+  };
+  await fs.ensureDir(dataDir);
+  await fs.writeFile(filePath, JSON.stringify(fileContent));
+  return filePath;
+}
+
 export default async function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
@@ -107,6 +143,13 @@ export default async function pluginContentDocs(
     return createMDXLoaderRule({
       include: contentDirs,
       options: {
+        dependencies: [
+          await createMdxLoaderDependencyFile({
+            dataDir,
+            versionsMetadata,
+          }),
+        ],
+
         useCrossCompilerCache:
           siteConfig.future.experimental_faster.mdxCrossCompilerCache,
         admonitions: options.admonitions,
