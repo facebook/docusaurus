@@ -169,7 +169,7 @@ export async function createBaseConfig({
               type: 'persistent',
               // Rspack doesn't have "cache.name" like Webpack
               // This is not ideal but work around is to merge name/version
-              // See https://github.com/facebook/docusaurus/pull/10931#discussion_r1955908019
+              // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
               version: `${getCacheName()}-${getCacheVersion()}`,
               buildDependencies: getCacheBuildDependencies(),
             },
