@@ -65,33 +65,22 @@ import type {DocFile, FullVersion} from './types';
 import type {RuleSetRule} from 'webpack';
 
 // MDX loader is not 100% deterministic, leading to cache invalidation issue
-// It's possible to use env variables to build a site in different flavors
-// and you end-up using stale mdx loader cache hits
-//
-// This doesn't happen when modifying docusaurus.config.js because doing so
-// will invalidate the entire site cache, but can happen with other changes
-// such as env variables, or after creating a new docs version.
-//
-// This happens notably because of the resolveMarkdownLink() callback
-// Depending on docs options suck as "lastVersion" and "onlyIncludeVersions"
-// When docs versions change over time, the callback may behave differently
-// Depending on env variables, @site/docs/my-doc.md might resolve to:
-// - /docs/my-doc
-// - docs/next/my-doc
-// - docs/<otherVersion>/my-doc
-//
-// To avoid this kind of problem, we invalidate the mdx cache
-// whenever docs versions are updated in any way
+// This permits to invalidate the MDX loader cache entries when content changes
+// Problem documented here: https://github.com/facebook/docusaurus/pull/10934
+// TODO this is not a perfect solution, find better?
 async function createMdxLoaderDependencyFile({
   dataDir,
+  options,
   versionsMetadata,
 }: {
   dataDir: string;
+  options: PluginOptions;
   versionsMetadata: VersionMetadata[];
 }) {
   const filePath = path.join(dataDir, '__mdx-loader-dependency.json');
   // the cache is invalidated whenever this file content changes
   const fileContent = {
+    options,
     versionsMetadata,
   };
   await fs.ensureDir(dataDir);
@@ -146,6 +135,7 @@ export default async function pluginContentDocs(
         dependencies: [
           await createMdxLoaderDependencyFile({
             dataDir,
+            options,
             versionsMetadata,
           }),
         ],
