@@ -14,11 +14,7 @@ import {
   createJsLoaderFactory,
 } from '@docusaurus/bundler';
 
-import {
-  md5Hash,
-  getFileLoaderUtils,
-  DOCUSAURUS_VERSION,
-} from '@docusaurus/utils';
+import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import type {Configuration} from 'webpack';
 import type {
@@ -119,9 +115,19 @@ export async function createBaseConfig({
   // Can we share the same cache across locales?
   // Exploring that question at https://github.com/webpack/webpack/issues/13034
   function getCacheName() {
-    return `${name}-${mode}-${props.i18n.currentLocale}-${DOCUSAURUS_VERSION}`;
+    return `${name}-${mode}-${props.i18n.currentLocale}`;
   }
 
+  // When the version string changes, the cache is evicted
+  function getCacheVersion() {
+    // Because Webpack does not evict the cache on alias/swizzle changes,
+    // See https://github.com/webpack/webpack/issues/13627
+    const themeAliasesHash = md5Hash(JSON.stringify(themeAliases));
+    return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}`;
+  }
+
+  // When one of those modules/dependencies change (including transitive
+  // deps), cache is invalidated
   function getCacheBuildDependencies(): string[] {
     return [
       __filename,
@@ -147,16 +153,7 @@ export async function createBaseConfig({
     return {
       type: 'filesystem',
       name: getCacheName(),
-      // When version string changes, cache is evicted
-      version: [
-        siteMetadata.docusaurusVersion,
-        // Webpack does not evict the cache correctly on alias/swizzle change,
-        // so we force eviction.
-        // See https://github.com/webpack/webpack/issues/13627
-        md5Hash(JSON.stringify(themeAliases)),
-      ].join('-'),
-      // When one of those modules/dependencies change (including transitive
-      // deps), cache is invalidated
+      version: getCacheVersion(),
       buildDependencies: {
         config: getCacheBuildDependencies(),
       },
@@ -170,7 +167,10 @@ export async function createBaseConfig({
         : {
             cache: {
               type: 'persistent',
-              version: getCacheName(),
+              // Rspack doesn't have "cache.name" like Webpack
+              // This is not ideal but work around is to merge name/version
+              // See https://github.com/facebook/docusaurus/pull/10931#discussion_r1955908019
+              version: `${getCacheName()}-${getCacheVersion()}`,
               buildDependencies: getCacheBuildDependencies(),
             },
           };
