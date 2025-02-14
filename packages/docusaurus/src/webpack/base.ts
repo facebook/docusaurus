@@ -35,19 +35,9 @@ const LibrariesToTranspileRegex = new RegExp(
   LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
 );
 
-// TODO later: centralize/validate all env variables in a single place
-const Env = {
-  isProd: process.env.NODE_ENV === 'production',
-
-  // Secret flags to disable features that may cause troubles
-  noReactAliases: !!process.env.DOCUSAURUS_NO_REACT_ALIASES,
-  noPersistentCache: !!process.env.DOCUSAURUS_NO_PERSISTENT_CACHE,
-  noRspackIncremental: !!process.env.DOCUSAURUS_NO_RSPACK_INCREMENTAL,
-};
-
 function getReactAliases(siteDir: string): Record<string, string> {
   // Escape hatch
-  if (Env.noReactAliases) {
+  if (process.env.DOCUSAURUS_NO_REACT_ALIASES) {
     return {};
   }
   const resolveSitePkg = (id: string) =>
@@ -97,12 +87,13 @@ export async function createBaseConfig({
     plugins,
   } = props;
   const totalPages = routesPaths.length;
-  const minimizeEnabled = minify && Env.isProd;
+  const isProd = process.env.NODE_ENV === 'production';
+  const minimizeEnabled = minify && isProd;
 
   const fileLoaderUtils = getFileLoaderUtils(isServer);
 
   const name = isServer ? 'server' : 'client';
-  const mode = Env.isProd ? 'production' : 'development';
+  const mode = isProd ? 'production' : 'development';
 
   const themeAliases = await loadThemeAliases({siteDir, plugins});
 
@@ -140,12 +131,12 @@ export async function createBaseConfig({
   }
 
   function getCache(): Configuration['cache'] {
+    if (process.env.DOCUSAURUS_NO_PERSISTENT_CACHE) {
+      // Use default: memory cache in dev, nothing in prod
+      // See https://rspack.dev/config/cache#cache
+      return undefined;
+    }
     if (props.currentBundler.name === 'rspack') {
-      if (Env.noPersistentCache) {
-        // Use default: memory cache in dev, nothing in prod
-        // See https://rspack.dev/config/cache#cache
-        return undefined;
-      }
       // Use cache: true + experiments.cache.type: "persistent"
       // See https://rspack.dev/config/experiments#persistent-cache
       return true;
@@ -162,7 +153,8 @@ export async function createBaseConfig({
 
   function getExperiments(): Configuration['experiments'] {
     if (props.currentBundler.name === 'rspack') {
-      const PersistentCacheAttributes = Env.noPersistentCache
+      const PersistentCacheAttributes = process.env
+        .DOCUSAURUS_NO_PERSISTENT_CACHE
         ? {}
         : {
             cache: {
@@ -185,7 +177,7 @@ export async function createBaseConfig({
         // See https://github.com/web-infra-dev/rspress/pull/1631
         // See https://github.com/facebook/docusaurus/issues/10646
         // @ts-expect-error: Rspack-only, not available in Webpack typedefs
-        incremental: !Env.isProd && !Env.noRspackIncremental,
+        incremental: !isProd && !process.env.DISABLE_RSPACK_INCREMENTAL,
 
         ...PersistentCacheAttributes,
       };
@@ -201,10 +193,8 @@ export async function createBaseConfig({
     output: {
       pathinfo: false,
       path: outDir,
-      filename: Env.isProd
-        ? 'assets/js/[name].[contenthash:8].js'
-        : '[name].js',
-      chunkFilename: Env.isProd
+      filename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
+      chunkFilename: isProd
         ? 'assets/js/[name].[contenthash:8].js'
         : '[name].js',
       publicPath:
@@ -215,7 +205,7 @@ export async function createBaseConfig({
     performance: {
       hints: false,
     },
-    devtool: Env.isProd ? undefined : 'eval-cheap-module-source-map',
+    devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true, // See https://github.com/facebook/docusaurus/issues/3272
@@ -309,7 +299,7 @@ export async function createBaseConfig({
           exclude: CSS_MODULE_REGEX,
           use: configureWebpackUtils.getStyleLoaders(isServer, {
             importLoaders: 1,
-            sourceMap: !Env.isProd,
+            sourceMap: !isProd,
           }),
         },
         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
@@ -324,17 +314,17 @@ export async function createBaseConfig({
               exportOnlyLocals: isServer,
             },
             importLoaders: 1,
-            sourceMap: !Env.isProd,
+            sourceMap: !isProd,
           }),
         },
       ],
     },
     plugins: [
       new CSSExtractPlugin({
-        filename: Env.isProd
+        filename: isProd
           ? 'assets/css/[name].[contenthash:8].css'
           : '[name].css',
-        chunkFilename: Env.isProd
+        chunkFilename: isProd
           ? 'assets/css/[name].[contenthash:8].css'
           : '[name].css',
         // Remove css order warnings if css imports are not sorted
