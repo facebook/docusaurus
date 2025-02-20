@@ -301,10 +301,10 @@ const Users: User[] = [
   {
     title: 'Datagit',
     description:
-      'A persian tutorial website strive to make quality education for everyone.',
+      'A Persian tutorial website strives to make quality education for everyone.',
     preview: require('./showcase/datagit.png'),
     website: 'https://datagit.ir/',
-    source: 'https://github.com/ghaseminya/datagit_v2.docusaurus',
+    source: 'https://github.com/massoudmaboudi/datagit',
     tags: ['opensource', 'favorite', 'rtl'],
   },
   {
