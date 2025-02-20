@@ -471,7 +471,21 @@ function ensureDocusaurusConfigConsistency(config: DocusaurusConfig) {
       )} to be turned on.
 If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: ${logger.code(
         '{future: {v4: true}}',
-      )}`,
+      )}
+All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future`,
+    );
+  }
+
+  if (
+    config.future.experimental_faster.rspackPersistentCache &&
+    !config.future.experimental_faster.rspackBundler
+  ) {
+    throw new Error(
+      `Docusaurus config flag ${logger.code(
+        'future.experimental_faster.rspackPersistentCache',
+      )} requires the flag ${logger.code(
+        'future.experimental_faster.rspackBundler',
+      )} to be turned on.`,
     );
   }
 }
