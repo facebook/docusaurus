@@ -206,6 +206,7 @@ export default {
       swcHtmlMinimizer: true,
       lightningCssMinimizer: true,
       rspackBundler: true,
+      rspackPersistentCache: true,
       ssgWorkerThreads: true,
       mdxCrossCompilerCache: true,
     },
@@ -226,6 +227,7 @@ export default {
   - [`swcHtmlMinimizer `](https://github.com/facebook/docusaurus/pull/10554): Use [SWC](https://swc.rs/) to minify HTML and inlined JS/CSS (instead of [html-minifier-terser](https://github.com/terser/html-minifier-terser)).
   - [`lightningCssMinimizer`](https://github.com/facebook/docusaurus/pull/10522): Use [Lightning CSS](https://lightningcss.dev/) to minify CSS (instead of [cssnano](https://github.com/cssnano/cssnano) and [clean-css](https://github.com/clean-css/clean-css)).
   - [`rspackBundler`](https://github.com/facebook/docusaurus/pull/10402): Use [Rspack](https://rspack.dev/) to bundle your app (instead of [webpack](https://webpack.js.org/)).
+  - [`rspackPersistentCache`](https://github.com/facebook/docusaurus/pull/10931): Use [Rspack Persistent Cache](https://rspack.dev/config/cache) to re-build your app faster on subsequent builds. Requires `rspackBundler: true`. Requires persisting `./node_modules/.cache` across rebuilds.
   - [`mdxCrossCompilerCache`](https://github.com/facebook/docusaurus/pull/10479): Compile MDX files only once for both browser/Node.js environments instead of twice.
   - [`ssgWorkerThreads`](https://github.com/facebook/docusaurus/pull/10826): Using a Node.js worker thread pool to execute the static site generation phase faster. Requires `future.v4.removeLegacyPostBuildHeadAttribute` to be turned on.
 - `experimental_storage`: Site-wide browser storage options that theme authors should strive to respect.
