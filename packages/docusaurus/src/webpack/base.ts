@@ -131,15 +131,21 @@ export async function createBaseConfig({
   }
 
   function getCache(): Configuration['cache'] {
+    // Use default: memory cache in dev, nothing in prod
+    // See https://rspack.dev/config/cache#cache
+    const disabledPersistentCacheValue = undefined;
+
     if (process.env.DOCUSAURUS_NO_PERSISTENT_CACHE) {
-      // Use default: memory cache in dev, nothing in prod
-      // See https://rspack.dev/config/cache#cache
-      return undefined;
+      return disabledPersistentCacheValue;
     }
     if (props.currentBundler.name === 'rspack') {
-      // Use cache: true + experiments.cache.type: "persistent"
-      // See https://rspack.dev/config/experiments#persistent-cache
-      return true;
+      if (props.siteConfig.future.experimental_faster.rspackPersistentCache) {
+        // Use cache: true + experiments.cache.type: "persistent"
+        // See https://rspack.dev/config/experiments#persistent-cache
+        return true;
+      } else {
+        return disabledPersistentCacheValue;
+      }
     }
     return {
       type: 'filesystem',
