@@ -130,6 +130,7 @@ export type FasterConfig = {
   lightningCssMinimizer: boolean;
   mdxCrossCompilerCache: boolean;
   rspackBundler: boolean;
+  rspackPersistentCache: boolean;
   ssgWorkerThreads: boolean;
 };
 

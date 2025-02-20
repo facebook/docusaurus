@@ -58,6 +58,7 @@ describe('normalizeConfig', () => {
           lightningCssMinimizer: true,
           mdxCrossCompilerCache: true,
           rspackBundler: true,
+          rspackPersistentCache: true,
           ssgWorkerThreads: true,
         },
         experimental_storage: {
@@ -761,6 +762,7 @@ describe('future', () => {
         lightningCssMinimizer: true,
         mdxCrossCompilerCache: true,
         rspackBundler: true,
+        rspackPersistentCache: true,
         ssgWorkerThreads: true,
       },
       experimental_storage: {
@@ -1115,6 +1117,7 @@ describe('future', () => {
         lightningCssMinimizer: true,
         mdxCrossCompilerCache: true,
         rspackBundler: true,
+        rspackPersistentCache: true,
         ssgWorkerThreads: true,
       };
       expect(
@@ -1610,6 +1613,77 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.experimental_faster.rspackBundler" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('rspackPersistentCache', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackPersistentCache: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackPersistentCache: false}));
+      });
+
+      it('accepts - true', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackPersistentCache: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackPersistentCache: true}));
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackPersistentCache: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackPersistentCache: false}));
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {rspackPersistentCache: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.rspackPersistentCache" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {rspackPersistentCache: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.rspackPersistentCache" must be a boolean
           "
         `);
       });

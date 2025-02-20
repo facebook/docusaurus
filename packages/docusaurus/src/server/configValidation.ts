@@ -50,6 +50,7 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   lightningCssMinimizer: false,
   mdxCrossCompilerCache: false,
   rspackBundler: false,
+  rspackPersistentCache: false,
   ssgWorkerThreads: false,
 };
 
@@ -61,6 +62,7 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   lightningCssMinimizer: true,
   mdxCrossCompilerCache: true,
   rspackBundler: true,
+  rspackPersistentCache: true,
   ssgWorkerThreads: true,
 };
 
@@ -246,6 +248,9 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
         DEFAULT_FASTER_CONFIG.mdxCrossCompilerCache,
       ),
       rspackBundler: Joi.boolean().default(DEFAULT_FASTER_CONFIG.rspackBundler),
+      rspackPersistentCache: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.rspackPersistentCache,
+      ),
       ssgWorkerThreads: Joi.boolean().default(
         DEFAULT_FASTER_CONFIG.ssgWorkerThreads,
       ),
