@@ -147,6 +147,7 @@ export async function createBaseConfig({
         return disabledPersistentCacheValue;
       }
     }
+
     return {
       type: 'filesystem',
       name: getCacheName(),
