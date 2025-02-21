@@ -47,7 +47,17 @@ export const ThemeClassNames = {
 
     admonitionType: (type: string) => `theme-admonition-${type}`,
   },
+
   layout: {
+    navbar: {
+      container: 'theme-layout-navbar',
+      containerLeft: 'theme-layout-navbar-left',
+      containerRight: 'theme-layout-navbar-right',
+      mobileSidebar: {
+        container: 'theme-layout-navbar-sidebar',
+        panel: 'theme-layout-navbar-sidebar-panel',
+      },
+    },
     // TODO add other stable classNames here
   },
 
