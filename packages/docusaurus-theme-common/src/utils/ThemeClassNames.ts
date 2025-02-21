@@ -27,8 +27,10 @@ export const ThemeClassNames = {
 
     mdxPage: 'mdx-page',
   },
+
+  // TODO Docusaurus v4: remove old classes?
   wrapper: {
-    main: 'main-wrapper',
+    main: 'main-wrapper', // replaced by theme-layout-main
     // TODO these wrapper class names are now quite useless
     // TODO do breaking change later in 3.0
     // we already add plugin name/id class on <html>: that's enough
@@ -36,6 +38,7 @@ export const ThemeClassNames = {
     docsPages: 'docs-wrapper',
     mdxPages: 'mdx-wrapper',
   },
+
   common: {
     editThisPage: 'theme-edit-this-page',
     lastUpdated: 'theme-last-updated',
@@ -62,7 +65,13 @@ export const ThemeClassNames = {
         panel: 'theme-layout-navbar-sidebar-panel',
       },
     },
-    // TODO add other stable classNames here
+    main: {
+      container: 'theme-layout-main',
+    },
+    footer: {
+      container: 'theme-layout-footer',
+      column: 'theme-layout-footer-column',
+    },
   },
 
   /**

@@ -7,6 +7,7 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Footer/Layout';
 
 export default function FooterLayout({
@@ -17,7 +18,7 @@ export default function FooterLayout({
 }: Props): ReactNode {
   return (
     <footer
-      className={clsx('footer', {
+      className={clsx(ThemeClassNames.layout.footer.container, 'footer', {
         'footer--dark': style === 'dark',
       })}>
       <div className="container container-fluid">
