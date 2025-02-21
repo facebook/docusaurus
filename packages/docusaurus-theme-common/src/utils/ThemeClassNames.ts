@@ -48,6 +48,10 @@ export const ThemeClassNames = {
     admonitionType: (type: string) => `theme-admonition-${type}`,
   },
 
+  announcementBar: {
+    container: 'theme-announcement-bar',
+  },
+
   layout: {
     navbar: {
       container: 'theme-layout-navbar',
