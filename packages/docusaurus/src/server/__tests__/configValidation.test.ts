@@ -58,6 +58,7 @@ describe('normalizeConfig', () => {
           lightningCssMinimizer: true,
           mdxCrossCompilerCache: true,
           rspackBundler: true,
+          rspackPersistentCache: true,
           ssgWorkerThreads: true,
         },
         experimental_storage: {
@@ -761,6 +762,7 @@ describe('future', () => {
         lightningCssMinimizer: true,
         mdxCrossCompilerCache: true,
         rspackBundler: true,
+        rspackPersistentCache: true,
         ssgWorkerThreads: true,
       },
       experimental_storage: {
@@ -1115,6 +1117,7 @@ describe('future', () => {
         lightningCssMinimizer: true,
         mdxCrossCompilerCache: true,
         rspackBundler: true,
+        rspackPersistentCache: true,
         ssgWorkerThreads: true,
       };
       expect(
@@ -1156,7 +1159,8 @@ describe('future', () => {
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
         "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`"
+        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
+        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
       `);
     });
 
@@ -1170,7 +1174,8 @@ describe('future', () => {
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
         "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`"
+        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
+        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
       `);
     });
 
@@ -1615,6 +1620,110 @@ describe('future', () => {
       });
     });
 
+    describe('rspackPersistentCache', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackPersistentCache: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackPersistentCache: false}));
+      });
+
+      it('accepts - true (rspackBundler: true)', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackBundler: true,
+          rspackPersistentCache: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackPersistentCache: true}));
+      });
+
+      it('rejects - true (rspackBundler: false)', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackBundler: false,
+          rspackPersistentCache: true,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `"Docusaurus config flag \`future.experimental_faster.rspackPersistentCache\` requires the flag \`future.experimental_faster.rspackBundler\` to be turned on."`,
+        );
+      });
+
+      it('rejects - true (rspackBundler: undefined)', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackBundler: false,
+          rspackPersistentCache: true,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `"Docusaurus config flag \`future.experimental_faster.rspackPersistentCache\` requires the flag \`future.experimental_faster.rspackBundler\` to be turned on."`,
+        );
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackPersistentCache: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackPersistentCache: false}));
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {rspackPersistentCache: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.rspackPersistentCache" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {rspackPersistentCache: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.rspackPersistentCache" must be a boolean
+          "
+        `);
+      });
+    });
+
     describe('ssgWorkerThreads', () => {
       it('accepts - undefined', () => {
         const faster: Partial<FasterConfig> = {
@@ -1656,7 +1765,8 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`"
+          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
+          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
         `);
       });
 
@@ -1673,7 +1783,8 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`"
+          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
+          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
         `);
       });
 

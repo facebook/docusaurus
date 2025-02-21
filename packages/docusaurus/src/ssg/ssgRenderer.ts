@@ -83,7 +83,7 @@ async function loadAppRenderer({
 
   if (!serverEntry?.default || typeof serverEntry.default !== 'function') {
     throw new Error(
-      `Server bundle export from "${filename}" must be a function that renders the Docusaurus React app.`,
+      `Docusaurus Bug: server bundle export from "${filename}" must be a function that renders the Docusaurus React app, not ${typeof serverEntry?.default}`,
     );
   }
 

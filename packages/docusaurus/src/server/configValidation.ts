@@ -50,6 +50,7 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   lightningCssMinimizer: false,
   mdxCrossCompilerCache: false,
   rspackBundler: false,
+  rspackPersistentCache: false,
   ssgWorkerThreads: false,
 };
 
@@ -61,6 +62,7 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   lightningCssMinimizer: true,
   mdxCrossCompilerCache: true,
   rspackBundler: true,
+  rspackPersistentCache: true,
   ssgWorkerThreads: true,
 };
 
@@ -246,6 +248,9 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
         DEFAULT_FASTER_CONFIG.mdxCrossCompilerCache,
       ),
       rspackBundler: Joi.boolean().default(DEFAULT_FASTER_CONFIG.rspackBundler),
+      rspackPersistentCache: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.rspackPersistentCache,
+      ),
       ssgWorkerThreads: Joi.boolean().default(
         DEFAULT_FASTER_CONFIG.ssgWorkerThreads,
       ),
@@ -466,7 +471,21 @@ function ensureDocusaurusConfigConsistency(config: DocusaurusConfig) {
       )} to be turned on.
 If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: ${logger.code(
         '{future: {v4: true}}',
-      )}`,
+      )}
+All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future`,
+    );
+  }
+
+  if (
+    config.future.experimental_faster.rspackPersistentCache &&
+    !config.future.experimental_faster.rspackBundler
+  ) {
+    throw new Error(
+      `Docusaurus config flag ${logger.code(
+        'future.experimental_faster.rspackPersistentCache',
+      )} requires the flag ${logger.code(
+        'future.experimental_faster.rspackBundler',
+      )} to be turned on.`,
     );
   }
 }
