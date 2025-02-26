@@ -445,8 +445,8 @@ import TabItem from '@theme/TabItem'
 
   <TabItem value="bun" label="Bun">
     \`\`\`bash
-    bunx create docusaurus
-    bunx create docusaurus@latest my-website classic
+    bunx create-docusaurus
+    bunx create-docusaurus@latest my-website classic
     \`\`\`
   </TabItem>
 </Tabs>
