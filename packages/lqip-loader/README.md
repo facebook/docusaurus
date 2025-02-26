@@ -4,7 +4,7 @@ Low Quality Image Placeholders (LQIP) loader for webpack.
 
 ## Installation
 
-```
+```bash
 npm install --save-dev @docusaurus/lqip-loader
 ```
 
