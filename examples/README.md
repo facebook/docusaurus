@@ -2,7 +2,7 @@
 
 These example projects are generated with the init CLI:
 
-```
+```bash
 npx @docusaurus/init@latest init examples/<templateName> <templateName>`
 ```
 
