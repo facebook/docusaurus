@@ -10,10 +10,9 @@ import fs from 'fs-extra';
 import _ from 'lodash';
 import execa from 'execa';
 
-const realHasGitFn = async () => {
+const realHasGitFn = () => {
   try {
-    await execa('git', ['--version']);
-    return true;
+    return execa.sync('git', ['--version']).exitCode === 0;
   } catch (error) {
     return false;
   }

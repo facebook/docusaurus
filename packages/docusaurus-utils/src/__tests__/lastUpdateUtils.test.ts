@@ -9,13 +9,13 @@ import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
 import {createTempRepo} from '@testing-utils/git';
-import shell from 'shelljs';
-// import execa from 'execa';
+import execa from 'execa';
+
 import {
   getGitLastUpdate,
   LAST_UPDATE_FALLBACK,
   readLastUpdateData,
-} from '@docusaurus/utils';
+} from '../lastUpdateUtils';
 
 describe('getGitLastUpdate', () => {
   const {repoDir} = createTempRepo();
@@ -70,8 +70,10 @@ describe('getGitLastUpdate', () => {
   });
 
   it('git does not exist', async () => {
-    // TODO how to mock execa command ?
-    const mock = jest.spyOn(shell, 'which').mockImplementationOnce(() => null);
+    const mock = jest.spyOn(execa, 'sync').mockImplementationOnce(() => {
+      throw new Error('Git does not exist');
+    });
+
     const consoleMock = jest
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
