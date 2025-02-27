@@ -43,34 +43,38 @@ function useCategoryItemsPlural() {
 }
 
 function CardContainer({
+  className,
   href,
   children,
 }: {
+  className?: string;
   href: string;
   children: ReactNode;
-}): JSX.Element {
+}): ReactNode {
   return (
     <Link
       href={href}
-      className={clsx('card padding--lg', styles.cardContainer)}>
+      className={clsx('card padding--lg', styles.cardContainer, className)}>
       {children}
     </Link>
   );
 }
 
 function CardLayout({
+  className,
   href,
   icon,
   title,
   description,
 }: {
+  className?: string;
   href: string;
   icon: ReactNode;
   title: string;
   description?: string;
-}): JSX.Element {
+}): ReactNode {
   return (
-    <CardContainer href={href}>
+    <CardContainer href={href} className={className}>
       <Heading
         as="h2"
         className={clsx('text--truncate', styles.cardTitle)}
@@ -88,11 +92,7 @@ function CardLayout({
   );
 }
 
-function CardCategory({
-  item,
-}: {
-  item: PropSidebarItemCategory;
-}): JSX.Element | null {
+function CardCategory({item}: {item: PropSidebarItemCategory}): ReactNode {
   const href = findFirstSidebarItemLink(item);
   const categoryItemsPlural = useCategoryItemsPlural();
 
@@ -103,6 +103,7 @@ function CardCategory({
 
   return (
     <CardLayout
+      className={item.className}
       href={href}
       icon="🗃️"
       title={item.label}
@@ -111,11 +112,12 @@ function CardCategory({
   );
 }
 
-function CardLink({item}: {item: PropSidebarItemLink}): JSX.Element {
+function CardLink({item}: {item: PropSidebarItemLink}): ReactNode {
   const icon = isInternalUrl(item.href) ? '📄️' : '🔗';
   const doc = useDocById(item.docId ?? undefined);
   return (
     <CardLayout
+      className={item.className}
       href={item.href}
       icon={icon}
       title={item.label}
@@ -124,7 +126,7 @@ function CardLink({item}: {item: PropSidebarItemLink}): JSX.Element {
   );
 }
 
-export default function DocCard({item}: Props): JSX.Element {
+export default function DocCard({item}: Props): ReactNode {
   switch (item.type) {
     case 'link':
       return <CardLink item={item} />;

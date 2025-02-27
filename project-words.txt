@@ -25,6 +25,9 @@ beforeinstallprompt
 Bhatt
 blockquotes
 Blockquotes
+bluesky
+Bluesky
+BLUESKY
 Bokmål
 bunx
 caabernathy
@@ -91,10 +94,11 @@ Flightcontrol
 Flightcontrol's
 FOUC
 froms
-funboxteam
 gabrielcsapo
 getcanary
 Gifs
+gingergeek
+gingergeekuk
 Goss
 Goyal
 gtag
@@ -174,7 +178,7 @@ metastring
 metrica
 Metrika
 microdata
-Microdata
+Milnes
 mindmap
 Mindmap
 mkdn
@@ -202,7 +206,6 @@ Nuxt
 opensearch
 opensearchdescription
 opensource
-optimizt
 orama
 Orama
 orta
@@ -275,6 +278,8 @@ Rsdoctor
 RSDOCTOR
 rspack
 Rspack
+RSPACK
+Rspress
 rtcts
 saurus
 Scaleway
@@ -283,7 +288,6 @@ Sebastien
 Sébastien
 sebastienlorber
 sensical
-setaf
 setext
 setlocal
 SFNT
@@ -299,7 +303,6 @@ solana
 Solana
 spâce
 stackblitz
-stackblitzrc
 stackoverflow
 Stormkit
 Strikethrough
@@ -319,10 +322,12 @@ Sucipto
 sunsetting
 supabase
 Supabase
+svgs
 swizzlable
 Tagkey
 Teik
 Therox
+thisweekinreact
 toplevel
 Transifex
 transpiles
@@ -367,6 +372,7 @@ Yacop
 yangshun
 Yangshun
 yangshunz
+zedspencermilnes
 Zhou
 zoomable
 zpao

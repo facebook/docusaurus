@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ComponentProps, useEffect, useMemo} from 'react';
+import React, {
+  type ComponentProps,
+  type ReactNode,
+  useEffect,
+  useMemo,
+} from 'react';
 import clsx from 'clsx';
 import {
   ThemeClassNames,
@@ -116,7 +121,7 @@ export default function DocSidebarItemCategory({
   level,
   index,
   ...props
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const {items, label, collapsible, className, href} = item;
   const {
     docs: {
@@ -183,7 +188,14 @@ export default function DocSidebarItemCategory({
               ? (e) => {
                   onItemClick?.(item);
                   if (href) {
-                    updateCollapsed(false);
+                    if (isActive) {
+                      e.preventDefault();
+                      updateCollapsed();
+                    } else {
+                      // When navigating to a new category, we always expand
+                      // see https://github.com/facebook/docusaurus/issues/10854#issuecomment-2609616182
+                      updateCollapsed(false);
+                    }
                   } else {
                     e.preventDefault();
                     updateCollapsed();

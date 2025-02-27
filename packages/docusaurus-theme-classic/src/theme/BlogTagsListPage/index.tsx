@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {
   PageMetadata,
@@ -19,7 +19,7 @@ import type {Props} from '@theme/BlogTagsListPage';
 import SearchMetadata from '@theme/SearchMetadata';
 import Heading from '@theme/Heading';
 
-export default function BlogTagsListPage({tags, sidebar}: Props): JSX.Element {
+export default function BlogTagsListPage({tags, sidebar}: Props): ReactNode {
   const title = translateTagsPageTitle();
   return (
     <HtmlClassNameProvider

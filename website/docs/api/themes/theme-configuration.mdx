@@ -597,9 +597,21 @@ Accepted fields:
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
 | `dropdownActiveClassDisabled` | `boolean` | `false` | Do not add the link active class when browsing docs. |
+| `versions` | `DropdownVersions` | `undefined` | Specify a custom list of versions to include in the dropdown. See [the versioning guide](../../guides/docs/versioning.mdx#docsVersionDropdown) for details. |
 
 ```mdx-code-block
 </APITable>
+```
+
+Types:
+
+```ts
+type DropdownVersion = {
+  /** Allows you to provide a custom display label for each version. */
+  label?: string;
+};
+
+type DropdownVersions = string[] | {[versionName: string]: DropdownVersion};
 ```
 
 Example configuration:

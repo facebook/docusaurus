@@ -108,6 +108,18 @@ export type HtmlTagObject = {
 
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
+export type ConfigureWebpackResult = WebpackConfiguration & {
+  mergeStrategy?: {
+    [key: string]: CustomizeRuleString;
+  };
+};
+
+export type RouteBuildMetadata = {
+  // We'll add extra metadata on a case by case basis here
+  // For now the only need is our sitemap plugin to filter noindex pages
+  noIndex: boolean;
+};
+
 export type Plugin<Content = unknown> = {
   name: string;
   loadContent?: () => Promise<Content> | Content;
@@ -123,7 +135,11 @@ export type Plugin<Content = unknown> = {
   postBuild?: (
     props: Props & {
       content: Content;
+      // TODO Docusaurus v4: remove old messy unserializable "head" API
+      //  breaking change, replaced by routesBuildMetadata
+      //  Reason: https://github.com/facebook/docusaurus/pull/10826
       head: {[location: string]: HelmetServerState};
+      routesBuildMetadata: {[location: string]: RouteBuildMetadata};
     },
   ) => Promise<void> | void;
   // TODO Docusaurus v4 ?
@@ -134,11 +150,7 @@ export type Plugin<Content = unknown> = {
     isServer: boolean,
     configureWebpackUtils: ConfigureWebpackUtils,
     content: Content,
-  ) => WebpackConfiguration & {
-    mergeStrategy?: {
-      [key: string]: CustomizeRuleString;
-    };
-  };
+  ) => ConfigureWebpackResult | void;
   configurePostCss?: (options: PostCssOptions) => PostCssOptions;
   getThemePath?: () => string;
   getTypeScriptThemePath?: () => string;

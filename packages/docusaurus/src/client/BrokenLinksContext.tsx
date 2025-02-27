@@ -46,6 +46,6 @@ export function BrokenLinksProvider({
 }: {
   children: ReactNode;
   brokenLinks: BrokenLinks;
-}): JSX.Element {
+}): ReactNode {
   return <Context.Provider value={brokenLinks}>{children}</Context.Provider>;
 }

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import Link from '@docusaurus/Link';
@@ -257,7 +258,7 @@ function TopBanner() {
   );
 }
 
-export default function Home(): JSX.Element {
+export default function Home(): ReactNode {
   const {
     siteConfig: {customFields, tagline},
   } = useDocusaurusContext();

@@ -28,7 +28,7 @@ function maybeStringifyChildren(children: ReactNode): ReactNode {
 export default function CodeBlock({
   children: rawChildren,
   ...props
-}: Props): JSX.Element {
+}: Props): ReactNode {
   // The Prism theme on SSR is always the default theme but the site theme can
   // be in a different mode. React hydration doesn't update DOM styles that come
   // from SSR. Hence force a re-render after mounting to apply the current

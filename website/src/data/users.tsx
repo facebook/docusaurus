@@ -62,14 +62,6 @@ export type TagType =
 // prettier-ignore
 const Users: User[] = [
   {
-    title: 'AgileTs',
-    description: 'Global State and Logic Framework for reactive Applications',
-    preview: require('./showcase/agilets.png'),
-    website: 'https://agile-ts.org/',
-    source: 'https://github.com/agile-ts/documentation',
-    tags: ['opensource', 'design'],
-  },
-  {
     title: 'AI-Speaker',
     description: 'Local, reliable, fast and private Audio and IoT gate.',
     preview: require('./showcase/aispeaker.png'),
@@ -309,10 +301,10 @@ const Users: User[] = [
   {
     title: 'Datagit',
     description:
-      'A persian tutorial website strive to make quality education for everyone.',
+      'A Persian tutorial website strives to make quality education for everyone.',
     preview: require('./showcase/datagit.png'),
     website: 'https://datagit.ir/',
-    source: 'https://github.com/ghaseminya/datagit_v2.docusaurus',
+    source: 'https://github.com/massoudmaboudi/datagit',
     tags: ['opensource', 'favorite', 'rtl'],
   },
   {
@@ -1123,11 +1115,11 @@ const Users: User[] = [
   },
   {
     title: 'Prismatic',
-    description: 'An Integration Platform for B2B Software Companies',
+    description: 'The Embedded Integration Platform for B2B SaaS Teams',
     preview: require('./showcase/prismatic.png'),
     website: 'https://prismatic.io/docs/',
     source: null,
-    tags: ['product'],
+    tags: ['design', 'large', 'product'],
   },
   {
     title: 'Pyre',
@@ -1827,7 +1819,7 @@ const Users: User[] = [
     description:
       'A DSL for building full-stack web apps with less boilerplate.',
     preview: require('./showcase/wasp.png'),
-    website: 'https://wasp-lang.dev/',
+    website: 'https://wasp.sh/',
     source: 'https://github.com/wasp-lang/wasp/tree/main/web',
     tags: ['opensource'],
   },

@@ -1,0 +1,37 @@
+{
+  "name": "@docusaurus/plugin-svgr",
+  "version": "3.7.0",
+  "description": "SVGR plugin for Docusaurus.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-svgr"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/core": "3.7.0",
+    "@docusaurus/types": "3.7.0",
+    "@docusaurus/utils": "3.7.0",
+    "@docusaurus/utils-validation": "3.7.0",
+    "@svgr/core": "8.1.0",
+    "@svgr/webpack": "^8.1.0",
+    "tslib": "^2.6.0",
+    "webpack": "^5.88.1"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "engines": {
+    "node": ">=18.0"
+  }
+}

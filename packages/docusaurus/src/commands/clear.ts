@@ -19,7 +19,10 @@ async function removePath(entry: {path: string; description: string}) {
   }
   try {
     await fs.remove(entry.path);
-    logger.success`Removed the ${entry.description} at path=${entry.path}.`;
+    logger.success`Removed the ${entry.description} at path=${path.relative(
+      process.cwd(),
+      entry.path,
+    )}.`;
   } catch (err) {
     logger.error`Could not remove the ${entry.description} at path=${entry.path}.`;
     logger.error(err);
@@ -40,7 +43,7 @@ export async function clear(siteDirParam: string = '.'): Promise<void> {
   // In Yarn PnP, cache is stored in `.yarn/.cache` because n_m doesn't exist
   const cacheFolders = ['node_modules', '.yarn'].map((p) => ({
     path: path.join(siteDir, p, '.cache'),
-    description: 'Webpack persistent cache folder',
+    description: 'bundler persistent cache folder',
   }));
   await Promise.all(
     [generatedFolder, buildFolder, ...cacheFolders].map(removePath),

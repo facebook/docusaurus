@@ -26,7 +26,7 @@ export default function TweetQuote({
   name,
   job,
   children,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const avatar = `https://unavatar.io/x/${handle}`;
   const profileUrl = `https://x.com/${handle}`;
   return (

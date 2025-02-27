@@ -94,7 +94,7 @@ describe('toBlogSidebarProp', () => {
           permalink: '/blog/blog-2',
           unlisted: true,
           date: '2024-01-01',
-          frontMatter: {hello: 'world'},
+          frontMatter: {hello: 'world', sidebar_label: 'title 2 (custom)'},
           tags: [{label: 'tag1', permalink: '/tag1', inline: false}],
         },
       }),
@@ -117,7 +117,7 @@ describe('toBlogSidebarProp', () => {
           {
             "date": "2024-01-01",
             "permalink": "/blog/blog-2",
-            "title": "title 2",
+            "title": "title 2 (custom)",
             "unlisted": true,
           },
         ],

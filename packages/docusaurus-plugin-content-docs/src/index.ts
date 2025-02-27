@@ -6,6 +6,7 @@
  */
 
 import path from 'path';
+import fs from 'fs-extra';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {
@@ -63,6 +64,37 @@ import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {DocFile, FullVersion} from './types';
 import type {RuleSetRule} from 'webpack';
 
+// MDX loader is not 100% deterministic, leading to cache invalidation issue
+// This permits to invalidate the MDX loader cache entries when content changes
+// Problem documented here: https://github.com/facebook/docusaurus/pull/10934
+// TODO this is not a perfect solution, find better?
+async function createMdxLoaderDependencyFile({
+  dataDir,
+  options,
+  versionsMetadata,
+}: {
+  dataDir: string;
+  options: PluginOptions;
+  versionsMetadata: VersionMetadata[];
+}): Promise<string | undefined> {
+  // TODO this has been temporarily made opt-in until Rspack cache bug is fixed
+  //  See https://github.com/facebook/docusaurus/pull/10931
+  //  See https://github.com/facebook/docusaurus/pull/10934#issuecomment-2672253145
+  if (!process.env.DOCUSAURUS_ENABLE_MDX_DEPENDENCY_FILE) {
+    return undefined;
+  }
+
+  const filePath = path.join(dataDir, '__mdx-loader-dependency.json');
+  // the cache is invalidated whenever this file content changes
+  const fileContent = {
+    options,
+    versionsMetadata,
+  };
+  await fs.ensureDir(dataDir);
+  await fs.writeFile(filePath, JSON.stringify(fileContent));
+  return filePath;
+}
+
 export default async function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
@@ -107,6 +139,14 @@ export default async function pluginContentDocs(
     return createMDXLoaderRule({
       include: contentDirs,
       options: {
+        dependencies: [
+          await createMdxLoaderDependencyFile({
+            dataDir,
+            options,
+            versionsMetadata,
+          }),
+        ].filter((d): d is string => typeof d === 'string'),
+
         useCrossCompilerCache:
           siteConfig.future.experimental_faster.mdxCrossCompilerCache,
         admonitions: options.admonitions,

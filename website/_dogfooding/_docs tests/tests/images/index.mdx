@@ -1,0 +1,37 @@
+---
+image: ./img/oss_logo.png
+---
+
+# Image Tests
+
+import Image from '@theme/IdealImage';
+
+import docusaurusImport from '@site/static/img/docusaurus.png';
+
+export const docusaurusRequire = require('@site/static/img/docusaurus.png');
+
+![URL encoded image](./img/oss_logo%20%282%29.png)
+
+## Regular images
+
+Those only render in DEV when IdealImage plugin is disabled.
+
+<img src={docusaurusImport} />
+
+<img src={docusaurusRequire.default} />
+
+## Ideal images
+
+<Image img={docusaurusImport} />
+
+<Image img={docusaurusRequire} />
+
+## CSS Image
+
+import './img-tests.css';
+
+This should display a div with have a background image
+
+<div
+  className="dogfood-image-test-css"
+  style={{border: 'solid', height: '10rem'}}></div>

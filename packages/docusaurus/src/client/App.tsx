@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import '@generated/client-modules';
 
 import routes from '@generated/routes';
@@ -37,7 +37,7 @@ function AppNavigation() {
   );
 }
 
-export default function App(): JSX.Element {
+export default function App(): ReactNode {
   return (
     <ErrorBoundary>
       <DocusaurusContextProvider>

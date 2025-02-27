@@ -39,7 +39,7 @@ function ChangelogPageContent({
 }: {
   sidebar: BlogSidebar;
   children: ReactNode;
-}): JSX.Element {
+}): ReactNode {
   const {metadata, toc} = useBlogPost();
   const {nextItem, prevItem, frontMatter} = metadata;
   const {
@@ -73,7 +73,7 @@ function ChangelogPageContent({
 // This page doesn't change anything. It's just swapping BlogPostItem with our
 // own ChangelogItem. We don't want to apply the swizzled item to the actual
 // blog.
-export default function ChangelogPage(props: Props): JSX.Element {
+export default function ChangelogPage(props: Props): ReactNode {
   const ChangelogContent = props.content;
   return (
     <BlogPostProvider content={props.content} isBlogPostPage>

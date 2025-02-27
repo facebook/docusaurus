@@ -30,7 +30,7 @@ export function PageMetadata({
   keywords,
   image,
   children,
-}: PageMetadataProps): JSX.Element {
+}: PageMetadataProps): ReactNode {
   const pageTitle = useTitleFormatter(title);
   const {withBaseUrl} = useBaseUrlUtils();
   const pageImage = image ? withBaseUrl(image, {absolute: true}) : undefined;
@@ -75,7 +75,7 @@ export function HtmlClassNameProvider({
 }: {
   className: string;
   children: ReactNode;
-}): JSX.Element {
+}): ReactNode {
   const classNameContext = React.useContext(HtmlClassNameContext);
   const className = clsx(classNameContext, classNameProp);
   return (
@@ -103,7 +103,7 @@ export function PluginHtmlClassNameProvider({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element {
+}): ReactNode {
   const routeContext = useRouteContext();
   const nameClass = pluginNameToClassName(routeContext.plugin.name);
   const idClass = `plugin-id-${routeContext.plugin.id}`;

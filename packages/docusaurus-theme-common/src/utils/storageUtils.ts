@@ -229,8 +229,8 @@ export function useStorageSlot(
   const currentValue = useSyncExternalStore(
     listen,
     () => {
-      // TODO this check should be useless after React 18
-      if (typeof window === 'undefined') {
+      // react-test-renderer (deprecated) never call getServerSnapshot() :/
+      if (process.env.NODE_ENV === 'test') {
         return null;
       }
       return storageSlot.get();

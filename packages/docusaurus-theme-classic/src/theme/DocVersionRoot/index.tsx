@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import {HtmlClassNameProvider, PageMetadata} from '@docusaurus/theme-common';
 import {
   getDocsVersionSearchTag,
@@ -16,7 +16,7 @@ import SearchMetadata from '@theme/SearchMetadata';
 
 import type {Props} from '@theme/DocVersionRoot';
 
-function DocVersionRootMetadata(props: Props): JSX.Element {
+function DocVersionRootMetadata(props: Props): ReactNode {
   const {version} = props;
   return (
     <>
@@ -31,7 +31,7 @@ function DocVersionRootMetadata(props: Props): JSX.Element {
   );
 }
 
-function DocVersionRootContent(props: Props): JSX.Element {
+function DocVersionRootContent(props: Props): ReactNode {
   const {version, route} = props;
   return (
     <HtmlClassNameProvider className={version.className}>
@@ -41,7 +41,7 @@ function DocVersionRootContent(props: Props): JSX.Element {
     </HtmlClassNameProvider>
   );
 }
-export default function DocVersionRoot(props: Props): JSX.Element {
+export default function DocVersionRoot(props: Props): ReactNode {
   return (
     <>
       <DocVersionRootMetadata {...props} />

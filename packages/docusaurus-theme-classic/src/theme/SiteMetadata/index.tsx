@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -23,7 +23,7 @@ import SearchMetadata from '@theme/SearchMetadata';
 // Useful for i18n/SEO
 // See https://developers.google.com/search/docs/advanced/crawling/localized-versions
 // See https://github.com/facebook/docusaurus/issues/3317
-function AlternateLangHeaders(): JSX.Element {
+function AlternateLangHeaders(): ReactNode {
   const {
     i18n: {currentLocale, defaultLocale, localeConfigs},
   } = useDocusaurusContext();
@@ -115,7 +115,7 @@ function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
   );
 }
 
-export default function SiteMetadata(): JSX.Element {
+export default function SiteMetadata(): ReactNode {
   const {
     i18n: {currentLocale},
   } = useDocusaurusContext();

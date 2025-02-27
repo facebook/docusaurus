@@ -75,6 +75,21 @@ export function getDocsDirPathLocalized({
   });
 }
 
+export function getPluginDirPathLocalized({
+  localizationDir,
+  pluginId,
+}: {
+  localizationDir: string;
+  pluginId: string;
+}): string {
+  return getPluginI18nPath({
+    localizationDir,
+    pluginName: 'docusaurus-plugin-content-docs',
+    pluginId,
+    subPaths: [],
+  });
+}
+
 /** `community` => `[siteDir]/community_versions.json` */
 export function getVersionsFilePath(siteDir: string, pluginId: string): string {
   return path.join(siteDir, addPluginIdPrefix(VERSIONS_JSON_FILE, pluginId));

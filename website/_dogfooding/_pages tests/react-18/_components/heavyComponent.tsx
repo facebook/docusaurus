@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 
-export default function HeavyComponent(): JSX.Element {
+export default function HeavyComponent(): ReactNode {
   return (
     <div style={{border: 'solid', margin: 10, padding: 10}}>
       <button type="button" onClick={() => alert('click')}>

@@ -16,9 +16,13 @@ import {
   createStatefulBrokenLinks,
   BrokenLinksProvider,
 } from './BrokenLinksContext';
+import {toPageCollectedMetadata} from './serverHelmetUtils';
 import type {PageCollectedData, AppRenderer} from '../common';
 
-const render: AppRenderer['render'] = async ({pathname}) => {
+const render: AppRenderer['render'] = async ({
+  pathname,
+  v4RemoveLegacyPostBuildHeadAttribute,
+}) => {
   await preload(pathname);
 
   const modules = new Set<string>();
@@ -41,11 +45,18 @@ const render: AppRenderer['render'] = async ({pathname}) => {
 
   const html = await renderToHtml(app);
 
-  const collectedData: PageCollectedData = {
-    // TODO Docusaurus v4 refactor: helmet state is non-serializable
-    //  this makes it impossible to run SSG in a worker thread
-    helmet: (helmetContext as FilledContext).helmet,
+  const {helmet} = helmetContext as FilledContext;
 
+  const metadata = toPageCollectedMetadata({helmet});
+
+  // TODO Docusaurus v4 remove with deprecated postBuild({head}) API
+  //  the returned collectedData must be serializable to run in workers
+  if (v4RemoveLegacyPostBuildHeadAttribute) {
+    metadata.helmet = null;
+  }
+
+  const collectedData: PageCollectedData = {
+    metadata,
     anchors: statefulBrokenLinks.getCollectedAnchors(),
     links: statefulBrokenLinks.getCollectedLinks(),
     modules: Array.from(modules),

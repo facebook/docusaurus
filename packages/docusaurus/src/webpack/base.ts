@@ -35,14 +35,19 @@ const LibrariesToTranspileRegex = new RegExp(
   LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
 );
 
-const ReactAliases: Record<string, string> = process.env
-  .DOCUSAURUS_NO_REACT_ALIASES
-  ? {}
-  : {
-      react: path.dirname(require.resolve('react/package.json')),
-      'react-dom': path.dirname(require.resolve('react-dom/package.json')),
-      '@mdx-js/react': path.dirname(require.resolve('@mdx-js/react')),
-    };
+function getReactAliases(siteDir: string): Record<string, string> {
+  // Escape hatch
+  if (process.env.DOCUSAURUS_NO_REACT_ALIASES) {
+    return {};
+  }
+  const resolveSitePkg = (id: string) =>
+    require.resolve(id, {paths: [siteDir]});
+  return {
+    react: path.dirname(resolveSitePkg('react/package.json')),
+    'react-dom': path.dirname(resolveSitePkg('react-dom/package.json')),
+    '@mdx-js/react': path.dirname(resolveSitePkg('@mdx-js/react')),
+  };
+}
 
 export function excludeJS(modulePath: string): boolean {
   // Always transpile client dir
@@ -98,51 +103,90 @@ export async function createBaseConfig({
     currentBundler: props.currentBundler,
   });
 
+  // Can we share the same cache across locales?
+  // Exploring that question at https://github.com/webpack/webpack/issues/13034
+  function getCacheName() {
+    return `${name}-${mode}-${props.i18n.currentLocale}`;
+  }
+
+  // When the version string changes, the cache is evicted
+  function getCacheVersion() {
+    // Because Webpack does not evict the cache on alias/swizzle changes,
+    // See https://github.com/webpack/webpack/issues/13627
+    const themeAliasesHash = md5Hash(JSON.stringify(themeAliases));
+    return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}`;
+  }
+
+  // When one of those modules/dependencies change (including transitive
+  // deps), cache is invalidated
+  function getCacheBuildDependencies(): string[] {
+    return [
+      __filename,
+      path.join(__dirname, isServer ? 'server.js' : 'client.js'),
+      // Docusaurus config changes can affect MDX/JSX compilation, so we'd
+      // rather evict the cache.
+      // See https://github.com/questdb/questdb.io/issues/493
+      siteConfigPath,
+    ];
+  }
+
   function getCache(): Configuration['cache'] {
-    if (props.currentBundler.name === 'rspack') {
-      // TODO Rspack only supports memory cache (as of Sept 2024)
-      // TODO re-enable file persistent cache one Rspack supports it
-      //  See also https://rspack.dev/config/cache#cache
-      return undefined;
+    // Use default: memory cache in dev, nothing in prod
+    // See https://rspack.dev/config/cache#cache
+    const disabledPersistentCacheValue = undefined;
+
+    if (process.env.DOCUSAURUS_NO_PERSISTENT_CACHE) {
+      return disabledPersistentCacheValue;
     }
+    if (props.currentBundler.name === 'rspack') {
+      if (props.siteConfig.future.experimental_faster.rspackPersistentCache) {
+        // Use cache: true + experiments.cache.type: "persistent"
+        // See https://rspack.dev/config/experiments#persistent-cache
+        return true;
+      } else {
+        return disabledPersistentCacheValue;
+      }
+    }
+
     return {
       type: 'filesystem',
-      // Can we share the same cache across locales?
-      // Exploring that question at https://github.com/webpack/webpack/issues/13034
-      // name: `${name}-${mode}`,
-      name: `${name}-${mode}-${props.i18n.currentLocale}`,
-      // When version string changes, cache is evicted
-      version: [
-        siteMetadata.docusaurusVersion,
-        // Webpack does not evict the cache correctly on alias/swizzle change,
-        // so we force eviction.
-        // See https://github.com/webpack/webpack/issues/13627
-        md5Hash(JSON.stringify(themeAliases)),
-      ].join('-'),
-      // When one of those modules/dependencies change (including transitive
-      // deps), cache is invalidated
+      name: getCacheName(),
+      version: getCacheVersion(),
       buildDependencies: {
-        config: [
-          __filename,
-          path.join(__dirname, isServer ? 'server.js' : 'client.js'),
-          // Docusaurus config changes can affect MDX/JSX compilation, so we'd
-          // rather evict the cache.
-          // See https://github.com/questdb/questdb.io/issues/493
-          siteConfigPath,
-        ],
+        config: getCacheBuildDependencies(),
       },
     };
   }
 
   function getExperiments(): Configuration['experiments'] {
     if (props.currentBundler.name === 'rspack') {
+      const PersistentCacheAttributes = process.env
+        .DOCUSAURUS_NO_PERSISTENT_CACHE
+        ? {}
+        : {
+            cache: {
+              type: 'persistent',
+              // Rspack doesn't have "cache.name" like Webpack
+              // This is not ideal but work around is to merge name/version
+              // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
+              version: `${getCacheName()}-${getCacheVersion()}`,
+              buildDependencies: getCacheBuildDependencies(),
+            },
+          };
+
+      // TODO find a way to type this
       return {
         // This is mostly useful in dev
         // See https://rspack.dev/config/experiments#experimentsincremental
         // Produces warnings in production builds
         // See https://github.com/web-infra-dev/rspack/pull/8311#issuecomment-2476014664
-        // @ts-expect-error: Rspack-only
-        incremental: !isProd,
+        // We use the same integration as Rspress, with ability to disable
+        // See https://github.com/web-infra-dev/rspress/pull/1631
+        // See https://github.com/facebook/docusaurus/issues/10646
+        // @ts-expect-error: Rspack-only, not available in Webpack typedefs
+        incremental: !isProd && !process.env.DISABLE_RSPACK_INCREMENTAL,
+
+        ...PersistentCacheAttributes,
       };
     }
     return undefined;
@@ -183,7 +227,7 @@ export async function createBaseConfig({
         process.cwd(),
       ],
       alias: {
-        ...ReactAliases,
+        ...getReactAliases(siteDir),
         '@site': siteDir,
         '@generated': generatedFilesDir,
         ...(await loadDocusaurusAliases()),
@@ -243,9 +287,9 @@ export async function createBaseConfig({
     module: {
       rules: [
         fileLoaderUtils.rules.images(),
+        fileLoaderUtils.rules.svgs(),
         fileLoaderUtils.rules.fonts(),
         fileLoaderUtils.rules.media(),
-        fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.[jt]sx?$/i,

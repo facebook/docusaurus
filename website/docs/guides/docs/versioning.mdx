@@ -258,7 +258,7 @@ See [docs plugin configuration](../../api/plugins/plugin-content-docs.mdx#config
 
 ## Navbar items {#navbar-items}
 
-We offer several navbar items to help you quickly set up navigation without worrying about versioned routes.
+We offer several docs navbar items to help you quickly set up navigation without worrying about versioned routes.
 
 - [`doc`](../../api/themes/theme-configuration.mdx#navbar-doc-link): a link to a doc.
 - [`docSidebar`](../../api/themes/theme-configuration.mdx#navbar-doc-sidebar): a link to the first item in a sidebar.
@@ -270,6 +270,52 @@ These links would all look for an appropriate version to link to, in the followi
 1. **Active version**: the version that the user is currently browsing, if she is on a page provided by this doc plugin. If she's not on a doc page, fall back to...
 2. **Preferred version**: the version that the user last viewed. If there's no history, fall back to...
 3. **Latest version**: the default version that we navigate to, configured by the `lastVersion` option.
+
+## `docsVersionDropdown` {#docsVersionDropdown}
+
+By default, the [`docsVersionDropdown`](../../api/themes/theme-configuration.mdx#navbar-docs-version-dropdown) displays a dropdown with all the available docs versions.
+
+The `versions` attribute allows you to display a subset of the available docs versions in a given order:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          versions: ['current', '3.0', '2.0'],
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```
+
+Passing a `versions` object, lets you override the display label of each version:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          versions: {
+            current: {label: 'Version 4.0'},
+            '3.0': {label: 'Version 3.0'},
+            '2.0': {label: 'Version 2.0'},
+          },
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```
 
 ## Recommended practices {#recommended-practices}
 

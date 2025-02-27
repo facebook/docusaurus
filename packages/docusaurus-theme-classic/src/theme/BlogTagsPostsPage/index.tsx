@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import {
@@ -23,7 +23,7 @@ import BlogPostItems from '@theme/BlogPostItems';
 import Unlisted from '@theme/ContentVisibility/Unlisted';
 import Heading from '@theme/Heading';
 
-function BlogTagsPostsPageMetadata({tag}: Props): JSX.Element {
+function BlogTagsPostsPageMetadata({tag}: Props): ReactNode {
   const title = useBlogTagsPostsPageTitle(tag);
   return (
     <>
@@ -38,7 +38,7 @@ function BlogTagsPostsPageContent({
   items,
   sidebar,
   listMetadata,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const title = useBlogTagsPostsPageTitle(tag);
   return (
     <BlogLayout sidebar={sidebar}>
@@ -59,7 +59,7 @@ function BlogTagsPostsPageContent({
     </BlogLayout>
   );
 }
-export default function BlogTagsPostsPage(props: Props): JSX.Element {
+export default function BlogTagsPostsPage(props: Props): ReactNode {
   return (
     <HtmlClassNameProvider
       className={clsx(

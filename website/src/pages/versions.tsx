@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {ReactNode} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
@@ -34,7 +35,7 @@ function ReleaseNotesLabel() {
   );
 }
 
-export default function Version(): JSX.Element {
+export default function Version(): ReactNode {
   const {
     siteConfig: {organizationName, projectName},
   } = useDocusaurusContext();

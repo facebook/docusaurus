@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import type {Props} from '@theme/Admonition/Type/Caution';
@@ -27,7 +27,7 @@ const defaultProps = {
 
 // TODO remove before v4: Caution replaced by Warning
 // see https://github.com/facebook/docusaurus/issues/7558
-export default function AdmonitionTypeCaution(props: Props): JSX.Element {
+export default function AdmonitionTypeCaution(props: Props): ReactNode {
   return (
     <AdmonitionLayout
       {...defaultProps}

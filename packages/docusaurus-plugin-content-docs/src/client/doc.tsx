@@ -50,7 +50,7 @@ export function DocProvider({
 }: {
   children: ReactNode;
   content: PropDocContent;
-}): JSX.Element {
+}): ReactNode {
   const contextValue = useContextValue(content);
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 }

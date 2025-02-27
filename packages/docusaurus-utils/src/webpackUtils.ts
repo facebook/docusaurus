@@ -43,9 +43,9 @@ type FileLoaderUtils = {
   };
   rules: {
     images: () => RuleSetRule;
+    svgs: () => RuleSetRule;
     fonts: () => RuleSetRule;
     media: () => RuleSetRule;
-    svg: () => RuleSetRule;
     otherAssets: () => RuleSetRule;
   };
 };
@@ -120,6 +120,15 @@ function createFileLoaderUtils({
       test: /\.(?:ico|jpe?g|png|gif|webp|avif)(?:\?.*)?$/i,
     }),
 
+    /**
+     * The SVG rule is isolated on purpose: our SVGR plugin enhances it
+     * See https://github.com/facebook/docusaurus/pull/10820
+     */
+    svgs: () => ({
+      use: [loaders.url({folder: 'images'})],
+      test: /\.svg$/i,
+    }),
+
     fonts: () => ({
       use: [loaders.url({folder: 'fonts'})],
       test: /\.(?:woff2?|eot|ttf|otf)$/i,
@@ -132,45 +141,6 @@ function createFileLoaderUtils({
     media: () => ({
       use: [loaders.url({folder: 'medias'})],
       test: /\.(?:mp4|avi|mov|mkv|mpg|mpeg|vob|wmv|m4v|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/i,
-    }),
-
-    svg: () => ({
-      test: /\.svg$/i,
-      oneOf: [
-        {
-          use: [
-            {
-              loader: require.resolve('@svgr/webpack'),
-              options: {
-                prettier: false,
-                svgo: true,
-                svgoConfig: {
-                  plugins: [
-                    {
-                      name: 'preset-default',
-                      params: {
-                        overrides: {
-                          removeTitle: false,
-                          removeViewBox: false,
-                        },
-                      },
-                    },
-                  ],
-                },
-                titleProp: true,
-              },
-            },
-          ],
-          // We don't want to use SVGR loader for non-React source code
-          // ie we don't want to use SVGR for CSS files...
-          issuer: {
-            and: [/\.(?:tsx?|jsx?|mdx?)$/i],
-          },
-        },
-        {
-          use: [loaders.url({folder: 'images'})],
-        },
-      ],
     }),
 
     otherAssets: () => ({

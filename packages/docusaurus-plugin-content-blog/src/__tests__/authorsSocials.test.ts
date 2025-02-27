@@ -15,14 +15,27 @@ describe('normalizeSocials', () => {
       linkedin: 'ozakione',
       github: 'ozakione',
       stackoverflow: 'ozakione',
+      threads: 'gingergeekuk',
+      bluesky: 'gingergeek.co.uk',
+      instagram: 'thisweekinreact',
+      twitch: 'gingergeek',
+      youtube: 'gingergeekuk',
+      mastodon: 'Mastodon',
     };
 
+    // eslint-disable-next-line jest/no-large-snapshots
     expect(normalizeSocials(socials)).toMatchInlineSnapshot(`
       {
+        "bluesky": "https://bsky.app/profile/gingergeek.co.uk",
         "github": "https://github.com/ozakione",
+        "instagram": "https://www.instagram.com/thisweekinreact",
         "linkedin": "https://www.linkedin.com/in/ozakione/",
+        "mastodon": "https://mastodon.social/@Mastodon",
         "stackoverflow": "https://stackoverflow.com/users/ozakione",
+        "threads": "https://www.threads.net/@gingergeekuk",
+        "twitch": "https://twitch.tv/gingergeek",
         "twitter": "https://twitter.com/ozakione",
+        "youtube": "https://youtube.com/@gingergeekuk",
       }
     `);
   });
@@ -33,13 +46,19 @@ describe('normalizeSocials', () => {
       linkedIn: 'ozakione',
       gitHub: 'ozakione',
       STACKoverflow: 'ozakione',
+      instaGRam: 'thisweekinreact',
+      BLUESKY: 'gingergeek.co.uk',
+      tHrEaDs: 'gingergeekuk',
     };
 
     expect(normalizeSocials(socials)).toMatchInlineSnapshot(`
       {
+        "bluesky": "https://bsky.app/profile/gingergeek.co.uk",
         "github": "https://github.com/ozakione",
+        "instagram": "https://www.instagram.com/thisweekinreact",
         "linkedin": "https://www.linkedin.com/in/ozakione/",
         "stackoverflow": "https://stackoverflow.com/users/ozakione",
+        "threads": "https://www.threads.net/@gingergeekuk",
         "twitter": "https://twitter.com/ozakione",
       }
     `);
@@ -62,12 +81,14 @@ describe('normalizeSocials', () => {
       linkedin: 'ozakione',
       github: 'https://github.com/ozakione',
       stackoverflow: 'https://stackoverflow.com/ozakione',
+      mastodon: 'https://hachyderm.io/@hachyderm',
     };
 
     expect(normalizeSocials(socials)).toMatchInlineSnapshot(`
       {
         "github": "https://github.com/ozakione",
         "linkedin": "https://www.linkedin.com/in/ozakione/",
+        "mastodon": "https://hachyderm.io/@hachyderm",
         "stackoverflow": "https://stackoverflow.com/ozakione",
         "twitter": "https://twitter.com/ozakione",
       }

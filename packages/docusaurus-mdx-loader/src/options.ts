@@ -11,6 +11,8 @@ import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
 import type {PromiseWithResolvers} from './utils';
 
 export type Options = Partial<MDXOptions> & {
+  dependencies?: string[];
+
   markdownConfig: MarkdownConfig;
   staticDirs: string[];
   siteDir: string;
