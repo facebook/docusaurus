@@ -13,7 +13,7 @@ Please help us provide exhaustive translations:
 
 After updating the theme code, you can "synchronize" the translations by running:
 
-```
+```bash
 yarn workspace @docusaurus/theme-translations update
 ```
 

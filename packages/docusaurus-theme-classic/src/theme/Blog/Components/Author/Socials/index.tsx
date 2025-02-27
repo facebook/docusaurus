@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ComponentType} from 'react';
+import type {ComponentType, ReactNode} from 'react';
 import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
@@ -17,6 +17,12 @@ import X from '@theme/Icon/Socials/X';
 import StackOverflow from '@theme/Icon/Socials/StackOverflow';
 import LinkedIn from '@theme/Icon/Socials/LinkedIn';
 import DefaultSocialIcon from '@theme/Icon/Socials/Default';
+import Bluesky from '@theme/Icon/Socials/Bluesky';
+import Instagram from '@theme/Icon/Socials/Instagram';
+import Threads from '@theme/Icon/Socials/Threads';
+import Youtube from '@theme/Icon/Socials/YouTube';
+import Mastodon from '@theme/Icon/Socials/Mastodon';
+import Twitch from '@theme/Icon/Socials/Twitch';
 
 import styles from './styles.module.css';
 
@@ -30,6 +36,12 @@ const SocialPlatformConfigs: Record<string, SocialPlatformConfig> = {
   stackoverflow: {Icon: StackOverflow, label: 'Stack Overflow'},
   linkedin: {Icon: LinkedIn, label: 'LinkedIn'},
   x: {Icon: X, label: 'X'},
+  bluesky: {Icon: Bluesky, label: 'Bluesky'},
+  instagram: {Icon: Instagram, label: 'Instagram'},
+  threads: {Icon: Threads, label: 'Threads'},
+  mastodon: {Icon: Mastodon, label: 'Mastodon'},
+  youtube: {Icon: Youtube, label: 'YouTube'},
+  twitch: {Icon: Twitch, label: 'Twitch'},
 };
 
 function getSocialPlatformConfig(platformKey: string): SocialPlatformConfig {
@@ -54,7 +66,7 @@ export default function BlogAuthorSocials({
   author,
 }: {
   author: Props['author'];
-}): JSX.Element {
+}): ReactNode {
   const entries = Object.entries(author.socials ?? {});
   return (
     <div className={styles.authorSocials}>

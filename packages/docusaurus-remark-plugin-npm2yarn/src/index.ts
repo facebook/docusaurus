@@ -20,7 +20,7 @@ import type {Transformer} from 'unified';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 type Plugin<T> = any; // TODO fix this asap
 
-type KnownConverter = 'yarn' | 'pnpm';
+type KnownConverter = 'yarn' | 'pnpm' | 'bun';
 
 type CustomConverter = [name: string, cb: (npmCode: string) => string];
 
@@ -90,7 +90,7 @@ const transformNode = (
         code: npmToYarn(npmCode, converter),
         node,
         value: converter,
-        label: converter === 'yarn' ? 'Yarn' : converter,
+        label: getLabelForConverter(converter),
       });
     }
     const [converterName, converterFn] = converter;
@@ -99,6 +99,17 @@ const transformNode = (
       node,
       value: converterName,
     });
+  }
+
+  function getLabelForConverter(converter: KnownConverter) {
+    switch (converter) {
+      case 'yarn':
+        return 'Yarn';
+      case 'bun':
+        return 'Bun';
+      default:
+        return converter;
+    }
   }
 
   return [

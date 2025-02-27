@@ -163,7 +163,7 @@ function DocsPreferredVersionContextProviderUnsafe({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element {
+}): ReactNode {
   const value = useContextValue();
   return <Context.Provider value={value}>{children}</Context.Provider>;
 }
@@ -176,7 +176,7 @@ export function DocsPreferredVersionContextProvider({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element {
+}): ReactNode {
   return (
     <DocsPreferredVersionContextProviderUnsafe>
       {children}

@@ -4,6 +4,7 @@ node_modules
 build
 coverage
 .docusaurus
+.idea
 
 .svg
 *.svg

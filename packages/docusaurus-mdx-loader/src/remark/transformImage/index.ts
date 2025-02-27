@@ -98,6 +98,7 @@ async function toImageRequireNode(
       });
     }
   } catch (err) {
+    console.error(err);
     // Workaround for https://github.com/yarnpkg/berry/pull/3889#issuecomment-1034469784
     // TODO remove this check once fixed in Yarn PnP
     if (!process.versions.pnp) {
@@ -152,10 +153,7 @@ async function getImageAbsolutePath(
     return imageFilePath;
   }
   // relative paths are resolved against the source file's folder
-  const imageFilePath = path.join(
-    path.dirname(filePath),
-    decodeURIComponent(imagePath),
-  );
+  const imageFilePath = path.join(path.dirname(filePath), imagePath);
   await ensureImageFileExist(imageFilePath, filePath);
   return imageFilePath;
 }
@@ -180,9 +178,14 @@ async function processImageNode(target: Target, context: Context) {
     return;
   }
 
+  // We decode it first because Node Url.pathname is always encoded
+  // while the image file-system path are not.
+  // See https://github.com/facebook/docusaurus/discussions/10720
+  const decodedPathname = decodeURIComponent(parsedUrl.pathname);
+
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time
-  const imagePath = await getImageAbsolutePath(parsedUrl.pathname, context);
+  const imagePath = await getImageAbsolutePath(decodedPathname, context);
   await toImageRequireNode(target, imagePath, context);
 }
 

@@ -114,12 +114,24 @@ function createPerfLogger(): PerfLoggerAPI {
       },
     });
 
-  const end: PerfLoggerAPI['end'] = (label) => {
-    const {
-      duration,
-      detail: {memoryUsage},
-    } = performance.measure(label);
+  const readMark = (label: string) => {
+    const startMark = performance.getEntriesByName(
+      label,
+      'mark',
+    )?.[0] as PerformanceMark;
+    if (!startMark) {
+      throw new Error(`No performance start mark for label=${label}`);
+    }
     performance.clearMarks(label);
+    return startMark;
+  };
+
+  const end: PerfLoggerAPI['end'] = (label) => {
+    const startMark = readMark(label);
+    const duration = performance.now() - startMark.startTime;
+    const {
+      detail: {memoryUsage},
+    } = startMark;
     printPerfLog({
       label: applyParentPrefix(label),
       duration,

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect} from 'react';
+import React, {type ReactNode, useEffect} from 'react';
 import clsx from 'clsx';
 import {useColorMode} from '@docusaurus/theme-common';
 import Layout from '@theme/Layout';
@@ -48,7 +48,7 @@ export default function FeatureRequests({
   basePath,
 }: {
   basePath: string;
-}): JSX.Element {
+}): ReactNode {
   return (
     <Layout title="Feedback" description="Docusaurus 2 Feature Requests page">
       <CannyWidget basePath={basePath} />

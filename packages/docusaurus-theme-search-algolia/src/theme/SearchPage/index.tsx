@@ -7,11 +7,17 @@
 
 /* eslint-disable jsx-a11y/no-autofocus */
 
-import React, {useEffect, useReducer, useRef, useState} from 'react';
+import React, {
+  type ReactNode,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import clsx from 'clsx';
 
 import algoliaSearchHelper from 'algoliasearch-helper';
-import algoliaSearch from 'algoliasearch/lite';
+import {liteClient} from 'algoliasearch/lite';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Head from '@docusaurus/Head';
@@ -154,7 +160,7 @@ type ResultDispatcher =
   | {type: 'update'; value: ResultDispatcherState}
   | {type: 'advance'; value?: undefined};
 
-function SearchPageContent(): JSX.Element {
+function SearchPageContent(): ReactNode {
   const {
     i18n: {currentLocale},
   } = useDocusaurusContext();
@@ -219,7 +225,7 @@ function SearchPageContent(): JSX.Element {
     ? ['language', 'docusaurus_tag']
     : [];
 
-  const algoliaClient = algoliaSearch(appId, apiKey);
+  const algoliaClient = liteClient(appId, apiKey);
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: why errors happens after upgrading to TS 5.5 ?
@@ -530,7 +536,7 @@ function SearchPageContent(): JSX.Element {
   );
 }
 
-export default function SearchPage(): JSX.Element {
+export default function SearchPage(): ReactNode {
   return (
     <HtmlClassNameProvider className="search-page-wrapper">
       <SearchPageContent />

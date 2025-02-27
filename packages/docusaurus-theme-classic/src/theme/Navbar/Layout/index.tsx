@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import {ThemeClassNames, useThemeConfig} from '@docusaurus/theme-common';
 import {
   useHideableNavbar,
   useNavbarMobileSidebar,
@@ -18,7 +18,7 @@ import type {Props} from '@theme/Navbar/Layout';
 
 import styles from './styles.module.css';
 
-export default function NavbarLayout({children}: Props): JSX.Element {
+export default function NavbarLayout({children}: Props): ReactNode {
   const {
     navbar: {hideOnScroll, style},
   } = useThemeConfig();
@@ -33,6 +33,7 @@ export default function NavbarLayout({children}: Props): JSX.Element {
         description: 'The ARIA label for the main navigation',
       })}
       className={clsx(
+        ThemeClassNames.layout.navbar.container,
         'navbar',
         'navbar--fixed-top',
         hideOnScroll && [

@@ -186,7 +186,7 @@ It is also a way to opt-in for upcoming breaking changes coming in the next majo
 
 Features prefixed by `experimental_` or `unstable_` are subject to changes in **minor versions**, and not considered as [Semantic Versioning breaking changes](/community/release-process).
 
-Features prefixed by `v<MajorVersion>_` (`v6_` `v7_`, etc.) are future flags that are expected to be turned on by default in the next major versions. These are less likely to change, but we keep the possibility to do so.
+Features namespaced by `v<MajorVersion>` (`v6` `v7`, etc.) are future flags that are expected to be turned on by default in the next major versions. These are less likely to change, but we keep the possibility to do so.
 
 `future` API breaking changes should be easy to handle, and will be documented in minor/major version blog posts.
 
@@ -197,12 +197,17 @@ Example:
 ```js title="docusaurus.config.js"
 export default {
   future: {
+    v4: {
+      removeLegacyPostBuildHeadAttribute: true,
+    },
     experimental_faster: {
       swcJsLoader: true,
       swcJsMinimizer: true,
       swcHtmlMinimizer: true,
       lightningCssMinimizer: true,
       rspackBundler: true,
+      rspackPersistentCache: true,
+      ssgWorkerThreads: true,
       mdxCrossCompilerCache: true,
     },
     experimental_storage: {
@@ -214,13 +219,17 @@ export default {
 };
 ```
 
+- `v4`: Permits to opt-in for upcoming Docusaurus v4 breaking changes and features, to prepare your site in advance for this new version. Use `true` as a shorthand to enable all the flags.
+  - [`removeLegacyPostBuildHeadAttribute`](https://github.com/facebook/docusaurus/pull/10435): Removes the legacy `plugin.postBuild({head})` API that prevents us from applying useful SSG optimizations ([explanations](https://github.com/facebook/docusaurus/pull/10850)).
 - `experimental_faster`: An object containing feature flags to make the Docusaurus build faster. This requires adding the `@docusaurus/faster` package to your site's dependencies. Use `true` as a shorthand to enable all flags. Read more on the [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) issue. Available feature flags:
   - [`swcJsLoader`](https://github.com/facebook/docusaurus/pull/10435): Use [SWC](https://swc.rs/) to transpile JS (instead of [Babel](https://babeljs.io/)).
   - [`swcJsMinimizer`](https://github.com/facebook/docusaurus/pull/10441): Use [SWC](https://swc.rs/) to minify JS (instead of [Terser](https://github.com/terser/terser)).
   - [`swcHtmlMinimizer `](https://github.com/facebook/docusaurus/pull/10554): Use [SWC](https://swc.rs/) to minify HTML and inlined JS/CSS (instead of [html-minifier-terser](https://github.com/terser/html-minifier-terser)).
   - [`lightningCssMinimizer`](https://github.com/facebook/docusaurus/pull/10522): Use [Lightning CSS](https://lightningcss.dev/) to minify CSS (instead of [cssnano](https://github.com/cssnano/cssnano) and [clean-css](https://github.com/clean-css/clean-css)).
   - [`rspackBundler`](https://github.com/facebook/docusaurus/pull/10402): Use [Rspack](https://rspack.dev/) to bundle your app (instead of [webpack](https://webpack.js.org/)).
+  - [`rspackPersistentCache`](https://github.com/facebook/docusaurus/pull/10931): Use [Rspack Persistent Cache](https://rspack.dev/config/cache) to re-build your app faster on subsequent builds. Requires `rspackBundler: true`. Requires persisting `./node_modules/.cache` across rebuilds.
   - [`mdxCrossCompilerCache`](https://github.com/facebook/docusaurus/pull/10479): Compile MDX files only once for both browser/Node.js environments instead of twice.
+  - [`ssgWorkerThreads`](https://github.com/facebook/docusaurus/pull/10826): Using a Node.js worker thread pool to execute the static site generation phase faster. Requires `future.v4.removeLegacyPostBuildHeadAttribute` to be turned on.
 - `experimental_storage`: Site-wide browser storage options that theme authors should strive to respect.
   - `type`: The browser storage theme authors should use. Possible values are `localStorage` and `sessionStorage`. Defaults to `localStorage`.
   - `namespace`: Whether to namespace the browser storage keys to avoid storage key conflicts when Docusaurus sites are hosted under the same domain, or on localhost. Possible values are `string | boolean`. The namespace is appended at the end of the storage keys `key-namespace`. Use `true` to automatically generate a random namespace from your site `url + baseUrl`. Defaults to `false` (no namespace, historical behavior).

@@ -163,6 +163,7 @@ export default async function createConfigAsync() {
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
     future: {
+      v4: !isSlower, // Not accurate, but good enough
       experimental_faster: !isSlower,
       experimental_storage: {
         namespace: true,
@@ -281,7 +282,7 @@ export default async function createConfigAsync() {
         },
       ],
       [
-        './src/plugins/changelog/index.js',
+        './src/plugins/changelog/index.ts',
         {
           blogTitle: 'Docusaurus changelog',
           blogDescription:
@@ -347,13 +348,16 @@ export default async function createConfigAsync() {
               from: ['/docs/resources', '/docs/next/resources'],
               to: '/community/resources',
             },
+            {
+              from: '/docs/api/misc/docusaurus-init',
+              to: '/docs/api/misc/create-docusaurus',
+            },
             ...dogfoodingRedirects,
           ],
         } satisfies ClientRedirectsOptions,
       ],
       [
         'ideal-image',
-
         {
           quality: 70,
           max: 1030,
@@ -546,6 +550,11 @@ export default async function createConfigAsync() {
             lastmod: 'date',
             priority: null,
             changefreq: null,
+          },
+          svgr: {
+            svgrConfig: {
+              svgoConfig: undefined, // Use .svgo.config.js
+            },
           },
         } satisfies Preset.Options,
       ],
@@ -795,11 +804,12 @@ export default async function createConfigAsync() {
           },
           {
             title: 'Legal',
-            // Please don't remove the privacy and terms, it's a legal
-            // requirement.
+            className: 'footer-column-legal',
+            // Don't remove the privacy and terms, it's a legal requirement.
             items: [
               {
                 label: 'Privacy',
+                className: 'footer-item-privacy',
                 href: 'https://opensource.facebook.com/legal/privacy/',
               },
               {

@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useCallback, useRef, type ComponentProps} from 'react';
+import React, {
+  useCallback,
+  useRef,
+  type ComponentProps,
+  type ReactNode,
+} from 'react';
 import {useHistory} from '@docusaurus/router';
 import {translate} from '@docusaurus/Translate';
 import {useLocationChange} from './useLocationChange';
@@ -85,7 +90,7 @@ const DefaultSkipToContentLabel = translate({
 
 type SkipToContentLinkProps = Omit<ComponentProps<'a'>, 'href' | 'onClick'>;
 
-export function SkipToContentLink(props: SkipToContentLinkProps): JSX.Element {
+export function SkipToContentLink(props: SkipToContentLinkProps): ReactNode {
   const linkLabel = props.children ?? DefaultSkipToContentLabel;
   const {containerRef, onClick} = useSkipToContent();
   return (

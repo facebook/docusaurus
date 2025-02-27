@@ -145,6 +145,30 @@ npm install --save docusaurus-plugin-name
 "
 `;
 
+exports[`npm2yarn plugin work with bun converter 1`] = `
+"import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+## Installing a plugin
+
+A plugin is usually a npm package, so you install them like other npm packages using npm.
+
+<Tabs>
+  <TabItem value="npm">
+    \`\`\`bash
+    npm install --save docusaurus-plugin-name
+    \`\`\`
+  </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+    bun add docusaurus-plugin-name
+    \`\`\`
+  </TabItem>
+</Tabs>
+"
+`;
+
 exports[`npm2yarn plugin work with custom converter 1`] = `
 "import Tabs from '@theme/Tabs'
 import TabItem from '@theme/TabItem'

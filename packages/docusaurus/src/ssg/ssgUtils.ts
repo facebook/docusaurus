@@ -9,15 +9,6 @@ import fs from 'fs-extra';
 import path from 'path';
 import type {SSGParams} from './ssgParams';
 
-// Secret way to set SSR plugin concurrency option
-// Waiting for feedback before documenting this officially?
-export const SSGConcurrency = process.env.DOCUSAURUS_SSR_CONCURRENCY
-  ? parseInt(process.env.DOCUSAURUS_SSR_CONCURRENCY, 10)
-  : // Not easy to define a reasonable option default
-    // Will still be better than Infinity
-    // See also https://github.com/sindresorhus/p-map/issues/24
-    32;
-
 function pathnameToFilename({
   pathname,
   trailingSlash,

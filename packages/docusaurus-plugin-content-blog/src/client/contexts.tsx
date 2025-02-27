@@ -74,7 +74,7 @@ export function BlogPostProvider({
   children: ReactNode;
   content: PropBlogPostContent;
   isBlogPostPage?: boolean;
-}): JSX.Element {
+}): ReactNode {
   const contextValue = useContextValue({content, isBlogPostPage});
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 }

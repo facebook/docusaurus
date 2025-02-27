@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
 import type {
@@ -52,7 +52,7 @@ export default function DefaultNavbarItem({
   mobile = false,
   position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const Comp = mobile ? DefaultNavbarItemMobile : DefaultNavbarItemDesktop;
   return (
     <Comp

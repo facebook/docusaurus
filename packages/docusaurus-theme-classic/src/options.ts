@@ -7,6 +7,10 @@
 
 import {themes} from 'prism-react-renderer';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
+import type {
+  PropVersionItem,
+  PropVersionItems,
+} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import type {Options, PluginOptions} from '@docusaurus/theme-classic';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import type {
@@ -210,6 +214,17 @@ const DocsVersionDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
   dropdownActiveClassDisabled: Joi.boolean(),
   dropdownItemsBefore: Joi.array().items(DropdownSubitemSchema).default([]),
   dropdownItemsAfter: Joi.array().items(DropdownSubitemSchema).default([]),
+  versions: Joi.alternatives().try(
+    Joi.array().items(Joi.string().min(1)).min(1),
+    Joi.object<PropVersionItems>()
+      .pattern(
+        Joi.string().min(1),
+        Joi.object<PropVersionItem>({
+          label: Joi.string().min(1),
+        }),
+      )
+      .min(1),
+  ),
 });
 
 const LocaleDropdownNavbarItemSchema = NavbarItemBaseSchema.append({
@@ -308,6 +323,7 @@ const FooterLinkItemSchema = Joi.object({
   href: URISchema,
   html: Joi.string(),
   label: Joi.string(),
+  className: Joi.string(),
 })
   .xor('to', 'href', 'html')
   .with('to', 'label')
@@ -316,6 +332,12 @@ const FooterLinkItemSchema = Joi.object({
   // We allow any unknown attributes on the links (users may need additional
   // attributes like target, aria-role, data-customAttribute...)
   .unknown();
+
+const FooterColumnItemSchema = Joi.object({
+  title: Joi.string().allow(null).default(null),
+  className: Joi.string(),
+  items: Joi.array().items(FooterLinkItemSchema).default([]),
+});
 
 const LogoSchema = Joi.object({
   alt: Joi.string().allow(''),
@@ -384,12 +406,7 @@ export const ThemeConfigSchema = Joi.object<ThemeConfig>({
     logo: LogoSchema,
     copyright: Joi.string(),
     links: Joi.alternatives(
-      Joi.array().items(
-        Joi.object({
-          title: Joi.string().allow(null).default(null),
-          items: Joi.array().items(FooterLinkItemSchema).default([]),
-        }),
-      ),
+      Joi.array().items(FooterColumnItemSchema),
       Joi.array().items(FooterLinkItemSchema),
     )
       .messages({

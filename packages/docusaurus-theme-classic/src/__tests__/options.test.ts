@@ -827,6 +827,110 @@ describe('themeConfig', () => {
       );
     });
   });
+
+  describe('docsVersionDropdown', () => {
+    describe('versions', () => {
+      it('accepts array of strings', () => {
+        const config = {
+          navbar: {
+            items: [
+              {
+                type: 'docsVersionDropdown',
+                versions: ['current', '1.0'],
+              },
+            ],
+          },
+        };
+        testValidateThemeConfig(config);
+      });
+
+      it('rejects empty array of strings', () => {
+        const config = {
+          navbar: {
+            items: [
+              {
+                type: 'docsVersionDropdown',
+                versions: [],
+              },
+            ],
+          },
+        };
+        expect(() =>
+          testValidateThemeConfig(config),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `""navbar.items[0].versions" must contain at least 1 items"`,
+        );
+      });
+
+      it('rejects array of non-strings', () => {
+        const config = {
+          navbar: {
+            items: [
+              {
+                type: 'docsVersionDropdown',
+                versions: [1, 2],
+              },
+            ],
+          },
+        };
+        expect(() =>
+          testValidateThemeConfig(config),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `""navbar.items[0].versions[0]" must be a string"`,
+        );
+      });
+
+      it('accepts dictionary of version objects', () => {
+        const config = {
+          navbar: {
+            items: [
+              {
+                type: 'docsVersionDropdown',
+                versions: {current: {}, '1.0': {label: '1.x'}},
+              },
+            ],
+          },
+        };
+        testValidateThemeConfig(config);
+      });
+
+      it('rejects empty dictionary of objects', () => {
+        const config = {
+          navbar: {
+            items: [
+              {
+                type: 'docsVersionDropdown',
+                versions: {},
+              },
+            ],
+          },
+        };
+        expect(() =>
+          testValidateThemeConfig(config),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `""navbar.items[0].versions" must have at least 1 key"`,
+        );
+      });
+
+      it('rejects dictionary of invalid objects', () => {
+        const config = {
+          navbar: {
+            items: [
+              {
+                type: 'docsVersionDropdown',
+                versions: {current: {}, '1.0': {invalid: '1.x'}},
+              },
+            ],
+          },
+        };
+        expect(() =>
+          testValidateThemeConfig(config),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `""navbar.items[0].versions.1.0.invalid" is not allowed"`,
+        );
+      });
+    });
+  });
 });
 
 describe('validateOptions', () => {

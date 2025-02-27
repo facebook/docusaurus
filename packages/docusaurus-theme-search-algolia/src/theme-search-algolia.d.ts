@@ -7,23 +7,36 @@
 
 declare module '@docusaurus/theme-search-algolia' {
   import type {DeepPartial} from 'utility-types';
+  import type {DocSearchProps} from '@docsearch/react';
 
-  export type ThemeConfig = {
-    algolia: {
-      contextualSearch: boolean;
-      externalUrlRegex?: string;
-      appId: string;
-      apiKey: string;
-      indexName: string;
-      searchParameters: {[key: string]: unknown};
-      searchPagePath: string | false | null;
-      replaceSearchResultPathname?: {
-        from: string;
-        to: string;
-      };
-      insights?: boolean;
+  // DocSearch props that Docusaurus exposes directly through props forwarding
+  type DocusaurusDocSearchProps = Pick<
+    DocSearchProps,
+    | 'appId'
+    | 'apiKey'
+    | 'indexName'
+    | 'placeholder'
+    | 'translations'
+    | 'searchParameters'
+    | 'insights'
+    | 'initialQuery'
+  >;
+
+  type ThemeConfigAlgolia = DocusaurusDocSearchProps & {
+    // Docusaurus custom options, not coming from DocSearch
+    contextualSearch: boolean;
+    externalUrlRegex?: string;
+    searchPagePath: string | false | null;
+    replaceSearchResultPathname?: {
+      from: string;
+      to: string;
     };
   };
+
+  export type ThemeConfig = DocusaurusDocSearchProps & {
+    algolia: ThemeConfigAlgolia;
+  };
+
   export type UserThemeConfig = DeepPartial<ThemeConfig>;
 }
 
@@ -38,11 +51,15 @@ declare module '@docusaurus/theme-search-algolia/client' {
 }
 
 declare module '@theme/SearchPage' {
-  export default function SearchPage(): JSX.Element;
+  import type {ReactNode} from 'react';
+
+  export default function SearchPage(): ReactNode;
 }
 
 declare module '@theme/SearchBar' {
-  export default function SearchBar(): JSX.Element;
+  import type {ReactNode} from 'react';
+
+  export default function SearchBar(): ReactNode;
 }
 
 declare module '@theme/SearchTranslations' {

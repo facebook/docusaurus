@@ -24,7 +24,7 @@ export default function BrowserWindow({
   url = 'http://localhost:3000',
   style,
   bodyStyle,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   return (
     <div className={styles.browserWindow} style={{...style, minHeight}}>
       <div className={styles.browserWindowHeader}>

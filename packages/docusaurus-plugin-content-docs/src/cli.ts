@@ -14,6 +14,7 @@ import {
   getVersionDocsDirPath,
   getVersionSidebarsPath,
   getDocsDirPathLocalized,
+  getPluginDirPathLocalized,
   readVersionsFile,
 } from './versions/files';
 import {validateVersionName} from './versions/validation';
@@ -123,6 +124,23 @@ async function cliDocsVersionCommand(
               versionName: version,
             });
       await fs.copy(docsDir, newVersionDir);
+
+      // Copy version JSON translation file for this locale
+      // i18n/<l>/docusaurus-plugin-content-docs/current.json => version-v1.json
+      // See https://docusaurus.io/docs/next/api/plugins/@docusaurus/plugin-content-docs#translation-files-location
+      if (locale !== i18n.defaultLocale) {
+        const dir = getPluginDirPathLocalized({
+          localizationDir,
+          pluginId,
+        });
+        const sourceFile = path.join(dir, 'current.json');
+        const dest = path.join(dir, `version-${version}.json`);
+        if (await fs.pathExists(sourceFile)) {
+          await fs.copy(sourceFile, dest);
+        } else {
+          logger.warn`${pluginIdLogPrefix}: i18n translation file does not exist in path=${sourceFile}. Skipping.`;
+        }
+      }
     }),
   );
 
