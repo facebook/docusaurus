@@ -25,7 +25,8 @@ type ContextValue = {
   /** Set new color mode. */
   readonly setColorMode: (colorMode: ColorMode) => void;
 
-  // TODO legacy APIs kept for retro-compatibility: deprecate them
+  // TODO Docusaurus v4
+  //  legacy APIs kept for retro-compatibility: deprecate them
   readonly isDarkTheme: boolean;
   readonly setLightTheme: () => void;
   readonly setDarkTheme: () => void;
@@ -47,22 +48,55 @@ export type ColorMode = (typeof ColorModes)[keyof typeof ColorModes];
 const coerceToColorMode = (colorMode?: string | null): ColorMode =>
   colorMode === ColorModes.dark ? ColorModes.dark : ColorModes.light;
 
-const getInitialColorMode = (defaultMode: ColorMode | undefined): ColorMode =>
-  ExecutionEnvironment.canUseDOM
-    ? coerceToColorMode(document.documentElement.getAttribute('data-theme'))
-    : coerceToColorMode(defaultMode);
+const ColorModeAttribute = {
+  get: () => {
+    return coerceToColorMode(
+      document.documentElement.getAttribute('data-theme'),
+    );
+  },
+  set: (colorMode: ColorMode) => {
+    document.documentElement.setAttribute(
+      'data-theme',
+      coerceToColorMode(colorMode),
+    );
+  },
+};
+
+const readInitialColorMode = (): ColorMode => {
+  if (!ExecutionEnvironment.canUseDOM) {
+    throw new Error("Can't read initial color mode on the server");
+  }
+  return ColorModeAttribute.get();
+};
 
 const storeColorMode = (newColorMode: ColorMode) => {
   ColorModeStorage.set(coerceToColorMode(newColorMode));
 };
 
+// The color mode state is initialized in useEffect on purpose
+// to avoid a React hydration mismatch errors
+// The useColorMode() hook value lags behind on purpose
+// This helps users avoid hydration mismatch errors in their code
+// See also https://github.com/facebook/docusaurus/issues/7986
+function useColorModeState() {
+  const {
+    colorMode: {defaultMode},
+  } = useThemeConfig();
+
+  const [colorMode, setColorModeState] = useState(defaultMode);
+
+  useEffect(() => {
+    setColorModeState(readInitialColorMode());
+  }, []);
+
+  return [colorMode, setColorModeState] as const;
+}
+
 function useContextValue(): ContextValue {
   const {
     colorMode: {defaultMode, disableSwitch, respectPrefersColorScheme},
   } = useThemeConfig();
-  const [colorMode, setColorModeState] = useState(
-    getInitialColorMode(defaultMode),
-  );
+  const [colorMode, setColorModeState] = useColorModeState();
 
   useEffect(() => {
     // A site is deployed without disableSwitch
@@ -77,49 +111,38 @@ function useContextValue(): ContextValue {
   const setColorMode = useCallback(
     (newColorMode: ColorMode | null, options: {persist?: boolean} = {}) => {
       const {persist = true} = options;
+
       if (newColorMode) {
+        ColorModeAttribute.set(newColorMode);
         setColorModeState(newColorMode);
         if (persist) {
           storeColorMode(newColorMode);
         }
       } else {
         if (respectPrefersColorScheme) {
-          setColorModeState(
-            window.matchMedia('(prefers-color-scheme: dark)').matches
-              ? ColorModes.dark
-              : ColorModes.light,
-          );
+          const osColorMode = window.matchMedia('(prefers-color-scheme: dark)')
+            .matches
+            ? ColorModes.dark
+            : ColorModes.light;
+          ColorModeAttribute.set(osColorMode);
+          setColorModeState(osColorMode);
         } else {
+          ColorModeAttribute.set(defaultMode);
           setColorModeState(defaultMode);
         }
         ColorModeStorage.del();
       }
     },
-    [respectPrefersColorScheme, defaultMode],
+    [setColorModeState, respectPrefersColorScheme, defaultMode],
   );
-
-  useEffect(() => {
-    document.documentElement.setAttribute(
-      'data-theme',
-      coerceToColorMode(colorMode),
-    );
-  }, [colorMode]);
 
   useEffect(() => {
     if (disableSwitch) {
       return undefined;
     }
-    const onChange = (e: StorageEvent) => {
-      if (e.key !== ColorModeStorageKey) {
-        return;
-      }
-      const storedColorMode = ColorModeStorage.get();
-      if (storedColorMode !== null) {
-        setColorMode(coerceToColorMode(storedColorMode));
-      }
-    };
-    window.addEventListener('storage', onChange);
-    return () => window.removeEventListener('storage', onChange);
+    return ColorModeStorage.listen((e) => {
+      setColorMode(coerceToColorMode(e.newValue));
+    });
   }, [disableSwitch, setColorMode]);
 
   // PCS is coerced to light mode when printing, which causes the color mode to
