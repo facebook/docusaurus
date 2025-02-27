@@ -69,7 +69,6 @@
     "react-router-dom": "^5.3.4",
     "semver": "^7.5.4",
     "serve-handler": "^6.1.6",
-    "shelljs": "^0.8.5",
     "tinypool": "^1.0.2",
     "tslib": "^2.6.0",
     "update-notifier": "^6.0.2",
