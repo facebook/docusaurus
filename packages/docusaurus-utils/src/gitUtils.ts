@@ -130,23 +130,16 @@ export async function getFileCommitDate(
   )}"`;
 
   async function executeCommand(cmd: string, filepath: string) {
-    try {
-      const {exitCode, stdout, stderr} = await execa(cmd, {
-        cwd: path.dirname(filepath),
-        shell: true,
-      });
-
-      if (exitCode !== 0) {
-        throw new Error(
-          `Failed to retrieve the git history for file "${file}" with exit code ${exitCode}: ${stderr}`,
-        );
-      }
-
-      return {code: exitCode, stdout, stderr};
-    } catch (error) {
-      console.error('Error executing command:', error);
-      throw error;
+    const {exitCode, stdout, stderr} = await execa(cmd, {
+      cwd: path.dirname(filepath),
+      shell: true,
+    });
+    if (exitCode !== 0) {
+      throw new Error(
+        `Failed to retrieve the git history for file "${file}" with exit code ${exitCode}: ${stderr}`,
+      );
     }
+    return {code: exitCode, stdout, stderr};
   }
 
   // Usage
