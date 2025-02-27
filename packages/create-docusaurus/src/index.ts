@@ -583,7 +583,7 @@ export default async function init(
   const cdpath = path.relative('.', dest);
   const pkgManager = await getPackageManager(dest, cliOptions);
   if (!cliOptions.skipInstall) {
-    await execa.command(`cd ${dest}`);
+    await execa('cd', [dest]);
     logger.info`Installing dependencies with name=${pkgManager}...`;
     // ...
 
