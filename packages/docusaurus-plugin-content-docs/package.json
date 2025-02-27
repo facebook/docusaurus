@@ -58,8 +58,7 @@
     "@types/js-yaml": "^4.0.5",
     "@types/picomatch": "^2.3.0",
     "commander": "^5.1.0",
-    "picomatch": "^2.3.1",
-    "shelljs": "^0.8.5"
+    "picomatch": "^2.3.1"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
