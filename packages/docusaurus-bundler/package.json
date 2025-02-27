@@ -1,0 +1,61 @@
+{
+  "name": "@docusaurus/bundler",
+  "version": "3.7.0",
+  "description": "Docusaurus util package to abstract the current bundler.",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-bundler"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.25.9",
+    "@docusaurus/babel": "3.7.0",
+    "@docusaurus/cssnano-preset": "3.7.0",
+    "@docusaurus/logger": "3.7.0",
+    "@docusaurus/types": "3.7.0",
+    "@docusaurus/utils": "3.7.0",
+    "babel-loader": "^9.2.1",
+    "clean-css": "^5.3.2",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
+    "css-minimizer-webpack-plugin": "^5.0.1",
+    "cssnano": "^6.1.2",
+    "file-loader": "^6.2.0",
+    "html-minifier-terser": "^7.2.0",
+    "mini-css-extract-plugin": "^2.9.1",
+    "null-loader": "^4.0.1",
+    "postcss": "^8.4.26",
+    "postcss-loader": "^7.3.3",
+    "postcss-preset-env": "^10.1.0",
+    "react-dev-utils": "^12.0.1",
+    "terser-webpack-plugin": "^5.3.9",
+    "tslib": "^2.6.0",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.95.0",
+    "webpackbar": "^6.0.1"
+  },
+  "peerDependencies": {
+    "@docusaurus/faster": "*"
+  },
+  "peerDependenciesMeta": {
+    "@docusaurus/faster": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@total-typescript/shoehorn": "^0.1.2"
+  },
+  "engines": {
+    "node": ">=18.0"
+  }
+}

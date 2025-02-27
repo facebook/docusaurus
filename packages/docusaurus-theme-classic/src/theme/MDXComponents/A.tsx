@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import Link from '@docusaurus/Link';
 import type {Props} from '@theme/MDXComponents/A';
 
-export default function MDXA(props: Props): JSX.Element {
+export default function MDXA(props: Props): ReactNode {
   return <Link {...props} />;
 }

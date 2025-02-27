@@ -6,7 +6,6 @@
  */
 
 import logger from '@docusaurus/logger';
-import {getLangDir} from 'rtl-detect';
 import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import type {LoadContextParams} from './site';
 
@@ -69,11 +68,21 @@ function getDefaultCalendar(localeStr: string) {
   return 'gregory';
 }
 
+function getDefaultDirection(localeStr: string) {
+  const locale = new Intl.Locale(localeStr);
+  // see https://github.com/tc39/proposal-intl-locale-info
+  // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getTextInfo
+  // Node 18.0 implements a former version of the getTextInfo() proposal
+  // @ts-expect-error: The TC39 proposal was updated
+  const textInto = locale.getTextInfo?.() ?? locale.textInfo;
+  return textInto.direction;
+}
+
 export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
   try {
     return {
       label: getDefaultLocaleLabel(locale),
-      direction: getLangDir(locale),
+      direction: getDefaultDirection(locale),
       htmlLang: locale,
       calendar: getDefaultCalendar(locale),
       path: locale,
@@ -88,11 +97,11 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
 
 export async function loadI18n(
   config: DocusaurusConfig,
-  options: Pick<LoadContextParams, 'locale'>,
+  options?: Pick<LoadContextParams, 'locale'>,
 ): Promise<I18n> {
   const {i18n: i18nConfig} = config;
 
-  const currentLocale = options.locale ?? i18nConfig.defaultLocale;
+  const currentLocale = options?.locale ?? i18nConfig.defaultLocale;
 
   if (!i18nConfig.locales.includes(currentLocale)) {
     logger.warn`The locale name=${currentLocale} was not found in your site configuration: Available locales are: ${i18nConfig.locales}

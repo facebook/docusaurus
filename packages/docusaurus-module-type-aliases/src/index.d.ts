@@ -84,10 +84,11 @@ declare module '@theme-original/*';
 declare module '@theme-init/*';
 
 declare module '@theme/Error' {
+  import type {ReactNode} from 'react';
   import type {FallbackParams} from '@docusaurus/ErrorBoundary';
 
   export interface Props extends FallbackParams {}
-  export default function Error(props: Props): JSX.Element;
+  export default function Error(props: Props): ReactNode;
 }
 
 declare module '@theme/Layout' {
@@ -96,17 +97,20 @@ declare module '@theme/Layout' {
   export interface Props {
     readonly children?: ReactNode;
   }
-  export default function Layout(props: Props): JSX.Element;
+  export default function Layout(props: Props): ReactNode;
 }
 
 declare module '@theme/Loading' {
+  import type {ReactNode} from 'react';
   import type {LoadingComponentProps} from 'react-loadable';
 
-  export default function Loading(props: LoadingComponentProps): JSX.Element;
+  export default function Loading(props: LoadingComponentProps): ReactNode;
 }
 
 declare module '@theme/NotFound' {
-  export default function NotFound(): JSX.Element;
+  import type {ReactNode} from 'react';
+
+  export default function NotFound(): ReactNode;
 }
 
 declare module '@theme/Root' {
@@ -115,11 +119,13 @@ declare module '@theme/Root' {
   export interface Props {
     readonly children: ReactNode;
   }
-  export default function Root({children}: Props): JSX.Element;
+  export default function Root({children}: Props): ReactNode;
 }
 
 declare module '@theme/SiteMetadata' {
-  export default function SiteMetadata(): JSX.Element;
+  import type {ReactNode} from 'react';
+
+  export default function SiteMetadata(): ReactNode;
 }
 
 declare module '@docusaurus/constants' {
@@ -134,13 +140,13 @@ declare module '@docusaurus/ErrorBoundary' {
     readonly tryAgain: () => void;
   };
 
-  export type FallbackFunction = (params: FallbackParams) => JSX.Element;
+  export type FallbackFunction = (params: FallbackParams) => ReactNode;
 
   export interface Props {
     readonly fallback?: FallbackFunction;
     readonly children: ReactNode;
   }
-  export default function ErrorBoundary(props: Props): JSX.Element;
+  export default function ErrorBoundary(props: Props): ReactNode;
 }
 
 declare module '@docusaurus/Head' {
@@ -149,11 +155,11 @@ declare module '@docusaurus/Head' {
 
   export type Props = HelmetProps & {children: ReactNode};
 
-  export default function Head(props: Props): JSX.Element;
+  export default function Head(props: Props): ReactNode;
 }
 
 declare module '@docusaurus/Link' {
-  import type {CSSProperties, ComponentProps} from 'react';
+  import type {CSSProperties, ComponentProps, ReactNode} from 'react';
   import type {NavLinkProps as RRNavLinkProps} from 'react-router-dom';
 
   type NavLinkProps = Partial<RRNavLinkProps>;
@@ -169,7 +175,7 @@ declare module '@docusaurus/Link' {
       /** Escape hatch in case broken links check doesn't make sense. */
       readonly 'data-noBrokenLinkCheck'?: boolean;
     };
-  export default function Link(props: Props): JSX.Element;
+  export default function Link(props: Props): ReactNode;
 }
 
 declare module '@docusaurus/Interpolate' {
@@ -203,7 +209,7 @@ declare module '@docusaurus/Interpolate' {
 
   export default function Interpolate<Str extends string>(
     props: InterpolateProps<Str>,
-  ): JSX.Element;
+  ): ReactNode;
 }
 
 declare module '@docusaurus/Translate' {
@@ -241,7 +247,7 @@ declare module '@docusaurus/Translate' {
 
   export default function Translate<Str extends string>(
     props: TranslateProps<Str>,
-  ): JSX.Element;
+  ): ReactNode;
 }
 
 declare module '@docusaurus/router' {
@@ -318,11 +324,13 @@ declare module '@docusaurus/ComponentCreator' {
 }
 
 declare module '@docusaurus/BrowserOnly' {
+  import type {ReactNode} from 'react';
+
   export interface Props {
-    readonly children?: () => JSX.Element;
-    readonly fallback?: JSX.Element;
+    readonly children?: () => ReactNode;
+    readonly fallback?: ReactNode;
   }
-  export default function BrowserOnly(props: Props): JSX.Element | null;
+  export default function BrowserOnly(props: Props): ReactNode | null;
 }
 
 declare module '@docusaurus/isInternalUrl' {
@@ -369,6 +377,9 @@ declare module '@docusaurus/useGlobalData' {
   export default function useGlobalData(): GlobalData;
 }
 
+// TODO find a way to move this ambient type to the SVGR plugin?
+//  unfortunately looks complicated in practice
+//  see https://x.com/sebastienlorber/status/1859543512661832053
 declare module '*.svg' {
   import type {ComponentType, SVGProps} from 'react';
 
@@ -387,6 +398,22 @@ declare module '*.module.css' {
 declare module '*.css' {
   const src: string;
   export default src;
+}
+
+declare module '*.md' {
+  import type {ComponentType} from 'react';
+
+  const ReactComponent: ComponentType<unknown>;
+
+  export default ReactComponent;
+}
+
+declare module '*.mdx' {
+  import type {ComponentType} from 'react';
+
+  const ReactComponent: ComponentType<unknown>;
+
+  export default ReactComponent;
 }
 
 interface Window {

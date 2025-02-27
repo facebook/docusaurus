@@ -5,22 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {
+  aliasedSitePath,
   DEFAULT_PARSE_FRONT_MATTER,
-  escapePath,
   getFileLoaderUtils,
   getWebpackLoaderCompilerName,
 } from '@docusaurus/utils';
 import stringifyObject from 'stringify-object';
-import preprocessor from './preprocessor';
-import {validateMDXFrontMatter} from './frontMatter';
-import {createProcessorCached} from './processor';
-import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
-import type {MDXOptions} from './processor';
-
-import type {MarkdownConfig} from '@docusaurus/types';
+import {
+  compileToJSX,
+  createAssetsExportCode,
+  extractContentTitleData,
+  promiseWithResolvers,
+} from './utils';
+import type {WebpackCompilerName} from '@docusaurus/utils';
+import type {Options} from './options';
 import type {LoaderContext} from 'webpack';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
@@ -28,109 +28,187 @@ import type {LoaderContext} from 'webpack';
 // See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
 type Pluggable = any; // TODO fix this asap
 
-const {
-  loaders: {inlineMarkdownAssetImageFileLoader},
-} = getFileLoaderUtils();
-
 export type MDXPlugin = Pluggable;
 
-export type Options = Partial<MDXOptions> & {
-  markdownConfig: MarkdownConfig;
-  staticDirs: string[];
-  siteDir: string;
-  isMDXPartial?: (filePath: string) => boolean;
-  isMDXPartialFrontMatterWarningDisabled?: boolean;
-  removeContentTitle?: boolean;
-  metadataPath?: string | ((filePath: string) => string);
-  createAssets?: (metadata: {
-    frontMatter: {[key: string]: unknown};
-    metadata: {[key: string]: unknown};
-  }) => {[key: string]: unknown};
-  resolveMarkdownLink?: ResolveMarkdownLink;
-};
+async function loadMDX({
+  fileContent,
+  filePath,
+  options,
+  compilerName,
+}: {
+  fileContent: string;
+  filePath: string;
+  options: Options;
+  compilerName: WebpackCompilerName;
+}): Promise<string> {
+  const {frontMatter} = await options.markdownConfig.parseFrontMatter({
+    filePath,
+    fileContent,
+    defaultParseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
+  });
 
-/**
- * When this throws, it generally means that there's no metadata file associated
- * with this MDX document. It can happen when using MDX partials (usually
- * starting with _). That's why it's important to provide the `isMDXPartial`
- * function in config
- */
-async function readMetadataPath(metadataPath: string) {
-  try {
-    return await fs.readFile(metadataPath, 'utf8');
-  } catch (err) {
-    logger.error`MDX loader can't read MDX metadata file path=${metadataPath}. Maybe the isMDXPartial option function was not provided?`;
-    throw err;
-  }
-}
+  const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-/**
- * Converts assets an object with Webpack require calls code.
- * This is useful for mdx files to reference co-located assets using relative
- * paths. Those assets should enter the Webpack assets pipeline and be hashed.
- * For now, we only handle that for images and paths starting with `./`:
- *
- * `{image: "./myImage.png"}` => `{image: require("./myImage.png")}`
- */
-function createAssetsExportCode(assets: unknown) {
-  if (
-    typeof assets !== 'object' ||
-    !assets ||
-    Object.keys(assets).length === 0
-  ) {
-    return 'undefined';
-  }
+  const result = await compileToJSX({
+    fileContent,
+    filePath,
+    frontMatter,
+    options,
+    compilerName,
+  });
 
-  // TODO implementation can be completed/enhanced
-  function createAssetValueCode(assetValue: unknown): string | undefined {
-    if (Array.isArray(assetValue)) {
-      const arrayItemCodes = assetValue.map(
-        (item: unknown) => createAssetValueCode(item) ?? 'undefined',
-      );
-      return `[${arrayItemCodes.join(', ')}]`;
+  const contentTitle = extractContentTitleData(result.data);
+
+  // MDX partials are MDX files starting with _ or in a folder starting with _
+  // Partial are not expected to have associated metadata files or front matter
+  const isMDXPartial = options.isMDXPartial?.(filePath);
+  if (isMDXPartial && hasFrontMatter) {
+    const errorMessage = `Docusaurus MDX partial files should not contain front matter.
+Those partial files use the _ prefix as a convention by default, but this is configurable.
+File at ${filePath} contains front matter that will be ignored:
+${JSON.stringify(frontMatter, null, 2)}`;
+
+    if (!options.isMDXPartialFrontMatterWarningDisabled) {
+      const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
+      if (shouldError) {
+        throw new Error(errorMessage);
+      }
+      logger.warn(errorMessage);
     }
-    // Only process string values starting with ./
-    // We could enhance this logic and check if file exists on disc?
-    if (typeof assetValue === 'string' && assetValue.startsWith('./')) {
-      // TODO do we have other use-cases than image assets?
-      // Probably not worth adding more support, as we want to move to Webpack 5 new asset system (https://github.com/facebook/docusaurus/pull/4708)
-      return `require("${inlineMarkdownAssetImageFileLoader}${escapePath(
-        assetValue,
-      )}").default`;
+  }
+
+  const metadataPath = (function getMetadataPath() {
+    if (!isMDXPartial) {
+      return options.metadataPath?.(filePath);
     }
     return undefined;
-  }
+  })();
 
-  const assetEntries = Object.entries(assets);
+  const assets =
+    options.createAssets && !isMDXPartial
+      ? options.createAssets({filePath, frontMatter})
+      : undefined;
 
-  const codeLines = assetEntries
-    .map(([key, value]: [string, unknown]) => {
-      const assetRequireCode = createAssetValueCode(value);
-      return assetRequireCode ? `"${key}": ${assetRequireCode},` : undefined;
-    })
-    .filter(Boolean);
+  const fileLoaderUtils = getFileLoaderUtils(compilerName === 'server');
 
-  return `{\n${codeLines.join('\n')}\n}`;
+  // TODO use remark plugins to insert extra exports instead of string concat?
+  // cf how the toc is exported
+  const exportsCode = `
+export const frontMatter = ${stringifyObject(frontMatter)};
+export const contentTitle = ${stringifyObject(contentTitle)};
+${
+  metadataPath
+    ? `export {default as metadata} from '${aliasedSitePath(
+        metadataPath,
+        options.siteDir,
+      )}'`
+    : ''
+}
+${
+  assets
+    ? `export const assets = ${createAssetsExportCode({
+        assets,
+        inlineMarkdownAssetImageFileLoader:
+          fileLoaderUtils.loaders.inlineMarkdownAssetImageFileLoader,
+      })};`
+    : ''
+}
+`;
+
+  const code = `
+${exportsCode}
+${result.content}
+`;
+
+  return code;
 }
 
-// TODO temporary, remove this after v3.1?
-// Some plugin authors use our mdx-loader, despite it not being public API
-// see https://github.com/facebook/docusaurus/issues/8298
-function ensureMarkdownConfig(reqOptions: Options) {
-  if (!reqOptions.markdownConfig) {
-    throw new Error(
-      'Docusaurus v3+ requires MDX loader options.markdownConfig - plugin authors using the MDX loader should make sure to provide that option',
-    );
+// Note: we cache promises instead of strings
+// This is because client/server compilations might be triggered in parallel
+// When this happens for the same file, we don't want to compile it twice
+async function loadMDXWithCaching({
+  resource,
+  fileContent,
+  filePath,
+  options,
+  compilerName,
+}: {
+  resource: string; // path?query#hash
+  filePath: string; // path
+  fileContent: string;
+  options: Options;
+  compilerName: WebpackCompilerName;
+}): Promise<string> {
+  const {crossCompilerCache} = options;
+  if (!crossCompilerCache) {
+    return loadMDX({
+      fileContent,
+      filePath,
+      options,
+      compilerName,
+    });
   }
-}
 
-/**
- * data.contentTitle is set by the remark contentTitle plugin
- */
-function extractContentTitleData(data: {
-  [key: string]: unknown;
-}): string | undefined {
-  return data.contentTitle as string | undefined;
+  // Note we "resource" as cache key, not "filePath" nor "fileContent"
+  // This is because:
+  // - the same file can be compiled in different variants (blog.mdx?truncated)
+  // - the same content can be processed differently (versioned docs links)
+  const cacheKey = resource;
+
+  // We can clean up the cache and free memory after cache entry consumption
+  // We know there are only 2 compilations for the same file
+  // Note: once we introduce RSCs we'll probably have 3 compilations
+  // Note: we can't use string keys in WeakMap
+  // But we could eventually use WeakRef for the values
+  const deleteCacheEntry = () => crossCompilerCache.delete(cacheKey);
+
+  const cacheEntry = crossCompilerCache?.get(cacheKey);
+
+  // When deduplicating client/server compilations, we always use the client
+  // compilation and not the server compilation
+  // This is important because the server compilation usually skips some steps
+  // Notably: the server compilation does not emit file-loader assets
+  // Using the server compilation otherwise leads to broken images
+  // See https://github.com/facebook/docusaurus/issues/10544#issuecomment-2390943794
+  // See https://github.com/facebook/docusaurus/pull/10553
+  // TODO a problem with this: server bundle will use client inline loaders
+  //  This means server bundle will use ?emit=true for assets
+  //  We should try to get rid of inline loaders to cleanup this caching logic
+  if (compilerName === 'client') {
+    const promise = loadMDX({
+      fileContent,
+      filePath,
+      options,
+      compilerName,
+    });
+    if (cacheEntry) {
+      promise.then(cacheEntry.resolve, cacheEntry.reject);
+      deleteCacheEntry();
+    } else {
+      const noop = () => {
+        throw new Error('this should never be called');
+      };
+      crossCompilerCache.set(cacheKey, {
+        promise,
+        resolve: noop,
+        reject: noop,
+      });
+    }
+    return promise;
+  }
+  // Server compilation always uses the result of the client compilation above
+  else if (compilerName === 'server') {
+    if (cacheEntry) {
+      deleteCacheEntry();
+      return cacheEntry.promise;
+    } else {
+      const {promise, resolve, reject} = promiseWithResolvers<string>();
+      crossCompilerCache.set(cacheKey, {promise, resolve, reject});
+      return promise;
+    }
+  } else {
+    throw new Error(`Unexpected compilerName=${compilerName}`);
+  }
 }
 
 export async function mdxLoader(
@@ -139,130 +217,18 @@ export async function mdxLoader(
 ): Promise<void> {
   const compilerName = getWebpackLoaderCompilerName(this);
   const callback = this.async();
-  const filePath = this.resourcePath;
-  const reqOptions: Options = this.getOptions();
-  const {query} = this;
-
-  ensureMarkdownConfig(reqOptions);
-
-  const {frontMatter} = await reqOptions.markdownConfig.parseFrontMatter({
-    filePath,
-    fileContent,
-    defaultParseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
-  });
-  const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
-
-  const preprocessedContent = preprocessor({
-    fileContent,
-    filePath,
-    admonitions: reqOptions.admonitions,
-    markdownConfig: reqOptions.markdownConfig,
-  });
-
-  const hasFrontMatter = Object.keys(frontMatter).length > 0;
-
-  const processor = await createProcessorCached({
-    filePath,
-    reqOptions,
-    query,
-    mdxFrontMatter,
-  });
-
-  let result: {content: string; data: {[key: string]: unknown}};
+  const options: Options = this.getOptions();
+  options.dependencies?.forEach(this.addDependency);
   try {
-    result = await processor.process({
-      content: preprocessedContent,
-      filePath,
-      frontMatter,
+    const result = await loadMDXWithCaching({
+      resource: this.resource,
+      filePath: this.resourcePath,
+      fileContent,
+      options,
       compilerName,
     });
-  } catch (errorUnknown) {
-    const error = errorUnknown as Error;
-
-    // MDX can emit errors that have useful extra attributes
-    const errorJSON = JSON.stringify(error, null, 2);
-    const errorDetails =
-      errorJSON === '{}'
-        ? // regular JS error case: print stacktrace
-          error.stack ?? 'N/A'
-        : // MDX error: print extra attributes + stacktrace
-          `${errorJSON}\n${error.stack}`;
-
-    return callback(
-      new Error(
-        `MDX compilation failed for file ${logger.path(filePath)}\nCause: ${
-          error.message
-        }\nDetails:\n${errorDetails}`,
-        // TODO error cause doesn't seem to be used by Webpack stats.errors :s
-        {cause: error},
-      ),
-    );
+    return callback(null, result);
+  } catch (error) {
+    return callback(error as Error);
   }
-
-  const contentTitle = extractContentTitleData(result.data);
-
-  // MDX partials are MDX files starting with _ or in a folder starting with _
-  // Partial are not expected to have associated metadata files or front matter
-  const isMDXPartial = reqOptions.isMDXPartial?.(filePath);
-  if (isMDXPartial && hasFrontMatter) {
-    const errorMessage = `Docusaurus MDX partial files should not contain front matter.
-Those partial files use the _ prefix as a convention by default, but this is configurable.
-File at ${filePath} contains front matter that will be ignored:
-${JSON.stringify(frontMatter, null, 2)}`;
-
-    if (!reqOptions.isMDXPartialFrontMatterWarningDisabled) {
-      const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
-      if (shouldError) {
-        return callback(new Error(errorMessage));
-      }
-      logger.warn(errorMessage);
-    }
-  }
-
-  function getMetadataPath(): string | undefined {
-    if (!isMDXPartial) {
-      // Read metadata for this MDX and export it.
-      if (
-        reqOptions.metadataPath &&
-        typeof reqOptions.metadataPath === 'function'
-      ) {
-        return reqOptions.metadataPath(filePath);
-      }
-    }
-    return undefined;
-  }
-
-  const metadataPath = getMetadataPath();
-  if (metadataPath) {
-    this.addDependency(metadataPath);
-  }
-
-  const metadataJsonString = metadataPath
-    ? await readMetadataPath(metadataPath)
-    : undefined;
-
-  const metadata = metadataJsonString
-    ? (JSON.parse(metadataJsonString) as {[key: string]: unknown})
-    : undefined;
-
-  const assets =
-    reqOptions.createAssets && metadata
-      ? reqOptions.createAssets({frontMatter, metadata})
-      : undefined;
-
-  // TODO use remark plugins to insert extra exports instead of string concat?
-  // cf how the toc is exported
-  const exportsCode = `
-export const frontMatter = ${stringifyObject(frontMatter)};
-export const contentTitle = ${stringifyObject(contentTitle)};
-${metadataJsonString ? `export const metadata = ${metadataJsonString};` : ''}
-${assets ? `export const assets = ${createAssetsExportCode(assets)};` : ''}
-`;
-
-  const code = `
-${exportsCode}
-${result.content}
-`;
-
-  return callback(null, code);
 }

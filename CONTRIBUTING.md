@@ -9,7 +9,7 @@ The [Open Source Guides](https://opensource.guide/) website has a collection of 
 
 ## Code of Conduct
 
-Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
+Meta has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
 
 ## Get Involved
 
@@ -21,7 +21,7 @@ There are many ways to contribute to Docusaurus, and many of them do not involve
 - Read through the [Docusaurus docs](https://docusaurus.io/docs/installation). If you find anything that is confusing or can be improved, you can click "Edit this page" at the bottom of most docs, which takes you to the GitHub interface to make and propose changes.
 - Take a look at the [features requested](https://github.com/facebook/docusaurus/labels/feature) by others in the community and consider opening a pull request if you see something you want to work on.
 
-Contributions are very welcome. If you think you need help planning your contribution, please ping us on Twitter at [@docusaurus](https://twitter.com/docusaurus) and let us know you are looking for a bit of help.
+Contributions are very welcome. If you think you need help planning your contribution, please ping us on X at [@docusaurus](https://x.com/docusaurus) and let us know you are looking for a bit of help.
 
 ### Join our Discord Channel
 
@@ -63,7 +63,7 @@ If you're only fixing a bug, it's fine to submit a pull request right away but w
 
 ### Security Bugs
 
-Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe disclosure of security bugs. With that in mind, please do not file public issues; go through the process outlined on that page.
+Meta has a [bounty program](https://www.facebook.com/whitehat/) for the safe disclosure of security bugs. With that in mind, please do not file public issues; go through the process outlined on that page.
 
 ### Feature requests
 
@@ -206,7 +206,7 @@ This is also auto-fixable with the `header/header` ESLint rule.
 
 ### Contributor License Agreement (CLA)
 
-In order to accept your pull request, we need you to submit a CLA. You only need to do this once, so if you've done this for another Facebook open source project, you're good to go. If you are submitting a pull request for the first time, the Facebook GitHub Bot will reply with a link to the CLA form. You may also [complete your CLA here](https://code.facebook.com/cla).
+In order to accept your pull request, we need you to submit a CLA. You only need to do this once, so if you've done this for another Meta open source project, you're good to go. If you are submitting a pull request for the first time, the Meta GitHub Bot will reply with a link to the CLA form. You may also [complete your CLA here](https://code.facebook.com/cla).
 
 After you have signed the CLA, the CLA bot would automatically update the PR status. There's no need to open a new PR.
 

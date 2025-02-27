@@ -7,7 +7,7 @@
 
 import {DEFAULT_SEARCH_TAG} from '@docusaurus/theme-common/internal';
 import {useDocsContextualSearchTags} from '@docusaurus/plugin-content-docs/client';
-import useDocusaurusContext from '@docusaurus/core/src/client/exports/useDocusaurusContext';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function useSearchTags() {
   // only docs have custom search tags per version

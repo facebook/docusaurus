@@ -26,10 +26,11 @@ async function findConfig(siteDir: string) {
     fs.pathExists,
   );
   if (!configPath) {
-    logger.error('No config file found.');
-    logger.info`Expected one of:${candidates}
-You can provide a custom config path with the code=${'--config'} option.`;
-    throw new Error();
+    const relativeSiteDir = path.relative(process.cwd(), siteDir);
+    throw new Error(logger.interpolate`No config file found in site dir code=${relativeSiteDir}.
+Expected one of:${candidates.map(logger.code)}
+You can provide a custom config path with the code=${'--config'} option.
+    `);
   }
   return configPath;
 }

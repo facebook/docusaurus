@@ -14,6 +14,7 @@ import {
   getVersionDocsDirPath,
   getVersionSidebarsPath,
   getDocsDirPathLocalized,
+  getPluginDirPathLocalized,
   readVersionsFile,
 } from './versions/files';
 import {validateVersionName} from './versions/validation';
@@ -53,7 +54,7 @@ async function createVersionedSidebarFile({
 }
 
 // Tests depend on non-default export for mocking.
-export async function cliDocsVersionCommand(
+async function cliDocsVersionCommand(
   version: unknown,
   {id: pluginId, path: docsPath, sidebarPath}: PluginOptions,
   {siteDir, i18n}: LoadContext,
@@ -123,6 +124,23 @@ export async function cliDocsVersionCommand(
               versionName: version,
             });
       await fs.copy(docsDir, newVersionDir);
+
+      // Copy version JSON translation file for this locale
+      // i18n/<l>/docusaurus-plugin-content-docs/current.json => version-v1.json
+      // See https://docusaurus.io/docs/next/api/plugins/@docusaurus/plugin-content-docs#translation-files-location
+      if (locale !== i18n.defaultLocale) {
+        const dir = getPluginDirPathLocalized({
+          localizationDir,
+          pluginId,
+        });
+        const sourceFile = path.join(dir, 'current.json');
+        const dest = path.join(dir, `version-${version}.json`);
+        if (await fs.pathExists(sourceFile)) {
+          await fs.copy(sourceFile, dest);
+        } else {
+          logger.warn`${pluginIdLogPrefix}: i18n translation file does not exist in path=${sourceFile}. Skipping.`;
+        }
+      }
     }),
   );
 
@@ -142,3 +160,17 @@ export async function cliDocsVersionCommand(
 
   logger.success`name=${pluginIdLogPrefix}: version name=${version} created!`;
 }
+
+// TODO try to remove this workaround
+// Why use a default export instead of named exports here?
+// This is only to make Jest mocking happy
+// After upgrading Jest/SWC we got this weird mocking error in extendCli tests
+// "spyOn: Cannot redefine property cliDocsVersionCommand"
+// I tried various workarounds, and it's the only one that worked :/
+// See also:
+// - https://pyk.sh/fixing-typeerror-cannot-redefine-property-x-error-in-jest-tests#heading-solution-2-using-barrel-imports
+// - https://github.com/aelbore/esbuild-jest/issues/26
+// - https://stackoverflow.com/questions/67872622/jest-spyon-not-working-on-index-file-cannot-redefine-property/69951703#69951703
+export default {
+  cliDocsVersionCommand,
+};

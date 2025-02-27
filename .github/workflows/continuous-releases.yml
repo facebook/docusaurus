@@ -20,8 +20,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
+      - name: Set up Node
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: lts/*
+          cache: yarn
+
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
 
       - name: Build packages
         run: yarn build:packages
@@ -32,4 +38,4 @@ jobs:
           yarn create-docusaurus template/docusaurus-classic-ts classic --typescript -p npm
 
       - name: Release
-        run: npx pkg-pr-new publish './packages/*' --template './template/*' --compact --comment=off
+        run: npx pkg-pr-new@0.0.20 publish './packages/*' --template './template/*' --compact --comment=off

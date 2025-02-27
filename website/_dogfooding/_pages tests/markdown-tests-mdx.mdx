@@ -206,13 +206,17 @@ Code tag + double pipe: <code>&#124;&#124;</code>
 
 Code tag + double pipe: <code>||</code>
 
-## Images edge cases
+## Images
 
 ![](/新控制器空间/图片.png)
 
 ![](/4/图片.png)
 
 ![](/4/docu.png)
+
+![](</image with spaces.png>)
+
+![](<@site/_dogfooding/_asset-tests/image with spaces.png>)
 
 ## Details
 
@@ -359,9 +363,13 @@ See [#3337](https://github.com/facebook/docusaurus/issues/3337)
 
 - [/someFile.xyz](/someFile.xyz)
 
+- [/image with space.png](</image with spaces.png>)
+
 - [@site/\_dogfooding/\_asset-tests/someFile.pdf](@site/_dogfooding/_asset-tests/someFile.pdf)
 
 - [@site/\_dogfooding/\_asset-tests/someFile.xyz](@site/_dogfooding/_asset-tests/someFile.xyz)
+
+- [@site/\_dogfooding/\_asset-tests/image with space.png](<@site/_dogfooding/_asset-tests/image with spaces.png>)
 
 ### Linking to non-SPA page hosted within website
 

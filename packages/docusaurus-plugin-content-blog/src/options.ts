@@ -68,10 +68,11 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   processBlogPosts: async () => undefined,
-  onInlineTags: 'warn',
   tags: undefined,
   authorsBasePath: 'authors',
+  onInlineTags: 'warn',
   onInlineAuthors: 'warn',
+  onUntruncatedBlogPosts: 'warn',
 };
 
 export const XSLTBuiltInPaths = {
@@ -240,6 +241,9 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   onInlineAuthors: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_OPTIONS.onInlineAuthors),
+  onUntruncatedBlogPosts: Joi.string()
+    .equal('ignore', 'log', 'warn', 'throw')
+    .default(DEFAULT_OPTIONS.onUntruncatedBlogPosts),
 }).default(DEFAULT_OPTIONS);
 
 export function validateOptions({

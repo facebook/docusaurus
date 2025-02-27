@@ -9,20 +9,15 @@ import process from 'process';
 import logger from '@docusaurus/logger';
 import {posixPath} from '@docusaurus/utils';
 import {transformNode} from '../utils';
+import type {Root} from 'mdast';
 
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer, Processor, Parent} from 'unified';
+import type {Transformer, Processor, Parent, Plugin} from 'unified';
 import type {
   Directives,
   TextDirective,
   // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-directive';
-
-// TODO as of April 2023, no way to import/re-export this ESM type easily :/
-// This might change soon, likely after TS 5.2
-// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
-// import type {Plugin} from 'unified';
-type Plugin = any; // TODO fix this asap
 
 type DirectiveType = Directives['type'];
 
@@ -130,7 +125,9 @@ function isUnusedDirective(directive: Directives) {
   return !directive.data;
 }
 
-const plugin: Plugin = function plugin(this: Processor): Transformer {
+const plugin: Plugin<unknown[], Root> = function plugin(
+  this: Processor,
+): Transformer<Root> {
   return async (tree, file) => {
     const {visit} = await import('unist-util-visit');
 
@@ -155,6 +152,7 @@ const plugin: Plugin = function plugin(this: Processor): Transformer {
     // We only enable these warnings for the client compiler
     // This avoids emitting duplicate warnings in prod mode
     // Note: the client compiler is used in both dev/prod modes
+    // Also: the client compiler is what gets used when using crossCompilerCache
     if (file.data.compilerName === 'client') {
       logUnusedDirectivesWarning({
         directives: unusedDirectives,

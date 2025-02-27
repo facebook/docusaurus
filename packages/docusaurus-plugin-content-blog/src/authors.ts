@@ -7,6 +7,7 @@
 
 import _ from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
+import {normalizeSocials} from './authorsSocials';
 import type {
   Author,
   AuthorsMap,
@@ -21,16 +22,39 @@ type AuthorsParam = {
   baseUrl: string;
 };
 
-function normalizeImageUrl({
+export function normalizeImageUrl({
   imageURL,
   baseUrl,
 }: {
   imageURL: string | undefined;
   baseUrl: string;
-}) {
+}): string | undefined {
   return imageURL?.startsWith('/')
     ? normalizeUrl([baseUrl, imageURL])
     : imageURL;
+}
+
+function normalizeAuthorUrl({
+  author,
+  baseUrl,
+}: {
+  author: Author;
+  baseUrl: string;
+}): string | undefined {
+  if (author.key) {
+    // Ensures invariant: global authors should have already been normalized
+    if (
+      author.imageURL?.startsWith('/') &&
+      !author.imageURL.startsWith(baseUrl)
+    ) {
+      throw new Error(
+        `Docusaurus internal bug: global authors image ${author.imageURL} should start with the expected baseUrl=${baseUrl}`,
+      );
+    }
+
+    return author.imageURL;
+  }
+  return normalizeImageUrl({imageURL: author.imageURL, baseUrl});
 }
 
 // Legacy v1/early-v2 front matter fields
@@ -84,7 +108,10 @@ function getFrontMatterAuthors(params: AuthorsParam): Author[] {
         // becoming a name and may end up unnoticed
         return {key: authorInput};
       }
-      return authorInput;
+      return {
+        ...authorInput,
+        socials: normalizeSocials(authorInput.socials ?? {}),
+      };
     }
 
     return Array.isArray(frontMatter.authors)
@@ -116,13 +143,14 @@ ${Object.keys(authorsMap)
       // Author def from authorsMap can be locally overridden by front matter
       ...getAuthorsMapAuthor(frontMatterAuthor.key),
       ...frontMatterAuthor,
-    };
+    } as Author;
 
     return {
       ...author,
       key: author.key ?? null,
       page: author.page ?? null,
-      imageURL: normalizeImageUrl({imageURL: author.imageURL, baseUrl}),
+      // global author images have already been normalized
+      imageURL: normalizeAuthorUrl({author, baseUrl}),
     };
   }
 }

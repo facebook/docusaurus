@@ -17,12 +17,14 @@ import {
   dogfoodingThemeInstances,
   dogfoodingRedirects,
   dogfoodingTransformFrontMatter,
+  isArgosBuild,
 } from './_dogfooding/dogfooding.config';
 
 import ConfigLocalized from './docusaurus.config.localized.json';
 
 import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
+
 import type {Config, DocusaurusConfig} from '@docusaurus/types';
 
 import type * as Preset from '@docusaurus/preset-classic';
@@ -95,6 +97,14 @@ function getNextVersionName() {
 // Test with: DOCUSAURUS_CRASH_TEST=true yarn build:website:fast
 const crashTest = process.env.DOCUSAURUS_CRASH_TEST === 'true';
 
+// By default, we use Docusaurus Faster
+// DOCUSAURUS_SLOWER=true is useful for benchmarking faster against slower
+// hyperfine --prepare 'yarn clear:website' --runs 3 'DOCUSAURUS_SLOWER=true yarn build:website:fast' 'yarn build:website:fast'
+const isSlower = process.env.DOCUSAURUS_SLOWER === 'true';
+if (isSlower) {
+  console.log('🐢 Using slower Docusaurus build');
+}
+
 const router = process.env
   .DOCUSAURUS_ROUTER as DocusaurusConfig['future']['experimental_router'];
 
@@ -118,6 +128,8 @@ const baseUrl = process.env.BASE_URL ?? '/';
 const isI18nStaging = process.env.I18N_STAGING === 'true';
 
 const isVersioningDisabled = !!process.env.DISABLE_VERSIONING || isI18nStaging;
+
+const isRsdoctor = process.env.RSDOCTOR === 'true';
 
 /*
 const TwitterSvg =
@@ -151,6 +163,8 @@ export default async function createConfigAsync() {
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
     future: {
+      v4: !isSlower, // Not accurate, but good enough
+      experimental_faster: !isSlower,
       experimental_storage: {
         namespace: true,
       },
@@ -178,28 +192,6 @@ export default async function createConfigAsync() {
             [defaultLocale, 'ja']
           : // Production locales
             [defaultLocale, 'fr', 'pt-BR', 'ko', 'zh-CN'],
-    },
-    webpack: {
-      jsLoader: (isServer) => ({
-        loader: require.resolve('swc-loader'),
-        options: {
-          jsc: {
-            parser: {
-              syntax: 'typescript',
-              tsx: true,
-            },
-            transform: {
-              react: {
-                runtime: 'automatic',
-              },
-            },
-            target: 'es2017',
-          },
-          module: {
-            type: isServer ? 'commonjs' : 'es6',
-          },
-        },
-      }),
     },
     markdown: {
       format: 'detect',
@@ -270,8 +262,27 @@ export default async function createConfigAsync() {
     ],
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
+      isRsdoctor && [
+        'rsdoctor',
+        {
+          rsdoctorOptions: {
+            disableTOSUpload: true,
+            supports: {
+              // https://rsdoctor.dev/config/options/options#generatetilegraph
+              generateTileGraph: true,
+            },
+            linter: {
+              // See https://rsdoctor.dev/guide/usage/rule-config
+              rules: {
+                'ecma-version-check': 'off',
+                'duplicate-package': 'off',
+              },
+            },
+          },
+        },
+      ],
       [
-        './src/plugins/changelog/index.js',
+        './src/plugins/changelog/index.ts',
         {
           blogTitle: 'Docusaurus changelog',
           blogDescription:
@@ -337,13 +348,16 @@ export default async function createConfigAsync() {
               from: ['/docs/resources', '/docs/next/resources'],
               to: '/community/resources',
             },
+            {
+              from: '/docs/api/misc/docusaurus-init',
+              to: '/docs/api/misc/create-docusaurus',
+            },
             ...dogfoodingRedirects,
           ],
         } satisfies ClientRedirectsOptions,
       ],
       [
         'ideal-image',
-
         {
           quality: 70,
           max: 1030,
@@ -496,6 +510,10 @@ export default async function createConfigAsync() {
             blogDescription: 'Read blog posts about Docusaurus from the team',
             blogSidebarCount: 'ALL',
             blogSidebarTitle: 'All our posts',
+            onUntruncatedBlogPosts:
+              process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
+                ? 'warn'
+                : 'throw',
             onInlineTags:
               process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
                 ? 'warn'
@@ -525,11 +543,18 @@ export default async function createConfigAsync() {
               }
             : undefined,
           sitemap: {
-            // Note: /tests/docs already has noIndex: true
-            ignorePatterns: ['/tests/{blog,pages}/**'],
+            ignorePatterns: isArgosBuild
+              ? undefined
+              : // Note: /tests/docs already has noIndex: true
+                ['/tests/{blog,pages}/**'],
             lastmod: 'date',
             priority: null,
             changefreq: null,
+          },
+          svgr: {
+            svgrConfig: {
+              svgoConfig: undefined, // Use .svgo.config.js
+            },
           },
         } satisfies Preset.Options,
       ],
@@ -552,7 +577,7 @@ export default async function createConfigAsync() {
       },
       announcementBar: {
         id: `announcementBar-v${announcedVersion}`,
-        // content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>`,
+        // content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://x.com/docusaurus">X ${TwitterSvg}</a>`,
         content: `🎉️ <b><a target="_blank" href="https://docusaurus.io/blog/releases/${announcedVersion}">Docusaurus v${announcedVersion}</a> is out!</b> 🥳️`,
       },
       prism: {
@@ -758,8 +783,8 @@ export default async function createConfigAsync() {
                 href: 'https://github.com/facebook/docusaurus',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                label: 'X',
+                href: 'https://x.com/docusaurus',
               },
               {
                 html: `
@@ -779,11 +804,12 @@ export default async function createConfigAsync() {
           },
           {
             title: 'Legal',
-            // Please don't remove the privacy and terms, it's a legal
-            // requirement.
+            className: 'footer-column-legal',
+            // Don't remove the privacy and terms, it's a legal requirement.
             items: [
               {
                 label: 'Privacy',
+                className: 'footer-item-privacy',
                 href: 'https://opensource.facebook.com/legal/privacy/',
               },
               {

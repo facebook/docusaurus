@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Link, {type Props as LinkProps} from '@docusaurus/Link';
 import AuthorSocials from '@theme/Blog/Components/Author/Socials';
@@ -13,7 +13,7 @@ import type {Props} from '@theme/Blog/Components/Author';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
-function MaybeLink(props: LinkProps): JSX.Element {
+function MaybeLink(props: LinkProps): ReactNode {
   if (props.href) {
     return <Link {...props} />;
   }
@@ -53,7 +53,7 @@ export default function BlogAuthor({
   author,
   className,
   count,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const {name, title, url, imageURL, email, page} = author;
   const link =
     page?.permalink || url || (email && `mailto:${email}`) || undefined;
@@ -83,7 +83,7 @@ export default function BlogAuthor({
                 <AuthorName name={name} as={as} />
               </MaybeLink>
             )}
-            {count && <AuthorBlogPostCount count={count} />}
+            {count !== undefined && <AuthorBlogPostCount count={count} />}
           </div>
           {!!title && <AuthorTitle title={title} />}
 

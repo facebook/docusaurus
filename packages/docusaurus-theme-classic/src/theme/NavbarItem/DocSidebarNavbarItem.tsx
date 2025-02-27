@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import {
   useActiveDocContext,
   useLayoutDocsSidebar,
@@ -18,7 +18,7 @@ export default function DocSidebarNavbarItem({
   label,
   docsPluginId,
   ...props
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const {activeDoc} = useActiveDocContext(docsPluginId);
   const sidebarLink = useLayoutDocsSidebar(sidebarId, docsPluginId).link;
   if (!sidebarLink) {

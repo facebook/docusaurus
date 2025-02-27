@@ -11,7 +11,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import {createRequire} from 'module';
 import shell from 'shelljs';
-import logger from '@docusaurus/logger';
+import {logger} from '@docusaurus/logger';
 import semver from 'semver';
 import updateNotifier from 'update-notifier';
 import boxen from 'boxen';

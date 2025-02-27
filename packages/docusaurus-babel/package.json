@@ -1,0 +1,50 @@
+{
+  "name": "@docusaurus/babel",
+  "version": "3.7.0",
+  "description": "Docusaurus package for Babel-related utils.",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    "./preset": {
+      "types": "./lib/preset.d.ts",
+      "default": "./lib/preset.js"
+    },
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-babel"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.25.9",
+    "@babel/generator": "^7.25.9",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.25.9",
+    "@babel/preset-env": "^7.25.9",
+    "@babel/preset-react": "^7.25.9",
+    "@babel/preset-typescript": "^7.25.9",
+    "@babel/runtime": "^7.25.9",
+    "@babel/runtime-corejs3": "^7.25.9",
+    "@babel/traverse": "^7.25.9",
+    "@docusaurus/logger": "3.7.0",
+    "@docusaurus/utils": "3.7.0",
+    "babel-plugin-dynamic-import-node": "^2.3.3",
+    "fs-extra": "^11.1.1",
+    "tslib": "^2.6.0"
+  },
+  "engines": {
+    "node": ">=18.0"
+  }
+}

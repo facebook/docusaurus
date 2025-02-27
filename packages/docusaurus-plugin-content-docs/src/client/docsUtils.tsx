@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useMemo} from 'react';
+import {type ReactNode, useMemo} from 'react';
 import {matchPath, useLocation} from '@docusaurus/router';
 import renderRoutes from '@docusaurus/renderRoutes';
 import {
@@ -132,6 +132,25 @@ export function useCurrentSidebarCategory(): PropSidebarItemCategory {
   return deepestCategory;
 }
 
+/**
+ * Gets the category associated with the current location. Should only be used
+ * on category index pages.
+ */
+export function useCurrentSidebarSiblings(): PropSidebarItem[] {
+  const {pathname} = useLocation();
+  const sidebar = useDocsSidebar();
+  if (!sidebar) {
+    throw new Error('Unexpected: cant find current sidebar in context');
+  }
+  const categoryBreadcrumbs = getSidebarBreadcrumbs({
+    sidebarItems: sidebar.items,
+    pathname,
+    onlyCategories: true,
+  });
+  const deepestCategory = categoryBreadcrumbs.slice(-1)[0];
+  return deepestCategory?.items ?? sidebar.items;
+}
+
 const isActive = (testedPath: string | undefined, activePath: string) =>
   typeof testedPath !== 'undefined' && isSamePath(testedPath, activePath);
 const containsActiveSidebarItem = (
@@ -168,6 +187,7 @@ export function isVisibleSidebarItem(
     case 'category':
       return (
         isActiveSidebarItem(item, activePath) ||
+        (typeof item.href !== 'undefined' && !item.linkUnlisted) ||
         item.items.some((subItem) => isVisibleSidebarItem(subItem, activePath))
       );
     case 'link':
@@ -363,7 +383,7 @@ Available doc ids are:
  */
 export function useDocRootMetadata({route}: DocRootProps): null | {
   /** The element that should be rendered at the current location. */
-  docElement: JSX.Element;
+  docElement: ReactNode;
   /**
    * The name of the sidebar associated with the current doc. `sidebarName` and
    * `sidebarItems` correspond to the value of {@link useDocsSidebar}.

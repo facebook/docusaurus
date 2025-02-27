@@ -45,6 +45,24 @@ function isBlacklisted(pathname: string) {
     '/showcase',
     // Long blog post with many image carousels, often timeouts
     '/blog/2022/08/01/announcing-docusaurus-2.0',
+
+    // DOGFOOD TESTS
+    // React key errors:
+    '/tests/docs/tests/toc-partials',
+    // Console errors
+    '/tests/pages/diagrams',
+    '/tests/pages/markdown-tests-md',
+    '/tests/pages/react-18',
+    // Flaky because of hydration error
+    '/tests/blog/archive',
+    '/tests/pages/code-block-tests',
+    '/tests/pages/embeds',
+    // Flaky because of hydration error with docusaurus serve + .html
+    '/tests/blog/x/y/z.html',
+    '/tests/docs/dummy.html',
+    // Cause weird docusaurus serve errors:
+    '/tests/docs/tests/ascii/%C3%A6%C3%B8%C3%A5',
+    '/tests/docs/tests/ascii/folder/%C3%A6%C3%B8%C3%A5',
   ];
 
   return (
@@ -52,6 +70,13 @@ function isBlacklisted(pathname: string) {
     pathname.startsWith('/changelog') ||
     // versioned docs
     pathname.match(/^\/docs\/((\d\.\d\.\d)|(next))\//) ||
+    // verbose useless dogfooding pages
+    pathname.startsWith('/tests/docs/toc/') ||
+    pathname.startsWith('/tests/docs/tags/') ||
+    pathname.startsWith('/tests/docs/tests/category-links') ||
+    pathname.startsWith('/tests/docs/tests/visibility') ||
+    pathname.startsWith('/tests/blog/page/') ||
+    pathname.startsWith('/tests/blog/tags/') ||
     // manually excluded urls
     BlacklistedPathnames.includes(pathname)
   );
@@ -105,28 +130,26 @@ function throwOnConsole(page: Page) {
   const typesToCheck = ['error', 'warning'];
 
   const ignoreMessages = [
-    // This mismatch warning looks like a React 18 bug to me
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s className "null" ""',
-
     // TODO this fetch error message is unexpected and should be fixed
     //  it's already happening in main branch
     'Failed to load resource: the server responded with a status of 404 (Not Found)',
 
-    // TODO looks like a legit hydration bug to fix
-    // on /blog/releases/2.4
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-theme=light"',
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-theme=dark"',
-    // on /blog/releases/3.0
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-data-navbar=false&docusaurus-data-red-border"',
-    // on /docs/styling-layout
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs" "/docs?docusaurus-data-navbar=false&docusaurus-data-red-border"',
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs/configuration" "/docs/configuration?docusaurus-theme=light"',
-    'Warning: Prop `%s` did not match. Server: %s Client: %s%s href "/docs/configuration" "/docs/configuration?docusaurus-theme=dark"',
+    // TODO legit hydration bugs to fix on embeds of /docs/styling-layout
+    //  useLocation() returns window.search/hash immediately :s
+    '/docs/configuration?docusaurus-theme=light',
+    '/docs/configuration?docusaurus-theme=dark',
+
+    // Warning because react-live not supporting React automatic JSX runtime
+    // See https://github.com/FormidableLabs/react-live/issues/405
+    'Your app (or one of its dependencies) is using an outdated JSX transform. Update to the modern JSX transform for faster performance',
 
     // TODO weird problem related to KaTeX fonts refusing to decode?
     //  on /docs/markdown-features/math-equations
     'Failed to decode downloaded font: http://localhost:3000/katex/fonts/',
     'OTS parsing error: Failed to convert WOFF 2.0 font to SFNT',
+
+    // Mermaid warning, see https://github.com/mermaid-js/mermaid/issues/6031
+    'Do not assign mappings to elements without corresponding data',
   ];
 
   page.on('console', (message) => {

@@ -7,17 +7,21 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
+import {getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {
-  getCustomizableJSLoader,
-  getStyleLoaders,
-  getCustomBabelConfigFilePath,
-} from './utils';
-import {getMinimizer} from './minification';
+  getCSSExtractPlugin,
+  getMinimizers,
+  createJsLoaderFactory,
+} from '@docusaurus/bundler';
+
+import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import type {Configuration} from 'webpack';
-import type {Props} from '@docusaurus/types';
+import type {
+  ConfigureWebpackUtils,
+  FasterConfig,
+  Props,
+} from '@docusaurus/types';
 
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
@@ -30,6 +34,20 @@ const LibrariesToTranspile = [
 const LibrariesToTranspileRegex = new RegExp(
   LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
 );
+
+function getReactAliases(siteDir: string): Record<string, string> {
+  // Escape hatch
+  if (process.env.DOCUSAURUS_NO_REACT_ALIASES) {
+    return {};
+  }
+  const resolveSitePkg = (id: string) =>
+    require.resolve(id, {paths: [siteDir]});
+  return {
+    react: path.dirname(resolveSitePkg('react/package.json')),
+    'react-dom': path.dirname(resolveSitePkg('react-dom/package.json')),
+    '@mdx-js/react': path.dirname(resolveSitePkg('@mdx-js/react')),
+  };
+}
 
 export function excludeJS(modulePath: string): boolean {
   // Always transpile client dir
@@ -48,10 +66,14 @@ export async function createBaseConfig({
   props,
   isServer,
   minify,
+  faster,
+  configureWebpackUtils,
 }: {
   props: Props;
   isServer: boolean;
   minify: boolean;
+  faster: FasterConfig;
+  configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<Configuration> {
   const {
     outDir,
@@ -68,43 +90,113 @@ export async function createBaseConfig({
   const isProd = process.env.NODE_ENV === 'production';
   const minimizeEnabled = minify && isProd;
 
-  const fileLoaderUtils = getFileLoaderUtils();
+  const fileLoaderUtils = getFileLoaderUtils(isServer);
 
   const name = isServer ? 'server' : 'client';
   const mode = isProd ? 'production' : 'development';
 
   const themeAliases = await loadThemeAliases({siteDir, plugins});
 
+  const createJsLoader = await createJsLoaderFactory({siteConfig});
+
+  const CSSExtractPlugin = await getCSSExtractPlugin({
+    currentBundler: props.currentBundler,
+  });
+
+  // Can we share the same cache across locales?
+  // Exploring that question at https://github.com/webpack/webpack/issues/13034
+  function getCacheName() {
+    return `${name}-${mode}-${props.i18n.currentLocale}`;
+  }
+
+  // When the version string changes, the cache is evicted
+  function getCacheVersion() {
+    // Because Webpack does not evict the cache on alias/swizzle changes,
+    // See https://github.com/webpack/webpack/issues/13627
+    const themeAliasesHash = md5Hash(JSON.stringify(themeAliases));
+    return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}`;
+  }
+
+  // When one of those modules/dependencies change (including transitive
+  // deps), cache is invalidated
+  function getCacheBuildDependencies(): string[] {
+    return [
+      __filename,
+      path.join(__dirname, isServer ? 'server.js' : 'client.js'),
+      // Docusaurus config changes can affect MDX/JSX compilation, so we'd
+      // rather evict the cache.
+      // See https://github.com/questdb/questdb.io/issues/493
+      siteConfigPath,
+    ];
+  }
+
+  function getCache(): Configuration['cache'] {
+    // Use default: memory cache in dev, nothing in prod
+    // See https://rspack.dev/config/cache#cache
+    const disabledPersistentCacheValue = undefined;
+
+    if (process.env.DOCUSAURUS_NO_PERSISTENT_CACHE) {
+      return disabledPersistentCacheValue;
+    }
+    if (props.currentBundler.name === 'rspack') {
+      if (props.siteConfig.future.experimental_faster.rspackPersistentCache) {
+        // Use cache: true + experiments.cache.type: "persistent"
+        // See https://rspack.dev/config/experiments#persistent-cache
+        return true;
+      } else {
+        return disabledPersistentCacheValue;
+      }
+    }
+
+    return {
+      type: 'filesystem',
+      name: getCacheName(),
+      version: getCacheVersion(),
+      buildDependencies: {
+        config: getCacheBuildDependencies(),
+      },
+    };
+  }
+
+  function getExperiments(): Configuration['experiments'] {
+    if (props.currentBundler.name === 'rspack') {
+      const PersistentCacheAttributes = process.env
+        .DOCUSAURUS_NO_PERSISTENT_CACHE
+        ? {}
+        : {
+            cache: {
+              type: 'persistent',
+              // Rspack doesn't have "cache.name" like Webpack
+              // This is not ideal but work around is to merge name/version
+              // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
+              version: `${getCacheName()}-${getCacheVersion()}`,
+              buildDependencies: getCacheBuildDependencies(),
+            },
+          };
+
+      // TODO find a way to type this
+      return {
+        // This is mostly useful in dev
+        // See https://rspack.dev/config/experiments#experimentsincremental
+        // Produces warnings in production builds
+        // See https://github.com/web-infra-dev/rspack/pull/8311#issuecomment-2476014664
+        // We use the same integration as Rspress, with ability to disable
+        // See https://github.com/web-infra-dev/rspress/pull/1631
+        // See https://github.com/facebook/docusaurus/issues/10646
+        // @ts-expect-error: Rspack-only, not available in Webpack typedefs
+        incremental: !isProd && !process.env.DISABLE_RSPACK_INCREMENTAL,
+
+        ...PersistentCacheAttributes,
+      };
+    }
+    return undefined;
+  }
+
   return {
     mode,
     name,
-    cache: {
-      type: 'filesystem',
-      // Can we share the same cache across locales?
-      // Exploring that question at https://github.com/webpack/webpack/issues/13034
-      // name: `${name}-${mode}`,
-      name: `${name}-${mode}-${props.i18n.currentLocale}`,
-      // When version string changes, cache is evicted
-      version: [
-        siteMetadata.docusaurusVersion,
-        // Webpack does not evict the cache correctly on alias/swizzle change,
-        // so we force eviction.
-        // See https://github.com/webpack/webpack/issues/13627
-        md5Hash(JSON.stringify(themeAliases)),
-      ].join('-'),
-      // When one of those modules/dependencies change (including transitive
-      // deps), cache is invalidated
-      buildDependencies: {
-        config: [
-          __filename,
-          path.join(__dirname, isServer ? 'server.js' : 'client.js'),
-          // Docusaurus config changes can affect MDX/JSX compilation, so we'd
-          // rather evict the cache.
-          // See https://github.com/questdb/questdb.io/issues/493
-          siteConfigPath,
-        ],
-      },
-    },
+    cache: getCache(),
+    experiments: getExperiments(),
     output: {
       pathinfo: false,
       path: outDir,
@@ -122,7 +214,6 @@ export async function createBaseConfig({
     },
     devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
-      unsafeCache: false, // Not enabled, does not seem to improve perf much
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true, // See https://github.com/facebook/docusaurus/issues/3272
       roots: [
@@ -136,6 +227,7 @@ export async function createBaseConfig({
         process.cwd(),
       ],
       alias: {
+        ...getReactAliases(siteDir),
         '@site': siteDir,
         '@generated': generatedFilesDir,
         ...(await loadDocusaurusAliases()),
@@ -160,7 +252,9 @@ export async function createBaseConfig({
       // Only minimize client bundle in production because server bundle is only
       // used for static site generation
       minimize: minimizeEnabled,
-      minimizer: minimizeEnabled ? getMinimizer() : undefined,
+      minimizer: minimizeEnabled
+        ? await getMinimizers({faster, currentBundler: props.currentBundler})
+        : undefined,
       splitChunks: isServer
         ? false
         : {
@@ -193,15 +287,15 @@ export async function createBaseConfig({
     module: {
       rules: [
         fileLoaderUtils.rules.images(),
+        fileLoaderUtils.rules.svgs(),
         fileLoaderUtils.rules.fonts(),
         fileLoaderUtils.rules.media(),
-        fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           use: [
-            getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
+            createJsLoader({
               isServer,
               babelOptions: await getCustomBabelConfigFilePath(siteDir),
             }),
@@ -210,7 +304,7 @@ export async function createBaseConfig({
         {
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
-          use: getStyleLoaders(isServer, {
+          use: configureWebpackUtils.getStyleLoaders(isServer, {
             importLoaders: 1,
             sourceMap: !isProd,
           }),
@@ -219,11 +313,11 @@ export async function createBaseConfig({
         // using the extension .module.css
         {
           test: CSS_MODULE_REGEX,
-          use: getStyleLoaders(isServer, {
+          use: configureWebpackUtils.getStyleLoaders(isServer, {
             modules: {
-              localIdentName: isProd
-                ? `[local]_[contenthash:base64:4]`
-                : `[local]_[path][name]`,
+              // Using the same CSS Module class pattern in dev/prod on purpose
+              // See https://github.com/facebook/docusaurus/pull/10423
+              localIdentName: `[local]_[contenthash:base64:4]`,
               exportOnlyLocals: isServer,
             },
             importLoaders: 1,
@@ -233,7 +327,7 @@ export async function createBaseConfig({
       ],
     },
     plugins: [
-      new MiniCssExtractPlugin({
+      new CSSExtractPlugin({
         filename: isProd
           ? 'assets/css/[name].[contenthash:8].css'
           : '[name].css',

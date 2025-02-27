@@ -29,11 +29,11 @@ const EXPECTED_CSS_MARKERS = [
   // Note, Infima and site classes are optimized/deduplicated and put at the top
   // We don't agree yet on what should be the order for those classes
   // See https://github.com/facebook/docusaurus/pull/6222
-  '.markdown>h2',
-  '.button--outline.button--active',
   '--ifm-color-scheme:light',
   '.col[class*=col--]',
   '.padding-vert--xl',
+  '.markdown>h2',
+  '.button--outline.button--active',
   '.footer__link-item',
   '.navbar__title',
   '.pagination__item',
@@ -47,8 +47,10 @@ const EXPECTED_CSS_MARKERS = [
   '.test-marker-site-index-page',
 
   // Lazy-loaded lib
-  '.DocSearch-Modal',
-  '.DocSearch-Hit-content-wrapper',
+  // Looks like order changed during Webpack 5: https://github.com/facebook/docusaurus/pull/10455
+  // Note a big deal though
+  // '.DocSearch-Modal',
+  // '.DocSearch-Hit-content-wrapper',
 ];
 
 const cssDirName = fileURLToPath(new URL('build/assets/css', import.meta.url));

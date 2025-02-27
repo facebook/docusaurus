@@ -10,8 +10,11 @@ import {
   customizeArray,
   customizeObject,
 } from 'webpack-merge';
-import {getCustomizableJSLoader, getStyleLoaders} from './utils';
-
+import {
+  getCurrentBundler,
+  createJsLoaderFactory,
+  createStyleLoadersFactory,
+} from '@docusaurus/bundler';
 import type {Configuration, RuleSetRule} from 'webpack';
 import type {
   Plugin,
@@ -21,29 +24,50 @@ import type {
 } from '@docusaurus/types';
 
 /**
+ * Creates convenient utils to inject into the configureWebpack() lifecycle
+ * @param config the Docusaurus config
+ */
+export async function createConfigureWebpackUtils({
+  siteConfig,
+}: {
+  siteConfig: Parameters<typeof createJsLoaderFactory>[0]['siteConfig'] &
+    Parameters<typeof getCurrentBundler>[0]['siteConfig'];
+}): Promise<ConfigureWebpackUtils> {
+  const currentBundler = await getCurrentBundler({siteConfig});
+  const getStyleLoaders = await createStyleLoadersFactory({currentBundler});
+  const getJSLoader = await createJsLoaderFactory({siteConfig});
+  return {
+    currentBundler,
+    getStyleLoaders,
+    getJSLoader,
+  };
+}
+
+/**
  * Helper function to modify webpack config
  * @param configureWebpack a webpack config or a function to modify config
  * @param config initial webpack config
  * @param isServer indicates if this is a server webpack configuration
- * @param jsLoader custom js loader config
+ * @param utils the <code>ConfigureWebpackUtils</code> utils to inject into the configureWebpack() lifecycle
  * @param content content loaded by the plugin
  * @returns final/ modified webpack config
  */
-export function applyConfigureWebpack(
-  configureWebpack: NonNullable<Plugin['configureWebpack']>,
-  config: Configuration,
-  isServer: boolean,
-  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined,
-  content: unknown,
-): Configuration {
-  // Export some utility functions
-  const utils: ConfigureWebpackUtils = {
-    getStyleLoaders,
-    getJSLoader: getCustomizableJSLoader(jsLoader),
-  };
+export function applyConfigureWebpack({
+  configureWebpack,
+  config,
+  isServer,
+  configureWebpackUtils,
+  content,
+}: {
+  configureWebpack: NonNullable<Plugin['configureWebpack']>;
+  config: Configuration;
+  isServer: boolean;
+  configureWebpackUtils: ConfigureWebpackUtils;
+  content: unknown;
+}): Configuration {
   if (typeof configureWebpack === 'function') {
     const {mergeStrategy, ...res} =
-      configureWebpack(config, isServer, utils, content) ?? {};
+      configureWebpack(config, isServer, configureWebpackUtils, content) ?? {};
     const customizeRules = mergeStrategy ?? {};
     return mergeWithCustomize({
       customizeArray: customizeArray(customizeRules),
@@ -116,27 +140,28 @@ function executePluginsConfigurePostCss({
 // Plugin Lifecycle - configureWebpack()
 export function executePluginsConfigureWebpack({
   plugins,
-  config,
+  config: configInput,
   isServer,
-  jsLoader,
+  configureWebpackUtils,
 }: {
   plugins: LoadedPlugin[];
   config: Configuration;
   isServer: boolean;
-  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined;
+  configureWebpackUtils: ConfigureWebpackUtils;
 }): Configuration {
+  let config = configInput;
+
   // Step1 - Configure Webpack
-  let resultConfig = config;
   plugins.forEach((plugin) => {
     const {configureWebpack} = plugin;
     if (configureWebpack) {
-      resultConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
-        resultConfig,
+      config = applyConfigureWebpack({
+        configureWebpack: configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        config,
         isServer,
-        jsLoader,
-        plugin.content,
-      );
+        configureWebpackUtils,
+        content: plugin.content,
+      });
     }
   });
 
@@ -146,11 +171,11 @@ export function executePluginsConfigureWebpack({
   // See https://github.com/facebook/docusaurus/issues/10106
   // Note: it's useless to configure postCSS for the server
   if (!isServer) {
-    resultConfig = executePluginsConfigurePostCss({
+    config = executePluginsConfigurePostCss({
       plugins,
-      config: resultConfig,
+      config,
     });
   }
 
-  return resultConfig;
+  return config;
 }

@@ -5,12 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {
   truncate,
   parseBlogFileName,
   paginateBlogPosts,
   applyProcessBlogPosts,
+  reportUntruncatedBlogPosts,
 } from '../blogUtils';
 import type {BlogPost} from '@docusaurus/plugin-content-blog';
 
@@ -29,6 +31,109 @@ describe('truncate', () => {
       'aaa\nbbb\n ccc',
     );
     expect(truncate('', /<!-- truncate -->/)).toBe('');
+  });
+});
+
+describe('reportUntruncatedBlogPosts', () => {
+  function testPost({
+    source,
+    hasTruncateMarker,
+  }: {
+    source: string;
+    hasTruncateMarker: boolean;
+  }): BlogPost {
+    return fromPartial({
+      metadata: {
+        source,
+        hasTruncateMarker,
+      },
+    });
+  }
+
+  it('throw for untruncated blog posts', () => {
+    const blogPosts = [
+      testPost({source: '@site/blog/post1.md', hasTruncateMarker: false}),
+      testPost({source: '@site/blog/post2.md', hasTruncateMarker: true}),
+      testPost({
+        source: '@site/blog/subDir/post3.md',
+        hasTruncateMarker: false,
+      }),
+    ];
+    expect(() =>
+      reportUntruncatedBlogPosts({blogPosts, onUntruncatedBlogPosts: 'throw'}),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus found blog posts without truncation markers:
+      - "blog/post1.md"
+      - "blog/subDir/post3.md"
+
+      We recommend using truncation markers (\`<!-- truncate -->\` or \`{/* truncate */}\`) in blog posts to create shorter previews on blog paginated lists.
+      Tip: turn this security off with the \`onUntruncatedBlogPosts: 'ignore'\` blog plugin option."
+    `);
+  });
+
+  it('warn for untruncated blog posts', () => {
+    const consoleMock = jest.spyOn(console, 'warn');
+
+    const blogPosts = [
+      testPost({source: '@site/blog/post1.md', hasTruncateMarker: false}),
+      testPost({source: '@site/blog/post2.md', hasTruncateMarker: true}),
+      testPost({
+        source: '@site/blog/subDir/post3.md',
+        hasTruncateMarker: false,
+      }),
+    ];
+    expect(() =>
+      reportUntruncatedBlogPosts({blogPosts, onUntruncatedBlogPosts: 'warn'}),
+    ).not.toThrow();
+
+    expect(consoleMock.mock.calls).toMatchInlineSnapshot(`
+      [
+        [
+          "[WARNING] Docusaurus found blog posts without truncation markers:
+      - "blog/post1.md"
+      - "blog/subDir/post3.md"
+
+      We recommend using truncation markers (\`<!-- truncate -->\` or \`{/* truncate */}\`) in blog posts to create shorter previews on blog paginated lists.
+      Tip: turn this security off with the \`onUntruncatedBlogPosts: 'ignore'\` blog plugin option.",
+        ],
+      ]
+    `);
+    consoleMock.mockRestore();
+  });
+
+  it('ignore untruncated blog posts', () => {
+    const logMock = jest.spyOn(console, 'log');
+    const warnMock = jest.spyOn(console, 'warn');
+    const errorMock = jest.spyOn(console, 'error');
+
+    const blogPosts = [
+      testPost({source: '@site/blog/post1.md', hasTruncateMarker: false}),
+      testPost({source: '@site/blog/post2.md', hasTruncateMarker: true}),
+      testPost({
+        source: '@site/blog/subDir/post3.md',
+        hasTruncateMarker: false,
+      }),
+    ];
+    expect(() =>
+      reportUntruncatedBlogPosts({blogPosts, onUntruncatedBlogPosts: 'ignore'}),
+    ).not.toThrow();
+
+    expect(logMock).not.toHaveBeenCalled();
+    expect(warnMock).not.toHaveBeenCalled();
+    expect(errorMock).not.toHaveBeenCalled();
+    logMock.mockRestore();
+    warnMock.mockRestore();
+    errorMock.mockRestore();
+  });
+
+  it('does not throw for truncated posts', () => {
+    const blogPosts = [
+      testPost({source: '@site/blog/post1.md', hasTruncateMarker: true}),
+      testPost({source: '@site/blog/post2.md', hasTruncateMarker: true}),
+    ];
+    expect(() =>
+      reportUntruncatedBlogPosts({blogPosts, onUntruncatedBlogPosts: 'throw'}),
+    ).not.toThrow();
   });
 });
 

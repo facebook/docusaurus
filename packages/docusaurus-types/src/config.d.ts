@@ -7,7 +7,7 @@
 
 import type {SiteStorage} from './context';
 import type {RuleSetRule} from 'webpack';
-import type {Required as RequireKeys, DeepPartial} from 'utility-types';
+import type {DeepPartial, Overwrite} from 'utility-types';
 import type {I18nConfig} from './i18n';
 import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
 
@@ -123,7 +123,29 @@ export type StorageConfig = {
   namespace: boolean | string;
 };
 
+export type FasterConfig = {
+  swcJsLoader: boolean;
+  swcJsMinimizer: boolean;
+  swcHtmlMinimizer: boolean;
+  lightningCssMinimizer: boolean;
+  mdxCrossCompilerCache: boolean;
+  rspackBundler: boolean;
+  rspackPersistentCache: boolean;
+  ssgWorkerThreads: boolean;
+};
+
+export type FutureV4Config = {
+  removeLegacyPostBuildHeadAttribute: boolean;
+};
+
 export type FutureConfig = {
+  /**
+   * Turns v4 future flags on
+   */
+  v4: FutureV4Config;
+
+  experimental_faster: FasterConfig;
+
   experimental_storage: StorageConfig;
 
   /**
@@ -392,6 +414,7 @@ export type DocusaurusConfig = {
    *
    * @see https://docusaurus.io/docs/api/docusaurus-config#ssrTemplate
    */
+  // TODO Docusaurus v4 - rename to ssgTemplate?
   ssrTemplate?: string;
   /**
    * Will be used as title delimiter in the generated `<title>` tag.
@@ -416,18 +439,32 @@ export type DocusaurusConfig = {
      * Babel loader and preset; otherwise, you can provide your custom Webpack
      * rule set.
      */
-    jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
+    // TODO Docusaurus v4
+    //  Use an object type ({isServer}) so that it conforms to jsLoaderFactory
+    //  Eventually deprecate this if swc loader becomes stable?
+    jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
   /** Markdown-related options. */
   markdown: MarkdownConfig;
 };
 
 /**
- * Docusaurus config, as provided by the user (partial/unnormalized). This type
+ * Docusaurus config, as provided by the user (partial/un-normalized). This type
  * is used to provide type-safety / IDE auto-complete on the config file.
  * @see https://docusaurus.io/docs/typescript-support
  */
-export type Config = RequireKeys<
+export type Config = Overwrite<
   DeepPartial<DocusaurusConfig>,
-  'title' | 'url' | 'baseUrl'
+  {
+    title: DocusaurusConfig['title'];
+    url: DocusaurusConfig['url'];
+    baseUrl: DocusaurusConfig['baseUrl'];
+    future?: Overwrite<
+      DeepPartial<FutureConfig>,
+      {
+        v4?: boolean | FutureV4Config;
+        experimental_faster?: boolean | FasterConfig;
+      }
+    >;
+  }
 >;

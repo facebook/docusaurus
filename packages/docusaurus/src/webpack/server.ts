@@ -8,26 +8,33 @@
 import path from 'path';
 import merge from 'webpack-merge';
 import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '@docusaurus/utils';
-import WebpackBar from 'webpackbar';
+import {getProgressBarPlugin} from '@docusaurus/bundler';
 import {createBaseConfig} from './base';
-import type {Props} from '@docusaurus/types';
+import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
-export default async function createServerConfig(params: {
+export default async function createServerConfig({
+  props,
+  configureWebpackUtils,
+}: {
   props: Props;
+  configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<{config: Configuration; serverBundlePath: string}> {
-  const {props} = params;
-
   const baseConfig = await createBaseConfig({
     props,
     isServer: true,
-
-    // Minification of server bundle reduces size but doubles bundle time :/
     minify: false,
+    faster: props.siteConfig.future.experimental_faster,
+    configureWebpackUtils,
+  });
+
+  const ProgressBarPlugin = await getProgressBarPlugin({
+    currentBundler: props.currentBundler,
   });
 
   const outputFilename = 'server.bundle.js';
-  const serverBundlePath = path.join(props.outDir, outputFilename);
+  const outputDir = path.join(props.outDir, '__server');
+  const serverBundlePath = path.join(outputDir, outputFilename);
 
   const config = merge(baseConfig, {
     target: `node${NODE_MAJOR_VERSION}.${NODE_MINOR_VERSION}`,
@@ -35,18 +42,16 @@ export default async function createServerConfig(params: {
       main: path.resolve(__dirname, '../client/serverEntry.js'),
     },
     output: {
+      path: outputDir,
       filename: outputFilename,
       libraryTarget: 'commonjs2',
-      // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)
-      globalObject: 'this',
     },
     plugins: [
-      // Show compilation progress bar.
-      new WebpackBar({
+      new ProgressBarPlugin({
         name: 'Server',
         color: 'yellow',
       }),
-    ].filter(Boolean),
+    ],
   });
 
   return {config, serverBundlePath};

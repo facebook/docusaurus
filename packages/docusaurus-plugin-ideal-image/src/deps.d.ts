@@ -13,7 +13,12 @@
  * full state object.
  */
 declare module '@slorber/react-ideal-image' {
-  import type {ComponentProps, ComponentType, CSSProperties} from 'react';
+  import type {
+    ComponentProps,
+    ComponentType,
+    CSSProperties,
+    ReactNode,
+  } from 'react';
 
   export type LoadingState = 'initial' | 'loading' | 'loaded' | 'error';
 
@@ -115,5 +120,5 @@ declare module '@slorber/react-ideal-image' {
     width: number;
   }
 
-  export default function IdealImage(props: ImageProps): JSX.Element;
+  export default function IdealImage(props: ImageProps): ReactNode;
 }

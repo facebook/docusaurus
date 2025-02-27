@@ -52,7 +52,7 @@ declare module '@docusaurus/plugin-ideal-image' {
 }
 
 declare module '@theme/IdealImage' {
-  import type {ComponentProps} from 'react';
+  import type {ComponentProps, ReactNode} from 'react';
 
   export type SrcType = {
     width: number;
@@ -72,5 +72,5 @@ declare module '@theme/IdealImage' {
   export interface Props extends ComponentProps<'img'> {
     readonly img: {default: string} | {src: SrcImage; preSrc: string} | string;
   }
-  export default function IdealImage(props: Props): JSX.Element;
+  export default function IdealImage(props: Props): ReactNode;
 }

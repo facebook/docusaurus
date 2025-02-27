@@ -26,6 +26,7 @@ import {
   isDraft,
   readLastUpdateData,
   normalizeTags,
+  aliasedSitePathToRelativePath,
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
@@ -45,6 +46,28 @@ import type {BlogContentPaths} from './types';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
+}
+
+export function reportUntruncatedBlogPosts({
+  blogPosts,
+  onUntruncatedBlogPosts,
+}: {
+  blogPosts: BlogPost[];
+  onUntruncatedBlogPosts: PluginOptions['onUntruncatedBlogPosts'];
+}): void {
+  const untruncatedBlogPosts = blogPosts.filter(
+    (p) => !p.metadata.hasTruncateMarker,
+  );
+  if (onUntruncatedBlogPosts !== 'ignore' && untruncatedBlogPosts.length > 0) {
+    const message = logger.interpolate`Docusaurus found blog posts without truncation markers:
+- ${untruncatedBlogPosts
+      .map((p) => logger.path(aliasedSitePathToRelativePath(p.metadata.source)))
+      .join('\n- ')}
+
+We recommend using truncation markers (code=${`<!-- truncate -->`} or code=${`{/* truncate */}`}) in blog posts to create shorter previews on blog paginated lists.
+Tip: turn this security off with the code=${`onUntruncatedBlogPosts: 'ignore'`} blog plugin option.`;
+    logger.report(onUntruncatedBlogPosts)(message);
+  }
 }
 
 export function paginateBlogPosts({

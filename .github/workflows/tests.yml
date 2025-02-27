@@ -27,31 +27,44 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['18.0', '20', '22.4']
+        node: ['18.0', '20', '22']
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
       - name: Test
         run: yarn test
       - name: Remove Theme Internal Re-export
         run: yarn workspace @docusaurus/theme-common removeThemeInternalReexport
       - name: Docusaurus Build
-        run: yarn build:website:fast
+        # We build 2 locales to ensure a localized site doesn't leak memory
+        # See https://github.com/facebook/docusaurus/pull/10599
+        run: yarn build:website:fast --locale en --locale fr
+        env:
+          # Our website should build even with limited memory
+          # See https://github.com/facebook/docusaurus/pull/10590
+          NODE_OPTIONS: '--max-old-space-size=450'
+          DOCUSAURUS_PERF_LOGGER: 'true'
+      - name: Docusaurus site CSS order
+        run: yarn workspace website test:css-order
 
       - name: TypeCheck website
-        run: yarn workspace website typecheck
+        # TODO temporary, remove TS skipLibCheck
+        # see https://github.com/facebook/docusaurus/pull/10486
+        run: yarn workspace website typecheck --project tsconfig.skipLibCheck.json
       - name: TypeCheck website - min version - v5.1
         run: |
           yarn add typescript@5.1.6 --exact -D -W --ignore-scripts
           yarn workspace website typecheck
       - name: TypeCheck website - max version - Latest
+        # For latest TS there are often lib check errors, so we disable it
+        # Details: https://github.com/facebook/docusaurus/pull/10486
         run: |
           yarn add typescript@latest --exact -D -W --ignore-scripts
-          yarn workspace website typecheck
+          yarn workspace website typecheck --project tsconfig.skipLibCheck.json

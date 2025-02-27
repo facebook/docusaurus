@@ -13,6 +13,7 @@ import {
   getFileCommitDate,
   LAST_UPDATE_FALLBACK,
 } from '@docusaurus/utils';
+import {DEFAULT_FUTURE_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
 import type {
@@ -106,7 +107,8 @@ const getPlugin = async (
     baseUrl: '/',
     url: 'https://docusaurus.io',
     markdown,
-    future: {},
+    future: DEFAULT_FUTURE_CONFIG,
+    staticDirectories: ['static'],
   } as DocusaurusConfig;
   return pluginContentBlog(
     {
@@ -223,6 +225,7 @@ describe('blog plugin', () => {
           imageURL: undefined,
           key: null,
           page: null,
+          socials: {},
         },
         {
           email: 'lorber.sebastien@gmail.com',
@@ -230,6 +233,7 @@ describe('blog plugin', () => {
           name: 'Sébastien Lorber (translated)',
           title: 'Docusaurus maintainer (translated)',
           imageURL: undefined,
+          socials: undefined,
           page: {permalink: '/blog/authors/slorber-custom-permalink-localized'},
         },
       ],

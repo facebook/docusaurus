@@ -25,7 +25,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
 
       - name: AutoFix Format
         run: yarn format

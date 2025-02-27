@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-ideal-image",
-  "version": "3.4.0",
+  "version": "3.7.0",
   "description": "Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder).",
   "main": "lib/index.js",
   "types": "src/plugin-ideal-image.d.ts",
@@ -20,26 +20,26 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.4.0",
-    "@docusaurus/lqip-loader": "3.4.0",
+    "@docusaurus/core": "3.7.0",
+    "@docusaurus/lqip-loader": "3.7.0",
     "@docusaurus/responsive-loader": "^1.7.0",
-    "@docusaurus/theme-translations": "3.4.0",
-    "@docusaurus/types": "3.4.0",
-    "@docusaurus/utils-validation": "3.4.0",
-    "@slorber/react-ideal-image": "^0.0.12",
+    "@docusaurus/theme-translations": "3.7.0",
+    "@docusaurus/types": "3.7.0",
+    "@docusaurus/utils-validation": "3.7.0",
+    "@slorber/react-ideal-image": "^0.0.14",
     "react-waypoint": "^10.3.0",
     "sharp": "^0.32.3",
     "tslib": "^2.6.0",
     "webpack": "^5.88.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.4.0",
+    "@docusaurus/module-type-aliases": "3.7.0",
     "fs-extra": "^11.1.0"
   },
   "peerDependencies": {
     "jimp": "*",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {
     "jimp": {

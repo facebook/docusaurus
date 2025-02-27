@@ -13,23 +13,19 @@ import {
   toMessageRelativeFilePath,
   posixPath,
   escapePath,
-  getFileLoaderUtils,
   findAsyncSequential,
+  getFileLoaderUtils,
 } from '@docusaurus/utils';
 import escapeHtml from 'escape-html';
 import sizeOf from 'image-size';
 import logger from '@docusaurus/logger';
 import {assetRequireAttributeValue, transformNode} from '../utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer} from 'unified';
+import type {Plugin, Transformer} from 'unified';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {MdxJsxTextElement} from 'mdast-util-mdx';
-import type {Image} from 'mdast';
+import type {Image, Root} from 'mdast';
 import type {Parent} from 'unist';
-
-const {
-  loaders: {inlineMarkdownImageFileLoader},
-} = getFileLoaderUtils();
 
 type PluginOptions = {
   staticDirs: string[];
@@ -38,6 +34,7 @@ type PluginOptions = {
 
 type Context = PluginOptions & {
   filePath: string;
+  inlineMarkdownImageFileLoader: string;
 };
 
 type Target = [node: Image, index: number, parent: Parent];
@@ -45,21 +42,21 @@ type Target = [node: Image, index: number, parent: Parent];
 async function toImageRequireNode(
   [node]: Target,
   imagePath: string,
-  filePath: string,
+  context: Context,
 ) {
   // MdxJsxTextElement => see https://github.com/facebook/docusaurus/pull/8288#discussion_r1125871405
   const jsxNode = node as unknown as MdxJsxTextElement;
   const attributes: MdxJsxTextElement['attributes'] = [];
 
   let relativeImagePath = posixPath(
-    path.relative(path.dirname(filePath), imagePath),
+    path.relative(path.dirname(context.filePath), imagePath),
   );
   relativeImagePath = `./${relativeImagePath}`;
 
   const parsedUrl = url.parse(node.url);
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
-  const requireString = `${inlineMarkdownImageFileLoader}${
+  const requireString = `${context.inlineMarkdownImageFileLoader}${
     escapePath(relativeImagePath) + search
   }`;
   if (node.alt) {
@@ -101,6 +98,7 @@ async function toImageRequireNode(
       });
     }
   } catch (err) {
+    console.error(err);
     // Workaround for https://github.com/yarnpkg/berry/pull/3889#issuecomment-1034469784
     // TODO remove this check once fixed in Yarn PnP
     if (!process.versions.pnp) {
@@ -155,10 +153,7 @@ async function getImageAbsolutePath(
     return imageFilePath;
   }
   // relative paths are resolved against the source file's folder
-  const imageFilePath = path.join(
-    path.dirname(filePath),
-    decodeURIComponent(imagePath),
-  );
+  const imageFilePath = path.join(path.dirname(filePath), imagePath);
   await ensureImageFileExist(imageFilePath, filePath);
   return imageFilePath;
 }
@@ -183,25 +178,42 @@ async function processImageNode(target: Target, context: Context) {
     return;
   }
 
+  // We decode it first because Node Url.pathname is always encoded
+  // while the image file-system path are not.
+  // See https://github.com/facebook/docusaurus/discussions/10720
+  const decodedPathname = decodeURIComponent(parsedUrl.pathname);
+
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time
-  const imagePath = await getImageAbsolutePath(parsedUrl.pathname, context);
-  await toImageRequireNode(target, imagePath, context.filePath);
+  const imagePath = await getImageAbsolutePath(decodedPathname, context);
+  await toImageRequireNode(target, imagePath, context);
 }
 
-export default function plugin(options: PluginOptions): Transformer {
+const plugin: Plugin<PluginOptions[], Root> = function plugin(
+  options,
+): Transformer<Root> {
   return async (root, vfile) => {
     const {visit} = await import('unist-util-visit');
 
+    const fileLoaderUtils = getFileLoaderUtils(
+      vfile.data.compilerName === 'server',
+    );
+    const context: Context = {
+      ...options,
+      filePath: vfile.path!,
+      inlineMarkdownImageFileLoader:
+        fileLoaderUtils.loaders.inlineMarkdownImageFileLoader,
+    };
+
     const promises: Promise<void>[] = [];
-    visit(root, 'image', (node: Image, index, parent) => {
-      promises.push(
-        processImageNode([node, index, parent!], {
-          ...options,
-          filePath: vfile.path!,
-        }),
-      );
+    visit(root, 'image', (node, index, parent) => {
+      if (!parent || index === undefined) {
+        return;
+      }
+      promises.push(processImageNode([node, index, parent!], context));
     });
     await Promise.all(promises);
   };
-}
+};
+
+export default plugin;

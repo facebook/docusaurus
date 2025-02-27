@@ -27,11 +27,7 @@ type ContextValue = {
 
 const Context = React.createContext<ContextValue | null>(null);
 
-export function VersionsProvider({
-  children,
-}: {
-  children: ReactNode;
-}): JSX.Element {
+export function VersionsProvider({children}: {children: ReactNode}): ReactNode {
   const [canaryVersion, setCanaryVersion] = useState<ContextValue | null>(null);
   const mounted = useRef(true);
   useEffect(() => {
@@ -70,7 +66,7 @@ function useStableVersion(): string {
     : lastVersion;
 }
 
-export function CanaryVersion(): JSX.Element {
+export function CanaryVersion(): ReactNode {
   const canaryVersion = useContext(Context);
   // Show a sensible name
   return canaryVersion ? (
@@ -90,7 +86,7 @@ export function CanaryVersion(): JSX.Element {
   );
 }
 
-export function StableVersion(): JSX.Element {
+export function StableVersion(): ReactNode {
   const currentVersion = useStableVersion();
   return <span>{currentVersion}</span>;
 }
@@ -104,17 +100,17 @@ function useStableMajorVersionNumber(): number {
   return useNextMajorVersionNumber() - 1;
 }
 
-export function NextMajorVersion(): JSX.Element {
+export function NextMajorVersion(): ReactNode {
   const majorVersionNumber = useNextMajorVersionNumber();
   return <span>{majorVersionNumber}</span>;
 }
 
-export function StableMajorVersion(): JSX.Element {
+export function StableMajorVersion(): ReactNode {
   const majorVersionNumber = useStableMajorVersionNumber();
   return <span>{majorVersionNumber}</span>;
 }
 
-function GitBranchLink({branch}: {branch: string}): JSX.Element {
+function GitBranchLink({branch}: {branch: string}): ReactNode {
   return (
     <Link to={`https://github.com/facebook/docusaurus/tree/${branch}`}>
       <code>{branch}</code>
@@ -122,13 +118,13 @@ function GitBranchLink({branch}: {branch: string}): JSX.Element {
   );
 }
 
-export function StableMajorBranchLink(): JSX.Element {
+export function StableMajorBranchLink(): ReactNode {
   const majorVersionNumber = useStableMajorVersionNumber();
   const branch = `docusaurus-v${majorVersionNumber}`;
   return <GitBranchLink branch={branch} />;
 }
 
-export function NextMajorBranchLink(): JSX.Element {
+export function NextMajorBranchLink(): ReactNode {
   return <GitBranchLink branch="main" />;
 }
 
@@ -156,7 +152,7 @@ export function InsertIfCanaryVersionKnown({
   return null;
 }
 
-export function PackageJSONDiff(): JSX.Element {
+export function PackageJSONDiff(): ReactNode {
   const canaryVersion = useContext(Context)?.name ?? '0.0.0-4922';
   const stableVersion = useStableVersion();
   return (
@@ -170,7 +166,7 @@ export function PackageJSONDiff(): JSX.Element {
   );
 }
 
-export function PublishTime(): JSX.Element | null {
+export function PublishTime(): ReactNode {
   const time = useContext(Context)?.time;
   if (!time) {
     return null;

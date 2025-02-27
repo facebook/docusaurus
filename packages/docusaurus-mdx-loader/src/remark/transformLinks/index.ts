@@ -12,21 +12,17 @@ import {
   toMessageRelativeFilePath,
   posixPath,
   escapePath,
-  getFileLoaderUtils,
   findAsyncSequential,
+  getFileLoaderUtils,
 } from '@docusaurus/utils';
 import escapeHtml from 'escape-html';
 import {assetRequireAttributeValue, transformNode} from '../utils';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer} from 'unified';
+import type {Plugin, Transformer} from 'unified';
 // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Parent} from 'unist';
-import type {Link, Literal} from 'mdast';
-
-const {
-  loaders: {inlineMarkdownLinkFileLoader},
-} = getFileLoaderUtils();
+import type {Link, Literal, Root} from 'mdast';
 
 type PluginOptions = {
   staticDirs: string[];
@@ -35,6 +31,7 @@ type PluginOptions = {
 
 type Context = PluginOptions & {
   filePath: string;
+  inlineMarkdownLinkFileLoader: string;
 };
 
 type Target = [node: Link, index: number, parent: Parent];
@@ -45,7 +42,7 @@ type Target = [node: Link, index: number, parent: Parent];
 async function toAssetRequireNode(
   [node]: Target,
   assetPath: string,
-  filePath: string,
+  context: Context,
 ) {
   // MdxJsxTextElement => see https://github.com/facebook/docusaurus/pull/8288#discussion_r1125871405
   const jsxNode = node as unknown as MdxJsxTextElement;
@@ -53,7 +50,7 @@ async function toAssetRequireNode(
 
   // require("assets/file.pdf") means requiring from a package called assets
   const relativeAssetPath = `./${posixPath(
-    path.relative(path.dirname(filePath), assetPath),
+    path.relative(path.dirname(context.filePath), assetPath),
   )}`;
 
   const parsedUrl = url.parse(node.url);
@@ -65,7 +62,9 @@ async function toAssetRequireNode(
     path.extname(relativeAssetPath) === '.json'
       ? `${relativeAssetPath.replace('.json', '.raw')}!=`
       : ''
-  }${inlineMarkdownLinkFileLoader}${escapePath(relativeAssetPath) + search}`;
+  }${context.inlineMarkdownLinkFileLoader}${
+    escapePath(relativeAssetPath) + search
+  }`;
 
   attributes.push({
     type: 'mdxJsxAttribute',
@@ -196,23 +195,35 @@ async function processLinkNode(target: Target, context: Context) {
     context,
   );
   if (assetPath) {
-    await toAssetRequireNode(target, assetPath, context.filePath);
+    await toAssetRequireNode(target, assetPath, context);
   }
 }
 
-export default function plugin(options: PluginOptions): Transformer {
+const plugin: Plugin<PluginOptions[], Root> = function plugin(
+  options,
+): Transformer<Root> {
   return async (root, vfile) => {
     const {visit} = await import('unist-util-visit');
 
+    const fileLoaderUtils = getFileLoaderUtils(
+      vfile.data.compilerName === 'server',
+    );
+    const context: Context = {
+      ...options,
+      filePath: vfile.path!,
+      inlineMarkdownLinkFileLoader:
+        fileLoaderUtils.loaders.inlineMarkdownLinkFileLoader,
+    };
+
     const promises: Promise<void>[] = [];
-    visit(root, 'link', (node: Link, index, parent) => {
-      promises.push(
-        processLinkNode([node, index, parent!], {
-          ...options,
-          filePath: vfile.path!,
-        }),
-      );
+    visit(root, 'link', (node, index, parent) => {
+      if (!parent || index === undefined) {
+        return;
+      }
+      promises.push(processLinkNode([node, index, parent], context));
     });
     await Promise.all(promises);
   };
-}
+};
+
+export default plugin;

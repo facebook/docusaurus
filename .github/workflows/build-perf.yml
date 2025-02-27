@@ -11,6 +11,7 @@ on:
       - main
       - docusaurus-v**
     paths:
+      - .github/workflows/build-perf.yml
       - package.json
       - yarn.lock
       - packages/**
@@ -25,6 +26,7 @@ permissions:
   contents: read
 
 jobs:
+  # Posts a PR comment with build size differences from PR vs main branches
   build-size:
     permissions:
       checks: write # for preactjs/compressed-size-action to create and update the checks
@@ -34,47 +36,64 @@ jobs:
     name: Build Size Report
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        DOCUSAURUS_INFRA: ['SLOWER', 'FASTER']
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Set up Node
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
         with:
-          node-version: 20
+          node-version: lts/*
           cache: yarn
       - name: Track build size changes
-        uses: preactjs/compressed-size-action@f780fd104362cfce9e118f9198df2ee37d12946c # v2
+        uses: preactjs/compressed-size-action@946a292cd35bd1088e0d7eb92b69d1a8d5b5d76a # v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           build-script: build:website:fast
           clean-script: clear:website # see https://github.com/facebook/docusaurus/pull/6838
-          pattern: '{website/build/assets/js/main*js,website/build/assets/css/styles*css,website/.docusaurus/globalData.json,website/.docusaurus/registry.js,website/.docusaurus/routes.js,website/.docusaurus/routesChunkNames.json,website/.docusaurus/site-metadata.json,website/.docusaurus/codeTranslations.json,website/.docusaurus/i18n.json,website/.docusaurus/docusaurus.config.mjs,website/build/index.html,website/build/docs.html,website/build/docs/**/*.html,website/build/blog.html,website/build/blog/**/*.html}'
+          pattern: '{website/build/assets/js/main*js,website/build/assets/js/runtime~main*js,website/build/assets/css/styles*css,website/.docusaurus/globalData.json,website/.docusaurus/registry.js,website/.docusaurus/routes.js,website/.docusaurus/routesChunkNames.json,website/.docusaurus/site-metadata.json,website/.docusaurus/codeTranslations.json,website/.docusaurus/i18n.json,website/.docusaurus/docusaurus.config.mjs,website/build/index.html,website/build/docs.html,website/build/docs/**/*.html,website/build/blog.html,website/build/blog/**/*.html}'
           # HTML files: exclude versioned docs pages, tags pages, html redirect files
           exclude: '{website/build/docs/?.?.?/**/*.html,website/build/docs/next/**/*.html,website/build/blog/tags/**/*.html,**/*.html.html}'
           strip-hash: '\.([^;]\w{7})\.'
           minimum-change-threshold: 30
           compression: none
+          comment-key: DOCUSAURUS_INFRA_${{ matrix.DOCUSAURUS_INFRA }}
+        env:
+          DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+
+  # Ensures build times stay under reasonable thresholds
   build-time:
     name: Build Time Perf
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        DOCUSAURUS_INFRA: ['SLOWER', 'FASTER']
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Set up Node
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
         with:
+          node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn
+        run: yarn || yarn || yarn
 
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)
         run: yarn build:website:fast
-        timeout-minutes: 8
+        timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 3 || 1  }}
+        env:
+          DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
         run: yarn build:website:fast
-        timeout-minutes: 2
+        timeout-minutes: 1
+        env:
+          DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+
     # TODO post a GitHub comment with build with perf warnings?

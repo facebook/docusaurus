@@ -14,6 +14,7 @@ export {
   ParseFrontMatter,
   DocusaurusConfig,
   FutureConfig,
+  FasterConfig,
   StorageConfig,
   Config,
 } from './config';
@@ -66,11 +67,14 @@ export {
   Validate,
   ValidationSchema,
   AllContent,
+  RouteBuildMetadata,
   ConfigureWebpackUtils,
   PostCssOptions,
   HtmlTagObject,
   HtmlTags,
 } from './plugin';
+
+export {CurrentBundler} from './bundler';
 
 export {
   RouteConfig,

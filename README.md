@@ -10,7 +10,7 @@
 </div>
 
 <p align="center">
-  <a href="https://twitter.com/docusaurus"><img src="https://img.shields.io/twitter/follow/docusaurus.svg?style=social" align="right" alt="Twitter Follow" /></a>
+  <a href="https://x.com/docusaurus"><img src="https://img.shields.io/twitter/follow/docusaurus.svg?style=social" align="right" alt="Twitter Follow" /></a>
   <a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/Docusaurus/backers/badge.svg" /></a>
   <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/Docusaurus/sponsors/badge.svg" /></a>
   <a href="https://www.npmjs.com/package/@docusaurus/core"><img src="https://img.shields.io/npm/v/@docusaurus/core.svg?style=flat" alt="npm version"></a>
@@ -59,11 +59,11 @@ npm init docusaurus@latest
 
 ## Contributing
 
-We've released Docusaurus because it helps us better scale and supports the many OSS projects at Facebook. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
+We've released Docusaurus because it helps us better scale and supports the many OSS projects at Meta. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
 
 ### [Code of Conduct](https://code.fb.com/codeofconduct)
 
-Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
+Meta has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
 
 ### Contributing guide
 
@@ -80,7 +80,7 @@ We have a few channels for contact:
 - [Discord](https://discord.gg/docusaurus):
   - `#general` for those using Docusaurus.
   - `#contributors` for those wanting to contribute to the Docusaurus core.
-- [@docusaurus](https://twitter.com/docusaurus) on Twitter
+- [@docusaurus](https://x.com/docusaurus) X
 - [GitHub Issues](https://github.com/facebook/docusaurus/issues)
 
 ## Contributors

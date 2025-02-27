@@ -36,7 +36,7 @@ export function DocSidebarItemsExpandedStateProvider({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element {
+}): ReactNode {
   const [expandedItem, setExpandedItem] = useState<number | null>(null);
   const contextValue = useMemo(
     () => ({expandedItem, setExpandedItem}),

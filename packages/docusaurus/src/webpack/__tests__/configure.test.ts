@@ -12,12 +12,24 @@ import {
   applyConfigureWebpack,
   applyConfigurePostCss,
   executePluginsConfigureWebpack,
+  createConfigureWebpackUtils,
 } from '../configure';
+import {DEFAULT_FUTURE_CONFIG} from '../../server/configValidation';
 import type {Configuration} from 'webpack';
 import type {LoadedPlugin, Plugin} from '@docusaurus/types';
 
+function createTestConfigureWebpackUtils() {
+  return createConfigureWebpackUtils({
+    siteConfig: {webpack: {jsLoader: 'babel'}, future: DEFAULT_FUTURE_CONFIG},
+  });
+}
+
+const isServer = false;
+
 describe('extending generated webpack config', () => {
   it('direct mutation on generated webpack config object', async () => {
+    const utils = await createTestConfigureWebpackUtils();
+
     // Fake generated webpack config
     let config: Configuration = {
       output: {
@@ -29,9 +41,9 @@ describe('extending generated webpack config', () => {
     // @ts-expect-error: Testing an edge-case that we did not write types for
     const configureWebpack: NonNullable<Plugin['configureWebpack']> = (
       generatedConfig,
-      isServer,
+      isServerParam,
     ) => {
-      if (!isServer) {
+      if (!isServerParam) {
         generatedConfig.entry = 'entry.js';
         generatedConfig.output = {
           path: path.join(__dirname, 'dist'),
@@ -41,8 +53,14 @@ describe('extending generated webpack config', () => {
       // Implicitly returning undefined to test null-safety
     };
 
-    config = applyConfigureWebpack(configureWebpack, config, false, undefined, {
-      content: 42,
+    config = applyConfigureWebpack({
+      configureWebpack,
+      config,
+      isServer,
+      configureWebpackUtils: utils,
+      content: {
+        content: 42,
+      },
     });
     expect(config).toEqual({
       entry: 'entry.js',
@@ -56,6 +74,8 @@ describe('extending generated webpack config', () => {
   });
 
   it('webpack-merge with user webpack config object', async () => {
+    const utils = await createTestConfigureWebpackUtils();
+
     let config: Configuration = {
       output: {
         path: __dirname,
@@ -71,8 +91,14 @@ describe('extending generated webpack config', () => {
       },
     });
 
-    config = applyConfigureWebpack(configureWebpack, config, false, undefined, {
-      content: 42,
+    config = applyConfigureWebpack({
+      configureWebpack,
+      config,
+      isServer,
+      configureWebpackUtils: utils,
+      content: {
+        content: 42,
+      },
     });
     expect(config).toEqual({
       entry: 'entry.js',
@@ -86,6 +112,8 @@ describe('extending generated webpack config', () => {
   });
 
   it('webpack-merge with custom strategy', async () => {
+    const utils = await createTestConfigureWebpackUtils();
+
     const config: Configuration = {
       module: {
         rules: [{use: 'xxx'}, {use: 'yyy'}],
@@ -103,39 +131,41 @@ describe('extending generated webpack config', () => {
         mergeStrategy,
       });
 
-    const defaultStrategyMergeConfig = applyConfigureWebpack(
-      createConfigureWebpack(),
+    const defaultStrategyMergeConfig = applyConfigureWebpack({
+      configureWebpack: createConfigureWebpack(),
       config,
-      false,
-      undefined,
-      {content: 42},
-    );
+      isServer,
+      configureWebpackUtils: utils,
+      content: {content: 42},
+    });
     expect(defaultStrategyMergeConfig).toEqual({
       module: {
         rules: [{use: 'xxx'}, {use: 'yyy'}, {use: 'zzz'}],
       },
     });
 
-    const prependRulesStrategyConfig = applyConfigureWebpack(
-      createConfigureWebpack({'module.rules': 'prepend'}),
+    const prependRulesStrategyConfig = applyConfigureWebpack({
+      configureWebpack: createConfigureWebpack({'module.rules': 'prepend'}),
       config,
-      false,
-      undefined,
-      {content: 42},
-    );
+      isServer,
+      configureWebpackUtils: utils,
+      content: {content: 42},
+    });
     expect(prependRulesStrategyConfig).toEqual({
       module: {
         rules: [{use: 'zzz'}, {use: 'xxx'}, {use: 'yyy'}],
       },
     });
 
-    const uselessMergeStrategyConfig = applyConfigureWebpack(
-      createConfigureWebpack({uselessAttributeName: 'append'}),
+    const uselessMergeStrategyConfig = applyConfigureWebpack({
+      configureWebpack: createConfigureWebpack({
+        uselessAttributeName: 'append',
+      }),
       config,
-      false,
-      undefined,
-      {content: 42},
-    );
+      isServer,
+      configureWebpackUtils: utils,
+      content: {content: 42},
+    });
     expect(uselessMergeStrategyConfig).toEqual({
       module: {
         rules: [{use: 'xxx'}, {use: 'yyy'}, {use: 'zzz'}],
@@ -272,11 +302,13 @@ describe('executePluginsConfigureWebpack', () => {
     });
   }
 
-  it('can merge Webpack aliases of 2 plugins into base config', () => {
+  it('can merge Webpack aliases of 2 plugins into base config', async () => {
+    const utils = await createTestConfigureWebpackUtils();
+
     const config = executePluginsConfigureWebpack({
       config: {resolve: {alias: {'initial-alias': 'initial-alias-value'}}},
-      isServer: false,
-      jsLoader: 'babel',
+      isServer,
+      configureWebpackUtils: utils,
       plugins: [
         fakePlugin({
           configureWebpack: () => {
@@ -307,11 +339,13 @@ describe('executePluginsConfigureWebpack', () => {
     );
   });
 
-  it('can configurePostCSS() for all loaders added through configureWebpack()', () => {
+  it('can configurePostCSS() for all loaders added through configureWebpack()', async () => {
+    const utils = await createTestConfigureWebpackUtils();
+
     const config = executePluginsConfigureWebpack({
       config: {},
-      isServer: false,
-      jsLoader: 'babel',
+      isServer,
+      configureWebpackUtils: utils,
       plugins: [
         fakePlugin({
           configurePostCss: (postCssOptions) => {

@@ -79,6 +79,7 @@ describe('validateBlogPostFrontMatter description', () => {
     prefix: 'description',
     validFrontMatters: [
       // See https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
+      {description: undefined},
       {description: ''},
       {description: 'description'},
     ],
@@ -90,8 +91,43 @@ describe('validateBlogPostFrontMatter title', () => {
     prefix: 'title',
     validFrontMatters: [
       // See https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
+      {title: undefined},
       {title: ''},
       {title: 'title'},
+    ],
+    invalidFrontMatters: [
+      [{title: null}, 'must be a string'],
+      [{title: false}, 'must be a string'],
+    ],
+  });
+});
+
+describe('validateBlogPostFrontMatter title_meta', () => {
+  testField({
+    prefix: 'title_meta',
+    validFrontMatters: [
+      {title_meta: undefined},
+      {title_meta: ''},
+      {title_meta: 'title'},
+    ],
+    invalidFrontMatters: [
+      [{title_meta: null}, 'must be a string'],
+      [{title_meta: false}, 'must be a string'],
+    ],
+  });
+});
+
+describe('validateBlogPostFrontMatter sidebar_label', () => {
+  testField({
+    prefix: 'title_meta',
+    validFrontMatters: [
+      {sidebar_label: undefined},
+      {sidebar_label: ''},
+      {sidebar_label: 'title'},
+    ],
+    invalidFrontMatters: [
+      [{sidebar_label: null}, 'must be a string'],
+      [{sidebar_label: false}, 'must be a string'],
     ],
   });
 });

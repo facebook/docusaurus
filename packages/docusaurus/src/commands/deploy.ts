@@ -12,12 +12,10 @@ import logger from '@docusaurus/logger';
 import execa from 'execa';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
 import {loadContext, type LoadContextParams} from '../server/site';
-import {build} from './build';
+import {build} from './build/build';
 
-export type DeployCLIOptions = Pick<
-  LoadContextParams,
-  'config' | 'locale' | 'outDir'
-> & {
+export type DeployCLIOptions = Pick<LoadContextParams, 'config' | 'outDir'> & {
+  locale?: [string, ...string[]];
   skipBuild?: boolean;
   targetDir?: string;
 };
@@ -266,7 +264,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   if (!cliOptions.skipBuild) {
     // Build site, then push to deploymentBranch branch of specified repo.
     try {
-      await build(siteDir, cliOptions, false);
+      await build(siteDir, cliOptions);
       await runDeploy(outDir);
     } catch (err) {
       logger.error('Deployment of the build output failed.');

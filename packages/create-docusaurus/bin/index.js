@@ -10,7 +10,7 @@
 
 import path from 'path';
 import {createRequire} from 'module';
-import logger from '@docusaurus/logger';
+import {logger} from '@docusaurus/logger';
 import semver from 'semver';
 import {program} from 'commander';
 

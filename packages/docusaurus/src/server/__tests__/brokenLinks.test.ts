@@ -920,7 +920,7 @@ describe('handleBrokenLinks', () => {
     // We try to minimize the calls to this expensive function
     // Otherwise large sites will have super long execution times
     // See https://github.com/facebook/docusaurus/issues/9754
-    // See https://twitter.com/sebastienlorber/status/1749392773415858587
+    // See https://x.com/sebastienlorber/status/1749392773415858587
     // We expect no more matchRoutes calls than number of dynamic route links
     expect(matchRoutesMock).toHaveBeenCalledTimes(scale * 2);
     // We expect matchRoutes to be called with a reduced number of routes

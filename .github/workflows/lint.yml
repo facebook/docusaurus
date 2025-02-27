@@ -22,19 +22,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Set up Node
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
         with:
-          node-version: 20
+          node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn
-        # run: yarn install --immutable # Fails if yarn.lock is modified (unfortunately only works for Yarn 2, and --frozen-lockfile is not the same!)
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
       - name: Check immutable yarn.lock
         run: git diff --exit-code
 
       - name: Check for suspicious yarn.lock
         # for allowed aliases, see https://github.com/yargs/cliui/pull/139/files#r1670711112
-        run: yarn lockfile-lint --path yarn.lock --type yarn --allowed-hosts yarn --validate-https --validate-package-names --validate-integrity --empty-hostname=false --allowed-package-name-aliases react-loadable string-width-cjs strip-ansi-cjs wrap-ansi-cjs
+        run: yarn lockfile-lint --path yarn.lock --type yarn --allowed-hosts yarn --validate-https --validate-package-names --validate-integrity --empty-hostname=false --allowed-package-name-aliases react-loadable react-helmet-async string-width-cjs strip-ansi-cjs wrap-ansi-cjs
 
       - name: Lint
         run: |

@@ -21,6 +21,12 @@ export const AuthorSocialsSchema = Joi.object<AuthorSocials>({
     .try(Joi.number(), Joi.string())
     .custom((val) => String(val)),
   x: Joi.string(),
+  bluesky: Joi.string(),
+  instagram: Joi.string(),
+  threads: Joi.string(),
+  mastodon: Joi.string(),
+  twitch: Joi.string(),
+  youtube: Joi.string(),
 }).unknown();
 
 type PredefinedPlatformNormalizer = (value: string) => string;
@@ -35,12 +41,24 @@ const PredefinedPlatformNormalizers: Record<
   linkedin: (handle: string) => `https://www.linkedin.com/in/${handle}/`,
   stackoverflow: (userId: string) =>
     `https://stackoverflow.com/users/${userId}`,
+  bluesky: (handle: string) => `https://bsky.app/profile/${handle}`,
+  instagram: (handle: string) => `https://www.instagram.com/${handle}`,
+  threads: (handle: string) => `https://www.threads.net/@${handle}`,
+  mastodon: (handle: string) => `https://mastodon.social/@${handle}`, // can be in format user@other.server and it will redirect if needed
+  twitch: (handle: string) => `https://twitch.tv/${handle}`,
+  youtube: (handle: string) => `https://youtube.com/@${handle}`, // https://support.google.com/youtube/answer/6180214?hl=en
 };
 
 type SocialEntry = [string, string];
 
 function normalizeSocialEntry([platform, value]: SocialEntry): SocialEntry {
   const normalizer = PredefinedPlatformNormalizers[platform.toLowerCase()];
+  if (typeof value !== 'string') {
+    throw new Error(
+      `Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+Social platform '${platform}' has illegal value '${value}'`,
+    );
+  }
   const isAbsoluteUrl =
     value.startsWith('http://') || value.startsWith('https://');
   if (isAbsoluteUrl) {

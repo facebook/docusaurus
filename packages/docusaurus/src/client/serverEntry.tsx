@@ -16,9 +16,13 @@ import {
   createStatefulBrokenLinks,
   BrokenLinksProvider,
 } from './BrokenLinksContext';
+import {toPageCollectedMetadata} from './serverHelmetUtils';
 import type {PageCollectedData, AppRenderer} from '../common';
 
-const render: AppRenderer = async ({pathname}) => {
+const render: AppRenderer['render'] = async ({
+  pathname,
+  v4RemoveLegacyPostBuildHeadAttribute,
+}) => {
   await preload(pathname);
 
   const modules = new Set<string>();
@@ -41,8 +45,18 @@ const render: AppRenderer = async ({pathname}) => {
 
   const html = await renderToHtml(app);
 
+  const {helmet} = helmetContext as FilledContext;
+
+  const metadata = toPageCollectedMetadata({helmet});
+
+  // TODO Docusaurus v4 remove with deprecated postBuild({head}) API
+  //  the returned collectedData must be serializable to run in workers
+  if (v4RemoveLegacyPostBuildHeadAttribute) {
+    metadata.helmet = null;
+  }
+
   const collectedData: PageCollectedData = {
-    helmet: (helmetContext as FilledContext).helmet,
+    metadata,
     anchors: statefulBrokenLinks.getCollectedAnchors(),
     links: statefulBrokenLinks.getCollectedLinks(),
     modules: Array.from(modules),

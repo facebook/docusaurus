@@ -1,0 +1,35 @@
+{
+  "name": "@docusaurus/plugin-rsdoctor",
+  "version": "3.7.0",
+  "description": "Rsdoctor plugin for Docusaurus.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-rsdoctor"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/core": "3.7.0",
+    "@docusaurus/types": "3.7.0",
+    "@docusaurus/utils-validation": "3.7.0",
+    "@rsdoctor/rspack-plugin": "^0.4.6",
+    "@rsdoctor/webpack-plugin": "^0.4.6",
+    "tslib": "^2.6.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "engines": {
+    "node": ">=18.0"
+  }
+}

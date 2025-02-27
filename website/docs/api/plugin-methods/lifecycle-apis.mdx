@@ -369,6 +369,7 @@ interface Props {
   preBodyTags: string;
   postBodyTags: string;
   routesPaths: string[];
+  routesBuildMetadata: {[location: string]: {noIndex: boolean}};
   plugins: Plugin<any>[];
   content: Content;
 }

@@ -43,19 +43,20 @@ type FileLoaderUtils = {
   };
   rules: {
     images: () => RuleSetRule;
+    svgs: () => RuleSetRule;
     fonts: () => RuleSetRule;
     media: () => RuleSetRule;
-    svg: () => RuleSetRule;
     otherAssets: () => RuleSetRule;
   };
 };
 
-/**
- * Returns unified loader configurations to be used for various file types.
- *
- * Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
- */
-export function getFileLoaderUtils(): FileLoaderUtils {
+// TODO this historical code is quite messy
+//  We should try to get rid of it and move to assets pipeline
+function createFileLoaderUtils({
+  isServer,
+}: {
+  isServer: boolean;
+}): FileLoaderUtils {
   // Files/images < urlLoaderLimit will be inlined as base64 strings directly in
   // the html
   const urlLoaderLimit = WEBPACK_URL_LOADER_LIMIT;
@@ -72,6 +73,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
       loader: require.resolve(`file-loader`),
       options: {
         name: fileLoaderFileName(options.folder),
+        emitFile: !isServer,
       },
     }),
     url: (options: {folder: AssetFolder}) => ({
@@ -80,6 +82,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
         limit: urlLoaderLimit,
         name: fileLoaderFileName(options.folder),
         fallback: require.resolve('file-loader'),
+        emitFile: !isServer,
       },
     }),
 
@@ -92,13 +95,19 @@ export function getFileLoaderUtils(): FileLoaderUtils {
       require.resolve('url-loader'),
     )}?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
       'images',
-    )}&fallback=${escapePath(require.resolve('file-loader'))}!`,
+    )}&fallback=${escapePath(require.resolve('file-loader'))}${
+      isServer ? `&emitFile=false` : ''
+    }!`,
     inlineMarkdownAssetImageFileLoader: `!${escapePath(
       require.resolve('file-loader'),
-    )}?name=${fileLoaderFileName('images')}!`,
+    )}?name=${fileLoaderFileName('images')}${
+      isServer ? `&emitFile=false` : ''
+    }!`,
     inlineMarkdownLinkFileLoader: `!${escapePath(
       require.resolve('file-loader'),
-    )}?name=${fileLoaderFileName('files')}!`,
+    )}?name=${fileLoaderFileName('files')}${
+      isServer ? `&emitFile=false` : ''
+    }!`,
   };
 
   const rules: FileLoaderUtils['rules'] = {
@@ -109,6 +118,15 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     images: () => ({
       use: [loaders.url({folder: 'images'})],
       test: /\.(?:ico|jpe?g|png|gif|webp|avif)(?:\?.*)?$/i,
+    }),
+
+    /**
+     * The SVG rule is isolated on purpose: our SVGR plugin enhances it
+     * See https://github.com/facebook/docusaurus/pull/10820
+     */
+    svgs: () => ({
+      use: [loaders.url({folder: 'images'})],
+      test: /\.svg$/i,
     }),
 
     fonts: () => ({
@@ -125,46 +143,6 @@ export function getFileLoaderUtils(): FileLoaderUtils {
       test: /\.(?:mp4|avi|mov|mkv|mpg|mpeg|vob|wmv|m4v|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/i,
     }),
 
-    svg: () => ({
-      test: /\.svg$/i,
-      oneOf: [
-        {
-          use: [
-            {
-              loader: require.resolve('@svgr/webpack'),
-              options: {
-                prettier: false,
-                svgo: true,
-                svgoConfig: {
-                  plugins: [
-                    {
-                      name: 'preset-default',
-                      params: {
-                        overrides: {
-                          removeTitle: false,
-                          removeViewBox: false,
-                        },
-                      },
-                    },
-                  ],
-                },
-                titleProp: true,
-                ref: ![path],
-              },
-            },
-          ],
-          // We don't want to use SVGR loader for non-React source code
-          // ie we don't want to use SVGR for CSS files...
-          issuer: {
-            and: [/\.(?:tsx?|jsx?|mdx?)$/i],
-          },
-        },
-        {
-          use: [loaders.url({folder: 'images'})],
-        },
-      ],
-    }),
-
     otherAssets: () => ({
       use: [loaders.file({folder: 'files'})],
       test: /\.(?:pdf|docx?|xlsx?|zip|rar)$/i,
@@ -172,4 +150,17 @@ export function getFileLoaderUtils(): FileLoaderUtils {
   };
 
   return {loaders, rules};
+}
+
+const FileLoaderUtilsMap = {
+  server: createFileLoaderUtils({isServer: true}),
+  client: createFileLoaderUtils({isServer: false}),
+};
+
+/**
+ * Returns unified loader configurations to be used for various file types.
+ * Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
+ */
+export function getFileLoaderUtils(isServer: boolean): FileLoaderUtils {
+  return isServer ? FileLoaderUtilsMap.server : FileLoaderUtilsMap.client;
 }

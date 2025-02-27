@@ -16,7 +16,13 @@ import {
   addLeadingSlash,
   removeTrailingSlash,
 } from '@docusaurus/utils-common';
-import type {FutureConfig, StorageConfig} from '@docusaurus/types/src/config';
+import logger from '@docusaurus/logger';
+import type {
+  FasterConfig,
+  FutureConfig,
+  FutureV4Config,
+  StorageConfig,
+} from '@docusaurus/types/src/config';
 import type {
   DocusaurusConfig,
   I18nConfig,
@@ -37,7 +43,41 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
   namespace: false,
 };
 
+export const DEFAULT_FASTER_CONFIG: FasterConfig = {
+  swcJsLoader: false,
+  swcJsMinimizer: false,
+  swcHtmlMinimizer: false,
+  lightningCssMinimizer: false,
+  mdxCrossCompilerCache: false,
+  rspackBundler: false,
+  rspackPersistentCache: false,
+  ssgWorkerThreads: false,
+};
+
+// When using the "faster: true" shortcut
+export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
+  swcJsLoader: true,
+  swcJsMinimizer: true,
+  swcHtmlMinimizer: true,
+  lightningCssMinimizer: true,
+  mdxCrossCompilerCache: true,
+  rspackBundler: true,
+  rspackPersistentCache: true,
+  ssgWorkerThreads: true,
+};
+
+export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
+  removeLegacyPostBuildHeadAttribute: false,
+};
+
+// When using the "v4: true" shortcut
+export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
+  removeLegacyPostBuildHeadAttribute: true,
+};
+
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
+  v4: DEFAULT_FUTURE_V4_CONFIG,
+  experimental_faster: DEFAULT_FASTER_CONFIG,
   experimental_storage: DEFAULT_STORAGE_CONFIG,
   experimental_router: 'browser',
 };
@@ -106,24 +146,22 @@ export const DEFAULT_CONFIG: Pick<
 };
 
 function createPluginSchema(theme: boolean) {
-  return (
-    Joi.alternatives()
-      .try(
-        Joi.function(),
-        Joi.array()
-          .ordered(Joi.function().required(), Joi.object().required())
-          .length(2),
-        Joi.string(),
-        Joi.array()
-          .ordered(Joi.string().required(), Joi.object().required())
-          .length(2),
-        Joi.any().valid(false, null),
-      )
-      // @ts-expect-error: bad lib def, doesn't recognize an array of reports
-      .error((errors) => {
-        errors.forEach((error) => {
-          const validConfigExample = theme
-            ? `Example valid theme config:
+  return Joi.alternatives()
+    .try(
+      Joi.function(),
+      Joi.array()
+        .ordered(Joi.function().required(), Joi.object().required())
+        .length(2),
+      Joi.string(),
+      Joi.array()
+        .ordered(Joi.string().required(), Joi.object().required())
+        .length(2),
+      Joi.any().valid(false, null),
+    )
+    .error((errors) => {
+      errors.forEach((error) => {
+        const validConfigExample = theme
+          ? `Example valid theme config:
 {
   themes: [
     ["@docusaurus/theme-classic",options],
@@ -133,7 +171,7 @@ function createPluginSchema(theme: boolean) {
     [function myTheme() { },options]
   ],
 };`
-            : `Example valid plugin config:
+          : `Example valid plugin config:
 {
   plugins: [
     ["@docusaurus/plugin-content-docs",options],
@@ -144,17 +182,16 @@ function createPluginSchema(theme: boolean) {
   ],
 };`;
 
-          error.message = ` => Bad Docusaurus ${
-            theme ? 'theme' : 'plugin'
-          } value ${error.path.reduce((acc, cur) =>
-            typeof cur === 'string' ? `${acc}.${cur}` : `${acc}[${cur}]`,
-          )}.
+        error.message = ` => Bad Docusaurus ${
+          theme ? 'theme' : 'plugin'
+        } value ${error.path.reduce((acc, cur) =>
+          typeof cur === 'string' ? `${acc}.${cur}` : `${acc}[${cur}]`,
+        )}.
 ${validConfigExample}
 `;
-        });
-        return errors;
-      })
-  );
+      });
+      return errors;
+    });
 }
 
 const PluginSchema = createPluginSchema(false);
@@ -194,6 +231,55 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
+const FASTER_CONFIG_SCHEMA = Joi.alternatives()
+  .try(
+    Joi.object<FasterConfig>({
+      swcJsLoader: Joi.boolean().default(DEFAULT_FASTER_CONFIG.swcJsLoader),
+      swcJsMinimizer: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.swcJsMinimizer,
+      ),
+      swcHtmlMinimizer: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.swcHtmlMinimizer,
+      ),
+      lightningCssMinimizer: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.lightningCssMinimizer,
+      ),
+      mdxCrossCompilerCache: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.mdxCrossCompilerCache,
+      ),
+      rspackBundler: Joi.boolean().default(DEFAULT_FASTER_CONFIG.rspackBundler),
+      rspackPersistentCache: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.rspackPersistentCache,
+      ),
+      ssgWorkerThreads: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.ssgWorkerThreads,
+      ),
+    }),
+    Joi.boolean()
+      .required()
+      .custom((bool) =>
+        bool ? DEFAULT_FASTER_CONFIG_TRUE : DEFAULT_FASTER_CONFIG,
+      ),
+  )
+  .optional()
+  .default(DEFAULT_FASTER_CONFIG);
+
+const FUTURE_V4_SCHEMA = Joi.alternatives()
+  .try(
+    Joi.object<FutureV4Config>({
+      removeLegacyPostBuildHeadAttribute: Joi.boolean().default(
+        DEFAULT_FUTURE_V4_CONFIG.removeLegacyPostBuildHeadAttribute,
+      ),
+    }),
+    Joi.boolean()
+      .required()
+      .custom((bool) =>
+        bool ? DEFAULT_FUTURE_V4_CONFIG_TRUE : DEFAULT_FUTURE_V4_CONFIG,
+      ),
+  )
+  .optional()
+  .default(DEFAULT_FUTURE_V4_CONFIG);
+
 const STORAGE_CONFIG_SCHEMA = Joi.object({
   type: Joi.string()
     .equal('localStorage', 'sessionStorage')
@@ -206,6 +292,8 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   .default(DEFAULT_STORAGE_CONFIG);
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
+  v4: FUTURE_V4_SCHEMA,
+  experimental_faster: FASTER_CONFIG_SCHEMA,
   experimental_storage: STORAGE_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
@@ -368,6 +456,40 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
 });
 
+// Expressing this kind of logic in Joi is a pain
+// We also want to decouple logic from Joi: easier to remove it later!
+function ensureDocusaurusConfigConsistency(config: DocusaurusConfig) {
+  if (
+    config.future.experimental_faster.ssgWorkerThreads &&
+    !config.future.v4.removeLegacyPostBuildHeadAttribute
+  ) {
+    throw new Error(
+      `Docusaurus config ${logger.code(
+        'future.experimental_faster.ssgWorkerThreads',
+      )} requires the future flag ${logger.code(
+        'future.v4.removeLegacyPostBuildHeadAttribute',
+      )} to be turned on.
+If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: ${logger.code(
+        '{future: {v4: true}}',
+      )}
+All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future`,
+    );
+  }
+
+  if (
+    config.future.experimental_faster.rspackPersistentCache &&
+    !config.future.experimental_faster.rspackBundler
+  ) {
+    throw new Error(
+      `Docusaurus config flag ${logger.code(
+        'future.experimental_faster.rspackPersistentCache',
+      )} requires the flag ${logger.code(
+        'future.experimental_faster.rspackBundler',
+      )} to be turned on.`,
+    );
+  }
+}
+
 // TODO move to @docusaurus/utils-validation
 export function validateConfig(
   config: unknown,
@@ -399,7 +521,9 @@ export function validateConfig(
       ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${siteConfigPath}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/api/docusaurus-config/#customfields`
       : formattedError;
     throw new Error(formattedError);
-  } else {
-    return value;
   }
+
+  ensureDocusaurusConfigConsistency(value);
+
+  return value;
 }

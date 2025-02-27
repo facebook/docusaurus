@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {useColorMode} from '../../contexts/colorMode';
@@ -44,7 +44,7 @@ type Props = {
 export default function ThemedComponent({
   className,
   children,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const isBrowser = useIsBrowser();
   const {colorMode} = useColorMode();
 
