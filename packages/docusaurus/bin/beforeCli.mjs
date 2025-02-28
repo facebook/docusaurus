@@ -111,7 +111,7 @@ export default async function beforeCli() {
         return undefined;
       }
 
-      const yarnVersionResult = await execa('yarn', ['--version']);
+      const yarnVersionResult = await execa.command('yarn --version');
       if (yarnVersionResult.exitCode === 0) {
         const majorVersion = parseInt(
           yarnVersionResult.stdout?.trim().split('.')[0] ?? '',
