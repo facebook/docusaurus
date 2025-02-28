@@ -182,7 +182,7 @@ function createImportNode() {
 
 const plugin: Plugin<[PluginOptions?]> = (options = {}): Transformer => {
   // @ts-expect-error: todo temporary
-  const {sync = false, converters = ['yarn', 'pnpm']} = options;
+  const {sync = false, converters = ['yarn', 'pnpm', 'bun']} = options;
   return async (root) => {
     const {visit} = await import('unist-util-visit');
 

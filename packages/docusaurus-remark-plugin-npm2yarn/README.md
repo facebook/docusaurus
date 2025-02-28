@@ -63,7 +63,7 @@ module.exports = {
 | Property | Type | Default | Description |
 | --- | --- | --- | --- |
 | `sync` | `boolean` | `false` | Syncing tab choices (Yarn and npm). See https://docusaurus.io/docs/markdown-features/#syncing-tab-choices for details. |
-| `converters` | `array` | `'yarn'`, `'pnpm'`, `'bun'` | The list of converters to use. The order of the converters is important, as the first converter will be used as the default choice. |
+| `converters` | `array` | `['yarn', 'pnpm', 'bun']` | The list of converters to use. The order of the converters is important, as the first converter will be used as the default choice. |
 
 ## Custom converters
 
