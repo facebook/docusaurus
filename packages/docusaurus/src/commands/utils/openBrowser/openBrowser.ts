@@ -5,11 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// TODO Legacy CRA react-dev-utils package code
-//  This code was in CRA/react-dev-utils (deprecated in 2025)
-//  We just copied the code as-is to remove a fat/useless dependency subtree
-//  See https://github.com/facebook/docusaurus/pull/10956
-//  See https://github.com/facebook/create-react-app/blob/main/packages/react-dev-utils/openBrowser.js
+// This code was initially in CRA/react-dev-utils (deprecated in 2025)
+// We copied and refactored it
+// See https://github.com/facebook/docusaurus/pull/10956
+// See https://github.com/facebook/create-react-app/blob/main/packages/react-dev-utils/openBrowser.js
 
 /* eslint-disable */
 
@@ -19,26 +18,35 @@ import open from 'open';
 type BrowserName = string | undefined;
 type BrowserArgs = string[];
 
-// Copied from https://github.com/facebook/create-react-app/blob/main/packages/react-dev-utils/openBrowser.js
+type Params = {
+  url: string;
+  browser: BrowserName;
+  browserArgs: BrowserArgs;
+};
+
+// Not sure if we need this, but let's keep a secret escape hatch
+// CRA/react-dev-utils supported BROWSER/BROWSER_ARGS
 const BrowserEnv: BrowserName = process.env.DOCUSAURUS_BROWSER;
 const BrowserEnvArgs: string[] = process.env.DOCUSAURUS_BROWSER_ARGS
   ? process.env.DOCUSAURUS_BROWSER_ARGS.split(' ')
   : [];
 
-function startBrowserProcess(
-  url: string,
-  browser: BrowserName,
-  args: BrowserArgs,
-) {
-  console.log('startBrowserProcess', {url, browser, args});
-
-  // If we're on OS X, the user hasn't specifically
-  // requested a different browser, we can try opening
-  // Chrome with AppleScript. This lets us reuse an
-  // existing tab when possible instead of creating a new one.
+// If we're on OS X, the user hasn't specifically
+// requested a different browser, we can try opening
+// Chrome with AppleScript. This lets us reuse an
+// existing tab when possible instead of creating a new one.
+// Copied from https://github.com/facebook/create-react-app/blob/main/packages/react-dev-utils/openBrowser.js
+async function tryOpenWithAppleScript({
+  url,
+  browser,
+}: Params): Promise<boolean> {
   const shouldTryOpenChromiumWithAppleScript =
     process.platform === 'darwin' &&
     (typeof browser !== 'string' || browser === 'google chrome');
+
+  if (!shouldTryOpenChromiumWithAppleScript) {
+    return false;
+  }
 
   if (shouldTryOpenChromiumWithAppleScript) {
     // Will use the first open browser found from list
@@ -75,20 +83,36 @@ function startBrowserProcess(
       }
     }
   }
+  return false;
+}
 
-  // If there are arguments, they must be passed as array with the browser
-  if (typeof browser === 'string' && args.length > 0) {
-    // @ts-expect-error: TODO fix this
-    browser = [browser].concat(args);
+function toOpenApp(params: Params): open.App | undefined {
+  if (!params.browser) {
+    return undefined;
   }
+  // Handles "cross-platform" shortcuts like "chrome", "firefox", "edge"
+  if (open.apps[params.browser as open.AppName]) {
+    return {
+      name: open.apps[params.browser as open.AppName],
+      arguments: params.browserArgs,
+    };
+  }
+  // Fallback to platform-specific app name
+  return {
+    name: params.browser,
+    arguments: params.browserArgs,
+  };
+}
 
-  // Fallback to open
-  // (It will always open new tab)
+async function startBrowserProcess(params: Params): Promise<boolean> {
+  if (await tryOpenWithAppleScript(params)) {
+    return true;
+  }
   try {
-    // @ts-expect-error: TODO fix this
-    const options: open.Options = {app: browser, wait: false, url: true};
-    // console.log('OPEN', url, options);
-    open(url, options).catch(() => {}); // Prevent `unhandledRejection` error.
+    await open(params.url, {
+      app: toOpenApp(params),
+      wait: false,
+    });
     return true;
   } catch (err) {
     return false;
@@ -96,13 +120,12 @@ function startBrowserProcess(
 }
 
 /**
- * Reads the BROWSER environment variable and decides what to do with it. Returns
- * true if it opened a browser or ran a node.js script, otherwise false.
+ * Returns true if it opened a browser
  */
-export default function openBrowser(url: string): boolean {
-  // Special case: BROWSER="none" will prevent opening completely.
-  if (BrowserEnv === 'none') {
-    return false;
-  }
-  return startBrowserProcess(url, BrowserEnv, BrowserEnvArgs);
+export default async function openBrowser(url: string): Promise<boolean> {
+  return startBrowserProcess({
+    url,
+    browser: BrowserEnv,
+    browserArgs: BrowserEnvArgs,
+  });
 }

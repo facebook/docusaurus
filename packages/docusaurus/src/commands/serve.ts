@@ -110,6 +110,6 @@ export async function serve(
   server.listen(port);
 
   if (cliOptions.open && !process.env.CI) {
-    openBrowser(url);
+    await openBrowser(url);
   }
 }

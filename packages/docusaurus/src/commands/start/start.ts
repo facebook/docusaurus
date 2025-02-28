@@ -59,6 +59,6 @@ export async function start(
 
   await devServer.start();
   if (cliOptions.open) {
-    openBrowser(reloadableSite.getOpenUrl());
+    await openBrowser(reloadableSite.getOpenUrl());
   }
 }
