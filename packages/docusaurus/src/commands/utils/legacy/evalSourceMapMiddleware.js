@@ -29,15 +29,13 @@ function getSourceById(server, id) {
   return module.originalSource();
 }
 
-/*
+/**
  * Middleware responsible for retrieving a generated source
  * Receives a webpack internal url: "webpack-internal:///<module-id>"
  * Returns a generated source: "<source-text><sourceMappingURL><sourceURL>"
  *
  * Based on EvalSourceMapDevToolModuleTemplatePlugin.js
- */
-
-/**
+ *
  * @param {import("webpack-dev-server").default} server
  * @returns {import("express").Handler}
  */
