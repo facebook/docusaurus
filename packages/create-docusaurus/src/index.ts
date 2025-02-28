@@ -10,7 +10,7 @@ import {fileURLToPath} from 'url';
 import path from 'path';
 import _ from 'lodash';
 import {logger} from '@docusaurus/logger';
-import shell from 'shelljs';
+import execa from 'execa';
 import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
 import {escapeShellArg, askPreferredLanguage} from '@docusaurus/utils';
@@ -70,9 +70,9 @@ function findPackageManagerFromUserAgent(): PackageManager | undefined {
 }
 
 async function askForPackageManagerChoice(): Promise<PackageManager> {
-  const hasYarn = shell.exec('yarn --version', {silent: true}).code === 0;
-  const hasPnpm = shell.exec('pnpm --version', {silent: true}).code === 0;
-  const hasBun = shell.exec('bun --version', {silent: true}).code === 0;
+  const hasYarn = (await execa.command('yarn --version')).exitCode === 0;
+  const hasPnpm = (await execa.command('pnpm --version')).exitCode === 0;
+  const hasBun = (await execa.command('bun --version')).exitCode === 0;
 
   if (!hasYarn && !hasPnpm && !hasBun) {
     return 'npm';
@@ -533,7 +533,7 @@ export default async function init(
     const gitCloneCommand = `${gitCommand} ${escapeShellArg(
       source.url,
     )} ${escapeShellArg(dest)}`;
-    if (shell.exec(gitCloneCommand).code !== 0) {
+    if (execa.command(gitCloneCommand).exitCode !== 0) {
       logger.error`Cloning Git template failed!`;
       process.exit(1);
     }
@@ -583,24 +583,28 @@ export default async function init(
   const cdpath = path.relative('.', dest);
   const pkgManager = await getPackageManager(dest, cliOptions);
   if (!cliOptions.skipInstall) {
-    shell.cd(dest);
+    process.chdir(dest);
     logger.info`Installing dependencies with name=${pkgManager}...`;
+    // ...
+
     if (
-      shell.exec(
-        pkgManager === 'yarn'
-          ? 'yarn'
-          : pkgManager === 'bun'
-          ? 'bun install'
-          : `${pkgManager} install --color always`,
-        {
-          env: {
-            ...process.env,
-            // Force coloring the output, since the command is invoked by
-            // shelljs, which is not an interactive shell
-            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
+      (
+        await execa.command(
+          pkgManager === 'yarn'
+            ? 'yarn'
+            : pkgManager === 'bun'
+            ? 'bun install'
+            : `${pkgManager} install --color always`,
+          {
+            env: {
+              ...process.env,
+              // Force coloring the output, since the command is invoked by
+              // shelljs, which is not an interactive shell
+              ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
+            },
           },
-        },
-      ).code !== 0
+        )
+      ).exitCode !== 0
     ) {
       logger.error('Dependency installation failed.');
       logger.info`The site directory has already been created, and you can retry by typing:
