@@ -13,8 +13,6 @@
 
 /* eslint-disable */
 
-// @ts-nocheck
-
 function base64SourceMap(source) {
   const base64 = Buffer.from(JSON.stringify(source.map()), 'utf8').toString(
     'base64',
