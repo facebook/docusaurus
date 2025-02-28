@@ -194,6 +194,7 @@ navigations
 Navigations
 navlink
 netrc
+newtab
 Nextra
 ngryman
 Nisarag
