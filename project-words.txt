@@ -12,6 +12,7 @@ apfs
 APFS
 appinstalled
 Applanga
+applescript
 architecting
 atrule
 Autoconverted
@@ -210,6 +211,7 @@ orama
 Orama
 orta
 Orta
+osascript
 O’Shannessy
 outerbounds
 Outerbounds
@@ -299,6 +301,7 @@ Simen
 slorber
 sluggifies
 sluggify
+Smoosh
 solana
 Solana
 spâce
