@@ -25,7 +25,11 @@ import type {LoadedPlugin, RouterType} from '@docusaurus/types';
 // We internalized it, refactored and removed useless code paths
 // See https://github.com/facebook/docusaurus/pull/10956
 // See https://github.com/facebook/create-react-app/blob/main/packages/react-dev-utils/WebpackDevServerUtils.js
-function getBaseOpenUrl(protocol: string, host: string, port: number): string {
+function getOpenUrlOrigin(
+  protocol: string,
+  host: string,
+  port: number,
+): string {
   const isUnspecifiedHost = host === '0.0.0.0' || host === '::';
   const prettyHost = isUnspecifiedHost ? 'localhost' : host;
   const localUrlForBrowser = url.format({
@@ -63,7 +67,7 @@ export async function createOpenUrlContext({
 
   const getOpenUrl: OpenUrlContext['getOpenUrl'] = ({baseUrl, router}) => {
     return normalizeUrl([
-      getBaseOpenUrl(protocol, host, port),
+      getOpenUrlOrigin(protocol, host, port),
       router === 'hash' ? '/#/' : '',
       baseUrl,
     ]);
