@@ -34,6 +34,9 @@ function exec(cmd: string, options?: {log?: boolean; failfast?: boolean}) {
   const log = options?.log ?? true;
   const failfast = options?.failfast ?? false;
   try {
+    // TODO migrate to execa(file,[...args]) instead
+    //  Use async/await everything
+    //  Avoid execa.command: the args need to be escaped manually
     const result = execa.commandSync(cmd);
     if (log || debugMode) {
       logger.info`code=${obfuscateGitPass(
@@ -58,6 +61,12 @@ In CWD code=${process.cwd()}`,
       {cause: err},
     );
   }
+}
+
+// Execa escape args and add necessary quotes automatically
+// When using Execa.command, the args containing spaces must be escaped manually
+function escapeArg(arg: string): string {
+  return arg.replaceAll(' ', '\\ ');
 }
 
 function hasGit() {
@@ -231,15 +240,20 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     // repository default branch.
     if (
       exec(
-        `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} "${toPath}"`,
+        `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} ${escapeArg(
+          toPath,
+        )}`,
       ).exitCode !== 0
     ) {
-      exec(`git clone --depth 1 ${deploymentRepoURL} "${toPath}"`);
+      exec(`git clone --depth 1 ${deploymentRepoURL} ${escapeArg(toPath)}`);
       exec(`git checkout -b ${deploymentBranch}`);
     }
 
     // Clear out any existing contents in the target directory
-    exec(`git rm -rf ${targetDirectory}`, {log: false, failfast: true});
+    exec(`git rm -rf ${escapeArg(targetDirectory)}`, {
+      log: false,
+      failfast: true,
+    });
 
     const targetPath = path.join(toPath, targetDirectory);
     try {
@@ -252,18 +266,22 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
 
     const gitUserName = process.env.GIT_USER_NAME;
     if (gitUserName) {
-      exec(`git config user.name "${gitUserName}"`, {failfast: true});
+      exec(`git config user.name ${escapeArg(gitUserName)}`, {failfast: true});
     }
 
     const gitUserEmail = process.env.GIT_USER_EMAIL;
     if (gitUserEmail) {
-      exec(`git config user.email "${gitUserEmail}"`, {failfast: true});
+      exec(`git config user.email ${escapeArg(gitUserEmail)}`, {
+        failfast: true,
+      });
     }
 
     const commitMessage =
       process.env.CUSTOM_COMMIT_MESSAGE ??
       `Deploy website - based on ${currentCommit}`;
-    const commitResults = exec(`git commit -m "${commitMessage}"`);
+    const commitResults = exec(
+      `git commit -m ${escapeArg(commitMessage)} --allow-empty`,
+    );
     if (exec(`git push --force origin ${deploymentBranch}`).exitCode !== 0) {
       throw new Error(
         'Running "git push" command failed. Does the GitHub user account you are using have push access to the repository?',
