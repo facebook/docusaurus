@@ -9,7 +9,7 @@
 //  This code was in CRA/react-dev-utils (deprecated in 2025)
 //  We just copied the code as-is to remove a fat/useless dependency subtree
 //  See https://github.com/facebook/docusaurus/issues/7289
-//  See https://github.com/facebook/create-react-app/blob/main/packages/react-dev-utils/formatWebpackMessages.js
+//  See https://github.com/facebook/create-react-app/blob/main/packages/react-dev-utils/openBrowser.js
 
 /* eslint-disable */
 
