@@ -1,0 +1,28 @@
+
+# /assets folder contain Webpack processed assets with a file hash
+# They are safe for immutable caching, as filename change when content change
+
+/assets/*
+  Cache-Control: public
+  Cache-Control: max-age=365000000
+  Cache-Control: immutable
+
+/fr/assets/*
+  Cache-Control: public
+  Cache-Control: max-age=365000000
+  Cache-Control: immutable
+
+/pt-BR/assets/*
+  Cache-Control: public
+  Cache-Control: max-age=365000000
+  Cache-Control: immutable
+
+/ko/assets/*
+  Cache-Control: public
+  Cache-Control: max-age=365000000
+  Cache-Control: immutable
+
+/zh-CN/assets/*
+  Cache-Control: public
+  Cache-Control: max-age=365000000
+  Cache-Control: immutable
