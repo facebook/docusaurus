@@ -126,7 +126,7 @@ function formatMessage(message) {
  * @param {import("webpack").Stats.ToJsonOutput} json.
  * @returns {{ errors: string[], warnings: string[] }}
  */
-export default function formatWebpackMessages(json) {
+module.exports = function formatWebpackMessages(json) {
   const formattedErrors = json.errors.map(formatMessage);
   const formattedWarnings = json.warnings.map(formatMessage);
   const result = {errors: formattedErrors, warnings: formattedWarnings};
@@ -135,4 +135,4 @@ export default function formatWebpackMessages(json) {
     result.errors = result.errors.filter(isLikelyASyntaxError);
   }
   return result;
-}
+};

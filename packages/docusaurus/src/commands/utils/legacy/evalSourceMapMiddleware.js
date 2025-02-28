@@ -39,7 +39,7 @@ function getSourceById(server, id) {
  * @param {import("webpack-dev-server").default} server
  * @returns {import("express").Handler}
  */
-export default function createEvalSourceMapMiddleware(server) {
+module.exports = function createEvalSourceMapMiddleware(server) {
   return function handleWebpackInternalMiddleware(req, res, next) {
     if (req.url.startsWith('/__get-internal-source')) {
       const fileName = req.query.fileName;
@@ -56,4 +56,4 @@ export default function createEvalSourceMapMiddleware(server) {
       next();
     }
   };
-}
+};
