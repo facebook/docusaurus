@@ -65,13 +65,10 @@ async function tryOpenWithAppleScript({
       try {
         // Try our best to reuse existing tab
         // on OSX Chromium-based browser with AppleScript
-        execSync('ps cax | grep "' + chromiumBrowser + '"');
-        execSync(
-          'osascript openChrome.applescript "' +
-            encodeURI(url) +
-            '" "' +
-            chromiumBrowser +
-            '"',
+        execFileSync('ps', ['cax']);
+        execFileSync(
+          'osascript',
+          ['openChrome.applescript', encodeURI(url), chromiumBrowser],
           {
             cwd: __dirname,
             stdio: 'ignore',
