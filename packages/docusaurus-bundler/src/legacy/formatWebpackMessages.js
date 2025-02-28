@@ -13,8 +13,6 @@
 
 /* eslint-disable */
 
-import {Stats} from 'webpack';
-
 const friendlySyntaxErrorLabel = 'Syntax error:';
 
 function isLikelyASyntaxError(message) {
