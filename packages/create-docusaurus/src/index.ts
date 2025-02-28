@@ -13,6 +13,9 @@ import {logger} from '@docusaurus/logger';
 import execa from 'execa';
 import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
+
+// TODO remove dependency on large @docusaurus/utils
+//  would be better to have a new smaller @docusaurus/utils-cli package
 import {askPreferredLanguage} from '@docusaurus/utils';
 
 type LanguagesOptions = {
