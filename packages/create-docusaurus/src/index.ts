@@ -13,7 +13,10 @@ import {logger} from '@docusaurus/logger';
 import execa from 'execa';
 import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
-import {escapeShellArg, askPreferredLanguage} from '@docusaurus/utils';
+
+// TODO remove dependency on large @docusaurus/utils
+//  would be better to have a new smaller @docusaurus/utils-cli package
+import {askPreferredLanguage} from '@docusaurus/utils';
 
 type LanguagesOptions = {
   javascript?: boolean;
@@ -530,10 +533,7 @@ export default async function init(
 
   if (source.type === 'git') {
     const gitCommand = await getGitCommand(source.strategy);
-    const gitCloneCommand = `${gitCommand} ${escapeShellArg(
-      source.url,
-    )} ${escapeShellArg(dest)}`;
-    if (execa.command(gitCloneCommand).exitCode !== 0) {
+    if ((await execa(gitCommand, [source.url, dest])).exitCode !== 0) {
       logger.error`Cloning Git template failed!`;
       process.exit(1);
     }
@@ -598,8 +598,7 @@ export default async function init(
           {
             env: {
               ...process.env,
-              // Force coloring the output, since the command is invoked by
-              // shelljs, which is not an interactive shell
+              // Force coloring the output
               ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
             },
           },
