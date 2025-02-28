@@ -6,7 +6,7 @@
  */
 
 import logger from '@docusaurus/logger';
-import openBrowser from 'react-dev-utils/openBrowser';
+import openBrowser from '../legacy/openBrowser';
 import {setupSiteFileWatchers} from './watcher';
 import {createWebpackDevServer} from './webpack';
 import {createReloadableSite} from './utils';
