@@ -12,7 +12,7 @@ import logger from '@docusaurus/logger';
 import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
 import serveHandler from 'serve-handler';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
-import openBrowser from './legacy/openBrowser';
+import openBrowser from './utils/openBrowser/openBrowser';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build/build';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';

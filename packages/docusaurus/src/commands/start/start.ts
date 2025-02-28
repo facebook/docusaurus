@@ -6,7 +6,7 @@
  */
 
 import logger from '@docusaurus/logger';
-import openBrowser from '../legacy/openBrowser';
+import openBrowser from '../utils/openBrowser/openBrowser';
 import {setupSiteFileWatchers} from './watcher';
 import {createWebpackDevServer} from './webpack';
 import {createReloadableSite} from './utils';

@@ -44,7 +44,6 @@
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "cli-table3": "^0.6.3",
-    "cross-spawn": "^7.0.3",
     "combine-promises": "^1.1.0",
     "commander": "^5.1.0",
     "core-js": "^3.31.1",
