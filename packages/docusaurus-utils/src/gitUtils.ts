@@ -129,21 +129,15 @@ export async function getFileCommitDate(
     file,
   )}"`;
 
-  async function executeCommand(cmd: string, filepath: string) {
-    const {exitCode, stdout, stderr} = await execa(cmd, {
-      cwd: path.dirname(filepath),
-      shell: true,
-    });
-    if (exitCode !== 0) {
-      throw new Error(
-        `Failed to retrieve the git history for file "${file}" with exit code ${exitCode}: ${stderr}`,
-      );
-    }
-    return {code: exitCode, stdout, stderr};
+  const result = await execa(command, {
+    cwd: path.dirname(file),
+    shell: true,
+  });
+  if (result.exitCode !== 0) {
+    throw new Error(
+      `Failed to retrieve the git history for file "${file}" with exit code ${result.exitCode}: ${result.stderr}`,
+    );
   }
-
-  // Usage
-  const result = await executeCommand(command, file);
 
   // We only parse the output line starting with our "RESULT:" prefix
   // See why https://github.com/facebook/docusaurus/pull/10022
