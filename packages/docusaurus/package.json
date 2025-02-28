@@ -40,7 +40,6 @@
     "@docusaurus/utils": "3.7.0",
     "@docusaurus/utils-common": "3.7.0",
     "@docusaurus/utils-validation": "3.7.0",
-    "address": "^1.1.2",
     "boxen": "^6.2.1",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
