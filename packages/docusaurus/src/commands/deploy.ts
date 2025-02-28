@@ -26,19 +26,33 @@ function obfuscateGitPass(str: string) {
   return gitPass ? str.replace(gitPass, 'GIT_PASS') : str;
 }
 
+const debugMode = !!process.env.DOCUSAURUS_DEPLOY_DEBUG;
+
 // Log executed commands so that user can figure out mistakes on his own
 // for example: https://github.com/facebook/docusaurus/issues/3875
 function shellExecLog(cmd: string) {
   try {
-    const result = execa.command(cmd);
+    const result = execa.commandSync(cmd);
     logger.info`code=${obfuscateGitPass(
       cmd,
     )} subdue=${`code: ${result.exitCode}`}`;
+    if (debugMode) {
+      console.log(result);
+    }
     return result;
   } catch (err) {
-    logger.error`code=${obfuscateGitPass(cmd)}`;
-    throw err;
+    throw new Error(
+      logger.interpolate`Error while executing command code=${obfuscateGitPass(
+        cmd,
+      )}
+In CWD code=${process.cwd()}`,
+      {cause: err},
+    );
   }
+}
+
+function hasGit() {
+  return shellExecLog('git --version').exitCode === 0;
 }
 
 export async function deploy(
@@ -61,10 +75,8 @@ This behavior can have SEO impacts and create relative link issues.
   }
 
   logger.info('Deploy command invoked...');
-  try {
-    await execa.command('git --version');
-  } catch (err) {
-    throw new Error('Git not installed or on the PATH!');
+  if (!hasGit()) {
+    throw new Error('Git not installed or not added to PATH!');
   }
 
   // Source repo is the repo from where the command is invoked
