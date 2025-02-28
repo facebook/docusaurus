@@ -30,14 +30,23 @@ const debugMode = !!process.env.DOCUSAURUS_DEPLOY_DEBUG;
 
 // Log executed commands so that user can figure out mistakes on his own
 // for example: https://github.com/facebook/docusaurus/issues/3875
-function shellExecLog(cmd: string) {
+function exec(cmd: string, options?: {log?: boolean; failfast?: boolean}) {
+  const log = options?.log ?? true;
+  const failfast = options?.failfast ?? false;
   try {
     const result = execa.commandSync(cmd);
-    logger.info`code=${obfuscateGitPass(
-      cmd,
-    )} subdue=${`code: ${result.exitCode}`}`;
+    if (log || debugMode) {
+      logger.info`code=${obfuscateGitPass(
+        cmd,
+      )} subdue=${`code: ${result.exitCode}`}`;
+    }
     if (debugMode) {
       console.log(result);
+    }
+    if (failfast && result.exitCode !== 0) {
+      throw new Error(
+        `Command returned unexpected exitCode ${result.exitCode}`,
+      );
     }
     return result;
   } catch (err) {
@@ -52,7 +61,7 @@ In CWD code=${process.cwd()}`,
 }
 
 function hasGit() {
-  return shellExecLog('git --version').exitCode === 0;
+  return exec('git --version').exitCode === 0;
 }
 
 export async function deploy(
@@ -80,14 +89,21 @@ This behavior can have SEO impacts and create relative link issues.
   }
 
   // Source repo is the repo from where the command is invoked
-  // TODO silent
-  const {stdout} = await execa.command('git remote get-url origin');
+  const {stdout} = exec('git remote get-url origin', {
+    log: false,
+    failfast: true,
+  });
   const sourceRepoUrl = stdout.trim();
 
   // The source branch; defaults to the currently checked out branch
   const sourceBranch =
     process.env.CURRENT_BRANCH ??
-    execa.command('git rev-parse --abbrev-ref HEAD')?.stdout?.toString().trim();
+    exec('git rev-parse --abbrev-ref HEAD', {
+      log: false,
+      failfast: true,
+    })
+      ?.stdout?.toString()
+      .trim();
 
   const gitUser = process.env.GIT_USER;
 
@@ -132,7 +148,10 @@ This behavior can have SEO impacts and create relative link issues.
   const isPullRequest =
     process.env.CI_PULL_REQUEST ?? process.env.CIRCLE_PULL_REQUEST;
   if (isPullRequest) {
-    await execa.command('echo "Skipping deploy on a pull request."');
+    exec('echo "Skipping deploy on a pull request."', {
+      log: false,
+      failfast: true,
+    });
     process.exit(0);
   }
 
@@ -197,9 +216,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
 
   // Save the commit hash that triggers publish-gh-pages before checking
   // out to deployment branch.
-  const currentCommit = shellExecLog('git rev-parse HEAD')
-    ?.stdout?.toString()
-    .trim();
+  const currentCommit = exec('git rev-parse HEAD')?.stdout?.toString().trim();
 
   const runDeploy = async (outputDirectory: string) => {
     const targetDirectory = cliOptions.targetDir ?? '.';
@@ -207,22 +224,22 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
-    await execa.command(`cd ${toPath}`);
+    exec(`cd ${toPath}`, {failfast: true});
 
     // Clones the repo into the temp folder and checks out the target branch.
     // If the branch doesn't exist, it creates a new one based on the
     // repository default branch.
     if (
-      shellExecLog(
+      exec(
         `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} "${toPath}"`,
       ).exitCode !== 0
     ) {
-      shellExecLog(`git clone --depth 1 ${deploymentRepoURL} "${toPath}"`);
-      shellExecLog(`git checkout -b ${deploymentBranch}`);
+      exec(`git clone --depth 1 ${deploymentRepoURL} "${toPath}"`);
+      exec(`git checkout -b ${deploymentBranch}`);
     }
 
     // Clear out any existing contents in the target directory
-    shellExecLog(`git rm -rf ${targetDirectory}`);
+    exec(`git rm -rf ${targetDirectory}`, {log: false, failfast: true});
 
     const targetPath = path.join(toPath, targetDirectory);
     try {
@@ -231,25 +248,23 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
       logger.error`Copying build assets from path=${fromPath} to path=${targetPath} failed.`;
       throw err;
     }
-    shellExecLog('git add --all');
+    exec('git add --all');
 
     const gitUserName = process.env.GIT_USER_NAME;
     if (gitUserName) {
-      shellExecLog(`git config user.name "${gitUserName}"`);
+      exec(`git config user.name "${gitUserName}"`, {failfast: true});
     }
 
     const gitUserEmail = process.env.GIT_USER_EMAIL;
     if (gitUserEmail) {
-      shellExecLog(`git config user.email "${gitUserEmail}"`);
+      exec(`git config user.email "${gitUserEmail}"`, {failfast: true});
     }
 
     const commitMessage =
       process.env.CUSTOM_COMMIT_MESSAGE ??
       `Deploy website - based on ${currentCommit}`;
-    const commitResults = shellExecLog(`git commit -m "${commitMessage}"`);
-    if (
-      shellExecLog(`git push --force origin ${deploymentBranch}`).exitCode !== 0
-    ) {
+    const commitResults = exec(`git commit -m "${commitMessage}"`);
+    if (exec(`git push --force origin ${deploymentBranch}`).exitCode !== 0) {
       throw new Error(
         'Running "git push" command failed. Does the GitHub user account you are using have push access to the repository?',
       );
@@ -265,7 +280,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
         websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
       }
       try {
-        await execa.command(`echo "Website is live at ${websiteURL}."`);
+        exec(`echo "Website is live at ${websiteURL}."`, {failfast: true});
         process.exit(0);
       } catch (err) {
         throw new Error(`Failed to execute command: ${err}`);
