@@ -37,7 +37,6 @@
     "postcss": "^8.4.26",
     "postcss-loader": "^7.3.3",
     "postcss-preset-env": "^10.1.0",
-    "react-dev-utils": "^12.0.1",
     "terser-webpack-plugin": "^5.3.9",
     "tslib": "^2.6.0",
     "url-loader": "^4.1.1",

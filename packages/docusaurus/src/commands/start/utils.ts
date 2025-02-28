@@ -6,8 +6,8 @@
  */
 
 import fs from 'fs-extra';
+import url from 'url';
 import _ from 'lodash';
-import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import {normalizeUrl} from '@docusaurus/utils';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {getHostPort} from '../../server/getHostPort';
@@ -20,6 +20,26 @@ import {
 import {formatPluginName} from '../../server/plugins/pluginsUtils';
 import type {StartCLIOptions} from './start';
 import type {LoadedPlugin, RouterType} from '@docusaurus/types';
+
+// This code was historically in CRA/react-dev-utils (deprecated in 2025)
+// We internalized it, refactored and removed useless code paths
+// See https://github.com/facebook/docusaurus/pull/10956
+// See https://github.com/facebook/create-react-app/blob/main/packages/react-dev-utils/WebpackDevServerUtils.js
+function getOpenUrlOrigin(
+  protocol: string,
+  host: string,
+  port: number,
+): string {
+  const isUnspecifiedHost = host === '0.0.0.0' || host === '::';
+  const prettyHost = isUnspecifiedHost ? 'localhost' : host;
+  const localUrlForBrowser = url.format({
+    protocol,
+    hostname: prettyHost,
+    port,
+    pathname: '/',
+  });
+  return localUrlForBrowser;
+}
 
 export type OpenUrlContext = {
   host: string;
@@ -46,9 +66,8 @@ export async function createOpenUrlContext({
   }
 
   const getOpenUrl: OpenUrlContext['getOpenUrl'] = ({baseUrl, router}) => {
-    const urls = prepareUrls(protocol, host, port);
     return normalizeUrl([
-      urls.localUrlForBrowser,
+      getOpenUrlOrigin(protocol, host, port),
       router === 'hash' ? '/#/' : '',
       baseUrl,
     ]);

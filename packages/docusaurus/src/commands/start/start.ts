@@ -6,7 +6,7 @@
  */
 
 import logger from '@docusaurus/logger';
-import openBrowser from 'react-dev-utils/openBrowser';
+import openBrowser from '../utils/openBrowser/openBrowser';
 import {setupSiteFileWatchers} from './watcher';
 import {createWebpackDevServer} from './webpack';
 import {createReloadableSite} from './utils';
@@ -59,6 +59,6 @@ export async function start(
 
   await devServer.start();
   if (cliOptions.open) {
-    openBrowser(reloadableSite.getOpenUrl());
+    await openBrowser(reloadableSite.getOpenUrl());
   }
 }

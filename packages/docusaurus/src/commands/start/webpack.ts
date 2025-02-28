@@ -10,7 +10,7 @@ import merge from 'webpack-merge';
 import {formatStatsErrorMessage, printStatsWarnings} from '@docusaurus/bundler';
 import logger from '@docusaurus/logger';
 import WebpackDevServer from 'webpack-dev-server';
-import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
+import evalSourceMapMiddleware from '../utils/legacy/evalSourceMapMiddleware';
 import {createPollingOptions} from './watcher';
 import getHttpsConfig from '../../webpack/utils/getHttpsConfig';
 import {
