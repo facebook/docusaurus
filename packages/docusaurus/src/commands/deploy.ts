@@ -224,7 +224,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
-    exec(`cd ${toPath}`, {failfast: true});
+    process.chdir(toPath);
 
     // Clones the repo into the temp folder and checks out the target branch.
     // If the branch doesn't exist, it creates a new one based on the
@@ -248,7 +248,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
       logger.error`Copying build assets from path=${fromPath} to path=${targetPath} failed.`;
       throw err;
     }
-    exec('git add --all');
+    exec('git add --all', {failfast: true});
 
     const gitUserName = process.env.GIT_USER_NAME;
     if (gitUserName) {
