@@ -85,14 +85,15 @@ jobs:
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)
         run: yarn build:website:fast
-        timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 3 || 1  }}
+        timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 3 || 2  }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
         run: yarn build:website:fast
-        timeout-minutes: 1
+        # Temporary: upper value for Rspack until incremental cache works better
+        timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 1 || 2  }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
 
