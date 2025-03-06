@@ -26,4 +26,5 @@ const preset: typeof advancedBasePreset = function preset(opts) {
   return advancedPreset;
 };
 
-export default preset;
+// @ts-expect-error: TODO fix later
+export = preset;
