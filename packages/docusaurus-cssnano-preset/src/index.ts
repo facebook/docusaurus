@@ -26,4 +26,4 @@ const preset: typeof advancedBasePreset = function preset(opts) {
   return advancedPreset;
 };
 
-export = preset;
+export default preset;

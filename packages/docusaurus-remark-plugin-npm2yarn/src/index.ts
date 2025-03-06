@@ -208,4 +208,5 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}): Transformer => {
 
 // To continue supporting `require('npm2yarn')` without the `.default` ㄟ(▔,▔)ㄏ
 // TODO change to export default after migrating to ESM
+// @ts-expect-error: Docusaurus v4: remove
 export = plugin;

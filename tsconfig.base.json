@@ -5,7 +5,7 @@
     "composite": true,
     "incremental": true,
     "tsBuildInfoFile": "${configDir}/lib/.tsbuildinfo",
-
+    "erasableSyntaxOnly": true,
     /* Emit */
     "target": "ES2020",
     "lib": ["ESNext"],
