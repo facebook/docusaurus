@@ -58,4 +58,4 @@ rule.messages = messages;
 
 const plugin = stylelint.createPlugin(ruleName, rule);
 
-export = plugin;
+export default plugin;

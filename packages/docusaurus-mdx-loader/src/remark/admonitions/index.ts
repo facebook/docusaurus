@@ -4,10 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer, Plugin} from 'unified';
-
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {ContainerDirective} from 'mdast-util-directive';
 import type {Parent, Root} from 'mdast';
 

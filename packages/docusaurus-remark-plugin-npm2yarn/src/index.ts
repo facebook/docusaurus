@@ -7,18 +7,9 @@
 
 import npmToYarn from 'npm-to-yarn';
 import type {Code, Literal} from 'mdast';
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {MdxJsxFlowElement, MdxJsxAttribute} from 'mdast-util-mdx';
 import type {Node, Parent} from 'unist';
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer} from 'unified';
-
-// TODO as of April 2023, no way to import/re-export this ESM type easily :/
-// This might change soon, likely after TS 5.2
-// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
-// import type {Plugin} from 'unified';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type Plugin<T> = any; // TODO fix this asap
+import type {Transformer, Plugin} from 'unified';
 
 type KnownConverter = 'yarn' | 'pnpm' | 'bun';
 
@@ -181,7 +172,6 @@ function createImportNode() {
 }
 
 const plugin: Plugin<[PluginOptions?]> = (options = {}): Transformer => {
-  // @ts-expect-error: todo temporary
   const {sync = false, converters = ['yarn', 'pnpm']} = options;
   return async (root) => {
     const {visit} = await import('unist-util-visit');
@@ -218,4 +208,5 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}): Transformer => {
 
 // To continue supporting `require('npm2yarn')` without the `.default` ㄟ(▔,▔)ㄏ
 // TODO change to export default after migrating to ESM
+// @ts-expect-error: Docusaurus v4: remove
 export = plugin;
