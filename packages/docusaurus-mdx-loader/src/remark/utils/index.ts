@@ -12,7 +12,6 @@ import type {
   MdxJsxAttribute,
   MdxJsxAttributeValueExpression,
   MdxJsxTextElement,
-  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 } from 'mdast-util-mdx';
 
 /**

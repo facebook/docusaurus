@@ -11,7 +11,6 @@ import {
   type URLPath,
 } from '@docusaurus/utils';
 
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Plugin, Transformer} from 'unified';
 import type {Definition, Link, Root} from 'mdast';
 

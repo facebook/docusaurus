@@ -20,9 +20,7 @@ import escapeHtml from 'escape-html';
 import sizeOf from 'image-size';
 import logger from '@docusaurus/logger';
 import {assetRequireAttributeValue, transformNode} from '../utils';
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Plugin, Transformer} from 'unified';
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Image, Root} from 'mdast';
 import type {Parent} from 'unist';
