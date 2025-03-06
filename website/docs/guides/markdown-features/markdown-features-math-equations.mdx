@@ -75,7 +75,6 @@ Enable KaTeX:
     import rehypeKatex from 'rehype-katex';
     // highlight-end
 
-    // highlight-start
     export default {
       presets: [
         [
@@ -187,6 +186,52 @@ export default {
 ```
 
 </details>
+
+## Using double dollar signs as delimiters
+
+In some cases (e.g. prose that includes prices in dollars), it may be undesirable to treat any pair of single dollar signs occurring in the same line as delimiters of math syntax. To configure the plugin to only recognize double dollar signs as delimiters of inline math, set the option set the [`singleDollarTextMath` configuration option]() to `false`:
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          path: 'docs',
+          // highlight-start
+          remarkPlugins: [[remarkMath, {singleDollarTextMath: false}]],
+          // highlight-end
+          rehypePlugins: [rehypeKatex],
+        },
+      },
+    ],
+  ],
+};
+```
+
+This will allow writing markdown like:
+
+```latex
+The item costs $300 but is available at a discounted rate of $290.
+The absolute difference is $$\$300 - \$290 = \$10$$, and the relative difference, as a percentage, is given by:
+
+$$$
+\left(1 - \frac{290}{300} \right) \times 100 \approx 3.33 \%
+$$$
+```
+
+with the results being:
+
+<BrowserWindow>
+
+The item costs \$300 but is available at a discounted rate of \$290. The absolute difference is $$\$300 - \$290 = \$10$$, and the relative difference, as a percentage, is given by:
+
+$$
+\left(1 - \frac{290}{300} \right) \times 100 \approx 3.33 \%
+$$
+
+</BrowserWindow>
 
 ## Self-hosting KaTeX assets {#self-hosting-katex-assets}
 
