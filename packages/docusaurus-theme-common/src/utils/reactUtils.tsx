@@ -50,6 +50,9 @@ export function usePrevious<T>(value: T): T | undefined {
     ref.current = value;
   });
 
+  // TODO need to fix this React Compiler lint error
+  //  probably requires changing the API though
+  // eslint-disable-next-line react-compiler/react-compiler
   return ref.current;
 }
 
@@ -81,7 +84,7 @@ export function useShallowMemoObject<O extends object>(obj: O): O {
   const deps = Object.entries(obj);
   // Sort by keys to make it order-insensitive
   deps.sort((a, b) => a[0].localeCompare(b[0]));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-compiler/react-compiler,react-hooks/exhaustive-deps
   return useMemo(() => obj, deps.flat());
 }
 

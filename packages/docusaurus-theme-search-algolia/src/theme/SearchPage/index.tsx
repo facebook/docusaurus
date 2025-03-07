@@ -292,6 +292,8 @@ function SearchPageContent(): ReactNode {
   const observer = useRef(
     ExecutionEnvironment.canUseIntersectionObserver &&
       new IntersectionObserver(
+        // TODO need to fix this React Compiler lint error
+        // eslint-disable-next-line react-compiler/react-compiler
         (entries) => {
           const {
             isIntersecting,
