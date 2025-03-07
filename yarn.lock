@@ -431,7 +431,7 @@
     "@babel/template" "^7.25.9"
     "@babel/types" "^7.25.9"
 
-"@babel/highlight@^7.25.7", "@babel/highlight@^7.25.9":
+"@babel/highlight@^7.25.7":
   version "7.25.9"
   resolved "https://registry.yarnpkg.com/@babel/highlight/-/highlight-7.25.9.tgz#8141ce68fc73757946f983b343f1231f4691acc6"
   integrity sha512-llL88JShoCsth8fF8R4SJnIn+WLvR6ccFxu1H3FlMhDontdcmZWf2HgIZ7AIqV3Xcck1idlohrN4EUBQz6klbw==
