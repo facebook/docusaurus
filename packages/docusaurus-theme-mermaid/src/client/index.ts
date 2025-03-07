@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useEffect, useMemo, useRef} from 'react';
+import {useState, useEffect, useMemo} from 'react';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
 import mermaid from 'mermaid';
 import type {RenderResult, MermaidConfig} from 'mermaid';
@@ -36,8 +36,12 @@ function useMermaidId(): string {
   Random client-only id, we don't care much but mermaid want an id so...
   Note: Mermaid doesn't like values provided by Rect.useId() and throws
   */
+
+  // TODO 2025-2026: check if useId() now works
+  //  It could work thanks to https://github.com/facebook/react/pull/32001
   // return useId(); // tried that, doesn't work ('#d:re:' is not a valid selector.)
-  return useRef(`mermaid-svg-${Math.round(Math.random() * 10000000)}`).current!;
+
+  return useState(`mermaid-svg-${Math.round(Math.random() * 10000000)}`)[0];
 }
 
 async function renderMermaid({

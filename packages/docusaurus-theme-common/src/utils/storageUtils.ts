@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useCallback, useRef, useSyncExternalStore} from 'react';
+import {useCallback, useState, useSyncExternalStore} from 'react';
 import SiteStorage from '@generated/site-storage';
 
 export type StorageType = (typeof SiteStorage)['type'] | 'none';
@@ -208,12 +208,12 @@ export function useStorageSlot(
   options?: {persistence?: StorageType},
 ): [string | null, StorageSlot] {
   // Not ideal but good enough: assumes storage slot config is constant
-  const storageSlot = useRef(() => {
+  const [storageSlot] = useState(() => {
     if (key === null) {
       return NoopStorageSlot;
     }
     return createStorageSlot(key, options);
-  }).current();
+  });
 
   const listen: StorageSlot['listen'] = useCallback(
     (onChange) => {

@@ -269,6 +269,8 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
 
       {isOpen &&
         DocSearchModal &&
+        // TODO need to fix this React Compiler lint error
+        // eslint-disable-next-line react-compiler/react-compiler
         searchContainer.current &&
         createPortal(
           <DocSearchModal
@@ -287,6 +289,8 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
             translations={props.translations?.modal ?? translations.modal}
             searchParameters={searchParameters}
           />,
+          // TODO need to fix this React Compiler lint error
+          // eslint-disable-next-line react-compiler/react-compiler
           searchContainer.current,
         )}
     </>

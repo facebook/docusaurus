@@ -33,7 +33,7 @@ export function useDocsPreferredVersion(...args: unknown[]): unknown {
 export function useContextualSearchFilters() {
   const {i18n} = useDocusaurusContext();
   const docsTags =
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, react-compiler/react-compiler
     require('@docusaurus/plugin-content-docs/client').useDocsContextualSearchTags();
   const tags = [DEFAULT_SEARCH_TAG, ...docsTags];
   return {locale: i18n.currentLocale, tags};
