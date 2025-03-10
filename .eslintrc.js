@@ -60,6 +60,7 @@ module.exports = {
   },
   reportUnusedDisableDirectives: true,
   plugins: [
+    'react-compiler',
     'react-hooks',
     'header',
     'jest',
@@ -68,6 +69,7 @@ module.exports = {
     '@docusaurus',
   ],
   rules: {
+    'react-compiler/react-compiler': ERROR,
     'react/jsx-uses-react': OFF, // JSX runtime: automatic
     'react/react-in-jsx-scope': OFF, // JSX runtime: automatic
     'array-callback-return': WARNING,

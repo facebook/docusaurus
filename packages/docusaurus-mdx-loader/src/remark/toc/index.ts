@@ -14,13 +14,8 @@ import {
   isNamedExport,
 } from './utils';
 import type {Heading, Root} from 'mdast';
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Plugin, Transformer} from 'unified';
-import type {
-  MdxjsEsm,
-  MdxJsxFlowElement,
-  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-} from 'mdast-util-mdx';
+import type {MdxjsEsm, MdxJsxFlowElement} from 'mdast-util-mdx';
 import type {TOCItems} from './types';
 import type {ImportDeclaration} from 'estree';
 

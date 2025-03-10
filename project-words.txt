@@ -12,6 +12,7 @@ apfs
 APFS
 appinstalled
 Applanga
+applescript
 architecting
 atrule
 Autoconverted
@@ -193,6 +194,7 @@ navigations
 Navigations
 navlink
 netrc
+newtab
 Nextra
 ngryman
 Nisarag
@@ -210,6 +212,7 @@ orama
 Orama
 orta
 Orta
+osascript
 O’Shannessy
 outerbounds
 Outerbounds
@@ -299,6 +302,7 @@ Simen
 slorber
 sluggifies
 sluggify
+Smoosh
 solana
 Solana
 spâce

@@ -9,6 +9,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {PrismTheme} from 'prism-react-renderer';
 import type {DeepPartial} from 'utility-types';
 import type {MagicCommentConfig} from './codeBlockUtils';
+import type {ColorMode} from '../contexts/colorMode';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
@@ -44,7 +45,7 @@ export type Navbar = {
 };
 
 export type ColorModeConfig = {
-  defaultMode: 'light' | 'dark';
+  defaultMode: ColorMode;
   disableSwitch: boolean;
   respectPrefersColorScheme: boolean;
 };

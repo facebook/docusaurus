@@ -8,9 +8,15 @@
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
-import shell from 'shelljs'; // TODO replace with async-first version
+import execa from 'execa';
 
-const realHasGitFn = () => !!shell.which('git');
+const realHasGitFn = () => {
+  try {
+    return execa.sync('git', ['--version']).exitCode === 0;
+  } catch (error) {
+    return false;
+  }
+};
 
 // The hasGit call is synchronous IO so we memoize it
 // The user won't install Git in the middle of a build anyway...
@@ -123,27 +129,13 @@ export async function getFileCommitDate(
     file,
   )}"`;
 
-  const result = await new Promise<{
-    code: number;
-    stdout: string;
-    stderr: string;
-  }>((resolve) => {
-    shell.exec(
-      command,
-      {
-        // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
-        cwd: path.dirname(file),
-        silent: true,
-      },
-      (code, stdout, stderr) => {
-        resolve({code, stdout, stderr});
-      },
-    );
+  const result = await execa(command, {
+    cwd: path.dirname(file),
+    shell: true,
   });
-
-  if (result.code !== 0) {
+  if (result.exitCode !== 0) {
     throw new Error(
-      `Failed to retrieve the git history for file "${file}" with exit code ${result.code}: ${result.stderr}`,
+      `Failed to retrieve the git history for file "${file}" with exit code ${result.exitCode}: ${result.stderr}`,
     );
   }
 

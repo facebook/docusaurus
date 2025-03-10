@@ -7,10 +7,7 @@
 
 import {toValue} from '../utils';
 import type {Node} from 'unist';
-import type {
-  MdxjsEsm,
-  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-} from 'mdast-util-mdx';
+import type {MdxjsEsm} from 'mdast-util-mdx';
 import type {TOCHeading, TOCItem, TOCItems, TOCSlice} from './types';
 import type {
   Program,

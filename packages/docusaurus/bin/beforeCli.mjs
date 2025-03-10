@@ -10,7 +10,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {createRequire} from 'module';
-import shell from 'shelljs';
+import execa from 'execa';
 import {logger} from '@docusaurus/logger';
 import semver from 'semver';
 import updateNotifier from 'update-notifier';
@@ -111,8 +111,8 @@ export default async function beforeCli() {
         return undefined;
       }
 
-      const yarnVersionResult = shell.exec('yarn --version', {silent: true});
-      if (yarnVersionResult?.code === 0) {
+      const yarnVersionResult = await execa.command('yarn --version');
+      if (yarnVersionResult.exitCode === 0) {
         const majorVersion = parseInt(
           yarnVersionResult.stdout?.trim().split('.')[0] ?? '',
           10,

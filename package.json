@@ -83,7 +83,6 @@
     "@types/node": "^18.16.19",
     "@types/prompts": "^2.4.4",
     "@types/react": "^18.2.15",
-    "@types/react-dev-utils": "^9.0.11",
     "@types/react-test-renderer": "^18.0.0",
     "@types/semver": "^7.5.0",
     "@types/shelljs": "^0.8.12",
@@ -99,6 +98,7 @@
     "eslint-plugin-jest": "^27.2.3",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-compiler": "^19.0.0-beta-40c6c23-20250301",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-regexp": "^1.15.0",
     "husky": "^8.0.3",
@@ -124,7 +124,7 @@
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
-    "typescript": "~5.7.2"
+    "typescript": "~5.8.2"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

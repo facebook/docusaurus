@@ -124,6 +124,7 @@ export function useScrollPosition(
     window.addEventListener('scroll', handleScroll, opts);
 
     return () => window.removeEventListener('scroll', handleScroll, opts);
+    // eslint-disable-next-line react-compiler/react-compiler
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dynamicEffect, scrollEventsEnabledRef, ...deps]);
 }

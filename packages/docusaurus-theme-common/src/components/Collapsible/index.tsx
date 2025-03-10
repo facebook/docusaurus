@@ -123,6 +123,7 @@ function useCollapseAnimation({
       return undefined;
     }
 
+    // eslint-disable-next-line react-compiler/react-compiler
     el.style.willChange = 'height';
 
     function startAnimation() {

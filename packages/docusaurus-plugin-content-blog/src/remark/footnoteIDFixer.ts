@@ -6,7 +6,6 @@
  */
 
 import {simpleHash} from '@docusaurus/utils';
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
 import type {Transformer} from 'unified';
 import type {FootnoteReference, FootnoteDefinition} from 'mdast';
 
