@@ -67,11 +67,15 @@ const Context = React.createContext<ContextValue | undefined>(undefined);
 const ColorModeStorageKey = 'theme';
 const ColorModeStorage = createStorageSlot(ColorModeStorageKey);
 
+// We use data-theme-choice="system", not an absent attribute
+// This is easier to handle for users with CSS
+const SystemAttribute = 'system';
+
 // Ensure to always return a valid colorMode even if input is invalid
 const coerceToColorMode = (colorMode: string | null): ColorMode =>
   colorMode === 'dark' ? 'dark' : 'light';
 const coerceToColorModeChoice = (colorMode: string | null): ColorModeChoice =>
-  colorMode === null || colorMode === 'auto'
+  colorMode === null || colorMode === SystemAttribute
     ? null
     : coerceToColorMode(colorMode);
 
@@ -98,7 +102,7 @@ const ColorModeChoiceAttribute = {
   set: (colorMode: ColorModeChoice) => {
     document.documentElement.setAttribute(
       'data-theme-choice',
-      coerceToColorModeChoice(colorMode) ?? 'auto',
+      coerceToColorModeChoice(colorMode) ?? SystemAttribute,
     );
   },
 };
