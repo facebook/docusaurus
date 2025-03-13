@@ -1555,6 +1555,7 @@ declare module '@theme/ColorModeToggle' {
   export interface Props {
     readonly className?: string;
     readonly buttonClassName?: string;
+    readonly respectPrefersColorScheme: boolean;
     readonly value: ColorMode | null;
     /**
      * The parameter represents the "to-be" value. For example, if currently in
