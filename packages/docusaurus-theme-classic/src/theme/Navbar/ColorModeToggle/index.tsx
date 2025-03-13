@@ -14,7 +14,7 @@ import styles from './styles.module.css';
 export default function NavbarColorModeToggle({className}: Props): ReactNode {
   const navbarStyle = useThemeConfig().navbar.style;
   const disabled = useThemeConfig().colorMode.disableSwitch;
-  const {colorMode, setColorMode} = useColorMode();
+  const {colorModeChoice, setColorMode} = useColorMode();
 
   if (disabled) {
     return null;
@@ -26,7 +26,7 @@ export default function NavbarColorModeToggle({className}: Props): ReactNode {
       buttonClassName={
         navbarStyle === 'dark' ? styles.darkNavbarColorModeToggle : undefined
       }
-      value={colorMode}
+      value={colorModeChoice}
       onChange={setColorMode}
     />
   );
