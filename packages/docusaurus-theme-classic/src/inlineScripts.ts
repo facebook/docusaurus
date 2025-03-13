@@ -30,8 +30,9 @@ export function getThemeInlineScript({
   return `(function() {
     var defaultMode = '${defaultMode}';
     var respectPrefersColorScheme = ${respectPrefersColorScheme};
-    var systemColorMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-
+    function getSystemColorMode() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
     function getQueryStringTheme() {
       try {
         return new URLSearchParams(window.location.search).get('${ThemeQueryStringKey}')
@@ -42,7 +43,6 @@ export function getThemeInlineScript({
         return window['${siteStorage.type}'].getItem('${themeStorageKey}');
       } catch (err) {}
     }
-
     var initialTheme = getQueryStringTheme() || getStoredTheme();
     document.documentElement.setAttribute('data-theme', initialTheme || (respectPrefersColorScheme ? getSystemColorMode() : defaultMode));
     document.documentElement.setAttribute('data-theme-choice', initialTheme || (respectPrefersColorScheme ? 'auto' : defaultMode));
