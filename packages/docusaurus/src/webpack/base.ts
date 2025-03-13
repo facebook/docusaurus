@@ -17,6 +17,7 @@ import {
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import type {Configuration} from 'webpack';
+import inspector from 'node:inspector';
 import type {
   ConfigureWebpackUtils,
   FasterConfig,
@@ -339,6 +340,37 @@ export async function createBaseConfig({
         // for more reasoning
         ignoreOrder: true,
       }),
-    ],
+      process.env.JS_PROFILE &&
+        new RspackProfileJSCPUProfilePlugin('./jscpuprofile.json'),
+    ].filter(Boolean),
   };
+}
+
+class RspackProfileJSCPUProfilePlugin {
+  output: string;
+  constructor(output: string) {
+    this.output = output;
+  }
+
+  apply(compiler: any) {
+    const session = new inspector.Session();
+    session.connect();
+    session.post('Profiler.enable');
+    session.post('Profiler.start');
+    compiler.hooks.done.tapAsync(
+      RspackProfileJSCPUProfilePlugin.name,
+      (_stats: any, callback: any) => {
+        console.log('stop profile');
+        //        if (compiler.watchMode) return callback();
+        session.post('Profiler.stop', (error, param) => {
+          if (error) {
+            console.error('Failed to generate JS CPU profile:', error);
+            return;
+          }
+          fs.writeFileSync(this.output, JSON.stringify(param.profile));
+        });
+        return callback();
+      },
+    );
+  }
 }

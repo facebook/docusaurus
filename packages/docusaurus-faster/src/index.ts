@@ -13,6 +13,11 @@ import type {JsMinifyOptions, Options as SwcOptions} from '@swc/core';
 
 export const swcLoader = require.resolve('swc-loader');
 
+if (process.env.TRACE) {
+  console.log('run tracing');
+  Rspack.experiments.globalTrace.register('trace', 'chrome', './tracing.json');
+}
+
 export const getSwcLoaderOptions = ({
   isServer,
 }: {
