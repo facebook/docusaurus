@@ -127,13 +127,16 @@ function ColorModeToggle({
           onChange(getNextColorMode(value, respectPrefersColorScheme))
         }
         disabled={!isBrowser}
-        title={title}
         aria-label={title}
+
         // aria-live disabled on purpose - This is annoying because:
         // - without this attribute, VoiceOver doesn't annonce on button enter
         // - with this attribute, VoiceOver announces twice on ctrl+opt+space
         // - with this attribute, NVDA announces many times
         // aria-live="polite"
+
+        // Title leads to double announcements in NVDA
+        // title={title}
       >
         <CurrentColorModeIcon />
       </button>
