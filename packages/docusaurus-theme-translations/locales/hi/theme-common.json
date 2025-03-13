@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Switch between dark and light mode (currently {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "dark mode",
   "theme.colorToggle.ariaLabel.mode.light": "light mode",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "इस पेज को बदलें",
   "theme.common.headingLinkTitle": "{heading} का सीधा लिंक",
   "theme.common.skipToMainContent": "मुख्य कंटेंट तक स्किप करें",

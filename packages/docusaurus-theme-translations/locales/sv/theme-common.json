@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Växla mellan mörkt och ljust utseende (currently {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "mörkt utseende",
   "theme.colorToggle.ariaLabel.mode.light": "ljust utseende",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Redigera denna sida",
   "theme.common.headingLinkTitle": "Direktlänk till {heading}",
   "theme.common.skipToMainContent": "Hoppa till huvudinnehåll",

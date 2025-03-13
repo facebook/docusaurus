@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "切換淺色/深色模式（當前為{mode}）",
   "theme.colorToggle.ariaLabel.mode.dark": "深色模式",
   "theme.colorToggle.ariaLabel.mode.light": "淺色模式",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "編輯此頁",
   "theme.common.headingLinkTitle": "{heading}的直接連結",
   "theme.common.skipToMainContent": "跳至主要内容",

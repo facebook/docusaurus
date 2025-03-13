@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Vaheta heleda ja tumeda teema vahel (currently {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "tume teema",
   "theme.colorToggle.ariaLabel.mode.light": "hele teema",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Redigeeri seda lehte",
   "theme.common.headingLinkTitle": "Link {heading}",
   "theme.common.skipToMainContent": "Liigu peamise sisu juurde",

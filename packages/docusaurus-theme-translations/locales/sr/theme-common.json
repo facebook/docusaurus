@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Switch between dark and light mode (currently {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "dark mode",
   "theme.colorToggle.ariaLabel.mode.light": "light mode",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Уреди ову страницу",
   "theme.common.headingLinkTitle": "Веза до {heading}",
   "theme.common.skipToMainContent": "Пређи на главни садржај",

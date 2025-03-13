@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Switch between dark and light mode (currently {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "dark mode",
   "theme.colorToggle.ariaLabel.mode.light": "light mode",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "ערוך דף זה",
   "theme.common.headingLinkTitle": "קישור ישיר אל {heading}",
   "theme.common.skipToMainContent": "דלג לתוכן הראשי",

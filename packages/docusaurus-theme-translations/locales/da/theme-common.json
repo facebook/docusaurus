@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Switch between dark and light mode (currently {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "dark mode",
   "theme.colorToggle.ariaLabel.mode.light": "light mode",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Rediger denne side",
   "theme.common.headingLinkTitle": "Direkte link til {heading}",
   "theme.common.skipToMainContent": "Hop til hovedindhold",

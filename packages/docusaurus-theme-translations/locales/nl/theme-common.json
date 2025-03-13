@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Schakel tussen donkere en lichte modus (momenteel {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "donkere modus",
   "theme.colorToggle.ariaLabel.mode.light": "lichte modus",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Bewerk deze pagina",
   "theme.common.headingLinkTitle": "Direct link naar {heading}",
   "theme.common.skipToMainContent": "Ga naar hoofdinhoud",

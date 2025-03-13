@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Umschalten zwischen dunkler und heller Ansicht (momentan {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "dunkler Modus",
   "theme.colorToggle.ariaLabel.mode.light": "heller Modus",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Diese Seite bearbeiten",
   "theme.common.headingLinkTitle": "Direkter Link zur {heading}",
   "theme.common.skipToMainContent": "Zum Hauptinhalt springen",

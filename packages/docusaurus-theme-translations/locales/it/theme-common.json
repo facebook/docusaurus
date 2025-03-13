@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Passa dalla modalità scura a quella chiara (currently {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "Modalità scura",
   "theme.colorToggle.ariaLabel.mode.light": "modalità luce",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Modifica questa pagina",
   "theme.common.headingLinkTitle": "Link diretto a {heading}",
   "theme.common.skipToMainContent": "Passa al contenuto principale",

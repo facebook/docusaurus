@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Skiptu á milli rökkur stillingar og bjartar stillingar (núna {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "rökkur stilling",
   "theme.colorToggle.ariaLabel.mode.light": "björt stilling",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Breyttu þessari síðu",
   "theme.common.headingLinkTitle": "Beinn hlekkur að {heading}",
   "theme.common.skipToMainContent": "Hoppa yfir á aðal efni",

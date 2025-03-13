@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Przełącz pomiędzy ciemnym a jasnym motywem (aktualnie ustawiony {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "ciemny motyw",
   "theme.colorToggle.ariaLabel.mode.light": "jasny motyw",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Edytuj tę stronę",
   "theme.common.headingLinkTitle": "Bezpośredni link do {heading}",
   "theme.common.skipToMainContent": "Przejdź do głównej zawartości",

@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Switch between dark and light mode (currently {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "dark mode",
   "theme.colorToggle.ariaLabel.mode.light": "light mode",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Upravit tuto stránku",
   "theme.common.headingLinkTitle": "Přímý odkaz na {heading}",
   "theme.common.skipToMainContent": "Přeskočit na hlavní obsah",
