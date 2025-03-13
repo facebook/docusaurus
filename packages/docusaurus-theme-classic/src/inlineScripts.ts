@@ -45,7 +45,7 @@ export function getThemeInlineScript({
     }
     var initialTheme = getQueryStringTheme() || getStoredTheme();
     document.documentElement.setAttribute('data-theme', initialTheme || (respectPrefersColorScheme ? getSystemColorMode() : defaultMode));
-    document.documentElement.setAttribute('data-theme-choice', initialTheme || (respectPrefersColorScheme ? 'auto' : defaultMode));
+    document.documentElement.setAttribute('data-theme-choice', initialTheme || (respectPrefersColorScheme ? 'system' : defaultMode));
   })();`;
 }
 
