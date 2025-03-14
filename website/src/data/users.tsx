@@ -1158,6 +1158,15 @@ const Users: User[] = [
     tags: ['design', 'product'],
   },
   {
+    title: 'Rale4J',
+    description:
+      'Rate limiting enhancement for Java Devs',
+    preview: require('./showcase/rale4j.png'),
+    website: 'https://rale4j.com',
+    source: 'https://github.com/rale4j/rale4j-website/tree/main',
+    tags: ['favorite','design', 'product','opensource'],
+  },
+  {
     title: 'react-chat-elements',
     description: 'Chat UI package for React',
     preview: require('./showcase/react-chat-elements.png'),
