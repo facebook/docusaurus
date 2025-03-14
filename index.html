@@ -26,9 +26,9 @@
 
 
 
-<link rel="stylesheet" href="./katex/katex.min.css" type="text/css"><link rel="stylesheet" href="./assets/css/styles.0593531b.css" />
-<script src="./assets/js/runtime~main.0392871e.js" defer></script>
-<script src="./assets/js/main.219e3d69.js" defer></script>
+<link rel="stylesheet" href="./katex/katex.min.css" type="text/css"><link rel="stylesheet" href="./assets/css/styles.52c21264.css" />
+<script src="./assets/js/runtime~main.1861050d.js" defer></script>
+<script src="./assets/js/main.41581a32.js" defer></script>
 </head>
 <body >
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -38,43 +38,22 @@
 (function() {
     var defaultMode = 'light';
     var respectPrefersColorScheme = true;
-
-    function setDataThemeAttribute(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
+    function getSystemColorMode() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-
     function getQueryStringTheme() {
       try {
         return new URLSearchParams(window.location.search).get('docusaurus-theme')
-      } catch (e) {
-      }
+      } catch (e) {}
     }
-
     function getStoredTheme() {
       try {
         return window['localStorage'].getItem('theme-189');
-      } catch (err) {
-      }
+      } catch (err) {}
     }
-
     var initialTheme = getQueryStringTheme() || getStoredTheme();
-    if (initialTheme !== null) {
-      setDataThemeAttribute(initialTheme);
-    } else {
-      if (
-        respectPrefersColorScheme &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches
-      ) {
-        setDataThemeAttribute('dark');
-      } else if (
-        respectPrefersColorScheme &&
-        window.matchMedia('(prefers-color-scheme: light)').matches
-      ) {
-        setDataThemeAttribute('light');
-      } else {
-        setDataThemeAttribute(defaultMode === 'dark' ? 'dark' : 'light');
-      }
-    }
+    document.documentElement.setAttribute('data-theme', initialTheme || (respectPrefersColorScheme ? getSystemColorMode() : defaultMode));
+    document.documentElement.setAttribute('data-theme-choice', initialTheme || (respectPrefersColorScheme ? 'system' : defaultMode));
   })();
 
 (function() {
