@@ -65,7 +65,7 @@ function getColorModeLabel(colorMode: ColorMode | null): string {
   }
 }
 
-function getColorModeTitle(colorMode: ColorMode | null) {
+function getColorModeAriaLabel(colorMode: ColorMode | null) {
   return translate(
     {
       message: 'Switch between dark and light mode (currently {mode})',
@@ -110,9 +110,6 @@ function ColorModeToggle({
   onChange,
 }: Props): ReactNode {
   const isBrowser = useIsBrowser();
-
-  const title = getColorModeTitle(value);
-
   return (
     <div className={clsx(styles.toggle, className)}>
       <button
@@ -127,16 +124,17 @@ function ColorModeToggle({
           onChange(getNextColorMode(value, respectPrefersColorScheme))
         }
         disabled={!isBrowser}
-        aria-label={title}
+        title={getColorModeLabel(value)}
+        aria-label={getColorModeAriaLabel(value)}
+
+        // For accessibility decisions
+        // See https://github.com/facebook/docusaurus/issues/7667#issuecomment-2724401796
 
         // aria-live disabled on purpose - This is annoying because:
         // - without this attribute, VoiceOver doesn't announce on button enter
         // - with this attribute, VoiceOver announces twice on ctrl+opt+space
         // - with this attribute, NVDA announces many times
         // aria-live="polite"
-
-        // Title leads to double announcements in NVDA
-        // title={title}
       >
         <CurrentColorModeIcon />
       </button>
