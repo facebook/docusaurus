@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Basculer entre le mode sombre et clair (actuellement {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "mode sombre",
   "theme.colorToggle.ariaLabel.mode.light": "mode clair",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Éditer cette page",
   "theme.common.headingLinkTitle": "Lien direct vers {heading}",
   "theme.common.skipToMainContent": "Aller au contenu principal",

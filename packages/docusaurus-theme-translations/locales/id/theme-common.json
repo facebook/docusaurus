@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Ubah antara modus gelap dan modus terang (saat ini {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "modus gelap",
   "theme.colorToggle.ariaLabel.mode.light": "modus terang",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Sunting halaman ini",
   "theme.common.headingLinkTitle": "Taut langsung ke {heading}",
   "theme.common.skipToMainContent": "Lewati ke konten utama",

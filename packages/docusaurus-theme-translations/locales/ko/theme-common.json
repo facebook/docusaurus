@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "어두운 모드와 밝은 모드 전환하기 (현재 {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "어두운 모드",
   "theme.colorToggle.ariaLabel.mode.light": "밝은 모드",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "페이지 편집",
   "theme.common.headingLinkTitle": "{heading}에 대한 직접 링크",
   "theme.common.skipToMainContent": "본문으로 건너뛰기",

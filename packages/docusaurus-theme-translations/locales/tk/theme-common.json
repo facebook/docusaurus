@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Gijeki ýa-da gündizki temany saýlamak (häzirki wagtda {mode} ulanylýar)",
   "theme.colorToggle.ariaLabel.mode.dark": "Gijeki tema",
   "theme.colorToggle.ariaLabel.mode.light": "Gündizki tema",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Bu sahypany üýtgetmek",
   "theme.common.headingLinkTitle": "{heading} sahypa göni geçiň",
   "theme.common.skipToMainContent": "Esasy mazmuna geç",

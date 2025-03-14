@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Bytt mellom mørk og lys utseende (nå {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "mørk utseende",
   "theme.colorToggle.ariaLabel.mode.light": "lys utseende",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Rediger denne siden",
   "theme.common.headingLinkTitle": "Direkte lenke til {heading}",
   "theme.common.skipToMainContent": "Gå til hovedinnhold",

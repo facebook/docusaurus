@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Chuyển đổi chế độ sáng và tối (hiện tại là {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "chế độ tối",
   "theme.colorToggle.ariaLabel.mode.light": "chế độ sáng",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Sửa trang này",
   "theme.common.headingLinkTitle": "Đường dẫn trực tiếp đến {heading}",
   "theme.common.skipToMainContent": "Chuyển tới nội dung chính",

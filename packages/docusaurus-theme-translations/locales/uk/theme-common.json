@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Перемикання між темним та світлим режимом (зараз використовується {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "Темний режим",
   "theme.colorToggle.ariaLabel.mode.light": "Світлий режим",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Відредагувати цю сторінку",
   "theme.common.headingLinkTitle": "Пряме посилання на {heading}",
   "theme.common.skipToMainContent": "Перейти до основного вмісту",

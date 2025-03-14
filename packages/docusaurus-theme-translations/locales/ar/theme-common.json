@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "التبديل بين الوضع الداكن والفاتح (الحالي {mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "الوضع الداكن",
   "theme.colorToggle.ariaLabel.mode.light": "الوضع الفاتح",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "تعديل هذه الصفحة",
   "theme.common.headingLinkTitle": "ارتباط مباشر بالعنوان {heading}",
   "theme.common.skipToMainContent": "انتقل إلى المحتوى الرئيسي",

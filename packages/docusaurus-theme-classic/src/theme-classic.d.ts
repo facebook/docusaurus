@@ -1555,12 +1555,13 @@ declare module '@theme/ColorModeToggle' {
   export interface Props {
     readonly className?: string;
     readonly buttonClassName?: string;
-    readonly value: ColorMode;
+    readonly respectPrefersColorScheme: boolean;
+    readonly value: ColorMode | null;
     /**
      * The parameter represents the "to-be" value. For example, if currently in
-     * dark mode, clicking the button should call `onChange("light")`
+     * light mode, clicking the button should call `onChange("dark")`
      */
-    readonly onChange: (colorMode: ColorMode) => void;
+    readonly onChange: (colorMode: ColorMode | null) => void;
   }
 
   export default function ColorModeToggle(props: Props): ReactNode;
@@ -1615,6 +1616,14 @@ declare module '@theme/Icon/LightMode' {
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconLightMode(props: Props): ReactNode;
+}
+
+declare module '@theme/Icon/SystemColorMode' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconSystemColorMode(props: Props): JSX.Element;
 }
 
 declare module '@theme/Icon/Menu' {

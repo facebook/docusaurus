@@ -30,43 +30,22 @@ export function getThemeInlineScript({
   return `(function() {
     var defaultMode = '${defaultMode}';
     var respectPrefersColorScheme = ${respectPrefersColorScheme};
-
-    function setDataThemeAttribute(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
+    function getSystemColorMode() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-
     function getQueryStringTheme() {
       try {
         return new URLSearchParams(window.location.search).get('${ThemeQueryStringKey}')
-      } catch (e) {
-      }
+      } catch (e) {}
     }
-
     function getStoredTheme() {
       try {
         return window['${siteStorage.type}'].getItem('${themeStorageKey}');
-      } catch (err) {
-      }
+      } catch (err) {}
     }
-
     var initialTheme = getQueryStringTheme() || getStoredTheme();
-    if (initialTheme !== null) {
-      setDataThemeAttribute(initialTheme);
-    } else {
-      if (
-        respectPrefersColorScheme &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches
-      ) {
-        setDataThemeAttribute('dark');
-      } else if (
-        respectPrefersColorScheme &&
-        window.matchMedia('(prefers-color-scheme: light)').matches
-      ) {
-        setDataThemeAttribute('light');
-      } else {
-        setDataThemeAttribute(defaultMode === 'dark' ? 'dark' : 'light');
-      }
-    }
+    document.documentElement.setAttribute('data-theme', initialTheme || (respectPrefersColorScheme ? getSystemColorMode() : defaultMode));
+    document.documentElement.setAttribute('data-theme-choice', initialTheme || (respectPrefersColorScheme ? 'system' : defaultMode));
   })();`;
 }
 

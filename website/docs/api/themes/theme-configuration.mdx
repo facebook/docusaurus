@@ -1114,22 +1114,92 @@ export default {
 
 ### `useColorMode` {#use-color-mode}
 
-A React hook to access the color context. This context contains functions for setting light and dark mode and exposes boolean variable, indicating which mode is currently in use.
+A React hook to access the color context. This context contains functions for selecting light/dark/system mode and exposes the current color mode and the choice from the user. The color mode values **should not be used for dynamic content rendering** (see below).
 
 Usage example:
 
 ```jsx
-import React from 'react';
 // highlight-next-line
 import {useColorMode} from '@docusaurus/theme-common';
 
-const Example = () => {
-  // highlight-next-line
-  const {colorMode, setColorMode} = useColorMode();
+const MyColorModeButton = () => {
+  // highlight-start
+  const {
+    colorMode, // the "effective" color mode, never null
+    colorModeChoice, // the color mode chosen by the user, can be null
+    setColorMode, // set the color mode chosen by the user
+  } = useColorMode();
+  // highlight-end
 
-  return <h1>Dark mode is now {colorMode === 'dark' ? 'on' : 'off'}</h1>;
+  return (
+    <button
+      onClick={() => {
+        const nextColorMode = colorModeChoice === 'dark' ? 'light' : 'dark';
+        setColorMode(nextColorMode);
+      }}>
+      Toggle color mode
+    </button>
+  );
 };
 ```
+
+Attributes:
+
+- `colorMode: 'light' | 'dark'`: The effective color mode currently applied to the UI. It cannot be `null`.
+- `colorModeChoice: 'light' | 'dark' | null`: The color mode explicitly chosen by the user. It can be `null` if user has not made any choice yet, or if they reset their choice to the system/default value.
+- `setColorMode(colorModeChoice: 'light' | 'dark' | null, options: {persist: boolean}): void`: A function to call when the user explicitly chose a color mode. `null` permits to reset the choice to the system/default value. By default, the choice is persisted in `localStorage` and restored on page reload, but you can opt out with `{persist: false}`.
+
+:::warning
+
+Don't use `colorMode` and `colorModeChoice` while rendering React components. Doing so is likely to produce [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content), layout shifts and [React hydration](https://18.react.dev/reference/react-dom/client/hydrateRoot) mismatches if you use them to render JSX content dynamically.
+
+However, these values are safe to use **after React hydration**, in `useEffect` and event listeners, like in the `MyColorModeButton` example above.
+
+If you need to render content dynamically depending on the current theme, the only way to avoid FOUC, layout shifts and hydration mismatch is to rely on CSS selectors to render content dynamically, based on the `html` data attributes that we set before the page displays anything:
+
+```html
+<html data-theme="<light | dark>" data-theme-choice="<light | dark | system>">
+  <!-- content -->
+</html>
+```
+
+```css
+[data-theme='light']
+[data-theme='dark']
+
+[data-theme-choice='light']
+[data-theme-choice='dark']
+[data-theme-choice='system']
+```
+
+<details>
+ <summary>Why are `colorMode` and `colorModeChoice` unsafe when rendering?</summary>
+
+To understand the problem, you need to understand how [React hydration](https://18.react.dev/reference/react-dom/client/hydrateRoot) works.
+
+During the static site generation phase, Docusaurus doesn't know what the user color mode choice is, and `useColorMode()` returns the following static values:
+
+- `colorMode = themeConfig.colorMode.defaultMode`
+- `colorModeChoice = null`
+
+During the very first React client-side render (the hydration), React must produce the exact same HTML markup, and will also use these static values.
+
+The correct `colorMode` and `colorModeChoice` values will only be provided in the second React render.
+
+Typically, the following component will lead to **React hydration mismatches**. The label may switch from `light` to `dark` while React hydrates, leading to a confusing user experience.
+
+```jsx
+import {useColorMode} from '@docusaurus/theme-common';
+
+const DisplayCurrentColorMode = () => {
+  const {colorMode} = useColorMode();
+  return <span>{colorMode}</span>;
+};
+```
+
+</details>
+
+:::
 
 :::note
 

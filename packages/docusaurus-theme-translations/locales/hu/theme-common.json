@@ -41,6 +41,7 @@
   "theme.colorToggle.ariaLabel": "Váltás a sötét és világos mód között (jelenleg {mode} van beállítva)",
   "theme.colorToggle.ariaLabel.mode.dark": "Sötét mód",
   "theme.colorToggle.ariaLabel.mode.light": "Világos mód",
+  "theme.colorToggle.ariaLabel.mode.system": "system mode",
   "theme.common.editThisPage": "Szerkesztés GitHub-on",
   "theme.common.headingLinkTitle": "Közvetlen hivatkozás erre: {heading}",
   "theme.common.skipToMainContent": "Ugrás a fő tartalomhoz",
