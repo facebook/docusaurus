@@ -130,7 +130,7 @@ function ColorModeToggle({
         aria-label={title}
 
         // aria-live disabled on purpose - This is annoying because:
-        // - without this attribute, VoiceOver doesn't annonce on button enter
+        // - without this attribute, VoiceOver doesn't announce on button enter
         // - with this attribute, VoiceOver announces twice on ctrl+opt+space
         // - with this attribute, NVDA announces many times
         // aria-live="polite"
