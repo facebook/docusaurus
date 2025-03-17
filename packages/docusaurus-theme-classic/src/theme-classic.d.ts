@@ -410,7 +410,7 @@ declare module '@theme/CodeBlock' {
     readonly children: ReactNode;
     readonly className?: string;
     readonly metastring?: string;
-    readonly title?: string;
+    readonly title?: ReactNode;
     readonly language?: string;
     readonly showLineNumbers?: boolean | number;
   }

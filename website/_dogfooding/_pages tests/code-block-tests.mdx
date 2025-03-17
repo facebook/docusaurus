@@ -188,6 +188,18 @@ Multi-line text inside `pre` will turn into one-liner, but it's okay (https://gi
   <br />
 </CodeBlock>
 
+### Code blocks with `ReactNode` in title
+
+<CodeBlock 
+  className="language-yaml"
+  title={<span className="badge badge--primary">YAML</span>}
+>
+  link:{'\n'}
+  {'  '}title: front page{'\n'}
+  {'  '}path: /docs/{'\n'}
+</CodeBlock>
+
+
 ## Code blocks with line numbering tests
 
 ```jsx
