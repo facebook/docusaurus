@@ -85,7 +85,7 @@ describe('toHeadingHTMLValue', () => {
     );
   });
 
-  it('converts a heading with image', async () => {
+  it('converts a heading - remove img tag', async () => {
     const heading: Heading = {
       type: 'heading',
       depth: 2,
@@ -120,7 +120,7 @@ describe('toHeadingHTMLValue', () => {
     };
 
     await expect(convert(heading)).resolves.toMatchInlineSnapshot(
-      `"<img></img> Some title"`,
+      `"Some title"`,
     );
   });
 });

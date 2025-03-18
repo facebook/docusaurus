@@ -180,11 +180,12 @@ export async function createTOCExportNodeAST({
 
 function stringifyChildren(
   node: Parent,
-  toString: (param: unknown) => string, // TODO weird but works
+  toString: (param: unknown) => string, // TODO temporary, due to ESM
 ): string {
   return (node.children as PhrasingContent[])
     .map((item) => toHeadingHTMLValue(item, toString))
-    .join('');
+    .join('')
+    .trim();
 }
 
 // TODO This is really a workaround, and not super reliable
@@ -192,9 +193,14 @@ function stringifyChildren(
 // Can we implement the TOC with real JSX nodes instead of html strings later?
 function mdxJsxTextElementToHtml(
   element: MdxJsxTextElement,
-  toString: (param: unknown) => string, // TODO weird but works
+  toString: (param: unknown) => string, // TODO temporary, due to ESM
 ): string {
   const tag = element.name;
+
+  // See https://github.com/facebook/docusaurus/issues/11003#issuecomment-2733925363
+  if (tag === 'img') {
+    return '';
+  }
 
   const attributes = element.attributes.filter(
     (child): child is MdxJsxAttribute => child.type === 'mdxJsxAttribute',
@@ -217,7 +223,7 @@ function mdxJsxTextElementToHtml(
 
 export function toHeadingHTMLValue(
   node: PhrasingContent | Heading | MdxJsxTextElement,
-  toString: (param: unknown) => string, // TODO weird but works
+  toString: (param: unknown) => string, // TODO temporary, due to ESM
 ): string {
   switch (node.type) {
     case 'mdxJsxTextElement': {
