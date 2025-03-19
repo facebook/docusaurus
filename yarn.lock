@@ -3365,11 +3365,6 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@slorber/react-ideal-image@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@slorber/react-ideal-image/-/react-ideal-image-0.0.14.tgz#35b0756c6f06ec60c4a2b5cae9dcf346500e1e8a"
-  integrity sha512-ULJ1VtNg+B5puJp4ZQzEnDqYyDT9erbABoQygmAovg35ltOymLMH8jXPuxJQBVskcmaG29bTZ+++hE/PAXRgxA==
-
 "@slorber/remark-comment@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@slorber/remark-comment/-/remark-comment-1.0.0.tgz#2a020b3f4579c89dec0361673206c28d67e08f5a"

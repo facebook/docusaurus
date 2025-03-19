@@ -51,6 +51,17 @@ declare module '@docusaurus/plugin-ideal-image' {
   export type Options = Partial<PluginOptions>;
 }
 
+declare module '@theme/IdealImageLegacy' {
+  import type {ReactNode} from 'react';
+  import type {ImageProps} from './theme/IdealImageLegacy/types';
+
+  export type {IconKey, State} from './theme/IdealImageLegacy/types';
+
+  export interface Props extends ImageProps {}
+
+  export default function IdealImageLegacy(props: ImageProps): ReactNode;
+}
+
 declare module '@theme/IdealImage' {
   import type {ComponentProps, ReactNode} from 'react';
 
