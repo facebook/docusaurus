@@ -14,6 +14,7 @@ appinstalled
 Applanga
 applescript
 architecting
+Asume
 atrule
 Autoconverted
 autogen
@@ -35,8 +36,10 @@ caabernathy
 Candillon
 cdabcdab
 cdpath
+cellipse
 cena
 Cena
+cfilter
 changefreq
 chedeau
 Chedeau
@@ -46,11 +49,14 @@ Codegen
 codesandbox
 Codespaces
 commonmark
+concider
 contravariance
 corejs
 Couriol
+cpath
 creativecommons
 Csapo
+csvg
 Csvg
 dabit
 Dabit
@@ -120,6 +126,7 @@ infima
 Infima
 Infima's
 inlines
+intead
 interactiveness
 interpolatable
 Interpolatable
@@ -171,6 +178,7 @@ MDXAST
 MDXHAST
 mdxjs
 Mdxjs
+megabybte
 meilisearch
 Meilisearch
 merveilleuse
@@ -293,6 +301,7 @@ sebastienlorber
 sensical
 setext
 setlocal
+setstate
 SFNT
 shiki
 Shiki
@@ -306,8 +315,11 @@ Smoosh
 solana
 Solana
 spâce
+spieker
+sqip
 stackblitz
 stackoverflow
+stereobooster
 Stormkit
 Strikethrough
 strikethroughs
@@ -347,6 +359,9 @@ typesafe
 typesense
 Typesense
 Unavatar
+uncachable
+unfetch
+Unfetch
 unlinkable
 unlisteds
 Unlisteds
@@ -369,6 +384,9 @@ waivable
 webfactory
 webpackbar
 webstorm
+whitefea
+whitefef
+whiteff
 Wolcott
 Xplorer
 XSOAR
