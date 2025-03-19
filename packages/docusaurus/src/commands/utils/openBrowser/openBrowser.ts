@@ -12,8 +12,12 @@
 
 /* eslint-disable */
 
-import {execSync} from 'child_process';
+import {exec} from 'child_process';
+import {promisify} from 'util';
 import open from 'open';
+import {PerfLogger} from '@docusaurus/logger';
+
+const execPromise = promisify(exec);
 
 type BrowserName = string | undefined;
 type BrowserArgs = string[];
@@ -49,38 +53,66 @@ async function tryOpenWithAppleScript({
   }
 
   if (shouldTryOpenChromiumWithAppleScript) {
-    // Will use the first open browser found from list
-    const supportedChromiumBrowsers = [
-      'Google Chrome Canary',
-      'Google Chrome Dev',
-      'Google Chrome Beta',
-      'Google Chrome',
-      'Microsoft Edge',
-      'Brave Browser',
-      'Vivaldi',
-      'Chromium',
-    ];
+    async function getBrowsersToTry(): Promise<string[]> {
+      // Will use the first open browser found from list
+      const supportedChromiumBrowsers = [
+        'Google Chrome Canary',
+        'Google Chrome Dev',
+        'Google Chrome Beta',
+        'Google Chrome',
+        'Microsoft Edge',
+        'Brave Browser',
+        'Vivaldi',
+        'Chromium',
+      ];
 
-    for (let chromiumBrowser of supportedChromiumBrowsers) {
+      // Among all the supported browsers, retrieves to stdout the active ones
+      const command = `ps cax -o command | grep -E "^(${supportedChromiumBrowsers.join(
+        '|',
+      )})$"`;
+      const result = await execPromise(command);
+
+      const activeBrowsers = result.stdout.toString().trim().split('\n');
+
+      // This preserves the initial browser order
+      // We open Google Chrome Canary in priority over Google Chrome
+      return supportedChromiumBrowsers.filter((b) =>
+        activeBrowsers.includes(b),
+      );
+    }
+
+    async function tryBrowser(browserName: string): Promise<boolean> {
       try {
-        // Try our best to reuse existing tab
-        // on OSX Chromium-based browser with AppleScript
-        execSync(`ps cax | grep "${chromiumBrowser}"`);
-        execSync(
-          `osascript openChrome.applescript "${encodeURI(
-            url,
-          )}" "${chromiumBrowser}"`,
-          {
-            cwd: __dirname,
-            stdio: 'ignore',
-          },
-        );
+        // This command runs the openChrome.applescript (copied from CRA)
+        const command = `osascript openChrome.applescript "${encodeURI(
+          url,
+        )}" "${browserName}"`;
+        await execPromise(command, {
+          cwd: __dirname,
+        });
         return true;
       } catch (err) {
-        // Ignore errors.
+        console.error(
+          `Failed to open browser ${browserName} with AppleScript`,
+          err,
+        );
+        return false;
+      }
+    }
+
+    const browsers = await PerfLogger.async('getBrowsersToTry', () =>
+      getBrowsersToTry(),
+    );
+    for (let browser of browsers) {
+      const success = await PerfLogger.async(browser, () =>
+        tryBrowser(browser),
+      );
+      if (success) {
+        return true;
       }
     }
   }
+
   return false;
 }
 
@@ -103,7 +135,11 @@ function toOpenApp(params: Params): open.App | undefined {
 }
 
 async function startBrowserProcess(params: Params): Promise<boolean> {
-  if (await tryOpenWithAppleScript(params)) {
+  if (
+    await PerfLogger.async('tryOpenWithAppleScript', () =>
+      tryOpenWithAppleScript(params),
+    )
+  ) {
     return true;
   }
   try {
