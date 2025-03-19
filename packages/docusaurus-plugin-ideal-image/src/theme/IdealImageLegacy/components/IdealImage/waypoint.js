@@ -1,12 +1,9 @@
 import React from 'react';
 import {addEventListener} from 'consolidated-events';
 
-import {isForwardRef} from 'react-is';
-
 import computeOffsetPixels from './computeOffsetPixels';
 import {INVISIBLE, INSIDE, BELOW, ABOVE} from './constants';
 import ensureRefIsUsedByChild from './ensureRefIsUsedByChild';
-import isDOMElement from './isDOMElement';
 import getCurrentPosition from './getCurrentPosition';
 import onNextTick from './onNextTick';
 
@@ -244,34 +241,8 @@ export class Waypoint extends React.PureComponent {
     };
   }
 
-  /**
-   * @return {Object}
-   */
   render() {
-    const {children} = this.props;
-
-    if (!children) {
-      // We need an element that we can locate in the DOM to determine where it is
-      // rendered relative to the top of its context.
-      return <span ref={this.refElement} style={{fontSize: 0}} />;
-    }
-
-    if (isDOMElement(children) || isForwardRef(children)) {
-      const ref = (node) => {
-        this.refElement(node);
-        if (children.ref) {
-          if (typeof children.ref === 'function') {
-            children.ref(node);
-          } else {
-            children.ref.current = node;
-          }
-        }
-      };
-
-      return React.cloneElement(children, {ref});
-    }
-
-    return React.cloneElement(children, {innerRef: this.refElement});
+    return React.cloneElement(this.props.children, {innerRef: this.refElement});
   }
 }
 
