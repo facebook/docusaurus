@@ -18,7 +18,6 @@ const defaultProps = {
   bottomOffset: '0px',
   onEnter() {},
   onLeave() {},
-  fireOnRapidScroll: true,
 };
 
 // Calls a function when you scroll to the element.
@@ -162,7 +161,7 @@ export class Waypoint extends React.PureComponent {
     const bounds = this._getBounds();
     const currentPosition = getCurrentPosition(bounds);
     const previousPosition = this._previousPosition;
-    const {onEnter, onLeave, fireOnRapidScroll} = this.props;
+    const {onEnter, onLeave} = this.props;
 
     // Save previous position as early as possible to prevent cycles
     this._previousPosition = currentPosition;
@@ -193,7 +192,7 @@ export class Waypoint extends React.PureComponent {
     const isRapidScrollUp =
       previousPosition === ABOVE && currentPosition === BELOW;
 
-    if (fireOnRapidScroll && (isRapidScrollDown || isRapidScrollUp)) {
+    if (isRapidScrollDown || isRapidScrollUp) {
       // If the scroll event isn't fired often enough to occur while the
       // waypoint was visible, we trigger both callbacks anyway.
       onEnter.call(this, {
