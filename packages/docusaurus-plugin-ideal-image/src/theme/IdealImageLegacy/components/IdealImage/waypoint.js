@@ -9,12 +9,10 @@ import ensureRefIsUsedByChild from './ensureRefIsUsedByChild';
 import isDOMElement from './isDOMElement';
 import getCurrentPosition from './getCurrentPosition';
 import onNextTick from './onNextTick';
-import resolveScrollableAncestorProp from './resolveScrollableAncestorProp';
 
 const hasWindow = typeof window !== 'undefined';
 
 const defaultProps = {
-  scrollableAncestor: undefined,
   children: undefined,
   topOffset: '0px',
   bottomOffset: '0px',
@@ -124,11 +122,7 @@ export class Waypoint extends React.PureComponent {
    *   as a fallback.
    */
   _findScrollableAncestor() {
-    const {horizontal, scrollableAncestor} = this.props;
-
-    if (scrollableAncestor) {
-      return resolveScrollableAncestorProp(scrollableAncestor);
-    }
+    const {horizontal} = this.props;
 
     let node = this._ref;
 
