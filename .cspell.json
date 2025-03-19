@@ -23,6 +23,7 @@
     "CHANGELOG.md",
     "patches",
     "packages/docusaurus-theme-translations/locales",
+    "packages/docusaurus-plugin-ideal-image/src/theme/IdealImageLegacy",
     "package.json",
     "yarn.lock",
     "project-words.txt",
