@@ -1,6 +1,5 @@
 import React from 'react';
 
-import computeOffsetPixels from './computeOffsetPixels';
 import onNextTick from './onNextTick';
 
 // Same API as https://github.com/lencioni/consolidated-events
@@ -18,8 +17,8 @@ const INVISIBLE = 'invisible';
 const hasWindow = typeof window !== 'undefined';
 
 const defaultProps = {
-  topOffset: '0px',
-  bottomOffset: '0px',
+  topOffset: 0,
+  bottomOffset: 0,
   onEnter() {},
   onLeave() {},
 };
@@ -233,15 +232,13 @@ export class Waypoint extends React.PureComponent {
     }
 
     const {bottomOffset, topOffset} = this.props;
-    const topOffsetPx = computeOffsetPixels(topOffset, contextHeight);
-    const bottomOffsetPx = computeOffsetPixels(bottomOffset, contextHeight);
     const contextBottom = contextScrollTop + contextHeight;
 
     return {
       waypointTop,
       waypointBottom,
-      viewportTop: contextScrollTop + topOffsetPx,
-      viewportBottom: contextBottom - bottomOffsetPx,
+      viewportTop: contextScrollTop + topOffset,
+      viewportBottom: contextBottom - bottomOffset,
     };
   }
 
