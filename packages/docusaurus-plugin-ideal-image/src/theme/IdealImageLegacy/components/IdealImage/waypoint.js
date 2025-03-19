@@ -296,39 +296,6 @@ export class Waypoint extends React.PureComponent {
   }
 }
 
-if (process.env.NODE_ENV !== 'production') {
-  Waypoint.propTypes = {
-    children: PropTypes.element,
-    debug: PropTypes.bool,
-    onEnter: PropTypes.func,
-    onLeave: PropTypes.func,
-    onPositionChange: PropTypes.func,
-    fireOnRapidScroll: PropTypes.bool,
-    // eslint-disable-next-line react/forbid-prop-types
-    scrollableAncestor: PropTypes.any,
-    horizontal: PropTypes.bool,
-
-    // `topOffset` can either be a number, in which case its a distance from the
-    // top of the container in pixels, or a string value. Valid string values are
-    // of the form "20px", which is parsed as pixels, or "20%", which is parsed
-    // as a percentage of the height of the containing element.
-    // For instance, if you pass "-20%", and the containing element is 100px tall,
-    // then the waypoint will be triggered when it has been scrolled 20px beyond
-    // the top of the containing element.
-    topOffset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-    // `bottomOffset` can either be a number, in which case its a distance from the
-    // bottom of the container in pixels, or a string value. Valid string values are
-    // of the form "20px", which is parsed as pixels, or "20%", which is parsed
-    // as a percentage of the height of the containing element.
-    // For instance, if you pass "20%", and the containing element is 100px tall,
-    // then the waypoint will be triggered when it has been scrolled 20px beyond
-    // the bottom of the containing element.
-    // Similar to `topOffset`, but for the bottom of the container.
-    bottomOffset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  };
-}
-
 Waypoint.above = ABOVE;
 Waypoint.below = BELOW;
 Waypoint.inside = INSIDE;
