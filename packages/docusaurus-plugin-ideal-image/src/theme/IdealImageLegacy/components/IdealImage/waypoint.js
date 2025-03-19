@@ -3,7 +3,6 @@ import {addEventListener} from 'consolidated-events';
 
 import computeOffsetPixels from './computeOffsetPixels';
 import {INVISIBLE, INSIDE, BELOW, ABOVE} from './constants';
-import ensureRefIsUsedByChild from './ensureRefIsUsedByChild';
 import getCurrentPosition from './getCurrentPosition';
 import onNextTick from './onNextTick';
 
@@ -38,9 +37,6 @@ export class Waypoint extends React.PureComponent {
     this.cancelOnNextTick = onNextTick(() => {
       this.cancelOnNextTick = null;
       const {children} = this.props;
-
-      // Berofe doing anything, we want to check that this._ref is avaliable in Waypoint
-      ensureRefIsUsedByChild(children, this._ref);
 
       this._handleScroll = this._handleScroll.bind(this);
       this.scrollableAncestor = this._findScrollableAncestor();
