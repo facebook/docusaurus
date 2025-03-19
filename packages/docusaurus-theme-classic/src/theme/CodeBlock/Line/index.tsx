@@ -9,6 +9,7 @@ import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import type {Props} from '@theme/CodeBlock/Line';
 
+import CodeBlockToken from '@theme/CodeBlock/Token';
 import styles from './styles.module.css';
 
 type Token = Props['line'][number];
@@ -41,7 +42,7 @@ export default function CodeBlockLine({
   });
 
   const lineTokens = line.map((token, key) => (
-    <span key={key} {...getTokenProps({token})} />
+    <CodeBlockToken key={key} output={getTokenProps({token})} />
   ));
 
   return (

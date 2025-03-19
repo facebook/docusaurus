@@ -18,6 +18,7 @@ import {
 } from '@docusaurus/theme-common';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 
+import {parseCodeBlockMeta} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/Playground';
 import type {ThemeConfig} from '@docusaurus/theme-live-codeblock';
 
@@ -115,7 +116,13 @@ export default function Playground({
   } = themeConfig as ThemeConfig;
   const prismTheme = usePrismTheme();
 
-  const noInline = props.metastring?.includes('noInline') ?? false;
+  const meta = parseCodeBlockMeta({
+    metastring: props.metastring,
+    language: undefined,
+    magicComments: [],
+  });
+
+  const noInline = meta.options.noinline === true;
 
   return (
     <div className={styles.playgroundContainer}>

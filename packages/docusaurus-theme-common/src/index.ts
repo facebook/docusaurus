@@ -144,3 +144,8 @@ export {
   ErrorBoundaryErrorMessageFallback,
   ErrorCauseBoundary,
 } from './utils/errorBoundaryUtils';
+
+export {
+  type CodeBlockMeta,
+  type CodeMetaOptionValue,
+} from './utils/codeBlockUtils';

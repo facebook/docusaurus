@@ -9,7 +9,6 @@ import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, usePrismTheme} from '@docusaurus/theme-common';
 import {
-  parseCodeBlockTitle,
   parseLanguage,
   parseLines,
   getLineNumbersStart,
@@ -51,19 +50,19 @@ export default function CodeBlockString({
   const wordWrap = useCodeWordWrap();
   const isBrowser = useIsBrowser();
 
-  // We still parse the metastring in case we want to support more syntax in the
-  // future. Note that MDX doesn't strip quotes when parsing metastring:
-  // "title=\"xyz\"" => title: "\"xyz\""
-  const title = parseCodeBlockTitle(metastring) || titleProp;
-
-  const {lineClassNames, code} = parseLines(children, {
+  const {meta, code} = parseLines(children, {
     metastring,
     language,
     magicComments,
   });
+
+  // Note that MDX doesn't strip quotes when parsing metastring:
+  // "title=\"xyz\"" => title: "\"xyz\""
+  const title = meta.options.title ?? titleProp;
+
   const lineNumbersStart = getLineNumbersStart({
     showLineNumbers: showLineNumbersProp,
-    metastring,
+    meta,
   });
 
   return (
@@ -105,7 +104,8 @@ export default function CodeBlockString({
                     line={line}
                     getLineProps={getLineProps}
                     getTokenProps={getTokenProps}
-                    classNames={lineClassNames[i]}
+                    classNames={meta.lineClassNames[i]}
+                    meta={meta}
                     showLineNumbers={lineNumbersStart !== undefined}
                   />
                 ))}
