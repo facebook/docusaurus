@@ -15,6 +15,7 @@
   "scripts": {
     "start": "yarn build:packages && yarn start:website",
     "start:website": "yarn workspace website start",
+    "start:website:profile": "DOCUSAURUS_BUNDLER_CPU_PROFILE=true DOCUSAURUS_RSPACK_TRACE=true yarn workspace website start",
     "start:website:baseUrl": "yarn workspace website start:baseUrl",
     "start:website:blogOnly": "yarn workspace website start:blogOnly",
     "start:website:deployPreview": "cross-env NETLIFY=true CONTEXT='deploy-preview' yarn workspace website start",
@@ -22,6 +23,7 @@
     "build": "yarn build:packages && yarn build:website",
     "build:packages": "lerna run build --no-private",
     "build:website": "yarn workspace website build",
+    "build:website:profile": "DOCUSAURUS_BUNDLER_CPU_PROFILE=true DOCUSAURUS_RSPACK_TRACE=true yarn workspace website build",
     "build:website:baseUrl": "yarn workspace website build:baseUrl",
     "build:website:blogOnly": "yarn workspace website build:blogOnly",
     "build:website:deployPreview:testWrap": "yarn workspace website test:swizzle:wrap:ts",
