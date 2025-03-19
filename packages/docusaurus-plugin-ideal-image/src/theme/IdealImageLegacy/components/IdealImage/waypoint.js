@@ -9,7 +9,6 @@ import onNextTick from './onNextTick';
 const hasWindow = typeof window !== 'undefined';
 
 const defaultProps = {
-  children: undefined,
   topOffset: '0px',
   bottomOffset: '0px',
   onEnter() {},
