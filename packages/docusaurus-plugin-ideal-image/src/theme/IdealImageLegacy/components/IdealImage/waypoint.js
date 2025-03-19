@@ -1,7 +1,6 @@
 import React from 'react';
 
 import computeOffsetPixels from './computeOffsetPixels';
-import getCurrentPosition from './getCurrentPosition';
 import onNextTick from './onNextTick';
 
 // Same API as https://github.com/lencioni/consolidated-events
@@ -257,3 +256,44 @@ Waypoint.inside = INSIDE;
 Waypoint.invisible = INVISIBLE;
 Waypoint.defaultProps = defaultProps;
 Waypoint.displayName = 'Waypoint';
+
+// Copy https://github.com/civiccc/react-waypoint/blob/master/src/getCurrentPosition.js
+function getCurrentPosition(bounds) {
+  if (bounds.viewportBottom - bounds.viewportTop === 0) {
+    return INVISIBLE;
+  }
+
+  // top is within the viewport
+  if (
+    bounds.viewportTop <= bounds.waypointTop &&
+    bounds.waypointTop <= bounds.viewportBottom
+  ) {
+    return INSIDE;
+  }
+
+  // bottom is within the viewport
+  if (
+    bounds.viewportTop <= bounds.waypointBottom &&
+    bounds.waypointBottom <= bounds.viewportBottom
+  ) {
+    return INSIDE;
+  }
+
+  // top is above the viewport and bottom is below the viewport
+  if (
+    bounds.waypointTop <= bounds.viewportTop &&
+    bounds.viewportBottom <= bounds.waypointBottom
+  ) {
+    return INSIDE;
+  }
+
+  if (bounds.viewportBottom < bounds.waypointTop) {
+    return BELOW;
+  }
+
+  if (bounds.waypointTop < bounds.viewportTop) {
+    return ABOVE;
+  }
+
+  return INVISIBLE;
+}
