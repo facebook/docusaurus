@@ -14,7 +14,6 @@ import resolveScrollableAncestorProp from './resolveScrollableAncestorProp';
 const hasWindow = typeof window !== 'undefined';
 
 const defaultProps = {
-  debug: false,
   scrollableAncestor: undefined,
   children: undefined,
   topOffset: '0px',
@@ -46,7 +45,7 @@ export class Waypoint extends React.PureComponent {
     // initial execution until the next tick.
     this.cancelOnNextTick = onNextTick(() => {
       this.cancelOnNextTick = null;
-      const {children, debug} = this.props;
+      const {children} = this.props;
 
       // Berofe doing anything, we want to check that this._ref is avaliable in Waypoint
       ensureRefIsUsedByChild(children, this._ref);
@@ -175,8 +174,7 @@ export class Waypoint extends React.PureComponent {
     const bounds = this._getBounds();
     const currentPosition = getCurrentPosition(bounds);
     const previousPosition = this._previousPosition;
-    const {debug, onPositionChange, onEnter, onLeave, fireOnRapidScroll} =
-      this.props;
+    const {onPositionChange, onEnter, onLeave, fireOnRapidScroll} = this.props;
 
     // Save previous position as early as possible to prevent cycles
     this._previousPosition = currentPosition;
@@ -233,7 +231,7 @@ export class Waypoint extends React.PureComponent {
   }
 
   _getBounds() {
-    const {horizontal, debug} = this.props;
+    const {horizontal} = this.props;
     const {left, top, right, bottom} = this._ref.getBoundingClientRect();
     const waypointTop = horizontal ? left : top;
     const waypointBottom = horizontal ? right : bottom;
