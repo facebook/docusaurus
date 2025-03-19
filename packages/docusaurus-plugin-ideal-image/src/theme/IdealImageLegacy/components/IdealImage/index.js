@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
-// import PropTypes from 'prop-types'
-import {Waypoint} from 'react-waypoint';
+import {Component} from 'react';
+import {Waypoint} from './waypoint';
 import Media from '../Media';
 import {icons, loadStates} from '../constants';
 import {xhrLoader, imageLoader, timeout, combineCancel} from '../loaders';
