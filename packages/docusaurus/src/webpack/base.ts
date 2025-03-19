@@ -7,6 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
+import inspector from 'node:inspector';
 import {getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {
   getCSSExtractPlugin,
@@ -16,7 +17,7 @@ import {
 
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
-import type {Configuration} from 'webpack';
+import type {Configuration, Compiler} from 'webpack';
 import type {
   ConfigureWebpackUtils,
   FasterConfig,
@@ -339,6 +340,41 @@ export async function createBaseConfig({
         // for more reasoning
         ignoreOrder: true,
       }),
-    ],
+      process.env.DOCUSAURUS_RSPACK_JS_PROFILE &&
+        new RspackProfileJSCPUProfilePlugin(),
+    ].filter(Boolean),
   };
+}
+
+// Bundle CPU profiling plugin contributed by the Rspack team
+// Can be opened in https://www.speedscope.app/
+// See also https://github.com/jerrykingxyz/docusaurus/pull/1
+// See also https://github.com/facebook/docusaurus/pull/10985
+class RspackProfileJSCPUProfilePlugin {
+  output: string;
+  constructor(output?: string) {
+    this.output = output ?? './rspack-cpu-profile.json';
+  }
+
+  apply(compiler: Compiler) {
+    const session = new inspector.Session();
+    session.connect();
+    session.post('Profiler.enable');
+    session.post('Profiler.start');
+    compiler.hooks.done.tapAsync(
+      RspackProfileJSCPUProfilePlugin.name,
+      (_stats, callback) => {
+        session.post('Profiler.stop', (error, param) => {
+          if (error) {
+            console.error('Failed to generate JS CPU profile:', error);
+            return;
+          }
+          fs.writeFile(this.output, JSON.stringify(param.profile)).catch(
+            console.error,
+          );
+        });
+        return callback();
+      },
+    );
+  }
 }
