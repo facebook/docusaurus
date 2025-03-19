@@ -16,7 +16,6 @@ const defaultProps = {
   children: undefined,
   topOffset: '0px',
   bottomOffset: '0px',
-  horizontal: false,
   onEnter() {},
   onLeave() {},
   fireOnRapidScroll: true,
@@ -121,8 +120,6 @@ export class Waypoint extends React.PureComponent {
    *   as a fallback.
    */
   _findScrollableAncestor() {
-    const {horizontal} = this.props;
-
     let node = this._ref;
 
     while (node.parentNode) {
@@ -134,9 +131,7 @@ export class Waypoint extends React.PureComponent {
       }
 
       const style = window.getComputedStyle(node);
-      const overflowDirec = horizontal
-        ? style.getPropertyValue('overflow-x')
-        : style.getPropertyValue('overflow-y');
+      const overflowDirec = style.getPropertyValue('overflow-y');
       const overflow = overflowDirec || style.getPropertyValue('overflow');
 
       if (
@@ -223,23 +218,18 @@ export class Waypoint extends React.PureComponent {
   }
 
   _getBounds() {
-    const {horizontal} = this.props;
     const {left, top, right, bottom} = this._ref.getBoundingClientRect();
-    const waypointTop = horizontal ? left : top;
-    const waypointBottom = horizontal ? right : bottom;
+    const waypointTop = top;
+    const waypointBottom = bottom;
 
     let contextHeight;
     let contextScrollTop;
     if (this.scrollableAncestor === window) {
-      contextHeight = horizontal ? window.innerWidth : window.innerHeight;
+      contextHeight = window.innerHeight;
       contextScrollTop = 0;
     } else {
-      contextHeight = horizontal
-        ? this.scrollableAncestor.offsetWidth
-        : this.scrollableAncestor.offsetHeight;
-      contextScrollTop = horizontal
-        ? this.scrollableAncestor.getBoundingClientRect().left
-        : this.scrollableAncestor.getBoundingClientRect().top;
+      contextHeight = this.scrollableAncestor.offsetHeight;
+      contextScrollTop = this.scrollableAncestor.getBoundingClientRect().top;
     }
 
     const {bottomOffset, topOffset} = this.props;
