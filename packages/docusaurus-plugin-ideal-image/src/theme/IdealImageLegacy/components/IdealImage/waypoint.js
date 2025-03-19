@@ -19,7 +19,6 @@ const defaultProps = {
   horizontal: false,
   onEnter() {},
   onLeave() {},
-  onPositionChange() {},
   fireOnRapidScroll: true,
 };
 
@@ -168,7 +167,7 @@ export class Waypoint extends React.PureComponent {
     const bounds = this._getBounds();
     const currentPosition = getCurrentPosition(bounds);
     const previousPosition = this._previousPosition;
-    const {onPositionChange, onEnter, onLeave, fireOnRapidScroll} = this.props;
+    const {onEnter, onLeave, fireOnRapidScroll} = this.props;
 
     // Save previous position as early as possible to prevent cycles
     this._previousPosition = currentPosition;
@@ -187,7 +186,6 @@ export class Waypoint extends React.PureComponent {
       viewportTop: bounds.viewportTop,
       viewportBottom: bounds.viewportBottom,
     };
-    onPositionChange.call(this, callbackArg);
 
     if (currentPosition === INSIDE) {
       onEnter.call(this, callbackArg);
