@@ -1,9 +1,15 @@
 import React from 'react';
-import {addEventListener} from 'consolidated-events';
 
 import computeOffsetPixels from './computeOffsetPixels';
 import getCurrentPosition from './getCurrentPosition';
 import onNextTick from './onNextTick';
+
+// Same API as https://github.com/lencioni/consolidated-events
+// But removing the behavior that we don't need
+function addEventListener(element, type, listener, options) {
+  element.addEventListener(type, listener, options);
+  return () => element.removeEventListener(type, listener, options);
+}
 
 const ABOVE = 'above';
 const INSIDE = 'inside';
