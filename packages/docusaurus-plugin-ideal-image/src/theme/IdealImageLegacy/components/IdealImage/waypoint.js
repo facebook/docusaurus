@@ -2,9 +2,13 @@ import React from 'react';
 import {addEventListener} from 'consolidated-events';
 
 import computeOffsetPixels from './computeOffsetPixels';
-import {INVISIBLE, INSIDE, BELOW, ABOVE} from './constants';
 import getCurrentPosition from './getCurrentPosition';
 import onNextTick from './onNextTick';
+
+const ABOVE = 'above';
+const INSIDE = 'inside';
+const BELOW = 'below';
+const INVISIBLE = 'invisible';
 
 const hasWindow = typeof window !== 'undefined';
 
