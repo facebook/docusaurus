@@ -12,13 +12,6 @@ const INSIDE = 'inside';
 const BELOW = 'below';
 const INVISIBLE = 'invisible';
 
-const defaultProps = {
-  topOffset: 0,
-  bottomOffset: 0,
-  onEnter() {},
-  onLeave() {},
-};
-
 export function Waypoint(props) {
   return typeof window !== 'undefined' ? (
     <WaypointClient {...props} />
@@ -27,8 +20,14 @@ export function Waypoint(props) {
   );
 }
 
-// Calls a function when you scroll to the element.
-class WaypointClient extends React.PureComponent {
+class WaypointClient extends React.Component {
+  static defaultProps = {
+    topOffset: 0,
+    bottomOffset: 0,
+    onEnter() {},
+    onLeave() {},
+  };
+
   innerRef = createRef();
 
   constructor(props) {
@@ -92,8 +91,6 @@ class WaypointClient extends React.PureComponent {
     const previousPosition = this._previousPosition;
     this._previousPosition = currentPosition;
 
-    console.log('handleScroll', {currentPosition, previousPosition});
-
     if (previousPosition === currentPosition) {
       // No change since last trigger
       return;
@@ -148,13 +145,6 @@ class WaypointClient extends React.PureComponent {
     return React.cloneElement(this.props.children, {innerRef: this.innerRef});
   }
 }
-
-Waypoint.above = ABOVE;
-Waypoint.below = BELOW;
-Waypoint.inside = INSIDE;
-Waypoint.invisible = INVISIBLE;
-Waypoint.defaultProps = defaultProps;
-Waypoint.displayName = 'Waypoint';
 
 /**
  * Traverses up the DOM to find an ancestor container which has an overflow
