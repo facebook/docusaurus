@@ -20,7 +20,11 @@ const defaultProps = {
 };
 
 export function Waypoint(props) {
-  const Comp = typeof window !== 'undefined' ? WaypointClient : props.children;
+  return typeof window !== 'undefined' ? (
+    <WaypointClient {...props} />
+  ) : (
+    props.children
+  );
 }
 
 // Calls a function when you scroll to the element.
@@ -75,24 +79,25 @@ class WaypointClient extends React.PureComponent {
       // There's a chance we end up here after the component has been unmounted.
       return;
     }
+    const {topOffset, bottomOffset, onEnter, onLeave} = this.props;
 
     const bounds = getBounds({
       node,
       scrollableAncestor: this.scrollableAncestor,
-      topOffset: props.topOffset,
-      bottomOffset: props.bottomOffset,
+      topOffset,
+      bottomOffset,
     });
 
     const currentPosition = getCurrentPosition(bounds);
     const previousPosition = this._previousPosition;
     this._previousPosition = currentPosition;
 
+    console.log('handleScroll', {currentPosition, previousPosition});
+
     if (previousPosition === currentPosition) {
       // No change since last trigger
       return;
     }
-
-    const {onEnter, onLeave} = this.props;
 
     const callbackArg = {
       currentPosition,
