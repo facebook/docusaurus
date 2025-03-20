@@ -9,8 +9,36 @@ import type {CSSProperties} from 'react';
 import rangeParser from 'parse-numeric-range';
 import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
 
-const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
-const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
+// note: regexp/no-useless-non-capturing-group is a false positive
+// the group is required or it breaks the correct alternation of
+// <quote><stringValue><quote> | <rawValue>
+const optionRegex =
+  // eslint-disable-next-line regexp/no-useless-non-capturing-group
+  /(?<key>\w+)(?:=(?:(?:(?<quote>["'])(?<stringValue>.*?)\k<quote>)|(?<rawValue>\S*)))?/g;
+const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/g;
+const highlightOptionKey = 'highlight';
+
+/**
+ * The supported types for {@link CodeBlockMeta.options} values.
+ */
+export type CodeMetaOptionValue = string | boolean | number;
+
+/**
+ * Any options as specified by the user in the "metastring" of codeblocks.
+ */
+export interface CodeBlockMeta {
+  /**
+   * The highlighted lines, 0-indexed. e.g. `{ 0: ["highlight", "sample"] }`
+   * means the 1st line should have `highlight` and `sample` as class names.
+   */
+  readonly lineClassNames: {[lineIndex: number]: string[]};
+
+  /**
+   * The parsed options, key converted to lowercase.
+   * e.g. `"title" => "file.js", "showlinenumbers" => true`
+   */
+  readonly options: {[key: string]: CodeMetaOptionValue};
+}
 
 // Supported types of highlight comments
 const popularCommentPatterns = {
@@ -147,32 +175,120 @@ function getAllMagicCommentDirectiveStyles(
   }
 }
 
-export function parseCodeBlockTitle(metastring?: string): string {
-  return metastring?.match(codeBlockTitleRegex)?.groups!.title ?? '';
+/**
+ * Rewrites the range syntax to special options. e.g.
+ * `{1,2,3-4,5} => highlight=1 highlight=2 highlight=3-4 highlight=5`
+ * @param metastring The input metastring with the range syntax
+ * @returns The string where the range syntax has been rewritten
+ */
+function rewriteLinesRange(metastring: string): string {
+  metastringLinesRangeRegex.lastIndex = 0;
+
+  return metastring.replaceAll(metastringLinesRangeRegex, (_, range) => {
+    return (range as string)
+      .split(',')
+      .map((r) => `${highlightOptionKey}=${r}`)
+      .join(' ');
+  });
 }
 
-function getMetaLineNumbersStart(metastring?: string): number | undefined {
-  const showLineNumbersMeta = metastring
-    ?.split(' ')
-    .find((str) => str.startsWith('showLineNumbers'));
+function parseCodeBlockOptions(
+  meta: CodeBlockMeta,
+  originalMetastring: string,
+  metastring: string,
+  magicComments: MagicCommentConfig[],
+) {
+  if (metastring) {
+    optionRegex.lastIndex = 0;
 
-  if (showLineNumbersMeta) {
-    if (showLineNumbersMeta.startsWith('showLineNumbers=')) {
-      const value = showLineNumbersMeta.replace('showLineNumbers=', '');
-      return parseInt(value, 10);
+    let match = optionRegex.exec(metastring);
+
+    while (match) {
+      const {stringValue, rawValue} = match.groups!;
+
+      const key = match.groups!.key!.toLowerCase();
+
+      // special highlight option
+      if (key === highlightOptionKey) {
+        if (magicComments.length === 0) {
+          throw new Error(
+            `A highlight range has been given in code block's metastring (\`\`\` ${originalMetastring}), but no magic comment config is available. Docusaurus applies the first magic comment entry's className for metastring ranges.`,
+          );
+        }
+        const metastringRangeClassName = magicComments[0]!.className;
+        rangeParser(stringValue ?? rawValue!)
+          .filter((n) => n > 0)
+          .forEach((n) => {
+            meta.lineClassNames[n - 1] = [metastringRangeClassName];
+          });
+      } else if (stringValue === undefined && rawValue === undefined) {
+        // flag options
+        meta.options[key] = true;
+      } else if (stringValue !== undefined) {
+        // string option
+        meta.options[key] = stringValue;
+      } else if (rawValue === 'true') {
+        // boolean option
+        meta.options[key] = true;
+      } else if (rawValue === 'false') {
+        meta.options[key] = false;
+      } else {
+        const number = parseFloat(rawValue!);
+        if (!Number.isNaN(number)) {
+          // number value
+          meta.options[key] = number;
+        } else {
+          // non quoted string
+          meta.options[key] = rawValue!;
+        }
+      }
+
+      match = optionRegex.exec(metastring);
     }
-    return 1;
+  }
+}
+
+export function parseCodeBlockMeta(options: ParseLineOptions): CodeBlockMeta {
+  if (typeof options.metastring === 'object') {
+    return options.metastring;
   }
 
-  return undefined;
+  const meta: CodeBlockMeta = {
+    lineClassNames: {},
+    options: {},
+  };
+
+  const {metastring, magicComments} = options;
+
+  // exit early if nothing to do.
+  if (!metastring) {
+    return meta;
+  }
+
+  const rewritten = rewriteLinesRange(metastring);
+  parseCodeBlockOptions(meta, metastring, rewritten, magicComments);
+
+  return meta;
+}
+
+function getMetaLineNumbersStart(meta: CodeBlockMeta): number | undefined {
+  const showLineNumbers = meta.options.showlinenumbers;
+  switch (typeof showLineNumbers) {
+    case 'boolean':
+      return showLineNumbers ? 1 : 0;
+    case 'number':
+      return Math.floor(showLineNumbers);
+    default:
+      return undefined;
+  }
 }
 
 export function getLineNumbersStart({
   showLineNumbers,
-  metastring,
+  meta,
 }: {
   showLineNumbers: boolean | number | undefined;
-  metastring: string | undefined;
+  meta: CodeBlockMeta;
 }): number | undefined {
   const defaultStart = 1;
   if (typeof showLineNumbers === 'boolean') {
@@ -181,7 +297,7 @@ export function getLineNumbersStart({
   if (typeof showLineNumbers === 'number') {
     return showLineNumbers;
   }
-  return getMetaLineNumbersStart(metastring);
+  return getMetaLineNumbersStart(meta);
 }
 
 /**
@@ -195,6 +311,24 @@ export function parseLanguage(className: string): string | undefined {
     .find((str) => str.startsWith('language-'));
   return languageClassName?.replace(/language-/, '');
 }
+
+export type ParseLineOptions = {
+  /**
+   * The full metastring, as received from MDX. Line ranges declared here
+   * start at 1. Or alternatively the parsed {@link CodeBlockMeta}.
+   */
+  metastring: CodeBlockMeta | string | undefined;
+  /**
+   * Language of the code block, used to determine which kinds of magic
+   * comment styles to enable.
+   */
+  language: string | undefined;
+  /**
+   * Magic comment types that we should try to parse. Each entry would
+   * correspond to one class name to apply to each line.
+   */
+  magicComments: MagicCommentConfig[];
+};
 
 /**
  * Parses the code content, strips away any magic comments, and returns the
@@ -211,29 +345,12 @@ export function parseLanguage(className: string): string | undefined {
  */
 export function parseLines(
   content: string,
-  options: {
-    /**
-     * The full metastring, as received from MDX. Line ranges declared here
-     * start at 1.
-     */
-    metastring: string | undefined;
-    /**
-     * Language of the code block, used to determine which kinds of magic
-     * comment styles to enable.
-     */
-    language: string | undefined;
-    /**
-     * Magic comment types that we should try to parse. Each entry would
-     * correspond to one class name to apply to each line.
-     */
-    magicComments: MagicCommentConfig[];
-  },
+  options: ParseLineOptions,
 ): {
   /**
-   * The highlighted lines, 0-indexed. e.g. `{ 0: ["highlight", "sample"] }`
-   * means the 1st line should have `highlight` and `sample` as class names.
+   * The metadata of the code block like highlighted lines and custom options.
    */
-  lineClassNames: {[lineIndex: number]: string[]};
+  meta: CodeBlockMeta;
   /**
    * If there's number range declared in the metastring, the code block is
    * returned as-is (no parsing); otherwise, this is the clean code with all
@@ -242,24 +359,12 @@ export function parseLines(
   code: string;
 } {
   let code = content.replace(/\n$/, '');
-  const {language, magicComments, metastring} = options;
-  // Highlighted lines specified in props: don't parse the content
-  if (metastring && metastringLinesRangeRegex.test(metastring)) {
-    const linesRange = metastring.match(metastringLinesRangeRegex)!.groups!
-      .range!;
-    if (magicComments.length === 0) {
-      throw new Error(
-        `A highlight range has been given in code block's metastring (\`\`\` ${metastring}), but no magic comment config is available. Docusaurus applies the first magic comment entry's className for metastring ranges.`,
-      );
-    }
-    const metastringRangeClassName = magicComments[0]!.className;
-    const lines = rangeParser(linesRange)
-      .filter((n) => n > 0)
-      .map((n) => [n - 1, [metastringRangeClassName]] as [number, string[]]);
-    return {lineClassNames: Object.fromEntries(lines), code};
-  }
+  const {language, magicComments} = options;
+
+  const meta = parseCodeBlockMeta(options);
+
   if (language === undefined) {
-    return {lineClassNames: {}, code};
+    return {meta, code};
   }
   const directiveRegex = getAllMagicCommentDirectiveStyles(
     language,
@@ -308,14 +413,15 @@ export function parseLines(
     lines.splice(lineNumber, 1);
   }
   code = lines.join('\n');
-  const lineClassNames: {[lineIndex: number]: string[]} = {};
   Object.entries(blocks).forEach(([className, {range}]) => {
     rangeParser(range).forEach((l) => {
-      lineClassNames[l] ??= [];
-      lineClassNames[l]!.push(className);
+      meta.lineClassNames[l] ??= [];
+      if (!meta.lineClassNames[l].includes(className)) {
+        meta.lineClassNames[l]!.push(className);
+      }
     });
   });
-  return {lineClassNames, code};
+  return {meta, code};
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {

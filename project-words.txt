@@ -202,6 +202,7 @@ noflash
 noicon
 nojekyll
 noninteractive
+noinline
 npmjs
 Nuxt
 ödingers
@@ -297,6 +298,7 @@ SFNT
 shiki
 Shiki
 showinfo
+showlinenumbers
 Sida
 Simen
 slorber

@@ -7,12 +7,34 @@
 
 import {
   type MagicCommentConfig,
-  parseCodeBlockTitle,
+  parseCodeBlockMeta,
   parseLanguage,
   parseLines,
 } from '../codeBlockUtils';
 
-describe('parseCodeBlockTitle', () => {
+const defaultMagicComments: MagicCommentConfig[] = [
+  {
+    className: 'theme-code-block-highlighted-line',
+    line: 'highlight-next-line',
+    block: {start: 'highlight-start', end: 'highlight-end'},
+  },
+];
+
+describe('parseCodeBlockMeta', () => {
+  // shorthand for previously existing tests parsing the title
+  function parseCodeBlockTitle(
+    metastring?: string,
+    magicComments?: MagicCommentConfig[],
+  ): string {
+    const meta = parseCodeBlockMeta({
+      language: undefined,
+      magicComments: magicComments ?? [],
+      metastring,
+    });
+
+    return (meta.options.title as string) ?? '';
+  }
+
   it('parses double quote delimited title', () => {
     expect(parseCodeBlockTitle(`title="index.js"`)).toBe(`index.js`);
   });
@@ -21,8 +43,8 @@ describe('parseCodeBlockTitle', () => {
     expect(parseCodeBlockTitle(`title='index.js'`)).toBe(`index.js`);
   });
 
-  it('does not parse mismatched quote delimiters', () => {
-    expect(parseCodeBlockTitle(`title="index.js'`)).toBe(``);
+  it('parses mismatched quote delimiters as plain string', () => {
+    expect(parseCodeBlockTitle(`title="index.js'`)).toBe(`"index.js'`);
   });
 
   it('parses undefined metastring', () => {
@@ -30,7 +52,7 @@ describe('parseCodeBlockTitle', () => {
   });
 
   it('parses metastring with no title specified', () => {
-    expect(parseCodeBlockTitle(`{1,2-3}`)).toBe(``);
+    expect(parseCodeBlockTitle(`{1,2-3}`, defaultMagicComments)).toBe(``);
   });
 
   it('parses with multiple metadata title first', () => {
@@ -56,6 +78,66 @@ describe('parseCodeBlockTitle', () => {
       `console.log('Hello, World!')`,
     );
   });
+
+  it('parses range only', () => {
+    expect(
+      parseCodeBlockMeta({
+        metastring: `{1,2-3}`,
+        language: undefined,
+        magicComments: defaultMagicComments,
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('parses range and options', () => {
+    expect(
+      parseCodeBlockMeta({
+        metastring: `{1,2-3} title="index.js" label="JavaScript"`,
+        language: undefined,
+        magicComments: defaultMagicComments,
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('parses range and options end', () => {
+    expect(
+      parseCodeBlockMeta({
+        metastring: `title="index.js" label="JavaScript" {1,2-3} `,
+        language: undefined,
+        magicComments: defaultMagicComments,
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('parses range and options middle', () => {
+    expect(
+      parseCodeBlockMeta({
+        metastring: `title="index.js" {1,2-3} label="JavaScript"`,
+        language: undefined,
+        magicComments: defaultMagicComments,
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('parses range and options multiple', () => {
+    expect(
+      parseCodeBlockMeta({
+        metastring: `{1} title="index.js" {1,2-3} label="JavaScript" {4}`,
+        language: undefined,
+        magicComments: defaultMagicComments,
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('parses mixed values', () => {
+    expect(
+      parseCodeBlockMeta({
+        metastring: `{1} a="double'quote" b='single"quote' c=raw d=true e=false f=1 g=0.5`,
+        language: undefined,
+        magicComments: defaultMagicComments,
+      }),
+    ).toMatchSnapshot();
+  });
 });
 
 describe('parseLanguage', () => {
@@ -68,14 +150,6 @@ describe('parseLanguage', () => {
 });
 
 describe('parseLines', () => {
-  const defaultMagicComments: MagicCommentConfig[] = [
-    {
-      className: 'theme-code-block-highlighted-line',
-      line: 'highlight-next-line',
-      block: {start: 'highlight-start', end: 'highlight-end'},
-    },
-  ];
-
   it('does not parse content with metastring', () => {
     expect(
       parseLines('aaaaa\nnnnnn', {

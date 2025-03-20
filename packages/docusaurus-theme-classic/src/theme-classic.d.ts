@@ -405,11 +405,12 @@ declare module '@theme/BlogLayout' {
 
 declare module '@theme/CodeBlock' {
   import type {ReactNode} from 'react';
+  import type {CodeBlockMeta} from '@docusaurus/theme-common';
 
   export interface Props {
     readonly children: ReactNode;
     readonly className?: string;
-    readonly metastring?: string;
+    readonly metastring?: string | CodeBlockMeta;
     readonly title?: ReactNode;
     readonly language?: string;
     readonly showLineNumbers?: boolean | number;
@@ -481,11 +482,24 @@ declare module '@theme/CodeBlock/Line' {
     readonly line: Token[];
     readonly classNames: string[] | undefined;
     readonly showLineNumbers: boolean;
+    readonly meta?: CodeBlockMeta;
     readonly getLineProps: (input: LineInputProps) => LineOutputProps;
     readonly getTokenProps: (input: TokenInputProps) => TokenOutputProps;
   }
 
   export default function CodeBlockLine(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Token' {
+  import type {ReactNode} from 'react';
+  import type {TokenOutputProps} from 'prism-react-renderer';
+
+  export interface Props {
+    readonly output: TokenOutputProps;
+    readonly meta?: CodeBlockMeta;
+  }
+
+  export default function CodeBlockToken(props: Props): ReactNode;
 }
 
 declare module '@theme/CodeBlock/WordWrapButton' {
