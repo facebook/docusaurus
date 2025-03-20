@@ -364,7 +364,7 @@ export default async function createConfigAsync() {
           min: 640,
           steps: 2,
           // Use false to debug, but it incurs huge perf costs
-          disableInDev: false,
+          disableInDev: true,
         } satisfies IdealImageOptions,
       ],
       [
