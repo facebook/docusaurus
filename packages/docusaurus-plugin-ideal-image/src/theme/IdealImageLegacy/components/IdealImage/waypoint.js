@@ -45,8 +45,7 @@ export class Waypoint extends React.PureComponent {
       this.cancelOnNextTick = null;
       const {children} = this.props;
 
-      this._handleScroll = this._handleScroll.bind(this);
-      this.scrollableAncestor = this._findScrollableAncestor();
+      this.scrollableAncestor = findScrollableAncestor(this._ref);
 
       this.scrollEventListenerUnsubscribe = addEventListener(
         this.scrollableAncestor,
@@ -111,48 +110,11 @@ export class Waypoint extends React.PureComponent {
   }
 
   /**
-   * Traverses up the DOM to find an ancestor container which has an overflow
-   * style that allows for scrolling.
-   *
-   * @return {Object} the closest ancestor element with an overflow style that
-   *   allows for scrolling. If none is found, the `window` object is returned
-   *   as a fallback.
-   */
-  _findScrollableAncestor() {
-    let node = this._ref;
-
-    while (node.parentNode) {
-      node = node.parentNode;
-
-      if (node === document.body) {
-        // We've reached all the way to the root node.
-        return window;
-      }
-
-      const style = window.getComputedStyle(node);
-      const overflowDirec = style.getPropertyValue('overflow-y');
-      const overflow = overflowDirec || style.getPropertyValue('overflow');
-
-      if (
-        overflow === 'auto' ||
-        overflow === 'scroll' ||
-        overflow === 'overlay'
-      ) {
-        return node;
-      }
-    }
-
-    // A scrollable ancestor element was not found, which means that we need to
-    // do stuff on window.
-    return window;
-  }
-
-  /**
    * @param {Object} event the native scroll event coming from the scrollable
    *   ancestor, or resize event coming from the window. Will be undefined if
    *   called by a React lifecyle method
    */
-  _handleScroll(event) {
+  _handleScroll = (event) => {
     if (!this._ref) {
       // There's a chance we end up here after the component has been unmounted.
       return;
@@ -214,7 +176,7 @@ export class Waypoint extends React.PureComponent {
         viewportBottom: bounds.viewportBottom,
       });
     }
-  }
+  };
 
   _getBounds() {
     const {left, top, right, bottom} = this._ref.getBoundingClientRect();
@@ -293,4 +255,42 @@ function getCurrentPosition(bounds) {
   }
 
   return INVISIBLE;
+}
+
+/**
+ * Traverses up the DOM to find an ancestor container which has an overflow
+ * style that allows for scrolling.
+ *
+ * @return {Object} the closest ancestor element with an overflow style that
+ *   allows for scrolling. If none is found, the `window` object is returned
+ *   as a fallback.
+ */
+function findScrollableAncestor(inputNode) {
+  let node = inputNode;
+
+  while (node.parentNode) {
+    node = node.parentNode;
+
+    if (node === document.body) {
+      // We've reached all the way to the root node.
+      return window;
+    }
+
+    const style = window.getComputedStyle(node);
+    const overflow =
+      style.getPropertyValue('overflow-y') ||
+      style.getPropertyValue('overflow');
+
+    if (
+      overflow === 'auto' ||
+      overflow === 'scroll' ||
+      overflow === 'overlay'
+    ) {
+      return node;
+    }
+  }
+
+  // A scrollable ancestor element was not found, which means that we need to
+  // do stuff on window.
+  return window;
 }
