@@ -1,8 +1,15 @@
-import React, {createRef} from 'react';
+import React, {createRef, ReactNode} from 'react';
+
+type ScrollContainer = Window | HTMLElement;
 
 // Same API as https://github.com/lencioni/consolidated-events
 // But removing the behavior that we don't need
-function addEventListener(element, type, listener, options) {
+function addEventListener(
+  element: ScrollContainer,
+  type: any,
+  listener: any,
+  options: any,
+) {
   element.addEventListener(type, listener, options);
   return () => element.removeEventListener(type, listener, options);
 }
@@ -12,15 +19,28 @@ const INSIDE = 'inside';
 const BELOW = 'below';
 const INVISIBLE = 'invisible';
 
-export function Waypoint(props) {
+type Position = 'above' | 'inside' | 'below' | 'invisible';
+
+type Props = {
+  topOffset: number;
+  bottomOffset: number;
+  onEnter: () => void;
+  onLeave: () => void;
+  children: ReactNode;
+};
+
+export function Waypoint(props: Props) {
   return typeof window !== 'undefined' ? (
-    <WaypointClient {...props} />
+    <WaypointClient {...props}>{props.children}</WaypointClient>
   ) : (
     props.children
   );
 }
 
-class WaypointClient extends React.Component {
+// TODO maybe replace this with IntersectionObserver later?
+//  IntersectionObserver doesn't support the "fast scroll" thing
+//  but it's probably not a big deal
+class WaypointClient extends React.Component<Props> {
   static defaultProps = {
     topOffset: 0,
     bottomOffset: 0,
@@ -28,64 +48,59 @@ class WaypointClient extends React.Component {
     onLeave() {},
   };
 
-  innerRef = createRef();
+  scrollableAncestor?: ScrollContainer;
+  previousPosition: Position | null = null;
+  unsubscribe?: () => void;
 
-  constructor(props) {
-    super(props);
-  }
+  innerRef = createRef<HTMLElement>();
 
-  componentDidMount() {
-    this.scrollableAncestor = findScrollableAncestor(this.innerRef.current);
+  override componentDidMount() {
+    this.scrollableAncestor = findScrollableAncestor(this.innerRef.current!);
 
-    this.scrollEventListenerUnsubscribe = addEventListener(
-      this.scrollableAncestor,
+    const unsubscribeScroll = addEventListener(
+      this.scrollableAncestor!,
       'scroll',
       this._handleScroll,
       {passive: true},
     );
 
-    this.resizeEventListenerUnsubscribe = addEventListener(
+    const unsubscribeResize = addEventListener(
       window,
       'resize',
       this._handleScroll,
       {passive: true},
     );
 
-    this._handleScroll(null);
+    this.unsubscribe = () => {
+      unsubscribeScroll();
+      unsubscribeResize();
+    };
+
+    this._handleScroll();
   }
 
-  componentDidUpdate() {
-    this._handleScroll(null);
+  override componentDidUpdate() {
+    this._handleScroll();
   }
 
-  componentWillUnmount() {
-    if (this.scrollEventListenerUnsubscribe) {
-      this.scrollEventListenerUnsubscribe();
-    }
-    if (this.resizeEventListenerUnsubscribe) {
-      this.resizeEventListenerUnsubscribe();
-    }
+  override componentWillUnmount() {
+    this.unsubscribe?.();
   }
 
-  /**
-   * @param {Object} event the native scroll event coming from the scrollable
-   *   ancestor, or resize event coming from the window. Will be undefined if
-   *   called by a React lifecyle method
-   */
-  _handleScroll = (event) => {
+  _handleScroll = () => {
     const node = this.innerRef.current;
     const {topOffset, bottomOffset, onEnter, onLeave} = this.props;
 
     const bounds = getBounds({
-      node,
-      scrollableAncestor: this.scrollableAncestor,
+      node: node!,
+      scrollableAncestor: this.scrollableAncestor!,
       topOffset,
       bottomOffset,
     });
 
     const currentPosition = getCurrentPosition(bounds);
-    const previousPosition = this._previousPosition;
-    this._previousPosition = currentPosition;
+    const previousPosition = this.previousPosition;
+    this.previousPosition = currentPosition;
 
     if (previousPosition === currentPosition) {
       return;
@@ -107,7 +122,8 @@ class WaypointClient extends React.Component {
     }
   };
 
-  render() {
+  override render() {
+    // @ts-expect-error: fix this implicit API
     return React.cloneElement(this.props.children, {innerRef: this.innerRef});
   }
 }
@@ -120,11 +136,12 @@ class WaypointClient extends React.Component {
  *   allows for scrolling. If none is found, the `window` object is returned
  *   as a fallback.
  */
-function findScrollableAncestor(inputNode) {
-  let node = inputNode;
+function findScrollableAncestor(inputNode: HTMLElement): ScrollContainer {
+  let node: HTMLElement = inputNode;
 
   while (node.parentNode) {
-    node = node.parentNode;
+    // @ts-expect-error: it's fine
+    node = node.parentNode!;
 
     if (node === document.body) {
       // We've reached all the way to the root node.
@@ -150,7 +167,24 @@ function findScrollableAncestor(inputNode) {
   return window;
 }
 
-function getBounds({node, scrollableAncestor, topOffset, bottomOffset}) {
+type Bounds = {
+  top: number;
+  bottom: number;
+  viewportTop: number;
+  viewportBottom: number;
+};
+
+function getBounds({
+  node,
+  scrollableAncestor,
+  topOffset,
+  bottomOffset,
+}: {
+  node: Element;
+  scrollableAncestor: ScrollContainer;
+  topOffset: number;
+  bottomOffset: number;
+}): Bounds {
   const {top, bottom} = node.getBoundingClientRect();
 
   let contextHeight;
@@ -159,8 +193,9 @@ function getBounds({node, scrollableAncestor, topOffset, bottomOffset}) {
     contextHeight = window.innerHeight;
     contextScrollTop = 0;
   } else {
-    contextHeight = scrollableAncestor.offsetHeight;
-    contextScrollTop = scrollableAncestor.getBoundingClientRect().top;
+    const ancestorElement = scrollableAncestor as HTMLElement;
+    contextHeight = ancestorElement.offsetHeight;
+    contextScrollTop = ancestorElement.getBoundingClientRect().top;
   }
 
   const contextBottom = contextScrollTop + contextHeight;
@@ -173,7 +208,7 @@ function getBounds({node, scrollableAncestor, topOffset, bottomOffset}) {
   };
 }
 
-function getCurrentPosition(bounds) {
+function getCurrentPosition(bounds: Bounds) {
   if (bounds.viewportBottom - bounds.viewportTop === 0) {
     return INVISIBLE;
   }
