@@ -155,9 +155,7 @@ function findScrollableAncestor(inputNode) {
 }
 
 function getBounds({node, scrollableAncestor, topOffset, bottomOffset}) {
-  const {left, top, right, bottom} = node.getBoundingClientRect();
-  const waypointTop = top;
-  const waypointBottom = bottom;
+  const {top, bottom} = node.getBoundingClientRect();
 
   let contextHeight;
   let contextScrollTop;
@@ -172,8 +170,8 @@ function getBounds({node, scrollableAncestor, topOffset, bottomOffset}) {
   const contextBottom = contextScrollTop + contextHeight;
 
   return {
-    waypointTop,
-    waypointBottom,
+    top,
+    bottom,
     viewportTop: contextScrollTop + topOffset,
     viewportBottom: contextBottom - bottomOffset,
   };
@@ -184,30 +182,27 @@ function getCurrentPosition(bounds) {
     return INVISIBLE;
   }
   // top is within the viewport
-  if (
-    bounds.viewportTop <= bounds.waypointTop &&
-    bounds.waypointTop <= bounds.viewportBottom
-  ) {
+  if (bounds.viewportTop <= bounds.top && bounds.top <= bounds.viewportBottom) {
     return INSIDE;
   }
   // bottom is within the viewport
   if (
-    bounds.viewportTop <= bounds.waypointBottom &&
-    bounds.waypointBottom <= bounds.viewportBottom
+    bounds.viewportTop <= bounds.bottom &&
+    bounds.bottom <= bounds.viewportBottom
   ) {
     return INSIDE;
   }
   // top is above the viewport and bottom is below the viewport
   if (
-    bounds.waypointTop <= bounds.viewportTop &&
-    bounds.viewportBottom <= bounds.waypointBottom
+    bounds.top <= bounds.viewportTop &&
+    bounds.viewportBottom <= bounds.bottom
   ) {
     return INSIDE;
   }
-  if (bounds.viewportBottom < bounds.waypointTop) {
+  if (bounds.viewportBottom < bounds.top) {
     return BELOW;
   }
-  if (bounds.waypointTop < bounds.viewportTop) {
+  if (bounds.top < bounds.viewportTop) {
     return ABOVE;
   }
   return INVISIBLE;
