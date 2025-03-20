@@ -1,23 +1,17 @@
 import React, {createRef, ReactNode} from 'react';
+import {AddEventListenerOptions} from 'undici-types/patch';
 
 type ScrollContainer = Window | HTMLElement;
 
-// Same API as https://github.com/lencioni/consolidated-events
-// But removing the behavior that we don't need
 function addEventListener(
   element: ScrollContainer,
-  type: any,
-  listener: any,
-  options: any,
+  type: 'scroll' | 'resize',
+  listener: () => void,
+  options: AddEventListenerOptions,
 ) {
   element.addEventListener(type, listener, options);
   return () => element.removeEventListener(type, listener, options);
 }
-
-const ABOVE = 'above';
-const INSIDE = 'inside';
-const BELOW = 'below';
-const INVISIBLE = 'invisible';
 
 type Position = 'above' | 'inside' | 'below' | 'invisible';
 
@@ -106,16 +100,16 @@ class WaypointClient extends React.Component<Props> {
       return;
     }
 
-    if (currentPosition === INSIDE) {
+    if (currentPosition === 'inside') {
       onEnter();
-    } else if (previousPosition === INSIDE) {
+    } else if (previousPosition === 'inside') {
       onLeave();
     }
 
     const isRapidScrollDown =
-      previousPosition === BELOW && currentPosition === ABOVE;
+      previousPosition === 'below' && currentPosition === 'above';
     const isRapidScrollUp =
-      previousPosition === ABOVE && currentPosition === BELOW;
+      previousPosition === 'above' && currentPosition === 'below';
     if (isRapidScrollDown || isRapidScrollUp) {
       onEnter();
       onLeave();
@@ -208,33 +202,33 @@ function getBounds({
   };
 }
 
-function getCurrentPosition(bounds: Bounds) {
+function getCurrentPosition(bounds: Bounds): Position {
   if (bounds.viewportBottom - bounds.viewportTop === 0) {
-    return INVISIBLE;
+    return 'invisible';
   }
   // top is within the viewport
   if (bounds.viewportTop <= bounds.top && bounds.top <= bounds.viewportBottom) {
-    return INSIDE;
+    return 'inside';
   }
   // bottom is within the viewport
   if (
     bounds.viewportTop <= bounds.bottom &&
     bounds.bottom <= bounds.viewportBottom
   ) {
-    return INSIDE;
+    return 'inside';
   }
   // top is above the viewport and bottom is below the viewport
   if (
     bounds.top <= bounds.viewportTop &&
     bounds.viewportBottom <= bounds.bottom
   ) {
-    return INSIDE;
+    return 'inside';
   }
   if (bounds.viewportBottom < bounds.top) {
-    return BELOW;
+    return 'below';
   }
   if (bounds.top < bounds.viewportTop) {
-    return ABOVE;
+    return 'above';
   }
-  return INVISIBLE;
+  return 'invisible';
 }
