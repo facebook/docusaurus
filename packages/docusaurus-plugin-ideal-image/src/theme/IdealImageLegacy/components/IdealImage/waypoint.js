@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createRef} from 'react';
 
 import onNextTick from './onNextTick';
 
@@ -25,12 +25,10 @@ const defaultProps = {
 
 // Calls a function when you scroll to the element.
 export class Waypoint extends React.PureComponent {
+  innerRef = createRef();
+
   constructor(props) {
     super(props);
-
-    this.refElement = (e) => {
-      this._ref = e;
-    };
   }
 
   componentDidMount() {
@@ -38,14 +36,14 @@ export class Waypoint extends React.PureComponent {
       return;
     }
 
-    // this._ref may occasionally not be set at this time. To help ensure that
+    // this.innerRef may occasionally not be set at this time. To help ensure that
     // this works smoothly and to avoid layout thrashing, we want to delay the
     // initial execution until the next tick.
     this.cancelOnNextTick = onNextTick(() => {
       this.cancelOnNextTick = null;
       const {children} = this.props;
 
-      this.scrollableAncestor = findScrollableAncestor(this._ref);
+      this.scrollableAncestor = findScrollableAncestor(this.innerRef.current);
 
       this.scrollEventListenerUnsubscribe = addEventListener(
         this.scrollableAncestor,
@@ -115,12 +113,19 @@ export class Waypoint extends React.PureComponent {
    *   called by a React lifecyle method
    */
   _handleScroll = (event) => {
-    if (!this._ref) {
+    const node = this.innerRef.current;
+    if (!node) {
       // There's a chance we end up here after the component has been unmounted.
       return;
     }
 
-    const bounds = this._getBounds();
+    const bounds = getBounds({
+      node,
+      scrollableAncestor: this.scrollableAncestor,
+      topOffset: props.topOffset,
+      bottomOffset: props.bottomOffset,
+    });
+
     const currentPosition = getCurrentPosition(bounds);
     const previousPosition = this._previousPosition;
     const {onEnter, onLeave} = this.props;
@@ -178,34 +183,8 @@ export class Waypoint extends React.PureComponent {
     }
   };
 
-  _getBounds() {
-    const {left, top, right, bottom} = this._ref.getBoundingClientRect();
-    const waypointTop = top;
-    const waypointBottom = bottom;
-
-    let contextHeight;
-    let contextScrollTop;
-    if (this.scrollableAncestor === window) {
-      contextHeight = window.innerHeight;
-      contextScrollTop = 0;
-    } else {
-      contextHeight = this.scrollableAncestor.offsetHeight;
-      contextScrollTop = this.scrollableAncestor.getBoundingClientRect().top;
-    }
-
-    const {bottomOffset, topOffset} = this.props;
-    const contextBottom = contextScrollTop + contextHeight;
-
-    return {
-      waypointTop,
-      waypointBottom,
-      viewportTop: contextScrollTop + topOffset,
-      viewportBottom: contextBottom - bottomOffset,
-    };
-  }
-
   render() {
-    return React.cloneElement(this.props.children, {innerRef: this.refElement});
+    return React.cloneElement(this.props.children, {innerRef: this.innerRef});
   }
 }
 
@@ -293,4 +272,29 @@ function findScrollableAncestor(inputNode) {
   // A scrollable ancestor element was not found, which means that we need to
   // do stuff on window.
   return window;
+}
+
+function getBounds({node, scrollableAncestor, topOffset, bottomOffset}) {
+  const {left, top, right, bottom} = node.getBoundingClientRect();
+  const waypointTop = top;
+  const waypointBottom = bottom;
+
+  let contextHeight;
+  let contextScrollTop;
+  if (scrollableAncestor === window) {
+    contextHeight = window.innerHeight;
+    contextScrollTop = 0;
+  } else {
+    contextHeight = scrollableAncestor.offsetHeight;
+    contextScrollTop = scrollableAncestor.getBoundingClientRect().top;
+  }
+
+  const contextBottom = contextScrollTop + contextHeight;
+
+  return {
+    waypointTop,
+    waypointBottom,
+    viewportTop: contextScrollTop + topOffset,
+    viewportBottom: contextBottom - bottomOffset,
+  };
 }
