@@ -74,10 +74,6 @@ class WaypointClient extends React.Component {
    */
   _handleScroll = (event) => {
     const node = this.innerRef.current;
-    if (!node) {
-      // There's a chance we end up here after the component has been unmounted.
-      return;
-    }
     const {topOffset, bottomOffset, onEnter, onLeave} = this.props;
 
     const bounds = getBounds({
