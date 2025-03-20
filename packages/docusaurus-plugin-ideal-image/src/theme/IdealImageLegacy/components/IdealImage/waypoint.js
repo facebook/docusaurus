@@ -92,52 +92,22 @@ class WaypointClient extends React.Component {
     this._previousPosition = currentPosition;
 
     if (previousPosition === currentPosition) {
-      // No change since last trigger
       return;
     }
 
-    const callbackArg = {
-      currentPosition,
-      previousPosition,
-      event,
-      waypointTop: bounds.waypointTop,
-      waypointBottom: bounds.waypointBottom,
-      viewportTop: bounds.viewportTop,
-      viewportBottom: bounds.viewportBottom,
-    };
-
     if (currentPosition === INSIDE) {
-      onEnter.call(this, callbackArg);
+      onEnter();
     } else if (previousPosition === INSIDE) {
-      onLeave.call(this, callbackArg);
+      onLeave();
     }
 
     const isRapidScrollDown =
       previousPosition === BELOW && currentPosition === ABOVE;
     const isRapidScrollUp =
       previousPosition === ABOVE && currentPosition === BELOW;
-
     if (isRapidScrollDown || isRapidScrollUp) {
-      // If the scroll event isn't fired often enough to occur while the
-      // waypoint was visible, we trigger both callbacks anyway.
-      onEnter.call(this, {
-        currentPosition: INSIDE,
-        previousPosition,
-        event,
-        waypointTop: bounds.waypointTop,
-        waypointBottom: bounds.waypointBottom,
-        viewportTop: bounds.viewportTop,
-        viewportBottom: bounds.viewportBottom,
-      });
-      onLeave.call(this, {
-        currentPosition,
-        previousPosition: INSIDE,
-        event,
-        waypointTop: bounds.waypointTop,
-        waypointBottom: bounds.waypointBottom,
-        viewportTop: bounds.viewportTop,
-        viewportBottom: bounds.viewportBottom,
-      });
+      onEnter();
+      onLeave();
     }
   };
 
