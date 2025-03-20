@@ -26,7 +26,7 @@
     "@docusaurus/utils": "3.7.0",
     "babel-loader": "^9.2.1",
     "clean-css": "^5.3.2",
-    "copy-webpack-plugin": "^11.0.0",
+    "copy-webpack-plugin": "^13.0.0",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "cssnano": "^6.1.2",
