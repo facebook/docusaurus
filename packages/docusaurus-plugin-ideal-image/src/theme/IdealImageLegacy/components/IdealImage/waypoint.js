@@ -1,7 +1,5 @@
 import React, {createRef} from 'react';
 
-import onNextTick from './onNextTick';
-
 // Same API as https://github.com/lencioni/consolidated-events
 // But removing the behavior that we don't need
 function addEventListener(element, type, listener, options) {
@@ -14,8 +12,6 @@ const INSIDE = 'inside';
 const BELOW = 'below';
 const INVISIBLE = 'invisible';
 
-const hasWindow = typeof window !== 'undefined';
-
 const defaultProps = {
   topOffset: 0,
   bottomOffset: 0,
@@ -23,8 +19,12 @@ const defaultProps = {
   onLeave() {},
 };
 
+export function Waypoint(props) {
+  const Comp = typeof window !== 'undefined' ? WaypointClient : props.children;
+}
+
 // Calls a function when you scroll to the element.
-export class Waypoint extends React.PureComponent {
+class WaypointClient extends React.PureComponent {
   innerRef = createRef();
 
   constructor(props) {
@@ -32,10 +32,6 @@ export class Waypoint extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (!hasWindow) {
-      return;
-    }
-
     // this.innerRef may occasionally not be set at this time. To help ensure that
     // this works smoothly and to avoid layout thrashing, we want to delay the
     // initial execution until the next tick.
@@ -64,10 +60,6 @@ export class Waypoint extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    if (!hasWindow) {
-      return;
-    }
-
     if (!this.scrollableAncestor) {
       // The Waypoint has not yet initialized.
       return;
@@ -91,10 +83,6 @@ export class Waypoint extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (!hasWindow) {
-      return;
-    }
-
     if (this.scrollEventListenerUnsubscribe) {
       this.scrollEventListenerUnsubscribe();
     }
