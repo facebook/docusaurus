@@ -32,54 +32,27 @@ class WaypointClient extends React.PureComponent {
   }
 
   componentDidMount() {
-    // this.innerRef may occasionally not be set at this time. To help ensure that
-    // this works smoothly and to avoid layout thrashing, we want to delay the
-    // initial execution until the next tick.
-    this.cancelOnNextTick = onNextTick(() => {
-      this.cancelOnNextTick = null;
-      const {children} = this.props;
+    this.scrollableAncestor = findScrollableAncestor(this.innerRef.current);
 
-      this.scrollableAncestor = findScrollableAncestor(this.innerRef.current);
+    this.scrollEventListenerUnsubscribe = addEventListener(
+      this.scrollableAncestor,
+      'scroll',
+      this._handleScroll,
+      {passive: true},
+    );
 
-      this.scrollEventListenerUnsubscribe = addEventListener(
-        this.scrollableAncestor,
-        'scroll',
-        this._handleScroll,
-        {passive: true},
-      );
+    this.resizeEventListenerUnsubscribe = addEventListener(
+      window,
+      'resize',
+      this._handleScroll,
+      {passive: true},
+    );
 
-      this.resizeEventListenerUnsubscribe = addEventListener(
-        window,
-        'resize',
-        this._handleScroll,
-        {passive: true},
-      );
-
-      this._handleScroll(null);
-    });
+    this._handleScroll(null);
   }
 
   componentDidUpdate() {
-    if (!this.scrollableAncestor) {
-      // The Waypoint has not yet initialized.
-      return;
-    }
-
-    // The element may have moved, so we need to recompute its position on the
-    // page. This happens via handleScroll in a way that forces layout to be
-    // computed.
-    //
-    // We want this to be deferred to avoid forcing layout during render, which
-    // causes layout thrashing. And, if we already have this work enqueued, we
-    // can just wait for that to happen instead of enqueueing again.
-    if (this.cancelOnNextTick) {
-      return;
-    }
-
-    this.cancelOnNextTick = onNextTick(() => {
-      this.cancelOnNextTick = null;
-      this._handleScroll(null);
-    });
+    this._handleScroll(null);
   }
 
   componentWillUnmount() {
@@ -88,10 +61,6 @@ class WaypointClient extends React.PureComponent {
     }
     if (this.resizeEventListenerUnsubscribe) {
       this.resizeEventListenerUnsubscribe();
-    }
-
-    if (this.cancelOnNextTick) {
-      this.cancelOnNextTick();
     }
   }
 
@@ -116,15 +85,14 @@ class WaypointClient extends React.PureComponent {
 
     const currentPosition = getCurrentPosition(bounds);
     const previousPosition = this._previousPosition;
-    const {onEnter, onLeave} = this.props;
-
-    // Save previous position as early as possible to prevent cycles
     this._previousPosition = currentPosition;
 
     if (previousPosition === currentPosition) {
       // No change since last trigger
       return;
     }
+
+    const {onEnter, onLeave} = this.props;
 
     const callbackArg = {
       currentPosition,
@@ -182,47 +150,6 @@ Waypoint.inside = INSIDE;
 Waypoint.invisible = INVISIBLE;
 Waypoint.defaultProps = defaultProps;
 Waypoint.displayName = 'Waypoint';
-
-// Copy https://github.com/civiccc/react-waypoint/blob/master/src/getCurrentPosition.js
-function getCurrentPosition(bounds) {
-  if (bounds.viewportBottom - bounds.viewportTop === 0) {
-    return INVISIBLE;
-  }
-
-  // top is within the viewport
-  if (
-    bounds.viewportTop <= bounds.waypointTop &&
-    bounds.waypointTop <= bounds.viewportBottom
-  ) {
-    return INSIDE;
-  }
-
-  // bottom is within the viewport
-  if (
-    bounds.viewportTop <= bounds.waypointBottom &&
-    bounds.waypointBottom <= bounds.viewportBottom
-  ) {
-    return INSIDE;
-  }
-
-  // top is above the viewport and bottom is below the viewport
-  if (
-    bounds.waypointTop <= bounds.viewportTop &&
-    bounds.viewportBottom <= bounds.waypointBottom
-  ) {
-    return INSIDE;
-  }
-
-  if (bounds.viewportBottom < bounds.waypointTop) {
-    return BELOW;
-  }
-
-  if (bounds.waypointTop < bounds.viewportTop) {
-    return ABOVE;
-  }
-
-  return INVISIBLE;
-}
 
 /**
  * Traverses up the DOM to find an ancestor container which has an overflow
@@ -285,4 +212,38 @@ function getBounds({node, scrollableAncestor, topOffset, bottomOffset}) {
     viewportTop: contextScrollTop + topOffset,
     viewportBottom: contextBottom - bottomOffset,
   };
+}
+
+function getCurrentPosition(bounds) {
+  if (bounds.viewportBottom - bounds.viewportTop === 0) {
+    return INVISIBLE;
+  }
+  // top is within the viewport
+  if (
+    bounds.viewportTop <= bounds.waypointTop &&
+    bounds.waypointTop <= bounds.viewportBottom
+  ) {
+    return INSIDE;
+  }
+  // bottom is within the viewport
+  if (
+    bounds.viewportTop <= bounds.waypointBottom &&
+    bounds.waypointBottom <= bounds.viewportBottom
+  ) {
+    return INSIDE;
+  }
+  // top is above the viewport and bottom is below the viewport
+  if (
+    bounds.waypointTop <= bounds.viewportTop &&
+    bounds.viewportBottom <= bounds.waypointBottom
+  ) {
+    return INSIDE;
+  }
+  if (bounds.viewportBottom < bounds.waypointTop) {
+    return BELOW;
+  }
+  if (bounds.waypointTop < bounds.viewportTop) {
+    return ABOVE;
+  }
+  return INVISIBLE;
 }
