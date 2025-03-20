@@ -1,5 +1,10 @@
+/*
+This is a slimmed down copy of https://github.com/civiccc/react-waypoint
+The MIT License (MIT)
+Copyright (c) 2015 Brigade
+ */
+
 import React, {createRef, ReactNode} from 'react';
-import {AddEventListenerOptions} from 'undici-types/patch';
 
 type ScrollContainer = Window | HTMLElement;
 
