@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getCodeBlockTitle returns option with empty prop 1`] = `"Option"`;
+
+exports[`getCodeBlockTitle returns option with filled prop 1`] = `"Option"`;
+
+exports[`getCodeBlockTitle returns option with undefined prop 1`] = `"Option"`;
+
+exports[`getCodeBlockTitle returns titleProp with empty options 1`] = `"Prop"`;
+
+exports[`getCodeBlockTitle returns titleProp with empty string on option 1`] = `"Prop"`;
+
+exports[`getCodeBlockTitle with nothing set 1`] = `undefined`;
+
 exports[`getLineNumbersStart handles metadata combined with other options set as flag 1`] = `1`;
 
 exports[`getLineNumbersStart handles metadata combined with other options set with number 1`] = `10`;

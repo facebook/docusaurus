@@ -9,9 +9,10 @@ import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, usePrismTheme} from '@docusaurus/theme-common';
 import {
-  parseCodeBlockTitle,
+  parseCodeBlockMetaOptions,
   parseLanguage,
   parseLines,
+  getCodeBlockTitle,
   getLineNumbersStart,
   useCodeWordWrap,
 } from '@docusaurus/theme-common/internal';
@@ -51,10 +52,15 @@ export default function CodeBlockString({
   const wordWrap = useCodeWordWrap();
   const isBrowser = useIsBrowser();
 
+  const metaOptions = parseCodeBlockMetaOptions(metastring);
+
   // We still parse the metastring in case we want to support more syntax in the
   // future. Note that MDX doesn't strip quotes when parsing metastring:
   // "title=\"xyz\"" => title: "\"xyz\""
-  const title = parseCodeBlockTitle(metastring) || titleProp;
+  const title = getCodeBlockTitle({
+    titleProp,
+    metaOptions,
+  });
 
   const {lineClassNames, code} = parseLines(children, {
     metastring,
