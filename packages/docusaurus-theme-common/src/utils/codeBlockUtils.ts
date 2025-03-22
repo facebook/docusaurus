@@ -147,7 +147,7 @@ function getAllMagicCommentDirectiveStyles(
   }
 }
 
-export function parseCodeBlockTitle(metastring?: string): string {
+function parseCodeBlockTitle(metastring?: string): string {
   return metastring?.match(codeBlockTitleRegex)?.groups!.title ?? '';
 }
 
@@ -165,6 +165,20 @@ function getMetaLineNumbersStart(metastring?: string): number | undefined {
   }
 
   return undefined;
+}
+
+export function getCodeBlockTitle({
+  titleProp,
+  metaOptions,
+}: {
+  titleProp: React.ReactNode;
+  metaOptions: CodeBlockMetaOptions;
+}): React.ReactNode {
+  // NOTE: historically the metastring option overruled
+  // any `title=""` prop specified on `<CodeBlock />`
+  // this is the reversed logic to getLineNumbersStart
+  // but would be a breaking change so we keep it.
+  return metaOptions.title || titleProp;
 }
 
 export function getLineNumbersStart({
@@ -222,6 +236,19 @@ export type CodeBlockParseLinesOptions = {
  * means the 1st line should have `highlight` and `sample` as class names.
  */
 export type CodeBlockLineClassNames = {[lineIndex: number]: string[]};
+
+/**
+ * The supported types for {@link CodeBlockMetaOptions} values.
+ */
+export type CodeMetaOptionValue = string | number | boolean | undefined;
+
+/**
+ * A property bag for custom options specified by the user via metastring
+ * to control aspects like title and line numbers.
+ */
+export type CodeBlockMetaOptions = {
+  [key: string]: CodeMetaOptionValue;
+};
 
 /**
  * The parsed lines of a code block, split into its individual parts like
@@ -378,6 +405,26 @@ function fillLineClassNamesFromCode(
       lineClassNames[l]!.push(className);
     });
   });
+}
+
+/**
+ * Parses {@link CodeBlockParsedLines.metaOptions} from the given metastring.
+ * @param metastring The metastring to parse
+ * @returns The parsed options.
+ */
+export function parseCodeBlockMetaOptions(
+  metastring: string | undefined,
+): CodeBlockMetaOptions {
+  const parsedOptions: CodeBlockMetaOptions = {};
+
+  parsedOptions.title = parseCodeBlockTitle(metastring);
+
+  // parsedOptions.live = TODO;
+  // parsedOptions.noInline = TODO;
+
+  // parsedOptions.showLineNumbers = TODO;
+
+  return parsedOptions;
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
