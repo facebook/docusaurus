@@ -371,7 +371,7 @@ export function parseCodeBlockMetaOptions(
 
   // interactive code editor (theme-live-codeblock => Playground)
   parsedOptions.live = metastring?.split(' ').includes('live');
-  // parsedOptions.noInline = TODO;
+  parsedOptions.noInline = metastring?.includes('noInline');
 
   return parsedOptions;
 }
