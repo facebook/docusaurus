@@ -70,7 +70,7 @@ export default function CodeBlockString({
   });
   const lineNumbersStart = getLineNumbersStart({
     showLineNumbers: showLineNumbersProp,
-    metastring,
+    metaOptions,
   });
 
   return (
