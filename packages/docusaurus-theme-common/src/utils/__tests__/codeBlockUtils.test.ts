@@ -6,6 +6,7 @@
  */
 
 import {
+  getLineNumbersStart,
   type MagicCommentConfig,
   parseCodeBlockTitle,
   parseLanguage,
@@ -358,5 +359,122 @@ line
         },
       ),
     ).toMatchSnapshot();
+  });
+});
+
+describe('getLineNumbersStart', () => {
+  it('with nothing set', () => {
+    expect(
+      getLineNumbersStart({
+        showLineNumbers: undefined,
+        metastring: undefined,
+      }),
+    ).toMatchSnapshot();
+    expect(
+      getLineNumbersStart({
+        showLineNumbers: undefined,
+        metastring: '',
+      }),
+    ).toMatchSnapshot();
+  });
+
+  describe('handles prop', () => {
+    describe('combined with metastring', () => {
+      it('set to true', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: true,
+            metastring: 'showLineNumbers=2',
+          }),
+        ).toMatchSnapshot();
+      });
+
+      it('set to false', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: false,
+            metastring: 'showLineNumbers=2',
+          }),
+        ).toMatchSnapshot();
+      });
+
+      it('set to number', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: 10,
+            metastring: 'showLineNumbers=2',
+          }),
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('standalone', () => {
+      it('set to true', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: true,
+            metastring: undefined,
+          }),
+        ).toMatchSnapshot();
+      });
+
+      it('set to false', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: false,
+            metastring: undefined,
+          }),
+        ).toMatchSnapshot();
+      });
+
+      it('set to number', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: 10,
+            metastring: undefined,
+          }),
+        ).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('handles metadata', () => {
+    describe('standalone', () => {
+      it('set as flag', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: undefined,
+            metastring: 'showLineNumbers',
+          }),
+        ).toMatchSnapshot();
+      });
+      it('set with number', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: undefined,
+            metastring: 'showLineNumbers=10',
+          }),
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('combined with other options', () => {
+      it('set as flag', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: undefined,
+            metastring: '{1,2-3}  title="file.txt" showLineNumbers noInline',
+          }),
+        ).toMatchSnapshot();
+      });
+      it('set with number', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: undefined,
+            metastring: '{1,2-3}  title="file.txt" showLineNumbers=10 noInline',
+          }),
+        ).toMatchSnapshot();
+      });
+    });
   });
 });

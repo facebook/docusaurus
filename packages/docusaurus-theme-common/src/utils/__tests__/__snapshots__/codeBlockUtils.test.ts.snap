@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getLineNumbersStart handles metadata combined with other options set as flag 1`] = `1`;
+
+exports[`getLineNumbersStart handles metadata combined with other options set with number 1`] = `10`;
+
+exports[`getLineNumbersStart handles metadata standalone set as flag 1`] = `1`;
+
+exports[`getLineNumbersStart handles metadata standalone set with number 1`] = `10`;
+
+exports[`getLineNumbersStart handles prop combined with metastring set to false 1`] = `undefined`;
+
+exports[`getLineNumbersStart handles prop combined with metastring set to number 1`] = `10`;
+
+exports[`getLineNumbersStart handles prop combined with metastring set to true 1`] = `1`;
+
+exports[`getLineNumbersStart handles prop standalone set to false 1`] = `undefined`;
+
+exports[`getLineNumbersStart handles prop standalone set to number 1`] = `10`;
+
+exports[`getLineNumbersStart handles prop standalone set to true 1`] = `1`;
+
+exports[`getLineNumbersStart with nothing set 1`] = `undefined`;
+
+exports[`getLineNumbersStart with nothing set 2`] = `undefined`;
+
 exports[`parseLines does not parse content with metastring 1`] = `
 {
   "code": "aaaaa
