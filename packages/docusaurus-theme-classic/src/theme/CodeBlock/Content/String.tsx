@@ -40,6 +40,7 @@ export default function CodeBlockString({
   title: titleProp,
   showLineNumbers: showLineNumbersProp,
   language: languageProp,
+  metaOptions: metaOptionsProp,
 }: Props): ReactNode {
   const {
     prism: {defaultLanguage, magicComments},
@@ -52,7 +53,7 @@ export default function CodeBlockString({
   const wordWrap = useCodeWordWrap();
   const isBrowser = useIsBrowser();
 
-  const metaOptions = parseCodeBlockMetaOptions(metastring);
+  const metaOptions = parseCodeBlockMetaOptions(metastring, metaOptionsProp);
 
   // We still parse the metastring in case we want to support more syntax in the
   // future. Note that MDX doesn't strip quotes when parsing metastring:
