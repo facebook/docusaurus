@@ -25,50 +25,64 @@ const defaultMagicComments: MagicCommentConfig[] = [
 describe('parseCodeBlockMetaOptions', () => {
   describe('title', () => {
     it('parses double quote delimited title', () => {
-      expect(parseCodeBlockMetaOptions(`title="index.js"`).title).toBe(
-        `index.js`,
-      );
+      expect(
+        parseCodeBlockMetaOptions(`title="index.js"`, undefined).title,
+      ).toBe(`index.js`);
     });
 
     it('parses single quote delimited title', () => {
-      expect(parseCodeBlockMetaOptions(`title='index.js'`).title).toBe(
-        `index.js`,
-      );
+      expect(
+        parseCodeBlockMetaOptions(`title='index.js'`, undefined).title,
+      ).toBe(`index.js`);
     });
 
     it('does not parse mismatched quote delimiters', () => {
-      expect(parseCodeBlockMetaOptions(`title="index.js'`).title).toBe(``);
+      expect(
+        parseCodeBlockMetaOptions(`title="index.js'`, undefined).title,
+      ).toBe(``);
     });
 
     it('parses undefined metastring', () => {
-      expect(parseCodeBlockMetaOptions(undefined).title).toBe(``);
+      expect(parseCodeBlockMetaOptions(undefined, undefined).title).toBe(``);
     });
 
     it('parses metastring with no title specified', () => {
-      expect(parseCodeBlockMetaOptions(`{1,2-3}`).title).toBe(``);
+      expect(parseCodeBlockMetaOptions(`{1,2-3}`, undefined).title).toBe(``);
     });
 
     it('parses with multiple metadata title first', () => {
       expect(
-        parseCodeBlockMetaOptions(`title="index.js" label="JavaScript"`).title,
+        parseCodeBlockMetaOptions(
+          `title="index.js" label="JavaScript"`,
+          undefined,
+        ).title,
       ).toBe(`index.js`);
     });
 
     it('parses with multiple metadata title last', () => {
       expect(
-        parseCodeBlockMetaOptions(`label="JavaScript" title="index.js"`).title,
+        parseCodeBlockMetaOptions(
+          `label="JavaScript" title="index.js"`,
+          undefined,
+        ).title,
       ).toBe(`index.js`);
     });
 
     it('parses double quotes when delimited by single quotes', () => {
       expect(
-        parseCodeBlockMetaOptions(`title='console.log("Hello, World!")'`).title,
+        parseCodeBlockMetaOptions(
+          `title='console.log("Hello, World!")'`,
+          undefined,
+        ).title,
       ).toBe(`console.log("Hello, World!")`);
     });
 
     it('parses single quotes when delimited by double quotes', () => {
       expect(
-        parseCodeBlockMetaOptions(`title="console.log('Hello, World!')"`).title,
+        parseCodeBlockMetaOptions(
+          `title="console.log('Hello, World!')"`,
+          undefined,
+        ).title,
       ).toBe(`console.log('Hello, World!')`);
     });
   });
@@ -148,7 +162,11 @@ bbbbb`,
         `// highlight-next-line
 aaaaa
 bbbbb`,
-        {metastring: '', language: 'js', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'js',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot();
     expect(
@@ -157,7 +175,11 @@ bbbbb`,
 aaaaa
 // highlight-end
 bbbbb`,
-        {metastring: '', language: 'js', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'js',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot();
     expect(
@@ -169,7 +191,11 @@ bbbbbbb
 // highlight-next-line
 // highlight-end
 bbbbb`,
-        {metastring: '', language: 'js', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'js',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot();
   });
@@ -179,7 +205,11 @@ bbbbb`,
         `# highlight-next-line
 aaaaa
 bbbbb`,
-        {metastring: '', language: 'js', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'js',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('js');
     expect(
@@ -187,7 +217,11 @@ bbbbb`,
         `/* highlight-next-line */
 aaaaa
 bbbbb`,
-        {metastring: '', language: 'py', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'py',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('py');
     expect(
@@ -200,7 +234,11 @@ bbbbb
 ccccc
 <!-- highlight-next-line -->
 dddd`,
-        {metastring: '', language: 'py', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'py',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('py');
     expect(
@@ -213,7 +251,11 @@ bbbbb
 ccccc
 <!-- highlight-next-line -->
 dddd`,
-        {metastring: '', language: '', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: '',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('none');
     expect(
@@ -224,7 +266,11 @@ aaaa
 bbbbb
 <!-- highlight-next-line -->
 dddd`,
-        {metastring: '', language: 'jsx', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'jsx',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('jsx');
     expect(
@@ -235,7 +281,11 @@ aaaa
 bbbbb
 <!-- highlight-next-line -->
 dddd`,
-        {metastring: '', language: 'html', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'html',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('html');
     expect(
@@ -261,7 +311,11 @@ dddd
 console.log("preserved");
 \`\`\`
 `,
-        {metastring: '', language: 'md', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'md',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('md');
   });
@@ -373,24 +427,26 @@ describe('getLineNumbersStart', () => {
     expect(
       getLineNumbersStart({
         showLineNumbers: undefined,
-        metastring: undefined,
+        metaOptions: {},
       }),
     ).toMatchSnapshot();
     expect(
       getLineNumbersStart({
         showLineNumbers: undefined,
-        metastring: '',
+        metaOptions: {},
       }),
     ).toMatchSnapshot();
   });
 
   describe('handles prop', () => {
-    describe('combined with metastring', () => {
+    describe('combined with metaoptions', () => {
       it('set to true', () => {
         expect(
           getLineNumbersStart({
             showLineNumbers: true,
-            metastring: 'showLineNumbers=2',
+            metaOptions: {
+              showLineNumbers: 2,
+            },
           }),
         ).toMatchSnapshot();
       });
@@ -399,7 +455,9 @@ describe('getLineNumbersStart', () => {
         expect(
           getLineNumbersStart({
             showLineNumbers: false,
-            metastring: 'showLineNumbers=2',
+            metaOptions: {
+              showLineNumbers: 2,
+            },
           }),
         ).toMatchSnapshot();
       });
@@ -408,7 +466,9 @@ describe('getLineNumbersStart', () => {
         expect(
           getLineNumbersStart({
             showLineNumbers: 10,
-            metastring: 'showLineNumbers=2',
+            metaOptions: {
+              showLineNumbers: 2,
+            },
           }),
         ).toMatchSnapshot();
       });
@@ -419,7 +479,9 @@ describe('getLineNumbersStart', () => {
         expect(
           getLineNumbersStart({
             showLineNumbers: true,
-            metastring: undefined,
+            metaOptions: {
+              showLineNumbers: 2,
+            },
           }),
         ).toMatchSnapshot();
       });
@@ -428,7 +490,9 @@ describe('getLineNumbersStart', () => {
         expect(
           getLineNumbersStart({
             showLineNumbers: false,
-            metastring: undefined,
+            metaOptions: {
+              showLineNumbers: 2,
+            },
           }),
         ).toMatchSnapshot();
       });
@@ -437,7 +501,9 @@ describe('getLineNumbersStart', () => {
         expect(
           getLineNumbersStart({
             showLineNumbers: 10,
-            metastring: undefined,
+            metaOptions: {
+              showLineNumbers: 2,
+            },
           }),
         ).toMatchSnapshot();
       });
@@ -450,7 +516,9 @@ describe('getLineNumbersStart', () => {
         expect(
           getLineNumbersStart({
             showLineNumbers: undefined,
-            metastring: 'showLineNumbers',
+            metaOptions: {
+              showLineNumbers: true,
+            },
           }),
         ).toMatchSnapshot();
       });
@@ -458,7 +526,9 @@ describe('getLineNumbersStart', () => {
         expect(
           getLineNumbersStart({
             showLineNumbers: undefined,
-            metastring: 'showLineNumbers=10',
+            metaOptions: {
+              showLineNumbers: 10,
+            },
           }),
         ).toMatchSnapshot();
       });
@@ -469,7 +539,11 @@ describe('getLineNumbersStart', () => {
         expect(
           getLineNumbersStart({
             showLineNumbers: undefined,
-            metastring: '{1,2-3}  title="file.txt" showLineNumbers noInline',
+            metaOptions: {
+              title: 'file.txt',
+              showLineNumbers: true,
+              noInline: true,
+            },
           }),
         ).toMatchSnapshot();
       });
@@ -477,7 +551,11 @@ describe('getLineNumbersStart', () => {
         expect(
           getLineNumbersStart({
             showLineNumbers: undefined,
-            metastring: '{1,2-3}  title="file.txt" showLineNumbers=10 noInline',
+            metaOptions: {
+              title: 'file.txt',
+              showLineNumbers: 10,
+              noInline: true,
+            },
           }),
         ).toMatchSnapshot();
       });
