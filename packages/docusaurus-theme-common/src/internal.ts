@@ -34,9 +34,10 @@ export {ColorModeProvider} from './contexts/colorMode';
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
 export {
-  parseCodeBlockTitle,
+  parseCodeBlockMetaOptions,
   parseLanguage,
   parseLines,
+  getCodeBlockTitle,
   getLineNumbersStart,
 } from './utils/codeBlockUtils';
 
