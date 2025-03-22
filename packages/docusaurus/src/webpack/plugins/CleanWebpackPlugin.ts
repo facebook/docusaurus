@@ -31,7 +31,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {sync as delSync} from 'del';
+import {globSync} from 'tinyglobby';
 import type {Compiler, Stats} from 'webpack';
 
 export type Options = {
@@ -221,20 +221,20 @@ export default class CleanWebpackPlugin {
 
   removeFiles(patterns: string[]): void {
     try {
-      const deleted = delSync(patterns, {
-        force: false,
-        // Change context to build directory
+      const files = globSync(patterns, {
         cwd: this.outputPath,
-        dryRun: false,
         dot: true,
         ignore: this.protectWebpackAssets ? this.currentAssets : [],
       });
+      for (const file of files) {
+        fs.rmSync(file);
+      }
 
       /**
        * Log if verbose is enabled
        */
       if (this.verbose) {
-        deleted.forEach((file) => {
+        files.forEach((file) => {
           const filename = path.relative(process.cwd(), file);
 
           /**
