@@ -39,6 +39,7 @@ export {
   parseLines,
   getCodeBlockTitle,
   getLineNumbersStart,
+  type CodeBlockMetaOptions,
 } from './utils/codeBlockUtils';
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';

@@ -335,19 +335,30 @@ export function parseLines(
 /**
  * Parses {@link CodeBlockParsedLines.metaOptions} from the given metastring.
  * @param metastring The metastring to parse
+ * @param metaOptionsProp any meta options defined via component props.
  * @returns The parsed options.
  */
 export function parseCodeBlockMetaOptions(
   metastring: string | undefined,
+  metaOptionsProp: CodeBlockMetaOptions | undefined,
 ): CodeBlockMetaOptions {
+  // If we already have options via props use them as they are
+  if (metaOptionsProp) {
+    return metaOptionsProp;
+  }
+
   const parsedOptions: CodeBlockMetaOptions = {};
 
+  // NOTE: until we parse generally all options contained in this string
+  // we keep the old custom logic which was moved from their old spots to here.
+
+  // normal codeblock
   parsedOptions.title = parseCodeBlockTitle(metastring);
-
-  // parsedOptions.live = TODO;
-  // parsedOptions.noInline = TODO;
-
   // parsedOptions.showLineNumbers = TODO;
+
+  // interactive code editor (theme-live-codeblock => Playground)
+  parsedOptions.live = metastring?.split(' ').includes('live');
+  // parsedOptions.noInline = TODO;
 
   return parsedOptions;
 }
