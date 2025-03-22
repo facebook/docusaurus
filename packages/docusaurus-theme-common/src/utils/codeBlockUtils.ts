@@ -196,19 +196,22 @@ export function getCodeBlockTitle({
 
 export function getLineNumbersStart({
   showLineNumbers,
-  metastring,
+  metaOptions,
 }: {
   showLineNumbers: boolean | number | undefined;
-  metastring: string | undefined;
+  metaOptions: CodeBlockMetaOptions;
 }): number | undefined {
+  const showLineNumbersValue = showLineNumbers ?? metaOptions.showLineNumbers;
+
   const defaultStart = 1;
-  if (typeof showLineNumbers === 'boolean') {
-    return showLineNumbers ? defaultStart : undefined;
+  if (typeof showLineNumbersValue === 'boolean') {
+    return showLineNumbersValue ? defaultStart : undefined;
   }
-  if (typeof showLineNumbers === 'number') {
-    return showLineNumbers;
+  if (typeof showLineNumbersValue === 'number') {
+    return showLineNumbersValue;
   }
-  return getMetaLineNumbersStart(metastring);
+
+  return undefined;
 }
 
 /**
@@ -367,7 +370,7 @@ export function parseCodeBlockMetaOptions(
 
   // normal codeblock
   parsedOptions.title = parseCodeBlockTitle(metastring);
-  // parsedOptions.showLineNumbers = TODO;
+  parsedOptions.showLineNumbers = getMetaLineNumbersStart(metastring);
 
   // interactive code editor (theme-live-codeblock => Playground)
   parsedOptions.live = metastring?.split(' ').includes('live');
