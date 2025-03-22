@@ -6,58 +6,87 @@
  */
 
 import {
+  getLineNumbersStart,
   type MagicCommentConfig,
-  parseCodeBlockTitle,
+  getCodeBlockTitle,
   parseLanguage,
   parseLines,
+  parseCodeBlockMetaOptions,
 } from '../codeBlockUtils';
 
-describe('parseCodeBlockTitle', () => {
-  it('parses double quote delimited title', () => {
-    expect(parseCodeBlockTitle(`title="index.js"`)).toBe(`index.js`);
-  });
+const defaultMagicComments: MagicCommentConfig[] = [
+  {
+    className: 'theme-code-block-highlighted-line',
+    line: 'highlight-next-line',
+    block: {start: 'highlight-start', end: 'highlight-end'},
+  },
+];
 
-  it('parses single quote delimited title', () => {
-    expect(parseCodeBlockTitle(`title='index.js'`)).toBe(`index.js`);
-  });
+describe('parseCodeBlockMetaOptions', () => {
+  describe('title', () => {
+    it('parses double quote delimited title', () => {
+      expect(
+        parseCodeBlockMetaOptions(`title="index.js"`, undefined).title,
+      ).toBe(`index.js`);
+    });
 
-  it('does not parse mismatched quote delimiters', () => {
-    expect(parseCodeBlockTitle(`title="index.js'`)).toBe(``);
-  });
+    it('parses single quote delimited title', () => {
+      expect(
+        parseCodeBlockMetaOptions(`title='index.js'`, undefined).title,
+      ).toBe(`index.js`);
+    });
 
-  it('parses undefined metastring', () => {
-    expect(parseCodeBlockTitle(undefined)).toBe(``);
-  });
+    it('does not parse mismatched quote delimiters', () => {
+      expect(
+        parseCodeBlockMetaOptions(`title="index.js'`, undefined).title,
+      ).toBe(``);
+    });
 
-  it('parses metastring with no title specified', () => {
-    expect(parseCodeBlockTitle(`{1,2-3}`)).toBe(``);
-  });
+    it('parses undefined metastring', () => {
+      expect(parseCodeBlockMetaOptions(undefined, undefined).title).toBe(``);
+    });
 
-  it('parses with multiple metadata title first', () => {
-    expect(parseCodeBlockTitle(`title="index.js" label="JavaScript"`)).toBe(
-      `index.js`,
-    );
-  });
+    it('parses metastring with no title specified', () => {
+      expect(parseCodeBlockMetaOptions(`{1,2-3}`, undefined).title).toBe(``);
+    });
 
-  it('parses with multiple metadata title last', () => {
-    expect(parseCodeBlockTitle(`label="JavaScript" title="index.js"`)).toBe(
-      `index.js`,
-    );
-  });
+    it('parses with multiple metadata title first', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `title="index.js" label="JavaScript"`,
+          undefined,
+        ).title,
+      ).toBe(`index.js`);
+    });
 
-  it('parses double quotes when delimited by single quotes', () => {
-    expect(parseCodeBlockTitle(`title='console.log("Hello, World!")'`)).toBe(
-      `console.log("Hello, World!")`,
-    );
-  });
+    it('parses with multiple metadata title last', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `label="JavaScript" title="index.js"`,
+          undefined,
+        ).title,
+      ).toBe(`index.js`);
+    });
 
-  it('parses single quotes when delimited by double quotes', () => {
-    expect(parseCodeBlockTitle(`title="console.log('Hello, World!')"`)).toBe(
-      `console.log('Hello, World!')`,
-    );
+    it('parses double quotes when delimited by single quotes', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `title='console.log("Hello, World!")'`,
+          undefined,
+        ).title,
+      ).toBe(`console.log("Hello, World!")`);
+    });
+
+    it('parses single quotes when delimited by double quotes', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `title="console.log('Hello, World!')"`,
+          undefined,
+        ).title,
+      ).toBe(`console.log('Hello, World!')`);
+    });
   });
 });
-
 describe('parseLanguage', () => {
   it('works', () => {
     expect(parseLanguage('language-foo xxx yyy')).toBe('foo');
@@ -68,14 +97,6 @@ describe('parseLanguage', () => {
 });
 
 describe('parseLines', () => {
-  const defaultMagicComments: MagicCommentConfig[] = [
-    {
-      className: 'theme-code-block-highlighted-line',
-      line: 'highlight-next-line',
-      block: {start: 'highlight-start', end: 'highlight-end'},
-    },
-  ];
-
   it('does not parse content with metastring', () => {
     expect(
       parseLines('aaaaa\nnnnnn', {
@@ -141,7 +162,11 @@ bbbbb`,
         `// highlight-next-line
 aaaaa
 bbbbb`,
-        {metastring: '', language: 'js', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'js',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot();
     expect(
@@ -150,7 +175,11 @@ bbbbb`,
 aaaaa
 // highlight-end
 bbbbb`,
-        {metastring: '', language: 'js', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'js',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot();
     expect(
@@ -162,7 +191,11 @@ bbbbbbb
 // highlight-next-line
 // highlight-end
 bbbbb`,
-        {metastring: '', language: 'js', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'js',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot();
   });
@@ -172,7 +205,11 @@ bbbbb`,
         `# highlight-next-line
 aaaaa
 bbbbb`,
-        {metastring: '', language: 'js', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'js',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('js');
     expect(
@@ -180,7 +217,11 @@ bbbbb`,
         `/* highlight-next-line */
 aaaaa
 bbbbb`,
-        {metastring: '', language: 'py', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'py',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('py');
     expect(
@@ -193,7 +234,11 @@ bbbbb
 ccccc
 <!-- highlight-next-line -->
 dddd`,
-        {metastring: '', language: 'py', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'py',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('py');
     expect(
@@ -206,7 +251,11 @@ bbbbb
 ccccc
 <!-- highlight-next-line -->
 dddd`,
-        {metastring: '', language: '', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: '',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('none');
     expect(
@@ -217,7 +266,11 @@ aaaa
 bbbbb
 <!-- highlight-next-line -->
 dddd`,
-        {metastring: '', language: 'jsx', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'jsx',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('jsx');
     expect(
@@ -228,7 +281,11 @@ aaaa
 bbbbb
 <!-- highlight-next-line -->
 dddd`,
-        {metastring: '', language: 'html', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'html',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('html');
     expect(
@@ -254,7 +311,11 @@ dddd
 console.log("preserved");
 \`\`\`
 `,
-        {metastring: '', language: 'md', magicComments: defaultMagicComments},
+        {
+          metastring: '',
+          language: 'md',
+          magicComments: defaultMagicComments,
+        },
       ),
     ).toMatchSnapshot('md');
   });
@@ -358,5 +419,211 @@ line
         },
       ),
     ).toMatchSnapshot();
+  });
+});
+
+describe('getLineNumbersStart', () => {
+  it('with nothing set', () => {
+    expect(
+      getLineNumbersStart({
+        showLineNumbers: undefined,
+        metaOptions: {},
+      }),
+    ).toMatchSnapshot();
+    expect(
+      getLineNumbersStart({
+        showLineNumbers: undefined,
+        metaOptions: {},
+      }),
+    ).toMatchSnapshot();
+  });
+
+  describe('handles prop', () => {
+    describe('combined with metaoptions', () => {
+      it('set to true', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: true,
+            metaOptions: {
+              showLineNumbers: 2,
+            },
+          }),
+        ).toMatchSnapshot();
+      });
+
+      it('set to false', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: false,
+            metaOptions: {
+              showLineNumbers: 2,
+            },
+          }),
+        ).toMatchSnapshot();
+      });
+
+      it('set to number', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: 10,
+            metaOptions: {
+              showLineNumbers: 2,
+            },
+          }),
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('standalone', () => {
+      it('set to true', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: true,
+            metaOptions: {
+              showLineNumbers: 2,
+            },
+          }),
+        ).toMatchSnapshot();
+      });
+
+      it('set to false', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: false,
+            metaOptions: {
+              showLineNumbers: 2,
+            },
+          }),
+        ).toMatchSnapshot();
+      });
+
+      it('set to number', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: 10,
+            metaOptions: {
+              showLineNumbers: 2,
+            },
+          }),
+        ).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('handles metadata', () => {
+    describe('standalone', () => {
+      it('set as flag', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: undefined,
+            metaOptions: {
+              showLineNumbers: true,
+            },
+          }),
+        ).toMatchSnapshot();
+      });
+      it('set with number', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: undefined,
+            metaOptions: {
+              showLineNumbers: 10,
+            },
+          }),
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('combined with other options', () => {
+      it('set as flag', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: undefined,
+            metaOptions: {
+              title: 'file.txt',
+              showLineNumbers: true,
+              noInline: true,
+            },
+          }),
+        ).toMatchSnapshot();
+      });
+      it('set with number', () => {
+        expect(
+          getLineNumbersStart({
+            showLineNumbers: undefined,
+            metaOptions: {
+              title: 'file.txt',
+              showLineNumbers: 10,
+              noInline: true,
+            },
+          }),
+        ).toMatchSnapshot();
+      });
+    });
+  });
+});
+
+describe('getCodeBlockTitle', () => {
+  it('with nothing set', () => {
+    expect(
+      getCodeBlockTitle({
+        titleProp: undefined,
+        metaOptions: {},
+      }),
+    ).toMatchSnapshot();
+  });
+
+  describe('returns titleProp', () => {
+    it('with empty options', () => {
+      expect(
+        getCodeBlockTitle({
+          titleProp: 'Prop',
+          metaOptions: {},
+        }),
+      ).toMatchSnapshot();
+    });
+    it('with empty string on option', () => {
+      expect(
+        getCodeBlockTitle({
+          titleProp: 'Prop',
+          metaOptions: {
+            title: '',
+          },
+        }),
+      ).toMatchSnapshot();
+    });
+  });
+
+  describe('returns option', () => {
+    it('with undefined prop', () => {
+      expect(
+        getCodeBlockTitle({
+          titleProp: undefined,
+          metaOptions: {
+            title: 'Option',
+          },
+        }),
+      ).toMatchSnapshot();
+    });
+    it('with empty prop', () => {
+      expect(
+        getCodeBlockTitle({
+          titleProp: '',
+          metaOptions: {
+            title: 'Option',
+          },
+        }),
+      ).toMatchSnapshot();
+    });
+    it('with filled prop', () => {
+      expect(
+        getCodeBlockTitle({
+          titleProp: 'Prop',
+          metaOptions: {
+            title: 'Option',
+          },
+        }),
+      ).toMatchSnapshot();
+    });
   });
 });

@@ -16,6 +16,7 @@ import {
   ErrorBoundaryErrorMessageFallback,
   usePrismTheme,
 } from '@docusaurus/theme-common';
+import {parseCodeBlockMetaOptions} from '@docusaurus/theme-common/internal';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 
 import type {Props} from '@theme/Playground';
@@ -105,6 +106,8 @@ const DEFAULT_TRANSFORM_CODE = (code: string) => `${code};`;
 export default function Playground({
   children,
   transformCode,
+  metastring,
+  metaOptions: metaOptionsProp,
   ...props
 }: Props): ReactNode {
   const {
@@ -115,7 +118,8 @@ export default function Playground({
   } = themeConfig as ThemeConfig;
   const prismTheme = usePrismTheme();
 
-  const noInline = props.metastring?.includes('noInline') ?? false;
+  const metaOptions = parseCodeBlockMetaOptions(metastring, metaOptionsProp);
+  const noInline = !!metaOptions.noInline;
 
   return (
     <div className={styles.playgroundContainer}>
