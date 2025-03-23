@@ -12,6 +12,10 @@ exports[`getCodeBlockTitle returns titleProp with empty string on option 1`] = `
 
 exports[`getCodeBlockTitle with nothing set 1`] = `undefined`;
 
+exports[`getLineNumbersStart from metastring parses flags as 1 1`] = `1`;
+
+exports[`getLineNumbersStart from metastring parses value 1`] = `10`;
+
 exports[`getLineNumbersStart handles metadata combined with other options set as flag 1`] = `1`;
 
 exports[`getLineNumbersStart handles metadata combined with other options set with number 1`] = `10`;
@@ -35,6 +39,30 @@ exports[`getLineNumbersStart handles prop standalone set to true 1`] = `1`;
 exports[`getLineNumbersStart with nothing set 1`] = `undefined`;
 
 exports[`getLineNumbersStart with nothing set 2`] = `undefined`;
+
+exports[`getLineNumbersStart with parsed metaoption handles metadata combined with other options set as flag 1`] = `1`;
+
+exports[`getLineNumbersStart with parsed metaoption handles metadata combined with other options set with number 1`] = `10`;
+
+exports[`getLineNumbersStart with parsed metaoption handles metadata standalone set as flag 1`] = `1`;
+
+exports[`getLineNumbersStart with parsed metaoption handles metadata standalone set with number 1`] = `10`;
+
+exports[`getLineNumbersStart with parsed metaoption handles prop combined with metaoptions set to false 1`] = `undefined`;
+
+exports[`getLineNumbersStart with parsed metaoption handles prop combined with metaoptions set to number 1`] = `10`;
+
+exports[`getLineNumbersStart with parsed metaoption handles prop combined with metaoptions set to true 1`] = `1`;
+
+exports[`getLineNumbersStart with parsed metaoption handles prop standalone set to false 1`] = `undefined`;
+
+exports[`getLineNumbersStart with parsed metaoption handles prop standalone set to number 1`] = `10`;
+
+exports[`getLineNumbersStart with parsed metaoption handles prop standalone set to true 1`] = `1`;
+
+exports[`getLineNumbersStart with parsed metaoption with nothing set 1`] = `undefined`;
+
+exports[`getLineNumbersStart with parsed metaoption with nothing set 2`] = `undefined`;
 
 exports[`parseLines does not parse content with metastring 1`] = `
 {
