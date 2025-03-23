@@ -8,6 +8,7 @@
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import type {Props} from '@theme/CodeBlock/Line';
+import CodeBlockToken from '@theme/CodeBlock/Token';
 
 import styles from './styles.module.css';
 
@@ -26,13 +27,14 @@ function fixLineBreak(line: Token[]) {
   return line;
 }
 
-export default function CodeBlockLine({
-  line: lineProp,
-  classNames,
-  showLineNumbers,
-  getLineProps,
-  getTokenProps,
-}: Props): ReactNode {
+export default function CodeBlockLine(props: Props): ReactNode {
+  const {
+    line: lineProp,
+    classNames,
+    showLineNumbers,
+    getLineProps,
+    getTokenProps,
+  } = props;
   const line = fixLineBreak(lineProp);
 
   const lineProps = getLineProps({
@@ -41,7 +43,7 @@ export default function CodeBlockLine({
   });
 
   const lineTokens = line.map((token, key) => (
-    <span key={key} {...getTokenProps({token})} />
+    <CodeBlockToken key={key} line={props} {...getTokenProps({token})} />
   ));
 
   return (

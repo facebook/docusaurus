@@ -502,6 +502,18 @@ declare module '@theme/CodeBlock/WordWrapButton' {
   export default function WordWrapButton(props: Props): ReactNode;
 }
 
+declare module '@theme/CodeBlock/Token' {
+  import type {ReactNode} from 'react';
+  import type {Props as LineProps} from '@theme/CodeBlock/Line';
+  import type {TokenOutputProps} from 'prism-react-renderer';
+
+  export interface Props extends TokenOutputProps {
+    line: LineProps;
+  }
+
+  export default function CodeBlockToken(props: Props): ReactNode;
+}
+
 declare module '@theme/DocCard' {
   import type {ReactNode} from 'react';
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
