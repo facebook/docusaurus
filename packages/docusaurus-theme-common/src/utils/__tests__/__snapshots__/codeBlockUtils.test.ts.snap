@@ -64,6 +64,86 @@ exports[`getLineNumbersStart with parsed metaoption with nothing set 1`] = `unde
 
 exports[`getLineNumbersStart with parsed metaoption with nothing set 2`] = `undefined`;
 
+exports[`parseCodeBlockMetaOptions any option double quotes as string 1`] = `
+{
+  "PascalCase": "Hello'Docusaurus Options",
+  "UPPER_CASE": "Hello'Docusaurus Options",
+  "camelCase": "Hello'Docusaurus Options",
+  "kebab-case": "Hello'Docusaurus Options",
+  "lowercase": "Hello'Docusaurus Options",
+}
+`;
+
+exports[`parseCodeBlockMetaOptions any option false 1`] = `
+{
+  "PascalCase": false,
+  "UPPER_CASE": false,
+  "camelCase": false,
+  "kebab-case": false,
+  "lowercase": false,
+}
+`;
+
+exports[`parseCodeBlockMetaOptions any option flag as true 1`] = `
+{
+  "PascalCase": true,
+  "UPPER_CASE": true,
+  "camelCase": true,
+  "kebab-case": true,
+  "lowercase": true,
+}
+`;
+
+exports[`parseCodeBlockMetaOptions any option float numbers 1`] = `
+{
+  "PascalCase": 3.3,
+  "UPPER_CASE": 4.4,
+  "camelCase": 2.2,
+  "kebab-case": 5.5,
+  "lowercase": 1.1,
+}
+`;
+
+exports[`parseCodeBlockMetaOptions any option integer numbers 1`] = `
+{
+  "PascalCase": 3,
+  "UPPER_CASE": 4,
+  "camelCase": 2,
+  "kebab-case": 5,
+  "lowercase": 1,
+}
+`;
+
+exports[`parseCodeBlockMetaOptions any option non quoted value as string 1`] = `
+{
+  "PascalCase": "simple",
+  "UPPER_CASE": "simple",
+  "camelCase": "simple",
+  "kebab-case": "simple",
+  "lowercase": "simple",
+}
+`;
+
+exports[`parseCodeBlockMetaOptions any option single quotes as string 1`] = `
+{
+  "PascalCase": "Hello"Docusaurus Options",
+  "UPPER_CASE": "Hello"Docusaurus Options",
+  "camelCase": "Hello"Docusaurus Options",
+  "kebab-case": "Hello"Docusaurus Options",
+  "lowercase": "Hello"Docusaurus Options",
+}
+`;
+
+exports[`parseCodeBlockMetaOptions any option true 1`] = `
+{
+  "PascalCase": true,
+  "UPPER_CASE": true,
+  "camelCase": true,
+  "kebab-case": true,
+  "lowercase": true,
+}
+`;
+
 exports[`parseLines does not parse content with metastring 1`] = `
 {
   "code": "aaaaa

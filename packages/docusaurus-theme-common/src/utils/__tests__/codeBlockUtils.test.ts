@@ -36,10 +36,10 @@ describe('parseCodeBlockMetaOptions', () => {
       ).toBe(`index.js`);
     });
 
-    it('does not parse mismatched quote delimiters', () => {
+    it('parses mismatched quote delimiters as literal', () => {
       expect(
         parseCodeBlockMetaOptions(`title="index.js'`, undefined).title,
-      ).toBeUndefined();
+      ).toBe(`"index.js'`);
     });
 
     it('parses undefined metastring', () => {
@@ -114,6 +114,80 @@ describe('parseCodeBlockMetaOptions', () => {
       expect(
         parseCodeBlockMetaOptions(` otherOption `, undefined).noInline,
       ).toBeUndefined();
+    });
+  });
+
+  describe('any option', () => {
+    it('flag as true', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `lowercase camelCase PascalCase UPPER_CASE kebab-case`,
+          undefined,
+        ),
+      ).toMatchSnapshot();
+    });
+
+    it('single quotes as string', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `lowercase='Hello"Docusaurus Options' camelCase='Hello"Docusaurus Options' PascalCase='Hello"Docusaurus Options' UPPER_CASE='Hello"Docusaurus Options' kebab-case='Hello"Docusaurus Options'`,
+          undefined,
+        ),
+      ).toMatchSnapshot();
+    });
+
+    it('double quotes as string', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `lowercase="Hello'Docusaurus Options" camelCase="Hello'Docusaurus Options" PascalCase="Hello'Docusaurus Options" UPPER_CASE="Hello'Docusaurus Options" kebab-case="Hello'Docusaurus Options"`,
+          undefined,
+        ),
+      ).toMatchSnapshot();
+    });
+
+    it('true', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `lowercase=true camelCase=true PascalCase=true UPPER_CASE=true kebab-case=true`,
+          undefined,
+        ),
+      ).toMatchSnapshot();
+    });
+
+    it('false', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `lowercase=false camelCase=false PascalCase=false UPPER_CASE=false kebab-case=false`,
+          undefined,
+        ),
+      ).toMatchSnapshot();
+    });
+
+    it('integer numbers', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `lowercase=1 camelCase=2 PascalCase=3 UPPER_CASE=4 kebab-case=5`,
+          undefined,
+        ),
+      ).toMatchSnapshot();
+    });
+
+    it('float numbers', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `lowercase=1.1 camelCase=2.2 PascalCase=3.3 UPPER_CASE=4.4 kebab-case=5.5`,
+          undefined,
+        ),
+      ).toMatchSnapshot();
+    });
+
+    it('non quoted value as string', () => {
+      expect(
+        parseCodeBlockMetaOptions(
+          `lowercase=simple camelCase=simple PascalCase=simple UPPER_CASE=simple kebab-case=simple`,
+          undefined,
+        ),
+      ).toMatchSnapshot();
     });
   });
 });
