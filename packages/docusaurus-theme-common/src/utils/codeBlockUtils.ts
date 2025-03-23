@@ -147,10 +147,6 @@ function getAllMagicCommentDirectiveStyles(
   }
 }
 
-function parseCodeBlockTitle(metastring?: string): string {
-  return metastring?.match(codeBlockTitleRegex)?.groups!.title ?? '';
-}
-
 function getMetaLineNumbersStart(metastring?: string): number | undefined {
   const showLineNumbersMeta = metastring
     ?.split(' ')
@@ -356,12 +352,23 @@ export function parseCodeBlockMetaOptions(
   // we keep the old custom logic which was moved from their old spots to here.
 
   // normal codeblock
-  parsedOptions.title = parseCodeBlockTitle(metastring);
-  parsedOptions.showLineNumbers = getMetaLineNumbersStart(metastring);
+  const title = metastring?.match(codeBlockTitleRegex)?.groups!.title;
+  if (title !== undefined) {
+    parsedOptions.title = title;
+  }
+  const showLineNumbers = getMetaLineNumbersStart(metastring);
+  if (showLineNumbers !== undefined) {
+    parsedOptions.showLineNumbers = showLineNumbers;
+  }
 
   // interactive code editor (theme-live-codeblock => Playground)
-  parsedOptions.live = metastring?.split(' ').includes('live');
-  parsedOptions.noInline = metastring?.includes('noInline');
+  if (metastring?.split(' ').includes('live')) {
+    parsedOptions.live = true;
+  }
+
+  if (metastring?.includes('noInline')) {
+    parsedOptions.noInline = true;
+  }
 
   return parsedOptions;
 }
