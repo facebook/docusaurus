@@ -39,15 +39,19 @@ describe('parseCodeBlockMetaOptions', () => {
     it('does not parse mismatched quote delimiters', () => {
       expect(
         parseCodeBlockMetaOptions(`title="index.js'`, undefined).title,
-      ).toBe(``);
+      ).toBeUndefined();
     });
 
     it('parses undefined metastring', () => {
-      expect(parseCodeBlockMetaOptions(undefined, undefined).title).toBe(``);
+      expect(
+        parseCodeBlockMetaOptions(undefined, undefined).title,
+      ).toBeUndefined();
     });
 
     it('parses metastring with no title specified', () => {
-      expect(parseCodeBlockMetaOptions(`{1,2-3}`, undefined).title).toBe(``);
+      expect(
+        parseCodeBlockMetaOptions(`{1,2-3}`, undefined).title,
+      ).toBeUndefined();
     });
 
     it('parses with multiple metadata title first', () => {
@@ -86,7 +90,34 @@ describe('parseCodeBlockMetaOptions', () => {
       ).toBe(`console.log('Hello, World!')`);
     });
   });
+
+  // showLineNumber logic is tested in combination with getLineNumber below
+
+  describe('live', () => {
+    it('parses live as true', () => {
+      expect(parseCodeBlockMetaOptions(`live`, undefined).live).toBe(true);
+    });
+    it('parses no live as undefined', () => {
+      expect(
+        parseCodeBlockMetaOptions(` otherOption `, undefined).live,
+      ).toBeUndefined();
+    });
+  });
+
+  describe('noInline', () => {
+    it('parses noInline as true', () => {
+      expect(parseCodeBlockMetaOptions(`noInline`, undefined).noInline).toBe(
+        true,
+      );
+    });
+    it('parses no noInline as undefined', () => {
+      expect(
+        parseCodeBlockMetaOptions(` otherOption `, undefined).noInline,
+      ).toBeUndefined();
+    });
+  });
 });
+
 describe('parseLanguage', () => {
   it('works', () => {
     expect(parseLanguage('language-foo xxx yyy')).toBe('foo');
@@ -423,142 +454,170 @@ line
 });
 
 describe('getLineNumbersStart', () => {
-  it('with nothing set', () => {
-    expect(
-      getLineNumbersStart({
-        showLineNumbers: undefined,
-        metaOptions: {},
-      }),
-    ).toMatchSnapshot();
-    expect(
-      getLineNumbersStart({
-        showLineNumbers: undefined,
-        metaOptions: {},
-      }),
-    ).toMatchSnapshot();
+  describe('with parsed metaoption', () => {
+    it('with nothing set', () => {
+      expect(
+        getLineNumbersStart({
+          showLineNumbers: undefined,
+          metaOptions: {},
+        }),
+      ).toMatchSnapshot();
+      expect(
+        getLineNumbersStart({
+          showLineNumbers: undefined,
+          metaOptions: {},
+        }),
+      ).toMatchSnapshot();
+    });
+
+    describe('handles prop', () => {
+      describe('combined with metaoptions', () => {
+        it('set to true', () => {
+          expect(
+            getLineNumbersStart({
+              showLineNumbers: true,
+              metaOptions: {
+                showLineNumbers: 2,
+              },
+            }),
+          ).toMatchSnapshot();
+        });
+
+        it('set to false', () => {
+          expect(
+            getLineNumbersStart({
+              showLineNumbers: false,
+              metaOptions: {
+                showLineNumbers: 2,
+              },
+            }),
+          ).toMatchSnapshot();
+        });
+
+        it('set to number', () => {
+          expect(
+            getLineNumbersStart({
+              showLineNumbers: 10,
+              metaOptions: {
+                showLineNumbers: 2,
+              },
+            }),
+          ).toMatchSnapshot();
+        });
+      });
+
+      describe('standalone', () => {
+        it('set to true', () => {
+          expect(
+            getLineNumbersStart({
+              showLineNumbers: true,
+              metaOptions: {
+                showLineNumbers: 2,
+              },
+            }),
+          ).toMatchSnapshot();
+        });
+
+        it('set to false', () => {
+          expect(
+            getLineNumbersStart({
+              showLineNumbers: false,
+              metaOptions: {
+                showLineNumbers: 2,
+              },
+            }),
+          ).toMatchSnapshot();
+        });
+
+        it('set to number', () => {
+          expect(
+            getLineNumbersStart({
+              showLineNumbers: 10,
+              metaOptions: {
+                showLineNumbers: 2,
+              },
+            }),
+          ).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('handles metadata', () => {
+      describe('standalone', () => {
+        it('set as flag', () => {
+          expect(
+            getLineNumbersStart({
+              showLineNumbers: undefined,
+              metaOptions: {
+                showLineNumbers: true,
+              },
+            }),
+          ).toMatchSnapshot();
+        });
+        it('set with number', () => {
+          expect(
+            getLineNumbersStart({
+              showLineNumbers: undefined,
+              metaOptions: {
+                showLineNumbers: 10,
+              },
+            }),
+          ).toMatchSnapshot();
+        });
+      });
+
+      describe('combined with other options', () => {
+        it('set as flag', () => {
+          expect(
+            getLineNumbersStart({
+              showLineNumbers: undefined,
+              metaOptions: {
+                title: 'file.txt',
+                showLineNumbers: true,
+                noInline: true,
+              },
+            }),
+          ).toMatchSnapshot();
+        });
+        it('set with number', () => {
+          expect(
+            getLineNumbersStart({
+              showLineNumbers: undefined,
+              metaOptions: {
+                title: 'file.txt',
+                showLineNumbers: 10,
+                noInline: true,
+              },
+            }),
+          ).toMatchSnapshot();
+        });
+      });
+    });
   });
 
-  describe('handles prop', () => {
-    describe('combined with metaoptions', () => {
-      it('set to true', () => {
-        expect(
-          getLineNumbersStart({
-            showLineNumbers: true,
-            metaOptions: {
-              showLineNumbers: 2,
-            },
-          }),
-        ).toMatchSnapshot();
-      });
-
-      it('set to false', () => {
-        expect(
-          getLineNumbersStart({
-            showLineNumbers: false,
-            metaOptions: {
-              showLineNumbers: 2,
-            },
-          }),
-        ).toMatchSnapshot();
-      });
-
-      it('set to number', () => {
-        expect(
-          getLineNumbersStart({
-            showLineNumbers: 10,
-            metaOptions: {
-              showLineNumbers: 2,
-            },
-          }),
-        ).toMatchSnapshot();
-      });
+  describe('from metastring', () => {
+    it('parses flags as 1', () => {
+      expect(
+        getLineNumbersStart({
+          showLineNumbers: undefined,
+          metaOptions: parseCodeBlockMetaOptions(
+            ' showLineNumbers ',
+            undefined,
+          ),
+        }),
+      ).toMatchSnapshot();
     });
 
-    describe('standalone', () => {
-      it('set to true', () => {
-        expect(
-          getLineNumbersStart({
-            showLineNumbers: true,
-            metaOptions: {
-              showLineNumbers: 2,
-            },
-          }),
-        ).toMatchSnapshot();
-      });
-
-      it('set to false', () => {
-        expect(
-          getLineNumbersStart({
-            showLineNumbers: false,
-            metaOptions: {
-              showLineNumbers: 2,
-            },
-          }),
-        ).toMatchSnapshot();
-      });
-
-      it('set to number', () => {
-        expect(
-          getLineNumbersStart({
-            showLineNumbers: 10,
-            metaOptions: {
-              showLineNumbers: 2,
-            },
-          }),
-        ).toMatchSnapshot();
-      });
-    });
-  });
-
-  describe('handles metadata', () => {
-    describe('standalone', () => {
-      it('set as flag', () => {
-        expect(
-          getLineNumbersStart({
-            showLineNumbers: undefined,
-            metaOptions: {
-              showLineNumbers: true,
-            },
-          }),
-        ).toMatchSnapshot();
-      });
-      it('set with number', () => {
-        expect(
-          getLineNumbersStart({
-            showLineNumbers: undefined,
-            metaOptions: {
-              showLineNumbers: 10,
-            },
-          }),
-        ).toMatchSnapshot();
-      });
-    });
-
-    describe('combined with other options', () => {
-      it('set as flag', () => {
-        expect(
-          getLineNumbersStart({
-            showLineNumbers: undefined,
-            metaOptions: {
-              title: 'file.txt',
-              showLineNumbers: true,
-              noInline: true,
-            },
-          }),
-        ).toMatchSnapshot();
-      });
-      it('set with number', () => {
-        expect(
-          getLineNumbersStart({
-            showLineNumbers: undefined,
-            metaOptions: {
-              title: 'file.txt',
-              showLineNumbers: 10,
-              noInline: true,
-            },
-          }),
-        ).toMatchSnapshot();
-      });
+    it('parses value', () => {
+      expect(
+        getLineNumbersStart({
+          showLineNumbers: undefined,
+          metaOptions: parseCodeBlockMetaOptions(
+            ' showLineNumbers=10 ',
+            undefined,
+          ),
+        }),
+      ).toMatchSnapshot();
     });
   });
 });
