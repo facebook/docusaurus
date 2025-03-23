@@ -110,6 +110,7 @@ export default function CodeBlockString({
                   <Line
                     key={i}
                     line={line}
+                    metaOptions={metaOptions}
                     getLineProps={getLineProps}
                     getTokenProps={getTokenProps}
                     classNames={lineClassNames[i]}

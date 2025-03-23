@@ -471,6 +471,7 @@ declare module '@theme/CodeBlock/Content/String' {
 
 declare module '@theme/CodeBlock/Line' {
   import type {ReactNode} from 'react';
+  import type {CodeBlockMetaOptions} from '@docusaurus/theme-common/internal';
   import type {
     LineInputProps,
     LineOutputProps,
@@ -483,6 +484,7 @@ declare module '@theme/CodeBlock/Line' {
     readonly line: Token[];
     readonly classNames: string[] | undefined;
     readonly showLineNumbers: boolean;
+    readonly metaOptions: CodeBlockMetaOptions;
     readonly getLineProps: (input: LineInputProps) => LineOutputProps;
     readonly getTokenProps: (input: TokenInputProps) => TokenOutputProps;
   }
