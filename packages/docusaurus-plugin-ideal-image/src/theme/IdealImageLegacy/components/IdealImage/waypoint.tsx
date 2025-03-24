@@ -18,6 +18,18 @@ function addEventListener(
   return () => element.removeEventListener(type, listener, options);
 }
 
+// Because waypoint may fire before the setState() updates due to batching
+// queueMicrotask is a better option than setTimeout() or React.flushSync()
+// See https://github.com/facebook/docusaurus/issues/11018
+// See https://github.com/civiccc/react-waypoint/blob/0905ac5a073131147c96dd0694bd6f1b6ee8bc97/src/onNextTick.js
+function subscribeMicrotask(callback: () => void) {
+  let subscribed = true;
+  queueMicrotask(() => {
+    if (subscribed) callback();
+  });
+  return () => (subscribed = false);
+}
+
 type Position = 'above' | 'inside' | 'below' | 'invisible';
 
 type Props = {
@@ -70,12 +82,15 @@ class WaypointClient extends React.Component<Props> {
       {passive: true},
     );
 
+    const unsubscribeInitialScroll = subscribeMicrotask(() => {
+      this._handleScroll();
+    });
+
     this.unsubscribe = () => {
       unsubscribeScroll();
       unsubscribeResize();
+      unsubscribeInitialScroll();
     };
-
-    this._handleScroll();
   }
 
   override componentDidUpdate() {
