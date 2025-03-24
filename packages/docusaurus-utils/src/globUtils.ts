@@ -104,11 +104,8 @@ export async function safeGlobby(
   return Globby(globPaths, options);
 }
 
-// A bit weird to put this here, but it's used by core + theme-translations
-export async function globTranslatableSourceFiles(
-  patterns: string[],
-): Promise<string[]> {
-  // We only support extracting source code translations from these kind of files
+export const isTranslatableSourceFile: (filePath: string) => boolean = (() => {
+  // We only support extracting source code translations from these extensions
   const extensionsAllowed = new Set([
     '.js',
     '.jsx',
@@ -125,9 +122,16 @@ export async function globTranslatableSourceFiles(
     return filePath.endsWith('.d.ts');
   };
 
-  const filePaths = await safeGlobby(patterns);
-  return filePaths.filter((filePath) => {
+  return (filePath): boolean => {
     const ext = path.extname(filePath);
     return extensionsAllowed.has(ext) && !isBlacklistedFilePath(filePath);
-  });
+  };
+})();
+
+// A bit weird to put this here, but it's used by core + theme-translations
+export async function globTranslatableSourceFiles(
+  patterns: string[],
+): Promise<string[]> {
+  const filePaths = await safeGlobby(patterns);
+  return filePaths.filter(isTranslatableSourceFile);
 }
