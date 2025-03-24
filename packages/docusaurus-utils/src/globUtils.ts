@@ -120,8 +120,14 @@ export async function globTranslatableSourceFiles(
     // '.mdx',
   ]);
 
+  const isBlacklistedFilePath = (filePath: string) => {
+    // We usually extract from ts files, unless they are .d.ts files
+    return filePath.endsWith('.d.ts');
+  };
+
   const filePaths = await safeGlobby(patterns);
-  return filePaths.filter((filePath) =>
-    extensionsAllowed.has(path.extname(filePath)),
-  );
+  return filePaths.filter((filePath) => {
+    const ext = path.extname(filePath);
+    return extensionsAllowed.has(ext) && !isBlacklistedFilePath(filePath);
+  });
 }
