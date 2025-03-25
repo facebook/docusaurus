@@ -41,7 +41,7 @@
   "theme.colorToggle.ariaLabel": "ダークモードを切り替える(現在は{mode})",
   "theme.colorToggle.ariaLabel.mode.dark": "ダークモード",
   "theme.colorToggle.ariaLabel.mode.light": "ライトモード",
-  "theme.colorToggle.ariaLabel.mode.system": "system mode",
+  "theme.colorToggle.ariaLabel.mode.system": "システムモード",
   "theme.common.editThisPage": "このページを編集",
   "theme.common.headingLinkTitle": "{heading} への直接リンク",
   "theme.common.skipToMainContent": "メインコンテンツまでスキップ",
