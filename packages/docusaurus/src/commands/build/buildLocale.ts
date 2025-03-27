@@ -26,6 +26,7 @@ import type {
 } from '@docusaurus/types';
 import type {SiteCollectedData} from '../../common';
 import {BuildCLIOptions} from './build';
+import clearPath from '../utils/clearPath';
 
 export type BuildLocaleParams = {
   siteDir: string;
@@ -77,6 +78,10 @@ export async function buildLocale({
             props,
             configureWebpackUtils,
           }),
+
+          // We also clear website/build dir
+          // void, no useful result but need to be done before compilation
+          clearPath(outDir),
         ]),
     );
 
