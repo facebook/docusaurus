@@ -80,7 +80,8 @@ export async function buildLocale({
           }),
 
           // We also clear website/build dir
-          // void, no useful result but need to be done before compilation
+          // returns void, no useful result needed before compilation
+          // See also https://github.com/facebook/docusaurus/pull/11037
           clearPath(outDir),
         ]),
     );

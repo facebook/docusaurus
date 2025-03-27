@@ -15,6 +15,9 @@ import {
 import clearPath from './utils/clearPath';
 
 async function removePath(entry: {path: string; description: string}) {
+  if (!(await fs.pathExists(entry.path))) {
+    return;
+  }
   try {
     await clearPath(entry.path);
     logger.success`Removed the ${entry.description} at path=${path.relative(

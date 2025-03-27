@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'path';
+import {rm} from 'fs/promises';
 import {PerfLogger} from '@docusaurus/logger';
 
 /**
@@ -16,10 +16,7 @@ export default async function clearPath(pathToClear: string): Promise<void> {
   return PerfLogger.async(
     `clearPath ${path.relative(process.cwd(), pathToClear)}`,
     async () => {
-      if (!(await fs.pathExists(pathToClear))) {
-        return;
-      }
-      await fs.remove(pathToClear);
+      await rm(pathToClear, {recursive: true, force: true});
     },
   );
 }
