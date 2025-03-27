@@ -104,11 +104,8 @@ export async function safeGlobby(
   return Globby(globPaths, options);
 }
 
-// A bit weird to put this here, but it's used by core + theme-translations
-export async function globTranslatableSourceFiles(
-  patterns: string[],
-): Promise<string[]> {
-  // We only support extracting source code translations from these kind of files
+export const isTranslatableSourceFile: (filePath: string) => boolean = (() => {
+  // We only support extracting source code translations from these extensions
   const extensionsAllowed = new Set([
     '.js',
     '.jsx',
@@ -120,8 +117,21 @@ export async function globTranslatableSourceFiles(
     // '.mdx',
   ]);
 
+  const isBlacklistedFilePath = (filePath: string) => {
+    // We usually extract from ts files, unless they are .d.ts files
+    return filePath.endsWith('.d.ts');
+  };
+
+  return (filePath): boolean => {
+    const ext = path.extname(filePath);
+    return extensionsAllowed.has(ext) && !isBlacklistedFilePath(filePath);
+  };
+})();
+
+// A bit weird to put this here, but it's used by core + theme-translations
+export async function globTranslatableSourceFiles(
+  patterns: string[],
+): Promise<string[]> {
   const filePaths = await safeGlobby(patterns);
-  return filePaths.filter((filePath) =>
-    extensionsAllowed.has(path.extname(filePath)),
-  );
+  return filePaths.filter(isTranslatableSourceFile);
 }
