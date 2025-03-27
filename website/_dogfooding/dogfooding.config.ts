@@ -131,6 +131,7 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       getClientModules() {
         return [
           require.resolve('./clientModuleExample.ts'),
+          require.resolve('./clientModuleImportAttributes.ts'),
           require.resolve('./clientModuleCSS.css'),
           require.resolve('./migrateStorageNamespace.ts'),
         ];
