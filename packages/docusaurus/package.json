@@ -47,7 +47,6 @@
     "combine-promises": "^1.1.0",
     "commander": "^5.1.0",
     "core-js": "^3.31.1",
-    "del": "^6.1.1",
     "detect-port": "^1.5.1",
     "escape-html": "^1.0.3",
     "eta": "^2.2.0",

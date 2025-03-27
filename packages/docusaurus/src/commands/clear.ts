@@ -12,13 +12,14 @@ import {
   DEFAULT_BUILD_DIR_NAME,
   GENERATED_FILES_DIR_NAME,
 } from '@docusaurus/utils';
+import clearPath from './utils/clearPath';
 
 async function removePath(entry: {path: string; description: string}) {
   if (!(await fs.pathExists(entry.path))) {
     return;
   }
   try {
-    await fs.remove(entry.path);
+    await clearPath(entry.path);
     logger.success`Removed the ${entry.description} at path=${path.relative(
       process.cwd(),
       entry.path,
