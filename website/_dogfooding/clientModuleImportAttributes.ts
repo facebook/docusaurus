@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// TODO Docusaurus v4 remove this
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck: TODO temp, for TS 5.1 CI jobs
+
 
 // Test for import attribute support
 // See https://github.com/facebook/docusaurus/issues/11016
