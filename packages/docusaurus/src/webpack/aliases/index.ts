@@ -51,7 +51,7 @@ export async function createAliasesForTheme(
     return {};
   }
 
-  const themeComponentFiles = await Globby(['**/*.{js,jsx,ts,tsx}'], {
+  const themeComponentFiles = await Globby.glob(['**/*.{js,jsx,ts,tsx}'], {
     cwd: themePath,
   });
 
