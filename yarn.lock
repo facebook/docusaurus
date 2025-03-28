@@ -7339,7 +7339,7 @@ define-properties@^1.1.3, define-properties@^1.1.4, define-properties@^1.2.0, de
     has-property-descriptors "^1.0.0"
     object-keys "^1.1.1"
 
-del@^6.0.0, del@^6.1.1:
+del@^6.0.0:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/del/-/del-6.1.1.tgz#3b70314f1ec0aa325c6b14eb36b95786671edb7a"
   integrity sha512-ua8BhapfP0JUJKC/zV9yHHDW/rDoDxP4Zhn3AkA6/xT6gY7jYXJiaeyBZznYVujhZZET+UgcbZiQ7sN3WqcImg==
