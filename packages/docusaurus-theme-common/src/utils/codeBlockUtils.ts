@@ -9,7 +9,12 @@ import type {CSSProperties} from 'react';
 import rangeParser from 'parse-numeric-range';
 import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
 
-const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
+// note: regexp/no-useless-non-capturing-group is a false positive
+// the group is required or it breaks the correct alternation of
+// <quote><stringValue><quote> | <rawValue>
+const metaOptionRegex =
+  // eslint-disable-next-line regexp/no-useless-non-capturing-group
+  /(?<key>[^\s=]+)(?:=(?:(?:(?<quote>["'])(?<stringValue>.*?)\k<quote>)|(?<rawValue>\S*)))?/g;
 const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
 
 // Supported types of highlight comments
@@ -147,41 +152,38 @@ function getAllMagicCommentDirectiveStyles(
   }
 }
 
-export function parseCodeBlockTitle(metastring?: string): string {
-  return metastring?.match(codeBlockTitleRegex)?.groups!.title ?? '';
-}
-
-function getMetaLineNumbersStart(metastring?: string): number | undefined {
-  const showLineNumbersMeta = metastring
-    ?.split(' ')
-    .find((str) => str.startsWith('showLineNumbers'));
-
-  if (showLineNumbersMeta) {
-    if (showLineNumbersMeta.startsWith('showLineNumbers=')) {
-      const value = showLineNumbersMeta.replace('showLineNumbers=', '');
-      return parseInt(value, 10);
-    }
-    return 1;
-  }
-
-  return undefined;
+export function getCodeBlockTitle({
+  titleProp,
+  metaOptions,
+}: {
+  titleProp: React.ReactNode;
+  metaOptions: CodeBlockMetaOptions;
+}): React.ReactNode {
+  // NOTE: historically the metastring option overruled
+  // any `title=""` prop specified on `<CodeBlock />`
+  // this is the reversed logic to getLineNumbersStart
+  // but would be a breaking change so we keep it.
+  return metaOptions.title || titleProp;
 }
 
 export function getLineNumbersStart({
   showLineNumbers,
-  metastring,
+  metaOptions,
 }: {
   showLineNumbers: boolean | number | undefined;
-  metastring: string | undefined;
+  metaOptions: CodeBlockMetaOptions;
 }): number | undefined {
+  const showLineNumbersValue = showLineNumbers ?? metaOptions.showLineNumbers;
+
   const defaultStart = 1;
-  if (typeof showLineNumbers === 'boolean') {
-    return showLineNumbers ? defaultStart : undefined;
+  if (typeof showLineNumbersValue === 'boolean') {
+    return showLineNumbersValue ? defaultStart : undefined;
   }
-  if (typeof showLineNumbers === 'number') {
-    return showLineNumbers;
+  if (typeof showLineNumbersValue === 'number') {
+    return showLineNumbersValue;
   }
-  return getMetaLineNumbersStart(metastring);
+
+  return undefined;
 }
 
 /**
@@ -316,6 +318,72 @@ export function parseLines(
     });
   });
   return {lineClassNames, code};
+}
+
+function parseMetaOptionValue(match: RegExpExecArray): CodeMetaOptionValue {
+  const {stringValue, rawValue} = match.groups!;
+
+  // flag options without values (e.g. `showLineNumbers`)
+  if (stringValue === undefined && rawValue === undefined) {
+    return true;
+  }
+
+  // NOTE: we currently on-purpose do not use JSON.parse here to avoid
+  // parsing object literals with unclear consequences.
+
+  // quoted string option (e.g. `title="file.ts"` or `title='file.ts'`)
+  if (stringValue !== undefined) {
+    return stringValue;
+  }
+
+  // boolean option (e.g. `live=true` or `showCopyButton=false`)
+  if (rawValue === 'true') {
+    return true;
+  } else if (rawValue === 'false') {
+    return false;
+  }
+
+  // number value (e.g. `showLineNumbers=10`)
+  const number = parseFloat(rawValue!);
+  if (!Number.isNaN(number)) {
+    // number value
+    return number;
+  }
+
+  // non quoted string (e.g. `live-tabMode=focus`)
+  return rawValue!;
+}
+
+/**
+ * Parses {@link CodeBlockParsedLines.metaOptions} from the given metastring.
+ * @param metastring The metastring to parse
+ * @param metaOptionsProp any meta options defined via component props.
+ * @returns The parsed options.
+ */
+export function parseCodeBlockMetaOptions(
+  metastring: string | undefined,
+  metaOptionsProp: CodeBlockMetaOptions | undefined,
+): CodeBlockMetaOptions {
+  // If we already have options via props use them as they are
+  if (metaOptionsProp) {
+    return metaOptionsProp;
+  }
+
+  const parsedOptions: CodeBlockMetaOptions = {};
+
+  if (metastring) {
+    metaOptionRegex.lastIndex = 0;
+
+    let match = metaOptionRegex.exec(metastring);
+
+    while (match) {
+      parsedOptions[match.groups!.key!] = parseMetaOptionValue(match);
+
+      match = metaOptionRegex.exec(metastring);
+    }
+  }
+
+  return parsedOptions;
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
