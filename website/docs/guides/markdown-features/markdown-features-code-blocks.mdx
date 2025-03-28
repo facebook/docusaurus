@@ -390,6 +390,12 @@ npm run swizzle @docusaurus/theme-classic CodeBlock/Line
 
 The `Line` component will receive the list of class names, based on which you can conditionally render different markup.
 
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic CodeBlock/Token
+```
+
+The `Token` component will receive the CSS styles, a className, and the raw syntax token content, based on which you can conditionally render different markup. You also have access to the parent line via `props.line` to access information like the class names applied from magic comments.
+
 ## Line numbering {#line-numbering}
 
 You can enable line numbering for your code block by using `showLineNumbers` key within the language meta string (don't forget to add space directly before the key).

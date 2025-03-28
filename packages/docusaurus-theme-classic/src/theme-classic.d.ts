@@ -405,6 +405,7 @@ declare module '@theme/BlogLayout' {
 
 declare module '@theme/CodeBlock' {
   import type {ReactNode} from 'react';
+  import type {CodeBlockMetaOptions} from '@docusaurus/theme-common/internal';
 
   export interface Props {
     readonly children: ReactNode;
@@ -413,6 +414,7 @@ declare module '@theme/CodeBlock' {
     readonly title?: ReactNode;
     readonly language?: string;
     readonly showLineNumbers?: boolean | number;
+    readonly metaOptions?: CodeBlockMetaOptions;
   }
 
   export default function CodeBlock(props: Props): ReactNode;
@@ -498,6 +500,18 @@ declare module '@theme/CodeBlock/WordWrapButton' {
   }
 
   export default function WordWrapButton(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Token' {
+  import type {ReactNode} from 'react';
+  import type {Props as LineProps} from '@theme/CodeBlock/Line';
+  import type {TokenOutputProps} from 'prism-react-renderer';
+
+  export interface Props extends TokenOutputProps {
+    line: LineProps;
+  }
+
+  export default function CodeBlockToken(props: Props): ReactNode;
 }
 
 declare module '@theme/DocCard' {
