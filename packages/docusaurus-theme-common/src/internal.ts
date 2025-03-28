@@ -34,10 +34,12 @@ export {ColorModeProvider} from './contexts/colorMode';
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
 export {
-  parseCodeBlockTitle,
+  parseCodeBlockMetaOptions,
   parseLanguage,
   parseLines,
+  getCodeBlockTitle,
   getLineNumbersStart,
+  type CodeBlockMetaOptions,
 } from './utils/codeBlockUtils';
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
