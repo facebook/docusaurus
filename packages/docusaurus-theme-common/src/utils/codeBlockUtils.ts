@@ -147,10 +147,6 @@ function getAllMagicCommentDirectiveStyles(
   }
 }
 
-export function parseCodeBlockTitle(metastring?: string): string {
-  return metastring?.match(codeBlockTitleRegex)?.groups!.title ?? '';
-}
-
 function getMetaLineNumbersStart(metastring?: string): number | undefined {
   const showLineNumbersMeta = metastring
     ?.split(' ')
@@ -167,21 +163,51 @@ function getMetaLineNumbersStart(metastring?: string): number | undefined {
   return undefined;
 }
 
+/**
+ * The supported types for {@link CodeBlockMetaOptions} values.
+ */
+export type CodeMetaOptionValue = string | number | boolean | undefined;
+
+/**
+ * A property bag for custom options specified by the user via metastring
+ * to control aspects like title and line numbers.
+ */
+export type CodeBlockMetaOptions = {
+  [key: string]: CodeMetaOptionValue;
+};
+
+export function getCodeBlockTitle({
+  titleProp,
+  metaOptions,
+}: {
+  titleProp: React.ReactNode;
+  metaOptions: CodeBlockMetaOptions;
+}): React.ReactNode {
+  // NOTE: historically the metastring option overruled
+  // any `title=""` prop specified on `<CodeBlock />`
+  // this is the reversed logic to getLineNumbersStart
+  // but would be a breaking change so we keep it.
+  return metaOptions.title || titleProp;
+}
+
 export function getLineNumbersStart({
   showLineNumbers,
-  metastring,
+  metaOptions,
 }: {
   showLineNumbers: boolean | number | undefined;
-  metastring: string | undefined;
+  metaOptions: CodeBlockMetaOptions;
 }): number | undefined {
+  const showLineNumbersValue = showLineNumbers ?? metaOptions.showLineNumbers;
+
   const defaultStart = 1;
-  if (typeof showLineNumbers === 'boolean') {
-    return showLineNumbers ? defaultStart : undefined;
+  if (typeof showLineNumbersValue === 'boolean') {
+    return showLineNumbersValue ? defaultStart : undefined;
   }
-  if (typeof showLineNumbers === 'number') {
-    return showLineNumbers;
+  if (typeof showLineNumbersValue === 'number') {
+    return showLineNumbersValue;
   }
-  return getMetaLineNumbersStart(metastring);
+
+  return undefined;
 }
 
 /**
@@ -316,6 +342,48 @@ export function parseLines(
     });
   });
   return {lineClassNames, code};
+}
+
+/**
+ * Parses {@link CodeBlockParsedLines.metaOptions} from the given metastring.
+ * @param metastring The metastring to parse
+ * @param metaOptionsProp any meta options defined via component props.
+ * @returns The parsed options.
+ */
+export function parseCodeBlockMetaOptions(
+  metastring: string | undefined,
+  metaOptionsProp: CodeBlockMetaOptions | undefined,
+): CodeBlockMetaOptions {
+  // If we already have options via props use them as they are
+  if (metaOptionsProp) {
+    return metaOptionsProp;
+  }
+
+  const parsedOptions: CodeBlockMetaOptions = {};
+
+  // NOTE: until we parse generally all options contained in this string
+  // we keep the old custom logic which was moved from their old spots to here.
+
+  // normal codeblock
+  const title = metastring?.match(codeBlockTitleRegex)?.groups!.title;
+  if (title !== undefined) {
+    parsedOptions.title = title;
+  }
+  const showLineNumbers = getMetaLineNumbersStart(metastring);
+  if (showLineNumbers !== undefined) {
+    parsedOptions.showLineNumbers = showLineNumbers;
+  }
+
+  // interactive code editor (theme-live-codeblock => Playground)
+  if (metastring?.split(' ').includes('live')) {
+    parsedOptions.live = true;
+  }
+
+  if (metastring?.includes('noInline')) {
+    parsedOptions.noInline = true;
+  }
+
+  return parsedOptions;
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
