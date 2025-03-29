@@ -241,7 +241,7 @@ export function parseLines(
    */
   code: string;
 } {
-  let code = content.replace(/\n$/, '');
+  let code = content.replace(/\r?\n$/, '');
   const {language, magicComments, metastring} = options;
   // Highlighted lines specified in props: don't parse the content
   if (metastring && metastringLinesRangeRegex.test(metastring)) {
@@ -266,7 +266,7 @@ export function parseLines(
     magicComments,
   );
   // Go through line by line
-  const lines = code.split('\n');
+  const lines = code.split(/\r?\n/);
   const blocks = Object.fromEntries(
     magicComments.map((d) => [d.className, {start: 0, range: ''}]),
   );
