@@ -633,10 +633,15 @@ export default async function createConfigAsync() {
         },
         items: [
           {
-            type: 'doc',
             position: 'left',
-            docId: 'introduction',
-            label: 'Docs',
+            to: '/docs',
+            label: 'Docs Test',
+            items: [
+              {
+                label: 'Blog test',
+                to: '/blog',
+              },
+            ],
           },
           {
             type: 'docSidebar',

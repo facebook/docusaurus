@@ -139,6 +139,11 @@ function DropdownNavbarItemMobile({
     }
   }, [localPathname, containsActive, setCollapsed]);
 
+  // # hash permits to make the <a> tag focusable in case no link target
+  // See https://github.com/facebook/docusaurus/pull/6003
+  // There's probably a better solution though...
+  const href = props.to ? undefined : '#';
+
   return (
     <li
       className={clsx('menu__list-item', {
@@ -151,16 +156,17 @@ function DropdownNavbarItemMobile({
           'menu__link menu__link--sublist menu__link--sublist-caret',
           className,
         )}
-        // # hash permits to make the <a> tag focusable in case no link target
-        // See https://github.com/facebook/docusaurus/pull/6003
-        // There's probably a better solution though...
-        href={props.to ? undefined : '#'}
+        href={href}
         {...props}
         onClick={(e) => {
-          e.preventDefault();
+          // Prevent navigation when link is "#"
+          if (href === '#') {
+            e.preventDefault();
+          }
+          // Otherwise we let navigation eventually happen, and/or collapse
           toggleCollapsed();
         }}>
-        {props.children ?? props.label}
+        <div>{props.children ?? props.label}</div>
       </NavbarNavLink>
       <Collapsible lazy as="ul" className="menu__list" collapsed={collapsed}>
         {items.map((childItemProps, i) => (
