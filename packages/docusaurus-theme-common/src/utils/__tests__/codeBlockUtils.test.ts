@@ -360,6 +360,29 @@ line
       ),
     ).toMatchSnapshot();
   });
+
+  it('handles CRLF line breaks with highlight comments correctly', () => {
+    expect(
+      parseLines(
+        `aaaaa\r\n// highlight-start\r\nbbbbb\r\n// highlight-end\r\n`,
+        {
+          metastring: '',
+          language: 'js',
+          magicComments: defaultMagicComments,
+        },
+      ),
+    ).toMatchSnapshot();
+  });
+
+  it('handles CRLF line breaks with highlight metastring', () => {
+    expect(
+      parseLines(`aaaaa\r\nbbbbb\r\n`, {
+        metastring: '{2}',
+        language: 'js',
+        magicComments: defaultMagicComments,
+      }),
+    ).toMatchSnapshot();
+  });
 });
 
 describe('getLineNumbersStart', () => {
