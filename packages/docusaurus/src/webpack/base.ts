@@ -187,6 +187,10 @@ export async function createBaseConfig({
         // @ts-expect-error: Rspack-only, not available in Webpack typedefs
         incremental: !isProd && !process.env.DISABLE_RSPACK_INCREMENTAL,
 
+        // TODO re-enable later?
+        //  See Rspack 1.3 bug https://github.com/web-infra-dev/rspack/issues/9834
+        parallelCodeSplitting: false,
+
         ...PersistentCacheAttributes,
       };
     }
