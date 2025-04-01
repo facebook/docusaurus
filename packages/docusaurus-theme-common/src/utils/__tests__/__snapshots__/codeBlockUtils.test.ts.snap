@@ -70,6 +70,30 @@ bbbbb",
 }
 `;
 
+exports[`parseLines handles CRLF line breaks with highlight comments correctly 1`] = `
+{
+  "code": "aaaaa
+bbbbb",
+  "lineClassNames": {
+    "1": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
+}
+`;
+
+exports[`parseLines handles CRLF line breaks with highlight metastring 1`] = `
+{
+  "code": "aaaaa
+bbbbb",
+  "lineClassNames": {
+    "1": [
+      "theme-code-block-highlighted-line",
+    ],
+  },
+}
+`;
+
 exports[`parseLines handles one line with multiple class names 1`] = `
 {
   "code": "
