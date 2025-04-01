@@ -5,7 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useRef, useEffect, type ReactNode} from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  type ReactNode,
+  type ComponentProps,
+} from 'react';
 import clsx from 'clsx';
 import {
   isRegexpStringMatch,
@@ -118,6 +124,26 @@ function DropdownNavbarItemDesktop({
   );
 }
 
+// TODO temp impl
+function CollapseButton({
+  collapsed,
+  onClick,
+}: {
+  collapsed: boolean;
+  onClick: ComponentProps<'button'>['onClick'];
+}) {
+  return (
+    <button
+      // TODO
+      aria-label="TODO"
+      aria-expanded={!collapsed}
+      type="button"
+      className="clean-btn menu__caret"
+      onClick={onClick}
+    />
+  );
+}
+
 function DropdownNavbarItemMobile({
   items,
   className,
@@ -126,18 +152,19 @@ function DropdownNavbarItemMobile({
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const localPathname = useLocalPathname();
+  const isActive = isSamePath(props.to, localPathname);
   const containsActive = containsActiveItems(items, localPathname);
 
   const {collapsed, toggleCollapsed, setCollapsed} = useCollapsible({
-    initialState: () => !containsActive,
+    initialState: () => !isActive && !containsActive,
   });
 
-  // Expand/collapse if any item active after a navigation
+  // Expand if any item active after a navigation
   useEffect(() => {
-    if (containsActive) {
-      setCollapsed(!containsActive);
+    if (isActive || containsActive) {
+      setCollapsed(false);
     }
-  }, [localPathname, containsActive, setCollapsed]);
+  }, [isActive, containsActive, setCollapsed]);
 
   // # hash permits to make the <a> tag focusable in case no link target
   // See https://github.com/facebook/docusaurus/pull/6003
@@ -149,25 +176,38 @@ function DropdownNavbarItemMobile({
       className={clsx('menu__list-item', {
         'menu__list-item--collapsed': collapsed,
       })}>
-      <NavbarNavLink
-        role="button"
-        className={clsx(
-          styles.dropdownNavbarItemMobile,
-          'menu__link menu__link--sublist menu__link--sublist-caret',
-          className,
-        )}
-        href={href}
-        {...props}
-        onClick={(e) => {
-          // Prevent navigation when link is "#"
-          if (href === '#') {
+      <div
+        className={clsx('menu__list-item-collapsible', {
+          'menu__list-item-collapsible--active': isActive,
+        })}>
+        <NavbarNavLink
+          role="button"
+          className={clsx(
+            styles.dropdownNavbarItemMobile,
+            'menu__link menu__link--sublist',
+            className,
+          )}
+          href={href}
+          {...props}
+          onClick={(e) => {
+            // Prevent navigation when link is "#"
+            if (href === '#') {
+              e.preventDefault();
+            }
+            // Otherwise we let navigation eventually happen, and/or collapse
+            toggleCollapsed();
+          }}>
+          {props.children ?? props.label}
+        </NavbarNavLink>
+        <CollapseButton
+          collapsed={collapsed}
+          onClick={(e) => {
             e.preventDefault();
-          }
-          // Otherwise we let navigation eventually happen, and/or collapse
-          toggleCollapsed();
-        }}>
-        <div>{props.children ?? props.label}</div>
-      </NavbarNavLink>
+            toggleCollapsed();
+          }}
+        />
+      </div>
+
       <Collapsible lazy as="ul" className="menu__list" collapsed={collapsed}>
         {items.map((childItemProps, i) => (
           <NavbarItem
