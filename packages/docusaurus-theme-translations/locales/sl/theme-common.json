@@ -72,6 +72,8 @@
   "theme.lastUpdated.atDate": " {date}",
   "theme.lastUpdated.byUser": " {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Nazadnje posodobil {byUser}, {atDate}",
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": "Collapse the dropdown",
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": "Expand the dropdown",
   "theme.navbar.mobileLanguageDropdown.label": "Jeziki",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Nazaj na glavni meni",
   "theme.navbar.mobileVersionsDropdown.label": "Verzije",

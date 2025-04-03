@@ -72,6 +72,8 @@
   "theme.lastUpdated.atDate": " {date}",
   "theme.lastUpdated.byUser": " від {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Останнє оновлення{atDate}{byUser}",
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": "Collapse the dropdown",
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": "Expand the dropdown",
   "theme.navbar.mobileLanguageDropdown.label": "Мови",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Перейти до головного меню",
   "theme.navbar.mobileVersionsDropdown.label": "Версії",
