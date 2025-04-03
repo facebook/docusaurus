@@ -17,7 +17,7 @@ function DefaultNavbarItemDesktop({
   className,
   isDropdownItem = false,
   ...props
-}: DesktopOrMobileNavBarItemProps) {
+}: Props) {
   const element = (
     <NavbarNavLink
       className={clsx(

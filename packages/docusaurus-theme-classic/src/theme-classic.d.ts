@@ -1181,13 +1181,16 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
   import type {ReactNode} from 'react';
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
 
-  export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
+  export type NavbarItemProps = NavbarNavLinkProps & {
     readonly isDropdownItem?: boolean;
     readonly className?: string;
     readonly position?: 'left' | 'right';
   };
 
-  export interface Props extends DesktopOrMobileNavBarItemProps {
+  // TODO Docusaurus v4, remove old type name
+  export type DesktopOrMobileNavBarItemProps = NavbarItemProps;
+
+  export interface Props extends NavbarItemProps {
     readonly mobile?: boolean;
   }
 
@@ -1216,13 +1219,16 @@ declare module '@theme/NavbarItem/DropdownNavbarItem' {
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
-  export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
+  export type DropdownNavbarItemProps = NavbarNavLinkProps & {
     readonly position?: 'left' | 'right';
     readonly items: readonly LinkLikeNavbarItemProps[];
     readonly className?: string;
   };
 
-  export interface Props extends DesktopOrMobileNavBarItemProps {
+  // TODO Docusaurus v4, remove old type name
+  export type DesktopOrMobileNavBarItemProps = DropdownNavbarItemProps;
+
+  export interface Props extends DropdownNavbarItemProps {
     readonly mobile?: boolean;
   }
 
@@ -1231,28 +1237,18 @@ declare module '@theme/NavbarItem/DropdownNavbarItem' {
 
 declare module '@theme/NavbarItem/DropdownNavbarItem/Mobile' {
   import type {ReactNode} from 'react';
-  import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
-  import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
+  import type {DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
 
-  export interface Props extends NavbarNavLinkProps {
-    readonly position?: 'left' | 'right';
-    readonly items: readonly LinkLikeNavbarItemProps[];
-    readonly className?: string;
-  }
+  export interface Props extends DropdownNavbarItemProps {}
 
   export default function DropdownNavbarItemMobile(props: Props): ReactNode;
 }
 
 declare module '@theme/NavbarItem/DropdownNavbarItem/Desktop' {
   import type {ReactNode} from 'react';
-  import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
-  import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
+  import type {DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
 
-  export interface Props extends NavbarNavLinkProps {
-    readonly position?: 'left' | 'right';
-    readonly items: readonly LinkLikeNavbarItemProps[];
-    readonly className?: string;
-  }
+  export interface Props extends DropdownNavbarItemProps {}
 
   export default function DropdownNavbarItemDesktop(props: Props): ReactNode;
 }
