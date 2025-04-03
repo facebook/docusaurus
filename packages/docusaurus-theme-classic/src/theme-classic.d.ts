@@ -1188,7 +1188,7 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
   };
 
   // TODO Docusaurus v4, remove old type name
-  export type DesktopOrMobileNavBarItemProps = NavbarItemProps;
+  export type DesktopOrMobileNavBarItemProps = DefaultNavbarItemProps;
 
   export interface Props extends DefaultNavbarItemProps {
     readonly mobile?: boolean;
