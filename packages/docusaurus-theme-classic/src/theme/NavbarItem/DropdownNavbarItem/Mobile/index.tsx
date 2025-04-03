@@ -13,6 +13,7 @@ import {
   Collapsible,
 } from '@docusaurus/theme-common';
 import {isSamePath, useLocalPathname} from '@docusaurus/theme-common/internal';
+import {translate} from '@docusaurus/Translate';
 import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
 import NavbarItem, {type LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 import type {DesktopOrMobileNavBarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
@@ -41,7 +42,6 @@ function containsActiveItems(
   return items.some((item) => isItemActive(item, localPathname));
 }
 
-// TODO temp impl
 function CollapseButton({
   collapsed,
   onClick,
@@ -51,8 +51,19 @@ function CollapseButton({
 }) {
   return (
     <button
-      // TODO
-      aria-label="TODO"
+      aria-label={
+        collapsed
+          ? translate({
+              id: 'theme.navbar.mobileDropdown.collapseButton.expandAriaLabel',
+              message: 'Expand the dropdown navbar item',
+              description: 'The ARIA label to expand the navbar item',
+            })
+          : translate({
+              id: 'theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel',
+              message: 'Collapse the dropdown navbar item',
+              description: 'The ARIA label to collapse the sidebar category',
+            })
+      }
       aria-expanded={!collapsed}
       type="button"
       className="clean-btn menu__caret"
