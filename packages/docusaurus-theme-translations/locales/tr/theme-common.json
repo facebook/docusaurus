@@ -72,6 +72,8 @@
   "theme.lastUpdated.atDate": " {date} tarihinde",
   "theme.lastUpdated.byUser": " {user} tarafından",
   "theme.lastUpdated.lastUpdatedAtBy": "En son {atDate} {byUser} güncellendi",
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": "Collapse the dropdown",
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": "Expand the dropdown",
   "theme.navbar.mobileLanguageDropdown.label": "Diller",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Ana menüye dön",
   "theme.navbar.mobileVersionsDropdown.label": "Versiyonlar",

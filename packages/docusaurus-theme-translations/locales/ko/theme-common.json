@@ -72,6 +72,8 @@
   "theme.lastUpdated.atDate": " {date}에",
   "theme.lastUpdated.byUser": " {user}가",
   "theme.lastUpdated.lastUpdatedAtBy": "최종 수정: {atDate}{byUser}",
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": "Collapse the dropdown",
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": "Expand the dropdown",
   "theme.navbar.mobileLanguageDropdown.label": "언어",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← 메인 메뉴로 돌아가기",
   "theme.navbar.mobileVersionsDropdown.label": "버전",

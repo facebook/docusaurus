@@ -72,6 +72,8 @@
   "theme.lastUpdated.atDate": " {date}",
   "theme.lastUpdated.byUser": " {user} tarapyndan",
   "theme.lastUpdated.lastUpdatedAtBy": "Soňky täzelenme{atDate}{byUser} tarapyndan",
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": "Collapse the dropdown",
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": "Expand the dropdown",
   "theme.navbar.mobileLanguageDropdown.label": "Diller",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Esasy menýua geç",
   "theme.navbar.mobileVersionsDropdown.label": "Wersiýalar",
