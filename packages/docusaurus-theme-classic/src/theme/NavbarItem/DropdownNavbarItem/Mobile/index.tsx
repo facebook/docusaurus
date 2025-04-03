@@ -55,13 +55,15 @@ function CollapseButton({
         collapsed
           ? translate({
               id: 'theme.navbar.mobileDropdown.collapseButton.expandAriaLabel',
-              message: 'Expand the dropdown navbar item',
-              description: 'The ARIA label to expand the navbar item',
+              message: 'Expand the dropdown',
+              description:
+                'The ARIA label of the button to expand the mobile dropdown navbar item',
             })
           : translate({
               id: 'theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel',
-              message: 'Collapse the dropdown navbar item',
-              description: 'The ARIA label to collapse the sidebar category',
+              message: 'Collapse the dropdown',
+              description:
+                'The ARIA label of the button to collapse the mobile dropdown navbar item',
             })
       }
       aria-expanded={!collapsed}
