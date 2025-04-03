@@ -9,7 +9,7 @@ import React, {useState, useRef, useEffect, type ReactNode} from 'react';
 import clsx from 'clsx';
 import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
 import NavbarItem from '@theme/NavbarItem';
-import type {DesktopOrMobileNavBarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
+import type {Props} from '@theme/NavbarItem/DropdownNavbarItem/Desktop';
 
 export default function DropdownNavbarItemDesktop({
   items,
@@ -17,7 +17,7 @@ export default function DropdownNavbarItemDesktop({
   className,
   onClick,
   ...props
-}: DesktopOrMobileNavBarItemProps): ReactNode {
+}: Props): ReactNode {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showDropdown, setShowDropdown] = useState(false);
 

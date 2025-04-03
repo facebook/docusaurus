@@ -16,7 +16,7 @@ import {isSamePath, useLocalPathname} from '@docusaurus/theme-common/internal';
 import {translate} from '@docusaurus/Translate';
 import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
 import NavbarItem, {type LinkLikeNavbarItemProps} from '@theme/NavbarItem';
-import type {DesktopOrMobileNavBarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
+import type {Props} from '@theme/NavbarItem/DropdownNavbarItem/Mobile';
 import styles from './styles.module.css';
 
 function isItemActive(
@@ -96,7 +96,7 @@ export default function DropdownNavbarItemMobile({
   position, // Need to destructure position from props so that it doesn't get passed on.
   onClick,
   ...props
-}: DesktopOrMobileNavBarItemProps): ReactNode {
+}: Props): ReactNode {
   const localPathname = useLocalPathname();
   const isActive = isSamePath(props.to, localPathname);
   const containsActive = containsActiveItems(items, localPathname);
