@@ -1229,6 +1229,34 @@ declare module '@theme/NavbarItem/DropdownNavbarItem' {
   export default function DropdownNavbarItem(props: Props): ReactNode;
 }
 
+declare module '@theme/NavbarItem/DropdownNavbarItem/Mobile' {
+  import type {ReactNode} from 'react';
+  import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
+  import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
+
+  export interface Props extends NavbarNavLinkProps {
+    readonly position?: 'left' | 'right';
+    readonly items: readonly LinkLikeNavbarItemProps[];
+    readonly className?: string;
+  }
+
+  export default function DropdownNavbarItemMobile(props: Props): ReactNode;
+}
+
+declare module '@theme/NavbarItem/DropdownNavbarItem/Desktop' {
+  import type {ReactNode} from 'react';
+  import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
+  import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
+
+  export interface Props extends NavbarNavLinkProps {
+    readonly position?: 'left' | 'right';
+    readonly items: readonly LinkLikeNavbarItemProps[];
+    readonly className?: string;
+  }
+
+  export default function DropdownNavbarItemDesktop(props: Props): ReactNode;
+}
+
 declare module '@theme/NavbarItem/SearchNavbarItem' {
   import type {ReactNode} from 'react';
 
