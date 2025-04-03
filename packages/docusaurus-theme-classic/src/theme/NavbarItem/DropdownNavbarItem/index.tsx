@@ -144,6 +144,24 @@ function CollapseButton({
   );
 }
 
+function useItemCollapsible({active}: {active: boolean}) {
+  const {collapsed, toggleCollapsed, setCollapsed} = useCollapsible({
+    initialState: () => !active,
+  });
+
+  // Expand if any item active after a navigation
+  useEffect(() => {
+    if (active) {
+      setCollapsed(false);
+    }
+  }, [active, setCollapsed]);
+
+  return {
+    collapsed,
+    toggleCollapsed,
+  };
+}
+
 function DropdownNavbarItemMobile({
   items,
   className,
@@ -155,16 +173,9 @@ function DropdownNavbarItemMobile({
   const isActive = isSamePath(props.to, localPathname);
   const containsActive = containsActiveItems(items, localPathname);
 
-  const {collapsed, toggleCollapsed, setCollapsed} = useCollapsible({
-    initialState: () => !isActive && !containsActive,
+  const {collapsed, toggleCollapsed} = useItemCollapsible({
+    active: isActive || containsActive,
   });
-
-  // Expand if any item active after a navigation
-  useEffect(() => {
-    if (isActive || containsActive) {
-      setCollapsed(false);
-    }
-  }, [isActive, containsActive, setCollapsed]);
 
   // # hash permits to make the <a> tag focusable in case no link target
   // See https://github.com/facebook/docusaurus/pull/6003
