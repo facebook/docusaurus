@@ -917,4 +917,29 @@ describe('createCodeBlockMetadata', () => {
       expect(meta.className).toBe('some-class language-js');
     });
   });
+
+  describe('title', () => {
+    it('returns no title', () => {
+      const meta = create();
+      expect(meta.title).toBeUndefined();
+    });
+
+    it('returns title from metastring', () => {
+      const meta = create({metastring: "title='my title meta'"});
+      expect(meta.title).toBe('my title meta');
+    });
+
+    it('returns title from param', () => {
+      const meta = create({title: 'my title param'});
+      expect(meta.title).toBe('my title param');
+    });
+
+    it('returns title from meta over params', () => {
+      const meta = create({
+        metastring: "title='my title meta'",
+        title: 'my title param',
+      });
+      expect(meta.title).toBe('my title meta');
+    });
+  });
 });
