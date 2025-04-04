@@ -99,17 +99,19 @@ function CodeBlockButtons({
   );
 }
 
+function getCodeBlockClassName(metadata: CodeBlockMetadata): string {
+  return clsx(
+    metadata.className,
+    metadata.language &&
+      !metadata.className?.includes(`language-${metadata.language}`) &&
+      `language-${metadata.language}`,
+  );
+}
+
 function CodeBlockLayout({metadata}: {metadata: CodeBlockMetadata}): ReactNode {
   const isBrowser = useIsBrowser();
   return (
-    <Container
-      as="div"
-      className={clsx(
-        metadata.className,
-        metadata.language &&
-          !metadata.className?.includes(`language-${metadata.language}`) &&
-          `language-${metadata.language}`,
-      )}>
+    <Container as="div" className={getCodeBlockClassName(metadata)}>
       {metadata.title && (
         <div className={styles.codeBlockTitle}>
           <CodeBlockTitle>{metadata.title}</CodeBlockTitle>
