@@ -41,7 +41,7 @@ function CodeBlockContent({
   const {code, language, lineNumbersStart, lineClassNames} = metadata;
   return (
     <Highlight theme={prismTheme} code={code} language={language}>
-      {({className, style, tokens, getLineProps, getTokenProps}) => (
+      {({className, style, tokens: lines, getLineProps, getTokenProps}) => (
         <pre
           /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
           tabIndex={0}
@@ -61,7 +61,7 @@ function CodeBlockContent({
                     counterReset: `line-count ${lineNumbersStart - 1}`,
                   }
             }>
-            {tokens.map((line, i) => (
+            {lines.map((line, i) => (
               <Line
                 key={i}
                 line={line}
