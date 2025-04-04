@@ -38,6 +38,7 @@ export {
   parseLanguage,
   parseLines,
   getLineNumbersStart,
+  getPrismCssVariables,
 } from './utils/codeBlockUtils';
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
@@ -88,7 +89,6 @@ export {
 } from './hooks/useKeyboardNavigation';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
-export {getPrismCssVariables} from './utils/codeBlockUtils';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
 
 export {
