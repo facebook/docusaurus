@@ -898,6 +898,50 @@ describe('createCodeBlockMetadata', () => {
     });
   });
 
+  describe('code highlighting', () => {
+    it('returns code with no highlighting', () => {
+      const code = 'const x = 42;';
+      const meta = create({code});
+      expect(meta.codeInput).toBe(code);
+      expect(meta.code).toBe(code);
+      expect(meta.lineClassNames).toMatchInlineSnapshot(`{}`);
+    });
+
+    it('returns code with metastring highlighting', () => {
+      const code = 'const x = 42;';
+      const meta = create({code, metastring: '{1}'});
+      expect(meta.codeInput).toBe(code);
+      expect(meta.code).toBe(code);
+      expect(meta.lineClassNames).toMatchInlineSnapshot(
+        `
+        {
+          "0": [
+            "theme-code-block-highlighted-line",
+          ],
+        }
+      `,
+      );
+    });
+
+    it('returns code with magic comment highlighting', () => {
+      const code = 'const x = 42;';
+      const inputCode = `// highlight-next-line\n${code}`;
+
+      const meta = create({code: inputCode});
+      expect(meta.codeInput).toBe(inputCode);
+      expect(meta.code).toBe(code);
+      expect(meta.lineClassNames).toMatchInlineSnapshot(
+        `
+        {
+          "0": [
+            "theme-code-block-highlighted-line",
+          ],
+        }
+      `,
+      );
+    });
+  });
+
   describe('className', () => {
     it('returns provided className with current language', () => {
       const meta = create({language: 'js', className: 'some-class'});
