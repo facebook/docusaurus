@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import React, {type ComponentProps, type ReactNode} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, usePrismTheme} from '@docusaurus/theme-common';
 import {
@@ -30,6 +30,45 @@ function CodeBlockTitle({children}: {children: ReactNode}): ReactNode {
   return children;
 }
 
+// TODO Docusaurus v4: remove useless forwardRef
+const Pre = React.forwardRef<HTMLPreElement, ComponentProps<'pre'>>(
+  (props, ref) => {
+    return (
+      <pre
+        ref={ref}
+        /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
+        tabIndex={0}
+        {...props}
+        className={clsx(props.className, styles.codeBlock, 'thin-scrollbar')}
+      />
+    );
+  },
+);
+
+function Code({
+  metadata,
+  ...props
+}: {metadata: CodeBlockMetadata} & ComponentProps<'code'>) {
+  return (
+    <code
+      {...props}
+      className={clsx(
+        props.className,
+        styles.codeBlockLines,
+        metadata.lineNumbersStart !== undefined &&
+          styles.codeBlockLinesWithNumbering,
+      )}
+      style={{
+        ...props.style,
+        counterReset:
+          metadata.lineNumbersStart === undefined
+            ? undefined
+            : `line-count ${metadata.lineNumbersStart - 1}`,
+      }}
+    />
+  );
+}
+
 function CodeBlockContent({
   metadata,
   wordWrap,
@@ -42,25 +81,8 @@ function CodeBlockContent({
   return (
     <Highlight theme={prismTheme} code={code} language={language}>
       {({className, style, tokens: lines, getLineProps, getTokenProps}) => (
-        <pre
-          /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
-          tabIndex={0}
-          ref={wordWrap.codeBlockRef}
-          className={clsx(className, styles.codeBlock, 'thin-scrollbar')}
-          style={style}>
-          <code
-            className={clsx(
-              styles.codeBlockLines,
-              lineNumbersStart !== undefined &&
-                styles.codeBlockLinesWithNumbering,
-            )}
-            style={
-              lineNumbersStart === undefined
-                ? undefined
-                : {
-                    counterReset: `line-count ${lineNumbersStart - 1}`,
-                  }
-            }>
+        <Pre ref={wordWrap.codeBlockRef} className={className} style={style}>
+          <Code metadata={metadata}>
             {lines.map((line, i) => (
               <Line
                 key={i}
@@ -71,8 +93,8 @@ function CodeBlockContent({
                 showLineNumbers={lineNumbersStart !== undefined}
               />
             ))}
-          </code>
-        </pre>
+          </Code>
+        </Pre>
       )}
     </Highlight>
   );
