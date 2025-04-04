@@ -7,20 +7,19 @@
 
 import React, {type ComponentProps, type ReactNode} from 'react';
 import clsx from 'clsx';
-import {useThemeConfig, usePrismTheme} from '@docusaurus/theme-common';
+import {usePrismTheme, useThemeConfig} from '@docusaurus/theme-common';
 import {
-  useCodeWordWrap,
-  createCodeBlockMetadata,
-  type CodeBlockMetadata,
   CodeBlockContextProvider,
+  type CodeBlockMetadata,
+  createCodeBlockMetadata,
   useCodeBlockContext,
+  useCodeWordWrap,
 } from '@docusaurus/theme-common/internal';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 import {Highlight} from 'prism-react-renderer';
 import Line from '@theme/CodeBlock/Line';
-import CopyButton from '@theme/CodeBlock/CopyButton';
-import WordWrapButton from '@theme/CodeBlock/WordWrapButton';
+
 import Container from '@theme/CodeBlock/Container';
+import CodeBlockButtons from '@theme/CodeBlock/Buttons';
 import type {Props} from '@theme/CodeBlock/Content/String';
 
 import styles from './styles.module.css';
@@ -93,24 +92,7 @@ function CodeBlockContent(): ReactNode {
   );
 }
 
-function CodeBlockButtons(): ReactNode {
-  const {metadata, wordWrap} = useCodeBlockContext();
-  return (
-    <div className={styles.buttonGroup}>
-      {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
-        <WordWrapButton
-          className={styles.codeButton}
-          onClick={() => wordWrap.toggle()}
-          isEnabled={wordWrap.isEnabled}
-        />
-      )}
-      <CopyButton className={styles.codeButton} code={metadata.code} />
-    </div>
-  );
-}
-
 function CodeBlockLayout(): ReactNode {
-  const isBrowser = useIsBrowser();
   const {metadata} = useCodeBlockContext();
   return (
     <Container as="div" className={metadata.className}>
@@ -121,7 +103,7 @@ function CodeBlockLayout(): ReactNode {
       )}
       <div className={styles.codeBlockContent}>
         <CodeBlockContent />
-        {isBrowser && <CodeBlockButtons />}
+        <CodeBlockButtons />
       </div>
     </Container>
   );

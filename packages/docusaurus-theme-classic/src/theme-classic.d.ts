@@ -426,15 +426,44 @@ declare module '@theme/CodeInline' {
   export default function CodeInline(props: Props): ReactNode;
 }
 
-declare module '@theme/CodeBlock/CopyButton' {
+declare module '@theme/CodeBlock/Buttons' {
   import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly code: string;
+    readonly className?: string;
+  }
+
+  export default function CodeBlockButtons(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Buttons/Button' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'button'> {
     readonly className?: string;
   }
 
   export default function CopyButton(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Buttons/CopyButton' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function CodeBlockButtonCopy(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Buttons/WordWrapButton' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function CodeBlockButtonWordWrap(props: Props): ReactNode;
 }
 
 declare module '@theme/CodeBlock/Container' {
@@ -486,18 +515,6 @@ declare module '@theme/CodeBlock/Line' {
   }
 
   export default function CodeBlockLine(props: Props): ReactNode;
-}
-
-declare module '@theme/CodeBlock/WordWrapButton' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    readonly className?: string;
-    readonly onClick: React.MouseEventHandler;
-    readonly isEnabled: boolean;
-  }
-
-  export default function WordWrapButton(props: Props): ReactNode;
 }
 
 declare module '@theme/DocCard' {
