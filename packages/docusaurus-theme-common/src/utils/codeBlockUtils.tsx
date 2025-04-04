@@ -5,9 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {CSSProperties, ReactNode} from 'react';
+import type {
+  CSSProperties,
+  ReactNode} from 'react';
+import {
+  createContext,
+  useContext,
+  useMemo,
+} from 'react';
 import clsx from 'clsx';
 import rangeParser from 'parse-numeric-range';
+import {ReactContextError} from './reactUtils';
 import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
@@ -459,4 +467,36 @@ export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
     }
   });
   return properties;
+}
+
+type CodeBlockContextValue = {
+  metadata: CodeBlockMetadata;
+  // maybe other things to add here later, like codeWrap?
+};
+
+const CodeBlockContext = createContext<CodeBlockContextValue | null>(null);
+
+export function CodeBlockContextProvider({
+  metadata,
+  children,
+}: {
+  metadata: CodeBlockMetadata;
+  children: ReactNode;
+}): ReactNode {
+  const value: CodeBlockContextValue = useMemo(() => {
+    return {metadata};
+  }, [metadata]);
+  return (
+    <CodeBlockContext.Provider value={value}>
+      {children}
+    </CodeBlockContext.Provider>
+  );
+}
+
+export function useCodeBlockContext(): CodeBlockContextValue {
+  const value = useContext(CodeBlockContext);
+  if (value === null) {
+    throw new ReactContextError('CodeBlockContextProvider');
+  }
+  return value;
 }

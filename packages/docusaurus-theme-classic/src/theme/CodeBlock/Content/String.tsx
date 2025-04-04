@@ -12,6 +12,8 @@ import {
   useCodeWordWrap,
   createCodeBlockMetadata,
   type CodeBlockMetadata,
+  CodeBlockContextProvider,
+  useCodeBlockContext,
 } from '@docusaurus/theme-common/internal';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {Highlight} from 'prism-react-renderer';
@@ -45,10 +47,8 @@ const Pre = React.forwardRef<HTMLPreElement, ComponentProps<'pre'>>(
   },
 );
 
-function Code({
-  metadata,
-  ...props
-}: {metadata: CodeBlockMetadata} & ComponentProps<'code'>) {
+function Code(props: ComponentProps<'code'>) {
+  const {metadata} = useCodeBlockContext();
   return (
     <code
       {...props}
@@ -69,20 +69,15 @@ function Code({
   );
 }
 
-function CodeBlockContent({
-  metadata,
-  wordWrap,
-}: {
-  metadata: CodeBlockMetadata;
-  wordWrap: WordWrap;
-}): ReactNode {
+function CodeBlockContent({wordWrap}: {wordWrap: WordWrap}): ReactNode {
+  const {metadata} = useCodeBlockContext();
   const prismTheme = usePrismTheme();
   const {code, language, lineNumbersStart, lineClassNames} = metadata;
   return (
     <Highlight theme={prismTheme} code={code} language={language}>
       {({className, style, tokens: lines, getLineProps, getTokenProps}) => (
         <Pre ref={wordWrap.codeBlockRef} className={className} style={style}>
-          <Code metadata={metadata}>
+          <Code>
             {lines.map((line, i) => (
               <Line
                 key={i}
@@ -100,13 +95,8 @@ function CodeBlockContent({
   );
 }
 
-function CodeBlockButtons({
-  metadata,
-  wordWrap,
-}: {
-  metadata: CodeBlockMetadata;
-  wordWrap: WordWrap;
-}): ReactNode {
+function CodeBlockButtons({wordWrap}: {wordWrap: WordWrap}): ReactNode {
+  const {metadata} = useCodeBlockContext();
   return (
     <div className={styles.buttonGroup}>
       {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
@@ -121,9 +111,10 @@ function CodeBlockButtons({
   );
 }
 
-function CodeBlockLayout({metadata}: {metadata: CodeBlockMetadata}): ReactNode {
+function CodeBlockLayout(): ReactNode {
   const isBrowser = useIsBrowser();
   const wordWrap = useCodeWordWrap();
+  const {metadata} = useCodeBlockContext();
   return (
     <Container as="div" className={metadata.className}>
       {metadata.title && (
@@ -132,10 +123,8 @@ function CodeBlockLayout({metadata}: {metadata: CodeBlockMetadata}): ReactNode {
         </div>
       )}
       <div className={styles.codeBlockContent}>
-        <CodeBlockContent metadata={metadata} wordWrap={wordWrap} />
-        {isBrowser && (
-          <CodeBlockButtons metadata={metadata} wordWrap={wordWrap} />
-        )}
+        <CodeBlockContent wordWrap={wordWrap} />
+        {isBrowser && <CodeBlockButtons wordWrap={wordWrap} />}
       </div>
     </Container>
   );
@@ -157,5 +146,9 @@ function useCodeBlockMetadata(props: Props): CodeBlockMetadata {
 
 export default function CodeBlockString(props: Props): ReactNode {
   const metadata = useCodeBlockMetadata(props);
-  return <CodeBlockLayout metadata={metadata} />;
+  return (
+    <CodeBlockContextProvider metadata={metadata}>
+      <CodeBlockLayout />
+    </CodeBlockContextProvider>
+  );
 }
