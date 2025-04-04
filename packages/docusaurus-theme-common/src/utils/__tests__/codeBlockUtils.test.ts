@@ -9,9 +9,18 @@ import {
   getLineNumbersStart,
   type MagicCommentConfig,
   parseCodeBlockTitle,
-  parseLanguage,
+  parseClassNameLanguage,
   parseLines,
+  createCodeBlockMetadata,
 } from '../codeBlockUtils';
+
+const defaultMagicComments: MagicCommentConfig[] = [
+  {
+    className: 'theme-code-block-highlighted-line',
+    line: 'highlight-next-line',
+    block: {start: 'highlight-start', end: 'highlight-end'},
+  },
+];
 
 describe('parseCodeBlockTitle', () => {
   it('parses double quote delimited title', () => {
@@ -59,24 +68,16 @@ describe('parseCodeBlockTitle', () => {
   });
 });
 
-describe('parseLanguage', () => {
+describe('parseClassNameLanguage', () => {
   it('works', () => {
-    expect(parseLanguage('language-foo xxx yyy')).toBe('foo');
-    expect(parseLanguage('xxxxx language-foo yyy')).toBe('foo');
-    expect(parseLanguage('xx-language-foo yyyy')).toBeUndefined();
-    expect(parseLanguage('xxx yyy zzz')).toBeUndefined();
+    expect(parseClassNameLanguage('language-foo xxx yyy')).toBe('foo');
+    expect(parseClassNameLanguage('xxxxx language-foo yyy')).toBe('foo');
+    expect(parseClassNameLanguage('xx-language-foo yyyy')).toBeUndefined();
+    expect(parseClassNameLanguage('xxx yyy zzz')).toBeUndefined();
   });
 });
 
 describe('parseLines', () => {
-  const defaultMagicComments: MagicCommentConfig[] = [
-    {
-      className: 'theme-code-block-highlighted-line',
-      line: 'highlight-next-line',
-      block: {start: 'highlight-start', end: 'highlight-end'},
-    },
-  ];
-
   it('does not parse content with metastring', () => {
     expect(
       parseLines('aaaaa\nnnnnn', {
@@ -807,6 +808,217 @@ describe('getLineNumbersStart', () => {
           }),
         ).toMatchInlineSnapshot(`10`);
       });
+    });
+  });
+});
+
+describe('createCodeBlockMetadata', () => {
+  type Params = Parameters<typeof createCodeBlockMetadata>[0];
+
+  const defaultParams: Params = {
+    code: '',
+    className: undefined,
+    metastring: '',
+    language: undefined,
+    defaultLanguage: undefined,
+    magicComments: defaultMagicComments,
+    title: undefined,
+    showLineNumbers: undefined,
+  };
+
+  function create(params?: Partial<Params>) {
+    return createCodeBlockMetadata({...defaultParams, ...params});
+  }
+
+  it('creates basic metadata', () => {
+    const meta = create();
+    expect(meta).toMatchInlineSnapshot(`
+      {
+        "className": "language-text",
+        "code": "",
+        "codeInput": "",
+        "language": "text",
+        "lineClassNames": {},
+        "lineNumbersStart": undefined,
+        "title": undefined,
+      }
+    `);
+  });
+
+  describe('language', () => {
+    it('returns input language', () => {
+      const meta = create({language: 'js'});
+      expect(meta.language).toBe('js');
+    });
+
+    it('returns className language', () => {
+      const meta = create({className: 'x language-ts y z'});
+      expect(meta.language).toBe('ts');
+    });
+
+    it('returns default language', () => {
+      const meta = create({defaultLanguage: 'jsx'});
+      expect(meta.language).toBe('jsx');
+    });
+
+    it('returns fallback language', () => {
+      const meta = create();
+      expect(meta.language).toBe('text');
+    });
+
+    it('returns language with expected precedence', () => {
+      expect(
+        create({
+          language: 'js',
+          className: 'x language-ts y z',
+          defaultLanguage: 'jsx',
+        }).language,
+      ).toBe('js');
+      expect(
+        create({
+          language: undefined,
+          className: 'x language-ts y z',
+          defaultLanguage: 'jsx',
+        }).language,
+      ).toBe('ts');
+      expect(
+        create({
+          language: undefined,
+          className: 'x y z',
+          defaultLanguage: 'jsx',
+        }).language,
+      ).toBe('jsx');
+      expect(
+        create({
+          language: undefined,
+          className: 'x y z',
+          defaultLanguage: undefined,
+        }).language,
+      ).toBe('text');
+    });
+  });
+
+  describe('code highlighting', () => {
+    it('returns code with no highlighting', () => {
+      const code = 'const x = 42;';
+      const meta = create({code});
+      expect(meta.codeInput).toBe(code);
+      expect(meta.code).toBe(code);
+      expect(meta.lineClassNames).toMatchInlineSnapshot(`{}`);
+    });
+
+    it('returns code with metastring highlighting', () => {
+      const code = 'const x = 42;';
+      const meta = create({code, metastring: '{1}'});
+      expect(meta.codeInput).toBe(code);
+      expect(meta.code).toBe(code);
+      expect(meta.lineClassNames).toMatchInlineSnapshot(
+        `
+        {
+          "0": [
+            "theme-code-block-highlighted-line",
+          ],
+        }
+      `,
+      );
+    });
+
+    it('returns code with magic comment highlighting', () => {
+      const code = 'const x = 42;';
+      const inputCode = `// highlight-next-line\n${code}`;
+
+      const meta = create({code: inputCode});
+      expect(meta.codeInput).toBe(inputCode);
+      expect(meta.code).toBe(code);
+      expect(meta.lineClassNames).toMatchInlineSnapshot(
+        `
+        {
+          "0": [
+            "theme-code-block-highlighted-line",
+          ],
+        }
+      `,
+      );
+    });
+  });
+
+  describe('className', () => {
+    it('returns provided className with current language', () => {
+      const meta = create({language: 'js', className: 'some-class'});
+      expect(meta.className).toBe('some-class language-js');
+    });
+
+    it('returns provided className with fallback language', () => {
+      const meta = create({className: 'some-class'});
+      expect(meta.className).toBe('some-class language-text');
+    });
+
+    it('returns provided className without duplicating className language', () => {
+      const meta = create({
+        language: 'js',
+        className: 'some-class language-js',
+      });
+      expect(meta.className).toBe('some-class language-js');
+    });
+  });
+
+  describe('title', () => {
+    it('returns no title', () => {
+      const meta = create();
+      expect(meta.title).toBeUndefined();
+    });
+
+    it('returns title from metastring', () => {
+      const meta = create({metastring: "title='my title meta'"});
+      expect(meta.title).toBe('my title meta');
+    });
+
+    it('returns title from param', () => {
+      const meta = create({title: 'my title param'});
+      expect(meta.title).toBe('my title param');
+    });
+
+    it('returns title from meta over params', () => {
+      const meta = create({
+        metastring: "title='my title meta'",
+        title: 'my title param',
+      });
+      expect(meta.title).toBe('my title meta');
+    });
+  });
+
+  describe('showLineNumbers', () => {
+    it('returns no lineNumbersStart', () => {
+      const meta = create();
+      expect(meta.lineNumbersStart).toBeUndefined();
+    });
+
+    it('returns lineNumbersStart - params.showLineNumbers=true', () => {
+      const meta = create({showLineNumbers: true});
+      expect(meta.lineNumbersStart).toBe(1);
+    });
+
+    it('returns lineNumbersStart - params.showLineNumbers=3', () => {
+      const meta = create({showLineNumbers: 3});
+      expect(meta.lineNumbersStart).toBe(3);
+    });
+
+    it('returns lineNumbersStart - meta showLineNumbers', () => {
+      const meta = create({metastring: 'showLineNumbers'});
+      expect(meta.lineNumbersStart).toBe(1);
+    });
+
+    it('returns lineNumbersStart - meta showLineNumbers=2', () => {
+      const meta = create({metastring: 'showLineNumbers=2'});
+      expect(meta.lineNumbersStart).toBe(2);
+    });
+
+    it('returns lineNumbersStart - params.showLineNumbers=3 + meta showLineNumbers=2', () => {
+      const meta = create({
+        showLineNumbers: 3,
+        metastring: 'showLineNumbers=2',
+      });
+      expect(meta.lineNumbersStart).toBe(3);
     });
   });
 });

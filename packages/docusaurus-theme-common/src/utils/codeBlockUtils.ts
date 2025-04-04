@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {CSSProperties} from 'react';
+import type {CSSProperties, ReactNode} from 'react';
+import clsx from 'clsx';
 import rangeParser from 'parse-numeric-range';
 import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
 
@@ -184,18 +185,6 @@ export function getLineNumbersStart({
   return getMetaLineNumbersStart(metastring);
 }
 
-/**
- * Gets the language name from the class name (set by MDX).
- * e.g. `"language-javascript"` => `"javascript"`.
- * Returns undefined if there is no language class name.
- */
-export function parseLanguage(className: string): string | undefined {
-  const languageClassName = className
-    .split(' ')
-    .find((str) => str.startsWith('language-'));
-  return languageClassName?.replace(/language-/, '');
-}
-
 type ParseCodeLinesParam = {
   /**
    * The full metastring, as received from MDX. Line ranges declared here
@@ -215,26 +204,23 @@ type ParseCodeLinesParam = {
 };
 
 /**
+ * The highlighted lines, 0-indexed. e.g. `{ 0: ["highlight", "sample"] }`
+ * means the 1st line should have `highlight` and `sample` as class names.
+ */
+type CodeLineClassNames = {[lineIndex: number]: string[]};
+
+/**
  * Code lines after applying magic comments or metastring highlight ranges
  */
-type CodeLines = {
-  /**
-   * If there's number range declared in the metastring, the code block is
-   * returned as-is (no parsing); otherwise, this is the clean code with all
-   * magic comments stripped away.
-   */
+type ParsedCodeLines = {
   code: string;
-  /**
-   * The highlighted lines, 0-indexed. e.g. `{ 0: ["highlight", "sample"] }`
-   * means the 1st line should have `highlight` and `sample` as class names.
-   */
-  lineClassNames: {[lineIndex: number]: string[]};
+  lineClassNames: CodeLineClassNames;
 };
 
 function parseCodeLinesFromMetastring(
   code: string,
   {metastring, magicComments}: ParseCodeLinesParam,
-): CodeLines | null {
+): ParsedCodeLines | null {
   // Highlighted lines specified in props: don't parse the content
   if (metastring && metastringLinesRangeRegex.test(metastring)) {
     const linesRange = metastring.match(metastringLinesRangeRegex)!.groups!
@@ -256,7 +242,7 @@ function parseCodeLinesFromMetastring(
 function parseCodeLinesFromContent(
   code: string,
   params: ParseCodeLinesParam,
-): CodeLines {
+): ParsedCodeLines {
   const {language, magicComments} = params;
   if (language === undefined) {
     return {lineClassNames: {}, code};
@@ -331,15 +317,132 @@ function parseCodeLinesFromContent(
 export function parseLines(
   code: string,
   params: ParseCodeLinesParam,
-): CodeLines {
+): ParsedCodeLines {
   // Historical behavior: we remove last line break
   const newCode = code.replace(/\r?\n$/, '');
   // Historical behavior: we try one strategy after the other
   // we don't support mixing metastring ranges + magic comments
+  console.log('params', {params, code});
+  console.log('from meta', parseCodeLinesFromMetastring(newCode, {...params}));
+  console.log('from content', parseCodeLinesFromContent(newCode, {...params}));
   return (
     parseCodeLinesFromMetastring(newCode, {...params}) ??
     parseCodeLinesFromContent(newCode, {...params})
   );
+}
+
+/**
+ * Gets the language name from the class name (set by MDX).
+ * e.g. `"language-javascript"` => `"javascript"`.
+ * Returns undefined if there is no language class name.
+ */
+export function parseClassNameLanguage(
+  className: string | undefined,
+): string | undefined {
+  if (!className) {
+    return undefined;
+  }
+  const languageClassName = className
+    .split(' ')
+    .find((str) => str.startsWith('language-'));
+  return languageClassName?.replace(/language-/, '');
+}
+
+// Prism languages are always lowercase
+// We want to fail-safe and allow both "php" and "PHP"
+// See https://github.com/facebook/docusaurus/issues/9012
+function normalizeLanguage(language: string | undefined): string | undefined {
+  return language?.toLowerCase();
+}
+
+function getLanguage(params: {
+  language: string | undefined;
+  className: string | undefined;
+  defaultLanguage: string | undefined;
+}): string {
+  return (
+    normalizeLanguage(
+      params.language ??
+        parseClassNameLanguage(params.className) ??
+        params.defaultLanguage,
+    ) ?? 'text'
+  ); // There's always a language, required by Prism;
+}
+
+/**
+ * This ensures that we always have the code block language as className
+ * For MDX code blocks this is provided automatically by MDX
+ * For JSX code blocks, the language gets added by this function
+ * This ensures both cases lead to a consistent HTML output
+ */
+function ensureLanguageClassName({
+  className,
+  language,
+}: {
+  className: string | undefined;
+  language: string;
+}): string {
+  return clsx(
+    className,
+    language &&
+      !className?.includes(`language-${language}`) &&
+      `language-${language}`,
+  );
+}
+
+export interface CodeBlockMetadata {
+  codeInput: string; // Including magic comments
+  code: string; // Rendered code, excluding magic comments
+  className: string; // There's always a "language-<lang>" className
+  language: string;
+  title: ReactNode;
+  lineNumbersStart: number | undefined;
+  lineClassNames: CodeLineClassNames;
+}
+
+export function createCodeBlockMetadata(params: {
+  code: string;
+  className: string | undefined;
+  language: string | undefined;
+  defaultLanguage: string | undefined;
+  metastring: string | undefined;
+  magicComments: MagicCommentConfig[];
+  title: ReactNode;
+  showLineNumbers: boolean | number | undefined;
+}): CodeBlockMetadata {
+  const language = getLanguage({
+    language: params.language,
+    defaultLanguage: params.defaultLanguage,
+    className: params.className,
+  });
+
+  const {lineClassNames, code} = parseLines(params.code, {
+    metastring: params.metastring,
+    magicComments: params.magicComments,
+    language,
+  });
+
+  const className = ensureLanguageClassName({
+    className: params.className,
+    language,
+  });
+
+  const title = parseCodeBlockTitle(params.metastring) || params.title;
+
+  const lineNumbersStart = getLineNumbersStart({
+    showLineNumbers: params.showLineNumbers,
+    metastring: params.metastring,
+  });
+
+  return {
+    codeInput: params.code,
+    code,
+    className,
+    language,
+    title,
+    lineNumbersStart,
+    lineClassNames,
+  };
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
