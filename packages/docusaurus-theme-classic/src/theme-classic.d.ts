@@ -426,15 +426,74 @@ declare module '@theme/CodeInline' {
   export default function CodeInline(props: Props): ReactNode;
 }
 
-declare module '@theme/CodeBlock/CopyButton' {
+declare module '@theme/CodeBlock/Provider' {
   import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly code: string;
+    readonly children: ReactNode;
+  }
+
+  export default function CodeBlockProvider(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Title' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function CodeBlockTitle(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function CodeBlockLayout(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Buttons' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function CodeBlockButtons(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Buttons/Button' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'button'> {
     readonly className?: string;
   }
 
   export default function CopyButton(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Buttons/CopyButton' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function CodeBlockButtonCopy(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Buttons/WordWrapButton' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function CodeBlockButtonWordWrap(props: Props): ReactNode;
 }
 
 declare module '@theme/CodeBlock/Container' {
@@ -447,13 +506,23 @@ declare module '@theme/CodeBlock/Container' {
   }: {as: T} & ComponentProps<T>): ReactNode;
 }
 
+declare module '@theme/CodeBlock/Content' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    className?: string;
+  }
+
+  export default function CodeBlockContent(props: Props): ReactNode;
+}
+
 declare module '@theme/CodeBlock/Content/Element' {
   import type {ReactNode} from 'react';
   import type {Props} from '@theme/CodeBlock';
 
   export type {Props};
 
-  export default function CodeBlockElementContent(props: Props): ReactNode;
+  export default function CodeBlockContentElement(props: Props): ReactNode;
 }
 
 declare module '@theme/CodeBlock/Content/String' {
@@ -464,7 +533,7 @@ declare module '@theme/CodeBlock/Content/String' {
     readonly children: string;
   }
 
-  export default function CodeBlockStringContent(props: Props): ReactNode;
+  export default function CodeBlockContentString(props: Props): ReactNode;
 }
 
 declare module '@theme/CodeBlock/Line' {
@@ -488,16 +557,16 @@ declare module '@theme/CodeBlock/Line' {
   export default function CodeBlockLine(props: Props): ReactNode;
 }
 
-declare module '@theme/CodeBlock/WordWrapButton' {
+declare module '@theme/CodeBlock/Line/Token' {
   import type {ReactNode} from 'react';
+  import type {Token, TokenOutputProps} from 'prism-react-renderer';
 
-  export interface Props {
-    readonly className?: string;
-    readonly onClick: React.MouseEventHandler;
-    readonly isEnabled: boolean;
+  export interface Props extends TokenOutputProps {
+    readonly token: Token;
+    readonly line: Token[];
   }
 
-  export default function WordWrapButton(props: Props): ReactNode;
+  export default function CodeBlockLine(props: Props): ReactNode;
 }
 
 declare module '@theme/DocCard' {

@@ -6,9 +6,12 @@
  */
 
 import type {CSSProperties, ReactNode} from 'react';
+import {createContext, useContext, useMemo} from 'react';
 import clsx from 'clsx';
 import rangeParser from 'parse-numeric-range';
+import {ReactContextError} from './reactUtils';
 import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
+import type {WordWrap} from '../hooks/useCodeWordWrap';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
@@ -322,9 +325,6 @@ export function parseLines(
   const newCode = code.replace(/\r?\n$/, '');
   // Historical behavior: we try one strategy after the other
   // we don't support mixing metastring ranges + magic comments
-  console.log('params', {params, code});
-  console.log('from meta', parseCodeLinesFromMetastring(newCode, {...params}));
-  console.log('from content', parseCodeLinesFromContent(newCode, {...params}));
   return (
     parseCodeLinesFromMetastring(newCode, {...params}) ??
     parseCodeLinesFromContent(newCode, {...params})
@@ -459,4 +459,40 @@ export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
     }
   });
   return properties;
+}
+
+type CodeBlockContextValue = {
+  metadata: CodeBlockMetadata;
+  wordWrap: WordWrap;
+};
+
+const CodeBlockContext = createContext<CodeBlockContextValue | null>(null);
+
+export function CodeBlockContextProvider({
+  metadata,
+  wordWrap,
+  children,
+}: {
+  metadata: CodeBlockMetadata;
+  wordWrap: WordWrap;
+  children: ReactNode;
+}): ReactNode {
+  // Should we optimize this in 2 contexts?
+  // Unlike metadata, wordWrap is stateful and likely to trigger re-renders
+  const value: CodeBlockContextValue = useMemo(() => {
+    return {metadata, wordWrap};
+  }, [metadata, wordWrap]);
+  return (
+    <CodeBlockContext.Provider value={value}>
+      {children}
+    </CodeBlockContext.Provider>
+  );
+}
+
+export function useCodeBlockContext(): CodeBlockContextValue {
+  const value = useContext(CodeBlockContext);
+  if (value === null) {
+    throw new ReactContextError('CodeBlockContextProvider');
+  }
+  return value;
 }
