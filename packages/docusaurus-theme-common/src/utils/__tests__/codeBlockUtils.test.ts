@@ -11,7 +11,16 @@ import {
   parseCodeBlockTitle,
   parseClassNameLanguage,
   parseLines,
+  createCodeBlockMetadata,
 } from '../codeBlockUtils';
+
+const defaultMagicComments: MagicCommentConfig[] = [
+  {
+    className: 'theme-code-block-highlighted-line',
+    line: 'highlight-next-line',
+    block: {start: 'highlight-start', end: 'highlight-end'},
+  },
+];
 
 describe('parseCodeBlockTitle', () => {
   it('parses double quote delimited title', () => {
@@ -69,14 +78,6 @@ describe('parseClassNameLanguage', () => {
 });
 
 describe('parseLines', () => {
-  const defaultMagicComments: MagicCommentConfig[] = [
-    {
-      className: 'theme-code-block-highlighted-line',
-      line: 'highlight-next-line',
-      block: {start: 'highlight-start', end: 'highlight-end'},
-    },
-  ];
-
   it('does not parse content with metastring', () => {
     expect(
       parseLines('aaaaa\nnnnnn', {
@@ -807,6 +808,93 @@ describe('getLineNumbersStart', () => {
           }),
         ).toMatchInlineSnapshot(`10`);
       });
+    });
+  });
+});
+
+describe('createCodeBlockMetadata', () => {
+  type Params = Parameters<typeof createCodeBlockMetadata>[0];
+
+  const defaultParams: Params = {
+    code: '',
+    className: undefined,
+    metastring: '',
+    language: undefined,
+    defaultLanguage: undefined,
+    magicComments: defaultMagicComments,
+    title: undefined,
+    showLineNumbers: undefined,
+  };
+
+  function create(params?: Partial<Params>) {
+    return createCodeBlockMetadata({...defaultParams, ...params});
+  }
+
+  it('creates basic metadata', () => {
+    const meta = create();
+    expect(meta).toMatchInlineSnapshot(`
+      {
+        "className": "language-text",
+        "code": "",
+        "codeInput": "",
+        "language": "text",
+        "lineClassNames": {},
+        "lineNumbersStart": undefined,
+        "title": undefined,
+      }
+    `);
+  });
+
+  describe('language', () => {
+    it('returns input language', () => {
+      const meta = create({language: 'js'});
+      expect(meta.language).toBe('js');
+    });
+
+    it('returns className language', () => {
+      const meta = create({className: 'x language-ts y z'});
+      expect(meta.language).toBe('ts');
+    });
+
+    it('returns default language', () => {
+      const meta = create({defaultLanguage: 'jsx'});
+      expect(meta.language).toBe('jsx');
+    });
+
+    it('returns fallback language', () => {
+      const meta = create();
+      expect(meta.language).toBe('text');
+    });
+
+    it('returns language with expected precedence', () => {
+      expect(
+        create({
+          language: 'js',
+          className: 'x language-ts y z',
+          defaultLanguage: 'jsx',
+        }).language,
+      ).toBe('js');
+      expect(
+        create({
+          language: undefined,
+          className: 'x language-ts y z',
+          defaultLanguage: 'jsx',
+        }).language,
+      ).toBe('ts');
+      expect(
+        create({
+          language: undefined,
+          className: 'x y z',
+          defaultLanguage: 'jsx',
+        }).language,
+      ).toBe('jsx');
+      expect(
+        create({
+          language: undefined,
+          className: 'x y z',
+          defaultLanguage: undefined,
+        }).language,
+      ).toBe('text');
     });
   });
 });

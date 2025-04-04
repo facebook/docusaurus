@@ -195,7 +195,7 @@ type ParseCodeLinesParam = {
    * Language of the code block, used to determine which kinds of magic
    * comment styles to enable.
    */
-  language: string;
+  language: string | undefined;
   /**
    * Magic comment types that we should try to parse. Each entry would
    * correspond to one class name to apply to each line.
@@ -407,8 +407,8 @@ export function createCodeBlockMetadata(params: {
   defaultLanguage: string | undefined;
   metastring: string | undefined;
   magicComments: MagicCommentConfig[];
-  title?: ReactNode;
-  showLineNumbers?: boolean | number | undefined;
+  title: ReactNode;
+  showLineNumbers: boolean | number | undefined;
 }): CodeBlockMetadata {
   const language = getLanguage({
     language: params.language,
