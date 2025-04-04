@@ -23,7 +23,6 @@ describe('normalizeSocials', () => {
       mastodon: 'Mastodon',
     };
 
-    // eslint-disable-next-line jest/no-large-snapshots
     expect(normalizeSocials(socials)).toMatchInlineSnapshot(`
       {
         "bluesky": "https://bsky.app/profile/gingergeek.co.uk",
