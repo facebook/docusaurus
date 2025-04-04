@@ -986,4 +986,39 @@ describe('createCodeBlockMetadata', () => {
       expect(meta.title).toBe('my title meta');
     });
   });
+
+  describe('showLineNumbers', () => {
+    it('returns no lineNumbersStart', () => {
+      const meta = create();
+      expect(meta.lineNumbersStart).toBeUndefined();
+    });
+
+    it('returns lineNumbersStart - params.showLineNumbers=true', () => {
+      const meta = create({showLineNumbers: true});
+      expect(meta.lineNumbersStart).toBe(1);
+    });
+
+    it('returns lineNumbersStart - params.showLineNumbers=3', () => {
+      const meta = create({showLineNumbers: 3});
+      expect(meta.lineNumbersStart).toBe(3);
+    });
+
+    it('returns lineNumbersStart - meta showLineNumbers', () => {
+      const meta = create({metastring: 'showLineNumbers'});
+      expect(meta.lineNumbersStart).toBe(1);
+    });
+
+    it('returns lineNumbersStart - meta showLineNumbers=2', () => {
+      const meta = create({metastring: 'showLineNumbers=2'});
+      expect(meta.lineNumbersStart).toBe(2);
+    });
+
+    it('returns lineNumbersStart - params.showLineNumbers=3 + meta showLineNumbers=2', () => {
+      const meta = create({
+        showLineNumbers: 3,
+        metastring: 'showLineNumbers=2',
+      });
+      expect(meta.lineNumbersStart).toBe(3);
+    });
+  });
 });
