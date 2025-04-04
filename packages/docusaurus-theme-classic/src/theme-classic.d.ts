@@ -557,6 +557,18 @@ declare module '@theme/CodeBlock/Line' {
   export default function CodeBlockLine(props: Props): ReactNode;
 }
 
+declare module '@theme/CodeBlock/Line/Token' {
+  import type {ReactNode} from 'react';
+  import type {Token, TokenOutputProps} from 'prism-react-renderer';
+
+  export interface Props extends TokenOutputProps {
+    readonly token: Token;
+    readonly line: Token[];
+  }
+
+  export default function CodeBlockLine(props: Props): ReactNode;
+}
+
 declare module '@theme/DocCard' {
   import type {ReactNode} from 'react';
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';

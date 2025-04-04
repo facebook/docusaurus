@@ -7,6 +7,7 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
+import LineToken from '@theme/CodeBlock/Line/Token';
 import type {Props} from '@theme/CodeBlock/Line';
 
 import styles from './styles.module.css';
@@ -40,9 +41,14 @@ export default function CodeBlockLine({
     className: clsx(classNames, showLineNumbers && styles.codeLine),
   });
 
-  const lineTokens = line.map((token, key) => (
-    <span key={key} {...getTokenProps({token})} />
-  ));
+  const lineTokens = line.map((token, key) => {
+    const tokenProps = getTokenProps({token});
+    return (
+      <LineToken key={key} {...tokenProps} line={line} token={token}>
+        {tokenProps.children}
+      </LineToken>
+    );
+  });
 
   return (
     <span {...lineProps}>
