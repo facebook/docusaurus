@@ -23,6 +23,8 @@ import type {Props} from '@theme/CodeBlock/Content/String';
 
 import styles from './styles.module.css';
 
+type WordWrap = ReturnType<typeof useCodeWordWrap>;
+
 function CodeBlockTitle({children}: {children: ReactNode}): ReactNode {
   // Just a pass-through for now
   return children;
@@ -30,11 +32,12 @@ function CodeBlockTitle({children}: {children: ReactNode}): ReactNode {
 
 function CodeBlockContent({
   metadata,
+  wordWrap,
 }: {
   metadata: CodeBlockMetadata;
+  wordWrap: WordWrap;
 }): ReactNode {
   const prismTheme = usePrismTheme();
-  const wordWrap = useCodeWordWrap();
   const {code, language, lineNumbersStart, lineClassNames} = metadata;
   return (
     <Highlight
@@ -80,11 +83,11 @@ function CodeBlockContent({
 
 function CodeBlockButtons({
   metadata,
+  wordWrap,
 }: {
   metadata: CodeBlockMetadata;
+  wordWrap: WordWrap;
 }): ReactNode {
-  const wordWrap = useCodeWordWrap();
-
   return (
     <div className={styles.buttonGroup}>
       {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
@@ -110,6 +113,7 @@ function getCodeBlockClassName(metadata: CodeBlockMetadata): string {
 
 function CodeBlockLayout({metadata}: {metadata: CodeBlockMetadata}): ReactNode {
   const isBrowser = useIsBrowser();
+  const wordWrap = useCodeWordWrap();
   return (
     <Container as="div" className={getCodeBlockClassName(metadata)}>
       {metadata.title && (
@@ -118,8 +122,10 @@ function CodeBlockLayout({metadata}: {metadata: CodeBlockMetadata}): ReactNode {
         </div>
       )}
       <div className={styles.codeBlockContent}>
-        <CodeBlockContent metadata={metadata} />
-        {isBrowser ? <CodeBlockButtons metadata={metadata} /> : null}
+        <CodeBlockContent metadata={metadata} wordWrap={wordWrap} />
+        {isBrowser ? (
+          <CodeBlockButtons metadata={metadata} wordWrap={wordWrap} />
+        ) : null}
       </div>
     </Container>
   );
