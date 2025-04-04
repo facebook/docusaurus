@@ -12,6 +12,7 @@ import type {Props} from '@theme/CodeBlock/Content/Element';
 
 import styles from './styles.module.css';
 
+// TODO Docusaurus v4: move this component at the root?
 // This component only handles a rare edge-case: <pre><MyComp/></pre> in MDX
 // <pre> tags in markdown map to CodeBlocks. They may contain JSX children.
 // When children is not a simple string, we just return a styled block without

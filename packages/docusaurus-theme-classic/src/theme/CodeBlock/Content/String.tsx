@@ -30,6 +30,7 @@ function useCodeBlockMetadata(props: Props): CodeBlockMetadata {
   });
 }
 
+// TODO Docusaurus v4: move this component at the root?
 export default function CodeBlockString(props: Props): ReactNode {
   const metadata = useCodeBlockMetadata(props);
   const wordWrap = useCodeWordWrap();
