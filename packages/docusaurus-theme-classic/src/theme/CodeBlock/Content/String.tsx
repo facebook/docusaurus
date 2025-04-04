@@ -9,8 +9,9 @@ import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, usePrismTheme} from '@docusaurus/theme-common';
 import {
-  createCodeBlockMetadata,
   useCodeWordWrap,
+  createCodeBlockMetadata,
+  type CodeBlockMetadata,
 } from '@docusaurus/theme-common/internal';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {Highlight, type Language} from 'prism-react-renderer';
@@ -22,95 +23,121 @@ import type {Props} from '@theme/CodeBlock/Content/String';
 
 import styles from './styles.module.css';
 
-export default function CodeBlockString({
-  children,
-  className: blockClassName = '',
-  metastring,
-  ...props
-}: Props): ReactNode {
-  const {
-    prism: {defaultLanguage, magicComments},
-  } = useThemeConfig();
+function CodeBlockTitle({children}: {children: ReactNode}): ReactNode {
+  // Just a pass-through for now
+  return children;
+}
 
+function CodeBlockContent({
+  metadata,
+}: {
+  metadata: CodeBlockMetadata;
+}): ReactNode {
   const prismTheme = usePrismTheme();
   const wordWrap = useCodeWordWrap();
+  const {code, language, lineNumbersStart, lineClassNames} = metadata;
+  return (
+    <Highlight
+      theme={prismTheme}
+      code={code}
+      language={(language ?? 'text') as Language}>
+      {({className, style, tokens, getLineProps, getTokenProps}) => (
+        <pre
+          /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
+          tabIndex={0}
+          ref={wordWrap.codeBlockRef}
+          className={clsx(className, styles.codeBlock, 'thin-scrollbar')}
+          style={style}>
+          <code
+            className={clsx(
+              styles.codeBlockLines,
+              lineNumbersStart !== undefined &&
+                styles.codeBlockLinesWithNumbering,
+            )}
+            style={
+              lineNumbersStart === undefined
+                ? undefined
+                : {
+                    counterReset: `line-count ${lineNumbersStart - 1}`,
+                  }
+            }>
+            {tokens.map((line, i) => (
+              <Line
+                key={i}
+                line={line}
+                getLineProps={getLineProps}
+                getTokenProps={getTokenProps}
+                classNames={lineClassNames[i]}
+                showLineNumbers={lineNumbersStart !== undefined}
+              />
+            ))}
+          </code>
+        </pre>
+      )}
+    </Highlight>
+  );
+}
+
+function CodeBlockButtons({
+  metadata,
+}: {
+  metadata: CodeBlockMetadata;
+}): ReactNode {
+  const wordWrap = useCodeWordWrap();
+
+  return (
+    <div className={styles.buttonGroup}>
+      {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
+        <WordWrapButton
+          className={styles.codeButton}
+          onClick={() => wordWrap.toggle()}
+          isEnabled={wordWrap.isEnabled}
+        />
+      )}
+      <CopyButton className={styles.codeButton} code={metadata.code} />
+    </div>
+  );
+}
+
+function CodeBlockLayout({metadata}: {metadata: CodeBlockMetadata}): ReactNode {
   const isBrowser = useIsBrowser();
-
-  const metadata = createCodeBlockMetadata({
-    code: children,
-    className: blockClassName,
-    metastring,
-    magicComments,
-    defaultLanguage,
-    language: props.language,
-    title: props.title,
-    showLineNumbers: props.showLineNumbers,
-  });
-
-  const {code, language, title, lineNumbersStart, lineClassNames} = metadata;
-
   return (
     <Container
       as="div"
       className={clsx(
-        blockClassName,
-        language &&
-          !blockClassName.includes(`language-${language}`) &&
-          `language-${language}`,
+        metadata.className,
+        metadata.language &&
+          !metadata.className?.includes(`language-${metadata.language}`) &&
+          `language-${metadata.language}`,
       )}>
-      {title && <div className={styles.codeBlockTitle}>{title}</div>}
+      {metadata.title && (
+        <div className={styles.codeBlockTitle}>
+          <CodeBlockTitle>{metadata.title}</CodeBlockTitle>
+        </div>
+      )}
       <div className={styles.codeBlockContent}>
-        <Highlight
-          theme={prismTheme}
-          code={code}
-          language={(language ?? 'text') as Language}>
-          {({className, style, tokens, getLineProps, getTokenProps}) => (
-            <pre
-              /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
-              tabIndex={0}
-              ref={wordWrap.codeBlockRef}
-              className={clsx(className, styles.codeBlock, 'thin-scrollbar')}
-              style={style}>
-              <code
-                className={clsx(
-                  styles.codeBlockLines,
-                  lineNumbersStart !== undefined &&
-                    styles.codeBlockLinesWithNumbering,
-                )}
-                style={
-                  lineNumbersStart === undefined
-                    ? undefined
-                    : {
-                        counterReset: `line-count ${lineNumbersStart - 1}`,
-                      }
-                }>
-                {tokens.map((line, i) => (
-                  <Line
-                    key={i}
-                    line={line}
-                    getLineProps={getLineProps}
-                    getTokenProps={getTokenProps}
-                    classNames={lineClassNames[i]}
-                    showLineNumbers={lineNumbersStart !== undefined}
-                  />
-                ))}
-              </code>
-            </pre>
-          )}
-        </Highlight>
-        {isBrowser ? (
-          <div className={styles.buttonGroup}>
-            {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
-              <WordWrapButton
-                className={styles.codeButton}
-                onClick={() => wordWrap.toggle()}
-                isEnabled={wordWrap.isEnabled}
-              />
-            )}
-            <CopyButton className={styles.codeButton} code={code} />
-          </div>
-        ) : null}
+        <CodeBlockContent metadata={metadata} />
+        {isBrowser ? <CodeBlockButtons metadata={metadata} /> : null}
       </div>
     </Container>
   );
+}
+
+function useCodeBlockMetadata(props: Props): CodeBlockMetadata {
+  const {prism} = useThemeConfig();
+  return createCodeBlockMetadata({
+    code: props.children,
+    className: props.className,
+    metastring: props.metastring,
+    magicComments: prism.magicComments,
+    defaultLanguage: prism.defaultLanguage,
+    language: props.language,
+    title: props.title,
+    showLineNumbers: props.showLineNumbers,
+  });
+}
+
+export default function CodeBlockString(props: Props): ReactNode {
+  const metadata = useCodeBlockMetadata(props);
+  return <CodeBlockLayout metadata={metadata} />;
 }

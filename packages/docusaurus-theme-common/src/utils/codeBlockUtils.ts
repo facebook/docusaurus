@@ -366,6 +366,7 @@ function getLanguage(params: {
 export interface CodeBlockMetadata {
   codeInput: string; // Including magic comments
   code: string; // Rendered code, excluding magic comments
+  className: string | undefined;
   language: string | undefined;
   title: ReactNode;
   lineNumbersStart: number | undefined;
@@ -404,6 +405,7 @@ export function createCodeBlockMetadata(params: {
   return {
     codeInput: params.code,
     code,
+    className: params.className,
     language,
     title,
     lineNumbersStart,
