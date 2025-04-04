@@ -196,53 +196,45 @@ export function parseLanguage(className: string): string | undefined {
   return languageClassName?.replace(/language-/, '');
 }
 
-/**
- * Parses the code content, strips away any magic comments, and returns the
- * clean content and the highlighted lines marked by the comments or metastring.
- *
- * If the metastring contains a range, the `content` will be returned as-is
- * without any parsing. The returned `lineClassNames` will be a map from that
- * number range to the first magic comment config entry (which _should_ be for
- * line highlight directives.)
- *
- * @param content The raw code with magic comments. Trailing newline will be
- * trimmed upfront.
- * @param options Options for parsing behavior.
- */
-export function parseLines(
-  content: string,
-  options: {
-    /**
-     * The full metastring, as received from MDX. Line ranges declared here
-     * start at 1.
-     */
-    metastring: string | undefined;
-    /**
-     * Language of the code block, used to determine which kinds of magic
-     * comment styles to enable.
-     */
-    language: string | undefined;
-    /**
-     * Magic comment types that we should try to parse. Each entry would
-     * correspond to one class name to apply to each line.
-     */
-    magicComments: MagicCommentConfig[];
-  },
-): {
+type ParseCodeLinesParam = {
   /**
-   * The highlighted lines, 0-indexed. e.g. `{ 0: ["highlight", "sample"] }`
-   * means the 1st line should have `highlight` and `sample` as class names.
+   * The full metastring, as received from MDX. Line ranges declared here
+   * start at 1.
    */
-  lineClassNames: {[lineIndex: number]: string[]};
+  metastring: string | undefined;
+  /**
+   * Language of the code block, used to determine which kinds of magic
+   * comment styles to enable.
+   */
+  language: string | undefined;
+  /**
+   * Magic comment types that we should try to parse. Each entry would
+   * correspond to one class name to apply to each line.
+   */
+  magicComments: MagicCommentConfig[];
+};
+
+/**
+ * Code lines after applying magic comments or metastring highlight ranges
+ */
+type CodeLines = {
   /**
    * If there's number range declared in the metastring, the code block is
    * returned as-is (no parsing); otherwise, this is the clean code with all
    * magic comments stripped away.
    */
   code: string;
-} {
-  let code = content.replace(/\r?\n$/, '');
-  const {language, magicComments, metastring} = options;
+  /**
+   * The highlighted lines, 0-indexed. e.g. `{ 0: ["highlight", "sample"] }`
+   * means the 1st line should have `highlight` and `sample` as class names.
+   */
+  lineClassNames: {[lineIndex: number]: string[]};
+};
+
+function parseCodeLinesFromMetastring(
+  code: string,
+  {metastring, magicComments}: ParseCodeLinesParam,
+): CodeLines | null {
   // Highlighted lines specified in props: don't parse the content
   if (metastring && metastringLinesRangeRegex.test(metastring)) {
     const linesRange = metastring.match(metastringLinesRangeRegex)!.groups!
@@ -258,6 +250,14 @@ export function parseLines(
       .map((n) => [n - 1, [metastringRangeClassName]] as [number, string[]]);
     return {lineClassNames: Object.fromEntries(lines), code};
   }
+  return null;
+}
+
+function parseCodeLinesFromContent(
+  code: string,
+  params: ParseCodeLinesParam,
+): CodeLines {
+  const {language, magicComments} = params;
   if (language === undefined) {
     return {lineClassNames: {}, code};
   }
@@ -307,7 +307,7 @@ export function parseLines(
     }
     lines.splice(lineNumber, 1);
   }
-  code = lines.join('\n');
+
   const lineClassNames: {[lineIndex: number]: string[]} = {};
   Object.entries(blocks).forEach(([className, {range}]) => {
     rangeParser(range).forEach((l) => {
@@ -315,7 +315,31 @@ export function parseLines(
       lineClassNames[l]!.push(className);
     });
   });
-  return {lineClassNames, code};
+
+  return {code: lines.join('\n'), lineClassNames};
+}
+
+/**
+ * Parses the code content, strips away any magic comments, and returns the
+ * clean content and the highlighted lines marked by the comments or metastring.
+ *
+ * If the metastring contains a range, the `content` will be returned as-is
+ * without any parsing. The returned `lineClassNames` will be a map from that
+ * number range to the first magic comment config entry (which _should_ be for
+ * line highlight directives.)
+ */
+export function parseLines(
+  code: string,
+  params: ParseCodeLinesParam,
+): CodeLines {
+  // Historical behavior: we remove last line break
+  const newCode = code.replace(/\r?\n$/, '');
+  // Historical behavior: we try one strategy after the other
+  // we don't support mixing metastring ranges + magic comments
+  return (
+    parseCodeLinesFromMetastring(newCode, {...params}) ??
+    parseCodeLinesFromContent(newCode, {...params})
+  );
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
