@@ -11,6 +11,7 @@ import clsx from 'clsx';
 import rangeParser from 'parse-numeric-range';
 import {ReactContextError} from './reactUtils';
 import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
+import type {WordWrap} from '../hooks/useCodeWordWrap';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
@@ -465,21 +466,25 @@ export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
 
 type CodeBlockContextValue = {
   metadata: CodeBlockMetadata;
-  // maybe other things to add here later, like codeWrap?
+  wordWrap: WordWrap;
 };
 
 const CodeBlockContext = createContext<CodeBlockContextValue | null>(null);
 
 export function CodeBlockContextProvider({
   metadata,
+  wordWrap,
   children,
 }: {
   metadata: CodeBlockMetadata;
+  wordWrap: WordWrap;
   children: ReactNode;
 }): ReactNode {
+  // Should we optimize this in 2 contexts?
+  // Unlike metadata, wordWrap is stateful and likely to trigger re-renders
   const value: CodeBlockContextValue = useMemo(() => {
-    return {metadata};
-  }, [metadata]);
+    return {metadata, wordWrap};
+  }, [metadata, wordWrap]);
   return (
     <CodeBlockContext.Provider value={value}>
       {children}

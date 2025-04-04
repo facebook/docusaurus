@@ -25,8 +25,6 @@ import type {Props} from '@theme/CodeBlock/Content/String';
 
 import styles from './styles.module.css';
 
-type WordWrap = ReturnType<typeof useCodeWordWrap>;
-
 function CodeBlockTitle({children}: {children: ReactNode}): ReactNode {
   // Just a pass-through for now
   return children;
@@ -69,8 +67,8 @@ function Code(props: ComponentProps<'code'>) {
   );
 }
 
-function CodeBlockContent({wordWrap}: {wordWrap: WordWrap}): ReactNode {
-  const {metadata} = useCodeBlockContext();
+function CodeBlockContent(): ReactNode {
+  const {metadata, wordWrap} = useCodeBlockContext();
   const prismTheme = usePrismTheme();
   const {code, language, lineNumbersStart, lineClassNames} = metadata;
   return (
@@ -95,8 +93,8 @@ function CodeBlockContent({wordWrap}: {wordWrap: WordWrap}): ReactNode {
   );
 }
 
-function CodeBlockButtons({wordWrap}: {wordWrap: WordWrap}): ReactNode {
-  const {metadata} = useCodeBlockContext();
+function CodeBlockButtons(): ReactNode {
+  const {metadata, wordWrap} = useCodeBlockContext();
   return (
     <div className={styles.buttonGroup}>
       {(wordWrap.isEnabled || wordWrap.isCodeScrollable) && (
@@ -113,7 +111,6 @@ function CodeBlockButtons({wordWrap}: {wordWrap: WordWrap}): ReactNode {
 
 function CodeBlockLayout(): ReactNode {
   const isBrowser = useIsBrowser();
-  const wordWrap = useCodeWordWrap();
   const {metadata} = useCodeBlockContext();
   return (
     <Container as="div" className={metadata.className}>
@@ -123,8 +120,8 @@ function CodeBlockLayout(): ReactNode {
         </div>
       )}
       <div className={styles.codeBlockContent}>
-        <CodeBlockContent wordWrap={wordWrap} />
-        {isBrowser && <CodeBlockButtons wordWrap={wordWrap} />}
+        <CodeBlockContent />
+        {isBrowser && <CodeBlockButtons />}
       </div>
     </Container>
   );
@@ -146,8 +143,9 @@ function useCodeBlockMetadata(props: Props): CodeBlockMetadata {
 
 export default function CodeBlockString(props: Props): ReactNode {
   const metadata = useCodeBlockMetadata(props);
+  const wordWrap = useCodeWordWrap();
   return (
-    <CodeBlockContextProvider metadata={metadata}>
+    <CodeBlockContextProvider metadata={metadata} wordWrap={wordWrap}>
       <CodeBlockLayout />
     </CodeBlockContextProvider>
   );

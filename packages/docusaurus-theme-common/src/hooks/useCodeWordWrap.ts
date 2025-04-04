@@ -52,12 +52,14 @@ function useTabBecameVisibleCallback(
   );
 }
 
-export function useCodeWordWrap(): {
+export type WordWrap = {
   readonly codeBlockRef: RefObject<HTMLPreElement>;
   readonly isEnabled: boolean;
   readonly isCodeScrollable: boolean;
   readonly toggle: () => void;
-} {
+};
+
+export function useCodeWordWrap(): WordWrap {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isCodeScrollable, setIsCodeScrollable] = useState<boolean>(false);
   const codeBlockRef = useRef<HTMLPreElement>(null);
