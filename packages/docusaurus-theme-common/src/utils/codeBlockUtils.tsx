@@ -5,14 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {
-  CSSProperties,
-  ReactNode} from 'react';
-import {
-  createContext,
-  useContext,
-  useMemo,
-} from 'react';
+import type {CSSProperties, ReactNode} from 'react';
+import {createContext, useContext, useMemo} from 'react';
 import clsx from 'clsx';
 import rangeParser from 'parse-numeric-range';
 import {ReactContextError} from './reactUtils';
