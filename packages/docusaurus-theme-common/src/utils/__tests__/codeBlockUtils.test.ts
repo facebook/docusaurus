@@ -897,4 +897,24 @@ describe('createCodeBlockMetadata', () => {
       ).toBe('text');
     });
   });
+
+  describe('className', () => {
+    it('returns provided className with current language', () => {
+      const meta = create({language: 'js', className: 'some-class'});
+      expect(meta.className).toBe('some-class language-js');
+    });
+
+    it('returns provided className with fallback language', () => {
+      const meta = create({className: 'some-class'});
+      expect(meta.className).toBe('some-class language-text');
+    });
+
+    it('returns provided className without duplicating className language', () => {
+      const meta = create({
+        language: 'js',
+        className: 'some-class language-js',
+      });
+      expect(meta.className).toBe('some-class language-js');
+    });
+  });
 });
