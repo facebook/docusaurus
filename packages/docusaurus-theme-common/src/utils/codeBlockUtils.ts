@@ -6,6 +6,7 @@
  */
 
 import type {CSSProperties, ReactNode} from 'react';
+import clsx from 'clsx';
 import rangeParser from 'parse-numeric-range';
 import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
 
@@ -355,19 +356,42 @@ function getLanguage(params: {
   language: string | undefined;
   className: string | undefined;
   defaultLanguage: string | undefined;
-}): string | undefined {
-  return normalizeLanguage(
-    params.language ??
-      parseClassNameLanguage(params.className) ??
-      params.defaultLanguage,
+}): string {
+  return (
+    normalizeLanguage(
+      params.language ??
+        parseClassNameLanguage(params.className) ??
+        params.defaultLanguage,
+    ) ?? 'text'
+  ); // There's always a language, required by Prism;
+}
+
+/**
+ * This ensures that we always have the code block language as className
+ * For MDX code blocks this is provided automatically by MDX
+ * For JSX code blocks, the language gets added by this function
+ * This ensures both cases lead to a consistent HTML output
+ */
+function ensureLanguageClassName({
+  className,
+  language,
+}: {
+  className: string | undefined;
+  language: string;
+}): string {
+  return clsx(
+    className,
+    language &&
+      !className?.includes(`language-${language}`) &&
+      `language-${language}`,
   );
 }
 
 export interface CodeBlockMetadata {
   codeInput: string; // Including magic comments
   code: string; // Rendered code, excluding magic comments
-  className: string | undefined;
-  language: string | undefined;
+  className: string; // There's always a "language-<lang>" className
+  language: string;
   title: ReactNode;
   lineNumbersStart: number | undefined;
   lineClassNames: CodeLineClassNames;
@@ -395,6 +419,11 @@ export function createCodeBlockMetadata(params: {
     className: params.className,
   });
 
+  const className = ensureLanguageClassName({
+    className: params.className,
+    language,
+  });
+
   const title = parseCodeBlockTitle(params.metastring) || params.title;
 
   const lineNumbersStart = getLineNumbersStart({
@@ -405,7 +434,7 @@ export function createCodeBlockMetadata(params: {
   return {
     codeInput: params.code,
     code,
-    className: params.className,
+    className,
     language,
     title,
     lineNumbersStart,

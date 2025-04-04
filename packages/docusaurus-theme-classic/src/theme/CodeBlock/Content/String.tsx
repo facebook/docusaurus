@@ -14,7 +14,7 @@ import {
   type CodeBlockMetadata,
 } from '@docusaurus/theme-common/internal';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import {Highlight, type Language} from 'prism-react-renderer';
+import {Highlight} from 'prism-react-renderer';
 import Line from '@theme/CodeBlock/Line';
 import CopyButton from '@theme/CodeBlock/CopyButton';
 import WordWrapButton from '@theme/CodeBlock/WordWrapButton';
@@ -40,10 +40,7 @@ function CodeBlockContent({
   const prismTheme = usePrismTheme();
   const {code, language, lineNumbersStart, lineClassNames} = metadata;
   return (
-    <Highlight
-      theme={prismTheme}
-      code={code}
-      language={(language ?? 'text') as Language}>
+    <Highlight theme={prismTheme} code={code} language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <pre
           /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
@@ -102,20 +99,11 @@ function CodeBlockButtons({
   );
 }
 
-function getCodeBlockClassName(metadata: CodeBlockMetadata): string {
-  return clsx(
-    metadata.className,
-    metadata.language &&
-      !metadata.className?.includes(`language-${metadata.language}`) &&
-      `language-${metadata.language}`,
-  );
-}
-
 function CodeBlockLayout({metadata}: {metadata: CodeBlockMetadata}): ReactNode {
   const isBrowser = useIsBrowser();
   const wordWrap = useCodeWordWrap();
   return (
-    <Container as="div" className={getCodeBlockClassName(metadata)}>
+    <Container as="div" className={metadata.className}>
       {metadata.title && (
         <div className={styles.codeBlockTitle}>
           <CodeBlockTitle>{metadata.title}</CodeBlockTitle>
