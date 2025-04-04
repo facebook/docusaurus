@@ -123,9 +123,9 @@ function CodeBlockLayout({metadata}: {metadata: CodeBlockMetadata}): ReactNode {
       )}
       <div className={styles.codeBlockContent}>
         <CodeBlockContent metadata={metadata} wordWrap={wordWrap} />
-        {isBrowser ? (
+        {isBrowser && (
           <CodeBlockButtons metadata={metadata} wordWrap={wordWrap} />
-        ) : null}
+        )}
       </div>
     </Container>
   );
