@@ -426,6 +426,36 @@ declare module '@theme/CodeInline' {
   export default function CodeInline(props: Props): ReactNode;
 }
 
+declare module '@theme/CodeBlock/Provider' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function CodeBlockProvider(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Title' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function CodeBlockTitle(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function CodeBlockLayout(props: Props): ReactNode;
+}
+
 declare module '@theme/CodeBlock/Buttons' {
   import type {ReactNode} from 'react';
 
@@ -476,13 +506,23 @@ declare module '@theme/CodeBlock/Container' {
   }: {as: T} & ComponentProps<T>): ReactNode;
 }
 
+declare module '@theme/CodeBlock/Content' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    className?: string;
+  }
+
+  export default function CodeBlockContent(props: Props): ReactNode;
+}
+
 declare module '@theme/CodeBlock/Content/Element' {
   import type {ReactNode} from 'react';
   import type {Props} from '@theme/CodeBlock';
 
   export type {Props};
 
-  export default function CodeBlockElementContent(props: Props): ReactNode;
+  export default function CodeBlockContentElement(props: Props): ReactNode;
 }
 
 declare module '@theme/CodeBlock/Content/String' {
@@ -493,7 +533,7 @@ declare module '@theme/CodeBlock/Content/String' {
     readonly children: string;
   }
 
-  export default function CodeBlockStringContent(props: Props): ReactNode;
+  export default function CodeBlockContentString(props: Props): ReactNode;
 }
 
 declare module '@theme/CodeBlock/Line' {
