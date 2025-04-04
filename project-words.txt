@@ -175,6 +175,7 @@ Meilisearch
 merveilleuse
 metadatum
 metastring
+Metastring
 metrica
 Metrika
 microdata
