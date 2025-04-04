@@ -195,7 +195,7 @@ type ParseCodeLinesParam = {
    * Language of the code block, used to determine which kinds of magic
    * comment styles to enable.
    */
-  language: string | undefined;
+  language: string;
   /**
    * Magic comment types that we should try to parse. Each entry would
    * correspond to one class name to apply to each line.
@@ -322,6 +322,9 @@ export function parseLines(
   const newCode = code.replace(/\r?\n$/, '');
   // Historical behavior: we try one strategy after the other
   // we don't support mixing metastring ranges + magic comments
+  console.log('params', {params, code});
+  console.log('from meta', parseCodeLinesFromMetastring(newCode, {...params}));
+  console.log('from content', parseCodeLinesFromContent(newCode, {...params}));
   return (
     parseCodeLinesFromMetastring(newCode, {...params}) ??
     parseCodeLinesFromContent(newCode, {...params})
@@ -407,16 +410,16 @@ export function createCodeBlockMetadata(params: {
   title?: ReactNode;
   showLineNumbers?: boolean | number | undefined;
 }): CodeBlockMetadata {
-  const {lineClassNames, code} = parseLines(params.code, {
-    metastring: params.metastring,
-    magicComments: params.magicComments,
-    language: params.language,
-  });
-
   const language = getLanguage({
     language: params.language,
     defaultLanguage: params.defaultLanguage,
     className: params.className,
+  });
+
+  const {lineClassNames, code} = parseLines(params.code, {
+    metastring: params.metastring,
+    magicComments: params.magicComments,
+    language,
   });
 
   const className = ensureLanguageClassName({
