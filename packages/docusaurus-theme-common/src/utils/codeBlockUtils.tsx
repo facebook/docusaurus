@@ -325,9 +325,6 @@ export function parseLines(
   const newCode = code.replace(/\r?\n$/, '');
   // Historical behavior: we try one strategy after the other
   // we don't support mixing metastring ranges + magic comments
-  console.log('params', {params, code});
-  console.log('from meta', parseCodeLinesFromMetastring(newCode, {...params}));
-  console.log('from content', parseCodeLinesFromContent(newCode, {...params}));
   return (
     parseCodeLinesFromMetastring(newCode, {...params}) ??
     parseCodeLinesFromContent(newCode, {...params})
