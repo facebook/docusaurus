@@ -9,7 +9,7 @@ import {
   getLineNumbersStart,
   type MagicCommentConfig,
   parseCodeBlockTitle,
-  parseLanguage,
+  parseClassNameLanguage,
   parseLines,
 } from '../codeBlockUtils';
 
@@ -59,12 +59,12 @@ describe('parseCodeBlockTitle', () => {
   });
 });
 
-describe('parseLanguage', () => {
+describe('parseClassNameLanguage', () => {
   it('works', () => {
-    expect(parseLanguage('language-foo xxx yyy')).toBe('foo');
-    expect(parseLanguage('xxxxx language-foo yyy')).toBe('foo');
-    expect(parseLanguage('xx-language-foo yyyy')).toBeUndefined();
-    expect(parseLanguage('xxx yyy zzz')).toBeUndefined();
+    expect(parseClassNameLanguage('language-foo xxx yyy')).toBe('foo');
+    expect(parseClassNameLanguage('xxxxx language-foo yyy')).toBe('foo');
+    expect(parseClassNameLanguage('xx-language-foo yyyy')).toBeUndefined();
+    expect(parseClassNameLanguage('xxx yyy zzz')).toBeUndefined();
   });
 });
 

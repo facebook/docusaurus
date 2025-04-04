@@ -9,10 +9,7 @@ import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {useThemeConfig, usePrismTheme} from '@docusaurus/theme-common';
 import {
-  parseCodeBlockTitle,
-  parseLanguage,
-  parseLines,
-  getLineNumbersStart,
+  createCodeBlockMetadata,
   useCodeWordWrap,
 } from '@docusaurus/theme-common/internal';
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -25,46 +22,32 @@ import type {Props} from '@theme/CodeBlock/Content/String';
 
 import styles from './styles.module.css';
 
-// Prism languages are always lowercase
-// We want to fail-safe and allow both "php" and "PHP"
-// See https://github.com/facebook/docusaurus/issues/9012
-function normalizeLanguage(language: string | undefined): string | undefined {
-  return language?.toLowerCase();
-}
-
 export default function CodeBlockString({
   children,
   className: blockClassName = '',
   metastring,
-  title: titleProp,
-  showLineNumbers: showLineNumbersProp,
-  language: languageProp,
+  ...props
 }: Props): ReactNode {
   const {
     prism: {defaultLanguage, magicComments},
   } = useThemeConfig();
-  const language = normalizeLanguage(
-    languageProp ?? parseLanguage(blockClassName) ?? defaultLanguage,
-  );
 
   const prismTheme = usePrismTheme();
   const wordWrap = useCodeWordWrap();
   const isBrowser = useIsBrowser();
 
-  // We still parse the metastring in case we want to support more syntax in the
-  // future. Note that MDX doesn't strip quotes when parsing metastring:
-  // "title=\"xyz\"" => title: "\"xyz\""
-  const title = parseCodeBlockTitle(metastring) || titleProp;
-
-  const {lineClassNames, code} = parseLines(children, {
+  const metadata = createCodeBlockMetadata({
+    code: children,
+    className: blockClassName,
     metastring,
-    language,
     magicComments,
+    defaultLanguage,
+    language: props.language,
+    title: props.title,
+    showLineNumbers: props.showLineNumbers,
   });
-  const lineNumbersStart = getLineNumbersStart({
-    showLineNumbers: showLineNumbersProp,
-    metastring,
-  });
+
+  const {code, language, title, lineNumbersStart, lineClassNames} = metadata;
 
   return (
     <Container
@@ -97,7 +80,9 @@ export default function CodeBlockString({
                 style={
                   lineNumbersStart === undefined
                     ? undefined
-                    : {counterReset: `line-count ${lineNumbersStart - 1}`}
+                    : {
+                        counterReset: `line-count ${lineNumbersStart - 1}`,
+                      }
                 }>
                 {tokens.map((line, i) => (
                   <Line
