@@ -104,7 +104,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-regexp": "^1.15.0",
     "husky": "^8.0.3",
-    "image-size": "^1.0.2",
+    "image-size": "^2.0.2",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-serializer-ansi-escapes": "^3.0.0",

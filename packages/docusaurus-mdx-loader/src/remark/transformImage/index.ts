@@ -8,7 +8,6 @@
 import path from 'path';
 import url from 'url';
 import fs from 'fs-extra';
-import {promisify} from 'util';
 import {
   toMessageRelativeFilePath,
   posixPath,
@@ -17,7 +16,7 @@ import {
   getFileLoaderUtils,
 } from '@docusaurus/utils';
 import escapeHtml from 'escape-html';
-import sizeOf from 'image-size';
+import {imageSizeFromFile} from 'image-size/fromFile';
 import logger from '@docusaurus/logger';
 import {assetRequireAttributeValue, transformNode} from '../utils';
 import type {Plugin, Transformer} from 'unified';
@@ -80,7 +79,7 @@ async function toImageRequireNode(
   }
 
   try {
-    const size = (await promisify(sizeOf)(imagePath))!;
+    const size = (await imageSizeFromFile(imagePath))!;
     if (size.width) {
       attributes.push({
         type: 'mdxJsxAttribute',
