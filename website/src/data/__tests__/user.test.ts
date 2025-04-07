@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
-import imageSize from 'image-size';
+import {imageSizeFromFile} from 'image-size/fromFile';
 import {Joi} from '@docusaurus/utils-validation';
 import {TagList, sortedUsers, type User} from '../users';
 
@@ -157,8 +157,8 @@ describe('preview images', () => {
     .readdirSync(imageDir)
     .filter((file) => ['.png', 'jpg', '.jpeg'].includes(path.extname(file)));
 
-  it.each(files)('%s', (file) => {
-    const size = imageSize(path.join(imageDir, file));
+  it.each(files)('%s', async (file) => {
+    const size = await imageSizeFromFile(path.join(imageDir, file));
 
     expect(size).toHaveGoodDimensions();
   });
