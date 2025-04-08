@@ -93,6 +93,7 @@ flac
 Flightcontrol
 Flightcontrol's
 FOUC
+Français
 froms
 gabrielcsapo
 getcanary
