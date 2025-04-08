@@ -16,6 +16,14 @@ declare module '@docusaurus/theme-live-codeblock' {
   };
 }
 
+declare module '@theme/LiveCodeBlock' {
+  import type {Props as BaseProps} from '@theme/CodeBlock';
+
+  export interface Props extends BaseProps {}
+
+  export default function LiveCodeBlock(props: Props): ReactNode;
+}
+
 declare module '@theme/Playground' {
   import type {ReactNode} from 'react';
   import type {Props as BaseProps} from '@theme/CodeBlock';

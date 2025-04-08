@@ -5,21 +5,28 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import Playground from '@theme/Playground';
-import ReactLiveScope from '@theme/ReactLiveScope';
-import CodeBlock, {type Props} from '@theme-init/CodeBlock';
+import React, {type ReactNode} from 'react';
+import type {Props as CodeBlockProps} from '@theme/CodeBlock';
+import OriginalCodeBlock from '@theme-init/CodeBlock';
+import LiveCodeBlock from '@theme/LiveCodeBlock';
 
-const withLiveEditor = (Component: typeof CodeBlock) => {
-  function WrappedComponent(props: Props) {
-    if (props.live) {
-      return <Playground scope={ReactLiveScope} {...props} />;
-    }
-
-    return <Component {...props} />;
+// TODO Docusaurus v4: remove special case
+//  see packages/docusaurus-mdx-loader/src/remark/mdx1Compat/codeCompatPlugin.ts
+//  we can just use the metastring instead
+declare module '@theme/CodeBlock' {
+  interface Props {
+    live?: boolean;
   }
+}
 
-  return WrappedComponent;
-};
+function isLiveCodeBlock(props: CodeBlockProps): boolean {
+  return !!props.live;
+}
 
-export default withLiveEditor(CodeBlock);
+export default function CodeBlockEnhancer(props: CodeBlockProps): ReactNode {
+  return isLiveCodeBlock(props) ? (
+    <LiveCodeBlock {...props} />
+  ) : (
+    <OriginalCodeBlock {...props} />
+  );
+}
