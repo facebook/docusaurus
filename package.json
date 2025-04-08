@@ -61,7 +61,7 @@
     "lint:js": "eslint --cache --report-unused-disable-directives \"**/*.{js,jsx,ts,tsx,mjs}\"",
     "lint:js:fix": "yarn lint:js --fix",
     "lint:spelling": "cspell \"**\" --no-progress --show-context --show-suggestions",
-    "lint:spelling:fix": "yarn rimraf project-words.txt && echo \"# Project Words - DO NOT TOUCH - This is updated through CI\" >> project-words.txt && yarn -s lint:spelling --words-only --unique --no-exit-code --no-summary \"**\" | cross-env LC_ALL=en_US.UTF-8 sort --ignore-case >> project-words.txt",
+    "lint:spelling:fix": "yarn rimraf project-words.txt && echo \"# Project Words - DO NOT TOUCH - This is updated through CI\" >> project-words.txt && yarn -s lint:spelling --words-only --unique --no-exit-code --no-summary \"**\" | cross-env LC_ALL=C sort --ignore-case >> project-words.txt",
     "lint:style": "stylelint \"**/*.css\"",
     "lint:style:fix": "yarn lint:style --fix",
     "lerna": "lerna",
