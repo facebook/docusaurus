@@ -249,8 +249,6 @@ export async function createBaseConfig({
       modules: ['node_modules', path.join(siteDir, 'node_modules')],
     },
     optimization: {
-      // See https://github.com/web-infra-dev/rspack/issues/9834
-      removeAvailableModules: true,
       // Only minimize client bundle in production because server bundle is only
       // used for static site generation
       minimize: minimizeEnabled,
