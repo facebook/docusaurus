@@ -17,6 +17,7 @@ export {
   FasterConfig,
   StorageConfig,
   Config,
+  SiteConfig,
 } from './config';
 
 export {

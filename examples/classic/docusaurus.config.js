@@ -13,6 +13,11 @@ const config = {
   title: 'My Site',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
+  siteConfig: {
+      markdown: {
+        onUnusedDirective: 'throw'
+      }
+  },
 
   // Set the production url of your site here
   url: 'https://your-docusaurus-site.example.com',

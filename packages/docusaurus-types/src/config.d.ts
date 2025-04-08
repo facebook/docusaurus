@@ -19,6 +19,10 @@ export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
 
 export type RouterType = 'browser' | 'hash';
 
+export type SiteConfig = {
+  markdown: {onUnusedDirective: 'throw'};
+};
+
 export type ThemeConfig = {
   [key: string]: unknown;
 };
@@ -316,6 +320,16 @@ export type DocusaurusConfig = {
    * @default {}
    */
   themeConfig: ThemeConfig;
+  /**
+   * The [site configuration](https://docusaurus.io/docs/api/docusaurus-config)
+   * object to customize your site configuration like markdown. For example: throw error
+   * if any unused markdown directive is found.
+   *
+   * @see https://docusaurus.io/docs/api/docusaurus-config#siteConfig
+   * @default {}
+   */
+  // TODO: Docs to be added for this
+  siteConfig: SiteConfig;
   /**
    * List of plugins.
    *
