@@ -72,6 +72,8 @@
   "theme.lastUpdated.atDate": " {date} তারিখে",
   "theme.lastUpdated.byUser": "{user} দ্বারা",
   "theme.lastUpdated.lastUpdatedAtBy": "সর্বশেষ সংষ্করণ{atDate}{byUser}",
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": "Collapse the dropdown",
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": "Expand the dropdown",
   "theme.navbar.mobileLanguageDropdown.label": "Languages",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← মেন মেনুতে যান",
   "theme.navbar.mobileVersionsDropdown.label": "Versions",

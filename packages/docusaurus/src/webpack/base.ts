@@ -9,13 +9,14 @@ import fs from 'fs-extra';
 import path from 'path';
 import {getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {
+  createJsLoaderFactory,
   getCSSExtractPlugin,
   getMinimizers,
-  createJsLoaderFactory,
 } from '@docusaurus/bundler';
 
-import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
-import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
+import {getFileLoaderUtils, md5Hash} from '@docusaurus/utils';
+import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
+import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
 import type {Configuration} from 'webpack';
 import type {
   ConfigureWebpackUtils,
@@ -248,7 +249,6 @@ export async function createBaseConfig({
       modules: ['node_modules', path.join(siteDir, 'node_modules')],
     },
     optimization: {
-      removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only
       // used for static site generation
       minimize: minimizeEnabled,
@@ -339,6 +339,8 @@ export async function createBaseConfig({
         // for more reasoning
         ignoreOrder: true,
       }),
-    ],
+      process.env.DOCUSAURUS_BUNDLER_CPU_PROFILE &&
+        new BundlerCPUProfilerPlugin(),
+    ].filter(Boolean),
   };
 }

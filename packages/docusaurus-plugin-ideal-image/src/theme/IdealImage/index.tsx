@@ -6,11 +6,11 @@
  */
 
 import React, {type ReactNode} from 'react';
+import {translate} from '@docusaurus/Translate';
 import ReactIdealImage, {
   type IconKey,
   type State,
-} from '@slorber/react-ideal-image';
-import {translate} from '@docusaurus/Translate';
+} from '@theme/IdealImageLegacy';
 
 import type {Props} from '@theme/IdealImage';
 
@@ -93,7 +93,6 @@ export default function IdealImage(props: Props): ReactNode {
 
   return (
     <ReactIdealImage
-      {...propsRest}
       height={img.src.height ?? 100}
       width={img.src.width ?? 100}
       placeholder={{lqip: img.preSrc}}

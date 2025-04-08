@@ -45,3 +45,6 @@ website/i18n/**/*
 #!website/i18n/fr/**/*
 
 .netlify
+
+website/rspack-tracing.json
+website/bundler-cpu-profile.json

@@ -22,3 +22,6 @@ packages/create-docusaurus/templates/facebook
 
 website/_dogfooding/_swizzle_theme_tests
 website/_dogfooding/_asset-tests/badSyntax.js
+
+
+packages/docusaurus-plugin-ideal-image/src/theme/IdealImageLegacy

@@ -9,7 +9,21 @@ import {
   GlobExcludeDefault,
   createMatcher,
   createAbsoluteFilePathMatcher,
+  isTranslatableSourceFile,
 } from '../globUtils';
+
+describe('isTranslatableSourceFile', () => {
+  it('works', () => {
+    expect(isTranslatableSourceFile('./xyz.ts')).toBe(true);
+    expect(isTranslatableSourceFile('./xyz.tsx')).toBe(true);
+    expect(isTranslatableSourceFile('./xyz.js')).toBe(true);
+    expect(isTranslatableSourceFile('./xyz.jsx')).toBe(true);
+
+    expect(isTranslatableSourceFile('./xyz.md')).toBe(false);
+    expect(isTranslatableSourceFile('./xyz.mdx')).toBe(false);
+    expect(isTranslatableSourceFile('./xyz.d.ts')).toBe(false);
+  });
+});
 
 describe('createMatcher', () => {
   it('match default exclude MD/MDX partials correctly', () => {

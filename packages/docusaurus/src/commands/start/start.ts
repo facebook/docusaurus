@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
+import logger, {PerfLogger} from '@docusaurus/logger';
 import openBrowser from '../utils/openBrowser/openBrowser';
 import {setupSiteFileWatchers} from './watcher';
 import {createWebpackDevServer} from './webpack';
@@ -21,7 +21,7 @@ export type StartCLIOptions = HostPortOptions &
     minify?: boolean;
   };
 
-export async function start(
+async function doStart(
   siteDirParam: string = '.',
   cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
@@ -61,4 +61,11 @@ export async function start(
   if (cliOptions.open) {
     await openBrowser(reloadableSite.getOpenUrl());
   }
+}
+
+export async function start(
+  siteDirParam: string = '.',
+  cliOptions: Partial<StartCLIOptions> = {},
+): Promise<void> {
+  return PerfLogger.async('CLI start', () => doStart(siteDirParam, cliOptions));
 }

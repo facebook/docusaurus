@@ -38,7 +38,7 @@
     "@docusaurus/theme-common": "3.7.0",
     "@docusaurus/types": "3.7.0",
     "@docusaurus/utils-validation": "3.7.0",
-    "mermaid": ">=10.4",
+    "mermaid": ">=11.6.0",
     "tslib": "^2.6.0"
   },
   "devDependencies": {
