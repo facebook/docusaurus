@@ -25,6 +25,7 @@ const plugin: Plugin<unknown[], Root> = function plugin(): Transformer<Root> {
       node.data.hProperties = node.data.hProperties || {};
       node.data.hProperties.metastring = node.meta;
 
+      // TODO Docusaurus v4: remove special case
       // Retrocompatible support for live codeblock metastring
       // Not really the appropriate place to handle that :s
       node.data.hProperties.live = node.meta?.split(' ').includes('live');
