@@ -39,6 +39,37 @@ declare module '@theme/Playground' {
   export default function Playground(props: LiveProviderProps): ReactNode;
 }
 
+declare module '@theme/Playground/Provider' {
+  import type {ReactNode} from 'react';
+  import type {Props as PlaygroundProps} from '@theme/Playground';
+
+  export interface Props extends Omit<PlaygroundProps, 'children'> {
+    code: string | undefined;
+    children: ReactNode;
+  }
+
+  export default function PlaygroundProvider(props: Props): ReactNode;
+}
+
+declare module '@theme/Playground/Container' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    children: ReactNode;
+  }
+
+  export default function PlaygroundContainer(props: Props): ReactNode;
+}
+
+declare module '@theme/Playground/Layout' {
+  import type {ReactNode} from 'react';
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface Props {}
+
+  export default function PlaygroundLayout(props: Props): ReactNode;
+}
+
 declare module '@theme/Playground/Preview' {
   import type {ReactNode} from 'react';
 
