@@ -104,6 +104,7 @@ export type TableOfContents = {
   maxHeadingLevel: number;
 };
 
+// TODO Docusaurus v4: use interface + declaration merging to enhance
 // Theme config after validation/normalization
 export type ThemeConfig = {
   docs: {

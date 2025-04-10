@@ -39,6 +39,33 @@ declare module '@theme/Playground' {
   export default function Playground(props: LiveProviderProps): ReactNode;
 }
 
+declare module '@theme/Playground/Preview' {
+  import type {ReactNode} from 'react';
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface Props {}
+
+  export default function PlaygroundPreview(props: Props): ReactNode;
+}
+
+declare module '@theme/Playground/Editor' {
+  import type {ReactNode} from 'react';
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface Props {}
+
+  export default function PlaygroundEditor(props: Props): ReactNode;
+}
+
+declare module '@theme/Playground/Header' {
+  import type {ReactNode} from 'react';
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface Props {}
+
+  export default function PlaygroundHeader(props: Props): ReactNode;
+}
+
 declare module '@theme/ReactLiveScope' {
   type Scope = {
     [key: string]: unknown;
