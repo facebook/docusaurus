@@ -17,7 +17,7 @@ const formatter: FormatterProp = (params) => {
       'docusaurus-plugin-content-',
       '',
     )} plugin`;
-    return `🐕 Dogfood - ${pluginLabel};`;
+    return `🐕 Dogfood - ${pluginLabel}`;
   }
   return params.defaultFormatter(params);
 };
