@@ -12,6 +12,7 @@ import type {Props} from '@theme/ThemeProvider/TitleFormatter';
 type FormatterProp = ComponentProps<typeof TitleFormatterProvider>['formatter'];
 
 const formatter: FormatterProp = (params) => {
+  // Custom title for dogfood plugin instances
   if (params.plugin.id.endsWith('tests')) {
     const pluginLabel = `${params.plugin.name.replace(
       'docusaurus-plugin-content-',
@@ -19,6 +20,8 @@ const formatter: FormatterProp = (params) => {
     )} plugin`;
     return `🐕 Dogfood - ${pluginLabel}`;
   }
+
+  // Default title otherwise
   return params.defaultFormatter(params);
 };
 
