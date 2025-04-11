@@ -28,7 +28,7 @@ type TitleFormatterParams = {
 };
 
 /**
- * This is the full formatting function
+ * This is the full formatting function, including all useful params
  * Can be customized through React context with the provider
  */
 export type TitleFormatterFn = (params: TitleFormatterParams) => string;
@@ -36,7 +36,7 @@ export type TitleFormatterFn = (params: TitleFormatterParams) => string;
 /**
  * The default formatter is provided in params for convenience
  */
-export type TitleFormatterFnWithDefaultFormatter = (
+export type TitleFormatterFnWithDefault = (
   params: TitleFormatterParams & {
     defaultFormatter: (params: TitleFormatterParams) => string;
   },
@@ -66,7 +66,7 @@ export function TitleFormatterProvider({
   children,
 }: {
   children: ReactNode;
-  formatter: TitleFormatterFnWithDefaultFormatter;
+  formatter: TitleFormatterFnWithDefault;
 }): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const {title: siteTitle, titleDelimiter} = siteConfig;
