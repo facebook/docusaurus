@@ -20,45 +20,74 @@ type PageMetadataProps = {
   readonly children?: ReactNode;
 };
 
+function TitleMetadata({title}: {title: string}) {
+  const titleFormatter = useTitleFormatter();
+  const formattedTitle = titleFormatter.format(title);
+  return (
+    <Head>
+      <title>{formattedTitle}</title>
+      <meta property="og:title" content={formattedTitle} />
+    </Head>
+  );
+}
+
+function DescriptionMetadata({description}: {description: string}) {
+  return (
+    <Head>
+      <meta name="description" content={description} />
+      <meta property="og:description" content={description} />
+    </Head>
+  );
+}
+
+function ImageMetadata({image}: {image: string}) {
+  const {withBaseUrl} = useBaseUrlUtils();
+  const pageImage = withBaseUrl(image, {absolute: true});
+  return (
+    <Head>
+      <meta property="og:image" content={pageImage} />
+      <meta name="twitter:image" content={pageImage} />
+    </Head>
+  );
+}
+
+function KeywordsMetadata({
+  keywords,
+}: {
+  keywords: PageMetadataProps['keywords'];
+}) {
+  return (
+    <Head>
+      <meta
+        name="keywords"
+        content={
+          // https://github.com/microsoft/TypeScript/issues/17002
+          (Array.isArray(keywords) ? keywords.join(',') : keywords) as string
+        }
+      />
+    </Head>
+  );
+}
+
 /**
  * Helper component to manipulate page metadata and override site defaults.
  * Works in the same way as Helmet.
  */
 export function PageMetadata({
-  title: pageTitle,
+  title,
   description,
   keywords,
   image,
   children,
 }: PageMetadataProps): ReactNode {
-  const titleFormatter = useTitleFormatter();
-  const {withBaseUrl} = useBaseUrlUtils();
-  const pageImage = image ? withBaseUrl(image, {absolute: true}) : undefined;
-
-  const title = pageTitle ? titleFormatter.format(pageTitle) : undefined;
   return (
-    <Head>
-      {title && <title>{title}</title>}
-      {title && <meta property="og:title" content={title} />}
-
-      {description && <meta name="description" content={description} />}
-      {description && <meta property="og:description" content={description} />}
-
-      {keywords && (
-        <meta
-          name="keywords"
-          content={
-            // https://github.com/microsoft/TypeScript/issues/17002
-            (Array.isArray(keywords) ? keywords.join(',') : keywords) as string
-          }
-        />
-      )}
-
-      {pageImage && <meta property="og:image" content={pageImage} />}
-      {pageImage && <meta name="twitter:image" content={pageImage} />}
-
-      {children}
-    </Head>
+    <>
+      {title && <TitleMetadata title={title} />}
+      {description && <DescriptionMetadata description={description} />}
+      {keywords && <KeywordsMetadata keywords={keywords} />}
+      {image && <ImageMetadata image={image} />}
+      {children && <Head>{children}</Head>}
+    </>
   );
 }
 

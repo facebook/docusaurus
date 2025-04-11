@@ -5,26 +5,38 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createContext, useContext, useMemo} from 'react';
+import {createContext, useContext} from 'react';
 import type {ReactNode} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useRouteContext from '@docusaurus/useRouteContext';
 import {ReactContextError} from './reactUtils';
 
 type TitleFormatterParams = {
   /**
    * The page title to format
-   * Usually provided through <PageMetadata> component
-   * But also when using useTitleFormatter().format(title)
+   * Usually provided with these APIs:
+   * - <PageMetadata title={title}>
+   * - useTitleFormatter().format(title)
    */
   title: string;
+
   /**
    * The siteConfig.title value
    */
   siteTitle: string;
+
   /**
    * The siteConfig.titleDelimiter value
    */
   titleDelimiter: string;
+
+  /**
+   * The plugin that created the page you are on
+   */
+  plugin: {
+    id: string;
+    name: string;
+  };
 };
 
 /**
@@ -59,7 +71,9 @@ export const TitleFormatterFnDefault: TitleFormatterFn = ({
  */
 type TitleFormatter = {format: (title: string) => string};
 
-const TitleFormatterContext = createContext<TitleFormatter | null>(null);
+const TitleFormatterContext = createContext<TitleFormatterFnWithDefault | null>(
+  null,
+);
 
 export function TitleFormatterProvider({
   formatter,
@@ -68,33 +82,41 @@ export function TitleFormatterProvider({
   children: ReactNode;
   formatter: TitleFormatterFnWithDefault;
 }): ReactNode {
-  const {siteConfig} = useDocusaurusContext();
-  const {title: siteTitle, titleDelimiter} = siteConfig;
-  const value: TitleFormatter = useMemo(() => {
-    return {
-      format: (title: string) =>
-        formatter({
-          title,
-          siteTitle,
-          titleDelimiter,
-          defaultFormatter: TitleFormatterFnDefault,
-        }),
-    };
-  }, [formatter, siteTitle, titleDelimiter]);
   return (
-    <TitleFormatterContext.Provider value={value}>
+    <TitleFormatterContext.Provider value={formatter}>
       {children}
     </TitleFormatterContext.Provider>
   );
+}
+
+function useTitleFormatterContext() {
+  const value = useContext(TitleFormatterContext);
+  if (value === null) {
+    throw new ReactContextError('TitleFormatterProvider');
+  }
+  return value;
 }
 
 /**
  * Returns a function to format the page title
  */
 export function useTitleFormatter(): TitleFormatter {
-  const value = useContext(TitleFormatterContext);
-  if (value === null) {
-    throw new ReactContextError('TitleFormatterProvider');
-  }
-  return value;
+  const formatter = useTitleFormatterContext();
+  const {siteConfig} = useDocusaurusContext();
+  const {title: siteTitle, titleDelimiter} = siteConfig;
+
+  // Unfortunately we can only call this hook here, not in the provider
+  // Route context can't be accessed in any provider applied above the router
+  const {plugin} = useRouteContext();
+
+  return {
+    format: (title: string) =>
+      formatter({
+        title,
+        siteTitle,
+        titleDelimiter,
+        plugin,
+        defaultFormatter: TitleFormatterFnDefault,
+      }),
+  };
 }
