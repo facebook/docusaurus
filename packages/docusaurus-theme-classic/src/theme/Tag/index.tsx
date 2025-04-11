@@ -25,7 +25,8 @@ export default function Tag({
       className={clsx(
         styles.tag,
         count ? styles.tagWithCount : styles.tagRegular,
-      )}>
+      )}
+      rel="tag">
       {label}
       {count && <span>{count}</span>}
     </Link>
