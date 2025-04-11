@@ -1569,6 +1569,17 @@ declare module '@theme/ThemedImage' {
   export default function ThemedImage(props: Props): ReactNode;
 }
 
+declare module '@theme/ThemeProvider/TitleFormatter' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+  export default function ThemeProviderTitleFormatter({
+    children,
+  }: Props): ReactNode;
+}
+
 declare module '@theme/Details' {
   import {Details, type DetailsProps} from '@docusaurus/theme-common/Details';
 
