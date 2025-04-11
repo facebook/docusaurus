@@ -106,12 +106,13 @@ async function processPageSourceFile(
 
   const source = path.join(contentPath, relativeSource);
   const aliasedSourcePath = aliasedSitePath(source, siteDir);
-  const permalink = normalizeUrl([
-    baseUrl,
-    options.routeBasePath,
-    encodePath(fileToPath(relativeSource)),
-  ]);
+
+  const filenameSlug = encodePath(fileToPath(relativeSource));
+
   if (!isMarkdownSource(relativeSource)) {
+    // For now, slug can't be customized for JSX pages
+    const slug = filenameSlug;
+    const permalink = normalizeUrl([baseUrl, options.routeBasePath, slug]);
     return {
       type: 'jsx',
       permalink,
@@ -130,6 +131,9 @@ async function processPageSourceFile(
     parseFrontMatter: siteConfig.markdown.parseFrontMatter,
   });
   const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
+
+  const slug = frontMatter.slug ?? filenameSlug;
+  const permalink = normalizeUrl([baseUrl, options.routeBasePath, slug]);
 
   const pagesDirPath = await getFolderContainingFile(
     getContentPathList(contentPaths),
