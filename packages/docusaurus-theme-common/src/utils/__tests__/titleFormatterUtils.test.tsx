@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DefaultTitleFormatter} from '../generalUtils';
+import {DefaultTitleFormatter} from '../titleFormatterUtils';
 
 describe('DefaultTitleFormatter', () => {
   it('works', () => {

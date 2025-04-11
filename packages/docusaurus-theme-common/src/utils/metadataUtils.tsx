@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import Head from '@docusaurus/Head';
 import useRouteContext from '@docusaurus/useRouteContext';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
-import {useTitleFormatter} from './generalUtils';
+import {useTitleFormatter} from './titleFormatterUtils';
 
 type PageMetadataProps = {
   readonly title?: string;
@@ -25,20 +25,21 @@ type PageMetadataProps = {
  * Works in the same way as Helmet.
  */
 export function PageMetadata({
-  title,
+  title: pageTitle,
   description,
   keywords,
   image,
   children,
 }: PageMetadataProps): ReactNode {
-  const pageTitle = useTitleFormatter(title);
+  const titleFormatter = useTitleFormatter();
   const {withBaseUrl} = useBaseUrlUtils();
   const pageImage = image ? withBaseUrl(image, {absolute: true}) : undefined;
 
+  const title = pageTitle ? titleFormatter.format(pageTitle) : undefined;
   return (
     <Head>
-      {title && <title>{pageTitle}</title>}
-      {title && <meta property="og:title" content={pageTitle} />}
+      {title && <title>{title}</title>}
+      {title && <meta property="og:title" content={title} />}
 
       {description && <meta name="description" content={description} />}
       {description && <meta property="og:description" content={description} />}

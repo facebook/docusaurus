@@ -27,12 +27,12 @@ export const DefaultTitleFormatter: TitleFormatterFn = ({
   return `${trimmedTitle} ${titleDelimiter} ${siteTitle}`;
 };
 
-type TitleFormatter = {format: (title?: string) => string};
+type TitleFormatterUtils = {format: (title?: string) => string};
 
 /**
  * Returns a function to format the page title
  */
-export function useTitleFormatter(): TitleFormatter {
+export function useTitleFormatter(): TitleFormatterUtils {
   const {siteConfig} = useDocusaurusContext();
   const formatter = DefaultTitleFormatter;
   const {title: siteTitle, titleDelimiter} = siteConfig;
