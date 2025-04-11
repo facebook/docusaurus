@@ -20,13 +20,13 @@ export default function Tag({
 }: Props): ReactNode {
   return (
     <Link
+      rel="tag"
       href={permalink}
       title={description}
       className={clsx(
         styles.tag,
         count ? styles.tagWithCount : styles.tagRegular,
-      )}
-      rel="tag">
+      )}>
       {label}
       {count && <span>{count}</span>}
     </Link>
