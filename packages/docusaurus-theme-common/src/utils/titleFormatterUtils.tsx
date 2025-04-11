@@ -5,21 +5,48 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {createContext, useContext, useMemo} from 'react';
+import type {ReactNode} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {ReactContextError} from './reactUtils';
 
 type TitleFormatterParams = {
-  title: string | undefined;
+  /**
+   * The page title to format
+   * Usually provided through <PageMetadata> component
+   * But also when using useTitleFormatter().format(title)
+   */
+  title: string;
+  /**
+   * The siteConfig.title value
+   */
   siteTitle: string;
+  /**
+   * The siteConfig.titleDelimiter value
+   */
   titleDelimiter: string;
 };
 
-type TitleFormatterFn = (params: TitleFormatterParams) => string;
+/**
+ * This is the full formatting function
+ * Can be customized through React context with the provider
+ */
+export type TitleFormatterFn = (params: TitleFormatterParams) => string;
 
-export const DefaultTitleFormatter: TitleFormatterFn = ({
+/**
+ * The default formatter is provided in params for convenience
+ */
+export type TitleFormatterFnWithDefaultFormatter = (
+  params: TitleFormatterParams & {
+    defaultFormatter: (params: TitleFormatterParams) => string;
+  },
+) => string;
+
+export const TitleFormatterFnDefault: TitleFormatterFn = ({
   title,
   siteTitle,
   titleDelimiter,
-}: TitleFormatterParams): string => {
+}): string => {
   const trimmedTitle = title?.trim();
   if (!trimmedTitle || trimmedTitle === siteTitle) {
     return siteTitle;
@@ -27,16 +54,47 @@ export const DefaultTitleFormatter: TitleFormatterFn = ({
   return `${trimmedTitle} ${titleDelimiter} ${siteTitle}`;
 };
 
-type TitleFormatterUtils = {format: (title?: string) => string};
+/**
+ * This is the simpler API exposed to theme/users
+ */
+type TitleFormatter = {format: (title: string) => string};
+
+const TitleFormatterContext = createContext<TitleFormatter | null>(null);
+
+export function TitleFormatterProvider({
+  formatter,
+  children,
+}: {
+  children: ReactNode;
+  formatter: TitleFormatterFnWithDefaultFormatter;
+}): ReactNode {
+  const {siteConfig} = useDocusaurusContext();
+  const {title: siteTitle, titleDelimiter} = siteConfig;
+  const value: TitleFormatter = useMemo(() => {
+    return {
+      format: (title: string) =>
+        formatter({
+          title,
+          siteTitle,
+          titleDelimiter,
+          defaultFormatter: TitleFormatterFnDefault,
+        }),
+    };
+  }, [formatter, siteTitle, titleDelimiter]);
+  return (
+    <TitleFormatterContext.Provider value={value}>
+      {children}
+    </TitleFormatterContext.Provider>
+  );
+}
 
 /**
  * Returns a function to format the page title
  */
-export function useTitleFormatter(): TitleFormatterUtils {
-  const {siteConfig} = useDocusaurusContext();
-  const formatter = DefaultTitleFormatter;
-  const {title: siteTitle, titleDelimiter} = siteConfig;
-  return {
-    format: (title) => formatter({title, siteTitle, titleDelimiter}),
-  };
+export function useTitleFormatter(): TitleFormatter {
+  const value = useContext(TitleFormatterContext);
+  if (value === null) {
+    throw new ReactContextError('TitleFormatterProvider');
+  }
+  return value;
 }

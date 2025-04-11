@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DefaultTitleFormatter} from '../titleFormatterUtils';
+import {TitleFormatterFnDefault} from '../titleFormatterUtils';
 
-describe('DefaultTitleFormatter', () => {
+describe('TitleFormatterFnDefault', () => {
   it('works', () => {
     expect(
-      DefaultTitleFormatter({
+      TitleFormatterFnDefault({
         title: 'a page',
         siteTitle: 'my site',
         titleDelimiter: '·',
@@ -20,7 +20,7 @@ describe('DefaultTitleFormatter', () => {
 
   it('ignores empty title', () => {
     expect(
-      DefaultTitleFormatter({
+      TitleFormatterFnDefault({
         title: '    ',
         siteTitle: 'my site',
         titleDelimiter: '·',
@@ -33,7 +33,7 @@ describe('DefaultTitleFormatter', () => {
     // By default it's preferable to avoid duplicate siteTitle
     // See also https://github.com/facebook/docusaurus/issues/5878#issuecomment-961505856
     expect(
-      DefaultTitleFormatter({
+      TitleFormatterFnDefault({
         title: 'my site',
         siteTitle: 'my site',
         titleDelimiter: '·',
