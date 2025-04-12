@@ -12,3 +12,14 @@ export type BlogContentPaths = ContentPaths;
 export type BlogMarkdownLoaderOptions = {
   truncateMarker: RegExp;
 };
+
+export type ReadingTimeOptions = {
+  wordsPerMinute?: number;
+  locale?: string;
+};
+
+export type ReadingTimeFunction = (params: {
+  content: string;
+  frontMatter?: Record<string, unknown>;
+  options?: ReadingTimeOptions;
+}) => number;

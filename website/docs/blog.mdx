@@ -477,7 +477,13 @@ export default {
           // highlight-start
           showReadingTime: true, // When set to false, the "x min read" won't be shown
           readingTime: ({content, frontMatter, defaultReadingTime}) =>
-            defaultReadingTime({content, options: {wordsPerMinute: 300}}),
+            defaultReadingTime({
+              content,
+              options: {
+                wordsPerMinute: 300,
+                locale: 'en-US',
+              },
+            }),
           // highlight-end
         },
       },
@@ -488,7 +494,7 @@ export default {
 
 The `readingTime` callback receives three parameters: the blog content text as a string, front matter as a record of string keys and their values, and the default reading time function. It returns a number (reading time in minutes) or `undefined` (disable reading time for this page).
 
-The default reading time is able to accept additional options: `wordsPerMinute` as a number (default: 300), and `wordBound` as a function from string to boolean. If the string passed to `wordBound` should be a word bound (spaces, tabs, and line breaks by default), the function should return `true`.
+The default reading time is able to accept additional options: `wordsPerMinute` as a number (default: 300), and `locale` as a string (default: 'en'). The `locale` option allows you to specify the language for word segmentation, which is particularly useful for multilingual content.
 
 :::tip
 
@@ -548,7 +554,12 @@ export default {
         blog: {
           // highlight-start
           readingTime: ({content, defaultReadingTime}) =>
-            defaultReadingTime({content, options: {wordsPerMinute: 100}}),
+            defaultReadingTime({
+              content,
+              options: {
+                wordsPerMinute: 100,
+              },
+            }),
           // highlight-end
         },
       },
