@@ -80,6 +80,10 @@ exports[`loadThemeAliases next alias can override the previous alias 1`] = `
     "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/SiteMetadata/index.tsx",
   ],
   [
+    "@theme-original/ThemeProvider",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/ThemeProvider/index.tsx",
+  ],
+  [
     "@theme/Error",
     "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/Error/index.tsx",
   ],
@@ -126,6 +130,10 @@ exports[`loadThemeAliases next alias can override the previous alias 1`] = `
   [
     "@theme/SiteMetadata",
     "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/SiteMetadata/index.tsx",
+  ],
+  [
+    "@theme/ThemeProvider",
+    "<PROJECT_ROOT>/packages/docusaurus/src/client/theme-fallback/ThemeProvider/index.tsx",
   ],
 ]
 `;

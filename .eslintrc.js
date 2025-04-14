@@ -298,7 +298,7 @@ module.exports = {
     'jest/expect-expect': OFF,
     'jest/no-large-snapshots': [
       WARNING,
-      {maxSize: Infinity, inlineMaxSize: 10},
+      {maxSize: Infinity, inlineMaxSize: 50},
     ],
     'jest/no-test-return-statement': ERROR,
     'jest/prefer-expect-resolves': WARNING,

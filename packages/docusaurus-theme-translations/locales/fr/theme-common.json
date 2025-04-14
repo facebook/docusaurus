@@ -72,6 +72,8 @@
   "theme.lastUpdated.atDate": " le {date}",
   "theme.lastUpdated.byUser": " par {user}",
   "theme.lastUpdated.lastUpdatedAtBy": "Dernière mise à jour{atDate}{byUser}",
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": "Collapse the dropdown",
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": "Expand the dropdown",
   "theme.navbar.mobileLanguageDropdown.label": "Langues",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Retour au menu principal",
   "theme.navbar.mobileVersionsDropdown.label": "Versions",

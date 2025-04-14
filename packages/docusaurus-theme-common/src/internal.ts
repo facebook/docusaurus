@@ -34,15 +34,19 @@ export {ColorModeProvider} from './contexts/colorMode';
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
 export {
-  parseCodeBlockTitle,
-  parseLanguage,
-  parseLines,
-  getLineNumbersStart,
+  type CodeBlockMetadata,
+  createCodeBlockMetadata,
+  getPrismCssVariables,
+  CodeBlockContextProvider,
+  useCodeBlockContext,
 } from './utils/codeBlockUtils';
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
-export {useTitleFormatter} from './utils/generalUtils';
+export {
+  TitleFormatterProvider,
+  useTitleFormatter,
+} from './utils/titleFormatterUtils';
 
 export {useLocationChange} from './utils/useLocationChange';
 
@@ -88,7 +92,6 @@ export {
 } from './hooks/useKeyboardNavigation';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
-export {getPrismCssVariables} from './utils/codeBlockUtils';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
 
 export {

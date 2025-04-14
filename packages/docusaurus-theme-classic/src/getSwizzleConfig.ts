@@ -159,7 +159,7 @@ export default function getSwizzleConfig(): SwizzleConfig {
       'CodeBlock/Content': {
         actions: {
           eject: 'unsafe',
-          wrap: 'forbidden',
+          wrap: 'unsafe',
         },
         description:
           'The folder containing components responsible for rendering different types of CodeBlock content.',

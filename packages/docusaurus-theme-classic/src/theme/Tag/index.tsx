@@ -20,6 +20,7 @@ export default function Tag({
 }: Props): ReactNode {
   return (
     <Link
+      rel="tag"
       href={permalink}
       title={description}
       className={clsx(

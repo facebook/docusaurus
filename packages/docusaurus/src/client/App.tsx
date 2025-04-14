@@ -12,6 +12,7 @@ import routes from '@generated/routes';
 import {useLocation} from '@docusaurus/router';
 import renderRoutes from '@docusaurus/renderRoutes';
 import Root from '@theme/Root';
+import ThemeProvider from '@theme/ThemeProvider';
 import SiteMetadata from '@theme/SiteMetadata';
 import normalizeLocation from './normalizeLocation';
 import {BrowserContextProvider} from './browserContext';
@@ -43,10 +44,12 @@ export default function App(): ReactNode {
       <DocusaurusContextProvider>
         <BrowserContextProvider>
           <Root>
-            <SiteMetadataDefaults />
-            <SiteMetadata />
-            <BaseUrlIssueBanner />
-            <AppNavigation />
+            <ThemeProvider>
+              <SiteMetadataDefaults />
+              <SiteMetadata />
+              <BaseUrlIssueBanner />
+              <AppNavigation />
+            </ThemeProvider>
           </Root>
           <HasHydratedDataAttribute />
         </BrowserContextProvider>
