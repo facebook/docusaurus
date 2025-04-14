@@ -1,7 +1,1 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
 
-# Workaround of a mysterious bug in either lint-staged or husky.
-# https://github.com/typicode/husky/issues/1134
-# https://github.com/okonet/lint-staged/issues/693#issuecomment-1079759224
-FORCE_COLOR=1 yarn lint-staged --allow-empty
