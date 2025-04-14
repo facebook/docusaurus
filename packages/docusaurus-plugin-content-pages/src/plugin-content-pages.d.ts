@@ -37,6 +37,7 @@ declare module '@docusaurus/plugin-content-pages' {
     readonly title?: string;
     readonly description?: string;
     readonly image?: string;
+    readonly slug?: string;
     readonly keywords?: string[];
     readonly wrapperClassName?: string;
     readonly hide_table_of_contents?: string;

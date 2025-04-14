@@ -5,9 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {CSSProperties} from 'react';
+import type {CSSProperties, ReactNode} from 'react';
+import {createContext, useContext, useMemo} from 'react';
+import clsx from 'clsx';
 import rangeParser from 'parse-numeric-range';
+import {ReactContextError} from './reactUtils';
 import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
+import type {WordWrap} from '../hooks/useCodeWordWrap';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
@@ -184,65 +188,42 @@ export function getLineNumbersStart({
   return getMetaLineNumbersStart(metastring);
 }
 
-/**
- * Gets the language name from the class name (set by MDX).
- * e.g. `"language-javascript"` => `"javascript"`.
- * Returns undefined if there is no language class name.
- */
-export function parseLanguage(className: string): string | undefined {
-  const languageClassName = className
-    .split(' ')
-    .find((str) => str.startsWith('language-'));
-  return languageClassName?.replace(/language-/, '');
-}
+type ParseCodeLinesParam = {
+  /**
+   * The full metastring, as received from MDX. Line ranges declared here
+   * start at 1.
+   */
+  metastring: string | undefined;
+  /**
+   * Language of the code block, used to determine which kinds of magic
+   * comment styles to enable.
+   */
+  language: string | undefined;
+  /**
+   * Magic comment types that we should try to parse. Each entry would
+   * correspond to one class name to apply to each line.
+   */
+  magicComments: MagicCommentConfig[];
+};
 
 /**
- * Parses the code content, strips away any magic comments, and returns the
- * clean content and the highlighted lines marked by the comments or metastring.
- *
- * If the metastring contains a range, the `content` will be returned as-is
- * without any parsing. The returned `lineClassNames` will be a map from that
- * number range to the first magic comment config entry (which _should_ be for
- * line highlight directives.)
- *
- * @param content The raw code with magic comments. Trailing newline will be
- * trimmed upfront.
- * @param options Options for parsing behavior.
+ * The highlighted lines, 0-indexed. e.g. `{ 0: ["highlight", "sample"] }`
+ * means the 1st line should have `highlight` and `sample` as class names.
  */
-export function parseLines(
-  content: string,
-  options: {
-    /**
-     * The full metastring, as received from MDX. Line ranges declared here
-     * start at 1.
-     */
-    metastring: string | undefined;
-    /**
-     * Language of the code block, used to determine which kinds of magic
-     * comment styles to enable.
-     */
-    language: string | undefined;
-    /**
-     * Magic comment types that we should try to parse. Each entry would
-     * correspond to one class name to apply to each line.
-     */
-    magicComments: MagicCommentConfig[];
-  },
-): {
-  /**
-   * The highlighted lines, 0-indexed. e.g. `{ 0: ["highlight", "sample"] }`
-   * means the 1st line should have `highlight` and `sample` as class names.
-   */
-  lineClassNames: {[lineIndex: number]: string[]};
-  /**
-   * If there's number range declared in the metastring, the code block is
-   * returned as-is (no parsing); otherwise, this is the clean code with all
-   * magic comments stripped away.
-   */
+type CodeLineClassNames = {[lineIndex: number]: string[]};
+
+/**
+ * Code lines after applying magic comments or metastring highlight ranges
+ */
+type ParsedCodeLines = {
   code: string;
-} {
-  let code = content.replace(/\n$/, '');
-  const {language, magicComments, metastring} = options;
+  lineClassNames: CodeLineClassNames;
+};
+
+function parseCodeLinesFromMetastring(
+  code: string,
+  {metastring, magicComments}: ParseCodeLinesParam,
+): ParsedCodeLines | null {
   // Highlighted lines specified in props: don't parse the content
   if (metastring && metastringLinesRangeRegex.test(metastring)) {
     const linesRange = metastring.match(metastringLinesRangeRegex)!.groups!
@@ -258,6 +239,14 @@ export function parseLines(
       .map((n) => [n - 1, [metastringRangeClassName]] as [number, string[]]);
     return {lineClassNames: Object.fromEntries(lines), code};
   }
+  return null;
+}
+
+function parseCodeLinesFromContent(
+  code: string,
+  params: ParseCodeLinesParam,
+): ParsedCodeLines {
+  const {language, magicComments} = params;
   if (language === undefined) {
     return {lineClassNames: {}, code};
   }
@@ -266,7 +255,7 @@ export function parseLines(
     magicComments,
   );
   // Go through line by line
-  const lines = code.split('\n');
+  const lines = code.split(/\r?\n/);
   const blocks = Object.fromEntries(
     magicComments.map((d) => [d.className, {start: 0, range: ''}]),
   );
@@ -307,7 +296,7 @@ export function parseLines(
     }
     lines.splice(lineNumber, 1);
   }
-  code = lines.join('\n');
+
   const lineClassNames: {[lineIndex: number]: string[]} = {};
   Object.entries(blocks).forEach(([className, {range}]) => {
     rangeParser(range).forEach((l) => {
@@ -315,7 +304,145 @@ export function parseLines(
       lineClassNames[l]!.push(className);
     });
   });
-  return {lineClassNames, code};
+
+  return {code: lines.join('\n'), lineClassNames};
+}
+
+/**
+ * Parses the code content, strips away any magic comments, and returns the
+ * clean content and the highlighted lines marked by the comments or metastring.
+ *
+ * If the metastring contains a range, the `content` will be returned as-is
+ * without any parsing. The returned `lineClassNames` will be a map from that
+ * number range to the first magic comment config entry (which _should_ be for
+ * line highlight directives.)
+ */
+export function parseLines(
+  code: string,
+  params: ParseCodeLinesParam,
+): ParsedCodeLines {
+  // Historical behavior: we remove last line break
+  const newCode = code.replace(/\r?\n$/, '');
+  // Historical behavior: we try one strategy after the other
+  // we don't support mixing metastring ranges + magic comments
+  return (
+    parseCodeLinesFromMetastring(newCode, {...params}) ??
+    parseCodeLinesFromContent(newCode, {...params})
+  );
+}
+
+/**
+ * Gets the language name from the class name (set by MDX).
+ * e.g. `"language-javascript"` => `"javascript"`.
+ * Returns undefined if there is no language class name.
+ */
+export function parseClassNameLanguage(
+  className: string | undefined,
+): string | undefined {
+  if (!className) {
+    return undefined;
+  }
+  const languageClassName = className
+    .split(' ')
+    .find((str) => str.startsWith('language-'));
+  return languageClassName?.replace(/language-/, '');
+}
+
+// Prism languages are always lowercase
+// We want to fail-safe and allow both "php" and "PHP"
+// See https://github.com/facebook/docusaurus/issues/9012
+function normalizeLanguage(language: string | undefined): string | undefined {
+  return language?.toLowerCase();
+}
+
+function getLanguage(params: {
+  language: string | undefined;
+  className: string | undefined;
+  defaultLanguage: string | undefined;
+}): string {
+  return (
+    normalizeLanguage(
+      params.language ??
+        parseClassNameLanguage(params.className) ??
+        params.defaultLanguage,
+    ) ?? 'text'
+  ); // There's always a language, required by Prism;
+}
+
+/**
+ * This ensures that we always have the code block language as className
+ * For MDX code blocks this is provided automatically by MDX
+ * For JSX code blocks, the language gets added by this function
+ * This ensures both cases lead to a consistent HTML output
+ */
+function ensureLanguageClassName({
+  className,
+  language,
+}: {
+  className: string | undefined;
+  language: string;
+}): string {
+  return clsx(
+    className,
+    language &&
+      !className?.includes(`language-${language}`) &&
+      `language-${language}`,
+  );
+}
+
+export interface CodeBlockMetadata {
+  codeInput: string; // Including magic comments
+  code: string; // Rendered code, excluding magic comments
+  className: string; // There's always a "language-<lang>" className
+  language: string;
+  title: ReactNode;
+  lineNumbersStart: number | undefined;
+  lineClassNames: CodeLineClassNames;
+}
+
+export function createCodeBlockMetadata(params: {
+  code: string;
+  className: string | undefined;
+  language: string | undefined;
+  defaultLanguage: string | undefined;
+  metastring: string | undefined;
+  magicComments: MagicCommentConfig[];
+  title: ReactNode;
+  showLineNumbers: boolean | number | undefined;
+}): CodeBlockMetadata {
+  const language = getLanguage({
+    language: params.language,
+    defaultLanguage: params.defaultLanguage,
+    className: params.className,
+  });
+
+  const {lineClassNames, code} = parseLines(params.code, {
+    metastring: params.metastring,
+    magicComments: params.magicComments,
+    language,
+  });
+
+  const className = ensureLanguageClassName({
+    className: params.className,
+    language,
+  });
+
+  const title = parseCodeBlockTitle(params.metastring) || params.title;
+
+  const lineNumbersStart = getLineNumbersStart({
+    showLineNumbers: params.showLineNumbers,
+    metastring: params.metastring,
+  });
+
+  return {
+    codeInput: params.code,
+    code,
+    className,
+    language,
+    title,
+    lineNumbersStart,
+    lineClassNames,
+  };
 }
 
 export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
@@ -332,4 +459,40 @@ export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
     }
   });
   return properties;
+}
+
+type CodeBlockContextValue = {
+  metadata: CodeBlockMetadata;
+  wordWrap: WordWrap;
+};
+
+const CodeBlockContext = createContext<CodeBlockContextValue | null>(null);
+
+export function CodeBlockContextProvider({
+  metadata,
+  wordWrap,
+  children,
+}: {
+  metadata: CodeBlockMetadata;
+  wordWrap: WordWrap;
+  children: ReactNode;
+}): ReactNode {
+  // Should we optimize this in 2 contexts?
+  // Unlike metadata, wordWrap is stateful and likely to trigger re-renders
+  const value: CodeBlockContextValue = useMemo(() => {
+    return {metadata, wordWrap};
+  }, [metadata, wordWrap]);
+  return (
+    <CodeBlockContext.Provider value={value}>
+      {children}
+    </CodeBlockContext.Provider>
+  );
+}
+
+export function useCodeBlockContext(): CodeBlockContextValue {
+  const value = useContext(CodeBlockContext);
+  if (value === null) {
+    throw new ReactContextError('CodeBlockContextProvider');
+  }
+  return value;
 }
