@@ -15,7 +15,12 @@ import {
   type URLPath,
 } from '@docusaurus/utils';
 import {addTrailingSlash, removeTrailingSlash} from '@docusaurus/utils-common';
-import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
+import type {
+  RouteConfig,
+  ReportingSeverity,
+  BrokenLink,
+  BrokenLinksMap,
+} from '@docusaurus/types';
 
 function matchRoutes(routeConfig: RouteConfig[], pathname: string) {
   // @ts-expect-error: React router types RouteConfig with an actual React
@@ -23,14 +28,6 @@ function matchRoutes(routeConfig: RouteConfig[], pathname: string) {
   // We don't actually access component here, so it's fine.
   return reactRouterMatchRoutes(routeConfig, pathname);
 }
-
-type BrokenLink = {
-  link: string;
-  resolvedLink: string;
-  anchor: boolean;
-};
-
-type BrokenLinksMap = {[pathname: string]: BrokenLink[]};
 
 // The linking data that has been collected on Docusaurus pages during SSG
 // {rendered page pathname => links and anchors collected on that page}
@@ -404,11 +401,13 @@ export async function handleBrokenLinks({
   onBrokenLinks,
   onBrokenAnchors,
   routes,
+  onReportBrokenLinks,
 }: {
   collectedLinks: CollectedLinks;
   onBrokenLinks: ReportingSeverity;
   onBrokenAnchors: ReportingSeverity;
   routes: RouteConfig[];
+  onReportBrokenLinks?: (brokenLinksMap: BrokenLinksMap) => void;
 }): Promise<void> {
   if (onBrokenLinks === 'ignore' && onBrokenAnchors === 'ignore') {
     return;
@@ -417,5 +416,10 @@ export async function handleBrokenLinks({
     routes,
     collectedLinks: normalizeCollectedLinks(collectedLinks),
   });
+
+  if (onReportBrokenLinks) {
+    onReportBrokenLinks(brokenLinks);
+  }
+
   reportBrokenLinks({brokenLinks, onBrokenLinks, onBrokenAnchors});
 }
