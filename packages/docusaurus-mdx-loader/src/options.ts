@@ -9,6 +9,7 @@ import type {MDXOptions, SimpleProcessors} from './processor';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
 import type {PromiseWithResolvers} from './utils';
+import type {Map as SourceMap} from 'vfile';
 
 export type Options = Partial<MDXOptions> & {
   dependencies?: string[];
@@ -31,4 +32,7 @@ export type Options = Partial<MDXOptions> & {
   crossCompilerCache?: Map<string, CrossCompilerCacheEntry>; // MDX => Promise<JSX> cache
 };
 
-type CrossCompilerCacheEntry = PromiseWithResolvers<string>;
+type CrossCompilerCacheEntry = PromiseWithResolvers<{
+  content: string;
+  sourceMap: SourceMap | null | undefined;
+}>;

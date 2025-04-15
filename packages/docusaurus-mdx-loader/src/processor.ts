@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {SourceMapGenerator} from 'source-map';
 import headings from './remark/headings';
 import contentTitle from './remark/contentTitle';
 import toc from './remark/toc';
@@ -23,6 +24,7 @@ import type {MDXFrontMatter} from './frontMatter';
 import type {Options} from './options';
 import type {AdmonitionOptions} from './remark/admonitions';
 import type {ProcessorOptions} from '@mdx-js/mdx';
+import type {Map as SourceMap} from 'vfile';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // This might change soon, likely after TS 5.2
@@ -31,6 +33,7 @@ type Pluggable = any; // TODO fix this asap
 
 export type SimpleProcessorResult = {
   content: string;
+  map: SourceMap | null | undefined;
   data: {[key: string]: unknown};
 };
 
@@ -187,6 +190,7 @@ async function createProcessorFactory() {
       ...processorOptions,
       remarkRehypeOptions: options.markdownConfig.remarkRehypeOptions,
       format,
+      SourceMapGenerator,
     });
 
     return {
@@ -202,6 +206,7 @@ async function createProcessorFactory() {
         return mdxProcessor.process(vfile).then((result) => ({
           content: result.toString(),
           data: result.data,
+          map: result.map,
         }));
       },
     };
