@@ -24,16 +24,19 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
   } = useThemeConfig();
 
   return (
-    <div
+    <nav
       className={clsx(
         styles.sidebar,
         hideOnScroll && styles.sidebarWithHideableNavbar,
         isHidden && styles.sidebarHidden,
-      )}>
-      {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
+      )}
+      aria-label="docs sidebar">
+      {hideOnScroll && (
+        <Logo tabIndex={-1} className={styles.sidebarLogo} aria-hidden="true" />
+      )}
       <Content path={path} sidebar={sidebar} />
       {hideable && <CollapseButton onClick={onCollapse} />}
-    </div>
+    </nav>
   );
 }
 
