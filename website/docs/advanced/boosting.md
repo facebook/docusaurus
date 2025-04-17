@@ -1,4 +1,8 @@
-# Boosting pages in Algolia Docsearch
+---
+description: Guide readers to important docs with metadata.
+
+---
+# Algolia search boosting
 
 Algolia DocSearch is a popular choice for Docusaurus sites. Algolia provides methods for boosting the ranking of pages in the search, and this guide covers a method using metadata added to pages and edits to the default Algolia crawler configuration.
 
@@ -50,10 +54,10 @@ There are three edits to be made:
 
 
 :::tip
-In the JavaScript snippets the `$` is the Cheerio instance, and allows you to manipulate the `DOM`. Links are in the **More information** section at the end of this doc.
+In the JavaScript snippets the `$` is the Cheerio instance, and allows you to manipulate the HTML Document Object Model (DOM). Links are in the **More information** section at the end of this doc.
 :::
 
-The `recordExtractor` needs access to the Cheerio instance to extract the metadata from the `DOM`.
+The `recordExtractor` needs access to the Cheerio instance to extract the metadata from the DOM.
 
 Verify that the `recordExtractor` function includes the Cheerio instance as a parameter. Your record extractor function may have the `$`, if so you can skip this step. Your record extractor may also have other parameters listed, you should not remove parameters.
 
@@ -75,8 +79,19 @@ recordExtractor: ({ $, helpers }) => {
 
 ### Assign the `pageRank`
 
+The`pageRank` property is of type `string | number`, add the highlighted line to the `recordProps` code. In this example it is added after `content`.
+
 ```js
-foo
+return helpers.docsearch({
+  recordProps: {
+
+    // your recordProps may populate lvl0 - lvl6 here
+
+    content: "article p, article li, article td:last-child",
+    // highlight-start
+    pageRank: Number(pageBoost),
+    // highlight-end
+  },
 ```
 
 ## Testing
