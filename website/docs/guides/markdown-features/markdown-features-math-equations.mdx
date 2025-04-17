@@ -202,3 +202,24 @@ export default {
   ],
 };
 ```
+
+You can use the third-party [@tats-u/docusaurus-plugin-copy-katex-assets](https://github.com/tats-u/docusarusu-copy-katex-assets) plugin to copy the `katex.min.css` and `fonts` directory to your site's `assets` directory.
+
+### MathML or Temml instead of KaTeX {#mathml}
+
+You can use the [`@daiji256/rehype-mathml`](https://www.npmjs.com/package/@daiji256/rehype-mathml) plugin instead of `rehype-katex`:
+
+- When you want to use another math font other than Latin Modern Math
+- When you want to reduce the download size to a minimum by compromising with local fonts
+- When you want to reduce the number of files to be served
+- When you want to use $LaTeX$ syntax available not in KaTeX but in Temml
+
+After installing and activating the plugin, [put Temml assets](https://temml.org/docs/en/administration) in your site's `static` directory, and replace the stylesheet's `href` from the CDN URL of `katex.min.css` to your local path of the Temml CSS (say, `/temml/temml.min.css`) in `docusaurus.config.js`.
+
+You can use the third-party [@tats-u/docusaurus-plugin-copy-temml-assets](https://github.com/tats-u/docusaurus-copy-temml-assets) plugin to copy the Temml assets to your site's `assets` directory.
+
+:::note
+
+Temml recommends the Latin Modern font for better display, but its WOFF2 font file is larger than the entire KaTeX font bundle. Unless you prefer fonts other than Latin Modern (e.g. local fonts or [Noto Sans Math](https://fonts.google.com/noto/specimen/Noto+Sans+Math)) or the compliance to the standards, or need the support of TeX features supported only by Temml, KaTeX is the better choice.
+
+:::
