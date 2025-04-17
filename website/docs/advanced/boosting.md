@@ -38,6 +38,7 @@ title: Page name
 
 ## Overview
 ```
+
 ## Configure the Algolia index
 
 Each Algolia index has several configuration options. The section to configure for page boosting is **Index** → **Configuration** → **Relevance Essentials** → **Ranking and Sorting** → **Custom Ranking**
@@ -67,7 +68,7 @@ recordExtractor: ({ $, helpers }) => {
 
 ### Extract the `pageBoost` metadata
 
-Within the `recordExtractor` function add the highlighted line to extract the `pageBoost` metadata into `const pageBoost`, with a default value of 0 if no metadata is present in the page.
+Within the `recordExtractor` function, add the highlighted line to extract the `pageBoost` metadata into `const pageBoost`, with a default value of 0 if no metadata is present in the page.
 
 ```js
 recordExtractor: ({ $, helpers }) => {
@@ -96,11 +97,17 @@ return helpers.docsearch({
 
 ## Testing
 
-![Algolia test URL records](/img/boost/boost_algolia_test_url_records.png)
+1. To test the changes to the page metadata and the Algolia Crawler build and publish your Docusaurus site.
+1. View the source of a modified page and check for the added `pageBoost` metadata. It should look like this (with the content you assigned) in the HTML:
+    ```html
+    <meta data-rh="true" name="pageBoost" content="100">
+    ```
+1. Open the Crawler UI and test one of the pages you are boosting. Access the crawler editor from the Algolia dashboard for your Algolia application at **Data sources** → **Crawler** by choosing the name of the crawler, and then **Editor**. In the top navigation select **URL Tester** and test a boosted page, verify that `weight.pageRank` is set in the **Records** tab:
+  ![Algolia test URL records](/img/boost/boost_algolia_test_url_records.png)
 
-![Algolia search UI page rank](/img/boost/boost_algolia_page_rank_search_ui.png)
+## Production
 
-
+Run a production crawl after testing individual URLs and confirm the updated search results.
 
 ## More information
 
