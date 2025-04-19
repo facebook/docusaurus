@@ -71,7 +71,7 @@
           <div class="blog-posts">
             <xsl:for-each select="atom:feed/atom:entry">
               <div class="blog-post">
-                <h3><a href="{atom:link[@rel='alternate']/@href}"><xsl:value-of
+                <h3><a href="{atom:link/@href}"><xsl:value-of
                       select="atom:title"
                     /></a></h3>
                 <div class="blog-post-date">

@@ -43,7 +43,10 @@ export {
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
-export {useTitleFormatter} from './utils/generalUtils';
+export {
+  TitleFormatterProvider,
+  useTitleFormatter,
+} from './utils/titleFormatterUtils';
 
 export {useLocationChange} from './utils/useLocationChange';
 
