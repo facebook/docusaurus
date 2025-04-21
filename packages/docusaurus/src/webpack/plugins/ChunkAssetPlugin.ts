@@ -18,6 +18,24 @@ const DocusaurusGetChunkAssetFn = '__webpack_require__.gca';
 
 const PluginName = 'Docusaurus-ChunkAssetPlugin';
 
+function escapeUnsafeChars(str: string): string {
+  const charMap: Record<string, string> = {
+    '<': '\\u003C',
+    '>': '\\u003E',
+    '/': '\\u002F',
+    '\\': '\\\\',
+    '\b': '\\b',
+    '\f': '\\f',
+    '\n': '\\n',
+    '\r': '\\r',
+    '\t': '\\t',
+    '\0': '\\0',
+    '\u2028': '\\u2028',
+    '\u2029': '\\u2029',
+  };
+  return str.replace(/[<>\b\f\n\r\t\0\u2028\u2029]/g, (x) => charMap[x]);
+}
+
 function generateGetChunkAssetRuntimeCode(chunk: webpack.Chunk): string {
   const chunkIdToName = chunk.getChunkMaps(false).name;
   const chunkNameToId = Object.fromEntries(
@@ -40,8 +58,8 @@ function generateGetChunkAssetRuntimeCode(chunk: webpack.Chunk): string {
   } = webpack.RuntimeGlobals;
 
   const code = `// Docusaurus function to get chunk asset
-${DocusaurusGetChunkAssetFn} = function(chunkId) { chunkId = ${JSON.stringify(
-    chunkNameToId,
+${DocusaurusGetChunkAssetFn} = function(chunkId) { chunkId = ${escapeUnsafeChars(
+    JSON.stringify(chunkNameToId),
   )}[chunkId]||chunkId; return ${publicPath} + ${getChunkScriptFilename}(chunkId); };`;
 
   return webpack.Template.asString(code);
