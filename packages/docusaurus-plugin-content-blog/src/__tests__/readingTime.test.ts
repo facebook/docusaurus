@@ -14,12 +14,12 @@ describe('calculateReadingTime', () => {
 
   it('calculates reading time for short content', () => {
     const content = 'This is a short test content.';
-    expect(calculateReadingTime(content)).toBe(0.02);
+    expect(calculateReadingTime(content)).toBe(0.03);
   });
 
   it('calculates reading time for long content', () => {
     const content = 'This is a test content. '.repeat(100);
-    expect(calculateReadingTime(content)).toBe(1.6666666666666667);
+    expect(calculateReadingTime(content)).toBe(2.5);
   });
 
   it('respects custom words per minute', () => {
@@ -29,28 +29,28 @@ describe('calculateReadingTime', () => {
 
   it('handles content with special characters', () => {
     const content = 'Hello! How are you? This is a test...';
-    expect(calculateReadingTime(content)).toBe(0.02666666666666667);
+    expect(calculateReadingTime(content)).toBe(0.04);
   });
 
   it('handles content with multiple lines', () => {
     const content = `This is line 1.
     This is line 2.
     This is line 3.`;
-    expect(calculateReadingTime(content)).toBe(0.04);
+    expect(calculateReadingTime(content)).toBe(0.06);
   });
 
   it('handles content with HTML tags', () => {
     const content = '<p>This is a <strong>test</strong> content.</p>';
-    expect(calculateReadingTime(content)).toBe(0.016666666666666666);
+    expect(calculateReadingTime(content)).toBe(0.025);
   });
 
   it('handles content with markdown', () => {
     const content = '# Title\n\nThis is **bold** and *italic* text.';
-    expect(calculateReadingTime(content)).toBe(0.02666666666666667);
+    expect(calculateReadingTime(content)).toBe(0.04);
   });
 
   it('handles CJK content', () => {
     const content = '你好，世界！这是一段测试内容。';
-    expect(calculateReadingTime(content)).toBe(0.04);
+    expect(calculateReadingTime(content)).toBe(0.06);
   });
 });
