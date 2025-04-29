@@ -7,7 +7,7 @@
 
 import readingTime from 'reading-time';
 
-const DEFAULT_WORDS_PER_MINUTE = 300;
+const DEFAULT_WORDS_PER_MINUTE = 200;
 
 interface ReadingTimeOptions {
   wordsPerMinute?: number;
@@ -23,5 +23,7 @@ export function calculateReadingTime(
   options: ReadingTimeOptions = {},
 ): number {
   const wordsPerMinute = options.wordsPerMinute ?? DEFAULT_WORDS_PER_MINUTE;
-  return readingTime(content, {wordsPerMinute}).minutes;
+  const {wordBound} = options;
+  return readingTime(content, {wordsPerMinute, ...(wordBound && {wordBound})})
+    .minutes;
 }
