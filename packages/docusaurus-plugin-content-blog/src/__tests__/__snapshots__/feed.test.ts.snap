@@ -237,6 +237,10 @@ exports[`atom has custom xslt files for feed: blog tree 1`] = `
 ├── atom.css
 ├── atom.xml
 ├── atom.xsl
+├── authors
+│   ├── index.html
+│   └── slorber-custom-permalink-localized
+│       └── index.html
 ├── blog-with-links
 │   └── index.html
 ├── custom-atom.css
@@ -273,7 +277,11 @@ exports[`atom has custom xslt files for feed: blog tree 1`] = `
 │   │   └── index.html
 │   ├── date
 │   │   └── index.html
-│   └── index.html
+│   ├── global-tag-permalink (en)
+│   │   └── index.html
+│   ├── index.html
+│   └── inline-tag
+│       └── index.html
 └── unlisted
     └── index.html"
 `;
@@ -683,6 +691,10 @@ exports[`atom has xslt files for feed: blog tree 1`] = `
 ├── atom.css
 ├── atom.xml
 ├── atom.xsl
+├── authors
+│   ├── index.html
+│   └── slorber-custom-permalink-localized
+│       └── index.html
 ├── blog-with-links
 │   └── index.html
 ├── custom-atom.css
@@ -719,7 +731,11 @@ exports[`atom has xslt files for feed: blog tree 1`] = `
 │   │   └── index.html
 │   ├── date
 │   │   └── index.html
-│   └── index.html
+│   ├── global-tag-permalink (en)
+│   │   └── index.html
+│   ├── index.html
+│   └── inline-tag
+│       └── index.html
 └── unlisted
     └── index.html"
 `;
@@ -900,6 +916,10 @@ exports[`json has custom xslt files for feed: blog tree 1`] = `
 ├── atom.css
 ├── atom.xml
 ├── atom.xsl
+├── authors
+│   ├── index.html
+│   └── slorber-custom-permalink-localized
+│       └── index.html
 ├── blog-with-links
 │   └── index.html
 ├── custom-atom.css
@@ -936,7 +956,11 @@ exports[`json has custom xslt files for feed: blog tree 1`] = `
 │   │   └── index.html
 │   ├── date
 │   │   └── index.html
-│   └── index.html
+│   ├── global-tag-permalink (en)
+│   │   └── index.html
+│   ├── index.html
+│   └── inline-tag
+│       └── index.html
 └── unlisted
     └── index.html"
 `;
@@ -1253,6 +1277,10 @@ exports[`json has xslt files for feed: blog tree 1`] = `
 ├── atom.css
 ├── atom.xml
 ├── atom.xsl
+├── authors
+│   ├── index.html
+│   └── slorber-custom-permalink-localized
+│       └── index.html
 ├── blog-with-links
 │   └── index.html
 ├── custom-atom.css
@@ -1289,7 +1317,11 @@ exports[`json has xslt files for feed: blog tree 1`] = `
 │   │   └── index.html
 │   ├── date
 │   │   └── index.html
-│   └── index.html
+│   ├── global-tag-permalink (en)
+│   │   └── index.html
+│   ├── index.html
+│   └── inline-tag
+│       └── index.html
 └── unlisted
     └── index.html"
 `;
@@ -1527,6 +1559,10 @@ exports[`rss has custom xslt files for feed: blog tree 1`] = `
 ├── atom.css
 ├── atom.xml
 ├── atom.xsl
+├── authors
+│   ├── index.html
+│   └── slorber-custom-permalink-localized
+│       └── index.html
 ├── blog-with-links
 │   └── index.html
 ├── custom-atom.css
@@ -1563,7 +1599,11 @@ exports[`rss has custom xslt files for feed: blog tree 1`] = `
 │   │   └── index.html
 │   ├── date
 │   │   └── index.html
-│   └── index.html
+│   ├── global-tag-permalink (en)
+│   │   └── index.html
+│   ├── index.html
+│   └── inline-tag
+│       └── index.html
 └── unlisted
     └── index.html"
 `;
@@ -1949,6 +1989,10 @@ exports[`rss has xslt files for feed: blog tree 1`] = `
 ├── atom.css
 ├── atom.xml
 ├── atom.xsl
+├── authors
+│   ├── index.html
+│   └── slorber-custom-permalink-localized
+│       └── index.html
 ├── blog-with-links
 │   └── index.html
 ├── custom-atom.css
@@ -1985,7 +2029,11 @@ exports[`rss has xslt files for feed: blog tree 1`] = `
 │   │   └── index.html
 │   ├── date
 │   │   └── index.html
-│   └── index.html
+│   ├── global-tag-permalink (en)
+│   │   └── index.html
+│   ├── index.html
+│   └── inline-tag
+│       └── index.html
 └── unlisted
     └── index.html"
 `;
