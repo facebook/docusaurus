@@ -5,4 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-@layer infima, theme-common, theme-classic;
+@layer docusaurus-infima, docusaurus-theme-common, docusaurus-theme-classic, docusaurus-site;

@@ -33,6 +33,7 @@ export default function themeClassic(
   const {
     i18n: {currentLocale, localeConfigs},
     siteStorage,
+    siteDir,
   } = context;
   const themeConfig = context.siteConfig.themeConfig as ThemeConfig;
   const {
@@ -71,10 +72,10 @@ export default function themeClassic(
 
     getClientModules() {
       const modules = [
+        './layers.css',
         require.resolve(getInfimaCSSFile(direction)),
         './prism-include-languages',
         './nprogress',
-        './layers.css',
       ];
 
       modules.push(...customCss.map((p) => path.resolve(context.siteDir, p)));
@@ -133,12 +134,22 @@ export default function themeClassic(
         postcssPlugin: 'postcss-wrap-in-layer',
         Once(root) {
           const file = root.source?.input.file;
+          if (!file) {
+            return;
+          }
           if (file === resolvedInfimaFile) {
-            wrapRootInLayer(root, 'infima');
-          } else if (file?.includes('docusaurus-theme-common/lib')) {
-            wrapRootInLayer(root, 'theme-common');
-          } else if (file?.includes('docusaurus-theme-classic/lib')) {
-            wrapRootInLayer(root, 'theme-classic');
+            wrapRootInLayer(root, 'docusaurus-infima');
+          } else if (file.includes('docusaurus-theme-common/lib')) {
+            wrapRootInLayer(root, 'docusaurus-theme-common');
+          } else if (
+            file.includes('docusaurus-theme-classic/lib') &&
+            !file.endsWith('docusaurus-theme-classic/lib/layers.css')
+          ) {
+            wrapRootInLayer(root, 'docusaurus-theme-classic');
+          } else if (file.startsWith(siteDir)) {
+            wrapRootInLayer(root, 'docusaurus-site');
+          } else {
+            // console.log('unhandled file', file);
           }
         },
       };
