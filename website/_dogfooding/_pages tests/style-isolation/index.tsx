@@ -48,6 +48,38 @@ function ExamplesTable() {
             </div>
           </td>
         </tr>
+
+        <tr>
+          <td>Unordered list</td>
+          <td>
+            <ul>
+              <li>item1</li>
+              <li>item2</li>
+            </ul>
+          </td>
+          <td>
+            <ul className={styles.isolated}>
+              <li>item1</li>
+              <li>item2</li>
+            </ul>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Ordered list</td>
+          <td>
+            <ol>
+              <li>item1</li>
+              <li>item2</li>
+            </ol>
+          </td>
+          <td>
+            <ol className={styles.isolated}>
+              <li>item1</li>
+              <li>item2</li>
+            </ol>
+          </td>
+        </tr>
       </tbody>
     </table>
   );
