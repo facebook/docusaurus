@@ -16,6 +16,6 @@
 }
 
 .playgroundHeader:first-of-type {
-  background: var(--ifm-color-emphasis-600);
+  background: var(--ifm-color-emphasis-700);
   color: var(--ifm-color-content-inverse);
 }
