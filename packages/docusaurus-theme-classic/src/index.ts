@@ -33,7 +33,6 @@ export default function themeClassic(
   const {
     i18n: {currentLocale, localeConfigs},
     siteStorage,
-    siteDir,
   } = context;
   const themeConfig = context.siteConfig.themeConfig as ThemeConfig;
   const {
@@ -146,10 +145,6 @@ export default function themeClassic(
             !file.endsWith('docusaurus-theme-classic/lib/layers.css')
           ) {
             wrapRootInLayer(root, 'docusaurus-theme-classic');
-          } else if (file.startsWith(siteDir)) {
-            wrapRootInLayer(root, 'docusaurus-site');
-          } else {
-            // console.log('unhandled file', file);
           }
         },
       };
