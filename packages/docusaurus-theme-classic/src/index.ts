@@ -134,9 +134,9 @@ export default function themeClassic(
           const file = root.source?.input.file;
           if (file === resolvedInfimaFile) {
             wrapRootInLayer(root, 'infima');
-          } else if (file?.includes('docusaurus-theme-common/lib/theme')) {
+          } else if (file?.includes('docusaurus-theme-common/lib')) {
             wrapRootInLayer(root, 'theme-common');
-          } else if (file?.includes('docusaurus-theme-classic/lib/theme')) {
+          } else if (file?.includes('docusaurus-theme-classic/lib')) {
             wrapRootInLayer(root, 'theme-classic');
           }
         },
