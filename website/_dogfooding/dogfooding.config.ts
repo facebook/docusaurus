@@ -106,7 +106,8 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
           ? undefined
           : defaultReadingTime({
               content,
-              options: {wordsPerMinute: 5, locale: 'en'},
+              locale: 'en',
+              options: {wordsPerMinute: 5},
             }),
       onInlineTags: 'warn',
       onInlineAuthors: 'ignore',

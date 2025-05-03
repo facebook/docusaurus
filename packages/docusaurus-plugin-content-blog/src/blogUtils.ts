@@ -210,11 +210,8 @@ async function parseBlogPostMarkdownFile({
   }
 }
 
-const defaultReadingTime: ReadingTimeFunction = ({
-  content,
-  options,
-  locale = 'en',
-}) => calculateReadingTime(content, {...options, locale});
+const defaultReadingTime: ReadingTimeFunction = ({content, locale, options}) =>
+  calculateReadingTime(content, {...options, locale});
 
 async function processBlogSourceFile(
   blogSourceRelative: string,

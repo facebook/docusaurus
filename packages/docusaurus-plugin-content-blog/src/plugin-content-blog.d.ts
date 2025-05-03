@@ -391,7 +391,6 @@ declare module '@docusaurus/plugin-content-blog' {
    */
   type ReadingTimeOptions = {
     wordsPerMinute?: number;
-    locale: string;
   };
 
   /**
@@ -401,12 +400,12 @@ declare module '@docusaurus/plugin-content-blog' {
   export type ReadingTimeFunction = (params: {
     /** Markdown content. */
     content: string;
+    /** Locale for word segmentation. */
+    locale: string;
     /** Front matter. */
     frontMatter?: BlogPostFrontMatter & {[key: string]: unknown};
     /** Options for reading time calculation. */
     options?: ReadingTimeOptions;
-    /** Locale for word segmentation. */
-    locale?: string;
   }) => number;
 
   /**
