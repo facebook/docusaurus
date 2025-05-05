@@ -7,7 +7,7 @@
 
 /* eslint-disable global-require */
 
-import React, {type ReactNode} from 'react';
+import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
@@ -24,7 +24,7 @@ const Playgrounds = [
       <Translate id="playground.codesandbox.description">
         CodeSandbox is an online code editor and development environment that
         allows developers to create, share and collaborate on web development
-        projects in a browser-based environment
+        projects in a browser-based environment.
       </Translate>
     ),
   },
@@ -59,30 +59,36 @@ interface Props {
   description: ReactNode;
 }
 
-function PlaygroundCard({name, image, url, urlTS, description}: Props) {
+function PlaygroundCard({ name, image, url, urlTS, description }: Props) {
   return (
-    <div className="col col--6 margin-bottom--lg">
+    <div className="col col--12 col--6@md margin-bottom--lg">
       <div className={clsx('card')}>
         <div className={clsx('card__image')}>
           <Link to={url}>
-            <Image img={image} alt={`${name}'s image`} />
+            <Image img={image} alt={`Playground image for ${name}`} />
           </Link>
         </div>
         <div className="card__body">
-          <Heading as="h3">{name}</Heading>
+          <Heading as="h2">{name}</Heading>
           <p>{description}</p>
         </div>
         <div className="card__footer">
-          <div style={{textAlign: 'center'}}>
+          <div style={{ textAlign: 'center' }}>
             <b>
               <Translate id="playground.tryItButton">Try it now!</Translate>
             </b>
           </div>
           <div className="button-group button-group--block">
-            <Link className="button button--secondary" to={url}>
+            <Link
+              className="button button--secondary"
+              to={url}
+              aria-label={`${name} JavaScript Playground`}>
               JavaScript
             </Link>
-            <Link className="button button--secondary" to={urlTS}>
+            <Link
+              className="button button--secondary"
+              to={urlTS}
+              aria-label={`${name} TypeScript Playground`}>
               TypeScript
             </Link>
           </div>
