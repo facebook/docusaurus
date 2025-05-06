@@ -383,25 +383,9 @@ If your Docusaurus project is not at the root of your repo, you may need to conf
 ```yml title=".github/workflows/deploy.yml"
 name: Deploy to GitHub Pages
 
-on:
-  push:
-    branches:
-      - main
-    # Review gh actions docs if you want to further define triggers, paths, etc
-    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+on: push: branches: - main # Review gh actions docs if you want to further define triggers, paths, etc # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
-jobs:
-  build:
-    name: Build Docusaurus
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: npm
+jobs: build: name: Build Docusaurus runs-on: ubuntu-latest steps: - uses: actions/checkout@v4 with: fetch-depth: 0 - uses: actions/setup-node@v4 with: node-version: 18 cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -413,9 +397,7 @@ jobs:
         with:
           path: build
 
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: build
+deploy: name: Deploy to GitHub Pages needs: build
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
@@ -432,7 +414,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-```
+
+````
 
 ```yml title=".github/workflows/test-deploy.yml"
 name: Test deployment
@@ -461,31 +444,16 @@ jobs:
         run: npm ci
       - name: Test build website
         run: npm build
-```
+````
+
   </TabItem>
   <TabItem value="yarn" label="Yarn">
 ```yml title=".github/workflows/deploy.yml"
 name: Deploy to GitHub Pages
 
-on:
-  push:
-    branches:
-      - main
-    # Review gh actions docs if you want to further define triggers, paths, etc
-    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+on: push: branches: - main # Review gh actions docs if you want to further define triggers, paths, etc # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
-jobs:
-  build:
-    name: Build Docusaurus
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: yarn
+jobs: build: name: Build Docusaurus runs-on: ubuntu-latest steps: - uses: actions/checkout@v4 with: fetch-depth: 0 - uses: actions/setup-node@v4 with: node-version: 18 cache: yarn
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -497,9 +465,7 @@ jobs:
         with:
           path: build
 
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: build
+deploy: name: Deploy to GitHub Pages needs: build
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
@@ -516,7 +482,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-```
+
+````
 
 ```yml title=".github/workflows/test-deploy.yml"
 name: Test deployment
@@ -545,7 +512,8 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Test build website
         run: yarn build
-```
+````
+
   </TabItem>
 </Tabs>
 
