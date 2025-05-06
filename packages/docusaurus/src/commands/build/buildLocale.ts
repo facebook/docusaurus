@@ -34,7 +34,7 @@ export type BuildLocaleParams = {
   cliOptions: Partial<BuildCLIOptions>;
 };
 
-const SkipBundling = !!process.env.DOCUSAURUS_SKIP_BUNDLING;
+const SkipBundling = process.env.DOCUSAURUS_SKIP_BUNDLING === 'true';
 
 export async function buildLocale({
   siteDir,
@@ -89,7 +89,9 @@ export async function buildLocale({
     );
 
   if (SkipBundling) {
-    console.warn('Skipping the bundling step');
+    console.warn(
+      `Skipping the Docusaurus bundling step because DOCUSAURUS_SKIP_BUNDLING='true'`,
+    );
   } else {
     // Run webpack to build JS bundle (client) and static html files (server).
     await PerfLogger.async(`Bundling with ${props.currentBundler.name}`, () => {
@@ -237,7 +239,7 @@ async function getBuildServerConfig({
 async function cleanupServerBundle(serverBundlePath: string) {
   if (process.env.DOCUSAURUS_KEEP_SERVER_BUNDLE === 'true') {
     logger.warn(
-      "Will NOT delete server bundle because DOCUSAURUS_KEEP_SERVER_BUNDLE is set to 'true'",
+      "Will NOT delete server bundle because DOCUSAURUS_KEEP_SERVER_BUNDLE='true'",
     );
   } else {
     await PerfLogger.async('Deleting server bundle', async () => {
