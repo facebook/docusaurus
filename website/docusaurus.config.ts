@@ -324,7 +324,7 @@ export default async function createConfigAsync() {
           showLastUpdateTime: true,
         } satisfies DocsOptions,
       ],
-      [
+      !process.env.DOCUSAURUS_SKIP_BUNDLING && [
         'client-redirects',
         {
           fromExtensions: ['html'],

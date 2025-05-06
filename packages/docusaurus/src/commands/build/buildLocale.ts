@@ -34,6 +34,8 @@ export type BuildLocaleParams = {
   cliOptions: Partial<BuildCLIOptions>;
 };
 
+const SkipBundling = !!process.env.DOCUSAURUS_SKIP_BUNDLING;
+
 export async function buildLocale({
   siteDir,
   locale,
@@ -82,19 +84,23 @@ export async function buildLocale({
           // We also clear website/build dir
           // returns void, no useful result needed before compilation
           // See also https://github.com/facebook/docusaurus/pull/11037
-          clearPath(outDir),
+          SkipBundling ? undefined : clearPath(outDir),
         ]),
     );
 
-  // Run webpack to build JS bundle (client) and static html files (server).
-  await PerfLogger.async(`Bundling with ${props.currentBundler.name}`, () => {
-    return compile({
-      configs:
-        // For hash router we don't do SSG and can skip the server bundle
-        router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
-      currentBundler: configureWebpackUtils.currentBundler,
+  if (SkipBundling) {
+    console.warn('Skipping the bundling step');
+  } else {
+    // Run webpack to build JS bundle (client) and static html files (server).
+    await PerfLogger.async(`Bundling with ${props.currentBundler.name}`, () => {
+      return compile({
+        configs:
+          // For hash router we don't do SSG and can skip the server bundle
+          router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
+        currentBundler: configureWebpackUtils.currentBundler,
+      });
     });
-  });
+  }
 
   const {collectedData} = await PerfLogger.async('SSG', () =>
     executeSSG({
