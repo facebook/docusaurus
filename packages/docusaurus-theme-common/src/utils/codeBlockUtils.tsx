@@ -188,6 +188,11 @@ export function getLineNumbersStart({
   return getMetaLineNumbersStart(metastring);
 }
 
+// TODO Docusaurus v4: remove, only kept for internal retro-compatibility
+export function containsLineNumbers(metastring?: string): boolean {
+  return Boolean(metastring?.includes('showLineNumbers'));
+}
+
 type ParseCodeLinesParam = {
   /**
    * The full metastring, as received from MDX. Line ranges declared here
