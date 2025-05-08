@@ -24,13 +24,14 @@ export function useTags() {
 
 type Operator = 'OR' | 'AND';
 
-export function useOperator() {
+export function useOperator(): readonly [Operator, () => void] {
   const [searchOperator, setSearchOperator] = useQueryString('operator');
   const operator: Operator = searchOperator === 'AND' ? 'AND' : 'OR';
+
   const toggleOperator = useCallback(() => {
-    const newOperator = operator === 'OR' ? 'AND' : null;
-    setSearchOperator(newOperator);
+    setSearchOperator(operator === 'OR' ? 'AND' : null);
   }, [operator, setSearchOperator]);
+
   return [operator, toggleOperator] as const;
 }
 
@@ -44,31 +45,39 @@ function filterUsers({
   tags: TagType[];
   operator: Operator;
   searchName: string | null;
-}) {
+}): User[] {
+  let filtered = users;
+
+  // Filter by name (case-insensitive)
   if (searchName) {
-    // eslint-disable-next-line no-param-reassign
-    users = users.filter((user) =>
-      user.title.toLowerCase().includes(searchName.toLowerCase()),
+    const search = searchName.toLocaleLowerCase();
+    filtered = filtered.filter((user) =>
+      user.title.toLocaleLowerCase().includes(search),
     );
   }
+
+  // If no tags, return name-filtered users
   if (tags.length === 0) {
-    return users;
+    return filtered;
   }
-  return users.filter((user) => {
-    if (user.tags.length === 0) {
+
+  return filtered.filter((user) => {
+    if (!user.tags || user.tags.length === 0) {
       return false;
     }
-    if (operator === 'AND') {
-      return tags.every((tag) => user.tags.includes(tag));
-    }
-    return tags.some((tag) => user.tags.includes(tag));
+
+    // Filter by AND/OR operator logic
+    return operator === 'AND'
+      ? tags.every((tag) => user.tags.includes(tag))
+      : tags.some((tag) => user.tags.includes(tag));
   });
 }
 
-export function useFilteredUsers() {
+export function useFilteredUsers(): User[] {
   const [tags] = useTags();
   const [searchName] = useSearchName();
   const [operator] = useOperator();
+
   return useMemo(
     () =>
       filterUsers({
@@ -81,7 +90,7 @@ export function useFilteredUsers() {
   );
 }
 
-export function useSiteCountPlural() {
+export function useSiteCountPlural(): (sitesCount: number) => string {
   const {selectMessage} = usePluralForm();
   return (sitesCount: number) =>
     selectMessage(
@@ -90,7 +99,7 @@ export function useSiteCountPlural() {
         {
           id: 'showcase.filters.resultCount',
           description:
-            'Pluralized label for the number of sites found on the showcase. Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+            'Pluralized label for the number of sites found on the showcase. Use as many plural forms (separated by "|") as your language supports.',
           message: '1 site|{sitesCount} sites',
         },
         {sitesCount},
