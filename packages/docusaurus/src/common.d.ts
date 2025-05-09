@@ -13,7 +13,7 @@ import type {RouteBuildMetadata} from '@docusaurus/types';
 
 export type AppRenderResult = {
   html: string;
-  collectedData: PageCollectedData;
+  collectedData: PageCollectedDataInternal;
 };
 
 export type AppRenderer = {
@@ -40,21 +40,28 @@ export type RouteBuildMetadataInternal = {
   script: string;
 };
 
-// This data structure must remain serializable!
-// See why: https://github.com/facebook/docusaurus/pull/10826
 export type PageCollectedMetadata = {
   public: RouteBuildMetadata;
-  internal: RouteBuildMetadataInternal;
-  // TODO Docusaurus v4 remove legacy unserializable helmet data structure
-  // See https://github.com/facebook/docusaurus/pull/10850
   helmet: HelmetServerState | null;
+};
+
+// This data structure must remain serializable!
+// See why: https://github.com/facebook/docusaurus/pull/10826
+export type PageCollectedMetadataInternal = PageCollectedMetadata & {
+  internal: RouteBuildMetadataInternal;
+};
+
+export type PageCollectedDataInternal = {
+  metadata: PageCollectedMetadataInternal;
+  modules: string[];
+  links: string[];
+  anchors: string[];
 };
 
 export type PageCollectedData = {
   metadata: PageCollectedMetadata;
-  links: string[];
-  anchors: string[];
-  modules: string[];
+  links: PageCollectedDataInternal['links'];
+  anchors: PageCollectedDataInternal['anchors'];
 };
 
 export type SiteCollectedData = {

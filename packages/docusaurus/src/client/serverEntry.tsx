@@ -17,7 +17,7 @@ import {
   BrokenLinksProvider,
 } from './BrokenLinksContext';
 import {toPageCollectedMetadata} from './serverHelmetUtils';
-import type {PageCollectedData, AppRenderer} from '../common';
+import type {AppRenderer, PageCollectedDataInternal} from '../common';
 
 const render: AppRenderer['render'] = async ({
   pathname,
@@ -55,7 +55,7 @@ const render: AppRenderer['render'] = async ({
     metadata.helmet = null;
   }
 
-  const collectedData: PageCollectedData = {
+  const collectedData: PageCollectedDataInternal = {
     metadata,
     anchors: statefulBrokenLinks.getCollectedAnchors(),
     links: statefulBrokenLinks.getCollectedLinks(),

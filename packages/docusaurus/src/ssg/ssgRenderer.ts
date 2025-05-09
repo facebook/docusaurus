@@ -22,14 +22,18 @@ import {SSGConcurrency} from './ssgEnv';
 import {writeStaticFile} from './ssgUtils';
 import {createSSGRequire} from './ssgNodeRequire';
 import type {SSGParams} from './ssgParams';
-import type {AppRenderer, AppRenderResult} from '../common';
+import type {
+  AppRenderer,
+  PageCollectedData,
+  PageCollectedDataInternal,
+} from '../common';
 import type {HtmlMinifier} from '@docusaurus/bundler';
 
 export type SSGSuccess = {
   success: true;
   pathname: string;
   result: {
-    collectedData: AppRenderResult['collectedData'];
+    collectedData: PageCollectedData;
     warnings: string[];
     // html: we don't include it on purpose!
     // we don't need to aggregate all html contents in memory!
@@ -144,6 +148,24 @@ export async function loadSSGRenderer({
   };
 }
 
+// We reduce the page collected data structure after the HTML file is written
+// Some data (modules, metadata.internal) is only useful to create the HTML file
+// It's not useful to aggregate that collected data in memory
+function reduceCollectedData(
+  pageCollectedData: PageCollectedDataInternal,
+): PageCollectedData {
+  // We re-create the object from scratch
+  // We absolutely want to avoid TS duck typing
+  return {
+    anchors: pageCollectedData.anchors,
+    metadata: {
+      public: pageCollectedData.metadata.public,
+      helmet: pageCollectedData.metadata.helmet,
+    },
+    links: pageCollectedData.links,
+  };
+}
+
 async function generateStaticFile({
   pathname,
   appRenderer,
@@ -177,15 +199,13 @@ async function generateStaticFile({
       params,
     });
 
-    appRenderResult.collectedData.modules = [];
-    // @ts-expect-error: test
-    appRenderResult.collectedData.metadata.internal = null;
+    const collectedData = reduceCollectedData(appRenderResult.collectedData);
 
     return {
       success: true,
       pathname,
       result: {
-        collectedData: appRenderResult.collectedData,
+        collectedData,
         // As of today, only the html minifier can emit SSG warnings
         warnings: minifierResult.warnings,
       },
