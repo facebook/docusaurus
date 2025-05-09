@@ -12,7 +12,11 @@ import _ from 'lodash';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {createSSGParams} from './ssgParams';
 import {renderHashRouterTemplate} from './ssgTemplate';
-import {SSGWorkerThreadCount, SSGWorkerThreadTaskSize} from './ssgEnv';
+import {
+  SSGWorkerThreadCount,
+  SSGWorkerThreadRecyclerMaxMemory,
+  SSGWorkerThreadTaskSize,
+} from './ssgEnv';
 import {generateHashRouterEntrypoint} from './ssgUtils';
 import {createGlobalSSGResult} from './ssgGlobalResult';
 import {executeSSGInlineTask} from './ssgWorkerInline';
@@ -124,6 +128,15 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
         runtime: 'worker_threads',
         isolateWorkers: false,
         workerData: {params},
+
+        // WORKER MEMORY MANAGEMENT
+        // Allows containing SSG memory leaks with a thread recycling workaround
+        // See also https://github.com/facebook/docusaurus/issues/11161
+        maxMemoryLimitBeforeRecycle: SSGWorkerThreadRecyclerMaxMemory,
+        resourceLimits: {
+          // For some reason I can't figure out how to limit memory on a worker
+          // See https://x.com/sebastienlorber/status/1920781195618513143
+        },
       });
     },
   );
