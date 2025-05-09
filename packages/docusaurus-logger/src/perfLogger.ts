@@ -73,12 +73,12 @@ function createPerfLogger(): PerfLoggerAPI {
   };
 
   const formatMemory = (memory: Memory): string => {
-    const fmtHead = (bytes: number) =>
+    const fmtHeap = (bytes: number) =>
       logger.cyan(`${(bytes / 1000000).toFixed(0)}mb`);
     return logger.dim(
-      `(${fmtHead(memory.before.heapUsed)} -> ${fmtHead(
+      `(Heap ${fmtHeap(memory.before.heapUsed)} -> ${fmtHeap(
         memory.after.heapUsed,
-      )})`,
+      )} / Total ${fmtHeap(memory.after.heapTotal)})`,
     );
   };
 
