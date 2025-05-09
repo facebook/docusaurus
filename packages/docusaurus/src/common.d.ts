@@ -42,7 +42,9 @@ export type RouteBuildMetadataInternal = {
 
 export type PageCollectedMetadata = {
   public: RouteBuildMetadata;
-  helmet: HelmetServerState | null; // TODO Docusaurus v4 remove
+  // TODO Docusaurus v4 remove legacy unserializable helmet data structure
+  // See https://github.com/facebook/docusaurus/pull/10850
+  helmet: HelmetServerState | null;
 };
 
 // This data structure must remain serializable!
