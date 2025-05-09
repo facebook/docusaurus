@@ -42,13 +42,20 @@ export type RouteBuildMetadataInternal = {
 
 export type PageCollectedMetadata = {
   public: RouteBuildMetadata;
-  helmet: HelmetServerState | null;
+  helmet: HelmetServerState | null; // TODO Docusaurus v4 remove
 };
 
 // This data structure must remain serializable!
 // See why: https://github.com/facebook/docusaurus/pull/10826
 export type PageCollectedMetadataInternal = PageCollectedMetadata & {
-  internal: RouteBuildMetadataInternal;
+  internal: {
+    htmlAttributes: string;
+    bodyAttributes: string;
+    title: string;
+    meta: string;
+    link: string;
+    script: string;
+  };
 };
 
 export type PageCollectedDataInternal = {
@@ -58,12 +65,16 @@ export type PageCollectedDataInternal = {
   anchors: string[];
 };
 
+// Keep this data structure as small as possible
+// See https://github.com/facebook/docusaurus/pull/11162
 export type PageCollectedData = {
   metadata: PageCollectedMetadata;
-  links: PageCollectedDataInternal['links'];
-  anchors: PageCollectedDataInternal['anchors'];
+  links: string[];
+  anchors: string[];
 };
 
+// Keep this data structure as small as possible
+// See https://github.com/facebook/docusaurus/pull/11162
 export type SiteCollectedData = {
   [pathname: string]: PageCollectedData;
 };

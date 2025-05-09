@@ -30,7 +30,7 @@ function isNoIndexTag(tag: BuildMetaTag): boolean {
   );
 }
 
-export function toPageCollectedMetadata({
+export function toPageCollectedMetadataInternal({
   helmet,
 }: {
   helmet: HelmetServerState;

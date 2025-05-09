@@ -16,7 +16,7 @@ import {
   createStatefulBrokenLinks,
   BrokenLinksProvider,
 } from './BrokenLinksContext';
-import {toPageCollectedMetadata} from './serverHelmetUtils';
+import {toPageCollectedMetadataInternal} from './serverHelmetUtils';
 import type {AppRenderer, PageCollectedDataInternal} from '../common';
 
 const render: AppRenderer['render'] = async ({
@@ -47,7 +47,7 @@ const render: AppRenderer['render'] = async ({
 
   const {helmet} = helmetContext as FilledContext;
 
-  const metadata = toPageCollectedMetadata({helmet});
+  const metadata = toPageCollectedMetadataInternal({helmet});
 
   // TODO Docusaurus v4 remove with deprecated postBuild({head}) API
   //  the returned collectedData must be serializable to run in workers

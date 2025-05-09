@@ -151,6 +151,8 @@ export async function loadSSGRenderer({
 // We reduce the page collected data structure after the HTML file is written
 // Some data (modules, metadata.internal) is only useful to create the HTML file
 // It's not useful to aggregate that collected data in memory
+// Keep this data structure as small as possible
+// See https://github.com/facebook/docusaurus/pull/11162
 function reduceCollectedData(
   pageCollectedData: PageCollectedDataInternal,
 ): PageCollectedData {
