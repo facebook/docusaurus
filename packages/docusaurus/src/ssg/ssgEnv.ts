@@ -34,7 +34,6 @@ export const SSGWorkerThreadTaskSize: number = process.env
 export const SSGWorkerThreadRecyclerMaxMemory: number | undefined = process.env
   .DOCUSAURUS_SSG_WORKER_THREAD_RECYCLER_MAX_MEMORY
   ? parseInt(process.env.DOCUSAURUS_SSG_WORKER_THREAD_RECYCLER_MAX_MEMORY, 10)
-  : // TODO we should probably provide a default value here
-    //  2gb is a quite reasonable max that should work well even for large sites
-    //  we'd rather ask community feedback first
-    undefined;
+  : // 1.5 GB is a quite reasonable max value
+    // It should work well even for large sites
+    1_500_000;
