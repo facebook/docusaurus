@@ -38,16 +38,13 @@ const createSimpleSSGExecutor: CreateSSGExecutor = async ({
 }) => {
   return {
     run: () => {
-      return PerfLogger.async(
-        'Generate static files (current thread)',
-        async () => {
-          const ssgResults = await executeSSGInlineTask({
-            pathnames,
-            params,
-          });
-          return createGlobalSSGResult(ssgResults);
-        },
-      );
+      return PerfLogger.async('SSG (current thread)', async () => {
+        const ssgResults = await executeSSGInlineTask({
+          pathnames,
+          params,
+        });
+        return createGlobalSSGResult(ssgResults);
+      });
     },
 
     destroy: async () => {
@@ -111,7 +108,7 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
   }
 
   const pool = await PerfLogger.async(
-    `Create SSG pool - ${logger.cyan(numberOfThreads)} threads`,
+    `Create SSG thread pool - ${logger.cyan(numberOfThreads)} threads`,
     async () => {
       const Tinypool = await import('tinypool').then((m) => m.default);
 
@@ -134,23 +131,26 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
   const pathnamesChunks = _.chunk(pathnames, SSGWorkerThreadTaskSize);
 
   // Tiny wrapper for type-safety
-  const submitTask: ExecuteSSGWorkerThreadTask = (task) => pool.run(task);
+  const submitTask: ExecuteSSGWorkerThreadTask = async (task) => {
+    const result = await pool.run(task);
+    // Note, we don't use PerfLogger.async() because all tasks are submitted
+    // immediately at once and queued, while results are received progressively
+    PerfLogger.log(`Result for task ${logger.name(task.id)}`);
+    return result;
+  };
 
   return {
     run: async () => {
-      const results = await PerfLogger.async(
-        `Generate static files (${numberOfThreads} worker threads)`,
-        async () => {
-          return Promise.all(
-            pathnamesChunks.map((taskPathnames, taskIndex) => {
-              return submitTask({
-                id: taskIndex + 1,
-                pathnames: taskPathnames,
-              });
-            }),
-          );
-        },
-      );
+      const results = await PerfLogger.async(`Thread pool`, async () => {
+        return Promise.all(
+          pathnamesChunks.map((taskPathnames, taskIndex) => {
+            return submitTask({
+              id: taskIndex + 1,
+              pathnames: taskPathnames,
+            });
+          }),
+        );
+      });
       const allResults = results.flat();
       return createGlobalSSGResult(allResults);
     },
