@@ -36,4 +36,4 @@ export const SSGWorkerThreadRecyclerMaxMemory: number | undefined = process.env
   ? parseInt(process.env.DOCUSAURUS_SSG_WORKER_THREAD_RECYCLER_MAX_MEMORY, 10)
   : // 1 GB is a quite reasonable max value
     // It should work well even for large sites
-    1_000_000;
+    1_000_000_000;
