@@ -29,6 +29,7 @@ export const SSGWorkerThreadTaskSize: number = process.env
   : 10; // TODO need fine-tuning
 
 // Controls worker thread recycling behavior (maxMemoryLimitBeforeRecycle)
+// See https://github.com/facebook/docusaurus/pull/11166
 // See https://github.com/facebook/docusaurus/issues/11161
 export const SSGWorkerThreadRecyclerMaxMemory: number | undefined = process.env
   .DOCUSAURUS_SSG_WORKER_THREAD_RECYCLER_MAX_MEMORY
