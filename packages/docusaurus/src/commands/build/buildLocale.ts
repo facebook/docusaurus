@@ -58,6 +58,10 @@ export async function buildLocale({
     }),
   );
 
+  if (process && site) {
+    process.exit(0);
+  }
+
   const {props} = site;
   const {outDir, plugins, siteConfig} = props;
 
