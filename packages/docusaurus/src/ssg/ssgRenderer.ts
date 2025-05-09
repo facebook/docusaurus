@@ -176,6 +176,11 @@ async function generateStaticFile({
       content: minifierResult.code,
       params,
     });
+
+    appRenderResult.collectedData.modules = [];
+    // @ts-expect-error: test
+    appRenderResult.collectedData.metadata.internal = null;
+
     return {
       success: true,
       pathname,

@@ -72,13 +72,23 @@ function createPerfLogger(): PerfLoggerAPI {
     }
   };
 
-  const formatMemory = (memory: Memory): string => {
-    const fmtHeap = (bytes: number) =>
-      logger.cyan(`${(bytes / 1000000).toFixed(0)}mb`);
+  const formatBytesToMb = (bytes: number) =>
+    logger.cyan(`${(bytes / 1024 / 1024).toFixed(0)}mb`);
+
+  const formatMemoryDelta = (memory: Memory): string => {
     return logger.dim(
-      `(Heap ${fmtHeap(memory.before.heapUsed)} -> ${fmtHeap(
+      `(Heap ${formatBytesToMb(memory.before.heapUsed)} -> ${formatBytesToMb(
         memory.after.heapUsed,
-      )} / Total ${fmtHeap(memory.after.heapTotal)})`,
+      )} / Total ${formatBytesToMb(memory.after.heapTotal)})`,
+    );
+  };
+
+  const formatMemoryCurrent = (): string => {
+    const memory = getMemory();
+    return logger.dim(
+      `(Heap ${formatBytesToMb(memory.heapUsed)} / Total ${formatBytesToMb(
+        memory.heapTotal,
+      )})`,
     );
   };
 
@@ -103,7 +113,7 @@ function createPerfLogger(): PerfLoggerAPI {
     console.log(
       `${PerfPrefix}${formatStatus(error)} ${label} - ${formatDuration(
         duration,
-      )} - ${formatMemory(memory)}`,
+      )} - ${formatMemoryDelta(memory)}`,
     );
   };
 
@@ -144,7 +154,9 @@ function createPerfLogger(): PerfLoggerAPI {
   };
 
   const log: PerfLoggerAPI['log'] = (label: string) =>
-    console.log(`${PerfPrefix} ${applyParentPrefix(label)}`);
+    console.log(
+      `${PerfPrefix} ${applyParentPrefix(label)} - ${formatMemoryCurrent()}`,
+    );
 
   const async: PerfLoggerAPI['async'] = async (label, asyncFn) => {
     const finalLabel = applyParentPrefix(label);
