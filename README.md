@@ -27,85 +27,85 @@
   <a href="https://app.netlify.com/start/deploy?repository=https://github.com/slorber/docusaurus-starter"><img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify"></a>
 </p>
 
-## Introduction
+## Introdução
 
-Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
+Docusaurus é um projeto para a criação, lançamento, e manutenção fácil de <i>sites</i> da Web de projeto de código aberto.
 
-Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusaurus.io)!
+Tem pouco tempo? Consulte o nosso [tutorial de 5 minutos ⏱️](https://tutorial.docusaurus.io)!
 
-**Tip**: use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in a playground.
+**Dica**: utilize **[docusaurus.new](https://docusaurus.new)** para testar Docusaurus de imediato numa área de testes.
 
-- **Simple to Start**
+- **Simples para Começar**
 
-> Docusaurus is built in a way so that it can [get running](https://docusaurus.io/docs/installation) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
+> Docusaurus foi criado de um modo para que este possa [estar em funcionamento](https://docusaurus.io/docs/installation) em pouco tempo. Nós criamos Docusaurus para gerir o processo do <i>site</i> da Web para que possa concentrar no seu projeto.
 
-- **Localizable**
+- **Localizável**
 
-> Docusaurus ships with [localization support](https://docusaurus.io/docs/i18n/introduction) via CrowdIn. Empower and grow your international community by translating your documentation.
+> Docusaurus vem com [suporte para a localização](https://docusaurus.io/docs/i18n/introduction) através da CrowdIn. Capacite e aumente a sua comunidade internacional, traduzindo a sua documentação.
 
-- **Customizable**
+- **Personalizável**
 
-> While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/blog), and additional support pages, it is also [customizable](https://docusaurus.io/docs/creating-pages) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/styling-layout).
+> Enquanto Docusaurus vem com páginas chave e secções que precisa para começar, incluindo uma página principal, uma secção dos documentos, um [bloguw](https://docusaurus.io/docs/blog), e páginas de suporte adicionais, este também é [personalizável](https://docusaurus.io/docs/creating-pages) bem como assegura que tem um <i>site</i> que é [unicamente seu](https://docusaurus.io/docs/styling-layout).
 
-## Installation
+## Instalação
 
-Use the initialization CLI to create your site:
+Utilize a inicialização  CLI para criar o seu <i>site</i>:
 
 ```bash
 npm init docusaurus@latest
 ```
 
-[Read the docs](https://docusaurus.io/docs/installation) for any further information.
+[Leia os documentos](https://docusaurus.io/docs/installation) para informação adicional.
 
-## Contributing
+## Contribuição
 
-We've released Docusaurus because it helps us better scale and supports the many OSS projects at Meta. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
+Nós lançamos Docusaurus porque este ajuda-nos a escalar melhor e suporta muitos projetos OSS na Meta. Nós esperamos que outras organizações possam beneficiar do projeto. Nós estamos gratos por todas as contribuições da comunidade.
 
-### [Code of Conduct](https://code.fb.com/codeofconduct)
+### [Código de Conduta](https://code.fb.com/codeofconduct)
 
-Meta has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
+Meta adotou um «Código de Conduta» que nós esperamos que os participantes do projeto adiram. Por favor, leia [o texto completo](https://code.fb.com/codeofconduct) e assim pode compreender quais as ações que serão ou não toleradas.
 
-### Contributing guide
+### Guia de Contribuição
 
-Read our [contributing guide](https://github.com/facebook/docusaurus/blob/main/CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Docusaurus.
+Leia o nosso [guia de contribuição](https://github.com/facebook/docusaurus/blob/main/CONTRIBUTING.md) para saber acerca do nosso processo de desenvolvimento, comop propor correções de erros (<i>bug</i>) e melhoramentos, e como criar e testar as suas alterações ao Docusaurus.
 
-### Beginner-friendly bugs
+### Principiante - erros amigáveis
 
-To help you get your feet wet and get you familiar with our contribution process, we have a list of [beginner-friendly bugs](https://github.com/facebook/docusaurus/labels/good%20first%20issue) that might contain smaller issues to tackle first. This is a great place to get started.
+Para o ajudar a começar e a familiarizar-se com o nosso processo de contribuição, nós temos uma lista de [erros de pricipiantes-amigáveis](https://github.com/facebook/docusaurus/labels/good%20first%20issue) que podem conter problemas pequenos para serem corrigidos. Este é um local fantástico para começar.
 
-## Contact
+## Contactar
 
-We have a few channels for contact:
+Nós temos alguns canais para contactar:
 
 - [Discord](https://discord.gg/docusaurus):
-  - `#general` for those using Docusaurus.
-  - `#contributors` for those wanting to contribute to the Docusaurus core.
+  - `#general` para aqueles que utilizam Docusaurus.
+  - `#contributors` para aqueles que estão à espera para contribuirem para o código do Docusaurus.
 - [@docusaurus](https://x.com/docusaurus) X
-- [GitHub Issues](https://github.com/facebook/docusaurus/issues)
+- [problemas do GitHub](https://github.com/facebook/docusaurus/issues)
 
-## Contributors
+## Colaboradores
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)]. <a href="https://github.com/facebook/docusaurus/graphs/contributors"><img src="https://opencollective.com/Docusaurus/contributors.svg?width=890&button=false" /></a>
+Este projeto existe graças a todas as pessoas que contribuiram. [[Contribuir](CONTRIBUTING.md)]. <a href="https://github.com/facebook/docusaurus/graphs/contributors"><img src="https://opencollective.com/Docusaurus/contributors.svg?width=890&button=false" /></a>
 
 ## Backers
 
-Thank you to all our backers! 🙏 [Become a backer](https://opencollective.com/Docusaurus#backer)
+Obrigado a todos os apoiantes! 🙏 [Aderir](https://opencollective.com/Docusaurus#backer)
 
 <a href="https://opencollective.com/Docusaurus#backers" target="_blank"><img src="https://opencollective.com/Docusaurus/backers.svg?width=890"></a>
 
-## Sponsors
+## Patrocinadores
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor](https://opencollective.com/Docusaurus#sponsor)
+Apoie este projeto, tornado-se num patrocinador. O seu logótipo será mostrado aqui com uma hiperligação para o seu <i>site</i> da Web. [Become a sponsor](https://opencollective.com/Docusaurus#sponsor)
 
 <a href="https://opencollective.com/Docusaurus/sponsor/0/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/0/avatar.svg"></a> <a href="https://opencollective.com/Docusaurus/sponsor/1/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/1/avatar.svg"></a>
 
-## License
+## Licença
 
-Docusaurus is [MIT licensed](./LICENSE).
+Docusaurus está [licenciado por MIT](./LICENSE).
 
-The Docusaurus documentation (e.g., `.md` files in the `/docs` folder) is [Creative Commons licensed](./LICENSE-docs).
+A documentação de Docusaurus (exemplo, ficheiros `.md` na pasta `/docs`) estão [licencidados pela Creative Commons](./LICENSE-docs).
 
-## Special thanks
+## Agradecimento Especial
 
 <p>
   <a href="http://www.browserstack.com/" target="_blank">
@@ -116,8 +116,8 @@ The Docusaurus documentation (e.g., `.md` files in the `/docs` folder) is [Creat
   </a>
 </p>
 
-[BrowserStack](http://www.browserstack.com/) supports us with [free access for open source](https://www.browserstack.com/open-source).
+[BrowserStack](http://www.browserstack.com/) suporta-nos com [acesso livre ao código aberto](https://www.browserstack.com/open-source).
 
 [![Rocket Validator logo](./admin/img/rocketvalidator-logo.png)](https://rocketvalidator.com/)
 
-[Rocket Validator](https://rocketvalidator.com/) helps us find HTML markup or accessibility issues.
+[Rocket Validator](https://rocketvalidator.com/) ajuda-nos a encontrar a marcação HTML ou problemas de accessibilidade.
