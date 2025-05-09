@@ -7,9 +7,14 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import os from 'os';
 import _ from 'lodash';
 import execa from 'execa';
 import PQueue from 'p-queue';
+
+// Quite high/conservative concurrency value (it was previously "Infinity")
+// See https://github.com/facebook/docusaurus/pull/10915
+const DefaultGitCommandConcurrency = os.availableParallelism() * 4;
 
 const GitCommandConcurrencyEnv = process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY
   ? parseInt(process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY, 10)
@@ -18,9 +23,7 @@ const GitCommandConcurrencyEnv = process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY
 const GitCommandConcurrency =
   GitCommandConcurrencyEnv && GitCommandConcurrencyEnv > 0
     ? GitCommandConcurrencyEnv
-    : Infinity;
-
-console.log('GitCommandConcurrency', GitCommandConcurrency);
+    : DefaultGitCommandConcurrency;
 
 // We use a queue to avoid running too many concurrent Git commands at once
 // See https://github.com/facebook/docusaurus/issues/10348
