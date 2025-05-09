@@ -14,7 +14,11 @@ import PQueue from 'p-queue';
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915
-const DefaultGitCommandConcurrency = os.availableParallelism() * 4;
+const DefaultGitCommandConcurrency =
+  // TODO Docusaurus v4: bump node, availableParallelism() now always exists
+  (typeof os.availableParallelism === 'function'
+    ? os.availableParallelism()
+    : os.cpus().length) * 4;
 
 const GitCommandConcurrencyEnv = process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY
   ? parseInt(process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY, 10)
