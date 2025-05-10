@@ -5,25 +5,45 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import readingTime from 'reading-time';
-
 const DEFAULT_WORDS_PER_MINUTE = 200;
 
-interface ReadingTimeOptions {
-  wordsPerMinute?: number;
-  wordBound?: (char: string) => boolean;
+/**
+ * Counts the number of words in a string using Intl.Segmenter.
+ * @param content The text content to count words in.
+ * @param locale The locale to use for segmentation.
+ */
+export function countWords(content: string, locale: string): number {
+  if (!content) {
+    return 0;
+  }
+  const segmenter = new Intl.Segmenter(locale, {granularity: 'word'});
+  let wordCount = 0;
+  for (const {isWordLike} of segmenter.segment(content)) {
+    if (isWordLike) {
+      wordCount += 1;
+    }
+  }
+  return wordCount;
 }
 
 /**
- * Calculates the reading time for a given content string.
- * Uses the reading-time package under the hood.
+ * Calculates the reading time for a given content string using Intl.Segmenter.
+ * @param content The text content to calculate reading time for.
+ * @param options Options for reading time calculation.
+ *   - wordsPerMinute: number of words per minute (default 200)
+ *   - locale: required locale string for Intl.Segmenter
+ * @returns Estimated reading time in minutes (float, rounded to 2 decimals)
  */
 export function calculateReadingTime(
   content: string,
-  options: ReadingTimeOptions = {},
+  options: {wordsPerMinute?: number; locale: string},
 ): number {
   const wordsPerMinute = options.wordsPerMinute ?? DEFAULT_WORDS_PER_MINUTE;
-  const {wordBound} = options;
-  return readingTime(content, {wordsPerMinute, ...(wordBound && {wordBound})})
-    .minutes;
+  const {locale} = options;
+  const words = countWords(content, locale);
+  if (words === 0) {
+    return 0;
+  }
+  // Calculate reading time in minutes and round to 2 decimal places
+  return Math.round((words / wordsPerMinute) * 100) / 100;
 }

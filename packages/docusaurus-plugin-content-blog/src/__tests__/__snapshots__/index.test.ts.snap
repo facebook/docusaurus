@@ -150,7 +150,7 @@ exports[`blog plugin process blog posts load content 2`] = `
         "title": "Another With Tag",
       },
       "permalink": "/blog/simple/slug/another",
-      "readingTime": 0.015,
+      "readingTime": 0.02,
       "source": "@site/blog/another-simple-slug-with-tags.md",
       "tags": [
         {
