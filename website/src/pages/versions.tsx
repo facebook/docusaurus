@@ -1,58 +1,52 @@
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * Licensed under the MIT license in the LICENSE file.
  */
 
-import type {ReactNode} from 'react';
+import type { ReactNode } from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
+import Layout from '@theme/Layout';
+import Heading from '@theme/Heading';
+
 import {
   useVersions,
   useLatestVersion,
 } from '@docusaurus/plugin-content-docs/client';
-import Layout from '@theme/Layout';
-import Heading from '@theme/Heading';
+
 import VersionsArchived from '@site/versionsArchived.json';
 
-const docsPluginId = undefined; // Default docs plugin instance
-
+const docsPluginId = undefined; // Default plugin instance
 const VersionsArchivedList = Object.entries(VersionsArchived);
 
-function DocumentationLabel() {
-  return (
-    <Translate id="versionsPage.versionEntry.link">Documentation</Translate>
-  );
-}
+const DocumentationLabel = () => (
+  <Translate id="versionsPage.versionEntry.link">Documentation</Translate>
+);
 
-function ReleaseNotesLabel() {
-  return (
-    <Translate id="versionsPage.versionEntry.releaseNotes">
-      Release Notes
-    </Translate>
-  );
-}
+const ReleaseNotesLabel = () => (
+  <Translate id="versionsPage.versionEntry.releaseNotes">Release Notes</Translate>
+);
 
 export default function Version(): ReactNode {
   const {
-    siteConfig: {organizationName, projectName},
+    siteConfig: { organizationName, projectName },
   } = useDocusaurusContext();
+
   const versions = useVersions(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
-  const currentVersion = versions.find(
-    (version) => version.name === 'current',
-  )!;
+  const currentVersion = versions.find((v) => v.name === 'current')!;
   const pastVersions = versions.filter(
-    (version) => version !== latestVersion && version.name !== 'current',
+    (v) => v !== latestVersion && v.name !== 'current',
   );
-  const repoUrl = `https://github.com/${organizationName!}/${projectName!}`;
+
+  const repoUrl = `https://github.com/${organizationName}/${projectName}`;
 
   return (
     <Layout
       title="Versions"
-      description="Docusaurus 2 Versions page listing all documented site versions">
+      description="Docusaurus 2 Versions page listing all documented site versions"
+    >
       <main className="container margin-vert--lg">
         <Heading as="h1">
           <Translate id="versionsPage.title">
@@ -60,6 +54,7 @@ export default function Version(): ReactNode {
           </Translate>
         </Heading>
 
+        {/* Current Stable Version */}
         <div className="margin-bottom--lg">
           <Heading as="h3" id="next">
             <Translate id="versionsPage.current.title">
@@ -90,6 +85,7 @@ export default function Version(): ReactNode {
           </table>
         </div>
 
+        {/* Next/Unreleased Version */}
         {currentVersion !== latestVersion && (
           <div className="margin-bottom--lg">
             <Heading as="h3" id="latest">
@@ -99,8 +95,7 @@ export default function Version(): ReactNode {
             </Heading>
             <p>
               <Translate id="versionsPage.next.description">
-                Here you can find the documentation for work-in-process
-                unreleased version.
+                Here you can find the documentation for work-in-process unreleased version.
               </Translate>
             </p>
             <table>
@@ -118,6 +113,7 @@ export default function Version(): ReactNode {
           </div>
         )}
 
+        {/* Archived and Past Versions */}
         {(pastVersions.length > 0 || VersionsArchivedList.length > 0) && (
           <div className="margin-bottom--lg">
             <Heading as="h3" id="archive">
@@ -127,8 +123,7 @@ export default function Version(): ReactNode {
             </Heading>
             <p>
               <Translate id="versionsPage.archived.description">
-                Here you can find documentation for previous versions of
-                Docusaurus.
+                Here you can find documentation for previous versions of Docusaurus.
               </Translate>
             </p>
             <table>
@@ -167,6 +162,8 @@ export default function Version(): ReactNode {
             </table>
           </div>
         )}
+
+        {/* Legacy v1 */}
         <div className="margin-bottom--lg">
           <Heading as="h3" id="legacy">
             <Translate id="versionsPage.legacy.title">

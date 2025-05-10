@@ -5,10 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
-
+import React, {type ReactNode, memo} from 'react';
 import clsx from 'clsx';
-
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
@@ -21,7 +19,7 @@ export interface Props {
   githubUsername: string;
 }
 
-export default function Tweet({
+function TweetComponent({
   url,
   handle,
   name,
@@ -29,14 +27,18 @@ export default function Tweet({
   date,
   githubUsername,
 }: Props): ReactNode {
+  const avatarUrl = `https://unavatar.io/x/${encodeURIComponent(
+    handle,
+  )}?fallback=https://github.com/${encodeURIComponent(githubUsername)}.png`;
+
   return (
     <div className={clsx('card', styles.tweet)}>
       <div className="card__header">
         <div className="avatar">
           <img
-            alt={name}
+            alt={name || 'User avatar'}
             className="avatar__photo"
-            src={`https://unavatar.io/x/${handle}?fallback=https://github.com/${githubUsername}.png`}
+            src={avatarUrl}
             width="48"
             height="48"
             loading="lazy"
@@ -51,10 +53,16 @@ export default function Tweet({
       <div className={clsx('card__body', styles.tweet)}>{content}</div>
 
       <div className="card__footer">
-        <Link className={clsx(styles.tweetMeta, styles.tweetDate)} to={url}>
+        <Link
+          className={clsx(styles.tweetMeta, styles.tweetDate)}
+          to={url}
+          rel="noopener noreferrer"
+        >
           {date}
         </Link>
       </div>
     </div>
   );
 }
+
+export default memo(TweetComponent);

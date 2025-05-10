@@ -43,9 +43,9 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
 
   return (
     <>
-      {tagObjectsSorted.map((tagObject, index) => {
-        return <TagItem key={index} {...tagObject} />;
-      })}
+      {tagObjectsSorted.map((tagObject) => (
+        <TagItem key={tagObject.tag} {...tagObject} />
+      ))}
     </>
   );
 }
@@ -53,7 +53,6 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
 function getCardImage(user: User): string {
   return (
     user.preview ??
-    // TODO make it configurable
     `https://slorber-api-screenshot.netlify.app/${encodeURIComponent(
       user.website,
     )}/showcase`
@@ -65,16 +64,20 @@ function ShowcaseCard({user}: {user: User}) {
   return (
     <li key={user.title} className="card shadow--md">
       <div className={clsx('card__image', styles.showcaseCardImage)}>
-        <Image img={image} alt={user.title} />
+        <Image img={image} alt={user.title ?? 'Project preview'} />
       </div>
       <div className="card__body">
         <div className={clsx(styles.showcaseCardHeader)}>
           <Heading as="h4" className={styles.showcaseCardTitle}>
-            <Link href={user.website} className={styles.showcaseCardLink}>
+            <Link
+              href={user.website}
+              className={styles.showcaseCardLink}
+              target="_blank"
+              rel="noopener noreferrer">
               {user.title}
             </Link>
           </Heading>
-          {user.tags.includes('favorite') && (
+          {Array.isArray(user.tags) && user.tags.includes('favorite') && (
             <FavoriteIcon size="medium" style={{marginRight: '0.25rem'}} />
           )}
           {user.source && (
@@ -83,7 +86,9 @@ function ShowcaseCard({user}: {user: User}) {
               className={clsx(
                 'button button--secondary button--sm',
                 styles.showcaseCardSrcBtn,
-              )}>
+              )}
+              target="_blank"
+              rel="noopener noreferrer">
               <Translate id="showcase.card.sourceLink">source</Translate>
             </Link>
           )}
