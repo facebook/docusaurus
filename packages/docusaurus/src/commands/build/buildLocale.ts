@@ -167,7 +167,7 @@ async function executePluginsPostBuild({
 async function executeBrokenLinksCheck({
   props: {
     routes,
-    siteConfig: {onBrokenLinks, onBrokenAnchors},
+    siteConfig: {onBrokenLinks, onBrokenAnchors, onReportBrokenLinks},
   },
   collectedData,
 }: {
@@ -180,9 +180,10 @@ async function executeBrokenLinksCheck({
   }));
   await handleBrokenLinks({
     collectedLinks,
-    routes,
     onBrokenLinks,
     onBrokenAnchors,
+    routes,
+    onReportBrokenLinks
   });
 }
 
