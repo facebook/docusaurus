@@ -253,13 +253,15 @@ export async function createBaseConfig({
       // - On the server, it's not useful to run it at all
       // - On the client, it leads to a ~3% JS assets total size decrease
       //   Let's keep it by default, but large sites may prefer faster builds
+      // See also https://github.com/facebook/docusaurus/pull/11176
       concatenateModules: !isServer,
 
       // The optimizations.mergeDuplicateChunks is expensive
       // - On the server, it's not useful to run it at all
       // - On the client, we compared assets/js before/after and see 0 change
       //   `du -sk js-before js-after` => the JS assets have the exact same size
-      mergeDuplicateChunks: false,
+      // See also https://github.com/facebook/docusaurus/pull/11176
+      mergeDuplicateChunks: true,
 
       // Only minimize client bundle in production because server bundle is only
       // used for static site generation
