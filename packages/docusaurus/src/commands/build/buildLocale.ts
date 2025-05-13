@@ -35,6 +35,7 @@ export type BuildLocaleParams = {
 };
 
 const SkipBundling = process.env.DOCUSAURUS_SKIP_BUNDLING === 'true';
+const ExitAfterBundling = process.env.DOCUSAURUS_EXIT_AFTER_BUNDLING === 'true';
 
 export async function buildLocale({
   siteDir,
@@ -106,6 +107,9 @@ export async function buildLocale({
       });
     });
     await cleanupBundlerTracing();
+  }
+  if (ExitAfterBundling) {
+    return process.exit(0);
   }
 
   const {collectedData} = await PerfLogger.async('SSG', () =>
