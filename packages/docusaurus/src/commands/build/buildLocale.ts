@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
-import {compile} from '@docusaurus/bundler';
+import {compile, registerBundlerTracing} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {loadSite} from '../../server/site';
 import {handleBrokenLinks} from '../../server/brokenLinks';
@@ -93,6 +93,9 @@ export async function buildLocale({
       `Skipping the Docusaurus bundling step because DOCUSAURUS_SKIP_BUNDLING='true'`,
     );
   } else {
+    const cleanupBundlerTracing = await registerBundlerTracing({
+      currentBundler: props.currentBundler,
+    });
     // Run webpack to build JS bundle (client) and static html files (server).
     await PerfLogger.async(`Bundling with ${props.currentBundler.name}`, () => {
       return compile({
@@ -102,6 +105,7 @@ export async function buildLocale({
         currentBundler: configureWebpackUtils.currentBundler,
       });
     });
+    await cleanupBundlerTracing();
   }
 
   const {collectedData} = await PerfLogger.async('SSG', () =>
