@@ -12,6 +12,7 @@ export {
   getCSSExtractPlugin,
   getCopyPlugin,
   getProgressBarPlugin,
+  registerBundlerTracing,
 } from './currentBundler';
 
 export {getMinimizers} from './minification';

@@ -164,7 +164,19 @@ export default async function createConfigAsync() {
     url: 'https://docusaurus.io',
     future: {
       v4: !isSlower, // Not accurate, but good enough
-      experimental_faster: !isSlower,
+      experimental_faster: isSlower
+        ? false
+        : {
+            // Verbose object: easier to independently test single attributes
+            swcJsLoader: true,
+            swcJsMinimizer: true,
+            swcHtmlMinimizer: true,
+            lightningCssMinimizer: true,
+            mdxCrossCompilerCache: true,
+            rspackBundler: true,
+            rspackPersistentCache: true,
+            ssgWorkerThreads: true,
+          },
       experimental_storage: {
         namespace: true,
       },
