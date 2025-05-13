@@ -261,7 +261,7 @@ export async function createBaseConfig({
       // - On the client, we compared assets/js before/after and see 0 change
       //   `du -sk js-before js-after` => the JS assets have the exact same size
       // See also https://github.com/facebook/docusaurus/pull/11176
-      mergeDuplicateChunks: true,
+      mergeDuplicateChunks: false,
 
       // Only minimize client bundle in production because server bundle is only
       // used for static site generation
