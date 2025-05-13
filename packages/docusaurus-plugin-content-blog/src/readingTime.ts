@@ -12,7 +12,7 @@ const DEFAULT_WORDS_PER_MINUTE = 200;
  * @param content The text content to count words in.
  * @param locale The locale to use for segmentation.
  */
-export function countWords(content: string, locale: string): number {
+function countWords(content: string, locale: string): number {
   if (!content) {
     return 0;
   }
@@ -29,17 +29,17 @@ export function countWords(content: string, locale: string): number {
 /**
  * Calculates the reading time for a given content string using Intl.Segmenter.
  * @param content The text content to calculate reading time for.
+ * @param locale Required locale string for Intl.Segmenter
  * @param options Options for reading time calculation.
  *   - wordsPerMinute: number of words per minute (default 200)
- *   - locale: required locale string for Intl.Segmenter
  * @returns Estimated reading time in minutes (float, rounded to 2 decimals)
  */
 export function calculateReadingTime(
   content: string,
-  options: {wordsPerMinute?: number; locale: string},
+  locale: string,
+  options?: {wordsPerMinute?: number},
 ): number {
-  const wordsPerMinute = options.wordsPerMinute ?? DEFAULT_WORDS_PER_MINUTE;
-  const {locale} = options;
+  const wordsPerMinute = options?.wordsPerMinute ?? DEFAULT_WORDS_PER_MINUTE;
   const words = countWords(content, locale);
   if (words === 0) {
     return 0;
