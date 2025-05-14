@@ -71,7 +71,10 @@ export const LAST_UPDATE_FALLBACK: LastUpdateData = {
 export async function getLastUpdate(
   filePath: string,
 ): Promise<LastUpdateData | null> {
-  if (process.env.NODE_ENV !== 'production') {
+  if (
+    process.env.NODE_ENV !== 'production' ||
+    process.env.DOCUSAURUS_DISABLE_LAST_UPDATE === 'true'
+  ) {
     // Use fake data in dev/test for faster development.
     return LAST_UPDATE_FALLBACK;
   }
