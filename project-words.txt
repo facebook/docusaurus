@@ -266,6 +266,8 @@ Rspack
 rspack
 Rspress
 rtcts
+Samply
+samply
 saurus
 Scaleway
 Sebastien
