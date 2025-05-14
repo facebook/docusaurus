@@ -22,6 +22,7 @@ import {
 import type {WebpackCompilerName} from '@docusaurus/utils';
 import type {Options} from './options';
 import type {LoaderContext} from 'webpack';
+import type {Map as SourceMap} from 'vfile';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // This might change soon, likely after TS 5.2
@@ -29,6 +30,11 @@ import type {LoaderContext} from 'webpack';
 type Pluggable = any; // TODO fix this asap
 
 export type MDXPlugin = Pluggable;
+
+type LoadMDXResult = {
+  content: string;
+  sourceMap: SourceMap | null | undefined;
+};
 
 async function loadMDX({
   fileContent,
@@ -40,7 +46,7 @@ async function loadMDX({
   filePath: string;
   options: Options;
   compilerName: WebpackCompilerName;
-}): Promise<string> {
+}): Promise<LoadMDXResult> {
   const {frontMatter} = await options.markdownConfig.parseFrontMatter({
     filePath,
     fileContent,
@@ -120,7 +126,10 @@ ${exportsCode}
 ${result.content}
 `;
 
-  return code;
+  return {
+    content: code,
+    sourceMap: result.map,
+  };
 }
 
 // Note: we cache promises instead of strings
@@ -138,7 +147,7 @@ async function loadMDXWithCaching({
   fileContent: string;
   options: Options;
   compilerName: WebpackCompilerName;
-}): Promise<string> {
+}): Promise<LoadMDXResult> {
   const {crossCompilerCache} = options;
   if (!crossCompilerCache) {
     return loadMDX({
@@ -202,7 +211,7 @@ async function loadMDXWithCaching({
       deleteCacheEntry();
       return cacheEntry.promise;
     } else {
-      const {promise, resolve, reject} = promiseWithResolvers<string>();
+      const {promise, resolve, reject} = promiseWithResolvers<LoadMDXResult>();
       crossCompilerCache.set(cacheKey, {promise, resolve, reject});
       return promise;
     }
@@ -227,7 +236,7 @@ export async function mdxLoader(
       options,
       compilerName,
     });
-    return callback(null, result);
+    return callback(null, result.content, result.sourceMap || undefined);
   } catch (error) {
     return callback(error as Error);
   }
