@@ -187,6 +187,10 @@ export async function createBaseConfig({
         // @ts-expect-error: Rspack-only, not available in Webpack typedefs
         incremental: !isProd && !process.env.DISABLE_RSPACK_INCREMENTAL,
 
+        // TODO re-enable later, there's an Rspack performance issue
+        //  see https://github.com/facebook/docusaurus/pull/11178
+        parallelCodeSplitting: false,
+
         ...PersistentCacheAttributes,
       };
     }
@@ -249,14 +253,14 @@ export async function createBaseConfig({
       modules: ['node_modules', path.join(siteDir, 'node_modules')],
     },
     optimization: {
-      // The optimizations.concatenateModules is expensive
+      // The optimization.concatenateModules is expensive
       // - On the server, it's not useful to run it at all
       // - On the client, it leads to a ~3% JS assets total size decrease
       //   Let's keep it by default, but large sites may prefer faster builds
       // See also https://github.com/facebook/docusaurus/pull/11176
       concatenateModules: !isServer,
 
-      // The optimizations.mergeDuplicateChunks is expensive
+      // The optimization.mergeDuplicateChunks is expensive
       // - On the server, it's not useful to run it at all
       // - On the client, we compared assets/js before/after and see 0 change
       //   `du -sk js-before js-after` => the JS assets have the exact same size
