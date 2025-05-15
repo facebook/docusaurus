@@ -183,7 +183,6 @@ navigations
 navlink
 netrc
 newtab
-ngryman
 Nisarag
 noflash
 noicon
