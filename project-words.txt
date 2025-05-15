@@ -46,6 +46,7 @@ Couriol
 creativecommons
 Csapo
 Csvg
+Curent
 Dabit
 dabit
 Daishi
@@ -183,7 +184,6 @@ navigations
 navlink
 netrc
 newtab
-ngryman
 Nisarag
 noflash
 noicon
