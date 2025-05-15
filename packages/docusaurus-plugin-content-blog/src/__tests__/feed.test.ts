@@ -120,7 +120,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
           xslt: {atom: null, rss: null},
         },
         readingTime: ({content, defaultReadingTime}) =>
-          defaultReadingTime({content}),
+          defaultReadingTime({content, locale: 'en'}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
@@ -164,7 +164,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
           xslt: {atom: null, rss: null},
         },
         readingTime: ({content, defaultReadingTime}) =>
-          defaultReadingTime({content}),
+          defaultReadingTime({content, locale: 'en'}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
@@ -220,7 +220,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
           xslt: {atom: null, rss: null},
         },
         readingTime: ({content, defaultReadingTime}) =>
-          defaultReadingTime({content}),
+          defaultReadingTime({content, locale: 'en'}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
@@ -267,7 +267,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
           xslt: {atom: null, rss: null},
         },
         readingTime: ({content, defaultReadingTime}) =>
-          defaultReadingTime({content}),
+          defaultReadingTime({content, locale: 'en'}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
@@ -314,7 +314,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
           xslt: {atom: null, rss: null},
         },
         readingTime: ({content, defaultReadingTime}) =>
-          defaultReadingTime({content}),
+          defaultReadingTime({content, locale: 'en'}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
@@ -360,7 +360,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
           xslt: true,
         },
         readingTime: ({content, defaultReadingTime}) =>
-          defaultReadingTime({content}),
+          defaultReadingTime({content, locale: 'en'}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
@@ -409,7 +409,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
           },
         },
         readingTime: ({content, defaultReadingTime}) =>
-          defaultReadingTime({content}),
+          defaultReadingTime({content, locale: 'en'}),
         truncateMarker: /<!--\s*truncate\s*-->/,
         onInlineTags: 'ignore',
         onInlineAuthors: 'ignore',
