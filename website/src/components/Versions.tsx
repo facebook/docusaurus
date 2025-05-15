@@ -21,7 +21,7 @@ import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
 import versions from '@site/versions.json';
 
-export const CurentMajorVersionNumber = parseInt(
+export const CurrentMajorVersionNumber = parseInt(
   versions[0]!.split('.')[0]!,
   10,
 );
@@ -98,7 +98,7 @@ export function StableVersion(): ReactNode {
 }
 
 export function StableMajorVersion(): ReactNode {
-  return <span>{CurentMajorVersionNumber}</span>;
+  return <span>{CurrentMajorVersionNumber}</span>;
 }
 
 function GitBranchLink({branch}: {branch: string}): ReactNode {
@@ -111,7 +111,7 @@ function GitBranchLink({branch}: {branch: string}): ReactNode {
 
 export function StableMajorBranchLink(): ReactNode {
   // Can't be a link until the branch actually exists...
-  return <code>{`docusaurus-v${CurentMajorVersionNumber}`}</code>;
+  return <code>{`docusaurus-v${CurrentMajorVersionNumber}`}</code>;
 }
 
 export function MainBranchLink(): ReactNode {
