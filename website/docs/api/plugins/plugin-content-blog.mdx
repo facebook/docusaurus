@@ -113,12 +113,14 @@ type ReadingTimeOptions = {
 
 type ReadingTimeCalculator = (params: {
   content: string;
+  locale: string;
   frontMatter?: BlogPostFrontMatter & Record<string, unknown>;
   options?: ReadingTimeOptions;
 }) => number;
 
 type ReadingTimeFn = (params: {
   content: string;
+  locale: string;
   frontMatter: BlogPostFrontMatter & Record<string, unknown>;
   defaultReadingTime: ReadingTimeCalculator;
 }) => number | undefined;
