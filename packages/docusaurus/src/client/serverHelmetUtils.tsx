@@ -6,7 +6,7 @@
  */
 
 import type {ReactElement} from 'react';
-import type {PageCollectedMetadata} from '../common';
+import type {PageCollectedMetadataInternal} from '../common';
 import type {HelmetServerState} from 'react-helmet-async';
 
 type BuildMetaTag = {name?: string; content?: string};
@@ -30,11 +30,11 @@ function isNoIndexTag(tag: BuildMetaTag): boolean {
   );
 }
 
-export function toPageCollectedMetadata({
+export function toPageCollectedMetadataInternal({
   helmet,
 }: {
   helmet: HelmetServerState;
-}): PageCollectedMetadata {
+}): PageCollectedMetadataInternal {
   const tags = getBuildMetaTags(helmet);
   const noIndex = tags.some(isNoIndexTag);
 

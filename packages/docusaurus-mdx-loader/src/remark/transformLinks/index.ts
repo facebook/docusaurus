@@ -14,6 +14,7 @@ import {
   escapePath,
   findAsyncSequential,
   getFileLoaderUtils,
+  parseURLOrPath,
 } from '@docusaurus/utils';
 import escapeHtml from 'escape-html';
 import {assetRequireAttributeValue, transformNode} from '../utils';
@@ -51,7 +52,7 @@ async function toAssetRequireNode(
     path.relative(path.dirname(context.filePath), assetPath),
   )}`;
 
-  const parsedUrl = url.parse(node.url);
+  const parsedUrl = parseURLOrPath(node.url);
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
 

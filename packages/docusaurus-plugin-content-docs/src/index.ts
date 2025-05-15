@@ -77,13 +77,6 @@ async function createMdxLoaderDependencyFile({
   options: PluginOptions;
   versionsMetadata: VersionMetadata[];
 }): Promise<string | undefined> {
-  // TODO this has been temporarily made opt-in until Rspack cache bug is fixed
-  //  See https://github.com/facebook/docusaurus/pull/10931
-  //  See https://github.com/facebook/docusaurus/pull/10934#issuecomment-2672253145
-  if (!process.env.DOCUSAURUS_ENABLE_MDX_DEPENDENCY_FILE) {
-    return undefined;
-  }
-
   const filePath = path.join(dataDir, '__mdx-loader-dependency.json');
   // the cache is invalidated whenever this file content changes
   const fileContent = {

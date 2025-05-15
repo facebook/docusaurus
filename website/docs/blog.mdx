@@ -476,8 +476,12 @@ export default {
         blog: {
           // highlight-start
           showReadingTime: true, // When set to false, the "x min read" won't be shown
-          readingTime: ({content, frontMatter, defaultReadingTime}) =>
-            defaultReadingTime({content, options: {wordsPerMinute: 300}}),
+          readingTime: ({content, locale, frontMatter, defaultReadingTime}) =>
+            defaultReadingTime({
+              content,
+              locale,
+              options: {wordsPerMinute: 300},
+            }),
           // highlight-end
         },
       },
@@ -486,9 +490,16 @@ export default {
 };
 ```
 
-The `readingTime` callback receives three parameters: the blog content text as a string, front matter as a record of string keys and their values, and the default reading time function. It returns a number (reading time in minutes) or `undefined` (disable reading time for this page).
+The `readingTime` callback receives the following parameters:
 
-The default reading time is able to accept additional options: `wordsPerMinute` as a number (default: 300), and `wordBound` as a function from string to boolean. If the string passed to `wordBound` should be a word bound (spaces, tabs, and line breaks by default), the function should return `true`.
+- `content`: the blog content text as a string
+- `frontMatter`: the front matter as a record of string keys and their values
+- `locale`: the locale of the current Docusaurus site
+- `defaultReadingTime`: the default built-in reading time function. It returns a number (reading time in minutes) or `undefined` (disable reading time for this page).
+
+The default reading time is able to accept additional options:
+
+- `wordsPerMinute` as a number (default: 300)
 
 :::tip
 
@@ -510,10 +521,10 @@ export default {
         blog: {
           showReadingTime: true,
           // highlight-start
-          readingTime: ({content, frontMatter, defaultReadingTime}) =>
+          readingTime: ({content, locale, frontMatter, defaultReadingTime}) =>
             frontMatter.hide_reading_time
               ? undefined
-              : defaultReadingTime({content}),
+              : defaultReadingTime({content, locale}),
           // highlight-end
         },
       },
@@ -547,8 +558,12 @@ export default {
       {
         blog: {
           // highlight-start
-          readingTime: ({content, defaultReadingTime}) =>
-            defaultReadingTime({content, options: {wordsPerMinute: 100}}),
+          readingTime: ({content, locale, defaultReadingTime}) =>
+            defaultReadingTime({
+              content,
+              locale,
+              options: {wordsPerMinute: 100},
+            }),
           // highlight-end
         },
       },
@@ -574,7 +589,7 @@ export default {
       {
         blog: {
           // highlight-next-line
-          readingTime: ({content}) => myReadingTime(content),
+          readingTime: ({content, locale}) => myReadingTime(content, locale),
         },
       },
     ],

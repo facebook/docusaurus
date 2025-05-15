@@ -45,6 +45,18 @@ This plugin registers a [Webpack loader](https://webpack.js.org/loaders/) that c
 
 :::
 
+:::warning For pnpm users
+
+Starting with [pnpm 10](https://github.com/pnpm/pnpm/releases/tag/v10.0.0), running `pnpm install` won't run dependency install scripts by default. You'll need additional pnpm configuration ([issue](https://github.com/lovell/sharp/issues/4343)) for our `sharp` image resizing dependency to install correctly, such as:
+
+```json title="package.json"
+{
+  "pnpm": {
+    "onlyBuiltDependencies": ["fsevents"]
+  }
+}
+```
+
 ## Configuration {#configuration}
 
 Accepted fields:

@@ -11,16 +11,6 @@ import browserslist from 'browserslist';
 import {minify as swcHtmlMinifier} from '@swc/html';
 import type {JsMinifyOptions, Options as SwcOptions} from '@swc/core';
 
-// See https://rspack.dev/contribute/development/profiling
-// File can be opened with https://ui.perfetto.dev/
-if (process.env.DOCUSAURUS_RSPACK_TRACE) {
-  Rspack.experiments.globalTrace.register(
-    'trace',
-    'chrome',
-    './rspack-tracing.json',
-  );
-}
-
 export const swcLoader = require.resolve('swc-loader');
 
 export const getSwcLoaderOptions = ({

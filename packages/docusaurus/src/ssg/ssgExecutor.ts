@@ -12,7 +12,11 @@ import _ from 'lodash';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {createSSGParams} from './ssgParams';
 import {renderHashRouterTemplate} from './ssgTemplate';
-import {SSGWorkerThreadCount, SSGWorkerThreadTaskSize} from './ssgEnv';
+import {
+  SSGWorkerThreadCount,
+  SSGWorkerThreadRecyclerMaxMemory,
+  SSGWorkerThreadTaskSize,
+} from './ssgEnv';
 import {generateHashRouterEntrypoint} from './ssgUtils';
 import {createGlobalSSGResult} from './ssgGlobalResult';
 import {executeSSGInlineTask} from './ssgWorkerInline';
@@ -38,16 +42,13 @@ const createSimpleSSGExecutor: CreateSSGExecutor = async ({
 }) => {
   return {
     run: () => {
-      return PerfLogger.async(
-        'Generate static files (current thread)',
-        async () => {
-          const ssgResults = await executeSSGInlineTask({
-            pathnames,
-            params,
-          });
-          return createGlobalSSGResult(ssgResults);
-        },
-      );
+      return PerfLogger.async('SSG (current thread)', async () => {
+        const ssgResults = await executeSSGInlineTask({
+          pathnames,
+          params,
+        });
+        return createGlobalSSGResult(ssgResults);
+      });
     },
 
     destroy: async () => {
@@ -111,7 +112,7 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
   }
 
   const pool = await PerfLogger.async(
-    `Create SSG pool - ${logger.cyan(numberOfThreads)} threads`,
+    `Create SSG thread pool - ${logger.cyan(numberOfThreads)} threads`,
     async () => {
       const Tinypool = await import('tinypool').then((m) => m.default);
 
@@ -127,6 +128,16 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
         runtime: 'worker_threads',
         isolateWorkers: false,
         workerData: {params},
+
+        // WORKER MEMORY MANAGEMENT
+        // Allows containing SSG memory leaks with a thread recycling workaround
+        // See https://github.com/facebook/docusaurus/pull/11166
+        // See https://github.com/facebook/docusaurus/issues/11161
+        maxMemoryLimitBeforeRecycle: SSGWorkerThreadRecyclerMaxMemory,
+        resourceLimits: {
+          // For some reason I can't figure out how to limit memory on a worker
+          // See https://x.com/sebastienlorber/status/1920781195618513143
+        },
       });
     },
   );
@@ -134,23 +145,26 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
   const pathnamesChunks = _.chunk(pathnames, SSGWorkerThreadTaskSize);
 
   // Tiny wrapper for type-safety
-  const submitTask: ExecuteSSGWorkerThreadTask = (task) => pool.run(task);
+  const submitTask: ExecuteSSGWorkerThreadTask = async (task) => {
+    const result = await pool.run(task);
+    // Note, we don't use PerfLogger.async() because all tasks are submitted
+    // immediately at once and queued, while results are received progressively
+    PerfLogger.log(`Result for task ${logger.name(task.id)}`);
+    return result;
+  };
 
   return {
     run: async () => {
-      const results = await PerfLogger.async(
-        `Generate static files (${numberOfThreads} worker threads)`,
-        async () => {
-          return Promise.all(
-            pathnamesChunks.map((taskPathnames, taskIndex) => {
-              return submitTask({
-                id: taskIndex + 1,
-                pathnames: taskPathnames,
-              });
-            }),
-          );
-        },
-      );
+      const results = await PerfLogger.async(`Thread pool`, async () => {
+        return Promise.all(
+          pathnamesChunks.map((taskPathnames, taskIndex) => {
+            return submitTask({
+              id: taskIndex + 1,
+              pathnames: taskPathnames,
+            });
+          }),
+        );
+      });
       const allResults = results.flat();
       return createGlobalSSGResult(allResults);
     },

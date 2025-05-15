@@ -104,7 +104,11 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       readingTime: ({content, frontMatter, defaultReadingTime}) =>
         frontMatter.hide_reading_time
           ? undefined
-          : defaultReadingTime({content, options: {wordsPerMinute: 5}}),
+          : defaultReadingTime({
+              content,
+              locale: 'en',
+              options: {wordsPerMinute: 5},
+            }),
       onInlineTags: 'warn',
       onInlineAuthors: 'ignore',
       onUntruncatedBlogPosts: 'ignore',

@@ -7,8 +7,33 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import os from 'os';
 import _ from 'lodash';
 import execa from 'execa';
+import PQueue from 'p-queue';
+
+// Quite high/conservative concurrency value (it was previously "Infinity")
+// See https://github.com/facebook/docusaurus/pull/10915
+const DefaultGitCommandConcurrency =
+  // TODO Docusaurus v4: bump node, availableParallelism() now always exists
+  (typeof os.availableParallelism === 'function'
+    ? os.availableParallelism()
+    : os.cpus().length) * 4;
+
+const GitCommandConcurrencyEnv = process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY
+  ? parseInt(process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY, 10)
+  : undefined;
+
+const GitCommandConcurrency =
+  GitCommandConcurrencyEnv && GitCommandConcurrencyEnv > 0
+    ? GitCommandConcurrencyEnv
+    : DefaultGitCommandConcurrency;
+
+// We use a queue to avoid running too many concurrent Git commands at once
+// See https://github.com/facebook/docusaurus/issues/10348
+const GitCommandQueue = new PQueue({
+  concurrency: GitCommandConcurrency,
+});
 
 const realHasGitFn = () => {
   try {
@@ -129,10 +154,13 @@ export async function getFileCommitDate(
     file,
   )}"`;
 
-  const result = await execa(command, {
-    cwd: path.dirname(file),
-    shell: true,
-  });
+  const result = (await GitCommandQueue.add(() =>
+    execa(command, {
+      cwd: path.dirname(file),
+      shell: true,
+    }),
+  ))!;
+
   if (result.exitCode !== 0) {
     throw new Error(
       `Failed to retrieve the git history for file "${file}" with exit code ${result.exitCode}: ${result.stderr}`,

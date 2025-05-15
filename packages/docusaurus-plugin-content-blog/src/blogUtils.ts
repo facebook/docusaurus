@@ -210,8 +210,8 @@ async function parseBlogPostMarkdownFile({
   }
 }
 
-const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
-  calculateReadingTime(content, options);
+const defaultReadingTime: ReadingTimeFunction = ({content, locale, options}) =>
+  calculateReadingTime(content, locale, options);
 
 async function processBlogSourceFile(
   blogSourceRelative: string,
@@ -373,6 +373,7 @@ async function processBlogSourceFile(
             content,
             frontMatter,
             defaultReadingTime,
+            locale: i18n.currentLocale,
           })
         : undefined,
       hasTruncateMarker: truncateMarker.test(content),
