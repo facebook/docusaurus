@@ -27,7 +27,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        node: ['18.0', '20', '22']
+        node: ['18.0', '20', '22', '24']
     steps:
       - name: Support longpaths
         run: git config --system core.longpaths true
@@ -37,6 +37,7 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ matrix.node }}
+          cache: yarn
       - name: Installation
         run: yarn || yarn || yarn
       - name: Docusaurus Jest Tests

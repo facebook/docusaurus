@@ -14,6 +14,7 @@ import {
   escapePath,
   findAsyncSequential,
   getFileLoaderUtils,
+  parseURLOrPath,
 } from '@docusaurus/utils';
 import escapeHtml from 'escape-html';
 import {imageSizeFromFile} from 'image-size/fromFile';
@@ -50,7 +51,7 @@ async function toImageRequireNode(
   );
   relativeImagePath = `./${relativeImagePath}`;
 
-  const parsedUrl = url.parse(node.url);
+  const parsedUrl = parseURLOrPath(node.url, 'https://example.com');
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
   const requireString = `${context.inlineMarkdownImageFileLoader}${

@@ -39,6 +39,14 @@ export {
   getPrismCssVariables,
   CodeBlockContextProvider,
   useCodeBlockContext,
+
+  // TODO Docusaurus v4: remove, only kept for internal retro-compatibility
+  //  See https://github.com/facebook/docusaurus/pull/11153
+  parseCodeBlockTitle,
+  parseClassNameLanguage as parseLanguage,
+  parseLines,
+  getLineNumbersStart,
+  containsLineNumbers,
 } from './utils/codeBlockUtils';
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
