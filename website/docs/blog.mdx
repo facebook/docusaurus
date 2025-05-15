@@ -488,7 +488,9 @@ export default {
 
 The `readingTime` callback receives three parameters: the blog content text as a string, front matter as a record of string keys and their values, and the default reading time function. It returns a number (reading time in minutes) or `undefined` (disable reading time for this page).
 
-The default reading time is able to accept additional options: `wordsPerMinute` as a number (default: 300), and `wordBound` as a function from string to boolean. If the string passed to `wordBound` should be a word bound (spaces, tabs, and line breaks by default), the function should return `true`.
+The default reading time is able to accept additional options:
+
+- `wordsPerMinute` as a number (default: 300)
 
 :::tip
 
