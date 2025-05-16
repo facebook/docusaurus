@@ -6,6 +6,7 @@
  */
 
 import React, {type ReactNode} from 'react';
+import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
@@ -14,12 +15,34 @@ import styles from './index.module.css';
 
 /* eslint-disable @docusaurus/prefer-docusaurus-heading */
 
+function ExampleContainer({
+  isolated,
+  children,
+}: {
+  isolated?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <div
+      className={clsx(
+        styles.exampleContainer,
+        isolated ? styles.isolated : undefined,
+      )}>
+      {children}
+    </div>
+  );
+}
+
 function ExampleRow({name, children}: {name: string; children: ReactNode}) {
   return (
     <tr>
       <td>{name}</td>
-      <td>{children}</td>
-      <td>{React.cloneElement(children, {className: styles.isolated})}</td>
+      <td>
+        <ExampleContainer>{children}</ExampleContainer>
+      </td>
+      <td>
+        <ExampleContainer isolated>{children}</ExampleContainer>
+      </td>
     </tr>
   );
 }
@@ -39,20 +62,41 @@ function ExamplesTable() {
           <h1>title</h1>
         </ExampleRow>
 
-        <ExampleRow name="Nested h1">
-          <div>
-            <h1>title</h1>
-          </div>
+        <ExampleRow name="p">
+          <p>text</p>
         </ExampleRow>
 
-        <ExampleRow name="Unordered list">
+        <ExampleRow name="a">
+          {/* eslint-disable-next-line */}
+          <a href="https://example.com">link</a>
+        </ExampleRow>
+
+        <ExampleRow name="code">
+          <code>code</code>
+        </ExampleRow>
+        <ExampleRow name="pre > code">
+          <pre>
+            <code>code</code>
+          </pre>
+        </ExampleRow>
+
+        <ExampleRow name="blockquote">
+          <blockquote>some text</blockquote>
+        </ExampleRow>
+
+        <ExampleRow name="button">
+          {/* eslint-disable-next-line */}
+          <button>button</button>
+        </ExampleRow>
+
+        <ExampleRow name="ul">
           <ul>
             <li>item1</li>
             <li>item2</li>
           </ul>
         </ExampleRow>
 
-        <ExampleRow name="Ordered list">
+        <ExampleRow name="ol">
           <ol>
             <li>item1</li>
             <li>item2</li>
@@ -61,6 +105,10 @@ function ExamplesTable() {
 
         <ExampleRow name="kbd">
           <kbd>kbd</kbd>
+        </ExampleRow>
+
+        <ExampleRow name="shadow">
+          <div className="shadow--tl">shadow (KO)</div>
         </ExampleRow>
 
         <ExampleRow name="table">
@@ -82,6 +130,18 @@ function ExamplesTable() {
               </tr>
             </tbody>
           </table>
+        </ExampleRow>
+
+        <ExampleRow name="Infima button primary">
+          {/* eslint-disable-next-line */}
+          <button className="button button--primary">button</button>
+        </ExampleRow>
+
+        <ExampleRow name="Infima alert danger">
+          <div className="alert alert--danger">danger</div>
+        </ExampleRow>
+        <ExampleRow name="Infima badge success">
+          <div className="badge badge--success">success</div>
         </ExampleRow>
       </tbody>
     </table>
