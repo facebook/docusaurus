@@ -14,6 +14,16 @@ import styles from './index.module.css';
 
 /* eslint-disable @docusaurus/prefer-docusaurus-heading */
 
+function ExampleRow({name, children}: {name: string; children: ReactNode}) {
+  return (
+    <tr>
+      <td>{name}</td>
+      <td>{children}</td>
+      <td>{React.cloneElement(children, {className: styles.isolated})}</td>
+    </tr>
+  );
+}
+
 function ExamplesTable() {
   return (
     <table className="table-auto border-collapse border border-gray-300">
@@ -25,61 +35,54 @@ function ExamplesTable() {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>h1</td>
-          <td>
+        <ExampleRow name="h1">
+          <h1>title</h1>
+        </ExampleRow>
+
+        <ExampleRow name="Nested h1">
+          <div>
             <h1>title</h1>
-          </td>
-          <td>
-            <h1 className={styles.isolated}>title</h1>
-          </td>
-        </tr>
+          </div>
+        </ExampleRow>
 
-        <tr>
-          <td>nested h1</td>
-          <td>
-            <div>
-              <h1>title</h1>
-            </div>
-          </td>
-          <td>
-            <div className={styles.isolated}>
-              <h1>title</h1>
-            </div>
-          </td>
-        </tr>
+        <ExampleRow name="Unordered list">
+          <ul>
+            <li>item1</li>
+            <li>item2</li>
+          </ul>
+        </ExampleRow>
 
-        <tr>
-          <td>Unordered list</td>
-          <td>
-            <ul>
-              <li>item1</li>
-              <li>item2</li>
-            </ul>
-          </td>
-          <td>
-            <ul className={styles.isolated}>
-              <li>item1</li>
-              <li>item2</li>
-            </ul>
-          </td>
-        </tr>
+        <ExampleRow name="Ordered list">
+          <ol>
+            <li>item1</li>
+            <li>item2</li>
+          </ol>
+        </ExampleRow>
 
-        <tr>
-          <td>Ordered list</td>
-          <td>
-            <ol>
-              <li>item1</li>
-              <li>item2</li>
-            </ol>
-          </td>
-          <td>
-            <ol className={styles.isolated}>
-              <li>item1</li>
-              <li>item2</li>
-            </ol>
-          </td>
-        </tr>
+        <ExampleRow name="kbd">
+          <kbd>kbd</kbd>
+        </ExampleRow>
+
+        <ExampleRow name="table">
+          <table>
+            <thead>
+              <tr>
+                <th>Col1</th>
+                <th>Col2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cell1</td>
+                <td>Cell2</td>
+              </tr>
+              <tr>
+                <td>Cell3</td>
+                <td>Cell3</td>
+              </tr>
+            </tbody>
+          </table>
+        </ExampleRow>
       </tbody>
     </table>
   );
