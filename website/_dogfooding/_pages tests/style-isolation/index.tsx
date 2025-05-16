@@ -91,7 +91,10 @@ function ExamplesTable() {
 export default function StyleIsolation(): ReactNode {
   return (
     <Layout>
-      <main style={{padding: 30}}>
+      <main
+        style={{padding: 30}}
+        className="markdown" // class added on purpose, creates extra pollution
+      >
         <Heading as="h1">Style Isolation tests</Heading>
 
         <p>
