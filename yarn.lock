@@ -11834,9 +11834,9 @@ locate-path@^7.1.0:
     p-locate "^6.0.0"
 
 lockfile-lint-api@^5.9.1:
-  version "5.9.1"
-  resolved "https://registry.yarnpkg.com/lockfile-lint-api/-/lockfile-lint-api-5.9.1.tgz#12b10434792fa8b8dd0e332ddfbac55ea70a9e08"
-  integrity sha512-us5IT1bGA6KXbq1WrhrSzk9mtPgHKz5nhvv3S4hwcYnhcVOKW2uK0W8+PN9oIgv4pI49WsD5wBdTQFTpNChF/Q==
+  version "5.9.2"
+  resolved "https://registry.yarnpkg.com/lockfile-lint-api/-/lockfile-lint-api-5.9.2.tgz#c9ca335d4aa46c90d8b8467a92ed6670b5db0ed9"
+  integrity sha512-3QhxWxl3jT9GcMxuCnTsU8Tz5U6U1lKBlKBu2zOYOz/x3ONUoojEtky3uzoaaDgExcLqIX0Aqv2I7TZXE383CQ==
   dependencies:
     "@yarnpkg/parsers" "^3.0.0-rc.48.1"
     debug "^4.3.4"
