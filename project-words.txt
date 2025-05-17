@@ -48,6 +48,7 @@ Csapo
 Csvg
 Dabit
 dabit
+daiji
 Daishi
 Datagit
 datagit
@@ -148,6 +149,7 @@ Markprompt
 markprompt
 Massoud
 mathjax
+mathml
 maxlynch
 maxresdefault
 MDAST
@@ -311,6 +313,8 @@ swizzlable
 Sébastien
 Tagkey
 Teik
+Temml
+temml
 Therox
 thisweekinreact
 toplevel
