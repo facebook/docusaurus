@@ -49,9 +49,6 @@ export default function pluginCssCascadeLayers(
           const layer = findLayer(filePath, layers);
           if (layer) {
             wrapCssRootInLayer(root, layer);
-            console.log(`CSS layer @${layer} for ${filePath}`);
-          } else {
-            console.log(`NO CSS layer for ${filePath}`);
           }
         },
       };

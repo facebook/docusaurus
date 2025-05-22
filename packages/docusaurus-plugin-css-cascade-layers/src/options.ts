@@ -29,8 +29,32 @@ export const DEFAULT_LAYERS: PluginOptions['layers'] = {
   ),
   'docusaurus.theme-classic': layerFor(
     'packages/docusaurus-theme-classic/lib',
-    'node_modules/@docusaurus/theme-common/lib',
+    'node_modules/@docusaurus/theme-classic/lib',
   ),
+  'docusaurus.core': layerFor(
+    'packages/docusaurus/lib',
+    'node_modules/@docusaurus/core/lib',
+  ),
+  'docusaurus.plugin-debug': layerFor(
+    'packages/docusaurus-plugin-debug/lib',
+    'node_modules/@docusaurus/plugin-debug/lib',
+  ),
+  'docusaurus.theme-mermaid': layerFor(
+    'packages/docusaurus-theme-mermaid/lib',
+    'node_modules/@docusaurus/theme-mermaid/lib',
+  ),
+  'docusaurus.theme-live-codeblock': layerFor(
+    'packages/docusaurus-theme-live-codeblock/lib',
+    'node_modules/@docusaurus/theme-live-codeblock/lib',
+  ),
+  'docusaurus.theme-search-algolia.docsearch': layerFor(
+    'node_modules/@docsearch/css/dist',
+  ),
+  'docusaurus.theme-search-algolia': layerFor(
+    'packages/docusaurus-theme-search-algolia/lib',
+    'node_modules/@docusaurus/theme-search-algolia/lib',
+  ),
+  // docusaurus.website layer ? (declare it, even if empty?)
 };
 
 export const DEFAULT_OPTIONS: Partial<PluginOptions> = {
