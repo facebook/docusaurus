@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {Joi} from '@docusaurus/utils-validation';
+import {isValidLayerName} from './layers';
 import type {OptionValidationContext} from '@docusaurus/types';
 
 export type PluginOptions = {
@@ -65,7 +66,15 @@ export const DEFAULT_OPTIONS: Partial<PluginOptions> = {
 
 const pluginOptionsSchema = Joi.object<PluginOptions>({
   layers: Joi.object()
-    .pattern(Joi.string().required(), Joi.function().arity(1).required())
+    .pattern(
+      Joi.custom((val, helpers) => {
+        if (!isValidLayerName(val)) {
+          return helpers.error('any.invalid');
+        }
+        return val;
+      }),
+      Joi.function().arity(1).required(),
+    )
     .default(DEFAULT_LAYERS),
 });
 

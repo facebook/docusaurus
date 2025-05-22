@@ -63,6 +63,17 @@ describe('validateOptions', () => {
       });
     });
 
+    it('rejects layer with bad name', () => {
+      const config: Options = {
+        layers: {
+          'layer 1': (filePath) => !!filePath,
+        },
+      };
+      expect(() =>
+        testValidateOptions(config),
+      ).toThrowErrorMatchingInlineSnapshot(`""layers.layer 1" is not allowed"`);
+    });
+
     it('rejects layer with bad value', () => {
       const config: Options = {
         layers: {
