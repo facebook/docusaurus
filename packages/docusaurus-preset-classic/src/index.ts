@@ -62,7 +62,12 @@ export default function preset(
   }
 
   const plugins: PluginConfig[] = [];
-  plugins.push(makePluginConfig('@docusaurus/plugin-css-cascade-layers', {}));
+
+  // TODO Docusaurus v4: temporary due to the opt-in flag
+  // In v4 we'd like to use layers everywhere natively
+  if (siteConfig.future.v4.useCssCascadeLayers) {
+    plugins.push(makePluginConfig('@docusaurus/plugin-css-cascade-layers'));
+  }
 
   if (docs !== false) {
     plugins.push(makePluginConfig('@docusaurus/plugin-content-docs', docs));

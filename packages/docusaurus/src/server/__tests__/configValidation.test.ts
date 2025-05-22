@@ -50,6 +50,7 @@ describe('normalizeConfig', () => {
       future: {
         v4: {
           removeLegacyPostBuildHeadAttribute: true,
+          useCssCascadeLayers: true,
         },
         experimental_faster: {
           swcJsLoader: true,
@@ -754,6 +755,7 @@ describe('future', () => {
     const future: DocusaurusConfig['future'] = {
       v4: {
         removeLegacyPostBuildHeadAttribute: true,
+        useCssCascadeLayers: true,
       },
       experimental_faster: {
         swcJsLoader: true,
@@ -1861,6 +1863,7 @@ describe('future', () => {
     it('accepts v4 - full', () => {
       const v4: FutureV4Config = {
         removeLegacyPostBuildHeadAttribute: true,
+        useCssCascadeLayers: true,
       };
       expect(
         normalizeConfig({
@@ -1972,6 +1975,81 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('useCssCascadeLayers', () => {
+      it('accepts - undefined', () => {
+        const v4: Partial<FutureV4Config> = {
+          useCssCascadeLayers: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({useCssCascadeLayers: false}));
+      });
+
+      it('accepts - true', () => {
+        const v4: Partial<FutureV4Config> = {
+          useCssCascadeLayers: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({useCssCascadeLayers: true}));
+      });
+
+      it('accepts - false', () => {
+        const v4: Partial<FutureV4Config> = {
+          useCssCascadeLayers: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({useCssCascadeLayers: false}));
+      });
+
+      it('rejects - null', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          useCssCascadeLayers: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.useCssCascadeLayers" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          useCssCascadeLayers: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.useCssCascadeLayers" must be a boolean
           "
         `);
       });
