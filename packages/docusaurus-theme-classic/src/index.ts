@@ -145,6 +145,8 @@ export default function themeClassic(
             !file.endsWith('docusaurus-theme-classic/lib/layers.css')
           ) {
             wrapRootInLayer(root, 'docusaurus-theme-classic');
+          } else {
+            console.log(file);
           }
         },
       };

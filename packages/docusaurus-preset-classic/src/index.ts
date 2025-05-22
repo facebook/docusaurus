@@ -62,6 +62,8 @@ export default function preset(
   }
 
   const plugins: PluginConfig[] = [];
+  plugins.push(makePluginConfig('@docusaurus/plugin-css-cascade-layers', {}));
+
   if (docs !== false) {
     plugins.push(makePluginConfig('@docusaurus/plugin-content-docs', docs));
   }
