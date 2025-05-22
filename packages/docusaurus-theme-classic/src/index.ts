@@ -17,7 +17,7 @@ import {
 import {SvgSpriteDefs} from './inlineSvgSprites';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
-import type {Plugin as PostCssPlugin, Root} from 'postcss';
+import type {Plugin as PostCssPlugin} from 'postcss';
 import type {PluginOptions} from '@docusaurus/theme-classic';
 
 function getInfimaCSSFile(direction: string) {
@@ -71,7 +71,6 @@ export default function themeClassic(
 
     getClientModules() {
       const modules = [
-        './layers.css',
         require.resolve(getInfimaCSSFile(direction)),
         './prism-include-languages',
         './nprogress',
@@ -101,14 +100,13 @@ export default function themeClassic(
     },
 
     configurePostCss(postCssOptions) {
-      const resolvedInfimaFile = require.resolve(getInfimaCSSFile(direction));
-
       if (direction === 'rtl') {
+        const resolvedInfimaFile = require.resolve(getInfimaCSSFile(direction));
         const plugin: PostCssPlugin = {
           postcssPlugin: 'RtlCssPlugin',
           prepare: (result) => {
             const file = result.root.source?.input.file;
-            // Skip Infima as we are using its RTL version.
+            // Skip Infima as we are using the its RTL version.
             if (file === resolvedInfimaFile) {
               return {};
             }
@@ -117,42 +115,6 @@ export default function themeClassic(
         };
         postCssOptions.plugins.push(plugin);
       }
-
-      function wrapRootInLayer(root: Root, layer: string): void {
-        const rootBefore = root.clone();
-        root.removeAll();
-        root.append({
-          type: 'atrule',
-          name: 'layer',
-          params: layer,
-          nodes: rootBefore.nodes,
-        });
-      }
-
-      const wrapInLayerPlugin: PostCssPlugin = {
-        postcssPlugin: 'postcss-wrap-in-layer',
-        Once(root) {
-          const file = root.source?.input.file;
-          if (!file) {
-            return;
-          }
-          if (file === resolvedInfimaFile) {
-            wrapRootInLayer(root, 'docusaurus-infima');
-          } else if (file.includes('docusaurus-theme-common/lib')) {
-            wrapRootInLayer(root, 'docusaurus-theme-common');
-          } else if (
-            file.includes('docusaurus-theme-classic/lib') &&
-            !file.endsWith('docusaurus-theme-classic/lib/layers.css')
-          ) {
-            wrapRootInLayer(root, 'docusaurus-theme-classic');
-          } else {
-            console.log(file);
-          }
-        },
-      };
-
-      postCssOptions.plugins.push(wrapInLayerPlugin);
-
       return postCssOptions;
     },
 
