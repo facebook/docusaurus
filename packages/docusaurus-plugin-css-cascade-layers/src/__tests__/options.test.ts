@@ -6,12 +6,7 @@
  */
 
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {
-  validateOptions,
-  type PluginOptions,
-  type Options,
-  DEFAULT_OPTIONS,
-} from '../options';
+import {validateOptions, type PluginOptions, type Options} from '../options';
 import type {Validate} from '@docusaurus/types';
 
 function testValidateOptions(options: Options) {
@@ -20,22 +15,6 @@ function testValidateOptions(options: Options) {
     options,
   });
 }
-
-function validationResult(options: Options) {
-  return {
-    id: 'default',
-    ...DEFAULT_OPTIONS,
-    ...options,
-    trackingID:
-      typeof options.trackingID === 'string'
-        ? [options.trackingID]
-        : options.trackingID,
-  };
-}
-
-const MinimalConfig: Options = {
-  trackingID: 'G-XYZ12345',
-};
 
 describe('validateOptions', () => {
   it('throws for undefined options', () => {

@@ -8,12 +8,12 @@ import {Joi} from '@docusaurus/utils-validation';
 import type {OptionValidationContext} from '@docusaurus/types';
 
 export type PluginOptions = {
+  id: string; // plugin id
   layers: Record<string, (filePath: string) => boolean>;
 };
 
-export type Options = {
-  layers: Record<string, (filePath: string) => boolean>;
-};
+// Direct mapping between config options and normalized plugin options
+export type Options = PluginOptions;
 
 // Not ideal to compute layers using "filePath.includes()"
 // But this is mostly temporary until we add first-class layers everywhere

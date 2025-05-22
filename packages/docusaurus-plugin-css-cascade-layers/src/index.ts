@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Options} from './options';
 import type {Plugin as PostCssPlugin, Root} from 'postcss';
@@ -29,15 +30,50 @@ function findLayer(filePath: string, layers: LayerEntry[]): string | undefined {
   return layerEntry?.[0]; // return layer name
 }
 
+const PluginName = 'docusaurus-plugin-css-cascade-layers';
+
+const LayersDeclarationModule = 'layers.css';
+
+function generateLayersDeclaration(layers: LayerEntry[]) {
+  return `@layer ${layers.map(([name]) => name).join(', ')};`;
+}
+
 export default function pluginCssCascadeLayers(
-  _context: LoadContext,
+  context: LoadContext,
   options: PluginOptions,
 ): Plugin | null {
+  const {generatedFilesDir} = context;
+
+  const pluginId = options.id;
+  if (pluginId !== 'default') {
+    // Since it's only possible to declare a single layer order
+    // using this plugin twice doesn't really make sense
+    throw new Error(
+      'The CSS Cascade Layers plugin does not support multiple instances.',
+    );
+  }
+
+  const layersDeclarationPath = path.join(
+    generatedFilesDir,
+    PluginName,
+    pluginId,
+    LayersDeclarationModule,
+  );
+
   // Convert to array form only once, better than for each file
   const layers = Object.entries(options.layers);
 
   return {
-    name: 'docusaurus-plugin-css-cascade-layers',
+    name: PluginName,
+    getClientModules() {
+      return [layersDeclarationPath];
+    },
+    async contentLoaded({actions}) {
+      await actions.createData(
+        LayersDeclarationModule,
+        generateLayersDeclaration(layers),
+      );
+    },
     configurePostCss(postCssOptions) {
       const wrapInLayerPlugin: PostCssPlugin = {
         postcssPlugin: 'postcss-wrap-in-layer',
@@ -54,22 +90,6 @@ export default function pluginCssCascadeLayers(
       };
       postCssOptions.plugins.push(wrapInLayerPlugin);
       return postCssOptions;
-    },
-
-    injectHtmlTags() {
-      // TODO ?
-      return {
-        preBodyTags: [
-          {
-            tagName: 'svg',
-            attributes: {
-              xmlns: 'http://www.w3.org/2000/svg',
-              style: 'display: none;',
-            },
-            innerHTML: '',
-          },
-        ],
-      };
     },
   };
 }
