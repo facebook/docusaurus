@@ -115,6 +115,7 @@ export default function themeClassic(
         };
         postCssOptions.plugins.push(plugin);
       }
+
       return postCssOptions;
     },
 
