@@ -20,29 +20,22 @@ function wrapCssRootInLayer(root: Root, layer: string): void {
   });
 }
 
-function isInfima(filePath: string) {
-  return filePath.includes('node_modules/infima/dist');
-}
+type LayerEntry = [string, (filePath: string) => boolean];
 
-function findAppropriateLayer(filePath: string): string | undefined {
-  if (isInfima(filePath)) {
-    return 'docusaurus.infima';
-  } else if (filePath.includes('docusaurus-theme-common/lib')) {
-    return 'docusaurus.theme-common';
-  } else if (
-    filePath.includes('docusaurus-theme-classic/lib') &&
-    !filePath.endsWith('docusaurus-theme-classic/lib/layers.css')
-  ) {
-    return 'docusaurus.theme-classic';
-  } else {
-    return undefined;
-  }
+function findLayer(filePath: string, layers: LayerEntry[]): string | undefined {
+  // Using find() => layers order matter
+  // The first layer that matches is used in priority even if others match too
+  const layerEntry = layers.find((layer) => layer[1](filePath));
+  return layerEntry?.[0]; // return layer name
 }
 
 export default function pluginCssCascadeLayers(
   _context: LoadContext,
-  _options: PluginOptions,
+  options: PluginOptions,
 ): Plugin | null {
+  // Convert to array form only once, better than for each file
+  const layers = Object.entries(options.layers);
+
   return {
     name: 'docusaurus-plugin-css-cascade-layers',
     configurePostCss(postCssOptions) {
@@ -53,11 +46,13 @@ export default function pluginCssCascadeLayers(
           if (!filePath) {
             return;
           }
-          const layer = findAppropriateLayer(filePath);
+          const layer = findLayer(filePath, layers);
           if (layer) {
             wrapCssRootInLayer(root, layer);
+            console.log(`CSS layer @${layer} for ${filePath}`);
+          } else {
+            console.log(`NO CSS layer for ${filePath}`);
           }
-          console.log(`CSS layer @${layer} for ${filePath}`);
         },
       };
       postCssOptions.plugins.push(wrapInLayerPlugin);
