@@ -136,6 +136,7 @@ export type FasterConfig = {
 
 export type FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: boolean;
+  useCssCascadeLayers: boolean;
 };
 
 export type FutureConfig = {
