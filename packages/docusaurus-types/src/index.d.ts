@@ -90,3 +90,9 @@ export {
 } from './routing';
 
 export {UseDataOptions} from './utils';
+
+export {
+  BrokenLinksMap,
+  BrokenLink
+} from './bronkenLinks';
+
