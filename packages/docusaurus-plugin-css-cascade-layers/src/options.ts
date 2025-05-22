@@ -23,6 +23,7 @@ function layerFor(...params: string[]) {
   return (filePath: string) => params.some((p) => filePath.includes(p));
 }
 
+// Object order matters, it defines the layer order
 export const DEFAULT_LAYERS: PluginOptions['layers'] = {
   'docusaurus.infima': layerFor('node_modules/infima/dist'),
   'docusaurus.theme-common': layerFor(
