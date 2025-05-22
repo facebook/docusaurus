@@ -128,6 +128,7 @@ const sidebars: SidebarsConfig = {
         'advanced/routing',
         'advanced/ssg',
         'advanced/client',
+        'advanced/boosting',
       ],
     },
     {
