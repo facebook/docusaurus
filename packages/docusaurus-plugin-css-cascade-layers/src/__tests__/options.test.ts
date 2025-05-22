@@ -6,7 +6,12 @@
  */
 
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {validateOptions, type PluginOptions, type Options} from '../options';
+import {
+  validateOptions,
+  type PluginOptions,
+  type Options,
+  DEFAULT_OPTIONS,
+} from '../options';
 import type {Validate} from '@docusaurus/types';
 
 function testValidateOptions(options: Options) {
@@ -17,119 +22,73 @@ function testValidateOptions(options: Options) {
 }
 
 describe('validateOptions', () => {
-  it('throws for undefined options', () => {
-    expect(
-      // @ts-expect-error: TS should error
-      () => testValidateOptions(undefined),
-    ).toThrowErrorMatchingInlineSnapshot(`""trackingID" is required"`);
+  it('accepts undefined options', () => {
+    // @ts-expect-error: should error
+    expect(testValidateOptions(undefined)).toEqual(DEFAULT_OPTIONS);
   });
 
-  it('throws for null options', () => {
-    expect(
-      // @ts-expect-error: TS should error
-      () => testValidateOptions(null),
-    ).toThrowErrorMatchingInlineSnapshot(`""value" must be of type object"`);
+  it('accepts empty options', () => {
+    expect(testValidateOptions({})).toEqual(DEFAULT_OPTIONS);
   });
 
-  it('throws for empty object options', () => {
-    expect(
-      // @ts-expect-error: TS should error
-      () => testValidateOptions({}),
-    ).toThrowErrorMatchingInlineSnapshot(`""trackingID" is required"`);
-  });
+  describe('layers', () => {
+    it('accepts empty layers', () => {
+      expect(testValidateOptions({layers: {}})).toEqual({
+        ...DEFAULT_OPTIONS,
+        layers: {},
+      });
+    });
 
-  it('throws for number options', () => {
-    expect(
-      // @ts-expect-error: TS should error
-      () => testValidateOptions(42),
-    ).toThrowErrorMatchingInlineSnapshot(`""value" must be of type object"`);
-  });
+    it('accepts undefined layers', () => {
+      const config: Options = {
+        layers: undefined,
+      };
+      expect(testValidateOptions(config)).toEqual(DEFAULT_OPTIONS);
+    });
 
-  it('throws for null trackingID', () => {
-    expect(
-      // @ts-expect-error: TS should error
-      () => testValidateOptions({trackingID: null}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
-    );
-  });
-  it('throws for number trackingID', () => {
-    expect(
-      // @ts-expect-error: TS should error
-      () => testValidateOptions({trackingID: 42}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
-    );
-  });
-  it('throws for empty trackingID', () => {
-    expect(() =>
-      testValidateOptions({trackingID: ''}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
-    );
-  });
+    it('accepts custom layers', () => {
+      const config: Options = {
+        layers: {
+          layer1: (filePath: string) => {
+            return !!filePath;
+          },
+          layer2: (filePath: string) => {
+            return !!filePath;
+          },
+        },
+      };
+      expect(testValidateOptions(config)).toEqual({
+        ...DEFAULT_OPTIONS,
+        layers: config.layers,
+      });
+    });
 
-  it('accepts minimal config', () => {
-    expect(testValidateOptions(MinimalConfig)).toEqual(
-      validationResult(MinimalConfig),
-    );
-  });
+    it('rejects layer with bad value', () => {
+      const config: Options = {
+        layers: {
+          // @ts-expect-error: should error
+          layer1: 'bad value',
+        },
+      };
+      expect(() =>
+        testValidateOptions(config),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""layers.layer1" must be of type function"`,
+      );
+    });
 
-  it('accepts anonymizeIP', () => {
-    const config: Options = {
-      ...MinimalConfig,
-      anonymizeIP: true,
-    };
-    expect(testValidateOptions(config)).toEqual(validationResult(config));
-  });
-
-  it('accepts single trackingID', () => {
-    const config: Options = {
-      trackingID: 'G-ABCDEF123',
-    };
-    expect(testValidateOptions(config)).toEqual(validationResult(config));
-  });
-
-  it('accepts multiple trackingIDs', () => {
-    const config: Options = {
-      trackingID: ['G-ABCDEF123', 'UA-XYZ456789'],
-    };
-    expect(testValidateOptions(config)).toEqual(validationResult(config));
-  });
-
-  it('throws for empty trackingID arrays', () => {
-    const config: Options = {
-      // @ts-expect-error: TS should error
-      trackingID: [],
-    };
-    expect(() =>
-      testValidateOptions(config),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
-    );
-  });
-
-  it('throws for sparse trackingID arrays', () => {
-    const config: Options = {
-      // @ts-expect-error: TS should error
-      trackingID: ['G-ABCDEF123', null, 'UA-XYZ456789'],
-    };
-    expect(() =>
-      testValidateOptions(config),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
-    );
-  });
-
-  it('throws for bad trackingID arrays', () => {
-    const config: Options = {
-      // @ts-expect-error: TS should error
-      trackingID: ['G-ABCDEF123', 42],
-    };
-    expect(() =>
-      testValidateOptions(config),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
-    );
+    it('rejects layer with bad function arity', () => {
+      const config: Options = {
+        layers: {
+          // @ts-expect-error: should error
+          layer1: () => {},
+        },
+      };
+      expect(() =>
+        testValidateOptions(config),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""layers.layer1" must have an arity of 1"`,
+      );
+    });
   });
 });

@@ -12,8 +12,9 @@ export type PluginOptions = {
   layers: Record<string, (filePath: string) => boolean>;
 };
 
-// Direct mapping between config options and normalized plugin options
-export type Options = PluginOptions;
+export type Options = {
+  layers?: PluginOptions['layers'];
+};
 
 // Not ideal to compute layers using "filePath.includes()"
 // But this is mostly temporary until we add first-class layers everywhere
@@ -58,6 +59,7 @@ export const DEFAULT_LAYERS: PluginOptions['layers'] = {
 };
 
 export const DEFAULT_OPTIONS: Partial<PluginOptions> = {
+  id: 'default',
   layers: DEFAULT_LAYERS,
 };
 
