@@ -1,0 +1,144 @@
+---
+title: Docusaurus 3.8
+authors: [slorber]
+tags: [release]
+image: ./img/social-card.png
+date: 2025-05-26
+---
+
+We are happy to announce **Docusaurus 3.8**.
+
+This release significantly improves build performance, introduces useful new features, and includes future flags to prepare your site for the next Docusaurus version.
+
+Upgrading should be easy. Our [release process](/community/release-process) respects [Semantic Versioning](https://semver.org/). Minor versions do not include any breaking changes.
+
+![Docusaurus blog post social card](./img/social-card.png)
+
+{/* truncate */}
+
+## Highlight
+
+## Performance
+
+As announced, this release significantly improves our infrastructure performance with various optimizations, and 2 new Docusaurus Faster options.
+
+### Docusaurus Faster
+
+[Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) has been introduced in [Docusaurus v3.6](/blog/releases/3.6#docusaurus-faster), and permits you to opt-in for an upgraded build infrastructure. The experimental flags can be turned on individually, but we recommend to turn all the flags on at once with this convenient shortcut:
+
+```js
+const config = {
+  future: {
+    experimental_faster: true,
+  },
+};
+```
+
+:::tip
+
+Don't forget to install the `@docusaurus/faster` dependency first!
+
+:::
+
+#### Persistent Cache
+
+In [#10931](https://github.com/facebook/docusaurus/pull/10931), we have enabled the **[Rspack persitent cache](https://rspack.dev/blog/announcing-1-2#persistent-cache)**. Similarly to the [Webpack persistent cache](https://webpack.js.org/blog/2020-10-10-webpack-5-release/#persistent-caching) (that we already supported), it permits to build your site faster on subsequent builds, greatly reducing the time it takes to bundle the app. This feature depends on using the [Rspack bundler](https://rspack.dev/), and can be turned on with the `rspackPersistentCache` flag:
+
+```js
+const config = {
+  future: {
+    experimental_faster: {
+      rspackBundler: true, // required flag
+      rspackPersistentCache: true, // new flag
+    },
+  },
+};
+```
+
+:::caution Preserve the cache
+
+The persistent cache requires preserving the `./node_modules/.cache` folder across builds.
+
+Popular CDNs such as Netlify and Vercel do that for you automatically. Depending on your CI and deployment pipeline, additional configuration may be needed to preserve the cache.
+
+It should work by default locally. In case you encounter any problem, running the `docusaurus clear` command will clear the `./node_modules/.cache` folder.
+
+:::
+
+#### Worker Threads
+
+In [#10826](https://github.com/facebook/docusaurus/pull/10826), we introduced a [Node.js Worker Thread pool](https://github.com/tinylibs/tinypool) to run the static side generation code. Unlike our traditional strategy, this permits to better leverage all the available CPUs, reduce static site generation times, and contain potential memory leaks. This feature can be turned on with the `ssgWorkerThreads` flag:
+
+```js
+const config = {
+  future: {
+    experimental_faster: {
+      ssgWorkerThreads: true,
+    },
+  },
+};
+```
+
+### Other improvements
+
+- `docusaurus-plugin-sitemap`, `docusaurus-types`, `docusaurus`
+- [#11007](https://github.com/facebook/docusaurus/pull/11007) perf(core): Optimize `docusaurus start/serve`, fix `openBrowser()` perf issue on macOS ([@slorber](https://github.com/slorber))
+- [#11163](https://github.com/facebook/docusaurus/pull/11163) perf(utils): implement git command queue ([@slorber](https://github.com/slorber))
+- [#10885](https://github.com/facebook/docusaurus/pull/10885) perf(theme): use SVG sprite for IconExternalLink ([@slorber](https://github.com/slorber))
+
+---
+
+## Preparing for v4
+
+- [#11142](https://github.com/facebook/docusaurus/pull/11142) feat(theme): new CSS cascade layers plugin + built-in `v4.useCssCascadeLayers` future flag ([@slorber](https://github.com/slorber))
+
+- [#10871](https://github.com/facebook/docusaurus/pull/10871) refactor(create-docusaurus): add `future.v4` flag to init templates ([@slorber](https://github.com/slorber))
+- [#10850](https://github.com/facebook/docusaurus/pull/10850) feat(core): new `postBuild({routesBuildMetadata})` API, deprecate `head` attribute + v4 future flag ([@slorber](https://github.com/slorber))
+
+## Maintenance
+
+- [#11168](https://github.com/facebook/docusaurus/pull/11168) chore: add Node 24 to CI + fix deprecation warnings ([@slorber](https://github.com/slorber))
+- [#10969](https://github.com/facebook/docusaurus/pull/10969) chore: add `eslint-plugin-react-compiler` ([@slorber](https://github.com/slorber))
+- [#10966](https://github.com/facebook/docusaurus/pull/10966) chore: upgrade monorepo to TS 5.8 ([@slorber](https://github.com/slorber))
+
+---
+
+- [#11014](https://github.com/facebook/docusaurus/pull/11014) fix(ideal-image): Internalize `react-waypoint` dependency, fix React 19 compatibility ([@slorber](https://github.com/slorber))
+- [#10958](https://github.com/facebook/docusaurus/pull/10958) fix(create-docusaurus): fix CLI and remove shelljs escapeShellArg util ([@slorber](https://github.com/slorber))
+- [#11037](https://github.com/facebook/docusaurus/pull/11037) refactor(core): remove clean-webpack-plugin ([@slorber](https://github.com/slorber))
+- [#10956](https://github.com/facebook/docusaurus/pull/10956) refactor: remove `react-dev-utils` (CRA) dependency, internalize code ([@slorber](https://github.com/slorber))
+- [#11010](https://github.com/facebook/docusaurus/pull/11010) refactor(ideal-image-plugin): internalize legacy component code ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-mermaid`, `docusaurus-theme-search-algolia`
+- [#10358](https://github.com/facebook/docusaurus/pull/10358) refactor: replace unmaintained shelljs dependency by execa ([@OzakIOne](https://github.com/OzakIOne))
+- [#11138](https://github.com/facebook/docusaurus/pull/11138) refactor(content-blog): replace `reading-time` with `Intl.Segmenter` API ([@shreedharbhat98](https://github.com/shreedharbhat98))
+
+## Theme Code Block refactor
+
+- [#11077](https://github.com/facebook/docusaurus/pull/11077) refactor(live-codeblock): refactor live code block theme components ([@slorber](https://github.com/slorber))
+- [#11062](https://github.com/facebook/docusaurus/pull/11062) refactor(theme): introduce CodeBlockContextProvider + split into smaller components ([@slorber](https://github.com/slorber))
+- [#11059](https://github.com/facebook/docusaurus/pull/11059) refactor(theme): CodeBlock, centralize metadata parsing + refactor theme component ([@slorber](https://github.com/slorber))
+- [#11058](https://github.com/facebook/docusaurus/pull/11058) refactor(theme): refactor CodeBlock parseLines logic + use inline snapshots to ease review ([@slorber]
+
+---
+
+## Translations
+
+- [#11030](https://github.com/facebook/docusaurus/pull/11030) fix(theme-translation): add missing Japanese translation for System Mode ([@tats-u](https://github.com/tats-u))
+- [#10893](https://github.com/facebook/docusaurus/pull/10893) fix(theme-translations): Turkish exist language translate completed. ([@ramazansancar](https://github.com/ramazansancar))
+- [#10884](https://github.com/facebook/docusaurus/pull/10884) fix(theme-translations): Add missing Polish (pl) theme translations ([@mariuszkrzaczkowski](https://github.com/mariuszkrzaczkowski))
+- [#10816](https://github.com/facebook/docusaurus/pull/10816) chore(theme-translations): add missing zh theme translations ([@MisterFISHUP](https://github.com/MisterFISHUP))
+
+## Other changes
+
+Other notable changes include:
+
+- [#10852](https://github.com/facebook/docusaurus/pull/10852) feat(theme): add `versions` attribute to `docsVersionDropdown` navbar item ([@hrumhurum](https://github.com/hrumhurum))
+
+- [#10987](https://github.com/facebook/docusaurus/pull/10987) feat(theme): Allow resetting colorMode to System/OS value ([@slorber](https://github.com/slorber))
+- [#10953](https://github.com/facebook/docusaurus/pull/10953) feat(plugin-npm2yarn): Add Bun to default tabs conversions ([@jakeboone02](https://github.com/jakeboone02))
+- [#10945](https://github.com/facebook/docusaurus/pull/10945) feat(theme): add theme layout stable CSS classes ([@slorber](https://github.com/slorber))
+- [#10846](https://github.com/facebook/docusaurus/pull/10846) feat(theme): code block showLineNumbers=start metastring ([@slorber](https://github.com/slorber))
+
+- [#xxx](https://github.com/facebook/docusaurus/pull/xxx): ???
+
+Check the **[3.8.0 changelog entry](/changelog/3.8.0)** for an exhaustive list of changes.
