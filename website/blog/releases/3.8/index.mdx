@@ -16,7 +16,111 @@ Upgrading should be easy. Our [release process](/community/release-process) resp
 
 {/* truncate */}
 
-## Highlight
+import BrowserWindow from '../../../src/components/BrowserWindow';
+import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
+
+## V4 Future Flags
+
+The v4 Future Flags let you opt-in for upcoming Docusaurus v4 breaking changes. This permits you to gradually prepare your site to the next version ahead of time, by handling each breaking change one at a time. By turning on all the v4 future flags, it will become easier to upgrade to Docusaurus v4 once we release it.
+
+:::info not invented here
+
+The concept of Future Flags is not our invention. It has been popularized in the Remix community. You can read more about this gradual feature adoption strategy here:
+
+- [Gradual Feature Adoption with Future Flags](https://remix.run/docs/en/main/guides/api-development-strategy)
+- [Future Proofing Your Remix App](https://remix.run/blog/future-flags)
+
+:::
+
+:::tip Turn all v4 future flags on
+
+We recommend to turn all the v4 future flags on at once with the following shortcut:
+
+```js
+const config = {
+  future: {
+    // highlight-next-line
+    v4: true,
+  },
+};
+```
+
+This way, you are sure to always keep your site prepared for v4.
+
+In practice, this also means that you may inadvertently turn on a new future flag when upgrading to the next minor version, and requires you to read carefully our upcoming release blog posts. We plan to introduce more future flags in the next minor versions, that may break your site.
+
+:::
+
+### CSS Cascade Layers
+
+In Docusaurus v4, we plan to leverage [CSS Cascade Layers](https://css-tricks.com/css-cascade-layers/). This modern CSS feature is wdely supported and permits to group CSS rules by specificity layers. In [#11142](https://github.com/facebook/docusaurus/pull/11142), we implemented a new experimental [`@docusaurus/plugin-css-cascade-layers`](/docs/api/plugins/@docusaurus/plugin-css-cascade-layers) that you can turn on through the `v4.useCssCascadeLayers` flag if you use the classic preset:
+
+```js
+export default {
+  future: {
+    v4: {
+      // highlight-next-line
+      useCssCascadeLayers: true,
+    },
+  },
+};
+```
+
+We consider this feature as a breaking change because it can slightly alter the CSS rules application order in customized sites, but these issues are usually easy to fix (see for example the [React Native CSS changes](https://github.com/facebook/react-native-website/pull/4607)). Sites that do not provide custom CSS and do not swizzle any component should not be affected.
+
+In practice, it permits to automatically apply built-in CSS Cascade Layer to all the CSS we provide, including our opinionated CSS framework [Infima](https://infima.dev/):
+
+```css
+@layer docusaurus.infima {
+  h1 {
+    /* Infima css rules */
+  }
+  pre {
+    /* Infima css rules */
+  }
+  code {
+    /* Infima css rules */
+  }
+}
+```
+
+This feature is particularly useful to give you more control over the CSS cascade. It makes the CSS rules less dependent on complex selector specificity, and the rules insertion order (which is not always predictable, depending on bundler and CSS optimizations). Your un-layered rules will now always override the layered CSS we provide.
+
+More importantly, it helps solves our long-standing issue of [Global CSS pollution](https://github.com/facebook/docusaurus/issues/6032). Our built-in global CSS rules may conflict with yours, making it harder to use Docusaurus to create playgrounds, demos and embedded widgets. Thankfully, [CSS Cascade Layers can be reverted](https://mayank.co/blog/revert-layer/) to create HTML subtrees that are not affected by the CSS Docusaurus provides.
+
+<details>
+  <summary>Reverting layers</summary>
+
+As the [issue](https://github.com/facebook/docusaurus/pull/11142) and [blog post](https://mayank.co/blog/revert-layer/) explain, it is possible to revert layers to isolate an HTML subtree from the CSS that come from this layer.
+
+In practice, you can create a `.my-playground` class to revert the global CSS coming from Infima:
+
+```css
+/* The "impossible" :not() selector helps increase the specificity */
+.my-playground:not(#a#b) {
+  &,
+  * {
+    @layer docusaurus.infima {
+      all: revert-layer;
+    }
+  }
+}
+```
+
+And then you can apply this class to to any HTML element, so that Infima doesn't apply to any of its children.
+
+<IframeWindow url="/tests/pages/style-isolation?docusaurus-data-navbar=false" />
+
+</details>
+
+### `postBuild` change
+
+In [#10850](https://github.com/facebook/docusaurus/pull/10850), we are removing the `head` attribute from the plugin `postBuild({head})` lifecycle. This bre
+
+This legacy data structure is coming from our [react-helmet-async](https://github.com/staylor/react-helmet-async) dependency should have never been exposed in the first place. It is not serializable, which prevents us from implementing
+
+- [#10871](https://github.com/facebook/docusaurus/pull/10871) refactor(create-docusaurus): add `future.v4` flag to init templates ([@slorber](https://github.com/slorber))
+- [#10850](https://github.com/facebook/docusaurus/pull/10850) feat(core): new `postBuild({routesBuildMetadata})` API, deprecate `head` attribute + v4 future flag ([@slorber](https://github.com/slorber))
 
 ## Performance
 
@@ -29,6 +133,7 @@ As announced, this release significantly improves our infrastructure performance
 ```js
 const config = {
   future: {
+    // highlight-next-line
     experimental_faster: true,
   },
 };
@@ -48,8 +153,10 @@ In [#10931](https://github.com/facebook/docusaurus/pull/10931), we have enabled 
 const config = {
   future: {
     experimental_faster: {
+      // highlight-start
       rspackBundler: true, // required flag
       rspackPersistentCache: true, // new flag
+      // highlight-end
     },
   },
 };
@@ -73,6 +180,7 @@ In [#10826](https://github.com/facebook/docusaurus/pull/10826), we introduced a 
 const config = {
   future: {
     experimental_faster: {
+      // highlight-next-line
       ssgWorkerThreads: true,
     },
   },
@@ -93,13 +201,6 @@ In [#11176](https://github.com/facebook/docusaurus/pull/11176), we fine-tuned th
 
 ---
 
-## Preparing for v4
-
-- [#11142](https://github.com/facebook/docusaurus/pull/11142) feat(theme): new CSS cascade layers plugin + built-in `v4.useCssCascadeLayers` future flag ([@slorber](https://github.com/slorber))
-
-- [#10871](https://github.com/facebook/docusaurus/pull/10871) refactor(create-docusaurus): add `future.v4` flag to init templates ([@slorber](https://github.com/slorber))
-- [#10850](https://github.com/facebook/docusaurus/pull/10850) feat(core): new `postBuild({routesBuildMetadata})` API, deprecate `head` attribute + v4 future flag ([@slorber](https://github.com/slorber))
-
 ## Maintenance
 
 - [#11168](https://github.com/facebook/docusaurus/pull/11168) chore: add Node 24 to CI + fix deprecation warnings ([@slorber](https://github.com/slorber))
@@ -117,7 +218,7 @@ In [#11176](https://github.com/facebook/docusaurus/pull/11176), we fine-tuned th
 - [#10358](https://github.com/facebook/docusaurus/pull/10358) refactor: replace unmaintained shelljs dependency by execa ([@OzakIOne](https://github.com/OzakIOne))
 - [#11138](https://github.com/facebook/docusaurus/pull/11138) refactor(content-blog): replace `reading-time` with `Intl.Segmenter` API ([@shreedharbhat98](https://github.com/shreedharbhat98))
 
-## Theme Code Block refactor
+## Code Block Refactor
 
 - [#11077](https://github.com/facebook/docusaurus/pull/11077) refactor(live-codeblock): refactor live code block theme components ([@slorber](https://github.com/slorber))
 - [#11062](https://github.com/facebook/docusaurus/pull/11062) refactor(theme): introduce CodeBlockContextProvider + split into smaller components ([@slorber](https://github.com/slorber))
