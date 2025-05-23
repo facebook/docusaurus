@@ -79,12 +79,17 @@ const config = {
 };
 ```
 
-### Other improvements
+### Optimizations
 
-- `docusaurus-plugin-sitemap`, `docusaurus-types`, `docusaurus`
-- [#11007](https://github.com/facebook/docusaurus/pull/11007) perf(core): Optimize `docusaurus start/serve`, fix `openBrowser()` perf issue on macOS ([@slorber](https://github.com/slorber))
-- [#11163](https://github.com/facebook/docusaurus/pull/11163) perf(utils): implement git command queue ([@slorber](https://github.com/slorber))
-- [#10885](https://github.com/facebook/docusaurus/pull/10885) perf(theme): use SVG sprite for IconExternalLink ([@slorber](https://github.com/slorber))
+We have also optimized various bottlenecks:
+
+In [#11007](https://github.com/facebook/docusaurus/pull/11007), we optimized the dev server startup time for macOS users. We figured out that the code to open your browser used expensive synchronous/blocking calls that prevented the bundler from doing its work. From now on, the bundler and the macOS browser opening will run in parallel, leading to a faster `docusaurus start` experience for all macOS users.
+
+In [#11163](https://github.com/facebook/docusaurus/pull/11163), we noticed that the docs `showLastUpdateAuthor` and `showLastUpdateTime` are quite expensive, and require to run a `git log` command for each document. On large sites, running these commands in parallel can exhaust the system and lead to Node.js `EBADF` errors. We implemented a Git command queue to avoid exhausting the system, which also slightly increased performance of our plugin's `loadContent()` lifecycle.
+
+In [#10885](https://github.com/facebook/docusaurus/pull/10885), we implemented an SVG sprite for the external link icon. Due to its repeated appearance in various places of your site (navbar, footer, sidebars...), using a React SVG component lead to duplicated SVG markup in the final HTML. Using a sprite permits to only embed the icon SVG once, reducing the generated HTML size and the static generation time. We [plan to use more SVG sprites](https://github.com/facebook/docusaurus/issues/5865) in the future.
+
+In [#11176](https://github.com/facebook/docusaurus/pull/11176), we fine-tuned the webpack/Rspack configuration to remove useless optimizations. If you have a very large site and bundling time is a concern, you might consider disabling other optimizations like `optimization.concatenateModule`. Refer to the linked issue for instructions and information on the tradeoffs involved.
 
 ---
 
