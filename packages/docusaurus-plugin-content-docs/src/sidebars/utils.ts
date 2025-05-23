@@ -480,7 +480,7 @@ Available document ids are:
 
 export function toDocNavigationLink(
   doc: DocMetadataBase,
-  options?: {sidebarItemLabel?: string | undefined},
+  options?: {sidebarItemLabel?: string},
 ): PropNavigationLink {
   const {
     title,

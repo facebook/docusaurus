@@ -86,7 +86,7 @@ export const bytesToSize = (bytes) => {
 const detectWebpSupport = () => {
   if (ssr) return false;
   const elem = document.createElement('canvas');
-  if (elem.getContext && elem.getContext('2d')) {
+  if (elem.getContext?.('2d')) {
     // was able or not to get WebP representation
     return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
   } else {
@@ -97,8 +97,7 @@ const detectWebpSupport = () => {
 
 export const supportsWebp = detectWebpSupport();
 
-const isWebp = (x) =>
-  x.format === 'webp' || (x.src && x.src.match(/\.webp($|\?.*)/i));
+const isWebp = (x) => x.format === 'webp' || x.src?.match(/\.webp($|\?.*)/i);
 
 // eslint-disable-next-line no-shadow
 export const selectSrc = ({srcSet, maxImageWidth, supportsWebp}) => {
