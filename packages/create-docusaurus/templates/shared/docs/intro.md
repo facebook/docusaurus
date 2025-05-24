@@ -1,47 +1,116 @@
----
-sidebar_position: 1
----
+[[module Plutus.V1.Ledger.Tx]]
 
-# Tutorial Intro
-
-Let's discover **Docusaurus in less than 5 minutes**.
-
-## Getting Started
-
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
+```haskell
+-- | Address with two kinds of credentials, normal and staking.
+data Address = Address{ addressCredential :: Credential, addressStakingCredential :: Maybe StakingCredential }
+    deriving stock (Eq, Ord, Show, Generic)
+    deriving anyclass (NFData)
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+---
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+# 📘 Tutorial: Understanding the `Address` Type in Plutus
 
-## Start your site
+## 🔍 Introduction
 
-Run the development server:
+In Cardano's Plutus smart contract language, an `Address` plays a crucial role in defining where assets can be sent or locked. Unlike traditional blockchain addresses, a Plutus `Address` may contain two types of credentials: a **payment credential** (mandatory) and an optional **staking credential**. In this tutorial, we will explore the structure and purpose of the `Address` data type as defined in Plutus.
 
-```bash
-cd my-website
-npm run start
+---
+
+## 🧱 The Plutus Code
+
+```haskell
+-- | Address with two kinds of credentials, normal and staking.
+data Address = Address
+  { addressCredential        :: Credential
+  , addressStakingCredential :: Maybe StakingCredential
+  }
+  deriving stock (Eq, Ord, Show, Generic)
+  deriving anyclass (NFData)
 ```
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+---
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+## 📥 Inputs, Variables, and Outputs
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+Since this is a **data type definition**, it does not behave like a function, so it doesn't have typical "inputs" and "outputs". Instead, it defines a **structure** used throughout Cardano transactions.
+
+### 🔸 Fields (Variables)
+
+- `addressCredential :: Credential`
+    
+    - This is the **main (normal) credential**, which can be a public key or a script hash that controls the address.
+        
+- `addressStakingCredential :: Maybe StakingCredential`
+    
+    - This is an **optional staking credential** used to associate the address with a staking reward account.
+        
+    - It uses `Maybe`, so it can either contain a staking credential (`Just cred`) or none (`Nothing`).
+        
+
+---
+
+## 🧠 Explanation in Simple Terms
+
+This data type defines what a Cardano address looks like on-chain in Plutus:
+
+- Every address has a **credential** that tells who owns or controls it.
+    
+- Optionally, it might also contain a **staking credential** to allow staking rewards.
+    
+
+Think of it like:
+
+```json
+{
+  "payment": "who controls the funds",
+  "staking": "who earns staking rewards (optional)"
+}
+```
+
+---
+
+## 💡 Plutus Example
+
+Here’s how you might construct an address using this type:
+
+```haskell
+-- Suppose we have a payment key hash and staking key hash
+let paymentCred = PubKeyCredential somePubKeyHash
+let stakingCred = Just (StakingHash (PubKeyCredential someStakingKeyHash))
+
+-- Construct the address
+let addr = Address paymentCred stakingCred
+```
+
+Or, if there is no staking credential:
+
+```haskell
+let addr = Address paymentCred Nothing
+```
+
+---
+
+## 🖼️ Illustration (Cardano Context)
+
+```
+┌───────────────────────────┐
+│        Address            │
+│ ┌───────────────────────┐ │
+│ │ addressCredential     │◄─ Public Key or Script Hash (Required)
+│ └───────────────────────┘ │
+│ ┌───────────────────────┐ │
+│ │ addressStakingCredential │◄─ Staking Key (Optional)
+│ └───────────────────────┘ │
+└───────────────────────────┘
+```
+
+🔵 _Both of these components work together to secure assets and participate in staking on the Cardano blockchain._
+
+---
+
+## 🔚 Conclusion
+
+The `Address` type in Plutus is a foundational structure that models the way Cardano handles ownership and staking at a low level. Understanding how this type works is essential when writing smart contracts that interact with on-chain addresses. It provides flexibility for both custodial and stake-aware addresses, reinforcing Cardano’s design principles.
+
+---
