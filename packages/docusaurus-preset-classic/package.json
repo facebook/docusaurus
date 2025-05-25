@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/core": "3.7.0",
+    "@docusaurus/plugin-css-cascade-layers": "3.7.0",
     "@docusaurus/plugin-content-blog": "3.7.0",
     "@docusaurus/plugin-content-docs": "3.7.0",
     "@docusaurus/plugin-content-pages": "3.7.0",

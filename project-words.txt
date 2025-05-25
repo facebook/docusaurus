@@ -109,6 +109,7 @@ Héctor
 héllô
 IANAD
 Infima
+infima
 inlines
 interactiveness
 Interpolatable
@@ -183,7 +184,6 @@ navigations
 navlink
 netrc
 newtab
-ngryman
 Nisarag
 noflash
 noicon
@@ -266,6 +266,8 @@ Rspack
 rspack
 Rspress
 rtcts
+Samply
+samply
 saurus
 Scaleway
 Sebastien

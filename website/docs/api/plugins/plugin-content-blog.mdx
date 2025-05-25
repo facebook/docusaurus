@@ -109,17 +109,18 @@ type EditUrlFunction = (params: {
 ```ts
 type ReadingTimeOptions = {
   wordsPerMinute: number;
-  wordBound: (char: string) => boolean;
 };
 
 type ReadingTimeCalculator = (params: {
   content: string;
+  locale: string;
   frontMatter?: BlogPostFrontMatter & Record<string, unknown>;
   options?: ReadingTimeOptions;
 }) => number;
 
 type ReadingTimeFn = (params: {
   content: string;
+  locale: string;
   frontMatter: BlogPostFrontMatter & Record<string, unknown>;
   defaultReadingTime: ReadingTimeCalculator;
 }) => number | undefined;

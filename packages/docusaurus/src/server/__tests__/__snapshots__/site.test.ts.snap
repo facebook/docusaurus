@@ -99,6 +99,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
       },
       "v4": {
         "removeLegacyPostBuildHeadAttribute": false,
+        "useCssCascadeLayers": false,
       },
     },
     "headTags": [],

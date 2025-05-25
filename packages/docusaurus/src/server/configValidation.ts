@@ -68,11 +68,13 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: false,
+  useCssCascadeLayers: false,
 };
 
 // When using the "v4: true" shortcut
 export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: true,
+  useCssCascadeLayers: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
@@ -269,6 +271,9 @@ const FUTURE_V4_SCHEMA = Joi.alternatives()
     Joi.object<FutureV4Config>({
       removeLegacyPostBuildHeadAttribute: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.removeLegacyPostBuildHeadAttribute,
+      ),
+      useCssCascadeLayers: Joi.boolean().default(
+        DEFAULT_FUTURE_V4_CONFIG.useCssCascadeLayers,
       ),
     }),
     Joi.boolean()

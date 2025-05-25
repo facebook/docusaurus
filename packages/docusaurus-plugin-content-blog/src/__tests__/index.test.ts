@@ -211,7 +211,7 @@ describe('blog plugin', () => {
     ).toEqual({
       editUrl: `${BaseEditUrl}/blog/2018-12-14-Happy-First-Birthday-Slash.md`,
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
-      readingTime: 0.015,
+      readingTime: 0.02,
       source: path.posix.join(
         '@site',
         path.posix.join('i18n', 'en', 'docusaurus-plugin-content-blog'),
@@ -276,7 +276,7 @@ describe('blog plugin', () => {
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/complex-slug.md`,
       permalink: '/blog/hey/my super path/héllô',
-      readingTime: 0.015,
+      readingTime: 0.02,
       source: path.posix.join('@site', PluginPath, 'complex-slug.md'),
       title: 'Complex Slug',
       description: `complex url slug`,
@@ -318,7 +318,7 @@ describe('blog plugin', () => {
     }).toEqual({
       editUrl: `${BaseEditUrl}/blog/simple-slug.md`,
       permalink: '/blog/simple/slug',
-      readingTime: 0.015,
+      readingTime: 0.02,
       source: path.posix.join('@site', PluginPath, 'simple-slug.md'),
       title: 'Simple Slug',
       description: `simple url slug`,

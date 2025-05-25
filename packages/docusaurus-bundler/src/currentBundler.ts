@@ -104,3 +104,46 @@ export async function getProgressBarPlugin({
 
   return WebpackBar;
 }
+
+export async function registerBundlerTracing({
+  currentBundler,
+}: {
+  currentBundler: CurrentBundler;
+}): Promise<() => Promise<void>> {
+  if (currentBundler.name === 'rspack') {
+    const Rspack = await importRspack();
+
+    // See https://rspack.dev/contribute/development/profiling
+    // File can be opened with https://ui.perfetto.dev/
+    if (process.env.DOCUSAURUS_RSPACK_TRACE) {
+      // We use the env variable as the "filter" attribute
+      // See values here: https://rspack.dev/contribute/development/tracing#tracing-filter
+      let filter = process.env.DOCUSAURUS_RSPACK_TRACE;
+
+      if (filter === 'true' || filter === '1') {
+        // Default value recommended by the Rspack team
+        // It's also what the CLI uses for the "overview" preset:
+        // https://github.com/web-infra-dev/rspack/blob/v1.3.10/packages/rspack-cli/src/utils/profile.ts
+        filter = 'info';
+      }
+
+      await Rspack.experiments.globalTrace.register(
+        filter,
+        'chrome',
+        './rspack-tracing.json',
+      );
+
+      console.info(`Rspack tracing registered, filter=${filter}`);
+
+      return async () => {
+        await Rspack.experiments.globalTrace.cleanup();
+        console.log(`Rspack tracing cleaned up, filter=${filter}`);
+      };
+    }
+  }
+
+  // We don't support Webpack tracing at the moment
+  return async () => {
+    // noop
+  };
+}
