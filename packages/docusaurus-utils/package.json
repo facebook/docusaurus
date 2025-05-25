@@ -33,7 +33,7 @@
     "micromatch": "^4.0.5",
     "prompts": "^2.4.2",
     "resolve-pathname": "^3.0.0",
-    "tinyglobby": "^0.2.13",
+    "tinyglobby": "^0.2.14",
     "tslib": "^2.6.0",
     "url-loader": "^4.1.1",
     "utility-types": "^3.10.0",
