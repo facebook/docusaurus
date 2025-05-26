@@ -136,7 +136,7 @@ This way, you are sure to always keep your site prepared for Docusaurus v4. Be a
 
 In Docusaurus v4, we plan to leverage [CSS Cascade Layers](https://css-tricks.com/css-cascade-layers/). This modern CSS feature is widely supported and permits to group CSS rules in layers of specificity. It is particularly useful to give you more control over the CSS cascade. It makes the CSS rules less dependent on their insertion order. Your un-layered rules will now always override the layered CSS we provide.
 
-In [#11142](https://github.com/facebook/docusaurus/pull/11142), we implemented a new experimental [`@docusaurus/plugin-css-cascade-layers`](/docs/api/plugins/@docusaurus/plugin-css-cascade-layers) that you can turn on through the `v4.useCssCascadeLayers` flag if you use the classic preset:
+In [#11142](https://github.com/facebook/docusaurus/pull/11142), we implemented a new experimental [`@docusaurus/plugin-css-cascade-layers`](/api/plugins/@docusaurus/plugin-css-cascade-layers) that you can turn on through the `v4.useCssCascadeLayers` flag if you use the classic preset:
 
 ```js
 export default {
@@ -255,5 +255,8 @@ Other notable changes include:
 - In [#10953](https://github.com/facebook/docusaurus/pull/10953), the `@docusaurus/remark-plugin-npm2yarn` plugin now supports Bun tabs conversions by default.
 - In [#10945](https://github.com/facebook/docusaurus/pull/10945), more stable CSS classes are now applied to the main theme layout elements, to let you create more reliable CSS selectors.
 - In [#10846](https://github.com/facebook/docusaurus/pull/10846), the Markdown code block `showLineNumbers` metastring can now accept a number to initialize the line counter initial value.
+- In [#11090](https://github.com/facebook/docusaurus/pull/11090), we made it easier to provide a custom page title formatter.
+- In [#11088](https://github.com/facebook/docusaurus/pull/11088), the page plugin now supports `frontMatter.slug` like docs and blog plugins already do.
+- In [#10875](https://github.com/facebook/docusaurus/pull/10875), the docs versioning CLI now also copies localized docs JSON translation files.
 
 Check the **[3.8.0 changelog entry](/changelog/3.8.0)** for an exhaustive list of changes.
