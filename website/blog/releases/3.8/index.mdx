@@ -18,6 +18,89 @@ Upgrading is easy. We follow [Semantic Versioning](https://semver.org/), and min
 
 import BrowserWindow from '../../../src/components/BrowserWindow';
 import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
+import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
+
+## Performance
+
+This release keeps improving our build infrastructure performance with various optimizations, and 2 new Docusaurus Faster options.
+
+### Docusaurus Faster
+
+[Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) has been introduced in [Docusaurus v3.6](/blog/releases/3.6#docusaurus-faster), and permits you to opt-in for our upgraded build infrastructure and helps you build your site much faster. The experimental flags can be turned on individually, but we recommend to turn them all at once with this convenient shortcut:
+
+```js
+const config = {
+  future: {
+    // highlight-next-line
+    experimental_faster: true,
+  },
+};
+```
+
+:::tip
+
+Don't forget to install the `@docusaurus/faster` dependency first!
+
+:::
+
+#### Persistent Cache
+
+In [#10931](https://github.com/facebook/docusaurus/pull/10931), we have enabled the **[Rspack persitent cache](https://rspack.dev/blog/announcing-1-2#persistent-cache)**. Similarly to the [Webpack persistent cache](https://webpack.js.org/blog/2020-10-10-webpack-5-release/#persistent-caching) (already supported), it permits to greatly speed up the bundling of the Docusaurus app on subsequent builds.
+
+In practice, your site should build much faster if you run `docusaurus build` a second time.
+
+This feature depends on using the [Rspack bundler](https://rspack.dev/), and can be turned on with the `rspackPersistentCache` flag:
+
+```js
+const config = {
+  future: {
+    experimental_faster: {
+      // highlight-start
+      rspackBundler: true, // required flag
+      rspackPersistentCache: true, // new flag
+      // highlight-end
+    },
+  },
+};
+```
+
+:::caution Preserving the cache
+
+The persistent cache requires preserving the `./node_modules/.cache` folder across builds.
+
+Popular CDNs such as Netlify and Vercel do that for you automatically. Depending on your CI and deployment pipeline, additional configuration may be needed to preserve the cache.
+
+:::
+
+#### Worker Threads
+
+In [#10826](https://github.com/facebook/docusaurus/pull/10826), we introduced a [Node.js Worker Thread pool](https://github.com/tinylibs/tinypool) to run the static side generation code. With this new strategy, we can better leverage all the available CPUs, reduce static site generation time, and contain potential memory leaks.
+
+This feature can be turned on with the `ssgWorkerThreads` flag, and requires the `[`v4.removeLegacyPostBuildHeadAttribute`](#postbuild-change)` Future Flag to be turned on:
+
+```js
+const config = {
+  future: {
+    v4: {
+      // highlight-next-line
+      removeLegacyPostBuildHeadAttribute: true, // required
+    },
+    experimental_faster: {
+      // highlight-next-line
+      ssgWorkerThreads: true,
+    },
+  },
+};
+```
+
+### Optimizations
+
+We identified and resolved several major bottlenecks, including:
+
+- In [#11007](https://github.com/facebook/docusaurus/pull/11007), we optimized the dev server startup time for macOS users. We figured out that the code to open your browser used expensive synchronous/blocking calls that prevented the bundler from doing its work. From now on, the bundler and the macOS browser opening will run in parallel, leading to a faster `docusaurus start` experience for all macOS users.
+- In [#11163](https://github.com/facebook/docusaurus/pull/11163), we noticed that the docs `showLastUpdateAuthor` and `showLastUpdateTime` are quite expensive, and require to run a `git log` command for each document. On large sites, running these commands in parallel can exhaust the system and lead to Node.js `EBADF` errors. We implemented a Git command queue to avoid exhausting the system, which also slightly increased performance of our plugin's `loadContent()` lifecycle.
+- In [#10885](https://github.com/facebook/docusaurus/pull/10885), we implemented an SVG sprite for the external link icon. Due to its repeated appearance in various places of your site (navbar, footer, sidebars...), using a React SVG component lead to duplicated SVG markup in the final HTML. Using a sprite permits to only embed the icon SVG once, reducing the generated HTML size and the static generation time. We [plan to use more SVG sprites](https://github.com/facebook/docusaurus/issues/5865) in the future.
+- In [#11176](https://github.com/facebook/docusaurus/pull/11176), we fine-tuned the webpack/Rspack configuration to remove useless optimizations. If you have a very large site and bundling time is a concern, you might consider disabling other optimizations like `optimization.concatenateModule`. Refer to the linked issue for instructions and information on the tradeoffs involved.
 
 ## Future Flags
 
@@ -104,114 +187,54 @@ In practice, you can create a `.my-playground` class to revert the global CSS co
 
 Then you can apply this class to any HTML element, so that Infima doesn't apply to any of its children. The HTML subtree becomes isolated from our built-in CSS.
 
+{' '}
+
 <IframeWindow url="/tests/pages/style-isolation?docusaurus-data-navbar=false" />
 
 </details>
 
-### `postBuild` change
+### `postBuild()` Change
 
-In [#10850](https://github.com/facebook/docusaurus/pull/10850), we are removing the `head` attribute from the plugin `postBuild({head})` lifecycle. This bre
-
-This legacy data structure is coming from our [react-helmet-async](https://github.com/staylor/react-helmet-async) dependency should have never been exposed in the first place. It is not serializable, which prevents us from implementing
-
-- [#10871](https://github.com/facebook/docusaurus/pull/10871) refactor(create-docusaurus): add `future.v4` flag to init templates ([@slorber](https://github.com/slorber))
-- [#10850](https://github.com/facebook/docusaurus/pull/10850) feat(core): new `postBuild({routesBuildMetadata})` API, deprecate `head` attribute + v4 future flag ([@slorber](https://github.com/slorber))
-
-## Performance
-
-As announced, this release significantly improves our infrastructure performance with various optimizations, and 2 new Docusaurus Faster options.
-
-### Docusaurus Faster
-
-[Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) has been introduced in [Docusaurus v3.6](/blog/releases/3.6#docusaurus-faster), and permits you to opt-in for an upgraded build infrastructure. The experimental flags can be turned on individually, but we recommend to turn all the flags on at once with this convenient shortcut:
+In [#10850](https://github.com/facebook/docusaurus/pull/10850), we added a new `removeLegacyPostBuildHeadAttribute` Future Flag that slightly changes the signature of the `postBuild()` plugin lifecycle method, removing the `head` attribute.
 
 ```js
-const config = {
+export default {
   future: {
-    // highlight-next-line
-    experimental_faster: true,
-  },
-};
-```
-
-:::tip
-
-Don't forget to install the `@docusaurus/faster` dependency first!
-
-:::
-
-#### Persistent Cache
-
-In [#10931](https://github.com/facebook/docusaurus/pull/10931), we have enabled the **[Rspack persitent cache](https://rspack.dev/blog/announcing-1-2#persistent-cache)**. Similarly to the [Webpack persistent cache](https://webpack.js.org/blog/2020-10-10-webpack-5-release/#persistent-caching) (that we already supported), it permits to build your site faster on subsequent builds, greatly reducing the time it takes to bundle the app. This feature depends on using the [Rspack bundler](https://rspack.dev/), and can be turned on with the `rspackPersistentCache` flag:
-
-```js
-const config = {
-  future: {
-    experimental_faster: {
-      // highlight-start
-      rspackBundler: true, // required flag
-      rspackPersistentCache: true, // new flag
-      // highlight-end
-    },
-  },
-};
-```
-
-:::caution Preserve the cache
-
-The persistent cache requires preserving the `./node_modules/.cache` folder across builds.
-
-Popular CDNs such as Netlify and Vercel do that for you automatically. Depending on your CI and deployment pipeline, additional configuration may be needed to preserve the cache.
-
-It should work by default locally. In case you encounter any problem, running the `docusaurus clear` command will clear the `./node_modules/.cache` folder.
-
-:::
-
-#### Worker Threads
-
-In [#10826](https://github.com/facebook/docusaurus/pull/10826), we introduced a [Node.js Worker Thread pool](https://github.com/tinylibs/tinypool) to run the static side generation code. Unlike our traditional strategy, this permits to better leverage all the available CPUs, reduce static site generation times, and contain potential memory leaks. This feature can be turned on with the `ssgWorkerThreads` flag:
-
-```js
-const config = {
-  future: {
-    experimental_faster: {
+    v4: {
       // highlight-next-line
-      ssgWorkerThreads: true,
+      removeLegacyPostBuildHeadAttribute: true,
     },
   },
 };
 ```
 
-### Optimizations
+This legacy data structure is coming from our [react-helmet-async](https://github.com/staylor/react-helmet-async) dependency and should have never been exposed as public API in the first place. It is not serializable, which prevents us from implementing [Worker Threads for the static site generation](#worker-threads).
 
-We have also optimized various bottlenecks:
-
-In [#11007](https://github.com/facebook/docusaurus/pull/11007), we optimized the dev server startup time for macOS users. We figured out that the code to open your browser used expensive synchronous/blocking calls that prevented the bundler from doing its work. From now on, the bundler and the macOS browser opening will run in parallel, leading to a faster `docusaurus start` experience for all macOS users.
-
-In [#11163](https://github.com/facebook/docusaurus/pull/11163), we noticed that the docs `showLastUpdateAuthor` and `showLastUpdateTime` are quite expensive, and require to run a `git log` command for each document. On large sites, running these commands in parallel can exhaust the system and lead to Node.js `EBADF` errors. We implemented a Git command queue to avoid exhausting the system, which also slightly increased performance of our plugin's `loadContent()` lifecycle.
-
-In [#10885](https://github.com/facebook/docusaurus/pull/10885), we implemented an SVG sprite for the external link icon. Due to its repeated appearance in various places of your site (navbar, footer, sidebars...), using a React SVG component lead to duplicated SVG markup in the final HTML. Using a sprite permits to only embed the icon SVG once, reducing the generated HTML size and the static generation time. We [plan to use more SVG sprites](https://github.com/facebook/docusaurus/issues/5865) in the future.
-
-In [#11176](https://github.com/facebook/docusaurus/pull/11176), we fine-tuned the webpack/Rspack configuration to remove useless optimizations. If you have a very large site and bundling time is a concern, you might consider disabling other optimizations like `optimization.concatenateModule`. Refer to the linked issue for instructions and information on the tradeoffs involved.
-
----
+While technically a **breaking change**, we believe this change will not affect anyone. We couldn't find any open source plugin that uses the `head` parameter that this method receives. If turning this flag on breaks your site, please let us know [here](https://github.com/facebook/docusaurus/pull/10850).
 
 ## Maintenance
 
-- [#11168](https://github.com/facebook/docusaurus/pull/11168) chore: add Node 24 to CI + fix deprecation warnings ([@slorber](https://github.com/slorber))
-- [#10969](https://github.com/facebook/docusaurus/pull/10969) chore: add `eslint-plugin-react-compiler` ([@slorber](https://github.com/slorber))
-- [#10966](https://github.com/facebook/docusaurus/pull/10966) chore: upgrade monorepo to TS 5.8 ([@slorber](https://github.com/slorber))
+Docusaurus 3.8 is ready for [Node.js 24](https://github.com/facebook/docusaurus/pull/11168) and [TypeScript 5.8](https://github.com/facebook/docusaurus/pull/10966).
 
----
+We have also worked on removing useless npm dependencies, and internalizing unmaintained ones:
 
-- [#11014](https://github.com/facebook/docusaurus/pull/11014) fix(ideal-image): Internalize `react-waypoint` dependency, fix React 19 compatibility ([@slorber](https://github.com/slorber))
-- [#10958](https://github.com/facebook/docusaurus/pull/10958) fix(create-docusaurus): fix CLI and remove shelljs escapeShellArg util ([@slorber](https://github.com/slorber))
-- [#11037](https://github.com/facebook/docusaurus/pull/11037) refactor(core): remove clean-webpack-plugin ([@slorber](https://github.com/slorber))
-- [#10956](https://github.com/facebook/docusaurus/pull/10956) refactor: remove `react-dev-utils` (CRA) dependency, internalize code ([@slorber](https://github.com/slorber))
-- [#11010](https://github.com/facebook/docusaurus/pull/11010) refactor(ideal-image-plugin): internalize legacy component code ([@slorber](https://github.com/slorber))
-- `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-mermaid`, `docusaurus-theme-search-algolia`
-- [#10358](https://github.com/facebook/docusaurus/pull/10358) refactor: replace unmaintained shelljs dependency by execa ([@OzakIOne](https://github.com/OzakIOne))
-- [#11138](https://github.com/facebook/docusaurus/pull/11138) refactor(content-blog): replace `reading-time` with `Intl.Segmenter` API ([@shreedharbhat98](https://github.com/shreedharbhat98))
+- In [#11010](https://github.com/facebook/docusaurus/pull/11010) and [#11014](https://github.com/facebook/docusaurus/pull/11014), we internalized the `react-ideal-image` and `react-waypoint` unmaintained package used in `@docusaurus/plugin-ideal-image`, and made them compatible with React 19.
+- In [#10956](https://github.com/facebook/docusaurus/pull/10956), we removed our dependency to the `react-dev-utils` unmaintained package (from Create-React-App).
+- In [#10358](https://github.com/facebook/docusaurus/pull/10358) refactor: replaced the `shelljs` unmaintained package by `execa`
+- In [#11138](https://github.com/facebook/docusaurus/pull/11138), we removed the `reading-time` package in favor of the built-in `Intl.Segmenter` standard API to compute blog post reading times.
+- In [#11037](https://github.com/facebook/docusaurus/pull/11037), we removed the useless `clean-webpack-plugin`.
+
+## System Color Mode
+
+In [#10987](https://github.com/facebook/docusaurus/pull/10987), the classic theme now lets you revert the color mode to the system/OS value.
+
+<BrowserWindow>
+  <div
+    className="margin-vert--md"
+    style={{display: 'flex', justifyContent: 'center'}}>
+    <NavbarColorModeToggle />
+  </div>
+</BrowserWindow>
 
 ## Code Block Refactor
 
@@ -233,13 +256,9 @@ In [#11176](https://github.com/facebook/docusaurus/pull/11176), we fine-tuned th
 
 Other notable changes include:
 
-- [#10852](https://github.com/facebook/docusaurus/pull/10852) feat(theme): add `versions` attribute to `docsVersionDropdown` navbar item ([@hrumhurum](https://github.com/hrumhurum))
-
-- [#10987](https://github.com/facebook/docusaurus/pull/10987) feat(theme): Allow resetting colorMode to System/OS value ([@slorber](https://github.com/slorber))
-- [#10953](https://github.com/facebook/docusaurus/pull/10953) feat(plugin-npm2yarn): Add Bun to default tabs conversions ([@jakeboone02](https://github.com/jakeboone02))
-- [#10945](https://github.com/facebook/docusaurus/pull/10945) feat(theme): add theme layout stable CSS classes ([@slorber](https://github.com/slorber))
-- [#10846](https://github.com/facebook/docusaurus/pull/10846) feat(theme): code block showLineNumbers=start metastring ([@slorber](https://github.com/slorber))
-
-- [#xxx](https://github.com/facebook/docusaurus/pull/xxx): ???
+- In [#10852](https://github.com/facebook/docusaurus/pull/10852), the theme `docsVersionDropdown` navbar item now accepts a `versions` attribute.
+- In [#10953](https://github.com/facebook/docusaurus/pull/10953), the `@docusaurus/remark-plugin-npm2yarn` plugin now supports Bun tabs conversions by default.
+- In [#10945](https://github.com/facebook/docusaurus/pull/10945), more stable CSS classes are now applied to the main theme layout elements, to let you create more reliable CSS selectors.
+- In [#10846](https://github.com/facebook/docusaurus/pull/10846), the Markdown code block `showLineNumbers` metastring can now accept a number to initialize the line counter initial value.
 
 Check the **[3.8.0 changelog entry](/changelog/3.8.0)** for an exhaustive list of changes.
