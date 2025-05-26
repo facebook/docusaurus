@@ -6,7 +6,7 @@ export class UnfetchAbortController {
 }
 
 // modified version of https://github.com/developit/unfetch
-// - ponyfill intead of polyfill
+// - ponyfill instead of polyfill
 // - add support for AbortController
 export const unfetch = (url, options) => {
   options = options || {};
