@@ -19,9 +19,9 @@ Upgrading is easy. We follow [Semantic Versioning](https://semver.org/), and min
 import BrowserWindow from '../../../src/components/BrowserWindow';
 import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
 
-## V4 Future Flags
+## Future Flags
 
-The v4 Future Flags let you opt-in for upcoming Docusaurus v4 breaking changes. This permits you to gradually prepare your site to the next version ahead of time, by handling each breaking change one at a time. By turning on all the v4 future flags, it will become easier to upgrade to Docusaurus v4 once we release it.
+The Docusaurus v4 Future Flags let you **opt-in for upcoming Docusaurus v4 breaking changes**, and help you manage them incrementally, one at a time. Enabling all the future flags will make your site easier to upgrade to Docusaurus v4 when it's released.
 
 :::info not invented here
 
@@ -32,9 +32,9 @@ The concept of Future Flags is not our invention. It has been popularized in the
 
 :::
 
-:::tip Turn all v4 future flags on
+:::tip Turn all the v4 future flags on
 
-We recommend to turn all the v4 future flags on at once with the following shortcut:
+You can turn all the v4 Future Flags on at once with the following shortcut:
 
 ```js
 const config = {
@@ -45,9 +45,7 @@ const config = {
 };
 ```
 
-This way, you are sure to always keep your site prepared for v4.
-
-In practice, this also means that you may inadvertently turn on a new future flag when upgrading to the next minor version, and requires you to read carefully our upcoming release blog posts. We plan to introduce more future flags in the next minor versions, that may break your site.
+This way, you are sure to always keep your site prepared for Docusaurus v4. Be aware that we'll introduce more Future Flags in the next minor versions. When upgrading, always read our release blog posts to understand the new breaking changes you opt into.
 
 :::
 
