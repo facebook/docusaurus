@@ -284,7 +284,7 @@ export default async function createConfigAsync() {
           configureWebpack(_config, isServer) {
             // This optimization is expensive and only reduces by 3% the JS
             // Let's skip it for local and deploy preview builds
-            // See also https://github.com/facebook/docusaurus/pull/11176
+            // See also https://github.com/facebook/docusaurus/discussions/11199
             return {
               optimization: {
                 concatenateModules: isProductionDeployment ? !isServer : false,
