@@ -136,7 +136,7 @@ This way, you are sure to always keep your site prepared for Docusaurus v4. Be a
 
 In Docusaurus v4, we plan to leverage [CSS Cascade Layers](https://css-tricks.com/css-cascade-layers/). This modern CSS feature is widely supported and permits to group CSS rules in layers of specificity. It is particularly useful to give you more control over the CSS cascade. It makes the CSS rules less dependent on their insertion order. Your un-layered rules will now always override the layered CSS we provide.
 
-In [#11142](https://github.com/facebook/docusaurus/pull/11142), we implemented a new experimental [`@docusaurus/plugin-css-cascade-layers`](/api/plugins/@docusaurus/plugin-css-cascade-layers) that you can turn on through the `v4.useCssCascadeLayers` flag if you use the classic preset:
+In [#11142](https://github.com/facebook/docusaurus/pull/11142), we implemented a new experimental [`@docusaurus/plugin-css-cascade-layers`](/docs/api/plugins/@docusaurus/plugin-css-cascade-layers) that you can turn on through the `v4.useCssCascadeLayers` flag if you use the classic preset:
 
 ```js
 export default {
