@@ -91,10 +91,15 @@ async function createTestSite() {
     const siteThemePathPosix = posixPath(siteThemePath);
     expect(tree(siteThemePathPosix)).toMatchSnapshot('theme dir tree');
 
-    const files = (await Globby(siteThemePathPosix, {absolute: true})).sort();
+    const files = (await Globby(siteThemePathPosix))
+      .map((file) => path.posix.relative(siteThemePathPosix, file))
+      .sort();
 
     for (const file of files) {
-      const fileContent = await fs.readFile(file, 'utf-8');
+      const fileContent = await fs.readFile(
+        path.posix.join(siteThemePath, file),
+        'utf-8',
+      );
       expect(fileContent).toMatchSnapshot(file);
     }
   }
