@@ -15,7 +15,7 @@ export type DocsVersionPersistence = 'localStorage' | 'none';
 
 // TODO improve types, use unions
 export type NavbarItem = {
-  type?: string | undefined;
+  type?: string;
   items?: NavbarItem[];
   label?: string;
   position?: 'left' | 'right';
