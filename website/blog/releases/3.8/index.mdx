@@ -8,7 +8,7 @@ date: 2025-05-26
 
 We are happy to announce **Docusaurus 3.8**.
 
-This release improves build performance, includes new features and introduces "future flags" to prepare your site for the upcoming Docusaurus 4.
+This release improves build performance, includes new features and introduces "future flags" to prepare your site for Docusaurus 4.
 
 Upgrading is easy. We follow [Semantic Versioning](https://semver.org/), and minor version updates have **no breaking changes**, accordingly to our [release process](/community/release-process).
 
@@ -68,7 +68,7 @@ const config = {
 
 The persistent cache requires preserving the `./node_modules/.cache` folder across builds.
 
-Popular CDNs such as Netlify and Vercel do that for you automatically. Depending on your CI and deployment pipeline, additional configuration may be needed to preserve the cache.
+Popular CDNs such as Netlify and Vercel do that for you automatically. Depending on your CI and deployment pipeline, additional configuration can be needed to preserve the cache.
 
 :::
 
@@ -76,7 +76,7 @@ Popular CDNs such as Netlify and Vercel do that for you automatically. Depending
 
 In [#10826](https://github.com/facebook/docusaurus/pull/10826), we introduced a [Node.js Worker Thread pool](https://github.com/tinylibs/tinypool) to run the static side generation code. With this new strategy, we can better leverage all the available CPUs, reduce static site generation time, and contain potential memory leaks.
 
-This feature can be turned on with the `ssgWorkerThreads` flag, and requires the `[`v4.removeLegacyPostBuildHeadAttribute`](#postbuild-change)` Future Flag to be turned on:
+This feature can be turned on with the `ssgWorkerThreads` flag, and requires the [`v4.removeLegacyPostBuildHeadAttribute`](#postbuild-change) Future Flag to be turned on:
 
 ```js
 const config = {
@@ -93,7 +93,7 @@ const config = {
 };
 ```
 
-### Optimizations
+### Other Optimizations
 
 We identified and resolved several major bottlenecks, including:
 
@@ -134,7 +134,7 @@ This way, you are sure to always keep your site prepared for Docusaurus v4. Be a
 
 ### CSS Cascade Layers
 
-In Docusaurus v4, we plan to leverage [CSS Cascade Layers](https://css-tricks.com/css-cascade-layers/). This modern CSS feature is widely supported and permits to group CSS rules in layers of specificity. It is particularly useful to give you more control over the CSS cascade. It makes the CSS rules less dependent on complex selector specificity, and the insertion order of the CSS rules (which is not always predictable, depending on bundler and CSS optimizations). Your un-layered rules will now always override the layered CSS we provide.
+In Docusaurus v4, we plan to leverage [CSS Cascade Layers](https://css-tricks.com/css-cascade-layers/). This modern CSS feature is widely supported and permits to group CSS rules in layers of specificity. It is particularly useful to give you more control over the CSS cascade. It makes the CSS rules less dependent on their insertion order. Your un-layered rules will now always override the layered CSS we provide.
 
 In [#11142](https://github.com/facebook/docusaurus/pull/11142), we implemented a new experimental [`@docusaurus/plugin-css-cascade-layers`](/docs/api/plugins/@docusaurus/plugin-css-cascade-layers) that you can turn on through the `v4.useCssCascadeLayers` flag if you use the classic preset:
 
@@ -187,8 +187,6 @@ In practice, you can create a `.my-playground` class to revert the global CSS co
 
 Then you can apply this class to any HTML element, so that Infima doesn't apply to any of its children. The HTML subtree becomes isolated from our built-in CSS.
 
-{' '}
-
 <IframeWindow url="/tests/pages/style-isolation?docusaurus-data-navbar=false" />
 
 </details>
@@ -212,18 +210,6 @@ This legacy data structure is coming from our [react-helmet-async](https://githu
 
 While technically a **breaking change**, we believe this change will not affect anyone. We couldn't find any open source plugin that uses the `head` parameter that this method receives. If turning this flag on breaks your site, please let us know [here](https://github.com/facebook/docusaurus/pull/10850).
 
-## Maintenance
-
-Docusaurus 3.8 is ready for [Node.js 24](https://github.com/facebook/docusaurus/pull/11168) and [TypeScript 5.8](https://github.com/facebook/docusaurus/pull/10966).
-
-We have also worked on removing useless npm dependencies, and internalizing unmaintained ones:
-
-- In [#11010](https://github.com/facebook/docusaurus/pull/11010) and [#11014](https://github.com/facebook/docusaurus/pull/11014), we internalized the `react-ideal-image` and `react-waypoint` unmaintained package used in `@docusaurus/plugin-ideal-image`, and made them compatible with React 19.
-- In [#10956](https://github.com/facebook/docusaurus/pull/10956), we removed our dependency to the `react-dev-utils` unmaintained package (from Create-React-App).
-- In [#10358](https://github.com/facebook/docusaurus/pull/10358) refactor: replaced the `shelljs` unmaintained package by `execa`
-- In [#11138](https://github.com/facebook/docusaurus/pull/11138), we removed the `reading-time` package in favor of the built-in `Intl.Segmenter` standard API to compute blog post reading times.
-- In [#11037](https://github.com/facebook/docusaurus/pull/11037), we removed the useless `clean-webpack-plugin`.
-
 ## System Color Mode
 
 In [#10987](https://github.com/facebook/docusaurus/pull/10987), the classic theme now lets you revert the color mode to the system/OS value.
@@ -238,19 +224,28 @@ In [#10987](https://github.com/facebook/docusaurus/pull/10987), the classic them
 
 ## Code Block Refactor
 
-- [#11077](https://github.com/facebook/docusaurus/pull/11077) refactor(live-codeblock): refactor live code block theme components ([@slorber](https://github.com/slorber))
-- [#11062](https://github.com/facebook/docusaurus/pull/11062) refactor(theme): introduce CodeBlockContextProvider + split into smaller components ([@slorber](https://github.com/slorber))
-- [#11059](https://github.com/facebook/docusaurus/pull/11059) refactor(theme): CodeBlock, centralize metadata parsing + refactor theme component ([@slorber](https://github.com/slorber))
-- [#11058](https://github.com/facebook/docusaurus/pull/11058) refactor(theme): refactor CodeBlock parseLines logic + use inline snapshots to ease review ([@slorber]
+In [#11058](https://github.com/facebook/docusaurus/pull/11058), [#11059](https://github.com/facebook/docusaurus/pull/11059), [#11062](https://github.com/facebook/docusaurus/pull/11062) and [#11077](https://github.com/facebook/docusaurus/pull/11077), the theme code block components have been significantly refactored in a way that should be much easier to swizzle and extend.
 
----
+According to our [release process](/community/release-process), this is not a breaking change, but sites that have swizzled these components may need to upgrade them.
 
 ## Translations
 
-- [#11030](https://github.com/facebook/docusaurus/pull/11030) fix(theme-translation): add missing Japanese translation for System Mode ([@tats-u](https://github.com/tats-u))
-- [#10893](https://github.com/facebook/docusaurus/pull/10893) fix(theme-translations): Turkish exist language translate completed. ([@ramazansancar](https://github.com/ramazansancar))
-- [#10884](https://github.com/facebook/docusaurus/pull/10884) fix(theme-translations): Add missing Polish (pl) theme translations ([@mariuszkrzaczkowski](https://github.com/mariuszkrzaczkowski))
-- [#10816](https://github.com/facebook/docusaurus/pull/10816) chore(theme-translations): add missing zh theme translations ([@MisterFISHUP](https://github.com/MisterFISHUP))
+- 🇹🇷 [#10893](https://github.com/facebook/docusaurus/pull/10893): Add missing Turkish theme translations.
+- 🇵🇱 [#10884](https://github.com/facebook/docusaurus/pull/10884): Add missing Polish theme translations.
+- 🇨🇳 [#10816](https://github.com/facebook/docusaurus/pull/10816): Add missing Chinese theme translations.
+- 🇯🇵 [#11030](https://github.com/facebook/docusaurus/pull/11030): Add missing Japanese theme translations.
+
+## Maintenance
+
+Docusaurus 3.8 is ready for [Node.js 24](https://github.com/facebook/docusaurus/pull/11168) and [TypeScript 5.8](https://github.com/facebook/docusaurus/pull/10966).
+
+We also removed useless npm packages and internalizing unmaintained ones:
+
+- In [#11010](https://github.com/facebook/docusaurus/pull/11010) and [#11014](https://github.com/facebook/docusaurus/pull/11014), we internalized the unmaintained `react-ideal-image` and `react-waypoint` package used in `@docusaurus/plugin-ideal-image`, and made them compatible with React 19.
+- In [#10956](https://github.com/facebook/docusaurus/pull/10956), we removed our dependency to the unmaintained `react-dev-utils` package (from Create-React-App).
+- In [#10358](https://github.com/facebook/docusaurus/pull/10358), we replaced the unmaintained `shelljs` package by `execa`
+- In [#11138](https://github.com/facebook/docusaurus/pull/11138), we removed the `reading-time` package in favor of the built-in `Intl.Segmenter` standard API to compute blog post reading times.
+- In [#11037](https://github.com/facebook/docusaurus/pull/11037), we removed the useless `clean-webpack-plugin`.
 
 ## Other changes
 
