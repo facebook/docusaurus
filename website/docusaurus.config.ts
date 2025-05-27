@@ -110,6 +110,10 @@ const router = process.env
 
 const isDev = process.env.NODE_ENV === 'development';
 
+// See https://docs.netlify.com/configure-builds/environment-variables/
+const isProductionDeployment =
+  !!process.env.NETLIFY && process.env.CONTEXT === 'production';
+
 const isDeployPreview =
   !!process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
 
@@ -274,6 +278,21 @@ export default async function createConfigAsync() {
     ],
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
+      function disableExpensiveBundlerOptimizationPlugin() {
+        return {
+          name: 'disable-expensive-bundler-optimizations',
+          configureWebpack(_config, isServer) {
+            // This optimization is expensive and only reduces by 3% the JS
+            // Let's skip it for local and deploy preview builds
+            // See also https://github.com/facebook/docusaurus/discussions/11199
+            return {
+              optimization: {
+                concatenateModules: isProductionDeployment ? !isServer : false,
+              },
+            };
+          },
+        };
+      },
       isRsdoctor && [
         'rsdoctor',
         {

@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/remark-plugin-npm2yarn",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Remark plugin for converting npm commands to Yarn commands as tabs.",
   "main": "lib/index.js",
   "publishConfig": {
