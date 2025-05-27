@@ -70,7 +70,14 @@ async function tryOpenWithAppleScript({
       const command = `ps cax -o command | grep -E "^(${supportedChromiumBrowsers.join(
         '|',
       )})$"`;
-      const result = await execPromise(command);
+
+      const result = await execPromise(command).catch(() => {
+        // Ignore grep errors when macOS user has no Chromium-based browser
+        // See https://github.com/facebook/docusaurus/issues/11204
+      });
+      if (!result) {
+        return [];
+      }
 
       const activeBrowsers = result.stdout.toString().trim().split('\n');
 
