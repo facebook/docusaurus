@@ -2,11 +2,6 @@
 
 ## 3.8.0 (2025-05-26)
 
-#### :boom: Breaking Change
-
-- `docusaurus-plugin-content-blog`
-  - [#11138](https://github.com/facebook/docusaurus/pull/11138) refactor(content-blog): replace `reading-time` with `Intl.Segmenter` API ([@shreedharbhat98](https://github.com/shreedharbhat98))
-
 #### :rocket: New Feature
 
 - `docusaurus-plugin-css-cascade-layers`, `docusaurus-preset-classic`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
@@ -38,6 +33,8 @@
 
 #### :bug: Bug Fix
 
+- `docusaurus-plugin-content-blog`
+  - [#11138](https://github.com/facebook/docusaurus/pull/11138) refactor(content-blog): replace `reading-time` with `Intl.Segmenter` API ([@shreedharbhat98](https://github.com/shreedharbhat98))
 - `docusaurus-plugin-content-blog`
   - [#11138](https://github.com/facebook/docusaurus/pull/11138) refactor(content-blog): replace `reading-time` with `Intl.Segmenter` API ([@shreedharbhat98](https://github.com/shreedharbhat98))
   - [#11068](https://github.com/facebook/docusaurus/pull/11068) fix(blog): fix blog Atom feed item url / XSL bug ([@slorber](https://github.com/slorber))
