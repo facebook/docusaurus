@@ -16,9 +16,11 @@ Upgrading is easy. We follow [Semantic Versioning](https://semver.org/), and min
 
 {/* truncate */}
 
-import BrowserWindow from '../../../src/components/BrowserWindow';
+```mdx-code-block
+import BrowserWindow from '@site/src/components/BrowserWindow';
 import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
 import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
+```
 
 ## Performance
 
@@ -215,7 +217,9 @@ In practice, you can create a `.my-playground` class to revert the global CSS co
 
 Then you can apply this class to any HTML element, so that Infima doesn't apply to any of its children. The HTML subtree becomes isolated from our built-in CSS.
 
+```mdx-code-block
 <IframeWindow url="/tests/pages/style-isolation?docusaurus-data-navbar=false" />
+```
 
 </details>
 
@@ -242,6 +246,7 @@ While technically a **breaking change**, we believe this change will not affect 
 
 In [#10987](https://github.com/facebook/docusaurus/pull/10987), the classic theme now lets you revert the color mode to the system/OS value.
 
+```mdx-code-block
 <BrowserWindow>
   <div
     className="margin-vert--md"
@@ -249,6 +254,7 @@ In [#10987](https://github.com/facebook/docusaurus/pull/10987), the classic them
     <NavbarColorModeToggle />
   </div>
 </BrowserWindow>
+```
 
 ## Code Block Refactor
 
