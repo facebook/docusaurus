@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/mdx-loader",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Docusaurus Loader for MDX",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "3.7.0",
-    "@docusaurus/utils": "3.7.0",
-    "@docusaurus/utils-validation": "3.7.0",
+    "@docusaurus/logger": "3.8.0",
+    "@docusaurus/utils": "3.8.0",
+    "@docusaurus/utils-validation": "3.8.0",
     "@mdx-js/mdx": "^3.0.0",
     "@slorber/remark-comment": "^1.0.0",
     "escape-html": "^1.0.3",
@@ -44,7 +44,7 @@
     "webpack": "^5.88.1"
   },
   "devDependencies": {
-    "@docusaurus/types": "3.7.0",
+    "@docusaurus/types": "3.8.0",
     "@types/escape-html": "^1.0.2",
     "@types/mdast": "^4.0.2",
     "@types/stringify-object": "^3.3.1",
