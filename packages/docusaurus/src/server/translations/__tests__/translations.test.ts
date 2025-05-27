@@ -478,7 +478,7 @@ describe('readCodeTranslationFileContent', () => {
     return readCodeTranslationFileContent({localizationDir});
   }
 
-  it("returns undefined if file does't exist", async () => {
+  it("returns undefined if file doesn't exist", async () => {
     await expect(
       readCodeTranslationFileContent({localizationDir: 'foo'}),
     ).resolves.toBeUndefined();
