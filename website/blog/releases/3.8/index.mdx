@@ -72,6 +72,8 @@ Popular CDNs such as Netlify and Vercel do that for you automatically. Depending
 
 :::
 
+**Result**: On average, you can expect your site's bundling time to be ~2-5× faster on rebuilds 🔥. The impact can be even more significant if you [disable the optional `concatenateModule` optimization](https://github.com/facebook/docusaurus/discussions/11199).
+
 #### Worker Threads
 
 In [#10826](https://github.com/facebook/docusaurus/pull/10826), we introduced a [Node.js Worker Thread pool](https://github.com/tinylibs/tinypool) to run the static side generation code. With this new strategy, we can better leverage all the available CPUs, reduce static site generation time, and contain potential memory leaks.
@@ -93,6 +95,8 @@ const config = {
 };
 ```
 
+**Result**: On average, you can expect your site's static site generation time to be ~2× times faster 🔥. This was measured on a MacBook Pro M3 and result may vary depending on your CI.
+
 ### Other Optimizations
 
 We identified and resolved several major bottlenecks, including:
@@ -102,7 +106,29 @@ We identified and resolved several major bottlenecks, including:
 - In [#10885](https://github.com/facebook/docusaurus/pull/10885), we implemented an SVG sprite for the external link icon. Due to its repeated appearance in various places of your site (navbar, footer, sidebars...), using a React SVG component lead to duplicated SVG markup in the final HTML. Using a sprite permits to only embed the icon SVG once, reducing the generated HTML size and the static generation time. We [plan to use more SVG sprites](https://github.com/facebook/docusaurus/issues/5865) in the future.
 - In [#11176](https://github.com/facebook/docusaurus/pull/11176), we fine-tuned the webpack/Rspack configuration to remove useless optimizations.
 
-If bundling time is a concern, consider disabling `optimization.concatenateModule`. We explain the tradeoffs and how to do it [here](https://github.com/facebook/docusaurus/discussions/11199). For a very large site, this change was incredibly impactful: 4x faster on cold builds, x16 faster rebuilds 🔥.
+:::tip
+
+If bundling time is a concern, consider disabling the optional `concatenateModule` bundler optimization. We explain the tradeoffs and how to do it [here](https://github.com/facebook/docusaurus/discussions/11199). It only saves 3% JS, and for a very large site, this change was incredibly impactful: 4x faster on cold builds, x16 faster rebuilds 🔥.
+
+:::
+
+### Impact
+
+We have upgraded the [React Native website to Docusaurus v3.8](https://github.com/facebook/react-native-website/pull/4607) already. Here's an updated benchmark showing the global Docusaurus Faster impact on a site with 2000 pages:
+
+| ReactNative.dev                | Cold Build         | Warm Rebuild       |
+| ------------------------------ | ------------------ | ------------------ |
+| ❌ Docusaurus Slower (webpack) | 120s (baseline)    | 33s (3.6 × faster) |
+| ✅ Docusaurus Faster (Rspack)  | 31s (3.8 × faster) | 17s (7 × faster)   |
+
+We measured similar results on our website:
+
+| Docusaurus.io                  | Cold Build         | Warm Rebuild       |
+| ------------------------------ | ------------------ | ------------------ |
+| ❌ Docusaurus Slower (webpack) | 146s (baseline)    | 45s (3.2 × faster) |
+| ✅ Docusaurus Faster (Rspack)  | 42s (3.5 × faster) | 24s (6.1 × faster) |
+
+You can also expect memory usage improvements, and a faster `docusaurus start` experience.
 
 ## Future Flags
 
