@@ -131,6 +131,7 @@ export async function readLastUpdateData(
   const getLastUpdateMemoized = _.memoize(() => getLastUpdate(filePath));
   const getLastUpdateBy = () =>
     getLastUpdateMemoized().then((update) => {
+      // Important, see https://github.com/facebook/docusaurus/pull/11211
       if (update === null) {
         return null;
       }
@@ -138,6 +139,7 @@ export async function readLastUpdateData(
     });
   const getLastUpdateAt = () =>
     getLastUpdateMemoized().then((update) => {
+      // Important, see https://github.com/facebook/docusaurus/pull/11211
       if (update === null) {
         return null;
       }
