@@ -521,9 +521,9 @@ declare module '@docusaurus/plugin-content-blog' {
       readingTime: ReadingTimeFunctionOption;
       /** Governs the direction of blog post sorting. */
       sortPosts: 'ascending' | 'descending';
-      /**	Whether to display the last date the doc was updated. */
+      /**	Whether to display the last date the blog post was updated. */
       showLastUpdateTime: boolean;
-      /** Whether to display the author who last updated the doc. */
+      /** Whether to display the author who last updated the blog post. */
       showLastUpdateAuthor: boolean;
       /** An optional function which can be used to transform blog posts
        *  (filter, modify, delete, etc...).

@@ -316,6 +316,10 @@ export default async function createConfigAsync() {
         './src/plugins/changelog/index.ts',
         {
           blogTitle: 'Docusaurus changelog',
+          // Not useful, but permits to run git commands earlier
+          // Otherwise the sitemap plugin will run them in postBuild()
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
           blogDescription:
             'Keep yourself up-to-date about new features in every release',
           blogSidebarCount: 'ALL',
