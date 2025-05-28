@@ -17,8 +17,7 @@ import {
   LAST_UPDATE_UNTRACKED_GIT_FILEPATH,
   readLastUpdateData,
 } from '../lastUpdateUtils';
-import type {
-  FrontMatterLastUpdate} from '../lastUpdateUtils';
+import type {FrontMatterLastUpdate} from '../lastUpdateUtils';
 
 describe('getGitLastUpdate', () => {
   const {repoDir} = createTempRepo();
