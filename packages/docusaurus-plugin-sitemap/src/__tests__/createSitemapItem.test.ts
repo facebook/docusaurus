@@ -225,5 +225,66 @@ describe('createSitemapItem', () => {
         `);
       });
     });
+
+    describe('read from both - route metadata lastUpdatedAt null', () => {
+      const route = {
+        path: '/routePath',
+        metadata: {
+          sourceFilePath: 'route/file.md',
+          lastUpdatedAt: null,
+        },
+      };
+
+      it('lastmod default option', async () => {
+        await expect(
+          test({
+            route,
+          }),
+        ).resolves.toMatchInlineSnapshot(`
+              {
+                "changefreq": "weekly",
+                "lastmod": null,
+                "priority": 0.5,
+                "url": "https://example.com/routePath",
+              }
+          `);
+      });
+
+      it('lastmod date option', async () => {
+        await expect(
+          test({
+            route,
+            options: {
+              lastmod: 'date',
+            },
+          }),
+        ).resolves.toMatchInlineSnapshot(`
+          {
+            "changefreq": "weekly",
+            "lastmod": null,
+            "priority": 0.5,
+            "url": "https://example.com/routePath",
+          }
+        `);
+      });
+
+      it('lastmod datetime option', async () => {
+        await expect(
+          test({
+            route,
+            options: {
+              lastmod: 'datetime',
+            },
+          }),
+        ).resolves.toMatchInlineSnapshot(`
+          {
+            "changefreq": "weekly",
+            "lastmod": null,
+            "priority": 0.5,
+            "url": "https://example.com/routePath",
+          }
+        `);
+      });
+    });
   });
 });

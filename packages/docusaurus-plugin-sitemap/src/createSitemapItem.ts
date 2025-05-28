@@ -13,13 +13,19 @@ import type {PluginOptions} from './options';
 
 async function getRouteLastUpdatedAt(
   route: RouteConfig,
-): Promise<number | undefined> {
+): Promise<number | null | undefined> {
+  // Important to bail-out early here
+  // This can lead to duplicated getLastUpdate() calls and performance problems
+  // See https://github.com/facebook/docusaurus/pull/11211
+  if (route.metadata?.lastUpdatedAt === null) {
+    return null;
+  }
   if (route.metadata?.lastUpdatedAt) {
     return route.metadata?.lastUpdatedAt;
   }
   if (route.metadata?.sourceFilePath) {
     const lastUpdate = await getLastUpdate(route.metadata?.sourceFilePath);
-    return lastUpdate?.lastUpdatedAt;
+    return lastUpdate?.lastUpdatedAt ?? null;
   }
 
   return undefined;

@@ -154,12 +154,12 @@ export async function getFileCommitDate(
     file,
   )}"`;
 
-  const result = (await GitCommandQueue.add(() =>
-    execa(command, {
+  const result = (await GitCommandQueue.add(() => {
+    return execa(command, {
       cwd: path.dirname(file),
       shell: true,
-    }),
-  ))!;
+    });
+  }))!;
 
   if (result.exitCode !== 0) {
     throw new Error(

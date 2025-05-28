@@ -14,8 +14,10 @@ import execa from 'execa';
 import {
   getGitLastUpdate,
   LAST_UPDATE_FALLBACK,
+  LAST_UPDATE_UNTRACKED_GIT_FILEPATH,
   readLastUpdateData,
 } from '../lastUpdateUtils';
+import type {FrontMatterLastUpdate} from '../lastUpdateUtils';
 
 describe('getGitLastUpdate', () => {
   const {repoDir} = createTempRepo();
@@ -108,6 +110,34 @@ describe('readLastUpdateData', () => {
   const testDate = '2021-01-01';
   const testTimestamp = new Date(testDate).getTime();
   const testAuthor = 'ozaki';
+
+  describe('on untracked Git file', () => {
+    function test(lastUpdateFrontMatter: FrontMatterLastUpdate | undefined) {
+      return readLastUpdateData(
+        LAST_UPDATE_UNTRACKED_GIT_FILEPATH,
+        {showLastUpdateAuthor: true, showLastUpdateTime: true},
+        lastUpdateFrontMatter,
+      );
+    }
+
+    it('reads null at/by from Git', async () => {
+      const {lastUpdatedAt, lastUpdatedBy} = await test({});
+      expect(lastUpdatedAt).toBeNull();
+      expect(lastUpdatedBy).toBeNull();
+    });
+
+    it('reads null at from Git and author from front matter', async () => {
+      const {lastUpdatedAt, lastUpdatedBy} = await test({author: testAuthor});
+      expect(lastUpdatedAt).toBeNull();
+      expect(lastUpdatedBy).toEqual(testAuthor);
+    });
+
+    it('reads null by from Git and date from front matter', async () => {
+      const {lastUpdatedAt, lastUpdatedBy} = await test({date: testDate});
+      expect(lastUpdatedBy).toBeNull();
+      expect(lastUpdatedAt).toEqual(testTimestamp);
+    });
+  });
 
   it('read last time show author time', async () => {
     const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
