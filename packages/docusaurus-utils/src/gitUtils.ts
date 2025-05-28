@@ -11,7 +11,6 @@ import os from 'os';
 import _ from 'lodash';
 import execa from 'execa';
 import PQueue from 'p-queue';
-import {PerfLogger} from '@docusaurus/logger';
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915
@@ -156,11 +155,9 @@ export async function getFileCommitDate(
   )}"`;
 
   const result = (await GitCommandQueue.add(() => {
-    return PerfLogger.async(command, () => {
-      return execa(command, {
-        cwd: path.dirname(file),
-        shell: true,
-      });
+    return execa(command, {
+      cwd: path.dirname(file),
+      shell: true,
     });
   }))!;
 
