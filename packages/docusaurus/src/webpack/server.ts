@@ -59,7 +59,7 @@ export default async function createServerConfig({
       //   Let's keep it by default, but large sites may prefer faster builds
       // See also https://github.com/facebook/docusaurus/pull/11176
       // Note: we don't want to enable it on the client for "docusaurus start"
-      // See also
+      // See also https://github.com/facebook/docusaurus/pull/11222
       concatenateModules: false,
     },
   });
