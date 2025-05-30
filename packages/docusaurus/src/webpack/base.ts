@@ -253,13 +253,6 @@ export async function createBaseConfig({
       modules: ['node_modules', path.join(siteDir, 'node_modules')],
     },
     optimization: {
-      // The optimization.concatenateModules is expensive
-      // - On the server, it's not useful to run it at all
-      // - On the client, it leads to a ~3% JS assets total size decrease
-      //   Let's keep it by default, but large sites may prefer faster builds
-      // See also https://github.com/facebook/docusaurus/pull/11176
-      concatenateModules: !isServer,
-
       // The optimization.mergeDuplicateChunks is expensive
       // - On the server, it's not useful to run it at all
       // - On the client, we compared assets/js before/after and see 0 change
