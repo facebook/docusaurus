@@ -1,0 +1,770 @@
+---
+sidebar_label: 客户端 API
+---
+
+# Docusaurus 客户端 API
+
+Docusaurus 提供了一些客户端 API，帮助你搭建网站。
+
+## 组件 {#components}
+
+### `<ErrorBoundary />` {#errorboundary}
+
+这个组件会创建一个 [React 错误边界](https://reactjs.org/docs/error-boundaries.html)。
+
+用它来包裹可能抛出错误的组件，并在发生这种情况时显示备用界面，而不会让整个应用崩溃。
+
+```jsx
+import React from 'react';
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
+
+const SafeComponent = () => (
+  <ErrorBoundary
+    fallback={({error, tryAgain}) => (
+      <div>
+        <p>这个组件崩溃了，因为错误：{error.message}.</p>
+        <button onClick={tryAgain}>再试一次！</button>
+      </div>
+    )}>
+    <SomeDangerousComponentThatMayThrow />
+  </ErrorBoundary>
+);
+```
+
+```mdx-code-block
+import ErrorBoundaryTestButton from '@site/src/components/ErrorBoundaryTestButton'
+```
+
+:::tip
+
+看看实际效果，点这里：<ErrorBoundaryTestButton/>
+
+:::
+
+:::info
+
+Docusaurus 用这个组件来捕捉主题布局中以及整个应用中的错误。
+
+:::
+
+:::note
+
+这个组件不会捕捉构建时抛出的错误，只会保护有状态的 React 组件在客户端渲染时可能发生的错误。
+
+:::
+
+#### 属性 {#errorboundary-props}
+
+- `fallback`: 一个可选的渲染回调，返回一个 JSX 元素。 它会收到一个具有两个属性的对象： `error`，被捕捉的错误，和 `tryAgain`，一个函数回调 (`() => void`)，用来重置组件中的错误并尝试重新渲染它。 如果 fallback 不存在，`@theme/Error` 会被渲染。 `@theme/Error` 默认用于在布局上层包裹整个站点的错误边界。
+
+:::warning
+
+`fallback` prop 是一个回调，**不是一个 React 函数组件**。 你不能在这个回调中使用 React 钩子。
+
+:::
+
+### `<Head/>` {#head}
+
+此可复用的 React 组件将管理您向文档头做出的所有更改。 它接受纯 HTML 标签作为参数，输出也是纯 HTML 标签，且对新手友好。 这是 [React Helmet](https://github.com/nfl/react-helmet) 的封装。
+
+示例用法：
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import Head from '@docusaurus/Head';
+
+const MySEO = () => (
+  // highlight-start
+  <Head>
+    <meta property="og:description" content="我的自定义描述" />
+    <meta charSet="utf-8" />
+    <title>我的标题</title>
+    <link rel="canonical" href="http://mysite.com/example" />
+  </Head>
+  // highlight-end
+);
+```
+
+嵌套或之后使用的组件将覆盖先前使用的组件：
+
+```jsx
+<Parent>
+  {/* highlight-start */}
+  <Head>
+    <title>我的标题</title>
+    <meta name="description" content="Helmet 应用" />
+  </Head>
+  {/* highlight-end */}
+  <Child>
+    {/* highlight-start */}
+    <Head>
+      <title>嵌套标题</title>
+      <meta name="description" content="嵌套组件" />
+    </Head>
+    {/* highlight-end */}
+  </Child>
+</Parent>
+```
+
+会输出：
+
+```html
+<head>
+  <title>嵌套标题</title>
+  <meta name="description" content="嵌套组件" />
+</head>
+```
+
+### `<Link/>` {#link}
+
+此组件链接到内部页面，同时提供强大的预加载功能。 预加载让用户在使用此组件导航之前预先加载资源。 我们用 `IntersectionObserver` 让位于视窗内的 `<Link>` 发送低优先级抓取请求，随后在用户可能前往被请求的资源时，用 `onMouseOver` 事件来触发高优先级请求。
+
+此组件是 react-router 的 `<Link>` 组件封装，同时添加了一些 Docusaurus 的专有改进。 所有的 props 都会被传递给 react-router 的 `<Link>` 组件。
+
+外部链接也能正常工作，并且会自动拥有这些 props： `target="_blank" rel="noopener noreferrer"`。
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import Link from '@docusaurus/Link';
+
+const Page = () => (
+  <div>
+    <p>
+      {/* highlight-next-line */}
+      看看我的<Link to="/blog">博客</Link>吧！
+    </p>
+    <p>
+      {/* highlight-next-line */}
+      Follow me on <Link to="https://x.com/docusaurus">X</Link>!
+    </p>
+  </div>
+);
+```
+
+#### `to`: string {#to-string}
+
+导航的目标位置。 示例： `/docs/introduction`。
+
+```jsx
+<Link to="/courses" />
+```
+
+:::tip
+
+建议用这个组件，而不是原生的 `<a>` 标签，因为如果你用 `<Link>`，Docusaurus 会做很多优化（比如无效链接探测、预抓取、添加 base URL……）。
+
+:::
+
+### `<Redirect/>` {#redirect}
+
+渲染 `<Redirect>` 组件将导航至新的位置。 新位置会覆盖历史记录栈的现有位置，效果类似服务端重定向 (HTTP 3xx)。 您可参阅 [React Router 的重定向文档](https://reacttraining.com/react-router/web/api/Redirect)来了解更多可传入的属性。
+
+示例用法：
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import {Redirect} from '@docusaurus/router';
+
+const Home = () => {
+  // highlight-next-line
+  return <Redirect to="/docs/test" />;
+};
+```
+
+:::note
+
+`@docusaurus/router` 实现了 [React Router](https://reacttraining.com/react-router/web/guides/quick-start) 且兼容其功能特性。
+
+:::
+
+### `<BrowserOnly/>` {#browseronly}
+
+`<BrowserOnly>` 组件允许某些 React 组件只在 React 应用注水后才在浏览器中渲染。
+
+:::tip
+
+用它整合某些不能在 Node.js 中运行的代码，比如如果代码要访问 `window` 或 `document` 对象。
+
+:::
+
+#### 属性 {#browseronly-props}
+
+- `children`: 一个渲染函数，返回只在浏览器中被渲染的 JSX。 不会在 Node.js 中被执行。
+- `fallback`（可选）： 在服务器 (Node.js) 上渲染的 JSX，直到 React 注水完毕后被替换为真实内容。
+
+#### 代码示例 {#browseronly-example-code}
+
+```jsx
+// highlight-start
+import BrowserOnly from '@docusaurus/BrowserOnly';
+// highlight-end
+
+const MyComponent = () => {
+  return (
+    // highlight-start
+    <BrowserOnly>
+      {() => <span>page url = {window.location.href}</span>}
+    </BrowserOnly>
+    // highlight-end
+  );
+};
+```
+
+#### 使用库的示例 {#browseronly-example-library}
+
+```jsx
+// highlight-start
+import BrowserOnly from '@docusaurus/BrowserOnly';
+// highlight-end
+
+const MyComponent = (props) => {
+  return (
+    // highlight-start
+    <BrowserOnly fallback={<div>Loading...</div>}>
+      {() => {
+        const LibComponent = require('some-lib').LibComponent;
+        return <LibComponent {...props} />;
+      }}
+    </BrowserOnly>
+    // highlight-end
+  );
+};
+```
+
+### `<Interpolate/>` {#interpolate}
+
+一个简单的插值组件，用于包含动态占位符的文本。
+
+占位符会被替换为你提供的动态值和 JSX 元素（字符串、链接、样式元素等）。
+
+#### 属性 {#interpolate-props}
+
+- `children`: 含有类似 `{placeholderName}` 的插值占位符的文本
+- `values`: 包含插值占位符对应的值的对象
+
+```jsx
+import React from 'react';
+import Link from '@docusaurus/Link';
+import Interpolate from '@docusaurus/Interpolate';
+
+export default function VisitMyWebsiteMessage() {
+  return (
+    // highlight-start
+    <Interpolate
+      values={{
+        firstName: '思达',
+        website: (
+          <Link to="https://docusaurus.io" className="my-website-class">
+            网站
+          </Link>
+        ),
+      }}>
+      {'你好，{firstName}！ 你好吗？ 看看我的{website}吧'}
+    </Interpolate>
+    // highlight-end
+  );
+}
+```
+
+### `<Translate/>` {#translate}
+
+当[本地化你的站点](./i18n/i18n-introduction.mdx)时，`<Translate/>` 组件允许**为 React 组件提供翻译支持**，例如你的主页。 `<Translate>` 组件支持[插值](#interpolate).
+
+[`docusaurus write-translations`](./cli.mdx#docusaurus-write-translations-sitedir) 命令会从你的代码中静态提取翻译字符串，并在 `website/i18n/[语言]` 目录下创建一个 `code.json` 翻译文件。
+
+:::note
+
+`<Translate/>` 的所有属性**必须是硬编码的字符串**。
+
+除了插值用到的 `values` 属性，你**不能用变量**，否则静态提取就不能工作。
+
+:::
+
+#### 属性 {#translate-props}
+
+- `children`: 以网站默认语言书写的未翻译的字符串（可以包含[插值占位符](#interpolate)）
+- `id`: 可选，会在 JSON 翻译文件中作为键值
+- `description`: 可选文本，帮助翻译者理解语境
+- `values`: 可选对象，包含插值占位符对应的值
+
+#### 示例 {#example}
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+// highlight-start
+import Translate from '@docusaurus/Translate';
+// highlight-end
+
+export default function Home() {
+  return (
+    <Layout>
+      <h1>
+        {/* highlight-start */}
+        <Translate
+          id="homepage.title"
+          description="The homepage welcome message">
+          欢迎来到我的网站
+        </Translate>
+        {/* highlight-end */}
+      </h1>
+      <main>
+        {/* highlight-start */}
+        <Translate values={{firstName: 'Sébastien'}}>
+          {'欢迎，{firstName}！ 你好吗？'}
+        </Translate>
+        {/* highlight-end */}
+      </main>
+    </Layout>
+  );
+}
+```
+
+:::note
+
+你甚至可以忽略 children，然后在运行 `docusaurus write-translations` 命令后，手动在 `code.json` 文件中填写翻译字符串。
+
+```jsx
+<Translate id="homepage.title" />
+```
+
+:::
+
+:::info
+
+`<Translate>` 组件支持插值。 你还能通过自定义代码和 [`translate` 命令式 API](#translate-imperative) 来实现[字符串多元化](https://github.com/facebook/docusaurus/pull/i18n/i18n-tutorial.mdx#pluralization)。
+
+:::
+
+## 钩子函数 {#hooks}
+
+### `useDocusaurusContext` {#useDocusaurusContext}
+
+用于访问 Docusaurus context 的 React 钩子函数。 这个 context 包含了来自 [docusaurus.config.js](api/docusaurus.config.js.mdx) 的 `siteConfig` 对象，以及一些其他的站点元数据。
+
+```ts
+type PluginVersionInformation =
+  | {readonly type: 'package'; readonly version?: string}
+  | {readonly type: 'project'}
+  | {readonly type: 'local'}
+  | {readonly type: 'synthetic'};
+
+type SiteMetadata = {
+  readonly docusaurusVersion: string;
+  readonly siteVersion?: string;
+  readonly pluginVersions: Record<string, PluginVersionInformation>;
+};
+
+type I18nLocaleConfig = {
+  label: string;
+  direction: string;
+};
+
+type I18n = {
+  defaultLocale: string;
+  locales: [string, ...string[]];
+  currentLocale: string;
+  localeConfigs: Record<string, I18nLocaleConfig>;
+};
+
+type DocusaurusContext = {
+  siteConfig: DocusaurusConfig;
+  siteMetadata: SiteMetadata;
+  globalData: Record<string, unknown>;
+  i18n: I18n;
+  codeTranslations: Record<string, string>;
+};
+```
+
+示例用法：
+
+```jsx
+import React from 'react';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+const MyComponent = () => {
+  // highlight-next-line
+  const {siteConfig, siteMetadata} = useDocusaurusContext();
+  return (
+    <div>
+      {/* highlight-start */}
+      <h1>{siteConfig.title}</h1>
+      <div>{siteMetadata.siteVersion}</div>
+      <div>{siteMetadata.docusaurusVersion}</div>
+      {/* highlight-end */}
+    </div>
+  );
+};
+```
+
+:::note
+
+`siteConfig` 对象只包含**可序列化的值**（那些在 `JSON.stringify()` 后会被保留的值）。 函数、正则表达式等会在客户端丢失。
+
+:::
+
+### `useIsBrowser` {#useIsBrowser}
+
+React 应用在浏览器内注水成功后返回 `true`。
+
+:::warning
+
+在 React 渲染逻辑中，用这个钩子，而不是用 `typeof windows !== 'undefined'`。
+
+浏览器中的首次客户端渲染输出和 Node.js 的服务端渲染输出**必须完全一致**。 不遵守这条准则可能导致难以预料的注水错误，在 [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/) 中有详细描述。
+
+:::
+
+示例用法：
+
+```jsx
+import React from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+const MyComponent = () => {
+  // highlight-start
+  const isBrowser = useIsBrowser();
+  // highlight-end
+  return <div>{isBrowser ? '客户端' : '服务端'}</div>;
+};
+```
+
+### `useBaseUrl` {#useBaseUrl}
+
+用于在一个字符串前添加网站 `baseUrl` 的钩子函数。
+
+:::warning
+
+**别在普通的链接里用它！**
+
+所有**绝对路径**前会自动默认加上 `/baseUrl/` 前缀：
+
+- Markdown: `[链接](/my/path)` 会链接到 `/baseUrl/my/path`
+- React: `<Link to="/my/path/">链接</Link>` 会链接到 `/baseUrl/my/path`
+
+:::
+
+#### 选项 {#options}
+
+```ts
+type BaseUrlOptions = {
+  forcePrependBaseUrl: boolean;
+  absolute: boolean;
+};
+```
+
+#### 示例用法： {#example-usage}
+
+```jsx
+import React from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+const SomeImage = () => {
+  // highlight-start
+  const imgSrc = useBaseUrl('/img/myImage.png');
+  // highlight-end
+  return <img src={imgSrc} />;
+};
+```
+
+:::tip
+
+绝大多数情况下，你不需要 `useBaseUrl`。
+
+最好用 `require()` 链接[资源](./guides/markdown-features/markdown-features-assets.mdx)：
+
+```jsx
+<img src={require('@site/static/img/myImage.png').default} />
+```
+
+:::
+
+### `useBaseUrlUtils` {#useBaseUrlUtils}
+
+有时候 `useBaseUrl` 用起来不够顺手。 这个钩子会返回与网站的 base URL 相关的额外工具。
+
+- `withBaseUrl`: 如果你要一次给多个 URL 添加 base URL，这个会很有用。
+
+```jsx
+import React from 'react';
+import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+
+const Component = () => {
+  const urls = ['/a', '/b'];
+  // highlight-start
+  const {withBaseUrl} = useBaseUrlUtils();
+  const urlsWithBaseUrl = urls.map(withBaseUrl);
+  // highlight-end
+  return <div>{/* ... */}</div>;
+};
+```
+
+### `useGlobalData` {#useGlobalData}
+
+用来访问所有插件创建的 Docusaurus 全局数据的钩子。
+
+全局数据会先按照插件名再按照插件 ID 排列。
+
+:::info
+
+插件 ID 只在某个插件在同一个网站上被多次使用时才有用。 每个插件实例都能创建它自己的全局数据。
+
+:::
+
+```ts
+type GlobalData = Record<
+  PluginName,
+  Record<
+    PluginId, // 默认为 "default"
+    any // 插件专有的数据
+  >
+>;
+```
+
+示例用法：
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import useGlobalData from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  // highlight-start
+  const globalData = useGlobalData();
+  const myPluginData = globalData['my-plugin']['default'];
+  return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
+};
+```
+
+:::tip
+
+在 `.docusaurus/globalData.json` 中查看站点的全局数据
+
+:::
+
+### `usePluginData` {#usePluginData}
+
+访问某个特定插件实例创建的全局数据。
+
+这是用来访问插件全局数据最方便的一个钩子，大多数时候都应该用它。
+
+如果你的插件没有多个实例，你可以省略 `pluginId`。
+
+```ts
+function usePluginData(
+  pluginName: string,
+  pluginId?: string,
+  options?: {failfast?: boolean},
+);
+```
+
+示例用法：
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import {usePluginData} from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  // highlight-start
+  const myPluginData = usePluginData('my-plugin');
+  return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
+};
+```
+
+### `useAllPluginInstancesData` {#useAllPluginInstancesData}
+
+访问某个特定插件创建的全局数据。 给定一个插件名，它会返回这个插件的所有实例的数据，按照插件 ID 排列。
+
+```ts
+function useAllPluginInstancesData(
+  pluginName: string,
+  options?: {failfast?: boolean},
+);
+```
+
+示例用法：
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import {useAllPluginInstancesData} from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  // highlight-start
+  const allPluginInstancesData = useAllPluginInstancesData('my-plugin');
+  const myPluginData = allPluginInstancesData['default'];
+  return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
+};
+```
+
+### `useBrokenLinks` {#useBrokenLinks}
+
+该 React 钩子可以访问 Docusaurus 失效链接检查器 API，为 Docusaurus 页面暴露了一种报告和收集它们链接和锚点的方法。
+
+:::warning
+
+这是一个 **高级的** API， **大多数 Docusaurus 用户不需要直接使用**。
+
+它已经在现有的高级组件中 **内置** ：
+
+- [`<Link>`](#link) 组件将为你收集链接
+- `@theme/Heading` （用于 Markdown headings）将收集锚点
+
+如果你在实现自己的 `<Heading>` 或 `<Link>` 组件，请使用 `useBrokenLinks()`。
+
+:::
+
+示例用法：
+
+```js title="MyHeading.js"
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
+
+export default function MyHeading(props) {
+  useBrokenLinks().collectAnchor(props.id);
+  return <h2 {...props} />;
+}
+```
+
+```js title="MyLink.js"
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
+
+export default function MyLink(props) {
+  useBrokenLinks().collectLink(props.href);
+  return <a {...props} />;
+}
+```
+
+## 函数 {#functions}
+
+### `interpolate` {#interpolate-1}
+
+[`<Interpolate>`](#interpolate) 组件的命令式版本。
+
+#### 签名 {#signature}
+
+```ts
+// 简单字符串插值
+function interpolate(text: string, values: Record<string, string>): string;
+
+// JSX 插值
+function interpolate(
+  text: string,
+  values: Record<string, ReactNode>,
+): ReactNode;
+```
+
+#### 示例 {#example-1}
+
+```js
+// highlight-next-line
+import {interpolate} from '@docusaurus/Interpolate';
+
+const message = interpolate('欢迎{firstName}', {firstName: '思达'});
+```
+
+### `translate` {#translate-imperative}
+
+[`<Translate>`](#translate) 组件的命令式版本。 也支持[占位符插值](#interpolate)。
+
+:::tip
+
+只在**不能用组件**的**罕见情况**下使用命令式 API。比如：
+
+- 页面的 `title` 元数据
+- 表单输入的 `placeholder` 属性
+- 为了无障碍访问的 `aria-label` 属性
+
+:::
+
+#### 签名 {#signature-1}
+
+```ts
+function translate(
+  translation: {message: string; id?: string; description?: string},
+  values: Record<string, string>,
+): string;
+```
+
+#### 示例 {#example-2}
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+// highlight-next-line
+import {translate} from '@docusaurus/Translate';
+
+export default function Home() {
+  return (
+    <Layout
+      // highlight-next-line
+      title={translate({message: '我的页面标题'})}>
+      <img
+        src={'https://docusaurus.io/logo.png'}
+        aria-label={
+          // highlight-start
+          translate(
+            {
+              message: '{siteName} 网站的 logo',
+              // 可选
+              id: 'homepage.logo.ariaLabel',
+              description: '首页 logo 的 aria label',
+            },
+            {siteName: 'Docusaurus'},
+          )
+          // highlight-end
+        }
+      />
+    </Layout>
+  );
+}
+```
+
+## 模块 {#modules}
+
+### `ExecutionEnvironment` {#executionenvironment}
+
+一个模块，导出了几个检查当前渲染环境的布尔变量。
+
+:::warning
+
+对于 React 渲染逻辑，请用 [`useIsBrowser()`](#useIsBrowser) 或 [`<BrowserOnly>`](#browseronly) 代替。
+
+:::
+
+示例：
+
+```js
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+if (ExecutionEnvironment.canUseDOM) {
+  require('lib-that-only-works-client-side');
+}
+```
+
+| 字段                                                | 描述                                          |
+| ------------------------------------------------- | ------------------------------------------- |
+| `ExecutionEnvironment.canUseDOM`                  | 在客户端/浏览器返回 `true`，在 Node.js/预渲染返回 `false`。  |
+| `ExecutionEnvironment.canUseEventListeners`       | 在客户端且 `window.addEventListener` 时返回 `true`。 |
+| `ExecutionEnvironment.canUseIntersectionObserver` | 在客户端且 `IntersectionObserver` 可用时返回 `true`。  |
+| `ExecutionEnvironment.canUseViewport`             | 在客户端且 `window.screen` 可用时返回 `true`。         |
+
+### `constants` {#constants}
+
+一个模块，向客户端的主题代码提供了一些有用的常数。
+
+```js
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
+```
+
+| 命名导出                | 值         |
+| ------------------- | --------- |
+| `DEFAULT_PLUGIN_ID` | `default` |

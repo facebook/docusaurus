@@ -1,0 +1,110 @@
+# Canary 版本
+
+```mdx-code-block
+import {
+  VersionsProvider,
+  CanaryVersion,
+  StableVersion,
+  InsertIfCanaryVersionUnknown,
+  InsertIfCanaryVersionKnown,
+  PackageJSONDiff,
+  PublishTime,
+} from "@site/src/components/Versions";
+
+<VersionsProvider>
+```
+
+Docusaurus 提供 Canary 版本。
+
+It permits you to **test new unreleased features** as soon as the pull requests are merged.
+
+这有助于你**向维护者们提交反馈**，确保新实现的功能正常工作。
+
+:::note
+
+实际上，在生产环境中使用 Canary 版本并不存在风险。
+
+Canary 版本通过了所有的自动化测试，Docusaurus 网站自己也在生产环境中使用此版本。
+
+:::
+
+```mdx-code-block
+<InsertIfCanaryVersionUnknown>
+```
+
+:::warning
+
+下面显示的 Canary 版本**可能不是最新的**。 请前往 [npm 页面](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions)找到实际版本名称。
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionUnknown>
+<InsertIfCanaryVersionKnown>
+```
+
+:::tip
+
+下面显示的 Canary 版本名是直接从 npm 获取的，**保证是最新版本**。 你可以在你的 package.json 里直接使用这些数字。
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionKnown>
+```
+
+## Canary npm 版本标签
+
+每次有新的涉及生产的代码提交到 `main` 分支上，持续集成 (CI) 都会 在 npm 的 `@canary` 版本标签下发布一个新版本。 这一般需要 10 分钟左右。
+
+你可以在 [npm](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) 上看到当前的版本标签：
+
+- `latest`: 稳定版本（当前版本：<StableVersion />）
+- `canary`：canary 版本（<CanaryVersion />）
+
+:::tip
+
+检查版本的发布日期并确保用的是最新的 canary 版本，因为有时发布可能会失败。<PublishTime />
+
+:::
+
+:::note
+
+Canary 版本遵循 `0.0.0-commit 编号` 的命名规范。
+
+:::
+
+## 使用 Canary 版本
+
+以当前 [canary 版本标签](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) 下的的最新版本（<CanaryVersion />）为例。
+
+把你的 `package.json` 里的所有 `@docusaurus/*` 依赖项版本替换成它：
+
+```mdx-code-block
+<PackageJSONDiff />
+```
+
+然后重新安装依赖，再启动你的网站：
+
+```bash npm2yarn
+npm install
+npm start
+```
+
+你也可以用命令行更新 `@docusaurus*` 相关的包：
+
+```bash npm2yarn
+npm install --save-exact @docusaurus/core@canary @docusaurus/preset-classic@canary
+```
+
+:::warning
+
+确保升级了所有 `@docusaurus/*` 包。
+
+建议在安装 Canary 版本时用固定版本号，而不是版本范围（即避免 `^` 前缀）。
+
+:::
+
+```mdx-code-block
+</VersionsProvider>
+```

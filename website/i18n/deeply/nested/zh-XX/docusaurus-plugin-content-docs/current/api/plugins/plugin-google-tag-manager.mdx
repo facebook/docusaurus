@@ -1,0 +1,71 @@
+---
+sidebar_position: 8
+slug: /api/plugins/@docusaurus/plugin-google-tag-manager
+---
+
+# 📦 plugin-google-tag-manager
+
+import APITable from '@site/src/components/APITable';
+
+A plugin for adding [Google Tag Manager (gtm.js)](https://developers.google.com/tag-platform/tag-manager) to a Docusaurus site. Use this plugin in conjunction with the standard [gtag plugin](./plugin-google-gtag.mdx) for in-depth analysis of how users are using your site.
+
+:::tip
+
+你可以使用 [Google 的 Tag Assistant](https://tagassistant.google.com/) 工具来检查 tag manager 是否设置正确！
+
+:::
+
+:::warning 仅可用于生产环境
+
+这个插件始终不会工作在开发过程中，**只在生产环境中启用**，防止污染分析数据。
+
+:::
+
+## 安装流程 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-google-tag-manager
+```
+
+:::tip
+
+如果你已经安装了 `@docusaurus/preset-classic`，就不需要安装这个包了。
+
+您可以通过[预设选项](../../using-plugins.mdx#docusauruspreset-classic)配置此插件。
+
+:::
+
+## 配置 {#configuration}
+
+接受的字段：
+
+```mdx-code-block
+<APITable>
+```
+
+| 参数            | 类型       | 默认值    | 描述                                   |
+| ------------- | -------- | ------ | ------------------------------------ |
+| `containerId` | `string` | **必填** | 你的 Tag Manager 容器 ID（通常以 `GTM-` 开头）。 |
+
+```mdx-code-block
+</APITable>
+```
+
+### 示例配置 {#ex-config}
+
+你可以通过预设选项或插件选项来配置这个插件。
+
+:::tip
+
+大多数 Docusaurus 用户通过预设选项配置此插件。
+
+:::
+
+```js config-tabs
+// Preset Options: googleTagManager
+// Plugin Options: @docusaurus/plugin-google-tag-manager
+
+const config = {
+  containerId: 'GTM-12345',
+};
+```

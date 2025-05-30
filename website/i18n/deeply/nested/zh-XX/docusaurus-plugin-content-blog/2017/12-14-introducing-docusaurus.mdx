@@ -1,0 +1,159 @@
+---
+title: Docusaurus 介绍
+authors: JMarcey
+tags:
+  - 文档
+  - blog
+  - Docusaurus
+---
+
+![](/img/slash-introducing.svg)
+
+我们很高兴来向您介绍 [Docusaurus](https://github.com/facebook/docusaurus) 来帮你管理一个或多个网站
+
+我们因如下原因创建了 [Docusaurus](https://docusaurus.io)：
+
+1. To put the focus on writing good documentation instead of worrying about the infrastructure of a website.
+2. To provide features that many of our open source websites need like blog support, search and versioning.
+3. To make it easy to push updates, new features, and bug fixes to everyone all at once.
+4. And, finally, to provide a consistent look and feel across all of our open source projects.
+
+<!--truncate-->
+
+Docusaurus is a tool designed to make it easy for teams to publish documentation websites without having to worry about the infrastructure and design details. At its core, all a user has to provide are documentation files written in Markdown, customization of a provided home page written in React, and a few configuration modifications. Docusaurus handles the rest by providing default styles, site formatting, and simple document navigation. 上手非常简单，只需要用户使用`npm`或者`yarn`来[安装](https://v1.docusaurus.io/docs/en/installation.html)、并通过一个简单的安装脚本来 [创建一个开箱即用的示例网站](https://v1.docusaurus.io/docs/en/site-preparation.html)
+
+同时，Docusaurus也提供了开箱即用的核心网站和文档功能，例如[博客支持](https://v1.docusaurus.io/docs/en/blog.html)，[翻译（国际化）](https://v1.docusaurus.io/docs/en/translation.html), [搜索](https://v1.docusaurus.io/docs/en/search.html), 和 [版本控制](https://v1.docusaurus.io/docs/en/versioning.html)。 While some projects may not require any of these features, enabling them is generally a matter of updating configuration options instead of having to add the infrastructure from the ground up. As more features get added to Docusaurus, users just can easily update to the latest version. This can be done by simply running npm or yarn update and updating configuration options. Users or teams will no longer need to manually rework their entire website infrastructure each time a new feature gets added.
+
+## Docusaurus 的诞生
+
+![](/img/slash-birth.png)
+
+When Facebook first started their open source program, many teams implemented a custom website for each of their open source projects. This approach presented challenges when the open source program team was asked to help the project teams improve their documentation. Since each site was unique, adding basic infrastructure such as a blog, consistent navigation, search, etc. became challenging undertakings.
+
+The open source team tried to help mitigate this problem by coming up with a standard template, based on Jekyll, that could be used as a starting point for a project website. We asked our new projects to manually copy our template source to their repo, write their docs, and publish. This template approach was adopted by most of open source projects launched; some existing projects even converted their custom website implementations to the new template as well.
+
+The problem with the "copy the template to your repo" approach is that, even though the platform is consistent, pushing updates becomes unmaintainable across an entire suite of projects already using the template. This is because we lost control of the template after a project copied it to their repo. Projects were free to modify the template as desired and apply their own project-specific features to it. So while projects share the same site generation platform, they have now diverted enough where they cannot take advantage of the new features we have added to the template over time. There was no easy way we could ask all current projects to "copy" a new version of the template since it might break their existing site or remove features that they have added on their own. Instead, we would have to apply the updates manually to each project one-by-one. This became very problematic when projects started asking for our team for internationalization support within the template, requiring low-level changes to how the template was structured and generated.
+
+So we started thinking about what we could do to help mitigate the challenge of keeping sites updated and consistent across our entire portfolio. We also wanted multiple projects to share the same site generation software. We wanted them to start out with the same template, and yet have the flexibility to customize and adapt their site theme to suit their needs. They should be able to extend and customize their site, but when we update the underlying infrastructure with fixes and features, the project should be able update simply and without any breaking changes.
+
+Docusaurus 诞生了！
+
+At Facebook, Docusaurus allows us to quickly get different projects up and running with documentation websites, especially for teams who don't have much experience with web development or primarily want a basic site to showcase their project. Docusaurus already supports sites needing more advanced features like internationalization for Jest and versioning for React Native. As different projects request new features for their sites, they are added to Docusaurus and simultaneously provided to all projects! All together, this ends up greatly reducing the work needed to maintain different sites for different projects. Our teams are able to focus on keeping their projects healthier by spending more time adding features, fixing bugs, and writing documentation.
+
+## Getting Up and Running
+
+![](/img/slash-up-and-running.png)
+
+At its core, we wanted sites running Docusaurus to be simple to use. 用一个 [安装](https://v1.docusaurus.io/docs/en/installation.html) 命令和一些简单的 [配置](https://v1.docusaurus.io/docs/en/site-preparation.html)，您就会有一个可以运行的默认网站。
+
+当您运行`docusaurus-init`时，您将会看到类似如下的结构：
+
+```bash
+root-of-repo
+├── docs-examples-from-docusaurus
+│   ├── doc1.md
+│   ├── doc2.md
+│   ├── doc3.md
+│   ├── example-doc4.md
+│   └── example-doc5.md
+├── website
+│   ├── blog-examples-from-docusaurus
+│   │   ├── 2016-03-11-blog-post.md
+│   │   └── 2017-04-10-blog-post-two.md
+│   ├── core
+│   │   └── Footer.js
+│   ├── node_modules
+│   ├── package.json
+│   ├── pages
+│   ├── sidebars.json
+│   ├── siteConfig.js
+│   └── static
+```
+
+With the exception of node_modules and package.json, all the directories and files you see are where you customize and add content to your Docusaurus-based website. Docs 文件夹能够添加您的Markdown文本以便于代表您的文档内容；blog文件夹能够为您的 [博客] (https://v1.docusaurus.io/docs/en/blog.html) 添加Markdown文本；`siteConfig.js`是您能够最大程度 [自定义](https://v1.docusaurus.io/docs/en/site-config.html) 网站的地方；`sidebars.json`是您能够维持 [侧边栏](https://v1.docusaurus.io/docs/en/navigation.html) 布局和内容的文件；`pages` 文件夹是为您的网站添加 [自定义页面](https://v1.docusaurus.io/docs/en/custom-pages.html) 的地方；`static` 文件夹是存储您的静态文件的地方（比如CSS外部样式表和图片之类的）；而`core`文件夹则是您能够自定义站点核心组件的地方，在本例中只列举了页脚`Footer.js`
+
+## Docusaurus 是如何工作的？
+
+Docusaurus 主要基于JavaScript和[React](https://facebook.github.io/react)来代替我们曾在旧示例中用过的Jekyll 我们使用 [Remarkable](https://github.com/jonschlinkert/remarkable) 和 [highlight.js](https://highlightjs.org/) 提供Markdown渲染和代码块高亮功能。 Docusaurus功能核心位于 [Docusaurus Github存库](https://github.com/facebook/docusaurus/) 的 [lib文件夹](https://github.com/facebookexperimental/Docusaurus/tree/master/lib)。 完整的结构如下：
+
+```bash
+Docusaurus 根目录
+├── lib
+│   ├── core
+│   ├── server
+│   │   ├── generate.js
+│   │   ├── server.js
+│   │   └── ...and more files
+│   ├── static
+│   ├── build-files.js
+│   ├── copy-examples.js
+│   ├── generate-feed.js
+│   ├── publish-gh-pages.js
+│   ├── rename-version.js
+│   ├── start-server.js
+│   ├── versions.js
+│   └── write-translations.js
+```
+
+The key files here are build-files.js and start-server.js. 其中有两个非常相似的文件：`build-files.js`文件用于构建由外部服务器提供服务的物理构件。 `start-server.js`则是用来运行Docusaurus服务器、本地测试您网站的。 Both go through the following general process to take all of the Markdown and configuration to create a runnable website:
+
+1. 通过`siteConfig.js`处理您的网站设置
+2. Read the document metadata that exists in all the Markdown files in your docs directory.
+3. Create a table of contents for your documents based upon the IDs extracted from the metadata.
+4. Convert the Markdown to HTML, including doing link replacement.
+5. These files will go in a build/docs directory of the compiled site, and any translated versions will go into a language specific folder within the build/docs folder.
+6. Repeat 1-3 for blog posts.
+7. The blog file will go in a build/blog directory of the compiled site.
+8. Read the main.css file and concatenate any user-defined css into master css file that will be in the build/css directory of the compiled site.
+9. Copy images into an build/img directory of the compiled site.
+10. Take any custom pages that were added to the pages folder of the site and compile/copy those into the root build directory of the compiled site. Any translated versions will go into a language specific folder within build.
+11. Create CNAME and sitemap.xml files and add those to build.
+
+Note that this process does not take into full account how translations or versioning works. The underlying details of those features will be saved for future blog posts.
+
+您编译后的站点结构将类似于：
+
+```bash
+build
+├── website
+│   ├── CNAME
+│   ├── blog
+│   ├── css
+│   ├── docs
+│   ├── en
+│   ├── help.html # 自定义页面
+│   ├── img
+│   ├── index.html # 着陆页
+│   ├── sitemap.xml
+│   └── users.html # 自定义页面
+```
+
+## 社区
+
+![](/img/docusaurus.svg)
+
+无论您是想用来搭建自己的网站、还是想为了Docusaurus 核心做贡献、亦或者只是有问题想问，我们都非常欢迎您在[这里](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md)为Docusaurus做出贡献。 您可以在 [Github](https://github.com/facebook/docusaurus) 和 [X（需要翻墙）](https://x.com/docusaurus) 关注我们！
+
+## 特别鸣谢
+
+没有Docusaurus core团队的其他成员的工作，Docusaurus就不会存在：[Eric Nakagawa](http://x.com/ericnakagawa), [Hector Ramos](https://x.com/hectorramos), [Eric Vicenti](https://x.com/EricVicenti) 和 [Frank Li](https://github.com/deltice) — 曾是Facebook的实习生，负责应用核心技术和功能。
+
+特别鸣谢我们Docusaurus早期的 [adopters](https://v1.docusaurus.io/en/users.html)：
+
+- [BuckleScript](https://bucklescript.github.io/)
+- [FastText](https://fasttext.cc)
+- [Jest](https://jestjs.io)
+- [Make It Open](http://makeitopen.com)
+- [Prettier](https://prettier.io/)
+- [Reason-react](https://reasonml.github.io/reason-react/)
+- [React Native](https://facebook.github.io/react-native/)
+- [Relay](https://facebook.github.io/relay/)
+
+Without their dedication to creating or migrating their websites over to the platform, we would have not have been in the position where we are today.
+
+## 资源
+
+- [阅读我们的文档](https://v1.docusaurus.io)
+- [关注我们的 X 账号](https://x.com/docusaurus)
+- [关注我们的 GitHub 存库](https://github.com/facebook/docusaurus)
+- [关于Docusaurus吉祥物Slash](https://v1.docusaurus.io/about-slash.html)

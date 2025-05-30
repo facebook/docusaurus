@@ -1,0 +1,121 @@
+---
+sidebar_position: 3
+---
+
+# I18n 生命周期
+
+插件用这些生命周期来加载国际化 (i18n) 相关的数据。
+
+## `getTranslationFiles({content})` {#getTranslationFiles}
+
+插件需要声明它们想要使用的 JSON 翻译文件。
+
+返回 `{path: string, content: ChromeI18nJSON}` 形式的翻译文件：
+
+- `path`: 相对于插件的本地化目录 `i18n/[语言]/[插件名]`。 为了保证通用性，请省略 `.json` 扩展名。
+- `content`: 使用 Chrome i18n JSON 格式。
+
+这些文件会被 [`write-translations` CLI](../../cli.mdx#docusaurus-write-translations-sitedir) 写入插件的 i18n 子文件夹，并将在调用 [`translateContent()`](#translateContent) 和 [`translateThemeConfig()`](#translateThemeConfig) 之前以相应的语言被读取。
+
+示例：
+
+```js title="my-plugin.js"
+export default function (context, options) {
+  return {
+    name: 'my-plugin',
+    // highlight-start
+    async getTranslationFiles({content}) {
+      return [
+        {
+          path: 'sidebar-labels',
+          content: {
+            someSidebarLabel: {
+              message: 'Some Sidebar Label',
+              description: 'A label used in my plugin in the sidebar',
+            },
+            someLabelFromContent: content.myLabel,
+          },
+        },
+      ];
+    },
+    // highlight-end
+  };
+}
+```
+
+## `translateContent({content,translationFiles})` {#translateContent}
+
+使用本地化完毕的翻译文件翻译插件内容。
+
+返回本地化的插件内容。
+
+`translateContent()` 返回的本地化插件内容会被用来调用 `contentLoaded()` 生命周期。
+
+示例：
+
+```js title="my-plugin.js"
+export default function (context, options) {
+  return {
+    name: 'my-plugin',
+    // highlight-start
+    translateContent({content, translationFiles}) {
+      const myTranslationFile = translationFiles.find(
+        (f) => f.path === 'myTranslationFile',
+      );
+      return {
+        ...content,
+        someContentLabel: myTranslationFile.someContentLabel.message,
+      };
+    },
+    // highlight-end
+  };
+}
+```
+
+## `translateThemeConfig({themeConfig,translationFiles})` {#translateThemeConfig}
+
+使用本地化完毕的翻译文件，翻译网站 `themeConfig` 中的文本。
+
+返回本地化的 `themeConfig`。
+
+示例：
+
+```js title="my-plugin.js"
+export default function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    translateThemeConfig({themeConfig, translationFiles}) {
+      const myTranslationFile = translationFiles.find(
+        (f) => f.path === 'myTranslationFile',
+      );
+      return {
+        ...themeConfig,
+        someThemeConfigLabel: myTranslationFile.someThemeConfigLabel.message,
+      };
+    },
+    // highlight-end
+  };
+}
+```
+
+## `async getDefaultCodeTranslationMessages()` {#getDefaultCodeTranslationMessages}
+
+使用 `<Translate>` API 的主题可以提供默认的代码翻译信息。
+
+它应该返回 `Record<string, string>` 形式的信息，以翻译 ID 作为键，以信息的内容（不包括描述）作为值，并根据网站当前的语言完成翻译。
+
+示例：
+
+```js title="my-plugin.js"
+export default function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    async getDefaultCodeTranslationMessages() {
+      return readJsonFile(`${context.i18n.currentLocale}.json`);
+    },
+    // highlight-end
+  };
+}
+```

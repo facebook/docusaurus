@@ -1,0 +1,283 @@
+---
+id: toc
+description: 自定义 Markdown 中的标题和目录
+slug: /markdown-features/toc
+---
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+# 标题和目录
+
+## Markdown 标题 {#markdown-headings}
+
+你可以用常规的 Markdown 标题。
+
+```md
+## 二级标题
+
+### 三级标题
+
+### 四级标题
+```
+
+每个 Markdown 标题都会变成目录里的一条内容。
+
+### 标题 ID {#heading-ids}
+
+每个标题都有一个 ID，它可以自动生成，也可以被显式指定。 标题 ID 允许你在 Markdown 或 JSX 中链接到某个特定的文档标题：
+
+```md
+[链接](#heading-id)
+```
+
+```jsx
+<Link to="#heading-id">链接</Link>
+```
+
+默认情况下，Docusaurus 会根据标题文本为你生成标题 ID。 比如，`### Hello World` 所对应的 ID 就是 `hello-world`。
+
+自动生成的 ID 有**一些不足**：
+
+- ID 可能看起来不好看
+- 你可能想要**修改或翻译**文本而不改动已有的 ID
+
+有一种特殊的 Markdown 语法，允许你设置一个**显式标题 ID**：
+
+```mdx-code-block
+<Code language="md">{'### Hello World \u007B#my-explicit-id}\n'}</Code>
+```
+
+:::tip
+
+您可以用 **[`write-heading-ids`](../../cli.mdx#docusaurus-write-heading-ids-sitedir)** 命令为所有 Markdown 文件显式地添加 ID。
+
+:::
+
+:::warning 避免重复的 ID
+
+自动生成的标题 ID 会保证在每个页面上都是唯一的，但如果你使用了自定义 ID，请确保每个 ID 都只出现一次。否则会出现两个有相同 ID 的 DOM 元素，而这是无效的 HTML 语义，会导致一个标题无法被链接到。
+
+:::
+
+## 目录标题级别 {#table-of-contents-heading-level}
+
+每个 Markdown 文档会在右上角显示一个目录栏。 目录默认只显示 h2 和 h3 标题，这些标题应该足够概述页面结构了。 如果你需要更改显示的标题范围，你可以自定义最小和最大的标题级别——既可以按页配置，也可以全局设置。
+
+要设置某个页面的标题级别，可以使用 `toc_min_heading_level` 和 `toc_max_heading_level` 前言。
+
+```md title="myDoc.md"
+---
+# 显示 h2 到 h5 标题
+toc_min_heading_level: 2
+toc_max_heading_level: 5
+---
+```
+
+要为_所有_页面设置标题等级，可以使用 [`themeConfig.tableOfContents`](../../api/themes/theme-configuration.mdx#table-of-contents) 选项。
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    tableOfContents: {
+      // highlight-start
+      minHeadingLevel: 2,
+      maxHeadingLevel: 5,
+      // highlight-end
+    },
+  },
+};
+```
+
+如果已经设置了全局选项，你仍然可以通过前言局部覆盖这些设置。
+
+:::note
+
+`themeConfig` 选项会作用于网站的所有目录，包括[内联目录](#inline-table-of-contents)，但前言选项只会影响右上角的 TOC。 你需要用 `minHeadingLevel` 和 `maxHeadingLevel` props 来自定义每一个 `<TOCInline />` 组件。
+
+:::
+
+## 内联目录 {#inline-table-of-contents}
+
+你也可以通过 MDX，直接在 Markdown 文档中显示一个内联目录。
+
+每个 MDX 文档都有一个 `toc` 变量可供使用，而它包含了此文档的所有标题。 默认情况下，目录中只显示 `h2` 和 `h3` 标题。 你可以通过设置每个 `TOCInline` 组件的 `minHeadingLevel` 或 `maxHeadingLevel` 来更改哪些标题级别可见。
+
+{/* prettier-ignore */}
+```jsx
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline toc={toc} />
+```
+
+```mdx-code-block
+import TOCInline from '@theme/TOCInline';
+
+<BrowserWindow>
+<TOCInline toc={toc} />
+</BrowserWindow>
+```
+
+`toc` 全局变量只是一个包含所有标题项的列表：
+
+```ts
+declare const toc: {
+  value: string;
+  id: string;
+  level: number;
+}[];
+```
+
+要注意 `toc` 全局变量是一个扁平的数组，所以你可以方便地剪切不需要的节点，或者插入额外的节点，从而创建一个新的目录树。
+
+{/* prettier-ignore */}
+```jsx
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline
+  // 只显示 h2 和 h4 标题
+  toc={toc.filter((node) => node.level === 2 || node.level === 4)}
+  minHeadingLevel={2}
+  // 除了默认的 h2 和 h3 标题，也把 h4 标题包含进来
+  maxHeadingLevel={4}
+/>
+```
+
+```mdx-code-block
+<BrowserWindow>
+<TOCInline
+  toc={toc.filter((node) => node.level === 2 || node.level === 4)}
+  minHeadingLevel={2}
+  maxHeadingLevel={4}
+/>
+</BrowserWindow>
+```
+
+## 自定义目录生成 {#customizing-table-of-contents-generation}
+
+目录是通过一个 [Remark 插件](./markdown-features-plugins.mdx)解析 Markdown 文本生成的。 有一些已知的边缘案例，会导致插入无效标题，或者有效标题未被插入。
+
+可隐藏区域内的 Markdown 标题仍会出现在目录中。 例如，headings within [`Tabs`](./markdown-features-tabs.mdx) and [`details`](./markdown-features-intro.mdx#details) will not be excluded.
+
+非 Markdown 的标题将不会在目录中出现。 这可以用来帮助你解决上面这个问题。
+
+```md
+<details>
+<summary>一些包含了标题的 details</summary>
+<h2 id="#heading-id">我是个标题但我不会出现在目录里</h2>
+
+一些内容……
+
+</details>
+```
+
+人性化的标题插入和排除语法还未完工。 如果这个功能对你很重要，请在[这个 issue](https://github.com/facebook/docusaurus/issues/6201) 这里分享一下你的用例。
+
+---
+
+:::warning
+
+下面只是一些随便写的内容，让本页的目录示例看起来更充实一点。
+
+:::
+
+## 示例章节 1 {#example-section-1}
+
+Lorem ipsum
+
+### 示例段落 1 a {#example-subsection-1-a}
+
+Lorem ipsum
+
+#### 示例小节 1 a I
+
+#### 示例小节 1 a II
+
+#### 示例小节 1 a III
+
+### 示例段落 1 b {#example-subsection-1-b}
+
+Lorem ipsum
+
+#### 示例小节 1 b I
+
+#### 示例小节 1 b II
+
+#### 示例小节 1 b III
+
+### 示例段落 1 c {#example-subsection-1-c}
+
+Lorem ipsum
+
+#### 示例小节 1 c I
+
+#### 示例小节 1 c II
+
+#### 示例小节 1 c III
+
+## 示例章节 2 {#example-section-2}
+
+Lorem ipsum
+
+### 示例段落 2 a {#example-subsection-2-a}
+
+Lorem ipsum
+
+#### 示例小节 2 a I
+
+#### 示例小节 2 a II
+
+#### 示例小节 2 a III
+
+### 示例段落 2 b {#example-subsection-2-b}
+
+Lorem ipsum
+
+#### 示例小节 2 b I
+
+#### 示例小节 2 b II
+
+#### 示例小节 2 b III
+
+### 示例段落 2 c {#example-subsection-2-c}
+
+Lorem ipsum
+
+#### 示例小节 2 c I
+
+#### 示例小节 2 c II
+
+#### 示例小节 2 c III
+
+## 示例章节 3 {#example-section-3}
+
+Lorem ipsum
+
+### 示例段落 3 a {#example-subsection-3-a}
+
+Lorem ipsum
+
+#### 示例小节 3 a I
+
+#### 示例小节 3 a II
+
+#### 示例小节 3 a III
+
+### 示例段落 3 b {#example-subsection-3-b}
+
+Lorem ipsum
+
+#### 示例小节 3 b I
+
+#### 示例小节 3 b II
+
+#### 示例小节 3 b III
+
+### 示例段落 3 c {#example-subsection-3-c}
+
+Lorem ipsum
+
+#### 示例小节 3 c I
+
+#### 示例小节 3 c II
+
+#### 示例小节 3 c III

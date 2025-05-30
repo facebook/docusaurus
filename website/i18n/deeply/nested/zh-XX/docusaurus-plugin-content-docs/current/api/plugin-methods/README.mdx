@@ -1,0 +1,141 @@
+# 插件方法总览
+
+:::warning
+
+此章节尚未完成。 锚点链接，甚至是 URL，都不保证稳定。
+
+:::
+
+插件 API 由主题和插件共享——主题的加载与插件是一样的。
+
+## 插件模块 {#plugin-module}
+
+每个插件都被作为模块导入。 模块应该有以下成员：
+
+- **默认导出**：插件的构造函数。
+- **命名导出**：在插件初始化之前调用的[静态方法](./static-methods.mdx)。
+
+## 插件构造函数 {#plugin-constructor}
+
+插件模块的默认导出是一个构造函数，签名为 `(context: LoadContext, options: PluginOptions) => Plugin | Promise<Plugin>`。
+
+### `context` {#context}
+
+`context` 与插件无关，同一个对象会被传递给 Docusaurus 站点的所有插件。 `context` 对象含有以下字段：
+
+```ts
+type LoadContext = {
+  siteDir: string;
+  generatedFilesDir: string;
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  baseUrl: string;
+};
+```
+
+### `options` {#options}
+
+`options` 是[使用插件时的第二个可选参数](../../using-plugins.mdx#configuring-plugins)。 `options` 是每个插件的独立参数，由用户在 `docusaurus.config.js` 中指定。 如果导出了 [`validateOptions`](./static-methods.mdx#validateOptions) 函数，`options` 会被事先校验和规范化。
+
+另外，如果插件是被预设包含的，那么预设就会负责为插件提供正确配置选项。 插件本身会决定需要哪些设置。
+
+## 示例 {#example}
+
+这是一个假想的插件实现。
+
+```js
+// 返回对象的 JavaScript 函数。
+// `context` 由 Docusaurus 提供。 比如 siteConfig 就可以从 context 访问。
+// `opts` 是用户定义的选项。
+export default async function myPlugin(context, opts) {
+  return {
+    // 必填字段，会被用于命名插件的临时数据缓存文件夹。
+    // 如果你在编写你自己的本地插件，你最好保证它是独一无二的，
+    // 防止与导入的插件发生冲突。
+    // 最好在插件名里包含你自己的项目名。
+    name: 'docusaurus-my-project-cool-plugin',
+
+    async loadContent() {
+      // loadContent 函数会在 siteConfig 和环境被加载好后执行。
+      // 你可以返回一个 JavaScript 对象，它会被传递给 contentLoaded 函数。
+    },
+
+    async contentLoaded({content, actions}) {
+      // contentLoaded 函数在 loadContent 函数之后运行。
+      // `actions` 是由 Docusaurus 提供的一系列功能性 API（比如 addRoute）
+    },
+
+    async postBuild(props) {
+      // 在 docusaurus <build> 完成之后运行。
+    },
+
+    // TODO
+    async postStart(props) {
+      // docusaurus <start> 完成之后
+    },
+
+    // TODO
+    afterDevServer(app, server) {
+      // https://webpack.js.org/configuration/dev-server/#devserverbefore
+    },
+
+    // TODO
+    beforeDevServer(app, server) {
+      // https://webpack.js.org/configuration/dev-server/#devserverafter
+    },
+
+    configureWebpack(config, isServer, utils, content) {
+      // 修改内部 webpack 配置。 
+      // 如果返回的值是对象，它会通过 webpack-merge被合并到最终的配置中；
+      // 如果返回的值是函数，它的第一个参数会接收配置，第二个参数会接收 isServer 标识。
+    },
+
+    getPathsToWatch() {
+      // 要监听的路径。
+    },
+
+    getThemePath() {
+      // 返回主题组件所在的目录。
+    },
+
+    getClientModules() {
+      // 返回一列模块路径，相应的模块会被导入进客户端包裹。 这些模块会在 React
+      // 甚至还没开始渲染 UI 之前就被导入。
+    },
+
+    extendCli(cli) {
+      // 为 Docusaurus CLI 注册一个额外的命令
+    },
+
+    injectHtmlTags({content}) {
+      // 注入 head 或者 body HTML tag。
+    },
+
+    async getTranslationFiles({content}) {
+      // 返回翻译文件
+    },
+
+    translateContent({content, translationFiles}) {
+      // 在这里翻译插件内容
+    },
+
+    translateThemeConfig({themeConfig, translationFiles}) {
+      // 在这里翻译站点 themeConfig
+    },
+
+    async getDefaultCodeTranslationMessages() {
+      // 在这里返回默认主题翻译
+    },
+  };
+}
+
+export function validateOptions({options, validate}) {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validatedOptions;
+}
+
+export function validateThemeConfig({themeConfig, validate}) {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+}
+```

@@ -1,0 +1,181 @@
+---
+id: git
+slug: /i18n/git
+---
+
+# i18n - 使用 git
+
+一种可行的**翻译方法**是通过 Git（或其他 [VCS](https://en.wikipedia.org/wiki/Version_control)）来**版本控制翻译文件**。
+
+## 利弊 {#tradeoffs}
+
+这一方法有如下优势：
+
+- **易于上手**：在 Git 上添加 `i18n` 文件夹即可
+- **开发方便**：Git、GitHub 及合并请求均为主流的开发者工具
+- **免费**（至少不需要额外费用，如果你已经使用 Git 的话）
+- **工作量小**：不需注册第三方工具
+- **高反馈**：贡献者乐于看到自己漂亮的贡献历史
+
+但使用 Git 也存在一些劣势：
+
+- **对非开发者不友好**：他们并未掌握 Git 及合并请求
+- **Hard for professional translators**: they are used to SaaS translation software and advanced features
+- **难以维护**：你必须保持已翻译和未翻译的文件**同步**
+
+:::note
+
+有一些**大规模的技术项目**（如 React、Vue.js、MDN、TypeScript、Nuxt.js 等等）使用 Git 翻译。
+
+请参见 [Docusaurus i18n RFC](https://github.com/facebook/docusaurus/issues/3317) 查看我们研究这些系统的链接与笔记。
+
+:::
+
+## 初始化 {#initialization}
+
+This is a walk-through of using Git to translate a newly initialized English Docusaurus website into French, and assume you already followed the [i18n tutorial](./i18n-tutorial.mdx).
+
+### 准备 Docusaurus 站点 {#prepare-the-docusaurus-site}
+
+初始化新的 Docusaurus 站点：
+
+```bash
+npx create-docusaurus@latest website classic
+```
+
+添加简体中文版网站的配置：
+
+```js title="docusaurus.config.js"
+export default {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
+  themeConfig: {
+    navbar: {
+      items: [
+        // ...
+        {
+          type: 'localeDropdown',
+          position: 'left',
+        },
+        // ...
+      ],
+    },
+  },
+  // ...
+};
+```
+
+翻译首页：
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+import Translate from '@docusaurus/Translate';
+import Layout from '@theme/Layout';
+
+export default function Home() {
+  return (
+    <Layout>
+      <h1 style={{margin: 20}}>
+        <Translate description="The homepage main heading">
+          Welcome to my Docusaurus translated site!
+        </Translate>
+      </h1>
+    </Layout>
+  );
+}
+```
+
+### 初始化 `i18n` 文件夹 {#initialize-the-i18n-folder}
+
+Use the [write-translations](../cli.mdx#docusaurus-write-translations-sitedir) CLI command to initialize the JSON translation files for the French locale:
+
+```bash npm2yarn
+npm run write-translations -- --locale zh-Hans
+
+  1 translations written at i18n/zh-Hans/code.json
+ 11 translations written at i18n/zh-Hans/docusaurus-theme-classic/footer.json
+  4 translations written at i18n/zh-Hans/docusaurus-theme-classic/navbar.json
+  3 translations written at i18n/zh-Hans/docusaurus-plugin-content-docs/current.json
+```
+
+:::tip
+
+使用 `--messagePrefix '(zh-Hans) '` 选项来标记未翻译的字符串。
+
+`Hello` 会被显示为 `(zh-Hans) Hello`，表明缺少译文。
+
+:::
+
+把未翻译的 Markdown 文件复制到简体中文文件夹：
+
+```bash
+mkdir -p i18n/zh-Hans/docusaurus-plugin-content-docs/current
+cp -r docs/** i18n/zh-Hans/docusaurus-plugin-content-docs/current
+
+mkdir -p i18n/zh-Hans/docusaurus-plugin-content-blog
+cp -r blog/** i18n/zh-Hans/docusaurus-plugin-content-blog
+
+mkdir -p i18n/zh-Hans/docusaurus-plugin-content-pages
+cp -r src/pages/**.md i18n/zh-Hans/docusaurus-plugin-content-pages
+cp -r src/pages/**.mdx i18n/zh-Hans/docusaurus-plugin-content-pages
+```
+
+把所有文件添加到 Git。
+
+### 翻译文件 {#translate-the-files}
+
+翻译 `i18n/zh-Hans` 中的 Markdown 及 JSON 文件，并提交译文。
+
+你现在可以用简体中文启动站点，并查看翻译：
+
+```bash npm2yarn
+npm run start -- --locale zh-Hans
+```
+
+你也可以在本地或 CI 上构建站点：
+
+```bash npm2yarn
+npm run build
+# 或者
+npm run build -- --locale zh-Hans
+```
+
+### 以此类推 {#repeat}
+
+为你要支持的每一个语言重复相同的流程。
+
+## 维护 {#maintenance}
+
+将已翻译的文件与源文件**保持一致**是**较为困难**的，尤其对 Markdown 文档而言。
+
+### 翻译 Markdown 文档 {#markdown-translations}
+
+当编辑未翻译的 Markdown 文档时，你还要**负责维护相应的译文文件**，而我们在这方面并没有好方法帮助你。
+
+要使翻译版站点保持一致，你需要在编辑 `website/docs/doc1.md` 文档后，把这些**编辑转移**到 `i18n/zh-Hans/docusaurus-plugin-content-docs/current/doc1.md`。
+
+### 翻译 JSON {#json-translations}
+
+To help you maintain the JSON translation files, it is possible to run again the [write-translations](../cli.mdx#docusaurus-write-translations-sitedir) CLI command:
+
+```bash npm2yarn
+npm run write-translations -- --locale zh-Hans
+```
+
+新译文会被追加，而旧译文不会被覆盖。
+
+:::tip
+
+可以用 `--override` 选项来重置你的译文。
+
+:::
+
+### 本地化编辑链接 {#localize-edit-urls}
+
+当用户浏览位于 `/zh-Hans/doc1` 的页面时，编辑按钮会默认指向 `website/docs/doc1.md` 处的未翻译文档。
+
+你的译文托管在 Git 上，所以你可以用文档和博客插件的 `editLocalizedFiles: true` 选项。
+
+编辑按钮会指向位于 `i18n/zh-Hans/docusaurus-plugin-content-docs/current/doc1.md` 的本地化文档。

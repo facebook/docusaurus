@@ -1,0 +1,137 @@
+---
+id: introduction
+slug: /i18n/introduction
+---
+
+# i18n - 简介
+
+It is **easy to translate a Docusaurus website** with its internationalization ([i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization)) support.
+
+## Goals {#goals}
+
+It is important to understand the **design decisions** behind the Docusaurus i18n support.
+
+For more context, you can read the initial [RFC](https://github.com/facebook/docusaurus/issues/3317) and [PR](https://github.com/facebook/docusaurus/pull/3325).
+
+### i18n goals {#i18n-goals}
+
+Docusaurus i18n 系统旨在：
+
+- **Simple**: just put the translated files in the correct filesystem location
+- **Flexible translation workflows**: use Git (monorepo, forks, or submodules), SaaS software, FTP
+- **Flexible deployment options**: single, multiple domains, or hybrid
+- **Modular**: allow plugin authors to provide i18n support
+- **Low-overhead runtime**: documentation is mostly static and does not require heavy JS libraries or polyfills
+- **Scalable build-times**: allow building and deploying localized sites independently
+- **Localize assets**: an image of your site might contain text that should be translated
+- **No coupling**: not forced to use any SaaS, yet integrations are possible
+- **Easy to use with [Crowdin](https://crowdin.com/)**: a lot of Docusaurus v1 sites use Crowdin and should be able to migrate to v2
+- **Good SEO defaults**: we set useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you
+- **RTL support**: locales reading right-to-left (Arabic, Hebrew, etc.) are supported and easy to implement
+- **Default translations**: classic theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-translations/locales)
+
+### i18n non-goals {#i18n-non-goals}
+
+我们不支持：
+
+- **Automatic locale detection**: opinionated, and best done on the [server (your hosting provider)](../deployment.mdx)
+- **Translation SaaS software**: you are responsible to understand the external tools of your choice
+- **Translation of slugs**: technically complicated, little SEO value
+
+## Translation workflow {#translation-workflow}
+
+### Overview {#overview}
+
+以下是创建翻译版 Docusaurus 站点的主要流程：
+
+1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`
+2. **Translate**: put the translation files at the correct filesystem location
+3. **Deploy**: build and deploy your site using a single or multi-domain strategy
+
+### Translation files {#translation-files}
+
+你会和三种翻译文件打交道。
+
+#### Markdown files {#markdown-files}
+
+这是你的 Docusaurus 网站的主要内容。
+
+Markdown 和 MDX 文档会被统一翻译，而不会把每个句子分割成独立的字符串，以保证翻译语境正确。
+
+#### JSON files {#json-files}
+
+JSON 用于翻译：
+
+- Your React code: standalone React pages in `src/pages`, or other components
+- Layout labels provided through `themeConfig`: navbar, footer
+- 通过插件选项提供的布局文本：文档侧边栏菜单标签，博客侧边栏标题等
+
+The JSON format used is called **Chrome i18n**:
+
+```json
+{
+  "myTranslationKey1": {
+    "message": "已翻译的信息 1",
+    "description": "myTranslationKey1 用于主页"
+  },
+  "myTranslationKey2": {
+    "message": "已翻译的信息2",
+    "description": "myTranslationKey2 用于 FAQ 页"
+  }
+}
+```
+
+这一选择有两个原因：
+
+- **Description attribute**: to help translators with additional context
+- **Widely supported**: [Chrome extensions](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json), etc.
+
+#### Data files {#data-files}
+
+某些插件可能会读取外部数据文件，这些数据文件会被整体翻译。 For example, the blog plugin uses an [`authors.yml`](../blog.mdx#global-authors) file that can be translated by creating a copy under `i18n/[locale]/docusaurus-plugin-content-blog/authors.yml`.
+
+### Translation files location {#translation-files-location}
+
+翻译文件必须创建在正确的文件系统位置。
+
+Each locale and plugin has its own `i18n` subfolder:
+
+```
+website/i18n/[语言]/[插件名]/...
+```
+
+:::note
+
+For multi-instance plugins, the path is `website/i18n/[locale]/[pluginName]-[pluginId]/...`.
+
+:::
+
+把一个简单的 Docusaurus 网站翻译成简体中文，会产生如下的网站结构：
+
+```bash
+website/i18n
+└── fr
+    ├── code.json  # 所有 React 代码里的文本标签
+    │              # 也包括主题代码里的文本
+    ├── docusaurus-plugin-content-blog # 博客插件需要的翻译数据
+    │   └── 2020-01-01-hello.md
+    │
+    ├── docusaurus-plugin-content-docs # 文档插件需要的翻译数据
+    │   ├── current
+    │   │   ├── doc1.md
+    │   │   └── doc2.mdx
+    │   └── current.json
+    │
+    └── docusaurus-theme-classic # 经典主题需要的翻译数据
+        ├── footer.json   # 页脚主题配置对应的文本
+        └── navbar.json   # 导航栏主题配置对应的文本
+```
+
+The JSON files are initialized with the [`docusaurus write-translations`](../cli.mdx#docusaurus-write-translations-sitedir) CLI command. Each plugin sources its own translated content under the corresponding folder, while the `code.json` file defines all text labels used in the React code.
+
+Each content plugin or theme is different, and **defines its own translation files location**:
+
+- [Docs i18n](../api/plugins/plugin-content-docs.mdx#i18n)
+- [Blog i18n](../api/plugins/plugin-content-blog.mdx#i18n)
+- [Pages i18n](../api/plugins/plugin-content-pages.mdx#i18n)
+- [Themes i18n](../api/themes/theme-configuration.mdx#i18n)

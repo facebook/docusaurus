@@ -1,0 +1,58 @@
+---
+sidebar_position: 0
+slug: /api/misc/create-docusaurus
+---
+
+# 📦 create-docusaurus
+
+一个帮助你即刻搭建 Docusaurus 网站的工具。
+
+## 用法 {#usage}
+
+```bash
+npx create-docusaurus@latest [名称] [模板] [根目录]
+```
+
+`名称`参数会被用作网站目录的路径以及生成的项目的 package.json 的 `name` 字段。 它可以是一个绝对路径，或者是一个相对于`根目录`参数的路径。
+
+`模板`参数可以是以下之一：
+
+- `classic`：使用 classic 模板（推荐）
+- `facebook`：使用 Facebook/Meta 模板，包含了一些 Meta 专有的设置。
+- 一个 git 仓库 URL（以 `https:///` 或 `git@`开头），可以克隆到目标路径
+- 一个相对于 CWD 的本地文件路径，该文件夹会被复制到目标路径
+
+`根目录`参数会被用于计算网站目录的绝对路径。 默认为 CWD。
+
+:::warning
+
+此命令最好在交互式 shell 中使用，确保所有功能都可以使用。
+
+:::
+
+## 选项 {#options}
+
+### `-t, --typescript` {#typescript}
+
+当模板参数是可识别的名称（classic, facebook 等）时使用。 目前只有 `classic` 提供 TypeScript 变种。
+
+### `-g, --git-strategy` {#git-strategy}
+
+当模板参数是 git 仓库时使用。 它必须是下列之一：
+
+- `deep`：保留完整的 git 历史记录
+- `shallow`：克隆时使用 `--depth=1` 选项
+- `copy`：浅克隆，但不在本地创建 git 仓库
+- `custom`：输入一个自定义的 git 克隆命令。 我们会在命令行问询具体内容。 你可以写一些类似 `git clone --deep 10` 的代码，我们会在后面加上仓库的 URL 和目标目录。
+
+### `-p, --package-manager` {#package-manager}
+
+可选值为 `npm`、`yarn`、`pnpm` 或 `bun`。 如果没有明确提供，Docusaurus 会基于以下条件推断一个：
+
+- CWD 中已存在的 lock 文件（比如，如果你正在一个已有的项目中创建网站）
+- 用于调用 `create-docusaurus` 的命令（比如 `npm init`、`npx`、`yarn creatment`、`bunx` 等等）
+- 如果所有线索都不存在，可以通过交互式输入提供
+
+### `-s, --skip-install` {#skip-install}
+
+如果提供了这一选项，Docusaurus 将不会在创建项目后自动安装依赖项。 `--package-manager` 选项只有在你真的安装依赖项时才有用。

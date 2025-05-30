@@ -1,0 +1,332 @@
+---
+description: 通过创建你自己的主题组件来自定义网站外观
+---
+
+# Swizzle
+
+在本节中，我们将介绍如何在 Docusaurus 中完成自定义布局。
+
+> 似曾相识？
+
+本章节类似于[样式和布局](./styling-layout.mdx)，但是这一次，我们将自定义 React 组件本身，而不是它们的外观。 我们会讨论 Docusaurus 的一个核心概念：**swizzle**。Swizzle 允许你进行**更深入的网站定制**。
+
+实际操作中，swizzle 允许你**把一个主题组件替换为你自己的实现**。它有两种模式：
+
+- [**弹出**](#ejecting): 创建一个原始主题组件的**复制版**，你可以完全**自定义**
+- [**包装**](#wrapping)：创建一个原始主题组件的**封装**，你可以**增强**原组件
+
+<details>
+
+<summary>为什么叫 swizzle？</summary>
+
+**这个名字来自 Objective-C 和 Swift-UI**：通过 [method swizzle](https://pspdfkit.com/blog/2019/swizzling-in-swift/)（有时候翻译成「方法交换」），你可以替换一个现有选择器（或方法）的实现。
+
+**对于 Docusaurus 来说，swizzle 组件意味着提供一个替代组件，它会优先于主题提供的组件。**
+
+你可以把它当作是 React 组件的[猴子补丁](https://en.wikipedia.org/wiki/Monkey_patch) (monkey patch)，使你能够覆盖默认的实现。 Gatsby 有一个类似的概念，叫做 [theme shadowing](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/)。
+
+要更深入地理解这一点，你必须明白[主题组件是如何被解析的](./advanced/client.mdx#theme-aliases)。
+
+</details>
+
+## Swizzle 的过程
+
+### 概览
+
+Docusaurus 提供了一个便捷的**交互式 CLI** 用来 swizzle 组件。 你一般只需要记住以下指令：
+
+```bash npm2yarn
+npm run swizzle
+```
+
+它将在你的 `src/theme` 目录中生成一个新组件，组件看起来和这个示例类似：
+
+```mdx-code-block
+<Tabs>
+<TabItem value="弹出">
+```
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+
+export default function SomeComponent(props) {
+  // 你可以完全自定义这个实现，包括改变 JSX, CSS 和 React 钩子
+  return (
+    <div className="some-class">
+      <h1>某个组件</h1>
+      <p>一些组件实现细节</p>
+    </div>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="包装">
+```
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+import SomeComponent from '@theme-original/SomeComponent';
+
+export default function SomeComponentWrapper(props) {
+  // 你可以增强原组件，包括添加额外的属性或其他 JSX 元素
+  return (
+    <>
+      <SomeComponent {...props} />
+    </>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+要总览所有可用的主题和组件，请运行：
+
+```bash npm2yarn
+npm run swizzle -- --list
+```
+
+你可以用 `--help` 查看所有可用的 CLI 选项，或参考 [swizzle CLI 文档](./cli.mdx#docusaurus-swizzle)。
+
+:::tip 移除不需要的 Swizzled 组件
+
+如果您认为一个先前交换过的（swizzled）组件不再需要，您可以轻松地从 `src/theme` 目录中删除它的文件。 删除组件后，请确保重新启动您的开发服务器以确保更改生效。
+
+:::
+
+:::note
+
+在 swizzle 组件后，**重新启动你的开发服务器**，让 Docusaurus 能意识到新组件的存在。
+
+:::
+
+:::warning 最好留在安全区
+
+确保你清楚[哪些组件是**能被安全 swizzle**](#what-is-safe-to-swizzle) 的。 某些组件是主题的**内部实现细节**。
+
+:::
+
+:::info
+
+`docusaurus swizzle` 只是一种帮助你 swizzle 组件的自动化方式。 你也可以手动创建 `src/theme/SomeComponent.js` 文件，Docusaurus 也会[解析它](./advanced/client.mdx#theme-aliases)。 这个命令背后没有什么内部的魔法！
+
+:::
+
+### 弹出组件 {#ejecting}
+
+弹出主题组件的过程会**创建一个原始主题组件的复制版**。你可以**完全自定义并覆盖**原组件。
+
+要弹出主题组件，可以使用交互式 swizzle CLI，或使用 `--eject` 选项：
+
+```bash npm2yarn
+npm run swizzle [主题名] [组件名] -- --eject
+```
+
+举个例子：
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
+```
+
+这会把现有的 `<Footer />` 组件的实现复制到你的站点的 `src/theme` 目录。 Docusaurus 现在会使用这个 `<Footer>` 组件副本，而不是原组件。 你现在可以自由地重新实现 `<Footer>` 组件了。
+
+```jsx title="src/theme/Footer/index.js"
+import React from 'react';
+
+export default function Footer(props) {
+  return (
+    <footer>
+      <h1>这是我自定义的网站页脚</h1>
+      <p>它和原本的那个完全不一样</p>
+    </footer>
+  );
+}
+```
+
+:::warning
+
+如果你弹出了一个[**不安全**](#what-is-safe-to-swizzle)的组件，有时会复制出大量内部代码，现在就必须由你自己维护。 这可能会使得升级 Docusaurus 变得更困难，因为如果接受的属性发生变化，或内部使用的主题 API 发生变化，你就不得不手动迁移你的变更。
+
+**如果可能，请尽量选择[包装](#wrapping)**：这么做要维护的代码量更少。
+
+:::
+
+:::tip 重新 swizzle
+
+在更新 Docusaurus 后，如果需要保持弹出的组件最新，可以再次运行弹出指令，并用 `git diff` 比较变化。 也建议你在文件顶部写一个简短的注释，说明你做了哪些修改。这样你可以在重弹出后更容易地重新做更改。
+
+:::
+
+### 包装组件 {#wrapping}
+
+包装主题组件的过程会**创建一个原始主题组件的包装层**。你可以**增强**原组件。
+
+要包装主题组件，可以使用交互式 swizzle CLI，或使用 `--wrap` 选项：
+
+```bash npm2yarn
+npm run swizzle [主题名] [组件名] -- --wrap
+```
+
+举个例子：
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer -- --wrap
+```
+
+这会在你的站点的 `src/theme` 目录中创建一个包装组件。 Docusaurus 现在会使用这个 `<FooterWrapper>` 组件，而不是原始组件。 你现在可以在原始组件周围添加自定义内容。
+
+```jsx title="src/theme/Footer/index.js"
+import React from 'react';
+import Footer from '@theme-original/Footer';
+
+export default function FooterWrapper(props) {
+  return (
+    <>
+      <section>
+        <h2>额外部分</h2>
+        <p>这是在原先的页脚上面的一个额外部分</p>
+      </section>
+      <Footer {...props} />
+    </>
+  );
+}
+```
+
+<details>
+  <summary>这个 <code>@theme-original</code> 是什么？</summary>
+
+Docusaurus 通过[主题别名](./advanced/client.mdx#theme-aliases)来解析最终会被使用的主题组件。 新创建的包装组件会占据 `@theme/SomeComponent` 这个别名。 `@theme-original/SomeComponent` 允许导入包装组件所覆盖的原始组件，而不会因为包装组件导入自己，产生无限导入循环。
+
+</details>
+
+:::tip
+
+如果你想要**在现有组件周围添加额外组件**，包装主题的方法很不错，不需要[弹出](#ejecting)它。 比如，你可以轻松在每篇博文下面添加一个自定义的评论系统：
+
+```jsx title="src/theme/BlogPostItem.js"
+import React from 'react';
+import BlogPostItem from '@theme-original/BlogPostItem';
+import MyCustomCommentSystem from '@site/src/MyCustomCommentSystem';
+
+export default function BlogPostItemWrapper(props) {
+  return (
+    <>
+      <BlogPostItem {...props} />
+      <MyCustomCommentSystem />
+    </>
+  );
+}
+```
+
+:::
+
+## 哪些组件能被安全 swizzle？ {#what-is-safe-to-swizzle}
+
+> 能力越大，责任越大
+
+有些主题组件是主题的**内部实现细节**。 Docusaurus 允许你 swizzle 它们，但**这可能有风险**。
+
+<details>
+
+<summary>为什么有风险？</summary>
+
+主题作者（包括我们自己）可能会在未来更新主题：改变组件的属性、名字、文件系统位置、类型，等等。 比如，考虑这么一个组件，它接收两个属性，`name` 和 `age`，但在某次重构之后，它开始接收一个 `person` 属性，包含上面两个字段。 你的组件仍然会假设原先的两个属性存在，所以会渲染 `undefined`。
+
+此外，一些内部组件可能会直接消失。 如果一个组件叫做 `Sidebar`，之后又被重命名为 `DocSidebar`，你 swizzle 的组件就会被完全忽略。
+
+**被标记为不安全的主题组件可能会在主题的小版本间发生向后不兼容的变化。**在更新主题（或 Docusaurus 本身）时，你的个性化可能会**产生无法预料的行为**，甚至可能**把你的整个网站弄坏**。
+
+</details>
+
+对于每个主题组件，swizzle CLI 会标示主题作者所声明的**三种不同安全等级**：
+
+- **Safe（安全）**：这个组件的公共 API 是稳定的，可以被安全地 swizzle。在每个主题**大版本**内，不应发生破坏性变更
+- **Unsafe（不安全）**：这个组件是主题的内部实现细节，不能被安全地 swizzle，在主题的**小版本**间可能发生破坏性变更
+- **Forbidden（禁止）**：swizzle CLI 会防止你 swizzle 这个组件，因为它根本没有被设计成可 swizzle。
+
+:::note
+
+有些组件可能能被安全包装，但不能被安全弹出。
+
+:::
+
+:::info
+
+不要**太害怕 swizzle 不安全的组件**：只是要记得**破坏性变更**可能发生，然后就需要在更新小版本时，手动更新你的个性化组件。
+
+:::
+
+:::note 报告你的用例
+
+如果你有一个 **swizzle 不安全组件的有力用例**，请[**在这里汇报**](https://github.com/facebook/docusaurus/discussions/5468)，我们可以共同努力寻找解决方案，让它更加安全。
+
+:::
+
+## 我该 swizzle 哪个组件？ {#which-component-should-i-swizzle}
+
+要 swizzle 哪个组件才能达成预期效果，答案并不是总是很清晰。 `@docusaurus/theme-classic` 提供了绝大多数主题组件。它现在有大概 [100 个组件](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)！
+
+:::tip
+
+要输出所有 `@docusaurus/theme-classic` 组件的总览，可以运行：
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic -- --list
+```
+
+:::
+
+你可以按照这些步骤来定位合适的 swizzle 组件：
+
+1. **组件描述。**一些组件提供了一段简短描述，这是找到正确组件的好方法。
+2. **组件名称。**官方主题组件是按语义命名的，所以你应该能从名字中推断出它的功能。 Swizzle CLI 允许你输入组件名称的一部分，以缩小选择范围。 比如，如果你运行 `yarn swizzle @docusaurus/theme-classic`，然后输入了 `Doc`，那么就只会列出文档相关的组件。
+3. **从一个较高层的组件开始。**组件之间会形成一个树形结构，一些组件会导入另一些组件。 每个路由都会和一个顶层组件相关联，路由会渲染这个组件（其中大部分顶层组件都在[内容插件路由](./advanced/routing.mdx#routing-in-content-plugins)章节有列出）。 比如，所有的博文页的顶层组件都是 `@theme/BlogPostPage`。 你可以先 swizzle 这个组件，然后沿着组件树一步步往下走，最后定位到正好渲染你的目标区域的组件。 最后，在你找到正确的组件后，别忘了把其他文件全部删掉，这样你就不需要维护太多组件了。
+4. **阅读[主题源码](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)**并善用搜索功能。
+
+:::tip 记得多提问！
+
+如果你仍然不知道要 swizzle 哪个组件才能达到预期效果，你可以在我们的[支持渠道](/community/support)中寻求帮助。
+
+我们还想更好地了解你最最花哨的个性化案例，所以请[**报告你的用例**](https://github.com/facebook/docusaurus/discussions/5468)。
+
+:::
+
+## 我真的需要 swizzle 吗？ {#do-i-need-to-swizzle}
+
+Swizzle 最终还是意味着你必须维护一些额外的 React 代码，这些代码会与 Docusaurus 的内部 API 交互。 如果可行的话，在个性化你的站点时，也考虑一下这些替代方案：
+
+1. **使用 CSS。**CSS 规则和选择器足以胜任很多不错的个性化。 更多详情请参阅[样式和布局](./styling-layout.mdx)。
+2. **使用翻译。**听起来可能有点令人吃惊，不过翻译最终仍然只是一种自定义文本标签的方式。 比如，如果你的站点的默认语言是 `en`，你仍然可以运行 `yarn write-translations -l en`，然后编辑输出的 `code.json`。 详情请参阅 [i18n 教程](./i18n/i18n-tutorial.mdx)。
+
+:::tip
+
+**越小越好。**如果 swizzle 不可避免，最好只 swizzle 相关的部分，维护的代码越少越好。 Swizzle 小组件一般意味着升级时**破坏性变更**的风险更小。
+
+[包装组件](#wrapping)也是一个远比[弹出组件](#ejecting)更安全的替代方案。
+
+:::
+
+## 用 `<Root>` 包裹你的网站 {#wrapper-your-site-with-root}
+
+`<Root>` 组件在 React 树的**顶部**渲染，高于主题的 `<Layout>`，而且**永远不会卸载**。 如果你有一个不需要在跳转时重新初始化的状态（比如用户身份验证状态、购物车状态……），它是添加这段逻辑的最佳位置。
+
+你需要**手动** swizzle 它，新建一个 `src/theme/Root.js` 文件：
+
+```js title="src/theme/Root.js"
+import React from 'react';
+
+// 默认实现，你可以自定义
+export default function Root({children}) {
+  return <>{children}</>;
+}
+```
+
+:::tip
+
+用这个组件来渲染 React context provider。
+
+:::

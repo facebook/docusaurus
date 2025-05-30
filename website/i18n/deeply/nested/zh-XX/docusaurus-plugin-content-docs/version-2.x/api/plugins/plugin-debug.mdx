@@ -1,0 +1,108 @@
+---
+sidebar_position: 5
+slug: /api/plugins/@docusaurus/plugin-debug
+---
+
+# 📦 plugin-debug
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+The debug plugin will display useful debug information at [`http://localhost:3000/__docusaurus/debug`](http://localhost:3000/__docusaurus/debug).
+
+It is mostly useful for plugin authors, that will be able to inspect more easily the content of the `.docusaurus` folder (like the creates routes), but also be able to inspect data structures that are never written to disk, like the plugin data loaded through the `contentLoaded` lifecycle.
+
+:::info
+
+If you use the plugin via the classic preset, the preset will **enable the plugin in development and disable it in production** by default (`debug: undefined`) to avoid exposing potentially sensitive information. You can use `debug: true` to always enable it or `debug: false` to always disable it.
+
+如果你用的是独立插件，你可能需要通过检查环境来实现同样的效果：
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    // highlight-next-line
+    process.env.NODE_ENV === 'production' && '@docusaurus/plugin-debug',
+  ].filter(Boolean),
+};
+```
+
+:::
+
+:::note
+
+如果你报告了一个漏洞，我们可能会要求你在网站的生产环境中开启此插件，让我们能更方便地检查你的开发配置。
+
+If you don't have any sensitive information, you can keep it on in production [like we do](/__docusaurus/debug).
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-debug
+```
+
+:::tip
+
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+这个插件目前没有选项。
+
+### Example configuration {#ex-config}
+
+你可以通过预设选项或插件选项来配置这个插件。
+
+:::tip
+
+大多数 Docusaurus 用户通过预设选项配置此插件。
+
+:::
+
+```mdx-code-block
+<Tabs groupId="api-config-ex">
+<TabItem value="preset" label="Preset options">
+```
+
+If you use a preset, configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic):
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // highlight-next-line
+        debug: true, // 在生产环境启用插件
+      },
+    ],
+  ],
+};
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="plugin" label="Plugin Options">
+```
+
+如果你用的是独立插件，直接向插件提供选项：
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // highlight-next-line
+  plugins: ['@docusaurus/plugin-debug'],
+};
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
