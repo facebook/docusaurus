@@ -152,10 +152,12 @@ export async function getFileCommitDate(
 
   const command = `git log ${args} -- "${file}"`;
 
+  console.log('getFileCommitDate', file);
+
   const result = (await GitCommandQueue.add(() => {
     return PerfLogger.async(command, () => {
       return execa('git', ['log', ...argsArray, '--', `"${file}"`], {
-        shell: false,
+        shell: true,
       });
     });
   }))!;

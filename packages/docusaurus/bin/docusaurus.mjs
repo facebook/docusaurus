@@ -10,7 +10,7 @@
 
 import {inspect} from 'node:util';
 import {logger} from '@docusaurus/logger';
-import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
+import {DOCUSAURUS_VERSION, getFileCommitDate} from '@docusaurus/utils';
 import {runCLI} from '../lib/index.js';
 import beforeCli from './beforeCli.mjs';
 
@@ -19,6 +19,19 @@ import beforeCli from './beforeCli.mjs';
 // See also https://github.com/facebook/docusaurus/issues/8599
 process.env.BABEL_ENV ??= 'development';
 process.env.NODE_ENV ??= 'development';
+
+console.log('TEST');
+
+setInterval(() => {
+  console.log('\n\nTEST');
+
+  getFileCommitDate('docs/advanced/architecture.mdx', {});
+  getFileCommitDate(
+    'i18n/zh-CN/docusaurus-plugin-content-docs/current/advanced/architecture.mdx',
+    {},
+  );
+  console.log('TEST\n\n');
+}, 1000);
 
 /**
  * @param {unknown} error
