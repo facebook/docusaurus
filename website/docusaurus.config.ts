@@ -207,7 +207,7 @@ export default async function createConfigAsync() {
       locales:
         isDeployPreview || isBranchDeploy
           ? // Deploy preview and branch deploys: keep them fast!
-            [defaultLocale]
+            [defaultLocale, 'fr', 'pt-BR', 'ko', 'zh-CN']
           : isI18nStaging
           ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
             [defaultLocale, 'ja']
