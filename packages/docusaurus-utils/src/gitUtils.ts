@@ -150,25 +150,20 @@ export async function getFileCommitDate(
 
   const args = argsArray.join(' ');
 
-  const command = `git log ${args} -- "${file}"`;
-
-  console.log('getFileCommitDate', file);
+  const command = `(git ls-files --error-unmatch "${file}" || exit 42) && git log ${args} -- "${file}"`;
 
   const result = (await GitCommandQueue.add(() => {
     return PerfLogger.async(command, () => {
-      return execa('git', ['log', ...argsArray, '--', `"${file}"`], {
+      return execa(command, {
         shell: true,
+      }).catch((e) => {
+        if (e.exitCode === 42) {
+          return {exitCode: 0, stdout: '', stderr: ''} as const;
+        }
+        throw e;
       });
     });
   }))!;
-
-  /*
-  console.log('result', {
-    file,
-    result,
-  });
-
-   */
 
   if (result.exitCode !== 0) {
     throw new Error(
