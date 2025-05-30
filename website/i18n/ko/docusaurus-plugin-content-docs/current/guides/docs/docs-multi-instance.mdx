@@ -1,0 +1,213 @@
+---
+id: multi-instance
+description: 하나의 도큐사우루스 사이트에서 여러 개의 문서 플러그인 인스턴스를 가질 수 있습니다.
+slug: /docs-multi-instance
+---
+
+# 문서 멀티 인스턴스
+
+`@docusaurus/plugin-content-docs` 플러그인은 [multi-instance](../../using-plugins.mdx#multi-instance-plugins-and-plugin-ids)을 지원할 수 있습니다.
+
+:::note
+
+이 기능은 [버전이 지정된 문서](./versioning.mdx) 사용 시에만 활용할 수 있습니다. 이 페이지를 읽기 전에 문서 버전에 대한 내용을 먼저 확인하기를 권장합니다. [여러 개의 사이트바](./sidebar/multiple-sidebars.mdx)가 필요하다면 하나의 플러그인 내에서 처리할 수 있습니다.
+
+:::
+
+## 이렇게 사용합니다 {#use-cases}
+
+도큐사우루스 사이트에서 2개 이상의 다른 문서 세트를 처리하기 원하는 상황을 가정합니다.
+
+각 문서 세트는 서로 다른 버전/릴리스 생명주기를 가지고 있을 겁니다.
+
+### 모바일 SDK 문서 {#mobile-sdks-documentation}
+
+여러 운영체제를 지원하는 모바일 SDK에 대한 2개의 문서를 가지고 있다고 가정합니다.
+
+- 안드로이드 SDK 문서 (`v1.0`, `v1.1`)
+- iOS SDK 문서 (`v1.0`, `v2.0`)
+
+이런 경우 모바일 SDK 문서에 따라 각각의 문서 플러그인 인스턴스를 사용할 수 있습니다.
+
+:::warning
+
+각각의 문서 인스턴스가 너무 크다면 도큐사우루스 사이트를 2개로 나누는 것이 더 좋습니다.
+
+누군가 iOS 문서를 편집했을 때 변경되지 않는 안드로이드 문서까지 포함해 다시 빌드하는 것이 유용한지를 검토해야 합니다.
+
+:::
+
+### 버전 지정이 된 문서와 그렇지 않은 문서 {#versioned-and-unversioned-doc}
+
+일부 문서는 버전을 지정하지만 다른 문서는 버전과 상관없이 "모든 버전에서" 사용하길 원할 수 있습니다.
+
+도큐사우루스 웹사이트에서는 아래와 같은 패턴을 사용하고 있습니다.
+
+- [/docs/\*](/docs) 아래 문서는 버전 지정이 된 문서입니다.
+- [/community/\*](/community/support) 아래 문서는 버전 지정을 하지 않았습니다.
+
+## 설치하기 {#setup}
+
+여러분이 아래와 같은 2가지 형태의 문서를 작성한다고 가정해보죠.
+
+- Product: 제품에 대한 문서로 몇 가지 버전을 가집니다.
+- Community: 제품 관련 커뮤니티에 대한 문서로 버전을 지정하지 않습니다.
+
+이런 경우 사이트 설정 시 같은 플러그인을 두 번 사용해야 합니다.
+
+:::warning
+
+`@docusaurus/preset-classic`에는 문서 플러그인 인스턴스를 이미 포함하고 있습니다!
+
+:::
+
+프리셋을 사용하는 경우에는
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-start
+          // id: 'product', // omitted => default instance
+          // highlight-end
+          path: 'product',
+          routeBasePath: 'product',
+          sidebarPath: './sidebarsProduct.js',
+          // ... other options
+        },
+      },
+    ],
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        id: 'community',
+        // highlight-end
+        path: 'community',
+        routeBasePath: 'community',
+        sidebarPath: './sidebarsCommunity.js',
+        // ... other options
+      },
+    ],
+  ],
+};
+```
+
+프리셋을 사용하지 않는 경우에는
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        // id: 'product', // omitted => default instance
+        // highlight-end
+        path: 'product',
+        routeBasePath: 'product',
+        sidebarPath: './sidebarsProduct.js',
+        // ... other options
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        id: 'community',
+        // highlight-end
+        path: 'community',
+        routeBasePath: 'community',
+        sidebarPath: './sidebarsCommunity.js',
+        // ... other options
+      },
+    ],
+  ],
+};
+```
+
+플러그인 인스턴스에 유일한 `id` 속성을 설정하는 것을 잊지 마세요.
+
+:::note
+
+여기에서는 `product` 인스턴스를 가장 중요하다고 가정하고 "default" 인스턴스로 설정하기 위해 ID 속성값을 지정하지 않았습니다.
+
+:::
+
+## 버전 지정된 문서의 경로 {#versioned-paths}
+
+각 플러그인 인스턴스는 다른 폴더에 버전이 지정된 문서를 저장합니다.
+
+플러그인 기본 인스턴스는 아래 경로에 저장됩니다.
+
+- `website/versions.json`
+- `website/versioned_docs`
+- `website/versioned_sidebars`
+
+다른 플러그인 인스턴스(`id` 속성을 지정한)는 아래 경로에 저장됩니다.
+
+- `website/[pluginId]_versions.json`
+- `website/[pluginId]_versioned_docs`
+- `website/[pluginId]_versioned_sidebars`
+
+:::tip
+
+문서 플러그인 기본 인스턴스의 `id` 속성값(`default`)은 생략할 수 있습니다.
+
+이렇게 하면 인스턴스 경로는 간단해지고 단일 인스턴스 설정에 대한 하위 호환성도 유지됩니다.
+
+:::
+
+## 새로운 버전 태그 추가하기 {#tagging-new-versions}
+
+각 플러그인 인스턴스에 새로운 버전 태그를 추가하기 위한 CLI 명령을 사용할 수 있습니다. CLI 옵션은 아래 명령으로 확인할 수 있습니다.
+
+```bash npm2yarn
+npm run docusaurus -- --help
+```
+
+product/default 문서 플러그인 인스턴스에 버전을 지정하려면 아래와 같이 실행합니다.
+
+```bash npm2yarn
+npm run docusaurus docs:version 1.0.0
+```
+
+community 문서 플러그인 인스턴스에 버전을 지정하려면 아래와 같이 실행합니다.
+
+```bash npm2yarn
+npm run docusaurus docs:version:community 1.0.0
+```
+
+## 문서 내비게이션 바 아이템 {#docs-navbar-items}
+
+각 문서와 연결되는 [테마 내비게이션 바 아이템](../../api/themes/theme-configuration.mdx#navbar)을 `docsPluginId` 속성에서 설정할 수 있습니다.
+
+예를 들어 각 모바일 SDK(iOS와 안드로이드)에 대한 하나의 버전을 선택하는 드롭다운 목록을 표시하고 싶다면 아래와 같이 설정합니다.
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          docsPluginId: 'ios',
+          // highlight-end
+        },
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          docsPluginId: 'android',
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```

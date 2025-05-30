@@ -1,0 +1,132 @@
+---
+sidebar_position: 2
+---
+
+# 扩展基础设施
+
+Docusaurus 有一些基础设施，比如热重载、CLI、swizzle 等，它们可以被外部插件扩展。
+
+## `getPathsToWatch()` {#getPathsToWatch}
+
+指定插件和主题要监听的路径。 这些路径会被开发服务器监听，从而使得当监听路径的内容发生变化时，插件生命周期会重新运行。 注意插件和主题在初始化时会收到 `context` 和 `options`，对于你获取站点的目录结构信息可能有用。
+
+这个生命周期应该用于在服务端被读取的文件，因为主题文件会自动被 Webpack 开发服务器监听。
+
+示例：
+
+```js title="docusaurus-plugin/src/index.js"
+import path from 'path';
+
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    getPathsToWatch() {
+      const contentPath = path.resolve(context.siteDir, options.path);
+      return [`${contentPath}/**/*.{ts,tsx}`];
+    },
+    // highlight-end
+  };
+}
+```
+
+## `extendCli(cli)` {#extendCli}
+
+为 Docusaurus 的 CLI 注册一个额外的命令。 `cli` 是一个 [commander](https://www.npmjs.com/package/commander/v/5.1.0) 对象。
+
+:::warning
+
+Commander 的版本很重要！ 我们用的是 commander v5，确保你在了解可用的 API 时阅读的是正确的文档版本。
+
+:::
+
+示例：
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    extendCli(cli) {
+      cli
+        .command('roll')
+        .description('Roll a random number between 1 and 1000')
+        .action(() => {
+          console.log(Math.floor(Math.random() * 1000 + 1));
+        });
+    },
+    // highlight-end
+  };
+}
+```
+
+## `getThemePath()` {#getThemePath}
+
+返回主题组件所在的文件夹路径。 当用户运行 `swizzle` 时，`getThemePath` 会被调用，它返回的路径就是你的主题组件所在的路径。 返回的相对路径会按照插件入口文件所在的文件夹被解析。
+
+比如，你的 `getThemePath` 可以是：
+
+```js title="my-theme/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    getThemePath() {
+      return './theme';
+    },
+    // highlight-end
+  };
+}
+```
+
+## `getTypeScriptThemePath()` {#getTypeScriptThemePath}
+
+它与 `getThemePath()` 相似，应该返回主题组件的 TypeScript 源码所在的目录。 这个路径完全是用来 swizzle TypeScript 组件的，路径下的主题组件**不会**被 Webpack 解析。 因此，它不能用来替代 `getThemePath()`。 通常，你可以让 `getTypeScriptThemePath()` 返回你的源代码目录， 并让 `getThemePath()` 返回 JavaScript 编译输出。
+
+:::tip
+
+给用 TypeScript 编写主题的作者的提示：我们强烈建议你确保你的编译输出尽可能地可读。 只去除类型标注，但不要转译任何语法，因为语法会被 Webpack 的 JS 加载器按照目标浏览器版本自动转译。
+
+你也应该用 Prettier 格式化这些文件。 要记得——JS 文件会被你的用户直接接触到。
+
+:::
+
+示例：
+
+```js title="my-theme/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    getThemePath() {
+      // Where compiled JavaScript output lives
+      return '../lib/theme';
+    },
+    getTypeScriptThemePath() {
+      // Where TypeScript source code lives
+      return '../src/theme';
+    },
+    // highlight-end
+  };
+}
+```
+
+## `getSwizzleComponentList()` {#getSwizzleComponentList}
+
+**这是个静态方法，不在插件实例上。**
+
+返回一列稳定组件名，它们会被认定为可以被安全地 swizzle。 这些组件可以不用 `--danger` 就能被 swizzle。 所有的组件都默认不稳定。 如果返回了空列表，所有组件都会被认定为不稳定。 如果返回了 `undefined`，所有组件都会被认定为稳定。
+
+```js title="my-theme/src/index.js"
+export function getSwizzleComponentList() {
+  return [
+    'CodeBlock',
+    'DocSidebar',
+    'Footer',
+    'NotFound',
+    'SearchBar',
+    'hooks/useTheme',
+    'prism-include-languages',
+  ];
+}
+```

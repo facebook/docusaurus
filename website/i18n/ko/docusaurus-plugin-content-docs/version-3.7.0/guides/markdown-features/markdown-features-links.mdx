@@ -1,0 +1,52 @@
+---
+id: links
+description: 마크다운에서 다른 페이지에 대한 링크
+slug: /markdown-features/links
+---
+
+# 마크다운 링크
+
+There are two ways of adding a link to another page: through a **URL path** and a **file path**.
+
+```md
+- [다른 문서의 URL 경로](./installation)
+- [다른 문서의 파일 경로](./installation.mdx)
+```
+
+URL paths are unprocessed by Docusaurus, and you can see them as directly rendering to `<a href="./installation">`, i.e. it will be resolved according to the page's URL location, rather than its file-system location.
+
+If you want to reference another Markdown file **included by the same plugin**, you could use the relative path of the document you want to link to. Docusaurus' Markdown loader will convert the file path to the target file's URL path (and hence remove the `.md` extension).
+
+For example, if you are in `docs/folder/doc1.md` and you want to reference `docs/folder/doc2.md`, `docs/folder/subfolder/doc3.md` and `docs/otherFolder/doc4.md`:
+
+```md title="docs/folder/doc1.md"
+I am referencing a [document](doc2.mdx).
+
+Reference to another [document in a subfolder](subfolder/doc3.mdx).
+
+[Relative document](../otherFolder/doc4.mdx) referencing works as well.
+```
+
+상대 파일 경로는 현재 파일의 디렉터리에 따라 정해집니다. Absolute file paths, on the other hand, are resolved relative to the **content root**, usually `docs/`, `blog/`, or [localized ones](../../i18n/i18n-tutorial.mdx) like `i18n/zh-Hans/plugin-content-docs/current`.
+
+절대 파일 경로도 사이트 디렉터리를 기준으로 정할 수 있습니다. However, beware that links that begin with `/docs/` or `/blog/` are **not portable** as you would need to manually update them if you create new doc versions or localize them.
+
+```md
+You can write [links](/otherFolder/doc4.mdx) relative to the content root (`/docs/`).
+
+You can also write [links](/docs/otherFolder/doc4.mdx) relative to the site directory, but it's not recommended.
+```
+
+Using relative _file_ paths (with `.md` extensions) instead of relative _URL_ links provides the following benefits:
+
+- 링크는 깃허브 인터페이스나 다른 마크다운 편집기에서 계속 작동합니다.
+- 모든 링크를 업데이트하지 않고 파일 슬러그만 원하는 형태로 변경할 수 있습니다.
+- 폴더 간 파일 이동을 편집기에서 추적할 수 있으며 일부 편집기는 파일 링크를 자동으로 업데이트할 수 있습니다.
+- A [versioned doc](../docs/versioning.mdx) will link to another doc of the exact same version
+- Relative URL links are very likely to break if you update the [`trailingSlash` config](../../api/docusaurus.config.js.mdx#trailingSlash)
+
+:::warning
+
+마크다운 파일 참조는 소스 및 대상 파일이 같은 플러그인 인스턴스에서 처리될 때만 작동합니다. 이는 마크다운 프로세싱 아키텍처의 기술적 제약이며 향후 수정될 수 있습니다. 플러그인 간 파일을 연결하는 경우(예: 블로그 게시물에서 문서 페이지로 연결)에는 URL 링크를 사용해야 합니다.
+
+:::

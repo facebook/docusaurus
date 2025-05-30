@@ -1,0 +1,106 @@
+---
+sidebar_position: 8
+slug: /api/plugins/@docusaurus/plugin-ideal-image
+---
+
+# 📦 plugin-ideal-image
+
+import APITable from '@site/src/components/APITable';
+
+生成近乎理想的图像的 Docusaurus 插件（响应式、懒加载及低像素占位图）。
+
+:::info
+
+By default, the plugin is **inactive in development** so you could always view full-scale images. If you want to debug the ideal image behavior, you could set the [`disableInDev`](#disableInDev) option to `false`.
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-ideal-image
+```
+
+## Usage {#usage}
+
+此插件仅支持 PNG 和 JPG 格式。
+
+```jsx
+import Image from '@theme/IdealImage';
+import thumbnail from './path/to/img.png';
+
+// your React code
+<Image img={thumbnail} />
+
+// or
+<Image img={require('./path/to/img.png')} />
+```
+
+:::warning
+
+This plugin registers a [Webpack loader](https://webpack.js.org/loaders/) that changes the type of imported/require images:
+
+- Before: `string`
+- After: `{preSrc: string, src: import("@theme/IdealImage").SrcImage}`
+
+:::
+
+:::warning For pnpm users
+
+Starting with [pnpm 10](https://github.com/pnpm/pnpm/releases/tag/v10.0.0), running `pnpm install` won't run dependency install scripts by default. You'll need additional pnpm configuration ([issue](https://github.com/lovell/sharp/issues/4343)) for our `sharp` image resizing dependency to install correctly, such as:
+
+```json title="package.json"
+{
+  "pnpm": {
+    "onlyBuiltDependencies": ["fsevents"]
+  }
+}
+```
+
+:::
+
+## Configuration {#configuration}
+
+接受的字段：
+
+```mdx-code-block
+<APITable>
+```
+
+| 选项             | 类型         | 默认值                                           | 描述                                                                                                                                                                                                                                     |
+| -------------- | ---------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`         | `string`   | `ideal-img/[name].[hash:hex:7].[width].[ext]` | 输出文件的文件名模板。                                                                                                                                                                                                                            |
+| `sizes`        | `number[]` | _original size_                               | 指定你想使用的所有宽度。 如果指定尺寸超过了原始图像宽度，则使用后者（即图像不会被放大）。                                                                                                                                                                                          |
+| `size`         | `number`   | _original size_                               | 指定你想使用的唯一宽度。如果指定尺寸超过了原始图像宽度，则使用后者（即图像不会被放大）。                                                                                                                                                                                           |
+| `min`          | `number`   |                                               | As an alternative to manually specifying `sizes`, you can specify `min`, `max` and `steps`, and the sizes will be generated for you.                                                                                                   |
+| `max`          | `number`   |                                               | See `min` above                                                                                                                                                                                                                        |
+| `steps`        | `number`   | `4`                                           | Configure the number of images generated between `min` and `max` (inclusive)                                                                                                                                                           |
+| `quality`      | `number`   | `85`                                          | JPEG 压缩质量。                                                                                                                                                                                                                             |
+| `disableInDev` | `boolean`  | `true`                                        | You can test ideal image behavior in dev mode by setting this to `false`. **Tip**: use [network throttling](https://www.browserstack.com/guide/how-to-perform-network-throttling-in-chrome) in your browser to simulate slow networks. |
+
+```mdx-code-block
+</APITable>
+```
+
+### Example configuration {#ex-config}
+
+这是一个示例配置：
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-ideal-image',
+      // highlight-start
+      {
+        quality: 70,
+        max: 1030, // max resized image's size.
+        min: 640, // min resized image's size. if original is lower, use that size.
+        steps: 2, // the max number of images generated between min and max (inclusive)
+        disableInDev: false,
+      },
+      // highlight-end
+    ],
+  ],
+};
+```

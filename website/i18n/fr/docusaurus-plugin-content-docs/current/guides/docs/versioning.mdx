@@ -1,0 +1,375 @@
+---
+slug: /versioning
+---
+
+# Gestion des versions
+
+Vous pouvez utiliser la CLI de version pour créer une nouvelle version de documentation basée sur le contenu le plus récent dans le répertoire `docs`. Cet ensemble spécifique de documentation sera alors préservé et accessible même lorsque la documentation dans le répertoire `docs` continue d'évoluer.
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+:::warning
+
+Pensez-y avant de commencer à versionner votre documentation - il peut devenir difficile pour les contributeurs de contribuer à son amélioration !
+
+:::
+
+La plupart du temps, vous n'avez pas besoin de gestion des versions, car cela ne fait qu'augmenter le temps de construction et complexifier votre base de code. La gestion des versions est **plus adaptée aux sites web à fort trafic et aux modifications rapides de la documentation entre les versions**. Si votre documentation change rarement, n'ajoutez pas de gestion de version à votre documentation.
+
+Pour mieux comprendre le fonctionnement de la gestion de version et voir s'il répond à vos besoins, vous pouvez lire ce qui suit.
+
+## Vue d'ensemble {#overview}
+
+Un site typique de doc versionné ressemble à ce qui suit :
+
+```bash
+website
+├── sidebars.json        # barre latérale pour la version courante
+├── docs                 # répertoire docs pour la version courante
+│   ├── foo
+│   │   └── bar.md       # https://mysite.com/docs/next/foo/bar
+│   └── hello.md         # https://mysite.com/docs/next/hello
+├── versions.json        # fichier pour indiquer quelles versions sont disponibles
+├── versioned_docs
+│   ├── version-1.1.0
+│   │   ├── foo
+│   │   │   └── bar.md   # https://mysite.com/docs/foo/bar
+│   │   └── hello.md
+│   └── version-1.0.0
+│       ├── foo
+│       │   └── bar.md   # https://mysite.com/docs/1.0.0/foo/bar
+│       └── hello.md
+├── versioned_sidebars
+│   ├── version-1.1.0-sidebars.json
+│   └── version-1.0.0-sidebars.json
+├── docusaurus.config.js
+└── package.json
+```
+
+Le fichier `versions.json` est une liste de noms de version, ordonnée du plus récent au plus ancien.
+
+Le tableau ci-dessous explique comment un fichier versionné correspond à sa version et à l'URL générée.
+
+| Chemin                                  | Version        | URL               |
+| --------------------------------------- | -------------- | ----------------- |
+| `versioned_docs/version-1.0.0/hello.md` | 1.0.0          | /docs/1.0.0/hello |
+| `versioned_docs/version-1.1.0/hello.md` | 1.1.0 (latest) | /docs/hello       |
+| `docs/hello.md`                         | current        | /docs/next/hello  |
+
+:::tip
+
+Les fichiers dans le répertoire `>docs` appartiennent à la version `current`.
+
+Par défaut, la version de la documentation `current` est étiquetée `Next` et hébergée sous `/docs/next/*`, mais elle est entièrement configurable pour s'adapter au cycle de vie des versions de votre projet.
+
+:::
+
+### Terminologie {#terminology}
+
+Notez la terminologie que nous utilisons ici.
+
+<dl>
+  <dt>
+    <b>Version actuelle</b>
+  </dt>
+  <dd>
+    {'La version est placée dans le '}
+    {'dossier '}
+    <code>./docs</code>
+  </dd>
+  <dt>
+    <b>Dernière version</b>
+  </dt>
+  <dd>
+    {'La version servie par défaut pour les éléments de la barre de navigation docs. Habituellement a le chemin '}
+    <code>/docs</code>
+    {'.'}
+  </dd>
+</dl>
+
+La version actuelle est définie par l'emplacement **du système de fichiers**, alors que la dernière version est définie par le **comportement de navigation**. Il peut s'agir ou non de la même version ! (Et la configuration par défaut, comme indiqué dans le tableau ci-dessus, les traiterait comme différentes : la version actuelle vers `/docs/next` et la dernière vers `/docs`)
+
+## Tutoriels {#tutorials}
+
+### Taguer une nouvelle version {#tagging-a-new-version}
+
+1. Tout d'abord, assurez-vous que la version actuelle de la documentation (le répertoire `./docs` ) est prête à être gelée.
+2. Entrez un nouveau numéro de version.
+
+```bash npm2yarn
+npm run docusaurus docs:version 1.1.0
+```
+
+Lorsqu'on tague une nouvelle version, le mécanisme de gestion des versions du document :
+
+- Copiera le contenu complet du dossier `docs/` dans un nouveau dossier `versioned_docs/version-[versionName]/`.
+- Créera un fichier de barres latérales versionnées basé sur votre configuration actuelle [sidebar](./sidebar/index.mdx) (si elle existe) - enregistré sous le nom `versioned_sidebars/version-[versionName]-sidebars.json`.
+- Ajout du numéro de la nouvelle version dans `versions.json`.
+
+### Création de nouvelles docs {#creating-new-docs}
+
+1. Placez le nouveau fichier dans le dossier de la version correspondante.
+2. Ajoutez la référence du nouveau fichier dans le fichier de la barre latérale correspondante, selon le numéro de version.
+
+```mdx-code-block
+<Tabs>
+<TabItem value="Current version structure">
+```
+
+```bash
+# Le nouveau fichier.
+docs/new.md
+
+# Modifier le fichier de la barre latérale correspondante.
+sidebars.js
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="Older version structure">
+```
+
+```bash
+# Le nouveau fichier.
+versioned_docs/version-1.0.0/new.md
+
+# Modifier le fichier de la barre latérale correspondante.
+versioned_sidebars/version-1.0.0-sidebars.json
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+:::tip
+
+Les fichiers de barres latérales versionnées sont, comme les fichiers de barres latérales standard, relatifs à la racine du contenu pour la version donnée :
+
+```json
+{
+  "sidebar": [
+    {
+      "type": "autogenerated",
+      "dirName": "."
+    }
+  ]
+}
+```
+
+ou pour une barre latérale manuelle :
+
+```json
+{
+  "sidebar": [
+    {
+      "type": "doc",
+      "id": "new",
+      "label": "New"
+    }
+  ]
+}
+```
+
+:::
+
+### Mise à jour d'une version existante {#updating-an-existing-version}
+
+Vous pouvez mettre à jour plusieurs versions de docs en même temps car chaque répertoire dans `versioned_docs/` représente des routes spécifiques lorsqu'il est publié.
+
+1. Modifiez n'importe quel fichier.
+2. Validez et soumettez les modifications.
+3. Il sera publié dans la version.
+
+Exemple: Lorsque vous changez n'importe quel fichier dans `versioned_docs/version-2.6/`, cela n'affectera que la documentation pour la version `2.6`.
+
+### Suppression d'une version existante {#deleting-an-existing-version}
+
+Vous pouvez également supprimer/retirer des versions.
+
+1. Retirez la version depuis le fichier `versions.json`.
+
+Exemple :
+
+```diff
+[
+  "2.0.0",
+  "1.9.0",
+  // highlight-next-line
+- "1.8.0"
+]
+```
+
+2. Supprimez le répertoire de la documentation versionnée. Exemple : `versioned_docs/version-1.8.0`.
+3. Supprimez le fichier versionné de la barre latérale. Exemple : `versioned_sidebars/version-1.8.0-sidebars.json`.
+
+## Configuration du comportement des versions {#configuring-versioning-behavior}
+
+La version « current » est le nom de la version de la documentation qui se trouve dans le dossier `./docs`. Il y a différentes manières de gérer les versions, mais les deux pratiques courantes sont :
+
+- Vous publiez la v1 et commencez immédiatement à travailler sur la v2 (y compris sa documentation). Dans ce cas, la **version actuelle** est v2, qui se trouve dans le dossier source `./docs`, et peut être parcouru via `example.com/docs/next`. La **dernière version** est v1, qui est dans le dossier source `./versioned_docs/version-1`, et est parcouru par la plupart de vos utilisateurs via `example.com/docs`.
+- Vous publiez la v1, et la maintiendrez pendant une certain temps avant de penser à la v2. Dans ce cas, la **version actuelle** et la **dernière version** pointeront vers v1, car la v2 des docs n'existe pas encore !
+
+La configuration par défaut de Docusaurus fonctionnent très bien pour le premier cas d'utilisation. Nous allons étiqueter la version actuelle comme "next" et vous pouvez même choisir de ne pas la publier.
+
+**Pour le 2nd cas** : si vous publiez la v1 et ne prévoyez pas de travailler sur la v2 bientôt, au lieu de versionner la v1 et d'avoir à maintenir les fichiers dans deux dossiers (`./docs` + `./versioned_docs/version-1.0.0`), vous pouvez envisager de "prétendre" que la version actuelle est une version découpée en lui donnant un chemin et un libellé :
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    '@docusaurus/preset-classic',
+    docs: {
+      // highlight-start
+      lastVersion: 'current',
+      versions: {
+        current: {
+          label: '1.0.0',
+          path: '1.0.0',
+        },
+      },
+      // highlight-end
+    },
+  ],
+};
+```
+
+Les docs dans `./docs` seront servis depuis `/docs/1. . 0` au lieu de `/docs/next` et `1.0.` deviendra la version par défaut vers laquelle nous avons un lien dans le menu déroulant de la barre de navigation, et vous n'aurez besoin que de maintenir un seul dossier `./docs`.
+
+Nous offrons ces options de plugin pour personnaliser le comportement des versions :
+
+- `disableVersioning` : Désactive explicitement le versionnage même avec les versions. Ainsi, le site n'inclura que la version actuelle.
+- `includeCurrentVersion` : Inclue la version actuelle (le dossier `./docs`) de vos docs.
+  - **Astuce** : désactivez-le si la version actuelle est en cours, pas prête à être publiée.
+- `lastVersion` : Définit à quelle version la "dernière version" (la route `/docs`) fait référence.
+  - **Astuce** : `lastVersion: 'current'` a un sens si votre version actuelle fait référence à une version majeure constamment corrigée et publiée. Le chemin de base et le libellé de la dernière version sont configurables.
+- `onlyIncludeVersions` : Définit un sous-ensemble de versions de `versions.json` à déployer.
+  - **Astuce** : limitez à 2 ou 3 versions en dev et déployez des aperçus pour améliorer le temps de démarrage et de compilation.
+- `versions` : Un dictionnaire de métadonnées de version. Pour chaque version, vous pouvez personnaliser les éléments suivants :
+  - `label` : le libellé affiché dans le menu déroulant des versions et la bannière.
+  - `path` : le chemin de base de la route de cette version. Par défaut, la dernière version a `/` et la version actuelle a `/next`.
+  - `banner` : l'une des valeurs suivantes `'none'`, `'unreleased'` et `'unmaintained'`. Détermine ce qui est affiché en haut de chaque page de documentation. Toute version supérieure à la dernière version serait "unreleased", et toute version inférieure serait "unmaintained".
+  - `badge` : montre un badge avec le nom de version en haut d'un doc de cette version.
+  - `className` : ajoute un `className` personnalisé à l'élément `<html>` aux pages de doc de cette version.
+
+Consulter [la configuration du plugin docs](../../api/plugins/plugin-content-docs.mdx#configuration) pour plus de détails.
+
+## Éléments de la barre de navigation {#navbar-items}
+
+We offer several docs navbar items to help you quickly set up navigation without worrying about versioned routes.
+
+- [`doc`](../../api/themes/theme-configuration.mdx#navbar-doc-link) : un lien vers un doc.
+- [`docSidebar`](../../api/themes/theme-configuration.mdx#navbar-doc-sidebar) : un lien vers le premier élément d'une barre latérale.
+- [`docsVersion`](../../api/themes/theme-configuration.mdx#navbar-docs-version) : un lien vers le doc principal de la version actuellement consultée.
+- [`docsVersionDropdown`](../../api/themes/theme-configuration.mdx#navbar-docs-version-dropdown) : un menu déroulant contenant toutes les versions disponibles.
+
+Ces liens rechercheront tous une version appropriée à laquelle se rattacher, dans l'ordre suivant :
+
+1. **Version active** : la version sur laquelle l'utilisateur navigue actuellement, si elle se trouve sur une page fournie par ce plugin de doc. Si elle n'est pas sur une page de doc, elle se rabat sur la...
+2. **Version préférée** : la version que l'utilisateur a consultée pour la dernière fois. S'il n'y a pas d'historique, elle se rabat sur la...
+3. **Dernière version** : la version par défaut vers laquelle nous naviguons, configurée par l'option `lastVersion`.
+
+## `docsVersionDropdown` {#docsVersionDropdown}
+
+By default, the [`docsVersionDropdown`](../../api/themes/theme-configuration.mdx#navbar-docs-version-dropdown) displays a dropdown with all the available docs versions.
+
+The `versions` attribute allows you to display a subset of the available docs versions in a given order:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          versions: ['current', '3.0', '2.0'],
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```
+
+Passing a `versions` object, lets you override the display label of each version:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          versions: {
+            current: {label: 'Version 4.0'},
+            '3.0': {label: 'Version 3.0'},
+            '2.0': {label: 'Version 2.0'},
+          },
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```
+
+## Pratiques recommandées {#recommended-practices}
+
+### Versionner votre documentation uniquement lorsque c'est nécessaire {#version-your-documentation-only-when-needed}
+
+Par exemple, vous créez une documentation pour votre paquet npm `foo` et vous êtes actuellement à la version 1.0.0. Vous publiez ensuite une version de patch pour une correction mineure, soit la version 1.0.1.
+
+Faut-il créer une nouvelle documentation version 1.0.1 ? **Vous ne devriez probablement pas**. Les version 1.0.1 et 1.0.0 ne devraient pas différer selon la gestion sémantique semver, car il n'y a pas de nouvelles fonctionnalités ! Mettre en place cette nouvelle version ne fera que créer des fichiers inutilement dupliqués.
+
+### Limitez le nombre de versions {#keep-the-number-of-versions-small}
+
+En règle générale, essayez de garder le nombre de vos versions en dessous de 10. Vous allez **très probablement** avoir beaucoup de documentation obsolète versionnée que personne ne lit plus. Par exemple, [Jest](https://jestjs.io/versions) est actuellement dans la version `27.4` et ne maintient uniquement que les dernières versions de la documentation, la plus basse étant `25.X`. Limitez les 😊
+
+:::tip archive anciennes versions
+
+Si vous déployez votre site sur un fournisseur de Jamstack (par ex. Netlify), le fournisseur sauvegardera chaque version de production sous la forme d'un instantané sous une URL immuable. Vous pouvez inclure des versions archivées qui ne seront jamais reconstruites en tant que liens externes vers ces URL immuables. Le site de Jest et le site Web de Docusaurus utilisent tous deux ce modèle pour réduire le nombre de versions activement construites.
+
+:::
+
+### Utiliser l'importation absolue dans la documentation {#use-absolute-import-within-the-docs}
+
+N'utilisez pas de chemins relatifs à l'importation dans la documentation. Parce que lorsque nous créons une version, les chemins ne fonctionnent plus (le niveau d'imbrication est différent, entre autres raisons). Vous pouvez utiliser l'alias `@site` fourni par Docusaurus qui pointe vers le répertoire `website`. Exemple :
+
+```diff
+- import Foo from '../src/components/Foo';
++ import Foo from '@site/src/components/Foo';
+```
+
+### Liaison des documents par des chemins de fichiers {#link-docs-by-file-paths}
+
+Faites référence à d'autres documents par des chemins de fichiers relatifs avec l'extension `.md`, afin que Docusaurus puisse les réécrire en chemins d'URL réels pendant la construction. Les fichiers seront liés à la version correspondante.
+
+```md
+Le document [@hello](hello.mdx#paginate) est génial !
+
+Voir le [Tutoriel](../getting-started/tutorial.mdx) pour plus d'informations.
+```
+
+### Ressources colocalisées globalement ou versionnées {#global-or-versioned-collocated-assets}
+
+Vous devez décider si les ressources comme les images et les fichiers sont par version ou partagées entre les versions.
+
+Si vos ressources doivent être versionnés, mettez-les dans la version docs et utilisez des chemins relatifs :
+
+```md
+![img alt](./myImage.png)
+
+[download this file](./file.pdf)
+```
+
+Si vos ressources sont globales, mettez-les dans `/static` et utilisez des chemins absolus :
+
+```md
+![img alt](/myImage.png)
+
+[download this file](/file.pdf)
+```

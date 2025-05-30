@@ -1,0 +1,294 @@
+---
+description: docusaurus.config.js 등을 통해 사이트 동작을 구성합니다.
+---
+
+# 설정
+
+import TOCInline from '@theme/TOCInline';
+
+:::info
+
+Check the [**`docusaurus.config.js` API reference**](api/docusaurus.config.js.mdx) for an exhaustive list of options.
+
+:::
+
+도큐사우루스는 자체적인 설정 환경을 가지고 있습니다. 여러분의 각 사이트에서 사용할 정보는 한 곳에 모아 놓는 것을 권장합니다. 그렇게 하면 우리는 설정 파일의 필드를 보호하고 각 사이트에서 데이터 객체에 접근할 수 있도록 허용해줄 수 있습니다.
+
+적절하게 구성된 `docusaurus.config.js` 파일은 여러분 뿐 아니라 협업자, 오픈소스 기여자들이 문서 작성에 집중할 수 있도록 도와줍니다. 물론 필요한 경우 개별 설정을 변경할 수 있습니다.
+
+## Syntax to declare `docusaurus.config.js` {#syntax-to-declare-docusaurus-config}
+
+The `docusaurus.config.js` file is run in Node.js and should export either:
+
+- a **config object**
+- a **function** that creates the config object
+
+:::info
+
+The `docusaurus.config.js` file supports:
+
+- [**ES Modules**](https://flaviocopes.com/es-modules/)
+- [**CommonJS**](https://flaviocopes.com/commonjs/)
+- [**TypeScript**](./typescript-support.mdx#typing-config)
+
+Constraints:
+
+- **Required:** use `export default /* your config*/` (or `module.exports`) to export your Docusaurus config
+- **Optional:** use `import Lib from 'lib'` (or `require('lib')`) to import Node.js packages
+
+:::
+
+Docusaurus gives us the ability to declare its configuration in various **equivalent ways**, and all the following config examples lead to the exact same result:
+
+```js title="docusaurus.config.js"
+export default {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // your site config ...
+};
+```
+
+```js title="docusaurus.config.js"
+module.exports = {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // your site config ...
+};
+```
+
+```ts title="docusaurus.config.ts"
+import type {Config} from '@docusaurus/types';
+
+export default {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // your site config ...
+} satisfies Config;
+```
+
+```js title="docusaurus.config.js"
+const config = {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // your site config ...
+};
+
+export default config;
+```
+
+```js title="docusaurus.config.js"
+export default function configCreator() {
+  return {
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
+    // your site config ...
+  };
+}
+```
+
+```js title="docusaurus.config.js"
+export default async function createConfigAsync() {
+  return {
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
+    // your site config ...
+  };
+}
+```
+
+:::tip Using ESM-only packages
+
+Using an async config creator can be useful to import ESM-only modules (notably most Remark plugins). It is possible to import such modules thanks to dynamic imports:
+
+```js title="docusaurus.config.js"
+export default async function createConfigAsync() {
+  // Use a dynamic import instead of require('esm-lib')
+  // highlight-next-line
+  const lib = await import('lib');
+
+  return {
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
+    // rest of your site config...
+  };
+}
+```
+
+:::
+
+## `docusaurus.config.js` 파일에서 무엇을 설정하나요? {#what-goes-into-a-docusaurusconfigjs}
+
+사이트의 내용은 직접 작성해야 하지만 `docusaurus.config.js` 파일을 처음부터 새로 작성할 필요는 없습니다. 모든 템플릿은 공통으로 사용하는 옵션에 대한 기본값을 포함하는 `docusaurus.config.js` 파일을 함께 제공합니다.
+
+하지만 설정 항목이 어떤 식으로 설계됐고 반영되고 있는지 알아야 하는 경우 필요한 유용한 정보를 정리했습니다.
+
+도큐사우루스에서 사용하는 각 설정은 아래와 같이 구분할 수 있습니다.
+
+<TOCInline toc={toc} minHeadingLevel={3} maxHeadingLevel={3} />
+
+### 사이트 메타데이터 {#site-metadata}
+
+사이트 메타데이터는 `title`, `url`, `baseUrl`, `favicon` 같이 사이트 전체에서 필수로 사용하는 메타데이터를 포함합니다.
+
+They are used in several places such as your site's title and headings, browser tab icon, social sharing (Facebook, X) information or even to generate the correct path to serve your static files.
+
+### 배포 설정 {#deployment-configurations}
+
+`projectName`이나 `organizationName` 배포 설정 그리고 `deploymentBranch`과 같은 추가적인 배포 설정은 `deploy` 명령으로 사이트를 배포할 때 사용됩니다.
+
+배포 설정 시에는 [배포 가이드](deployment.mdx)를 먼저 참고하기를 권장합니다.
+
+### 테마, 플러그인, 프리셋 설정 {#theme-plugin-and-preset-configurations}
+
+여러분의 사이트에서 `themes`, `plugins`, `presets` 필드 항목에 설정한 [themes](./using-plugins.mdx#using-themes), [plugins](./using-plugins.mdx), [presets](./using-plugins.mdx#using-presets) 목록은 모두 다를 수 있습니다. 대부분은 npm 패키지로 제공되는 것들입니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: [
+    '@docusaurus/plugin-content-blog',
+    '@docusaurus/plugin-content-pages',
+  ],
+  themes: ['@docusaurus/theme-classic'],
+};
+```
+
+:::tip
+
+도큐사우루스는 [**모듈 약식 표기**](./using-plugins.mdx#module-shorthands)를 지원하므로 위의 구성을 다음과 같이 단순하게 처리할 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: ['content-blog', 'content-pages'],
+  themes: ['classic'],
+};
+```
+
+:::
+
+로컬 디렉터리에서 항목을 가져오게 할 수도 있습니다.
+
+```js title="docusaurus.config.js"
+import path from 'path';
+
+export default {
+  // ...
+  themes: [path.resolve(__dirname, '/path/to/docusaurus-local-theme')],
+};
+```
+
+플러그인이나 테마 옵션을 설정할 때 이름을 바로 지정하지 않고 이름과 옵션 객체를 포함한 배열로 지정할 수도 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: [
+    [
+      'content-blog',
+      {
+        path: 'blog',
+        routeBasePath: 'blog',
+        include: ['*.md', '*.mdx'],
+        // ...
+      },
+    ],
+    'content-pages',
+  ],
+};
+```
+
+플러그인이나 테마 옵션을 기본 제공되는 프리셋으로 지정하려면 `presets` 항목에 해당 옵션을 지정합니다. 예를 들어 아래 설정에서 `docs`에서는 `@docusaurus/plugin-content-docs`를 그리고 `theme`는 `@docusaurus/theme-classic`을 프리셋으로 사용합니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: './sidebars.js',
+        },
+        theme: {
+          customCss: ['./src/css/custom.css'],
+        },
+      },
+    ],
+  ],
+};
+```
+
+:::tip
+
+`presets: [['classic', {...}]]` 약식 표기는 잘 동작합니다.
+
+:::
+
+테마, 플러그인, 프리셋에 대한 추가적인 내용은 [플러그인 사용하기](./using-plugins.mdx)를 참조하세요.
+
+### 사용자 지정 설정 {#custom-configurations}
+
+도큐사우루스는 `docusaurus.config.js` 파일 내에 알 수 없는 필드가 추가되지 않도록 보호합니다. 사용자 지정 필드는 `customFields` 안에 정의할 수 있습니다.
+
+예:
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-start
+  customFields: {
+    image: '',
+    keywords: [],
+  },
+  // highlight-end
+  // ...
+};
+```
+
+## 컴포넌트에서 설정 객체에 접근하기 {#accessing-configuration-from-components}
+
+사이트의 모든 컴포넌트에서는 설정 객체를 사용할 수 있습니다. 여러분은 `siteConfig`라는 리액트 컨텍스트를 통해 설정 객체에 접근할 수 있습니다.
+
+간단한 예를 살펴보면 아래와 같습니다.
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+const Hello = () => {
+  // highlight-start
+  const {siteConfig} = useDocusaurusContext();
+  // highlight-end
+  const {title, tagline} = siteConfig;
+
+  return <div>{`${title} · ${tagline}`}</div>;
+};
+```
+
+:::tip
+
+클라이언트 쪽에서 해당 필드를 사용할 때 자신만의 JS 파일을 만들어서 ES6 모듈로 가져온다면 `docusaurus.config.js` 안에 추가할 필요는 없습니다.
+
+:::
+
+## 사용자 지정 바벨 설정 {#customizing-babel-configuration}
+
+Docusaurus transpiles your site's source code using Babel by default. If you want to customize the Babel configuration, you can do so by creating a `babel.config.js` file in your project root.
+
+To use the built-in preset as a base configuration, install the following package and use it
+
+```bash npm2yarn
+npm install --save @docusaurus/babel
+```
+
+Then use the preset in your `babel.config.js` file:
+
+```js title="babel.config.js"
+export default {
+  presets: ['@docusaurus/babel/preset'],
+};
+```
+
+Most of the time, the default preset configuration will work just fine. 바벨 구성을 사용자 지정하려는 경우(예: Flow 지원 추가) 파일을 직접 편집할 수 있습니다. 변경된 사항을 적용하려면 도큐사우루스 개발 서버를 다시 시작해야 합니다.

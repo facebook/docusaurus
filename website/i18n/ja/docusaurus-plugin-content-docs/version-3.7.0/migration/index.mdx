@@ -1,0 +1,52 @@
+---
+slug: /migration
+---
+
+# Docusaurusのアップグレード
+
+Docusaurusのバージョン表記は、`(メジャー).(マイナー).(パッチ)`という方式に従っており、[**セマンティックバージョニング**](https://semver.org/lang/ja/)を遵守しています。
+
+**破壊的変更**はメジャーバージョンのアップグレード時のみリリースされ、以下のアップグレードガイドで完全に文書化されています。
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />
+
+## アップグレードのトラブル対処
+
+When upgrading Docusaurus you may experience issues caused by mismatching cached dependencies - there are a few troubleshooting steps you should perform to resolve these common issues before reporting a bug or seeking support.
+
+### `clear`コマンドの実行
+
+このCLIコマンドは、Docusaurusサイトの生成アセット、キャッシュ、ビルドアーティファクトを消去するために使用します。
+
+```bash npm2yarn
+npm run clear
+```
+
+### `node_modules`とロックファイルの削除
+
+`node_modules`フォルダとパッケージマネージャのロックファイルを以下のコマンドで削除します。
+
+<Tabs>
+<TabItem label="Bash" value="bash">
+
+```bash
+rm -rf node_modules yarn.lock package-lock.json
+```
+
+</TabItem>
+<TabItem label="PowerShell" value="powershell">
+
+```powershell
+@('node_modules','yarn.lock','package-lock.json') | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+```
+
+</TabItem>
+</Tabs>
+
+それから次のコマンドでパッケージを再インストールし、`lock`ファイルを再生成します。
+
+```bash npm2yarn
+npm install
+```

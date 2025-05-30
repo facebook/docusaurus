@@ -1,0 +1,174 @@
+# 릴리스 프로세스
+
+도큐사우루스에서 **버전 관리, 릴리스, 주요 변경 사항**을 처리하는 방법을 살펴보겠습니다.
+
+:::info
+
+이번 주제는 고도로 사용자 정의된 사이트의 업그레이드가 어려운 상황에서 특히 중요한 내용을 담고 있습니다.
+
+:::
+
+## 유의적 버전 관리 {#semantic-versioning}
+
+도큐사우루스의 버전 관리는 `major.minor.patch` 체계를 기반으로 하며 [유의적 버전 관리](https://semver.org/)를 따릅니다.
+
+유의적 버전 관리를 따르는 것은 여러 가지 이유로 중요합니다.
+
+- [public API](/community/release-process#public-api-surface)만 사용했다면 **간단한 마이너 업그레이드를 보장합니다**.
+- 프론트엔드 생태계 규칙을 따릅니다.
+- 새로운 메이저 버전은 주요 변경 사항을 완벽하게 문서화할 수 있는 기회입니다.
+- 새로운 메이저/마이너 버전은 블로그 게시물을 통해 새로운 기능을 전달할 수 있는 기회입니다.
+
+### 메이저 버전 {#major-versions}
+
+The `major` version number is incremented on **every breaking change**.
+
+Whenever a new major version is released, we publish:
+
+- 새로운 기능, 수정된 버그, **주요 변경 사항, 업그레이드 지침**을 담은 블로그 게시물
+- 빠짐 없이 정리한 변경 기록
+
+:::tip
+
+Read our [public API surface](#public-api-surface) section to clearly understand what we consider as a breaking change.
+
+:::
+
+### 마이너 버전 {#minor-versions}
+
+The `minor` version number is incremented on every significant retro-compatible change.
+
+Whenever a new minor version is released, we publish:
+
+- 새로운 기능, 수정된 버그 목록을 담은 블로그 게시물
+- 빠짐 없이 정리한 변경 기록
+
+:::tip
+
+If you only use our [public API surface](#public-api-surface), you should be able to upgrade in no time!
+
+:::
+
+### 패치 버전 {#patch-versions}
+
+The `patch` version number is incremented on bugfixes releases.
+
+Whenever a new patch version is released, we publish:
+
+- 빠짐 없이 정리한 변경 기록
+
+## 버전 관리 {#versions}
+
+```mdx-code-block
+import {
+  CurrentMajorVersionNumber,
+  StableMajorBranchLink,
+  MainBranchLink,
+} from "@site/src/components/Versions";
+```
+
+The Docusaurus team uses a simple development process and only works on a single major version and a single Git branch at a same time:
+
+- **Docusaurus {CurrentMajorVersionNumber}**: the **stable** version, on the <MainBranchLink/> branch.
+
+:::note How we will ship the next version
+
+Once we are ready ship **Docusaurus {CurrentMajorVersionNumber + 1}**, we will:
+
+- create a <StableMajorBranchLink/> branch
+- merge breaking changes on the <MainBranchLink/> branch
+- release that new version directly from the <MainBranchLink/> branch
+
+:::
+
+:::warning Security fixes policy
+
+After a new stable version has been released, the former stable version will continue to receive support for **major security issues** for **3 months**.
+
+In practice, we will backport security fixes to the <StableMajorBranchLink/> branch. Otherwise, all features will be frozen and non-critical bugs will not be fixed.
+
+It is recommended to upgrade within that time frame to the new stable version.
+
+:::
+
+## 드러난 Public API {#public-api-surface}
+
+Docusaurus commits to respecting Semantic Versioning. This means that whenever changes occur in Docusaurus public APIs and break backward compatibility, we will increment the `major` version number.
+
+:::tip
+
+Docusaurus guarantees public API retro-compatibility across `minor` versions. Unless you use internal APIs, `minor` version upgrades should be easy.
+
+:::
+
+We will outline what accounts as the public API surface.
+
+### Core public API {#core-public-api}
+
+✅ Our public API includes:
+
+- 도큐사우루스 config
+- 도큐사우루스 클라이언트 API
+- 도큐사우루스 CLI
+- 프리셋 옵션
+- 플러그인 옵션
+- 플러그인 수명주기 API
+- 테마 config
+- 코어 플러그인 라우트 컴포넌트 속성
+- `@docusaurus/types` 타입스크립트 타입
+  - 우리는 여전히 타입을 더 엄격하게 만들 자유를 유지합니다(타입 체크가 중단될 수 있습니다).
+
+❌ Our public API **excludes**:
+
+- Docusaurus config `future`
+- All features prefixed by `experimental_` or `unstable_`
+- All features prefixed by `v<MajorVersion>_` (`v6_` `v7_`, etc.)
+
+:::tip
+
+For non-theme APIs, any documented API is considered public (and will be stable); any undocumented API is considered internal.
+
+:::
+
+An API being "stable" means if you increment the patch or minor version of your Docusaurus installation without any other change, running `docusaurus start` or `docusaurus build` should not throw an error.
+
+### Theming public API {#theming-public-api}
+
+Docusaurus has a very flexible theming system:
+
+- 사용자 지정 CSS를 사용할 수 있습니다.
+- 어떤 리액트 테마 컴포넌트든 [스위즐](/docs/swizzling)할 수 있습니다.
+
+This system also implicitly creates a very large API surface. To be able to move fast and improve Docusaurus, we can't guarantee retro-compatibility.
+
+✅ Our public theming API includes:
+
+- [테마 클래스 이름](/docs/styling-layout#theme-class-names)
+- [인피마](/docs/styling-layout#styling-your-site-with-infima) 클래스 이름과 CSS 변수
+- [안전하게 스위즐할 수 있는](/docs/swizzling#what-is-safe-to-swizzle) 리액트 컴포넌트
+- 테마 사용자 경험
+- 브라우저 호환성
+
+:::tip
+
+You may not be able to achieve your site customization through this public API.
+
+In this case, please [report your customization use case](https://github.com/facebook/docusaurus/discussions/5468) and we will figure out how to expand our public API.
+
+:::
+
+❌ Our public theming API **excludes**:
+
+- DOM 구조
+- 해시 접미사를 가진 CSS 모듈 클래스 이름(일반적으로 `[class*='myClassName']` 선택자의 대상이 됩니다)
+- [안전하지 않거나 스위즐할 수 없는](/docs/swizzling#what-is-safe-to-swizzle) 리액트 컴포넌트
+- `@docusaurus/theme-common/internal`에서 가져오는 리액트 컴포넌트
+- 테마에서 시각적 요소를 담당하는 부분
+
+:::note
+
+When [swizzling](/docs/swizzling) safe components, you might encounter components that import undocumented APIs from `@docusaurus/theme-common` (without the `/internal` subpath).
+
+We still maintain retro-compatibility on those APIs (hence they are marked as "safe"), but we don't encourage a direct usage.
+
+:::

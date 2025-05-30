@@ -1,0 +1,77 @@
+---
+JMarcey:
+  name: 조엘 마시(Joel Marcey)
+  title: 메타 디벨로퍼 애드보케이트
+  url: https://x.com/JoelMarcey
+  image_url: https://github.com/JoelMarcey.png
+  page: true
+  socials:
+    x: joelmarcey
+    github: JoelMarcey
+zpao:
+  name: 폴 오세네시(Paul O’Shannessy)
+  title: 메타 엔지니어링 매니저
+  url: https://x.com/zpao
+  image_url: https://github.com/zpao.png
+  page: true
+  socials:
+    x: zpao
+    github: zpao
+slorber:
+  name: 세바스티앵 로버(Sébastien Lorber)
+  title: Docusaurus maintainer, This Week In React editor
+  url: https://thisweekinreact.com
+  image_url: https://github.com/slorber.png
+  page: true
+  description: A freelance React and React-Native developer near Paris and Docusaurus maintainer. Also runs ThisWeekInReact.com, a newsletter to stay updated with the React ecosystem.
+  socials:
+    bluesky: sebastienlorber.com
+    x: sebastienlorber
+    linkedin: sebastienlorber
+    github: slorber
+    instagram: thisweekinreact
+    newsletter: https://thisweekinreact.com
+yangshun:
+  name: 양순 테이(Yangshun Tay)
+  title: Ex-Meta Staff Engineer, Co-founder GreatFrontEnd
+  url: https://linkedin.com/in/yangshun
+  image_url: https://github.com/yangshun.png
+  page: true
+  socials:
+    x: yangshunz
+    linkedin: yangshun
+    github: yangshun
+    newsletter: https://www.greatfrontend.com
+lex111:
+  name: 알렉세이 필트 신(Alexey Pyltsyn)
+  title: 열정적인 오픈 소스 지지자
+  url: https://github.com/lex111
+  image_url: https://github.com/lex111.png
+  email: lex@php.net
+  page: true
+Josh-Cena:
+  name: 조슈아 첸(Joshua Chen)
+  title: 도큐사우루스에 헌신하고 있습니다.
+  url: https://joshcena.com/
+  image_url: https://github.com/josh-cena.png
+  email: sidachen2003@gmail.com
+  page: true
+endiliey:
+  name: 앤디 야콥 수십토(Endilie Yacop Sucipto)
+  title: 도큐사우루스 유지관리자
+  url: https://github.com/endiliey
+  image_url: https://github.com/endiliey.png
+abernathyca:
+  name: Christine Abernathy
+  url: http://x.com/abernathyca
+  image_url: https://github.com/caabernathy.png
+  socials:
+    x: abernathyca
+shortcuts:
+  name: 클레망 바니카트(Clément Vannicatte)
+  title: 소프트웨어 엔지니어 @ Algolia
+  url: https://github.com/shortcuts
+  image_url: https://github.com/shortcuts.png
+  socials:
+    x: sh0rtcts
+    github: shortcuts

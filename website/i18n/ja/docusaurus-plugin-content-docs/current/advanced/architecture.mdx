@@ -1,0 +1,28 @@
+---
+description: Docusaurus がアプリケーションをビルドする方法
+---
+
+# アーキテクチャ
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Zoom from 'react-medium-image-zoom';
+```
+
+<Zoom>
+
+![Architecture overview](/img/architecture.png)
+
+</Zoom>
+
+この図は、Docusaurus がアプリケーションをどうやってビルドしているかを表しています。 各プラグインはそれぞれのコンテンツを収集し、JSON データを出力します。各テーマは、JSON データをルートモジュールとして受け取るレイアウトコンポーネントを提供します。 バンドラはすべてのコンポーネントをバンドルし、サーババンドルとクライアントバンドルを出力します。
+
+あなた (プラグイン作成者であってもサイト作成者であっても) が書いた JavaScript は、実際には異なる環境で実行されていることに留意してください。
+
+- すべてのプラグインライフサイクルメソッドは Node で実行されます。 したがって、コードベースで ES モジュールをサポートするまでは、プラグインのソースコードはインポート可能な ES モジュールか、 `require` 可能な CommonJS として提供される必要があります。
+- テーマコードは Webpack で構築されています。 React の規約に従って ESM として提供されることができます。
+
+プラグインコードとテーマコードは決して互いに直接インポートしません。プロトコルを通じて (JSON 一時ファイルを介して `addRoute` を呼び出すことで) のみやりとりできます。 例として、プラグインが JavaScript ではなく、Rust のような別の言語で書かれることもあると想定しておくのがよい心がけでしょう。 ユーザがプラグインとやりとりできるのは `docusaurus.config.js` を通じてのみで、それ自体は Node で動いています (おかげで `require` を使ったり、プラグインのオプションとしてコールバックを渡したりすることができます)。
+
+バンドル中は、設定ファイル自身のシリアライズとバンドルがされ、テーマは [`useDocusaurusContext()`](../docusaurus-core.mdx#useDocusaurusContext) を通じて `themeConfig` や `baseUrl` などの設定にアクセスすることが許可されます。 しかし、 `siteConfig` オブジェクトには、 **シリアライズ可能な値** ( `JSON.stringify()` の後に残る値) しか含まれていません。 関数や正規表現などはクライアント側では失われます。 `themeConfig` は完全にシリアライズできるように設計されています。

@@ -1,0 +1,285 @@
+---
+id: toc
+description: Personnalisation des entêtes et de la table des matières en Markdown
+slug: /markdown-features/toc
+---
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+# Entêtes et table des matières
+
+## Entêtes Markdown {#markdown-headings}
+
+Vous pouvez utiliser les entêtes Markdown habituels.
+
+```md
+## Titre de niveau 2
+
+### Titre de niveau 3
+
+#### Titre de niveau 4
+```
+
+Chaque entête Markdown apparaitra comme une entrée dans la table des matières.
+
+### ID des entêtes {#heading-ids}
+
+Chaque entête a un ID qui peut être généré automatiquement ou explicitement spécifié. Les ID d'entête vous permettent de faire un lien vers un titre spécifique du document en Markdown ou JSX :
+
+```md
+[link](#heading-id)
+```
+
+```jsx
+<Link to="#heading-id">lien</Link>
+```
+
+Par défaut, Docusaurus générera des ID d'entête pour vous, en fonction du texte du titre. Par exemple, `### Hello World` aura l'ID `hello-world`.
+
+Les ID générés ont **quelques limitations** :
+
+- L'ID pourrait ne pas être correct
+- Vous pouvez **modifier ou traduire** le texte sans mettre à jour l'ID existant
+
+Une syntaxe spéciale de Markdown vous permet de définir un **id d'entête explicite** :
+
+```mdx-code-block
+<Code language="md">{'### Hello World \u007B#my-explicit-id}\n'}</Code>
+```
+
+:::tip
+
+Utilisez la commande CLI **[`write-heading-ids`](../../cli.mdx#docusaurus-write-heading-ids-sitedir)** pour ajouter des ID explicites à tous vos documents Markdown.
+
+:::
+
+:::warning Éviter les collisions d'ID
+
+Les ID d'entête générés sont garantis comme étant uniques sur chaque page, mais si vous utilisez des ID personnalisés, assurez-vous que chacun d'entre eux n'apparaît qu'une seule fois sur chaque page, sinon il y aura deux éléments DOM avec le même ID, ce qui n'est pas une sémantique HTML valide et entraînera l'impossibilité de lier une entête.
+
+:::
+
+## Niveau d'entête de la table des matières {#table-of-contents-heading-level}
+
+Chaque document Markdown affiche une table des matières du contenu en haut à droite. Par défaut, cette table n'affiche que les titres h2 et h3, ce qui devrait être suffisant pour une vue d'ensemble de la structure des pages. Si vous avez besoin de modifier la plage des titres affichés, vous pouvez personnaliser le niveau minimum et maximum des titres - soit par page, soit globalement.
+
+Pour définir le niveau de l'entête d'une page particulière, utilisez les `toc_min_heading_level` et `toc_max_heading_level` du front matter.
+
+```md title="myDoc.md"
+---
+# Affiche les entêtes de h2 à h5
+toc_min_heading_level: 2
+toc_max_heading_level: 5
+---
+```
+
+Pour définir le niveau de l'entête pour toutes les pages, utilisez l'option [`themeConfig.tableOfContents`](../../api/themes/theme-configuration.mdx#table-of-contents).
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    tableOfContents: {
+      // highlight-start
+      minHeadingLevel: 2,
+      maxHeadingLevel: 5,
+      // highlight-end
+    },
+  },
+};
+```
+
+Si vous avez défini les options de manière globale, vous pouvez toujours les remplacer localement par le frontmatter.
+
+:::note
+
+L'option `themeConfig` s'appliquera à toutes les tables de matières du site, y compris la [table de matières en ligne](#inline-table-of-contents), mais les options du front matter n'affectent que la table de matières en haut à droite. Vous devez utiliser les props `minHeadingLevel` et `maxHeadingLevel` pour personnaliser chaque composant `<TOCInline />`.
+
+:::
+
+## Table des matières en ligne {#inline-table-of-contents}
+
+Il est également possible d'afficher une table des matières en ligne directement à l'intérieur d'un document Markdown, grâce à MDX.
+
+La variable `toc` est disponible dans n'importe quel document MDX et contient toutes les entêtes d'un document MDX. Par défaut, seuls les entêtes `h2` et `h3` sont affichés dans la table des matières. Vous pouvez changer la visibilité des niveaux de titre en définissant `minHeadingLevel` ou `maxHeadingLevel` pour les composants individuels `TOCInline`.
+
+{/_ prettier-ignore _/}
+
+```jsx
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline toc={toc} />
+```
+
+```mdx-code-block
+import TOCInline from '@theme/TOCInline';
+
+<BrowserWindow>
+<TOCInline toc={toc} />
+</BrowserWindow>
+```
+
+Le global `toc` est juste une liste des éléments d'entête :
+
+```ts
+declare const toc: {
+  value: string;
+  id: string;
+  level: number;
+}[];
+```
+
+Notez que le `toc` global est un tableau plat, donc vous pouvez facilement couper les nœuds non désirés ou insérer des nœuds supplémentaires, et créer une nouvelle arborescence de la table des matières.
+
+{/_ prettier-ignore _/}
+
+```jsx
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline
+  // Only show h2 and h4 headings
+  toc={toc.filter((node) => node.level === 2 || node.level === 4)}
+  minHeadingLevel={2}
+  // Affiche les entêtes h4 en plus des entêtes par défaut h2 et h3
+  maxHeadingLevel={4}
+/>
+```
+
+```mdx-code-block
+<BrowserWindow>
+<TOCInline
+  toc={toc.filter((node) => node.level === 2 || node.level === 4)}
+  minHeadingLevel={2}
+  maxHeadingLevel={4}
+/>
+</BrowserWindow>
+```
+
+## Personnalisation de la génération de la table des matières {#customizing-table-of-contents-generation}
+
+La table des matières est générée en analysant la source du Markdown avec un [plugin Remark](./markdown-features-plugins.mdx). Il existe des cas connus où il génère des faux positifs et des faux négatifs.
+
+Les entêtes Markdown dans des zones cachées apparaîtront toujours dans la table des matières. Par exemple, les entêtes dans [`Tabs`](./markdown-features-tabs.mdx) et [`details`](./markdown-features-intro.mdx#details) ne seront pas exclus.
+
+Les entêtes non-Markdown n'apparaîtront pas dans la table des matières. Cela peut être utilisé à votre avantage pour résoudre le problème précédemment mentionné.
+
+```md
+<details>
+<summary>Du détail contenant des entêtes</summary>
+<h2 id="#heading-id">Je suis une entête qui n'apparaîtra pas dans la table des matières</h2>
+
+Du contenu ...
+
+</details>
+```
+
+La possibilité d'insérer de manière ergonomique des entêtes supplémentaires ou d'ignorer certaines entêtes est en cours de développement. Si cette fonctionnalité est importante pour vous, veuillez signaler votre cas d'utilisation dans [cette issue](https://github.com/facebook/docusaurus/issues/6201).
+
+---
+
+:::warning
+
+Vous trouverez ci-dessous un contenu factice permettant de disposer de plus d'éléments dans la table des matières de la page en cours.
+
+:::
+
+## Exemple Section 1 {#example-section-1}
+
+Lorem ipsum
+
+### Exemple de sous-section 1 a {#example-subsection-1-a}
+
+Lorem ipsum
+
+#### Exemple de sous-sous-section 1 a I
+
+#### Exemple de sous-sous-section 1 a II
+
+#### Exemple de sous-sous-section 1 a III
+
+### Exemple de sous-section 1 b {#example-subsection-1-b}
+
+Lorem ipsum
+
+#### Exemple de sous-sous-section 1 b I
+
+#### Exemple de sous-sous-section 1 b II
+
+#### Exemple de sous-sous-section 1 b III
+
+### Exemple de sous-section 1 c {#example-subsection-1-c}
+
+Lorem ipsum
+
+#### Exemple de sous-sous-section 1 c I
+
+#### Exemple de sous-sous-section 1 c II
+
+#### Exemple de sous-sous-section 1 c III
+
+## Exemple Section 2 {#example-section-2}
+
+Lorem ipsum
+
+### Exemple de sous-section 2 a {#example-subsection-2-a}
+
+Lorem ipsum
+
+#### Exemple de sous-sous-section 2 a I
+
+#### Exemple de sous-sous-section 2 a II
+
+#### Exemple de sous-sous-section 2 a III
+
+### Exemple de sous-section 2 b {#example-subsection-2-b}
+
+Lorem ipsum
+
+#### Exemple de sous-sous-section 2 b I
+
+#### Exemple de sous-sous-section 2 b II
+
+#### Exemple de sous-sous-section 2 b III
+
+### Exemple de sous-section 2 c {#example-subsection-2-c}
+
+Lorem ipsum
+
+#### Exemple de sous-sous-section 2 c I
+
+#### Exemple de sous-sous-section 2 c II
+
+#### Exemple de sous-sous-section 2 c III
+
+## Exemple Section 3 {#example-section-3}
+
+Lorem ipsum
+
+### Exemple de sous-section 3 a {#example-subsection-3-a}
+
+Lorem ipsum
+
+#### Exemple de sous-sous-section 3 a I
+
+#### Exemple de sous-sous-section 3 a II
+
+#### Exemple de sous-sous-section 3 a III
+
+### Exemple de sous-section 3 b {#example-subsection-3-b}
+
+Lorem ipsum
+
+#### Exemple de sous-sous-section 3 b I
+
+#### Exemple de sous-sous-section 3 b II
+
+#### Exemple de sous-sous-section 3 b III
+
+### Exemple de sous-section 3 c {#example-subsection-3-c}
+
+Lorem ipsum
+
+#### Exemple de sous-sous-section 3 c I
+
+#### Exemple de sous-sous-section 3 c II
+
+#### Exemple de sous-sous-section 3 c III

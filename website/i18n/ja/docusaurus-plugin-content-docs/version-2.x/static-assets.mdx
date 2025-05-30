@@ -1,0 +1,109 @@
+---
+description: 静的アセットとは、ビルド出力に直接コピーされるコード以外のファイルです。 静的アセットの扱い方と、静的アセットを使用する最善の方法について説明します。
+---
+
+# 静的アセット
+
+静的アセットとは、ビルド出力に直接コピーされるコード以外のファイルです。 これには画像、スタイルシート、お気に入りアイコン、フォントなどが含まれます。
+
+By default, you are suggested to put these assets in the `static` folder. Every file you put into **that directory will be copied** into the root of the generated `build` folder with the directory hierarchy preserved. 例： if you add a file named `sun.jpg` to the static folder, it will be copied to `build/sun.jpg`.
+
+すなわち、以下のようになります。
+
+- for site `baseUrl: '/'`, the image `/static/img/docusaurus.png` will be served at `/img/docusaurus.png`.
+- for site `baseUrl: '/subpath/'`, the image `/static/img/docusaurus.png` will be served at `/subpath/img/docusaurus.png`.
+
+You can customize the static directory sources in `docusaurus.config.js`. For example, we can add `public` as another possible path:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  title: 'My site',
+  staticDirectories: ['public', 'static'],
+  // ...
+};
+```
+
+Now, all files in `public` as well as `static` will be copied to the build output.
+
+## Referencing your static asset {#referencing-your-static-asset}
+
+### In JSX {#in-jsx}
+
+In JSX, you can reference assets from the `static` folder in your code using absolute URLs, but this is not ideal because changing the site `baseUrl` will **break those links**. For the image `<img src="/img/docusaurus.png" />` served at `https://example.com/test`, the browser will try to resolve it from the URL root, i.e. as `https://example.com/img/docusaurus.png`, which will fail because it's actually served at `https://example.com/test/img/docusaurus.png`.
+
+You can `import()` or `require()` the static asset (recommended), or use the `useBaseUrl` utility function: both prepend the `baseUrl` to paths for you.
+
+例：
+
+```jsx title="MyComponent.js"
+import DocusaurusImageUrl from '@site/static/img/docusaurus.png';
+
+<img src={DocusaurusImageUrl} />;
+```
+
+```jsx title="MyComponent.js"
+<img src={require('@site/static/img/docusaurus.png').default} />
+```
+
+```jsx title="MyComponent.js"
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+<img src={useBaseUrl('/img/docusaurus.png')} />;
+```
+
+SVGファイルをインポートすることも可能です。これらはReactコンポーネントに変換されます。
+
+```jsx title="MyComponent.js"
+import DocusaurusLogoWithKeytar from '@site/static/img/docusaurus_keytar.svg';
+
+<DocusaurusLogoWithKeytar title="Docusaurus Logo" className="logo" />;
+```
+
+### In Markdown {#in-markdown}
+
+In Markdown, you can stick to using absolute paths when writing links or images **in Markdown syntax** because Docusaurus handles them as `require` calls instead of URLs when parsing the Markdown. See [Markdown static assets](./guides/markdown-features/markdown-features-assets.mdx).
+
+```md
+You write a link like this: [Download this document](/files/note.docx)
+
+Docusaurus changes that to: <a href={require('static/files/note.docx')}>Download this document</a>
+```
+
+:::warning use Markdown syntax
+
+Docusaurusは、Markdown構文のリンクのみを解析します。 If your asset references are using the JSX tag `<a>` / `<img>`, nothing will be done.
+
+:::
+
+### In CSS {#in-css}
+
+In CSS, the `url()` function is commonly used to reference assets like fonts and images. 静的アセットを参照する場合は、以下のように絶対パスを使用します。
+
+```css
+@font-face {
+  font-family: 'Caroline';
+  src: url('/font/Caroline.otf');
+}
+```
+
+The `static/font/Caroline.otf` asset will be loaded by the bundler.
+
+:::warning important takeaway
+
+One important takeaway: **never hardcode your base URL!** The base URL is considered an implementation detail and should be easily changeable. すべてのパスは、たとえURLスラグのように見えても、実際にはファイルパスです。
+
+URLスラッグの概念モデルがより理解しやすいと思われる方は、次のような経験則を参考にしてください。
+
+- Pretend you have a base URL like `/test/` when writing JSX so you don't use an absolute URL path like `src="/img/thumbnail.png"` but instead `require` the asset.
+- Pretend it's `/` when writing Markdown or CSS so you always use absolute paths without the base URL.
+
+:::
+
+## Caveats {#caveats}
+
+以下の点を頭に入れておいてください。
+
+- By default, none of the files in the `static` folder will be post-processed, hashed, or minified.
+  - However, as we've demonstrated above, we are usually able to convert them to `require` calls for you so they do get processed. これは、積極的なキャッシュとより良好なユーザー体験のために有効です。
+- ハードコードされた絶対パスで参照されるファイルの欠落は、コンパイル時に検出されず、404エラーになります。
+- By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.com/). Since Jekyll will discard any files that begin with `_`, it is recommended that you disable Jekyll by adding an empty file named `.nojekyll` file to your `static` directory if you are using GitHub pages for hosting.

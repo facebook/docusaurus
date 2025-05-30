@@ -1,0 +1,28 @@
+---
+description: 도큐사우루스가 어떻게 당신의 앱을 만드는지 알아봅시다
+---
+
+# 아키텍쳐
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Zoom from 'react-medium-image-zoom';
+```
+
+<Zoom>
+
+![아키텍쳐 개요](/img/architecture.png)
+
+</Zoom>
+
+이 다이어그램은 다큐사우루스가 어떻게 앱을만드는지 확인할 수 있습니다. 플러그인은 각각 콘텐츠를 수집하고 JSON 데이터를 내보냅니다. 테마는 JSON 데이터를 라우트 모듈로 수신하는 레이아웃 컴포넌트를 제공합니다. 번들러는 모든 컴포넌트를 번들로 제공하고 서버 번들과 클라이언트 번들로 내보냅니다.
+
+여러분(플러그인 작성자 또는 사이트 개발자)은 항상 자바스크립트를 다루고 있지만 실제 JS는 다른 환경에서 실행된다는 점을 명심하세요.
+
+- 모든 플러그인 생명주기 메소드는 Node에서 실행됩니다. 따라서, 우리의 코드베이스에서 ES 모듈을 지원하기 전까지는 플러그인 소스 코드는 import할 수 있는 ES 모듈이거나, `require`로 불러올 수 있는 CommonJS 형식으로 제공되어야 합니다.
+- 테마 코드는 웹팩으로 빌드됩니다. 리액트 컨벤션에 따라 ESM으로 제공할 수도 있습니다.
+
+플러그인 코드와 테마 코드는 서로 import 하지 않습니다. 프로토콜을 통해서만 통신합니다(이 경우 JSON 임시 파일과 `addRoute` 호출을 통해). 유용한 멘탈 모델은 플러그인이 자바스크립트로 작성되지 않고 러스트와 같은 다른 언어로 작성되었다고 상상하는 겁니다. 사용자를 위한 플러그인과 상호작용하는 유일한 방법은 Node에서 자체적으로 실행되는 `docusaurus.config.js`를 통하는 것입니다(따라서 플러그인 옵션으로 `require`와 pass 콜백을 사용할 수 있습니다).
+
+번들링 중에 구성 파일 자체가 직렬화되고 번들링되어 테마가 [`useDocusaurusContext()`](../docusaurus-core.mdx#useDocusaurusContext)을 통해 `themeConfig`나 `baseUrl`과 같은 구성 옵션에 접근할 수 있습니다. 그러나 `siteConfig` 오브젝트에는 **직렬화할 수 있는 값**(`JSON.stringify()` 호출 이후 보존되는 값)이 포함됩니다. 함수와 정규식 등은 클라이언트 쪽에서 손실됩니다. `themeConfig`는 완전히 직렬화할 수 있게 설계됐습니다.

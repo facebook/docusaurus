@@ -1,0 +1,376 @@
+---
+sidebar_position: 1
+slug: /api/plugins/@docusaurus/plugin-content-docs
+---
+
+# 📦 plugin-content-docs
+
+import APITable from '@site/src/components/APITable';
+
+Provides the [Docs](../../guides/docs/docs-introduction.mdx) functionality and is the default docs plugin for Docusaurus.
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-content-docs
+```
+
+:::tip
+
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명                                  | 타입                                                         | 기본값                                      | 설명                                                                                                                                                                                                                                                 |
+| ------------------------------------ | ---------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `path`                               | `string`                                                   | `'docs'`                                 | 사이트 디렉토리에 상대적인 파일 시스템의 문서 콘텐츠 디렉토리 경로입니다.                                                                                                                                                                                                          |
+| `editUrl`                            | <code>string \| [EditUrlFunction](#EditUrlFunction)</code> | `undefined`                              | 사이트를 편집하기 위한 Base URL입니다. The final URL is computed by `editUrl + relativeDocPath`. 옵션 사용 시 각 파일에 대한 세밀한 제어를 할 수 있습니다. 해당 필드를 설정하지 않으면 편집 링크가 비활성화됩니다.                                                                                             |
+| `editLocalizedFiles`                 | `boolean`                                                  | `false`                                  | 편집 URL은 현지화되지 않은 원본 파일 대신 현지화된 파일을 대상으로 합니다. Ignored when `editUrl` is a function.                                                                                                                                                                 |
+| `editCurrentVersion`                 | `boolean`                                                  | `false`                                  | 편집 URL은 항상 이전 버전 대신 현재 버전 문서를 대상으로 합니다. Ignored when `editUrl` is a function.                                                                                                                                                                      |
+| `routeBasePath`                      | `string`                                                   | `'docs'`                                 | 사이트 문서 섹션에 대한 URL 라우트 **DO NOT** include a trailing slash. Use `/` for shipping docs without base path.                                                                                                                                            |
+| `tagsBasePath`                       | `string`                                                   | `'tags'`                                 | 사이트 태그 목록 페이지에 대한 URL 라우트 It is prepended to the `routeBasePath`.                                                                                                                                                                                  |
+| `include`                            | `string[]`                                                 | `['**/*.{md,mdx}']`                      | 콘텐츠 경로를 기준으로 빌드할 마크다운 파일과 일치하는 glob 패턴 배열입니다.                                                                                                                                                                                                      |
+| `exclude`                            | `string[]`                                                 | _See example configuration_              | 제외할 마크다운 파일과 일치하는 glob 패턴 배열입니다. Serves as refinement based on the `include` option.                                                                                                                                                               |
+| `sidebarPath`                        | <code>false \| string</code>                               | `undefined`                              | 사이드바 구성 경로입니다. Use `false` to disable sidebars, or `undefined` to create a fully autogenerated sidebar.                                                                                                                                            |
+| `sidebarCollapsible`                 | `boolean`                                                  | `true`                                   | 기본적으로 사이드바 카테고리를 접을 수 있는지 여부를 설정합니다. See also [Collapsible categories](/docs/sidebar/items#collapsible-categories)                                                                                                                                 |
+| `sidebarCollapsed`                   | `boolean`                                                  | `true`                                   | 기본적으로 사이드바 카테고리를 접을지 여부를 설정합니다. See also [Expanded categories by default](/docs/sidebar/items#expanded-categories-by-default)                                                                                                                      |
+| `sidebarItemsGenerator`              | <code>[SidebarGenerator](#SidebarGenerator)</code>         | _Omitted_                                | Function used to replace the sidebar items of type `'autogenerated'` with real sidebar items (docs, categories, links...). See also [Customize the sidebar items generator](/docs/sidebar/autogenerated#customize-the-sidebar-items-generator)     |
+| `numberPrefixParser`                 | <code>boolean \| [PrefixParser](#PrefixParser)</code>      | _Omitted_                                | 파일명에서 숫자 접두사를 추출하는 사용자 지정 구문 분석 방식을 설정합니다. Use `false` to disable this behavior and leave the docs untouched, and `true` to use the default parser. See also [Using number prefixes](/docs/sidebar/autogenerated#using-number-prefixes)            |
+| `docsRootComponent`                  | `string`                                                   | `'@theme/DocsRoot'`                      | 모든 문서 플러그인 페이지(모든 버전 포함)의 상위 컴포넌트입니다. 문서 페이지와 버전 사이를 탐색할 때 마운트된 상태로 유지됩니다.                                                                                                                                                                         |
+| `docVersionRootComponent`            | `string`                                                   | `'@theme/DocVersionLayout'`              | 개별 버전의 모든 문서 페이지(사이드바가 있는 문서 페이지, 태그 페이지)의 상위 컴포넌트입니다. 특정 버전의 페이지 사이를 탐색할 때 마운트된 상태로 유지됩니다.                                                                                                                                                        |
+| `docRootComponent`                   | `string`                                                   | `'@theme/DocRoot'`                       | 사이드바가 있는 모든 문서 페이지(일반 문서 페이지, 카테고리 생성 색인 페이지)의 상위 컴포넌트입니다. 각 페이지 사이를 탐색할 때 마운트된 상태로 유지됩니다.                                                                                                                                                         |
+| `docItemComponent`                   | `string`                                                   | `'@theme/DocItem'`                       | 목차, 페이지 영역 등 기본 문서 컨테이너                                                                                                                                                                                                                            |
+| `docTagsListComponent`               | `string`                                                   | `'@theme/DocTagsListPage'`               | 태그 목록 페이지의 루트 컴포넌트                                                                                                                                                                                                                                 |
+| `docTagDocListComponent`             | `string`                                                   | `'@theme/DocTagDocListPage'`             | "태그 X를 포함한 문서" 페이지의 루트 컴포넌트                                                                                                                                                                                                                        |
+| `docCategoryGeneratedIndexComponent` | `string`                                                   | `'@theme/DocCategoryGeneratedIndexPage'` | 생성된 카테고리 인덱스 페이지의 루트 컴포넌트                                                                                                                                                                                                                          |
+| `remarkPlugins`                      | `any[]`                                                    | `[]`                                     | MDX에 전달된 Remark 플러그인                                                                                                                                                                                                                               |
+| `rehypePlugins`                      | `any[]`                                                    | `[]`                                     | MDX에 전달된 Rehype 플러그인                                                                                                                                                                                                                               |
+| `rehypePlugins`                      | `any[]`                                                    | `[]`                                     | Recma plugins passed to MDX.                                                                                                                                                                                                                       |
+| `beforeDefaultRemarkPlugins`         | `any[]`                                                    | `[]`                                     | 기본 도큐사우루스 Remark 플러그인보다 먼저 MDX에 전달된 사용자 지정 Remark 플러그인                                                                                                                                                                                             |
+| `beforeDefaultRehypePlugins`         | `any[]`                                                    | `[]`                                     | 기본 도큐사우루스 Rehype 플러그인보다 먼저 MDX에 전달된 사용자 지정 Rehype 플러그인                                                                                                                                                                                             |
+| `showLastUpdateAuthor`               | `boolean`                                                  | `false`                                  | 문서를 마지막으로 업데이트한 작성자를 표시할지 여부                                                                                                                                                                                                                       |
+| `showLastUpdateTime`                 | `boolean`                                                  | `false`                                  | Whether to display the last date the doc was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use`fetch-depth: 0`. |
+| `breadcrumbs`                        | `boolean`                                                  | `true`                                   | 문서 페이지에서 이동 경로를 활성화 또는 비활성화                                                                                                                                                                                                                        |
+| `disableVersioning`                  | `boolean`                                                  | `false`                                  | 여러 버전이 있더라도 명시적으로 버전 관리를 비활성화합니다. 이렇게 하면 사이트에 현재 버전만 포함됩니다. Will error if `includeCurrentVersion: false` and `disableVersioning: true`.                                                                                                            |
+| `includeCurrentVersion`              | `boolean`                                                  | `true`                                   | 문서의 현재 버전을 포함                                                                                                                                                                                                                                      |
+| `lastVersion`                        | `string`                                                   | First version in `versions.json`         | 문서 메뉴바 아이템에 대해 우선적으로 탐색되고 기본적으로 표시되는 버전                                                                                                                                                                                                            |
+| `onlyIncludeVersions`                | `string[]`                                                 | 사용할 수 있는 모든 버전                           | 사용할 수 있는 모든 버전의 하위 집합만 포함                                                                                                                                                                                                                          |
+| `versions`                           | <code>[VersionsConfig](#VersionsConfig)</code>             | `{}`                                     | 각 버전의 속성을 독립적으로 사용자 지정합니다.                                                                                                                                                                                                                         |
+| `tags`                               | `string \| false \| null \| undefined`                     | `tags.yml`                               | Path to a YAML file listing pre-defined tags. Relative to the docs version content directories.                                                                                                                                                    |
+| `onInlineTags`                       | `'ignore' \| 'log' \| 'warn' \| 'throw'`                   | `warn`                                   | The plugin behavior when docs contain inline tags (not appearing in the list of pre-defined tags, usually `docs/tags.yml`).                                                                                                                        |
+
+```mdx-code-block
+</APITable>
+```
+
+### Types {#types}
+
+#### `EditUrlFunction` {#EditUrlFunction}
+
+```ts
+type EditUrlFunction = (params: {
+  version: string;
+  versionDocsDirPath: string;
+  docPath: string;
+  permalink: string;
+  locale: string;
+}) => string | undefined;
+```
+
+#### `PrefixParser` {#PrefixParser}
+
+```ts
+type PrefixParser = (filename: string) => {
+  filename: string;
+  numberPrefix?: number;
+};
+```
+
+#### `SidebarGenerator` {#SidebarGenerator}
+
+```ts
+type SidebarGenerator = (generatorArgs: {
+  /** The sidebar item with type "autogenerated" to be transformed. */
+  item: {type: 'autogenerated'; dirName: string};
+  /** Useful metadata for the version this sidebar belongs to. */
+  version: {contentPath: string; versionName: string};
+  /** All the docs of that version (unfiltered). */
+  docs: {
+    id: string;
+    title: string;
+    frontMatter: DocFrontMatter & Record<string, unknown>;
+    source: string;
+    sourceDirName: string;
+    sidebarPosition?: number | undefined;
+  }[];
+  /** Number prefix parser configured for this plugin. */
+  numberPrefixParser: PrefixParser;
+  /** The default category index matcher which you can override. */
+  isCategoryIndex: CategoryIndexMatcher;
+  /**
+   * key is the path relative to the doc content directory, value is the
+   * category metadata file's content.
+   */
+  categoriesMetadata: {[filePath: string]: CategoryMetadata};
+  /**
+   * Useful to re-use/enhance the default sidebar generation logic from
+   * Docusaurus.
+   */
+  defaultSidebarItemsGenerator: SidebarGenerator;
+  // Returns an array of sidebar items — same as what you can declare in
+  // sidebars.js, except for shorthands. See https://docusaurus.io/docs/sidebar/items
+}) => Promise<SidebarItem[]>;
+
+type CategoryIndexMatcher = (param: {
+  /** The file name, without extension */
+  fileName: string;
+  /**
+   * The list of directories, from lowest level to highest.
+   * If there's no dir name, directories is ['.']
+   */
+  directories: string[];
+  /** The extension, with a leading dot */
+  extension: string;
+}) => boolean;
+```
+
+#### `VersionsConfig` {#VersionsConfig}
+
+```ts
+type VersionConfig = {
+  /**
+   * The base path of the version, will be appended to `baseUrl` +
+   * `routeBasePath`.
+   */
+  path?: string;
+  /** The label of the version to be used in badges, dropdowns, etc. */
+  label?: string;
+  /** The banner to show at the top of a doc of that version. */
+  banner?: 'none' | 'unreleased' | 'unmaintained';
+  /** Show a badge with the version label at the top of each doc. */
+  badge?: boolean;
+  /** Prevents search engines from indexing this version */
+  noIndex?: boolean;
+  /** Add a custom class name to the <html> element of each doc */
+  className?: string;
+};
+
+type VersionsConfig = {[versionName: string]: VersionConfig};
+```
+
+### Example configuration {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 플러그인을 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```js config-tabs
+// Preset Options: docs
+// Plugin Options: @docusaurus/plugin-content-docs
+
+const config = {
+  path: 'docs',
+  breadcrumbs: true,
+  // Simple use-case: string editUrl
+  // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+  // Advanced use-case: functional editUrl
+  editUrl: ({versionDocsDirPath, docPath}) =>
+    `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`,
+  editLocalizedFiles: false,
+  editCurrentVersion: false,
+  routeBasePath: 'docs',
+  include: ['**/*.md', '**/*.mdx'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
+  ],
+  sidebarPath: 'sidebars.js',
+  async sidebarItemsGenerator({
+    defaultSidebarItemsGenerator,
+    numberPrefixParser,
+    item,
+    version,
+    docs,
+    isCategoryIndex,
+  }) {
+    // Use the provided data to generate a custom sidebar slice
+    return [
+      {type: 'doc', id: 'intro'},
+      {
+        type: 'category',
+        label: 'Tutorials',
+        items: [
+          {type: 'doc', id: 'tutorial1'},
+          {type: 'doc', id: 'tutorial2'},
+        ],
+      },
+    ];
+  },
+  numberPrefixParser(filename) {
+    // Implement your own logic to extract a potential number prefix
+    const numberPrefix = findNumberPrefix(filename);
+    // Prefix found: return it with the cleaned filename
+    if (numberPrefix) {
+      return {
+        numberPrefix,
+        filename: filename.replace(prefix, ''),
+      };
+    }
+    // No number prefix found
+    return {numberPrefix: undefined, filename};
+  },
+  docsRootComponent: '@theme/DocsRoot',
+  docVersionRootComponent: '@theme/DocVersionRoot',
+  docRootComponent: '@theme/DocRoot',
+  docItemComponent: '@theme/DocItem',
+  remarkPlugins: [require('./my-remark-plugin')],
+  rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
+  showLastUpdateAuthor: false,
+  showLastUpdateTime: false,
+  disableVersioning: false,
+  includeCurrentVersion: true,
+  lastVersion: undefined,
+  versions: {
+    current: {
+      label: 'Android SDK v2.0.0 (WIP)',
+      path: 'android-2.0.0',
+      banner: 'none',
+    },
+    '1.0.0': {
+      label: 'Android SDK v1.0.0',
+      path: 'android-1.0.0',
+      banner: 'unmaintained',
+    },
+  },
+  onlyIncludeVersions: ['current', '1.0.0', '2.0.0'],
+};
+```
+
+## Markdown front matter {#markdown-front-matter}
+
+Markdown documents can use the following Markdown [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) metadata fields, enclosed by a line `---` on either side.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명                      | 타입                          | 기본값                                        | 설명                                                                                                                                                                                                                 |
+| ------------------------ | --------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`                     | `string`                    | 파일 경로(확장자는 제외하고 디렉터리는 포함)                  | 고유한 문서 ID                                                                                                                                                                                                          |
+| `title`                  | `string`                    | Markdown title or `id`                     | 문서 제목입니다. 페이지 메타데이터로 사용하며 여러 위치(사이드바, 다음/이전 버튼 등)에서 대체값으로 사용됩니다. 마크다운 제목이 없는 경우 문서 상단에 자동으로 추가됩니다.                                                                                                                 |
+| `pagination_label`       | `string`                    | `sidebar_label` or `title`                 | 문서 내에서 문서의 다음/이전 버튼에 표시할 텍스트를 설정합니다.                                                                                                                                                                               |
+| `sidebar_label`          | `string`                    | `title`                                    | 문서 내에서 문서의 사이드바에 표시할 텍스트를 설정합니다.                                                                                                                                                                                   |
+| `sidebar_position`       | `number`                    | 기본 정렬 순서                                   | Controls the position of a doc inside the generated sidebar slice when using `autogenerated` sidebar items. See also [Autogenerated sidebar metadata](/docs/sidebar/autogenerated#autogenerated-sidebar-metadata). |
+| `sidebar_class_name`     | `string`                    | `undefined`                                | 자동 생성된 사이드바를 사용할 때 해당 사이드바 라벨에 특별한 클래스 이름을 제공합니다.                                                                                                                                                                  |
+| `sidebar_custom_props`   | `object`                    | `undefined`                                | Assign [custom props](../../guides/docs/sidebar/index.mdx#passing-custom-props) to the sidebar item referencing this doc                                                                                           |
+| `displayed_sidebar`      | `string`                    | `undefined`                                | 현재 문서를 탐색할 때 지정된 사이드바를 강제로 표시합니다. Read the [multiple sidebars guide](../../guides/docs/sidebar/multiple-sidebars.mdx) for details.                                                                                 |
+| `hide_title`             | `boolean`                   | `false`                                    | 문서 상단 제목을 숨길지 여부입니다. 프런트 매터 영역에서 설정한 제목만 감춥니다. 마크다운 문서 내에 지정된 타이틀에는 영향을 주지 않습니다.                                                                                                                                   |
+| `hide_table_of_contents` | `boolean`                   | `false`                                    | 목차를 오른쪽으로 숨길지 여부                                                                                                                                                                                                   |
+| `toc_min_heading_level`  | `number`                    | `2`                                        | 목차에 표시되는 최소 제목 수준입니다. 2에서 6 사이의 값으로 설정할 수 있고 최댓값보다 작거나 같아야 합니다.                                                                                                                                                    |
+| `toc_max_heading_level`  | `number`                    | `3`                                        | 목차에 표시되는 최대 제목 수준입니다. 2에서 6 사이의 값으로 설정할 수 있습니다.                                                                                                                                                                    |
+| `pagination_next`        | <code>string \| null</code> | 사이드바에서 다음 문서                               | 페이지 이동 영역에서 "다음" 항목 링크에 연결할 문서의 ID입니다. Use `null` to disable showing "Next" for this page.                                                                                                                         |
+| `pagination_prev`        | <code>string \| null</code> | 사이드바에서 이전 문서                               | 페이지 이동 영역에서 "이전" 항목 링크에 연결할 문서의 ID입니다. Use `null` to disable showing "Previous" for this page.                                                                                                                     |
+| `parse_number_prefixes`  | `boolean`                   | `numberPrefixParser` plugin option         | 문서에서 번호 접두사 구문 분석 비활성화 여부입니다. See also [Using number prefixes](/docs/sidebar/autogenerated#using-number-prefixes).                                                                                                 |
+| `custom_edit_url`        | <code>string \| null</code> | Computed using the `editUrl` plugin option | 문서를 편집하기 위한 URL Use `null` to disable showing "Edit this page" for this page.                                                                                                                                      |
+| `keywords`               | `string[]`                  | `undefined`                                | 검색 엔진에서 필요한 문서 페이지의 키워드 메타 태그를 설정합니다.                                                                                                                                                                              |
+| `description`            | `string`                    | 마크다운 콘텐츠 첫 번째 줄                            | The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines.                      |
+| `image`                  | `string`                    | `undefined`                                | Cover or thumbnail image that will be used as the `<meta property="og:image" content="..."/>` in the `<head>`, enhancing link previews on social media and messaging platforms.                                    |
+| `slug`                   | `string`                    | 파일 경로                                      | Allows to customize the document URL (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-doc`, `slug: /my/path/myDoc`, `slug: /`.                                                                    |
+| `tags`                   | `Tag[]`                     | `undefined`                                | A list of strings or objects of two string fields `label` and `permalink` to tag to your docs. Strings can be a reference to keys of a [tags file](#tags-file) (usually `tags.yml`)                                |
+| `draft`                  | `boolean`                   | `false`                                    | 비공개 설정 문서는 개발 상태에서만 확인할 수 있습니다.                                                                                                                                                                                    |
+| `unlisted`               | `boolean`                   | `false`                                    | 목록에 없는 문서는 개발 및 제품 상태에서 모두 확인할 수 있습니다. 제품에서 "숨겨진" 상태라 인덱스가 생성되지 않고 사이트맵에서 제외되며 링크 정보를 알고 있는 사용자만 접근할 수 있습니다.                                                                                                       |
+| `last_update`            | `FrontMatterLastUpdate`     | `undefined`                                | Allows overriding the last update author/date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).                                |
+
+```mdx-code-block
+</APITable>
+```
+
+```ts
+type FrontMatterLastUpdate = {date?: string; author?: string};
+
+type Tag = string | {label: string; permalink: string};
+```
+
+예:
+
+```md
+---
+id: doc-markdown
+title: Docs Markdown Features
+hide_title: false
+hide_table_of_contents: false
+sidebar_label: Markdown
+sidebar_position: 3
+pagination_label: Markdown features
+custom_edit_url: https://github.com/facebook/docusaurus/edit/main/docs/api-doc-markdown.md
+description: How do I find you when I cannot solve this problem
+keywords:
+  - docs
+  - docusaurus
+tags: [docusaurus]
+image: https://i.imgur.com/mErPwqL.png
+slug: /myDoc
+last_update:
+  date: 1/1/2000
+  author: custom author name
+---
+
+# Markdown Features
+
+My Document Markdown content
+```
+
+import TagsFileApiRefSection from './_partial-tags-file-api-ref-section.mdx';
+
+<TagsFileApiRefSection />
+
+## i18n {#i18n}
+
+Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
+
+### Translation files location {#translation-files-location}
+
+- **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-docs`
+- **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-docs-[pluginId]`
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
+- **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-docs/[versionName]`
+
+### Example file-system structure {#example-file-system-structure}
+
+```bash
+website/i18n/[locale]/docusaurus-plugin-content-docs
+│
+│ # translations for website/docs
+├── current
+│   ├── api
+│   │   └── config.md
+│   └── getting-started.md
+├── current.json
+│
+│ # translations for website/versioned_docs/version-1.0.0
+├── version-1.0.0
+│   ├── api
+│   │   └── config.md
+│   └── getting-started.md
+└── version-1.0.0.json
+```

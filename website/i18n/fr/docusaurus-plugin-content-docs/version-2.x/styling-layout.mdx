@@ -1,0 +1,267 @@
+---
+description: Un site Docusaurus est une application React mono-page pré-rendue. Vous pouvez la styliser de la même manière que les applications React.
+---
+
+import ColorGenerator from '@site/src/components/ColorGenerator';
+
+# Style et mise en page
+
+:::tip
+
+Cette section est axée sur le style à travers les feuilles de style. Pour des personnalisations plus avancées (structure DOM, code React...), reportez-vous au [guide du swizzling](./swizzling.mdx).
+
+:::
+
+Un site Docusaurus est une application React mono-page. Vous pouvez la styliser de la même manière que les applications React.
+
+Il y a quelques approches/frameworks qui fonctionneront, selon vos préférences et le type de site que vous essayez de construire. Les sites Web très interactifs et se comportant davantage comme des applications Web bénéficieront d'approches de style plus modernes qui associent les styles aux composants. Le style des composants peut également être particulièrement utile lorsque vous souhaitez personnaliser ou modifier un composant.
+
+## Styles globaux {#global-styles}
+
+Il s'agit de la méthode de style la plus traditionnelle que la plupart des développeurs (y compris les développeurs non frontaux) connaissent. Il fonctionne très bien pour les petits sites web qui n'ont pas beaucoup de personnalisation.
+
+Si vous utilisez `@docusaurus/preset-classic`, vous pouvez créer vos propres fichiers CSS (par exemple `/src/css/custom.css`) et les importer globalement en les passant comme option du thème classic.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // highlight-start
+        theme: {
+          customCss: [require.resolve('./src/css/custom.css')],
+        },
+        // highlight-end
+      },
+    ],
+  ],
+};
+```
+
+Tout CSS que vous écrivez dans ce fichier sera disponible globalement et pourra être référencé directement à l'aide de littéraux de chaînes de caractères.
+
+```css title="/src/css/custom.css"
+.purple-text {
+  color: rebeccapurple;
+}
+```
+
+```jsx
+function MyComponent() {
+  return (
+    <main>
+      <h1 className="purple-text">Entête violette !</h1>
+    </main>
+  );
+}
+```
+
+Si vous souhaitez ajouter une feuille de style CSS à un élément, vous pouvez ouvrir le DevTools dans votre navigateur pour inspecter ses noms de classe. Il existe plusieurs types de noms de classe :
+
+- **Les noms de la classe du thème**. Ces noms de classes sont énumérés de façon exhaustive dans [la section suivante](#theme-class-names). Ils n'ont aucune propriété par défaut. Vous devez toujours cibler en priorité ces noms de classe stables dans votre CSS personnalisé.
+- **Les noms de la classe Infima**. Ces noms de classes sont trouvés dans le thème classic et suivent généralement la [convention BEM](http://getbem.com/naming/) de `block__element--modifier`. Elles sont généralement stables mais sont toujours considérées comme des détails d'implémentation, vous devez donc généralement éviter de les cibler. Cependant, vous pouvez [modifier les variables CSS de Infima](#styling-your-site-with-infima).
+- **Les noms de classe des modules CSS**. Ces noms de classe ont un hash en production (`codeBlockContainer_RIuc`) et sont complétées par un long chemin de fichier en développement. Elles sont considérées comme des détails d'implémentation et vous devriez presque toujours éviter de les cibler dans votre CSS personnalisé. Si vous devez le faire, vous pouvez utiliser un [sélecteur d'attribut](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) (`[class*='codeBlockContainer']`) qui ignore le hash.
+
+### Noms de classe du thème {#theme-class-names}
+
+Nous fournissons des noms de classes CSS stables pour un style de mise en page global robuste et facile à maintenir. Ces noms sont des noms de thème et destinés à être ciblés par des CSS personnalisés.
+
+:::tip
+
+Si vous ne trouvez pas le moyen de créer un sélecteur CSS robuste, veuillez [reporter votre cas d'utilisation de personnalisation](https://github.com/facebook/docusaurus/discussions/5468) et nous envisagerons d'ajouter de nouveaux noms de classe.
+
+:::
+
+<details>
+
+<summary>Liste exhaustive des noms de classes stables</summary>
+
+```mdx-code-block
+import ThemeClassNamesCode from '!!raw-loader!@site/../packages/docusaurus-theme-common/src/utils/ThemeClassNames.ts';
+import CodeBlock from '@theme/CodeBlock';
+
+<CodeBlock className="language-ts">
+  {ThemeClassNamesCode
+    // supprime les commentaires de la source
+    .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'')
+    .replace(/^ *\n/gm,'')
+    .trim()}
+</CodeBlock>
+```
+
+</details>
+
+### Styliser votre site avec Infima {#styling-your-site-with-infima}
+
+`@docusaurus/preset-classic` utilise [Infima](https://infima.dev/) comme framework de style. Infima offre une mise en page flexible et un style de composants d'interface utilisateur communs adaptés aux sites Web axés sur le contenu (blogs, documentation, pages de présentation). Pour plus de détails, consultez le [site Infima](https://infima.dev/).
+
+Lorsque vous échafaudez votre projet Docusaurus avec `create-docusaurus`, le site web sera généré avec les feuilles de style Infima de base et le style par défaut. Vous pouvez remplacer les variables CSS d'Infima de manière globale.
+
+```css title="/src/css/custom.css"
+:root {
+  --ifm-color-primary: #25c2a0;
+  --ifm-code-font-size: 95%;
+}
+```
+
+Infima utilise 7 nuances de chaque couleur. Nous vous recommandons d'utiliser [ColorBox](https://www.colorbox.io/) pour trouver les différentes nuances de couleurs pour la couleur principale que vous avez choisie.
+
+Sinon, utilisez l'outil suivant pour générer les différentes nuances pour votre site web et copiez les variables dans `/src/css/custom.css`.
+
+<ColorGenerator />
+
+### Mode sombre {#dark-mode}
+
+En mode clair, l'élément `<html>` a un attribut `data-theme="light"` et en mode sombre, il a `data-theme="dark"`. Par conséquent, vous pouvez étendre votre CSS au mode sombre uniquement en ciblant `html` avec un attribut spécifique.
+
+```css
+/* Remplace les variables racine Infima */
+[data-theme='dark'] {
+  --ifm-color-primary: #4e89e8;
+}
+/* Stylise une classe spécialement en mode sombre */
+[data-theme='dark'] .purple-text {
+  color: plum;
+}
+```
+
+:::tip
+
+Il est possible d'initialiser le thème Docusaurus directement à partir d'un paramètre de chaîne de requête `docusaurus-theme`.
+
+Exemples :
+
+- [`https://docusaurus.io/?docusaurus-theme=dark`](https://docusaurus.io/?docusaurus-theme=dark)
+- [`https://docusaurus.io/docs/configuration?docusaurus-theme=light`](https://docusaurus.io/docs/configuration?docusaurus-theme=light)
+
+:::
+
+### Vue mobile {#mobile-view}
+
+Docusaurus utilise `996px` comme coupure entre la largeur de l'écran mobile et le bureau. Si vous voulez que votre mise en page soit différente dans la vue mobile, vous pouvez utiliser des requêtes multimédia.
+
+```css
+.banner {
+  padding: 4rem;
+}
+/** Dans la vue mobile, reduit le padding */
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+```
+
+## Modules CSS {#css-modules}
+
+Pour styliser vos composants à l'aide de [CSS Modules](https://github.com/css-modules/css-modules), nommez vos fichiers de feuille de style avec le suffixe `.module.css` (par exemple `welcome.module.css`). Webpack chargera ces fichiers CSS en tant que modules CSS et vous devrez faire référence aux noms de classe comme des propriétés du module CSS importé (au lieu d'utiliser des chaînes simples). Ceci est similaire à la convention utilisée dans [Create React App](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet).
+
+```css title="styles.module.css"
+.main {
+  padding: 12px;
+}
+
+.heading {
+  font-weight: bold;
+}
+
+.contents {
+  color: #ccc;
+}
+```
+
+```jsx
+import styles from './styles.module.css';
+
+function MyComponent() {
+  return (
+    <main className={styles.main}>
+      <h1 className={styles.heading}>Hello!</h1>
+      <article className={styles.contents}>Lorem Ipsum</article>
+    </main>
+  );
+}
+```
+
+Les noms de classe qui seront transformés par webpack en un nom de classe unique au niveau global lors de la construction.
+
+## CSS-in-JS {#css-in-js}
+
+:::warning
+
+La prise en charge de CSS-in-JS est un travail en cours, si bien que des librairies comme MUI peuvent présenter des bizarreries d'affichage. [Les PR sont les bienvenues](https://github.com/facebook/docusaurus/issues/1640).
+
+:::
+
+## Sass/SCSS {#sassscss}
+
+Pour utiliser Sass/SCSS comme votre préprocesseur CSS, installez le plugin non officiel Docusaurus 2 [`docusaurus-plugin-sass`](https://github.com/rlamana/docusaurus-plugin-sass). Ce plugin fonctionne aussi bien pour les styles globaux que pour l'approche des modules CSS :
+
+1. Installez [`docusaurus-plugin-sass`](https://github.com/rlamana/docusaurus-plugin-sass):
+
+```bash npm2yarn
+npm install --save docusaurus-plugin-sass sass
+```
+
+2. Ajoutez le plugin dans votre fichier `docusaurus.config.js` :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  // highlight-next-line
+  plugins: ['docusaurus-plugin-sass'],
+  // ...
+};
+```
+
+3. Écrivez et importez vos feuilles de style en Sass/SCSS comme d'habitude.
+
+### Styles globaux utilisant Sass/SCSS {#global-styles-using-sassscss}
+
+Vous pouvez maintenant définir la propriété `customCss` de `@docusaurus/preset-classic` pour pointer vers votre fichier Sass/SCSS :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // ...
+        theme: {
+          // highlight-next-line
+          customCss: [require.resolve('./src/css/custom.scss')],
+        },
+        // ...
+      },
+    ],
+  ],
+};
+```
+
+### Modules utilisant Sass/SCSS {#modules-using-sassscss}
+
+Nommez vos fichiers de feuilles de style avec le suffixe `.module.scss` (par exemple `welcome.module.scss`) au lieu de `.css`. Webpack utilisera `sass-loader` pour prétraiter vos feuilles de style et les charger en tant que modules CSS.
+
+```scss title="styles.module.scss"
+.main {
+  padding: 12px;
+
+  article {
+    color: #ccc;
+  }
+}
+```
+
+```jsx
+import styles from './styles.module.scss';
+
+function MyComponent() {
+  return (
+    <main className={styles.main}>
+      <article>Lorem Ipsum</article>
+    </main>
+  );
+}
+```

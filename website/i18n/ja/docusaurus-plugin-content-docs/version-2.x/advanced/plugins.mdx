@@ -1,0 +1,129 @@
+# プラグイン
+
+プラグインは Docusaurus 2 サイトの機能を構成する要素です。 各プラグインにはそれぞれの機能があります。 プラグインは、プリセットを介してバンドルの一部として動作し、配布されることがあります。
+
+## Creating plugins {#creating-plugins}
+
+A plugin is a function that takes two parameters: `context` and `options`. プラグインインスタンスオブジェクト (または promise) を返します。 また、関数やモジュールとしてプラグインを作成することもできます。 For more information, refer to the [plugin method references section](../api/plugin-methods/README.mdx).
+
+### Function definition {#function-definition}
+
+プラグインは、Docusaurus の設定ファイルに直接関数として含めて使用できます。
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [
+    // highlight-start
+    async function myPlugin(context, options) {
+      // ...
+      return {
+        name: 'my-plugin',
+        async loadContent() {
+          // ...
+        },
+        async contentLoaded({content, actions}) {
+          // ...
+        },
+        /* other lifecycle API */
+      };
+    },
+    // highlight-end
+  ],
+};
+```
+
+### Module definition {#module-definition}
+
+プラグインを別のファイルまたは npm パッケージを参照するモジュールパスとして使用できます。
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [
+    // without options:
+    './my-plugin',
+    // or with options:
+    ['./my-plugin', options],
+  ],
+};
+```
+
+Then in the folder `my-plugin`, you can create an `index.js` such as this:
+
+```js title="my-plugin/index.js"
+module.exports = async function myPlugin(context, options) {
+  // ...
+  return {
+    name: 'my-plugin',
+    async loadContent() {
+      /* ... */
+    },
+    async contentLoaded({content, actions}) {
+      /* ... */
+    },
+    /* other lifecycle API */
+  };
+};
+```
+
+---
+
+You can view all plugins installed in your site using the [debug plugin's metadata panel](/__docusaurus/debug/metadata).
+
+プラグインは以下のタイプに分かれます。
+
+- `package`: an external package you installed
+- `project`: a plugin you created in your project, given to Docusaurus as a local file path
+- `local`: a plugin created using the function definition
+- `synthetic`: a "fake plugin" Docusaurus created internally, so we take advantage of our modular architecture and don't let the core do much special work. 内部実装にかかわるのでメタデータには表示されません。
+
+You can access them on the client side with `useDocusaurusContext().siteMetadata.pluginVersions`.
+
+## Plugin design {#plugin-design}
+
+Docusaurus のプラグインシステムの実装は、ウェブサイトのライフサイクルにフックして開発やビルドの最中に起こっていることを変更する便利な手段を提供しています。 これには、webpack の設定の拡張、ロードされたデータの変更、およびページで使用される新しいコンポーネントの作成が含まれますが、それだけではありません。
+
+### Theme design {#theme-design}
+
+When plugins have loaded their content, the data is made available to the client side through actions like [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.mdx#addRoute) or [`setGlobalData`](../api/plugin-methods/lifecycle-apis.mdx#setGlobalData). This data has to be _serialized_ to plain strings, because [plugins and themes run in different environments](./architecture.mdx). Once the data arrives on the client side, the rest becomes familiar to React developers: data is passed along components, components are bundled with Webpack, and rendered to the window through `ReactDOM.render`...
+
+**Themes provide the set of UI components to render the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, which makes swapping designs easy.
+
+例として、Docusaurus ブログはブログプラグインとブログのテーマで構成されています。
+
+:::note
+
+This is a contrived example: in practice, `@docusaurus/theme-classic` provides the theme for docs, blog, and layouts.
+
+:::
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // highlight-next-line
+  themes: ['theme-blog'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
+And if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (another fictitious non-existing theme):
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // highlight-next-line
+  themes: ['theme-blog-bootstrap'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
+Now, although the theme receives the same data from the plugin, how the theme chooses to _render_ the data as UI can be drastically different.
+
+テーマがプラグインとまったく同じライフサイクルメソッドを共有する一方、テーマの実装はその設計目標に基づいてプラグインの実装とは大きく異なることがあります。
+
+Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, plugins, and the themes themselves. A theme still acts like a plugin and exposes some lifecycle methods, but most likely they would not use [`loadContent`](../api/plugin-methods/lifecycle-apis.mdx#loadContent), since they only receive data from plugins, but don't generate data themselves; themes are typically also accompanied by an `src/theme` directory full of components, which are made known to the core through the [`getThemePath`](../api/plugin-methods/extend-infrastructure.mdx#getThemePath) lifecycle.
+
+To summarize:
+
+- Themes share the same lifecycle methods with Plugins
+- Themes are run after all existing Plugins
+- Themes add component aliases by providing `getThemePath`.

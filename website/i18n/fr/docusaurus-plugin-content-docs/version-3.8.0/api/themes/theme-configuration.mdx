@@ -1,0 +1,1239 @@
+---
+sidebar_position: 1
+sidebar_label: Configuration
+slug: /api/themes/configuration
+toc_max_heading_level: 4
+---
+
+# Configuration du thème
+
+import APITable from '@site/src/components/APITable';
+
+Cette configuration s'applique à tous [les thèmes principaux](./overview.mdx).
+
+## Commun {#common}
+
+### Mode de couleur {#color-mode---dark-mode}
+
+Le thème classic fournit par défaut la prise en charge du mode clair et sombre, avec un commutateur dans la barre de navigation pour l'utilisateur.
+
+Il est possible de personnaliser le support du mode de couleur dans l'objet `colorMode`.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom                         | Type                           | Par défaut | Description                                                                                                                                                       |
+| --------------------------- | ------------------------------ | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `defaultMode`               | <code>'light' \| 'dark'</code> | `'light'`  | Le mode de couleur lorsque l'utilisateur visite le site pour la première fois.                                                                                    |
+| `disableSwitch`             | `boolean`                      | `false`    | Masque l'interrupteur dans la barre de navigation. Utile si vous voulez prendre en charge un mode de couleur unique.                                              |
+| `respectPrefersColorScheme` | `boolean`                      | `false`    | Si vous voulez utiliser la requête media-query `prefers-color-scheme`, en utilisant les préférences du système utilisateur, au lieu du `defaultMode` codé en dur. |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    // highlight-start
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: false,
+    },
+    // highlight-end
+  },
+};
+```
+
+:::warning
+
+Avec `respectPrefersColorScheme: true`, le `defaultMode` est remplacé par les préférences du système utilisateur.
+
+Si vous ne voulez prendre en charge qu'un seul mode couleur, vous devriez ignorer les préférences du système utilisateur.
+
+:::
+
+### Méta image {#meta-image}
+
+Vous pouvez configurer une image par défaut qui sera utilisée pour votre balise méta, notamment `og:image` et `twitter:image`.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom     | Type     | Par défaut  | Description                                                                                                                                               |
+| ------- | -------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `image` | `string` | `undefined` | L'URL de la méta image pour le site. Par rapport au répertoire "static" de votre site. Ne peuvent pas être des SVG. Peut également être des URL externes. |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    // highlight-next-line
+    image: 'img/docusaurus.png',
+  },
+};
+```
+
+### Métadonnées {#metadata}
+
+Vous pouvez configurer des métadonnées HTML supplémentaires (et remplacer celles existantes).
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom        | Type         | Par défaut | Description                                                                                                                                                   |
+| ---------- | ------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `metadata` | `Metadata[]` | `[]`       | N'importe quel champ sera directement passé à la balise `<meta />`. Les champs possibles sont notamment `id`, `name`, `property`, `content`, `itemprop`, etc. |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    // highlight-next-line
+    metadata: [{name: 'twitter:card', content: 'summary'}],
+  },
+};
+```
+
+### Barre d'annonce {#announcement-bar}
+
+Parfois, vous voulez annoncer quelque chose dans votre site Web. Juste pour ce cas, vous pouvez ajouter une barre d'annonce. Il s'agit d'un panneau non fixe et éventuellement dissimulable au-dessus de la barre de navigation. Toutes les configurations sont dans l'objet `announcementBar`.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="announcement-bar">
+```
+
+| Nom               | Type      | Par défaut           | Description                                            |
+| ----------------- | --------- | -------------------- | ------------------------------------------------------ |
+| `id`              | `string`  | `'announcement-bar'` | Toute valeur qui identifiera ce message.               |
+| `content`         | `string`  | `''`                 | Le contenu de l'annonce. Le HTML sera interpolé.       |
+| `backgroundColor` | `string`  | `'#fff'`             | Couleur en arrière plan de toute la barre.             |
+| `textColor`       | `string`  | `'#000'`             | Couleur du texte de l'annonce.                         |
+| `isCloseable`     | `boolean` | `true`               | Si cette annonce peut être ignorée avec un bouton '×'. |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    // highlight-start
+    announcementBar: {
+      id: 'support_us',
+      content:
+        'Nous cherchons à améliorer nos documents, veuillez répondre à <a target="_blank" rel="noopener noreferrer" href="#">cette enquête</a>',
+      backgroundColor: '#fafbfc',
+      textColor: '#091E42',
+      isCloseable: false,
+    },
+    // highlight-end
+  },
+};
+```
+
+## Plugins
+
+Our [main themes](./overview.mdx) offer additional theme configuration options for Docusaurus core content plugins.
+
+### Docs
+
+```mdx-code-block
+<APITable name="navbar-overview">
+```
+
+| Nom                              | Type                       | Par défaut  | Description                                                               |
+| -------------------------------- | -------------------------- | ----------- | ------------------------------------------------------------------------- |
+| `versionPersistence`             | `'localStorage' \| 'none'` | `undefined` | Defines the browser persistence of the preferred docs version.            |
+| `sidebar.hideable`               | `boolean`                  | `false`     | Show a hide button at the bottom of the sidebar.                          |
+| `sidebar.autoCollapseCategories` | `boolean`                  | `false`     | Automatically collapse all sibling categories of the one you navigate to. |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    docs: {
+      // highlight-start
+      versionPersistence: 'localStorage',
+      sidebar: {
+        hideable: false,
+        autoCollapseCategories: false,
+      },
+      // highlight-end
+    },
+  },
+};
+```
+
+### Blog
+
+```mdx-code-block
+<APITable name="navbar-overview">
+```
+
+| Nom                   | Type      | Par défaut | Description                        |
+| --------------------- | --------- | ---------- | ---------------------------------- |
+| `sidebar.groupByYear` | `boolean` | `true`     | Group sidebar blog posts by years. |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    blog: {
+      // highlight-start
+      sidebar: {
+        groupByYear: true,
+      },
+      // highlight-end
+    },
+  },
+};
+```
+
+## Barre de navigation {#navbar}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="navbar-overview">
+```
+
+| Nom            | Type                             | Par défaut         | Description                                                                                           |
+| -------------- | -------------------------------- | ------------------ | ----------------------------------------------------------------------------------------------------- |
+| `title`        | `string`                         | `undefined`        | Titre de la barre de navigation.                                                                      |
+| `logo`         | _Voir ci-dessous_                | `undefined`        | Personnalisation de l'objet du logo.                                                                  |
+| `items`        | `NavbarItem[]`                   | `[]`               | Une liste d'éléments de la barre de navigation. Voir les spécifications ci-dessous.                   |
+| `hideOnScroll` | `boolean`                        | `false`            | Indique si la barre de navigation est masquée lorsque l'utilisateur fait défiler la page vers le bas. |
+| `style`        | <code>'primary' \| 'dark'</code> | Identique au thème | Définit le style de la barre de navigation, ignorant le thème sombre/clair.                           |
+
+```mdx-code-block
+</APITable>
+```
+
+### Logo de la barre de navigation {#navbar-logo}
+
+Le logo peut être placé dans le [dossier static](static-assets.mdx). L'URL du logo est défini par défaut sur l'URL de base de votre site. Bien que vous puissiez spécifier votre propre URL pour le logo, s'il s'agit d'un lien externe, il s'ouvrira dans un nouvel onglet. De plus, vous pouvez remplacer une valeur pour l'attribut cible du lien du logo, ce qui peut s'avérer pratique si vous hébergez les docs du site Web dans un sous-répertoire de votre site Web principal, et dans ce cas, vous n'avez probablement pas besoin d'un lien dans le logo vers le site Web principal qui s'ouvrira dans un nouvel onglet.
+
+Pour améliorer la prise en charge du mode sombre, vous pouvez également définir un logo différent pour ce mode.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="navbar-logo">
+```
+
+| Nom         | Type                          | Par défaut                                                                                                              | Description                                                                                                           |
+| ----------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `alt`       | `string`                      | `undefined`                                                                                                             | Balise Alt pour l'image du logo.                                                                                      |
+| `src`       | `string`                      | **Obligatoire**                                                                                                         | URL de l'image du logo. L'URL de base est ajoutée par défaut.                                                         |
+| `srcDark`   | `string`                      | `logo.src`                                                                                                              | Une URL d'image alternative à utiliser en mode sombre.                                                                |
+| `href`      | `string`                      | `siteConfig.baseUrl`                                                                                                    | Lien vers lequel naviguer lorsque le logo est cliqué.                                                                 |
+| `width`     | <code>string \| number</code> | `undefined`                                                                                                             | Spécifie l'attribut `width`.                                                                                          |
+| `height`    | <code>string \| number</code> | `undefined`                                                                                                             | Spécifie l'attribut `height`.                                                                                         |
+| `target`    | `string`                      | Calculé à partir de `href` (les liens externes s'ouvriront dans un nouvel onglet, tous les autres dans le même onglet). | L'attribut `target` du lien; contrôle si le lien est ouvert dans un nouvel onglet, dans l'onglet actuel ou autrement. |
+| `className` | `string`                      | `undefined`                                                                                                             | Classe CSS appliquée à l'image.                                                                                       |
+| `style`     | `object`                      | `undefined`                                                                                                             | Objet de style CSS en ligne. Une variante React/JSX utilisant les propriétés camelCase.                               |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      title: 'Site Title',
+      // highlight-start
+      logo: {
+        alt: 'Site Logo',
+        src: 'img/logo.svg',
+        srcDark: 'img/logo_dark.svg',
+        href: 'https://docusaurus.io/',
+        target: '_self',
+        width: 32,
+        height: 32,
+        className: 'custom-navbar-logo-class',
+        style: {border: 'solid red'},
+      },
+      // highlight-end
+    },
+  },
+};
+```
+
+### Éléments de la barre de navigation {#navbar-items}
+
+Vous pouvez ajouter des éléments à la barre de navigation via `themeConfig.navbar.items`.
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      // highlight-start
+      items: [
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'introduction',
+          label: 'Docs',
+        },
+        {to: 'blog', label: 'Blog', position: 'left'},
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
+        {
+          href: 'https://github.com/facebook/docusaurus',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
+        },
+      ],
+      // highlight-end
+    },
+  },
+};
+```
+
+Les éléments peuvent avoir des comportements différents en fonction du champ `type`. Les sections ci-dessous vous présenteront tous les types d'éléments de la barre de navigation disponibles.
+
+#### Lien de la barre de navigation {#navbar-link}
+
+Par défaut, les éléments de la barre de navigation sont des liens ordinaires (internes ou externes).
+
+React Router devrait automatiquement appliquer un style de lien actif aux liens, mais vous pouvez utiliser `activeBasePath` dans les cas particuliers. Pour les cas où un lien devrait être actif sur plusieurs chemins différents (comme lorsque vous avez plusieurs dossiers doc sous la même barre latérale), vous pouvez utiliser `activeBaseRegex`. `activeBaseRegex` est une alternative plus flexible à `activeBasePath` et a la priorité sur celle-ci -- Docusaurus l'analyse en une expression régulière qui est testée par rapport à l'URL actuelle.
+
+Les liens sortants (externes) reçoivent automatiquement des attributs `target="_blank" rel="noopener noreferrer"`.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="navbar-link">
+```
+
+| Nom                    | Type                           | Par défaut      | Description                                                                                                                         |
+| ---------------------- | ------------------------------ | --------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `type`                 | `'default'`                    | Facultatif      | Définit le type de cet élément vers un lien.                                                                                        |
+| `label`                | `string`                       | **Obligatoire** | Le nom à afficher pour cet élément.                                                                                                 |
+| `html`                 | `string`                       | Facultatif      | Identique à `label`, mais rend du HTML pur au lieu du contenu de texte.                                                             |
+| `to`                   | `string`                       | **Obligatoire** | Routage côté client, utilisé pour naviguer dans le site web. La baseUrl sera automatiquement ajoutée à cette valeur.                |
+| `href`                 | `string`                       | **Obligatoire** | Une navigation pleine page, utilisée pour naviguer en dehors du site Web. **Un seul de `to` ou `href` doit être utilisé.**          |
+| `prependBaseUrlToHref` | `boolean`                      | `false`         | Ajoute au préalable la baseUrl aux valeurs `href`.                                                                                  |
+| `position`             | <code>'left' \| 'right'</code> | `'left'`        | Le côté de la barre de navigation sur lequel cet élément doit apparaître.                                                           |
+| `activeBasePath`       | `string`                       | `to` / `href`   | Pour appliquer le style de la classe active sur toutes les routes commençant par ce chemin. Cela n'est généralement pas nécessaire. |
+| `activeBaseRegex`      | `string`                       | `undefined`     | Alternative à `activeBasePath` si nécessaire.                                                                                       |
+| `className`            | `string`                       | `''`            | Classe CSS personnalisée (pour styliser n'importe quel élément).                                                                    |
+
+```mdx-code-block
+</APITable>
+```
+
+:::note
+
+En plus des champs ci-dessus, vous pouvez spécifier d'autres attributs arbitraires qui peuvent être appliqués à un lien HTML.
+
+:::
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          to: 'docs/introduction',
+          // Un seul de "to" ou "href" doit être utilisé
+          // href: 'https://www.facebook.com',
+          label: 'Introduction',
+          // Un seul de "label" ou "html" doit être utilisé
+          // html: '<b>Introduction</b>'
+          position: 'left',
+          activeBaseRegex: 'docs/(next|v8)',
+          target: '_blank',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Menu déroulant de la barre de navigation {#navbar-dropdown}
+
+Les éléments de la barre de navigation du type `dropdown` possède le champ supplémentaire `items`, un tableau interne d'éléments de la barre de navigation.
+
+Les éléments de la liste déroulante de la barre de navigation n'acceptent que les **types d'éléments "de type lien"** suivants :
+
+- [Lien de la barre de navigation](#navbar-link)
+- [Lien vers un doc dans la barre de navigation](#navbar-doc-link)
+- [Version des docs dans la barre de navigation](#navbar-docs-version)
+- [Barre latérale de doc dans la barre de navigation](#navbar-doc-sidebar)
+- [Barre de navigation avec HTML personnalisé](#navbar-with-custom-html)
+
+Notez que l'élément de base de la liste déroulante est également un lien cliquable, de sorte que cet élément peut recevoir tous les props [d'un lien de barre de navigation ordinaire](#navbar-link).
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="navbar-dropdown">
+```
+
+| Nom        | Type                                            | Par défaut      | Description                                                               |
+| ---------- | ----------------------------------------------- | --------------- | ------------------------------------------------------------------------- |
+| `type`     | `'dropdown'`                                    | Facultatif      | Définit le type de cet élément à un menu déroulant.                       |
+| `label`    | `string`                                        | **Obligatoire** | Le nom à afficher pour cet élément.                                       |
+| `items`    | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | **Obligatoire** | Les éléments à contenir dans le menu déroulant.                           |
+| `position` | <code>'left' \| 'right'</code>                  | `'left'`        | Le côté de la barre de navigation sur lequel cet élément doit apparaître. |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'dropdown',
+          label: 'Community',
+          position: 'left',
+          items: [
+            {
+              label: 'Facebook',
+              href: 'https://www.facebook.com',
+            },
+            {
+              type: 'doc',
+              label: 'Social',
+              docId: 'social',
+            },
+            // ... plus d'éléments
+          ],
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Lien vers un doc dans la barre de navigation {#navbar-doc-link}
+
+Si vous souhaitez lier à un doc spécifique, ce type spécial d'élément de la barre de navigation affichera le lien vers le doc du `docId` fourni. Il obtiendra la classe `navbar__link--active` tant que vous parcourrez un doc de la même barre latérale.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="navbar-doc-link">
+```
+
+| Nom            | Type                           | Par défaut      | Description                                                               |
+| -------------- | ------------------------------ | --------------- | ------------------------------------------------------------------------- |
+| `type`         | `'doc'`                        | **Obligatoire** | Définit le type de cet élément vers un lien de documentation.             |
+| `docId`        | `string`                       | **Obligatoire** | L'ID du document auquel cet élément est lié.                              |
+| `label`        | `string`                       | `docId`         | Le nom à afficher pour cet élément.                                       |
+| `position`     | <code>'left' \| 'right'</code> | `'left'`        | Le côté de la barre de navigation sur lequel cet élément doit apparaître. |
+| `docsPluginId` | `string`                       | `'default'`     | L'ID du plugin docs auquel appartient le doc.                             |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'introduction',
+          label: 'Docs',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Barre de navigation liée à une barre latérale {#navbar-doc-sidebar}
+
+Vous pouvez lier un élément de la barre de navigation au premier lien du document (qui peut être un lien de doc ou un index de catégorie généré) d'une barre latérale donnée sans avoir à coder en dur un ID de documentation.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="navbar-doc-sidebar">
+```
+
+| Nom            | Type                           | Par défaut                                       | Description                                                                                            |
+| -------------- | ------------------------------ | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `type`         | `'docSidebar'`                 | **Obligatoire**                                  | Définit le type de cet élément de la barre de navigation sur le premier document d'une barre latérale. |
+| `sidebarId`    | `string`                       | **Obligatoire**                                  | L'ID de la barre latérale à laquelle cet élément est lié.                                              |
+| `label`        | `string`                       | Libellé de la barre latérale du premier document | Le nom à afficher pour cet élément.                                                                    |
+| `position`     | <code>'left' \| 'right'</code> | `'left'`                                         | Le côté de la barre de navigation sur lequel cet élément doit apparaître.                              |
+| `docsPluginId` | `string`                       | `'default'`                                      | L'ID du plugin docs auquel appartient la barre latérale.                                               |
+
+```mdx-code-block
+</APITable>
+```
+
+:::tip
+
+Utilisez ce type d'élément de la barre de navigation si votre barre latérale est mise à jour souvent et que l'ordre n'est pas stable.
+
+:::
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'docSidebar',
+          position: 'left',
+          sidebarId: 'api',
+          label: 'API',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+```js title="sidebars.js"
+export default {
+  tutorial: [
+    {
+      type: 'autogenerated',
+      dirName: 'guides',
+    },
+  ],
+  api: [
+    // highlight-next-line
+    'cli', // L'élément de la barre de navigation renvoie à ce doc
+    'docusaurus-core',
+    {
+      type: 'autogenerated',
+      dirName: 'api',
+    },
+  ],
+};
+```
+
+#### Liste déroulante de version dans la barre de navigation {#navbar-docs-version-dropdown}
+
+Si vous utilisez des docs avec la gestion des versions, ce type spécial d'élément de la barre de navigation affichera un menu déroulant avec toutes les versions disponibles de votre site.
+
+L'utilisateur sera en mesure de passer d'une version à une autre, tout en restant sur le même doc (tant que l'ID du doc est constant entre les versions).
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="navbar-docs-version-dropdown">
+```
+
+| Nom                           | Type                                            | Par défaut      | Description                                                                                                                                                 |
+| ----------------------------- | ----------------------------------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`                        | `'docsVersionDropdown'`                         | **Obligatoire** | Définit le type de cet élément comme étant une liste déroulante de la version de la documentation.                                                          |
+| `position`                    | <code>'left' \| 'right'</code>                  | `'left'`        | Le côté de la barre de navigation sur lequel cet élément doit apparaître.                                                                                   |
+| `dropdownItemsBefore`         | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]`            | Ajoute des éléments supplémentaires au début de la liste déroulante.                                                                                        |
+| `dropdownItemsAfter`          | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]`            | Ajoute des éléments supplémentaires à la fin de la liste déroulante.                                                                                        |
+| `docsPluginId`                | `string`                                        | `'default'`     | L'ID du plugin docs auquel appartient le versionnage du doc.                                                                                                |
+| `dropdownActiveClassDisabled` | `boolean`                                       | `false`         | N'ajoute pas la classe active de lien lors de la navigation dans la documentation.                                                                          |
+| `versions`                    | `DropdownVersions`                              | `undefined`     | Specify a custom list of versions to include in the dropdown. See [the versioning guide](../../guides/docs/versioning.mdx#docsVersionDropdown) for details. |
+
+```mdx-code-block
+</APITable>
+```
+
+Types:
+
+```ts
+type DropdownVersion = {
+  /** Allows you to provide a custom display label for each version. */
+  label?: string;
+};
+
+type DropdownVersions = string[] | {[versionName: string]: DropdownVersion};
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'docsVersionDropdown',
+          position: 'left',
+          dropdownItemsAfter: [{to: '/versions', label: 'Toutes les versions'}],
+          dropdownActiveClassDisabled: true,
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Version des docs dans la barre de navigation {#navbar-docs-version}
+
+Si vous utilisez des docs avec la gestion de version, ce type spécial d'élément de la barre de navigation sera lié à la version active/consultée de votre doc (dépend de l'URL actuelle), et sinon se placera sur la dernière version.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="navbar-docs-version">
+```
+
+| Nom            | Type                           | Par défaut                                | Description                                                               |
+| -------------- | ------------------------------ | ----------------------------------------- | ------------------------------------------------------------------------- |
+| `type`         | `'docsVersion'`                | **Obligatoire**                           | Définit le type de cet élément vers un lien de version de documentation.  |
+| `label`        | `string`                       | Le libellé de la active/dernière version. | Le nom à afficher pour cet élément.                                       |
+| `to`           | `string`                       | La version active/dernière version.       | Le lien interne vers lequel pointe cet élément.                           |
+| `position`     | <code>'left' \| 'right'</code> | `'left'`                                  | Le côté de la barre de navigation sur lequel cet élément doit apparaître. |
+| `docsPluginId` | `string`                       | `'default'`                               | L'ID du plugin docs auquel appartient le versionnage du doc.              |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'docsVersion',
+          position: 'left',
+          to: '/path',
+          label: 'label',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Liste déroulante des locales dans la barre de navigation {#navbar-locale-dropdown}
+
+Si vous utilisez la [fonctionnalité i18n](../../i18n/i18n-introduction.mdx), ce type spécial d'élément de la barre de navigation affichera un menu déroulant avec toutes les locales disponibles de votre site.
+
+L'utilisateur pourra basculer d'une locale à une autre, tout en restant sur la même page.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="navbar-locale-dropdown">
+```
+
+| Nom                   | Type                                            | Par défaut      | Description                                                                |
+| --------------------- | ----------------------------------------------- | --------------- | -------------------------------------------------------------------------- |
+| `type`                | `'localeDropdown'`                              | **Obligatoire** | Définit le type de cet élément comme étant une liste déroulante de locale. |
+| `position`            | <code>'left' \| 'right'</code>                  | `'left'`        | Le côté de la barre de navigation sur lequel cet élément doit apparaître.  |
+| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]`            | Ajoute des éléments supplémentaires au début de la liste déroulante.       |
+| `dropdownItemsAfter`  | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]`            | Ajoute des éléments supplémentaires à la fin de la liste déroulante.       |
+| `queryString`         | `string`                                        | `undefined`     | La query string à ajouter à l'URL.                                         |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'localeDropdown',
+          position: 'left',
+          dropdownItemsAfter: [
+            {
+              to: 'https://my-site.com/help-us-translate',
+              label: 'Aidez-nous à traduire',
+            },
+          ],
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Recherche dans la barre de navigation {#navbar-search}
+
+Si vous utilisez la [recherche](../../search.mdx), la barre de recherche sera l'élément le plus à droite de la barre de navigation.
+
+Cependant, avec ce type spécial d'élément de la barre de navigation, vous pouvez changer l'emplacement par défaut.
+
+```mdx-code-block
+<APITable name="navbar-search">
+```
+
+| Nom         | Type                           | Par défaut      | Description                                                               |
+| ----------- | ------------------------------ | --------------- | ------------------------------------------------------------------------- |
+| `type`      | `'search'`                     | **Obligatoire** | Définit le type de cet élément à une barre de recherche.                  |
+| `position`  | <code>'left' \| 'right'</code> | `'left'`        | Le côté de la barre de navigation sur lequel cet élément doit apparaître. |
+| `className` | `string`                       | /               | Classe CSS personnalisée pour cet élément de la barre de navigation.      |
+
+```mdx-code-block
+</APITable>
+```
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'search',
+          position: 'right',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Barre de navigation avec HTML personnalisé {#navbar-with-custom-html}
+
+Vous pouvez également rendre votre propre balisage HTML à l'intérieur d'un élément de barre de navigation en utilisant ce type d'élément de barre de navigation.
+
+```mdx-code-block
+<APITable name="navbar-html">
+```
+
+| Nom         | Type                           | Par défaut      | Description                                                               |
+| ----------- | ------------------------------ | --------------- | ------------------------------------------------------------------------- |
+| `type`      | `'html'`                       | **Obligatoire** | Définit le type de cet élément vers un élément HTML.                      |
+| `position`  | <code>'left' \| 'right'</code> | `'left'`        | Le côté de la barre de navigation sur lequel cet élément doit apparaître. |
+| `className` | `string`                       | `''`            | Classe CSS personnalisée pour cet élément de la barre de navigation.      |
+| `value`     | `string`                       | `''`            | HTML personnalisé à afficher dans cet élément de la barre de navigation.  |
+
+```mdx-code-block
+</APITable>
+```
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'html',
+          position: 'right',
+          value: '<button>Donnez votre avis</button>',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+### Masquage automatique de la barre de navigation flottante {#auto-hide-sticky-navbar}
+
+Vous pouvez activer cette fonctionnalité d'interface utilisateur qui masque automatiquement la barre de navigation lorsqu'un utilisateur commence à faire défiler la page vers le bas, et la réaffiche lorsqu'il la fait défiler vers le haut.
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      // highlight-next-line
+      hideOnScroll: true,
+    },
+  },
+};
+```
+
+### Style de barre de navigation {#navbar-style}
+
+Vous pouvez définir le style statique de la barre de navigation sans désactiver la possibilité de changer de thème. Le style sélectionné s'appliquera toujours quel que soit le thème sélectionné par l'utilisateur.
+
+Actuellement, il y a deux options de style possibles : `dark` et `primary` (basé sur la couleur `--ifm-color-primary`). Vous pouvez voir l'aperçu des styles dans la [documentation Infima](https://infima.dev/docs/components/navbar/).
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      // highlight-next-line
+      style: 'primary',
+    },
+  },
+};
+```
+
+## Bloc de code {#codeblock}
+
+Docusaurus utilise [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer) pour mettre en évidence les blocs de code. Toutes les configurations sont dans l'objet `prism`.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="codeblock">
+```
+
+| Nom               | Type                   | Par défaut        | Description                                                                                                                   |
+| ----------------- | ---------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `theme`           | `PrismTheme`           | `palenight`       | Le thème Prism à utiliser pour les blocs de code de thème clair.                                                              |
+| `darkTheme`       | `PrismTheme`           | `palenight`       | Le thème Prism à utiliser pour les blocs de code de thème sombre.                                                             |
+| `defaultLanguage` | `string`               | `undefined`       | Le langage par défaut à utiliser pour les blocs de code ne déclarant pas de langage explicite.                                |
+| `magicComments`   | `MagicCommentConfig[]` | _voir ci-dessous_ | La liste des [commentaires magiques](../../guides/markdown-features/markdown-features-code-blocks.mdx#custom-magic-comments). |
+
+```mdx-code-block
+</APITable>
+```
+
+```ts
+type MagicCommentConfig = {
+  className: string;
+  line?: string;
+  block?: {start: string; end: string};
+};
+```
+
+```js
+const defaultMagicComments = [
+  {
+    className: 'theme-code-block-highlighted-line',
+    line: 'highlight-next-line',
+    block: {start: 'highlight-start', end: 'highlight-end'},
+  },
+];
+```
+
+### Thème {#theme}
+
+Par défaut, nous utilisons [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/packages/prism-react-renderer/src/themes/palenight.ts) comme thème de coloration de syntaxe. Vous pouvez spécifier un thème personnalisé à partir de la [liste des thèmes disponibles](https://github.com/FormidableLabs/prism-react-renderer/tree/master/packages/prism-react-renderer/src/themes). Vous pouvez également utiliser un thème de coloration syntaxique différent lorsque le site est en mode sombre.
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+import {themes as prismThemes} from 'prism-react-renderer';
+
+export default {
+  themeConfig: {
+    prism: {
+      // highlight-start
+      theme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
+      // highlight-end
+    },
+  },
+};
+```
+
+:::note
+
+Si vous utilisez la coloration de ligne de la syntaxe Markdown, vous devrez peut-être spécifier une couleur d'arrière-plan différente pour le thème de coloration syntaxique en mode sombre. Reportez-vous aux [docs pour obtenir des conseils](../../guides/markdown-features/markdown-features-code-blocks.mdx#line-highlighting).
+
+:::
+
+### Langage par défaut {#default-language}
+
+Vous pouvez définir un langage par défaut pour les blocs de code si aucun langage n'est ajouté après le triple backticks (c'est-à-dire \`\`\`). Notez qu'un [nom de langage](https://prismjs.com/#langues supportées) valide doit être passé.
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    prism: {
+      // highlight-next-line
+      defaultLanguage: 'javascript',
+    },
+  },
+};
+```
+
+## Footer {#footer-1}
+
+Vous pouvez ajouter un logo et un copyright au pied de page via `themeConfig.footer`. Le logo peut être placé dans le [dossier static](static-assets.mdx). L'URL du logo fonctionne de la même manière que le logo de la barre de navigation.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable name="footer">
+```
+
+| Nom         | Type                                  | Par défaut  | Description                                                                                                         |
+| ----------- | ------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------- |
+| `logo`      | `Logo`                                | `undefined` | Personnalisation de l'objet du logo. Consultez le [logo de barre de navigation](#navbar-logo) pour plus de détails. |
+| `copyright` | `string`                              | `undefined` | Le message de copyright à afficher en bas, prend également en charge le HTML personnalisé.                          |
+| `style`     | <code>'dark' \| 'light'</code>        | `'light'`   | Le thème de couleur du composant de pied de page.                                                                   |
+| `links`     | <code>(Column \| FooterLink)[]</code> | `[]`        | Les groupes de liens qui doivent être présents.                                                                     |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    // highlight-start
+    footer: {
+      logo: {
+        alt: 'Meta Open Source Logo',
+        src: 'img/meta_oss_logo.png',
+        href: 'https://opensource.fb.com',
+        width: 160,
+        height: 51,
+      },
+      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+    },
+    // highlight-end
+  },
+};
+```
+
+### Liens de pied de page {#footer-links}
+
+Vous pouvez ajouter des éléments au pied de page via `themeConfig.footer.links`. Il existe deux types de configurations de pied de page : **pieds de page à colonnes multiples** et **pieds de page simples**.
+
+Les liens de pied de page multi-colonnes ont un `title` et une liste de `FooterItem` pour chaque colonne.
+
+```mdx-code-block
+<APITable name="footer-links">
+```
+
+| Nom     | Type           | Par défaut  | Description                         |
+| ------- | -------------- | ----------- | ----------------------------------- |
+| `title` | `string`       | `undefined` | Libellé de la section de ces liens. |
+| `items` | `FooterItem[]` | `[]`        | Liens dans cette section.           |
+
+```mdx-code-block
+</APITable>
+```
+
+Champs acceptés de chaque `FooterItem` :
+
+```mdx-code-block
+<APITable name="footer-items">
+```
+
+| Nom     | Type     | Par défaut      | Description                                                                                                                    |
+| ------- | -------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `label` | `string` | **Obligatoire** | Texte à afficher pour ce lien.                                                                                                 |
+| `to`    | `string` | **Obligatoire** | Routage côté client, utilisé pour naviguer dans le site web. La baseUrl sera automatiquement ajoutée à cette valeur.           |
+| `href`  | `string` | **Obligatoire** | Une navigation pleine page, utilisée pour naviguer en dehors du site Web. **Un seul de `to` ou `href` doit être utilisé.**     |
+| `html`  | `string` | `undefined`     | Rend le passage HTML au lieu d'un simple lien. Dans le cas où `html` est utilisé, aucune autre option ne devrait être fournie. |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration multi-colonnes :
+
+```js title="docusaurus.config.js"
+export default {
+  footer: {
+    // highlight-start
+    links: [
+      {
+        title: 'Docs',
+        items: [
+          {
+            label: 'Style Guide',
+            to: 'docs/',
+          },
+          {
+            label: 'Second Doc',
+            to: 'docs/doc2/',
+          },
+        ],
+      },
+      {
+        title: 'Community',
+        items: [
+          {
+            label: 'Stack Overflow',
+            href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+          },
+          {
+            label: 'Discord',
+            href: 'https://discordapp.com/invite/docusaurus',
+          },
+          {
+            label: 'X',
+            href: 'https://x.com/docusaurus',
+          },
+          {
+            html: `
+                <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
+                </a>
+              `,
+          },
+        ],
+      },
+    ],
+    // highlight-end
+  },
+};
+```
+
+Un pied de page simple a juste une liste de `FooterItem` affichés dans une ligne.
+
+Exemple de configuration simple :
+
+```js title="docusaurus.config.js"
+export default {
+  footer: {
+    // highlight-start
+    links: [
+      {
+        label: 'Stack Overflow',
+        href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+      },
+      {
+        label: 'Discord',
+        href: 'https://discordapp.com/invite/docusaurus',
+      },
+      {
+        label: 'X',
+        href: 'https://x.com/docusaurus',
+      },
+      {
+        html: `
+            <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+              <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
+            </a>
+          `,
+      },
+    ],
+    // highlight-end
+  },
+};
+```
+
+## Table des matières {#table-of-contents}
+
+Vous pouvez ajuster la table des matières par défaut via `themeConfig.tableOfContents`.
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom               | Type     | Par défaut | Description                                                                                                                              |
+| ----------------- | -------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `minHeadingLevel` | `number` | `2`        | Le niveau de titre minimum affiché dans la table des matières. Doit être compris entre 2 et 6 et inférieur ou égal à la valeur maximale. |
+| `maxHeadingLevel` | `number` | `3`        | Niveau maximum affiché dans la table des matières. Doit être un entier entre 2 et 6.                                                     |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    // highlight-start
+    tableOfContents: {
+      minHeadingLevel: 2,
+      maxHeadingLevel: 5,
+    },
+    // highlight-end
+  },
+};
+```
+
+## Hooks {#hooks}
+
+### `useColorMode` {#use-color-mode}
+
+Un hook React pour accéder au contexte de couleur. This context contains functions for selecting light/dark/system mode and exposes the current color mode and the choice from the user. The color mode values **should not be used for dynamic content rendering** (see below).
+
+Exemple d'utilisation :
+
+```jsx
+// highlight-next-line
+import {useColorMode} from '@docusaurus/theme-common';
+
+const MyColorModeButton = () => {
+  // highlight-start
+  const {
+    colorMode, // the "effective" color mode, never null
+    colorModeChoice, // the color mode chosen by the user, can be null
+    setColorMode, // set the color mode chosen by the user
+  } = useColorMode();
+  // highlight-end
+
+  return (
+    <button
+      onClick={() => {
+        const nextColorMode = colorModeChoice === 'dark' ? 'light' : 'dark';
+        setColorMode(nextColorMode);
+      }}>
+      Toggle color mode
+    </button>
+  );
+};
+```
+
+Attributes:
+
+- `colorMode: 'light' | 'dark'`: The effective color mode currently applied to the UI. It cannot be `null`.
+- `colorModeChoice: 'light' | 'dark' | null`: The color mode explicitly chosen by the user. It can be `null` if user has not made any choice yet, or if they reset their choice to the system/default value.
+- `setColorMode(colorModeChoice: 'light' | 'dark' | null, options: {persist: boolean}): void`: A function to call when the user explicitly chose a color mode. `null` permits to reset the choice to the system/default value. By default, the choice is persisted in `localStorage` and restored on page reload, but you can opt out with `{persist: false}`.
+
+:::warning
+
+Don't use `colorMode` and `colorModeChoice` while rendering React components. Doing so is likely to produce [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content), layout shifts and [React hydration](https://18.react.dev/reference/react-dom/client/hydrateRoot) mismatches if you use them to render JSX content dynamically.
+
+However, these values are safe to use **after React hydration**, in `useEffect` and event listeners, like in the `MyColorModeButton` example above.
+
+If you need to render content dynamically depending on the current theme, the only way to avoid FOUC, layout shifts and hydration mismatch is to rely on CSS selectors to render content dynamically, based on the `html` data attributes that we set before the page displays anything:
+
+```html
+<html data-theme="<light | dark>" data-theme-choice="<light | dark | system>">
+  <!-- content -->
+</html>
+```
+
+```css
+[data-theme='light']
+[data-theme='dark']
+
+[data-theme-choice='light']
+[data-theme-choice='dark']
+[data-theme-choice='system']
+```
+
+<details>
+ <summary>Why are `colorMode` and `colorModeChoice` unsafe when rendering?</summary>
+
+To understand the problem, you need to understand how [React hydration](https://18.react.dev/reference/react-dom/client/hydrateRoot) works.
+
+During the static site generation phase, Docusaurus doesn't know what the user color mode choice is, and `useColorMode()` returns the following static values:
+
+- `colorMode = themeConfig.colorMode.defaultMode`
+- `colorModeChoice = null`
+
+During the very first React client-side render (the hydration), React must produce the exact same HTML markup, and will also use these static values.
+
+The correct `colorMode` and `colorModeChoice` values will only be provided in the second React render.
+
+Typically, the following component will lead to **React hydration mismatches**. The label may switch from `light` to `dark` while React hydrates, leading to a confusing user experience.
+
+```jsx
+import {useColorMode} from '@docusaurus/theme-common';
+
+const DisplayCurrentColorMode = () => {
+  const {colorMode} = useColorMode();
+  return <span>{colorMode}</span>;
+};
+```
+
+</details>
+
+:::
+
+:::note
+
+Le composant appelant `useColorMode` doit être un enfant du composant `Layout`.
+
+```jsx
+function ExamplePage() {
+  return (
+    <Layout>
+      <Example />
+    </Layout>
+  );
+}
+```
+
+:::
+
+## i18n {#i18n}
+
+Lisez d'abord [l'introduction i18n](../../i18n/i18n-introduction.mdx) .
+
+### Emplacement des fichiers de traduction {#translation-files-location}
+
+- **Chemin de base** : `website/i18n/[locale]/docusaurus-theme-[themeName]`
+- **Chemin multi-instance** : Non applicable
+- **Fichiers JSON** : extrait avec [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
+- **Fichiers Markdown** : Non applicable
+
+### Exemple de structure du système de fichiers {#example-file-system-structure}
+
+```bash
+website/i18n/[locale]/docusaurus-theme-classic
+│
+│ # traductions pour le thème
+├── navbar.json
+└── footer.json
+```

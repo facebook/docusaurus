@@ -1,0 +1,194 @@
+---
+description: 도큐사우루스를 로컬에 설치하고 즉시 도큐사우루스 사이트를 시작하는 방법
+---
+
+# 설치
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+도큐사우루스는 npm [패키지](https://github.com/facebook/docusaurus/tree/main/packages)로 구성되어 있습니다.
+
+:::tip
+
+**[패스트트랙](introduction.mdx#fast-track)**에서 **5분 ⏱**안에 도큐사우루스를 이해할 수 있게 안내하고 있습니다!
+
+**[docusaurus.new](https://docusaurus.new)**에 접속하면 여러분의 웹 브라우저에서 도큐사우루스를 바로 테스트해볼 수 있습니다!
+
+:::
+
+## 요구 사항 {#requirements}
+
+- [Node.js](https://nodejs.org/en/download/) 18.0 이상 버전을 사용해야 합니다(`node -v` 명령어로 버전 정보를 확인할 수 있습니다). 여러 버전의 노드 설치가 필요하다면 [nvm](https://github.com/nvm-sh/nvm)에서 관리할 수 있습니다.
+  - Node.js 설치 시 종속성과 관련된 모든 체크박스 선택을 권장합니다.
+
+## 웹사이트 프로젝트를 위한 뼈대 만들기 {#scaffold-project-website}
+
+[`도큐사우루스를 설치`](./api/misc/create-docusaurus.mdx)하는 가장 쉬운 방법은 웹사이트 프로젝트를 위한 뼈대를 만들어주는 커맨드라인 도구를 사용하는 겁니다. 새로 만든 저장소 또는 기존에 사용하던 저장소 어디든 실행할 수 있으며 프로젝트를 위한 기본 파일을 포함한 새로운 디렉터리를 만듭니다.
+
+```bash
+npx create-docusaurus@latest my-website classic
+```
+
+도큐사우루스 1에서 사용하던 기능을 포함해 빠르게 시작하고 싶다면 `classic` 템플릿을 사용하는 것을 권장합니다. `classic` 템플릿은 기본 문서, 블로그, 커스텀 페이지, CSS 프레임워크(다크 모드 지원)을 포함한 `@docusaurus/preset-classic`을 제공합니다. classic 템플릿을 바로 적용해서 시작해볼 수 있습니다. 도큐사우루스에 익숙해지면 나중에 사용자 지정 템플릿을 반영할 수도 있습니다.
+
+`--typescript` 플래그를 사용해 템플릿의 타입스크립트 변형을 사용할 수도 있습니다. 좀 더 많은 정보는 [타입스크립트 지원](./typescript-support.mdx)을 참고하세요.
+
+```bash
+npx create-docusaurus@latest my-website classic --typescript
+```
+
+:::info Meta-Only
+
+메타 오픈 소스 프로젝트를 위해 도큐사우루스 웹사이트를 설정하는 경우 내부 저장소에서 이 명령을 실행하면 몇 가지 유용한 메타 관련 기본값이 제공됩니다.
+
+```bash
+scarf static-docs-bootstrap
+```
+
+:::
+
+<details>
+  <summary>대체할 수 있는 설치 명령</summary>
+
+원하는 프로젝트 관리자를 사용해 새로운 프로젝트를 초기화할 수 있습니다.
+
+```bash npm2yarn
+npm init docusaurus
+```
+
+</details>
+
+사용할 수 있는 모든 플래그 정보는 `npx create-docusaurus@latest --help` 명령을 실행하거나 [API 문서](./api/misc/create-docusaurus.mdx)를 참고하세요.
+
+## 프로젝트 구조 {#project-structure}
+
+classic 템플릿을 선택하고 사이트 이름을 `my-website`로 설정했다면 `my-website/` 디렉터리 밑에 아래와 같은 파일이 생성된 것을 확인할 수 있습니다.
+
+```bash
+my-website
+├── blog
+│   ├── 2019-05-28-hola.md
+│   ├── 2019-05-29-hello-world.md
+│   └── 2020-05-30-welcome.md
+├── docs
+│   ├── doc1.md
+│   ├── doc2.md
+│   ├── doc3.md
+│   └── mdx.md
+├── src
+│   ├── css
+│   │   └── custom.css
+│   └── pages
+│       ├── styles.module.css
+│       └── index.js
+├── static
+│   └── img
+├── docusaurus.config.js
+├── package.json
+├── README.md
+├── sidebars.js
+└── yarn.lock
+```
+
+### 프로젝트 구조 요약 {#project-structure-rundown}
+
+- `/blog/` - 블로그에서 사용하는 마크다운 파일 디렉터리입니다. 블로그 플러그인을 비활성화한 경우 디렉토리를 삭제하거나 `path` 옵션을 설정한 후 이름을 변경할 수 있습니다. 좀 더 자세한 내용은 [blog 가이드](blog.mdx)에서 확인할 수 있습니다.
+- `/docs/` - 문서에서 사용하는 마크다운 파일 디렉터리입니다. `sidebars.js`에서 사이드바에 표시되는 문서 순서를 변경할 수 있습니다. 문서 플러그인을 비활성화한 경우 디렉토리를 삭제하거나 `path` 옵션을 설정한 후 이름을 변경할 수 있습니다. 좀 더 자세한 내용은 [docs 가이드](./guides/docs/docs-introduction.mdx)에서 확인할 수 있습니다.
+- `/src/` - 페이지나 리액트 커스텀 컴포넌트처럼 문서 마크다운 파일이 아닌 파일 디렉터리입니다. 문서가 아닌 파일들을 꼭 여기에 가져다 놓아야 하는 건 아닙니다. 하지만 한곳에 모아놓으면 오류를 체크하거나 추가 작업이 필요할 때 좀 더 편하게 처리할 수 있습니다.
+  - `/src/pages` - 웹사이트 페이지로 변환할 JSX/TSX/MDX 파일을 모아놓는 디렉터리입니다. 좀 더 자세한 내용은 [pages 가이드](guides/creating-pages.mdx)에서 확인할 수 있습니다.
+- `/static/` - 정적 파일 디렉터리입니다. 이곳에 있는 파일은 `build` 디렉토리의 루트 저장소로 복사됩니다.
+- `/docusaurus.config.js` - 사이트 설정이 저장된 설정 파일입니다. 도큐사우루스 v1에서 사용했던 `siteConfig.js` 파일과 같은 역할입니다.
+- `/package.json` - 도큐사우루스 웹사이트는 리액트 앱입니다. 앱 안에서 원하는 npm 패키지를 설치하고 사용할 수 있습니다.
+- `/sidebars.js` - 사이드바에 표시되는 문서의 순서를 조정할 때 사용합니다.
+
+### 단일 저장소 {#monorepos}
+
+기존 프로젝트 문서화에 도큐사우루스를 사용하는 경우에는 단일 저장소가 해결책이 될 수 있습니다. 단일 저장소를 사용하면 비슷한 프로젝트 사이에 종속성을 공유할 수 있습니다. 예를 들어, 웹사이트는 출시 버전에 의존하지 않고 로컬 패키지를 사용하여 최신 기능을 선보일 수 있습니다. 그러면 기여자들은(contributors) 기능을 구현하면서 문서를 업데이트할 수 있습니다. 예를 들어 단일 저장소의 폴더 구조는 다음과 같습니다.
+
+```bash
+my-monorepo
+├── package-a # Another package, your actual project
+│   ├── src
+│   └── package.json # Package A's dependencies
+├── website   # Docusaurus root
+│   ├── docs
+│   ├── src
+│   └── package.json # Docusaurus' dependencies
+├── package.json # Monorepo's shared dependencies
+```
+
+위의 경우 `./my-monorepo` 폴더 내에서 `npx create-docusaurus`를 실행해야 합니다.
+
+Netlify 또는 Vercel 같은 호스팅 제공업체를 사용한다면 도큐사우루스 루트가 있는 사이트의 `Base directory`를 변경해야 합니다. 예제에서는 `./website`입니다. [문서 배포](./deployment.mdx#deploying-to-netlify) 항목에서 ignore 명령 관련 설정을 확인할 수 있습니다.
+
+[Yarn 문서](https://yarnpkg.com/features/workspaces)(Yarn이 단일 저장소를 설정하는 유일한 방법은 아니지만 일반적인 솔루션입니다)에서 단일 저장소에 대해 좀 더 알아보세요. 또는 [도큐사우루스](https://github.com/facebook/docusaurus)와 [Jest](https://github.com/facebook/jest)에서 몇 가지 사례를 살펴보세요.
+
+## 개발 서버 실행하기 {#running-the-development-server}
+
+편집한 내용을 미리보고 싶다면 로컬 개발 서버를 실행해야 합니다. 로컬 개발 서버를 통해 웹 사이트를 확인하고 마지막으로 변경된 내용을 반영해볼 수 있습니다.
+
+```bash npm2yarn
+cd my-website
+npm run start
+```
+
+기본적으로 브라우저 창은 [`http://localhost:3000`](http://localhost:3000)으로 열립니다.
+
+축하합니다! 여러분은 첫 번째 도큐사우루스 사이트를 방금 만들었습니다. 실행된 사이트를 둘러보고 어떤 콘텐츠가 만들어졌는지 확인해보세요.
+
+## 빌드 {#build}
+
+도큐사우루스는 정적인 웹 사이트를 생성하는 도구입니다. 그래서 웹 사이트를 디렉터리 안에 생성하고 사용자가 접근할 수 있도록 웹 서버에 배치해주어야 합니다. 웹 사이트를 빌드하기 위해서는 아래 명령어를 사용합니다.
+
+```bash npm2yarn
+npm run build
+```
+
+콘텐츠는 `/build` 디렉터리 밑에 만들어지며 [깃허브 페이지(GitHub pages)](https://pages.github.com/), [베르셀(Vercel)](https://vercel.com/), [네트리파이(Netlify)](https://www.netlify.com/) 같은 정적 파일 호스팅 서비스에 복사할 수 있습니다. 좀 더 자세한 내용은 [배포](deployment.mdx) 문서를 참고하세요.
+
+## 도큐사우루스 버전 업데이트하기 {#updating-your-docusaurus-version}
+
+도큐사우루스 버전을 업데이트하는 방법은 여러가지가 있습니다. 확실한 방법은 `package.json` 파일 내 버전 번호를 원하는 버전으로 수정하는 겁니다. `@docusaurus/` 네임스페이스 패키지는 모두 같은 버전을 사용해야 하는 것에 주의해주세요.
+
+import UpgradeGuide from '@site/src/components/UpgradeGuide';
+
+<UpgradeGuide />
+
+`package.json` 파일이 포함된 디렉터리에서 패키지 매니저 설치 명령을 실행합니다.
+
+```bash npm2yarn
+npm install
+```
+
+:::tip
+
+`npm install`을 실행하면 몇 가지 취약점이 보고될 수 있으며, `npm audit`을 사용해서 해결할 수 있습니다. 보통 RegExp DOS와 같이 이미 보고된 취약점들은 문제가 없으므로 무시해도 됩니다. Also read this article, which reflects our thinking: [npm audit: Broken by Design](https://overreacted.io/npm-audit-broken-by-design/).
+
+:::
+
+업데이트가 정상적으로 처리되었는지는 아래 명령으로 확인해볼 수 있습니다.
+
+```bash
+npx docusaurus --version
+```
+
+올바른 버전이 출력되어야 합니다.
+
+Yarn을 사용하는 경우는 아래와 같이 업데이트할 수 있습니다.
+
+```bash
+yarn add @docusaurus/core @docusaurus/preset-classic
+```
+
+:::tip
+
+[`@canary` npm 배포 태그](/community/canary)를 적용하면 공개되지 않은 새로운 도큐사우루스 기능을 사용할 수 있습니다.
+
+:::
+
+## 설치에 문제가 있나요? {#problems}
+
+도움이 필요하면 [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus), [GitHub repository](https://github.com/facebook/docusaurus), [Discord server](https://discordapp.com/invite/docusaurus), [X](https://x.com/docusaurus)로 연락주세요.

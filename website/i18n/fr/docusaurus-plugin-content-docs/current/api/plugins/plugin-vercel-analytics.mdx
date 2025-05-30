@@ -1,0 +1,57 @@
+---
+sidebar_position: 11
+slug: /api/plugins/@docusaurus/plugin-vercel-analytics
+---
+
+# 📦 plugin-vercel-analytics
+
+import APITable from '@site/src/components/APITable';
+
+[Vercel Analytics](https://vercel.com/docs/analytics) fournit des informations complètes sur les visiteurs de votre site Web, en surveillant les pages principales, les renvois et les données démographiques telles que l'emplacement, les systèmes d'exploitation et les informations sur le navigateur.
+
+:::warning seulement en production
+
+Ce plugin est toujours inactif en développement et **uniquement actif en production** (`docusaurus build`) pour éviter de polluer les statistiques d'analyse.
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-vercel-analytics
+```
+
+## Configuration {#configuration}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom     | Type      | Par défaut  | Description                                                                                                                                                                                   |
+| ------- | --------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mode`  | `string`  | `'auto'`    | Remplace la détection automatique de l'environnement. Lisez la [documentation officielle](https://vercel.com/docs/analytics/package#mode) pour plus de détails.                               |
+| `debug` | `boolean` | `undefined` | Active la journalisation des événements analytiques dans la console du navigateur. Lisez la [documentation officielle](https://vercel.com/docs/analytics/package#debug) pour plus de détails. |
+
+```mdx-code-block
+</APITable>
+```
+
+### Exemple de configuration {#ex-config}
+
+Vous pouvez configurer ce plugin via les options du plugin.
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      'vercel-analytics',
+      {
+        debug: true,
+        mode: 'auto',
+      },
+    ],
+  ],
+};
+```

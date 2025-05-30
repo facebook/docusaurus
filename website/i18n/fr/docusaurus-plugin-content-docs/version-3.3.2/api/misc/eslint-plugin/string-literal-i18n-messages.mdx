@@ -1,0 +1,50 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/string-literal-i18n-messages
+---
+
+# string-literal-i18n-messages
+
+Force les API de traduction à être appelées sur les libellés en texte brut.
+
+Docusaurus propose l'API [`docusaurus write-translations`](../../../cli.mdx#docusaurus-write-translations-sitedir), qui extrait statiquement les libellés de texte marqués comme traduisibles. Les valeurs dynamiques utilisées dans `<Translate>` ou dans les appels à `translate()` ne seront pas extraites. Cette règle garantit que tous les appels de traduction sont extractibles de manière statique.
+
+## Détails de la règle {#details}
+
+Exemples de code **incorrect** pour cette règle :
+
+```js
+const text = 'Some text to be translated'
+
+// Enfant de <Translate> non valide
+<Translate>{text}</Translate>
+
+// Attribut message non valide
+translate({message: text})
+```
+
+Exemples de code **correct** pour cette règle :
+
+```js
+// Enfant de <Translate> valide
+<Translate>Some text to be translated</Translate>
+
+// Attribut de message valide
+translate({message: 'Some text to be translated'})
+
+// Enfant de <Translate> valide utilisant l'objet values comme prop
+<Translate values={{firstName: 'Sébastien'}}>
+  {'Welcome, {firstName}! How are you?'}
+</Translate>
+
+// Attribut de message valide utilisant l'objet values comme second argument
+translate({message: 'The logo of site {siteName}'}, {siteName: 'Docusaurus'})
+```
+
+## Quand ne pas l'utiliser {#when-not-to-use}
+
+Si vous n'utilisez pas la[fonctionnalité i18n](../../../i18n/i18n-introduction.mdx), vous pouvez désactiver cette règle.
+
+## Complément d'information {#further-reading}
+
+- https://docusaurus.io/docs/docusaurus-core#translate
+- https://docusaurus.io/docs/docusaurus-core#translate-imperative

@@ -1,0 +1,83 @@
+---
+sidebar_position: 8
+slug: /api/plugins/@docusaurus/plugin-ideal-image
+---
+
+# 📦 plugin-ideal-image
+
+import APITable from '@site/src/components/APITable';
+
+Plugin Docusaurus pour générer une image presque idéale (réactive, chargement différé et placeholder de basse qualité).
+
+:::info
+
+Par défaut, le plugin est **inactif en développement** pour que vous puissiez toujours voir des images à grande échelle. Si vous voulez déboguer le comportement d'image idéal, vous pouvez définir l'option [`disableInDev`](#disableInDev) à `false`.
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-ideal-image
+```
+
+## Utilisation {#usage}
+
+Ce plugin ne supporte que les formats PNG et JPG.
+
+```jsx
+import Image from '@theme/IdealImage';
+import thumbnail from './path/to/img.png';
+
+// votre code React
+<Image img={thumbnail} />
+
+// ou
+<Image img={require('./path/to/img.png')} />
+```
+
+## Configuration {#configuration}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Option         | Type       | Par défaut                                    | Description                                                                                                                                                                                                                                                                             |
+| -------------- | ---------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`         | `string`   | `ideal-img/[name].[hash:hex:7].[width].[ext]` | Modèle du nom de fichier pour les fichiers en sortie.                                                                                                                                                                                                                                   |
+| `sizes`        | `number[]` | _taille originale_                            | Spécifiez toutes les largeurs que vous voulez utiliser. Si une taille spécifiée dépasse la largeur de l'image originale, celle-ci sera utilisée (c'est-à-dire que les images ne seront pas redimensionnées).                                                                            |
+| `size`         | `number`   | _taille originale_                            | Spécifiez une largeur que vous voulez utiliser. Si la taille spécifiée dépasse la largeur de l'image originale, celle-ci sera utilisée (c'est-à-dire que les images ne seront pas redimensionnées)                                                                                      |
+| `min`          | `number`   | `undefined`                                   | Comme alternative à la spécification manuelle des `sizes`, vous pouvez spécifier `min`, `max` et `steps`, et les tailles seront générées pour vous.                                                                                                                                     |
+| `max`          | `number`   | `undefined`                                   | Voir `min` ci-dessus                                                                                                                                                                                                                                                                    |
+| `steps`        | `number`   | `4`                                           | Configurez le nombre d'images générées entre `min` et `max` (inclusif)                                                                                                                                                                                                                  |
+| `quality`      | `number`   | `85`                                          | Qualité de compression JPEG                                                                                                                                                                                                                                                             |
+| `disableInDev` | `boolean`  | `true`                                        | Vous pouvez tester le comportement idéal de l'image en mode dev en mettant cette valeur à `false`. **Astuce**: utilisez la [limitation du réseau](https://www.browserstack.com/guide/how-to-perform-network-throttling-in-chrome) dans votre navigateur pour simuler des réseaux lents. |
+
+```mdx-code-block
+</APITable>
+```
+
+### Exemple de configuration {#ex-config}
+
+Voici un exemple de configuration :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-ideal-image',
+      // highlight-start
+      {
+        quality: 70,
+        max: 1030, // taille maximale de l'image redimensionnée.
+        min: 640, // taille minimale de l'image redimensionnée. si l'originale est plus petite, utiliser cette taille.
+        steps: 2, // le nombre maximum d'images générées entre min et max (inclus)
+        disableInDev: false,
+      },
+      // highlight-end
+    ],
+  ],
+};
+```

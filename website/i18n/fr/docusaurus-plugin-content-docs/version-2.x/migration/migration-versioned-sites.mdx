@@ -1,0 +1,176 @@
+---
+slug: /migration/versioned-sites
+---
+
+# Sites versionnés
+
+Lisez d'abord https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning pour connaître les problèmes de l'approche de la v1.
+
+:::note
+
+Les docs versionnés devraient normalement être migrées correctement par le [CLI de migration](./migration-automated.mdx)
+
+:::
+
+## Migrez le front matter de vos `versioned_docs` {#migrate-your-versioned_docs-front-matter}
+
+À la différence de la v1, l'entête Markdown pour chaque doc versionné n'est plus modifié en utilisant `version-${version}-${original_id}` comme valeur pour le champ ID réel. Voir le scénario ci-dessous pour une meilleure explication.
+
+Par exemple, si vous avez un `docs/hello.md`.
+
+```md
+---
+id: hello
+title: Hello, World !
+---
+
+Hi, Endilie here :)
+```
+
+Quand vous créez une nouvelle version 1.0.0, dans Docusaurus v1, `website/versioned_docs/version-1.0.0/hello.md` ressemble à ceci :
+
+```md
+---
+id: version-1.0.0-hello
+title: Hello, World !
+original_id: hello
+---
+
+Hi, Endilie here :)
+```
+
+En comparaison, le `website/versioned_docs/version-1.0.0/hello.md` de Docusaurus 2 ressemble à ceci (exactement identique à l'original)
+
+```md
+---
+id: hello
+title: Hello, World !
+---
+
+Hi, Endilie here :)
+```
+
+Puisque nous optons pour l'instantanéité et permettons aux gens de déplacer (et de modifier) les documents facilement dans une version. Le `id` du frontmatter n'est plus modifié et restera le même. En interne, il est défini comme `version-${version}/${id}`.
+
+Essentiellement, voici les changements nécessaires dans chaque fichier versioned_docs :
+
+```diff {2-3,5}
+---
+- id: version-1.0.0-hello
++ id: hello
+title: Hello, World !
+- original_id: hello
+---
+Hi, Endilie here :)
+```
+
+## Migrez vos `versioned_sidebars` {#migrate-your-versioned_sidebars}
+
+- Faire référence à l'ID de `versioned_docs` comme `version-${version}/${id}` (v2) au lieu de `version-${version}-${original_id}` (v1).
+
+Parce que dans la v1, il y a de fortes chances que quelqu'un ait créé un nouveau fichier avec l'ID du frontmatter `"version-${version}-${id}"` qui peut entrer en conflit avec l'ID de `versioned_docs`.
+
+Par exemple, Docusaurus 1 ne peut pas différencier `docs/xxx.md`
+
+```md
+---
+id: version-1.0.0-hello
+---
+
+Un autre contenu
+```
+
+avec `website/versioned_docs/version-1.0.0/hello.md`
+
+```md
+---
+id: version-1.0.0-hello
+title: Hello, World !
+original_id: hello
+---
+
+Hi, Endilie here :)
+```
+
+Puisque nous n'autorisons pas le `/` dans la v1 la v2 pour le front matter, les conflits sont moins susceptibles de se produire.
+
+Les utilisateurs de la v1 doivent donc migrer leur fichier versioned_sidebars
+
+Exemple `versioned_sidebars/version-1.0.0-sidebars.json` :
+
+```diff {2-3,5-6,9-10}  title="versioned_sidebars/version-1.0.0-sidebars.json"
+{
++ "version-1.0.0/docs": {
+- "version-1.0.0-docs": {
+    "Test": [
++    "version-1.0.0/foo/bar",
+-    "version-1.0.0-foo/bar",
+    ],
+    "Guides": [
++    "version-1.0.0/hello",
+-    "version-1.0.0-hello"
+    ]
+  }
+}
+```
+
+## Remplissez vos `versioned_sidebars` et `versioned_docs` {#populate-your-versioned_sidebars-and-versioned_docs}
+
+Dans la v2, nous utilisons l'approche instantanée pour la gestion de la version de la documentation. **Chaque documentation versionnée ne dépend pas d'une autre version**. Il est possible d'avoir `foo.md` en `version-1.0.0` mais il n'existe pas en `version-1.2.0`. Ceci n'est pas possible dans la version précédente en raison de la fonctionnalité de repli de Docusaurus v1 (https://v1.docusaurus.io/docs/en/versioning#fallback-functionality).
+
+Par exemple, si votre `versions.json` ressemble à ceci dans la v1
+
+```json title="versions.json"
+["1.1.0", "1.0.0"]
+```
+
+Docusaurus v1 crée des docs versionnés **si et seulement si le contenu du doc est différent**. La structure de votre docs pourrait ressembler à cela si le seul doc qui a changé de v1.0.0 à v1.1.0 est `hello.md`.
+
+```bash
+website
+├── versioned_docs
+│   ├── version-1.1.0
+│   │   └── hello.md
+│   └── version-1.0.0
+│       ├── foo
+│       │   └── bar.md
+│       └── hello.md
+├── versioned_sidebars
+│   └── version-1.0.0-sidebars.json
+```
+
+Dans la v2, vous devez remplir les `versioned_docs` et `versioned_sidebars` manquantes (avec la bonne référence front matter et l'ID aussi).
+
+```bash {3-5,12}
+website
+├── versioned_docs
+│   ├── version-1.1.0
+│   │   ├── foo
+│   │   │   └── bar.md
+│   │   └── hello.md
+│   └── version-1.0.0
+│       ├── foo
+│       │   └── bar.md
+│       └── hello.md
+├── versioned_sidebars
+│   ├── version-1.1.0-sidebars.json
+│   └── version-1.0.0-sidebars.json
+```
+
+## Convertissez les attributs de style en objets de style dans le MDX {#convert-style-attributes-to-style-objects-in-mdx}
+
+Docusaurus 2 utilise JSX pour les fichiers doc. Si vous avez des attributs de style dans vos docs Docusaurus 1, convertissez-les en objets de style, comme ceci :
+
+```diff
+---
+id: demo
+title: Demo
+---
+
+## Section
+
+hello world
+
+- pre style="background: black">zzz</pre>
++ pre style={{background: 'black'}}>zzz</pre>
+```

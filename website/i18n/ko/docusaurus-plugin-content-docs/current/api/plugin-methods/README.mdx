@@ -1,0 +1,144 @@
+# 플러그인 메소드 참고
+
+:::warning
+
+Lifecycle API는 아직 개발 진행중입니다. 문서 내 링크나 외부 URL도 아직 안정적이지 않을 수 있습니다.
+
+:::
+
+플러그인 API는 테마와 플러그인에서 공유됩니다. 테마는 플러그인처럼 로드됩니다.
+
+## 플러그인 모듈 {#plugin-module}
+
+모든 플러그인은 모듈 형태로 가져옵니다. 모듈에는 다음과 같은 요소가 필요합니다.
+
+- **default export**: 플러그인의 생성자 함수
+- **Named exports**: 플러그인이 초기화되기 전에 호출되는 [정적 메소드](./static-methods.mdx)
+
+## 플러그인 생성자 {#plugin-constructor}
+
+플러그인 모듈의 default export는 `(context: LoadContext, options: PluginOptions) => Plugin | Promise<Plugin>` 서명을 가진 생성자 함수입니다.
+
+### `context` {#context}
+
+`context`는 플러그인과 별개이며 같은 오브젝트를 도큐사우루스 웹 사이트 전체에서 사용합니다. `context` 오브젝트는 다음과 같은 필드를 가지고 있습니다:
+
+```ts
+type LoadContext = {
+  siteDir: string;
+  generatedFilesDir: string;
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  baseUrl: string;
+};
+```
+
+### `options` {#options}
+
+`options`은 [플러그인에서 선택적으로 사용하는 두 번째 파라미터입니다](../../using-plugins.mdx#configuring-plugins). `options`은 플러그인마다 정의되어 있으며 사용자가 필요할 때 `docusaurus.config.js` 파일 내에 설정할 수 있습니다. 내보낸 [`validateOptions`](./static-methods.mdx#validateOptions) 함수가 있는 경우 `options`가 사전에 검증되고 정규화됩니다.
+
+플러그인에 프리셋이 포함되어 있다면 프리셋이 정확한 옵션 설정을 플러그인에 전달할 수 있게 합니다. 어떤 옵션을 설정하도록 허용할지는 각 플러그인을 만들 때 결정합니다.
+
+## 예 {#example}
+
+아래 코드는 모든 기능을 사용한 플러그인 구현을 위한 멘탈 모델입니다.
+
+```js
+// 오브젝트를 반환하는 자바스크립트 함수입니다.
+// `context`는 도큐사우루스에서 제공합니다. 예: siteConfig는 context에서 접근할 수 있습니다.
+// `opts`는 사용자 지정 옵션입니다.
+export default async function myPlugin(context, opts) {
+  return {
+    // A compulsory field used as the namespace for directories to cache
+    // the intermediate data for each plugin.
+    // 여러분이 사용하는 로컬 플러그인이 다른 플러그인과 충돌하지 않도록
+    // 유일한 값이 필요할 때 사용합니다.
+    // 가장 좋은 방법은 프로젝트 이름을 앞에 붙이는 것입니다.
+    name: 'docusaurus-my-project-cool-plugin',
+
+    async loadContent() {
+      // loadContent Hook는 siteConfig와 env가 로드된 이후에 처리됩니다.
+      // contentLoaded Hook의 인자로 사용할 자바스크립트 오브젝트를 반환할 수 있습니다.
+    },
+
+    async contentLoaded({content, actions}) {
+      // contentLoaded Hook는 loadContent Hook가 처리된 이후에 동작합니다.
+      // `actions`은 도큐사우루스에서 제공하는 API입니다(예. addRoute)
+    },
+
+    async postBuild(props) {
+      // 도큐사우루스 <build> 다음 동작을 설정합니다.
+    },
+
+    // TODO
+    async postStart(props) {
+      // docusaurus <start> finish
+    },
+
+    // TODO
+    afterDevServer(app, server) {
+      // https://webpack.js.org/configuration/dev-server/#devserverbefore
+    },
+
+    // TODO
+    beforeDevServer(app, server) {
+      // https://webpack.js.org/configuration/dev-server/#devserverafter
+    },
+
+    configureWebpack(config, isServer, utils, content) {
+      // 내부 웹팩 설정을 수정합니다. 반환되는 값이 오브젝트라면
+      // webpack-merge를 사용해 마지막 설정과 합쳐집니다.
+      // 반환되는 값이 함수라면 config를 첫 번째 인자로 isServer 항목을 두 번째 인자로 전달합니다.
+    },
+
+    getPathsToWatch() {
+      // 변경을 체크할 경로를 설정합니다.
+    },
+
+    getThemePath() {
+      // 테마 컴포넌트를 찾을 수 있는 디렉터리 경로를
+      // 반환합니다.
+    },
+
+    getClientModules() {
+      // 클라이언트 번들로 가져올 모듈 배열을
+      // 반환합니다. 리액트에서 초기 UI를 렌저링 처리하기 전에
+      // 전역으로 모듈을 가져옵니다.
+    },
+
+    extendCli(cli) {
+      // 도큐사우루스 명령행 인터페이스를 확장할 수 있는 추가 명령을 등록합니다.
+    },
+
+    injectHtmlTags({content}) {
+      // HTML 태그에 head, body 태그를 삽입합니다.
+    },
+
+    async getTranslationFiles({content}) {
+      // Return translation files
+    },
+
+    translateContent({content, translationFiles}) {
+      // translate the plugin content here
+    },
+
+    translateThemeConfig({themeConfig, translationFiles}) {
+      // translate the site themeConfig here
+    },
+
+    async getDefaultCodeTranslationMessages() {
+      // return default theme translations here
+    },
+  };
+}
+
+export function validateOptions({options, validate}) {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validatedOptions;
+}
+
+export function validateThemeConfig({themeConfig, validate}) {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+}
+```

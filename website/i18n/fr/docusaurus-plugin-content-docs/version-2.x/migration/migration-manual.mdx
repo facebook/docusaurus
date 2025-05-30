@@ -1,0 +1,634 @@
+---
+slug: /migration/manual
+toc_max_heading_level: 4
+---
+
+# Migration manuelle
+
+Ce processus de migration manuelle doit être exécuté après le [processus de migration automatisée](./migration-automated.mdx), pour compléter les pièces manquantes, ou les problèmes de débogage en sortie du CLI de migration.
+
+## Configuration du projet {#project-setup}
+
+### `package.json` {#packagejson}
+
+#### Noms de paquets étendus {#scoped-package-names}
+
+Dans Docusaurus 2, nous utilisons des noms de paquets étendus :
+
+- `docusaurus` → `@docusaurus/core`
+
+Ceci fournit une distinction claire entre les paquets officiels de Docusaurus et les paquets gérés par la communauté. En d'autres termes, tous les paquets officiels de Docusaurus sont nommés sous `@docusaurus/`.
+
+Par ailleurs, les fonctionnalités du site de doc par défaut fournies par Docusaurus 1 sont désormais assurées par `@docusaurus/preset-classic`. Par conséquent, nous devons également ajouter cette dépendance :
+
+```diff title="package.json"
+{
+  dependencies: {
+-   "docusaurus": "^1.x.x",
++   "@docusaurus/core": "^2.0.0-beta.0",
++   "@docusaurus/preset-classic": "^2.0.0-beta.0",
+  }
+}
+```
+
+:::tip
+
+Veuillez utiliser la version la plus récente de Docusaurus 2, que vous pouvez consulter [ici](https://www.npmjs.com/package/@docusaurus/core) (en utilisant la balise `latest`).
+
+:::
+
+#### Commandes du CLI {#cli-commands}
+
+Par ailleurs, les commandes CLI sont renommées en `docusaurus <command>` (au lieu de `docusaurus-command`).
+
+La section `"scripts"` de votre `package.json` doit être mise à jour comme suit :
+
+```json {3-6} title="package.json"
+{
+  "scripts": {
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy"
+    // ...
+  }
+}
+```
+
+Un `package.json` typique de Docusaurus 2 peut ressembler à ceci :
+
+```json title="package.json"
+{
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "serve": "docusaurus serve",
+    "clear": "docusaurus clear"
+  },
+  "dependencies": {
+    "@docusaurus/core": "^2.0.0-beta.0",
+    "@docusaurus/preset-classic": "^2.0.0-beta.0",
+    "clsx": "^1.1.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "browserslist": {
+    "production": [">0.5%", "not dead", "not op_mini all"],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
+```
+
+### Mettez à jour les références vers le répertoire `build` {#update-references-to-the-build-directory}
+
+Dans Docusaurus 1, tous les artefacts de construction se trouvent dans `website/build/<PROJECT_NAME>`.
+
+Dans Docusaurus 2, il est désormais transféré dans `website/build`. Assurez-vous de mettre à jour votre configuration de déploiement pour lire les fichiers générés à partir du répertoire `build`.
+
+Si vous déployez sur des pages GitHub, assurez-vous d'exécuter `yarn deploy` au lieu du script `yarn publish-gh-pages`.
+
+### `.gitignore` {#gitignore}
+
+Le `.gitignore` de votre website devrait contenir :
+
+```bash title=".gitignore"
+# dependencies
+/node_modules
+
+# production
+/build
+
+# generated files
+.docusaurus
+.cache-loader
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+```
+
+### `README` {#readme}
+
+Le site web D1 peut avoir un fichier README existant. Vous pouvez le modifier pour refléter les modifications D2, ou copier le [Docusaurus v2 README](https://github.com/facebook/docusaurus/blob/main/packages/create-docusaurus/templates/shared/README.md) par défaut.
+
+## Configurations du site {#site-configurations}
+
+### `docusaurus.config.js` {#docusaurusconfigjs}
+
+Renommez `siteConfig.js` en `docusaurus.config.js`.
+
+Dans Docusaurus 2, nous découpons chaque fonctionnalité (blog, docs, pages) en plugins pour la modularité. Les presets sont des bundles de plugins et pour une compatibilité ascendante nous avons construit un `@docusaurus/preset-classic`, preset qui regroupe la plupart des plugins essentiels présents dans Docusaurus 1.
+
+Ajoutez la section preset suivante à votre `docusaurus.config.js`.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // Chemin du dossier Docs relatif au répertoire du site web.
+          path: '../docs',
+          // Fichier des barres latérales relatif au répertoire du site web.
+          sidebarPath: require.resolve('./sidebars.json'),
+        },
+        // ...
+      },
+    ],
+  ],
+};
+```
+
+Nous recommandons de déplacer le dossier `docs` dans le dossier `website` et c'est aussi la structure de répertoire par défaut dans la v2. [Vercel](https://vercel.com) prend en charge [les déploiements de projets Docusaurus prêts à l'emploi](https://github.com/vercel/vercel/tree/main/examples/docusaurus) si le répertoire `docs` se trouve à l'intérieur du `website`. Il est également généralement préférable que la documentation soit dans le site web afin que la documentation et le reste du code du site soient colocalisés dans un répertoire `website`.
+
+Si vous migrez votre site web Docusaurus v1 et qu'il y a des pull requests de documentation en attente, vous pouvez temporairement garder le dossier `/docs` à sa place d'origine, pour éviter de produire des conflits.
+
+Reportez-vous au guide de migration ci-dessous pour chaque champ dans `siteConfig.js`.
+
+### Champs mis à jour {#updated-fields}
+
+#### `baseUrl`, `tagline`, `title`, `url`, `favicon`, `organizationName`, `projectName`, `githubHost`, `scripts`, `stylesheets` {#baseurl-tagline-title-url-favicon-organizationname-projectname-githubhost-scripts-stylesheets}
+
+Aucune action requise, ces champs de configuration n'ont pas été modifiés.
+
+#### `colors` {#colors}
+
+Déprécié. Nous avons écrit un framework CSS personnalisé pour Docusaurus 2 appelé [Infima](https://infima.dev/) qui utilise des variables CSS pour le thème. Les docs ne sont pas encore tout à fait prêtes et nous les mettrons à jour ici quand elles le seront. Pour écraser les variables CSS d'Infima, créez votre propre fichier CSS (par exemple `./src/css/custom.css`) et importez-le globalement en le passant en option à `@docusaurus/preset-classic` :
+
+```js {7-9} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        theme: {
+          customCss: [require.resolve('./src/css/custom.css')],
+        },
+      },
+    ],
+  ],
+};
+```
+
+Infima utilise 7 nuances de chaque couleur.
+
+```css title="/src/css/custom.css"
+/**
+ * Vous pouvez surcharger les variables par défaut d'Infima ici.
+ * Remarque : il ne s'agit pas d'une liste exhaustive des variables --ifm-.
+ */
+:root {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: rgb(33, 175, 144);
+  --ifm-color-primary-darker: rgb(31, 165, 136);
+  --ifm-color-primary-darkest: rgb(26, 136, 112);
+  --ifm-color-primary-light: rgb(70, 203, 174);
+  --ifm-color-primary-lighter: rgb(102, 212, 189);
+  --ifm-color-primary-lightest: rgb(146, 224, 208);
+}
+```
+
+Nous vous recommandons d'utiliser [ColorBox](https://www.colorbox.io/) pour trouver les différentes nuances de couleurs pour la couleur principale que vous avez choisie.
+
+Sinon, utilisez l'outil suivant pour générer les différentes nuances pour votre site web et copiez les variables dans `src/css/custom.css`.
+
+import ColorGenerator from '@site/src/components/ColorGenerator';
+
+<ColorGenerator />
+
+#### `footerIcon`, `copyright`, `ogImage`, `twitterImage`, `docsSideNavCollapsible` {#footericon-copyright-ogimage-twitterimage-docssidenavcollapsible}
+
+Les métadonnées du site telles que les ressources, le référencement, les informations sur les droits d'auteur sont maintenant gérées par thèmes. Pour les personnaliser, utilisez le champ `themeConfig` dans votre `docusaurus.config.js` :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    footer: {
+      logo: {
+        alt: 'Meta Open Source Logo',
+        src: '/img/meta_oss_logo.png',
+        href: 'https://opensource.facebook.com/',
+      },
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // Vous pouvez également y insérer votre propre code HTML.
+    },
+    image: 'img/docusaurus.png',
+    // ...
+  },
+};
+```
+
+#### `headerIcon`, `headerLinks` {#headericon-headerlinks}
+
+Dans Docusaurus 1, l'icône d'entête et les liens d'entête étaient des champs racine dans `siteConfig` :
+
+```js title="siteConfig.js"
+headerIcon: 'img/docusaurus.svg',
+headerLinks: [
+  { doc: "doc1", label: "Pour commencer" },
+  { page: "help", label: "Aide" },
+  { href: "https://github.com/", label: "GitHub" },
+  { blog: true, label: "Blog" },
+],
+```
+
+Maintenant, ces deux champs sont tous deux traités par le thème :
+
+```js {6-19} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    navbar: {
+      title: 'Docusaurus',
+      logo: {
+        alt: 'Docusaurus Logo',
+        src: 'img/docusaurus.svg',
+      },
+      items: [
+        {to: 'docs/doc1', label: 'Getting Started', position: 'left'},
+        {to: 'help', label: 'Help', position: 'left'},
+        {
+          href: 'https://github.com/',
+          label: 'GitHub',
+          position: 'right',
+        },
+        {to: 'blog', label: 'Blog', position: 'left'},
+      ],
+    },
+    // ...
+  },
+};
+```
+
+#### `algolia` {#algolia}
+
+```js {4-8} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    algolia: {
+      apiKey: '47ecd3b21be71c5822571b9f59e52544',
+      indexName: 'docusaurus-2',
+      algoliaOptions: { //... },
+    },
+    // ...
+  },
+};
+```
+
+:::warning
+
+Votre configuration Algolia DocSearch v1 (trouvée [ici](https://github.com/algolia/docsearch-configs/blob/master/configs)) doit être mise à jour pour Docusaurus v2 ([exemple](https://github.com/algolia/docsearch-configs/tree/master/configs/docusaurus-2.json)).
+
+Vous pouvez contacter l'équipe DocSearch (@shortcuts, @s-pace) pour obtenir de l'aide. Ils peuvent le mettre à jour pour vous et déclencher une réindexation de votre site pour rétablir la recherche (sinon, vous devrez attendre jusqu'à 24 heures pour la prochaine réindexation programmée)
+
+:::
+
+#### `blogSidebarCount` {#blogsidebarcount}
+
+Déprécié. Transmettez-le à la place comme option du blog à `@docusaurus/preset-classic` :
+
+```js {8} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          postsPerPage: 10,
+        },
+        // ...
+      },
+    ],
+  ],
+};
+```
+
+#### `cname` {#cname}
+
+Déprécié. Créez un fichier `CNAME` dans votre dossier `static` à la place avec votre domaine personnalisé. Les fichiers dans le dossier `static` seront copiés à la racine du dossier `build` lors de l'exécution de la commande build.
+
+#### `customDocsPath`, `docsUrl`, `editUrl`, `enableUpdateBy`, `enableUpdateTime` {#customdocspath-docsurl-editurl-enableupdateby-enableupdatetime}
+
+**RUPTURE** : `editUrl` devrait pointer vers le projet (website) Docusaurus au lieu du répertoire `docs`.
+
+Déprécié. Transmettez-le à la place comme une option à `@docusaurus/preset-classic` :
+
+```js {8-20} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // Équivalent à `customDocsPath`.
+          path: 'docs',
+          // Equivalent à `editUrl` mais doit pointer vers le répertoire `website` au lieu de `website/docs`.
+          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
+          // Équivalent à `docsUrl`.
+          routeBasePath: 'docs',
+          // Les plugins Remark et Rehype sont passés au MDX. Remplace `markdownOptions` et `markdownPlugins`.
+          remarkPlugins: [],
+          rehypePlugins: [],
+          // Équivalent à `enableUpdateBy`.
+          showLastUpdateAuthor: true,
+          // Équivalent à `enableUpdateTime`.
+          showLastUpdateTime: true,
+        },
+        // ...
+      },
+    ],
+  ],
+};
+```
+
+#### `gaTrackingId` {#gatrackingid}
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // ...
+        // highlight-start
+        googleAnalytics: {
+          trackingID: 'UA-141789564-1',
+        },
+        // highlight-end
+      },
+    ],
+  ],
+};
+```
+
+#### `gaGtag` {#gagtag}
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // ...
+        // highlight-start
+        gtag: {
+          trackingID: 'UA-141789564-1',
+        },
+        // highlight-end
+      },
+    ],
+  ],
+};
+```
+
+### Champs supprimés {#removed-fields}
+
+Les champs suivants sont tous obsolètes, vous pouvez les supprimer de votre fichier de configuration.
+
+- `blogSidebarTitle`
+- `cleanUrl` - L'URL propre est maintenant utilisée par défaut.
+- `defaultVersionShown` - La gestion de version n'est pas encore portée. Vous ne serez pas en mesure de migrer vers Docusaurus 2 si vous utilisez les versions. Restez à l'écoute.
+- `disableHeaderTitle`
+- `disableTitleTagline`
+- `docsSideNavCollapsible` est disponible avec `docsPluginOptions.sidebarCollapsible`, et cela est activé par défaut maintenant.
+- `facebookAppId`
+- `facebookComments`
+- `facebookPixelId`
+- `fonts`
+- `highlight` - Nous utilisons maintenant [Prism](https://prismjs.com/) au lieu de [highlight.js](https://highlightjs.org/).
+- `markdownOptions` - Nous utilisons MDX dans la v2 au lieu de Remarkable. Vos options de Markdown doivent être converties en plugins Remark/Rehype.
+- `markdownPlugins` - Nous utilisons MDX dans la v2 au lieu de Remarkable. Vos plugins Markdown doivent être convertis en plugins Remark/Rehype.
+- `manifest`
+- `onPageNav` - Ceci est activé par défaut maintenant.
+- `separateCss` - Il peut être importer de la même manière que custom.css mentionnée ci-dessus.
+- `scrollToTop`
+- `scrollToTopOptions`
+- `translationRecruitingLink`
+- `twitter`
+- `twitterUsername`
+- `useEnglishUrl`
+- `users`
+- `usePrism` - Nous utilisons maintenant [Prism](https://prismjs.com/) au lieu de [highlight.js](https://highlightjs.org/)
+- `wrapPagesHTML`
+
+Nous avons l'intention d'implémenter de nombreux champs de configuration obsolètes en tant que plugins à l'avenir. Toute aide sera appréciée !
+
+## URL {#urls}
+
+Dans la v1, toutes les pages étaient disponibles avec ou sans l'extension `.html`.
+
+Par exemple, ces 2 pages existent :
+
+- [`https://v1.docusaurus.io/docs/en/installation`](https://v1.docusaurus.io/docs/en/installation)
+- [`https://v1.docusaurus.io/docs/en/installation.html`](https://v1.docusaurus.io/docs/en/installation.html)
+
+Si [`cleanUrl`](https://v1.docusaurus.io/docs/fr/site-config#cleanurl-boolean) était :
+
+- `true` : les liens ciblaient `/installation`
+- `false` : les liens ciblaient `/installation.html`
+
+Dans la v2, par défaut, la page canonique est `/installation`, et non `/installation.html`.
+
+Si vous aviez `cleanUrl: false` dans la v1, il est possible que les gens aient publié des liens vers `/installation.html`.
+
+Pour des raisons de référencement et en évitant de rompre les liens, vous devez configurer les règles de redirection côté serveur sur votre hébergeur.
+
+En tant que hatch d'échappement, vous pouvez utiliser [@docusaurus/plugin-client-redirects](../api/plugins/plugin-client-redirects.mdx) pour créer des redirections côté client de `/installation.html` vers `/installation`.
+
+```js
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        fromExtensions: ['html'],
+      },
+    ],
+  ],
+};
+```
+
+Si vous voulez garder l'extension `.html` comme l'URL canonique d'une page, docs peut déclarer un `slug: installation.html` dans le front matter.
+
+## Composants {#components}
+
+### Barre latérale {#sidebar}
+
+Dans la version précédente, les catégories imbriquées dans la barre latérale ne sont pas autorisées et la catégorie de la barre latérale ne peut contenir que l'ID du doc. Cependant, la v2 permet une barre latérale imbriquée infinie et nous avons de nombreux types d'[élément de barre latérale](../guides/docs/sidebar/items.mdx) autre que le document.
+
+Vous devrez migrer votre barre latérale si elle contient le type de catégorie. Renommer `subcategory` en `category` et `ids` en `items`.
+
+```diff title="sidebars.json"
+{
+- type: 'subcategory',
++ type: 'category',
+  label: 'My Example Subcategory',
++ items: ['doc1'],
+- ids: ['doc1']
+},
+```
+
+### Footer {#footer}
+
+`website/core/Footer.js` n'est plus nécessaire. Si vous voulez modifier le pied de page par défaut fourni par Docusaurus, [swizzler](../swizzling.mdx) le :
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer
+```
+
+Cela copiera le composant `<Footer />` actuel utilisé par le thème dans un répertoire `src/theme/Footer` sous la racine de votre site, vous pouvez ensuite modifier ce composant pour la personnalisation.
+
+Ne swizzlez pas le pied de page juste pour ajouter le logo sur la gauche. Le logo est délibérément enlevé en v2 et déplacé vers le bas. Il suffit de configurer le pied de page dans `docusaurus.config.js` avec `themeConfig.footer` :
+
+```js
+module.exports = {
+  themeConfig: {
+    footer: {
+      logo: {
+        alt: 'Meta Open Source Logo',
+        src: '/img/meta_oss_logo.png',
+        href: 'https://opensource.facebook.com',
+      },
+    },
+  },
+};
+```
+
+### Pages {#pages}
+
+Veuillez vous référer à la |création de pages](guides/creating-pages.mdx) pour apprendre comment fonctionnent les pages Docusaurus 2. Après avoir lu cela, notez que vous devez déplacer les fichiers `pages/en` de la v1 vers `src/pages` à la place.
+
+Dans Docusaurus v1, les pages ont reçu l'objet `siteConfig` comme props.
+
+Dans Docusaurus v2, récupérer l'objet `siteConfig` depuis `useDocusaurusContext` à la place.
+
+En v2, vous devez appliquer la mise en page du thème autour de chaque page. Le composant de mise en page prend des props de métadonnées.
+
+`CompLibrary` est obsolète dans la v2, donc vous devez écrire votre propre composant React ou utiliser les styles Infima (Les docs seront bientôt disponibles, désolé ! Pendant ce temps, inspectez le site Web V2 ou consultez https://infima.dev/ pour voir quels styles sont disponibles).
+
+Vous pouvez migrer CommonJS vers les imports/exportations ES6.
+
+Voici une page typique de Docusaurus v2 :
+
+```jsx
+import React from 'react';
+import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Layout from '@theme/Layout';
+
+const MyPage = () => {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <Layout title={siteConfig.title} description={siteConfig.tagline}>
+      <div className="hero text--center">
+        <div className="container ">
+          <div className="padding-vert--md">
+            <h1 className="hero__title">{siteConfig.title}</h1>
+            <p className="hero__subtitle">{siteConfig.tagline}</p>
+          </div>
+          <div>
+            <Link
+              to="/docs/get-started"
+              className="button button--lg button--outline button--primary">
+              Get started
+            </Link>
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
+};
+
+export default MyPage;
+```
+
+Le code suivant pourrait être utile pour la migration de différentes pages :
+
+- Page d'index - [Flux](https://github.com/facebook/flux/blob/master/website/src/pages/index.js/) (recommandé), [Docusaurus 2](https://github.com/facebook/docusaurus/blob/main/website/src/pages/index.js/), [Hermes](https://github.com/facebook/hermes/blob/main/website/src/pages/index.js/)
+- Page d'aide/support - [Docusaurus 2](https://github.com/facebook/docusaurus/blob/main/website/src/pages/help.js/), [Flux](http://facebook.github.io/flux/support)
+
+## Contenu {#content}
+
+### Remplacez AUTOGENERATED_TABLE_OF_CONTENTS {#replace-autogenerated_table_of_contents}
+
+Cette fonctionnalité est remplacée par la [table des matières en ligne](../guides/markdown-features/markdown-features-toc.mdx#inline-table-of-contents)
+
+### Mettez à jour la syntaxe Markdown pour être compatible avec MDX {#update-markdown-syntax-to-be-mdx-compatible}
+
+Dans Docusaurus 2, la syntaxe Markdown a été changée en [MDX](https://mdxjs.com/). Il se peut donc que les documents existants contiennent des erreurs de syntaxe que vous devrez mettre à jour. Un exemple courant est celui des balises auto-fermantes comme `<img>` et `<br>` qui sont valides en HTML, mais doivent maintenant être explicitement fermées (`<img/>` et `<br/>`). Toutes les balises des documents MDX doivent être des JSX valides.
+
+La partie haute (front matter) est analysée par [gray-matter](https://github.com/jonschlinkert/gray-matter). Si votre front matter utilise des caractères spéciaux comme `:`, vous devez maintenant le mettre entre quote : `title: Partie 1: mon titre de la partie1` → `title: "Partie 1: mon titre de la partie1"`.
+
+**Astuces** : Vous pouvez utiliser des outils en ligne comme [HTML vers JSX](https://transform.tools/html-to-jsx) pour faciliter la migration.
+
+### Onglets de code spécifiques au langage {#language-specific-code-tabs}
+
+Reportez-vous à la section [blocs de code multi-langage](../guides/markdown-features/markdown-features-code-blocks.mdx#multi-language-support-code-blocks).
+
+### Front matter {#front-matter}
+
+Les champs du frontmatter de Docusaurus pour le blog ont été changés de camelCase à snake_case pour être cohérents avec la documentation.
+
+Les champs `authorFBID` et `authorTwitter` ont été dépréciés. Ils ne sont utilisés que pour générer l'image de profil de l'auteur qui peut être faite via le champ `authors`.
+
+## Déploiement {#deployment}
+
+Le fichier `CNAME` utilisé par GitHub Pages n'est plus généré, donc assurez-vous de l'avoir créé dans `/static/CNAME` si vous utilisez un domaine personnalisé.
+
+Le flux RSS du blog est maintenant hébergé dans `/blog/rss.xml` au lieu de `/blog/feed.xml`. Vous pouvez configurer les redirections côté serveur pour que les abonnements des utilisateurs continuent à fonctionner.
+
+## Testez votre site {#test-your-site}
+
+Après la migration, la structure de votre dossier devrait ressembler à ceci :
+
+```bash
+my-project
+├── docs
+└── website
+    ├── blog
+    ├── src
+    │   ├── css
+    │   │   └── custom.css
+    │   └── pages
+    │       └── index.js
+    ├── package.json
+    ├── sidebars.json
+    ├── .gitignore
+    ├── docusaurus.config.js
+    └── static
+```
+
+Démarrez le serveur de développement et corrigez les erreurs :
+
+```bash npm2yarn
+cd website
+npm start
+```
+
+Vous pouvez également essayer de construire le site pour la production :
+
+```bash npm2yarn
+npm run build
+```

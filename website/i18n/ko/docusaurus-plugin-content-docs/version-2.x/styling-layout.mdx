@@ -1,0 +1,267 @@
+---
+description: 도큐사우루스 사이트는 사전에 렌더링 처리된 단일 페이지 리액트 애플리케이션입니다. 여러분은 리액트 앱에 스타일을 적용하는 것처럼 도큐사우루스 사이트의 스타일을 지정할 수 있습니다.
+---
+
+import ColorGenerator from '@site/src/components/ColorGenerator';
+
+# 스타일과 레이아웃
+
+:::tip
+
+스타일시트를 사용한 스타일 지정 방법을 설명합니다. For more advanced customizations (DOM structure, React code...), refer to the [swizzling guide](./swizzling.mdx).
+
+:::
+
+도큐사우루스 사이트는 단일 페이지 리액트 애플리케이션입니다. 여러분은 리액트 앱에 스타일을 적용하는 것처럼 도큐사우루스 사이트의 스타일을 지정할 수 있습니다.
+
+기본 설정과 만들고자 하는 웹 사이트 유형에 따라 몇 가지 접근 방식과 프레임워크가 있습니다. 사용자와 상호 작용이 필요하고 웹 앱처럼 동작하는 웹 사이트는 스타일 설정을 컴포넌트와 함께 배치하는 현대적인 스타일 접근 방식을 활용할 수 있습니다. 컴포넌트에 스타일을 적용하는 방식은 컴포넌트를 수정하거나 다른 컴포넌트로 대체하는 경우 특히 유용합니다.
+
+## Global styles {#global-styles}
+
+이 방식은 대부분의 개발자(프론트엔드 개발자가 아니더라도)에게 가장 익숙한 전통적인 스타일 적용 방식입니다. 사용자 정의가 많지 않은 소규모 웹사이트에서는 잘 작동합니다.
+
+If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing them as an option of the classic theme.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // highlight-start
+        theme: {
+          customCss: [require.resolve('./src/css/custom.css')],
+        },
+        // highlight-end
+      },
+    ],
+  ],
+};
+```
+
+작성한 CSS는 사이트 전체에 반영되며 문자열 리터럴을 사용해 직접 참조할 수 있습니다.
+
+```css title="/src/css/custom.css"
+.purple-text {
+  color: rebeccapurple;
+}
+```
+
+```jsx
+function MyComponent() {
+  return (
+    <main>
+      <h1 className="purple-text">Purple Heading!</h1>
+    </main>
+  );
+}
+```
+
+요소에 CSS를 추가하려면 브라우저에서 개발도구를 열어 해당 클래스 이름을 확인할 수 있습니다. 클래스 이름에는 여러 종류가 있습니다.
+
+- **Theme class names**. These class names are listed exhaustively in [the next subsection](#theme-class-names). 기본 속성은 가지고 있지는 않습니다. 사용자 정의 CSS에서 안정된 클래스 이름을 대상으로 항상 우선 순위를 지정해야 합니다.
+- **Infima class names**. These class names are found in the classic theme and usually follow the [BEM convention](http://getbem.com/naming/) of `block__element--modifier`. 대부분의 경우 안정적이지만 여전히 구현 세부 사항으로 간주되므로 별도로 대상을 지정하지 않아야 합니다. However, you can [modify Infima CSS variables](#styling-your-site-with-infima).
+- **CSS module class names**. These class names have a hash in production (`codeBlockContainer_RIuc`) and are appended with a long file path in development. 구현 세부 사항으로 간주되며 거의 대부분 사용자 정의 CSS에서 대상을 지정하지 않아야 합니다. If you must, you can use an [attribute selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) (`[class*='codeBlockContainer']`) that ignores the hash.
+
+### Theme Class Names {#theme-class-names}
+
+강력하고 유지관리할 수 있는 전역 레이아웃 스타일을 위해 몇 가지 안정적인 CSS 클래스 이름을 제공합니다. 각 이름은 테마에 종속되지 않으며 사용자 정의 CSS 대상이 됩니다.
+
+:::tip
+
+If you can't find a way to create a robust CSS selector, please [report your customization use-case](https://github.com/facebook/docusaurus/discussions/5468) and we will consider adding new class names.
+
+:::
+
+<details>
+
+<summary>Exhaustive list of stable class names</summary>
+
+```mdx-code-block
+import ThemeClassNamesCode from '!!raw-loader!@site/../packages/docusaurus-theme-common/src/utils/ThemeClassNames.ts';
+import CodeBlock from '@theme/CodeBlock';
+
+<CodeBlock className="language-ts">
+  {ThemeClassNamesCode
+    // remove source comments
+    .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'')
+    .replace(/^ *\n/gm,'')
+    .trim()}
+</CodeBlock>
+```
+
+</details>
+
+### Styling your site with Infima {#styling-your-site-with-infima}
+
+`@docusaurus/preset-classic` uses [Infima](https://infima.dev/) as the underlying styling framework. 인피마는 콘텐츠 중심 웹 사이트(블로그, 문서, 랜딩 페이지)에 적합한 유연한 레이아웃과 공통 UI 구성 요소에 대한 스타일을 지원합니다. For more details, check out the [Infima website](https://infima.dev/).
+
+When you scaffold your Docusaurus project with `create-docusaurus`, the website will be generated with basic Infima stylesheets and default styling. 인피마 CSS 변수를 전역으로 재정의할 수 있습니다.
+
+```css title="/src/css/custom.css"
+:root {
+  --ifm-color-primary: #25c2a0;
+  --ifm-code-font-size: 95%;
+}
+```
+
+인피마에서는 각 색상에 7가지 음영 단계를 적용합니다. We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color.
+
+Alternatively, use the following tool to generate the different shades for your website and copy the variables into `/src/css/custom.css`.
+
+<ColorGenerator />
+
+### Dark Mode {#dark-mode}
+
+In light mode, the `<html>` element has a `data-theme="light"` attribute; in dark mode, it's `data-theme="dark"`. Therefore, you can scope your CSS to dark-mode-only by targeting `html` with a specific attribute.
+
+```css
+/* 전역 인피마 변수를 덮어씀 */
+[data-theme='dark'] {
+  --ifm-color-primary: #4e89e8;
+}
+/* 하나의 클래스만 어두운 모드로 설정 */
+[data-theme='dark'] .purple-text {
+  color: plum;
+}
+```
+
+:::tip
+
+It is possible to initialize the Docusaurus theme directly from a `docusaurus-theme` query string parameter.
+
+예시:
+
+- [`https://docusaurus.io/?docusaurus-theme=dark`](https://docusaurus.io/?docusaurus-theme=dark)
+- [`https://docusaurus.io/docs/configuration?docusaurus-theme=light`](https://docusaurus.io/docs/configuration?docusaurus-theme=light)
+
+:::
+
+### Mobile View {#mobile-view}
+
+Docusaurus uses `996px` as the cutoff between mobile screen width and desktop. 모바일 보기에서 레이아웃을 다르게 하려면 미디어 쿼리를 사용할 수 있습니다.
+
+```css
+.banner {
+  padding: 4rem;
+}
+/** 모바일 보기에서 padding 변경 */
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+```
+
+## CSS modules {#css-modules}
+
+To style your components using [CSS Modules](https://github.com/css-modules/css-modules), name your stylesheet files with the `.module.css` suffix (e.g. `welcome.module.css`). 웹팩에서는 해당 확장자로 설정한 CSS 파일을 로드하고 여러분은 가져온 CSS 모듈의 속성으로 클래스 이름(일반 문자열을 사용하지 않고)을 참조해야 합니다. This is similar to the convention used in [Create React App](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet).
+
+```css title="styles.module.css"
+.main {
+  padding: 12px;
+}
+
+.heading {
+  font-weight: bold;
+}
+
+.contents {
+  color: #ccc;
+}
+```
+
+```jsx
+import styles from './styles.module.css';
+
+function MyComponent() {
+  return (
+    <main className={styles.main}>
+      <h1 className={styles.heading}>Hello!</h1>
+      <article className={styles.contents}>Lorem Ipsum</article>
+    </main>
+  );
+}
+```
+
+클래스 이름은 웹팩에서 빌드 시 전역에서 유일한 클래스 이름으로 처리됩니다.
+
+## CSS-in-JS {#css-in-js}
+
+:::warning
+
+CSS-in-JS 지원은 진행중인 작업이므로 MUI와 같은 라이브러리에서 표시 문제가 있을 수 있습니다. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640).
+
+:::
+
+## Sass/SCSS {#sassscss}
+
+To use Sass/SCSS as your CSS preprocessor, install the unofficial Docusaurus 2 plugin [`docusaurus-plugin-sass`](https://github.com/rlamana/docusaurus-plugin-sass). 해당 플러그인은 전역 스타일이나 CSS 모듈 접근 모두 잘 동작합니다.
+
+1. Install [`docusaurus-plugin-sass`](https://github.com/rlamana/docusaurus-plugin-sass):
+
+```bash npm2yarn
+npm install --save docusaurus-plugin-sass sass
+```
+
+2. Include the plugin in your `docusaurus.config.js` file:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  // highlight-next-line
+  plugins: ['docusaurus-plugin-sass'],
+  // ...
+};
+```
+
+3. Sass/SCSS에서 스타일시트를 작성하고 가져옵니다.
+
+### Global styles using Sass/SCSS {#global-styles-using-sassscss}
+
+You can now set the `customCss` property of `@docusaurus/preset-classic` to point to your Sass/SCSS file:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // ...
+        theme: {
+          // highlight-next-line
+          customCss: [require.resolve('./src/css/custom.scss')],
+        },
+        // ...
+      },
+    ],
+  ],
+};
+```
+
+### Modules using Sass/SCSS {#modules-using-sassscss}
+
+Name your stylesheet files with the `.module.scss` suffix (e.g. `welcome.module.scss`) instead of `.css`. Webpack will use `sass-loader` to preprocess your stylesheets and load them as CSS modules.
+
+```scss title="styles.module.scss"
+.main {
+  padding: 12px;
+
+  article {
+    color: #ccc;
+  }
+}
+```
+
+```jsx
+import styles from './styles.module.scss';
+
+function MyComponent() {
+  return (
+    <main className={styles.main}>
+      <article>Lorem Ipsum</article>
+    </main>
+  );
+}
+```

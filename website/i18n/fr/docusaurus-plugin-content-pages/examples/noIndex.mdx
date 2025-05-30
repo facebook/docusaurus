@@ -1,0 +1,25 @@
+# Exemple de page sans index
+
+<head>
+  <meta name="robots" content="nOiNdeX, NoFolLoW" />
+</head>
+
+Cette page ne sera pas indexée par les moteurs de recherche car elle contient les [métadonnées de page](/docs/seo#single-page-metadata) suivant :
+
+```html
+<head>
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+```
+
+:::tip
+
+Le plugin sitemap filtre les pages contenant une valeur de contenu `noindex`. Cette page n'apparaît pas dans le fichier Docusaurus [sitemap.xml](pathname:///sitemap.xml).
+
+:::
+
+:::note
+
+Les directives des robots sont [insensibles à la casse](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag#directives).
+
+:::

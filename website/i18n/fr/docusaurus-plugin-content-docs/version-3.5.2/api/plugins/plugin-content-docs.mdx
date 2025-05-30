@@ -1,0 +1,376 @@
+---
+sidebar_position: 1
+slug: /api/plugins/@docusaurus/plugin-content-docs
+---
+
+# 📦 plugin-content-docs
+
+import APITable from '@site/src/components/APITable';
+
+Fournit la fonctionnalité [Docs](../../guides/docs/docs-introduction.mdx) et c'est le plugin docs par défaut pour Docusaurus.
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-content-docs
+```
+
+:::tip
+
+Si vous utilisez le preset `@docusaurus/preset-classic`, vous n'avez pas besoin d'installer ce plugin en tant que dépendance.
+
+Vous pouvez configurer ce plugin via les [options du preset](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom                                  | Type                                                       | Par défaut                               | Description                                                                                                                                                                                                                                                                                                                           |
+| ------------------------------------ | ---------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `path`                               | `string`                                                   | `'docs'`                                 | Chemin vers le répertoire de contenu des docs sur le système de fichiers, relatif au répertoire du site.                                                                                                                                                                                                                              |
+| `editUrl`                            | <code>string \| [EditUrlFunction](#EditUrlFunction)</code> | `undefined`                              | URL de base pour modifier votre site. L'URL finale est calculée par `editUrl + relativeDocPath`. L'utilisation d'une fonction permet un contrôle plus nuancé pour chaque fichier. Omettre cette variable désactivera entièrement les liens de modification.                                                                           |
+| `editLocalizedFiles`                 | `boolean`                                                  | `false`                                  | L'URL de modification ciblera le fichier localisé, au lieu du fichier original non localisé. Ignoré lorsque `editUrl` est une fonction.                                                                                                                                                                                               |
+| `editCurrentVersion`                 | `boolean`                                                  | `false`                                  | L'URL de modification ciblera toujours la version actuelle au lieu d'anciennes versions. Ignoré lorsque `editUrl` est une fonction.                                                                                                                                                                                                   |
+| `routeBasePath`                      | `string`                                                   | `'docs'`                                 | Route URL pour la section des docs de votre site. **NE PAS** inclure un slash de fin. Utilisez `/` pour livrer des docs sans chemin de base.                                                                                                                                                                                          |
+| `tagsBasePath`                       | `string`                                                   | `'tags'`                                 | Route URL pour la page de la liste des tags de votre site. Il est préfixé par `routeBasePath`.                                                                                                                                                                                                                                        |
+| `include`                            | `string[]`                                                 | `['**/*.{md,mdx}']`                      | Tableau de patterns de glob correspondant aux fichiers Markdown à construire, relatif au chemin de contenu.                                                                                                                                                                                                                           |
+| `exclude`                            | `string[]`                                                 | _Voir l'exemple de configuration_        | Tableau de patterns de glob correspondant aux fichiers Markdown à exclure. Sert d'affinement basé sur l'option `include`.                                                                                                                                                                                                             |
+| `sidebarPath`                        | <code>false \| string</code>                               | `undefined`                              | Chemin vers la configuration de la barre latérale. Utilisez `false` pour désactiver les barres latérales, ou `undefined` pour créer une barre latérale entièrement générée automatiquement.                                                                                                                                           |
+| `sidebarCollapsible`                 | `boolean`                                                  | `true`                                   | Si les catégories de la barre latérale sont repliables par défaut. Consultez aussi [Catégories repliables](/docs/items/sidebar#collapsible-categories)                                                                                                                                                                                |
+| `sidebarCollapsed`                   | `boolean`                                                  | `true`                                   | Si les catégories de la barre latérale sont réduites par défaut. Consultez aussi [Catégories développées par défaut](/docs/sidebar/items#expanded-categories-by-default)                                                                                                                                                              |
+| `sidebarItemsGenerator`              | <code>[SidebarGenerator](#SidebarGenerator)</code>         | _Omis_                                   | Fonction utilisée pour remplacer les éléments de type `'autogenerated'` avec de vrais éléments de la barre latérale (docs, catégories, liens. .). Consultez aussi [Personnalisation du générateur d'éléments de la barre latérale](/docs/sidebar/autogenerated#customize-the-sidebar-items-generator)                                 |
+| `numberPrefixParser`                 | <code>boolean \| [PrefixParser](#PrefixParser)</code>      | _Omis_                                   | Logique d'analyse personnalisée pour extraire les préfixes numériques des noms de fichiers. Utilisez `false` pour désactiver ce comportement et laisser la documentation intacte et `true` pour utiliser l'analyseur par défaut. Consultez aussi [Utilisez les préfixes de nombre](/docs/sidebar/autogenerated#using-number-prefixes) |
+| `docsRootComponent`                  | `string`                                                   | `'@theme/DocsRoot'`                      | Composant parent de toutes les pages du plugin docs (incluant les versions). Il reste monté lors de la navigation entre les pages de la documentation et les versions.                                                                                                                                                                |
+| `docVersionRootComponent`            | `string`                                                   | `'@theme/DocVersionLayout'`              | Composant parent de toutes les pages de docs d'une version individuelle (pages de docs avec barres latérales, pages de tags). Il reste monté lors de la navigation entre les pages de cette version spécifique.                                                                                                                       |
+| `docRootComponent`                   | `string`                                                   | `'@theme/DocRoot'`                       | Composant parent de toutes les pages de documents avec des barres latérales (pages de documents ordinaires, pages d'index générées par des catégories). Il reste monté lors de la navigation entre ces pages.                                                                                                                         |
+| `docItemComponent`                   | `string`                                                   | `'@theme/DocItem'`                       | Conteneur principal du document, avec table des matières, pagination, etc.                                                                                                                                                                                                                                                            |
+| `docTagsListComponent`               | `string`                                                   | `'@theme/DocTagsListPage'`               | Composant racine de la page de la liste des tags                                                                                                                                                                                                                                                                                      |
+| `docTagDocListComponent`             | `string`                                                   | `'@theme/DocTagDocListPage'`             | Composant racine de la page « des docs contenant le tag X ».                                                                                                                                                                                                                                                                          |
+| `docCategoryGeneratedIndexComponent` | `string`                                                   | `'@theme/DocCategoryGeneratedIndexPage'` | Composant racine de la page d'index des catégories générées.                                                                                                                                                                                                                                                                          |
+| `remarkPlugins`                      | `any[]`                                                    | `[]`                                     | Plugins Remark passés à MDX.                                                                                                                                                                                                                                                                                                          |
+| `rehypePlugins`                      | `any[]`                                                    | `[]`                                     | Plugins Rehype passés à MDX.                                                                                                                                                                                                                                                                                                          |
+| `rehypePlugins`                      | `any[]`                                                    | `[]`                                     | Recma plugins passed to MDX.                                                                                                                                                                                                                                                                                                          |
+| `beforeDefaultRemarkPlugins`         | `any[]`                                                    | `[]`                                     | Les plugins Remark personnalisés sont transmis à MDX avant les plugins Remark par défaut de Docusaurus.                                                                                                                                                                                                                               |
+| `beforeDefaultRehypePlugins`         | `any[]`                                                    | `[]`                                     | Les plugins Rehype personnalisés sont transmis à MDX avant les plugins Rehype par défaut de Docusaurus.                                                                                                                                                                                                                               |
+| `showLastUpdateAuthor`               | `boolean`                                                  | `false`                                  | Affichage ou non de l'auteur de la dernière mise à jour du doc.                                                                                                                                                                                                                                                                       |
+| `showLastUpdateTime`                 | `boolean`                                                  | `false`                                  | Affichage ou non de la dernière date de mise à jour du doc. Cela nécessite l'accès à l'historique git pendant la construction, et ne fonctionnera donc pas correctement avec des clones superficiels (un défaut courant pour les systèmes de CI). With GitHub `actions/checkout`, use`fetch-depth: 0`.                                |
+| `breadcrumbs`                        | `boolean`                                                  | `true`                                   | Active ou désactive le fil d'Ariane sur les pages de docs.                                                                                                                                                                                                                                                                            |
+| `disableVersioning`                  | `boolean`                                                  | `false`                                  | Désactive explicitement le versionnage même lorsque plusieurs versions existent. Ainsi, le site n'inclura que la version actuelle. Une erreur se produira si `includeCurrentVersion : false` et `disableVersioning : true`.                                                                                                           |
+| `includeCurrentVersion`              | `boolean`                                                  | `true`                                   | Inclue la version « courante » de vos docs.                                                                                                                                                                                                                                                                                           |
+| `lastVersion`                        | `string`                                                   | Première version dans `versions.json`    | La version vers laquelle on navigue en priorité et qui est affichée par défaut pour les éléments de la barre de navigation des docs.                                                                                                                                                                                                  |
+| `onlyIncludeVersions`                | `string[]`                                                 | Toutes les versions disponibles          | Inclut uniquement un sous-ensemble de toutes les versions disponibles.                                                                                                                                                                                                                                                                |
+| `versions`                           | <code>[VersionsConfig](#VersionsConfig)</code>             | `{}`                                     | Personnalisation indépendante des propriétés de chaque version.                                                                                                                                                                                                                                                                       |
+| `tags`                               | `string \| false \| null \| undefined`                     | `tags.yml`                               | Path to a YAML file listing pre-defined tags. Relative to the docs version content directories.                                                                                                                                                                                                                                       |
+| `onInlineTags`                       | `'ignore' \| 'log' \| 'warn' \| 'throw'`                   | `warn`                                   | The plugin behavior when docs contain inline tags (not appearing in the list of pre-defined tags, usually `docs/tags.yml`).                                                                                                                                                                                                           |
+
+```mdx-code-block
+</APITable>
+```
+
+### Types {#types}
+
+#### `EditUrlFunction` {#EditUrlFunction}
+
+```ts
+type EditUrlFunction = (params: {
+  version: string;
+  versionDocsDirPath: string;
+  docPath: string;
+  permalink: string;
+  locale: string;
+}) => string | undefined;
+```
+
+#### `PrefixParser` {#PrefixParser}
+
+```ts
+type PrefixParser = (filename: string) => {
+  filename: string;
+  numberPrefix?: number;
+};
+```
+
+#### `SidebarGenerator` {#SidebarGenerator}
+
+```ts
+type SidebarGenerator = (generatorArgs: {
+  /** L'élément de la barre latérale de type "autogenerated" qui doit être transformé. */
+  item: {type: 'autogenerated'; dirName: string};
+  /** Métadonnées utiles pour la version à laquelle appartient cette barre latérale. */
+  version: {contentPath: string; versionName: string};
+  /** Tous les docs de cette version (non filtrés). */
+  docs: {
+    id: string;
+    title: string;
+    frontMatter: DocFrontMatter & Record<string, unknown>;
+    source: string;
+    sourceDirName: string;
+    sidebarPosition?: number | undefined;
+  }[];
+  /** Analyseur de préfixes du numéro configuré pour ce plugin. */
+  numberPrefixParser: PrefixParser;
+  /** L'index de catégorie par défaut, que vous pouvez modifier. */
+  isCategoryIndex: CategoryIndexMatcher;
+  /**
+   * La clé est le chemin relatif au répertoire du contenu de la documentation, la valeur est
+   * le contenu du fichier de métadonnées de la catégorie.
+   */
+  categoriesMetadata: {[filePath: string]: CategoryMetadata};
+  /**
+   * Utile pour réutiliser/améliorer la logique de génération des barres latérales par défaut de
+   * Docusaurus.
+   */
+  defaultSidebarItemsGenerator: SidebarGenerator;
+  // Renvoie un tableau d'éléments de la barre latérale - le même que celui que vous pouvez déclarer dans
+  // sidebars.js, sauf pour les raccourcis. Voir https://docusaurus.io/docs/sidebar/items
+}) => Promise<SidebarItem[]>;
+
+type CategoryIndexMatcher = (param: {
+  /** Le nom du fichier, sans extension */
+  fileName: string;
+  /**
+   * La liste des répertoires, du niveau le plus bas au niveau le plus élevé.
+   * S'il n'y a pas de nom de répertoire, le répertoire est ['.']
+   */
+  directories: string[];
+  /** L'extension, avec un point en début */
+  extension: string;
+}) => boolean;
+```
+
+#### `VersionsConfig` {#VersionsConfig}
+
+```ts
+type VersionConfig = {
+  /**
+   * Le chemin de base de la version sera ajouté à `baseUrl` +
+   * `routeBasePath`.
+   */
+  path?: string;
+  /** Le libellé de la version à utiliser dans les badges, les listes déroulantes, etc. */
+  label?: string;
+  /** La bannière à afficher en haut d'un document de cette version. */
+  banner?: 'none' | 'unreleased' | 'unmaintained';
+  /** Afficher un badge avec le libellé de la version en haut de chaque document. */
+  badge?: boolean;
+  /** Empêche les moteurs de recherche d'indexer cette version */
+  noIndex?: boolean;
+  /** Ajoute un nom de classe personnalisé à l'élément <html> de chaque document */
+  className?: string;
+};
+
+type VersionsConfig = {[versionName: string]: VersionConfig};
+```
+
+### Exemple de configuration {#ex-config}
+
+Vous pouvez configurer ce plugin via les options du preset ou du plugin.
+
+:::tip
+
+La plupart des utilisateurs de Docusaurus configurent ce plugin via les options du preset.
+
+:::
+
+```js config-tabs
+// Preset Options: docs
+// Plugin Options: @docusaurus/plugin-content-docs
+
+const config = {
+  path: 'docs',
+  breadcrumbs: true,
+  // Simple use-case: string editUrl
+  // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+  // Advanced use-case: functional editUrl
+  editUrl: ({versionDocsDirPath, docPath}) =>
+    `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`,
+  editLocalizedFiles: false,
+  editCurrentVersion: false,
+  routeBasePath: 'docs',
+  include: ['**/*.md', '**/*.mdx'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
+  ],
+  sidebarPath: 'sidebars.js',
+  async sidebarItemsGenerator({
+    defaultSidebarItemsGenerator,
+    numberPrefixParser,
+    item,
+    version,
+    docs,
+    isCategoryIndex,
+  }) {
+    // Use the provided data to generate a custom sidebar slice
+    return [
+      {type: 'doc', id: 'intro'},
+      {
+        type: 'category',
+        label: 'Tutorials',
+        items: [
+          {type: 'doc', id: 'tutorial1'},
+          {type: 'doc', id: 'tutorial2'},
+        ],
+      },
+    ];
+  },
+  numberPrefixParser(filename) {
+    // Implement your own logic to extract a potential number prefix
+    const numberPrefix = findNumberPrefix(filename);
+    // Prefix found: return it with the cleaned filename
+    if (numberPrefix) {
+      return {
+        numberPrefix,
+        filename: filename.replace(prefix, ''),
+      };
+    }
+    // No number prefix found
+    return {numberPrefix: undefined, filename};
+  },
+  docsRootComponent: '@theme/DocsRoot',
+  docVersionRootComponent: '@theme/DocVersionRoot',
+  docRootComponent: '@theme/DocRoot',
+  docItemComponent: '@theme/DocItem',
+  remarkPlugins: [require('./my-remark-plugin')],
+  rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
+  showLastUpdateAuthor: false,
+  showLastUpdateTime: false,
+  disableVersioning: false,
+  includeCurrentVersion: true,
+  lastVersion: undefined,
+  versions: {
+    current: {
+      label: 'Android SDK v2.0.0 (WIP)',
+      path: 'android-2.0.0',
+      banner: 'none',
+    },
+    '1.0.0': {
+      label: 'Android SDK v1.0.0',
+      path: 'android-1.0.0',
+      banner: 'unmaintained',
+    },
+  },
+  onlyIncludeVersions: ['current', '1.0.0', '2.0.0'],
+};
+```
+
+## Front matter du Markdown {#markdown-front-matter}
+
+Les documents Markdown peuvent utiliser les champs de métadonnées Markdown du [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) suivants, entourés d'une ligne `---` de part et d'autre.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom                      | Type                        | Par défaut                                                      | Description                                                                                                                                                                                                                                                                                 |
+| ------------------------ | --------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                     | `string`                    | le chemin du fichier (y compris les dossiers, sans l'extension) | Un ID unique du doc.                                                                                                                                                                                                                                                                        |
+| `title`                  | `string`                    | Titre Markdown ou `id`                                          | Le titre de votre document. Utilisé pour les métadonnées de la page et comme valeur de secours à plusieurs endroits (barre latérale, boutons suivant/précédent...). Ajouté automatiquement en haut de votre document s'il ne contient pas de titre Markdown.                                |
+| `pagination_label`       | `string`                    | `sidebar_label` ou `title`                                      | Le texte utilisé dans le document pour les boutons suivant/précédent pour ce document.                                                                                                                                                                                                      |
+| `sidebar_label`          | `string`                    | `title`                                                         | Le texte affiché dans la barre latérale du document pour ce document.                                                                                                                                                                                                                       |
+| `sidebar_position`       | `number`                    | Ordre par défaut                                                | Contrôle la position d'un doc à l'intérieur de la barre latérale générée lorsque vous utilisez les éléments `autogenerated` de la barre latérale. Consultez aussi [Métadonnées de la barre latérale générées automatiquement](/docs/sidebar/autogenerated#autogenerated-sidebar-metadatas). |
+| `sidebar_class_name`     | `string`                    | `undefined`                                                     | Donne à la barre latérale correspondante un nom de classe spécial lorsque vous utilisez les barres latérales générées automatiquement.                                                                                                                                                      |
+| `sidebar_custom_props`   | `object`                    | `undefined`                                                     | Attribue des [props personnalisées](../../guides/docs/sidebar/index.mdx#passing-custom-props) à l'élément de la barre latérale faisant référence à ce document                                                                                                                              |
+| `displayed_sidebar`      | `string`                    | `undefined`                                                     | Forcer l'affichage d'une barre latérale donnée lors de la navigation dans le document courant. Lisez le [guide des barres latérales multiples](../../guides/docs/sidebar/multiple-sidebars.mdx) pour plus de détails.                                                                       |
+| `hide_title`             | `boolean`                   | `false`                                                         | Si vous voulez cacher le titre en haut du doc. Il ne masque qu'un titre déclaré par le biais du frontmatter, et n'a aucun effet sur un titre Markdown en haut de votre document.                                                                                                            |
+| `hide_table_of_contents` | `boolean`                   | `false`                                                         | S'il faut cacher la table des matières à droite.                                                                                                                                                                                                                                            |
+| `toc_min_heading_level`  | `number`                    | `2`                                                             | Le niveau de titre minimum affiché dans la table des matières. Doit être compris entre 2 et 6 et inférieur ou égal à la valeur maximale.                                                                                                                                                    |
+| `toc_max_heading_level`  | `number`                    | `3`                                                             | Le niveau de titre maximum affiché dans la table des matières. Doit être compris entre 2 et 6.                                                                                                                                                                                              |
+| `pagination_next`        | <code>string \| null</code> | Le doc suivant dans la barre latérale                           | L'ID de la documentation à laquelle vous voulez que la pagination "Suivant" soit liée. Utilisez `null` pour désactiver l'affichage "Suivant" pour cette page.                                                                                                                               |
+| `pagination_prev`        | <code>string \| null</code> | Le doc précédent dans la barre latérale                         | L'ID de la documentation à laquelle vous voulez que la pagination "Précédent" soit liée. Utilisez `null` pour désactiver l'affichage "Précédent" pour cette page.                                                                                                                           |
+| `parse_number_prefixes`  | `boolean`                   | Option du plugin `numberPrefixParser`                           | Si l'analyse des préfixes numériques est désactivée sur ce doc. Consultez aussi [Utilisez les préfixes de nombre](/docs/sidebar/autogenerated#using-number-prefixes).                                                                                                                       |
+| `custom_edit_url`        | <code>string \| null</code> | Calculé à l'aide de l'option `editUrl` du plugin                | L'URL pour modifier ce document. Utilisez `null` pour désactiver l'affichage "Modifier cette page" pour cette page.                                                                                                                                                                         |
+| `keywords`               | `string[]`                  | `undefined`                                                     | Balise meta de mots clés pour la page du document, pour les moteurs de recherche.                                                                                                                                                                                                           |
+| `description`            | `string`                    | La première ligne du contenu Markdown                           | La description de votre document qui deviendra `<meta name="description" content="..."/>` et `<meta property="og:description" content="..."/>` dans `<head>`, utilisés par les moteurs de recherche.                                                                                        |
+| `image`                  | `string`                    | `undefined`                                                     | Cover or thumbnail image that will be used as the `<meta property="og:image" content="..."/>` in the `<head>`, enhancing link previews on social media and messaging platforms.                                                                                                             |
+| `slug`                   | `string`                    | Chemin du fichier                                               | Permet de personnaliser l'URL du document(`/<routeBasePath>/<slug>`). Prise en charge de multiples formats : `slug: my-doc`, `slug: /my/path/myDoc`, `slug: /`.                                                                                                                             |
+| `tags`                   | `Tag[]`                     | `undefined`                                                     | Une liste de chaînes ou d'objets de deux champs de chaîne `label` et `permalink` pour taguer vos docs. Strings can be a reference to keys of a [tags file](#tags-file) (usually `tags.yml`)                                                                                                 |
+| `draft`                  | `boolean`                   | `false`                                                         | Les brouillons de document seront disponibles uniquement lors du développement.                                                                                                                                                                                                             |
+| `unlisted`               | `boolean`                   | `false`                                                         | Les documents non listés seront disponibles à la fois en développement et en production. Ils seront « cachés » en production, non indexés, exclus des sitemaps, et ne peuvent être consultés que par les utilisateurs ayant un lien direct.                                                 |
+| `last_update`            | `FrontMatterLastUpdate`     | `undefined`                                                     | Permet de remplacer l'auteur et/ou la date de la dernière mise à jour. La date peut être n'importe quelle [chaîne de date interprétable](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).                                                         |
+
+```mdx-code-block
+</APITable>
+```
+
+```ts
+type FrontMatterLastUpdate = {date?: string; author?: string};
+
+type Tag = string | {label: string; permalink: string};
+```
+
+Exemple :
+
+```md
+---
+id: doc-markdown
+title: Docs Markdown Features
+hide_title: false
+hide_table_of_contents: false
+sidebar_label: Markdown
+sidebar_position: 3
+pagination_label: Markdown features
+custom_edit_url: https://github.com/facebook/docusaurus/edit/main/docs/api-doc-markdown.md
+description: How do I find you when I cannot solve this problem
+keywords:
+  - docs
+  - docusaurus
+tags: [docusaurus]
+image: https://i.imgur.com/mErPwqL.png
+slug: /myDoc
+last_update:
+  date: 1/1/2000
+  author: custom author name
+---
+
+# Markdown Features
+
+My Document Markdown content
+```
+
+import TagsFileApiRefSection from './_partial-tags-file-api-ref-section.mdx';
+
+<TagsFileApiRefSection />
+
+## i18n {#i18n}
+
+Lisez d'abord [l'introduction i18n](../../i18n/i18n-introduction.mdx) .
+
+### Emplacement des fichiers de traduction {#translation-files-location}
+
+- **Chemin de base** : `website/i18n/[locale]/docusaurus-plugin-content-docs`
+- **Chemin d'accès multi-instance** : `website/i18n/[locale]/docusaurus-plugin-content-docs-[pluginId]`
+- **Fichiers JSON** : extrait avec [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
+- **Fichiers Markdown** : `website/i18n/[locale]/docusaurus-plugin-content-docs/[versionName]`
+
+### Exemple de structure du système de fichiers {#example-file-system-structure}
+
+```bash
+website/i18n/[locale]/docusaurus-plugin-content-docs
+│
+│ # traductions pour website/docs
+├── current
+│   ├── api
+│   │   └── config.md
+│   └── getting-started.md
+├── current.json
+│
+│ # traductions pour website/versioned_docs/version-1.0.0
+├── version-1.0.0
+│   ├── api
+│   │   └── config.md
+│   └── getting-started.md
+└── version-1.0.0.json
+```

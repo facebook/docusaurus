@@ -1,0 +1,143 @@
+---
+slug: /sidebar/multiple-sidebars
+---
+
+# Utiliser plusieurs barres latérales
+
+Vous pouvez créer une barre latérale pour chaque **ensemble de fichiers Markdown** que vous souhaitez **regrouper**.
+
+:::tip
+
+Le site Docusaurus est un bon exemple d'utilisation de plusieurs barres latérales :
+
+- [Docs](../../../introduction.mdx)
+- [API](../../../cli.mdx)
+
+:::
+
+Prenons l'exemple suivant :
+
+```js title="sidebars.js"
+export default {
+  tutorialSidebar: {
+    'Category A': ['doc1', 'doc2'],
+  },
+  apiSidebar: ['doc3', 'doc4'],
+};
+```
+
+Lorsque vous parcourez `doc1` ou `doc2`, la `tutorialSidebar` s'affichera, lorsque vous parcourez `doc3` ou `doc4`, la `apiSidebar` sera affichée.
+
+## Comprendre l'association de barre latérale {#sidebar-association}
+
+En suivant l'exemple ci-dessus, si un `commonDoc` est inclus dans les deux barres latérales :
+
+```js title="sidebars.js"
+export default {
+  tutorialSidebar: {
+    'Category A': ['doc1', 'doc2', 'commonDoc'],
+  },
+  apiSidebar: ['doc3', 'doc4', 'commonDoc'],
+};
+```
+
+Comment Docusaurus sait-il quelle barre latérale afficher lors de la navigation sur `commonDoc` ? Réponse : il n'en est rien, et nous ne garantissons pas le choix de la barre latérale.
+
+Lorsque vous ajoutez le doc Y à la barre latérale X, cela crée une liaison bidirectionnelle : la barre latérale X contient un lien vers le doc Y, et lorsque vous parcourez le doc Y, la barre latérale X s'affiche. Mais parfois, nous voulons interrompre l'une ou l'autre de ces liaisons implicites :
+
+1. _Comment puis-je générer un lien vers le doc Y dans la barre latérale X sans faire en sorte que la barre latérale X s'affiche sur Y ?_ Par exemple, lorsque j'inclus le doc Y dans plusieurs barres latérales comme dans l'exemple ci-dessus, et que je veux dire explicitement à Docusaurus d'afficher une barre latérale ?
+2. _Comment faire pour que la barre latérale X s'affiche lors de la navigation dans le doc Y, mais que la barre latérale X ne contienne pas le lien vers Y ?_ Par exemple, lorsque Y est un « doc de page d'accueil » et que la barre latérale est purement utilisée pour la navigation ?
+
+L'option du front matter `displayed_sidebar` va forcer l'association de la barre latérale. Pour le même exemple, vous pouvez toujours utiliser des raccourcis de doc sans aucune configuration spéciale :
+
+```js title="sidebars.js"
+export default {
+  tutorialSidebar: {
+    'Category A': ['doc1', 'doc2'],
+  },
+  apiSidebar: ['doc3', 'doc4'],
+};
+```
+
+Et puis ajouter un frontmatter :
+
+```md title="commonDoc.md"
+---
+displayed_sidebar: apiSidebar
+---
+```
+
+Ce qui indique explicitement à Docusaurus d'afficher `apiSidebar` lors de la navigation dans `commonDoc`. En utilisant la même méthode, vous pouvez faire en sorte que la barre latérale X qui ne contient pas le doc Y apparaisse sur le doc Y :
+
+```md title="home.md"
+---
+displayed_sidebar: tutorialSidebar
+---
+```
+
+Même lorsque `tutorialSidebar` ne contient pas de lien vers `home`, il sera toujours affiché lors de la visualisation de `home`.
+
+Si vous définissez `displayed_sidebar: null`, aucune barre latérale ne sera affichée sur cette page, et donc, aucune pagination non plus.
+
+## Génération de la pagination {#generating-pagination}
+
+Docusaurus utilise la barre latérale pour générer les liens de pagination « suivant » et « précédent » au bas de chaque page de doc. Il utilise strictement la barre latérale qui est affichée : si aucune barre latérale n'est associée, cela ne génère pas non plus de pagination. Toutefois, les docs liés en tant que « Suivant » et « Précédent » ne sont pas assurés d'afficher la même barre latérale : ils sont inclus dans cette barre latérale, mais dans leur frontmatter, ils peuvent avoir un `displayed_sidebar` différent.
+
+Si une barre latérale est affichée en définissant `displayed_sidebar` du front matter, et que cette barre latérale ne contient pas le doc lui-même, aucune pagination n'est affichée.
+
+Vous pouvez personnaliser la pagination dans le front matter avec `pagination_next` et `pagination_prev`. Considérez cette barre latérale :
+
+```js title="sidebars.js"
+export default {
+  tutorial: [
+    'introduction',
+    {
+      installation: ['windows', 'linux', 'macos'],
+    },
+    'getting-started',
+  ],
+};
+```
+
+Le lien suivant de la pagination pour « windows » pointe vers « linux », mais cela n'a pas de sens : vous aimeriez que les lecteurs passent à la rubrique « getting-started » après l'installation. Dans ce cas, vous pouvez définir la pagination manuellement :
+
+```md title="windows.md"
+---
+# highlight-next-line
+pagination_next: getting-started
+---
+
+# Installation sous Windows
+```
+
+Vous pouvez également désactiver l'affichage d'un lien de pagination avec `pagination_next: null` ou `pagination_prev: null`.
+
+Le libellé de la pagination par défaut est le libellé de la barre latérale. Vous pouvez utiliser le `pagination_label` du front matter pour personnaliser l'apparence de ce document dans la pagination.
+
+## L'élément `ref` {#sidebar-item-ref}
+
+Le type `ref` est identique au [type `doc`](./items.mdx#sidebar-item-doc) de toutes les manières, sauf qu'il ne participe pas à la génération de métadonnées de navigation. Il ne s'enregistre que comme un lien. Lors de [la génération de la pagination](#generating-pagination) et [l'affichage de la barre latérale](#sidebar-association), les éléments `ref` sont complètement ignorés.
+
+Ceci est particulièrement utile lorsque vous souhaitez créer un lien vers le même document à partir de plusieurs barres latérales. Le document n'appartient qu'à une seule barre latérale (celle où il est enregistré comme `type: 'doc'` ou depuis un répertoire autogénéré), mais son lien apparaîtra dans toutes les barres latérales dans lesquelles il est enregistré.
+
+Prenons l'exemple suivant :
+
+```js title="sidebars.js"
+export default {
+  tutorialSidebar: {
+    'Category A': [
+      'doc1',
+      'doc2',
+      // highlight-next-line
+      {type: 'ref', id: 'commonDoc'},
+      'doc5',
+    ],
+  },
+  apiSidebar: ['doc3', 'doc4', 'commonDoc'],
+};
+```
+
+Vous pouvez considérer le type `ref` comme l'équivalent de faire la chose suivante :
+
+- Paramétrage `displayed_sidebar: tutorialSidebar` pour `commonDoc` (`ref` est ignoré dans l'association de la barre latérale)
+- Paramètrage `pagination_next: doc5` pour `doc2` et paramétrage `pagination_prev: doc2` pour `doc5` (`ref` est ignoré dans la génération de pagination)

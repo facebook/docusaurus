@@ -1,0 +1,121 @@
+---
+sidebar_position: 3
+---
+
+# I18n 수명 주기
+
+플러그인은 i18n 관련 데이터를 로드하기 위해 이런 수명 주기를 사용합니다.
+
+## `getTranslationFiles({content})` {#getTranslationFiles}
+
+플러그인에서 사용할 JSON 번역 파일을 설정합니다.
+
+`{path: string, content: ChromeI18nJSON}`: 형태로 번역 파일을 반환합니다.
+
+- `path`: `i18n/[locale]/[pluginName]` 형식으로 로케일 디렉터리의 상대 경로를 설정합니다. 확장자 `.json`은 붙이지 않습니다.
+- `content`: 크롬 i18n JSON 형식을 사용합니다.
+
+파일은 [`write-translations` 명령행 인터페이스](../../cli.mdx#docusaurus-write-translations-sitedir)에 의해 플러그인 i18n 하위 디렉터리에 작성되며 [`translateContent()`](#translateContent)와 [`translateThemeConfig()`](#translateThemeConfig)를 호출하기 전에 적절한 로케일에서 읽습니다.
+
+예:
+
+```js title="my-plugin.js"
+export default function (context, options) {
+  return {
+    name: 'my-plugin',
+    // highlight-start
+    async getTranslationFiles({content}) {
+      return [
+        {
+          path: 'sidebar-labels',
+          content: {
+            someSidebarLabel: {
+              message: 'Some Sidebar Label',
+              description: 'A label used in my plugin in the sidebar',
+            },
+            someLabelFromContent: content.myLabel,
+          },
+        },
+      ];
+    },
+    // highlight-end
+  };
+}
+```
+
+## `translateContent({content,translationFiles})` {#translateContent}
+
+번역 파일을 사용해 플러그인 콘텐츠를 번역합니다.
+
+로케일에 해당하는 플러그인 콘텐츠를 반환합니다.
+
+`contentLoaded()`는 `translateContent()`에서 반환하는 로케일에 해당하는 플러그인 콘텐츠를 인자로 호출됩니다.
+
+예:
+
+```js title="my-plugin.js"
+export default function (context, options) {
+  return {
+    name: 'my-plugin',
+    // highlight-start
+    translateContent({content, translationFiles}) {
+      const myTranslationFile = translationFiles.find(
+        (f) => f.path === 'myTranslationFile',
+      );
+      return {
+        ...content,
+        someContentLabel: myTranslationFile.someContentLabel.message,
+      };
+    },
+    // highlight-end
+  };
+}
+```
+
+## `translateThemeConfig({themeConfig,translationFiles})` {#translateThemeConfig}
+
+로케일에 해당하는 번역 파일을 사용해 사이트의 `themeConfig` 문자열을 번역합니다.
+
+로케일에 해당하는 `themeConfig`을 반환합니다.
+
+예:
+
+```js title="my-plugin.js"
+export default function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    translateThemeConfig({themeConfig, translationFiles}) {
+      const myTranslationFile = translationFiles.find(
+        (f) => f.path === 'myTranslationFile',
+      );
+      return {
+        ...themeConfig,
+        someThemeConfigLabel: myTranslationFile.someThemeConfigLabel.message,
+      };
+    },
+    // highlight-end
+  };
+}
+```
+
+## `async getDefaultCodeTranslationMessages()` {#getDefaultCodeTranslationMessages}
+
+`<Translate>` API를 사용하는 테마는 기본 코드 번역 메시지를 제공할 수 있습니다.
+
+`Record<string, string>`에 메시지를 반환해주어야 합니다. key는 번역 ID값이고 values는 현재 로케일에 해당하는 메시지(설명은 없는)입니다.
+
+예:
+
+```js title="my-plugin.js"
+export default function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    async getDefaultCodeTranslationMessages() {
+      return readJsonFile(`${context.i18n.currentLocale}.json`);
+    },
+    // highlight-end
+  };
+}
+```

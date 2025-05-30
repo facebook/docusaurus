@@ -1,0 +1,25 @@
+# No Index 페이지 예시
+
+<head>
+  <meta name="robots" content="nOiNdeX, NoFolLoW" />
+</head>
+
+이 페이지에는 아래와 같은 [페이지 메타데이터](/docs/seo#single-page-metadata) 마크업이 포함되어 있어 검색 엔진에서 색인을 생성하지 않습니다.
+
+```html
+<head>
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+```
+
+:::tip
+
+sitemap 플러그인은 `noindex` 콘텐츠 값이 포함된 페이지를 필터링합니다. 이 페이지는 도큐사우루스의 [sitemap.xml](pathname:///sitemap.xml) 파일에 등록되지 않습니다.
+
+:::
+
+:::note
+
+Robots 지시문은 [대소문자를 구분하지 않습니다](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag#directives).
+
+:::

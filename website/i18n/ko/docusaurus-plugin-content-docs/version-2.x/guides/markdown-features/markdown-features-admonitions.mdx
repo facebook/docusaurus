@@ -1,0 +1,259 @@
+---
+id: admonitions
+description: 도큐사우루스 마크다운 내에서 준수 사항을 표기하는 방식에 대한 설명입니다.
+slug: /markdown-features/admonitions
+---
+
+# 준수 사항
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
+
+기본 마크다운 구문에 추가해 아래와 같이 3개의 콜론과 텍스트로 준수 사항을 표시하는 특별한 구문을 지원합니다.
+
+예:
+
+```md
+:::note
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::tip
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::info
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::caution
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::danger
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::note
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::tip
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::info
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::caution
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::danger
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+</BrowserWindow>
+```
+
+## Usage with Prettier {#usage-with-prettier}
+
+If you use [Prettier](https://prettier.io) to format your Markdown files, Prettier might auto-format your code to invalid admonition syntax. 이 문제를 피하려면 시작과 종료 지시문 주위에 빈 줄을 추가하세요. 이곳에 사용한 모든 예제에 빈 줄을 사용한 이유이기도 합니다.
+
+{/_ prettier-ignore _/}
+
+```md
+<!-- Prettier doesn't change this -->
+:::note
+
+Hello world
+
+:::
+
+<!-- Prettier changes this -->
+:::note
+Hello world
+:::
+
+<!-- to this -->
+::: note Hello world:::
+```
+
+## Specifying title {#specifying-title}
+
+You may also specify an optional title.
+
+```md
+:::note Your Title
+
+Some **content** with _Markdown_ `syntax`.
+
+:::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::note Your Title
+
+Some **content** with _Markdown_ `syntax`.
+
+:::
+
+</BrowserWindow>
+```
+
+## Admonitions with MDX {#admonitions-with-mdx}
+
+준수 사항 표기 시 MDX를 사용할 수 있습니다.
+
+```jsx
+import Tabs from '@theme/Tabs';
+
+import TabItem from '@theme/TabItem';
+
+:::tip
+
+Use tabs in admonitions
+
+<Tabs>
+  <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+:::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::tip
+
+Use tabs in admonitions
+
+<Tabs>
+  <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+:::
+
+</BrowserWindow>
+```
+
+## Usage in JSX {#usage-in-jsx}
+
+Outside of Markdown, you can use the `@theme/Admonition` component to get the same output.
+
+```jsx title="MyReactPage.jsx"
+import Admonition from '@theme/Admonition';
+
+export default function MyReactPage() {
+  return (
+    <div>
+      <Admonition type="info">
+        <p>Some information</p>
+      </Admonition>
+    </div>
+  );
+}
+```
+
+The types that are accepted are the same as above: `note`, `tip`, `danger`, `info`, `caution`. 선택적으로 JSX 요소 또는 문자열 또는 제목을 전달해 아이콘을 설정할 수 있습니다.
+
+```jsx title="MyReactPage.jsx"
+<Admonition type="tip" icon="💡" title="Did you know...">
+  <p>
+    Use plugins to introduce shorter syntax for the most commonly used JSX
+    elements in your project.
+  </p>
+</Admonition>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Admonition type="tip" icon="💡" title="Did you know...">
+    Use plugins to introduce shorter syntax for the most commonly used JSX
+    elements in your project.
+  </Admonition>
+</BrowserWindow>
+```
+
+## Customizing admonitions {#customizing-admonitions}
+
+There are two kinds of customizations possible with admonitions: **parsing** and **rendering**.
+
+### Customizing rendering behavior {#customizing-rendering-behavior}
+
+You can customize how each individual admonition type is rendered through [swizzling](../../swizzling.mdx). 간단한 래퍼를 사용해 여러분이 원하는 목표를 달성할 수 있습니다. For example, in the follow example, we swap out the icon for `info` admonitions only.
+
+```jsx title="src/theme/Admonition.js"
+import React from 'react';
+import Admonition from '@theme-original/Admonition';
+import MyIcon from '@site/static/img/info.svg';
+
+export default function AdmonitionWrapper(props) {
+  if (props.type !== 'info') {
+    return <Admonition {...props} />;
+  }
+  return <Admonition icon={<MyIcon />} {...props} />;
+}
+```
+
+### Customizing parsing behavior {#customizing-parsing-behavior}
+
+Admonitions are implemented with a [Remark plugin](./markdown-features-plugins.mdx). 이 플러그인은 설정할 수 있도록 설계됐습니다. To customize the Remark plugin for a specific content plugin (docs, blog, pages), pass the options through the `admonitions` key.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          admonitions: {
+            tag: ':::',
+            keywords: ['note', 'tip', 'info', 'caution', 'danger'],
+          },
+        },
+      },
+    ],
+  ],
+};
+```
+
+플러그인은 2가지 옵션을 사용할 수 있습니다.
+
+- `tag`: The tag that encloses the admonition. Defaults to `:::`.
+- `keywords`: An array of keywords that can be used as the type for the admonition. 이를 재정의하면 기본값이 적용되지 않는 것에 유의하세요.
+
+The `keyword` will be passed as the `type` prop of the `Admonition` component. 기본값보다 더 많은 타입을 등록하는 경우 컨테이너의 스타일, 아이콘, 기본 제목 등을 포함한 구현을 해주어야 합니다. You would usually need to [eject](../../swizzling.mdx#ejecting) the `@theme/Admonition` component, so you could re-use the same infrastructure as the other types.

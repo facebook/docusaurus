@@ -1,0 +1,137 @@
+---
+id: introduction
+slug: /i18n/introduction
+---
+
+# i18n - Introduction
+
+Il est **facile de traduire un site web Docusaurus** grâce à sa prise en charge de l'internationalisation ([i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization)).
+
+## Objectifs {#goals}
+
+Il est important de comprendre les **décisions de conception** derrière la prise en charge de l'i18n de Docusaurus.
+
+Pour plus de contexte, vous pouvez lire la [RFC](https://github.com/facebook/docusaurus/issues/3317) et la [PR](https://github.com/facebook/docusaurus/pull/3325) de départ.
+
+### Les objectifs de l'i18n {#i18n-goals}
+
+Les objectifs du système Docusaurus i18n sont :
+
+- **Simple** : il suffit de placer les fichiers traduits dans le bon emplacement du système de fichiers
+- **Flux de traduction flexibles** : basés sur Git (monorepo, forks ou submodules), logiciel SaaS, FTP
+- **Options de déploiement flexibles** : domaines uniques, multiples ou hybrides
+- **Modulaire** : permet aux auteurs de plugins de fournir une prise en charge i18n
+- **Runtime léger** : la documentation est principalement statique et ne nécessite pas de librairie JS ou de polyfills lourds
+- **Délais de construction modulables** : permet la construction et le déploiement indépendant de sites localisés
+- **Localiser les ressources** : une image de votre site peut contenir du texte qui doit être traduit
+- **Pas de couplage** : aucune obligation d'utiliser un SaaS, mais les intégrations sont possibles
+- **Facile à utiliser avec [Crowdin](https://crowdin.com/)** : plusieurs sites Docusaurus v1 utilisent Crowdin, et devraient être en mesure de migrer vers v2
+- **Bon SEO par défauts** : nous définissons pour vous des entêtes SEO utiles comme [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions)
+- **Prise en charge RTL** : les locales avec lecture de droite à gauche (Arabe, Hébreu, etc.) sont pris en charge et faciles à implémenter
+- **Traductions par défaut** : les libellés du thème classic sont traduites pour vous dans [de nombreuses langues](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-translations/locales)
+
+### Les aspects non liés à l'i18n {#i18n-non-goals}
+
+Nous ne prenons pas en charge :
+
+- **Détection automatique des locales** : opinion controversée, à réaliser de préférence sur le [serveur (de votre hébergeur)](../deployment.mdx)
+- **Logiciels SaaS de traduction** : vous êtes responsable de la compréhension des outils externes de votre choix
+- **Traduction des slugs** : techniquement compliqué, peu de valeur pour le SEO
+
+## Processus de traduction {#translation-workflow}
+
+### Vue d'ensemble {#overview}
+
+Vue d'ensemble du flux de travail pour créer un site web Docusaurus traduit :
+
+1. **Configurez** : déclarez la locale par défaut et les locales alternatives dans [`docusaurus.config.js`](../api/docusaurus.config.js.mdx#i18n)
+2. **Traduisez** : mettez les fichiers traduits dans le bon emplacement du système de fichiers
+3. **Déployez** : construisez et déployez votre site en utilisant une stratégie basée sur un ou plusieurs domaines
+
+### Fichiers de traduction {#translation-files}
+
+Vous travaillerez avec 3 types de fichiers de traduction.
+
+#### Fichiers Markdown {#markdown-files}
+
+Ceci est le contenu principal de votre site web Docusaurus.
+
+Les documents Markdown et MDX sont traduits dans leur ensemble, afin de préserver pleinement le contexte de la traduction, au lieu de fractionner chaque phrase en une chaîne distincte.
+
+#### Fichiers JSON {#json-files}
+
+Le JSON est utilisé pour traduire :
+
+- Votre code React : les pages React autonomes dans `src/pages`, ou d'autres composants
+- Libellés de mise en page fournis par `themeConfig` : barre de navigation, pied de page
+- Libellés de mise en page fournis par les options du plugin : libellés des catégories de la barre latérale des documents, titre de la barre latérale du blog...
+
+Le format JSON utilisé est appelé **Chrome i18n** :
+
+```json
+{
+  "myTranslationKey1": {
+    "message": "Message traduit 1",
+    "description": "myTranslationKey1 est utilisé sur la page d'accueil"
+  },
+  "myTranslationKey2": {
+    "message": "Message traduit 2",
+    "description": "myTranslationKey2 est utilisé dans la FAQ"
+  }
+}
+```
+
+Le choix a été fait pour 2 raisons :
+
+- **Attribut de description** : pour aider les traducteurs avec un contexte supplémentaire
+- **Largement supporté** : [extensions Chrome](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json), etc.
+
+#### Fichiers de données {#data-files}
+
+Certains plugins peuvent lire des fichiers de données externes qui sont intégralement traduits. Par exemple, le plugin du blog utilise un fichier [`authors.yml`](../blog.mdx#global-authors) qui peut être traduit en créant une copie sous `i18n/[locale]/docusaurus-plugin-content-blog/authors.yml`.
+
+### Emplacement des fichiers de traduction {#translation-files-location}
+
+Les fichiers de traduction doivent être créés au bon emplacement du système de fichiers.
+
+Chaque locale et chaque plugin a son propre sous-dossier `i18n` :
+
+```
+website/i18n/[locale]/[pluginName]/...
+```
+
+:::note
+
+Pour les plugins multi-instances, le chemin est `website/i18n/[locale]/[pluginName]-[pluginId]/...`.
+
+:::
+
+La traduction très simple d'un site de Docusaurus en français conduit à la structure suivante :
+
+```bash
+website/i18n
+└── fr
+    ├── code.json  # Tout libellé de texte présent dans le code React
+    │              # Inclut les libellés de texte du code des thèmes
+    ├── docusaurus-plugin-content-blog # les données de traduction dont a besoin le plugin du blog
+    │   └── 2020-01-01-hello.md
+    │
+    ├── docusaurus-plugin-content-docs # les données de traduction dont a besoin le plugin de doc
+    │   ├── current
+    │   │   ├── doc1.md
+    │   │   └── doc2.mdx
+    │   └── current.json
+    │
+    └── docusaurus-theme-classic # les données de traduction dont a besoin le thème classique
+        ├── footer.json   # Libellés de texte dans la configuration du thème de votre pied de page
+        └── navbar.json   # Libellés de texte dans la configuration du thème de votre barre de navigation
+```
+
+Les fichiers JSON sont initialisés avec la commande CLI [`docusaurus write-translations`](../cli.mdx#docusaurus-write-translations-sitedir). Chaque plugin fournit son propre contenu traduit dans le dossier correspondant, tandis que le fichier `code.json` définit tous les libellés utilisés dans le code React.
+
+Chaque plugin de contenu ou de thème est différent, et il **définit son propre emplacement des fichiers de traduction** :
+
+- [Docs i18n](../api/plugins/plugin-content-docs.mdx#i18n)
+- [Blog i18n](../api/plugins/plugin-content-blog.mdx#i18n)
+- [Pages i18n](../api/plugins/plugin-content-pages.mdx#i18n)
+- [Themes i18n](../api/themes/theme-configuration.mdx#i18n)

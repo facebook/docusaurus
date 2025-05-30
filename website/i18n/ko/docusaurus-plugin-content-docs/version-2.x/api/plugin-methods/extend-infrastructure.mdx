@@ -1,0 +1,135 @@
+---
+sidebar_position: 2
+---
+
+# 확장 구조
+
+도큐사우루스는 외부 플러그인으로 확장할 수 있는 핫 리로딩, CLI, 스위즐링 같은 일부 구조를 가지고 있습니다.
+
+## `getPathsToWatch()` {#getPathsToWatch}
+
+플러그인과 테마 변경을 체크하기 위한 경로를 설정합니다. 설정된 경로는 개발 서버에서 지켜보고 있다가 내용 변경이 생기면 플러그인 수명주기가 다시 로드됩니다. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
+
+테마 파일은 웹팩 개발 서버에서 지켜보고 있기 때문에 이건 서버 측에서 사용하는 파일을 위해 사용합니다.
+
+예:
+
+```js title="docusaurus-plugin/src/index.js"
+const path = require('path');
+module.exports = function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    getPathsToWatch() {
+      const contentPath = path.resolve(context.siteDir, options.path);
+      return [`${contentPath}/**/*.{ts,tsx}`];
+    },
+    // highlight-end
+  };
+};
+```
+
+## `extendCli(cli)` {#extendCli}
+
+도큐사우루스의 명령행 인터페이스를 확장하기 위한 추가 명령어를 등록합니다. `cli` is a [commander](https://www.npmjs.com/package/commander/v/5.1.0) object.
+
+:::warning
+
+commander 버전 관련 이슈가 있습니다. 우리는 commander v5를 사용하며 사용할 수 있는 API에 대한 올바른 버전 문서를 참고하고 있는지 확인합니다.
+
+:::
+
+예:
+
+```js title="docusaurus-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    extendCli(cli) {
+      cli
+        .command('roll')
+        .description('Roll a random number between 1 and 1000')
+        .action(() => {
+          console.log(Math.floor(Math.random() * 1000 + 1));
+        });
+    },
+    // highlight-end
+  };
+};
+```
+
+## `getThemePath()` {#getThemePath}
+
+테마 컴포넌트를 찾을 수 있는 디렉터리 경로를 반환합니다. When your users call `swizzle`, `getThemePath` is called and its returned path is used to find your theme components. 엔트리 포인트가 포함된 폴더에 대해 상대 경로를 확인합니다.
+
+For example, your `getThemePath` can be:
+
+```js title="my-theme/src/index.js"
+const path = require('path');
+
+module.exports = function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    getThemePath() {
+      return './theme';
+    },
+    // highlight-end
+  };
+};
+```
+
+## `getTypeScriptThemePath()` {#getTypeScriptThemePath}
+
+Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. This path is purely for swizzling TypeScript theme components, and theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement for `getThemePath()`. Typically, you can make the path returned by `getTypeScriptThemePath()` be your source directory, and make the path returned by `getThemePath()` be the compiled JavaScript output.
+
+:::tip
+
+타입스크립트 테마 작성 시에 컴파일된 출력 결과를 사람이 읽을 수 있도록 만드는 것이 좋습니다. 브라우저에 따라 웹팩의 Babel 로더가 처리하기 때문에 타입 표기만 제거하고 구문은 변환하지 마세요.
+
+Prettier 같은 도구를 사용해 이런 파일 포맷을 정리해야 합니다. 잊지마세요. JS 파일은 사용자가 직접 사용할 수 있으며 사용할 것입니다.
+
+:::
+
+예:
+
+```js title="my-theme/src/index.js"
+const path = require('path');
+
+module.exports = function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    getThemePath() {
+      // 컴파일된 자바스크립트 산출물 위치
+      return '../lib/theme';
+    },
+    getTypeScriptThemePath() {
+      // 타입스크립트 소스 코드 위치
+      return '../src/theme';
+    },
+    // highlight-end
+  };
+};
+```
+
+## `getSwizzleComponentList()` {#getSwizzleComponentList}
+
+**This is a static method, not attached to any plugin instance.**
+
+안전하게 스위즐링을 처리할 수 있는 안정적인 컴포넌트 목록을 반환합니다. These components will be swizzlable without `--danger`. 기본적으로 모든 컴포넌트는 안정적이지 않는 것으로 여깁니다. 빈 배열값이 반환되면 모든 컴포넌트가 불안정적인 것으로 간주됩니다. If `undefined` is returned, all components are considered stable.
+
+```js title="my-theme/src/index.js"
+const swizzleAllowedComponents = [
+  'CodeBlock',
+  'DocSidebar',
+  'Footer',
+  'NotFound',
+  'SearchBar',
+  'hooks/useTheme',
+  'prism-include-languages',
+];
+
+myTheme.getSwizzleComponentList = () => swizzleAllowedComponents;
+```

@@ -1,0 +1,120 @@
+---
+id: introduction
+sidebar_label: Docusaurus 介绍
+slug: /docs-introduction
+---
+
+# 文档介绍
+
+文档功能允许用户以层级格式组织编排 Markdown 文件。
+
+:::info
+
+请查阅 [Docs Plugin API Reference documentation](./../../api/plugins/plugin-content-docs.mdx) 以了解配置选项的完整列表。
+
+:::
+
+你的网站的文档从低到高有四层组织架构：
+
+1. 独立页面。
+2. 侧边栏。
+3. 版本。
+4. 插件实例。
+
+这篇指南会按照以下顺序介绍它们：从[如何配置单独页面](./docs-create-doc.mdx)开始，然后介绍[如何创建一个或多个侧边栏](./sidebar/index.mdx)，接着是[如何创建与管理多版本文档](./versioning.mdx)，最后介绍[如何使用多个文档插件实例](./docs-multi-instance.mdx)。
+
+## 仅文档模式 {#docs-only-mode}
+
+新创建的 Docusaurus 网站会有这样的结构：
+
+```
+example.com/                                -> 生成自 `src/pages/index.js`
+
+example.com/docs/intro                      -> 生成自 `docs/intro.md`
+example.com/docs/tutorial-basics/...        -> 生成自 `docs/tutorial-basics/...`
+...
+
+example.com/blog/2021/08/26/welcome         -> 生成自 `blog/2021-08-26-welcome/index.md`
+example.com/blog/2021/08/01/mdx-blog-post   -> 生成自 `blog/2021-08-01-mdx-blog-post.mdx`
+...
+```
+
+所有文档都会放在 `docs/` 子路由下。 但是如果**你的网站只有文档**，或者你想要把文档放在网站根部，突出它的重要性呢？
+
+假设你的配置中包含以下内容：
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          /* docs plugin options */
+        },
+        blog: {
+          /* blog plugin options */
+        },
+        // ...
+      },
+    ],
+  ],
+};
+```
+
+要进入仅文档模式，可以把它改成类似这样：
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-next-line
+          routeBasePath: '/', // Serve the docs at the site's root
+          /* other docs plugin options */
+        },
+        // highlight-next-line
+        blog: false, // Optional: disable the blog plugin
+        // ...
+      },
+    ],
+  ],
+};
+```
+
+注意，你**不一定要放弃使用博客**或者其他插件。设置 `routeBasePath: '/'` 所产生的唯一效果就是把文档从 `https://example.com/docs/some-doc` 移到了网站根部：`https://example.com/some-doc`。 如果启用了博客，还是可以通过 `blog/` 子路由访问到它。
+
+别忘了通过添加前言把某个页面放置在网站顶部 (`https://example.com/`)：
+
+```md title="docs/intro.md"
+---
+# highlight-next-line
+slug: /
+---
+
+这一页会是用户访问 https://example.com/ 时出现的主页。
+```
+
+:::warning
+
+如果你用 `slug: /` 把某篇文档变成了主页，你就需要删掉 `src/pages/index.js` 的现有首页，否则会有两个文件映射到同一个路径!
+
+:::
+
+现在，网站的结构会长得像这样：
+
+```
+example.com/                       -> 生成自 `docs/intro.md`
+example.com/tutorial-basics/...    -> 生成自 `docs/tutorial-basics/...`
+...
+```
+
+:::tip
+
+Docusaurus 也有一个“仅博客模式”供那些只想写博客的用户使用。 你可以用类似上述的方法实现。 你可以在[仅博客模式](../../blog.mdx#blog-only-mode)一节了解如何配置。
+
+:::

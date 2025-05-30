@@ -1,0 +1,108 @@
+---
+sidebar_position: 5
+slug: /api/plugins/@docusaurus/plugin-debug
+---
+
+# 📦 plugin-debug
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+The debug plugin will display useful debug information at [`http://localhost:3000/__docusaurus/debug`](http://localhost:3000/__docusaurus/debug).
+
+`.docusaurus` 디렉터리의 콘텐츠(경로 만들기 같은)를 쉽게 검사할 수 있을 뿐 아니라 `contentLoaded` 수명 주기를 통해 플러그인 데이터가 로드되는 것처럼 디스크에 쓰지 않는 데이터 구조를 검사해야 할 때 플러그인 개발자에게 유용한 기능입니다.
+
+:::info
+
+classic 프리셋 설정을 통해 플러그인을 사용한다면 프리셋 기본 설정은 **개발중에는 플러그인을 활성화하고 제품 빌드 시에는 비활성화**(`debug: undefined`)해서 잠재적으로 민감한 정보 노출을 피합니다. `debug: true`로 설정해 항상 활성화하거나 `debug: false`로 설정해 항상 비활성화할 수 있습니다.
+
+독립 실행형 플러그인을 사용하는 경우에는 환경 설정 확인 후 같은 효과를 얻을 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    // highlight-next-line
+    process.env.NODE_ENV !== 'production' && '@docusaurus/plugin-debug',
+  ].filter(Boolean),
+};
+```
+
+:::
+
+:::note
+
+버그를 발견하고 등록하려는 경우 해당 플러그인을 활성화하는 것을 권장할 겁니다. 해당 플러그인을 사용하면 여러분의 배포 설정을 좀 더 쉽게 검사할 수 있습니다.
+
+민감한 정보를 가지고 있지 않다면 제품 배포 시에 [도큐사우루스처럼](/__docusaurus/debug) 설정할 수도 있습니다.
+
+:::
+
+## 설치 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-debug
+```
+
+:::tip
+
+`@docusaurus/preset-classic`을 설치한 경우에는 플러그인을 따로 설치할 필요는 없습니다.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## 설정 {#configuration}
+
+해당 플러그인은 현재 옵션을 가지고 있지 않습니다.
+
+### 설정 예시 {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 플러그인을 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```mdx-code-block
+<Tabs groupId="api-config-ex">
+<TabItem value="preset" label="Preset options">
+```
+
+프리셋을 사용하는 경우 [프리셋 옵션](../../using-plugins.mdx#docusauruspreset-classic)을 통해 플러그인을 설정할 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // highlight-next-line
+        debug: true, // This will enable the plugin in production
+      },
+    ],
+  ],
+};
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="plugin" label="Plugin Options">
+```
+
+독립적으로 실행되는 플러그인을 사용하는 경우에는 플러그인에 대한 옵션을 직접 설정할 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // highlight-next-line
+  plugins: ['@docusaurus/plugin-debug'],
+};
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```

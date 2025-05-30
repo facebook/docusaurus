@@ -1,0 +1,290 @@
+---
+sidebar_position: 2
+slug: /api/plugins/@docusaurus/plugin-content-blog
+---
+
+# 📦 plugin-content-blog
+
+import APITable from '@site/src/components/APITable';
+
+Fournit la fonctionnalité [Blog](blog.mdx) et c'est le plugin par défaut du blog de Docusaurus.
+
+:::warning certaines fonctionnalités uniquement en production
+
+La [fonctionnalité flux](../../blog.mdx#feed) fonctionne en extrayant la sortie de compilation, et **n'est active qu'en production**.
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-content-blog
+```
+
+:::tip
+
+Si vous utilisez le preset `@docusaurus/preset-classic`, vous n'avez pas besoin d'installer ce plugin en tant que dépendance.
+
+Vous pouvez configurer ce plugin via les [options du preset](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom                           | Type                                                                                                                      | Par défaut                                 | Description                                                                                                                                                                                                                                                  |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `path`                        | `string`                                                                                                                  | `'blog'`                                   | Chemin vers le répertoire de contenu du blog sur le système de fichiers, relatif au répertoire du site.                                                                                                                                                      |
+| `editUrl`                     | <code>string \| [EditUrlFn](#EditUrlFn)</code>                                                                            | `undefined`                                | URL de base pour modifier votre site. L'URL finale est calculée par `editUrl + relativePostPath`. L'utilisation d'une fonction permet un contrôle plus nuancé pour chaque fichier. Omettre cette variable désactivera entièrement les liens de modification. |
+| `editLocalizedFiles`          | `boolean`                                                                                                                 | `false`                                    | L'URL de modification ciblera le fichier localisé, au lieu du fichier original non localisé. Ignoré lorsque `editUrl` est une fonction.                                                                                                                      |
+| `blogTitle`                   | `string`                                                                                                                  | `'Blog'`                                   | Titre de la page du blog pour un meilleur référencement.                                                                                                                                                                                                     |
+| `blogDescription`             | `string`                                                                                                                  | `'Blog'`                                   | Description de la page du blog pour un meilleur référencement.                                                                                                                                                                                               |
+| `blogSidebarCount`            | <code>number \| 'ALL'</code>                                                                                              | `5`                                        | Nombre d'articles du blog à afficher dans la barre latérale du blog. `'ALL'` pour montrer tous les articles du blog; `0` pour désactiver.                                                                                                                    |
+| `blogSidebarTitle`            | `string`                                                                                                                  | `'Recent posts'`                           | Titre de la barre latérale du blog.                                                                                                                                                                                                                          |
+| `routeBasePath`               | `string`                                                                                                                  | `'blog'`                                   | Route URL pour la section blog de votre site. **NE PAS** inclure un slash de fin. Utilisez `/` pour mettre le blog à la racine du chemin.                                                                                                                    |
+| `tagsBasePath`                | `string`                                                                                                                  | `'tags'`                                   | Route URL pour la section des tags de votre blog. Sera ajouté à `routeBasePath`. **NE PAS** inclure un slash de fin.                                                                                                                                         |
+| `archiveBasePath`             | <code>string \| null</code>                                                                                               | `'archive'`                                | Route d'URL pour la section archive de votre blog. Sera ajouté à `routeBasePath`. **NE PAS** inclure un slash de fin. Utilisez `null` pour désactiver la génération d'archives.                                                                              |
+| `include`                     | `string[]`                                                                                                                | `['**/*.{md,mdx}']`                        | Tableau de patterns de glob correspondant aux fichiers Markdown à construire, relatif au chemin de contenu.                                                                                                                                                  |
+| `exclude`                     | `string[]`                                                                                                                | _Voir l'exemple de configuration_          | Tableau de patterns de glob correspondant aux fichiers Markdown à exclure. Sert d'affinement basé sur l'option `include`.                                                                                                                                    |
+| `postsPerPage`                | <code>number \| 'ALL'</code>                                                                                              | `10`                                       | Nombre d'articles à afficher par page dans la liste. Utilisez `'ALL'` pour afficher tous les articles sur une page de liste.                                                                                                                                 |
+| `blogListComponent`           | `string`                                                                                                                  | `'@theme/BlogListPage'`                    | Composant racine de la page de liste du blog.                                                                                                                                                                                                                |
+| `blogPostComponent`           | `string`                                                                                                                  | `'@theme/BlogPostPage'`                    | Composant racine de chaque page d'article du blog.                                                                                                                                                                                                           |
+| `blogTagsListComponent`       | `string`                                                                                                                  | `'@theme/BlogTagsListPage'`                | Composant racine de la page de la liste des tags.                                                                                                                                                                                                            |
+| `blogTagsPostsComponent`      | `string`                                                                                                                  | `'@theme/BlogTagsPostsPage'`               | Composant racine de la page « articles contenant le tag ».                                                                                                                                                                                                   |
+| `blogArchiveComponent`        | `string`                                                                                                                  | `'@theme/BlogArchivePage'`                 | Composant racine de la page d'archive du blog.                                                                                                                                                                                                               |
+| `remarkPlugins`               | `any[]`                                                                                                                   | `[]`                                       | Plugins Remark passés à MDX.                                                                                                                                                                                                                                 |
+| `rehypePlugins`               | `any[]`                                                                                                                   | `[]`                                       | Plugins Rehype passés à MDX.                                                                                                                                                                                                                                 |
+| `beforeDefaultRemarkPlugins`  | `any[]`                                                                                                                   | `[]`                                       | Les plugins Remark personnalisés sont transmis à MDX avant les plugins Remark par défaut de Docusaurus.                                                                                                                                                      |
+| `beforeDefaultRehypePlugins`  | `any[]`                                                                                                                   | `[]`                                       | Les plugins Rehype personnalisés sont transmis à MDX avant les plugins Rehype par défaut de Docusaurus.                                                                                                                                                      |
+| `truncateMarker`              | `RegExp`                                                                                                                  | `/<!--\s*(truncate)\s*-->/`                | Marqueur de troncature marquant la fin du résumé.                                                                                                                                                                                                            |
+| `showReadingTime`             | `boolean`                                                                                                                 | `true`                                     | Affiche le temps de lecture estimé pour l'article du blog.                                                                                                                                                                                                   |
+| `readingTime`                 | `ReadingTimeFn`                                                                                                           | Le temps de lecture par défaut             | Un callback pour personnaliser le nombre du temps de lecture affiché.                                                                                                                                                                                        |
+| `authorsMapPath`              | `string`                                                                                                                  | `'authors.yml'`                            | Chemin vers le fichier map des auteurs, relatif au répertoire de contenu du blog.                                                                                                                                                                            |
+| `feedOptions`                 | _Voir ci-dessous_                                                                                                         | `{type: ['rss', 'atom']}`                  | Flux du blog.                                                                                                                                                                                                                                                |
+| `feedOptions.type`            | <code>[FeedType](#FeedType) \| [FeedType](#FeedType)[] \| 'all' \| null</code>                                            | **Obligatoire**                            | Type de flux à générer. Utilisez `null` pour désactiver la génération.                                                                                                                                                                                       |
+| `feedOptions.createFeedItems` | <code>[CreateFeedItemsFn](#CreateFeedItemsFn) \| undefined</code>                                                         | `undefined`                                | Une fonction optionnelle qui peut être utilisée pour transformer et / ou filtrer les éléments du flux.                                                                                                                                                       |
+| `feedOptions.title`           | `string`                                                                                                                  | `siteConfig.title`                         | Titre du flux.                                                                                                                                                                                                                                               |
+| `feedOptions.description`     | `string`                                                                                                                  | <code>\`$\{siteConfig.title} Blog\`</code> | Description du flux.                                                                                                                                                                                                                                         |
+| `feedOptions.copyright`       | `string`                                                                                                                  | `undefined`                                | Message de copyright.                                                                                                                                                                                                                                        |
+| `feedOptions.language`        | `string` (Voir [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) pour les valeurs possibles) | `undefined`                                | Métadonnées de langue du flux.                                                                                                                                                                                                                               |
+| `sortPosts`                   | <code>'descending' \| 'ascending' </code>                                                                                 | `'descending'`                             | Détermine l'orientation du tri des articles du blog.                                                                                                                                                                                                         |
+
+```mdx-code-block
+</APITable>
+```
+
+### Types {#types}
+
+#### `EditUrlFn` {#EditUrlFn}
+
+```ts
+type EditUrlFunction = (params: {
+  blogDirPath: string;
+  blogPath: string;
+  permalink: string;
+  locale: string;
+}) => string | undefined;
+```
+
+#### `ReadingTimeFn` {#ReadingTimeFn}
+
+```ts
+type ReadingTimeOptions = {
+  wordsPerMinute: number;
+  wordBound: (char: string) => boolean;
+};
+
+type ReadingTimeCalculator = (params: {
+  content: string;
+  frontMatter?: BlogPostFrontMatter & Record<string, unknown>;
+  options?: ReadingTimeOptions;
+}) => number;
+
+type ReadingTimeFn = (params: {
+  content: string;
+  frontMatter: BlogPostFrontMatter & Record<string, unknown>;
+  defaultReadingTime: ReadingTimeCalculator;
+}) => number | undefined;
+```
+
+#### `FeedType` {#FeedType}
+
+```ts
+type FeedType = 'rss' | 'atom' | 'json';
+```
+
+#### `CreateFeedItemsFn` {#CreateFeedItemsFn}
+
+```ts
+type CreateFeedItemsFn = (params: {
+  blogPosts: BlogPost[];
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  defaultCreateFeedItemsFn: CreateFeedItemsFn;
+}) => Promise<BlogFeedItem[]>;
+```
+
+### Exemple de configuration {#ex-config}
+
+Vous pouvez configurer ce plugin via les options du preset ou du plugin.
+
+:::tip
+
+La plupart des utilisateurs de Docusaurus configurent ce plugin via les options du preset.
+
+:::
+
+```js config-tabs
+// Options du preset : blog
+// Options du Plugin : @docusaurus/plugin-content-blog
+
+const config = {
+  path: 'blog',
+  // Cas d'utilisation simple : chaîne editUrl
+  // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+  // Cas d'utilisation avancé : fonction editUrl
+  editUrl: ({locale, blogDirPath, blogPath, permalink}) =>
+    `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`,
+  editLocalizedFiles: false,
+  blogTitle: 'Blog title',
+  blogDescription: 'Blog',
+  blogSidebarCount: 5,
+  blogSidebarTitle: 'All our posts',
+  routeBasePath: 'blog',
+  include: ['**/*.{md,mdx}'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
+  ],
+  postsPerPage: 10,
+  blogListComponent: '@theme/BlogListPage',
+  blogPostComponent: '@theme/BlogPostPage',
+  blogTagsListComponent: '@theme/BlogTagsListPage',
+  blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
+  remarkPlugins: [require('remark-math')],
+  rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
+  truncateMarker: /<!--\s*(truncate)\s*-->/,
+  showReadingTime: true,
+  feedOptions: {
+    type: '',
+    title: '',
+    description: '',
+    copyright: '',
+    language: undefined,
+    createFeedItems: async (params) => {
+      const {blogPosts, defaultCreateFeedItems, ...rest} = params;
+      return defaultCreateFeedItems({
+        // ne conserver que les 10 articles de blog les plus récents dans le flux
+        blogPosts: blogPosts.filter((item, index) => index < 10),
+        ...rest,
+      });
+    },
+  },
+};
+```
+
+## Front matter du Markdown {#markdown-front-matter}
+
+Les documents Markdown peuvent utiliser les champs de métadonnées Markdown du frontmatter suivants, entourés par une ligne `---` de chaque côté.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom                      | Type       | Par défaut                                     | Description                                                                                                                                                                                                                                                                    |
+| ------------------------ | ---------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `authors`                | `Authors`  | `undefined`                                    | Liste des auteurs de l'article du blog (ou auteur unique). Lisez le [guide `authors`](../../blog.mdx#blog-post-authors) pour plus d'explications. Préférez `authors` aux champs frontMatter `author_*`, même pour les articles du blog avec un seul auteur.                    |
+| `author`                 | `string`   | `undefined`                                    | ⚠️ Préférez l'utilisation de `authors`. Le nom de l'auteur de l'article du blog.                                                                                                                                                                                               |
+| `author_url`             | `string`   | `undefined`                                    | ⚠️ Préférez l'utilisation de `authors`. L'URL à laquelle le nom de l'auteur sera lié. This could be a GitHub, X, Facebook profile URL, etc.                                                                                                                                    |
+| `author_image_url`       | `string`   | `undefined`                                    | ⚠️ Préférez l'utilisation de `authors`. L'URL de l'image miniature de l'auteur.                                                                                                                                                                                                |
+| `author_title`           | `string`   | `undefined`                                    | ⚠️ Préférez l'utilisation de `authors`. Une description de l'auteur.                                                                                                                                                                                                           |
+| `title`                  | `string`   | Titre du Markdown                              | Le titre de l'article du blog.                                                                                                                                                                                                                                                 |
+| `date`                   | `string`   | Nom du fichier ou heure de création du fichier | La date de création de l'article du blog. Si non spécifié, ceci peut être extrait du nom du fichier ou du dossier, par exemple `2021-04-15-blog-post.mdx`, `2021-04-15-blog-post/index.mdx`, `2021/04/15/blog-post.mdx`. Sinon, c'est l'heure de création du fichier Markdown. |
+| `tags`                   | `Tag[]`    | `undefined`                                    | Une liste de chaînes ou d'objets de deux champs de chaîne `label` et `permalink` pour taguer vos articles.                                                                                                                                                                     |
+| `draft`                  | `boolean`  | `false`                                        | Un booléen pour indiquer que l'article du blog est en cours de rédaction. Les brouillons d'articles du blog seront affichés uniquement lors du développement.                                                                                                                  |
+| `hide_table_of_contents` | `boolean`  | `false`                                        | S'il faut cacher la table des matières à droite.                                                                                                                                                                                                                               |
+| `toc_min_heading_level`  | `number`   | `2`                                            | Le niveau de titre minimum affiché dans la table des matières. Doit être compris entre 2 et 6 et inférieur ou égal à la valeur maximale.                                                                                                                                       |
+| `toc_max_heading_level`  | `number`   | `3`                                            | Le niveau de titre maximum affiché dans la table des matières. Doit être compris entre 2 et 6.                                                                                                                                                                                 |
+| `keywords`               | `string[]` | `undefined`                                    | Méta-tag de mots-clés, qui deviendront les `<meta name="keywords" content="keyword1,keyword2,..."/>` dans `<head>`, utilisés par les moteurs de recherche.                                                                                                                     |
+| `description`            | `string`   | La première ligne du contenu Markdown          | La description de votre document qui deviendra `<meta name="description" content="..."/>` et `<meta property="og:description" content="..."/>` dans `<head>`, utilisés par les moteurs de recherche.                                                                           |
+| `image`                  | `string`   | `undefined`                                    | Couverture ou image miniature qui sera utilisée lors de l'affichage du lien vers votre article.                                                                                                                                                                                |
+| `slug`                   | `string`   | Chemin du fichier                              | Permet de personnaliser l'URL de l'article du blog (`/<routeBasePath>/<slug>`). Prise en charge de multiples formats : `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`.                                                                                         |
+
+```mdx-code-block
+</APITable>
+```
+
+```ts
+type Tag = string | {label: string; permalink: string};
+
+// Une clé d'auteur fait référence à un auteur du fichier authors.yml du plugin global
+type AuthorKey = string;
+
+type Author = {
+  key?: AuthorKey;
+  name: string;
+  title?: string;
+  url?: string;
+  image_url?: string;
+};
+
+// Le champ authors du frontMatter permet plusieurs formes possibles
+type Authors = AuthorKey | Author | (AuthorKey | Author)[];
+```
+
+Exemple :
+
+```md
+---
+titre: Bienvenue Docusaurus v2
+authors:
+  - slorber
+  - yangshun
+  - name: Joel Marcey
+    title: Co-créateur de Docusaurus 1
+    url: https://github. om/JoelMarcey
+    image_url: https://github.com/JoelMarcey.png
+tags: [hello, docusaurus-v2]
+description: Ceci est mon premier article sur Docusaurus 2.
+image: https://i.imgur.com/mErPwqL.png
+hide_table_of_contents: false
+---
+
+Un article de blog en Markdown
+```
+
+## i18n {#i18n}
+
+Lisez d'abord [l'introduction i18n](../../i18n/i18n-introduction.mdx) .
+
+### Emplacement des fichiers de traduction {#translation-files-location}
+
+- **Chemin de base** : `website/i18n/[locale]/docusaurus-plugin-content-blog`
+- **Chemin d'accès multi-instance** : `website/i18n/[locale]/docusaurus-plugin-content-blog-[pluginId]`
+- **Fichiers JSON** : extrait avec [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
+- **Fichiers Markdown** : `website/i18n/[locale]/docusaurus-plugin-content-blog`
+
+### Exemple de structure du système de fichiers {#example-file-system-structure}
+
+```bash
+website/i18n/[locale]/docusaurus-plugin-content-blog
+│
+│ # traductions pour website/blog
+├── authors.yml
+├── first-blog-post.md
+├── second-blog-post.md
+│
+│ # traductions pour les options du plugin qui seront rendues
+└── options.json
+```

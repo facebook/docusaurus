@@ -1,0 +1,377 @@
+---
+keywords:
+  - algolia
+  - 搜索
+---
+
+# 搜索
+
+有几种为你的网站添加搜索功能的方案：
+
+- 🥇 [Algolia DocSearch](#using-algolia-docsearch) (**official**)
+- 👥 [Typesense DocSearch](#using-typesense-docsearch)
+- 👥 [Local Search](#using-local-search)
+- 👥 [Your own `SearchBar` component](#using-your-own-search)
+
+:::info
+
+🥇 Docusaurus provides **first-class support** for [Algolia DocSearch](#using-algolia-docsearch).
+
+👥 Other options are **maintained by the community**: please report bugs to their respective repositories.
+
+:::
+
+## 🥇 Using Algolia DocSearch {#using-algolia-docsearch}
+
+Docusaurus has **official support** for [Algolia DocSearch](https://docsearch.algolia.com).
+
+The service is **free** for any developer documentation or technical blog: just make sure to read the [checklist](https://docsearch.algolia.com/docs/who-can-apply/) and [apply to the DocSearch program](https://docsearch.algolia.com/apply).
+
+Docsearch 每周一次爬取你的网站（可以在网页界面上配置具体时间），并将所有内容汇总到一个 Algolia 索引中。 随后，你的前端会调用 Algolia API 来直接查询这些内容。
+
+If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-apply) for the free, hosted version of DocSearch, or if your website sits behind a firewall and is not public, then you can [run your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler.
+
+:::note
+
+By default, the Docusaurus preset generates a [sitemap.xml](https://docusaurus.io/sitemap.xml) that the Algolia crawler can use.
+
+:::
+
+:::info From the old docsearch?
+
+You can read more about migration from the legacy DocSearch infra in [our blog post](/blog/2021/11/21/algolia-docsearch-migration) or [the DocSearch migration docs](https://docsearch.algolia.com/docs/migrating-from-legacy).
+
+:::
+
+### Index Configuration {#algolia-index-configuration}
+
+在你的申请被批准并部署完毕后，你会收到一封包含所有详细信息的电子邮件，告诉你如何将 DocSearch 添加到你的项目。 Editing and managing your crawls can be done via [the web interface](https://crawler.algolia.com/). 部署完毕后，索引就立即可用了，所以一般不需要手动配置。
+
+:::danger Use the recommended crawler config
+
+It is highly recommended to use our official [**Docusaurus v3 crawler configuration**](https://docsearch.algolia.com/docs/templates/#docusaurus-v3-template). 如果你使用了不同的爬虫配置，我们不能够为你提供支持。
+
+:::
+
+:::warning When updating your crawler config
+
+The crawler configuration contains a `initialIndexSettings`, which will only be used to initialize your Algolia index if it does not exist yet.
+
+If you update your `initialIndexSettings` crawler setting, it is possible to update the index manually through the interface, but [the Algolia team recommends to delete your index and then restart a crawl](https://github.com/facebook/docusaurus/issues/9200#issuecomment-1667338492) to fully reinitialize it with the new settings.
+
+:::
+
+### Connecting Algolia {#connecting-algolia}
+
+Docusaurus' own `@docusaurus/preset-classic` supports Algolia DocSearch integration. 如果你用的是经典预设，就不需要额外安装任何东西。
+
+<details>
+<summary>Installation steps when not using <code>@docusaurus/preset-classic</code></summary>
+
+1. 安装软件包：
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-search-algolia
+```
+
+2. Register the theme in `docusaurus.config.js`:
+
+```js title="docusaurus.config.js"
+export default {
+  title: 'My site',
+  // ...
+  themes: ['@docusaurus/theme-search-algolia'],
+  themeConfig: {
+    // ...
+  },
+};
+```
+
+</details>
+
+Then, add an `algolia` field in your `themeConfig`. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)** to get your Algolia index and API key.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  themeConfig: {
+    // ...
+    // highlight-start
+    algolia: {
+      // The application ID provided by Algolia
+      appId: 'YOUR_APP_ID',
+
+      // Public API key: it is safe to commit it
+      apiKey: 'YOUR_SEARCH_API_KEY',
+
+      indexName: 'YOUR_INDEX_NAME',
+
+      // Optional: see doc section below
+      contextualSearch: true,
+
+      // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
+      externalUrlRegex: 'external\\.com|domain\\.com',
+
+      // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
+      replaceSearchResultPathname: {
+        from: '/docs/', // or as RegExp: /\/docs\//
+        to: '/',
+      },
+
+      // Optional: Algolia search parameters
+      searchParameters: {},
+
+      // Optional: path for search page that enabled by default (`false` to disable it)
+      searchPagePath: 'search',
+
+      // Optional: whether the insights feature is enabled or not on Docsearch (`false` by default)
+      insights: false,
+
+      //... other Algolia params
+    },
+    // highlight-end
+  },
+};
+```
+
+:::info
+
+The `searchParameters` option used to be named `algoliaOptions` in Docusaurus v1.
+
+Refer to its [official DocSearch documentation](https://docsearch.algolia.com/docs/api#searchparameters) for possible values.
+
+:::
+
+:::warning
+
+在 Algolia 爬取你的网站之前，搜索功能无法可靠地工作。
+
+If search doesn't work after any significant change, please use the Algolia dashboard to **trigger a new crawl**.
+
+:::
+
+### Contextual search {#contextual-search}
+
+Contextual search is **enabled by default**.
+
+It ensures that search results are **relevant to the current language and version**.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  themeConfig: {
+    // ...
+    // highlight-start
+    algolia: {
+      contextualSearch: true,
+    },
+    // highlight-end
+  },
+};
+```
+
+Let's consider you have 2 docs versions (**v1** and **v2**) and 2 languages (`en` and `fr`).
+
+浏览 v2 的文档时，返回 v1 文档的搜索结果会很奇怪。 有时侯 v1 和 v2 的文档非常相似，导致同一个查询产生重复的搜索结果（每个版本一个结果）。
+
+同样，在浏览中文网站时，返回英文文档的搜索结果也很奇怪。
+
+上下文搜索功能解决了这个问题。它能够理解你正在浏览某个文档版本及语言，并动态创建搜索过滤器。
+
+- on `/en/docs/v1/myDoc`, search results will only include **English** results for the **v1** docs (+ other unversioned pages)
+- on `/fr/docs/v2/myDoc`, search results will only include **French** results for the **v2** docs (+ other unversioned pages)
+
+:::info
+
+When using `contextualSearch: true` (default), the contextual facet filters will be merged with the ones provided with `algolia.searchParameters.facetFilters` .
+
+For specific needs, you can disable `contextualSearch` and define your own `facetFilters`:
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  themeConfig: {
+    // ...
+    // highlight-start
+    algolia: {
+      contextualSearch: false,
+      searchParameters: {
+        facetFilters: ['language:en', ['filter1', 'filter2'], 'filter3'],
+      },
+    },
+    // highlight-end
+  },
+};
+```
+
+Refer to the relevant [Algolia faceting documentation](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/).
+
+:::
+
+:::warning Contextual search doesn't work?
+
+If you only get search results when Contextual Search is disabled, this is very likely because of an [index configuration issue](#algolia-no-search-results).
+
+:::
+
+### Styling your Algolia search {#styling-your-algolia-search}
+
+DocSearch 默认自带一个精心设计的主题，保证可访问性，确保颜色和对比度符合标准。
+
+Still, you can reuse the [Infima CSS variables](styling-layout.mdx#styling-your-site-with-infima) from Docusaurus to style DocSearch by editing the `/src/css/custom.css` file.
+
+```css title="/src/css/custom.css"
+[data-theme='light'] .DocSearch {
+  /* --docsearch-primary-color: var(--ifm-color-primary); */
+  /* --docsearch-text-color: var(--ifm-font-color-base); */
+  --docsearch-muted-color: var(--ifm-color-secondary-darkest);
+  --docsearch-container-background: rgba(94, 100, 112, 0.7);
+  /* 弹窗 */
+  --docsearch-modal-background: var(--ifm-color-secondary-lighter);
+  /* 搜索框 */
+  --docsearch-searchbox-background: var(--ifm-color-secondary);
+  --docsearch-searchbox-focus-background: var(--ifm-color-white);
+  /* 条目 */
+  --docsearch-hit-color: var(--ifm-font-color-base);
+  --docsearch-hit-active-color: var(--ifm-color-white);
+  --docsearch-hit-background: var(--ifm-color-white);
+  /* 页脚 */
+  --docsearch-footer-background: var(--ifm-color-white);
+}
+
+[data-theme='dark'] .DocSearch {
+  --docsearch-text-color: var(--ifm-font-color-base);
+  --docsearch-muted-color: var(--ifm-color-secondary-darkest);
+  --docsearch-container-background: rgba(47, 55, 69, 0.7);
+  /* 弹窗 */
+  --docsearch-modal-background: var(--ifm-background-color);
+  /* 搜索框 */
+  --docsearch-searchbox-background: var(--ifm-background-color);
+  --docsearch-searchbox-focus-background: var(--ifm-color-black);
+  /* 条目 */
+  --docsearch-hit-color: var(--ifm-font-color-base);
+  --docsearch-hit-active-color: var(--ifm-color-white);
+  --docsearch-hit-background: var(--ifm-color-emphasis-100);
+  /* 页脚 */
+  --docsearch-footer-background: var(--ifm-background-surface-color);
+  --docsearch-key-gradient: linear-gradient(
+    -26.5deg,
+    var(--ifm-color-emphasis-200) 0%,
+    var(--ifm-color-emphasis-100) 100%
+  );
+}
+```
+
+### Customizing the Algolia search behavior {#customizing-the-algolia-search-behavior}
+
+Algolia DocSearch supports a [list of options](https://docsearch.algolia.com/docs/api/) that you can pass to the `algolia` field in the `docusaurus.config.js` file.
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    // ...
+    algolia: {
+      apiKey: 'YOUR_API_KEY',
+      indexName: 'YOUR_INDEX_NAME',
+      // Options...
+    },
+  },
+};
+```
+
+### Editing the Algolia search component {#editing-the-algolia-search-component}
+
+If you prefer to edit the Algolia search React component, [swizzle](swizzling.mdx) the `SearchBar` component in `@docusaurus/theme-search-algolia`:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-search-algolia SearchBar
+```
+
+### Troubleshooting {#algolia-troubleshooting}
+
+以下是 Docusaurus 用户在使用 Algolia DocSearch 时最常见的问题。
+
+#### No Search Results {#algolia-no-search-results}
+
+Seeing no search results is usually related to an **index configuration problem**.
+
+<details>
+  <summary>如何检查我是否有配置问题？</summary>
+
+Docusaurus uses [Algolia faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/) for its [Contextual Search](#contextual-search) feature, to create dynamic queries such as:
+
+```json
+[
+  "language:en",
+  [
+    "docusaurus_tag:default",
+    "docusaurus_tag:docs-default-3.2.1",
+    "docusaurus_tag:docs-community-current",
+    "docusaurus_tag:docs-docs-tests-current"
+  ]
+]
+```
+
+On the Algolia UI, your index should allow to create facet queries on fields `docusaurus_tag`, `language`, `lang`, `version`, `type`, as shown in the screenshot below:
+
+![Algolia index showing appropriate faceting fields](/img/docsearch-troubleshoot-index-facets.jpg)
+
+Alternatively, if you disable [Contextual Search](#contextual-search) with `{contextualSearch: false}` (which we don't particularly recommend), Docusaurus will not use facet queries, and you should start seeing results.
+
+</details>
+
+:::danger Use the recommended configuration
+
+We [recommend a specific crawler configuration](#algolia-index-configuration) for a good reason. 如果你选择使用不同的配置，我们不能够为你提供支持。
+
+:::
+
+你可以通过遵循以下步骤修复索引配置问题：
+
+1. Use the [recommend crawler configuration](#algolia-index-configuration)
+2. 通过用户界面删除你的索引
+3. 通过用户界面触发一个新的爬虫
+4. Check your index is recreated with the appropriate faceting fields: `docusaurus_tag`, `language`, `lang`, `version`, `type`
+5. See that you now get search results, even with [Contextual Search](#contextual-search) enabled
+
+### Support {#algolia-support}
+
+Algolia DocSearch 团队可以帮助你解决网站的搜索问题。
+
+You can reach out to Algolia via [their support page](https://algolia.com/support) or on [Discord](https://discord.gg/wr2m5j948P).
+
+Docusaurus also has an `#algolia` channel on [Discord](https://discordapp.com/invite/docusaurus).
+
+## 👥 Using Typesense DocSearch {#using-typesense-docsearch}
+
+[Typesense](https://typesense.org) DocSearch works similar to Algolia DocSearch, except that your website is indexed into a Typesense search cluster.
+
+Typesense is an [open source](https://github.com/typesense/typesense) instant-search engine that you can either:
+
+- [Self-Host](https://typesense.org/docs/guide/install-typesense.html#option-2-local-machine-self-hosting) on your own servers or
+- Use the Managed [Typesense Cloud](https://cloud.typesense.org) service.
+
+与 Algolia DocSearch 类似，Typesense 分为两个部分：
+
+- [typesense-docsearch-scraper](https://github.com/typesense/typesense-docsearch-scraper) - which scrapes your website and indexes the data in your Typesense cluster.
+- [docusaurus-theme-search-typesense](https://github.com/typesense/docusaurus-theme-search-typesense) - a search bar UI component to add to your website.
+
+Read a step-by-step walk-through of how to [run typesense-docsearch-scraper here](https://typesense.org/docs/guide/docsearch.html#step-1-set-up-docsearch-scraper) and how to [install the Search Bar in your Docusaurus Site here](https://typesense.org/docs/guide/docsearch.html#option-a-docusaurus-powered-sites).
+
+## 👥 Using Local Search {#using-local-search}
+
+对于搜索索引比较小的网站，你可以使用本地搜索插件。索引会在用户访问你的网站时下载到浏览器中。
+
+You'll find a list of community-supported [local search plugins listed here](https://docusaurus.io/community/resources#search).
+
+## 👥 Using your own search {#using-your-own-search}
+
+To use your own search, swizzle the `SearchBar` component in `@docusaurus/theme-classic`
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic SearchBar
+```
+
+This will create an `src/theme/SearchBar` file in your project folder. Restart your dev server and edit the component, you will see that Docusaurus uses your own `SearchBar` component now.
+
+**Notes**: You can alternatively [swizzle from Algolia SearchBar](#editing-the-algolia-search-component) and create your own search component from there.

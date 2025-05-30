@@ -1,0 +1,418 @@
+---
+sidebar_position: 2
+slug: /api/plugins/@docusaurus/plugin-content-blog
+---
+
+# 📦 plugin-content-blog
+
+import APITable from '@site/src/components/APITable';
+
+Provides the [Blog](blog.mdx) feature and is the default blog plugin for Docusaurus.
+
+:::warning some features production only
+
+The [feed feature](../../blog.mdx#feed) works by extracting the build output, and is **only active in production**.
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-content-blog
+```
+
+:::tip
+
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명                           | 타입                                                                                                                | 기본값                                                        | 설명                                                                                                                                                                                                                                                       |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `path`                        | `string`                                                                                                          | `'blog'`                                                   | 사이트 디렉토리에 상대적인 파일 시스템의 블로그 콘텐츠 디렉토리 경로입니다.                                                                                                                                                                                                               |
+| `editUrl`                     | <code>string \| [EditUrlFn](#EditUrlFn)</code>                                                                    | `undefined`                                                | 사이트를 편집하기 위한 Base URL입니다. The final URL is computed by `editUrl + relativePostPath`. 옵션 사용 시 각 파일에 대한 세밀한 제어를 할 수 있습니다. 해당 필드를 설정하지 않으면 편집 링크가 비활성화됩니다.                                                                                                  |
+| `editLocalizedFiles`          | `boolean`                                                                                                         | `false`                                                    | 편집 URL은 현지화되지 않은 원본 파일 대신 현지화된 파일을 대상으로 합니다. Ignored when `editUrl` is a function.                                                                                                                                                                       |
+| `blogTitle`                   | `string`                                                                                                          | `'Blog'`                                                   | 더 나은 SEO를 위한 블로그 페이지 제목                                                                                                                                                                                                                                  |
+| `blogDescription`             | `string`                                                                                                          | `'Blog'`                                                   | 더 나은 SEO를 위한 블로그 페이지 메타 설명                                                                                                                                                                                                                               |
+| `blogSidebarCount`            | <code>number \| 'ALL'</code>                                                                                      | `5`                                                        | 블로그 사이드바에 표시할 블로그 게시물 수입니다. `'ALL'` to show all blog posts; `0` to disable.                                                                                                                                                                              |
+| `blogSidebarTitle`            | `string`                                                                                                          | `'Recent posts'`                                           | 블로그 사이드바 제목                                                                                                                                                                                                                                              |
+| `routeBasePath`               | `string`                                                                                                          | `'blog'`                                                   | 사이트 블로그 섹션에 대한 URL 라우트 **DO NOT** include a trailing slash. Use `/` to put the blog at root path.                                                                                                                                                        |
+| `tagsBasePath`                | `string`                                                                                                          | `'tags'`                                                   | 블로그 태그 섹션에 대한 URL 라우트 Will be appended to `routeBasePath`.                                                                                                                                                                                               |
+| `pageBasePath`                | `string`                                                                                                          | `'page'`                                                   | URL route for the pages section of your blog. Will be appended to `routeBasePath`.                                                                                                                                                                       |
+| `archiveBasePath`             | <code>string \| null</code>                                                                                       | `'archive'`                                                | 블로그 아카이브 섹션에 대한 URL 라우트 Will be appended to `routeBasePath`. **DO NOT** include a trailing slash. Use `null` to disable generation of archive.                                                                                                           |
+| `authorsBasePath`             | `string`                                                                                                          | `'authors'`                                                | URL route for the authors pages of your blog. Will be appended to `path`.                                                                                                                                                                                |
+| `include`                     | `string[]`                                                                                                        | `['**/*.{md,mdx}']`                                        | 콘텐츠 경로를 기준으로 빌드할 마크다운 파일과 일치하는 glob 패턴 배열입니다.                                                                                                                                                                                                            |
+| `exclude`                     | `string[]`                                                                                                        | _See example configuration_                                | 제외할 마크다운 파일과 일치하는 glob 패턴 배열입니다. Serves as refinement based on the `include` option.                                                                                                                                                                     |
+| `postsPerPage`                | <code>number \| 'ALL'</code>                                                                                      | `10`                                                       | 목록 페이지에서 페이지 당 표시할 게시물 수입니다. Use `'ALL'` to display all posts on one listing page.                                                                                                                                                                       |
+| `blogListComponent`           | `string`                                                                                                          | `'@theme/BlogListPage'`                                    | 블로그 목록 페이지의 루트 컴포넌트                                                                                                                                                                                                                                      |
+| `blogPostComponent`           | `string`                                                                                                          | `'@theme/BlogPostPage'`                                    | 각 블로그 게시물 페이지의 루트 컴포넌트                                                                                                                                                                                                                                   |
+| `blogTagsListComponent`       | `string`                                                                                                          | `'@theme/BlogTagsListPage'`                                | 태그 목록 페이지의 루트 컴포넌트                                                                                                                                                                                                                                       |
+| `blogTagsPostsComponent`      | `string`                                                                                                          | `'@theme/BlogTagsPostsPage'`                               | "태그를 포함한 게시물" 페이지의 루트 컴포넌트                                                                                                                                                                                                                               |
+| `blogArchiveComponent`        | `string`                                                                                                          | `'@theme/BlogArchivePage'`                                 | 블로그 아카이브 페이지의 루트 컴포넌트                                                                                                                                                                                                                                    |
+| `blogAuthorsPostsComponent`   | `string`                                                                                                          | `'@theme/Blog/Pages/BlogAuthorsPostsPage'`                 | Root component of the blog author page.                                                                                                                                                                                                                  |
+| `blogAuthorsListComponent`    | `string`                                                                                                          | `'@theme/Blog/Pages/BlogAuthorsListPage'`                  | Root component of the blog authors page index.                                                                                                                                                                                                           |
+| `remarkPlugins`               | `any[]`                                                                                                           | `[]`                                                       | MDX에 전달된 Remark 플러그인                                                                                                                                                                                                                                     |
+| `rehypePlugins`               | `any[]`                                                                                                           | `[]`                                                       | MDX에 전달된 Rehype 플러그인                                                                                                                                                                                                                                     |
+| `rehypePlugins`               | `any[]`                                                                                                           | `[]`                                                       | Recma plugins passed to MDX.                                                                                                                                                                                                                             |
+| `beforeDefaultRemarkPlugins`  | `any[]`                                                                                                           | `[]`                                                       | 기본 도큐사우루스 Remark 플러그인보다 먼저 MDX에 전달된 사용자 지정 Remark 플러그인                                                                                                                                                                                                   |
+| `beforeDefaultRehypePlugins`  | `any[]`                                                                                                           | `[]`                                                       | 기본 도큐사우루스 Rehype 플러그인보다 먼저 MDX에 전달된 사용자 지정 Rehype 플러그인                                                                                                                                                                                                   |
+| `truncateMarker`              | `RegExp`                                                                                                          | `/<!--\s*truncate\s*-->/` \| `\{\/\*\s*truncate\s*\*\/\}/` | 요약이 끝나는 곳을 표시하는 Truncate marker                                                                                                                                                                                                                          |
+| `showReadingTime`             | `boolean`                                                                                                         | `true`                                                     | 블로그 게시물의 예상 읽기 시간을 표시                                                                                                                                                                                                                                    |
+| `readingTime`                 | `ReadingTimeFn`                                                                                                   | 기본 읽기 시간                                                   | 표시되는 읽기 시간 숫자를 사용자 지정하기 위한 콜백                                                                                                                                                                                                                            |
+| `authorsMapPath`              | `string`                                                                                                          | `'authors.yml'`                                            | 블로그 콘텐츠 디렉토리에 상대적인 작성자 맵 파일 경로                                                                                                                                                                                                                           |
+| `feedOptions`                 | _See below_                                                                                                       | `{type: ['rss', 'atom']}`                                  | 블로그 피드                                                                                                                                                                                                                                                   |
+| `feedOptions.type`            | <code>[FeedType](#FeedType) \| [FeedType](#FeedType)[] \| 'all' \| null</code>                                    | **Required**                                               | 생성할 피드 유형입니다. Use `null` to disable generation.                                                                                                                                                                                                          |
+| `feedOptions.createFeedItems` | <code>[CreateFeedItemsFn](#CreateFeedItemsFn) \| undefined</code>                                                 | `undefined`                                                | 피드 항목을 변환하거나 필터링할 때 사용할 수 있는 선택 기능                                                                                                                                                                                                                       |
+| `feedOptions.limit`           | `number \| null \| false`                                                                                         | `20`                                                       | Limits the feed to the specified number of posts, `false` or `null` for all entries. Defaults to `20`.                                                                                                                                                   |
+| `feedOptions.title`           | `string`                                                                                                          | `siteConfig.title`                                         | 피드 제목                                                                                                                                                                                                                                                    |
+| `feedOptions.description`     | `string`                                                                                                          | <code>\`$\{siteConfig.title} Blog\`</code>                 | 피드 설명                                                                                                                                                                                                                                                    |
+| `feedOptions.copyright`       | `string`                                                                                                          | `undefined`                                                | 저작권 문구                                                                                                                                                                                                                                                   |
+| `feedOptions.xslt`            | <code>boolean \| [FeedXSLTOptions](#FeedXSLTOptions)</code>                                                       | `undefined`                                                | Permits to style the blog XML feeds with XSLT so that browsers render them nicely.                                                                                                                                                                       |
+| `feedOptions.language`        | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined`                                                | 피드 언어 메타데이터                                                                                                                                                                                                                                              |
+| `sortPosts`                   | <code>'descending' \| 'ascending' </code>                                                                         | `'descending'`                                             | 블로그 게시물 정렬 순서 설정                                                                                                                                                                                                                                         |
+| `processBlogPosts`            | <code>[ProcessBlogPostsFn](#ProcessBlogPostsFn)</code>                                                            | `undefined`                                                | An optional function which can be used to transform blog posts (filter, modify, delete, etc...).                                                                                                                                                         |
+| `showLastUpdateAuthor`        | `boolean`                                                                                                         | `false`                                                    | Whether to display the author who last updated the blog post.                                                                                                                                                                                            |
+| `showLastUpdateTime`          | `boolean`                                                                                                         | `false`                                                    | Whether to display the last date the blog post was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use`fetch-depth: 0`. |
+| `tags`                        | `string \| false \| null \| undefined`                                                                            | `tags.yml`                                                 | Path to the YAML tags file listing pre-defined tags. Relative to the blog content directory.                                                                                                                                                             |
+| `onInlineTags`                | `'ignore' \| 'log' \| 'warn' \| 'throw'`                                                                          | `warn`                                                     | The plugin behavior when blog posts contain inline tags (not appearing in the list of pre-defined tags, usually `tags.yml`).                                                                                                                             |
+| `onUntruncatedBlogPosts`      | `'ignore' \| 'log' \| 'warn' \| 'throw'`                                                                          | `warn`                                                     | The plugin behavior when blog posts do not contain a truncate marker.                                                                                                                                                                                    |
+
+```mdx-code-block
+</APITable>
+```
+
+### Types {#types}
+
+#### `EditUrlFn` {#EditUrlFn}
+
+```ts
+type EditUrlFunction = (params: {
+  blogDirPath: string;
+  blogPath: string;
+  permalink: string;
+  locale: string;
+}) => string | undefined;
+```
+
+#### `ReadingTimeFn` {#ReadingTimeFn}
+
+```ts
+type ReadingTimeOptions = {
+  wordsPerMinute: number;
+};
+
+type ReadingTimeCalculator = (params: {
+  content: string;
+  locale: string;
+  frontMatter?: BlogPostFrontMatter & Record<string, unknown>;
+  options?: ReadingTimeOptions;
+}) => number;
+
+type ReadingTimeFn = (params: {
+  content: string;
+  locale: string;
+  frontMatter: BlogPostFrontMatter & Record<string, unknown>;
+  defaultReadingTime: ReadingTimeCalculator;
+}) => number | undefined;
+```
+
+#### `FeedType` {#FeedType}
+
+```ts
+type FeedType = 'rss' | 'atom' | 'json';
+```
+
+#### `FeedXSLTOptions` {#FeedXSLTOptions}
+
+Permits to style the blog XML feeds so that browsers render them nicely with [XSLT](https://developer.mozilla.org/en-US/docs/Web/XSLT).
+
+- Use `true` to let the blog use its built-in `.xsl` and `.css` files to style the blog feed
+- Use a falsy value (`undefined | null | false`) to disable the feature
+- Use a `string` to provide a file path to a custom `.xsl` file relative to the blog content folder. By convention, you must provide a `.css` file with the exact same name.
+
+```ts
+type FeedXSLTOptions =
+  | boolean
+  | undefined
+  | null
+  | {
+      rss?: string | boolean | null | undefined;
+      atom?: string | boolean | null | undefined;
+    };
+```
+
+#### `CreateFeedItemsFn` {#CreateFeedItemsFn}
+
+```ts
+type CreateFeedItemsFn = (params: {
+  blogPosts: BlogPost[];
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  defaultCreateFeedItemsFn: CreateFeedItemsFn;
+}) => Promise<BlogFeedItem[]>;
+```
+
+#### `ProcessBlogPostsFn` {#ProcessBlogPostsFn}
+
+```ts
+type ProcessBlogPostsFn = (params: {
+  blogPosts: BlogPost[];
+}) => Promise<void | BlogPost[]>;
+```
+
+### Example configuration {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 플러그인을 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```js config-tabs
+// Preset Options: blog
+// Plugin Options: @docusaurus/plugin-content-blog
+
+const config = {
+  path: 'blog',
+  // Simple use-case: string editUrl
+  // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+  // Advanced use-case: functional editUrl
+  editUrl: ({locale, blogDirPath, blogPath, permalink}) =>
+    `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`,
+  editLocalizedFiles: false,
+  blogTitle: 'Blog title',
+  blogDescription: 'Blog',
+  blogSidebarCount: 5,
+  blogSidebarTitle: 'All our posts',
+  routeBasePath: 'blog',
+  include: ['**/*.{md,mdx}'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
+  ],
+  postsPerPage: 10,
+  blogListComponent: '@theme/BlogListPage',
+  blogPostComponent: '@theme/BlogPostPage',
+  blogTagsListComponent: '@theme/BlogTagsListPage',
+  blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
+  remarkPlugins: [require('./my-remark-plugin')],
+  rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
+  truncateMarker: /<!--\s*(truncate)\s*-->/,
+  showReadingTime: true,
+  feedOptions: {
+    type: '',
+    title: '',
+    description: '',
+    copyright: '',
+    language: undefined,
+    createFeedItems: async (params) => {
+      const {blogPosts, defaultCreateFeedItems, ...rest} = params;
+      return defaultCreateFeedItems({
+        // keep only the 10 most recent blog posts in the feed
+        blogPosts: blogPosts.filter((item, index) => index < 10),
+        ...rest,
+      });
+    },
+  },
+};
+```
+
+## Markdown front matter {#markdown-front-matter}
+
+Markdown documents can use the following Markdown [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) metadata fields, enclosed by a line `---` on either side.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명                      | 타입                      | 기본값                 | 설명                                                                                                                                                                                                                   |
+| ------------------------ | ----------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `authors`                | `Authors`               | `undefined`         | 블로그 게시물 작성자들(또는 단독 작성자) 목록 Read the [`authors` guide](../../blog.mdx#blog-post-authors) for more explanations. Prefer `authors` over the `author_*` front matter fields, even for single author blog posts.          |
+| `author`                 | `string`                | `undefined`         | ⚠️ Prefer using `authors`. 블로그 게시물 작성자 이름입니다.                                                                                                                                                                        |
+| `author_url`             | `string`                | `undefined`         | ⚠️ Prefer using `authors`. 작성자 이름에 링크로 연결될 URL을 설정합니다. This could be a GitHub, X, Facebook profile URL, etc.                                                                                                         |
+| `author_image_url`       | `string`                | `undefined`         | ⚠️ Prefer using `authors`. 작성자 썸네일 이미지 URL을 설정합니다.                                                                                                                                                                   |
+| `author_title`           | `string`                | `undefined`         | ⚠️ Prefer using `authors`. 작성자에 대한 설명입니다.                                                                                                                                                                            |
+| `title`                  | `string`                | 마크다운 파일             | 블로그 게시물 제목                                                                                                                                                                                                           |
+| `title_meta`             | `string`                | `frontMatter.title` | The blog post SEO metadata title, used in `<head>` for `<title>` and `og:title`. Permits to override `title` when the displayed title and SEO title should be different.                                             |
+| `sidebar_label`          | `string`                | `title`             | A custom label for the blog sidebar, replacing the default one (`title`).                                                                                                                                            |
+| `date`                   | `string`                | 파일명 또는 파일 생성 시간     | 블로그 게시물 생성 시간. If not specified, this can be extracted from the file or folder name, e.g, `2021-04-15-blog-post.mdx`, `2021-04-15-blog-post/index.mdx`, `2021/04/15/blog-post.mdx`. 그렇지 않으면 마크다운 파일을 생성한 시간으로 설정됩니다. |
+| `tags`                   | `Tag[]`                 | `undefined`         | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. Strings can be a reference to keys of a [tags file](#tags-file) (usually `tags.yml`)                                  |
+| `draft`                  | `boolean`               | `false`             | 비공개 설정 게시물은 개발 상태에서만 확인할 수 있습니다.                                                                                                                                                                                     |
+| `unlisted`               | `boolean`               | `false`             | 목록에 없는 블로그 게시물은 개발 및 제품 상태에서 모두 확인할 수 있습니다. 제품에서 "숨겨진" 상태라 인덱스가 생성되지 않고 사이트맵에서 제외되며 링크 정보를 알고 있는 사용자만 접근할 수 있습니다.                                                                                                    |
+| `hide_table_of_contents` | `boolean`               | `false`             | 목차를 오른쪽으로 숨길지 여부                                                                                                                                                                                                     |
+| `toc_min_heading_level`  | `number`                | `2`                 | 목차에 표시되는 최소 제목 수준입니다. 2에서 6 사이의 값으로 설정할 수 있고 최댓값보다 작거나 같아야 합니다.                                                                                                                                                      |
+| `toc_max_heading_level`  | `number`                | `3`                 | 목차에 표시되는 최대 제목 수준입니다. 2에서 6 사이의 값으로 설정할 수 있습니다.                                                                                                                                                                      |
+| `keywords`               | `string[]`              | `undefined`         | Keywords meta tag, which will become the `<meta name="keywords" content="keyword1,keyword2,..."/>` in `<head>`, used by search engines.                                                                              |
+| `description`            | `string`                | 마크다운 콘텐츠 첫 번째 줄     | The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines.                        |
+| `image`                  | `string`                | `undefined`         | Cover or thumbnail image that will be used as the `<meta property="og:image" content="..."/>` in the `<head>`, enhancing link previews on social media and messaging platforms.                                      |
+| `slug`                   | `string`                | 파일 경로               | Allows to customize the blog post URL (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`.                                                        |
+| `last_update`            | `FrontMatterLastUpdate` | `undefined`         | Allows overriding the last update author/date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).                                  |
+
+```mdx-code-block
+</APITable>
+```
+
+```ts
+type FrontMatterLastUpdate = {date?: string; author?: string};
+
+type Tag = string | {label: string; permalink: string};
+
+// An author key references an author from the global plugin authors.yml file
+type AuthorKey = string;
+
+// Social platform name -> Social platform link
+// Example: {MyPlatform: 'https://myplatform.com/myusername'}
+// Pre-defined platforms
+// ("x", "github", "twitter", "linkedin", "stackoverflow", "instagram", "bluesky", "mastodon", "threads", "twitch", "youtube") accept handles:
+// Example: {github: 'slorber'}
+type AuthorSocials = Record<string, string>;
+
+type Author = {
+  key?: AuthorKey;
+  name: string;
+  title?: string;
+  url?: string;
+  image_url?: string;
+  socials?: AuthorSocials;
+};
+
+// The front matter authors field allows various possible shapes
+type Authors = AuthorKey | Author | (AuthorKey | Author)[];
+```
+
+예:
+
+```md
+---
+title: Welcome Docusaurus
+authors:
+  - slorber
+  - yangshun
+  - name: Joel Marcey
+    title: Co-creator of Docusaurus 1
+    url: https://github.com/JoelMarcey
+    image_url: https://github.com/JoelMarcey.png
+    socials:
+      x: joelmarcey
+      github: JoelMarcey
+tags: [docusaurus]
+description: This is my first post on Docusaurus.
+image: https://i.imgur.com/mErPwqL.png
+hide_table_of_contents: false
+---
+
+A Markdown blog post
+```
+
+import TagsFileApiRefSection from './_partial-tags-file-api-ref-section.mdx';
+
+<TagsFileApiRefSection />
+
+## Authors File {#authors-file}
+
+Use the [`authors` plugin option](#authors) to configure the path of a YAML authors file.
+
+By convention, the plugin will look for a `authors.yml` file at the root of your blog content folder(s).
+
+This file can contain a list of predefined [global blog authors](../../blog.mdx#global-authors). You can reference these authors by their keys in Markdown files thanks to the [`authors` front matter](#markdown-front-matter).
+
+### Types {#authors-file-types}
+
+The YAML content of the provided authors file should respect the following shape:
+
+```tsx
+type AuthorsMapInput = {
+  [authorKey: string]: AuthorInput;
+};
+
+type AuthorInput = {
+  name?: string;
+  title?: string;
+  description?: string;
+  imageURL?: string;
+  url?: string;
+  email?: string;
+  page?: boolean | {permalink: string};
+  socials?: Record<string, string>;
+  [customAuthorAttribute: string]: unknown;
+};
+```
+
+### Example {#authors-file-example}
+
+```yml title="tags.yml"
+slorber:
+  name: Sébastien Lorber
+  title: Docusaurus maintainer
+  url: https://sebastienlorber.com
+  image_url: https://github.com/slorber.png
+  page: true
+  socials:
+    x: sebastienlorber
+    github: slorber
+
+jmarcey:
+  name: Joel Marcey
+  title: Co-creator of Docusaurus 1
+  url: https://github.com/JoelMarcey
+  image_url: https://github.com/JoelMarcey.png
+  email: jimarcey@gmail.com
+  page:
+    permalink: '/joel-marcey'
+  socials:
+    x: joelmarcey
+    github: JoelMarcey
+```
+
+```md title="blog/my-blog-post.md"
+---
+authors: [slorber, jmarcey]
+---
+
+# My Blog Post
+
+Content
+```
+
+## i18n {#i18n}
+
+Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
+
+### Translation files location {#translation-files-location}
+
+- **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
+- **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-blog-[pluginId]`
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
+- **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
+
+### Example file-system structure {#example-file-system-structure}
+
+```bash
+website/i18n/[locale]/docusaurus-plugin-content-blog
+│
+│ # website/blog에 대한 번역
+├── authors.yml
+├── first-blog-post.md
+├── second-blog-post.md
+│
+│ # 렌더링될 플러그인 옵션에 대한 번역
+└── options.json
+```

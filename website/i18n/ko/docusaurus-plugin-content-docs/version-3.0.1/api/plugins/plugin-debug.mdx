@@ -1,0 +1,108 @@
+---
+sidebar_position: 5
+slug: /api/plugins/@docusaurus/plugin-debug
+---
+
+# 📦 plugin-debug
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+The debug plugin will display useful debug information at [`http://localhost:3000/__docusaurus/debug`](http://localhost:3000/__docusaurus/debug).
+
+It is mostly useful for plugin authors, that will be able to inspect more easily the content of the `.docusaurus` folder (like the creates routes), but also be able to inspect data structures that are never written to disk, like the plugin data loaded through the `contentLoaded` lifecycle.
+
+:::info
+
+If you use the plugin via the classic preset, the preset will **enable the plugin in development and disable it in production** by default (`debug: undefined`) to avoid exposing potentially sensitive information. You can use `debug: true` to always enable it or `debug: false` to always disable it.
+
+독립 실행형 플러그인을 사용하는 경우에는 환경 설정 확인 후 같은 효과를 얻을 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    // highlight-next-line
+    process.env.NODE_ENV === 'production' && '@docusaurus/plugin-debug',
+  ].filter(Boolean),
+};
+```
+
+:::
+
+:::note
+
+버그를 발견하고 등록하려는 경우 해당 플러그인을 활성화하는 것을 권장할 겁니다. 해당 플러그인을 사용하면 여러분의 배포 설정을 좀 더 쉽게 검사할 수 있습니다.
+
+If you don't have any sensitive information, you can keep it on in production [like we do](/__docusaurus/debug).
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-debug
+```
+
+:::tip
+
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+해당 플러그인은 현재 옵션을 가지고 있지 않습니다.
+
+### Example configuration {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 플러그인을 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```mdx-code-block
+<Tabs groupId="api-config-ex">
+<TabItem value="preset" label="Preset options">
+```
+
+If you use a preset, configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic):
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // highlight-next-line
+        debug: true, // This will enable the plugin in production
+      },
+    ],
+  ],
+};
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="plugin" label="Plugin Options">
+```
+
+독립적으로 실행되는 플러그인을 사용하는 경우에는 플러그인에 대한 옵션을 직접 설정할 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // highlight-next-line
+  plugins: ['@docusaurus/plugin-debug'],
+};
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```

@@ -1,0 +1,82 @@
+---
+id: head-metadata
+description: MDX를 통해 페이지별 헤드 메타 데이터를 선언합니다.
+slug: /markdown-features/head-metadata
+---
+
+# 헤드 메타데이터
+
+## Customizing head metadata {#customizing-head-metadata}
+
+Docusaurus automatically sets useful page metadata in `<html>`, `<head>` and `<body>` for you. It is possible to add extra metadata (or override existing ones) with the `<head>` tag in Markdown files:
+
+```md title="markdown-features-head-metadata.mdx"
+---
+id: head-metadata
+title: Head Metadata
+---
+
+<!-- highlight-start -->
+<head>
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
+  <title>Head Metadata customized title!</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadata" />
+</head>
+<!-- highlight-end -->
+
+# Head Metadata
+
+My text
+```
+
+```mdx-code-block
+<head>
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
+  <title>Head Metadata customized title!</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadata" />
+</head>
+```
+
+This `<head>` declaration has been added to the current Markdown doc as a demo. 웹브라우저에서 개발자 도구를 열고 페이지 메타데이터가 어떻게 변경됐는지 확인해보세요.
+
+:::note
+
+This feature is built on top of the Docusaurus [`<Head>`](./../../docusaurus-core.mdx#head) component. Refer to [react-helmet](https://github.com/nfl/react-helmet) for exhaustive documentation.
+
+:::
+
+:::tip You don't need this for regular SEO
+
+Content plugins (e.g. docs and blog) provide front matter options like `description`, `keywords`, and `image`, which will be automatically applied to both `description` and `og:description`, while you would have to manually declare two metadata tags when using the `<head>` tag.
+
+:::
+
+## Markdown page description {#markdown-page-description}
+
+마크다운 페이지의 설명 메타데이터는 헤드 메타데이터보다 더 많은 위치에서 사용될 수 있습니다. For example, the docs plugin's [generated category index](../docs/sidebar/items.mdx#generated-index-page) uses the description metadata for the doc cards.
+
+기본적으로 설명은 내용이 포함된 첫 번째 줄이며 이를 일반 텍스트로 변환하기 위해서는 약간의 노력이 필요합니다. 예를 들어 다음 파일은...
+
+```md
+# Title
+
+Main content... May contain some [links](./file.mdx) or **emphasis**.
+```
+
+기본 설명이 "Main content... May contain some links or emphasis"입니다. However, **it's not designed to be fully functional**. 적절한 설명을 생성하지 못한 경우 프런트 매터를 통해 명시적으로 제공할 수 있습니다.
+
+```md
+---
+description: This description will override the default.
+---
+
+# Title
+
+Main content... May contain some [links](./file.mdx) or **emphasis**.
+```

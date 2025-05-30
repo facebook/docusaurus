@@ -1,0 +1,186 @@
+---
+description: 도큐사우루스에서 클라이언트 구성 방식
+---
+
+# 클라이언트 아키텍처
+
+## Theme aliases {#theme-aliases}
+
+A theme works by exporting a set of components, e.g. `Navbar`, `Layout`, `Footer`, to render the data passed down from plugins. Docusaurus and users use these components by importing them using the `@theme` webpack alias:
+
+```js
+import Navbar from '@theme/Navbar';
+```
+
+The alias `@theme` can refer to a few directories, in the following priority:
+
+1. A user's `website/src/theme` directory, which is a special directory that has the higher precedence.
+2. A Docusaurus theme package's `theme` directory.
+3. 도큐사우루스 코어에서 제공하는 대체 컴포넌트(거의 사용할 일은 없습니다)
+
+This is called a _layered architecture_: a higher-priority layer providing the component would shadow a lower-priority layer, making swizzling possible. 디렉터리 구조가 아래와 같은 경우:
+
+```
+website
+├── node_modules
+│   └── @docusaurus/theme-classic
+│       └── theme
+│           └── Navbar.js
+└── src
+    └── theme
+        └── Navbar.js
+```
+
+`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. 이런 동작을 컴포넌트 바꾸기(swizzling)이라고 합니다. If you are familiar with Objective C where a function's implementation can be swapped during runtime, it's the exact same concept here with changing the target `@theme/Navbar` is pointing to!
+
+We already talked about how the "userland theme" in `src/theme` can re-use a theme component through the [`@theme-original`](../swizzling.mdx#wrapping) alias. One theme package can also wrap a component from another theme, by importing the component from the initial theme, using the `@theme-init` import.
+
+Here's an example of using this feature to enhance the default theme `CodeBlock` component with a `react-live` playground feature.
+
+```js
+import InitialCodeBlock from '@theme-init/CodeBlock';
+import React from 'react';
+
+export default function CodeBlock(props) {
+  return props.live ? (
+    <ReactLivePlayground {...props} />
+  ) : (
+    <InitialCodeBlock {...props} />
+  );
+}
+```
+
+Check the code of `@docusaurus/theme-live-codeblock` for details.
+
+:::warning
+
+Unless you want to publish a re-usable "theme enhancer" (like `@docusaurus/theme-live-codeblock`), you likely don't need `@theme-init`.
+
+:::
+
+이런 별칭을 이해하는 건 상당히 어려울 수 있습니다. 세 가지 테마/플러그인과 사이트 자체가 모두 같은 컴포넌트를 정의하려고 하는 매우 복잡한 설정으로 다음과 같은 경우를 상상해보죠. 내부적으로 도큐사우루스는 이런 테마를 "스택" 형태로 로드합니다.
+
+```text
++-------------------------------------------------+
+|        `website/src/theme/CodeBlock.js`         | <-- `@theme/CodeBlock` always points to the top
++-------------------------------------------------+
+| `theme-live-codeblock/theme/CodeBlock/index.js` | <-- `@theme-original/CodeBlock` points to the topmost non-swizzled component
++-------------------------------------------------+
+|  `plugin-awesome-codeblock/theme/CodeBlock.js`  |
++-------------------------------------------------+
+|     `theme-classic/theme/CodeBlock/index.js`    | <-- `@theme-init/CodeBlock` always points to the bottom
++-------------------------------------------------+
+```
+
+The components in this "stack" are pushed in the order of `preset plugins > preset themes > plugins > themes > site`, so the swizzled component in `website/src/theme` always comes out on top because it's loaded last.
+
+`@theme/*` always points to the topmost component—when `CodeBlock` is swizzled, all other components requesting `@theme/CodeBlock` receive the swizzled version.
+
+`@theme-original/*` always points to the topmost non-swizzled component. That's why you can import `@theme-original/CodeBlock` in the swizzled component—it points to the next one in the "component stack", a theme-provided one. 플러그인 작성자는 컴포넌트가 최상위 컴포넌트일 수 있고 자신을 가져오려고 할 수도 있기 때문에 이를 사용하지 말아야 합니다.
+
+`@theme-init/*` always points to the bottommost component—usually, this comes from the theme or plugin that first provides this component. Individual plugins / themes trying to enhance code block can safely use `@theme-init/CodeBlock` to get its basic version. Site creators should generally not use this because you likely want to enhance the _topmost_ instead of the _bottommost_ component. It's also possible that the `@theme-init/CodeBlock` alias does not exist at all—Docusaurus only creates it when it points to a different one from `@theme-original/CodeBlock`, i.e. when it's provided by more than one theme. 우리는 별칭을 낭비하지 않습니다!
+
+## Client modules {#client-modules}
+
+클라이언트 모듈은 테마 컴포넌트와 마찬가지로 사이트 번들의 일부입니다. 하지만 일반적으로 문제점을 같이 가지고 있습니다. Client modules are anything that can be `import`ed by Webpack—CSS, JS, etc. JS 스크립트는 일반적으로 이벤트 리스너 등록, 전역 변수 생성과 같은 전역 컨텍스트로 작동합니다.
+
+리액트에서 초기 UI를 렌더링 처리하기 전에 전역으로 모듈을 가져옵니다.
+
+```js title="@docusaurus/core/App.tsx"
+// 내부에서 동작하는 방식
+import '@generated/client-modules';
+```
+
+Plugins and sites can both declare client modules, through [`getClientModules`](../api/plugin-methods/lifecycle-apis.mdx#getClientModules) and [`siteConfig.clientModules`](../api/docusaurus.config.js.mdx#clientModules), respectively.
+
+Client modules are called during server-side rendering as well, so remember to check the [execution environment](./ssg.mdx#escape-hatches) before accessing client-side globals.
+
+```js title="mySiteGlobalJs.js"
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+if (ExecutionEnvironment.canUseDOM) {
+  // As soon as the site loads in the browser, register a global event listener
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Period') {
+      location.assign(location.href.replace('.com', '.dev'));
+    }
+  });
+}
+```
+
+CSS stylesheets imported as client modules are [global](../styling-layout.mdx#global-styles).
+
+```css title="mySiteGlobalCss.css"
+/* This stylesheet is global. */
+.globalSelector {
+  color: red;
+}
+```
+
+### Client module lifecycles {#client-module-lifecycles}
+
+Besides introducing side-effects, client modules can optionally export two lifecycle functions: `onRouteUpdate` and `onRouteDidUpdate`.
+
+Because Docusaurus builds a single-page application, `script` tags will only be executed the first time the page loads, but will not re-execute on page transitions. 이러한 수명주기는 새로운 페이지가 로드될 때마다 실행해야 하는 명령형 JS 로직이 있는 경우에 유용합니다(예: DOM 요소 조작, 분석 데이터 전송 등).
+
+모든 라우트 트랜지션에는 몇 가지 중요한 타이밍이 있습니다.
+
+1. 사용자가 링크를 클릭하면 라우터가 현재 위치를 변경합니다.
+2. 도큐사우루스는 현재 페이지 콘텐츠를 계속 표시하면서 다음 경로의 애셋을 미리 로드합니다.
+3. 다음 경로의 애셋이 로드됐습니다.
+4. 새로운 위치의 라우트 컴포넌트가 DOM에 렌더링됩니다.
+
+`onRouteUpdate` will be called at event (2), and `onRouteDidUpdate` will be called at (4). They both receive the current location and the previous location (which can be `null`, if this is the first screen).
+
+`onRouteUpdate` can optionally return a "cleanup" callback, which will be called at (3). For example, if you want to display a progress bar, you can start a timeout in `onRouteUpdate`, and clear the timeout in the callback. (The classic theme already provides an `nprogress` integration this way.)
+
+새로운 페이지의 DOM은 (4)번 이벤트에서만 사용할 수 있습니다. If you need to manipulate the new page's DOM, you'll likely want to use `onRouteDidUpdate`, which will be fired as soon as the DOM on the new page has mounted.
+
+```js title="myClientModule.js"
+import type {Location} from 'history';
+
+export function onRouteDidUpdate({location, previousLocation}) {
+  // Don't execute if we are still on the same page; the lifecycle may be fired
+  // because the hash changes (e.g. when navigating between headings)
+  if (location.pathname !== previousLocation?.pathname) {
+    const title = document.getElementsByTagName('h1')[0];
+    if (title) {
+      title.innerText += '❤️';
+    }
+  }
+}
+
+export function onRouteUpdate({location, previousLocation}) {
+  if (location.pathname !== previousLocation?.pathname) {
+    const progressBarTimeout = window.setTimeout(() => {
+      nprogress.start();
+    }, delay);
+    return () => window.clearTimeout(progressBarTimeout);
+  }
+  return undefined;
+}
+```
+
+또는 타입스크립트를 사용하고 있고 상황에 맞는 입력을 활용하려는 경우
+
+```ts title="myClientModule.ts"
+import type {ClientModule} from '@docusaurus/types';
+
+const module: ClientModule = {
+  onRouteUpdate({location, previousLocation}) {
+    // ...
+  },
+  onRouteDidUpdate({location, previousLocation}) {
+    // ...
+  },
+};
+export default module;
+```
+
+두 가지 수명주기 모두 첫 번째 렌더링에서 실행되지만 서버 측에서 실행되지 않으므로 브라우저 전역에서 안전하게 접근할 수 있습니다.
+
+:::tip Prefer using React
+
+클라이언트 모듈 수명주기는 순전한 명령형이며 리액트 훅을 사용하거나 그 안의 리액트 컨텍스트에 접근할 수 없습니다. If your operations are state-driven or involve complicated DOM manipulations, you should consider [swizzling components](../swizzling.mdx) instead.
+
+:::

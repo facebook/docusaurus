@@ -1,0 +1,71 @@
+---
+sidebar_position: 8
+slug: /api/plugins/@docusaurus/plugin-google-tag-manager
+---
+
+# 📦 plugin-google-tag-manager
+
+import APITable from '@site/src/components/APITable';
+
+도큐사우루스 사이트에 [구글 태그 관리자(gtm.js)](https://developers.google.com/tag-platform/tag-manager)를 추가하기 위한 플러그인입니다. 사이트에서 사용자의 행동을 심도있게 분석하기 위해 표준 [gtag 플러그인](./plugin-google-gtag.mdx)과 함께 이 플러그인을 사용하세요.
+
+:::tip
+
+태그 관리자를 적절하게 설정됐는지 체크하기 위해 [구글 태그 어시스턴트](https://tagassistant.google.com/) 도구를 사용할 수 있습니다.
+
+:::
+
+:::warning production only
+
+해당 플러그인은 분석 통계 수치가 오염되는 것을 방지하기 위해 개발 중에는 비활성화되고 **제품 빌드 시에만 활성화**됩니다.
+
+:::
+
+## 설치 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-google-tag-manager
+```
+
+:::tip
+
+`@docusaurus/preset-classic`을 설치한 경우에는 플러그인을 따로 설치할 필요는 없습니다.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## 설정 {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명           | 타입       | 기본값    | 설명                                        |
+| ------------- | -------- | ------ | ----------------------------------------- |
+| `containerId` | `string` | **필수** | 여러분의 태그 관리자 컨테이너 Id(일반적으로 `GTM-`로 시작합니다). |
+
+```mdx-code-block
+</APITable>
+```
+
+### 설정 예시 {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 플러그인을 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```js config-tabs
+// Preset 옵션: googleTagManager
+// Plugin 옵션: @docusaurus/plugin-google-tag-manager
+
+const config = {
+  containerId: 'GTM-12345',
+};
+```

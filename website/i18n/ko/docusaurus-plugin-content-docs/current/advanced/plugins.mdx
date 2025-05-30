@@ -1,0 +1,129 @@
+# 플러그인
+
+Plugins are the building blocks of features in a Docusaurus site. 각 플러그인은 개별적인 기능을 가지고 있습니다. 플러그인은 presets을 통해 전체 묶음의 일부로 동작하고 배포됩니다.
+
+## 플러그인 만들기 {#creating-plugins}
+
+플러그인은 `context`와 `options` 2개의 파라미터를 가지는 함수입니다. 플러그인 인스턴스 오브젝트(또는 프로미스)를 반환합니다. 플러그인은 함수 또는 모듈로 만들 수 있습니다. 좀 더 자세한 내용은 [플러그인 메소드 참조 항목](../api/plugin-methods/README.mdx)을 참고하세요.
+
+### 함수 정의 {#function-definition}
+
+도큐사우루스 설정 파일을 아래와 같이 지정하면 플러그인을 함수처럼 사용할 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: [
+    // highlight-start
+    async function myPlugin(context, options) {
+      // ...
+      return {
+        name: 'my-plugin',
+        async loadContent() {
+          // ...
+        },
+        async contentLoaded({content, actions}) {
+          // ...
+        },
+        /* 다른 lifecycle API */
+      };
+    },
+    // highlight-end
+  ],
+};
+```
+
+### 모듈 정의 {#module-definition}
+
+별도 파일 또는 npm 패키지를 참조하는 모듈 경로로 플러그인을 사용할 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: [
+    // without options:
+    './my-plugin',
+    // or with options:
+    ['./my-plugin', options],
+  ],
+};
+```
+
+`my-plugin` 디렉터리 안에 아래와 같이 `index.js` 파일을 만들 수 있습니다.
+
+```js title="my-plugin/index.js"
+export default async function myPlugin(context, options) {
+  // ...
+  return {
+    name: 'my-plugin',
+    async loadContent() {
+      /* ... */
+    },
+    async contentLoaded({content, actions}) {
+      /* ... */
+    },
+    /* other lifecycle API */
+  };
+}
+```
+
+---
+
+[디버그 플러그인 메타데이터 패널](/__docusaurus/debug/metadata)을 사용해 여러분의 사이트에 설치된 모든 플러그인을 볼 수 있습니다.
+
+플러그인은 몇 가지 유형으로 제공됩니다.
+
+- `package`: 여러분이 설치된 외부 패키지
+- `project`: 프로젝트에서 여러분이 만든 플러그인. 로컬 파일 경로로 도큐사우루스에 전달됩니다.
+- `local`: 함수 정의를 사용해 만든 플러그인
+- `synthetic`: 도큐사우루스 내부에서 생성된 "가짜 플러그인"으로 모듈 아키텍처를 사용하고 코어에서 너무 많은 특별한 작업을 처리하지 않게 합니다. 구현 세부 사항이기 때문에 메타데이터에서 확인할 수 없습니다.
+
+`useDocusaurusContext().siteMetadata.pluginVersions`을 사용해 클라이언트 측에서 접근할 수 있습니다.
+
+## 플러그인 설계 {#plugin-design}
+
+도큐사우루스에서 구현한 플러그인 시스템은 페이지에서 사용할 수 있는 새로운 컴포넌트를 만들거나 설정을 확장하고 불러오는 데이터를 가공할 수 있도록(그리고 더 많은 일을 할 수 있게) 지원합니다. 플러그인은 웹 사이트를 개발하거나 빌드할 때 손쉽게 사용할 수 있도록 구현할 수 있습니다.
+
+### 테마 설계 {#theme-design}
+
+플러그인이 콘텐츠를 로드할 때 [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.mdx#addRoute) 또는 [`setGlobalData`](../api/plugin-methods/lifecycle-apis.mdx#setGlobalData) 같은 작업을 통해 클라이언트 측에서 데이터를 사용할 수 있습니다. 데이터는 [플러그인과 테마가 다른 환경에서 실행되기](./architecture.mdx) 때문에 일반 문자열로 _직렬화_되어야 합니다. 데이터가 클라이언트 측에 도착하면 나머지는 리액트 개발자에게 익숙한 과정입니다. 데이터는 컴포넌트를 따라 전달되고 컴포넌트는 웹팩과 번들로 제공되며 `ReactDOM.render`를 통해 화면에 렌더링됩니다.
+
+**테마는 컨텐츠를 화면에 표시하기 위해 제공되는 UI 컴포넌트입니다.** 대부분의 컨텐츠 플러그인을 실제 사용하기 위해서는 테마가 같이 제공되어야 합니다. UI는 데이터 스키마와 별도의 레이어이므로 디자인을 쉽게 교체할 수 있습니다.
+
+예를 들어 도큐사우루스 블로그는 블로그 플러그인과 블로그 테마로 구성이 되어 있습니다.
+
+:::note
+
+설명을 위해 만든 예제입니다. 실제로 `@docusaurus/theme-classic`는 문서, 블로그, 레이아웃에 대한 테마를 제공합니다.
+
+:::
+
+```js title="docusaurus.config.js"
+export default {
+  // highlight-next-line
+  themes: ['theme-blog'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
+부트스트랩 테마를 사용하고 싶다면 `theme-blog-bootstrap`(실제 있는 테마는 아닙니다)로 설정값을 변경하기만 하면 됩니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // highlight-next-line
+  themes: ['theme-blog-bootstrap'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
+이제 테마가 플러그인에서 같은 데이터를 수신하더라도 테마에서 데이터를 UI로 _렌더링_하도록 선택하는 방법은 극적으로 달라집니다.
+
+테마는 플러그인과 같은 lifecyelc 메소드를 공유합니다. 하지만 테마의 설계 목적에 따라 플러그인과 구현 방식은 달라질 수 있습니다.
+
+테마는 여러분이 도큐사우루스 사이트를 빌드하고 사이트, 플러그인, 테마 자신이 사용할 수 있는 컴포넌트를 공급하도록 설계됩니다. 테마는 여전히 플러그인처럼 작동하고 일부 수명 주기 메소드를 노출하지만 플러그인에서는 데이터만 수신하고 데이터 자체를 생성하지는 않기 때문에 [`loadContent`](../api/plugin-methods/lifecycle-apis.mdx#loadContent)를 사용하지 않을 가능성이 큽니다. 테마는 일반적으로 [`getThemePath`](../api/plugin-methods/extend-infrastructure.mdx#getThemePath) 수명 주기를 통해 코어에 알려진 컴포넌트로 가득찬 `src/theme` 디렉터리와 함께 제공됩니다.
+
+다시 정리하면
+
+- 테마는 플러그인과 같은 lifecycle 메소드를 공유합니다.
+- 테마는 모든 플러그인이 설정된 이후 동작합니다.
+- 테마는 `getThemePath`를 제공해 컴포넌트 별칭을 추가합니다.

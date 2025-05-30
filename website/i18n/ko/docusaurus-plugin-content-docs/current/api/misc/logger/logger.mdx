@@ -1,0 +1,71 @@
+---
+sidebar_position: 2
+slug: /api/misc/@docusaurus/logger
+---
+
+# 로거
+
+의미있는 포맷으로 콘솔 메시지를 지정하기 위해 캡슐화된 로거입니다.
+
+도큐사우루스 생태계 내에서 패키지를 작성한다면 이 패키지를 사용해 통합 로그 형식을 제공하는 것을 권장합니다.
+
+## API
+
+기본 export 설정은 단일 오브젝트 `logger` 입니다. `logger`에는 다음의 속성이 있습니다.
+
+- 일부 유용한 색상
+  - `red`
+  - `yellow`
+  - `green`
+  - `bold`
+  - `dim`
+- 포맷터. 포맷터 함수는 모두 `(msg: unknown) => string` 시그니처를 가지고 있습니다. 기능 구현이 보장되는 건 아니라는 점에 유의하세요. 각각의 의미만 참고하세요.
+  - `path`: 파일 경로 포맷.
+  - `url`: URL 포맷.
+  - `name`: 식별자 포맷.
+  - `code`: 코드 스니핏 포맷.
+  - `subdue`: 텍스트를 덜 눈에 띄게 설정.
+  - `num`: 숫자 포맷.
+- `interpolate` 함수. 템플릿 리터럴 태그입니다. 문법은 아래 로깅 함수와 비슷합니다.
+- 로깅 함수 모든 로깅 함수는 일반적인 함수(`console.log`와 비슷하지만 하나의 파라미터만 허용합니다) 또는 템플릿 리터널 태그로 사용할 수있습니다.
+  - `info`: 정보성 데이터를 남깁니다.
+  - `warn`: 주의가 필요한 경고성 데이터를 남깁니다.
+  - `error`: 심각한 문제를 알리는 오류(프로그램을 중지할 필요는 없는) 정보를 남깁니다.
+  - `success`: 성공 관련 메시지를 남깁니다.
+- `report` 함수. `ReportingSeverity` 값(`ignore`, `log`, `warn`, `throw`)을 받아 심각도에 따라 메시지로 알려줍니다.
+
+:::warning A word on the `error` formatter
+
+`error` 메시지는 프로그램을 중단시키지 않지만 혼동을 일으킬 수 있으므로 주의해야 합니다. 사용자가 로그를 조사하고 `[ERROR]`를 발견하면 빌드가 성공했더라도 뭔가 잘못되었다고 가정할 수 있습니다. 신중하게 사용하세요.
+
+도큐사우루스는 오류가 발생하기 직전에 메시지를 남기거나 사용자가 `onBrokenLink` 등의 리포트 심각도를 `"error"`로 설정한 경우에만 `logger.error`를 사용합니다.
+
+또한 `warn`이나 `error`는 사용자의 주의를 끌기 위해 **전체** 메시지에 색상을 적용합니다. 오류에 대한 도움말 텍스트 같은 많은 메시지를 남기는 경우에는 `logger.info`를 사용하는 것이 좋습니다.
+
+:::
+
+### 템플릿 리터럴 태그 사용하기
+
+템플릿 리터럴 태그는 템플릿과 포함된 평가식을 처리합니다. `interpolate`는 다른 로깅 함수가 메시지를 남기는 것과 다르게 새로운 문자열을 반환합니다. 다음은 일반적인 사용법입니다.
+
+```js
+import logger from '@docusaurus/logger';
+
+logger.info`Hello name=${name}! You have number=${money} dollars. Here are the ${
+  items.length > 1 ? 'items' : 'item'
+} on the shelf: ${items}
+To buy anything, enter code=${'buy x'} where code=${'x'} is the item's name; to quit, press code=${'Ctrl + C'}.`;
+```
+
+포함된 표현식은 `[a-z]+=` 형식(포함된 표현식 바로 앞에 몇 개의 소문자, 등호가 따라옵니다)의 플래그가 선택적으로 앞에 옵니다. 표현식 앞에 플래그가 없으면 그대로 메시지를 남깁니다. 그렇지 않으면 포맷터 중 하나로 포맷이 설정됩니다.
+
+- `path=`: `path`
+- `url=`: `url`
+- `name=`: `name`
+- `code=`: `code`
+- `subdue=`: `subdue`
+- `number=`: `num`
+
+표현식이 배열인 경우에는 `` `\n- ${array.join('\n- ')}\n` `` 형식으로 처리됩니다(자동으로 앞 줄 끝에 이어서 메시지를 남깁니다). 각 항목은 자체적으로 포맷이 처리되며 글머리 기호는 포맷이 지정되지 않습니다. 따라서 위의 메시지는 다음과 같이 처리됩니다.
+
+![터미널에 표시된 배열, 코드, 이름, 숫자 형식을 포함하는 텍스트](./demo.png)

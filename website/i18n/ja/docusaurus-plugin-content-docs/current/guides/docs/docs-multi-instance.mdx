@@ -1,0 +1,213 @@
+---
+id: multi-instance
+description: 1つの Docusaurus サイトで複数の Docusaurus プラグインインスタンスを使用することができます。
+slug: /docs-multi-instance
+---
+
+# 複数のインスタンス
+
+`@docusaurus/plugin-content-docs` プラグインは [複数のインスタンス](../../using-plugins.mdx#multi-instance-plugins-and-plugin-ids) をサポートすることができます。
+
+:::note
+
+この機能は、[バージョン管理されたドキュメント](./versioning.mdx)にのみ有効です。 このページを読む前に、docsのバージョン管理について熟知しておくことをお勧めします。 もし、[複数のサイドバー](./sidebar/multiple-sidebars.mdx)が欲しいだけなら、1つのプラグイン内で可能です。
+
+:::
+
+## 利用例 {#use-cases}
+
+1つの Docusaurus サイトで、2つ以上の異なるドキュメントのセットをホストしたい場合があります。
+
+これらのドキュメントは、バージョンアップやリリースのライフサイクルが異なる場合もあります。
+
+### モバイル SDK {#mobile-sdks-documentation}
+
+クロスプラットフォームのモバイル SDK を構築する場合、2つのドキュメントを用意することがあります:
+
+- Android SDK のドキュメント (`v1.0`, `v1.1`)
+- iOS SDK のドキュメント (`v1.0`, `v2.0`)
+
+この場合、モバイル SDK のドキュメントごとに、個別の docs プラグインインスタンスを使用することができます。
+
+:::warning
+
+それぞれのドキュメントのインスタンスが非常に大きい場合は、2つの異なる Docusarus サイトを作成してください。
+
+誰かが iOS のドキュメントを編集した場合、変更しなかった Android のドキュメントも含めて、すべてを再構築することは本当に便利ですか?
+
+:::
+
+### バージョン管理されたドキュメントとバージョン管理されていないドキュメント {#versioned-and-unversioned-doc}
+
+あるドキュメントをバージョン管理したい一方で、他のドキュメントはもっと「グローバル」であり、バージョン管理するのは無駄だと感じることがあります。
+
+Docusaurus のウェブサイト自体でも、このパターンを利用しています:
+
+- [/docs/*](/docs) セクションはバージョン管理されています
+- [/community/*](/community/support) セクションはバージョン管理されていません
+
+## セットアップ {#setup}
+
+2つのドキュメントがあるとします:
+
+- Product: 製品に関するバージョン管理されたドキュメント
+- Community: 製品関連のバージョン管理されていないドキュメント
+
+この場合、サイト構成で同じプラグインを2回使用する必要があります。
+
+:::warning
+
+`@docusaurus/preset-classic` には、docs プラグインインスタンスがすでに含まれています!
+
+:::
+
+プリセットを使用する場合:
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-start
+          // id: 'product', // omitted => default instance
+          // highlight-end
+          path: 'product',
+          routeBasePath: 'product',
+          sidebarPath: './sidebarsProduct.js',
+          // ... other options
+        },
+      },
+    ],
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        id: 'community',
+        // highlight-end
+        path: 'community',
+        routeBasePath: 'community',
+        sidebarPath: './sidebarsCommunity.js',
+        // ... other options
+      },
+    ],
+  ],
+};
+```
+
+プリセットを利用しない場合:
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        // id: 'product', // omitted => default instance
+        // highlight-end
+        path: 'product',
+        routeBasePath: 'product',
+        sidebarPath: './sidebarsProduct.js',
+        // ... other options
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        id: 'community',
+        // highlight-end
+        path: 'community',
+        routeBasePath: 'community',
+        sidebarPath: './sidebarsCommunity.js',
+        // ... other options
+      },
+    ],
+  ],
+};
+```
+
+プラグインインスタンスに一意の `id` 属性を割り当てることを忘れないでください。
+
+:::note
+
+ここでは、`product` インスタンスが最も重要であると考え、ID を割り当てないで「デフォルト」インスタンスにしています。
+
+:::
+
+## バージョン管理されたパス {#versioned-paths}
+
+それぞれのプラグインインスタンスは、バージョン管理された docs を個別のフォルダーに保存します。
+
+デフォルトのプラグインインスタンスはこれらのパスを利用します:
+
+- `website/versions.json`
+- `website/versioned_docs`
+- `website/versioned_sidebars`
+
+他のプラグインインスタンス (`id` 属性付き) は、これらのパスを使用します:
+
+- `website/[pluginId]_versions.json`
+- `website/[pluginId]_versioned_docs`
+- `website/[pluginId]_versioned_sidebars`
+
+:::tip
+
+docs プラグインインスタンスのうち1つは、`id` 属性 (デフォルトは `default`) を省略することが可能です。
+
+インスタンスパスのパスはよりシンプルになり、単一インスタンスのセットアップと互換性があります。
+
+:::
+
+## 新しいバージョンのタグ付け {#tagging-new-versions}
+
+それぞれのプラグインインスタンスは、新しいバージョンにタグ付けするための独自のCLIコマンドを持ちます。 これらを実行すると表示されます:
+
+```bash npm2yarn
+npm run docusaurus -- --help
+```
+
+Product / デフォルトの docs プラグインインスタンスをバージョンアップする:
+
+```bash npm2yarn
+npm run docusaurus docs:version 1.0.0
+```
+
+デフォルトでない / Communityの docs プラグインインスタンスをバージョンアップする:
+
+```bash npm2yarn
+npm run docusaurus docs:version:community 1.0.0
+```
+
+## ナビバーの項目 {#docs-navbar-items}
+
+それぞれのドキュメント関連の[テーマナビゲーションアイテム](../../api/themes/theme-configuration.mdx#navbar)は、それぞれオプションで`docsPluginId`属性を取得します。
+
+たとえば、モバイルSDK (iOS と Android) それぞれに1つのバージョンのドロップダウンを用意したい場合、次のようにします:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          docsPluginId: 'ios',
+          // highlight-end
+        },
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          docsPluginId: 'android',
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```

@@ -1,0 +1,220 @@
+---
+description: Docusaurusサイトを検索エンジンに最大限配慮させる方法。
+sidebar_label: SEO
+keywords:
+  - seo
+  - positioning
+---
+
+# 検索エンジン最適化(SEO)
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+Docusaurusは、様々な方法で検索エンジン最適化をサポートします。
+
+## Global metadata {#global-metadata}
+
+Provide global meta attributes for the entire site through the [site configuration](./configuration.mdx#site-metadata). The metadata will all be rendered in the HTML `<head>` using the key-value pairs as the prop name and value. The `metadata` attribute is a convenient shortcut to declare `<meta>` tags, but it is also possible to inject arbitrary tags in `<head>` with the `headTags` attribute.
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    // Declare some <meta> tags
+    metadata: [
+      {name: 'keywords', content: 'cooking, blog'},
+      {name: 'twitter:card', content: 'summary_large_image'},
+    ],
+  },
+  headTags: [
+    // Declare a <link> preconnect tag
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://example.com',
+      },
+    },
+    // Declare some json-ld structured data
+    {
+      tagName: 'script',
+      attributes: {
+        type: 'application/ld+json',
+      },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org/',
+        '@type': 'Organization',
+        name: 'Meta Open Source',
+        url: 'https://opensource.fb.com/',
+        logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+      }),
+    },
+  ],
+};
+```
+
+Docusaurusでは、いくつかのメタデータをすぐに追加することができます。 For example, if you have configured [i18n](./i18n/i18n-introduction.mdx), you will get a [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) alternate link.
+
+To read more about types of meta tags, visit [the MDN docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta).
+
+## Single page metadata {#single-page-metadata}
+
+Similar to [global metadata](#global-metadata), Docusaurus also allows for the addition of meta-information to individual pages. Follow [this guide](./guides/markdown-features/markdown-features-head-metadata.mdx) for configuring the `<head>` tag. 簡単に言うと次のようになります。
+
+```md title="my-markdown-page.mdx"
+# A cooking guide
+
+<head>
+  <meta name="keywords" content="cooking, blog" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://example.com" />
+  <script type="application/ld+json">
+    {JSON.stringify({
+      '@context': 'https://schema.org/',
+      '@type': 'Organization',
+      name: 'Meta Open Source',
+      url: 'https://opensource.fb.com/',
+      logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+    })}
+  </script>
+</head>
+
+Some content...
+```
+
+Docusaurus automatically adds `description`, `title`, canonical URL links, and other useful metadata to each Markdown page. They are configurable through [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter):
+
+```md
+---
+title: 検索エンジンのためのタイトル; 実際の見出しと異なる場合があります
+description: このページについての短い概要
+image: ソーシャルメディアのカードとして表示されるサムネイル画像
+keywords: [キーワード, 説名, 主な話題]
+---
+```
+
+When creating your React page, adding these fields in `Layout` would also improve SEO.
+
+:::tip
+
+Prefer to use [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) for fields like `description` and `keywords`: Docusaurus will automatically apply this to both `description` and `og:description`, while you would have to manually declare two metadata tags when using the `<head>` tag.
+
+:::
+
+:::info
+
+The official plugins all support the following [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter): `title`, `description`, `keywords` and `image`. Refer to their respective API documentation for additional [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) support:
+
+- [Docs front matter](./api/plugins/plugin-content-docs.mdx#markdown-front-matter)
+- [Blog front matter](./api/plugins/plugin-content-blog.mdx#markdown-front-matter)
+- [Pages front matter](./api/plugins/plugin-content-pages.mdx#markdown-front-matter)
+
+:::
+
+For JSX pages, you can use the Docusaurus [`<Head>`](docusaurus-core.mdx#head) component.
+
+```jsx title="my-react-page.jsx"
+import React from 'react';
+import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
+
+export default function page() {
+  return (
+    <Layout title="Page" description="A React page demo">
+      <Head>
+        <meta property="og:image" content="image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="preconnect" href="https://example.com" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org/',
+            '@type': 'Organization',
+            name: 'Meta Open Source',
+            url: 'https://opensource.fb.com/',
+            logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+          })}
+        </script>
+      </Head>
+      {/* ... */}
+    </Layout>
+  );
+}
+```
+
+:::tip
+
+For convenience, the default theme `<Layout>` component accept `title` and `description` as props.
+
+:::
+
+## Static HTML generation {#static-html-generation}
+
+Docusaurusは静的サイトジェネレーターです。URLのルートごとに静的TTMLファイルを生成し、検索エンジンがコンテンツを発見しやすいようにします。
+
+## Image meta description {#image-meta-description}
+
+画像のaltタグは、検索エンジンに画像の内容を伝えるもので、スクリーンリーダーを使用している場合など、画像が視覚的に確認できない場合や、画像が破損している場合に使用されます。 Altタグは、Markdownで一般的にサポートされています。
+
+画像にタイトルを追加することもできます。これはSEOにはあまり影響しませんが、画像の上にカーソルを合わせるとツールチップとして表示されます。ヒントを提供するのに使われています。
+
+```md
+![Docusaurusバナー](./assets/docusaurus-asset-example-banner.png '画像のタイトル')
+```
+
+<BrowserWindow>
+
+![Docusaurusバナー](./assets/docusaurus-asset-example-banner.png "画像のタイトル")
+
+</BrowserWindow>
+
+## Rich search information {#rich-search-information}
+
+Docusaurus blogs support [rich search results](https://search.google.com/test/rich-results) out-of-the-box to get maximum search engine experience. この情報は、ブログ及びグローバル設定のメタ情報に基づいて作成されます。 リッチ検索情報の恩恵を受けるためには、記事の公開日、著者、画像などの情報を記入してください。 Read more about the meta-information [here](./blog.mdx).
+
+## Robots file {#robots-file}
+
+A `robots.txt` file regulates search engines' behavior about which should be displayed and which shouldn't. You can provide it as [static asset](./static-assets.mdx). 以下のようにすると、すべてのリクエストからすべてのサブページへのアクセスが可能になります。
+
+```text title="static/robots.txt"
+User-agent: *
+Disallow:
+```
+
+Read more about the robots file in [the Google documentation](https://developers.google.com/search/docs/advanced/robots/intro).
+
+:::warning
+
+**Important**: the `robots.txt` file does **not** prevent HTML pages from being indexed.
+
+To prevent your whole Docusaurus site from being indexed, use the [`noIndex`](./api/docusaurus.config.js.mdx#noIndex) site config. Some [hosting providers](./deployment.mdx) may also let you configure a `X-Robots-Tag: noindex` HTTP header (GitHub Pages does not support this).
+
+To prevent a single page from being indexed, use `<meta name="robots" content="noindex">` as [page metadata](#single-page-metadata). Read more about the [robots meta tag](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag).
+
+:::
+
+## Sitemap file {#sitemap-file}
+
+Docusaurus provides the [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx) plugin, which is shipped with `preset-classic` by default. It autogenerates a `sitemap.xml` file which will be available at `https://example.com/[baseUrl]/sitemap.xml` after the production build. このサイトマップメタデータは、検索エンジンのクローラーがあなたのサイトをより正確に巡回するのに役立ちます。
+
+:::tip
+
+The sitemap plugin automatically filters pages containing a `noindex` [robots meta directive](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag).
+
+For example, [`/examples/noIndex`](/examples/noIndex) is not included in the [Docusaurus sitemap.xml file](pathname:///sitemap.xml) because it contains the following [page metadata](#single-page-metadata):
+
+```html
+<head>
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+```
+
+:::
+
+## Human readable links {#human-readable-links}
+
+Docusaurus uses your file names as links, but you can always change that using slugs, see this [tutorial](./guides/docs/docs-create-doc.mdx#document-id) for more details.
+
+## Structured content {#structured-content}
+
+Search engines rely on the HTML markup such as `<h2>`, `<table>`, etc., to understand the structure of your webpage. When Docusaurus renders your pages, semantic markup, e.g. `<aside>`, `<nav>`, `<main>`, are used to divide the different sections of the page, helping the search engine to locate parts like sidebar, navbar, and the main page content.
+
+Most [CommonMark](https://spec.commonmark.org/0.30/#atx-headings) syntaxes have their corresponding HTML tags. プロジェクト内で一貫してMarkdownを使用することで、検索エンジンがページの内容を理解しやすくなります。

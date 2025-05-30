@@ -1,0 +1,213 @@
+---
+id: multi-instance
+description: Utilisez plusieurs instances de plugin docs sur un seul site Docusaurus.
+slug: /docs-multi-instance
+---
+
+# Docs Multi-Instance
+
+Le plugin `@docusaurus/plugin-content-docs` peut prendre en charge la [multi-instance](../../using-plugins.mdx#multi-instance-plugins-and-plugin-ids).
+
+:::note
+
+Cette fonctionnalité n'est utile que pour la [documentation versionnée](./versioning.mdx). Il est recommandé de se familiariser avec les versions de docs avant de lire cette page. Si vous voulez juste [plusieurs barres latérales](./sidebar/multiple-sidebars.mdx), vous pouvez le faire dans un seul plugin.
+
+:::
+
+## Cas d'utilisation {#use-cases}
+
+Parfois, vous voulez qu'un site Docusaurus héberge 2 ensembles distincts de documentation (ou plus).
+
+Ces documentations peuvent même avoir des versions/cycles de vie différents.
+
+### Documentation des SDK mobiles {#mobile-sdks-documentation}
+
+Si vous construisez un SDK mobile multi-plateforme, vous pouvez avoir 2 documentations :
+
+- Documentation d'Android SDK (`v1.0`, `v1.1`)
+- Documentation iOS SDK (`v1.0`, `v2.0`)
+
+Dans ce cas, vous pouvez utiliser une instance distincte de docs pour chaque documentation SDK mobile.
+
+:::warning
+
+Si chaque instance de documentation est très grande, vous devriez plutôt créer 2 sites Docusaurus distincts.
+
+Si quelqu'un modifie la documentation iOS, est-il vraiment utile de tout reconstruire, y compris toute la documentation Android qui n'a pas changé ?
+
+:::
+
+### Documentation versionnée et non versionnée {#versioned-and-unversioned-doc}
+
+Parfois, vous souhaitez que certains documents soient versionnés, tandis que d'autres documents sont plus « globaux », et il vous semble inutile de les versionner.
+
+Nous utilisons ce modèle sur le site web de Docusaurus :
+
+- La section [/docs/\*](/docs) est versionnée
+- La section [/community/\*](/community/support) n'est pas versionnée
+
+## Configuration {#setup}
+
+Supposons que vous ayez 2 documentations :
+
+- Produit : un document versionné à propos de votre produit
+- Communauté : quelques documents non versionnés sur la communauté autour de votre produit
+
+Dans ce cas, vous devez utiliser le même plugin deux fois dans la configuration de votre site.
+
+:::warning
+
+`@docusaurus/preset-classic` inclut déjà une instance de plugin de docs pour vous !
+
+:::
+
+Lors de l'utilisation du preset :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-start
+          // id: 'product', // omis => instance par défaut
+          // highlight-end
+          path: 'product',
+          routeBasePath: 'product',
+          sidebarPath: require.resolve('./sidebarsProduct.js'),
+          // ... autres options
+        },
+      },
+    ],
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        id: 'community',
+        // highlight-end
+        path: 'community',
+        routeBasePath: 'community',
+        sidebarPath: require.resolve('./sidebarsCommunity.js'),
+        // ... autres options
+      },
+    ],
+  ],
+};
+```
+
+Si vous n'utilisez pas le preset :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        // id: 'product', // omis => instance par défaut
+        // highlight-end
+        path: 'product',
+        routeBasePath: 'product',
+        sidebarPath: require.resolve('./sidebarsProduct.js'),
+        // ... autres options
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        id: 'community',
+        // highlight-end
+        path: 'community',
+        routeBasePath: 'community',
+        sidebarPath: require.resolve('./sidebarsCommunity.js'),
+        // ... autres options
+      },
+    ],
+  ],
+};
+```
+
+N'oubliez pas d'affecter un attribut `id` unique aux instances de plugin.
+
+:::note
+
+Nous considérons que l'instance `product` est la plus importante, et donc en ne lui attribuant aucun ID, nous faisons d'elle l'instance « par défaut ».
+
+:::
+
+## Chemins versionnés {#versioned-paths}
+
+Chaque instance de plugin stockera les documentations versionnées dans un dossier distinct.
+
+L'instance de plugin par défaut utilisera ces chemins :
+
+- `website/versions.json`
+- `website/versioned_docs`
+- `website/versioned_sidebars`
+
+Les autres instances de plugin (avec un attribut `id`) utiliseront ces chemins :
+
+- `website/[pluginId]_versions.json`
+- `website/[pluginId]_versioned_docs`
+- `website/[pluginId]_versioned_sidebars`
+
+:::tip
+
+Vous pouvez omettre l'attribut `id` (par défaut à `default`) pour l'une des instances du plugin de docs.
+
+Les chemins de l'instance seront plus simples et rétro-compatibles avec la configuration d'une instance unique.
+
+:::
+
+## Étiquetage des nouvelles versions {#tagging-new-versions}
+
+Chaque instance de plugin aura sa propre commande CLI pour taguer une nouvelle version. Ils sont alors affichés si vous vous exécutez :
+
+```bash npm2yarn
+npm run docusaurus -- --help
+```
+
+Pour la version de l'instance de product/par défaut :
+
+```bash npm2yarn
+npm run docusaurus docs:version 1.0.0
+```
+
+Pour la version de l'instance de community :
+
+```bash npm2yarn
+npm run docusaurus docs:version:community 1.0.0
+```
+
+## Éléments de la barre de navigation des docs {#docs-navbar-items}
+
+Chaque [élément du thème de la barre de navigation](../../api/themes/theme-configuration.mdx#navbar) lié à la documentation prend un attribut facultatif `docsPluginId`.
+
+Par exemple, si vous voulez avoir une liste déroulante pour chaque SDK mobile (iOS et Android), vous pouvez faire :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          docsPluginId: 'ios',
+          // highlight-end
+        },
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          docsPluginId: 'android',
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```

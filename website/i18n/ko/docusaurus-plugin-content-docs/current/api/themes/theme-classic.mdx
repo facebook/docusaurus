@@ -1,0 +1,63 @@
+---
+sidebar_position: 2
+slug: /api/themes/@docusaurus/theme-classic
+---
+
+# 📦 theme-classic
+
+import APITable from '@site/src/components/APITable';
+
+도큐사우루스에서 사용할 수 있는 클래식 테마입니다.
+
+세부 설정은 [테마 설정](theme-configuration.mdx) 항목을 참고하세요.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-classic
+```
+
+:::tip
+
+`@docusaurus/preset-classic`을 설치한 경우에는 테마를 따로 설치할 필요는 없습니다.
+
+:::
+
+## 설정 {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션          | 타입                        | 기본값  | 설명                                                                                                |
+| ----------- | ------------------------- | ---- | ------------------------------------------------------------------------------------------------- |
+| `customCss` | <code>string[] \| string</code> | `[]` | 전역 [클라이언트 모듈](../../advanced/client.mdx#client-modules)로 가져올 스타일시트입니다. 상대 경로는 사이트 디렉터리에 따라 정해집니다. |
+
+```mdx-code-block
+</APITable>
+```
+
+:::note
+
+해당 테마에 대한 대부분 설정은 [테마 설정](./theme-configuration.mdx)의 `themeConfig` 항목에서 설정됩니다.
+
+:::
+
+### 설정 예시 {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 테마를 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```js config-tabs
+// Preset Options: theme
+// Plugin Options: @docusaurus/theme-classic
+
+const config = {
+  customCss: './src/css/custom.css',
+};
+```

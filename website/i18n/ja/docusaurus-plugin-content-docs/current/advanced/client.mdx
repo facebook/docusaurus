@@ -1,0 +1,184 @@
+---
+description: Docusaurus クライアントの構成方法
+---
+
+# クライアントアーキテクチャ
+
+## テーマのエイリアス {#theme-aliases}
+
+テーマは、例えば `Navbar`、`Layout`、`Footer` などの一連のコンポーネントをエクスポートすることで、プラグインから渡されたデータをレンダリングして動作します。 Docusaurus とユーザは、webpack の `@theme` エイリアスを使用してこれらのコンポーネントをインポートします。
+
+```js
+import Navbar from '@theme/Navbar';
+```
+
+この `@theme` エイリアスは、次の優先順位に従ってディレクトリを参照できます。
+
+1. ユーザの `website/src/theme` ディレクトリ。これは高い優先順位を持つ特別なディレクトリです。
+2. Docusaurus のテーマパッケージの `theme` ディレクトリ。
+3. Docusaurus のコア機能によって提供されるフォールバックコンポーネント(通常は不要)。
+
+これは _レイヤードアーキテクチャ_と呼ばれます。コンポーネントを提供する優先度の高い層は優先度の低い層を隠蔽し、スウィズリングを可能にします。 以下を例にすると、
+
+```
+website
+├── node_modules
+│   └── @docusaurus/theme-classic
+│       └── theme
+│           └── Navbar.js
+└── src
+    └── theme
+        └── Navbar.js
+```
+
+`@theme/Navbar` がインポートされた場合は `website/src/theme/Navbar.js` が優先されます。 これがコンポーネントスウィズリングです。 もしあなたがランタイムで関数の実装を入れ替えられる Objective-C に精通しているなら、`@theme/Navbar` が参照する対象を変えているのが同じコンセプトであることは理解できるでしょう。
+
+[`@theme-original`](../swizzling.mdx#wrapping) エイリアスを使って、どう `src/theme` 内にある「ユーザ領域のテーマ」を再利用できるかについては既に紹介しました。 テーマパッケージは `@theme-init` のインポートを使用して元のテーマからコンポーネントをインポートすることで、別のテーマのコンポーネントを上書きすることもできます。
+
+この機能を使って、デフォルトテーマである `CodeBlock` コンポーネントを `react-live` のプレイグラウンド機能を使って拡張した例を以下に示します。
+
+```js
+import InitialCodeBlock from '@theme-init/CodeBlock';
+import React from 'react';
+
+export default function CodeBlock(props) {
+  return props.live ? (
+    <ReactLivePlayground {...props} />
+  ) : (
+    <InitialCodeBlock {...props} />
+  );
+}
+```
+
+詳細は `@docusaurus/theme-live-codeblock` のコードを確認してください。
+
+:::warning
+
+もし `@docusaurus/theme-live-codeblock` といったような、再利用可能な「テーマ拡張」を公開するつもりがなければ、おそらく `@theme-init` は必要ないでしょう。
+
+:::
+
+こうしたエイリアスは、頭の中でうまく「上書き」しながら理解するのは難しいかもしれません。 3つのテーマ、プラグインとサイト自体がすべて同じコンポーネントを定義しようとしているとても複雑な例を見てみましょう。 内部的には、Docusaurus はこれらのテーマを"スタック"としてロードします。
+
+```text
++-------------------------------------------------+
+|        `website/src/theme/CodeBlock.js`         | <-- `@theme/CodeBlock` は常に最上位を指します
++-------------------------------------------------+
+| `theme-live-codeblock/theme/CodeBlock/index.js` | <-- `@theme-original/CodeBlock` はスウィズリングされていないコンポーネントの中では上位を指します
++-------------------------------------------------+
+|  `plugin-awesome-codeblock/theme/CodeBlock.js`  |
++-------------------------------------------------+
+|     `theme-classic/theme/CodeBlock/index.js`    | <-- `@theme-init/CodeBlock` は常に最下位を指します
++-------------------------------------------------+
+```
+
+この"スタック"内のコンポーネントは、`プリセットプラグイン → プリセットテーマ → プラグイン → テーマ → サイト`の順で積まれます。 `website/src/theme` 内でスウィズリングされたコンポーネントは最後にロードされるので、常に一番上になります。
+
+`@theme/*` は常に最上位のコンポーネントを指します。`CodeBlock` がスウィズリングされている場合、 `@theme/CodeBlock` を呼び出す他のすべてのコンポーネントはスウィズリングされたものを受け取ります。
+
+`@theme-original/*` は常にスウィズリングされたもの以外で最上位のコンポーネントを指します。 `@theme-original/CodeBlock` をスウィズリングしたコンポーネントからインポートできるのはこのおかげです。これは"コンポーネントスタック"内でテーマからの次のものを指します。 あなたがプラグインの作者である場合はこれを使うべきではないでしょう。あなたのコンポーネントが最上位に来て自己参照を引き起こす可能性があるからです。
+
+`@theme-init/*` は常に一番下のコンポーネントを指しています。通常、これは最初にこのコンポーネントを提供するテーマまたはプラグインから来ています。 プラグインやテーマはそのコードブロックを強化する際、安全に `@theme-init/CodeBlock` を使用してそれぞれの基本的なバージョンを取得できます。 サイトの作成者であれば、通常は_最下位_よりも_最上位_に来るコンポーネントを強化したいと思うはずなので、これを使用すべきではありません。 `@theme-init/CodeBlock` エイリアスが全く存在しない可能性もあります。Docusaurus はそれが `@theme-original/CodeBlock` ではないものを指す場合、つまり複数のテーマから提供される場合にのみエイリアスを作成します。 必要ないエイリアスは作成しても無駄ですからね。
+
+## クライアントモジュール {#client-modules}
+
+クライアントモジュールは、テーマコンポーネントのようにサイトのバンドルに含まれています。 しかし、いつも副作用を持ち得ます。 クライアントモジュールは、Webpack によって `import` される CSS や JS などのあらゆるものです。 JS のスクリプトは通常、イベントリスナの登録、グローバル変数の作成など、グローバルコンテキストで動作します。
+
+これらのモジュールは React が初期の UI をレンダリングする前にグローバルにインポートされます。
+
+```js title="@docusaurus/core/App.tsx"
+// さて、一体どうやって動いているのでしょうか
+import '@generated/client-modules';
+```
+
+プラグインとサイトは、それぞれ [`getClientModules`](../api/plugin-methods/lifecycle-apis.mdx#getClientModules) と [`siteConfig.clientModules`](../api/docusaurus.config.js.mdx#clientModules) を使ってクライアントモジュールを宣言することができます。
+
+クライアントモジュールはサーバサイドレンダリング中にも呼び出されるので、クライアント側のグローバル変数にアクセスする前に [実行環境](./ssg.mdx#escape-hatches) を確認するようにしてください。
+
+```js title="mySiteGlobalJs.js"
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+if (ExecutionEnvironment.canUseDOM) {
+  // サイトがブラウザにロードされたらすぐにグローバルのイベントリスナを登録
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Period') {
+      location.assign(location.href.replace('.com', '.dev'));
+    }
+  });
+}
+```
+
+クライアントモジュールとしてインポートされた CSS スタイルシートは [グローバル](../styling-layout.mdx#global-styles) になります。
+
+```css title="mySiteGlobalCss.css"
+/* グローバルなスタイルシート */
+.globalSelector {
+  color: red;
+}
+```
+
+### クライアントモジュールのライフサイクル {#client-module-lifecycles}
+
+副作用をもたらすだけでなく、クライアントモジュールは必要に応じて `onRouteUpdate` と `onRouteDidUpdate` という2つのライフサイクル関数をエクスポートできます。
+
+Docusaurus はシングルページのアプリケーションをビルドするので、 `script` タグはページが読み込まれたときのみ実行され、ページ遷移時には再実行されません。 これらのライフサイクルは、DOM 要素の操作や分析データの送信など、新しいページがロードされるたびに実行される命令型の JS ロジックがある場合に便利です。
+
+ルートが遷移するごとに、重要なタイミングがいくつかあります。
+
+1. ユーザがリンクをクリックすると、ルータは現在のロケーションを変更します。
+2. Docusaurus は現在のページの内容を表示し続けながら、次のルートのアセットをプリロードします。
+3. 次のルートのアセットがロードされました。
+4. 新しいロケーションのルートコンポーネントが DOM にレンダリングされます。
+
+`onRouteUpdate` は (2) のタイミングで呼び出され、 `onRouteDidUpdate` は (4) で呼び出されます。 どちらも現在と直前のロケーションの情報を受け取ります(最初の画面だった場合は直前のロケーションは `null` になります)。
+
+`onRouteUpdate` は "cleanup" コールバックを返すことができ、これは (3) で呼び出されます。 たとえば、プログレスバーを表示したい場合は `onRouteUpdate` で開始し、コールバックで解除できます。 (従来のテーマはすでにこのように `nprogress` インテグレーションを提供しています)。
+
+新しいページの DOM は、(4) のタイミングでのみ利用可能であることに注意してください。 新しいページの DOM を操作する必要がある場合は、`onRouteDidUpdate` をお勧めします。 これは新しいページの DOM がマウントされるとすぐに呼び出されます。
+
+```js title="myClientModule.js"
+export function onRouteDidUpdate({location, previousLocation}) {
+  // 見出しの移動などで URL のハッシュが変わると呼び出される可能性があるので、
+  // 同じページだった場合は実行しないようにする
+  if (location.pathname !== previousLocation?.pathname) {
+    const title = document.getElementsByTagName('h1')[0];
+    if (title) {
+      title.innerText += '❤️';
+    }
+  }
+}
+
+export function onRouteUpdate({location, previousLocation}) {
+  if (location.pathname !== previousLocation?.pathname) {
+    const progressBarTimeout = window.setTimeout(() => {
+      nprogress.start();
+    }, delay);
+    return () => window.clearTimeout(progressBarTimeout);
+  }
+  return undefined;
+}
+```
+
+または TypeScript を使用していて、コンテキスト型の型を活用したい場合は
+
+```ts title="myClientModule.ts"
+import type {ClientModule} from '@docusaurus/types';
+
+const module: ClientModule = {
+  onRouteUpdate({location, previousLocation}) {
+    // ...
+  },
+  onRouteDidUpdate({location, previousLocation}) {
+    // ...
+  },
+};
+export default module;
+```
+
+どちらのライフサイクルも最初のレンダリング時に呼び出されますが、サーバ側では呼び出されないので安全にブラウザのグローバル変数にアクセスできます。
+
+:::tip React を好むなら
+
+クライアントモジュールのライフサイクルは純粋に命令型であり、React フックを使用したり、React コンテキストにアクセスすることはできません。 もし状態制御や複雑な DOM 操作を行いたい場合は、代わりに [ コンポーネントのスウィズリング](../swizzling.mdx) を検討してください。
+
+:::

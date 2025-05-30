@@ -1,0 +1,105 @@
+---
+slug: /migration/v2
+---
+
+# 개요
+
+이 문서에서는 기존 도큐사우루스 1 사이트를 운영하고 있는 경우 도큐사우루스 2로 마이그레이션하는 방법을 안내합니다.
+
+가능한 쉽게 마이그레이션할 수 있도록 마이그레이션 CLI를 제공합니다.
+
+## Main differences {#main-differences}
+
+도큐사우루스 1은 리액트를 서버 측 템플릿 엔진처럼 사용해서 문서 사이트 생성을 위한 기능만 제공했습니다. 때문에 웹 브라우저에서 리액트를 로딩하지는 않았습니다.
+
+도큐사우루스 2는 웹 브라우저에서 사용할 수 있는 리액트의 모든 기능을 활용해 단일 페이지 애플리케이션을 위한 도구로 완전히 새롭게 만들었습니다. 그래서 더 다양한 활용을 할 수 있습니다. 하지만 도큐사우루스 1에서의 장점들, 예를 들면 간단한 시작, 버전 관리, i18n 등의 기능은 그대로 유지합니다.
+
+Beyond that, Docusaurus 2 is a **performant static site generator** and can be used to create common content-driven websites (e.g. Documentation, Blogs, Product Landing and Marketing Pages, etc) extremely quickly.
+
+그렇지만 여전히 주요 관심은 문서를 잘 만들고 보여주는것에 있습니다. 도큐사우루스 2는 리액트 애플리케이션으로 구현했기 때문에 다양한 형식의 웹사이트를 지원할 수 있을 뿐입니다. **Docusaurus can now be used to build any website, not just documentation websites.**
+
+## Docusaurus 1 structure {#docusaurus-1-structure}
+
+여러분의 도큐사우루스 1 사이트는 아마도 아래와 비슷한 구조일겁니다.
+
+```bash
+├── docs
+└── website
+    ├── blog
+    ├── core
+    │   └── Footer.js
+    ├── package.json
+    ├── pages
+    ├── sidebars.json
+    ├── siteConfig.js
+    └── static
+```
+
+## Docusaurus 2 structure {#docusaurus-2-structure}
+
+마이그레이션 작업 후 여러분의 도큐사우루스 2 사이트는 아래와 같은 구조로 만들어집니다.
+
+```sh
+├── docs
+└── website
+    ├── blog
+    ├── src
+    │   ├── components
+    │   ├── css
+    │   └── pages
+    ├── static
+    ├── package.json
+    ├── sidebars.json
+    ├── docusaurus.config.js
+```
+
+:::info
+
+This migration does not change the `/docs` folder location, but Docusaurus v2 sites generally have the `/docs` folder inside `/website`
+
+You are free to put the `/docs` folder anywhere you want after having migrated to v2.
+
+:::
+
+## Migration process {#migration-process}
+
+온전하게 동작하는 도큐사우루스 2 웹 사이트로 이전하려면 아래와 같은 항목을 고려해서 처리해주어야 합니다.
+
+- 패키지
+- CLI 명령어
+- 사이트 설정
+- 마크다운 파일
+- 사이드바 파일
+- 페이지, 컴포넌트, CSS
+- 버전 지정된 문서
+- i18n 지원 🚧
+
+## Automated migration process {#automated-migration-process}
+
+The [migration CLI](./migration-automated.mdx) will handle many things of the migration for you.
+
+하지만 일부 항목은 자동으로 처리하지 못하며 여러분이 직접 수동으로 처리해주어야 합니다.
+
+:::note
+
+마이그레이션 CLI를 실행하고 누락되는 부분만 수동 마이그레이션 절차에 따라 처리하는 것을 권장합니다.
+
+:::
+
+## Manual migration process {#manual-migration-process}
+
+일부 항목의 마이그레이션은 자동으로 처리되지 못합니다(특히 페이지 같은 경우). 이런 항목은 수동으로 처리할 수 있습니다.
+
+The [manual migration guide](./migration-manual.mdx) will give you all the manual steps.
+
+## Support {#support}
+
+For any questions, you can ask in the [`#migration-v1-to-v2` Discord channel](https://discord.gg/C3P6CxMMxY).
+
+Feel free to tag [@slorber](https://github.com/slorber) in any migration PRs if you would like us to have a look.
+
+We also have volunteers willing to [help you migrate your v1 site](https://github.com/facebook/docusaurus/issues/1834).
+
+## Example migration PRs {#example-migration-prs}
+
+You might want to refer to our migration PRs for [Create React App](https://github.com/facebook/create-react-app/pull/7785) and [Flux](https://github.com/facebook/flux/pull/471) as examples of how a migration for a basic Docusaurus v1 site can be done.

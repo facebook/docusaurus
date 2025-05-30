@@ -1,0 +1,73 @@
+---
+sidebar_position: 7
+slug: /api/plugins/@docusaurus/plugin-google-gtag
+---
+
+# 📦 plugin-google-gtag
+
+import APITable from '@site/src/components/APITable';
+
+The default [Global Site Tag (gtag.js)](https://developers.google.com/tag-platform/gtagjs) plugin. 여러분이 구글 애널리틱스, 구글 광고, 구글 마케팅 플랫폼에 이벤트 데이터를 보낼 수 있게 하는 자바스크립트 태킹 프레임워크와 API입니다. 여기에서는 구글 애널리틱스를 위한 전역 사이트 태그를 활성화하기 위해 도큐사우루트 사이트 설정을 어떻게 해야 하는지 설명합니다.
+
+:::tip
+
+You can use [Google's Tag Assistant](https://tagassistant.google.com/) tool to check if your gtag is set up correctly!
+
+:::
+
+:::warning production only
+
+This plugin is always inactive in development and **only active in production** to avoid polluting the analytics statistics.
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-google-gtag
+```
+
+:::tip
+
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명           | 타입                              | 기본값          | 설명                                    |
+| ------------- | ------------------------------- | ------------ | ------------------------------------- |
+| `trackingID`  | <code>string \| string[]</code> | **Required** | gtag 서비스의 추적 ID 여러 개의 ID를 사용할 수 있습니다. |
+| `anonymizeIP` | `boolean`                       | `false`      | 요청을 보낼 때 IP를 익명화할지 여부                 |
+
+```mdx-code-block
+</APITable>
+```
+
+### Example configuration {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 플러그인을 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```js config-tabs
+// Preset Options: gtag
+// Plugin Options: @docusaurus/plugin-google-gtag
+
+const config = {
+  trackingID: 'G-999X9XX9XX',
+  anonymizeIP: true,
+};
+```

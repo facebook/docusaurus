@@ -1,0 +1,174 @@
+# リリース過程
+
+ここでは、Docusaurusが**バージョン管理、リリース、破壊的変更**をどのように扱っているのかを説明します。
+
+:::info
+
+本トピックは、アップグレードに困難を伴いうる高度にカスタマイズがされたサイトにとって特に重要です。
+
+:::
+
+## セマンティックバージョニング {#semantic-versioning}
+
+Docusaurusのバージョン表記は、「`(メジャー).(マイナー).(パッチ)`」という方式に従っており、[セマンティックバージョニング](https://semver.org/)を遵守しています。
+
+セマンティックバージョニングを遵守することは、次に挙げるいくつかの理由により重要です。
+
+- It **guarantees simple minor version upgrades**, as long as you only use the [public API](/community/release-process#public-api-surface)
+- It follows front-end ecosystem conventions
+- A new major version is an opportunity to thoroughly document breaking changes
+- A new major/minor version is an opportunity to communicate new features through a blog post
+
+### メジャーバージョン {#major-versions}
+
+The `major` version number is incremented on **every breaking change**.
+
+Whenever a new major version is released, we publish:
+
+- 新機能紹介、主要なバグ修正、**破壊的変更、アップグレード手順**に関するブログ記事
+- 包括的な変更履歴の記載
+
+:::tip
+
+Read our [public API surface](#public-api-surface) section to clearly understand what we consider as a breaking change.
+
+:::
+
+### マイナーバージョン {#minor-versions}
+
+The `minor` version number is incremented on every significant retro-compatible change.
+
+Whenever a new minor version is released, we publish:
+
+- 新機能紹介、主要なバグ修正に関するブログ記事
+- 包括的な変更履歴の記載
+
+:::tip
+
+If you only use our [public API surface](#public-api-surface), you should be able to upgrade in no time!
+
+:::
+
+### パッチバージョン {#patch-versions}
+
+The `patch` version number is incremented on bugfixes releases.
+
+Whenever a new patch version is released, we publish:
+
+- 包括的な変更履歴の記載
+
+## バージョン {#versions}
+
+```mdx-code-block
+import {
+  CurrentMajorVersionNumber,
+  StableMajorBranchLink,
+  MainBranchLink,
+} from "@site/src/components/Versions";
+```
+
+The Docusaurus team uses a simple development process and only works on a single major version and a single Git branch at a same time:
+
+- **Docusaurus {CurrentMajorVersionNumber}**: the **stable** version, on the <MainBranchLink/> branch.
+
+:::note How we will ship the next version
+
+Once we are ready ship **Docusaurus {CurrentMajorVersionNumber + 1}**, we will:
+
+- create a <StableMajorBranchLink/> branch
+- merge breaking changes on the <MainBranchLink/> branch
+- release that new version directly from the <MainBranchLink/> branch
+
+:::
+
+:::warning Security fixes policy
+
+After a new stable version has been released, the former stable version will continue to receive support for **major security issues** for **3 months**.
+
+In practice, we will backport security fixes to the <StableMajorBranchLink/> branch. Otherwise, all features will be frozen and non-critical bugs will not be fixed.
+
+It is recommended to upgrade within that time frame to the new stable version.
+
+:::
+
+## 公開API {#public-api-surface}
+
+Docusaurus commits to respecting Semantic Versioning. This means that whenever changes occur in Docusaurus public APIs and break backward compatibility, we will increment the `major` version number.
+
+:::tip
+
+Docusaurus guarantees public API retro-compatibility across `minor` versions. Unless you use internal APIs, `minor` version upgrades should be easy.
+
+:::
+
+We will outline what accounts as the public API surface.
+
+### Core public API {#core-public-api}
+
+✅ Our public API includes:
+
+- Docusaurusの設定
+- DocusaurusクライアントAPI
+- Docusaurus CLI
+- プリセットオプション
+- プラグイン
+- プラグインライフサイクルAPI
+- テーマ設定
+- コアプラグインルートコンポーネントのプロパティ
+- `@docusaurus/types` TypeScript型定義
+  - 私たちは引き続き型をより厳格化する自由を有します(型チェックを破る可能性があります)。
+
+❌ Our public API **excludes**:
+
+- `future` 内で定義される Docusaurus の設定
+- `experimental_` または `unstable_` から始まるすべての設定項目
+- `v6_` や `v7_` などといったように、`v<MajorVersion>_` で始まるすべての設定項目
+
+:::tip
+
+For non-theme APIs, any documented API is considered public (and will be stable); any undocumented API is considered internal.
+
+:::
+
+An API being "stable" means if you increment the patch or minor version of your Docusaurus installation without any other change, running `docusaurus start` or `docusaurus build` should not throw an error.
+
+### Theming public API {#theming-public-api}
+
+Docusaurus has a very flexible theming system:
+
+- カスタムCSSが利用可能
+- 任意のReactテーマコンポーネントを[スウィズリング](/docs/swizzling)可能
+
+This system also implicitly creates a very large API surface. To be able to move fast and improve Docusaurus, we can't guarantee retro-compatibility.
+
+✅ Our public theming API includes:
+
+- [テーマクラス名](/docs/styling-layout#theme-class-names)
+- [Infima](/docs/styling-layout#styling-your-site-with-infima)クラス名とCSS変数
+- [安全にスウィズリングできる](/docs/swizzling#what-is-safe-to-swizzle)Reactコンポーネント
+- テーマのユーザエクスペリエンス
+- ブラウザ対応
+
+:::tip
+
+You may not be able to achieve your site customization through this public API.
+
+In this case, please [report your customization use case](https://github.com/facebook/docusaurus/discussions/5468) and we will figure out how to expand our public API.
+
+:::
+
+❌ Our public theming API **excludes**:
+
+- DOMの構造
+- ハッシュ接尾辞がつくCSSモジュールのクラス名（通常 `[class*='myClassName']` セレクタで対象となるもの）
+- [スウィズリングが安全でない、もしくは禁止されている](/docs/swizzling#what-is-safe-to-swizzle)Reactコンポーネント
+- `@docusaurus/theme-common/internal`からインポートされたReactコンポーネント
+- テーマの厳密な視覚的外観
+
+:::note
+
+When [swizzling](/docs/swizzling) safe components, you might encounter components that import undocumented APIs from `@docusaurus/theme-common` (without the `/internal` subpath).
+
+We still maintain retro-compatibility on those APIs (hence they are marked as "safe"), but we don't encourage a direct usage.
+
+:::

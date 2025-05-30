@@ -1,0 +1,186 @@
+---
+description: Comment le client Docusaurus est structuré
+---
+
+# Architecture client
+
+## Alias du thème {#theme-aliases}
+
+Un thème fonctionne en exportant un ensemble de composants, par exemple `Navbar`, `Layout`, `Footer`, pour rendre les données transmises à partir de plugins. Docusaurus et les utilisateurs utilisent ces composants en les important en utilisant l'alias de webpack `@theme` :
+
+```js
+import Navbar from '@theme/Navbar';
+```
+
+L'alias `@theme` peut faire référence à quelques répertoires, selon la priorité suivante :
+
+1. Un répertoire `website/src/theme` d'un utilisateur, qui est un répertoire spécial qui a la priorité supérieure.
+2. Un répertoire `theme` des paquets du thème de Docusaurus.
+3. Des composants de secours fournis par le noyau de Docusaurus (généralement pas nécessaire).
+
+C'est ce qu'on appelle une _architecture en couches_ : une couche de priorité supérieure fournissant le composant ferait de l'ombre à une couche de priorité inférieure, rendant le swizzling possible. Considérons la structure suivante :
+
+```
+website
+├── node_modules
+│   └── @docusaurus/theme-classic
+│       └── theme
+│           └── Navbar.js
+└── src
+    └── theme
+        └── Navbar.js
+```
+
+`website/src/theme/Navbar.js` est prioritaire lorsque `@theme/Navbar` est importé. Ce comportement est appelé « swizzling de composant ». Si vous êtes familier avec Objective C où l'implémentation d'une fonction peut être permutée pendant l'exécution, c'est exactement le même concept ici avec le changement de la cible vers laquelle `@theme/Navbar` pointe !
+
+Nous avons déjà parlé de la façon dont le « thème personnalisé » dans `src/theme` peut réutiliser un composant de thème grâce à l'alias [`@theme-original`](../swizzling.mdx#wrapping). Un paquet de thème peut également envelopper un composant d'un autre thème, en important le composant du thème initial, à l'aide de l'import `@theme-init`.
+
+Voici un exemple d'utilisation de cette fonctionnalité pour améliorer le composant `CodeBlock` du thème par défaut avec une fonctionnalité de terrain de jeu `react-live`.
+
+```js
+import InitialCodeBlock from '@theme-init/CodeBlock';
+import React from 'react';
+
+export default function CodeBlock(props) {
+  return props.live ? (
+    <ReactLivePlayground {...props} />
+  ) : (
+    <InitialCodeBlock {...props} />
+  );
+}
+```
+
+Vérifiez le code de `@docusaurus/theme-live-codeblock` pour plus de détails.
+
+:::warning
+
+À moins que vous ne vouliez publier sur npm un « rehausseur de thème » (comme `@docusaurus-theme-live-codeblock`), vous n'avez probablement pas besoin de `@theme-init`.
+
+:::
+
+Il peut être assez difficile de se faire une idée de ces alias. Imaginons le cas suivant avec une configuration super alambiquée où trois thèmes/plugins et le site lui-même essaient tous de définir le même composant. En interne, Docusaurus charge ces thèmes comme une « pile ».
+
+```text
++-------------------------------------------------+
+|        `website/src/theme/CodeBlock.js`         | <-- `@theme/CodeBlock` est toujours placé en haut
++-------------------------------------------------+
+| `theme-live-codeblock/theme/CodeBlock/index.js` | <-- `@theme-original/CodeBlock` le composant non swizzlé placé le plus haut
++-------------------------------------------------+
+|  `plugin-awesome-codeblock/theme/CodeBlock.js`  |
++-------------------------------------------------+
+|     `theme-classic/theme/CodeBlock/index.js`    | <-- `@theme-init/CodeBlock` est toujours placé en bas
++-------------------------------------------------+
+```
+
+Les composants de cette « pile » sont poussés dans l'ordre de `preset plugins > preset themes > plugins > themes > site`, de sorte que le composant swizzlé dans `website/src/theme` soit toujours placé en haut car il est chargé en dernier.
+
+`@theme/*` est toujours placé au niveau le plus haut du composant - lorsque `CodeBlock` est modifié, tous les autres composants qui demandent `@theme/CodeBlock` reçoivent la version modifiée.
+
+`@theme-original/* est toujours placé au plus haut du composant non swizzlé. C'est la raison pour laquelle vous pouvez importer `@theme-original/CodeBlock dans le composant swizzlé\` - il pointe vers le suivant dans la « pile de composants », un composant fourni par le thème. Les auteurs de plugins ne devraient pas essayer de l'utiliser car votre composant pourrait être le composant le plus haut et provoquer un auto-import.
+
+`@theme-init/* est toujours placé en bas - généralement, il provient du thème ou du plugin qui fournit ce composant en premier. Les plugins / thèmes individuels qui tentent d'améliorer le bloc de code peuvent utiliser en toute sécurité `@theme-init/CodeBlock`pour obtenir sa version de base. Les créateurs de sites ne devraient généralement pas l'utiliser car vous souhaitez probablement améliorer le composant le _plus haut_ au lieu du _plus bas_. Il est également possible que l'alias`@theme-init/CodeBlock`n'existe pas du tout — Docusaurus ne le crée que lorsqu'il pointe vers un alias différent de`@theme-original/CodeBlock\`, c'est-à-dire lorsqu'il est fourni par plus d'un thème. Nous ne gaspillons pas les alias !
+
+## Modules clients {#client-modules}
+
+Les modules clients font partie de l'offre groupée de votre site, tout comme les composants du thème. Cependant, ils sont généralement accompagnés d'effets secondaires. Les modules clients peuvent être `import`és par Webpack — CSS, JS, etc. Les scripts JS travaillent généralement sur le contexte global, comme l'enregistrement d'écouteurs d'événements, la création de variables globales...
+
+Ces modules sont importés globalement avant même que React ne rende l'interface utilisateur initiale.
+
+```js title="@docusaurus/core/App.tsx"
+// Comment ça marche sous le capot
+import '@generated/client-modules';
+```
+
+Les plugins et les sites peuvent déclarer les modules clients respectivement via [`getClientModules`](../api/plugin-methods/lifecycle-apis.mdx#getClientModules) et [`siteConfig.clientModules`](../api/docusaurus.config.js.mdx#clientModules).
+
+Les modules clients sont également appelés pendant le rendu côté serveur, alors n'oubliez pas de vérifier [l'environnement d'exécution](./ssg.mdx#escape-hatches) avant d'accéder aux globales côté client.
+
+```js title="mySiteGlobalJs.js"
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+if (ExecutionEnvironment.canUseDOM) {
+  // Dès que le site se charge dans le navigateur, cela enregistre une écoute d'événements globale
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Period') {
+      location.assign(location.href.replace('.com', '.dev'));
+    }
+  });
+}
+```
+
+Les feuilles de style CSS importées en tant que modules clients sont [globales](../styling-layout.mdx#global-styles).
+
+```css title="mySiteGlobalCss.css"
+/* Cette feuille de style est globale. */
+.globalSelector {
+  color: red;
+}
+```
+
+### Cycles de vie du module client {#client-module-lifecycles}
+
+En dehors de l'introduction d'effets secondaires, les modules clients peuvent éventuellement exporter deux fonctions de cycle de vie : `onRouteUpdate` et `onRouteDidUpdate`.
+
+Comme Docusaurus construit une application mono-page, les balises `script` ne seront exécutées que lors du premier chargement de la page, mais ne seront pas ré-exécutées lors des transitions de page. Ces cycles de vie sont utiles si vous avez une logique JS impérative qui doit s'exécuter chaque fois qu'une nouvelle page est chargée, par exemple pour manipuler des éléments DOM, pour envoyer des données analytiques, etc.
+
+Pour chaque transition de route, il y aura plusieurs moments importants :
+
+1. L'utilisateur clique sur un lien, ce qui fait que le routeur change son emplacement actuel.
+2. Docusaurus précharge les ressources de la route suivante, tout en conservant l'affichage du contenu de la page courante.
+3. Les ressources de la route suivante ont été chargées.
+4. Le composant de la route du nouvel emplacement est rendu dans le DOM.
+
+`onRouteUpdate` sera appelé à l'événement (2), et `onRouteDidUpdate` sera appelé au (4). Ils reçoivent tous deux l'emplacement actuel et l'emplacement précédent (qui peut être `null`, si c'est le premier écran).
+
+`onRouteUpdate` peut optionnellement retourner un callback « cleanup », qui sera appelé au (3). Par exemple, si vous voulez afficher une barre de progression, vous pouvez démarrer un délai dans `onRouteUpdate`, et effacer le délai d'attente dans le callback. (Le thème classique fournit déjà une intégration `nprogress` de cette manière.)
+
+Notez que le DOM de la nouvelle page n'est disponible que pendant l'événement (4). Si vous avez besoin de manipuler le DOM de la nouvelle page, vous voudrez probablement utiliser `onRouteDidUpdate`, qui sera lancé dès que le DOM sur la nouvelle page sera monté.
+
+```js title="myClientModule.js"
+import type {Location} from 'history';
+
+export function onRouteDidUpdate({location, previousLocation}) {
+  // Ne pas exécuter si nous sommes toujours sur la même page ; le cycle de vie peut être déclenché
+  // parce que le hachage change (par exemple, lors de la navigation entre les titres)
+  if (location.pathname !== previousLocation?.pathname) {
+    const title = document.getElementsByTagName('h1')[0];
+    if (title) {
+      title.innerText += '❤️';
+    }
+  }
+}
+
+export function onRouteUpdate({location, previousLocation}) {
+  if (location.pathname !== previousLocation?.pathname) {
+    const progressBarTimeout = window.setTimeout(() => {
+      nprogress.start();
+    }, delay);
+    return () => window.clearTimeout(progressBarTimeout);
+  }
+  return undefined;
+}
+```
+
+Ou, si vous utilisez TypeScript et que vous souhaitez tirer parti du typage contextuel :
+
+```ts title="myClientModule.ts"
+import type {ClientModule} from '@docusaurus/types';
+
+const module: ClientModule = {
+  onRouteUpdate({location, previousLocation}) {
+    // ...
+  },
+  onRouteDidUpdate({location, previousLocation}) {
+    // ...
+  },
+};
+export default module;
+```
+
+Les deux cycles de vie se déclencheront au premier rendu, mais pas du côté serveur, de sorte que vous pouvez y accéder sans risque aux globaux du navigateur.
+
+:::tip Préférez l'utilisation de React
+
+Les cycles de vie des modules clients sont purement impératifs, et vous ne pouvez pas utiliser les hooks React ou accéder aux contextes React en leur sein. Si vos opérations sont pilotées par l'état ou impliquent des manipulations DOM compliquées, vous devriez plutôt envisager de [swizzler les composants](../swizzling.mdx).
+
+:::

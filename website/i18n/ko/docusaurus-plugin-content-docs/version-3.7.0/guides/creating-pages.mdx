@@ -1,0 +1,140 @@
+---
+slug: /creating-pages
+sidebar_label: 페이지
+---
+
+# 페이지 만들기
+
+이번에는 도큐사우루스에서 페이지를 만드는 방법을 살펴보겠습니다.
+
+The `@docusaurus/plugin-content-pages` plugin empowers you to create **one-off standalone pages** like a showcase page, playground page, or support page. 리액트 컴포넌트나 마크다운을 사용할 수 있습니다.
+
+:::note
+
+Pages do not have sidebars, only [docs](./docs/docs-introduction.mdx) do.
+
+:::
+
+:::info
+
+Check the [Pages Plugin API Reference documentation](./../api/plugins/plugin-content-pages.mdx) for an exhaustive list of options.
+
+:::
+
+## Add a React page {#add-a-react-page}
+
+리액트는 페이지를 만들기 위한 UI 라이브러리처럼 사용됩니다. 모든 페이지 컴포넌트는 리액트 컴포넌트로 내보내야 합니다. 이를 통해 다채롭고 상호작용할 수 있는 콘텐츠를 만드는 데 리액트의 다양한 기능을 활용할 수 있습니다.
+
+Create a file `/src/pages/helloReact.js`:
+
+```jsx title="/src/pages/helloReact.js"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+export default function Hello() {
+  return (
+    <Layout title="Hello" description="Hello React Page">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          fontSize: '20px',
+        }}>
+        <p>
+          Edit <code>pages/helloReact.js</code> and save to reload.
+        </p>
+      </div>
+    </Layout>
+  );
+}
+```
+
+파일을 저장하면 배포 서버에서 자동으로 변경사항을 반영해 새로고침합니다. Now open [`http://localhost:3000/helloReact`](http://localhost:3000/helloReact) and you will see the new page you just created.
+
+개별 페이지는 별도의 스타일 설정을 가지고 있지 않습니다. You will need to import the `Layout` component from `@theme/Layout` and wrap your contents within that component if you want the navbar and/or footer to appear.
+
+:::tip
+
+You can also create TypeScript pages with the `.tsx` extension (`helloReact.tsx`).
+
+:::
+
+## Add a Markdown page {#add-a-markdown-page}
+
+Create a file `/src/pages/helloMarkdown.md`:
+
+```md title="/src/pages/helloMarkdown.md"
+---
+title: my hello page title
+description: my hello page description
+hide_table_of_contents: true
+---
+
+# Hello
+
+How are you?
+```
+
+In the same way, a page will be created at [`http://localhost:3000/helloMarkdown`](http://localhost:3000/helloMarkdown).
+
+마크다운 페이지는 테마 레이아웃만을 사용하기 때문에 리액트 페이지에 비해 다양한 형식을 취할 수는 없습니다.
+
+Here's an [example Markdown page](/examples/markdownPageExample).
+
+:::tip
+
+You can use the full power of React in Markdown pages too, refer to the [MDX](https://mdxjs.com/) documentation.
+
+:::
+
+## Routing {#routing}
+
+지킬(Jekyll)이나 넥스트(Next) 같은 정적 사이트 생성 도구에 익숙하다면 라우팅을 사용해봤을 겁니다. Any JavaScript file you create under `/src/pages/` directory will be automatically converted to a website page, following the `/src/pages/` directory hierarchy. 예를 들면 아래와 같은 형식입니다.
+
+- `/src/pages/index.js` → `[baseUrl]`
+- `/src/pages/foo.js` → `[baseUrl]/foo`
+- `/src/pages/foo/test.js` → `[baseUrl]/foo/test`
+- `/src/pages/foo/index.js` → `[baseUrl]/foo/`
+
+컴포넌트 기반 개발 시에는 스타일, 마크업, 동작 관련 파일을 컴포넌트와 같은 위치에서 관리하는 것이 좋습니다. 각각의 페이지는 컴포넌트입니다. 페이지 디자인을 다른 스타일로 적용하고자 한다면 페이지 컴포넌트와 같은 디렉터리에 스타일 파일을 위치시키는 것을 권장합니다. 예를 들어 "Support" 페이지를 만들고자 한다면 아래 방법 중에서 선택할 수 있습니다.
+
+- Add a `/src/pages/support.js` file
+- Create a `/src/pages/support/` directory and a `/src/pages/support/index.js` file.
+
+두 번째 방법은 디렉터리 안에 페이지와 관련된 파일을 관리할 수 있는 장점이 있기 때문에 권장하는 방법입니다. For example, a CSS module file (`styles.module.css`) with styles meant to only be used on the "Support" page.
+
+:::note
+
+This is merely a recommended directory structure, and you will still need to manually import the CSS module file within your component module (`support/index.js`).
+
+:::
+
+By default, any Markdown or JavaScript file starting with `_` will be ignored and no routes will be created for that file (see the `exclude` option).
+
+```bash
+my-website
+├── src
+│   └── pages
+│       ├── styles.module.css
+│       ├── index.js
+│       ├── _ignored.js
+│       ├── _ignored-folder
+│       │   ├── Component1.js
+│       │   └── Component2.js
+│       └── support
+│           ├── index.js
+│           └── styles.module.css
+.
+```
+
+:::warning
+
+All JavaScript/TypeScript files within the `src/pages/` directory will have corresponding website paths generated for them. If you want to create reusable components into that directory, use the `exclude` option (by default, files prefixed with `_`, test files(`.test.js`), and files in `__tests__` directory are not turned into pages).
+
+:::
+
+### Duplicate Routes {#duplicate-routes}
+
+실수로 같은 경로를 가리키는 페이지를 여러 개 만들 수 있습니다. When this happens, Docusaurus will warn you about duplicate routes when you run `yarn start` or `yarn build` (behavior configurable through the [`onDuplicateRoutes`](../api/docusaurus.config.js.mdx#onDuplicateRoutes) config), but the site will still be built successfully. 마지막에 만든 페이지가 충돌이 발생한 페이지를 덮어쓰게 됩니다. 이런 문제를 해결하기 위해서는 경로 중복이 발생한 페이지를 수정하거나 삭제해야 합니다.

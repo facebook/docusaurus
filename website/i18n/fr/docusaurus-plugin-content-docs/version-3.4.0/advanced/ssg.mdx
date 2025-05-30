@@ -1,0 +1,218 @@
+---
+sidebar_label: Génération du site statique
+description: Docusaurus rend statiquement votre code React en HTML, permettant une vitesse de chargement plus rapide et un meilleur référencement.
+---
+
+# Génération de site statique (SSG)
+
+Dans [l'architecture](architecture.mdx), nous avons mentionné que le thème est exécuté dans Webpack. Mais attention : cela ne veut pas dire qu'il a toujours accès aux globales du navigateur ! Le thème est construit deux fois :
+
+- Pendant le **rendu côté serveur**, le thème est compilé dans un bac à sable appelé [Serveur du DOM React](https://reactjs.org/docs/react-dom-server.html). Vous pouvez le voir comme un « navigateur sans entête », où il n'y a ni `window` ou `document`, seulement React. Le rendu côté serveur produit des pages HTML statiques.
+- Pendant le **rendu côté client**, le thème est compilé en JavaScript qui est éventuellement exécuté dans le navigateur, il a donc accès aux variables du navigateur.
+
+:::info SSR ou SSG ?
+
+_Le rendu côté serveur_ (SSR) et _la génération de site statique_ (SSG) peuvent être des concepts différents, mais nous les utilisons de manière interchangeable.
+
+À proprement parler, Docusaurus est un générateur de sites statiques, car il n'y a pas de temps d'exécution côté serveur. Nous effectuons un rendu statique vers des fichiers HTML qui sont déployés sur un CDN, au lieu d'effectuer un pré-rendu dynamique à chaque demande. Cela diffère du modèle de travail de [Next.js](https://nextjs.org/).
+
+:::
+
+Par conséquent, si vous savez probablement qu'il ne faut pas accéder aux globaux de Node comme `process` ([ou pouvons-nous ?](#node-env)) ou au module `fs`, vous ne pouvez pas non plus accéder librement aux globaux du navigateur.
+
+```jsx
+import React from 'react';
+
+export default function WhereAmI() {
+  return <span>{window.location.href}</span>;
+}
+```
+
+Cela ressemble à un idiomatique React, mais si vous exécutez `docusaurus build`, vous obtiendrez une erreur :
+
+```
+ReferenceError: window is not defined
+```
+
+En effet, pendant le rendu côté serveur, l'application Docusaurus n'est pas réellement exécutée dans le navigateur, et elle ne sait pas ce qu'est `window`.
+
+```mdx-code-block
+<details id="node-env">
+<summary>Qu'en est-il de <code>process.env.NODE_ENV</code> ?</summary>
+```
+
+`process.env.NODE_ENV` est une exception à la règle « aucun globaux Node ». En fait, vous pouvez l'utiliser dans React, parce que Webpack injecte cette variable en tant que global :
+
+```jsx
+import React from 'react';
+
+export default function expensiveComp() {
+  if (process.env.NODE_ENV === 'development') {
+    return <>Ce composant n'est pas affiché en développement</>;
+  }
+  const res = someExpensiveOperationThatLastsALongTime();
+  return <>{res}</>;
+}
+```
+
+Lors de la construction de Webpack, le `process.env.NODE_ENV` sera remplacé par la valeur, soit `'development'` ou `'production'`. Vous obtiendrez alors des résultats de construction différents après avoir éliminé le code mort :
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+```mdx-code-block
+<Tabs>
+<TabItem value="Développement">
+```
+
+```diff
+import React from 'react';
+
+export default function expensiveComp() {
+  // highlight-next-line
+  if ('development' === 'development') {
++   return <>Ce composant n'est pas affiché en développement</>;
+  }
+- const res = someExpensiveOperationThatLastsALongTime();
+- return <>{res}</>;
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="Production">
+```
+
+```diff
+import React from 'react';
+
+export default function expensiveComp() {
+  // highlight-next-line
+- if ('production' === 'development') {
+-   return <>Ce composant n'est pas affiché en développement</>;
+- }
++ const res = someExpensiveOperationThatLastsALongTime();
++ return <>{res}</>;
+}
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+</details>
+```
+
+## Compréhension du SSR {#understanding-ssr}
+
+React n'est pas seulement un moteur d'exécution d'interface utilisateur dynamique, c'est aussi un moteur de templates. Comme les sites de Docusaurus contiennent principalement des contenus statiques, ils devraient pouvoir fonctionner sans aucun JavaScript (avec lequel React fonctionne), mais uniquement en HTML/CSS. Et c'est ce que propose le rendu côté serveur : rendre statiquement votre code React en HTML, sans aucun contenu dynamique. Un fichier HTML n'a aucune notion de l'état du client (il s'agit uniquement de balises), il ne doit donc pas dépendre des API du navigateur.
+
+Ces fichiers HTML sont les premiers à arriver à l'écran du navigateur de l'utilisateur lorsqu'une URL est visitée (voir [routage](routing.mdx)). Ensuite, le navigateur récupère et exécute d'autres codes JS pour fournir les parties « dynamiques » de votre site - tout ce qui est implémenté avec JavaScript. Toutefois, avant cela, le contenu principal de votre page est déjà visible, ce qui permet un chargement plus rapide.
+
+Dans les applications rendues côté client uniquement, tous les éléments DOM sont générés côté client avec React, et le fichier HTML ne contient toujours qu'un seul élément racine sur lequel React doit monter le DOM; en SSR, React est déjà confronté à une page HTML entièrement construite, et il n'a besoin que de corréler les éléments DOM avec le DOM virtuel dans son modèle. Cette étape est appelée « hydratation ». Après que React ait hydraté le balisage statique, l'application commence à fonctionner comme n'importe quelle application React normale.
+
+Notez que Docusaurus est en définitive une application mono-page, la génération de sites statiques n'est donc qu'une optimisation (_amélioration progressive_, comme on l'appelle), mais notre fonctionnalité ne dépend pas entièrement de ces fichiers HTML. Cela va à l'encontre des générateurs de sites comme [Jekyll](https://jekyllrb.com/) et [Docusaurus v1](https://v1.docusaurus.io/), où tous les fichiers sont transformés de manière statique en balises, et où l'interactivité est ajoutée par le biais de JavaScript externe lié aux balises `<script>`. Si vous inspectez le résultat de la construction, vous verrez toujours les ressources JS sous `build/assets/js`, qui sont, vraiment, le cœur de Docusaurus.
+
+## Trappes de secours {#escape-hatches}
+
+Si vous souhaitez afficher sur votre écran un contenu dynamique qui dépend de l'API du navigateur pour être fonctionnel, par exemple :
+
+- Notre [codeblock live](../guides/markdown-features/markdown-features-code-blocks.mdx#interactive-code-editor), qui s'exécute dans l'exécutable JS du navigateur
+- Notre [image thématique](../guides/markdown-features/markdown-features-assets.mdx#themed-images) qui détecte le schéma de couleur de l'utilisateur pour afficher des images différentes
+- La visionneuse JSON de notre panneau de débogage qui utilise le `window` global pour le style
+
+Il se peut que vous ayez besoin de vous échapper du SSR, car le HTML statique ne peut rien afficher d'utile sans connaître l'état du client.
+
+:::warning
+
+Il est important que le premier rendu côté client produise exactement la même structure DOM que le rendu côté serveur, sinon, React corrélera le DOM virtuel avec les mauvais éléments DOM.
+
+Par conséquent, la tentative naïve de `if (typeof window !== 'undefined) {/* rendre quelque chose */}` ne fonctionnera pas de manière appropriée selon la détection du navigateur ou du serveur, car le premier rendu client rendrait instantanément un balisage différent de celui généré par le serveur.
+
+Vous pouvez en savoir plus sur cet écueil dans [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
+
+:::
+
+Nous fournissons plusieurs moyens plus fiables d'échapper au SSR.
+
+### `<BrowserOnly>` {#browseronly}
+
+Si vous devez rendre un composant dans le navigateur uniquement (par exemple, parce que le composant dépend des spécificités du navigateur pour être fonctionnel), une approche commune consiste à envelopper votre composant avec[`<BrowserOnly>`](../docusaurus-core.mdx#browseronly) pour s'assurer qu'il est invisible pendant le SSR et rendu uniquement côté client.
+
+```jsx
+import BrowserOnly from '@docusaurus/BrowserOnly';
+
+function MyComponent(props) {
+  return (
+    // highlight-start
+    <BrowserOnly fallback={<div>Loading...</div>}>
+      {() => {
+        const LibComponent =
+          require('some-lib-that-accesses-window').LibComponent;
+        return <LibComponent {...props} />;
+      }}
+    </BrowserOnly>
+    // highlight-end
+  );
+}
+```
+
+Il est important de réaliser que les enfants de `<BrowserOnly>` ne sont pas un élément JSX, mais une fonction qui _renvoie_ un élément. C'est une décision de conception. Considérons ce code :
+
+```jsx
+import BrowserOnly from '@docusaurus/BrowserOnly';
+
+function MyComponent() {
+  return (
+    <BrowserOnly>
+      {/* highlight-start */}
+      {/* NE FAITES PAS CECI - cela ne fonctionne pas en fait */}
+      <span>page url = {window.location.href}</span>
+      {/* highlight-end */}
+    </BrowserOnly>
+  );
+}
+```
+
+Bien que vous puissiez vous attendre à ce que `BrowserOnly` masque les enfants pendant le rendu côté serveur, il ne peut pas en fait. Lorsque le moteur de rendu de React tente de rendre cette arborescence JSX, il voit la variable `{window.location.href}` en tant que noeud de cet arbre et tente de la rendre, bien qu'il ne soit pas utilisé en fait ! L'utilisation d'une fonction garantit que nous ne laissons le moteur de rendu voir le composant du navigateur que lorsqu'il est nécessaire.
+
+### `useIsBrowser` {#useisbrowser}
+
+Vous pouvez également utiliser le hook `useIsBrowser()` pour tester si le composant est actuellement dans un environnement de navigateur. Il renvoie `false` en SSR et `true` pour le rendu coté client, après le premier rendu du client. Utilisez ce hook si vous avez seulement besoin d'effectuer certaines opérations conditionnelles du côté client, mais pas de rendre une interface complètement différente.
+
+```jsx
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+function MyComponent() {
+  const isBrowser = useIsBrowser();
+  const location = isBrowser ? window.location.href : 'recherche de l\'emplacement...';
+  return <span>{location}</span>;
+}
+```
+
+### `useEffect` {#useeffect}
+
+Enfin, vous pouvez placer votre logique dans `useEffect()` pour retarder son exécution après le premier rendu côté client. C'est la solution la plus appropriée si vous n'effectuez que des effets secondaires et que vous _n'obtenez pas_ de données à partir de l'état du client.
+
+```jsx
+function MyComponent() {
+  useEffect(() => {
+    // Uniquement journalisé dans la console du navigateur; rien n'est journalisé pendant le rendu côté serveur de la console
+    console.log("I'm now in the browser");
+  }, []);
+  return <span>Some content...</span>;
+}
+```
+
+### `ExecutionEnvironment` {#executionenvironment}
+
+L'espace de noms [`ExecutionEnvironment`](../docusaurus-core.mdx#executionenvironment) contient plusieurs valeurs, et `canUseDOM` est un moyen efficace de détecter l'environnement du navigateur.
+
+Attention, il vérifie essentiellement `typeof window !== 'undefined'` sous le capot, donc vous ne devriez pas l'utiliser pour la logique liée au rendu, mais seulement pour du code impératif, comme réagir à la saisie de l'utilisateur en envoyant des requêtes web, ou importer dynamiquement des bibliothèques, où DOM n'est pas du tout mis à jour.
+
+```js title="a-client-module.js"
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+if (ExecutionEnvironment.canUseDOM) {
+  document.title = "Je suis chargé !";
+}
+```

@@ -1,0 +1,54 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/no-untranslated-text
+---
+
+# no-untranslated-text
+
+import APITable from '@site/src/components/APITable';
+
+JSX의 텍스트 라벨이 translate 호출로 래핑되도록 적용합니다.
+
+[i18 기능](../../../i18n/i18n-introduction.mdx)을 사용할 때 이 규칙을 적용하면 웹사이트에 표시되는 모든 라벨을 번역할 수 있게 하므로 번역되지 않은 문자열이 실수로 누락되는 일이 없습니다.
+
+## 상세 규칙 {#details}
+
+규칙이 **잘못 적용된** 코드 예시
+
+```js
+// Hello World가 번역되지 않았습니다.
+<Component>Hello World</Component>
+```
+
+규칙이 **적용된** 코드 예시
+
+```js
+// Hello World가 번역됐습니다.
+<Component>
+  <Translate>Hello World</Translate>
+</Component>
+```
+
+## 규칙 설정 {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션               | 타입         | 기본값  | 설명                                  |
+| ---------------- | ---------- | ---- | ----------------------------------- |
+| `ignoredStrings` | `string[]` | `[]` | 목록에 있는 문자열만 포함하는 텍스트 라벨은 보고되지 않습니다. |
+
+```mdx-code-block
+</APITable>
+```
+
+## 사용하지 않을 때 {#when-not-to-use}
+
+[i18n 기능](../../../i18n/i18n-introduction.mdx)을 사용하지 않는 경우에는 해당 규칙을 비활성화할 수 있습니다. 텍스트가 번역되지 않아야 한다면 이 규칙을 비활성화합니다.
+
+## 더 읽을거리 {#further-reading}
+
+- https://docusaurus.io/docs/docusaurus-core#translate
+- https://docusaurus.io/docs/docusaurus-core#translate-imperative

@@ -1,0 +1,106 @@
+---
+description: How to keep a reasonable bundle size while ensuring sufficient browser support.
+---
+
+# Suporte ao navegador
+
+O Docusaurus permite que os sites definam a lista de navegadores suportados através da configuração de [lista de navegadores](https://github.com/browserslist/browserslist).
+
+## Propósito {#purpose}
+
+Os sites precisam se equilibrar entre compatibilidade com versões anteriores e tamanho do pacote. As old browsers do not support modern APIs or syntax, more code is needed to implement the same functionality.
+
+For example, you may use the [optional chaining syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining):
+
+```js
+const value = obj?.prop?.val;
+```
+
+...which unfortunately is only recognized by browser versions released after 2020. To be compatible with earlier browser versions, when building your site for production, our JS loader will transpile your code to a more verbose syntax:
+
+```js
+var _obj, _obj$prop;
+
+const value =
+  (_obj = obj) === null || _obj === void 0
+    ? void 0
+    : (_obj$prop = _obj.prop) === null || _obj$prop === void 0
+    ? void 0
+    : _obj$prop.val;
+```
+
+However, this penalizes all other users with increased site load time because the 29-character line now becomes 168 characters—a 6-fold increase! (In practice, it will be better because the names used will be shorter.) As a tradeoff, the JS loader only transpiles the syntax to the degree that's supported by all browser versions defined in the browser list.
+
+A lista de navegadores por padrão é fornecida através do arquivo `package.json` como um campo raiz `browserslist`.
+
+:::warning
+
+On old browsers, the compiled output will use unsupported (too recent) JS syntax, causing React to fail to initialize and end up with a static website with only HTML/CSS and no JS.
+
+:::
+
+## Valores padrão {#default-values}
+
+Websites inicializados com o modelo clássico padrão tem o seguinte conteúdo no `package.json`:
+
+```json title="package.json"
+{
+  "name": "docusaurus",
+  // ...
+  // highlight-start
+  "browserslist": {
+    "production": [">0.5%", "not dead", "not op_mini all"],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+  // highlight-end
+  // ...
+}
+```
+
+Explicado em linguagem natural, os navegadores com suporte na produção são os seguintes:
+
+- Com mais de 0,5% de market share; _e_
+- Tem suporte oficial ou atualizações nos últimos 24 meses (o oposto de "dead"); _e_
+- Não é Opera Mini.
+
+E os navegadores usados em desenvolvimento são:
+
+- A versão mais recente do Chrome _ou_ Firefox _ou_ Safari.
+
+You can "evaluate" any config with the `browserslist` CLI to obtain the actual list:
+
+```bash
+npx browserslist --env="production"
+```
+
+The output is all browsers supported in production. Below is the output in January 2022:
+
+```text
+and_chr 96
+and_uc 12.12
+chrome 96
+chrome 95
+chrome 94
+edge 96
+firefox 95
+firefox 94
+ie 11
+ios_saf 15.2
+ios_saf 15.0-15.1
+ios_saf 14.5-14.8
+ios_saf 14.0-14.4
+ios_saf 12.2-12.5
+opera 82
+opera 81
+safari 15.1
+safari 14.1
+safari 13.1
+```
+
+## Leia mais {#read-more}
+
+Você pode querer visitar a [documentação de lista de navegadores](https://github.com/browserslist/browserslist/blob/main/README.md) para obter mais especificações, especialmente os [valores de consulta](https://github.com/browserslist/browserslist/blob/main/README.md#queries) e [as melhores práticas](https://github.com/browserslist/browserslist/blob/main/README.md#best-practices) aceitas.

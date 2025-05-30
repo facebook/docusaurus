@@ -1,0 +1,259 @@
+---
+id: admonitions
+description: 在 Docusaurus Markdown 中处理警告/告示
+slug: /markdown-features/admonitions
+---
+
+# 告示
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
+
+除了基本的 Markdown 语法， 我们还有一种特殊的告示语法。它用 3 个连续的冒号包裹文本，然后紧跟着一个表示其类型的文本标签。
+
+示例：
+
+```md
+:::note
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::tip
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::info
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::caution
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::danger
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::note
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::tip
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::info
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::caution
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::danger
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+</BrowserWindow>
+```
+
+## Usage with Prettier {#usage-with-prettier}
+
+If you use [Prettier](https://prettier.io) to format your Markdown files, Prettier might auto-format your code to invalid admonition syntax. 要避免这个问题，你可以在开始和结束的 `:::` 周围空出一行。 这也是为什么我们这里的例子在内容两端都有空行。
+
+{/_ prettier-ignore _/}
+
+```md
+<!-- Prettier doesn't change this -->
+:::note
+
+Hello world
+
+:::
+
+<!-- Prettier changes this -->
+:::note
+Hello world
+:::
+
+<!-- to this -->
+::: note Hello world:::
+```
+
+## Specifying title {#specifying-title}
+
+你也可以为告示提供一个可选的标题。
+
+```md
+:::note Your Title
+
+Some **content** with _Markdown_ `syntax`.
+
+:::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::note Your Title
+
+Some **content** with _Markdown_ `syntax`.
+
+:::
+
+</BrowserWindow>
+```
+
+## Admonitions with MDX {#admonitions-with-mdx}
+
+你也可以在告示中使用 MDX！
+
+```jsx
+import Tabs from '@theme/Tabs';
+
+import TabItem from '@theme/TabItem';
+
+:::tip
+
+Use tabs in admonitions
+
+<Tabs>
+  <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+:::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::tip
+
+Use tabs in admonitions
+
+<Tabs>
+  <TabItem value="apple" label="Apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange" label="Orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana" label="Banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+:::
+
+</BrowserWindow>
+```
+
+## Usage in JSX {#usage-in-jsx}
+
+Outside of Markdown, you can use the `@theme/Admonition` component to get the same output.
+
+```jsx title="MyReactPage.jsx"
+import Admonition from '@theme/Admonition';
+
+export default function MyReactPage() {
+  return (
+    <div>
+      <Admonition type="info">
+        <p>Some information</p>
+      </Admonition>
+    </div>
+  );
+}
+```
+
+The types that are accepted are the same as above: `note`, `tip`, `danger`, `info`, `caution`. 你也可以选择性地以 JSX 元素或者字符串的形式指定一个图标或者一个标题：
+
+```jsx title="MyReactPage.jsx"
+<Admonition type="tip" icon="💡" title="Did you know...">
+  <p>
+    Use plugins to introduce shorter syntax for the most commonly used JSX
+    elements in your project.
+  </p>
+</Admonition>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Admonition type="tip" icon="💡" title="Did you know...">
+    Use plugins to introduce shorter syntax for the most commonly used JSX
+    elements in your project.
+  </Admonition>
+</BrowserWindow>
+```
+
+## Customizing admonitions {#customizing-admonitions}
+
+There are two kinds of customizations possible with admonitions: **parsing** and **rendering**.
+
+### Customizing rendering behavior {#customizing-rendering-behavior}
+
+You can customize how each individual admonition type is rendered through [swizzling](../../swizzling.mdx). 一般只需要一个简单的包装组件就可以达到想要的效果。 For example, in the follow example, we swap out the icon for `info` admonitions only.
+
+```jsx title="src/theme/Admonition.js"
+import React from 'react';
+import Admonition from '@theme-original/Admonition';
+import MyIcon from '@site/static/img/info.svg';
+
+export default function AdmonitionWrapper(props) {
+  if (props.type !== 'info') {
+    return <Admonition {...props} />;
+  }
+  return <Admonition icon={<MyIcon />} {...props} />;
+}
+```
+
+### Customizing parsing behavior {#customizing-parsing-behavior}
+
+Admonitions are implemented with a [Remark plugin](./markdown-features-plugins.mdx). 这个插件被设计为可配置的。 To customize the Remark plugin for a specific content plugin (docs, blog, pages), pass the options through the `admonitions` key.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          admonitions: {
+            tag: ':::',
+            keywords: ['note', 'tip', 'info', 'caution', 'danger'],
+          },
+        },
+      },
+    ],
+  ],
+};
+```
+
+插件接受两个选项：
+
+- `tag`: The tag that encloses the admonition. Defaults to `:::`.
+- `keywords`: An array of keywords that can be used as the type for the admonition. 请注意，如果你覆盖了这个选项，就不会应用默认值。
+
+The `keyword` will be passed as the `type` prop of the `Admonition` component. 如果你注册了默认值之外的类型，你就需要负责提供它们的实现，包括容器的样式、图标、默认标题文本等。 You would usually need to [eject](../../swizzling.mdx#ejecting) the `@theme/Admonition` component, so you could re-use the same infrastructure as the other types.

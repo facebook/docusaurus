@@ -1,0 +1,310 @@
+# Utilisation de Plugins
+
+**Le noyau de Docusaurus ne fournit aucune fonctionnalité propre.** Toutes les fonctionnalités sont déléguées à des plugins individuels : la fonctionnalité [docs](./guides/docs/docs-introduction.mdx) fournie par le [plugin docs](./api/plugins/plugin-content-docs.mdx); la fonctionnalité [blog](./blog.mdx) fournie par le [plugin blog](./api/plugins/plugin-content-blog.mdx); ou les [pages](./guides/creating-pages.mdx) individuelles fournies par le [plugin pages](./api/plugins/plugin-content-pages.mdx). S'il n'y a pas de plugins installés, le site ne contiendra pas de routes.
+
+Vous n'aurez peut-être pas besoin d'installer les plugins les plus courants un par un : ils peuvent être distribués sous forme de paquet dans un [preset](#using-presets). Pour la plupart des utilisateurs, les plugins sont configurés via la configuration du preset.
+
+Nous maintenons une [liste de plugins officiels](./api/plugins/overview.mdx), mais la communauté a également créé des [plugins non officiels](/community/resources#community-plugins). Si vous souhaitez ajouter une fonctionnalité : autogénérer des pages de documentation, exécuter des scripts personnalisés, intégrer d'autres services... n'oubliez pas de consulter la liste : quelqu'un l'a peut-être implémentée pour vous !
+
+Si vous vous sentez suffisamment en forme, vous pouvez également lire [le guide des plugins](./advanced/plugins.mdx) ou [les références des méthodes de plugin](./api/plugin-methods/README.mdx) pour savoir comment créer un plugin vous-même.
+
+## Installation d'un plugin {#installing-a-plugin}
+
+Un plugin est généralement un paquet npm, donc vous les installez comme les autres paquets npm en utilisant npm.
+
+```bash npm2yarn
+npm install --save docusaurus-plugin-name
+```
+
+Puis vous l'ajoutez dans l'option `plugins` dans `docusaurus.config.js` de votre site :
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  plugins: ['@docusaurus/plugin-content-pages'],
+};
+```
+
+Docusaurus peut également charger des plugins depuis votre répertoire local, avec quelque chose comme ceci :
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  plugins: ['./src/plugins/docusaurus-local-plugin'],
+};
+```
+
+Les chemins doivent être absolus ou relatifs par rapport au fichier de configuration.
+
+## Configuration des plugins {#configuring-plugins}
+
+Pour l'utilisation la plus basique des plugins, vous pouvez fournir juste le nom du plugin ou le chemin vers le plugin.
+
+Cependant, les plugins peuvent avoir des options spécifiées en encapsulant le nom et un objet d'options dans un tuple à deux membres dans votre configuration. Ce style est généralement appelé « Style Babel ».
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: [
+    // highlight-start
+    [
+      '@docusaurus/plugin-xxx',
+      {
+        /* options */
+      },
+    ],
+    // highlight-end
+  ],
+};
+```
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    // Basic usage.
+    '@docusaurus/plugin-debug',
+
+    // Avec l'objet options (style babel)
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        changefreq: 'weekly',
+      },
+    ],
+  ],
+};
+```
+
+## ID de plugins et de plugins multi-instance {#multi-instance-plugins-and-plugin-ids}
+
+Tous les plugins de contenu Docusaurus peuvent supporter plusieurs instances de plugins. Par exemple, il peut être utile d'avoir [plusieurs instances de plugin docs](./guides/docs/docs-multi-instance.mdx) ou [plusieurs blogs](./blog.mdx#multiple-blogs). Il est nécessaire d'affecter un ID unique à chaque instance de plugin, et par défaut, l'ID du plugin est `default`.
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-next-line
+        id: 'docs-1',
+        // d'autres options
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-next-line
+        id: 'docs-2',
+        // d'autres options
+      },
+    ],
+  ],
+};
+```
+
+:::note
+
+Au maximum une instance de plugin peut être « l'instance de plugin default », en omettant l'attribut `id`, ou en utilisant `id : 'default'`.
+
+:::
+
+## Utilisation des thèmes {#using-themes}
+
+Les thèmes sont chargés exactement de la même manière que les plugins. Du point de vue du consommateur, les entrées `themes` et `plugins` sont interchangeables lors de l'installation et de la configuration d'un plugin. La seule nuance est que les thèmes sont chargés après les plugins, et il est possible pour [un thème de remplacer les composants de thème par défaut d'un plugin](./advanced/client.mdx#theme-aliases).
+
+:::tip
+
+Les options `themes` et `plugins` conduisent à des [résolutions de raccourcis](#module-shorthands) différentes, donc si vous voulez profiter des raccourcis, assurez-vous d'utiliser la bonne saisie !
+
+:::
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  themes: ['@docusaurus/theme-classic', '@docusaurus/theme-live-codeblock'],
+};
+```
+
+## Utilisation de presets {#using-presets}
+
+Les presets sont des paquets de plugins et de thèmes. Par exemple, au lieu de vous laisser enregistrer et configurer `@docusaurus/plugin-content-docs`, `@docusaurus/plugin-content-blog`, etc. les uns après les autres dans le fichier de configuration, nous avons le preset `@docusaurus/preset-classic` qui vous permet de les configurer en un seul et même endroit centralisé.
+
+### `@docusaurus/preset-classic` {#docusauruspreset-classic}
+
+Le preset classic est expédié par défaut aux nouveaux sites web Docusaurus créés avec [`create-docusaurus`](./installation.mdx#scaffold-project-website). Il contient les thèmes et plugins suivants :
+
+- [`@docusaurus/theme-classic`](./api/themes/theme-configuration.mdx)
+- [`@docusaurus/theme-search-algolia`](./api/themes/theme-search-algolia.mdx)
+- [`@docusaurus/plugin-content-docs`](./api/plugins/plugin-content-docs.mdx)
+- [`@docusaurus/plugin-content-blog`](./api/plugins/plugin-content-blog.mdx)
+- [`@docusaurus/plugin-content-pages`](./api/plugins/plugin-content-pages.mdx)
+- [`@docusaurus/plugin-debug`](./api/plugins/plugin-debug.mdx)
+- [`@docusaurus/plugin-google-gtag`](./api/plugins/plugin-google-gtag.mdx)
+- [`@docusaurus/plugin-google-tag-manager`](./api/plugins/plugin-google-tag-manager.mdx)
+- [`@docusaurus/plugin-google-analytics`](./api/plugins/plugin-google-analytics.mdx) (**deprecated**)
+- [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx)
+- [`@docusaurus/plugin-svgr`](./api/plugins/plugin-svgr.mdx)
+
+Le preset classic transmettra chaque entrée d'option au plugin/thème respectif.
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // Debug defaults to true in dev, false in prod
+        debug: undefined,
+        // Will be passed to @docusaurus/theme-classic.
+        theme: {
+          customCss: ['./src/css/custom.css'],
+        },
+        // Will be passed to @docusaurus/plugin-content-docs (false to disable)
+        docs: {},
+        // Will be passed to @docusaurus/plugin-content-blog (false to disable)
+        blog: {},
+        // Will be passed to @docusaurus/plugin-content-pages (false to disable)
+        pages: {},
+        // Will be passed to @docusaurus/plugin-sitemap (false to disable)
+        sitemap: {},
+        // Will be passed to @docusaurus/plugin-svgr (false to disable)
+        svgr: {},
+        // Will be passed to @docusaurus/plugin-google-gtag (only enabled when explicitly specified)
+        gtag: {},
+        // Will be passed to @docusaurus/plugin-google-tag-manager (only enabled when explicitly specified)
+        googleTagManager: {},
+        // DEPRECATED: Will be passed to @docusaurus/plugin-google-analytics (only enabled when explicitly specified)
+        googleAnalytics: {},
+      },
+    ],
+  ],
+};
+```
+
+### Installation des presets {#installing-presets}
+
+Un preset est généralement un paquet npm, donc vous les installez comme les autres paquets npm en utilisant npm.
+
+```bash npm2yarn
+npm install --save @docusaurus/preset-classic
+```
+
+Puis, ajoutez-le dans l'option `presets` de `docusaurus.config.js` de votre site :
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  presets: ['@docusaurus/preset-classic'],
+};
+```
+
+Les chemins du preset peuvent être relatifs à celui du fichier de configuration :
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  presets: ['./src/presets/docusaurus-local-preset'],
+};
+```
+
+### Création de presets {#creating-presets}
+
+Un preset est une fonction ayant la même forme que le [constructeur de plugin](./api/plugin-methods/README.mdx#plugin-constructor). Il devrait retourner un objet de `{ plugins: PluginConfig[], themes: PluginConfig[] }`, de la même manière qu'ils sont acceptés dans la configuration du site. Par exemple, vous pouvez spécifier un prest qui inclut les thèmes et plugins suivants:
+
+```js title="src/presets/docusaurus-preset-multi-docs.js"
+export default function preset(context, opts = {}) {
+  return {
+    themes: [['docusaurus-theme-awesome', opts.theme]],
+    plugins: [
+      // Utilisation de trois plugins docs en même temps !
+      // Attribution d'un ID unique pour chacun d'entre eux sans demander à l'utilisateur de le faire
+      ['@docusaurus/plugin-content-docs', {...opts.docs1, id: 'docs1'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs2, id: 'docs2'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs3, id: 'docs3'}],
+    ],
+  };
+}
+```
+
+Puis dans votre configuration de Docusaurus, vous pouvez configurer le preset :
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    // highlight-start
+    [
+      './src/presets/docusaurus-preset-multi-docs.js',
+      {
+        theme: {hello: 'world'},
+        docs1: {path: '/docs'},
+        docs2: {path: '/community'},
+        docs3: {path: '/api'},
+      },
+    ],
+    // highlight-end
+  ],
+};
+```
+
+Cela équivaut à :
+
+```js title="docusaurus.config.js"
+export default {
+  themes: [['docusaurus-theme-awesome', {hello: 'world'}]],
+  plugins: [
+    ['@docusaurus/plugin-content-docs', {id: 'docs1', path: '/docs'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docs2', path: '/community'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docs3', path: '/api'}],
+  ],
+};
+```
+
+Ceci est particulièrement utile lorsque certains plugins et thèmes sont destinés à être utilisés ensemble. Vous pouvez même lier leurs options entre eux, par exemple en transmettant une option à plusieurs plugins.
+
+## Raccourcis de module {#module-shorthands}
+
+Docusaurus prend en charge les raccourcis pour les plugins, les thèmes et les presets. Lorsqu'il voit un nom de plugin/ thème/preset, il essaie de charger l'un des éléments suivants, dans cet ordre :
+
+- `[name]` (comme `content-docs`)
+- `@docusaurus/[moduleType]-[name]` (comme `@docusaurus/plugin-content-docs`)
+- `docusaurus-[moduleType]-[name]` (comme `docusaurus-plugin-content-docs`)
+
+où `moduleType` est soit `'preset'`, `'theme'` ou `'plugin'`, selon le champ dans lequel le nom du module est déclaré. Le premier nom de module trouvé est chargé.
+
+Si le nom est scopé (commençant par `@`), le nom est d'abord divisé en scope et nom de paquet par le premier slash :
+
+```
+@scope
+^----^
+ scope  (sans nom !)
+
+@scope/awesome
+^----^ ^-----^
+ scope   nom
+
+@scope/awesome/main
+^----^ ^----------^
+ scope     nom
+```
+
+S'il n'y a pas de nom (comme `@jquery`), `[scope]/docusaurus-[moduleType]` (par exemple `@jquery/docusaurus-plugin`) est chargé. Sinon, les tentatives suivantes sont effectuées :
+
+- `[scope]/[name]` (comme `@jquery/content-docs`)
+- `[scope]/docusaurus-[moduleType]-[name]` (comme `@jquery/docusaurus-plugin-content-docs`)
+
+Voici quelques exemples, pour un plugin enregistré dans le champ `plugins`. Notez que contrairement à [ESLint](https://eslint.org/docs/user-guide/configuring/plugins#configuring-plugins) ou [Babel](https://babeljs.io/docs/en/options#name-normalization) où une convention de nommage cohérente pour les plugins est imposée, Docusaurus permet une plus grande liberté de nommage, les résolutions ne sont donc pas certaines, mais suivent la priorité définie ci-dessus.
+
+| Déclaration               | Peut être résolu comme suit                                      |
+| ------------------------- | ---------------------------------------------------------------- |
+| `awesome`                 | `docusaurus-plugin-awesome`                                      |
+| `sitemap`                 | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx) |
+| `@my-company`             | `@my-company/docusaurus-plugin` (la seule résolution possible !) |
+| `@my-company/awesome`     | `@my-company/docusaurus-plugin-awesome`                          |
+| `@my-company/awesome/web` | `@my-company/docusaurus-plugin-awesome/web`                      |

@@ -1,0 +1,120 @@
+---
+id: introduction
+sidebar_label: 개요
+slug: /docs-introduction
+---
+
+# 문서 개요
+
+문서 기능을 사용해 계층 구조 내에서 사용자는 마크다운 파일을 작성할 수 있습니다.
+
+:::info
+
+전체 옵션 목록은 [문서 플러그인 API 레퍼런스 문서](./../../api/plugins/plugin-content-docs.mdx)를 참고하세요.
+
+:::
+
+여러분의 사이트 문서화는 가장 낮은 수준에서 가장 높은 수준까지 4가지 수준으로 구성되어 있습니다.
+
+1. 개별 페이지
+2. 사이드바.
+3. 버전.
+4. 플러그인 인스턴스
+
+가이드에서는 [개별 페이지를 구성하는 방법](./docs-create-doc.mdx)부터 시작해서 [하나 또는 여러 개의 사이드바 만들기](./sidebar/index.mdx), [버전을 만들고 관리하기](./versioning.mdx), [여러 개의 문서 플러그인 인스턴스를 사용하는 방법](./docs-multi-instance.mdx)까지 순서대로 설명할겁니다.
+
+## 문서 전용 모드 {#docs-only-mode}
+
+새롭게 초기화된 도큐사우루스 사이트 구조는 다음과 같습니다.
+
+```
+example.com/                                -> 소스 `src/pages/index.js`
+
+example.com/docs/intro                      -> 소스 `docs/intro.md`
+example.com/docs/tutorial-basics/...        -> 소스 `docs/tutorial-basics/...`
+...
+
+example.com/blog/2021/08/26/welcome         -> 소스 `blog/2021-08-26-welcome/index.md`
+example.com/blog/2021/08/01/mdx-blog-post   -> 소스 `blog/2021-08-01-mdx-blog-post.mdx`
+...
+```
+
+모든 문서는 `docs/` 하위 경로에서 제공됩니다. 하지만 **여러분의 사이트에 문서만** 있거나 문서를 루트에 배치해 문서의 우선 순위를 설정하고자 할때는 어떻게 할까요?
+
+사이트 구성이 다음과 같은 경우를 생각해보죠.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          /* docs plugin options */
+        },
+        blog: {
+          /* blog plugin options */
+        },
+        // ...
+      },
+    ],
+  ],
+};
+```
+
+문서 전용 모드를 사용하려면 다음과 같이 변경하세요.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-next-line
+          routeBasePath: '/', // Serve the docs at the site's root
+          /* other docs plugin options */
+        },
+        // highlight-next-line
+        blog: false, // Optional: disable the blog plugin
+        // ...
+      },
+    ],
+  ],
+};
+```
+
+**블로그나 다른 플러그인 사용을 포기할 필요는 없다는 것을** 기억하세요. `routeBasePath: '/'`에서 처리하는 것은 `https://example.com/docs/some-doc`을 통해 문서를 제공하는 대신 `https://example.com/some-doc`와 같은 식으로 사이트 루트에서 접근하게 하는 겁니다. 블로그 옵션을 활성화했다면 `blog/` 하위 경로를 통해 계속 접근할 수 있습니다.
+
+프런트매터에서 일부 페이지를 루트(`https://example.com/`)에 포함시키는 것을 잊지 마세요.
+
+```md title="docs/intro.md"
+---
+# highlight-next-line
+slug: /
+---
+
+This page will be the home page when users visit https://example.com/.
+```
+
+:::warning
+
+문서에 `slug: /`를 추가해 홈페이지를 만들었다면 `./src/pages/index.js`에서 기존 홈페이지는 삭제해주어야 합니다. 그렇지 않으면 같은 경로에 두 개의 파일이 연결된 상태가 됩니다.
+
+:::
+
+사이트 구조는 아래와 비슷하게 만들어졌을 겁니다.
+
+```
+example.com/                       -> 소스 `docs/intro.md`
+example.com/tutorial-basics/...    -> 소스 `docs/tutorial-basics/...`
+...
+```
+
+:::tip
+
+There's also a "blog-only mode" for those who only want to use the blog feature of Docusaurus. 문서 전용 모드와 비슷한 방법을 적용합니다. [블로그 전용 모드](../../blog.mdx#blog-only-mode)에서 안내하는 설치 절차를 참고하세요.
+
+:::

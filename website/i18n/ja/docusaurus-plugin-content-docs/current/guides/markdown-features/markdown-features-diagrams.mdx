@@ -1,0 +1,101 @@
+---
+id: diagrams
+title: 図
+description: Mermaidで図を描く
+slug: /markdown-features/diagrams
+---
+
+# 図
+
+図は、コードブロック内の[Mermaid](https://mermaid-js.github.io/mermaid/)を使用して描画することができます。
+
+## インストール {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-mermaid
+```
+
+プラグイン`@docusaurus/theme-mermaid`を追加し、`docusaurus.config.js`内の`markdown.mermaid`を`true`に設定することでMermaid機能を有効化できます。
+
+```js title="docusaurus.config.js"
+export default {
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
+};
+```
+
+## 使い方 {#usage}
+
+言語を`mermaid`に設定した次のようなコードブロックを追加します。
+
+````md title="Example Mermaid diagram"
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+````
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+Mermaidの構文の詳細については、[Mermaidの構文ドキュメント](https://mermaid-js.github.io/mermaid/#/./n00b-syntaxReference)を参照してください。
+
+## テーマ {#theming}
+
+`docusaurus.config.js`内の`themeConfig`の中にある`mermaid.theme`の値を設定することで、図のダーク及びライトのテーマを変更することが可能です。 ライトモードとダークモードの両方にテーマを設定することができます。
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    mermaid: {
+      theme: {light: 'neutral', dark: 'forest'},
+    },
+  },
+};
+```
+
+Mermaid図のテーマ設定の詳細については、[Mermaidテーマ設定ドキュメント](https://mermaid-js.github.io/mermaid/#/theming)を参照してください。
+
+## Mermaidの設定 {#configuration}
+
+次のような`mermaid.options`内のオプションは、`mermaid.initialize`に直接渡されます。
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    mermaid: {
+      options: {
+        maxTextSize: 50,
+      },
+    },
+  },
+};
+```
+
+利用可能な設定オプションについては、[Mermaid設定ドキュメント](https://mermaid-js.github.io/mermaid/#/./Setup?id=configuration)と[Mermaid設定型](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/config.type.ts)を参照してください。
+
+## Dynamic Mermaid Component {#component}
+
+To generate dynamic diagrams, you can use the `Mermaid` component:
+
+```mdx title="Example of dynamic Mermaid component"
+import Mermaid from '@theme/Mermaid';
+
+<Mermaid
+  value={`graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;`}
+/>
+```

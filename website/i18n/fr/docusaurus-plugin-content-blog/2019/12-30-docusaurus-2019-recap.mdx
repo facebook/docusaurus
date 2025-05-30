@@ -1,0 +1,62 @@
+---
+title: Récapitulatif de Docusaurus 2019
+authors: yangshun
+tags:
+  - récapitulatif
+---
+
+2019 was a great year for Docusaurus - we've made tremendous progress on [Docusaurus 2](https://docusaurus.io/). Current Docusaurus 1 users who aren't using the translations feature can feel free to check it out and [migrate](https://docusaurus.io/docs/migration) to it! Sinon, nous travaillerons avec vous pour que cela se produise en 2020 :)
+
+<!--truncate-->
+
+## Docusaurus 2 (D2)
+
+In 2018, we proposed to rebuild [Docusaurus from the ground up](https://github.com/facebook/docusaurus/issues/789). Il s'agissait d'un effort majeur de restructuration - nous avons créé de toutes pièces un framework CSS centré sur le contenu, un système de plugins, et nous sommes passés de pages HTML statiques à une application à page unique avec des routes pré-rendues. Il s'agissait d'une folle aventure et d'un exploit difficile, en particulier sans aucun ETP dédié au projet. With the help of [@endilie](https://github.com/endiliey), our ex-intern-turned-contributor-turned-maintainer, we made really good progress on D2 and are currently on version 2.0.0-alpha.40. Toutes les fonctionnalités de Docusaurus 1 à l'exception des traductions ont été portées.
+
+D2's killer features are **Dark Mode** and its **superb performance**. D2 a la prise en charge du mode sombre et il est presque facile de créer un site de documentation sombre et convivial. Endilie a fait de gros efforts pour optimiser les performances du site et un grand nombre d'astuces d'optimisation des performances ont été réalisées par défaut : images optimisées, prérendu de chaque route en HTML statique et routage côté client par la suite, préchargement des ressources nécessaires aux futures navigations lorsque l'utilisateur survole un lien de navigation, etc.
+
+Last but not least, we implemented a plugins architecture and turned the repo into a [Lerna monorepo](https://github.com/facebook/docusaurus/tree/main/packages). Nous pensons que cette architecture de plugins contribuera à la création d'une communauté et permettra aux utilisateurs de créer leurs propres fonctionnalités pour leurs cas d'utilisation particuliers.
+
+## Activité GitHub
+
+- Stars : 10050 → 14632 (+45.6% sur une année glissante)
+- Total des contributeurs : 182 → 303 (+66,4% sur une année glissante). Dont la plupart sont des contributeurs non-Facebook
+- Téléchargements journaliers npm : 728 → 2320 (+218.7% sur une année glissante). Le pic était en novembre
+- D1 est actuellement utilisé par 3872 projets sur GitHub alors que D2 est utilisé par 247 projets sur GitHub
+- Nous avons maintenant 4 contributeurs actifs ! (+100% sur une année glissante)
+
+## Utilisateurs notables
+
+Une bonne partie des projets au sein de la communauté Open Source utilisent Docusaurus. Ce semestre, nous avons également intégré des projets plus importants dans Docusaurus 2 :
+
+- [Create React App](https://create-react-app.dev/)
+- [Redux](https://redux.js.org/)
+- [Draft.js](https://draftjs.org/)
+- [Flux](http://facebook.github.io/flux/)
+
+Et accueilli plus de projets sur Docusaurus 1 :
+
+- [Libra](https://developers.libra.org/)
+- [MobX](https://mobx.js.org/)
+- [Immer](https://immerjs.github.io/immer/)
+- [Sorbet](https://sorbet.org/)
+
+## Médias
+
+Yangshun gave a classroom session during F8 about [Using Docusaurus to Create Open Source Websites](https://www.youtube.com/watch?v=QcGJsf6mgZE).
+
+## Communauté
+
+Quelques services d'hébergement/développement tiers ont également une intégration de première classe avec une installation de Docusaurus :
+
+- [Vercel deployment](https://github.com/vercel/vercel/tree/main/examples/docusaurus)
+- [CodeSandbox](https://codesandbox.io/s/docusaurus-template-x3vg9)
+- [Render](https://render.com/docs/deploy-docusaurus)
+
+## Perspectives d'avenir
+
+D2 has gained some traction among the [developer community](https://docusaurus.io/showcase). En 2020, nous voulons atteindre la parité totale des fonctionnalités avec D1 dès le premier semestre et aider les projets Facebook restants sur D1 à passer sur D2. Ce serait également une bonne chose si nous pouvions utiliser Docusaurus pour la documentation interne, mais c'est une entreprise non triviale. Si vous en avez besoin ou si vous avez des idées, venez nous en parler !
+
+Huge thanks to the community for their contributions, especially the core team - [Endilie Yacop Sucipto](https://github.com/endiliey), [Alexey Pyltsyn](https://github.com/lex111), [Wei Gao](https://github.com/wgao19). Lastly, thank you [Joel Marcey](https://github.com/JoelMarcey) for starting Docusaurus and supporting the project all this time.
+
+À la santé d'une bonne année 2020 ! 🎉

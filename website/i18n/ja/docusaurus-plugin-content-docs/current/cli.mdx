@@ -1,0 +1,190 @@
+---
+description: Docusaurusは、ウェブサイトの生成、配信、デプロイを支援するスクリプト一式を提供します。
+---
+
+# CLI
+
+Docusaurusは、ウェブサイトの生成、配信、デプロイを支援するスクリプト一式を提供します。
+
+ウェブサイトが初期設定されると、ウェブサイトのソースにDocusaurusスクリプトが含まれ、パッケージマネージャで起動できるようになります。
+
+```json title="package.json"
+{
+  // ...
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids"
+  }
+}
+```
+
+## Docusaurus CLIコマンド {#docusaurus-cli-commands}
+
+以下は、DocusaurusのCLIコマンドとその使い方の一覧です。
+
+### `docusaurus start [siteDir]` {#docusaurus-start-sitedir}
+
+[Webpack Dev Server](https://webpack.js.org/configuration/dev-server)を使ってローカル上でサイトのプレビューをビルド及び配信します。
+
+#### Options {#options}
+
+| 名前                            | Default     | 説明                                                                                                                                      |
+| ----------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `--port`                      | `3000`      | 開発サーバのポート番号を指定します。                                                                                                                      |
+| `--host`                      | `localhost` | 使用するホスト名を指定します。 例えば、サーバに外部からアクセスできるようにしたい場合は、 `--host 0.0.0.0`と指定できます。                                                                  |
+| `--locale`                    |             | Specify site locale to be used.                                                                                                         |
+| `--hot-only`                  | `false`     | ビルドに失敗した場合のフォールバックとして、ページ更新なしでのホットモジュールリプレースメントを有効にします。 詳細は[こちらを参照](https://webpack.js.org/configuration/dev-server/#devserverhotonly)。 |
+| `--no-open`                   | `false`     | ブラウザでページを自動的に開かないようにします。                                                                                                                |
+| `--config`                    | `undefined` | Docusaurus設定ファイルへのパスです。初期値は`[siteDir]/docusaurus.config.js`です。                                                                          |
+| `--poll [optionalIntervalMs]` | `false`     | 監視が機能しない環境では、ライブ・リロードの監視ではなく、ファイルのポーリングをフォールバックとして使用します。 詳細は[こちらを参照](https://webpack.js.org/configuration/watch/#watchoptionspoll)。     |
+| `--no-minify`                 | `false`     | JS/CSSバンドルを最小化せずにウェブサイトをビルドします。                                                                                                         |
+
+:::info
+
+一部の機能（アンカーリンクなど）は開発段階では動作しませんのでご注意ください。 本機能は本番環境では期待通りに動作します。
+
+:::
+
+:::info ネットワーク越しでの開発
+
+リモートサーバーやVM（GitHub Codespacesなど）から3000番ポートを転送する場合は、`0.0.0.0`で開発サーバーを実行し、ローカルIPでリッスンするようにします。
+
+```bash npm2yarn
+npm run start -- --host 0.0.0.0
+```
+
+:::
+
+#### HTTPSの有効化 {#enabling-https}
+
+証明書を取得する方法は複数あります。 ここでは例として[mkcert](https://github.com/FiloSottile/mkcert)を使用します。
+
+1. `mkcert localhost`を実行して`localhost.pem`・`localhost-key.pem`を生成
+
+2. `mkcert -install`を実行して、トラストストアに証明書をインストールし、ブラウザを再起動
+
+3. 次のように、Docusaurus HTTPS環境変数を指定してアプリを起動：
+
+```bash
+HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
+```
+
+4. `https://localhost:3000/`を開く
+
+### `docusaurus build [siteDir]` {#docusaurus-build-sitedir}
+
+サイトを本番用にコンパイルします。
+
+#### Options {#options-1}
+
+| 名前                  | Default     | 説明                                                                                                |
+| ------------------- | ----------- | ------------------------------------------------------------------------------------------------- |
+| `--dev`             |             | Builds the website in dev mode, including full React error messages.                              |
+| `--bundle-analyzer` | `false`     | [Webpack Bundle Analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)でバンドルを分析します。 |
+| `--out-dir`         | `build`     | 現在のワークスペースからの相対パスで、新しい出力ディレクトリのフルパスです。                                                            |
+| `--config`          | `undefined` | Docusaurus設定ファイルへのパスです。初期値は`[siteDir]/docusaurus.config.js`です。                                    |
+| `--locale`          |             | Build the site in the specified locale(s). If not specified, all known locales are built.         |
+| `--no-minify`       | `false`     | JS/CSSバンドルを最小化せずにウェブサイトをビルドします。                                                                   |
+
+:::info
+
+CSSバンドルの高度な最小化のために、私たちは（追加のいくつかのPostCSSプラグインと一緒に）[高度なcssnanoプリセット](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-advanced)と[clean-cssのレベル2の最適化](https://github.com/jakubpawlowicz/clean-css#level-2-optimizations)を使用しています。 この高度なCSS最小化の結果、CSSに不具合が出た場合は、環境変数`USE_SIMPLE_CSS_MINIFIER=true`を設定してウェブサイトをビルドし、[デフォルトのcssnanoプリセット](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-default)でCSSを最小化してください。 **CSS最小化のバグに遭遇した場合は、[issueを立てて](https://github.com/facebook/docusaurus/issues/new?labels=bug%2C+needs+triage&template=bug.md)ください。**
+
+環境変数`SKIP_HTML_MINIFICATION=true`でHTMLの縮小をスキップできます。
+
+:::
+
+### `docusaurus swizzle [themeName] [componentName] [siteDir]` {#docusaurus-swizzle}
+
+テーマコンポーネントを[スウィズリングして](./swizzling.mdx)カスタマイズします。
+
+```bash npm2yarn
+npm run swizzle [themeName] [componentName] [siteDir]
+
+# 例（現在のディレクトリであることを示すためsiteDirは省略）
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
+```
+
+スウィズルCLIは対話式で、[スウィズリングのプロセス](./swizzling.mdx)全体を案内します。
+
+#### Options {#options-swizzle}
+
+| 名前              | 説明                                                                          |
+| --------------- | --------------------------------------------------------------------------- |
+| `themeName`     | スウィズリング元のテーマ名                                                               |
+| `componentName` | スウィズリング対象のテーマコンポーネント名                                                       |
+| `--list`        | スウィズリング可能なコンポーネントを一覧表示                                                      |
+| `--eject`       | [Eject](./swizzling.mdx#ejecting) the theme component                       |
+| `--wrap`        | [Wrap](./swizzling.mdx#wrapping) the theme component                        |
+| `--danger`      | Allow immediate swizzling of unsafe components                              |
+| `--typescript`  | Swizzle the TypeScript variant component                                    |
+| `--config`      | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
+
+:::warning
+
+安全でないコンポーネントは、内部のリファクタリングによって破壊的変更の影響に晒される危険性が高いです。
+
+:::
+
+### `docusaurus deploy [siteDir]` {#docusaurus-deploy-sitedir}
+
+Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the docs on [deployment](deployment.mdx#deploying-to-github-pages) for more details.
+
+#### Options {#options-3}
+
+| 名前             | Default     | 説明                                                                                            |
+| -------------- | ----------- | --------------------------------------------------------------------------------------------- |
+| `--locale`     |             | Deploy the site in the specified locale(s). If not specified, all known locales are deployed. |
+| `--out-dir`    | `build`     | 現在のワークスペースからの相対パスで、新しい出力ディレクトリのフルパスです。                                                        |
+| `--skip-build` | `false`     | Deploy website without building it. This may be useful when using a custom deploy script.     |
+| `--target-dir` | `.`         | Path to the target directory to deploy to.                                                    |
+| `--config`     | `undefined` | Docusaurus設定ファイルへのパスです。初期値は`[siteDir]/docusaurus.config.js`です。                                |
+
+### `docusaurus serve [siteDir]` {#docusaurus-serve-sitedir}
+
+Serve your built website locally.
+
+| 名前          | Default                       | 説明                                                                        |
+| ----------- | ----------------------------- | ------------------------------------------------------------------------- |
+| `--port`    | `3000`                        | Use specified port                                                        |
+| `--dir`     | `build`                       | The full path for the output directory, relative to the current workspace |
+| `--build`   | `false`                       | Build website before serving                                              |
+| `--config`  | `undefined`                   | Docusaurus設定ファイルへのパスです。初期値は`[siteDir]/docusaurus.config.js`です。            |
+| `--host`    | `localhost`                   | 使用するホスト名を指定します。 例えば、サーバに外部からアクセスできるようにしたい場合は、 `--host 0.0.0.0`と指定できます。    |
+| `--no-open` | `false` locally, `true` in CI | Do not open a browser window to the server location.                      |
+
+### `docusaurus clear [siteDir]` {#docusaurus-clear-sitedir}
+
+Clear a Docusaurus site's generated assets, caches, build artifacts.
+
+We recommend running this command before reporting bugs, after upgrading versions, or anytime you have issues with your Docusaurus site.
+
+### `docusaurus write-translations [siteDir]` {#docusaurus-write-translations-sitedir}
+
+Write the JSON translation files that you will have to translate.
+
+By default, the files are written in `website/i18n/<defaultLocale>/...`.
+
+| 名前                | Default                 | 説明                                                                                             |
+| ----------------- | ----------------------- | ---------------------------------------------------------------------------------------------- |
+| `--locale`        | `<defaultLocale>` | Define which locale folder you want to write translations the JSON files in                    |
+| `--override`      | `false`                 | Override existing translation messages                                                         |
+| `--config`        | `undefined`             | Docusaurus設定ファイルへのパスです。初期値は`[siteDir]/docusaurus.config.js`です。                                 |
+| `--messagePrefix` | `''`                    | Allows adding a prefix to each translation message, to help you highlight untranslated strings |
+
+### `docusaurus write-heading-ids [siteDir] [files]` {#docusaurus-write-heading-ids-sitedir}
+
+Add [explicit heading IDs](./guides/markdown-features/markdown-features-toc.mdx#heading-ids) to the Markdown documents of your site.
+
+| 名前                | Default                      | 説明                                                       |
+| ----------------- | ---------------------------- | -------------------------------------------------------- |
+| `files`           | All MD files used by plugins | The files that you want heading IDs to be written to.    |
+| `--maintain-case` | `false`                      | Keep the headings' casing, otherwise make all lowercase. |
+| `--overwrite`     | `false`                      | Overwrite existing heading IDs.                          |

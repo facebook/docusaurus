@@ -1,0 +1,213 @@
+---
+id: multi-instance
+description: 在单一 Docusaurus 站点上使用多个文档插件实例。
+slug: /docs-multi-instance
+---
+
+# 文档多实例
+
+The `@docusaurus/plugin-content-docs` plugin can support [multi-instance](../../using-plugins.mdx#multi-instance-plugins-and-plugin-ids).
+
+:::note
+
+This feature is only useful for [versioned documentation](./versioning.mdx). 我们推荐你先了解文档版本化，再阅读这一页。 If you just want [multiple sidebars](./sidebar/multiple-sidebars.mdx), you can do so within one plugin.
+
+:::
+
+## Use-cases {#use-cases}
+
+有时候，你想要用 Docusaurus 部署两套（或更多）完全不同的文档。
+
+这些文档甚至可能有着不同的版本/发行周期。
+
+### Mobile SDKs documentation {#mobile-sdks-documentation}
+
+如果你正为某个跨平台的移动设备 SDK 撰写文档，你可能会有以下两套文档：
+
+- Android SDK documentation (`v1.0`, `v1.1`)
+- iOS SDK documentation (`v1.0`, `v2.0`)
+
+这种情况下，你可以为每个平台的 SDK 文档使用独立的文档插件实例。
+
+:::warning
+
+如果每个插件实例的文档都非常庞大，你应该考虑创建两个 Docusaurus 站点。
+
+假设有人编辑了 iOS 的文档，这时候真的有必要同时重新构建未修改的 Android 文档吗？
+
+:::
+
+### Versioned and unversioned doc {#versioned-and-unversioned-doc}
+
+有时候，你需要为某些文档划分版本，而其他文档则更为「全局」，没有必要给它们划分版本。
+
+我们在 Docusaurus 网站上就使用了这种模式：
+
+- The [/docs/\*](/docs) section is versioned
+- The [/community/\*](/community/support) section is unversioned
+
+## Setup {#setup}
+
+假设你有两套文档：
+
+- 产品：划分了版本的产品文档
+- 社区：单一版本的社区文档
+
+这种情况下，你应该在站点配置中把同一个插件使用两次。
+
+:::warning
+
+`@docusaurus/preset-classic` already includes a docs plugin instance for you!
+
+:::
+
+如果使用了预设：
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-start
+          // id: 'product', // omitted => default instance
+          // highlight-end
+          path: 'product',
+          routeBasePath: 'product',
+          sidebarPath: require.resolve('./sidebarsProduct.js'),
+          // ... other options
+        },
+      },
+    ],
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        id: 'community',
+        // highlight-end
+        path: 'community',
+        routeBasePath: 'community',
+        sidebarPath: require.resolve('./sidebarsCommunity.js'),
+        // ... other options
+      },
+    ],
+  ],
+};
+```
+
+如果不使用预设：
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        // id: 'product', // omitted => default instance
+        // highlight-end
+        path: 'product',
+        routeBasePath: 'product',
+        sidebarPath: require.resolve('./sidebarsProduct.js'),
+        // ... other options
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        id: 'community',
+        // highlight-end
+        path: 'community',
+        routeBasePath: 'community',
+        sidebarPath: require.resolve('./sidebarsCommunity.js'),
+        // ... other options
+      },
+    ],
+  ],
+};
+```
+
+Don't forget to assign a unique `id` attribute to plugin instances.
+
+:::note
+
+We consider that the `product` instance is the most important one, and make it the "default" instance by not assigning any ID.
+
+:::
+
+## Versioned paths {#versioned-paths}
+
+每个插件实例都会把版本化文档存储在一个单独的文件夹中。
+
+默认的插件实例会使用这些路径：
+
+- `website/versions.json`
+- `website/versioned_docs`
+- `website/versioned_sidebars`
+
+The other plugin instances (with an `id` attribute) will use these paths:
+
+- `website/[pluginId]_versions.json`
+- `website/[pluginId]_versioned_docs`
+- `website/[pluginId]_versioned_sidebars`
+
+:::tip
+
+You can omit the `id` attribute (defaults to `default`) for one of the docs plugin instances.
+
+这个实例的路径会更简单，并且与单实例的配置兼容。
+
+:::
+
+## Tagging new versions {#tagging-new-versions}
+
+每个插件实例都会有自己的标记新版本的 CLI 命令。 你可以运行下面的指令显示它们：
+
+```bash npm2yarn
+npm run docusaurus -- --help
+```
+
+要为产品（默认）文档插件实例添加版本：
+
+```bash npm2yarn
+npm run docusaurus docs:version 1.0.0
+```
+
+要为社区（非默认）文档插件实例添加版本：
+
+```bash npm2yarn
+npm run docusaurus docs:version:community 1.0.0
+```
+
+## Docs navbar items {#docs-navbar-items}
+
+Each docs-related [theme navbar items](../../api/themes/theme-configuration.mdx#navbar) take an optional `docsPluginId` attribute.
+
+比如，如果你想要为每个移动 SDK（iOS 和 Android）添加一个版本下拉框，你可以这么做：
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          docsPluginId: 'ios',
+          // highlight-end
+        },
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          docsPluginId: 'android',
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```

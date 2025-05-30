@@ -1,0 +1,129 @@
+# Plugins
+
+Les plugins sont les éléments de construction des fonctionnalités d'un site Docusaurus 2. Chaque plugin gère sa propre fonctionnalité. Les plugins peuvent fonctionner et être distribués dans le cadre d'un bundle via presets.
+
+## Création de plugins {#creating-plugins}
+
+Un plugin est une fonction qui prend deux paramètres : `context` et `options`. Il retourne un objet d'instance du plugin (ou une promesse). Vous pouvez créer des plugins en tant que fonctions ou modules. Pour plus d'informations, reportez-vous à la [section références des méthodes de plugin](../api/plugin-methods/README.mdx).
+
+### Définition d'une fonction {#function-definition}
+
+Vous pouvez utiliser un plugin comme fonction directement incluse dans le fichier de configuration de Docusaurus :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [
+    // highlight-start
+    async function myPlugin(context, options) {
+      // ...
+      return {
+        name: 'my-plugin',
+        async loadContent() {
+          // ...
+        },
+        async contentLoaded({content, actions}) {
+          // ...
+        },
+        /* autre API de cycle de vie */
+      };
+    },
+    // highlight-end
+  ],
+};
+```
+
+### Définition du module {#module-definition}
+
+Vous pouvez utiliser un plugin comme un chemin de module référençant un fichier séparé ou un paquet npm :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [
+    // sans options :
+    './my-plugin',
+    // ou avec options :
+    ['./my-plugin', options],
+  ],
+};
+```
+
+Puis dans le dossier `my-plugin`, vous pouvez créer un `index.js` comme celui-ci :
+
+```js title="my-plugin/index.js"
+module.exports = async function myPlugin(context, options) {
+  // ...
+  return {
+    name: 'my-plugin',
+    async loadContent() {
+      /* ... */
+    },
+    async contentLoaded({content, actions}) {
+      /* ... */
+    },
+    /* autre API du cycle de vie */
+  };
+};
+```
+
+---
+
+Vous pouvez visualiser tous les plugins installés sur votre site à l'aide du [panneau de métadonnées du plugin de débogage](/__docusaurus/debug/metadata).
+
+Il existe plusieurs types de plugins :
+
+- `package` : un paquet externe que vous avez installé
+- `project` : un plugin que vous avez créé dans votre projet, donné à Docusaurus comme un chemin de fichier local
+- `local` : un plugin créé à l'aide de la définition de la fonction
+- `synthetic` : un « faux plugin » que Docusaurus a créé en interne, afin de profiter de notre architecture modulaire et de ne pas laisser le noyau faire beaucoup de travail spécial. Vous ne verrez pas cela dans les métadonnées car c'est un détail d'implémentation.
+
+Vous pouvez y accéder du côté client avec `useDocusaurusContext().siteMetadata.pluginVersions`.
+
+## Conception du plugin {#plugin-design}
+
+L'implémentation du système de plugins de Docusaurus nous fournit un moyen pratique de nous connecter au cycle de vie du site Web pour modifier ce qui se passe pendant le développement/construction, ce qui implique (mais ne se limite pas à) l'extension de la configuration de webpack, la modification des données chargées et la création de nouveaux composants à utiliser dans une page.
+
+### Conception du thème {#theme-design}
+
+Quand les plugins ont chargé leur contenu, les données sont mises à la disposition du client à travers des actions telles que [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.mdx#addRoute) ou [`setGlobalData`](../api/plugin-methods/lifecycle-apis.mdx#setGlobalData). Ces données doivent être _sérialisées_ à des chaînes de caractères, car les [plugins et les thèmes s'exécutent dans des environnements différents](./architecture.mdx). Une fois que les données arrivent du côté client, le reste devient familier aux développeurs React : les données sont transmises le long des composants, les composants sont regroupés avec Webpack, et rendus dans la fenêtre par`ReactDOM.render`...
+
+**Les thèmes fournissent l'ensemble des composants de l'interface utilisateur pour rendre le contenu.** La plupart des plugins de contenu doivent être associés à un thème pour être réellement utiles. L'interface utilisateur est une couche distincte du schéma de données, ce qui permet de changer facilement de conception.
+
+Par exemple, un blog Docusaurus peut être composé d'un plugin de blog et d'un thème de blog.
+
+:::note
+
+Il s'agit d'un exemple artificiel : en pratique, `@docusaurus/theme-classic` fournit le thème pour les docs, le blog et les mises en page.
+
+:::
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // highlight-next-line
+  themes: ['theme-blog'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
+Et si vous voulez utiliser le style Bootstrap, vous pouvez échanger le thème avec `theme-blog-bootstrap` (autre thème fictif qui n'existe pas) :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // highlight-next-line
+  themes: ['theme-blog-bootstrap'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
+Maintenant, bien que le thème reçoive les mêmes données du plugin, la façon dont le thème choisit de _rendre_ les données comme interface utilisateur peut être radicalement différente.
+
+Alors que les thèmes partagent exactement les mêmes méthodes de cycle de vie avec les plugins, leurs implémentations peuvent être très différentes de celles des plugins en fonction des objectifs définis par les thèmes.
+
+Les thèmes sont conçus pour compléter la construction de votre site Docusaurus et fournir les composants utilisés par votre site, les plugins et les thèmes eux-mêmes. Un thème agit toujours comme un plugin et expose certaines méthodes du cycle de vie, mais il est fort probable qu'elles n'utilisent pas [`loadContent`](../api/plugin-methods/lifecycle-apis.mdx#loadContent), puisqu'elles ne reçoivent que des données des plugins, mais ne génèrent pas de données elles-mêmes; les thèmes sont aussi typiquement accompagnés d'un répertoire`src/theme` rempli de composants, qui sont portés à la connaissance du noyau par le cycle de vie [`getThemePath`](../api/plugin-methods/extend-infrastructure.mdx#getThemePath).
+
+Pour résumer :
+
+- Les thèmes partagent les mêmes méthodes de cycle de vie avec les plugins
+- Les thèmes sont exécutés après tous les plugins existants
+- Les thèmes ajoutent des alias de composant en fournissant `getThemePath`.

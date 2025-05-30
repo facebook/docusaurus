@@ -1,0 +1,184 @@
+---
+description: 도큐사우루스에서 클라이언트 구성 방식
+---
+
+# 클라이언트 아키텍처
+
+## 테마 별칭 {#theme-aliases}
+
+테마는 컴포넌트 집합을 내보내 작동합니다. 예를 들어 `Navbar`, `Layout`, `Footer`는 플러그인에서 전달받은 데이터를 렌더링합니다. 도큐사우루스와 사용자는 `@theme`이라는 웹팩 별칭을 사용해 컴포넌트를 가져와 사용할 수 있습니다.
+
+```js
+import Navbar from '@theme/Navbar';
+```
+
+`@theme` 별칭은 아래와 같은 우선순위에 따라 몇 개의 디렉터리를 참조할 수 있습니다.
+
+1. 사용자의 `website/src/theme` 디렉터리가 가장 높은 우선순위를 가집니다.
+2. 도큐사우루스 테마 패키지의 `theme` 디렉터리
+3. 도큐사우루스 코어에서 제공하는 대체 컴포넌트(거의 사용할 일은 없습니다)
+
+이런 것을 _계층화된 아키텍처_라고 합니다. 컴포넌트를 제공하는 높은 우선 수준의 레이어는 더 낮은 우선 순위를 가진 레이어를 가지고 스위즐링을 가능하게 합니다. 디렉터리 구조가 아래와 같은 경우:
+
+```
+website
+├── node_modules
+│   └── @docusaurus/theme-classic
+│       └── theme
+│           └── Navbar.js
+└── src
+    └── theme
+        └── Navbar.js
+```
+
+`@theme/Navbar` 가져오기를 하게 되면 `website/src/theme/Navbar.js` 파일이 언제나 우선순위를 가집니다. 이런 동작을 컴포넌트 바꾸기(swizzling)이라고 합니다. 런타임 중에 함수 구현을 변경할 수 있는 오브젝티브 C에 익숙하다면 이것은 `@theme/Navbar`가 가리키는 대상을 변경하는 것과 정확하게 같은 개념으로 이해할 수 있습니다.
+
+We already talked about how the "userland theme" in `src/theme` can re-use a theme component through the [`@theme-original`](../swizzling.mdx#wrapping) alias. 테마 패키지에서 `@theme-init` 별칭을 사용해 원래 테마에서 컴포넌트를 가져와서 다른 테마의 컴포넌트를 감쌀 수 있습니다.
+
+아래 예제는 기본 테마의 `CodeBlock` 컴포넌트를 `react-live` 코드 연습 페이지 기능으로 확장하는 방법을 보여줍니다.
+
+```js
+import InitialCodeBlock from '@theme-init/CodeBlock';
+import React from 'react';
+
+export default function CodeBlock(props) {
+  return props.live ? (
+    <ReactLivePlayground {...props} />
+  ) : (
+    <InitialCodeBlock {...props} />
+  );
+}
+```
+
+좀 더 상세한 내용은 `@docusaurus/theme-live-codeblock` 코드를 참고하세요.
+
+:::warning
+
+재사용할 수 있는 "확장된 테마"(`@docusaurus/theme-live-codeblock` 같은)를 배포하지 않을 계획이라면 `@theme-init` 별칭을 사용하지 않아도 됩니다.
+
+:::
+
+이런 별칭을 이해하는 건 상당히 어려울 수 있습니다. 세 가지 테마/플러그인과 사이트 자체가 모두 같은 컴포넌트를 정의하려고 하는 매우 복잡한 설정으로 다음과 같은 경우를 상상해보죠. 내부적으로 도큐사우루스는 이런 테마를 "스택" 형태로 로드합니다.
+
+```text
++-------------------------------------------------+
+|        `website/src/theme/CodeBlock.js`         | <-- `@theme/CodeBlock`은 언제나 최상위를 가리킵니다always points to the top
++-------------------------------------------------+
+| `theme-live-codeblock/theme/CodeBlock/index.js` | <-- `@theme-original/CodeBlock`는 바뀌지 않은 최상위 컴포넌트를 가리킵니다
++-------------------------------------------------+
+|  `plugin-awesome-codeblock/theme/CodeBlock.js`  |
++-------------------------------------------------+
+|     `theme-classic/theme/CodeBlock/index.js`    | <-- `@theme-init/CodeBlock`은 언제나 최하위를 가리킵니다
++-------------------------------------------------+
+```
+
+"스택" 형태에서 컴포넌트는 `preset plugins > preset themes > plugins > themes > site`의 순서로 추가됩니다. 그래서 `website/src/theme`에서 바뀐 컴포넌트는 맨 마지막에 로드되기 때문에 항상 맨 위에 나옵니다.
+
+`@theme/*`는 항상 최상위 컴포넌트를 가리킵니다. `CodeBlock`이 바뀌게 되면 `@theme/CodeBlock`를 요청하는 다른 모든 컴포넌트는 바뀐 버전을 받게 됩니다.
+
+`@theme-original/*`는 항상 최상위 바뀌지 않은 컴포넌트를 가리킵니다. 때문에 바뀐 컴포넌트에서 `@theme-original/CodeBlock`를 가져올 수 있습니다. "컴포넌트 스택"에서 테마에서 제공하는 다음 항목을 가리키게 됩니다. 플러그인 작성자는 컴포넌트가 최상위 컴포넌트일 수 있고 자신을 가져오려고 할 수도 있기 때문에 이를 사용하지 말아야 합니다.
+
+`@theme-init/*`는 항상 최하위 컴포넌트를 가리킵니다. 일반적으로 컴포넌트를 처음 사용하는 테마나 플러그인에서 가져옵니다. 코드 블록을 향상하고자 하는 개별 플러그인/테마는 `@theme-init/CodeBlock`를 사용해 기본 버전을 안전하게 가져올 수 있습니다. 사이트 작성자는 일반적으로 최하위 컴포넌트 대신 최상위 컴포넌트를 수정하기 때문에 이를 사용하지 말아야 합니다. `@theme-init/CodeBlock` 별칭이 없을 수도 있습니다. 도큐사우루스에서는 `@theme-original/CodeBlock`과 다른 별칭을 가리킬 때 다시 말하면 두 개 이상의 테마에서 제공하는 경우에만 별칭을 만듭니다. 우리는 별칭을 낭비하지 않습니다!
+
+## 클라이언트 모듈 {#client-modules}
+
+클라이언트 모듈은 테마 컴포넌트와 마찬가지로 사이트 번들의 일부입니다. 하지만 일반적으로 문제점을 같이 가지고 있습니다. 클라이언트 모듈은 웹팩을 사용해 `import`할 수 있는 형태(CSS, JS 등)입니다. JS 스크립트는 일반적으로 이벤트 리스너 등록, 전역 변수 생성과 같은 전역 컨텍스트로 작동합니다.
+
+리액트에서 초기 UI를 렌더링 처리하기 전에 전역으로 모듈을 가져옵니다.
+
+```js title="@docusaurus/core/App.tsx"
+// 내부에서 동작하는 방식
+import '@generated/client-modules';
+```
+
+플러그인과 사이트는 [`getClientModules`](../api/plugin-methods/lifecycle-apis.mdx#getClientModules)와 [`siteConfig.clientModules`](../api/docusaurus.config.js.mdx#clientModules)를 통해 클라이언트 모듈을 선언할 수 있습니다.
+
+클라이언트 모듈은 서버 측 렌더링중에도 호출되므로 클라이언트 측 전역에 접근하기 전에 [실행 환경](./ssg.mdx#escape-hatches)을 체크하는 것을 잊지 마세요.
+
+```js title="mySiteGlobalJs.js"
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+if (ExecutionEnvironment.canUseDOM) {
+  // 사이트가 브라우저에 로드되는 즉시 전역 이벤트 리스너를 등록합니다.
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Period') {
+      location.assign(location.href.replace('.com', '.dev'));
+    }
+  });
+}
+```
+
+클라이언트 모듈로 가져온 CSS 스타일시트는 [전역](../styling-layout.mdx#global-styles)으로 처리됩니다.
+
+```css title="mySiteGlobalCss.css"
+/* 스타일 시트는 전역으로 처리됩니다. */
+.globalSelector {
+  color: red;
+}
+```
+
+### 클라이언트 모듈 수명주기 {#client-module-lifecycles}
+
+부가적인 효과는 제외하고 클라이언트 모듈은 `onRouteUpdate`와 `onRouteDidUpdate` 두 가지 수명주기 기능을 선택적으로 내보낼 수 있습니다.
+
+도큐사우루스는 단일 페이지 애플리케이션을 구축하기 때문에 `script` 태그는 페이지가 처음 로드될 때 실행되지만 페이지 전환 시에는 다시 실행되지 않습니다. 이러한 수명주기는 새로운 페이지가 로드될 때마다 실행해야 하는 명령형 JS 로직이 있는 경우에 유용합니다(예: DOM 요소 조작, 분석 데이터 전송 등).
+
+모든 라우트 트랜지션에는 몇 가지 중요한 타이밍이 있습니다.
+
+1. 사용자가 링크를 클릭하면 라우터가 현재 위치를 변경합니다.
+2. 도큐사우루스는 현재 페이지 콘텐츠를 계속 표시하면서 다음 경로의 애셋을 미리 로드합니다.
+3. 다음 경로의 애셋이 로드됐습니다.
+4. 새로운 위치의 라우트 컴포넌트가 DOM에 렌더링됩니다.
+
+`onRouteUpdate`는 (2)번 이벤트에서 호출되고 `onRouteDidUpdate`는 (4)번에서 호출됩니다. 둘 다 현재 위치와 이전 위치(첫 번째 화면에서는 `null`일 수 있습니다)를 수신합니다.
+
+`onRouteUpdate`에서는 (3)번에서 호출될 "cleanup" 콜백을 선택적으로 반환할 수 있습니다. 예를 들어 진행상태바를 표시하려면 `onRouteUpdate`에서 타이머를 시작하고 콜백에서 타이머를 끝낼 수 있습니다. (classic 테마에서는 이미 이런 방식으로 `nprogress` 통합을 지원합니다).
+
+새로운 페이지의 DOM은 (4)번 이벤트에서만 사용할 수 있습니다. 새 페이지의 DOM을 조작해야 하는 경우 DOM이 마운트되는 즉시 실행되는 `onRouteDidUpdate`를 사용하는 것이 좋습니다.
+
+```js title="myClientModule.js"
+export function onRouteDidUpdate({location, previousLocation}) {
+  // Don't execute if we are still on the same page; the lifecycle may be fired
+  // because the hash changes (e.g. when navigating between headings)
+  if (location.pathname !== previousLocation?.pathname) {
+    const title = document.getElementsByTagName('h1')[0];
+    if (title) {
+      title.innerText += '❤️';
+    }
+  }
+}
+
+export function onRouteUpdate({location, previousLocation}) {
+  if (location.pathname !== previousLocation?.pathname) {
+    const progressBarTimeout = window.setTimeout(() => {
+      nprogress.start();
+    }, delay);
+    return () => window.clearTimeout(progressBarTimeout);
+  }
+  return undefined;
+}
+```
+
+또는 타입스크립트를 사용하고 있고 상황에 맞는 입력을 활용하려는 경우
+
+```ts title="myClientModule.ts"
+import type {ClientModule} from '@docusaurus/types';
+
+const module: ClientModule = {
+  onRouteUpdate({location, previousLocation}) {
+    // ...
+  },
+  onRouteDidUpdate({location, previousLocation}) {
+    // ...
+  },
+};
+export default module;
+```
+
+두 가지 수명주기 모두 첫 번째 렌더링에서 실행되지만 서버 측에서 실행되지 않으므로 브라우저 전역에서 안전하게 접근할 수 있습니다.
+
+:::tip 리액트를 사용한다면
+
+클라이언트 모듈 수명주기는 순전한 명령형이며 리액트 훅을 사용하거나 그 안의 리액트 컨텍스트에 접근할 수 없습니다. 여러분의 작업이 상태 기반이거나 복잡한 DOM 조작이 필요하다면 [스위즐링 컴포넌트](../swizzling.mdx)를 대안으로 고려해야 합니다.
+
+:::

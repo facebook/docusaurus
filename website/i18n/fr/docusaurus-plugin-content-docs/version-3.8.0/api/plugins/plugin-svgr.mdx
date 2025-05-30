@@ -1,0 +1,55 @@
+---
+sidebar_position: 7
+slug: /api/plugins/@docusaurus/plugin-svgr
+---
+
+# 📦 plugin-svgr
+
+import APITable from '@site/src/components/APITable';
+
+An [SVGR](https://react-svgr.com/) plugin to transform SVG files into React components automatically at build time.
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-svgr
+```
+
+:::tip
+
+Si vous utilisez le preset `@docusaurus/preset-classic`, vous n'avez pas besoin d'installer ce plugin en tant que dépendance.
+
+Vous pouvez configurer ce plugin via les [options du preset](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom          | Type     | Par défaut | Description                                                                      |
+| ------------ | -------- | ---------- | -------------------------------------------------------------------------------- |
+| `svgrConfig` | `object` | `{}`       | The [SVGR config options](https://react-svgr.com/docs/options/), forwarded as is |
+
+```mdx-code-block
+</APITable>
+```
+
+### Exemple de configuration {#ex-config}
+
+Vous pouvez configurer ce plugin via les options du plugin.
+
+```js config-tabs
+// Preset Options: svgr
+// Plugin Options: @docusaurus/plugin-svgr
+
+const config = {
+  svgrConfig: {
+    /* SVGR config */
+  },
+};
+```

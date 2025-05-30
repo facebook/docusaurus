@@ -1,0 +1,62 @@
+---
+title: Recapitulação do Docusaurus 2019
+authors: yangshun
+tags:
+  - recap
+---
+
+2019 was a great year for Docusaurus - we've made tremendous progress on [Docusaurus 2](https://docusaurus.io/). Current Docusaurus 1 users who aren't using the translations feature can feel free to check it out and [migrate](https://docusaurus.io/docs/migration) to it! Caso contrário, trabalharemos com você para que isso aconteça em 2020 :)
+
+<!--truncate-->
+
+## Docusaurus 2 (D2)
+
+In 2018, we proposed to rebuild [Docusaurus from the ground up](https://github.com/facebook/docusaurus/issues/789). Isso envolveu um grande esforço de rearquitetura - criamos um framework CSS centrado no conteúdo a partir do zero, um sistema de plugins e movido de páginas HTML estáticas para ser um único aplicativo de página com rotas pré-renderizadas. Tratou-se de uma aventura selvagem e de um talento duro, especialmente sem um trabalho dedicado a este projecto. With the help of [@endilie](https://github.com/endiliey), our ex-intern-turned-contributor-turned-maintainer, we made really good progress on D2 and are currently on version 2.0.0-alpha.40. Todos os recursos do Docusaurus 1, exceto as traduções, foram transferidos.
+
+D2's killer features are **Dark Mode** and its **superb performance**. O D2 tem suporte para o modo escuro pronto para uso e é quase sem esforço criar um site de documentação amigável para o modo escuro. Endilie colocou grandes esforços para otimizar o desempenho do site e vários truques de otimização de desempenho foram feitos sob o capuz por padrão - imagens otimizadas, pré-renderizar todas as rotas para roteamento estático do lado do cliente e HTML depois, pré-buscar recursos necessários para futuras navegações sempre que o usuário passar sobre um link de navegação, etc.
+
+Last but not least, we implemented a plugins architecture and turned the repo into a [Lerna monorepo](https://github.com/facebook/docusaurus/tree/main/packages). Acreditamos que essa arquitetura de plugins será útil para construir uma comunidade e também permite que os usuários criem suas próprias funcionalidades para seus casos únicos de uso.
+
+## Atividade do GitHub
+
+- Estrelas: 10050 → 14632 (+45.6% y/y)
+- Total de Contribuidores: 182 → 303 (+66.4% y/y). A maioria dos quais não são contribuidores do Facebook
+- Downloads Diários no npm: 728 → 2320 (+218.7% y/y). O pico foi em novembro
+- O D1 é atualmente usado por 3872 projetos no GitHub, enquanto o D2 é usado por 247 projetos no GitHub
+- Agora temos 4 contribuintes centrais ativos! (+100% y/y)
+
+## Usuários Notáveis
+
+Uma boa parte dos projetos dentro da comunidade Open Source usam o Docusaurus. Nesse meio nós incluímos mais projetos notáveis no Docusaurus 2:
+
+- [Create React App](https://create-react-app.dev/)
+- [Redux](https://redux.js.org/)
+- [Draft.js](https://draftjs.org/)
+- [Flux](http://facebook.github.io/flux/)
+
+E deu as boas-vindas a mais projetos ao Docusaurus 1:
+
+- [Libra](https://developers.libra.org/)
+- [MobX](https://mobx.js.org/)
+- [Immer](https://immerjs.github.io/immer/)
+- [Sorbet](https://sorbet.org/)
+
+## Midia
+
+Yangshun gave a classroom session during F8 about [Using Docusaurus to Create Open Source Websites](https://www.youtube.com/watch?v=QcGJsf6mgZE).
+
+## Comunidade
+
+Alguns serviços de hospedagem/desenvolvimento de terceiros também têm integração de primeira classe com a configuração do Docusaurus:
+
+- [Vercel deployment](https://github.com/vercel/vercel/tree/main/examples/docusaurus)
+- [CodeSandbox](https://codesandbox.io/s/docusaurus-template-x3vg9)
+- [Render](https://render.com/docs/deploy-docusaurus)
+
+## Olhando para a Frente
+
+D2 has gained some traction among the [developer community](https://docusaurus.io/showcase). Em 2020, queremos atingir a paridade de recursos completos com D1 no primeiro semestre e ajudar os projetos restantes do Facebook em D1 a mudar para D2. Também seria ótimo se pudéssemos usar o Docusaurus para documentação interna, mas isso não é uma tarefa trivial. Se precisar ou tiver alguma ideia, venha falar conosco!
+
+Huge thanks to the community for their contributions, especially the core team - [Endilie Yacop Sucipto](https://github.com/endiliey), [Alexey Pyltsyn](https://github.com/lex111), [Wei Gao](https://github.com/wgao19). Lastly, thank you [Joel Marcey](https://github.com/JoelMarcey) for starting Docusaurus and supporting the project all this time.
+
+Saudações a um ótimo 2020! 🎉

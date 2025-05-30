@@ -1,0 +1,83 @@
+---
+sidebar_position: 4
+---
+
+# 静态方法
+
+静态方法不是插件实例的一部分——它们是构造器函数的一部分。 这些方法会被用来校验并规范化插件选项和主题配置，而后两者随后会作为构造器参数用来初始化插件实例。
+
+## `validateOptions({options, validate})` {#validateOptions}
+
+返回已校验和规范化的插件选项。 这个方法会在插件被初始化前被调用。 你必须返回新选项，因为这个选项会在初始化时被传递给插件。
+
+### `options` {#options}
+
+`validateOptions` 会接受提供给插件的 `options` 以供校验和规范化。
+
+### `validate` {#validate}
+
+`validateOptions` 会接受一个 `validate` 函数，后者接受 **[Joi](https://www.npmjs.com/package/joi)** 模式和插件选项，并返回经过模式校验和规范化的选项。 `validate` 会自动校验配置并处理错误。
+
+:::tip
+
+我们推荐用 [Joi](https://www.npmjs.com/package/joi) 进行选项校验和规范化。
+
+为了避免混用 Joi 版本，请使用 `import {Joi} from '@docusaurus/utils-validation'`
+
+:::
+
+如果你不用 **[Joi](https://www.npmjs.com/package/joi)** 进行校验，你可以在遇到无效选项时抛出错误，并在成功时返回选项。
+
+```js title="my-plugin/src/index.js"
+export default function myPlugin(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // 其他方法
+  };
+}
+
+// highlight-start
+export function validateOptions({options, validate}) {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validatedOptions;
+}
+// highlight-end
+```
+
+## `validateThemeConfig({themeConfig, validate})` {#validateThemeConfig}
+
+返回已校验和规范化的主题配置。
+
+### `themeConfig` {#themeConfig}
+
+`validateThemeConfig` 会接受 `docusaurus.config.js` 中提供的 `themeConfig` 以供校验和规范化。
+
+### `validate` {#validate-1}
+
+` validateThemeConfig ` 会接受一个 `validate` 函数，后者接受 **[Joi](https://www.npmjs.com/package/joi)** 模式和 `themeConfig`，并返回经过模式校验和规范化的选项。 `validate` 会自动校验配置并处理错误。
+
+:::tip
+
+我们推荐用 [Joi](https://www.npmjs.com/package/joi) 进行主题配置校验和规范化。
+
+为了避免混用 Joi 版本，请使用 `import {Joi} from '@docusaurus/utils-validation'`
+
+:::
+
+如果你不用 **[Joi](https://www.npmjs.com/package/joi)** 进行校验，你可以在遇到无效选项时抛出错误。
+
+```js title="my-theme/src/index.js"
+export default function myPlugin(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // 其他方法
+  };
+}
+
+// highlight-start
+export function validateThemeConfig({themeConfig, validate}) {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+}
+// highlight-end
+```

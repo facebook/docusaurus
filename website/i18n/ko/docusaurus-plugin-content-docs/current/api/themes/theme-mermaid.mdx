@@ -1,0 +1,25 @@
+---
+sidebar_position: 5
+slug: /api/themes/@docusaurus/theme-mermaid
+---
+
+# 📦 theme-mermaid
+
+이 테마는 [mermaid](https://mermaid-js.github.io/)로 구동되는 `@theme/Mermaid` 컴포넌트를 제공합니다. 자세한 내용은 [다이어그램](../../guides/markdown-features/markdown-features-diagrams.mdx) 관련 문서를 참고하세요.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-mermaid
+```
+
+## 설정 {#configuration}
+
+```js title="docusaurus.config.js"
+export default {
+  themes: ['@docusaurus/theme-mermaid'],
+  // In order for Mermaid code blocks in Markdown to work,
+  // you also need to enable the Remark plugin with this option
+  markdown: {
+    mermaid: true,
+  },
+};
+```

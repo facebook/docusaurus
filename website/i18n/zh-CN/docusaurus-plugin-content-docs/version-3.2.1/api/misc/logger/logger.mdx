@@ -1,0 +1,71 @@
+---
+sidebar_position: 2
+slug: /api/misc/@docusaurus/logger
+---
+
+# 📦 logger
+
+一个封装好的记录器，用于输出根据语义格式化的控制台信息。
+
+我们鼓励 Docusaurus 生态系统中的包作者用这个包提供统一的日志格式。
+
+## API
+
+It exports a single object as default export: `logger`. `logger` has the following properties:
+
+- 一些有用的颜色。
+  - `red`
+  - `yellow`
+  - `green`
+  - `bold`
+  - `dim`
+- 格式化器。 These functions all have the signature `(msg: unknown) => string`. 请注意，我们不对它们的具体实现作保证。 你只应关心它们的语义。
+  - `path`: formats a file path.
+  - `url`: formats a URL.
+  - `name`: formats an identifier.
+  - `code`: formats a code snippet.
+  - `subdue`: subdues the text.
+  - `num`: formats a number.
+- The `interpolate` function. 这是一个模板字符串标签。 具体语法请见后文。
+- 输出函数。 All logging functions can both be used as normal functions (similar to the `console.log` family, but only accepts one parameter) or template literal tags.
+  - `info`: prints information.
+  - `warn`: prints a warning that should be paid attention to.
+  - `error`: prints an error (not necessarily halting the program) that signals significant problems.
+  - `success`: prints a success message.
+- The `report` function. It takes a `ReportingSeverity` value (`ignore`, `log`, `warn`, `throw`) and reports a message according to the severity.
+
+:::warning A word on the `error` formatter
+
+Beware that an `error` message, even when it doesn't hang the program, is likely going to cause confusion. When users inspect logs and find an `[ERROR]`, even when the build succeeds, they will assume something is going wrong. 尽量少使用它。
+
+Docusaurus only uses `logger.error` when printing messages immediately before throwing an error, or when user has set the reporting severity of `onBrokenLink`, etc. to `"error"`.
+
+In addition, `warn` and `error` will color the **entire** message for better attention. If you are printing large blocks of help text about an error, better use `logger.info`.
+
+:::
+
+### 使用模板字符串标签
+
+模板字符串标签会解析模板和其中嵌入的表达式。 `interpolate` returns a new string, while other logging functions prints it. 以下是一个典型用例：
+
+```js
+import logger from '@docusaurus/logger';
+
+logger.info`Hello name=${name}! You have number=${money} dollars. Here are the ${
+  items.length > 1 ? 'items' : 'item'
+} on the shelf: ${items}
+To buy anything, enter code=${'buy x'} where code=${'x'} is the item's name; to quit, press code=${'Ctrl + C'}.`;
+```
+
+An embedded expression is optionally preceded by a flag in the form `[a-z]+=` (a few lowercase letters, followed by an equals sign, directly preceding the embedded expression). 如果表达式前面没有任何标志，它会按原样打印。 否则，它会被用下列的格式化器之一格式化：
+
+- `path=`: `path`
+- `url=`: `url`
+- `name=`: `name`
+- `code=`: `code`
+- `subdue=`: `subdue`
+- `number=`: `num`
+
+If the expression is an array, it's formatted by `` `\n- ${array.join('\n- ')}\n` `` (note it automatically gets a leading line end). 列表的每个元素都会被独立格式化，开头的横杠不会被格式化。 所以上面的消息会被打印成：
+
+![Some text output in the terminal, containing array, code, name, and number formatting](./demo.png)

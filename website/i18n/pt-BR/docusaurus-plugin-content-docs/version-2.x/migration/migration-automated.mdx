@@ -1,0 +1,75 @@
+---
+slug: /migration/automated
+---
+
+# Migração automatizada
+
+A CLI de migração migra automaticamente seu site v1 para um site v2.
+
+:::info
+
+O trabalho manual ainda é necessário após usar a CLI de migração, pois não podemos automatizar uma migração completa
+
+:::
+
+A CLI de migração migra:
+
+- Site configurations (from `siteConfig.js` to `docusaurus.config.js`)
+- `package.json`
+- `sidebars.json`
+- `/docs`
+- `/blog`
+- `/static`
+- `versioned_sidebar.json` and `/versioned_docs` if your site uses versioning
+
+Para usar a CLI de migração, siga estas etapas:
+
+1. Before using the migration CLI, ensure that `/docs`, `/blog`, `/static`, `sidebars.json`, `siteConfig.js`, `package.json` follow the expected structure.
+
+2. Para migrar seu site v1, execute a CLI de migração com os caminhos apropriados do sistema de arquivos:
+
+```bash
+# migration command format
+npx @docusaurus/migrate migrate <v1 website directory> <desired v2 website directory>
+
+# example
+npx @docusaurus/migrate migrate ./v1-website ./v2-website
+```
+
+3. Para visualizar seu novo site localmente, vá para o diretório do site v2 e inicie o servidor de desenvolvimento.
+
+```bash npm2yarn
+cd ./v2-website
+npm install
+npm start
+```
+
+:::danger
+
+A migração CLI atualiza os arquivos existentes. Certifique-se de ter feito commit deles primeiro!
+
+:::
+
+#### Options {#options}
+
+Você pode adicionar sinalizadores de opção à CLI de migração para migrar automaticamente o conteúdo e as páginas do Markdown para a v2. É provável que você ainda precise fazer algumas alterações manuais para obter o resultado desejado.
+
+| Nome     | Descrição                                                     |
+| -------- | ------------------------------------------------------------- |
+| `--mdx`  | Adicionar flag para converter Markdown em MDX automaticamente |
+| `--page` | Adicionar flag para migrar páginas automaticamente            |
+
+```bash
+# exemplo usando opções
+npx @docusaurus/migrate migrate --mdx --page ./v1-website ./v2-website
+```
+
+:::danger
+
+A migração de páginas e MDX ainda é um trabalho em andamento.
+
+We recommend you to try to run the pages without these options, commit, and then try to run the migration again with the `--page` and `--mdx` options.
+
+Dessa forma, você poderá inspecionar e corrigir facilmente o diff.
+
+:::

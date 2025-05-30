@@ -1,0 +1,140 @@
+---
+slug: /creating-pages
+sidebar_label: Pages
+---
+
+# ページを作成する
+
+ここでは、Docusaurusでのページ作成について説明します。
+
+`@docusaurus/plugin-content-pages` プラグインを使用すると、ショーケースページ、プレイグラウンドページ、サポートページなど、 **その場限りのスタンドアロンページ** を作成できます。 React コンポーネント、または Markdown を使用できます。
+
+:::note
+
+ページにサイドバーはありません。[ドキュメント](./docs/docs-introduction.mdx)のみにあります。
+
+:::
+
+:::info
+
+[Pages プラグインの API リファレンスドキュメント](./../api/plugins/plugin-content-pages.mdx) で、すべてのオプションの一覧を確認してください。
+
+:::
+
+## React を活用したページの追加 {#add-a-react-page}
+
+ページを作成するためのUIライブラリとして React が使われています。 すべてのページ・コンポーネントは React コンポーネントをエクスポートする必要があり、React の表現力を活用してリッチでインタラクティブなコンテンツを構築できます。
+
+`/src/pages/helloReact.js` というファイルを作成します：
+
+```jsx title="/src/pages/helloReact.js"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+export default function Hello() {
+  return (
+    <Layout title="Hello" description="Hello React Page">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          fontSize: '20px',
+        }}>
+        <p>
+          Edit <code>pages/helloReact.js</code> and save to reload.
+        </p>
+      </div>
+    </Layout>
+  );
+}
+```
+
+ファイルを保存するたびに、開発サーバーが自動的に変更内容をリロードします Now open [`http://localhost:3000/helloReact`](http://localhost:3000/helloReact) and you will see the new page you just created.
+
+各ページにはスタイリングが適用されていません。 ナビゲーションバーやフッターを表示したい場合は、 `@theme/Layout` から `Layout` コンポーネントをインポートし、そのコンポーネント内でコンテンツをラップする必要があります。
+
+:::tip
+
+`.tsx` という拡張子を持つ TypeScript のページ (`helloReact.tsx`) を作成することもできます。
+
+:::
+
+## Markdown 形式のページの追加 {#add-a-markdown-page}
+
+`/src/pages/helloMarkdown.md` というファイルを作成します：
+
+```md title="/src/pages/helloMarkdown.md"
+---
+title: my hello page title
+description: my hello page description
+hide_table_of_contents: true
+---
+
+# Hello
+
+How are you?
+```
+
+In the same way, a page will be created at [`http://localhost:3000/helloMarkdown`](http://localhost:3000/helloMarkdown).
+
+常にテーマレイアウトを使用するため、Markdown 形式のページは React 形式のページよりも柔軟性が劣ります。
+
+[Markdown 形式のページの例](/examples/markdownPageExample)を示します.
+
+:::tip
+
+Markdown 形式のページであっても、React の全機能を使用することができます。 [MDX](https://mdxjs.com/) のドキュメントを参照してください。
+
+:::
+
+## ルーティング {#routing}
+
+Jekyll や Next のような他の静的サイトジェネレーターに慣れ親しんでいる場合、このルーティング手法は身近に感じるでしょう。 `/src/pages/` ディレクトリの下に作成した JavaScript ファイルは、 `/src/pages/` ディレクトリ階層に従って、自動的にウェブサイトページに変換されます。 例：
+
+- `/src/pages/index.js` → `[baseUrl]`
+- `/src/pages/foo.js` → `[baseUrl]/foo`
+- `/src/pages/foo/test.js` → `[baseUrl]/foo/test`
+- `/src/pages/foo/index.js` → `[baseUrl]/foo/`
+
+現在のコンポーネントベース開発の時代においては、スタイリングとマークアップ、振る舞いをコンポーネントにまとめて配置することが推奨されています。 各ページはコンポーネントであり、独自のスタイルでページデザインをカスタマイズする必要がある場合は、ページコンポーネントとスタイルを独自のディレクトリに配置することをお勧めします。 例えば、"Support" のページを作成するには、以下のいずれかを行ないます。
+
+- `/src/pages/support.js` というファイルを追加する
+- `/src/pages/support/` ディレクトリを作成し、`/src/pages/support/index.js` というファイルを作成する
+
+後者の方が、そのディレクトリ内にページに関連する他のファイルを置くことができるという点で好ましいでしょう。 例えば、"Support" ページでのみ使用されるスタイルを持つ CSS モジュールファイル (`styles.module.css`) などが挙げられます。
+
+:::note
+
+これは単に推奨されるディレクトリ構造にすぎません。この場合でも、コンポーネントモジュール(`support/index.js`) 内において、CSSモジュールファイルを手動でインポートする必要があります
+
+:::
+
+デフォルトでは、`_` （アンダーバー）で始まる Markdown ファイルや JavaScript ファイルは無視され、そのファイル用のルートは作成されません（`exclude`オプションを参照してください）。
+
+```bash
+my-website
+├── src
+│   └── pages
+│       ├── styles.module.css
+│       ├── index.js
+│       ├── _ignored.js
+│       ├── _ignored-folder
+│       │   ├── Component1.js
+│       │   └── Component2.js
+│       └── support
+│           ├── index.js
+│           └── styles.module.css
+.
+```
+
+:::warning
+
+`src/pages/` ディレクトリ内のすべての JavaScript / TypeScript ファイルには、対応するパスが生成されます。 そのディレクトリ内部に再利用可能なコンポーネントを作成したい場合は、 `exclude` オプションを使用してください（ただしデフォルトでは、`_` （アンダーバー）で始まるファイルやテストファイル (`.test.js`）、`__tests__` ディレクトリ内のファイルからはページが作成されません）。
+
+:::
+
+### 重複したルート {#duplicate-routes}
+
+誤って、同じルートでアクセスされる複数のページをつくってしまうこともあるでしょう。 When this happens, Docusaurus will warn you about duplicate routes when you run `yarn start` or `yarn build` (behavior configurable through the [`onDuplicateRoutes`](../api/docusaurus.config.js.mdx#onDuplicateRoutes) config), but the site will still be built successfully. 最後に作成されたページにはアクセスできますが、競合する他のページを上書きしてしまうでしょう。 この問題を解決するには、競合するルートを変更または削除する必要があります。

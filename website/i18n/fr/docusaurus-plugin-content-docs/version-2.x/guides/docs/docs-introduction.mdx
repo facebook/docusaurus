@@ -1,0 +1,116 @@
+---
+id: introduction
+sidebar_label: Introduction
+slug: /docs-introduction
+---
+
+# Introduction des docs
+
+La fonction de documentation fournit aux utilisateurs un moyen d'organiser les fichiers Markdown dans un format hiérarchique.
+
+:::info
+
+Consultez la [documentation de référence de l'API du plugin des Docs](./../../api/plugins/plugin-content-docs.mdx) pour une liste exhaustive des options.
+
+:::
+
+La documentation de votre site est organisée en quatre niveaux, du plus bas au plus haut :
+
+1. Pages individuelles.
+2. Barres latérales.
+3. Versions.
+4. Instances de plugin.
+
+Le guide les présentera dans cet ordre : de [la configuration des pages individuelles](./docs-create-doc.mdx), à [la création d'une ou plusieurs barres latérales](./sidebar/index.mdx), en passant par [la création et la gestion des versions](./versioning.mdx) et [l'utilisation de plusieurs instances du plugin docs](./docs-multi-instance.mdx).
+
+## Mode Docs uniquement {#docs-only-mode}
+
+Un site Docusaurus récemment initialisé a la structure suivante :
+
+```
+example.com/                                -> généré à partir de `src/pages/index.js`
+
+example.com/docs/intro                      -> généré à partir de `docs/intro.md`
+example.com/docs/tutorial-basics/...        -> généré à partir de `docs/tutorial-basics/...`
+...
+
+example.com/blog/2021/08/26/welcome         -> généré à partir de `blog/2021-08-26-welcome/index.md`
+example.com/blog/2021/08/01/mdx-blog-post   -> généré à partir de `blog/2021-08-01-mdx-blog-post.mdx`
+...
+```
+
+Toutes les docs seront servis sous la sous route `docs/`. Mais que se passe-t-il si votre site **n'a que des docs**, ou si vous voulez prioriser vos docs en les plaçant à la racine ?
+
+Supposons que vous ayez les éléments suivants dans votre configuration :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    '@docusaurus/preset-classic',
+    {
+      docs: {
+        /* options du plugin docs */
+      },
+      blog: {
+        /* options du plugin blog */
+      },
+      // ...
+    },
+  ],
+};
+```
+
+Pour entrer en mode docs-uniquement, changez le comme ceci :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    '@docusaurus/preset-classic',
+    {
+      docs: {
+        // highlight-next-line
+        routeBasePath: '/', // Sert les docs à la racine du site
+        /* autres options du plugin docs */
+      },
+      // highlight-next-line
+      blog: false, // Facultatif : désactive le plugin du blog
+      // ...
+    },
+  ],
+};
+```
+
+Notez que vous **ne devez pas nécessairement renoncer à utiliser les plugins de blog** ou autres; tout ce que fait `routeBasePath: '/'`, c'est qu'au lieu de servir les documents par l'intermédiaire de `https://example.com/docs/some-doc`, ils sont maintenant à la racine du site : `https://example.com/some-doc`. Le blog, s'il est activé, peut toujours être consulté via la sous-route `blog/`.
+
+N'oubliez pas de mettre une page à la racine (`https://example.com/`) en ajoutant le frontmatter :
+
+```md title="docs/intro.md"
+---
+# highlight-next-line
+slug: /
+---
+
+Cette page sera la page d'accueil lorsque les utilisateurs visiteront https://example.com/.
+```
+
+:::warning
+
+Si vous avez ajouté `slug: /` à un doc pour en faire la page d'accueil, vous devez supprimer la page d'accueil existante à `./src/pages/index.js`, sinon il y aura deux fichiers correspondant à la même route !
+
+:::
+
+Maintenant, la structure du site sera comme ceci :
+
+```
+example.com/                       -> généré à partir de `docs/intro.md`
+example.com/tutorial-basics/...    -> généré à partir de `docs/tutorial-basics/...`
+...
+```
+
+:::tip
+
+Il y a aussi un « mode blog-uniquement » pour ceux qui ne veulent utiliser que la fonction blog de Docusaurus 2. Vous pouvez utiliser la même méthode décrite ci-dessus. Suivez les instructions d'installation sur le [mode Blog-Uniquement](../../blog.mdx#blog-only-mode).
+
+:::

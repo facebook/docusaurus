@@ -1,0 +1,110 @@
+# 카나리 릴리스
+
+```mdx-code-block
+import {
+  VersionsProvider,
+  CanaryVersion,
+  StableVersion,
+  InsertIfCanaryVersionUnknown,
+  InsertIfCanaryVersionKnown,
+  PackageJSONDiff,
+  PublishTime,
+} from "@site/src/components/Versions";
+
+<VersionsProvider>
+```
+
+도큐사우루스에 카나리(Canary) 릴리스 시스템을 도입했습니다.
+
+It permits you to **test new unreleased features** as soon as the pull requests are merged.
+
+새로 구현된 기능이 의도한 대로 동작하는지 확인해서 **유지관리자에게 피드백을 줄 수 있는** 멋진 방법입니다.
+
+:::note
+
+카나리 릴리스를 운영중인 사이트에 반영하는 것은 위험해보이지만 실제로는 그렇지 않습니다.
+
+카나리 릴리스는 모든 자동화 테스트를 통과했으며 현재 운영중인 도큐사우루스 사이트에 먼저 반영해서 사용하고 있는 기능입니다.
+
+:::
+
+```mdx-code-block
+<InsertIfCanaryVersionUnknown>
+```
+
+:::warning
+
+아래 표시된 카나리 버전은 **최신 버전이 아닐 수 있습니다**. 실제 버전명을 찾으려면 [npm page](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions)를 확인하세요.
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionUnknown>
+<InsertIfCanaryVersionKnown>
+```
+
+:::tip
+
+아래 표시된 카나리 버전은 npm에서 직접 가져온 것이며 **최신입니다**. 여러분의 package.json 파일에서 이 숫자를 직접 사용할 수 있습니다.
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionKnown>
+```
+
+## 카나리 npm 배포 태그
+
+`main`에 커밋되는 코드 관련 건은 CI를 통해 `@canary` npm 배포 태그를 달고 카나리 릴리스로 배포됩니다. 이 작업은 대략 10분 정도 걸립니다.
+
+[npm](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions)에서 현재 배포 태그를 확인할 수 있습니다.
+
+- `latest`: 안정된 릴리스 (Current: <StableVersion />)
+- `canary`: 카나리 릴리스 (<CanaryVersion />)
+
+:::tip
+
+카나리 릴리스가 최신인지 확인하려면 게시 일자를 확인하세요(간혹 배포 프로세스가 실패하기도 합니다). <PublishTime />
+
+:::
+
+:::note
+
+카나리 버전은 다음과 같은 명명 규칙을 사용합니다. `0.0.0-commitNumber`.
+
+:::
+
+## 카나리 릴리스 사용하기
+
+[canary npm 배포 태그](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions)(<CanaryVersion />)로 게시된 최신 버전을 가져옵니다.
+
+`package.json`에서 `@docusaurus/*`로 시작하는 종속성을 체크해주세요.
+
+```mdx-code-block
+<PackageJSONDiff />
+```
+
+종속적인 모듈을 설치한 후 사이트를 시작합니다.
+
+```bash npm2yarn
+npm install
+npm start
+```
+
+`@docusaurus/*` 패키지는 아래 명령으로 업그레이드할 수도 있습니다.
+
+```bash npm2yarn
+npm install --save-exact @docusaurus/core@canary @docusaurus/preset-classic@canary
+```
+
+:::warning
+
+모든 `@docusaurus/*` 패키지가 작업에 포함되어야 합니다.
+
+카나리 릴리스는 시맨틱 버전 관리 대신 정확한 버전을 사용하는 것이 좋습니다(`^` 접두사를 사용하지 않습니다).
+
+:::
+
+```mdx-code-block
+</VersionsProvider>
+```

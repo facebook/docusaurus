@@ -1,0 +1,83 @@
+---
+sidebar_position: 4
+---
+
+# 静态方法
+
+静态方法不是插件实例的一部分——它们是构造器函数的一部分。 这些方法会被用来校验并规范化插件选项和主题配置，而后两者随后会作为构造器参数用来初始化插件实例。
+
+## `validateOptions({options, validate})` {#validateOptions}
+
+返回已校验和规范化的插件选项。 这个方法会在插件被初始化前被调用。 你必须返回新选项，因为这个选项会在初始化时被传递给插件。
+
+### `options` {#options}
+
+`validateOptions` is called with `options` passed to plugin for validation and normalization.
+
+### `validate` {#validate}
+
+`validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and options as the arguments, returns validated and normalized options. `validate` will automatically handle error and validation config.
+
+:::tip
+
+[Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of options.
+
+To avoid mixing Joi versions, use `import {Joi} from '@docusaurus/utils-validation'`
+
+:::
+
+If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
+
+```js title="my-plugin/src/index.js"
+export default function myPlugin(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // 其他方法
+  };
+}
+
+// highlight-start
+export function validateOptions({options, validate}) {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validatedOptions;
+}
+// highlight-end
+```
+
+## `validateThemeConfig({themeConfig, validate})` {#validateThemeConfig}
+
+返回已校验和规范化的主题配置。
+
+### `themeConfig` {#themeConfig}
+
+`validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation and normalization.
+
+### `validate` {#validate-1}
+
+`validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and `themeConfig` as the arguments, returns validated and normalized options. `validate` will automatically handle error and validation config.
+
+:::tip
+
+[Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of theme config.
+
+To avoid mixing Joi versions, use `import {Joi} from '@docusaurus/utils-validation'`
+
+:::
+
+If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options.
+
+```js title="my-theme/src/index.js"
+export default function myPlugin(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // 其他方法
+  };
+}
+
+// highlight-start
+export function validateThemeConfig({themeConfig, validate}) {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+}
+// highlight-end
+```

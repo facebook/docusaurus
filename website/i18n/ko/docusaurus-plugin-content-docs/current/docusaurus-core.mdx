@@ -1,0 +1,770 @@
+---
+sidebar_label: Client API
+---
+
+# 도큐사우루스 클라이언트 API
+
+도큐사우루스는 사이트를 만들 때 도움이 될 만한 API를 클라이언트에서 사용할 수 있게 제공합니다.
+
+## 컴포넌트 {#components}
+
+### `<ErrorBoundary />` {#errorboundary}
+
+이 컴포넌트는 [리액트 에러 경계](https://reactjs.org/docs/error-boundaries.html)를 만듭니다.
+
+이를 사용해 컴포넌트를 래핑하고 에러가 발생했을 때 전체 앱 오류로 처리하는 대신 대체할 수 있는 UI를 보여줄 수 있습니다.
+
+```jsx
+import React from 'react';
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
+
+const SafeComponent = () => (
+  <ErrorBoundary
+    fallback={({error, tryAgain}) => (
+      <div>
+        <p>This component crashed because of error: {error.message}.</p>
+        <button onClick={tryAgain}>Try Again!</button>
+      </div>
+    )}>
+    <SomeDangerousComponentThatMayThrow />
+  </ErrorBoundary>
+);
+```
+
+```mdx-code-block
+import ErrorBoundaryTestButton from '@site/src/components/ErrorBoundaryTestButton'
+```
+
+:::tip
+
+동작을 확인하려면 클릭해보세요. <ErrorBoundaryTestButton/>
+
+:::
+
+:::info
+
+도큐사우루스는 해당 컴포넌트를 사용해 테마 레이아웃과 전체 앱에서 발생하는 오류를 처리할 수 있습니다.
+
+:::
+
+:::note
+
+해당 컴포넌트는 빌드 시 오류는 처리하지 않으며 안정된 리액트 컴포넌트 사용 시 발생할 수 있는 클라이언트 측 렌더링 오류에 대해서만 처리합니다.
+
+:::
+
+#### 속성 {#errorboundary-props}
+
+- `fallback`: JSX 요소를 반환하는 렌더 콜백 옵션입니다. 두 개의 속성을 가진 오브젝트를 받을 수 있습니다. `error`는 처리할 에러 그리고 `tryAgain`는 컴포넌트 내에서 에러를 초기화하고 다시 렌더링하기 위한 콜백 함수(`() => void`)입니다. 반환되는 것이 없다면 `@theme/Error`에서 대신 렌더링합니다. `@theme/Error`는 레이아웃 위에서 사이트를 래핑하는 에러 경계(Error Boundaries)로 사용됩니다.
+
+:::warning
+
+`fallback` 속성은 콜백이며 **리액트 기능 컴포넌트**가 아닙니다. 콜백 내에서 리액트 후크를 사용할 수 없습니다.
+
+:::
+
+### `<Head/>` {#head}
+
+재사용할 수 있는 리액트 컴포넌트로 문서 헤더 영역의 수정을 관리할 수 있습니다. 일반적인 HTML 태그를 사용하며 실제 출력 결과도 일반적인 HTML 태그입니다. 초보자들에게 적합합니다. [리액트 헬멧(React Helmet)](https://github.com/nfl/react-helmet) 래퍼 컴포넌트입니다.
+
+아래와 같이 작성합니다.
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import Head from '@docusaurus/Head';
+
+const MySEO = () => (
+  // highlight-start
+  <Head>
+    <meta property="og:description" content="My custom description" />
+    <meta charSet="utf-8" />
+    <title>My Title</title>
+    <link rel="canonical" href="http://mysite.com/example" />
+  </Head>
+  // highlight-end
+);
+```
+
+중첩되거나 나중에 정의된 컴포넌트는 이전 값을 덮어씁니다.
+
+```jsx
+<Parent>
+  {/* highlight-start */}
+  <Head>
+    <title>My Title</title>
+    <meta name="description" content="Helmet application" />
+  </Head>
+  {/* highlight-end */}
+  <Child>
+    {/* highlight-start */}
+    <Head>
+      <title>Nested Title</title>
+      <meta name="description" content="Nested component" />
+    </Head>
+    {/* highlight-end */}
+  </Child>
+</Parent>
+```
+
+출력 결과는 아래와 같습니다.
+
+```html
+<head>
+  <title>Nested Title</title>
+  <meta name="description" content="Nested component" />
+</head>
+```
+
+### `<Link/>` {#link}
+
+내부 페이지에 연결하거나 미리 콘텐츠를 불러와서(preloading) 성능을 최적화할 수 있는 기능을 사용할 수 있습니다. 사전 로딩(preloading)은 사용자가 컴포넌트를 사용하는 시점에 필요한 리소스를 미리 가져오는 방식입니다. `<Link>`가 viewport 내에 있을 때 낮은 우선순위의 요청을 처리하기 위해 `IntersectionObserver`를 사용합니다. 그리고 사용자가 높은 우선순위의 리소스를 요청하려고 할 때는 `onMouseOver` 이벤트를 발생시킵니다.
+
+리액트 라우터의 `<Link>`의 래퍼 컴포넌트이며 도큐사우루스 특성에 맞게 몇 가지 유용한 기능을 확장했스니다. 모든 속성 설정은 리액트 라우터의 `<Link>` 컴포넌트로 전달됩니다.
+
+외부 링크에도 적용할 수 있습니다. 자동으로 `target="_blank" rel="noopener noreferrer"` 속성을 추가합니다.
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import Link from '@docusaurus/Link';
+
+const Page = () => (
+  <div>
+    <p>
+      {/* highlight-next-line */}
+      Check out my <Link to="/blog">blog</Link>!
+    </p>
+    <p>
+      {/* highlight-next-line */}
+      Follow me on <Link to="https://x.com/docusaurus">X</Link>!
+    </p>
+  </div>
+);
+```
+
+#### `to`: string {#to-string}
+
+탐색할 주소를 설정합니다. 예를 들어 `/docs/introduction` 같은 형식입니다.
+
+```jsx
+<Link to="/courses" />
+```
+
+:::tip
+
+`<Link>`를 사용하면 도큐사우루스에서 많은 부분 최적화(예. 깨진 경로 감지, 프리페칭, base URL 적용 등)를 처리해주기 때문에 `<a>` 태그보다 이 컴포넌트를 권장합니다.
+
+:::
+
+### `<Redirect/>` {#redirect}
+
+`<Redirect>`은 새로운 주소의 콘텐츠로 바로 가기 위해 사용합니다. 새로운 주소는 방문 기록 상 현재 주소를 덮어씁니다. 마치 서버에서 리다이렉트(HTTP 3xx)를 처리하는 것과 같습니다. 사용할 수 있는 속성에 대해서는 [리액트 라우터의 리다이렉트 문서](https://reacttraining.com/react-router/web/api/Redirect)를 참고하세요.
+
+Example usage:
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import {Redirect} from '@docusaurus/router';
+
+const Home = () => {
+  // highlight-next-line
+  return <Redirect to="/docs/test" />;
+};
+```
+
+:::note
+
+`@docusaurus/router`는 [리액트 라우터](https://reacttraining.com/react-router/web/guides/quick-start) 기반으로 모든 기능을 지원합니다.
+
+:::
+
+### `<BrowserOnly/>` {#browseronly}
+
+`<BrowserOnly>` 컴포넌트는 리액트 앱이 하이드레이트되면 브라우저에서만 리액트 컴포넌트를 렌더링하도록 허용합니다.
+
+:::tip
+
+`window` 또는 `document` 오브젝트에 액세스한 상태에서 Node.js에서 실행할 수 없는 코드와 통합을 위해 사용합니다.
+
+:::
+
+#### 속성 {#browseronly-props}
+
+- `children`: 브라우저 전용 JSX를 반환하는 렌더링 함수 속성입니다. Node.js에서는 실행되지 않습니다.
+- `fallback` (옵션): 리액트 하이드레이트가 완료되기전까지 서버(Node.js)에서 렌더링할 JSX입니다.
+
+#### 예시 코드 {#browseronly-example-code}
+
+```jsx
+// highlight-start
+import BrowserOnly from '@docusaurus/BrowserOnly';
+// highlight-end
+
+const MyComponent = () => {
+  return (
+    // highlight-start
+    <BrowserOnly>
+      {() => <span>page url = {window.location.href}</span>}
+    </BrowserOnly>
+    // highlight-end
+  );
+};
+```
+
+#### 라이브러리를 사용한 예시 코드 {#browseronly-example-library}
+
+```jsx
+// highlight-start
+import BrowserOnly from '@docusaurus/BrowserOnly';
+// highlight-end
+
+const MyComponent = (props) => {
+  return (
+    // highlight-start
+    <BrowserOnly fallback={<div>Loading...</div>}>
+      {() => {
+        const LibComponent = require('some-lib').LibComponent;
+        return <LibComponent {...props} />;
+      }}
+    </BrowserOnly>
+    // highlight-end
+  );
+};
+```
+
+### `<Interpolate/>` {#interpolate}
+
+동적으로 표시되는 자리표시자(placeholder)를 포함한 텍스트를 위한 간단한 컴포넌트입니다.
+
+자리표시자는 동적으로 처리되는 값과 여러분이 선택한 JSX 요소(문자열, 링크, 스타일 요소 등)을 대체합니다.
+
+#### 속성 {#interpolate-props}
+
+- `children`: `{placeholderName}` 형태로 작성한 자리표시자를 포함한 텍스트입니다.
+- `values`: 자리표시자를 처리할 값을 포함한 오브젝트입니다.
+
+```jsx
+import React from 'react';
+import Link from '@docusaurus/Link';
+import Interpolate from '@docusaurus/Interpolate';
+
+export default function VisitMyWebsiteMessage() {
+  return (
+    // highlight-start
+    <Interpolate
+      values={{
+        firstName: 'Sébastien',
+        website: (
+          <Link to="https://docusaurus.io" className="my-website-class">
+            website
+          </Link>
+        ),
+      }}>
+      {'Hello, {firstName}! How are you? Take a look at my {website}'}
+    </Interpolate>
+    // highlight-end
+  );
+}
+```
+
+### `<Translate/>` {#translate}
+
+[여러분의 사이트를 현지화할 때](./i18n/i18n-introduction.mdx) `<Translate/>` 컴포넌트는 홈페이지 같은 **리액트 컴포넌트에 대한 번역을 지원합니다**. `<Translate>` 컴포넌트는 [interpolation](#interpolate)를 지원합니다.
+
+[`docusaurus write-translations`](./cli.mdx#docusaurus-write-translations-sitedir) 명령을 통해 번역할 문자열을 여러분의 코드에서 추출하고 `website/i18n/[locale]` 디렉터리 아래에 `code.json` 파일을 만듭니다.
+
+:::note
+
+`<Translate/>` 속성은 **직접 입력된 문자열이어야 합니다**.
+
+interpolation 처리를 위한 `values`을 제외하고는 **변수를 사용할 수 없으며 ** 정적인 추출법(static extraction)도 동작하지 않습니다.
+
+:::
+
+#### 속성 {#translate-props}
+
+- `children`: 사이트 기본 로케일 설정에 따라 번역되지 않은 문자열([interpolation placeholders](#interpolate)을 포함할 수 있습니다)
+- `id`: JSON 번역 파일에서 키 값으로 사용하는 값(필수는 아님)
+- `description`: 번역자가 참조할 수 있는 설명(필수는 아님)
+- `values`: 자리표시자를 처리할 값을 포함한 오브젝트(필수는 아님)
+
+#### 예 {#example}
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+// highlight-start
+import Translate from '@docusaurus/Translate';
+// highlight-end
+
+export default function Home() {
+  return (
+    <Layout>
+      <h1>
+        {/* highlight-start */}
+        <Translate
+          id="homepage.title"
+          description="The homepage welcome message">
+          Welcome to my website
+        </Translate>
+        {/* highlight-end */}
+      </h1>
+      <main>
+        {/* highlight-start */}
+        <Translate values={{firstName: 'Sébastien'}}>
+          {'Welcome, {firstName}! How are you?'}
+        </Translate>
+        {/* highlight-end */}
+      </main>
+    </Layout>
+  );
+}
+```
+
+:::note
+
+`docusaurus write-translations` CLI 명령을 실행한 후 자식 속성을 생략하고 `code.json` 파일에 번역 문자열을 수동으로 설정할 수 있습니다.
+
+```jsx
+<Translate id="homepage.title" />
+```
+
+:::
+
+:::info
+
+`<Translate>` 컴포넌트는 interpolation를 지원합니다. 일부 사용자 정의 코드와 [`translate` imperative API](#translate-imperative)를 통해 [문자열 단/복수 처리](https://github.com/facebook/docusaurus/pull/i18n/i18n-tutorial.mdx#pluralization)를 구현할 수 있습니다.
+
+:::
+
+## 후크 {#hooks}
+
+### `useDocusaurusContext` {#useDocusaurusContext}
+
+도큐사우루스 컨텍스트에 접근하기 위한 리액트 후크입니다. 컨텍스트는 [docusaurus.config.js](api/docusaurus.config.js.mdx) 파일에 설정한 `siteConfig` 오브젝트와 사이트에서 사용하는 메타데이터를 포함합니다.
+
+```ts
+type PluginVersionInformation =
+  | {readonly type: 'package'; readonly version?: string}
+  | {readonly type: 'project'}
+  | {readonly type: 'local'}
+  | {readonly type: 'synthetic'};
+
+type SiteMetadata = {
+  readonly docusaurusVersion: string;
+  readonly siteVersion?: string;
+  readonly pluginVersions: Record<string, PluginVersionInformation>;
+};
+
+type I18nLocaleConfig = {
+  label: string;
+  direction: string;
+};
+
+type I18n = {
+  defaultLocale: string;
+  locales: [string, ...string[]];
+  currentLocale: string;
+  localeConfigs: Record<string, I18nLocaleConfig>;
+};
+
+type DocusaurusContext = {
+  siteConfig: DocusaurusConfig;
+  siteMetadata: SiteMetadata;
+  globalData: Record<string, unknown>;
+  i18n: I18n;
+  codeTranslations: Record<string, string>;
+};
+```
+
+사용 예:
+
+```jsx
+import React from 'react';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+const MyComponent = () => {
+  // highlight-next-line
+  const {siteConfig, siteMetadata} = useDocusaurusContext();
+  return (
+    <div>
+      {/* highlight-start */}
+      <h1>{siteConfig.title}</h1>
+      <div>{siteMetadata.siteVersion}</div>
+      <div>{siteMetadata.docusaurusVersion}</div>
+      {/* highlight-end */}
+    </div>
+  );
+};
+```
+
+:::note
+
+`siteConfig` 오브젝트에는 **직렬화할 수 있는 값**(`JSON.stringify()` 호출 이후 보존되는 값)이 포함됩니다. 함수와 정규식 등은 클라이언트 쪽에서 손실됩니다.
+
+:::
+
+### `useIsBrowser` {#useIsBrowser}
+
+리액트 앱이 브라우저에서 성공적으로 하이드레이트되면 `true`를 반환합니다.
+
+:::warning
+
+리액트 렌더링 로직에서 `typeof windows !== 'undefined'` 대신 이 후크를 사용하세요.
+
+첫 번째 클라이언트 측 렌더링 출력(브라우저에서)은 서버 측 렌더링 출력(Node.js)와 **정확히 같아야 합니다**. 그렇지 않으면 [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/)에서 설명하는 것처럼 의도하지 않은 하이드레이트가 동작할 수 있습니다.
+
+:::
+
+사용 예:
+
+```jsx
+import React from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+const MyComponent = () => {
+  // highlight-start
+  const isBrowser = useIsBrowser();
+  // highlight-end
+  return <div>{isBrowser ? 'Client' : 'Server'}</div>;
+};
+```
+
+### `useBaseUrl` {#useBaseUrl}
+
+여러분의 사이트 `baseUrl`에 문자열을 추가하기 위한 리액트 후크입니다.
+
+:::warning
+
+**일반 링크에는 사용하지 마세요!**
+
+`/baseUrl/` 접두사는 모든 **절대 경로**에 자동으로 추가됩니다.
+
+- 마크다운: `[link](/my/path)`는 `/baseUrl/my/path`에 링크가 연결됩니다.
+- 리액트: `<Link to="/my/path/">link</Link>`는 `/baseUrl/my/path`에 링크가 연결됩니다.
+
+:::
+
+#### 옵션 {#options}
+
+```ts
+type BaseUrlOptions = {
+  forcePrependBaseUrl: boolean;
+  absolute: boolean;
+};
+```
+
+#### Example usage: {#example-usage}
+
+```jsx
+import React from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+const SomeImage = () => {
+  // highlight-start
+  const imgSrc = useBaseUrl('/img/myImage.png');
+  // highlight-end
+  return <img src={imgSrc} />;
+};
+```
+
+:::tip
+
+대부분의 경우 `useBaseUrl`을 사용할 일은 없습니다.
+
+아래와 같이 `require()` 메소드를 사용해 필요한 [애셋](./guides/markdown-features/markdown-features-assets.mdx)을 호출하세요.
+
+```jsx
+<img src={require('@site/static/img/myImage.png').default} />
+```
+
+:::
+
+### `useBaseUrlUtils` {#useBaseUrlUtils}
+
+`useBaseUrl`만 사용하기에는 충분하지 않습니다. 여러분의 사이트 base URL과 관련된 추가 유틸을 반환하는 후크입니다.
+
+- `withBaseUrl`: 여러 URL에 한 번에 base URL을 추가해야 할 때 유용합니다.
+
+```jsx
+import React from 'react';
+import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+
+const Component = () => {
+  const urls = ['/a', '/b'];
+  // highlight-start
+  const {withBaseUrl} = useBaseUrlUtils();
+  const urlsWithBaseUrl = urls.map(withBaseUrl);
+  // highlight-end
+  return <div>{/* ... */}</div>;
+};
+```
+
+### `useGlobalData` {#useGlobalData}
+
+모든 플러그인에서 만든 도큐사우루스 전역 데이터에 접근하기 위한 리액트 후크입니다.
+
+전역 데이터는 플러그인의 이름, ID로 네임스페이스가 지정됩니다.
+
+:::info
+
+플러그인 ID는 같은 사이트에서 플러그인을 여러 번 사용할 때만 유용합니다. 각 플러그인 인스턴스는 자신만의 전역 데이터를 만들 수 있습니다.
+
+:::
+
+```ts
+type GlobalData = Record<
+  PluginName,
+  Record<
+    PluginId, // "default" by default
+    any // plugin-specific data
+  >
+>;
+```
+
+사용 예:
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import useGlobalData from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  // highlight-start
+  const globalData = useGlobalData();
+  const myPluginData = globalData['my-plugin']['default'];
+  return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
+};
+```
+
+:::tip
+
+Inspect your site's global data at `.docusaurus/globalData.json`
+
+:::
+
+### `usePluginData` {#usePluginData}
+
+특정 플러그인 인스턴스에서 만든 전역 데이터에 접근합니다.
+
+플러그인 전역 데이터에 접근하기 위해 가장 편리하고 많이 사용하는 후크입니다.
+
+멀티 인스턴스 플러그인을 사용하지 않는다면 `pluginId`은 설정하지 않아도 됩니다.
+
+```ts
+function usePluginData(
+  pluginName: string,
+  pluginId?: string,
+  options?: {failfast?: boolean},
+);
+```
+
+사용 예:
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import {usePluginData} from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  // highlight-start
+  const myPluginData = usePluginData('my-plugin');
+  return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
+};
+```
+
+### `useAllPluginInstancesData` {#useAllPluginInstancesData}
+
+특정 플러그인에서 만든 전역 데이터에 접근합니다. 플러그인 이름을 지정하면 같은 이름을 가지는 모든 플러그인 인스턴스의 데이터를 id별로 반환합니다.
+
+```ts
+function useAllPluginInstancesData(
+  pluginName: string,
+  options?: {failfast?: boolean},
+);
+```
+
+사용 예:
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import {useAllPluginInstancesData} from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  // highlight-start
+  const allPluginInstancesData = useAllPluginInstancesData('my-plugin');
+  const myPluginData = allPluginInstancesData['default'];
+  return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
+};
+```
+
+### `useBrokenLinks` {#useBrokenLinks}
+
+React hook to access the Docusaurus broken link checker APIs, exposing a way for a Docusaurus pages to report and collect their links and anchors.
+
+:::warning
+
+This is an **advanced** API that **most Docusaurus users don't need to use directly**.
+
+It is already **built-in** in existing high-level components:
+
+- the [`<Link>`](#link) component will collect links for you
+- the `@theme/Heading` (used for Markdown headings) will collect anchors
+
+Use `useBrokenLinks()` if you implement your own `<Heading>` or `<Link>` component.
+
+:::
+
+사용 예:
+
+```js title="MyHeading.js"
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
+
+export default function MyHeading(props) {
+  useBrokenLinks().collectAnchor(props.id);
+  return <h2 {...props} />;
+}
+```
+
+```js title="MyLink.js"
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
+
+export default function MyLink(props) {
+  useBrokenLinks().collectLink(props.href);
+  return <a {...props} />;
+}
+```
+
+## 함수 {#functions}
+
+### `interpolate` {#interpolate-1}
+
+[`<Interpolate>`](#interpolate) 컴포넌트에 대응하는 함수입니다.
+
+#### 시그니처 {#signature}
+
+```ts
+// Simple string interpolation
+function interpolate(text: string, values: Record<string, string>): string;
+
+// JSX interpolation
+function interpolate(
+  text: string,
+  values: Record<string, ReactNode>,
+): ReactNode;
+```
+
+#### 예 {#example-1}
+
+```js
+// highlight-next-line
+import {interpolate} from '@docusaurus/Interpolate';
+
+const message = interpolate('Welcome {firstName}', {firstName: 'Sébastien'});
+```
+
+### `translate` {#translate-imperative}
+
+[`<Translate>`](#translate) 컴포넌트에 대응하는 함수입니다. [자리표시자](#interpolate) 기능도 지원합니다.
+
+:::tip
+
+Use the imperative API for the 아래와 같이 **간혹** **컴포넌트를 사용할 수 없는** 경우 함수 API를 사용할 수 있습니다.
+
+- 페이지의 `title` 메타데이터
+- 입력 폼에서 `placeholder` 속성
+- 접근성에서 `aria-label` 속성
+
+:::
+
+#### 시그니처 {#signature-1}
+
+```ts
+function translate(
+  translation: {message: string; id?: string; description?: string},
+  values: Record<string, string>,
+): string;
+```
+
+#### 예 {#example-2}
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+// highlight-next-line
+import {translate} from '@docusaurus/Translate';
+
+export default function Home() {
+  return (
+    <Layout
+      // highlight-next-line
+      title={translate({message: 'My page meta title'})}>
+      <img
+        src={'https://docusaurus.io/logo.png'}
+        aria-label={
+          // highlight-start
+          translate(
+            {
+              message: 'The logo of site {siteName}',
+              // Optional
+              id: 'homepage.logo.ariaLabel',
+              description: 'The home page logo aria label',
+            },
+            {siteName: 'Docusaurus'},
+          )
+          // highlight-end
+        }
+      />
+    </Layout>
+  );
+}
+```
+
+## 모듈 {#modules}
+
+### `ExecutionEnvironment` {#executionenvironment}
+
+현재 렌더링 환경을 확인하기 위해 사용할 수 있는 몇 가지 상태 변수를 제공하는 모듈입니다.
+
+:::warning
+
+리액트 렌더링 로직의 경우 [`useIsBrowser()`](#useIsBrowser) 또는 [`<BrowserOnly>`](#browseronly)을 사용하세요.
+
+:::
+
+예:
+
+```js
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+if (ExecutionEnvironment.canUseDOM) {
+  require('lib-that-only-works-client-side');
+}
+```
+
+| Field                                             | 설명                                                            |
+| ------------------------------------------------- | ------------------------------------------------------------- |
+| `ExecutionEnvironment.canUseDOM`                  | 클라이언트/브라우저에서는 `true`를 반환하고 Node.js/사전 렌더링 시에는 `false`를 반환합니다. |
+| `ExecutionEnvironment.canUseEventListeners`       | 클라이언트에서 `window.addEventListener`를 가지고 있다면 `true`를 반환합니다.     |
+| `ExecutionEnvironment.canUseIntersectionObserver` | 클라이언트에서 `IntersectionObserver`를 가지고 있다면 `true`를 반환합니다.        |
+| `ExecutionEnvironment.canUseViewport`             | 클라이언트에서 `window.screen`을 가지고 있다면 `true`를 반환합니다.               |
+
+### `constants` {#constants}
+
+클라이언트 측 테마 코드에 유용한 상수를 제공하는 모듈입니다.
+
+```js
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
+```
+
+| Named export        | 값         |
+| ------------------- | --------- |
+| `DEFAULT_PLUGIN_ID` | `default` |

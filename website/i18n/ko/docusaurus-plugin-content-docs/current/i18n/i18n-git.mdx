@@ -1,0 +1,181 @@
+---
+id: git
+slug: /i18n/git
+---
+
+# i18n - 깃 사용하기
+
+**번역 작업 시 사용할 수 있는 방안** 중 하나는 깃(또는 다른 [버전 관리 시스템](https://en.wikipedia.org/wiki/Version_control))을 사용해 **번역 파일의 버전을 관리**하는 것입니다.
+
+## 고려해야 할 점 {#tradeoffs}
+
+이 방법은 아래와 같은 장점을 가지고 있습니다.
+
+- **손쉬운 시작**: `i18n` 디렉터리를 깃에 가져다 놓기만 하면 됩니다.
+- **개발자에게 익숙한**: 깃이나 깃허브, 풀 리퀘스트 요청은 개발자가 주로 사용하는 도구입니다.
+- **무료** (또는 이미 깃을 사용하고 있다면 추가 비용 없이)
+- **적은 부담**: 다른 도구를 추가로 사용할 필요가 없습니다.
+- **보상**: 기여자들이 자신의 작업 이력을 쉽게 확인할 수 있습니다.
+
+하지만 깃은 아래와 같은 단점도 있습니다.
+
+- **비개발자에게 낯선**: 깃이나 풀 리퀘스트가 익숙하지 않습니다.
+- **Hard for professional translators**: they are used to SaaS translation software and advanced features
+- **관리하기 어려운**: 여러분이 직접 번역한 파일을 번역되지 않은 파일과 **동기화**해주어야 합니다.
+
+:::note
+
+일부 **규모있는 기술 프로젝트** (React, Vue.js, MDN, TypeScript, Nuxt.js 등)에서 번역을 위해 깃을 사용하고 있습니다.
+
+이런 시스템에서 어떤 식으로 작업하고 있는지는 [Docusaurus i18n RFC](https://github.com/facebook/docusaurus/issues/3317) 문서를 참고하세요.
+
+:::
+
+## 초기화 {#initialization}
+
+이미 여러분이 [i18n 따라해보기](./i18n-tutorial.mdx)를 살펴보았다면 이번에는 깃을 사용해 새로 만든 영문 도큐사우루스 웹 사이트를 프랑스어로 번역하는 과정을 따라가보겠습니다.
+
+### 도큐사우루스 사이트 준비하기 {#prepare-the-docusaurus-site}
+
+새로운 도큐사우루스 사이트를 초기화합니다.
+
+```bash
+npx create-docusaurus@latest website classic
+```
+
+프랑스어 번역을 위해 site 설정을 아래와 같이 추가합니다.
+
+```js title="docusaurus.config.js"
+export default {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
+  themeConfig: {
+    navbar: {
+      items: [
+        // ...
+        {
+          type: 'localeDropdown',
+          position: 'left',
+        },
+        // ...
+      ],
+    },
+  },
+  // ...
+};
+```
+
+홈페이지를 번역합니다.
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+import Translate from '@docusaurus/Translate';
+import Layout from '@theme/Layout';
+
+export default function Home() {
+  return (
+    <Layout>
+      <h1 style={{margin: 20}}>
+        <Translate description="The homepage main heading">
+          Welcome to my Docusaurus translated site!
+        </Translate>
+      </h1>
+    </Layout>
+  );
+}
+```
+
+### `i18n` 디렉터리 초기화하기 {#initialize-the-i18n-folder}
+
+[write-translations](../cli.mdx#docusaurus-write-translations-sitedir) 명령을 사용해 프랑스 로케일에서 사용할 JSON 번역 파일을 초기화합니다.
+
+```bash npm2yarn
+npm run write-translations -- --locale fr
+
+  1 translations written at i18n/fr/code.json
+ 11 translations written at i18n/fr/docusaurus-theme-classic/footer.json
+  4 translations written at i18n/fr/docusaurus-theme-classic/navbar.json
+  3 translations written at i18n/fr/docusaurus-plugin-content-docs/current.json
+```
+
+:::tip
+
+`--messagePrefix '(fr) '` 옵션을 사용하면 번역되지 않은 문자열을 잘 보이게 처리할 수 있습니다.
+
+예를 들어 `Hello`라는 문자열은 `(fr) Hello` 형태로 표시되어 번역 작업 시 누락되지 않도록 합니다.
+
+:::
+
+번역할 마크다운 파일을 프랑스어 디렉터리에 복사합니다.
+
+```bash
+mkdir -p i18n/fr/docusaurus-plugin-content-docs/current
+cp -r docs/** i18n/fr/docusaurus-plugin-content-docs/current
+
+mkdir -p i18n/fr/docusaurus-plugin-content-blog
+cp -r blog/** i18n/fr/docusaurus-plugin-content-blog
+
+mkdir -p i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.md i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
+```
+
+모든 파일을 깃에 추가합니다.
+
+### 파일을 번역하기 {#translate-the-files}
+
+`i18n/fr` 디렉터리 안에 있는 마크다운, JSON 파일을 번역하고 완료된 파일은 커밋합니다.
+
+이제 프랑스어 사이트를 시작해서 번역된 결과를 확인할 수 있습니다.
+
+```bash npm2yarn
+npm run start -- --locale fr
+```
+
+로컬에 사이트를 빌드하거나 여러분이 사용하는 CI를 이용할 수 있습니다.
+
+```bash npm2yarn
+npm run build
+# or
+npm run build -- --locale fr
+```
+
+### 반복하기 {#repeat}
+
+이제 지원할 각 로케일에 대해 같은 절차로 처리할 수 있습니다.
+
+## 유지 보수 {#maintenance}
+
+번역된 파일을 원본 파일에 **맞추어** 유지하는 것은 **쉬운 일이 아닙니다**. 특히 마크다운 문서는 더욱 그렇습니다.
+
+### 마크다운 번역하기 {#markdown-translations}
+
+마크다운 문서를 수정할 때 **번역 파일에 반영하도록 하는 건 여러분의 책임**입니다. 불행하게도 편한 방법은 없습니다.
+
+번역 사이트의 일관성을 유지하기 위해 `website/docs/doc1.md` 문서를 수정하게 되면 `i18n/fr/docusaurus-plugin-content-docs/current/doc1.md` 문서에 **수정한 내용을** 반영해주어야 합니다.
+
+### JSON 번역하기 {#json-translations}
+
+JSON 번역 파일을 관리하기 위해 [write-translations](../cli.mdx#docusaurus-write-translations-sitedir) 명령을 다시 실행할 수 있습니다.
+
+```bash npm2yarn
+npm run write-translations -- --locale fr
+```
+
+새로운 번역 항목이 추가되고 기존 번역 항목을 덮어쓰지는 않습니다.
+
+:::tip
+
+번역 작업을 초기화하고 싶다면 `--override` 옵션을 사용하세요.
+
+:::
+
+### 번역한 화면 URL 편집하기 {#localize-edit-urls}
+
+사용자가 `/fr/doc1` 페이지에 방문했을때 편집하기 버튼은 번역되지 않은 기본 페이지인 `website/docs/doc1.md`에 연결됩니다.
+
+깃에서 작업한 경우 문서와 블로그 플러그인에서 `editLocalizedFiles: true` 옵션을 설정할 수 있습니다.
+
+이렇게 하면 편집하기 버튼은 번역된 문서인 `i18n/fr/docusaurus-plugin-content-docs/current/doc1.md`에 연결됩니다.

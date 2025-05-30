@@ -1,0 +1,210 @@
+---
+id: math-equations
+description: Écriture d'équations mathématiques LaTeX
+slug: /markdown-features/math-equations
+---
+
+# Équations mathématiques
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+Les équations mathématiques peuvent être rendues en utilisant [KaTeX](https://katex.org).
+
+## Utilisation {#usage}
+
+Veuillez lire la documentation de [KaTeX](https://katex.org) pour plus de détails.
+
+### En ligne {#inline}
+
+Écrivez des équations mathématiques en ligne en enveloppant les équations LaTeX entre `$` :
+
+```latex
+Soit $f\colon[a,b]\to\R$ est une intégrale de Riemann. Soit $F\colon[a,b]\to\R$ est
+$F(x)=\int_{a}^{x} f(t)\,dt$. Alors $F$ est continue, et pour tout $x$ tel que
+$f$ est continue à $x$, $F$ est différentiable à $x$ avec $F'(x)=f(x)$.
+```
+
+<BrowserWindow>
+
+Soit $f\colon[a,b] \to \R$ est une intégrale de Riemann. Soit $F\colon[a,b]\to\R$ est $F(x)=
+\int_{a}^{x} f(t)\,dt$. Alors $F$ est continue, et pour tout $x$ tel que $f$ est continue à $x$, $F$ est différentiable à $x$ avec $F'(x)=f(x)$.
+
+</BrowserWindow>
+
+### Blocs {#blocks}
+
+Pour le bloc d'équation ou le mode d'affichage, utilisez les sauts de ligne et le `$$` :
+
+```latex
+$$
+I = \int_0^{2\pi} \sin(x)\,dx
+$$
+```
+
+<BrowserWindow>
+
+$$
+I = \int_0^{2\pi} \sin(x)\,dx
+$$
+
+</BrowserWindow>
+
+## Configuration {#configuration}
+
+Pour activer KaTeX, vous devez installer les plugins `remark-math` et `rehype-katex`.
+
+```bash npm2yarn
+npm install --save remark-math@3 rehype-katex@5 hast-util-is-element@1.1.0
+```
+
+:::warning
+
+Utilisez exactement les mêmes versions. Les dernières versions sont incompatibles avec Docusaurus 2.
+
+:::
+
+Importez les plugins dans `docusaurus.config.js` :
+
+```js
+const math = require('remark-math');
+const katex = require('rehype-katex');
+```
+
+Ajoutez-les aux options de votre plugin de contenu ou de votre preset (généralement les options de docs de `@docusaurus/preset-classic`) :
+
+```js
+remarkPlugins: [math],
+rehypePlugins: [katex],
+```
+
+Incluez le CSS de KaTeX dans votre configuration sous `stylesheets` :
+
+```js
+stylesheets: [
+  {
+    href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+    type: 'text/css',
+    integrity:
+      'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+    crossorigin: 'anonymous',
+  },
+],
+```
+
+Dans l'ensemble, les changements sont les suivants :
+
+```js title="docusaurus.config.js"
+// highlight-start
+const math = require('remark-math');
+const katex = require('rehype-katex');
+// highlight-end
+
+module.exports = {
+  title: 'Docusaurus',
+  tagline: 'Construire rapidement des sites Web optimisés, se concentrer sur votre contenu',
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          path: 'docs',
+          // highlight-start
+          remarkPlugins: [math],
+          rehypePlugins: [katex],
+          // highlight-end
+        },
+      },
+    ],
+  ],
+  // highlight-start
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      type: 'text/css',
+      integrity:
+        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+      crossorigin: 'anonymous',
+    },
+  ],
+  // highlight-end
+};
+```
+
+## Auto-hébergement des ressources KaTeX {#self-hosting-katex-assets}
+
+Le chargement des feuilles de style, des polices et des bibliothèques JavaScript à partir de sources CDN est une bonne pratique pour les bibliothèques et les ressources populaires, car elle réduit la quantité de ressources que vous devez héberger. Si vous préférez héberger vous-même le fichier `katex.min.css` (avec les polices KaTeX requises), vous pouvez télécharger la dernière version depuis [KaTeX GitHub releases] (https://github.com/KaTeX/KaTeX/releases), extraire et copier `katex.min.css` et le répertoire `fonts` (seuls les types de polices `.woff2` devraient suffire) dans le répertoire `static` de votre site, et dans `docusaurus.config.js`, remplacez le `href` de la feuille de style de l'URL du CDN par votre chemin local (disons, `/katex/katex.min.css`).
+
+```js title="docusaurus.config.js"
+module.exports = {
+  stylesheets: [
+    {
+      href: '/katex/katex.min.css',
+      type: 'text/css',
+    },
+  ],
+};
+```
+
+## Mise à jour de rehype-katex au-delà de la version recommandée {#upgrading-rehype-katex-beyond-recommended-version}
+
+:::tip
+
+N'utilisez la dernière version que si vous avez réellement besoin des fonctionnalités de $\KaTeX$. La plupart des utilisateurs devraient trouver que les anciennes versions fonctionnent tout aussi bien.
+
+:::
+
+Les dernières versions de `rehype-katex` (à partir de la `v6.0.0`) sont passées aux ES Modules, un nouveau système de modules de JavaScript, que Docusaurus ne supporte pas encore officiellement. Cependant, il est possible d'importer dynamiquement `rehype-katex` en utilisant un créateur de configuration asynchrone. Docusaurus appellera cette fonction de créateur et attendra qu'elle retourne l'objet de configuration.
+
+```js title="docusaurus.config.js"
+async function createConfig() {
+  // Les modules ES sont importés avec `import()` au lieu de `require()`, et sont importés de manière asynchrone
+  // highlight-next-line
+  const katex = (await import('rehype-katex')).default;
+  return {
+    // ...
+  };
+}
+```
+
+Dans ce cas, les modifications de la configuration globale ressembleront à ce qui suit :
+
+```js title="docusaurus.config.js"
+// highlight-next-line
+const math = require('remark-math');
+
+async function createConfig() {
+  // highlight-next-line
+  const katex = (await import('rehype-katex')).default;
+  return {
+    title: 'Docusaurus',
+    tagline: 'Build optimized websites quickly, focus on your content',
+    presets: [
+      [
+        '@docusaurus/preset-classic',
+        {
+          docs: {
+            path: 'docs',
+            // highlight-start
+            remarkPlugins: [math],
+            rehypePlugins: [katex],
+            // highlight-end
+          },
+        },
+      ],
+    ],
+    // highlight-start
+    stylesheets: [
+      {
+        href: 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css',
+        type: 'text/css',
+        integrity:
+          'sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ',
+        crossorigin: 'anonymous',
+      },
+    ],
+    // highlight-end
+  };
+}
+
+module.exports = createConfig;
+```

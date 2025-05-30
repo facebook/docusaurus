@@ -1,0 +1,377 @@
+---
+keywords:
+  - algolia
+  - search
+---
+
+# 검색
+
+여러분의 웹사이트에 검색을 추가할 수 있는 몇 가지 옵션이 있습니다.
+
+- 🥇 [알골리아 DocSearch](#using-algolia-docsearch) (**공식**)
+- 👥 [Typesense DocSearch](#using-typesense-docsearch)
+- 👥 [로컬 검색](#using-local-search)
+- 👥 [직접 작성한 `SearchBar` 컴포넌트](#using-your-own-search)
+
+:::info
+
+🥇 도큐사우루스는 [알골리아 DocSearch](#using-algolia-docsearch)에 대한 **최고 수준의 지원**을 제공합니다.
+
+👥 다른 옵션은 **커뮤니티에서 관리**하고 있습니다. 버그는 해당 저장소에 보고해주세요.
+
+:::
+
+## 🥇 알골리아 DocSearch 사용하기 {#using-algolia-docsearch}
+
+도큐사우루스는 [알골리아 DocSearch](https://docsearch.algolia.com)에 대한 **공식 지원**을 제공합니다.
+
+The service is **free** for any developer documentation or technical blog: just make sure to read the [checklist](https://docsearch.algolia.com/docs/who-can-apply/) and [apply to the DocSearch program](https://docsearch.algolia.com/apply).
+
+DocSearch는 웹사이트를 일주일에 한 번 크롤링하고(일정은 웹 화면에서 설정할 수 있습니다) 알골리아 인덱스의 모든 콘텐츠를 수집합니다. 웹 사이트에서는 알골리아 API를 사용해 수집된 콘텐츠에 대한 검색을 실행할 수 있습니다.
+
+여러분의 웹 사이트가 무료로 제공되는 문서 검색 기능에 [적합하지 않거나](https://docsearch.algolia.com/docs/who-can-apply) 방화벽 뒤에 있거나 내부에서만 공개한 경우에는 문서 검색 크롤러를 [직접 관리할 수 있습니다](https://docsearch.algolia.com/docs/run-your-own/).
+
+:::note
+
+기본적으로 도큐사우루스 사전 설정은 알골리아 크롤러에서 사용할 수 있는 [sitemap.xml](https://docusaurus.io/sitemap.xml) 파일을 생성합니다.
+
+:::
+
+:::info 기존 docsearch을 사용한다면?
+
+[블로그 게시물](/blog/2021/11/21/algolia-docsearch-migration)이나 [DocSearch 마이그레이션 문서](https://docsearch.algolia.com/docs/migrating-from-legacy)에서 기존 DocSearch 환경에서 마이그레이션하는 방법을 자세히 살펴볼 수 있습니다.
+
+:::
+
+### 색인 설정 {#algolia-index-configuration}
+
+애플리케이션이 승인되고 배포되면 프로젝트에 DocSearch를 추가하기 위해 필요한 모든 세부 사항이 담긴 이메일을 받게 됩니다. 크롤링 설정을 수정하거나 관리하는 것은 [웹 인터페이스](https://crawler.algolia.com/)를 통해 처리할 수 있습니다. 인덱스는 배포 후 바로 사용할 수 있는 상태가 되기 때문에 별도 구성은 필요치 않습니다.
+
+:::danger Use the recommended crawler config
+
+It is highly recommended to use our official [**Docusaurus v3 crawler configuration**](https://docsearch.algolia.com/docs/templates/#docusaurus-v3-template). We cannot support you if you choose a different crawler configuration.
+
+:::
+
+:::warning When updating your crawler config
+
+The crawler configuration contains a `initialIndexSettings`, which will only be used to initialize your Algolia index if it does not exist yet.
+
+If you update your `initialIndexSettings` crawler setting, it is possible to update the index manually through the interface, but [the Algolia team recommends to delete your index and then restart a crawl](https://github.com/facebook/docusaurus/issues/9200#issuecomment-1667338492) to fully reinitialize it with the new settings.
+
+:::
+
+### 알골리아 연결하기 {#connecting-algolia}
+
+도큐사우루스 `@docusaurus/preset-classic`에서는 기본으로 알골리아 DocSearch 통합을 지원합니다. classic preset을 사용한다면 추가적인 설치가 필요하지 않습니다.
+
+<details>
+<summary><code>@docusaurus/preset-classic</code>을 사용하지 않을 때 설치 단계입니다.</summary>
+
+1. 패키지를 설치합니다.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-search-algolia
+```
+
+2. `docusaurus.config.js`에 테마를 등록합니다.
+
+```js title="docusaurus.config.js"
+export default {
+  title: 'My site',
+  // ...
+  themes: ['@docusaurus/theme-search-algolia'],
+  themeConfig: {
+    // ...
+  },
+};
+```
+
+</details>
+
+그리고 `themeConfig`에 `algolia` 필드를 추가합니다. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)**에 접속해서 여러분을 위한 알골리아 index 값과 API 키를 발급받을 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  themeConfig: {
+    // ...
+    // highlight-start
+    algolia: {
+      // 알골리아에서 제공한 appId를 사용하세요.
+      appId: 'YOUR_APP_ID',
+
+      // 공개 API 키: 커밋해도 문제가 생기지 않습니다.
+      apiKey: 'YOUR_SEARCH_API_KEY',
+
+      indexName: 'YOUR_INDEX_NAME',
+
+      // 옵션: 아래 문서를 참고
+      contextualSearch: true,
+
+      // 옵션: history.push 대신 window.location을 통해 탐색해야 하는 도메인을 지정합니다. 여러 문서 사이트를 크롤링하고 window.location.href를 사용하여 해당 사이트로 이동하려는 경우에 유용한 알골리아 설정입니다.
+      externalUrlRegex: 'external\\.com|domain\\.com',
+
+      // 옵션: 알골리아에서 URL 일부를 바꿉니다. 다른 baseUrl을 사용하는 여러 배포본에 대해 같은 검색 인덱스를 사용할 경우 유용합니다. `from` 파라미터에 정규식이나 문자열을 사용할 수 있습니다. For example: localhost:3000 vs myCompany.com/docs
+      replaceSearchResultPathname: {
+        from: '/docs/', // or as RegExp: /\/docs\//
+        to: '/',
+      },
+
+      // Optional: Algolia search parameters
+      searchParameters: {},
+
+      // Optional: path for search page that enabled by default (`false` to disable it)
+      searchPagePath: 'search',
+
+      // Optional: whether the insights feature is enabled or not on Docsearch (`false` by default)
+      insights: false,
+
+      //... other Algolia params
+    },
+    // highlight-end
+  },
+};
+```
+
+:::info
+
+`searchParameters` 옵션은 도큐사우루스 v1에서 사용하던 `algoliaOptions` 옵션과 같습니다.
+
+사용할 수 있는 값은 [공식 DocSearch 문서](https://docsearch.algolia.com/docs/api#searchparameters)를 참고하세요.
+
+:::
+
+:::warning
+
+알골리아에서 사이트를 크롤링할 때까지 검색 기능이 안정적으로 작동하지 않습니다.
+
+크롤링 후에도 검색이 작동하지 않는다면 알골리아 대시보드에서 **trigger a new crawl**를 실행하세요.
+
+:::
+
+### 상황별 검색 기능 {#contextual-search}
+
+상황별 검색 기능은 **기본적으로 활성화**되어 있습니다.
+
+검색 결과는 **현재 선택한 언어와 버전에 따라 달라집니다**.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  themeConfig: {
+    // ...
+    // highlight-start
+    algolia: {
+      contextualSearch: true,
+    },
+    // highlight-end
+  },
+};
+```
+
+2개의 문서 버전(**v1**과 **v2**)과 2개의 언어(`en`과 `fr`)를 가지고 있다고 가정해 보겠습니다.
+
+v2 문서를 보고 있는데 v1 문서에 대한 검색 결과를 반환한다면 적절한 결과가 아니겠죠. v1과 v2 문서 내용은 어느 정도 비슷할 수 있습니다. 때문에 같은 질의에 대해 중복된 검색 결과가 나올 수 있습니다(버전 당 하나의 결과가 나오는 것이지요).
+
+마찬가지로 프랑스어 사이트를 탐색하는데 영어 문서에 대한 검색 결과를 반환하는 것도 적절하지 않습니다.
+
+이런 문제를 해결하기 위해 상황별 검색 기능은 현재 보고 있는 문서 버전과 언어를 이해하고 적절한 필터를 동적으로 만들어줍니다.
+
+- `/en/docs/v1/myDoc`에서 검색 결과는 오직 **v1** 문서(+ 다른 버전 구분 없는 페이지)의 **영어** 검색 결과를 반환합니다.
+- `/fr/docs/v2/myDoc`에서 검색 결과는 오직 **v2** 문서(+ 다른 버전 구분 없는 페이지)의 **프랑스어** 검색 결과를 반환합니다.
+
+:::info
+
+`contextualSearch: true`(기본값) 값을 설정하면 `algolia.searchParameters.facetFilters`와 같이 상황별 필터링 기능이 동작합니다 .
+
+필요한 경우 `contextualSearch`를 비활성화하고 고유한 `facetFilters`를 정의할 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  themeConfig: {
+    // ...
+    // highlight-start
+    algolia: {
+      contextualSearch: false,
+      searchParameters: {
+        facetFilters: ['language:en', ['filter1', 'filter2'], 'filter3'],
+      },
+    },
+    // highlight-end
+  },
+};
+```
+
+자세한 사항은 [Algolia faceting documentation](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/)을 참고하세요.
+
+:::
+
+:::warning Contextual search doesn't work?
+
+If you only get search results when Contextual Search is disabled, this is very likely because of an [index configuration issue](#algolia-no-search-results).
+
+:::
+
+### 알골리아 검색 기능에 스타일 적용하기 {#styling-your-algolia-search}
+
+문서 검색 기능에 기본 제공되는 테마는 표준에 따라 색상, 고대비 등의 접근성을 지원하도록 설계됐습니다.
+
+물론 `/src/css/custom.css` 파일을 수정해 도큐사우루스의 [인피마 CSS 변수](styling-layout.mdx#styling-your-site-with-infima)를 문서 검색을 위한 스타일로 적용할 수 있습니다.
+
+```css title="/src/css/custom.css"
+[data-theme='light'] .DocSearch {
+  /* --docsearch-primary-color: var(--ifm-color-primary); */
+  /* --docsearch-text-color: var(--ifm-font-color-base); */
+  --docsearch-muted-color: var(--ifm-color-secondary-darkest);
+  --docsearch-container-background: rgba(94, 100, 112, 0.7);
+  /* Modal */
+  --docsearch-modal-background: var(--ifm-color-secondary-lighter);
+  /* Search box */
+  --docsearch-searchbox-background: var(--ifm-color-secondary);
+  --docsearch-searchbox-focus-background: var(--ifm-color-white);
+  /* Hit */
+  --docsearch-hit-color: var(--ifm-font-color-base);
+  --docsearch-hit-active-color: var(--ifm-color-white);
+  --docsearch-hit-background: var(--ifm-color-white);
+  /* Footer */
+  --docsearch-footer-background: var(--ifm-color-white);
+}
+
+[data-theme='dark'] .DocSearch {
+  --docsearch-text-color: var(--ifm-font-color-base);
+  --docsearch-muted-color: var(--ifm-color-secondary-darkest);
+  --docsearch-container-background: rgba(47, 55, 69, 0.7);
+  /* Modal */
+  --docsearch-modal-background: var(--ifm-background-color);
+  /* Search box */
+  --docsearch-searchbox-background: var(--ifm-background-color);
+  --docsearch-searchbox-focus-background: var(--ifm-color-black);
+  /* Hit */
+  --docsearch-hit-color: var(--ifm-font-color-base);
+  --docsearch-hit-active-color: var(--ifm-color-white);
+  --docsearch-hit-background: var(--ifm-color-emphasis-100);
+  /* Footer */
+  --docsearch-footer-background: var(--ifm-background-surface-color);
+  --docsearch-key-gradient: linear-gradient(
+    -26.5deg,
+    var(--ifm-color-emphasis-200) 0%,
+    var(--ifm-color-emphasis-100) 100%
+  );
+}
+```
+
+### 알골리아 검색 기능 세부 설정하기 {#customizing-the-algolia-search-behavior}
+
+Algolia DocSearch supports a [list of options](https://docsearch.algolia.com/docs/api/) that you can pass to the `algolia` field in the `docusaurus.config.js` file.
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    // ...
+    algolia: {
+      apiKey: 'YOUR_API_KEY',
+      indexName: 'YOUR_INDEX_NAME',
+      // Options...
+    },
+  },
+};
+```
+
+### 알골리아 검색 컴포넌트 바꾸기 {#editing-the-algolia-search-component}
+
+알골리아 검색에서 사용하는 리액트 컴포넌트를 바꾸고 싶다면 `@docusaurus/theme-search-algolia`에서 `SearchBar` 컴포넌트를 [swizzle](swizzling.mdx)해줄 수 있습니다.
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-search-algolia SearchBar
+```
+
+### Troubleshooting {#algolia-troubleshooting}
+
+Here are the most common issues Docusaurus users face when using Algolia DocSearch.
+
+#### No Search Results {#algolia-no-search-results}
+
+Seeing no search results is usually related to an **index configuration problem**.
+
+<details>
+  <summary>How to check if I have a config problem?</summary>
+
+Docusaurus uses [Algolia faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/) for its [Contextual Search](#contextual-search) feature, to create dynamic queries such as:
+
+```json
+[
+  "language:en",
+  [
+    "docusaurus_tag:default",
+    "docusaurus_tag:docs-default-3.2.1",
+    "docusaurus_tag:docs-community-current",
+    "docusaurus_tag:docs-docs-tests-current"
+  ]
+]
+```
+
+On the Algolia UI, your index should allow to create facet queries on fields `docusaurus_tag`, `language`, `lang`, `version`, `type`, as shown in the screenshot below:
+
+![Algolia index showing appropriate faceting fields](/img/docsearch-troubleshoot-index-facets.jpg)
+
+Alternatively, if you disable [Contextual Search](#contextual-search) with `{contextualSearch: false}` (which we don't particularly recommend), Docusaurus will not use facet queries, and you should start seeing results.
+
+</details>
+
+:::danger Use the recommended configuration
+
+We [recommend a specific crawler configuration](#algolia-index-configuration) for a good reason. We cannot support you if you choose to use a different configuration.
+
+:::
+
+You can fix index configuration problems by following those steps:
+
+1. Use the [recommend crawler configuration](#algolia-index-configuration)
+2. Delete your index through the UI
+3. Trigger a new crawl through the UI
+4. Check your index is recreated with the appropriate faceting fields: `docusaurus_tag`, `language`, `lang`, `version`, `type`
+5. See that you now get search results, even with [Contextual Search](#contextual-search) enabled
+
+### 지원 {#algolia-support}
+
+알골리아 DocSearch 팀은 사이트의 검색 관련 문제를 파악하는데 도움을 줄 수 있습니다.
+
+You can reach out to Algolia via [their support page](https://algolia.com/support) or on [Discord](https://discord.gg/wr2m5j948P).
+
+도큐사우루스도 [디스코드](https://discordapp.com/invite/docusaurus)에서 `#algolia` 채널을 운영하고 있습니다.
+
+## 👥 Typesense DocSearch 사용하기 {#using-typesense-docsearch}
+
+[Typesense](https://typesense.org) DocSearch는 웹사이트가 Typesense 검색 클러스터에 색인되는 것을 제외하면 알골리아 DocSearch와 비슷하게 작동합니다.
+
+Typesense는 아래와 같은 방법으로 활용할 수 있는 [오픈소스](https://github.com/typesense/typesense) 검색 엔진입니다.
+
+- [Self-Host](https://typesense.org/docs/guide/install-typesense.html#option-2-local-machine-self-hosting) on your own servers or
+- [Typesense 클라우드](https://cloud.typesense.org) 서비스에서 관리할 수 있습니다.
+
+알골리아 DocSearch와 비슷하게 2개의 컴포넌트가 있습니다.
+
+- [typesense-docsearch-scraper](https://github.com/typesense/typesense-docsearch-scraper) - 웹사이트 정보를 수집하고 Typesense 클러스터에서 데이터를 색인을 처리합니다.
+- [docusaurus-theme-search-typesense](https://github.com/typesense/docusaurus-theme-search-typesense) - 웹사이트에 추가할 검색창 UI 컴포넌트입니다.
+
+Read a step-by-step walk-through of how to [run typesense-docsearch-scraper here](https://typesense.org/docs/guide/docsearch.html#step-1-set-up-docsearch-scraper) and how to [install the Search Bar in your Docusaurus Site here](https://typesense.org/docs/guide/docsearch.html#option-a-docusaurus-powered-sites).
+
+## 👥 로컬 검색 기능 사용하기 {#using-local-search}
+
+검색 색인 대상이 작고 사용자가 웹사이트를 방문할 때 사용자 브라우저에 내려받을 수 있는 경우에는 웹사이트를 위한 로컬 검색 플러그인을 사용할 수 있습니다.
+
+커뮤니티에서 지원하는 [로컬 검색 플러그인 목록](https://docusaurus.io/community/resources#search)을 확인해보세요.
+
+## 👥 직접 작성한 검색 기능 사용하기 {#using-your-own-search}
+
+여러분이 만든 검색 기능을 사용하고 싶다면 `@docusaurus/theme-classic`에서 `SearchBar` 컴포넌트를 바꾸어줄 수 있습니다.
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic SearchBar
+```
+
+This will create an `src/theme/SearchBar` file in your project folder. 개발 서버를 재시작하고 컴포넌트를 수정해주면 도큐사우루스에서는 여러분이 만든 `SearchBar` 컴포넌트를 사용하게 됩니다.
+
+**참고**: [알골리아 검색 컴포넌트 바꾸기](#editing-the-algolia-search-component)를 적용한 후 여러분이 만든 검색 기능을 사용할 수도 있습니다.

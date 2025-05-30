@@ -1,0 +1,174 @@
+# Processus de version
+
+Voyons comment Docusaurus gère le **versionnage, les publications et les changements de rupture**.
+
+:::info
+
+Ce sujet est particulièrement important pour les sites hautement personnalisés qui peuvent avoir des difficultés pour la mise à niveau.
+
+:::
+
+## Versionnage sémantique {#semantic-versioning}
+
+Le versionnage de Docusaurus est basé sur le schéma `major.minor.patch` et respecte le [Versionnage sémantique](https://semver.org/).
+
+Le respect du versionnage sémantique est important pour plusieurs raisons :
+
+- Il **garantit de simples mises à jour de versions mineures**, tant que vous n'utilisez que [l'API publique](/community/release-process#public-api-surface)
+- Il respecte les conventions de l'écosystème front-end
+- Une nouvelle version majeure est l'occasion de documenter minutieusement les changements de rupture
+- Une nouvelle version majeure ou mineure est l'occasion de communiquer les nouvelles fonctionnalités par le biais d'un article du blog
+
+### Versions majeures {#major-versions}
+
+The `major` version number is incremented on **every breaking change**.
+
+Whenever a new major version is released, we publish:
+
+- un article du blog contenant les principales fonctionnalités, les corrections de bogues majeurs, les **changements de rupture et les instructions de mise à niveau**.
+- une entrée du changelog exhaustive
+
+:::tip
+
+Read our [public API surface](#public-api-surface) section to clearly understand what we consider as a breaking change.
+
+:::
+
+### Versions mineures {#minor-versions}
+
+The `minor` version number is incremented on every significant retro-compatible change.
+
+Whenever a new minor version is released, we publish:
+
+- un article du blog contenant une liste des principales fonctionnalités et des principaux correctifs de bogues
+- une entrée du changelog exhaustive
+
+:::tip
+
+If you only use our [public API surface](#public-api-surface), you should be able to upgrade in no time!
+
+:::
+
+### Versions correctives {#patch-versions}
+
+The `patch` version number is incremented on bugfixes releases.
+
+Whenever a new patch version is released, we publish:
+
+- une entrée du changelog exhaustive
+
+## Versions {#versions}
+
+```mdx-code-block
+import {
+  CurrentMajorVersionNumber,
+  StableMajorBranchLink,
+  MainBranchLink,
+} from "@site/src/components/Versions";
+```
+
+The Docusaurus team uses a simple development process and only works on a single major version and a single Git branch at a same time:
+
+- **Docusaurus {CurrentMajorVersionNumber}**: the **stable** version, on the <MainBranchLink/> branch.
+
+:::note How we will ship the next version
+
+Once we are ready ship **Docusaurus {CurrentMajorVersionNumber + 1}**, we will:
+
+- create a <StableMajorBranchLink/> branch
+- merge breaking changes on the <MainBranchLink/> branch
+- release that new version directly from the <MainBranchLink/> branch
+
+:::
+
+:::warning Security fixes policy
+
+After a new stable version has been released, the former stable version will continue to receive support for **major security issues** for **3 months**.
+
+In practice, we will backport security fixes to the <StableMajorBranchLink/> branch. Otherwise, all features will be frozen and non-critical bugs will not be fixed.
+
+It is recommended to upgrade within that time frame to the new stable version.
+
+:::
+
+## Surface de l'API publique {#public-api-surface}
+
+Docusaurus commits to respecting Semantic Versioning. This means that whenever changes occur in Docusaurus public APIs and break backward compatibility, we will increment the `major` version number.
+
+:::tip
+
+Docusaurus guarantees public API retro-compatibility across `minor` versions. Unless you use internal APIs, `minor` version upgrades should be easy.
+
+:::
+
+We will outline what accounts as the public API surface.
+
+### Core public API {#core-public-api}
+
+✅ Our public API includes:
+
+- Configuration de Docusaurus
+- API client Docusaurus
+- CLI de Docusaurus
+- Options du preset
+- Options du plugin
+- API du cycle de vie des plugins
+- Configuration du thème
+- Props du composant de route des plugins de base
+- les types TypeScript `@docusaurus/types`
+  - Nous conservons toujours la liberté de rendre les types plus stricts (ce qui peut casser la vérification de type).
+
+❌ Our public API **excludes**:
+
+- Configuration Docusaurus `future`
+- Toutes les fonctionnalités préfixées par `experimental_` ou `unstable_`
+- Toutes les fonctionnalités préfixées par `v<MajorVersion>_` (`v6_` `v7_`, etc.)
+
+:::tip
+
+For non-theme APIs, any documented API is considered public (and will be stable); any undocumented API is considered internal.
+
+:::
+
+An API being "stable" means if you increment the patch or minor version of your Docusaurus installation without any other change, running `docusaurus start` or `docusaurus build` should not throw an error.
+
+### Theming public API {#theming-public-api}
+
+Docusaurus has a very flexible theming system:
+
+- Vous pouvez utiliser un CSS personnalisé
+- Vous pouvez faire un [swizzle](/docs/swizzling) sur n'importe quel composant de thème React
+
+This system also implicitly creates a very large API surface. To be able to move fast and improve Docusaurus, we can't guarantee retro-compatibility.
+
+✅ Our public theming API includes:
+
+- [Les noms de la classe du thème](/docs/styling-layout#theme-class-names)
+- Les noms de classe et les variables CSS de [Infima](/docs/styling-layout#styling-your-site-with-infima)
+- Les composants React qui sont [sûrs pour le swizzle](/docs/swizzling#what-is-safe-to-swizzle)
+- L'expérience utilisateur du thème
+- Navigateurs pris en charge
+
+:::tip
+
+You may not be able to achieve your site customization through this public API.
+
+In this case, please [report your customization use case](https://github.com/facebook/docusaurus/discussions/5468) and we will figure out how to expand our public API.
+
+:::
+
+❌ Our public theming API **excludes**:
+
+- La structure DOM
+- Les noms de classe des modules CSS avec un suffixe de hachage (généralement visés par les sélecteurs `[class*='myClassName']`)
+- Les composants React qui sont [dangereux ou interdits pour le swizzle](/docs/swizzling#what-is-safe-to-swizzle)
+- Les composants React qui importent depuis `@docusaurus/theme-common/internal`
+- L'apparence visuelle exacte du thème
+
+:::note
+
+When [swizzling](/docs/swizzling) safe components, you might encounter components that import undocumented APIs from `@docusaurus/theme-common` (without the `/internal` subpath).
+
+We still maintain retro-compatibility on those APIs (hence they are marked as "safe"), but we don't encourage a direct usage.
+
+:::

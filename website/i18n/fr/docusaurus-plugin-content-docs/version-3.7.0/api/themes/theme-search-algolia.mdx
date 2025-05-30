@@ -1,0 +1,20 @@
+---
+sidebar_position: 4
+slug: /api/themes/@docusaurus/theme-search-algolia
+---
+
+# 📦 theme-search-algolia
+
+Ce thème fournit un composant `@theme/SearchBar` qui s'intègre facilement à Algolia DocSearch. Combiné avec `@docusaurus/theme-classic`, il permet une intégration très facile de la recherche. Vous pouvez en lire plus sur la documentation de [recherche](../../search.mdx).
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-search-algolia
+```
+
+Ce thème ajoute également une page de recherche disponible depuis le chemin `/search` (en tant que composant swizzlable de `SearchPage`) avec la prise en charge OpenSearch. Vous pouvez changer ce chemin par défaut via `themeConfig.algolia.searchPagePath`. Utilisez `false` pour désactiver la page de recherche.
+
+:::tip
+
+Si vous avez installé `@docusaurus/preset-classic`, vous n'avez pas besoin de l'installer en tant que dépendance.
+
+:::

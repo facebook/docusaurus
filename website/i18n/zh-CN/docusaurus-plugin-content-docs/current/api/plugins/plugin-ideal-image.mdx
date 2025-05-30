@@ -1,0 +1,106 @@
+---
+sidebar_position: 8
+slug: /api/plugins/@docusaurus/plugin-ideal-image
+---
+
+# 📦 plugin-ideal-image
+
+import APITable from '@site/src/components/APITable';
+
+生成近乎理想的图像的 Docusaurus 插件（响应式、懒加载及低像素占位图）。
+
+:::info
+
+默认情况下，插件在**开发模式下不工作**，从而允许你始终看到全尺寸的图像。 如果你想调试插件的行为，你可以把 [` disableInDev`](#disableInDev) 选项设置为 `false`。
+
+:::
+
+## 安装流程 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-ideal-image
+```
+
+## 用法 {#usage}
+
+此插件仅支持 PNG 和 JPG 格式。
+
+```jsx
+import Image from '@theme/IdealImage';
+import thumbnail from './path/to/img.png';
+
+// 你的 React 代码
+<Image img={thumbnail} />
+
+// 或者
+<Image img={require('./path/to/img.png')} />
+```
+
+:::warning
+
+This plugin registers a [Webpack loader](https://webpack.js.org/loaders/) that changes the type of imported/require images:
+
+- Before: `string`
+- After: `{preSrc: string, src: import("@theme/IdealImage").SrcImage}`
+
+:::
+
+:::warning For pnpm users
+
+Starting with [pnpm 10](https://github.com/pnpm/pnpm/releases/tag/v10.0.0), running `pnpm install` won't run dependency install scripts by default. You'll need additional pnpm configuration ([issue](https://github.com/lovell/sharp/issues/4343)) for our `sharp` image resizing dependency to install correctly, such as:
+
+```json title="package.json"
+{
+  "pnpm": {
+    "onlyBuiltDependencies": ["fsevents"]
+  }
+}
+```
+
+:::
+
+## 配置 {#configuration}
+
+接受的字段：
+
+```mdx-code-block
+<APITable>
+```
+
+| 选项             | 类型         | 默认值                                           | 描述                                                                                                                                           |
+| -------------- | ---------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`         | `string`   | `ideal-img/[name].[hash:hex:7].[width].[ext]` | 输出文件的文件名模板。                                                                                                                                  |
+| `sizes`        | `number[]` | _原始尺寸_                                        | 指定你想使用的所有宽度。 如果指定尺寸超过了原始图像宽度，则使用后者（即图像不会被放大）。                                                                                                |
+| `size`         | `number`   | _原始尺寸_                                        | 指定你想使用的唯一宽度。如果指定尺寸超过了原始图像宽度，则使用后者（即图像不会被放大）。                                                                                                 |
+| `min`          | `number`   |                                               | 除了手动指定 `sizes` 外，你还可以指定 `min`、`max` 及 `steps`，然后自动生成相应尺寸。                                                                                    |
+| `max`          | `number`   |                                               | 参见上方的 `min`。                                                                                                                                 |
+| `steps`        | `number`   | `4`                                           | 配置在 `min` 与 `max` 之间生成的图像数量（包括上下限）。                                                                                                          |
+| `quality`      | `number`   | `85`                                          | JPEG 压缩质量。                                                                                                                                   |
+| `disableInDev` | `boolean`  | `true`                                        | 设置为 `false` 后，你可以在开发模式下测试插件行为。 **提示**：可以在浏览器中用[网络节流](https://www.browserstack.com/guide/how-to-perform-network-throttling-in-chrome)来模拟慢速网络。 |
+
+```mdx-code-block
+</APITable>
+```
+
+### 示例配置 {#ex-config}
+
+这是一个示例配置：
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-ideal-image',
+      // highlight-start
+      {
+        quality: 70,
+        max: 1030, // max resized image's size.
+        min: 640, // 最小缩放图片尺寸。 如果原始值比这还低，会使用原图尺寸。
+        steps: 2, // 在 min 和 max 之间最多生成的图片数量（包含两端点）
+        disableInDev: false,
+      },
+      // highlight-end
+    ],
+  ],
+};
+```

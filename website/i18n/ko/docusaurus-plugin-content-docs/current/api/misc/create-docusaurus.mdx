@@ -1,0 +1,58 @@
+---
+sidebar_position: 0
+slug: /api/misc/create-docusaurus
+---
+
+# 📦 create-docusaurus
+
+바로 활용할 수 있는 도큐사우루스 앱을 즉시 설정하는데 도움이 되는 스캐폴딩 유틸입니다.
+
+## 사용법 {#usage}
+
+```bash
+npx create-docusaurus@latest [name] [template] [rootDir]
+```
+
+`name` 인수는 사이트 경로와 생성된 앱의 package.json에 있는 `name` 필드로 사용합니다. 절대 경로 또는 `rootDir`에 대한 상대 경로일 수 있습니다.
+
+`template` 인수는 다음 중 하나를 사용할 수 있습니다.
+
+- `classic`: classic 템플릿 사용(권장)
+- `facebook`: 일부 메타(Meta) 관련 설정이 포함된 페이스북/메타 템플릿 사용
+- 원하는 곳에 복제할 수 있는 깃 저장소 URL(`https://` 또는 `git@`으로 시작하는)
+- 원하는 곳에 복사할 파일이 포함된 CWD에 대한 로컬 파일 경로
+
+`rootDir`은 사이트 디렉토리에 대한 절대 경로를 확인하는 데 사용됩니다. 기본값은 CWD입니다.
+
+:::warning
+
+이 명령은 모든 기능을 사용할 수 있도록 대화형 쉘에서 사용하는 것을 권장합니다.
+
+:::
+
+## 옵션 {#options}
+
+### `-t, --typescript` {#typescript}
+
+템플릿 인수가 인식된 이름일 때 사용합니다. 현재는 `classic`에서만 타입스크립트 변형을 제공합니다.
+
+### `-g, --git-strategy` {#git-strategy}
+
+템플릿 인수가 깃 저장소일 때 사용합니다. 다음 중 하나를 사용할 수 있습니다.
+
+- `deep`: 전체 깃 이력을 보존합니다.
+- `shallow`: `--depth=1` 옵션을 사용해 복제합니다.
+- `copy`: 얕은 복제를 수행사지만 깃 저장소는 만들지 않습니다.
+- `custom`: 사용자 지정 깃 복제 명령을 입력합니다. 입력을 위한 가이드를 지원합니다. `git clone --depth 10` 같은 옵션을 지정할 수 있으며 저장소 URL과 대상 디렉토리를 추가해줍니다.
+
+### `-p, --package-manager` {#package-manager}
+
+Value should be one of `npm`, `yarn`, `pnpm`, or `bun`. 명시적으로 값을 설정하지 않으면 도큐사우루스는 다음 기준에 따라 처리합니다.
+
+- CWD에 이미 있는 lockfile(예: 기존 프로젝트에서 웹사이트를 설정하는 경우)
+- The command used to invoke `create-docusaurus` (e.g. `npm init`, `npx`, `yarn create`, `bunx`, etc.)
+- 이전에 사용한 적 없는 경우라면 대화형 프롬프트
+
+### `-s, --skip-install` {#skip-install}
+
+옵션을 지정하면 도큐사우루스는 앱 생성 후 종속성을 자동으로 설치하지 않습니다. `--package-manager` 옵션은 실제로 종속성을 설치할 때에만 유용합니다.

@@ -1,0 +1,194 @@
+---
+description: Docusaurus はウェブサイトをゼロから素早く簡単にインストール・起動できるように設計されました。
+slug: /
+---
+
+# はじめに
+
+⚡️ Docusaurus will help you ship a **beautiful documentation site in no time**.
+
+💸 個別の技術スタックの構築は手間が掛かるものです。 Instead, **focus on your content** and just write Markdown files.
+
+💥 もっと知りたいですか？ Use **advanced features** like versioning, i18n, search and theme customizations.
+
+💅 Check the **[best Docusaurus sites](/showcase?tags=favorite)** for inspiration and read some **[testimonials](https://x.com/sebastienlorber/timelines/1392048416872706049)**.
+
+🧐 Docusaurus is a **static-site generator**. It builds a **single-page application** with fast client-side navigation, leveraging the full power of **React** to make your site interactive. It provides out-of-the-box **documentation features** but can be used to create **any kind of site** (personal website, product, blog, marketing landing pages, etc).
+
+![](/img/slash-introducing.svg)
+
+## Fast Track ⏱️ {#fast-track}
+
+Understand Docusaurus in **5 minutes** by playing!
+
+Create a new Docusaurus site and follow the **very short** embedded tutorial.
+
+Install [Node.js](https://nodejs.org/en/download/) and create a new Docusaurus site:
+
+```bash
+npx create-docusaurus@latest my-website classic
+```
+
+以下のコマンドでサイトを起動します。
+
+```bash
+cd my-website
+npx docusaurus start
+```
+
+Open [`http://localhost:3000`](http://localhost:3000) and follow the tutorial.
+
+:::tip
+
+Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in your browser!
+
+Or read the **[5-minute tutorial](https://tutorial.docusaurus.io)** online.
+
+:::
+
+## Docusaurus: ドキュメント作成を簡単に
+
+In this presentation at [Algolia Community Event](https://www.algolia.com/), [Meta Open Source team](https://opensource.facebook.com/) shared a brief walk-through of Docusaurus. プロジェクトを始め、プラグインを有効にし、ドキュメントやブログなどの機能を設定する方法を扱いました。
+
+{/_ cSpell:ignore Yhyx Sksg _/}
+
+```mdx-code-block
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+
+<div className="video-container">
+  <LiteYouTubeEmbed
+    id="Yhyx7otSksg"
+    params="autoplay=1&autohide=1&showinfo=0&rel=0"
+    title="Docusaurus: Documentation Made Easy"
+    poster="maxresdefault"
+    webp
+  />
+</div>
+```
+
+## Migrating from v1 {#migrating-from-v1}
+
+Docusaurus v2 は最新のツールチェーンを利用して、Docusaurus v1 から全面的に書き直されました。 After [v2's official release](https://docusaurus.io/blog/2022/08/01/announcing-docusaurus-2.0), we highly encourage you to **use Docusaurus v2+ over Docusaurus v1**, as Docusaurus v1 has been deprecated.
+
+A [lot of users](/showcase) are already using Docusaurus v2+ ([trends](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)).
+
+**Use Docusaurus v2+ if:**
+
+- :white_check_mark: 最新式の Jamstack によるドキュメントサイトがほしい
+- :white_check_mark: クライアントサイドでのルーティングを実現するシングルページアプリケーション(SPA)がほしい
+- :white_check_mark: React と MDX をフル活用したい
+- :white_check_mark: IE11 対応は不要
+
+**Use [Docusaurus v1](https://v1.docusaurus.io/) if:**
+
+- :x: シングルページアプリケーション (SPA) を必要としていない
+- :x: IE 11 をサポートする必要がある（...本当にそうですか？ IE [has already reached end-of-life](https://docs.microsoft.com/en-us/lifecycle/products/internet-explorer-11) and is no longer officially supported)
+
+For existing v1 users that are seeking to upgrade to v2+, you can follow our [migration guides](./migration/index.mdx).
+
+## Features {#features}
+
+既存のv1ユーザーでv2へのアップグレードを希望する場合、<a href="./migration/migration-overview.mdx">移行ガイド</a>に従ってください。
+
+- ⚛️ **Built with 💚 and React**:
+  - React を用いて拡張・カスタマイズできます
+  - 自作の React コンポーネントを提供することで、サイトのブラウジング体験を完全に制御できます
+- **Pluggable**:
+  - 基本のテンプレートでサイトを初期設定したのち、高度な機能とプラグインを使用できます
+  - プラグインをオープンソース化してコミュニティと共有しましょう
+- ✂️ **Developer experience**:
+  - すぐにドキュメントを書き始められる
+  - Contributor によるメンテナンス性を高めるために、ユニバーサルな設定を行なえるエントリーポイントが用意されています。
+  - ソースに変更があった際に稲妻のごとき高速ビルドを行うホットリロード機能も付属
+  - Route-based なコードとデータの分割を実装しています。
+  - GitHub Pages、Netlify、Vercel や、その他のデプロイサービスに簡単に公開できます。
+
+私たちの共通の目標は、ユーザーが必要なものを素早く見つけ、製品をより深く理解できるようにすることです。 私たちは、あなたがドキュメントサイトを適切に構築できるように、最善の方法を共有します。
+
+- 🎯 **SEO friendly**:
+  - HTML ファイルは、可能なすべてのパスに対して静的に生成されます。
+  - ページに特化した SEO で、ユーザーが手元にある問題を直接関連づけて公式ドキュメントにアクセスできるようにします。
+- 📝 **Powered by MDX**:
+  - Markdown に組み込まれた JSX と React を介してインタラクティブなコンポーネントを記述します。
+  - あなたの製品がユーザーに即座に気に入ってもらえるように、ライブエディターであなたのコードを共有しましょう。
+- 🔍 **Search**: Your full site is searchable.
+- 💾 **Document Versioning**: Helps you keep documentation in sync with project releases.
+- 🌍 **Internationalization (i18n)**: Translate your site in multiple locales.
+
+Docusaurus v2 は、すべてのユーザーが快適にアクセスでき、驚くほど速く動作するように生まれました。
+
+- ⚡️ **Lightning-fast**. Docusaurus v2+ follows the [PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/) that makes sure your content loads blazing fast.
+- 🦖 **Accessible**. すべてのユーザーがサイトに平等にアクセスできるようにするアクセシビリティも重視しています。
+
+## Design principles {#design-principles}
+
+- **Little to learn**. Docusaurusは、APIが非常に小さいため、学びやすく、使いやすいでしょう。 たとえ時間をかけてたくさんのコードを書いたとしても、ほとんどのことはユーザが実現できるでしょう。 抽象化されないことは、間違った抽象化よりも良いことであり、ユーザーが間違った抽象化で解決策を誤魔化すことは避けたいです。 Mandatory talk—[Minimal API Surface Area](https://www.youtube.com/watch?v=4anAwXYqLG8).
+- **Intuitive**. Docusaurus プロジェクトのプロジェクトディレクトリを見るときや、新しい機能を追加するときに、ユーザの気が遠くなるようなことはありません。 直感的で、慣れ親しんだアプローチで簡単に構築できなければなりません。
+- **Layered architecture**. スタックの各レイヤー（コンテンツ／テーマ／スタイリング）間の関心事の分離は、明確で、すなわち十分に抽象化かつモジュール化されていなければなりません。
+- **Sensible defaults**. 一般的でよく使われるパフォーマンスの最適化や設定は、ユーザー向けに行われますが、それを上書きする選択肢が与えられています。
+- **No vendor lock-in**. ユーザーはデフォルトのプラグインやCSSを使用することが強く推奨されているものの、必須ではありません。 React LoadableやReact Routerのような特定のコアインフラは、デフォルトのパフォーマンス最適化を行うため、差し替えができませんが、より高いレベルのものは差し替えできます。 Markdownエンジン、CSSフレームワーク、CSSメソッド、その他のアーキテクチャの選択は、完全にユーザー側に委ねられています。
+
+私たちは、開発者の立場から、ライブラリの仕組みを知ることが、そのライブラリの使い方をより良くすることにつながると信じています。 そのため、Docusaurusのアーキテクチャや様々なコンポーネントを説明することに力を注ぎ、それを読んだユーザがこのツールをより深く理解し、さらに使いこなせるようになることを願っています。
+
+## Comparison with other tools {#comparison-with-other-tools}
+
+すべての静的サイトジェネレータの中で、Docusaurusはドキュメントサイトに独自の焦点を当て、多くのすぐに使える機能を持っています。
+
+私たちは、他の主要な静的サイトジェネレーターも調査しており、その比較に関する私たちの見解を共有することで、世の中にある多彩な選択肢を見極める一助となればと考えています。
+
+### Gatsby {#gatsby}
+
+[Gatsby](https://www.gatsbyjs.com/) is packed with a lot of features, has a rich ecosystem of plugins, and is capable of doing everything that Docusaurus does. それは当然ながら、より高い学習曲線に従うコストを支払うことにもつながります。 結局のところ、Gatsby は多くのことをうまくやってくれるという点で、様々なタイプのウェブサイトを構築するのに適しています。 一方で Docusaurus は、コンテンツを書き公開するツールとして、そのことを非常に上手に行います。
+
+また、GraphQL も Gatsby の中核をなすものですが、必ずしも Gatsby サイトを構築するために GraphQL が必要というわけではありません。 静的なウェブサイトを構築する際のほとんどの場合では、GraphQL が提供する柔軟性は必要ありません。
+
+Docusaurus v2 多くの部分は、Gatsbyの良いところから着想を得ており、良い代替案です。
+
+[Docz](https://github.com/pedronauck/docz) is a Gatsby theme to build documentation websites. 現時点ではDocusaurusより機能が少ないです。
+
+### Next.js {#nextjs}
+
+[Next.js](https://nextjs.org/) is another very popular hybrid React framework. Next.jsは、優れたドキュメントサイトを構築するのに役立つかもしれませんが、ドキュメントの用途に特化しておらず、Docusaurusではすぐに使えるものを実装するには、ずっと多くの手間がかかります。
+
+[Nextra](https://github.com/shuding/nextra) is an opinionated static site generator built on top of Next.js. 現時点ではDocusaurusより機能が少ないです。
+
+### VitePress {#vitepress}
+
+[VitePress](https://vitepress.dev/) has many similarities with Docusaurus - both focus heavily on content-centric websites and provides tailored documentation features out of the box. しかし、DocusaurusはReactで動いているのに対し、VitePressはVueで動いています。 Vueを基盤としたソリューションが必要な場合、VitePressは適切な選択肢となるでしょう。
+
+### MkDocs {#mkdocs}
+
+[MkDocs](https://www.mkdocs.org/) is a popular Python static site generator with value propositions similar to Docusaurus.
+
+シングルページアプリケーションを必要とせず、Reactを活用する予定もないのであれば、良い選択肢となるでしょう。
+
+[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) is a beautiful theme.
+
+### Docsify {#docsify}
+
+[Docsify](https://docsify.js.org/) makes it easy to create a documentation website, but is not a static-site generator and is not SEO friendly.
+
+### GitBook {#gitbook}
+
+[GitBook](https://www.gitbook.com/) has a very clean design and has been used by many open source projects. その主軸がオープンソースツールではなく、商用製品に移行したことで、その要件の多くが、オープンソースプロジェクトのドキュメントサイトのニーズに合わなくなりました。 その結果、多くの人が他の製品に目を向けるようになりました。 You may read about Redux's switch to Docusaurus [here](https://github.com/reduxjs/redux/issues/3161).
+
+現在、GitBookはオープンソースと非営利のチームに対してのみ無料で提供されています。 一方、Docusaurusは、誰でも無料で利用できます。
+
+### Jekyll {#jekyll}
+
+[Jekyll](https://github.com/jekyll/jekyll) is one of the most mature static site generators around and has been a great tool to use — in fact, before Docusaurus, most of Facebook's Open Source websites are/were built on Jekyll! 始めるのは非常に簡単です。 私たちは、Jekyllで静的サイトを構築するのと同様の開発者体験をもたらしたいのです。
+
+In comparison with statically generated HTML and interactivity added using `<script />` tags, Docusaurus sites are React apps. 最新のJavaScriptエコシステムツールを使用し、ドキュメントサイトのパフォーマンス、アセットをビルドするパイプラインと最適化、セットアップの容易さについて新しい基準を打ち立てることを望んでいます。
+
+## Staying informed {#staying-informed}
+
+- [GitHub](https://github.com/facebook/docusaurus)
+- [X](https://x.com/docusaurus)
+- [Blog](/blog)
+- [Discord](https://discord.gg/docusaurus)
+
+## お探しのものが見つからないときは？ {#something-missing}
+
+If you find issues with the documentation or have suggestions on how to improve the documentation or the project in general, please [file an issue](https://github.com/facebook/docusaurus) for us, or send a tweet mentioning the [@docusaurus](https://x.com/docusaurus) X account.
+
+For new feature requests, you can create a post on our [feature requests board (Canny)](/feature-requests), which is a handy tool for road-mapping and allows for sorting by upvotes, which gives the core team a better indicator of what features are in high demand, as compared to GitHub issues which are harder to triage. 誰かがすでにそれに取り組んでいるか、ロードマップの一部になる可能性があるため、新しい機能（特に大きなもの）の Pull Request を作成することは避けてください。 まずはご相談ください！

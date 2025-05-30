@@ -1,0 +1,123 @@
+---
+sidebar_position: 4
+---
+
+# 정적 메소드
+
+정적 메소드는 플러그인 인스턴스의 일부가 아니며 생성자 함수에 연결됩니다. 이 메소드는 플러그인 옵션 및 테마 구성을 검증하고 정규화하는데 사용되며 플러그인 인스턴스를 초기화하기 위한 생성자 매개변수로 사용됩니다.
+
+## `validateOptions({options, validate})` {#validateOptions}
+
+플러그인에서 사용할 수 있도록 유효성을 검사하고 정규화된 옵션값을 반환합니다. 이 메소드는 플러그인이 초기화되기 전에 호출됩니다. 초기화하는 동안 플러그인이 전달되므로 옵션을 반환해주어야 합니다.
+
+### `options` {#options}
+
+`validateOptions` is called with `options` passed to plugin for validation and normalization.
+
+### `validate` {#validate}
+
+`validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and options as the arguments, returns validated and normalized options. `validate` will automatically handle error and validation config.
+
+:::tip
+
+[Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of options.
+
+To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-validation")`
+
+:::
+
+If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
+
+```js title="my-plugin/src/index.js"
+function myPlugin(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // rest of methods
+  };
+}
+
+// highlight-start
+myPlugin.validateOptions = ({options, validate}) => {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validatedOptions;
+};
+// highlight-end
+
+module.exports = myPlugin;
+```
+
+타입스크립트에서는 다른 이름으로 내보내기를 지정해 내보낼 수 있도록 선택할 수 있습니다.
+
+```ts title="my-plugin/src/index.ts"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // 나머지 메소드
+  };
+}
+
+// highlight-start
+export function validateOptions({options, validate}) {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validatedOptions;
+}
+// highlight-end
+```
+
+## `validateThemeConfig({themeConfig, validate})` {#validateThemeConfig}
+
+테마에서 사용할 수 있도록 유효성을 검사하고 정규화된 설정값을 반환합니다.
+
+### `themeConfig` {#themeConfig}
+
+`validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation and normalization.
+
+### `validate` {#validate-1}
+
+`validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and `themeConfig` as the arguments, returns validated and normalized options. `validate` will automatically handle error and validation config.
+
+:::tip
+
+[Joi](https://www.npmjs.com/package/joi) is recommended for validation and normalization of theme config.
+
+To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-validation")`
+
+:::
+
+If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options.
+
+```js title="my-theme/src/index.js"
+function myPlugin(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // rest of methods
+  };
+}
+
+// highlight-start
+myPlugin.validateThemeConfig = ({themeConfig, validate}) => {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+};
+// highlight-end
+
+module.exports = validateThemeConfig;
+```
+
+타입스크립트에서는 다른 이름으로 내보내기를 지정해 내보낼 수 있도록 선택할 수 있습니다.
+
+```ts title="my-theme/src/index.ts"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // 나머지 메소드
+  };
+}
+
+// highlight-start
+export function validateThemeConfig({themeConfig, validate}) {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+}
+// highlight-end
+```

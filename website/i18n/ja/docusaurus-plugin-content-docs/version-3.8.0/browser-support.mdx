@@ -1,0 +1,106 @@
+---
+description: 十分なブラウザサポートを確保しつつ、適正なバンドルサイズを維持する方法
+---
+
+# ブラウザ対応
+
+Docusaurus allows sites to define the list of supported browsers through a [browserslist configuration](https://github.com/browserslist/browserslist).
+
+## Purpose {#purpose}
+
+Webサイトでは、後方互換性とバンドルサイズのバランスを取る必要があります。 古いブラウザは最新のAPIや構文に対応していないため、同じ機能を実装するためにはより多くのコードが必要になります。
+
+For example, you may use the [optional chaining syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining):
+
+```js
+const value = obj?.prop?.val;
+```
+
+しかしこれは残念ながら、2020年以降にリリースされたブラウザのバージョンでしか認識されません。 それ以前のブラウザバージョンと互換性を持たせるため、本番用のサイトを構築する際には、私たちのJSローダーがこのようなコードを次のようなより回りくどい構文にトランスパイル（変換）します。
+
+```js
+var _obj, _obj$prop;
+
+const value =
+  (_obj = obj) === null || _obj === void 0
+    ? void 0
+    : (_obj$prop = _obj.prop) === null || _obj$prop === void 0
+    ? void 0
+    : _obj$prop.val;
+```
+
+しかし、この場合、29文字の行が168文字と6倍になるため、サイトのロード時間が長くなり、他のすべてのユーザーに不利益をもたらすことになります！ （実際には、使用される名前が短縮されるため、よりマシにはなります） トレードオフとして、JSローダーは、ブラウザリストに定義されているすべてのブラウザのバージョンでサポートされている程度までにしか構文を変換しません。
+
+The browser list by default is provided through the `package.json` file as a root `browserslist` field.
+
+:::warning
+
+古いブラウザでは、コンパイルされた出力にサポートされていない（新しすぎる）JS構文が使用されるため、Reactの初期化に失敗し、HTML/CSSのみでJSがない静的なウェブサイトになってしまいます。
+
+:::
+
+## Default values {#default-values}
+
+Websites initialized with the default classic template has the following in `package.json`:
+
+```json title="package.json"
+{
+  "name": "docusaurus",
+  // ...
+  // highlight-start
+  "browserslist": {
+    "production": [">0.5%", "not dead", "not op_mini all"],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+  // highlight-end
+  // ...
+}
+```
+
+自然な言葉で説明すると、本番環境でサポートされるブラウザの条件は次のようになります。
+
+- With more than 0.5% of market share; _and_
+- Has official support or updates in the past 24 months (the opposite of "dead"); _and_
+- Opera Mini以外
+
+また、開発環境でサポートされるブラウザは次の通りです。
+
+- The latest version of Chrome _or_ Firefox _or_ Safari.
+
+You can "evaluate" any config with the `browserslist` CLI to obtain the actual list:
+
+```bash
+npx browserslist --env="production"
+```
+
+本番環境でサポートされるすべてのブラウザが出力されます。 2022年1月現在の出力は次の通りです。
+
+```text
+and_chr 96
+and_uc 12.12
+chrome 96
+chrome 95
+chrome 94
+edge 96
+firefox 95
+firefox 94
+ie 11
+ios_saf 15.2
+ios_saf 15.0-15.1
+ios_saf 14.5-14.8
+ios_saf 14.0-14.4
+ios_saf 12.2-12.5
+opera 82
+opera 81
+safari 15.1
+safari 14.1
+safari 13.1
+```
+
+## Read more {#read-more}
+
+You may wish to visit the [browserslist documentation](https://github.com/browserslist/browserslist/blob/main/README.md) for more specifications, especially the accepted [query values](https://github.com/browserslist/browserslist/blob/main/README.md#queries) and [best practices](https://github.com/browserslist/browserslist/blob/main/README.md#best-practices).

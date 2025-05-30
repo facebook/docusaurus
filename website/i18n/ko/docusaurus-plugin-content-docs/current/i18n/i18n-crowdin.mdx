@@ -1,0 +1,523 @@
+---
+id: crowdin
+slug: /i18n/crowdin
+toc_max_heading_level: 4
+---
+
+# i18n - 크라우드인 사용하기
+
+도큐사우루스의 i18n 시스템은 **다른 외부 번역 소프트웨어와 결합되어 있지 않습니다**.
+
+다만 **번역 파일을 적절한 위치에 배치해서** 도큐사우루스와 **여러분이 선택한 도구와 SaaS형 서비스**를 통합할 수 있습니다.
+
+이런 **통합의 예제** 중 **하나**로 [크라우드인(Crowdin)](https://crowdin.com/)을 사용하는 방법을 살펴봅니다.
+
+:::warning
+
+도큐사우루스 사이트를 번역하는 유일한 선택이 **크라우드인만 있는 건 절대 아닙니다**. 다만 [제스트(Jest)](https://jestjs.io/), [도큐사우루스(Docusaurus)](https://docusaurus.io/), [리즌ML(ReasonML)](https://reasonml.github.io/) 같은 페이스북의 프로젝트 문서에 잘 사용하고 있긴 합니다.
+
+좀 더 자세한 정보는 **[크라우드인 가이드 문서](https://support.crowdin.com/)**, **[크라우드인 기술지원](mailto:support@crowdin.com)**을 참고하세요.
+
+:::
+
+:::tip
+
+도큐사우루스와 크라우드인 조합과 관련한 토론은 **[깃허브 이슈 게시판](https://github.com/facebook/docusaurus/discussions/4052)**에 남겨주세요.
+
+:::
+
+## 크라우드인 개요 {#crowdin-overview}
+
+크라우드인은 SaaS형 번역 소프트웨어입니다. [오픈소스 프로젝트는 무료 플랜](https://crowdin.com/page/open-source-project-setup-request)을 사용할 수 있습니다.
+
+아래와 같은 순서로 번역을 진행하는 것을 권장합니다.
+
+- 크라우드인에 **소스(번역하지 않은 파일)를 업로드**합니다.
+- 크라우드인에서 **콘텐츠를 번역**합니다.
+- 크라우드인에서 **번역(선택한 언어로 번역한 파일)을 내려받습니다**
+
+크라우드인은 번역 절차를 자동화할 수 있도록 [명령행 도구](https://support.crowdin.com/cli-tool/)를 통해 **소스를 업로드**하거나 **번역 결과를 내려받을 수 있도록** 지원합니다.
+
+[`crowdin.yml` 설정 파일](https://support.crowdin.com/configuration-file/)은 도큐사우루스에 적용할 수 있으며 **번역된 파일을 원하는 경로**( `i18n/[locale]/..`)에 내려받을 수 있습니다.
+
+좀 더 상세한 기능이나 다양한 작업 방식이 궁금하다면 **[공식 가이드 문서](https://support.crowdin.com/)**를 참고하세요.
+
+## 크라우드인 따라해보기 {#crowdin-tutorial}
+
+이미 여러분이 [i18n 따라해보기](./i18n-tutorial.mdx)를 살펴보았다면 이번에는 크라우드인을 사용해 새로 만든 영문 도큐사우루스 웹 사이트를 프랑스어로 번역하는 과정을 따라가보겠습니다.
+
+번역 결과는 [docusaurus-crowdin-example.netlify.app](https://docusaurus-crowdin-example.netlify.app/) ([저장소](https://github.com/slorber/docusaurus-crowdin-example))에서 확인해볼 수 있습니다.
+
+### 도큐사우루스 사이트 준비하기 {#prepare-the-docusaurus-site}
+
+새로운 도큐사우루스 사이트를 초기화합니다.
+
+```bash
+npx create-docusaurus@latest website classic
+```
+
+프랑스어 번역을 위해 site 설정을 아래와 같이 추가합니다.
+
+```js title="docusaurus.config.js"
+export default {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
+  themeConfig: {
+    navbar: {
+      items: [
+        // ...
+        {
+          type: 'localeDropdown',
+          position: 'left',
+        },
+        // ...
+      ],
+    },
+  },
+  // ...
+};
+```
+
+홈페이지를 번역합니다.
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+import Translate from '@docusaurus/Translate';
+import Layout from '@theme/Layout';
+
+export default function Home() {
+  return (
+    <Layout>
+      <h1 style={{margin: 20}}>
+        <Translate description="The homepage main heading">
+          Welcome to my Docusaurus translated site!
+        </Translate>
+      </h1>
+    </Layout>
+  );
+}
+```
+
+### 크라우드인 프로젝트 만들기 {#create-a-crowdin-project}
+
+[크라우드인](https://crowdin.com/) 서비스에 가입하고 프로젝트를 만듭니다.
+
+소스 언어로 영어를 설정하고 대상 언어로 프랑스어를 설정합니다.
+
+![Create a Crowdin project with english as source language, and french as target language](/img/crowdin/crowdin-create-project.png)
+
+프로젝트가 만들어졌지만 아직은 아무것도 없습니다. 다음 단계에서 번역할 파일을 업로드할 겁니다.
+
+### 크라우드인 설정 만들기 {#create-the-crowdin-configuration}
+
+설정([관련 문서 참조](https://support.crowdin.com/configuration-file/))은 크라우드인 명령행 도구 실행 시 필요한 매핑 정보를 담습니다.
+
+- 업로드할 소스 파일(JSON, 마크다운)을 어디서 찾아야 하는지
+- 번역이 끝나고 파일을 어디에 내려받아야 하는지(`i18n/[locale]`)
+
+`웹 사이트`에 `crowdin.yml` 파일을 아래와 같이 만듭니다.
+
+```yml title="crowdin.yml"
+project_id: '123456'
+api_token_env: CROWDIN_PERSONAL_TOKEN
+preserve_hierarchy: true
+files:
+  # JSON 번역 파일
+  - source: /i18n/en/**/*
+    translation: /i18n/%two_letters_code%/**/%original_file_name%
+  # 문서 마크다운 파일
+  - source: /docs/**/*
+    translation: /i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
+  # 블로그 마크다운 파일
+  - source: /blog/**/*
+    translation: /i18n/%two_letters_code%/docusaurus-plugin-content-blog/**/%original_file_name%
+```
+
+크라우드인은 소스/번역 파일의 경로를 설정하는 자체 구문을 가지고 있습니다.
+
+- `**/*`: 하위 디렉터리에 있는 모든 항목
+- `%two_letters_code%`: 크라우드인에서 번역할 언어를 설정하는 2글자 코드(지금 사용하는 건 `fr`)
+- `**/%original_file_name%`: 번역 작업 시 원본의 디렉터리/파일 계층 구조를 유지할지 여부
+
+:::info
+
+크라우드인 명령행 도구에서 보여지는 경고 메시지 일부는 이해하기 어려울 수 있습니다.
+
+그래서 아래와 같이 작업할 것을 권장합니다.
+
+- 한 번에 하나 씩만 변경하기
+- 설정을 변경했다면 소스를 다시 업로드하기
+- `/`로 시작하는 경로 사용하기(`./` 경로는 잘 동작하지 않습니다)
+- `/docs/**/*.(md|mdx)` 같이 화려한 글로브 패턴은 피하기(잘 동작하지 않습니다)
+
+:::
+
+#### 토큰 접근하기 {#access-token}
+
+`api_token_env` 속성은 크라우드인 명령행 도구에서 읽은 **env variable name**을 정의합니다.
+
+[개인 프로필 페이지에서](https://crowdin.com/settings#api-key) 얻을 `Personal Access Token` 수 있습니다.
+
+:::tip
+
+생성한 접근 토큰으로 여러분의 컴퓨터나 CI 서버에 `CROWDIN_PERSONAL_TOKEN` 환경 변수로 설정하면 기본값을 계속 유지할 수 있습니다.
+
+:::
+
+:::warning
+
+개인 접근 토큰은 **여러분의 크라우드인 프로젝트를 읽고 쓸 수 있는** 권한을 가지게 합니다.
+
+토큰값은 **절대 커밋하지 마세요**. 그리고 개인 계정 대신 **크라우드인 그룹 프로필**을 사용하는 것을 권장합니다.
+
+:::
+
+#### 추가로 설정해야 하는 값 {#other-configuration-fields}
+
+- `project_id`: 직접 입력할 수 있으며 `https://crowdin.com/project/<MY_PROJECT_NAME>/settings#api`에서 확인할 수 있습니다.
+- `preserve_hierarchy`: 모든 파일을 나열하는 대신 크라우드인 UI에서 원래 디렉터리 계층 구조를 유지할지 여부를 설정합니다.
+
+### 크라우드인 명령행 도구 설치하기 {#install-the-crowdin-cli}
+
+아래 내용은 `3.5.2` 버전 명령행 도구를 사용해 작성했습니다. `3.x` 릴리스라면 무리 없이 동작할 겁니다.
+
+여러분의 도큐사우루스 사이트에 npm 패키지로 크라우드인 명령행 도구를 설치합니다.
+
+```bash npm2yarn
+npm install @crowdin/cli@3
+```
+
+`crowdin` 스크립트를 추가합니다.
+
+```json title="package.json"
+{
+  "scripts": {
+    // ...
+    "write-translations": "docusaurus write-translations",
+    "crowdin": "crowdin"
+  }
+}
+```
+
+크라우드인 명령행 도구가 정상적으로 설치됐는지 확인합니다.
+
+```bash npm2yarn
+npm run crowdin -- --version
+```
+
+여러분의 컴퓨터에 `CROWDIN_PERSONAL_TOKEN` 환경 변수를 설정했다면 명령행 도구에서 크라우드인 API에 접근할 수 있습니다.
+
+:::tip
+
+필요한 경우 일시적으로 개인 토큰을 `crowdin.yml` 파일 내 `api_token: 'MY-TOKEN'` 항목으로 설정해서 사용할 수도 있습니다.
+
+:::
+
+### 소스 업로드하기 {#upload-the-sources}
+
+`website/i18n/en` 경로에 기본 언어 JSON 번역 파일을 생성합니다.
+
+```bash npm2yarn
+npm run write-translations
+```
+
+JSON, 마크다운 번역 파일을 업로드합니다.
+
+```bash npm2yarn
+npm run crowdin upload
+```
+
+![Crowdin CLI uploading Docusaurus source files](/img/crowdin/crowdin-upload-sources-cli.png)
+
+업로드한 소스 파일은 크라우드인 화면에서 확인할 수 있습니다. `https://crowdin.com/project/<MY_PROJECT_NAME>/settings#files`
+
+![Crowdin UI showing Docusaurus source files](/img/crowdin/crowdin-source-files.png)
+
+### 소스 번역하기 {#translate-the-sources}
+
+`https://crowdin.com/project/<MY_PROJECT_NAME>`에 접속해서 프랑스어 항목을 클릭합니다.
+
+![Crowdin UI showing French translation files](/img/crowdin/crowdin-french-translations.png)
+
+마크다운 파일을 번역합니다.
+
+![Crowdin UI to translate a Markdown file](/img/crowdin/crowdin-translate-markdown.png)
+
+:::tip
+
+**번역하지 않아도 되는 항목은** `Hide String`으로 체크합니다.
+
+- 프런트 매터: `id`, `slug`, `tags` ...
+- 준수 사항 단락: `:::`, `:::note`, `:::tip` ...
+
+![Crowdin UI hide string](/img/crowdin/crowdin-hide-string.png)
+
+:::
+
+JSON 파일을 번역합니다.
+
+![Crowdin UI to translate a JSON file](/img/crowdin/crowdin-translate-json.png)
+
+:::info
+
+JSON 번역 파일에 작성한 `description` 속성은 크라우드인에서 번역 작업 시 도움이 될 수 있도록 화면에 표시됩니다.
+
+:::
+
+:::tip
+
+여러분의 사이트를 **[기계 번역으로](https://support.crowdin.com/pre-translation-via-machine/)** 미리 번역하고 **번역된 내용을 확인하면서 수정**할 수 있습니다(처음 설정에서 번역 메모리 사용 여부를 활성화해줍니다).
+
+크라우드인에서 제공하는 기계 번역이 맘에 든다면 `Hide String` 기능을 먼저 사용해보세요.
+
+:::
+
+### 번역 다운로드하기 {#download-the-translations}
+
+번역한 JSON, 마크다운 파일을 크라우드인 명령행 도구를 사용해 내려받습니다.
+
+```bash npm2yarn
+npm run crowdin download
+```
+
+번역한 콘텐츠는 `i18n/fr` 경로 아래에 내려받습니다.
+
+이제 프랑스어 사이트를 시작해봅니다.
+
+```bash npm2yarn
+npm run start -- --locale fr
+```
+
+이제 웹 사이트가 에서 프랑스어 [`http://localhost:3000/fr/`](http://localhost:3000/fr/)로 번역되었는지 확인하십시오.
+
+### CI로 자동화하기 {#automate-with-ci}
+
+**빌드 시 크라우드인에서 번역한 파일을 내려받고** 깃에 반영될 수 있도록 CI를 설정해보겠습니다.
+
+`website/i18n` 디렉터리에 `.gitignore` 파일을 추가합니다.
+
+여러분의 CI 환경 변수에 `CROWDIN_PERSONAL_TOKEN`을 설정합니다.
+
+아래와 같이 npm 스크립트에 크라우드인에서 소스를 추출하고 업로드하고 번역한 파일을 내려받을 수 있도록 `sync` 항목을 추가합니다.
+
+```json title="package.json"
+{
+  "scripts": {
+    "crowdin:sync": "docusaurus write-translations && crowdin upload && crowdin download"
+  }
+}
+```
+
+CI에서 도큐사우루스 사이트 빌드 전에 `npm run crowdin:sync` 명령을 실행합니다.
+
+:::tip
+
+배포할 내용 미리보기를 빠르게 처리하고 싶다면 번역 파일을 내려받지 말고 `npm run build -- --locale en` 명령을 사용해 피처 브랜치에 바로 배포합니다.
+
+:::
+
+:::warning
+
+크라우드인은 동시에 여러 버전을 업로드하거나 내려받는 것을 지원하지 않습니다. 번역은 운영 배포에만 포함하고 배포 미리보기는 번역하지 않는 상태로 유지하는 것을 권장합니다.
+
+:::
+
+## 크라우드인 좀 더 살펴보기 {#advanced-crowdin-topics}
+
+### MDX {#mdx}
+
+:::warning
+
+MDX 문서를 다룰 때는 문서 내 JSX 조각을 주의해주세요.
+
+:::
+
+크라우드인은 **공식적으로 MDX를 지원하지 않습니다**. 하지만 **`.mdx` 확장자 파일은 사용할 수 있으며** 일반 텍스트가 아닌 마크다운처럼 다룰 수 있습니다.
+
+#### MDX 파일 사용 시 문제점 {#mdx-problems}
+
+크라우드인에서 JSX 구문을 HTML으로 인식해서 번역 파일을 내려받을 때 JSX 마크업이 훼손될 수 있습니다. 이로 인해 잘못된 JSX 구문으로 빌드 실패의 원인이 됩니다.
+
+`<Username name="Sebastien"/>` 같은 간단한 문자열 속성을 사용하는 간단한 JSX 조각은 잘 동작합니다. `<User person={{name: "Sebastien"}}/>` 같은 오브젝트/배열 속성을 사용하는 좀 더 복잡한 JSX 조각은 HTML처럼 보이지 않은 구문 때문에 실패할 가능성이 더 높습니다.
+
+#### MDX 파일 사용 시 우회 방안 {#mdx-solutions}
+
+복잡한 JSX 코드는 별도로 독립적인 컴포넌트로 추출하는 것을 권장합니다. 아니면 `mdx-code-block` 구문을 아래와 같이 사용할 수 있습니다.
+
+`````text
+# 도큐사우루스 배포 방법
+
+도큐사우루스를 배포하려면 다음 명령어를 실행합니다.
+
+''''mdx 코드 블록 
+
+'@theme/Tabs'에서 탭 가져오기;
+
+'@theme/TabItem'에서 TabItem 가져오기;
+
+<탭>
+  <TabItem 값 = "bash"레이블 = "Bash">
+
+'''배쉬
+  GIT_USER=<GITHUB_USERNAME> 원사 배포
+  ```
+
+</TabItem입니다>
+  <TabItem value="windows" label="Windows">
+
+'''배치
+  cmd /C "set "GIT_USER=<GITHUB_USERNAME>" & 원사 배포"
+  ```
+
+  </GITHUB_USERNAME></TabItem>
+</탭>
+````
+`````
+
+이렇게 하면
+
+- 크라우드인에서는 코드 블럭으로 처리합니다(파일을 내려받을 때 마크업 코드를 훼손하지 않습니다).
+- 도큐사우루스에서는 일반적인 JSX 코드로 처리합니다(다른 코드 블럭과 다르게).
+- 아쉽지만 MDX 도구(IDE 구문 강조, 코드 정렬 같은)는 적용할 수 없습니다.
+
+### 문서 버전에 따른 번역 작업 {#docs-versioning}
+
+`website/versioned_docs` 디렉터리에 번역 파일을 준비합니다.
+
+새로운 버전을 만들 때 소스 문자열은 현재 번역(`website/docs`)과 매우 유사합니다. 새로운 버전 문서라고 다시 번역하고 싶지는 않겠죠.
+
+크라우드인에서는 `중복 문자열` 설정 기능을 지원합니다.
+
+![Crowdin Duplicate Strings option setting](/img/crowdin/crowdin-settings-duplicate-strings.png)
+
+`Hide` 기능을 사용하는 것을 권장합니다. 하지만 버전 간 얼마나 차이가 있는지에 따라 어떤 설정이 좋은지 판단해야 합니다.
+
+:::warning
+
+`Hide` 기능을 사용하지 않으면 할당할 `소스 문자열`의 양이 늘어나고 번역 비용에도 영향을 미칠 수 있습니다.
+
+:::
+
+### 멀티 인스턴스 플러그인 {#multi-instance-plugins}
+
+각 플러그인 인스턴스에 대한 번역 작업이 필요할 수 있습니다.
+
+`id=ios`인 문서 플러그인 인스턴스를 가지고 있다면 해당 소스 파일도 처리해주어야 합니다.
+
+- `website/ios`
+- `website/ios_versioned_docs` (버전이 나누어 있다면)
+
+### 사이트 관리하기 {#maintaining-your-site}
+
+깃에서 **소스 파일을 삭제하거나 이름을 변경한 경우**에는 크라우드인 명령행 도구에서 경고를 표시합니다.
+
+![Crowdin CLI: download translation warning](/img/crowdin/crowdin-download-translations-warning.png)
+
+소스 리팩토링 작업을 한 경우에도 크라우드인 UI에서 **수작업으로 파일을 업데이트해주어야 합니다**.
+
+![Crowdin UI: renaming a file](/img/crowdin/crowdin-files-rename.png)
+
+### 버전 관리 시스템(깃) 통합하기 {#vcs-git-integrations}
+
+크라우드인은 다양한 버전 관리 시스템과의 통합을 지원합니다. [깃허브(GitHub)](https://support.crowdin.com/github-integration/), 깃랩(GitLab), 비트버킷(Bitbucket) 등을 사용할 수 있습니다.
+
+:::warning TL;DR
+
+하지만 이렇게 사용하는 건 권장하지 않습니다.
+
+:::
+
+깃과 크라우드인 양쪽에서 번역 작업을 하는 것은 두 시스템 간에 **양방향 동기화**를 처리할 수 있다면 도움이 될 수도 있습니다.
+
+하지만 몇 가지 이유로 **잘 동작하지 않습니다**.
+
+- 크라우드인 -> 깃 사이의 동기화는 잘 동작합니다(풀 리퀘스트를 사용해서)
+- 깃 -> 크라우드인 사이의 동기화는 수작업이 필요합니다(버튼을 직접 클릭해주어야 합니다).
+- 크라우드인에서 기존 마크다운 번역을 마크다운 소스와 연결하기 위해 사용하는 접근법은 100% 신뢰할 수는 없습니다. 깃과 동기화 작업 후에 크라우드인 UI에서 결과를 직접 검토해주어야 합니다.
+- 2명의 번역자가 깃과 크라우드인에서 동시에 작업하는 경우에는 번역 작업 간 충돌이 생길 수 있습니다.
+- `crowdin.yml` 파일이 저장소 루트에 있어야 합니다.
+
+### In-Context 번역 {#in-context-localization}
+
+크라우드인은 [In-Context 번역](https://support.crowdin.com/in-context-localization/) 기능을 지원합니다.
+
+:::warning
+
+아쉽게도 기술적인 이유로 잘 동작하지 않습니다. 나중에라도 문제가 해결되기를 바랍니다.
+
+크라우드인은 마크다운 문자열을 내부 ID 값(`crowdin:id12345` 같은)으로 대체해주고 있지만 숨겨진 문자열을 포함해 너무 과도하게 처리하고 있고 프런트 매터나 준수 사항 단락, JSX 등 항목이 훼손될 수 있습니다.
+
+:::
+
+### 번역한 화면 URL 편집하기 {#localize-edit-urls}
+
+사용자가 `/fr/doc1` 페이지에 방문했을때 편집하기 버튼은 번역되지 않은 기본 페이지인 `website/docs/doc1.md`에 연결됩니다.
+
+`editUrl` 기능을 사용해 로케일마다 편집 URL을 사용자 지정하는 대신 편집 버튼을 사용해 크라우드인 인터페이스에 연결할 수도 있습니다.
+
+```js title="docusaurus.config.js"
+const DefaultLocale = 'en';
+
+내보내기 기본값 {
+  사전 설정: [
+    [
+      '@docusaurus/프리셋 클래식',
+      {
+        문서: {
+          하이라이트 시작
+          editUrl: ({로케일, versionDocsDirPath, docPath}) => {
+            프랑스어 문서를 위한 Crowdin 링크
+            if (로케일 !== DefaultLocale) {
+              반환 'https://crowdin.com/project/docusaurus-v2/${locale}';
+            }
+            영어 문서에 대한 GitHub 링크
+            'https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}'를 반환합니다.
+          },
+          하이라이트 끝
+        },
+        블로그: {
+          하이라이트 시작
+          editUrl: ({로케일, blogDirPath, blogPath}) => {
+            if (로케일 !== DefaultLocale) {
+              'https://crowdin.com/project/docusaurus-v2/${locale}'를 반환합니다.
+            }
+            'https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}'를 반환합니다.
+          },
+          하이라이트 시작
+        },
+      },
+    ],
+  ],
+};
+```
+
+:::note
+
+현재는 크라우드인에 있는 **특정 파일에 링크를 연결할 수는 없습니다**.
+
+:::
+
+### 설정 예시 {#example-configuration}
+
+**도큐사우루스 설정 파일은** 버전 관리와 멀티 인스턴스를 사용하는 좋은 예입니다.
+
+```mdx-code-block
+import CrowdinConfigV2 from '!!raw-loader!@site/../crowdin-v2.yaml';
+import CodeBlock from '@theme/CodeBlock';
+
+<CodeBlock className="language-yaml" title="crowdin.yml">
+  {CrowdinConfigV2.split('\n')
+    // 주석 삭제
+    .map((line) => !line.startsWith('#') && line)
+    .filter(Boolean)
+    .join('\n')}
+</CodeBlock>
+```
+
+### 기계 번역(MT) 문제: 링크/이미지 처리
+
+크라우드인(Crowdin)은 최근 마크다운 파일 형식에 대한 몇 가지 주요 변경 사항을 출시했으며 이제 링크가 이전과 다르게 처리됩니다. 이전에는 태그로 간주되었지만 이제는 일반 텍스트로 표시됩니다. 이러한 변경으로 인해 일반 텍스트 링크가 대상을 번역하려는 MT 엔진으로 전달되어 번역이 중단됩니다(예: 이 문자열 `Allez voir [ma merveilleuse page](/ma-merveilleuse-page)` 은 번역 `Check out [my wonderful page](/my-wonderful-page)`된 것이므로 도큐사우루스 i18n 워크플로가 중단됩니다. 페이지 이름은 번역해서는 안 됩니다).
+
+2023년 12월 7일 현재 링크 처리 방식의 논리를 변경할 계획이 없으므로 MT와 함께 Crowdin을 사용할 계획이라면 이 점을 염두에 두어야 합니다.

@@ -1,0 +1,29 @@
+---
+sidebar_position: 3
+slug: /api/themes/@docusaurus/theme-live-codeblock
+---
+
+# 📦 theme-live-codeblock
+
+This theme provides a `@theme/CodeBlock` component that is powered by [react-live](https://commerce.nearform.com/open-source/react-live/). 자세한 내용은 [인터랙티브 코드 에디터](../../guides/markdown-features/markdown-features-code-blocks.mdx#interactive-code-editor) 문서에서 참고하실 수 있습니다.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-live-codeblock
+```
+
+### 설정 {#configuration}
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: ['@docusaurus/theme-live-codeblock'],
+  themeConfig: {
+    liveCodeBlock: {
+      /**
+       * The position of the live playground, above or under the editor
+       * Possible values: "top" | "bottom"
+       */
+      playgroundPosition: 'bottom',
+    },
+  },
+};
+```

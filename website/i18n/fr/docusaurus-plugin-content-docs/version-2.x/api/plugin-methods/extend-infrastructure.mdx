@@ -1,0 +1,135 @@
+---
+sidebar_position: 2
+---
+
+# Extension de l'infrastructure
+
+Docusaurus dispose de certaines infrastructures comme le rechargement à chaud, le CLI et le swizzling, qui peuvent être étendues par des plugins externes.
+
+## `getPathsToWatch()` {#getPathsToWatch}
+
+Spécifie les chemins à surveiller pour les plugins et les thèmes. Les chemins sont surveillés par le serveur de développement de sorte que les cycles de vie du plugin sont rechargés lorsque le contenu des chemins surveillés change. Notez que les modules de plugins et de themes sont initialement appelés avec `context` et `options` depuis Node, que vous pouvez utiliser pour trouver les informations de répertoire nécessaires sur le site.
+
+Utilisez cette option pour les fichiers qui sont consommés côté serveur, car les fichiers de thème sont automatiquement surveillés par le serveur de développement Webpack.
+
+Exemple :
+
+```js title="docusaurus-plugin/src/index.js"
+const path = require('path');
+module.exports = function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    getPathsToWatch() {
+      const contentPath = path.resolve(context.siteDir, options.path);
+      return [`${contentPath}/**/*.{ts,tsx}`];
+    },
+    // highlight-end
+  };
+};
+```
+
+## `extendCli(cli)` {#extendCli}
+
+Enregistre une commande supplémentaire pour améliorer la CLI de Docusaurus. `cli` est un objet [commander](https://www.npmjs.com/package/commander/v/5.1.0).
+
+:::warning
+
+La version du commander est importante ! Nous utilisons commander v5, et assurez-vous que vous vous référez à la documentation de la bonne version pour les API disponibles.
+
+:::
+
+Exemple :
+
+```js title="docusaurus-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    extendCli(cli) {
+      cli
+        .command('roll')
+        .description('Lance un nombre aléatoire entre 1 et 1000')
+        .action(() => {
+          console.log(Math.floor(Math.random() * 1000 + 1));
+        });
+    },
+    // highlight-end
+  };
+};
+```
+
+## `getThemePath()` {#getThemePath}
+
+Retourne le chemin vers le répertoire où les composants du thème peuvent être trouvés. Lorsque vos utilisateurs appellent `swizzle`, `getThemePath` est appelé et son chemin retourné est utilisé pour trouver les composants de votre thème. Les chemins relatifs sont résolus par rapport au dossier contenant le point d'entrée.
+
+Par exemple, votre `getThemePath` peut être :
+
+```js title="my-theme/src/index.js"
+const path = require('path');
+
+module.exports = function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    getThemePath() {
+      return './theme';
+    },
+    // highlight-end
+  };
+};
+```
+
+## `getTypeScriptThemePath()` {#getTypeScriptThemePath}
+
+Similaire à `getThemePath()`, il devrait retourner le chemin vers le répertoire où le code source des composants du thème TypeScript peut être trouvé. Ce chemin est purement pour le swizzling des composants de thème TypeScript, et les composants de thème sous ce chemin **ne seront pas** résolus par Webpack. Par conséquent, ce n'est pas un remplacement de `getThemePath()`. Typiquement, , vous pouvez faire en sorte que le chemin renvoyé par `getTypeScriptThemePath()` soit votre répertoire source, et que le chemin renvoyé par `getThemePath()` soit celui de la sortie JavaScript compilée.
+
+:::tip
+
+Pour les auteurs de thèmes TypeScript : il est fortement conseillé de rendre votre sortie compilée aussi lisible que possible par l'homme. Ne retirez que les annotations de type et ne transposez aucune syntaxe, car elles seront traitées par le chargeur Babel de Webpack en fonction des versions des navigateurs ciblés.
+
+Vous devriez également formater ces fichiers avec Prettier. Rappelez-vous : les fichiers JS peuvent et seront consommés directement par vos utilisateurs.
+
+:::
+
+Exemple :
+
+```js title="my-theme/src/index.js"
+const path = require('path');
+
+module.exports = function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    getThemePath() {
+      // Où se trouve la sortie JavaScript compilée
+      return '../lib/theme';
+    },
+    getTypeScriptThemePath() {
+      // Où se trouve le code source de TypeScript
+      return '../src/theme';
+    },
+    // highlight-end
+  };
+};
+```
+
+## `getSwizzleComponentList()` {#getSwizzleComponentList}
+
+**Il s'agit d'une méthode statique, non liée à une instance de plugin.**
+
+Retourne une liste de composants stables considérés comme sûrs pour le swizzle. Ces composants seront swizzlable sans `--danger`. Tous les composants sont considérés comme instables par défaut. Si un tableau vide est retourné, tous les composants sont considérés comme instables. Si `undefined` est retourné, tous les composants sont considérés comme stables.
+
+```js title="my-theme/src/index.js"
+const swizzleAllowedComponents = [
+  'CodeBlock',
+  'DocSidebar',
+  'Footer',
+  'NotFound',
+  'SearchBar',
+  'hooks/useTheme',
+  'prism-include-languages',
+];
+
+myTheme.getSwizzleComponentList = () => swizzleAllowedComponents;
+```

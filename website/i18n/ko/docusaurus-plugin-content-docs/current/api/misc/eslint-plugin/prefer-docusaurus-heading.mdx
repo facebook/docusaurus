@@ -1,0 +1,31 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/prefer-docusaurus-heading
+---
+
+# prefer-docusaurus-heading
+
+heading에 `<hn>` 태그 대신 도큐사우루스 [`theme-classic`](../../themes/theme-classic.mdx)에서 제공하는 `@theme/Heading` 테마 컴포넌트를 사용하도록 설정합니다.
+
+## 상세 규칙 {#details}
+
+규칙이 **잘못 적용된** 코드 예시
+
+```html
+<h1>This is heading 1</h1>
+
+<h2>This is heading 2</h2>
+
+<h3>This is heading 3</h3>
+```
+
+규칙이 **적용된** 코드 예시
+
+```javascript
+import Heading from '@theme/Heading'
+
+<Heading as='h1'>This is heading 1</Heading>
+
+<Heading as='h2'>This is heading 2</Heading>
+
+<Heading as='h3'>This is heading 3</Heading>
+```

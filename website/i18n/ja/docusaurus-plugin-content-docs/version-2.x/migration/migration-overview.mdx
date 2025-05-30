@@ -1,0 +1,105 @@
+---
+slug: /migration
+---
+
+# 移行の概要
+
+このドキュメントは Docusaurus 1 から Docusaurus 2 へ移行する手順を示します。
+
+私たちはこの手順をできるだけ単純にし、移行用 CLI ツールの提供もしています。
+
+## Main differences {#main-differences}
+
+Docusaurus 1 はサーバーサイドの定番である React を使用した純粋なドキュメントジェネレーターであり、ブラウザへ React のロードをすることはありませんでした。
+
+Docusaurus 2 は一から再構築され、React の力を最大限引き出すようなシングルページアプリケーションのジェネレーターになりました。 Docusaurus 1 の、使い始めやすさとバージョンを分ける機能、 国際化（i18n）への対応はそのままにカスタマイズ性が向上しました。
+
+Beyond that, Docusaurus 2 is a **performant static site generator** and can be used to create common content-driven websites (e.g. Documentation, Blogs, Product Landing and Marketing Pages, etc) extremely quickly.
+
+私たちはドキュメントを正しく・うまく作成するためのお手伝いをすることに主眼を置いています。その一方で Docusaurus v2 は React アプリケーションであることから、どのような種類の Web サイトでも構築することが可能です。 **Docusaurus can now be used to build any website, not just documentation websites.**
+
+## Docusaurus 1 structure {#docusaurus-1-structure}
+
+あなたのDocusaurus 1 サイトは以下の構造をしていることでしょう。
+
+```bash
+├── docs
+└── website
+    ├── blog
+    ├── core
+    │   └── Footer.js
+    ├── package.json
+    ├── pages
+    ├── sidebars.json
+    ├── siteConfig.js
+    └── static
+```
+
+## Docusaurus 2 structure {#docusaurus-2-structure}
+
+Docusaurus 2 に移行後、このような構成になっているはずです。
+
+```sh
+├── docs
+└── website
+    ├── blog
+    ├── src
+    │   ├── components
+    │   ├── css
+    │   └── pages
+    ├── static
+    ├── package.json
+    ├── sidebars.json
+    ├── docusaurus.config.js
+```
+
+:::info
+
+This migration does not change the `/docs` folder location, but Docusaurus v2 sites generally have the `/docs` folder inside `/website`
+
+You are free to put the `/docs` folder anywhere you want after having migrated to v2.
+
+:::
+
+## Migration process {#migration-process}
+
+完全に機能する Docusaurus 2 サイトにするには、さらにいくつかのやらなくてはいけないことがあります。
+
+- パッケージ
+- CLI commands
+- サイト設定
+- Markdownファイル
+- サイドバーファイル
+- ページ・コンポーネント・CSS
+- バージョン管理されたドキュメント
+- 国際化（i18n）サポート 🚧
+
+## Automated migration process {#automated-migration-process}
+
+The [migration CLI](./migration-automated.mdx) will handle many things of the migration for you.
+
+ただし一部の作業は自動的に処理することが難しいため、手作業でやらねばなりません。
+
+:::note
+
+migration CLI を実行したのち、作業が不足している部分のみを手作業で移行することを推奨します。
+
+:::
+
+## Manual migration process {#manual-migration-process}
+
+移行の一部(特にpages)は自動化できず、手動で移行する必要があります。
+
+The [manual migration guide](./migration-manual.mdx) will give you all the manual steps.
+
+## Support {#support}
+
+For any questions, you can ask in the [`#migration-v1-to-v2` Discord channel](https://discord.gg/C3P6CxMMxY).
+
+Feel free to tag [@slorber](https://github.com/slorber) in any migration PRs if you would like us to have a look.
+
+We also have volunteers willing to [help you migrate your v1 site](https://github.com/facebook/docusaurus/issues/1834).
+
+## Example migration PRs {#example-migration-prs}
+
+You might want to refer to our migration PRs for [Create React App](https://github.com/facebook/create-react-app/pull/7785) and [Flux](https://github.com/facebook/flux/pull/471) as examples of how a migration for a basic Docusaurus v1 site can be done.

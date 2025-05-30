@@ -1,0 +1,492 @@
+---
+sidebar_position: 1
+toc_max_heading_level: 4
+---
+
+# Cycle de vie des API
+
+Pendant la construction, les plugins sont chargés en parallèle pour récupérer leur propre contenu et les rendre aux routes. Les plugins peuvent également configurer webpack ou post-traiter les fichiers générés.
+
+## `async loadContent()` {#loadContent}
+
+Les plugins doivent utiliser ce cycle de vie pour récupérer des sources de données (système de fichiers, API distante, CMS sans entête, etc) ou pour effectuer un traitement du serveur. La valeur retournée est le contenu dont il a besoin.
+
+Par exemple, ce plugin ci-dessous renvoie un entier aléatoire compris entre 1 et 10 comme contenu.
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    async loadContent() {
+      return 1 + Math.floor(Math.random() * 10);
+    },
+    // highlight-end
+  };
+}
+```
+
+## `async contentLoaded({content, actions})` {#contentLoaded}
+
+Les données qui ont été chargées dans `loadContent` seront consommées dans `contentLoaded`. Il peut être rendu sur des routes, enregistrés en tant que données globales, etc.
+
+### `content` {#content}
+
+`contentLoaded` sera appelé _après_ que `loadContent` soit fait. La valeur retournée de `loadContent()` sera passée à `contentLoaded` comme `content`.
+
+### `actions` {#actions}
+
+`actions` contient trois fonctions :
+
+#### `addRoute(config: RouteConfig): void` {#addRoute}
+
+Créez une route pour l'ajouter au site web.
+
+```ts
+export type RouteConfig = {
+  /**
+   * With leading slash. Trailing slash will be normalized by config.
+   */
+  path: string;
+  /**
+   * Component used to render this route, a path that the bundler can `require`.
+   */
+  component: string;
+  /**
+   * Props. Each entry should be `[propName]: pathToPropModule` (created with
+   * `createData`)
+   */
+  modules?: RouteModules;
+  /**
+   * The route context will wrap the `component`. Use `useRouteContext` to
+   * retrieve what's declared here. Note that all custom route context declared
+   * here will be namespaced under {@link RouteContext.data}.
+   */
+  context?: RouteModules;
+  /**
+   * Nested routes config, useful for "layout routes" having subroutes.
+   */
+  routes?: RouteConfig[];
+  /**
+   * React router config option: `exact` routes would not match subroutes.
+   */
+  exact?: boolean;
+  /**
+   * React router config option: `strict` routes are sensitive to the presence
+   * of a trailing slash.
+   */
+  strict?: boolean;
+  /**
+   * Used to sort routes.
+   * Higher-priority routes will be matched first.
+   */
+  priority?: number;
+  /**
+   * Optional route metadata
+   */
+  metadata?: RouteMetadata;
+  /**
+   * Extra props; will be available on the client side.
+   */
+  [propName: string]: unknown;
+};
+
+/**
+ * Plugin authors can assign extra metadata to the created routes
+ * It is only available on the Node.js side, and not sent to the browser
+ * Optional: plugin authors are encouraged but not required to provide it
+ *
+ * Some plugins might use this data to provide additional features.
+ * This is the case of the sitemap plugin to provide support for "lastmod".
+ * See also: https://github.com/facebook/docusaurus/pull/9954
+ */
+export type RouteMetadata = {
+  /**
+   * The source code file path that led to the creation of the current route
+   * In official content plugins, this is usually a Markdown or React file
+   * This path is expected to be relative to the site directory
+   */
+  sourceFilePath?: string;
+  /**
+   * The last updated date of this route
+   * This is generally read from the Git history of the sourceFilePath
+   * but can also be provided through other means (usually front matter)
+   *
+   * This has notably been introduced for adding "lastmod" support to the
+   * sitemap plugin, see https://github.com/facebook/docusaurus/pull/9954
+   */
+  lastUpdatedAt?: number;
+};
+
+type RouteModules = {
+  [module: string]: Module | RouteModules | RouteModules[];
+};
+
+type Module =
+  | {
+      path: string;
+      __import?: boolean;
+      query?: ParsedUrlQueryInput;
+    }
+  | string;
+```
+
+#### `createData(name: string, data: any): Promise<string>` {#createData}
+
+Une callback déclarative pour créer des données statiques (généralement JSON ou string) qui peuvent être fournies ultérieurement à vos routes comme props. Prend le nom du fichier et les données à stocker, et renvoie le chemin du fichier de données actuel.
+
+Par exemple, ce plugin ci-dessous crée une page `/friends` qui affiche `Vos amis sont : Yangshun, Sebastien` :
+
+```jsx title="website/src/components/Friends.js"
+import React from 'react';
+
+export default function FriendsComponent({friends}) {
+  return <div>Vos amis sont {friends.join(',')}</div>;
+}
+```
+
+```js title="docusaurus-friends-plugin/src/index.js"
+export default function friendsPlugin(context, options) {
+  return {
+    name: 'docusaurus-friends-plugin',
+    // highlight-start
+    async contentLoaded({content, actions}) {
+      const {createData, addRoute} = actions;
+      // Crée friends.json
+      const friends = ['Yangshun', 'Sebastien'];
+      const friendsJsonPath = await createData(
+        'friends.json',
+        JSON.stringify(friends),
+      );
+
+      // Ajoute la route '/friends' et assure-vous qu'il reçoit la props friends
+      addRoute({
+        path: '/friends',
+        component: '@site/src/components/Friends.js',
+        modules: {
+          // propName -> chemin fichier JSON
+          friends: friendsJsonPath,
+        },
+        exact: true,
+      });
+    },
+    // highlight-end
+  };
+}
+```
+
+#### `setGlobalData(data: any): void` {#setGlobalData}
+
+Cette fonction permet de créer des données globales de plugin, qui peuvent être lues depuis n'importe quelle page, y compris les pages créées par d'autres plugins et la mise en page de votre thème.
+
+Ces données deviennent accessibles pour votre code côté client/thème à travers les hooks [`useGlobalData`](../../docusaurus-core.mdx#useGlobalData) et [`usePluginData`](../../docusaurus-core.mdx#usePluginData).
+
+:::warning
+
+Les données globales sont... globales : leurs tailles affectent le temps de chargement de toutes les pages de votre site, alors essayez de les garder petites. Préférez `createData` et des données spécifiques à la page dans la mesure du possible.
+
+:::
+
+Par exemple, ce plugin ci-dessous crée une page `/friends` qui affiche `Vos amis sont : Yangshun, Sebastien` :
+
+```jsx title="website/src/components/Friends.js"
+import React from 'react';
+import {usePluginData} from '@docusaurus/useGlobalData';
+
+export default function FriendsComponent() {
+  const {friends} = usePluginData('docusaurus-friends-plugin');
+  return <div>Vos amis sont {friends.join(',')}</div>;
+}
+```
+
+```js title="docusaurus-friends-plugin/src/index.js"
+export default function friendsPlugin(context, options) {
+  return {
+    name: 'docusaurus-friends-plugin',
+    // highlight-start
+    async contentLoaded({content, actions}) {
+      const {setGlobalData, addRoute} = actions;
+      // Crée des données globales friends
+      setGlobalData({friends: ['Yangshun', 'Sebastien']});
+
+      // Ajoute la route '/friends'
+      addRoute({
+        path: '/friends',
+        component: '@site/src/components/Friends.js',
+        exact: true,
+      });
+    },
+    // highlight-end
+  };
+}
+```
+
+## `configureWebpack(config, isServer, utils, content)` {#configureWebpack}
+
+Modifie la configuration interne de webpack. Si la valeur retournée est un objet JavaScript, elle sera fusionnée dans la configuration finale en utilisant [`webpack-merge`](https://github.com/survivejs/webpack-merge). Si c'est une fonction, elle sera appelée et recevra `config` comme premier argument et un drapeau `isServer` comme second argument.
+
+:::warning
+
+L'API de `configureWebpack` sera modifiée dans le futur pour accepter un objet (`configureWebpack({config, isServer, utils, content})`)
+
+:::
+
+### `config` {#config}
+
+`configureWebpack` est appelée avec `config` générée selon la construction du client/serveur. Vous pouvez le considérer comme la configuration de base avec laquelle il faut fusionner.
+
+### `isServer` {#isServer}
+
+`configureWebpack` sera appelée à la fois dans la construction du serveur et dans la construction du client. La construction du serveur reçoit `true` et la construction du client reçoit `false` pour `isServer`.
+
+### `utils` {#utils}
+
+`configureWebpack` reçoit également un objet utilitaire :
+
+- `getStyleLoaders(isServer: boolean, cssOptions: {[key: string]: any}): Loader[]`
+- `getJSLoader(isServer: boolean, cacheOptions?: {}): Loader | null`
+
+Vous pouvez les utiliser pour retourner votre configuration webpack sous certaines conditions.
+
+Par exemple, ce plugin ci-dessous modifie la configuration de webpack pour transpiler les fichiers `.foo`.
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+    // highlight-start
+    configureWebpack(config, isServer, utils) {
+      const {getJSLoader} = utils;
+      return {
+        module: {
+          rules: [
+            {
+              test: /\.foo$/,
+              use: [getJSLoader(isServer), 'my-custom-webpack-loader'],
+            },
+          ],
+        },
+      };
+    },
+    // highlight-end
+  };
+}
+```
+
+### `content` {#content-1}
+
+`configureWebpack` sera appelé aussi avec le contenu chargé par le plugin.
+
+### Stratégie de fusion {#merge-strategy}
+
+Nous fusionnons les parties de configuration Webpack des plugins dans la configuration globale de Webpack en utilisant [webpack-merge](https://github.com/survivejs/webpack-merge).
+
+Il est possible de spécifier la stratégie de fusion. Par exemple, si vous voulez qu'une règle de webpack soit placée au début au lieu d'être ajoutée à la fin :
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+    configureWebpack(config, isServer, utils) {
+      return {
+        // highlight-start
+        mergeStrategy: {'module.rules': 'prepend'},
+        module: {rules: [myRuleToPrepend]},
+        // highlight-end
+      };
+    },
+  };
+}
+```
+
+Lisez la [documentation de la stratégie de webpack-fusion](https://github.com/survivejs/webpack-merge#merging-with-strategies) pour plus de détails.
+
+### Configuration du serveur de dev {#configuring-dev-server}
+
+Le serveur de développement peut être configuré en renvoyant un champ `devServer`.
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+    configureWebpack(config, isServer, utils) {
+      return {
+        // highlight-start
+        devServer: {
+          open: '/docs', // Ouvre localhost:3000/docs au lieu de localhost:3000/
+        },
+        // highlight-end
+      };
+    },
+  };
+}
+```
+
+## `configurePostCss(options)` {#configurePostCss}
+
+Modifie [`postcssOptions` de `postcss-loader`](https://webpack.js.org/loaders/postcss-loader/#postcssoptions) pendant la génération du bundle client.
+
+Devrait retourner le `postcssOptions` muté.
+
+Par défaut, `postcssOptions` ressemble à ceci :
+
+```js
+const postcssOptions = {
+  ident: 'postcss',
+  plugins: [require('autoprefixer')],
+};
+```
+
+Exemple :
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    configurePostCss(postcssOptions) {
+      // Ajoute un nouveau plugin PostCSS.
+      postcssOptions.plugins.push(require('postcss-import'));
+      return postcssOptions;
+    },
+    // highlight-end
+  };
+}
+```
+
+## `postBuild(props)` {#postBuild}
+
+Appelée quand une version (production) se termine.
+
+```ts
+interface Props {
+  siteDir: string;
+  generatedFilesDir: string;
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  baseUrl: string;
+  headTags: string;
+  preBodyTags: string;
+  postBodyTags: string;
+  routesPaths: string[];
+  plugins: Plugin<any>[];
+  content: Content;
+}
+```
+
+Exemple :
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
+      // Affiche dans la console toutes les routes rendues.
+      routesPaths.map((route) => {
+        console.log(route);
+      });
+    },
+    // highlight-end
+  };
+}
+```
+
+## `injectHtmlTags({content})` {#injectHtmlTags}
+
+Injecte les balises HTML head et/ou body vers le HTML générées de Docusaurus.
+
+`injectHtmlTags` sera appelé aussi avec le contenu chargé par le plugin.
+
+```ts
+function injectHtmlTags(): {
+  headTags?: HtmlTags;
+  preBodyTags?: HtmlTags;
+  postBodyTags?: HtmlTags;
+};
+
+type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
+
+type HtmlTagObject = {
+  /**
+   * Attributs de la balise HTML
+   * Par exemple `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
+   */
+  attributes?: {
+    [attributeName: string]: string | boolean;
+  };
+  /**
+   * Le nom de la balise par exemple `div`, `script`, `link`, `meta`
+   */
+  tagName: string;
+  /**
+   * L'intérieur de l'HTML
+   */
+  innerHTML?: string;
+};
+```
+
+Exemple :
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    loadContent: async () => {
+      return {remoteHeadTags: await fetchHeadTagsFromAPI()};
+    },
+    // highlight-start
+    injectHtmlTags({content}) {
+      return {
+        headTags: [
+          {
+            tagName: 'link',
+            attributes: {
+              rel: 'preconnect',
+              href: 'https://www.github.com',
+            },
+          },
+          ...content.remoteHeadTags,
+        ],
+        preBodyTags: [
+          {
+            tagName: 'script',
+            attributes: {
+              charset: 'utf-8',
+              src: '/noflash.js',
+            },
+          },
+        ],
+        postBodyTags: [`<div> This is post body </div>`],
+      };
+    },
+    // highlight-end
+  };
+}
+```
+
+Les balises seront ajoutés comme ceci:
+
+- `headTags` sera inséré avant la balise de fermeture `</head>` après les scripts ajoutés par config.
+- `preBodyTags` sera inséré après la balise ouvrante `<body>` avant tout élément enfant.
+- `postBodyTags` sera inséré avant la balise fermante `</body>` après tout élément enfant.
+
+## `getClientModules()` {#getClientModules}
+
+Retourne un tableau de chemins vers les [modules client](../../advanced/client.mdx#client-modules) qui doivent être importés dans le bundle client.
+
+À titre d'exemple, pour que votre thème puisse charger un fichier `customCss` ou `customJs` à partir des `options` passées par l'utilisateur :
+
+```js title="my-theme/src/index.js"
+export default function (context, options) {
+  const {customCss, customJs} = options || {};
+  return {
+    name: 'name-of-my-theme',
+    // highlight-start
+    getClientModules() {
+      return [customCss, customJs];
+    },
+    // highlight-end
+  };
+}
+```

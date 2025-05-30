@@ -1,0 +1,706 @@
+---
+sidebar_position: 0
+description: Référence de l'API pour le fichier de configuration Docusaurus.
+slug: /api/docusaurus-config
+---
+
+# `docusaurus.config.js`
+
+import APITable from '@site/src/components/APITable';
+
+:::info
+
+Reportez-vous à la [**Configuration**](../configuration.mdx) pour des exemples.
+
+:::
+
+## Vue d'ensemble {#overview}
+
+`docusaurus.config.js` contient des configurations pour votre site et est placé à la racine de votre site.
+
+:::note
+
+With a [TypeScript](../typescript-support.mdx) Docusaurus codebase your config file may be called `docusaurus.config.ts`. The syntax is broadly identical to the `js` config file with the addition of types. You can see an example on the [Docusaurus Website](https://github.com/facebook/docusaurus/blob/main/website/docusaurus.config.ts) itself.
+
+:::
+
+Ce fichier est exécuté dans Node.js et doit exporter un objet de config de site, ou une fonction qui le crée.
+
+Le fichier `docusaurus.config.js` prend en charge :
+
+- [**ES Modules**](https://flaviocopes.com/es-modules/)
+- [**CommonJS**](https://flaviocopes.com/commonjs/)
+- [**TypeScript**](../typescript-support.mdx#typing-config)
+
+Exemples :
+
+```js title="docusaurus.config.js"
+export default {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // votre config de site ...
+};
+```
+
+```js title="docusaurus.config.js"
+export default async function createConfigAsync() {
+  return {
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
+    // la configuration de votre site ...
+  };
+}
+```
+
+:::tip
+
+Reportez-vous à la [**Syntaxe pour déclarer `docusaurus.config.js`**](../configuration.mdx#syntax-to-declare-docusaurus-config) pour une liste plus exhaustive d'exemples et d'explications.
+
+:::
+
+## Champs obligatoires {#required-fields}
+
+### `title` {#title}
+
+- Type : `string`
+
+Titre de votre site. Sera utilisé dans les métadonnées et comme titre dans l'onglet du navigateur.
+
+```js title="docusaurus.config.js"
+export default {
+  title: 'Docusaurus',
+};
+```
+
+### `url` {#url}
+
+- Type : `string`
+
+URL de votre site web. Cela peut également être considéré comme le nom d'hôte de premier niveau. Par exemple, `https://facebook.github.io` est l'URL de https://facebook.github.io/metro/ et `https://docusaurus.io` est l'URL de https://docusaurus.io. Ce champ est lié au champ [`baseUrl`](#baseUrl).
+
+```js title="docusaurus.config.js"
+export default {
+  url: 'https://docusaurus.io',
+};
+```
+
+### `baseUrl` {#baseUrl}
+
+- Type : `string`
+
+L'URL de base de votre site. Cela peut être considéré comme le chemin après l'hôte. Par exemple, `/metro/` est l'URL de base de https://facebook.github.io/metro/. Pour les URL n'ayant pas de chemin, la baseUrl doit être définie à `/`. Ce champ est lié au champ [`url`](#url). Il y a toujours un slash avant et un slash après.
+
+```js title="docusaurus.config.js"
+export default {
+  baseUrl: '/',
+};
+```
+
+## Champs optionnels {#optional-fields}
+
+### `favicon` {#favicon}
+
+- Type : `string | undefined`
+
+Le chemin d'accès au favicon de votre site, il doit s'agir d'une URL qui peut être utilisée dans le href du lien. Par exemple, si votre favicon est dans `static/img/favicon.ico` :
+
+```js title="docusaurus.config.js"
+export default {
+  favicon: '/img/favicon.ico',
+};
+```
+
+### `trailingSlash` {#trailingSlash}
+
+- Type : `boolean | undefined`
+
+Permet de personnaliser la présence ou l'absence du slash à la fin des URL/liens, et la façon dont les fichiers HTML statiques sont générés :
+
+- `undefined` (par défaut) : garde les URLs intactes, et émet `/docs/myDoc/index.html` pour `/docs/myDoc.md`
+- `true` : ajoute des slashs à la fin des URL/liens, et émet `/docs/myDoc/index.html` pour `/docs/myDoc.md`
+- `false` : supprime les slashs à la fin des URL/liens, et émet `/docs/myDoc.html` pour `/docs/myDoc.md`
+
+:::tip
+
+Chaque fournisseur d'hébergement statique sert les fichiers statiques différemment (ce comportement peut même changer avec le temps).
+
+Reportez-vous au [guide de déploiement](../deployment.mdx) et à [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-guide) pour choisir le réglage approprié.
+
+:::
+
+### `i18n` {#i18n}
+
+- Type : `Objet`
+
+L'objet de configuration i18n pour [localiser votre site](../i18n/i18n-introduction.mdx).
+
+Exemple :
+
+{/_ cSpell:ignore فارسی _/}
+
+```js title="docusaurus.config.js"
+export default {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fa'],
+    path: 'i18n',
+    localeConfigs: {
+      en: {
+        label: 'English',
+        direction: 'ltr',
+        htmlLang: 'en-US',
+        calendar: 'gregory',
+        path: 'en',
+      },
+      fa: {
+        label: 'فارسی',
+        direction: 'rtl',
+        htmlLang: 'fa-IR',
+        calendar: 'persian',
+        path: 'fa',
+      },
+    },
+  },
+};
+```
+
+- `defaultLocale` : La locale qui (1) n'a pas son nom dans l'URL de base (2) est lancée avec `docusaurus start` sans l'option `--locale` (3) sera utilisée pour la balise `<link hrefLang="x-default">`
+- `locales` : Liste des locales déployées sur votre site. Doit contenir `defaultLocale`.
+- `path` : Dossier racine auquel tous les dossiers des locales sont rattachés. Doit être absolus ou relatifs par rapport au fichier de configuration. Par défaut, `i18n`.
+- \`localeConfigsv : Options individuelles pour chaque locale.
+  - `label` : Libellé affiché pour cette locale dans le menu déroulant des locales.
+  - `direction` : `ltr` (par défaut) ou `rtl` (pour [langues de droite à gauche](https://developer.mozilla.org/fr-US/docs/Glossary/rtl) comme Farsi, Arabe, Hébrew, etc.). Utilisé pour sélectionner le méta attribut CSS et HTML de la locale.
+  - `htmlLang` : Balise de langue BCP 47 à utiliser dans `<html lang="...">` (ou tout autre nom de balise DOM) et dans `<link ... hreflang="...">`
+  - `calendar` : le [calendrier](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) utilisé pour calculer l'ère de la date. Remarquez qu'il ne contrôle pas la chaîne de caractères affichée : `MM/DD/YYYY` et `DD/MM/YYYY` sont tous deux `gregory`. Pour choisir le format (`DD/MM/YYYY` ou `MM/DD/YYYY`), définissez votre nom de locale comme `en-GB` ou `en-US` (`en` signifie `en-US`).
+  - `path` : Dossier racine auquel tous les dossiers de localisation des plugins de cette locale sont rattachés. Sera résolu par rapport à `i18n.path`. Par défaut, le nom de la locale. Remarque : cela n'a aucun effet sur le `baseUrl` de la locale - la personnalisation de l'URL de base est un chantier en cours.
+
+### `noIndex` {#noIndex}
+
+- Type : `boolean`
+
+Cette option ajoute `<meta name="robots" content="noindex, nofollow">` à chaque page, pour dire aux moteurs de recherche de ne pas indexer votre site (plus d'informations [ici](https://moz.com/learn/seo/robots-meta-directives)).
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  noIndex: true, // Par défaut, `false`
+};
+```
+
+### `onBrokenLinks` {#onBrokenLinks}
+
+- Type : `'ignore' | 'log' | 'warn' | 'throw'`
+
+Le comportement de Docusaurus lorsqu'il détecte un lien défectueux.
+
+Par défaut, il lève une erreur, afin de s'assurer que vous n'expédiez jamais de lien défectueux.
+
+:::note
+
+La détection de liens défectueux n'est disponible que pour une version de production (`docusaurus build`).
+
+:::
+
+### `onBrokenAnchors` {#onBrokenAnchors}
+
+- Type : `'ignore' | 'log' | 'warn' | 'throw'`
+
+Le comportement de Docusaurus lorsqu'il détecte une ancre défectueuse déclarée avec le composant `Heading` de Docusaurus.
+
+Par défaut, il affiche un avertissement, pour vous avertir que vos ancres sont défectueuses.
+
+### `onBrokenMarkdownLinks` {#onBrokenMarkdownLinks}
+
+- Type : `'ignore' | 'log' | 'warn' | 'throw'`
+
+Le comportement de Docusaurus lorsqu'il détecte un lien défectueux du Markdown.
+
+Par défaut, il affiche un avertissement, pour vous avertir que vos liensMarkdown sont défectueux.
+
+### `onDuplicateRoutes` {#onDuplicateRoutes}
+
+- Type : `'ignore' | 'log' | 'warn' | 'throw'`
+
+Le comportement de Docusaurus lorsqu'il détecte des [routes dupliquées](/guides/creating-pages.mdx#duplicate-routes).
+
+Par défaut, il affiche un avertissement après avoir exécuté `yarn start` ou `yarn build`.
+
+### `tagline` {#tagline}
+
+- Type : `string`
+
+Le slogan de votre site web.
+
+```js title="docusaurus.config.js"
+export default {
+  tagline:
+    'Docusaurus facilite la maintenance des sites de documentation Open Source',
+};
+```
+
+### `organizationName` {#organizationName}
+
+- Type : `string`
+
+L'utilisateur ou l'organisation GitHub qui possède le dépôt. Vous n'en avez pas besoin si vous n'utilisez pas la commande `docusaurus deploy`.
+
+```js title="docusaurus.config.js"
+export default {
+  // L'organisation de Docusaurus est facebook
+  organizationName: 'facebook',
+};
+```
+
+### `projectName` {#projectName}
+
+- Type : `string`
+
+Le nom du répertoire GitHub. Vous n'en avez pas besoin si vous n'utilisez pas la commande `docusaurus deploy`.
+
+```js title="docusaurus.config.js"
+export default {
+  projectName: 'docusaurus',
+};
+```
+
+### `deploymentBranch` {#deploymentBranch}
+
+- Type : `string`
+
+Le nom de la branche vers laquelle déployer les fichiers statiques. Vous n'en avez pas besoin si vous n'utilisez pas la commande `docusaurus deploy`.
+
+```js title="docusaurus.config.js"
+export default {
+  deploymentBranch: 'gh-pages',
+};
+```
+
+### `githubHost` {#githubHost}
+
+- Type : `string`
+
+Le nom d'hôte de votre serveur. Utile si vous utilisez GitHub Enterprise. Vous n'en avez pas besoin si vous n'utilisez pas la commande `docusaurus deploy`.
+
+```js title="docusaurus.config.js"
+export default {
+  githubHost: 'github.com',
+};
+```
+
+### `githubPort` {#githubPort}
+
+- Type : `string`
+
+Le port de votre serveur. Utile si vous utilisez GitHub Enterprise. Vous n'en avez pas besoin si vous n'utilisez pas la commande `docusaurus deploy`.
+
+```js title="docusaurus.config.js"
+export default {
+  githubPort: '22',
+};
+```
+
+### `themeConfig` {#themeConfig}
+
+- Type : `Objet`
+
+L'objet de [configuration du thème](./themes/theme-configuration.mdx) pour personnaliser l'interface utilisateur de votre site comme la barre de navigation et le pied de page.
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    docs: {
+      sidebar: {
+        hideable: false,
+        autoCollapseCategories: false,
+      },
+    },
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
+    navbar: {
+      title: 'Titre du site',
+      logo: {
+        alt: 'Site Logo',
+        src: 'img/logo.svg',
+        width: 32,
+        height: 32,
+      },
+      items: [
+        {
+          to: 'docs/docusaurus.config.js',
+          activeBasePath: 'docs',
+          label: 'docusaurus.config.js',
+          position: 'left',
+        },
+        // ... autres liens
+      ],
+    },
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: 'Docs',
+          items: [
+            {
+              label: 'Docs',
+              to: 'docs/doc1',
+            },
+          ],
+        },
+        // ... autres liens
+      ],
+      logo: {
+        alt: 'Meta Open Source Logo',
+        src: 'img/meta_oss_logo.png',
+        href: 'https://opensource.fb.com',
+        width: 160,
+        height: 51,
+      },
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // Vous pouvez aussi mettre votre propre HTML ici
+    },
+  },
+};
+```
+
+### `plugins` {#plugins}
+
+- Type : `PluginConfig[]`
+
+```ts
+type PluginConfig = string | [string, any] | PluginModule | [PluginModule, any];
+```
+
+Consultez [les références de méthodes de plugin](./plugin-methods/README.mdx) pour la forme d'un `PluginModule`.
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    'docusaurus-plugin-awesome',
+    ['docusuarus-plugin-confetti', {fancy: false}],
+    () => ({
+      postBuild() {
+        console.log('Build finished');
+      },
+    }),
+  ],
+};
+```
+
+### `themes` {#themes}
+
+- Type : `PluginConfig[]`
+
+```js title="docusaurus.config.js"
+export default {
+  themes: ['@docusaurus/theme-classic'],
+};
+```
+
+### `presets` {#presets}
+
+- Type : `PresetConfig[]`
+
+```ts
+type PresetConfig = string | [string, any];
+```
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [],
+};
+```
+
+### `markdown` {#markdown}
+
+La configuration globale du Markdown de Docusaurus.
+
+- Type : `MarkdownConfig`
+
+```ts
+type MarkdownPreprocessor = (args: {
+  filePath: string;
+  fileContent: string;
+}) => string;
+
+type MDX1CompatOptions =
+  | boolean
+  | {
+      comments: boolean;
+      admonitions: boolean;
+      headingIds: boolean;
+    };
+
+export type ParseFrontMatter = (params: {
+  filePath: string;
+  fileContent: string;
+  defaultParseFrontMatter: ParseFrontMatter;
+}) => Promise<{
+  frontMatter: {[key: string]: unknown};
+  content: string;
+}>;
+
+type MarkdownAnchorsConfig = {
+  maintainCase: boolean;
+};
+
+type MarkdownConfig = {
+  format: 'mdx' | 'md' | 'detect';
+  mermaid: boolean;
+  preprocessor?: MarkdownPreprocessor;
+  parseFrontMatter?: ParseFrontMatter;
+  mdx1Compat: MDX1CompatOptions;
+  remarkRehypeOptions: object; // see https://github.com/remarkjs/remark-rehype#options
+  anchors: MarkdownAnchorsConfig;
+};
+```
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  markdown: {
+    format: 'mdx',
+    mermaid: true,
+    preprocessor: ({filePath, fileContent}) => {
+      return fileContent.replaceAll('{{MY_VAR}}', 'MY_VALUE');
+    },
+    parseFrontMatter: async (params) => {
+      const result = await params.defaultParseFrontMatter(params);
+      result.frontMatter.description =
+        result.frontMatter.description?.replaceAll('{{MY_VAR}}', 'MY_VALUE');
+      return result;
+    },
+    mdx1Compat: {
+      comments: true,
+      admonitions: true,
+      headingIds: true,
+    },
+    anchors: {
+      maintainCase: true,
+    },
+  },
+};
+```
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom                   | Type                        | Par défaut                                              | Description                                                                                                                                                                                                                                         |
+| --------------------- | --------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `format`              | `'mdx' \| 'md' \| 'detect'` | `'mdx'`                                                 | Le format d'analyseur par défaut à utiliser pour le contenu Markdown. L'utilisation de l'option 'detect' permet de sélectionner automatiquement le format approprié en fonction des extensions de fichiers : `.md` vs `.mdx`.                       |
+| `mermaid`             | `boolean`                   | `false`                                                 | Si `true`, permet à Docusaurus de rendre les blocs de code Markdown avec le langage `mermaid` comme des diagrammes Mermaid.                                                                                                                         |
+| `preprocessor`        | `MarkdownPreprocessor`      | `undefined`                                             | Permet de modifier la chaîne de contenu Markdown avant l'analyse. Utilisez-le comme solution de dernier recours : il est presque toujours préférable de mettre en œuvre un plugin Remark/Rehype.                                                    |
+| `parseFrontMatter`    | `ParseFrontMatter`          | `undefined`                                             | Vous donne la possibilité de fournir votre propre analyseur de front matter ou d'améliorer l'analyseur par défaut. Lisez notre [guide du front matter ](../guides/markdown-features/markdown-features-intro.mdx#front-matter) pour plus de détails. |
+| `mdx1Compat`          | `MDX1CompatOptions`         | `{comments: true, admonitions: true, headingIds: true}` | Options de compatibilité pour faciliter la passage à Docusaurus v3+.                                                                                                                                                                                |
+| `anchors`             | `MarkdownAnchorsConfig`     | `{maintainCase: false}`                                 | Options to control the behavior of anchors generated from Markdown headings                                                                                                                                                                         |
+| `remarkRehypeOptions` | `object`                    | `undefined`                                             | Permet de passer des options [`remark-rehype` personnalisées](https://github.com/remarkjs/remark-rehype#options).                                                                                                                                   |
+
+```mdx-code-block
+</APITable>
+```
+
+### `customFields` {#customFields}
+
+Docusaurus préserve `docusaurus.config.js` des champs inconnus. Pour ajouter un champ personnalisé, définissez-le dans `customFields`.
+
+- Type : `Objet`
+
+```js title="docusaurus.config.js"
+export default {
+  customFields: {
+    admin: 'endi',
+    superman: 'lol',
+  },
+};
+```
+
+La tentative pour ajouter des champs inconnus dans la configuration entraînera des erreurs au moment de la construction :
+
+```bash
+Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
+```
+
+### `staticDirectories` {#staticDirectories}
+
+Un tableau de chemins, relatif ou absolu au répertoire du site. Les fichiers sous ces chemins seront copiés dans la sortie de compilation telle quelle.
+
+- Type : `string[]`
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  staticDirectories: ['static'],
+};
+```
+
+### `headTags` {#headTags}
+
+Un tableau de balises qui seront insérées dans le HTML `<head>`. Les valeurs doivent être des objets qui contiennent deux propriétés; `tagName` et `attributes`. `tagName` doit être une chaîne qui détermine la balise en cours de création; par exemple `"link"`. `attributes` doit être une map attribut-valeur.
+
+- Type : `{ tagName: string; attributes: Object; }[]`
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'icon',
+        href: '/img/docusaurus.png',
+      },
+    },
+  ],
+};
+```
+
+Ceci deviendra `<link rel="icon" href="img/docusaurus.png" />` dans le HTML généré.
+
+### `scripts` {#scripts}
+
+Un tableau de scripts à charger. Les valeurs peuvent être des chaînes de caractères ou des objets simples de correspondances attributs-valeurs. Les balises `<script>` seront insérées dans le HTML `<head>`. Si vous utilisez un objet simple, le seul attribut obligatoire est `src`, et tous les autres attributs sont autorisés (chacun doit avoir des valeurs de type booléen/chaîne de caractères).
+
+Notez que les `<script>` ajoutés ici sont des bloqueurs de rendu, donc vous pourriez vouloir ajouter `async: true`/`defer: true` aux objets.
+
+- Type : `(string | Object)[]`
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  scripts: [
+    // Format chaîne.
+    'https://docusaurus.io/script.js',
+    // Format objet.
+    {
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
+      async: true,
+    },
+  ],
+};
+```
+
+### `stylesheets` {#stylesheets}
+
+Un tableau de sources CSS à charger. Les valeurs peuvent être des chaînes de caractères ou des objets simples de correspondances attributs-valeurs. Les balises `<link>` seront insérées dans le HTML `<head>`. Si vous utilisez un objet, le seul attribut obligatoire est `href`, et tous les autres attributs sont autorisés (chacun doit avoir des valeurs de type booléen/chaîne de caractères).
+
+- Type : `(string | Object)[]`
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  stylesheets: [
+    // Format chaîne.
+    'https://docusaurus.io/style.css',
+    // Format objet.
+    {
+      href: 'http://mydomain.com/style.css',
+    },
+  ],
+};
+```
+
+:::info
+
+Par défaut, les balises `<link>` auront `rel="stylesheet"`, mais vous pouvez explicitement ajouter une valeur personnalisée à `rel` pour injecter n'importe quel type de balise `<link>`, pas nécessairement des feuilles de style.
+
+:::
+
+### `clientModules` {#clientModules}
+
+Un tableau de [modules clients](../advanced/client.mdx#client-modules) à charger globalement sur votre site.
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  clientModules: ['./mySiteGlobalJs.js', './mySiteGlobalCss.css'],
+};
+```
+
+### `ssrTemplate` {#ssrTemplate}
+
+Un template HTML écrit dans la [syntaxe d'Eta](https://eta.js.org/docs/syntax#syntax-overview) qui sera utilisé pour rendre votre application. Il peut être utilisé pour définir des attributs personnalisés sur les balises `body`, des balises `meta` supplémentaires, personnaliser le `viewport`, etc. Veuillez noter que Docusaurus s'appuiera sur la structure correcte du template pour fonctionner correctement. Une fois que vous l'aurez personnalisé, vous devrez vous assurer que votre template est conforme aux exigences de upstream.
+
+- Type : `string`
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  ssrTemplate: `<!DOCTYPE html>
+<html <%~ it.htmlAttributes %>>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="generator" content="Docusaurus v<%= it.version %>">
+    <% it.metaAttributes.forEach((metaAttribute) => { %>
+      <%~ metaAttribute %>
+    <% }); %>
+    <%~ it.headTags %>
+    <% it.stylesheets.forEach((stylesheet) => { %>
+      <link rel="stylesheet" href="<%= it.baseUrl %><%= stylesheet %>" />
+    <% }); %>
+    <% it.scripts.forEach((script) => { %>
+      <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
+    <% }); %>
+  </head>
+  <body <%~ it.bodyAttributes %>>
+    <%~ it.preBodyTags %>
+    <div id="__docusaurus">
+      <%~ it.appHtml %>
+    </div>
+    <% it.scripts.forEach((script) => { %>
+      <script src="<%= it.baseUrl %><%= script %>"></script>
+    <% }); %>
+    <%~ it.postBodyTags %>
+  </body>
+</html>`,
+};
+```
+
+### `titleDelimiter` {#titleDelimiter}
+
+- Type : `string`
+
+Sera utilisée comme délimiteur de titre dans la balise `<title>` générée.
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  titleDelimiter: '🦖', // Par défaut `|`
+};
+```
+
+### `baseUrlIssueBanner` {#baseUrlIssueBanner}
+
+- Type : `boolean`
+
+Lorsqu'il est activé, il affiche une bannière si votre site ne peut pas charger ses fichiers CSS ou JavaScript, ce qui est un problème très courant, souvent lié à un mauvais `baseUrl` dans la configuration du site.
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  baseUrlIssueBanner: true, // Par défaut, `true`
+};
+```
+
+![Une bannière d'une issue vers une URL de base. Le style est très brut car les feuilles de style n'ont pas pu être chargées. Le texte dit « Votre site Docusaurus ne s'est pas chargé correctement... Configuration actuelle baseUrl = / (valeur par défaut). Nous suggérons d'essayer baseUrl = /build/](/img/baseUrlIssueBanner.png)
+
+:::warning
+
+Cette bannière doit être en ligne CSS / JS au cas où le chargement de l'actif échouerait en raison d'une mauvaise URL de base.
+
+Si vous avez une [politique de sécurité de contenu](https://developer.mozilla.org/fr-US/docs/Web/HTTP/CSP), vous devriez plutôt la désactiver.
+
+:::

@@ -1,0 +1,82 @@
+---
+id: head-metadata
+description: 通过 MDX 声明页面专有元数据
+slug: /markdown-features/head-metadata
+---
+
+# Head 元数据
+
+## 自定义元数据 {#customizing-head-metadata}
+
+Docusaurus 会自动在 `<html>`、`<head>`、`<body>` 等地方为你设置好有用的网页元数据。 你也可以在 Markdown 文件中用 `<head>` 标签添加更多元数据，或者覆盖现有的元数据：
+
+```md title="markdown-features-head-metadata.mdx"
+---
+id: head-metadata
+title: Head 元数据
+---
+
+<!-- highlight-start -->
+<head>
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
+  <title>Head 元数据自定义的标题！</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadata" />
+</head>
+<!-- highlight-end -->
+
+# Head 元数据
+
+文字
+```
+
+```mdx-code-block
+<head>
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
+  <title>Head 元数据自定义的标题！</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadata" />
+</head>
+```
+
+这些 `<head>` 声明已经添加到了这篇 Markdown 文档中，以供演示。 你可以打开浏览器的调试工具，看看本页面的元数据是如何被影响的。
+
+:::note
+
+这个功能是基于 Docusaurus [`<Head>`](./../../docusaurus-core.mdx#head) 组件的。 要阅读详尽的文档，请参考 [react-helmet](https://github.com/nfl/react-helmet)。
+
+:::
+
+:::tip 你不需要用这个功能实现一般的 SEO
+
+内容插件（比如文档和博客）提供了 `description`、`keywords`、`image` 等前言，会自动被应用于 `description` 和 `og:description` 两个字段。但如果你用 `<head>` 标签，你就得手动声明两个元数据标签。
+
+:::
+
+## Markdown 页面描述 {#markdown-page-description}
+
+Markdown 页面的 description 元数据可能在 head 元数据之外还被用于更多地方。 For example, the docs plugin's [generated category index](../docs/sidebar/items.mdx#generated-index-page) uses the description metadata for the doc cards.
+
+默认情况下，描述是第一行包含内容的文字。我们会尽量把它转化为纯文本。 例如，对于下面的文件：
+
+```md
+# 标题
+
+主要内容…… May contain some [links](./file.mdx) or **emphasis**.
+```
+
+它的默认描述为「主要内容…… 还可能包含一些链接或者重点。」 然而，**我们并不致力于让它完全能正常工作**。 如果它不能产出一段合理的描述，你可以通过前言显式地提供一段：
+
+```md
+---
+description：这段描述会覆盖默认值。
+---
+
+# 标题
+
+主要内容…… May contain some [links](./file.mdx) or **emphasis**.
+```

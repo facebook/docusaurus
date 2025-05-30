@@ -1,0 +1,101 @@
+---
+sidebar_position: 3
+slug: /api/plugins/@docusaurus/plugin-content-pages
+---
+
+# 📦 plugin-content-pages
+
+import APITable from '@site/src/components/APITable';
+
+도큐사우루스의 기본 페이지 플러그인입니다. 클래식 템플릿에는 기본 설정으로 플러그인이 포함되어 있습니다. This plugin provides [creating pages](guides/creating-pages.mdx) functionality.
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-content-pages
+```
+
+:::tip
+
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명                          | 타입         | 기본값                               | 설명                                                              |
+| ---------------------------- | ---------- | --------------------------------- | --------------------------------------------------------------- |
+| `path`                       | `string`   | `'src/pages'`                     | 사이드 디렉토리에 상대적인 파일 시스템의 데이터 경로입니다. 디렉토리 내 컴포넌트는 자동으로 페이지로 변환됩니다. |
+| `routeBasePath`              | `string`   | `'/'`                             | 사이트 페이지 섹션에 대한 URL 라우트 **DO NOT** include a trailing slash.     |
+| `include`                    | `string[]` | `['**/*.{js,jsx,ts,tsx,md,mdx}']` | 일치하는 파일이 포함되어 처리됩니다.                                            |
+| `exclude`                    | `string[]` | _See example configuration_       | 일치하는 파일에 대한 라우트가 생성되지 않습니다.                                     |
+| `mdxPageComponent`           | `string`   | `'@theme/MDXPage'`                | 각 MDX 페이지에서 사용하는 컴포넌트                                           |
+| `remarkPlugins`              | `[]`       | `any[]`                           | MDX에 전달된 Remark 플러그인                                            |
+| `rehypePlugins`              | `[]`       | `any[]`                           | MDX에 전달된 Rehype 플러그인                                            |
+| `beforeDefaultRemarkPlugins` | `any[]`    | `[]`                              | 기본 도큐사우루스 Remark 플러그인보다 먼저 MDX에 전달된 사용자 지정 Remark 플러그인          |
+| `beforeDefaultRehypePlugins` | `any[]`    | `[]`                              | 기본 도큐사우루스 Rehype 플러그인보다 먼저 MDX에 전달된 사용자 지정 Rehype 플러그인          |
+
+```mdx-code-block
+</APITable>
+```
+
+### Example configuration {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 플러그인을 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```js config-tabs
+// Preset Options: pages
+// Plugin Options: @docusaurus/plugin-content-pages
+
+const config = {
+  path: 'src/pages',
+  routeBasePath: '',
+  include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
+  ],
+  mdxPageComponent: '@theme/MDXPage',
+  remarkPlugins: [require('remark-math')],
+  rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
+};
+```
+
+## i18n {#i18n}
+
+Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
+
+### Translation files location {#translation-files-location}
+
+- **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-pages`
+- **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-pages-[pluginId]`
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
+- **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-pages`
+
+### Example file-system structure {#example-file-system-structure}
+
+```bash
+website/i18n/[locale]/docusaurus-plugin-content-pages
+│
+│ # translations for website/src/pages
+├── first-markdown-page.md
+└── second-markdown-page.md
+```

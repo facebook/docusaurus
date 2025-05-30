@@ -1,0 +1,220 @@
+---
+description: Comment rendre votre site Docusaurus plus convivial pour les moteurs de recherche.
+sidebar_label: SEO
+keywords:
+  - seo
+  - positionnement
+---
+
+# Optimisation des moteurs de recherche (SEO)
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+Docusaurus prend en charge l'optimisation des moteurs de recherche de plusieurs façons.
+
+## Métadonnées globales {#global-metadata}
+
+Fournir des méta-attributs globaux pour l'ensemble du site à travers la [configuration du site](./configuration.mdx#site-metadata). Les métadonnées seront toutes rendues dans le code HTML `<head>` en utilisant les paires clé-valeur comme nom et valeur de la propriété. L'attribut `metadata` est un raccourci pratique pour déclarer les balises `<meta>` mais il est également possible d'injecter des balises arbitraires dans `<head>` avec l'attribut `headTags`.
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    // Déclare quelques balises <meta>
+    metadata: [
+      {name: 'keywords', content: 'cooking, blog'},
+      {name: 'twitter:card', content: 'summary_large_image'},
+    ],
+  },
+  headTags: [
+    // Déclare une balise <link> preconnect
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://example.com',
+      },
+    },
+    // Déclare des données structurées json-ld
+    {
+      tagName: 'script',
+      attributes: {
+        type: 'application/ld+json',
+      },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org/',
+        '@type': 'Organization',
+        name: 'Meta Open Source',
+        url: 'https://opensource.fb.com/',
+        logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+      }),
+    },
+  ],
+};
+```
+
+Docusaurus ajoute quelques métadonnées prêtes à l'emploi. Par exemple, si vous avez configuré [i18n](./i18n/i18n-introduction.mdx), vous obtiendrez un lien alternatif [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions).
+
+Pour en savoir plus sur les types de balises méta, consultez [les docs MDN](https://developer.mozilla.org/fr/docs/Web/HTML/Element/meta).
+
+## Métadonnées d'une seule page {#single-page-metadata}
+
+Tout comme les [métadonnées globales](#global-metadata), Docusaurus permet également d'ajouter des méta-informations à des pages individuelles. Suivez [ce guide](./guides/markdown-features/markdown-features-head-metadata.mdx) pour configurer la balise `<head>`. En bref :
+
+```md title="my-markdown-page.mdx"
+# A cooking guide
+
+<head>
+  <meta name="keywords" content="cooking, blog" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://example.com" />
+  <script type="application/ld+json">
+    {JSON.stringify({
+      '@context': 'https://schema.org/',
+      '@type': 'Organization',
+      name: 'Meta Open Source',
+      url: 'https://opensource.fb.com/',
+      logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+    })}
+  </script>
+</head>
+
+Some content...
+```
+
+Docusaurus ajoute automatiquement `description`, `title`, des liens URL canoniques et d'autres métadonnées utiles à chaque page Markdown. Ils sont configurables via le [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) :
+
+```md
+---
+title: Titre destiné aux moteurs de recherche ; peut être différent de l'intitulé réel.
+description: Une brève description de cette page
+image: une image miniature à afficher dans les cartes de médias sociaux
+keywords: [mots-clés, description, principaux sujets]
+---
+```
+
+Lors de la création de votre page React, l'ajout de ces champs dans `Layout` permettra également d'améliorer le référencement.
+
+:::tip
+
+Préférez l'utilisation du [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) pour les champs comme `description` et `keywords` : Docusaurus l'appliquera automatiquement à `description` et `og:description`, alors que vous devrez déclarer manuellement deux balises de métadonnées lorsque vous utiliserez la balise `<head>`.
+
+:::
+
+:::info
+
+Les plugins officiels prennent en charge tous les [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) suivants : `title`, `description`, `keywords` et `image`. Reportez-vous à leur documentation de l'API respective pour une prise en charge supplémentaire du [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) :
+
+- [Front matter de Docs](./api/plugins/plugin-content-docs.mdx#markdown-front-matter)
+- [Front matter de Blog](./api/plugins/plugin-content-blog.mdx#markdown-front-matter)
+- [Front matter de Pages](./api/plugins/plugin-content-pages.mdx#markdown-front-matter)
+
+:::
+
+Pour les pages JSX, vous pouvez utiliser le composant [`<Head>`](docusaurus-core.mdx#head) de Docusaurus.
+
+```jsx title="my-react-page.jsx"
+import React from 'react';
+import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
+
+export default function page() {
+  return (
+    <Layout title="Page" description="A React page demo">
+      <Head>
+        <meta property="og:image" content="image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="preconnect" href="https://example.com" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org/',
+            '@type': 'Organization',
+            name: 'Meta Open Source',
+            url: 'https://opensource.fb.com/',
+            logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+          })}
+        </script>
+      </Head>
+      {/* ... */}
+    </Layout>
+  );
+}
+```
+
+:::tip
+
+Pour des raisons pratiques, le composant du thème par défaut`<Layout>` accepte `title` et `description` comme props.
+
+:::
+
+## Génération de HTML statique {#static-html-generation}
+
+Docusaurus est un générateur de sites statiques : les fichiers HTML sont générés de manière statique pour chaque route URL, ce qui permet aux moteurs de recherche de découvrir votre contenu plus facilement.
+
+## Méta description de l'image {#image-meta-description}
+
+La balise alt d'une image indique au moteur de recherche de quoi il s'agit. Elle est utilisée lorsque l'image n'est pas visible visuellement, par exemple lorsqu'on utilise un lecteur d'écran, ou lorsque l'image est endommagée. Les balises Alt sont généralement prises en charge dans le format Markdown.
+
+Vous pouvez également ajouter un titre à votre image. Ce titre n'a pas une grande incidence sur le référencement, mais il s'affiche sous la forme d'une info-bulle lorsque vous survolez l'image, généralement utilisée pour fournir des indications.
+
+```md
+![Bannière de Docusaurus](./assets/docusaurus-asset-example-banner.png 'Titre de l'image')
+```
+
+<BrowserWindow>
+
+![Bannière de Docusaurus](./assets/docusaurus-asset-example-banner.png 'Titre de l'image')
+
+</BrowserWindow>
+
+## Informations de recherche enrichies {#rich-search-information}
+
+Les blogs Docusaurus prennent en charge dès le départ les [résultats de recherche enrichies](https://search.google.com/test/rich-results) pour bénéficier d'une expérience maximale dans les moteurs de recherche. Les informations sont créées en fonction de vos méta-informations dans la configuration du blog/globale. Afin de bénéficier des avantages de la recherche riche, remplissez les informations relatives à la date de publication de l'article, des auteurs, de l'image, etc. Pour en savoir plus sur la méta-information, lisez [ceci](./blog.mdx).
+
+## Fichier robots {#robots-file}
+
+Un fichier `robots.txt` régule le comportement des moteurs de recherche sur ce qui doit être affiché et ce qui ne doit pas l'être. Vous pouvez le fournir en tant que [ressource statique](./static-assets.mdx). L'exemple suivant permettra d'accéder à toutes les sous-pages à partir de toutes les requêtes :
+
+```text title="static/robots.txt"
+User-agent: *
+Disallow:
+```
+
+Pour en savoir plus sur le fichier robots, consultez [la documentation Google](https://developers.google.com/search/docs/advanced/robots/intro).
+
+:::warning
+
+**Important** : le fichier `robots.txt` **n'empêche pas** les pages HTML d'être indexées.
+
+Pour empêcher l'indexation de l'ensemble de votre site Docusaurus, utilisez la configuration de site [`noIndex`](./api/docusaurus.config.js.mdx#noIndex). Certains [hébergeurs](./deployment.mdx) peuvent également vous permettre de configurer une entête HTTP `X-Robots-Tag: noindex` (GitHub Pages ne le prend pas en charge).
+
+Pour éviter qu'une seule page ne soit indexée, utilisez `<meta name="robots" content="noindex">` comme [métadonnées de page](#single-page-metadata). En savoir plus sur la [balise méta robots](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag).
+
+:::
+
+## Fichier sitemap {#sitemap-file}
+
+Docusaurus fournit le plugin [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx) qui est fourni avec `preset-classic` par défaut. Il génère automatiquement un fichier `sitemap.xml` qui sera disponible depuis `https://example.com/[baseUrl]/sitemap.xml` après la construction de la production. Ces métadonnées aident les robots des moteurs de recherche à explorer votre site avec plus de précision.
+
+:::tip
+
+Le plugin sitemap filtre automatiquement les pages contenant une [directive méta robots](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag) `noindex`.
+
+Par exemple, [`/examples/noIndex`](/examples/noIndex) n'est pas inclus dans le [fichier sitemap.xml de Docusaurus](pathname:///sitemap.xml) car il contient les [métadonnées de page suivantes](#single-page-metadata) :
+
+```html
+<head>
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+```
+
+:::
+
+## Liens lisibles par un humain {#human-readable-links}
+
+Docusaurus utilise vos noms de fichiers comme liens, mais vous pouvez toujours changer cela en utilisant des slugs, voir ce [tutoriel](./guides/docs/docs-create-doc.mdx#document-id) pour plus de détails.
+
+## Contenu structuré {#structured-content}
+
+Les moteurs de recherche s'appuient sur les balises HTML telles que `<h2>`, `<table>`, etc pour comprendre la structure de votre page Web. Lorsque Docusaurus rend vos pages, des balises sémantiques, par exemple `<aside>`, `<nav>`, `<main>`, sont utilisées pour diviser les différentes sections de la page, aidant ainsi le moteur de recherche à localiser des parties comme la barre latérale, la barre de navigation et le contenu principal de la page.
+
+La plupart des syntaxes [CommonMark](https://spec.commonmark.org/0.30/#atx-headings) ont leurs balises HTML correspondantes. En utilisant systématiquement le format Markdown dans votre projet, vous faciliterez la compréhension du contenu de vos pages par les moteurs de recherche.
