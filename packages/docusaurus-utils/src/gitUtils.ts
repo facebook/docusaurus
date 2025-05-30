@@ -160,6 +160,13 @@ export async function getFileCommitDate(
     });
   }))!;
 
+  console.log('result', {
+    file,
+    exitCode: result.exitCode,
+    stdout: result.stdout,
+    stderr: result.stderr,
+  });
+
   if (result.exitCode !== 0) {
     throw new Error(
       `Failed to retrieve the git history for file "${file}" with exit code ${result.exitCode}: ${result.stderr}`,
