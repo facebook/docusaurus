@@ -16,7 +16,7 @@ function execPromise(
   command: string,
   options: ExecOptions,
 ): Promise<{exitCode: number; stdout: string; stderr: string}> {
-  // options.shell = '/bin/bash';
+  options.shell = '/bin/bash';
 
   return new Promise((resolve, reject) => {
     exec(command, options, (error, stdout, stderr) => {
@@ -31,7 +31,7 @@ function execPromise(
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915
-const DefaultGitCommandConcurrency = 1;
+const DefaultGitCommandConcurrency = 10;
 
 const GitCommandConcurrencyEnv = process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY
   ? parseInt(process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY, 10)
