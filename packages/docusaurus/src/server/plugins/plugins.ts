@@ -77,9 +77,13 @@ async function executePluginContentLoading({
   context: LoadContext;
 }): Promise<LoadedPlugin> {
   return PerfLogger.async(`Load ${formatPluginName(plugin)}`, async () => {
-    let content = await PerfLogger.async('loadContent()', () =>
-      plugin.loadContent?.(),
-    );
+    let content = await PerfLogger.async('loadContent()', async () => {
+      await plugin.loadContent?.();
+      await plugin.loadContent?.();
+      await plugin.loadContent?.();
+      await plugin.loadContent?.();
+      return plugin.loadContent?.();
+    });
 
     content = await PerfLogger.async('translatePluginContent()', () =>
       translatePluginContent({
