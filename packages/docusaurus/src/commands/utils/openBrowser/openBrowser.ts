@@ -64,6 +64,7 @@ async function tryOpenWithAppleScript({
         'Brave Browser',
         'Vivaldi',
         'Chromium',
+        'Arc',
       ];
 
       // Among all the supported browsers, retrieves to stdout the active ones
