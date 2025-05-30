@@ -25,13 +25,19 @@ console.log('TEST');
 setInterval(() => {
   console.log('\n\nTEST');
 
-  getFileCommitDate('docs/advanced/architecture.mdx', {});
+  getFileCommitDate('docs/advanced/architecture.mdx', {
+    age: 'newest',
+    includeAuthor: true,
+  });
   getFileCommitDate(
     'i18n/zh-CN/docusaurus-plugin-content-docs/current/advanced/architecture.mdx',
-    {},
+    {
+      age: 'newest',
+      includeAuthor: true,
+    },
   );
   console.log('TEST\n\n');
-}, 800);
+}, 500);
 
 /**
  * @param {unknown} error
