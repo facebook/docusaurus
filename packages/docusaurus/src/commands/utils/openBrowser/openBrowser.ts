@@ -64,6 +64,7 @@ async function tryOpenWithAppleScript({
         'Brave Browser',
         'Vivaldi',
         'Chromium',
+        'Arc',
       ];
 
       // Among all the supported browsers, retrieves to stdout the active ones
@@ -72,7 +73,7 @@ async function tryOpenWithAppleScript({
       )})$"`;
 
       const result = await execPromise(command).catch(() => {
-        // Ignore grep errors when macOS user has no Chromium-based browser
+        // Ignore grep errors when macOS user has no Chromium-based browser open
         // See https://github.com/facebook/docusaurus/issues/11204
       });
       if (!result) {
