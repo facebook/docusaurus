@@ -31,7 +31,7 @@ setInterval(() => {
     {},
   );
   console.log('TEST\n\n');
-}, 1000);
+}, 800);
 
 /**
  * @param {unknown} error
