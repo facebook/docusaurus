@@ -27,7 +27,7 @@
     "profile:bundle:samply": "./profileSamply.sh",
     "netlify:build:production": "yarn docusaurus write-translations && yarn netlify:crowdin:delay && yarn netlify:crowdin:uploadSources && yarn netlify:crowdin:downloadTranslations && yarn build",
     "netlify:build:branchDeploy": "yarn build",
-    "netlify:build:deployPreview": "node test",
+    "netlify:build:deployPreview": "yarn build",
     "netlify:crowdin:delay": "node delayCrowdin.mjs",
     "netlify:crowdin:wait": "node waitForCrowdin.mjs",
     "netlify:crowdin:downloadTranslations": "yarn netlify:crowdin:wait && yarn --cwd .. crowdin:download:website",
