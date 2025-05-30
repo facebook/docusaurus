@@ -155,7 +155,7 @@ export async function getFileCommitDate(
   const result = (await GitCommandQueue.add(() => {
     return PerfLogger.async(command, () => {
       return execa(command, {
-        shell: true,
+        // shell: true,
       });
     });
   }))!;
