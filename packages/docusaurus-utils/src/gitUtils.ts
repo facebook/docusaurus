@@ -142,30 +142,31 @@ export async function getFileCommitDate(
   // See why: https://github.com/facebook/docusaurus/pull/10022
   const resultFormat = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
 
-  const args = [
+  const argsArray = [
     `--format=${resultFormat}`,
     '--max-count=1',
     age === 'oldest' ? '--follow --diff-filter=A' : undefined,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  ].filter((a) => typeof a !== 'undefined');
+
+  const args = argsArray.join(' ');
 
   const command = `git log ${args} -- "${file}"`;
 
   const result = (await GitCommandQueue.add(() => {
     return PerfLogger.async(command, () => {
-      return execa(command, {
-        // shell: true,
+      return execa('git', ['log', ...argsArray, '--', `"${file}"`], {
+        shell: false,
       });
     });
   }))!;
 
+  /*
   console.log('result', {
     file,
-    exitCode: result.exitCode,
-    stdout: result.stdout,
-    stderr: result.stderr,
+    result,
   });
+
+   */
 
   if (result.exitCode !== 0) {
     throw new Error(
