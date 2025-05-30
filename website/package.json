@@ -20,7 +20,7 @@
     "start:baseUrl": "cross-env BASE_URL='/build/' yarn start",
     "build:baseUrl": "cross-env BASE_URL='/build/' yarn build",
     "start:blogOnly": "cross-env yarn start --config=docusaurus.config-blog-only.js",
-    "build:blogOnly": "cross-env yarn build --config=docusaurus.config-blog-only.js",
+    "build:blogOnly": "cross-env DOCUSAURUS_PERF_LOGGER=true yarn build",
     "build:fast": "cross-env BUILD_FAST=true yarn build --locale en",
     "build:fast:rsdoctor": "cross-env BUILD_FAST=true RSDOCTOR=true yarn build --locale en",
     "profile:bundle:cpu": "DOCUSAURUS_EXIT_AFTER_BUNDLING=true node --cpu-prof --cpu-prof-dir .cpu-prof ./node_modules/.bin/docusaurus build --locale en",
