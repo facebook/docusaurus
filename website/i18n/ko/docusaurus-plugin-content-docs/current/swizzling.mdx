@@ -1,0 +1,334 @@
+---
+description: 자신만의 테마 컴포넌트를 만들어 사이트 UI를 원하는 형태로 구성합니다.
+---
+
+# 스위즐링
+
+이번 섹션에서는 도큐사우루스에서 사용자 정의 레이아웃을 처리하는 방법을 소개합니다.
+
+> Déjà vu...?
+
+This section is similar to [Styling and Layout](./styling-layout.mdx), but this time, we will customize React components themselves, rather than what they look like. 우리는 도큐사우루스의 핵심 개념인 **스위즐링**에 대해 다룰 겁니다. 이를 통해 **좀 더 깊은 사용자 지정**을 할 수 있습니다.
+
+스위즐링은 **테마 컴포넌트를 여러분이 작성한 결과물로 바꿀 수 있으며** 두 가지 패턴으로 제공됩니다.
+
+- [**추출하기**](#ejecting): 원본 테마 컴포넌트의 **복사본**을 만들어 원하는 형태로 **사용자 지정**할 수 있습니다.
+- [**감싸기**](#wrapping): 원본 테마 컴포넌트를 **감싼** 형태로 기능을 **향상**시킬 수 있습니다.
+
+<details>
+
+<summary>왜 스위즐링이라고 하나요?</summary>
+
+**이름은 오브젝티브-C와 스위프트 UI에서 가져온 것입니다.** [메소드 스위즐링](https://pspdfkit.com/blog/2019/swizzling-in-swift/)은 기존 선택자(메소드)의 구현을 변경하는 프로세스입니다.
+
+**도큐사우루스에서 컴포넌트 스위즐링은 테마에서 기본 컴포넌트보다 우선하는 대체 컴포넌트를 제공하는 것을 의미합니다.**
+
+리액트 컴포넌트에 대한 [몽키 패치](https://en.wikipedia.org/wiki/Monkey_patch)라고 이야기할 수 있습니다. 기존 구현을 여러분이 재정의할 수 있게 합니다. 개츠비(Gatsby)에도 [테마 쉐도잉](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/)이라는 비슷한 개념이 있습니다.
+
+좀 더 자세하게 알고 싶다면 [테마 컴포넌트가 내부적으로 어떻게 처리되는지](./advanced/client.mdx#theme-aliases) 이해해야 합니다.
+
+</details>
+
+## 스위즐링 프로세스
+
+### 개요
+
+Docusaurus provides a convenient **interactive CLI** to swizzle components. 일반적으로 다음 명령만 기억하면 됩니다.
+
+```bash npm2yarn
+npm run swizzle
+```
+
+`src/theme` 디렉토리에 다음 예시와 같은 새로운 컴포넌트를 생성합니다.
+
+```mdx-code-block
+<Tabs>
+<TabItem value="Ejecting">
+```
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+
+export default function SomeComponent(props) {
+  // JSX, CSS, 리액트 후크 변경을 포함한 구현을
+  // 사용자 지정할 수 있습니다.
+  return (
+    <div className="some-class">
+      <h1>Some Component</h1>
+      <p>Some component implementation details</p>
+    </div>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="Wrapping">
+```
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+import SomeComponent from '@theme-original/SomeComponent';
+
+export default function SomeComponentWrapper(props) {
+  // 속성이나 JSX 요소를 추가하는 것을 포함해
+  // 원본 컴포넌트의 기능을 향상시킬 수 있습니다.
+  return (
+    <>
+      <SomeComponent {...props} />
+    </>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+스위즐할 수 있는 모든 테마, 컴포넌트에 대한 목록을 보려면 다음 명령을 실행하세요.
+
+```bash npm2yarn
+npm run swizzle -- --list
+```
+
+`--help` 옵션을 사용하거나 [스위즐 CLI 문서](./cli.mdx#docusaurus-swizzle)를 참조하면 사용할 수 있는 모든 CLI 옵션을 확인할 수 있습니다.
+
+:::tip Removing Unneeded Swizzled Components
+
+If you decide that a previously swizzled component is no longer necessary, you can simply remove its file(s) from the `src/theme` directory. After removing the component, make sure to restart your development server to ensure the changes are properly reflected.
+
+:::
+
+:::note
+
+컴포넌트 스위즐링 후에 도큐사우루스에서 새로운 컴포넌트를 인지할 수 있도록 **개발 서버 재시작**이 필요합니다.
+
+:::
+
+:::warning 안전한 작업인지 먼저 확인하세요
+
+[어떤 컴포넌트가 **안전하게 스위즐 할 수 있는지**](#what-is-safe-to-swizzle)에 대한 이해가 필요합니다. 일부 컴포넌트는 테마 **내부 구현 세부 사항**입니다.
+
+:::
+
+:::info
+
+`docusaurus swizzle`은 컴포넌트를 스위즐하는 것을 돕기 위한 자동화된 방법일 뿐입니다. `src/theme/SomeComponent.js` 파일을 직접 생성할 수도 있으며 도큐사우루스에서는 [이를 처리할 수 있습니다](./advanced/client.mdx#theme-aliases). 이 명령 뒤에 보이지 않는 마법 따위는 없습니다!
+
+:::
+
+### 추출하기(Ejecting) {#ejecting}
+
+테마 컴포넌트를 추출하는 것은 여러분이 **완전한 사용자 지정과 재정의**를 할 수 있도록 원본 테마 컴포넌트의 **사본을 생성하는** 프로세스입니다.
+
+테마 컴포넌트를 추출하려면 swizzle CLI를 대화식으로 사용하거나 `--eject` 옵션과 함께 사용하세요.
+
+```bash npm2yarn
+npm run swizzle [theme name] [component name] -- --eject
+```
+
+예:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
+```
+
+위의 예시는 현재 `<Footer />` 컴포넌트 구현체를 여러분의 사이트 `src/theme` 디렉토리에 복사합니다. 도큐사우루스는 이제 원본 대신 `<Footer>` 컴포넌트의 복사본을 사용합니다. 이제 `<Footer>` 컴포넌트를 완전히 원하는대로 구현할 수 있습니다.
+
+```jsx title="src/theme/Footer/index.js"
+import React from 'react';
+
+export default function Footer(props) {
+  return (
+    <footer>
+      <h1>This is my custom site footer</h1>
+      <p>And it is very different from the original</p>
+    </footer>
+  );
+}
+```
+
+:::warning
+
+[**안전하지 않은**](#what-is-safe-to-swizzle) 컴포넌트를 추출하면 많은 양의 내부 코드가 복사될 수 있으며 여러분에게 관리의 책임이 돌아갑니다. 관련 속성이나 내부 테마 API가 변경되는 경우 사용자 지정 컴포넌트도 마이그레이션해야 하므로 도큐사우루스 업그레이드를 어렵게 만들 수 있습니다.
+
+**원본 컴포넌트를 [감싸는](#wrapping)** 방식을 선택하면 관리할 코드의 양이 훨씬 줄어들 수 있습니다.
+
+:::
+
+:::tip 다시 스위즐링하기
+
+도큐사우루스 업그레이드 후 추출한 컴포넌트를 최신 상태로 유지하려면 eject 명령을 다시 실행하고 변경 사항을 `git diff` 명령으로 비교하세요. 또한 파일 상단에 변경 사항에 대한 간단한 설명을 추가해놓으면 다시 추출했을 때 변경 사항을 좀 더 쉽게 적용할 수 있습니다.
+
+:::
+
+### 감싸기(Wrapping) {#wrapping}
+
+테마 컴포넌트를 감싸는 것은 여러분이 컴포넌트의 기능을 **향상**시킬 수 있도록 원본 테마 컴포넌트를 감싼 **래퍼를 생성하는** 프로세스입니다.
+
+테마 컴포넌트를 감싸려면 swizzle CLI를 대화식으로 사용하거나 `--wrap` 옵션과 함께 사용하세요.
+
+```bash npm2yarn
+npm run swizzle [theme name] [component name] -- --wrap
+```
+
+예:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer -- --wrap
+```
+
+이렇게 하면 `src/theme` 디렉토리에 래퍼가 생성됩니다. 도큐사우루스는 이제 원본 대신 `<FooterWrapper>` 컴포넌트를 사용합니다. 이제 원본 컴포넌트를 감싼 위에 사용자 지정 항목을 추가할 수 있습니다.
+
+```jsx title="src/theme/Footer/index.js"
+import React from 'react';
+import Footer from '@theme-original/Footer';
+
+export default function FooterWrapper(props) {
+  return (
+    <>
+      <section>
+        <h2>Extra section</h2>
+        <p>This is an extra section that appears above the original footer</p>
+      </section>
+      <Footer {...props} />
+    </>
+  );
+}
+```
+
+<details>
+  <summary><code>@theme-original</code>는 무엇인가요?</summary>
+
+도큐사우루스는 사용할 테마 컴포넌트를 확인하기 위해 [테마 별칭](./advanced/client.mdx#theme-aliases)을 사용합니다. 새로 생성된 래퍼는 `@theme/SomeComponent`라는 별칭을 사용합니다. `@theme-original/SomeComponent`는 래퍼 자체를 가져오면서 무한 루프에 빠지지 않도록 래퍼를 드러나지 않게 하고 원본 컴포넌트를 가져오도록 합니다.
+
+</details>
+
+:::tip
+
+테마 감싸기는 기존 컴포넌트를 [추출](#ejecting)하지 않고 **추가적인 기능을 더하는** 좋은 방법입니다. 예를 들어 각 블로그 게시물 아래에 사용자 지정 댓글 시스템을 손쉽게 추가할 수 있습니다.
+
+```jsx title="src/theme/BlogPostItem.js"
+import React from 'react';
+import BlogPostItem from '@theme-original/BlogPostItem';
+import MyCustomCommentSystem from '@site/src/MyCustomCommentSystem';
+
+export default function BlogPostItemWrapper(props) {
+  return (
+    <>
+      <BlogPostItem {...props} />
+      <MyCustomCommentSystem />
+    </>
+  );
+}
+```
+
+:::
+
+## 스위즐하기 안전하다는 것은 무엇인가요? {#what-is-safe-to-swizzle}
+
+> 권한이 크면 책임감도 커집니다.
+
+일부 테마 컴포넌트는 테마 **내부 구현 세부 사항**입니다. 도큐사우루스에서는 스위즐을 허용하고 있지만 **위험한 작업이 될 수 있습니다**.
+
+<details>
+
+<summary>왜 위험한가요?</summary>
+
+테마 작성자(저희도 마찬가지로)는 시간이 지나면서 테마를 업데이트할 수 있습니다. 컴포넌트 속성, 이름, 파일 시스템 위치, 타입 등이 바뀔 수 있습니다. 예를 들어 `name`과 `age`라는 2개의 속성을 수신하는 컴포넌트가 있었는데 리팩토링을 하면서 2개의 속성을 가진 `person`이라는 상위 속성을 수신하도록 수정했습니다. 여러분의 컴포넌트는 여전히 2개의 속성을 수신하려고 하기 때문에 `undefined`로 처리됩니다.
+
+또한 내부 컴포넌트가 삭제될 수도 있습니다. `Sidebar`라고 부르던 컴포넌트가 `DocSidebar`로 이름을 바꾸면 스위즐한 컴포넌트는 동작하지 않을 수 있습니다.
+
+**안전하지 않은 것으로 표시된 테마 컴포넌트는 이전 테마 버전과 호환되지 않는 방식으로 변경될 수 있습니다**. 테마(또는 도큐사우루스)를 업그레이드할 때 사용자 지정 요소가 **의도치 않게 동작**할 수도 있고 **사이트 자체가 표시되지 못할** 수도 있습니다.
+
+</details>
+
+각 테마 컴포넌트에 대해 swizzle CLI는 테마 작성자가 설정한 **3가지 수준의 안전도**를 표시합니다.
+
+- **Safe**: 컴포넌트가 스위즐 시 안전하고 공개된 API가 안정적인 것으로 간주되며 **메이저 버전** 테마 내에서 주요한 변경 사항이 발생하지 않습니다.
+- **Unsafe**: 컴폰넌트가 테마 내부 구현 사항이기 때문에 스위즐 시 안전하지 않으며 **마이너 버전** 테마 내에서 주요 변경 사항이 발생할 수 있습니다.
+- **Forbidden**: swizzle CLI은 해당 컴포넌트를 스위즐할 수 없게 설계되었고 컴포넌트 스위즐을 할 수 없습니다.
+
+:::note
+
+일부 컴포넌트는 감싸기는 안전하지만 추출하기는 안전하지 않을 수 있습니다.
+
+:::
+
+:::info
+
+**안전하지 않은 컴포넌트를 스위즐 하는 것을 너무 두려워하지는** 마세요. 다만 **주요 변경 사항**이 발생할 수 있으며 마이너 버전 업데이트 시 사용자 지정을 수동으로 조정해야 할 수 있습니다.
+
+:::
+
+:::note 여러분의 사례를 알려주세요
+
+**안전하지 않은 컴포넌트를 스위즐링해야 하는 좋은 사례**가 있다면 [**저희에게 알려주세요**](https://github.com/facebook/docusaurus/discussions/5468). 함께 고민해서 안전하지 않은 컴포넌트를 안전하게 만드는 해결책을 찾도록 하겠습니다.
+
+:::
+
+## 어떤 컴포넌트를 스위즐해야 하나요? {#which-component-should-i-swizzle}
+
+원하는 결과를 얻기 위해 정확하게 어떤 컴포넌트를 스위즐해야 하는지 항상 명확한 것은 아닙니다. `@docusaurus/theme-classic`에서는 대부분의 테마 컴포넌트가 포함된 대략 [100 여개의 컴포넌트](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)를 제공하고 있습니다.
+
+:::tip
+
+`@docusaurus/theme-classic` 컴포넌트 목록을 확인하려면 아래 명령을 실행하세요.
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic -- --list
+```
+
+:::
+
+다음 단계에 따라 스위즐하기 적절한 컴포넌트를 찾을 수 있습니다.
+
+1. **컴포넌트 설명**. 일부 컴포넌트는 적절한 컴포넌트를 찾기 위한 좋은 방법인 간단한 설명을 제공합니다.
+2. **컴포넌트 이름**. 공식 테마 컴포넌트의 이름은 의미를 가지도록 지정되므로 이름에서 해당 기능을 유추할 수 있습니다. swizzle CLI를 사용하면 컴포넌트 이름 일부를 입력해 사용할 수 있는 선택 범위를 좁힐 수 있습니다. 예를 들어 `yarn swizzle @docusaurus/theme-classic` 명령을 실행하고 `Doc`이라고 입력하면 문서와 관련된 컴포넌트 목록만 표시됩니다.
+3. **높은 레벨 컴포넌트에서 시작하기.** 컴포넌트는 일부 컴포넌트가 다른 컴포넌트를 가져오는 트리 구조로 구성됩니다. 모든 라우트는 라우트에서 렌더링할 하나의 최상위 컴포넌트와 연결됩니다(해당 목록은 [컴포넌트 플러그인 라우팅](./advanced/routing.mdx#routing-in-content-plugins) 항목을 참고하세요). 예를 들어 모든 블로그 게시물 페이지는 최상위 컴포넌트로 `@theme/BlogPostPage`를 가집니다. 컴포넌트를 스위즐링한 다음 컴포넌트 트리를 해당 컴포넌트까지 타고 내려가서 여러분이 목표로 하는 것을 렌더링합니다. 너무 많은 컴포넌트를 관리하지 않으려면 올바른 파일을 찾은 후 파일을 삭제해서 나머지를 언스위즐하는 것을 잊지 마세요.
+4. **[테마 소스 코드](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)를 읽고** 현명하게 탐색하세요.
+
+:::tip 질문하세요!
+
+원하는 효과를 얻기 위해 어떤 컴포넌트를 스위즐해야 하는지 아직 모르는 경우 [지원 채널](/community/support) 중 하나에 도움을 요청할 수 있습니다.
+
+우리는 또한 가장 멋진 사용자 지정 사례를 좀 더 잘 이해하기 원합니다. [**여러분의 이야기를 들려주세요**](https://github.com/facebook/docusaurus/discussions/5468).
+
+:::
+
+## 스위즐이 꼭 필요한가요? {#do-i-need-to-swizzle}
+
+스위즐링은 궁극적으로 도큐사우루스 내부 API와 상호 작용하는 몇 가지 추가 리액트 코드를 유지하고 관리해야 함을 의미합니다. 사이트를 사용자 정의할 때는 다음과 같은 대안을 고려하세요.
+
+1. **CSS 사용.** CSS 규칙과 생성자는 종종 적절한 수준의 사용자 정의를 달성하는데 도움이 될 수 있습니다. 좀 더 자세한 내용은 [스타일과 레이아웃](./styling-layout.mdx)을 참고하세요.
+2. **다국어 사용.** 놀랍게 들릴 수도 있지만 다국어를 사용하는 것은 궁극적으로 텍스트 라벨을 사용자 정의하는 방법입니다. 예를 들어 사이트 기본 언어가 `en`인 경우에 `yarn write-translations -l en` 명령을 실행하고 생성된 `code.json` 파일을 편집할 수 있습니다. 자세한 내용은 [i18n 튜토리얼](./i18n/i18n-tutorial.mdx)을 참고하세요.
+
+:::tip
+
+**작을수록 좋습니다.** 스위즐링이 불가피한 경우 관련 부분만 스위즐링하고 가능한 적은 코드를 자체적으로 유지합니다. 작은 컴포넌트를 스위즐링하면 업그레이드 중에 **주요 변경 사항**이 생길 위험이 줄어듭니다.
+
+[감싸기](#wrapping)는 [추출하기](#ejecting)보다 훨씬 안전안 대안입니다.
+
+:::
+
+## 사이트를 `<Root>`로 감싸기 {#wrapper-your-site-with-root}
+
+`<Root>` 컴포넌트는 `<Layout>` 테마 위에 있는 리액트 트리 **맨 위**에 렌더링되며 **마운트가 해제되지 않습니다**. It is the perfect place to add stateful logic that should not be re-initialized across navigations (user authentication status, shopping cart state...).
+
+`src/theme/Root.js` 파일을 **직접** 만들고 스위즐합니다.
+
+```js title="src/theme/Root.js"
+import React from 'react';
+
+// 사용자 지정할 수 있는 기본 구현
+export default function Root({children}) {
+  return <>{children}</>;
+}
+```
+
+:::tip
+
+해당 컴포넌트를 사용해 리액트 컨텍스트 제공자를 렌더링합니다.
+
+:::

@@ -1,0 +1,108 @@
+---
+sidebar_position: 5
+slug: /api/plugins/@docusaurus/plugin-debug
+---
+
+# 📦 plugin-debug
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+The debug plugin will display useful debug information at [`http://localhost:3000/__docusaurus/debug`](http://localhost:3000/__docusaurus/debug).
+
+本插件适合插件作者使用，方便检视 `.docusaurus` 文件夹中的内容（比如创建的路由），和不会写入文件系统中的数据结构，比如通过 `contentLoaded` 生命周期加载的插件数据。
+
+:::info
+
+如果你是通过经典预设使用这个插件，那么预设会默认 (`debug: undefined`) **在开发环境下启用插件，并在生产环境下禁用插件**，避免暴露可能的敏感信息。 你可以用 `debug: true` 始终启用它，或者用 `debug: false` 始终禁用它。
+
+如果你用的是独立插件，你可能需要通过检查环境来实现同样的效果：
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    // highlight-next-line
+    process.env.NODE_ENV !== 'production' && '@docusaurus/plugin-debug',
+  ].filter(Boolean),
+};
+```
+
+:::
+
+:::note
+
+如果你报告了一个漏洞，我们可能会要求你在网站的生产环境中开启此插件，让我们能更方便地检查你的开发配置。
+
+如果你没有敏感信息的话，你可以[像我们一样](/__docusaurus/debug)在生产网站上一直开着这个插件。
+
+:::
+
+## 安装流程 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-debug
+```
+
+:::tip
+
+如果你已经安装了 `@docusaurus/preset-classic`，就不需要安装这个包了。
+
+您可以通过[预设选项](../../using-plugins.mdx#docusauruspreset-classic)配置此插件。
+
+:::
+
+## 配置 {#configuration}
+
+这个插件目前没有选项。
+
+### 示例配置 {#ex-config}
+
+你可以通过预设选项或插件选项来配置这个插件。
+
+:::tip
+
+大多数 Docusaurus 用户通过预设选项配置此插件。
+
+:::
+
+```mdx-code-block
+<Tabs groupId="api-config-ex">
+<TabItem value="preset" label="预设选项">
+```
+
+If you use a preset, configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic):
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // highlight-next-line
+        debug: true, // 这会在生产环境启用此插件
+      },
+    ],
+  ],
+};
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="plugin" label="插件选项">
+```
+
+如果你用的是独立插件，直接向插件提供选项：
+
+```js title="docusaurus.config.js"
+export default {
+  // highlight-next-line
+  plugins: ['@docusaurus/plugin-debug'],
+};
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```

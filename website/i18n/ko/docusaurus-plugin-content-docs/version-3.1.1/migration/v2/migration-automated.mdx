@@ -1,0 +1,75 @@
+---
+slug: /migration/v2/automated
+---
+
+# 자동으로 마이그레이션 처리
+
+마이그레이션 CLI는 자동으로 v1 웹 사이트를 v2 웹 사이트로 이전합니다.
+
+:::info
+
+마이그레이션 CLI 실행 시 완벽한 마이그레이션 자동화를 지원하는 것은 아니기 때문에 일부 항목은 수동으로 처리해야 합니다.
+
+:::
+
+마이그레이션 CLI는 아래와 같은 항목을 처리합니다.
+
+- Site configurations (from `siteConfig.js` to `docusaurus.config.js`)
+- `package.json`
+- `sidebars.json`
+- `/docs`
+- `/blog`
+- `/static`
+- `versioned_sidebar.json` and `/versioned_docs` if your site uses versioning
+
+아래와 같은 순서로 마이그레이션 CLI를 사용합니다.
+
+1. Before using the migration CLI, ensure that `/docs`, `/blog`, `/static`, `sidebars.json`, `siteConfig.js`, `package.json` follow the expected structure.
+
+2. v1 웹 사이트를 이전하기 위해 적절한 파일시스템 경로를 지정해 마이그레이션 CLI를 실행합니다.
+
+```bash
+# migration command format
+npx @docusaurus/migrate migrate <v1 website directory> <desired v2 website directory>
+
+# example
+npx @docusaurus/migrate migrate ./v1-website ./v2-website
+```
+
+3. 여러분의 새로운 웹 사이트를 로컬에서 확인하려면 v2 웹 사이트 디렉터리로 가서 개발 서버를 시작해줍니다.
+
+```bash npm2yarn
+cd ./v2-website
+npm install
+npm start
+```
+
+:::danger
+
+마이그레이션 CLI는 기존 파일을 업데이트합니다. 파일이 모두 커밋되었는지 먼저 확인하세요!
+
+:::
+
+#### Options {#options}
+
+마크다운 콘텐츠와 페이지를 v2로 이전하도록 마이그레이션 CLI 실행 시 옵션 플래그를 추가할 수 있습니다. 최적의 결과를 얻기 위해서는 일부 수동 작업이 필요할 수 있습니다.
+
+| 옵션명      | 설명                                            |
+| -------- | --------------------------------------------- |
+| `--mdx`  | 마크다운을 MDX로 자동 변환하기 위해 추가하는 플래그입니다.            |
+| `--page` | 페이지를 자동으로 이전하기 위해 추가하는 플래그입니다.                |
+
+```bash
+# 옵션 사용 예
+npx @docusaurus/migrate migrate --mdx --page ./v1-website ./v2-website
+```
+
+:::danger
+
+페이지와 MDX 마이그레이션 지원은 아직 작업중입니다.
+
+We recommend you to try to run the pages without these options, commit, and then try to run the migration again with the `--page` and `--mdx` options.
+
+이렇게 하면 diff 기능을 사용해 쉽게 문제를 확인하고 수정할 수 있습니다.
+
+:::

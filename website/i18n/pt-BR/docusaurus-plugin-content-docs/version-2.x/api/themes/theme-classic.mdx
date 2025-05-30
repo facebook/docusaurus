@@ -1,0 +1,63 @@
+---
+sidebar_position: 2
+slug: /api/themes/@docusaurus/theme-classic
+---
+
+# 📦 tema-clássico
+
+import APITable from '@site/src/components/APITable';
+
+O tema clássico para Docusaurus.
+
+You can refer to the [theme configuration page](theme-configuration.mdx) for more details on the configuration.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-classic
+```
+
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+
+:::
+
+## Configuration {#configuration}
+
+Campos aceitos:
+
+```mdx-code-block
+<APITable>
+```
+
+| Option      | Type                            | Padrão | Descrição                                                                                                                                                  |
+| ----------- | ------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `customCss` | <code>string[] \| string</code> | `[]`   | Stylesheets to be imported globally as [client modules](../../advanced/client.mdx#client-modules). Relative paths are resolved against the site directory. |
+
+```mdx-code-block
+</APITable>
+```
+
+:::note
+
+Most configuration for the theme is done in `themeConfig`, which can be found in [theme configuration](./theme-configuration.mdx).
+
+:::
+
+### Example configuration {#ex-config}
+
+Você pode configurar esse tema através das opções de preset ou opções de plugin.
+
+:::tip
+
+A maioria dos usuários do Docusaurus configura este plugin através das configurações de predefinição.
+
+:::
+
+```js config-tabs
+// Preset Options: theme
+// Plugin Options: @docusaurus/theme-classic
+
+const config = {
+  customCss: require.resolve('./src/css/custom.css'),
+};
+```

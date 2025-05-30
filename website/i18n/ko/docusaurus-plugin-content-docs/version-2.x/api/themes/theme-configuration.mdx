@@ -1,0 +1,1086 @@
+---
+sidebar_position: 1
+sidebar_label: 설정
+slug: /api/themes/configuration
+toc_max_heading_level: 4
+---
+
+# 테마 설정
+
+import APITable from '@site/src/components/APITable';
+
+This configuration applies to all [main themes](./overview.mdx).
+
+## Common {#common}
+
+### Color mode {#color-mode---dark-mode}
+
+클래식 테마는 메뉴바에서 밝은 모드와 어두운 모드를 선택할 수 있는 기능을 기본으로 지원합니다.
+
+It is possible to customize the color mode support within the `colorMode` object.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명                         | 타입                             | 기본값       | 설명                                                                                                                            |
+| --------------------------- | ------------------------------ | --------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `defaultMode`               | <code>'light' \| 'dark'</code> | `'light'` | 사용자가 사이트를 처음 방문할 때 컬러 모드입니다.                                                                                                  |
+| `disableSwitch`             | `boolean`                      | `false`   | 메뉴바에서 스위치를 숨깁니다. 하나의 컬러 모드만 지원하기 원하는 경우 유용합니다.                                                                                |
+| `respectPrefersColorScheme` | `boolean`                      | `false`   | Whether to use the `prefers-color-scheme` media-query, using user system preferences, instead of the hardcoded `defaultMode`. |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // highlight-start
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: false,
+    },
+    // highlight-end
+  },
+};
+```
+
+:::warning
+
+With `respectPrefersColorScheme: true`, the `defaultMode` is overridden by user system preferences.
+
+하나의 색상 모드만 지원하려면 사용자 시스템 환경 설정에 영향을 받지 않게 해야 합니다.
+
+:::
+
+### Meta image {#meta-image}
+
+You can configure a default image that will be used for your meta tag, in particular `og:image` and `twitter:image`.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명     | 타입       | 기본값         | 설명                                                                                       |
+| ------- | -------- | ----------- | ---------------------------------------------------------------------------------------- |
+| `image` | `string` | `undefined` | 사이트의 메타 이미지 URL입니다. 사이트 "정적" 디렉터리에 상대 경로로 설정합니다. SVG 파일은 설정할 수 없습니다. 외부 URL은 사용할 수 있습니다. |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // highlight-next-line
+    image: 'img/docusaurus.png',
+  },
+};
+```
+
+### Metadata {#metadata}
+
+HTML 메타 데이터를 추가하거나 (기존 항목을 재정의할 수 있습니다).
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명        | 타입           | 기본값  | 설명                                                                                                                                     |
+| ---------- | ------------ | ---- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `metadata` | `Metadata[]` | `[]` | Any field will be directly passed to the `<meta />` tag. Possible fields include `id`, `name`, `property`, `content`, `itemprop`, etc. |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // highlight-next-line
+    metadata: [{name: 'twitter:card', content: 'summary'}],
+  },
+};
+```
+
+### Announcement bar {#announcement-bar}
+
+웹 사이트에서 공지할 내용이 생길 수 있습니다. 그런 경우 알림표시줄을 추가할 수 있습니다. 메뉴바 위에 고정되지 않고 선택적으로 사용자가 닫을 수 있는 패널이 표시됩니다. All configuration are in the `announcementBar` object.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="announcement-bar">
+```
+
+| 옵션명               | 타입        | 기본값                  | 설명                                    |
+| ----------------- | --------- | -------------------- | ------------------------------------- |
+| `id`              | `string`  | `'announcement-bar'` | 메시지를 식별하는 모든 값입니다.                    |
+| `content`         | `string`  | `''`                 | 알리고자 하는 텍스트 콘텐츠입니다. HTML을 삽입할 수 있습니다. |
+| `backgroundColor` | `string`  | `'#fff'`             | 알림표시줄 영역 배경색입니다.                      |
+| `textColor`       | `string`  | `'#000'`             | 알림메시지 텍스트 색상입니다.                      |
+| `isCloseable`     | `boolean` | `true`               | 알림메시지를 'x' 버튼으로 닫을 수 있는지 여부           |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // highlight-start
+    announcementBar: {
+      id: 'support_us',
+      content:
+        'We are looking to revamp our docs, please fill <a target="_blank" rel="noopener noreferrer" href="#">this survey</a>',
+      backgroundColor: '#fafbfc',
+      textColor: '#091E42',
+      isCloseable: false,
+    },
+    // highlight-end
+  },
+};
+```
+
+## Navbar {#navbar}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="navbar-overview">
+```
+
+| 옵션명            | 타입                               | 기본값         | 설명                                   |
+| -------------- | -------------------------------- | ----------- | ------------------------------------ |
+| `title`        | `string`                         | `undefined` | 메뉴바 제목                               |
+| `logo`         | _See below_                      | `undefined` | 로고 오브젝트 사용자 지정                       |
+| `items`        | `NavbarItem[]`                   | `[]`        | 메뉴바 아이템 목록입니다. 상세한 내용은 아래 내용을 참고하세요. |
+| `hideOnScroll` | `boolean`                        | `false`     | 사용자가 아래로 스크롤할 때 메뉴바를 숨길지 여부입니다.      |
+| `style`        | <code>'primary' \| 'dark'</code> | theme와 같음   | 어두운/밝은 테마 설정을 무시하고 메뉴바 스타일을 설정합니다.   |
+
+```mdx-code-block
+</APITable>
+```
+
+### Navbar logo {#navbar-logo}
+
+The logo can be placed in [static folder](static-assets.mdx). 로고 URL은 기본적으로 여러분의 사이트 기본 URL이 설정됩니다. 로고 URL을 따로 설정할 수는 있지만 외부 링크인 경우에는 새로운 탭에서 열리게 됩니다. 또한 로고 링크의 target 속성값을 재정의할 수 있습니다. 메인 웹 사이트의 하위 디렉터리에서 문서 웹 사이트를 서비스하는 경우에 유용한 기능입니다. 이런 경우 메인 웹 사이트를 새로운 탭에서 열어주는 로고 링크가 필요하지 않을 수도 있습니다.
+
+어두운 모드 지원을 위해 모드마다 다른 로고를 설정할 수도 있습니다.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="navbar-logo">
+```
+
+| 옵션명         | 타입                            | 기본값                                                                                                | 설명                                                                                                                   |
+| ----------- | ----------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `alt`       | `string`                      | `undefined`                                                                                        | 로고 이미지의 Alt 태그입니다.                                                                                                   |
+| `src`       | `string`                      | **Required**                                                                                       | 로고 이미지의 URL입니다. 기본적으로 기본 URL이 추가됩니다.                                                                                 |
+| `srcDark`   | `string`                      | `logo.src`                                                                                         | 어두운 모드에서 사용할 대체 이미지 URL입니다.                                                                                          |
+| `href`      | `string`                      | `siteConfig.baseUrl`                                                                               | 로고 클릭 시 이동할 링크입니다.                                                                                                   |
+| `width`     | <code>string \| number</code> | `undefined`                                                                                        | Specifies the `width` attribute.                                                                                     |
+| `height`    | <code>string \| number</code> | `undefined`                                                                                        | Specifies the `height` attribute.                                                                                    |
+| `target`    | `string`                      | Calculated based on `href` (external links will open in a new tab, all others in the current one). | The `target` attribute of the link; controls whether the link is opened in a new tab, the current one, or otherwise. |
+| `className` | `string`                      | `undefined`                                                                                        | 이미지에 적용된 CSS 클래스                                                                                                     |
+| `style`     | `object`                      | `undefined`                                                                                        | CSS 인라인 스타일 오브젝트. 리액트/JSX에서는 카멜표기법을 선호합니다.                                                                           |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      title: 'Site Title',
+      // highlight-start
+      logo: {
+        alt: 'Site Logo',
+        src: 'img/logo.svg',
+        srcDark: 'img/logo_dark.svg',
+        href: 'https://docusaurus.io/',
+        target: '_self',
+        width: 32,
+        height: 32,
+        className: 'custom-navbar-logo-class',
+        style: {border: 'solid red'},
+      },
+      // highlight-end
+    },
+  },
+};
+```
+
+### Navbar items {#navbar-items}
+
+You can add items to the navbar via `themeConfig.navbar.items`.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      // highlight-start
+      items: [
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'introduction',
+          label: 'Docs',
+        },
+        {to: 'blog', label: 'Blog', position: 'left'},
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
+        {
+          href: 'https://github.com/facebook/docusaurus',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
+        },
+      ],
+      // highlight-end
+    },
+  },
+};
+```
+
+The items can have different behaviors based on the `type` field. 사용할 수 있는 모든 유형의 메뉴바 아이템을 아래에 소개합니다.
+
+#### Navbar link {#navbar-link}
+
+기본적으로 메뉴바 아이템은 일반 링크(내부 또는 외부)입니다.
+
+React Router should automatically apply active link styling to links, but you can use `activeBasePath` in edge cases. For cases in which a link should be active on several different paths (such as when you have multiple doc folders under the same sidebar), you can use `activeBaseRegex`. `activeBaseRegex` is a more flexible alternative to `activeBasePath` and takes precedence over it -- Docusaurus parses it into a regular expression that is tested against the current URL.
+
+Outbound (external) links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="navbar-link">
+```
+
+| 옵션명                    | 타입                             | 기본값           | 설명                                                                                |
+| ---------------------- | ------------------------------ | ------------- | --------------------------------------------------------------------------------- |
+| `type`                 | `'default'`                    | 선택사항          | 항목 유형을 링크로 설정합니다.                                                                 |
+| `label`                | `string`                       | **Required**  | 아이템을 표시하는 이름입니다.                                                                  |
+| `html`                 | `string`                       | 선택사항          | Same as `label`, but renders pure HTML instead of text content.                   |
+| `to`                   | `string`                       | **Required**  | 웹 사이트 내에서 탐색을 위해 사용하는 클라이언트 라우팅입니다. 해당 값 앞에 baseUrl이 자동으로 추가됩니다.                  |
+| `href`                 | `string`                       | **Required**  | 웹 사이트 외부 탐색을 위해 사용하는 전체 페이지 탐색입니다. **Only one of `to` or `href` should be used.** |
+| `prependBaseUrlToHref` | `boolean`                      | `false`       | Prepends the baseUrl to `href` values.                                            |
+| `position`             | <code>'left' \| 'right'</code> | `'left'`      | 메뉴바에서 아이템이 표시되는 위치를 설정합니다.                                                        |
+| `activeBasePath`       | `string`                       | `to` / `href` | 해당 경로로 시작하는 모든 경로에 활성화된 클래스 스타일을 적용합니다. 일반적인 경우는 필요하지 않습니다.                       |
+| `activeBaseRegex`      | `string`                       | `undefined`   | Alternative to `activeBasePath` if required.                                      |
+| `className`            | `string`                       | `''`          | 사용자 지정 CSS 클래스(특정 아이템 스타일 처리)                                                     |
+
+```mdx-code-block
+</APITable>
+```
+
+:::note
+
+위에 설명한 필드 외에 HTML 링크에 적용할 수 있는 다른 속성을 사용할 수 있습니다.
+
+:::
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          to: 'docs/introduction',
+          // Only one of "to" or "href" should be used
+          // href: 'https://www.facebook.com',
+          label: 'Introduction',
+          // Only one of "label" or "html" should be used
+          // html: '<b>Introduction</b>'
+          position: 'left',
+          activeBaseRegex: 'docs/(next|v8)',
+          target: '_blank',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Navbar dropdown {#navbar-dropdown}
+
+Navbar items of the type `dropdown` has the additional `items` field, an inner array of navbar items.
+
+Navbar dropdown items only accept the following **"link-like" item types**:
+
+- [Navbar link](#navbar-link)
+- [Navbar doc link](#navbar-doc-link)
+- [Navbar docs version](#navbar-docs-version)
+- [Navbar doc sidebar](#navbar-doc-sidebar)
+- [Navbar with custom HTML](#navbar-with-custom-html)
+
+Note that the dropdown base item is a clickable link as well, so this item can receive any of the props of a [plain navbar link](#navbar-link).
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="navbar-dropdown">
+```
+
+| 옵션명        | 타입                                              | 기본값          | 설명                         |
+| ---------- | ----------------------------------------------- | ------------ | -------------------------- |
+| `type`     | `'dropdown'`                                    | 선택사항         | 항목 유형을 드롭다운으로 설정합니다.       |
+| `label`    | `string`                                        | **Required** | 아이템을 표시하는 이름입니다.           |
+| `items`    | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | **Required** | 드롭다운에 포함될 아이템입니다.          |
+| `position` | <code>'left' \| 'right'</code>                  | `'left'`     | 메뉴바에서 아이템이 표시되는 위치를 설정합니다. |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'dropdown',
+          label: 'Community',
+          position: 'left',
+          items: [
+            {
+              label: 'Facebook',
+              href: 'https://www.facebook.com',
+            },
+            {
+              type: 'doc',
+              label: 'Social',
+              docId: 'social',
+            },
+            // ... more items
+          ],
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Navbar doc link {#navbar-doc-link}
+
+If you want to link to a specific doc, this special navbar item type will render the link to the doc of the provided `docId`. It will get the class `navbar__link--active` as long as you browse a doc of the same sidebar.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="navbar-doc-link">
+```
+
+| 옵션명            | 타입                             | 기본값          | 설명                         |
+| -------------- | ------------------------------ | ------------ | -------------------------- |
+| `type`         | `'doc'`                        | **Required** | 항목 유형을 문서 링크로 설정합니다.       |
+| `docId`        | `string`                       | **Required** | 아이템에서 링크로 연결되는 문서의 ID입니다.  |
+| `label`        | `string`                       | `docId`      | 아이템을 표시하는 이름입니다.           |
+| `position`     | <code>'left' \| 'right'</code> | `'left'`     | 메뉴바에서 아이템이 표시되는 위치를 설정합니다. |
+| `docsPluginId` | `string`                       | `'default'`  | 문서가 속한 문서 플러그인 ID입니다.      |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'introduction',
+          label: 'Docs',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Navbar linked to a sidebar {#navbar-doc-sidebar}
+
+문서 ID를 하드코딩하지 않고 주어진 사이드바의 첫 번째 문서 링크(문서 링크 또는 생성된 카테고리 인덱스)에 메뉴바 항목을 연결할 수 있습니다.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="navbar-doc-sidebar">
+```
+
+| 옵션명            | 타입                             | 기본값                 | 설명                                |
+| -------------- | ------------------------------ | ------------------- | --------------------------------- |
+| `type`         | `'docSidebar'`                 | **Required**        | 메뉴바 아이템의 유형을 사이드바 첫 번째 문서로 설정합니다. |
+| `sidebarId`    | `string`                       | **Required**        | 아이템에서 링크로 연결되는 사이드바 ID입니다.        |
+| `label`        | `string`                       | 첫 번째 문서 링크의 사이드바 라벨 | 아이템을 표시하는 이름입니다.                  |
+| `position`     | <code>'left' \| 'right'</code> | `'left'`            | 메뉴바에서 아이템이 표시되는 위치를 설정합니다.        |
+| `docsPluginId` | `string`                       | `'default'`         | 사이드바가 속한 문서 플러그인 ID입니다.           |
+
+```mdx-code-block
+</APITable>
+```
+
+:::tip
+
+사이드바가 자주 업데이트되고 순서가 안정적이지 않은 경우에 이 메뉴바 항목 타입을 사용하세요.
+
+:::
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'docSidebar',
+          position: 'left',
+          sidebarId: 'api',
+          label: 'API',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+```js title="sidebars.js"
+module.exports = {
+  tutorial: [
+    {
+      type: 'autogenerated',
+      dirName: 'guides',
+    },
+  ],
+  api: [
+    // highlight-next-line
+    'cli', // 메뉴바 항목이 이 문서에 연결됩니다.
+    'docusaurus-core',
+    {
+      type: 'autogenerated',
+      dirName: 'api',
+    },
+  ],
+};
+```
+
+#### Navbar docs version dropdown {#navbar-docs-version-dropdown}
+
+문서 버전 기능을 사용하고 있다면 특정 메뉴바 아이템 타입을 설정해 여러분의 사이트에서 사용할 수 있는 버전 목록을 드롭다운 목록으로 표시할 수 있습니다.
+
+사용자는 같은 문서를 유지하면서 다른 버전으로 전환할 수 있습니다(버전 별 문서 ID가 같은 경우).
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="navbar-docs-version-dropdown">
+```
+
+| 옵션명                           | 타입                                              | 기본값          | 설명                              |
+| ----------------------------- | ----------------------------------------------- | ------------ | ------------------------------- |
+| `type`                        | `'docsVersionDropdown'`                         | **Required** | 항목 유형을 문서 버전 드롭다운으로 설정합니다.      |
+| `position`                    | <code>'left' \| 'right'</code>                  | `'left'`     | 메뉴바에서 아이템이 표시되는 위치를 설정합니다.      |
+| `dropdownItemsBefore`         | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]`         | 드롭다운 시작 부분에 드롭다운 아이템을 추가합니다.    |
+| `dropdownItemsAfter`          | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]`         | 드롭다운 끝 부분에 드롭다운 아이템을 추가합니다.     |
+| `docsPluginId`                | `string`                                        | `'default'`  | 문서 버전이 속한 문서 플러그인 ID입니다.        |
+| `dropdownActiveClassDisabled` | `boolean`                                       | `false`      | 문서를 탐색할 때 링크 활성 클래스를 추가하지 않습니다. |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'docsVersionDropdown',
+          position: 'left',
+          dropdownItemsAfter: [{to: '/versions', label: 'All versions'}],
+          dropdownActiveClassDisabled: true,
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Navbar docs version {#navbar-docs-version}
+
+문서 버전 기능을 사용하고 있다면 특정 메뉴바 아이템 타입을 설정해 (현재 URL에 따라) 활성화되고 탐색하고 있는 문서 버전 링크로 연결할 수 있습니다. 설정이 없으면 최신 버전 링크로 연결합니다.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="navbar-docs-version">
+```
+
+| 옵션명            | 타입                             | 기본값          | 설명                         |
+| -------------- | ------------------------------ | ------------ | -------------------------- |
+| `type`         | `'docsVersion'`                | **Required** | 항목 유형을 문서 버전 링크로 설정합니다.    |
+| `label`        | `string`                       | 활성화/최신 버전 라벨 | 아이템을 표시하는 이름입니다.           |
+| `to`           | `string`                       | 활성화/최신 버전    | 아이템이 가리키는 내부 링크입니다.        |
+| `position`     | <code>'left' \| 'right'</code> | `'left'`     | 메뉴바에서 아이템이 표시되는 위치를 설정합니다. |
+| `docsPluginId` | `string`                       | `'default'`  | 문서 버전이 속한 문서 플러그인 ID입니다.   |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'docsVersion',
+          position: 'left',
+          to: '/path',
+          label: 'label',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Navbar locale dropdown {#navbar-locale-dropdown}
+
+If you use the [i18n feature](../../i18n/i18n-introduction.mdx), this special navbar item type will render a dropdown with all your site's available locales.
+
+사용자는 같은 문서를 유지하면서 다른 언어로 전환할 수 있습니다.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="navbar-locale-dropdown">
+```
+
+| 옵션명                   | 타입                                              | 기본값          | 설명                           |
+| --------------------- | ----------------------------------------------- | ------------ | ---------------------------- |
+| `type`                | `'localeDropdown'`                              | **Required** | 항목 유형을 로케일 드롭다운으로 설정합니다.     |
+| `position`            | <code>'left' \| 'right'</code>                  | `'left'`     | 메뉴바에서 아이템이 표시되는 위치를 설정합니다.   |
+| `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]`         | 드롭다운 시작 부분에 드롭다운 아이템을 추가합니다. |
+| `dropdownItemsAfter`  | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]`         | 드롭다운 끝 부분에 드롭다운 아이템을 추가합니다.  |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'localeDropdown',
+          position: 'left',
+          dropdownItemsAfter: [
+            {
+              to: 'https://my-site.com/help-us-translate',
+              label: 'Help us translate',
+            },
+          ],
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Navbar search {#navbar-search}
+
+If you use the [search](../../search.mdx), the search bar will be the rightmost element in the navbar.
+
+하지만 특정 메뉴바 아이템을 설정해 기본 위치를 변경할 수 있습니다.
+
+```mdx-code-block
+<APITable name="navbar-search">
+```
+
+| 옵션명         | 타입                             | 기본값          | 설명                         |
+| ----------- | ------------------------------ | ------------ | -------------------------- |
+| `type`      | `'search'`                     | **Required** | 항목 유형을 검색바로 설정합니다.         |
+| `position`  | <code>'left' \| 'right'</code> | `'left'`     | 메뉴바에서 아이템이 표시되는 위치를 설정합니다. |
+| `className` | `string`                       | /            | 메뉴바 아이템을 위한 사용자 지정 CSS 클래스 |
+
+```mdx-code-block
+</APITable>
+```
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'search',
+          position: 'right',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+#### Navbar with custom HTML {#navbar-with-custom-html}
+
+해당 메뉴바 아이템 타입을 사용해 메뉴바 아이템 내부에 여러분만의 HTML 마크업을 렌더링할 수 있습니다.
+
+```mdx-code-block
+<APITable name="navbar-html">
+```
+
+| 옵션명         | 타입                             | 기본값          | 설명                               |
+| ----------- | ------------------------------ | ------------ | -------------------------------- |
+| `type`      | `'html'`                       | **Required** | 항목 유형을 HTML 요소로 설정합니다.           |
+| `position`  | <code>'left' \| 'right'</code> | `'left'`     | 메뉴바에서 아이템이 표시되는 위치를 설정합니다.       |
+| `className` | `string`                       | `''`         | 메뉴바 아이템을 위한 사용자 지정 CSS 클래스       |
+| `value`     | `string`                       | `''`         | 메뉴바 아이템 내에서 렌더링할 사용자 지정 HTML입니다. |
+
+```mdx-code-block
+</APITable>
+```
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'html',
+          position: 'right',
+          value: '<button>Give feedback</button>',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+### Auto-hide sticky navbar {#auto-hide-sticky-navbar}
+
+사용자가 페이지 스크롤 다운을 시작하면 자동으로 메뉴바가 숨겨지고 스크롤을 올리면 다시 보여지는 UI 기능을 활성화할 수 있습니다.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      // highlight-next-line
+      hideOnScroll: true,
+    },
+  },
+};
+```
+
+### Navbar style {#navbar-style}
+
+테마 전환 기능을 비활성화하지 않고도 메뉴바의 스타일을 따로 설정할 수 있습니다. 선택한 스타일은 선택한 테마와 상관없이 항상 적용됩니다.
+
+Currently, there are two possible style options: `dark` and `primary` (based on the `--ifm-color-primary` color). You can see the styles preview in the [Infima documentation](https://infima.dev/docs/components/navbar/).
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      // highlight-next-line
+      style: 'primary',
+    },
+  },
+};
+```
+
+## CodeBlock {#codeblock}
+
+Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer) to highlight code blocks. All configuration are in the `prism` object.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="codeblock">
+```
+
+| 옵션명               | 타입                     | 기본값         | 설명                                                                                                                    |
+| ----------------- | ---------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------- |
+| `theme`           | `PrismTheme`           | `palenight` | light-theme 코드 블록에서 사용할 Prism 테마입니다.                                                                                  |
+| `darkTheme`       | `PrismTheme`           | `palenight` | dark-theme 코드 블록에서 사용할 Prism 테마입니다.                                                                                   |
+| `defaultLanguage` | `string`               | `undefined` | 메뉴바에서 아이템이 표시되는 위치를 설정합니다.                                                                                            |
+| `magicComments`   | `MagicCommentConfig[]` | _see below_ | The list of [magic comments](../../guides/markdown-features/markdown-features-code-blocks.mdx#custom-magic-comments). |
+
+```mdx-code-block
+</APITable>
+```
+
+```ts
+type MagicCommentConfig = {
+  className: string;
+  line?: string;
+  block?: {start: string; end: string};
+};
+```
+
+```js
+const defaultMagicComments = [
+  {
+    className: 'theme-code-block-highlighted-line',
+    line: 'highlight-next-line',
+    block: {start: 'highlight-start', end: 'highlight-end'},
+  },
+];
+```
+
+### Theme {#theme}
+
+By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/packages/prism-react-renderer/src/themes/palenight.ts) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer/tree/master/src/themes). 어두운 모드를 사이트에서 사용할 때는 다른 구문 강조 테마를 사용하도록 설정할 수도 있습니다.
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    prism: {
+      // highlight-start
+      theme: require('prism-react-renderer/themes/github'),
+      darkTheme: require('prism-react-renderer/themes/dracula'),
+      // highlight-end
+    },
+  },
+};
+```
+
+:::note
+
+마크다운 구문을 강조해야 하는 경우 어두운 모드 구문 강조 테마 사용 시 다른 배경색을 설정해야 할 수도 있습니다. Refer to the [docs for guidance](../../guides/markdown-features/markdown-features-code-blocks.mdx#line-highlighting).
+
+:::
+
+### Default language {#default-language}
+
+3개의 억음부호(\`\`\`) 뒤에 언어를 설정하지 않았을 때 코드 블록에서 기본으로 적용할 언어를 설정할 수 있습니다. Note that a valid [language name](https://prismjs.com/#supported-languages) must be passed.
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    prism: {
+      // highlight-next-line
+      defaultLanguage: 'javascript',
+    },
+  },
+};
+```
+
+## Footer {#footer-1}
+
+You can add logo and a copyright to the footer via `themeConfig.footer`. Logo can be placed in [static folder](static-assets.mdx). 로고 URL은 메뉴바 로고와 같은 방식으로 처리됩니다.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable name="footer">
+```
+
+| 옵션명         | 타입                                    | 기본값         | 설명                                                          |
+| ----------- | ------------------------------------- | ----------- | ----------------------------------------------------------- |
+| `logo`      | `Logo`                                | `undefined` | 로고 오브젝트 사용자 지정 See [Navbar logo](#navbar-logo) for details. |
+| `copyright` | `string`                              | `undefined` | 하단에 표시되는 저작권 문구 작성 시 사용자 지정 HTML도 사용할 수 있습니다.               |
+| `style`     | <code>'dark' \| 'light'</code>        | `'light'`   | 바닥글 컴포넌트의 색상 테마입니다.                                         |
+| `links`     | <code>(Column \| FooterLink)[]</code> | `[]`        | 표시할 링크 그룹입니다.                                               |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // highlight-start
+    footer: {
+      logo: {
+        alt: 'Meta Open Source Logo',
+        src: 'img/meta_oss_logo.png',
+        href: 'https://opensource.fb.com',
+        width: 160,
+        height: 51,
+      },
+      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+    },
+    // highlight-end
+  },
+};
+```
+
+### Footer Links {#footer-links}
+
+You can add links to the footer via `themeConfig.footer.links`. There are two types of footer configurations: **multi-column footers** and **simple footers**.
+
+Multi-column footer links have a `title` and a list of `FooterItem`s for each column.
+
+```mdx-code-block
+<APITable name="footer-links">
+```
+
+| 옵션명     | 타입             | 기본값         | 설명           |
+| ------- | -------------- | ----------- | ------------ |
+| `title` | `string`       | `undefined` | 링크 섹션 라벨입니다. |
+| `items` | `FooterItem[]` | `[]`        | 섹션 링크입니다.    |
+
+```mdx-code-block
+</APITable>
+```
+
+Accepted fields of each `FooterItem`:
+
+```mdx-code-block
+<APITable name="footer-items">
+```
+
+| 옵션명     | 타입       | 기본값          | 설명                                                                                                     |
+| ------- | -------- | ------------ | ------------------------------------------------------------------------------------------------------ |
+| `label` | `string` | **Required** | 링크에 대해 표시할 텍스트입니다.                                                                                     |
+| `to`    | `string` | **Required** | 웹 사이트 내에서 탐색을 위해 사용하는 클라이언트 라우팅입니다. 해당 값 앞에 baseUrl이 자동으로 추가됩니다.                                       |
+| `href`  | `string` | **Required** | 웹 사이트 외부 탐색을 위해 사용하는 전체 페이지 탐색입니다. **Only one of `to` or `href` should be used.**                      |
+| `html`  | `string` | `undefined`  | 단순 링크 대신 HTML 패스스루(pass-through)를 렌더링합니다. In case `html` is used, no other options should be provided. |
+
+```mdx-code-block
+</APITable>
+```
+
+다중 컬럼 구성 예제입니다.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  footer: {
+    // highlight-start
+    links: [
+      {
+        title: 'Docs',
+        items: [
+          {
+            label: 'Style Guide',
+            to: 'docs/',
+          },
+          {
+            label: 'Second Doc',
+            to: 'docs/doc2/',
+          },
+        ],
+      },
+      {
+        title: 'Community',
+        items: [
+          {
+            label: 'Stack Overflow',
+            href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+          },
+          {
+            label: 'Discord',
+            href: 'https://discordapp.com/invite/docusaurus',
+          },
+          {
+            label: 'X',
+            href: 'https://x.com/docusaurus',
+          },
+          {
+            html: `
+                <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
+                </a>
+              `,
+          },
+        ],
+      },
+    ],
+    // highlight-end
+  },
+};
+```
+
+A simple footer just has a list of `FooterItem`s displayed in a row.
+
+간단한 구성 예제입니다.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  footer: {
+    // highlight-start
+    links: [
+      {
+        label: 'Stack Overflow',
+        href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+      },
+      {
+        label: 'Discord',
+        href: 'https://discordapp.com/invite/docusaurus',
+      },
+      {
+        label: 'X',
+        href: 'https://x.com/docusaurus',
+      },
+      {
+        html: `
+            <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+              <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
+            </a>
+          `,
+      },
+    ],
+    // highlight-end
+  },
+};
+```
+
+## Table of Contents {#table-of-contents}
+
+You can adjust the default table of contents via `themeConfig.tableOfContents`.
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명               | 타입       | 기본값 | 설명                                                              |
+| ----------------- | -------- | --- | --------------------------------------------------------------- |
+| `minHeadingLevel` | `number` | `2` | 목차에 표시되는 최소 제목 수준입니다. 2에서 6 사이의 값으로 설정할 수 있고 최댓값보다 작거나 같아야 합니다. |
+| `maxHeadingLevel` | `number` | `3` | 목차에 표시되는 최대 제목 수준입니다. 2에서 6 사이의 값으로 설정할 수 있습니다.                 |
+
+```mdx-code-block
+</APITable>
+```
+
+설정 예시:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // highlight-start
+    tableOfContents: {
+      minHeadingLevel: 2,
+      maxHeadingLevel: 5,
+    },
+    // highlight-end
+  },
+};
+```
+
+## Hooks {#hooks}
+
+### `useColorMode` {#use-color-mode}
+
+색상 컨텍스트에 접근하기 위한 리액트 후크입니다. 컨텍스트는 어두운, 밝은 모드를 설정하기 위한 함수와 현재 사용하고 있는 모드를 알려주는 부울 변수를 포함하고 있습니다.
+
+사용 예:
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import {useColorMode} from '@docusaurus/theme-common';
+
+const Example = () => {
+  // highlight-next-line
+  const {colorMode, setColorMode} = useColorMode();
+
+  return <h1>Dark mode is now {colorMode === 'dark' ? 'on' : 'off'}</h1>;
+};
+```
+
+:::note
+
+The component calling `useColorMode` must be a child of the `Layout` component.
+
+```jsx
+function ExamplePage() {
+  return (
+    <Layout>
+      <Example />
+    </Layout>
+  );
+}
+```
+
+:::
+
+## i18n {#i18n}
+
+Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
+
+### Translation files location {#translation-files-location}
+
+- **Base path**: `website/i18n/[locale]/docusaurus-theme-[themeName]`
+- **Multi-instance path**: N/A
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
+- **Markdown files**: N/A
+
+### Example file-system structure {#example-file-system-structure}
+
+```bash
+website/i18n/[locale]/docusaurus-theme-classic
+│
+│ # translations for the theme
+├── navbar.json
+└── footer.json
+```

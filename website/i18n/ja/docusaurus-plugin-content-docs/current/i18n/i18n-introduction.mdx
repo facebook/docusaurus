@@ -1,0 +1,137 @@
+---
+id: introduction
+slug: /i18n/introduction
+---
+
+# 国際化（i18n） - はじめに
+
+**Docusaurusのウェブサイト** は国際化([i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization)) をサポートしているので翻訳ページを作るのは簡単です。
+
+## ゴール {#goals}
+
+Docusaurusが国際化サポートには、**設計上の決定**の背景があることを理解することが重要です。
+
+より詳しい文脈については、最初の[RFC](https://github.com/facebook/docusaurus/issues/3317)と[PR](https://github.com/facebook/docusaurus/pull/3325)を読んでください。
+
+### i18nのゴール {#i18n-goals}
+
+Docusaurus i18nシステムのゴールは次のとおりです。
+
+- **Simple**: 翻訳されたファイルを適切なファイルシステムの場所に置くだけ
+- **柔軟な翻訳ワークフロー**: Git (monorepo, fork, submodules), SaaS ソフトウェア, FTP
+- **柔軟な展開オプション**: 単一、複数のドメイン、またはハイブリッド
+- **Modular**: プラグイン作者がi18nをサポートできるようにする。
+- **ランタイムの低オーバーヘッド**: ドキュメントは主に静的にし、重いJSライブラリやポリフィルを不要にする。
+- **自由なタイミングでのビルド**: ローカライズされたサイトを独立してビルドおよびデプロイできるようにする。
+- **アセットのローカライズ**: 翻訳すべきテキストが含まれている画像のローカライズ
+- **プラットフォームに縛られない**：SaaSの利用は強制されない。統合は可能。
+- **[Crowdin](https://crowdin.com/)との併用が容易**: 多くのDocusaurus v1 サイトがCrowdinを使用しており、v2に移行できるはずです。
+- **デフォルトでSEOに対応**: [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) のような有用なSEOヘッダーを設定します。
+- **RTLのサポート**: 右から左に読むロケール (アラビア語、ヘブライ語など) をサポートし、簡単に実装できます。
+- **デフォルトでの翻訳**: クラシックテーマのラベルは[多言語](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-translations/locales)に翻訳されます。
+
+### i18n でゴールとしないもの {#i18n-non-goals}
+
+私たちは以下のサポートを提供しません:
+
+- **自動ロケール検出**: [サーバー (ホスティングプロバイダー)](../deployment.mdx) で行うのがベストです。
+- **翻訳SaaSソフトウェア**：あなたが選択した外部ツールを理解する責任があります。
+- **スラッグの翻訳**: 技術的に複雑で、SEO的価値は低い
+
+## 翻訳のワークフロー {#translation-workflow}
+
+### 概要 {#overview}
+
+Docusaurusウェブサイトを翻訳するワークフローの概要:
+
+1. **設定**: [`docusaurus.config.js`](../api/docusaurus.config.js.mdx#i18n) でデフォルトロケールと代替ロケールを宣言します。
+2. **翻訳**: 翻訳ファイルをファイルシステムの正しい場所に置く。
+3. **デプロイ**: シングルまたはマルチドメイン戦略を使用してサイトを構築し、デプロイする。
+
+### 翻訳ファイル {#translation-files}
+
+3種類の翻訳ファイルを扱うことになります。
+
+#### Markdownファイル {#markdown-files}
+
+これはDocusaurusウェブサイトでメインとなるものです。
+
+Markdown と MDX ドキュメントは、各文章を別の文字列として分割せず、翻訳コンテキストを完全に維持するために、ひとまとまりで翻訳されます。
+
+#### JSONファイル {#json-files}
+
+JSON は翻訳に使用されます:
+
+- あなたのReactコード：`src/pages`内のスタンドアロンReactページ、またはその他のコンポーネント
+- `themeConfig`によるレイアウトラベル: ナビゲーションバーやフッター
+- オプションプラグインで提供されるレイアウトラベル: ドキュメントのサイドバーのカテゴリーラベル、ブログのサイドバータイトル...
+
+使用される JSON 形式は **Chrome i18n** と呼ばれます。
+
+```json
+{
+  "myTranslationKey1": {
+    "message": "Translated message 1",
+    "description": "myTranslationKey1 is used on the homepage"
+  },
+  "myTranslationKey2": {
+    "message": "Translated message 2",
+    "description": "myTranslationKey2 is used on the FAQ page"
+  }
+}
+```
+
+選択した理由は 2 つあります:
+
+- **説明属性**: 説明属性により追加のコンテキストで翻訳者を支援できる
+- **広範囲なサポート**： [Chrome拡張機能](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/)や[Crowdin](https://support.crowdin.com/file-formats/chrome-json/)、[Transifex](https://docs.transifex.com/formats/chrome-json)、[Phrase](https://help.phrase.com/help/chrome-json-messages)、[Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json)などで広くサポートされている
+
+#### データファイル {#data-files}
+
+一部のプラグインは、ひとまとまりとしてローカライズされた外部データファイルから読み込むことができます。 例えば、ブログプラグインは[`authors.yml`](../blog.mdx#global-authors)ファイルを使用し、`i18n/[locale]/docusaurus-plugin-content-blog/authors.yml`の下にコピーを作成することで翻訳できます。
+
+### Translation files location {#translation-files-location}
+
+翻訳ファイルは、ファイルシステムの正しい場所に作成する必要があります。
+
+各ロケールとプラグインには、それぞれ独自の `i18n` サブフォルダがあります:
+
+```
+website/i18n/[locale]/[pluginName]/...
+```
+
+:::note
+
+マルチインスタンスプラグインの場合、パスは `website/i18n/[locale]/[pluginName]-[pluginId]/...` になります。
+
+:::
+
+非常にシンプルなDocusaurusサイトをフランス語で翻訳すると、次のツリーのようになります:
+
+```bash
+website/i18n
+└── fr
+    ├── code.json  # Any text label present in the React code
+    │              # Includes text labels from the themes' code
+    ├── docusaurus-plugin-content-blog # translation data the blog plugin needs
+    │   └── 2020-01-01-hello.md
+    │
+    ├── docusaurus-plugin-content-docs # translation data the docs plugin needs
+    │   ├── current
+    │   │   ├── doc1.md
+    │   │   └── doc2.mdx
+    │   └── current.json
+    │
+    └── docusaurus-theme-classic # translation data the classic theme needs
+        ├── footer.json   # Text labels in your footer theme config
+        └── navbar.json   # Text labels in your navbar theme config
+```
+
+JSON ファイルは [`docusaurus write-translations`](../cli.mdx#docusaurus-write-translations-sitedir) CLI コマンドで初期化されます。 各プラグインは、対応するフォルダの下にある独自の翻訳コンテンツをソースとし、`code.json`ファイルにはReactコードで使用されるすべてのテキストラベルが定義されています。
+
+各コンテンツプラグインやテーマはそれぞれ異なり、**独自の翻訳ファイルの場所**に定義します:
+
+- [Docs i18n](../api/plugins/plugin-content-docs.mdx#i18n)
+- [Blog i18n](../api/plugins/plugin-content-blog.mdx#i18n)
+- [Pages i18n](../api/plugins/plugin-content-pages.mdx#i18n)
+- [Themes i18n](../api/themes/theme-configuration.mdx#i18n)

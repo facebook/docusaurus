@@ -5,20 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import fs from 'fs-extra';
-import os from 'os';
+import {exec, type ExecOptions} from 'child_process';
 import _ from 'lodash';
 import execa from 'execa';
 import PQueue from 'p-queue';
+import {PerfLogger} from '@docusaurus/logger';
+
+function execPromise(
+  command: string,
+  options: ExecOptions,
+): Promise<{exitCode: number; stdout: string; stderr: string}> {
+  options.shell = '/bin/bash';
+
+  return new Promise((resolve, reject) => {
+    exec(command, options, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      resolve({exitCode: 0, stdout, stderr});
+    });
+  });
+}
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915
-const DefaultGitCommandConcurrency =
-  // TODO Docusaurus v4: bump node, availableParallelism() now always exists
-  (typeof os.availableParallelism === 'function'
-    ? os.availableParallelism()
-    : os.cpus().length) * 4;
+const DefaultGitCommandConcurrency = 100;
 
 const GitCommandConcurrencyEnv = process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY
   ? parseInt(process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY, 10)
@@ -142,22 +155,25 @@ export async function getFileCommitDate(
   // See why: https://github.com/facebook/docusaurus/pull/10022
   const resultFormat = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
 
-  const args = [
+  const argsArray = [
     `--format=${resultFormat}`,
     '--max-count=1',
     age === 'oldest' ? '--follow --diff-filter=A' : undefined,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  ].filter((a) => typeof a !== 'undefined');
 
-  const command = `git -c log.showSignature=false log ${args} -- "${path.basename(
-    file,
-  )}"`;
+  const args = argsArray.join(' ');
+
+  const command = `git log ${args} -- "${file}"`;
 
   const result = (await GitCommandQueue.add(() => {
-    return execa(command, {
-      cwd: path.dirname(file),
-      shell: true,
+    return PerfLogger.async(command, () => {
+      return execPromise(command, {});
+      /*
+      return execa(command, {
+        shell: true,
+      });
+
+       */
     });
   }))!;
 
@@ -176,17 +192,21 @@ export async function getFileCommitDate(
   const output = result.stdout.trim();
 
   if (!output) {
-    throw new FileNotTrackedError(
-      `Failed to retrieve the git history for file "${file}" because the file is not tracked by git.`,
-    );
+    return {
+      date: new Date(),
+      timestamp: Date.now(),
+      author: 'Seb',
+    };
   }
 
   const match = output.match(regex);
 
   if (!match) {
-    throw new Error(
-      `Failed to retrieve the git history for file "${file}" with unexpected output: ${output}`,
-    );
+    return {
+      date: new Date(),
+      timestamp: Date.now(),
+      author: 'Seb',
+    };
   }
 
   const timestampInSeconds = Number(match.groups!.timestamp);

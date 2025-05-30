@@ -1,0 +1,140 @@
+---
+description: Docusaurus est écrit en TypeScript et fournit un support TypeScript de première classe.
+---
+
+# Support TypeScript
+
+Docusaurus est écrit en TypeScript et fournit un support TypeScript de première classe.
+
+The minimum required version is **TypeScript 5.1**.
+
+## Initialisation {#initialization}
+
+Docusaurus prend en charge l'écriture et l'utilisation de composants de thèmes TypeScript. If the init template provides a TypeScript variant, you can directly [initialize a site](./installation.mdx#scaffold-project-website) with full TypeScript support by using the `--typescript` flag.
+
+```bash
+npx create-docusaurus@latest my-website classic --typescript
+```
+
+Voici quelques guides sur la façon de migrer un projet existant vers TypeScript.
+
+## Configuration {#setup}
+
+Ajoutez les paquets suivants à votre projet :
+
+```bash npm2yarn
+npm install --save-dev typescript @docusaurus/module-type-aliases @docusaurus/tsconfig @docusaurus/types
+```
+
+Ensuite, ajoutez `tsconfig.json` à la racine de votre projet avec le contenu suivant :
+
+```json title="tsconfig.json"
+{
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    "baseUrl": "."
+  }
+}
+```
+
+Docusaurus n'utilise pas ce `tsconfig.json` pour compiler votre projet. Il est ajouté juste pour une expérience plus agréable de l'éditeur, bien que vous puissiez choisir d'exécuter `tsc` pour vérifier votre code pour vous-même ou sur le CI.
+
+Maintenant vous pouvez commencer à écrire des composants de thèmes TypeScript.
+
+## Saisir le fichier de configuration {#typing-config}
+
+Il est possible d'utiliser un fichier de config TypeScript dans Docusaurus.
+
+```ts title="docusaurus.config.ts"
+import type {Config} from '@docusaurus/types';
+import type * as Preset from '@docusaurus/preset-classic';
+
+// highlight-next-line
+const config: Config = {
+  title: 'Mon Site',
+  favicon: 'img/favicon.ico',
+
+  /* Votre config de site ici */
+
+  presets: [
+    [
+      'classic',
+      {
+        /* Votre config de preset ici */
+        // highlight-next-line
+      } satisfies Preset.Options,
+    ],
+  ],
+
+  themeConfig: {
+    /* Votre config de thème ici */
+    // highlight-next-line
+  } satisfies Preset.ThemeConfig,
+};
+
+export default config;
+```
+
+<details>
+  <summary>Il est également possible d'utiliser des [annotations de type JSDoc](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html) dans un fichier `.js` :</summary>
+
+Par défaut, la configuration de Docusaurus TypeScript ne vérifie pas les fichiers JavaScript.
+
+Le commentaire `// @ts-check` garantit que le fichier de configuration est correctement vérifié lors de l'exécution de `npx tsc`.
+
+```js title="docusaurus.config.js"
+// highlight-next-line
+// @ts-check
+
+// highlight-next-line
+/** @type {import('@docusaurus/types').Config} */
+const config = {
+  tagline: 'Les dinosaures sont sympas',
+  favicon: 'img/favicon.ico',
+
+  /* Votre config de site ici */
+
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      // highlight-next-line
+      /** @type {import('@docusaurus/preset-classic').Options} */
+      (
+        {
+          /* Votre config de preset ici */
+        }
+      ),
+    ],
+  ],
+  themeConfig:
+    // highlight-next-line
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    (
+      {
+        /* Votre config de thème ici */
+      }
+    ),
+};
+
+export default config;
+```
+
+</details>
+
+:::tip
+
+Les annotations de type sont très utiles et aident votre IDE à comprendre le type d'objets de configuration !
+
+Les meilleurs IDEs (VS Code, WebStorm, IntelliJ...) fourniront une agréable auto-complétion.
+
+:::
+
+## Swizzler les composants de thème TypeScript {#swizzling-typescript-theme-components}
+
+Pour les thèmes supportant les composants de thèmes TypeScript, vous pouvez ajouter le paramètre `--typescript` à la fin de la commande `swizzle` pour obtenir le code source TypeScript. Par exemple, la commande suivante générera `index.tsx` et `styles.module.css` dans `src/theme/Footer`.
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer -- --typescript
+```
+
+Tous les thèmes officiels de Docusaurus prennent en charge les composants de thème TypeScript, notamment [`theme-classic`](./api/themes/theme-classic.mdx), [`theme-live-codeblock`](./api/themes/theme-live-codeblock.mdx), et [`theme-search-algolia`](./api/themes/theme-search-algolia.mdx). Si vous êtes un auteur de package de thème Docusaurus et que vous souhaitez ajouter la prise en charge de TypeScript, consultez la docs [Lifecycle APIs](./api/plugin-methods/extend-infrastructure.mdx#getTypeScriptThemePath).

@@ -1,0 +1,194 @@
+---
+description: あっという間に Docusaurus をローカルにインストールし、Docusaurus サイトを起動する方法。
+---
+
+# インストール
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+Docusaurus は、npm [パッケージ](https://github.com/facebook/docusaurus/tree/main/packages)の集まりで構成されています。
+
+:::tip
+
+**[お急ぎコース](introduction.mdx#fast-track)** を利用して、Docusaurus を **5 分⏱**で理解しましょう！
+
+手元のブラウザーですぐに Docusaurus を試すには、**[docusaurus.new](https://docusaurus.new)** を使いましょう！
+
+:::
+
+## 要件 {#requirements}
+
+- [Node.js](https://nodejs.org/en/download/) バージョン 18.0 以上（`node -v` を実行することで確認できます）。 You can use [nvm](https://github.com/nvm-sh/nvm) to manage multiple Node.js versions on a single machine.
+  - When installing Node.js, it is recommended to check all checkboxes related to dependencies.
+
+## プロジェクトの足場作り {#scaffold-project-website}
+
+The easiest way to install Docusaurus is to use the [`create-docusaurus`](./api/misc/create-docusaurus.mdx) command line tool that helps you scaffold a skeleton Docusaurus website. このコマンドは、新しい空のリポジトリ内でも、既存のリポジトリ内でも、どこでも実行でき、雛形ファイルを含む新しいディレクトリが作成されます。
+
+```bash
+npx create-docusaurus@latest my-website classic
+```
+
+すぐに始められるように、`classic`テンプレートをお勧めします。このテンプレートには、Docusaurus 1から搭載されている機能が含まれています。 `classic`テンプレートには、`@docusaurus/preset-classic`が含まれており、その中には標準ドキュメント、ブログ、カスタムページ、CSSフレームワーク（ダークモード対応）などが含まれています。 標準的（classic）なテンプレートを使えばすぐに使い始めて、Docusaurusに慣れてきた頃にはカスタマイズをすることができます。
+
+また、`--typescript`フラグを指定することで、テンプレートのTypeScript版を使用することができます。 詳しくは[TypeScriptサポート](./typescript-support.mdx)をご覧ください。
+
+```bash
+npx create-docusaurus@latest my-website classic --typescript
+```
+
+:::info Meta関係者専用
+
+Metaオープンソースプロジェクトのために新しいDocusaurusウェブサイトをセットアップする場合、以下のコマンドを内部リポジトリ内で実行すると、Meta固有の便利な初期設定がいくつか付属してきます。
+
+```bash
+scarf static-docs-bootstrap
+```
+
+:::
+
+<details>
+  <summary>代替インストールコマンド</summary>
+
+また、お好みのプロジェクトマネージャを使用して新しいプロジェクトを初期化することもできます。
+
+```bash npm2yarn
+npm init docusaurus
+```
+
+</details>
+
+利用可能なすべてのフラグの詳細については、`npx create-docusaurus@latest --help`を実行するか、[APIドキュメント](./api/misc/create-docusaurus.mdx)を参照してください。
+
+## プロジェクト構造 {#project-structure}
+
+標準テンプレートを選択し、サイト名を`my-website`とした場合、新しいディレクトリ`my-website/`の下に以下のファイルが生成されることが確認できます。
+
+```bash
+my-website
+├── blog
+│   ├── 2019-05-28-hola.md
+│   ├── 2019-05-29-hello-world.md
+│   └── 2020-05-30-welcome.md
+├── docs
+│   ├── doc1.md
+│   ├── doc2.md
+│   ├── doc3.md
+│   └── mdx.md
+├── src
+│   ├── css
+│   │   └── custom.css
+│   └── pages
+│       ├── styles.module.css
+│       └── index.js
+├── static
+│   └── img
+├── docusaurus.config.js
+├── package.json
+├── README.md
+├── sidebars.js
+└── yarn.lock
+```
+
+### プロジェクト構造の概要 {#project-structure-rundown}
+
+- `/blog/` - ブログのMarkdownファイルが格納されています。 ブログプラグインを無効にしている場合は、このディレクトリを削除できます。また、`path`オプションを設定した後は、その名前を変更することができます。 詳細は[ブログガイド](blog.mdx)に記載されています。
+- `/docs/` - ドキュメントのMarkdownファイルが格納されています。 `sidebars.js`でドキュメントのサイドバーの並び順をカスタマイズできます。 ドキュメントプラグインを無効にしている場合は、このディレクトリを削除できます。また、`path`オプションを設定した後は、その名前を変更することができます。 詳細は[ドキュメントガイド](./guides/docs/docs-introduction.mdx)に記載されています。
+- `/src/` - ページやカスタムReactコンポーネントのようなドキュメンテーション以外のファイルです。 ドキュメント以外のファイルを厳密にここに置く必要はありませんが、一元化されたディレクトリの下に置くことで、何らかのリントまたは処理を行う必要がある場合に指定しやすくなります。
+  - `/src/pages` - このディレクトリ内のJSX/TSX/MDXファイルは、ウェブサイトページに変換されます。 詳細は[ページガイド](guides/creating-pages.mdx)に記載されています。
+- `/static/` - 静的ディレクトリです。 この中にあるコンテンツは、最終的には`build`ディレクトリのルートにコピーされます。
+- `/docusaurus.config.js` - サイトの設定を含む設定ファイルです。 Docusaurus v1で言うところの`siteConfig.js`に相当します。
+- `/package.json` - Docusaurusのウェブサイトは、Reactアプリです。 その中に好きなnpmパッケージをインストールして使うことができます。
+- `/sidebars.js` - サイドバーのドキュメントの順序を指定するためにドキュメントで使用されます。
+
+### 単一リポジトリ（Monorepo・モノレポ） {#monorepos}
+
+既存のプロジェクトのドキュメント作成にDocusaurusを使用している場合、モノレポが解決策になるかもしれません。 モノレポは、類似のプロジェクト間で依存関係を共有することを可能にします。 例えば、ウェブサイトでは、リリースされたバージョンに依存する代わりに、ローカルパッケージを使用して最新の機能を紹介することができます。 そうすれば、コントリビューターは機能を実装するたびにドキュメントを更新することができます。 モノレポのフォルダー構造の例を以下に示します。
+
+```bash
+my-monorepo
+├── package-a # 別パッケージ（本体プロジェクト）
+│   ├── src
+│   └── package.json # パッケージAの依存関係
+├── website   # Docusaurusのルート
+│   ├── docs
+│   ├── src
+│   └── package.json # Docusaurusの依存関係
+├── package.json # モノレポ内で共有された依存関係
+```
+
+この場合、`./my-monorepo`フォルダ内で`npx create-docusaurus`を実行する必要があります。
+
+NetlifyやVercelなどのホスティングプロバイダを使用している場合は、サイトの`Base directory`をDocusaurusのルートがある場所に変更する必要があります。 この場合、`./website`となります。 無視コマンドの設定については、[デプロイドキュメント](./deployment.mdx#deploying-to-netlify)を参照してください。
+
+モノレポについては[Yarnのドキュメント](https://yarnpkg.com/features/workspaces)を参照してください（モノレポを構築する手段はYarnだけではなく、一般的なソリューションです）。また、[Docusaurus](https://github.com/facebook/docusaurus)と[Jest](https://github.com/facebook/jest)の実例もご覧ください。
+
+## 開発サーバーの実行 {#running-the-development-server}
+
+ファイルを編集しながら変更点を確認するには、Webサイトを配信し、最新の変更点を反映させるローカル開発サーバーを実行するとよいでしょう。
+
+```bash npm2yarn
+cd my-website
+npm run start
+```
+
+初期設定では、[`http://localhost:3000`](http://localhost:3000)を開くブラウザ画面が起動します。
+
+おめでとうございます！ 最初のDocusaurusサイトを作成できました！ サイト内を閲覧して何があるかを確認しましょう。
+
+## ビルド {#build}
+
+Docusaurusは最新の静的ウェブサイトジェネレータなので、ウェブサイトを静的コンテンツのディレクトリ内にビルドし、ウェブサーバに置いて閲覧できるようにする必要があります。 ウェブサイトをビルドするには以下のコマンドを実行します。
+
+```bash npm2yarn
+npm run build
+```
+
+すると、`/build`ディレクトリ内にコンテンツが生成されます。このディレクトリは[GitHub pages](https://pages.github.com/)や[Vercel](https://vercel.com/)、[Netlify](https://www.netlify.com/)などの静的ファイルホスティングサービスにコピーすることができます。 [デプロイ](deployment.mdx)に関するドキュメントをご覧ください。
+
+## Docusaurusバージョンの更新 {#updating-your-docusaurus-version}
+
+Docusaurusのバージョンアップには、様々な方法があります。 確実な方法の1つとしては、`package.json`内のバージョン番号を手動で目的のバージョンに変更することが挙げられます。 ただし、`@docusaurus/`で始まる名前空間のパッケージはすべて同じバージョンを使用する必要があることに注意してください。
+
+import UpgradeGuide from '@site/src/components/UpgradeGuide';
+
+<UpgradeGuide />
+
+次に、`package.json`のあるディレクトリで、以下のようなパッケージマネージャのinstallコマンドを実行します。
+
+```bash npm2yarn
+npm install
+```
+
+:::tip
+
+`npm install`がいくつかの脆弱性を報告し、`npm author`を実行して対処することを勧めてくることがあります。 通常の場合、報告された脆弱性、例えば正規表現DoS脆弱性（訳注：ReDosとも）のようなものは無害であり、安全に無視することができます。 また、我々の考え方を反映した記事、[npm audit: Broken by Design](https://overreacted.io/npm-audit-broken-by-design/)をお読みください。
+
+:::
+
+アップデートが正常に行われたことを確認するために、以下のコマンドを実行します。
+
+```bash
+npx docusaurus --version
+```
+
+出力として正しいバージョンが表示されるはずです。
+
+また、Yarnを使っている場合は、以下のようにすることもできます。
+
+```bash
+yarn add @docusaurus/core @docusaurus/preset-classic
+```
+
+:::tip
+
+Docusaurusの未リリースの新機能を[`@canary` npm distタグ](/community/canary)で使用することができます。
+
+:::
+
+## お困りですか？ {#problems}
+
+[Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus)、[GitHubリポジトリ](https://github.com/facebook/docusaurus)、[Discordサーバー](https://discordapp.com/invite/docusaurus)、または[X](https://x.com/docusaurus)でお問い合わせください。

@@ -1,0 +1,220 @@
+---
+description: 도큐사우루스 사이트를 최대한 검색 엔진 친화적으로 만드는 방법
+sidebar_label: SEO
+keywords:
+  - seo
+  - positioning
+---
+
+# 검색 엔진 최적화(SEO)
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+도큐사우루스는 다양한 방식으로 검색 엔진 최적화를 지원합니다.
+
+## 글로벌 메타데이터 {#global-metadata}
+
+[사이트 구성](./configuration.mdx#site-metadata)을 통해 전체 사이트에 대한 글로벌 메타 속성을 제공합니다. 메타데이터는 모두 키-값 쌍을 속성 이름과 값으로 사용해 HTML `<head>`로 렌더링됩니다. The `metadata` attribute is a convenient shortcut to declare `<meta>` tags, but it is also possible to inject arbitrary tags in `<head>` with the `headTags` attribute.
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    // Declare some <meta> tags
+    metadata: [
+      {name: 'keywords', content: 'cooking, blog'},
+      {name: 'twitter:card', content: 'summary_large_image'},
+    ],
+  },
+  headTags: [
+    // Declare a <link> preconnect tag
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://example.com',
+      },
+    },
+    // Declare some json-ld structured data
+    {
+      tagName: 'script',
+      attributes: {
+        type: 'application/ld+json',
+      },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org/',
+        '@type': 'Organization',
+        name: 'Meta Open Source',
+        url: 'https://opensource.fb.com/',
+        logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+      }),
+    },
+  ],
+};
+```
+
+도큐사우루스는 일부 메타데이터를 기본 제공합니다. 예를 들어 [i18n](./i18n/i18n-introduction.mdx)을 설정하면 [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) 대체 링크가 생성됩니다.
+
+메타 태그 유형에 대해서는 [MDN 문서](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta)를 참고하세요.
+
+## 단일 페이지 메타데이터 {#single-page-metadata}
+
+도큐사우루스에서는 [글로벌 메타데이터](#global-metadata)와 비슷하게 개별 페이지에 메타 정보를 추가할 수 있습니다. `<head>` 태그 설정에 대해서는 [이 문서](./guides/markdown-features/markdown-features-head-metadata.mdx)를 참고하세요. 다음과 같은 형태입니다.
+
+```md title="my-markdown-page.mdx"
+# A cooking guide
+
+<head>
+  <meta name="keywords" content="cooking, blog" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://example.com" />
+  <script type="application/ld+json">
+    {JSON.stringify({
+      '@context': 'https://schema.org/',
+      '@type': 'Organization',
+      name: 'Meta Open Source',
+      url: 'https://opensource.fb.com/',
+      logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+    })}
+  </script>
+</head>
+
+Some content...
+```
+
+도큐사우루스는 자동으로 각 마크다운 페이지에 `description`, `title`, 표준 URL 링크와 함께 다른 유용한 메타데이터를 추가합니다. They are configurable through [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter):
+
+```md
+---
+title: Title for search engines; can be different from the actual heading
+description: A short description of this page
+image: a thumbnail image to be shown in social media cards
+keywords: [keywords, describing, the main topics]
+---
+```
+
+리액트 페이지를 만들 때 `Layout`에 이런 필드를 추가하면 SEO가 향상됩니다.
+
+:::tip
+
+Prefer to use [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) for fields like `description` and `keywords`: Docusaurus will automatically apply this to both `description` and `og:description`, while you would have to manually declare two metadata tags when using the `<head>` tag.
+
+:::
+
+:::info
+
+The official plugins all support the following [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter): `title`, `description`, `keywords` and `image`. Refer to their respective API documentation for additional [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) support:
+
+- [Docs front matter](./api/plugins/plugin-content-docs.mdx#markdown-front-matter)
+- [Blog front matter](./api/plugins/plugin-content-blog.mdx#markdown-front-matter)
+- [Pages front matter](./api/plugins/plugin-content-pages.mdx#markdown-front-matter)
+
+:::
+
+JSX 페이지에서 도큐사우루스 [`<Head>`](docusaurus-core.mdx#head) 컴포넌트를 사용할 수 있습니다.
+
+```jsx title="my-react-page.jsx"
+import React from 'react';
+import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
+
+export default function page() {
+  return (
+    <Layout title="Page" description="A React page demo">
+      <Head>
+        <meta property="og:image" content="image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="preconnect" href="https://example.com" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org/',
+            '@type': 'Organization',
+            name: 'Meta Open Source',
+            url: 'https://opensource.fb.com/',
+            logo: 'https://opensource.fb.com/img/logos/Meta-Open-Source.svg',
+          })}
+        </script>
+      </Head>
+      {/* ... */}
+    </Layout>
+  );
+}
+```
+
+:::tip
+
+편의를 위해 기본 테마 `<Layout>` 컴포넌트는 `title`과 `description`을 속성으로 사용할 수 있습니다.
+
+:::
+
+## 정적 HTML 생성 {#static-html-generation}
+
+도큐사우루스는 정적 사이트 생성 도구입니다. 모든 URL 경로에 HTML 파일이 정적으로 생성됩니다. 이런 방식은 검색 엔진이 여러분의 콘텐츠를 좀 더 쉽게 찾을 수 있도록 도와줍니다.
+
+## 이미지 메타 설명 {#image-meta-description}
+
+이미지 alt 태그는 검색 엔진에게 어떤 이미지인지 알려주며 이미지를 시각적으로 사용할 수 없을 때 사용되기도 합니다. 예를 들면 스크린 리더를 사용하거나 또는 이미지 로딩에 실패했을 때입니다. 마크다운에서 alt 태그는 기본적으로 지원되는 기능입니다.
+
+이미지에 제목을 추가할 수도 있습니다. SEO에 영향을 미치지는 않지만 이미지 위로 마우스를 가져갔을 때 툴팁으로 표시되어 이미지에 대한 정보를 제공할 수 있습니다.
+
+```md
+![Docusaurus banner](./assets/docusaurus-asset-example-banner.png 'Image title')
+```
+
+<BrowserWindow>
+
+![Docusaurus banner](./assets/docusaurus-asset-example-banner.png 'Image title')
+
+</BrowserWindow>
+
+## 리치 검색 정보 {#rich-search-information}
+
+도큐사우루스 블로그는 검색 엔진 경험을 극대화하기 위해 [리치 검색 결과](https://search.google.com/test/rich-results)를 기본으로 지원합니다. 블로그/글로벌 구성의 메타 정보에 따라 정보가 생성됩니다. 풍부한 검색 정보의 혜택을 누리기 위해 게시물의 발행일, 작성자, 이미지 등의 정보를 입력하세요. 메타 정보에 대한 좀 더 자세한 내용은 [여기](./blog.mdx)를 참고하세요.
+
+## 로봇 파일 {#robots-file}
+
+`robots.txt` 파일은 표시되어야 하고 그렇지 않아야 하는 항목에 대한 검색 엔진의 동작을 제어합니다. [정적 애셋](./static-assets.mdx)으로 제공할 수 있습니다. 아래 설정은 모든 하위 페이지에 대한 모든 요청의 접근을 허용합니다.
+
+```text title="static/robots.txt"
+User-agent: *
+Disallow:
+```
+
+로봇 파일에 대한 좀 더 자세한 내용은 [구글 문서](https://developers.google.com/search/docs/advanced/robots/intro)를 참고하세요.
+
+:::warning
+
+**중요**: `robots.txt` 파일은 HTML 페이지가 인덱싱되는 것을 막지는 **못합니다**.
+
+전체 도큐사우루스 사이트가 인덱싱되지 않도록 하려면 [`noIndex`](./api/docusaurus.config.js.mdx#noIndex) 사이트 설정을 사용하세요. 일부 [호스팅 업체](./deployment.mdx)에서는 `Tag: noindex` HTTP 헤더를 설정할 수도 있습니다(깃허브 페이지는 지원하지 않습니다).
+
+단일 페이지가 인덱싱되지 않도록 하려면 `<meta name="robots" content="noindex">`을 [페이지 메타데이터](#single-page-metadata)로 사용하세요. [robots 메타 태그](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag)에 대한 좀 더 자세한 내용은 해당 문서를 참고하세요.
+
+:::
+
+## 사이트맵 파일 {#sitemap-file}
+
+도큐사우루스는 [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx) 플러그인을 `preset-classic`에서 기본 제공합니다. 자동으로 `sitemap.xml` 파일을 생성하고 제품 빌드 후 `https://example.com/[baseUrl]/sitemap.xml` 형태로 사용할 수 있습니다. 사이트맵 메타데이터는 검색 엔진 크롤러가 여러분의 사이트를 좀 더 정확하게 수집할 수 있도록 도와줍니다.
+
+:::tip
+
+sitemap 플러그인은 `noindex` [robots 메타 지시문](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag)이 포함된 페이지를 자동으로 필터링합니다.
+
+예를 들어 [`/examples/noIndex`](/examples/noIndex)는 [Docusaurus sitemap.xml file](pathname:///sitemap.xml)에 포함되지 않는데 다음과 같은 [페이지 메타데이터](#single-page-metadata)를 설정했기 때문입니다.
+
+```html
+<head>
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+```
+
+:::
+
+## 사람이 읽을 수 있는 링크 {#human-readable-links}
+
+Docusaurus uses your file names as links, but you can always change that using slugs, see this [tutorial](./guides/docs/docs-create-doc.mdx#document-id) for more details.
+
+## 구조화된 콘텐츠 {#structured-content}
+
+검색 엔진은 `<h2>`, `<table>` 같은 HTML 마크업으로 여러분의 웹페이지의 구조를 이해할 수 있습니다. 도큐사우루스에서 여러분의 페이지를 렌더링할 때 `<aside>`, `<nav>`, `<main>` 같은 시맨틱 마크업은 페이지의 여러 섹션을 나누는데 사용되며 검색 엔진이 사이드바, 탐색 모음, 기본 페이지 콘텐츠를 찾을 수 있도록 도와줍니다.
+
+대부분의 [CommonMark](https://spec.commonmark.org/0.30/#atx-headings) 구문은 해당하는 HTML 태그를 가지고 있습니다. 프로젝트에서 일관성 있게 마크다운을 사용하면 검색 엔진이 페이지 콘텐츠를 좀 더 쉽게 이해할 수 있습니다.

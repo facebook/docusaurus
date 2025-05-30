@@ -1,0 +1,58 @@
+---
+sidebar_position: 0
+slug: /api/misc/create-docusaurus
+---
+
+# 📦 create-docusaurus
+
+高機能なDocusaurusアプリを即座にセットアップするための足がかりとなるユーティリティ
+
+## Usage {#usage}
+
+```bash
+npx create-docusaurus@latest [name] [template] [rootDir]
+```
+
+The `name` argument will be used as the site's path as well as the `name` field in the created app's package.json. It can be an absolute path, or a path relative to `rootDir`.
+
+The `template` argument can be one of the following:
+
+- `classic`: Uses the classic template (recommended)
+- `facebook`: Uses the Facebook/Meta template, which contains some Meta-specific setup
+- A git repo URL (beginning with `https://` or `git@`), which can be cloned to the destination
+- 現在のディレクトリを起点とする、作成先にコピーされるファイルを含むローカルファイルパス
+
+The `rootDir` will be used to resolve the absolute path to the site directory. 初期値は現在のディレクトリです。
+
+:::warning
+
+このコマンドは、すべての機能が利用できるように、対話型シェルで使用することを推奨します。
+
+:::
+
+## Options {#options}
+
+### `-t, --typescript` {#typescript}
+
+テンプレート引数が認識可能な名前である場合に使用されます。 Currently, only `classic` provides a TypeScript variant.
+
+### `-g, --git-strategy` {#git-strategy}
+
+テンプレートの引数がGitリポジトリの場合に使用します。 次のいずれかである必要があります。
+
+- `deep`: preserves full git history
+- `shallow`: clones with `--depth=1`
+- `copy`: does a shallow clone, but does not create a git repo
+- `custom`: enter your custom git clone command. プロンプトを表示して尋ねます。 You can write something like `git clone --depth 10`, and we will append the repository URL and destination directory.
+
+### `-p, --package-manager` {#package-manager}
+
+Value should be one of `npm`, `yarn`, or `pnpm`. 明示的に指定されない場合、Docusaurusは以下に基づいて推定します。
+
+- 現在のディレクトリ内に既に存在するロックファイル（例：既存のプロジェクトでウェブサイトを立ち上げる場合）
+- The command used to invoke `create-docusaurus` (e.g. `npm init`, `npx`, `yarn create`, etc.)
+- 発見的な方法がすべて存在しない場合の対話型プロンプト。
+
+### `-s, --skip-install` {#skip-install}
+
+このオプションを指定すると、Docusaurusはアプリ作成後に依存関係を自動的にインストールしません。 The `--package-manager` option is only useful when you are actually installing dependencies.
