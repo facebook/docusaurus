@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import fs from 'fs-extra';
 import os from 'os';
 import _ from 'lodash';
@@ -151,14 +150,11 @@ export async function getFileCommitDate(
     .filter(Boolean)
     .join(' ');
 
-  const command = `git -c log.showSignature=false log ${args} -- "${path.basename(
-    file,
-  )}"`;
+  const command = `git log ${args} -- "${file}"`;
 
   const result = (await GitCommandQueue.add(() => {
     return PerfLogger.async(command, () => {
       return execa(command, {
-        cwd: path.dirname(file),
         shell: true,
       });
     });
