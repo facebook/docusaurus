@@ -17,7 +17,7 @@ function execPromise(
   command: string,
   options: ExecOptions,
 ): Promise<{exitCode: number; stdout: string; stderr: string}> {
-  options.shell = '/bin/bash';
+  // options.shell = '/bin/bash';
 
   return new Promise((resolve, reject) => {
     exec(command, options, (error, stdout, stderr) => {
