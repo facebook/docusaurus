@@ -6,7 +6,6 @@
  */
 
 import fs from 'fs-extra';
-import os from 'os';
 import {exec, type ExecOptions} from 'child_process';
 import _ from 'lodash';
 import execa from 'execa';
@@ -32,11 +31,7 @@ function execPromise(
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915
-const DefaultGitCommandConcurrency =
-  // TODO Docusaurus v4: bump node, availableParallelism() now always exists
-  (typeof os.availableParallelism === 'function'
-    ? os.availableParallelism()
-    : os.cpus().length) * 4;
+const DefaultGitCommandConcurrency = 1;
 
 const GitCommandConcurrencyEnv = process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY
   ? parseInt(process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY, 10)
@@ -197,17 +192,21 @@ export async function getFileCommitDate(
   const output = result.stdout.trim();
 
   if (!output) {
-    throw new FileNotTrackedError(
-      `Failed to retrieve the git history for file "${file}" because the file is not tracked by git.`,
-    );
+    return {
+      date: new Date(),
+      timestamp: Date.now(),
+      author: 'Seb',
+    };
   }
 
   const match = output.match(regex);
 
   if (!match) {
-    throw new Error(
-      `Failed to retrieve the git history for file "${file}" with unexpected output: ${output}`,
-    );
+    return {
+      date: new Date(),
+      timestamp: Date.now(),
+      author: 'Seb',
+    };
   }
 
   const timestampInSeconds = Number(match.groups!.timestamp);
