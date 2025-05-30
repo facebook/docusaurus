@@ -7,10 +7,28 @@
 
 import fs from 'fs-extra';
 import os from 'os';
+import {exec, type ExecOptions} from 'child_process';
 import _ from 'lodash';
 import execa from 'execa';
 import PQueue from 'p-queue';
 import {PerfLogger} from '@docusaurus/logger';
+
+function execPromise(
+  command: string,
+  options: ExecOptions,
+): Promise<{exitCode: number; stdout: string; stderr: string}> {
+  options.shell = '/bin/bash';
+
+  return new Promise((resolve, reject) => {
+    exec(command, options, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      resolve({exitCode: 0, stdout, stderr});
+    });
+  });
+}
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915
@@ -150,18 +168,17 @@ export async function getFileCommitDate(
 
   const args = argsArray.join(' ');
 
-  const command = `(git ls-files --error-unmatch "${file}" || exit 42) && git log ${args} -- "${file}"`;
+  const command = `git log ${args} -- "${file}"`;
 
   const result = (await GitCommandQueue.add(() => {
     return PerfLogger.async(command, () => {
+      return execPromise(command, {});
+      /*
       return execa(command, {
         shell: true,
-      }).catch((e) => {
-        if (e.exitCode === 42) {
-          return {exitCode: 0, stdout: '', stderr: ''} as const;
-        }
-        throw e;
       });
+
+       */
     });
   }))!;
 
