@@ -27,13 +27,17 @@ function CannyWidget({basePath}: {basePath: string}) {
 
   const theme = useCannyTheme();
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const {Canny} = window as any;
-    Canny('render', {
-      boardToken: BOARD_TOKEN,
-      basePath,
-      theme,
-    });
+    const timer = setTimeout(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const {Canny} = window as any;
+      Canny('render', {
+        boardToken: BOARD_TOKEN,
+        basePath,
+        theme,
+      });
+    }, 50);
+
+    return () => clearTimeout(timer);
   }, [basePath, theme]);
   return (
     <main
