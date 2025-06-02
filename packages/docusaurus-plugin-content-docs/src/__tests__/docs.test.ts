@@ -25,7 +25,7 @@ import {
   type DocEnv,
 } from '../docs';
 import {loadSidebars} from '../sidebars';
-import {readVersionsMetadata} from '../versions';
+import {readVersionsMetadata} from '../versions/version';
 import {DEFAULT_OPTIONS} from '../options';
 import type {Sidebars} from '../sidebars/types';
 import type {DocFile} from '../types';

@@ -124,9 +124,7 @@ export async function loadVersion({
   try {
     return await doLoadVersion();
   } catch (err) {
-    throw new Error(
-      logger.interpolate`Loading of version failed for version name=${versionMetadata.versionName}`,
-      {cause: err},
-    );
+    logger.error`Loading of version failed for version name=${versionMetadata.versionName}`;
+    throw err;
   }
 }
