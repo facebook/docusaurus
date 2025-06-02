@@ -243,7 +243,7 @@ export async function readVersionsMetadata({
   validateVersionsOptions(allVersionNames, options);
   const versionNames = filterVersions(allVersionNames, options);
   const lastVersionName = getLastVersionName({versionNames, options});
-  const versionsMetadata = await Promise.all(
+  return Promise.all(
     versionNames.map((versionName) =>
       createVersionMetadata({
         versionName,
@@ -254,7 +254,6 @@ export async function readVersionsMetadata({
       }),
     ),
   );
-  return versionsMetadata;
 }
 
 export function toFullVersion(version: LoadedVersion): FullVersion {

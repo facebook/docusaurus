@@ -28,7 +28,7 @@ import {
   getVersionFromSourceFilePath,
   readVersionsMetadata,
   toFullVersion,
-} from './versions';
+} from './versions/version';
 import cliDocs from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {toGlobalDataVersion} from './globalData';

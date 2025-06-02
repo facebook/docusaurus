@@ -8,7 +8,7 @@
 import path from 'path';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {DEFAULT_PARSE_FRONT_MATTER} from '@docusaurus/utils/src';
-import {readVersionsMetadata} from '../index';
+import {readVersionsMetadata} from '../version';
 import {DEFAULT_OPTIONS} from '../../options';
 import {loadVersion} from '../loadVersion';
 import type {I18n, LoadContext} from '@docusaurus/types';
