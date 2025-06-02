@@ -81,7 +81,7 @@ async function executePluginContentLoading({
       plugin.loadContent?.(),
     );
 
-    const translate = false;
+    const translate = true;
     if (translate) {
       content = await PerfLogger.async('translatePluginContent()', () =>
         translatePluginContent({
