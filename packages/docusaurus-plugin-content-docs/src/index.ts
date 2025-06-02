@@ -7,7 +7,6 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {
   normalizeUrl,
@@ -17,30 +16,19 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
-  createSlugger,
   resolveMarkdownLinkPathname,
   DEFAULT_PLUGIN_ID,
-  type TagsFile,
 } from '@docusaurus/utils';
-import {
-  getTagsFile,
-  getTagsFilePathsToWatch,
-} from '@docusaurus/utils-validation';
+import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
-import {loadSidebars, resolveSidebarPathOption} from './sidebars';
+import {resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
-import {
-  readVersionDocs,
-  processDocMetadata,
-  addDocNavigation,
-  type DocEnv,
-  createDocsByIdIndex,
-} from './docs';
+import {type DocEnv} from './docs';
 import {
   getVersionFromSourceFilePath,
   readVersionsMetadata,
   toFullVersion,
-} from './versions';
+} from './versions/version';
 import cliDocs from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {toGlobalDataVersion} from './globalData';
@@ -49,19 +37,17 @@ import {
   getLoadedContentTranslationFiles,
 } from './translations';
 import {createAllRoutes} from './routes';
-import {createSidebarsUtils} from './sidebars/utils';
 
 import {createContentHelpers} from './contentHelpers';
+import {loadVersion} from './versions/loadVersion';
 import type {
   PluginOptions,
-  DocMetadataBase,
   VersionMetadata,
   DocFrontMatter,
   LoadedContent,
-  LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext, Plugin} from '@docusaurus/types';
-import type {DocFile, FullVersion} from './types';
+import type {FullVersion} from './types';
 import type {RuleSetRule} from 'webpack';
 
 // MDX loader is not 100% deterministic, leading to cache invalidation issue
@@ -243,102 +229,17 @@ export default async function pluginContentDocs(
     },
 
     async loadContent() {
-      async function loadVersionDocsBase(
-        versionMetadata: VersionMetadata,
-        tagsFile: TagsFile | null,
-      ): Promise<DocMetadataBase[]> {
-        const docFiles = await readVersionDocs(versionMetadata, options);
-        if (docFiles.length === 0) {
-          throw new Error(
-            `Docs version "${
-              versionMetadata.versionName
-            }" has no docs! At least one doc should exist at "${path.relative(
-              siteDir,
-              versionMetadata.contentPath,
-            )}".`,
-          );
-        }
-        function processVersionDoc(docFile: DocFile) {
-          return processDocMetadata({
-            docFile,
-            versionMetadata,
-            context,
-            options,
-            env,
-            tagsFile,
-          });
-        }
-        return Promise.all(docFiles.map(processVersionDoc));
-      }
-
-      async function doLoadVersion(
-        versionMetadata: VersionMetadata,
-      ): Promise<LoadedVersion> {
-        const tagsFile = await getTagsFile({
-          contentPaths: versionMetadata,
-          tags: options.tags,
-        });
-
-        const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
-          versionMetadata,
-          tagsFile,
-        );
-
-        // TODO we only ever need draftIds in further code, not full draft items
-        // To simplify and prevent mistakes, avoid exposing draft
-        // replace draft=>draftIds in content loaded
-        const [drafts, docs] = _.partition(docsBase, (doc) => doc.draft);
-
-        const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
-          sidebarItemsGenerator: options.sidebarItemsGenerator,
-          numberPrefixParser: options.numberPrefixParser,
-          docs,
-          drafts,
-          version: versionMetadata,
-          sidebarOptions: {
-            sidebarCollapsed: options.sidebarCollapsed,
-            sidebarCollapsible: options.sidebarCollapsible,
-          },
-          categoryLabelSlugger: createSlugger(),
-        });
-
-        const sidebarsUtils = createSidebarsUtils(sidebars);
-
-        const docsById = createDocsByIdIndex(docs);
-        const allDocIds = Object.keys(docsById);
-
-        sidebarsUtils.checkLegacyVersionedSidebarNames({
-          sidebarFilePath: versionMetadata.sidebarFilePath as string,
-          versionMetadata,
-        });
-        sidebarsUtils.checkSidebarsDocIds({
-          allDocIds,
-          sidebarFilePath: versionMetadata.sidebarFilePath as string,
-          versionMetadata,
-        });
-
-        return {
-          ...versionMetadata,
-          docs: addDocNavigation({
-            docs,
-            sidebarsUtils,
-          }),
-          drafts,
-          sidebars,
-        };
-      }
-
-      async function loadVersion(versionMetadata: VersionMetadata) {
-        try {
-          return await doLoadVersion(versionMetadata);
-        } catch (err) {
-          logger.error`Loading of version failed for version name=${versionMetadata.versionName}`;
-          throw err;
-        }
-      }
-
       return {
-        loadedVersions: await Promise.all(versionsMetadata.map(loadVersion)),
+        loadedVersions: await Promise.all(
+          versionsMetadata.map((versionMetadata) =>
+            loadVersion({
+              context,
+              options,
+              env,
+              versionMetadata,
+            }),
+          ),
+        ),
       };
     },
 
