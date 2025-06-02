@@ -8,6 +8,7 @@
 import React, {type ReactNode, useEffect} from 'react';
 import clsx from 'clsx';
 import {useColorMode} from '@docusaurus/theme-common';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import Layout from '@theme/Layout';
 
 import cannyScript from './cannyScript';
@@ -15,6 +16,8 @@ import styles from './styles.module.css';
 
 const BOARD_TOKEN = '054e0e53-d951-b14c-7e74-9eb8f9ed2f91';
 
+// TODO find a way to remove this unreliable useColorMode() hook
+// See also https://github.com/facebook/docusaurus/pull/11224
 function useCannyTheme() {
   const {colorMode} = useColorMode();
   return colorMode === 'light' ? 'light' : 'dark';
@@ -27,18 +30,15 @@ function CannyWidget({basePath}: {basePath: string}) {
 
   const theme = useCannyTheme();
   useEffect(() => {
-    const timer = setTimeout(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const {Canny} = window as any;
-      Canny('render', {
-        boardToken: BOARD_TOKEN,
-        basePath,
-        theme,
-      });
-    }, 50);
-
-    return () => clearTimeout(timer);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const {Canny} = window as any;
+    Canny('render', {
+      boardToken: BOARD_TOKEN,
+      basePath,
+      theme,
+    });
   }, [basePath, theme]);
+
   return (
     <main
       key={theme} // widget needs a full reset: unable to update the theme
@@ -55,7 +55,7 @@ export default function FeatureRequests({
 }): ReactNode {
   return (
     <Layout title="Feedback" description="Docusaurus 2 Feature Requests page">
-      <CannyWidget basePath={basePath} />
+      <BrowserOnly>{() => <CannyWidget basePath={basePath} />}</BrowserOnly>
     </Layout>
   );
 }
