@@ -90,12 +90,12 @@ jobs:
         run: yarn test:build:website -s
       - name: Install test-website project with Yarn v1
         run: yarn || yarn || yarn
-        working-directory: ${{ github.workspace }}\test-website
+        working-directory: ..\test-website
         env:
           npm_config_registry: http://localhost:4873
       - name: Start test-website project
         run: yarn start --no-open
-        working-directory: ${{ github.workspace }}\test-website
+        working-directory: ..\test-website
         env:
           E2E_TEST: true
       - name: Build test-website project
