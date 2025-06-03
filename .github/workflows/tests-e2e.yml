@@ -90,24 +90,24 @@ jobs:
         run: yarn test:build:website -s
       - name: Install test-website project with Yarn v1
         run: yarn || yarn || yarn
-        working-directory: ../test-website
+        working-directory: ..\test-website
         env:
           npm_config_registry: http://localhost:4873
       - name: Start test-website project
         run: yarn start --no-open
-        working-directory: ../test-website
+        working-directory: ..\test-website
         env:
           E2E_TEST: true
       - name: Build test-website project
         # We build 2 locales to ensure a localized site doesn't leak memory
         # See https://github.com/facebook/docusaurus/pull/10599
-        run: yarn build --locale en --locale fr --out-dir ../docusaurus/local-build-dir
+        run: yarn build --locale en --locale fr --out-dir ..\docusaurus\local-build-dir
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
           NODE_OPTIONS: '--max-old-space-size=300'
           DOCUSAURUS_PERF_LOGGER: 'true'
-        working-directory: ../test-website
+        working-directory: ..\test-website
       - name: Upload Website artifact
         uses: actions/upload-artifact@v4
         with:
@@ -116,7 +116,7 @@ jobs:
           # We use a "local-build-dir" instead
           # See https://github.com/actions/upload-artifact/issues/176
           path: local-build-dir
-          # path: ../test-website/build
+          # path: ..\test-website\build
 
   yarn-berry:
     name: E2E — Yarn Berry
