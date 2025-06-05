@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {Joi} from '@docusaurus/utils-validation';
+import {posixPath} from '@docusaurus/utils';
 import {isValidLayerName} from './layers';
 import type {OptionValidationContext} from '@docusaurus/types';
 
@@ -20,7 +21,10 @@ export type Options = {
 // Not ideal to compute layers using "filePath.includes()"
 // But this is mostly temporary until we add first-class layers everywhere
 function layerFor(...params: string[]) {
-  return (filePath: string) => params.some((p) => filePath.includes(p));
+  return (filePath: string) => {
+    const posixFilePath = posixPath(filePath);
+    return params.some((p) => posixFilePath.includes(p));
+  };
 }
 
 // Object order matters, it defines the layer order
