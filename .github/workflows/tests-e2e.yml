@@ -84,12 +84,10 @@ jobs:
         with:
           node-version: lts/*
           cache: yarn
-      - name: Generate test-website project against main branch
-        run: bash ./admin/scripts/test-release.sh -s
       - name: Installation
         run: yarn || yarn || yarn
       - name: Generate test-website project against main branch
-        run: yarn test:build:website -s
+        run: bash ./admin/scripts/test-release.sh -s
       - name: Install test-website project with Yarn v1
         run: yarn || yarn || yarn
         working-directory: 'C:\a\docusaurus\test-website'
