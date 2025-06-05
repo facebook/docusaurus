@@ -72,6 +72,48 @@ jobs:
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
 
+  yarn-v1-windows:
+    name: E2E — Yarn v1 Windows
+    timeout-minutes: 30
+    runs-on: windows-8-core
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Use Node.js LTS
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: lts/*
+          cache: yarn
+      - name: Installation
+        run: yarn || yarn || yarn
+      - name: Generate test-website project against main branch
+        # Not using test-release.sh => no verdaccio docker image on Windows
+        # run: bash ./admin/scripts/test-release.sh -s
+        run: yarn create-docusaurus test-website-in-workspace classic --typescript
+      - name: Install test-website project with Yarn v1
+        run: yarn || yarn || yarn
+        working-directory: test-website-in-workspace
+      - name: Start test-website project
+        run: yarn start --no-open
+        working-directory: test-website-in-workspace
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        # We build 2 locales to ensure a localized site doesn't leak memory
+        # See https://github.com/facebook/docusaurus/pull/10599
+        run: yarn build --locale en --locale fr
+        env:
+          # Our website should build even with limited memory
+          # See https://github.com/facebook/docusaurus/pull/10590
+          NODE_OPTIONS: '--max-old-space-size=300'
+          DOCUSAURUS_PERF_LOGGER: 'true'
+        working-directory: test-website-in-workspace
+      - name: Upload Website artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-e2e-windows
+          path: test-website-in-workspace/build
+
   yarn-berry:
     name: E2E — Yarn Berry
     timeout-minutes: 30
