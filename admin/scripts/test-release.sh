@@ -5,9 +5,12 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+echo TEST0
+
+
 set -xeuo pipefail
 
-echo TEST
+echo TEST1
 
 rm -rf ../test-website
 

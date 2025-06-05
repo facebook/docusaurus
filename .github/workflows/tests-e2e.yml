@@ -47,6 +47,8 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
+      - name: Generate test-website project against main branch
+        run: bash ./admin/scripts/test-release.sh -s
       - name: Installation
         run: yarn || yarn || yarn
       - name: Generate test-website project against main branch
