@@ -7,12 +7,20 @@
 
 set -xeuo pipefail
 
+echo TEST
+
 rm -rf ../test-website
+
+echo TEST2
+
 
 CUSTOM_REGISTRY_URL="http://localhost:4873"
 NEW_VERSION="$(node -p "require('./packages/docusaurus/package.json').version")-NEW"
 CONTAINER_NAME="verdaccio"
 EXTRA_OPTS=""
+
+echo TEST3
+
 
 usage() { echo "Usage: $0 [-s] [-t]" 1>&2; exit 1; }
 
@@ -31,17 +39,24 @@ while getopts ":st" o; do
 done
 shift $((OPTIND-1))
 
+echo TEST4
 
 if [ ! -z $EXTRA_OPTS ]
 then
   echo create-docusaurus extra options = ${EXTRA_OPTS}
 fi
 
+echo TEST5
+
 # Run Docker container with private npm registry Verdaccio
 docker run -d --rm --name "$CONTAINER_NAME" -p 4873:4873 -v "$PWD/admin/verdaccio.yaml":/verdaccio/conf/config.yaml verdaccio/verdaccio:latest
 
+echo TEST6
+
 # Build packages
 yarn build:packages
+
+echo TEST7
 
 # Publish the monorepo
 npx --no-install lerna publish --exact --yes --no-verify-access --no-git-reset --no-git-tag-version --no-push --registry "$CUSTOM_REGISTRY_URL" "$NEW_VERSION"
