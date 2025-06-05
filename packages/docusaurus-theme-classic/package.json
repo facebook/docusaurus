@@ -39,7 +39,7 @@
     "infima": "0.2.0-alpha.45",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
-    "postcss": "^8.4.26",
+    "postcss": "^8.5.4",
     "prism-react-renderer": "^2.3.0",
     "prismjs": "^1.29.0",
     "react-router-dom": "^5.3.4",
