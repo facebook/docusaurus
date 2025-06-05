@@ -188,7 +188,11 @@ export default function DocSidebarItemCategory({
               ? (e) => {
                   onItemClick?.(item);
                   if (href) {
-                    if (isActive) {
+                    // When already on the category's page, we collapse it
+                    // We don't use "isActive" because it would collapse the
+                    // category even when we browse a children element
+                    // See https://github.com/facebook/docusaurus/issues/11213
+                    if (isCurrentPage) {
                       e.preventDefault();
                       updateCollapsed();
                     } else {
