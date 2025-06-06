@@ -22,52 +22,96 @@ const DefaultI18N: I18n = {
   localeConfigs: {},
 };
 
-describe('minimal site', () => {
-  async function loadSite() {
-    const siteDir = path.resolve(
-      path.join(__dirname, './__fixtures__', 'minimal-site'),
-    );
-    const options: PluginOptions = fromPartial<PluginOptions>({
-      ...DEFAULT_OPTIONS,
-    });
-    const context = fromPartial<LoadContext>({
-      siteDir,
-      baseUrl: '/',
-      i18n: DefaultI18N,
-      localizationDir: path.join(siteDir, 'i18n/en'),
-      siteConfig: {
-        markdown: {
-          parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
-        },
+async function siteFixture(fixture: string) {
+  const siteDir = path.resolve(path.join(__dirname, './__fixtures__', fixture));
+  const options: PluginOptions = fromPartial<PluginOptions>({
+    id: 'default',
+    ...DEFAULT_OPTIONS,
+  });
+  const context = fromPartial<LoadContext>({
+    siteDir,
+    baseUrl: '/',
+    i18n: DefaultI18N,
+    localizationDir: path.join(siteDir, 'i18n/en'),
+    siteConfig: {
+      markdown: {
+        parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
       },
+    },
+  });
+
+  const versions = await readVersionsMetadata({
+    options,
+    context,
+  });
+
+  return {
+    siteDir,
+    options,
+    context,
+    versions,
+  };
+}
+
+describe('loadVersion', () => {
+  describe('minimal site', () => {
+    it('can load current version', async () => {
+      const {options, context, versions} = await siteFixture('site-minimal');
+
+      const version = versions[0];
+      expect(version).toBeDefined();
+      expect(version.versionName).toBe('current');
+
+      const loadedVersion = loadVersion({
+        context,
+        options,
+        versionMetadata: version,
+        env: 'production',
+      });
+
+      await expect(loadedVersion).resolves.toMatchSnapshot();
     });
-    return {
-      siteDir,
-      options,
-      context,
-    };
-  }
+  });
 
-  it('can load current version', async () => {
-    const {options, context} = await loadSite();
+  describe('site with broken versions', () => {
+    async function loadTestVersion(versionName: string) {
+      const {options, context, versions} = await siteFixture(
+        'site-broken-versions',
+      );
+      const version = versions.find((v) => v.versionName === versionName);
+      if (!version) {
+        throw new Error(`Version '${versionName}' should exist`);
+      }
+      return loadVersion({
+        context,
+        options,
+        versionMetadata: version,
+        env: 'production',
+      });
+    }
 
-    const versionsMetadata = await readVersionsMetadata({
-      options,
-      context,
+    it('rejects version with doc id conflict', async () => {
+      await expect(() => loadTestVersion('with-id-conflicts')).rejects
+        .toThrowErrorMatchingInlineSnapshot(`
+        "The docs plugin found docs sharing the same id:
+
+        - \`frontMatter/doc\` found in 3 docs:
+          - versioned_docs/version-with-id-conflicts/frontMatter/doc.md
+          - versioned_docs/version-with-id-conflicts/frontMatter/doc1.md
+          - versioned_docs/version-with-id-conflicts/frontMatter/doc2.md
+
+        - \`number-prefix/doc\` found in 2 docs:
+          - versioned_docs/version-with-id-conflicts/number-prefix/1-doc.md
+          - versioned_docs/version-with-id-conflicts/number-prefix/2-doc.md
+
+        - \`number-prefix/deeply/nested/doc\` found in 2 docs:
+          - versioned_docs/version-with-id-conflicts/number-prefix/deeply/nested/2-doc.md
+          - versioned_docs/version-with-id-conflicts/number-prefix/deeply/nested/3-doc.md
+
+        Docs should have distinct ids.
+        In case of conflict, you can rename the docs file, or use the \`id\` front matter to assign an explicit distinct id to each doc.
+            "
+      `);
     });
-
-    expect(versionsMetadata).toHaveLength(1);
-    expect(versionsMetadata[0]!.versionName).toBe('current');
-
-    const versionMetadata = versionsMetadata[0]!;
-
-    const loadedVersion = loadVersion({
-      context,
-      options,
-      versionMetadata,
-      env: 'production',
-    });
-
-    await expect(loadedVersion).resolves.toMatchSnapshot();
   });
 });
