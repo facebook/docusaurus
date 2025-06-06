@@ -1,0 +1,20 @@
+---
+sidebar_position: 4
+slug: /api/themes/@docusaurus/theme-search-algolia
+---
+
+# 📦 theme-search-algolia
+
+这个主题提供了 `@theme/SearchBar` 组件，集成了 Algolia DocSearch。 它与 `@docusaurus/theme-classic` 一起提供便捷的搜索集成。 你可以在[搜索](../../search.mdx)文档中了解详情。
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-search-algolia
+```
+
+此主题还渲染了一个 `/search` 搜索页面（通过可以 swizzle 的 `SearchPage` 组件），附带 OpenSearch 支持。 你可以通过 `themeConfig.algolia.searchPagePath` 修改默认路径。 用 `false` 可以禁用搜索页面。
+
+:::tip
+
+如果你已经安装了 `@docusaurus/preset-classic`，就不需要安装这个包了。
+
+:::

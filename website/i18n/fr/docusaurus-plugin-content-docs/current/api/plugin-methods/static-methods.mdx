@@ -1,0 +1,83 @@
+---
+sidebar_position: 4
+---
+
+# Méthodes statiques
+
+Les méthodes statiques ne font pas partie de l'instance du plugin, elles sont attachées à la fonction constructeur. Ces méthodes sont utilisées pour valider et normaliser les options du plugin et la configuration du thème, qui sont ensuite utilisés comme paramètres du constructeur pour initialiser l'instance du plugin.
+
+## `validateOptions({options, validate})` {#validateOptions}
+
+Retourne les options validées et normalisées pour le plugin. Cette méthode est appelée avant l'initialisation du plugin. Vous devez retourner les options car elles seront passées au plugin lors de l'initialisation.
+
+### `options` {#options}
+
+`validateOptions` est appelé avec les `options` passées au plugin pour la validation et la normalisation.
+
+### `validate` {#validate}
+
+`validateOptions` est appelée avec la fonction `validate` qui prend un schéma **[Joi](https://www.npmjs.com/package/joi)** et les options comme arguments, retourne des options validées et normalisées. `validate` gérera automatiquement la configuration d'erreur et de validation.
+
+:::tip
+
+[Joi](https://www.npmjs.com/package/joi) est recommandé pour la validation et la normalisation des options.
+
+Pour éviter de mélanger les versions de Joi, utilisez `import {Joi} from '@docusaurus/utils-validation'`
+
+:::
+
+Si vous n'utilisez pas **[Joi](https://www.npmjs.com/package/joi)** pour la validation, vous pouvez lancer une erreur en cas d'options non valides et retourner des options en cas de succès.
+
+```js title="my-plugin/src/index.js"
+export default function myPlugin(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // le reste des méthodes
+  };
+}
+
+// highlight-start
+export function validateOptions({options, validate}) {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validatedOptions;
+}
+// highlight-end
+```
+
+## `validateThemeConfig({themeConfig, validate})` {#validateThemeConfig}
+
+Retourne une configuration validée et normalisée pour le thème.
+
+### `themeConfig` {#themeConfig}
+
+`validateThemeConfig` est appelé avec `themeConfig` fourni dans `docusaurus.config.js` pour la validation et la normalisation.
+
+### `validate` {#validate-1}
+
+`validateThemeConfig` est appelé avec la fonction `validate` qui prend un schéma **[Joi](https://www.npmjs.com/package/joi)** et `themeConfig` en arguments, retourne les options validées et normalisées. `validate` gérera automatiquement la configuration d'erreur et de validation.
+
+:::tip
+
+[Joi](https://www.npmjs.com/package/joi) est recommandé pour la validation et la normalisation de la configuration du thème.
+
+Pour éviter de mélanger les versions de Joi, utilisez `import {Joi} from '@docusaurus/utils-validation'`
+
+:::
+
+Si vous n'utilisez pas **[Joi](https://www.npmjs.com/package/joi)** pour la validation, vous pouvez lancer une erreur en cas d'options non valides.
+
+```js title="my-theme/src/index.js"
+export default function myPlugin(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // le reste des méthodes
+  };
+}
+
+// highlight-start
+export function validateThemeConfig({themeConfig, validate}) {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+}
+// highlight-end
+```

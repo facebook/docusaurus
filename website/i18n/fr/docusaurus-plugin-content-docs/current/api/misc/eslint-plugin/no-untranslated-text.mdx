@@ -1,0 +1,54 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/no-untranslated-text
+---
+
+# no-untranslated-text
+
+import APITable from '@site/src/components/APITable';
+
+Oblige les libellés de texte en JSX à être enveloppés par des appels de traduction.
+
+Lorsque la [fonctionnalité i18n](../../../i18n/i18n-introduction.mdx) est utilisée, cette règle garantit que tous les libellés apparaissant sur le site Web sont traduisibles, afin qu'aucune chaîne ne se glisse accidentellement sans être traduite.
+
+## Détails de la règle {#details}
+
+Exemples de code **incorrect** pour cette règle :
+
+```js
+// Hello World n'est pas traduit
+<Component>Hello World</Component>
+```
+
+Exemples de code **correct** pour cette règle :
+
+```js
+// Hello World est traduit
+<Component>
+  <Translate>Hello World</Translate>
+</Component>
+```
+
+## Configuration de la règle {#configuration}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Option           | Type       | Par défaut | Description                                                                                                   |
+| ---------------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
+| `ignoredStrings` | `string[]` | `[]`       | Les libellés de texte qui ne contiennent que des chaînes de caractères de cette liste ne seront pas signalés. |
+
+```mdx-code-block
+</APITable>
+```
+
+## Quand ne faut-il pas l'utiliser ? {#when-not-to-use}
+
+Si vous n'utilisez pas la [fonctionnalité i18n](../../../i18n/i18n-introduction.mdx), vous pouvez désactiver cette règle. Vous pouvez également désactiver cette règle lorsque le texte n'est pas censé être traduit.
+
+## Complément d'information {#further-reading}
+
+- https://docusaurus.io/docs/docusaurus-core#translate
+- https://docusaurus.io/docs/docusaurus-core#translate-imperative

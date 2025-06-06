@@ -1,0 +1,28 @@
+---
+description: Como o Docusaurus realiza o build seu aplicativo
+---
+
+# Arquitetura
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Zoom from 'react-medium-image-zoom';
+```
+
+<Zoom>
+
+![Visão geral de Arquitetura](/img/architecture.png)
+
+</Zoom>
+
+Este diagrama mostra como o Docusaurus funciona para realizar o build de seu aplicativo. Cada plugin coleta seu conteúdo e emite dados no formato JSON; os temas fornecem componentes de layout que recebem dados no formato JSON como módulos de rota. O bundler agrupa todos os componentes e emite um pacote de servidores e um pacote de clientes.
+
+Embora vocês (autores de plugins ou criadores de sites) estejam sempre escrevendo JavaScript, o tempo todo. Tenha em mente que o JS na verdade é executado em diferentes ambientes:
+
+- Todos os métodos do ciclo de vida de um plugin são executados utilizando Node. Therefore, until we support ES Modules in our codebase, plugin source code must be provided as CommonJS that can be `require`'d.
+- O código do tema foi construído com Webpack. Elas podem ser fornecidas como ESM — seguindo as convenções React.
+
+Plugin code and theme code never directly import each other: they only communicate through protocols (in our case, through JSON temp files and calls to `addRoute`). Um modelo mental útil é imaginar que os plugins não estão escritos em JavaScript, mas em outra linguagem como o Rust. The only way to interact with plugins for the user is through `docusaurus.config.js`, which itself is run in Node (hence you can use `require` and pass callbacks as plugin options).
+
+During bundling, the config file itself is serialized and bundled, allowing the theme to access config options like `themeConfig` or `baseUrl` through [`useDocusaurusContext()`](../docusaurus-core.mdx#useDocusaurusContext). However, the `siteConfig` object only contains **serializable values** (values that are preserved after `JSON.stringify()`). Functions, regexes, etc. would be lost on the client side. The `themeConfig` is designed to be entirely serializable.

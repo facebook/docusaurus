@@ -1,0 +1,28 @@
+---
+description: Comment fonctionne Docusaurus pour construire votre application
+---
+
+# Architecture
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Zoom from 'react-medium-image-zoom';
+```
+
+<Zoom>
+
+![Aperçu de l'architecture](/img/architecture.png)
+
+</Zoom>
+
+Ce diagramme montre comment Docusaurus fonctionne pour construire votre application. Les plugins collectent chacun leur contenu et émettent des données JSON; les thèmes fournissent des composants de mise en page qui reçoivent les données JSON en tant que modules de route. Le bundler regroupe tous les composants et émet un paquet serveur et un paquet client.
+
+Bien que vous (auteurs de plugins ou créateurs de sites) écriviez du JavaScript en permanence, n'oubliez pas que le JS est en fait exécuté dans différents environnements :
+
+- Toutes les méthodes de cycle de vie des plugins sont exécutées dans Node. Par conséquent, jusqu'à ce que nous prenions en charge les modules ES dans notre base de code, le code source des plugins doit être fourni sous forme de modules ES pouvant être importés, ou de CommonJS pouvant être `require`.
+- Le code du thème est construit avec Webpack. Ils peuvent être fournis en tant que ESM – suivant les conventions de React.
+
+Le code du plugin et celui du thème ne s'importent jamais directement les uns aux autres : ils ne communiquent qu'à travers des protocoles (dans notre cas, à travers des fichiers temporaires JSON et des appels à `addRoute`). Un bon modèle mental est d'imaginer que les plugins ne sont pas écrits en JavaScript, mais dans un autre langage comme Rust. Le seul moyen d'interagir avec les plugins pour l'utilisateur est de passer par `docusaurus.config.js`, qui est lui-même exécuté dans Node (d'où la possibilité d'utiliser `require` et de passer des callbacks comme options de plugins).
+
+Lors de l'empaquetage, le fichier de configuration lui-même est sérialisé et mis en paquet, ce qui permet au thème d'accéder aux options de configuration comme `themeConfig` ou `baseUrl` via [`useDocusaurusContext()`](../docusaurus-core.mdx#useDocusaurusContext). Cependant, l'objet `siteConfig` ne contient que des **valeurs sérialisables** (valeurs qui sont préservées après `JSON.stringify()`). Les fonctions, les regex, etc. seraient perdus du côté client. Le `themeConfig` est conçu pour être entièrement sérialisable.

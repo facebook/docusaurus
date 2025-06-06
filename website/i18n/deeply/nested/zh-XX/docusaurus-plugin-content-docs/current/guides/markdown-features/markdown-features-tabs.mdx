@@ -1,0 +1,380 @@
+---
+id: tabs
+description: 在 Docusaurus Markdown 中使用选项卡
+slug: /markdown-features/tabs
+---
+
+# 选项卡
+
+```mdx-code-block
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import styles from './markdown-features-tabs-styles.module.css';
+```
+
+Docusaurus提供了 `<Tabs>` 组件，你可以通过 [MDX](./markdown-features-react.mdx) 在 Markdown 中使用：
+
+{/* prettier-ignore */}
+```jsx
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="apple" label="苹果" default>
+    这是个苹果 🍎
+  </TabItem>
+  <TabItem value="orange" label="橙子">
+    这是个橙子 🍊
+  </TabItem>
+  <TabItem value="banana" label="香蕉">
+    这是个香蕉 🍌
+  </TabItem>
+</Tabs>
+```
+
+```mdx-code-block
+<BrowserWindow>
+<Tabs>
+  <TabItem value="apple" label="苹果" default>
+    这是个苹果 🍎
+  </TabItem>
+  <TabItem value="orange" label="橙子">
+    这是个橙子 🍊
+  </TabItem>
+  <TabItem value="banana" label="香蕉">
+    这是个香蕉 🍌
+  </TabItem>
+</Tabs>
+</BrowserWindow>
+```
+
+---
+
+您也可以把 `values` 和 ` defaultValue` props 提供给 `Tabs`：
+
+```jsx
+<Tabs
+  defaultValue="apple"
+  values={[
+    {label: '苹果', value: 'apple'},
+    {label: '橙子', value: 'orange'},
+    {label: '香蕉', value: 'banana'},
+  ]}>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs
+    defaultValue="apple"
+    values={[
+      {label: '苹果', value: 'apple'},
+      {label: '橙子', value: 'orange'},
+      {label: '香蕉', value: 'banana'},
+    ]}>
+    <TabItem value="apple">这是个苹果 🍎</TabItem>
+    <TabItem value="orange">这是个橙子 🍊</TabItem>
+    <TabItem value="banana">这是个香蕉 🍌</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+<details>
+  <summary><code>Tabs</code> 的属性会覆盖 <code>TabItem</code> 属性：</summary>
+
+```jsx
+<Tabs
+  defaultValue="apple"
+  values={[
+    {label: '苹果 1', value: 'apple'},
+    {label: '橙子 1', value: 'orange'},
+    {label: '香蕉 1', value: 'banana'},
+  ]}>
+  <TabItem value="apple" label="苹果 2">
+    这是个苹果 🍎
+  </TabItem>
+  <TabItem value="orange" label="橙子 2">
+    这是个橙子 🍊
+  </TabItem>
+  <TabItem value="banana" label="香蕉 2" default>
+    这是个香蕉 🍌
+  </TabItem>
+</Tabs>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs
+    defaultValue="apple"
+    values={[
+      {label: '苹果 1', value: 'apple'},
+      {label: '橙子 1', value: 'orange'},
+      {label: '香蕉 1', value: 'banana'},
+    ]}>
+    <TabItem value="apple" label="苹果 2">这是个苹果 🍎</TabItem>
+    <TabItem value="orange" label="橙子 2">这是个橙子 🍊</TabItem>
+    <TabItem value="banana" label="香蕉 2" default>这是个香蕉 🍌</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+</details>
+
+:::tip
+
+通常，所有选项卡都会在构建过程中被预渲染，以便搜索引擎爬取未显示的选项卡。
+
+当你想仅呈现默认选项卡时，可以使用 `<Tabs lazy />`。
+
+:::
+
+## 显示默认选项卡 {#displaying-a-default-tab}
+
+第一个选项卡会被默认显示。你可以给某个选项添加 `default` 属性来覆盖这个行为。 您也可以将 `Tabs` 组件的 `默认值` prop设置为您选择的标签值。 比如在上文的例子中， 无论是给 `value="apple"` 的选项卡设置 `default`，还是给 `Tabs` 设置 `defaultValue="apple"`，都会使得「苹果」选项卡被默认显示。
+
+如果为 `Tabs` 提供了 `defaultValue`，但默认值没有对应的选项卡，Docusaurus 会报错。 如果您不想默认显示任何选项，可以用 `defaultValue={null}`。
+
+## 同步选项 {#syncing-tab-choices}
+
+You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to change all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Note that group IDs are globally namespaced.
+
+```jsx
+// highlight-next-line
+<Tabs groupId="operating-systems">
+  <TabItem value="win" label="Windows">用 Ctrl + C 复制。</TabItem>
+  <TabItem value="mac" label="macOS">用 Command + C 复制。</TabItem>
+</Tabs>
+
+// highlight-next-line
+<Tabs groupId="operating-systems">
+  <TabItem value="win" label="Windows">用 Ctrl + V 粘贴。</TabItem>
+  <TabItem value="mac" label="macOS">用 Command + V 粘贴。</TabItem>
+</Tabs>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs groupId="operating-systems">
+    <TabItem value="win" label="Windows">用 Ctrl + C 复制。</TabItem>
+    <TabItem value="mac" label="macOS">用 Command + C 复制。</TabItem>
+  </Tabs>
+
+  <Tabs groupId="operating-systems">
+    <TabItem value="win" label="Windows">用 Ctrl + V 粘贴。</TabItem>
+    <TabItem value="mac" label="macOS">用 Command + V 粘贴。</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+对于所有具有相同 `groupId` 的选项组，选项卡的值不需要完全相同。 If one tab group is chosen a value that does not exist in another tab group with the same `groupId`, the tab group with the missing value won't change its tab. 您可以从下面的例子中看到这一点。 尝试选择 Linux，上面的标签组不会改变。
+
+```jsx
+<Tabs groupId="operating-systems">
+  <TabItem value="win" label="Windows">
+    我是Windows。
+  </TabItem>
+  <TabItem value="mac" label="macOS">
+    我是 macOS。
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+    我是 Linux。
+  </TabItem>
+</Tabs>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs groupId="operating-systems">
+    <TabItem value="win" label="Windows">我是 Windows。</TabItem>
+    <TabItem value="mac" label="macOS">我是 macOS。</TabItem>
+    <TabItem value="linux" label="Linux">我是 Linux。</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+---
+
+带有不同 groupId 的选项卡不会互相干涉：
+
+```jsx
+// highlight-next-line
+<Tabs groupId="operating-systems">
+  <TabItem value="win" label="Windows">Windows 就是 windows。</TabItem>
+  <TabItem value="mac" label="macOS">macOS 就是 macOS。</TabItem>
+</Tabs>
+
+// highlight-next-line
+<Tabs groupId="non-mac-operating-systems">
+  <TabItem value="win" label="Windows">Windows 就是 windows。</TabItem>
+  <TabItem value="unix" label="Unix">Unix 就是 unix。</TabItem>
+</Tabs>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs groupId="operating-systems">
+    <TabItem value="win" label="Windows">Windows 就是 windows。</TabItem>
+    <TabItem value="mac" label="macOS">macOS 就是 macOS。</TabItem>
+  </Tabs>
+
+  <Tabs groupId="non-mac-operating-systems">
+    <TabItem value="win" label="Windows">Windows 就是 windows。</TabItem>
+    <TabItem value="unix" label="Unix">Unix 就是 unix。</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+## 自定义选项卡外观 {#customizing-tabs}
+
+You might want to customize the appearance of a certain set of tabs. You can pass the string in `className` prop, and the specified CSS class will be added to the `Tabs` component:
+
+```jsx
+// highlight-next-line
+<Tabs className="unique-tabs">
+  <TabItem value="苹果">这是个苹果 🍎</TabItem>
+  <TabItem value="橙子">这是个橙子 🍊</TabItem>
+  <TabItem value="香蕉">这是个香蕉 🍌</TabItem>
+</Tabs>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs className="unique-tabs">
+    <TabItem value="苹果">这是个苹果 🍎</TabItem>
+    <TabItem value="橙子">这是个橙子 🍊</TabItem>
+    <TabItem value="香蕉">这是个香蕉 🍌</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+### 自定义选项标题外观 {#customizing-tab-headings}
+
+You can also customize each tab heading independently by using the `attributes` field. The extra props can be passed to the headings either through the `values` prop in `Tabs`, or props of each `TabItem`—in the same way as you declare `label`.
+
+{/* prettier-ignore */}
+```jsx title="some-doc.mdx"
+import styles from './styles.module.css';
+
+<Tabs>
+  <TabItem value="apple" label="苹果" attributes={{className: styles.red}}>
+    这是个苹果 🍎
+  </TabItem>
+  <TabItem value="orange" label="橙子" attributes={{className: styles.orange}}>
+    这是个橙子 🍊
+  </TabItem>
+  <TabItem value="banana" label="香蕉" attributes={{className: styles.yellow}}>
+    这是个香蕉 🍌
+  </TabItem>
+</Tabs>
+```
+
+```css title="styles.module.css"
+.red {
+  color: red;
+}
+.red[aria-selected='true'] {
+  border-bottom-color: red;
+}
+
+.orange {
+  color: orange;
+}
+.orange[aria-selected='true'] {
+  border-bottom-color: orange;
+}
+
+.yellow {
+  color: yellow;
+}
+.yellow[aria-selected='true'] {
+  border-bottom-color: yellow;
+}
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs>
+    <TabItem value="apple" label="苹果" attributes={{className: styles.red}}>
+      这是个苹果 🍎
+    </TabItem>
+    <TabItem value="orange" label="橙子" attributes={{className: styles.orange}}>
+      这是个橙子 🍊
+    </TabItem>
+    <TabItem value="banana" label="香蕉" attributes={{className: styles.yellow}}>
+      这是个香蕉 🍌
+    </TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+:::tip
+
+`className` would be merged with other default class names. You may also use a custom `data-value` field (`{'data-value': 'apple'}`) paired with CSS attribute selectors:
+
+```css title="styles.module.css"
+li[role='tab'][data-value='apple'] {
+  color: red;
+}
+```
+
+:::
+
+## Query string {#query-string}
+
+It is possible to persist the selected tab into the url search parameters. This enables you to share a link to a page which pre-selects the tab - linking from your Android app to documentation with the Android tabs pre-selected. This feature does not provide an anchor link - the browser will not scroll to the tab.
+
+Use the `queryString` prop to enable this feature and define the search param name to use.
+
+```tsx
+// highlight-next-line
+<Tabs queryString="current-os">
+  <TabItem value="android" label="Android">
+    Android
+  </TabItem>
+  <TabItem value="ios" label="iOS">
+    iOS
+  </TabItem>
+</Tabs>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs queryString='current-os'>
+    <TabItem value="android" label="Android">Android</TabItem>
+    <TabItem value="ios" label="iOS">iOS</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+一旦点击标签，一个搜索参数就会被添加到 URL 的末尾： `?current-os=android` 或 `?current-os=ios` 。
+
+:::tip
+
+`queryString` 可以与 `groupId` 一起使用。
+
+For convenience, when the `queryString` prop is `true`, the `groupId` value will be used as a fallback.
+
+```tsx
+// highlight-next-line
+<Tabs groupId="current-os" queryString>
+  <TabItem value="android" label="Android">
+    Android
+  </TabItem>
+  <TabItem value="ios" label="iOS">
+    iOS
+  </TabItem>
+</Tabs>
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs queryString groupId="current-os">
+    <TabItem value="android" label="Android">Android</TabItem>
+    <TabItem value="ios" label="iOS">iOS</TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+当页面加载时，标签查询字符串选择将恢复优先于 `groupId` (使用 `localStorage`)。
+
+:::

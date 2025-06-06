@@ -1,0 +1,77 @@
+---
+JMarcey:
+  name: Joel Marcey
+  title: Meta 开发大使
+  url: https://x.com/JoelMarcey
+  image_url: https://github.com/JoelMarcey.png
+  page: true
+  socials:
+    x: joelmarcey
+    github: JoelMarcey
+zpao:
+  name: Paul O’Shannessy
+  title: Meta 工程经理
+  url: https://x.com/zpao
+  image_url: https://github.com/zpao.png
+  page: true
+  socials:
+    x: zpao
+    github: zpao
+slorber:
+  name: Sébastien Lorber
+  title: Docusaurus 维护者、React 周刊编者
+  url: https://thisweekinreact.com
+  image_url: https://github.com/slorber.png
+  page: true
+  description: 一个自由职业者，React/React-Native 开发者和 Docusaurus 维护者，生活在巴黎附近。同时在维护一个网站，ThisWeekInReact.com 。它是有关于 React 生态最新动态的通讯简报。
+  socials:
+    bluesky: sebastienlorber.com
+    x: sebastienlorber
+    linkedin: sebastienlorber
+    github: slorber
+    instagram: thisweekinreact
+    newsletter: https://thisweekinreact.com
+yangshun:
+  name: Yangshun Tay
+  title: Meta 前工程师、GreatFrontEnd 的联合创始人
+  url: https://linkedin.com/in/yangshun
+  image_url: https://github.com/yangshun.png
+  page: true
+  socials:
+    x: yangshunz
+    linkedin: yangshun
+    github: yangshun
+    newsletter: https://www.greatfrontend.com
+lex111:
+  name: Alexey Pyltsyn
+  title: 开源爱好者
+  url: https://github.com/lex111
+  image_url: https://github.com/lex111.png
+  email: lex@php.net
+  page: true
+Josh-Cena:
+  name: 陈思达
+  title: 努力开发 Docusaurus 中
+  url: https://joshcena.com/
+  image_url: https://github.com/josh-cena.png
+  email: sidachen2003@gmail.com
+  page: true
+endiliey:
+  name: Endilie Yacop Sucipto
+  title: Docusaurus 维护者
+  url: https://github.com/endiliey
+  image_url: https://github.com/endiliey.png
+abernathyca:
+  name: Christine Abernathy
+  url: http://x.com/abernathyca
+  image_url: https://github.com/caabernathy.png
+  socials:
+    x: abernathyca
+shortcuts:
+  name: Clément Vannicatte
+  title: 软件工程师@ Algolia
+  url: https://github.com/shortcuts
+  image_url: https://github.com/shortcuts.png
+  socials:
+    x: sh0rtcts
+    github: shortcuts

@@ -1,0 +1,83 @@
+---
+sidebar_position: 4
+---
+
+# 정적 메소드
+
+정적 메소드는 플러그인 인스턴스의 일부가 아니며 생성자 함수에 연결됩니다. 이 메소드는 플러그인 옵션 및 테마 구성을 검증하고 정규화하는데 사용되며 플러그인 인스턴스를 초기화하기 위한 생성자 매개변수로 사용됩니다.
+
+## `validateOptions({options, validate})` {#validateOptions}
+
+플러그인에서 사용할 수 있도록 유효성을 검사하고 정규화된 옵션값을 반환합니다. 이 메소드는 플러그인이 초기화되기 전에 호출됩니다. 초기화하는 동안 플러그인이 전달되므로 옵션을 반환해주어야 합니다.
+
+### `options` {#options}
+
+`validateOptions`은 플러그인에 전달할 `options` 항목의 유효성을 검사하고 정규화합니다.
+
+### `validate` {#validate}
+
+`validateOptions`은 `validate` 함수에 **[Joi](https://www.npmjs.com/package/joi)** 스키마와 options 항목을 인자로 전달해서 유효성을 검사하고 정규화된 옵션값을 반환받습니다. `validate` 함수에서는 자동으로 에러와 유효성 검사에 필요한 설정을 처리합니다.
+
+:::tip
+
+[Joi](https://www.npmjs.com/package/joi)는 옵션값에 대한 유효성 검사와 정규화 처리에 적절한 기능을 지원합니다.
+
+To avoid mixing Joi versions, use `import {Joi} from '@docusaurus/utils-validation'`
+
+:::
+
+유효성 검사에 **[Joi](https://www.npmjs.com/package/joi)**를 사용하지 않는다면 코드 내에서 잘못된 옵션의 경우 에러를 던지고 성공한 경우 옵션값을 반환해야 합니다.
+
+```js title="my-plugin/src/index.js"
+export default function myPlugin(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // rest of methods
+  };
+}
+
+// highlight-start
+export function validateOptions({options, validate}) {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validatedOptions;
+}
+// highlight-end
+```
+
+## `validateThemeConfig({themeConfig, validate})` {#validateThemeConfig}
+
+테마에서 사용할 수 있도록 유효성을 검사하고 정규화된 설정값을 반환합니다.
+
+### `themeConfig` {#themeConfig}
+
+`validateThemeConfig`는 `docusaurus.config.js`에서 사용할 `themeConfig` 항목의 유효성을 검사하고 정규화합니다.
+
+### `validate` {#validate-1}
+
+`validateThemeConfig`는 `validate` 함수에 **[Joi](https://www.npmjs.com/package/joi)** 스키마와 `themeConfig` 항목을 인자로 전달해서 유효성을 검사하고 정규화된 옵션값을 반환받습니다. `validate` 함수에서는 자동으로 에러와 유효성 검사에 필요한 설정을 처리합니다.
+
+:::tip
+
+[Joi](https://www.npmjs.com/package/joi)는 테마 설정값에 대한 유효성 검사와 정규화 처리에 적절한 기능을 지원합니다.
+
+To avoid mixing Joi versions, use `import {Joi} from '@docusaurus/utils-validation'`
+
+:::
+
+유효성 검사에 **[Joi](https://www.npmjs.com/package/joi)**를 사용하지 않는다면 코드 내에서 잘못된 옵션의 경우 에러를 던져야 합니다.
+
+```js title="my-theme/src/index.js"
+export default function myPlugin(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // rest of methods
+  };
+}
+
+// highlight-start
+export function validateThemeConfig({themeConfig, validate}) {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+}
+// highlight-end
+```

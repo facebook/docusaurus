@@ -1,0 +1,167 @@
+---
+slug: /migration/translated-sites
+---
+
+# Sites traduits
+
+Cette page explique comment migrer un site traduit Docusaurus v1 vers Docusaurus v2.
+
+## Différences i18n {#i18n-differences}
+
+Docusaurus v2 i18n est conceptuellement assez similaire à Docusaurus v1 i18n avec quelques différences.
+
+Il n'est pas fortement couplé à Crowdin, et vous pouvez utiliser Git ou un autre SaaS à la place.
+
+### Chemins d'accès au système de fichiers différents {#different-filesystem-paths}
+
+Sur Docusaurus v2, le contenu localisé se trouve généralement dans `website/i18n/[locale]`.
+
+Docusaurus v2 est modulaire et il est basé sur un système de plugins, et chaque plugin est responsable de la gestion de ses propres traductions.
+
+Chaque plugin a son propre sous-dossier i18n, comme : `website/i18n/fr/docusaurus-plugin-content-blog`
+
+### API de traduction mise à jour {#updated-translation-apis}
+
+Avec Docusaurus v1, vous traduisez vos pages avec `<translate>` :
+
+```jsx
+const translate = require('../../server/translate.js').translate;
+
+<h2>
+  <translate desc="la description de l'entête">
+    Cet entête sera traduit
+  </translate>
+</h2>;
+```
+
+Sur Docusaurus v2, vous traduisez vos pages avec `<Translate>`
+
+```jsx
+import Translate from '@docusaurus/Translate';
+
+<h2>
+  <Translate id="header.translation.id" description="la description de l'entête">
+    Cet entête sera traduit
+  </Translate>
+</h2>;
+```
+
+:::note
+
+Le CLI `write-translations` fonctionne toujours pour extraire les traductions de votre code.
+
+Les traductions de code sont maintenant ajoutées à `i18n/[locale]/code.json` en utilisant le format JSON Chrome i18n.
+
+:::
+
+### Analyseur Markdown plus strict {#stricter-markdown-parser}
+
+Docusaurus v2 utilise [MDX](https://mdxjs.com/) pour analyser les fichiers Markdown.
+
+MDX compile les fichiers Markdown en composants React, il est plus strict que l'analyseur Docusaurus v1 et il fera échouer votre compilation en cas d'erreur au lieu de rendre un contenu défectueux.
+
+De plus, les éléments HTML doivent être remplacés par des éléments JSX.
+
+C'est particulièrement important pour i18n car si vos traductions ne sont pas bonnes sur Crowdin et utilisent des balises invalides, votre site traduit v2 pourrait échouer à la construction : vous devrez peut-être effectuer un nettoyage des traductions pour corriger les erreurs.
+
+## Stratégies de migration {#migration-strategies}
+
+Cette section vous aidera à trouver comment **garder vos traductions existantes en v1 après avoir migré en v2**.
+
+Il y a **plusieurs stratégies possibles** pour migrer un site Docusaurus v1 en utilisant Crowdin, avec des compromis différents.
+
+:::warning
+
+Cette documentation est un outil pour vous aider à migrer. Aidez-nous à l'améliorer si vous trouvez une meilleure solution !
+
+:::
+
+Avant toute chose, nous vous recommandons de :
+
+- Migrer votre site Docusaurus v1 vers v2 sans les traductions
+- Se familiariser avec le [nouveau système i18n de Docusaurus v2](../i18n/i18n-introduction.mdx)
+- Faire fonctionner Crowdin pour votre site v2, en utilisant un nouveau projet Crowdin non traduit et le [tutoriel Crowdin](../i18n/i18n-crowdin.mdx)
+
+:::danger
+
+N'essayez pas de migrer sans comprendre Crowdin et Docusaurus v2 i18n.
+
+:::
+
+### Créer un nouveau projet Crowdin {#create-a-new-crowdin-project}
+
+Pour éviter tout **risque de casser votre site v1 en production**, une stratégie possible est de dupliquer le projet original v1 de Crowdin.
+
+:::info
+
+Cette stratégie a été utilisée pour [mettre à jour le site Jest](https://jestjs.io/blog/2021/03/09/jest-website-upgrade).
+
+:::
+
+Malheureusement, Crowdin n'a aucune fonctionnalité « Dupliquer/clone du projet », ce qui complique les choses.
+
+- Téléchargez la mémoire de traduction de votre projet original au format `.tmx` (`https://crowdin.com/project/<ORIGINAL_PROJECT>/settings#tm` > `View Records`)
+- Téléchargez la mémoire de traduction dans votre nouveau projet (`https://crowdin.com/project/<NEW_PROJECT>/settings#tm` > `View Records`)
+- Reconfigurez `crowdin.yml` pour Docusaurus v2 selon les docs i18n
+- Téléchargez les fichiers source de Docusaurus v2 avec la CLI Crowdin vers le nouveau projet
+- Marquer les chaînes sensibles comme `id` ou `slug` comme « chaîne cachée » (hidden string) sur Crowdin
+- Dans l'onglet « Translations », cliquez sur « Pre-Translation > via TM » (`https://crowdin.com/project/<NEW_PROJECT>/settings#translations`)
+- Essayez d'abord avec « 100% match » (plus de contenu sera traduit en « Perfect ») et pré-traduisez vos sources
+- Téléchargez les traductions de Crowdin localement
+- Essayez d'exécuter/construire votre site et voyez s'il y a des erreurs
+
+Vous aurez probablement des erreurs sur votre premier essai : la pré-traduction peut essayer de traduire des choses qu'il ne faut pas traduire (frontmatter, admonition, blocs de code...), et les fichiers MD traduits peuvent être invalides pour l'analyseur MDX.
+
+Vous devrez corriger toutes les erreurs jusqu'à la compilation de votre site. Vous pouvez le faire en modifiant les fichiers MD traduits localement, et corrigez votre site pour une locale à la fois en utilisant `docusaurus build --locale fr`.
+
+Il n'y a pas de guide ultime que nous pourrions écrire pour corriger ces erreurs, mais les erreurs courantes sont dues à :
+
+- Trop peu de chaînes de caractères sont marquées comme "chaînes cachées" dans Crowdin, ce qui entraîne des tentatives de pré-traduction de ces chaînes de caractères.
+- Avoir de mauvaises traductions v1, conduisant à un balisage invalide en v2 : des mauvais éléments HTML dans les traductions et des balises non fermées
+- Tout ce qui a été rejeté par l'analyseur MDX, comme utiliser des éléments HTML au lieu des éléments JSX (utiliser le [terrain de jeu MDX](https://mdxjs.com/playground/) pour le débogage)
+
+Vous pouvez répéter ce processus de pré-traduction, en essayant éventuellement l'option « Perfect » et en limitant la pré-traduction à certaines langues/fichiers.
+
+:::tip
+
+Utilisez [`mdx-code-block`](../i18n/i18n-crowdin.mdx#mdx-solutions) autour des éléments Markdown problématiques : Crowdin est moins susceptible de tout gâcher avec des blocs de code.
+
+:::
+
+:::note
+
+Vous remarquerez probablement que certaines choses ont été traduites sur votre ancien projet, mais sont maintenant non traduites dans votre nouveau projet.
+
+L'analyseur Markdown de Crowdin évolue en permanence et chaque projet Crowdin possède une version différente de l'analyseur, ce qui peut conduire à ce que la pré-traduction ne soit pas en mesure de pré-traduire toutes les chaînes de caractères.
+
+Cette version de l'analyseur est non documentée, et vous devrez demander au support de Crowdin de connaître la version de l'analyseur de votre projet et de corriger une version spécifique.
+
+L'utilisation de la même version du CLI et de l'analyseur à travers les 2 projets Crowdin pourrait donner de meilleurs résultats.
+
+:::
+
+:::danger
+
+Crowdin dispose d'une fonction « télécharger des traductions », mais d'après notre expérience, elle ne donne pas de très bons résultats pour Markdown
+
+:::
+
+### Utiliser le projet Crowdin existant {#use-the-existing-crowdin-project}
+
+Si cela ne vous dérange pas de modifier votre projet Crowdin existant et de risquer de tout gâcher, il est possible d'utiliser le système de branches de Crowdin.
+
+:::warning
+
+Ce workflow n'a pas été testé dans la pratique, veuillez nous faire part de sa qualité.
+
+:::
+
+De cette façon, vous n'auriez pas besoin de créer un nouveau projet Crowdin, de transférer la mémoire de traduction, d'appliquer les pré-traductions et d'essayer de corriger les erreurs de pré-traduction.
+
+Vous pouvez créer une branche Crowdin pour Docusaurus v2, où vous téléchargez les sources v2, et fusionnez la branche Crowdin vers main une fois prête.
+
+### Utiliser Git au lieu de Crowdin {#use-git-instead-of-crowdin}
+
+Il est possible de s'éloigner de Crowdin et d'ajouter à la place les fichiers de traduction à Git.
+
+Utilisez Crowdin CLI pour télécharger les fichiers traduits v1 et mettez ces fichiers traduits au bon endroit du système de fichiers Docusaurus v2.

@@ -1,0 +1,52 @@
+---
+id: links
+description: 在 Markdown 中链接到其他页面
+slug: /markdown-features/links
+---
+
+# Markdown 链接
+
+There are two ways of adding a link to another page: through a **URL path** and a **file path**.
+
+```md
+- [指向另一个文档的 URL 路径](./installation)
+- [指向另一个文档的文件路径](./installation.mdx)
+```
+
+URL paths are unprocessed by Docusaurus, and you can see them as directly rendering to `<a href="./installation">`, i.e. it will be resolved according to the page's URL location, rather than its file-system location.
+
+If you want to reference another Markdown file **included by the same plugin**, you could use the relative path of the document you want to link to. Docusaurus' Markdown loader will convert the file path to the target file's URL path (and hence remove the `.md` extension).
+
+For example, if you are in `docs/folder/doc1.md` and you want to reference `docs/folder/doc2.md`, `docs/folder/subfolder/doc3.md` and `docs/otherFolder/doc4.md`:
+
+```md title="docs/folder/doc1.md"
+I am referencing a [document](doc2.mdx).
+
+Reference to another [document in a subfolder](subfolder/doc3.mdx).
+
+[Relative document](../otherFolder/doc4.mdx) referencing works as well.
+```
+
+相对文件路径会基于当前文件的目录解析。 Absolute file paths, on the other hand, are resolved relative to the **content root**, usually `docs/`, `blog/`, or [localized ones](../../i18n/i18n-tutorial.mdx) like `i18n/zh-Hans/plugin-content-docs/current`.
+
+绝对文件路径也可以是相对于站点目录的。 However, beware that links that begin with `/docs/` or `/blog/` are **not portable** as you would need to manually update them if you create new doc versions or localize them.
+
+```md
+You can write [links](/otherFolder/doc4.mdx) relative to the content root (`/docs/`).
+
+You can also write [links](/docs/otherFolder/doc4.mdx) relative to the site directory, but it's not recommended.
+```
+
+Using relative _file_ paths (with `.md` extensions) instead of relative _URL_ links provides the following benefits:
+
+- 链接能在 GitHub 界面和许多 Markdown 编辑器里工作
+- 你可以自定义文件的 slug，而不必更新所有链接
+- 文件在不同文件夹之间的移动可以被你的编辑器追踪，而且一些编辑器可以自动更新文件链接
+- A [versioned doc](../docs/versioning.mdx) will link to another doc of the exact same version
+- Relative URL links are very likely to break if you update the [`trailingSlash` config](../../api/docusaurus.config.js.mdx#trailingSlash)
+
+:::warning
+
+Markdown 文件链接仅在源文件和目标文件是被同一个插件实例所处理的时候才能工作。 这是我们 Markdown 处理架构的技术限制，会在以后被修复。 如果你的链接跨越了两个插件（例如在一篇博客帖子中链接到一个文档页面），你必须用 URL 链接。
+
+:::

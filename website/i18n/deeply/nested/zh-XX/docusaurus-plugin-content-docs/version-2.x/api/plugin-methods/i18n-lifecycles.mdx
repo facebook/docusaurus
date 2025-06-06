@@ -1,0 +1,121 @@
+---
+sidebar_position: 3
+---
+
+# I18n 生命周期
+
+插件用这些生命周期来加载国际化 (i18n) 相关的数据。
+
+## `getTranslationFiles({content})` {#getTranslationFiles}
+
+插件需要声明它们想要使用的 JSON 翻译文件。
+
+Returns translation files `{path: string, content: ChromeI18nJSON}`:
+
+- `path`: relative to the plugin localized folder `i18n/[locale]/[pluginName]`. Extension `.json` should be omitted to remain generic.
+- `content`: using the Chrome i18n JSON format.
+
+These files will be written by the [`write-translations` CLI](../../cli.mdx#docusaurus-write-translations-sitedir) to the plugin i18n subfolder, and will be read in the appropriate locale before calling [`translateContent()`](#translateContent) and [`translateThemeConfig()`](#translateThemeConfig)
+
+示例：
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-plugin',
+    // highlight-start
+    async getTranslationFiles({content}) {
+      return [
+        {
+          path: 'sidebar-labels',
+          content: {
+            someSidebarLabel: {
+              message: 'Some Sidebar Label',
+              description: 'A label used in my plugin in the sidebar',
+            },
+            someLabelFromContent: content.myLabel,
+          },
+        },
+      ];
+    },
+    // highlight-end
+  };
+};
+```
+
+## `translateContent({content,translationFiles})` {#translateContent}
+
+使用本地化完毕的翻译文件翻译插件内容。
+
+返回本地化的插件内容。
+
+The `contentLoaded()` lifecycle will be called with the localized plugin content returned by `translateContent()`.
+
+示例：
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-plugin',
+    // highlight-start
+    translateContent({content, translationFiles}) {
+      const myTranslationFile = translationFiles.find(
+        (f) => f.path === 'myTranslationFile',
+      );
+      return {
+        ...content,
+        someContentLabel: myTranslationFile.someContentLabel.message,
+      };
+    },
+    // highlight-end
+  };
+};
+```
+
+## `translateThemeConfig({themeConfig,translationFiles})` {#translateThemeConfig}
+
+Translate the site `themeConfig` labels, using the localized translation files.
+
+Returns the localized `themeConfig`.
+
+示例：
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    translateThemeConfig({themeConfig, translationFiles}) {
+      const myTranslationFile = translationFiles.find(
+        (f) => f.path === 'myTranslationFile',
+      );
+      return {
+        ...themeConfig,
+        someThemeConfigLabel: myTranslationFile.someThemeConfigLabel.message,
+      };
+    },
+    // highlight-end
+  };
+};
+```
+
+## `async getDefaultCodeTranslationMessages()` {#getDefaultCodeTranslationMessages}
+
+Themes using the `<Translate>` API can provide default code translation messages.
+
+It should return messages in `Record<string, string>`, where keys are translation IDs and values are messages (without the description) localized using the site's current locale.
+
+示例：
+
+```js
+module.exports = function (context, options) {
+  return {
+    name: 'my-theme',
+    // highlight-start
+    async getDefaultCodeTranslationMessages() {
+      return readJsonFile(`${context.i18n.currentLocale}.json`);
+    },
+    // highlight-end
+  };
+};
+```

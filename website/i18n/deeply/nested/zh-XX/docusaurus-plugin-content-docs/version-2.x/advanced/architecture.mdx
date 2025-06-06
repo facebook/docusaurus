@@ -1,0 +1,28 @@
+---
+description: Docusaurus 是如何构建你的网站的
+---
+
+# 架构
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Zoom from 'react-medium-image-zoom';
+```
+
+<Zoom>
+
+![架构概览](/img/architecture.png)
+
+</Zoom>
+
+这个图表展示了 Docusaurus 是如何构建你的网站的。 每个插件会收集各自的内容并输出 JSON 数据；主题会提供组件，这些组件会以路由模块的形式接收插件输出的 JSON 数据。 打包器会把所有的组件打包，并输出一个服务端包和一个客户端包。
+
+虽然你（要么是插件作者要么是网站创建者）一直在写 JavaScript ，但要牢记，写出的 JS 实际上是在不同的环境中运行的：
+
+- 所有插件生命周期方法都在 Node 中运行。 Therefore, until we support ES Modules in our codebase, plugin source code must be provided as CommonJS that can be `require`'d.
+- 主题的代码由 Webpack 构建。 它们可以按照 React 的惯例，以 ES 模块形式发布。
+
+Plugin code and theme code never directly import each other: they only communicate through protocols (in our case, through JSON temp files and calls to `addRoute`). 一个好用的心智模型是：想象插件不是用 JavaScript 写的，而是用其他诸如 Rust 之类的语言。 The only way to interact with plugins for the user is through `docusaurus.config.js`, which itself is run in Node (hence you can use `require` and pass callbacks as plugin options).
+
+During bundling, the config file itself is serialized and bundled, allowing the theme to access config options like `themeConfig` or `baseUrl` through [`useDocusaurusContext()`](../docusaurus-core.mdx#useDocusaurusContext). However, the `siteConfig` object only contains **serializable values** (values that are preserved after `JSON.stringify()`). 函数、正则表达式等会在客户端丢失。 The `themeConfig` is designed to be entirely serializable.

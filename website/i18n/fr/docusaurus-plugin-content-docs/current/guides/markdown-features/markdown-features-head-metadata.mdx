@@ -1,0 +1,82 @@
+---
+id: head-metadata
+description: Déclarer des métadonnées d'entête spécifiques à une page via MDX
+slug: /markdown-features/head-metadata
+---
+
+# Métadonnées d'entête
+
+## Personnalisation des métadonnées d'entête {#customizing-head-metadata}
+
+Docusaurus définit automatiquement les métadonnées de page utiles dans `<html>`, `<head>` et `<body>` pour vous. Il est possible d'ajouter des métadonnées supplémentaires (ou de remplacer celles existantes) avec la balise `<head>` dans les fichiers Markdown :
+
+```md title="markdown-features-head-metadata.mdx"
+---
+id: head-metadatas
+title: Métadonnées d'entête
+---
+
+<!-- highlight-start -->
+<head>
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
+  <title>Titre personnalisé de métadonnées d'entête !</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadata" />
+</head>
+<!-- highlight-end -->
+
+# Métadonnées d'entête
+
+Mon texte
+```
+
+```mdx-code-block
+<head>
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
+  <title>Titre personnalisé de métadonnées d'entête !</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadata" />
+</head>
+```
+
+Cette déclaration `<head>` a été ajoutée au doc courant Markdown, en tant que démo. Ouvrez les DevTools de votre navigateur et vérifiez comment les métadonnées de cette page ont été affectées.
+
+:::note
+
+Cette fonctionnalité est construite sur le composant Docusaurus [`<Head>`](./../../docusaurus-core.mdx#head). Reportez-vous vers [react-helmet](https://github.com/nfl/react-helmet) pour une documentation exhaustive.
+
+:::
+
+:::tip Vous n'avez pas besoin de cela pour le référencement normal
+
+Les plugins de contenu (par exemple, docs et blog) fournissent des options de frontmatter comme `description`, `keywords` et `image`, qui seront automatiquement appliquées à la fois à `description` et `og:description`, alors que vous devriez déclarer manuellement deux balises de métadonnées lorsque vous utilisez la balise `<head>`.
+
+:::
+
+## Description de la page Markdown {#markdown-page-description}
+
+Les métadonnées de description des pages Markdown peuvent être utilisées à d'autres endroits que dans les métadonnées d'entête. Par exemple, [l'index des catégories généré](../docs/sidebar/items.mdx#generated-index-page) par le plugin docs utilise les métadonnées de description pour les cartes de document.
+
+Par défaut, la description est la première ligne pleine de contenu, avec quelques efforts pour la convertir en texte brut. Par exemple, le fichier suivant...
+
+```md
+# Titre
+
+Contenu principal... Peut contenir des [liens](./file.mdx) ou des **mises en évidence**.
+```
+
+... aura la description par défaut « Contenu principal... Peut contenir des liens ou des mises en évidence ». Cependant, **il n'est pas conçu pour être entièrement fonctionnel**. Lorsqu'il ne parvient pas à produire des descriptions raisonnables, vous pouvez en fournir une explicitement par le biais du frontmatter :
+
+```md
+---
+description: Cette description remplacera la valeur par défaut.
+---
+
+# Titre
+
+Contenu principal... Peut contenir des [liens](./file.mdx) ou des **mises en évidence**.
+```

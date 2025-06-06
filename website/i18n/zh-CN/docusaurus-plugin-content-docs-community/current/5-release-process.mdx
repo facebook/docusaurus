@@ -1,0 +1,174 @@
+# 发布流程
+
+我们来讨论一下 Docusaurus 是如何处理**版本、发布和破坏性变更**的。
+
+:::info
+
+这个专题对于那些比较难以升级的高度定制网站来说尤为重要。
+
+:::
+
+## 语义化版本 {#semantic-versioning}
+
+Docusaurus 版本基于 `major.min.patch` 模式，尊重[语义版本](https://semver.org/)规范。
+
+尊重语义版本很重要，因为：
+
+- **可以保证小版本升级比较简单**，只要你只使用[公开 API](/community/release-process#public-api-surface)
+- 符合前端生态的传统
+- 发布新的大版本时，有机会完整地记录破坏性变更
+- 发布新的大版本/小版本时，有机会通过博客介绍新功能
+
+### 大版本 {#major-versions}
+
+The `major` version number is incremented on **every breaking change**.
+
+Whenever a new major version is released, we publish:
+
+- 一篇博文，包括主要功能介绍、重要 bug 修复、**破坏性变更、和升级指南**。
+- 完整的更新记录
+
+:::tip
+
+Read our [public API surface](#public-api-surface) section to clearly understand what we consider as a breaking change.
+
+:::
+
+### 小版本 {#minor-versions}
+
+The `minor` version number is incremented on every significant retro-compatible change.
+
+Whenever a new minor version is released, we publish:
+
+- 一篇博文，包括主要功能介绍和重要 bug 修复
+- 完整的更新记录
+
+:::tip
+
+If you only use our [public API surface](#public-api-surface), you should be able to upgrade in no time!
+
+:::
+
+### 补丁版本 {#patch-versions}
+
+每次发布 bug 修复时，`patch` 版本号都会递增。
+
+每次发布新的补丁版本时，我们会发布：
+
+- 完整的更新记录
+
+## 版本 {#versions}
+
+```mdx-code-block
+import {
+  CurrentMajorVersionNumber,
+  StableMajorBranchLink,
+  MainBranchLink,
+} from "@site/src/components/Versions";
+```
+
+The Docusaurus team uses a simple development process and only works on a single major version and a single Git branch at a same time:
+
+- **Docusaurus {CurrentMajorVersionNumber}**: the **stable** version, on the <MainBranchLink/> branch.
+
+:::note 我们将如何推出下一版本
+
+Once we are ready ship **Docusaurus {CurrentMajorVersionNumber + 1}**, we will:
+
+- 创建一条 <StableMajorBranchLink/>分支
+- merge breaking changes on the <MainBranchLink/> branch
+- release that new version directly from the <MainBranchLink/> branch
+
+:::
+
+:::warning 安全修复策略
+
+After a new stable version has been released, the former stable version will continue to receive support for **major security issues** for **3 months**.
+
+In practice, we will backport security fixes to the <StableMajorBranchLink/> branch. Otherwise, all features will be frozen and non-critical bugs will not be fixed.
+
+建议在这一时限内升级到新的稳定版本。
+
+:::
+
+## 公开 API {#public-api-surface}
+
+Docusaurus 致力于尊重语义版本。 这意味着每当 Docusaurus 的公共 API 出现变化并且无法向后兼容时，我们都会增加 `major` 版本号。
+
+:::tip
+
+Docusaurus guarantees public API retro-compatibility across `minor` versions. Unless you use internal APIs, `minor` version upgrades should be easy.
+
+:::
+
+我们接下来会概述公共 API 包括哪些内容。
+
+### 核心公共 API {#core-public-api}
+
+✅ 我们的公共 API 包括：
+
+- Docusaurus 配置
+- Docusaurus 客户端 API
+- Docusaurus CLI
+- 预设选项
+- 插件选项
+- 插件生命周期 API
+- 主题配置
+- 核心插件路由组件属性
+- `@docusaurus/type` TypeScript 类型
+  - 我们仍然保留使类型更加严格（可能导致类型检查失败）的自由。
+
+❌ 我们的公共 API **不包括**：
+
+- Docusaurus `future` 配置
+- 所有以 `experimental_` 或 `unstable_` 为前缀的功能
+- 所有以 `v<MajorVersion>_` (`v6_` `v7_` 等等) 为前缀的功能
+
+:::tip
+
+For non-theme APIs, any documented API is considered public (and will be stable); any undocumented API is considered internal.
+
+:::
+
+An API being "stable" means if you increment the patch or minor version of your Docusaurus installation without any other change, running `docusaurus start` or `docusaurus build` should not throw an error.
+
+### 主题的公共 API {#theming-public-api}
+
+Docusaurus 拥有一个非常灵活的主题系统：
+
+- 你可以用自定义 CSS
+- 你可以 [swizzle](/docs/swizzling) 任何 React 主题组件
+
+This system also implicitly creates a very large API surface. To be able to move fast and improve Docusaurus, we can't guarantee retro-compatibility.
+
+✅ 我们的公共主题 API 包括：
+
+- [主题类名](/docs/styling-layout#theme-class-names)
+- [Infima](/docs/styling-layout#styling-your-site-with-infima) 类名和 CSS 变量
+- [可以安全 swizzle](/docs/swizzling#what-is-safe-to-swizzle) 的 React 组件
+- 主题的用户体验
+- 浏览器支持
+
+:::tip
+
+You may not be able to achieve your site customization through this public API.
+
+In this case, please [report your customization use case](https://github.com/facebook/docusaurus/discussions/5468) and we will figure out how to expand our public API.
+
+:::
+
+❌ 我们的公共主题 API **不包括**：
+
+- DOM 结构
+- 带哈希后缀的 CSS 模块类名（通常在 CSS 里用 `[class*='myClassName']` 选择器指向）
+- [无法安全 swizzle 或禁止 swizzle](/docs/swizzling#what-is-safe-to-swizzle) 的 React 组件
+- 从 `@docusaurus/theme-common/internal` 中导入内容的 React 组件
+- 主题的确切外观
+
+:::note
+
+When [swizzling](/docs/swizzling) safe components, you might encounter components that import undocumented APIs from `@docusaurus/theme-common` (without the `/internal` subpath).
+
+We still maintain retro-compatibility on those APIs (hence they are marked as "safe"), but we don't encourage a direct usage.
+
+:::

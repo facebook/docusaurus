@@ -1,0 +1,25 @@
+# インデックス禁止ページの例
+
+<head>
+  <meta name="robots" content="nOiNdeX, NoFolLoW" />
+</head>
+
+このページは以下の[ページメタデータ](/docs/seo#single-page-metadata)マークアップを含んでいるため、検索エンジンにインデックス化されません。
+
+```html
+<head>
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+```
+
+:::tip
+
+サイトマッププラグインは、 `noindex` コンテンツ値を含むページをフィルタリングします。 このページは Docusaurus の [sitemap.xml](pathname:///sitemap.xml) ファイルには表示されません。
+
+:::
+
+:::note
+
+robots ディレクティブは [大文字と小文字を区別しません](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag#directives)。
+
+:::

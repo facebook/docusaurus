@@ -1,0 +1,140 @@
+---
+sidebar_position: 3
+slug: /api/plugins/@docusaurus/plugin-content-pages
+---
+
+# 📦 plugin-content-pages
+
+import APITable from '@site/src/components/APITable';
+
+도큐사우루스의 기본 페이지 플러그인입니다. 클래식 템플릿에는 기본 설정으로 플러그인이 포함되어 있습니다. This plugin provides [creating pages](guides/creating-pages.mdx) functionality.
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-content-pages
+```
+
+:::tip
+
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명                          | 타입         | 기본값                               | 설명                                                              |
+| ---------------------------- | ---------- | --------------------------------- | --------------------------------------------------------------- |
+| `path`                       | `string`   | `'src/pages'`                     | 사이드 디렉토리에 상대적인 파일 시스템의 데이터 경로입니다. 디렉토리 내 컴포넌트는 자동으로 페이지로 변환됩니다. |
+| `routeBasePath`              | `string`   | `'/'`                             | 사이트 페이지 섹션에 대한 URL 라우트 **DO NOT** include a trailing slash.     |
+| `include`                    | `string[]` | `['**/*.{js,jsx,ts,tsx,md,mdx}']` | 일치하는 파일이 포함되어 처리됩니다.                                            |
+| `exclude`                    | `string[]` | _See example configuration_       | 일치하는 파일에 대한 라우트가 생성되지 않습니다.                                     |
+| `mdxPageComponent`           | `string`   | `'@theme/MDXPage'`                | 각 MDX 페이지에서 사용하는 컴포넌트                                           |
+| `remarkPlugins`              | `[]`       | `any[]`                           | MDX에 전달된 Remark 플러그인                                            |
+| `rehypePlugins`              | `[]`       | `any[]`                           | MDX에 전달된 Rehype 플러그인                                            |
+| `beforeDefaultRemarkPlugins` | `any[]`    | `[]`                              | 기본 도큐사우루스 Remark 플러그인보다 먼저 MDX에 전달된 사용자 지정 Remark 플러그인          |
+| `beforeDefaultRehypePlugins` | `any[]`    | `[]`                              | 기본 도큐사우루스 Rehype 플러그인보다 먼저 MDX에 전달된 사용자 지정 Rehype 플러그인          |
+
+```mdx-code-block
+</APITable>
+```
+
+### Example configuration {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 플러그인을 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```js config-tabs
+// Preset Options: pages
+// Plugin Options: @docusaurus/plugin-content-pages
+
+const config = {
+  path: 'src/pages',
+  routeBasePath: '',
+  include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
+  ],
+  mdxPageComponent: '@theme/MDXPage',
+  remarkPlugins: [require('./my-remark-plugin')],
+  rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
+};
+```
+
+## Markdown front matter {#markdown-front-matter}
+
+Markdown pages can use the following Markdown [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) metadata fields, enclosed by a line `---` on either side.
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명                      | 타입         | 기본값             | 설명                                                                                                                                                                                        |
+| ------------------------ | ---------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`                  | `string`   | 마크다운 파일         | 블로그 게시물 제목                                                                                                                                                                                |
+| `description`            | `string`   | 마크다운 콘텐츠 첫 번째 줄 | The description of your page, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. |
+| `keywords`               | `string[]` | `undefined`     | Keywords meta tag, which will become the `<meta name="keywords" content="keyword1,keyword2,..."/>` in `<head>`, used by search engines.                                                   |
+| `image`                  | `string`   | `undefined`     | 게시글에 대한 링크를 표시할 때 보여지는 커버 또는 섬네일 이미지를 설정합니다.                                                                                                                                              |
+| `wrapperClassName`       | `string`   |                 | 특정 페이지 콘텐츠를 특정할 수 있도록 래퍼 요소에 추가할 클래스 이름입니다.                                                                                                                                               |
+| `hide_table_of_contents` | `boolean`  | `false`         | 목차를 오른쪽으로 숨길지 여부                                                                                                                                                                          |
+| `draft`                  | `boolean`  | `false`         | 비공개 설정 페이지는 개발 상태에서만 확인할 수 있습니다.                                                                                                                                                          |
+| `unlisted`               | `boolean`  | `false`         | 목록에 없는 페이지는 개발 및 제품 상태에서 모두 확인할 수 있습니다. 제품에서 "숨겨진" 상태라 인덱스가 생성되지 않고 사이트맵에서 제외되며 링크 정보를 알고 있는 사용자만 접근할 수 있습니다.                                                                             |
+
+```mdx-code-block
+</APITable>
+```
+
+예:
+
+```md
+---
+title: Markdown Page
+description: Markdown page SEO description
+wrapperClassName: markdown-page
+hide_table_of_contents: false
+draft: true
+---
+
+Markdown page content
+```
+
+## i18n {#i18n}
+
+Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
+
+### Translation files location {#translation-files-location}
+
+- **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-pages`
+- **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-pages-[pluginId]`
+- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
+- **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-pages`
+
+### Example file-system structure {#example-file-system-structure}
+
+```bash
+website/i18n/[locale]/docusaurus-plugin-content-pages
+│
+│ # translations for website/src/pages
+├── first-markdown-page.md
+└── second-markdown-page.md
+```

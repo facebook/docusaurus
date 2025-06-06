@@ -1,0 +1,190 @@
+---
+description: Docusaurus met à disposition un ensemble de scripts vous aidant dans la génération, le lancement et le déploiement de votre site web.
+---
+
+# CLI
+
+Docusaurus met à disposition un ensemble de scripts vous aidant dans la génération, le lancement et le déploiement de votre site web.
+
+Une fois votre site Web démarré, la source du site Web contient les scripts Docusaurus que vous pouvez appeler avec votre gestionnaire de paquets :
+
+```json title="package.json"
+{
+  // ...
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids"
+  }
+}
+```
+
+## Commandes CLI Docusaurus {#docusaurus-cli-commands}
+
+Voici une liste des commandes CLI de Docusaurus et de leurs utilisations :
+
+### `docusaurus start [siteDir]` {#docusaurus-start-sitedir}
+
+Construit et sert un aperçu de votre site localement avec [Webpack Dev Server](https://webpack.js.org/configuration/dev-server).
+
+#### Options {#options}
+
+| Nom                           | Par défaut  | Description                                                                                                                                                                                                                                                                  |
+| ----------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--port`                      | `3000`      | Spécifie le port du serveur dev.                                                                                                                                                                                                                                             |
+| `--host`                      | `localhost` | Spécifie un hôte à utiliser. Par exemple, si vous voulez que votre serveur soit accessible à l'extérieur, vous pouvez utiliser `--host 0.0.0.0`.                                                                                                                             |
+| `--locale`                    |             | Spécifie la locale du site à utiliser.                                                                                                                                                                                                                                       |
+| `--hot-only`                  | `false`     | Active le remplacement des modules à chaud sans rafraîchissement de page en cas d'échec de construction. Plus d'informations [ici](https://webpack.js.org/configuration/dev-server/#devserverhotonly).                                                                       |
+| `--no-open`                   | `false`     | N'ouvre pas la page automatiquement dans le navigateur.                                                                                                                                                                                                                      |
+| `--config`                    | `undefined` | Chemin vers le fichier de configuration de Docusaurus, par défaut `[siteDir]/docusaurus.config.js`                                                                                                                                                                           |
+| `--poll [optionalIntervalMs]` | `false`     | Utilisez l'interrogation des fichiers plutôt que la surveillance du rechargement en direct comme solution de rechange dans les environnements où la surveillance ne fonctionne pas. Plus d'informations [ici](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
+| `--no-minify`                 | `false`     | Construit un site web sans minimiser les bundles JS/CSS.                                                                                                                                                                                                                     |
+
+:::info
+
+Veuillez noter que certaines fonctionnalités (par exemple, les liens d'ancrage) ne fonctionneront pas en développement. La fonctionnalité marchera comme prévu en production.
+
+:::
+
+:::info Développement sur le réseau
+
+Lorsque vous transférez le port 3000 à partir d'un serveur ou d'une VM distante (par exemple, GitHub Codespaces), vous pouvez exécuter le serveur de développement sur `0.0.0.0` pour qu'il écoute sur l'IP locale.
+
+```bash npm2yarn
+npm run start -- --host 0.0.0.0
+```
+
+:::
+
+#### Activation HTTPS {#enabling-https}
+
+Il y a plusieurs façons d'obtenir un certificat. Nous utiliserons [mkcert](https://github.com/FiloSottile/mkcert) comme exemple.
+
+1. Exécutez `mkcert localhost` pour générer `localhost.pem` + `localhost-key.pem`
+
+2. Exécutez `mkcert -install` pour installer le cert dans votre magasin de confiance, et redémarrez votre navigateur
+
+3. Lancez l'application avec les variables d'environnement HTTPS de Docusaurus :
+
+```bash
+HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
+```
+
+4. Ouvrez `https://localhost:3000/`
+
+### `docusaurus build [siteDir]` {#docusaurus-build-sitedir}
+
+Compile votre site pour la production.
+
+#### Options {#options-1}
+
+| Nom                 | Par défaut  | Description                                                                                                               |
+| ------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `--dev`             |             | Construit le site web en mode dev, y compris les messages d'erreur React complets.                                        |
+| `--bundle-analyzer` | `false`     | Analyse votre bundle avec [l'analyseur de bundle de webpack](https://github.com/webpack-contrib/webpack-bundle-analyzer). |
+| `--out-dir`         | `build`     | Le chemin complet du nouveau répertoire de sortie, relatif à l'espace de travail actuel.                                  |
+| `--config`          | `undefined` | Chemin vers le fichier de configuration de Docusaurus, par défaut `[siteDir]/docusaurus.config.js`                        |
+| `--locale`          |             | Build the site in the specified locale(s). Si non spécifié, toutes les locales connues sont construites.                  |
+| `--no-minify`       | `false`     | Construit un site web sans minimiser les bundles JS/CSS.                                                                  |
+
+:::info
+
+Pour une minification avancée du bundle CSS, nous utilisons le [preset cssnano avancé](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-advanced) (ainsi que plusieurs plugins PostCSS supplémentaires) et [l'optimisation de niveau 2 de clean-css](https://github.com/jakubpawlowicz/clean-css#level-2-optimizations). Si, à la suite de cette minification CSS avancée, vous trouvez des CSS cassés, construisez votre site web avec la variable d'environnement `USE_SIMPLE_CSS_MINIFIER=true` pour minifier les CSS avec le [preset cssnano par défaut](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-default). **Veuillez [remplir une issuee](https://github.com/facebook/docusaurus/issues/new?labels=bug%2C+needs+triage&template=bug.md) si vous rencontrez des bugs de minification CSS.**
+
+Vous pouvez passer la minification HTML avec la variable d'environnement `SKIP_HTML_MINIFICATION=true`.
+
+:::
+
+### `docusaurus swizzle [themeName] [componentName] [siteDir]` {#docusaurus-swizzle}
+
+[Swizzlez](./swizzling.mdx) un composant de thème pour le personnaliser.
+
+```bash npm2yarn
+npm run swizzle [themeName] [componentName] [siteDir]
+
+# Exemple (en omettant le siteDir pour indiquer ce répertoire)
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
+```
+
+Le CLI du swizzle est interactif et vous guidera à travers tout [le processus du swizzle](./swizzling.mdx).
+
+#### Options {#options-swizzle}
+
+| Nom             | Description                                                                                        |
+| --------------- | -------------------------------------------------------------------------------------------------- |
+| `themeName`     | Le nom du thème à swizzler.                                                                        |
+| `componentName` | Le nom du composant du thème à swizzler.                                                           |
+| `--list`        | Affiche les composants disponibles pour le swizzling                                               |
+| `--eject`       | [Éjecte](./swizzling.mdx#ejecting) le composant du thème                                           |
+| `--wrap`        | [Enveloppe](./swizzling.mdx#wrapping) le composant du thème                                        |
+| `--danger`      | Autorise le swizzling immédiatement sur des composants instables                                   |
+| `--typescript`  | Swizzle le composant de type TypeScript                                                            |
+| `--config`      | Chemin vers le fichier de configuration de docusaurus, par défaut `[siteDir]/docusaurus.config.js` |
+
+:::warning
+
+Les composants non sécurisés présentent un risque plus élevé de rupture des modifications dues à des remaniements internes.
+
+:::
+
+### `docusaurus deploy [siteDir]` {#docusaurus-deploy-sitedir}
+
+Déploie votre site avec [GitHub Pages](https://pages.github.com/). Consultez la documentation sur le [déploiement](deployment.mdx#deploying-to-github-pages) pour plus de détails.
+
+#### Options {#options-3}
+
+| Nom            | Par défaut  | Description                                                                                                           |
+| -------------- | ----------- | --------------------------------------------------------------------------------------------------------------------- |
+| `--locale`     |             | Deploy the site in the specified locale(s). Si non spécifié, toutes les locales connues sont déployées.               |
+| `--out-dir`    | `build`     | Le chemin complet du nouveau répertoire de sortie, relatif à l'espace de travail actuel.                              |
+| `--skip-build` | `false`     | Déploie le site sans le construire. Cela peut être utile lorsque vous utilisez un script de déploiement personnalisé. |
+| `--target-dir` | `.`         | Chemin du répertoire cible vers lequel le déploiement doit s'effectuer.                                               |
+| `--config`     | `undefined` | Chemin vers le fichier de configuration de Docusaurus, par défaut `[siteDir]/docusaurus.config.js`                    |
+
+### `docusaurus serve [siteDir]` {#docusaurus-serve-sitedir}
+
+Sert votre site web construit localement.
+
+| Nom         | Par défaut                            | Description                                                                                                                                      |
+| ----------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--port`    | `3000`                                | Utiliser le port spécifié                                                                                                                        |
+| `--dir`     | `build`                               | Le chemin complet du répertoire de sortie, par rapport à l'espace de travail courant                                                             |
+| `--build`   | `false`                               | Construire le site web avant de le servir                                                                                                        |
+| `--config`  | `undefined`                           | Chemin vers le fichier de configuration de Docusaurus, par défaut `[siteDir]/docusaurus.config.js`                                               |
+| `--host`    | `localhost`                           | Spécifie un hôte à utiliser. Par exemple, si vous voulez que votre serveur soit accessible à l'extérieur, vous pouvez utiliser `--host 0.0.0.0`. |
+| `--no-open` | `false` localement, `true` dans le CI | N'ouvrez pas une fenêtre de navigateur à l'emplacement du serveur.                                                                               |
+
+### `docusaurus clear [siteDir]` {#docusaurus-clear-sitedir}
+
+Vide les ressources générées par le site Docusaurus, les caches, les artefacts de construction.
+
+Nous vous recommandons d'exécuter cette commande avant de signaler des bogues, après la mise à niveau des versions, ou à chaque fois que vous avez des problèmes avec votre site Docusaurus.
+
+### `docusaurus write-translations [siteDir]` {#docusaurus-write-translations-sitedir}
+
+Écrit les fichiers de traduction JSON que vous devrez traduire.
+
+Par défaut, les fichiers sont écrits dans `website/i18n/<defaultLocale>/...`.
+
+| Nom               | Par défaut              | Description                                                                                                                |
+| ----------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `--locale`        | `<defaultLocale>` | Définissez le dossier de locale dans lequel vous voulez écrire les traductions des fichiers JSON                           |
+| `--override`      | `false`                 | Écrase les messages de traduction existants                                                                                |
+| `--config`        | `undefined`             | Chemin vers le fichier de configuration de Docusaurus, par défaut `[siteDir]/docusaurus.config.js`                         |
+| `--messagePrefix` | `''`                    | Permet d'ajouter un préfixe à chaque message de traduction, pour vous aider à mettre en évidence les chaînes non traduites |
+
+### `docusaurus write-heading-ids [siteDir] [files]` {#docusaurus-write-heading-ids-sitedir}
+
+Ajoute des [ID explicites d'entête](./guides/markdown-features/markdown-features-toc.mdx#heading-ids) aux documents Markdown de votre site.
+
+| Nom               | Par défaut                                    | Description                                                               |
+| ----------------- | --------------------------------------------- | ------------------------------------------------------------------------- |
+| `files`           | Tous les fichiers MD utilisés par les plugins | Les fichiers dans lesquels vous voulez que les ID d'entête soient écrits. |
+| `--maintain-case` | `false`                                       | Conserve la casse des entêtes, sinon met tout en minuscules.              |
+| `--overwrite`     | `false`                                       | Écrase les ID d'entête existants.                                         |

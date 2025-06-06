@@ -1,0 +1,92 @@
+---
+sidebar_position: 10
+slug: /api/plugins/@docusaurus/plugin-sitemap
+---
+
+# 📦 plugin-sitemap
+
+import APITable from '@site/src/components/APITable';
+
+Ce plugin crée des sitemaps pour votre site afin que les robots des moteurs de recherche puissent explorer votre site avec plus de précision.
+
+:::warning seulement en production
+
+Ce plugin est toujours inactif en développement et **uniquement actif en production** car il fonctionne sur la sortie de la construction.
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-sitemap
+```
+
+:::tip
+
+Si vous utilisez le preset `@docusaurus/preset-classic`, vous n'avez pas besoin d'installer ce plugin en tant que dépendance.
+
+Vous pouvez configurer ce plugin via les [options du preset](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom              | Type                           | Par défaut    | Description                                                                                                                                                |
+| ---------------- | ------------------------------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lastmod`        | `'date' \| 'datetime' \| null` | `null`        | `date` is YYYY-MM-DD. `datetime` is a ISO 8601 datetime. `null` is disabled. See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions). |
+| `changefreq`     | `string \| null`               | `'weekly'`    | Voir [docs sitemap](https://www.sitemaps.org/protocol.html#xmlTagDefinitions)                                                                              |
+| `priority`       | `number \| null`               | `0.5`         | Voir [docs sitemap](https://www.sitemaps.org/protocol.html#xmlTagDefinitions)                                                                              |
+| `ignorePatterns` | `string[]`                     | `[]`          | Une liste de patterns de glob; les chemins de route correspondants seront filtrés du sitemap. Notez que vous devrez peut-être inclure l'URL de base ici.   |
+| `filename`       | `string`                       | `sitemap.xml` | Le chemin vers le fichier sitemap créé, relatif au répertoire de sortie. Utile si vous avez deux instances de plugin qui sortent deux fichiers.            |
+
+```mdx-code-block
+</APITable>
+```
+
+:::info
+
+Ce plugin respecte également la configuration de certains sites :
+
+- [`noIndex`](../docusaurus.config.js.mdx#noIndex) : aucun sitemap n'est généré
+- [`trailingSlash`](../docusaurus.config.js.mdx#trailingSlash) : détermine si les URLs dans le sitemap ont des slashs de fin
+
+:::
+
+:::note About `lastmod`
+
+The `lastmod` option will only output a sitemap `<lastmod>` tag if plugins provide [route metadata](../plugin-methods/lifecycle-apis.mdx#addRoute) attributes `sourceFilePath` and/or `lastUpdatedAt`.
+
+All the official content plugins provide the metadata for routes backed by a content file (Markdown, MDX or React page components), but it is possible third-party plugin authors do not provide this information, and the plugin will not be able to output a `<lastmod>` tag for their routes.
+
+:::
+
+### Exemple de configuration {#ex-config}
+
+Vous pouvez configurer ce plugin via les options du preset ou du plugin.
+
+:::tip
+
+La plupart des utilisateurs de Docusaurus configurent ce plugin via les options du preset.
+
+:::
+
+```js config-tabs
+// Preset Options: sitemap
+// Plugin Options: @docusaurus/plugin-sitemap
+
+const config = {
+  lastmod: 'date',
+  changefreq: 'weekly',
+  priority: 0.5,
+  ignorePatterns: ['/tags/**'],
+  filename: 'sitemap.xml',
+};
+```
+
+Vous pouvez trouver votre sitemap sur `/sitemap.xml`.

@@ -1,0 +1,307 @@
+# 플러그인 사용하기
+
+**The Docusaurus core doesn't provide any feature of its own.** All features are delegated to individual plugins: the [docs](./guides/docs/docs-introduction.mdx) feature provided by the [docs plugin](./api/plugins/plugin-content-docs.mdx); the [blog](./blog.mdx) feature provided by the [blog plugin](./api/plugins/plugin-content-blog.mdx); or individual [pages](./guides/creating-pages.mdx) provided by the [pages plugin](./api/plugins/plugin-content-pages.mdx). 플러그인이 설치되어 있지 않으면 사이트에 어떤 경로도 포함할 수 없습니다.
+
+You may not need to install common plugins one-by-one though: they can be distributed as a bundle in a [preset](#using-presets). 대부분 사용자의 경우 플러그인은 사전 설정된 구성을 통해 제공됩니다.
+
+We maintain a [list of official plugins](./api/plugins/overview.mdx), but the community has also created some [unofficial plugins](/community/resources#community-plugins). If you want to add any feature: autogenerating doc pages, executing custom scripts, integrating other services... be sure to check out the list: someone may have implemented it for you!
+
+If you are feeling energetic, you can also read [the plugin guide](./advanced/plugins.mdx) or [plugin method references](./api/plugin-methods/README.mdx) for how to make a plugin yourself.
+
+## Installing a plugin {#installing-a-plugin}
+
+플러그인은 npm 패키지 형태로 제공됩니다. npm을 사용해 다른 npm 패키지처럼 설치할 수 있습니다.
+
+```bash npm2yarn
+npm install --save docusaurus-plugin-name
+```
+
+Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  plugins: ['@docusaurus/plugin-content-pages'],
+};
+```
+
+도큐사우루스는 로컬 디렉터리에서 플러그인을 불러올 수도 있습니다. 다음과 같이 설정합니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  plugins: ['./src/plugins/docusaurus-local-plugin'],
+};
+```
+
+경로는 구성 파일에 절대적이거나 상대적이어야 합니다.
+
+## Configuring plugins {#configuring-plugins}
+
+대부분 플러그인을 기본적으로 사용하려면 플러그인 이름과 플러그인이 설치된 경로를 설정해주어야 합니다.
+
+하지만 플러그인은 설정 시 이름과 옵션 오브젝트를 2개의 멤버를 가지는 튜플 형태로 감싸서 설정할 수 있는 기능을 지원합니다. 이런 형식을 "Babel Style"이라고 합니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: [
+    // highlight-start
+    [
+      '@docusaurus/plugin-xxx',
+      {
+        /* options */
+      },
+    ],
+    // highlight-end
+  ],
+};
+```
+
+예:
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    // Basic usage.
+    '@docusaurus/plugin-debug',
+
+    // With options object (babel style)
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        changefreq: 'weekly',
+      },
+    ],
+  ],
+};
+```
+
+## Multi-instance plugins and plugin IDs {#multi-instance-plugins-and-plugin-ids}
+
+모든 도큐사우루스 콘텐츠 플러그인은 멀티 플러그인 인스턴스를 지원합니다. For example, it may be useful to have [multiple docs plugin instances](./guides/docs/docs-multi-instance.mdx) or [multiple blogs](./blog.mdx#multiple-blogs). It is required to assign a unique ID to each plugin instance, and by default, the plugin ID is `default`.
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-next-line
+        id: 'docs-1',
+        // other options
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-next-line
+        id: 'docs-2',
+        // other options
+      },
+    ],
+  ],
+};
+```
+
+:::note
+
+At most one plugin instance can be the "default plugin instance", by omitting the `id` attribute, or using `id: 'default'`.
+
+:::
+
+## Using themes {#using-themes}
+
+테마는 플러그인과 똑같은 방식으로 로드됩니다. From the consumer perspective, the `themes` and `plugins` entries are interchangeable when installing and configuring a plugin. The only nuance is that themes are loaded after plugins, and it's possible for [a theme to override a plugin's default theme components](./advanced/client.mdx#theme-aliases).
+
+:::tip
+
+The `themes` and `plugins` options lead to different [shorthand resolutions](#module-shorthands), so if you want to take advantage of shorthands, be sure to use the right entry!
+
+:::
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  themes: ['@docusaurus/theme-classic', '@docusaurus/theme-live-codeblock'],
+};
+```
+
+## Using presets {#using-presets}
+
+프리셋(Preset)은 플러그인과 테마의 번들입니다. For example, instead of letting you register and configure `@docusaurus/plugin-content-docs`, `@docusaurus/plugin-content-blog`, etc. one after the other in the config file, we have `@docusaurus/preset-classic` preset allows you to configure them in one centralized place.
+
+### `@docusaurus/preset-classic` {#docusauruspreset-classic}
+
+The classic preset is shipped by default to new Docusaurus websites created with [`create-docusaurus`](./installation.mdx#scaffold-project-website). 다음 테마와 플러그인이 포함되어 있습니다.
+
+- [`@docusaurus/theme-classic`](./api/themes/theme-configuration.mdx)
+- [`@docusaurus/theme-search-algolia`](./api/themes/theme-search-algolia.mdx)
+- [`@docusaurus/plugin-content-docs`](./api/plugins/plugin-content-docs.mdx)
+- [`@docusaurus/plugin-content-blog`](./api/plugins/plugin-content-blog.mdx)
+- [`@docusaurus/plugin-content-pages`](./api/plugins/plugin-content-pages.mdx)
+- [`@docusaurus/plugin-debug`](./api/plugins/plugin-debug.mdx)
+- [`@docusaurus/plugin-google-gtag`](./api/plugins/plugin-google-gtag.mdx)
+- [`@docusaurus/plugin-google-tag-manager`](./api/plugins/plugin-google-tag-manager.mdx)
+- [`@docusaurus/plugin-google-analytics`](./api/plugins/plugin-google-analytics.mdx) (**deprecated**)
+- [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx)
+
+classic 프리셋은 각 옵션 항목을 해당 플러그인/테마로 전달합니다.
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // Debug defaults to true in dev, false in prod
+        debug: undefined,
+        // Will be passed to @docusaurus/theme-classic.
+        theme: {
+          customCss: ['./src/css/custom.css'],
+        },
+        // Will be passed to @docusaurus/plugin-content-docs (false to disable)
+        docs: {},
+        // Will be passed to @docusaurus/plugin-content-blog (false to disable)
+        blog: {},
+        // Will be passed to @docusaurus/plugin-content-pages (false to disable)
+        pages: {},
+        // Will be passed to @docusaurus/plugin-sitemap (false to disable)
+        sitemap: {},
+        // Will be passed to @docusaurus/plugin-google-gtag (only enabled when explicitly specified)
+        gtag: {},
+        // Will be passed to @docusaurus/plugin-google-tag-manager (only enabled when explicitly specified)
+        googleTagManager: {},
+        // DEPRECATED: Will be passed to @docusaurus/plugin-google-analytics (only enabled when explicitly specified)
+        googleAnalytics: {},
+      },
+    ],
+  ],
+};
+```
+
+### Installing presets {#installing-presets}
+
+프리셋은 npm 패키지 형태로 제공됩니다. npm을 사용해 다른 npm 패키지처럼 설치할 수 있습니다.
+
+```bash npm2yarn
+npm install --save @docusaurus/preset-classic
+```
+
+Then, add it in your site's `docusaurus.config.js`'s `presets` option:
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  presets: ['@docusaurus/preset-classic'],
+};
+```
+
+프리셋 경로는 구성 파일에 상대적으로 설정할 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  presets: ['./src/presets/docusaurus-local-preset'],
+};
+```
+
+### Creating presets {#creating-presets}
+
+A preset is a function with the same shape as the [plugin constructor](./api/plugin-methods/README.mdx#plugin-constructor). It should return an object of `{ plugins: PluginConfig[], themes: PluginConfig[] }`, in the same as how they are accepted in the site config. 예를 들어 다음과 같은 테마와 플러그인을 포함하는 프리셋을 설정할 수 있습니다.
+
+```js title="src/presets/docusaurus-preset-multi-docs.js"
+export default function preset(context, opts = {}) {
+  return {
+    themes: [['docusaurus-theme-awesome', opts.theme]],
+    plugins: [
+      // Using three docs plugins at the same time!
+      // Assigning a unique ID for each without asking the user to do it
+      ['@docusaurus/plugin-content-docs', {...opts.docs1, id: 'docs1'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs2, id: 'docs2'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs3, id: 'docs3'}],
+    ],
+  };
+}
+```
+
+그런 다음 도큐사우루스 설정에서 프리셋 항목을 지정해줍니다.
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    // highlight-start
+    [
+      './src/presets/docusaurus-preset-multi-docs.js',
+      {
+        theme: {hello: 'world'},
+        docs1: {path: '/docs'},
+        docs2: {path: '/community'},
+        docs3: {path: '/api'},
+      },
+    ],
+    // highlight-end
+  ],
+};
+```
+
+위의 방법은 아래와 같이 설정한 것과 같습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  themes: [['docusaurus-theme-awesome', {hello: 'world'}]],
+  plugins: [
+    ['@docusaurus/plugin-content-docs', {id: 'docs1', path: '/docs'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docs2', path: '/community'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docs3', path: '/api'}],
+  ],
+};
+```
+
+프리셋은 특정 플러그인과 테마를 같이 사용하려고 할 때 유용한 기능입니다. 옵션과 함께 연결할 수 있습니다. 예를 들면 여러 플러그인에 하나의 옵션을 전달합니다.
+
+## Module shorthands {#module-shorthands}
+
+도큐사우루스는 플러그인, 테마, 프리셋에 대한 단축 표기법을 지원합니다. 플러그인/테마/프리셋 이름이 보여질 때 아래의 순서대로 로드를 시도합니다.
+
+- `[name]` (like `content-docs`)
+- `@docusaurus/[moduleType]-[name]` (like `@docusaurus/plugin-content-docs`)
+- `docusaurus-[moduleType]-[name]` (like `docusaurus-plugin-content-docs`)
+
+where `moduleType` is one of `'preset'`, `'theme'`, `'plugin'`, depending on which field the module name is declared in. 성공적으로 찾은 첫 번째 모듈 이름이 로드됩니다.
+
+If the name is scoped (beginning with `@`), the name is first split into scope and package name by the first slash:
+
+```
+@scope
+^----^
+ scope  (no name!)
+
+@scope/awesome
+^----^ ^-----^
+ scope   name
+
+@scope/awesome/main
+^----^ ^----------^
+ scope     name
+```
+
+If there is no name (like `@jquery`), `[scope]/docusaurus-[moduleType]` (i.e. `@jquery/docusaurus-plugin`) is loaded. 그렇지 않으면 다음 항목 로드를 시도합니다.
+
+- `[scope]/[name]` (like `@jquery/content-docs`)
+- `[scope]/docusaurus-[moduleType]-[name]` (like `@jquery/docusaurus-plugin-content-docs`)
+
+Below are some examples, for a plugin registered in the `plugins` field. Note that unlike [ESLint](https://eslint.org/docs/user-guide/configuring/plugins#configuring-plugins) or [Babel](https://babeljs.io/docs/en/options#name-normalization) where a consistent naming convention for plugins is mandated, Docusaurus permits greater naming freedom, so the resolutions are not certain, but follows the priority defined above.
+
+| 선언                        | 다음과 같이 처리됩니다                                                     |
+| ------------------------- | ---------------------------------------------------------------- |
+| `awesome`                 | `docusaurus-plugin-awesome`                                      |
+| `sitemap`                 | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx) |
+| `@my-company`             | `@my-company/docusaurus-plugin` (the only possible resolution!)  |
+| `@my-company/awesome`     | `@my-company/docusaurus-plugin-awesome`                          |
+| `@my-company/awesome/web` | `@my-company/docusaurus-plugin-awesome/web`                      |

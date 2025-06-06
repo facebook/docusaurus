@@ -1,0 +1,218 @@
+---
+sidebar_label: 정적 사이트 생성
+description: 도큐사우루스는 리액트 코드를 HTML로 정적 렌더링해 빠른 로딩 속도와 더 나은 SEO를 지원합니다.
+---
+
+# 정적 사이트 생성(SSG)
+
+[아키텍쳐](architecture.mdx)를 설명하면서 테마가 웹팩에서 실행된다고 언급했습니다. 하지만 주의하세요. 그렇다고 해서 항상 브라우저에 전역으로 접근할 수 있는 것은 아닙니다! 테마는 두 번 빌드됩니다.
+
+- **서버 측 렌더링**이 진행되는 동안 테마는 [리액트 DOM 서버](https://reactjs.org/docs/react-dom-server.html)라고 불리는 샌드박스에서 컴파일됩니다. 이 상태는 `window`나 `document`가 없고 리액트만 있는 "헤드리스 브라우저"로 볼 수 있습니다. SSR은 정적 HTML 페이지를 생성합니다.
+- **클라이언트 측 렌더링** 중에 테마는 브라우저에서 실행되는 자바스크립트로 컴파일되므로 브라우저 변수에 접근할 수 있습니다.
+
+:::info SSR 또는 SSG?
+
+_서버 측 렌더링_과 _정적 사이트 생성_은 개념적으로는 다를 수 있지만 여기에서는 같은 의미로 사용합니다.
+
+엄밀하게 말하면 도큐사우루스는 서버 측 런타임이 없기 때문에 정적 사이트 생성기입니다. 각 요청에 대해 동적으로 사전 렌더링하는 대신 CDN에 배포된 HTML 파일로 정적으로 렌더링합니다. 이것은 [Next.js](https://nextjs.org/)의 동작 모델과는 다릅니다.
+
+:::
+
+때문에 `process` ([아니면?](#node-env)) 또는 `'fs'` 모듈같은 Node 전역 변수에 접근할 수 없는 것처럼 브라우저 전역 변수도 자유롭게 접근할 수 없습니다.
+
+```jsx
+import React from 'react';
+
+export default function WhereAmI() {
+  return <span>{window.location.href}</span>;
+}
+```
+
+일반적인 리액트처럼 보이지만 `docusaurus build` 명령을 실행하면 오류가 발생합니다.
+
+```
+ReferenceError: window is not defined
+```
+
+서버 측 렌더링이 진행되는 동안 도큐사우루스 앱이 실제 브라우저에서 실행되지 않으며 `window`가 무엇인지 모르기 때문입니다.
+
+```mdx-code-block
+<details id="node-env">
+<summary>What about <code>process.env.NODE_ENV</code>?</summary>
+```
+
+"Node 전역 변수 없음" 규칙의 한 가지 예외는 `process.env.NODE_ENV`입니다. 사실 웹팩이 이 변수를 전역 변수로 주입하기 때문에 리액트에서 사용할 수 있습니다.
+
+```jsx
+import React from 'react';
+
+export default function expensiveComp() {
+  if (process.env.NODE_ENV === 'development') {
+    return <>This component is not shown in development</>;
+  }
+  const res = someExpensiveOperationThatLastsALongTime();
+  return <>{res}</>;
+}
+```
+
+웹팩 빌드가 진행되는 동안 `process.env.NODE_ENV`는 `'development'` 또는 `'production'` 값으로 대체됩니다. 그런 다음 불필요한 코드가 제거되고 다른 빌드 결과를 얻을 수 있게 됩니다.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+```mdx-code-block
+<Tabs>
+<TabItem value="Development">
+```
+
+```diff
+import React from 'react';
+
+export default function expensiveComp() {
+  // highlight-next-line
+  if ('development' === 'development') {
++   return <>This component is not shown in development</>;
+  }
+- const res = someExpensiveOperationThatLastsALongTime();
+- return <>{res}</>;
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="Production">
+```
+
+```diff
+import React from 'react';
+
+export default function expensiveComp() {
+  // highlight-next-line
+- if ('production' === 'development') {
+-   return <>This component is not shown in development</>;
+- }
++ const res = someExpensiveOperationThatLastsALongTime();
++ return <>{res}</>;
+}
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+</details>
+```
+
+## SSR 이해하기 {#understanding-ssr}
+
+리액트는 동적 UI 런타임일 뿐만 아니라 템플릿 엔진이기도 합니다. 도큐사우루스 사이트는 대부분 정적 콘텐츠를 포함하기 때문에 자바스크립트(리액트가 실행되는)가 없어도 일반 HTML/CSS를 사용할 수 있어야 합니다. 이것이 서버 측 렌더링에서 하는 일입니다. 동적 콘텐츠 없이 정적으로 리액트 코드를 HTML로 렌더링합니다. HTML 파일에는 클라이언트 상태에서 대한 개념이 없으므로(순수한 마크업입니다) 브라우저 API에 의존해서는 안됩니다.
+
+이런 HTML 파일은 URL 방문 시 사용자의 브라우저 화면에 가장 먼저 도착합니다([라우팅](routing.mdx) 항목을 참고하세요). 그리고 나서 브라우저는 다른 JS 코드를 가져와 실행해 사이트의 "동적" 부분(자바스크립트로 구현된 모든 것)을 처리합니다. 하지만 그 전에 페이지의 주요 콘텐츠는 이미 화면에 표시된 상태이며 빠르게 로딩할 수 있습니다.
+
+CSR 전용 앱에서는 모든 DOM 요소를 리액트를 사용해 클라이언트 측에서 생성하며 HTML 파일에는 리액트에서 DOM을 마운트할 루트 요소 하나만 포함됩니다. SSR에서 리액트는 이미 완전히 구축된 HTML 페이지를 접하게 되며 DOM 요소를 해당 모델의 가상 DOM과 연결해주기만 하면 됩니다. 이 단계를 "하이드레이션(hydration)"이라고 합니다. 리액트가 정적 마크업을 하이드레이트하면 앱이 일반 리액트 앱처럼 동작하기 시작합니다.
+
+도큐사우루스는 궁극적으로 단일 페이지 애플리케이션이므로 정적 사이트 생성에 최적화(_점진적 개선_이라고 부릅니다)되어 있지만 기능이 해당 HTML 파일에 완전히 의존하는 것은 아닙니다. 모든 파일이 정적으로 마크업 태그로 변환되고 `<script>` 태그로 연결된 외부 자바스크립트를 통해 상호작용이 추가되는 [Jekyll](https://jekyllrb.com/)이나 [도큐사우루스 v1](https://v1.docusaurus.io/)과 같은 사이트 생성 도구와는 정반대입니다. 빌드 결과물을 확인해보면 `build/assets/js` 아래에 도큐사우루스의 핵심적인 자원인 JS 애셋이 표시되는 것을 확인할 수 있습니다.
+
+## 탈출구 {#escape-hatches}
+
+브라우저 API가 작동하도록 하는 동적 콘텐츠를 화면에 렌더링하려면 다음과 같이 합니다.
+
+- 브라우저의 JS 런타임에서 동작하는 [라이브 코드블럭](../guides/markdown-features/markdown-features-code-blocks.mdx#interactive-code-editor)
+- 다른 이미지를 표시하기 위해 사용자 색 스미카를 감지하는 [테마 이미지](../guides/markdown-features/markdown-features-assets.mdx#themed-images)
+- 스타일 적용을 위해 전역 `window`를 사용하는 디버그 패널의 JSON 뷰어
+
+정적 HTML은 클라이언트 상태를 알지 못하면 어떤 유용한 것도 표시할 수 없으므로 SSR에서 빠져나와야 할 수도 있습니다.
+
+:::warning
+
+첫 번째 클라이언트 측 렌더링이 서버 측 렌더링과 정확하게 같은 DOM 구조를 생성하는 것이 중요합니다. 그렇지 않으면 리액트는 가상 DOM을 잘못된 DOM 요소와 연결합니다.
+
+따라서 `if (typeof window !== 'undefined) {/* render something */}` 같은 순진한 시도는 첫 번째 클라이언트 렌더링에서 서버에서 생성된 마크업과 다른 마크업을 즉시 생성하기 때문에 브라우저인지 서버인지 감지하기 위한 용도로 적절하게 작동하지 않습니다.
+
+[리하이드레이션의 위험](https://www.joshwcomeau.com/react/the-perils-of-rehydration/)에서 어떤 문제가 있는지 자세하게 살펴볼 수 있습니다.
+
+:::
+
+도큐사우루스는 SSR에서 빠져나오는 몇 가지 더 안정적인 방법을 지원합니다.
+
+### `<BrowserOnly>` {#browseronly}
+
+브라우저에서 일부 컴포넌트만 렌더링해야 하는 경우(예를 들어 컴포넌트가 작동하기 위해 브라우저 특정 사항에 의존하는 경우) 일반적인 접근 방식 중 하나는 SSR에서는 처리되지 않고 CSR에서만 렌더링되도록 컴포넌트를 [`<BrowserOnly>`](../docusaurus-core.mdx#browseronly)로 감싸는 것입니다.
+
+```jsx
+import BrowserOnly from '@docusaurus/BrowserOnly';
+
+function MyComponent(props) {
+  return (
+    // highlight-start
+    <BrowserOnly fallback={<div>Loading...</div>}>
+      {() => {
+        const LibComponent =
+          require('some-lib-that-accesses-window').LibComponent;
+        return <LibComponent {...props} />;
+      }}
+    </BrowserOnly>
+    // highlight-end
+  );
+}
+```
+
+`<BrowserOnly>`의 자식은 JSX 요소가 아니라 요소를 _반환_하는 함수라는 사실을 인식하는 것이 중요합니다. 이것은 설계 상의 결정입니다. 다음 코드를 참고하세요.
+
+```jsx
+import BrowserOnly from '@docusaurus/BrowserOnly';
+
+function MyComponent() {
+  return (
+    <BrowserOnly>
+      {/* highlight-start */}
+      {/* 이렇게 하지 마세요 - 실제 작동하지 않습니다. */}
+     <span>page url = {window.location.href}</span>
+      {/* highlight-end */}
+    </BrowserOnly>
+  );
+}
+```
+
+`BrowserOnly`가 서버 측 렌더링 중에 자식을 숨길 것처럼 보이지만 실제 그렇지 않습니다. 리액트 렌더러가 JSX 트리를 렌더링할 때 `{window.location.href}` 변수를 해당 트리의 노드로 보고 렌더링을 시도하지만 실제로는 사용되지 않습니다! 함수를 사용하면 필요할 때만 렌더러가 browser-only 컴포넌트를 볼 수 있도록 합니다.
+
+### `useIsBrowser` {#useisbrowser}
+
+`useIsBrowser()` 후크를 사용해 컴포넌트가 현재 어떤 브라우저 환경에 있는지 테스트할 수 있습니다. 첫 번째 클라이언트 렌더링 후에 `false`를 반환하면 SSR, `true`를 반환하면 CSR 환경입니다. 클라이언트 측에서 특정 조건부 작업만 수행하고 완전히 다른 UI를 렌더링할 필요가 없는 경우 이 후크를 사용합니다.
+
+```jsx
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+function MyComponent() {
+  const isBrowser = useIsBrowser();
+  const location = isBrowser ? window.location.href : 'fetching location...';
+  return <span>{location}</span>;
+}
+```
+
+### `useEffect` {#useeffect}
+
+마지막으로 `useEffect()` 안에 코드를 추가해 첫 번째 CSR 이후 실행을 지연시킬 수 있습니다. 클라이언트에서 데이터를 _가져오지_ 않고 사이드 효과만 원하는 경우 적절한 방식입니다.
+
+```jsx
+function MyComponent() {
+  useEffect(() => {
+    // 브라우저 콘솔에만 로그가 남습니다. 서버 측 렌더링 중에는 아무것도 기록되지 않습니다.
+    console.log("I'm now in the browser");
+  }, []);
+  return <span>Some content...</span>;
+}
+```
+
+### `ExecutionEnvironment` {#executionenvironment}
+
+[`ExecutionEnvironment`](../docusaurus-core.mdx#executionenvironment) 네임스페이스에는 여러 값이 포함되어 있으며 `canUseDOM`은 브라우저 환경을 감지하는 효과적인 방법입니다.
+
+내부적으로 `typeof window !== 'undefined'` 코드로 확인했다는 점에 유의하세요. 때문에 렌더링 관련 로직으로 사용해서는 안되고 웹에서 요청을 보내 사용자 입력에 반응하거나 DOM을 업데이트하지 않고 동적으로 라이브러리를 가져오는 것과 같은 명령형 코드로 사용할 수 있습니다.
+
+```js title="a-client-module.js"
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+if (ExecutionEnvironment.canUseDOM) {
+  document.title = "I'm loaded!";
+}
+```

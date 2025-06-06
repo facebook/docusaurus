@@ -1,0 +1,143 @@
+---
+slug: /sidebar/multiple-sidebars
+---
+
+# 여러 개의 사이드바 사용하기
+
+**그룹으로 묶을** 각 **마크다운 파일 집합**을 사이드바로 만들 수 있습니다.
+
+:::tip
+
+도큐사우루스 사이트가 여러 개의 사이드바를 사용하는 좋은 예입니다.
+
+- [문서](../../../introduction.mdx)
+- [API](../../../cli.mdx)
+
+:::
+
+다음 예제를 참고하세요.
+
+```js title="sidebars.js"
+export default {
+  tutorialSidebar: {
+    'Category A': ['doc1', 'doc2'],
+  },
+  apiSidebar: ['doc3', 'doc4'],
+};
+```
+
+`doc1` 또는 `doc2`를 탐색할 때 `tutorialSidebar`가 표시됩니다. `doc3` 또는 `doc4`를 탐색할 때 `apiSidebar`가 표시됩니다.
+
+## 사이드바 연결에 대한 이해 {#sidebar-association}
+
+위의 예제에서 `commonDoc`가 양쪽 사이드바에 포함된 경우
+
+```js title="sidebars.js"
+export default {
+  tutorialSidebar: {
+    'Category A': ['doc1', 'doc2', 'commonDoc'],
+  },
+  apiSidebar: ['doc3', 'doc4', 'commonDoc'],
+};
+```
+
+도큐사우루스에서 `commonDoc`를 탐색할 때 사이드바가 어떻게 표시될지 알 수 있나요? 답변은 알 수 없습니다입니다. 어떤 사이드바가 선택될지 보장할 수 없습니다.
+
+문서 Y를 사이드바 X에 추가하면 양방향 바인딩이 만들어집니다. 사이드바 X에는 문서 Y에 대한 링크가 포함되고 문서 Y를 탐색할 때 사이드바 X가 표시됩니다. 하지만 이런 암시적인 바인딩을 깨고 싶은 경우가 있을 수 있습니다.
+
+1. _사이드바 X를 문서 Y에 표시하지 않고 사이드바 X에서 문서 Y에 대한 링크를 생성하려면 어떻게 하나요?_ 예를 들어 위의 예와 같이 여러 사이드바에 문서 Y를 포함하고 도큐사우루스에 하나의 사이드바만 표시하도록 명시적으로 명시적으로 지시하고 싶은가요?
+2. _문서 Y를 탐색할 때 사이드바 X를 표시지만 사이드바 X에 문서 Y에 대한 링크가 포함되지 않게 하려면 어떻게 하나요?_ 예를 들어 Y는 "문서 홈페이지"이고 사이드바는 순수하게 탐색 시에만 사용하는 경우에는 어떻게 하나요?
+
+프런트 매터 옵션 `displayed_sidebar`은 사이드바 연결을 강제로 설정합니다. 같은 예에서 특별한 구성 없이 문서 단축 표기법을 사용할 수 있습니다.
+
+```js title="sidebars.js"
+export default {
+  tutorialSidebar: {
+    'Category A': ['doc1', 'doc2'],
+  },
+  apiSidebar: ['doc3', 'doc4'],
+};
+```
+
+그리고나서 프런트 매터를 추가합니다.
+
+```md title="commonDoc.md"
+---
+displayed_sidebar: apiSidebar
+---
+```
+
+`commonDoc`을 탐색할 때 `apiSidebar`가 표시되도록 도큐사우루스에 명시적으로 지시합니다. 같은 방식으로 문서 Y를 포함하지 않는 사이드바 X를 문서 Y에 표시할 수 있습니다.
+
+```md title="home.md"
+---
+displayed_sidebar: tutorialSidebar
+---
+```
+
+`tutorialSidebar`에 `home`으로 연결되는 링크를 포함하지 않더라도 `home`에서 사이드바가 표시됩니다.
+
+`displayed_sidebar: null`를 설정하면 해당 페이지에 사이드바가 표시되지 않으며 페이징 영역도 표시되지 않습니다.
+
+## 페이징 영역 생성 {#generating-pagination}
+
+도큐사우루스는 사이드바를 사용해 각 문서 페이지 하단에 "다음", "이전" 같은 페이지 이동 링크를 생성합니다. 표시되는 사이드바를 엄격하게 사용합니다. 연결된 사이드바가 없으면 페이징 영역도 생성되지 않습니다. 하지만 "다음", "이전"으로 연결된 문서는 같은 사이드바를 표시하지 않을 수 있습니다. 해당 문서는 사이드바에 포함되지만 프런트 매터에서 다른 `displayed_sidebar`로 설정될 수 있습니다.
+
+프런트 매터에서 `displayed_sidebar`를 설정하면 사이드바가 표시되고 해당 사이드바에 문서가 포함되어 있지 않으면 페이징 영역이 표시되지 않습니다.
+
+프런트매터에서 `pagination_next`, `pagination_prev`을 사용해 페이징 영역을 사용자 지정할 수 있습니다. 다음 사이드바를 참고하세요.
+
+```js title="sidebars.js"
+export default {
+  tutorial: [
+    'introduction',
+    {
+      installation: ['windows', 'linux', 'macos'],
+    },
+    'getting-started',
+  ],
+};
+```
+
+"windows" 페이지에서 다음 페이지 이동 링크는 "linux"를 가리키지만 이걸 사용할 건 아닙니다. 여러분은 독자가 설치 이후에 "getting started"로 진행하기를 원합니다. 이런 경우에는 수작업으로 페이징 영역을 설정할 수 있습니다.
+
+```md title="windows.md"
+---
+# highlight-next-line
+pagination_next: getting-started
+---
+
+# 윈도우에 설치
+```
+
+`pagination_next: null` 또는 `pagination_prev: null`을 사용해 페이징 영역이 표시되지 않도록 할 수 있습니다.
+
+기본적으로 페이징 영역 라벨은 사이드바 라벨을 사용합니다. 프런트매터에서 `pagination_label`을 사용해 문서에서 페이징 영역을 표시하는 방식을 사용자 지정할 수 있습니다.
+
+## `ref` 아이템 {#sidebar-item-ref}
+
+`ref` 유형은 탐색 메타 데이터 생성에 관여하지 않는다는 점을 제외하면 모든 면에서 [`doc` 유형](./items.mdx#sidebar-item-doc)과 같습니다. 자신을 링크로만 등록합니다. [페이징 영역을 생성](#generating-pagination)할 때 [사이드바를 표시](#sidebar-association)하고 `ref` 항목은 완전히 무시됩니다.
+
+여러 사이드바에서 같은 문서로 연결하려는 경우 특히 유용합니다. 문서는 하나의 사이드바(`type: 'doc'`으로 등록되거나 자동 생성된 디렉토리에서 만들어진) 에만 속하지만 링크는 등록된 모든 사이드바에 나타납니다.
+
+다음 예제를 참고하세요.
+
+```js title="sidebars.js"
+export default {
+  tutorialSidebar: {
+    'Category A': [
+      'doc1',
+      'doc2',
+      // highlight-next-line
+      {type: 'ref', id: 'commonDoc'},
+      'doc5',
+    ],
+  },
+  apiSidebar: ['doc3', 'doc4', 'commonDoc'],
+};
+```
+
+`ref` 유형은 다음을 수행하는 것과 같은 것이라고 생각할 수 있습니다.
+
+- `commonDoc`(`ref`는 사이드바 연결에서 무시됨)에 대해 `displayed_sidebar: tutorialSidebar`를 설정
+- `doc2`에 대해 `pagination_next: doc5`을 설정하고 `doc5`(`ref`는 페이징 영역 생성에서 무시됨)에 대해 `pagination_prev: doc2`를 설정

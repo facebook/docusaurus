@@ -1,0 +1,190 @@
+---
+description: 도큐사우루스는 여러분의 웹 사이트를 만들고 확인하고 배포할 수 있게 도움을 주는 스크립트 모음을 제공합니다.
+---
+
+# CLI(명령 줄 인터페이스)
+
+도큐사우루스는 여러분의 웹 사이트를 만들고 확인하고 배포할 수 있게 도움을 주는 스크립트 모음을 제공합니다.
+
+웹 사이트를 만들면 소스 안에 패키지 관리자를 호출할 수 있는 도큐사우루스 스크립트가 포함되어 있습니다.
+
+```json title="package.json"
+{
+  // ...
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids"
+  }
+}
+```
+
+## 도큐사우루스 CLI 명령 {#docusaurus-cli-commands}
+
+도큐사우루스 CLI 명령과 사용법을 설명합니다.
+
+### `docusaurus start [siteDir]` {#docusaurus-start-sitedir}
+
+[웹팩 개발 서버](https://webpack.js.org/configuration/dev-server)를 사용해 여러분의 사이트를 로컬에서 빌드하고 미리보기를 제공합니다.
+
+#### 옵션 {#options}
+
+| 옵션명                           | 기본값         | 설명                                                                                                                                                                         |
+| ----------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--port`                      | `3000`      | 개발 서버에서 사용할 포트를 설정합니다.                                                                                                                                                     |
+| `--host`                      | `localhost` | 사용할 호스트를 설정합니다. 외부에서 접근할 수 있게 `--host 0.0.0.0` 형태로 설정할 수도 있습니다.                                                                                                            |
+| `--locale`                    |             | Specify site locale to be used.                                                                                                                                            |
+| `--hot-only`                  | `false`     | 빌드 실패 시 폴백 처리로 페이지 새로고침 없이 빠른 모듈 교체(Hot Module Replacement)를 사용할지 여부를 설정합니다. 좀 더 많은 정보는 [웹팩 문서](https://webpack.js.org/configuration/dev-server/#devserverhotonly)를 참고하세요. |
+| `--no-open`                   | `false`     | Do not open the page automatically in the browser.                                                                                                                         |
+| `--config`                    | `undefined` | 도큐사우루스 설정 파일 경로를 설정합니다. 기본값은 `[siteDir]/docusaurus.config.js`입니다.                                                                                                          |
+| `--poll [optionalIntervalMs]` | `false`     | 변경 상태 체크가 제대로 되지 않을 때 폴백 처리로 라이브 리로드 대신 파일 폴링을 사용하도록 설정할 수 있습니다. 좀 더 많은 정보는 [웹팩 문서](https://webpack.js.org/configuration/watch/#watchoptionspoll)를 참고하세요.                  |
+| `--no-minify`                 | `false`     | JS/CSS 번들 최소화 없이 웹 사이트를 빌드할지 여부를 설정합니다.                                                                                                                                    |
+
+:::info
+
+일부 기능(앵커 링크 같은)은 개발 모드에서는 잘 동작하지 않을 수 있습니다. 하지만 제품 모드에서는 정상적으로 동작합니다.
+
+:::
+
+:::info 네크워크를 통한 개발
+
+원격 서버 또는 VM(예: 깃헙 코드스페이스)에서 3000번 포트를 포워딩하면 로컬 IP에서 수신할 수 있게 해서 `0.0.0.0`에서 개발 서버를 실행할 수 있습니다.
+
+```bash npm2yarn
+npm run start -- --host 0.0.0.0
+```
+
+:::
+
+#### HTTPS를 사용하도록 설정하기 {#enabling-https}
+
+인증서를 받는 방법은 여러 가지가 있습니다. 여기서는 설명을 위해 [mkcert](https://github.com/FiloSottile/mkcert)를 사용할 겁니다.
+
+1. `localhost.pem` + `localhost-key.pem` 파일을 만들기 위해 `mkcert localhost` 명령을 실행합니다.
+
+2. 로컬에 인증서를 설치하기 위해 `mkcert -install` 명령을 실행합니다. 그리고 웹 브라우저를 다시 시작합니다.
+
+3. HTTPS 환경 변수를 설정하고 도큐사우루스 앱을 실행합니다.
+
+```bash
+HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
+```
+
+4. 웹 브라우저에서 `https://localhost:3000/`을 실행합니다.
+
+### `docusaurus build [siteDir]` {#docusaurus-build-sitedir}
+
+제품 배포를 위해 사이트를 컴파일합니다.
+
+#### 옵션 {#options-1}
+
+| 옵션명                 | 기본값         | 설명                                                                                        |
+| ------------------- | ----------- | ----------------------------------------------------------------------------------------- |
+| `--dev`             |             | Builds the website in dev mode, including full React error messages.                      |
+| `--bundle-analyzer` | `false`     | [웹팩 번들 분석](https://github.com/webpack-contrib/webpack-bundle-analyzer) 기능을 사용해 번들을 분석합니다. |
+| `--out-dir`         | `build`     | 현재 워크스페이스를 기준으로 output 디렉터리의 상대 경로를 설정합니다.                                                |
+| `--config`          | `undefined` | 도큐사우루스 설정 파일 경로를 설정합니다. 기본값은 `[siteDir]/docusaurus.config.js`입니다.                         |
+| `--locale`          |             | Build the site in the specified locale(s). If not specified, all known locales are built. |
+| `--no-minify`       | `false`     | JS/CSS 번들 최소화 없이 웹 사이트를 빌드할지 여부를 설정합니다.                                                   |
+
+:::info
+
+CSS 번들 최소화를 위한 고급 기능으로 [advanced cssnano preset](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-advanced)(PostCSS 플러그인 추가)와 [clean-css 레벨 2 최적화](https://github.com/jakubpawlowicz/clean-css#level-2-optimizations)를 사용하고 있습니다. CSS 최소화 처리 시 CSS가 깨지는 경우에는 `USE_SIMPLE_CSS_MINIFIER=true` 환경 변수를 설정해 [default cssnano preset](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-default)을 사용해 CSS 최소화가 처리되도록 할 수 있습니다. **CSS 최소화 시 문제가 발생했다면 [이슈로 등록해주세요](https://github.com/facebook/docusaurus/issues/new?labels=bug%2C+needs+triage&template=bug.md).**
+
+환경 변수 `SKIP_HTML_MINIFICATION=true`를 사용해 HTML 최소화를 건너뛸 수 있습니다.
+
+:::
+
+### `docusaurus swizzle [themeName] [componentName] [siteDir]` {#docusaurus-swizzle}
+
+테마 컴포넌트를 [스위즐](./swizzling.mdx)하면 이를 사용자 지정할 수 있습니다.
+
+```bash npm2yarn
+npm run swizzle [themeName] [componentName] [siteDir]
+
+# 예 (현재 디렉터리로 설정한다면 siteDir 옵션은 제외할 수 있습니다)
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
+```
+
+swizzle CLI는 대화식이며 전체 [스위즐 프로세스](./swizzling.mdx)에 따라 가이드를 제공합니다.
+
+#### 옵션 {#options-swizzle}
+
+| 옵션명             | 설명                                                                |
+| --------------- | ----------------------------------------------------------------- |
+| `themeName`     | 스위즐할 테마 이름                                                        |
+| `componentName` | 스위즐할 컴포넌트 이름                                                      |
+| `--list`        | 스위즐링에 사용할 수 있는 컴포넌트 표시                                            |
+| `--eject`       | 테마 컴포넌트 [Eject](./swizzling.mdx#ejecting)                         |
+| `--wrap`        | 테마 컴포넌트 [Wrap](./swizzling.mdx#wrapping)                          |
+| `--danger`      | 안전하지 않은 컴포넌트의 즉각적인 스위즐링 허용                                        |
+| `--typescript`  | 타입스크립트 변형 컴포넌트 스위즐                                                |
+| `--config`      | 도큐사우루스 설정 파일 경로를 설정합니다. 기본값은 `[siteDir]/docusaurus.config.js`입니다. |
+
+:::warning
+
+안전하지 않은 컴포넌트: 내부 리팩토링으로 인해 호환성이 손상되는 변경 위험이 높은 컴포넌트입니다.
+
+:::
+
+### `docusaurus deploy [siteDir]` {#docusaurus-deploy-sitedir}
+
+여러분의 사이트를 [깃허브 페이지](https://pages.github.com/)로 배포합니다. 좀 더 자세한 내용은 [배포](deployment.mdx#deploying-to-github-pages) 문서를 참고하세요.
+
+#### 옵션 {#options-3}
+
+| 옵션명            | 기본값         | 설명                                                                                            |
+| -------------- | ----------- | --------------------------------------------------------------------------------------------- |
+| `--locale`     |             | Deploy the site in the specified locale(s). If not specified, all known locales are deployed. |
+| `--out-dir`    | `build`     | 현재 워크스페이스를 기준으로 output 디렉터리의 상대 경로를 설정합니다.                                                    |
+| `--skip-build` | `false`     | 빌드 과정 없이 웹 사이트를 배포합니다. 사용자 지정 배포 스크립트를 사용하는 경우에 유용합니다.                                        |
+| `--target-dir` | `.`         | Path to the target directory to deploy to.                                                    |
+| `--config`     | `undefined` | 도큐사우루스 설정 파일 경로를 설정합니다. 기본값은 `[siteDir]/docusaurus.config.js`입니다.                             |
+
+### `docusaurus serve [siteDir]` {#docusaurus-serve-sitedir}
+
+웹 사이트를 로컬에서 서비스합니다.
+
+| 옵션명         | 기본값                         | 설명                                                                |
+| ----------- | --------------------------- | ----------------------------------------------------------------- |
+| `--port`    | `3000`                      | 사용할 포트를 설정합니다.                                                    |
+| `--dir`     | `build`                     | 현재 워크스페이스를 기준으로 output 디렉터리이 상대 경로를 설정합니다.                        |
+| `--build`   | `false`                     | 서비스 전에 웹 사이트를 빌드합니다.                                              |
+| `--config`  | `undefined`                 | 도큐사우루스 설정 파일 경로를 설정합니다. 기본값은 `[siteDir]/docusaurus.config.js`입니다. |
+| `--host`    | `localhost`                 | 사용할 호스트를 설정합니다. 외부에서 접근할 수 있게 `--host 0.0.0.0` 형태로 설정할 수도 있습니다.   |
+| `--no-open` | 로컬에서는 `false`, CI에서는 `true` | 서버 경로를 브라우저 창에서 열지 마세요.                                           |
+
+### `docusaurus clear [siteDir]` {#docusaurus-clear-sitedir}
+
+도큐사우루스에서 만든 애셋, 캐시, 산출물을 삭제합니다.
+
+버그를 발견하고 등록하기 전이나 버전 업그레이드 또는 도큐사우루스 사이트에 문제가 생겼을 때 이 명령을 실행하는 것을 권장합니다.
+
+### `docusaurus write-translations [siteDir]` {#docusaurus-write-translations-sitedir}
+
+번역할 JSON 번역 파일을 만듭니다.
+
+기본적으로 `website/i18n/<defaultLocale>/...` 경로에 파일이 만들어집니다.
+
+| 옵션명               | 기본값                     | 설명                                                                |
+| ----------------- | ----------------------- | ----------------------------------------------------------------- |
+| `--locale`        | `<defaultLocale>` | JSON 파일을 번역할 로케일 디렉터리를 설정합니다.                                     |
+| `--override`      | `false`                 | 기존 번역 메시지를 덮어쓸지 여부를 설정합니다.                                        |
+| `--config`        | `undefined`             | 도큐사우루스 설정 파일 경로를 설정합니다. 기본값은 `[siteDir]/docusaurus.config.js`입니다. |
+| `--messagePrefix` | `''`                    | 번역되지 않는 문자열을 강조하기 위해 각 번역 메시지에 접두사를 추가하도록 설정할 수 있습니다.             |
+
+### `docusaurus write-heading-ids [siteDir] [files]` {#docusaurus-write-heading-ids-sitedir}
+
+Add [explicit heading IDs](./guides/markdown-features/markdown-features-toc.mdx#heading-ids) to the Markdown documents of your site.
+
+| 옵션명               | 기본값                  | 설명                           |
+| ----------------- | -------------------- | ---------------------------- |
+| `files`           | 플러그인에서 사용하는 모든 MD 파일 | 제목 ID를 작성할 파일                |
+| `--maintain-case` | `false`              | 제목 대소문자 유지, 그렇지 않으면 소문자로 처리. |
+| `--overwrite`     | `false`              | 기존 제목 ID 덮어쓰기                |

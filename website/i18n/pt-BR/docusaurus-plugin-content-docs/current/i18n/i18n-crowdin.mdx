@@ -1,0 +1,523 @@
+---
+id: crowdin
+slug: /i18n/crowdin
+toc_max_heading_level: 4
+---
+
+# i18n - Usando Crowdin
+
+O sistema i18n do Docusaurus é **desacoplado de qualquer software de tradução**.
+
+Você pode integrar o Docusaurus com as **ferramentas e SaaS de sua escolha**, contanto que coloque os **arquivos de tradução no local correto**.
+
+Nós documentamos o uso de [Crowdin](https://crowdin.com/), como **um** possível **exemplo de integração**.
+
+:::warning
+
+This is **not an endorsement of Crowdin** as the unique choice to translate a Docusaurus site, but it is successfully used by Facebook to translate documentation projects such as [Jest](https://jestjs.io/), [Docusaurus](https://docusaurus.io/), and [ReasonML](https://reasonml.github.io/).
+
+Consulte a **[documentação do Crowdin](https://support.crowdin.com/)** e **[suporte do Crowdin](mailto:support@crowdin.com)** para obter ajuda.
+
+:::
+
+:::tip
+
+Use this **[community-driven GitHub discussion](https://github.com/facebook/docusaurus/discussions/4052)** to discuss anything related to Docusaurus + Crowdin.
+
+:::
+
+## Visão geral do Crowdin {#crowdin-overview}
+
+Crowdin é uma tradução SaaS, oferecendo um plano [gratuito para projetos de código aberto](https://crowdin.com/page/open-source-project-setup-request).
+
+Recomendamos o seguinte fluxo de trabalho de tradução:
+
+- **Carregar arquivos fontes** para Crowdin (arquivos não traduzidos)
+- Use o Crowdin para **traduzir o conteúdo**
+- **Baixar traduções** do Crowdin (arquivos de tradução localizados)
+
+Crowdin fornece uma [CLI](https://support.crowdin.com/cli-tool/) para **carregar fontes** e **baixar traduções**, permitindo que você automatize o processo de tradução.
+
+The [`crowdin.yml` configuration file](https://support.crowdin.com/configuration-file/) is convenient for Docusaurus, and permits to **download the localized translation files at the expected location** (in `i18n/[locale]/..`).
+
+Leia a **[documentação oficial](https://support.crowdin.com/)** para saber mais sobre recursos avançados e diferentes fluxos de trabalho de tradução.
+
+## Tutorial do Crowdin {#crowdin-tutorial}
+
+This is a walk-through of using Crowdin to translate a newly initialized English Docusaurus website into French, and assume you already followed the [i18n tutorial](./i18n-tutorial.mdx).
+
+O resultado final pode ser visto no [docusaurus-crowdin-example.netlify.app](https://docusaurus-crowdin-example.netlify.app/) ([repositório](https://github.com/slorber/docusaurus-crowdin-example)).
+
+### Preparar o site do Docusaurus {#prepare-the-docusaurus-site}
+
+Inicializar um novo site do Docusaurus:
+
+```bash
+npx create-docusaurus@latest website classic
+```
+
+Adicione a configuração do site para o idioma francês:
+
+```js title="docusaurus.config.js"
+export default {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
+  themeConfig: {
+    navbar: {
+      items: [
+        // ...
+        {
+          type: 'localeDropdown',
+          position: 'left',
+        },
+        // ...
+      ],
+    },
+  },
+  // ...
+};
+```
+
+Traduzir a página inicial:
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+import Translate from '@docusaurus/Translate';
+import Layout from '@theme/Layout';
+
+export default function Home() {
+  return (
+    <Layout>
+      <h1 style={{margin: 20}}>
+        <Translate description="The homepage main heading">
+          Welcome to my Docusaurus translated site!
+        </Translate>
+      </h1>
+    </Layout>
+  );
+}
+```
+
+### Crie um projeto Crowdin {#create-a-crowdin-project}
+
+Faça uma conta em [ Crowdin ](https://crowdin.com/) e crie um projeto.
+
+Use English as the source language, and French as the target language.
+
+![Crie um projeto Crowdin com o inglês como idioma de origem e o francês como idioma de destino](/img/crowdin/crowdin-create-project.png)
+
+Seu projeto foi criado, mas está vazio por enquanto. Enviaremos o upload dos arquivos para traduzir nos próximos passos.
+
+### Crie a configuração Crowdin {#create-the-crowdin-configuration}
+
+Esta configuração ([doc](https://support.crowdin.com/configuration-file/)) fornece um mapeamento para a CLI Crowdin entender:
+
+- Onde encontrar os arquivos de origem a serem carregados (JSON e Markdown)
+- Where to download the files after translation (in `i18n/[locale]`)
+
+Criar `crowdin.yml` no `site`:
+
+```yml title="crowdin.yml"
+project_id: '123456'
+api_token_env: CROWDIN_PERSONAL_TOKEN
+preserve_hierarchy: true
+files:
+  # JSON translation files
+  - source: /i18n/en/**/*
+    translation: /i18n/%two_letters_code%/**/%original_file_name%
+  # Docs Markdown files
+  - source: /docs/**/*
+    translation: /i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
+  # Blog Markdown files
+  - source: /blog/**/*
+    translation: /i18n/%two_letters_code%/docusaurus-plugin-content-blog/**/%original_file_name%
+```
+
+Crowdin tem sua própria sintaxe para declarar caminhos de origem/tradução:
+
+- `**/*`: tudo em uma subpasta
+- `%two_letters_code%`: a variante de 2 letras dos idiomas de destino do Crowdin (`fr` no nosso caso)
+- `**/%original_file_name%`: as traduções irão preservar a pasta/hierarquia de arquivos original
+
+:::info
+
+Os avisos Crowdin CLI nem sempre são fáceis de entender.
+
+Aconselhamos a:
+
+- alterar uma coisa de cada vez
+- re-enviar fontes após qualquer alteração de configuração
+- usar caminhos que começam com `/` (`./` não funciona)
+- evitar padrões de globalização extravagantes como `/docs/**/*.(md|mdx)` (não funciona)
+
+:::
+
+#### Token de acesso {#access-token}
+
+O atributo `api_token_env` define o **nome da variável env** lido pelo Crowdin CLI.
+
+Você pode obter um `Token de Acesso Pessoal` em [página de seu perfil pessoal](https://crowdin.com/settings#api-key).
+
+:::tip
+
+Você pode manter o valor padrão `CROWDIN_PERSONAL_TOKEN`, e definir esta variável de ambiente e no seu computador e no servidor CI para o token de acesso gerado.
+
+:::
+
+:::warning
+
+Um Token de acesso pessoal concede **acesso de leitura e escrita a todos os seus projetos no Crowdin**.
+
+Você **não deve fazer commitar** isso, e pode ser uma boa ideia criar um dedicado **perfil Crowdin para a sua empresa** em vez de usar uma conta pessoal.
+
+:::
+
+#### Outros campos de conifuração {#other-configuration-fields}
+
+- `project_id`: pode ser codificado e é encontrado em `https://crowdin.com/project/<MY_PROJECT_NAME>/settings#api`
+- `preserve_hierarchy`: preservar a hierarquia da pasta de sua documentação na interface do Crowdin em vez de nivelar tudo
+
+### Instalar o Crowdin CLI {#install-the-crowdin-cli}
+
+This tutorial uses the CLI version `3.5.2`, but we expect `3.x` releases to keep working.
+
+Install the Crowdin CLI as an npm package to your Docusaurus site:
+
+```bash npm2yarn
+npm install @crowdin/cli@3
+```
+
+Adicione um `script do Crowdin`:
+
+```json title="package.json"
+{
+  "scripts": {
+    // ...
+    "write-translations": "docusaurus write-translations",
+    "crowdin": "crowdin"
+  }
+}
+```
+
+Teste se você pode executar o Crowdin CLI:
+
+```bash npm2yarn
+npm run crowdin -- --version
+```
+
+Defina a variável env `CROWDIN_PERSONAL_TOKEN` no seu computador, para permitir que o CLI se autentique com a API Crowdin.
+
+:::tip
+
+Temporariamente, você pode codificar o seu token pessoal em `crowdin.yml` com `api_token: 'MEU-TOKEN'`.
+
+:::
+
+### Faça upload dos arquivos fontes {#upload-the-sources}
+
+Gere os arquivos de tradução JSON para a língua padrão no `website/i18n/en`:
+
+```bash npm2yarn
+npm run write-translations
+```
+
+Carregar todos os arquivos de tradução JSON e Markdown:
+
+```bash npm2yarn
+npm run crowdin upload
+```
+
+![Crowdin CLI carregando arquivos fonte do Docusaurus](/img/crowdin/crowdin-upload-sources-cli.png)
+
+Seus arquivos de origem agora são visíveis na interface Crowdin: `https://crowdin.com/project/<MY_PROJECT_NAME>/settings#files`
+
+![Crowdin UI mostrando arquivos de origem do Docusaurus](/img/crowdin/crowdin-source-files.png)
+
+### Traduza os arquivos fontes {#translate-the-sources}
+
+Em `https://crowdin.com/project/<MY_PROJECT_NAME>`, clique na língua-alvo francesa.
+
+![Crowdin UI mostrando arquivos de tradução em francês](/img/crowdin/crowdin-french-translations.png)
+
+Traduza alguns arquivos do Markdown.
+
+![Crowdin UI para traduzir um arquivo Markdown](/img/crowdin/crowdin-translate-markdown.png)
+
+:::tip
+
+Use `Hide String` para garantir que os tradutores **não traduzam coisas que não devem**:
+
+- Front matter: `id`, `slug`, `tags` ...
+- Avisos: `:::`, `:::note`, `:::tip` ...
+
+![Crowdin UI ocultar string](/img/crowdin/crowdin-hide-string.png)
+
+:::
+
+Traduza alguns arquivos JSON.
+
+![Crowdin UI para traduzir um arquivo JSON](/img/crowdin/crowdin-translate-json.png)
+
+:::info
+
+O atributo `description` dos arquivos de tradução JSON é visível no Crowdin para ajudar a traduzir as strings.
+
+:::
+
+:::tip
+
+**[Pré-traduza](https://support.crowdin.com/pre-translation-via-machine/) ** seu site e **corrija os erros de pré-tradução manualmente** (primeiro habilite a Memória de Tradução Global nas configurações).
+
+Use primeiro o recurso `Hide String` pois o Crowdin está pré-traduzindo as coisas muito otimisticamente.
+
+:::
+
+### Baixe as traduções {#download-the-translations}
+
+Use o Crowdin CLI para baixar os arquivos traduzidos JSON e Markdown.
+
+```bash npm2yarn
+npm run crowdin download
+```
+
+O conteúdo traduzido deve ser baixado em `i18n/fr`.
+
+Inicie seu site na localidade francesa:
+
+```bash npm2yarn
+npm run start -- --locale fr
+```
+
+Make sure that your website is now translated in French at [`http://localhost:3000/fr/`](http://localhost:3000/fr/).
+
+### Automatizar com CI {#automate-with-ci}
+
+We will configure the CI to **download the Crowdin translations at build time** and keep them outside of Git.
+
+Adicione `website/i18n` ao `.gitignore`.
+
+Defina a variável de ambiente `CROWDIN_PERSONAL_TOKEN` no seu CI.
+
+Create an npm script to `sync` Crowdin (extract sources, upload sources, download translations):
+
+```json title="package.json"
+{
+  "scripts": {
+    "crowdin:sync": "docusaurus write-translations && crowdin upload && crowdin download"
+  }
+}
+```
+
+Chame o comando `npm run crowdin:sync` no seu CI, logo antes de construir o site do Docusaurus.
+
+:::tip
+
+Mantenha suas visualizações de implantação rápidas: não baixe traduções e use ` npm run build - --locale en ` para ramificações de recursos.
+
+:::
+
+:::warning
+
+Crowdin não suporta bem múltiplos uploads/downloads simultâneos: é preferível incluir apenas traduções para sua implantação de produção e manter as visualizações de implantação não traduzidas.
+
+:::
+
+## Tópicos avançados do Crowdin {#advanced-crowdin-topics}
+
+### MDX {#mdx}
+
+:::warning
+
+Preste atenção especial aos fragmentos JSX em documentos MDX!
+
+:::
+
+Crowdin **não oferece suporte oficialmente para MDX**, mas adicionou ** suporte para a extensão `.mdx `**, e interpretar esses arquivos como Markdown (em vez de texto simples).
+
+#### Problemas MDX {#mdx-problems}
+
+Crowdin thinks that the JSX syntax is embedded HTML and can mess up with the JSX markup when you download the translations, leading to a site that fails to build due to invalid JSX.
+
+Simple JSX fragments using simple string props like `<Username name="Sebastien"/>` will work fine; more complex JSX fragments using object/array props like `<User person={{name: "Sebastien"}}/>` are more likely to fail due to a syntax that does not look like HTML.
+
+#### Soluções MDX {#mdx-solutions}
+
+We recommend extracting the complex embedded JSX code as separate standalone components. We also added an `mdx-code-block` escape hatch syntax:
+
+`````text
+# How to deploy Docusaurus
+
+To deploy Docusaurus, run the following command:
+
+````mdx-code-block 
+
+import Tabs from '@theme/Tabs';
+
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="bash" label="Bash">
+
+  ```bash
+  GIT_USER=<GITHUB_USERNAME> yarn deploy
+  ```
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+  ```batch
+  cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
+  ```
+
+  </TabItem>
+</Tabs>
+````
+`````
+
+Isso vai:
+
+- ser interpretado pelo Crowdin como um código de blocos (e não enviar mensagens com a marcação no download)
+- ser interpretado pelo Docusaurus como JSX normal (como se ele não fosse envolvido por nenhum bloco de código)
+- infelizmente opt-out na ferramenta MDX (destaque de sintaxe IDE, Prettier...)
+
+### Controle de versão dos documentos {#docs-versioning}
+
+Configurar arquivos de tradução para a pasta `website/versioned_docs`.
+
+Ao criar uma nova versão, as strings de origem geralmente serão bastante semelhantes à versão atual (`website/docs`) e você não quer traduzir a nova documentação de versão de novo e de novo.
+
+Crowdin fornece uma configuração `Strings duplicadas`.
+
+![Configuração da opção Crowdin para Strings Duplicadas](/img/crowdin/crowdin-settings-duplicate-strings.png)
+
+Recomendamos usar `Hide`, mas a configuração ideal depende da quantidade de versões diferentes.
+
+:::warning
+
+Não usar `Hide` leva a um valor muito maior de `strings de origem` em quotas, e afetará os preços.
+
+:::
+
+### Plugins de multi-instância {#multi-instance-plugins}
+
+Você precisa configurar os arquivos de tradução para cada instância do plugin.
+
+Se você tem uma instância do plugin de documentação com `id=ios`, você precisará configurar esses arquivos de origem também
+
+- `website/ios`
+- `website/ios_versioned_docs` (se versionado)
+
+### Mantendo o seu site {#maintaining-your-site}
+
+Às vezes, você **removerá ou renomeará um arquivo de origem** no Git, e o Crowdin exibirá avisos de CLI:
+
+![Crowdin CLI: download de aviso de tradução](/img/crowdin/crowdin-download-translations-warning.png)
+
+Quando as suas fontes são refatoradas, você deve usar a interface de usuário do Crowdin para **atualizar seus arquivos Crowdin manualmente**:
+
+![Crowdin UI: renomeando um arquivo](/img/crowdin/crowdin-files-rename.png)
+
+### Integrações VCS (Git) {#vcs-git-integrations}
+
+Crowdin tem várias integrações de VCS para [GitHub](https://support.crowdin.com/github-integration/), GitLab, Bitbucket.
+
+:::warning TL;DR
+
+Recomendamos evitá-los.
+
+:::
+
+Poderia ter sido útil ser capaz de editar as traduções em Git e Crowdin, e ter uma **sincronização bidirecional** entre os 2 sistemas.
+
+Na prática, **não funcionou de maneira muito confiável** por alguns motivos:
+
+- O Crowdin -> Git sync funciona bem (com uma pull request)
+- O Git -> sincronização Crowdin é manual (você tem que pressionar um botão)
+- As heurísticas usadas pelo Crowdin para corresponder as traduções Markdown existentes com as fontes Markdown existentes não são 100% confiáveis, e você tem que verificar o resultado na Crowdin UI após qualquer sincronização do Git
+- Ao mesmo tempo, edição de 2 usuários no Git e Crowdin pode levar a uma perda de tradução
+- Requer que o arquivo `crowdin.yml` esteja na raiz do repositório
+
+### Localização contextual {#in-context-localization}
+
+Crowdin tem um recurso de [localização contextual](https://support.crowdin.com/in-context-localization/).
+
+:::warning
+
+Infelizmente, ainda não funciona por razões técnicas, mas temos boas esperanças de que possa ser resolvido.
+
+Crowdin replaces Markdown strings with technical IDs such as `crowdin:id12345`, but it does so too aggressively, including hidden strings, and messes up with front matter, admonitions, JSX...
+
+:::
+
+### Localize edit URLs {#localize-edit-urls}
+
+Quando o usuário está navegando em uma página em `/fr/doc1`, o botão de edição será vinculado por padrão ao documento não localizado em `website/docs/doc1.md`.
+
+You may prefer the edit button to link to the Crowdin interface instead by using the `editUrl` function to customize the edit URLs on a per-locale basis.
+
+```js title="docusaurus.config.js"
+const DefaultLocale = 'en';
+
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-start
+          editUrl: ({locale, versionDocsDirPath, docPath}) => {
+            // Link to Crowdin for French docs
+            if (locale !== DefaultLocale) {
+              return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+            }
+            // Link to GitHub for English docs
+            return `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`;
+          },
+          // highlight-end
+        },
+        blog: {
+          // highlight-start
+          editUrl: ({locale, blogDirPath, blogPath}) => {
+            if (locale !== DefaultLocale) {
+              return `https://crowdin.com/project/docusaurus-v2/${locale}`;
+            }
+            return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
+          },
+          // highlight-start
+        },
+      },
+    ],
+  ],
+};
+```
+
+:::note
+
+Atualmente **não é possível vincular a um arquivo específico** no Crowdin.
+
+:::
+
+### Configuração de exemplo {#example-configuration}
+
+The **Docusaurus configuration file** is a good example of using versioning and multi-instance:
+
+```mdx-code-block
+import CrowdinConfigV2 from '!!raw-loader!@site/../crowdin-v2.yaml';
+import CodeBlock from '@theme/CodeBlock';
+
+<CodeBlock className="language-yaml" title="crowdin.yml">
+  {CrowdinConfigV2.split('\n')
+    // remove comments
+    .map((line) => !line.startsWith('#') && line)
+    .filter(Boolean)
+    .join('\n')}
+</CodeBlock>
+```
+
+### Machine Translation (MT) issue: links/image handling
+
+Crowdin recently rolled out some major changes to the markdown file format and now the links are treated differently than they were before. Before they were considered as tags, but now they appear as plain text. Because of these changes the plain text links are passed to the MT engine which attempts to translate the target, thus breaking the translation (for instance: this string `Allez voir [ma merveilleuse page](/ma-merveilleuse-page)` is translated `Check out [my wonderful page](/my-wonderful-page)`, and this breaks docusaurus i18n workflow as the page name should not be translated).
+
+As of 2023 Dec.7, they are not planning to change the logic of how links are treated, so you should have this in mind if you plan to use Crowdin with MT.

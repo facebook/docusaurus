@@ -1,0 +1,159 @@
+---
+title: 도큐사우루스를 소개합니다
+authors: JMarcey
+tags:
+  - documentation
+  - blog
+  - docusaurus
+---
+
+![](/img/slash-introducing.svg)
+
+We are very happy to introduce [Docusaurus](https://github.com/facebook/docusaurus) to help you manage one or many open source websites.
+
+We created [Docusaurus](https://docusaurus.io) for the following reasons:
+
+1. 웹 사이트 만들기에 대한 걱정을 덜어내고 좋은 문서를 작성하는데 집중할 수 있게 합니다.
+2. 블로그, 검색, 버전 관리 등 오픈 소스 웹 사이트에 필요한 여러 기능을 지원합니다.
+3. 업데이트, 새로운 기능, 버그 수정 등의 프로젝트 관련 소식을 모두에게 한 번에 쉽게 전달할 수 있게 합니다.
+4. 마지막으로 연관된 오픈 소스 프로젝트 모두에서 일관성 있는 룩앤필을 줄 수 있습니다.
+
+<!--truncate-->
+
+도큐사우루스는 웹 사이트 구조와 디자인에 대해 신경쓰지 않고 문서 웹 사이트를 쉽게 게시할 수 있게 설계된 도구입니다. 사용자는 마크다운으로 작성한 문서 파일과 리액트로 작성한 사용자 지정 홈페이지, 약간의 설정 파일 수정만 제공해주면 됩니다. 도큐사우루스는 기본 스타일, 사이트 서식, 간단한 문서 탐색 기능을 제공해 나머지를 책임집니다. Getting started is easy, as users can [install](https://v1.docusaurus.io/docs/en/installation.html) it using `npm` or `yarn` via a simple initialization script that [creates a working example website out of the box](https://v1.docusaurus.io/docs/en/site-preparation.html).
+
+Docusaurus also provides core website and documentation features out-of-the-box including [blog support](https://v1.docusaurus.io/docs/en/blog.html), [internationalization](https://v1.docusaurus.io/docs/en/translation.html), [search](https://v1.docusaurus.io/docs/en/search.html), and [versioning](https://v1.docusaurus.io/docs/en/versioning.html). 일부 프로젝트에서는 이런 기능을 필요로 하지 않다면 간단하게 설정 옵션을 수정해서 활성화 여부를 선택할 수 있습니다. 따로 기능 추가를 위한 작업은 필요 없습니다. 도큐사우루스에 새로운 기능이 추가되면 사용자는 간단하게 최신 버전으로 업데이트할 수 있습니다. npm 또는 yarn에서 업데이트 스크립트를 실행하고 설정 옵션만 업데이트해주면 됩니다. 새로운 기능을 추가할 때마다 웹 사이트 전체 구조를 뒤집어야 하는 일은 더는 필요하지 않습니다.
+
+## 도큐사우루스의 탄생
+
+![](/img/slash-birth.png)
+
+페이스북에서 처음 오픈 소스 프로그램을 시작했을 때 많은 팀에서 운영하고 있는 오픈 소스 프로젝트를 위한 자체적인 웹 사이트를 만들었습니다. 이렇게 시작한 웹 사이트는 문서 기능 개선을 요청 받았을 때 곤란한 상황을 마주했습니다. 각자 알아서 만든 사이트였기 때문에 블로그, 일관된 탐색, 검색 등의 기능을 추가하는 것이 쉽지 않은 일이었습니다.
+
+오픈 소스팀에서는 웹 사이트 작성 시 사용할 수 있는 지킬(Jekyll) 기반 기본 템플릿을 제공해 이런 문제를 해소하고자 했습니다. 새로운 프로젝트에서 템플릿 소스를 수동으로 저장소로 복사하고 문서를 작성하고 게시하게 권장했습니다. 템플릿을 사용한 접근 방식은 새로 공개하는 오픈 소스 프로젝트 대부분에 적용했습니다. 일부 기존 프로젝트에서 사용했던 사용자 지정 웹 사이트도 새로운 템플릿으로 전환하도록 했습니다.
+
+"템플릿을 저장소에 복사하는" 접근 방식의 문제점은 일관성 있는 플랫폼을 제공했지만 템플릿을 사용하고 있는 전체 프로젝트에서 템플릿 업데이트를 반영하기 쉽지 않다는 겁니다. 템플릿이 일단 저장소에 복사되면 더 이상 중앙에서 제어할 수 없기 때문이죠. 프로젝트에서 템플릿을 필요에 따라 수정할 수도 있고 자체적인 기능을 추가하기도 했습니다. 때문에 각 프로젝트가 사이트 생성 플랫폼을 공유했지만 시간이 지나면서 템플릿에 새로운 기능을 추가해도 이를 활용할 수 없게 파편화되었습니다. 새로운 버전의 템플릿을 현재 프로젝트에 "복사"하면 기존 사이트가 훼손되거나 자체적으로 추가한 기능을 사용할 수 없게 되어 그렇게 할 수도 없었습니다. 대신 각 프로젝트에서 하나하나 수작업으로 변경된 것을 반영해야 했습니다. 하지만 이런 것도 템플릿에 국제화 지원을 요청 받았을 때는 더 이상 건드릴 수 없는 상태가 되었고 템플릿의 구조와 생성 방식을 많이 뜯어 고쳐야 하는 상황이 됐습니다.
+
+그래서 우리는 관리하는 사이트를 업데이트하고 일관성 있게 유지하는 문제에 대해 고민하기 시작했습니다. 또한 여러 프로젝트가 같은 사이트 생성 도구를 공유하기를 원했습니다. 같은 템플릿으로 시작하더라도 필요에 따라 사이트 테마를 수정하고 적용할 수 있는 유연성을 제공하고자 했습니다. 사이트를 확장하거나 수정할 수 있어야 하지만 버그 수정이나 기능 추가를 위한 플랫폼을 업데이트 시에는 사이트에 영향을 미치지 않고 간단하게 업데이트할 수 있어야 합니다.
+
+그래서 도큐사우루스가 탄생했습니다!
+
+페이스북에서 도큐사우루스는 다양한 프로젝트에서 문서화 웹 사이트를 빠르게 구축하고 실행할 수 있게 합니다. 특히 웹 개발 경험이 부족하거나 그들의 프로젝트를 간단한 사이트 형태로 보여주고자 할 때 활용할 수 있습니다. 도큐사우루스는 Jest의 국제화나 리액티 네이티브의 버전 관리 같은 고급 기능을 기본 제공합니다. 특정 사이트에서 새로운 기능을 요청하면 도큐사우루스에 추가되고 동시에 모든 프로젝트에 제공됩니다! 이를 통해 프로젝트마다 사이트가 달라지면서 발생하는 유지 보수 비용을 크게 줄일 수 있습니다. 우리 팀은 기능을 추가하고 버그를 해결하고 문서를 작성하는데 초점을 맞추고 프로젝트가 원활하게 돌아가도록 할 수 있습니다.
+
+## 지금 시작해서 실행해보기
+
+![](/img/slash-up-and-running.png)
+
+도큐사우루스는 간단하게 사용할 수 있도록 만드는 것이 가장 중요하게 신경 쓴 부분이었습니다. With one [installation](https://v1.docusaurus.io/docs/en/installation.html) command and some simple [configuration](https://v1.docusaurus.io/docs/en/site-preparation.html), you can actually have a default running website.
+
+When you run `docusaurus-init`, you will see a structure similar to:
+
+```bash
+root-of-repo
+├── docs-examples-from-docusaurus
+│   ├── doc1.md
+│   ├── doc2.md
+│   ├── doc3.md
+│   ├── example-doc4.md
+│   └── example-doc5.md
+├── website
+│   ├── blog-examples-from-docusaurus
+│   │   ├── 2016-03-11-blog-post.md
+│   │   └── 2017-04-10-blog-post-two.md
+│   ├── core
+│   │   └── Footer.js
+│   ├── node_modules
+│   ├── package.json
+│   ├── pages
+│   ├── sidebars.json
+│   ├── siteConfig.js
+│   └── static
+```
+
+node_modules와 package.json를 제외한 모든 디렉터리와 파일은 도큐사우루스로 만든 사이트에 여러분이 내용을 수정하거나 새로운 파일을 추가할 수 있습니다. The docs folder is where you add your Markdown that represents your documentation; the blog folder is where you add your Markdown for your [blog posts](https://v1.docusaurus.io/docs/en/blog.html); `siteConfig.js` is where you make most of the [customizations](https://v1.docusaurus.io/docs/en/site-config.html) for your site; `sidebars.json` is where you maintain the layout and content of the [sidebar](https://v1.docusaurus.io/docs/en/navigation.html) for your documentation; the `pages` folder is where you add [custom](https://v1.docusaurus.io/docs/en/custom-pages.html) pages for your site; the `static` folder is where all of your static assets go (e.g., CSS stylesheets and images); and the `core` folder is where you can customize core components of the site, in this case the footer.
+
+## 도큐사우루스는 어떻게 동작하나요?
+
+Docusaurus is written primarily in JavaScript and [React](https://facebook.github.io/react), replacing Jekyll which we used in the old template. We use [Remarkable](https://github.com/jonschlinkert/remarkable) for our Markdown rendering and [highlight.js](https://highlightjs.org/) for our code block syntax highlighting. The core of Docusaurus' functionality is in the [lib directory](https://github.com/facebookexperimental/Docusaurus/tree/master/lib) of the [Docusaurus repo](https://github.com/facebook/docusaurus/). 기본 구조는 아래와 같습니다.
+
+```bash
+root-of-Docusaurus
+├── lib
+│   ├── core
+│   ├── server
+│   │   ├── generate.js
+│   │   ├── server.js
+│   │   └── ...and more files
+│   ├── static
+│   ├── build-files.js
+│   ├── copy-examples.js
+│   ├── generate-feed.js
+│   ├── publish-gh-pages.js
+│   ├── rename-version.js
+│   ├── start-server.js
+│   ├── versions.js
+│   └── write-translations.js
+```
+
+가장 중요한 파일은 build-files.js와 start-server.js입니다. There are many similarities between these two files: `build-files.js` is used to build the physical artifacts for serving by an external web server. `start-server.js` is used to run the Docusaurus server and locally test your site. 둘 다 다음과 같은 순서에 따라 마크다운 파일과 설정을 확인하고 실행할 수 있는 웹 사이트를 만듭니다.
+
+1. Process your website settings in `siteConfig.js`
+2. docs 디렉터리에 있는 모든 마크다운 파일의 문서 메타데이터를 읽습니다.
+3. 메타데이터에서 추출한 ID를 기반으로 문서 목차를 만듭니다.
+4. 마크다운을 HTML로 변환합니다. 링크도 같이 변환됩니다.
+5. 만들어진 파일은 컴파일된 사이트의 build/docs 디렉터리에 위치합니다. 번역된 파일은 build/docs 디렉터리 아래에 언어별 디렉터리에 위치하게 됩니다.
+6. 블로그 포스트를 처리하기 위해 1번부터 3번까지 과정을 다시 진행합니다.
+7. 블로그 파일은 컴파일된 사이트의 build/blog 디렉터리에 위치합니다.
+8. main.css 파일을 읽어서 사용자 지정 CSS 파일을 마스터 CSS 파일에 병합하고 만든 파일은 컴파일된 사이트의 build/css 디렉터리에 위치합니다.
+9. 컴파일된 사이트 build/img 디렉터리로 이미지를 복사합니다.
+10. pages 디렉터리에 추가한 사용자 지정 페이지는 컴파일된 사이트의 루트인 build 디렉터리 아래에 컴파일되어 복사합니다. 번역된 버전 파일은 build 디렉터리 아래에 언어별 디렉터리에 위치하게 됩니다.
+11. CNAME과 sitemap.xml 파일을 만들고 추가해 빌드합니다.
+
+위에 설명한 절차는 번역이나 버전 관리 처리에 대한 모든 과정을 포함하고 있지는 않습니다. 상세한 기능 설명은 조만간 블로그에서 공유하도록 하겠습니다.
+
+컴파일된 사이트의 최종 구조는 아래와 같은 형태입니다.
+
+```bash
+build
+├── website
+│   ├── CNAME
+│   ├── blog
+│   ├── css
+│   ├── docs
+│   ├── en
+│   ├── help.html # custom page
+│   ├── img
+│   ├── index.html # landing page
+│   ├── sitemap.xml
+│   └── users.html # custom page
+```
+
+## 커뮤니티
+
+![](/img/docusaurus.svg)
+
+We welcome your [contributions](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md) to Docusaurus, whether you want to use it for your own site, you want to [contribute](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md) to the Docusaurus core or just have questions. Follow us on [GitHub](https://github.com/facebook/docusaurus) and [X)](https://x.com/docusaurus).
+
+## 감사의 글
+
+Docusaurus wouldn't exist without the work of the rest of the core Docusaurus team: [Eric Nakagawa](http://x.com/ericnakagawa), [Hector Ramos](https://x.com/hectorramos), [Eric Vicenti](https://x.com/EricVicenti) and [Frank Li](https://github.com/deltice) — a former intern at Facebook who implemented the core technology and features.
+
+Special thanks also goes out to our earliest [adopters](https://v1.docusaurus.io/en/users.html) of Docusaurus:
+
+- [BuckleScript](https://bucklescript.github.io/)
+- [FastText](https://fasttext.cc)
+- [Jest](https://jestjs.io)
+- [Make It Open](http://makeitopen.com)
+- [Prettier](https://prettier.io/)
+- [Reason-react](https://reasonml.github.io/reason-react/)
+- [React Native](https://facebook.github.io/react-native/)
+- [Relay](https://facebook.github.io/relay/)
+
+여러분들이 웹 사이트를 만들거나 이전 사이트를 이전해주지 않았다면 우리는 여기까지 오지 못했을겁니다.
+
+## 리소스
+
+- [Read our documentation](https://v1.docusaurus.io)
+- [Follow our X feed](https://x.com/docusaurus)
+- [Follow us on GitHub](https://github.com/facebook/docusaurus)
+- [About Slash, the Docusaurus mascot](https://v1.docusaurus.io/about-slash.html)

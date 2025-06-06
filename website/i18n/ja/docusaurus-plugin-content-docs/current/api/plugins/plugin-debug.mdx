@@ -1,0 +1,108 @@
+---
+sidebar_position: 5
+slug: /api/plugins/@docusaurus/plugin-debug
+---
+
+# 📦 plugin-debug
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+デバッグプラグインは [`http://localhost:3000/__docusaurus/debug`](http://localhost:3000/__docusaurus/debug) で有益なデバッグ情報を表示します。
+
+この機能は主にプラグインの作者にとって便利で、`.docusaurus`フォルダの内容（作成されたルートなど）をより簡単に検査できるようになりますが、`contentLoaded`ライフサイクルを通じて読み込まれるプラグインデータのように、ディスクに書き込まれないデータ構造を検査することもできます。
+
+:::info
+
+クラシックプリセット経由でプラグインを使用する場合、潜在的な機密情報を暴露しないようするため、プリセットはデフォルト（`debug: undefined`）でプラグインを**開発時に有効、本番時に無効**にします。 `debug: true` を使用して常に有効にしたり、 `debug: false` を使用して常に無効にしたりできます。
+
+スタンドアロンプラグインを使用する場合は、環境を確認することで同じ効果を得る必要があります。
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    // highlight-next-line
+    process.env.NODE_ENV !== 'production' && '@docusaurus/plugin-debug',
+  ].filter(Boolean),
+};
+```
+
+:::
+
+:::note
+
+バグを報告する場合、デプロイ設定をより簡単に検査できるように、おそらく本番環境でこのプラグインを有効にするようお願いすることになるでしょう。
+
+機密情報がない場合は、 [私達（訳注：Docusaurus公式）同様](/__docusaurus/debug)本番環境で有効化したままでも構いません。
+
+:::
+
+## インストール {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-debug
+```
+
+:::tip
+
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## 設定 {#configuration}
+
+このプラグインには現在オプションがありません。
+
+### Example configuration {#ex-config}
+
+You can configure this plugin through preset options or plugin options.
+
+:::tip
+
+Most Docusaurus users configure this plugin through the preset options.
+
+:::
+
+```mdx-code-block
+<Tabs groupId="api-config-ex">
+<TabItem value="preset" label="プリセットオプション">
+```
+
+プリセットを使用する場合は、[プリセットオプション](../../using-plugins.mdx#docusauruspreset-classic)を介してこのプラグインを設定してください。
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // highlight-next-line
+        debug: true, // プラグインを本番で有効化
+      },
+    ],
+  ],
+};
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="plugin" label="プラグインオプション">
+```
+
+スタンドアロンプラグインを使用している場合は、プラグインに直接オプションを指定します。
+
+```js title="docusaurus.config.js"
+export default {
+  // highlight-next-line
+  plugins: ['@docusaurus/plugin-debug'],
+};
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
