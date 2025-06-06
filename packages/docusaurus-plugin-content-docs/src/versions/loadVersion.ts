@@ -7,7 +7,7 @@
 
 import path from 'path';
 import _ from 'lodash';
-import {createSlugger} from '@docusaurus/utils';
+import {aliasedSitePathToRelativePath, createSlugger} from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import logger from '@docusaurus/logger';
 import {
@@ -35,6 +35,38 @@ type LoadVersionParams = {
   versionMetadata: VersionMetadata;
   env: DocEnv;
 };
+
+function ensureNoDuplicateDocId(docs: DocMetadataBase[]): void {
+  const duplicatesById = _.chain(docs)
+    .groupBy((d) => d.id)
+    .pickBy((group) => group.length > 1)
+    .value();
+
+  const duplicateIdEntries = Object.entries(duplicatesById);
+
+  if (duplicateIdEntries.length) {
+    const idMessages = duplicateIdEntries
+      .map(([id, duplicateDocs]) => {
+        return logger.interpolate`- code=${id} found in number=${
+          duplicateDocs.length
+        } docs:
+  - ${duplicateDocs
+    .map((d) => aliasedSitePathToRelativePath(d.source))
+    .join('\n  - ')}`;
+      })
+      .join('\n\n');
+
+    const message = `The docs plugin found docs sharing the same id:
+\n${idMessages}\n
+Docs should have distinct ids.
+In case of conflict, you can rename the docs file, or use the ${logger.code(
+      'id',
+    )} front matter to assign an explicit distinct id to each doc.
+    `;
+
+    throw new Error(message);
+  }
+}
 
 async function loadVersionDocsBase({
   tagsFile,
@@ -66,8 +98,8 @@ async function loadVersionDocsBase({
       tagsFile,
     });
   }
-  const docs = Promise.all(docFiles.map(processVersionDoc));
-
+  const docs = await Promise.all(docFiles.map(processVersionDoc));
+  ensureNoDuplicateDocId(docs);
   return docs;
 }
 

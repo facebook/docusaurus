@@ -91,11 +91,27 @@ describe('loadVersion', () => {
     }
 
     it('rejects version with doc id conflict', async () => {
-      await expect(() =>
-        loadTestVersion('with-id-conflicts'),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Version 'with-id-conflicts' should exist"`,
-      );
+      await expect(() => loadTestVersion('with-id-conflicts')).rejects
+        .toThrowErrorMatchingInlineSnapshot(`
+        "The docs plugin found docs sharing the same id:
+
+        - \`frontMatter/doc\` found in 3 docs:
+          - versioned_docs/version-with-id-conflicts/frontMatter/doc.md
+          - versioned_docs/version-with-id-conflicts/frontMatter/doc1.md
+          - versioned_docs/version-with-id-conflicts/frontMatter/doc2.md
+
+        - \`number-prefix/doc\` found in 2 docs:
+          - versioned_docs/version-with-id-conflicts/number-prefix/1-doc.md
+          - versioned_docs/version-with-id-conflicts/number-prefix/2-doc.md
+
+        - \`number-prefix/deeply/nested/doc\` found in 2 docs:
+          - versioned_docs/version-with-id-conflicts/number-prefix/deeply/nested/2-doc.md
+          - versioned_docs/version-with-id-conflicts/number-prefix/deeply/nested/3-doc.md
+
+        Docs should have distinct ids.
+        In case of naming convention conflicts, use the \`id\` front matter to assign a distinct id to each doc.
+            "
+      `);
     });
   });
 });
