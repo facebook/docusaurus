@@ -29,102 +29,118 @@ import type {
 import type {DocFile} from '../types';
 import type {LoadContext} from '@docusaurus/types';
 
-export async function loadVersion({
-  context,
-  options,
-  versionMetadata,
-  env,
-}: {
+type LoadVersionParams = {
   context: LoadContext;
   options: PluginOptions;
   versionMetadata: VersionMetadata;
   env: DocEnv;
-}): Promise<LoadedVersion> {
-  const {siteDir} = context;
+};
 
-  async function loadVersionDocsBase(
-    tagsFile: TagsFile | null,
-  ): Promise<DocMetadataBase[]> {
-    const docFiles = await readVersionDocs(versionMetadata, options);
-    if (docFiles.length === 0) {
-      throw new Error(
-        `Docs version "${
-          versionMetadata.versionName
-        }" has no docs! At least one doc should exist at "${path.relative(
-          siteDir,
-          versionMetadata.contentPath,
-        )}".`,
-      );
-    }
-    function processVersionDoc(docFile: DocFile) {
-      return processDocMetadata({
-        docFile,
-        versionMetadata,
-        context,
-        options,
-        env,
-        tagsFile,
-      });
-    }
-    return Promise.all(docFiles.map(processVersionDoc));
+async function loadVersionDocsBase({
+  tagsFile,
+  context,
+  options,
+  versionMetadata,
+  env,
+}: LoadVersionParams & {
+  tagsFile: TagsFile | null;
+}): Promise<DocMetadataBase[]> {
+  const docFiles = await readVersionDocs(versionMetadata, options);
+  if (docFiles.length === 0) {
+    throw new Error(
+      `Docs version "${
+        versionMetadata.versionName
+      }" has no docs! At least one doc should exist at "${path.relative(
+        context.siteDir,
+        versionMetadata.contentPath,
+      )}".`,
+    );
   }
-
-  async function doLoadVersion(): Promise<LoadedVersion> {
-    const tagsFile = await getTagsFile({
-      contentPaths: versionMetadata,
-      tags: options.tags,
+  function processVersionDoc(docFile: DocFile) {
+    return processDocMetadata({
+      docFile,
+      versionMetadata,
+      context,
+      options,
+      env,
+      tagsFile,
     });
+  }
+  const docs = Promise.all(docFiles.map(processVersionDoc));
 
-    const docsBase: DocMetadataBase[] = await loadVersionDocsBase(tagsFile);
+  return docs;
+}
 
-    // TODO we only ever need draftIds in further code, not full draft items
-    // To simplify and prevent mistakes, avoid exposing draft
-    // replace draft=>draftIds in content loaded
-    const [drafts, docs] = _.partition(docsBase, (doc) => doc.draft);
+async function doLoadVersion({
+  context,
+  options,
+  versionMetadata,
+  env,
+}: LoadVersionParams): Promise<LoadedVersion> {
+  const tagsFile = await getTagsFile({
+    contentPaths: versionMetadata,
+    tags: options.tags,
+  });
 
-    const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
-      sidebarItemsGenerator: options.sidebarItemsGenerator,
-      numberPrefixParser: options.numberPrefixParser,
+  const docsBase: DocMetadataBase[] = await loadVersionDocsBase({
+    tagsFile,
+    context,
+    options,
+    versionMetadata,
+    env,
+  });
+
+  // TODO we only ever need draftIds in further code, not full draft items
+  // To simplify and prevent mistakes, avoid exposing draft
+  // replace draft=>draftIds in content loaded
+  const [drafts, docs] = _.partition(docsBase, (doc) => doc.draft);
+
+  const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
+    sidebarItemsGenerator: options.sidebarItemsGenerator,
+    numberPrefixParser: options.numberPrefixParser,
+    docs,
+    drafts,
+    version: versionMetadata,
+    sidebarOptions: {
+      sidebarCollapsed: options.sidebarCollapsed,
+      sidebarCollapsible: options.sidebarCollapsible,
+    },
+    categoryLabelSlugger: createSlugger(),
+  });
+
+  const sidebarsUtils = createSidebarsUtils(sidebars);
+
+  const docsById = createDocsByIdIndex(docs);
+  const allDocIds = Object.keys(docsById);
+
+  sidebarsUtils.checkLegacyVersionedSidebarNames({
+    sidebarFilePath: versionMetadata.sidebarFilePath as string,
+    versionMetadata,
+  });
+  sidebarsUtils.checkSidebarsDocIds({
+    allDocIds,
+    sidebarFilePath: versionMetadata.sidebarFilePath as string,
+    versionMetadata,
+  });
+
+  return {
+    ...versionMetadata,
+    docs: addDocNavigation({
       docs,
-      drafts,
-      version: versionMetadata,
-      sidebarOptions: {
-        sidebarCollapsed: options.sidebarCollapsed,
-        sidebarCollapsible: options.sidebarCollapsible,
-      },
-      categoryLabelSlugger: createSlugger(),
-    });
+      sidebarsUtils,
+    }),
+    drafts,
+    sidebars,
+  };
+}
 
-    const sidebarsUtils = createSidebarsUtils(sidebars);
-
-    const docsById = createDocsByIdIndex(docs);
-    const allDocIds = Object.keys(docsById);
-
-    sidebarsUtils.checkLegacyVersionedSidebarNames({
-      sidebarFilePath: versionMetadata.sidebarFilePath as string,
-      versionMetadata,
-    });
-    sidebarsUtils.checkSidebarsDocIds({
-      allDocIds,
-      sidebarFilePath: versionMetadata.sidebarFilePath as string,
-      versionMetadata,
-    });
-
-    return {
-      ...versionMetadata,
-      docs: addDocNavigation({
-        docs,
-        sidebarsUtils,
-      }),
-      drafts,
-      sidebars,
-    };
-  }
-
+export async function loadVersion(
+  params: LoadVersionParams,
+): Promise<LoadedVersion> {
   try {
-    return await doLoadVersion();
+    return await doLoadVersion(params);
   } catch (err) {
-    logger.error`Loading of version failed for version name=${versionMetadata.versionName}`;
+    logger.error`Loading of version failed for version name=${params.versionMetadata.versionName}`;
     throw err;
   }
 }
