@@ -1,5 +1,44 @@
 # Docusaurus Changelog
 
+## 3.8.1 (2025-06-06)
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#11242](https://github.com/facebook/docusaurus/pull/11242) fix(theme): fix unability to navigate to category's page when browsing its children items ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-css-cascade-layers`
+  - [#11241](https://github.com/facebook/docusaurus/pull/11241) fix(css-cascade-layers): fix windows css cascade layers bug ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#11222](https://github.com/facebook/docusaurus/pull/11222) fix(bundler): fix `docusaurus start` using `concatenateModules: true` ([@slorber](https://github.com/slorber))
+  - [#11217](https://github.com/facebook/docusaurus/pull/11217) fix: include Arc to supported Chromium Browsers ([@wellwelwel](https://github.com/wellwelwel))
+  - [#11205](https://github.com/facebook/docusaurus/pull/11205) fix(core): fix `docusaurus start` error for macOS users with no Chromium-based browser ([@slorber](https://github.com/slorber))
+- `docusaurus-types`
+  - [#11221](https://github.com/facebook/docusaurus/pull/11221) fix(types): fix future flags public types ([@slorber](https://github.com/slorber))
+
+#### :running_woman: Performance
+
+- `docusaurus-plugin-content-blog`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  - [#11211](https://github.com/facebook/docusaurus/pull/11211) perf: avoid duplicated `git log` calls in `loadContent()` and `postBuild()` for untracked Git files ([@slorber](https://github.com/slorber))
+
+#### :wrench: Maintenance
+
+- `docusaurus-faster`
+  - [#11248](https://github.com/facebook/docusaurus/pull/11248) chore(faster): upgrade Rspack ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`
+  - [#11230](https://github.com/facebook/docusaurus/pull/11230) refactor(docs): extract `loadVersion()` without changing the behavior ([@slorber](https://github.com/slorber))
+- Other
+  - [#11212](https://github.com/facebook/docusaurus/pull/11212) chore: upgrade to Node 22 by default ([@slorber](https://github.com/slorber))
+
+#### Committers: 7
+
+- Ben McCann ([@benmccann](https://github.com/benmccann))
+- Dave Meyer ([@dave-meyer](https://github.com/dave-meyer))
+- Léo Vincent ([@leovct](https://github.com/leovct))
+- Noritaka Kobayashi ([@noritaka1166](https://github.com/noritaka1166))
+- Phil Parsons ([@p-m-p](https://github.com/p-m-p))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Weslley Araújo ([@wellwelwel](https://github.com/wellwelwel))
+
 ## 3.8.0 (2025-05-26)
 
 #### :rocket: New Feature
