@@ -25,6 +25,7 @@ const DefaultI18N: I18n = {
 async function siteFixture(fixture: string) {
   const siteDir = path.resolve(path.join(__dirname, './__fixtures__', fixture));
   const options: PluginOptions = fromPartial<PluginOptions>({
+    id: 'default',
     ...DEFAULT_OPTIONS,
   });
   const context = fromPartial<LoadContext>({
@@ -78,8 +79,9 @@ describe('loadVersion', () => {
         'site-broken-versions',
       );
       const version = versions.find((v) => v.versionName === versionName);
-      expect(version).toBeDefined();
-
+      if (!version) {
+        throw new Error(`Version '${versionName}' should exist`);
+      }
       return loadVersion({
         context,
         options,
@@ -90,9 +92,9 @@ describe('loadVersion', () => {
 
     it('rejects version with doc id conflict', async () => {
       await expect(() =>
-        loadTestVersion('version-with-id-conflicts'),
+        loadTestVersion('with-id-conflicts'),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"The docs folder does not exist for version "current". A docs folder is expected to be found at docs."`,
+        `"Version 'with-id-conflicts' should exist"`,
       );
     });
   });
