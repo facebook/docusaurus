@@ -172,6 +172,7 @@ export async function loadVersion(
   try {
     return await doLoadVersion(params);
   } catch (err) {
+    // TODO use error cause (but need to refactor many tests)
     logger.error`Loading of version failed for version name=${params.versionMetadata.versionName}`;
     throw err;
   }

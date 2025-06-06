@@ -109,7 +109,7 @@ describe('loadVersion', () => {
           - versioned_docs/version-with-id-conflicts/number-prefix/deeply/nested/3-doc.md
 
         Docs should have distinct ids.
-        In case of naming convention conflicts, use the \`id\` front matter to assign a distinct id to each doc.
+        In case of conflict, you can rename the docs file, or use the \`id\` front matter to assign an explicit distinct id to each doc.
             "
       `);
     });
