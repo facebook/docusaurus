@@ -22,52 +22,78 @@ const DefaultI18N: I18n = {
   localeConfigs: {},
 };
 
-describe('minimal site', () => {
-  async function loadSite() {
-    const siteDir = path.resolve(
-      path.join(__dirname, './__fixtures__', 'minimal-site'),
-    );
-    const options: PluginOptions = fromPartial<PluginOptions>({
-      ...DEFAULT_OPTIONS,
-    });
-    const context = fromPartial<LoadContext>({
-      siteDir,
-      baseUrl: '/',
-      i18n: DefaultI18N,
-      localizationDir: path.join(siteDir, 'i18n/en'),
-      siteConfig: {
-        markdown: {
-          parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
-        },
+async function siteFixture(fixture: string) {
+  const siteDir = path.resolve(path.join(__dirname, './__fixtures__', fixture));
+  const options: PluginOptions = fromPartial<PluginOptions>({
+    ...DEFAULT_OPTIONS,
+  });
+  const context = fromPartial<LoadContext>({
+    siteDir,
+    baseUrl: '/',
+    i18n: DefaultI18N,
+    localizationDir: path.join(siteDir, 'i18n/en'),
+    siteConfig: {
+      markdown: {
+        parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
       },
+    },
+  });
+
+  const versions = await readVersionsMetadata({
+    options,
+    context,
+  });
+
+  return {
+    siteDir,
+    options,
+    context,
+    versions,
+  };
+}
+
+describe('loadVersion', () => {
+  describe('minimal site', () => {
+    it('can load current version', async () => {
+      const {options, context, versions} = await siteFixture('site-minimal');
+
+      const version = versions[0];
+      expect(version).toBeDefined();
+      expect(version.versionName).toBe('current');
+
+      const loadedVersion = loadVersion({
+        context,
+        options,
+        versionMetadata: version,
+        env: 'production',
+      });
+
+      await expect(loadedVersion).resolves.toMatchSnapshot();
     });
-    return {
-      siteDir,
-      options,
-      context,
-    };
-  }
+  });
 
-  it('can load current version', async () => {
-    const {options, context} = await loadSite();
+  describe('site with broken versions', () => {
+    async function loadTestVersion(versionName: string) {
+      const {options, context, versions} = await siteFixture(
+        'site-broken-versions',
+      );
+      const version = versions.find((v) => v.versionName === versionName);
+      expect(version).toBeDefined();
 
-    const versionsMetadata = await readVersionsMetadata({
-      options,
-      context,
+      return loadVersion({
+        context,
+        options,
+        versionMetadata: version,
+        env: 'production',
+      });
+    }
+
+    it('rejects version with doc id conflict', async () => {
+      await expect(() =>
+        loadTestVersion('version-with-id-conflicts'),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"The docs folder does not exist for version "current". A docs folder is expected to be found at docs."`,
+      );
     });
-
-    expect(versionsMetadata).toHaveLength(1);
-    expect(versionsMetadata[0]!.versionName).toBe('current');
-
-    const versionMetadata = versionsMetadata[0]!;
-
-    const loadedVersion = loadVersion({
-      context,
-      options,
-      versionMetadata,
-      env: 'production',
-    });
-
-    await expect(loadedVersion).resolves.toMatchSnapshot();
   });
 });
