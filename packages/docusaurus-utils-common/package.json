@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/utils-common",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "description": "Common (Node/Browser) utility functions for Docusaurus packages.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "3.8.0",
+    "@docusaurus/types": "3.8.1",
     "tslib": "^2.6.0"
   },
   "engines": {

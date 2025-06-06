@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/babel",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "description": "Docusaurus package for Babel-related utils.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -38,8 +38,8 @@
     "@babel/runtime": "^7.25.9",
     "@babel/runtime-corejs3": "^7.25.9",
     "@babel/traverse": "^7.25.9",
-    "@docusaurus/logger": "3.8.0",
-    "@docusaurus/utils": "3.8.0",
+    "@docusaurus/logger": "3.8.1",
+    "@docusaurus/utils": "3.8.1",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "fs-extra": "^11.1.1",
     "tslib": "^2.6.0"
