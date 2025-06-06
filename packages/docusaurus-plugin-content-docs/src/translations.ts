@@ -48,8 +48,8 @@ function getSidebarTranslationFileContent(
 
   const categories = collectSidebarCategories(sidebar);
 
-  const categoryContent: TranslationFileContent = Object.fromEntries(
-    categories.flatMap((category) => {
+  const categoryEntries: TranslationMessageEntry[] = categories.flatMap(
+    (category) => {
       const entries: TranslationMessageEntry[] = [];
 
       entries.push([
@@ -82,8 +82,20 @@ function getSidebarTranslationFileContent(
       }
 
       return entries;
-    }),
+    },
   );
+
+  _.chain(categoryEntries)
+    .groupBy((entry) => entry[0])
+    .forEach((group, key) => {
+      if (group.length > 1) {
+        console.warn(`KEY CONFLICT FOR key = ${key}`, group.length);
+      }
+    })
+    .value();
+
+  const categoryContent: TranslationFileContent =
+    Object.fromEntries(categoryEntries);
 
   const links = collectSidebarLinks(sidebar);
   const linksContent: TranslationFileContent = Object.fromEntries(
