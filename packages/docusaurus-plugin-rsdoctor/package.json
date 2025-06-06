@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-rsdoctor",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "description": "Rsdoctor plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.8.0",
-    "@docusaurus/types": "3.8.0",
-    "@docusaurus/utils-validation": "3.8.0",
+    "@docusaurus/core": "3.8.1",
+    "@docusaurus/types": "3.8.1",
+    "@docusaurus/utils-validation": "3.8.1",
     "@rsdoctor/rspack-plugin": "^0.4.6",
     "@rsdoctor/webpack-plugin": "^0.4.6",
     "tslib": "^2.6.0"
