@@ -268,6 +268,14 @@ export type DocusaurusConfig = {
    */
   onDuplicateRoutes: ReportingSeverity;
   /**
+   * This option controls whether external links (links are not for the same site)
+   * open in a new tab or not.
+   *
+   * @see https://docusaurus.io/docs/api/docusaurus-config#openExternalLinksInNewTab
+   * @default true
+   */
+  openExternalLinksInNewTab: boolean;
+  /**
    * The tagline for your website.
    *
    * @see https://docusaurus.io/docs/api/docusaurus-config#tagline

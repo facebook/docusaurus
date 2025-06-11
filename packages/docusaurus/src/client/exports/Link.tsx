@@ -42,7 +42,7 @@ function Link(
   forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
 ): ReactNode {
   const {siteConfig} = useDocusaurusContext();
-  const {trailingSlash, baseUrl} = siteConfig;
+  const {trailingSlash, baseUrl, openExternalLinksInNewTab} = siteConfig;
   const router = siteConfig.future.experimental_router;
   const {withBaseUrl} = useBaseUrlUtils();
   const brokenLinks = useBrokenLinks();
@@ -188,7 +188,11 @@ function Link(
       ref={innerRef}
       href={targetLink}
       {...(targetLinkUnprefixed &&
-        !isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
+        !isInternal &&
+        openExternalLinksInNewTab && {
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        })}
       {...props}
       {...testOnlyProps}
     />
