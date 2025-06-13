@@ -19,6 +19,7 @@ type Options = {
   baseUrl: string;
   router: DocusaurusContext['siteConfig']['future']['experimental_router'];
   currentLocation: string;
+  openExternalLinksInNewTab: boolean;
 };
 
 const defaultOptions: Options = {
@@ -27,6 +28,7 @@ const defaultOptions: Options = {
   router: 'browser',
   // currentLocation is nested on purpose, shows relative link resolution
   currentLocation: '/sub/category/currentPathname',
+  openExternalLinksInNewTab: true,
 };
 
 function createDocusaurusContext(
@@ -40,6 +42,7 @@ function createDocusaurusContext(
       future: {
         experimental_router: options.router,
       },
+      openExternalLinksInNewTab: options.openExternalLinksInNewTab,
     },
   });
 }
@@ -234,6 +237,19 @@ describe('<Link>', () => {
           href="https://example.com/xyz"
           rel="noopener noreferrer"
           target="_blank"
+        />
+      `);
+    });
+
+    it("can render 'https://example.com/xyz' without opening to a new window", () => {
+      expect(
+        render(<Link to="https://example.com/xyz" />, {
+          openExternalLinksInNewTab: false,
+        }),
+      ).toMatchInlineSnapshot(`
+        <a
+          data-test-link-type="regular"
+          href="https://example.com/xyz"
         />
       `);
     });

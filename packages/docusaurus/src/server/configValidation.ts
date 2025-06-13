@@ -108,6 +108,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'onBrokenAnchors'
   | 'onBrokenMarkdownLinks'
   | 'onDuplicateRoutes'
+  | 'openExternalLinksInNewTab'
   | 'plugins'
   | 'themes'
   | 'presets'
@@ -130,6 +131,7 @@ export const DEFAULT_CONFIG: Pick<
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
   onBrokenMarkdownLinks: 'warn',
   onDuplicateRoutes: 'warn',
+  openExternalLinksInNewTab: true,
   plugins: [],
   themes: [],
   presets: [],
@@ -354,6 +356,9 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
+  openExternalLinksInNewTab: Joi.boolean().default(
+    DEFAULT_CONFIG.openExternalLinksInNewTab,
+  ),
   organizationName: Joi.string().allow(''),
   staticDirectories: Joi.array()
     .items(Joi.string())
