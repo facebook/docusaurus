@@ -13,7 +13,7 @@ import {
   useDocsPreferredVersion,
 } from '@docusaurus/plugin-content-docs/client';
 import {translate} from '@docusaurus/Translate';
-import {useLocation} from '@docusaurus/router';
+import {useHistorySelector} from '@docusaurus/theme-common';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import type {
@@ -119,7 +119,8 @@ export default function DocsVersionDropdownNavbarItem({
   versions: configs,
   ...props
 }: Props): ReactNode {
-  const {search, hash} = useLocation();
+  const search = useHistorySelector((history) => history.location.search);
+  const hash = useHistorySelector((history) => history.location.hash);
   const activeDocContext = useActiveDocContext(docsPluginId);
   const {savePreferredVersionName} = useDocsPreferredVersion(docsPluginId);
   const versionItems = useVersionItems({docsPluginId, configs});
