@@ -1,0 +1,71 @@
+---
+sidebar_position: 2
+slug: /api/misc/@docusaurus/logger
+---
+
+# 📦 logger
+
+Un générateur de journaux encapsulé pour le formatage sémantique des messages de la console.
+
+Les auteurs de paquets de l'écosystème Docusaurus sont encouragés à utiliser ce paquet pour fournir des formats de log unifiés.
+
+## API
+
+Il exporte un seul objet comme exportation par défaut : `logger`. `logger` a les propriétés suivantes :
+
+- Quelques couleurs utiles.
+  - `red`
+  - `yellow`
+  - `green`
+  - `bold`
+  - `dim`
+- Formatteurs. Ces fonctions ont toutes la signature `(msg: unknown) = string`. Notez que leurs implémentations ne sont pas garanties. Vous ne devriez vous préoccuper que de leur sémantique.
+  - `path` : formate un chemin de fichier.
+  - `url` : formate une URL.
+  - `name` : formate un identifiant.
+  - `code` : formate un extrait de code.
+  - `subdue` : soumet le texte.
+  - `num` : formate un nombre.
+- La fonction `interpolate`. C'est un gabarit étiqueté. La syntaxe peut être trouvée ci-dessous.
+- Fonctions de journalisation. Toutes les fonctions de journalisation peuvent à la fois être utilisées comme des fonctions normales (similaires à la famille `console.log`, mais n'acceptant qu'un seul paramètre) ou des gabarits étiquetés.
+  - `info` : affiche une information.
+  - `warn` : affiche un avertissement auquel il faut prêter attention.
+  - `error` : affiche une erreur (sans nécessairement arrêter le programme) qui signale des problèmes importants.
+  - `success` : affiche un message de réussite.
+- La fonction `report`. Il prend une valeur de `ReportingSeverity` (`ignore`, `log`, `warn`, `throw`) et signale un message en fonction de la gravité.
+
+:::warning Un mot sur le formateur `error`
+
+Attention, un message `error`, même s'il ne bloque pas le programme, risque de créer la confusion. Lorsque les utilisateurs inspectent les logs et trouvent un `[ERROR]`, même lorsque la construction réussit, ils supposent que quelque chose ne va pas. Utilisez-le avec modération.
+
+Docusaurus n'utilise `logger.error` que lorsqu'il s'agit d'afficher des messages immédiatement avant de lancer une erreur, ou lorsque l'utilisateur a défini la gravité du rapport de `onBrokenLink`, etc. sur `"error"`.
+
+En outre, `warn` et `error` coloriseront **l'ensemble** du message pour attirer l'attention. Si vous affichez de gros blocs d'aide à propos d'une erreur, mieux vaut utiliser `logger.info`.
+
+:::
+
+### Utilisation du gabarit étiqueté
+
+Le gabarit étiqueté évalue le template et les expressions intégrées. `interpolate` retourne une nouvelle chaîne, tandis que d'autres fonctions de journalisation l'affichent. Ci-dessous est une utilisation typique :
+
+```js
+import logger from '@docusaurus/logger';
+
+logger.info`Hello name=${name}! You have number=${money} dollars. Here are the ${
+  items.length > 1 ? 'items' : 'item'
+} on the shelf: ${items}
+To buy anything, enter code=${'buy x'} where code=${'x'} is the item's name; to quit, press code=${'Ctrl + C'}.`;
+```
+
+Une expression intégrée est éventuellement précédée d'un drapeau de la forme `[a-z]+=` (quelques minuscules, suivi d'un signe égal qui précède directement l'expression intégrée). Si l'expression n'est précédée d'aucun drapeau, elle est imprimée telle quelle. Sinon, il est formaté avec un des formateurs :
+
+- `path=`: `path`
+- `url=`: `url`
+- `name=`: `name`
+- `code=`: `code`
+- `subdue=`: `subdue`
+- `number=`: `num`
+
+Si l'expression est un tableau, elle est formatée par `` `\n- ${array.join('\n- ')}\n` `` (notez qu'elle obtient automatiquement un saut de ligne à la fin). Chaque membre est formaté par lui-même et la puce n'est pas formatée. Vous verrez donc le message ci-dessus affiché sous la forme suivante :
+
+![Une sortie de texte dans le terminal, contenant le tableau, le code, le nom et le formatage des chiffres](./demo.png)

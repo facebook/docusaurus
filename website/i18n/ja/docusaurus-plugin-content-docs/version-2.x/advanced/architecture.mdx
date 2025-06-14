@@ -1,0 +1,28 @@
+---
+description: Docusaurus がアプリケーションをビルドする方法
+---
+
+# アーキテクチャ
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Zoom from 'react-medium-image-zoom';
+```
+
+<Zoom>
+
+![Architecture overview](/img/architecture.png)
+
+</Zoom>
+
+この図は、Docusaurus がアプリケーションをどうやってビルドしているかを表しています。 各プラグインはそれぞれのコンテンツを収集し、JSON データを出力します。各テーマは、JSON データをルートモジュールとして受け取るレイアウトコンポーネントを提供します。 バンドラはすべてのコンポーネントをバンドルし、サーババンドルとクライアントバンドルを出力します。
+
+あなた (プラグイン作成者であってもサイト作成者であっても) が書いた JavaScript は、実際には異なる環境で実行されていることに留意してください。
+
+- すべてのプラグインライフサイクルメソッドは Node で実行されます。 Therefore, until we support ES Modules in our codebase, plugin source code must be provided as CommonJS that can be `require`'d.
+- テーマコードは Webpack で構築されています。 React の規約に従って ESM として提供されることができます。
+
+Plugin code and theme code never directly import each other: they only communicate through protocols (in our case, through JSON temp files and calls to `addRoute`). 例として、プラグインが JavaScript ではなく、Rust のような別の言語で書かれることもあると想定しておくのがよい心がけでしょう。 The only way to interact with plugins for the user is through `docusaurus.config.js`, which itself is run in Node (hence you can use `require` and pass callbacks as plugin options).
+
+During bundling, the config file itself is serialized and bundled, allowing the theme to access config options like `themeConfig` or `baseUrl` through [`useDocusaurusContext()`](../docusaurus-core.mdx#useDocusaurusContext). However, the `siteConfig` object only contains **serializable values** (values that are preserved after `JSON.stringify()`). 関数や正規表現などはクライアント側では失われます。 The `themeConfig` is designed to be entirely serializable.

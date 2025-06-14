@@ -1,0 +1,310 @@
+# プラグインの利用
+
+**Docusaurusのコアパッケージに、独自の機能は何もありません。** 全ての機能は、個々のプラグインに委譲されています。[docs](./guides/docs/docs-introduction.mdx)機能は[docsプラグイン](./api/plugins/plugin-content-docs.mdx)により、[blog](./blog.mdx)機能は[blogプラグイン](./api/plugins/plugin-content-blog.mdx)に、個別[pages](./guides/creating-pages.mdx)は[pagesプラグイン](./api/plugins/plugin-content-pages.mdx)によりもたらされています。 プラグインがインスールされていない場合、サイトにルートが含まれることはありません。
+
+ただし、一般的なプラグインを1つずつインストールする必要はないかもしれません。というのも、それらは[プリセット](#using-presets)にバンドルして配布されていることがあるからです。 ほとんどのユーザーにとって、プラグインはプリセット設定によって設定されます。
+
+[公式プラグイン一覧](./api/plugins/overview.mdx)にて、公式で管理しているプラグイン一覧を公開していますが、有志の手により[非公式のプラグイン](/community/resources#community-plugins)も作成されています。 ドキュメントページの自動生成、カスタムスクリプトの実行、他のサービスとの統合など、何か機能を追加したい場合は、必ず一覧を確認するようにしてください。もしかしたら誰かが代わりに実装してくれているかもしれませんからね。
+
+やる気があるのでしたら、[プラグインガイド](./advanced/plugins.mdx)や[プラグインメソッドの手引](./api/plugin-methods/README.mdx)も読んで、自分でプラグインを作成しても構いません。
+
+## プラグインのインストール {#installing-a-plugin}
+
+プラグインは通常npmパッケージの形態を取るため、npmを利用して他のnpmパッケージと同じようにインストールします。
+
+```bash npm2yarn
+npm install --save docusaurus-plugin-name
+```
+
+インストールしたら、サイトの`docusaurus.config.js`の`plugins`オプションに追加します。
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  plugins: ['@docusaurus/plugin-content-pages'],
+};
+```
+
+次のようにすれば、Docusaurusはローカルディレクトリからプラグインを読み込むこともできます。
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  plugins: ['./src/plugins/docusaurus-local-plugin'],
+};
+```
+
+パスは絶対パスまたは設定ファイルからの相対パスでなければなりません。
+
+## Configuring plugins {#configuring-plugins}
+
+プラグインの最も基本的な用法としては、プラグイン名またはプラグインへのパスを与えるだけです。
+
+ただし、プラグインは、設定内で名前及びオプションオブジェクトを2つの要素からなるタプルにすることで、オプションを指定することができます。 この書き方は通常「Babelスタイル」と呼ばれます。
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: [
+    // highlight-start
+    [
+      '@docusaurus/plugin-xxx',
+      {
+        /* オプション */
+      },
+    ],
+    // highlight-end
+  ],
+};
+```
+
+例：
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    // 基本的な使い方
+    '@docusaurus/plugin-debug',
+
+    // オプションオブジェクトあり（babelスタイル）
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        changefreq: 'weekly',
+      },
+    ],
+  ],
+};
+```
+
+## 複数インスタンスのプラグインとプラグインID {#multi-instance-plugins-and-plugin-ids}
+
+全てのDocusaurusコンテンツプラグインは、複数のプラグインインスタンスに対応することができます。 例えば、[複数のdocsプラグインインスタンス](./guides/docs/docs-multi-instance.mdx)や[複数のブログ](./blog.mdx#multiple-blogs)があると便利な場合があります。 各プラグインのインスタンスには一意のIDを割り当てる必要があり、既定のプラグインIDは`default`となっています。
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-next-line
+        id: 'docs-1',
+        // その他のオプション
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-next-line
+        id: 'docs-2',
+        // その他のオプション
+      },
+    ],
+  ],
+};
+```
+
+:::note
+
+`id`属性を省略するか、`id: 'default'` を指定することにより、最大1つのプラグインインスタンスを「既定のプラグインインスタンス」とすることができます。
+
+:::
+
+## テーマの使用 {#using-themes}
+
+テーマはプラグインと全く同じ方法で読み込まれます。 利用者の立場からすると、プラグインをインストールして設定する際に、`themes`と`plugins`の項目は互換性があります。 The only nuance is that themes are loaded after plugins, and it's possible for [a theme to override a plugin's default theme components](./advanced/client.mdx#theme-aliases).
+
+:::tip
+
+`themes`と`plugins`のオプションでは、[短縮形の解析](#module-shorthands)方法が異なるため、短縮形を利用したい場合は、正しい項目を指定するようにしてください！
+
+:::
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  themes: ['@docusaurus/theme-classic', '@docusaurus/theme-live-codeblock'],
+};
+```
+
+## プリセットの使用 {#using-presets}
+
+プリセットとは、プラグインやテーマをひとまとめにしたものです。 例えば、`@docusaurus/plugin-content-docs`、`@docusaurus/plugin-content-blog`などを設定ファイルに次々と登録・設定する代わりに、`@docusaurus/preset-classic preset`を利用すれば一箇所の設定で済ませることができます。
+
+### `@docusaurus/preset-classic` {#docusauruspreset-classic}
+
+classicプリセットは、[`create-docusaurus`](./installation.mdx#scaffold-project-website)で新規作成されたDocusaurusウェブサイトに既定で同梱されます。 これには以下のテーマ及びプラグインが含まれています。
+
+- [`@docusaurus/theme-classic`](./api/themes/theme-configuration.mdx)
+- [`@docusaurus/theme-search-algolia`](./api/themes/theme-search-algolia.mdx)
+- [`@docusaurus/plugin-content-docs`](./api/plugins/plugin-content-docs.mdx)
+- [`@docusaurus/plugin-content-blog`](./api/plugins/plugin-content-blog.mdx)
+- [`@docusaurus/plugin-content-pages`](./api/plugins/plugin-content-pages.mdx)
+- [`@docusaurus/plugin-debug`](./api/plugins/plugin-debug.mdx)
+- [`@docusaurus/plugin-google-gtag`](./api/plugins/plugin-google-gtag.mdx)
+- [`@docusaurus/plugin-google-tag-manager`](./api/plugins/plugin-google-tag-manager.mdx)
+- [`@docusaurus/plugin-google-analytics`](./api/plugins/plugin-google-analytics.mdx) (**非推奨**)
+- [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx)
+- [`@docusaurus/plugin-svgr`](./api/plugins/plugin-svgr.mdx)
+
+標準（classic）プリセットは、各オプションの項目を各プラグイン・テーマに伝播させます。
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // Debug defaults to true in dev, false in prod
+        debug: undefined,
+        // Will be passed to @docusaurus/theme-classic.
+        theme: {
+          customCss: ['./src/css/custom.css'],
+        },
+        // Will be passed to @docusaurus/plugin-content-docs (false to disable)
+        docs: {},
+        // Will be passed to @docusaurus/plugin-content-blog (false to disable)
+        blog: {},
+        // Will be passed to @docusaurus/plugin-content-pages (false to disable)
+        pages: {},
+        // Will be passed to @docusaurus/plugin-sitemap (false to disable)
+        sitemap: {},
+        // Will be passed to @docusaurus/plugin-svgr (false to disable)
+        svgr: {},
+        // Will be passed to @docusaurus/plugin-google-gtag (only enabled when explicitly specified)
+        gtag: {},
+        // Will be passed to @docusaurus/plugin-google-tag-manager (only enabled when explicitly specified)
+        googleTagManager: {},
+        // DEPRECATED: Will be passed to @docusaurus/plugin-google-analytics (only enabled when explicitly specified)
+        googleAnalytics: {},
+      },
+    ],
+  ],
+};
+```
+
+### プリセットのインストール {#installing-presets}
+
+プリセットは通常npmパッケージの形態を取るため、npmを利用して他のnpmパッケージと同じようにインストールします。
+
+```bash npm2yarn
+npm install --save @docusaurus/preset-classic
+```
+
+インストールしたら、サイトの`docusaurus.config.js`の`presets`オプションに次のようにして追加します。
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  presets: ['@docusaurus/preset-classic'],
+};
+```
+
+プリセットパスは、以下のように設定ファイルからの相対パスにすることができます。
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-next-line
+  presets: ['./src/presets/docusaurus-local-preset'],
+};
+```
+
+### プリセットの作成 {#creating-presets}
+
+プリセットは、[プラグインのコンストラクタ](./api/plugin-methods/README.mdx#plugin-constructor)と同じ形式（訳注：引数・戻り値）を取る関数です。 サイト設定で受け入れられるものと同じく、`{ plugins: PluginConfig[], themes: PluginConfig[] }`という形式のオブジェクトを返さなければなりません。 例えば、以下のようなテーマとプラグインを含むプリセットを指定できます。
+
+```js title="src/presets/docusaurus-preset-multi-docs.js"
+export default function preset(context, opts = {}) {
+  return {
+    themes: [['docusaurus-theme-awesome', opts.theme]],
+    plugins: [
+      // Using three docs plugins at the same time!
+      // Assigning a unique ID for each without asking the user to do it
+      ['@docusaurus/plugin-content-docs', {...opts.docs1, id: 'docs1'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs2, id: 'docs2'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs3, id: 'docs3'}],
+    ],
+  };
+}
+```
+
+その後、Docusaurusの設定内で、プリセットを次のように設定します。
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    // highlight-start
+    [
+      './src/presets/docusaurus-preset-multi-docs.js',
+      {
+        theme: {hello: 'world'},
+        docs1: {path: '/docs'},
+        docs2: {path: '/community'},
+        docs3: {path: '/api'},
+      },
+    ],
+    // highlight-end
+  ],
+};
+```
+
+これは以下のような設定と同等となります。
+
+```js title="docusaurus.config.js"
+export default {
+  themes: [['docusaurus-theme-awesome', {hello: 'world'}]],
+  plugins: [
+    ['@docusaurus/plugin-content-docs', {id: 'docs1', path: '/docs'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docs2', path: '/community'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docs3', path: '/api'}],
+  ],
+};
+```
+
+This is especially useful when some plugins and themes are intended to be used together. You can even link their options together, e.g. pass one option to multiple plugins.
+
+## Module shorthands {#module-shorthands}
+
+Docusaurus supports shorthands for plugins, themes, and presets. When it sees a plugin/theme/preset name, it tries to load one of the following, in that order:
+
+- `[name]` (like `content-docs`)
+- `@docusaurus/[moduleType]-[name]` (like `@docusaurus/plugin-content-docs`)
+- `docusaurus-[moduleType]-[name]` (like `docusaurus-plugin-content-docs`)
+
+where `moduleType` is one of `'preset'`, `'theme'`, `'plugin'`, depending on which field the module name is declared in. The first module name that's successfully found is loaded.
+
+If the name is scoped (beginning with `@`), the name is first split into scope and package name by the first slash:
+
+```
+@scope
+^----^
+ スコープ（名前はなし！）
+
+@scope/awesome
+^----^ ^-----^
+スコープ 名前
+
+@scope/awesome/main
+^----^ ^----------^
+スコープ   名前
+```
+
+If there is no name (like `@jquery`), `[scope]/docusaurus-[moduleType]` (i.e. `@jquery/docusaurus-plugin`) is loaded. Otherwise, the following are attempted:
+
+- `[scope]/[name]`（例：`@jquery/content-docs`）
+- `[scope]/docusaurus-[moduleType]-[name]` (like `@jquery/docusaurus-plugin-content-docs`)
+
+Below are some examples, for a plugin registered in the `plugins` field. Note that unlike [ESLint](https://eslint.org/docs/user-guide/configuring/plugins#configuring-plugins) or [Babel](https://babeljs.io/docs/en/options#name-normalization) where a consistent naming convention for plugins is mandated, Docusaurus permits greater naming freedom, so the resolutions are not certain, but follows the priority defined above.
+
+| 宣言                        | 次のように解決される場合あり                                                   |
+| ------------------------- | ---------------------------------------------------------------- |
+| `awesome`                 | `docusaurus-plugin-awesome`                                      |
+| `sitemap`                 | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx) |
+| `@my-company`             | `@my-company/docusaurus-plugin`（唯一の解決先です！）                       |
+| `@my-company/awesome`     | `@my-company/docusaurus-plugin-awesome`                          |
+| `@my-company/awesome/web` | `@my-company/docusaurus-plugin-awesome/web`                      |

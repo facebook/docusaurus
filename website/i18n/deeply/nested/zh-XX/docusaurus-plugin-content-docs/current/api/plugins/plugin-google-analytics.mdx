@@ -1,0 +1,77 @@
+---
+sidebar_position: 6
+slug: /api/plugins/@docusaurus/plugin-google-analytics
+---
+
+# 📦 plugin-google-analytics
+
+import APITable from '@site/src/components/APITable';
+
+默认的 [Google Analytics](https://developers.google.com/analytics/devguides/collection/analyticsjs/) 插件。 Google Analytics 是一个在**生产环境**用于监测用户和你的网站的交互情况的 JavaScript 库。 如果您正在使用 Google Analytics 4，您可能需要考虑换用 [plugin-google-gtag](./plugin-google-gtag.mdx) 。
+
+:::danger 已弃用
+
+此插件**已被废弃**并且于2023年7月1日失效。
+
+Google 正在[迁移到 Universal Analytics](https://blog.google/products/marketingplatform/analytics/prepare-for-future-with-google-analytics-4/) 。
+
+如果您仍在使用此插件与 `UA-*` 跟踪id， 您应该尽快创建一个 Google Analytics 4 账户并使用 [`@docusaurus/plugin-google-gtag`](./plugin-google-gtag.mdx) 而不是此插件。 更多详情请参阅[这里](https://github.com/facebook/docusaurus/issues/7221)。
+
+:::
+
+:::warning 仅可用于生产环境
+
+这个插件始终不会工作在开发过程中，**只在生产环境中启用**，防止污染分析数据。
+
+:::
+
+## 安装流程 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-google-analytics
+```
+
+:::tip
+
+如果你已经安装了 `@docusaurus/preset-classic`，就不需要安装这个包了。
+
+您可以通过[预设选项](../../using-plugins.mdx#docusauruspreset-classic)配置此插件。
+
+:::
+
+## 配置 {#configuration}
+
+接受的字段：
+
+```mdx-code-block
+<APITable>
+```
+
+| 参数            | 类型        | 默认值     | 描述                   |
+| ------------- | --------- | ------- | -------------------- |
+| `trackingID`  | `string`  | **必填**  | 你的分析服务的 tracking ID。 |
+| `anonymizeIP` | `boolean` | `false` | 发送请求时是否使用匿名 IP。      |
+
+```mdx-code-block
+</APITable>
+```
+
+### 示例配置 {#ex-config}
+
+你可以通过预设选项或插件选项来配置这个插件。
+
+:::tip
+
+大多数 Docusaurus 用户通过预设选项配置此插件。
+
+:::
+
+```js config-tabs
+// 预设选项: googleAnalytics
+// 插件选项: @docusaurus/plugin-google-analytics
+
+const config = {
+  trackingID: 'UA-141789564-1',
+  anonymizeIP: true,
+};
+```

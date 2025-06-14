@@ -1,0 +1,106 @@
+---
+description: 如何保持合理的打包大小，同时确保足够的浏览器支持。
+---
+
+# 浏览器支持
+
+Docusaurus allows sites to define the list of supported browsers through a [browserslist configuration](https://github.com/browserslist/browserslist).
+
+## Purpose {#purpose}
+
+网站需要在向后兼容性和文件大小间做出平衡。 由于旧浏览器不支持现代 API 或语法，因此需要更多代码来实现相同的功能。
+
+For example, you may use the [optional chaining syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining):
+
+```js
+const value = obj?.prop?.val;
+```
+
+...不幸的是，只有 2020 年后发布的浏览器版本才能识别它。 为了兼容较早的浏览器版本，我们的 JS 加载器会在构建你的网站时，把代码转译成更啰嗦的语法：
+
+```js
+var _obj, _obj$prop;
+
+const value =
+  (_obj = obj) === null || _obj === void 0
+    ? void 0
+    : (_obj$prop = _obj.prop) === null || _obj$prop === void 0
+    ? void 0
+    : _obj$prop.val;
+```
+
+然而，这会惩罚网站的所有用户，因为网站的加载时间变长了，29 个字符现在变成 168 个字符——翻了 6 倍！ （实际的效果会比这个好一点，因为生成的名字会变短。） 作为折中，加载器只会把语法转译到浏览器列表中的所有版本都支持的范围内。
+
+The browser list by default is provided through the `package.json` file as a root `browserslist` field.
+
+:::warning
+
+在较旧版本的浏览器中，编译后的输出将使用未支持的新 JS 语法，从而导致 React 无法初始化，并最终使得你的网站变成一个仅有 HTML/CSS，没有 JS 的静态网站。
+
+:::
+
+## Default values {#default-values}
+
+Websites initialized with the default classic template has the following in `package.json`:
+
+```json title="package.json"
+{
+  "name": "docusaurus",
+  // ...
+  // highlight-start
+  "browserslist": {
+    "production": [">0.5%", "not dead", "not op_mini all"],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+  // highlight-end
+  // ...
+}
+```
+
+用人话来说，生产环境中所支持的浏览器为：
+
+- With more than 0.5% of market share; _and_
+- Has official support or updates in the past 24 months (the opposite of "dead"); _and_
+- 不是 Opera Mini。
+
+而在开发环境中支持的浏览器为：
+
+- The latest version of Chrome _or_ Firefox _or_ Safari.
+
+You can "evaluate" any config with the `browserslist` CLI to obtain the actual list:
+
+```bash
+npx browserslist --env="production"
+```
+
+这个命令的输出是所有生产构建所支持的浏览器。 下面是在 2022 年 1 月的输出：
+
+```text
+and_chr 96
+and_uc 12.12
+chrome 96
+chrome 95
+chrome 94
+edge 96
+firefox 95
+firefox 94
+ie 11
+ios_saf 15.2
+ios_saf 15.0-15.1
+ios_saf 14.5-14.8
+ios_saf 14.0-14.4
+ios_saf 12.2-12.5
+opera 82
+opera 81
+safari 15.1
+safari 14.1
+safari 13.1
+```
+
+## Read more {#read-more}
+
+You may wish to visit the [browserslist documentation](https://github.com/browserslist/browserslist/blob/main/README.md) for more specifications, especially the accepted [query values](https://github.com/browserslist/browserslist/blob/main/README.md#queries) and [best practices](https://github.com/browserslist/browserslist/blob/main/README.md#best-practices).

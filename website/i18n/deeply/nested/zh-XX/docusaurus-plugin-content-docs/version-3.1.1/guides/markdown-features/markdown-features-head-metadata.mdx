@@ -1,0 +1,82 @@
+---
+id: head-metadata
+description: 通过 MDX 声明页面专有元数据
+slug: /markdown-features/head-metadata
+---
+
+# Head 元数据
+
+## Customizing head metadata {#customizing-head-metadata}
+
+Docusaurus automatically sets useful page metadata in `<html>`, `<head>` and `<body>` for you. It is possible to add extra metadata (or override existing ones) with the `<head>` tag in Markdown files:
+
+```md title="markdown-features-head-metadata.mdx"
+---
+id: head-metadata
+title: Head Metadata
+---
+
+<!-- highlight-start -->
+<head>
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
+  <title>Head Metadata customized title!</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadata" />
+</head>
+<!-- highlight-end -->
+
+# Head Metadata
+
+My text
+```
+
+```mdx-code-block
+<head>
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
+  <title>Head Metadata customized title!</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadata" />
+</head>
+```
+
+This `<head>` declaration has been added to the current Markdown doc as a demo. 你可以打开浏览器的调试工具，看看本页面的元数据是如何被影响的。
+
+:::note
+
+This feature is built on top of the Docusaurus [`<Head>`](./../../docusaurus-core.mdx#head) component. Refer to [react-helmet](https://github.com/nfl/react-helmet) for exhaustive documentation.
+
+:::
+
+:::tip You don't need this for regular SEO
+
+Content plugins (e.g. docs and blog) provide front matter options like `description`, `keywords`, and `image`, which will be automatically applied to both `description` and `og:description`, while you would have to manually declare two metadata tags when using the `<head>` tag.
+
+:::
+
+## Markdown page description {#markdown-page-description}
+
+Markdown 页面的 description 元数据可能在 head 元数据之外还被用于更多地方。 For example, the docs plugin's [generated category index](../docs/sidebar/items.mdx#generated-index-page) uses the description metadata for the doc cards.
+
+默认情况下，描述是第一行包含内容的文字。我们会尽量把它转化为纯文本。 例如，对于下面的文件：
+
+```md
+# Title
+
+Main content... May contain some [links](./file.mdx) or **emphasis**.
+```
+
+它的默认描述为「主要内容…… 还可能包含一些链接或者重点。」 However, **it's not designed to be fully functional**. 如果它不能产出一段合理的描述，你可以通过前言显式地提供一段：
+
+```md
+---
+description: This description will override the default.
+---
+
+# Title
+
+Main content... May contain some [links](./file.mdx) or **emphasis**.
+```

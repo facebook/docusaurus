@@ -1,0 +1,160 @@
+---
+sidebar_position: 3
+slug: /api/plugins/@docusaurus/plugin-content-pages
+---
+
+# 📦 plugin-content-pages
+
+import APITable from '@site/src/components/APITable';
+
+Le plugin de pages par défaut pour Docusaurus. Le template classic est livré avec ce plugin avec les configurations par défaut. Ce plugin fournit des fonctionnalités de [création de pages](guides/creating-pages.mdx).
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-content-pages
+```
+
+:::tip
+
+Si vous utilisez le preset `@docusaurus/preset-classic`, vous n'avez pas besoin d'installer ce plugin en tant que dépendance.
+
+Vous pouvez configurer ce plugin via les [options du preset](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom                          | Type                                           | Par défaut                        | Description                                                                                                                                                                                                                                                                                                                         |
+| ---------------------------- | ---------------------------------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `path`                       | `string`                                       | `'src/pages'`                     | Chemin vers les données sur le système de fichiers par rapport au répertoire du site. Les composants de ce répertoire seront automatiquement convertis en pages.                                                                                                                                                                    |
+| `editUrl`                    | <code>string \| [EditUrlFn](#EditUrlFn)</code> | `undefined`                       | **Only for Markdown pages**. URL de base pour modifier votre site. L'URL finale est calculée par `editUrl + relativePostPath`. L'utilisation d'une fonction permet un contrôle plus nuancé pour chaque fichier. Omettre cette variable désactivera entièrement les liens de modification.                                           |
+| `editLocalizedFiles`         | `boolean`                                      | `false`                           | **Only for Markdown pages**. L'URL de modification ciblera le fichier localisé, au lieu du fichier original non localisé. Ignoré lorsque `editUrl` est une fonction.                                                                                                                                                                |
+| `routeBasePath`              | `string`                                       | `'/'`                             | Route URL pour la section des pages de votre site. **NE PAS** inclure un slash de fin.                                                                                                                                                                                                                                              |
+| `include`                    | `string[]`                                     | `['**/*.{js,jsx,ts,tsx,md,mdx}']` | Les fichiers correspondants seront inclus et traités.                                                                                                                                                                                                                                                                               |
+| `exclude`                    | `string[]`                                     | _Voir l'exemple de configuration_ | Aucune route ne sera créée pour les fichiers correspondants.                                                                                                                                                                                                                                                                        |
+| `mdxPageComponent`           | `string`                                       | `'@theme/MDXPage'`                | Composant utilisé par chaque page MDX.                                                                                                                                                                                                                                                                                              |
+| `remarkPlugins`              | `[]`                                           | `any[]`                           | Plugins Remark passés à MDX.                                                                                                                                                                                                                                                                                                        |
+| `rehypePlugins`              | `[]`                                           | `any[]`                           | Plugins Rehype passés à MDX.                                                                                                                                                                                                                                                                                                        |
+| `rehypePlugins`              | `any[]`                                        | `[]`                              | Recma plugins passed to MDX.                                                                                                                                                                                                                                                                                                        |
+| `beforeDefaultRemarkPlugins` | `any[]`                                        | `[]`                              | Les plugins Remark personnalisés sont transmis à MDX avant les plugins Remark par défaut de Docusaurus.                                                                                                                                                                                                                             |
+| `beforeDefaultRehypePlugins` | `any[]`                                        | `[]`                              | Les plugins Rehype personnalisés sont transmis à MDX avant les plugins Rehype par défaut de Docusaurus.                                                                                                                                                                                                                             |
+| `showLastUpdateAuthor`       | `boolean`                                      | `false`                           | **Only for Markdown pages**. Whether to display the author who last updated the page.                                                                                                                                                                                                                                               |
+| `showLastUpdateTime`         | `boolean`                                      | `false`                           | **Only for Markdown pages**. Whether to display the last date the page post was updated. Cela nécessite l'accès à l'historique git pendant la construction, et ne fonctionnera donc pas correctement avec des clones superficiels (un défaut courant pour les systèmes de CI). With GitHub `actions/checkout`, use`fetch-depth: 0`. |
+
+```mdx-code-block
+</APITable>
+```
+
+### Types {#types}
+
+#### `EditUrlFn` {#EditUrlFn}
+
+```ts
+type EditUrlFunction = (params: {
+  blogDirPath: string;
+  blogPath: string;
+  permalink: string;
+  locale: string;
+}) => string | undefined;
+```
+
+### Exemple de configuration {#ex-config}
+
+Vous pouvez configurer ce plugin via les options du preset ou du plugin.
+
+:::tip
+
+La plupart des utilisateurs de Docusaurus configurent ce plugin via les options du preset.
+
+:::
+
+```js config-tabs
+// Options du preset : pages
+// Options du plugin : @docusaurus/plugin-content-pages
+
+const config = {
+  path: 'src/pages',
+  routeBasePath: '',
+  include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
+  ],
+  mdxPageComponent: '@theme/MDXPage',
+  remarkPlugins: [require('./my-remark-plugin')],
+  rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
+};
+```
+
+## Front matter du Markdown {#markdown-front-matter}
+
+Les pages Markdown peuvent utiliser les champs de métadonnées Markdown du [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) suivants, entourés d'une ligne `---` de part et d'autre.
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom                      | Type       | Par défaut                            | Description                                                                                                                                                                                                                              |
+| ------------------------ | ---------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`                  | `string`   | Titre du Markdown                     | Le titre de l'article du blog.                                                                                                                                                                                                           |
+| `description`            | `string`   | La première ligne du contenu Markdown | La description de votre page qui deviendra `<meta name="description" content="..."/>` et `<meta property="og:description" content="..."/>` dans `<head>`, utilisés par les moteurs de recherche.                                         |
+| `keywords`               | `string[]` | `undefined`                           | Méta-tag de mots-clés, qui deviendront les `<meta name="keywords" content="keyword1,keyword2,..."/>` dans `<head>`, utilisés par les moteurs de recherche.                                                                               |
+| `image`                  | `string`   | `undefined`                           | Cover or thumbnail image that will be used as the `<meta property="og:image" content="..."/>` in the `<head>`, enhancing link previews on social media and messaging platforms.                                                          |
+| `slug`                   | `string`   | Chemin du fichier                     | Allows to customize the page URL (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-page`, `slug: /my/page`, slug: `/`.                                                                                                   |
+| `wrapperClassName`       | `string`   |                                       | Nom de la classe à ajouter à l'élément wrapper pour permettre le ciblage du contenu spécifique de la page.                                                                                                                               |
+| `hide_table_of_contents` | `boolean`  | `false`                               | S'il faut cacher la table des matières à droite.                                                                                                                                                                                         |
+| `draft`                  | `boolean`  | `false`                               | Les brouillons de page seront disponibles uniquement lors du développement.                                                                                                                                                              |
+| `unlisted`               | `boolean`  | `false`                               | Les pages non listées seront disponibles à la fois en développement et en production. Ils seront « cachés » en production, non indexés, exclus des sitemaps, et ne peuvent être consultés que par les utilisateurs ayant un lien direct. |
+
+```mdx-code-block
+</APITable>
+```
+
+Exemple :
+
+```md
+---
+title: Markdown Page
+description: Markdown page SEO description
+wrapperClassName: markdown-page
+hide_table_of_contents: false
+draft: true
+slug: /markdown-page
+---
+
+Markdown page content
+```
+
+## i18n {#i18n}
+
+Lisez d'abord [l'introduction i18n](../../i18n/i18n-introduction.mdx) .
+
+### Emplacement des fichiers de traduction {#translation-files-location}
+
+- **Chemin de base** : `website/i18n/[locale]/docusaurus-plugin-content-pages`
+- **Chemin d'accès multi-instance** : `website/i18n/[locale]/docusaurus-plugin-content-pages-[pluginId]`
+- **Fichiers JSON** : extrait avec [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
+- **Fichiers Markdown** : `website/i18n/[locale]/docusaurus-plugin-content-pages`
+
+### Exemple de structure du système de fichiers {#example-file-system-structure}
+
+```bash
+website/i18n/[locale]/docusaurus-plugin-content-pages
+│
+│ # traductions pour website/src/pages
+├── first-markdown-page.md
+└── second-markdown-page.md
+```

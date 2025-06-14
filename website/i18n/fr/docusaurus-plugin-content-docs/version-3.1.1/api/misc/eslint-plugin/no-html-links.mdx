@@ -1,0 +1,47 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/no-html-links
+---
+
+# no-html-links
+
+import APITable from '@site/src/components/APITable';
+
+S'assure que le composant Docusaurus [`<Link>`](../../../docusaurus-core.mdx#link) est utilisé à la place des balises `<a>`.
+
+Le composant `<Link>` intègre la prélecture et le préchargement. Il permet également de détecter les liens brisés en temps réel et aide Docusaurus à mieux comprendre la structure de votre site.
+
+## Détails de la règle {#details}
+
+Exemples de code **incorrect** pour cette règle :
+
+```html
+<a href="/page">go to page!</a>
+
+<a href="https://x.com/docusaurus" target="_blank">X</a>
+```
+
+Exemples de code **correct** pour cette règle :
+
+```js
+import Link from '@docusaurus/Link'
+
+<Link to="/page">go to page!</Link>
+
+<Link to="https://x.com/docusaurus">X</Link>
+```
+
+## Configuration de la règle {#configuration}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Option                | Type      | Par défaut | Description                                                                                                   |
+| --------------------- | --------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
+| `ignoreFullyResolved` | `boolean` | `false`    | Si la valeur est à true, cela ne signalera pas les balises `<a>` avec des URL absolues incluant un protocole. |
+
+```mdx-code-block
+</APITable>
+```

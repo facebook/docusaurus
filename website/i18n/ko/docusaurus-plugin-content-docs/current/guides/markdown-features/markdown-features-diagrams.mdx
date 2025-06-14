@@ -1,0 +1,101 @@
+---
+id: diagrams
+title: 다이어그램
+description: Mermaid를 사용해 다이어그램 작성하기
+slug: /markdown-features/diagrams
+---
+
+# 다이어그램
+
+코드 블록 내에서 [Mermaid](https://mermaid-js.github.io/mermaid/)를 사용해 다이어그램을 작성할 수 있습니다.
+
+## 설치 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-mermaid
+```
+
+`@docusaurus/theme-mermaid` 플러그인을 추가하고 `docusaurus.config.js`에서 `markdown.mermaid` 값을 `true`로 설정해 Mermaid 기능을 활성화합니다.
+
+```js title="docusaurus.config.js"
+export default {
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
+};
+```
+
+## 사용법 {#usage}
+
+코드 블럭 내에 `mermaid` 문법에 따라 코드를 작성합니다.
+
+````md title="Example Mermaid diagram"
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+````
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+Mermaid 문법과 관련된 좀 더 자세한 내용은 [Mermaid syntax documentation](https://mermaid-js.github.io/mermaid/#/./n00b-syntaxReference)을 참고하세요.
+
+## 테마 {#theming}
+
+다어이그램에 어두운 테마와 밝은 테마를 적용하려면 `docusaurus.config.js`의 `themeConfig` 내에서 `mermaid.theme` 값을 설정해 변경할 수 있습니다. 어두운 테마와 밝은 테마를 아래와 같이 설정할 수 있습니다.
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    mermaid: {
+      theme: {light: 'neutral', dark: 'forest'},
+    },
+  },
+};
+```
+
+Mermaid 다이어그램에 테마를 적용하는 방법과 관련된 좀 더 자세한 내용은 [Mermaid syntax documentation](https://mermaid-js.github.io/mermaid/#/theming)을 참고하세요.
+
+## Mermaid 구성 옵션 {#configuration}
+
+`mermaid.options`에서 설정한 옵션값은 `mermaid.initialize`에 바로 전달됩니다.
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    mermaid: {
+      options: {
+        maxTextSize: 50,
+      },
+    },
+  },
+};
+```
+
+See the [Mermaid config documentation](https://mermaid-js.github.io/mermaid/#/./Setup?id=configuration) and the [Mermaid config types](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/config.type.ts) for the available config options.
+
+## Dynamic Mermaid Component {#component}
+
+To generate dynamic diagrams, you can use the `Mermaid` component:
+
+```mdx title="Example of dynamic Mermaid component"
+import Mermaid from '@theme/Mermaid';
+
+<Mermaid
+  value={`graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;`}
+/>
+```

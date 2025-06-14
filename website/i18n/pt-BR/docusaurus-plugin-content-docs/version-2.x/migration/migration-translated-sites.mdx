@@ -1,0 +1,167 @@
+---
+slug: /migration/translated-sites
+---
+
+# Sites traduzidos
+
+Esta página explica como migrar um site Docusaurus v1 traduzido para o Docusaurus v2.
+
+## i18n differences {#i18n-differences}
+
+Docusaurus v2 i18n é conceitualmente muito semelhante ao Docusaurus v1 i18n, com algumas diferenças.
+
+Ele não está fortemente acoplado ao Crowdin, e você pode usar o Git ou outro SaaS.
+
+### Different filesystem paths {#different-filesystem-paths}
+
+On Docusaurus v2, localized content is generally found at `website/i18n/[locale]`.
+
+Docusaurus v2 é modular baseado em um sistema de plugins, e cada plugin é responsável por gerenciar suas próprias traduções.
+
+Each plugin has its own i18n subfolder, like: `website/i18n/fr/docusaurus-plugin-content-blog`
+
+### Updated translation APIs {#updated-translation-apis}
+
+With Docusaurus v1, you translate your pages with `<translate>`:
+
+```jsx
+const translate = require('../../server/translate.js').translate;
+
+<h2>
+  <translate desc="the header description">
+    This header will be translated
+  </translate>
+</h2>;
+```
+
+On Docusaurus v2, you translate your pages with `<Translate>`
+
+```jsx
+import Translate from '@docusaurus/Translate';
+
+<h2>
+  <Translate id="header.translation.id" description="the header description">
+    This header will be translated
+  </Translate>
+</h2>;
+```
+
+:::note
+
+The `write-translations` CLI still works to extract translations from your code.
+
+The code translations are now added to `i18n/[locale]/code.json` using Chrome i18n JSON format.
+
+:::
+
+### Stricter Markdown parser {#stricter-markdown-parser}
+
+Docusaurus v2 is using [MDX](https://mdxjs.com/) to parse Markdown files.
+
+MDX compila arquivos Markdown para componentes React, é mais rigoroso que o stricter Docusaurus v1, e irá fazer sua compilação falhar no erro em vez de renderizar algum conteúdo ruim.
+
+Além disso, os elementos HTML devem ser substituídos por elementos JSX.
+
+Isso é particularmente importante para i18n porque se suas traduções não forem boas no Crowdin e usarem marcação inválida, seu site traduzido v2 pode falhar na construção: você pode precisar fazer alguma limpeza de tradução para corrigir os erros.
+
+## Migration strategies {#migration-strategies}
+
+This section will help you figure out how to **keep your existing v1 translations after you migrate to v2**.
+
+There are **multiple possible strategies** to migrate a Docusaurus v1 site using Crowdin, with different tradeoffs.
+
+:::warning
+
+Esta documentação é o melhor esforço para ajudá-lo a migrar, ajude-nos a melhorá-la se encontrar uma maneira melhor!
+
+:::
+
+Antes de tudo, recomendamos:
+
+- Migre seu site Docusaurus v1 para v2 sem as traduções
+- Get familiar with the [new i18n system of Docusaurus v2](../i18n/i18n-introduction.mdx) an
+- Make Crowdin work for your v2 site, using a new and untranslated Crowdin project and the [Crowdin tutorial](../i18n/i18n-crowdin.mdx)
+
+:::danger
+
+Não tente migrar sem entender o Crowdin e o Docusaurus v2 i18n.
+
+:::
+
+### Create a new Crowdin project {#create-a-new-crowdin-project}
+
+To avoid any **risk of breaking your v1 site in production**, one possible strategy is to duplicate the original v1 Crowdin project.
+
+:::info
+
+This strategy was used to [upgrade the Jest website](https://jestjs.io/blog/2021/03/09/jest-website-upgrade).
+
+:::
+
+Infelizmente, o Crowdin não tem qualquer recurso "Duplicar/clonar Projeto", o que torna as coisas complicadas.
+
+- Download the translation memory of your original project in `.tmx` format (`https://crowdin.com/project/<ORIGINAL_PROJECT>/settings#tm` > `View Records`)
+- Upload the translation memory to your new project (`https://crowdin.com/project/<NEW_PROJECT>/settings#tm` > `View Records`)
+- Reconfigure `crowdin.yml` for Docusaurus v2 according to the i18n docs
+- Carregar os arquivos fonte do Docusaurus v2 com o CLI do Crowdin para o novo projeto
+- Mark sensitive strings like `id` or `slug` as "hidden string" on Crowdin
+- On the "Translations" tab, click on "Pre-Translation > via TM" (`https://crowdin.com/project/<NEW_PROJECT>/settings#translations`)
+- Tente primeiro com "correspondência 100%" (mais conteúdo será traduzido do que "Perfeito") e pré-traduza suas fontes
+- Baixar localmente as traduções do Crowdin
+- Tente executar/construir seu site e veja se há algum erro
+
+You will likely have errors on your first-try: the pre-translation might try to translate things that it should not be translated (front matter, admonition, code blocks...), and the translated MD files might be invalid for the MDX parser.
+
+Você terá que corrigir todos os erros até que seu site seja criado. You can do that by modifying the translated MD files locally, and fix your site for one locale at a time using `docusaurus build --locale fr`.
+
+Não existe um guia definitivo que possamos escrever para corrigir esses erros, mas os erros comuns são devidos a:
+
+- Não marcar strings suficientes como "hidden strings" no Crowdin, levando à pré-tradução tentando traduzir essas strings.
+- Having bad v1 translations, leading to invalid markup in v2: bad HTML elements inside translations and unclosed tags
+- Anything rejected by the MDX parser, like using HTML elements instead of JSX elements (use the [MDX playground](https://mdxjs.com/playground/) for debugging)
+
+Você pode querer repetir este processo de pré-tradução, eventualmente tentando a opção "Perfect" e limitando a pré-tradução apenas alguns idiomas/arquivos.
+
+:::tip
+
+Use [`mdx-code-block`](../i18n/i18n-crowdin.mdx#mdx-solutions) around problematic Markdown elements: Crowdin is less likely mess things up with code blocks.
+
+:::
+
+:::note
+
+Você provavelmente notará que algumas coisas foram traduzidas em seu projeto antigo, mas agora não estão traduzidas em seu novo projeto.
+
+O analisador Crowdin Markdown está evoluindo outra vez e cada projeto Crowdin tem uma versão de analisador diferente, o que pode fazer com que a pré-tradução não seja capaz de pré-traduzir todas as strings.
+
+Esta versão do analisador não está documentada e você terá que pedir ao suporte Crowdin para saber a versão do analisador do seu projeto e corrigir uma versão específica.
+
+Using the same CLI version and parser version across the 2 Crowdin projects might give better results.
+
+:::
+
+:::danger
+
+Crowdin tem um recurso de "upload de traduções", mas em nossa experiência não dá resultados muito bons para Markdown
+
+:::
+
+### Use the existing Crowdin project {#use-the-existing-crowdin-project}
+
+Se você não se importa em modificar seu projeto Crowdin existente e arriscar bagunçar as coisas, pode ser possível usar o sistema de ramificação Crowdin.
+
+:::warning
+
+Este fluxo de trabalho não foi testado na prática, informe-nos como ele é bom.
+
+:::
+
+Dessa forma, você não precisaria criar um novo projeto Crowdin, transferir a memória de tradução, aplicar pré-traduções e tentar corrigir os erros de pré-traduções.
+
+You could create a Crowdin branch for Docusaurus v2, where you upload the v2 sources, and merge the Crowdin branch to main once ready.
+
+### Use Git instead of Crowdin {#use-git-instead-of-crowdin}
+
+É possível migrar para fora do Crowdin e adicionar os arquivos de tradução ao Git.
+
+Use a CLI do Crowdin para baixar os arquivos traduzidos da v1 e coloque esses arquivos traduzidos no local correto do sistema de arquivos Docusaurus v2.

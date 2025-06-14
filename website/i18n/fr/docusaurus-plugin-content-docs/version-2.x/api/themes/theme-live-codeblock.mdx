@@ -1,0 +1,29 @@
+---
+sidebar_position: 3
+slug: /api/themes/@docusaurus/theme-live-codeblock
+---
+
+# 📦 theme-live-codeblock
+
+This theme provides a `@theme/CodeBlock` component that is powered by [react-live](https://commerce.nearform.com/open-source/react-live/). Vous pouvez en lire plus sur la documentation de [l'éditeur de code intéractif](../../guides/markdown-features/markdown-features-code-blocks.mdx#interactive-code-editor).
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-live-codeblock
+```
+
+### Configuration {#configuration}
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: ['@docusaurus/theme-live-codeblock'],
+  themeConfig: {
+    liveCodeBlock: {
+      /**
+       * La position du terrain de jeu en direct, au-dessus ou au-dessous de l'éditeur
+       * Valeurs possibles : "top" | "bottom"
+       */
+      playgroundPosition: 'bottom',
+    },
+  },
+};
+```

@@ -1,0 +1,328 @@
+---
+description: Personnalisez l'apparence de votre site en créant vos propres composants de thème
+---
+
+# Swizzling
+
+Cette section détaille comment personnaliser une mise en page dans Docusaurus.
+
+> Déjà vu...?
+
+Cette section est similaire à [Style et mise en page](./styling-layout.mdx), mais cette fois, nous allons personnaliser les composants React eux-mêmes, plutôt que leur apparence. Nous allons aborder un concept clé de Docusaurus : **le swizzling**, qui permet des **personnalisations de site plus poussées**.
+
+En pratique, le swizzling permet de **remplacer un composant de thème par votre propre implémentation**, il se décline en 2 modèles :
+
+- [**Éjection**](#ejecting) : crée une **copie** du composant du thème original, que vous pouvez entièrement **personnaliser**
+- [**Enveloppement**](#wrapping) : crée une **enveloppe** autour du composant du thème d'origine, que vous pouvez **améliorer**
+
+<details>
+
+<summary>Pourquoi utilise-t-on le terme « swizzling » ?</summary>
+
+**Le nom vient de l'Objective-C et Swift-UI** : la [méthode de swizzling](https://pspdfkit.com/blog/2019/swizzling-in-swift/) est le processus de modification de l'implémentation d'un sélecteur existant (méthode).
+
+**Pour Docusaurus, le « swizzling de composant » signifie fournir un composant alternatif qui a la priorité sur le composant fourni par le thème.**
+
+Vous pouvez l'imaginer comme une [Modification de singe](https://en.wikipedia.org/wiki/Monkey_patch) pour les composants React, vous permettant de remplacer l'implémentation par défaut. Gatsby a un concept similaire appelé [ombrage de thème](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/).
+
+Pour mieux comprendre cela, vous devez comprendre [comment les composants du thème sont résolus](./advanced/client.mdx#theme-aliases).
+
+</details>
+
+## Processus du swizzling
+
+### Vue d'ensemble
+
+Docusaurus fournit un **CLI interactif** pratique pour swizzler les composants. En général, vous avez seulement besoin de retenir la commande suivante :
+
+```bash npm2yarn
+npm run swizzle
+```
+
+Cela générera un nouveau composant dans votre répertoire `src/theme`, qui devrait ressembler à cet exemple :
+
+```mdx-code-block
+<Tabs>
+<TabItem value="Éjection">
+```
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+
+export default function SomeComponent(props) {
+  // Vous pouvez entièrement personnaliser cette implémentation
+  // y compris changer le JSX, le CSS et les hooks React
+  return (
+    <div className="some-class">
+      <h1>Un composant</h1>
+      <p>Détails sur l'implémentation du composant</p>
+    </div>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="Enveloppement">
+```
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+import SomeComponent from '@theme-original/SomeComponent';
+
+export default function SomeComponentWrapper(props) {
+  // Vous pouvez améliorer le composant original,
+  // notamment en ajoutant des props ou des éléments JSX supplémentaires autour de lui
+  return (
+    <>
+      <SomeComponent {...props} />
+    </>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+Pour obtenir un aperçu de tous les thèmes et composants disponibles à swizzler, exécutez :
+
+```bash npm2yarn
+npm run swizzle -- --list
+```
+
+Utilisez `--help` pour voir toutes les options CLI disponibles, ou reportez-vous à la [documentation de référence du CLI de swizzle](./cli.mdx#docusaurus-swizzle).
+
+:::note
+
+Après avoir swizzlé un composant, **redémarrez votre serveur de développement** pour que Docusaurus prenne en compte le nouveau composant.
+
+:::
+
+:::warning Privilégiez la sécurité
+
+Assurez-vous de comprendre [quels composants sont **sûrs à swizzler**](#what-is-safe-to-swizzle). Certains composants sont des **détails d'implémentation internes** d'un thème.
+
+:::
+
+:::info
+
+`docusaurus swizzle` n'est qu'un moyen automatisé pour vous aider à swizzler le composant. Vous pouvez également créer le fichier `src/theme/SomeComponent.js` manuellement, et Docusaurus [le résoudra](./advanced/client.mdx#theme-aliases). Il n'y a pas de magie interne derrière cette commande !
+
+:::
+
+### Éjection {#ejecting}
+
+L'éjection d'un composant de thème est le processus de **création d'une copie** du composant de thème d'origine, que vous pouvez **entièrement personnaliser et remplacer**.
+
+Pour éjecter un composant de thème, utilisez le swizzle du CLI de manière interactive, ou avec l'option `--eject` :
+
+```bash npm2yarn
+npm run swizzle [nom du thème] [nom du composant] -- --eject
+```
+
+Exemple :
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
+```
+
+Ceci copiera l'implémentation du composant actuel `<Footer />` dans le répertoire `src/theme` de votre site. Docusaurus utilisera désormais cette copie de composant `<Footer>` au lieu de l'originale. Vous êtes alors libre de réimplémenter complètement le composant `<Footer>`.
+
+```jsx title="src/theme/Footer/index.js"
+import React from 'react';
+
+export default function Footer(props) {
+  return (
+    <footer>
+      <h1>Voici le pied de page de mon site personnalisé</h1>
+      <p>Et il est très différent de l'original</p>
+    </footer>
+  );
+}
+```
+
+:::warning
+
+L'éjection d'un composant [**non sûr**](#what-is-safe-to-swizzle) peut parfois conduire à copier une grande quantité de code interne, que vous devez maintenant maintenir vous-même. Cela peut rendre les mises à jour de Docusaurus plus difficiles, car vous devrez migrer vos personnalisations si les propriétés reçues ou les API de thème internes utilisées ont changé.
+
+**Chaque fois que c'est possible**, privilégiez [l'enveloppement](#wrapping) : vous aurez moins de code à maintenir.
+
+:::
+
+:::tip Le re-swizzling
+
+Pour que les composants éjectés restent à jour après une mise à niveau de Docusaurus, exécutez à nouveau la commande eject et comparez les changements avec `git diff`. Il est également recommandé d'écrire un bref commentaire en haut du fichier expliquant les modifications que vous avez apportées, afin de pouvoir plus facilement réappliquer vos modifications après la ré-éjection.
+
+:::
+
+### Enveloppement {#wrapping}
+
+L'enveloppement d'un composant de thème est le processus de **création d'une enveloppe** autour du composant du thème original, que vous pouvez **améliorer**.
+
+Pour envelopper un composant de thème, utilisez le CLI swizzle de manière interactive, ou avec l'option `--wrap` :
+
+```bash npm2yarn
+npm run swizzle [theme name] [component name] -- --wrap
+```
+
+Exemple :
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer -- --wrap
+```
+
+Cela créera une enveloppe dans le répertoire `src/theme` de votre site. Docusaurus utilisera désormais le composant `<FooterWrapper>` au lieu du composant original. Vous pouvez alors ajouter des personnalisations autour du composant original.
+
+```jsx title="src/theme/Footer/index.js"
+import React from 'react';
+import Footer from '@theme-original/Footer';
+
+export default function FooterWrapper(props) {
+  return (
+    <>
+      <section>
+        <h2>Section supplémentaire</h2>
+        <p>Ceci est une section supplémentaire qui apparaît au-dessus du pied de page</p>
+      </section>
+      <Footer {...props} />
+    </>
+  );
+}
+```
+
+<details>
+  <summary>C'est quoi <code>@theme-original</code> ?</summary>
+
+Docusaurus utilise les [alias de thème](./advanced/client.mdx#theme-aliases) pour résoudre les composants du thème à utiliser. L'enveloppe nouvellement créé prend l'alias `@theme/SomeComponent`. `@theme-original/SomeComponent` permet d'importer le composant original que l'enveloppe masque sans créer une boucle d'importation infinie dans laquelle l'enveloppe s'importe elle-même.
+
+</details>
+
+:::tip
+
+L'enveloppement d'un thème est un excellent moyen d'**ajouter des composants supplémentaires autour d'un existant** sans [l'éjection](#ejecting). Par exemple, vous pouvez facilement ajouter un système de commentaires personnalisés sous chaque article de blog :
+
+```jsx title="src/theme/BlogPostItem.js"
+import React from 'react';
+import BlogPostItem from '@theme-original/BlogPostItem';
+import MyCustomCommentSystem from '@site/src/MyCustomCommentSystem';
+
+export default function BlogPostItemWrapper(props) {
+  return (
+    <>
+      <BlogPostItem {...props} />
+      <MyCustomCommentSystem />
+    </>
+  );
+}
+```
+
+:::
+
+## Qu'est-ce qui est sans danger pour swizzler ? {#what-is-safe-to-swizzle}
+
+> Un grand pouvoir implique de grandes responsabilités.
+
+Certains composants de thème sont des **détails d'implémentation internes** d'un thème. Docusaurus vous permet de les swizzler, mais cela **peut être risqué**.
+
+<details>
+
+<summary>Pourquoi est-ce risqué ?</summary>
+
+Les auteurs de thèmes (dont nous faisons partie) peuvent être amenés à mettre à jour leur thème au fil du temps : changement des composants, de leur nom, de l'emplacement du système de fichiers, des types... Par exemple, considérons un composant qui reçoit deux props `name` et `age`, mais après une refactorisation, il reçoit maintenant une prop `person` avec les deux propriétés ci-dessus. Votre composant, qui attend toujours ces deux props, rendra `undefined` à la place.
+
+Par ailleurs, les composants internes peuvent tout simplement disparaître. Si un composant est appelé `Sidebar` et qu'il est plus tard renommé en `DocSidebar`, votre composant swizzlé sera complètement ignoré.
+
+**Les composants du thème marqués comme non sûrs peuvent être modifiés d'une manière incompatible avec les précédentes versions mineures du thème.** Lors de la mise à jour d'un thème (ou de Docusaurus), vos personnalisations peuvent **se comporter de manière inattendue**, et peuvent même **casser votre site**.
+
+</details>
+
+Pour chaque composant de thème, le CLI de swizzle indique l'un des **3 niveaux de sécurité** déclarés par l'auteur du thème :
+
+- **Safe** (sécurisé) : ce composant est sans danger pour être swizzlé, son API publique est considérée comme stable, et aucun changement ne devrait se produire dans une **version majeure** du thème
+- **Unsafe** (non sûr) : ce composant est un détail de l'implémentation du thème, il n'est pas sûr pour le swizzling, et des changements peuvent survenir dans une **version mineure** d'un thème
+- **Forbidden** (interdit) : la commande swizzle CLI vous empêchera de swizzler ce composant, car il n'est pas du tout conçu pour cela
+
+:::note
+
+Certains composants peuvent être sûrs pour l'enveloppement, mais pas pour l'éjection.
+
+:::
+
+:::info
+
+Ne soyez pas trop **effrayé par l'utilisation de composants non sécurisés** : gardez simplement à l'esprit que des **changement de rupture** pourraient se produire, et que vous pourriez avoir besoin de mettre à jour vos personnalisations manuellement lors de mises à jour mineures.
+
+:::
+
+:::note Signalez votre cas d'utilisation
+
+Si vous avez un **cas d'utilisation sérieux pour swizzler un composant non sûr**, veuillez [\*\*le signaler ici](https://github.com/facebook/docusaurus/discussions/5468) et nous travaillerons ensemble pour trouver une solution qui le rendra sûr.
+
+:::
+
+## Quel composant devrais-je swizzler ? {#which-component-should-i-swizzle}
+
+Il n'est pas toujours facile d'identifier le composant à swizzler pour atteindre le résultat souhaité. `@docusaurus/theme-classic`, qui fournit la plupart des composants de thème, comporte environ [100 composants](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme) !
+
+:::tip
+
+Pour voir un aperçu de tous les composants `@docusaurus/theme-classic` :
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic -- --list
+```
+
+:::
+
+Pour localiser le bon composant à swizzler, suivez ces étapes :
+
+1. **Description du composant.** Certains composants fournissent une courte description, ce qui est un bon moyen de trouver le bon composant.
+2. **Nom du composant.** Les composants du thème officiel sont nommés de manière sémantique, vous devriez donc pouvoir déduire la fonction d'un composant à partir de son nom. La commande Swizzle du CLI vous permet de saisir une partie du nom d'un composant pour restreindre les choix disponibles. Par exemple, si vous exécutez `yarn swizzle @docusaurus/theme-classic`, et saisissez `Doc`, seuls les composants liés aux docs seront listés.
+3. **Démarrer avec un composant de niveau supérieur.** Les composants forment une arborescence, certains composants en important d'autres. Chaque route sera associée à un composant de premier niveau que la route rendra (la plupart d'entre elles sont listées dans [Routage dans les plugins de contenu](./advanced/routing.mdx#routing-in-content-plugins)). Par exemple, toutes les pages de publication du blog ont `@theme/BlogPostPage` en tant que composant principal. Vous pouvez commencer par swizzler ce composant, puis descendre dans l'arborescence des composants pour trouver le composant qui rend exactement ce que vous ciblez. N'oubliez pas de déswizzler le reste en supprimant les fichiers après avoir trouvé le bon, afin de ne pas conserver trop de composants.
+4. **Lisez le [code source du thème](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)** et utilisez la recherche judicieusement.
+
+:::tip Il vous suffit de demander !
+
+Si vous n'avez toujours pas la moindre idée du composant à swizzler pour obtenir l'effet désiré, vous pouvez demander de l'aide sur l'un de nos [canaux de support](/community/support).
+
+Nous souhaitons également mieux comprendre vos cas d'utilisation les plus sophistiqués en matière de personnalisation, alors n'hésitez pas à [**les signaler**](https://github.com/facebook/docusaurus/discussions/5468).
+
+:::
+
+## Ai-je besoin de swizzler ? {#do-i-need-to-swizzle}
+
+Le swizzling signifie en fin de compte que vous devez maintenir du code React supplémentaire qui interagit avec les API internes de Docusaurus. Si vous le pouvez, pensez aux alternatives suivantes lors de la personnalisation de votre site :
+
+1. **Utiliser le CSS.** Les règles et les sélecteurs CSS peuvent souvent vous aider à atteindre un degré décent de personnalisation. Reportez-vous au [style et la mise en page ](./styling-layout.mdx) pour plus de détails.
+2. **Utiliser des traductions.** Cela peut sembler surprenant, mais les traductions ne sont en fin de compte qu'un moyen de personnaliser les libellés de texte. Par exemple, si la langue par défaut de votre site est `en`, vous pouvez toujours exécuter `yarn write-translations -l en` et modifier le `code.json` émis. Reportez-vous au [tutoriel i18n](./i18n/i18n-tutorial.mdx) pour plus de détails.
+
+:::tip
+
+**Plus c'est petit, mieux c'est.** Si le swizzling est inévitable, préférez ne swizzler que la partie pertinente et maintenez le moins de code possible. Le swizzling d'un petit composant signifie souvent moins de **changement de rupture** lors de la mise à jour.
+
+L'[enveloppement](#wrapping) est également une alternative bien plus sûre que l'[éjection](#ejecting).
+
+:::
+
+## Envelopper votre site avec `<Root>` {#wrapper-your-site-with-root}
+
+Le composant `<Root>` est rendu tout en haut de l'arborescence React, au-dessus du thème `<Layout>`, et **ne se démonte jamais**. C'est l'endroit idéal pour ajouter une logique d'état qui ne doit pas être réinitialisée au fil des navigations (statut d'authentification de l'utilisateur, état du panier d'achat...).
+
+Swizzlez-le **manuellement** en créant un fichier `src/theme/Root.js` :
+
+```js title="src/theme/Root.js"
+import React from 'react';
+
+// Implémentation par défaut, que vous pouvez personnaliser
+export default function Root({children}) {
+  return <>{children}</>;
+}
+```
+
+:::tip
+
+Utilisez ce composant pour afficher les fournisseurs de contexte de React.
+
+:::

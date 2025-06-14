@@ -1,0 +1,815 @@
+---
+description: 다양한 정적 사이트 호스팅 서비스에서 실제 운영할 도큐사우루스 앱을 배포합니다.
+---
+
+# 배포
+
+웹 사이트에 게시할 파일을 빌드하기 위해서 아래 명령을 실행합니다.
+
+```bash npm2yarn
+npm run build
+```
+
+Once it finishes, the static files will be generated within the `build` directory.
+
+:::note
+
+The only responsibility of Docusaurus is to build your site and emit static files in `build`.
+
+만들어진 정적 파일을 어떻게 호스팅할 것인지는 여러분에게 달려 있습니다.
+
+:::
+
+You can deploy your site to static site hosting services such as [Vercel](https://vercel.com/), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/docs/static-sites), [Surge](https://surge.sh/help/getting-started-with-surge)...
+
+도큐사우루스 사이트는 정적 렌더링 방식을 사용합니다. 자바스크립트가 없이도 잘 동작합니다.
+
+## Configuration {#configuration}
+
+The following parameters are required in `docusaurus.config.js` to optimize routing and serve files from the correct location:
+
+| 옵션명       | 설명                                                                                                                        |
+| --------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | 사이트의 URL을 설정합니다. For a site deployed at `https://my-org.com/my-project/`, `url` is `https://my-org.com/`.                 |
+| `baseUrl` | 트레일링 슬래시를 포함한 프로젝트 Base URL을 설정합니다. For a site deployed at `https://my-org.com/my-project/`, `baseUrl` is `/my-project/`. |
+
+## Testing your Build Locally {#testing-build-locally}
+
+실제 배포 작업을 진행하기 전에 로컬에서 빌드 테스트를 진행해야 합니다. Docusaurus provides a [`docusaurus serve`](cli.mdx#docusaurus-serve-sitedir) command for that:
+
+```bash npm2yarn
+npm run serve
+```
+
+By default, this will load your site at [`http://localhost:3000/`](http://localhost:3000/).
+
+## Trailing slash configuration {#trailing-slashes}
+
+Docusaurus has a [`trailingSlash` config](./api/docusaurus.config.js.mdx#trailingSlash), to allow customizing URLs/links and emitted filename patterns.
+
+기본값에서도 잘 동작합니다. Unfortunately, each static hosting provider has a **different behavior**, and deploying the exact same site to various hosts can lead to distinct results. 여러분이 선택한 호스팅 서비스에 따라 설정을 변경해서 사용할 수 있습니다.
+
+:::tip
+
+Use [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-guide) to understand better the behavior of your host and configure `trailingSlash` appropriately.
+
+:::
+
+## Using environment variables {#using-environment-variables}
+
+잠재적으로 민감할 수 있는 정보는 환경 설정으로 빼놓은 것이 일반적인 관행입니다. However, in a typical Docusaurus website, the `docusaurus.config.js` file is the only interface to the Node.js environment (see [our architecture overview](advanced/architecture.mdx)), while everything else—MDX pages, React components... are client side and do not have direct access to the `process` global. In this case, you can consider using [`customFields`](api/docusaurus.config.js.mdx#customfields) to pass environment variables to the client side.
+
+```js title="docusaurus.config.js"
+// dotenv를 사용하고 있다면 (https://www.npmjs.com/package/dotenv)
+require('dotenv').config();
+
+module.exports = {
+  title: '...',
+  url: process.env.URL, // 환경 변수를 사용해 사이트 세부 사항을 제어할 수 있습니다
+  // highlight-start
+  customFields: {
+    // 여기에 사용자 지정 환경 설정을 추가하세요
+    teamEmail: process.env.EMAIL,
+  },
+  // highlight-end
+};
+```
+
+```jsx title="home.jsx"
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+export default function Home() {
+  const {
+    siteConfig: {customFields},
+  } = useDocusaurusContext();
+  return <div>Contact us through {customFields.teamEmail}!</div>;
+}
+```
+
+## Choosing a hosting provider {#choosing-a-hosting-provider}
+
+몇 가지 공통적인 호스팅 옵션입니다.
+
+- [Self hosting](#self-hosting) with an HTTP server like Apache2 or Nginx;
+- Jamstack providers, e.g. [Netlify](#deploying-to-netlify) and [Vercel](#deploying-to-vercel). 이들을 참조하긴 하지만 다른 공급자들도 같은 방식을 적용될 수 있습니다.
+- [GitHub Pages](#deploying-to-github-pages). (이 역시 잼스택의 하나이지만 별도로 분류했습니다).
+
+어떤 것을 선택해야 할지 잘 모르겠다면 다음 질문을 참고하세요.
+
+<details>
+
+<summary>
+  How much resource (person-hours, money) am I willing to invest in this?
+</summary>
+
+- 🔴 자체 호스팅은 설정하기가 쉽지 않습니다. 일반적으로 이를 관리하기 위해 경험 있는 사람이 필요합니다. 클라우드 서비스는 대부분 무료가 아니며 자체 서버를 설정하고 WAN에 연결하는 것도 많은 비용이 들어갑니다.
+- 🟢 잼스택 공급자는 바로 동작하는 웹사이트를 거의 즉시 설정할 수 있도록 도와주고 서버 측 리다이렉션 같은 기능도 쉽게 구성할 수 있습니다. 대부분 공급자가 거의 초과하지 않을 정도의 빌드 시간 할당량을 지원하는 관대한 무료 플랜을 제공합니다. 하지만 궁극적으로는 제한적입니다. 한도에 도달하면 비용을 지불해야 합니다. 자세한 내용은 공급자의 가격 목록을 확인하세요.
+- 🟡 깃헙 페이지 배포 흐름은 설정하기가 지겨울 수 있습니다. (Evidence: see the length of [Deploying to GitHub Pages](#deploying-to-github-pages)!) 하지만 이 서비스(빌드와 배포를 포함해)는 공개 저장소인 경우 항상 무료이며 작업에 필요한 자세한 지침을 제공해줍니다.
+
+</details>
+
+<details>
+
+<summary>How much server-side configuration would I need?</summary>
+
+- 🟢 자체 호스팅을 사용하면 전체 서버 구성에 접근할 수 있습니다. 요청 URL을 기반으로 다른 콘텐츠를 제공하도록 가상 호스트를 구성할 수 있습니다. 복잡한 서버 측 리다이렉트도 처리할 수 있습니다. 사이트 일부를 인증을 통해 접근하도록 허용할 수도 있습니다. 서버 측 기능이 많이 필요한 경우 웹사이트 자체 호스팅을 추천합니다.
+- 🟡 잼스택은 일반적으로 일부 서버 측 구성을 지원합니다. 예를 들어 URL 형식(트레일링 슬래시), 서버 측 리다이렉트 등을 사용할 수 있습니다.
+- 🔴 깃헙 페이지는 HTTPS를 적용하고 CNAME을 설정하는 것 외에 추가적인 서버 측 구성은 지원하지 않습니다.
+
+</details>
+
+<details>
+
+<summary>Do I have needs to cooperate?</summary>
+
+- 🟡 자체 호스팅 서비스는 Netlify와 같은 결과물을 얻을 수 있지만 훨씬 더 많은 작업이 필요합니다. 일반적으로 배포를 관리하는 인력이 필요하며 워크플로우는 다른 두 가지 옵션과 달리 깃 기반이 아닙니다.
+- 🟢 Netlify와 Vercel은 모두 풀 리퀘스트에 대한 배포 미리보기를 지원해서 팀이 제품을 병합하기 전에 작업을 검토하는데 유용합니다. 배포에 접근할 수 있는 다른 구성원을 팀으로 관리할 수 있습니다.
+- 🟡 깃헙 페이지는 배포 미리보기를 쉽게 설정할 수 있도록 허용하지 않습니다. 하나의 저장소는 하나의 사이트 배포에만 연결할 수 있습니다. 하지만 사이트 배포에 대한 쓰기 접근 권한을 가진 사용자를 관리할 수 있습니다.
+
+</details>
+
+모든 것을 만족하는 해결책은 없습니다. 선택을 하기 전에 어떤 것이 필요한지 어떤 자원을 가지고 있는지 확인하고 결정해야 합니다.
+
+## Self-Hosting {#self-hosting}
+
+Docusaurus can be self-hosted using [`docusaurus serve`](cli.mdx#docusaurus-serve-sitedir). Change port using `--port` and `--host` to change host.
+
+```bash npm2yarn
+npm run serve -- --build --port 80 --host 0.0.0.0
+```
+
+:::warning
+
+직접 호스팅하는 것은 정적 호스팅 서비스 제공 업체나 CDN과 비교해서 최선의 선택은 아닙니다.
+
+:::
+
+:::warning
+
+다음 섹션에서는 몇 가지 대중적인 호스팅 공급자에서 도큐사우루스 사이트를 가장 효율적으로 배포하기 위한 구성 방법을 소개합니다. 일부 콘텐츠는 외부 기고자가 작성했습니다. Docusaurus는 어떤 서비스와도 직접 관련은 없습니다. 문서가 최신 상태가 아닐 수 있습니다. 최근 변경된 API 내용이 우리쪽에 반영되지 않을 수 있습니다. If you see outdated content, PRs are welcome.
+
+최신 정보를 반영하지 못하는 문제 때문에 새로운 호스팅 공급자 구성을 추가하는 PR 접수를 중단했습니다. 하지만 별도 사이트(예를 들어 블로그 또는 호스팅 공급자 웹사이트)에 글을 게시하고 해당 콘텐츠에 대한 링크를 포함하도록 요청할 수는 있습니다.
+
+:::
+
+## Deploying to Netlify {#deploying-to-netlify}
+
+To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first make sure the following options are properly configured:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // highlight-start
+  url: 'https://docusaurus-2.netlify.app', // Url to your site with no trailing slash
+  baseUrl: '/', // Base directory of your site relative to your repo
+  // highlight-end
+  // ...
+};
+```
+
+Then, [create your site with Netlify](https://app.netlify.com/start).
+
+사이트 설정을 위해 다음과 같은 빌드 명령과 디렉터리를 지정해주세요.
+
+- build command: `npm run build`
+- publish directory: `build`
+
+If you did not configure these build options, you may still go to "Site settings" -> "Build & deploy" after your site is created.
+
+Once properly configured with the above options, your site should deploy and automatically redeploy upon merging to your deploy branch, which defaults to `main`.
+
+:::warning
+
+Some Docusaurus sites put the `docs` folder outside of `website` (most likely former Docusaurus v1 sites):
+
+```bash
+repo           # git root
+├── docs       # MD files
+└── website    # Docusaurus root
+```
+
+If you decide to use the `website` folder as Netlify's base directory, Netlify will not trigger builds when you update the `docs` folder, and you need to configure a [custom `ignore` command](https://docs.netlify.com/configure-builds/common-configurations/ignore-builds/):
+
+```toml title="website/netlify.toml"
+[build]
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF . ../docs/"
+```
+
+:::
+
+:::warning
+
+기본적으로 네트리파이는 트레일링 슬래시를 도큐사우루스 URL에 추가합니다.
+
+It is recommended to disable the Netlify setting `Post Processing > Asset Optimization > Pretty Urls` to prevent lowercased URLs, unnecessary redirects, and 404 errors.
+
+**Be very careful**: the `Disable asset optimization` global checkbox is broken and does not really disable the `Pretty URLs` setting in practice. Please make sure to **uncheck it independently**.
+
+If you want to keep the `Pretty Urls` Netlify setting on, adjust the `trailingSlash` Docusaurus config appropriately.
+
+Refer to [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-guide) for more information.
+
+:::
+
+## Deploying to Vercel {#deploying-to-vercel}
+
+Deploying your Docusaurus project to [Vercel](https://vercel.com/) will provide you with [various benefits](https://vercel.com/) in the areas of performance and ease of use.
+
+To deploy your Docusaurus project with a [Vercel for Git Integration](https://vercel.com/docs/concepts/git), make sure it has been pushed to a Git repository.
+
+Import the project into Vercel using the [Import Flow](https://vercel.com/import/git). During the import, you will find all relevant options preconfigured for you; however, you can choose to change any of these options, a list of which can be found [here](https://vercel.com/docs/build-step#build-&-development-settings).
+
+After your project has been imported, all subsequent pushes to branches will generate [Preview Deployments](https://vercel.com/docs/platform/deployments#preview), and all changes made to the [Production Branch](https://vercel.com/docs/git-integrations#production-branch) (usually "main" or "master") will result in a [Production Deployment](https://vercel.com/docs/platform/deployments#production).
+
+## Deploying to GitHub Pages {#deploying-to-github-pages}
+
+Docusaurus provides an easy way to publish to [GitHub Pages](https://pages.github.com/), which comes for free with every GitHub repository.
+
+### Overview {#github-pages-overview}
+
+일반적으로 배포 프로세스와 관련된 두 개의 저장소(최소한 두 개 브랜치)가 있습니다. 소스 파일을 포함하고 있는 브랜치와 깃허브 페이지에 제공될 빌드 결과물이 포함된 브랜치입니다. In the following tutorial, they will be referred to as **"source"** and **"deployment"**, respectively.
+
+각각의 깃허브 저장소는 깃허브 페이지 서비스와 연결됩니다. If the deployment repository is called `my-org/my-project` (where `my-org` is the organization name or username), the deployed site will appear at `https://my-org.github.io/my-project/`. Specially, if the deployment repository is called `my-org/my-org.github.io` (the _organization GitHub Pages repo_), the site will appear at `https://my-org.github.io/`.
+
+:::info
+
+In case you want to use your custom domain for GitHub Pages, create a `CNAME` file in the `static` directory. Anything within the `static` directory will be copied to the root of the `build` directory for deployment. When using a custom domain, you should be able to move back from `baseUrl: '/projectName/'` to `baseUrl: '/'`, and also set your `url` to your custom domain.
+
+You may refer to GitHub Pages' documentation [User, Organization, and Project Pages](https://help.github.com/en/articles/user-organization-and-project-pages) for more details.
+
+:::
+
+GitHub Pages picks up deploy-ready files (the output from `docusaurus build`) from the default branch (`master` / `main`, usually) or the `gh-pages` branch, and either from the root or the `/docs` folder. You can configure that through `Settings > Pages` in your repository. 이 브랜치를 "배포 브랜치"라고 합니다.
+
+We provide a `docusaurus deploy` command that helps you deploy your site from the source branch to the deployment branch in one command: clone, build, and commit.
+
+### `docusaurus.config.js` settings {#docusaurusconfigjs-settings}
+
+First, modify your `docusaurus.config.js` and add the following params:
+
+| 옵션명                | 설명                                                                                                                                                                     |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `organizationName` | 배포 저장소를 소유하고 있는 깃허브 사용자 또는 그룹 계정을 설정합니다.                                                                                                                               |
+| `projectName`      | 배포 저장소 이름을 설정합니다.                                                                                                                                                      |
+| `deploymentBranch` | 배포 브랜치 이름을 설정합니다. Defaults to `'gh-pages'` for non-organization GitHub Pages repos (`projectName` not ending in `.github.io`). 아니면 구성 필드 또는 환경 변수를 사용해 명시적으로 지정해야 합니다. |
+
+These fields also have their environment variable counterparts, which have a higher priority: `ORGANIZATION_NAME`, `PROJECT_NAME`, and `DEPLOYMENT_BRANCH`.
+
+:::warning
+
+깃헙 페이지는 도큐사우루스 URL에 트레일링 슬래시를 기본적으로 추가합니다. It is recommended to set a `trailingSlash` config (`true` or `false`, not `undefined`).
+
+:::
+
+예:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  url: 'https://endiliey.github.io', // Your website URL
+  baseUrl: '/',
+  // highlight-start
+  projectName: 'endiliey.github.io',
+  organizationName: 'endiliey',
+  trailingSlash: false,
+  // highlight-end
+  // ...
+};
+```
+
+:::warning
+
+By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.com/). Since Jekyll will discard any files that begin with `_`, it is recommended that you disable Jekyll by adding an empty file named `.nojekyll` file to your `static` directory.
+
+:::
+
+### Environment settings {#environment-settings}
+
+| 옵션명              | 설명                                                                                                                                                                                                                             |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `USE_SSH`        | Set to `true` to use SSH instead of the default HTTPS for the connection to the GitHub repo. If the source repo URL is an SSH URL (e.g. `git@github.com:facebook/docusaurus.git`), `USE_SSH` is inferred to be `true`.         |
+| `GIT_USER`       | The username for a GitHub account that **has push access to the deployment repo**. 여러분이 소유자인 저장소라면 사용하고 있는 깃허브 사용자명을 설정합니다. SSH를 사용하지 않는다면 필수이며 그렇지 않은 경우에는 무시됩니다.                                                             |
+| `GIT_PASS`       | Personal access token of the git user (specified by `GIT_USER`), to facilitate non-interactive deployment (e.g. continuous deployment)                                                                                         |
+| `CURRENT_BRANCH` | 소스 브랜치. Usually, the branch will be `main` or `master`, but it could be any branch except for `gh-pages`. If nothing is set for this variable, then the current branch from which `docusaurus deploy` is invoked will be used. |
+
+깃허브 엔터프라이즈를 사용하는 경우에도 깃허브와 다르지 않습니다. 환경 변수에 깃허브 엔터프라이즈에서 사용하는 그룹 계정을 설정해주기만 하면 됩니다.
+
+| 옵션명           | 설명                                      |
+| ------------- | --------------------------------------- |
+| `GITHUB_HOST` | 깃허브 엔터프라이즈 사이트에서 사용하는 도메인 이름을 설정합니다.    |
+| `GITHUB_PORT` | 깃허브 엔터프라이즈 사이트에서 사용하는 포트를 설정합니다.        |
+
+### Deploy {#deploy}
+
+이제 아래 명령을 사용해 여러분의 사이트를 깃허브 페이지로 배포합니다.
+
+```mdx-code-block
+<Tabs>
+<TabItem value="bash" label="Bash">
+```
+
+```bash
+GIT_USER=<GITHUB_USERNAME> yarn deploy
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="windows" label="Windows">
+```
+
+```batch
+cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="powershell" label="PowerShell">
+```
+
+```powershell
+cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+:::warning
+
+Beginning in August 2021, GitHub requires every command-line sign-in to use the **personal access token** instead of the password. 깃허브에서 암호를 묻는 메시지가 표시되면 PAT를 대신 입력하세요. See the [GitHub documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for more information.
+
+Alternatively, you can use SSH (`USE_SSH=true`) to log in.
+
+:::
+
+### Triggering deployment with GitHub Actions {#triggering-deployment-with-github-actions}
+
+[GitHub Actions](https://help.github.com/en/actions) allow you to automate, customize, and execute your software development workflows right in your repository.
+
+The workflow examples below assume your website source resides in the `main` branch of your repository (the _source branch_ is `main`), and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch (the _deployment branch_ is `gh-pages`).
+
+우리의 목표는 다음과 같습니다.
+
+1. When a new pull request is made to `main`, there's an action that ensures the site builds successfully, without actually deploying. This job will be called `test-deploy`.
+2. When a pull request is merged to the `main` branch or someone pushes to the `main` branch directly, it will be built and deployed to the `gh-pages` branch. 그리고 나서 새로운 빌드 결과물은 깃허브 페이지 사이트에 제공됩니다. This job will be called `deploy`.
+
+다음은 깃허브 액션을 사용해 문서를 배포하는 두 가지 접근 방식입니다. Based on the location of your deployment branch (`gh-pages`), choose the relevant tab below:
+
+- Source repo and deployment repo are the **same** repository.
+- The deployment repo is a **remote** repository, different from the source.
+
+```mdx-code-block
+<Tabs>
+<TabItem value="same" label="Same">
+```
+
+While you can have both jobs defined in the same workflow file, the original `deploy` workflow will always be listed as skipped in the PR check suite status, which is not communicative of the actual status and provides no value to the review process. 따라서 대신 별도의 워크플로로 관리할 것을 제안합니다.
+
+We will use a popular third-party deployment action: [peaceiris/actions-gh-pages](https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus).
+
+<details>
+<summary>GitHub action files</summary>
+
+다음 두 개의 워크플로 파일을 추가합니다.
+
+:::warning Tweak the parameters for your setup
+
+이 파일 설정은 Yarn을 사용하고 있다고 전제합니다. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
+
+If your Docusaurus project is not at the root of your repo, you may need to configure a [default working directory](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-set-the-default-shell-and-working-directory), and adjust the paths accordingly.
+
+:::
+
+```yml title=".github/workflows/deploy.yml"
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    # Review gh actions docs if you want to further define triggers, paths, etc
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build website
+        run: yarn build
+
+      # Popular action to deploy to GitHub Pages:
+      # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Build output to publish to the `gh-pages` branch:
+          publish_dir: ./build
+          # The following lines assign commit authorship to the official
+          # GH-Actions bot for deploys to `gh-pages` branch:
+          # https://github.com/actions/checkout/issues/13#issuecomment-724415212
+          # The GH actions bot is used by default if you didn't specify the two fields.
+          # You can swap them out with your own user credentials.
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+```
+
+```yml title=".github/workflows/test-deploy.yml"
+name: Test deployment
+
+on:
+  pull_request:
+    branches:
+      - main
+    # 트리거, 경로 등을 추가로 정의하려면 gh 액션 문서를 참고하세요.
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+
+jobs:
+  test-deploy:
+    name: Test deployment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Test build website
+        run: yarn build
+```
+
+</details>
+
+```mdx-code-block
+</TabItem>
+<TabItem value="remote" label="Remote">
+```
+
+교차 저장소 배포는 권한 확인을 통해 다른 저장소에 푸시해야 하므로 설정하기가 더 어렵습니다. 예제에서는 SSH 인증을 사용합니다.
+
+1. Generate a new [SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). SSH 키는 CI에서 사용되므로 암호를 입력하지 마세요.
+2. By default, your public key should have been created in `~/.ssh/id_rsa.pub`; otherwise, use the name you've provided in the previous step to add your key to [GitHub deploy keys](https://developer.github.com/v3/guides/managing-deploy-keys/).
+3. Copy the key to clipboard with `pbcopy < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in the deployment repository. 명령행 도구를 사용하기 곤란하다면 파일 콘텐츠를 복사할 수 있습니다. Check the box for `Allow write access` before saving your deployment key.
+4. You'll need your private key as a [GitHub secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) to allow Docusaurus to run the deployment for you.
+5. Copy your private key with `pbcopy < ~/.ssh/id_rsa` and paste a GitHub secret with the name `GH_PAGES_DEPLOY` on your source repository. 명령행 도구를 사용하기 곤란하다면 파일 콘텐츠를 복사할 수 있습니다. 보안 설정을 저장합니다.
+6. Create your [documentation workflow](https://docs.github.com/en/actions/use-cases-and-examples/creating-an-example-workflow) in the `.github/workflows/` directory. In this example it's the `deploy.yml` file.
+7. 기본적으로 다음 항목이 필요합니다. 비공개 SSH 키가 깃허브 보안 항목으로 설정된 깃허브 워크플로우를 가진 소스 저장소와 공개 SSH키가 깃허브 배포 키 항목으로 설정된 배포 저장소.
+
+<details>
+
+<summary>GitHub action file</summary>
+
+:::warning
+
+Please make sure that you replace `actions@github.com` with your GitHub email and `gh-actions` with your name.
+
+This file assumes you are using Yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
+
+:::
+
+```yml title=".github/workflows/deploy.yml"
+name: Deploy to GitHub Pages
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  test-deploy:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Test build website
+        run: yarn build
+  deploy:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+      - uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
+      - name: Deploy to GitHub Pages
+        env:
+          USE_SSH: true
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "gh-actions"
+          yarn install --frozen-lockfile
+          yarn deploy
+```
+
+</details>
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+<details>
+
+<summary>Site not deployed properly?</summary>
+
+main으로 푸시한 후 원하는 위치에 사이트가 표시되지 않으면(예를 들어 "There isn't a GitHub Pages site here"라고 표시되거나 저장소의 README.md 파일이 표시됨) 다음 항목을 체크합니다.
+
+- 깃허브 페이지가 새 파일을 처리하는데 시간이 걸릴 수 있으므로 작동하지 않는다고 판단하기 전에 약 3분 정도 기다렸다가 새로고침해보세요.
+- 저장소의 랜딩 페이지에서 마지막 커밋 제목 옆에 CI가 통과되었음을 나타내는 작은 녹색 체크 표시가 있어야 합니다. If you see a cross, it means the build or deployment failed, and you should check the log for more debugging information.
+- 체크 표시를 클릭해 "Deploy to GitHub Pages" 워크플로우가 표시되는지 확인합니다. Names like "pages build and deployment / deploy" are GitHub's default workflows, indicating your custom deployment workflow failed to be triggered at all. Make sure the YAML files are put under the `.github/workflows` folder, and the trigger condition is set correctly (for example, if your default branch is "master" instead of "main", you need to change the `on.push` property).
+- We are using `gh-pages` as the deployment branch. Under your repo's Settings > Pages, make sure the "Source" (which is the source for the _deployment_ files, not "source" as in our terminology) is set to "gh-pages" + "/ (root)".
+- 사용자 지정 도메인을 사용하는 경우 DNS 레코드가 깃허브 페이지 서버의 IP를 가리키고 있는지 확인하세요.
+
+</details>
+
+### Triggering deployment with Travis CI {#triggering-deployment-with-travis-ci}
+
+Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to npm, and deploying changes to your website. All you need to do to automate the deployment of your website is to invoke the `yarn deploy` script whenever your website is updated. The following section covers how to do just that using [Travis CI](https://travis-ci.com/), a popular continuous integration service provider.
+
+1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/). When creating the token, grant it the `repo` scope so that it has the permissions it needs.
+2. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
+3. 트래비스 CI 대시보드를 실행합니다. The URL looks like `https://travis-ci.com/USERNAME/REPO`, and navigate to the `More options > Setting > Environment Variables` section of your repository.
+4. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
+5. Create a `.travis.yml` on the root of your repository with the following:
+
+```yml title=".travis.yml"
+language: node_js
+node_js:
+  - 18
+branches:
+  only:
+    - main
+cache:
+  yarn: true
+script:
+  - git config --global user.name "${GH_NAME}"
+  - git config --global user.email "${GH_EMAIL}"
+  - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
+  - yarn install
+  - GIT_USER="${GH_NAME}" yarn deploy
+```
+
+Now, whenever a new commit lands in `main`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
+
+### Triggering deployment with Buddy {#triggering-deployment-with-buddy}
+
+[Buddy](https://buddy.works/) is an easy-to-use CI/CD tool that allows you to automate the deployment of your portal to different environments, including GitHub Pages.
+
+Follow these steps to create a pipeline that automatically deploys a new version of your website whenever you push changes to the selected branch of your project:
+
+1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/). When creating the token, grant it the `repo` scope so that it has the permissions it needs.
+2. Buddy 계정에 로그인하고 새 프로젝트를 만듭니다.
+3. 깃헙을 깃 호스팅 공급자로 선택하고 웹 사이트 코드가 있는 저장소를 선택합니다.
+4. Using the left navigation panel, switch to the `Pipelines` view.
+5. 새 파이프 라인을 만듭니다. Define its name, set the trigger mode to `On push`, and select the branch that triggers the pipeline execution.
+6. Add a `Node.js` action.
+7. 작업 터미널에 아래 명령을 추가합니다.
+
+```bash
+GIT_USER=<GH_PERSONAL_ACCESS_TOKEN>
+git config --global user.email "<YOUR_GH_EMAIL>"
+git config --global user.name "<YOUR_GH_USERNAME>"
+yarn deploy
+```
+
+After creating this simple pipeline, each new commit pushed to the branch you selected deploys your website to GitHub Pages using `yarn deploy`. Read [this guide](https://buddy.works/guides/react-docusaurus) to learn more about setting up a CI/CD pipeline for Docusaurus.
+
+### Using Azure Pipelines {#using-azure-pipelines}
+
+1. Sign Up at [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) if you haven't already.
+2. 그룹 계정 만들기 그룹 계정(organization)으로 프로젝트를 만듭니다. 그리고 깃허브 저장소를 연결합니다.
+3. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) with the `repo` scope.
+4. In the project page (which looks like `https://dev.azure.com/ORG_NAME/REPO_NAME/_build`), create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). 환경 변수는 secret로 설정되어야 합니다. Alternatively, you can also add a file named `azure-pipelines.yml` at your repository root.
+
+```yml title="azure-pipelines.yml"
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - checkout: self
+    persistCredentials: true
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18'
+    displayName: Install Node.js
+
+  - script: |
+      git config --global user.name "${GH_NAME}"
+      git config --global user.email "${GH_EMAIL}"
+      git checkout -b main
+      echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
+      yarn install
+      GIT_USER="${GH_NAME}" yarn deploy
+    env:
+      GH_NAME: $(GH_NAME)
+      GH_EMAIL: $(GH_EMAIL)
+      GH_TOKEN: $(GH_TOKEN)
+    displayName: Install and build
+```
+
+### Using Drone {#using-drone}
+
+1. Create a new SSH key that will be the [deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys) for your project.
+2. Name your private and public keys to be specific and so that it does not overwrite your other [SSH keys](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+3. Go to `https://github.com/USERNAME/REPO/settings/keys` and add a new deploy key by pasting in the public key you just generated.
+4. 드론 CI 대시보드에 로그인합니다. The URL looks like `https://cloud.drone.io/USERNAME/REPO`.
+5. Click on the repository, click on activate repository, and add a secret called `git_deploy_private_key` with your private key value that you just generated.
+6. Create a `.drone.yml` on the root of your repository with the below text.
+
+```yml title=".drone.yml"
+kind: pipeline
+type: docker
+trigger:
+  event:
+    - tag
+- name: Website
+  image: node
+  commands:
+    - mkdir -p $HOME/.ssh
+    - ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
+    - echo "$GITHUB_PRIVATE_KEY" > "$HOME/.ssh/id_rsa"
+    - chmod 0600 $HOME/.ssh/id_rsa
+    - cd website
+    - yarn install
+    - yarn deploy
+  environment:
+    USE_SSH: true
+    GITHUB_PRIVATE_KEY:
+      from_secret: git_deploy_private_key
+```
+
+Now, whenever you push a new tag to GitHub, this trigger will start the drone CI job to publish your website.
+
+## Deploying to Koyeb {#deploying-to-koyeb}
+
+[Koyeb](https://www.koyeb.com) is a developer-friendly serverless platform to deploy apps globally. The platform lets you seamlessly run Docker containers, web apps, and APIs with git-based deployment, native autoscaling, a global edge network, and built-in service mesh and discovery. Check out the [Koyeb's Docusaurus deployment guide](https://www.koyeb.com/tutorials/deploy-docusaurus-on-koyeb) to get started.
+
+## Deploying to Render {#deploying-to-render}
+
+[Render](https://render.com) offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN, and continuous auto-deploy from your Git repo. Get started in just a few minutes by following [Render's guide to deploying Docusaurus](https://render.com/docs/deploy-docusaurus).
+
+## Deploying to Qovery {#deploying-to-qovery}
+
+[Qovery](https://www.qovery.com) is a fully-managed cloud platform that runs on your AWS, Digital Ocean, and Scaleway account where you can host static sites, backend APIs, databases, cron jobs, and all your other apps in one place.
+
+1. Qovery 계정을 만듭니다. Visit the [Qovery dashboard](https://console.qovery.com) to create an account if you don't already have one.
+2. 프로젝트를 만듭니다.
+   - Click on **Create project** and give a name to your project.
+   - Click on **Next**.
+3. 새 환경을 생성합니다.
+   - Click on **Create environment** and give a name (e.g. staging, production).
+4. 애플리케이션을 추가합니다.
+   - Click on **Create an application**, give a name and select your GitHub or GitLab repository where your Docusaurus app is located.
+   - 메인 브랜치 이름과 루트 애플리케이션 경로를 설정합니다.
+   - Click on **Create**. 애플리케이션이 만들어진 후에는
+   - Navigate to your application **Settings**
+   - Select **Port**
+   - 도큐사우루스 애플리케이션에서 사용하는 포트를 추가합니다.
+5. Deploy All you have to do now is to navigate to your application and click on **Deploy**.
+
+![Deploy the app](https://hub.qovery.com/img/heroku/heroku-1.png)
+
+That's it. Watch the status and wait till the app is deployed. To open the application in your browser, click on **Action** and **Open** in your application overview.
+
+## Deploying to Hostman {#deploying-to-hostman}
+
+[Hostman](https://hostman.com/) allows you to host static websites for free. Hostman automates everything, you just need to connect your repository and follow easy steps:
+
+1. Create a service.
+
+   To deploy a Docusaurus static website, click **Create** in the top-left corner of your [Dashboard](https://dashboard.hostman.com/) and choose **Front-end app or static website**.
+
+2. Select the project to deploy.
+
+   깃허브, 깃랩, 비트버킷 계정으로 Hostman에 로그인했다면 개인 저장소를 포함해 여러분의 프로젝트가 있는 모든 저장소를 확인할 수 있습니다.
+
+   Choose the project you want to deploy. It must contain the directory with the project's files (e.g. `website`).
+
+   To access a different repository, click **Connect another repository**.
+
+   If you didn't use your Git account credentials to log in, you'll be able to access the necessary account now, and then select the project.
+
+3. Configure the build settings.
+
+   Next, the **Website customization** window will appear. Choose the **Static website** option from the list of frameworks.
+
+   The **Directory with app** points at the directory that will contain the project's files after the build. You can leave it empty if during Step 2 you selected the repository with the contents of the website (or `my_website`) directory.
+
+   도큐사우루스의 기본 빌드 명령을 실행합니다.
+
+   ```bash npm2yarn
+   npm run build
+   ```
+
+   You can modify the build command if needed. You can enter multiple commands separated by `&&`.
+
+4. Deploy.
+
+   Click **Deploy** to start the build process.
+
+   Once it starts, you will enter the deployment log. 코드에 문제가 있다면 로그에서 경고나 에러 메시지를 확인하고 문제의 원인을 살펴볼 수 있습니다. Usually, the log contains all the debugging data you'll need.
+
+   When the deployment is complete, you will receive an email notification and also see a log entry. All done! Your project is up and ready.
+
+## Deploying to Surge {#deploying-to-surge}
+
+Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge), it is used to deploy your Docusaurus project from the command line in a minute. Deploying your project to Surge is easy and it is also free (including a custom domain and SSL).
+
+Deploy your app in a matter of seconds using surge with the following steps:
+
+1. First, install Surge using npm by running the following command:
+   ```bash npm2yarn
+   npm install -g surge
+   ```
+2. To build the static files of your site for production in the root directory of your project, run:
+   ```bash npm2yarn
+   npm run build
+   ```
+3. Then, run this command inside the root directory of your project:
+   ```bash
+   surge build/
+   ```
+
+First-time users of Surge would be prompted to create an account from the command line (which happens only once).
+
+Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given (which can be edited).
+
+### Using your domain {#using-your-domain}
+
+If you have a domain name you can deploy your site using surge to your domain using the command:
+
+```bash
+surge build/ your-domain.com
+```
+
+Your site is now deployed for free at `subdomain.surge.sh` or `your-domain.com` depending on the method you chose.
+
+### Setting up CNAME file {#setting-up-cname-file}
+
+Store your domain in a CNAME file for future deployments with the following command:
+
+```bash
+echo subdomain.surge.sh > CNAME
+```
+
+You can deploy any other changes in the future with the command `surge`.
+
+## Deploying to QuantCDN {#deploying-to-quantcdn}
+
+1. Install [Quant CLI](https://docs.quantcdn.io/docs/cli/get-started)
+2. Create a QuantCDN account by [signing up](https://dashboard.quantcdn.io/register)
+3. Initialize your project with `quant init` and fill in your credentials:
+   ```bash
+   quant init
+   ```
+4. Deploy your site.
+   ```bash
+   quant deploy
+   ```
+
+See [docs](https://docs.quantcdn.io/docs/cli/continuous-integration) and [blog](https://www.quantcdn.io/blog) for more examples and use cases for deploying to QuantCDN.
+
+## Deploying to Layer0 {#deploying-to-layer0}
+
+[Layer0](https://www.layer0.co) is an all-in-one platform to develop, deploy, preview, experiment on, monitor, and run your headless frontend. It is focused on large, dynamic websites and best-in-class performance through EdgeJS (a JavaScript-based Content Delivery Network), predictive prefetching, and performance monitoring. Layer0 offers a free tier. Get started in just a few minutes by following [Layer0's guide to deploying Docusaurus](https://docs.layer0.co/guides/docusaurus).
+
+## Deploying to Cloudflare Pages {#deploying-to-cloudflare-pages}
+
+[Cloudflare Pages](https://pages.cloudflare.com/) is a Jamstack platform for frontend developers to collaborate and deploy websites. Get started within a few minutes by following [this article](https://dev.to/apidev234/deploying-docusaurus-to-cloudflare-pages-565g).
+
+## Deploying to Azure Static Web Apps {#deploying-to-azure-static-web-apps}
+
+[Azure Static Web Apps](https://docs.microsoft.com/en-us/azure/static-web-apps/overview) is a service that automatically builds and deploys full-stack web apps to Azure directly from the code repository, simplifying the developer experience for CI/CD. Static Web Apps separates the web application's static assets from its dynamic (API) endpoints. Static assets are served from globally-distributed content servers, making it faster for clients to retrieve files using servers nearby. Dynamic APIs are scaled with serverless architectures, using an event-driven functions-based approach that is more cost-effective and scales on demand. Get started in a few minutes by following [this step-by-step guide](https://dev.to/azure/11-share-content-with-docusaurus-azure-static-web-apps-30hc).

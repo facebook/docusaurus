@@ -1,0 +1,120 @@
+---
+id: introduction
+sidebar_label: はじめに
+slug: /docs-introduction
+---
+
+# docs 入門
+
+docs 機能により、Markdown ファイルを階層形式で整理することができます。
+
+:::info
+
+Check the [Docs Plugin API Reference documentation](./../../api/plugins/plugin-content-docs.mdx) for an exhaustive list of options.
+
+:::
+
+あなたのサイトのドキュメントは、最も低いレベルから最も高いレベルまで、以下の4つのレベルで組み立てられています。
+
+1. 個別のページ。
+2. サイドバー。
+3. バージョン。
+4. プラグインのインスタンス。
+
+The guide will introduce them in that order: starting from [how individual pages can be configured](./docs-create-doc.mdx), to [how to create a sidebar or multiple ones](./sidebar/index.mdx), to [how to create and manage versions](./versioning.mdx), to [how to use multiple docs plugin instances](./docs-multi-instance.mdx).
+
+## Docs-only mode {#docs-only-mode}
+
+初期化されたばかりの Docusaurus サイトは以下の構造を持ちます。
+
+```
+example.com/                                -> `src/pages/index.js` から生成
+
+example.com/docs/intro                      -> `docs/intro.md` から生成
+example.com/docs/tutorial-basics/...        -> `docs/tutorial-basics/...` から生成
+...
+
+example.com/blog/2021/08/26/welcome         -> `blog/2021-08-26-welcome/index.md` から生成
+example.com/blog/2021/08/01/mdx-blog-post   -> `blog/2021-08-01-mdx-blog-post.mdx` から生成
+...
+```
+
+すべてのドキュメントはサブルート `docs/` 以下で提供されます。 しかし、 **あなたのサイトにドキュメントしかない場合**や、ドキュメントをルートに置いて優先度を上げたい場合はどうすれば良いのでしょうか？
+
+以下の設定があると仮定すると、
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          /* docs plugin options */
+        },
+        blog: {
+          /* blog plugin options */
+        },
+        // ...
+      },
+    ],
+  ],
+};
+```
+
+以下のように変更して、ドキュメント専用モードにしてください。
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-next-line
+          routeBasePath: '/', // Serve the docs at the site's root
+          /* other docs plugin options */
+        },
+        // highlight-next-line
+        blog: false, // Optional: disable the blog plugin
+        // ...
+      },
+    ],
+  ],
+};
+```
+
+なお、**必ずしもブログや、その他のプラグインの使用を断念する必要はありません**。`routeBasePath: '/'`が行うのは、ドキュメントを `https://example.com/docs/some-doc` で提供するのではなく、サイトのルート（ `https://example.com/some-doc` ）に置くということだけです。 その状態でも、ブログが有効であれば `blog/` サブルートからアクセスできます。
+
+以下のフロントマターを追加して、ルート（ `https://example.com/` ）にページを置くことを忘れずに行いましょう。
+
+```md title="docs/intro.md"
+---
+# highlight-next-line
+slug: /
+---
+
+ユーザーが https://example.com/ を訪れたとき、このページがホームページになります。
+```
+
+:::warning
+
+ホームページにしたいドキュメントに `slug: /` を追加したら、`./src/pages/index.js` にある既存のホームページは削除しなければなりません。そうしなければ、同じ経路に 2 つのファイルが対応付けられてしまいます！
+
+:::
+
+ここまでで、サイトの構成は以下のようになります。
+
+```
+example.com/                       -> `docs/intro.md` から生成
+example.com/tutorial-basics/...    -> `docs/tutorial-basics/...` から生成
+...
+```
+
+:::tip
+
+There's also a "blog-only mode" for those who only want to use the blog feature of Docusaurus. You can use the same method detailed above. [ブログ専用モード](../../blog.mdx#blog-only-mode) のセットアップ手順に従ってください。
+
+:::

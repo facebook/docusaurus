@@ -1,0 +1,77 @@
+---
+sidebar_position: 6
+slug: /api/plugins/@docusaurus/plugin-google-analytics
+---
+
+# 📦 plugin-google-analytics
+
+import APITable from '@site/src/components/APITable';
+
+기본 [구글 애널리틱스](https://developers.google.com/analytics/devguides/collection/analyticsjs/) 플러그인입니다. **제품 빌드로 배포한** 여러분의 웹 사이트가 얼마나 많은 사용자를 만났는지 측정하기 위한 자바스크립트 라이브러리입니다. 구글 애널리틱스 4를 사용하고 있다면 [plugin-google-gtag](./plugin-google-gtag.mdx) 플러그인을 사용하세요.
+
+:::danger Deprecated
+
+This plugin is **deprecated** and became useless on July 1, 2023.
+
+구글에서도 [유니버설 애널리틱스 기능 지원 중단 예정](https://blog.google/products/marketingplatform/analytics/prepare-for-future-with-google-analytics-4/)을 공지했습니다.
+
+`UA-*` 트래킹 id로 해당 플러그인을 사용하고 있다면 가능한 빨리 구글 애널리틱스 4 계정을 만들고 플러그인 대신 [`@docusaurus/plugin-google-gtag`](./plugin-google-gtag.mdx)을 사용해야 합니다. 자세한 내용은 [깃허브 이슈](https://github.com/facebook/docusaurus/issues/7221)를 참고하세요.
+
+:::
+
+:::warning production only
+
+해당 플러그인은 분석 통계 수치가 오염되는 것을 방지하기 위해 개발 중에는 비활성화되고 **제품 빌드 시에만 활성화**됩니다.
+
+:::
+
+## 설치 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-google-analytics
+```
+
+:::tip
+
+`@docusaurus/preset-classic`을 설치한 경우에는 플러그인을 따로 설치할 필요는 없습니다.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## 설정 {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명           | 타입        | 기본값     | 설명                    |
+| ------------- | --------- | ------- | --------------------- |
+| `trackingID`  | `string`  | **필수**  | 애널리틱스 서비스의 추적 ID      |
+| `anonymizeIP` | `boolean` | `false` | 요청을 보낼 때 IP를 익명화할지 여부 |
+
+```mdx-code-block
+</APITable>
+```
+
+### 설정 예시 {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 플러그인을 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```js config-tabs
+// Preset Options: googleAnalytics
+// Plugin Options: @docusaurus/plugin-google-analytics
+
+const config = {
+  trackingID: 'UA-141789564-1',
+  anonymizeIP: true,
+};
+```

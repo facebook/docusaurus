@@ -1,0 +1,28 @@
+---
+description: Docusaurus 是如何构建你的网站的
+---
+
+# 架构
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Zoom from 'react-medium-image-zoom';
+```
+
+<Zoom>
+
+![架构概览](/img/architecture.png)
+
+</Zoom>
+
+这个图表展示了 Docusaurus 是如何构建你的网站的。 每个插件会收集各自的内容并输出 JSON 数据；主题会提供组件，这些组件会以路由模块的形式接收插件输出的 JSON 数据。 打包器会把所有的组件打包，并输出一个服务端包和一个客户端包。
+
+虽然你（要么是插件作者要么是网站创建者）一直在写 JavaScript ，但要牢记，写出的 JS 实际上是在不同的环境中运行的：
+
+- 所有插件生命周期方法都在 Node 中运行。 所以，在我们原生支持 ES 模块之前，插件源代码必须以 ES 模块的形式提供，或以 CommonJS 形式发布，我们可以直接 `require`。
+- 主题的代码由 Webpack 构建。 它们可以按照 React 的惯例，以 ES 模块形式发布。
+
+插件代码和主题代码从不直接相互导入：它们只能通过协议来通信（在我们的情况中，是通过 JSON 临时文件和调用 `addRoute`）。 一个好用的心智模型是：想象插件不是用 JavaScript 写的，而是用其他诸如 Rust 之类的语言。 用户唯一和插件交互的方式就是通过 `docusaurus.config.js`，因为它本身就是在 Node 中运行的。（这也是为什么你可以在这里用 `require` 或者给插件提供回调函数作为选项。）
+
+在打包过程中，配置文件本身会被序列化并打包，从而允许主题通过 [`useDocusaurusContext()`](../docusaurus-core.mdx#useDocusaurusContext) 访问配置选项，比如 `themeConfig` 或者 `baseUrl`。 然而， `siteConfig` 对象只包含**可序列化的值**（那些 `JSON.stringify()` 之后会被保留的值）。 函数、正则表达式等会在客户端丢失。 `themeConfig` 的值就被设计成完全可序列化的。

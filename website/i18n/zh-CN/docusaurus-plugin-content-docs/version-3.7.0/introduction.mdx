@@ -1,0 +1,194 @@
+---
+description: Docusaurus 自设计之初的目标就是易于安装且运行快速。
+slug: /
+---
+
+# Docusaurus 介绍
+
+⚡️ Docusaurus will help you ship a **beautiful documentation site in no time**.
+
+💸 自己造轮子是一件苦差事。 Instead, **focus on your content** and just write Markdown files.
+
+💥 想深入了解吗？ Use **advanced features** like versioning, i18n, search and theme customizations.
+
+💅 查看 **[最佳 Docusaurus 站点](/showcase?tags=favorite)** 以获取灵感。
+
+🧐 Docusaurus is a **static-site generator**. It builds a **single-page application** with fast client-side navigation, leveraging the full power of **React** to make your site interactive. It provides out-of-the-box **documentation features** but can be used to create **any kind of site** (personal website, product, blog, marketing landing pages, etc).
+
+![](/img/slash-introducing.svg)
+
+## Fast Track ⏱️ {#fast-track}
+
+Understand Docusaurus in **5 minutes** by playing!
+
+Create a new Docusaurus site and follow the **very short** embedded tutorial.
+
+Install [Node.js](https://nodejs.org/en/download/) and create a new Docusaurus site:
+
+```bash
+npx create-docusaurus@latest my-website classic
+```
+
+运行网站：
+
+```bash
+cd my-website
+npx docusaurus start
+```
+
+Open [`http://localhost:3000`](http://localhost:3000) and follow the tutorial.
+
+:::tip
+
+Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in your browser!
+
+Or read the **[5-minute tutorial](https://tutorial.docusaurus.io)** online.
+
+:::
+
+## Docusaurus: 让文档变得易于上手
+
+In this presentation at [Algolia Community Event](https://www.algolia.com/), [Meta Open Source team](https://opensource.facebook.com/) shared a brief walk-through of Docusaurus. 他们介绍了如何上手项目，启用插件，并设置文档和博客等功能。
+
+{/_ cSpell:ignore Yhyx Sksg _/}
+
+```mdx-code-block
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+
+<div className="video-container">
+  <LiteYouTubeEmbed
+    id="Yhyx7otSksg"
+    params="autoplay=1&autohide=1&showinfo=0&rel=0"
+    title="Docusaurus: Documentation Made Easy"
+    poster="maxresdefault"
+    webp
+  />
+</div>
+```
+
+## Migrating from v1 {#migrating-from-v1}
+
+Docusaurus v2+ 在 v1 基础上完全重写了内部逻辑，采用了一套完全现代化的工具链。 After [v2's official release](https://docusaurus.io/blog/2022/08/01/announcing-docusaurus-2.0), we highly encourage you to **use Docusaurus v2+ over Docusaurus v1**, as Docusaurus v1 has been deprecated.
+
+A [lot of users](/showcase) are already using Docusaurus v2+ ([trends](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)).
+
+**Use Docusaurus v2+ if:**
+
+- :white_check_mark: 你想要一个现代化的 Jamstack 文档网站
+- :white_check_mark: 你想要自带客户端路由的单页应用 (SPA)
+- :white_check_mark: 你想要发挥 React 和 MDX 的全部功力
+- :white_check_mark: 你不需要支持 IE11
+
+**Use [Docusaurus v1](https://v1.docusaurus.io/) if:**
+
+- :x: 你不需要单页应用 (SPA)
+- :x: 你需要支持 IE11 （……你真的需要吗？ IE [has already reached end-of-life](https://docs.microsoft.com/en-us/lifecycle/products/internet-explorer-11) and is no longer officially supported)
+
+For existing v1 users that are seeking to upgrade to v2+, you can follow our [migration guides](./migration/index.mdx).
+
+## Features {#features}
+
+Docusaurus 从设计之初就极度重视开发者及贡献者的体验。
+
+- ⚛️ **Built with 💚 and React**:
+  - 使用 React 实现扩展与自定义
+  - 提供你自己的 React 组件，从而完全掌控网站的浏览体验
+- 🔌 **可扩展**:
+  - 使用基础模板搭建网站，随后使用进阶功能及插件
+  - 开放你的插件源码，与社区共享
+- ✂️ **Developer experience**:
+  - 立即开始撰写你的软件文档
+  - 统一配置文件，贡献者可以轻松维护
+  - 热重载，飞速增量构建
+  - 基于路由的代码及数据拆分
+  - 轻松发布到 GitHub Pages、Netlify、Vercel 和其他部署服务
+
+我们的共同目标——快速让用户找到需要的内容，并更好地了解你的产品。 我们和你分享我们的最佳实践，帮助你正确而优雅地构建自己的文档网站。
+
+- 🎯 **SEO friendly**:
+  - 为每条路径静态生成 HTML 文件。
+  - 为每个页面做单独搜索引擎优化，帮助用户快速到达官方文档，解决当前问题。
+- 📝 **Powered by MDX**:
+  - 用 JSX 和 React 撰写交互组件，并将其嵌入 Markdown。
+  - 在实时编辑器中分享你的代码，让你的用户迅速爱上你的产品。
+- 🔍 **Search**: Your full site is searchable.
+- 💾 **Document Versioning**: Helps you keep documentation in sync with project releases.
+- 🌍 **Internationalization (i18n)**: Translate your site in multiple locales.
+
+Docusaurus v2+ 生而乐意为全体用户服务，而且快如闪电。
+
+- ⚡️ **Lightning-fast**. Docusaurus v2+ follows the [PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/) that makes sure your content loads blazing fast.
+- 🦖 **Accessible**. 我们重视无障碍访问性，让所有用户都能平等地访问你的网站。
+
+## Design principles {#design-principles}
+
+- **Little to learn**. Docusaurus 的 API 小而精，保证易于上手使用。 用户仍然可以完成大多数功能，即使需要花更多时间写更多代码。 没有抽象要比错误的抽象更好，我们不希望用户在错误的抽象上捣鼓解决方案。 Mandatory talk—[Minimal API Surface Area](https://www.youtube.com/watch?v=4anAwXYqLG8).
+- **Intuitive**. 用户查看 Docusaurus 项目目录或添加新特性时不会感到头昏脑胀。 软件应简单直观，用户则可轻松扩展。
+- **Layered architecture**. 软件栈的分层（内容/主题/样式）应一目了然——充分抽象且模块化。
+- **Sensible defaults**. 常见、热门的性能优化选项会自动支持，并仍提供手动覆盖的方式。
+- **No vendor lock-in**. 用户无需使用默认插件或 CSS（虽然我们强烈推荐这么做）。 某些核心基础设施，例如 React Loadable 和 React Router 不能替换，因为我们基于这些做了默认性能优化，但更高层的架构则可以随意替换。 Markdown 引擎、CSS 框架、CSS 方法和其他架构的选择完全取决于用户。
+
+我们相信，作为开发者，了解库的工作原理有助于我们更好地使用它。 因此，我们致力于诠释 Docusaurus 的架构和各个组件，希望用户在阅读后能对该工具有更深入的了解，从而更熟练地使用它。
+
+## Comparison with other tools {#comparison-with-other-tools}
+
+在所有的静态网站生成器中，Docusaurus 独树一帜，专注于文档网站，拥有诸多开箱即用的功能。
+
+我们同时也研究了其他一些主流静态站点生成器，想和你一起分享我们比较后的看法，希望能帮你在多种选择中做出判断。
+
+### Gatsby {#gatsby}
+
+[Gatsby](https://www.gatsbyjs.com/) is packed with a lot of features, has a rich ecosystem of plugins, and is capable of doing everything that Docusaurus does. 当然，这带来了较陡的学习曲线。 Gatsby 在许多方面做得都很出色，适合构建许多类型的网站。 另一方面，Docusaurus 力图将一件事做到尽善尽美——成为最好的内容撰写与发布工具。
+
+GraphQL 是 Gatsby 的核心，但搭建 Gatsby 网站不一定要用到它。 而在大多数静态网站中，你更不需要 GraphQL 所提供的灵活性。
+
+Docusaurus v2+ 的许多方面都被 Gatsby 的出色之处所启发，这是一个优秀的替代品。
+
+[Docz](https://github.com/pedronauck/docz) is a Gatsby theme to build documentation websites. 它的功能与 Docusaurus 相比要匮乏。
+
+### Next.js {#nextjs}
+
+[Next.js](https://nextjs.org/) is another very popular hybrid React framework. 它可以帮助你构建出色的文档网站，但它并不着重于文档功能本身，而且需要你手动实现 Docusaurus 所自带的功能。
+
+[Nextra](https://github.com/shuding/nextra) is an opinionated static site generator built on top of Next.js. 它的功能与 Docusaurus 相比要匮乏。
+
+### VitePress {#vitepress}
+
+[VitePress](https://vitepress.dev/) has many similarities with Docusaurus - both focus heavily on content-centric websites and provides tailored documentation features out of the box. 但是，VitePress 是由 Vue 驱动，而 Docusaurus 是由 React 驱动。 如果你想要一个基于 Vue 的解决方案，VitePress 是个不错的选择。
+
+### MkDocs {#mkdocs}
+
+[MkDocs](https://www.mkdocs.org/) is a popular Python static site generator with value propositions similar to Docusaurus.
+
+如果你不需要单页应用，也不打算利用 React 的话，这是个好选择。
+
+[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) is a beautiful theme.
+
+### Docsify {#docsify}
+
+[Docsify](https://docsify.js.org/) makes it easy to create a documentation website, but is not a static-site generator and is not SEO friendly.
+
+### GitBook {#gitbook}
+
+[GitBook](https://www.gitbook.com/) has a very clean design and has been used by many open source projects. 但随着它把重点逐渐从开源工具转向商业产品，它不再符合开源项目文档网站的需要。 结果就是，许多项目转用了其他产品。 You may read about Redux's switch to Docusaurus [here](https://github.com/reduxjs/redux/issues/3161).
+
+目前，GitBook 只对开源和非营利团队免费。 Docusaurus 则对所有人免费。
+
+### Jekyll {#jekyll}
+
+[Jekyll](https://github.com/jekyll/jekyll) is one of the most mature static site generators around and has been a great tool to use — in fact, before Docusaurus, most of Facebook's Open Source websites are/were built on Jekyll! 它的上手难度极低。 在静态网站构建方面，我们想要为你带来和 Jekyll 类似的开发者体验。
+
+In comparison with statically generated HTML and interactivity added using `<script />` tags, Docusaurus sites are React apps. 我们希望借由现代化 JavaScript 生态系统工具，在文档站点性能、资源构建系统，优化和易部署性等领域制定新标准。
+
+## Staying informed {#staying-informed}
+
+- [GitHub](https://github.com/facebook/docusaurus)
+- [X](https://x.com/docusaurus)
+- [Blog](/blog)
+- [Discord](https://discord.gg/docusaurus)
+
+## 缺点什么？ {#something-missing}
+
+If you find issues with the documentation or have suggestions on how to improve the documentation or the project in general, please [file an issue](https://github.com/facebook/docusaurus) for us, or send a tweet mentioning the [@docusaurus](https://x.com/docusaurus) X account.
+
+For new feature requests, you can create a post on our [feature requests board (Canny)](/feature-requests), which is a handy tool for road-mapping and allows for sorting by upvotes, which gives the core team a better indicator of what features are in high demand, as compared to GitHub issues which are harder to triage. 请尽量避免提交新功能的合并请求 (Pull Request)，尤其是大改动，因为可能已经有人在着手实现它了，或者这个功能可能是我们未来规划的一部分。 总之，请先联系我们！

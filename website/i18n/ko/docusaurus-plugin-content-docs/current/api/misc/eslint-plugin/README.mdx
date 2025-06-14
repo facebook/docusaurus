@@ -1,0 +1,74 @@
+---
+sidebar_position: 1
+slug: /api/misc/@docusaurus/eslint-plugin
+---
+
+# 📦 eslint 플러그인
+
+[ESLint](https://eslint.org/)는 코드를 정적으로 분석하고 문제점을 보고하거나 편집기에서 코드 힌트나 명령줄을 통해 모범 사례를 제안하는 도구입니다. 도큐사우루스는 최고의 도큐사우루스 경험을 적용하기 위해 ESLint 플러그인을 지원합니다.
+
+## 설치
+
+```bash npm2yarn
+npm install --save-dev @docusaurus/eslint-plugin
+```
+
+## 사용법
+
+### 권장 설정
+
+`.eslintrc` 설정 파일에서 `extends` 항목에 `plugin:@docusaurus/recommended`를 추가합니다.
+
+```json title=".eslintrc"
+{
+  "extends": ["plugin:@docusaurus/recommended"]
+}
+```
+
+이렇게 하면 `@docusaurus` eslint 플러그인이 활성화되고 `recommended` 설정이 사용됩니다. 활성화할 규칙 목록은 아래 [지원하는 규칙](#supported-rules)을 참조하세요.
+
+### 수동 설정
+
+보다 세분화된 제어를 위해 플러그인을 수동으로 활성화하고 직접 사용할 규칙을 설정할 수 있습니다.
+
+```json title=".eslintrc"
+{
+  "plugins": ["@docusaurus"],
+  "rules": {
+    "@docusaurus/string-literal-i18n-messages": "error",
+    "@docusaurus/no-untranslated-text": "warn"
+  }
+}
+```
+
+## 지원하는 설정
+
+- Recommended: 확장되어야 하는 대부분의 도큐사우루스 사이트에 대한 권장 규칙 집합니다.
+- All: **모든** 규칙이 활성화됩니다. 이것은 마이너 버전 간에 변경될 수 있으므로 예기치 않은 주요 변경 사항을 방지하려면 해당 옵션을 사용하지 마세요.
+
+## 지원하는 규칙
+
+| 옵션명                                                                              | 설명                                                     |   |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------ | - |
+| [`@docusaurus/no-untranslated-text`](./no-untranslated-text.mdx)                 | JSX의 텍스트 라벨이 translate 호출로 래핑되도록 적용합니다                 |   |
+| [`@docusaurus/string-literal-i18n-messages`](./string-literal-i18n-messages.mdx) | 일반 텍스트 라벨에 대해 번역 API를 강제로 호출합니다.                       | ✅ |
+| [`@docusaurus/no-html-links`](./no-html-links.mdx)                               | `<a>` 태그 대신 @docusaurus/Link가 사용되도록 합니다.         | ✅ |
+| [`@docusaurus/prefer-docusaurus-heading`](./prefer-docusaurus-heading.mdx)       | heading에 `<hn>` 태그 대신 @theme/Heading이 사용되도록 합니다. | ✅ |
+
+✅ = recommended
+
+## 설정 예시
+
+다음은 설정 예시입니다:
+
+```js title=".eslintrc.js"
+module.exports = {
+  extends: ['plugin:@docusaurus/recommended'],
+  rules: {
+    '@docusaurus/no-untranslated-text': [
+      'warn',
+      {ignoredStrings: ['·', '—', '×']},
+    ],
+  },
+};
+```

@@ -1,0 +1,200 @@
+---
+description: 도큐사우루스는 손쉽게 설치하고 웹사이트를 빠르게 만들고 운영할 수 있도록 설계됐습니다.
+slug: /
+---
+
+# 개요
+
+⚡️ 도큐사우루스는 **좋아 보이는 문서 사이트를 눈 깜짝할 사이에** 공개할 수 있게 도와줍니다.
+
+💸 맞춤형 기술 스택을 직접 구축하는 것은 많은 비용이 듭니다. 대신 **여러분의 콘텐츠에 집중하고** 마크다운 파일만 작성해주세요.
+
+💥 더 많은 기능이 필요한가요? 문서 버전, i18n, 검색, 사용자 지정 테마 같은 **고급 기능**을 활용해보세요.
+
+💅 Check the **[best Docusaurus sites](/showcase?tags=favorite)** for inspiration.
+
+🧐 도큐사우루스는 **정적 사이트 생성 도구**입니다. 클라이언트에서 빠른 탐색 기능을 지원하고 사이트를 좀 더 인터랙티브하게 만들 수 있게 **React**의 기능을 최대한 끌어올린 **단일 페이지 애플리케이션**을 만들 수 있습니다. **문서 기능**은 설치 후 바로 사용할 수 있으며 **원하는 어떤 종류의 사이트**(개인 웹 사이트, 제품 블로그, 마케팅 랜딩 페이지 등)든지 만들 수 있습니다.
+
+![](/img/slash-introducing.svg)
+
+## 패스트트랙 ⏱️ {#fast-track}
+
+**5분** 안에 도큐사우루스를 바로 실행하고 이해할 수 있습니다!
+
+새로운 도큐사우루스 사이트를 만들고 기본으로 포함된 **매우 짧은** 튜토리얼을 따라가 봅니다.
+
+[Node.js](https://nodejs.org/en/download/)를 설치하고 새로운 도큐사우루스 사이트를 만듭니다.
+
+```bash
+npx create-docusaurus@latest my-website classic
+```
+
+사이트를 시작합니다.
+
+```bash
+cd my-website
+npx docusaurus start
+```
+
+[`http://localhost:3000`](http://localhost:3000)을 열고 튜토리얼을 따라해봅시다.
+
+:::tip
+
+**[docusaurus.new](https://docusaurus.new)**에 접속하면 여러분의 웹 브라우저에서 도큐사우루스를 바로 테스트해볼 수 있습니다!
+
+또는 온라인에서 **[5분 튜토리얼](https://tutorial.docusaurus.io)** 설명을 살펴볼 수 있습니다.
+
+:::
+
+## 도큐사우루스: 문서화를 좀 더 쉽게 만들어줍니다
+
+[알골리아 커뮤니티 이벤트](https://www.algolia.com/)에서 [메타 오픈 소스 팀](https://opensource.facebook.com/)은 도큐사우루스에 대한 간략한 소개를 공유했습니다. 프로젝트를 시작하고 플러그인을 활성화하고 문서, 블로그 같은 기능을 설정하는 방법을 다루었습니다.
+
+{/* cSpell:ignore Yhyx Sksg */}
+
+```mdx-code-block
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+
+<div className="video-container">
+  <LiteYouTubeEmbed
+    id="Yhyx7otSksg"
+    params="autoplay=1&autohide=1&showinfo=0&rel=0"
+    title="Docusaurus: Documentation Made Easy"
+    poster="maxresdefault"
+    webp
+  />
+</div>
+```
+
+## v1에서 마이그레이션 {#migrating-from-v1}
+
+Docusaurus v2는 완전히 현대화된 툴체인을 활용하여 Docusaurus v1을 완전히 새롭게 만들었습니다. [v2의 공식 출시](https://docusaurus.io/blog/2022/08/01/announcing-docusaurus-2.0) 이후에는 Docusaurus v1이 더 이상 사용되지 않으므로 Docusaurus v1보다는 **Docusaurus v2를 사용하실 것을 적극 권장합니다.**
+
+[많은 사용자가](/showcase) Docusaurus v2를 이미 사용하고 있습니다([트렌드](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)).
+
+**이런 경우에는 Docusaurus v2를 권장합니다.**
+
+- :white_check_mark: 최신의 잼스택(Jamstack) 문서 사이트를 만들고자 할 때
+- :white_check_mark: 클라이언트 사이드 라우팅을 적용한 단일 페이지 애플리케이션(SPA)을 만들고자 할 때
+- :white_check_mark: 리액트와 MDX의 최적의 조합을 활용하고자 할 때
+- :white_check_mark: IE11 사용자는 고려하지 않아도 될 때
+
+**이런 경우에는 [Docusaurus v1](https://v1.docusaurus.io/)를 권장합니다.**
+
+- :x: 단일 페이지 애플리케이션(SPA)을 사용하고 싶지 않을 때
+- :x: IE11 사용자에 대한 지원이 필요할 때(아마 여러분도 아시겠지만... IE는 [이미 단종되었으며](https://docs.microsoft.com/en-us/lifecycle/products/internet-explorer-11) 더 이상 공식적인 지원을 받을 수 없습니다)
+
+v2로 업그레이드하려는 기존 v1 사용자는 [마이그레이션 가이드](./migration/index.mdx)를 참고하세요.
+
+## 주요 기능 {#features}
+
+v2로 업그레이드하려는 기존 v1 사용자는 [마이그레이션 가이드](./migration/migration-overview.mdx)를 참고하세요.
+
+- ⚛️ **💚을 담아 리액트로 만들었습니다**:
+  - 리액트를 사용해 기능을 확장하거나 수정할 수 있습니다.
+  - 여러분만의 리액트 컴포넌트를 통해 사이트 방문자 경험을 완전히 새롭게 구성할 수 있습니다.
+- 🔌 **Pluggable**:
+  - 기본 템플릿으로 사이트를 시작하고 추가 기능이나 플러그인을 활용할 수 있습니다.
+  - 여러분이 만든 오픈 소스 플러그인은 커뮤니티에서 공유할 수 있습니다.
+- ✂️ **개발자 경험**:
+  - 지금 바로 문서 작성을 시작하세요.
+  - 통합된 설정 시작점은 유지보수를 쉽게 만들어줍니다.
+  - 변경된 부분만 증분 빌드해서 번개처럼 빠르게 반영할 수 있습니다.
+  - 라우트 기반으로 코드와 데이터를 분할합니다.
+  - 깃허브 페이지, 네트리파이, 베르셀이나 기타 배포 서비스에 쉽게 게시할 수 있습니다.
+
+우리가 지향하는 목표는 여러분의 사용자가 정보를 빠르게 찾고 제품을 더 잘 이해할 수 있도록 돕는 것입니다. 여러분이 문서 사이트를 적절하게 만들 때 도움이 될만한 모범 사례를 공유할 것입니다.
+
+- 🎯 **준비된 검색엔진 최적화**:
+  - 모든 접근할 수 있는 경로에 대한 HTML 파일을 만들어줍니다.
+  - 페이지별 SEO를 통해 사용자가 당면한 문제 해결에 필요한 공식 문서에 바로 도달할 수 있도록 도와줍니다.
+- 📝 **강력한 MDX 기능 활용**:
+  - 마크다운 문서 내에 JSX와 리액트로 동적인 컴포넌트를 작성할 수 있습니다.
+  - 라이브 에디터를 사용해 사용자가 즉시 코드를 실행해볼 수 있습니다.
+- 🔍 **검색**: 사이트 전체를 검색할 수 있습니다.
+- 💾 **문서 버전 관리**: 프로젝트 릴리스에 따라 문서 버전을 손쉽게 관리할 수 있습니다.
+- 🌍 **국제화(i18n)**: 여러분의 사이트를 다양한 언어로 번역하세요.
+
+도큐사우루스 v2는 모든 사용자가 편리하게 이용할 수 있고 초고속으로 사용할 수 있도록 탄생했습니다.
+
+- ⚡️ **번개처럼 빠르게**. 도큐사우루스 v2는 콘텐츠를 매우 빠르게 로드할수 있는 [PRPL 패턴](https://developers.google.com/web/fundamentals/performance/prpl-pattern/)를 따릅니다.
+- 🦖 **접근성**. 접근성에 주의하여 모든 사용자가 여러분의 사이트에 차별없이 접근할 수 있게 합니다.
+
+## 디자인 원칙 {#design-principles}
+
+- **배우기 쉬운**. 도큐사우루스의 API는 배우고 사용하기 쉽도록 작아야 합니다. 물론 사용자가 맘만 먹으면 직접 코드를 작성해서 대부분의 기능을 추가할 수 있습니다. 잘못된 추상화를 제공하는 것보다는 아예 없는 것이 낫습니다. 우리는 사용자가 잘못된 추상화에 접근하지 않기를 바랍니다. 꼭 필요한 기능만 [최소의 API로 접근할 수 있도록](https://www.youtube.com/watch?v=4anAwXYqLG8) 지원합니다.
+- **직관적**. 사용자가 도큐사우루스 프로젝트 디렉터리를 살펴보거나 새로운 기능을 추가해야 할때 당황하지 않을 겁니다. 익숙한 접근 방식을 통해 직관적으로 사용할 수 있어야 합니다.
+- **계층화된 아키텍처**. 적절한 추상화와 모듈화를 통해 각 영역(콘텐츠/테마/스타일)의 계층 간 영향을 미치는 영역은 명확하게 구분됩니다.
+- **실용적인 기본값**. 일반적으로 많이 사용하는 성능 최적화와 설정을 제공합니다. 물론 필요한 경우 사용자가 직접 설정값을 조정할 수 있습니다.
+- **특정 기술에 종속되지 않습니다**. 기본 플러그인이나 CSS 사용을 권장하긴 하지만 꼭 그걸 써야 하는 건 아닙니다. React Loadable나 React Router처럼 특정 핵심 인프라는 기본 성능 최적화 처리 때문에 다른 것으로 대체할 수 없지만 상위 수준에서는 그렇지 않습니다. 마크다운 엔진, CSS 프레임워크, CSS 방법론, 기타 아키텍처를 선택하는 것은 전적으로 사용자의 몫입니다.
+
+우리는 개발자로서 라이브러리가 어떻게 작동하는지 아는 것은 라이브러리를 더 잘 사용하는 데 도움이 된다고 믿습니다. 따라서 저희는 이 글을 읽는 사용자가 도구를 더 깊이 이해하고 더욱 능숙하게 사용할 수 있기를 바라며 도큐사우루스의 아키텍처와 다양한 구성 요소를 설명하는 데 많은 노력을 기울이고 있습니다.
+
+## 다른 도구 비교 {#comparison-with-other-tools}
+
+다른 정적인 사이트 생성 도구와 다르게 도큐사우루스는 문서 사이트에 포커스를 맞추고 있습니다. 기본적인 기능은 바로 사용할 준비가 되어 있습니다.
+
+아래에 주요한 정적 사이트 생성 도구와 비교한 내용을 정리했습니다.
+
+### 개츠비(Gatsby) {#gatsby}
+
+[개츠비](https://www.gatsbyjs.com/)는 다양한 기능과 풍부한 플러그인을 통해 도큐사우루스에서 할 수 있는 대부분의 기능을 지원하고 있습니다. 하지만 개츠비를 처음 사용하기 위해서는 기능을 학습하는 시간이 좀 더 필요합니다. 개츠비는 다양한 형태의 웹사이트를 만들어야 할 때 적합한 도구입니다. 반면에 도큐사우루스는 콘텐츠를 작성하고 게시하는 일에 최적화된 도구를 만드는 데 집중하고 있습니다.
+
+그래프QL(GraphQL)은 개츠비의 핵심이기도 합니다. 물론 개츠비 사이트를 만들 때 그래프QL이 꼭 필요한 건 아닙니다. 대부분의 경우 정적인 웹사이트 구축 시에는 그래프QL이 제공하는 유연성이 필요하지 않습니다.
+
+도큐사우루스 v2의 많은 부분은 개츠비의 여러 기능에서 영감을 얻었고 상호 보완적인 관계라고 할 수 있습니다.
+
+[Docz](https://github.com/pedronauck/docz)는 문서 웹 사이트를 만들기 위한 개츠비 테마입니다. 도큐사우루스의 테마와 비교하면 기능이 부족합니다.
+
+### 넥스트(Next.js) {#nextjs}
+
+[Next.js](https://nextjs.org/)는 매우 인기 있는 하이브리드 리액트 프레임워크 중 하나입니다. 좋은 문서 웹 사이트를 만들 수 있는 기능은 지원하지만, 문서화 관련 구축 사례는 찾아볼 수 없으며 도큐사우루스가 기본적으로 지원하는 기능을 구현하려면 좀 많은 작업이 필요합니다.
+
+[Nextra](https://github.com/shuding/nextra)는 Next.js 기반으로 만든 독립적인 정적 사이트 생성 도구입니다. 도큐사우루스의 테마와 비교하면 기능이 부족합니다.
+
+### VitePress {#vitepress}
+
+[VitePress](https://vitepress.dev/) has many similarities with Docusaurus - both focus heavily on content-centric websites and provides tailored documentation features out of the box. However, VitePress is powered by Vue, while Docusaurus is powered by React. If you want a Vue-based solution, VitePress would be a decent choice.
+
+### MkDocs {#mkdocs}
+
+[MkDocs](https://www.mkdocs.org/)는 도큐사우루스와 비슷한 컨셉을 가진 인기 있는 파이썬 정적 사이트 생성 도구입니다.
+
+단일 페이지 애플리케이션이 필요하지 않고 리액트 기능을 활용할 계획이 없다면 나쁘지 않은 선택입니다.
+
+[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)라는 멋진 테마도 지원하고 있습니다.
+
+### Docsify {#docsify}
+
+[Docsify](https://docsify.js.org/)는 문서 웹 사이트를 쉽게 만들 수 있습니다. 하지만 정적 사이트 생성 도구는 아니며 검색 엔진 최적화에 적합하지 않습니다.
+
+### 깃북(GitBook) {#gitbook}
+
+[GitBook](https://www.gitbook.com/)은 매우 깔끔한 디자인을 가지고 있으며 많은 오픈 소스 프로젝트에서 사용하고 있습니다. 하지만 오픈소스 도구보다는 상용 도구로 깃북의 관심이 옮겨지면서 오픈소스 프로젝트 문서 사이트에 필요한 요구를 더 이상 맞추어 주지 못하고 있습니다. 그래서 많은 프로젝트가 다른 도구로 이전하고 있습니다. 리덕스(Redux)도 도큐사우루스로 문서 도구를 이전했습니다. [문서 도구 관련 이슈](https://github.com/reduxjs/redux/issues/3161)에서 자세한 내용을 살펴볼 수 있습니다.
+
+현재 깃북은 오픈소스와 비영리 조직에만 무료로 제공됩니다. 하지만 도큐사우루스는 누구에게나 무료입니다.
+
+### 지킬(Jekyll) {#jekyll}
+
+[지킬](https://github.com/jekyll/jekyll)은 가장 잘 알려진 정적인 사이트 생성 도구이며 매우 좋은 도구입니다. 사실 도큐사우루스를 내놓기 전에는 페이스북의 오픈소스 웹사이트는 대부분 지킬을 사용해 만들었습니다. 지킬은 매우 간단하게 시작할 수 있습니다. 우리는 지킬에서 정적인 사이트를 개발하는 것과 유사한 개발자 경험을 제공하고자 노력하고 있습니다.
+
+지킬에서는 정적인 HTML 파일을 만들고 `<script />`를 사용해 상호 작용 기능을 추가하는데 비해 도큐사우루스는 리액트 앱으로 구현할 수 있습니다. 우리는 최신의 자바스크립트 생태계 도구를 사용하면서 사이트의 성능이나 리소스 빌드 파이프라인, 최적화, 간편한 설정에 대한 새로운 표준을 제시하고자 합니다.
+
+### Rspress {#rspress}
+
+[Rspress](https://rspress.dev/) is a fast static site generator based on Rspack, a Rust-based bundler. It supports content writing with MDX (Markdown with React components), integrated text search, multilingual support (i18n), and extensibility through plugins. Designed for creating elegant documentation and static websites, Rspress produces static HTML files that are easy to deploy.
+
+Rspress and Docusaurus are quite similar. They both have their pros and cons. Rspress was created more recently and benefits from a modern infrastructure that enables faster site builds. Docusaurus stands out for its maturity, comprehensive feature set, flexibility, and strong community. It is also [modernizing its infrastructure](https://github.com/facebook/docusaurus/issues/10556) regularly to remain competitive in terms of performance.
+
+## 최신 정보는 아래에서 확인하세요 {#staying-informed}
+
+- [깃허브](https://github.com/facebook/docusaurus)
+- [X](https://x.com/docusaurus)
+- [블로그](/blog)
+- [디스코드](https://discord.gg/docusaurus)
+
+## 뭔가 부족한가요? {#something-missing}
+
+If you find issues with the documentation or have suggestions on how to improve the documentation or the project in general, please [file an issue](https://github.com/facebook/docusaurus) for us, or send a tweet mentioning the [@docusaurus](https://x.com/docusaurus) X account.
+
+새로운 기능 요청은 [feature requests board (Canny)](/feature-requests)에 남겨주세요. 로드맵을 위한 유용한 도구이며 추천 순으로 기능 요청 목록을 정렬할 수 있습니다. 깃헙 이슈에서는 어떤 요청에 대한 관심이 많은지 알 수 없지만, Canny board에서는 가장 많은 추천을 받은 요청을 개발 팀에서 빠르게 인지할 수 있습니다. 새로운 기능(특히 커다란 기능)은 풀 리퀘스트를 생성하지 말아주세요. 누군가 이미 만들고 있거나 로드맵의 일부일 수 있습니다. 새로운 기능이 필요하다면 우리에게 먼저 연락해주세요!

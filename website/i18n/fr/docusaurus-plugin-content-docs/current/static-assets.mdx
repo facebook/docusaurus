@@ -1,0 +1,109 @@
+---
+description: Les ressources statiques sont les fichiers non codés qui sont directement copiés dans le résultat de la construction. Découvrez comment elles sont traitées et quelles sont les meilleures pratiques d'utilisation des ressources statiques.
+---
+
+# Ressources statiques
+
+Les ressources statiques sont les fichiers non codés qui sont directement copiés dans le résultat de la construction. Elles incluent des images, des feuilles de style, des favicons, des polices, etc.
+
+Par défaut, il vous est suggéré de placer ces ressources dans le dossier `static`. Chaque fichier que vous avez mis dans **ce répertoire sera copié** à la racine du dossier `build` généré avec la hiérarchie des répertoires préservée. Par exemple : si vous ajoutez un fichier nommé `sun.jpg` au dossier statique, il sera copié dans `build/sun.jpg`.
+
+Cela signifie que :
+
+- pour le site `baseUrl : '/'`, l'image `/static/img/docusaurus.png` sera servie grâce à `/img/docusaurus.png`.
+- pour le site `baseUrl: '/subpath/'`, l'image `/static/img/docusaurus.png` sera servie grâce à `/subpath/img/docusaurus.png`.
+
+Vous pouvez personnaliser les sources des répertoires statiques dans `docusaurus.config.js`. Par exemple, nous pouvons ajouter `public` comme autre chemin possible :
+
+```js title="docusaurus.config.js"
+export default {
+  title: 'Mon site',
+  staticDirectories: ['public', 'static'],
+  // ...
+};
+```
+
+Maintenant, tous les fichiers dans `public` ainsi que `static` seront copiés dans la sortie de la compilation.
+
+## Référencement de votre ressource statique {#referencing-your-static-asset}
+
+### En JSX {#in-jsx}
+
+En JSX, vous pouvez référencer les ressources du dossier `static` dans votre code en utilisant des URL absolues, mais ce n'est pas idéal car changer le `baseUrl` du site **cassera ces liens**. Pour l'image `<img src="/img/docusaurus.png" />` servie par `https://example.com/test`, le navigateur essaiera de la résoudre à partir de la racine de l'URL, c'est-à-dire en tant que `https://example.com/img/docusaurus.png`, ce qui échouera car elle est en fait servie par `https://example.com/test/img/docusaurus.png`.
+
+Vous pouvez utiliser `import()` ou `require()` pour la ressource statique (recommandé) ou utilisez la fonction utilitaire `useBaseUrl` : les deux solutions vont préfixez pour vous `baseUrl` aux chemins.
+
+Exemples :
+
+```jsx title="MyComponent.js"
+import DocusaurusImageUrl from '@site/static/img/docusaurus.png';
+
+<img src={DocusaurusImageUrl} />;
+```
+
+```jsx title="MyComponent.js"
+<img src={require('@site/static/img/docusaurus.png').default} />
+```
+
+```jsx title="MyComponent.js"
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+<img src={useBaseUrl('/img/docusaurus.png')} />;
+```
+
+Vous pouvez également importer des fichiers SVG : ils seront transformés en composants React.
+
+```jsx title="MyComponent.js"
+import DocusaurusLogoWithKeytar from '@site/static/img/docusaurus_keytar.svg';
+
+<DocusaurusLogoWithKeytar title="Docusaurus Logo" className="logo" />;
+```
+
+### En Markdown {#in-markdown}
+
+En Markdown, vous pouvez vous en tenir à l'utilisation de chemins absolus lorsque vous écrivez des liens ou des images **en syntaxe Markdown** car Docusaurus les traite comme des appels `require` au lieu d'URL lors de l'analyse du Markdown. Consultez [Ressources statiques du Markdown](./guides/markdown-features/markdown-features-assets.mdx).
+
+```md
+Vous écrivez un lien comme ceci : [Télécharger ce document](/files/note.docx)
+
+Docusaurus change cela en : <a href={require('static/files/note.docx')}>Télécharger ce document</a>
+```
+
+:::warning à l'utilisation de la syntaxe Markdown
+
+Docusaurus n'analysera que les liens qui sont dans la syntaxe Markdown. Si vos références de ressources utilisent la balise JSX `<a>` / `<img>`, rien ne sera fait.
+
+:::
+
+### En CSS {#in-css}
+
+En CSS, la fonction `url()` est couramment utilisée pour référencer des ressources comme des polices et des images. Pour référencer une ressource statique, utilisez des chemins absolus :
+
+```css
+@font-face {
+  font-family: 'Caroline';
+  src: url('/font/Caroline.otf');
+}
+```
+
+La ressource `static/font/Caroline.otf` sera chargée par le bundler.
+
+:::warning note importante
+
+Un point important à retenir : **ne codez jamais en dur votre URL de base !** L'URL de base est considérée comme un détail d'implémentation et doit être facilement modifiable. Tous les chemins, même lorsqu'ils ressemblent à des slugs d'URL, sont en fait des chemins de fichier.
+
+Si le modèle mental des slugs d'URL vous paraît plus compréhensible, voici une règle générale :
+
+- Faites comme si vous aviez une URL de base comme `/test/` lorsque vous écrivez du JSX afin de ne pas utiliser un chemin d'URL absolu comme `src="/img/thumbnail.png"` mais plutôt un `require` de la ressource.
+- Faites comme si c'était `/` lorsque vous écrivez du Markdown ou du CSS afin de toujours utiliser des chemins absolus sans l'URL de base.
+
+:::
+
+## Mises en garde {#caveats}
+
+Gardez à l'esprit que :
+
+- Par défaut, aucun des fichiers du dossier `static` ne sera post-traité, haché ou minifié.
+  - Toutefois, comme nous l'avons démontré ci-dessus, nous sommes généralement en mesure de les convertir en appels `require` pour vous afin qu'ils soient traités. C'est une bonne chose pour une mise en cache agressive et une meilleure expérience utilisateur.
+- Les fichiers manquants référencés via des chemins absolus codés en dur ne seront pas détectés au moment de la compilation, et entraîneront une erreur 404.
+- Par défaut, les pages GitHub exécutent les fichiers publiés via [Jekyll](https://jekyllrb.com/). Puisque Jekyll va se débarrasser de tous les fichiers qui commencent par `_`, il est recommandé de désactiver Jekyll en ajoutant un fichier vide nommé `.nojekyll` dans votre répertoire `static` si vous utilisez les pages GitHub pour l'hébergement.

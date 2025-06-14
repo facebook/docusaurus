@@ -1,0 +1,127 @@
+---
+sidebar_position: 4
+slug: /api/plugins/@docusaurus/plugin-client-redirects
+---
+
+# 📦 plugin-client-redirects
+
+import APITable from '@site/src/components/APITable';
+
+Plugin Docusaurus pour générer les **redirections côté client**.
+
+Ce plugin écrirera des pages HTML supplémentaires sur votre site statique qui redirige l'utilisateur vers vos pages Docusaurus existantes avec JavaScript.
+
+:::warning seulement en production
+
+Ce plugin est toujours inactif en développement et **uniquement actif en production** car il fonctionne sur la sortie de la construction.
+
+:::
+
+:::warning
+
+Il est préférable d'utiliser les redirections côté serveur chaque fois que cela est possible.
+
+Avant d'utiliser ce plugin, vous devez vérifier si votre fournisseur d'hébergement n'offre pas cette fonctionnalité.
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-client-redirects
+```
+
+## Configuration {#configuration}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Option            | Type                                                 | Par défaut  | Description                                                                                                                                                                       |
+| ----------------- | ---------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fromExtensions`  | `string[]`                                           | `[]`        | Les extensions à retirer de la route après redirection.                                                                                                                           |
+| `toExtensions`    | `string[]`                                           | `[]`        | Les extensions à ajouter à la route après redirection.                                                                                                                            |
+| `redirects`       | <code>[RedirectRule](#RedirectRule)[]</code>         | `[]`        | La liste des règles de redirection.                                                                                                                                               |
+| `createRedirects` | <code>[CreateRedirectsFn](#CreateRedirectsFn)</code> | `undefined` | Un callback pour créer une règle de redirection. Docusaurus interroge ce callback pour chaque chemin qu'il a créé, et utilise sa valeur de retour pour produire d'autres chemins. |
+
+```mdx-code-block
+</APITable>
+```
+
+:::note
+
+Ce plugin lira également la configuration [`siteConfig.onDuplicateRoutes`](../docusaurus.config.js.mdx#onDuplicateRoutes) pour configurer son niveau de journalisation lorsque plusieurs fichiers seront émis au même endroit.
+
+:::
+
+### Types {#types}
+
+#### `RedirectRule` {#RedirectRule}
+
+```ts
+type RedirectRule = {
+  to: string;
+  from: string | string[];
+};
+```
+
+:::note
+
+L'idée de "from" et "to" est primordiale dans ce plugin. "From" signifie un chemin que vous voulez _créer_, c'est-à-dire un fichier HTML supplémentaire qui sera créé, "To" signifie un chemin _vers_ lequel vous voulez rediriger, généralement une route que Docusaurus connaît déjà.
+
+C'est pourquoi vous pouvez avoir plusieurs "from" pour le même "to" : nous allons créer plusieurs fichiers HTML qui redirigent tous vers la même destination. A l'inverse, un "from" ne peut jamais avoir plus d'un "to" : le fichier HTML écrit doit avoir une destination déterminée.
+
+:::
+
+#### `CreateRedirectsFn` {#CreateRedirectsFn}
+
+```ts
+// Le paramètre `path` est une route que Docusaurus a déjà créée. Il peut
+// être considéré comme le "to", et votre valeur de retour est le "from". Retourner une valeur falsy
+// ne créera aucune page de redirection pour ce chemin particulier.
+type CreateRedirectsFn = (path: string) => string[] | string | null | undefined;
+```
+
+### Exemple de configuration {#ex-config}
+
+Voici un exemple de configuration :
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      // highlight-start
+      {
+        fromExtensions: ['html', 'htm'], // /myPage.html -> /myPage
+        toExtensions: ['exe', 'zip'], // /myAsset -> /myAsset.zip (if latter exists)
+        redirects: [
+          // /docs/oldDoc -> /docs/newDoc
+          {
+            to: '/docs/newDoc',
+            from: '/docs/oldDoc',
+          },
+          // Redirection depuis plusieurs anciens chemins vers le nouveau chemin
+          {
+            to: '/docs/newDoc2',
+            from: ['/docs/oldDocFrom2019', '/docs/legacyDocFrom2016'],
+          },
+        ],
+        createRedirects(existingPath) {
+          if (existingPath.includes('/community')) {
+            // Redirection de /docs/team/X vers /community/X et /docs/support/X vers /community/X
+            return [
+              existingPath.replace('/community', '/docs/team'),
+              existingPath.replace('/community', '/docs/support'),
+            ];
+          }
+          return undefined; // Renvoie une valeur fausse : pas de redirection créée
+        },
+      },
+      // highlight-end
+    ],
+  ],
+};
+```

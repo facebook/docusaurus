@@ -1,0 +1,174 @@
+# Release process
+
+Let's see how Docusaurus handles **versioning, releases and breaking changes**.
+
+:::info
+
+This topic is particularly important for highly customized sites that may have difficulties to upgrade.
+
+:::
+
+## Semantic versioning {#semantic-versioning}
+
+Docusaurus versioning is based on the `major.minor.patch` scheme and respects [Semantic Versioning](https://semver.org/).
+
+Respecting Semantic Versioning is important for multiple reasons:
+
+- It **guarantees simple minor version upgrades**, as long as you only use the [public API](/community/release-process#public-api-surface)
+- It follows front-end ecosystem conventions
+- A new major version is an opportunity to thoroughly document breaking changes
+- A new major/minor version is an opportunity to communicate new features through a blog post
+
+### Major versions {#major-versions}
+
+The `major` version number is incremented on **every breaking change**.
+
+Whenever a new major version is released, we publish:
+
+- a blog post with feature highlights, major bug fixes, **breaking changes, and upgrade instructions**.
+- an exhaustive changelog entry
+
+:::tip
+
+Read our [public API surface](#public-api-surface) section to clearly understand what we consider as a breaking change.
+
+:::
+
+### Minor versions {#minor-versions}
+
+The `minor` version number is incremented on every significant retro-compatible change.
+
+Whenever a new minor version is released, we publish:
+
+- a blog post with a list of feature highlights and major bug fixes
+- an exhaustive changelog entry
+
+:::tip
+
+If you only use our [public API surface](#public-api-surface), you should be able to upgrade in no time!
+
+:::
+
+### Patch versions {#patch-versions}
+
+The `patch` version number is incremented on bugfixes releases.
+
+Whenever a new patch version is released, we publish:
+
+- an exhaustive changelog entry
+
+## Versões {#versions}
+
+```mdx-code-block
+import {
+  CurrentMajorVersionNumber,
+  StableMajorBranchLink,
+  MainBranchLink,
+} from "@site/src/components/Versions";
+```
+
+The Docusaurus team uses a simple development process and only works on a single major version and a single Git branch at a same time:
+
+- **Docusaurus {CurrentMajorVersionNumber}**: the **stable** version, on the <MainBranchLink/> branch.
+
+:::note How we will ship the next version
+
+Once we are ready ship **Docusaurus {CurrentMajorVersionNumber + 1}**, we will:
+
+- create a <StableMajorBranchLink/> branch
+- merge breaking changes on the <MainBranchLink/> branch
+- release that new version directly from the <MainBranchLink/> branch
+
+:::
+
+:::warning Security fixes policy
+
+After a new stable version has been released, the former stable version will continue to receive support for **major security issues** for **3 months**.
+
+In practice, we will backport security fixes to the <StableMajorBranchLink/> branch. Otherwise, all features will be frozen and non-critical bugs will not be fixed.
+
+It is recommended to upgrade within that time frame to the new stable version.
+
+:::
+
+## Public API surface {#public-api-surface}
+
+Docusaurus commits to respecting Semantic Versioning. This means that whenever changes occur in Docusaurus public APIs and break backward compatibility, we will increment the `major` version number.
+
+:::tip
+
+Docusaurus guarantees public API retro-compatibility across `minor` versions. Unless you use internal APIs, `minor` version upgrades should be easy.
+
+:::
+
+We will outline what accounts as the public API surface.
+
+### Core public API {#core-public-api}
+
+✅ Our public API includes:
+
+- Docusaurus config
+- Docusaurus client APIs
+- Docusaurus CLI
+- Opções de predefinição
+- Opções do plugin
+- Plugin lifecycle APIs
+- Theme config
+- Core plugins route component props
+- `@docusaurus/types` TypeScript types
+  - We still retain the freedom to make types stricter (which may break type-checking).
+
+❌ Our public API **excludes**:
+
+- Docusaurus config `future`
+- All features prefixed by `experimental_` or `unstable_`
+- All features prefixed by `v<MajorVersion>_` (`v6_` `v7_`, etc.)
+
+:::tip
+
+For non-theme APIs, any documented API is considered public (and will be stable); any undocumented API is considered internal.
+
+:::
+
+An API being "stable" means if you increment the patch or minor version of your Docusaurus installation without any other change, running `docusaurus start` or `docusaurus build` should not throw an error.
+
+### Theming public API {#theming-public-api}
+
+Docusaurus has a very flexible theming system:
+
+- You can use custom CSS
+- You can [swizzle](/docs/swizzling) any React theme component
+
+This system also implicitly creates a very large API surface. To be able to move fast and improve Docusaurus, we can't guarantee retro-compatibility.
+
+✅ Our public theming API includes:
+
+- [Theme class names](/docs/styling-layout#theme-class-names)
+- [Infima](/docs/styling-layout#styling-your-site-with-infima) class names and CSS variables
+- React components that are [safe to swizzle](/docs/swizzling#what-is-safe-to-swizzle)
+- The theme user experience
+- Suporte ao navegador
+
+:::tip
+
+You may not be able to achieve your site customization through this public API.
+
+In this case, please [report your customization use case](https://github.com/facebook/docusaurus/discussions/5468) and we will figure out how to expand our public API.
+
+:::
+
+❌ Our public theming API **excludes**:
+
+- The DOM structure
+- CSS module class names with a hash suffix (usually targeted with `[class*='myClassName']` selectors)
+- React components that are [unsafe or forbidden to swizzle](/docs/swizzling#what-is-safe-to-swizzle)
+- React components that import from `@docusaurus/theme-common/internal`
+- The exact visual appearance of the theme
+
+:::note
+
+When [swizzling](/docs/swizzling) safe components, you might encounter components that import undocumented APIs from `@docusaurus/theme-common` (without the `/internal` subpath).
+
+We still maintain retro-compatibility on those APIs (hence they are marked as "safe"), but we don't encourage a direct usage.
+
+:::

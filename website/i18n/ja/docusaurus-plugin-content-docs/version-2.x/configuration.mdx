@@ -1,0 +1,182 @@
+---
+description: docusaurus.config.jsによるサイトの動作の設定など。
+---
+
+# 設定
+
+import TOCInline from '@theme/TOCInline';
+
+Docusaurusは、設定方法に独自の工夫をしています。 私たちは、サイトに関する情報を1つの場所に集めることをお勧めします。 私たちはこのファイルのフィールドを保護し、このデータオブジェクトがサイト全体でアクセスできるようにすることを促進します。
+
+Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors to be able to focus on documentation while still being able to customize the site.
+
+## What goes into a `docusaurus.config.js`? {#what-goes-into-a-docusaurusconfigjs}
+
+You should not have to write your `docusaurus.config.js` from scratch even if you are developing your site. All templates come with a `docusaurus.config.js` that includes defaults for the common options.
+
+しかし、設定がどのように設計され、実装されているのかについて高い水準で理解しておくと役に立つことがあります。
+
+Docusaurusの設定に関する高水準な概要は、以下のように分類されます。
+
+<TOCInline toc={toc} minHeadingLevel={3} maxHeadingLevel={3} />
+
+For exact reference to each of the configurable fields, you may refer to [**`docusaurus.config.js` API reference**](api/docusaurus.config.js.mdx).
+
+### Site metadata {#site-metadata}
+
+Site metadata contains the essential global metadata such as `title`, `url`, `baseUrl`, and `favicon`.
+
+They are used in several places such as your site's title and headings, browser tab icon, social sharing (Facebook, X) information or even to generate the correct path to serve your static files.
+
+### Deployment configurations {#deployment-configurations}
+
+Deployment configurations such as `projectName`, `organizationName`, and optionally `deploymentBranch` are used when you deploy your site with the `deploy` command.
+
+It is recommended to check the [deployment docs](deployment.mdx) for more information.
+
+### Theme, plugin, and preset configurations {#theme-plugin-and-preset-configurations}
+
+List the [themes](./using-plugins.mdx#using-themes), [plugins](./using-plugins.mdx), and [presets](./using-plugins.mdx#using-presets) for your site in the `themes`, `plugins`, and `presets` fields, respectively. これらは通常、以下に示す通りnpmパッケージです。
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [
+    '@docusaurus/plugin-content-blog',
+    '@docusaurus/plugin-content-pages',
+  ],
+  themes: ['@docusaurus/theme-classic'],
+};
+```
+
+:::tip
+
+Docusaurus supports [**module shorthands**](./using-plugins.mdx#module-shorthands), allowing you to simplify the above configuration as:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: ['content-blog', 'content-pages'],
+  themes: ['classic'],
+};
+```
+
+:::
+
+また、次のようにローカルディレクトリから読み込むことも可能です
+
+```js title="docusaurus.config.js"
+const path = require('path');
+
+module.exports = {
+  // ...
+  themes: [path.resolve(__dirname, '/path/to/docusaurus-local-theme')],
+};
+```
+
+プラグインやテーマのオプションを指定するには、次のように、設定ファイルのプラグインやテーマの名前を、その名前とオプションオブジェクトを含む配列に置き換えます。
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [
+    [
+      'content-blog',
+      {
+        path: 'blog',
+        routeBasePath: 'blog',
+        include: ['*.md', '*.mdx'],
+        // ...
+      },
+    ],
+    'content-pages',
+  ],
+};
+```
+
+To specify options for a plugin or theme that is bundled in a preset, pass the options through the `presets` field. In this example, `docs` refers to `@docusaurus/plugin-content-docs` and `theme` refers to `@docusaurus/theme-classic`.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
+        },
+        theme: {
+          customCss: [require.resolve('./src/css/custom.css')],
+        },
+      },
+    ],
+  ],
+};
+```
+
+:::tip
+
+The `presets: [['classic', {...}]]` shorthand works as well.
+
+:::
+
+For further help configuring themes, plugins, and presets, see [Using Plugins](./using-plugins.mdx).
+
+### Custom configurations {#custom-configurations}
+
+Docusaurus guards `docusaurus.config.js` from unknown fields. To add custom fields, define them in `customFields`.
+
+例：
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  // highlight-start
+  customFields: {
+    image: '',
+    keywords: [],
+  },
+  // highlight-end
+  // ...
+};
+```
+
+## Accessing configuration from components {#accessing-configuration-from-components}
+
+設定オブジェクトは、サイトのすべてのコンポーネントで利用できるようになります。 And you may access them via React context as `siteConfig`.
+
+簡単な例：
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+const Hello = () => {
+  // highlight-start
+  const {siteConfig} = useDocusaurusContext();
+  // highlight-end
+  const {title, tagline} = siteConfig;
+
+  return <div>{`${title} · ${tagline}`}</div>;
+};
+```
+
+:::tip
+
+If you just want to use those fields on the client side, you could create your own JS files and import them as ES6 modules, there is no need to put them in `docusaurus.config.js`.
+
+:::
+
+## Customizing Babel Configuration {#customizing-babel-configuration}
+
+For new Docusaurus projects, we automatically generated a `babel.config.js` in the project root.
+
+```js title="babel.config.js"
+module.exports = {
+  presets: [require.resolve('@docusaurus/core/lib/babel/preset')],
+};
+```
+
+ほとんどの場合、この構成で問題なく動作します。 Babelの設定をカスタマイズしたい場合（例：Flowのサポートを追加するなど）、このファイルを直接編集することができます。 変更を有効にするには、Docusaurusの開発サーバーを再起動する必要があります。
