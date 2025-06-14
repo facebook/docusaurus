@@ -10,10 +10,17 @@
     flex-grow: 1;
     padding: 0.5rem;
   }
+
   @supports (scrollbar-gutter: stable) {
     .menu {
       padding: 0.5rem 0 0.5rem 0.5rem;
       scrollbar-gutter: stable;
+    }
+  }
+
+  @supports (-moz-appearance: none) and (scrollbar-gutter: stable) {
+    .menu {
+      padding-right: 0.5rem;
     }
   }
 
