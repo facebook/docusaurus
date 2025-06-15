@@ -52,14 +52,14 @@ function useSkipToContent(): {
    * so that keyboard navigators can instantly interact with the link and jump
    * to content.
    */
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLAnchorElement>;
   /**
    * Callback fired when the skip to content link has been clicked.
    * It will programmatically focus the main content.
    */
   onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 } {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLAnchorElement>(null);
   const {action} = useHistory();
 
   const onClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -94,19 +94,15 @@ export function SkipToContentLink(props: SkipToContentLinkProps): ReactNode {
   const linkLabel = props.children ?? DefaultSkipToContentLabel;
   const {containerRef, onClick} = useSkipToContent();
   return (
-    <div
+    // eslint-disable-next-line @docusaurus/no-html-links
+    <a
+      {...props}
       ref={containerRef}
-      role="region"
-      aria-label={DefaultSkipToContentLabel}>
-      {/* eslint-disable-next-line @docusaurus/no-html-links */}
-      <a
-        {...props}
-        // Note this is a fallback href in case JS is disabled
-        // It has limitations, see https://github.com/facebook/docusaurus/issues/6411#issuecomment-1284136069
-        href={`#${SkipToContentFallbackId}`}
-        onClick={onClick}>
-        {linkLabel}
-      </a>
-    </div>
+      // Note this is a fallback href in case JS is disabled
+      // It has limitations, see https://github.com/facebook/docusaurus/issues/6411#issuecomment-1284136069
+      href={`#${SkipToContentFallbackId}`}
+      onClick={onClick}>
+      {linkLabel}
+    </a>
   );
 }
