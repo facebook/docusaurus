@@ -117,6 +117,7 @@ export async function createStartClientConfig({
           headTags,
           preBodyTags,
           postBodyTags,
+          lang: props.i18n.currentLocale,
         }),
       ],
     },
