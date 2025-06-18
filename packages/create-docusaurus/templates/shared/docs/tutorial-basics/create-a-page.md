@@ -38,6 +38,22 @@ Create a file at `src/pages/my-markdown-page.md`:
 # My Markdown page
 
 This is a Markdown page
+
+## **BALANCE**
+
+This section provides API endpoints to retrieve detailed fund balance information. It includes views by periodicity, product, overall fund summary, and margin-related data.
+
+## **Periodicity Wise Balance**
+
+This API allows you to fetch categorized fund balances such as cash deposits, overdraft limits, and miscellaneous deposits. These balances are organized based on periodicity, allowing for segmented financial insights.
+
+### Query Parameters (Optional)
+
+| Parameter | Type | Description | Example |
+| --- | --- | --- | --- |
+| periodicity | integer | Periodicity ID (Refer MarginInfo API - type list) | 3 |
+
+### Header Parameters
 ```
 
 A new page is now available at [http://localhost:3000/my-markdown-page](http://localhost:3000/my-markdown-page).
