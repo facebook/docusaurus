@@ -582,14 +582,16 @@ describe('site with doc label', () => {
     );
   });
 
-  it('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
+  it('frontMatter.sidebar_* data in doc has higher precedence over sidebar.json data', async () => {
     const {content} = await loadSite();
     const loadedVersion = content.loadedVersions[0]!;
     const sidebarProps = toSidebarsProp(loadedVersion);
 
-    expect((sidebarProps.docs![1] as PropSidebarItemLink).label).toBe(
-      'Hello 2 From Doc',
-    );
+    const item = sidebarProps.docs![1] as PropSidebarItemLink;
+
+    expect(item.label).toBe('Hello 2 From Doc');
+    expect(item.className).toBe('front-matter-class-name');
+    expect(item.customProps).toStrictEqual({custom: 'from front matter'});
   });
 });
 
