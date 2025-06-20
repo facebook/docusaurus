@@ -5,14 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import {
   parseLocalURLPath,
   serializeURLPath,
   type URLPath,
 } from '@docusaurus/utils';
-
+import logger from '@docusaurus/logger';
 import type {Plugin, Transformer} from 'unified';
 import type {Definition, Link, Root} from 'mdast';
+import type {
+  MarkdownConfig,
+  OnBrokenMarkdownLinksFunction,
+} from '@docusaurus/types';
 
 type ResolveMarkdownLinkParams = {
   /**
@@ -31,7 +36,9 @@ export type ResolveMarkdownLink = (
 ) => string | null;
 
 export interface PluginOptions {
+  siteDir: string;
   resolveMarkdownLink: ResolveMarkdownLink;
+  onBrokenMarkdownLinks: MarkdownConfig['hooks']['onBrokenMarkdownLinks'];
 }
 
 const HAS_MARKDOWN_EXTENSION = /\.mdx?$/i;
@@ -52,6 +59,20 @@ function parseMarkdownLinkURLPath(link: string): URLPath | null {
   return urlPath;
 }
 
+function asFunction(
+  onBrokenMarkdownLinks: PluginOptions['onBrokenMarkdownLinks'],
+): OnBrokenMarkdownLinksFunction {
+  if (typeof onBrokenMarkdownLinks === 'string') {
+    return ({sourceFilePath, url}) => {
+      logger.report(
+        onBrokenMarkdownLinks,
+      )`Markdown link couldn't be resolved: (url=${url}) in source file path=${sourceFilePath} `;
+    };
+  } else {
+    return onBrokenMarkdownLinks;
+  }
+}
+
 /**
  * A remark plugin to extract the h1 heading found in Markdown files
  * This is exposed as "data.contentTitle" to the processed vfile
@@ -60,7 +81,10 @@ function parseMarkdownLinkURLPath(link: string): URLPath | null {
 const plugin: Plugin<PluginOptions[], Root> = function plugin(
   options,
 ): Transformer<Root> {
-  const {resolveMarkdownLink} = options;
+  const {resolveMarkdownLink, siteDir} = options;
+
+  const onBrokenMarkdownLinks = asFunction(options.onBrokenMarkdownLinks);
+
   return async (root, file) => {
     const {visit} = await import('unist-util-visit');
 
@@ -71,18 +95,27 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
         return;
       }
 
+      const sourceFilePath = file.path;
+
       const permalink = resolveMarkdownLink({
-        sourceFilePath: file.path,
+        sourceFilePath,
         linkPathname: linkURLPath.pathname,
       });
 
       if (permalink) {
         // This reapplies the link ?qs#hash part to the resolved pathname
-        const resolvedUrl = serializeURLPath({
+        link.url = serializeURLPath({
           ...linkURLPath,
           pathname: permalink,
         });
-        link.url = resolvedUrl;
+      } else {
+        const recoverUrl = onBrokenMarkdownLinks({
+          url: link.url,
+          sourceFilePath: path.relative(siteDir, sourceFilePath),
+        });
+        if (typeof recoverUrl !== 'undefined') {
+          link.url = recoverUrl;
+        }
       }
     });
   };

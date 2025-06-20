@@ -71,7 +71,7 @@ export default async function pluginContentBlog(
     );
   }
 
-  const {onBrokenMarkdownLinks, baseUrl} = siteConfig;
+  const {baseUrl} = siteConfig;
 
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
@@ -154,18 +154,12 @@ export default async function pluginContentBlog(
       },
       markdownConfig: siteConfig.markdown,
       resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
-        const permalink = resolveMarkdownLinkPathname(linkPathname, {
+        return resolveMarkdownLinkPathname(linkPathname, {
           sourceFilePath,
           sourceToPermalink: contentHelpers.sourceToPermalink,
           siteDir,
           contentPaths,
         });
-        if (permalink === null) {
-          logger.report(
-            onBrokenMarkdownLinks,
-          )`Blog markdown link couldn't be resolved: (url=${linkPathname}) in source file path=${sourceFilePath}`;
-        }
-        return permalink;
       },
     });
 

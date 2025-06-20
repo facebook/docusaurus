@@ -217,6 +217,9 @@ export default async function createConfigAsync() {
     markdown: {
       format: 'detect',
       mermaid: true,
+      hooks: {
+        onBrokenMarkdownLinks: 'warn',
+      },
       mdx1Compat: {
         // comments: false,
       },
@@ -265,7 +268,6 @@ export default async function createConfigAsync() {
       process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
         ? 'warn'
         : 'throw',
-    onBrokenMarkdownLinks: 'warn',
     favicon: 'img/docusaurus.ico',
     customFields: {
       crashTest,
