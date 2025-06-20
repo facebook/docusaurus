@@ -16,7 +16,10 @@ import {
   DEFAULT_STORAGE_CONFIG,
   validateConfig,
 } from '../configValidation';
-import type {MarkdownConfig, MarkdownHooks} from '@docusaurus/types/src/markdown';
+import type {
+  MarkdownConfig,
+  MarkdownHooks,
+} from '@docusaurus/types/src/markdown';
 import type {
   FasterConfig,
   FutureConfig,
@@ -108,6 +111,9 @@ describe('normalizeConfig', () => {
         },
         remarkRehypeOptions: {
           footnoteLabel: 'Pied de page',
+        },
+        hooks: {
+          onBrokenMarkdownLinks: 'log',
         },
       },
     };
