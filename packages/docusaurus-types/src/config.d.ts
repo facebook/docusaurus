@@ -159,7 +159,8 @@ export type DocusaurusConfig = {
    * @see https://docusaurus.io/docs/api/docusaurus-config#onBrokenMarkdownLinks
    * @default "warn"
    */
-  onBrokenMarkdownLinks: ReportingSeverity;
+  // TODO Docusaurus v4 remove
+  onBrokenMarkdownLinks: ReportingSeverity | undefined;
   /**
    * The behavior of Docusaurus when it detects any [duplicate
    * routes](https://docusaurus.io/docs/creating-pages#duplicate-routes).

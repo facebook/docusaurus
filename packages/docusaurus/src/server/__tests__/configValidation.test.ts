@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import {
   ConfigSchema,
   DEFAULT_CONFIG,
@@ -533,6 +534,68 @@ describe('markdown', () => {
           "markdown.hooks.onBrokenMarkdownLinks" must be a string
           "
         `);
+      });
+
+      describe('onBrokenMarkdownLinks migration', () => {
+        const warnMock = jest
+          .spyOn(console, 'warn')
+          .mockImplementation(() => {});
+        beforeEach(() => {
+          warnMock.mockClear();
+        });
+
+        it('accepts migrated v3 config', () => {
+          expect(
+            normalizeConfig({
+              onBrokenMarkdownLinks: undefined,
+              markdown: {
+                hooks: {
+                  onBrokenMarkdownLinks: 'throw',
+                },
+              },
+            }),
+          ).toEqual(
+            expect.objectContaining({
+              onBrokenMarkdownLinks: undefined,
+              markdown: expect.objectContaining({
+                hooks: {
+                  onBrokenMarkdownLinks: 'throw',
+                },
+              }),
+            }),
+          );
+
+          expect(warnMock).not.toHaveBeenCalled();
+        });
+
+        it('accepts deprecated v3 config with migration warning', () => {
+          expect(
+            normalizeConfig({
+              onBrokenMarkdownLinks: 'log',
+              markdown: {
+                hooks: {
+                  onBrokenMarkdownLinks: 'throw',
+                },
+              },
+            }),
+          ).toEqual(
+            expect.objectContaining({
+              onBrokenMarkdownLinks: undefined,
+              markdown: expect.objectContaining({
+                hooks: {
+                  onBrokenMarkdownLinks: 'log',
+                },
+              }),
+            }),
+          );
+
+          expect(warnMock).toHaveBeenCalledTimes(1);
+          expect(warnMock.mock.calls[0]).toMatchInlineSnapshot(`
+            [
+              "[WARNING] The \`siteConfig.onBrokenMarkdownLinks\` config option is deprecated and will be removed in Docusaurus v4. Please migrate and move this option to \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` instead.",
+            ]
+          `);
+        });
       });
     });
   });

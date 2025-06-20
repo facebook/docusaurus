@@ -134,7 +134,7 @@ export const DEFAULT_CONFIG: Pick<
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownLinks: undefined,
   onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
@@ -356,7 +356,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     .default(DEFAULT_CONFIG.onBrokenAnchors),
   onBrokenMarkdownLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
-    .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),
+    .default(() => DEFAULT_CONFIG.onBrokenMarkdownLinks),
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
@@ -474,7 +474,15 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
 
 // Expressing this kind of logic in Joi is a pain
 // We also want to decouple logic from Joi: easier to remove it later!
-function ensureDocusaurusConfigConsistency(config: DocusaurusConfig) {
+function postProcessDocusaurusConfig(config: DocusaurusConfig) {
+  if (config.onBrokenMarkdownLinks) {
+    logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4. Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
+    // For v3 retro compatibility we use the old attribute over the new one
+    config.markdown.hooks.onBrokenMarkdownLinks = config.onBrokenMarkdownLinks;
+    // We erase the former one to ensure we don't use it anywhere
+    config.onBrokenMarkdownLinks = undefined;
+  }
+
   if (
     config.future.experimental_faster.ssgWorkerThreads &&
     !config.future.v4.removeLegacyPostBuildHeadAttribute
@@ -539,7 +547,7 @@ export function validateConfig(
     throw new Error(formattedError);
   }
 
-  ensureDocusaurusConfigConsistency(value);
+  postProcessDocusaurusConfig(value);
 
   return value;
 }
