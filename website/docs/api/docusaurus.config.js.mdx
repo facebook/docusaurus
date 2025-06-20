@@ -514,6 +514,7 @@ type MarkdownAnchorsConfig = {
 type MarkdownConfig = {
   format: 'mdx' | 'md' | 'detect';
   mermaid: boolean;
+  emoji: boolean;
   preprocessor?: MarkdownPreprocessor;
   parseFrontMatter?: ParseFrontMatter;
   mdx1Compat: MDX1CompatOptions;
@@ -529,6 +530,7 @@ export default {
   markdown: {
     format: 'mdx',
     mermaid: true,
+    emoji: true,
     preprocessor: ({filePath, fileContent}) => {
       return fileContent.replaceAll('{{MY_VAR}}', 'MY_VALUE');
     },
@@ -558,6 +560,7 @@ export default {
 | --- | --- | --- | --- |
 | `format` | `'mdx' \| 'md' \| 'detect'` | `'mdx'` | The default parser format to use for Markdown content. Using 'detect' will select the appropriate format automatically based on file extensions: `.md` vs `.mdx`. |
 | `mermaid` | `boolean` | `false` | When `true`, allows Docusaurus to render Markdown code blocks with `mermaid` language as Mermaid diagrams. |
+| `emoji` | `boolean` | `true` | When `true`, allows Docusaurus to render emoji shortcodes (e.g., `:+1:`) as Unicode emoji (👍). When `false`, emoji shortcodes are left as-is. |
 | `preprocessor` | `MarkdownPreprocessor` | `undefined` | Gives you the ability to alter the Markdown content string before parsing. Use it as a last-resort escape hatch or workaround: it is almost always better to implement a Remark/Rehype plugin. |
 | `parseFrontMatter` | `ParseFrontMatter` | `undefined` | Gives you the ability to provide your own front matter parser, or to enhance the default parser. Read our [front matter guide](../guides/markdown-features/markdown-features-intro.mdx#front-matter) for details. |
 | `mdx1Compat` | `MDX1CompatOptions` | `{comments: true, admonitions: true, headingIds: true}` | Compatibility options to make it easier to upgrade to Docusaurus v3+. |
