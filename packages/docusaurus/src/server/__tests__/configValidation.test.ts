@@ -94,6 +94,7 @@ describe('normalizeConfig', () => {
       markdown: {
         format: 'md',
         mermaid: true,
+        emoji: false,
         parseFrontMatter: async (params) =>
           params.defaultParseFrontMatter(params),
         preprocessor: ({fileContent}) => fileContent,
@@ -377,6 +378,7 @@ describe('markdown', () => {
     const markdown: Config['markdown'] = {
       format: 'md',
       mermaid: true,
+      emoji: false,
       parseFrontMatter: async (params) =>
         params.defaultParseFrontMatter(params),
       preprocessor: ({fileContent}) => fileContent,
@@ -486,6 +488,60 @@ describe('markdown', () => {
       ""markdown" must be of type object
       "
     `);
+  });
+
+  describe('emoji', () => {
+    it('accepts emoji boolean true', () => {
+      expect(
+        normalizeConfig({
+          markdown: {emoji: true},
+        }).markdown.emoji,
+      ).toBe(true);
+    });
+
+    it('accepts emoji boolean false', () => {
+      expect(
+        normalizeConfig({
+          markdown: {emoji: false},
+        }).markdown.emoji,
+      ).toBe(false);
+    });
+
+    it('defaults emoji to true when undefined', () => {
+      expect(
+        normalizeConfig({
+          markdown: {},
+        }).markdown.emoji,
+      ).toBe(true);
+    });
+
+    it('throw for string emoji value', () => {
+      expect(() =>
+        normalizeConfig({
+          markdown: {
+            // @ts-expect-error: bad value
+            emoji: 'yes',
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+      ""markdown.emoji" must be a boolean
+      "
+    `);
+    });
+
+    it('throw for number emoji value', () => {
+      expect(() =>
+        normalizeConfig({
+          markdown: {
+            // @ts-expect-error: bad value
+            emoji: 1,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+      ""markdown.emoji" must be a boolean
+      "
+    `);
+    });
   });
 });
 
