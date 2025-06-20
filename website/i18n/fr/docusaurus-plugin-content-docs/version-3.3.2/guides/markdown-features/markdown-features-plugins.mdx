@@ -1,0 +1,247 @@
+---
+id: plugins
+description: Utilisation de plugins MDX pour étendre les fonctionnalités Markdown de Docusaurus
+slug: /markdown-features/plugins
+---
+
+# Plugins MDX
+
+Parfois, vous pouvez souhaiter étendre ou modifier la syntaxe Markdown. Par exemple :
+
+- Comment intégrer des vidéos youtube en utilisant la syntaxe image (`![](https://youtu.be/yKNxeF4KMsY)`) ?
+- Comment donner un style différent aux liens qui se trouvent sur leur propre ligne, par exemple sous la forme d'une carte sociale ?
+- Comment faire pour que chaque page commence par un avis de droit d'auteur ?
+
+Et la réponse est : créer un plugin MDX ! MDX dispose d'un système intégré de [plugins](https://mdxjs.com/advanced/plugins/) qui peut être utilisé pour personnaliser la façon dont les fichiers Markdown seront analysés et transformés en JSX. Il y a trois cas d'utilisation typiques des plugins MDX :
+
+- Utilisation des plugins existants [remark](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins) ou [rehype](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins);
+- Création de plugins remark/rehype pour transformer les éléments générés par la syntaxe MDX existante;
+- Création de plugins remark/rehype pour introduire de nouvelles syntaxes dans MDX.
+
+Si vous jouez avec le [terrain de jeu MDX](https://mdxjs.com/playground/), vous remarquerez que la transpilation MDX comporte deux étapes intermédiaires : Markdown AST (MDAST), et Hypertext AST (HAST), avant d'arriver à la sortie JSX finale. Les plugins MDX sont également fournis sous deux formes :
+
+- **[Remark](https://github.com/remarkjs/remark/)** : traite l'AST du Markdown.
+- **[Rehype](https://github.com/rehypejs/rehype/)** : traite l'AST de Hypertext.
+
+:::tip
+
+Utilisez des plugins pour introduire une syntaxe plus courte pour les éléments JSX les plus couramment utilisés dans votre projet. La syntaxe [admonition](./markdown-features-admonitions.mdx) que nous proposons est également générée par un plugin de Remark, et vous pourriez faire de même pour votre propre cas d'utilisation.
+
+:::
+
+## Plugins par défaut {#default-plugins}
+
+Docusaurus injecte [quelques plugins Remark par défaut](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-mdx-loader/src/remark) pendant le traitement du Markdown. Ces plugins pourraient :
+
+- Générer la table des matières;
+- Ajouter des liens d'ancrage à chaque titre;
+- Transformer les images et les liens qui appellent `require()`.
+- …
+
+Ce sont tous des cas d'utilisation typiques des plugins Remark, qui peuvent également être une source d'inspiration si vous voulez implémenter votre propre plugin.
+
+## Installation des plugins {#installing-plugins}
+
+Un plugin MDX est généralement un paquet npm, donc vous les installez comme les autres paquets npm en utilisant npm. Prenons l'exemple du [plugin de math](./markdown-features-math-equations.mdx).
+
+```bash npm2yarn
+npm install --save remark-math@5 rehype-katex@6
+```
+
+<details>
+<summary>En quoi <code>remark-math</code> et <code>rehype-katex</code> sont-ils différents ?</summary>
+
+Au cas où vous vous demandez comment Remark et Rehype sont différents, voici un bon exemple. `remark-math` opère sur l'AST du Markdown, où il repère du texte comme `$...$`, et tout ce qu'il fait est de transformer cela en JSX `<span class="math math-inline">...</span>` sans faire trop de choses avec le contenu. Cette fonction dissocie l'extraction des formules mathématiques de leur rendu, ce qui signifie que vous pouvez échanger $\KaTeX$ avec d'autres moteurs de rendu mathématiques, comme MathJax (avec [`rehype-mathjax`](https://github.com/remarkjs/remark-math/tree/main/packages/rehype-mathjax)), juste en remplaçant le plugin Rehype.
+
+Ensuite, le `rehype-katex` fonctionne sur l'AST Hypertext où tout a déjà été converti en balises HTML . Il traverse tous les éléments de la classe `math` et utilise $\KaTeX$ pour analyser et rendre le contenu en HTML.
+
+</details>
+
+:::warning
+
+De nombreux plugins officiels Remark/Rehype sont [**ES Modules uniquement**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c), un système de modules JavaScript, que Docusaurus prend en charge. Nous vous recommandons d'utiliser un fichier de configuration [**ES Modules**](https://flaviocopes.com/es-modules/) pour faciliter l'importation de tels paquets.
+
+:::
+
+Ensuite, importez vos plugins et ajoutez-les aux options du plugin via le plugin ou la config de preset dans `docusaurus.config.js` :
+
+```js title="docusaurus.config.js"
+// highlight-start
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+// highlight-end
+
+// highlight-start
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          path: 'docs',
+          // highlight-start
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
+
+<details>
+    <summary>Utilisation d'un fichier de config [**CommonJS**](https://nodejs.org/api/modules.html#modules-commonjs-modules) ?</summary>
+
+Si vous décidez d'utiliser un fichier de config CommonJS, il est possible de charger ces plugins de module ES grâce à des importations dynamiques et une fonction créateur de config asynchrone :
+
+```js title="docusaurus.config.js"
+// highlight-start
+module.exports = async function createConfigAsync() {
+  // highlight-end
+  return {
+    presets: [
+      [
+        '@docusaurus/preset-classic',
+        {
+          docs: {
+            path: 'docs',
+            // highlight-start
+            remarkPlugins: [(await import('remark-math')).default],
+            rehypePlugins: [(await import('rehype-katex')).default],
+            // highlight-end
+          },
+        },
+      ],
+    ],
+  };
+};
+```
+
+</details>
+
+## Configuration des plugins {#configuring-plugins}
+
+Certains plugins peuvent être configurés et recevoir leurs propres options. Dans ce cas, utilisez la syntaxe `[plugin, pluginOptions]` , comme ceci :
+
+```js title="docusaurus.config.js"
+import rehypeKatex from 'rehype-katex';
+
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          rehypePlugins: [
+            // highlight-start
+            [rehypeKatex, {strict: false}],
+            // highlight-end
+          ],
+        },
+      },
+    ],
+  ],
+};
+```
+
+Vous devriez consulter la documentation de votre plugin pour les options qu'il prend en charge.
+
+## Création de nouveaux plugins rehype/remark {#creating-new-rehyperemark-plugins}
+
+S'il n'existe pas de package existant qui réponde à votre besoin de personnalisation, vous pouvez créer votre propre plugin MDX.
+
+:::note
+
+La présentation ci-dessous **n'est pas** un guide complet pour la création d'un plugin, mais simplement une illustration de la manière de le faire fonctionner avec Docusaurus. Consultez la documentation [Remark](https://github.com/remarkjs/remark/blob/main/doc/plugins.md#create-plugins) ou [Rehype](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#create-plugins) pour une explication plus approfondie de leur fonctionnement.
+
+:::
+
+Par exemple, créons un plugin qui visite chaque entête `h2` et ajoute un préfixe `Section X. `. Tout d'abord, créez le fichier source de votre plugin n'importe où - vous pouvez même le publier en tant que paquet npm distinct et l'installer comme expliqué ci-dessus. Nous placerions le nôtre dans `src/remark/section-prefix.js`. Un plugin remark/rehype est juste une fonction qui reçoit les `options` et retourne un `transformer` qui opère sur l'AST.
+
+```js "src/remark/section-prefix.js"
+import {visit} from 'unist-util-visit';
+
+const plugin = (options) => {
+  const transformer = async (ast) => {
+    let number = 1;
+    visit(ast, 'heading', (node) => {
+      if (node.depth === 2 && node.children.length > 0) {
+        node.children.unshift({
+          type: 'text',
+          value: `Section ${number}. `,
+        });
+        number++;
+      }
+    });
+  };
+  return transformer;
+};
+
+export default plugin;
+```
+
+Vous pouvez maintenant importer votre plugin dans `docusaurus.config.js` et l'utiliser comme un plugin installé !
+
+```js title="docusaurus.config.js"
+// highlight-next-line
+import sectionPrefix from './src/remark/section-prefix';
+
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-next-line
+          remarkPlugins: [sectionPrefix],
+        },
+      },
+    ],
+  ],
+};
+```
+
+:::tip
+
+Le `transformer` a un second paramètre [`vfile`](https://github.com/vfile/vfile) qui est utile si vous avez besoin d'accéder au chemin du fichier Markdown actuel.
+
+```js
+const plugin = (options) => {
+  const transformer = async (ast, vfile) => {
+    ast.children.unshift({
+      type: 'text',
+      value: `Le chemin du fichier actuel est ${vfile.path}`,
+    });
+  };
+  return transformer;
+};
+```
+
+Notre plugin `transformImage` utilise ce paramètre, par exemple, pour transformer les références d'image relatives aux appels à `require()`.
+
+:::
+
+:::note
+
+Les plugins par défaut de Docusaurus fonctionnent avant les plugins Remark personnalisés, ce qui signifie que les images ou les liens ont déjà été convertis en JSX avec des appels `require()`. Par exemple, dans l'exemple ci-dessus, la table des matières générée reste la même, même si tous les titres `h2` sont maintenant préfixés par `Section X.`, car le plugin de génération de la table des matières est appelé avant notre plugin personnalisé. Si vous devez traiter le MDAST avant les plugins par défaut, utilisez `beforeDefaultRemarkPlugins` et `beforeDefaultRehypePlugins`.
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-next-line
+          beforeDefaultRemarkPlugins: [sectionPrefix],
+        },
+      },
+    ],
+  ],
+};
+```
+
+Ainsi, la table des matières générée comprendra également le préfixe `Section X.`.
+
+:::

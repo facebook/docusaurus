@@ -1,0 +1,156 @@
+---
+title: Docusaurus 2.3
+authors:
+  - slorber
+tags:
+  - version
+image: ./img/social-card.png
+date: 2023-01-27
+---
+
+Nous sommes heureux d'annoncer **Docusaurus 2.3**.
+
+La mise à jour devrait être facile : comme expliqué dans notre [documentation sur le processus de version](/community/release-process), les versions mineures respectent [le versionnement sémantique](https://semver.org/).
+
+![Carte sociale Docusaurus 2.2](./img/social-card.png)
+
+<!--truncate-->
+
+## Points importants
+
+### Plugin Google Tag Manager
+
+Google Tag Manager est un système de gestion des balises qui offre une grande flexibilité. Il permet aux équipes d'analyse et de marketing de charger facilement d'autres traceurs tiers et des balises d'analyse des incendies.
+
+Nous avons maintenant un paquet [`@docusaurus/plugin-google-tag-manager`](/docs/api/plugins/@docusaurus/plugin-google-tag-manager/) que vous pouvez utiliser en parallèle ou comme alternative au plugin existant [gtag.js](/docs/api/plugins/@docusaurus/plugin-google-gtag/) (référez-vous à [ce doc](https://support.google.com/tagmanager/answer/7582054) pour comprendre quand utiliser telle ou telle solution).
+
+:::warning Google met fin à Universal Analytics
+
+[Google va mettre fin à son Universal Analytics](https://blog.google/products/marketingplatform/analytics/prepare-for-future-with-google-analytics-4/) le **1er juillet 2023**, et demande aux utilisateurs de migrer vers **Google Analytics 4**.
+
+Par conséquent, nous sommes aussi **en train de déprécier notre paquet existant [`@docusaurus/plugin-google-analytics`](/docs/api/plugins/@docusaurus/plugin-google-analytics)**. Les utilisateurs de Docusaurus doivent créer une nouvelle propriété Google Analytics 4 et migrer vers le [plugin gtag.js](/docs/api/plugins/@docusaurus/plugin-google-gtag/), ou le [plugin Google Tag Manager](/docs/api/plugins/@docusaurus/plugin-google-tag-manager/). Reportez-vous à [l'issue Docusaurus dédiée](https://github.com/facebook/docusaurus/issues/7221) pour plus de détails et des questions.
+
+:::
+
+### Prise en charge de la chaîne de requête pour les onglets
+
+Il est maintenant possible de lier un onglet sélectionné à un paramètre de chaîne de requête. Lorsqu'un onglet est sélectionné, il sera stocké dans l'URL de votre navigateur en tant que paramètre de recherche `?qs-param=tab-value`.
+
+Cette fonction permet de créer des liens profonds vers un onglet de documentation spécifique qui sera présélectionné au chargement de la page.
+
+Lorsqu'elle est utilisée avec la prop `groupId`, la tab-value de la chaîne de requête a la priorité sur la valeur `localStorage`.
+
+N'oubliez pas de consulter la [documentation](/docs/markdown-features/tabs#query-string) et la démo ci-dessous pour comprendre comment cela fonctionne :
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+```tsx
+<Tabs groupId="current-os" queryString>
+  <TabItem value="android" label="Android">
+    Android
+  </TabItem>
+  <TabItem value="ios" label="iOS">
+    iOS
+  </TabItem>
+</Tabs>
+```
+
+<BrowserWindow>
+  <Tabs groupId="current-os" queryString>
+    <TabItem value="android" label="Android">
+      Android
+    </TabItem>
+    <TabItem value="ios" label="iOS">
+      iOS
+    </TabItem>
+  </Tabs>
+</BrowserWindow>
+
+### Admonitions imbriquées
+
+Il est désormais possible d'imbriquer une admonition dans une autre en ajoutant des deux-points supplémentaires pour l'admonition extérieure/enveloppante :
+
+```md
+::::tip des admonitions imbriquées
+
+Vous pouvez désormais imbriquer une admonition dans une autre !
+
+:::danger
+
+Utilisez ceci avec parcimonie quand cela a du sens.
+
+:::  
+
+:
+:::
+```
+
+::::tip des admonitions imbriquées
+
+Vous pouvez désormais imbriquer une admonition dans une autre !
+
+:::danger
+
+Utilisez ceci avec parcimonie quand cela a du sens.
+
+:::
+
+:
+:::
+
+### Blog `createFeedItems`
+
+Une nouvelle option du plugin de blog [`feedOptions.createFeedItems`](/docs/api/plugins/@docusaurus/plugin-content-blog/#CreateFeedItemsFn) vous donne plus de contrôle sur la génération de flux RSS/Atom. Il est maintenant possible de transformer/filtrer/limiter les éléments de flux grâce à un nouveau callback.
+
+```tsx title="docusaurus.config.js"
+[
+  '@docusaurus/preset-classic',
+  {
+    blog: {
+      feedOptions: {
+        // highlight-start
+        createFeedItems: async (params) => {
+          const {blogPosts, defaultCreateFeedItems, ...rest} = params;
+          return defaultCreateFeedItems({
+            // ne conserver que les 10 articles de blog les plus récents dans le flux
+            blogPosts: blogPosts.filter((item, index) => index < 10),
+            ...rest,
+          });
+        },
+        // highlight-end
+      },
+    },
+  },
+];
+```
+
+### Traductions
+
+Nous avons ajouté ou terminé la prise en charge par défaut de la traduction du thème pour plusieurs langues :
+
+- 🇸🇮 [#8541](https://github.com/facebook/docusaurus/pull/8541) Slovène
+- 🇹🇷 [#8289](https://github.com/facebook/docusaurus/pull/8289) Turque
+- 🇮🇷 [#8406](https://github.com/facebook/docusaurus/pull/8406) Farsi
+- 🇵🇱 [#8525](https://github.com/facebook/docusaurus/pull/8525) Polonais
+- 🇨🇳 [#8423](https://github.com/facebook/docusaurus/pull/8423) Chinois
+- 🇸🇪 [#8312](https://github.com/facebook/docusaurus/pull/8312) Suédois
+- 🇻🇳 [#8450](https://github.com/facebook/docusaurus/pull/8450) Vietnamien
+
+:::tip
+
+Traduire les thèmes représente un [effort constant](https://github.com/facebook/docusaurus/issues/3526) et un moyen facile de contribuer à Docusaurus. Nous ajoutons régulièrement de nouvelles fonctionnalités de thème, pour lesquelles nous avons souvent [besoin de nouvelles traductions](https://github.com/facebook/docusaurus/issues/3526).
+
+:::
+
+## Autres modifications
+
+Voici les autres changements notables :
+
+- [#8463](https://github.com/facebook/docusaurus/pull/8463) et [#8328](https://github.com/facebook/docusaurus/pull/8328) : Correction de quelques problèmes de mise en page de Docusaurus
+- [#8539](https://github.com/facebook/docusaurus/pull/8539) : Le plugin Algolia `options.searchPagePath` doit être correctement appliqué au pied de page de la modale de recherche
+- [#8462](https://github.com/facebook/docusaurus/pull/8462) : Le plugin Algolia permet désormais de transformer plus facilement les résultats de recherche affichés avec une logique personnalisée
+- [#8397](https://github.com/facebook/docusaurus/pull/8397) : le `deploy` du CLI comprend maintenant la config de l'url git `insteadOf`
+
+Consultez **[l'entrée 2.3.0 du changelog](/changelog/2.3.0)** pour une liste exhaustive des changements.

@@ -1,0 +1,140 @@
+---
+slug: /creating-pages
+sidebar_label: Páginas
+---
+
+# Criação de páginas
+
+Nesta seção, vamos aprender sobre a criação de páginas no Docusaurus.
+
+The `@docusaurus/plugin-content-pages` plugin empowers you to create **one-off standalone pages** like a showcase page, playground page, or support page. Você pode usar componentes React, ou Markdown.
+
+:::note
+
+Pages do not have sidebars, only [docs](./docs/docs-introduction.mdx) do.
+
+:::
+
+:::info
+
+Check the [Pages Plugin API Reference documentation](./../api/plugins/plugin-content-pages.mdx) for an exhaustive list of options.
+
+:::
+
+## Add a React page {#add-a-react-page}
+
+React é usado como uma biblioteca de UI para criar páginas. Every page component should export a React component, and you can leverage the expressiveness of React to build rich and interactive content.
+
+Create a file `/src/pages/helloReact.js`:
+
+```jsx title="/src/pages/helloReact.js"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+export default function Hello() {
+  return (
+    <Layout title="Hello" description="Hello React Page">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          fontSize: '20px',
+        }}>
+        <p>
+          Edit <code>pages/helloReact.js</code> and save to reload.
+        </p>
+      </div>
+    </Layout>
+  );
+}
+```
+
+Depois de salvar o arquivo, o servidor de desenvolvimento irá recarregar automaticamente as alterações. Now open [`http://localhost:3000/helloReact`](http://localhost:3000/helloReact) and you will see the new page you just created.
+
+Cada página não vem com nenhum estilo. You will need to import the `Layout` component from `@theme/Layout` and wrap your contents within that component if you want the navbar and/or footer to appear.
+
+:::tip
+
+You can also create TypeScript pages with the `.tsx` extension (`helloReact.tsx`).
+
+:::
+
+## Add a Markdown page {#add-a-markdown-page}
+
+Create a file `/src/pages/helloMarkdown.md`:
+
+```md title="/src/pages/helloMarkdown.md"
+---
+title: meu título de página
+descrição: minha descrição de página
+hide_table_of_contents: true
+---
+
+# Olá
+
+Como vai?
+```
+
+In the same way, a page will be created at [`http://localhost:3000/helloMarkdown`](http://localhost:3000/helloMarkdown).
+
+Markdown pages are less flexible than React pages because it always uses the theme layout.
+
+Here's an [example Markdown page](/examples/markdownPageExample).
+
+:::tip
+
+You can use the full power of React in Markdown pages too, refer to the [MDX](https://mdxjs.com/) documentation.
+
+:::
+
+## Routing {#routing}
+
+Se você estiver familiarizado com outros geradores de site estáticos como o Jekyll e o Next, esta abordagem de roteamento será familiar para você. Any JavaScript file you create under `/src/pages/` directory will be automatically converted to a website page, following the `/src/pages/` directory hierarchy. Por exemplo:
+
+- `/src/pages/index.js` → `[baseUrl]`
+- `/src/pages/foo.js` → `[baseUrl]/foo`
+- `/src/pages/foo/test.js` → `[baseUrl]/foo/test`
+- `/src/pages/foo/index.js` → `[baseUrl]/foo/`
+
+In this component-based development era, it is encouraged to co-locate your styling, markup, and behavior together into components. Cada página é um componente e, se você precisar personalizar o design de sua página com seus próprios estilos, recomendamos colocar seus estilos com o componente de página em seu próprio diretório. Por exemplo, para criar uma página de "Suporte", você pode fazer o seguinte:
+
+- Add a `/src/pages/support.js` file
+- Create a `/src/pages/support/` directory and a `/src/pages/support/index.js` file.
+
+O último é preferido, pois tem os benefícios de permitir que você coloque arquivos relacionados à página dentro desse diretório. For example, a CSS module file (`styles.module.css`) with styles meant to only be used on the "Support" page.
+
+:::note
+
+This is merely a recommended directory structure, and you will still need to manually import the CSS module file within your component module (`support/index.js`).
+
+:::
+
+By default, any Markdown or JavaScript file starting with `_` will be ignored and no routes will be created for that file (see the `exclude` option).
+
+```bash
+my-website
+├── src
+│   └── pages
+│       ├── styles.module.css
+│       ├── index.js
+│       ├── _ignored.js
+│       ├── _ignored-folder
+│       │   ├── Component1.js
+│       │   └── Component2.js
+│       └── support
+│           ├── index.js
+│           └── styles.module.css
+.
+```
+
+:::warning
+
+All JavaScript/TypeScript files within the `src/pages/` directory will have corresponding website paths generated for them. If you want to create reusable components into that directory, use the `exclude` option (by default, files prefixed with `_`, test files(`.test.js`), and files in `__tests__` directory are not turned into pages).
+
+:::
+
+### Duplicate Routes {#duplicate-routes}
+
+Você pode criar acidentalmente várias páginas que devem ser acessadas na mesma rota. When this happens, Docusaurus will warn you about duplicate routes when you run `yarn start` or `yarn build` (behavior configurable through the [`onDuplicateRoutes`](../api/docusaurus.config.js.mdx#onDuplicateRoutes) config), but the site will still be built successfully. A página criada por último ficará acessível, mas substituirá outras páginas conflitantes. Para resolver este problema, você deve modificar ou remover quaisquer rotas conflitantes.

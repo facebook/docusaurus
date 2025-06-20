@@ -1,0 +1,213 @@
+---
+id: multi-instance
+description: Use várias instâncias de plugins de docs em um único site Docusaurus.
+slug: /docs-multi-instance
+---
+
+# Multi-instância da Docs
+
+The `@docusaurus/plugin-content-docs` plugin can support [multi-instance](../../using-plugins.mdx#multi-instance-plugins-and-plugin-ids).
+
+:::note
+
+This feature is only useful for [versioned documentation](./versioning.mdx). É recomendável estar familiarizado com o versionamento de documentos antes de ler esta página. If you just want [multiple sidebars](./sidebar/multiple-sidebars.mdx), you can do so within one plugin.
+
+:::
+
+## Use-cases {#use-cases}
+
+Às vezes você quer um site Docusaurus para hospedar 2 conjuntos distintos de documentação (ou mais).
+
+Estas documentações podem até ter diferentes ciclos de versão/liberação.
+
+### Mobile SDKs documentation {#mobile-sdks-documentation}
+
+Se você criar um SDK móvel multiplataforma, você pode ter 2 documentações:
+
+- Android SDK documentation (`v1.0`, `v1.1`)
+- iOS SDK documentation (`v1.0`, `v2.0`)
+
+In this case, you can use a distinct docs plugin instance per mobile SDK documentation.
+
+:::warning
+
+Se cada instância de documentação for muito grande, você prefere criar 2 sites do Docusaurus distintos.
+
+Se alguém editar a documentação do iOS, é realmente útil reconstruir tudo, incluindo toda a documentação do Android que não mudou?
+
+:::
+
+### Versioned and unversioned doc {#versioned-and-unversioned-doc}
+
+Às vezes, você quer que alguns documentos sejam versionados, enquanto outros documentos são mais "globais" e parece inútil versioná-los.
+
+Usamos esse padrão no próprio site do Docusaurus:
+
+- The [/docs/\*](/docs) section is versioned
+- The [/community/\*](/community/support) section is unversioned
+
+## Setup {#setup}
+
+Suponha que você tem 2 documentações:
+
+- Produto: algum documento versionado sobre seu produto
+- Comunidade: algum documento não versionado sobre a comunidade em torno do seu produto
+
+Neste caso, você deve usar o mesmo plugin duas vezes na configuração do seu site.
+
+:::warning
+
+`@docusaurus/preset-classic` already includes a docs plugin instance for you!
+
+:::
+
+Ao usar a predefinição:
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-start
+          // id: 'product', // omitted => default instance
+          // highlight-end
+          path: 'product',
+          routeBasePath: 'product',
+          sidebarPath: './sidebarsProduct.js',
+          // ... other options
+        },
+      },
+    ],
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        id: 'community',
+        // highlight-end
+        path: 'community',
+        routeBasePath: 'community',
+        sidebarPath: './sidebarsCommunity.js',
+        // ... other options
+      },
+    ],
+  ],
+};
+```
+
+Quando não estiver usando a predefinição:
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        // id: 'product', // omitted => default instance
+        // highlight-end
+        path: 'product',
+        routeBasePath: 'product',
+        sidebarPath: './sidebarsProduct.js',
+        // ... other options
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        // highlight-start
+        id: 'community',
+        // highlight-end
+        path: 'community',
+        routeBasePath: 'community',
+        sidebarPath: './sidebarsCommunity.js',
+        // ... other options
+      },
+    ],
+  ],
+};
+```
+
+Don't forget to assign a unique `id` attribute to plugin instances.
+
+:::note
+
+We consider that the `product` instance is the most important one, and make it the "default" instance by not assigning any ID.
+
+:::
+
+## Versioned paths {#versioned-paths}
+
+Cada instância do plugin armazenará documentos versionados em uma pasta distinta.
+
+A instância padrão do plugin usará esses caminhos:
+
+- `website/versions.json`
+- `website/versioned_docs`
+- `website/versioned_sidebars`
+
+The other plugin instances (with an `id` attribute) will use these paths:
+
+- `website/[pluginId]_versions.json`
+- `website/[pluginId]_versioned_docs`
+- `website/[pluginId]_versioned_sidebars`
+
+:::tip
+
+You can omit the `id` attribute (defaults to `default`) for one of the docs plugin instances.
+
+Os caminhos da instância serão mais simples e compatíveis com uma configuração de uma única instância.
+
+:::
+
+## Tagging new versions {#tagging-new-versions}
+
+Each plugin instance will have its own CLI command to tag a new version. Eles serão exibidos se você executar:
+
+```bash npm2yarn
+npm run docusaurus -- --help
+```
+
+Para criar a versão da instância do plug-in do produto/documentos padrão:
+
+```bash npm2yarn
+npm run docusaurus docs:version 1.0.0
+```
+
+Para versão a instância do plugin não-padrão/comunitária:
+
+```bash npm2yarn
+npm run docusaurus docs:version:community 1.0.0
+```
+
+## Docs navbar items {#docs-navbar-items}
+
+Each docs-related [theme navbar items](../../api/themes/theme-configuration.mdx#navbar) take an optional `docsPluginId` attribute.
+
+Por exemplo, se você quiser ter uma lista suspensa de versão para cada SDK móvel (iOS e Android), você pode fazer:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          docsPluginId: 'ios',
+          // highlight-end
+        },
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          docsPluginId: 'android',
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```

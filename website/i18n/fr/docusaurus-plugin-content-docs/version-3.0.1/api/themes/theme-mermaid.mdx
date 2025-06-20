@@ -1,0 +1,25 @@
+---
+sidebar_position: 5
+slug: /api/themes/@docusaurus/theme-mermaid
+---
+
+# 📦 theme-mermaid
+
+Ce thème fournit un composant `@theme/Mermaid` propulsé par [mermaid](https://mermaid-js.github.io/). Vous pouvez en lire plus sur la documentation des [diagrammes](../../guides/markdown-features/markdown-features-diagrams.mdx).
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-mermaid
+```
+
+## Configuration {#configuration}
+
+```js title="docusaurus.config.js"
+export default {
+  themes: ['@docusaurus/theme-mermaid'],
+  // Pour que les blocs de code Mermaid dans Markdown fonctionnent,
+  // vous devez également activer le plugin Remark avec cette option
+  markdown: {
+    mermaid: true,
+  },
+};
+```

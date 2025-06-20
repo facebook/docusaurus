@@ -1,0 +1,82 @@
+---
+id: head-metadata
+description: MDX를 통해 페이지별 헤드 메타 데이터를 선언합니다.
+slug: /markdown-features/head-metadata
+---
+
+# 헤드 메타데이터
+
+## 사용자 지정 헤드 메타데이터 {#customizing-head-metadata}
+
+도큐사우루스는 `<html>`, `<head>`, `<body>`에 유용한 페이지 메타데이터를 자동으로 설정합니다. 마크다운 파일에서 `<head>` 태그를 사용해 메타데이터를 추가하거나 기존 메타데이터를 재정의할 수 있습니다.
+
+```md title="markdown-features-head-metadata.mdx"
+---
+id: head-metadata
+title: Head Metadata
+---
+
+<!-- highlight-start -->
+<head>
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
+  <title>Head Metadata customized title!</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadata" />
+</head>
+<!-- highlight-end -->
+
+# Head Metadata
+
+My text
+```
+
+```mdx-code-block
+<head>
+  <html className="some-extra-html-class" />
+  <body className="other-extra-body-class" />
+  <title>Head Metadata customized title!</title>
+  <meta charSet="utf-8" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://docusaurus.io/docs/markdown-features/head-metadata" />
+</head>
+```
+
+`<head>` 선언은 현재 마크다운 문서에 데모로 추가되었습니다. 웹브라우저에서 개발자 도구를 열고 페이지 메타데이터가 어떻게 변경됐는지 확인해보세요.
+
+:::note
+
+이 기능은 도큐사우루스 [`<Head>`](./../../docusaurus-core.mdx#head) 컴포넌트 기반으로 구현됐습니다. 자세한 내용은 [react-helmet](https://github.com/nfl/react-helmet) 문서를 참고하세요.
+
+:::
+
+:::tip 일반적인 SEO 요구사항에 항상 필요한 것은 아닙니다
+
+콘텐츠 플러그인(예를 들어 문서나 블로그)은 `description`, `keywords`, `image` 같은 프런트매터 옵션을 제공해서 `description`와 `og:description`에 자동으로 반영되지만 `<head>` 태그를 사용할 때는 두개의 메타데이터를 직접 선언해야 합니다.
+
+:::
+
+## 마크다운 페이지 설명 {#markdown-page-description}
+
+마크다운 페이지의 설명 메타데이터는 헤드 메타데이터보다 더 많은 위치에서 사용될 수 있습니다. 예를 들어 문서 플러그인에서 [생성된 카테고리 인덱스](../docs/sidebar/items.mdx#generated-index-page)는 문서 카드에 대한 설명 메타데이터를 사용합니다.
+
+기본적으로 설명은 내용이 포함된 첫 번째 줄이며 이를 일반 텍스트로 변환하기 위해서는 약간의 노력이 필요합니다. 예를 들어 다음 파일은...
+
+```md
+# Title
+
+Main content... May contain some [links](./file.mdx) or **emphasis**.
+```
+
+기본 설명이 "Main content... May contain some links or emphasis"입니다. 하지만 **완전하게 동작하도록 설계되지 않았습니다**. 적절한 설명을 생성하지 못한 경우 프런트 매터를 통해 명시적으로 제공할 수 있습니다.
+
+```md
+---
+description: This description will override the default.
+---
+
+# Title
+
+Main content... May contain some [links](./file.mdx) or **emphasis**.
+```

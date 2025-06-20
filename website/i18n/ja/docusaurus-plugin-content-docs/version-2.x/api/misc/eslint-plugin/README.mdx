@@ -1,0 +1,72 @@
+---
+sidebar_position: 1
+slug: /api/misc/@docusaurus/eslint-plugin
+---
+
+# 📦 eslint-plugin
+
+[ESLint](https://eslint.org/) is a tool that statically analyzes your code and reports problems or suggests best practices through editor hints and command line. Docusaurusは、それにおける最善の慣例を遵守させるためのESLintプラグインを用意しています。
+
+## インストール
+
+```bash npm2yarn
+npm install --save-dev @docusaurus/eslint-plugin
+```
+
+## 使い方
+
+### 推奨設定
+
+Add `plugin:@docusaurus/recommended` to the `extends` section of your `.eslintrc` configuration file:
+
+```json title=".eslintrc"
+{
+  "extends": ["plugin:@docusaurus/recommended"]
+}
+```
+
+This will enable the `@docusaurus` eslint plugin and use the `recommended` config. See [Supported rules](#supported-rules) below for a list of rules that this will enable.
+
+### 手動設定
+
+For more fine-grained control, you can also enable the plugin manually and configure the rules you want to use directly:
+
+```json title=".eslintrc"
+{
+  "plugins": ["@docusaurus"],
+  "rules": {
+    "@docusaurus/string-literal-i18n-messages": "error",
+    "@docusaurus/no-untranslated-text": "warn"
+  }
+}
+```
+
+## サポートされている設定
+
+- Recommended: recommended rule set for most Docusaurus sites that should be extended from.
+- All: **all** rules enabled. This will change between minor versions, so you should not use this if you want to avoid unexpected breaking changes.
+
+## サポートされている規則
+
+| 名前                                                                               | 説明                                      | \`\` |
+| -------------------------------------------------------------------------------- | --------------------------------------- | ---- |
+| [`@docusaurus/no-untranslated-text`](./no-untranslated-text.mdx)                 | JSX内のすべてのテキストラベルが翻訳API呼び出しで必ず囲まれるようにします | \`\` |
+| [`@docusaurus/string-literal-i18n-messages`](./string-literal-i18n-messages.mdx) | 翻訳APIがプレーンテキストラベルに対して必ず呼ばれるようにします       | ✅    |
+
+✅ = recommended
+
+## Example configuration
+
+Here's an example configuration:
+
+```js title=".eslintrc.js"
+module.exports = {
+  extends: ['plugin:@docusaurus/recommended'],
+  rules: {
+    '@docusaurus/no-untranslated-text': [
+      'warn',
+      {ignoredStrings: ['·', '—', '×']},
+    ],
+  },
+};
+```

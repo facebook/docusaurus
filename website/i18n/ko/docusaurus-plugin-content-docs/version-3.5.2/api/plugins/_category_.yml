@@ -1,0 +1,5 @@
+label: 플러그인
+position: 2
+link:
+  type: doc
+  id: api/plugins/plugins-overview #Dogfood using a "qualified id"

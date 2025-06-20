@@ -1,0 +1,58 @@
+---
+sidebar_position: 0
+slug: /api/misc/create-docusaurus
+---
+
+# 📦 create-docusaurus
+
+바로 활용할 수 있는 도큐사우루스 앱을 즉시 설정하는데 도움이 되는 스캐폴딩 유틸입니다.
+
+## Usage {#usage}
+
+```bash
+npx create-docusaurus@latest [name] [template] [rootDir]
+```
+
+The `name` argument will be used as the site's path as well as the `name` field in the created app's package.json. It can be an absolute path, or a path relative to `rootDir`.
+
+The `template` argument can be one of the following:
+
+- `classic`: Uses the classic template (recommended)
+- `facebook`: Uses the Facebook/Meta template, which contains some Meta-specific setup
+- A git repo URL (beginning with `https://` or `git@`), which can be cloned to the destination
+- 원하는 곳에 복사할 파일이 포함된 CWD에 대한 로컬 파일 경로
+
+The `rootDir` will be used to resolve the absolute path to the site directory. 기본값은 CWD입니다.
+
+:::warning
+
+이 명령은 모든 기능을 사용할 수 있도록 대화형 쉘에서 사용하는 것을 권장합니다.
+
+:::
+
+## Options {#options}
+
+### `-t, --typescript` {#typescript}
+
+템플릿 인수가 인식된 이름일 때 사용합니다. Currently, only `classic` provides a TypeScript variant.
+
+### `-g, --git-strategy` {#git-strategy}
+
+템플릿 인수가 깃 저장소일 때 사용합니다. 다음 중 하나를 사용할 수 있습니다.
+
+- `deep`: preserves full git history
+- `shallow`: clones with `--depth=1`
+- `copy`: does a shallow clone, but does not create a git repo
+- `custom`: enter your custom git clone command. 입력을 위한 가이드를 지원합니다. You can write something like `git clone --depth 10`, and we will append the repository URL and destination directory.
+
+### `-p, --package-manager` {#package-manager}
+
+Value should be one of `npm`, `yarn`, or `pnpm`. 명시적으로 값을 설정하지 않으면 도큐사우루스는 다음 기준에 따라 처리합니다.
+
+- CWD에 이미 있는 lockfile(예: 기존 프로젝트에서 웹사이트를 설정하는 경우)
+- The command used to invoke `create-docusaurus` (e.g. `npm init`, `npx`, `yarn create`, etc.)
+- 이전에 사용한 적 없는 경우라면 대화형 프롬프트
+
+### `-s, --skip-install` {#skip-install}
+
+옵션을 지정하면 도큐사우루스는 앱 생성 후 종속성을 자동으로 설치하지 않습니다. The `--package-manager` option is only useful when you are actually installing dependencies.

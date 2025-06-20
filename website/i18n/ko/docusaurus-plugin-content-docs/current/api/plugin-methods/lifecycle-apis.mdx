@@ -1,0 +1,493 @@
+---
+sidebar_position: 1
+toc_max_heading_level: 4
+---
+
+# Lifecycle API
+
+빌드 시 자체 콘텐츠를 가져와 경로에 렌더링하기 위해 플러그인은 병렬로 로드됩니다. 플러그인은 웹팩에서 구성하거나 생성된 파일을 나중에 처리할 수도 있습니다.
+
+## `async loadContent()` {#loadContent}
+
+플러그인이 데이터 소스(파일, 원격 API, 헤드리스 CMS 등) 또는 서버 측 프로세스에서 무언가를 가져올 때 사용합니다. 반환값은 필요한 콘텐츠입니다.
+
+예를 들어 아래 코드에서는 1부터 10 사이의 무작위 숫자를 콘텐츠로 가져옵니다.
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    async loadContent() {
+      return 1 + Math.floor(Math.random() * 10);
+    },
+    // highlight-end
+  };
+}
+```
+
+## `async contentLoaded({content, actions})` {#contentLoaded}
+
+`loadContent`에 로드된 데이터는 `contentLoaded`에서 사용됩니다. 경로에 렌더링하거나 글로벌 데이터로 등록하는 등의 작업을 할 수 있습니다.
+
+### `content` {#content}
+
+`contentLoaded`는 `loadContent`가 완료된 _다음에_ 호출됩니다. `loadContent()`의 반환값은 `contentLoaded`에 `content` 형태로 전달됩니다.
+
+### `actions` {#actions}
+
+`actions`은 세 가지 함수를 포함하고 있습니다.
+
+#### `addRoute(config: RouteConfig): void` {#addRoute}
+
+웹 사이트에 추가할 경로를 만듭니다.
+
+```ts
+export type RouteConfig = {
+  /**
+   * With leading slash. Trailing slash will be normalized by config.
+   */
+  path: string;
+  /**
+   * Component used to render this route, a path that the bundler can `require`.
+   */
+  component: string;
+  /**
+   * Props. Each entry should be `[propName]: pathToPropModule` (created with
+   * `createData`)
+   */
+  modules?: RouteModules;
+  /**
+   * The route context will wrap the `component`. Use `useRouteContext` to
+   * retrieve what's declared here. Note that all custom route context declared
+   * here will be namespaced under {@link RouteContext.data}.
+   */
+  context?: RouteModules;
+  /**
+   * Nested routes config, useful for "layout routes" having subroutes.
+   */
+  routes?: RouteConfig[];
+  /**
+   * React router config option: `exact` routes would not match subroutes.
+   */
+  exact?: boolean;
+  /**
+   * React router config option: `strict` routes are sensitive to the presence
+   * of a trailing slash.
+   */
+  strict?: boolean;
+  /**
+   * Used to sort routes.
+   * Higher-priority routes will be matched first.
+   */
+  priority?: number;
+  /**
+   * Optional route metadata
+   */
+  metadata?: RouteMetadata;
+  /**
+   * Extra props; will be available on the client side.
+   */
+  [propName: string]: unknown;
+};
+
+/**
+ * Plugin authors can assign extra metadata to the created routes
+ * It is only available on the Node.js side, and not sent to the browser
+ * Optional: plugin authors are encouraged but not required to provide it
+ *
+ * Some plugins might use this data to provide additional features.
+ * This is the case of the sitemap plugin to provide support for "lastmod".
+ * See also: https://github.com/facebook/docusaurus/pull/9954
+ */
+export type RouteMetadata = {
+  /**
+   * The source code file path that led to the creation of the current route
+   * In official content plugins, this is usually a Markdown or React file
+   * This path is expected to be relative to the site directory
+   */
+  sourceFilePath?: string;
+  /**
+   * The last updated date of this route
+   * This is generally read from the Git history of the sourceFilePath
+   * but can also be provided through other means (usually front matter)
+   *
+   * This has notably been introduced for adding "lastmod" support to the
+   * sitemap plugin, see https://github.com/facebook/docusaurus/pull/9954
+   */
+  lastUpdatedAt?: number;
+};
+
+type RouteModules = {
+  [module: string]: Module | RouteModules | RouteModules[];
+};
+
+type Module =
+  | {
+      path: string;
+      __import?: boolean;
+      query?: ParsedUrlQueryInput;
+    }
+  | string;
+```
+
+#### `createData(name: string, data: any): Promise<string>` {#createData}
+
+나중에 속성으로 경로에 제공할 수 있는 정적 데이터(보통 JSON 또는 문자열)를 생성하기 위한 선언적 콜백입니다. 파일 이름과 저장할 데이터를 가져와서 실제 데이터 파일 경로를 반환합니다.
+
+예를 들어 아래 코드에서 플러그인은 `Your friends are: Yangshun, Sebastien`라는 문자열을 보여주는 `/friends` 페이지를 만듭니다.
+
+```jsx title="website/src/components/Friends.js"
+import React from 'react';
+
+export default function FriendsComponent({friends}) {
+  return <div>Your friends are {friends.join(',')}</div>;
+}
+```
+
+```js title="docusaurus-friends-plugin/src/index.js"
+export default function friendsPlugin(context, options) {
+  return {
+    name: 'docusaurus-friends-plugin',
+    // highlight-start
+    async contentLoaded({content, actions}) {
+      const {createData, addRoute} = actions;
+      // friends.json 파일 생성
+      const friends = ['Yangshun', 'Sebastien'];
+      const friendsJsonPath = await createData(
+        'friends.json',
+        JSON.stringify(friends),
+      );
+
+      // '/friends' 경로를 추가하고 friends 속성을 수신하는지 확인
+      addRoute({
+        path: '/friends',
+        component: '@site/src/components/Friends.js',
+        modules: {
+          // propName -> JSON 파일 경로
+          friends: friendsJsonPath,
+        },
+        exact: true,
+      });
+    },
+    // highlight-end
+  };
+}
+```
+
+#### `setGlobalData(data: any): void` {#setGlobalData}
+
+다른 플러그인에서 만든 페이지를 포함한 다른 페이지나 테마 레이아웃에서 읽을 수 있는 전역 플러그인 데이터 만들기를 지원합니다.
+
+만들어진 데이터는 클라이언트/테마 코드에서 [`useGlobalData`](../../docusaurus-core.mdx#useGlobalData)와 [`usePluginData`](../../docusaurus-core.mdx#usePluginData) 후크를 통해 접근할 수 있습니다.
+
+:::warning
+
+전역 데이터는 말 그대로 전역적인 특성을 가집니다. 여러분의 사이트 모든 페이지 로딩 시간에 영향을 미칠 수 있으므로 작은 크기로 유지하기를 권장합니다. 가능하면 `createData`를 활용하거나 각 페이지 데이터를 사용하세요.
+
+:::
+
+예를 들어 아래 코드에서 플러그인은 `Your friends are: Yangshun, Sebastien`라는 문자열을 보여주는 `/friends` 페이지를 만듭니다.
+
+```jsx title="website/src/components/Friends.js"
+import React from 'react';
+import {usePluginData} from '@docusaurus/useGlobalData';
+
+export default function FriendsComponent() {
+  const {friends} = usePluginData('docusaurus-friends-plugin');
+  return <div>Your friends are {friends.join(',')}</div>;
+}
+```
+
+```js title="docusaurus-friends-plugin/src/index.js"
+export default function friendsPlugin(context, options) {
+  return {
+    name: 'docusaurus-friends-plugin',
+    // highlight-start
+    async contentLoaded({content, actions}) {
+      const {setGlobalData, addRoute} = actions;
+      // friends 전역 데이터 생성
+      setGlobalData({friends: ['Yangshun', 'Sebastien']});
+
+      // '/friends' 경로 추가
+      addRoute({
+        path: '/friends',
+        component: '@site/src/components/Friends.js',
+        exact: true,
+      });
+    },
+    // highlight-end
+  };
+}
+```
+
+## `configureWebpack(config, isServer, utils, content)` {#configureWebpack}
+
+내부 웹팩 설정을 수정합니다. 반환되는 값이 자바스크립트 오브젝트라면 [`webpack-merge`](https://github.com/survivejs/webpack-merge)를 사용해 마지막 설정과 합쳐집니다. 반환되는 값이 함수인 경우에는 `config`를 첫 번째 인자, `isServer`를 두 번째 인자로 함수를 호출합니다.
+
+:::warning
+
+`configureWebpack` API는 조만간 (`configureWebpack({config, isServer, utils, content})`) 오브젝트 형태로 수정될 겁니다.
+
+:::
+
+### `config` {#config}
+
+`configureWebpack`은 클라이언트/서버 빌드 시 만들어지는 `config`를 사용합니다. 전달된 config를 기본으로 적절하게 다른 설정과 합치는 작업을 진행할 수 있습니다.
+
+### `isServer` {#isServer}
+
+`configureWebpack`은 서버와 클라이언트 빌드 시 호출됩니다. 서버 빌드 시에는 `true`값을 받고 클라이언트 빌드 시에는 `false` 값을 받아 `isServer` 인자값으로 사용합니다.
+
+### `utils` {#utils}
+
+`configureWebpack`은 util 오브젝트를 인자로 받을 수 있습니다.
+
+- `getStyleLoaders(isServer: boolean, cssOptions: {[key: string]: any}): Loader[]`
+- `getJSLoader(isServer: boolean, cacheOptions?: {}): Loader | null`
+
+조건에 따라 웹팩 설정을 받기 위해 사용할 수 있습니다.
+
+예를 들어 아래 코드에서는 웹팩 설정 파일을 `.foo` 파일로 변환하도록 설정을 수정했습니다.
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+    // highlight-start
+    configureWebpack(config, isServer, utils) {
+      const {getJSLoader} = utils;
+      return {
+        module: {
+          rules: [
+            {
+              test: /\.foo$/,
+              use: [getJSLoader(isServer), 'my-custom-webpack-loader'],
+            },
+          ],
+        },
+      };
+    },
+    // highlight-end
+  };
+}
+```
+
+### `content` {#content-1}
+
+`configureWebpack`은 플러그인에 의해 로딩된 콘텐츠를 모두 호출할 수 있습니다.
+
+### 합치기 전략 {#merge-strategy}
+
+[webpack-merge](https://github.com/survivejs/webpack-merge)를 사용해 플러그인의 웹팩 설정을 전역 웹팩 설정과 합칠 수 있습니다.
+
+이때 합치기 전략을 설정할 수 있습니다. 예를 들어 웹팩에 적용할 규칙을 뒤에 추가하는 대신 앞에 삽입할 수 있습니다.
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+    configureWebpack(config, isServer, utils) {
+      return {
+        // highlight-start
+        mergeStrategy: {'module.rules': 'prepend'},
+        module: {rules: [myRuleToPrepend]},
+        // highlight-end
+      };
+    },
+  };
+}
+```
+
+좀 더 자세한 내용은 [웹팩 합치기 전략 가이드](https://github.com/survivejs/webpack-merge#merging-with-strategies) 문서를 참고하세요.
+
+### dev 서버 설정 {#configuring-dev-server}
+
+`devServer` 필드를 반환해 dev 서버를 구성할 수 있습니다.
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+    configureWebpack(config, isServer, utils) {
+      return {
+        // highlight-start
+        devServer: {
+          open: '/docs', // Opens localhost:3000/docs instead of localhost:3000/
+        },
+        // highlight-end
+      };
+    },
+  };
+}
+```
+
+## `configurePostCss(options)` {#configurePostCss}
+
+클라이언트 번들 생성 시 [`postcss-loader`의 `postcssOptions`](https://webpack.js.org/loaders/postcss-loader/#postcssoptions)을 수정합니다.
+
+변경된 `postcssOptions` 값을 반환해야 합니다.
+
+기본적으로 `postcssOptions`는 아래와 같은 형식입니다.
+
+```js
+const postcssOptions = {
+  ident: 'postcss',
+  plugins: [require('autoprefixer')],
+};
+```
+
+예:
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    configurePostCss(postcssOptions) {
+      // Appends new PostCSS plugin.
+      postcssOptions.plugins.push(require('postcss-import'));
+      return postcssOptions;
+    },
+    // highlight-end
+  };
+}
+```
+
+## `postBuild(props)` {#postBuild}
+
+(제품) 빌드가 완료되면 호출됩니다.
+
+```ts
+interface Props {
+  siteDir: string;
+  generatedFilesDir: string;
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  baseUrl: string;
+  headTags: string;
+  preBodyTags: string;
+  postBodyTags: string;
+  routesPaths: string[];
+  routesBuildMetadata: {[location: string]: {noIndex: boolean}};
+  plugins: Plugin<any>[];
+  content: Content;
+}
+```
+
+예:
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // highlight-start
+    async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
+      // Print out to console all the rendered routes.
+      routesPaths.map((route) => {
+        console.log(route);
+      });
+    },
+    // highlight-end
+  };
+}
+```
+
+## `injectHtmlTags({content})` {#injectHtmlTags}
+
+도큐사우루스에서 생성한 HTML에 head, body HTML 태그를 추가합니다.
+
+`injectHtmlTags`는 플러그인에 의해 로딩된 콘텐츠를 모두 호출할 수 있습니다.
+
+```ts
+function injectHtmlTags(): {
+  headTags?: HtmlTags;
+  preBodyTags?: HtmlTags;
+  postBodyTags?: HtmlTags;
+};
+
+type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
+
+type HtmlTagObject = {
+  /**
+   * HTML 태그 속성
+   * 예: `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
+   */
+  attributes?: {
+    [attributeName: string]: string | boolean;
+  };
+  /**
+   * 태그 이름. 예: `div`, `script`, `link`, `meta`
+   */
+  tagName: string;
+  /**
+   * inner HTML
+   */
+  innerHTML?: string;
+};
+```
+
+예:
+
+```js title="docusaurus-plugin/src/index.js"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    loadContent: async () => {
+      return {remoteHeadTags: await fetchHeadTagsFromAPI()};
+    },
+    // highlight-start
+    injectHtmlTags({content}) {
+      return {
+        headTags: [
+          {
+            tagName: 'link',
+            attributes: {
+              rel: 'preconnect',
+              href: 'https://www.github.com',
+            },
+          },
+          ...content.remoteHeadTags,
+        ],
+        preBodyTags: [
+          {
+            tagName: 'script',
+            attributes: {
+              charset: 'utf-8',
+              src: '/noflash.js',
+            },
+          },
+        ],
+        postBodyTags: [`<div> This is post body </div>`],
+      };
+    },
+    // highlight-end
+  };
+}
+```
+
+아래 위치에 태그가 삽입됩니다.
+
+- `headTags`는 설정에서 추가된 스크립트 다음에, 닫는 `</head>` 태그 앞에 삽입됩니다.
+- `preBodyTags`는 여는 `<body>` 태그 다음에, 자식 요소 앞에 삽입됩니다.
+- `postBodyTags`는 모든 자식 요소 다음에, 닫는 `</body>` 태그 앞에 삽입됩니다.
+
+## `getClientModules()` {#getClientModules}
+
+클라언트 번들로 가져올 [클라이언트 모듈](../../advanced/client.mdx#client-modules)에 대한 경로 배열을 반환합니다.
+
+예를 들어 인자로 전달받은 `options`에서 `customCss` 또는 `customJs` 파일 경로를 반환받아 테마에서 로드하게 하려면 아래와 같이 작성할 수 있습니다.
+
+```js title="my-theme/src/index.js"
+export default function (context, options) {
+  const {customCss, customJs} = options || {};
+  return {
+    name: 'name-of-my-theme',
+    // highlight-start
+    getClientModules() {
+      return [customCss, customJs];
+    },
+    // highlight-end
+  };
+}
+```

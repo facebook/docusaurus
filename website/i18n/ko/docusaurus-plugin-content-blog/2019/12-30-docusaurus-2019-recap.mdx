@@ -1,0 +1,62 @@
+---
+title: 도큐사우루스 2019 요약
+authors: yangshun
+tags:
+  - recap
+---
+
+2019 was a great year for Docusaurus - we've made tremendous progress on [Docusaurus 2](https://docusaurus.io/). Current Docusaurus 1 users who aren't using the translations feature can feel free to check it out and [migrate](https://docusaurus.io/docs/migration) to it! 아직 부족한 부분은 2020년에는 채워나갈 수 있도록 할겁니다 :)
+
+<!--truncate-->
+
+## 도큐사우루스 2(D2)
+
+In 2018, we proposed to rebuild [Docusaurus from the ground up](https://github.com/facebook/docusaurus/issues/789). 여기에는 주요 아키텍처를 재작업하는 것을 포함합니다. 콘텐츠 중심 CSS 프레임워크를 바닥부터 새로 만들었고 플러그인 시스템을 추가하고 정적 HTML 페이지에서 미리 렌더링된 단일 페이지 앱으로 전환했습니다. 특히 이번 프로젝트에 풀타임으로 참여하는 인력이 없어 힘들고 어려운 작업이었습니다. With the help of [@endilie](https://github.com/endiliey), our ex-intern-turned-contributor-turned-maintainer, we made really good progress on D2 and are currently on version 2.0.0-alpha.40. 번역을 제외한 도큐사우루스 1의 모든 기능 이전이 완료됐습니다.
+
+D2's killer features are **Dark Mode** and its **superb performance**. D2는 기본적으로 어두운 모드를 지원합니다. 어두운 모드에 적절한 문서 사이트를 만들기위해 추가적인 노력을 필요로 하지 않습니다. Endilie는 사이트 성능 최적화를 위해 많은 노력을 기울였습니다. 기본적으로 성능 최적화를 위한 다양한 트릭이 내부에서 수행됩니다. 이미지를 최적화하고 모든 경로에 정적 HTML을 미리 렌더링합니다. 그리고 클라이언트 측 라우팅을 처리하고 사용자가 탐색 링크에 마우스를 가져가는 등의 동작 시 필요한 애셋을 미리 가져옵니다.
+
+Last but not least, we implemented a plugins architecture and turned the repo into a [Lerna monorepo](https://github.com/facebook/docusaurus/tree/main/packages). 우리는 플러그인 아키텍처가 커뮤니티에 도움이 되기를 바랍니다. 사용자가 취향에 맞는 사이트를 만들기 위해 자신만의 기능을 구현할 수 있습니다.
+
+## 깃헙 활동
+
+- Stars: 10050 → 14632 (전년대비 +45.6%)
+- 전체 기여자: 182 → 303 (전년대비 +66.4%). 대부분은 페이스북 소속이 아닌 기여자입니다.
+- 주간 npm 내려받기: 728 → 2320 (전년대비 +218.7%). 11월에 가장 큰 상승폭을 보였습니다.
+- 깃헙에서 D1은 3872개 프로젝트에서 사용하고 있으며 D2는 247개 프로젝트에서 사용하고 있습니다.
+- 4명의 액티브 코어 기여자가 참여하고 있습니다! (전년대비 +100%)
+
+## 주목할만한 사용자
+
+오픈 소스 커뮤니티 내 프로젝트 중 상당수가 도큐사우루스를 사용하고 있습니다. 이들 중 많은 수가 도큐사우루스 2를 그들의 프로젝트에 적용했습니다.
+
+- [Create React App](https://create-react-app.dev/)
+- [Redux](https://redux.js.org/)
+- [Draft.js](https://draftjs.org/)
+- [Flux](http://facebook.github.io/flux/)
+
+그리고 도큐사우루스 1을 적용한 많은 프로젝트도 환영합니다.
+
+- [Libra](https://developers.libra.org/)
+- [MobX](https://mobx.js.org/)
+- [Immer](https://immerjs.github.io/immer/)
+- [Sorbet](https://sorbet.org/)
+
+## 미디어
+
+Yangshun gave a classroom session during F8 about [Using Docusaurus to Create Open Source Websites](https://www.youtube.com/watch?v=QcGJsf6mgZE).
+
+## 커뮤니티
+
+몇몇 서드파티 호스팅/개발 서비스에서 도큐사우루스 설정을 위한 통합 기능을 지원하고 있습니다.
+
+- [Vercel deployment](https://github.com/vercel/vercel/tree/main/examples/docusaurus)
+- [CodeSandbox](https://codesandbox.io/s/docusaurus-template-x3vg9)
+- [Render](https://render.com/docs/deploy-docusaurus)
+
+## 앞으로는
+
+D2 has gained some traction among the [developer community](https://docusaurus.io/showcase). 2020년 상반기 내에는 D1과 완전히 호환되는 기능 구현을 기대하고 있으며 다른 페이스북 프로젝트들이 D1에서 D2로 이전할 수 있도록 도와줄 겁니다. 내부 문서화에 도큐사우루스를 적용하면 정말 멋지겠지만 좀 시간이 걸릴 듯 합니다. 좋은 아이디어가 있다면 언제든지 우리에게 연락해주세요!
+
+Huge thanks to the community for their contributions, especially the core team - [Endilie Yacop Sucipto](https://github.com/endiliey), [Alexey Pyltsyn](https://github.com/lex111), [Wei Gao](https://github.com/wgao19). Lastly, thank you [Joel Marcey](https://github.com/JoelMarcey) for starting Docusaurus and supporting the project all this time.
+
+2020년에도 다같이 힘내자구요! 🎉

@@ -1,0 +1,31 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/prefer-docusaurus-heading
+---
+
+# prefer-docusaurus-heading
+
+Garantit que le composant de thème `@theme/Heading` fourni par [`theme-classic`](../../themes/theme-classic.mdx) de Docusaurus est utilisé à la place des balises `<hn>` pour les titres.
+
+## Détails de la règle {#details}
+
+Exemples de code **incorrect** pour cette règle :
+
+```html
+<h1>Il s'agit du titre 1</h1>
+
+<h2>Il s'agit du titre 1</h2>
+
+<h3>Il s'agit du titre 3</h3>
+```
+
+Exemples de code **correct** pour cette règle :
+
+```javascript
+import Heading from '@theme/Heading'
+
+<Heading as='h1'>Il s'agit du titre 1</Heading>
+
+<Heading as='h2'>Il s'agit du titre 1</Heading>
+
+<Heading as='h3'>Il s'agit du titre 3</Heading>
+```

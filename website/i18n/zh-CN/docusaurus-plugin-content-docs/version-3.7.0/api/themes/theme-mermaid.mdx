@@ -1,0 +1,25 @@
+---
+sidebar_position: 5
+slug: /api/themes/@docusaurus/theme-mermaid
+---
+
+# 📦 theme-mermaid
+
+This theme provides a `@theme/Mermaid` component that is powered by [mermaid](https://mermaid-js.github.io/). You can read more on [diagrams](../../guides/markdown-features/markdown-features-diagrams.mdx) documentation.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-mermaid
+```
+
+## Configuration {#configuration}
+
+```js title="docusaurus.config.js"
+export default {
+  themes: ['@docusaurus/theme-mermaid'],
+  // 为了让 Mermaid 代码块在 Markdown 中正常运行，
+  // 你还需要通过这个设置来启用 Remark 插件
+  markdown: {
+    mermaid: true,
+  },
+};
+```

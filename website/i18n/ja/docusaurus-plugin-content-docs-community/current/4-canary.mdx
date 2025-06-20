@@ -1,0 +1,110 @@
+# Canary リリース
+
+```mdx-code-block
+import {
+  VersionsProvider,
+  CanaryVersion,
+  StableVersion,
+  InsertIfCanaryVersionUnknown,
+  InsertIfCanaryVersionKnown,
+  PackageJSONDiff,
+  PublishTime,
+} from "@site/src/components/Versions";
+
+<VersionsProvider>
+```
+
+Docusaurus は Canary リリース を採用しています。
+
+It permits you to **test new unreleased features** as soon as the pull requests are merged.
+
+Canary リリースを使うことは、動作確認を行い、メンテナーに**フィードバック**を与える良い方法です。
+
+:::note
+
+本番環境で Canary リリースを使うのはリスキーだと感じるかもしれませんが、実はそうでもありません。
+
+Canary リリースはすべての自動化テストを通過しており、さらに Docusaurus のサイトの本番環境でも使用されているのです。
+
+:::
+
+```mdx-code-block
+<InsertIfCanaryVersionUnknown>
+```
+
+:::warning
+
+以下に示す Canary バージョンは **最新ではない場合があります**。 実際のバージョンは [npm ページ](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions)を参照してください。
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionUnknown>
+<InsertIfCanaryVersionKnown>
+```
+
+:::tip
+
+以下の Canary バージョンは npm から直接取得された**最新**のものです。 これらは package.json でそのまま使用できます。
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionKnown>
+```
+
+## Canary バージョンと npm のタグ
+
+`main` ブランチにおけるコードに関するコミットは、CI によって `@canary` タグの下で Canary リリースされます。 長くて10分程度かかります。
+
+[npm](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) で現在のタグとそのバージョンを確認することができます
+
+- `latest`: 安定版 (現在は <StableVersion />)
+- `canary`: Canary リリース (現在は <CanaryVersion />)
+
+:::tip
+
+必ず最新の Canary リリースを使用し、公開日を確認するようにしてください(公開プロセスが失敗することがあります)。<PublishTime />
+
+:::
+
+:::note
+
+Canary バージョンの命名規則は `0.0.0-commitNumber` です。
+
+:::
+
+## Canary リリースを使用する
+
+[canary](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) タグで公開されている最新バージョン (現在は <CanaryVersion />) を参照します。
+
+`package.json` 内の `@docusaurus/*` の依存すべてに同じバージョンを使用してください。
+
+```mdx-code-block
+<PackageJSONDiff />
+```
+
+次に、依存関係を再度インストールし、サイトを起動します。
+
+```bash npm2yarn
+npm install
+npm start
+```
+
+`@docusaurus/*` パッケージはコマンドラインでアップグレードすることもできます。
+
+```bash npm2yarn
+npm install --save-exact @docusaurus/core@canary @docusaurus/preset-classic@canary
+```
+
+:::warning
+
+すべての `@docusaurus/*` パッケージを必ず含めてください。
+
+Canary リリースを使用する場合、semver による範囲指定ではなく正確なバージョンを使用しましょう ( `^` プレフィックスは避けてください)。
+
+:::
+
+```mdx-code-block
+</VersionsProvider>
+```

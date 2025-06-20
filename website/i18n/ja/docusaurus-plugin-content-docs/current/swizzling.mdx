@@ -1,0 +1,334 @@
+---
+description: テーマコンポーネントの作成により、サイトの見た目をカスタマイズできます。
+---
+
+# スウィズリング（Swizzling）
+
+ここでは、Docusaurusでレイアウトをカスタマイズする方法を紹介します。
+
+> 見覚えがあるような……？
+
+このセクションは[スタイリングとレイアウト](./styling-layout.mdx)と似ていますが、今回はReactコンポーネントの見た目ではなく、コンポーネントそのものをカスタマイズします。 Docusaurusの中心的な概念である**スウィズリング**について説明します。これにより、**より高度なサイトのカスタマイズ**が可能になります。
+
+実際には、スウィズリングは**テーマのコンポーネントを自分の実装と入れ替える**ことを許可するもので、以下の2種類に分けられます。
+
+- [**取り出し（Ejecting）**](#ejecting)：元のテーマコンポーネントの**コピー**を作成し、フル**カスタマイズ**することが可能
+- [**ラッピング（Wrapping）**](#wrapping)：元のテーマコンポーネントを覆う**ラッパー**を作成し、**改良**が可能
+
+<details>
+
+<summary>スウィズリングと呼ばれている理由</summary>
+
+**この名前はObjective-C及びSwift-UIに由来**しています。[メソッドのスウィズリング](https://pspdfkit.com/blog/2019/swizzling-in-swift/)とは、既存のセレクタ（メソッド）の実装を変更する処理のことを言います。
+
+**Docusaurusでは、コンポーネントのスウィズリングはテーマが提供するコンポーネントよりも優先される代替コンポーネントを提供することを意味します。**
+
+Reactコンポーネントの[モンキーパッチ](https://ja.wikipedia.org/wiki/%E3%83%A2%E3%83%B3%E3%82%AD%E3%83%BC%E3%83%91%E3%83%83%E3%83%81)と同じようなもので、既定の実装を上書きすることができます。 Gatsbyには、[テーマのシャドーイング](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/)という同様の概念があります。
+
+これをより詳しく理解するためには、[テーマの構成要素がどのように解決されるか](./advanced/client.mdx#theme-aliases)を理解しておく必要があります。
+
+</details>
+
+## スウィズリングの過程
+
+### 概要
+
+Docusaurusは、コンポーネントをスウィズリングするための便利な**対話式のCLI**を用意しています。 通常は、次のコマンドだけ覚えておけば十分です。
+
+```bash npm2yarn
+npm run swizzle
+```
+
+これにより、`src/theme`ディレクトリに次の例のような新しいコンポーネントが生成されます。
+
+```mdx-code-block
+<Tabs>
+<TabItem value="取り出し">
+```
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+
+export default function SomeComponent(props) {
+  // JSX・CSS・React hooksの変更を含め、
+  // この実装を完全にカスタマイズできます
+  return (
+    <div className="some-class">
+      <h1>コンポーネント</h1>
+      <p>コンポーネントの実装詳細</p>
+    </div>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="ラッピング">
+```
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+import SomeComponent from '@theme-original/SomeComponent';
+
+export default function SomeComponentWrapper(props) {
+  // これを覆う追加のプロパティやJSXエレメントの追加を含め、
+  // 元のコンポーネントの改良ができます
+  return (
+    <>
+      <SomeComponent {...props} />
+    </>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+スウィズリング可能な全てのテーマとコンポーネントの概要を把握するには、次のコマンドを実行してください。
+
+```bash npm2yarn
+npm run swizzle -- --list
+```
+
+`--help`で全ての利用可能なコマンドオプションを確認するか、[swizzleサブコマンドのドキュメンテーション](./cli.mdx#docusaurus-swizzle)リファレンスを参照してください。
+
+:::tip Removing Unneeded Swizzled Components
+
+If you decide that a previously swizzled component is no longer necessary, you can simply remove its file(s) from the `src/theme` directory. After removing the component, make sure to restart your development server to ensure the changes are properly reflected.
+
+:::
+
+:::note
+
+コンポーネントをスウィズリングしたら、Docusaurusに新しいコンポーネントを認識させるため、**開発サーバを再起動**してください。
+
+:::
+
+:::warning 安全策を取るようにすること
+
+[どのコンポーネントが**スウィズリングしても安全**なのか](#what-is-safe-to-swizzle)を必ず理解しておきましょう。 一部のコンポーネントは、**テーマの内部実装の詳細部分**です。
+
+:::
+
+:::info
+
+`docusaurus swizzle`は、コンポーネントのスウィズリングを支援する自動化された手段にすぎません。 `src/theme/SomeComponent.js`ファイルを手動で作成することもでき、Docusaurusは [それを解決](./advanced/client.mdx#theme-aliases)します。 このコマンドの中に魔法などありません！
+
+:::
+
+### 取り出し（Ejecting） {#ejecting}
+
+テーマコンポーネントの取り出し(Ejecting)とは、**完全にカスタマイズ及び上書き**可能な元のテーマコンポーネントの**コピーを作成する**処理です。
+
+テーマコンポーネントを取り出すには、swizzle CLIを対話形式で、または次のように`--eject`オプションを付けて使用します。
+
+```bash npm2yarn
+npm run swizzle [テーマ名] [コンポーネント名] -- --eject
+```
+
+例：
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
+```
+
+これにより、現在の`<Footer />`コンポーネントの実装が、サイトの`src/theme`ディレクトリにコピーされます。 Docusaurusは、元のコンポーネントの代わりにこの`<Footer>`コンポーネントのコピーを使用するようになります。 これにより、`<Footer>`コンポーネントを自由かつ完全に再実装できるようになります。
+
+```jsx title="src/theme/Footer/index.js"
+import React from 'react';
+
+export default function Footer(props) {
+  return (
+    <footer>
+      <h1>カスタムサイトフッタ</h1>
+      <p>元のものとはまるっきり別物</p>
+    </footer>
+  );
+}
+```
+
+:::warning
+
+[**安全ではない**](#what-is-safe-to-swizzle)コンポーネントを取り出すと、大量の内部向けコードをコピーすることになり、それを自力でメンテナンスしなければならなくなる場合があります。 受け取ったプロパティや使用する内部テーマAPIが変更された場合、カスタマイズした内容を移行する必要があるため、Docusaurusのアップグレードをより困難にすることがあります。
+
+**可能な限り[ラッピング](#wrapping)を選択することをお勧めします。**メンテナンスするコード量が少なくて済むからです。
+
+:::
+
+:::tip 再スウィズリング
+
+取り出されたコンポーネントを、Docusaurusのアップグレード後も最新の状態に保つには、取り出しコマンドを再度実行し、`git diff`で変更点を比較してください。 また、ファイルの最初に、行った変更点の簡単な説明を書くことをお勧めします。これにより、再取り出し後にあなたの変更を簡単に再適用できるでしょう。
+
+:::
+
+### ラッピング（Wrapping） {#wrapping}
+
+テーマコンポーネントのラッピング(Wrapping)とは、**改良**可能な元のテーマコンポーネントの**ラッパーを作成する**処理です。
+
+テーマコンポーネントをラッピングするには、swizzle CLIを対話形式で、または次のように`--wrap`オプションを付けて使用します。
+
+```bash npm2yarn
+npm run swizzle [テーマ名] [コンポーネント名] -- --wrap
+```
+
+例：
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer -- --wrap
+```
+
+これはサイトの`src/theme`ディレクトリにラッパーを作成します。 Docusaurusは、元のコンポーネントの代わりに`<FooterWrapper>`コンポーネントを使用するようになります。 これで、元のコンポーネントの周りにカスタマイズを加えることができます。
+
+```jsx title="src/theme/Footer/index.js"
+import React from 'react';
+import Footer from '@theme-original/Footer';
+
+export default function FooterWrapper(props) {
+  return (
+    <>
+      <section>
+        <h2>追加部分</h2>
+        <p>これは元のフッタの上部に表示される追加部分です</p>
+      </section>
+      <Footer {...props} />
+    </>
+  );
+}
+```
+
+<details>
+  <summary>この<code>@theme-original</code>というものは何？</summary>
+
+Docusaurusは、使用するテーマコンポーネントを解決するのに[テーマエイリアス](./advanced/client.mdx#theme-aliases)を利用します。 新しく作成されたラッパーは`@theme/SomeComponent`エイリアスを取ります。 `@theme-original/SomeComponent` permits to import original component that the wrapper shadows without creating an infinite import loop where the wrapper imports itself.
+
+</details>
+
+:::tip
+
+Wrapping a theme is a great way to **add extra components around existing one** without [ejecting](#ejecting) it. For example, you can easily add a custom comment system under each blog post:
+
+```jsx title="src/theme/BlogPostItem.js"
+import React from 'react';
+import BlogPostItem from '@theme-original/BlogPostItem';
+import MyCustomCommentSystem from '@site/src/MyCustomCommentSystem';
+
+export default function BlogPostItemWrapper(props) {
+  return (
+    <>
+      <BlogPostItem {...props} />
+      <MyCustomCommentSystem />
+    </>
+  );
+}
+```
+
+:::
+
+## スウィズリングしても安全なもの {#what-is-safe-to-swizzle}
+
+> 大いなる力には、大いなる責任を伴う
+
+一部のテーマコンポーネントは、**テーマの内部実装の詳細**です。 Docusaurusではそれらのスウィズリングもできるようにしていますが、これは**危険な**場合があります。
+
+<details>
+
+<summary>危険な理由</summary>
+
+Theme authors (including us) might have to update their theme over time: changing the component props, name, file system location, types... For example, consider a component that receives two props `name` and `age`, but after a refactor, it now receives a `person` prop with the above two properties. Your component, which still expects these two props, will render `undefined` instead.
+
+Moreover, internal components may simply disappear. If a component is called `Sidebar` and it's later renamed to `DocSidebar`, your swizzled component will be completely ignored.
+
+**Theme components marked as unsafe may change in a backward-incompatible way between theme minor versions.** When upgrading a theme (or Docusaurus), your customizations might **behave unexpectedly**, and can even **break your site**.
+
+</details>
+
+For each theme component, the swizzle CLI will indicate **3 different levels of safety** declared by theme authors:
+
+- **Safe**: this component is safe to be swizzled, its public API is considered stable, and no breaking changes should happen within a theme **major version**
+- **Unsafe**: this component is a theme implementation detail, not safe to be swizzled, and breaking changes might happen within a theme **minor version**
+- **Forbidden**: the swizzle CLI will prevent you from swizzling this component, because it is not designed to be swizzled at all
+
+:::note
+
+Some components might be safe to wrap, but not safe to eject.
+
+:::
+
+:::info
+
+Don't be too **afraid to swizzle unsafe components**: just keep in mind that **breaking changes** might happen, and you might need to upgrade your customizations manually on minor version upgrades.
+
+:::
+
+:::note Report your use-case
+
+If you have a **strong use-case for swizzling an unsafe component**, please [**report it here**](https://github.com/facebook/docusaurus/discussions/5468) and we will work together to find a solution to make it safe.
+
+:::
+
+## どのコンポーネントをスウィズリングすべきか {#which-component-should-i-swizzle}
+
+It is not always clear which component you should swizzle exactly to achieve the desired result. `@docusaurus/theme-classic`, which provides most of the theme components, has about [100 components](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)!
+
+:::tip
+
+To print an overview of all the `@docusaurus/theme-classic` components:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic -- --list
+```
+
+:::
+
+You can follow these steps to locate the appropriate component to swizzle:
+
+1. **Component description.** Some components provide a short description, which is a good way to find the right one.
+2. **Component name.** Official theme components are semantically named, so you should be able to infer its function from the name. The swizzle CLI allows you to enter part of a component name to narrow down the available choices. For example, if you run `yarn swizzle @docusaurus/theme-classic`, and enter `Doc`, only the docs-related components will be listed.
+3. **Start with a higher-level component.** Components form a tree with some components importing others. Every route will be associated with one top-level component that the route will render (most of them listed in [Routing in content plugins](./advanced/routing.mdx#routing-in-content-plugins)). For example, all blog post pages have `@theme/BlogPostPage` as the topmost component. You can start with swizzling this component, and then go down the component tree to locate the component that renders just what you are targeting. Don't forget to unswizzle the rest by deleting the files after you've found the correct one, so you don't maintain too many components.
+4. **Read the [theme source code](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)** and use search wisely.
+
+:::tip Just ask!
+
+If you still have no idea which component to swizzle to achieve the desired effect, you can reach out for help in one of our [support channels](/community/support).
+
+We also want to understand better your fanciest customization use-cases, so please [**report them**](https://github.com/facebook/docusaurus/discussions/5468).
+
+:::
+
+## スウィズリングを行う必要があるか {#do-i-need-to-swizzle}
+
+Swizzling ultimately means you have to maintain some additional React code that interact with Docusaurus internal APIs. If you can, think about the following alternatives when customizing your site:
+
+1. **Use CSS.** CSS rules and selectors can often help you achieve a decent degree of customization. Refer to [styling and layout](./styling-layout.mdx) for more details.
+2. **Use translations.** It may sound surprising, but translations are ultimately just a way to customize the text labels. For example, if your site's default language is `en`, you can still run `yarn write-translations -l en` and edit the `code.json` emitted. Refer to the [i18n tutorial](./i18n/i18n-tutorial.mdx) for more details.
+
+:::tip
+
+**The smaller, the better.** If swizzling is inevitable, prefer to swizzle only the relevant part and maintain as little code on your own as possible. Swizzling a small component often means less risk of **breaking changes** during upgrade.
+
+[Wrapping](#wrapping) is also a far safer alternative to [ejecting](#ejecting).
+
+:::
+
+## サイトを`<Root>`でくるむ {#wrapper-your-site-with-root}
+
+The `<Root>` component is rendered at the **very top** of the React tree, above the theme `<Layout>`, and **never unmounts**. It is the perfect place to add stateful logic that should not be re-initialized across navigations (user authentication status, shopping cart state...).
+
+Swizzle it **manually** by creating a file at `src/theme/Root.js`:
+
+```js title="src/theme/Root.js"
+import React from 'react';
+
+// デフォルト実装（カスタマイズして構いません）
+export default function Root({children}) {
+  return <>{children}</>;
+}
+```
+
+:::tip
+
+React Contextプロバイダをレンダリングするには、このコンポーネントを使用してください。
+
+:::
