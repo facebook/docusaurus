@@ -92,7 +92,7 @@ async function createProcessorFactory() {
         headings,
         {anchorsMaintainCase: options.markdownConfig.anchors.maintainCase},
       ],
-      emoji,
+      ...(options.markdownConfig.emoji ? [emoji] : []),
       toc,
     ];
   }

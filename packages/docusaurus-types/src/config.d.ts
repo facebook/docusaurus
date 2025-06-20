@@ -93,6 +93,16 @@ export type MarkdownConfig = {
   mermaid: boolean;
 
   /**
+   * Allow remark-emoji to convert emoji shortcodes to Unicode emoji.
+   * - `true` (default): enables the remark-emoji plugin to convert shortcodes
+   * - `false`: disables the remark-emoji plugin
+   *
+   * @see https://github.com/rhysd/remark-emoji
+   * @default true
+   */
+  emoji: boolean;
+
+  /**
    * Gives opportunity to preprocess the MDX string content before compiling.
    * A good escape hatch that can be used to handle edge cases.
    *
