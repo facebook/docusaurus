@@ -19,6 +19,7 @@ export {
   MarkdownConfig,
   DefaultParseFrontMatter,
   ParseFrontMatter,
+  OnBrokenMarkdownLinksFunction,
 } from './markdown';
 
 export {ReportingSeverity} from './reporting';

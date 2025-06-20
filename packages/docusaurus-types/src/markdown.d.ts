@@ -42,15 +42,32 @@ export type MarkdownAnchorsConfig = {
   maintainCase: boolean;
 };
 
-// TODO refactor doc links!
+export type OnBrokenMarkdownLinksFunction = (params: {
+  /**
+   * Path of the source file on which the broken link was found
+   * Relative to the site dir.
+   * Example: "docs/category/myDoc.mdx"
+   */
+  sourceFilePath: string;
+
+  /**
+   * The Markdown link url that couldn't be resolved.
+   * Technically, in this context, it's more a "relative file path", but let's
+   * name it url for consistency with usual Markdown names and the MDX AST
+   * Example: "relative/dir/myTargetDoc.mdx?query#hash"
+   */
+  url: string;
+}) => void | string;
+
 export type MarkdownHooks = {
   /**
    * The behavior of Docusaurus when it detects any broken Markdown link.
    *
+   * // TODO refactor doc links!
    * @see https://docusaurus.io/docs/api/docusaurus-config#onBrokenMarkdownLinks
    * @default "warn"
    */
-  onBrokenMarkdownLinks: ReportingSeverity;
+  onBrokenMarkdownLinks: ReportingSeverity | OnBrokenMarkdownLinksFunction;
 };
 
 export type MarkdownConfig = {

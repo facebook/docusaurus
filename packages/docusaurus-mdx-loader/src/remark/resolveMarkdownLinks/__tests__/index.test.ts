@@ -9,7 +9,6 @@ import {jest} from '@jest/globals';
 import * as path from 'path';
 import plugin from '..';
 import type {PluginOptions} from '../index';
-import type {ReportingSeverity} from '@docusaurus/types';
 
 const DefaultTestOptions: PluginOptions = {
   resolveMarkdownLink: ({linkPathname}) => `/RESOLVED---${linkPathname}`,
@@ -181,11 +180,11 @@ this is a code block
 
     async function processResolutionErrors(
       content: string,
-      level: ReportingSeverity = 'throw',
+      onBrokenMarkdownLinks: PluginOptions['onBrokenMarkdownLinks'] = 'throw',
     ) {
       return process(content, {
         resolveMarkdownLink: () => null,
-        onBrokenMarkdownLinks: level,
+        onBrokenMarkdownLinks,
       });
     }
 
@@ -199,7 +198,7 @@ this is a code block
       `);
     });
 
-    it('throws for unresolvable mdx link', async () => {
+    it('throws by default for unresolvable mdx link', async () => {
       /* language=markdown */
       const content = `[link1](link1.mdx)`;
 
@@ -210,7 +209,7 @@ this is a code block
       );
     });
 
-    it('throws for unresolvable md link', async () => {
+    it('throws by default for unresolvable md link', async () => {
       /* language=markdown */
       const content = `[link1](link1.md)`;
 
@@ -228,7 +227,7 @@ this is a code block
 
 [link2](link2)
 
-[link3](link3.md)
+[link3](dir/link3.md)
 
 [link 4](/link/4)
       `;
@@ -240,7 +239,7 @@ this is a code block
 
         [link2](link2)
 
-        [link3](link3.md)
+        [link3](dir/link3.md)
 
         [link 4](/link/4)
         "
@@ -253,7 +252,51 @@ this is a code block
             "[WARNING] Markdown link couldn't be resolved: (link1.mdx) in source file "docs/myFile.mdx" ",
           ],
           [
-            "[WARNING] Markdown link couldn't be resolved: (link3.md) in source file "docs/myFile.mdx" ",
+            "[WARNING] Markdown link couldn't be resolved: (dir/link3.md) in source file "docs/myFile.mdx" ",
+          ],
+        ]
+      `);
+    });
+
+    it('can from recover unresolvable md and mdx link', async () => {
+      /* language=markdown */
+      const content = `
+[link1](link1.mdx)
+
+[link2](link2)
+
+[link3](dir/link3.md?query#hash)
+
+[link 4](/link/4)
+      `;
+
+      const result = await processResolutionErrors(
+        content,
+        ({sourceFilePath, url}) => {
+          console.warn(`recovering broken markdown link ${url}`);
+          return `/recovered/___${sourceFilePath}___/___${url}`;
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
+        "[link1](/recovered/___docs/myFile.mdx___/___link1.mdx)
+
+        [link2](link2)
+
+        [link3](/recovered/___docs/myFile.mdx___/___dir/link3.md?query#hash)
+
+        [link 4](/link/4)
+        "
+      `);
+
+      expect(warnMock).toHaveBeenCalledTimes(2);
+      expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        [
+          [
+            "recovering broken markdown link link1.mdx",
+          ],
+          [
+            "recovering broken markdown link dir/link3.md?query#hash",
           ],
         ]
       `);
