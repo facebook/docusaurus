@@ -8,7 +8,7 @@
 import {jest} from '@jest/globals';
 import reactRouterConfig from 'react-router-config';
 import {handleBrokenLinks} from '../brokenLinks';
-import type {RouteConfig} from '@docusaurus/types';
+import type {BrokenLinksMap, RouteConfig} from '@docusaurus/types';
 
 type Params = Parameters<typeof handleBrokenLinks>[0];
 
@@ -26,6 +26,7 @@ async function testBrokenLinks(params: {
   onBrokenLinks?: Params['onBrokenLinks'];
   onBrokenAnchors?: Params['onBrokenAnchors'];
   routes?: SimpleRoute[];
+  onReportBrokenLinks?: Params['onReportBrokenLinks'];
 }) {
   await handleBrokenLinks({
     collectedLinks: {},
@@ -34,6 +35,7 @@ async function testBrokenLinks(params: {
     ...params,
     // Unsafe but convenient for tests
     routes: (params.routes ?? []) as RouteConfig[],
+    onReportBrokenLinks: params.onReportBrokenLinks,
   });
 }
 
@@ -725,6 +727,31 @@ describe('handleBrokenLinks', () => {
         ],
       ]
     `);
+    warnMock.mockRestore();
+  });
+
+  it('can warn for broken links and remove them before building the report', async () => {
+    const warnMock = jest.spyOn(console, 'warn');
+
+    await testBrokenLinks({
+      onBrokenLinks: 'warn',
+      routes: [{path: '/page1'}],
+      collectedLinks: {
+        '/page1': {
+          links: ['/page2'],
+          anchors: [],
+        },
+      },
+      onReportBrokenLinks: (brokenLinksMap: BrokenLinksMap) => {
+        for (const pathname in brokenLinksMap) {
+          if (pathname.startsWith('/page1')) {
+            delete brokenLinksMap[pathname];
+          }
+        }
+      },
+    });
+
+    expect(warnMock).toHaveBeenCalledTimes(0);
     warnMock.mockRestore();
   });
 

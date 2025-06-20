@@ -273,6 +273,33 @@ The behavior of Docusaurus when it detects any broken anchor declared with the `
 
 By default, it prints a warning, to let you know about your broken anchors.
 
+### `onReportBrokenLinks` {#onReportBrokenLinks}
+
+- Type: `function`
+
+When Docusaurus detects a broken link or anchor, it generates a report detailing the issues.
+
+This function runs before the report is generated, allowing you to modify its contents before final output.
+
+#### USAGE
+
+In this example we will delete broken links that start with the path "/api" from the final report.
+
+```javascript
+import { Config, BrokenLinksMap } from '@docusaurus/types';
+
+const config: Config = {
+  onReportBrokenLinks: (brokenLinksMap: BrokenLinksMap) => {
+    for (const pathname in brokenLinksMap) {
+      if (pathname.startsWith('/api')) {
+        delete brokenLinksMap[pathname];
+      }
+    }
+  }
+}
+
+```
+
 ### `onBrokenMarkdownLinks` {#onBrokenMarkdownLinks}
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
