@@ -5,17 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
+import * as path from 'path';
 import plugin from '..';
 import type {PluginOptions} from '../index';
+import type {ReportingSeverity} from '@docusaurus/types';
 
-async function process(content: string) {
-  const {remark} = await import('remark');
+const DefaultTestOptions: PluginOptions = {
+  resolveMarkdownLink: ({linkPathname}) => `/RESOLVED---${linkPathname}`,
+  siteDir: '/absolute/siteDir',
+  onBrokenMarkdownLinks: 'throw',
+};
 
-  const options: PluginOptions = {
-    resolveMarkdownLink: ({linkPathname}) => `/RESOLVED---${linkPathname}`,
+async function process(content: string, optionsInput?: Partial<PluginOptions>) {
+  const options = {
+    ...DefaultTestOptions,
+    ...optionsInput,
   };
 
-  const result = await remark().use(plugin, options).process(content);
+  const {remark} = await import('remark');
+
+  const result = await remark()
+    .use(plugin, options)
+    .process({
+      value: content,
+      path: path.posix.join(DefaultTestOptions.siteDir, 'docs', 'myFile.mdx'),
+    });
 
   return result.value;
 }
@@ -156,5 +171,92 @@ this is a code block
       [link-ref3]: /RESOLVED---../links/target.mdx?qs#target-heading
       "
     `);
+  });
+
+  describe('resolution errors', () => {
+    const warnMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    beforeEach(() => {
+      warnMock.mockClear();
+    });
+
+    async function processResolutionErrors(
+      content: string,
+      level: ReportingSeverity = 'throw',
+    ) {
+      return process(content, {
+        resolveMarkdownLink: () => null,
+        onBrokenMarkdownLinks: level,
+      });
+    }
+
+    it('accepts non-md link', async () => {
+      /* language=markdown */
+      const content = `[link1](link1)`;
+      const result = await processResolutionErrors(content);
+      expect(result).toMatchInlineSnapshot(`
+        "[link1](link1)
+        "
+      `);
+    });
+
+    it('throws for unresolvable mdx link', async () => {
+      /* language=markdown */
+      const content = `[link1](link1.mdx)`;
+
+      await expect(() =>
+        processResolutionErrors(content),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Markdown link couldn't be resolved: (link1.mdx) in source file "docs/myFile.mdx" "`,
+      );
+    });
+
+    it('throws for unresolvable md link', async () => {
+      /* language=markdown */
+      const content = `[link1](link1.md)`;
+
+      await expect(() =>
+        processResolutionErrors(content),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Markdown link couldn't be resolved: (link1.md) in source file "docs/myFile.mdx" "`,
+      );
+    });
+
+    it('warns for unresolvable md and mdx link', async () => {
+      /* language=markdown */
+      const content = `
+[link1](link1.mdx)
+
+[link2](link2)
+
+[link3](link3.md)
+
+[link 4](/link/4)
+      `;
+
+      const result = await processResolutionErrors(content, 'warn');
+
+      expect(result).toMatchInlineSnapshot(`
+        "[link1](link1.mdx)
+
+        [link2](link2)
+
+        [link3](link3.md)
+
+        [link 4](/link/4)
+        "
+      `);
+
+      expect(warnMock).toHaveBeenCalledTimes(2);
+      expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        [
+          [
+            "[WARNING] Markdown link couldn't be resolved: (link1.mdx) in source file "docs/myFile.mdx" ",
+          ],
+          [
+            "[WARNING] Markdown link couldn't be resolved: (link3.md) in source file "docs/myFile.mdx" ",
+          ],
+        ]
+      `);
+    });
   });
 });
