@@ -10,7 +10,7 @@ import type {RuleSetRule} from 'webpack';
 import type {DeepPartial, Overwrite} from 'utility-types';
 import type {I18nConfig} from './i18n';
 import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
-import type {ReportingSeverity} from './hooks';
+import type {ReportingSeverity} from './reporting';
 import type {MarkdownConfig} from './markdown';
 
 export type RouterType = 'browser' | 'hash';

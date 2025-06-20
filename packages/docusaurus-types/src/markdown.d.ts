@@ -6,7 +6,7 @@
  */
 
 import type {ProcessorOptions} from '@mdx-js/mdx';
-import type {ReportingSeverity} from './config';
+import type {ReportingSeverity} from './reporting';
 
 export type RemarkRehypeOptions = ProcessorOptions['remarkRehypeOptions'];
 
