@@ -10,27 +10,14 @@ import type {RuleSetRule} from 'webpack';
 import type {DeepPartial, Overwrite} from 'utility-types';
 import type {I18nConfig} from './i18n';
 import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
-
-export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
+import type {ReportingSeverity} from './hooks';
+import type {MarkdownConfig} from './markdown';
 
 export type RouterType = 'browser' | 'hash';
 
 export type ThemeConfig = {
   [key: string]: unknown;
 };
-
-// We probably expose too many types here, I kept exports for v3.x retro compat
-export type {
-  RemarkRehypeOptions,
-  MarkdownPreprocessor,
-  MDX1CompatOptions,
-  ParseFrontMatterParams,
-  ParseFrontMatterResult,
-  DefaultParseFrontMatter,
-  ParseFrontMatter,
-  MarkdownAnchorsConfig,
-  MarkdownConfig,
-} from './markdown';
 
 export type StorageConfig = {
   type: SiteStorage['type'];
