@@ -5,14 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import {
   parseLocalURLPath,
   serializeURLPath,
   type URLPath,
 } from '@docusaurus/utils';
-
+import logger from '@docusaurus/logger';
 import type {Plugin, Transformer} from 'unified';
 import type {Definition, Link, Root} from 'mdast';
+import type {MarkdownConfig} from '@docusaurus/types';
 
 type ResolveMarkdownLinkParams = {
   /**
@@ -31,7 +33,9 @@ export type ResolveMarkdownLink = (
 ) => string | null;
 
 export interface PluginOptions {
+  siteDir: string;
   resolveMarkdownLink: ResolveMarkdownLink;
+  onBrokenMarkdownLinks: MarkdownConfig['hooks']['onBrokenMarkdownLinks'];
 }
 
 const HAS_MARKDOWN_EXTENSION = /\.mdx?$/i;
@@ -60,7 +64,7 @@ function parseMarkdownLinkURLPath(link: string): URLPath | null {
 const plugin: Plugin<PluginOptions[], Root> = function plugin(
   options,
 ): Transformer<Root> {
-  const {resolveMarkdownLink} = options;
+  const {resolveMarkdownLink, onBrokenMarkdownLinks, siteDir} = options;
   return async (root, file) => {
     const {visit} = await import('unist-util-visit');
 
@@ -71,18 +75,27 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
         return;
       }
 
+      const sourceFilePath = file.path;
+
       const permalink = resolveMarkdownLink({
-        sourceFilePath: file.path,
+        sourceFilePath,
         linkPathname: linkURLPath.pathname,
       });
 
+      if (permalink === null) {
+        logger.report(
+          onBrokenMarkdownLinks,
+        )`Markdown link couldn't be resolved: (url=${
+          linkURLPath.pathname
+        }) in source file path=${path.relative(siteDir, sourceFilePath)} `;
+      }
+
       if (permalink) {
         // This reapplies the link ?qs#hash part to the resolved pathname
-        const resolvedUrl = serializeURLPath({
+        link.url = serializeURLPath({
           ...linkURLPath,
           pathname: permalink,
         });
-        link.url = resolvedUrl;
       }
     });
   };

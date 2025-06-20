@@ -17,6 +17,7 @@ import {
   removeTrailingSlash,
 } from '@docusaurus/utils-common';
 import logger from '@docusaurus/logger';
+import type {MarkdownHooks} from '@docusaurus/types/src/markdown';
 import type {
   FasterConfig,
   FutureConfig,
@@ -84,6 +85,10 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   experimental_router: 'browser',
 };
 
+export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
+  onBrokenMarkdownLinks: 'warn',
+};
+
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
   mermaid: false,
@@ -98,6 +103,7 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
     maintainCase: false,
   },
   remarkRehypeOptions: undefined,
+  hooks: DEFAULT_MARKDOWN_HOOKS,
 };
 
 export const DEFAULT_CONFIG: Pick<
@@ -455,6 +461,11 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         DEFAULT_CONFIG.markdown.anchors.maintainCase,
       ),
     }).default(DEFAULT_CONFIG.markdown.anchors),
+    hooks: Joi.object<MarkdownHooks>({
+      onBrokenMarkdownLinks: Joi.string()
+        .equal('ignore', 'log', 'warn', 'throw')
+        .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownLinks),
+    }).default(DEFAULT_CONFIG.markdown.hooks),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':

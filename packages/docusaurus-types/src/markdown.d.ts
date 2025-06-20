@@ -50,7 +50,7 @@ export type MarkdownHooks = {
    * @see https://docusaurus.io/docs/api/docusaurus-config#onBrokenMarkdownLinks
    * @default "warn"
    */
-  onBrokenLinks: ReportingSeverity;
+  onBrokenMarkdownLinks: ReportingSeverity;
 };
 
 export type MarkdownConfig = {

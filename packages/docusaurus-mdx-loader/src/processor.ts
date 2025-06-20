@@ -22,6 +22,7 @@ import type {WebpackCompilerName} from '@docusaurus/utils';
 import type {MDXFrontMatter} from './frontMatter';
 import type {Options} from './options';
 import type {AdmonitionOptions} from './remark/admonitions';
+import type {PluginOptions as ResolveMarkdownLinksOptions} from './remark/resolveMarkdownLinks';
 import type {ProcessorOptions} from '@mdx-js/mdx';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
@@ -127,7 +128,12 @@ async function createProcessorFactory() {
       options.resolveMarkdownLink
         ? [
             resolveMarkdownLinks,
-            {resolveMarkdownLink: options.resolveMarkdownLink},
+            {
+              siteDir: options.siteDir,
+              resolveMarkdownLink: options.resolveMarkdownLink,
+              onBrokenMarkdownLinks:
+                options.markdownConfig.hooks.onBrokenMarkdownLinks,
+            } satisfies ResolveMarkdownLinksOptions,
           ]
         : undefined,
       [
