@@ -1,12 +1,12 @@
 ---
 slug: first-blog-post
 title: First Blog Post
-authors: [slorber, yangshun]
+authors: [thakur, aishwarya]
 tags: [hola, docusaurus]
 ---
 
-Lorem ipsum dolor sit amet...
+Hi I am Aishwarya
 
 <!-- truncate -->
 
-...consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet
+.Let us discuss severs..
