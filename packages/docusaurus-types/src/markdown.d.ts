@@ -59,6 +59,23 @@ export type OnBrokenMarkdownLinksFunction = (params: {
   url: string;
 }) => void | string;
 
+export type OnBrokenMarkdownImagesFunction = (params: {
+  /**
+   * Path of the source file on which the broken image was found
+   * Relative to the site dir.
+   * Example: "docs/category/myDoc.mdx"
+   */
+  sourceFilePath: string;
+
+  /**
+   * The Markdown image url that couldn't be resolved.
+   * Technically, in this context, it's more a "relative file path", but let's
+   * name it url for consistency with usual Markdown names and the MDX AST
+   * Example: "relative/dir/myImage.png"
+   */
+  url: string;
+}) => void | string;
+
 export type MarkdownHooks = {
   /**
    * The behavior of Docusaurus when it detects any broken Markdown link.
@@ -68,6 +85,8 @@ export type MarkdownHooks = {
    * @default "warn"
    */
   onBrokenMarkdownLinks: ReportingSeverity | OnBrokenMarkdownLinksFunction;
+
+  onBrokenMarkdownImages: ReportingSeverity | OnBrokenMarkdownImagesFunction;
 };
 
 export type MarkdownConfig = {

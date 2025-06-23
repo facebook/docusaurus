@@ -17,7 +17,6 @@ import {
   removeTrailingSlash,
 } from '@docusaurus/utils-common';
 import logger from '@docusaurus/logger';
-import type {MarkdownHooks} from '@docusaurus/types/src/markdown';
 import type {
   FasterConfig,
   FutureConfig,
@@ -87,6 +86,7 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
 
 export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
   onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownImages: 'warn',
 };
 
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
@@ -465,6 +465,9 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       onBrokenMarkdownLinks: Joi.string()
         .equal('ignore', 'log', 'warn', 'throw')
         .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownLinks),
+      onBrokenMarkdownImages: Joi.string()
+        .equal('ignore', 'log', 'warn', 'throw')
+        .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownImages),
     }).default(DEFAULT_CONFIG.markdown.hooks),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({

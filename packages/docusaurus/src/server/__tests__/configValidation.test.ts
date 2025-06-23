@@ -115,6 +115,7 @@ describe('normalizeConfig', () => {
         },
         hooks: {
           onBrokenMarkdownLinks: 'log',
+          onBrokenMarkdownImages: 'log',
         },
       },
     };
@@ -398,6 +399,7 @@ describe('markdown', () => {
       },
       hooks: {
         onBrokenMarkdownLinks: 'log',
+        onBrokenMarkdownImages: 'warn',
       },
     };
     expect(normalizeMarkdown(markdown)).toEqual(markdown);
@@ -558,9 +560,9 @@ describe('markdown', () => {
             expect.objectContaining({
               onBrokenMarkdownLinks: undefined,
               markdown: expect.objectContaining({
-                hooks: {
+                hooks: expect.objectContaining({
                   onBrokenMarkdownLinks: 'throw',
-                },
+                }),
               }),
             }),
           );
@@ -582,9 +584,9 @@ describe('markdown', () => {
             expect.objectContaining({
               onBrokenMarkdownLinks: undefined,
               markdown: expect.objectContaining({
-                hooks: {
+                hooks: expect.objectContaining({
                   onBrokenMarkdownLinks: 'log',
-                },
+                }),
               }),
             }),
           );
@@ -597,6 +599,58 @@ describe('markdown', () => {
             ]
           `);
         });
+      });
+    });
+
+    describe('onBrokenMarkdownImages', () => {
+      function normalizeValue(
+        onBrokenMarkdownImages?: MarkdownHooks['onBrokenMarkdownImages'],
+      ) {
+        return normalizeHooks({
+          onBrokenMarkdownImages,
+        }).onBrokenMarkdownImages;
+      }
+
+      it('accepts undefined', () => {
+        expect(normalizeValue(undefined)).toBe('warn');
+      });
+
+      it('accepts severity level', () => {
+        expect(normalizeValue('log')).toBe('log');
+      });
+
+      it('rejects number', () => {
+        expect(() =>
+          normalizeValue(
+            // @ts-expect-error: bad value
+            42,
+          ),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""markdown.hooks.onBrokenMarkdownImages" must be one of [ignore, log, warn, throw]
+          "markdown.hooks.onBrokenMarkdownImages" must be a string
+          "
+        `);
+      });
+
+      it('rejects function', () => {
+        expect(() =>
+          normalizeValue(
+            // @ts-expect-error: bad value
+            () => {},
+          ),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""markdown.hooks.onBrokenMarkdownImages" must be one of [ignore, log, warn, throw]
+          "markdown.hooks.onBrokenMarkdownImages" must be a string
+          "
+        `);
+      });
+
+      it('rejects null', () => {
+        expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
+          ""markdown.hooks.onBrokenMarkdownImages" must be one of [ignore, log, warn, throw]
+          "markdown.hooks.onBrokenMarkdownImages" must be a string
+          "
+        `);
       });
     });
   });

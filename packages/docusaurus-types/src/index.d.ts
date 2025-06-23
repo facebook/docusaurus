@@ -20,6 +20,7 @@ export {
   DefaultParseFrontMatter,
   ParseFrontMatter,
   OnBrokenMarkdownLinksFunction,
+  OnBrokenMarkdownImagesFunction,
 } from './markdown';
 
 export {ReportingSeverity} from './reporting';
