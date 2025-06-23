@@ -23,6 +23,7 @@ import type {MDXFrontMatter} from './frontMatter';
 import type {Options} from './options';
 import type {AdmonitionOptions} from './remark/admonitions';
 import type {PluginOptions as ResolveMarkdownLinksOptions} from './remark/resolveMarkdownLinks';
+import type {PluginOptions as TransformImageOptions} from './remark/transformImage';
 import type {ProcessorOptions} from '@mdx-js/mdx';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
@@ -122,7 +123,9 @@ async function createProcessorFactory() {
         {
           staticDirs: options.staticDirs,
           siteDir: options.siteDir,
-        },
+          onBrokenMarkdownImages:
+            options.markdownConfig.hooks.onBrokenMarkdownImages,
+        } satisfies TransformImageOptions,
       ],
       // TODO merge this with transformLinks?
       options.resolveMarkdownLink

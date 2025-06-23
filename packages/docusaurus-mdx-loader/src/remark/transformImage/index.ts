@@ -24,10 +24,12 @@ import type {Plugin, Transformer} from 'unified';
 import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Image, Root} from 'mdast';
 import type {Parent} from 'unist';
+import type {MarkdownConfig} from '@docusaurus/types';
 
-type PluginOptions = {
+export type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
+  onBrokenMarkdownImages: MarkdownConfig['hooks']['onBrokenMarkdownImages'];
 };
 
 type Context = PluginOptions & {

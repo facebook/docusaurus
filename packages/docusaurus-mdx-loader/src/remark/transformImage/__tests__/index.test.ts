@@ -6,7 +6,7 @@
  */
 
 import {jest} from '@jest/globals';
-import path from 'path';
+import * as path from 'path';
 import vfile from 'to-vfile';
 import plugin, {type PluginOptions} from '../index';
 
@@ -21,7 +21,12 @@ const processFixture = async (
 
   const result = await remark()
     .use(mdx)
-    .use(plugin, {siteDir: __dirname, staticDirs: [], ...options})
+    .use(plugin, {
+      siteDir: __dirname,
+      staticDirs: [],
+      onBrokenMarkdownImages: 'throw',
+      ...options,
+    })
     .process(file);
 
   return result.value;
