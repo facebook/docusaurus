@@ -40,30 +40,6 @@ const staticDirs = [
 const siteDir = path.join(__dirname, '__fixtures__');
 
 describe('transformImage plugin', () => {
-  it('fail if image does not exist', async () => {
-    await expect(
-      processFixture('fail', {staticDirs}),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static/img/doesNotExist.png or packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static2/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/fail.md not found."`,
-    );
-  });
-
-  it('fail if image relative path does not exist', async () => {
-    await expect(
-      processFixture('fail2', {staticDirs}),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/notFound.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/fail2.md not found."`,
-    );
-  });
-
-  it('fail if image url is absent', async () => {
-    await expect(
-      processFixture('noUrl', {staticDirs}),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Markdown image URL is mandatory in "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/noUrl.md" file"`,
-    );
-  });
-
   it('transform md images to <img />', async () => {
     const result = await processFixture('img', {staticDirs, siteDir});
     expect(result).toMatchSnapshot();
@@ -79,5 +55,31 @@ describe('transformImage plugin', () => {
     const result = await processFixture('invalid-img', {staticDirs});
     expect(result).toMatchSnapshot();
     expect(errorMock).toHaveBeenCalledTimes(1);
+  });
+
+  describe('errors', () => {
+    it('fail if image does not exist', async () => {
+      await expect(
+        processFixture('fail', {staticDirs}),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static/img/doesNotExist.png or packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static2/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/fail.md not found."`,
+      );
+    });
+
+    it('fail if image relative path does not exist', async () => {
+      await expect(
+        processFixture('fail2', {staticDirs}),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/notFound.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/fail2.md not found."`,
+      );
+    });
+
+    it('fail if image url is absent', async () => {
+      await expect(
+        processFixture('noUrl', {staticDirs}),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Markdown image URL is mandatory in "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/noUrl.md" file"`,
+      );
+    });
   });
 });
