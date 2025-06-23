@@ -85,7 +85,7 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
 
 export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
   onBrokenMarkdownLinks: 'warn',
-  onBrokenMarkdownImages: 'warn',
+  onBrokenMarkdownImages: 'throw',
 };
 
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {

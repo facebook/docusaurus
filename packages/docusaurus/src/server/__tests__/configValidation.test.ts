@@ -597,7 +597,7 @@ describe('markdown', () => {
       }
 
       it('accepts undefined', () => {
-        expect(normalizeValue(undefined)).toBe('warn');
+        expect(normalizeValue(undefined)).toBe('throw');
       });
 
       it('accepts severity level', () => {
