@@ -10,49 +10,66 @@ import * as path from 'path';
 import vfile from 'to-vfile';
 import plugin, {type PluginOptions} from '../index';
 
-const processFixture = async (
-  name: string,
-  options: Partial<PluginOptions>,
-) => {
-  const {remark} = await import('remark');
-  const {default: mdx} = await import('remark-mdx');
-  const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
-  const file = await vfile.read(filePath);
-
-  const result = await remark()
-    .use(mdx)
-    .use(plugin, {
-      siteDir: __dirname,
-      staticDirs: [],
-      onBrokenMarkdownImages: 'throw',
-      ...options,
-    })
-    .process(file);
-
-  return result.value;
-};
+const siteDir = path.join(__dirname, '__fixtures__');
 
 const staticDirs = [
   path.join(__dirname, '__fixtures__/static'),
   path.join(__dirname, '__fixtures__/static2'),
 ];
 
-const siteDir = path.join(__dirname, '__fixtures__');
+const getProcessor = async (options?: Partial<PluginOptions>) => {
+  const {remark} = await import('remark');
+  const {default: mdx} = await import('remark-mdx');
+  return remark()
+    .use(mdx)
+    .use(plugin, {
+      siteDir,
+      staticDirs,
+      onBrokenMarkdownImages: 'throw',
+      ...options,
+    });
+};
+
+const processFixture = async (
+  name: string,
+  options?: Partial<PluginOptions>,
+) => {
+  const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
+  const file = await vfile.read(filePath);
+  const processor = await getProcessor(options);
+  const result = await processor.process(file);
+  return result.value;
+};
+
+const processContent = async (
+  content: string,
+  options?: Partial<PluginOptions>,
+) => {
+  const processor = await getProcessor(options);
+  const result = await processor.process({
+    value: content,
+    path: path.posix.join(siteDir, 'docs', 'myFile.mdx'),
+  });
+  return result.value;
+};
 
 describe('transformImage plugin', () => {
   it('transform md images to <img />', async () => {
-    const result = await processFixture('img', {staticDirs, siteDir});
+    // TODO split that large fixture into many smaller test cases?
+    const result = await processFixture('img');
     expect(result).toMatchSnapshot();
   });
 
   it('pathname protocol', async () => {
-    const result = await processFixture('pathname', {staticDirs});
+    const result = await processContent(
+      `![img](pathname:///img/unchecked.png)`,
+    );
     expect(result).toMatchSnapshot();
   });
 
   it('does not choke on invalid image', async () => {
     const errorMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    const result = await processFixture('invalid-img', {staticDirs});
+    const result = await processContent(`![invalid image](/invalid.png)`);
     expect(result).toMatchSnapshot();
     expect(errorMock).toHaveBeenCalledTimes(1);
   });
@@ -60,25 +77,35 @@ describe('transformImage plugin', () => {
   describe('errors', () => {
     it('fail if image does not exist', async () => {
       await expect(
-        processFixture('fail', {staticDirs}),
+        processContent(`![img](/img/doesNotExist.png)`),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static/img/doesNotExist.png or packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static2/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/fail.md not found."`,
+        `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static/img/doesNotExist.png or packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static2/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx not found."`,
       );
     });
 
     it('fail if image relative path does not exist', async () => {
       await expect(
-        processFixture('fail2', {staticDirs}),
+        processContent(`![img](./notFound.png)`),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/notFound.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/fail2.md not found."`,
+        `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/notFound.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx not found."`,
       );
     });
 
     it('fail if image url is absent', async () => {
       await expect(
-        processFixture('noUrl', {staticDirs}),
+        processContent(`![img]()`),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Markdown image URL is mandatory in "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/noUrl.md" file"`,
+        `"Markdown image URL is mandatory in "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" file"`,
+      );
+    });
+  });
+
+  describe('warnings', () => {
+    it('fail if image does not exist', async () => {
+      await expect(
+        processFixture('fail'),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"ENOENT: no such file or directory, open '<PROJECT_ROOT>/packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/fail.md'"`,
       );
     });
   });
