@@ -127,6 +127,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
       },
       "format": "mdx",
       "hooks": {
+        "onBrokenMarkdownImages": "throw",
         "onBrokenMarkdownLinks": "warn",
       },
       "mdx1Compat": {

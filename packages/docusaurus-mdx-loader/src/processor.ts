@@ -132,7 +132,6 @@ async function createProcessorFactory() {
         ? [
             resolveMarkdownLinks,
             {
-              siteDir: options.siteDir,
               resolveMarkdownLink: options.resolveMarkdownLink,
               onBrokenMarkdownLinks:
                 options.markdownConfig.hooks.onBrokenMarkdownLinks,
