@@ -23,6 +23,7 @@ import type {MDXFrontMatter} from './frontMatter';
 import type {Options} from './options';
 import type {AdmonitionOptions} from './remark/admonitions';
 import type {PluginOptions as ResolveMarkdownLinksOptions} from './remark/resolveMarkdownLinks';
+import type {PluginOptions as TransformLinksOptions} from './remark/transformLinks';
 import type {PluginOptions as TransformImageOptions} from './remark/transformImage';
 import type {ProcessorOptions} from '@mdx-js/mdx';
 
@@ -143,7 +144,9 @@ async function createProcessorFactory() {
         {
           staticDirs: options.staticDirs,
           siteDir: options.siteDir,
-        },
+          onBrokenMarkdownLinks:
+            options.markdownConfig.hooks.onBrokenMarkdownLinks,
+        } satisfies TransformLinksOptions,
       ],
       gfm,
       options.markdownConfig.mdx1Compat.comments ? comment : null,
