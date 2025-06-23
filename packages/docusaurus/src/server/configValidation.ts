@@ -22,11 +22,10 @@ import type {
   FutureConfig,
   FutureV4Config,
   StorageConfig,
-} from '@docusaurus/types/src/config';
-import type {
   DocusaurusConfig,
   I18nConfig,
   MarkdownConfig,
+  MarkdownHooks,
 } from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';

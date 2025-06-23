@@ -10,6 +10,7 @@ export {
   ThemeConfig,
   DocusaurusConfig,
   FutureConfig,
+  FutureV4Config,
   FasterConfig,
   StorageConfig,
   Config,
@@ -17,6 +18,7 @@ export {
 
 export {
   MarkdownConfig,
+  MarkdownHooks,
   DefaultParseFrontMatter,
   ParseFrontMatter,
   OnBrokenMarkdownLinksFunction,
