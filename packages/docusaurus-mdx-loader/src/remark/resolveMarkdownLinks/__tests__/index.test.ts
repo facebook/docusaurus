@@ -205,7 +205,8 @@ this is a code block
 
       await expect(() => processResolutionErrors(content)).rejects
         .toThrowErrorMatchingInlineSnapshot(`
-        "Markdown link couldn't be resolved: (link1.mdx) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx".
+        "Markdown link with URL $\`link1.mdx\`) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+        Make sure it references a local Markdown file that exists within the current plugin.
         To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
       `);
     });
@@ -216,7 +217,8 @@ this is a code block
 
       await expect(() => processResolutionErrors(content)).rejects
         .toThrowErrorMatchingInlineSnapshot(`
-        "Markdown link couldn't be resolved: (link1.md) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx".
+        "Markdown link with URL $\`link1.md\`) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+        Make sure it references a local Markdown file that exists within the current plugin.
         To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
       `);
     });
@@ -250,10 +252,12 @@ this is a code block
       expect(warnMock.mock.calls).toMatchInlineSnapshot(`
         [
           [
-            "[WARNING] Markdown link couldn't be resolved: (link1.mdx) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx".",
+            "[WARNING] Markdown link with URL $\`link1.mdx\`) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+        Make sure it references a local Markdown file that exists within the current plugin.",
           ],
           [
-            "[WARNING] Markdown link couldn't be resolved: (dir/link3.md) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx".",
+            "[WARNING] Markdown link with URL $\`dir/link3.md\`) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+        Make sure it references a local Markdown file that exists within the current plugin.",
           ],
         ]
       `);

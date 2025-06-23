@@ -8,12 +8,16 @@
 import {
   parseLocalURLPath,
   serializeURLPath,
+  toMessageRelativeFilePath,
   type URLPath,
 } from '@docusaurus/utils';
-import {asFunction} from '../transformLinks';
+import logger from '@docusaurus/logger';
 import type {Plugin, Transformer} from 'unified';
 import type {Definition, Link, Root} from 'mdast';
-import type {MarkdownConfig} from '@docusaurus/types';
+import type {
+  MarkdownConfig,
+  OnBrokenMarkdownLinksFunction,
+} from '@docusaurus/types';
 
 type ResolveMarkdownLinkParams = {
   /**
@@ -34,6 +38,30 @@ export type ResolveMarkdownLink = (
 export interface PluginOptions {
   resolveMarkdownLink: ResolveMarkdownLink;
   onBrokenMarkdownLinks: MarkdownConfig['hooks']['onBrokenMarkdownLinks'];
+}
+
+function asFunction(
+  onBrokenMarkdownLinks: PluginOptions['onBrokenMarkdownLinks'],
+): OnBrokenMarkdownLinksFunction {
+  if (typeof onBrokenMarkdownLinks === 'string') {
+    const extraHelp =
+      onBrokenMarkdownLinks === 'throw'
+        ? logger.interpolate`\nTo ignore this error, use the code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} option, or apply the code=${'pathname://'} protocol to the broken link URLs.`
+        : '';
+    return ({sourceFilePath, url: linkUrl}) => {
+      const relativePath = toMessageRelativeFilePath(sourceFilePath);
+      logger.report(
+        onBrokenMarkdownLinks,
+      )`Markdown link with URL $code=${linkUrl}) in source file path=${relativePath} couldn't be resolved.
+Make sure it references a local Markdown file that exists within the current plugin.${extraHelp}`;
+    };
+  } else {
+    return (params) =>
+      onBrokenMarkdownLinks({
+        ...params,
+        sourceFilePath: toMessageRelativeFilePath(params.sourceFilePath),
+      });
+  }
 }
 
 const HAS_MARKDOWN_EXTENSION = /\.mdx?$/i;
