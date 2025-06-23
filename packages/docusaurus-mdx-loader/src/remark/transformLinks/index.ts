@@ -22,26 +22,29 @@ import {assetRequireAttributeValue, transformNode} from '../utils';
 import type {Plugin, Transformer} from 'unified';
 import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Parent} from 'unist';
-import type {Link, Literal, Root} from 'mdast';
+import type {Link, Root} from 'mdast';
 import type {
   MarkdownConfig,
   OnBrokenMarkdownLinksFunction,
 } from '@docusaurus/types';
 
-type PluginOptions = {
+export type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
   onBrokenMarkdownLinks: MarkdownConfig['hooks']['onBrokenMarkdownLinks'];
 };
 
 type Context = PluginOptions & {
+  staticDirs: string[];
+  siteDir: string;
+  onBrokenMarkdownLinks: OnBrokenMarkdownLinksFunction;
   filePath: string;
   inlineMarkdownLinkFileLoader: string;
 };
 
 type Target = [node: Link, index: number, parent: Parent];
 
-export function asFunction(
+function asFunction(
   onBrokenMarkdownLinks: PluginOptions['onBrokenMarkdownLinks'],
 ): OnBrokenMarkdownLinksFunction {
   if (typeof onBrokenMarkdownLinks === 'string') {
@@ -51,9 +54,16 @@ export function asFunction(
         : '';
     return ({sourceFilePath, url: linkUrl}) => {
       const relativePath = toMessageRelativeFilePath(sourceFilePath);
-      logger.report(
-        onBrokenMarkdownLinks,
-      )`Markdown link couldn't be resolved: (url=${linkUrl}) in source file path=${relativePath}.${extraHelp}`;
+      if (linkUrl) {
+        logger.report(
+          onBrokenMarkdownLinks,
+        )`Markdown link with URL code=${linkUrl} in source file path=${relativePath} couldn't be resolved.
+Make sure it references a local Markdown file that exists within the current plugin.${extraHelp}`;
+      } else {
+        logger.report(
+          onBrokenMarkdownLinks,
+        )`Markdown link with empty URL found in source file path=${relativePath}.${extraHelp}`;
+      }
     };
   } else {
     return (params) =>
@@ -152,27 +162,15 @@ async function toAssetRequireNode(
   });
 }
 
-async function ensureAssetFileExist(assetPath: string, sourceFilePath: string) {
-  const assetExists = await fs.pathExists(assetPath);
-  if (!assetExists) {
-    throw new Error(
-      `Asset ${toMessageRelativeFilePath(
-        assetPath,
-      )} used in ${toMessageRelativeFilePath(sourceFilePath)} not found.`,
-    );
-  }
-}
-
-async function getAssetAbsolutePath(
+async function getLocalFileAbsolutePath(
   assetPath: string,
   {siteDir, filePath, staticDirs}: Context,
 ) {
   if (assetPath.startsWith('@site/')) {
     const assetFilePath = path.join(siteDir, assetPath.replace('@site/', ''));
-    // The @site alias is the only way to believe that the user wants an asset.
-    // Everything else can just be a link URL
-    await ensureAssetFileExist(assetFilePath, filePath);
-    return assetFilePath;
+    if (await fs.pathExists(assetFilePath)) {
+      return assetFilePath;
+    }
   } else if (path.isAbsolute(assetPath)) {
     const assetFilePath = await findAsyncSequential(
       staticDirs.map((dir) => path.join(dir, assetPath)),
@@ -193,16 +191,12 @@ async function getAssetAbsolutePath(
 async function processLinkNode(target: Target, context: Context) {
   const [node] = target;
   if (!node.url) {
-    // Try to improve error feedback
-    // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
-    const title =
-      node.title ?? (node.children[0] as Literal | undefined)?.value ?? '?';
-    const line = node.position?.start.line ?? '?';
-    throw new Error(
-      `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
-        context.filePath,
-      )}" file (title: ${title}, line: ${line}).`,
-    );
+    node.url =
+      context.onBrokenMarkdownLinks({
+        url: node.url,
+        sourceFilePath: context.filePath,
+      }) ?? node.url;
+    return;
   }
 
   const parsedUrl = url.parse(node.url);
@@ -218,29 +212,47 @@ async function processLinkNode(target: Target, context: Context) {
     return;
   }
 
-  const assetPath = await getAssetAbsolutePath(
+  const localFilePath = await getLocalFileAbsolutePath(
     decodeURIComponent(parsedUrl.pathname),
     context,
   );
-  if (assetPath) {
-    await toAssetRequireNode(target, assetPath, context);
+
+  if (localFilePath) {
+    await toAssetRequireNode(target, localFilePath, context);
+  } else {
+    // The @site alias is the only way to believe that the user wants an asset.
+    if (hasSiteAlias) {
+      node.url =
+        context.onBrokenMarkdownLinks({
+          url: node.url,
+          sourceFilePath: context.filePath,
+        }) ?? node.url;
+    } else {
+      // Even if the url has a dot, and it looks like a file extension
+      // it can be risky to throw and fail fast by default
+      // It's perfectly valid for a route path segment to look like a filename
+    }
   }
 }
 
 const plugin: Plugin<PluginOptions[], Root> = function plugin(
   options,
 ): Transformer<Root> {
+  const onBrokenMarkdownLinks = asFunction(options.onBrokenMarkdownLinks);
+
   return async (root, vfile) => {
     const {visit} = await import('unist-util-visit');
 
     const fileLoaderUtils = getFileLoaderUtils(
       vfile.data.compilerName === 'server',
     );
+
     const context: Context = {
       ...options,
       filePath: vfile.path!,
       inlineMarkdownLinkFileLoader:
         fileLoaderUtils.loaders.inlineMarkdownLinkFileLoader,
+      onBrokenMarkdownLinks,
     };
 
     const promises: Promise<void>[] = [];

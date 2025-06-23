@@ -194,11 +194,8 @@ describe('transformImage plugin', () => {
     describe('function form', () => {
       function processWarn(content: string) {
         return processContent(content, {
-          onBrokenMarkdownImages: ({sourceFilePath, url}) => {
-            console.log('onBrokenMarkdownImages called for ', {
-              sourceFilePath,
-              url,
-            });
+          onBrokenMarkdownImages: (params) => {
+            console.log('onBrokenMarkdownImages called for ', params);
             return '/404.png';
           },
         });

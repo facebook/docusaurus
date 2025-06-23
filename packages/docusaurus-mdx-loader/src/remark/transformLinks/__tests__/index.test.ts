@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import * as path from 'path';
 import vfile from 'to-vfile';
-import plugin from '..';
-import transformImage, {type PluginOptions} from '../../transformImage';
+import plugin, {type PluginOptions} from '..';
+import transformImage from '../../transformImage';
 
 const siteDir = path.join(__dirname, `__fixtures__`);
 
@@ -57,7 +58,7 @@ const processContent = async (
   return result.value.toString().trim();
 };
 
-describe('transformAsset plugin', () => {
+describe('transformLinks plugin', () => {
   it('transform md links to <a />', async () => {
     // TODO split fixture in many smaller test cases
     const result = await processFixture('asset');
@@ -65,29 +66,131 @@ describe('transformAsset plugin', () => {
   });
 
   it('pathname protocol', async () => {
-    const result = await processContent(
-      `[asset](pathname:///asset/unchecked.pdf)`,
-    );
-    expect(result).toMatchInlineSnapshot(
-      `"[asset](pathname:///asset/unchecked.pdf)"`,
-    );
+    const result = await processContent(`pathname:///unchecked.pdf)`);
+    expect(result).toMatchInlineSnapshot(`"pathname:///unchecked.pdf)"`);
   });
 
-  describe('throws', () => {
-    it('fail if asset url is absent', async () => {
-      await expect(
-        processContent(`[asset]()`),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Markdown link URL is mandatory in "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" file (title: asset, line: 1)."`,
-      );
+  it('accepts absolute file that does not exist', async () => {
+    const result = await processContent(`[file](/dir/file.zip)`);
+    expect(result).toMatchInlineSnapshot(`"[file](/dir/file.zip)"`);
+  });
+
+  it('accepts relative file that does not exist', async () => {
+    const result = await processContent(`[file](dir/file.zip)`);
+    expect(result).toMatchInlineSnapshot(`"[file](dir/file.zip)"`);
+  });
+
+  describe('onBrokenMarkdownLinks', () => {
+    const fixtures = {
+      urlEmpty: `[empty]()`,
+      fileDoesNotExistSiteAlias: `[file](@site/file.zip)`,
+    };
+
+    describe('throws', () => {
+      it('if url is empty', async () => {
+        await expect(processContent(fixtures.urlEmpty)).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          "Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx".
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+        `);
+      });
+
+      it('if file with site alias does not exist', async () => {
+        await expect(processContent(fixtures.fileDoesNotExistSiteAlias)).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          "Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved.
+          Make sure it references a local Markdown file that exists within the current plugin.
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+        `);
+      });
     });
 
-    it('fail if asset with site alias does not exist', async () => {
-      await expect(
-        processContent(`[nonexistent](@site/foo.pdf)`),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Asset packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/foo.pdf used in packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx not found."`,
-      );
+    describe('warns', () => {
+      function processWarn(content: string) {
+        return processContent(content, {onBrokenMarkdownLinks: 'warn'});
+      }
+
+      const warnMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      beforeEach(() => {
+        warnMock.mockClear();
+      });
+
+      it('if url is empty', async () => {
+        const result = await processWarn(fixtures.urlEmpty);
+        expect(result).toMatchInlineSnapshot(`"[empty]()"`);
+        expect(warnMock).toHaveBeenCalledTimes(1);
+        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "[WARNING] Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx".",
+            ],
+          ]
+        `);
+      });
+
+      it('if file with site alias does not exist', async () => {
+        const result = await processWarn(fixtures.fileDoesNotExistSiteAlias);
+        expect(result).toMatchInlineSnapshot(`"[file](@site/file.zip)"`);
+        expect(warnMock).toHaveBeenCalledTimes(1);
+        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "[WARNING] Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved.
+          Make sure it references a local Markdown file that exists within the current plugin.",
+            ],
+          ]
+        `);
+      });
+    });
+
+    describe('function form', () => {
+      function processWarn(content: string) {
+        return processContent(content, {
+          onBrokenMarkdownLinks: (params) => {
+            console.log('onBrokenMarkdownLinks called with', params);
+            return '/404';
+          },
+        });
+      }
+
+      const logMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+      beforeEach(() => {
+        logMock.mockClear();
+      });
+
+      it('if url is empty', async () => {
+        const result = await processWarn(fixtures.urlEmpty);
+        expect(result).toMatchInlineSnapshot(`"[empty](/404)"`);
+        expect(logMock).toHaveBeenCalledTimes(1);
+        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "onBrokenMarkdownLinks called with",
+              {
+                "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx",
+                "url": "",
+              },
+            ],
+          ]
+        `);
+      });
+
+      it('if file with site alias does not exist', async () => {
+        const result = await processWarn(fixtures.fileDoesNotExistSiteAlias);
+        expect(result).toMatchInlineSnapshot(`"[file](/404)"`);
+        expect(logMock).toHaveBeenCalledTimes(1);
+        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "onBrokenMarkdownLinks called with",
+              {
+                "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx",
+                "url": "@site/file.zip",
+              },
+            ],
+          ]
+        `);
+      });
     });
   });
 });
