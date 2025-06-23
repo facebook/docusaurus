@@ -47,17 +47,20 @@ function asFunction(
   onBrokenMarkdownImages: PluginOptions['onBrokenMarkdownImages'],
 ): OnBrokenMarkdownImagesFunction {
   if (typeof onBrokenMarkdownImages === 'string') {
+    const extraHelp =
+      onBrokenMarkdownImages === 'throw'
+        ? logger.interpolate`\nTo ignore this error, use the code=${'siteConfig.markdown.hooks.onBrokenMarkdownImages'} option, or apply the code=${'pathname://'} protocol to the broken image URLs.`
+        : '';
     return ({sourceFilePath, url: imageUrl}) => {
       const relativePath = toMessageRelativeFilePath(sourceFilePath);
-      const help = logger.interpolate`To ignore this error, use the code=${'onBrokenMarkdownImages'} site config option, or apply the code=${'pathname://'} protocol to the broken image URLs.`;
       if (imageUrl) {
         logger.report(
           onBrokenMarkdownImages,
-        )`Markdown image with URL code=${imageUrl} in source file path=${relativePath} couldn't be resolved to an existing local image file.\n${help}`;
+        )`Markdown image with URL code=${imageUrl} in source file path=${relativePath} couldn't be resolved to an existing local image file.${extraHelp}`;
       } else {
         logger.report(
           onBrokenMarkdownImages,
-        )`Markdown image with empty URL found in source file path=${relativePath}.\n${help}`;
+        )`Markdown image with empty URL found in source file path=${relativePath}.${extraHelp}`;
       }
     };
   } else {

@@ -87,7 +87,7 @@ describe('transformImage plugin', () => {
         await expect(processContent(fixtures.doesNotExistAbsolute)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
           "Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
-          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs."
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
         `);
       });
 
@@ -95,7 +95,7 @@ describe('transformImage plugin', () => {
         await expect(processContent(fixtures.doesNotExistRelative)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
           "Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
-          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs."
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
         `);
       });
 
@@ -103,7 +103,7 @@ describe('transformImage plugin', () => {
         await expect(processContent(fixtures.doesNotExistSiteAlias)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
           "Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
-          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs."
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
         `);
       });
 
@@ -111,7 +111,7 @@ describe('transformImage plugin', () => {
         await expect(processContent(fixtures.urlEmpty)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
           "Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx".
-          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs."
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
         `);
       });
     });
@@ -136,8 +136,7 @@ describe('transformImage plugin', () => {
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "[WARNING] Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
-          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs.",
+              "[WARNING] Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.",
             ],
           ]
         `);
@@ -153,8 +152,7 @@ describe('transformImage plugin', () => {
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "[WARNING] Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
-          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs.",
+              "[WARNING] Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.",
             ],
           ]
         `);
@@ -170,8 +168,7 @@ describe('transformImage plugin', () => {
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "[WARNING] Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
-          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs.",
+              "[WARNING] Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.",
             ],
           ]
         `);
@@ -187,8 +184,7 @@ describe('transformImage plugin', () => {
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "[WARNING] Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx".
-          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs.",
+              "[WARNING] Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx".",
             ],
           ]
         `);
