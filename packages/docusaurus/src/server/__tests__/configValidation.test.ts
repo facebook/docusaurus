@@ -449,7 +449,6 @@ describe('markdown', () => {
   it('throw for bad markdown format', () => {
     expect(() =>
       normalizeMarkdown({
-        // @ts-expect-error: bad value
         format: null,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
@@ -470,10 +469,7 @@ describe('markdown', () => {
 
   it('throw for null object', () => {
     expect(() => {
-      normalizeMarkdown(
-        // @ts-expect-error: bad value
-        null,
-      );
+      normalizeMarkdown(null);
     }).toThrowErrorMatchingInlineSnapshot(`
       ""markdown" must be of type object
       "
@@ -511,29 +507,18 @@ describe('markdown', () => {
             42,
           ),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownLinks" must be one of [ignore, log, warn, throw]
-          "markdown.hooks.onBrokenMarkdownLinks" must be a string
+          ""markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
           "
         `);
       });
 
-      it('rejects function', () => {
-        expect(() =>
-          normalizeValue(
-            // @ts-expect-error: bad value
-            () => {},
-          ),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownLinks" must be one of [ignore, log, warn, throw]
-          "markdown.hooks.onBrokenMarkdownLinks" must be a string
-          "
-        `);
+      it('accepts function', () => {
+        expect(normalizeValue(() => {})).toBeInstanceOf(Function);
       });
 
       it('rejects null', () => {
         expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownLinks" must be one of [ignore, log, warn, throw]
-          "markdown.hooks.onBrokenMarkdownLinks" must be a string
+          ""markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
           "
         `);
       });
@@ -626,29 +611,18 @@ describe('markdown', () => {
             42,
           ),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownImages" must be one of [ignore, log, warn, throw]
-          "markdown.hooks.onBrokenMarkdownImages" must be a string
+          ""markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
           "
         `);
       });
 
-      it('rejects function', () => {
-        expect(() =>
-          normalizeValue(
-            // @ts-expect-error: bad value
-            () => {},
-          ),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownImages" must be one of [ignore, log, warn, throw]
-          "markdown.hooks.onBrokenMarkdownImages" must be a string
-          "
-        `);
+      it('accepts function', () => {
+        expect(normalizeValue(() => {})).toBeInstanceOf(Function);
       });
 
       it('rejects null', () => {
         expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownImages" must be one of [ignore, log, warn, throw]
-          "markdown.hooks.onBrokenMarkdownImages" must be a string
+          ""markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
           "
         `);
       });

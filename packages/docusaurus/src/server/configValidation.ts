@@ -461,11 +461,17 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       ),
     }).default(DEFAULT_CONFIG.markdown.anchors),
     hooks: Joi.object<MarkdownHooks>({
-      onBrokenMarkdownLinks: Joi.string()
-        .equal('ignore', 'log', 'warn', 'throw')
+      onBrokenMarkdownLinks: Joi.alternatives()
+        .try(
+          Joi.string().equal('ignore', 'log', 'warn', 'throw'),
+          Joi.function(),
+        )
         .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownLinks),
-      onBrokenMarkdownImages: Joi.string()
-        .equal('ignore', 'log', 'warn', 'throw')
+      onBrokenMarkdownImages: Joi.alternatives()
+        .try(
+          Joi.string().equal('ignore', 'log', 'warn', 'throw'),
+          Joi.function(),
+        )
         .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownImages),
     }).default(DEFAULT_CONFIG.markdown.hooks),
   }).default(DEFAULT_CONFIG.markdown),
