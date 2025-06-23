@@ -128,7 +128,7 @@ async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
 
 async function getImageAbsolutePath(
   imagePath: string,
-  {siteDir, filePath, staticDirs}: Context,
+  {siteDir, filePath, staticDirs, onBrokenMarkdownImages}: Context,
 ) {
   if (imagePath.startsWith('@site/')) {
     const imageFilePath = path.join(siteDir, imagePath.replace('@site/', ''));
@@ -142,6 +142,12 @@ async function getImageAbsolutePath(
       fs.pathExists,
     );
     if (!imageFilePath) {
+      // TODO TEMPORARY
+      if (onBrokenMarkdownImages === 'warn') {
+        console.warn(`Not found image ${imagePath}`);
+        return null;
+      }
+
       throw new Error(
         `Image ${possiblePaths
           .map((p) => toMessageRelativeFilePath(p))
@@ -186,7 +192,9 @@ async function processImageNode(target: Target, context: Context) {
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time
   const imagePath = await getImageAbsolutePath(decodedPathname, context);
-  await toImageRequireNode(target, imagePath, context);
+  if (imagePath !== null) {
+    await toImageRequireNode(target, imagePath, context);
+  }
 }
 
 const plugin: Plugin<PluginOptions[], Root> = function plugin(

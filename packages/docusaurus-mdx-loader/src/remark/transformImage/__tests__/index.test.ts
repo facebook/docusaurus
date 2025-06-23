@@ -50,7 +50,7 @@ const processContent = async (
     value: content,
     path: path.posix.join(siteDir, 'docs', 'myFile.mdx'),
   });
-  return result.value;
+  return result.value.toString();
 };
 
 describe('transformImage plugin', () => {
@@ -74,39 +74,58 @@ describe('transformImage plugin', () => {
     expect(errorMock).toHaveBeenCalledTimes(1);
   });
 
-  describe('errors', () => {
-    it('fail if image does not exist', async () => {
-      await expect(
-        processContent(`![img](/img/doesNotExist.png)`),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static/img/doesNotExist.png or packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static2/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx not found."`,
-      );
+  describe('onBrokenMarkdownImages', () => {
+    describe('throw', () => {
+      it('fail if image does not exist', async () => {
+        await expect(
+          processContent(`![img](/img/doesNotExist.png)`),
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static/img/doesNotExist.png or packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static2/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx not found."`,
+        );
+      });
+
+      it('fail if image relative path does not exist', async () => {
+        await expect(
+          processContent(`![img](./notFound.png)`),
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/notFound.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx not found."`,
+        );
+      });
+
+      it('fail if image url is absent', async () => {
+        await expect(
+          processContent(`![img]()`),
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Markdown image URL is mandatory in "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" file"`,
+        );
+      });
     });
 
-    it('fail if image relative path does not exist', async () => {
-      await expect(
-        processContent(`![img](./notFound.png)`),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/notFound.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx not found."`,
-      );
-    });
+    describe('warn', () => {
+      function processWarn(content: string) {
+        return processContent(content, {onBrokenMarkdownImages: 'warn'});
+      }
 
-    it('fail if image url is absent', async () => {
-      await expect(
-        processContent(`![img]()`),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Markdown image URL is mandatory in "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" file"`,
-      );
-    });
-  });
+      const warnMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      beforeEach(() => {
+        warnMock.mockClear();
+      });
 
-  describe('warnings', () => {
-    it('fail if image does not exist', async () => {
-      await expect(
-        processFixture('fail'),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"ENOENT: no such file or directory, open '<PROJECT_ROOT>/packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/fail.md'"`,
-      );
+      it('warn if image does not exist', async () => {
+        const result = await processWarn(`![img](/img/doesNotExist.png)`);
+        expect(result).toMatchInlineSnapshot(`
+          "![img](/img/doesNotExist.png)
+          "
+        `);
+        expect(warnMock).toHaveBeenCalledTimes(1);
+        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "Not found image /img/doesNotExist.png",
+            ],
+          ]
+        `);
+      });
     });
   });
 });
