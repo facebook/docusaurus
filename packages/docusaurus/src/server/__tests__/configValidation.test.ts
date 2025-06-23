@@ -987,7 +987,6 @@ describe('future', () => {
     });
 
     it('rejects router - null', () => {
-      // @ts-expect-error: bad value
       const router: Config['future']['experimental_router'] = null;
       expect(() =>
         normalizeConfig({
@@ -1196,7 +1195,6 @@ describe('future', () => {
       });
 
       it('rejects namespace - null', () => {
-        // @ts-expect-error: bad value
         const storage: Partial<StorageConfig> = {namespace: null};
         expect(() =>
           normalizeConfig({
