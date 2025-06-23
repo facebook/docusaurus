@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {
   parseLocalURLPath,
   serializeURLPath,
+  toMessageRelativeFilePath,
   type URLPath,
 } from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
@@ -36,7 +36,6 @@ export type ResolveMarkdownLink = (
 ) => string | null;
 
 export interface PluginOptions {
-  siteDir: string;
   resolveMarkdownLink: ResolveMarkdownLink;
   onBrokenMarkdownLinks: MarkdownConfig['hooks']['onBrokenMarkdownLinks'];
 }
@@ -64,12 +63,17 @@ function asFunction(
 ): OnBrokenMarkdownLinksFunction {
   if (typeof onBrokenMarkdownLinks === 'string') {
     return ({sourceFilePath, url}) => {
+      const relativePath = toMessageRelativeFilePath(sourceFilePath);
       logger.report(
         onBrokenMarkdownLinks,
-      )`Markdown link couldn't be resolved: (url=${url}) in source file path=${sourceFilePath} `;
+      )`Markdown link couldn't be resolved: (url=${url}) in source file path=${relativePath} `;
     };
   } else {
-    return onBrokenMarkdownLinks;
+    return (params) =>
+      onBrokenMarkdownLinks({
+        ...params,
+        sourceFilePath: toMessageRelativeFilePath(params.sourceFilePath),
+      });
   }
 }
 
@@ -81,7 +85,7 @@ function asFunction(
 const plugin: Plugin<PluginOptions[], Root> = function plugin(
   options,
 ): Transformer<Root> {
-  const {resolveMarkdownLink, siteDir} = options;
+  const {resolveMarkdownLink} = options;
 
   const onBrokenMarkdownLinks = asFunction(options.onBrokenMarkdownLinks);
 
@@ -109,13 +113,11 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
           pathname: permalink,
         });
       } else {
-        const recoverUrl = onBrokenMarkdownLinks({
-          url: link.url,
-          sourceFilePath: path.relative(siteDir, sourceFilePath),
-        });
-        if (typeof recoverUrl !== 'undefined') {
-          link.url = recoverUrl;
-        }
+        link.url =
+          onBrokenMarkdownLinks({
+            url: link.url,
+            sourceFilePath,
+          }) ?? link.url;
       }
     });
   };

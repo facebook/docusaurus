@@ -10,9 +10,10 @@ import * as path from 'path';
 import plugin from '..';
 import type {PluginOptions} from '../index';
 
+const siteDir = __dirname;
+
 const DefaultTestOptions: PluginOptions = {
   resolveMarkdownLink: ({linkPathname}) => `/RESOLVED---${linkPathname}`,
-  siteDir: '/absolute/siteDir',
   onBrokenMarkdownLinks: 'throw',
 };
 
@@ -28,7 +29,7 @@ async function process(content: string, optionsInput?: Partial<PluginOptions>) {
     .use(plugin, options)
     .process({
       value: content,
-      path: path.posix.join(DefaultTestOptions.siteDir, 'docs', 'myFile.mdx'),
+      path: path.posix.join(siteDir, 'docs', 'myFile.mdx'),
     });
 
   return result.value;
@@ -205,7 +206,7 @@ this is a code block
       await expect(() =>
         processResolutionErrors(content),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Markdown link couldn't be resolved: (link1.mdx) in source file "docs/myFile.mdx" "`,
+        `"Markdown link couldn't be resolved: (link1.mdx) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" "`,
       );
     });
 
@@ -216,7 +217,7 @@ this is a code block
       await expect(() =>
         processResolutionErrors(content),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Markdown link couldn't be resolved: (link1.md) in source file "docs/myFile.mdx" "`,
+        `"Markdown link couldn't be resolved: (link1.md) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" "`,
       );
     });
 
@@ -249,10 +250,10 @@ this is a code block
       expect(warnMock.mock.calls).toMatchInlineSnapshot(`
         [
           [
-            "[WARNING] Markdown link couldn't be resolved: (link1.mdx) in source file "docs/myFile.mdx" ",
+            "[WARNING] Markdown link couldn't be resolved: (link1.mdx) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" ",
           ],
           [
-            "[WARNING] Markdown link couldn't be resolved: (dir/link3.md) in source file "docs/myFile.mdx" ",
+            "[WARNING] Markdown link couldn't be resolved: (dir/link3.md) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" ",
           ],
         ]
       `);
@@ -279,11 +280,11 @@ this is a code block
       );
 
       expect(result).toMatchInlineSnapshot(`
-        "[link1](/recovered/___docs/myFile.mdx___/___link1.mdx)
+        "[link1](/recovered/___packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx___/___link1.mdx)
 
         [link2](link2)
 
-        [link3](/recovered/___docs/myFile.mdx___/___dir/link3.md?query#hash)
+        [link3](/recovered/___packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx___/___dir/link3.md?query#hash)
 
         [link 4](/link/4)
         "
