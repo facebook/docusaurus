@@ -75,33 +75,48 @@ describe('transformImage plugin', () => {
   });
 
   describe('onBrokenMarkdownImages', () => {
-    describe('throw', () => {
-      it('fail if image does not exist', async () => {
-        await expect(
-          processContent(`![img](/img/doesNotExist.png)`),
-        ).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static/img/doesNotExist.png or packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static2/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx not found."`,
-        );
+    const fixtures = {
+      doesNotExistAbsolute: `![img](/img/doesNotExist.png)`,
+      doesNotExistRelative: `![img](./doesNotExist.png)`,
+      doesNotExistSiteAlias: `![img](@site/doesNotExist.png)`,
+      urlEmpty: `![img]()`,
+    };
+
+    describe('throws', () => {
+      it('if image absolute path does not exist', async () => {
+        await expect(processContent(fixtures.doesNotExistAbsolute)).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          "Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
+          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs."
+        `);
       });
 
-      it('fail if image relative path does not exist', async () => {
-        await expect(
-          processContent(`![img](./notFound.png)`),
-        ).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/notFound.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx not found."`,
-        );
+      it('if image relative path does not exist', async () => {
+        await expect(processContent(fixtures.doesNotExistRelative)).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          "Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
+          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs."
+        `);
       });
 
-      it('fail if image url is absent', async () => {
-        await expect(
-          processContent(`![img]()`),
-        ).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Markdown image URL is mandatory in "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" file"`,
-        );
+      it('if image @site path does not exist', async () => {
+        await expect(processContent(fixtures.doesNotExistSiteAlias)).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          "Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
+          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs."
+        `);
+      });
+
+      it('if image url empty', async () => {
+        await expect(processContent(fixtures.urlEmpty)).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          "Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx".
+          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs."
+        `);
       });
     });
 
-    describe('warn', () => {
+    describe('warns', () => {
       function processWarn(content: string) {
         return processContent(content, {onBrokenMarkdownImages: 'warn'});
       }
@@ -111,8 +126,8 @@ describe('transformImage plugin', () => {
         warnMock.mockClear();
       });
 
-      it('warn if image does not exist', async () => {
-        const result = await processWarn(`![img](/img/doesNotExist.png)`);
+      it('if image absolute path does not exist', async () => {
+        const result = await processWarn(fixtures.doesNotExistAbsolute);
         expect(result).toMatchInlineSnapshot(`
           "![img](/img/doesNotExist.png)
           "
@@ -121,7 +136,158 @@ describe('transformImage plugin', () => {
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "Not found image /img/doesNotExist.png",
+              "[WARNING] Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
+          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs.",
+            ],
+          ]
+        `);
+      });
+
+      it('if image relative path does not exist', async () => {
+        const result = await processWarn(fixtures.doesNotExistRelative);
+        expect(result).toMatchInlineSnapshot(`
+          "![img](./doesNotExist.png)
+          "
+        `);
+        expect(warnMock).toHaveBeenCalledTimes(1);
+        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "[WARNING] Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
+          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs.",
+            ],
+          ]
+        `);
+      });
+
+      it('if image @site path does not exist', async () => {
+        const result = await processWarn(fixtures.doesNotExistSiteAlias);
+        expect(result).toMatchInlineSnapshot(`
+          "![img](@site/doesNotExist.png)
+          "
+        `);
+        expect(warnMock).toHaveBeenCalledTimes(1);
+        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "[WARNING] Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
+          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs.",
+            ],
+          ]
+        `);
+      });
+
+      it('if image url empty', async () => {
+        const result = await processWarn(fixtures.urlEmpty);
+        expect(result).toMatchInlineSnapshot(`
+          "![img]()
+          "
+        `);
+        expect(warnMock).toHaveBeenCalledTimes(1);
+        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "[WARNING] Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx".
+          To ignore this error, use the \`onBrokenMarkdownImages\` site config option, or apply the \`pathname://\` protocol to the broken image URLs.",
+            ],
+          ]
+        `);
+      });
+    });
+
+    describe('function form', () => {
+      function processWarn(content: string) {
+        return processContent(content, {
+          onBrokenMarkdownImages: ({sourceFilePath, url}) => {
+            console.log('onBrokenMarkdownImages called for ', {
+              sourceFilePath,
+              url,
+            });
+            return '/404.png';
+          },
+        });
+      }
+
+      const logMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+      beforeEach(() => {
+        logMock.mockClear();
+      });
+
+      it('if image absolute path does not exist', async () => {
+        const result = await processWarn(fixtures.doesNotExistAbsolute);
+        expect(result).toMatchInlineSnapshot(`
+          "![img](/404.png)
+          "
+        `);
+        expect(logMock).toHaveBeenCalledTimes(1);
+        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "onBrokenMarkdownImages called for ",
+              {
+                "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx",
+                "url": "/img/doesNotExist.png",
+              },
+            ],
+          ]
+        `);
+      });
+
+      it('if image relative path does not exist', async () => {
+        const result = await processWarn(fixtures.doesNotExistRelative);
+        expect(result).toMatchInlineSnapshot(`
+          "![img](/404.png)
+          "
+        `);
+        expect(logMock).toHaveBeenCalledTimes(1);
+        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "onBrokenMarkdownImages called for ",
+              {
+                "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx",
+                "url": "./doesNotExist.png",
+              },
+            ],
+          ]
+        `);
+      });
+
+      it('if image @site path does not exist', async () => {
+        const result = await processWarn(fixtures.doesNotExistSiteAlias);
+        expect(result).toMatchInlineSnapshot(`
+          "![img](/404.png)
+          "
+        `);
+        expect(logMock).toHaveBeenCalledTimes(1);
+        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "onBrokenMarkdownImages called for ",
+              {
+                "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx",
+                "url": "@site/doesNotExist.png",
+              },
+            ],
+          ]
+        `);
+      });
+
+      it('if image url empty', async () => {
+        const result = await processWarn(fixtures.urlEmpty);
+        expect(result).toMatchInlineSnapshot(`
+          "![img](/404.png)
+          "
+        `);
+        expect(logMock).toHaveBeenCalledTimes(1);
+        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "onBrokenMarkdownImages called for ",
+              {
+                "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx",
+                "url": "",
+              },
             ],
           ]
         `);

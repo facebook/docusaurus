@@ -24,7 +24,10 @@ import type {Plugin, Transformer} from 'unified';
 import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Image, Root} from 'mdast';
 import type {Parent} from 'unist';
-import type {MarkdownConfig} from '@docusaurus/types';
+import type {
+  MarkdownConfig,
+  OnBrokenMarkdownImagesFunction,
+} from '@docusaurus/types';
 
 export type PluginOptions = {
   staticDirs: string[];
@@ -32,10 +35,39 @@ export type PluginOptions = {
   onBrokenMarkdownImages: MarkdownConfig['hooks']['onBrokenMarkdownImages'];
 };
 
-type Context = PluginOptions & {
+type Context = {
+  staticDirs: PluginOptions['staticDirs'];
+  siteDir: PluginOptions['siteDir'];
+  onBrokenMarkdownImages: OnBrokenMarkdownImagesFunction;
   filePath: string;
   inlineMarkdownImageFileLoader: string;
 };
+
+function asFunction(
+  onBrokenMarkdownImages: PluginOptions['onBrokenMarkdownImages'],
+): OnBrokenMarkdownImagesFunction {
+  if (typeof onBrokenMarkdownImages === 'string') {
+    return ({sourceFilePath, url: imageUrl}) => {
+      const relativePath = toMessageRelativeFilePath(sourceFilePath);
+      const help = logger.interpolate`To ignore this error, use the code=${'onBrokenMarkdownImages'} site config option, or apply the code=${'pathname://'} protocol to the broken image URLs.`;
+      if (imageUrl) {
+        logger.report(
+          onBrokenMarkdownImages,
+        )`Markdown image with URL code=${imageUrl} in source file path=${relativePath} couldn't be resolved to an existing local image file.\n${help}`;
+      } else {
+        logger.report(
+          onBrokenMarkdownImages,
+        )`Markdown image with empty URL found in source file path=${relativePath}.\n${help}`;
+      }
+    };
+  } else {
+    return (params) =>
+      onBrokenMarkdownImages({
+        ...params,
+        sourceFilePath: toMessageRelativeFilePath(params.sourceFilePath),
+      });
+  }
+}
 
 type Target = [node: Image, index: number, parent: Parent];
 
@@ -53,7 +85,7 @@ async function toImageRequireNode(
   );
   relativeImagePath = `./${relativeImagePath}`;
 
-  const parsedUrl = parseURLOrPath(node.url, 'https://example.com');
+  const parsedUrl = parseURLOrPath(node.url);
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
   const requireString = `${context.inlineMarkdownImageFileLoader}${
@@ -115,63 +147,52 @@ ${(err as Error).message}`;
   });
 }
 
-async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
-  const imageExists = await fs.pathExists(imagePath);
-  if (!imageExists) {
-    throw new Error(
-      `Image ${toMessageRelativeFilePath(
-        imagePath,
-      )} used in ${toMessageRelativeFilePath(sourceFilePath)} not found.`,
-    );
-  }
-}
-
-async function getImageAbsolutePath(
-  imagePath: string,
-  {siteDir, filePath, staticDirs, onBrokenMarkdownImages}: Context,
+async function getLocalImageAbsolutePath(
+  originalImagePath: string,
+  {siteDir, filePath, staticDirs}: Context,
 ) {
-  if (imagePath.startsWith('@site/')) {
-    const imageFilePath = path.join(siteDir, imagePath.replace('@site/', ''));
-    await ensureImageFileExist(imageFilePath, filePath);
+  if (originalImagePath.startsWith('@site/')) {
+    const imageFilePath = path.join(
+      siteDir,
+      originalImagePath.replace('@site/', ''),
+    );
+    if (!(await fs.pathExists(imageFilePath))) {
+      return null;
+    }
     return imageFilePath;
-  } else if (path.isAbsolute(imagePath)) {
+  } else if (path.isAbsolute(originalImagePath)) {
     // Absolute paths are expected to exist in the static folder.
-    const possiblePaths = staticDirs.map((dir) => path.join(dir, imagePath));
+    const possiblePaths = staticDirs.map((dir) =>
+      path.join(dir, originalImagePath),
+    );
     const imageFilePath = await findAsyncSequential(
       possiblePaths,
       fs.pathExists,
     );
     if (!imageFilePath) {
-      // TODO TEMPORARY
-      if (onBrokenMarkdownImages === 'warn') {
-        console.warn(`Not found image ${imagePath}`);
-        return null;
-      }
-
-      throw new Error(
-        `Image ${possiblePaths
-          .map((p) => toMessageRelativeFilePath(p))
-          .join(' or ')} used in ${toMessageRelativeFilePath(
-          filePath,
-        )} not found.`,
-      );
+      return null;
+    }
+    return imageFilePath;
+  } else {
+    // relative paths are resolved against the source file's folder
+    const imageFilePath = path.join(path.dirname(filePath), originalImagePath);
+    if (!(await fs.pathExists(imageFilePath))) {
+      return null;
     }
     return imageFilePath;
   }
-  // relative paths are resolved against the source file's folder
-  const imageFilePath = path.join(path.dirname(filePath), imagePath);
-  await ensureImageFileExist(imageFilePath, filePath);
-  return imageFilePath;
 }
 
 async function processImageNode(target: Target, context: Context) {
   const [node] = target;
+
   if (!node.url) {
-    throw new Error(
-      `Markdown image URL is mandatory in "${toMessageRelativeFilePath(
-        context.filePath,
-      )}" file`,
-    );
+    node.url =
+      context.onBrokenMarkdownImages({
+        url: node.url,
+        sourceFilePath: context.filePath,
+      }) ?? node.url;
+    return;
   }
 
   const parsedUrl = url.parse(node.url);
@@ -191,15 +212,26 @@ async function processImageNode(target: Target, context: Context) {
 
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time
-  const imagePath = await getImageAbsolutePath(decodedPathname, context);
-  if (imagePath !== null) {
-    await toImageRequireNode(target, imagePath, context);
+  const localImagePath = await getLocalImageAbsolutePath(
+    decodedPathname,
+    context,
+  );
+  if (localImagePath === null) {
+    node.url =
+      context.onBrokenMarkdownImages({
+        url: node.url,
+        sourceFilePath: context.filePath,
+      }) ?? node.url;
+  } else {
+    await toImageRequireNode(target, localImagePath, context);
   }
 }
 
 const plugin: Plugin<PluginOptions[], Root> = function plugin(
   options,
 ): Transformer<Root> {
+  const onBrokenMarkdownImages = asFunction(options.onBrokenMarkdownImages);
+
   return async (root, vfile) => {
     const {visit} = await import('unist-util-visit');
 
@@ -211,6 +243,7 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
       filePath: vfile.path!,
       inlineMarkdownImageFileLoader:
         fileLoaderUtils.loaders.inlineMarkdownImageFileLoader,
+      onBrokenMarkdownImages,
     };
 
     const promises: Promise<void>[] = [];
