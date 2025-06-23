@@ -17,15 +17,21 @@ import {
   parseURLOrPath,
 } from '@docusaurus/utils';
 import escapeHtml from 'escape-html';
+import logger from '@docusaurus/logger';
 import {assetRequireAttributeValue, transformNode} from '../utils';
 import type {Plugin, Transformer} from 'unified';
 import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Parent} from 'unist';
 import type {Link, Literal, Root} from 'mdast';
+import type {
+  MarkdownConfig,
+  OnBrokenMarkdownLinksFunction,
+} from '@docusaurus/types';
 
 type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
+  onBrokenMarkdownLinks: MarkdownConfig['hooks']['onBrokenMarkdownLinks'];
 };
 
 type Context = PluginOptions & {
@@ -34,6 +40,29 @@ type Context = PluginOptions & {
 };
 
 type Target = [node: Link, index: number, parent: Parent];
+
+export function asFunction(
+  onBrokenMarkdownLinks: PluginOptions['onBrokenMarkdownLinks'],
+): OnBrokenMarkdownLinksFunction {
+  if (typeof onBrokenMarkdownLinks === 'string') {
+    const extraHelp =
+      onBrokenMarkdownLinks === 'throw'
+        ? logger.interpolate`\nTo ignore this error, use the code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} option, or apply the code=${'pathname://'} protocol to the broken link URLs.`
+        : '';
+    return ({sourceFilePath, url: linkUrl}) => {
+      const relativePath = toMessageRelativeFilePath(sourceFilePath);
+      logger.report(
+        onBrokenMarkdownLinks,
+      )`Markdown link couldn't be resolved: (url=${linkUrl}) in source file path=${relativePath}.${extraHelp}`;
+    };
+  } else {
+    return (params) =>
+      onBrokenMarkdownLinks({
+        ...params,
+        sourceFilePath: toMessageRelativeFilePath(params.sourceFilePath),
+      });
+  }
+}
 
 /**
  * Transforms the link node to a JSX `<a>` element with a `require()` call.
