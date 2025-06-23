@@ -36,6 +36,16 @@ async function process(content: string, optionsInput?: Partial<PluginOptions>) {
 }
 
 describe('resolveMarkdownLinks remark plugin', () => {
+  it('accepts non-md link', async () => {
+    /* language=markdown */
+    const content = `[link1](link1)`;
+    const result = await process(content);
+    expect(result).toMatchInlineSnapshot(`
+        "[link1](link1)
+        "
+      `);
+  });
+
   it('resolves Markdown and MDX links', async () => {
     /* language=markdown */
     const content = `[link1](link1.mdx)
@@ -173,7 +183,7 @@ this is a code block
     `);
   });
 
-  describe('resolution errors', () => {
+  describe('onBrokenMarkdownLinks', () => {
     const warnMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
     beforeEach(() => {
       warnMock.mockClear();
@@ -189,43 +199,36 @@ this is a code block
       });
     }
 
-    it('accepts non-md link', async () => {
-      /* language=markdown */
-      const content = `[link1](link1)`;
-      const result = await processResolutionErrors(content);
-      expect(result).toMatchInlineSnapshot(`
-        "[link1](link1)
-        "
-      `);
-    });
+    describe('throws', () => {
+      it('for unresolvable mdx link', async () => {
+        /* language=markdown */
+        const content = `[link1](link1.mdx)`;
 
-    it('throws by default for unresolvable mdx link', async () => {
-      /* language=markdown */
-      const content = `[link1](link1.mdx)`;
-
-      await expect(() => processResolutionErrors(content)).rejects
-        .toThrowErrorMatchingInlineSnapshot(`
+        await expect(() => processResolutionErrors(content)).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
         "Markdown link with URL $\`link1.mdx\`) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
         Make sure it references a local Markdown file that exists within the current plugin.
         To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
       `);
-    });
+      });
 
-    it('throws by default for unresolvable md link', async () => {
-      /* language=markdown */
-      const content = `[link1](link1.md)`;
+      it('for unresolvable md link', async () => {
+        /* language=markdown */
+        const content = `[link1](link1.md)`;
 
-      await expect(() => processResolutionErrors(content)).rejects
-        .toThrowErrorMatchingInlineSnapshot(`
+        await expect(() => processResolutionErrors(content)).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
         "Markdown link with URL $\`link1.md\`) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
         Make sure it references a local Markdown file that exists within the current plugin.
         To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
       `);
+      });
     });
 
-    it('warns for unresolvable md and mdx link', async () => {
-      /* language=markdown */
-      const content = `
+    describe('warns', () => {
+      it('for unresolvable md and mdx link', async () => {
+        /* language=markdown */
+        const content = `
 [link1](link1.mdx)
 
 [link2](link2)
@@ -235,9 +238,9 @@ this is a code block
 [link 4](/link/4)
       `;
 
-      const result = await processResolutionErrors(content, 'warn');
+        const result = await processResolutionErrors(content, 'warn');
 
-      expect(result).toMatchInlineSnapshot(`
+        expect(result).toMatchInlineSnapshot(`
         "[link1](link1.mdx)
 
         [link2](link2)
@@ -248,8 +251,8 @@ this is a code block
         "
       `);
 
-      expect(warnMock).toHaveBeenCalledTimes(2);
-      expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warnMock).toHaveBeenCalledTimes(2);
+        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
         [
           [
             "[WARNING] Markdown link with URL $\`link1.mdx\`) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
@@ -261,11 +264,11 @@ this is a code block
           ],
         ]
       `);
-    });
+      });
 
-    it('can from recover unresolvable md and mdx link', async () => {
-      /* language=markdown */
-      const content = `
+      it('for unresolvable md and mdx link - with recovery', async () => {
+        /* language=markdown */
+        const content = `
 [link1](link1.mdx)
 
 [link2](link2)
@@ -275,15 +278,15 @@ this is a code block
 [link 4](/link/4)
       `;
 
-      const result = await processResolutionErrors(
-        content,
-        ({sourceFilePath, url}) => {
-          console.warn(`recovering broken markdown link ${url}`);
-          return `/recovered/___${sourceFilePath}___/___${url}`;
-        },
-      );
+        const result = await processResolutionErrors(
+          content,
+          ({sourceFilePath, url}) => {
+            console.warn(`recovering broken markdown link ${url}`);
+            return `/recovered/___${sourceFilePath}___/___${url}`;
+          },
+        );
 
-      expect(result).toMatchInlineSnapshot(`
+        expect(result).toMatchInlineSnapshot(`
         "[link1](/recovered/___packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx___/___link1.mdx)
 
         [link2](link2)
@@ -294,8 +297,8 @@ this is a code block
         "
       `);
 
-      expect(warnMock).toHaveBeenCalledTimes(2);
-      expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warnMock).toHaveBeenCalledTimes(2);
+        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
         [
           [
             "recovering broken markdown link link1.mdx",
@@ -305,6 +308,7 @@ this is a code block
           ],
         ]
       `);
+      });
     });
   });
 });
