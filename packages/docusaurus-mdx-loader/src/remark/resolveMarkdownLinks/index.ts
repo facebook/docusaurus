@@ -62,11 +62,15 @@ function asFunction(
   onBrokenMarkdownLinks: PluginOptions['onBrokenMarkdownLinks'],
 ): OnBrokenMarkdownLinksFunction {
   if (typeof onBrokenMarkdownLinks === 'string') {
+    const extraHelp =
+      onBrokenMarkdownLinks === 'throw'
+        ? logger.interpolate`\nTo ignore this error, use the code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} option, or apply the code=${'pathname://'} protocol to the broken link URLs.`
+        : '';
     return ({sourceFilePath, url}) => {
       const relativePath = toMessageRelativeFilePath(sourceFilePath);
       logger.report(
         onBrokenMarkdownLinks,
-      )`Markdown link couldn't be resolved: (url=${url}) in source file path=${relativePath} `;
+      )`Markdown link couldn't be resolved: (url=${url}) in source file path=${relativePath}.${extraHelp}`;
     };
   } else {
     return (params) =>
@@ -82,6 +86,8 @@ function asFunction(
  * This is exposed as "data.contentTitle" to the processed vfile
  * Also gives the ability to strip that content title (used for the blog plugin)
  */
+// TODO merge this plugin with "transformLinks"
+//  in general we'd want to avoid traversing multiple times the same AST
 const plugin: Plugin<PluginOptions[], Root> = function plugin(
   options,
 ): Transformer<Root> {

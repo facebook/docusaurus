@@ -203,22 +203,22 @@ this is a code block
       /* language=markdown */
       const content = `[link1](link1.mdx)`;
 
-      await expect(() =>
-        processResolutionErrors(content),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Markdown link couldn't be resolved: (link1.mdx) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" "`,
-      );
+      await expect(() => processResolutionErrors(content)).rejects
+        .toThrowErrorMatchingInlineSnapshot(`
+        "Markdown link couldn't be resolved: (link1.mdx) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx".
+        To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+      `);
     });
 
     it('throws by default for unresolvable md link', async () => {
       /* language=markdown */
       const content = `[link1](link1.md)`;
 
-      await expect(() =>
-        processResolutionErrors(content),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Markdown link couldn't be resolved: (link1.md) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" "`,
-      );
+      await expect(() => processResolutionErrors(content)).rejects
+        .toThrowErrorMatchingInlineSnapshot(`
+        "Markdown link couldn't be resolved: (link1.md) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx".
+        To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+      `);
     });
 
     it('warns for unresolvable md and mdx link', async () => {
@@ -250,10 +250,10 @@ this is a code block
       expect(warnMock.mock.calls).toMatchInlineSnapshot(`
         [
           [
-            "[WARNING] Markdown link couldn't be resolved: (link1.mdx) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" ",
+            "[WARNING] Markdown link couldn't be resolved: (link1.mdx) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx".",
           ],
           [
-            "[WARNING] Markdown link couldn't be resolved: (dir/link3.md) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" ",
+            "[WARNING] Markdown link couldn't be resolved: (dir/link3.md) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx".",
           ],
         ]
       `);
