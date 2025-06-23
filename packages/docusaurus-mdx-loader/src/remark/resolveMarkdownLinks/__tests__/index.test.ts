@@ -206,10 +206,10 @@ this is a code block
 
         await expect(() => processResolutionErrors(content)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-        "Markdown link with URL $\`link1.mdx\`) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
-        Make sure it references a local Markdown file that exists within the current plugin.
-        To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
-      `);
+          "Markdown link with URL \`link1.mdx\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+          Make sure it references a local Markdown file that exists within the current plugin.
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+        `);
       });
 
       it('for unresolvable md link', async () => {
@@ -218,10 +218,10 @@ this is a code block
 
         await expect(() => processResolutionErrors(content)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-        "Markdown link with URL $\`link1.md\`) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
-        Make sure it references a local Markdown file that exists within the current plugin.
-        To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
-      `);
+          "Markdown link with URL \`link1.md\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+          Make sure it references a local Markdown file that exists within the current plugin.
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+        `);
       });
     });
 
@@ -241,29 +241,29 @@ this is a code block
         const result = await processResolutionErrors(content, 'warn');
 
         expect(result).toMatchInlineSnapshot(`
-        "[link1](link1.mdx)
+                  "[link1](link1.mdx)
 
-        [link2](link2)
+                  [link2](link2)
 
-        [link3](dir/link3.md)
+                  [link3](dir/link3.md)
 
-        [link 4](/link/4)
-        "
-      `);
+                  [link 4](/link/4)
+                  "
+              `);
 
         expect(warnMock).toHaveBeenCalledTimes(2);
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
-        [
           [
-            "[WARNING] Markdown link with URL $\`link1.mdx\`) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
-        Make sure it references a local Markdown file that exists within the current plugin.",
-          ],
-          [
-            "[WARNING] Markdown link with URL $\`dir/link3.md\`) in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
-        Make sure it references a local Markdown file that exists within the current plugin.",
-          ],
-        ]
-      `);
+            [
+              "[WARNING] Markdown link with URL \`link1.mdx\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+          Make sure it references a local Markdown file that exists within the current plugin.",
+            ],
+            [
+              "[WARNING] Markdown link with URL \`dir/link3.md\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+          Make sure it references a local Markdown file that exists within the current plugin.",
+            ],
+          ]
+        `);
       });
 
       it('for unresolvable md and mdx link - with recovery', async () => {
@@ -287,27 +287,27 @@ this is a code block
         );
 
         expect(result).toMatchInlineSnapshot(`
-        "[link1](/recovered/___packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx___/___link1.mdx)
+                  "[link1](/recovered/___packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx___/___link1.mdx)
 
-        [link2](link2)
+                  [link2](link2)
 
-        [link3](/recovered/___packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx___/___dir/link3.md?query#hash)
+                  [link3](/recovered/___packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx___/___dir/link3.md?query#hash)
 
-        [link 4](/link/4)
-        "
-      `);
+                  [link 4](/link/4)
+                  "
+              `);
 
         expect(warnMock).toHaveBeenCalledTimes(2);
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
-        [
-          [
-            "recovering broken markdown link link1.mdx",
-          ],
-          [
-            "recovering broken markdown link dir/link3.md?query#hash",
-          ],
-        ]
-      `);
+                  [
+                    [
+                      "recovering broken markdown link link1.mdx",
+                    ],
+                    [
+                      "recovering broken markdown link dir/link3.md?query#hash",
+                    ],
+                  ]
+              `);
       });
     });
   });

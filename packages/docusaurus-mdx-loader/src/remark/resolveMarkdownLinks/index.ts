@@ -52,7 +52,7 @@ function asFunction(
       const relativePath = toMessageRelativeFilePath(sourceFilePath);
       logger.report(
         onBrokenMarkdownLinks,
-      )`Markdown link with URL $code=${linkUrl}) in source file path=${relativePath} couldn't be resolved.
+      )`Markdown link with URL code=${linkUrl} in source file path=${relativePath} couldn't be resolved.
 Make sure it references a local Markdown file that exists within the current plugin.${extraHelp}`;
     };
   } else {
