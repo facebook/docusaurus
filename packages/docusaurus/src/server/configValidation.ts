@@ -348,6 +348,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   onBrokenAnchors: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onBrokenAnchors),
+  onReportBrokenLinks: Joi.function(),
   onBrokenMarkdownLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),

@@ -13,6 +13,8 @@ import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
 
 import type {ProcessorOptions} from '@mdx-js/mdx';
 
+import type {BrokenLinksMap} from './bronkenLinks';
+
 export type RemarkRehypeOptions = ProcessorOptions['remarkRehypeOptions'];
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
@@ -252,6 +254,14 @@ export type DocusaurusConfig = {
    * @default "warn"
    */
   onBrokenAnchors: ReportingSeverity;
+  /**
+   * The behavior of Docusaurus when it detects any broken link or anchor and generates a report.
+   * This functions runs before generating a report.
+   *
+   * @see https://docusaurus.io/docs/api/docusaurus-config#onReportBrokenLinks
+   * @default "warn"
+   */
+  onReportBrokenLinks: (brokenLinksMap: BrokenLinksMap) => void;
   /**
    * The behavior of Docusaurus when it detects any broken markdown link.
    *
