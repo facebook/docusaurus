@@ -8,7 +8,12 @@
 import path from 'path';
 import fs from 'fs-extra';
 import pluginContentBlog from '@docusaurus/plugin-content-blog';
-import {aliasedSitePath, docuHash, normalizeUrl} from '@docusaurus/utils';
+import {
+  aliasedSitePath,
+  docuHash,
+  normalizeUrl,
+  safeGlobby,
+} from '@docusaurus/utils';
 
 export {validateOptions} from '@docusaurus/plugin-content-blog';
 
@@ -135,6 +140,28 @@ async function createBlogFiles(
   );
 }
 
+const MonorepoRoot = path.resolve(path.join(__dirname, '../../../..'));
+
+const ChangelogFilePattern = 'CHANGELOG(-v[0-9]*)?.md';
+
+async function getChangelogFiles() {
+  const files = await safeGlobby([ChangelogFilePattern], {
+    cwd: MonorepoRoot,
+  });
+  // As of today, there are 2 changelog files
+  // and this is only going to increase
+  if (files.length < 2) {
+    throw new Error(
+      "Looks like the changelog plugin didn't detect Docusaurus changelog files",
+    );
+  }
+  return files;
+}
+
+function readChangelogFile(filename: string) {
+  return fs.readFile(path.join(MonorepoRoot, filename), 'utf-8');
+}
+
 const ChangelogPlugin: typeof pluginContentBlog =
   async function ChangelogPlugin(context, options) {
     const generateDir = path.join(context.siteDir, 'changelog/source');
@@ -145,14 +172,17 @@ const ChangelogPlugin: typeof pluginContentBlog =
       blogListComponent: '@theme/ChangelogList',
       blogPostComponent: '@theme/ChangelogPage',
     });
-    const changelogPath = path.join(__dirname, '../../../../CHANGELOG.md');
+    const changelogFiles = await getChangelogFiles();
+
     return {
       ...blogPlugin,
       name: 'changelog-plugin',
 
       async loadContent() {
-        const fileContent = await fs.readFile(changelogPath, 'utf-8');
-        const changelogEntries = toChangelogEntries(fileContent);
+        const filesContent = await Promise.all(
+          changelogFiles.map(readChangelogFile),
+        );
+        const changelogEntries = toChangelogEntries(filesContent.join('\n'));
 
         // We have to create intermediate files here
         // Unfortunately Docusaurus doesn't have yet any concept of virtual file
@@ -199,8 +229,7 @@ const ChangelogPlugin: typeof pluginContentBlog =
       },
 
       getPathsToWatch() {
-        // Don't watch the generated dir
-        return [changelogPath];
+        return [path.join(MonorepoRoot, ChangelogFilePattern)];
       },
     };
   };
