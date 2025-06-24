@@ -8,11 +8,18 @@
 import {
   parseLocalURLPath,
   serializeURLPath,
+  toMessageRelativeFilePath,
   type URLPath,
 } from '@docusaurus/utils';
+import logger from '@docusaurus/logger';
 
+import {formatNodePositionExtraMessage} from '../utils';
 import type {Plugin, Transformer} from 'unified';
 import type {Definition, Link, Root} from 'mdast';
+import type {
+  MarkdownConfig,
+  OnBrokenMarkdownLinksFunction,
+} from '@docusaurus/types';
 
 type ResolveMarkdownLinkParams = {
   /**
@@ -32,6 +39,33 @@ export type ResolveMarkdownLink = (
 
 export interface PluginOptions {
   resolveMarkdownLink: ResolveMarkdownLink;
+  onBrokenMarkdownLinks: MarkdownConfig['hooks']['onBrokenMarkdownLinks'];
+}
+
+function asFunction(
+  onBrokenMarkdownLinks: PluginOptions['onBrokenMarkdownLinks'],
+): OnBrokenMarkdownLinksFunction {
+  if (typeof onBrokenMarkdownLinks === 'string') {
+    const extraHelp =
+      onBrokenMarkdownLinks === 'throw'
+        ? logger.interpolate`\nTo ignore this error, use the code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} option, or apply the code=${'pathname://'} protocol to the broken link URLs.`
+        : '';
+    return ({sourceFilePath, url: linkUrl, node}) => {
+      const relativePath = toMessageRelativeFilePath(sourceFilePath);
+      logger.report(
+        onBrokenMarkdownLinks,
+      )`Markdown link with URL code=${linkUrl} in source file path=${relativePath}${formatNodePositionExtraMessage(
+        node,
+      )} couldn't be resolved.
+Make sure it references a local Markdown file that exists within the current plugin.${extraHelp}`;
+    };
+  } else {
+    return (params) =>
+      onBrokenMarkdownLinks({
+        ...params,
+        sourceFilePath: toMessageRelativeFilePath(params.sourceFilePath),
+      });
+  }
 }
 
 const HAS_MARKDOWN_EXTENSION = /\.mdx?$/i;
@@ -57,10 +91,15 @@ function parseMarkdownLinkURLPath(link: string): URLPath | null {
  * This is exposed as "data.contentTitle" to the processed vfile
  * Also gives the ability to strip that content title (used for the blog plugin)
  */
+// TODO merge this plugin with "transformLinks"
+//  in general we'd want to avoid traversing multiple times the same AST
 const plugin: Plugin<PluginOptions[], Root> = function plugin(
   options,
 ): Transformer<Root> {
   const {resolveMarkdownLink} = options;
+
+  const onBrokenMarkdownLinks = asFunction(options.onBrokenMarkdownLinks);
+
   return async (root, file) => {
     const {visit} = await import('unist-util-visit');
 
@@ -71,18 +110,26 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
         return;
       }
 
+      const sourceFilePath = file.path;
+
       const permalink = resolveMarkdownLink({
-        sourceFilePath: file.path,
+        sourceFilePath,
         linkPathname: linkURLPath.pathname,
       });
 
       if (permalink) {
         // This reapplies the link ?qs#hash part to the resolved pathname
-        const resolvedUrl = serializeURLPath({
+        link.url = serializeURLPath({
           ...linkURLPath,
           pathname: permalink,
         });
-        link.url = resolvedUrl;
+      } else {
+        link.url =
+          onBrokenMarkdownLinks({
+            url: link.url,
+            sourceFilePath,
+            node: link,
+          }) ?? link.url;
       }
     });
   };
