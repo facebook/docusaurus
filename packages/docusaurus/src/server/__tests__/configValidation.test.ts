@@ -18,16 +18,16 @@ import {
   validateConfig,
 } from '../configValidation';
 import type {
-  MarkdownConfig,
-  MarkdownHooks,
-} from '@docusaurus/types/src/markdown';
-import type {
   FasterConfig,
   FutureConfig,
   FutureV4Config,
   StorageConfig,
-} from '@docusaurus/types/src/config';
-import type {Config, DocusaurusConfig, PluginConfig} from '@docusaurus/types';
+  MarkdownConfig,
+  MarkdownHooks,
+  Config,
+  DocusaurusConfig,
+  PluginConfig,
+} from '@docusaurus/types';
 import type {DeepPartial} from 'utility-types';
 
 const baseConfig = {
@@ -36,7 +36,7 @@ const baseConfig = {
   url: 'https://mysite.com',
 } as Config;
 
-const normalizeConfig = (config: DeepPartial<Config>) =>
+const normalizeConfig = (config: DeepPartial<Config>): DocusaurusConfig =>
   validateConfig({...baseConfig, ...config}, 'docusaurus.config.js');
 
 describe('normalizeConfig', () => {
@@ -99,6 +99,7 @@ describe('normalizeConfig', () => {
       markdown: {
         format: 'md',
         mermaid: true,
+        emoji: false,
         parseFrontMatter: async (params) =>
           params.defaultParseFrontMatter(params),
         preprocessor: ({fileContent}) => fileContent,
@@ -366,7 +367,9 @@ describe('onBrokenLinks', () => {
 });
 
 describe('markdown', () => {
-  function normalizeMarkdown(markdown: DeepPartial<MarkdownConfig>) {
+  function normalizeMarkdown(
+    markdown: DeepPartial<MarkdownConfig>,
+  ): MarkdownConfig {
     return normalizeConfig({markdown}).markdown;
   }
   it('accepts undefined object', () => {
@@ -381,6 +384,7 @@ describe('markdown', () => {
     const markdown: Config['markdown'] = {
       format: 'md',
       mermaid: true,
+      emoji: false,
       parseFrontMatter: async (params) =>
         params.defaultParseFrontMatter(params),
       preprocessor: ({fileContent}) => fileContent,
@@ -474,6 +478,54 @@ describe('markdown', () => {
       ""markdown" must be of type object
       "
     `);
+  });
+
+  describe('emoji', () => {
+    it('accepts emoji boolean true', () => {
+      expect(
+        normalizeMarkdown({
+          emoji: true,
+        }).emoji,
+      ).toBe(true);
+    });
+
+    it('accepts emoji boolean false', () => {
+      expect(
+        normalizeMarkdown({
+          emoji: false,
+        }).emoji,
+      ).toBe(false);
+    });
+
+    it('defaults emoji to true when undefined', () => {
+      expect(normalizeMarkdown({}).emoji).toBe(true);
+    });
+
+    it('throw for string emoji value', () => {
+      expect(() =>
+        normalizeMarkdown({
+          // @ts-expect-error: bad value
+          emoji: 'yes',
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+      ""markdown.emoji" must be a boolean
+      "
+    `);
+    });
+
+    it('throw for number emoji value', () => {
+      expect(() =>
+        normalizeConfig({
+          markdown: {
+            // @ts-expect-error: bad value
+            emoji: 1,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+      ""markdown.emoji" must be a boolean
+      "
+    `);
+    });
   });
 
   describe('hooks', () => {

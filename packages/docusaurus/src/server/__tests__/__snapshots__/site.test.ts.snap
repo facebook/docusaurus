@@ -125,6 +125,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
       "anchors": {
         "maintainCase": false,
       },
+      "emoji": true,
       "format": "mdx",
       "hooks": {
         "onBrokenMarkdownImages": "throw",

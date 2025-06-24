@@ -91,6 +91,7 @@ export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
   mermaid: false,
+  emoji: true,
   preprocessor: undefined,
   parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
   mdx1Compat: {
@@ -435,6 +436,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       () => DEFAULT_CONFIG.markdown.parseFrontMatter,
     ),
     mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
+    emoji: Joi.boolean().default(DEFAULT_CONFIG.markdown.emoji),
     preprocessor: Joi.function()
       .arity(1)
       .optional()
