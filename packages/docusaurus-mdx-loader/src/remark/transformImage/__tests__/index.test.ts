@@ -198,6 +198,7 @@ describe('transformImage plugin', () => {
             console.log('onBrokenMarkdownImages called for ', params);
             // We can alter the AST Node
             params.node.alt = 'new 404 alt';
+            params.node.url = 'ignored, less important than returned value';
             // Or return a new URL
             return '/404.png';
           },

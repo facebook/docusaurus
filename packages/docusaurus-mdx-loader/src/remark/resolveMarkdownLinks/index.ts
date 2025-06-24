@@ -13,6 +13,7 @@ import {
 } from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 
+import {formatNodePositionExtraMessage} from '../utils';
 import type {Plugin, Transformer} from 'unified';
 import type {Definition, Link, Root} from 'mdast';
 import type {
@@ -49,11 +50,13 @@ function asFunction(
       onBrokenMarkdownLinks === 'throw'
         ? logger.interpolate`\nTo ignore this error, use the code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} option, or apply the code=${'pathname://'} protocol to the broken link URLs.`
         : '';
-    return ({sourceFilePath, url: linkUrl}) => {
+    return ({sourceFilePath, url: linkUrl, node}) => {
       const relativePath = toMessageRelativeFilePath(sourceFilePath);
       logger.report(
         onBrokenMarkdownLinks,
-      )`Markdown link with URL code=${linkUrl} in source file path=${relativePath} couldn't be resolved.
+      )`Markdown link with URL code=${linkUrl} in source file path=${relativePath}${formatNodePositionExtraMessage(
+        node,
+      )} couldn't be resolved.
 Make sure it references a local Markdown file that exists within the current plugin.${extraHelp}`;
     };
   } else {

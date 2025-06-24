@@ -206,7 +206,7 @@ this is a code block
 
         await expect(() => processResolutionErrors(content)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown link with URL \`link1.mdx\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+          "Markdown link with URL \`link1.mdx\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" (1:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.
           To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
         `);
@@ -218,7 +218,7 @@ this is a code block
 
         await expect(() => processResolutionErrors(content)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown link with URL \`link1.md\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+          "Markdown link with URL \`link1.md\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" (1:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.
           To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
         `);
@@ -255,11 +255,11 @@ this is a code block
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "[WARNING] Markdown link with URL \`link1.mdx\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+              "[WARNING] Markdown link with URL \`link1.mdx\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" (2:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.",
             ],
             [
-              "[WARNING] Markdown link with URL \`dir/link3.md\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" couldn't be resolved.
+              "[WARNING] Markdown link with URL \`dir/link3.md\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" (6:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.",
             ],
           ]
@@ -278,36 +278,115 @@ this is a code block
 [link 4](/link/4)
       `;
 
-        const result = await processResolutionErrors(
-          content,
-          ({sourceFilePath, url}) => {
-            console.warn(`recovering broken markdown link ${url}`);
-            return `/recovered/___${sourceFilePath}___/___${url}`;
-          },
-        );
+        const result = await processResolutionErrors(content, (params) => {
+          console.warn(`onBrokenMarkdownLinks called with`, params);
+          // We can alter the AST Node
+          params.node.title = 'fixed link title';
+          params.node.url = 'ignored, less important than returned value';
+          // Or return a new URL
+          return `/recovered-link`;
+        });
 
         expect(result).toMatchInlineSnapshot(`
-                  "[link1](/recovered/___packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx___/___link1.mdx)
+          "[link1](/recovered-link "fixed link title")
 
-                  [link2](link2)
+          [link2](link2)
 
-                  [link3](/recovered/___packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx___/___dir/link3.md?query#hash)
+          [link3](/recovered-link "fixed link title")
 
-                  [link 4](/link/4)
-                  "
-              `);
+          [link 4](/link/4)
+          "
+        `);
 
         expect(warnMock).toHaveBeenCalledTimes(2);
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
-                  [
-                    [
-                      "recovering broken markdown link link1.mdx",
-                    ],
-                    [
-                      "recovering broken markdown link dir/link3.md?query#hash",
-                    ],
-                  ]
-              `);
+          [
+            [
+              "onBrokenMarkdownLinks called with",
+              {
+                "node": {
+                  "children": [
+                    {
+                      "position": {
+                        "end": {
+                          "column": 7,
+                          "line": 2,
+                          "offset": 7,
+                        },
+                        "start": {
+                          "column": 2,
+                          "line": 2,
+                          "offset": 2,
+                        },
+                      },
+                      "type": "text",
+                      "value": "link1",
+                    },
+                  ],
+                  "position": {
+                    "end": {
+                      "column": 19,
+                      "line": 2,
+                      "offset": 19,
+                    },
+                    "start": {
+                      "column": 1,
+                      "line": 2,
+                      "offset": 1,
+                    },
+                  },
+                  "title": "fixed link title",
+                  "type": "link",
+                  "url": "/recovered-link",
+                },
+                "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx",
+                "url": "link1.mdx",
+              },
+            ],
+            [
+              "onBrokenMarkdownLinks called with",
+              {
+                "node": {
+                  "children": [
+                    {
+                      "position": {
+                        "end": {
+                          "column": 7,
+                          "line": 6,
+                          "offset": 43,
+                        },
+                        "start": {
+                          "column": 2,
+                          "line": 6,
+                          "offset": 38,
+                        },
+                      },
+                      "type": "text",
+                      "value": "link3",
+                    },
+                  ],
+                  "position": {
+                    "end": {
+                      "column": 33,
+                      "line": 6,
+                      "offset": 69,
+                    },
+                    "start": {
+                      "column": 1,
+                      "line": 6,
+                      "offset": 37,
+                    },
+                  },
+                  "title": "fixed link title",
+                  "type": "link",
+                  "url": "/recovered-link",
+                },
+                "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx",
+                "url": "dir/link3.md?query#hash",
+              },
+            ],
+          ]
+        `);
       });
     });
   });
