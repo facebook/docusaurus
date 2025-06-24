@@ -90,7 +90,7 @@ describe('transformLinks plugin', () => {
       it('if url is empty', async () => {
         await expect(processContent(fixtures.urlEmpty)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx".
+          "Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1).
           To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
         `);
       });
@@ -98,7 +98,7 @@ describe('transformLinks plugin', () => {
       it('if file with site alias does not exist', async () => {
         await expect(processContent(fixtures.fileDoesNotExistSiteAlias)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved.
+          "Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.
           To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
         `);
@@ -122,7 +122,7 @@ describe('transformLinks plugin', () => {
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "[WARNING] Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx".",
+              "[WARNING] Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1).",
             ],
           ]
         `);
@@ -135,7 +135,7 @@ describe('transformLinks plugin', () => {
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "[WARNING] Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved.
+              "[WARNING] Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.",
             ],
           ]
@@ -148,6 +148,10 @@ describe('transformLinks plugin', () => {
         return processContent(content, {
           onBrokenMarkdownLinks: (params) => {
             console.log('onBrokenMarkdownLinks called with', params);
+            // We can alter the AST Node
+            params.node.title = 'fixed link title';
+            params.node.url = 'ignored, less important than returned value';
+            // Or return a new URL
             return '/404';
           },
         });
@@ -160,13 +164,50 @@ describe('transformLinks plugin', () => {
 
       it('if url is empty', async () => {
         const result = await processWarn(fixtures.urlEmpty);
-        expect(result).toMatchInlineSnapshot(`"[empty](/404)"`);
+        expect(result).toMatchInlineSnapshot(
+          `"[empty](/404 "fixed link title")"`,
+        );
         expect(logMock).toHaveBeenCalledTimes(1);
         expect(logMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownLinks called with",
               {
+                "node": {
+                  "children": [
+                    {
+                      "position": {
+                        "end": {
+                          "column": 7,
+                          "line": 1,
+                          "offset": 6,
+                        },
+                        "start": {
+                          "column": 2,
+                          "line": 1,
+                          "offset": 1,
+                        },
+                      },
+                      "type": "text",
+                      "value": "empty",
+                    },
+                  ],
+                  "position": {
+                    "end": {
+                      "column": 10,
+                      "line": 1,
+                      "offset": 9,
+                    },
+                    "start": {
+                      "column": 1,
+                      "line": 1,
+                      "offset": 0,
+                    },
+                  },
+                  "title": "fixed link title",
+                  "type": "link",
+                  "url": "/404",
+                },
                 "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx",
                 "url": "",
               },
@@ -177,13 +218,50 @@ describe('transformLinks plugin', () => {
 
       it('if file with site alias does not exist', async () => {
         const result = await processWarn(fixtures.fileDoesNotExistSiteAlias);
-        expect(result).toMatchInlineSnapshot(`"[file](/404)"`);
+        expect(result).toMatchInlineSnapshot(
+          `"[file](/404 "fixed link title")"`,
+        );
         expect(logMock).toHaveBeenCalledTimes(1);
         expect(logMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownLinks called with",
               {
+                "node": {
+                  "children": [
+                    {
+                      "position": {
+                        "end": {
+                          "column": 6,
+                          "line": 1,
+                          "offset": 5,
+                        },
+                        "start": {
+                          "column": 2,
+                          "line": 1,
+                          "offset": 1,
+                        },
+                      },
+                      "type": "text",
+                      "value": "file",
+                    },
+                  ],
+                  "position": {
+                    "end": {
+                      "column": 23,
+                      "line": 1,
+                      "offset": 22,
+                    },
+                    "start": {
+                      "column": 1,
+                      "line": 1,
+                      "offset": 0,
+                    },
+                  },
+                  "title": "fixed link title",
+                  "type": "link",
+                  "url": "/404",
+                },
                 "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx",
                 "url": "@site/file.zip",
               },
