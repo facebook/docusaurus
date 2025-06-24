@@ -12,6 +12,7 @@ import {
   type URLPath,
 } from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
+
 import type {Plugin, Transformer} from 'unified';
 import type {Definition, Link, Root} from 'mdast';
 import type {
@@ -124,6 +125,7 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
           onBrokenMarkdownLinks({
             url: link.url,
             sourceFilePath,
+            node: link,
           }) ?? link.url;
       }
     });

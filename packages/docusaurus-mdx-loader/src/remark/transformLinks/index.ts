@@ -195,6 +195,7 @@ async function processLinkNode(target: Target, context: Context) {
       context.onBrokenMarkdownLinks({
         url: node.url,
         sourceFilePath: context.filePath,
+        node,
       }) ?? node.url;
     return;
   }
@@ -226,6 +227,7 @@ async function processLinkNode(target: Target, context: Context) {
         context.onBrokenMarkdownLinks({
           url: node.url,
           sourceFilePath: context.filePath,
+          node,
         }) ?? node.url;
     } else {
       // Even if the url has a dot, and it looks like a file extension

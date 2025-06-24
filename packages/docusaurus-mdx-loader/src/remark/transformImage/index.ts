@@ -19,7 +19,11 @@ import {
 import escapeHtml from 'escape-html';
 import {imageSizeFromFile} from 'image-size/fromFile';
 import logger from '@docusaurus/logger';
-import {assetRequireAttributeValue, transformNode} from '../utils';
+import {
+  assetRequireAttributeValue,
+  formatNodePositionExtraMessage,
+  transformNode,
+} from '../utils';
 import type {Plugin, Transformer} from 'unified';
 import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Image, Root} from 'mdast';
@@ -51,16 +55,20 @@ function asFunction(
       onBrokenMarkdownImages === 'throw'
         ? logger.interpolate`\nTo ignore this error, use the code=${'siteConfig.markdown.hooks.onBrokenMarkdownImages'} option, or apply the code=${'pathname://'} protocol to the broken image URLs.`
         : '';
-    return ({sourceFilePath, url: imageUrl}) => {
+    return ({sourceFilePath, url: imageUrl, node}) => {
       const relativePath = toMessageRelativeFilePath(sourceFilePath);
       if (imageUrl) {
         logger.report(
           onBrokenMarkdownImages,
-        )`Markdown image with URL code=${imageUrl} in source file path=${relativePath} couldn't be resolved to an existing local image file.${extraHelp}`;
+        )`Markdown image with URL code=${imageUrl} in source file path=${relativePath}${formatNodePositionExtraMessage(
+          node,
+        )} couldn't be resolved to an existing local image file.${extraHelp}`;
       } else {
         logger.report(
           onBrokenMarkdownImages,
-        )`Markdown image with empty URL found in source file path=${relativePath}.${extraHelp}`;
+        )`Markdown image with empty URL found in source file path=${relativePath}${formatNodePositionExtraMessage(
+          node,
+        )}.${extraHelp}`;
       }
     };
   } else {
@@ -194,6 +202,7 @@ async function processImageNode(target: Target, context: Context) {
       context.onBrokenMarkdownImages({
         url: node.url,
         sourceFilePath: context.filePath,
+        node,
       }) ?? node.url;
     return;
   }
@@ -224,6 +233,7 @@ async function processImageNode(target: Target, context: Context) {
       context.onBrokenMarkdownImages({
         url: node.url,
         sourceFilePath: context.filePath,
+        node,
       }) ?? node.url;
   } else {
     await toImageRequireNode(target, localImagePath, context);

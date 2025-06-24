@@ -6,6 +6,8 @@
  */
 
 import type {ProcessorOptions} from '@mdx-js/mdx';
+import type {Image, Definition, Link} from 'mdast';
+
 import type {ReportingSeverity} from './reporting';
 
 export type RemarkRehypeOptions = ProcessorOptions['remarkRehypeOptions'];
@@ -57,6 +59,10 @@ export type OnBrokenMarkdownLinksFunction = (params: {
    * Example: "relative/dir/myTargetDoc.mdx?query#hash"
    */
   url: string;
+  /**
+   * The Markdown Link AST node.
+   */
+  node: Link | Definition;
 }) => void | string;
 
 export type OnBrokenMarkdownImagesFunction = (params: {
@@ -74,6 +80,10 @@ export type OnBrokenMarkdownImagesFunction = (params: {
    * Example: "relative/dir/myImage.png"
    */
   url: string;
+  /**
+   * The Markdown Image AST node.
+   */
+  node: Image;
 }) => void | string;
 
 export type MarkdownHooks = {

@@ -86,7 +86,7 @@ describe('transformImage plugin', () => {
       it('if image absolute path does not exist', async () => {
         await expect(processContent(fixtures.doesNotExistAbsolute)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
+          "Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.
           To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
         `);
       });
@@ -94,7 +94,7 @@ describe('transformImage plugin', () => {
       it('if image relative path does not exist', async () => {
         await expect(processContent(fixtures.doesNotExistRelative)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
+          "Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.
           To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
         `);
       });
@@ -102,7 +102,7 @@ describe('transformImage plugin', () => {
       it('if image @site path does not exist', async () => {
         await expect(processContent(fixtures.doesNotExistSiteAlias)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.
+          "Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.
           To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
         `);
       });
@@ -110,7 +110,7 @@ describe('transformImage plugin', () => {
       it('if image url empty', async () => {
         await expect(processContent(fixtures.urlEmpty)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx".
+          "Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1).
           To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
         `);
       });
@@ -136,7 +136,7 @@ describe('transformImage plugin', () => {
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "[WARNING] Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.",
+              "[WARNING] Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.",
             ],
           ]
         `);
@@ -152,7 +152,7 @@ describe('transformImage plugin', () => {
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "[WARNING] Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.",
+              "[WARNING] Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.",
             ],
           ]
         `);
@@ -168,7 +168,7 @@ describe('transformImage plugin', () => {
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "[WARNING] Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" couldn't be resolved to an existing local image file.",
+              "[WARNING] Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.",
             ],
           ]
         `);
@@ -184,7 +184,7 @@ describe('transformImage plugin', () => {
         expect(warnMock.mock.calls).toMatchInlineSnapshot(`
           [
             [
-              "[WARNING] Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx".",
+              "[WARNING] Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1).",
             ],
           ]
         `);
@@ -196,6 +196,9 @@ describe('transformImage plugin', () => {
         return processContent(content, {
           onBrokenMarkdownImages: (params) => {
             console.log('onBrokenMarkdownImages called for ', params);
+            // We can alter the AST Node
+            params.node.alt = 'new 404 alt';
+            // Or return a new URL
             return '/404.png';
           },
         });
@@ -209,7 +212,7 @@ describe('transformImage plugin', () => {
       it('if image absolute path does not exist', async () => {
         const result = await processWarn(fixtures.doesNotExistAbsolute);
         expect(result).toMatchInlineSnapshot(`
-          "![img](/404.png)
+          "![new 404 alt](/404.png)
           "
         `);
         expect(logMock).toHaveBeenCalledTimes(1);
@@ -218,6 +221,24 @@ describe('transformImage plugin', () => {
             [
               "onBrokenMarkdownImages called for ",
               {
+                "node": {
+                  "alt": "new 404 alt",
+                  "position": {
+                    "end": {
+                      "column": 30,
+                      "line": 1,
+                      "offset": 29,
+                    },
+                    "start": {
+                      "column": 1,
+                      "line": 1,
+                      "offset": 0,
+                    },
+                  },
+                  "title": null,
+                  "type": "image",
+                  "url": "/404.png",
+                },
                 "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx",
                 "url": "/img/doesNotExist.png",
               },
@@ -229,7 +250,7 @@ describe('transformImage plugin', () => {
       it('if image relative path does not exist', async () => {
         const result = await processWarn(fixtures.doesNotExistRelative);
         expect(result).toMatchInlineSnapshot(`
-          "![img](/404.png)
+          "![new 404 alt](/404.png)
           "
         `);
         expect(logMock).toHaveBeenCalledTimes(1);
@@ -238,6 +259,24 @@ describe('transformImage plugin', () => {
             [
               "onBrokenMarkdownImages called for ",
               {
+                "node": {
+                  "alt": "new 404 alt",
+                  "position": {
+                    "end": {
+                      "column": 27,
+                      "line": 1,
+                      "offset": 26,
+                    },
+                    "start": {
+                      "column": 1,
+                      "line": 1,
+                      "offset": 0,
+                    },
+                  },
+                  "title": null,
+                  "type": "image",
+                  "url": "/404.png",
+                },
                 "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx",
                 "url": "./doesNotExist.png",
               },
@@ -249,7 +288,7 @@ describe('transformImage plugin', () => {
       it('if image @site path does not exist', async () => {
         const result = await processWarn(fixtures.doesNotExistSiteAlias);
         expect(result).toMatchInlineSnapshot(`
-          "![img](/404.png)
+          "![new 404 alt](/404.png)
           "
         `);
         expect(logMock).toHaveBeenCalledTimes(1);
@@ -258,6 +297,24 @@ describe('transformImage plugin', () => {
             [
               "onBrokenMarkdownImages called for ",
               {
+                "node": {
+                  "alt": "new 404 alt",
+                  "position": {
+                    "end": {
+                      "column": 31,
+                      "line": 1,
+                      "offset": 30,
+                    },
+                    "start": {
+                      "column": 1,
+                      "line": 1,
+                      "offset": 0,
+                    },
+                  },
+                  "title": null,
+                  "type": "image",
+                  "url": "/404.png",
+                },
                 "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx",
                 "url": "@site/doesNotExist.png",
               },
@@ -269,7 +326,7 @@ describe('transformImage plugin', () => {
       it('if image url empty', async () => {
         const result = await processWarn(fixtures.urlEmpty);
         expect(result).toMatchInlineSnapshot(`
-          "![img](/404.png)
+          "![new 404 alt](/404.png)
           "
         `);
         expect(logMock).toHaveBeenCalledTimes(1);
@@ -278,6 +335,24 @@ describe('transformImage plugin', () => {
             [
               "onBrokenMarkdownImages called for ",
               {
+                "node": {
+                  "alt": "new 404 alt",
+                  "position": {
+                    "end": {
+                      "column": 9,
+                      "line": 1,
+                      "offset": 8,
+                    },
+                    "start": {
+                      "column": 1,
+                      "line": 1,
+                      "offset": 0,
+                    },
+                  },
+                  "title": null,
+                  "type": "image",
+                  "url": "/404.png",
+                },
                 "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx",
                 "url": "",
               },
