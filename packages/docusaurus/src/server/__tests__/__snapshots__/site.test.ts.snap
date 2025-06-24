@@ -126,6 +126,10 @@ exports[`load loads props for site with custom i18n path 1`] = `
         "maintainCase": false,
       },
       "format": "mdx",
+      "hooks": {
+        "onBrokenMarkdownImages": "throw",
+        "onBrokenMarkdownLinks": "warn",
+      },
       "mdx1Compat": {
         "admonitions": true,
         "comments": true,
@@ -139,7 +143,6 @@ exports[`load loads props for site with custom i18n path 1`] = `
     "noIndex": false,
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
-    "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],

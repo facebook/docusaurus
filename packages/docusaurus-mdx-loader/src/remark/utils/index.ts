@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import logger from '@docusaurus/logger';
 import type {Node} from 'unist';
 import type {MdxJsxAttributeValueExpression} from 'mdast-util-mdx';
 
@@ -82,4 +83,17 @@ export function assetRequireAttributeValue(
       },
     },
   };
+}
+
+function formatNodePosition(node: Node): string | undefined {
+  return node.position?.start
+    ? logger.interpolate`number=${node.position.start.line}:number=${node.position.start.column}`
+    : undefined;
+}
+
+// Returns " (line:column)" when position info is available
+// The initial space is useful to append easily to any existing message
+export function formatNodePositionExtraMessage(node: Node): string {
+  const position = formatNodePosition(node);
+  return `${position ? ` (${position})` : ''}`;
 }
