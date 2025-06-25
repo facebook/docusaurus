@@ -129,8 +129,8 @@ export async function registerBundlerTracing({
 
       await Rspack.experiments.globalTrace.register(
         filter,
-        'chrome',
-        './rspack-tracing.json',
+        'perfetto',
+        './rspack-tracing.pftrace',
       );
 
       console.info(`Rspack tracing registered, filter=${filter}`);
