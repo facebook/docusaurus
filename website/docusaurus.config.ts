@@ -831,14 +831,14 @@ export default async function createConfigAsync() {
               {
                 html: `
                 <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
-                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
+                  <img src="/img/footer/badge-netlify.svg" alt="Deploys by Netlify" width="114" height="51" />
                 </a>
               `,
               },
               {
                 html: `
                 <a href="https://argos-ci.com" target="_blank" rel="noreferrer noopener" aria-label="Covered by Argos">
-                  <img src="https://argos-ci.com/badge.svg" alt="Covered by Argos" width="133" height="20" />
+                  <img src="/img/footer/badge-argos.svg" alt="Covered by Argos" width="133" height="20" />
                 </a>
               `,
               },
