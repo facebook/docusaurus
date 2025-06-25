@@ -1040,7 +1040,9 @@ declare module '@theme/SkipToContent' {
 declare module '@theme/MDXComponents/A' {
   import type {ComponentProps, ReactNode} from 'react';
 
-  export interface Props extends ComponentProps<'a'> {}
+  export interface Props extends ComponentProps<'a'> {
+    'data-footnote-ref'?: true;
+  }
 
   export default function MDXA(props: Props): ReactNode;
 }
