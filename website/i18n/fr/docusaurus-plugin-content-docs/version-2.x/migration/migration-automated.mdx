@@ -1,0 +1,75 @@
+---
+slug: /migration/automated
+---
+
+# Migration automatisée
+
+Le CLI de migration migre automatiquement votre site web v1 vers un site web v2.
+
+:::info
+
+Un travail manuel est toujours nécessaire après avoir utilisé le CLI, car nous ne pouvons pas automatiser une migration complète
+
+:::
+
+Le CLI de migration migre :
+
+- Les configurations du site (de `siteConfig.js` vers `docusaurus.config.js`)
+- `package.json`
+- `sidebars.json`
+- `/docs`
+- `/blog`
+- `/static`
+- `versioned_sidebar.json` et `/versioned_docs` si votre site gère les versions
+
+Pour utiliser la CLI de migration, suivez ces étapes :
+
+1. Avant d'utiliser le CLI de migration, assurez-vous que `/docs`, `/blog`, `/static`, `sidebars.json`, `siteConfig.js`, `package.json` suivent la structure attendue.
+
+2. Pour migrer votre site web v1, exécutez le CLI de migration avec les chemins appropriés du système de fichiers :
+
+```bash
+# format de commande de migration
+npx @docusaurus/migrate migrate <v1 website directory> <desired v2 website directory>
+
+# exemple
+npx @docusaurus/migrate migrate ./v1-website ./v2-website
+```
+
+3. Pour consulter votre nouveau site Web localement, allez dans le répertoire de votre site web v2 et démarrez votre serveur de développement.
+
+```bash npm2yarn
+cd ./v2-website
+npm install
+npm start
+```
+
+:::danger
+
+Le CLI de migration met à jour les fichiers existants. Assurez-vous de les avoir d'abord « committés » !
+
+:::
+
+#### Options {#options}
+
+Vous pouvez ajouter des options à la CLI de migration pour migrer automatiquement le contenu du Markdown et les pages vers la v2. Il est probable que vous devrez encore apporter des modifications manuelles pour obtenir le résultat souhaité.
+
+| Nom      | Description                                                        |
+| -------- | ------------------------------------------------------------------ |
+| `--mdx`  | Ajouter ce drapeau pour convertir automatiquement Markdown en MDX  |
+| `--page` | Ajouter ce drapeau pour migrer automatiquement les pages           |
+
+```bash
+# exemple en utilisant les options
+npx @docusaurus/migrate migrate --mdx --page ./v1-website ./v2-website
+```
+
+:::danger
+
+La migration des pages et du MDX est toujours en chantier.
+
+Nous vous recommandons d'essayer d'exécuter les pages sans ces options, committez puis essayez de relancer la migration avec les options `--page` et `--mdx`.
+
+De cette façon, vous pourrez facilement inspecter et réparer les différences.
+
+:::

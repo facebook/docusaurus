@@ -1,0 +1,106 @@
+---
+description: Comment conserver une taille de paquet raisonnable tout en assurant une prise en charge suffisante du navigateur.
+---
+
+# Navigateurs pris en charge
+
+Docusaurus permet aux sites de définir la liste des navigateurs pris en charge via une [configuration de la liste des navigateurs](https://github.com/browserslist/browserslist).
+
+## Objectif {#purpose}
+
+Les sites web doivent trouver un équilibre entre la rétrocompatibilité et la taille des bundles. Comme les anciens navigateurs ne prennent pas en charge les API ou la syntaxe modernes, il faut plus de code pour implémenter la même fonctionnalité.
+
+Par exemple, vous pouvez utiliser la [syntaxe de chaînage optionnel](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) :
+
+```js
+const value = obj?.prop?.val;
+```
+
+...qui n'est malheureusement reconnu que par les versions de navigateurs publiées après 2020. Pour être compatible avec les versions antérieures du navigateur, lors de la construction de votre site pour la production, notre chargeur JS transpile votre code vers une syntaxe plus détaillée :
+
+```js
+var _obj, _obj$prop;
+
+const value =
+  (_obj = obj) === null || _obj === void 0
+    ? void 0
+    : (_obj$prop = _obj.prop) === null || _obj$prop === void 0
+    ? void 0
+    : _obj$prop.val;
+```
+
+Cependant, cela pénalise tous les autres utilisateurs en augmentant le temps de chargement du site, car la ligne de 29 caractères devient maintenant 168 caractères, soit 6 fois plus ! (Dans la pratique, ce sera mieux parce que les noms utilisés seront plus courts.) En contrepartie, le chargeur JS ne transpose la syntaxe que dans la mesure où elle est prise en charge par toutes les versions de navigateur définies dans la liste des navigateurs.
+
+La liste des navigateurs par défaut est fournie par le fichier `package.json` sous la forme d'un champ racine `browserslist`.
+
+:::warning
+
+Sur les anciens navigateurs, la sortie compilée utilisera une syntaxe JS non prise en charge (trop récente), ce qui entraînera l'échec de l'initialisation de React et l'obtention d'un site web statique contenant uniquement du HTML/CSS et pas de JS.
+
+:::
+
+## Valeurs par défaut {#default-values}
+
+Les sites web initialisés avec le template classique par défaut ont ce qui suit dans `package.json` :
+
+```json title="package.json"
+{
+  "name": "docusaurus",
+  // ...
+  // highlight-start
+  "browserslist": {
+    "production": [">0.5%", "not dead", "not op_mini all"],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+  // highlight-end
+  // ...
+}
+```
+
+En termes de vocabulaire simple, les navigateurs pris en charge en production sont les suivants :
+
+- Avec plus de 0,5% de part de marché ; _et_
+- Dispose d'un prise en charge officielle ou de mises à jour au cours des 24 derniers mois (le contraire de "dead") _et_
+- N'est pas Opera Mini.
+
+Et les navigateurs utilisés pour le développement sont:
+
+- La dernière version de Chrome _ou_ Firefox _ou_ Safari.
+
+Vous pouvez « exploiter » n'importe quelle configuration avec le CLI de `browserslist` pour obtenir la liste réelle :
+
+```bash
+npx browserslist --env="production"
+```
+
+La sortie est supportée par tous les navigateurs en production. Ci-dessous le résultat en Janvier 2022 :
+
+```text
+and_chr 96
+and_uc 12.12
+chrome 96
+chrome 95
+chrome 94
+edge 96
+firefox 95
+firefox 94
+ie 11
+ios_saf 15.2
+ios_saf 15.0-15.1
+ios_saf 14.5-14.8
+ios_saf 14.0-14.4
+ios_saf 12.2-12.5
+opera 82
+opera 81
+safari 15.1
+safari 14.1
+safari 13.1
+```
+
+## En savoir plus {#read-more}
+
+Vous pouvez consulter la documentation de [browserslist](https://github.com/browserslist/browserslist/blob/main/README.md) pour plus de spécifications, notamment les [requêtes](https://github.com/browserslist/browserslist/blob/main/README.md#queries) et les [bonnes pratiques](https://github.com/browserslist/browserslist/blob/main/README.md#best-practices).

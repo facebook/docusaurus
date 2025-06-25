@@ -1,0 +1,190 @@
+---
+description: Docusaurus 提供了帮助你生成并部署网站的脚本。
+---
+
+# CLI
+
+Docusaurus 提供了帮助你生成并部署网站的脚本。
+
+网站初始化时，就会自带一系列 Docusaurus 脚本，你可以用包管理器调用：
+
+```json title="package.json"
+{
+  // ...
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids"
+  }
+}
+```
+
+## Docusaurus CLI 命令 {#docusaurus-cli-commands}
+
+下方是 Docusaurus CLI 命令及用法列表：
+
+### `docusaurus start [siteDir]` {#docusaurus-start-sitedir}
+
+构建网站，并通过 [Webpack 开发服务器](https://webpack.js.org/configuration/dev-server)在本地部署预览：
+
+#### 选项 {#options}
+
+| 参数                            | 默认值         | 描述                                                                                                                  |
+| ----------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------- |
+| `--port`                      | `3000`      | 指定开发服务器端口。                                                                                                          |
+| `--host`                      | `localhost` | 指定绑定的主机。 比如，如果你想让开发服务器可以从外部访问，你可以用 `--host 0.0.0.0`。                                                                |
+| `--locale`                    |             | 指定要使用的站点本地化设置。                                                                                                      |
+| `--hot-only`                  | `false`     | 在构建失败时，启用无需手动刷新的热模块替换作为后备选项。 详情[参见此处](https://webpack.js.org/configuration/dev-server/#devserverhotonly)。           |
+| `--no-open`                   | `false`     | 禁用在浏览器中自动打开页面                                                                                                       |
+| `--config`                    | `undefined` | Docusaurus 配置文件的路径，默认为 `[siteDir]/docusaurus.config.js`                                                             |
+| `--poll [optionalIntervalMs]` | `false`     | 在无法监听文件系统的环境中，使用文件系统轮询而不是监听作为实时重载的替代方案。 更多信息，请参见[这里](https://webpack.js.org/configuration/watch/#watchoptionspoll)。 |
+| `--no-minify`                 | `false`     | 在不压缩 JS/CSS 的情况下构建站点。                                                                                               |
+
+:::info
+
+请注意，某些功能，比如锚点链接，在开发环境中无法使用。 但这些功能会在生产环境中正常工作。
+
+:::
+
+:::info 通过网络开发
+
+当从远程服务器或虚拟机转发端口 3000 时（比如通过 GitHub Codespaces），你可以把开发服务器运行在 `0.0.0.0` 上，让它监听本地 IP。
+
+```bash npm2yarn
+npm run start -- --host 0.0.0.0
+```
+
+:::
+
+#### 启用 HTTPS {#enabling-https}
+
+获取证书有很多方法。 在这里，我们用 [mkcert](https://github.com/FiloSottile/mkcert) 举例子。
+
+1. 运行 `mkcert localhost` 来生成 `localhost.pem` 及 `localhost-key.pem`
+
+2. 运行 `mkcert -install`，把证书安装到你的 trust store，然后重启浏览器。
+
+3. 添加 Docusaurus HTTPS 环境变量，然后启动应用：
+
+```bash
+HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
+```
+
+4. 打开 `https://localhost:3000/`
+
+### `docusaurus build [siteDir]` {#docusaurus-build-sitedir}
+
+为你的网站做生产构建。
+
+#### 选项 {#options-1}
+
+| 参数                  | 默认值         | 描述                                                                                               |
+| ------------------- | ----------- | ------------------------------------------------------------------------------------------------ |
+| `--dev`             |             | 在开发模式下生成站点，包含完整的 React 错误消息。                                                                     |
+| `--bundle-analyzer` | `false`     | 用 [Webpack Bundle Analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) 分析你的构建包。 |
+| `--out-dir`         | `build`     | 输出目录的完整路径，相对于当前工作区。                                                                              |
+| `--config`          | `undefined` | Docusaurus 配置文件的路径，默认为 `[siteDir]/docusaurus.config.js`                                          |
+| `--locale`          |             | 通过指定的本地化语言构建站点。 如果不指定，所有的已知本地化语言都将会被构建。                                                          |
+| `--no-minify`       | `false`     | 在不压缩 JS/CSS 的情况下构建站点。                                                                            |
+
+:::info
+
+我们使用 [cssnano 进阶配置](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-advanced)（搭配其他几个 PostCSS 插件）以及 [clean-css 2 级优化](https://github.com/jakubpawlowicz/clean-css#level-2-optimizations)来对 CSS 做高级压缩。 如果你的 CSS 由于高级压缩而无法使用，你可以在构建时使用 `USE_SIMPLE_CSS_MINIFIER=true` 环境变量。此选项使用 [默认的 cssnano 预设](https://github.com/cssnano/cssnano/tree/master/packages/cssnano-preset-default)来压缩 CSS。 **如果你遇到了 CSS 压缩的 bug，请[提交一个 issue](https://github.com/facebook/docusaurus/issues/new?labels=bug%2C+needs+triage&template=bug.md)。**
+
+你可以用 `SKIP_HTML_MINIFICATION=true` 环境变量跳过 HTML 压缩。
+
+:::
+
+### `docusaurus swizzle [themeName] [componentName] [siteDir]` {#docusaurus-swizzle}
+
+[Swizzle](./swizzling.mdx) 某个主题组件以自定义它。
+
+```bash npm2yarn
+npm run swizzle [themeName] [componentName] [siteDir]
+
+# 示例（不提供 siteDir 会被自动定向到当前路径）
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
+```
+
+Swizzle 命令是交互式的，会引导你完成整个 [swizzle 过程](./swizzling.mdx)。
+
+#### 选项 {#options-swizzle}
+
+| 参数              | 描述                                                      |
+| --------------- | ------------------------------------------------------- |
+| `themeName`     | 要 swizzle 的主题名。                                         |
+| `componentName` | 要 swizzle 的主题组件名。                                       |
+| `--list`        | 显示所有可 swizzle 的组件名                                      |
+| `--eject`       | [弹出](./swizzling.mdx#ejecting)主题组件                      |
+| `--wrap`        | [包装](./swizzling.mdx#wrapping)主题组件                      |
+| `--danger`      | 允许 swizzle 不安全的组件                                       |
+| `--typescript`  | Swizzle TypeScript 组件变种                                 |
+| `--config`      | Docusaurus 配置文件的路径，默认为 `[siteDir]/docusaurus.config.js` |
+
+:::warning
+
+不安全组件很容易因为内部重构而产生破坏性变更。
+
+:::
+
+### `docusaurus deploy [siteDir]` {#docusaurus-deploy-sitedir}
+
+使用 [GitHub Pages](https://pages.github.com/) 部署你的网站。 查看[部署](deployment.mdx#deploying-to-github-pages)文档以了解详情。
+
+#### 选项 {#options-3}
+
+| 参数             | 默认值         | 描述                                                      |
+| -------------- | ----------- | ------------------------------------------------------- |
+| `--locale`     |             | 通过指定的本地化语言部署站点。 如果不指定，所有的已知本地化语言都将会被部署。                 |
+| `--out-dir`    | `build`     | 输出目录的完整路径，相对于当前工作区。                                     |
+| `--skip-build` | `false`     | 跳过构建直接部署网站。 如果你有自定义的部署脚本，可以用这个选项。                       |
+| `--target-dir` | `.`         | 要部署到的目标目录的路径。                                           |
+| `--config`     | `undefined` | Docusaurus 配置文件的路径，默认为 `[siteDir]/docusaurus.config.js` |
+
+### `docusaurus serve [siteDir]` {#docusaurus-serve-sitedir}
+
+在本地开启网站服务。
+
+| 参数          | 默认值                      | 描述                                                      |
+| ----------- | ------------------------ | ------------------------------------------------------- |
+| `--port`    | `3000`                   | 使用指定端口。                                                 |
+| `--dir`     | `build`                  | 输出目录相对于当前工作区的完整路径。                                      |
+| `--build`   | `false`                  | 在开启服务前构建网站。                                             |
+| `--config`  | `undefined`              | Docusaurus 配置文件的路径，默认为 `[siteDir]/docusaurus.config.js` |
+| `--host`    | `localhost`              | 指定绑定的主机。 比如，如果你想让开发服务器可以从外部访问，你可以用 `--host 0.0.0.0`。    |
+| `--no-open` | 本地为 `false`，CI 中为 `true` | 不要打开浏览器窗口。                                              |
+
+### `docusaurus clear [siteDir]` {#docusaurus-clear-sitedir}
+
+清除 Docusaurus 网站生成的资源、缓存、构建产物。
+
+我们建议在报告 bug 之前、在升级版本之后，或在你使用 Docusaurus 网站遇到任何问题时运行此命令。
+
+### `docusaurus write-translations [siteDir]` {#docusaurus-write-translations-sitedir}
+
+写入 JSON 翻译文件，你需要翻译它们。
+
+默认情况下，文件会被写入 `website/i18n/<defaultLocale>/...`。
+
+| 参数                | 默认值                     | 描述                                                      |
+| ----------------- | ----------------------- | ------------------------------------------------------- |
+| `--locale`        | `<defaultLocale>` | 定义你想要写入 JSON 文件的语言文件夹。                                  |
+| `--override`      | `false`                 | 覆盖现有的翻译内容。                                              |
+| `--config`        | `undefined`             | Docusaurus 配置文件的路径，默认为 `[siteDir]/docusaurus.config.js` |
+| `--messagePrefix` | `''`                    | 允许为每个翻译信息添加一个前缀，以突出显示未翻译的字符串。                           |
+
+### `docusaurus write-heading-ids [siteDir] [files]` {#docusaurus-write-heading-ids-sitedir}
+
+为你站点中的 Markdown 文档添加[显式标题标识符](./guides/markdown-features/markdown-features-toc.mdx#heading-ids)。
+
+| 参数                | 默认值            | 描述                  |
+| ----------------- | -------------- | ------------------- |
+| `files`           | 所有被插件使用的 MD 文件 | 你想要写入标题 ID 的文件。     |
+| `--maintain-case` | `false`        | 保留标题的大小写，否则会全部变成小写。 |
+| `--overwrite`     | `false`        | 覆盖现有的标题 ID。         |

@@ -1,0 +1,110 @@
+# Versions Canary
+
+```mdx-code-block
+import {
+  VersionsProvider,
+  CanaryVersion,
+  StableVersion,
+  InsertIfCanaryVersionUnknown,
+  InsertIfCanaryVersionKnown,
+  PackageJSONDiff,
+  PublishTime,
+} from "@site/src/components/Versions";
+
+<VersionsProvider>
+```
+
+Docusaurus a un système de versions canary.
+
+It permits you to **test new unreleased features** as soon as the pull requests are merged.
+
+C'est un bon moyen de **donner un feedback aux mainteneurs**, en s'assurant que la fonctionnalité nouvellement implémentée fonctionne comme prévu.
+
+:::note
+
+Utiliser une version canary en production peut sembler risqué, mais en pratique, ce n'est pas le cas.
+
+Une version canary passe tous les tests automatisés et est utilisée en production par le site Docusaurus lui-même.
+
+:::
+
+```mdx-code-block
+<InsertIfCanaryVersionUnknown>
+```
+
+:::warning
+
+La version canary indiquée ci-dessous **peut ne pas être à jour**. Veuillez aller sur la [page npm](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) pour trouver le nom de la version actuelle.
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionUnknown>
+<InsertIfCanaryVersionKnown>
+```
+
+:::tip
+
+La version canary indiquée ci-dessous est directement extraite de npm et **est à jour**. Vous pouvez directement utiliser ces chiffres dans votre package.json.
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionKnown>
+```
+
+## Canary npm dist tag
+
+Pour tout commit lié au code sur `main`, l'intégration continue publiera une version canary sous le tag `@canary` npm dist. Cela prend généralement jusqu'à 10 minutes.
+
+Vous pouvez voir sur [npm](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) les tags dist actuels :
+
+- `latest` : versions stables (actuellement : <StableVersion />)
+- `canary` : versions canary (<CanaryVersion />)
+
+:::tip
+
+Veillez à utiliser la dernière version de Canary et vérifiez la date de publication (il arrive que le processus de publication échoue). <PublishTime />
+
+:::
+
+:::note
+
+Les versions Canary suivent la convention de nommage `0.0.0-numéroCommit`.
+
+:::
+
+## Utilisation d'une version canary
+
+Prenez la dernière version publiée sous la balise [canary npm dist tag](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) (<CanaryVersion />).
+
+Utilisez-la pour toutes les dépendances `@docusaurus/*` de votre `package.json` :
+
+```mdx-code-block
+<PackageJSONDiff />
+```
+
+Ensuite, réinstallez les dépendances et démarrez votre site :
+
+```bash npm2yarn
+npm install
+npm start
+```
+
+Vous pouvez également mettre à jour les paquets `@docusaurus/*` avec la ligne de commande :
+
+```bash npm2yarn
+npm install --save-exact @docusaurus/core@canary @docusaurus/preset-classic@canary
+```
+
+:::warning
+
+Assurez-vous d'inclure tous les paquets `@docusaurus/*`.
+
+Pour les versions canary, préférez l'utilisation d'une version exacte au lieu d'une plage semver (évitez le préfixe `^`).
+
+:::
+
+```mdx-code-block
+</VersionsProvider>
+```

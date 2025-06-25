@@ -1,0 +1,106 @@
+---
+sidebar_position: 8
+slug: /api/plugins/@docusaurus/plugin-ideal-image
+---
+
+# 📦 plugin-ideal-image
+
+import APITable from '@site/src/components/APITable';
+
+아주 이상적인 이미지(반응형, 지연 로딩, 저화질 플레이스홀더)를 만들어주는 도큐사우루스 플러그인입니다.
+
+:::info
+
+기본적으로 해당 플러그인은 **개발중에는 비활성화**되어 있으므로 항상 전체 크기 이미지를 볼 수 있습니다. 이상적인 이미지 동작을 디버그하고 싶다면 [`disableInDev`](#disableInDev) 옵션을 `false`로 설정합니다.
+
+:::
+
+## 설치 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-ideal-image
+```
+
+## 사용법 {#usage}
+
+해당 플러그인은 PNG, GIF, JPG 포맷만 지원합니다.
+
+```jsx
+import Image from '@theme/IdealImage';
+import thumbnail from './path/to/img.png';
+
+// 리액트 코드
+<Image img={thumbnail} />
+
+// 또는 아래와 같은 코드
+<Image img={require('./path/to/img.png')} />
+```
+
+:::warning
+
+This plugin registers a [Webpack loader](https://webpack.js.org/loaders/) that changes the type of imported/require images:
+
+- Before: `string`
+- After: `{preSrc: string, src: import("@theme/IdealImage").SrcImage}`
+
+:::
+
+:::warning For pnpm users
+
+Starting with [pnpm 10](https://github.com/pnpm/pnpm/releases/tag/v10.0.0), running `pnpm install` won't run dependency install scripts by default. You'll need additional pnpm configuration ([issue](https://github.com/lovell/sharp/issues/4343)) for our `sharp` image resizing dependency to install correctly, such as:
+
+```json title="package.json"
+{
+  "pnpm": {
+    "onlyBuiltDependencies": ["fsevents"]
+  }
+}
+```
+
+:::
+
+## 설정 {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션             | 타입         | 기본값                                           | 설명                                                                                                                                                                                |
+| -------------- | ---------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`         | `string`   | `ideal-img/[name].[hash:hex:7].[width].[ext]` | 만들어질 파일을 위한 파일명 템플릿                                                                                                                                                               |
+| `sizes`        | `number[]` | _원본 크기_                                       | 원하는 모든 너비값을 설정합니다. 설정한 크기가 원본 이미지 너비보다 크다면 다음에 설정한 이미지 크기를 사용합니다(이미지 크기를 크게 만들지는 않습니다).                                                                                           |
+| `size`         | `number`   | _원본 크기_                                       | 원하는 너비값을 설정합니다. 설정한 크기가 원본 이미지 너비보다 크다면 다음에 설정한 이미지 크기를 사용합니다(이미지 크기를 크게 만들지는 않습니다).                                                                                              |
+| `min`          | `number`   |                                               | 직접 `sizes` 값을 설정하지 않고 `min`, `max`, `steps` 값만 설정해서 자동으로 크기가 정해지도록 합니다.                                                                                                           |
+| `max`          | `number`   |                                               | `min` 설명을 참고하세요.                                                                                                                                                                  |
+| `steps`        | `number`   | `4`                                           | `min`, `max` 값을 (포함한) 값 사이에 만들 이미지 숫자를 설정합니다.                                                                                                                                     |
+| `quality`      | `number`   | `85`                                          | JPEG 압축 수준을 설정합니다.                                                                                                                                                                |
+| `disableInDev` | `boolean`  | `true`                                        | `false`로 설정하면 개발 모드에서 이상적인 이미지 동작을 테스트할 수 있습니다. **팁**: 브라우저에서 [대역폭 제한 기능](https://www.browserstack.com/guide/how-to-perform-network-throttling-in-chrome)을 사용해 느린 네트워크를 시뮬레이션하세요. |
+
+```mdx-code-block
+</APITable>
+```
+
+### 설정 예시 {#ex-config}
+
+다음은 설정 예시입니다:
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-ideal-image',
+      // highlight-start
+      {
+        quality: 70,
+        max: 1030, // max resized image's size.
+        min: 640, // 조정할 이미지 최소 크기. 원본이 더 작으면 해당 크기를 사용합니다.
+        steps: 2, // min, max 사이에서 생성된 최대 이미지 개수(설정값 포함)
+        disableInDev: false,
+      },
+      // highlight-end
+    ],
+  ],
+};
+```

@@ -1,0 +1,82 @@
+---
+sidebar_position: 10
+slug: /api/plugins/@docusaurus/plugin-sitemap
+---
+
+# 📦 plugin-sitemap
+
+import APITable from '@site/src/components/APITable';
+
+검색 엔진 크롤러가 여러분의 사이트를 정확하게 수집할 수 있도록 사이트맵을 만들어주는 플러그인입니다.
+
+:::warning production only
+
+This plugin is always inactive in development and **only active in production** because it works on the build output.
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-sitemap
+```
+
+:::tip
+
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명              | 타입         | 기본값           | 설명                                                                           |
+| ---------------- | ---------- | ------------- | ---------------------------------------------------------------------------- |
+| `changefreq`     | `string`   | `'weekly'`    | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
+| `priority`       | `number`   | `0.5`         | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
+| `ignorePatterns` | `string[]` | `[]`          | glob 패턴 목록입니다. 일치하는 라우트 경로는 사이트맵에서 필터링됩니다. 여기에 base URL을 포함해야 할 수도 있습니다.     |
+| `filename`       | `string`   | `sitemap.xml` | 출력 디렉토리를 기준으로 생성된 사이트맵 파일 경로입니다. 두 개의 파일을 출력하는 두 개의 플러그인 인스턴스가 있는 경우 유용합니다.  |
+
+```mdx-code-block
+</APITable>
+```
+
+:::info
+
+이 플러그인은 일부 사이트 설정을 유지합니다.
+
+- [`noIndex`](../docusaurus.config.js.mdx#noIndex): results in no sitemap generated
+- [`trailingSlash`](../docusaurus.config.js.mdx#trailingSlash): determines if the URLs in the sitemap have trailing slashes
+
+:::
+
+### Example configuration {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 플러그인을 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```js config-tabs
+// Preset Options: sitemap
+// Plugin Options: @docusaurus/plugin-sitemap
+
+const config = {
+  changefreq: 'weekly',
+  priority: 0.5,
+  ignorePatterns: ['/tags/**'],
+  filename: 'sitemap.xml',
+};
+```
+
+You can find your sitemap at `/sitemap.xml`.

@@ -1,0 +1,106 @@
+---
+description: 충분한 브라우저 지원을 보장하면서 적절한 번들 크기를 유지하는 방법
+---
+
+# 브라우저 호환성
+
+Docusaurus allows sites to define the list of supported browsers through a [browserslist configuration](https://github.com/browserslist/browserslist).
+
+## Purpose {#purpose}
+
+웹 사이트는 이전 버전과 호환성과 배포 파일의 크기 사이에 균형이 필요합니다. 구형 브라우저는 최신 API 또는 구문을 지원하지 않아 같은 기능을 구현하려면 더 많은 코드가 필요합니다.
+
+For example, you may use the [optional chaining syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining):
+
+```js
+const value = obj?.prop?.val;
+```
+
+...아쉽게도 이 구문은 2020년 이후 출시된 브라우저 버전에서만 인식됩니다. 이전 브라우저 버전과 호환되도록 사이트를 구축한다면 JS 로더는 코드를 좀 더 자세한 구문으로 변환합니다.
+
+```js
+var _obj, _obj$prop;
+
+const value =
+  (_obj = obj) === null || _obj === void 0
+    ? void 0
+    : (_obj$prop = _obj.prop) === null || _obj$prop === void 0
+    ? void 0
+    : _obj$prop.val;
+```
+
+하지만 이렇게 하면 29자로 작성한 코드가 168자(6배 늘어난!)가 되기 때문에 사이트 로드 시간이 늘어나 다른 모든 사용자에게 불이익을 줍니다. (실제 동작 시에는 변수명을 줄여주기 때문에 좀 더 줄어들긴 합니다). 절충안으로 JS 로더는 브라우저 목록에 정의된 브라우저 버전을 지원하는 정도로 구문을 변환합니다.
+
+The browser list by default is provided through the `package.json` file as a root `browserslist` field.
+
+:::warning
+
+오래된 브라우저에서 컴파일된 출력은 지원하지 않는(너무 최근이라) JS 구문으로 인식될 겁니다. 때문에 리액트 초기화는 실패하게 되고 자바스크립트 코드 없이 HTML/CSS만 가진 정적 웹 사이트로 만들어집니다.
+
+:::
+
+## Default values {#default-values}
+
+Websites initialized with the default classic template has the following in `package.json`:
+
+```json title="package.json"
+{
+  "name": "docusaurus",
+  // ...
+  // highlight-start
+  "browserslist": {
+    "production": [">0.5%", "not dead", "not op_mini all"],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+  // highlight-end
+  // ...
+}
+```
+
+제품 빌드 시 지원하는 브라우저에 대한 설정을 풀어보면 아래와 같은 내용입니다.
+
+- With more than 0.5% of market share; _and_
+- Has official support or updates in the past 24 months (the opposite of "dead"); _and_
+- 오페라 미니는 제외하고
+
+개발 시에는 아래와 같은 브라우저를 사용할 수 있습니다.
+
+- The latest version of Chrome _or_ Firefox _or_ Safari.
+
+You can "evaluate" any config with the `browserslist` CLI to obtain the actual list:
+
+```bash
+npx browserslist --env="production"
+```
+
+아래 내용은 제품 빌드에서 지원하는 모든 브라우저 목록입니다. 2022년 1월 기준으로 출력한 것입니다.
+
+```text
+and_chr 96
+and_uc 12.12
+chrome 96
+chrome 95
+chrome 94
+edge 96
+firefox 95
+firefox 94
+ie 11
+ios_saf 15.2
+ios_saf 15.0-15.1
+ios_saf 14.5-14.8
+ios_saf 14.0-14.4
+ios_saf 12.2-12.5
+opera 82
+opera 81
+safari 15.1
+safari 14.1
+safari 13.1
+```
+
+## Read more {#read-more}
+
+You may wish to visit the [browserslist documentation](https://github.com/browserslist/browserslist/blob/main/README.md) for more specifications, especially the accepted [query values](https://github.com/browserslist/browserslist/blob/main/README.md#queries) and [best practices](https://github.com/browserslist/browserslist/blob/main/README.md#best-practices).

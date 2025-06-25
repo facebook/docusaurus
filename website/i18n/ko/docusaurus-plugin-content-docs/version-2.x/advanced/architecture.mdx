@@ -1,0 +1,28 @@
+---
+description: 도큐사우루스가 어떻게 당신의 앱을 만드는지 알아봅시다
+---
+
+# 아키텍쳐
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Zoom from 'react-medium-image-zoom';
+```
+
+<Zoom>
+
+![아키텍쳐 개요](/img/architecture.png)
+
+</Zoom>
+
+이 다이어그램은 다큐사우루스가 어떻게 앱을만드는지 확인할 수 있습니다. 플러그인은 각각 콘텐츠를 수집하고 JSON 데이터를 내보냅니다. 테마는 JSON 데이터를 라우트 모듈로 수신하는 레이아웃 컴포넌트를 제공합니다. 번들러는 모든 컴포넌트를 번들로 제공하고 서버 번들과 클라이언트 번들로 내보냅니다.
+
+여러분(플러그인 작성자 또는 사이트 개발자)은 항상 자바스크립트를 다루고 있지만 실제 JS는 다른 환경에서 실행된다는 점을 명심하세요.
+
+- 모든 플러그인 생명주기 메소드는 Node에서 실행됩니다. Therefore, until we support ES Modules in our codebase, plugin source code must be provided as CommonJS that can be `require`'d.
+- 테마 코드는 웹팩으로 빌드됩니다. 리액트 컨벤션에 따라 ESM으로 제공할 수도 있습니다.
+
+Plugin code and theme code never directly import each other: they only communicate through protocols (in our case, through JSON temp files and calls to `addRoute`). 유용한 멘탈 모델은 플러그인이 자바스크립트로 작성되지 않고 러스트와 같은 다른 언어로 작성되었다고 상상하는 겁니다. The only way to interact with plugins for the user is through `docusaurus.config.js`, which itself is run in Node (hence you can use `require` and pass callbacks as plugin options).
+
+During bundling, the config file itself is serialized and bundled, allowing the theme to access config options like `themeConfig` or `baseUrl` through [`useDocusaurusContext()`](../docusaurus-core.mdx#useDocusaurusContext). However, the `siteConfig` object only contains **serializable values** (values that are preserved after `JSON.stringify()`). 함수와 정규식 등은 클라이언트 쪽에서 손실됩니다. The `themeConfig` is designed to be entirely serializable.

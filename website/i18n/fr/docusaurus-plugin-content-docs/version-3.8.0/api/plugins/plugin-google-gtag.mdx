@@ -1,0 +1,73 @@
+---
+sidebar_position: 7
+slug: /api/plugins/@docusaurus/plugin-google-gtag
+---
+
+# 📦 plugin-google-gtag
+
+import APITable from '@site/src/components/APITable';
+
+Le plugin par défaut de [Global Site Tag (gtag.js)](https://developers.google.com/tag-platform/gtagjs). Il s'agit d'un framework de balisage JavaScript et d'une API qui vous permet d'envoyer des données d'événements à Google Analytics, Google Ads et Google Marketing Platform. Cette section décrit comment configurer un site Docusaurus pour activer les balises globales pour Google Analytics.
+
+:::tip
+
+Vous pouvez utiliser l'outil [Google Tag Assistant](https://tagassistant.google.com/) pour vérifier si votre gtag est correctement configuré !
+
+:::
+
+:::warning seulement en production
+
+Ce plugin est toujours inactif en développement et **uniquement actif en production** pour éviter de polluer les statistiques d'analyse.
+
+:::
+
+## Installation {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-google-gtag
+```
+
+:::tip
+
+Si vous utilisez le preset `@docusaurus/preset-classic`, vous n'avez pas besoin d'installer ce plugin en tant que dépendance.
+
+Vous pouvez configurer ce plugin via les [options du preset](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## Configuration {#configuration}
+
+Champs acceptés :
+
+```mdx-code-block
+<APITable>
+```
+
+| Nom           | Type                            | Par défaut      | Description                                                                    |
+| ------------- | ------------------------------- | --------------- | ------------------------------------------------------------------------------ |
+| `trackingID`  | <code>string \| string[]</code> | **Obligatoire** | L'ID de suivi de votre service gtag. Il est possible de fournir plusieurs ids. |
+| `anonymizeIP` | `boolean`                       | `false`         | Si l'adresse IP doit être anonymisée lors de l'envoi de requêtes.              |
+
+```mdx-code-block
+</APITable>
+```
+
+### Exemple de configuration {#ex-config}
+
+Vous pouvez configurer ce plugin via les options du preset ou du plugin.
+
+:::tip
+
+La plupart des utilisateurs de Docusaurus configurent ce plugin via les options du preset.
+
+:::
+
+```js config-tabs
+// Preset Options: gtag
+// Plugin Options: @docusaurus/plugin-google-gtag
+
+const config = {
+  trackingID: 'G-999X9XX9XX',
+  anonymizeIP: true,
+};
+```

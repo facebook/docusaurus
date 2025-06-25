@@ -1,0 +1,129 @@
+# プラグイン
+
+Plugins are the building blocks of features in a Docusaurus site. 各プラグインにはそれぞれの機能があります。 プラグインは、プリセットを介してバンドルの一部として動作し、配布されることがあります。
+
+## プラグインの作成 {#creating-plugins}
+
+プラグインは `context` と `options` の2つのパラメータを取る関数です。 プラグインインスタンスオブジェクト (または promise) を返します。 また、関数やモジュールとしてプラグインを作成することもできます。 詳しくは、[プラグインメソッドのリファレンスセクション](../api/plugin-methods/README.mdx)を参照してください。
+
+### 関数の定義 {#function-definition}
+
+プラグインは、Docusaurus の設定ファイルに直接関数として含めて使用できます。
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: [
+    // highlight-start
+    async function myPlugin(context, options) {
+      // ...
+      return {
+        name: 'my-plugin',
+        async loadContent() {
+          // ...
+        },
+        async contentLoaded({content, actions}) {
+          // ...
+        },
+        /* 他のライフサイクルの API */
+      };
+    },
+    // highlight-end
+  ],
+};
+```
+
+### モジュールの定義 {#module-definition}
+
+プラグインを別のファイルまたは npm パッケージを参照するモジュールパスとして使用できます。
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: [
+    // options なし
+    './my-plugin',
+    // options あり
+    ['./my-plugin', options],
+  ],
+};
+```
+
+そして `my-plugin` ディレクトリ内に、次のように `index.js` を作成できます。
+
+```js title="my-plugin/index.js"
+export default async function myPlugin(context, options) {
+  // ...
+  return {
+    name: 'my-plugin',
+    async loadContent() {
+      /* ... */
+    },
+    async contentLoaded({content, actions}) {
+      /* ... */
+    },
+    /* other lifecycle API */
+  };
+}
+```
+
+---
+
+[デバッグプラグインのメタデータパネル](/__docusaurus/debug/metadata) を使用することで、サイトにインストールされているすべてのプラグインを表示できます。
+
+プラグインは以下のタイプに分かれます。
+
+- `package`: インストールした外部パッケージ
+- `project`: ローカルファイルのパスとして Docusaurus に読み込まれる、プロジェクト内で作成したプラグイン
+- `local`: 関数の定義によって作成されたプラグイン
+- `synthetic`: Docusaurus が内部的に作成した「偽のプラグイン」です。これによりモジュール式のアーキテクチャの利点を活かし、コアに特別な仕事をさせずに済みます。 内部実装にかかわるのでメタデータには表示されません。
+
+これらはクライアント側から `useDocusaurusContext().siteMetadata.pluginVersions` を使用してアクセスすることができます。
+
+## プラグインのデザイン {#plugin-design}
+
+Docusaurus のプラグインシステムの実装は、ウェブサイトのライフサイクルにフックして開発やビルドの最中に起こっていることを変更する便利な手段を提供しています。 これには、webpack の設定の拡張、ロードされたデータの変更、およびページで使用される新しいコンポーネントの作成が含まれますが、それだけではありません。
+
+### テーマのデザイン {#theme-design}
+
+When plugins have loaded their content, the data is made available to the client side through actions like [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.mdx#addRoute) or [`setGlobalData`](../api/plugin-methods/lifecycle-apis.mdx#setGlobalData). This data has to be _serialized_ to plain strings, because [plugins and themes run in different environments](./architecture.mdx). いったんクライアント側にデータが来れば、あとは React の開発者なら慣れたものでしょう。データはコンポーネントに沿って処理され、コンポーネントは webpack でバンドルされ、`ReactDOM.render` を通じて画面に描画されていきます。
+
+**テーマはコンテンツを描画するための UI コンポーネント一式を提供します。**ほとんどのテーマはコンテンツプラグインと一緒になることで実際に使えるものになります。 The UI is a separate layer from the data schema, which makes swapping designs easy.
+
+例として、Docusaurus ブログはブログプラグインとブログのテーマで構成されています。
+
+:::note
+
+This is a contrived example: in practice, `@docusaurus/theme-classic` provides the theme for docs, blog, and layouts.
+
+:::
+
+```js title="docusaurus.config.js"
+export default {
+  // highlight-next-line
+  themes: ['theme-blog'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
+And if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (another fictitious non-existing theme):
+
+```js title="docusaurus.config.js"
+export default {
+  // highlight-next-line
+  themes: ['theme-blog-bootstrap'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
+ここで、テーマはプラグインと同じデータを受け取りますが、テーマがそのデータをどう使って_レンダリング_するかは大きく異なることがあります。
+
+テーマがプラグインとまったく同じライフサイクルメソッドを共有する一方、テーマの実装はその設計目標に基づいてプラグインの実装とは大きく異なることがあります。
+
+Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, plugins, and the themes themselves. A theme still acts like a plugin and exposes some lifecycle methods, but most likely they would not use [`loadContent`](../api/plugin-methods/lifecycle-apis.mdx#loadContent), since they only receive data from plugins, but don't generate data themselves; themes are typically also accompanied by an `src/theme` directory full of components, which are made known to the core through the [`getThemePath`](../api/plugin-methods/extend-infrastructure.mdx#getThemePath) lifecycle.
+
+To summarize:
+
+- Themes share the same lifecycle methods with Plugins
+- Themes are run after all existing Plugins
+- テーマは `getThemePath` を使用することでコンポーネントのエイリアスを追加します。

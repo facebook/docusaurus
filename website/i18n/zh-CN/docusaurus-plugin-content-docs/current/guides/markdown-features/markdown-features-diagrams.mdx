@@ -1,0 +1,101 @@
+---
+id: diagrams
+title: Diagrams
+description: 使用 Mermaid 语法构建图表
+slug: /markdown-features/diagrams
+---
+
+# Diagrams
+
+你可以在代码块中使用 [Mermaid](https://mermaid-js.github.io/mermaid/) 来渲染图表。
+
+## 安装流程 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-mermaid
+```
+
+在你的配置文件 `docusaurus.config.js` 中，添加一个插件 `@docusaurus/theme-mermaid` 并将 `markdown.mermaid` 字段设置为 `true`，以启用 Mermaid 的功能
+
+```js title="docusaurus.config.js"
+export default {
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
+};
+```
+
+## 用法 {#usage}
+
+添加一个高亮语法为 `mermaid` 的代码块：
+
+````md title="Example Mermaid diagram"
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+````
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+关于使用 Mermaid 语法的更多信息，请参阅 [Mermaid 语法文档](https://mermaid-js.github.io/mermaid/#/./n00b-syntaxReference)。
+
+## 高亮主题 {#theming}
+
+你可以在你的配置文件 `docusaurus.config.js` 中，设置 `themeConfig` 字段下的 `mermaid.theme` 的值，来改变图表的暗色或者亮色主题。 你可以同时为亮色和暗色模式指定图表的主题。
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    mermaid: {
+      theme: {light: 'neutral', dark: 'forest'},
+    },
+  },
+};
+```
+
+参阅 [Mermaid 主题文档](https://mermaid-js.github.io/mermaid/#/theming) 以了解更多关于 Mermaid 图表主题设置的信息。
+
+## Mermaid 配置 {#configuration}
+
+Options in `mermaid.options` will be passed directly to `mermaid.initialize`:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    mermaid: {
+      options: {
+        maxTextSize: 50,
+      },
+    },
+  },
+};
+```
+
+See the [Mermaid config documentation](https://mermaid-js.github.io/mermaid/#/./Setup?id=configuration) and the [Mermaid config types](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/config.type.ts) for the available config options.
+
+## Dynamic Mermaid Component {#component}
+
+To generate dynamic diagrams, you can use the `Mermaid` component:
+
+```mdx title="Example of dynamic Mermaid component"
+import Mermaid from '@theme/Mermaid';
+
+<Mermaid
+  value={`graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;`}
+/>
+```

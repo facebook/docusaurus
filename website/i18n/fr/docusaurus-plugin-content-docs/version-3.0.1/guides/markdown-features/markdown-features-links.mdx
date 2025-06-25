@@ -1,0 +1,52 @@
+---
+id: links
+description: Liens vers d'autres pages en Markdown
+slug: /markdown-features/links
+---
+
+# Liens Markdown
+
+Il existe deux façons d'ajouter un lien vers une autre page : par un **chemin d'accès à l'URL** et par un **chemin d'accès au fichier**.
+
+```md
+- [chemin d'accès par l'URL vers un autre document](./installation)
+- [chemin d'accès par le fichier vers un autre document](./installation.mdx)
+```
+
+Les chemins aux URL ne sont pas traités par Docusaurus, et vous pouvez les considérer comme rendant directement `<a href="./installation">`, c'est-à-dire qu'ils seront résolus en fonction de l'emplacement de l'URL de la page, plutôt que de son emplacement dans le système de fichiers.
+
+Si vous voulez faire référence à un autre fichier Markdown **inclus par le même plugin**, vous pourriez utiliser le chemin relatif du document vers lequel vous voulez établir un lien. Le chargeur Markdown de Docusaurus convertira le chemin du fichier vers le chemin de l'URL du fichier cible (et supprimera donc l'extension `.md`).
+
+Par exemple, si vous êtes dans `docs/dossier/doc1.md` et que vous voulez faire référence à `docs/dossier/doc2.md`, `docs/dossier/sous-dossier/doc3.md` et `docs/autreDossier/doc4.md` :
+
+```md title="docs/folder/doc1.md"
+Je fais référence à un [document](doc2.mdx).
+
+La référence à un autre [document dans un sous-dossier](sousdossier/doc3.mdx).
+
+Le [Document relatif](../autreDossier/doc4.mdx) fonctionne également.
+```
+
+Les chemins de fichiers relatifs sont résolus dans le répertoire du fichier courant. Les chemins absolus de fichier, par contre, sont résolus par rapport à la **racine de contenu**, généralement `docs/`, `blog/`, ou des [chemins localisés](../../i18n/i18n-tutorial.mdx) comme `i18n/zh-Hans/plugin-content-docs/current`.
+
+Les chemins absolus de fichiers peuvent également être relatifs au répertoire du site. Attention toutefois, les liens qui commencent par `/docs/` ou `/blog/` ne sont pas **mobiles**, car vous devrez les mettre à jour manuellement si vous créez de nouvelles versions de documents ou si vous les localisez.
+
+```md
+Vous pouvez écrire les [liens](/autreDossier/doc4.mdx) relatif à la racine du contenu (`/docs/`).
+
+Vous pouvez également écrire les [liens](/docs/autreDossier/doc4.mdx) par rapport au répertoire du site, mais ce n'est pas recommandé.
+```
+
+L'utilisation des chemins relatifs du _fichier_ (avec des extensions `.md`) au lieu des liens _URL_ relatifs fournit les avantages suivants :
+
+- Les liens continueront à fonctionner sur l'interface GitHub et de nombreux éditeurs Markdown
+- Vous pouvez personnaliser les slugs des fichiers sans avoir à mettre à jour tous les liens
+- Le déplacement des fichiers dans les dossiers peut être suivi par votre éditeur, et certains éditeurs peuvent mettre à jour automatiquement les liens du fichier
+- Un [doc versionné](../docs/versioning.mdx) sera lié à un autre doc de la même version
+- Les liens d'URL relatifs sont très susceptibLes de se rompre si vous mettez à jour la [config `trailingSlash`](../../api/docusaurus.config.js.mdx#trailingSlash)
+
+:::warning
+
+Les références de fichier Markdown ne fonctionnent que lorsque les fichiers source et cible sont traités par la même instance de plugin. Ceci est une limitation technique de notre architecture du traitement Markdown et sera corrigé dans le futur. Si vous liez des fichiers entre des plugins (par exemple, un lien vers une page de doc à partir d'un article du blog), vous devez utiliser des liens URL.
+
+:::

@@ -1,0 +1,373 @@
+---
+id: react
+description: MDX를 사용해 도큐사우루스 마크다운 문서 내에서 리액트의 강력한 기능을 활용할 수 있습니다.
+slug: /markdown-features/react
+---
+
+# MDX와 리액트
+
+```mdx-code-block
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import styles from './markdown-features-react.module.css';
+```
+
+Docusaurus는 마크다운 파일 내에 JSX를 작성하고 이를 React 컴포넌트로 렌더링할 수 있는 [MDX](https://mdxjs.com/)를 기본적으로 지원합니다.
+
+MDX로 어떤 멋진 작업을 할 수 있는지 알아보려면 [MDX 문서](https://mdxjs.com/)를 확인하세요.
+
+:::tip MDX 디버깅
+
+MDX 형식은 매우 엄격하여 컴파일 오류가 발생할 수 있습니다.
+
+**[MDX playground](https://mdxjs.com/playground/)**를 사용하여 디버깅하고 구문이 유효한지 확인하세요.
+
+:::
+
+:::info
+
+가장 널리 사용되는 포맷터인 Prettier는 [레거시 MDX v1](https://github.com/prettier/prettier/issues/12209)만 지원합니다. If you get an unintentional formatting result, you may want to add `{/* prettier-ignore */}` before the problematic area, or add `*.mdx` to your `.prettierignore`, until Prettier has proper support for MDX v3. [One of the main authors of MDX recommends `remark-cli` with `remark-mdx`](https://github.com/orgs/mdx-js/discussions/2067).
+
+:::
+
+### 컴포넌트 내보내기 {#exporting-components}
+
+To define any custom component within an MDX file, you have to export it: only paragraphs that start with `export` will be parsed as components instead of prose.
+
+```jsx
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+    {children}
+  </span>
+);
+
+<Highlight color="#25c2a0">도큐사우루스 초록</Highlight>과 <Highlight color="#1877F2">페이스북 파랑</Highlight>은 내가 좋아하는 색입니다.
+
+**마크다운**을 _JSX_와 같이 사용할 수 있습니다!
+```
+
+Notice how it renders both the markup from your React component and the Markdown syntax:
+
+```mdx-code-block
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+    {children}
+  </span>
+);
+
+<BrowserWindow minHeight={240}>
+
+<><Highlight color="#25c2a0">Docusaurus green</Highlight>
+{` `}and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.</>
+
+I can write **Markdown** alongside my _JSX_!
+
+</BrowserWindow>
+```
+
+:::warning MDX is JSX
+
+Since all doc files are parsed using MDX, anything that looks like HTML is actually JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects.
+
+{/* prettier-ignore */}
+```jsx
+/* 이렇게 쓰지 말고: */
+<span style="background-color: red">Foo</span>
+/* 이렇게 쓰세요: */
+<span style={{backgroundColor: 'red'}}>Foo</span>
+```
+
+:::
+
+### 컴포넌트 가져오기 {#importing-components}
+
+You can also import your own components defined in other files or third-party components installed via npm.
+
+{/* prettier-ignore */}
+```md
+<!-- 도큐사우루스 테마 컴포넌트 -->
+import TOCInline from '@theme/TOCInline';
+<!-- 외부 컴포넌트 -->
+import Button from '@mui/material/Button';
+<!-- 사용자 지정 컴포넌트 -->
+import BrowserWindow from '@site/src/components/BrowserWindow';
+```
+
+:::tip
+
+The `@site` alias points to your website's directory, usually where the `docusaurus.config.js` file is. Using an alias instead of relative paths (`'../../src/components/BrowserWindow'`) saves you from updating import paths when moving files around, or when [versioning docs](../docs/versioning.mdx) and [translating](../../i18n/i18n-tutorial.mdx).
+
+:::
+
+While declaring components within Markdown is very convenient for simple cases, it becomes hard to maintain because of limited editor support, risks of parsing errors, and low reusability. Use a separate `.js` file when your component involves complex JS logic:
+
+```jsx title="src/components/Highlight.js"
+import React from 'react';
+
+export default function Highlight({children, color}) {
+  return (
+    <span
+      style={{
+        backgroundColor: color,
+        borderRadius: '2px',
+        color: '#fff',
+        padding: '0.2rem',
+      }}>
+      {children}
+    </span>
+  );
+}
+```
+
+```md title="markdown-file.mdx"
+import Highlight from '@site/src/components/Highlight';
+
+<Highlight color="#25c2a0">도큐사우루스 초록</Highlight>
+```
+
+:::tip
+
+If you use the same component across a lot of files, you don't need to import it everywhere—consider adding it to the global scope. [See below](#mdx-component-scope)
+
+:::
+
+### MDX 컴포넌트 스코프 {#mdx-component-scope}
+
+Apart from [importing a component](#importing-components) and [exporting a component](#exporting-components), a third way to use a component in MDX is to **register it to the global scope**, which will make it automatically available in every MDX file, without any import statements.
+
+For example, given this MDX file:
+
+```md
+- a
+- list!
+
+And some <Highlight>custom markup</Highlight>...
+```
+
+It will be compiled to a React component containing `ul`, `li`, `p`, and `Highlight` elements. `Highlight` is not a native html element: you need to provide your own React component implementation for it.
+
+In Docusaurus, the MDX component scope is provided by the `@theme/MDXComponents` file. It's not a React component, _per se_, unlike most other exports under the `@theme/` alias: it is a record from tag names like `Highlight` to their React component implementations.
+
+If you [swizzle](../../swizzling.mdx) this component, you will find all tags that have been implemented, and you can further customize our implementation by swizzling the respective sub-component, like `@theme/MDXComponents/Code` (which is used to render [Markdown code blocks](./markdown-features-code-blocks.mdx)).
+
+If you want to register extra tag names (like the `<Highlight>` tag above), you should consider [wrapping `@theme/MDXComponents`](../../swizzling.mdx#wrapping), so you don't have to maintain all the existing mappings. Since the swizzle CLI doesn't allow wrapping non-component files yet, you should manually create the wrapper:
+
+```js title="src/theme/MDXComponents.js"
+import React from 'react';
+// 원본 mapper 가져오기
+import MDXComponents from '@theme-original/MDXComponents';
+// highlight-next-line
+import Highlight from '@site/src/components/Highlight';
+
+export default {
+  // 기본 mapping 재사용
+  ...MDXComponents,
+  // "<Highlight>" 태그를 여러분이 만든 Highlight 컴포넌트에 매핑하세요.
+  // `Highlight`는 MDX에서 `<Highlight>`로 전달된 모든 속성을 수신합니다.
+  // highlight-next-line
+  Highlight,
+};
+```
+
+And now, you can freely use `<Highlight>` in every page, without writing the import statement:
+
+```md
+I can conveniently use <Highlight color="#25c2a0">Docusaurus green</Highlight> everywhere!
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+I can conveniently use <Highlight color="#25c2a0">Docusaurus green</Highlight> everywhere!
+
+</BrowserWindow>
+```
+
+:::warning
+
+We use **upper-case** tag names like `Highlight` on purpose.
+
+From MDX v3+ onward (Docusaurus v3+), lower-case tag names are always rendered as native html elements, and will not use any component mapping you provide.
+
+:::
+
+:::warning
+
+This feature is powered by [an `MDXProvider`](https://mdxjs.com/docs/using-mdx/#mdx-provider). If you are importing Markdown in a React page, you have to supply this provider yourself through the `MDXContent` theme component.
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+import FeatureDisplay from './_featureDisplay.mdx';
+// highlight-next-line
+import MDXContent from '@theme/MDXContent';
+
+export default function LandingPage() {
+  return (
+    <div>
+      {/* highlight-start */}
+      <MDXContent>
+        <FeatureDisplay />
+      </MDXContent>
+      {/* highlight-end */}
+    </div>
+  );
+}
+```
+
+If you don't wrap your imported MDX with `MDXContent`, the global scope will not be available.
+
+:::
+
+### 마크다운과 JSX 상호 운용성 {#markdown-and-jsx-interoperability}
+
+Docusaurus v3 is using [MDX v3](https://mdxjs.com/blog/v3/).
+
+The [MDX syntax](https://mdxjs.com/docs/what-is-mdx/#mdx-syntax) is mostly compatible with [CommonMark](https://commonmark.org/), but is much stricter because your `.mdx` files can use JSX and are compiled into real React components (check the [playground](https://mdxjs.com/playground/)).
+
+Some valid CommonMark features won't work with MDX ([more info](https://mdxjs.com/docs/what-is-mdx/#markdown)), notably:
+
+- Indented code blocks: use triple backticks instead
+- Autolinks (`<http://localhost:3000>`): use regular link syntax instead (`[http://localhost:3000](http://localhost:3000)`)
+- HTML syntax (`<p style="color: red;">`): use JSX instead (`<p style={{color: 'red'}}>`)
+- Unescaped `{` and `<`: escape them with `\` instead (`\{` and `\<`)
+
+:::danger Experimental CommonMark support
+
+Docusaurus v3 makes it possible to opt-in for a less strict, standard [CommonMark](https://commonmark.org/) support with the following options:
+
+- The `mdx.format: md` front matter
+- The `.md` file extension combined with the `siteConfig.markdown.format: "detect"` configuration
+
+This feature is **experimental** and currently has a few [limitations](https://github.com/facebook/docusaurus/issues/9092).
+
+:::
+
+## Importing code snippets {#importing-code-snippets}
+
+You can not only import a file containing a component definition, but also import any code file as raw text, and then insert it in a code block, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/). In order to use `raw-loader`, you first need to install it in your project:
+
+```bash npm2yarn
+npm install --save raw-loader
+```
+
+Now you can import code snippets from another file as it is:
+
+{/* prettier-ignore */}
+```jsx title="myMarkdownFile.mdx"
+import CodeBlock from '@theme/CodeBlock';
+import MyComponentSource from '!!raw-loader!./myComponent';
+
+<CodeBlock language="jsx">{MyComponentSource}</CodeBlock>
+```
+
+```mdx-code-block
+import CodeBlock from '@theme/CodeBlock';
+import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponent';
+
+<BrowserWindow>
+
+<CodeBlock language="jsx">{MyComponentSource}</CodeBlock>
+
+</BrowserWindow>
+```
+
+See [using code blocks in JSX](./markdown-features-code-blocks.mdx#usage-in-jsx) for more details of the `<CodeBlock>` component.
+
+:::note
+
+You have to use `<CodeBlock>` rather than the Markdown triple-backtick ` ``` `, because the latter will ship out any of its content as-is, but you want to interpolate the imported text here.
+
+:::
+
+:::warning
+
+This feature is experimental and might be subject to breaking API changes in the future.
+
+:::
+
+## Importing Markdown {#importing-markdown}
+
+You can use Markdown files as components and import them elsewhere, either in Markdown files or in React pages. Each MDX file default-exports its page content as a React component. In the `import` statement, you can default-import this component with any name, but it must be capitalized following React's naming rules.
+
+By convention, using the **`_` filename prefix** will not create any doc page and means the Markdown file is a **"partial"**, to be imported by other files.
+
+```md title="_markdown-partial-example.mdx"
+<span>Hello {props.name}</span>
+
+This is text some content from `_markdown-partial-example.mdx`.
+```
+
+{/* prettier-ignore */}
+```jsx title="someOtherDoc.mdx"
+import PartialExample from './_markdown-partial-example.mdx';
+
+<PartialExample name="Sebastien" />
+```
+
+```mdx-code-block
+import PartialExample from './_markdown-partial-example.mdx';
+
+<BrowserWindow>
+  <PartialExample name="Sebastien" />
+</BrowserWindow>
+```
+
+This way, you can reuse content among multiple pages and avoid duplicating materials.
+
+## Available exports {#available-exports}
+
+Within the MDX page, the following variables are available as globals:
+
+- `frontMatter`: the front matter as a record of string keys and values;
+- `toc`: the table of contents, as a tree of headings. See also [Inline TOC](./markdown-features-toc.mdx#inline-table-of-contents) for a more concrete use-case.
+- `contentTitle`: the Markdown title, which is the first `h1` heading in the Markdown text. It's `undefined` if there isn't one (e.g. title specified in the front matter).
+
+```jsx
+import TOCInline from '@theme/TOCInline';
+import CodeBlock from '@theme/CodeBlock';
+
+The table of contents for this page, serialized:
+
+<CodeBlock className="language-json">{JSON.stringify(toc, null, 2)}</CodeBlock>
+
+The front matter of this page:
+
+<ul>
+  {Object.entries(frontMatter).map(([key, value]) => <li key={key}><b>{key}</b>: {value}</li>)}
+</ul>
+
+<p>The title of this page is: <b>{contentTitle}</b></p>
+```
+
+```mdx-code-block
+import TOCInline from '@theme/TOCInline';
+
+<BrowserWindow>
+
+The table of contents for this page, serialized:
+
+<CodeBlock className="language-json">{JSON.stringify(toc, null, 2)}</CodeBlock>
+
+The front matter of this page:
+
+<ul>
+  {Object.entries(frontMatter).map(([key, value]) => <li key={key}><b>{key}</b>: {value}</li>)}
+</ul>
+
+<p>The title of this page is: <b>{contentTitle}</b></p>
+
+</BrowserWindow>
+```

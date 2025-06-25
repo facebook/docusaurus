@@ -1,0 +1,47 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/no-html-links
+---
+
+# no-html-links
+
+import APITable from '@site/src/components/APITable';
+
+确保使用 Docusaurus [`<Link>`](../../../docusaurus-core.mdx#link) 组件而不是 `<a>` 标签。
+
+`<Link>` 组件内置了与读取和预加载。 它还能检测构建时的损坏链接，并帮助 Docusaurus 更好地理解你的站点结构。
+
+## 规则详情 {#details}
+
+此规则的**错误**代码示例：
+
+```html
+<a href="/page">go to page!</a>
+
+<a href="https://x.com/docusaurus" target="_blank">X</a>
+```
+
+此规则的**正确**代码示例：
+
+```js
+import Link from '@docusaurus/Link'
+
+<Link to="/page">go to page!</Link>
+
+<Link to="https://x.com/docusaurus">X</Link>
+```
+
+## 规则配置 {#configuration}
+
+接受的字段：
+
+```mdx-code-block
+<APITable>
+```
+
+| 选项                    | 类型        | 默认值     | 描述                                            |
+| --------------------- | --------- | ------- | --------------------------------------------- |
+| `ignoreFullyResolved` | `boolean` | `false` | 设置为 true 将不会报告任何包含协议的绝对 URL 的 `<a>` 标签。 |
+
+```mdx-code-block
+</APITable>
+```
