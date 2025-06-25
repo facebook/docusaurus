@@ -215,6 +215,8 @@ Paraiso
 paraiso
 pathinfo
 paularmstrong
+perfetto
+pftrace
 philpl
 Pipeable
 playbtn
