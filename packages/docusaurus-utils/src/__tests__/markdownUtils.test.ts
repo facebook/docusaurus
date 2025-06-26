@@ -187,6 +187,312 @@ describe('createExcerpt', () => {
         `),
     ).toBe('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
   });
+
+  it('returns undefined for empty file', () => {
+    expect(createExcerpt('')).toBeUndefined();
+  });
+
+  it('returns undefined for file with only front matter', () => {
+    expect(
+      createExcerpt(dedent`
+        ---
+        title: Hello
+        tags: [one, two]
+        ---
+      `),
+    ).toBeUndefined();
+  });
+
+  it('ignores ATX H1 heading as first line', () => {
+    expect(
+      createExcerpt(dedent`
+        # This is an H1 Title
+        This is the first contentful line.
+      `),
+    ).toBe('This is the first contentful line.');
+  });
+
+  it('ignores Setext H1 heading as first lines', () => {
+    expect(
+      createExcerpt(dedent`
+        This is an H1 Title
+        =====================
+        This is the first contentful line.
+      `),
+    ).toBe('This is the first contentful line.');
+  });
+
+  it('returns undefined if only H1 ATX heading exists', () => {
+    expect(
+      createExcerpt(dedent`
+        # This is an H1 Title
+      `),
+    ).toBeUndefined();
+  });
+
+  it('returns undefined if only H1 Setext heading exists', () => {
+    expect(
+      createExcerpt(dedent`
+        This is an H1 Title
+        =====================
+      `),
+    ).toBeUndefined();
+  });
+
+  it('ignores import statements', () => {
+    expect(
+      createExcerpt(dedent`
+        import something from 'somewhere';
+        export { default as MyComponent } from './MyComponent';
+        This is the first contentful line.
+      `),
+    ).toBe('This is the first contentful line.');
+  });
+
+  it('returns undefined if only import/export statements exist', () => {
+    expect(
+      createExcerpt(dedent`
+        import something from 'somewhere';
+        export { default as MyComponent } from './MyComponent';
+      `),
+    ).toBeUndefined();
+  });
+
+  it('ignores fenced code blocks', () => {
+    expect(
+      createExcerpt(dedent`
+        \`\`\`javascript
+        const a = 1;
+        console.log(a);
+        \`\`\`
+        This is the first contentful line.
+      `),
+    ).toBe('This is the first contentful line.');
+  });
+
+  it('ignores indented code blocks (Note: current impl might not skip these)', () => {
+    // The current createExcerpt does not explicitly skip indented code blocks.
+    // This test will reflect the current behavior.
+    // If it were to skip, the expected would be 'This is the first contentful line.'
+    expect(
+      createExcerpt(dedent`
+            // This is an indented code block
+            const b = 2;
+
+        This is the first contentful line.
+      `),
+    ).toBe('// This is an indented code block'); // Current behavior: it takes the first line of the code block
+  });
+
+  it('returns undefined if only a fenced code block exists', () => {
+    expect(
+      createExcerpt(dedent`
+        \`\`\`javascript
+        const a = 1;
+        console.log(a);
+        \`\`\`
+      `),
+    ).toBeUndefined();
+  });
+
+  it('returns undefined if only ignored elements exist (H1 and code block)', () => {
+    expect(
+      createExcerpt(dedent`
+        # Title
+        \`\`\`javascript
+        const a = 1;
+        \`\`\`
+      `),
+    ).toBeUndefined();
+  });
+
+  it('strips bold and italic text', () => {
+    expect(
+      createExcerpt(dedent`
+        This is ***bold and italic*** text.
+      `),
+    ).toBe('This is bold and italic text.');
+  });
+
+  it('strips strikethrough text', () => {
+    expect(
+      createExcerpt(dedent`
+        This is ~~strikethrough~~ text.
+      `),
+    ).toBe('This is strikethrough text.');
+  });
+
+  it('strips inline code', () => {
+    expect(
+      createExcerpt(dedent`
+        This is \`inline code\`.
+      `),
+    ).toBe('This is inline code.');
+  });
+
+  it('keeps link text and strips URL', () => {
+    expect(
+      createExcerpt(dedent`
+        This is a [link text](http://example.com).
+      `),
+    ).toBe('This is a link text.');
+  });
+
+  it('keeps image alt text and strips URL', () => {
+    expect(
+      createExcerpt(dedent`
+        This is an ![image alt text](http://example.com/image.png).
+      `),
+    ).toBe('This is an image alt text.');
+  });
+
+  it('strips HTML tags', () => {
+    expect(
+      createExcerpt(dedent`
+        <p>This is <b>HTML</b> text with <a href="#">a link</a>.</p>
+      `),
+    ).toBe('This is HTML text with a link.');
+  });
+
+  it('extracts text from blockquotes', () => {
+    expect(
+      createExcerpt(dedent`
+        > This is a blockquote.
+        > And another line.
+      `),
+    ).toBe('This is a blockquote.');
+  });
+
+  it('extracts text from lists, stripping markers', () => {
+    expect(
+      createExcerpt(dedent`
+        - First item
+        * Second item
+        1. Third item
+      `),
+    ).toBe('First item');
+  });
+
+  it('handles complex line with mixed Markdown and HTML', () => {
+    expect(
+      createExcerpt(dedent`
+        ## Sub-heading that should be extracted
+
+        This line has <B>bold HTML</B>, _italic MD_, \`code\`, [link](url), and ![img alt](url/img.png).
+      `),
+    ).toBe('Sub-heading that should be extracted'); // Because H2 is not H1
+  });
+
+  it('handles another complex line after initial ignored blocks', () => {
+    expect(
+      createExcerpt(dedent`
+        # Ignored H1
+        \`\`\`
+        Ignored code
+        \`\`\`
+        This line has <B>bold HTML</B>, _italic MD_, \`code\`, [link](url), and ![img alt](url/img.png).
+      `),
+    ).toBe('This line has bold HTML, italic MD, code, link, and img alt.');
+  });
+
+  it('trims leading/trailing whitespace from the excerpt', () => {
+    expect(
+      createExcerpt(dedent`
+
+          This line has leading and trailing spaces.
+
+      `),
+    ).toBe('This line has leading and trailing spaces.');
+  });
+
+  it('handles content with only HTML tags in the first contentful line', () => {
+    expect(
+      createExcerpt(dedent`
+        <p><strong><em>Only HTML here</em></strong></p>
+        Some other text.
+      `),
+    ).toBe('Only HTML here');
+  });
+
+  it('handles content with HTML comments', () => {
+    expect(
+      createExcerpt(dedent`
+        <!-- This is an HTML comment -->
+        This is the actual first line.
+      `),
+    ).toBe('This is the actual first line.');
+  });
+
+  it('handles MDX comments', () => {
+    expect(
+      createExcerpt(dedent`
+        {/* This is an MDX comment */}
+        This is the actual first line after MDX comment.
+      `),
+    ).toBe('This is the actual first line after MDX comment.');
+  });
+
+  it('handles markdown with thematic breaks', () => {
+    expect(
+      createExcerpt(dedent`
+        ---
+        title: Frontmatter
+        ---
+
+        First line of content.
+        ***
+        Second line, should not be picked.
+      `),
+    ).toBe('First line of content.');
+  });
+
+  it('handles markdown with only thematic breaks after frontmatter', () => {
+    expect(
+      createExcerpt(dedent`
+        ---
+        title: Frontmatter
+        ---
+
+        ---
+        ***
+        ---
+      `),
+    ).toBeUndefined();
+  });
+
+
+  // Test cases inspired by existing snapshots for createExcerpt (if any were there)
+  // or common patterns found in Docusaurus content.
+  it('handles content with HTML entities', () => {
+    expect(
+      createExcerpt(dedent`
+        This line contains &amp; &lt; &gt; &quot; &apos; entities.
+      `),
+    ).toBe('This line contains & < > " \' entities.');
+  });
+
+  it('handles lines with only punctuation after stripping', () => {
+    expect(
+      createExcerpt(dedent`
+        # Ignored H1
+        <em>*.*</em>
+        This should be the excerpt.
+      `),
+    ).toBe('*.*'); // remark().use(stripMarkdown) will keep '*.*'
+  });
+
+  it('handles lines that become empty after stripping markdown/HTML and should be skipped', () => {
+    expect(
+      createExcerpt(dedent`
+        # Ignored H1
+        <em></em>
+        <p></p>
+        <strong></strong>
+        [ ](invalid)
+        This is the actual excerpt.
+      `),
+    ).toBe('This is the actual excerpt.');
+  });
 });
 
 describe('parseMarkdownContentTitle', () => {

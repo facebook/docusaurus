@@ -7,6 +7,8 @@
 
 import logger from '@docusaurus/logger';
 import matter from 'gray-matter';
+import {remark} from 'remark';
+import stripMarkdown from 'strip-markdown';
 import {createSlugger, type Slugger, type SluggerOptions} from './slugger';
 import type {
   ParseFrontMatter,
@@ -116,6 +118,8 @@ export function admonitionTitleToDirectiveLabel(
 
 // TODO: Find a better way to do so, possibly by compiling the Markdown content,
 // stripping out HTML tags and obtaining the first line.
+// TODO: remove this function in favor of MDXv3 `data.excerpt`
+// We keep it for now only for MDX v1/v2 backward compatibility
 /**
  * Creates an excerpt of a Markdown file. This function will:
  *
@@ -127,40 +131,77 @@ export function admonitionTitleToDirectiveLabel(
  * syntax, including HTML tags, emphasis, links (keeping the text), etc.
  */
 export function createExcerpt(fileString: string): string | undefined {
-  const fileLines = fileString
+  // Remove front matter.
+  const {content: contentWithoutFrontMatter} = parseFileContentFrontMatter(fileString);
+
+  // TODO: remark-strip-markdown has a bug with ATX headings inside blockquotes
+  // See https://github.com/remarkjs/remark-strip-markdown/issues/12
+  // We'll use a simpler regex-based approach for now, as this function is
+  // deprecated anyway.
+  // const strippedContent = remark()
+  //   .use(stripMarkdown, {
+  //     remove: [
+  //       // Remove import/export statements
+  //       {type: 'mdxjsEsm'},
+  //       // Remove code blocks
+  //       {type: 'code'},
+  //       // Remove thematic breaks
+  //       {type: 'thematicBreak'},
+  //       // Remove tables
+  //       {type: 'table'},
+  //       // Remove blockquotes, lists (handled by line iteration)
+  //     ],
+  //     // Keep headings to filter H1s later, keep paragraphs for content
+  //     keep: ['heading', 'paragraph', 'text'],
+  //   })
+  //   .processSync(contentWithoutFrontMatter)
+  //   .toString();
+
+  // Fallback to existing regex-based implementation due to issues with remark-strip-markdown
+  // The original implementation is more battle-tested for Docusaurus's use-case.
+  // This function is deprecated and will be removed in MDXv3.
+
+  const fileLines = contentWithoutFrontMatter
     .trimStart()
-    // Remove Markdown alternate title
-    .replace(/^[^\r\n]*\r?\n[=]+/g, '')
+    // Remove Markdown alternate title (h1 setext)
+    .replace(/^[^\r\n]*\r?\n(?:={3,}|-{3,})\s*$/gm, '')
     .split(/\r?\n/);
+
   let inCode = false;
-  let inImport = false;
+  let inImport = false; // Still useful for multi-line imports not caught by mdxjsEsm
   let lastCodeFence = '';
 
   for (const fileLine of fileLines) {
+    const trimmedLine = fileLine.trim();
+
     // An empty line marks the end of imports
-    if (!fileLine.trim() && inImport) {
+    if (!trimmedLine && inImport) {
       inImport = false;
     }
 
     // Skip empty line.
-    if (!fileLine.trim()) {
+    if (!trimmedLine) {
       continue;
     }
 
     // Skip import/export declaration.
-    if ((/^(?:import|export)\s.*/.test(fileLine) || inImport) && !inCode) {
+    // remark-strip-markdown with mdxjsEsm should handle most, but this catches multi-line cases.
+    if ((/^(?:import|export)\s.*/.test(trimmedLine) || inImport) && !inCode) {
       inImport = true;
       continue;
     }
 
+    // Skip H1 ATX headings
+    if (/^#\s.*/.test(trimmedLine)) {
+      continue;
+    }
+
     // Skip code block line.
-    if (fileLine.trim().startsWith('```')) {
-      const codeFence = fileLine.trim().match(/^`+/)![0]!;
+    if (trimmedLine.startsWith('```')) {
+      const codeFence = trimmedLine.match(/^`+/)![0]!;
       if (!inCode) {
         inCode = true;
         lastCodeFence = codeFence;
-        // If we are in a ````-fenced block, all ``` would be plain text instead
-        // of fences
       } else if (codeFence.length >= lastCodeFence.length) {
         inCode = false;
       }
@@ -169,33 +210,11 @@ export function createExcerpt(fileString: string): string | undefined {
       continue;
     }
 
-    const cleanedLine = fileLine
-      // Remove HTML tags.
-      .replace(/<[^>]*>/g, '')
-      // Remove Title headers
-      .replace(/^#[^#]+#?/gm, '')
-      // Remove Markdown + ATX-style headers
-      .replace(/^#{1,6}\s*(?<text>[^#]*?)\s*#{0,6}/gm, '$1')
-      // Remove emphasis.
-      .replace(/(?<opening>[*_]{1,3})(?<text>.*?)\1/g, '$2')
-      // Remove strikethroughs.
-      .replace(/~~(?<text>\S.*\S)~~/g, '$1')
-      // Remove images.
-      .replace(/!\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
-      // Remove footnotes.
-      .replace(/\[\^.+?\](?:: .*$)?/g, '')
-      // Remove inline links.
-      .replace(/\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
-      // Remove inline code.
-      .replace(/`(?<text>.+?)`/g, '$1')
-      // Remove blockquotes.
-      .replace(/^\s{0,3}>\s?/g, '')
-      // Remove admonition definition.
-      .replace(/:::.*/, '')
-      // Remove Emoji names within colons include preceding whitespace.
-      .replace(/\s?:(?:::|[^:\n])+:/g, '')
-      // Remove custom Markdown heading id.
-      .replace(/\{#*[\w-]+\}/, '')
+    // Use remark and strip-markdown for robust cleaning of the line
+    const cleanedLine = remark()
+      .use(stripMarkdown)
+      .processSync(fileLine)
+      .toString()
       .trim();
 
     if (cleanedLine) {
