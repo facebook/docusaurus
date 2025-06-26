@@ -8,6 +8,10 @@ exports[`sidebar site with undefined sidebar 1`] = `
       "type": "doc",
     },
     {
+      "className": "front-matter-class-name",
+      "customProps": {
+        "custom": "from front matter",
+      },
       "id": "hello-2",
       "label": "Hello 2 From Doc",
       "type": "doc",

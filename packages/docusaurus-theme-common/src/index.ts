@@ -53,6 +53,7 @@ export {
   type MultiColumnFooter,
   type SimpleFooter,
   type Footer,
+  type FooterColumnItem,
   type FooterLogo,
   type FooterLinkItem,
   type ColorModeConfig,

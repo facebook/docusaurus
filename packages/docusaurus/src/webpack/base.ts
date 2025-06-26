@@ -161,38 +161,36 @@ export async function createBaseConfig({
 
   function getExperiments(): Configuration['experiments'] {
     if (props.currentBundler.name === 'rspack') {
-      const PersistentCacheAttributes = process.env
-        .DOCUSAURUS_NO_PERSISTENT_CACHE
-        ? {}
-        : {
-            cache: {
-              type: 'persistent',
-              // Rspack doesn't have "cache.name" like Webpack
-              // This is not ideal but work around is to merge name/version
-              // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
-              version: `${getCacheName()}-${getCacheVersion()}`,
-              buildDependencies: getCacheBuildDependencies(),
-            },
-          };
-
       // TODO find a way to type this
-      return {
-        // This is mostly useful in dev
-        // See https://rspack.dev/config/experiments#experimentsincremental
-        // Produces warnings in production builds
-        // See https://github.com/web-infra-dev/rspack/pull/8311#issuecomment-2476014664
-        // We use the same integration as Rspress, with ability to disable
-        // See https://github.com/web-infra-dev/rspress/pull/1631
-        // See https://github.com/facebook/docusaurus/issues/10646
-        // @ts-expect-error: Rspack-only, not available in Webpack typedefs
-        incremental: !isProd && !process.env.DISABLE_RSPACK_INCREMENTAL,
+      const experiments: any = {};
 
-        // TODO re-enable later, there's an Rspack performance issue
-        //  see https://github.com/facebook/docusaurus/pull/11178
-        parallelCodeSplitting: false,
+      if (!process.env.DOCUSAURUS_NO_PERSISTENT_CACHE) {
+        experiments.cache = {
+          type: 'persistent',
+          // Rspack doesn't have "cache.name" like Webpack
+          // This is not ideal but work around is to merge name/version
+          // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
+          version: `${getCacheName()}-${getCacheVersion()}`,
+          buildDependencies: getCacheBuildDependencies(),
+        };
+      }
 
-        ...PersistentCacheAttributes,
-      };
+      if (process.env.DISABLE_RSPACK_INCREMENTAL) {
+        // Enabled by default since Rspack 1.4
+        console.log('Rspack incremental disabled');
+        experiments.incremental = false;
+      }
+
+      if (process.env.ENABLE_RSPACK_LAZY_COMPILATION) {
+        console.log('Rspack lazyCompilation enabled');
+        experiments.lazyCompilation = true;
+      }
+
+      // TODO re-enable later, there's an Rspack performance issue
+      //  see https://github.com/facebook/docusaurus/pull/11178
+      experiments.parallelCodeSplitting = false;
+
+      return experiments;
     }
     return undefined;
   }

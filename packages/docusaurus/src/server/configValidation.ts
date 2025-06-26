@@ -22,11 +22,10 @@ import type {
   FutureConfig,
   FutureV4Config,
   StorageConfig,
-} from '@docusaurus/types/src/config';
-import type {
   DocusaurusConfig,
   I18nConfig,
   MarkdownConfig,
+  MarkdownHooks,
 } from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
@@ -84,9 +83,15 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   experimental_router: 'browser',
 };
 
+export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
+  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownImages: 'throw',
+};
+
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
   mermaid: false,
+  emoji: true,
   preprocessor: undefined,
   parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
   mdx1Compat: {
@@ -98,6 +103,7 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
     maintainCase: false,
   },
   remarkRehypeOptions: undefined,
+  hooks: DEFAULT_MARKDOWN_HOOKS,
 };
 
 export const DEFAULT_CONFIG: Pick<
@@ -128,7 +134,7 @@ export const DEFAULT_CONFIG: Pick<
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownLinks: undefined,
   onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
@@ -350,7 +356,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     .default(DEFAULT_CONFIG.onBrokenAnchors),
   onBrokenMarkdownLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
-    .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),
+    .default(() => DEFAULT_CONFIG.onBrokenMarkdownLinks),
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
@@ -430,6 +436,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       () => DEFAULT_CONFIG.markdown.parseFrontMatter,
     ),
     mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
+    emoji: Joi.boolean().default(DEFAULT_CONFIG.markdown.emoji),
     preprocessor: Joi.function()
       .arity(1)
       .optional()
@@ -455,6 +462,20 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         DEFAULT_CONFIG.markdown.anchors.maintainCase,
       ),
     }).default(DEFAULT_CONFIG.markdown.anchors),
+    hooks: Joi.object<MarkdownHooks>({
+      onBrokenMarkdownLinks: Joi.alternatives()
+        .try(
+          Joi.string().equal('ignore', 'log', 'warn', 'throw'),
+          Joi.function(),
+        )
+        .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownLinks),
+      onBrokenMarkdownImages: Joi.alternatives()
+        .try(
+          Joi.string().equal('ignore', 'log', 'warn', 'throw'),
+          Joi.function(),
+        )
+        .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownImages),
+    }).default(DEFAULT_CONFIG.markdown.hooks),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':
@@ -463,7 +484,16 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
 
 // Expressing this kind of logic in Joi is a pain
 // We also want to decouple logic from Joi: easier to remove it later!
-function ensureDocusaurusConfigConsistency(config: DocusaurusConfig) {
+function postProcessDocusaurusConfig(config: DocusaurusConfig) {
+  if (config.onBrokenMarkdownLinks) {
+    logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
+Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
+    // For v3 retro compatibility we use the old attribute over the new one
+    config.markdown.hooks.onBrokenMarkdownLinks = config.onBrokenMarkdownLinks;
+    // We erase the former one to ensure we don't use it anywhere
+    config.onBrokenMarkdownLinks = undefined;
+  }
+
   if (
     config.future.experimental_faster.ssgWorkerThreads &&
     !config.future.v4.removeLegacyPostBuildHeadAttribute
@@ -528,7 +558,7 @@ export function validateConfig(
     throw new Error(formattedError);
   }
 
-  ensureDocusaurusConfigConsistency(value);
+  postProcessDocusaurusConfig(value);
 
   return value;
 }

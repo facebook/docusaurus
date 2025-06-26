@@ -6,18 +6,26 @@
  */
 
 export {
-  ReportingSeverity,
   RouterType,
   ThemeConfig,
-  MarkdownConfig,
-  DefaultParseFrontMatter,
-  ParseFrontMatter,
   DocusaurusConfig,
   FutureConfig,
+  FutureV4Config,
   FasterConfig,
   StorageConfig,
   Config,
 } from './config';
+
+export {
+  MarkdownConfig,
+  MarkdownHooks,
+  DefaultParseFrontMatter,
+  ParseFrontMatter,
+  OnBrokenMarkdownLinksFunction,
+  OnBrokenMarkdownImagesFunction,
+} from './markdown';
+
+export {ReportingSeverity} from './reporting';
 
 export {
   SiteMetadata,

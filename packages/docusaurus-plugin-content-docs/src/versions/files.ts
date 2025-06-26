@@ -19,7 +19,7 @@ import type {
   PluginOptions,
   VersionMetadata,
 } from '@docusaurus/plugin-content-docs';
-import type {VersionContext} from './index';
+import type {VersionContext} from './version';
 
 /** Add a prefix like `community_version-1.0.0`. No-op for default instance. */
 function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {

@@ -275,6 +275,14 @@ By default, it prints a warning, to let you know about your broken anchors.
 
 ### `onBrokenMarkdownLinks` {#onBrokenMarkdownLinks}
 
+:::warning Deprecated
+
+Deprecated in Docusaurus v3.9, and will be removed in Docusaurus v4.
+
+Replaced by [`siteConfig.markdown.hooks.onBrokenMarkdownLinks`](#hooks.onBrokenMarkdownLinks)
+
+:::
+
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
 The behavior of Docusaurus when it detects any broken Markdown link.
@@ -511,14 +519,35 @@ type MarkdownAnchorsConfig = {
   maintainCase: boolean;
 };
 
+type OnBrokenMarkdownLinksFunction = (params: {
+  sourceFilePath: string; // MD/MDX source file relative to cwd
+  url: string; // Link url
+  node: Link | Definition; // mdast Node
+}) => void | string;
+
+type OnBrokenMarkdownImagesFunction = (params: {
+  sourceFilePath: string; // MD/MDX source file relative to cwd
+  url: string; // Image url
+  node: Image; // mdast node
+}) => void | string;
+
+type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
+
+type MarkdownHooks = {
+  onBrokenMarkdownLinks: ReportingSeverity | OnBrokenMarkdownLinksFunction;
+  onBrokenMarkdownImages: ReportingSeverity | OnBrokenMarkdownImagesFunction;
+};
+
 type MarkdownConfig = {
   format: 'mdx' | 'md' | 'detect';
   mermaid: boolean;
+  emoji: boolean;
   preprocessor?: MarkdownPreprocessor;
   parseFrontMatter?: ParseFrontMatter;
   mdx1Compat: MDX1CompatOptions;
   remarkRehypeOptions: object; // see https://github.com/remarkjs/remark-rehype#options
   anchors: MarkdownAnchorsConfig;
+  hooks: MarkdownHooks;
 };
 ```
 
@@ -529,6 +558,7 @@ export default {
   markdown: {
     format: 'mdx',
     mermaid: true,
+    emoji: true,
     preprocessor: ({filePath, fileContent}) => {
       return fileContent.replaceAll('{{MY_VAR}}', 'MY_VALUE');
     },
@@ -546,6 +576,10 @@ export default {
     anchors: {
       maintainCase: true,
     },
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+      onBrokenMarkdownImages: 'throw',
+    },
   },
 };
 ```
@@ -558,11 +592,15 @@ export default {
 | --- | --- | --- | --- |
 | `format` | `'mdx' \| 'md' \| 'detect'` | `'mdx'` | The default parser format to use for Markdown content. Using 'detect' will select the appropriate format automatically based on file extensions: `.md` vs `.mdx`. |
 | `mermaid` | `boolean` | `false` | When `true`, allows Docusaurus to render Markdown code blocks with `mermaid` language as Mermaid diagrams. |
+| `emoji` | `boolean` | `true` | When `true`, allows Docusaurus to render emoji shortcodes (e.g., `:+1:`) as Unicode emoji (👍). When `false`, emoji shortcodes are left as-is. |
 | `preprocessor` | `MarkdownPreprocessor` | `undefined` | Gives you the ability to alter the Markdown content string before parsing. Use it as a last-resort escape hatch or workaround: it is almost always better to implement a Remark/Rehype plugin. |
 | `parseFrontMatter` | `ParseFrontMatter` | `undefined` | Gives you the ability to provide your own front matter parser, or to enhance the default parser. Read our [front matter guide](../guides/markdown-features/markdown-features-intro.mdx#front-matter) for details. |
 | `mdx1Compat` | `MDX1CompatOptions` | `{comments: true, admonitions: true, headingIds: true}` | Compatibility options to make it easier to upgrade to Docusaurus v3+. |
 | `anchors` | `MarkdownAnchorsConfig` | `{maintainCase: false}` | Options to control the behavior of anchors generated from Markdown headings |
 | `remarkRehypeOptions` | `object` | `undefined` | Makes it possible to pass custom [`remark-rehype` options](https://github.com/remarkjs/remark-rehype#options). |
+| `hooks` | `MarkdownHooks` | `object` | Make it possible to customize the MDX loader behavior with callbacks or built-in options. |
+| `hooks.onBrokenMarkdownLinks` | `ReportingSeverity \| OnBrokenMarkdownLinksFunction` | `'warn'` | Hook to customize the behavior when encountering a broken Markdown link URL. With the callback function, you can return a new link URL, or alter the link [mdast node](https://github.com/syntax-tree/mdast). |
+| `hooks.onBrokenMarkdownLinks` | `ReportingSeverity \| OnBrokenMarkdownImagesFunction` | `'throw'` | Hook to customize the behavior when encountering a broken Markdown image URL. With the callback function, you can return a new image URL, or alter the image [mdast node](https://github.com/syntax-tree/mdast). |
 
 ```mdx-code-block
 </APITable>

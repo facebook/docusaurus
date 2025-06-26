@@ -57,7 +57,18 @@ export function useHistorySelector<Value>(
   return useSyncExternalStore(
     history.listen,
     () => selector(history),
-    () => selector(history),
+    () =>
+      selector({
+        ...history,
+        location: {
+          ...history.location,
+          // On the server/hydration, these attributes should always be empty
+          // Forcing empty state makes this hook safe from hydration errors
+          search: '',
+          hash: '',
+          state: undefined,
+        },
+      }),
   );
 }
 

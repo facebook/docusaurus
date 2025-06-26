@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-svgr",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "description": "SVGR plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,10 +18,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.8.0",
-    "@docusaurus/types": "3.8.0",
-    "@docusaurus/utils": "3.8.0",
-    "@docusaurus/utils-validation": "3.8.0",
+    "@docusaurus/core": "3.8.1",
+    "@docusaurus/types": "3.8.1",
+    "@docusaurus/utils": "3.8.1",
+    "@docusaurus/utils-validation": "3.8.1",
     "@svgr/core": "8.1.0",
     "@svgr/webpack": "^8.1.0",
     "tslib": "^2.6.0",

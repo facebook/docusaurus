@@ -53,6 +53,8 @@ git diff --name-only -- '*.json' | sed 's, ,\\&,g' | xargs git checkout --
 # The website is generated outside the repo to minimize chances of yarn resolving the wrong version
 cd ..
 
+echo Generating test-website in `pwd`
+
 # Build skeleton website with new version
 npm_config_registry="$CUSTOM_REGISTRY_URL" npx --yes --loglevel silly create-docusaurus@"$NEW_VERSION" test-website classic --javascript $EXTRA_OPTS
 

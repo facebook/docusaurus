@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/module-type-aliases",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "description": "Docusaurus module type aliases.",
   "types": "./src/index.d.ts",
   "publishConfig": {
@@ -12,7 +12,7 @@
     "directory": "packages/docusaurus-module-type-aliases"
   },
   "dependencies": {
-    "@docusaurus/types": "3.8.0",
+    "@docusaurus/types": "3.8.1",
     "@types/history": "^4.7.11",
     "@types/react": "*",
     "@types/react-router-config": "*",

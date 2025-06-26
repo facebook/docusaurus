@@ -8,7 +8,7 @@ import path from 'path';
 import process from 'process';
 import logger from '@docusaurus/logger';
 import {posixPath} from '@docusaurus/utils';
-import {transformNode} from '../utils';
+import {formatNodePositionExtraMessage, transformNode} from '../utils';
 import type {Root} from 'mdast';
 import type {Parent} from 'unist';
 import type {Transformer, Processor, Plugin} from 'unified';
@@ -39,17 +39,9 @@ function formatDirectiveName(directive: Directives) {
   return `${prefix}${directive.name}`;
 }
 
-function formatDirectivePosition(directive: Directives): string | undefined {
-  return directive.position?.start
-    ? logger.interpolate`number=${directive.position.start.line}:number=${directive.position.start.column}`
-    : undefined;
-}
-
 function formatUnusedDirectiveMessage(directive: Directives) {
   const name = formatDirectiveName(directive);
-  const position = formatDirectivePosition(directive);
-
-  return `- ${name} ${position ? `(${position})` : ''}`;
+  return `- ${name}${formatNodePositionExtraMessage(directive)}`;
 }
 
 function formatUnusedDirectivesMessage({

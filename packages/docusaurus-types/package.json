@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/types",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "description": "Common types for Docusaurus packages.",
   "types": "./src/index.d.ts",
   "publishConfig": {
@@ -15,6 +15,7 @@
   "dependencies": {
     "@mdx-js/mdx": "^3.0.0",
     "@types/history": "^4.7.11",
+    "@types/mdast": "^4.0.2",
     "@types/react": "*",
     "commander": "^5.1.0",
     "joi": "^17.9.2",
