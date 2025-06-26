@@ -81,7 +81,13 @@ export default function Version(): ReactNode {
                   </Link>
                 </td>
                 <td>
-                  <Link to={`${repoUrl}/releases/tag/v${latestVersion.name}`}>
+                  <Link
+                    to={
+                      latestVersion.name === '2.x'
+                        ? `${repoUrl}/releases/tag/v2.4.1` // use latest actual 2.x release
+                        : `${repoUrl}/releases/tag/v${latestVersion.name}`
+                    }
+                  >
                     <ReleaseNotesLabel />
                   </Link>
                 </td>
