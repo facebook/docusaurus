@@ -10,11 +10,15 @@
 import path from 'path';
 import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
 import {addSuffix} from '@docusaurus/utils-common';
-import Globby from 'globby';
+import * as Tinyglobby from 'tinyglobby';
 import {posixPath} from './pathUtils';
 
+type GlobOptions = Tinyglobby.GlobOptions;
+
+// TODO Docusaurus v4 refactor, hide lib behind home-made abstraction
+// See https://github.com/facebook/docusaurus/pull/11042
 /** A re-export of the globby instance. */
-export {Globby};
+export const Globby = Tinyglobby.glob;
 
 /**
  * The default glob patterns we ignore when sourcing content.
@@ -93,7 +97,7 @@ export function createAbsoluteFilePathMatcher(
 // See https://github.com/facebook/docusaurus/pull/4222#issuecomment-795517329
 export async function safeGlobby(
   patterns: string[],
-  options?: Globby.GlobbyOptions,
+  options?: GlobOptions,
 ): Promise<string[]> {
   // Required for Windows support, as paths using \ should not be used by globby
   // (also using the windows hard drive prefix like c: is not a good idea)
