@@ -16,7 +16,7 @@ import type {
   LoadedContent,
   LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
-import type {SidebarItem} from '../sidebars/types';
+import type {Sidebar} from '../sidebars/types';
 
 function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
   return {
@@ -41,61 +41,8 @@ function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
   };
 }
 
-function createSampleSidebarWithDuplicates({
-  withUniqueKeys,
-}: {
-  withUniqueKeys: boolean;
-}): SidebarItem[] {
-  return [
-    {
-      type: 'doc',
-      id: 'doc4',
-      label: 'COMMON LABEL',
-      translatable: true,
-      ...(withUniqueKeys && {key: 'key-doc4'}),
-    },
-    {
-      type: 'doc',
-      id: 'doc5',
-      label: 'COMMON LABEL',
-      translatable: true,
-      ...(withUniqueKeys && {key: 'key-doc5'}),
-    },
-    {
-      type: 'ref',
-      id: 'doc4',
-      label: 'COMMON LABEL',
-      translatable: true,
-      ...(withUniqueKeys && {key: 'key-ref4'}),
-    },
-    {
-      type: 'ref',
-      id: 'doc5',
-      label: 'COMMON LABEL',
-      translatable: true,
-      ...(withUniqueKeys && {key: 'key-ref5'}),
-    },
-    {
-      type: 'category',
-      label: 'COMMON LABEL',
-      items: [],
-      collapsed: false,
-      collapsible: true,
-      ...(withUniqueKeys && {key: 'key-cat1'}),
-    },
-    {
-      type: 'category',
-      label: 'COMMON LABEL',
-      items: [],
-      collapsed: false,
-      collapsible: true,
-      ...(withUniqueKeys && {key: 'key-cat2'}),
-    },
-  ];
-}
-
 function createSampleVersion(
-  version: Pick<LoadedVersion, 'versionName'>,
+  version: Pick<LoadedVersion, 'versionName'> & Partial<LoadedVersion>,
 ): LoadedVersion {
   return {
     label: `${version.versionName} label`,
@@ -170,10 +117,6 @@ function createSampleVersion(
           translatable: true,
         },
       ],
-
-      sidebarWithDuplicates: createSampleSidebarWithDuplicates({
-        withUniqueKeys: true,
-      }),
     },
     ...version,
   };
@@ -209,6 +152,126 @@ function getSampleTranslationFilesTranslated() {
 describe('getLoadedContentTranslationFiles', () => {
   it('returns translation files', () => {
     expect(getSampleTranslationFiles()).toMatchSnapshot();
+  });
+
+  describe('translation key conflicts', () => {
+    function runTest({withUniqueKeys}: {withUniqueKeys: boolean}) {
+      const sidebarWithConflicts: Sidebar = [
+        {
+          type: 'doc',
+          id: 'doc4',
+          label: 'COMMON LABEL',
+          translatable: true,
+          ...(withUniqueKeys && {key: 'key-doc4'}),
+        },
+        {
+          type: 'doc',
+          id: 'doc5',
+          label: 'COMMON LABEL',
+          translatable: true,
+          ...(withUniqueKeys && {key: 'key-doc5'}),
+        },
+        {
+          type: 'ref',
+          id: 'doc4',
+          label: 'COMMON LABEL',
+          translatable: true,
+          ...(withUniqueKeys && {key: 'key-ref4'}),
+        },
+        {
+          type: 'ref',
+          id: 'doc5',
+          label: 'COMMON LABEL',
+          translatable: true,
+          ...(withUniqueKeys && {key: 'key-ref5'}),
+        },
+        {
+          type: 'category',
+          label: 'COMMON LABEL',
+          items: [],
+          collapsed: false,
+          collapsible: true,
+          ...(withUniqueKeys && {key: 'key-cat1'}),
+        },
+        {
+          type: 'category',
+          label: 'COMMON LABEL',
+          items: [],
+          collapsed: false,
+          collapsible: true,
+          ...(withUniqueKeys && {key: 'key-cat2'}),
+        },
+      ];
+
+      const version = createSampleVersion({
+        versionName: CURRENT_VERSION_NAME,
+        sidebars: {
+          sidebarWithConflicts,
+        },
+      });
+      return getLoadedContentTranslationFiles({
+        loadedVersions: [version],
+      });
+    }
+
+    it('works on sidebar with translation key conflicts resolved by unique sidebar item keys', () => {
+      expect(runTest({withUniqueKeys: true})).toMatchInlineSnapshot(`
+        [
+          {
+            "content": {
+              "sidebar.sidebarWithConflicts.category.key-cat1": {
+                "description": "The label for category COMMON LABEL in sidebar sidebarWithConflicts",
+                "message": "COMMON LABEL",
+              },
+              "sidebar.sidebarWithConflicts.category.key-cat2": {
+                "description": "The label for category COMMON LABEL in sidebar sidebarWithConflicts",
+                "message": "COMMON LABEL",
+              },
+              "sidebar.sidebarWithConflicts.doc.key-doc4": {
+                "description": "The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc4",
+                "message": "COMMON LABEL",
+              },
+              "sidebar.sidebarWithConflicts.doc.key-doc5": {
+                "description": "The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc5",
+                "message": "COMMON LABEL",
+              },
+              "sidebar.sidebarWithConflicts.doc.key-ref4": {
+                "description": "The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc4",
+                "message": "COMMON LABEL",
+              },
+              "sidebar.sidebarWithConflicts.doc.key-ref5": {
+                "description": "The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc5",
+                "message": "COMMON LABEL",
+              },
+              "version.label": {
+                "description": "The label for version current",
+                "message": "current label",
+              },
+            },
+            "path": "current",
+          },
+        ]
+      `);
+    });
+
+    it('throws on sidebar translation key conflicts', () => {
+      expect(() => runTest({withUniqueKeys: false}))
+        .toThrowErrorMatchingInlineSnapshot(`
+        "Multiple docs sidebar items produce the same translation key.
+        - sidebar.sidebarWithConflicts.category.COMMON LABEL: 2 duplicates found:
+          - COMMON LABEL (The label for category COMMON LABEL in sidebar sidebarWithConflicts)}
+          - COMMON LABEL (The label for category COMMON LABEL in sidebar sidebarWithConflicts)}
+
+        - sidebar.sidebarWithConflicts.doc.COMMON LABEL: 4 duplicates found:
+          - COMMON LABEL (The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc4)}
+          - COMMON LABEL (The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc5)}
+          - COMMON LABEL (The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc4)}
+          - COMMON LABEL (The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc5)}
+
+        To avoid translation key conflicts, use the \`key\` attribute on the sidebar items above to uniquely identify them.
+            "
+      `);
+    });
   });
 });
 
