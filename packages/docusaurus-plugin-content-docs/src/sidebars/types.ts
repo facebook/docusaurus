@@ -29,8 +29,9 @@ export type SidebarItemDoc = SidebarItemBase & {
   label?: string;
   id: string;
   /**
-   * This is an internal marker. Items with labels defined in the config needs
-   * to be translated with JSON
+   * This is an internal marker set during the sidebar normalization process.
+   * Docs with labels defined in the config need to be translated with JSON.
+   * Otherwise, it's preferable to translate the MDX doc title or front matter.
    */
   translatable?: true;
 };
