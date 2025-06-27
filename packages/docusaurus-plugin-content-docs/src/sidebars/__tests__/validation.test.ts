@@ -29,10 +29,12 @@ describe('validateSidebars', () => {
   it('accept valid values', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
-        {type: 'doc', id: 'doc1'},
+        {type: 'doc', id: 'doc1', key: 'key-doc1'},
         {type: 'doc', id: 'doc2'},
+        {type: 'ref', id: 'doc2', key: 'ref-doc2'},
         {
           type: 'category',
+          key: 'key-cat',
           label: 'Category',
           items: [{type: 'doc', id: 'doc3'}],
         },
@@ -68,6 +70,33 @@ describe('validateSidebars', () => {
     `);
   });
 
+  it('sidebar category wrong key', () => {
+    expect(() =>
+      validateSidebars({
+        docs: [
+          {
+            type: 'category',
+            key: '',
+            items: [{type: 'doc', id: 'doc1'}],
+          },
+        ],
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "{
+        "type": "category",
+        "items": [
+          {
+            "type": "doc",
+            "id": "doc1"
+          }
+        ],
+        "key" [1]: ""
+      }
+
+      [1] "key" is not allowed to be empty"
+    `);
+  });
+
   it('sidebars link wrong label', () => {
     expect(() =>
       validateSidebars({
@@ -87,6 +116,28 @@ describe('validateSidebars', () => {
       }
 
       [1] "label" must be a string"
+    `);
+  });
+
+  it('sidebars link wrong key', () => {
+    expect(() =>
+      validateSidebars({
+        docs: [
+          {
+            type: 'link',
+            key: false,
+            href: 'https://github.com',
+          },
+        ],
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "{
+        "type": "link",
+        "href": "https://github.com",
+        "key" [1]: false
+      }
+
+      [1] "key" must be a string"
     `);
   });
 
@@ -188,6 +239,35 @@ describe('validateSidebars', () => {
     `);
   });
 
+  it('sidebars category wrong key', () => {
+    expect(() =>
+      validateSidebars({
+        docs: [
+          {
+            type: 'category',
+            label: 'category',
+            key: 42,
+            items: [],
+          },
+
+          {
+            type: 'ref',
+            id: 'hello',
+          },
+        ],
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "{
+        "type": "category",
+        "label": "category",
+        "items": [],
+        "key" [1]: 42
+      }
+
+      [1] "key" must be a string"
+    `);
+  });
+
   it('sidebar category wrong items', () => {
     expect(() =>
       validateSidebars({
@@ -230,8 +310,8 @@ describe('validateSidebars', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {
-          // @ts-expect-error - test missing value
           type: 'html',
+          value: undefined,
         },
       ],
     };
@@ -251,6 +331,7 @@ describe('validateSidebars', () => {
       sidebar1: [
         {
           type: 'html',
+          key: 'html-key',
           value: '<p>Hello, World!</p>',
           defaultStyle: true,
           className: 'foo',
@@ -262,8 +343,6 @@ describe('validateSidebars', () => {
 });
 
 describe('validateCategoryMetadataFile', () => {
-  // TODO add more tests
-
   it('throw for bad value', () => {
     expect(() =>
       validateCategoryMetadataFile(42),
@@ -279,6 +358,7 @@ describe('validateCategoryMetadataFile', () => {
     const content: CategoryMetadataFile = {
       className: 'className',
       label: 'Category Label',
+      key: 'category-key',
       description: 'Category Description',
       link: {
         type: 'generated-index',
@@ -293,24 +373,70 @@ describe('validateCategoryMetadataFile', () => {
     expect(validateCategoryMetadataFile(content)).toEqual(content);
   });
 
-  it('rejects permalink', () => {
-    const content: CategoryMetadataFile = {
-      className: 'className',
-      label: 'Category Label',
-      link: {
-        type: 'generated-index',
-        slug: 'slug',
-        // @ts-expect-error: rejected on purpose
-        permalink: 'somePermalink',
-        title: 'title',
-        description: 'description',
-      },
-      collapsible: true,
-      collapsed: true,
-      position: 3,
-    };
-    expect(() =>
-      validateCategoryMetadataFile(content),
-    ).toThrowErrorMatchingInlineSnapshot(`""link.permalink" is not allowed"`);
+  describe('label', () => {
+    it('accepts valid label', () => {
+      const content: CategoryMetadataFile = {label: 'Category label'};
+      expect(validateCategoryMetadataFile(content)).toEqual(content);
+    });
+
+    it('throws for number label', () => {
+      expect(() =>
+        validateCategoryMetadataFile({label: 42}),
+      ).toThrowErrorMatchingInlineSnapshot(`""label" must be a string"`);
+    });
+  });
+
+  describe('key', () => {
+    it('accepts valid key', () => {
+      const content: CategoryMetadataFile = {key: 'Category key'};
+      expect(validateCategoryMetadataFile(content)).toEqual(content);
+    });
+
+    it('throws for number key', () => {
+      expect(() =>
+        validateCategoryMetadataFile({key: 42}),
+      ).toThrowErrorMatchingInlineSnapshot(`""key" must be a string"`);
+    });
+  });
+
+  describe('className', () => {
+    it('accepts valid className', () => {
+      const content: CategoryMetadataFile = {className: 'category-className'};
+      expect(validateCategoryMetadataFile(content)).toEqual(content);
+    });
+
+    it('throws for number key', () => {
+      expect(() =>
+        validateCategoryMetadataFile({className: 42}),
+      ).toThrowErrorMatchingInlineSnapshot(`""className" must be a string"`);
+    });
+  });
+
+  describe('link', () => {
+    it('accepts valid link', () => {
+      const content: CategoryMetadataFile = {
+        link: {
+          type: 'generated-index',
+          slug: 'slug',
+          title: 'title',
+          description: 'desc',
+        },
+      };
+      expect(validateCategoryMetadataFile(content)).toEqual(content);
+    });
+
+    it('rejects link permalink', () => {
+      const content: CategoryMetadataFile = {
+        link: {
+          type: 'generated-index',
+          slug: 'slug',
+          // @ts-expect-error: rejected on purpose
+          permalink: 'somePermalink',
+        },
+      };
+      expect(() =>
+        validateCategoryMetadataFile(content),
+      ).toThrowErrorMatchingInlineSnapshot(`""link.permalink" is not allowed"`);
+    });
   });
 });

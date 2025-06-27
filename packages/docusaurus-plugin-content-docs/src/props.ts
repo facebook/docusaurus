@@ -41,6 +41,7 @@ export function toSidebarDocItemLinkProp({
   const {id, title, permalink, frontMatter, unlisted} = doc;
   return {
     type: 'link',
+    ...(item.key && {key: item.key}),
     href: permalink,
     // Front Matter data takes precedence over sidebars.json
     label: frontMatter.sidebar_label ?? item.label ?? title,
@@ -51,7 +52,9 @@ export function toSidebarDocItemLinkProp({
   };
 }
 
-export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
+export function toSidebarsProp(
+  loadedVersion: Pick<LoadedVersion, 'docs' | 'sidebars'>,
+): PropSidebars {
   const docsById = createDocsByIdIndex(loadedVersion.docs);
 
   function getDocById(docId: string): DocMetadata {

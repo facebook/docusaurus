@@ -28,6 +28,7 @@ import type {
 // in normalization
 
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({
+  key: Joi.string(),
   className: Joi.string(),
   customProps: Joi.object().unknown(),
 });
@@ -166,6 +167,7 @@ export function validateSidebars(sidebars: {
 }
 
 const categoryMetadataFileSchema = Joi.object<CategoryMetadataFile>({
+  key: Joi.string(),
   label: Joi.string(),
   description: Joi.string(),
   position: Joi.number(),
