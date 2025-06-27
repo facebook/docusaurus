@@ -146,6 +146,8 @@ describe('toSidebarsProp', () => {
       docs: [
         fromPartial({
           id: 'doc-id-1',
+          permalink: '/doc-1',
+          title: 'Doc 1 title',
           frontMatter: {},
         }),
       ],
@@ -165,9 +167,8 @@ describe('toSidebarsProp', () => {
           },
           {
             type: 'ref',
-            label: 'Doc 1 ref bis',
-            // no key on purpose
             id: 'doc-id-1',
+            // no label/key on purpose
           },
           {
             type: 'category',
@@ -184,9 +185,8 @@ describe('toSidebarsProp', () => {
               },
               {
                 type: 'doc',
-                label: 'Doc 1 bis',
-                // no key on purpose
                 id: 'doc-id-1',
+                // no label/key on purpose
               },
             ],
           },
@@ -209,7 +209,7 @@ describe('toSidebarsProp', () => {
             "className": undefined,
             "customProps": undefined,
             "docId": "doc-id-1",
-            "href": undefined,
+            "href": "/doc-1",
             "key": "ref-with-doc-id-1",
             "label": "Doc 1 ref",
             "type": "link",
@@ -219,8 +219,8 @@ describe('toSidebarsProp', () => {
             "className": undefined,
             "customProps": undefined,
             "docId": "doc-id-1",
-            "href": undefined,
-            "label": "Doc 1 ref bis",
+            "href": "/doc-1",
+            "label": "Doc 1 title",
             "type": "link",
             "unlisted": undefined,
           },
@@ -232,7 +232,7 @@ describe('toSidebarsProp', () => {
                 "className": undefined,
                 "customProps": undefined,
                 "docId": "doc-id-1",
-                "href": undefined,
+                "href": "/doc-1",
                 "key": "doc-id-1",
                 "label": "Doc 1",
                 "type": "link",
@@ -242,8 +242,8 @@ describe('toSidebarsProp', () => {
                 "className": undefined,
                 "customProps": undefined,
                 "docId": "doc-id-1",
-                "href": undefined,
-                "label": "Doc 1 bis",
+                "href": "/doc-1",
+                "label": "Doc 1 title",
                 "type": "link",
                 "unlisted": undefined,
               },
