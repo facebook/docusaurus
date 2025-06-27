@@ -28,7 +28,7 @@ import type {
 // in normalization
 
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({
-  key: Joi.string().optional(),
+  key: Joi.string(),
   className: Joi.string(),
   customProps: Joi.object().unknown(),
 });
