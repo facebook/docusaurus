@@ -238,6 +238,7 @@ Available doc IDs:
 
       return {
         type: 'category',
+        key: categoryMetadata?.key,
         label: categoryMetadata?.label ?? categoryLinkedDoc?.label ?? filename,
         collapsible: categoryMetadata?.collapsible,
         collapsed: categoryMetadata?.collapsed,

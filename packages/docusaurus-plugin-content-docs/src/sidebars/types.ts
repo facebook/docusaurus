@@ -19,6 +19,7 @@ import type {Slugger} from '@docusaurus/utils';
 type Expand<T extends {[x: string]: unknown}> = {[P in keyof T]: T[P]};
 
 export type SidebarItemBase = {
+  key?: string;
   className?: string;
   customProps?: {[key: string]: unknown};
 };
@@ -215,6 +216,7 @@ export type PropSidebarBreadcrumbsItem =
   | PropSidebarItemCategory;
 
 export type CategoryMetadataFile = {
+  key?: string;
   label?: string;
   position?: number;
   description?: string;

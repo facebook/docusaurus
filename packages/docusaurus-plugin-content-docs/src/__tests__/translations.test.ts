@@ -16,6 +16,7 @@ import type {
   LoadedContent,
   LoadedVersion,
 } from '@docusaurus/plugin-content-docs';
+import type {SidebarItem} from '../sidebars/types';
 
 function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
   return {
@@ -38,6 +39,59 @@ function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
     description: `${doc.id} description`,
     ...doc,
   };
+}
+
+function createSampleSidebarWithDuplicates({
+  withUniqueKeys,
+}: {
+  withUniqueKeys: boolean;
+}): SidebarItem[] {
+  return [
+    {
+      type: 'doc',
+      id: 'doc4',
+      label: 'COMMON LABEL',
+      translatable: true,
+      ...(withUniqueKeys && {key: 'key-doc4'}),
+    },
+    {
+      type: 'doc',
+      id: 'doc5',
+      label: 'COMMON LABEL',
+      translatable: true,
+      ...(withUniqueKeys && {key: 'key-doc5'}),
+    },
+    {
+      type: 'ref',
+      id: 'doc4',
+      label: 'COMMON LABEL',
+      translatable: true,
+      ...(withUniqueKeys && {key: 'key-ref4'}),
+    },
+    {
+      type: 'ref',
+      id: 'doc5',
+      label: 'COMMON LABEL',
+      translatable: true,
+      ...(withUniqueKeys && {key: 'key-ref5'}),
+    },
+    {
+      type: 'category',
+      label: 'COMMON LABEL',
+      items: [],
+      collapsed: false,
+      collapsible: true,
+      ...(withUniqueKeys && {key: 'key-cat1'}),
+    },
+    {
+      type: 'category',
+      label: 'COMMON LABEL',
+      items: [],
+      collapsed: false,
+      collapsible: true,
+      ...(withUniqueKeys && {key: 'key-cat2'}),
+    },
+  ];
 }
 
 function createSampleVersion(
@@ -116,6 +170,10 @@ function createSampleVersion(
           translatable: true,
         },
       ],
+
+      sidebarWithDuplicates: createSampleSidebarWithDuplicates({
+        withUniqueKeys: true,
+      }),
     },
     ...version,
   };
