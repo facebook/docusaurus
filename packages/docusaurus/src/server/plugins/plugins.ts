@@ -81,16 +81,13 @@ async function executePluginContentLoading({
       plugin.loadContent?.(),
     );
 
-    const translate = true;
-    if (translate) {
-      content = await PerfLogger.async('translatePluginContent()', () =>
-        translatePluginContent({
-          plugin,
-          content,
-          context,
-        }),
-      );
-    }
+    content = await PerfLogger.async('translatePluginContent()', () =>
+      translatePluginContent({
+        plugin,
+        content,
+        context,
+      }),
+    );
 
     const defaultCodeTranslations =
       (await PerfLogger.async('getDefaultCodeTranslationMessages()', () =>
