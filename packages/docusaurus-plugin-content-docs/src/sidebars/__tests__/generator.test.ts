@@ -129,6 +129,7 @@ describe('DefaultSidebarItemsGenerator', () => {
         },
         '02-Guides/01-SubGuides': {
           label: 'SubGuides (metadata file label)',
+          key: 'SubGuides-category-unique-key',
           link: {
             type: 'generated-index',
             slug: 'subGuides-generated-index-slug',
