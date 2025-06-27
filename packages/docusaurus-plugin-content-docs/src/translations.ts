@@ -59,7 +59,10 @@ function ensureNoSidebarDuplicateEntries(
           entries.length
         } duplicates found:\n  - ${entries
           .map((duplicate) => {
-            return logger.interpolate`name=${duplicate[1].message} (subdue=${duplicate[1].description})}`;
+            const desc = duplicate[1].description;
+            return `${logger.name(duplicate[1].message)} ${
+              desc ? `(${logger.subdue(desc)})` : ''
+            }`;
           })
           .join('\n  - ')}`;
       })
