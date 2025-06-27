@@ -278,15 +278,15 @@ describe('getLoadedContentTranslationFiles', () => {
       expect(() => runTest({withUniqueKeys: false}))
         .toThrowErrorMatchingInlineSnapshot(`
         "Multiple docs sidebar items produce the same translation key.
-        - sidebar.sidebarWithConflicts.category.COMMON LABEL: 2 duplicates found:
+        - \`sidebar.sidebarWithConflicts.category.COMMON LABEL\`: 2 duplicates found:
           - COMMON LABEL (The label for category COMMON LABEL in sidebar sidebarWithConflicts)
           - COMMON LABEL (The label for category COMMON LABEL in sidebar sidebarWithConflicts)
 
-        - sidebar.sidebarWithConflicts.link.COMMON LABEL: 2 duplicates found:
+        - \`sidebar.sidebarWithConflicts.link.COMMON LABEL\`: 2 duplicates found:
           - COMMON LABEL (The label for link COMMON LABEL in sidebar sidebarWithConflicts, linking to https://example.com)
           - COMMON LABEL (The label for link COMMON LABEL in sidebar sidebarWithConflicts, linking to https://example.com)
 
-        - sidebar.sidebarWithConflicts.doc.COMMON LABEL: 4 duplicates found:
+        - \`sidebar.sidebarWithConflicts.doc.COMMON LABEL\`: 4 duplicates found:
           - COMMON LABEL (The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc4)
           - COMMON LABEL (The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc5)
           - COMMON LABEL (The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc4)

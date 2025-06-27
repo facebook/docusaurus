@@ -55,9 +55,9 @@ function ensureNoSidebarDuplicateEntries(
     throw new Error(`Multiple docs sidebar items produce the same translation key.
 - ${duplicates
       .map(([translationKey, entries]) => {
-        return `${translationKey}: ${
-          entries.length
-        } duplicates found:\n  - ${entries
+        return `${logger.code(translationKey)}: ${logger.num(
+          entries.length,
+        )} duplicates found:\n  - ${entries
           .map((duplicate) => {
             const desc = duplicate[1].description;
             return `${logger.name(duplicate[1].message)} ${
