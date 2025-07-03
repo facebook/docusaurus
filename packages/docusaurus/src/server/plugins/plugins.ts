@@ -94,12 +94,10 @@ async function executePluginContentLoading({
       );
     }
 
-    // TODO this may not work if default locale is not english?
-    const defaultCodeTranslations = shouldTranslate
-      ? (await PerfLogger.async('getDefaultCodeTranslationMessages()', () =>
-          plugin.getDefaultCodeTranslationMessages?.(),
-        )) ?? {}
-      : {};
+    const defaultCodeTranslations =
+      (await PerfLogger.async('getDefaultCodeTranslationMessages()', () =>
+        plugin.getDefaultCodeTranslationMessages?.(),
+      )) ?? {};
 
     if (!plugin.contentLoaded) {
       return {
