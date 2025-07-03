@@ -81,18 +81,25 @@ async function executePluginContentLoading({
       plugin.loadContent?.(),
     );
 
-    content = await PerfLogger.async('translatePluginContent()', () =>
-      translatePluginContent({
-        plugin,
-        content,
-        context,
-      }),
-    );
+    // TODO wire
+    const shouldTranslate = false;
 
-    const defaultCodeTranslations =
-      (await PerfLogger.async('getDefaultCodeTranslationMessages()', () =>
-        plugin.getDefaultCodeTranslationMessages?.(),
-      )) ?? {};
+    if (shouldTranslate) {
+      content = await PerfLogger.async('translatePluginContent()', () =>
+        translatePluginContent({
+          plugin,
+          content,
+          context,
+        }),
+      );
+    }
+
+    // TODO this may not work if default locale is not english?
+    const defaultCodeTranslations = shouldTranslate
+      ? (await PerfLogger.async('getDefaultCodeTranslationMessages()', () =>
+          plugin.getDefaultCodeTranslationMessages?.(),
+        )) ?? {}
+      : {};
 
     if (!plugin.contentLoaded) {
       return {
