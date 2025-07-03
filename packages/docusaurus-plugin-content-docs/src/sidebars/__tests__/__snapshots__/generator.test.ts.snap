@@ -47,6 +47,7 @@ exports[`DefaultSidebarItemsGenerator generates complex nested sidebar 1`] = `
             "type": "doc",
           },
         ],
+        "key": "SubGuides-category-unique-key",
         "label": "SubGuides (metadata file label)",
         "link": {
           "description": "subGuides-description",

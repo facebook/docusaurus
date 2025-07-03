@@ -252,6 +252,7 @@ Available doc IDs:
         ...(categoryMetadata?.description && {
           description: categoryMetadata?.description,
         }),
+        ...(categoryMetadata?.key && {key: categoryMetadata?.key}),
         ...(link && {link}),
       };
     }
