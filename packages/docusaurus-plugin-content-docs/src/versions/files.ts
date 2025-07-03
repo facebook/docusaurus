@@ -186,11 +186,16 @@ export async function getVersionMetadataPaths({
   >
 > {
   const isCurrent = versionName === CURRENT_VERSION_NAME;
-  const contentPathLocalized = getDocsDirPathLocalized({
-    localizationDir: context.localizationDir,
-    pluginId: options.id,
-    versionName,
-  });
+
+  const shouldTranslate = false; // TODO wire this properly
+  const contentPathLocalized = shouldTranslate
+    ? getDocsDirPathLocalized({
+        localizationDir: context.localizationDir,
+        pluginId: options.id,
+        versionName,
+      })
+    : undefined;
+
   const contentPath = isCurrent
     ? path.resolve(context.siteDir, options.path)
     : getVersionDocsDirPath(context.siteDir, options.id, versionName);

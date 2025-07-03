@@ -73,13 +73,16 @@ export default async function pluginContentBlog(
 
   const {baseUrl} = siteConfig;
 
+  const shouldLocalize = false;
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
-    contentPathLocalized: getPluginI18nPath({
-      localizationDir,
-      pluginName: PluginName,
-      pluginId: options.id,
-    }),
+    contentPathLocalized: shouldLocalize
+      ? getPluginI18nPath({
+          localizationDir,
+          pluginName: PluginName,
+          pluginId: options.id,
+        })
+      : undefined,
   };
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
 

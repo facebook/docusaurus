@@ -50,33 +50,47 @@ function getVersionEditUrls({
     return {editUrl: undefined, editUrlLocalized: undefined};
   }
 
-  const editDirPath = options.editCurrentVersion ? options.path : contentPath;
-  const editDirPathLocalized = options.editCurrentVersion
-    ? getDocsDirPathLocalized({
-        localizationDir: context.localizationDir,
-        versionName: CURRENT_VERSION_NAME,
-        pluginId: options.id,
-      })
-    : contentPathLocalized;
+  // Intermediate var just to please TS not narrowing to "string"
+  const editUrlOption = options.editUrl;
 
-  const versionPathSegment = posixPath(
-    path.relative(context.siteDir, path.resolve(context.siteDir, editDirPath)),
-  );
-  const versionPathSegmentLocalized = posixPath(
-    path.relative(
-      context.siteDir,
-      path.resolve(context.siteDir, editDirPathLocalized),
-    ),
-  );
+  const getEditUrl = () => {
+    const editDirPath = options.editCurrentVersion ? options.path : contentPath;
 
-  const editUrl = normalizeUrl([options.editUrl, versionPathSegment]);
+    return normalizeUrl([
+      editUrlOption,
+      posixPath(
+        path.relative(
+          context.siteDir,
+          path.resolve(context.siteDir, editDirPath),
+        ),
+      ),
+    ]);
+  };
 
-  const editUrlLocalized = normalizeUrl([
-    options.editUrl,
-    versionPathSegmentLocalized,
-  ]);
+  const getEditUrlLocalized = () => {
+    if (!contentPathLocalized) {
+      return undefined;
+    }
+    const editDirPathLocalized = options.editCurrentVersion
+      ? getDocsDirPathLocalized({
+          localizationDir: context.localizationDir,
+          versionName: CURRENT_VERSION_NAME,
+          pluginId: options.id,
+        })
+      : contentPathLocalized;
 
-  return {editUrl, editUrlLocalized};
+    return normalizeUrl([
+      editUrlOption,
+      posixPath(
+        path.relative(
+          context.siteDir,
+          path.resolve(context.siteDir, editDirPathLocalized),
+        ),
+      ),
+    ]);
+  };
+
+  return {editUrl: getEditUrl(), editUrlLocalized: getEditUrlLocalized()};
 }
 
 /**

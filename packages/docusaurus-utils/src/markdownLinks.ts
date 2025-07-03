@@ -22,7 +22,7 @@ export type ContentPaths = {
    * The absolute path to the localized content directory, like
    * `"<siteDir>/i18n/zh-Hans/plugin-content-docs"`.
    */
-  contentPathLocalized: string;
+  contentPathLocalized?: string;
 };
 
 /** Data structure representing each broken Markdown link to be reported. */
