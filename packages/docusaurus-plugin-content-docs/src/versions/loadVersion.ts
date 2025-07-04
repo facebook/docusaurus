@@ -38,6 +38,12 @@ type LoadVersionParams = {
 
 function ensureNoDuplicateDocId(docs: DocMetadataBase[]): void {
   const duplicatesById = _.chain(docs)
+    .sort((d1, d2) => {
+      // Need to sort because Globby order is non-deterministic
+      // TODO maybe we should create a deterministic glob utils?
+      //  see https://github.com/sindresorhus/globby/issues/131
+      return d1.source.localeCompare(d2.source);
+    })
     .groupBy((d) => d.id)
     .pickBy((group) => group.length > 1)
     .value();
