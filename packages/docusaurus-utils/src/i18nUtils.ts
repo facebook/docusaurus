@@ -115,6 +115,9 @@ export function localizePath({
   return normalizeUrl([originalPath, i18n.currentLocale, '/']);
 }
 
+// TODO we may extract this to a separate package
+//  we want to use it on the frontend too
+//  but "docusaurus-utils-common" (agnostic utils) is not an ideal place since
 export function getCurrentLocaleConfig(i18n: I18n): I18nLocaleConfig {
   const localeConfig = i18n.localeConfigs[i18n.currentLocale];
   if (!localeConfig) {
