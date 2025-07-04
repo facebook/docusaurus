@@ -32,6 +32,12 @@ export type I18nLocaleConfig = {
    * name.
    */
   path: string;
+  /**
+   * Should we run the extra translation process for this locale?
+   * By default, we skip the translation process for the default locale,
+   * while all the other locales run it.
+   */
+  translate: boolean;
 };
 
 export type I18nConfig = {

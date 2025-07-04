@@ -6,6 +6,7 @@
  */
 
 import logger from '@docusaurus/logger';
+import combinePromises from 'combine-promises';
 import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import type {LoadContextParams} from './site';
 
@@ -78,7 +79,9 @@ function getDefaultDirection(localeStr: string) {
   return textInto.direction;
 }
 
-export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
+export function getDefaultLocaleConfig(
+  locale: string,
+): Omit<I18nLocaleConfig, 'translate'> {
   try {
     return {
       label: getDefaultLocaleLabel(locale),
@@ -93,6 +96,19 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
       {cause: e},
     );
   }
+}
+
+async function shouldTranslateLocale({
+  locale,
+  defaultLocale,
+  localeConfigInput,
+}: {
+  locale: string;
+  defaultLocale: string;
+  localeConfigInput: Partial<I18nLocaleConfig>;
+}): Promise<boolean> {
+  // Maybe in the future we want to check if `./i18n/en` exists?
+  return localeConfigInput.translate ?? locale !== defaultLocale;
 }
 
 export async function loadI18n(
@@ -112,15 +128,26 @@ Note: Docusaurus only support running one locale at a time.`;
     ? i18nConfig.locales
     : (i18nConfig.locales.concat(currentLocale) as [string, ...string[]]);
 
-  function getLocaleConfig(locale: string): I18nLocaleConfig {
+  async function getFullLocaleConfig(
+    locale: string,
+  ): Promise<I18nLocaleConfig> {
+    const localeConfigInput = i18nConfig.localeConfigs[locale] ?? {};
+    const translate = await shouldTranslateLocale({
+      locale,
+      defaultLocale: i18nConfig.defaultLocale,
+      localeConfigInput,
+    });
     return {
       ...getDefaultLocaleConfig(locale),
-      ...i18nConfig.localeConfigs[locale],
+      ...localeConfigInput,
+      translate,
     };
   }
 
-  const localeConfigs = Object.fromEntries(
-    locales.map((locale) => [locale, getLocaleConfig(locale)]),
+  const localeConfigs = await combinePromises(
+    Object.fromEntries(
+      locales.map((locale) => [locale, getFullLocaleConfig(locale)]),
+    ),
   );
 
   return {
