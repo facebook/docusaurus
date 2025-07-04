@@ -118,11 +118,12 @@ export function localizePath({
 // TODO we may extract this to a separate package
 //  we want to use it on the frontend too
 //  but "docusaurus-utils-common" (agnostic utils) is not an ideal place since
-export function getCurrentLocaleConfig(i18n: I18n): I18nLocaleConfig {
-  const localeConfig = i18n.localeConfigs[i18n.currentLocale];
+export function getLocaleConfig(i18n: I18n, locale?: string): I18nLocaleConfig {
+  const localeToLookFor = locale ?? i18n.currentLocale;
+  const localeConfig = i18n.localeConfigs[localeToLookFor];
   if (!localeConfig) {
     throw new Error(
-      `Can't find locale config for locale ${logger.code(i18n.currentLocale)}`,
+      `Can't find locale config for locale ${logger.code(localeToLookFor)}`,
     );
   }
   return localeConfig;

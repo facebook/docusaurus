@@ -6,7 +6,7 @@
  */
 
 import {PerfLogger} from '@docusaurus/logger';
-import {getCurrentLocaleConfig} from '@docusaurus/utils';
+import {getLocaleConfig} from '@docusaurus/utils';
 import {initPlugins} from './init';
 import {createBootstrapPlugin, createMDXFallbackPlugin} from './synthetic';
 import {localizePluginTranslationFile} from '../translations/translations';
@@ -82,7 +82,7 @@ async function executePluginContentLoading({
       plugin.loadContent?.(),
     );
 
-    const shouldTranslate = getCurrentLocaleConfig(context.i18n).translate;
+    const shouldTranslate = getLocaleConfig(context.i18n).translate;
 
     if (shouldTranslate) {
       content = await PerfLogger.async('translatePluginContent()', () =>

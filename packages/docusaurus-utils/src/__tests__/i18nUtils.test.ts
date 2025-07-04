@@ -11,7 +11,7 @@ import {
   updateTranslationFileMessages,
   getPluginI18nPath,
   localizePath,
-  getCurrentLocaleConfig,
+  getLocaleConfig,
 } from '../i18nUtils';
 import type {I18n, I18nLocaleConfig} from '@docusaurus/types';
 
@@ -182,7 +182,7 @@ describe('localizePath', () => {
   });
 });
 
-describe('getCurrentLocaleConfig', () => {
+describe('getLocaleConfig', () => {
   const localeConfigEn: I18nLocaleConfig = {
     path: 'path',
     direction: 'rtl',
@@ -213,7 +213,7 @@ describe('getCurrentLocaleConfig', () => {
 
   it('returns single locale config', () => {
     expect(
-      getCurrentLocaleConfig(
+      getLocaleConfig(
         i18n({currentLocale: 'en', localeConfigs: {en: localeConfigEn}}),
       ),
     ).toEqual(localeConfigEn);
@@ -221,7 +221,7 @@ describe('getCurrentLocaleConfig', () => {
 
   it('returns correct locale config among 2', () => {
     expect(
-      getCurrentLocaleConfig(
+      getLocaleConfig(
         i18n({
           currentLocale: 'fr',
           localeConfigs: {en: localeConfigEn, fr: localeConfigFr},
@@ -230,9 +230,21 @@ describe('getCurrentLocaleConfig', () => {
     ).toEqual(localeConfigFr);
   });
 
+  it('accepts locale to look for as param', () => {
+    expect(
+      getLocaleConfig(
+        i18n({
+          currentLocale: 'fr',
+          localeConfigs: {en: localeConfigEn, fr: localeConfigFr},
+        }),
+        'en',
+      ),
+    ).toEqual(localeConfigEn);
+  });
+
   it('throws for locale config that does not exist', () => {
     expect(() =>
-      getCurrentLocaleConfig(
+      getLocaleConfig(
         i18n({
           currentLocale: 'fr',
           localeConfigs: {en: localeConfigEn},

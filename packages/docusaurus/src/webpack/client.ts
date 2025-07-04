@@ -11,7 +11,7 @@ import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {getProgressBarPlugin} from '@docusaurus/bundler';
-import {getCurrentLocaleConfig} from '@docusaurus/utils';
+import {getLocaleConfig} from '@docusaurus/utils';
 import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import ForceTerminatePlugin from './plugins/ForceTerminatePlugin';
@@ -118,7 +118,7 @@ export async function createStartClientConfig({
           headTags,
           preBodyTags,
           postBodyTags,
-          lang: getCurrentLocaleConfig(props.i18n).htmlLang,
+          lang: getLocaleConfig(props.i18n).htmlLang,
         }),
       ],
     },

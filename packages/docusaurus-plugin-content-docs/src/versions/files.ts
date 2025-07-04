@@ -9,8 +9,8 @@ import path from 'path';
 import fs from 'fs-extra';
 import {
   getPluginI18nPath,
+  getLocaleConfig,
   DEFAULT_PLUGIN_ID,
-  getCurrentLocaleConfig,
 } from '@docusaurus/utils';
 import {
   VERSIONS_JSON_FILE,
@@ -191,7 +191,7 @@ export async function getVersionMetadataPaths({
 > {
   const isCurrent = versionName === CURRENT_VERSION_NAME;
 
-  const shouldTranslate = getCurrentLocaleConfig(context.i18n).translate;
+  const shouldTranslate = getLocaleConfig(context.i18n).translate;
   const contentPathLocalized = shouldTranslate
     ? getDocsDirPathLocalized({
         localizationDir: context.localizationDir,

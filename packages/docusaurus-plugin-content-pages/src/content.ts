@@ -22,8 +22,8 @@ import {
   posixPath,
   getPluginI18nPath,
   getContentPathList,
+  getLocaleConfig,
   type ContentPaths,
-  getCurrentLocaleConfig,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext} from '@docusaurus/types';
@@ -42,7 +42,7 @@ export function createPagesContentPaths({
 }): ContentPaths {
   const {siteDir, localizationDir} = context;
 
-  const shouldTranslate = getCurrentLocaleConfig(context.i18n).translate;
+  const shouldTranslate = getLocaleConfig(context.i18n).translate;
   return {
     contentPath: path.resolve(siteDir, options.path),
     contentPathLocalized: shouldTranslate

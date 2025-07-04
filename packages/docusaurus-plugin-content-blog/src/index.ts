@@ -19,7 +19,7 @@ import {
   getDataFilePath,
   DEFAULT_PLUGIN_ID,
   resolveMarkdownLinkPathname,
-  getCurrentLocaleConfig,
+  getLocaleConfig,
 } from '@docusaurus/utils';
 import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {createMDXLoaderItem} from '@docusaurus/mdx-loader';
@@ -74,7 +74,7 @@ export default async function pluginContentBlog(
 
   const {baseUrl} = siteConfig;
 
-  const shouldTranslate = getCurrentLocaleConfig(context.i18n).translate;
+  const shouldTranslate = getLocaleConfig(context.i18n).translate;
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
     contentPathLocalized: shouldTranslate
