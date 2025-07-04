@@ -23,6 +23,7 @@ import {
   getPluginI18nPath,
   getContentPathList,
   type ContentPaths,
+  getCurrentLocaleConfig,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext} from '@docusaurus/types';
@@ -41,10 +42,10 @@ export function createPagesContentPaths({
 }): ContentPaths {
   const {siteDir, localizationDir} = context;
 
-  const shouldLocalize = false;
+  const shouldTranslate = getCurrentLocaleConfig(context.i18n).translate;
   return {
     contentPath: path.resolve(siteDir, options.path),
-    contentPathLocalized: shouldLocalize
+    contentPathLocalized: shouldTranslate
       ? getPluginI18nPath({
           localizationDir,
           pluginName: 'docusaurus-plugin-content-pages',

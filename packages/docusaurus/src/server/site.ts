@@ -10,6 +10,7 @@ import {
   localizePath,
   DEFAULT_BUILD_DIR_NAME,
   GENERATED_FILES_DIR_NAME,
+  getCurrentLocaleConfig,
 } from '@docusaurus/utils';
 import {PerfLogger} from '@docusaurus/logger';
 import combinePromises from 'combine-promises';
@@ -113,7 +114,7 @@ export async function loadContext(
   const localizationDir = path.resolve(
     siteDir,
     i18n.path,
-    i18n.localeConfigs[i18n.currentLocale]!.path,
+    getCurrentLocaleConfig(i18n).path,
   );
 
   const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};

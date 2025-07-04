@@ -12,6 +12,7 @@ import {
   posixPath,
   getFileCommitDate,
   LAST_UPDATE_FALLBACK,
+  getCurrentLocaleConfig,
 } from '@docusaurus/utils';
 import {DEFAULT_FUTURE_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import pluginContentBlog from '../index';
@@ -100,7 +101,7 @@ const getPlugin = async (
   const localizationDir = path.join(
     siteDir,
     i18n.path,
-    i18n.localeConfigs[i18n.currentLocale]!.path,
+    getCurrentLocaleConfig(i18n).path,
   );
   const siteConfig = {
     title: 'Hello',

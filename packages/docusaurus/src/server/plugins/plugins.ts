@@ -6,6 +6,7 @@
  */
 
 import {PerfLogger} from '@docusaurus/logger';
+import {getCurrentLocaleConfig} from '@docusaurus/utils';
 import {initPlugins} from './init';
 import {createBootstrapPlugin, createMDXFallbackPlugin} from './synthetic';
 import {localizePluginTranslationFile} from '../translations/translations';
@@ -81,8 +82,7 @@ async function executePluginContentLoading({
       plugin.loadContent?.(),
     );
 
-    // TODO wire
-    const shouldTranslate = false;
+    const shouldTranslate = getCurrentLocaleConfig(context.i18n).translate;
 
     if (shouldTranslate) {
       content = await PerfLogger.async('translatePluginContent()', () =>
@@ -94,6 +94,8 @@ async function executePluginContentLoading({
       );
     }
 
+    // If shouldTranslate === false, we still need the code translations
+    // Otherwise an unlocalized French site would show code strings in English
     const defaultCodeTranslations =
       (await PerfLogger.async('getDefaultCodeTranslationMessages()', () =>
         plugin.getDefaultCodeTranslationMessages?.(),
