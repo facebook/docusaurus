@@ -74,7 +74,9 @@ export async function readDataFile(params: DataFileParams): Promise<unknown> {
  * in priority.
  */
 export function getContentPathList(contentPaths: ContentPaths): string[] {
-  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
+  return [contentPaths.contentPathLocalized, contentPaths.contentPath].filter(
+    (p) => p !== undefined,
+  );
 }
 
 /**

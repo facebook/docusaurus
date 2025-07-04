@@ -11,12 +11,16 @@ import {loadPlugins, reloadPlugin} from '../plugins';
 import {DEFAULT_FUTURE_CONFIG} from '../../configValidation';
 import type {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
 
+type TestOptions = {translate?: boolean};
+
 async function testLoad({
   plugins,
   themes,
+  options = {},
 }: {
   plugins: PluginConfig<any>[];
   themes: PluginConfig<any>[];
+  options?: TestOptions;
 }) {
   const siteDir = path.join(__dirname, '__fixtures__/site-with-plugin');
 
@@ -25,6 +29,13 @@ async function testLoad({
     siteConfigPath: path.join(siteDir, 'docusaurus.config.js'),
     generatedFilesDir: path.join(siteDir, '.docusaurus'),
     outDir: path.join(siteDir, 'build'),
+    i18n: {
+      path: 'i18n',
+      locales: ['en'],
+      currentLocale: 'en',
+      defaultLocale: 'en',
+      localeConfigs: {en: {translate: options.translate ?? true}},
+    },
     siteConfig: {
       baseUrl: '/',
       trailingSlash: true,
@@ -49,10 +60,12 @@ const SyntheticPluginNames = [
 
 async function testPlugin<Content = unknown>(
   pluginConfig: PluginConfig<Content>,
+  options?: TestOptions,
 ) {
   const {context, plugins, routes, globalData} = await testLoad({
     plugins: [pluginConfig],
     themes: [],
+    options,
   });
 
   const nonSyntheticPlugins = plugins.filter(
@@ -86,65 +99,120 @@ describe('loadPlugins', () => {
     expect(globalData).toEqual({});
   });
 
-  it('typical plugin', async () => {
-    const {plugin, routes, globalData} = await testPlugin(() => ({
-      name: 'plugin-name',
-      loadContent: () => ({name: 'Toto', age: 42}),
-      translateContent: ({content}) => ({
-        ...content,
-        name: `${content.name} (translated)`,
-      }),
-      contentLoaded({content, actions}) {
-        actions.addRoute({
-          path: '/foo',
-          component: 'Comp',
-          modules: {someModule: 'someModulePath'},
-          context: {someContext: 'someContextPath'},
-        });
-        actions.setGlobalData({
-          globalName: content.name,
-          globalAge: content.age,
-        });
-      },
-    }));
+  describe('typical plugin', () => {
+    function typicalPlugin(options: TestOptions) {
+      return testPlugin(
+        () => ({
+          name: 'plugin-name',
+          loadContent: () => ({name: 'Toto', age: 42}),
+          translateContent: ({content}) => ({
+            ...content,
+            name: `${content.name} (translated)`,
+          }),
+          contentLoaded({content, actions}) {
+            actions.addRoute({
+              path: '/foo',
+              component: 'Comp',
+              modules: {someModule: 'someModulePath'},
+              context: {someContext: 'someContextPath'},
+            });
+            actions.setGlobalData({
+              globalName: content.name,
+              globalAge: content.age,
+            });
+          },
+        }),
+        options,
+      );
+    }
 
-    expect(plugin.content).toMatchInlineSnapshot(`
-      {
-        "age": 42,
-        "name": "Toto (translated)",
-      }
-    `);
-    expect(routes).toMatchInlineSnapshot(`
-      [
+    it('translated: true', async () => {
+      const {plugin, routes, globalData} = await typicalPlugin({
+        translate: true,
+      });
+
+      expect(plugin.content).toMatchInlineSnapshot(`
+              {
+                "age": 42,
+                "name": "Toto (translated)",
+              }
+          `);
+      expect(routes).toMatchInlineSnapshot(`
+              [
+                {
+                  "component": "Comp",
+                  "context": {
+                    "data": {
+                      "someContext": "someContextPath",
+                    },
+                    "plugin": "@generated/plugin-name/default/__plugin.json",
+                  },
+                  "modules": {
+                    "someModule": "someModulePath",
+                  },
+                  "path": "/foo/",
+                  "plugin": {
+                    "id": "default",
+                    "name": "plugin-name",
+                  },
+                },
+              ]
+          `);
+      expect(globalData).toMatchInlineSnapshot(`
+              {
+                "plugin-name": {
+                  "default": {
+                    "globalAge": 42,
+                    "globalName": "Toto (translated)",
+                  },
+                },
+              }
+          `);
+    });
+
+    it('translated: false', async () => {
+      const {plugin, routes, globalData} = await typicalPlugin({
+        translate: false,
+      });
+
+      expect(plugin.content).toMatchInlineSnapshot(`
         {
-          "component": "Comp",
-          "context": {
-            "data": {
-              "someContext": "someContextPath",
+          "age": 42,
+          "name": "Toto",
+        }
+      `);
+      expect(routes).toMatchInlineSnapshot(`
+              [
+                {
+                  "component": "Comp",
+                  "context": {
+                    "data": {
+                      "someContext": "someContextPath",
+                    },
+                    "plugin": "@generated/plugin-name/default/__plugin.json",
+                  },
+                  "modules": {
+                    "someModule": "someModulePath",
+                  },
+                  "path": "/foo/",
+                  "plugin": {
+                    "id": "default",
+                    "name": "plugin-name",
+                  },
+                },
+              ]
+          `);
+      expect(globalData).toMatchInlineSnapshot(`
+        {
+          "plugin-name": {
+            "default": {
+              "globalAge": 42,
+              "globalName": "Toto",
             },
-            "plugin": "@generated/plugin-name/default/__plugin.json",
           },
-          "modules": {
-            "someModule": "someModulePath",
-          },
-          "path": "/foo/",
-          "plugin": {
-            "id": "default",
-            "name": "plugin-name",
-          },
-        },
-      ]
-    `);
-    expect(globalData).toMatchInlineSnapshot(`
-      {
-        "plugin-name": {
-          "default": {
-            "globalAge": 42,
-            "globalName": "Toto (translated)",
-          },
-        },
-      }
-    `);
+        }
+      `);
+    });
   });
 
   it('plugin with options', async () => {

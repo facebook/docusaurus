@@ -47,6 +47,25 @@ describe('docusaurus-plugin-content-pages', () => {
     expect(pagesMetadata).toMatchSnapshot();
   });
 
+  it('loads simple pages with french translations (translate: false)', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const context = await loadContext({siteDir, locale: 'fr'});
+    context.i18n.localeConfigs.fr.translate = false;
+
+    const plugin = await pluginContentPages(
+      context,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'src/pages',
+        },
+      }),
+    );
+    const pagesMetadata = await plugin.loadContent!();
+
+    expect(pagesMetadata).toMatchSnapshot();
+  });
+
   it('loads simple pages with last update', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const context = await loadContext({siteDir});

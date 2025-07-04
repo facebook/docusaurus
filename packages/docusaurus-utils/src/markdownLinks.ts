@@ -20,9 +20,11 @@ export type ContentPaths = {
   contentPath: string;
   /**
    * The absolute path to the localized content directory, like
-   * `"<siteDir>/i18n/zh-Hans/plugin-content-docs"`.
+   * `"<siteDir>/i18n/zh-Hans/plugin-content-blog"`.
+   *
+   * Undefined when the locale has `translate: false` config
    */
-  contentPathLocalized: string;
+  contentPathLocalized: string | undefined;
 };
 
 /** Data structure representing each broken Markdown link to be reported. */

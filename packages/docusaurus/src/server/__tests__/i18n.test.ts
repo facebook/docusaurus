@@ -10,12 +10,6 @@ import {loadI18n, getDefaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
-function testLocaleConfigsFor(locales: string[]) {
-  return Object.fromEntries(
-    locales.map((locale) => [locale, getDefaultLocaleConfig(locale)]),
-  );
-}
-
 function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
   return loadI18n(
     {
@@ -114,7 +108,12 @@ describe('loadI18n', () => {
       defaultLocale: 'en',
       locales: ['en'],
       currentLocale: 'en',
-      localeConfigs: testLocaleConfigsFor(['en']),
+      localeConfigs: {
+        en: {
+          ...getDefaultLocaleConfig('en'),
+          translate: false,
+        },
+      },
     });
   });
 
@@ -131,7 +130,20 @@ describe('loadI18n', () => {
       path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'fr',
-      localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
+      localeConfigs: {
+        en: {
+          ...getDefaultLocaleConfig('en'),
+          translate: true,
+        },
+        fr: {
+          ...getDefaultLocaleConfig('fr'),
+          translate: false,
+        },
+        de: {
+          ...getDefaultLocaleConfig('de'),
+          translate: true,
+        },
+      },
     });
   });
 
@@ -151,7 +163,20 @@ describe('loadI18n', () => {
       path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
-      localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
+      localeConfigs: {
+        en: {
+          ...getDefaultLocaleConfig('en'),
+          translate: true,
+        },
+        fr: {
+          ...getDefaultLocaleConfig('fr'),
+          translate: false,
+        },
+        de: {
+          ...getDefaultLocaleConfig('de'),
+          translate: true,
+        },
+      },
     });
   });
 
@@ -163,8 +188,9 @@ describe('loadI18n', () => {
           defaultLocale: 'fr',
           locales: ['en', 'fr', 'de'],
           localeConfigs: {
-            fr: {label: 'Français'},
+            fr: {label: 'Français', translate: false},
             en: {},
+            de: {translate: false},
           },
         },
         'de',
@@ -181,9 +207,16 @@ describe('loadI18n', () => {
           htmlLang: 'fr',
           calendar: 'gregory',
           path: 'fr',
+          translate: false,
         },
-        en: getDefaultLocaleConfig('en'),
-        de: getDefaultLocaleConfig('de'),
+        en: {
+          ...getDefaultLocaleConfig('en'),
+          translate: true,
+        },
+        de: {
+          ...getDefaultLocaleConfig('de'),
+          translate: false,
+        },
       },
     });
   });

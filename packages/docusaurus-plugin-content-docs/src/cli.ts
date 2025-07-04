@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import logger from '@docusaurus/logger';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import {DEFAULT_PLUGIN_ID, getLocaleConfig} from '@docusaurus/utils';
 import {
   getVersionsFilePath,
   getVersionDocsDirPath,
@@ -89,7 +89,7 @@ async function cliDocsVersionCommand(
       const localizationDir = path.resolve(
         siteDir,
         i18n.path,
-        i18n.localeConfigs[locale]!.path,
+        getLocaleConfig(i18n, locale).path,
       );
       // Copy docs files.
       const docsDir =

@@ -12,15 +12,12 @@ import {
   docuHash,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  getContentPathList,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
 import {createAllRoutes} from './routes';
-import {
-  createPagesContentPaths,
-  getContentPathList,
-  loadPagesContent,
-} from './content';
+import {createPagesContentPaths, loadPagesContent} from './content';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
   PluginOptions,

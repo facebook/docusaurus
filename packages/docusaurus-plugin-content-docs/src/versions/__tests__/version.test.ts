@@ -6,27 +6,44 @@
  */
 
 import {jest} from '@jest/globals';
-import path from 'path';
+import * as path from 'path';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {readVersionsMetadata} from '../version';
 import {DEFAULT_OPTIONS} from '../../options';
-import type {I18n, LoadContext} from '@docusaurus/types';
+import type {I18n, I18nLocaleConfig, LoadContext} from '@docusaurus/types';
 import type {
   PluginOptions,
   VersionMetadata,
 } from '@docusaurus/plugin-content-docs';
 
-const DefaultI18N: I18n = {
-  path: 'i18n',
-  currentLocale: 'en',
-  locales: ['en'],
-  defaultLocale: 'en',
-  localeConfigs: {},
-};
+function getI18n(
+  locale: string,
+  localeConfigOptions?: Partial<I18nLocaleConfig>,
+): I18n {
+  return {
+    path: 'i18n',
+    currentLocale: locale,
+    locales: ['en'],
+    defaultLocale: locale,
+    localeConfigs: {
+      [locale]: {
+        path: locale,
+        label: locale,
+        translate: true,
+        calendar: 'calendar',
+        htmlLang: locale,
+        direction: 'rtl',
+        ...localeConfigOptions,
+      },
+    },
+  };
+}
+
+const DefaultI18N: I18n = getI18n('en');
 
 describe('readVersionsMetadata', () => {
   describe('simple site', () => {
-    async function loadSite() {
+    async function loadSite({context}: {context?: Partial<LoadContext>} = {}) {
       const simpleSiteDir = path.resolve(
         path.join(__dirname, '../../__tests__/__fixtures__', 'simple-site'),
       );
@@ -39,6 +56,7 @@ describe('readVersionsMetadata', () => {
         baseUrl: '/',
         i18n: DefaultI18N,
         localizationDir: path.join(simpleSiteDir, 'i18n/en'),
+        ...context,
       } as LoadContext;
 
       const vCurrent: VersionMetadata = {
@@ -71,6 +89,26 @@ describe('readVersionsMetadata', () => {
       });
 
       expect(versionsMetadata).toEqual([vCurrent]);
+    });
+
+    it('works with translate: false', async () => {
+      const {defaultOptions, defaultContext, vCurrent} = await loadSite({
+        context: {
+          i18n: getI18n('en', {translate: false}),
+        },
+      });
+
+      const versionsMetadata = await readVersionsMetadata({
+        options: defaultOptions,
+        context: defaultContext,
+      });
+
+      expect(versionsMetadata).toEqual([
+        {
+          ...vCurrent,
+          contentPathLocalized: undefined,
+        },
+      ]);
     });
 
     it('works with base url', async () => {
@@ -188,7 +226,7 @@ describe('readVersionsMetadata', () => {
   });
 
   describe('versioned site, pluginId=default', () => {
-    async function loadSite() {
+    async function loadSite({context}: {context?: Partial<LoadContext>} = {}) {
       const versionedSiteDir = path.resolve(
         path.join(__dirname, '../../__tests__/__fixtures__', 'versioned-site'),
       );
@@ -202,6 +240,7 @@ describe('readVersionsMetadata', () => {
         baseUrl: '/',
         i18n: DefaultI18N,
         localizationDir: path.join(versionedSiteDir, 'i18n/en'),
+        ...context,
       } as LoadContext;
 
       const vCurrent: VersionMetadata = {
@@ -432,6 +471,54 @@ describe('readVersionsMetadata', () => {
             'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-withSlugs',
           editUrlLocalized:
             'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/version-withSlugs',
+        },
+      ]);
+    });
+
+    it('works with editUrl and translate=false', async () => {
+      const {defaultOptions, defaultContext, vCurrent, v101, v100, vWithSlugs} =
+        await loadSite({
+          context: {
+            i18n: getI18n('en', {translate: false}),
+          },
+        });
+
+      const versionsMetadata = await readVersionsMetadata({
+        options: {
+          ...defaultOptions,
+          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+        },
+        context: defaultContext,
+      });
+
+      expect(versionsMetadata).toEqual([
+        {
+          ...vCurrent,
+          contentPathLocalized: undefined,
+          editUrl:
+            'https://github.com/facebook/docusaurus/edit/main/website/docs',
+          editUrlLocalized: undefined,
+        },
+        {
+          ...v101,
+          contentPathLocalized: undefined,
+          editUrl:
+            'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.1',
+          editUrlLocalized: undefined,
+        },
+        {
+          ...v100,
+          contentPathLocalized: undefined,
+          editUrl:
+            'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0',
+          editUrlLocalized: undefined,
+        },
+        {
+          ...vWithSlugs,
+          contentPathLocalized: undefined,
+          editUrl:
+            'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-withSlugs',
+          editUrlLocalized: undefined,
         },
       ]);
     });
