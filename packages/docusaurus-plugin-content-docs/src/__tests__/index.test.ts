@@ -18,7 +18,7 @@ import {
   createConfigureWebpackUtils,
 } from '@docusaurus/core/src/webpack/configure';
 import {sortRoutes} from '@docusaurus/core/src/server/plugins/routeConfig';
-import {posixPath} from '@docusaurus/utils';
+import {getLocaleConfig, posixPath} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 import {fromPartial} from '@total-typescript/shoehorn';
@@ -219,9 +219,13 @@ describe('empty/no docs website', () => {
 });
 
 describe('simple website', () => {
-  async function loadSite() {
+  async function loadSite({translate}: {translate?: boolean} = {}) {
     const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
     const context = await loadContext({siteDir});
+
+    // hacky but gets the job done
+    getLocaleConfig(context.i18n).translate = translate ?? true;
+
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const options = validateOptions({
       validate: normalizePluginOptions as Validate<Options, PluginOptions>,
@@ -242,8 +246,6 @@ describe('simple website', () => {
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
     const cli = new commander.Command();
-    // @ts-expect-error: in actual usage, we pass the static commander instead
-    // of the new command
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '1.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
@@ -329,9 +331,13 @@ describe('simple website', () => {
 });
 
 describe('versioned website', () => {
-  async function loadSite() {
+  async function loadSite({translate}: {translate?: boolean} = {}) {
     const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
     const context = await loadContext({siteDir});
+
+    // hacky but gets the job done
+    getLocaleConfig(context.i18n).translate = translate ?? true;
+
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const routeBasePath = 'docs';
     const options = validateOptions({
@@ -365,8 +371,6 @@ describe('versioned website', () => {
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
     const cli = new commander.Command();
-    // @ts-expect-error: in actual usage, we pass the static commander instead
-    // of the new command
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
@@ -453,9 +457,13 @@ describe('versioned website', () => {
 });
 
 describe('versioned website (community)', () => {
-  async function loadSite() {
+  async function loadSite({translate}: {translate?: boolean} = {}) {
     const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
     const context = await loadContext({siteDir});
+
+    // hacky but gets the job done
+    getLocaleConfig(context.i18n).translate = translate ?? true;
+
     const sidebarPath = path.join(siteDir, 'community_sidebars.json');
     const routeBasePath = 'community';
     const pluginId = 'community';
@@ -488,8 +496,6 @@ describe('versioned website (community)', () => {
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
     const cli = new commander.Command();
-    // @ts-expect-error: in actual usage, we pass the static commander instead
-    // of the new command
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);

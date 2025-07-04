@@ -857,7 +857,7 @@ describe('versioned site', () => {
       locale: loadSiteOptions.locale,
     });
 
-    // TODO this is quite hacky but gets the job done
+    // hacky but gets the job done
     getLocaleConfig(context.i18n).translate = loadSiteOptions.translate ?? true;
 
     const options = {
