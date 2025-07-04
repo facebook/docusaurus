@@ -62,6 +62,12 @@ async function createMdxLoaderDependencyFile({
   options: PluginOptions;
   versionsMetadata: VersionMetadata[];
 }): Promise<string | undefined> {
+  // Disabled for unit tests, the side effect produces infinite watch loops
+  // TODO find a better way :/
+  if (process.env.NODE_ENV === 'test') {
+    return undefined;
+  }
+
   const filePath = path.join(dataDir, '__mdx-loader-dependency.json');
   // the cache is invalidated whenever this file content changes
   const fileContent = {
