@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import * as path from 'path';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {DEFAULT_PARSE_FRONT_MATTER} from '@docusaurus/utils/src';
 import {readVersionsMetadata} from '../version';
@@ -19,7 +19,7 @@ const DefaultI18N: I18n = {
   currentLocale: 'en',
   locales: ['en'],
   defaultLocale: 'en',
-  localeConfigs: {},
+  localeConfigs: {en: fromPartial({translate: true})},
 };
 
 async function siteFixture(fixture: string) {
