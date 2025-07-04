@@ -145,6 +145,7 @@ exports[`load loads props for site with custom i18n path 1`] = `
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
     "onDuplicateRoutes": "warn",
+    "openExternalLinksInNewTab": true,
     "plugins": [],
     "presets": [],
     "scripts": [],
