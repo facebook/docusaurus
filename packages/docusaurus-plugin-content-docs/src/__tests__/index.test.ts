@@ -583,6 +583,13 @@ describe('versioned website (community)', () => {
       options,
       plugin,
       pluginContentDir,
+
+      getPathsToWatch: () => {
+        const pathToWatch = plugin.getPathsToWatch!();
+        return pathToWatch.map((filepath) =>
+          posixPath(path.relative(siteDir, filepath)),
+        );
+      },
     };
   }
 
@@ -599,34 +606,67 @@ describe('versioned website (community)', () => {
     mock.mockRestore();
   });
 
-  it('getPathToWatch', async () => {
-    const {siteDir, plugin} = await loadSite();
-    const pathToWatch = plugin.getPathsToWatch!();
-    const matchPattern = pathToWatch.map((filepath) =>
-      posixPath(path.relative(siteDir, filepath)),
-    );
-    expect(matchPattern).not.toEqual([]);
-    expect(matchPattern).toMatchSnapshot();
-    expect(isMatch('community/team.md', matchPattern)).toBe(true);
-    expect(
-      isMatch('community_versioned_docs/version-1.0.0/team.md', matchPattern),
-    ).toBe(true);
+  describe('getPathToWatch', () => {
+    it('translate: false', async () => {
+      const {getPathsToWatch} = await loadSite({translate: false});
+      expect(getPathsToWatch()).toMatchInlineSnapshot(`
+        [
+          "community_sidebars.json",
+          "community/**/*.{md,mdx}",
+          "community/tags.yml",
+          "community/**/_category_.{json,yml,yaml}",
+          "community_versioned_sidebars/version-1.0.0-sidebars.json",
+          "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
+          "community_versioned_docs/version-1.0.0/tags.yml",
+          "community_versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
+        ]
+      `);
+    });
 
-    // Non existing version
-    expect(
-      isMatch('community_versioned_docs/version-2.0.0/team.md', matchPattern),
-    ).toBe(false);
-    expect(
-      isMatch(
-        'community_versioned_sidebars/version-2.0.0-sidebars.json',
-        matchPattern,
-      ),
-    ).toBe(false);
+    it('translate: true', async () => {
+      const {getPathsToWatch} = await loadSite({translate: true});
+      expect(getPathsToWatch()).toMatchInlineSnapshot(`
+        [
+          "community_sidebars.json",
+          "i18n/en/docusaurus-plugin-content-docs-community/current/**/*.{md,mdx}",
+          "community/**/*.{md,mdx}",
+          "i18n/en/docusaurus-plugin-content-docs-community/current/tags.yml",
+          "community/tags.yml",
+          "community/**/_category_.{json,yml,yaml}",
+          "community_versioned_sidebars/version-1.0.0-sidebars.json",
+          "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/**/*.{md,mdx}",
+          "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
+          "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/tags.yml",
+          "community_versioned_docs/version-1.0.0/tags.yml",
+          "community_versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
+        ]
+      `);
+    });
 
-    expect(isMatch('community/team.js', matchPattern)).toBe(false);
-    expect(
-      isMatch('community_versioned_docs/version-1.0.0/team.js', matchPattern),
-    ).toBe(false);
+    it('returns patterns matching docs', async () => {
+      const {getPathsToWatch} = await loadSite();
+      const matchPattern = getPathsToWatch();
+      expect(isMatch('community/team.md', matchPattern)).toBe(true);
+      expect(
+        isMatch('community_versioned_docs/version-1.0.0/team.md', matchPattern),
+      ).toBe(true);
+
+      // Non existing version
+      expect(
+        isMatch('community_versioned_docs/version-2.0.0/team.md', matchPattern),
+      ).toBe(false);
+      expect(
+        isMatch(
+          'community_versioned_sidebars/version-2.0.0-sidebars.json',
+          matchPattern,
+        ),
+      ).toBe(false);
+
+      expect(isMatch('community/team.js', matchPattern)).toBe(false);
+      expect(
+        isMatch('community_versioned_docs/version-1.0.0/team.js', matchPattern),
+      ).toBe(false);
+    });
   });
 
   it('content', async () => {

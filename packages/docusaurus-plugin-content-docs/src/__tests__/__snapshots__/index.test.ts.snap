@@ -3316,23 +3316,6 @@ exports[`versioned website (community) content: route config 1`] = `
 ]
 `;
 
-exports[`versioned website (community) getPathToWatch 1`] = `
-[
-  "community_sidebars.json",
-  "i18n/en/docusaurus-plugin-content-docs-community/current/**/*.{md,mdx}",
-  "community/**/*.{md,mdx}",
-  "i18n/en/docusaurus-plugin-content-docs-community/current/tags.yml",
-  "community/tags.yml",
-  "community/**/_category_.{json,yml,yaml}",
-  "community_versioned_sidebars/version-1.0.0-sidebars.json",
-  "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/**/*.{md,mdx}",
-  "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
-  "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/tags.yml",
-  "community_versioned_docs/version-1.0.0/tags.yml",
-  "community_versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
-]
-`;
-
 exports[`versioned website content 1`] = `
 {
   "description": "This is next version of bar.",
