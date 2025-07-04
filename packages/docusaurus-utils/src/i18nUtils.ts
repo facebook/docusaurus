@@ -7,12 +7,14 @@
 
 import path from 'path';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {DEFAULT_PLUGIN_ID} from './constants';
 import {normalizeUrl} from './urlUtils';
 import type {
   TranslationFileContent,
   TranslationFile,
   I18n,
+  I18nLocaleConfig,
 } from '@docusaurus/types';
 
 /**
@@ -111,4 +113,14 @@ export function localizePath({
   }
   // Url paths; add a trailing slash so it's a valid base URL
   return normalizeUrl([originalPath, i18n.currentLocale, '/']);
+}
+
+export function getCurrentLocaleConfig(i18n: I18n): I18nLocaleConfig {
+  const localeConfig = i18n.localeConfigs[i18n.currentLocale];
+  if (!localeConfig) {
+    throw new Error(
+      `Can't find locale config for locale ${logger.code(i18n.currentLocale)}`,
+    );
+  }
+  return localeConfig;
 }

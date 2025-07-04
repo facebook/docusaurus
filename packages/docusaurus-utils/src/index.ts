@@ -34,6 +34,7 @@ export {
   updateTranslationFileMessages,
   getPluginI18nPath,
   localizePath,
+  getCurrentLocaleConfig,
 } from './i18nUtils';
 export {mapAsyncSequential, findAsyncSequential} from './jsUtils';
 export {
