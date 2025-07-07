@@ -6,23 +6,33 @@
  */
 
 import {jest} from '@jest/globals';
+import path from 'path';
 import {loadI18n, getDefaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 
-function testLocaleConfigsFor(locales: string[]) {
-  return Object.fromEntries(
-    locales.map((locale) => [locale, getDefaultLocaleConfig(locale)]),
-  );
-}
+const loadI18nSiteDir = path.resolve(
+  __dirname,
+  '__fixtures__',
+  'load-i18n-site',
+);
 
-function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
-  return loadI18n(
-    {
+function loadI18nTest({
+  siteDir = loadI18nSiteDir,
+  i18nConfig,
+  currentLocale,
+}: {
+  siteDir?: string;
+  i18nConfig: I18nConfig;
+  currentLocale: string;
+}) {
+  return loadI18n({
+    siteDir,
+    config: {
       i18n: i18nConfig,
     } as DocusaurusConfig,
-    {locale},
-  );
+    currentLocale,
+  });
 }
 
 describe('defaultLocaleConfig', () => {
@@ -109,66 +119,106 @@ describe('loadI18n', () => {
   });
 
   it('loads I18n for default config', async () => {
-    await expect(loadI18nTest(DEFAULT_I18N_CONFIG)).resolves.toEqual({
+    await expect(
+      loadI18nTest({
+        i18nConfig: DEFAULT_I18N_CONFIG,
+        currentLocale: 'en',
+      }),
+    ).resolves.toEqual({
       path: 'i18n',
       defaultLocale: 'en',
       locales: ['en'],
       currentLocale: 'en',
-      localeConfigs: testLocaleConfigsFor(['en']),
+      localeConfigs: {
+        en: {
+          ...getDefaultLocaleConfig('en'),
+          translate: false,
+        },
+      },
     });
   });
 
   it('loads I18n for multi-lang config', async () => {
     await expect(
       loadI18nTest({
-        path: 'i18n',
-        defaultLocale: 'fr',
-        locales: ['en', 'fr', 'de'],
-        localeConfigs: {},
+        i18nConfig: {
+          path: 'i18n',
+          defaultLocale: 'fr',
+          locales: ['en', 'fr', 'de'],
+          localeConfigs: {},
+        },
+        currentLocale: 'fr',
       }),
     ).resolves.toEqual({
       defaultLocale: 'fr',
       path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'fr',
-      localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
+      localeConfigs: {
+        en: {
+          ...getDefaultLocaleConfig('en'),
+          translate: false,
+        },
+        fr: {
+          ...getDefaultLocaleConfig('fr'),
+          translate: true,
+        },
+        de: {
+          ...getDefaultLocaleConfig('de'),
+          translate: true,
+        },
+      },
     });
   });
 
   it('loads I18n for multi-locale config with specified locale', async () => {
     await expect(
-      loadI18nTest(
-        {
+      loadI18nTest({
+        i18nConfig: {
           path: 'i18n',
           defaultLocale: 'fr',
           locales: ['en', 'fr', 'de'],
           localeConfigs: {},
         },
-        'de',
-      ),
+        currentLocale: 'de',
+      }),
     ).resolves.toEqual({
       defaultLocale: 'fr',
       path: 'i18n',
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
-      localeConfigs: testLocaleConfigsFor(['en', 'fr', 'de']),
+      localeConfigs: {
+        en: {
+          ...getDefaultLocaleConfig('en'),
+          translate: false,
+        },
+        fr: {
+          ...getDefaultLocaleConfig('fr'),
+          translate: true,
+        },
+        de: {
+          ...getDefaultLocaleConfig('de'),
+          translate: true,
+        },
+      },
     });
   });
 
   it('loads I18n for multi-locale config with some custom locale configs', async () => {
     await expect(
-      loadI18nTest(
-        {
+      loadI18nTest({
+        i18nConfig: {
           path: 'i18n',
           defaultLocale: 'fr',
           locales: ['en', 'fr', 'de'],
           localeConfigs: {
-            fr: {label: 'Français'},
-            en: {},
+            fr: {label: 'Français', translate: false},
+            en: {translate: true},
+            de: {translate: false},
           },
         },
-        'de',
-      ),
+        currentLocale: 'de',
+      }),
     ).resolves.toEqual({
       defaultLocale: 'fr',
       path: 'i18n',
@@ -181,23 +231,30 @@ describe('loadI18n', () => {
           htmlLang: 'fr',
           calendar: 'gregory',
           path: 'fr',
+          translate: false,
         },
-        en: getDefaultLocaleConfig('en'),
-        de: getDefaultLocaleConfig('de'),
+        en: {
+          ...getDefaultLocaleConfig('en'),
+          translate: true,
+        },
+        de: {
+          ...getDefaultLocaleConfig('de'),
+          translate: false,
+        },
       },
     });
   });
 
   it('warns when trying to load undeclared locale', async () => {
-    await loadI18nTest(
-      {
+    await loadI18nTest({
+      i18nConfig: {
         path: 'i18n',
         defaultLocale: 'fr',
         locales: ['en', 'fr', 'de'],
         localeConfigs: {},
       },
-      'it',
-    );
+      currentLocale: 'it',
+    });
     expect(consoleSpy.mock.calls[0]![0]).toMatch(
       /The locale .*it.* was not found in your site configuration/,
     );

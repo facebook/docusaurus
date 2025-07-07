@@ -5,13 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import * as path from 'path';
 import {
   mergeTranslations,
   updateTranslationFileMessages,
   getPluginI18nPath,
   localizePath,
+  getLocaleConfig,
 } from '../i18nUtils';
+import type {I18n, I18nLocaleConfig} from '@docusaurus/types';
 
 describe('mergeTranslations', () => {
   it('works', () => {
@@ -177,5 +179,79 @@ describe('localizePath', () => {
         },
       }),
     ).toBe('/baseUrl/');
+  });
+});
+
+describe('getLocaleConfig', () => {
+  const localeConfigEn: I18nLocaleConfig = {
+    path: 'path',
+    direction: 'rtl',
+    htmlLang: 'en',
+    calendar: 'calendar',
+    label: 'EN',
+    translate: true,
+  };
+  const localeConfigFr: I18nLocaleConfig = {
+    path: 'path',
+    direction: 'rtl',
+    htmlLang: 'fr',
+    calendar: 'calendar',
+    label: 'FR',
+    translate: true,
+  };
+
+  function i18n(params: Partial<I18n>): I18n {
+    return {
+      defaultLocale: 'en',
+      localeConfigs: {},
+      locales: ['en'],
+      path: 'path',
+      currentLocale: 'en',
+      ...params,
+    };
+  }
+
+  it('returns single locale config', () => {
+    expect(
+      getLocaleConfig(
+        i18n({currentLocale: 'en', localeConfigs: {en: localeConfigEn}}),
+      ),
+    ).toEqual(localeConfigEn);
+  });
+
+  it('returns correct locale config among 2', () => {
+    expect(
+      getLocaleConfig(
+        i18n({
+          currentLocale: 'fr',
+          localeConfigs: {en: localeConfigEn, fr: localeConfigFr},
+        }),
+      ),
+    ).toEqual(localeConfigFr);
+  });
+
+  it('accepts locale to look for as param', () => {
+    expect(
+      getLocaleConfig(
+        i18n({
+          currentLocale: 'fr',
+          localeConfigs: {en: localeConfigEn, fr: localeConfigFr},
+        }),
+        'en',
+      ),
+    ).toEqual(localeConfigEn);
+  });
+
+  it('throws for locale config that does not exist', () => {
+    expect(() =>
+      getLocaleConfig(
+        i18n({
+          currentLocale: 'fr',
+          localeConfigs: {en: localeConfigEn},
+        }),
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Can't find locale config for locale \`fr\`"`,
+    );
   });
 });

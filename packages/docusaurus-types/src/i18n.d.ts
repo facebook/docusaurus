@@ -32,6 +32,11 @@ export type I18nLocaleConfig = {
    * name.
    */
   path: string;
+  /**
+   * Should we attempt to translate this locale?
+   * By default, it will only be run if the `./i18n/<locale>` exists.
+   */
+  translate: boolean;
 };
 
 export type I18nConfig = {

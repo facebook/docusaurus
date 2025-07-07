@@ -91,7 +91,11 @@ async function getLocalesToBuild({
     localizePath,
   });
 
-  const i18n = await loadI18n(context.siteConfig);
+  const i18n = await loadI18n({
+    siteDir,
+    config: context.siteConfig,
+    currentLocale: context.siteConfig.i18n.defaultLocale // Awkward but ok
+  });
 
   const locales = cliOptions.locale ?? i18n.locales;
 

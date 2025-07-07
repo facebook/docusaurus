@@ -7,12 +7,14 @@
 
 import path from 'path';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
 import {DEFAULT_PLUGIN_ID} from './constants';
 import {normalizeUrl} from './urlUtils';
 import type {
   TranslationFileContent,
   TranslationFile,
   I18n,
+  I18nLocaleConfig,
 } from '@docusaurus/types';
 
 /**
@@ -111,4 +113,18 @@ export function localizePath({
   }
   // Url paths; add a trailing slash so it's a valid base URL
   return normalizeUrl([originalPath, i18n.currentLocale, '/']);
+}
+
+// TODO we may extract this to a separate package
+//  we want to use it on the frontend too
+//  but "docusaurus-utils-common" (agnostic utils) is not an ideal place since
+export function getLocaleConfig(i18n: I18n, locale?: string): I18nLocaleConfig {
+  const localeToLookFor = locale ?? i18n.currentLocale;
+  const localeConfig = i18n.localeConfigs[localeToLookFor];
+  if (!localeConfig) {
+    throw new Error(
+      `Can't find locale config for locale ${logger.code(localeToLookFor)}`,
+    );
+  }
+  return localeConfig;
 }

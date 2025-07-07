@@ -6,12 +6,13 @@
  */
 
 import {jest} from '@jest/globals';
-import path from 'path';
+import * as path from 'path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {
   posixPath,
   getFileCommitDate,
   LAST_UPDATE_FALLBACK,
+  getLocaleConfig,
 } from '@docusaurus/utils';
 import {DEFAULT_FUTURE_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import pluginContentBlog from '../index';
@@ -22,6 +23,7 @@ import type {
   I18n,
   Validate,
   MarkdownConfig,
+  I18nLocaleConfig,
 } from '@docusaurus/types';
 import type {
   BlogPost,
@@ -67,7 +69,10 @@ Available blog post titles are:\n- ${blogPosts
   return post;
 }
 
-function getI18n(locale: string): I18n {
+function getI18n(
+  locale: string,
+  localeConfigOptions?: Partial<I18nLocaleConfig>,
+): I18n {
   return {
     currentLocale: locale,
     locales: [locale],
@@ -80,6 +85,8 @@ function getI18n(locale: string): I18n {
         htmlLang: locale,
         direction: 'ltr',
         path: locale,
+        translate: true,
+        ...localeConfigOptions,
       },
     },
   };
@@ -94,13 +101,14 @@ const BaseEditUrl = 'https://baseEditUrl.com/edit';
 const getPlugin = async (
   siteDir: string,
   pluginOptions: Partial<PluginOptions> = {},
-  i18n: I18n = DefaultI18N,
+  i18nOptions: Partial<I18n> = {},
 ) => {
+  const i18n = {...DefaultI18N, ...i18nOptions};
   const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
   const localizationDir = path.join(
     siteDir,
     i18n.path,
-    i18n.localeConfigs[i18n.currentLocale]!.path,
+    getLocaleConfig(i18n).path,
   );
   const siteConfig = {
     title: 'Hello',
@@ -153,20 +161,34 @@ const getBlogTags = async (
 };
 
 describe('blog plugin', () => {
-  it('getPathsToWatch returns right files', async () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const plugin = await getPlugin(siteDir);
-    const pathsToWatch = plugin.getPathsToWatch!();
-    const relativePathsToWatch = pathsToWatch.map((p) =>
-      posixPath(path.relative(siteDir, p)),
-    );
-    expect(relativePathsToWatch).toEqual([
-      'i18n/en/docusaurus-plugin-content-blog/authors.yml',
-      'i18n/en/docusaurus-plugin-content-blog/tags.yml',
-      'blog/tags.yml',
-      'i18n/en/docusaurus-plugin-content-blog/**/*.{md,mdx}',
-      'blog/**/*.{md,mdx}',
-    ]);
+  describe('getPathsToWatch', () => {
+    async function runTest({translate}: {translate: boolean}) {
+      const siteDir = path.join(__dirname, '__fixtures__', 'website');
+      const plugin = await getPlugin(siteDir, {}, getI18n('en', {translate}));
+      const pathsToWatch = plugin.getPathsToWatch!();
+      return pathsToWatch.map((p) => posixPath(path.relative(siteDir, p)));
+    }
+
+    it('getPathsToWatch returns right files', async () => {
+      const relativePathsToWatch = await runTest({translate: true});
+      expect(relativePathsToWatch).toEqual([
+        'i18n/en/docusaurus-plugin-content-blog/authors.yml',
+        'i18n/en/docusaurus-plugin-content-blog/tags.yml',
+        // 'blog/authors.yml', // TODO weird that it's not here but tags is?
+        'blog/tags.yml',
+        'i18n/en/docusaurus-plugin-content-blog/**/*.{md,mdx}',
+        'blog/**/*.{md,mdx}',
+      ]);
+    });
+
+    it('getPathsToWatch returns right files (translate: false)', async () => {
+      const relativePathsToWatch = await runTest({translate: false});
+      expect(relativePathsToWatch).toEqual([
+        'blog/authors.yml',
+        'blog/tags.yml',
+        'blog/**/*.{md,mdx}',
+      ]);
+    });
   });
 
   it('builds a simple website', async () => {
@@ -377,6 +399,54 @@ describe('blog plugin', () => {
     });
   });
 
+  describe('i18n config translate is wired properly', () => {
+    async function runTest({translate}: {translate: boolean}) {
+      const siteDir = path.join(__dirname, '__fixtures__', 'website');
+      const blogPosts = await getBlogPosts(
+        siteDir,
+        {},
+        getI18n('en', {translate}),
+      );
+
+      // Simpler to snapshot
+      return blogPosts.map((post) => post.metadata.title);
+    }
+
+    it('works with translate: false', async () => {
+      await expect(runTest({translate: false})).resolves.toMatchInlineSnapshot(`
+        [
+          "test links",
+          "MDX Blog Sample with require calls",
+          "Full Blog Sample",
+          "Complex Slug",
+          "Simple Slug",
+          "draft",
+          "unlisted",
+          "some heading",
+          "date-matter",
+          "Happy 1st Birthday Slash!",
+        ]
+      `);
+    });
+
+    it('works with translate: true', async () => {
+      await expect(runTest({translate: true})).resolves.toMatchInlineSnapshot(`
+        [
+          "test links",
+          "MDX Blog Sample with require calls",
+          "Full Blog Sample",
+          "Complex Slug",
+          "Simple Slug",
+          "draft",
+          "unlisted",
+          "some heading",
+          "date-matter",
+          "Happy 1st Birthday Slash! (translated)",
+        ]
+      `);
+    });
+  });
+
   it('handles edit URL with editLocalizedBlogs: true', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPosts = await getBlogPosts(siteDir, {editLocalizedFiles: true});
@@ -387,6 +457,23 @@ describe('blog plugin', () => {
 
     expect(localizedBlogPost.metadata.editUrl).toBe(
       `${BaseEditUrl}/i18n/en/docusaurus-plugin-content-blog/2018-12-14-Happy-First-Birthday-Slash.md`,
+    );
+  });
+
+  it('handles edit URL with editLocalizedBlogs: true and translate: false', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const blogPosts = await getBlogPosts(
+      siteDir,
+      {editLocalizedFiles: true},
+      getI18n('en', {translate: false}),
+    );
+
+    const localizedBlogPost = blogPosts.find(
+      (v) => v.metadata.title === 'Happy 1st Birthday Slash!',
+    )!;
+
+    expect(localizedBlogPost.metadata.editUrl).toBe(
+      `${BaseEditUrl}/blog/2018-12-14-Happy-First-Birthday-Slash.md`,
     );
   });
 
