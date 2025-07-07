@@ -97,7 +97,11 @@ export async function loadContext(
     siteConfig: initialSiteConfig,
   });
 
-  const i18n = await loadI18n(initialSiteConfig, {locale});
+  const i18n = await loadI18n({
+    siteDir,
+    config: initialSiteConfig,
+    currentLocale: locale ?? initialSiteConfig.i18n.defaultLocale,
+  });
 
   const baseUrl = localizePath({
     path: initialSiteConfig.baseUrl,

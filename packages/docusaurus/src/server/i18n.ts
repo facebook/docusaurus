@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import combinePromises from 'combine-promises';
 import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
-import type {LoadContextParams} from './site';
 
 function inferLanguageDisplayName(locale: string) {
   const tryLocale = (l: string) => {
@@ -98,26 +99,16 @@ export function getDefaultLocaleConfig(
   }
 }
 
-async function shouldTranslateLocale({
-  locale,
-  defaultLocale,
-  localeConfigInput,
+export async function loadI18n({
+  siteDir,
+  config,
+  currentLocale,
 }: {
-  locale: string;
-  defaultLocale: string;
-  localeConfigInput: Partial<I18nLocaleConfig>;
-}): Promise<boolean> {
-  // Maybe in the future we want to check if `./i18n/en` exists?
-  return localeConfigInput.translate ?? locale !== defaultLocale;
-}
-
-export async function loadI18n(
-  config: DocusaurusConfig,
-  options?: Pick<LoadContextParams, 'locale'>,
-): Promise<I18n> {
+  siteDir: string;
+  config: DocusaurusConfig;
+  currentLocale: string;
+}): Promise<I18n> {
   const {i18n: i18nConfig} = config;
-
-  const currentLocale = options?.locale ?? i18nConfig.defaultLocale;
 
   if (!i18nConfig.locales.includes(currentLocale)) {
     logger.warn`The locale name=${currentLocale} was not found in your site configuration: Available locales are: ${i18nConfig.locales}
@@ -132,14 +123,24 @@ Note: Docusaurus only support running one locale at a time.`;
     locale: string,
   ): Promise<I18nLocaleConfig> {
     const localeConfigInput = i18nConfig.localeConfigs[locale] ?? {};
-    const translate = await shouldTranslateLocale({
-      locale,
-      defaultLocale: i18nConfig.defaultLocale,
-      localeConfigInput,
-    });
-    return {
+    const localeConfig: Omit<I18nLocaleConfig, 'translate'> = {
       ...getDefaultLocaleConfig(locale),
       ...localeConfigInput,
+    };
+
+    // By default, translations will be enabled if i18n/<locale> dir exists
+    async function inferTranslate() {
+      const localizationDir = path.resolve(
+        siteDir,
+        i18nConfig.path,
+        localeConfig.path,
+      );
+      return fs.pathExists(localizationDir);
+    }
+
+    const translate = localeConfigInput.translate ?? (await inferTranslate());
+    return {
+      ...localeConfig,
       translate,
     };
   }

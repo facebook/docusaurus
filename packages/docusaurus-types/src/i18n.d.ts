@@ -33,9 +33,8 @@ export type I18nLocaleConfig = {
    */
   path: string;
   /**
-   * Should we run the extra translation process for this locale?
-   * By default, we skip the translation process for the default locale,
-   * while all the other locales run it.
+   * Should we attempt to translate this locale?
+   * By default, it will only be run if the `./i18n/<locale>` exists.
    */
   translate: boolean;
 };
