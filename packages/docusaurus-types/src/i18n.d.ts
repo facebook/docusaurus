@@ -37,6 +37,21 @@ export type I18nLocaleConfig = {
    * By default, it will only be run if the `./i18n/<locale>` exists.
    */
   translate: boolean;
+
+  /**
+   * The baseUrl to use for this locale.
+   * This overrides the `siteConfig.baseUrl` attribute.
+   *
+   * Default values:
+   * - Default locale: `/${siteConfig.baseUrl}/`
+   * - Other locales: `/${siteConfig.baseUrl}/<locale>/`
+   *
+   * Exception: when using the CLI with a single `--locale` parameter, the
+   * `/<locale>/` path segment is not included. This is a better default for
+   * sites looking to deploy each locale to a different subdomain, such as
+   * `https://<locale>.docusaurus.io`
+   */
+  baseUrl: string;
 };
 
 export type I18nConfig = {
