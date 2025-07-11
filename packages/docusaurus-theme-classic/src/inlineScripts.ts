@@ -15,7 +15,7 @@ const ThemeQueryStringKey = 'docusaurus-theme';
 const DataQueryStringPrefixKey = 'docusaurus-data-';
 
 export function getThemeInlineScript({
-  colorMode: {defaultMode, respectPrefersColorScheme},
+  colorMode: {disableSwitch, defaultMode, respectPrefersColorScheme},
   siteStorage,
 }: {
   colorMode: ThemeConfig['colorMode'];
@@ -25,28 +25,35 @@ export function getThemeInlineScript({
   // Make sure the key is the same as the one in the color mode React context
   // Currently defined in: `docusaurus-theme-common/src/contexts/colorMode.tsx`
   const themeStorageKey = `theme${siteStorage.namespace}`;
+  const isThemeUserConfigurable = !disableSwitch;
 
   /* language=js */
   return `(function() {
-    var defaultMode = '${defaultMode}';
-    var respectPrefersColorScheme = ${respectPrefersColorScheme};
-    function getSystemColorMode() {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    function getQueryStringTheme() {
-      try {
-        return new URLSearchParams(window.location.search).get('${ThemeQueryStringKey}')
-      } catch (e) {}
-    }
-    function getStoredTheme() {
-      try {
-        return window['${siteStorage.type}'].getItem('${themeStorageKey}');
-      } catch (err) {}
-    }
-    var initialTheme = getQueryStringTheme() || getStoredTheme();
-    document.documentElement.setAttribute('data-theme', initialTheme || (respectPrefersColorScheme ? getSystemColorMode() : defaultMode));
-    document.documentElement.setAttribute('data-theme-choice', initialTheme || (respectPrefersColorScheme ? 'system' : defaultMode));
-  })();`;
+  function getSystemColorMode() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+${
+  isThemeUserConfigurable
+    ? `  function getQueryStringTheme() {
+    try {
+      return new URLSearchParams(window.location.search).get('${ThemeQueryStringKey}')
+    } catch (e) {}
+  }
+  function getStoredTheme() {
+    try {
+      return window['${siteStorage.type}'].getItem('${themeStorageKey}');
+    } catch (err) {}
+  }
+  var initialTheme = getQueryStringTheme() || getStoredTheme();`
+    : '  var initialTheme;'
+}
+  document.documentElement.setAttribute('data-theme', initialTheme || ${
+    respectPrefersColorScheme ? 'getSystemColorMode()' : `'${defaultMode}'`
+  });
+  document.documentElement.setAttribute('data-theme-choice', initialTheme || ${
+    respectPrefersColorScheme ? `'system'` : `'${defaultMode}'`
+  });
+})();`;
 }
 
 /* language=js */
