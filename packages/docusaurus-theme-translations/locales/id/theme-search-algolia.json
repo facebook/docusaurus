@@ -24,7 +24,7 @@
   "theme.SearchModal.startScreen.removeFavoriteSearchButtonTitle": "Hapus pencarian ini dari favorit",
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Hapus pencarian ini dari riwayat",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Simpan pencarian ini",
-  "theme.SearchPage.algoliaLabel": "Pencarian oleh Algolia",
+  "theme.SearchPage.algoliaLabel": "Didukung oleh Algolia",
   "theme.SearchPage.documentsFound.plurals": "Satu dokumen ditemukan|{count} dokumen ditemukan",
   "theme.SearchPage.emptyResultsTitle": "Cari dokumentasi",
   "theme.SearchPage.existingResultsTitle": "Hasil pencarian untuk \"{query}\"",

@@ -24,7 +24,7 @@
   "theme.SearchModal.startScreen.removeFavoriteSearchButtonTitle": "Remove this search from favorites",
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Remove this search from history",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Save this search",
-  "theme.SearchPage.algoliaLabel": "Претрага из Algolia",
+  "theme.SearchPage.algoliaLabel": "Покреће Algolia",
   "theme.SearchPage.documentsFound.plurals": "Један пронађен документ|{count} пронађених докумената",
   "theme.SearchPage.emptyResultsTitle": "Тражи документацију",
   "theme.SearchPage.existingResultsTitle": "Резултати за \"{query}\"",

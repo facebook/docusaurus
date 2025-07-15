@@ -24,7 +24,7 @@
   "theme.SearchModal.startScreen.removeFavoriteSearchButtonTitle": "Halaýan ýazgyny aýyrmak",
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Taryh ýazgysyny aýyrmak",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Gözleg soragyny ýatda saklaň",
-  "theme.SearchPage.algoliaLabel": "Algolia tarapyndan gözleg",
+  "theme.SearchPage.algoliaLabel": "Algolia tarapyndan goldanylýar",
   "theme.SearchPage.documentsFound.plurals": "{count} dokument|{count} dokumentler",
   "theme.SearchPage.emptyResultsTitle": "Sahypada gözleg",
   "theme.SearchPage.existingResultsTitle": "\"{query}\" boýunça gözleg netijeleri",

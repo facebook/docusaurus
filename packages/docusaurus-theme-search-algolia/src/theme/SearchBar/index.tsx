@@ -198,8 +198,35 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
   // TODO remove "as any" after React 19 upgrade
   const searchButtonRef = useRef<HTMLButtonElement>(null as any);
   const [isOpen, setIsOpen] = useState(false);
-  const [initialQuery, setInitialQuery] = useState<string | undefined>(
+  const [initialQuery, setInitialQuery] = React.useState<string | undefined>(
     undefined,
+  );
+  const [isAskAiActive, setIsAskAiActive] = React.useState(false);
+
+  const canHandleAskAi = Boolean(props?.askAi);
+
+  let currentPlaceholder =
+    props?.translations?.modal?.searchBox?.placeholderText ||
+    props?.placeholder ||
+    'Search docs';
+
+  if (canHandleAskAi) {
+    currentPlaceholder =
+      props?.translations?.modal?.searchBox?.placeholderText ||
+      'Search docs or ask AI a question';
+  }
+
+  if (isAskAiActive) {
+    currentPlaceholder =
+      props?.translations?.modal?.searchBox?.placeholderTextAskAi ||
+      'Ask another question...';
+  }
+
+  const onAskAiToggle = React.useCallback(
+    (askAItoggle: boolean) => {
+      setIsAskAiActive(askAItoggle);
+    },
+    [setIsAskAiActive],
   );
 
   const prepareSearchContainer = useCallback(() => {
@@ -219,7 +246,10 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
     setIsOpen(false);
     searchButtonRef.current?.focus();
     setInitialQuery(undefined);
-  }, []);
+    if (isAskAiActive) {
+      setIsAskAiActive(false);
+    }
+  }, [isAskAiActive]);
 
   const handleInput = useCallback(
     (event: KeyboardEvent) => {
@@ -243,6 +273,8 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
     onClose: closeModal,
     onInput: handleInput,
     searchButtonRef,
+    isAskAiActive,
+    onAskAiToggle,
   });
 
   return (
@@ -274,6 +306,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
         searchContainer.current &&
         createPortal(
           <DocSearchModal
+            {...props}
             onClose={closeModal}
             initialScrollY={window.scrollY}
             initialQuery={initialQuery}
@@ -284,10 +317,14 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
             {...(props.searchPagePath && {
               resultsFooterComponent,
             })}
-            placeholder={translations.placeholder}
-            {...props}
+            placeholder={currentPlaceholder}
             translations={props.translations?.modal ?? translations.modal}
             searchParameters={searchParameters}
+            // ask ai props
+            askAi={props.askAi}
+            canHandleAskAi={canHandleAskAi}
+            isAskAiActive={isAskAiActive}
+            onAskAiToggle={onAskAiToggle}
           />,
           // TODO need to fix this React Compiler lint error
           // eslint-disable-next-line react-compiler/react-compiler

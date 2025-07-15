@@ -24,7 +24,7 @@
   "theme.SearchModal.startScreen.removeFavoriteSearchButtonTitle": "Fjarlægja þessa leit úr uppáhalds",
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Fjarlægja þessa leit úr sögu",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Vista þessa leit",
-  "theme.SearchPage.algoliaLabel": "Leit með Algolia",
+  "theme.SearchPage.algoliaLabel": "Keyrt af Algolia",
   "theme.SearchPage.documentsFound.plurals": "Eitt skjal fannst|{count} skjöl fundust",
   "theme.SearchPage.emptyResultsTitle": "Leita í skjölun",
   "theme.SearchPage.existingResultsTitle": "Niðurstöður fyrir \"{query}\"",

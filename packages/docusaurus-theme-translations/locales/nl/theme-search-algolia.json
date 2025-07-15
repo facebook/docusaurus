@@ -24,7 +24,7 @@
   "theme.SearchModal.startScreen.removeFavoriteSearchButtonTitle": "Verwijder deze zoekopdracht uit mijn favorieten",
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Verwijder deze zoekopdracht uit mijn geschiedenis",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Sla deze zoekopdracht op",
-  "theme.SearchPage.algoliaLabel": "Zoeken door Algolia",
+  "theme.SearchPage.algoliaLabel": "Aangedreven door Algolia",
   "theme.SearchPage.documentsFound.plurals": "Een document gevonden|{count} documenten gevonden",
   "theme.SearchPage.emptyResultsTitle": "Doorzoek de documentatie",
   "theme.SearchPage.existingResultsTitle": "Zoekresultaten voor \"{query}\"",

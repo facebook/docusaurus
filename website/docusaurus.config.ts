@@ -655,6 +655,7 @@ export default async function createConfigAsync() {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
         indexName: 'docusaurus-2',
+        askAi: 'RgIMYFUmTfrN',
         replaceSearchResultPathname:
           isDev || isDeployPreview
             ? {

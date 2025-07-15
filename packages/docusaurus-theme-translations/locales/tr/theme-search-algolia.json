@@ -24,7 +24,7 @@
   "theme.SearchModal.startScreen.removeFavoriteSearchButtonTitle": "Bu aramayı favorilerden kaldır",
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Bu aramayı geçmişten kaldır",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Bu aramayı kaydet",
-  "theme.SearchPage.algoliaLabel": "Algolia ile Ara",
+  "theme.SearchPage.algoliaLabel": "Algolia tarafından desteklenmektedir",
   "theme.SearchPage.documentsFound.plurals": "Bir döküman bulundu|{count} döküman bulundu",
   "theme.SearchPage.emptyResultsTitle": "Dokümanlarda ara",
   "theme.SearchPage.existingResultsTitle": "Arama sonuçları",

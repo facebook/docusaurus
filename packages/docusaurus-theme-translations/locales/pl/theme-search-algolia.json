@@ -24,7 +24,7 @@
   "theme.SearchModal.startScreen.removeFavoriteSearchButtonTitle": "Usuń to wyszukiwanie z ulubionych",
   "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": "Usuń to wyszukiwanie z historii",
   "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": "Zapisz to wyszukiwanie",
-  "theme.SearchPage.algoliaLabel": "Dostawca rozwiązania Algolia",
+  "theme.SearchPage.algoliaLabel": "Napędzane przez Algolia",
   "theme.SearchPage.documentsFound.plurals": "Jeden dokument znaleziony|{count} dokumenty znalezione|{count} dokumentów znalezionych",
   "theme.SearchPage.emptyResultsTitle": "Wyszukaj w dokumentacji",
   "theme.SearchPage.existingResultsTitle": "Wyniki wyszukiwania dla \"{query}\"",
