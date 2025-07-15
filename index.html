@@ -28,34 +28,32 @@
 
 
 <link rel="stylesheet" href="./katex/katex.min.css" type="text/css"><link rel="stylesheet" href="./assets/css/styles.128182ff.css" />
-<script src="./assets/js/runtime~main.39808a26.js" defer></script>
-<script src="./assets/js/main.ba95d56c.js" defer></script>
+<script src="./assets/js/runtime~main.1b290fb6.js" defer></script>
+<script src="./assets/js/main.d363605a.js" defer></script>
 </head>
 <body >
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<svg style="display: none;"><defs>
 <symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z" /></symbol>
 </defs></svg>
 <script>
 (function() {
-    var defaultMode = 'light';
-    var respectPrefersColorScheme = true;
-    function getSystemColorMode() {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    function getQueryStringTheme() {
-      try {
-        return new URLSearchParams(window.location.search).get('docusaurus-theme')
-      } catch (e) {}
-    }
-    function getStoredTheme() {
-      try {
-        return window['localStorage'].getItem('theme-189');
-      } catch (err) {}
-    }
-    var initialTheme = getQueryStringTheme() || getStoredTheme();
-    document.documentElement.setAttribute('data-theme', initialTheme || (respectPrefersColorScheme ? getSystemColorMode() : defaultMode));
-    document.documentElement.setAttribute('data-theme-choice', initialTheme || (respectPrefersColorScheme ? 'system' : defaultMode));
-  })();
+  function getSystemColorMode() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  function getQueryStringTheme() {
+    try {
+      return new URLSearchParams(window.location.search).get('docusaurus-theme')
+    } catch (e) {}
+  }
+  function getStoredTheme() {
+    try {
+      return window['localStorage'].getItem('theme-189');
+    } catch (err) {}
+  }
+  var initialTheme = getQueryStringTheme() || getStoredTheme();
+  document.documentElement.setAttribute('data-theme', initialTheme || getSystemColorMode());
+  document.documentElement.setAttribute('data-theme-choice', initialTheme || 'system');
+})();
 
 (function() {
   try {
