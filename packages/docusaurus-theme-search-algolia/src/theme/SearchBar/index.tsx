@@ -267,6 +267,28 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
 
   const resultsFooterComponent = useResultsFooterComponent({closeModal});
 
+  // Rebuild the askAI prop as an object
+  const askAiProp = props.askAi;
+  const askAi = askAiProp
+    ? {
+        // if askai prop is a string, consider it as the assistantId
+        // and use the default indexName, apiKey, appId
+        // if askai prop is an object, use the values from the object
+        indexName:
+          typeof askAiProp === 'string' ? props.indexName : askAiProp.indexName,
+        apiKey: typeof askAiProp === 'string' ? props.apiKey : askAiProp.apiKey,
+        appId: typeof askAiProp === 'string' ? props.appId : askAiProp.appId,
+        assistantId:
+          typeof askAiProp === 'string' ? askAiProp : askAiProp.assistantId,
+        // use the docusaurus' merged searchParameters facetFilters
+        searchParameters: searchParameters?.facetFilters
+          ? {
+              facetFilters: searchParameters?.facetFilters,
+            }
+          : undefined,
+      }
+    : undefined;
+
   useDocSearchKeyboardEvents({
     isOpen,
     onOpen: openModal,
@@ -321,7 +343,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
             translations={props.translations?.modal ?? translations.modal}
             searchParameters={searchParameters}
             // ask ai props
-            askAi={props.askAi}
+            askAi={askAi}
             canHandleAskAi={canHandleAskAi}
             isAskAiActive={isAskAiActive}
             onAskAiToggle={onAskAiToggle}
