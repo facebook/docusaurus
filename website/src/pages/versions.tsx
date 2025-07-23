@@ -12,6 +12,7 @@ import Translate from '@docusaurus/Translate';
 import {
   useVersions,
   useLatestVersion,
+  type GlobalVersion,
 } from '@docusaurus/plugin-content-docs/client';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
@@ -49,6 +50,13 @@ export default function Version(): ReactNode {
   );
   const repoUrl = `https://github.com/${organizationName!}/${projectName!}`;
 
+  function getReleaseNotesUrl(version: GlobalVersion): string {
+    if (version.name === '2.x') {
+      return 'https://github.com/facebook/docusaurus/blob/main/CHANGELOG-v2.md';
+    }
+    return `${repoUrl}/releases/tag/v${version.name}`;
+  }
+
   return (
     <Layout
       title="Versions"
@@ -81,7 +89,7 @@ export default function Version(): ReactNode {
                   </Link>
                 </td>
                 <td>
-                  <Link to={`${repoUrl}/releases/tag/v${latestVersion.name}`}>
+                  <Link to={getReleaseNotesUrl(latestVersion)}>
                     <ReleaseNotesLabel />
                   </Link>
                 </td>
@@ -142,7 +150,7 @@ export default function Version(): ReactNode {
                       </Link>
                     </td>
                     <td>
-                      <Link href={`${repoUrl}/releases/tag/v${version.name}`}>
+                      <Link href={getReleaseNotesUrl(version)}>
                         <ReleaseNotesLabel />
                       </Link>
                     </td>
