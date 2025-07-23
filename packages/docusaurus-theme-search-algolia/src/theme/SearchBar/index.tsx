@@ -267,24 +267,23 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
 
   const resultsFooterComponent = useResultsFooterComponent({closeModal});
 
-  // Rebuild the askAI prop as an object
+  // Rebuild the askAI prop as an object:
+  // if askai prop is a string, consider it as the assistantId
   const askAiProp = props.askAi;
+  const isAskAiPropAssistantId = typeof askAiProp === 'string';
   const askAi = askAiProp
     ? {
-        // if askai prop is a string, consider it as the assistantId
-        // and use the default indexName, apiKey, appId
+        // Use the default indexName, apiKey, appId
         // if askai prop is an object, use the values from the object
-        indexName:
-          typeof askAiProp === 'string' ? props.indexName : askAiProp.indexName,
-        apiKey: typeof askAiProp === 'string' ? props.apiKey : askAiProp.apiKey,
-        appId: typeof askAiProp === 'string' ? props.appId : askAiProp.appId,
-        assistantId:
-          typeof askAiProp === 'string' ? askAiProp : askAiProp.assistantId,
+        indexName: isAskAiPropAssistantId
+          ? props.indexName
+          : askAiProp.indexName,
+        apiKey: isAskAiPropAssistantId ? props.apiKey : askAiProp.apiKey,
+        appId: isAskAiPropAssistantId ? props.appId : askAiProp.appId,
+        assistantId: isAskAiPropAssistantId ? askAiProp : askAiProp.assistantId,
         // use the docusaurus' merged searchParameters facetFilters
         searchParameters: searchParameters?.facetFilters
-          ? {
-              facetFilters: searchParameters?.facetFilters,
-            }
+          ? {facetFilters: searchParameters?.facetFilters}
           : undefined,
       }
     : undefined;
