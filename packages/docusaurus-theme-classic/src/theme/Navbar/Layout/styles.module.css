@@ -5,10 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.navbarHideable {
-  transition: transform var(--ifm-transition-fast) ease;
+.navbar-sidebar {
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  bottom: 0;
+  border: 0;
+  height: 100%;
+  max-height: 100%;
 }
 
-.navbarHidden {
-  transform: translate3d(0, calc(-100% - 2px), 0);
+.navbar-sidebar::backdrop {
+  background-color: #0009;
 }
