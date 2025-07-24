@@ -147,6 +147,7 @@ exports[`load loads props for site 1`] = `
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
     "onDuplicateRoutes": "warn",
+    "openExternalLinksInNewTab": true,
     "plugins": [],
     "presets": [],
     "scripts": [],
