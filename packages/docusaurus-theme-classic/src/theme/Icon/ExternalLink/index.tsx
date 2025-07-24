@@ -22,7 +22,7 @@ export default function IconExternalLink({
     <svg
       width={width}
       height={height}
-      aria-hidden="true"
+      aria-label="(opens in new tab)"
       className={styles.iconExternalLink}>
       <use href={svgSprite} />
     </svg>
