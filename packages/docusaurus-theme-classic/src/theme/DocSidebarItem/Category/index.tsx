@@ -37,18 +37,30 @@ function useAutoExpandActiveCategory({
   isActive,
   collapsed,
   updateCollapsed,
+  activePath,
 }: {
   isActive: boolean;
   collapsed: boolean;
   updateCollapsed: (b: boolean) => void;
+  activePath: string;
 }) {
   const wasActive = usePrevious(isActive);
+  const previousActivePath = usePrevious(activePath);
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
-    if (justBecameActive && collapsed) {
+    const stillActiveButPathChanged =
+      isActive && wasActive && activePath !== previousActivePath;
+    if ((justBecameActive || stillActiveButPathChanged) && collapsed) {
       updateCollapsed(false);
     }
-  }, [isActive, wasActive, collapsed, updateCollapsed]);
+  }, [
+    isActive,
+    wasActive,
+    collapsed,
+    updateCollapsed,
+    activePath,
+    previousActivePath,
+  ]);
 }
 
 /**
@@ -150,7 +162,12 @@ export default function DocSidebarItemCategory({
     setExpandedItem(toCollapsed ? null : index);
     setCollapsed(toCollapsed);
   };
-  useAutoExpandActiveCategory({isActive, collapsed, updateCollapsed});
+  useAutoExpandActiveCategory({
+    isActive,
+    collapsed,
+    updateCollapsed,
+    activePath,
+  });
   useEffect(() => {
     if (
       collapsible &&
