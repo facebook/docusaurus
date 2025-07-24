@@ -33,6 +33,22 @@
   font-weight: bold;
 }
 
+.searchLogoColumn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.searchLogoColumn a {
+  display: flex;
+}
+
+.searchLogoColumn span {
+  color: var(--docsearch-muted-color);
+  font-weight: normal;
+}
+
 .algoliaLogo {
   max-width: 150px;
 }
