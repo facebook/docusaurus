@@ -39,7 +39,13 @@ export type I18nLocaleConfig = {
   translate: boolean;
 
   /**
-   * The baseUrl to use for this locale.*
+   * For i18n sites deployed to distinct domains, it is recommended to configure
+   * a site url on a per-locale basis.
+   */
+  url: string;
+
+  /**
+   * An explicit baseUrl to use for this locale, overriding the default one:
    * Default values:
    * - Default locale: `/${siteConfig.baseUrl}/`
    * - Other locales: `/${siteConfig.baseUrl}/<locale>/`

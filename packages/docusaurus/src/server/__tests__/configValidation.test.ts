@@ -417,6 +417,38 @@ describe('i18n', () => {
       expect(normalizeLocaleConfig({})).toEqual({});
     });
 
+    describe('url', () => {
+      it('accepts undefined', () => {
+        expect(normalizeLocaleConfig({url: undefined})).toEqual({
+          url: undefined,
+        });
+      });
+
+      it('rejects empty', () => {
+        expect(() => normalizeLocaleConfig({url: ''}))
+          .toThrowErrorMatchingInlineSnapshot(`
+          ""i18n.localeConfigs.fr.url" is not allowed to be empty
+          "
+        `);
+      });
+
+      it('accepts valid url', () => {
+        expect(
+          normalizeLocaleConfig({url: 'https://fr.docusaurus.io'}),
+        ).toEqual({
+          url: 'https://fr.docusaurus.io',
+        });
+      });
+
+      it('accepts valid url and removes trailing slash', () => {
+        expect(
+          normalizeLocaleConfig({url: 'https://fr.docusaurus.io/'}),
+        ).toEqual({
+          url: 'https://fr.docusaurus.io',
+        });
+      });
+    });
+
     describe('baseUrl', () => {
       it('accepts undefined baseUrl', () => {
         expect(normalizeLocaleConfig({baseUrl: undefined})).toEqual({
