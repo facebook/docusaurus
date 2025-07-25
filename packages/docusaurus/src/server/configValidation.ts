@@ -26,9 +26,16 @@ import type {
   I18nConfig,
   MarkdownConfig,
   MarkdownHooks,
+  I18nLocaleConfig,
 } from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
+
+const BaseUrlSchema = Joi
+  // Weird Joi trick needed, otherwise value '' is not normalized...
+  .alternatives()
+  .try(Joi.string().required().allow(''))
+  .custom((value: string) => addLeadingSlash(addTrailingSlash(value)));
 
 export const DEFAULT_I18N_CONFIG: I18nConfig = {
   defaultLocale: DEFAULT_I18N_LOCALE,
@@ -220,12 +227,13 @@ const PresetSchema = Joi.alternatives()
 - A simple string, like \`"classic"\``,
   });
 
-const LocaleConfigSchema = Joi.object({
+const LocaleConfigSchema = Joi.object<I18nLocaleConfig>({
   label: Joi.string(),
   htmlLang: Joi.string(),
-  direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
+  direction: Joi.string().equal('ltr', 'rtl'),
   calendar: Joi.string(),
   path: Joi.string(),
+  baseUrl: BaseUrlSchema,
 });
 
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
@@ -335,12 +343,7 @@ const SiteUrlSchema = Joi.string()
 
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object<DocusaurusConfig>({
-  baseUrl: Joi
-    // Weird Joi trick needed, otherwise value '' is not normalized...
-    .alternatives()
-    .try(Joi.string().required().allow(''))
-    .required()
-    .custom((value: string) => addLeadingSlash(addTrailingSlash(value))),
+  baseUrl: BaseUrlSchema.required(),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().optional(),
   title: Joi.string().required(),
