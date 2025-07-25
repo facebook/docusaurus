@@ -8,6 +8,7 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useLocation} from '@docusaurus/router';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
+import type {I18nLocaleConfig} from '@docusaurus/types';
 
 /**
  * Permits to obtain the url of the current page in another locale, useful to
@@ -36,7 +37,7 @@ export function useAlternatePageUtils(): {
   }) => string;
 } {
   const {
-    siteConfig: {baseUrl, url, trailingSlash},
+    siteConfig: {baseUrl, trailingSlash},
     i18n: {localeConfigs},
   } = useDocusaurusContext();
 
@@ -52,18 +53,16 @@ export function useAlternatePageUtils(): {
   // Canonical pathname, without the baseUrl of the current locale
   const pathnameSuffix = canonicalPathname.replace(baseUrl, '');
 
-  function getLocalizedBaseUrl(locale: string) {
-    const localizedBaseUrl = localeConfigs[locale]?.baseUrl;
-    if (!localizedBaseUrl) {
+  function getLocaleConfig(locale: string): I18nLocaleConfig {
+    const localeConfig = localeConfigs[locale];
+    if (!localeConfig) {
       throw new Error(
-        `unexpected, no locale config baseUrl for locale=${locale}`,
+        `Unexpected Docusaurus bug, no locale config found for locale=${locale}`,
       );
     }
-    return localizedBaseUrl;
+    return localeConfig;
   }
 
-  // TODO support correct alternate url when localized site is deployed on
-  // another domain
   function createUrl({
     locale,
     fullyQualified,
@@ -71,9 +70,10 @@ export function useAlternatePageUtils(): {
     locale: string;
     fullyQualified: boolean;
   }) {
-    return `${fullyQualified ? url : ''}${getLocalizedBaseUrl(
-      locale,
-    )}${pathnameSuffix}`;
+    const localeConfig = getLocaleConfig(locale);
+    const newUrl = `${fullyQualified ? localeConfig.url : ''}`;
+    const newBaseUrl = localeConfig.baseUrl;
+    return `${newUrl}${newBaseUrl}${pathnameSuffix}`;
   }
 
   return {createUrl};
