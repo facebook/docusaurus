@@ -28,7 +28,7 @@ describe('load', () => {
         ),
         outDir: path.join(
           __dirname,
-          '__fixtures__/custom-i18n-site/build/zh-Hans',
+          '__fixtures__/custom-i18n-site/build/zh-Hans/',
         ),
         routesPaths: ['/zh-Hans/404.html'],
         siteConfig: expect.objectContaining({

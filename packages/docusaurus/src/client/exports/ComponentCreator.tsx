@@ -60,7 +60,6 @@ export default function ComponentCreator(
   Object.entries(flatChunkNames).forEach(([keyPath, chunkName]) => {
     const chunkRegistry = registry[chunkName];
     if (chunkRegistry) {
-      // eslint-disable-next-line prefer-destructuring
       loader[keyPath] = chunkRegistry[0];
       modules.push(chunkRegistry[1]);
       optsWebpack.push(chunkRegistry[2]);

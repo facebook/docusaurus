@@ -90,7 +90,6 @@ async function createLoadSiteParams({
     siteDir,
     config: cliOptions.config,
     locale: cliOptions.locale,
-    localizePath: undefined, // Should this be configurable?
   };
 }
 

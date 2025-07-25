@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`normalizeConfig throws error for required fields 1`] = `
-""baseUrl" is required
+""url" is required
+"baseUrl" is required
 "title" is required
-"url" is required
 "themes" must be an array
 "presets" must be an array
 "scripts" must be an array
