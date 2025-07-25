@@ -115,8 +115,6 @@ export async function loadContext(
 
   const localeConfig = getLocaleConfig(i18n);
 
-  console.log({localeConfig});
-
   // We use the baseUrl from the locale config.
   // By default, it is inferred as /<siteConfig.baseUrl>/
   // eventually including the /<locale>/ suffix
