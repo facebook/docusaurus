@@ -104,10 +104,12 @@ export async function loadI18n({
   siteDir,
   config,
   currentLocale,
+  automaticBaseUrlLocalizationDisabled,
 }: {
   siteDir: string;
   config: DocusaurusConfig;
   currentLocale: string;
+  automaticBaseUrlLocalizationDisabled: boolean;
 }): Promise<I18n> {
   const {i18n: i18nConfig} = config;
 
@@ -144,13 +146,14 @@ Note: Docusaurus only support running one locale at a time.`;
         return normalizeUrl(['/', localeConfigInput.baseUrl, '/']);
       }
 
-      // TODO CLI locales.length === 1 case - retro compat
-      const hasLocaleSegment = locale !== i18nConfig.defaultLocale;
+      const addLocaleSegment =
+        locale !== i18nConfig.defaultLocale &&
+        !automaticBaseUrlLocalizationDisabled;
 
       return normalizeUrl([
         '/',
         config.baseUrl,
-        hasLocaleSegment ? locale : '',
+        addLocaleSegment ? locale : '',
         '/',
       ]);
     }

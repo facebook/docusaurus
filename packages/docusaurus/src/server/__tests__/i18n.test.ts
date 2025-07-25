@@ -22,11 +22,13 @@ function loadI18nTest({
   baseUrl = '/',
   i18nConfig,
   currentLocale,
+  automaticBaseUrlLocalizationDisabled,
 }: {
   siteDir?: string;
   baseUrl?: string;
   i18nConfig: I18nConfig;
   currentLocale: string;
+  automaticBaseUrlLocalizationDisabled?: boolean;
 }) {
   return loadI18n({
     siteDir,
@@ -35,6 +37,8 @@ function loadI18nTest({
       baseUrl,
     } as DocusaurusConfig,
     currentLocale,
+    automaticBaseUrlLocalizationDisabled:
+      automaticBaseUrlLocalizationDisabled ?? false,
   });
 }
 
@@ -173,6 +177,43 @@ describe('loadI18n', () => {
           ...getDefaultLocaleConfig('de'),
           translate: true,
           baseUrl: '/de/',
+        },
+      },
+    });
+  });
+
+  it('loads I18n for multi-lang config - with automaticBaseUrlLocalizationDisabled=true', async () => {
+    await expect(
+      loadI18nTest({
+        i18nConfig: {
+          path: 'i18n',
+          defaultLocale: 'fr',
+          locales: ['en', 'fr', 'de'],
+          localeConfigs: {},
+        },
+        currentLocale: 'fr',
+        automaticBaseUrlLocalizationDisabled: true,
+      }),
+    ).resolves.toEqual({
+      defaultLocale: 'fr',
+      path: 'i18n',
+      locales: ['en', 'fr', 'de'],
+      currentLocale: 'fr',
+      localeConfigs: {
+        en: {
+          ...getDefaultLocaleConfig('en'),
+          translate: false,
+          baseUrl: '/',
+        },
+        fr: {
+          ...getDefaultLocaleConfig('fr'),
+          translate: true,
+          baseUrl: '/',
+        },
+        de: {
+          ...getDefaultLocaleConfig('de'),
+          translate: true,
+          baseUrl: '/',
         },
       },
     });

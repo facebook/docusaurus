@@ -86,6 +86,7 @@ export async function loadContext(
     outDir: baseOutDir = DEFAULT_BUILD_DIR_NAME,
     locale,
     config: customConfigFilePath,
+    automaticBaseUrlLocalizationDisabled,
   } = params;
   const generatedFilesDir = path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
@@ -108,9 +109,13 @@ export async function loadContext(
     siteDir,
     config: initialSiteConfig,
     currentLocale: locale ?? initialSiteConfig.i18n.defaultLocale,
+    automaticBaseUrlLocalizationDisabled:
+      automaticBaseUrlLocalizationDisabled ?? false,
   });
 
   const localeConfig = getLocaleConfig(i18n);
+
+  console.log({localeConfig});
 
   // We use the baseUrl from the locale config.
   // By default, it is inferred as /<siteConfig.baseUrl>/

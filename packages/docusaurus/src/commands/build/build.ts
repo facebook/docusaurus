@@ -81,6 +81,8 @@ async function getLocalesToBuild({
   siteDir: string;
   cliOptions: BuildCLIOptions;
 }): Promise<[string, ...string[]]> {
+  // TODO we shouldn't need to load all context + i18n just to get that list
+  // only loading siteConfig should be enough
   const context = await loadContext({
     siteDir,
     outDir: cliOptions.outDir,
@@ -91,7 +93,8 @@ async function getLocalesToBuild({
   const i18n = await loadI18n({
     siteDir,
     config: context.siteConfig,
-    currentLocale: context.siteConfig.i18n.defaultLocale // Awkward but ok
+    currentLocale: context.siteConfig.i18n.defaultLocale, // Awkward but ok
+    automaticBaseUrlLocalizationDisabled: false,
   });
 
   const locales = cliOptions.locale ?? i18n.locales;
