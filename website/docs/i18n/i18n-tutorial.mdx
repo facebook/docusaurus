@@ -453,7 +453,9 @@ For localized sites, it is recommended to use **[explicit heading IDs](../guides
 
 You can choose to deploy your site under a **single domain** or use **multiple (sub)domains**.
 
-:::tip
+:::tip About localized baseUrls
+
+Docusaurus will automatically add a `/<locale>/` path segment to your site for locales except the default one. This heuristic works well for most sites but can be configured on a per-locale basis depending on your deployment requirements.
 
 Make sure to read the [`siteConfig.baseUrl`](../api/docusaurus.config.js.mdx#baseUrl) docs to understand the subtleties of hosting i18n sites.
 
