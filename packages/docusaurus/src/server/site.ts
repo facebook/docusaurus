@@ -46,13 +46,21 @@ export type LoadContextParams = {
   config?: string;
   /** Default is `i18n.defaultLocale` */
   locale?: string;
+
   /**
-   * `true` means the paths will have the locale prepended; `false` means they
-   * won't (useful for `yarn build -l zh-Hans` where the output should be
-   * emitted into `build/` instead of `build/zh-Hans/`); `undefined` is like the
-   * "smart" option where only non-default locale paths are localized
+   * By default, we try to automatically infer a localized baseUrl.
+   * We prepend `/<siteBaseUrl>/` with a `/<locale>/` path segment,
+   * except for the default locale.
+   *
+   * This option permits opting out of this baseUrl localization process.
+   * It is mostly useful to simplify config for multi-domain i18n deployments.
+   * See https://docusaurus.io/docs/i18n/tutorial#multi-domain-deployment
+   *
+   * In all cases, this process doesn't happen if an explicit localized baseUrl
+   * has been provided using `i18n.localeConfigs[].baseUrl`. We always use the
+   * provided value over the inferred one, letting you override it.
    */
-  localizePath?: boolean;
+  automaticBaseUrlLocalizationDisabled?: boolean;
 };
 
 export type LoadSiteParams = LoadContextParams & {

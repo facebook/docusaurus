@@ -11,6 +11,7 @@ import {mapAsyncSequential} from '@docusaurus/utils';
 import {loadContext, type LoadContextParams} from '../../server/site';
 import {loadI18n} from '../../server/i18n';
 import {buildLocale, type BuildLocaleParams} from './buildLocale';
+import {isAutomaticBaseUrlLocalizationDisabled} from './buildUtils';
 
 export type BuildCLIOptions = Pick<LoadContextParams, 'config' | 'outDir'> & {
   locale?: [string, ...string[]];
@@ -80,15 +81,11 @@ async function getLocalesToBuild({
   siteDir: string;
   cliOptions: BuildCLIOptions;
 }): Promise<[string, ...string[]]> {
-  // We disable locale path localization if CLI has single "--locale" option
-  // yarn build --locale fr => baseUrl=/ instead of baseUrl=/fr/
-  const localizePath = cliOptions.locale?.length === 1 ? false : undefined;
-
   const context = await loadContext({
     siteDir,
     outDir: cliOptions.outDir,
     config: cliOptions.config,
-    localizePath,
+    automaticBaseUrlLocalizationDisabled: isAutomaticBaseUrlLocalizationDisabled(cliOptions),
   });
 
   const i18n = await loadI18n({
