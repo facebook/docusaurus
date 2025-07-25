@@ -7,7 +7,6 @@
 
 import path from 'path';
 import {
-  localizePath,
   DEFAULT_BUILD_DIR_NAME,
   GENERATED_FILES_DIR_NAME,
   getLocaleConfig,
@@ -103,25 +102,25 @@ export async function loadContext(
     currentLocale: locale ?? initialSiteConfig.i18n.defaultLocale,
   });
 
-  const baseUrl = localizePath({
-    path: initialSiteConfig.baseUrl,
-    i18n,
-    options: params,
-    pathType: 'url',
-  });
-  const outDir = localizePath({
-    path: path.resolve(siteDir, baseOutDir),
-    i18n,
-    options: params,
-    pathType: 'fs',
-  });
+  const localeConfig = getLocaleConfig(i18n);
+
+  // We use the baseUrl from the locale config.
+  // By default, it is inferred as /<siteConfig.baseUrl>/
+  // eventually including the /<locale>/ suffix
+  const baseUrl = localeConfig.baseUrl;
+
+  const outDir = path.join(path.resolve(siteDir, baseOutDir), baseUrl);
+
   const localizationDir = path.resolve(
     siteDir,
     i18n.path,
     getLocaleConfig(i18n).path,
   );
 
-  const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};
+  const siteConfig: DocusaurusConfig = {
+    ...initialSiteConfig,
+    baseUrl,
+  };
 
   const codeTranslations = await loadSiteCodeTranslations({localizationDir});
 
