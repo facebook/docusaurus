@@ -39,9 +39,7 @@ export type I18nLocaleConfig = {
   translate: boolean;
 
   /**
-   * The baseUrl to use for this locale.
-   * This overrides the `siteConfig.baseUrl` attribute.
-   *
+   * The baseUrl to use for this locale.*
    * Default values:
    * - Default locale: `/${siteConfig.baseUrl}/`
    * - Other locales: `/${siteConfig.baseUrl}/<locale>/`
