@@ -83,7 +83,7 @@ function getDefaultDirection(localeStr: string) {
 
 export function getDefaultLocaleConfig(
   locale: string,
-): Omit<I18nLocaleConfig, 'translate' | 'baseUrl'> {
+): Omit<I18nLocaleConfig, 'translate' | 'url' | 'baseUrl'> {
   try {
     return {
       label: getDefaultLocaleLabel(locale),
@@ -126,7 +126,10 @@ Note: Docusaurus only support running one locale at a time.`;
     locale: string,
   ): Promise<I18nLocaleConfig> {
     const localeConfigInput = i18nConfig.localeConfigs[locale] ?? {};
-    const localeConfig: Omit<I18nLocaleConfig, 'translate' | 'baseUrl'> = {
+    const localeConfig: Omit<
+      I18nLocaleConfig,
+      'translate' | 'url' | 'baseUrl'
+    > = {
       ...getDefaultLocaleConfig(locale),
       ...localeConfigInput,
     };
@@ -141,11 +144,7 @@ Note: Docusaurus only support running one locale at a time.`;
       return fs.pathExists(localizationDir);
     }
 
-    function getBaseUrl(): string {
-      if (typeof localeConfigInput.baseUrl !== 'undefined') {
-        return normalizeUrl(['/', localeConfigInput.baseUrl, '/']);
-      }
-
+    function getInferredBaseUrl(): string {
       const addLocaleSegment =
         locale !== i18nConfig.defaultLocale &&
         !automaticBaseUrlLocalizationDisabled;
@@ -159,13 +158,21 @@ Note: Docusaurus only support running one locale at a time.`;
     }
 
     const translate = localeConfigInput.translate ?? (await inferTranslate());
+
+    const url =
+      typeof localeConfigInput.url !== 'undefined'
+        ? localeConfigInput.url
+        : config.url;
+
     const baseUrl =
       typeof localeConfigInput.baseUrl !== 'undefined'
         ? normalizeUrl(['/', localeConfigInput.baseUrl, '/'])
-        : getBaseUrl();
+        : getInferredBaseUrl();
+
     return {
       ...localeConfig,
       translate,
+      url,
       baseUrl,
     };
   }

@@ -17,6 +17,8 @@ const loadI18nSiteDir = path.resolve(
   'load-i18n-site',
 );
 
+const siteUrl = 'https://example.com';
+
 function loadI18nTest({
   siteDir = loadI18nSiteDir,
   baseUrl = '/',
@@ -34,6 +36,7 @@ function loadI18nTest({
     siteDir,
     config: {
       i18n: i18nConfig,
+      url: siteUrl,
       baseUrl,
     } as DocusaurusConfig,
     currentLocale,
@@ -140,6 +143,7 @@ describe('loadI18n', () => {
         en: {
           ...getDefaultLocaleConfig('en'),
           translate: false,
+          url: siteUrl,
           baseUrl: '/',
         },
       },
@@ -166,16 +170,19 @@ describe('loadI18n', () => {
         en: {
           ...getDefaultLocaleConfig('en'),
           translate: false,
+          url: siteUrl,
           baseUrl: '/en/',
         },
         fr: {
           ...getDefaultLocaleConfig('fr'),
           translate: true,
+          url: siteUrl,
           baseUrl: '/',
         },
         de: {
           ...getDefaultLocaleConfig('de'),
           translate: true,
+          url: siteUrl,
           baseUrl: '/de/',
         },
       },
@@ -203,16 +210,19 @@ describe('loadI18n', () => {
         en: {
           ...getDefaultLocaleConfig('en'),
           translate: false,
+          url: siteUrl,
           baseUrl: '/',
         },
         fr: {
           ...getDefaultLocaleConfig('fr'),
           translate: true,
+          url: siteUrl,
           baseUrl: '/',
         },
         de: {
           ...getDefaultLocaleConfig('de'),
           translate: true,
+          url: siteUrl,
           baseUrl: '/',
         },
       },
@@ -239,16 +249,19 @@ describe('loadI18n', () => {
         en: {
           ...getDefaultLocaleConfig('en'),
           translate: false,
+          url: siteUrl,
           baseUrl: '/en/',
         },
         fr: {
           ...getDefaultLocaleConfig('fr'),
           translate: true,
+          url: siteUrl,
           baseUrl: '/',
         },
         de: {
           ...getDefaultLocaleConfig('de'),
           translate: true,
+          url: siteUrl,
           baseUrl: '/de/',
         },
       },
@@ -284,16 +297,19 @@ describe('loadI18n', () => {
           calendar: 'gregory',
           path: 'fr',
           translate: false,
+          url: siteUrl,
           baseUrl: '/',
         },
         en: {
           ...getDefaultLocaleConfig('en'),
           translate: true,
+          url: siteUrl,
           baseUrl: '/en-EN/whatever/else/',
         },
         de: {
           ...getDefaultLocaleConfig('de'),
           translate: false,
+          url: siteUrl,
           baseUrl: '/de-DE/',
         },
       },
@@ -330,6 +346,41 @@ describe('loadI18n', () => {
           }),
           pt: expect.objectContaining({
             baseUrl: '/siteBaseUrl/pt/',
+          }),
+        },
+      }),
+    );
+  });
+
+  it('loads I18n for multi-locale config with custom urls', async () => {
+    await expect(
+      loadI18nTest({
+        baseUrl: 'siteBaseUrl',
+        i18nConfig: {
+          path: 'i18n',
+          defaultLocale: 'fr',
+          locales: ['en', 'fr', 'de', 'pt'],
+          localeConfigs: {
+            fr: {url: 'https://fr.example.com'},
+            en: {url: 'https://en.example.com'},
+          },
+        },
+        currentLocale: 'de',
+      }),
+    ).resolves.toEqual(
+      expect.objectContaining({
+        localeConfigs: {
+          fr: expect.objectContaining({
+            url: 'https://fr.example.com',
+          }),
+          en: expect.objectContaining({
+            url: 'https://en.example.com',
+          }),
+          de: expect.objectContaining({
+            url: siteUrl,
+          }),
+          pt: expect.objectContaining({
+            url: siteUrl,
           }),
         },
       }),
