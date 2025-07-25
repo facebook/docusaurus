@@ -37,7 +37,7 @@ export function useAlternatePageUtils(): {
 } {
   const {
     siteConfig: {baseUrl, url, trailingSlash},
-    i18n: {defaultLocale, currentLocale},
+    i18n: {localeConfigs},
   } = useDocusaurusContext();
 
   // TODO using useLocation().pathname is not a super idea
@@ -49,17 +49,17 @@ export function useAlternatePageUtils(): {
     baseUrl,
   });
 
-  const baseUrlUnlocalized =
-    currentLocale === defaultLocale
-      ? baseUrl
-      : baseUrl.replace(`/${currentLocale}/`, '/');
-
+  // Canonical pathname, without the baseUrl of the current locale
   const pathnameSuffix = canonicalPathname.replace(baseUrl, '');
 
   function getLocalizedBaseUrl(locale: string) {
-    return locale === defaultLocale
-      ? `${baseUrlUnlocalized}`
-      : `${baseUrlUnlocalized}${locale}/`;
+    const localizedBaseUrl = localeConfigs[locale]?.baseUrl;
+    if (!localizedBaseUrl) {
+      throw new Error(
+        `unexpected, no locale config baseUrl for locale=${locale}`,
+      );
+    }
+    return localizedBaseUrl;
   }
 
   // TODO support correct alternate url when localized site is deployed on
