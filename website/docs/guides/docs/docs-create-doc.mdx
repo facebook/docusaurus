@@ -176,24 +176,9 @@ It is possible to use:
 
 :::
 
-#### Relationship between `id` and `slug` and document path
+:::tip
 
-- The `id` front matter defines the unique identifier for the document within Docusaurus. By default, `id` is derived from the file path and name.
-- The `slug` front matter controls the published URL path of the document. Changing `id` alone does **not** affect the URL; only `slug` changes the URL.
-- To ensure stable URLs, avoid renaming files or changing `id` unless necessary. If you need to move or rename a document, set an explicit `slug` to preserve its URL.
-
-```md
----
-id: my-home-doc
-slug: /guides/my-guide
----
-```
-
-By default, this file will be available at `/docs/guides/my-guide`.
-
-:::warning
-
-If you change a document's filename or `id`, its default URL may change. To prevent broken links, always set a `slug` if you require a stable URL.
+Changing a document's filename or `id`, will change its default URL. To prevent broken links, always set a `slug` to ensure a stable URL.
 
 :::
 
@@ -209,41 +194,6 @@ slug: /
 
 Lorem ipsum
 ```
-
-#### Advanced: Overriding Slugs Programmatically
-
-For advanced use cases, you can use the `parseFrontMatter` API to inject or override `slug` values programmatically. This is useful for enforcing custom URL schemes or migrating large sets of documents.
-
-```js
-// Example: docusaurus.config.js
-module.exports = {
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        docs: {
-          path: 'docs',
-          routeBasePath: 'docs',
-          // ...
-          parseFrontMatter: (frontMatter, filePath) => {
-            // Example: set slug based on file path
-            return {
-              ...frontMatter,
-              slug: `/custom/${path.basename(filePath, path.extname(filePath))}`,
-            };
-          },
-        },
-      },
-    ],
-  ],
-};
-```
-
-:::tip
-
-For most use cases, setting the `slug` in front matter is sufficient. Use `parseFrontMatter` for advanced or automated slug management.
-
-:::
 
 ### Sidebars {#sidebars}
 
