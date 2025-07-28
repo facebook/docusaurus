@@ -6,6 +6,7 @@
  */
 
 import {useCallback, useEffect, useMemo, useSyncExternalStore} from 'react';
+import {URLSearchParams} from 'node:url';
 import {useHistory} from '@docusaurus/router';
 import {useEvent} from './reactUtils';
 
@@ -167,4 +168,31 @@ export function useClearQueryString(): () => void {
       search: undefined,
     });
   }, [history]);
+}
+
+export function mergeSearchParams(
+  params: URLSearchParams[],
+  strategy: 'append' | 'set',
+): URLSearchParams {
+  const result = new URLSearchParams();
+  for (const item of params) {
+    for (const [key, value] of item.entries()) {
+      if (strategy === 'append') {
+        result.append(key, value);
+      } else {
+        result.set(key, value);
+      }
+    }
+  }
+  return result;
+}
+
+export function mergeSearchStrings(
+  searchStrings: string[],
+  strategy: 'append' | 'set',
+): URLSearchParams {
+  return mergeSearchParams(
+    searchStrings.map((s) => new URLSearchParams(s)),
+    strategy,
+  );
 }
