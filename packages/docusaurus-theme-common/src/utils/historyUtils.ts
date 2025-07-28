@@ -187,11 +187,13 @@ export function mergeSearchParams(
 }
 
 export function mergeSearchStrings(
-  searchStrings: string[],
+  searchStrings: (string | undefined)[],
   strategy: 'append' | 'set',
-): URLSearchParams {
-  return mergeSearchParams(
-    searchStrings.map((s) => new URLSearchParams(s)),
+): string {
+  const params = mergeSearchParams(
+    searchStrings.map((s) => new URLSearchParams(s ?? '')),
     strategy,
   );
+  const str = params.toString();
+  return str ? `?${str}` : str;
 }

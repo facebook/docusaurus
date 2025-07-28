@@ -50,9 +50,9 @@ describe('mergeSearchStrings', () => {
           '?key3=val3-bis&key4=val4',
         ],
         'append',
-      ).toString(),
+      ),
     ).toBe(
-      'key1=val1&key2=val2&key2=val2-bis&key3=val3&key3=val3-bis&key4=val4',
+      '?key1=val1&key2=val2&key2=val2-bis&key3=val3&key3=val3-bis&key4=val4',
     );
   });
 
@@ -66,7 +66,15 @@ describe('mergeSearchStrings', () => {
           '?key3=val3-bis&key4=val4',
         ],
         'set',
-      ).toString(),
-    ).toBe('key1=val1&key2=val2-bis&key3=val3-bis&key4=val4');
+      ),
+    ).toBe('?key1=val1&key2=val2-bis&key3=val3-bis&key4=val4');
+  });
+
+  it('automatically adds ? if there are params', () => {
+    expect(mergeSearchStrings(['key1=val1'], 'append')).toBe('?key1=val1');
+  });
+
+  it('automatically removes ? if there are no params', () => {
+    expect(mergeSearchStrings([undefined, ''], 'append')).toBe('');
   });
 });
