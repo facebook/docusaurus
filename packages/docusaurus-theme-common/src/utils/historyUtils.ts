@@ -6,7 +6,6 @@
  */
 
 import {useCallback, useEffect, useMemo, useSyncExternalStore} from 'react';
-import {URLSearchParams} from 'node:url';
 import {useHistory} from '@docusaurus/router';
 import {useEvent} from './reactUtils';
 
