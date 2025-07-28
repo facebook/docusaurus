@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Développer la catégorie '{label}' de la barre latérale",
   "theme.ErrorPageContent.title": "Cette page a planté.",
   "theme.ErrorPageContent.tryAgain": "Réessayer",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Main",
   "theme.NotFound.p1": "Nous n'avons pas trouvé ce que vous recherchez.",
   "theme.NotFound.p2": "Veuillez contacter le propriétaire du site qui vous a lié à l'URL d'origine et leur faire savoir que leur lien est cassé.",
