@@ -84,6 +84,12 @@ export default {
 };
 ```
 
+:::info Special case for i18n sites
+
+If your site uses multiple locales, it is possible to provide a distinct `url` for each locale thanks to the [`siteConfig.i18n.localeConfigs[<locale>].url`](#i18n) attribute. This makes it possible to deploy a localized Docusaurus site [deploy a localized Docusaurus site over multiple domains](../i18n/i18n-tutorial.mdx#multi-domain-deployment).
+
+:::
+
 ### `baseUrl` {#baseUrl}
 
 - Type: `string`
@@ -171,6 +177,8 @@ export default {
         calendar: 'gregory',
         path: 'en',
         translate: false,
+        url: 'https://en.example.com',
+        baseUrl: '/',
       },
       fa: {
         label: 'فارسی',
@@ -179,6 +187,8 @@ export default {
         calendar: 'persian',
         path: 'fa',
         translate: true,
+        url: 'https://fa.example.com',
+        baseUrl: '/',
       },
     },
   },
@@ -195,6 +205,7 @@ export default {
   - `calendar`: the [calendar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) used to calculate the date era. Note that it doesn't control the actual string displayed: `MM/DD/YYYY` and `DD/MM/YYYY` are both `gregory`. To choose the format (`DD/MM/YYYY` or `MM/DD/YYYY`), set your locale name to `en-GB` or `en-US` (`en` means `en-US`).
   - `path`: Root folder that all plugin localization folders of this locale are relative to. Will be resolved against `i18n.path`. Defaults to the locale's name (`i18n/<locale>`). Note: this has no effect on the locale's `baseUrl`—customization of base URL is a work-in-progress.
   - `translate`: Should we run the translation process for this locale? By default, it is enabled if the `i18n/<locale>` folder exists
+  - `url`: This lets you override the [`siteConfig.url`](#baseUrl), particularly useful if your site is [deployed over multiple domains](../i18n/i18n-tutorial.mdx#multi-domain-deployment).
   - `baseUrl`: This lets you override the default localized `baseUrl` Docusaurus infers from your [`siteConfig.baseUrl`](#baseUrl), giving you more control to host your localized site in less common ways.
 
 ### `future` {#future}
