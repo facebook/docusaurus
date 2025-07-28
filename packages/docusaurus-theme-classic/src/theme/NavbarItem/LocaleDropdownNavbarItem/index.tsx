@@ -9,7 +9,7 @@ import React, {type ReactNode} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAlternatePageUtils} from '@docusaurus/theme-common/internal';
 import {translate} from '@docusaurus/Translate';
-import {useHistorySelector} from '@docusaurus/theme-common';
+import {mergeSearchStrings, useHistorySelector} from '@docusaurus/theme-common';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import IconLanguage from '@theme/Icon/Language';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
@@ -17,16 +17,10 @@ import type {Props} from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 
 import styles from './styles.module.css';
 
-export default function LocaleDropdownNavbarItem({
-  mobile,
-  dropdownItemsBefore,
-  dropdownItemsAfter,
-  queryString = '',
-  ...props
-}: Props): ReactNode {
+function useLocaleDropdownUtils() {
   const {
     siteConfig,
-    i18n: {currentLocale, locales, localeConfigs},
+    i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
   const pathname = useHistorySelector((history) => history.location.pathname);
@@ -43,7 +37,7 @@ export default function LocaleDropdownNavbarItem({
     return localeConfig;
   };
 
-  const getURLForLocale = (locale: string) => {
+  const getBaseURLForLocale = (locale: string) => {
     const localeConfig = getLocaleConfig(locale);
     // For the current locale, we just
     if (currentLocale === locale) {
@@ -64,14 +58,44 @@ export default function LocaleDropdownNavbarItem({
     });
   };
 
+  return {
+    getURL: (locale: string, options: {queryString: string | undefined}) => {
+      // We have 2 query strings because
+      // - there's the current one
+      // - there's one user can provide through navbar config
+      // see https://github.com/facebook/docusaurus/pull/8915
+      const finalSearch = mergeSearchStrings(
+        [search, options.queryString ?? ''],
+        'append',
+      );
+      return `${getBaseURLForLocale(locale)}${finalSearch}${hash}`;
+    },
+    getLabel: (locale: string) => {
+      return getLocaleConfig(locale).label;
+    },
+    getLang: (locale: string) => {
+      return getLocaleConfig(locale).htmlLang;
+    },
+  };
+}
+
+export default function LocaleDropdownNavbarItem({
+  mobile,
+  dropdownItemsBefore,
+  dropdownItemsAfter,
+  queryString,
+  ...props
+}: Props): ReactNode {
+  const utils = useLocaleDropdownUtils();
+
+  const {
+    i18n: {currentLocale, locales},
+  } = useDocusaurusContext();
   const localeItems = locales.map((locale): LinkLikeNavbarItemProps => {
-    // preserve ?search#hash suffix on locale switches
-    const to = `${getURLForLocale(locale)}${search}${hash}${queryString}`;
-    const localeConfig = getLocaleConfig(locale);
     return {
-      label: localeConfig.label,
-      lang: localeConfig.htmlLang,
-      to,
+      label: utils.getLabel(locale),
+      lang: utils.getLang(locale),
+      to: utils.getURL(locale, {queryString}),
       target: '_self',
       autoAddBaseUrl: false,
       className:
@@ -96,7 +120,7 @@ export default function LocaleDropdownNavbarItem({
         id: 'theme.navbar.mobileLanguageDropdown.label',
         description: 'The label for the mobile language switcher dropdown',
       })
-    : localeConfigs[currentLocale]!.label;
+    : utils.getLabel(currentLocale);
 
   return (
     <DropdownNavbarItem
