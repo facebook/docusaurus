@@ -65,7 +65,7 @@ function useLocaleDropdownUtils() {
       // - there's one user can provide through navbar config
       // see https://github.com/facebook/docusaurus/pull/8915
       const finalSearch = mergeSearchStrings(
-        [search, options.queryString ?? ''],
+        [search, options.queryString],
         'append',
       );
       return `${getBaseURLForLocale(locale)}${finalSearch}${hash}`;
