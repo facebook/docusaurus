@@ -7,9 +7,13 @@
 
 import {useState, useEffect, useMemo} from 'react';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
+import elkLayouts from '@mermaid-js/layout-elk';
 import mermaid from 'mermaid';
 import type {RenderResult, MermaidConfig} from 'mermaid';
 import type {ThemeConfig} from '@docusaurus/theme-mermaid';
+
+// mermaid does not support ELK layouts in external websites (e.g. Docusaurus) by default, as explained in https://github.com/mermaid-js/mermaid/tree/develop/packages/mermaid-layout-elk
+mermaid.registerLayoutLoaders(elkLayouts);
 
 // Stable className to allow users to easily target with CSS
 export const MermaidContainerClassName = 'docusaurus-mermaid-container';
@@ -71,7 +75,7 @@ async function renderMermaid({
   To use a new mermaid config (on colorMode change for example) we should
   update siteConfig, and it can only be done with initialize()
    */
-  mermaid.mermaidAPI.initialize(config);
+  mermaid.initialize(config);
 
   try {
     return await mermaid.render(id, text);

@@ -39,6 +39,7 @@
     "@docusaurus/types": "3.8.1",
     "@docusaurus/utils-validation": "3.8.1",
     "mermaid": ">=11.6.0",
+    "@mermaid-js/layout-elk": "^0.1.8",
     "tslib": "^2.6.0"
   },
   "devDependencies": {
