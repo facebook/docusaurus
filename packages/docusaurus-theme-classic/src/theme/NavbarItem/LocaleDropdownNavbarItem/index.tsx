@@ -25,22 +25,52 @@ export default function LocaleDropdownNavbarItem({
   ...props
 }: Props): ReactNode {
   const {
+    siteConfig,
     i18n: {currentLocale, locales, localeConfigs},
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
+  const pathname = useHistorySelector((history) => history.location.pathname);
   const search = useHistorySelector((history) => history.location.search);
   const hash = useHistorySelector((history) => history.location.hash);
 
-  const localeItems = locales.map((locale): LinkLikeNavbarItemProps => {
-    const baseTo = `pathname://${alternatePageUtils.createUrl({
+  const getLocaleConfig = (locale: string) => {
+    const localeConfig = localeConfigs[locale];
+    if (!localeConfig) {
+      throw new Error(
+        `Docusaurus bug, no locale config found for locale=${locale}`,
+      );
+    }
+    return localeConfig;
+  };
+
+  const getURLForLocale = (locale: string) => {
+    const localeConfig = getLocaleConfig(locale);
+    // For the current locale, we just
+    if (currentLocale === locale) {
+      return pathname;
+    }
+    const isSameDomain = localeConfig.url === siteConfig.url;
+    if (isSameDomain) {
+      // Shorter paths if localized sites are hosted on the same domain
+      // This reduces HTML size a bit
+      return `pathname://${alternatePageUtils.createUrl({
+        locale,
+        fullyQualified: false,
+      })}`;
+    }
+    return alternatePageUtils.createUrl({
       locale,
-      fullyQualified: false,
-    })}`;
+      fullyQualified: true,
+    });
+  };
+
+  const localeItems = locales.map((locale): LinkLikeNavbarItemProps => {
     // preserve ?search#hash suffix on locale switches
-    const to = `${baseTo}${search}${hash}${queryString}`;
+    const to = `${getURLForLocale(locale)}${search}${hash}${queryString}`;
+    const localeConfig = getLocaleConfig(locale);
     return {
-      label: localeConfigs[locale]!.label,
-      lang: localeConfigs[locale]!.htmlLang,
+      label: localeConfig.label,
+      lang: localeConfig.htmlLang,
       to,
       target: '_self',
       autoAddBaseUrl: false,
