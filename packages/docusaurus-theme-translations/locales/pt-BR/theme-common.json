@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Expandir a categoria '{label}'",
   "theme.ErrorPageContent.title": "Esta página deu erro.",
   "theme.ErrorPageContent.tryAgain": "Tentar novamente",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Navegação principal",
   "theme.NotFound.p1": "Não foi possível encontrar o que você está procurando.",
   "theme.NotFound.p2": "Por favor, entre em contato com o dono do site que ligou você à URL original e informe que o link está quebrado.",

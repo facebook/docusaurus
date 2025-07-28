@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Розгорнути категорію в сайдбарі '{label}'",
   "theme.ErrorPageContent.title": "На сторінці стався збій.",
   "theme.ErrorPageContent.tryAgain": "Спробуйте ще раз",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Головна",
   "theme.NotFound.p1": "На жаль, ми не змогли знайти сторінку, яку ви запитували.",
   "theme.NotFound.p2": "Будь ласка, зверніться до власника сайту, з якого ви перейшли на це посилання, щоб повідомити, що посилання не працює.",

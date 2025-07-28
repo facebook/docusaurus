@@ -6,6 +6,7 @@
  */
 
 import React, {type ReactNode} from 'react';
+import {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/Icon/ExternalLink';
 
 import styles from './styles.module.css';
@@ -22,7 +23,11 @@ export default function IconExternalLink({
     <svg
       width={width}
       height={height}
-      aria-hidden="true"
+      aria-label={translate({
+        id: 'theme.IconExternalLink.ariaLabel',
+        message: '(opens in new tab)',
+        description: 'The ARIA label for the external link icon',
+      })}
       className={styles.iconExternalLink}>
       <use href={svgSprite} />
     </svg>

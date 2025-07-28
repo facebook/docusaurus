@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Xem thêm danh mục '{label}'",
   "theme.ErrorPageContent.title": "Trang này đã gặp lỗi.",
   "theme.ErrorPageContent.tryAgain": "Thử lại",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Thanh điều hướng",
   "theme.NotFound.p1": "Chúng tôi không thể tìm thấy nội dung bạn đang tìm kiếm.",
   "theme.NotFound.p2": "Vui lòng liên hệ với trang web đã đưa bạn đến đây và thông báo rằng đường dẫn này bị lỗi.",

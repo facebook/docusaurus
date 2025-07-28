@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "A(z) '{label}' nevű oldalsáv kategória kinyitása",
   "theme.ErrorPageContent.title": "Hiba történt a oldalon.",
   "theme.ErrorPageContent.tryAgain": "Próbáld újra",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Fő",
   "theme.NotFound.p1": "Sajnos nem találtuk azt az oldalt, amit kerestél.",
   "theme.NotFound.p2": "Kérjük, lépj kapcsolatba az oldal tulajdonosával, ahonnan erre a hivatkozásra léptél, hogy jelezd, hogy a hivatkozás nem működik.",
