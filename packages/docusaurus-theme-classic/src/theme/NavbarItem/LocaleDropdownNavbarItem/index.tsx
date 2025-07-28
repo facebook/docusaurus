@@ -20,10 +20,9 @@ import styles from './styles.module.css';
 function useLocaleDropdownUtils() {
   const {
     siteConfig,
-    i18n: {currentLocale, localeConfigs},
+    i18n: {localeConfigs},
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
-  const pathname = useHistorySelector((history) => history.location.pathname);
   const search = useHistorySelector((history) => history.location.search);
   const hash = useHistorySelector((history) => history.location.hash);
 
@@ -39,10 +38,6 @@ function useLocaleDropdownUtils() {
 
   const getBaseURLForLocale = (locale: string) => {
     const localeConfig = getLocaleConfig(locale);
-    // For the current locale, we just
-    if (currentLocale === locale) {
-      return pathname;
-    }
     const isSameDomain = localeConfig.url === siteConfig.url;
     if (isSameDomain) {
       // Shorter paths if localized sites are hosted on the same domain
