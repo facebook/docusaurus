@@ -49,14 +49,6 @@
   font-weight: normal;
 }
 
-.algoliaLogo {
-  max-width: 150px;
-}
-
-.algoliaLogoPathFill {
-  fill: var(--ifm-font-color-base);
-}
-
 .searchResultItem {
   padding: 1rem 0;
   border-bottom: 1px solid var(--ifm-toc-border-color);

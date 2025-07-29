@@ -127,7 +127,7 @@ export default {
       // Optional: whether the insights feature is enabled or not on Docsearch (`false` by default)
       insights: false,
 
-      // Optional: incase you want to use the new ask ai feature
+      // Optional: whether you want to use the new Ask AI feature (undefined by default)
       askAi: 'YOUR_ALGOLIA_ASK_AI_ASSISTANT_ID',
 
       //... other Algolia params
@@ -219,18 +219,13 @@ If you only get search results when Contextual Search is disabled, this is very 
 
 ### Ask AI {#ask-ai}
 
-Ask AI is a new feature that allows you to ask questions about your documentation. It is only available with the latest version of DocSearch (v4).
+Ask AI is a new feature that allows you to ask questions about your documentation.
 
 Ask AI brings the power of AI to your documentation:
 
 - **Conversational search:** Users can ask questions in natural language and get context-aware answers.
 - **Completely free:** Ask AI is available at no additional cost. You'll pay only for the LLM usage to your provider.
-
-[// spell-checker:disable]: #
-
 - **BYOLLM (Bring Your Own LLM):** You can use your own language model provider, giving you full control over the AI experience.
-
-[// spell-checker:enable]: #
 
 - **Direct Algolia index integration:** The provider/models retrieve relevant context directly from your Algolia index, ensuring accurate and up-to-date answers.
 - **Recently asked & conversation history:** Easily revisit your recent questions and jump back into previous Ask AI conversations.
