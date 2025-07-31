@@ -179,6 +179,29 @@ export default function DocSidebarItemCategory({
     }
   }, [collapsible, expandedItem, index, setCollapsed, autoCollapseCategories]);
 
+  const handleItemClick: ComponentProps<'a'>['onClick'] = (e) => {
+    onItemClick?.(item);
+    if (collapsible) {
+      if (href) {
+        // When already on the category's page, we collapse it
+        // We don't use "isActive" because it would collapse the
+        // category even when we browse a children element
+        // See https://github.com/facebook/docusaurus/issues/11213
+        if (isCurrentPage) {
+          e.preventDefault();
+          updateCollapsed();
+        } else {
+          // When navigating to a new category, we always expand
+          // see https://github.com/facebook/docusaurus/issues/10854#issuecomment-2609616182
+          updateCollapsed(false);
+        }
+      } else {
+        e.preventDefault();
+        updateCollapsed();
+      }
+    }
+  };
+
   return (
     <li
       className={clsx(
@@ -200,32 +223,7 @@ export default function DocSidebarItemCategory({
             'menu__link--sublist-caret': !href && collapsible,
             'menu__link--active': isActive,
           })}
-          onClick={
-            collapsible
-              ? (e) => {
-                  onItemClick?.(item);
-                  if (href) {
-                    // When already on the category's page, we collapse it
-                    // We don't use "isActive" because it would collapse the
-                    // category even when we browse a children element
-                    // See https://github.com/facebook/docusaurus/issues/11213
-                    if (isCurrentPage) {
-                      e.preventDefault();
-                      updateCollapsed();
-                    } else {
-                      // When navigating to a new category, we always expand
-                      // see https://github.com/facebook/docusaurus/issues/10854#issuecomment-2609616182
-                      updateCollapsed(false);
-                    }
-                  } else {
-                    e.preventDefault();
-                    updateCollapsed();
-                  }
-                }
-              : () => {
-                  onItemClick?.(item);
-                }
-          }
+          onClick={handleItemClick}
           aria-current={isCurrentPage ? 'page' : undefined}
           role={collapsible && !href ? 'button' : undefined}
           aria-expanded={collapsible && !href ? !collapsed : undefined}
