@@ -128,7 +128,9 @@ The ID is used to refer to a document when hand-writing sidebars, or when using 
 
 ### Doc URLs {#doc-urls}
 
-By default, a `slug` (the document's URL location) is computed from the [document `id`](#document-id) (computed from the file path), with a few exceptions. Namely, if a file is named one of the following, the file name won't be included in the URL:
+By default, the document's URL is derived from the [document `id`](#document-id), which in turn is based on the document's file path.
+
+If a file is named one of the following, the file name won't be included in the URL:
 
 - Named as `index` (case-insensitive): `docs/Guides/index.md`
 - Named as `README` (case-insensitive): `docs/Guides/README.mdx`
@@ -176,7 +178,7 @@ It is possible to use:
 
 :::tip
 
-Changing a document's filename or `id`, will change its default URL. To prevent breaking links when renaming files, we recommend setting an explicit `slug` to keep your URLs stable.
+Changing a document's filename or `id`, will change its default URL. To prevent breaking permalinks when renaming files, we recommend setting an explicit `slug` to keep your URLs stable.
 
 :::
 
