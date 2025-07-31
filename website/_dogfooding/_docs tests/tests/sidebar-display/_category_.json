@@ -1,0 +1,8 @@
+{
+  "label": "Sidebar Display",
+  "link": {
+    "type": "generated-index",
+    "title": "Sidebar Display",
+    "description": "Testing edge cases of how the docs sidebar is displayed"
+  }
+}
