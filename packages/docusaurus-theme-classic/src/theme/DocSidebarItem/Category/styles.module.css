@@ -19,7 +19,6 @@ TODO merge this logic back in Infima?
 .categoryLinkLabel {
   flex: 1;
   overflow: hidden;
-
   display: -webkit-box;
   line-clamp: 2;
   -webkit-box-orient: vertical;
