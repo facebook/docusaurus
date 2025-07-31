@@ -128,13 +128,13 @@ The ID is used to refer to a document when hand-writing sidebars, or when using 
 
 ### Doc URLs {#doc-urls}
 
-By default, a document's URL location is its file path relative to the `docs` folder, with a few exceptions. Namely, if a file is named one of the following, the file name won't be included in the URL:
+By default, a `slug` (the document's URL location) is computed from the [document `id`](#document-id) (computed from the file path), with a few exceptions. Namely, if a file is named one of the following, the file name won't be included in the URL:
 
 - Named as `index` (case-insensitive): `docs/Guides/index.md`
 - Named as `README` (case-insensitive): `docs/Guides/README.mdx`
 - Same name as parent folder: `docs/Guides/Guides.md`
 
-In all cases, the default slug would only be `/Guides`, without the `/index`, `/README`, or duplicate `/Guides` segment.
+In all cases, the default `slug` would only be `/Guides`, without the `/index`, `/README`, or duplicate `/Guides` segment.
 
 :::note
 
@@ -142,9 +142,7 @@ This convention is exactly the same as [the category index convention](./sidebar
 
 :::
 
-#### Customizing Document URLs
-
-Use the `slug` front matter to change a document's URL.
+Use the `slug` front matter to provide an explicit a document's URL and override the default URL.
 
 For example, suppose your site structure looks like this:
 
@@ -178,7 +176,7 @@ It is possible to use:
 
 :::tip
 
-Changing a document's filename or `id`, will change its default URL. To prevent broken links, always set a `slug` to ensure a stable URL.
+Changing a document's filename or `id`, will change its default URL. To prevent breaking links when renaming files, we recommend setting an explicit `slug` to keep your URLs stable.
 
 :::
 
