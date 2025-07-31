@@ -31,6 +31,8 @@ import useIsBrowser from '@docusaurus/useIsBrowser';
 import DocSidebarItems from '@theme/DocSidebarItems';
 import type {Props} from '@theme/DocSidebarItem/Category';
 
+import styles from './styles.module.css';
+
 // If we navigate to a category and it becomes active, it should automatically
 // expand itself
 function useAutoExpandActiveCategory({
@@ -126,6 +128,14 @@ function CollapseButton({
   );
 }
 
+function CategoryLinkLabel({label}: {label: string}) {
+  return (
+    <span title={label} className={styles.categoryLinkLabel}>
+      {label}
+    </span>
+  );
+}
+
 export default function DocSidebarItemCategory({
   item,
   onItemClick,
@@ -218,7 +228,7 @@ export default function DocSidebarItemCategory({
           'menu__list-item-collapsible--active': isCurrentPage,
         })}>
         <Link
-          className={clsx('menu__link', {
+          className={clsx(styles.categoryLink, 'menu__link', {
             'menu__link--sublist': collapsible,
             'menu__link--sublist-caret': !href && collapsible,
             'menu__link--active': isActive,
@@ -229,7 +239,7 @@ export default function DocSidebarItemCategory({
           aria-expanded={collapsible && !href ? !collapsed : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
-          {label}
+          <CategoryLinkLabel label={label} />
         </Link>
         {href && collapsible && (
           <CollapseButton
