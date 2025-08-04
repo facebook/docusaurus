@@ -47,12 +47,11 @@ export async function writeHeadingIds(
 ): Promise<void> {
   const siteDir = await fs.realpath(siteDirParam);
 
-  const markdownFiles = await safeGlobby(
-    files ?? (await getPathsToWatch(siteDir)),
-    {
-      expandDirectories: ['**/*.{md,mdx}'],
-    },
-  );
+  const markdownFiles = (
+    await safeGlobby(files ?? (await getPathsToWatch(siteDir)), {
+      expandDirectories: true,
+    })
+  ).filter((file) => file.endsWith('.md') || file.endsWith('.mdx'));
 
   const result = await Promise.all(
     markdownFiles.map((p) => transformMarkdownFile(p, options)),
