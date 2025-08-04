@@ -20,6 +20,7 @@ declare module '@docusaurus/theme-search-algolia' {
     | 'searchParameters'
     | 'insights'
     | 'initialQuery'
+    | 'askAi'
   >;
 
   type ThemeConfigAlgolia = DocusaurusDocSearchProps & {
