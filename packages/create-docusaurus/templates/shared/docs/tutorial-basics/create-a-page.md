@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Create a Page
+# This is my first page
 
 Add **Markdown or React** files to `src/pages` to create a **standalone page**:
 
@@ -10,7 +10,7 @@ Add **Markdown or React** files to `src/pages` to create a **standalone page**:
 - `src/pages/foo.md` → `localhost:3000/foo`
 - `src/pages/foo/bar.js` → `localhost:3000/foo/bar`
 
-## Create your first React Page
+## Hello how are you
 
 Create a file at `src/pages/my-react-page.js`:
 
