@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Expand sidebar category '{label}'",
   "theme.ErrorPageContent.title": "Denne siden krasjet.",
   "theme.ErrorPageContent.tryAgain": "Prøv på nytt",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Hoved",
   "theme.NotFound.p1": "Vi kunne ikke finne det du lette etter.",
   "theme.NotFound.p2": "Kontakt eieren av nettstedet som koblet deg til den opprinnelige nettadressen og la dem få vite at koblingen deres er ødelagt.",

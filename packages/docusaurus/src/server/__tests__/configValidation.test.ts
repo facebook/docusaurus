@@ -27,6 +27,8 @@ import type {
   Config,
   DocusaurusConfig,
   PluginConfig,
+  I18nConfig,
+  I18nLocaleConfig,
 } from '@docusaurus/types';
 import type {DeepPartial} from 'utility-types';
 
@@ -366,6 +368,115 @@ describe('onBrokenLinks', () => {
   });
 });
 
+describe('i18n', () => {
+  function normalizeI18n(i18n: DeepPartial<I18nConfig>): I18nConfig {
+    return normalizeConfig({i18n}).i18n;
+  }
+
+  it('accepts undefined object', () => {
+    expect(normalizeI18n(undefined)).toEqual(DEFAULT_CONFIG.i18n);
+  });
+
+  it('rejects empty object', () => {
+    expect(() => normalizeI18n({})).toThrowErrorMatchingInlineSnapshot(`
+      ""i18n.defaultLocale" is required
+      "i18n.locales" is required
+      "
+    `);
+  });
+
+  it('accepts minimal i18n config', () => {
+    expect(normalizeI18n({defaultLocale: 'fr', locales: ['fr']})).toEqual({
+      defaultLocale: 'fr',
+      localeConfigs: {},
+      locales: ['fr'],
+      path: 'i18n',
+    });
+  });
+
+  describe('locale config', () => {
+    function normalizeLocaleConfig(
+      localeConfig?: Partial<I18nLocaleConfig>,
+    ): Partial<I18nLocaleConfig> {
+      return normalizeConfig({
+        i18n: {
+          defaultLocale: 'fr',
+          locales: ['fr'],
+          localeConfigs: {
+            fr: localeConfig,
+          },
+        },
+      }).i18n.localeConfigs.fr;
+    }
+
+    it('accepts undefined locale config', () => {
+      expect(normalizeLocaleConfig(undefined)).toBeUndefined();
+    });
+
+    it('accepts empty locale config', () => {
+      expect(normalizeLocaleConfig({})).toEqual({});
+    });
+
+    describe('url', () => {
+      it('accepts undefined', () => {
+        expect(normalizeLocaleConfig({url: undefined})).toEqual({
+          url: undefined,
+        });
+      });
+
+      it('rejects empty', () => {
+        expect(() => normalizeLocaleConfig({url: ''}))
+          .toThrowErrorMatchingInlineSnapshot(`
+          ""i18n.localeConfigs.fr.url" is not allowed to be empty
+          "
+        `);
+      });
+
+      it('accepts valid url', () => {
+        expect(
+          normalizeLocaleConfig({url: 'https://fr.docusaurus.io'}),
+        ).toEqual({
+          url: 'https://fr.docusaurus.io',
+        });
+      });
+
+      it('accepts valid url and removes trailing slash', () => {
+        expect(
+          normalizeLocaleConfig({url: 'https://fr.docusaurus.io/'}),
+        ).toEqual({
+          url: 'https://fr.docusaurus.io',
+        });
+      });
+    });
+
+    describe('baseUrl', () => {
+      it('accepts undefined baseUrl', () => {
+        expect(normalizeLocaleConfig({baseUrl: undefined})).toEqual({
+          baseUrl: undefined,
+        });
+      });
+
+      it('accepts empty baseUrl', () => {
+        expect(normalizeLocaleConfig({baseUrl: ''})).toEqual({
+          baseUrl: '/',
+        });
+      });
+
+      it('accepts regular baseUrl', () => {
+        expect(normalizeLocaleConfig({baseUrl: '/myBase/Url/'})).toEqual({
+          baseUrl: '/myBase/Url/',
+        });
+      });
+
+      it('accepts baseUrl without leading/trailing slashes', () => {
+        expect(normalizeLocaleConfig({baseUrl: 'myBase/Url'})).toEqual({
+          baseUrl: '/myBase/Url/',
+        });
+      });
+    });
+  });
+});
+
 describe('markdown', () => {
   function normalizeMarkdown(
     markdown: DeepPartial<MarkdownConfig>,
@@ -508,9 +619,9 @@ describe('markdown', () => {
           emoji: 'yes',
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.emoji" must be a boolean
-      "
-    `);
+              ""markdown.emoji" must be a boolean
+              "
+          `);
     });
 
     it('throw for number emoji value', () => {
@@ -522,9 +633,9 @@ describe('markdown', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.emoji" must be a boolean
-      "
-    `);
+              ""markdown.emoji" must be a boolean
+              "
+          `);
     });
   });
 

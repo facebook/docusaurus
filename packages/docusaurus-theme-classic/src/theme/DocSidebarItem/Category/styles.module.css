@@ -5,11 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.menuExternalLink {
-  align-items: center;
+.categoryLink {
+  overflow: hidden;
 }
 
-.linkLabel {
+/*
+TODO merge this logic back in Infima?
+ */
+:global(.menu__link--sublist-caret)::after {
+  margin-left: var(--ifm-menu-link-padding-vertical);
+}
+
+.categoryLinkLabel {
+  flex: 1;
   overflow: hidden;
   display: -webkit-box;
   line-clamp: 2;

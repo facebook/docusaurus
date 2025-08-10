@@ -453,6 +453,14 @@ For localized sites, it is recommended to use **[explicit heading IDs](../guides
 
 You can choose to deploy your site under a **single domain** or use **multiple (sub)domains**.
 
+:::tip About localized baseUrls
+
+Docusaurus will automatically add a `/<locale>/` path segment to your site for locales except the default one. This heuristic works well for most sites but can be configured on a per-locale basis depending on your deployment requirements.
+
+Read more on the [`siteConfig.baseUrl`](../api/docusaurus.config.js.mdx#baseUrl) docs.
+
+:::
+
 ### Single-domain deployment {#single-domain-deployment}
 
 Run the following command:
@@ -495,13 +503,44 @@ You can also build your site for a single locale:
 npm run build -- --locale fr
 ```
 
-Docusaurus will not add the `/fr/` URL prefix.
+When building a single locale at a time, Docusaurus will not add the `/fr/` URL prefix automatically, assuming you want to deploy each locale to a distinct domain.
 
 On your [static hosting provider](../deployment.mdx):
 
 - create one deployment per locale
 - configure the appropriate build command, using the `--locale` option
 - configure the (sub)domain of your choice for each deployment
+
+:::tip Configuring URLs for each locale
+
+Use the [`siteConfig.i18n.localeConfigs[<locale>].url`](./../api/docusaurus.config.js.mdx#i18n) attribute to configure a distinct site URL for each locale:
+
+```ts title=docusaurus.config.js
+const config = {
+  i18n: {
+    localeConfigs: {
+      // highlight-start
+      en: {
+        url: 'https://en.docusaurus.io',
+        baseUrl: '/',
+      },
+      fr: {
+        url: 'https://fr.docusaurus.io',
+        baseUrl: '/',
+      },
+      // highlight-end
+    },
+  },
+};
+```
+
+This helps [search engines like Google know about localized versions of your page](https://developers.google.com/search/docs/specialty/international/localized-versions) thanks to `<link rel="alternate" hreflang="<locale>"/>` meta tags.
+
+This also permits Docusaurus themes to redirect users to the appropriate URL when they switch locale, usually through the [Navbar locale dropdown](../api/themes/theme-configuration.mdx#navbar-locale-dropdown).
+
+Read more on the [`siteConfig.url`](../api/docusaurus.config.js.mdx#baseUrl) and [`siteConfig.baseUrl`](../api/docusaurus.config.js.mdx#baseUrl) docs.
+
+:::
 
 :::warning
 

@@ -84,17 +84,42 @@ export default {
 };
 ```
 
+:::info Special case for i18n sites
+
+If your site uses multiple locales, it is possible to provide a distinct `url` for each locale thanks to the [`siteConfig.i18n.localeConfigs[<locale>].url`](#i18n) attribute. This makes it possible to deploy a localized Docusaurus site [deploy a localized Docusaurus site over multiple domains](../i18n/i18n-tutorial.mdx#multi-domain-deployment).
+
+:::
+
 ### `baseUrl` {#baseUrl}
 
 - Type: `string`
 
-Base URL for your site. Can be considered as the path after the host. For example, `/metro/` is the base URL of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [`url`](#url) field. Always has both leading and trailing slash.
+The base URL of your site is the path segment appearing just after the [`url`](#url), letting you eventually host your site under a subpath instead of at the root of the domain.
+
+For example, let's consider you want to host a site at https://facebook.github.io/metro/, then you must configure it accordingly:
+
+- [`url`](#url) should be `'https://facebook.github.io'`
+- `baseUrl` should be `'/metro/'`
+
+By default, a Docusaurus site is hosted at the root of the domain:
 
 ```js title="docusaurus.config.js"
 export default {
   baseUrl: '/',
 };
 ```
+
+:::info Special case for i18n sites
+
+If your site uses multiple locales, then Docusaurus will automatically localize the `baseUrl` of your site based on smart heuristics:
+
+- For the default locale, `baseUrl` will be `/<siteBaseUrl>/`
+- For other locales, `baseUrl` will be `/<siteBaseUrl>/<locale>/`
+- When building a single locale at a time (with `docusaurus build --locale <locale>`), `baseUrl` will be `/<siteBaseUrl>/`, assuming the intent is to [deploy each locale on distinct domains](../i18n/i18n-tutorial.mdx#multi-domain-deployment).
+
+When the localized `baseUrl` Docusaurus computes doesn't satisfy you, it's always possible to override it by providing an explicit localized `baseUrl` thanks to the [`siteConfig.i18n.localeConfigs[<locale>].baseUrl`](#i18n) attribute.
+
+:::
 
 ## Optional fields {#optional-fields}
 
@@ -152,6 +177,8 @@ export default {
         calendar: 'gregory',
         path: 'en',
         translate: false,
+        url: 'https://en.example.com',
+        baseUrl: '/',
       },
       fa: {
         label: 'فارسی',
@@ -160,6 +187,8 @@ export default {
         calendar: 'persian',
         path: 'fa',
         translate: true,
+        url: 'https://fa.example.com',
+        baseUrl: '/',
       },
     },
   },
@@ -176,6 +205,8 @@ export default {
   - `calendar`: the [calendar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) used to calculate the date era. Note that it doesn't control the actual string displayed: `MM/DD/YYYY` and `DD/MM/YYYY` are both `gregory`. To choose the format (`DD/MM/YYYY` or `MM/DD/YYYY`), set your locale name to `en-GB` or `en-US` (`en` means `en-US`).
   - `path`: Root folder that all plugin localization folders of this locale are relative to. Will be resolved against `i18n.path`. Defaults to the locale's name (`i18n/<locale>`). Note: this has no effect on the locale's `baseUrl`—customization of base URL is a work-in-progress.
   - `translate`: Should we run the translation process for this locale? By default, it is enabled if the `i18n/<locale>` folder exists
+  - `url`: This lets you override the [`siteConfig.url`](#url), particularly useful if your site is [deployed over multiple domains](../i18n/i18n-tutorial.mdx#multi-domain-deployment).
+  - `baseUrl`: This lets you override the default localized `baseUrl` Docusaurus infers from your [`siteConfig.baseUrl`](#baseUrl), giving you more control to host your localized site in less common ways, in particularly [deployments over multi-domains](../i18n/i18n-tutorial.mdx#multi-domain-deployment)
 
 ### `future` {#future}
 

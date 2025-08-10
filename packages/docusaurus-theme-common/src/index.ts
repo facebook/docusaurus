@@ -124,6 +124,8 @@ export {
   useQueryString,
   useQueryStringList,
   useClearQueryString,
+  mergeSearchParams,
+  mergeSearchStrings,
 } from './utils/historyUtils';
 
 export {

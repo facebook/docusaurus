@@ -54,7 +54,8 @@ export default function Heading({as: As, id, ...props}: Props): ReactNode {
         className="hash-link"
         to={`#${id}`}
         aria-label={anchorTitle}
-        title={anchorTitle}>
+        title={anchorTitle}
+        translate="no">
         &#8203;
       </Link>
     </As>

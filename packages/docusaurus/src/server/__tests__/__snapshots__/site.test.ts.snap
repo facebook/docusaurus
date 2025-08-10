@@ -15,20 +15,24 @@ exports[`load loads props for site 1`] = `
     "defaultLocale": "en",
     "localeConfigs": {
       "en": {
+        "baseUrl": "/",
         "calendar": "gregory",
         "direction": "ltr",
         "htmlLang": "en",
         "label": "English",
         "path": "en-custom",
         "translate": false,
+        "url": "https://example.com",
       },
       "zh-Hans": {
+        "baseUrl": "/zh-Hans/",
         "calendar": "gregory",
         "direction": "ltr",
         "htmlLang": "zh-Hans",
         "label": "简体中文",
         "path": "zh-Hans-custom",
         "translate": true,
+        "url": "https://example.com",
       },
     },
     "locales": [
@@ -38,7 +42,7 @@ exports[`load loads props for site 1`] = `
     "path": "i18n",
   },
   "localizationDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site/i18n/en-custom",
-  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site/build",
+  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site/build/",
   "plugins": [
     {
       "content": undefined,
@@ -109,11 +113,9 @@ exports[`load loads props for site 1`] = `
       "defaultLocale": "en",
       "localeConfigs": {
         "en": {
-          "direction": "ltr",
           "path": "en-custom",
         },
         "zh-Hans": {
-          "direction": "ltr",
           "path": "zh-Hans-custom",
         },
       },

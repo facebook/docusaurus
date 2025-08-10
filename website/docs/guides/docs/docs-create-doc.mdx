@@ -128,13 +128,15 @@ The ID is used to refer to a document when hand-writing sidebars, or when using 
 
 ### Doc URLs {#doc-urls}
 
-By default, a document's URL location is its file path relative to the `docs` folder, with a few exceptions. Namely, if a file is named one the following, the file name won't be included in the URL:
+By default, the document's URL location is derived from the [document `id`](#document-id), which in turn is based on the document's file path.
+
+If a file is named one of the following, the file name won't be included in the URL:
 
 - Named as `index` (case-insensitive): `docs/Guides/index.md`
 - Named as `README` (case-insensitive): `docs/Guides/README.mdx`
 - Same name as parent folder: `docs/Guides/Guides.md`
 
-In all cases, the default slug would only be `/Guides`, without the `/index`, `/README`, or duplicate `/Guides` segment.
+In all cases, the default `slug` would only be `/Guides`, without the `/index`, `/README`, or duplicate `/Guides` segment.
 
 :::note
 
@@ -142,7 +144,7 @@ This convention is exactly the same as [the category index convention](./sidebar
 
 :::
 
-Use the `slug` front matter to change a document's URL.
+Use the `slug` front matter to provide an explicit document URL and override the default one.
 
 For example, suppose your site structure looks like this:
 
@@ -153,7 +155,7 @@ website # Root directory of your site
         └── hello.md
 ```
 
-By default `hello.md` will be available at `/docs/guide/hello`. You can change its URL location to `/docs/bonjour`:
+By default, `hello.md` will be available at `/docs/guide/hello`. You can change its URL location to `/docs/bonjour`:
 
 ```md
 ---
@@ -173,6 +175,14 @@ It is possible to use:
 - relative slugs: `slug: mySlug`, `slug: ./../mySlug`...
 
 :::
+
+:::tip
+
+Changing a document's filename or `id`, will change its default URL. To prevent breaking permalinks when renaming files, we recommend setting an explicit `slug` to keep your URLs stable.
+
+:::
+
+#### Making a document available at the root
 
 If you want a document to be available at the root, and have a path like `https://docusaurus.io/docs/`, you can use the slug front matter:
 
