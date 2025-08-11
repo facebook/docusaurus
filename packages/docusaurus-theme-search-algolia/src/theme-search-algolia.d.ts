@@ -49,6 +49,58 @@ declare module '@docusaurus/theme-search-algolia/client' {
   export function useAlgoliaContextualFacetFilters(): [string, string[]];
 
   export function useSearchResultUrlProcessor(): (url: string) => string;
+
+  // v4 ask ai helper
+  export function useAlgoliaAskAi(
+    props: {
+      indexName: string;
+      apiKey: string;
+      appId: string;
+      placeholder?: string;
+      translations?: import('@docsearch/react').DocSearchTranslations;
+      searchParameters?: import('@docsearch/react').DocSearchModalProps['searchParameters'];
+      askAi?:
+        | string
+        | {
+            indexName: string;
+            apiKey: string;
+            appId: string;
+            assistantId: string;
+            searchParameters?: {
+              facetFilters: import('algoliasearch/lite').FacetFilters;
+            };
+          };
+    },
+    searchParameters: import('@docsearch/react').DocSearchModalProps['searchParameters'],
+  ): {
+    canHandleAskAi: boolean;
+    isAskAiActive: boolean;
+    currentPlaceholder: string | undefined;
+    onAskAiToggle: (active: boolean) => void;
+    askAi?: {
+      indexName: string;
+      apiKey: string;
+      appId: string;
+      assistantId: string;
+      searchParameters?: {
+        facetFilters: import('algoliasearch/lite').FacetFilters;
+      };
+    };
+    extraAskAiProps: Partial<import('@docsearch/react').DocSearchModalProps> & {
+      askAi?: {
+        indexName: string;
+        apiKey: string;
+        appId: string;
+        assistantId: string;
+        searchParameters?: {
+          facetFilters: import('algoliasearch/lite').FacetFilters;
+        };
+      };
+      canHandleAskAi?: boolean;
+      isAskAiActive?: boolean;
+      onAskAiToggle?: (active: boolean) => void;
+    };
+  };
 }
 
 declare module '@theme/SearchPage' {

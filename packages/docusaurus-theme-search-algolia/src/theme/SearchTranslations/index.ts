@@ -23,6 +23,10 @@ const translations: DocSearchTranslations & {
       clearButtonTitle?: string;
       clearButtonAriaLabel?: string;
       closeButtonText?: string;
+      resetButtonTitle?: string;
+      resetButtonAriaLabel?: string;
+      cancelButtonText?: string;
+      cancelButtonAriaLabel?: string;
       closeButtonAriaLabel?: string;
     };
     startScreen?: {
@@ -52,6 +56,7 @@ const translations: DocSearchTranslations & {
       submitQuestionText?: string;
       poweredByText?: string;
       backToSearchText?: string;
+      searchByText?: string;
     };
   };
 } = {
@@ -336,7 +341,12 @@ const translations: DocSearchTranslations & {
       }),
       poweredByText: translate({
         id: 'theme.SearchModal.footer.searchByText',
-        message: 'Search by',
+        message: 'Powered by',
+        description: 'The search by text for footer',
+      }),
+      searchByText: translate({
+        id: 'theme.SearchModal.footer.searchByText',
+        message: 'Powered by',
         description: 'The search by text for footer',
       }),
       backToSearchText: translate({

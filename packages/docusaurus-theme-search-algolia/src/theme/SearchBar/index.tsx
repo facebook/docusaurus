@@ -13,11 +13,7 @@ import React, {
   type ReactNode,
 } from 'react';
 import {createPortal} from 'react-dom';
-import {
-  DocSearchButton,
-  useDocSearchKeyboardEvents,
-  version as docsearchVersion,
-} from '@docsearch/react';
+import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import {useHistory} from '@docusaurus/router';
@@ -28,6 +24,7 @@ import {
 import {
   useAlgoliaContextualFacetFilters,
   useSearchResultUrlProcessor,
+  useAlgoliaAskAi,
 } from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -54,32 +51,12 @@ type DocSearchProps = Omit<
   searchPagePath: boolean | string;
 };
 
-// V4 specific types
-type AskAiConfig = {
-  indexName: string;
-  apiKey: string;
-  appId: string;
-  assistantId: string;
-  searchParameters?: {
-    facetFilters: FacetFilters;
-  };
-};
-
-// Extend DocSearchProps for v4 features
+// extend DocSearchProps for v4 features
 interface DocSearchV4Props extends DocSearchProps {
-  askAi?: string | AskAiConfig;
+  // todo(v4): remove any when we default to v4
+  askAi?: any;
   translations?: DocSearchTranslations;
 }
-
-// Extend DocSearchModalProps for v4 features
-interface DocSearchModalV4Props extends DocSearchModalProps {
-  askAi?: AskAiConfig;
-  canHandleAskAi?: boolean;
-  isAskAiActive?: boolean;
-  onAskAiToggle?: (active: boolean) => void;
-}
-
-const isV4 = docsearchVersion.startsWith('4');
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
 
@@ -162,84 +139,6 @@ function useResultsFooterComponent({
   );
 }
 
-function useAskAi(
-  props: DocSearchV4Props,
-  searchParameters: DocSearchProps['searchParameters'],
-) {
-  const [isAskAiActive, setIsAskAiActive] = useState(false);
-
-  const canHandleAskAi = Boolean(props?.askAi);
-
-  let currentPlaceholder =
-    (translations.modal?.searchBox as any)?.placeholderText ||
-    props?.placeholder;
-
-  if (isAskAiActive && isV4) {
-    currentPlaceholder = (translations.modal?.searchBox as any)
-      ?.placeholderTextAskAi as string;
-  }
-
-  const onAskAiToggle = useCallback((askAiToggle: boolean) => {
-    setIsAskAiActive(askAiToggle);
-  }, []);
-
-  const askAiProp = props.askAi as
-    | undefined
-    | string
-    | {
-        indexName: string;
-        apiKey: string;
-        appId: string;
-        assistantId: string;
-      };
-
-  const isAskAiPropAssistantId = typeof askAiProp === 'string';
-
-  const askAi = useMemo(() => {
-    if (!askAiProp) {
-      return undefined;
-    }
-
-    if (askAiProp && !isV4) {
-      console.warn(
-        'Ask AI is ONLY supported in DocSearch v4. Please use to the latest version of DocSearch.',
-      );
-      return undefined;
-    }
-
-    return {
-      indexName: isAskAiPropAssistantId ? props.indexName : askAiProp.indexName,
-      apiKey: isAskAiPropAssistantId ? props.apiKey : askAiProp.apiKey,
-      appId: isAskAiPropAssistantId ? props.appId : askAiProp.appId,
-      assistantId: isAskAiPropAssistantId ? askAiProp : askAiProp.assistantId,
-      searchParameters: searchParameters?.facetFilters
-        ? {facetFilters: searchParameters.facetFilters}
-        : undefined,
-    };
-  }, [
-    askAiProp,
-    isAskAiPropAssistantId,
-    props.indexName,
-    props.apiKey,
-    props.appId,
-    searchParameters,
-  ]);
-
-  // Utility to reset Ask AI active state when closing the modal -------------
-  const resetAskAiActive = useCallback(() => {
-    setIsAskAiActive(false);
-  }, []);
-
-  return {
-    canHandleAskAi,
-    isAskAiActive,
-    currentPlaceholder,
-    onAskAiToggle,
-    askAi,
-    resetAskAiActive,
-  } as const;
-}
-
 function Hit({
   hit,
   children,
@@ -305,36 +204,18 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
   const transformSearchClient = useTransformSearchClient();
 
   const searchContainer = useRef<HTMLDivElement | null>(null);
-  // TODO remove "as any" after React 19 upgrade
-  const searchButtonRef = useRef<HTMLButtonElement>(null as any);
+  const searchButtonRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState<string | undefined>(
     undefined,
   );
 
-  const {
-    canHandleAskAi,
-    isAskAiActive,
-    currentPlaceholder,
-    onAskAiToggle,
-    askAi,
-    resetAskAiActive,
-  } = useAskAi(props, searchParameters);
-
-  // Build extra props only when using DocSearch v4
-  const extraAskAiProps: Partial<DocSearchModalV4Props> = useMemo(
-    () =>
-      isV4
-        ? {
-            // Ask-AI related props (v4 only)
-            askAi,
-            canHandleAskAi,
-            isAskAiActive,
-            onAskAiToggle,
-          }
-        : {},
-    [askAi, canHandleAskAi, isAskAiActive, onAskAiToggle],
-  );
+  const {isAskAiActive, currentPlaceholder, onAskAiToggle, extraAskAiProps} =
+    useAlgoliaAskAi(
+      // todo(v4): remove any when we default to v4
+      props as any,
+      searchParameters,
+    );
 
   const prepareSearchContainer = useCallback(() => {
     if (!searchContainer.current) {
@@ -353,8 +234,8 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
     setIsOpen(false);
     searchButtonRef.current?.focus();
     setInitialQuery(undefined);
-    resetAskAiActive();
-  }, [resetAskAiActive]);
+    onAskAiToggle(false);
+  }, [onAskAiToggle]);
 
   const handleInput = useCallback(
     (event: KeyboardEvent) => {
@@ -378,13 +259,10 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
     onClose: closeModal,
     onInput: handleInput,
     searchButtonRef,
-    ...(isV4
-      ? {
-          isAskAiActive,
-          onAskAiToggle,
-        }
-      : {}),
-  });
+    isAskAiActive: isAskAiActive ?? false,
+    onAskAiToggle: onAskAiToggle ?? (() => {}),
+    // todo(v4): remove any when we default to v4
+  } as any);
 
   return (
     <>
