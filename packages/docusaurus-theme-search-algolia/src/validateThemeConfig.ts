@@ -7,6 +7,7 @@
 
 import {escapeRegexp} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
+import {version as docsearchVersion} from '@docsearch/react';
 import type {
   ThemeConfig,
   ThemeConfigValidationContext,
@@ -53,15 +54,62 @@ export const Schema = Joi.object<ThemeConfig>({
       }).required(),
       to: Joi.string().required(),
     }).optional(),
+    // Ask AI configuration (DocSearch v4 only)
+    askAi: Joi.alternatives()
+      .try(
+        // Simple string format (assistantId only)
+        Joi.string(),
+        // Full configuration object
+        Joi.object({
+          indexName: Joi.string().required(),
+          apiKey: Joi.string().required(),
+          appId: Joi.string().required(),
+          assistantId: Joi.string().required(),
+        }),
+      )
+      .optional()
+      .messages({
+        'alternatives.types':
+          'askAi must be either a string (assistantId) or an object with indexName, apiKey, appId, and assistantId',
+      }),
   })
     .label('themeConfig.algolia')
     .required()
-    .unknown(), // DocSearch 3 is still alpha: don't validate the rest for now
+    .unknown(),
 });
 
 export function validateThemeConfig({
   validate,
   themeConfig,
 }: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
-  return validate(Schema, themeConfig);
+  const validated = validate(Schema, themeConfig);
+
+  // normalize askai: allow users to pass a simple assistant id string and
+  // convert it here to the full object shape using root algolia credentials
+  const algolia = (validated as any).algolia as {
+    indexName: string;
+    apiKey: string;
+    appId: string;
+    askAi?: unknown;
+  };
+
+  if (algolia && typeof algolia.askAi === 'string') {
+    algolia.askAi = {
+      indexName: algolia.indexName,
+      apiKey: algolia.apiKey,
+      appId: algolia.appId,
+      assistantId: algolia.askAi,
+    } as unknown;
+  }
+
+  // enforce docsearch v4 requirement when askai is configured
+  if ((algolia as any)?.askAi && !docsearchVersion.startsWith('4.')) {
+    throw new Error(
+      'The askAi feature is only supported in DocSearch v4. ' +
+        'Please upgrade to DocSearch v4 by installing "@docsearch/react": "^4.0.0" ' +
+        'or remove the askAi configuration from your theme config.',
+    );
+  }
+
+  return validated;
 }
