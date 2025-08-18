@@ -22,27 +22,26 @@ function ColorModeToggle({
   onChange,
 }: Props): ReactNode {
   const isBrowser = useIsBrowser();
+  const targetMode =
+    value === 'dark'
+      ? translate({
+          message: 'light mode',
+          id: 'theme.colorToggle.ariaLabel.mode.light',
+          description: 'The name for the light color mode',
+        })
+      : translate({
+          message: 'dark mode',
+          id: 'theme.colorToggle.ariaLabel.mode.dark',
+          description: 'The name for the dark color mode',
+        });
 
   const title = translate(
     {
-      message: 'Switch between dark and light mode (currently {mode})',
+      message: 'Switch to {mode}',
       id: 'theme.colorToggle.ariaLabel',
-      description: 'The ARIA label for the navbar color mode toggle',
+      description: 'The ARIA label for the navbar color mode toggle button',
     },
-    {
-      mode:
-        value === 'dark'
-          ? translate({
-              message: 'dark mode',
-              id: 'theme.colorToggle.ariaLabel.mode.dark',
-              description: 'The name for the dark color mode',
-            })
-          : translate({
-              message: 'light mode',
-              id: 'theme.colorToggle.ariaLabel.mode.light',
-              description: 'The name for the light color mode',
-            }),
-    },
+    {mode: targetMode},
   );
 
   return (
