@@ -44,21 +44,21 @@ function getColorModeLabel(colorMode: ColorMode | null): string {
   switch (colorMode) {
     case null:
       return translate({
-        message: 'system mode',
-        id: 'theme.colorToggle.ariaLabel.mode.system',
-        description: 'The name for the system color mode',
+        message: 'Switch to system mode',
+        id: 'theme.colorToggle.title.system',
+        description: 'The title for switching to system color mode',
       });
     case 'light':
       return translate({
-        message: 'light mode',
-        id: 'theme.colorToggle.ariaLabel.mode.light',
-        description: 'The name for the light color mode',
+        message: 'Switch to dark mode',
+        id: 'theme.colorToggle.title.light',
+        description: 'The title for switching to dark color mode',
       });
     case 'dark':
       return translate({
-        message: 'dark mode',
-        id: 'theme.colorToggle.ariaLabel.mode.dark',
-        description: 'The name for the dark color mode',
+        message: 'Switch to light mode',
+        id: 'theme.colorToggle.title.dark',
+        description: 'The title for switching to light color mode',
       });
     default:
       throw new Error(`unexpected color mode ${colorMode}`);
@@ -68,12 +68,12 @@ function getColorModeLabel(colorMode: ColorMode | null): string {
 function getColorModeAriaLabel(colorMode: ColorMode | null) {
   return translate(
     {
-      message: 'Switch between dark and light mode (currently {mode})',
+      message: 'Switch to {mode}',
       id: 'theme.colorToggle.ariaLabel',
       description: 'The ARIA label for the color mode toggle',
     },
     {
-      mode: getColorModeLabel(colorMode),
+      mode: getColorModeLabel(colorMode).replace('Switch to ', ''),
     },
   );
 }
