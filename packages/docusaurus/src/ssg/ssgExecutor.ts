@@ -20,6 +20,8 @@ import {
 import {generateHashRouterEntrypoint} from './ssgUtils';
 import {createGlobalSSGResult} from './ssgGlobalResult';
 import {executeSSGInlineTask} from './ssgWorkerInline';
+import {createSSGProgressReporter, type SSGProgressTracker} from './ssgProgress';
+import {SSG_PROGRESS_ENABLED} from './ssgProgressConfig';
 import type {Props, RouterType} from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
 import type {SSGParams} from './ssgParams';
@@ -40,12 +42,18 @@ const createSimpleSSGExecutor: CreateSSGExecutor = async ({
   params,
   pathnames,
 }) => {
+  const progressTracker = SSG_PROGRESS_ENABLED 
+    ? createSSGProgressReporter(pathnames.length)
+    : undefined;
+  
   return {
     run: () => {
       return PerfLogger.async('SSG (current thread)', async () => {
+        progressTracker?.start();
         const ssgResults = await executeSSGInlineTask({
           pathnames,
           params,
+          progressTracker,
         });
         return createGlobalSSGResult(ssgResults);
       });
@@ -110,6 +118,10 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
   if (numberOfThreads === 1) {
     return createSimpleSSGExecutor({params, pathnames});
   }
+  
+  const progressTracker = SSG_PROGRESS_ENABLED 
+    ? createSSGProgressReporter(pathnames.length)
+    : undefined;
 
   const pool = await PerfLogger.async(
     `Create SSG thread pool - ${logger.cyan(numberOfThreads)} threads`,
@@ -155,13 +167,25 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
 
   return {
     run: async () => {
+      progressTracker?.start();
       const results = await PerfLogger.async(`Thread pool`, async () => {
         return Promise.all(
-          pathnamesChunks.map((taskPathnames, taskIndex) => {
-            return submitTask({
+          pathnamesChunks.map(async (taskPathnames, taskIndex) => {
+            const taskResults = await submitTask({
               id: taskIndex + 1,
               pathnames: taskPathnames,
             });
+            // Track progress for this chunk if tracker is enabled
+            if (progressTracker) {
+              taskResults.forEach((result) => {
+                if (result.success) {
+                  progressTracker.incrementCompleted(result.pathname);
+                } else {
+                  progressTracker.incrementFailed(result.pathname, result.error);
+                }
+              });
+            }
+            return taskResults;
           }),
         );
       });

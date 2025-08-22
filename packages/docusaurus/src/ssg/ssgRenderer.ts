@@ -21,6 +21,7 @@ import {
 import {SSGConcurrency} from './ssgEnv';
 import {writeStaticFile} from './ssgUtils';
 import {createSSGRequire} from './ssgNodeRequire';
+import type {SSGProgressTracker} from './ssgProgress';
 import type {SSGParams} from './ssgParams';
 import type {
   AppRenderer,
@@ -108,8 +109,10 @@ export type SSGRenderer = {
 
 export async function loadSSGRenderer({
   params,
+  progressTracker,
 }: {
   params: SSGParams;
+  progressTracker?: SSGProgressTracker;
 }): Promise<SSGRenderer> {
   const [appRenderer, htmlMinifier, ssgTemplate] = await Promise.all([
     PerfLogger.async('Load App renderer', () =>
@@ -131,14 +134,26 @@ export async function loadSSGRenderer({
     renderPathnames: (pathnames) => {
       return pMap<string, SSGResult>(
         pathnames,
-        async (pathname) =>
-          generateStaticFile({
+        async (pathname) => {
+          const result = await generateStaticFile({
             pathname,
             appRenderer,
             params,
             htmlMinifier,
             ssgTemplate,
-          }),
+          });
+          
+          // Track progress if tracker is available
+          if (progressTracker) {
+            if (result.success) {
+              progressTracker.incrementCompleted(pathname);
+            } else {
+              progressTracker.incrementFailed(pathname, result.error);
+            }
+          }
+          
+          return result;
+        },
         {concurrency: SSGConcurrency},
       );
     },
