@@ -31,8 +31,9 @@ export class SSGProgressTracker extends EventEmitter {
     this.completedPages = 0;
     this.failedPages = 0;
     this.startTime = Date.now();
-    this.lastProgressUpdate = Date.now();
-    // Update progress at most once every 100ms to avoid console spam
+    // Ensure first progress emits immediately
+    this.lastProgressUpdate = 0;
+    // Throttle to avoid console spam
     this.progressUpdateInterval = 100;
   }
 
@@ -46,12 +47,12 @@ export class SSGProgressTracker extends EventEmitter {
   }
 
   incrementCompleted(pathname: string): void {
-    this.completedPages++;
+    this.completedPages += 1;
     this.maybeEmitProgress(pathname);
   }
 
   incrementFailed(pathname: string, error: Error): void {
-    this.failedPages++;
+    this.failedPages += 1;
     this.emit('progress', {
       type: 'error',
       totalPages: this.totalPages,
@@ -65,10 +66,9 @@ export class SSGProgressTracker extends EventEmitter {
 
   private maybeEmitProgress(pathname: string): void {
     const now = Date.now();
-    const shouldUpdate = 
+    const shouldUpdate =
       now - this.lastProgressUpdate >= this.progressUpdateInterval ||
       this.isComplete();
-
     if (shouldUpdate) {
       this.lastProgressUpdate = now;
       this.emit('progress', {
@@ -105,55 +105,77 @@ export class SSGProgressTracker extends EventEmitter {
       totalPages: this.totalPages,
       completedPages: this.completedPages,
       failedPages: this.failedPages,
-      successRate: processedPages > 0 ? (this.completedPages / processedPages) * 100 : 0,
+      successRate:
+        processedPages > 0 ? (this.completedPages / processedPages) * 100 : 0,
       elapsedTime: this.getElapsedTime(),
     };
   }
 }
 
-export function createSSGProgressReporter(totalPages: number): SSGProgressTracker {
+export function createSSGProgressReporter(
+  totalPages: number,
+): SSGProgressTracker {
   const tracker = new SSGProgressTracker(totalPages);
-  
+  const perfEnabled = process.env.DOCUSAURUS_PERF_LOGGER === 'true';
+  const useDynamicBar = Boolean(process.stdout.isTTY) && !perfEnabled;
   tracker.on('progress', (event: SSGProgressEvent) => {
     switch (event.type) {
-      case 'start':
-        logger.info`Generating static files for ${logger.num(totalPages)} pages...`;
+      case 'start': {
+        logger.info`Generating static files for ${logger.num(
+          totalPages,
+        )} pages...`;
         break;
+      }
       case 'progress': {
-        const percentage = Math.floor(((event.completedPages + event.failedPages) / event.totalPages) * 100);
-        const progressBar = createProgressBar(percentage);
-        
-        // Clear line and write progress
-        if (process.stdout.isTTY) {
+        const processed = event.completedPages + event.failedPages;
+        const percentage = Math.floor((processed / event.totalPages) * 100);
+        if (useDynamicBar) {
+          const bar = createProgressBar(percentage);
+          // Update a single terminal line in TTY
           process.stdout.clearLine(0);
           process.stdout.cursorTo(0);
           process.stdout.write(
-            `${progressBar} ${percentage}% | ${event.completedPages + event.failedPages}/${event.totalPages} pages`
+            `${bar} ${percentage}% | ${processed}/${event.totalPages} pages`,
           );
+        } else {
+          // Fallback printing works better when other logs are emitted
+          logger.info`SSG progress: ${logger.num(processed)}/${logger.num(
+            event.totalPages,
+          )} (${logger.num(percentage)}%)`;
         }
         break;
       }
       case 'complete': {
-        if (process.stdout.isTTY) {
+        if (useDynamicBar) {
           process.stdout.clearLine(0);
           process.stdout.cursorTo(0);
         }
         const stats = tracker.getStats();
         const timeInSeconds = (stats.elapsedTime / 1000).toFixed(2);
-        
         if (stats.failedPages === 0) {
-          logger.success`Generated static files for ${logger.num(stats.completedPages)} pages in ${logger.num(timeInSeconds)}s.`;
+          logger.success`Generated static files for ${logger.num(
+            stats.completedPages,
+          )} pages in ${logger.num(timeInSeconds)}s.`;
         } else {
-          logger.warn`Generated static files: ${logger.num(stats.completedPages)} succeeded, ${logger.num(stats.failedPages)} failed (total: ${logger.num(stats.totalPages)}) in ${logger.num(timeInSeconds)}s.`;
+          logger.warn`Generated static files: ${logger.num(
+            stats.completedPages,
+          )} succeeded, ${logger.num(
+            stats.failedPages,
+          )} failed (total: ${logger.num(stats.totalPages)}) in ${logger.num(
+            timeInSeconds,
+          )}s.`;
         }
         break;
       }
-      case 'error':
-        // Individual errors are logged separately in the SSG process
+      case 'error': {
+        // Errors are logged separately by SSG
         break;
+      }
+      default: {
+        break;
+      }
     }
   });
-  
   return tracker;
 }
 
