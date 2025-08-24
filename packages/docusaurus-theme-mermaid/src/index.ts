@@ -41,8 +41,12 @@ export default async function themeMermaid(): Promise<Plugin<void>> {
       return {
         plugins: [
           new utils.currentBundler.instance.DefinePlugin({
-            __DOCUSAURUS_MERMAID_LAYOUT_ELK_ENABLED__:
-              JSON.stringify(elkLayoutEnabled),
+            __DOCUSAURUS_MERMAID_LAYOUT_ELK_ENABLED__: JSON.stringify(
+              // We only need to include the layout registration code on the
+              // client side. This also solves a weird Webpack-only bug when
+              // compiling the server config due to the module being ESM-only.
+              !isServer && elkLayoutEnabled,
+            ),
           }),
         ],
       };
