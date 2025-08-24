@@ -7,13 +7,11 @@
 
 import {useState, useEffect, useMemo} from 'react';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
-import elkLayouts from '@mermaid-js/layout-elk';
 import mermaid from 'mermaid';
+import {ensureLayoutsRegistered} from './layouts';
+
 import type {RenderResult, MermaidConfig} from 'mermaid';
 import type {ThemeConfig} from '@docusaurus/theme-mermaid';
-
-// mermaid does not support ELK layouts in external websites (e.g. Docusaurus) by default, as explained in https://github.com/mermaid-js/mermaid/tree/develop/packages/mermaid-layout-elk
-mermaid.registerLayoutLoaders(elkLayouts);
 
 // Stable className to allow users to easily target with CSS
 export const MermaidContainerClassName = 'docusaurus-mermaid-container';
@@ -41,7 +39,7 @@ function useMermaidId(): string {
   Note: Mermaid doesn't like values provided by Rect.useId() and throws
   */
 
-  // TODO 2025-2026: check if useId() now works
+  // TODO Docusaurus v4: check if useId() now works
   //  It could work thanks to https://github.com/facebook/react/pull/32001
   // return useId(); // tried that, doesn't work ('#d:re:' is not a valid selector.)
 
@@ -57,6 +55,8 @@ async function renderMermaid({
   text: string;
   config: MermaidConfig;
 }): Promise<RenderResult> {
+  await ensureLayoutsRegistered();
+
   /*
   Mermaid API is really weird :s
   It is a big mutable singleton with multiple config levels
