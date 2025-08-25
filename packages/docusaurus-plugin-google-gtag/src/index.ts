@@ -29,6 +29,16 @@ function createConfigSnippets({
     .join('\n');
 }
 
+// Check if Google Analytics is already loaded to prevent duplicates
+function isGoogleAnalyticsAlreadyLoaded(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    (typeof window.gtag === 'function' ||
+      Array.isArray(window.dataLayer) ||
+      !!document.querySelector('script[src*="googletagmanager.com/gtag/js"]'))
+  );
+}
+
 export default function pluginGoogleGtag(
   context: LoadContext,
   options: PluginOptions,
@@ -69,26 +79,31 @@ export default function pluginGoogleGtag(
               href: 'https://www.googletagmanager.com',
             },
           },
-          {
-            tagName: 'script',
-            attributes: {
-              async: true,
-              // We only include the first tracking id here because google says
-              // we shouldn't install multiple tags/scripts on the same page
-              // Instead we should load one script and use n * gtag("config",id)
-              // See https://developers.google.com/tag-platform/gtagjs/install#add-products
-              src: `https://www.googletagmanager.com/gtag/js?id=${firstTrackingId}`,
-            },
-          },
-          {
-            tagName: 'script',
-            innerHTML: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              ${createConfigSnippets(options)};
-              `,
-          },
+          // Only inject GA scripts if not already loaded
+          ...(isGoogleAnalyticsAlreadyLoaded()
+            ? []
+            : [
+                {
+                  tagName: 'script',
+                  attributes: {
+                    async: true,
+                    // we should not install multiple tags/scripts on the same page
+                    // we should not install multiple tags/scripts on the same page
+                    // Instead we should load one script and use n * gtag("config",id)
+                    // See https://developers.google.com/tag-platform/gtagjs/install#add-products
+                    src: `https://www.googletagmanager.com/gtag/js?id=${firstTrackingId}`,
+                  },
+                },
+                {
+                  tagName: 'script',
+                  innerHTML: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                ${createConfigSnippets(options)};
+                `,
+                },
+              ]),
         ],
       };
     },

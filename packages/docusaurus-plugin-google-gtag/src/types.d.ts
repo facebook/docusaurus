@@ -6,3 +6,12 @@
  */
 
 /// <reference types="@docusaurus/module-type-aliases" />
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
+  }
+}
+
+export {};
