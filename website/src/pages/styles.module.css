@@ -223,23 +223,268 @@ html[data-theme='dark'] .topBannerTitleText {
   }
 }
 
+.tweetsMarquee {
+  position: relative;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+.tweetsMarquee::before,
+.tweetsMarquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 64px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tweetsMarquee::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    var(--ifm-color-emphasis-100) 0%,
+    rgb(255 255 255 / 0%) 70%
+  );
+}
+
+.tweetsMarquee::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    var(--ifm-color-emphasis-100) 0%,
+    rgb(255 255 255 / 0%) 70%
+  );
+}
+
+html[data-theme='dark'] .tweetsMarquee::before {
+  background: linear-gradient(
+    to right,
+    var(--ifm-background-surface-color) 0%,
+    rgb(0 0 0 / 0%) 70%
+  );
+}
+html[data-theme='dark'] .tweetsMarquee::after {
+  background: linear-gradient(
+    to left,
+    var(--ifm-background-surface-color) 0%,
+    rgb(0 0 0 / 0%) 70%
+  );
+}
+
+.tweetsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+.tweetsTitle {
+  margin: 0;
+}
+
+.tweetsViewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.tweetsViewAllIcon {
+  margin-right: 0.1rem;
+}
+
+.tweetsTrack {
+  display: flex;
+  gap: 16px;
+  will-change: transform;
+  align-items: flex-start;
+}
+
+.tweetsSet {
+  display: flex;
+  gap: 16px;
+}
+
+.tweetItem {
+  position: relative;
+  flex: 0 0 auto;
+  --ty: 0;
+  transform: translateY(var(--ty));
+  transition: transform 0.35s ease, filter 0.35s ease;
+  z-index: 0;
+}
+.tweetItem > * {
+  height: 100%;
+}
+
+.tweetItem > :global(.card) {
+  width: clamp(280px, 30vw, 420px);
+  max-width: 420px;
+}
+
+.tweetItem:hover {
+  transform: translateY(calc(var(--ty) - 2px)) scale(1.06);
+  z-index: 5;
+  filter: drop-shadow(0 14px 34px rgb(0 0 0 / 25%));
+}
+
+.tweetItem::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: -10px;
+  height: 18px;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 22%), rgb(0 0 0 / 0%));
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: -1;
+}
+.tweetItem:hover::after {
+  opacity: 1;
+}
+
+.tweetsSet .tweetItem:nth-child(1) {
+  --ty: -10px;
+}
+.tweetsSet .tweetItem:nth-child(2) {
+  --ty: 14px;
+}
+.tweetsSet .tweetItem:nth-child(3) {
+  --ty: -6px;
+}
+.tweetsSet .tweetItem:nth-child(4) {
+  --ty: 10px;
+}
+.tweetsSet .tweetItem:nth-child(5) {
+  --ty: -12px;
+}
+.tweetsSet .tweetItem:nth-child(6) {
+  --ty: 8px;
+}
+.tweetsSet .tweetItem:nth-child(7) {
+  --ty: -4px;
+}
+.tweetsSet .tweetItem:nth-child(8) {
+  --ty: 12px;
+}
+.tweetsSet .tweetItem:nth-child(9) {
+  --ty: -8px;
+}
+
+.tweetsOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 50;
+  background: rgb(0 0 0 / 12%);
+  backdrop-filter: blur(8px) saturate(120%);
+}
+.tweetsOverlayVisible {
+  opacity: 1;
+}
+
+.tweetsOverlayCard {
+  pointer-events: auto;
+  transform: translate(var(--from-x, 0), var(--from-y, 0))
+    scale(var(--from-s, 1));
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), filter 0.3s ease;
+  filter: drop-shadow(0 30px 60px rgb(0 0 0 / 35%));
+}
+
+.tweetsOverlayCard > :global(.card) {
+  width: min(90vw, 760px);
+  max-width: 760px;
+}
+.tweetsOverlayAnim .tweetsOverlayCard {
+  transform: translate(0, 0) scale(1.15);
+}
+
+.tweetsAllOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 18%);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 60;
+}
+
+.tweetsAllVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tweetsAllPanel {
+  background: var(--ifm-background-surface-color);
+  border-radius: 14px;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 35%);
+  width: min(1200px, 94vw);
+  max-height: 88vh;
+  overflow: auto;
+  transform: scale(0.96) translateY(8px);
+  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.tweetsAllVisible .tweetsAllPanel {
+  transform: scale(1) translateY(0);
+}
+
+.tweetsAllHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+.tweetsAllTitle {
+  margin: 0;
+}
+
+.tweetsAllClose {
+  display: inline-flex;
+  align-items: center;
+}
+
+.tweetsAllGrid {
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.tweetsAllItem > :global(.card) {
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tweetsMarquee::before,
+  .tweetsMarquee::after {
+    display: none;
+  }
+}
+
 .tweetsSection > :global(.col) > * {
   margin-bottom: 2rem;
 }
-
 @media (max-width: 996px) {
   .tweetsSection > :global(.col:last-child) > *:last-child {
     margin-bottom: 0;
   }
 }
-
 @media (min-width: 997px) {
   .tweetsSection > :global(.col) > *:last-child {
     margin-bottom: 0;
   }
 }
 
-/* Used to test CSS insertion order */
 .test-marker-site-index-page {
   content: 'site-index-page';
 }

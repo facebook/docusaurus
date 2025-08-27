@@ -48,6 +48,11 @@ Mermaid diagrams are rendered client-side and produce layout shifts
   visibility: hidden;
 }
 
+/* Testimonials marquee moves: hide to avoid visual flakiness */
+.tweetsMarquee {
+  visibility: hidden;
+}
+
 /* YouTube player lite can load video lazily */
 article.yt-lite {
   visibility: hidden;

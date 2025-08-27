@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ReactNode} from 'react';
+import {useEffect, useMemo, useRef, useState, type ReactNode} from 'react';
 import clsx from 'clsx';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import Link from '@docusaurus/Link';
@@ -74,25 +74,231 @@ function HeroBanner() {
 }
 
 function TweetsSection() {
-  const tweetColumns: TweetItem[][] = [[], [], []];
-  Tweets.filter((tweet) => tweet.showOnHomepage).forEach((tweet, i) =>
-    tweetColumns[i % 3]!.push(tweet),
+  const items = useMemo(
+    () => Tweets.filter((t) => t.showOnHomepage).slice(0, 9),
+    [],
   );
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const firstSetRef = useRef<HTMLDivElement | null>(null);
+  const [hovered, setHovered] = useState(false);
+  const [active, setActive] = useState<TweetItem | null>(null);
+  const [origin, setOrigin] = useState<{
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  } | null>(null);
+  const [toCenter, setToCenter] = useState(false);
+  const [allOpen, setAllOpen] = useState(false);
+  const overlayCardRef = useRef<HTMLDivElement | null>(null);
+  const baseSpeed = 30;
+  const speedRef = useRef(0);
+  const offsetRef = useRef(0);
+  const reduceMotionRef = useRef(false);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      reduceMotionRef.current = mq.matches;
+      const onChange = (e: MediaQueryListEvent) => {
+        reduceMotionRef.current = e.matches;
+      };
+      mq.addEventListener?.('change', onChange);
+      return () => mq.removeEventListener?.('change', onChange);
+    }
+    return undefined;
+  }, []);
+  useEffect(() => {
+    if (!trackRef.current || !firstSetRef.current) {
+      return () => {};
+    }
+    let raf = 0;
+    let last = 0;
+    const tick = (ts: number) => {
+      if (!last) {
+        last = ts;
+      }
+      const dt = (ts - last) / 1000;
+      last = ts;
+      const target =
+        hovered || reduceMotionRef.current || active || allOpen ? 0 : baseSpeed;
+      speedRef.current += (target - speedRef.current) * 0.08;
+      offsetRef.current -= speedRef.current * dt;
+      const firstWidth = firstSetRef.current!.offsetWidth;
+      if (offsetRef.current <= -firstWidth) {
+        offsetRef.current += firstWidth;
+      }
+      if (trackRef.current) {
+        trackRef.current.style.transform = `translateX(${offsetRef.current}px)`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [hovered, active, allOpen]);
+  useEffect(() => {
+    if (!active || !origin) {
+      return;
+    }
+    const el = overlayCardRef.current;
+    if (!el) {
+      return;
+    }
+    const fr = el.getBoundingClientRect();
+    const fx = origin.x + origin.w / 2 - (fr.left + fr.width / 2);
+    const fy = origin.y + origin.h / 2 - (fr.top + fr.height / 2);
+    const fs = origin.w / fr.width;
+    el.style.setProperty('--from-x', `${fx}px`);
+    el.style.setProperty('--from-y', `${fy}px`);
+    el.style.setProperty('--from-s', String(fs));
+    setToCenter(false);
+    requestAnimationFrame(() => requestAnimationFrame(() => setToCenter(true)));
+  }, [active, origin]);
 
   return (
     <div className={clsx(styles.section, styles.sectionAlt)}>
       <div className="container">
-        <Heading as="h2" className={clsx('margin-bottom--lg', 'text--center')}>
-          <Translate>Loved by many engineers</Translate>
-        </Heading>
-        <div className={clsx('row', styles.tweetsSection)}>
-          {tweetColumns.map((tweetItems, i) => (
-            <div className="col col--4" key={i}>
-              {tweetItems.map((tweet) => (
-                <Tweet {...tweet} key={tweet.url} />
+        <div className={styles.tweetsHeader}>
+          <Heading as="h2" className={styles.tweetsTitle}>
+            <Translate>Loved by many engineers</Translate>
+          </Heading>
+          <button
+            type="button"
+            className={clsx(
+              'button',
+              'button--secondary',
+              'button--sm',
+              styles.tweetsViewAll,
+            )}
+            onClick={() => {
+              setActive(null);
+              setAllOpen(true);
+            }}>
+            <svg
+              className={styles.tweetsViewAllIcon}
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true">
+              <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 8v-8h8v8h-8z" />
+            </svg>
+            <span>
+              <Translate>View all</Translate>
+            </span>
+          </button>
+        </div>
+        <div
+          className={styles.tweetsMarquee}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => {
+            setHovered(false);
+            setActive(null);
+          }}>
+          <div
+            className={styles.tweetsTrack}
+            ref={trackRef}
+            role="list"
+            aria-label="Testimonials carousel">
+            <div className={styles.tweetsSet} ref={firstSetRef}>
+              {items.map((tweet, _i) => (
+                <div
+                  className={styles.tweetItem}
+                  role="listitem"
+                  key={tweet.url}
+                  onMouseEnter={(e) => {
+                    const r = (
+                      e.currentTarget as HTMLDivElement
+                    ).getBoundingClientRect();
+                    setOrigin({x: r.left, y: r.top, w: r.width, h: r.height});
+                    setActive(tweet);
+                  }}>
+                  <Tweet {...tweet} />
+                </div>
               ))}
             </div>
-          ))}
+            <div className={styles.tweetsSet} aria-hidden="true">
+              {items.map((tweet, _i) => (
+                <div
+                  className={styles.tweetItem}
+                  role="presentation"
+                  key={`dup-${tweet.url}`}
+                  onMouseEnter={(e) => {
+                    const r = (
+                      e.currentTarget as HTMLDivElement
+                    ).getBoundingClientRect();
+                    setOrigin({x: r.left, y: r.top, w: r.width, h: r.height});
+                    setActive(tweet);
+                  }}>
+                  <Tweet {...tweet} />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div
+            className={clsx(
+              styles.tweetsOverlay,
+              active && styles.tweetsOverlayVisible,
+              toCenter && styles.tweetsOverlayAnim,
+            )}>
+            {active && (
+              <div
+                ref={overlayCardRef}
+                className={styles.tweetsOverlayCard}
+                onMouseLeave={() => {
+                  setToCenter(false);
+                  setTimeout(() => {
+                    setActive(null);
+                    setOrigin(null);
+                  }, 300);
+                }}>
+                <Tweet {...active} />
+              </div>
+            )}
+          </div>
+          <div
+            className={clsx(
+              styles.tweetsAllOverlay,
+              allOpen && styles.tweetsAllVisible,
+            )}>
+            <div
+              className={styles.tweetsAllPanel}
+              role="dialog"
+              aria-modal="true">
+              <div className={styles.tweetsAllHeader}>
+                <Heading as="h3" className={styles.tweetsAllTitle}>
+                  <Translate>All testimonials</Translate>
+                </Heading>
+                <button
+                  type="button"
+                  className={clsx(
+                    'button',
+                    'button--secondary',
+                    'button--sm',
+                    styles.tweetsAllClose,
+                  )}
+                  aria-label="Close"
+                  onClick={() => setAllOpen(false)}>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true">
+                    <path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.41 4.3 19.71 2.89 18.3 9.17 12 2.89 5.71 4.3 4.29l6.29 6.3 6.29-6.3z" />
+                  </svg>
+                </button>
+              </div>
+              <div className={styles.tweetsAllGrid}>
+                {items.map((tweet) => (
+                  <div
+                    key={`all-${tweet.url}`}
+                    className={styles.tweetsAllItem}>
+                    <Tweet {...tweet} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
