@@ -46,7 +46,13 @@
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "@mermaid-js/layout-elk": "^0.1.9"
+  },
+  "peerDependenciesMeta": {
+    "@mermaid-js/layout-elk": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=18.0"

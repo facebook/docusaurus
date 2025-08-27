@@ -21,7 +21,7 @@
     "@docusaurus/types": "3.8.1",
     "@rspack/core": "^1.4.0",
     "@swc/core": "^1.7.39",
-    "@swc/html": "^1.7.39",
+    "@swc/html": "^1.13.5",
     "browserslist": "^4.24.2",
     "lightningcss": "^1.27.0",
     "swc-loader": "^0.2.6",
