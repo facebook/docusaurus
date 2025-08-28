@@ -24,13 +24,19 @@ import {
   isActiveSidebarItem,
   findFirstSidebarItemLink,
   useDocSidebarItemsExpandedState,
+  useVisibleSidebarItems,
 } from '@docusaurus/plugin-content-docs/client';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import DocSidebarItems from '@theme/DocSidebarItems';
+import DocSidebarItemLink from '@theme/DocSidebarItem/Link';
 import type {Props} from '@theme/DocSidebarItem/Category';
 
+import type {
+  PropSidebarItemCategory,
+  PropSidebarItemLink,
+} from '@docusaurus/plugin-content-docs';
 import styles from './styles.module.css';
 
 // If we navigate to a category and it becomes active, it should automatically
@@ -136,7 +142,52 @@ function CategoryLinkLabel({label}: {label: string}) {
   );
 }
 
-export default function DocSidebarItemCategory({
+export default function DocSidebarItemCategory(props: Props): ReactNode {
+  const visibleChildren = useVisibleSidebarItems(
+    props.item.items,
+    props.activePath,
+  );
+  if (visibleChildren.length === 0) {
+    return <DocSidebarItemCategoryLink {...props} />;
+  } else {
+    return <DocSidebarItemCategoryCollapsible {...props} />;
+  }
+}
+
+type CategoryWithHref = PropSidebarItemCategory & {href: string};
+
+function isCategoryWithHref(
+  category: PropSidebarItemCategory,
+): category is CategoryWithHref {
+  return typeof category.href === 'string';
+}
+
+function categoryToLinkItem(category: CategoryWithHref): PropSidebarItemLink {
+  // We remove props that don't make sense for a link and forward the rest
+  const {
+    type,
+    collapsed,
+    collapsible,
+    items,
+    linkUnlisted,
+    ...forwardableProps
+  } = category;
+  return {
+    type: 'link',
+    ...forwardableProps,
+  };
+}
+
+// If a category doesn't have any visible children, we render it as a link
+function DocSidebarItemCategoryLink({item, ...props}: Props): ReactNode {
+  // If the category has no link, we don't render anything
+  if (!isCategoryWithHref(item)) {
+    return null;
+  }
+  return <DocSidebarItemLink item={categoryToLinkItem(item)} {...props} />;
+}
+
+function DocSidebarItemCategoryCollapsible({
   item,
   onItemClick,
   activePath,
