@@ -24,6 +24,7 @@ import {
 import {
   useAlgoliaContextualFacetFilters,
   useSearchResultUrlProcessor,
+  useAlgoliaAskAi,
 } from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -35,6 +36,7 @@ import type {
   StoredDocSearchHit,
   DocSearchTransformClient,
   DocSearchHit,
+  DocSearchTranslations,
 } from '@docsearch/react';
 
 import type {AutocompleteState} from '@algolia/autocomplete-core';
@@ -48,6 +50,13 @@ type DocSearchProps = Omit<
   externalUrlRegex?: string;
   searchPagePath: boolean | string;
 };
+
+// extend DocSearchProps for v4 features
+interface DocSearchV4Props extends DocSearchProps {
+  // todo(v4): remove any when we default to v4
+  askAi?: any;
+  translations?: DocSearchTranslations;
+}
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
 
@@ -135,7 +144,7 @@ function Hit({
   children,
 }: {
   hit: InternalDocSearchHit | StoredDocSearchHit;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return <Link to={hit.url}>{children}</Link>;
 }
@@ -188,19 +197,25 @@ function useSearchParameters({
   };
 }
 
-function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
+function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
   const navigator = useNavigator({externalUrlRegex});
   const searchParameters = useSearchParameters({...props});
   const transformItems = useTransformItems(props);
   const transformSearchClient = useTransformSearchClient();
 
   const searchContainer = useRef<HTMLDivElement | null>(null);
-  // TODO remove "as any" after React 19 upgrade
-  const searchButtonRef = useRef<HTMLButtonElement>(null as any);
+  const searchButtonRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState<string | undefined>(
     undefined,
   );
+
+  const {isAskAiActive, currentPlaceholder, onAskAiToggle, extraAskAiProps} =
+    useAlgoliaAskAi(
+      // todo(v4): remove any when we default to v4
+      props as any,
+      searchParameters,
+    );
 
   const prepareSearchContainer = useCallback(() => {
     if (!searchContainer.current) {
@@ -219,7 +234,8 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
     setIsOpen(false);
     searchButtonRef.current?.focus();
     setInitialQuery(undefined);
-  }, []);
+    onAskAiToggle(false);
+  }, [onAskAiToggle]);
 
   const handleInput = useCallback(
     (event: KeyboardEvent) => {
@@ -243,7 +259,10 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
     onClose: closeModal,
     onInput: handleInput,
     searchButtonRef,
-  });
+    isAskAiActive: isAskAiActive ?? false,
+    onAskAiToggle: onAskAiToggle ?? (() => {}),
+    // todo(v4): remove any when we default to v4
+  } as any);
 
   return (
     <>
@@ -274,6 +293,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
         searchContainer.current &&
         createPortal(
           <DocSearchModal
+            {...props}
             onClose={closeModal}
             initialScrollY={window.scrollY}
             initialQuery={initialQuery}
@@ -284,10 +304,10 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
             {...(props.searchPagePath && {
               resultsFooterComponent,
             })}
-            placeholder={translations.placeholder}
-            {...props}
+            placeholder={currentPlaceholder}
             translations={props.translations?.modal ?? translations.modal}
             searchParameters={searchParameters}
+            {...extraAskAiProps}
           />,
           // TODO need to fix this React Compiler lint error
           // eslint-disable-next-line react-compiler/react-compiler
@@ -299,5 +319,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
 
 export default function SearchBar(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
-  return <DocSearch {...(siteConfig.themeConfig.algolia as DocSearchProps)} />;
+  return (
+    <DocSearch {...(siteConfig.themeConfig.algolia as DocSearchV4Props)} />
+  );
 }

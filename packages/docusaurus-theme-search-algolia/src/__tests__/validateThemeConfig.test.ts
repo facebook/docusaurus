@@ -5,8 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// mock docsearch to a v4 version to allow askai tests to pass
 import {DEFAULT_CONFIG, validateThemeConfig} from '../validateThemeConfig';
 import type {Joi} from '@docusaurus/utils-validation';
+
+jest.mock('@docsearch/react', () => ({version: '4.0.0'}));
 
 function testValidateThemeConfig(themeConfig: {[key: string]: unknown}) {
   function validate(
@@ -182,6 +185,94 @@ describe('validateThemeConfig', () => {
         ...DEFAULT_CONFIG,
         ...algolia,
       },
+    });
+  });
+
+  describe('askAi config validation', () => {
+    it('accepts string format (assistantId)', () => {
+      const algolia = {
+        appId: 'BH4D9OD16A',
+        indexName: 'index',
+        apiKey: 'apiKey',
+        askAi: 'my-assistant-id',
+      };
+      expect(testValidateThemeConfig({algolia})).toEqual({
+        algolia: {
+          ...DEFAULT_CONFIG,
+          ...algolia,
+          askAi: {
+            indexName: 'index',
+            apiKey: 'apiKey',
+            appId: 'BH4D9OD16A',
+            assistantId: 'my-assistant-id',
+          },
+        },
+      });
+    });
+
+    it('accepts full object format', () => {
+      const algolia = {
+        appId: 'BH4D9OD16A',
+        indexName: 'index',
+        apiKey: 'apiKey',
+        askAi: {
+          indexName: 'ai-index',
+          apiKey: 'ai-apiKey',
+          appId: 'ai-appId',
+          assistantId: 'my-assistant-id',
+        },
+      };
+      expect(testValidateThemeConfig({algolia})).toEqual({
+        algolia: {
+          ...DEFAULT_CONFIG,
+          ...algolia,
+        },
+      });
+    });
+
+    it('rejects invalid type', () => {
+      const algolia = {
+        appId: 'BH4D9OD16A',
+        indexName: 'index',
+        apiKey: 'apiKey',
+        askAi: 123, // Invalid: should be string or object
+      };
+      expect(() =>
+        testValidateThemeConfig({algolia}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"askAi must be either a string (assistantId) or an object with indexName, apiKey, appId, and assistantId"`,
+      );
+    });
+
+    it('rejects object missing required fields', () => {
+      const algolia = {
+        appId: 'BH4D9OD16A',
+        indexName: 'index',
+        apiKey: 'apiKey',
+        askAi: {
+          assistantId: 'my-assistant-id',
+          // Missing indexName, apiKey, appId
+        },
+      };
+      expect(() =>
+        testValidateThemeConfig({algolia}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `""algolia.askAi.indexName" is required"`,
+      );
+    });
+
+    it('accepts undefined askAi', () => {
+      const algolia = {
+        appId: 'BH4D9OD16A',
+        indexName: 'index',
+        apiKey: 'apiKey',
+      };
+      expect(testValidateThemeConfig({algolia})).toEqual({
+        algolia: {
+          ...DEFAULT_CONFIG,
+          ...algolia,
+        },
+      });
     });
   });
 });
