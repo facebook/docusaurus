@@ -85,6 +85,7 @@ Fienny
 flac
 Flightcontrol
 Flightcontrol's
+forwardable
 FOUC
 Français
 froms
