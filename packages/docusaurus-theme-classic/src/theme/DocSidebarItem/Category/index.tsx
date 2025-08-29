@@ -148,21 +148,25 @@ export default function DocSidebarItemCategory(props: Props): ReactNode {
     props.activePath,
   );
   if (visibleChildren.length === 0) {
-    return <DocSidebarItemCategoryLink {...props} />;
+    return <DocSidebarItemCategoryEmpty {...props} />;
   } else {
     return <DocSidebarItemCategoryCollapsible {...props} />;
   }
 }
 
-type CategoryWithHref = PropSidebarItemCategory & {href: string};
-
 function isCategoryWithHref(
   category: PropSidebarItemCategory,
-): category is CategoryWithHref {
+): category is PropSidebarItemCategory & {href: string} {
   return typeof category.href === 'string';
 }
 
-function categoryToLinkItem(category: CategoryWithHref): PropSidebarItemLink {
+// If a category doesn't have any visible children, we render it as a link
+function DocSidebarItemCategoryEmpty({item, ...props}: Props): ReactNode {
+  // If the category has no link, we don't render anything
+  // It's not super useful to render a category you can't open nor click
+  if (!isCategoryWithHref(item)) {
+    return null;
+  }
   // We remove props that don't make sense for a link and forward the rest
   const {
     type,
@@ -171,20 +175,12 @@ function categoryToLinkItem(category: CategoryWithHref): PropSidebarItemLink {
     items,
     linkUnlisted,
     ...forwardableProps
-  } = category;
-  return {
+  } = item;
+  const linkItem: PropSidebarItemLink = {
     type: 'link',
     ...forwardableProps,
   };
-}
-
-// If a category doesn't have any visible children, we render it as a link
-function DocSidebarItemCategoryLink({item, ...props}: Props): ReactNode {
-  // If the category has no link, we don't render anything
-  if (!isCategoryWithHref(item)) {
-    return null;
-  }
-  return <DocSidebarItemLink item={categoryToLinkItem(item)} {...props} />;
+  return <DocSidebarItemLink item={linkItem} {...props} />;
 }
 
 function DocSidebarItemCategoryCollapsible({
