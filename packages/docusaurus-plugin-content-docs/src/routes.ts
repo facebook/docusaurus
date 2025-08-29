@@ -234,6 +234,14 @@ export async function buildAllRoutes(
       }),
     ),
   );
+  // Add a catch-all route for 404 support if routeBasePath is "/".
+  // (see https://github.com/facebook/docusaurus/issues/9688)
+  if (param.options.routeBasePath === '/') {
+    subRoutes.push({
+      path: '/*',
+      component: '@docusaurus/ComponentCreator',
+    });
+  }
 
   // all docs routes are wrapped under a single parent route, this ensures
   // the theme layout never unmounts/remounts when navigating between versions
