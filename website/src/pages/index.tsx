@@ -37,19 +37,7 @@ function HeroBanner() {
             width="200"
             height="200"
           />
-          <span
-            className={styles.heroTitleTextHtml}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: translate({
-                id: 'homepage.hero.title',
-                message:
-                  'Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b>',
-                description:
-                  'Home page hero title, can contain simple html tags',
-              }),
-            }}
-          />
+          <span>UECS2363 Assignment 2 - Group 24</span>
         </Heading>
         <div className={styles.indexCtas}>
           <Link className="button button--primary" to="/docs">
