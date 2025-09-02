@@ -124,8 +124,12 @@ function ColorModeToggle({
           onChange(getNextColorMode(value, respectPrefersColorScheme))
         }
         disabled={!isBrowser}
-        title={getColorModeLabel(value)}
-        aria-label={getColorModeAriaLabel(value)}
+        title={getColorModeLabel(
+          getNextColorMode(value, respectPrefersColorScheme),
+        )}
+        aria-label={getColorModeAriaLabel(
+          getNextColorMode(value, respectPrefersColorScheme),
+        )}
 
         // For accessibility decisions
         // See https://github.com/facebook/docusaurus/issues/7667#issuecomment-2724401796
