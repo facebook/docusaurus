@@ -691,6 +691,37 @@ script:
 
 Now, whenever a new commit lands in `main`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
 
+### Triggering deployment with Buildkite {#triggering-deployment-with-buildkite}
+
+[Buildkite](https://buildkite.com/) is a fast, secure, and reliable continuous integration and continuous delivery platform.
+
+Follow these steps to create a pipeline that automatically deploys a new version of your website whenever you push changes to your GitHub Pages project.
+
+1. Sign in to your Buildkite account, select **Pipelines**, then select **New pipeline**.
+   1. If this is your first time using Buildkite, you can choose to "Login with GitHub" to connect your GitHub account.
+   2. When connected to GitHub, repositories, including ones that use GitHub Pages, automatically populate in the drop-down list.
+2. Enter a name and description—or confirm the prepopulated details, if connected to GitHub—then select **Create pipeline**.
+3. To run this job, you can set up a local agent or leverage a build runner on your platform of choice.
+   1. You can run a [Buildkite agent](https://buildkite.com/docs/agent/v3/installation) locally on your own machine, whether its on a server, virtual private server, desktop computer, or embedded device.
+4. Create a a file called `.buildkite/pipeline.yml` in your repository, at root, with the following contents.
+   1. You can also choose to define these steps in the Buildkite editor. To do so, select **Settings** from the Pipelines page.
+   2. While in repository settings, you can also define custom GitHub settings, including when to trigger builds.
+
+```
+steps:
+  - label: ":test_tube: Test"
+    command: |
+      yarn
+      yarn test
+
+  - label: ":hammer: Build"
+    command: |
+      yarn
+      yarn build
+```
+
+Whenever a new commit lands in `main`, Buildkite will run your suite of tests and if everything passes, your website will be deployed via `yarn test` and `yarn build`, or other custom steps that you choose to define.
+
 ### Triggering deployment with Buddy {#triggering-deployment-with-buddy}
 
 [Buddy](https://buddy.works/) is an easy-to-use CI/CD tool that allows you to automate the deployment of your portal to different environments, including GitHub Pages.
