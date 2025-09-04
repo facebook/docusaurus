@@ -151,7 +151,7 @@ function AlgoliaLogo(): ReactNode {
       style={{maxWidth: '150px'}}>
       <defs>
         {/* eslint-disable-next-line @docusaurus/no-untranslated-text */}
-        <style>{`.cls-1,.cls-2{fill:#003dff;}.cls-2{fill-rule:evenodd;}`}</style>
+        <style>{`.cls-1,.cls-2{fill:#003dff}.cls-2{fill-rule:evenodd}`}</style>
       </defs>
       <path
         className="cls-2"
