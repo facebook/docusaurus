@@ -8,22 +8,22 @@
 import {escapeRegexp} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import {version as docsearchVersion} from '@docsearch/react';
+import type {ThemeConfigValidationContext} from '@docusaurus/types';
 import type {
   ThemeConfig,
-  ThemeConfigValidationContext,
-} from '@docusaurus/types';
+  ThemeConfigAlgolia,
+} from '@docusaurus/theme-search-algolia';
 
 export const DEFAULT_CONFIG = {
   // Enabled by default, as it makes sense in most cases
   // see also https://github.com/facebook/docusaurus/issues/5880
   contextualSearch: true,
-
   searchParameters: {},
   searchPagePath: 'search',
-};
+} satisfies Partial<ThemeConfigAlgolia>;
 
 export const Schema = Joi.object<ThemeConfig>({
-  algolia: Joi.object({
+  algolia: Joi.object<ThemeConfigAlgolia>({
     // Docusaurus attributes
     contextualSearch: Joi.boolean().default(DEFAULT_CONFIG.contextualSearch),
     externalUrlRegex: Joi.string().optional(),
@@ -80,30 +80,25 @@ export const Schema = Joi.object<ThemeConfig>({
 
 export function validateThemeConfig({
   validate,
-  themeConfig,
+  themeConfig: themeConfigInput,
 }: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
-  const validated = validate(Schema, themeConfig);
+  const themeConfig = validate(Schema, themeConfigInput);
 
-  // normalize AskAI: allow users to pass a simple assistant id string and
-  // convert it here to the full object shape using root algolia credentials
-  const algolia = (validated as any).algolia as {
-    indexName: string;
-    apiKey: string;
-    appId: string;
-    askAi?: unknown;
-  };
+  if (!themeConfig.algolia) {
+    return themeConfig;
+  }
 
-  if (algolia && typeof algolia.askAi === 'string') {
-    algolia.askAi = {
-      indexName: algolia.indexName,
-      apiKey: algolia.apiKey,
-      appId: algolia.appId,
-      assistantId: algolia.askAi,
-    } as unknown;
+  if (typeof themeConfig.algolia.askAi === 'string') {
+    themeConfig.algolia.askAi = {
+      indexName: themeConfig.algolia.indexName,
+      apiKey: themeConfig.algolia.apiKey,
+      appId: themeConfig.algolia.appId,
+      assistantId: themeConfig.algolia.askAi,
+    };
   }
 
   // enforce docsearch v4 requirement when AskAI is configured
-  if ((algolia as any)?.askAi && !docsearchVersion.startsWith('4.')) {
+  if (themeConfig.algolia.askAi && !docsearchVersion.startsWith('4.')) {
     throw new Error(
       'The askAi feature is only supported in DocSearch v4. ' +
         'Please upgrade to DocSearch v4 by installing "@docsearch/react": "^4.0.0" ' +
@@ -111,5 +106,5 @@ export function validateThemeConfig({
     );
   }
 
-  return validated;
+  return themeConfig;
 }

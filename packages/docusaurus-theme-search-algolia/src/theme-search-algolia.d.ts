@@ -23,7 +23,7 @@ declare module '@docusaurus/theme-search-algolia' {
     | 'askAi'
   >;
 
-  type ThemeConfigAlgolia = DocusaurusDocSearchProps & {
+  export type ThemeConfigAlgolia = DocusaurusDocSearchProps & {
     // Docusaurus custom options, not coming from DocSearch
     contextualSearch: boolean;
     externalUrlRegex?: string;
@@ -34,7 +34,7 @@ declare module '@docusaurus/theme-search-algolia' {
     };
   };
 
-  export type ThemeConfig = DocusaurusDocSearchProps & {
+  export type ThemeConfig = {
     algolia: ThemeConfigAlgolia;
   };
 
