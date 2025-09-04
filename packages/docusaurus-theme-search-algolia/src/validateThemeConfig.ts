@@ -84,7 +84,7 @@ export function validateThemeConfig({
 }: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
   const validated = validate(Schema, themeConfig);
 
-  // normalize askai: allow users to pass a simple assistant id string and
+  // normalize AskAI: allow users to pass a simple assistant id string and
   // convert it here to the full object shape using root algolia credentials
   const algolia = (validated as any).algolia as {
     indexName: string;
@@ -102,7 +102,7 @@ export function validateThemeConfig({
     } as unknown;
   }
 
-  // enforce docsearch v4 requirement when askai is configured
+  // enforce docsearch v4 requirement when AskAI is configured
   if ((algolia as any)?.askAi && !docsearchVersion.startsWith('4.')) {
     throw new Error(
       'The askAi feature is only supported in DocSearch v4. ' +

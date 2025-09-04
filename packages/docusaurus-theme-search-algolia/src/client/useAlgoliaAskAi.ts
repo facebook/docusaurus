@@ -58,7 +58,7 @@ export function useAlgoliaAskAi(
 
   const askAiProp = props.askAi as DocSearchV4PropsLite['askAi'];
 
-  // validate askai compatibility with docsearch version
+  // validate AskAI compatibility with docsearch version
   if (askAiProp && !isV4) {
     throw new Error(
       'The askAi feature is only supported in DocSearch v4. ' +

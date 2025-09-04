@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// mock docsearch to a v4 version to allow askai tests to pass
+// mock docsearch to a v4 version to allow AskAI tests to pass
 import {DEFAULT_CONFIG, validateThemeConfig} from '../validateThemeConfig';
 import type {Joi} from '@docusaurus/utils-validation';
 
