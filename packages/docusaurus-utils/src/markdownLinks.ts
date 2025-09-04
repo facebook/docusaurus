@@ -47,9 +47,6 @@ export type SourceToPermalink = Map<
   string // Permalink: "/docs/content"
 >;
 
-// Note this is historical logic extracted during a 2024 refactor
-// The algo has been kept exactly as before for retro compatibility
-// See also https://github.com/facebook/docusaurus/pull/10168
 export function resolveMarkdownLinkPathname(
   linkPathname: string,
   context: {
@@ -60,20 +57,31 @@ export function resolveMarkdownLinkPathname(
   },
 ): string | null {
   const {sourceFilePath, sourceToPermalink, contentPaths, siteDir} = context;
-  const sourceDirsToTry: string[] = [];
-  // ./file.md and ../file.md are always relative to the current file
-  if (!linkPathname.startsWith('./') && !linkPathname.startsWith('../')) {
-    sourceDirsToTry.push(...getContentPathList(contentPaths), siteDir);
-  }
-  // /file.md is never relative to the source file path
-  if (!linkPathname.startsWith('/')) {
-    sourceDirsToTry.push(path.dirname(sourceFilePath));
+
+  if (linkPathname.startsWith('@site/')) {
+    return sourceToPermalink.get(decodeURIComponent(linkPathname)) ?? null;
   }
 
-  const aliasedSourceMatch = sourceDirsToTry
+  const sourceDirsToTry: string[] = [];
+
+  if (linkPathname.startsWith('/')) {
+    sourceDirsToTry.push(...getContentPathList(contentPaths), siteDir);
+  } else if (linkPathname.startsWith('./') || linkPathname.startsWith('../')) {
+    sourceDirsToTry.push(path.dirname(sourceFilePath));
+  } else {
+    // first try relative to the source file path
+    sourceDirsToTry.push(path.dirname(sourceFilePath));
+    // then try relative to all content paths (localized first)
+    sourceDirsToTry.push(...getContentPathList(contentPaths), siteDir);
+  }
+
+  const sourcesToTry = sourceDirsToTry
     .map((sourceDir) => path.join(sourceDir, decodeURIComponent(linkPathname)))
-    .map((source) => aliasedSitePath(source, siteDir))
-    .find((source) => sourceToPermalink.has(source));
+    .map((source) => aliasedSitePath(source, siteDir));
+
+  const aliasedSourceMatch = sourcesToTry.find((source) =>
+    sourceToPermalink.has(source),
+  );
 
   return aliasedSourceMatch
     ? sourceToPermalink.get(aliasedSourceMatch) ?? null
