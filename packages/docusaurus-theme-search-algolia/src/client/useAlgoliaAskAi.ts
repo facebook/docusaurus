@@ -43,51 +43,41 @@ type UseAskAiResult = {
   };
 };
 
+// We need to apply contextualSearch facetFilters to AskAI as well
+// This can't be done at config normalization time
+function applyAskAiSearchParameters(
+  askAi: AskAiConfig | undefined,
+  _searchParameters: DocSearchModalProps['searchParameters'],
+): AskAiConfig | undefined {
+  if (!askAi) {
+    return undefined;
+  }
+
+  // TODO implement the logic here!
+
+  return askAi;
+}
+
 export function useAlgoliaAskAi(
   props: DocSearchV4PropsLite,
   searchParameters: DocSearchModalProps['searchParameters'],
 ): UseAskAiResult {
   const [isAskAiActive, setIsAskAiActive] = useState(false);
 
-  const askAiProp = props.askAi as DocSearchV4PropsLite['askAi'];
+  const askAi = useMemo(() => {
+    return applyAskAiSearchParameters(props.askAi, searchParameters);
+  }, [props.askAi, searchParameters]);
 
-  const canHandleAskAi = Boolean(props?.askAi);
+  const canHandleAskAi = Boolean(askAi);
 
-  let currentPlaceholder =
-    ((
-      translations.modal as unknown as {
-        searchBox?: {placeholderText?: string};
-      }
-    )?.searchBox?.placeholderText as string | undefined) || props?.placeholder;
-
-  if (isAskAiActive && isV4) {
-    currentPlaceholder = (
-      translations.modal as unknown as {
-        searchBox?: {placeholderTextAskAi?: string};
-      }
-    )?.searchBox?.placeholderTextAskAi as string;
-  }
+  const currentPlaceholder =
+    isAskAiActive && isV4
+      ? translations.modal?.searchBox?.placeholderTextAskAi
+      : translations.modal?.searchBox?.placeholderText || props?.placeholder;
 
   const onAskAiToggle = useCallback((askAiToggle: boolean) => {
     setIsAskAiActive(askAiToggle);
   }, []);
-
-  // TODO handle this in Joy schema?
-  const askAi: AskAiConfig | undefined = useMemo(() => {
-    if (!askAiProp) {
-      return undefined;
-    }
-
-    return {
-      indexName: askAiProp.indexName,
-      apiKey: askAiProp.apiKey,
-      appId: askAiProp.appId,
-      assistantId: askAiProp.assistantId,
-      searchParameters: searchParameters?.facetFilters
-        ? {facetFilters: searchParameters.facetFilters}
-        : undefined,
-    };
-  }, [askAiProp, searchParameters]);
 
   const extraAskAiProps: UseAskAiResult['extraAskAiProps'] = {
     askAi,
