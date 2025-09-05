@@ -10,53 +10,51 @@ import {translate} from '@docusaurus/Translate';
 import type {DocSearchTranslations} from '@docsearch/react';
 
 const translations: DocSearchTranslations & {
-  modal?: {
-    searchBox?: {
-      placeholderText?: string;
-      placeholderTextAskAi?: string;
-      placeholderTextAskAiStreaming?: string;
-      enterKeyHintAskAi?: string;
-      searchInputLabel?: string;
-      backToKeywordSearchButtonText?: string;
-      backToKeywordSearchButtonAriaLabel?: string;
-      enterKeyHint?: string;
-      clearButtonTitle?: string;
-      clearButtonAriaLabel?: string;
-      closeButtonText?: string;
-      resetButtonTitle?: string;
-      resetButtonAriaLabel?: string;
-      cancelButtonText?: string;
-      cancelButtonAriaLabel?: string;
-      closeButtonAriaLabel?: string;
+  modal: {
+    searchBox: {
+      placeholderText: string;
+      placeholderTextAskAi: string;
+      placeholderTextAskAiStreaming: string;
+      enterKeyHintAskAi: string;
+      searchInputLabel: string;
+      backToKeywordSearchButtonText: string;
+      backToKeywordSearchButtonAriaLabel: string;
+      enterKeyHint: string;
+      clearButtonTitle: string;
+      clearButtonAriaLabel: string;
+      closeButtonText: string;
+      resetButtonTitle: string;
+      resetButtonAriaLabel: string;
+      cancelButtonText: string;
+      cancelButtonAriaLabel: string;
+      closeButtonAriaLabel: string;
     };
-    startScreen?: {
-      recentConversationsTitle?: string;
-      removeRecentConversationButtonTitle?: string;
+    startScreen: {
+      recentConversationsTitle: string;
+      removeRecentConversationButtonTitle: string;
     };
-    resultsScreen?: {
-      askAiPlaceholder?: string;
+    resultsScreen: {
+      askAiPlaceholder: string;
     };
-    askAiScreen?: {
-      disclaimerText?: string;
-      relatedSourcesText?: string;
-      thinkingText?: string;
-      copyButtonText?: string;
-      copyButtonCopiedText?: string;
-      copyButtonTitle?: string;
-      likeButtonTitle?: string;
-      dislikeButtonTitle?: string;
-      thanksForFeedbackText?: string;
-      preToolCallText?: string;
-      duringToolCallText?: string;
-      afterToolCallText?: string;
-      aggregatedToolCallNode?: string;
-      aggregatedToolCallText?: string;
+    askAiScreen: {
+      disclaimerText: string;
+      relatedSourcesText: string;
+      thinkingText: string;
+      copyButtonText: string;
+      copyButtonCopiedText: string;
+      copyButtonTitle: string;
+      likeButtonTitle: string;
+      dislikeButtonTitle: string;
+      thanksForFeedbackText: string;
+      preToolCallText: string;
+      duringToolCallText: string;
+      afterToolCallText: string;
     };
-    footer?: {
-      submitQuestionText?: string;
-      poweredByText?: string;
-      backToSearchText?: string;
-      searchByText?: string;
+    footer: {
+      submitQuestionText: string;
+      poweredByText: string;
+      backToSearchText: string;
+      searchByText: string;
     };
   };
 } = {
@@ -295,8 +293,6 @@ const translations: DocSearchTranslations & {
         message: 'Searched for',
         description: 'The text after tool call',
       }),
-      aggregatedToolCallNode: undefined,
-      aggregatedToolCallText: undefined,
     },
     footer: {
       selectText: translate({
