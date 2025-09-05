@@ -71,10 +71,10 @@ export const Schema = Joi.object<ThemeConfig>({
         if (typeof value === 'string') {
           const algolia: ThemeConfigAlgolia = helpers.state.ancestors[0];
           return {
+            assistantId: value,
             indexName: algolia.indexName,
             apiKey: algolia.apiKey,
             appId: algolia.appId,
-            assistantId: algolia.askAi,
           };
         }
         return value;

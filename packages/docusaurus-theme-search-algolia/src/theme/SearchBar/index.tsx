@@ -41,6 +41,7 @@ import type {
 
 import type {AutocompleteState} from '@algolia/autocomplete-core';
 import type {FacetFilters} from 'algoliasearch/lite';
+import type {ThemeConfigAlgolia} from '@docusaurus/theme-search-algolia';
 
 type DocSearchProps = Omit<
   DocSearchModalProps,
@@ -49,12 +50,12 @@ type DocSearchProps = Omit<
   contextualSearch?: string;
   externalUrlRegex?: string;
   searchPagePath: boolean | string;
+  askAi?: Exclude<DocSearchModalProps['askAi'], string | undefined>;
 };
 
 // extend DocSearchProps for v4 features
 interface DocSearchV4Props extends DocSearchProps {
-  // todo(v4): remove any when we default to v4
-  askAi?: any;
+  askAi?: ThemeConfigAlgolia['askAi'];
   translations?: DocSearchTranslations;
 }
 
@@ -211,11 +212,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
   );
 
   const {isAskAiActive, currentPlaceholder, onAskAiToggle, extraAskAiProps} =
-    useAlgoliaAskAi(
-      // todo(v4): remove any when we default to v4
-      props as any,
-      searchParameters,
-    );
+    useAlgoliaAskAi(props, searchParameters);
 
   const prepareSearchContainer = useCallback(() => {
     if (!searchContainer.current) {

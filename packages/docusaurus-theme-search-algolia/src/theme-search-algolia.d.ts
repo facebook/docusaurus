@@ -8,6 +8,18 @@
 declare module '@docusaurus/theme-search-algolia' {
   import type {DeepPartial} from 'utility-types';
   import type {DocSearchProps} from '@docsearch/react';
+  import type {FacetFilters} from 'algoliasearch/lite';
+
+  // The config after normalization (e.g. AskAI string -> object)
+  type AskAiConfig = {
+    indexName: string;
+    apiKey: string;
+    appId: string;
+    assistantId: string;
+    searchParameters?: {
+      facetFilters: FacetFilters;
+    };
+  };
 
   // DocSearch props that Docusaurus exposes directly through props forwarding
   type DocusaurusDocSearchProps = Pick<
@@ -20,8 +32,10 @@ declare module '@docusaurus/theme-search-algolia' {
     | 'searchParameters'
     | 'insights'
     | 'initialQuery'
-    | 'askAi'
-  >;
+  > & {
+    // Docusaurus normalizes the AskAI config to an object
+    askAi?: AskAiConfig;
+  };
 
   export type ThemeConfigAlgolia = DocusaurusDocSearchProps & {
     // Docusaurus custom options, not coming from DocSearch
@@ -39,68 +53,6 @@ declare module '@docusaurus/theme-search-algolia' {
   };
 
   export type UserThemeConfig = DeepPartial<ThemeConfig>;
-}
-
-declare module '@docusaurus/theme-search-algolia/client' {
-  import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
-
-  export function useAlgoliaThemeConfig(): ThemeConfig;
-
-  export function useAlgoliaContextualFacetFilters(): [string, string[]];
-
-  export function useSearchResultUrlProcessor(): (url: string) => string;
-
-  // v4 ask ai helper
-  export function useAlgoliaAskAi(
-    props: {
-      indexName: string;
-      apiKey: string;
-      appId: string;
-      placeholder?: string;
-      translations?: import('@docsearch/react').DocSearchTranslations;
-      searchParameters?: import('@docsearch/react').DocSearchModalProps['searchParameters'];
-      askAi?:
-        | string
-        | {
-            indexName: string;
-            apiKey: string;
-            appId: string;
-            assistantId: string;
-            searchParameters?: {
-              facetFilters: import('algoliasearch/lite').FacetFilters;
-            };
-          };
-    },
-    searchParameters: import('@docsearch/react').DocSearchModalProps['searchParameters'],
-  ): {
-    canHandleAskAi: boolean;
-    isAskAiActive: boolean;
-    currentPlaceholder: string | undefined;
-    onAskAiToggle: (active: boolean) => void;
-    askAi?: {
-      indexName: string;
-      apiKey: string;
-      appId: string;
-      assistantId: string;
-      searchParameters?: {
-        facetFilters: import('algoliasearch/lite').FacetFilters;
-      };
-    };
-    extraAskAiProps: Partial<import('@docsearch/react').DocSearchModalProps> & {
-      askAi?: {
-        indexName: string;
-        apiKey: string;
-        appId: string;
-        assistantId: string;
-        searchParameters?: {
-          facetFilters: import('algoliasearch/lite').FacetFilters;
-        };
-      };
-      canHandleAskAi?: boolean;
-      isAskAiActive?: boolean;
-      onAskAiToggle?: (active: boolean) => void;
-    };
-  };
 }
 
 declare module '@theme/SearchPage' {
