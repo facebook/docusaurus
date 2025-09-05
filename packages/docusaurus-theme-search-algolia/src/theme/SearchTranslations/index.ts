@@ -10,6 +10,7 @@ import {translate} from '@docusaurus/Translate';
 import type {DocSearchTranslations} from '@docsearch/react';
 
 const translations: DocSearchTranslations & {
+  placeholder: string;
   modal: {
     searchBox: {
       placeholderText: string;
@@ -202,28 +203,6 @@ const translations: DocSearchTranslations & {
         description: 'The help text for error screen',
       }),
     },
-    noResultsScreen: {
-      noResultsText: translate({
-        id: 'theme.SearchModal.noResultsScreen.noResultsText',
-        message: 'No results found for',
-        description: 'The text when there are no results',
-      }),
-      suggestedQueryText: translate({
-        id: 'theme.SearchModal.noResultsScreen.suggestedQueryText',
-        message: 'Try searching for',
-        description: 'The text for suggested query',
-      }),
-      reportMissingResultsText: translate({
-        id: 'theme.SearchModal.noResultsScreen.reportMissingResultsText',
-        message: 'Believe this query should return results?',
-        description: 'The text for reporting missing results',
-      }),
-      reportMissingResultsLinkText: translate({
-        id: 'theme.SearchModal.noResultsScreen.reportMissingResultsLinkText',
-        message: 'Let us know.',
-        description: 'The link text for reporting missing results',
-      }),
-    },
     resultsScreen: {
       askAiPlaceholder: translate({
         id: 'theme.SearchModal.resultsScreen.askAiPlaceholder',
@@ -351,7 +330,34 @@ const translations: DocSearchTranslations & {
         description: 'The back to search text for footer',
       }),
     },
+    noResultsScreen: {
+      noResultsText: translate({
+        id: 'theme.SearchModal.noResultsScreen.noResultsText',
+        message: 'No results found for',
+        description: 'The text when there are no results',
+      }),
+      suggestedQueryText: translate({
+        id: 'theme.SearchModal.noResultsScreen.suggestedQueryText',
+        message: 'Try searching for',
+        description: 'The text for suggested query',
+      }),
+      reportMissingResultsText: translate({
+        id: 'theme.SearchModal.noResultsScreen.reportMissingResultsText',
+        message: 'Believe this query should return results?',
+        description: 'The text for reporting missing results',
+      }),
+      reportMissingResultsLinkText: translate({
+        id: 'theme.SearchModal.noResultsScreen.reportMissingResultsLinkText',
+        message: 'Let us know.',
+        description: 'The link text for reporting missing results',
+      }),
+    },
   },
+  placeholder: translate({
+    id: 'theme.SearchModal.placeholder',
+    message: 'Search docs',
+    description: 'The placeholder of the input of the DocSearch pop-up modal',
+  }),
 };
 
 export default translations;
