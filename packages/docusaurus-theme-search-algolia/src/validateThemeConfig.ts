@@ -67,6 +67,18 @@ export const Schema = Joi.object<ThemeConfig>({
           assistantId: Joi.string().required(),
         }),
       )
+      .custom((value: string | ThemeConfigAlgolia['askAi'], helpers) => {
+        if (typeof value === 'string') {
+          const algolia: ThemeConfigAlgolia = helpers.state.ancestors[0];
+          return {
+            indexName: algolia.indexName,
+            apiKey: algolia.apiKey,
+            appId: algolia.appId,
+            assistantId: algolia.askAi,
+          };
+        }
+        return value;
+      })
       .optional()
       .messages({
         'alternatives.types':
@@ -78,26 +90,8 @@ export const Schema = Joi.object<ThemeConfig>({
     .unknown(),
 });
 
-export function validateThemeConfig({
-  validate,
-  themeConfig: themeConfigInput,
-}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
-  const themeConfig = validate(Schema, themeConfigInput);
-
-  if (!themeConfig.algolia) {
-    return themeConfig;
-  }
-
-  if (typeof themeConfig.algolia.askAi === 'string') {
-    themeConfig.algolia.askAi = {
-      indexName: themeConfig.algolia.indexName,
-      apiKey: themeConfig.algolia.apiKey,
-      appId: themeConfig.algolia.appId,
-      assistantId: themeConfig.algolia.askAi,
-    };
-  }
-
-  // enforce docsearch v4 requirement when AskAI is configured
+function ensureAskAISupported(themeConfig: ThemeConfig) {
+  // enforce DocsSearch v4 requirement when AskAI is configured
   if (themeConfig.algolia.askAi && !docsearchVersion.startsWith('4.')) {
     throw new Error(
       'The askAi feature is only supported in DocSearch v4. ' +
@@ -105,6 +99,13 @@ export function validateThemeConfig({
         'or remove the askAi configuration from your theme config.',
     );
   }
+}
 
+export function validateThemeConfig({
+  validate,
+  themeConfig: themeConfigInput,
+}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
+  const themeConfig = validate(Schema, themeConfigInput);
+  ensureAskAISupported(themeConfig);
   return themeConfig;
 }
