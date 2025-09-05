@@ -137,8 +137,16 @@ const translations: DocSearchTranslations & {
         description:
           'The placeholder text for search box when AI is streaming an answer',
       }),
-      enterKeyHint: 'search',
-      enterKeyHintAskAi: 'enter',
+      enterKeyHint: translate({
+        id: 'theme.SearchModal.searchBox.enterKeyHint',
+        message: 'search',
+        description: 'The hint for the search box enter key text',
+      }),
+      enterKeyHintAskAi: translate({
+        id: 'theme.SearchModal.searchBox.enterKeyHintAskAi',
+        message: 'enter',
+        description: 'The hint for the Ask AI search box enter key text',
+      }),
       searchInputLabel: translate({
         id: 'theme.SearchModal.searchBox.searchInputLabel',
         message: 'Search',
@@ -323,12 +331,12 @@ const translations: DocSearchTranslations & {
       poweredByText: translate({
         id: 'theme.SearchModal.footer.searchByText',
         message: 'Powered by',
-        description: 'The search by text for footer',
+        description: "The 'Powered by' text for footer",
       }),
       searchByText: translate({
         id: 'theme.SearchModal.footer.searchByText',
         message: 'Powered by',
-        description: 'The search by text for footer',
+        description: "The 'Powered by' text for footer",
       }),
       backToSearchText: translate({
         id: 'theme.SearchModal.footer.backToSearchText',
