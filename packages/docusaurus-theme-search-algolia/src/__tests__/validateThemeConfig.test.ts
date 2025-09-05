@@ -5,16 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// mock docsearch to a v4 version to allow AskAI tests to pass
 import {DEFAULT_CONFIG, validateThemeConfig} from '../validateThemeConfig';
 import type {Joi} from '@docusaurus/utils-validation';
-import type {ThemeConfigAlgolia} from '@docusaurus/theme-search-algolia';
+import type {
+  ThemeConfig,
+  UserThemeConfig,
+} from '@docusaurus/theme-search-algolia';
 
+// mock DocSearch to a v4 version to allow AskAI tests to pass
 jest.mock('@docsearch/react', () => ({version: '4.0.0'}));
 
-function testValidateThemeConfig(themeConfig: {
-  algolia?: Partial<ThemeConfigAlgolia>;
-}) {
+type AlgoliaInput = UserThemeConfig['algolia'];
+
+function testValidateThemeConfig(algolia: AlgoliaInput) {
   function validate(
     schema: Joi.ObjectSchema<{[key: string]: unknown}>,
     cfg: {[key: string]: unknown},
@@ -29,19 +32,19 @@ function testValidateThemeConfig(themeConfig: {
   }
 
   return validateThemeConfig({
-    themeConfig: themeConfig as {algolia: ThemeConfigAlgolia},
+    themeConfig: (algolia ? {algolia} : {}) as ThemeConfig,
     validate,
   });
 }
 
 describe('validateThemeConfig', () => {
   it('minimal config', () => {
-    const algolia: Partial<ThemeConfigAlgolia> = {
+    const algolia: AlgoliaInput = {
       indexName: 'index',
       apiKey: 'apiKey',
       appId: 'BH4D9OD16A',
     };
-    expect(testValidateThemeConfig({algolia})).toEqual({
+    expect(testValidateThemeConfig(algolia)).toEqual({
       algolia: {
         ...DEFAULT_CONFIG,
         ...algolia,
@@ -50,14 +53,14 @@ describe('validateThemeConfig', () => {
   });
 
   it('unknown attributes', () => {
-    const algolia: Partial<ThemeConfigAlgolia> = {
+    const algolia: AlgoliaInput = {
       indexName: 'index',
       apiKey: 'apiKey',
       // @ts-expect-error: expected type error!
       unknownKey: 'unknownKey',
       appId: 'BH4D9OD16A',
     };
-    expect(testValidateThemeConfig({algolia})).toEqual({
+    expect(testValidateThemeConfig(algolia)).toEqual({
       algolia: {
         ...DEFAULT_CONFIG,
         ...algolia,
@@ -68,56 +71,58 @@ describe('validateThemeConfig', () => {
   it('undefined config', () => {
     const algolia = undefined;
     expect(() =>
-      testValidateThemeConfig({algolia}),
+      testValidateThemeConfig(algolia),
     ).toThrowErrorMatchingInlineSnapshot(`""themeConfig.algolia" is required"`);
   });
 
-  it('undefined config 2', () => {
+  it('empty config', () => {
     expect(() =>
       testValidateThemeConfig({}),
-    ).toThrowErrorMatchingInlineSnapshot(`""themeConfig.algolia" is required"`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""algolia.appId" is required. If you haven't migrated to the new DocSearch infra, please refer to the blog post for instructions: https://docusaurus.io/blog/2021/11/21/algolia-docsearch-migration"`,
+    );
   });
 
   it('missing indexName config', () => {
-    const algolia: Partial<ThemeConfigAlgolia> = {
+    const algolia: AlgoliaInput = {
       apiKey: 'apiKey',
       appId: 'BH4D9OD16A',
     };
     expect(() =>
-      testValidateThemeConfig({algolia}),
+      testValidateThemeConfig(algolia),
     ).toThrowErrorMatchingInlineSnapshot(`""algolia.indexName" is required"`);
   });
 
   it('missing apiKey config', () => {
-    const algolia: Partial<ThemeConfigAlgolia> = {
+    const algolia: AlgoliaInput = {
       indexName: 'indexName',
       appId: 'BH4D9OD16A',
     };
     expect(() =>
-      testValidateThemeConfig({algolia}),
+      testValidateThemeConfig(algolia),
     ).toThrowErrorMatchingInlineSnapshot(`""algolia.apiKey" is required"`);
   });
 
   it('missing appId config', () => {
-    const algolia: Partial<ThemeConfigAlgolia> = {
+    const algolia: AlgoliaInput = {
       indexName: 'indexName',
       apiKey: 'apiKey',
     };
     expect(() =>
-      testValidateThemeConfig({algolia}),
+      testValidateThemeConfig(algolia),
     ).toThrowErrorMatchingInlineSnapshot(
       `""algolia.appId" is required. If you haven't migrated to the new DocSearch infra, please refer to the blog post for instructions: https://docusaurus.io/blog/2021/11/21/algolia-docsearch-migration"`,
     );
   });
 
   it('contextualSearch config', () => {
-    const algolia: Partial<ThemeConfigAlgolia> = {
+    const algolia: AlgoliaInput = {
       appId: 'BH4D9OD16A',
       indexName: 'index',
       apiKey: 'apiKey',
       contextualSearch: true,
     };
-    expect(testValidateThemeConfig({algolia})).toEqual({
+    expect(testValidateThemeConfig(algolia)).toEqual({
       algolia: {
         ...DEFAULT_CONFIG,
         ...algolia,
@@ -126,13 +131,13 @@ describe('validateThemeConfig', () => {
   });
 
   it('externalUrlRegex config', () => {
-    const algolia: Partial<ThemeConfigAlgolia> = {
+    const algolia: AlgoliaInput = {
       appId: 'BH4D9OD16A',
       indexName: 'index',
       apiKey: 'apiKey',
       externalUrlRegex: 'http://external-domain.com',
     };
-    expect(testValidateThemeConfig({algolia})).toEqual({
+    expect(testValidateThemeConfig(algolia)).toEqual({
       algolia: {
         ...DEFAULT_CONFIG,
         ...algolia,
@@ -142,7 +147,7 @@ describe('validateThemeConfig', () => {
 
   describe('replaceSearchResultPathname', () => {
     it('escapes from string', () => {
-      const algolia: Partial<ThemeConfigAlgolia> = {
+      const algolia: AlgoliaInput = {
         appId: 'BH4D9OD16A',
         indexName: 'index',
         apiKey: 'apiKey',
@@ -151,7 +156,7 @@ describe('validateThemeConfig', () => {
           to: '/abc',
         },
       };
-      expect(testValidateThemeConfig({algolia})).toEqual({
+      expect(testValidateThemeConfig(algolia)).toEqual({
         algolia: {
           ...DEFAULT_CONFIG,
           ...algolia,
@@ -164,7 +169,7 @@ describe('validateThemeConfig', () => {
     });
 
     it('converts from regexp to string', () => {
-      const algolia: Partial<ThemeConfigAlgolia> = {
+      const algolia: AlgoliaInput = {
         appId: 'BH4D9OD16A',
         indexName: 'index',
         apiKey: 'apiKey',
@@ -175,7 +180,7 @@ describe('validateThemeConfig', () => {
         },
       };
 
-      expect(testValidateThemeConfig({algolia})).toEqual({
+      expect(testValidateThemeConfig(algolia)).toEqual({
         algolia: {
           ...DEFAULT_CONFIG,
           ...algolia,
@@ -189,7 +194,7 @@ describe('validateThemeConfig', () => {
   });
 
   it('searchParameters.facetFilters search config', () => {
-    const algolia: Partial<ThemeConfigAlgolia> = {
+    const algolia: AlgoliaInput = {
       appId: 'BH4D9OD16A',
       indexName: 'index',
       apiKey: 'apiKey',
@@ -197,7 +202,7 @@ describe('validateThemeConfig', () => {
         facetFilters: ['version:1.0'],
       },
     };
-    expect(testValidateThemeConfig({algolia})).toEqual({
+    expect(testValidateThemeConfig(algolia)).toEqual({
       algolia: {
         ...DEFAULT_CONFIG,
         ...algolia,
@@ -207,13 +212,13 @@ describe('validateThemeConfig', () => {
 
   describe('askAi config validation', () => {
     it('accepts string format (assistantId)', () => {
-      const algolia: Partial<ThemeConfigAlgolia> = {
+      const algolia: AlgoliaInput = {
         appId: 'BH4D9OD16A',
         indexName: 'index',
         apiKey: 'apiKey',
         askAi: 'my-assistant-id',
       };
-      expect(testValidateThemeConfig({algolia})).toEqual({
+      expect(testValidateThemeConfig(algolia)).toEqual({
         algolia: {
           ...DEFAULT_CONFIG,
           ...algolia,
@@ -228,7 +233,7 @@ describe('validateThemeConfig', () => {
     });
 
     it('accepts full object format', () => {
-      const algolia: Partial<ThemeConfigAlgolia> = {
+      const algolia: AlgoliaInput = {
         appId: 'BH4D9OD16A',
         indexName: 'index',
         apiKey: 'apiKey',
@@ -239,7 +244,7 @@ describe('validateThemeConfig', () => {
           assistantId: 'my-assistant-id',
         },
       };
-      expect(testValidateThemeConfig({algolia})).toEqual({
+      expect(testValidateThemeConfig(algolia)).toEqual({
         algolia: {
           ...DEFAULT_CONFIG,
           ...algolia,
@@ -248,43 +253,45 @@ describe('validateThemeConfig', () => {
     });
 
     it('rejects invalid type', () => {
-      const algolia: Partial<ThemeConfigAlgolia> = {
+      const algolia: AlgoliaInput = {
         appId: 'BH4D9OD16A',
         indexName: 'index',
         apiKey: 'apiKey',
+        // @ts-expect-error: expected type error
         askAi: 123, // Invalid: should be string or object
       };
       expect(() =>
-        testValidateThemeConfig({algolia}),
+        testValidateThemeConfig(algolia),
       ).toThrowErrorMatchingInlineSnapshot(
         `"askAi must be either a string (assistantId) or an object with indexName, apiKey, appId, and assistantId"`,
       );
     });
 
     it('rejects object missing required fields', () => {
-      const algolia: Partial<ThemeConfigAlgolia> = {
+      const algolia: AlgoliaInput = {
         appId: 'BH4D9OD16A',
         indexName: 'index',
         apiKey: 'apiKey',
+        // @ts-expect-error: expected type error: missing mandatory fields
         askAi: {
           assistantId: 'my-assistant-id',
           // Missing indexName, apiKey, appId
         },
       };
       expect(() =>
-        testValidateThemeConfig({algolia}),
+        testValidateThemeConfig(algolia),
       ).toThrowErrorMatchingInlineSnapshot(
         `""algolia.askAi.indexName" is required"`,
       );
     });
 
     it('accepts undefined askAi', () => {
-      const algolia: Partial<ThemeConfigAlgolia> = {
+      const algolia: AlgoliaInput = {
         appId: 'BH4D9OD16A',
         indexName: 'index',
         apiKey: 'apiKey',
       };
-      expect(testValidateThemeConfig({algolia})).toEqual({
+      expect(testValidateThemeConfig(algolia)).toEqual({
         algolia: {
           ...DEFAULT_CONFIG,
           ...algolia,

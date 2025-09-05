@@ -6,7 +6,8 @@
  */
 
 declare module '@docusaurus/theme-search-algolia' {
-  import type {DeepPartial} from 'utility-types';
+  import type {DeepPartial, Overwrite} from 'utility-types';
+
   import type {DocSearchProps} from '@docsearch/react';
   import type {FacetFilters} from 'algoliasearch/lite';
 
@@ -52,7 +53,14 @@ declare module '@docusaurus/theme-search-algolia' {
     algolia: ThemeConfigAlgolia;
   };
 
-  export type UserThemeConfig = DeepPartial<ThemeConfig>;
+  export type UserThemeConfig = {
+    algolia?: Overwrite<
+      DeepPartial<ThemeConfigAlgolia>,
+      {
+        askAi?: string | AskAiConfig;
+      }
+    >;
+  };
 }
 
 declare module '@theme/SearchPage' {

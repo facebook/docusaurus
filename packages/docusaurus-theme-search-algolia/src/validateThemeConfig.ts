@@ -22,6 +22,10 @@ export const DEFAULT_CONFIG = {
   searchPagePath: 'search',
 } satisfies Partial<ThemeConfigAlgolia>;
 
+const FacetFiltersSchema = Joi.array().items(
+  Joi.alternatives().try(Joi.string(), Joi.array().items(Joi.string())),
+);
+
 export const Schema = Joi.object<ThemeConfig>({
   algolia: Joi.object<ThemeConfigAlgolia>({
     // Docusaurus attributes
@@ -34,7 +38,9 @@ export const Schema = Joi.object<ThemeConfig>({
     }),
     apiKey: Joi.string().required(),
     indexName: Joi.string().required(),
-    searchParameters: Joi.object()
+    searchParameters: Joi.object({
+      facetFilters: FacetFiltersSchema.optional(),
+    })
       .default(DEFAULT_CONFIG.searchParameters)
       .unknown(),
     searchPagePath: Joi.alternatives()
@@ -65,6 +71,9 @@ export const Schema = Joi.object<ThemeConfig>({
           apiKey: Joi.string().required(),
           appId: Joi.string().required(),
           assistantId: Joi.string().required(),
+          searchParameters: Joi.object({
+            facetFilters: FacetFiltersSchema.optional(),
+          }).optional(),
         }),
       )
       .custom((value: string | ThemeConfigAlgolia['askAi'], helpers) => {
