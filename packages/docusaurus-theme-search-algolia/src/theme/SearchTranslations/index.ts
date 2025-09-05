@@ -9,6 +9,12 @@ import {translate} from '@docusaurus/Translate';
 
 import type {DocSearchTranslations} from '@docsearch/react';
 
+// TODO Docusaurus v4: require DocSearch v4
+//  This needs to be cleaned after the upgrade
+//  Docusaurus v3 was made compatible with both DocSearch v3 and v4
+//  This implies that labels have been kept retro-compatible with v3
+//  Once we upgrade, we should be able to rely on v4 types only
+//  and remove v3 retro-compatibility labels that do not exist anymore in v4
 const translations: DocSearchTranslations & {
   placeholder: string;
   modal: {
