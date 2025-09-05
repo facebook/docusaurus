@@ -18,7 +18,7 @@ declare module '@docusaurus/theme-search-algolia' {
     appId: string;
     assistantId: string;
     searchParameters?: {
-      facetFilters: FacetFilters;
+      facetFilters?: FacetFilters;
     };
   };
 

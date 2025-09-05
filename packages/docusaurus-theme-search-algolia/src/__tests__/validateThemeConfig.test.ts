@@ -298,5 +298,117 @@ describe('validateThemeConfig', () => {
         },
       });
     });
+
+    describe('Ask AI search parameters', () => {
+      it('accepts Ask AI facet filters', () => {
+        const algolia = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          askAi: {
+            indexName: 'ai-index',
+            apiKey: 'ai-apiKey',
+            appId: 'ai-appId',
+            assistantId: 'my-assistant-id',
+            searchParameters: {
+              facetFilters: ['version:1.0'],
+            },
+          },
+        } satisfies AlgoliaInput;
+
+        expect(testValidateThemeConfig(algolia)).toEqual({
+          algolia: {
+            ...DEFAULT_CONFIG,
+            ...algolia,
+          },
+        });
+      });
+
+      it('accepts distinct Ask AI / algolia facet filters', () => {
+        const algolia = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          searchParameters: {
+            facetFilters: ['version:algolia'],
+          },
+          askAi: {
+            indexName: 'ai-index',
+            apiKey: 'ai-apiKey',
+            appId: 'ai-appId',
+            assistantId: 'my-assistant-id',
+            searchParameters: {
+              facetFilters: ['version:askAi'],
+            },
+          },
+        } satisfies AlgoliaInput;
+
+        expect(testValidateThemeConfig(algolia)).toEqual({
+          algolia: {
+            ...DEFAULT_CONFIG,
+            ...algolia,
+          },
+        });
+      });
+
+      it('falls back to algolia facet filters', () => {
+        const algolia = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          searchParameters: {
+            facetFilters: ['version:1.0'],
+          },
+          askAi: {
+            indexName: 'ai-index',
+            apiKey: 'ai-apiKey',
+            appId: 'ai-appId',
+            assistantId: 'my-assistant-id',
+            searchParameters: {},
+          },
+        } satisfies AlgoliaInput;
+
+        expect(testValidateThemeConfig(algolia)).toEqual({
+          algolia: {
+            ...DEFAULT_CONFIG,
+            ...algolia,
+            askAi: {
+              ...algolia.askAi,
+              searchParameters: {
+                facetFilters: ['version:1.0'],
+              },
+            },
+          },
+        });
+      });
+
+      it('falls back to algolia facet filters with AskAI string format (assistantId)', () => {
+        const algolia = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          searchParameters: {
+            facetFilters: ['version:1.0'],
+          },
+          askAi: 'my-assistant-id',
+        } satisfies AlgoliaInput;
+
+        expect(testValidateThemeConfig(algolia)).toEqual({
+          algolia: {
+            ...DEFAULT_CONFIG,
+            ...algolia,
+            askAi: {
+              indexName: algolia.indexName,
+              apiKey: algolia.apiKey,
+              appId: algolia.appId,
+              assistantId: 'my-assistant-id',
+              searchParameters: {
+                facetFilters: ['version:1.0'],
+              },
+            },
+          },
+        });
+      });
+    });
   });
 });

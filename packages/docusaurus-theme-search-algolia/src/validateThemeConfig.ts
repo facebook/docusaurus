@@ -76,18 +76,42 @@ export const Schema = Joi.object<ThemeConfig>({
           }).optional(),
         }),
       )
-      .custom((value: string | ThemeConfigAlgolia['askAi'], helpers) => {
-        if (typeof value === 'string') {
+      .custom(
+        (
+          askAiInput: string | ThemeConfigAlgolia['askAi'] | undefined,
+          helpers,
+        ) => {
+          if (!askAiInput) {
+            return askAiInput;
+          }
           const algolia: ThemeConfigAlgolia = helpers.state.ancestors[0];
-          return {
-            assistantId: value,
-            indexName: algolia.indexName,
-            apiKey: algolia.apiKey,
-            appId: algolia.appId,
-          };
-        }
-        return value;
-      })
+          const algoliaFacetFilters = algolia.searchParameters?.facetFilters;
+          if (typeof askAiInput === 'string') {
+            return {
+              assistantId: askAiInput,
+              indexName: algolia.indexName,
+              apiKey: algolia.apiKey,
+              appId: algolia.appId,
+              ...(algoliaFacetFilters
+                ? {
+                    searchParameters: {
+                      facetFilters: algoliaFacetFilters,
+                    },
+                  }
+                : {}),
+            } satisfies ThemeConfigAlgolia['askAi'];
+          }
+
+          if (
+            askAiInput.searchParameters?.facetFilters === undefined &&
+            algoliaFacetFilters
+          ) {
+            askAiInput.searchParameters = askAiInput.searchParameters ?? {};
+            askAiInput.searchParameters.facetFilters = algoliaFacetFilters;
+          }
+          return askAiInput;
+        },
+      )
       .optional()
       .messages({
         'alternatives.types':
