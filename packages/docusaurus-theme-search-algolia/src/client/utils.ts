@@ -15,6 +15,11 @@ export function mergeFacetFilters(
 export function mergeFacetFilters(
   f1: FacetFilters | undefined,
   f2: FacetFilters | undefined,
+): FacetFilters | undefined;
+
+export function mergeFacetFilters(
+  f1: FacetFilters | undefined,
+  f2: FacetFilters | undefined,
 ): FacetFilters | undefined {
   if (f1 === undefined) {
     return f2;

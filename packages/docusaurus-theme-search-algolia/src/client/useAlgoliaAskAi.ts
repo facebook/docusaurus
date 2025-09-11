@@ -12,9 +12,10 @@ import {
   type DocSearchTranslations,
 } from '@docsearch/react';
 import translations from '@theme/SearchTranslations';
-import type {ThemeConfigAlgolia} from '@docusaurus/theme-search-algolia';
-
-type AskAiConfig = NonNullable<ThemeConfigAlgolia['askAi']>;
+import {useAlgoliaContextualFacetFiltersIfEnabled} from './useAlgoliaContextualFacetFilters';
+import {mergeFacetFilters} from './utils';
+import type {AskAiConfig} from '@docusaurus/theme-search-algolia';
+import type {FacetFilters} from 'algoliasearch/lite';
 
 // The minimal props the hook needs from DocSearch v4 props
 interface DocSearchV4PropsLite {
@@ -43,30 +44,39 @@ type UseAskAiResult = {
   };
 };
 
-// We need to apply contextualSearch facetFilters to AskAI as well
-// This can't be done at config normalization time
-function applyAskAiSearchParameters(
+// We need to apply contextualSearch facetFilters to AskAI filters
+// This can't be done at config normalization time because contextual filters
+// can only be determined at runtime
+function applyAskAiContextualSearch(
   askAi: AskAiConfig | undefined,
-  _searchParameters: DocSearchModalProps['searchParameters'],
+  contextualSearchFilters: FacetFilters | undefined,
 ): AskAiConfig | undefined {
   if (!askAi) {
     return undefined;
   }
-
-  // TODO implement the logic here!
-
-  return askAi;
+  if (!contextualSearchFilters) {
+    return askAi;
+  }
+  const askAiFacetFilters = askAi.searchParameters?.facetFilters;
+  return {
+    ...askAi,
+    searchParameters: {
+      ...askAi.searchParameters,
+      facetFilters: mergeFacetFilters(
+        askAiFacetFilters,
+        contextualSearchFilters,
+      ),
+    },
+  };
 }
 
-export function useAlgoliaAskAi(
-  props: DocSearchV4PropsLite,
-  searchParameters: DocSearchModalProps['searchParameters'],
-): UseAskAiResult {
+export function useAlgoliaAskAi(props: DocSearchV4PropsLite): UseAskAiResult {
   const [isAskAiActive, setIsAskAiActive] = useState(false);
+  const contextualSearchFilters = useAlgoliaContextualFacetFiltersIfEnabled();
 
   const askAi = useMemo(() => {
-    return applyAskAiSearchParameters(props.askAi, searchParameters);
-  }, [props.askAi, searchParameters]);
+    return applyAskAiContextualSearch(props.askAi, contextualSearchFilters);
+  }, [props.askAi, contextualSearchFilters]);
 
   const canHandleAskAi = Boolean(askAi);
 

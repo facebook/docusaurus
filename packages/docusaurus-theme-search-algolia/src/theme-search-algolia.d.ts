@@ -49,6 +49,8 @@ declare module '@docusaurus/theme-search-algolia' {
     };
   };
 
+  export type AskAiConfig = NonNullable<ThemeConfigAlgolia['askAi']>;
+
   export type ThemeConfig = {
     algolia: ThemeConfigAlgolia;
   };
