@@ -12,7 +12,7 @@ declare module '@docusaurus/theme-search-algolia' {
   import type {FacetFilters} from 'algoliasearch/lite';
 
   // The config after normalization (e.g. AskAI string -> object)
-  type AskAiConfig = {
+  export type AskAiConfig = {
     indexName: string;
     apiKey: string;
     appId: string;
@@ -48,8 +48,6 @@ declare module '@docusaurus/theme-search-algolia' {
       to: string;
     };
   };
-
-  export type AskAiConfig = NonNullable<ThemeConfigAlgolia['askAi']>;
 
   export type ThemeConfig = {
     algolia: ThemeConfigAlgolia;
