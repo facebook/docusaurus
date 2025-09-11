@@ -288,7 +288,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
       {isOpen &&
         DocSearchModal &&
         // TODO need to fix this React Compiler lint error
-         
+
         searchContainer.current &&
         createPortal(
           <DocSearchModal
@@ -309,7 +309,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
             {...extraAskAiProps}
           />,
           // TODO need to fix this React Compiler lint error
-           
+
           searchContainer.current,
         )}
     </>
