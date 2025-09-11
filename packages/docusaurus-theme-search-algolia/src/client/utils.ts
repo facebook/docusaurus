@@ -31,5 +31,8 @@ export function mergeFacetFilters(
   const normalize = (f: FacetFilters): FacetFilters =>
     typeof f === 'string' ? [f] : f;
 
+  // Historical behavior: we flatten everything
+  // TODO I'm pretty sure this is incorrect
+  //  see https://www.algolia.com/doc/api-reference/api-parameters/facetFilters/?client=javascript
   return [...normalize(f1), ...normalize(f2)];
 }
