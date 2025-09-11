@@ -8,6 +8,7 @@
 import {DEFAULT_SEARCH_TAG} from '@docusaurus/theme-common/internal';
 import {useDocsContextualSearchTags} from '@docusaurus/plugin-content-docs/client';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useAlgoliaThemeConfig} from './useAlgoliaThemeConfig';
 import type {FacetFilters} from 'algoliasearch/lite';
 
 function useSearchTags() {
@@ -27,4 +28,18 @@ export function useAlgoliaContextualFacetFilters(): FacetFilters {
   const tagsFilter = tags.map((tag) => `docusaurus_tag:${tag}`);
 
   return [languageFilter, tagsFilter];
+}
+
+export function useAlgoliaContextualFacetFiltersIfEnabled():
+  | FacetFilters
+  | undefined {
+  const {
+    algolia: {contextualSearch},
+  } = useAlgoliaThemeConfig();
+  const facetFilters = useAlgoliaContextualFacetFilters();
+  if (contextualSearch) {
+    return facetFilters;
+  } else {
+    return undefined;
+  }
 }

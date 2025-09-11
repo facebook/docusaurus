@@ -304,7 +304,7 @@ module.exports = {
     'jest/prefer-expect-resolves': WARNING,
     'jest/prefer-lowercase-title': [WARNING, {ignore: ['describe']}],
     'jest/prefer-spy-on': WARNING,
-    'jest/prefer-to-be': WARNING,
+    'jest/prefer-to-be': OFF,
     'jest/prefer-to-have-length': WARNING,
     'jest/require-top-level-describe': ERROR,
     'jest/valid-title': [
