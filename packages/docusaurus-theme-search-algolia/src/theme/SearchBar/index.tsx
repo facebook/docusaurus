@@ -206,7 +206,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
   );
 
   const {isAskAiActive, currentPlaceholder, onAskAiToggle, extraAskAiProps} =
-    useAlgoliaAskAi(props, searchParameters);
+    useAlgoliaAskAi(props);
 
   const prepareSearchContainer = useCallback(() => {
     if (!searchContainer.current) {
