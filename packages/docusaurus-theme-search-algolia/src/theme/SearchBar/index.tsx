@@ -25,6 +25,7 @@ import {
   useAlgoliaContextualFacetFilters,
   useSearchResultUrlProcessor,
   useAlgoliaAskAi,
+  mergeFacetFilters,
 } from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -173,12 +174,6 @@ function useSearchParameters({
   contextualSearch,
   ...props
 }: DocSearchProps): DocSearchProps['searchParameters'] {
-  function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
-    const normalize = (f: FacetFilters): FacetFilters =>
-      typeof f === 'string' ? [f] : f;
-    return [...normalize(f1), ...normalize(f2)];
-  }
-
   const contextualSearchFacetFilters =
     useAlgoliaContextualFacetFilters() as FacetFilters;
 
