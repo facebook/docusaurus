@@ -78,6 +78,15 @@ declare module '@theme/SearchBar' {
 declare module '@theme/SearchTranslations' {
   import type {DocSearchTranslations} from '@docsearch/react';
 
-  const translations: DocSearchTranslations & {placeholder: string};
+  const translations: DocSearchTranslations & {
+    placeholder: string;
+    // TODO Docusaurus v4: cleanup after we drop support for DocSearch v3
+    modal?: {
+      searchBox?: {
+        placeholderText?: string;
+        placeholderTextAskAi?: string;
+      };
+    };
+  };
   export default translations;
 }

@@ -38,6 +38,7 @@ import type {
   DocSearchTransformClient,
   DocSearchHit,
   DocSearchTranslations,
+  UseDocSearchKeyboardEventsProps,
 } from '@docsearch/react';
 
 import type {AutocompleteState} from '@algolia/autocomplete-core';
@@ -51,10 +52,14 @@ type DocSearchProps = Omit<
   contextualSearch?: string;
   externalUrlRegex?: string;
   searchPagePath: boolean | string;
-  askAi?: Exclude<DocSearchModalProps['askAi'], string | undefined>;
+  askAi?: Exclude<
+    (DocSearchModalProps & {askAi: unknown})['askAi'],
+    string | undefined
+  >;
 };
 
 // extend DocSearchProps for v4 features
+// TODO Docusaurus v4: cleanup after we drop support for DocSearch v3
 interface DocSearchV4Props extends DocSearchProps {
   askAi?: ThemeConfigAlgolia['askAi'];
   translations?: DocSearchTranslations;
@@ -252,7 +257,11 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
     searchButtonRef,
     isAskAiActive: isAskAiActive ?? false,
     onAskAiToggle: onAskAiToggle ?? (() => {}),
-  });
+  } satisfies UseDocSearchKeyboardEventsProps & {
+    // TODO Docusaurus v4: cleanup after we drop support for DocSearch v3
+    isAskAiActive: boolean;
+    onAskAiToggle: (askAiToggle: boolean) => void;
+  } as UseDocSearchKeyboardEventsProps);
 
   return (
     <>
@@ -279,7 +288,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
       {isOpen &&
         DocSearchModal &&
         // TODO need to fix this React Compiler lint error
-        // eslint-disable-next-line react-compiler/react-compiler
+         
         searchContainer.current &&
         createPortal(
           <DocSearchModal
@@ -300,7 +309,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
             {...extraAskAiProps}
           />,
           // TODO need to fix this React Compiler lint error
-          // eslint-disable-next-line react-compiler/react-compiler
+           
           searchContainer.current,
         )}
     </>

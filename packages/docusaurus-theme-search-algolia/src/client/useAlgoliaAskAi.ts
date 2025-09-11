@@ -18,6 +18,7 @@ import type {AskAiConfig} from '@docusaurus/theme-search-algolia';
 import type {FacetFilters} from 'algoliasearch/lite';
 
 // The minimal props the hook needs from DocSearch v4 props
+// TODO Docusaurus v4: cleanup after we drop support for DocSearch v3
 interface DocSearchV4PropsLite {
   indexName: string;
   apiKey: string;
