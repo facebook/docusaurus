@@ -174,8 +174,7 @@ function useSearchParameters({
   contextualSearch,
   ...props
 }: DocSearchProps): DocSearchProps['searchParameters'] {
-  const contextualSearchFacetFilters =
-    useAlgoliaContextualFacetFilters() as FacetFilters;
+  const contextualSearchFacetFilters = useAlgoliaContextualFacetFilters();
 
   const configFacetFilters: FacetFilters =
     props.searchParameters?.facetFilters ?? [];
@@ -253,8 +252,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
     searchButtonRef,
     isAskAiActive: isAskAiActive ?? false,
     onAskAiToggle: onAskAiToggle ?? (() => {}),
-    // todo(v4): remove any when we default to v4
-  } as any);
+  });
 
   return (
     <>

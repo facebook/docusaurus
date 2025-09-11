@@ -8,6 +8,7 @@
 import {DEFAULT_SEARCH_TAG} from '@docusaurus/theme-common/internal';
 import {useDocsContextualSearchTags} from '@docusaurus/plugin-content-docs/client';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import type {FacetFilters} from 'algoliasearch/lite';
 
 function useSearchTags() {
   // only docs have custom search tags per version
@@ -16,7 +17,7 @@ function useSearchTags() {
 }
 
 // Translate search-engine agnostic search tags to Algolia search filters
-export function useAlgoliaContextualFacetFilters(): [string, string[]] {
+export function useAlgoliaContextualFacetFilters(): FacetFilters {
   const locale = useDocusaurusContext().i18n.currentLocale;
   const tags = useSearchTags();
 
