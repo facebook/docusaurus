@@ -99,3 +99,36 @@ import Mermaid from '@theme/Mermaid';
     C-->D;`}
 />
 ```
+
+## Layouts
+
+Mermaid supports different [layout engines](https://mermaid.js.org/intro/syntax-reference.html#layout-and-look):
+
+- The `dagre` layout engine is supported by default in Docusaurus.
+- The `elk` layout engine is heavier and can be enabled by installing the optional `@mermaid-js/layout-elk` dependency.
+
+````md
+```mermaid
+---
+config:
+  layout: elk
+---
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+````
+
+```mermaid
+---
+config:
+  layout: elk
+---
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```

@@ -5,12 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as path from 'path';
 import {
   mergeTranslations,
   updateTranslationFileMessages,
   getPluginI18nPath,
-  localizePath,
   getLocaleConfig,
 } from '../i18nUtils';
 import type {I18n, I18nLocaleConfig} from '@docusaurus/types';
@@ -97,91 +95,6 @@ describe('getPluginI18nPath', () => {
   });
 });
 
-describe('localizePath', () => {
-  it('localizes url path with current locale', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl',
-        i18n: {
-          defaultLocale: 'en',
-          path: 'i18n',
-          locales: ['en', 'fr'],
-          currentLocale: 'fr',
-          localeConfigs: {},
-        },
-        options: {localizePath: true},
-      }),
-    ).toBe('/baseUrl/fr/');
-  });
-
-  it('localizes fs path with current locale', () => {
-    expect(
-      localizePath({
-        pathType: 'fs',
-        path: '/baseFsPath',
-        i18n: {
-          defaultLocale: 'en',
-          path: 'i18n',
-          locales: ['en', 'fr'],
-          currentLocale: 'fr',
-          localeConfigs: {fr: {path: 'fr'}, en: {path: 'en'}},
-        },
-        options: {localizePath: true},
-      }),
-    ).toBe(`${path.sep}baseFsPath${path.sep}fr`);
-  });
-
-  it('localizes path for default locale, if requested', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl/',
-        i18n: {
-          defaultLocale: 'en',
-          path: 'i18n',
-          locales: ['en', 'fr'],
-          currentLocale: 'en',
-          localeConfigs: {fr: {path: 'fr'}, en: {path: 'en'}},
-        },
-        options: {localizePath: true},
-      }),
-    ).toBe('/baseUrl/en/');
-  });
-
-  it('does not localize path for default locale by default', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl/',
-        i18n: {
-          defaultLocale: 'en',
-          path: 'i18n',
-          locales: ['en', 'fr'],
-          currentLocale: 'en',
-          localeConfigs: {fr: {path: 'fr'}, en: {path: 'en'}},
-        },
-      }),
-    ).toBe('/baseUrl/');
-  });
-
-  it('localizes path for non-default locale by default', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl/',
-        i18n: {
-          defaultLocale: 'en',
-          path: 'i18n',
-          locales: ['en', 'fr'],
-          currentLocale: 'en',
-          localeConfigs: {fr: {path: 'fr'}, en: {path: 'en'}},
-        },
-      }),
-    ).toBe('/baseUrl/');
-  });
-});
-
 describe('getLocaleConfig', () => {
   const localeConfigEn: I18nLocaleConfig = {
     path: 'path',
@@ -190,6 +103,7 @@ describe('getLocaleConfig', () => {
     calendar: 'calendar',
     label: 'EN',
     translate: true,
+    baseUrl: '/',
   };
   const localeConfigFr: I18nLocaleConfig = {
     path: 'path',
@@ -198,6 +112,7 @@ describe('getLocaleConfig', () => {
     calendar: 'calendar',
     label: 'FR',
     translate: true,
+    baseUrl: '/fr/',
   };
 
   function i18n(params: Partial<I18n>): I18n {

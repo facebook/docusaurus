@@ -27,6 +27,7 @@ import type {
 import type {SiteCollectedData} from '../../common';
 import {BuildCLIOptions} from './build';
 import clearPath from '../utils/clearPath';
+import {isAutomaticBaseUrlLocalizationDisabled} from './buildUtils';
 
 export type BuildLocaleParams = {
   siteDir: string;
@@ -56,7 +57,7 @@ export async function buildLocale({
       outDir: cliOptions.outDir,
       config: cliOptions.config,
       locale,
-      localizePath: cliOptions.locale?.length === 1 ? false : undefined,
+      automaticBaseUrlLocalizationDisabled: isAutomaticBaseUrlLocalizationDisabled(cliOptions),
     }),
   );
 

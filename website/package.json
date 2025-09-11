@@ -53,6 +53,7 @@
     "@docusaurus/theme-mermaid": "3.8.1",
     "@docusaurus/utils": "3.8.1",
     "@docusaurus/utils-common": "3.8.1",
+    "@mermaid-js/layout-elk": "^0.1.9",
     "clsx": "^2.0.0",
     "color": "^4.2.3",
     "fs-extra": "^11.1.1",

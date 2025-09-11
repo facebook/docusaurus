@@ -26,9 +26,35 @@ import type {
   I18nConfig,
   MarkdownConfig,
   MarkdownHooks,
+  I18nLocaleConfig,
 } from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
+
+const SiteUrlSchema = Joi.string()
+  .custom((value: string, helpers) => {
+    try {
+      const {pathname} = new URL(value);
+      if (pathname !== '/') {
+        return helpers.error('docusaurus.subPathError', {pathname});
+      }
+    } catch {
+      return helpers.error('any.invalid');
+    }
+    return removeTrailingSlash(value);
+  })
+  .messages({
+    'any.invalid':
+      '"{#value}" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".',
+    'docusaurus.subPathError':
+      'The url is not supposed to contain a sub-path like "{#pathname}". Please use the baseUrl field for sub-paths.',
+  });
+
+const BaseUrlSchema = Joi
+  // Weird Joi trick needed, otherwise value '' is not normalized...
+  .alternatives()
+  .try(Joi.string().required().allow(''))
+  .custom((value: string) => addLeadingSlash(addTrailingSlash(value)));
 
 export const DEFAULT_I18N_CONFIG: I18nConfig = {
   defaultLocale: DEFAULT_I18N_LOCALE,
@@ -220,12 +246,14 @@ const PresetSchema = Joi.alternatives()
 - A simple string, like \`"classic"\``,
   });
 
-const LocaleConfigSchema = Joi.object({
+const LocaleConfigSchema = Joi.object<I18nLocaleConfig>({
   label: Joi.string(),
   htmlLang: Joi.string(),
-  direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
+  direction: Joi.string().equal('ltr', 'rtl'),
   calendar: Joi.string(),
   path: Joi.string(),
+  url: SiteUrlSchema,
+  baseUrl: BaseUrlSchema,
 });
 
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
@@ -313,38 +341,13 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   .optional()
   .default(DEFAULT_FUTURE_CONFIG);
 
-const SiteUrlSchema = Joi.string()
-  .required()
-  .custom((value: string, helpers) => {
-    try {
-      const {pathname} = new URL(value);
-      if (pathname !== '/') {
-        return helpers.error('docusaurus.subPathError', {pathname});
-      }
-    } catch {
-      return helpers.error('any.invalid');
-    }
-    return removeTrailingSlash(value);
-  })
-  .messages({
-    'any.invalid':
-      '"{#value}" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".',
-    'docusaurus.subPathError':
-      'The url is not supposed to contain a sub-path like "{#pathname}". Please use the baseUrl field for sub-paths.',
-  });
-
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object<DocusaurusConfig>({
-  baseUrl: Joi
-    // Weird Joi trick needed, otherwise value '' is not normalized...
-    .alternatives()
-    .try(Joi.string().required().allow(''))
-    .required()
-    .custom((value: string) => addLeadingSlash(addTrailingSlash(value))),
+  url: SiteUrlSchema.required(),
+  baseUrl: BaseUrlSchema.required(),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().optional(),
   title: Joi.string().required(),
-  url: SiteUrlSchema,
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   future: FUTURE_CONFIG_SCHEMA,

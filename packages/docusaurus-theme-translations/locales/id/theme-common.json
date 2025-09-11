@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Perluas kategori bilah sisi '{label}'",
   "theme.ErrorPageContent.title": "Terjadi kesalahan.",
   "theme.ErrorPageContent.tryAgain": "Coba kembali",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Utama",
   "theme.NotFound.p1": "Kami tak dapat menemukan yang anda cari.",
   "theme.NotFound.p2": "Silakan hubungi pemilik situs yang mengarahkan anda ke URL asli dan beri tahu mereka bahwa tautan mereka salah.",

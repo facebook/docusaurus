@@ -168,3 +168,32 @@ export function useClearQueryString(): () => void {
     });
   }, [history]);
 }
+
+export function mergeSearchParams(
+  params: URLSearchParams[],
+  strategy: 'append' | 'set',
+): URLSearchParams {
+  const result = new URLSearchParams();
+  for (const item of params) {
+    for (const [key, value] of item.entries()) {
+      if (strategy === 'append') {
+        result.append(key, value);
+      } else {
+        result.set(key, value);
+      }
+    }
+  }
+  return result;
+}
+
+export function mergeSearchStrings(
+  searchStrings: (string | undefined)[],
+  strategy: 'append' | 'set',
+): string {
+  const params = mergeSearchParams(
+    searchStrings.map((s) => new URLSearchParams(s ?? '')),
+    strategy,
+  );
+  const str = params.toString();
+  return str ? `?${str}` : str;
+}

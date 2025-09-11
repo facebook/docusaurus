@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Gapdal paneli görkez'{label}'",
   "theme.ErrorPageContent.title": "Sahypada näsazlyk ýüze çykdy.",
   "theme.ErrorPageContent.tryAgain": "Gaýtadan synanyşyň",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Esasy",
   "theme.NotFound.p1": "Gynansakda, ýüzlenen sahypaňyz tapylmady",
   "theme.NotFound.p2": "Web sahypanyň dolandyryjylaryna habar bermegiňizi sizden haýyş edýäris",

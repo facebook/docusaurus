@@ -214,7 +214,7 @@ module.exports = {
     ],
     'no-useless-escape': WARNING,
     'no-void': [ERROR, {allowAsStatement: true}],
-    'prefer-destructuring': WARNING,
+    'prefer-destructuring': OFF,
     'prefer-named-capture-group': WARNING,
     'prefer-template': WARNING,
     yoda: WARNING,

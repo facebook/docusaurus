@@ -48,6 +48,7 @@ Csapo
 Csvg
 Dabit
 dabit
+dagre
 Daishi
 Datagit
 datagit
@@ -84,6 +85,7 @@ Fienny
 flac
 Flightcontrol
 Flightcontrol's
+forwardable
 FOUC
 Français
 froms
@@ -136,6 +138,7 @@ lifecycles
 lightningcss
 Linkify
 linkify
+longlonglonglonglonglonglonglonglonglonglonglong
 Lorber
 lorber
 Lorber's
@@ -334,7 +337,6 @@ Unavatar
 unlinkable
 Unlisteds
 unlisteds
-Unlocalized
 unlocalized
 unswizzle
 upvotes
