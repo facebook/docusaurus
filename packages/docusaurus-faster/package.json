@@ -29,7 +29,7 @@
     "webpack": "^5.95.0"
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   },
   "peerDependencies": {
     "@docusaurus/types": "*"

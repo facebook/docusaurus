@@ -24,7 +24,7 @@
     "tslib": "^2.6.0"
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   },
   "devDependencies": {
     "@types/file-loader": "^5.0.1"
