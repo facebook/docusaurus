@@ -37,6 +37,6 @@
     "@types/supports-color": "^8.1.1"
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   }
 }
