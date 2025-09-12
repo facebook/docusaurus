@@ -49,6 +49,12 @@ If you only use our [public API surface](#public-api-surface), you should be abl
 
 :::
 
+:::caution About End-of-Life Node.js versions
+
+We may drop support for End-of-Life Node.js versions in minor Docusaurus versions. Check the [Node.js support policy](#nodejs-support) section for more details.
+
+:::
+
 ### Patch versions {#patch-versions}
 
 The `patch` version number is incremented on bugfixes releases.
@@ -56,6 +62,16 @@ The `patch` version number is incremented on bugfixes releases.
 Whenever a new patch version is released, we publish:
 
 - an exhaustive changelog entry
+
+## Node.js support policy {#nodejs-support}
+
+Each major version of Docusaurus supports a minimum Node.js version. This retro-compatibility will be preserved all along that release line. This runtime backward compatibility will be preserved throughout all the minor versions of the release line, except for End-of-Life Node.js versions.
+
+:::caution Support for End-of-Life versions
+
+On minor releases, we reserve the right to drop support for Node.js versions that reached End-of-Life ([Node.js release process and schedule](https://nodejs.org/en/about/previous-releases). **We do not consider it a Docusaurus breaking change**. We highly recommend using a maintained Node.js version. Beware that [End-of-Life Node.js versions do not receive security updates anymore](https://nodejs.org/en/blog/announcements/node-18-eol-support).
+
+:::
 
 ## Versions {#versions}
 
