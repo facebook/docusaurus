@@ -6,5 +6,10 @@
  */
 
 export {useAlgoliaThemeConfig} from './useAlgoliaThemeConfig';
-export {useAlgoliaContextualFacetFilters} from './useAlgoliaContextualFacetFilters';
+export {
+  useAlgoliaContextualFacetFilters,
+  useAlgoliaContextualFacetFiltersIfEnabled,
+} from './useAlgoliaContextualFacetFilters';
 export {useSearchResultUrlProcessor} from './useSearchResultUrlProcessor';
+export {useAlgoliaAskAi} from './useAlgoliaAskAi';
+export {mergeFacetFilters} from './utils';
