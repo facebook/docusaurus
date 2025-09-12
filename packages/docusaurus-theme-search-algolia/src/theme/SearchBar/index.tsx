@@ -290,7 +290,6 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
         searchContainer.current &&
         createPortal(
           <DocSearchModal
-            {...props}
             onClose={closeModal}
             initialScrollY={window.scrollY}
             initialQuery={initialQuery}
@@ -302,6 +301,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
               resultsFooterComponent,
             })}
             placeholder={currentPlaceholder}
+            {...props}
             translations={props.translations?.modal ?? translations.modal}
             searchParameters={searchParameters}
             {...extraAskAiProps}
