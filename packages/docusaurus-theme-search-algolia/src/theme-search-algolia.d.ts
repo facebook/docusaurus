@@ -57,6 +57,11 @@ declare module '@docusaurus/theme-search-algolia' {
     algolia?: Overwrite<
       DeepPartial<ThemeConfigAlgolia>,
       {
+        // Required fields:
+        appId: ThemeConfigAlgolia['appId'];
+        apiKey: ThemeConfigAlgolia['apiKey'];
+        indexName: ThemeConfigAlgolia['indexName'];
+        // askAi also accepts a shorter string form
         askAi?: string | AskAiConfig;
       }
     >;

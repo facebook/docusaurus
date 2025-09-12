@@ -77,13 +77,17 @@ describe('validateThemeConfig', () => {
 
   it('empty config', () => {
     expect(() =>
-      testValidateThemeConfig({}),
+      testValidateThemeConfig(
+        // @ts-expect-error: expected type error!
+        {},
+      ),
     ).toThrowErrorMatchingInlineSnapshot(
       `""algolia.appId" is required. If you haven't migrated to the new DocSearch infra, please refer to the blog post for instructions: https://docusaurus.io/blog/2021/11/21/algolia-docsearch-migration"`,
     );
   });
 
   it('missing indexName config', () => {
+    // @ts-expect-error: expected type error!
     const algolia: AlgoliaInput = {
       apiKey: 'apiKey',
       appId: 'BH4D9OD16A',
@@ -94,6 +98,7 @@ describe('validateThemeConfig', () => {
   });
 
   it('missing apiKey config', () => {
+    // @ts-expect-error: expected type error!
     const algolia: AlgoliaInput = {
       indexName: 'indexName',
       appId: 'BH4D9OD16A',
@@ -104,6 +109,7 @@ describe('validateThemeConfig', () => {
   });
 
   it('missing appId config', () => {
+    // @ts-expect-error: expected type error!
     const algolia: AlgoliaInput = {
       indexName: 'indexName',
       apiKey: 'apiKey',
