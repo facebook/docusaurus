@@ -39,6 +39,9 @@ declare module '@docusaurus/theme-search-algolia' {
   };
 
   export type ThemeConfigAlgolia = DocusaurusDocSearchProps & {
+    // TODO Docusaurus v4: upgrade to DocSearch v4, migrate indexName to indices
+    indexName: string;
+
     // Docusaurus custom options, not coming from DocSearch
     contextualSearch: boolean;
     externalUrlRegex?: string;

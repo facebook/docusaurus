@@ -61,6 +61,7 @@ type DocSearchProps = Omit<
 // extend DocSearchProps for v4 features
 // TODO Docusaurus v4: cleanup after we drop support for DocSearch v3
 interface DocSearchV4Props extends DocSearchProps {
+  indexName: string;
   askAi?: ThemeConfigAlgolia['askAi'];
   translations?: DocSearchTranslations;
 }
