@@ -76,6 +76,7 @@ function getDefaultDirection(localeStr: string) {
   // see https://github.com/tc39/proposal-intl-locale-info
   // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getTextInfo
   // Node 18.0 implements a former version of the getTextInfo() proposal
+  // TODO Docusaurus v4: remove the fallback to locale.textInfo
   // @ts-expect-error: The TC39 proposal was updated
   const textInto = locale.getTextInfo?.() ?? locale.textInfo;
   return textInto.direction;
