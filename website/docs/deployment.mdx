@@ -695,54 +695,54 @@ Now, whenever a new commit lands in `main`, Travis CI will run your suite of tes
 
 [Buildkite](https://buildkite.com/) is a fast, secure, and reliable continuous integration and continuous delivery platform.
 
-Follow these steps to create a pipeline that deploys a new version of your website when you push changes to your GitHub Pages project.
+Follow these steps to create a Buildkite pipeline that deploys a new version of your website when you push changes to your GitHub Pages project.
 
-1. Go to https://github.com/settings/tokens and generate a new personal access token (PAT). When creating the token, grant it the repo scope so that it has the permissions it needs.
-2. Set the following fields in `docusaurus.config`.
+1. Go to https://github.com/settings/tokens and generate a new personal access token (PAT). When creating the token, grant it the `repo` scope so that it has the permissions it needs.
+1. Set the following fields in `docusaurus.config`:
 
-```js title="docusaurus.config.js"
-url: 'https://$github_username.github.io',
-baseUrl: '/',
-organizationName: '$github_username',
-deploymentBranch: 'gh-pages',
-trailingSlash: false,
-```
+   ```js title="docusaurus.config.js"
+   url: 'https://<your-github-username>.github.io',
+   baseUrl: '/',
+   organizationName: '<your-github-username>',
+   deploymentBranch: 'gh-pages',
+   trailingSlash: false,
+   ```
 
-3. Configure the GitHub Pages deployment to deploy from the `gh-pages` branch.
-   1. Create a new branch titled `gh-pages` (Select **Branch** > **New Branch** > **(New branch name: "gh-pages")** > **Create new branch**).
-   2. Navigate to settings (Select **Settings**).
-   3. Navigate to the GitHub Pages settings tab (Select **Pages**).
-   4. In the branch drop-down list, change the deployment branch from `main` to `gh-pages`, then press **Save**.
-4. Sign in to your [Buildkite](https://buildkite.com/) account, set the `GITHUB_TOKEN` PAT secret, and then create a new pipeline (select **New pipeline**).
-   1. Set the repo-scoped PAT that you generated earlier on GitHub as a Buildkite secret.
-      1. Set the `key` as `GITHUB_TOKEN`.
-   2. Select the GitHub Pages repository.
-   3. Select **HTTPS** as the checkout method.
-   4. Choose the cluster / agents responsible for executing the pipeline.
-      1. You can run a [Buildkite agent](https://buildkite.com/docs/agent/v3/installation) locally on your own machine, whether its on a server, virtual private server, desktop computer, or embedded device.
-   5. In the YAML steps editor, copy / paste the following code. When you're finished inserting the YAML steps, select **Create Pipeline**, then select **New Build**.
+1. Configure the GitHub Pages deployment to deploy from the `gh-pages` branch:
+   1. In the GitHub dashboard, create a new branch in your Docusaurus repository titled `gh-pages`. Choose **Branches** > **New Branch**, choose `main` as the source, and **Create new branch**.
+   1. Navigate to **Settings** > **Pages**.
+   1. In the branch drop-down list, change the deployment branch from `main` to `gh-pages`, then press **Save**.
+1. Sign in to your [Buildkite](https://buildkite.com/) account and create a new Buildkite secret and pipeline:
 
-```yml title="pipeline.yml"
-steps:
-  - label: ':docusaurus: install, build, and deploy'
-    command: |
-      git config --global user.name "$${GIT_USER_NAME}"
-      git config --global user.email "$${GIT_USER_EMAIL}"
-      yarn install
-      yarn deploy
-    plugins:
-      - secrets#v1.0.0:
-          variables:
-            GIT_PASS: GITHUB_TOKEN
-    env:
-      GIT_USER: $username
-      GIT_USER_NAME: 'Your Name'
-      GIT_USER_EMAIL: 'Your GitHub Email'
-```
+   1. Navigate to **Secrets** > **New secret**.
+      1. Use `GITHUB_TOKEN` for the key and your GitHub PAT for the value, then save.
+   1. Navigate to **Pipelines** > **New pipeline**.
 
-5. In Buildkite, for some extra emoji fun, you can optionally choose to navigate to Pipeline Settings and select `:docusaurus:` as the Pipeline Emoji.
+      1. Choose your Docusaurus repository, select **HTTPS** as the checkout method, and leave `main` as the default branch.
+      1. Choose a Buildkite agent [cluster](https://buildkite.com/docs/pipelines/clusters) for the pipeline.
+      1. In the YAML steps editor, copy and paste the following pipeline YAML. When you're finished, select **Create Pipeline**, then **New Build**.
 
-Finished! Whenever a new commit lands in `gh-pages`, your website will be deployed via the `yarn deploy` script.
+         ```yml
+         steps:
+           - label: ':docusaurus: install, build, and deploy'
+             command: |
+               git config --global user.name "$${GIT_USER_NAME}"
+               git config --global user.email "$${GIT_USER_EMAIL}"
+               yarn install
+               yarn deploy
+             plugins:
+               - secrets#v1.0.0:
+                   variables:
+                     GIT_PASS: GITHUB_TOKEN
+             env:
+               GIT_USER: '<your-github-username>'
+               GIT_USER_NAME: 'Your Name'
+               GIT_USER_EMAIL: 'Your GitHub Email'
+         ```
+
+1. Optionally, navigate to Pipeline Settings set `:docusaurus:` as your [pipeline emoji](https://buildkite.com/docs/platform/emojis).
+
+Now, whenever a new commit lands in `main`, your website will be built and pushed to the `gh-pages` branch and published automatically with the `yarn deploy` script.
 
 ### Triggering deployment with Buddy {#triggering-deployment-with-buddy}
 
