@@ -700,7 +700,7 @@ Follow these steps to create a pipeline that deploys a new version of your websi
 1. Go to https://github.com/settings/tokens and generate a new personal access token (PAT). When creating the token, grant it the repo scope so that it has the permissions it needs.
 2. Set the following fields in `docusaurus.config`.
 
-```
+```js title="docusaurus.config.js"
 url: 'https://$github_username.github.io',
 baseUrl: '/',
 organizationName: '$github_username',
@@ -722,22 +722,22 @@ trailingSlash: false,
       1. You can run a [Buildkite agent](https://buildkite.com/docs/agent/v3/installation) locally on your own machine, whether its on a server, virtual private server, desktop computer, or embedded device.
    5. In the YAML steps editor, copy / paste the following code. When you're finished inserting the YAML steps, select **Create Pipeline**, then select **New Build**.
 
-```
+```yml title="pipeline.yml"
 steps:
-  - label: ":docusaurus: install, build, and deploy"
-    command:  |
-        git config --global user.name "$${GIT_USER_NAME}"
-        git config --global user.email "$${GIT_USER_EMAIL}"
-        yarn install
-        yarn deploy
+  - label: ':docusaurus: install, build, and deploy'
+    command: |
+      git config --global user.name "$${GIT_USER_NAME}"
+      git config --global user.email "$${GIT_USER_EMAIL}"
+      yarn install
+      yarn deploy
     plugins:
-        - secrets#v1.0.0:
-            variables:
-                GIT_PASS: GITHUB_TOKEN
+      - secrets#v1.0.0:
+          variables:
+            GIT_PASS: GITHUB_TOKEN
     env:
-        GIT_USER: $username
-        GIT_USER_NAME: "Your Name"
-        GIT_USER_EMAIL: "Your GitHub Email"
+      GIT_USER: $username
+      GIT_USER_NAME: 'Your Name'
+      GIT_USER_EMAIL: 'Your GitHub Email'
 ```
 
 5. In Buildkite, for some extra emoji fun, you can optionally choose to navigate to Pipeline Settings and select `:docusaurus:` as the Pipeline Emoji.
