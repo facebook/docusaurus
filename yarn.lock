@@ -27,12 +27,12 @@
     json-schema "^0.4.0"
 
 "@ai-sdk/react@^2.0.30":
-  version "2.0.44"
-  resolved "https://registry.yarnpkg.com/@ai-sdk/react/-/react-2.0.44.tgz#217c950cc71edfa7977d9c5031606464993236e1"
-  integrity sha512-+a1ZjpJA8pRfuFImypMAjGkivlwdITfUxOXSa3B73CB0YnW2WYVNECX4nC6JD9mWIq/NMurllAXwszpMO8hVuw==
+  version "2.0.45"
+  resolved "https://registry.yarnpkg.com/@ai-sdk/react/-/react-2.0.45.tgz#ea368c59e0e200e6506c8f82abefaf8cf52833f3"
+  integrity sha512-jrTeBQpIsueV6EB/L6KNdH/yadK/Ehx1qCus+9RC29kRikVhjgj8xNvHfH3qHCwsfGqLX9ljj69dCRLrmzpvnw==
   dependencies:
     "@ai-sdk/provider-utils" "3.0.9"
-    ai "5.0.44"
+    ai "5.0.45"
     swr "^2.2.5"
     throttleit "2.1.0"
 
@@ -2077,22 +2077,23 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
-"@docsearch/css@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-4.0.0.tgz#0b1324e487204ade7e8eba9cb03e65a119618052"
-  integrity sha512-IH5bLEJCbrsHdWUswddMziv3ejGGpADuvnn6dpIXJC6aglZT3qIeQzZmEcENj3yz8VNLSXpIXlb7u1J1zT4iFw==
+"@docsearch/css@4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-4.0.1.tgz#970436628cf03ba816ed6e4269cc866e9853bb0d"
+  integrity sha512-ouRI2SEwAg8qBqX4S3zfm4OJ/07o9Is7TzivNGkqP7FtYU4W0qgigumWkPbYvDwtG0koZw2ZebpcQiEpkCyv+g==
 
-"@docsearch/react@^3.9.0 || ^4.0.0", "@docsearch/react@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-4.0.0.tgz#b17dada4a1b5d5eab01cc72048e699e563b182d5"
-  integrity sha512-930rwFziMrtAvycvSGx+HtE/5DzZfxin/NhDH+UQiIjmAFxGFX1W19iXwrWAXooeINF3TXr9Zlv57tZDYZ231g==
+"@docsearch/react@^3.9.0 || ^4.0.0", "@docsearch/react@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-4.0.1.tgz#337bc73a00e20036aa989af4c00869104195d672"
+  integrity sha512-X/0mSdAt2/8el0sTBpSQJM8XKRlCLmITaWYZf9gLLqiN3eXdglOtt3cH7RjTQDS75REwmhadKzQIjFF8mbmf+A==
   dependencies:
     "@ai-sdk/react" "^2.0.30"
     "@algolia/autocomplete-core" "1.19.2"
-    "@docsearch/css" "4.0.0"
+    "@docsearch/css" "4.0.1"
     ai "^5.0.30"
     algoliasearch "^5.28.0"
     marked "^15.0.12"
+    zod "^4.1.8"
 
 "@docusaurus/responsive-loader@^1.7.0":
   version "1.7.0"
@@ -5193,10 +5194,10 @@ aggregate-error@^3.0.0:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
 
-ai@5.0.44, ai@^5.0.30:
-  version "5.0.44"
-  resolved "https://registry.yarnpkg.com/ai/-/ai-5.0.44.tgz#a4503c2fbcc54329a5e59381f0c144e91eb71311"
-  integrity sha512-l/rdoM4LcRpsRBVvZQBwSU73oNoFGlWj+PcH86QRzxDGJgZqgGItWO0QcKjBNcLDmUjGN1VYd/8J0TAXHJleRQ==
+ai@5.0.45, ai@^5.0.30:
+  version "5.0.45"
+  resolved "https://registry.yarnpkg.com/ai/-/ai-5.0.45.tgz#0e1472883914d2a031b1317cf53cc74891168a88"
+  integrity sha512-go6J78B1oTXZMN2XLlNJnrFxwcqXQtpPqUVyk1wvzvpb2dk5nP9yNuxqqOX9HrrKuf5U9M6rSezEJWr1eEG9RA==
   dependencies:
     "@ai-sdk/gateway" "1.0.23"
     "@ai-sdk/provider" "2.0.0"
@@ -19265,6 +19266,11 @@ zod@^3.22.4:
   version "3.25.76"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.25.76.tgz#26841c3f6fd22a6a2760e7ccb719179768471e34"
   integrity sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==
+
+zod@^4.1.8:
+  version "4.1.9"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.1.9.tgz#c03a0ddb10f5578f13f8f70f1959f89fd09c1c06"
+  integrity sha512-HI32jTq0AUAC125z30E8bQNz0RQ+9Uc+4J7V97gLYjZVKRjeydPgGt6dvQzFrav7MYOUGFqqOGiHpA/fdbd0cQ==
 
 zwitch@^2.0.0, zwitch@^2.0.4:
   version "2.0.4"
