@@ -6,8 +6,21 @@
  */
 
 declare module '@docusaurus/theme-search-algolia' {
-  import type {DeepPartial} from 'utility-types';
+  import type {DeepPartial, Overwrite} from 'utility-types';
+
   import type {DocSearchProps} from '@docsearch/react';
+  import type {FacetFilters} from 'algoliasearch/lite';
+
+  // The config after normalization (e.g. AskAI string -> object)
+  export type AskAiConfig = {
+    indexName: string;
+    apiKey: string;
+    appId: string;
+    assistantId: string;
+    searchParameters?: {
+      facetFilters?: FacetFilters;
+    };
+  };
 
   // DocSearch props that Docusaurus exposes directly through props forwarding
   type DocusaurusDocSearchProps = Pick<
@@ -20,9 +33,15 @@ declare module '@docusaurus/theme-search-algolia' {
     | 'searchParameters'
     | 'insights'
     | 'initialQuery'
-  >;
+  > & {
+    // Docusaurus normalizes the AskAI config to an object
+    askAi?: AskAiConfig;
+  };
 
-  type ThemeConfigAlgolia = DocusaurusDocSearchProps & {
+  export type ThemeConfigAlgolia = DocusaurusDocSearchProps & {
+    // TODO Docusaurus v4: upgrade to DocSearch v4, migrate indexName to indices
+    indexName: string;
+
     // Docusaurus custom options, not coming from DocSearch
     contextualSearch: boolean;
     externalUrlRegex?: string;
@@ -33,21 +52,23 @@ declare module '@docusaurus/theme-search-algolia' {
     };
   };
 
-  export type ThemeConfig = DocusaurusDocSearchProps & {
+  export type ThemeConfig = {
     algolia: ThemeConfigAlgolia;
   };
 
-  export type UserThemeConfig = DeepPartial<ThemeConfig>;
-}
-
-declare module '@docusaurus/theme-search-algolia/client' {
-  import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
-
-  export function useAlgoliaThemeConfig(): ThemeConfig;
-
-  export function useAlgoliaContextualFacetFilters(): [string, string[]];
-
-  export function useSearchResultUrlProcessor(): (url: string) => string;
+  export type UserThemeConfig = {
+    algolia?: Overwrite<
+      DeepPartial<ThemeConfigAlgolia>,
+      {
+        // Required fields:
+        appId: ThemeConfigAlgolia['appId'];
+        apiKey: ThemeConfigAlgolia['apiKey'];
+        indexName: ThemeConfigAlgolia['indexName'];
+        // askAi also accepts a shorter string form
+        askAi?: string | AskAiConfig;
+      }
+    >;
+  };
 }
 
 declare module '@theme/SearchPage' {
@@ -65,6 +86,15 @@ declare module '@theme/SearchBar' {
 declare module '@theme/SearchTranslations' {
   import type {DocSearchTranslations} from '@docsearch/react';
 
-  const translations: DocSearchTranslations & {placeholder: string};
+  const translations: DocSearchTranslations & {
+    placeholder: string;
+    // TODO Docusaurus v4: cleanup after we drop support for DocSearch v3
+    modal?: {
+      searchBox?: {
+        placeholderText?: string;
+        placeholderTextAskAi?: string;
+      };
+    };
+  };
   export default translations;
 }

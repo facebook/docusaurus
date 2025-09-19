@@ -655,6 +655,17 @@ export default async function createConfigAsync() {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
         indexName: 'docusaurus-2',
+
+        // TODO temporary, for DocSearch v3/v4 conditional Ask AI integration
+        //  see https://github.com/facebook/docusaurus/pull/11327
+        // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+        ...(require('@docsearch/react').version.startsWith('4.')
+          ? {
+              // cSpell:ignore IMYF
+              askAi: 'RgIMYFUmTfrN',
+            }
+          : {}),
+
         replaceSearchResultPathname:
           isDev || isDeployPreview
             ? {

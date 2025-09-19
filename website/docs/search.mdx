@@ -127,6 +127,9 @@ export default {
       // Optional: whether the insights feature is enabled or not on Docsearch (`false` by default)
       insights: false,
 
+      // Optional: whether you want to use the new Ask AI feature (undefined by default)
+      askAi: 'YOUR_ALGOLIA_ASK_AI_ASSISTANT_ID',
+
       //... other Algolia params
     },
     // highlight-end
@@ -211,6 +214,53 @@ Refer to the relevant [Algolia faceting documentation](https://www.algolia.com/d
 :::warning Contextual search doesn't work?
 
 If you only get search results when Contextual Search is disabled, this is very likely because of an [index configuration issue](#algolia-no-search-results).
+
+:::
+
+### Ask AI {#ask-ai}
+
+Ask AI is a new feature that allows you to ask questions about your documentation.
+
+Ask AI brings the power of AI to your documentation:
+
+- **Conversational search:** Users can ask questions in natural language and get context-aware answers.
+- **Completely free:** Ask AI is available at no additional cost. You'll pay only for the LLM usage to your provider.
+- **BYOLLM (Bring Your Own LLM):** You can use your own language model provider, giving you full control over the AI experience.
+- **Direct Algolia index integration:** The provider/models retrieve relevant context directly from your Algolia index, ensuring accurate and up-to-date answers.
+- **Recently asked & conversation history:** Easily revisit your recent questions and jump back into previous Ask AI conversations.
+- **Seamless integration:** Ask AI is available directly from the search modal.
+
+To enable it, add an `askAi` field in your `algolia` config:
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  themeConfig: {
+    // ...
+    algolia: {
+      // highlight-start
+      askAi: 'YOUR_ALGOLIA_ASK_AI_ASSISTANT_ID',
+      // highlight-end
+
+      // highlight-start
+      // OR with custom parameters
+      askAi: {
+        assistantId: 'YOUR_ALGOLIA_ASK_AI_ASSISTANT_ID',
+        indexName: 'YOUR_ALGOLIA_INDEX_NAME',
+        apiKey: 'YOUR_ALGOLIA_API_KEY',
+        appId: 'YOUR_ALGOLIA_APP_ID',
+      },
+      // highlight-end
+
+      //... other Algolia params
+    },
+  },
+};
+```
+
+:::info
+
+To use Ask AI, you need to have an Algolia index with the Ask AI assistant enabled. Learn more about [how to setup Ask AI](https://docsearch.algolia.com/docs/v4/askai).
 
 :::
 
