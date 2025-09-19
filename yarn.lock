@@ -3424,7 +3424,7 @@
     "@rspack/binding-win32-ia32-msvc" "1.5.3"
     "@rspack/binding-win32-x64-msvc" "1.5.3"
 
-"@rspack/core@1.5.3", "@rspack/core@^1.5.0":
+"@rspack/core@^1.5.0":
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/@rspack/core/-/core-1.5.3.tgz#bbb4fb0a9e2d431633a289c127235c27025440ad"
   integrity sha512-EMNXysJyqsfd2aVys5C7GDZKaLEcoN5qgs7ZFhWOWJGKgBqjdKTljyRTd4RRZV4fV6iAko/WrxnAxmzZNk8mjA==
