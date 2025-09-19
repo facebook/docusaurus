@@ -17,7 +17,6 @@ export = {
         '@docusaurus/string-literal-i18n-messages': 'error',
         '@docusaurus/no-html-links': 'warn',
         '@docusaurus/prefer-docusaurus-heading': 'warn',
-        '@docusaurus/prefer-ideal-image': 'warn',
       },
     },
     all: {
