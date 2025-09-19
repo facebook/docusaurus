@@ -181,9 +181,14 @@ export async function createBaseConfig({
         experiments.incremental = false;
       }
 
-      if (process.env.ENABLE_RSPACK_LAZY_COMPILATION) {
-        console.log('Rspack lazyCompilation enabled');
-        experiments.lazyCompilation = true;
+      // See https://rspack.rs/blog/announcing-1-5#barrel-file-optimization
+      if (process.env.DISABLE_RSPACK_LAZY_BARREL) {
+        console.log('Rspack lazyBarrel disabled');
+        experiments.lazyBarrel = false;
+      } else {
+        // TODO remove after we upgrade to Rspack 1.6+
+        //  Enabled by default for Rspack >= 1.6
+        experiments.lazyBarrel = true;
       }
 
       // TODO re-enable later, there's an Rspack performance issue
