@@ -1,0 +1,27 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/prefer-ideal-image
+---
+
+# prefer-ideal-image
+
+Ensures that `@theme/IdealImage` theme component provided by Docusaurus [`theme-classic`](../../themes/theme-classic.mdx) is used instead of `<img>` tag for images.
+
+## Rule Details {#details}
+
+Examples of **incorrect** code for this rule:
+
+```html
+<img src="{thumbnail}" />
+
+<img src="path/to/image" />
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+import Image from '@theme/IdealImage'
+
+<Image src='path/to/image' />
+
+<Image src='path/to/image' />
+```
