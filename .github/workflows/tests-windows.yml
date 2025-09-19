@@ -63,7 +63,8 @@ jobs:
           yarn add typescript@5.1.6 --exact -D -W --ignore-scripts
 
           # DocSearch@4/ai@5 doesn't support TS 5.1 (with skipLibCheck=false)
-          jq '.resolutions."@docsearch/react" = "^3.9.0"' package.json > package.json.tmp && mv package.json.tmp package.json
+          jq '.resolutions."@docsearch/react" = "^3.9.0"' package.json > package.json.tmp && mv -f package.json.tmp package.json
+          yarn clear
           yarn install
 
           yarn workspace website typecheck
