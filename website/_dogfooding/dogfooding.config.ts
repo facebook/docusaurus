@@ -147,6 +147,20 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       },
     };
   },
+
+  [
+    path.resolve(__dirname, '../../packages/docusaurus-plugin-llms-txt'),
+    {
+      siteTitle: 'Docusaurus - Modern Static Site Generator',
+      siteDescription:
+        'Build optimized websites quickly, focus on your content. Learn how to get started with Docusaurus.',
+      customContent:
+        "Docusaurus is a modern static website generator built by Facebook's Open Source team. It helps you build fast, SEO-friendly websites quickly.",
+      includeBlog: true,
+      includeDocs: true,
+      includePages: true,
+    },
+  ],
 ];
 
 export const dogfoodingRedirects: {from: string[]; to: string}[] = [

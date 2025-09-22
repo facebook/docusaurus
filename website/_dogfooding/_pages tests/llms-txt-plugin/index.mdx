@@ -1,0 +1,91 @@
+# llms.txt Plugin Demo
+
+This page demonstrates the `@docusaurus/plugin-llms-txt` plugin.
+
+## What is llms.txt?
+
+The `llms.txt` standard helps AI tools understand your documentation site structure by providing a machine-readable index of content.
+
+## Plugin Features
+
+- Automatic generation during build
+- Smart content categorization
+- Configurable options
+- TypeScript support
+- Zero configuration required
+
+## Example Configuration
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-llms-txt',
+      {
+        siteTitle: 'My Documentation Site',
+        siteDescription: 'Comprehensive guides and API references',
+        includeBlog: true,
+        includeDocs: true,
+        includePages: true,
+        customContent: 'Additional context about this site for AI tools.',
+      },
+    ],
+  ],
+};
+```
+
+## Generated Output
+
+The plugin generates a file at `/llms.txt` with content like:
+
+```
+# My Documentation Site
+Comprehensive guides and API references
+
+Site URL: https://example.com/
+Last updated: 2025-09-22
+
+Additional context about this site for AI tools.
+
+## Content
+
+### Documentation
+- [Getting Started](https://example.com/docs/getting-started)
+- [API Reference](https://example.com/docs/api)
+
+### Blog Posts
+- [Release Notes](https://example.com/blog/release-v2)
+
+### Pages
+- [Community](https://example.com/community)
+```
+
+## Benefits for AI Tools
+
+When AI assistants analyze your site, they can:
+
+- Understand your content structure
+- Provide better recommendations
+- Find relevant documentation faster
+- Give more accurate answers about your project
+
+## Plugin Options
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `filename` | `string` | `'llms.txt'` | Output filename |
+| `siteTitle` | `string` | `siteConfig.title` | Custom site title |
+| `siteDescription` | `string` | `siteConfig.tagline` | Custom description |
+| `includeBlog` | `boolean` | `true` | Include blog posts |
+| `includeDocs` | `boolean` | `true` | Include documentation |
+| `includePages` | `boolean` | `true` | Include static pages |
+| `maxDepth` | `number` | `3` | Maximum route depth |
+| `excludeRoutes` | `string[]` | `[]` | Routes to exclude |
+| `customContent` | `string` | `undefined` | Additional context |
+| `includeFullContent` | `boolean` | `false` | Include content excerpts |
+
+## Live Example
+
+This Docusaurus site now has an `llms.txt` file generated automatically!
+
+**View the generated llms.txt at `/llms.txt`** (will be available after build)
