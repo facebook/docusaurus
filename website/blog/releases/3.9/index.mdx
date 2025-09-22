@@ -20,44 +20,116 @@ Upgrading is easy. We follow [Semantic Versioning](https://semver.org/), and min
 import BrowserWindow from '@site/src/components/BrowserWindow';
 ```
 
-## Changelog
+## Dropping Node.js 18
 
-## Node 20
+In [#11408](https://github.com/facebook/docusaurus/pull/11408), we have dropped support for Node.js 18, and the new minimum required Node.js version is now v20.0.
 
-- [#11408](https://github.com/facebook/docusaurus/pull/11408) chore: drop support for Node 18, that reached End-of-Life ([@slorber](https://github.com/slorber))
+Although it may look like a runtime requirement breaking change, Node.js 18 reached [End-of-Life](https://nodejs.org/en/about/releases/). It [won't receive security updates anymore](https://nodejs.org/en/blog/announcements/node-18-eol-support), and you shouldn't use it in production. Dropping End-of-Life versions of Node.js on minor version releases is a common practice in the Node.js ecosystem (see for examples [Astro 5.8](https://astro.build/blog/astro-580/)), that we now officially adopt and document on our [release process page](/community/release-process#nodejs-support).
+
+This upgrade is further motivated by our dependencies:
+
+- Some of our dependencies now only receive security patches on newer versions that do not support Node.js 18 anymore. See, for example, this [`webpack-dev-server@4` security warning](https://github.com/facebook/docusaurus/pull/11410). To keep the Docusaurus v3 release line secure for our users, the upgrade is necessary.
+- Some of our dependencies are also dropping support for Node.js 18 in minor releases, transitively impacting Docusaurus runtime requirements. For example, [Rspack 1.5 now requires Node.js 18.12](https://rspack.rs/blog/announcing-1-5), while Docusaurus v3 initially supported Node.js 18.0.
 
 ## DocSearch v4 compat
 
 - [#11327](https://github.com/facebook/docusaurus/pull/11327) feat(search): add runtime support for DocSearch v4
 
+## i18n improvements
+
+In [#11316](https://github.com/facebook/docusaurus/pull/11316), we added new `i18n.localeConfigs[locale].{url,baseUrl}` config options to better support complex and multi-domain i18n deployments. Previously, Docusaurus relied on hard-coded heuristics that made sense for most i18n projects, but weren't flexible enough to accommodate all use cases, leading UX and SEO issues. It is now possible to configure each locale's deployment URL and base URL independently, overriding the default values inferred by Docusaurus:
+
+```ts title="docusaurus.config.js"
+export default {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+    localeConfigs: {
+      en: {
+        // highlight-start
+        url: 'https://en.docusaurus.io',
+        baseUrl: '/',
+        // highlight-end
+      },
+      fr: {
+        // highlight-start
+        url: 'https://fr.docusaurus.io',
+        baseUrl: '/',
+        // highlight-end
+      },
+    },
+  },
+};
+```
+
+In [#11304](https://github.com/facebook/docusaurus/pull/11304), we optimized our i18n infrastructure with a new `i18n.localeConfigs[locale].translate` flag that is now `false` by default for sites that do not use any translations. This leads to an improved dev experience and faster builds for non-i18n sites by avoiding unnecessary file system read attempts of the `i18n` directory.
+
+In [#11228](https://github.com/facebook/docusaurus/pull/11228), we added a new `key` attribute to the docs sidebar items, allowing to assign explicit translation keys to each sidebar item that use the same label and would otherwise lead to translation key conflicts:
+
+```ts title="sidebars.js"
+export default {
+  sidebar: [
+    {
+      type: 'category',
+      label: 'API',
+      // highlight-next-line
+      key: 'api-for-feature-1',
+      items: [],
+    },
+    {
+      type: 'category',
+      label: 'API',
+      // highlight-next-line
+      key: 'api-for-feature-2',
+      items: [],
+    },
+  ],
+};
+```
+
 ## Mermaid ELK layouts
 
-- [#11357](https://github.com/facebook/docusaurus/pull/11357) feat(mermaid): support elk layout
+In [#11357](https://github.com/facebook/docusaurus/pull/11357), we added support for [Mermaid ELK layout algorithm](https://mermaid.js.org/intro/syntax-reference.html#supported-layout-algorithms), based on the [Eclipse Layout Kernel (ELK)](https://www.eclipse.org/elk/). Compared to the default Dagre layout, it provides more sophisticated layout capabilities and configuration options, especially useful when working with large or intricate diagrams.
 
-## i18n config
+````md
+```mermaid
+---
+config:
+  layout: elk
+---
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+```
+````
 
-- [#11316](https://github.com/facebook/docusaurus/pull/11316) feat(core): Add `i18n.localeConfigs[locale].{url,baseUrl}` config options, fix multi-domain deployments
-- [#11304](https://github.com/facebook/docusaurus/pull/11304) feat(core): add `i18n.localeConfigs.translate` + skip translation process if `i18n/<locale>` dir doesn't exist
-- [#11228](https://github.com/facebook/docusaurus/pull/11228) feat(docs): sidebar item `key` attribute - fix docs translations key conflicts
+```mermaid
+---
+config:
+  layout: elk
+---
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+```
 
 ## Translations
 
-- `docusaurus-theme-translations`
-- [#11315](https://github.com/facebook/docusaurus/pull/11315) fix(theme-translations): Add missing Portuguese (pt-BR) theme translations and improve some of it. ([@marcelocell](https://github.com/marcelocell))
-- [#11305](https://github.com/facebook/docusaurus/pull/11305) fix(translations): Add missing Ukrainian translations ([@maluke](https://github.com/maluke))
+- 🇧🇷 [#11315](https://github.com/facebook/docusaurus/pull/11315): Add missing Brazilian Portuguese theme translations.
+- 🇺🇦 [#11305](https://github.com/facebook/docusaurus/pull/11305): Add missing Ukrainian theme translations.
 
 ## Other changes
 
 Other notable changes include:
 
-- [#11283](https://github.com/facebook/docusaurus/pull/11283) feat(core): Add `siteConfig.markdown.hooks`, deprecate `siteConfig.onBrokenMarkdownLinks`
-- [#11282](https://github.com/facebook/docusaurus/pull/11282) feat(core): add `siteConfig.markdown.emoji` config option to disable `remark-emoji`
-- [#11397](https://github.com/facebook/docusaurus/pull/11397) feat(mdx): resolve `@site/*` markdown links, fix resolution priority bugs
-- [#11415](https://github.com/facebook/docusaurus/pull/11415) feat(faster): upgrade Rspack to 1.5, use lazyBarrel experiment, remove deprecated option
-- [#11294](https://github.com/facebook/docusaurus/pull/11294) feat(faster): Upgrade to Rspack 1.4
-- [#11356](https://github.com/facebook/docusaurus/pull/11356) fix(theme): Doc sidebar links/categories with long labels should display properly
-- [#11410](https://github.com/facebook/docusaurus/pull/11410) fix(deps): upgrade webpack-dev-server to v5, fix security warning
-- [#11405](https://github.com/facebook/docusaurus/pull/11405) fix(theme): fix `useColorMode()` visual glitches due to provider unmounts/remounts
-- [#11383](https://github.com/facebook/docusaurus/pull/11383) fix(ssg): HTML minifier should preserve `<head>` for `og:image` crawlers
+- In [#11283](https://github.com/facebook/docusaurus/pull/11283), we added `siteConfig.markdown.hooks.{onBrokenMarkdownLinks,onBrokenMarkdownLinks}` and deprecated `siteConfig.onBrokenMarkdownLinks`. The new callback hooks also let you recover from broken links/images by returning a fallback URL.
+- In [#11282](https://github.com/facebook/docusaurus/pull/11282), we added the `siteConfig.markdown.emoji` config option to disable the previously hard-coded `remark-emoji` behavior.
+- In [#11397](https://github.com/facebook/docusaurus/pull/11397), we can now resolve site-aliased Markdown links starting with `@site/*`, that we already supported for ES imports.
+- In [#11294](https://github.com/facebook/docusaurus/pull/11294) and [#11415](https://github.com/facebook/docusaurus/pull/11415), we upgraded to Rspack 1.5 and leveraging new Rspack config options to make Docusaurus build faster.
+- In [#11356](https://github.com/facebook/docusaurus/pull/11356), we improved the display of docs sidebar items with long labels.
+- In [#11405](https://github.com/facebook/docusaurus/pull/11405), we improved visual glitches caused by the `useColorMode()` hook when switching color modes, glitches that also affected your site's logo in the navbar.
+- In [#11383](https://github.com/facebook/docusaurus/pull/11383), we disabled a Docusaurus Faster HTML minifier optimization that prevents your site's social card from displaying properly on some social platforms (e.g., LinkedIn).
 
 Check the **[3.9.0 changelog entry](/changelog/3.9.0)** for an exhaustive list of changes.
