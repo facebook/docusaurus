@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src",
+    "noEmit": false
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "lib"],
+  "references": [
+    {"path": "../docusaurus-utils"},
+    {"path": "../docusaurus-utils-validation"},
+    {"path": "../docusaurus-logger"}
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "@docusaurus/plugin-llms-txt",
+  "version": "3.8.1",
+  "description": "Llms.txt plugin for Docusaurus.",
+  "main": "lib/index.js",
+  "sideEffects": false,
+  "exports": {
+    "./lib/*": "./lib/*",
+    "./src/*": "./src/*",
+    ".": {
+      "types": "./src/plugin-llms-txt.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "types": "src/plugin-llms-txt.d.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-plugin-llms-txt"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/core": "3.8.1",
+    "@docusaurus/logger": "3.8.1",
+    "@docusaurus/types": "3.8.1",
+    "@docusaurus/utils": "3.8.1",
+    "@docusaurus/utils-validation": "3.8.1",
+    "fs-extra": "^11.1.1",
+    "tslib": "^2.6.0"
+  },
+  "devDependencies": {
+    "commander": "^5.1.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "engines": {
+    "node": ">=20.0"
+  }
+}
