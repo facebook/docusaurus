@@ -170,7 +170,7 @@ export async function createCLIProgram({
 
   function normalizePollValue(value?: string) {
     if (value === undefined || value === '') {
-      return false;
+      return true;
     }
     const parsedIntValue = Number.parseInt(value, 10);
     if (!Number.isNaN(parsedIntValue)) {

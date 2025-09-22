@@ -20,5 +20,11 @@ export function isRegexpStringMatch(
     return false;
   }
 
-  return new RegExp(regexAsString, 'gi').test(valueToTest);
+  try{
+    const m=regexAsString.match(/^\/(.*)\/([a-z]*)$/i);
+    return new RegExp(m? (m[1]??'') :regexAsString, m?(m[2] ??'gi'):'gi').test(valueToTest);
+  }
+  catch{
+    return false;
+  }
 }
