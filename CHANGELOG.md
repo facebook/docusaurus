@@ -1,5 +1,9 @@
 # Docusaurus Changelog
 
+## 3.9.0 (2025-09-29)
+
+TODO
+
 ## 3.8.1 (2025-06-06)
 
 #### :bug: Bug Fix
