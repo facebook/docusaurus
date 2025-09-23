@@ -13,7 +13,6 @@ import React, {
   type ReactNode,
 } from 'react';
 import clsx from 'clsx';
-import copy from 'copy-text-to-clipboard';
 import {translate} from '@docusaurus/Translate';
 import {useCodeBlockContext} from '@docusaurus/theme-common/internal';
 import Button from '@theme/CodeBlock/Buttons/Button';
@@ -53,11 +52,12 @@ function useCopyButton() {
   const copyTimeout = useRef<number | undefined>(undefined);
 
   const copyCode = useCallback(() => {
-    copy(code);
-    setIsCopied(true);
-    copyTimeout.current = window.setTimeout(() => {
-      setIsCopied(false);
-    }, 1000);
+    navigator.clipboard.writeText(code).then(() => {
+      setIsCopied(true);
+      copyTimeout.current = window.setTimeout(() => {
+        setIsCopied(false);
+      }, 1000);
+    });
   }, [code]);
 
   useEffect(() => () => window.clearTimeout(copyTimeout.current), []);

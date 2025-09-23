@@ -13,7 +13,6 @@ import {
   getCSSExtractPlugin,
   getMinimizers,
 } from '@docusaurus/bundler';
-
 import {getFileLoaderUtils, md5Hash} from '@docusaurus/utils';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
 import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
@@ -27,14 +26,6 @@ import type {
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
-
-const LibrariesToTranspile = [
-  'copy-text-to-clipboard', // Contains optional catch binding, incompatible with recent versions of Edge
-];
-
-const LibrariesToTranspileRegex = new RegExp(
-  LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
-);
 
 function getReactAliases(siteDir: string): Record<string, string> {
   // Escape hatch
@@ -58,8 +49,7 @@ export function excludeJS(modulePath: string): boolean {
   // Don't transpile node_modules except any docusaurus npm package
   return (
     modulePath.includes('node_modules') &&
-    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath) &&
-    !LibrariesToTranspileRegex.test(modulePath)
+    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath)
   );
 }
 
