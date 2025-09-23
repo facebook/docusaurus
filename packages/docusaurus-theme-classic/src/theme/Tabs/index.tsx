@@ -7,6 +7,7 @@
 
 import React, {cloneElement, type ReactElement, type ReactNode} from 'react';
 import clsx from 'clsx';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 import {
   useScrollPositionBlocker,
   useTabs,
@@ -143,7 +144,14 @@ function TabContent({
 function TabsComponent(props: Props): ReactNode {
   const tabs = useTabs(props);
   return (
-    <div className={clsx('tabs-container', styles.tabList)}>
+    <div
+      className={clsx(
+        ThemeClassNames.tabs.container,
+        // former name kept for backward compatibility
+        // see https://github.com/facebook/docusaurus/pull/4086
+        'tabs-container',
+        styles.tabList,
+      )}>
       <TabList {...tabs} {...props} />
       <TabContent {...tabs} {...props} />
     </div>
