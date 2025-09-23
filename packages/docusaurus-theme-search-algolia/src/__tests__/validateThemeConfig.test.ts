@@ -13,7 +13,7 @@ import type {
 } from '@docusaurus/theme-search-algolia';
 
 // mock DocSearch to a v4 version to allow AskAI tests to pass
-jest.mock('@docsearch/react', () => ({version: '4.0.0'}));
+jest.mock('@docsearch/react/version', () => ({version: '4.0.0'}));
 
 type AlgoliaInput = UserThemeConfig['algolia'];
 

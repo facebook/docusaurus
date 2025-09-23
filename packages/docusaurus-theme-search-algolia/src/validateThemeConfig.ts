@@ -7,7 +7,7 @@
 
 import {escapeRegexp} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
-import {version as docsearchVersion} from '@docsearch/react';
+import {version as docsearchVersion} from '@docsearch/react/version';
 import type {ThemeConfigValidationContext} from '@docusaurus/types';
 import type {
   ThemeConfig,

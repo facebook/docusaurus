@@ -659,7 +659,7 @@ export default async function createConfigAsync() {
         // TODO temporary, for DocSearch v3/v4 conditional Ask AI integration
         //  see https://github.com/facebook/docusaurus/pull/11327
         // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
-        ...(require('@docsearch/react').version.startsWith('4.')
+        ...(require('@docsearch/react/version').version.startsWith('4.')
           ? {
               // cSpell:ignore IMYF
               askAi: 'RgIMYFUmTfrN',
