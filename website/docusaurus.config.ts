@@ -664,6 +664,7 @@ export default async function createConfigAsync() {
           ? {
               // cSpell:ignore IMYF
               askAi: 'RgIMYFUmTfrN',
+              // indexName: 'docusaurus-markdown',
             }
           : {}),
 
