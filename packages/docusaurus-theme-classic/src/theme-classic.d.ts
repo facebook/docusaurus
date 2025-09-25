@@ -1894,6 +1894,14 @@ declare module '@theme/Icon/Socials/Twitch' {
   export default function Twitch(props: Props): ReactNode;
 }
 
+declare module '@theme/Icon/Socials/Email' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Email(props: Props): ReactNode;
+}
+
 declare module '@theme/Icon/Socials/Mastodon' {
   import type {ComponentProps, ReactNode} from 'react';
 
