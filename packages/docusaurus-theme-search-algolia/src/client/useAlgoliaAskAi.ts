@@ -6,15 +6,15 @@
  */
 
 import {useCallback, useMemo, useState} from 'react';
-import {
-  version as docsearchVersion,
-  type DocSearchModalProps,
-  type DocSearchTranslations,
-} from '@docsearch/react';
+import {version as docsearchVersion} from '@docsearch/react/version';
 import translations from '@theme/SearchTranslations';
 import {useAlgoliaContextualFacetFiltersIfEnabled} from './useAlgoliaContextualFacetFilters';
 import {mergeFacetFilters} from './utils';
 import type {AskAiConfig} from '@docusaurus/theme-search-algolia';
+import type {
+  DocSearchModalProps,
+  DocSearchTranslations,
+} from '@docsearch/react';
 import type {FacetFilters} from 'algoliasearch/lite';
 
 // The minimal props the hook needs from DocSearch v4 props

@@ -13,7 +13,8 @@ import React, {
   type ReactNode,
 } from 'react';
 import {createPortal} from 'react-dom';
-import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
+import {DocSearchButton} from '@docsearch/react/button';
+import {useDocSearchKeyboardEvents} from '@docsearch/react/useDocSearchKeyboardEvents';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import {useHistory} from '@docusaurus/router';
@@ -73,9 +74,7 @@ function importDocSearchModalIfNeeded() {
     return Promise.resolve();
   }
   return Promise.all([
-    import('@docsearch/react/modal') as Promise<
-      typeof import('@docsearch/react')
-    >,
+    import('@docsearch/react/modal'),
     import('@docsearch/react/style'),
     import('./styles.css'),
   ]).then(([{DocSearchModal: Modal}]) => {

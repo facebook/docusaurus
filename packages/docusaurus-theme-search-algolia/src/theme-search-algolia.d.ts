@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// TODO Docusaurus v4: remove after we drop support for DocSearch v3
+declare module '@docsearch/react/button';
+declare module '@docsearch/react/useDocSearchKeyboardEvents';
+declare module '@docsearch/react/version';
+
 declare module '@docusaurus/theme-search-algolia' {
   import type {DeepPartial, Overwrite} from 'utility-types';
 
