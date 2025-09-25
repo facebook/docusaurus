@@ -27,6 +27,7 @@ export const AuthorSocialsSchema = Joi.object<AuthorSocials>({
   mastodon: Joi.string(),
   twitch: Joi.string(),
   youtube: Joi.string(),
+  email: Joi.string(),
 }).unknown();
 
 type PredefinedPlatformNormalizer = (value: string) => string;
@@ -47,12 +48,12 @@ const PredefinedPlatformNormalizers: Record<
   mastodon: (handle: string) => `https://mastodon.social/@${handle}`, // can be in format user@other.server and it will redirect if needed
   twitch: (handle: string) => `https://twitch.tv/${handle}`,
   youtube: (handle: string) => `https://youtube.com/@${handle}`, // https://support.google.com/youtube/answer/6180214?hl=en
+  email: (email: string) => `mailto:${email}`,
 };
 
 type SocialEntry = [string, string];
 
 function normalizeSocialEntry([platform, value]: SocialEntry): SocialEntry {
-  const normalizer = PredefinedPlatformNormalizers[platform.toLowerCase()];
   if (typeof value !== 'string') {
     throw new Error(
       `Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
@@ -60,7 +61,9 @@ Social platform '${platform}' has illegal value '${value}'`,
     );
   }
   const isAbsoluteUrl =
-    value.startsWith('http://') || value.startsWith('https://');
+    value.startsWith('http://') ||
+    value.startsWith('https://') ||
+    value.startsWith('mailto:');
   if (isAbsoluteUrl) {
     return [platform, value];
   } else if (value.includes('/')) {
@@ -69,6 +72,7 @@ Social platform '${platform}' has illegal value '${value}'`,
 Social platform '${platform}' has illegal value '${value}'`,
     );
   }
+  const normalizer = PredefinedPlatformNormalizers[platform.toLowerCase()];
   if (normalizer && !isAbsoluteUrl) {
     const normalizedPlatform = platform.toLowerCase();
     const normalizedValue = normalizer(value);

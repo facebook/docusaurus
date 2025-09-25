@@ -35,7 +35,6 @@
     "@docusaurus/utils-validation": "3.8.1",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
-    "copy-text-to-clipboard": "^3.2.0",
     "infima": "0.2.0-alpha.45",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",

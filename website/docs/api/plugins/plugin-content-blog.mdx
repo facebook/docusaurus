@@ -281,7 +281,7 @@ type AuthorKey = string;
 // Social platform name -> Social platform link
 // Example: {MyPlatform: 'https://myplatform.com/myusername'}
 // Pre-defined platforms
-// ("x", "github", "twitter", "linkedin", "stackoverflow", "instagram", "bluesky", "mastodon", "threads", "twitch", "youtube") accept handles:
+// ("x", "github", "twitter", "linkedin", "stackoverflow", "instagram", "bluesky", "mastodon", "threads", "twitch", "youtube", "email") accept handles:
 // Example: {github: 'slorber'}
 type AuthorSocials = Record<string, string>;
 
@@ -368,6 +368,7 @@ slorber:
   socials:
     x: sebastienlorber
     github: slorber
+    email: seb@example.com
 
 jmarcey:
   name: Joel Marcey
