@@ -33,7 +33,7 @@ This upgrade is further motivated by our dependencies:
 
 ## DocSearch v4
 
-In [#11327](https://github.com/facebook/docusaurus/pull/11327), we added support for Algolia DocSearch 4.0. This new version comes with [AskAI](https://docsearch.algolia.com/docs/v4/askai) support, letting you add an AI-powered search assistant to your Docusaurus site that can answer questions based on what's in your documentation with a conversational experience.
+In [#11327](https://github.com/facebook/docusaurus/pull/11327) and [#11421](https://github.com/facebook/docusaurus/pull/11421), we added support for Algolia DocSearch v4. This new version comes with [AskAI](https://docsearch.algolia.com/docs/v4/askai) support, letting you add an AI-powered search assistant to your Docusaurus site that can answer questions based on what's in your documentation with a conversational experience.
 
 ```mdx-code-block
 <BrowserWindow
@@ -43,19 +43,11 @@ In [#11327](https://github.com/facebook/docusaurus/pull/11327), we added support
 </BrowserWindow>
 ```
 
-:::caution DocSearch v4 is opt-in
+:::tip DocSearch v4 is optional
 
-Docusaurus v3 still uses DocSearch v3 by default, but now supports DocSearch v4 at runtime. Due to the **[increased bundle size and temporary code-splitting issue](https://github.com/facebook/docusaurus/pull/11327#pullrequestreview-3244560142)**, we recommend using DocSearch v4 only if you intend to use the new AskAI feature, using your package manager's resolution options:
+Docusaurus v3 adds support for DocSearch v4 while keeping support for DocSearch v3.
 
-```json title="package.json"
-{
-  "overrides": {
-    "@docsearch/react": "^4.0.0"
-  }
-}
-```
-
-If you don't need AskAI, it's better to stay on DocSearch v3 for now.
+Existing sites using DocSearch v3 can either stay on v3 or upgrade to v4 using their package manager (npm command: `npm update @docsearch/react`).
 
 :::
 
@@ -158,5 +150,7 @@ Other notable changes include:
 - In [#11356](https://github.com/facebook/docusaurus/pull/11356), we improved the display of docs sidebar items with long labels.
 - In [#11405](https://github.com/facebook/docusaurus/pull/11405), we improved visual glitches caused by the `useColorMode()` hook when switching color modes, glitches that also affected your site's logo in the navbar.
 - In [#11383](https://github.com/facebook/docusaurus/pull/11383), we disabled a Docusaurus Faster HTML minifier optimization that prevents your site's social card from displaying properly on some social platforms (e.g., LinkedIn).
+- In [#11425](https://github.com/facebook/docusaurus/pull/11425), we added the ability for blog authors to display an email icon with a `mailto:` link (`author.socials.email`).
+- In [#11422](https://github.com/facebook/docusaurus/pull/11422), we removed the `copy-text-to-clipboard` in favor of the native `navigator.clipboard` API.
 
 Check the **[3.9.0 changelog entry](/changelog/3.9.0)** for an exhaustive list of changes.
