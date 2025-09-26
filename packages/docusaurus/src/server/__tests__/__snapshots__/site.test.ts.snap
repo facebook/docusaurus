@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`load loads props for site 1`] = `
+exports[`loadSite custom-i18n-site loads site 1`] = `
 {
   "baseUrl": "/",
   "codeTranslations": {},
