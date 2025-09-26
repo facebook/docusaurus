@@ -31,7 +31,7 @@ async function loadMermaidAndRegisterLayouts(): Promise<Mermaid> {
 // Ensure we only try to register layouts once
 let MermaidPromise: Promise<Mermaid> | null = null;
 
-// We load Mermeid with a dynamic import to code split / lazy load the library
+// We load Mermaid with a dynamic import to code split / lazy load the library
 // It is only called inside a useEffect, so loading can be deferred
 // We memoize so that we don't load and register layouts multiple times
 export async function loadMermaid(): Promise<Mermaid> {
