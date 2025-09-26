@@ -41,20 +41,27 @@ files:
     translation: /website/i18n/%two_letters_code%/**/%original_file_name%
     languages_mapping: *languages_mapping
 
-  - source: /website/docs/**/*
+  - source: /website/docs/**/*.mdx
     translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
     languages_mapping: *languages_mapping
     type: *mdx_file_type
+  - source: /website/docs/**/*
+    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
+    languages_mapping: *languages_mapping
+    ignore: [/**/*.mdx]
 
-  - source: /website/versioned_docs/**/*
+  - source: /website/versioned_docs/**/*.mdx
     translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/**/%original_file_name%
     languages_mapping: *languages_mapping
     type: *mdx_file_type
+  - source: /website/versioned_docs/**/*
+    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/**/%original_file_name%
+    languages_mapping: *languages_mapping
+    ignore: [/**/*.mdx]
 
   - source: /website/community/**/*
     translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs-community/current/**/%original_file_name%
     languages_mapping: *languages_mapping
-    type: *mdx_file_type
 
   - source: /website/blog/**/*
     translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-blog/**/%original_file_name%
