@@ -11,18 +11,28 @@ module.exports = {
   url: 'https://docusaurus.io',
   i18n: {
     defaultLocale: 'en',
-    locales: ['en','fr', 'de'],
+    locales: ['en','fr', 'es', 'de', 'it'],
     localeConfigs: {
       en: {
         baseUrl: '/myBaseUrl/',
       },
       fr: {
-        baseUrl: '/myBaseUrl/fr',
+        baseUrl: 'myBaseUrl/fr',
+      },
+      es: {
+        url: 'https://es.docusaurus.io',
+        // TODO it's not clear what should be the inferred outDir in this case
+        baseUrl: 'es',
       },
       de: {
-        // TODO it's not clear what shouyld be the inferred outDir in this case
-        baseUrl: '/WHATEVER/de',
-      }
+        // TODO it's not clear what should be the inferred outDir in this case
+        baseUrl: 'WHATEVER/de',
+      },
+      it: {
+        url: 'https://it.docusaurus.io',
+        // TODO it's not clear what should be the inferred outDir in this case
+        baseUrl: '',
+      },
     }
   }
 };
