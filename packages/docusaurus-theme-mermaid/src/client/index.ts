@@ -7,8 +7,7 @@
 
 import {useState, useEffect, useMemo} from 'react';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
-import mermaid from 'mermaid';
-import {ensureLayoutsRegistered} from './layouts';
+import {loadMermaid} from './loadMermaid';
 
 import type {RenderResult, MermaidConfig} from 'mermaid';
 import type {ThemeConfig} from '@docusaurus/theme-mermaid';
@@ -55,7 +54,7 @@ async function renderMermaid({
   text: string;
   config: MermaidConfig;
 }): Promise<RenderResult> {
-  await ensureLayoutsRegistered();
+  const mermaid = await loadMermaid();
 
   /*
   Mermaid API is really weird :s
