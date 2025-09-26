@@ -1,5 +1,16 @@
 # Docusaurus Changelog
 
+## 3.9.1 (2025-09-26)
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#11434](https://github.com/facebook/docusaurus/pull/11434) fix(core): fix Docusaurus outDir for sites using baseUrl ([@slorber](https://github.com/slorber))
+
+#### Committers: 1
+
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 3.9.0 (2025-09-25)
 
 #### :rocket: New Feature
