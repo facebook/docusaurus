@@ -27,16 +27,17 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        node: ['18.0', '20', '22']
+        node: ['20.0', '20', '22', '24']
     steps:
       - name: Support longpaths
         run: git config --system core.longpaths true
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: ${{ matrix.node }}
+          cache: yarn
       - name: Installation
         run: yarn || yarn || yarn
       - name: Docusaurus Jest Tests
@@ -55,12 +56,16 @@ jobs:
         run: yarn build:website:fast
 
       - name: TypeCheck website
-        # TODO temporary, remove TS skipLibCheck
         # see https://github.com/facebook/docusaurus/pull/10486
-        run: yarn workspace website typecheck --project tsconfig.skipLibCheck.json
+        run: yarn workspace website typecheck
       - name: TypeCheck website - min version - v5.1
         run: |
           yarn add typescript@5.1.6 --exact -D -W --ignore-scripts
+
+          # DocSearch@4/ai@5 doesn't support TS 5.1 (with skipLibCheck=false)
+          jq '.resolutions."@docsearch/react" = "^3.9.0"' package.json > package.json.tmp && mv -Force package.json.tmp package.json
+          yarn add @docsearch/react@^3.9.0 --exact -D -W --ignore-scripts
+
           yarn workspace website typecheck
       - name: TypeCheck website - max version - Latest
         # For latest TS there are often lib check errors, so we disable it

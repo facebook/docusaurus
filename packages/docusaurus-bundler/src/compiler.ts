@@ -7,7 +7,7 @@
 
 import {type Configuration} from 'webpack';
 import logger from '@docusaurus/logger';
-import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
+import formatWebpackMessages from './legacy/formatWebpackMessages';
 import type webpack from 'webpack';
 import type {CurrentBundler} from '@docusaurus/types';
 

@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
-import {compile} from '@docusaurus/bundler';
+import {compile, registerBundlerTracing} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {loadSite} from '../../server/site';
 import {handleBrokenLinks} from '../../server/brokenLinks';
@@ -26,12 +26,18 @@ import type {
 } from '@docusaurus/types';
 import type {SiteCollectedData} from '../../common';
 import {BuildCLIOptions} from './build';
+import clearPath from '../utils/clearPath';
+import {isAutomaticBaseUrlLocalizationDisabled} from './buildUtils';
 
 export type BuildLocaleParams = {
   siteDir: string;
   locale: string;
   cliOptions: Partial<BuildCLIOptions>;
 };
+
+const SkipBundling = process.env.DOCUSAURUS_SKIP_BUNDLING === 'true';
+const ExitAfterLoading = process.env.DOCUSAURUS_EXIT_AFTER_LOADING === 'true';
+const ExitAfterBundling = process.env.DOCUSAURUS_EXIT_AFTER_BUNDLING === 'true';
 
 export async function buildLocale({
   siteDir,
@@ -51,9 +57,13 @@ export async function buildLocale({
       outDir: cliOptions.outDir,
       config: cliOptions.config,
       locale,
-      localizePath: cliOptions.locale?.length === 1 ? false : undefined,
+      automaticBaseUrlLocalizationDisabled: isAutomaticBaseUrlLocalizationDisabled(cliOptions),
     }),
   );
+
+  if (ExitAfterLoading) {
+    return process.exit(0);
+  }
 
   const {props} = site;
   const {outDir, plugins, siteConfig} = props;
@@ -77,18 +87,36 @@ export async function buildLocale({
             props,
             configureWebpackUtils,
           }),
+
+          // We also clear website/build dir
+          // returns void, no useful result needed before compilation
+          // See also https://github.com/facebook/docusaurus/pull/11037
+          SkipBundling ? undefined : clearPath(outDir),
         ]),
     );
 
-  // Run webpack to build JS bundle (client) and static html files (server).
-  await PerfLogger.async(`Bundling with ${props.currentBundler.name}`, () => {
-    return compile({
-      configs:
-        // For hash router we don't do SSG and can skip the server bundle
-        router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
-      currentBundler: configureWebpackUtils.currentBundler,
+  if (SkipBundling) {
+    console.warn(
+      `Skipping the Docusaurus bundling step because DOCUSAURUS_SKIP_BUNDLING='true'`,
+    );
+  } else {
+    const cleanupBundlerTracing = await registerBundlerTracing({
+      currentBundler: props.currentBundler,
     });
-  });
+    // Run webpack to build JS bundle (client) and static html files (server).
+    await PerfLogger.async(`Bundling with ${props.currentBundler.name}`, () => {
+      return compile({
+        configs:
+          // For hash router we don't do SSG and can skip the server bundle
+          router === 'hash' ? [clientConfig] : [clientConfig, serverConfig],
+        currentBundler: configureWebpackUtils.currentBundler,
+      });
+    });
+    await cleanupBundlerTracing();
+  }
+  if (ExitAfterBundling) {
+    return process.exit(0);
+  }
 
   const {collectedData} = await PerfLogger.async('SSG', () =>
     executeSSG({
@@ -126,7 +154,15 @@ async function executePluginsPostBuild({
   props: Props;
   collectedData: SiteCollectedData;
 }) {
-  const head = _.mapValues(collectedData, (d) => d.helmet);
+  const head = props.siteConfig.future.v4.removeLegacyPostBuildHeadAttribute
+    ? {}
+    : _.mapValues(collectedData, (d) => d.metadata.helmet!);
+
+  const routesBuildMetadata = _.mapValues(
+    collectedData,
+    (d) => d.metadata.public,
+  );
+
   await Promise.all(
     plugins.map(async (plugin) => {
       if (!plugin.postBuild) {
@@ -135,6 +171,7 @@ async function executePluginsPostBuild({
       await plugin.postBuild({
         ...props,
         head,
+        routesBuildMetadata,
         content: plugin.content,
       });
     }),
@@ -216,7 +253,7 @@ async function getBuildServerConfig({
 async function cleanupServerBundle(serverBundlePath: string) {
   if (process.env.DOCUSAURUS_KEEP_SERVER_BUNDLE === 'true') {
     logger.warn(
-      "Will NOT delete server bundle because DOCUSAURUS_KEEP_SERVER_BUNDLE is set to 'true'",
+      "Will NOT delete server bundle because DOCUSAURUS_KEEP_SERVER_BUNDLE='true'",
     );
   } else {
     await PerfLogger.async('Deleting server bundle', async () => {

@@ -15,7 +15,6 @@ import React, {
   type SetStateAction,
   type ReactNode,
 } from 'react';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
 import {prefersReducedMotion} from '../../utils/accessibilityUtils';
 
@@ -124,6 +123,7 @@ function useCollapseAnimation({
       return undefined;
     }
 
+    // eslint-disable-next-line react-compiler/react-compiler
     el.style.willChange = 'height';
 
     function startAnimation() {
@@ -157,24 +157,6 @@ type CollapsibleElementType = React.ElementType<
   Pick<React.HTMLAttributes<unknown>, 'className' | 'onTransitionEnd' | 'style'>
 >;
 
-/**
- * Prevent hydration layout shift before animations are handled imperatively
- * with JS
- */
-function getSSRStyle({
-  collapsed,
-  isBrowser,
-}: {
-  collapsed: boolean;
-  isBrowser: boolean;
-}) {
-  // After hydration, styles are applied
-  if (isBrowser) {
-    return undefined;
-  }
-  return collapsed ? CollapsedStyles : ExpandedStyles;
-}
-
 type CollapsibleBaseProps = {
   /** The actual DOM element to be used in the markup. */
   as?: CollapsibleElementType;
@@ -192,12 +174,6 @@ type CollapsibleBaseProps = {
   onCollapseTransitionEnd?: (collapsed: boolean) => void;
   /** Class name for the underlying DOM element. */
   className?: string;
-  /**
-   * This is mostly useful for details/summary component where ssrStyle is not
-   * needed (as details are hidden natively) and can mess up with the browser's
-   * native behavior when JS fails to load or is disabled
-   */
-  disableSSRStyle?: boolean;
 };
 
 function CollapsibleBase({
@@ -207,9 +183,7 @@ function CollapsibleBase({
   animation,
   onCollapseTransitionEnd,
   className,
-  disableSSRStyle,
 }: CollapsibleBaseProps) {
-  const isBrowser = useIsBrowser();
   const collapsibleRef = useRef<HTMLElement>(null);
 
   useCollapseAnimation({collapsibleRef, collapsed, animation});
@@ -219,8 +193,6 @@ function CollapsibleBase({
       // @ts-expect-error: the "too complicated type" is produced from
       // "CollapsibleElementType" being a huge union
       ref={collapsibleRef as RefObject<never>} // Refs are contravariant, which is not expressible in TS
-      // Not even sure we need this SSRStyle anymore, try to remove it?
-      style={disableSSRStyle ? undefined : getSSRStyle({collapsed, isBrowser})}
       onTransitionEnd={(e: React.TransitionEvent) => {
         if (e.propertyName !== 'height') {
           return;

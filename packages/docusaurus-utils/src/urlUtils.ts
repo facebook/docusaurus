@@ -166,7 +166,8 @@ export function isValidPathname(str: string): boolean {
 
 export function parseURLOrPath(url: string, base?: string | URL): URL {
   try {
-    // TODO when Node supports it, use URL.parse could be faster?
+    // TODO Docusaurus v4: use URL.parse()
+    //  Node 24 supports it, use URL.parse could be faster?
     //  see https://kilianvalkhof.com/2024/javascript/the-problem-with-new-url-and-how-url-parse-fixes-that/
     return new URL(url, base ?? 'https://example.com');
   } catch (e) {

@@ -63,7 +63,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   path: 'blog',
   editLocalizedFiles: false,
   authorsMapPath: 'authors.yml',
-  readingTime: ({content, defaultReadingTime}) => defaultReadingTime({content}),
+  readingTime: ({content, defaultReadingTime, locale}) =>
+    defaultReadingTime({content, locale}),
   sortPosts: 'descending',
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,

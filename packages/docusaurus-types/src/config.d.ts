@@ -10,112 +10,13 @@ import type {RuleSetRule} from 'webpack';
 import type {DeepPartial, Overwrite} from 'utility-types';
 import type {I18nConfig} from './i18n';
 import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
-
-import type {ProcessorOptions} from '@mdx-js/mdx';
-
-export type RemarkRehypeOptions = ProcessorOptions['remarkRehypeOptions'];
-
-export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
+import type {ReportingSeverity} from './reporting';
+import type {MarkdownConfig} from './markdown';
 
 export type RouterType = 'browser' | 'hash';
 
 export type ThemeConfig = {
   [key: string]: unknown;
-};
-
-export type MarkdownPreprocessor = (args: {
-  filePath: string;
-  fileContent: string;
-}) => string;
-
-export type MDX1CompatOptions = {
-  comments: boolean;
-  admonitions: boolean;
-  headingIds: boolean;
-};
-
-export type ParseFrontMatterParams = {filePath: string; fileContent: string};
-export type ParseFrontMatterResult = {
-  frontMatter: {[key: string]: unknown};
-  content: string;
-};
-export type DefaultParseFrontMatter = (
-  params: ParseFrontMatterParams,
-) => Promise<ParseFrontMatterResult>;
-export type ParseFrontMatter = (
-  params: ParseFrontMatterParams & {
-    defaultParseFrontMatter: DefaultParseFrontMatter;
-  },
-) => Promise<ParseFrontMatterResult>;
-
-export type MarkdownAnchorsConfig = {
-  /**
-   * Preserves the case of the heading text when generating anchor ids.
-   */
-  maintainCase: boolean;
-};
-
-export type MarkdownConfig = {
-  /**
-   * The Markdown format to use by default.
-   *
-   * This is the format passed down to the MDX compiler, impacting the way the
-   * content is parsed.
-   *
-   * Possible values:
-   * - `'mdx'`: use the MDX format (JSX support)
-   * - `'md'`: use the CommonMark format (no JSX support)
-   * - `'detect'`: select the format based on file extension (.md / .mdx)
-   *
-   * @see https://mdxjs.com/packages/mdx/#optionsformat
-   * @default 'mdx'
-   */
-  format: 'mdx' | 'md' | 'detect';
-
-  /**
-   * A function callback that lets users parse the front matter themselves.
-   * Gives the opportunity to read it from a different source, or process it.
-   *
-   * @see https://github.com/facebook/docusaurus/issues/5568
-   */
-  parseFrontMatter: ParseFrontMatter;
-
-  /**
-   * Allow mermaid language code blocks to be rendered into Mermaid diagrams:
-   *
-   * - `true`: code blocks with language mermaid will be rendered.
-   * - `false` | `undefined` (default): code blocks with language mermaid
-   * will be left as code blocks.
-   *
-   * @see https://docusaurus.io/docs/markdown-features/diagrams/
-   * @default false
-   */
-  mermaid: boolean;
-
-  /**
-   * Gives opportunity to preprocess the MDX string content before compiling.
-   * A good escape hatch that can be used to handle edge cases.
-   *
-   * @param args
-   */
-  preprocessor?: MarkdownPreprocessor;
-
-  /**
-   * Set of flags make it easier to upgrade from MDX 1 to MDX 2
-   * See also https://github.com/facebook/docusaurus/issues/4029
-   */
-  mdx1Compat: MDX1CompatOptions;
-
-  /**
-   * Ability to provide custom remark-rehype options
-   * See also https://github.com/remarkjs/remark-rehype#options
-   */
-  remarkRehypeOptions: RemarkRehypeOptions;
-
-  /**
-   * Options to control the behavior of anchors generated from Markdown headings
-   */
-  anchors: MarkdownAnchorsConfig;
 };
 
 export type StorageConfig = {
@@ -130,9 +31,21 @@ export type FasterConfig = {
   lightningCssMinimizer: boolean;
   mdxCrossCompilerCache: boolean;
   rspackBundler: boolean;
+  rspackPersistentCache: boolean;
+  ssgWorkerThreads: boolean;
+};
+
+export type FutureV4Config = {
+  removeLegacyPostBuildHeadAttribute: boolean;
+  useCssCascadeLayers: boolean;
 };
 
 export type FutureConfig = {
+  /**
+   * Turns v4 future flags on
+   */
+  v4: FutureV4Config;
+
   experimental_faster: FasterConfig;
 
   experimental_storage: StorageConfig;
@@ -246,7 +159,8 @@ export type DocusaurusConfig = {
    * @see https://docusaurus.io/docs/api/docusaurus-config#onBrokenMarkdownLinks
    * @default "warn"
    */
-  onBrokenMarkdownLinks: ReportingSeverity;
+  // TODO Docusaurus v4 remove
+  onBrokenMarkdownLinks: ReportingSeverity | undefined;
   /**
    * The behavior of Docusaurus when it detects any [duplicate
    * routes](https://docusaurus.io/docs/creating-pages#duplicate-routes).
@@ -451,7 +365,8 @@ export type Config = Overwrite<
     future?: Overwrite<
       DeepPartial<FutureConfig>,
       {
-        experimental_faster?: boolean | FasterConfig;
+        v4?: boolean | Partial<FutureV4Config>;
+        experimental_faster?: boolean | Partial<FasterConfig>;
       }
     >;
   }

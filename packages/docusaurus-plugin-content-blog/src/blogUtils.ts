@@ -9,7 +9,6 @@ import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import readingTime from 'reading-time';
 import {
   parseMarkdownFile,
   normalizeUrl,
@@ -32,6 +31,7 @@ import {getTagsFile} from '@docusaurus/utils-validation';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {getBlogPostAuthors} from './authors';
 import {reportAuthorsProblems} from './authorsProblems';
+import {calculateReadingTime} from './readingTime';
 import type {TagsFile} from '@docusaurus/utils';
 import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
 import type {
@@ -210,8 +210,8 @@ async function parseBlogPostMarkdownFile({
   }
 }
 
-const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
-  readingTime(content, options).minutes;
+const defaultReadingTime: ReadingTimeFunction = ({content, locale, options}) =>
+  calculateReadingTime(content, locale, options);
 
 async function processBlogSourceFile(
   blogSourceRelative: string,
@@ -323,7 +323,9 @@ async function processBlogSourceFile(
     } else if (typeof editUrl === 'string') {
       const isLocalized = blogDirPath === contentPaths.contentPathLocalized;
       const fileContentPath =
-        isLocalized && options.editLocalizedFiles
+        isLocalized &&
+        options.editLocalizedFiles &&
+        contentPaths.contentPathLocalized
           ? contentPaths.contentPathLocalized
           : contentPaths.contentPath;
 
@@ -373,6 +375,7 @@ async function processBlogSourceFile(
             content,
             frontMatter,
             defaultReadingTime,
+            locale: i18n.currentLocale,
           })
         : undefined,
       hasTruncateMarker: truncateMarker.test(content),

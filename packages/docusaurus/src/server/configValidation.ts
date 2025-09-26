@@ -16,18 +16,45 @@ import {
   addLeadingSlash,
   removeTrailingSlash,
 } from '@docusaurus/utils-common';
+import logger from '@docusaurus/logger';
 import type {
   FasterConfig,
   FutureConfig,
+  FutureV4Config,
   StorageConfig,
-} from '@docusaurus/types/src/config';
-import type {
   DocusaurusConfig,
   I18nConfig,
   MarkdownConfig,
+  MarkdownHooks,
+  I18nLocaleConfig,
 } from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
+
+const SiteUrlSchema = Joi.string()
+  .custom((value: string, helpers) => {
+    try {
+      const {pathname} = new URL(value);
+      if (pathname !== '/') {
+        return helpers.error('docusaurus.subPathError', {pathname});
+      }
+    } catch {
+      return helpers.error('any.invalid');
+    }
+    return removeTrailingSlash(value);
+  })
+  .messages({
+    'any.invalid':
+      '"{#value}" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".',
+    'docusaurus.subPathError':
+      'The url is not supposed to contain a sub-path like "{#pathname}". Please use the baseUrl field for sub-paths.',
+  });
+
+const BaseUrlSchema = Joi
+  // Weird Joi trick needed, otherwise value '' is not normalized...
+  .alternatives()
+  .try(Joi.string().required().allow(''))
+  .custom((value: string) => addLeadingSlash(addTrailingSlash(value)));
 
 export const DEFAULT_I18N_CONFIG: I18nConfig = {
   defaultLocale: DEFAULT_I18N_LOCALE,
@@ -48,6 +75,8 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   lightningCssMinimizer: false,
   mdxCrossCompilerCache: false,
   rspackBundler: false,
+  rspackPersistentCache: false,
+  ssgWorkerThreads: false,
 };
 
 // When using the "faster: true" shortcut
@@ -58,17 +87,37 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   lightningCssMinimizer: true,
   mdxCrossCompilerCache: true,
   rspackBundler: true,
+  rspackPersistentCache: true,
+  ssgWorkerThreads: true,
+};
+
+export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
+  removeLegacyPostBuildHeadAttribute: false,
+  useCssCascadeLayers: false,
+};
+
+// When using the "v4: true" shortcut
+export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
+  removeLegacyPostBuildHeadAttribute: true,
+  useCssCascadeLayers: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
+  v4: DEFAULT_FUTURE_V4_CONFIG,
   experimental_faster: DEFAULT_FASTER_CONFIG,
   experimental_storage: DEFAULT_STORAGE_CONFIG,
   experimental_router: 'browser',
 };
 
+export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
+  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownImages: 'throw',
+};
+
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
   mermaid: false,
+  emoji: true,
   preprocessor: undefined,
   parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
   mdx1Compat: {
@@ -80,6 +129,7 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
     maintainCase: false,
   },
   remarkRehypeOptions: undefined,
+  hooks: DEFAULT_MARKDOWN_HOOKS,
 };
 
 export const DEFAULT_CONFIG: Pick<
@@ -110,7 +160,7 @@ export const DEFAULT_CONFIG: Pick<
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownLinks: undefined,
   onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
@@ -196,12 +246,14 @@ const PresetSchema = Joi.alternatives()
 - A simple string, like \`"classic"\``,
   });
 
-const LocaleConfigSchema = Joi.object({
+const LocaleConfigSchema = Joi.object<I18nLocaleConfig>({
   label: Joi.string(),
   htmlLang: Joi.string(),
-  direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
+  direction: Joi.string().equal('ltr', 'rtl'),
   calendar: Joi.string(),
   path: Joi.string(),
+  url: SiteUrlSchema,
+  baseUrl: BaseUrlSchema,
 });
 
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
@@ -232,6 +284,12 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
         DEFAULT_FASTER_CONFIG.mdxCrossCompilerCache,
       ),
       rspackBundler: Joi.boolean().default(DEFAULT_FASTER_CONFIG.rspackBundler),
+      rspackPersistentCache: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.rspackPersistentCache,
+      ),
+      ssgWorkerThreads: Joi.boolean().default(
+        DEFAULT_FASTER_CONFIG.ssgWorkerThreads,
+      ),
     }),
     Joi.boolean()
       .required()
@@ -241,6 +299,25 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
   )
   .optional()
   .default(DEFAULT_FASTER_CONFIG);
+
+const FUTURE_V4_SCHEMA = Joi.alternatives()
+  .try(
+    Joi.object<FutureV4Config>({
+      removeLegacyPostBuildHeadAttribute: Joi.boolean().default(
+        DEFAULT_FUTURE_V4_CONFIG.removeLegacyPostBuildHeadAttribute,
+      ),
+      useCssCascadeLayers: Joi.boolean().default(
+        DEFAULT_FUTURE_V4_CONFIG.useCssCascadeLayers,
+      ),
+    }),
+    Joi.boolean()
+      .required()
+      .custom((bool) =>
+        bool ? DEFAULT_FUTURE_V4_CONFIG_TRUE : DEFAULT_FUTURE_V4_CONFIG,
+      ),
+  )
+  .optional()
+  .default(DEFAULT_FUTURE_V4_CONFIG);
 
 const STORAGE_CONFIG_SCHEMA = Joi.object({
   type: Joi.string()
@@ -254,6 +331,7 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   .default(DEFAULT_STORAGE_CONFIG);
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
+  v4: FUTURE_V4_SCHEMA,
   experimental_faster: FASTER_CONFIG_SCHEMA,
   experimental_storage: STORAGE_CONFIG_SCHEMA,
   experimental_router: Joi.string()
@@ -263,38 +341,13 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   .optional()
   .default(DEFAULT_FUTURE_CONFIG);
 
-const SiteUrlSchema = Joi.string()
-  .required()
-  .custom((value: string, helpers) => {
-    try {
-      const {pathname} = new URL(value);
-      if (pathname !== '/') {
-        return helpers.error('docusaurus.subPathError', {pathname});
-      }
-    } catch {
-      return helpers.error('any.invalid');
-    }
-    return removeTrailingSlash(value);
-  })
-  .messages({
-    'any.invalid':
-      '"{#value}" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".',
-    'docusaurus.subPathError':
-      'The url is not supposed to contain a sub-path like "{#pathname}". Please use the baseUrl field for sub-paths.',
-  });
-
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object<DocusaurusConfig>({
-  baseUrl: Joi
-    // Weird Joi trick needed, otherwise value '' is not normalized...
-    .alternatives()
-    .try(Joi.string().required().allow(''))
-    .required()
-    .custom((value: string) => addLeadingSlash(addTrailingSlash(value))),
+  url: SiteUrlSchema.required(),
+  baseUrl: BaseUrlSchema.required(),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().optional(),
   title: Joi.string().required(),
-  url: SiteUrlSchema,
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   future: FUTURE_CONFIG_SCHEMA,
@@ -306,7 +359,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     .default(DEFAULT_CONFIG.onBrokenAnchors),
   onBrokenMarkdownLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
-    .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),
+    .default(() => DEFAULT_CONFIG.onBrokenMarkdownLinks),
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
@@ -386,6 +439,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       () => DEFAULT_CONFIG.markdown.parseFrontMatter,
     ),
     mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
+    emoji: Joi.boolean().default(DEFAULT_CONFIG.markdown.emoji),
     preprocessor: Joi.function()
       .arity(1)
       .optional()
@@ -411,11 +465,68 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         DEFAULT_CONFIG.markdown.anchors.maintainCase,
       ),
     }).default(DEFAULT_CONFIG.markdown.anchors),
+    hooks: Joi.object<MarkdownHooks>({
+      onBrokenMarkdownLinks: Joi.alternatives()
+        .try(
+          Joi.string().equal('ignore', 'log', 'warn', 'throw'),
+          Joi.function(),
+        )
+        .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownLinks),
+      onBrokenMarkdownImages: Joi.alternatives()
+        .try(
+          Joi.string().equal('ignore', 'log', 'warn', 'throw'),
+          Joi.function(),
+        )
+        .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownImages),
+    }).default(DEFAULT_CONFIG.markdown.hooks),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
 });
+
+// Expressing this kind of logic in Joi is a pain
+// We also want to decouple logic from Joi: easier to remove it later!
+function postProcessDocusaurusConfig(config: DocusaurusConfig) {
+  if (config.onBrokenMarkdownLinks) {
+    logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
+Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
+    // For v3 retro compatibility we use the old attribute over the new one
+    config.markdown.hooks.onBrokenMarkdownLinks = config.onBrokenMarkdownLinks;
+    // We erase the former one to ensure we don't use it anywhere
+    config.onBrokenMarkdownLinks = undefined;
+  }
+
+  if (
+    config.future.experimental_faster.ssgWorkerThreads &&
+    !config.future.v4.removeLegacyPostBuildHeadAttribute
+  ) {
+    throw new Error(
+      `Docusaurus config ${logger.code(
+        'future.experimental_faster.ssgWorkerThreads',
+      )} requires the future flag ${logger.code(
+        'future.v4.removeLegacyPostBuildHeadAttribute',
+      )} to be turned on.
+If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: ${logger.code(
+        '{future: {v4: true}}',
+      )}
+All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future`,
+    );
+  }
+
+  if (
+    config.future.experimental_faster.rspackPersistentCache &&
+    !config.future.experimental_faster.rspackBundler
+  ) {
+    throw new Error(
+      `Docusaurus config flag ${logger.code(
+        'future.experimental_faster.rspackPersistentCache',
+      )} requires the flag ${logger.code(
+        'future.experimental_faster.rspackBundler',
+      )} to be turned on.`,
+    );
+  }
+}
 
 // TODO move to @docusaurus/utils-validation
 export function validateConfig(
@@ -448,7 +559,9 @@ export function validateConfig(
       ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${siteConfigPath}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/api/docusaurus-config/#customfields`
       : formattedError;
     throw new Error(formattedError);
-  } else {
-    return value;
   }
+
+  postProcessDocusaurusConfig(value);
+
+  return value;
 }

@@ -7,6 +7,7 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 import LinkItem from '@theme/Footer/LinkItem';
 import type {Props} from '@theme/Footer/Links/MultiColumn';
 
@@ -30,7 +31,12 @@ function ColumnLinkItem({item}: {item: ColumnItemType}) {
 
 function Column({column}: {column: ColumnType}) {
   return (
-    <div className={clsx('col footer__col', column.className)}>
+    <div
+      className={clsx(
+        ThemeClassNames.layout.footer.column,
+        'col footer__col',
+        column.className,
+      )}>
       <div className="footer__title">{column.title}</div>
       <ul className="footer__items clean-list">
         {column.items.map((item, i) => (

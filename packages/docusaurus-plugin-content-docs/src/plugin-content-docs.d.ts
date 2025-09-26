@@ -20,7 +20,11 @@ declare module '@docusaurus/plugin-content-docs' {
     TagMetadata,
     TagsPluginOptions,
   } from '@docusaurus/utils';
-  import type {Plugin, LoadContext} from '@docusaurus/types';
+  import type {
+    Plugin,
+    LoadContext,
+    OptionValidationContext,
+  } from '@docusaurus/types';
   import type {Overwrite, Required} from 'utility-types';
 
   export type Assets = {
@@ -559,6 +563,10 @@ declare module '@docusaurus/plugin-content-docs' {
     context: LoadContext,
     options: PluginOptions,
   ): Promise<Plugin<LoadedContent>>;
+
+  export function validateOptions(
+    args: OptionValidationContext<Options | undefined, PluginOptions>,
+  ): PluginOptions;
 }
 
 declare module '@theme/DocItem' {

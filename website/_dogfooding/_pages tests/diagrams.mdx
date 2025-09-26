@@ -447,3 +447,88 @@ architecture-beta
     disk1:T -- B:server
     disk2:T -- B:db
 ```
+
+## ELK Styling
+
+Mermaid provides an [ELK layout](https://mermaid.js.org/syntax/entityRelationshipDiagram.html#layout)
+
+### Dagre
+
+This is a "classical" Mermaid diagram, using the default Dagre layout.
+
+```mermaid
+erDiagram
+
+  COMPANY ||--o{ DEPARTMENT : has
+  COMPANY ||--o{ PROJECT : undertakes
+  COMPANY ||--o{ LOCATION : operates_in
+  COMPANY ||--o{ CLIENT : serves
+
+  DEPARTMENT ||--o{ EMPLOYEE : employs
+  DEPARTMENT ||--o{ PROJECT : manages
+  DEPARTMENT ||--o{ BUDGET : allocated
+
+  EMPLOYEE }o--o{ PROJECT : works_on
+  EMPLOYEE ||--|| ADDRESS : lives_at
+  EMPLOYEE }o--o{ SKILL : has
+  EMPLOYEE ||--o{ DEPENDENT : supports
+
+  PROJECT ||--o{ CLIENT : for
+  PROJECT ||--o{ TASK : contains
+
+```
+
+### ELK er diagram layout
+
+This ER diagram should look different, using the ELK layout.
+
+```mermaid
+---
+config:
+  layout: elk
+---
+erDiagram
+
+  COMPANY ||--o{ DEPARTMENT : has
+  COMPANY ||--o{ PROJECT : undertakes
+  COMPANY ||--o{ LOCATION : operates_in
+  COMPANY ||--o{ CLIENT : serves
+
+  DEPARTMENT ||--o{ EMPLOYEE : employs
+  DEPARTMENT ||--o{ PROJECT : manages
+  DEPARTMENT ||--o{ BUDGET : allocated
+
+  EMPLOYEE }o--o{ PROJECT : works_on
+  EMPLOYEE ||--|| ADDRESS : lives_at
+  EMPLOYEE }o--o{ SKILL : has
+  EMPLOYEE ||--o{ DEPENDENT : supports
+
+  PROJECT ||--o{ CLIENT : for
+  PROJECT ||--o{ TASK : contains
+
+```
+
+Mermaid also provides a way of setting config parameters using a directive `%%{init:{"layout":"elk"}}%%`
+
+```mermaid
+%%{init:{"layout":"elk"}}%%
+erDiagram
+
+  COMPANY ||--o{ DEPARTMENT : has
+  COMPANY ||--o{ PROJECT : undertakes
+  COMPANY ||--o{ LOCATION : operates_in
+  COMPANY ||--o{ CLIENT : serves
+
+  DEPARTMENT ||--o{ EMPLOYEE : employs
+  DEPARTMENT ||--o{ PROJECT : manages
+  DEPARTMENT ||--o{ BUDGET : allocated
+
+  EMPLOYEE }o--o{ PROJECT : works_on
+  EMPLOYEE ||--|| ADDRESS : lives_at
+  EMPLOYEE }o--o{ SKILL : has
+  EMPLOYEE ||--o{ DEPENDENT : supports
+
+  PROJECT ||--o{ CLIENT : for
+  PROJECT ||--o{ TASK : contains
+
+```

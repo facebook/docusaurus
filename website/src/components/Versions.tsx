@@ -19,6 +19,12 @@ import {
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
+import versions from '@site/versions.json';
+
+export const CurrentMajorVersionNumber = parseInt(
+  versions[0]!.split('.')[0]!,
+  10,
+);
 
 type ContextValue = {
   name: string;
@@ -91,23 +97,8 @@ export function StableVersion(): ReactNode {
   return <span>{currentVersion}</span>;
 }
 
-// TODO temporary: assumes main is already on v3 (not the case yet)
-function useNextMajorVersionNumber(): number {
-  return 3; // TODO later read from main@package.json or something...
-}
-function useStableMajorVersionNumber(): number {
-  // -1 because website is published from main, which is the next version
-  return useNextMajorVersionNumber() - 1;
-}
-
-export function NextMajorVersion(): ReactNode {
-  const majorVersionNumber = useNextMajorVersionNumber();
-  return <span>{majorVersionNumber}</span>;
-}
-
 export function StableMajorVersion(): ReactNode {
-  const majorVersionNumber = useStableMajorVersionNumber();
-  return <span>{majorVersionNumber}</span>;
+  return <span>{CurrentMajorVersionNumber}</span>;
 }
 
 function GitBranchLink({branch}: {branch: string}): ReactNode {
@@ -119,12 +110,11 @@ function GitBranchLink({branch}: {branch: string}): ReactNode {
 }
 
 export function StableMajorBranchLink(): ReactNode {
-  const majorVersionNumber = useStableMajorVersionNumber();
-  const branch = `docusaurus-v${majorVersionNumber}`;
-  return <GitBranchLink branch={branch} />;
+  // Can't be a link until the branch actually exists...
+  return <code>{`docusaurus-v${CurrentMajorVersionNumber}`}</code>;
 }
 
-export function NextMajorBranchLink(): ReactNode {
+export function MainBranchLink(): ReactNode {
   return <GitBranchLink branch="main" />;
 }
 

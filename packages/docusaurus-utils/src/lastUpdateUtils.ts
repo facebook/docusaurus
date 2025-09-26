@@ -15,10 +15,18 @@ import {
 import type {PluginOptions} from '@docusaurus/types';
 
 export type LastUpdateData = {
-  /** A timestamp in **milliseconds**, usually read from `git log` */
-  lastUpdatedAt?: number;
-  /** The author's name, usually coming from `git log` */
-  lastUpdatedBy?: string;
+  /**
+   * A timestamp in **milliseconds**, usually read from `git log`
+   * `undefined`: not read
+   * `null`: no value to read (usual for untracked files)
+   */
+  lastUpdatedAt: number | undefined | null;
+  /**
+   * The author's name, usually coming from `git log`
+   * `undefined`: not read
+   * `null`: no value to read (usual for untracked files)
+   */
+  lastUpdatedBy: string | undefined | null;
 };
 
 let showedGitRequirementError = false;
@@ -68,10 +76,19 @@ export const LAST_UPDATE_FALLBACK: LastUpdateData = {
   lastUpdatedBy: 'Author',
 };
 
+// Not proud of this, but convenient for tests :/
+export const LAST_UPDATE_UNTRACKED_GIT_FILEPATH = `file/path/${Math.random()}.mdx`;
+
 export async function getLastUpdate(
   filePath: string,
 ): Promise<LastUpdateData | null> {
-  if (process.env.NODE_ENV !== 'production') {
+  if (filePath === LAST_UPDATE_UNTRACKED_GIT_FILEPATH) {
+    return null;
+  }
+  if (
+    process.env.NODE_ENV !== 'production' ||
+    process.env.DOCUSAURUS_DISABLE_LAST_UPDATE === 'true'
+  ) {
     // Use fake data in dev/test for faster development.
     return LAST_UPDATE_FALLBACK;
   }
@@ -100,7 +117,7 @@ export async function readLastUpdateData(
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
 
   if (!showLastUpdateAuthor && !showLastUpdateTime) {
-    return {};
+    return {lastUpdatedBy: undefined, lastUpdatedAt: undefined};
   }
 
   const frontMatterAuthor = lastUpdateFrontMatter?.author;
@@ -113,9 +130,21 @@ export async function readLastUpdateData(
   // If all the data is provided as front matter, we do not call it
   const getLastUpdateMemoized = _.memoize(() => getLastUpdate(filePath));
   const getLastUpdateBy = () =>
-    getLastUpdateMemoized().then((update) => update?.lastUpdatedBy);
+    getLastUpdateMemoized().then((update) => {
+      // Important, see https://github.com/facebook/docusaurus/pull/11211
+      if (update === null) {
+        return null;
+      }
+      return update?.lastUpdatedBy;
+    });
   const getLastUpdateAt = () =>
-    getLastUpdateMemoized().then((update) => update?.lastUpdatedAt);
+    getLastUpdateMemoized().then((update) => {
+      // Important, see https://github.com/facebook/docusaurus/pull/11211
+      if (update === null) {
+        return null;
+      }
+      return update?.lastUpdatedAt;
+    });
 
   const lastUpdatedBy = showLastUpdateAuthor
     ? frontMatterAuthor ?? (await getLastUpdateBy())

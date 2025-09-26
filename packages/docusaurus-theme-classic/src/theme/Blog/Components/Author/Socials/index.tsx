@@ -23,6 +23,7 @@ import Threads from '@theme/Icon/Socials/Threads';
 import Youtube from '@theme/Icon/Socials/YouTube';
 import Mastodon from '@theme/Icon/Socials/Mastodon';
 import Twitch from '@theme/Icon/Socials/Twitch';
+import Email from '@theme/Icon/Socials/Email';
 
 import styles from './styles.module.css';
 
@@ -42,6 +43,7 @@ const SocialPlatformConfigs: Record<string, SocialPlatformConfig> = {
   mastodon: {Icon: Mastodon, label: 'Mastodon'},
   youtube: {Icon: Youtube, label: 'YouTube'},
   twitch: {Icon: Twitch, label: 'Twitch'},
+  email: {Icon: Email, label: 'Email'},
 };
 
 function getSocialPlatformConfig(platformKey: string): SocialPlatformConfig {
@@ -57,7 +59,7 @@ function SocialLink({platform, link}: {platform: string; link: string}) {
   const {Icon, label} = getSocialPlatformConfig(platform);
   return (
     <Link className={styles.authorSocialLink} href={link} title={label}>
-      <Icon className={clsx(styles.authorSocialLink)} />
+      <Icon className={clsx(styles.authorSocialIcon)} />
     </Link>
   );
 }

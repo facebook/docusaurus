@@ -24,6 +24,12 @@ import TabItem from '@theme/TabItem'
       $ pnpm add --global docusaurus
     \`\`\`
   </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+      $ bun add --global docusaurus
+    \`\`\`
+  </TabItem>
 </Tabs>
 
 <div className="nested-npm2yarn">
@@ -43,6 +49,12 @@ import TabItem from '@theme/TabItem'
     <TabItem value="pnpm" label="pnpm">
       \`\`\`bash
       pnpm install
+      \`\`\`
+    </TabItem>
+
+    <TabItem value="bun" label="Bun">
+      \`\`\`bash
+      bun install
       \`\`\`
     </TabItem>
   </Tabs>
@@ -68,6 +80,12 @@ echo "no npm2yarn here"
   </TabItem>
 
   <TabItem value="pnpm" label="pnpm">
+    \`\`\`bash
+    yarn add @docusaurus/core
+    \`\`\`
+  </TabItem>
+
+  <TabItem value="bun" label="Bun">
     \`\`\`bash
     yarn add @docusaurus/core
     \`\`\`
@@ -99,6 +117,12 @@ import TabItem from '@theme/TabItem';
       $ pnpm add --global docusaurus
     \`\`\`
   </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+      $ bun add --global docusaurus
+    \`\`\`
+  </TabItem>
 </Tabs>
 "
 `;
@@ -120,6 +144,12 @@ exports[`npm2yarn plugin does not re-import tabs components when already importe
   <TabItem value="pnpm" label="pnpm">
     \`\`\`bash
       $ pnpm add --global docusaurus
+    \`\`\`
+  </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+      $ bun add --global docusaurus
     \`\`\`
   </TabItem>
 </Tabs>
@@ -263,6 +293,12 @@ import TabItem from '@theme/TabItem'
       $ pnpm add --global docusaurus
     \`\`\`
   </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+      $ bun add --global docusaurus
+    \`\`\`
+  </TabItem>
 </Tabs>
 "
 `;
@@ -293,6 +329,12 @@ A plugin is usually a npm package, so you install them like other npm packages u
     pnpm add docusaurus-plugin-name
     \`\`\`
   </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+    bun add docusaurus-plugin-name
+    \`\`\`
+  </TabItem>
 </Tabs>
 "
 `;
@@ -319,6 +361,12 @@ import TabItem from '@theme/TabItem'
     pnpm run xxx --arg
     \`\`\`
   </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+    bun run xxx --arg
+    \`\`\`
+  </TabItem>
 </Tabs>
 
 <Tabs groupId="npm2yarn">
@@ -339,6 +387,12 @@ import TabItem from '@theme/TabItem'
     pnpm add package
     \`\`\`
   </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+    bun add package
+    \`\`\`
+  </TabItem>
 </Tabs>
 
 <Tabs groupId="npm2yarn">
@@ -357,6 +411,12 @@ import TabItem from '@theme/TabItem'
   <TabItem value="pnpm" label="pnpm">
     \`\`\`bash
     pnpm remove package-name
+    \`\`\`
+  </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+    bun remove package-name
     \`\`\`
   </TabItem>
 </Tabs>
@@ -380,6 +440,13 @@ import TabItem from '@theme/TabItem'
     \`\`\`bash
     pnpm create docusaurus
     pnpm create docusaurus@latest my-website classic
+    \`\`\`
+  </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+    bunx create-docusaurus
+    bunx create-docusaurus@latest my-website classic
     \`\`\`
   </TabItem>
 </Tabs>
@@ -412,6 +479,12 @@ Hey
     pnpm add test
     \`\`\`
   </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+    bun add test
+    \`\`\`
+  </TabItem>
 </Tabs>
 "
 `;
@@ -440,6 +513,12 @@ A plugin is usually a npm package, so you install them like other npm packages u
   <TabItem value="pnpm" label="pnpm">
     \`\`\`bash
     pnpm add docusaurus-plugin-name
+    \`\`\`
+  </TabItem>
+
+  <TabItem value="bun" label="Bun">
+    \`\`\`bash
+    bun add docusaurus-plugin-name
     \`\`\`
   </TabItem>
 </Tabs>

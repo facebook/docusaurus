@@ -158,7 +158,7 @@ const Users: User[] = [
   },
   {
     title: 'Blogasaurus',
-    description: 'A blog written using Docasaurus.',
+    description: 'A blog written using Docusaurus.',
     preview: require('./showcase/blogasaurus.png'),
     website: 'https://blog.palashsh.me/',
     source: 'https://github.com/BattleOfPlassey/blogasaurus',
@@ -301,10 +301,10 @@ const Users: User[] = [
   {
     title: 'Datagit',
     description:
-      'A persian tutorial website strive to make quality education for everyone.',
+      'A Persian tutorial website strives to make quality education for everyone.',
     preview: require('./showcase/datagit.png'),
     website: 'https://datagit.ir/',
-    source: 'https://github.com/ghaseminya/datagit_v2.docusaurus',
+    source: 'https://github.com/massoudmaboudi/datagit',
     tags: ['opensource', 'favorite', 'rtl'],
   },
   {
@@ -1819,7 +1819,7 @@ const Users: User[] = [
     description:
       'A DSL for building full-stack web apps with less boilerplate.',
     preview: require('./showcase/wasp.png'),
-    website: 'https://wasp-lang.dev/',
+    website: 'https://wasp.sh/',
     source: 'https://github.com/wasp-lang/wasp/tree/main/web',
     tags: ['opensource'],
   },

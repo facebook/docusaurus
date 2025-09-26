@@ -9,12 +9,13 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {PrismTheme} from 'prism-react-renderer';
 import type {DeepPartial} from 'utility-types';
 import type {MagicCommentConfig} from './codeBlockUtils';
+import type {ColorMode} from '../contexts/colorMode';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
 // TODO improve types, use unions
 export type NavbarItem = {
-  type?: string | undefined;
+  type?: string;
   items?: NavbarItem[];
   label?: string;
   position?: 'left' | 'right';
@@ -44,7 +45,7 @@ export type Navbar = {
 };
 
 export type ColorModeConfig = {
-  defaultMode: 'light' | 'dark';
+  defaultMode: ColorMode;
   disableSwitch: boolean;
   respectPrefersColorScheme: boolean;
 };
@@ -103,6 +104,7 @@ export type TableOfContents = {
   maxHeadingLevel: number;
 };
 
+// TODO Docusaurus v4: use interface + declaration merging to enhance
 // Theme config after validation/normalization
 export type ThemeConfig = {
   docs: {

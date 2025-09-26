@@ -110,6 +110,10 @@ const router = process.env
 
 const isDev = process.env.NODE_ENV === 'development';
 
+// See https://docs.netlify.com/configure-builds/environment-variables/
+const isProductionDeployment =
+  !!process.env.NETLIFY && process.env.CONTEXT === 'production';
+
 const isDeployPreview =
   !!process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
 
@@ -153,6 +157,11 @@ function getLocalizedConfigValue(key: keyof typeof ConfigLocalized) {
   return value;
 }
 
+// By default, we don't want to run "git log" commands on i18n sites
+// This makes localized sites build much slower on Netlify
+// See also https://github.com/facebook/docusaurus/issues/11208
+const showLastUpdate = process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale;
+
 export default async function createConfigAsync() {
   return {
     title: 'Docusaurus',
@@ -163,7 +172,20 @@ export default async function createConfigAsync() {
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
     future: {
-      experimental_faster: !isSlower,
+      v4: !isSlower, // Not accurate, but good enough
+      experimental_faster: isSlower
+        ? false
+        : {
+            // Verbose object: easier to independently test single attributes
+            swcJsLoader: true,
+            swcJsMinimizer: true,
+            swcHtmlMinimizer: true,
+            lightningCssMinimizer: true,
+            mdxCrossCompilerCache: true,
+            rspackBundler: true,
+            rspackPersistentCache: true,
+            ssgWorkerThreads: true,
+          },
       experimental_storage: {
         namespace: true,
       },
@@ -195,6 +217,9 @@ export default async function createConfigAsync() {
     markdown: {
       format: 'detect',
       mermaid: true,
+      hooks: {
+        onBrokenMarkdownLinks: 'warn',
+      },
       mdx1Compat: {
         // comments: false,
       },
@@ -243,7 +268,6 @@ export default async function createConfigAsync() {
       process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
         ? 'warn'
         : 'throw',
-    onBrokenMarkdownLinks: 'warn',
     favicon: 'img/docusaurus.ico',
     customFields: {
       crashTest,
@@ -261,6 +285,21 @@ export default async function createConfigAsync() {
     ],
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
+      function disableExpensiveBundlerOptimizationPlugin() {
+        return {
+          name: 'disable-expensive-bundler-optimizations',
+          configureWebpack(_config, isServer) {
+            // This optimization is expensive and only reduces by 3% the JS
+            // Let's skip it for local and deploy preview builds
+            // See also https://github.com/facebook/docusaurus/discussions/11199
+            return {
+              optimization: {
+                concatenateModules: isProductionDeployment ? !isServer : false,
+              },
+            };
+          },
+        };
+      },
       isRsdoctor && [
         'rsdoctor',
         {
@@ -281,9 +320,13 @@ export default async function createConfigAsync() {
         },
       ],
       [
-        './src/plugins/changelog/index.js',
+        './src/plugins/changelog/index.ts',
         {
           blogTitle: 'Docusaurus changelog',
+          // Not useful, but permits to run git commands earlier
+          // Otherwise the sitemap plugin will run them in postBuild()
+          showLastUpdateAuthor: showLastUpdate,
+          showLastUpdateTime: showLastUpdate,
           blogDescription:
             'Keep yourself up-to-date about new features in every release',
           blogSidebarCount: 'ALL',
@@ -319,11 +362,11 @@ export default async function createConfigAsync() {
           remarkPlugins: [npm2yarn],
           editCurrentVersion: true,
           sidebarPath: './sidebarsCommunity.js',
-          showLastUpdateAuthor: true,
-          showLastUpdateTime: true,
+          showLastUpdateAuthor: showLastUpdate,
+          showLastUpdateTime: showLastUpdate,
         } satisfies DocsOptions,
       ],
-      [
+      !process.env.DOCUSAURUS_SKIP_BUNDLING && [
         'client-redirects',
         {
           fromExtensions: ['html'],
@@ -357,7 +400,6 @@ export default async function createConfigAsync() {
       ],
       [
         'ideal-image',
-
         {
           quality: 70,
           max: 1030,
@@ -455,8 +497,8 @@ export default async function createConfigAsync() {
             admonitions: {
               keywords: ['my-custom-admonition'],
             },
-            showLastUpdateAuthor: true,
-            showLastUpdateTime: true,
+            showLastUpdateAuthor: showLastUpdate,
+            showLastUpdateTime: showLastUpdate,
             remarkPlugins: [[npm2yarn, {sync: true}], remarkMath, configTabs],
             rehypePlugins: [rehypeKatex],
             disableVersioning: isVersioningDisabled,
@@ -489,8 +531,8 @@ export default async function createConfigAsync() {
           blog: {
             // routeBasePath: '/',
             path: 'blog',
-            showLastUpdateAuthor: true,
-            showLastUpdateTime: true,
+            showLastUpdateAuthor: showLastUpdate,
+            showLastUpdateTime: showLastUpdate,
             editUrl: ({locale, blogDirPath, blogPath}) => {
               if (locale !== defaultLocale) {
                 return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -527,8 +569,8 @@ export default async function createConfigAsync() {
               }
               return `https://github.com/facebook/docusaurus/edit/main/website/src/pages/${pagesPath}`;
             },
-            showLastUpdateAuthor: true,
-            showLastUpdateTime: true,
+            showLastUpdateAuthor: showLastUpdate,
+            showLastUpdateTime: showLastUpdate,
           } satisfies PageOptions,
           theme: {
             customCss: [
@@ -547,7 +589,7 @@ export default async function createConfigAsync() {
               ? undefined
               : // Note: /tests/docs already has noIndex: true
                 ['/tests/{blog,pages}/**'],
-            lastmod: 'date',
+            lastmod: showLastUpdate ? 'date' : null,
             priority: null,
             changefreq: null,
           },
@@ -613,6 +655,19 @@ export default async function createConfigAsync() {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
         indexName: 'docusaurus-2',
+
+        // TODO Docusaurus v4: remove after we drop DocSearch v3
+        //  temporary, for DocSearch v3/v4 conditional Ask AI integration
+        //  see https://github.com/facebook/docusaurus/pull/11327
+        // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+        ...(require('@docsearch/react').version.startsWith('4.')
+          ? {
+              // cSpell:ignore IMYF
+              askAi: 'RgIMYFUmTfrN',
+              // indexName: 'docusaurus-markdown',
+            }
+          : {}),
+
         replaceSearchResultPathname:
           isDev || isDeployPreview
             ? {
@@ -789,14 +844,14 @@ export default async function createConfigAsync() {
               {
                 html: `
                 <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
-                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
+                  <img src="/img/footer/badge-netlify.svg" alt="Deploys by Netlify" width="114" height="51" />
                 </a>
               `,
               },
               {
                 html: `
                 <a href="https://argos-ci.com" target="_blank" rel="noreferrer noopener" aria-label="Covered by Argos">
-                  <img src="https://argos-ci.com/badge.svg" alt="Covered by Argos" width="133" height="20" />
+                  <img src="/img/footer/badge-argos.svg" alt="Covered by Argos" width="133" height="20" />
                 </a>
               `,
               },

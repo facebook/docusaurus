@@ -9,13 +9,13 @@ import fs from 'fs-extra';
 import path from 'path';
 import {getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {
+  createJsLoaderFactory,
   getCSSExtractPlugin,
   getMinimizers,
-  createJsLoaderFactory,
 } from '@docusaurus/bundler';
-
-import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
-import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
+import {getFileLoaderUtils, md5Hash} from '@docusaurus/utils';
+import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
+import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
 import type {Configuration} from 'webpack';
 import type {
   ConfigureWebpackUtils,
@@ -26,14 +26,6 @@ import type {
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
-
-const LibrariesToTranspile = [
-  'copy-text-to-clipboard', // Contains optional catch binding, incompatible with recent versions of Edge
-];
-
-const LibrariesToTranspileRegex = new RegExp(
-  LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
-);
 
 function getReactAliases(siteDir: string): Record<string, string> {
   // Escape hatch
@@ -57,8 +49,7 @@ export function excludeJS(modulePath: string): boolean {
   // Don't transpile node_modules except any docusaurus npm package
   return (
     modulePath.includes('node_modules') &&
-    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath) &&
-    !LibrariesToTranspileRegex.test(modulePath)
+    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath)
   );
 }
 
@@ -103,55 +94,98 @@ export async function createBaseConfig({
     currentBundler: props.currentBundler,
   });
 
+  // Can we share the same cache across locales?
+  // Exploring that question at https://github.com/webpack/webpack/issues/13034
+  function getCacheName() {
+    return `${name}-${mode}-${props.i18n.currentLocale}`;
+  }
+
+  // When the version string changes, the cache is evicted
+  function getCacheVersion() {
+    // Because Webpack does not evict the cache on alias/swizzle changes,
+    // See https://github.com/webpack/webpack/issues/13627
+    const themeAliasesHash = md5Hash(JSON.stringify(themeAliases));
+    return `${siteMetadata.docusaurusVersion}-${themeAliasesHash}`;
+  }
+
+  // When one of those modules/dependencies change (including transitive
+  // deps), cache is invalidated
+  function getCacheBuildDependencies(): string[] {
+    return [
+      __filename,
+      path.join(__dirname, isServer ? 'server.js' : 'client.js'),
+      // Docusaurus config changes can affect MDX/JSX compilation, so we'd
+      // rather evict the cache.
+      // See https://github.com/questdb/questdb.io/issues/493
+      siteConfigPath,
+    ];
+  }
+
   function getCache(): Configuration['cache'] {
-    if (props.currentBundler.name === 'rspack') {
-      // TODO Rspack only supports memory cache (as of Sept 2024)
-      // TODO re-enable file persistent cache one Rspack supports it
-      //  See also https://rspack.dev/config/cache#cache
-      return undefined;
+    // Use default: memory cache in dev, nothing in prod
+    // See https://rspack.dev/config/cache#cache
+    const disabledPersistentCacheValue = undefined;
+
+    if (process.env.DOCUSAURUS_NO_PERSISTENT_CACHE) {
+      return disabledPersistentCacheValue;
     }
+    if (props.currentBundler.name === 'rspack') {
+      if (props.siteConfig.future.experimental_faster.rspackPersistentCache) {
+        // Use cache: true + experiments.cache.type: "persistent"
+        // See https://rspack.dev/config/experiments#persistent-cache
+        return true;
+      } else {
+        return disabledPersistentCacheValue;
+      }
+    }
+
     return {
       type: 'filesystem',
-      // Can we share the same cache across locales?
-      // Exploring that question at https://github.com/webpack/webpack/issues/13034
-      // name: `${name}-${mode}`,
-      name: `${name}-${mode}-${props.i18n.currentLocale}`,
-      // When version string changes, cache is evicted
-      version: [
-        siteMetadata.docusaurusVersion,
-        // Webpack does not evict the cache correctly on alias/swizzle change,
-        // so we force eviction.
-        // See https://github.com/webpack/webpack/issues/13627
-        md5Hash(JSON.stringify(themeAliases)),
-      ].join('-'),
-      // When one of those modules/dependencies change (including transitive
-      // deps), cache is invalidated
+      name: getCacheName(),
+      version: getCacheVersion(),
       buildDependencies: {
-        config: [
-          __filename,
-          path.join(__dirname, isServer ? 'server.js' : 'client.js'),
-          // Docusaurus config changes can affect MDX/JSX compilation, so we'd
-          // rather evict the cache.
-          // See https://github.com/questdb/questdb.io/issues/493
-          siteConfigPath,
-        ],
+        config: getCacheBuildDependencies(),
       },
     };
   }
 
   function getExperiments(): Configuration['experiments'] {
     if (props.currentBundler.name === 'rspack') {
-      return {
-        // This is mostly useful in dev
-        // See https://rspack.dev/config/experiments#experimentsincremental
-        // Produces warnings in production builds
-        // See https://github.com/web-infra-dev/rspack/pull/8311#issuecomment-2476014664
-        // We use the same integration as Rspress, with ability to disable
-        // See https://github.com/web-infra-dev/rspress/pull/1631
-        // See https://github.com/facebook/docusaurus/issues/10646
-        // @ts-expect-error: Rspack-only, not available in Webpack typedefs
-        incremental: !isProd && !process.env.DISABLE_RSPACK_INCREMENTAL,
-      };
+      // TODO find a way to type this
+      const experiments: any = {};
+
+      if (!process.env.DOCUSAURUS_NO_PERSISTENT_CACHE) {
+        experiments.cache = {
+          type: 'persistent',
+          // Rspack doesn't have "cache.name" like Webpack
+          // This is not ideal but work around is to merge name/version
+          // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
+          version: `${getCacheName()}-${getCacheVersion()}`,
+          buildDependencies: getCacheBuildDependencies(),
+        };
+      }
+
+      if (process.env.DISABLE_RSPACK_INCREMENTAL) {
+        // Enabled by default since Rspack 1.4
+        console.log('Rspack incremental disabled');
+        experiments.incremental = false;
+      }
+
+      // See https://rspack.rs/blog/announcing-1-5#barrel-file-optimization
+      if (process.env.DISABLE_RSPACK_LAZY_BARREL) {
+        console.log('Rspack lazyBarrel disabled');
+        experiments.lazyBarrel = false;
+      } else {
+        // TODO remove after we upgrade to Rspack 1.6+
+        //  Enabled by default for Rspack >= 1.6
+        experiments.lazyBarrel = true;
+      }
+
+      // TODO re-enable later, there's an Rspack performance issue
+      //  see https://github.com/facebook/docusaurus/pull/11178
+      experiments.parallelCodeSplitting = false;
+
+      return experiments;
     }
     return undefined;
   }
@@ -212,7 +246,13 @@ export async function createBaseConfig({
       modules: ['node_modules', path.join(siteDir, 'node_modules')],
     },
     optimization: {
-      removeAvailableModules: false,
+      // The optimization.mergeDuplicateChunks is expensive
+      // - On the server, it's not useful to run it at all
+      // - On the client, we compared assets/js before/after and see 0 change
+      //   `du -sk js-before js-after` => the JS assets have the exact same size
+      // See also https://github.com/facebook/docusaurus/pull/11176
+      mergeDuplicateChunks: false,
+
       // Only minimize client bundle in production because server bundle is only
       // used for static site generation
       minimize: minimizeEnabled,
@@ -303,6 +343,8 @@ export async function createBaseConfig({
         // for more reasoning
         ignoreOrder: true,
       }),
-    ],
+      process.env.DOCUSAURUS_BUNDLER_CPU_PROFILE &&
+        new BundlerCPUProfilerPlugin(),
+    ].filter(Boolean),
   };
 }

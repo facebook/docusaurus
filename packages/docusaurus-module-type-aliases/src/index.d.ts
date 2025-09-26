@@ -122,6 +122,15 @@ declare module '@theme/Root' {
   export default function Root({children}: Props): ReactNode;
 }
 
+declare module '@theme/ThemeProvider' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+  export default function ThemeProvider({children}: Props): ReactNode;
+}
+
 declare module '@theme/SiteMetadata' {
   import type {ReactNode} from 'react';
 

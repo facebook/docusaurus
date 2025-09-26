@@ -33,7 +33,7 @@ export {
   mergeTranslations,
   updateTranslationFileMessages,
   getPluginI18nPath,
-  localizePath,
+  getLocaleConfig,
 } from './i18nUtils';
 export {mapAsyncSequential, findAsyncSequential} from './jsUtils';
 export {
@@ -107,7 +107,6 @@ export {
   getWebpackLoaderCompilerName,
   type WebpackCompilerName,
 } from './webpackUtils';
-export {escapeShellArg} from './shellUtils';
 export {loadFreshModule} from './moduleUtils';
 export {
   getDataFilePath,

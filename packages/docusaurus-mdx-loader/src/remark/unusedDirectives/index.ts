@@ -8,16 +8,11 @@ import path from 'path';
 import process from 'process';
 import logger from '@docusaurus/logger';
 import {posixPath} from '@docusaurus/utils';
-import {transformNode} from '../utils';
+import {formatNodePositionExtraMessage, transformNode} from '../utils';
 import type {Root} from 'mdast';
-
-// @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-import type {Transformer, Processor, Parent, Plugin} from 'unified';
-import type {
-  Directives,
-  TextDirective,
-  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
-} from 'mdast-util-directive';
+import type {Parent} from 'unist';
+import type {Transformer, Processor, Plugin} from 'unified';
+import type {Directives, TextDirective} from 'mdast-util-directive';
 
 type DirectiveType = Directives['type'];
 
@@ -44,17 +39,9 @@ function formatDirectiveName(directive: Directives) {
   return `${prefix}${directive.name}`;
 }
 
-function formatDirectivePosition(directive: Directives): string | undefined {
-  return directive.position?.start
-    ? logger.interpolate`number=${directive.position.start.line}:number=${directive.position.start.column}`
-    : undefined;
-}
-
 function formatUnusedDirectiveMessage(directive: Directives) {
   const name = formatDirectiveName(directive);
-  const position = formatDirectivePosition(directive);
-
-  return `- ${name} ${position ? `(${position})` : ''}`;
+  return `- ${name}${formatNodePositionExtraMessage(directive)}`;
 }
 
 function formatUnusedDirectivesMessage({
@@ -133,21 +120,18 @@ const plugin: Plugin<unknown[], Root> = function plugin(
 
     const unusedDirectives: Directives[] = [];
 
-    visit<Parent, DirectiveType[]>(
-      tree,
-      directiveTypes,
-      (directive: Directives) => {
-        // If directive data is set (hName/hProperties set by admonitions)
-        // this usually means the directive has been handled by another plugin
-        if (isUnusedDirective(directive)) {
-          if (isSimpleTextDirective(directive)) {
-            transformSimpleTextDirectiveToString(directive);
-          } else {
-            unusedDirectives.push(directive);
-          }
+    // @ts-expect-error: TODO fix type
+    visit<Parent, Directives>(tree, directiveTypes, (directive: Directives) => {
+      // If directive data is set (hName/hProperties set by admonitions)
+      // this usually means the directive has been handled by another plugin
+      if (isUnusedDirective(directive)) {
+        if (isSimpleTextDirective(directive)) {
+          transformSimpleTextDirectiveToString(directive);
+        } else {
+          unusedDirectives.push(directive);
         }
-      },
-    );
+      }
+    });
 
     // We only enable these warnings for the client compiler
     // This avoids emitting duplicate warnings in prod mode

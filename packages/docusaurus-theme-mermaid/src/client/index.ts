@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useEffect, useMemo, useRef} from 'react';
+import {useState, useEffect, useMemo} from 'react';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
 import mermaid from 'mermaid';
+import {ensureLayoutsRegistered} from './layouts';
+
 import type {RenderResult, MermaidConfig} from 'mermaid';
 import type {ThemeConfig} from '@docusaurus/theme-mermaid';
 
@@ -36,8 +38,12 @@ function useMermaidId(): string {
   Random client-only id, we don't care much but mermaid want an id so...
   Note: Mermaid doesn't like values provided by Rect.useId() and throws
   */
+
+  // TODO Docusaurus v4: check if useId() now works
+  //  It could work thanks to https://github.com/facebook/react/pull/32001
   // return useId(); // tried that, doesn't work ('#d:re:' is not a valid selector.)
-  return useRef(`mermaid-svg-${Math.round(Math.random() * 10000000)}`).current!;
+
+  return useState(`mermaid-svg-${Math.round(Math.random() * 10000000)}`)[0];
 }
 
 async function renderMermaid({
@@ -49,6 +55,8 @@ async function renderMermaid({
   text: string;
   config: MermaidConfig;
 }): Promise<RenderResult> {
+  await ensureLayoutsRegistered();
+
   /*
   Mermaid API is really weird :s
   It is a big mutable singleton with multiple config levels
@@ -67,7 +75,7 @@ async function renderMermaid({
   To use a new mermaid config (on colorMode change for example) we should
   update siteConfig, and it can only be done with initialize()
    */
-  mermaid.mermaidAPI.initialize(config);
+  mermaid.initialize(config);
 
   try {
     return await mermaid.render(id, text);

@@ -12,6 +12,8 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
+        "rspackPersistentCache": false,
+        "ssgWorkerThreads": false,
         "swcHtmlMinimizer": false,
         "swcJsLoader": false,
         "swcJsMinimizer": false,
@@ -20,6 +22,10 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "v4": {
+        "removeLegacyPostBuildHeadAttribute": false,
+        "useCssCascadeLayers": false,
       },
     },
     "headTags": [],
@@ -35,7 +41,12 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
       "anchors": {
         "maintainCase": false,
       },
+      "emoji": true,
       "format": "mdx",
+      "hooks": {
+        "onBrokenMarkdownImages": "throw",
+        "onBrokenMarkdownLinks": "warn",
+      },
       "mdx1Compat": {
         "admonitions": true,
         "comments": true,
@@ -49,7 +60,6 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
     "noIndex": false,
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
-    "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
@@ -81,6 +91,8 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
+        "rspackPersistentCache": false,
+        "ssgWorkerThreads": false,
         "swcHtmlMinimizer": false,
         "swcJsLoader": false,
         "swcJsMinimizer": false,
@@ -89,6 +101,10 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "v4": {
+        "removeLegacyPostBuildHeadAttribute": false,
+        "useCssCascadeLayers": false,
       },
     },
     "headTags": [],
@@ -104,7 +120,12 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
       "anchors": {
         "maintainCase": false,
       },
+      "emoji": true,
       "format": "mdx",
+      "hooks": {
+        "onBrokenMarkdownImages": "throw",
+        "onBrokenMarkdownLinks": "warn",
+      },
       "mdx1Compat": {
         "admonitions": true,
         "comments": true,
@@ -118,7 +139,6 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
     "noIndex": false,
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
-    "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
@@ -150,6 +170,8 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
+        "rspackPersistentCache": false,
+        "ssgWorkerThreads": false,
         "swcHtmlMinimizer": false,
         "swcJsLoader": false,
         "swcJsMinimizer": false,
@@ -158,6 +180,10 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "v4": {
+        "removeLegacyPostBuildHeadAttribute": false,
+        "useCssCascadeLayers": false,
       },
     },
     "headTags": [],
@@ -173,7 +199,12 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
       "anchors": {
         "maintainCase": false,
       },
+      "emoji": true,
       "format": "mdx",
+      "hooks": {
+        "onBrokenMarkdownImages": "throw",
+        "onBrokenMarkdownLinks": "warn",
+      },
       "mdx1Compat": {
         "admonitions": true,
         "comments": true,
@@ -187,7 +218,6 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
     "noIndex": false,
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
-    "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
@@ -219,6 +249,8 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
+        "rspackPersistentCache": false,
+        "ssgWorkerThreads": false,
         "swcHtmlMinimizer": false,
         "swcJsLoader": false,
         "swcJsMinimizer": false,
@@ -227,6 +259,10 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "v4": {
+        "removeLegacyPostBuildHeadAttribute": false,
+        "useCssCascadeLayers": false,
       },
     },
     "headTags": [],
@@ -242,7 +278,12 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
       "anchors": {
         "maintainCase": false,
       },
+      "emoji": true,
       "format": "mdx",
+      "hooks": {
+        "onBrokenMarkdownImages": "throw",
+        "onBrokenMarkdownLinks": "warn",
+      },
       "mdx1Compat": {
         "admonitions": true,
         "comments": true,
@@ -256,7 +297,6 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
     "noIndex": false,
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
-    "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
@@ -288,6 +328,8 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
+        "rspackPersistentCache": false,
+        "ssgWorkerThreads": false,
         "swcHtmlMinimizer": false,
         "swcJsLoader": false,
         "swcJsMinimizer": false,
@@ -296,6 +338,10 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "v4": {
+        "removeLegacyPostBuildHeadAttribute": false,
+        "useCssCascadeLayers": false,
       },
     },
     "headTags": [],
@@ -311,7 +357,12 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
       "anchors": {
         "maintainCase": false,
       },
+      "emoji": true,
       "format": "mdx",
+      "hooks": {
+        "onBrokenMarkdownImages": "throw",
+        "onBrokenMarkdownLinks": "warn",
+      },
       "mdx1Compat": {
         "admonitions": true,
         "comments": true,
@@ -325,7 +376,6 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
     "noIndex": false,
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
-    "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
@@ -357,6 +407,8 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
+        "rspackPersistentCache": false,
+        "ssgWorkerThreads": false,
         "swcHtmlMinimizer": false,
         "swcJsLoader": false,
         "swcJsMinimizer": false,
@@ -365,6 +417,10 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "v4": {
+        "removeLegacyPostBuildHeadAttribute": false,
+        "useCssCascadeLayers": false,
       },
     },
     "headTags": [],
@@ -380,7 +436,12 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
       "anchors": {
         "maintainCase": false,
       },
+      "emoji": true,
       "format": "mdx",
+      "hooks": {
+        "onBrokenMarkdownImages": "throw",
+        "onBrokenMarkdownLinks": "warn",
+      },
       "mdx1Compat": {
         "admonitions": true,
         "comments": true,
@@ -394,7 +455,6 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
     "noIndex": false,
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
-    "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
     "plugins": [],
     "presets": [],
@@ -426,6 +486,8 @@ exports[`loadSiteConfig website with valid async config 1`] = `
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
+        "rspackPersistentCache": false,
+        "ssgWorkerThreads": false,
         "swcHtmlMinimizer": false,
         "swcJsLoader": false,
         "swcJsMinimizer": false,
@@ -434,6 +496,10 @@ exports[`loadSiteConfig website with valid async config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "v4": {
+        "removeLegacyPostBuildHeadAttribute": false,
+        "useCssCascadeLayers": false,
       },
     },
     "headTags": [],
@@ -449,7 +515,12 @@ exports[`loadSiteConfig website with valid async config 1`] = `
       "anchors": {
         "maintainCase": false,
       },
+      "emoji": true,
       "format": "mdx",
+      "hooks": {
+        "onBrokenMarkdownImages": "throw",
+        "onBrokenMarkdownLinks": "warn",
+      },
       "mdx1Compat": {
         "admonitions": true,
         "comments": true,
@@ -463,7 +534,6 @@ exports[`loadSiteConfig website with valid async config 1`] = `
     "noIndex": false,
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
-    "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
     "organizationName": "endiliey",
     "plugins": [],
@@ -497,6 +567,8 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
+        "rspackPersistentCache": false,
+        "ssgWorkerThreads": false,
         "swcHtmlMinimizer": false,
         "swcJsLoader": false,
         "swcJsMinimizer": false,
@@ -505,6 +577,10 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "v4": {
+        "removeLegacyPostBuildHeadAttribute": false,
+        "useCssCascadeLayers": false,
       },
     },
     "headTags": [],
@@ -520,7 +596,12 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
       "anchors": {
         "maintainCase": false,
       },
+      "emoji": true,
       "format": "mdx",
+      "hooks": {
+        "onBrokenMarkdownImages": "throw",
+        "onBrokenMarkdownLinks": "warn",
+      },
       "mdx1Compat": {
         "admonitions": true,
         "comments": true,
@@ -534,7 +615,6 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
     "noIndex": false,
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
-    "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
     "organizationName": "endiliey",
     "plugins": [],
@@ -568,6 +648,8 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
+        "rspackPersistentCache": false,
+        "ssgWorkerThreads": false,
         "swcHtmlMinimizer": false,
         "swcJsLoader": false,
         "swcJsMinimizer": false,
@@ -576,6 +658,10 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "v4": {
+        "removeLegacyPostBuildHeadAttribute": false,
+        "useCssCascadeLayers": false,
       },
     },
     "headTags": [],
@@ -591,7 +677,12 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
       "anchors": {
         "maintainCase": false,
       },
+      "emoji": true,
       "format": "mdx",
+      "hooks": {
+        "onBrokenMarkdownImages": "throw",
+        "onBrokenMarkdownLinks": "warn",
+      },
       "mdx1Compat": {
         "admonitions": true,
         "comments": true,
@@ -605,7 +696,6 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
     "noIndex": false,
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
-    "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
     "organizationName": "endiliey",
     "plugins": [],
@@ -642,6 +732,8 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
+        "rspackPersistentCache": false,
+        "ssgWorkerThreads": false,
         "swcHtmlMinimizer": false,
         "swcJsLoader": false,
         "swcJsMinimizer": false,
@@ -650,6 +742,10 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "v4": {
+        "removeLegacyPostBuildHeadAttribute": false,
+        "useCssCascadeLayers": false,
       },
     },
     "headTags": [],
@@ -665,7 +761,12 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
       "anchors": {
         "maintainCase": false,
       },
+      "emoji": true,
       "format": "mdx",
+      "hooks": {
+        "onBrokenMarkdownImages": "throw",
+        "onBrokenMarkdownLinks": "warn",
+      },
       "mdx1Compat": {
         "admonitions": true,
         "comments": true,
@@ -679,7 +780,6 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
     "noIndex": false,
     "onBrokenAnchors": "warn",
     "onBrokenLinks": "throw",
-    "onBrokenMarkdownLinks": "warn",
     "onDuplicateRoutes": "warn",
     "organizationName": "endiliey",
     "plugins": [

@@ -21,10 +21,12 @@ import {
   getEditUrl,
   posixPath,
   getPluginI18nPath,
+  getContentPathList,
+  getLocaleConfig,
+  type ContentPaths,
 } from '@docusaurus/utils';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext} from '@docusaurus/types';
-import type {PagesContentPaths} from './types';
 import type {
   PluginOptions,
   Metadata,
@@ -37,20 +39,20 @@ export function createPagesContentPaths({
 }: {
   context: LoadContext;
   options: PluginOptions;
-}): PagesContentPaths {
+}): ContentPaths {
   const {siteDir, localizationDir} = context;
+
+  const shouldTranslate = getLocaleConfig(context.i18n).translate;
   return {
     contentPath: path.resolve(siteDir, options.path),
-    contentPathLocalized: getPluginI18nPath({
-      localizationDir,
-      pluginName: 'docusaurus-plugin-content-pages',
-      pluginId: options.id,
-    }),
+    contentPathLocalized: shouldTranslate
+      ? getPluginI18nPath({
+          localizationDir,
+          pluginName: 'docusaurus-plugin-content-pages',
+          pluginId: options.id,
+        })
+      : undefined,
   };
-}
-
-export function getContentPathList(contentPaths: PagesContentPaths): string[] {
-  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }
 
 const isMarkdownSource = (source: string) =>
@@ -59,7 +61,7 @@ const isMarkdownSource = (source: string) =>
 type LoadContentParams = {
   context: LoadContext;
   options: PluginOptions;
-  contentPaths: PagesContentPaths;
+  contentPaths: ContentPaths;
 };
 
 export async function loadPagesContent(
@@ -106,12 +108,13 @@ async function processPageSourceFile(
 
   const source = path.join(contentPath, relativeSource);
   const aliasedSourcePath = aliasedSitePath(source, siteDir);
-  const permalink = normalizeUrl([
-    baseUrl,
-    options.routeBasePath,
-    encodePath(fileToPath(relativeSource)),
-  ]);
+
+  const filenameSlug = encodePath(fileToPath(relativeSource));
+
   if (!isMarkdownSource(relativeSource)) {
+    // For now, slug can't be customized for JSX pages
+    const slug = filenameSlug;
+    const permalink = normalizeUrl([baseUrl, options.routeBasePath, slug]);
     return {
       type: 'jsx',
       permalink,
@@ -130,6 +133,9 @@ async function processPageSourceFile(
     parseFrontMatter: siteConfig.markdown.parseFrontMatter,
   });
   const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
+
+  const slug = frontMatter.slug ?? filenameSlug;
+  const permalink = normalizeUrl([baseUrl, options.routeBasePath, slug]);
 
   const pagesDirPath = await getFolderContainingFile(
     getContentPathList(contentPaths),
@@ -154,7 +160,9 @@ async function processPageSourceFile(
     } else if (typeof editUrl === 'string') {
       const isLocalized = pagesDirPath === contentPaths.contentPathLocalized;
       const fileContentPath =
-        isLocalized && options.editLocalizedFiles
+        isLocalized &&
+        options.editLocalizedFiles &&
+        contentPaths.contentPathLocalized
           ? contentPaths.contentPathLocalized
           : contentPaths.contentPath;
 

@@ -7,9 +7,9 @@
 
 import path from 'path';
 import {
-  localizePath,
   DEFAULT_BUILD_DIR_NAME,
   GENERATED_FILES_DIR_NAME,
+  getLocaleConfig,
 } from '@docusaurus/utils';
 import {PerfLogger} from '@docusaurus/logger';
 import combinePromises from 'combine-promises';
@@ -46,13 +46,21 @@ export type LoadContextParams = {
   config?: string;
   /** Default is `i18n.defaultLocale` */
   locale?: string;
+
   /**
-   * `true` means the paths will have the locale prepended; `false` means they
-   * won't (useful for `yarn build -l zh-Hans` where the output should be
-   * emitted into `build/` instead of `build/zh-Hans/`); `undefined` is like the
-   * "smart" option where only non-default locale paths are localized
+   * By default, we try to automatically infer a localized baseUrl.
+   * We prepend `/<siteBaseUrl>/` with a `/<locale>/` path segment,
+   * except for the default locale.
+   *
+   * This option permits opting out of this baseUrl localization process.
+   * It is mostly useful to simplify config for multi-domain i18n deployments.
+   * See https://docusaurus.io/docs/i18n/tutorial#multi-domain-deployment
+   *
+   * In all cases, this process doesn't happen if an explicit localized baseUrl
+   * has been provided using `i18n.localeConfigs[].baseUrl`. We always use the
+   * provided value over the inferred one, letting you override it.
    */
-  localizePath?: boolean;
+  automaticBaseUrlLocalizationDisabled?: boolean;
 };
 
 export type LoadSiteParams = LoadContextParams & {
@@ -78,6 +86,7 @@ export async function loadContext(
     outDir: baseOutDir = DEFAULT_BUILD_DIR_NAME,
     locale,
     config: customConfigFilePath,
+    automaticBaseUrlLocalizationDisabled,
   } = params;
   const generatedFilesDir = path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
@@ -96,27 +105,33 @@ export async function loadContext(
     siteConfig: initialSiteConfig,
   });
 
-  const i18n = await loadI18n(initialSiteConfig, {locale});
+  const i18n = await loadI18n({
+    siteDir,
+    config: initialSiteConfig,
+    currentLocale: locale ?? initialSiteConfig.i18n.defaultLocale,
+    automaticBaseUrlLocalizationDisabled:
+      automaticBaseUrlLocalizationDisabled ?? false,
+  });
 
-  const baseUrl = localizePath({
-    path: initialSiteConfig.baseUrl,
-    i18n,
-    options: params,
-    pathType: 'url',
-  });
-  const outDir = localizePath({
-    path: path.resolve(siteDir, baseOutDir),
-    i18n,
-    options: params,
-    pathType: 'fs',
-  });
+  const localeConfig = getLocaleConfig(i18n);
+
+  // We use the baseUrl from the locale config.
+  // By default, it is inferred as /<siteConfig.baseUrl>/
+  // eventually including the /<locale>/ suffix
+  const baseUrl = localeConfig.baseUrl;
+
+  const outDir = path.join(path.resolve(siteDir, baseOutDir), baseUrl);
+
   const localizationDir = path.resolve(
     siteDir,
     i18n.path,
-    i18n.localeConfigs[i18n.currentLocale]!.path,
+    getLocaleConfig(i18n).path,
   );
 
-  const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};
+  const siteConfig: DocusaurusConfig = {
+    ...initialSiteConfig,
+    baseUrl,
+  };
 
   const codeTranslations = await loadSiteCodeTranslations({localizationDir});
 

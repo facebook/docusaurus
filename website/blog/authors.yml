@@ -35,13 +35,15 @@ slorber:
 
 yangshun:
   name: Yangshun Tay
-  title: Front End Engineer at Meta
-  url: https://github.com/yangshun
+  title: Ex-Meta Staff Engineer, Co-founder GreatFrontEnd
+  url: https://linkedin.com/in/yangshun
   image_url: https://github.com/yangshun.png
   page: true
   socials:
     x: yangshunz
+    linkedin: yangshun
     github: yangshun
+    newsletter: https://www.greatfrontend.com
 
 lex111:
   name: Alexey Pyltsyn

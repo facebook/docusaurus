@@ -7,10 +7,41 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import os from 'os';
 import _ from 'lodash';
-import shell from 'shelljs'; // TODO replace with async-first version
+import execa from 'execa';
+import PQueue from 'p-queue';
 
-const realHasGitFn = () => !!shell.which('git');
+// Quite high/conservative concurrency value (it was previously "Infinity")
+// See https://github.com/facebook/docusaurus/pull/10915
+const DefaultGitCommandConcurrency =
+  // TODO Docusaurus v4: bump node, availableParallelism() now always exists
+  (typeof os.availableParallelism === 'function'
+    ? os.availableParallelism()
+    : os.cpus().length) * 4;
+
+const GitCommandConcurrencyEnv = process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY
+  ? parseInt(process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY, 10)
+  : undefined;
+
+const GitCommandConcurrency =
+  GitCommandConcurrencyEnv && GitCommandConcurrencyEnv > 0
+    ? GitCommandConcurrencyEnv
+    : DefaultGitCommandConcurrency;
+
+// We use a queue to avoid running too many concurrent Git commands at once
+// See https://github.com/facebook/docusaurus/issues/10348
+const GitCommandQueue = new PQueue({
+  concurrency: GitCommandConcurrency,
+});
+
+const realHasGitFn = () => {
+  try {
+    return execa.sync('git', ['--version']).exitCode === 0;
+  } catch (error) {
+    return false;
+  }
+};
 
 // The hasGit call is synchronous IO so we memoize it
 // The user won't install Git in the middle of a build anyway...
@@ -123,27 +154,16 @@ export async function getFileCommitDate(
     file,
   )}"`;
 
-  const result = await new Promise<{
-    code: number;
-    stdout: string;
-    stderr: string;
-  }>((resolve) => {
-    shell.exec(
-      command,
-      {
-        // Setting cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
-        cwd: path.dirname(file),
-        silent: true,
-      },
-      (code, stdout, stderr) => {
-        resolve({code, stdout, stderr});
-      },
-    );
-  });
+  const result = (await GitCommandQueue.add(() => {
+    return execa(command, {
+      cwd: path.dirname(file),
+      shell: true,
+    });
+  }))!;
 
-  if (result.code !== 0) {
+  if (result.exitCode !== 0) {
     throw new Error(
-      `Failed to retrieve the git history for file "${file}" with exit code ${result.code}: ${result.stderr}`,
+      `Failed to retrieve the git history for file "${file}" with exit code ${result.exitCode}: ${result.stderr}`,
     );
   }
 

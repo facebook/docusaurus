@@ -91,13 +91,11 @@ async function createTestSite() {
     const siteThemePathPosix = posixPath(siteThemePath);
     expect(tree(siteThemePathPosix)).toMatchSnapshot('theme dir tree');
 
-    const files = (await Globby(siteThemePathPosix))
-      .map((file) => path.posix.relative(siteThemePathPosix, file))
-      .sort();
+    const files = await Globby('**/*', {cwd: siteThemePath});
 
     for (const file of files) {
       const fileContent = await fs.readFile(
-        path.posix.join(siteThemePath, file),
+        path.join(siteThemePath, file),
         'utf-8',
       );
       expect(fileContent).toMatchSnapshot(file);

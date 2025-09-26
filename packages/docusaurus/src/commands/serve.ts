@@ -11,8 +11,8 @@ import path from 'path';
 import logger from '@docusaurus/logger';
 import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
 import serveHandler from 'serve-handler';
-import openBrowser from 'react-dev-utils/openBrowser';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
+import openBrowser from './utils/openBrowser/openBrowser';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build/build';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
@@ -110,6 +110,6 @@ export async function serve(
   server.listen(port);
 
   if (cliOptions.open && !process.env.CI) {
-    openBrowser(url);
+    await openBrowser(url);
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-google-tag-manager",
-  "version": "3.7.0",
+  "version": "3.9.0",
   "description": "Google Tag Manager (gtm.js) plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.7.0",
-    "@docusaurus/types": "3.7.0",
-    "@docusaurus/utils-validation": "3.7.0",
+    "@docusaurus/core": "3.9.0",
+    "@docusaurus/types": "3.9.0",
+    "@docusaurus/utils-validation": "3.9.0",
     "tslib": "^2.6.0"
   },
   "peerDependencies": {
@@ -28,6 +28,6 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   }
 }

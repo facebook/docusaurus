@@ -5,21 +5,31 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import {
   ConfigSchema,
   DEFAULT_CONFIG,
   DEFAULT_FASTER_CONFIG,
   DEFAULT_FASTER_CONFIG_TRUE,
   DEFAULT_FUTURE_CONFIG,
+  DEFAULT_FUTURE_V4_CONFIG,
+  DEFAULT_FUTURE_V4_CONFIG_TRUE,
   DEFAULT_STORAGE_CONFIG,
   validateConfig,
 } from '../configValidation';
 import type {
   FasterConfig,
   FutureConfig,
+  FutureV4Config,
   StorageConfig,
-} from '@docusaurus/types/src/config';
-import type {Config, DocusaurusConfig, PluginConfig} from '@docusaurus/types';
+  MarkdownConfig,
+  MarkdownHooks,
+  Config,
+  DocusaurusConfig,
+  PluginConfig,
+  I18nConfig,
+  I18nLocaleConfig,
+} from '@docusaurus/types';
 import type {DeepPartial} from 'utility-types';
 
 const baseConfig = {
@@ -28,12 +38,12 @@ const baseConfig = {
   url: 'https://mysite.com',
 } as Config;
 
-const normalizeConfig = (config: DeepPartial<Config>) =>
+const normalizeConfig = (config: DeepPartial<Config>): DocusaurusConfig =>
   validateConfig({...baseConfig, ...config}, 'docusaurus.config.js');
 
 describe('normalizeConfig', () => {
   it('normalizes empty config', () => {
-    const value = normalizeConfig({});
+    const value = normalizeConfig({markdown: {}});
     expect(value).toEqual({
       ...DEFAULT_CONFIG,
       ...baseConfig,
@@ -45,6 +55,10 @@ describe('normalizeConfig', () => {
       ...DEFAULT_CONFIG,
       ...baseConfig,
       future: {
+        v4: {
+          removeLegacyPostBuildHeadAttribute: true,
+          useCssCascadeLayers: true,
+        },
         experimental_faster: {
           swcJsLoader: true,
           swcJsMinimizer: true,
@@ -52,6 +66,8 @@ describe('normalizeConfig', () => {
           lightningCssMinimizer: true,
           mdxCrossCompilerCache: true,
           rspackBundler: true,
+          rspackPersistentCache: true,
+          ssgWorkerThreads: true,
         },
         experimental_storage: {
           type: 'sessionStorage',
@@ -85,6 +101,7 @@ describe('normalizeConfig', () => {
       markdown: {
         format: 'md',
         mermaid: true,
+        emoji: false,
         parseFrontMatter: async (params) =>
           params.defaultParseFrontMatter(params),
         preprocessor: ({fileContent}) => fileContent,
@@ -98,6 +115,10 @@ describe('normalizeConfig', () => {
         },
         remarkRehypeOptions: {
           footnoteLabel: 'Pied de page',
+        },
+        hooks: {
+          onBrokenMarkdownLinks: 'log',
+          onBrokenMarkdownImages: 'log',
         },
       },
     };
@@ -347,27 +368,134 @@ describe('onBrokenLinks', () => {
   });
 });
 
-describe('markdown', () => {
+describe('i18n', () => {
+  function normalizeI18n(i18n: DeepPartial<I18nConfig>): I18nConfig {
+    return normalizeConfig({i18n}).i18n;
+  }
+
   it('accepts undefined object', () => {
-    expect(
-      normalizeConfig({
-        markdown: undefined,
-      }),
-    ).toEqual(expect.objectContaining({markdown: DEFAULT_CONFIG.markdown}));
+    expect(normalizeI18n(undefined)).toEqual(DEFAULT_CONFIG.i18n);
+  });
+
+  it('rejects empty object', () => {
+    expect(() => normalizeI18n({})).toThrowErrorMatchingInlineSnapshot(`
+      ""i18n.defaultLocale" is required
+      "i18n.locales" is required
+      "
+    `);
+  });
+
+  it('accepts minimal i18n config', () => {
+    expect(normalizeI18n({defaultLocale: 'fr', locales: ['fr']})).toEqual({
+      defaultLocale: 'fr',
+      localeConfigs: {},
+      locales: ['fr'],
+      path: 'i18n',
+    });
+  });
+
+  describe('locale config', () => {
+    function normalizeLocaleConfig(
+      localeConfig?: Partial<I18nLocaleConfig>,
+    ): Partial<I18nLocaleConfig> {
+      return normalizeConfig({
+        i18n: {
+          defaultLocale: 'fr',
+          locales: ['fr'],
+          localeConfigs: {
+            fr: localeConfig,
+          },
+        },
+      }).i18n.localeConfigs.fr;
+    }
+
+    it('accepts undefined locale config', () => {
+      expect(normalizeLocaleConfig(undefined)).toBeUndefined();
+    });
+
+    it('accepts empty locale config', () => {
+      expect(normalizeLocaleConfig({})).toEqual({});
+    });
+
+    describe('url', () => {
+      it('accepts undefined', () => {
+        expect(normalizeLocaleConfig({url: undefined})).toEqual({
+          url: undefined,
+        });
+      });
+
+      it('rejects empty', () => {
+        expect(() => normalizeLocaleConfig({url: ''}))
+          .toThrowErrorMatchingInlineSnapshot(`
+          ""i18n.localeConfigs.fr.url" is not allowed to be empty
+          "
+        `);
+      });
+
+      it('accepts valid url', () => {
+        expect(
+          normalizeLocaleConfig({url: 'https://fr.docusaurus.io'}),
+        ).toEqual({
+          url: 'https://fr.docusaurus.io',
+        });
+      });
+
+      it('accepts valid url and removes trailing slash', () => {
+        expect(
+          normalizeLocaleConfig({url: 'https://fr.docusaurus.io/'}),
+        ).toEqual({
+          url: 'https://fr.docusaurus.io',
+        });
+      });
+    });
+
+    describe('baseUrl', () => {
+      it('accepts undefined baseUrl', () => {
+        expect(normalizeLocaleConfig({baseUrl: undefined})).toEqual({
+          baseUrl: undefined,
+        });
+      });
+
+      it('accepts empty baseUrl', () => {
+        expect(normalizeLocaleConfig({baseUrl: ''})).toEqual({
+          baseUrl: '/',
+        });
+      });
+
+      it('accepts regular baseUrl', () => {
+        expect(normalizeLocaleConfig({baseUrl: '/myBase/Url/'})).toEqual({
+          baseUrl: '/myBase/Url/',
+        });
+      });
+
+      it('accepts baseUrl without leading/trailing slashes', () => {
+        expect(normalizeLocaleConfig({baseUrl: 'myBase/Url'})).toEqual({
+          baseUrl: '/myBase/Url/',
+        });
+      });
+    });
+  });
+});
+
+describe('markdown', () => {
+  function normalizeMarkdown(
+    markdown: DeepPartial<MarkdownConfig>,
+  ): MarkdownConfig {
+    return normalizeConfig({markdown}).markdown;
+  }
+  it('accepts undefined object', () => {
+    expect(normalizeMarkdown(undefined)).toEqual(DEFAULT_CONFIG.markdown);
   });
 
   it('accepts empty object', () => {
-    expect(
-      normalizeConfig({
-        markdown: {},
-      }),
-    ).toEqual(expect.objectContaining({markdown: DEFAULT_CONFIG.markdown}));
+    expect(normalizeMarkdown({})).toEqual(DEFAULT_CONFIG.markdown);
   });
 
   it('accepts valid markdown object', () => {
     const markdown: Config['markdown'] = {
       format: 'md',
       mermaid: true,
+      emoji: false,
       parseFrontMatter: async (params) =>
         params.defaultParseFrontMatter(params),
       preprocessor: ({fileContent}) => fileContent,
@@ -384,12 +512,12 @@ describe('markdown', () => {
         // @ts-expect-error: we don't validate it on purpose
         anyKey: 'heck we accept it on purpose',
       },
+      hooks: {
+        onBrokenMarkdownLinks: 'log',
+        onBrokenMarkdownImages: 'warn',
+      },
     };
-    expect(
-      normalizeConfig({
-        markdown,
-      }),
-    ).toEqual(expect.objectContaining({markdown}));
+    expect(normalizeMarkdown(markdown)).toEqual(markdown);
   });
 
   it('accepts partial markdown object', () => {
@@ -399,22 +527,14 @@ describe('markdown', () => {
         headingIds: false,
       },
     };
-    expect(
-      normalizeConfig({
-        markdown,
-      }),
-    ).toEqual(
-      expect.objectContaining({
-        markdown: {
-          ...DEFAULT_CONFIG.markdown,
-          ...markdown,
-          mdx1Compat: {
-            ...DEFAULT_CONFIG.markdown.mdx1Compat,
-            ...markdown.mdx1Compat,
-          },
-        },
-      }),
-    );
+    expect(normalizeMarkdown(markdown)).toEqual({
+      ...DEFAULT_CONFIG.markdown,
+      ...markdown,
+      mdx1Compat: {
+        ...DEFAULT_CONFIG.markdown.mdx1Compat,
+        ...markdown.mdx1Compat,
+      },
+    });
   });
 
   it('throw for preprocessor bad arity', () => {
@@ -427,10 +547,10 @@ describe('markdown', () => {
       "
     `);
     expect(() =>
-      normalizeConfig({
+      normalizeMarkdown(
         // @ts-expect-error: types forbid this
-        markdown: {preprocessor: (arg1, arg2) => String(arg1) + String(arg2)},
-      }),
+        {preprocessor: (arg1, arg2) => String(arg1) + String(arg2)},
+      ),
     ).toThrowErrorMatchingInlineSnapshot(`
       ""markdown.preprocessor" must have an arity of 1
       "
@@ -438,18 +558,13 @@ describe('markdown', () => {
   });
 
   it('accepts undefined markdown format', () => {
-    expect(
-      normalizeConfig({markdown: {format: undefined}}).markdown.format,
-    ).toBe('mdx');
+    expect(normalizeMarkdown({format: undefined}).format).toBe('mdx');
   });
 
   it('throw for bad markdown format', () => {
     expect(() =>
-      normalizeConfig({
-        markdown: {
-          // @ts-expect-error: bad value
-          format: null,
-        },
+      normalizeMarkdown({
+        format: null,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       ""markdown.format" must be one of [mdx, md, detect]
@@ -457,9 +572,9 @@ describe('markdown', () => {
       "
     `);
     expect(() =>
-      normalizeConfig(
+      normalizeMarkdown(
         // @ts-expect-error: bad value
-        {markdown: {format: 'xyz'}},
+        {format: 'xyz'},
       ),
     ).toThrowErrorMatchingInlineSnapshot(`
       ""markdown.format" must be one of [mdx, md, detect]
@@ -469,14 +584,212 @@ describe('markdown', () => {
 
   it('throw for null object', () => {
     expect(() => {
-      normalizeConfig({
-        // @ts-expect-error: bad value
-        markdown: null,
-      });
+      normalizeMarkdown(null);
     }).toThrowErrorMatchingInlineSnapshot(`
       ""markdown" must be of type object
       "
     `);
+  });
+
+  describe('emoji', () => {
+    it('accepts emoji boolean true', () => {
+      expect(
+        normalizeMarkdown({
+          emoji: true,
+        }).emoji,
+      ).toBe(true);
+    });
+
+    it('accepts emoji boolean false', () => {
+      expect(
+        normalizeMarkdown({
+          emoji: false,
+        }).emoji,
+      ).toBe(false);
+    });
+
+    it('defaults emoji to true when undefined', () => {
+      expect(normalizeMarkdown({}).emoji).toBe(true);
+    });
+
+    it('throw for string emoji value', () => {
+      expect(() =>
+        normalizeMarkdown({
+          // @ts-expect-error: bad value
+          emoji: 'yes',
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+              ""markdown.emoji" must be a boolean
+              "
+          `);
+    });
+
+    it('throw for number emoji value', () => {
+      expect(() =>
+        normalizeConfig({
+          markdown: {
+            // @ts-expect-error: bad value
+            emoji: 1,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+              ""markdown.emoji" must be a boolean
+              "
+          `);
+    });
+  });
+
+  describe('hooks', () => {
+    function normalizeHooks(hooks: DeepPartial<MarkdownHooks>): MarkdownHooks {
+      return normalizeMarkdown({
+        hooks,
+      }).hooks;
+    }
+
+    describe('onBrokenMarkdownLinks', () => {
+      function normalizeValue(
+        onBrokenMarkdownLinks?: MarkdownHooks['onBrokenMarkdownLinks'],
+      ) {
+        return normalizeHooks({
+          onBrokenMarkdownLinks,
+        }).onBrokenMarkdownLinks;
+      }
+
+      it('accepts undefined', () => {
+        expect(normalizeValue(undefined)).toBe('warn');
+      });
+
+      it('accepts severity level', () => {
+        expect(normalizeValue('log')).toBe('log');
+      });
+
+      it('rejects number', () => {
+        expect(() =>
+          normalizeValue(
+            // @ts-expect-error: bad value
+            42,
+          ),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
+          "
+        `);
+      });
+
+      it('accepts function', () => {
+        expect(normalizeValue(() => {})).toBeInstanceOf(Function);
+      });
+
+      it('rejects null', () => {
+        expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
+          ""markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
+          "
+        `);
+      });
+
+      describe('onBrokenMarkdownLinks migration', () => {
+        const warnMock = jest
+          .spyOn(console, 'warn')
+          .mockImplementation(() => {});
+        beforeEach(() => {
+          warnMock.mockClear();
+        });
+
+        it('accepts migrated v3 config', () => {
+          expect(
+            normalizeConfig({
+              onBrokenMarkdownLinks: undefined,
+              markdown: {
+                hooks: {
+                  onBrokenMarkdownLinks: 'throw',
+                },
+              },
+            }),
+          ).toEqual(
+            expect.objectContaining({
+              onBrokenMarkdownLinks: undefined,
+              markdown: expect.objectContaining({
+                hooks: expect.objectContaining({
+                  onBrokenMarkdownLinks: 'throw',
+                }),
+              }),
+            }),
+          );
+
+          expect(warnMock).not.toHaveBeenCalled();
+        });
+
+        it('accepts deprecated v3 config with migration warning', () => {
+          expect(
+            normalizeConfig({
+              onBrokenMarkdownLinks: 'log',
+              markdown: {
+                hooks: {
+                  onBrokenMarkdownLinks: 'throw',
+                },
+              },
+            }),
+          ).toEqual(
+            expect.objectContaining({
+              onBrokenMarkdownLinks: undefined,
+              markdown: expect.objectContaining({
+                hooks: expect.objectContaining({
+                  onBrokenMarkdownLinks: 'log',
+                }),
+              }),
+            }),
+          );
+
+          expect(warnMock).toHaveBeenCalledTimes(1);
+          expect(warnMock.mock.calls[0]).toMatchInlineSnapshot(`
+            [
+              "[WARNING] The \`siteConfig.onBrokenMarkdownLinks\` config option is deprecated and will be removed in Docusaurus v4.
+            Please migrate and move this option to \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` instead.",
+            ]
+          `);
+        });
+      });
+    });
+
+    describe('onBrokenMarkdownImages', () => {
+      function normalizeValue(
+        onBrokenMarkdownImages?: MarkdownHooks['onBrokenMarkdownImages'],
+      ) {
+        return normalizeHooks({
+          onBrokenMarkdownImages,
+        }).onBrokenMarkdownImages;
+      }
+
+      it('accepts undefined', () => {
+        expect(normalizeValue(undefined)).toBe('throw');
+      });
+
+      it('accepts severity level', () => {
+        expect(normalizeValue('log')).toBe('log');
+      });
+
+      it('rejects number', () => {
+        expect(() =>
+          normalizeValue(
+            // @ts-expect-error: bad value
+            42,
+          ),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
+          "
+        `);
+      });
+
+      it('accepts function', () => {
+        expect(normalizeValue(() => {})).toBeInstanceOf(Function);
+      });
+
+      it('rejects null', () => {
+        expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
+          ""markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
+          "
+        `);
+      });
+    });
   });
 });
 
@@ -744,6 +1057,10 @@ describe('future', () => {
 
   it('accepts future - full', () => {
     const future: DocusaurusConfig['future'] = {
+      v4: {
+        removeLegacyPostBuildHeadAttribute: true,
+        useCssCascadeLayers: true,
+      },
       experimental_faster: {
         swcJsLoader: true,
         swcJsMinimizer: true,
@@ -751,6 +1068,8 @@ describe('future', () => {
         lightningCssMinimizer: true,
         mdxCrossCompilerCache: true,
         rspackBundler: true,
+        rspackPersistentCache: true,
+        ssgWorkerThreads: true,
       },
       experimental_storage: {
         type: 'sessionStorage',
@@ -831,7 +1150,6 @@ describe('future', () => {
     });
 
     it('rejects router - null', () => {
-      // @ts-expect-error: bad value
       const router: Config['future']['experimental_router'] = null;
       expect(() =>
         normalizeConfig({
@@ -1040,7 +1358,6 @@ describe('future', () => {
       });
 
       it('rejects namespace - null', () => {
-        // @ts-expect-error: bad value
         const storage: Partial<StorageConfig> = {namespace: null};
         expect(() =>
           normalizeConfig({
@@ -1104,10 +1421,13 @@ describe('future', () => {
         lightningCssMinimizer: true,
         mdxCrossCompilerCache: true,
         rspackBundler: true,
+        rspackPersistentCache: true,
+        ssgWorkerThreads: true,
       };
       expect(
         normalizeConfig({
           future: {
+            v4: true,
             experimental_faster: faster,
           },
         }),
@@ -1122,12 +1442,45 @@ describe('future', () => {
       ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
     });
 
-    it('accepts faster - true', () => {
+    it('accepts faster - true (v4: true)', () => {
       expect(
         normalizeConfig({
-          future: {experimental_faster: true},
+          future: {
+            v4: true,
+            experimental_faster: true,
+          },
         }),
       ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
+    });
+
+    it('rejects faster - true (v4: false)', () => {
+      expect(() =>
+        normalizeConfig({
+          future: {
+            v4: false,
+            experimental_faster: true,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
+        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
+      `);
+    });
+
+    it('rejects faster - true (v4: undefined)', () => {
+      expect(() =>
+        normalizeConfig({
+          future: {
+            v4: false,
+            experimental_faster: true,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
+        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
+      `);
     });
 
     it('rejects faster - number', () => {
@@ -1566,6 +1919,439 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.experimental_faster.rspackBundler" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('rspackPersistentCache', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackPersistentCache: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackPersistentCache: false}));
+      });
+
+      it('accepts - true (rspackBundler: true)', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackBundler: true,
+          rspackPersistentCache: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackPersistentCache: true}));
+      });
+
+      it('rejects - true (rspackBundler: false)', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackBundler: false,
+          rspackPersistentCache: true,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `"Docusaurus config flag \`future.experimental_faster.rspackPersistentCache\` requires the flag \`future.experimental_faster.rspackBundler\` to be turned on."`,
+        );
+      });
+
+      it('rejects - true (rspackBundler: undefined)', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackBundler: false,
+          rspackPersistentCache: true,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `"Docusaurus config flag \`future.experimental_faster.rspackPersistentCache\` requires the flag \`future.experimental_faster.rspackBundler\` to be turned on."`,
+        );
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          rspackPersistentCache: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({rspackPersistentCache: false}));
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {rspackPersistentCache: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.rspackPersistentCache" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {rspackPersistentCache: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.rspackPersistentCache" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('ssgWorkerThreads', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          ssgWorkerThreads: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({ssgWorkerThreads: false}));
+      });
+
+      it('accepts - true (v4: true)', () => {
+        const faster: Partial<FasterConfig> = {
+          ssgWorkerThreads: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4: true,
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({ssgWorkerThreads: true}));
+      });
+
+      it('rejects - true (v4: false)', () => {
+        const faster: Partial<FasterConfig> = {
+          ssgWorkerThreads: true,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4: false,
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
+          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
+        `);
+      });
+
+      it('rejects - true (v4: undefined)', () => {
+        const faster: Partial<FasterConfig> = {
+          ssgWorkerThreads: true,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4: undefined,
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
+          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
+        `);
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          ssgWorkerThreads: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({ssgWorkerThreads: false}));
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {ssgWorkerThreads: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.ssgWorkerThreads" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {ssgWorkerThreads: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.ssgWorkerThreads" must be a boolean
+          "
+        `);
+      });
+    });
+  });
+
+  describe('v4', () => {
+    function v4Containing(v4: Partial<FutureV4Config>) {
+      return futureContaining({
+        v4: expect.objectContaining(v4),
+      });
+    }
+
+    it('accepts v4 - undefined', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            v4: undefined,
+          },
+        }),
+      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
+    });
+
+    it('accepts v4 - empty', () => {
+      expect(
+        normalizeConfig({
+          future: {v4: {}},
+        }),
+      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
+    });
+
+    it('accepts v4 - full', () => {
+      const v4: FutureV4Config = {
+        removeLegacyPostBuildHeadAttribute: true,
+        useCssCascadeLayers: true,
+      };
+      expect(
+        normalizeConfig({
+          future: {
+            v4,
+          },
+        }),
+      ).toEqual(v4Containing(v4));
+    });
+
+    it('accepts v4 - false', () => {
+      expect(
+        normalizeConfig({
+          future: {v4: false},
+        }),
+      ).toEqual(v4Containing(DEFAULT_FUTURE_V4_CONFIG));
+    });
+
+    it('accepts v4 - true', () => {
+      expect(
+        normalizeConfig({
+          future: {v4: true},
+        }),
+      ).toEqual(v4Containing(DEFAULT_FUTURE_V4_CONFIG_TRUE));
+    });
+
+    it('rejects v4 - number', () => {
+      // @ts-expect-error: invalid
+      const v4: Partial<FutureV4Config> = 42;
+      expect(() =>
+        normalizeConfig({
+          future: {
+            v4,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""future.v4" must be one of [object, boolean]
+        "
+      `);
+    });
+
+    describe('removeLegacyPostBuildHeadAttribute', () => {
+      it('accepts - undefined', () => {
+        const v4: Partial<FutureV4Config> = {
+          removeLegacyPostBuildHeadAttribute: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: false}));
+      });
+
+      it('accepts - true', () => {
+        const v4: Partial<FutureV4Config> = {
+          removeLegacyPostBuildHeadAttribute: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: true}));
+      });
+
+      it('accepts - false', () => {
+        const v4: Partial<FutureV4Config> = {
+          removeLegacyPostBuildHeadAttribute: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: false}));
+      });
+
+      it('rejects - null', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          removeLegacyPostBuildHeadAttribute: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          removeLegacyPostBuildHeadAttribute: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('useCssCascadeLayers', () => {
+      it('accepts - undefined', () => {
+        const v4: Partial<FutureV4Config> = {
+          useCssCascadeLayers: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({useCssCascadeLayers: false}));
+      });
+
+      it('accepts - true', () => {
+        const v4: Partial<FutureV4Config> = {
+          useCssCascadeLayers: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({useCssCascadeLayers: true}));
+      });
+
+      it('accepts - false', () => {
+        const v4: Partial<FutureV4Config> = {
+          useCssCascadeLayers: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({useCssCascadeLayers: false}));
+      });
+
+      it('rejects - null', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          useCssCascadeLayers: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.useCssCascadeLayers" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          useCssCascadeLayers: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.useCssCascadeLayers" must be a boolean
           "
         `);
       });

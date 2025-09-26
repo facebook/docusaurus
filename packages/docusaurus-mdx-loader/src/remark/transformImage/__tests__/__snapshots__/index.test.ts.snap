@@ -1,15 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`transformImage plugin does not choke on invalid image 1`] = `
-"<img alt="invalid image" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/invalid.png").default} />
+"<img alt="invalid image" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./../static/invalid.png").default} />
 "
 `;
-
-exports[`transformImage plugin fail if image does not exist 1`] = `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static/img/doesNotExist.png or packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static2/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/fail.md not found."`;
-
-exports[`transformImage plugin fail if image relative path does not exist 1`] = `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/notFound.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/fail2.md not found."`;
-
-exports[`transformImage plugin fail if image url is absent 1`] = `"Markdown image URL is mandatory in "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/noUrl.md" file"`;
 
 exports[`transformImage plugin pathname protocol 1`] = `
 "![img](/img/unchecked.png)

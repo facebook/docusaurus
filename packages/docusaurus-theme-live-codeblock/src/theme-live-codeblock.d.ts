@@ -16,6 +16,14 @@ declare module '@docusaurus/theme-live-codeblock' {
   };
 }
 
+declare module '@theme/LiveCodeBlock' {
+  import type {Props as BaseProps} from '@theme/CodeBlock';
+
+  export interface Props extends BaseProps {}
+
+  export default function LiveCodeBlock(props: Props): ReactNode;
+}
+
 declare module '@theme/Playground' {
   import type {ReactNode} from 'react';
   import type {Props as BaseProps} from '@theme/CodeBlock';
@@ -29,6 +37,64 @@ declare module '@theme/Playground' {
     children?: string;
   }
   export default function Playground(props: LiveProviderProps): ReactNode;
+}
+
+declare module '@theme/Playground/Provider' {
+  import type {ReactNode} from 'react';
+  import type {Props as PlaygroundProps} from '@theme/Playground';
+
+  export interface Props extends Omit<PlaygroundProps, 'children'> {
+    code: string | undefined;
+    children: ReactNode;
+  }
+
+  export default function PlaygroundProvider(props: Props): ReactNode;
+}
+
+declare module '@theme/Playground/Container' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    children: ReactNode;
+  }
+
+  export default function PlaygroundContainer(props: Props): ReactNode;
+}
+
+declare module '@theme/Playground/Layout' {
+  import type {ReactNode} from 'react';
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface Props {}
+
+  export default function PlaygroundLayout(props: Props): ReactNode;
+}
+
+declare module '@theme/Playground/Preview' {
+  import type {ReactNode} from 'react';
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface Props {}
+
+  export default function PlaygroundPreview(props: Props): ReactNode;
+}
+
+declare module '@theme/Playground/Editor' {
+  import type {ReactNode} from 'react';
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface Props {}
+
+  export default function PlaygroundEditor(props: Props): ReactNode;
+}
+
+declare module '@theme/Playground/Header' {
+  import type {ReactNode} from 'react';
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface Props {}
+
+  export default function PlaygroundHeader(props: Props): ReactNode;
 }
 
 declare module '@theme/ReactLiveScope' {

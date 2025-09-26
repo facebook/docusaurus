@@ -6,7 +6,8 @@
  */
 
 import React, {type ReactNode} from 'react';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import clsx from 'clsx';
+import {ThemeClassNames, useThemeConfig} from '@docusaurus/theme-common';
 import {useAnnouncementBar} from '@docusaurus/theme-common/internal';
 import AnnouncementBarCloseButton from '@theme/AnnouncementBar/CloseButton';
 import AnnouncementBarContent from '@theme/AnnouncementBar/Content';
@@ -22,7 +23,10 @@ export default function AnnouncementBar(): ReactNode {
   const {backgroundColor, textColor, isCloseable} = announcementBar!;
   return (
     <div
-      className={styles.announcementBar}
+      className={clsx(
+        ThemeClassNames.announcementBar.container,
+        styles.announcementBar,
+      )}
       style={{backgroundColor, color: textColor}}
       role="banner">
       {isCloseable && <div className={styles.announcementBarPlaceholder} />}

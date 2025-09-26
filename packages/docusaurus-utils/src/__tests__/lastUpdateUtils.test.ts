@@ -9,12 +9,15 @@ import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
 import {createTempRepo} from '@testing-utils/git';
-import shell from 'shelljs';
+import execa from 'execa';
+
 import {
   getGitLastUpdate,
   LAST_UPDATE_FALLBACK,
+  LAST_UPDATE_UNTRACKED_GIT_FILEPATH,
   readLastUpdateData,
-} from '@docusaurus/utils';
+} from '../lastUpdateUtils';
+import type {FrontMatterLastUpdate} from '../lastUpdateUtils';
 
 describe('getGitLastUpdate', () => {
   const {repoDir} = createTempRepo();
@@ -69,7 +72,10 @@ describe('getGitLastUpdate', () => {
   });
 
   it('git does not exist', async () => {
-    const mock = jest.spyOn(shell, 'which').mockImplementationOnce(() => null);
+    const mock = jest.spyOn(execa, 'sync').mockImplementationOnce(() => {
+      throw new Error('Git does not exist');
+    });
+
     const consoleMock = jest
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
@@ -104,6 +110,34 @@ describe('readLastUpdateData', () => {
   const testDate = '2021-01-01';
   const testTimestamp = new Date(testDate).getTime();
   const testAuthor = 'ozaki';
+
+  describe('on untracked Git file', () => {
+    function test(lastUpdateFrontMatter: FrontMatterLastUpdate | undefined) {
+      return readLastUpdateData(
+        LAST_UPDATE_UNTRACKED_GIT_FILEPATH,
+        {showLastUpdateAuthor: true, showLastUpdateTime: true},
+        lastUpdateFrontMatter,
+      );
+    }
+
+    it('reads null at/by from Git', async () => {
+      const {lastUpdatedAt, lastUpdatedBy} = await test({});
+      expect(lastUpdatedAt).toBeNull();
+      expect(lastUpdatedBy).toBeNull();
+    });
+
+    it('reads null at from Git and author from front matter', async () => {
+      const {lastUpdatedAt, lastUpdatedBy} = await test({author: testAuthor});
+      expect(lastUpdatedAt).toBeNull();
+      expect(lastUpdatedBy).toEqual(testAuthor);
+    });
+
+    it('reads null by from Git and date from front matter', async () => {
+      const {lastUpdatedAt, lastUpdatedBy} = await test({date: testDate});
+      expect(lastUpdatedBy).toBeNull();
+      expect(lastUpdatedAt).toEqual(testTimestamp);
+    });
+  });
 
   it('read last time show author time', async () => {
     const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(

@@ -60,6 +60,7 @@ module.exports = {
   },
   reportUnusedDisableDirectives: true,
   plugins: [
+    'react-compiler',
     'react-hooks',
     'header',
     'jest',
@@ -68,6 +69,7 @@ module.exports = {
     '@docusaurus',
   ],
   rules: {
+    'react-compiler/react-compiler': ERROR,
     'react/jsx-uses-react': OFF, // JSX runtime: automatic
     'react/react-in-jsx-scope': OFF, // JSX runtime: automatic
     'array-callback-return': WARNING,
@@ -212,7 +214,7 @@ module.exports = {
     ],
     'no-useless-escape': WARNING,
     'no-void': [ERROR, {allowAsStatement: true}],
-    'prefer-destructuring': WARNING,
+    'prefer-destructuring': OFF,
     'prefer-named-capture-group': WARNING,
     'prefer-template': WARNING,
     yoda: WARNING,
@@ -296,13 +298,13 @@ module.exports = {
     'jest/expect-expect': OFF,
     'jest/no-large-snapshots': [
       WARNING,
-      {maxSize: Infinity, inlineMaxSize: 10},
+      {maxSize: Infinity, inlineMaxSize: 50},
     ],
     'jest/no-test-return-statement': ERROR,
     'jest/prefer-expect-resolves': WARNING,
     'jest/prefer-lowercase-title': [WARNING, {ignore: ['describe']}],
     'jest/prefer-spy-on': WARNING,
-    'jest/prefer-to-be': WARNING,
+    'jest/prefer-to-be': OFF,
     'jest/prefer-to-have-length': WARNING,
     'jest/require-top-level-describe': ERROR,
     'jest/valid-title': [

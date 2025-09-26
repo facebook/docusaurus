@@ -7,7 +7,11 @@
 
 declare module '@docusaurus/plugin-content-pages' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
-  import type {LoadContext, Plugin} from '@docusaurus/types';
+  import type {
+    LoadContext,
+    Plugin,
+    OptionValidationContext,
+  } from '@docusaurus/types';
   import type {FrontMatterLastUpdate, LastUpdateData} from '@docusaurus/utils';
 
   export type Assets = {
@@ -33,6 +37,7 @@ declare module '@docusaurus/plugin-content-pages' {
     readonly title?: string;
     readonly description?: string;
     readonly image?: string;
+    readonly slug?: string;
     readonly keywords?: string[];
     readonly wrapperClassName?: string;
     readonly hide_table_of_contents?: string;
@@ -82,6 +87,10 @@ declare module '@docusaurus/plugin-content-pages' {
     context: LoadContext,
     options: PluginOptions,
   ): Promise<Plugin<LoadedContent | null>>;
+
+  export function validateOptions(
+    args: OptionValidationContext<Options | undefined, PluginOptions>,
+  ): PluginOptions;
 }
 
 declare module '@theme/MDXPage' {

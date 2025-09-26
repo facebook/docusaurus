@@ -12,6 +12,12 @@ import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
 import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
 import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 
+// By default, we don't want to run "git log" commands on i18n sites
+// This makes localized sites build much slower on Netlify
+// See also https://github.com/facebook/docusaurus/issues/11208
+// TODO duplicated :/
+export const showLastUpdate = process.env.DOCUSAURUS_CURRENT_LOCALE === 'en';
+
 export const isArgosBuild = process.env.DOCUSAURUS_ARGOS_BUILD === 'true';
 
 if (isArgosBuild) {
@@ -62,8 +68,8 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
 
       // Using a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
       path: '_dogfooding/_docs tests',
-      showLastUpdateTime: true,
-      showLastUpdateAuthor: true,
+      showLastUpdateTime: showLastUpdate,
+      showLastUpdateAuthor: showLastUpdate,
       sidebarItemsGenerator(args) {
         return args.defaultSidebarItemsGenerator({
           ...args,
@@ -104,7 +110,11 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       readingTime: ({content, frontMatter, defaultReadingTime}) =>
         frontMatter.hide_reading_time
           ? undefined
-          : defaultReadingTime({content, options: {wordsPerMinute: 5}}),
+          : defaultReadingTime({
+              content,
+              locale: 'en',
+              options: {wordsPerMinute: 5},
+            }),
       onInlineTags: 'warn',
       onInlineAuthors: 'ignore',
       onUntruncatedBlogPosts: 'ignore',
@@ -118,8 +128,8 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
       id: 'pages-tests',
       path: '_dogfooding/_pages tests',
       routeBasePath: '/tests/pages',
-      showLastUpdateTime: true,
-      showLastUpdateAuthor: true,
+      showLastUpdateTime: showLastUpdate,
+      showLastUpdateAuthor: showLastUpdate,
       editUrl: ({pagesPath}) =>
         `https://github.com/facebook/docusaurus/edit/main/website/_dogfooding/_pages tests/${pagesPath}`,
     } satisfies PageOptions,

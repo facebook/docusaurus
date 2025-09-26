@@ -410,9 +410,9 @@ declare module '@theme/CodeBlock' {
     readonly children: ReactNode;
     readonly className?: string;
     readonly metastring?: string;
-    readonly title?: string;
+    readonly title?: ReactNode;
     readonly language?: string;
-    readonly showLineNumbers?: boolean;
+    readonly showLineNumbers?: boolean | number;
   }
 
   export default function CodeBlock(props: Props): ReactNode;
@@ -426,15 +426,74 @@ declare module '@theme/CodeInline' {
   export default function CodeInline(props: Props): ReactNode;
 }
 
-declare module '@theme/CodeBlock/CopyButton' {
+declare module '@theme/CodeBlock/Provider' {
   import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly code: string;
+    readonly children: ReactNode;
+  }
+
+  export default function CodeBlockProvider(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Title' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function CodeBlockTitle(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function CodeBlockLayout(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Buttons' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function CodeBlockButtons(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Buttons/Button' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'button'> {
     readonly className?: string;
   }
 
   export default function CopyButton(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Buttons/CopyButton' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function CodeBlockButtonCopy(props: Props): ReactNode;
+}
+
+declare module '@theme/CodeBlock/Buttons/WordWrapButton' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function CodeBlockButtonWordWrap(props: Props): ReactNode;
 }
 
 declare module '@theme/CodeBlock/Container' {
@@ -447,13 +506,23 @@ declare module '@theme/CodeBlock/Container' {
   }: {as: T} & ComponentProps<T>): ReactNode;
 }
 
+declare module '@theme/CodeBlock/Content' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    className?: string;
+  }
+
+  export default function CodeBlockContent(props: Props): ReactNode;
+}
+
 declare module '@theme/CodeBlock/Content/Element' {
   import type {ReactNode} from 'react';
   import type {Props} from '@theme/CodeBlock';
 
   export type {Props};
 
-  export default function CodeBlockElementContent(props: Props): ReactNode;
+  export default function CodeBlockContentElement(props: Props): ReactNode;
 }
 
 declare module '@theme/CodeBlock/Content/String' {
@@ -464,7 +533,7 @@ declare module '@theme/CodeBlock/Content/String' {
     readonly children: string;
   }
 
-  export default function CodeBlockStringContent(props: Props): ReactNode;
+  export default function CodeBlockContentString(props: Props): ReactNode;
 }
 
 declare module '@theme/CodeBlock/Line' {
@@ -488,16 +557,16 @@ declare module '@theme/CodeBlock/Line' {
   export default function CodeBlockLine(props: Props): ReactNode;
 }
 
-declare module '@theme/CodeBlock/WordWrapButton' {
+declare module '@theme/CodeBlock/Line/Token' {
   import type {ReactNode} from 'react';
+  import type {Token, TokenOutputProps} from 'prism-react-renderer';
 
-  export interface Props {
-    readonly className?: string;
-    readonly onClick: React.MouseEventHandler;
-    readonly isEnabled: boolean;
+  export interface Props extends TokenOutputProps {
+    readonly token: Token;
+    readonly line: Token[];
   }
 
-  export default function WordWrapButton(props: Props): ReactNode;
+  export default function CodeBlockLine(props: Props): ReactNode;
 }
 
 declare module '@theme/DocCard' {
@@ -624,7 +693,9 @@ declare module '@theme/DocPaginator' {
   import type {PropNavigation} from '@docusaurus/plugin-content-docs';
 
   // May be simpler to provide a {navigation: PropNavigation} prop?
-  export interface Props extends PropNavigation {}
+  export interface Props extends PropNavigation {
+    className?: string;
+  }
 
   export default function DocPaginator(props: Props): ReactNode;
 }
@@ -781,8 +852,8 @@ declare module '@theme/EditMetaRow' {
   export interface Props {
     readonly className: string;
     readonly editUrl: string | null | undefined;
-    readonly lastUpdatedAt: number | undefined;
-    readonly lastUpdatedBy: string | undefined;
+    readonly lastUpdatedAt: number | null | undefined;
+    readonly lastUpdatedBy: string | null | undefined;
   }
   export default function EditMetaRow(props: Props): ReactNode;
 }
@@ -953,8 +1024,8 @@ declare module '@theme/LastUpdated' {
   import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly lastUpdatedAt?: number;
-    readonly lastUpdatedBy?: string;
+    readonly lastUpdatedAt?: number | null;
+    readonly lastUpdatedBy?: string | null;
   }
 
   export default function LastUpdated(props: Props): ReactNode;
@@ -969,7 +1040,9 @@ declare module '@theme/SkipToContent' {
 declare module '@theme/MDXComponents/A' {
   import type {ComponentProps, ReactNode} from 'react';
 
-  export interface Props extends ComponentProps<'a'> {}
+  export interface Props extends ComponentProps<'a'> {
+    'data-footnote-ref'?: true;
+  }
 
   export default function MDXA(props: Props): ReactNode;
 }
@@ -1179,17 +1252,38 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
   import type {ReactNode} from 'react';
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
 
-  export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
+  export type DefaultNavbarItemProps = NavbarNavLinkProps & {
     readonly isDropdownItem?: boolean;
     readonly className?: string;
     readonly position?: 'left' | 'right';
   };
 
-  export interface Props extends DesktopOrMobileNavBarItemProps {
+  // TODO Docusaurus v4, remove old type name
+  export type DesktopOrMobileNavBarItemProps = DefaultNavbarItemProps;
+
+  export interface Props extends DefaultNavbarItemProps {
     readonly mobile?: boolean;
   }
 
   export default function DefaultNavbarItem(props: Props): ReactNode;
+}
+
+declare module '@theme/NavbarItem/DefaultNavbarItem/Mobile' {
+  import type {ReactNode} from 'react';
+  import type {DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export interface Props extends DefaultNavbarItemProps {}
+
+  export default function DefaultNavbarItemMobile(props: Props): ReactNode;
+}
+
+declare module '@theme/NavbarItem/DefaultNavbarItem/Desktop' {
+  import type {ReactNode} from 'react';
+  import type {DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export interface Props extends DefaultNavbarItemProps {}
+
+  export default function DefaultNavbarItemDesktop(props: Props): ReactNode;
 }
 
 declare module '@theme/NavbarItem/NavbarNavLink' {
@@ -1214,17 +1308,38 @@ declare module '@theme/NavbarItem/DropdownNavbarItem' {
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
-  export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
+  export type DropdownNavbarItemProps = NavbarNavLinkProps & {
     readonly position?: 'left' | 'right';
     readonly items: readonly LinkLikeNavbarItemProps[];
     readonly className?: string;
   };
 
-  export interface Props extends DesktopOrMobileNavBarItemProps {
+  // TODO Docusaurus v4, remove old type name
+  export type DesktopOrMobileNavBarItemProps = DropdownNavbarItemProps;
+
+  export interface Props extends DropdownNavbarItemProps {
     readonly mobile?: boolean;
   }
 
   export default function DropdownNavbarItem(props: Props): ReactNode;
+}
+
+declare module '@theme/NavbarItem/DropdownNavbarItem/Mobile' {
+  import type {ReactNode} from 'react';
+  import type {DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
+
+  export interface Props extends DropdownNavbarItemProps {}
+
+  export default function DropdownNavbarItemMobile(props: Props): ReactNode;
+}
+
+declare module '@theme/NavbarItem/DropdownNavbarItem/Desktop' {
+  import type {ReactNode} from 'react';
+  import type {DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
+
+  export interface Props extends DropdownNavbarItemProps {}
+
+  export default function DropdownNavbarItemDesktop(props: Props): ReactNode;
 }
 
 declare module '@theme/NavbarItem/SearchNavbarItem' {
@@ -1257,11 +1372,22 @@ declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
   import type {Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
+  type PropVersionItem = {
+    readonly label?: string;
+  };
+
+  type PropVersionItems = {
+    readonly [version: string]: PropVersionItem;
+  };
+
+  type PropVersions = string[] | PropVersionItems;
+
   export interface Props extends DropdownNavbarItemProps {
     readonly docsPluginId?: string;
     readonly dropdownActiveClassDisabled?: boolean;
     readonly dropdownItemsBefore: LinkLikeNavbarItemProps[];
     readonly dropdownItemsAfter: LinkLikeNavbarItemProps[];
+    readonly versions?: PropVersions;
   }
 
   export default function DocsVersionDropdownNavbarItem(
@@ -1445,6 +1571,17 @@ declare module '@theme/ThemedImage' {
   export default function ThemedImage(props: Props): ReactNode;
 }
 
+declare module '@theme/ThemeProvider/TitleFormatter' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+  export default function ThemeProviderTitleFormatter({
+    children,
+  }: Props): ReactNode;
+}
+
 declare module '@theme/Details' {
   import {Details, type DetailsProps} from '@docusaurus/theme-common/Details';
 
@@ -1542,12 +1679,13 @@ declare module '@theme/ColorModeToggle' {
   export interface Props {
     readonly className?: string;
     readonly buttonClassName?: string;
-    readonly value: ColorMode;
+    readonly respectPrefersColorScheme: boolean;
+    readonly value: ColorMode | null;
     /**
      * The parameter represents the "to-be" value. For example, if currently in
-     * dark mode, clicking the button should call `onChange("light")`
+     * light mode, clicking the button should call `onChange("dark")`
      */
-    readonly onChange: (colorMode: ColorMode) => void;
+    readonly onChange: (colorMode: ColorMode | null) => void;
   }
 
   export default function ColorModeToggle(props: Props): ReactNode;
@@ -1602,6 +1740,14 @@ declare module '@theme/Icon/LightMode' {
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconLightMode(props: Props): ReactNode;
+}
+
+declare module '@theme/Icon/SystemColorMode' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconSystemColorMode(props: Props): JSX.Element;
 }
 
 declare module '@theme/Icon/Menu' {
@@ -1748,6 +1894,14 @@ declare module '@theme/Icon/Socials/Twitch' {
   export default function Twitch(props: Props): ReactNode;
 }
 
+declare module '@theme/Icon/Socials/Email' {
+  import type {ComponentProps, ReactNode} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function Email(props: Props): ReactNode;
+}
+
 declare module '@theme/Icon/Socials/Mastodon' {
   import type {ComponentProps, ReactNode} from 'react';
 
@@ -1832,4 +1986,15 @@ declare module '@theme/DocBreadcrumbs/Items/Home' {
   import type {ReactNode} from 'react';
 
   export default function HomeBreadcrumbItem(): ReactNode;
+}
+
+declare module '@theme/DocBreadcrumbs/StructuredData' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarBreadcrumbsItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly breadcrumbs: PropSidebarBreadcrumbsItem[];
+  }
+
+  export default function DocBreadcrumbsStructuredData(props: Props): ReactNode;
 }

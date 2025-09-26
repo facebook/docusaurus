@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {toValue} from '../utils';
-import type {Node} from 'unist';
+import escapeHtml from 'escape-html';
+import type {Node, Parent} from 'unist';
 import type {
   MdxjsEsm,
-  // @ts-expect-error: TODO see https://github.com/microsoft/TypeScript/issues/49721
+  MdxJsxAttribute,
+  MdxJsxTextElement,
 } from 'mdast-util-mdx';
 import type {TOCHeading, TOCItem, TOCItems, TOCSlice} from './types';
 import type {
@@ -18,6 +19,7 @@ import type {
   ImportDeclaration,
   ImportSpecifier,
 } from 'estree';
+import type {Heading, PhrasingContent} from 'mdast';
 
 export function getImportDeclarations(program: Program): ImportDeclaration[] {
   return program.body.filter(
@@ -121,7 +123,7 @@ export async function createTOCExportNodeAST({
     const {toString} = await import('mdast-util-to-string');
     const {valueToEstree} = await import('estree-util-value-to-estree');
     const value: TOCItem = {
-      value: toValue(heading, toString),
+      value: toHeadingHTMLValue(heading, toString),
       id: heading.data!.id!,
       level: heading.depth,
     };
@@ -174,4 +176,74 @@ export async function createTOCExportNodeAST({
       },
     },
   };
+}
+
+function stringifyChildren(
+  node: Parent,
+  toString: (param: unknown) => string, // TODO temporary, due to ESM
+): string {
+  return (node.children as PhrasingContent[])
+    .map((item) => toHeadingHTMLValue(item, toString))
+    .join('')
+    .trim();
+}
+
+// TODO This is really a workaround, and not super reliable
+// For now we only support serializing tagName, className and content
+// Can we implement the TOC with real JSX nodes instead of html strings later?
+function mdxJsxTextElementToHtml(
+  element: MdxJsxTextElement,
+  toString: (param: unknown) => string, // TODO temporary, due to ESM
+): string {
+  const tag = element.name;
+
+  // See https://github.com/facebook/docusaurus/issues/11003#issuecomment-2733925363
+  if (tag === 'img') {
+    return '';
+  }
+
+  const attributes = element.attributes.filter(
+    (child): child is MdxJsxAttribute => child.type === 'mdxJsxAttribute',
+  );
+
+  const classAttribute =
+    attributes.find((attr) => attr.name === 'className') ??
+    attributes.find((attr) => attr.name === 'class');
+
+  const classAttributeString = classAttribute
+    ? `class="${escapeHtml(String(classAttribute.value))}"`
+    : ``;
+
+  const allAttributes = classAttributeString ? ` ${classAttributeString}` : '';
+
+  const content = stringifyChildren(element, toString);
+
+  return `<${tag}${allAttributes}>${content}</${tag}>`;
+}
+
+export function toHeadingHTMLValue(
+  node: PhrasingContent | Heading | MdxJsxTextElement,
+  toString: (param: unknown) => string, // TODO temporary, due to ESM
+): string {
+  switch (node.type) {
+    case 'mdxJsxTextElement': {
+      return mdxJsxTextElementToHtml(node as MdxJsxTextElement, toString);
+    }
+    case 'text':
+      return escapeHtml(node.value);
+    case 'heading':
+      return stringifyChildren(node, toString);
+    case 'inlineCode':
+      return `<code>${escapeHtml(node.value)}</code>`;
+    case 'emphasis':
+      return `<em>${stringifyChildren(node, toString)}</em>`;
+    case 'strong':
+      return `<strong>${stringifyChildren(node, toString)}</strong>`;
+    case 'delete':
+      return `<del>${stringifyChildren(node, toString)}</del>`;
+    case 'link':
+      return stringifyChildren(node, toString);
+    default:
+      return toString(node);
+  }
 }

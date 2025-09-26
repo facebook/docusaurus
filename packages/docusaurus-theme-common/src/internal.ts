@@ -34,15 +34,27 @@ export {ColorModeProvider} from './contexts/colorMode';
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
 export {
+  type CodeBlockMetadata,
+  createCodeBlockMetadata,
+  getPrismCssVariables,
+  CodeBlockContextProvider,
+  useCodeBlockContext,
+
+  // TODO Docusaurus v4: remove, only kept for internal retro-compatibility
+  //  See https://github.com/facebook/docusaurus/pull/11153
   parseCodeBlockTitle,
-  parseLanguage,
+  parseClassNameLanguage as parseLanguage,
   parseLines,
+  getLineNumbersStart,
   containsLineNumbers,
 } from './utils/codeBlockUtils';
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
-export {useTitleFormatter} from './utils/generalUtils';
+export {
+  TitleFormatterProvider,
+  useTitleFormatter,
+} from './utils/titleFormatterUtils';
 
 export {useLocationChange} from './utils/useLocationChange';
 
@@ -88,7 +100,6 @@ export {
 } from './hooks/useKeyboardNavigation';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
-export {getPrismCssVariables} from './utils/codeBlockUtils';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
 
 export {
