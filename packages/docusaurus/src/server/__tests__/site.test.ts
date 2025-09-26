@@ -9,6 +9,70 @@ import path from 'path';
 import {loadSiteFixture} from './testUtils';
 
 describe('loadSite', () => {
+  describe('simple-site-with-baseUrl', () => {
+    const siteFixture = 'loadSiteFixtures/simple-site-with-baseUrl';
+
+    it('loads site', async () => {
+      const site = await loadSiteFixture(siteFixture);
+      expect(site.props).toMatchSnapshot();
+    });
+
+    it('loads site - custom outDir', async () => {
+      const site = await loadSiteFixture(siteFixture, {
+        outDir: 'custom-out-dir',
+      });
+      expect(site.props).toMatchSnapshot();
+    });
+
+    it('loads site - custom config', async () => {
+      const site = await loadSiteFixture(siteFixture, {
+        config: 'docusaurus.config.custom.js',
+      });
+      expect(site.props).toMatchSnapshot();
+    });
+
+    it('loads site - non-existing config', async () => {
+      await expect(() =>
+        loadSiteFixture(siteFixture, {
+          config: 'docusaurus.config.doesNotExist.js',
+        }),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Config file at "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/docusaurus.config.doesNotExist.js" not found."`,
+      );
+    });
+  });
+
+  describe('simple-site-with-baseUrl-i18n', () => {
+    const siteFixture = 'loadSiteFixtures/simple-site-with-baseUrl-i18n';
+
+    it('loads site', async () => {
+      const site = await loadSiteFixture(siteFixture);
+      expect(site.props).toMatchSnapshot();
+    });
+
+    it('loads site - custom outDir', async () => {
+      const site = await loadSiteFixture(siteFixture, {
+        outDir: 'custom-out-dir',
+      });
+      expect(site.props).toMatchSnapshot();
+    });
+
+    it('loads site - locale fr', async () => {
+      const site = await loadSiteFixture(siteFixture, {
+        locale: 'fr',
+      });
+      expect(site.props).toMatchSnapshot();
+    });
+
+    it('loads site - custom outDir + locale fr', async () => {
+      const site = await loadSiteFixture(siteFixture, {
+        outDir: 'custom-out-dir',
+        locale: 'fr',
+      });
+      expect(site.props).toMatchSnapshot();
+    });
+  });
+
   describe('custom-i18n-site', () => {
     it('loads site', async () => {
       const site = await loadSiteFixture('custom-i18n-site');
