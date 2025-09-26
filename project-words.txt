@@ -166,7 +166,6 @@ Mdxjs
 mdxjs
 Meilisearch
 meilisearch
-Mermeid
 merveilleuse
 metadatum
 Metastring
