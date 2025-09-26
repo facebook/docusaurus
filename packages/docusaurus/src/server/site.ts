@@ -120,7 +120,17 @@ export async function loadContext(
   // eventually including the /<locale>/ suffix
   const baseUrl = localeConfig.baseUrl;
 
-  const outDir = path.join(path.resolve(siteDir, baseOutDir), baseUrl);
+  // TODO not ideal: we should allow configuring a custom outDir for each locale
+  // The site baseUrl should be 100% decoupled from the file system output shape
+  // We added this logic to restore v3 retro-compatibility, because by default
+  // Docusaurus always wrote to ./build for sites having a baseUrl
+  // See also https://github.com/facebook/docusaurus/issues/11433
+  // This logic assumes the locale baseUrl will start with the site baseUrl
+  // which is the case if an explicit locale baseUrl is not provided
+  // but in practice a custom locale baseUrl could be anything now
+  const outDirBaseUrl = baseUrl.replace(initialSiteConfig.baseUrl, '/');
+
+  const outDir = path.join(path.resolve(siteDir, baseOutDir), outDirBaseUrl);
 
   const localizationDir = path.resolve(
     siteDir,
