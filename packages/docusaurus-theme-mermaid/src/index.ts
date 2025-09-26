@@ -49,6 +49,18 @@ export default async function themeMermaid(): Promise<Plugin<void>> {
             ),
           }),
         ],
+
+        // Workaround for weird Rspack/SWC issue
+        // See https://github.com/facebook/docusaurus/issues/11430
+        resolve: {
+          alias: {
+            ...(elkLayoutEnabled
+              ? {}
+              : {
+                  '@mermaid-js/layout-elk': false,
+                }),
+          },
+        },
       };
     },
   };
