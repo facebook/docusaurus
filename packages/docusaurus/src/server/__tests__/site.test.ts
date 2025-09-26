@@ -57,6 +57,13 @@ describe('loadSite', () => {
       expect(site.props).toMatchSnapshot();
     });
 
+    it('loads site - locale en', async () => {
+      const site = await loadSiteFixture(siteFixture, {
+        locale: 'en',
+      });
+      expect(site.props).toMatchSnapshot();
+    });
+
     it('loads site - locale fr', async () => {
       const site = await loadSiteFixture(siteFixture, {
         locale: 'fr',
@@ -64,10 +71,31 @@ describe('loadSite', () => {
       expect(site.props).toMatchSnapshot();
     });
 
-    it('loads site - custom outDir + locale fr', async () => {
+    it('loads site -  locale fr + custom outDir', async () => {
       const site = await loadSiteFixture(siteFixture, {
         outDir: 'custom-out-dir',
         locale: 'fr',
+      });
+      expect(site.props).toMatchSnapshot();
+    });
+
+    it('loads site - locale es', async () => {
+      const site = await loadSiteFixture(siteFixture, {
+        locale: 'es',
+      });
+      expect(site.props).toMatchSnapshot();
+    });
+
+    it('loads site - locale de', async () => {
+      const site = await loadSiteFixture(siteFixture, {
+        locale: 'de',
+      });
+      expect(site.props).toMatchSnapshot();
+    });
+
+    it('loads site - locale it', async () => {
+      const site = await loadSiteFixture(siteFixture, {
+        locale: 'it',
       });
       expect(site.props).toMatchSnapshot();
     });
