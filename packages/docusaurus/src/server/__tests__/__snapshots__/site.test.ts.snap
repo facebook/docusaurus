@@ -209,7 +209,7 @@ exports[`loadSite simple-site-with-baseUrl loads site - custom config 1`] = `
     "path": "i18n",
   },
   "localizationDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/i18n/en",
-  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/build/myBaseUrl-2/",
+  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/build/",
   "plugins": [
     {
       "content": undefined,
@@ -368,7 +368,7 @@ exports[`loadSite simple-site-with-baseUrl loads site - custom outDir 1`] = `
     "path": "i18n",
   },
   "localizationDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/i18n/en",
-  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/custom-out-dir/myBaseUrl/",
+  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/custom-out-dir/",
   "plugins": [
     {
       "content": undefined,
@@ -527,7 +527,7 @@ exports[`loadSite simple-site-with-baseUrl loads site 1`] = `
     "path": "i18n",
   },
   "localizationDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/i18n/en",
-  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/build/myBaseUrl/",
+  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/build/",
   "plugins": [
     {
       "content": undefined,
@@ -730,7 +730,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site -  locale fr + custom
     "path": "i18n",
   },
   "localizationDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/i18n/fr",
-  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/custom-out-dir/myBaseUrl/fr/",
+  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/custom-out-dir/fr/",
   "plugins": [
     {
       "content": undefined,
@@ -955,7 +955,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - custom outDir 1`] =
     "path": "i18n",
   },
   "localizationDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/i18n/en",
-  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/custom-out-dir/myBaseUrl/",
+  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/custom-out-dir/",
   "plugins": [
     {
       "content": undefined,
@@ -1405,7 +1405,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale en 1`] = `
     "path": "i18n",
   },
   "localizationDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/i18n/en",
-  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/build/myBaseUrl/",
+  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/build/",
   "plugins": [
     {
       "content": undefined,
@@ -1855,7 +1855,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale fr 1`] = `
     "path": "i18n",
   },
   "localizationDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/i18n/fr",
-  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/build/myBaseUrl/fr/",
+  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/build/fr/",
   "plugins": [
     {
       "content": undefined,
@@ -2305,7 +2305,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site 1`] = `
     "path": "i18n",
   },
   "localizationDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/i18n/en",
-  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/build/myBaseUrl/",
+  "outDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/build/",
   "plugins": [
     {
       "content": undefined,

@@ -128,8 +128,7 @@ export async function loadContext(
   // This logic assumes the locale baseUrl will start with the site baseUrl
   // which is the case if an explicit locale baseUrl is not provided
   // but in practice a custom locale baseUrl could be anything now
-  // const outDirBaseUrl = baseUrl.replace(initialSiteConfig.baseUrl, '/');
-  const outDirBaseUrl = baseUrl;
+  const outDirBaseUrl = baseUrl.replace(initialSiteConfig.baseUrl, '/');
 
   const outDir = path.join(path.resolve(siteDir, baseOutDir), outDirBaseUrl);
 
