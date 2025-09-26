@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/faster",
-  "version": "3.9.0",
+  "version": "3.9.1",
   "description": "Docusaurus experimental package exposing new modern dependencies to make the build faster.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "3.9.0",
+    "@docusaurus/types": "3.9.1",
     "@rspack/core": "^1.5.0",
     "@swc/core": "^1.7.39",
     "@swc/html": "^1.13.5",
