@@ -401,7 +401,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: npm
 
       - name: Install dependencies
@@ -455,7 +455,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: npm
 
       - name: Install dependencies
@@ -487,7 +487,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: yarn
 
       - name: Install dependencies
@@ -541,7 +541,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: yarn
 
       - name: Install dependencies
@@ -608,7 +608,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: yarn
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -623,7 +623,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: yarn
       - uses: webfactory/ssh-agent@v0.5.0
         with:
@@ -675,7 +675,7 @@ Continuous integration (CI) services are typically used to perform routine tasks
 ```yml title=".travis.yml"
 language: node_js
 node_js:
-  - 18
+  - 20
 branches:
   only:
     - main
@@ -734,7 +734,7 @@ steps:
 
   - task: NodeTool@0
     inputs:
-      versionSpec: '18'
+      versionSpec: '20'
     displayName: Install Node.js
 
   - script: |
