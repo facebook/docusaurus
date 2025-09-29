@@ -634,7 +634,7 @@ export default {
 | `remarkRehypeOptions` | `object` | `undefined` | Makes it possible to pass custom [`remark-rehype` options](https://github.com/remarkjs/remark-rehype#options). |
 | `hooks` | `MarkdownHooks` | `object` | Make it possible to customize the MDX loader behavior with callbacks or built-in options. |
 | `hooks.onBrokenMarkdownLinks` | `ReportingSeverity \| OnBrokenMarkdownLinksFunction` | `'warn'` | Hook to customize the behavior when encountering a broken Markdown link URL. With the callback function, you can return a new link URL, or alter the link [mdast node](https://github.com/syntax-tree/mdast). |
-| `hooks.onBrokenMarkdownLinks` | `ReportingSeverity \| OnBrokenMarkdownImagesFunction` | `'throw'` | Hook to customize the behavior when encountering a broken Markdown image URL. With the callback function, you can return a new image URL, or alter the image [mdast node](https://github.com/syntax-tree/mdast). |
+| `hooks.onBrokenMarkdownImages` | `ReportingSeverity \| OnBrokenMarkdownImagesFunction` | `'throw'` | Hook to customize the behavior when encountering a broken Markdown image URL. With the callback function, you can return a new image URL, or alter the image [mdast node](https://github.com/syntax-tree/mdast). |
 
 ```mdx-code-block
 </APITable>
