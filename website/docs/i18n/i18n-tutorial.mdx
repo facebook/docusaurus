@@ -403,6 +403,12 @@ mkdir -p i18n/fr/docusaurus-plugin-content-docs/current
 cp -r docs/** i18n/fr/docusaurus-plugin-content-docs/current
 ```
 
+:::warning
+
+If you notice duplicate files in the destination directory after running the commands in this section, your shell may be configured to enable globstar (https://www.linuxjournal.com/content/globstar-new-bash-globbing-option) functionality. Consult the documentation for your shell to tailor equivalent commands for your environment.
+
+:::
+
 :::info
 
 Notice that the `docusaurus-plugin-content-docs` plugin always divides its content by versions. The data in `./docs` folder will be translated in the `current` subfolder and `current.json` file. See [the doc versioning guide](../guides/docs/versioning.mdx#terminology) for more information about what "current" means.
