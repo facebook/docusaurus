@@ -17,9 +17,7 @@ import useIsBrowser from '@docusaurus/useIsBrowser';
 import {ReactContextError} from '../utils/reactUtils';
 import {createStorageSlot} from '../utils/storageUtils';
 import {useThemeConfig} from '../utils/useThemeConfig';
-
-// The "effective" color mode
-export type ColorMode = 'light' | 'dark';
+import type {ColorMode} from '@docusaurus/types';
 
 // The color mode explicitly chosen by the user
 // null => no choice has been made, or the choice has been reverted to OS value

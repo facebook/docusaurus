@@ -12,6 +12,7 @@ import rangeParser from 'parse-numeric-range';
 import {ReactContextError} from './reactUtils';
 import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
 import type {WordWrap} from '../hooks/useCodeWordWrap';
+import type {MagicCommentConfig} from '@docusaurus/types';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const metastringLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
@@ -43,12 +44,6 @@ type CommentType = keyof typeof commentPatterns;
 const popularCommentTypes = Object.keys(
   popularCommentPatterns,
 ) as CommentType[];
-
-export type MagicCommentConfig = {
-  className: string;
-  line?: string;
-  block?: {start: string; end: string};
-};
 
 function getCommentPattern(
   languages: CommentType[],
