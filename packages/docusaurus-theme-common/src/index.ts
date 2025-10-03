@@ -45,18 +45,7 @@ export function useContextualSearchFilters() {
 
 export {
   useThemeConfig,
-  type ThemeConfig,
-  type UserThemeConfig,
-  type Navbar,
-  type NavbarItem,
-  type NavbarLogo,
-  type MultiColumnFooter,
-  type SimpleFooter,
-  type Footer,
-  type FooterColumnItem,
-  type FooterLogo,
-  type FooterLinkItem,
-  type ColorModeConfig,
+  type ThemeConfig
 } from './utils/useThemeConfig';
 
 export {default as ThemedComponent} from './components/ThemedComponent';
@@ -84,7 +73,7 @@ export {
 
 export {PageMetadata, HtmlClassNameProvider} from './utils/metadataUtils';
 
-export {useColorMode, type ColorMode} from './contexts/colorMode';
+export {useColorMode} from './contexts/colorMode';
 
 export {
   NavbarSecondaryMenuFiller,
