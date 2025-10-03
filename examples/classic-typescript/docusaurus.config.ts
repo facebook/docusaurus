@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
-const config: Config = {
+const config = {
   title: 'My Site',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
@@ -64,7 +64,7 @@ const config: Config = {
         theme: {
           customCss: './src/css/custom.css',
         },
-      } satisfies Preset.Options,
+      },
     ],
   ],
 
@@ -144,7 +144,7 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
-  } satisfies Preset.ThemeConfig,
-};
+  },
+} as const satisfies Config;
 
 export default config;
