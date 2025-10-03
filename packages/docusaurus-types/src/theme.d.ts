@@ -7,7 +7,7 @@
 
 import type {PrismTheme} from 'prism-react-renderer';
 
-type ColorMode = 'light' | 'dark';
+export type ColorMode = 'light' | 'dark';
 type NavbarStyle = 'primary' | 'dark';
 type FooterStyle = 'dark' | 'light';
 type NavbarPosition = 'left' | 'right';
@@ -268,7 +268,7 @@ interface FooterConfig {
 // Code Block Configuration
 // ============================================================================
 
-interface MagicCommentConfig {
+export interface MagicCommentConfig {
   className: string;
   line?: string;
   block?: {

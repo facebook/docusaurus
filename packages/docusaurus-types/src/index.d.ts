@@ -98,4 +98,4 @@ export {
 
 export {UseDataOptions} from './utils';
 
-export {ThemeConfig} from './theme';
+export {ThemeConfig, ColorMode, MagicCommentConfig} from './theme';
