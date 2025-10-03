@@ -18,6 +18,52 @@ import useIsBrowser from '@docusaurus/useIsBrowser';
 import type {Props} from '@theme/Tabs';
 import styles from './styles.module.css';
 
+interface TabListItemProps {
+  readonly value: string;
+  readonly label: string | undefined;
+  readonly attributes: {[key: string]: unknown} | undefined;
+  readonly selected: boolean;
+  readonly tabRef: (node: HTMLLIElement | null) => void;
+  readonly onKeyDown: (event: React.KeyboardEvent<HTMLLIElement>) => void;
+  readonly onClick: (
+    event:
+      | React.FocusEvent<HTMLLIElement>
+      | React.MouseEvent<HTMLLIElement>
+      | React.KeyboardEvent<HTMLLIElement>,
+  ) => void;
+}
+
+function TabListItem({
+  value,
+  label,
+  attributes,
+  selected,
+  tabRef,
+  onKeyDown,
+  onClick,
+}: TabListItemProps): ReactNode {
+  return (
+    <li
+      role="tab"
+      tabIndex={selected ? 0 : -1}
+      aria-selected={selected}
+      ref={tabRef}
+      onKeyDown={onKeyDown}
+      onClick={onClick}
+      {...attributes}
+      className={clsx(
+        'tabs__item',
+        styles.tabItem,
+        attributes?.className as string,
+        {
+          'tabs__item--active': selected,
+        },
+      )}>
+      {label ?? value}
+    </li>
+  );
+}
+
 function TabList({
   className,
   block,
@@ -82,28 +128,18 @@ function TabList({
         className,
       )}>
       {tabValues.map(({value, label, attributes}) => (
-        <li
-          // TODO extract TabListItem
-          role="tab"
-          tabIndex={selectedValue === value ? 0 : -1}
-          aria-selected={selectedValue === value}
+        <TabListItem
           key={value}
-          ref={(tabControl) => {
+          value={value}
+          label={label}
+          attributes={attributes}
+          selected={selectedValue === value}
+          tabRef={(tabControl) => {
             tabRefs.push(tabControl);
           }}
           onKeyDown={handleKeydown}
           onClick={handleTabChange}
-          {...attributes}
-          className={clsx(
-            'tabs__item',
-            styles.tabItem,
-            attributes?.className as string,
-            {
-              'tabs__item--active': selectedValue === value,
-            },
-          )}>
-          {label ?? value}
-        </li>
+        />
       ))}
     </ul>
   );

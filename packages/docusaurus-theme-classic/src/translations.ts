@@ -21,7 +21,8 @@ function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
   // TODO handle properly all the navbar item types here!
   function flattenNavbarItems(items: NavbarItem[]): NavbarItem[] {
     const subItems = items.flatMap((item) => {
-      const allSubItems = [item.items ?? []].flat();
+      const allSubItems =
+        'items' in item && item.items ? [item.items].flat() : [];
       return flattenNavbarItems(allSubItems);
     });
     return [...items, ...subItems];
@@ -81,18 +82,22 @@ function translateNavbar(
     logo,
     //  TODO handle properly all the navbar item types here!
     items: navbar.items.map((item) => {
-      const subItems = item.items?.map((subItem) => ({
-        ...subItem,
-        label:
-          navbarTranslations[`item.label.${subItem.label}`]?.message ??
-          subItem.label,
-      }));
+      const hasSubItems = 'items' in item && item.items;
+      const subItems =
+        hasSubItems && item.items
+          ? item.items.map((subItem: NavbarItem) => ({
+              ...subItem,
+              label:
+                navbarTranslations[`item.label.${subItem.label}`]?.message ??
+                subItem.label,
+            }))
+          : undefined;
       return {
         ...item,
         label:
           navbarTranslations[`item.label.${item.label}`]?.message ?? item.label,
         ...(subItems ? {items: subItems} : undefined),
-      };
+      } as NavbarItem;
     }),
   };
 }
