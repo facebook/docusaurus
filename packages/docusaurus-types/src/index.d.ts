@@ -7,7 +7,6 @@
 
 export {
   RouterType,
-  ThemeConfig,
   DocusaurusConfig,
   FutureConfig,
   FutureV4Config,
@@ -98,3 +97,5 @@ export {
 } from './routing';
 
 export {UseDataOptions} from './utils';
+
+export {ThemeConfig} from './theme';

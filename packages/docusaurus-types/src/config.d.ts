@@ -12,12 +12,9 @@ import type {I18nConfig} from './i18n';
 import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
 import type {ReportingSeverity} from './reporting';
 import type {MarkdownConfig} from './markdown';
+import type {ThemeConfig} from './theme';
 
 export type RouterType = 'browser' | 'hash';
-
-export type ThemeConfig = {
-  [key: string]: unknown;
-};
 
 export type StorageConfig = {
   type: SiteStorage['type'];
