@@ -16,6 +16,7 @@ import {
 } from '@docusaurus/theme-common/internal';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import type {Props} from '@theme/Tabs';
+import TabListItem from '@theme/Tabs/TabListItem';
 import styles from './styles.module.css';
 
 function TabList({
@@ -82,28 +83,18 @@ function TabList({
         className,
       )}>
       {tabValues.map(({value, label, attributes}) => (
-        <li
-          // TODO extract TabListItem
-          role="tab"
-          tabIndex={selectedValue === value ? 0 : -1}
-          aria-selected={selectedValue === value}
+        <TabListItem
           key={value}
-          ref={(tabControl) => {
+          value={value}
+          label={label}
+          attributes={attributes}
+          selected={selectedValue === value}
+          tabRef={(tabControl) => {
             tabRefs.push(tabControl);
           }}
           onKeyDown={handleKeydown}
           onClick={handleTabChange}
-          {...attributes}
-          className={clsx(
-            'tabs__item',
-            styles.tabItem,
-            attributes?.className as string,
-            {
-              'tabs__item--active': selectedValue === value,
-            },
-          )}>
-          {label ?? value}
-        </li>
+        />
       ))}
     </ul>
   );

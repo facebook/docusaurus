@@ -8,9 +8,6 @@
 import {useEffect, useRef} from 'react';
 import {useThemeConfig} from '../utils/useThemeConfig';
 
-// TODO make the hardcoded theme-classic classnames configurable (or add them
-// to ThemeClassNames?)
-
 /**
  * If the anchor has no height and is just a "marker" in the DOM; we'll use the
  * parent (normally the link text) rect boundaries instead
@@ -35,13 +32,15 @@ function isInViewportTopHalf(boundingRect: DOMRect) {
 function getAnchors({
   minHeadingLevel,
   maxHeadingLevel,
+  headingAnchorClassName = 'anchor',
 }: {
   minHeadingLevel: number;
   maxHeadingLevel: number;
+  headingAnchorClassName?: string;
 }): HTMLElement[] {
   const selectors = [];
   for (let i = minHeadingLevel; i <= maxHeadingLevel; i += 1) {
-    selectors.push(`h${i}.anchor`);
+    selectors.push(`h${i}.${headingAnchorClassName}`);
   }
   return Array.from(document.querySelectorAll(selectors.join()));
 }
@@ -93,21 +92,23 @@ function getLinks(linkClassName: string) {
   ) as HTMLAnchorElement[];
 }
 
-function getNavbarHeight(): number {
+function getNavbarHeight(navbarSelector = '.navbar'): number {
   // Not ideal to obtain actual height this way
   // Using TS ! (not ?) because otherwise a bad selector would be un-noticed
-  return document.querySelector('.navbar')!.clientHeight;
+  return document.querySelector(navbarSelector)!.clientHeight;
 }
 
-function useAnchorTopOffsetRef() {
+function useAnchorTopOffsetRef(navbarSelector?: string) {
   const anchorTopOffsetRef = useRef<number>(0);
   const {
     navbar: {hideOnScroll},
   } = useThemeConfig();
 
   useEffect(() => {
-    anchorTopOffsetRef.current = hideOnScroll ? 0 : getNavbarHeight();
-  }, [hideOnScroll]);
+    anchorTopOffsetRef.current = hideOnScroll
+      ? 0
+      : getNavbarHeight(navbarSelector);
+  }, [hideOnScroll, navbarSelector]);
 
   return anchorTopOffsetRef;
 }
@@ -124,6 +125,16 @@ export type TOCHighlightConfig = {
   minHeadingLevel: number;
   /** @see {@link TOCHighlightConfig.minHeadingLevel} */
   maxHeadingLevel: number;
+  /**
+   * The class name used to identify heading anchors.
+   * @default 'anchor'
+   */
+  headingAnchorClassName?: string;
+  /**
+   * The CSS selector used to find the navbar element for offset calculation.
+   * @default '.navbar'
+   */
+  navbarSelector?: string;
 };
 
 /**
@@ -133,7 +144,7 @@ export type TOCHighlightConfig = {
 export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
   const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);
 
-  const anchorTopOffsetRef = useAnchorTopOffsetRef();
+  const anchorTopOffsetRef = useAnchorTopOffsetRef(config?.navbarSelector);
 
   useEffect(() => {
     if (!config) {
@@ -146,6 +157,7 @@ export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
       linkActiveClassName,
       minHeadingLevel,
       maxHeadingLevel,
+      headingAnchorClassName,
     } = config;
 
     function updateLinkActiveClass(link: HTMLAnchorElement, active: boolean) {
@@ -163,7 +175,11 @@ export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
 
     function updateActiveLink() {
       const links = getLinks(linkClassName);
-      const anchors = getAnchors({minHeadingLevel, maxHeadingLevel});
+      const anchors = getAnchors({
+        minHeadingLevel,
+        maxHeadingLevel,
+        headingAnchorClassName,
+      });
       const activeAnchor = getActiveAnchor(anchors, {
         anchorTopOffset: anchorTopOffsetRef.current,
       });

@@ -13,13 +13,55 @@ import type {ColorMode} from '../contexts/colorMode';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
-// TODO improve types, use unions
-export type NavbarItem = {
-  type?: string;
-  items?: NavbarItem[];
+// Base properties common to all navbar items
+type BaseNavbarItem = {
   label?: string;
   position?: 'left' | 'right';
-} & {[key: string]: unknown};
+  className?: string;
+};
+
+// Link-like navbar item (default, doc, docsVersion, etc.)
+type NavbarLinkItem = BaseNavbarItem & {
+  type?: 'default' | 'doc' | 'docsVersion' | 'docSidebar';
+  to?: string;
+  href?: string;
+  activeBasePath?: string;
+  activeBaseRegex?: string;
+  [key: string]: unknown;
+};
+
+// Dropdown navbar item
+type NavbarDropdownItem = BaseNavbarItem & {
+  type: 'dropdown';
+  items: NavbarItem[];
+  [key: string]: unknown;
+};
+
+// HTML navbar item
+type NavbarHtmlItem = BaseNavbarItem & {
+  type: 'html';
+  value: string;
+  [key: string]: unknown;
+};
+
+// Special navbar items
+type NavbarSpecialItem = BaseNavbarItem & {
+  type: 'search' | 'localeDropdown' | 'docsVersionDropdown';
+  [key: string]: unknown;
+};
+
+// Custom navbar item (extensible for custom types)
+type NavbarCustomItem = BaseNavbarItem & {
+  type: string;
+  [key: string]: unknown;
+};
+
+export type NavbarItem =
+  | NavbarLinkItem
+  | NavbarDropdownItem
+  | NavbarHtmlItem
+  | NavbarSpecialItem
+  | NavbarCustomItem;
 
 type BaseLogo = {
   alt?: string;
@@ -35,7 +77,6 @@ type BaseLogo = {
 
 export type NavbarLogo = BaseLogo;
 
-// TODO improve
 export type Navbar = {
   style?: 'dark' | 'primary';
   hideOnScroll: boolean;
