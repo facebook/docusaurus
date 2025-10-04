@@ -8,16 +8,48 @@
 @media (min-width: 997px) {
   .menu {
     flex-grow: 1;
-    padding: 0.5rem;
+    padding: 1rem 0.5rem;
+    background: var(--ifm-background-color);
+    border-radius: 0 12px 12px 0;
+    box-shadow: 2px 0 20px rgb(0 0 0 / 5%);
+    margin: 1rem 0 1rem 1rem;
+    position: sticky;
+    top: calc(var(--ifm-navbar-height) + 1rem);
+    max-height: calc(100vh - var(--ifm-navbar-height) - 2rem);
+    overflow-y: auto;
+    transition: all 0.3s ease;
   }
+
+  .menu:hover {
+    box-shadow: 2px 0 25px rgb(0 0 0 / 8%);
+  }
+
   @supports (scrollbar-gutter: stable) {
     .menu {
-      padding: 0.5rem 0 0.5rem 0.5rem;
+      padding: 1rem 0 1rem 0.5rem;
       scrollbar-gutter: stable;
     }
   }
 
   .menuWithAnnouncementBar {
     margin-bottom: var(--docusaurus-announcement-bar-height);
+  }
+
+  /* Custom scrollbar styling */
+  .menu::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .menu::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .menu::-webkit-scrollbar-thumb {
+    background: var(--ifm-color-emphasis-300);
+    border-radius: 3px;
+  }
+
+  .menu::-webkit-scrollbar-thumb:hover {
+    background: var(--ifm-color-emphasis-400);
   }
 }

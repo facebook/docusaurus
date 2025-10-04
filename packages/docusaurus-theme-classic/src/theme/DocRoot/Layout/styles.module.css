@@ -8,9 +8,32 @@
 .docRoot {
   display: flex;
   width: 100%;
+  min-height: calc(100vh - var(--ifm-navbar-height));
+  background: linear-gradient(
+    135deg,
+    var(--ifm-background-color) 0%,
+    var(--ifm-color-emphasis-100) 100%
+  );
 }
 
 .docsWrapper {
   display: flex;
   flex: 1 0 auto;
+  position: relative;
+}
+
+.docsWrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--ifm-color-primary) 50%,
+    transparent 100%
+  );
+  opacity: 0.3;
 }

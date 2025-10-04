@@ -5,13 +5,66 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+.docItemContainer {
+  position: relative;
+  background: var(--ifm-background-color);
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 4%);
+  transition: all 0.3s ease;
+}
+
+.docItemContainer:hover {
+  box-shadow: 0 4px 16px rgb(0 0 0 / 8%);
+  transform: translateY(-1px);
+}
+
 .docItemContainer header + *,
 .docItemContainer article > *:first-child {
   margin-top: 0;
 }
 
+.docItemContainer article {
+  position: relative;
+}
+
+.docItemContainer article::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(
+    180deg,
+    var(--ifm-color-primary) 0%,
+    var(--ifm-color-primary-light) 100%
+  );
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
 @media (min-width: 997px) {
   .docItemCol {
     max-width: 75% !important;
+  }
+
+  .docItemContainer {
+    margin: 1.5rem 0;
+    padding: 2.5rem;
+  }
+}
+
+@media (max-width: 996px) {
+  .docItemContainer {
+    margin: 0.5rem 0;
+    padding: 1.5rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .docItemContainer article::before {
+    display: none;
   }
 }

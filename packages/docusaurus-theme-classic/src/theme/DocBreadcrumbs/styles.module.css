@@ -7,5 +7,43 @@
 
 .breadcrumbsContainer {
   --ifm-breadcrumb-size-multiplier: 0.8;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 8px;
+  border-left: 4px solid var(--ifm-color-primary);
+  transition: all 0.3s ease;
+}
+
+.breadcrumbsContainer:hover {
+  background: var(--ifm-color-emphasis-200);
+  transform: translateX(2px);
+}
+
+.breadcrumbsContainer .breadcrumbs__item {
+  position: relative;
+}
+
+.breadcrumbsContainer .breadcrumbs__item:not(:last-child)::after {
+  content: '→';
+  margin: 0 0.5rem;
+  color: var(--ifm-color-emphasis-600);
+  font-weight: 500;
+}
+
+.breadcrumbsContainer .breadcrumbs__link {
+  color: var(--ifm-color-emphasis-700);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbsContainer .breadcrumbs__link:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.breadcrumbsContainer .breadcrumbs__item--active .breadcrumbs__link {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
 }

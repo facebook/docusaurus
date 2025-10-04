@@ -8,21 +8,41 @@
 .docMainContainer {
   display: flex;
   width: 100%;
+  position: relative;
+  background: var(--ifm-background-color);
+  border-radius: 12px 0 0 12px;
+  box-shadow: -2px 0 20px rgb(0 0 0 / 5%);
+  transition: all 0.3s ease;
+}
+
+.docMainContainer:hover {
+  box-shadow: -2px 0 25px rgb(0 0 0 / 8%);
 }
 
 @media (min-width: 997px) {
   .docMainContainer {
     flex-grow: 1;
     max-width: calc(100% - var(--doc-sidebar-width));
+    margin: 1rem 1rem 1rem 0;
   }
 
   .docMainContainerEnhanced {
     max-width: calc(100% - var(--doc-sidebar-hidden-width));
+    margin: 1rem;
+    border-radius: 12px;
   }
 
   .docItemWrapperEnhanced {
     max-width: calc(
       var(--ifm-container-width) + var(--doc-sidebar-width)
     ) !important;
+  }
+}
+
+@media (max-width: 996px) {
+  .docMainContainer {
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
   }
 }
