@@ -10,11 +10,7 @@ import {mergeTranslations} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import {CURRENT_VERSION_NAME} from './constants';
 import {
-  collectSidebarCategories,
   transformSidebarItems,
-  collectSidebarLinks,
-  collectSidebarDocItems,
-  collectSidebarRefs,
 } from './sidebars/utils';
 import type {
   LoadedVersion,
@@ -22,6 +18,7 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 import type {
   Sidebar,
+  SidebarItem,
   SidebarItemCategory,
   SidebarItemCategoryLink,
   Sidebars,
@@ -79,75 +76,70 @@ function getSidebarTranslationFileContent(
   sidebar: Sidebar,
   sidebarName: string,
 ): TranslationFileContent {
-  const categories = collectSidebarCategories(sidebar);
+  const allEntries: TranslationMessageEntry[] = [];
+  let path: string = '';
 
-  const categoryEntries: TranslationMessageEntry[] = categories.flatMap(
-    (category) => {
-      const entries: TranslationMessageEntry[] = [];
-      const categoryKey = category.key ?? category.label;
-
-      entries.push([
+  function sidebarRecursive(item: SidebarItem): void {
+    if (item.type === 'category') {
+      const categoryKey = item.key ?? (path + item.label);
+      allEntries.push([
         `sidebar.${sidebarName}.category.${categoryKey}`,
         {
-          message: category.label,
-          description: `The label for category ${category.label} in sidebar ${sidebarName}`,
+          message: item.label,
+          description: `The label for category ${item.label} in sidebar ${sidebarName}`,
         },
       ]);
 
-      if (category.link?.type === 'generated-index') {
-        if (category.link.title) {
-          entries.push([
+      if (item.link?.type === 'generated-index') {
+        if (item.link.title) {
+          allEntries.push([
             `sidebar.${sidebarName}.category.${categoryKey}.link.generated-index.title`,
             {
-              message: category.link.title,
-              description: `The generated-index page title for category ${category.label} in sidebar ${sidebarName}`,
+              message: item.link.title,
+              description: `The generated-index page title for category ${item.label} in sidebar ${sidebarName}`,
             },
           ]);
         }
-        if (category.link.description) {
-          entries.push([
+        if (item.link.description) {
+          allEntries.push([
             `sidebar.${sidebarName}.category.${categoryKey}.link.generated-index.description`,
             {
-              message: category.link.description,
-              description: `The generated-index page description for category ${category.label} in sidebar ${sidebarName}`,
+              message: item.link.description,
+              description: `The generated-index page description for category ${item.label} in sidebar ${sidebarName}`,
             },
           ]);
         }
       }
 
-      return entries;
-    },
-  );
+      const prevPath = path;
+      path = (path + item.label) + '.';
+      item.items.forEach(sidebarRecursive);
+      path = prevPath;
+    } else if (item.type === 'link') {
+      const linkKey = item.key ?? (path + item.label);
+      allEntries.push([
+        `sidebar.${sidebarName}.link.${linkKey}`,
+        {
+          message: item.label,
+          description: `The label for link ${item.label} in sidebar ${sidebarName}, linking to ${item.href}`,
+        },
+      ]);
+    } else if ((item.type === 'doc' || item.type === 'ref') && item.translatable) {
+      const docKey = item.key ?? (path + item.label);
+      allEntries.push([
+        `sidebar.${sidebarName}.doc.${docKey}`,
+        {
+          message: item.label!,
+          description: `The label for the doc item ${item.label!} in sidebar ${sidebarName}, linking to the doc ${
+            item.id
+          }`,
+        },
+      ]);
+    }
+  }
 
-  const links = collectSidebarLinks(sidebar);
-  const linksEntries: TranslationMessageEntry[] = links.map((link) => {
-    const linkKey = link.key ?? link.label;
-    return [
-      `sidebar.${sidebarName}.link.${linkKey}`,
-      {
-        message: link.label,
-        description: `The label for link ${link.label} in sidebar ${sidebarName}, linking to ${link.href}`,
-      },
-    ];
-  });
-
-  const docs = collectSidebarDocItems(sidebar)
-    .concat(collectSidebarRefs(sidebar))
-    .filter((item) => item.translatable);
-  const docLinksEntries: TranslationMessageEntry[] = docs.map((doc) => {
-    const docKey = doc.key ?? doc.label!;
-    return [
-      `sidebar.${sidebarName}.doc.${docKey}`,
-      {
-        message: doc.label!,
-        description: `The label for the doc item ${doc.label!} in sidebar ${sidebarName}, linking to the doc ${
-          doc.id
-        }`,
-      },
-    ];
-  });
-
-  const allEntries = [...categoryEntries, ...linksEntries, ...docLinksEntries];
+  sidebar.forEach(sidebarRecursive);
+  
   ensureNoSidebarDuplicateEntries(allEntries);
   return Object.fromEntries(allEntries);
 }
