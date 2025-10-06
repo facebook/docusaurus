@@ -284,6 +284,8 @@ interface PrismConfig {
   darkTheme?: PrismTheme;
   /** The default language to use for code blocks not declaring any explicit language */
   defaultLanguage?: string;
+  /** Additional languages to use for code blocks */
+  additionalLanguages?: string[];
   /** The list of magic comments */
   magicComments?: MagicCommentConfig[];
 }
