@@ -20,13 +20,13 @@ import type {
 
 const defaultPrismTheme = themes.palenight;
 
-const DEFAULT_DOCS_CONFIG: ThemeConfig['docs'] = {
+const DEFAULT_DOCS_CONFIG = {
   versionPersistence: 'localStorage',
   sidebar: {
     hideable: false,
     autoCollapseCategories: false,
   },
-};
+} as const satisfies ThemeConfig['docs'];
 
 const DocsSchema = Joi.object<ThemeConfig['docs']>({
   versionPersistence: Joi.string()
@@ -40,11 +40,11 @@ const DocsSchema = Joi.object<ThemeConfig['docs']>({
   }).default(DEFAULT_DOCS_CONFIG.sidebar),
 }).default(DEFAULT_DOCS_CONFIG);
 
-const DEFAULT_BLOG_CONFIG: ThemeConfig['blog'] = {
+const DEFAULT_BLOG_CONFIG = {
   sidebar: {
     groupByYear: true,
   },
-};
+} as const satisfies ThemeConfig['blog'];
 
 const BlogSchema = Joi.object<ThemeConfig['blog']>({
   sidebar: Joi.object<ThemeConfig['blog']['sidebar']>({
@@ -52,13 +52,13 @@ const BlogSchema = Joi.object<ThemeConfig['blog']>({
   }).default(DEFAULT_BLOG_CONFIG.sidebar),
 }).default(DEFAULT_BLOG_CONFIG);
 
-const DEFAULT_COLOR_MODE_CONFIG: ThemeConfig['colorMode'] = {
+const DEFAULT_COLOR_MODE_CONFIG = {
   defaultMode: 'light',
   disableSwitch: false,
   respectPrefersColorScheme: false,
-};
+} as const satisfies ThemeConfig['colorMode'];
 
-export const DEFAULT_CONFIG: ThemeConfig = {
+export const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   docs: DEFAULT_DOCS_CONFIG,
   blog: DEFAULT_BLOG_CONFIG,
@@ -82,7 +82,7 @@ export const DEFAULT_CONFIG: ThemeConfig = {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
   },
-};
+} as const satisfies ThemeConfig;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
