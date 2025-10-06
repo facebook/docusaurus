@@ -241,3 +241,30 @@ html[data-navbar='false'] {
 html[data-red-border] div#__docusaurus {
   border: red solid thick;
 }
+
+.DocSearch-Form {
+  position: relative;
+}
+
+.DocSearch-Input {
+  padding-right: 3rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.DocSearch-Clear {
+  position: absolute;
+  right: 2.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  cursor: pointer;
+}
+
+.DocSearch-Divider {
+  position: absolute;
+  right: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
