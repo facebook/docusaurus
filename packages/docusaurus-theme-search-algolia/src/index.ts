@@ -46,8 +46,13 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
 
     contentLoaded({actions: {addRoute}}) {
       if (searchPagePath) {
+        const path = normalizeUrl(
+          typeof searchPagePath === 'string'
+            ? [baseUrl, searchPagePath]
+            : [baseUrl],
+        );
         addRoute({
-          path: normalizeUrl([baseUrl, searchPagePath]),
+          path,
           component: '@theme/SearchPage',
           exact: true,
         });

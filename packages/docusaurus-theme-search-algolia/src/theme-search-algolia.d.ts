@@ -13,7 +13,7 @@ declare module '@docsearch/react/version';
 declare module '@docusaurus/theme-search-algolia' {
   import type {DeepPartial, Overwrite} from 'utility-types';
 
-  import type {DocSearchProps} from '@docsearch/react';
+  import type {DocSearchModalProps} from '@docsearch/react';
   import type {FacetFilters} from 'algoliasearch/lite';
 
   // The config after normalization (e.g. AskAI string -> object)
@@ -29,7 +29,7 @@ declare module '@docusaurus/theme-search-algolia' {
 
   // DocSearch props that Docusaurus exposes directly through props forwarding
   type DocusaurusDocSearchProps = Pick<
-    DocSearchProps,
+    DocSearchModalProps,
     | 'appId'
     | 'apiKey'
     | 'indexName'
@@ -38,6 +38,7 @@ declare module '@docusaurus/theme-search-algolia' {
     | 'searchParameters'
     | 'insights'
     | 'initialQuery'
+    | 'onAskAiToggle'
   > & {
     // Docusaurus normalizes the AskAI config to an object
     askAi?: AskAiConfig;
@@ -50,7 +51,7 @@ declare module '@docusaurus/theme-search-algolia' {
     // Docusaurus custom options, not coming from DocSearch
     contextualSearch: boolean;
     externalUrlRegex?: string;
-    searchPagePath: string | false | null;
+    searchPagePath: string | boolean;
     replaceSearchResultPathname?: {
       from: string;
       to: string;

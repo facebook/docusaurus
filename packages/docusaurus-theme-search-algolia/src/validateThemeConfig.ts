@@ -20,7 +20,7 @@ export const DEFAULT_CONFIG = {
   contextualSearch: true,
   searchParameters: {},
   searchPagePath: 'search',
-} satisfies Partial<ThemeConfigAlgolia>;
+} as const satisfies Partial<ThemeConfigAlgolia>;
 
 const FacetFiltersSchema = Joi.array().items(
   Joi.alternatives().try(Joi.string(), Joi.array().items(Joi.string())),

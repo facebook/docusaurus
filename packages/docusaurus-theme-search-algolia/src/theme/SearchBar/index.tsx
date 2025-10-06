@@ -44,13 +44,16 @@ import type {
 
 import type {AutocompleteState} from '@algolia/autocomplete-core';
 import type {FacetFilters} from 'algoliasearch/lite';
-import type {ThemeConfigAlgolia} from '@docusaurus/theme-search-algolia';
+import type {
+  ThemeConfig,
+  ThemeConfigAlgolia,
+} from '@docusaurus/theme-search-algolia';
 
 type DocSearchProps = Omit<
   DocSearchModalProps,
   'onClose' | 'initialScrollY'
 > & {
-  contextualSearch?: string;
+  contextualSearch?: boolean;
   externalUrlRegex?: string;
   searchPagePath: boolean | string;
   askAi?: Exclude<
@@ -314,7 +317,5 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
 
 export default function SearchBar(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
-  return (
-    <DocSearch {...(siteConfig.themeConfig.algolia as DocSearchV4Props)} />
-  );
+  return <DocSearch {...(siteConfig.themeConfig as ThemeConfig).algolia} />;
 }

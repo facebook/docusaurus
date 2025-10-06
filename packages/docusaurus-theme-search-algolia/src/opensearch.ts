@@ -54,7 +54,7 @@ function createOpenSearchFileContent({
   searchPagePath,
 }: {
   context: LoadContext;
-  searchPagePath: string;
+  searchPagePath: ThemeConfig['algolia']['searchPagePath'];
 }): string {
   const {
     baseUrl,
@@ -62,11 +62,14 @@ function createOpenSearchFileContent({
   } = context;
 
   const siteUrl = normalizeUrl([url, baseUrl]);
+  const searchUrl = normalizeUrl(
+    typeof searchPagePath === 'string' ? [baseUrl, searchPagePath] : [baseUrl],
+  );
 
   return renderOpenSearchTemplate({
     title,
     siteUrl,
-    searchUrl: normalizeUrl([siteUrl, searchPagePath]),
+    searchUrl,
     faviconUrl: favicon ? normalizeUrl([siteUrl, favicon]) : null,
   });
 }
