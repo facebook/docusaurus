@@ -41,7 +41,9 @@ const Context = React.createContext<ContextValue | undefined>(undefined);
 
 function useIsNavbarMobileSidebarDisabled() {
   const secondaryMenuContent = useNavbarSecondaryMenuContent();
-  const {items} = useThemeConfig().navbar;
+  const {
+    navbar: {items = []},
+  } = useThemeConfig();
   return items.length === 0 && !secondaryMenuContent.component;
 }
 
