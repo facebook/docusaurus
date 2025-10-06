@@ -7,15 +7,11 @@
 
 import _ from 'lodash';
 import {mergeTranslations} from '@docusaurus/utils';
-import type {TranslationFile, TranslationFileContent} from '@docusaurus/types';
-import type {
-  ThemeConfig,
-  Navbar,
-  NavbarItem,
-  Footer,
-  MultiColumnFooter,
-  SimpleFooter,
+import {
+  type ThemeConfig,
+  isMultiColumnFooterLinks,
 } from '@docusaurus/theme-common';
+import type {TranslationFile, TranslationFileContent} from '@docusaurus/types';
 
 function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
   // TODO handle properly all the navbar item types here!
@@ -95,12 +91,6 @@ function translateNavbar(
       };
     }),
   };
-}
-
-function isMultiColumnFooterLinks(
-  links: MultiColumnFooter['links'] | SimpleFooter['links'],
-): links is MultiColumnFooter['links'] {
-  return links.length > 0 && 'title' in links[0]!;
 }
 
 function getFooterTranslationFile(footer: Footer): TranslationFileContent {

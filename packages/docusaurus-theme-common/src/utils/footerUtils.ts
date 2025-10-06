@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {MultiColumnFooter, SimpleFooter} from './useThemeConfig';
+import type {FooterColumnLinkItem, FooterLinkItem} from '@docusaurus/types';
 
 /**
  * A rough duck-typing about whether the `footer.links` is intended to be multi-
  * column.
  */
 export function isMultiColumnFooterLinks(
-  links: MultiColumnFooter['links'] | SimpleFooter['links'],
-): links is MultiColumnFooter['links'] {
-  return 'title' in links[0]!;
+  links: FooterColumnLinkItem[] | FooterLinkItem[],
+): links is FooterColumnLinkItem[] {
+  const [maybeFirstLink] = links;
+  return maybeFirstLink !== undefined && 'title' in maybeFirstLink;
 }

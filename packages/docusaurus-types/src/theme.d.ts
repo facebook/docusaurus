@@ -81,7 +81,7 @@ interface NavbarLogo {
   style?: React.CSSProperties;
 }
 
-interface NavbarLinkItem {
+export interface NavbarLinkItem {
   type?: 'default';
   /** The name to be shown for this item */
   label?: string;
@@ -108,7 +108,7 @@ interface NavbarLinkItem {
   [key: string]: unknown;
 }
 
-interface NavbarDocLinkItem {
+export interface NavbarDocLinkItem {
   type: 'doc';
   /** The ID of the doc that this item links to */
   docId: string;
@@ -120,7 +120,7 @@ interface NavbarDocLinkItem {
   docsPluginId?: string;
 }
 
-interface NavbarDocSidebarItem {
+export interface NavbarDocSidebarItem {
   type: 'docSidebar';
   /** The ID of the sidebar that this item is linked to */
   sidebarId: string;
@@ -132,7 +132,7 @@ interface NavbarDocSidebarItem {
   docsPluginId?: string;
 }
 
-interface NavbarDropdownItem {
+export interface NavbarDropdownItem {
   type: 'dropdown';
   /** The name to be shown for this item */
   label: string;
@@ -149,7 +149,7 @@ interface DropdownVersion {
 
 type DropdownVersions = string[] | Record<string, DropdownVersion>;
 
-interface NavbarDocsVersionDropdownItem {
+export interface NavbarDocsVersionDropdownItem {
   type: 'docsVersionDropdown';
   /** The side of the navbar this item should appear on */
   position?: NavbarPosition;
@@ -165,7 +165,7 @@ interface NavbarDocsVersionDropdownItem {
   versions?: DropdownVersions;
 }
 
-interface NavbarDocsVersionItem {
+export interface NavbarDocsVersionItem {
   type: 'docsVersion';
   /** The name to be shown for this item */
   label?: string;
@@ -177,7 +177,7 @@ interface NavbarDocsVersionItem {
   docsPluginId?: string;
 }
 
-interface NavbarLocaleDropdownItem {
+export interface NavbarLocaleDropdownItem {
   type: 'localeDropdown';
   /** The side of the navbar this item should appear on */
   position?: NavbarPosition;
@@ -189,7 +189,7 @@ interface NavbarLocaleDropdownItem {
   queryString?: string;
 }
 
-interface NavbarSearchItem {
+export interface NavbarSearchItem {
   type: 'search';
   /** The side of the navbar this item should appear on */
   position?: NavbarPosition;
@@ -197,7 +197,7 @@ interface NavbarSearchItem {
   className?: string;
 }
 
-interface NavbarHtmlItem {
+export interface NavbarHtmlItem {
   type: 'html';
   /** The side of the navbar this item should appear on */
   position?: NavbarPosition;
@@ -207,7 +207,7 @@ interface NavbarHtmlItem {
   value: string;
 }
 
-type NavbarItem =
+export type NavbarItem =
   | NavbarLinkItem
   | NavbarDocLinkItem
   | NavbarDocSidebarItem
@@ -235,7 +235,7 @@ interface NavbarConfig {
 // Footer Configuration
 // ============================================================================
 
-interface FooterLinkItem {
+export interface FooterLinkItem {
   /** Text to be displayed for this link */
   label?: string;
   /** Client-side routing, used for navigating within the website */
@@ -246,7 +246,7 @@ interface FooterLinkItem {
   html?: string;
 }
 
-interface FooterLinkColumn {
+export interface FooterColumnLinkItem {
   /** Label of the section of these links */
   title?: string;
   /** Links in this section */
@@ -261,7 +261,7 @@ interface FooterConfig {
   /** The color theme of the footer component */
   style?: FooterStyle;
   /** The link groups to be present */
-  links?: (FooterLinkColumn | FooterLinkItem)[];
+  links?: FooterLinkItem[] | FooterColumnLinkItem[];
 }
 
 // ============================================================================

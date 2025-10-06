@@ -98,4 +98,20 @@ export {
 
 export {UseDataOptions} from './utils';
 
-export {ThemeConfig, ColorMode, MagicCommentConfig} from './theme';
+export {
+  ThemeConfig,
+  ColorMode,
+  FooterColumnLinkItem,
+  FooterLinkItem,
+  MagicCommentConfig,
+  NavbarItem,
+  NavbarLinkItem,
+  NavbarDocLinkItem,
+  NavbarDocSidebarItem,
+  NavbarDocsVersionDropdownItem,
+  NavbarDocsVersionItem,
+  NavbarDropdownItem,
+  NavbarHtmlItem,
+  NavbarLocaleDropdownItem,
+  NavbarSearchItem,
+} from './theme';
