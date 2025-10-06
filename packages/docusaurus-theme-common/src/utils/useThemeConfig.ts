@@ -7,17 +7,27 @@
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {ThemeConfig as BaseThemeConfig} from '@docusaurus/types';
-import type {Required} from 'utility-types';
+import type {DeepRequired, Overwrite, Required} from 'utility-types';
 
-export type ThemeConfig = Required<
-  BaseThemeConfig,
-  | 'blog'
-  | 'colorMode'
-  | 'docs'
-  | 'metadata'
-  | 'navbar'
-  | 'prism'
-  | 'tableOfContents'
+export type ThemeConfig = Overwrite<
+  Required<
+    BaseThemeConfig,
+    | 'blog'
+    | 'colorMode'
+    | 'docs'
+    | 'metadata'
+    | 'navbar'
+    | 'prism'
+    | 'tableOfContents'
+  >,
+  {
+    blog: DeepRequired<BaseThemeConfig['blog']>;
+    colorMode: DeepRequired<BaseThemeConfig['colorMode']>;
+    docs: DeepRequired<BaseThemeConfig['docs']>;
+    navbar: DeepRequired<BaseThemeConfig['navbar']>;
+    prism: DeepRequired<BaseThemeConfig['prism']>;
+    tableOfContents: DeepRequired<BaseThemeConfig['tableOfContents']>;
+  }
 >;
 
 /**
