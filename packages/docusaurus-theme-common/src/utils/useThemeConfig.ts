@@ -9,24 +9,36 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {ThemeConfig as BaseThemeConfig} from '@docusaurus/types';
 import type {DeepRequired, Overwrite, Required} from 'utility-types';
 
+type RawThemeConfig = Required<
+  BaseThemeConfig,
+  | 'blog'
+  | 'colorMode'
+  | 'docs'
+  | 'metadata'
+  | 'navbar'
+  | 'prism'
+  | 'tableOfContents'
+>;
+
+/**
+ * TODO Docusaurus v4: use interface + declaration merging to enhance
+ * Theme config after validation/normalization
+ *
+ * TODO we should complete this theme config type over time
+ * and share it across all themes
+ * and use it in the Joi validation schema?
+ */
 export type ThemeConfig = Overwrite<
-  Required<
-    BaseThemeConfig,
-    | 'blog'
-    | 'colorMode'
-    | 'docs'
-    | 'metadata'
-    | 'navbar'
-    | 'prism'
-    | 'tableOfContents'
-  >,
+  RawThemeConfig,
   {
-    blog: DeepRequired<BaseThemeConfig['blog']>;
-    colorMode: DeepRequired<BaseThemeConfig['colorMode']>;
-    docs: DeepRequired<BaseThemeConfig['docs']>;
-    navbar: DeepRequired<BaseThemeConfig['navbar']>;
-    prism: DeepRequired<BaseThemeConfig['prism']>;
-    tableOfContents: DeepRequired<BaseThemeConfig['tableOfContents']>;
+    docs: DeepRequired<RawThemeConfig['docs']>;
+    blog: DeepRequired<RawThemeConfig['blog']>;
+    navbar: DeepRequired<RawThemeConfig['navbar']>;
+    colorMode: DeepRequired<RawThemeConfig['colorMode']>;
+    announcementBar?: Required<NonNullable<RawThemeConfig['announcementBar']>>;
+    prism: DeepRequired<RawThemeConfig['prism']>;
+    footer?: Required<NonNullable<RawThemeConfig['footer']>, 'links' | 'style'>;
+    tableOfContents: DeepRequired<RawThemeConfig['tableOfContents']>;
   }
 >;
 

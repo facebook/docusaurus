@@ -43,10 +43,7 @@ export function useContextualSearchFilters() {
  * APIs to document
  */
 
-export {
-  useThemeConfig,
-  type ThemeConfig
-} from './utils/useThemeConfig';
+export {useThemeConfig, type ThemeConfig} from './utils/useThemeConfig';
 
 export {default as ThemedComponent} from './components/ThemedComponent';
 

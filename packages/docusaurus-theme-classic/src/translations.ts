@@ -11,11 +11,18 @@ import {
   type ThemeConfig,
   isMultiColumnFooterLinks,
 } from '@docusaurus/theme-common';
-import type {TranslationFile, TranslationFileContent} from '@docusaurus/types';
+import type {
+  NavbarItem,
+  TranslationFile,
+  TranslationFileContent,
+} from '@docusaurus/types';
+
+type Navbar = ThemeConfig['navbar']['items'];
+type Footer = NonNullable<ThemeConfig['footer']>;
 
 function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
   // TODO handle properly all the navbar item types here!
-  function flattenNavbarItems(items: NavbarItem[]): NavbarItem[] {
+  function flattenNavbarItems(items: NavbarItem[] = []): NavbarItem[] {
     const subItems = items.flatMap((item) => {
       const allSubItems = [item.items ?? []].flat();
       return flattenNavbarItems(allSubItems);
