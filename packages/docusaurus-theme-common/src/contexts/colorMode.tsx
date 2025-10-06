@@ -23,10 +23,12 @@ import type {ColorMode} from '@docusaurus/types';
 // null => no choice has been made, or the choice has been reverted to OS value
 export type ColorModeChoice = ColorMode | null;
 
+const DEFAULT_COLOR_MODE = 'light' as const satisfies ColorMode;
+
 function getSystemColorMode(): ColorMode {
   return window.matchMedia('(prefers-color-scheme: dark)').matches
     ? 'dark'
-    : 'light';
+    : DEFAULT_COLOR_MODE;
 }
 
 function subscribeToMedia(
@@ -72,7 +74,7 @@ const SystemAttribute = 'system';
 
 // Ensure to always return a valid colorMode even if input is invalid
 const coerceToColorMode = (colorMode: string | null): ColorMode =>
-  colorMode === 'dark' ? 'dark' : 'light';
+  colorMode === 'dark' ? 'dark' : DEFAULT_COLOR_MODE;
 const coerceToColorModeChoice = (colorMode: string | null): ColorModeChoice =>
   colorMode === null || colorMode === SystemAttribute
     ? null
@@ -121,7 +123,7 @@ const persistColorModeChoice = (newColorMode: ColorModeChoice) => {
 // See also https://github.com/facebook/docusaurus/issues/7986
 function useColorModeState() {
   const {
-    colorMode: {defaultMode},
+    colorMode: {defaultMode = DEFAULT_COLOR_MODE},
   } = useThemeConfig();
   const isBrowser = useIsBrowser();
 
@@ -150,7 +152,11 @@ function useColorModeState() {
 
 function useContextValue(): ContextValue {
   const {
-    colorMode: {defaultMode, disableSwitch, respectPrefersColorScheme},
+    colorMode: {
+      defaultMode = DEFAULT_COLOR_MODE,
+      disableSwitch,
+      respectPrefersColorScheme,
+    },
   } = useThemeConfig();
   const {
     colorMode,
