@@ -7,8 +7,7 @@
 
 import rules from './rules';
 
-// @ts-expect-error: TODO try to remove later
-export = {
+const plugin = {
   rules,
   configs: {
     recommended: {
@@ -30,3 +29,6 @@ export = {
     },
   },
 };
+
+ 
+module.exports = plugin;
