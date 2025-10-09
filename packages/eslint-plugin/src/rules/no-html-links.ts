@@ -91,7 +91,37 @@ export default createRule<Options, MessageIds>({
               ) {
                 return;
               }
-              // TODO add more complex TemplateLiteral cases here
+              // Handle template literals with static expressions
+              if (expression.expressions.length > 0) {
+                // Try to evaluate static template literal
+                try {
+                  let result = '';
+                  for (let i = 0; i < expression.quasis.length; i += 1) {
+                    const quasi = expression.quasis[i];
+                    if (quasi?.type === 'TemplateElement') {
+                      result += quasi.value.raw;
+                    }
+                    if (i < expression.expressions.length) {
+                      const expr = expression.expressions[i];
+                      // Handle simple string concatenation
+                      if (
+                        expr.type === 'BinaryExpression' &&
+                        expr.operator === '+' &&
+                        expr.left.type === 'Literal' &&
+                        expr.right.type === 'Literal'
+                      ) {
+                        result +=
+                          String(expr.left.value) + String(expr.right.value);
+                      }
+                    }
+                  }
+                  if (isFullyResolvedUrl(result)) {
+                    return;
+                  }
+                } catch {
+                  // If evaluation fails, continue to report error
+                }
+              }
             }
           }
         }
