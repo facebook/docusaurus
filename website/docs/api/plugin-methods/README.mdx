@@ -70,19 +70,21 @@ export default async function myPlugin(context, opts) {
       // After docusaurus <build> finish.
     },
 
-    // TODO
     async postStart(props) {
-      // docusaurus <start> finish
+      // Called after docusaurus <start> finishes
+      console.log('Development server started successfully');
     },
 
-    // TODO
     afterDevServer(app, server) {
-      // https://webpack.js.org/configuration/dev-server/#devserverbefore
+      // Called after the development server starts
+      // Useful for adding middleware or custom routes
+      console.log('Development server is running');
     },
 
-    // TODO
     beforeDevServer(app, server) {
-      // https://webpack.js.org/configuration/dev-server/#devserverafter
+      // Called before the development server starts
+      // Useful for configuring server options or adding middleware
+      console.log('Setting up development server...');
     },
 
     configureWebpack(config, isServer, utils, content) {
