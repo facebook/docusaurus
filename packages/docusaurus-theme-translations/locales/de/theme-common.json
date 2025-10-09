@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Sprachen",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Zurück zum Hauptmenü",
   "theme.navbar.mobileVersionsDropdown.label": "Versionen",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Tags:",
   "theme.tags.tagsPageLink": "Alle Tags anzeigen",
   "theme.tags.tagsPageTitle": "Tags"

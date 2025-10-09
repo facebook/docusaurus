@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Languages",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "→ بازگشت به منو اصلی",
   "theme.navbar.mobileVersionsDropdown.label": "نسخه‌ها",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "برچسب‌ها:",
   "theme.tags.tagsPageLink": "مشاهده تمام برچسب‌ها",
   "theme.tags.tagsPageTitle": "برچسب‌ها"

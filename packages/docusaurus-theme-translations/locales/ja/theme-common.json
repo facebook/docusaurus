@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "他の言語",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← メインメニューに戻る",
   "theme.navbar.mobileVersionsDropdown.label": "他のバージョン",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "タグ:",
   "theme.tags.tagsPageLink": "全てのタグを見る",
   "theme.tags.tagsPageTitle": "タグ"

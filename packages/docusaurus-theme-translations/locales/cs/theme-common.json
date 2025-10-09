@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Languages",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Zpět na hlavní menu",
   "theme.navbar.mobileVersionsDropdown.label": "Versions",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Tagy:",
   "theme.tags.tagsPageLink": "Zobrazit všechny tagy",
   "theme.tags.tagsPageTitle": "Tagy"

@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Språk",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Tilbake til hovedmenyen",
   "theme.navbar.mobileVersionsDropdown.label": "Versjoner",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Tagger:",
   "theme.tags.tagsPageLink": "Vis alle tagger",
   "theme.tags.tagsPageTitle": "Tagger"

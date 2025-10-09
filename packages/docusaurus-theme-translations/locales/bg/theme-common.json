@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Езици",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Назад към главното меню",
   "theme.navbar.mobileVersionsDropdown.label": "Версии",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Етикети:",
   "theme.tags.tagsPageLink": "Вижте всички етикети",
   "theme.tags.tagsPageTitle": "Етикети"

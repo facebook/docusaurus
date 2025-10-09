@@ -79,6 +79,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Tungumál",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Til baka á aðal valmynd",
   "theme.navbar.mobileVersionsDropdown.label": "Útgáfur",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Merki:",
   "theme.tags.tagsPageLink": "Skoða Öll Merki",
   "theme.tags.tagsPageTitle": "Merki"

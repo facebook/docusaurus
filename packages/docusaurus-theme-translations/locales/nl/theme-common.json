@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Talen",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Terug naar het hoofdmenu",
   "theme.navbar.mobileVersionsDropdown.label": "Versies",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Tags:",
   "theme.tags.tagsPageLink": "Laat alle tags zien",
   "theme.tags.tagsPageTitle": "Tags"

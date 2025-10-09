@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Bahasa",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Kembali ke menu utama",
   "theme.navbar.mobileVersionsDropdown.label": "Versi",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Tag:",
   "theme.tags.tagsPageLink": "Lihat Semua Tag",
   "theme.tags.tagsPageTitle": "Tag"

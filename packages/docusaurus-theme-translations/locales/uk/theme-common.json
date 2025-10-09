@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Мови",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Перейти до головного меню",
   "theme.navbar.mobileVersionsDropdown.label": "Версії",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Теги:",
   "theme.tags.tagsPageLink": "Переглянути всі теги",
   "theme.tags.tagsPageTitle": "Теги"

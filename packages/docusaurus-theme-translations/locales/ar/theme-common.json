@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "اللغات",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "→ العودة إلى القائمة الرئيسية",
   "theme.navbar.mobileVersionsDropdown.label": "إصدارات",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "الوسوم:",
   "theme.tags.tagsPageLink": "عرض كل الوسوم",
   "theme.tags.tagsPageTitle": "الوسوم"

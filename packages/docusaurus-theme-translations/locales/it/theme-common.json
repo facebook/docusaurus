@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Linguaggio",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Indietro al menu principale",
   "theme.navbar.mobileVersionsDropdown.label": "Versioni",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Etichette:",
   "theme.tags.tagsPageLink": "Guarda tutte le etichette",
   "theme.tags.tagsPageTitle": "Etichette"

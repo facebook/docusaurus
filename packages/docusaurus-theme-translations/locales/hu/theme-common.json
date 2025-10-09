@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Nyelvek",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Vissza a főmenühöz",
   "theme.navbar.mobileVersionsDropdown.label": "Verziók",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Címkék:",
   "theme.tags.tagsPageLink": "Összes címke megtekintése",
   "theme.tags.tagsPageTitle": "Címkék"

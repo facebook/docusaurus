@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Ngôn ngữ",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Trở lại menu chính",
   "theme.navbar.mobileVersionsDropdown.label": "Phiên bản",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Thẻ:",
   "theme.tags.tagsPageLink": "Xem tất cả thẻ",
   "theme.tags.tagsPageTitle": "Thẻ"

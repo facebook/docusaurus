@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "选择语言",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← 回到主菜单",
   "theme.navbar.mobileVersionsDropdown.label": "选择版本",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "标签：",
   "theme.tags.tagsPageLink": "查看所有标签",
   "theme.tags.tagsPageTitle": "标签"

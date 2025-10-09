@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Languages",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← মেন মেনুতে যান",
   "theme.navbar.mobileVersionsDropdown.label": "Versions",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "ট্যাগ্স:",
   "theme.tags.tagsPageLink": "সমস্ত ট্যাগ্স দেখুন",
   "theme.tags.tagsPageTitle": "ট্যাগ্স"

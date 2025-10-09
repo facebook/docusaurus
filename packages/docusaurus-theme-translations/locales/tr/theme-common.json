@@ -78,6 +78,10 @@
   "theme.navbar.mobileLanguageDropdown.label": "Diller",
   "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": "← Ana menüye dön",
   "theme.navbar.mobileVersionsDropdown.label": "Versiyonlar",
+  "theme.showcase.clearAllButton": "Clear All",
+  "theme.showcase.operatorButton.and": "AND",
+  "theme.showcase.operatorButton.ariaLabel": "Toggle between OR and AND for the tags you selected",
+  "theme.showcase.operatorButton.or": "OR",
   "theme.tags.tagsListLabel": "Etiketler:",
   "theme.tags.tagsPageLink": "Tüm Etiketleri Görüntüle",
   "theme.tags.tagsPageTitle": "Etiketler"
