@@ -473,6 +473,12 @@ describe('i18n', () => {
           baseUrl: '/myBase/Url/',
         });
       });
+
+      it('accepts translate true', () => {
+        expect(normalizeLocaleConfig({translate: true})).toEqual({
+          translate: true,
+        });
+      });
     });
   });
 });

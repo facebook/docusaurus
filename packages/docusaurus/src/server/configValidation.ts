@@ -252,6 +252,7 @@ const LocaleConfigSchema = Joi.object<I18nLocaleConfig>({
   direction: Joi.string().equal('ltr', 'rtl'),
   calendar: Joi.string(),
   path: Joi.string(),
+  translate: Joi.boolean(),
   url: SiteUrlSchema,
   baseUrl: BaseUrlSchema,
 });
