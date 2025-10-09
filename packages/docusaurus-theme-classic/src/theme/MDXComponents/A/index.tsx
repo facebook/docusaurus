@@ -8,35 +8,14 @@
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import {useAnchorTargetClassName} from '@docusaurus/theme-common';
 import type {Props} from '@theme/MDXComponents/A';
-import styles from './styles.module.css';
-
-function isFootnoteRef(props: Props) {
-  return props['data-footnote-ref'] === true;
-}
-
-function FootnoteRefLink(props: Props) {
-  const {
-    navbar: {hideOnScroll},
-  } = useThemeConfig();
-  return (
-    <Link
-      {...props}
-      className={clsx(
-        hideOnScroll
-          ? styles.footnoteRefHideOnScrollNavbar
-          : styles.footnoteRefStickyNavbar,
-
-        props.className,
-      )}
-    />
-  );
-}
 
 export default function MDXA(props: Props): ReactNode {
-  if (isFootnoteRef(props)) {
-    return <FootnoteRefLink {...props} />;
-  }
-  return <Link {...props} />;
+  // MDX Footnotes have ids such as <a id="user-content-fn-1-953011" ...>
+  const anchorTargetClassName = useAnchorTargetClassName(props.id);
+
+  return (
+    <Link {...props} className={clsx(anchorTargetClassName, props.className)} />
+  );
 }

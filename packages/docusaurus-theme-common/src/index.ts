@@ -109,6 +109,8 @@ export {
   useSearchLinkCreator,
 } from './hooks/useSearchPage';
 
+export {useAnchorTargetClassName} from './utils/anchorUtils';
+
 export {isMultiColumnFooterLinks} from './utils/footerUtils';
 
 export {isRegexpStringMatch} from './utils/regexpUtils';
