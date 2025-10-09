@@ -105,10 +105,18 @@ export default createRule<Options, MessageIds>({
                       const expr = expression.expressions[i];
                       // Handle simple string concatenation
                       if (
+                        expr &&
                         expr.type === 'BinaryExpression' &&
+                        'operator' in expr &&
                         expr.operator === '+' &&
+                        'left' in expr &&
+                        'right' in expr &&
+                        expr.left &&
+                        expr.right &&
                         expr.left.type === 'Literal' &&
-                        expr.right.type === 'Literal'
+                        expr.right.type === 'Literal' &&
+                        'value' in expr.left &&
+                        'value' in expr.right
                       ) {
                         result +=
                           String(expr.left.value) + String(expr.right.value);
