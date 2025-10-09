@@ -182,8 +182,8 @@ export default async function createConfigAsync() {
             swcHtmlMinimizer: true,
             lightningCssMinimizer: true,
             mdxCrossCompilerCache: true,
-            rspackBundler: true,
-            rspackPersistentCache: true,
+            rspackBundler: process.env.NODE_ENV !== 'production',
+            rspackPersistentCache: process.env.NODE_ENV !== 'production',
             ssgWorkerThreads: true,
           },
       experimental_storage: {
