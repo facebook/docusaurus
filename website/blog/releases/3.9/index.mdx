@@ -145,7 +145,7 @@ erDiagram
 
 Other notable changes include:
 
-- In [#11283](https://github.com/facebook/docusaurus/pull/11283), we added `siteConfig.markdown.hooks.{onBrokenMarkdownLinks,onBrokenMarkdownLinks}` and deprecated `siteConfig.onBrokenMarkdownLinks`. The new callback hooks also let you recover from broken links/images by returning a fallback URL.
+- In [#11283](https://github.com/facebook/docusaurus/pull/11283), we added `siteConfig.markdown.hooks.{onBrokenMarkdownLinks,onBrokenMarkdownImages}` and deprecated `siteConfig.onBrokenMarkdownLinks`. The new callback hooks also let you recover from broken links/images by returning a fallback URL.
 - In [#11282](https://github.com/facebook/docusaurus/pull/11282), we added the `siteConfig.markdown.emoji` config option to disable the previously hard-coded `remark-emoji` behavior.
 - In [#11397](https://github.com/facebook/docusaurus/pull/11397), we can now resolve site-aliased Markdown links starting with `@site/*`, that we already supported for ES imports.
 - In [#11294](https://github.com/facebook/docusaurus/pull/11294) and [#11415](https://github.com/facebook/docusaurus/pull/11415), we upgraded to Rspack 1.5 and leveraging new Rspack config options to make Docusaurus build faster.
