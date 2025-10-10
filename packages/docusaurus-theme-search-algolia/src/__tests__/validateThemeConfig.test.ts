@@ -229,10 +229,33 @@ describe('validateThemeConfig', () => {
           ...DEFAULT_CONFIG,
           ...algolia,
           askAi: {
-            indexName: 'index',
-            apiKey: 'apiKey',
-            appId: 'BH4D9OD16A',
             assistantId: 'my-assistant-id',
+            indexName: algolia.indexName,
+            apiKey: algolia.apiKey,
+            appId: algolia.appId,
+          },
+        },
+      });
+    });
+
+    it('accepts minimal object format', () => {
+      const algolia: AlgoliaInput = {
+        appId: 'BH4D9OD16A',
+        indexName: 'index',
+        apiKey: 'apiKey',
+        askAi: {
+          assistantId: 'my-assistant-id',
+        },
+      };
+      expect(testValidateThemeConfig(algolia)).toEqual({
+        algolia: {
+          ...DEFAULT_CONFIG,
+          ...algolia,
+          askAi: {
+            assistantId: 'my-assistant-id',
+            indexName: algolia.indexName,
+            apiKey: algolia.apiKey,
+            appId: algolia.appId,
           },
         },
       });
@@ -273,21 +296,18 @@ describe('validateThemeConfig', () => {
       );
     });
 
-    it('rejects object missing required fields', () => {
+    it('rejects empty askAi', () => {
       const algolia: AlgoliaInput = {
         appId: 'BH4D9OD16A',
         indexName: 'index',
         apiKey: 'apiKey',
         // @ts-expect-error: expected type error: missing mandatory fields
-        askAi: {
-          assistantId: 'my-assistant-id',
-          // Missing indexName, apiKey, appId
-        },
+        askAi: {},
       };
       expect(() =>
         testValidateThemeConfig(algolia),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""algolia.askAi.indexName" is required"`,
+        `""algolia.askAi.assistantId" is required"`,
       );
     });
 

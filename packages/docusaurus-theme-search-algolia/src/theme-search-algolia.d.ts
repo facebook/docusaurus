@@ -11,7 +11,7 @@ declare module '@docsearch/react/useDocSearchKeyboardEvents';
 declare module '@docsearch/react/version';
 
 declare module '@docusaurus/theme-search-algolia' {
-  import type {DeepPartial, Overwrite} from 'utility-types';
+  import type {DeepPartial, Overwrite, Optional} from 'utility-types';
 
   import type {DocSearchProps} from '@docsearch/react';
   import type {FacetFilters} from 'algoliasearch/lite';
@@ -70,7 +70,9 @@ declare module '@docusaurus/theme-search-algolia' {
         apiKey: ThemeConfigAlgolia['apiKey'];
         indexName: ThemeConfigAlgolia['indexName'];
         // askAi also accepts a shorter string form
-        askAi?: string | AskAiConfig;
+        askAi?:
+          | string
+          | Optional<AskAiConfig, 'indexName' | 'appId' | 'apiKey'>;
       }
     >;
   };
