@@ -20,7 +20,9 @@ export default function EditMetaRow({
 }: Props): ReactNode {
   return (
     <div className={clsx('row', className)}>
-      <div className="col">{editUrl && <EditThisPage editUrl={editUrl} />}</div>
+      <div className={clsx('col', styles.noPrint)}>
+        {editUrl && <EditThisPage editUrl={editUrl} />}
+      </div>
       <div className={clsx('col', styles.lastUpdated)}>
         {(lastUpdatedAt || lastUpdatedBy) && (
           <LastUpdated
