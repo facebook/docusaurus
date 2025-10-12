@@ -114,6 +114,80 @@ async function createDevServerConfig({
     setupMiddlewares: (middlewares, devServer) => {
       // This lets us fetch source contents from webpack for the error overlay.
       middlewares.unshift(evalSourceMapMiddleware(devServer));
+
+      // Add middleware to set correct status code for 404 pages
+      // When historyApiFallback serves the SPA, we need to distinguish between
+      // real routes (200) and non-existent routes (404) for better debugging
+      // See https://github.com/facebook/docusaurus/issues/11095
+      //
+      // Note: This detection relies on the default NotFound component's text.
+      // If users customize their 404 page, they should ensure it contains
+      // "Page Not Found" text, or the status code will remain 200.
+      middlewares.unshift({
+        name: 'docusaurus-404-status',
+        middleware: (req, res, next) => {
+          // Only intercept GET requests for HTML pages (not assets)
+          const isGetRequest = req.method === 'GET';
+          const acceptsHtml = req.headers.accept?.includes('text/html');
+          const isAsset = /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i.test(
+            req.url || '',
+          );
+
+          if (!isGetRequest || !acceptsHtml || isAsset) {
+            return next();
+          }
+
+          const originalWrite = res.write.bind(res);
+          const originalEnd = res.end.bind(res);
+          const chunks: Buffer[] = [];
+
+          // Intercept the response to check if it's serving the 404 page
+          res.write = function (
+            chunk: Buffer | string | Uint8Array,
+            ...args: unknown[]
+          ): boolean {
+            if (chunk) {
+              chunks.push(Buffer.from(chunk));
+            }
+            return originalWrite(chunk, ...args);
+          };
+
+          res.end = function (
+            chunk?: Buffer | string | Uint8Array,
+            ...args: unknown[]
+          ): unknown {
+            if (chunk) {
+              chunks.push(Buffer.from(chunk));
+            }
+
+            // Check if response is HTML and contains 404 page indicators
+            // We check for both the English text and common 404 patterns
+            // This should work for most default and translated NotFound pages
+            const body = Buffer.concat(chunks).toString('utf8');
+            const bodyLowerCase = body.toLowerCase();
+            const isHtml =
+              res.getHeader('content-type')?.toString().includes('text/html');
+
+            if (
+              isHtml &&
+              (body.includes('Page Not Found') ||
+                // Match translated versions and custom 404 pages
+                (body.includes('404') &&
+                  (body.includes('hero__title') ||
+                    bodyLowerCase.includes('not found') ||
+                    bodyLowerCase.includes('page not found'))))
+            ) {
+              res.statusCode = 404;
+              res.statusMessage = 'Not Found';
+            }
+
+            return originalEnd(chunk, ...args);
+          };
+
+          next();
+        },
+      });
+
       return middlewares;
     },
   };
