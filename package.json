@@ -74,6 +74,9 @@
     "lock:update": "npx --yes yarn-deduplicate",
     "update-translations": "yarn workspace @docusaurus/theme-translations update"
   },
+  "engines": {
+    "node": ">=20 <23"
+  },
   "devDependencies": {
     "@crowdin/cli": "^3.13.0",
     "@prettier/plugin-xml": "^2.2.0",
