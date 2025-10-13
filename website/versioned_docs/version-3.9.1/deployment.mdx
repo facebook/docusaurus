@@ -675,7 +675,7 @@ Continuous integration (CI) services are typically used to perform routine tasks
 ```yml title=".travis.yml"
 language: node_js
 node_js:
-  - 18
+  - 20
 branches:
   only:
     - main
@@ -734,7 +734,7 @@ steps:
 
   - task: NodeTool@0
     inputs:
-      versionSpec: '18'
+      versionSpec: '20'
     displayName: Install Node.js
 
   - script: |
