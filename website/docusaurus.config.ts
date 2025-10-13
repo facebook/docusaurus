@@ -662,9 +662,11 @@ export default async function createConfigAsync() {
         // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
         ...(require('@docsearch/react').version.startsWith('4.')
           ? {
-              // cSpell:ignore IMYF
-              askAi: 'RgIMYFUmTfrN',
-              // indexName: 'docusaurus-markdown',
+              askAi: {
+                // cSpell:ignore IMYF
+                assistantId: 'RgIMYFUmTfrN',
+                indexName: 'docusaurus-markdown',
+              },
             }
           : {}),
 
