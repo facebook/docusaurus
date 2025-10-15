@@ -18,14 +18,18 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest"
   },
   "dependencies": {
     "@typescript-eslint/utils": "^5.62.0",
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "eslint-plugin-eslint-plugin": "^5.1.0"
+    "@types/eslint": "^9.6.1",
+    "@types/jest": "^30.0.0",
+    "eslint-plugin-eslint-plugin": "^5.1.0",
+    "ts-jest": "^29.4.5"
   },
   "peerDependencies": {
     "eslint": ">=6"

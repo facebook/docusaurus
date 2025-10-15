@@ -7,7 +7,6 @@
 
 import rules from './rules';
 
-// @ts-expect-error: TODO try to remove later
 export = {
   rules,
   configs: {
