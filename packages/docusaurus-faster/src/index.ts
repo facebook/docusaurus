@@ -69,11 +69,13 @@ export function getSwcJsMinimizerOptions(): JsMinifyOptions {
 
 // TODO this is not accurate
 //  for Rspack we should read from the built-in browserslist data
+//  see https://github.com/facebook/docusaurus/pull/11496
 function getLastBrowserslistKnownNodeVersion(
   bundlerName: CurrentBundler['name'],
 ): string {
   if (bundlerName === 'rspack') {
     // TODO hardcoded value until Rspack exposes its Browserslist data
+    //  see https://github.com/facebook/docusaurus/pull/11496
     return '22.0.0';
   }
   // browserslist('last 1 node versions')[0]!.replace('node ', '')
