@@ -11,17 +11,20 @@ import browserslist from 'browserslist';
 import {minify as swcHtmlMinifier} from '@swc/html';
 import semver from 'semver';
 import type {JsMinifyOptions, Options as SwcOptions} from '@swc/core';
+import type {CurrentBundler} from '@docusaurus/types';
 
 export const swcLoader = require.resolve('swc-loader');
 
 export const getSwcLoaderOptions = ({
   isServer,
+  bundlerName,
 }: {
   isServer: boolean;
+  bundlerName: CurrentBundler['name'];
 }): SwcOptions => {
   return {
     env: {
-      targets: getBrowserslistQueries({isServer}),
+      targets: getBrowserslistQueries({isServer, bundlerName}),
     },
     jsc: {
       parser: {
@@ -66,7 +69,13 @@ export function getSwcJsMinimizerOptions(): JsMinifyOptions {
 
 // TODO this is not accurate
 //  for Rspack we should read from the built-in browserslist data
-function getLastBrowserslistKnownNodeVersion(): string {
+function getLastBrowserslistKnownNodeVersion(
+  bundlerName: CurrentBundler['name'],
+): string {
+  if (bundlerName === 'rspack') {
+    // TODO hardcoded value until Rspack exposes its Browserslist data
+    return '22.0.0';
+  }
   // browserslist('last 1 node versions')[0]!.replace('node ', '')
   return browserslist.nodeVersions.at(-1)!;
 }
@@ -79,19 +88,22 @@ function getMinVersion(v1: string, v2: string): string {
 // See https://github.com/orgs/browserslist/discussions/846
 export function getBrowserslistQueries({
   isServer,
+  bundlerName,
 }: {
   isServer: boolean;
+  bundlerName: CurrentBundler['name'];
 }): string[] {
   if (isServer) {
-    const nodeTarget =
-      // Escape hatch env variable
-      process.env.DOCUSAURUS_SERVER_NODE_TARGET ??
-      // For server builds, we want to use the current Node version as target
-      // But we can't pass a target that Browserslist doesn't know about yet
-      getMinVersion(
-        process.versions.node,
-        getLastBrowserslistKnownNodeVersion(),
-      );
+    // Escape hatch env variable
+    if (process.env.DOCUSAURUS_SERVER_NODE_TARGET) {
+      return [`node ${process.env.DOCUSAURUS_SERVER_NODE_TARGET}`];
+    }
+    // For server builds, we want to use the current Node version as target
+    // But we can't pass a target that Browserslist doesn't know about yet
+    const nodeTarget = getMinVersion(
+      process.versions.node,
+      getLastBrowserslistKnownNodeVersion(bundlerName),
+    );
 
     return [`node ${nodeTarget}`];
   }
