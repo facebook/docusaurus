@@ -1,5 +1,58 @@
 # Docusaurus Changelog
 
+## 3.9.2 (2025-10-17)
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-content-docs`
+  - [#11490](https://github.com/facebook/docusaurus/pull/11490) fix(docs): add support for missing `sidebar_key` front matter attribute ([@slorber](https://github.com/slorber))
+- `docusaurus-cssnano-preset`
+  - [#11487](https://github.com/facebook/docusaurus/pull/11487) fix(cssnano-preset): disable CSS counter minification ([@YDKK](https://github.com/YDKK))
+- `docusaurus-theme-search-algolia`
+  - [#11468](https://github.com/facebook/docusaurus/pull/11468) fix(theme-search-algolia): Fix Algolia AskAI validation logic ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-translations`
+  - [#11431](https://github.com/facebook/docusaurus/pull/11431) fix(theme-translation): add missing Polish (pl) theme translations ([@mariuszkrzaczkowski](https://github.com/mariuszkrzaczkowski))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+  - [#11466](https://github.com/facebook/docusaurus/pull/11466) fix(theme): Fix CSS `scroll-margin-top` when clicking footnote items, factorize code ([@slorber](https://github.com/slorber))
+- `docusaurus`
+  - [#11452](https://github.com/facebook/docusaurus/pull/11452) fix(core): allow `i18n.localeConfigs.translate` in validation ([@trofim24](https://github.com/trofim24))
+- `docusaurus-theme-mermaid`
+  - [#11437](https://github.com/facebook/docusaurus/pull/11437) fix(theme-mermaid): Fix Mermaid ELK layout dependency required bug on v3.9 ([@slorber](https://github.com/slorber))
+
+#### :running_woman: Performance
+
+- `docusaurus-theme-mermaid`
+  - [#11438](https://github.com/facebook/docusaurus/pull/11438) perf(theme-mermaid): lazy load the Mermaid library ([@slorber](https://github.com/slorber))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#11463](https://github.com/facebook/docusaurus/pull/11463) fix(theme): remove "Edit this page" button from print view ([@richk21](https://github.com/richk21))
+
+#### :robot: Dependencies
+
+- [#11479](https://github.com/facebook/docusaurus/pull/11479) chore(deps): bump stefanzweifel/git-auto-commit-action from 6 to 7 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11480](https://github.com/facebook/docusaurus/pull/11480) chore(deps): bump github/codeql-action from 3.26.5 to 4.30.8 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11481](https://github.com/facebook/docusaurus/pull/11481) chore(deps): bump actions/dependency-review-action from 4.8.0 to 4.8.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11446](https://github.com/facebook/docusaurus/pull/11446) chore(deps): bump actions/dependency-review-action from 4.7.3 to 4.8.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### :globe_with_meridians: Translations
+
+- `docusaurus-theme-translations`
+  - [#11484](https://github.com/facebook/docusaurus/pull/11484) fix(translations): improve Arabic theme translations ([@maysara-elshewehy](https://github.com/maysara-elshewehy))
+
+#### Committers: 9
+
+- Alexander Trofimov ([@trofim24](https://github.com/trofim24))
+- Dan Roscigno ([@DanRoscigno](https://github.com/DanRoscigno))
+- Eleni Grosdouli ([@egrosdou01](https://github.com/egrosdou01))
+- Ethan ([@ethanppl](https://github.com/ethanppl))
+- Mariusz Krzaczkowski ([@mariuszkrzaczkowski](https://github.com/mariuszkrzaczkowski))
+- Maysara ([@maysara-elshewehy](https://github.com/maysara-elshewehy))
+- Richa Kiran ([@richk21](https://github.com/richk21))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- [@YDKK](https://github.com/YDKK)
+
 ## 3.9.1 (2025-09-26)
 
 #### :bug: Bug Fix
