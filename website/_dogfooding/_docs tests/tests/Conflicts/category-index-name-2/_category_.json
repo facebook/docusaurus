@@ -1,0 +1,8 @@
+{
+  "label": "Category Index Doc conflict",
+  "link": {
+    "type": "generated-index",
+    "title": "Category Index Doc conflict",
+    "description": "Testing what happens when 2 categories with index docs"
+  }
+}
