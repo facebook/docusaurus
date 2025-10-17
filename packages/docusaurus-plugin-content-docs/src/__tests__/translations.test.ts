@@ -232,35 +232,35 @@ describe('getLoadedContentTranslationFiles', () => {
           {
             "content": {
               "sidebar.sidebarWithConflicts.category.key-cat1": {
-                "description": "The label for category COMMON LABEL in sidebar sidebarWithConflicts",
+                "description": "The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts'",
                 "message": "COMMON LABEL",
               },
               "sidebar.sidebarWithConflicts.category.key-cat2": {
-                "description": "The label for category COMMON LABEL in sidebar sidebarWithConflicts",
+                "description": "The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts'",
                 "message": "COMMON LABEL",
               },
               "sidebar.sidebarWithConflicts.doc.key-doc4": {
-                "description": "The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc4",
+                "description": "The label for the doc item 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to the doc doc4",
                 "message": "COMMON LABEL",
               },
               "sidebar.sidebarWithConflicts.doc.key-doc5": {
-                "description": "The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc5",
+                "description": "The label for the doc item 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to the doc doc5",
                 "message": "COMMON LABEL",
               },
               "sidebar.sidebarWithConflicts.doc.key-ref4": {
-                "description": "The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc4",
+                "description": "The label for the doc item 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to the doc doc4",
                 "message": "COMMON LABEL",
               },
               "sidebar.sidebarWithConflicts.doc.key-ref5": {
-                "description": "The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc5",
+                "description": "The label for the doc item 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to the doc doc5",
                 "message": "COMMON LABEL",
               },
               "sidebar.sidebarWithConflicts.link.key-link1": {
-                "description": "The label for link COMMON LABEL in sidebar sidebarWithConflicts, linking to https://example.com",
+                "description": "The label for link 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to 'https://example.com'",
                 "message": "COMMON LABEL",
               },
               "sidebar.sidebarWithConflicts.link.key-link2": {
-                "description": "The label for link COMMON LABEL in sidebar sidebarWithConflicts, linking to https://example.com",
+                "description": "The label for link 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to 'https://example.com'",
                 "message": "COMMON LABEL",
               },
               "version.label": {
@@ -279,21 +279,24 @@ describe('getLoadedContentTranslationFiles', () => {
         .toThrowErrorMatchingInlineSnapshot(`
         "Multiple docs sidebar items produce the same translation key.
         - \`sidebar.sidebarWithConflicts.category.COMMON LABEL\`: 2 duplicates found:
-          - COMMON LABEL (The label for category COMMON LABEL in sidebar sidebarWithConflicts)
-          - COMMON LABEL (The label for category COMMON LABEL in sidebar sidebarWithConflicts)
+          - COMMON LABEL (The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts')
+          - COMMON LABEL (The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts')
 
         - \`sidebar.sidebarWithConflicts.link.COMMON LABEL\`: 2 duplicates found:
-          - COMMON LABEL (The label for link COMMON LABEL in sidebar sidebarWithConflicts, linking to https://example.com)
-          - COMMON LABEL (The label for link COMMON LABEL in sidebar sidebarWithConflicts, linking to https://example.com)
+          - COMMON LABEL (The label for link 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to 'https://example.com')
+          - COMMON LABEL (The label for link 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to 'https://example.com')
 
         - \`sidebar.sidebarWithConflicts.doc.COMMON LABEL\`: 4 duplicates found:
-          - COMMON LABEL (The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc4)
-          - COMMON LABEL (The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc5)
-          - COMMON LABEL (The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc4)
-          - COMMON LABEL (The label for the doc item COMMON LABEL in sidebar sidebarWithConflicts, linking to the doc doc5)
+          - COMMON LABEL (The label for the doc item 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to the doc doc4)
+          - COMMON LABEL (The label for the doc item 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to the doc doc5)
+          - COMMON LABEL (The label for the doc item 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to the doc doc4)
+          - COMMON LABEL (The label for the doc item 'COMMON LABEL' in sidebar 'sidebarWithConflicts', linking to the doc doc5)
 
         To avoid translation key conflicts, use the \`key\` attribute on the sidebar items above to uniquely identify them.
-            "
+
+        When using autogenerated sidebars, you can provide a unique translation key by adding:
+        - the \`key\` attribute to category item metadata (\`_category_.json\` / \`_category_.yml\`)
+        - the \`sidebar_key\` attribute to doc item metadata (front matter in \`Category/index.mdx\`)"
       `);
     });
   });

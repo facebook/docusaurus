@@ -204,6 +204,14 @@ export default async function createConfigAsync() {
     i18n: {
       defaultLocale,
 
+      localeConfigs: {
+        [defaultLocale]: {
+          // Forces the translation process to run for default locale
+          // Permits to dogfood translation key conflicts detection
+          translate: true,
+        },
+      },
+
       locales:
         isDeployPreview || isBranchDeploy
           ? // Deploy preview and branch deploys: keep them fast!
