@@ -310,7 +310,7 @@ For handwritten sidebar definitions, you would provide metadata to sidebar items
 
 ### Doc item metadata {#doc-item-metadata}
 
-The `label`, `className`, and `customProps` attributes are declared in front matter as `sidebar_label`, `sidebar_class_name`, and `sidebar_custom_props`, respectively. Position can be specified in the same way, via `sidebar_position` front matter.
+The `label`, `className`, `key`, and `customProps` attributes are declared in front matter as `sidebar_label`, `sidebar_class_name`, `sidebar_key` and `sidebar_custom_props`, respectively. Position can be specified in the same way, via `sidebar_position` front matter.
 
 ```md title="docs/tutorials/tutorial-easy.md"
 ---
@@ -318,6 +318,7 @@ The `label`, `className`, and `customProps` attributes are declared in front mat
 sidebar_position: 2
 sidebar_label: Easy
 sidebar_class_name: green
+sidebar_key: unique-sidebar-item-key
 # highlight-end
 ---
 
@@ -328,7 +329,7 @@ This is the easy tutorial!
 
 ### Category item metadata {#category-item-metadata}
 
-Add a `_category_.json` or `_category_.yml` file in the respective folder. You can specify any category metadata and also the `position` metadata. `label`, `className`, `position`, and `customProps` will default to the respective values of the category's linked doc, if there is one.
+Add a `_category_.json` or `_category_.yml` file in the respective folder. You can specify any category metadata and also the `position` metadata. `label`, `className`, `key`, `position`, and `customProps` will default to the respective values of the category's linked doc, if there is one.
 
 <Tabs>
 <TabItem value="JSON">
@@ -337,6 +338,7 @@ Add a `_category_.json` or `_category_.yml` file in the respective folder. You c
 {
   "position": 2.5,
   "label": "Tutorial",
+  "key": "unique-sidebar-item-key",
   "collapsible": true,
   "collapsed": false,
   "className": "red",
