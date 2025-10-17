@@ -99,7 +99,7 @@ function getSidebarTranslationFileContent(
         `sidebar.${sidebarName}.category.${categoryKey}`,
         {
           message: category.label,
-          description: `The label for category ${category.label} in sidebar ${sidebarName}`,
+          description: `The label for category '${category.label}' in sidebar '${sidebarName}'`,
         },
       ]);
 
@@ -109,7 +109,7 @@ function getSidebarTranslationFileContent(
             `sidebar.${sidebarName}.category.${categoryKey}.link.generated-index.title`,
             {
               message: category.link.title,
-              description: `The generated-index page title for category ${category.label} in sidebar ${sidebarName}`,
+              description: `The generated-index page title for category '${category.label}' in sidebar '${sidebarName}'`,
             },
           ]);
         }
@@ -118,7 +118,7 @@ function getSidebarTranslationFileContent(
             `sidebar.${sidebarName}.category.${categoryKey}.link.generated-index.description`,
             {
               message: category.link.description,
-              description: `The generated-index page description for category ${category.label} in sidebar ${sidebarName}`,
+              description: `The generated-index page description for category '${category.label}' in sidebar '${sidebarName}'`,
             },
           ]);
         }
@@ -135,7 +135,7 @@ function getSidebarTranslationFileContent(
       `sidebar.${sidebarName}.link.${linkKey}`,
       {
         message: link.label,
-        description: `The label for link ${link.label} in sidebar ${sidebarName}, linking to ${link.href}`,
+        description: `The label for link '${link.label}' in sidebar '${sidebarName}', linking to '${link.href}'`,
       },
     ];
   });
@@ -149,7 +149,7 @@ function getSidebarTranslationFileContent(
       `sidebar.${sidebarName}.doc.${docKey}`,
       {
         message: doc.label!,
-        description: `The label for the doc item ${doc.label!} in sidebar ${sidebarName}, linking to the doc ${
+        description: `The label for the doc item '${doc.label!}' in sidebar '${sidebarName}', linking to the doc ${
           doc.id
         }`,
       },
