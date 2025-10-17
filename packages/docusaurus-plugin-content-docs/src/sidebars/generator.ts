@@ -147,12 +147,12 @@ Available doc IDs:
       } = getDoc(id);
       return {
         type: 'doc',
-        key,
         id,
         position,
         source: fileName,
         // We don't want these fields to magically appear in the generated
         // sidebar
+        ...(key !== undefined && {key}),
         ...(label !== undefined && {label}),
         ...(className !== undefined && {className}),
         ...(customProps !== undefined && {customProps}),
