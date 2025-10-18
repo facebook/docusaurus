@@ -166,6 +166,7 @@ html[data-theme='dark'] .topBannerTitleText {
   flex-wrap: wrap;
   align-items: center;
   margin-top: 24px;
+  overflow: hidden;
 }
 
 .indexCtas a,
