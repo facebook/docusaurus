@@ -21,7 +21,7 @@ export default function FooterLayout({
       className={clsx(ThemeClassNames.layout.footer.container, 'footer', {
         'footer--dark': style === 'dark',
       })}>
-      <div className="container container-fluid overflow-hidden">
+      <div className="container container-fluid">
         {links}
         {(logo || copyright) && (
           <div className="footer__bottom text--center">

@@ -49,7 +49,7 @@ function Column({column}: {column: ColumnType}) {
 
 export default function FooterLinksMultiColumn({columns}: Props): ReactNode {
   return (
-    <div className="row footer__links overflow-hidden">
+    <div className="row footer__links">
       {columns.map((column, i) => (
         <Column key={i} column={column} />
       ))}
