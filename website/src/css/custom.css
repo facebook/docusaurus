@@ -241,3 +241,7 @@ html[data-navbar='false'] {
 html[data-red-border] div#__docusaurus {
   border: red solid thick;
 }
+
+body:not(.navigation-with-keyboard) *:not(input):focus-visible {
+  outline: auto !important;
+}
