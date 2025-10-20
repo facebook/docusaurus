@@ -65,7 +65,6 @@
   font-size: 54px;
   font-weight: bold;
   margin-bottom: 0.4rem;
-
   @media only screen and (max-width: 768px) {
     font-size: 40px;
   }
