@@ -1,6 +1,6 @@
 <div align="center">
   <h1 align="center">
-    Docusaurus
+    Docusaurus 🦖
     <br />
     <br />
     <a href="https://docusaurus.io">
@@ -27,27 +27,28 @@
   <a href="https://app.netlify.com/start/deploy?repository=https://github.com/slorber/docusaurus-starter"><img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify"></a>
 </p>
 
-## Introduction
+## Introduction 🦕✨
 
-Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
+Docusaurus is a project for building, deploying, and maintaining open source project websites **easily**.
 
 Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusaurus.io)!
 
 **Tip**: use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in a playground.
 
-- **Simple to Start**
+- **Simple to Start 🚀**
 
 > Docusaurus is built in a way so that it can [get running](https://docusaurus.io/docs/installation) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
 
-- **Localizable**
+- **Localizable 🌍**
 
 > Docusaurus ships with [localization support](https://docusaurus.io/docs/i18n/introduction) via CrowdIn. Empower and grow your international community by translating your documentation.
 
-- **Customizable**
+- **Customizable 🎨**
 
-> While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/blog), and additional support pages, it is also [customizable](https://docusaurus.io/docs/creating-pages) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/styling-layout).
+> While Docusaurus ships with the key pages like home, docs and [blog](https://docusaurus.io/docs/blog), it is fully [customizable](https://docusaurus.io/docs/creating-pages) to make a site [uniquely yours](https://docusaurus.io/docs/styling-layout).
+ ![Dino running](https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif)
 
-## Installation
+## Installation 💻
 
 Use the initialization CLI to create your site:
 
@@ -57,23 +58,23 @@ npm init docusaurus@latest
 
 [Read the docs](https://docusaurus.io/docs/installation) for any further information.
 
-## Contributing
+## Contributing 🤝
 
 We've released Docusaurus because it helps us better scale and supports the many OSS projects at Meta. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
 
 ### [Code of Conduct](https://code.fb.com/codeofconduct)
 
-Meta has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
+Meta has adopted a Code of Conduct that we expect project participants to adhere to. Read [the full text](https://code.fb.com/codeofconduct) to understand what actions are expected.
 
-### Contributing guide
+### Contributing guide 📚
 
-Read our [contributing guide](https://github.com/facebook/docusaurus/blob/main/CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Docusaurus.
+Check our [contributing guide](https://github.com/facebook/docusaurus/blob/main/CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Docusaurus 🦖.
 
-### Beginner-friendly bugs
+### Beginner-friendly bugs 🐣
 
-To help you get your feet wet and get you familiar with our contribution process, we have a list of [beginner-friendly bugs](https://github.com/facebook/docusaurus/labels/good%20first%20issue) that might contain smaller issues to tackle first. This is a great place to get started.
+We have a list of [beginner-friendly bugs](https://github.com/facebook/docusaurus/labels/good%20first%20issue) for first-time contributors. Perfect to get started!
 
-## Contact
+## Contact 📬
 
 We have a few channels for contact:
 
@@ -83,29 +84,29 @@ We have a few channels for contact:
 - [@docusaurus](https://x.com/docusaurus) X
 - [GitHub Issues](https://github.com/facebook/docusaurus/issues)
 
-## Contributors
+## Contributors 🌟
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)]. <a href="https://github.com/facebook/docusaurus/graphs/contributors"><img src="https://opencollective.com/Docusaurus/contributors.svg?width=890&button=false" /></a>
 
-## Backers
+## Backers 🙏
 
 Thank you to all our backers! 🙏 [Become a backer](https://opencollective.com/Docusaurus#backer)
 
 <a href="https://opencollective.com/Docusaurus#backers" target="_blank"><img src="https://opencollective.com/Docusaurus/backers.svg?width=890"></a>
 
-## Sponsors
+## Sponsors 💖
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor](https://opencollective.com/Docusaurus#sponsor)
+Support this project by becoming a sponsor. Your logo will show here! [Become a sponsor](https://opencollective.com/Docusaurus#sponsor)
 
 <a href="https://opencollective.com/Docusaurus/sponsor/0/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/0/avatar.svg"></a> <a href="https://opencollective.com/Docusaurus/sponsor/1/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/1/avatar.svg"></a>
 
-## License
+## License 📄
 
 Docusaurus is [MIT licensed](./LICENSE).
 
 The Docusaurus documentation (e.g., `.md` files in the `/docs` folder) is [Creative Commons licensed](./LICENSE-docs).
 
-## Special thanks
+## Special thanks 
 
 <p>
   <a href="http://www.browserstack.com/" target="_blank">
