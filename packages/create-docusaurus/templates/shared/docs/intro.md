@@ -2,9 +2,9 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# METAsol Whitepaper:
 
-Let's discover **Docusaurus in less than 5 minutes**.
+**The Sentient Ledger Protocol & The Genesis of Quantum Yield**
 
 ## Getting Started
 
