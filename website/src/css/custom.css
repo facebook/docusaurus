@@ -143,6 +143,12 @@ html[data-theme='dark'] {
   );
 }
 
+/* Add padding inside the code block so text doesn’t go under the buttons */
+.theme-code-block pre {
+  padding-right: 4.5rem !important; /* adjust this if buttons are wider */
+  position: relative;
+}
+
 .theme-announcement-bar {
   font-size: 20px;
 
