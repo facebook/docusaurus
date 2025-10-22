@@ -29,7 +29,7 @@
 
 ## Introduction
 
-Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
+Docusaurus is a tool for building, deploying, and maintaining open source websites easily.
 
 Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusaurus.io)!
 
