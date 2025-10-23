@@ -4,6 +4,7 @@ sidebar_position: 1
 
 # Create a Page
 
+A page is a single unit of content within a documentation site. One or more pages are used to create a document. For example, when deploying a site, each step in the process may be described on separate pages that together make up the deployment document.
 Add **Markdown or React** files to `src/pages` to create a **standalone page**:
 
 - `src/pages/index.js` → `localhost:3000/`
