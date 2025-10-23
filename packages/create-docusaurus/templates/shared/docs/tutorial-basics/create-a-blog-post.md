@@ -9,6 +9,7 @@ Docusaurus creates a **page for each blog post**, but also a **blog index page**
 ## Create your first Post
 
 Create a file at `blog/2021-02-28-greetings.md`:
+**2021-02-28 here means that the blog will be created in 2021 year section.**
 
 ```md title="blog/2021-02-28-greetings.md"
 ---
