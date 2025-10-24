@@ -5,16 +5,36 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getFileCommitDate} from './gitUtils';
+import {
+  FileNotTrackedError,
+  getFileCommitDate,
+  GitNotFoundError,
+} from './gitUtils';
 import {getLastUpdate} from './lastUpdateUtils';
 import type {VcsConfig} from '@docusaurus/types';
 
 export const DEFAULT_VCS_CONFIG: VcsConfig = {
   getFileCreationInfo: async (filePath: string) => {
-    return getFileCommitDate(filePath, {
-      age: 'oldest',
-      includeAuthor: true,
-    });
+    try {
+      return await getFileCommitDate(filePath, {
+        age: 'oldest',
+        includeAuthor: true,
+      });
+    } catch (error) {
+      // TODO Docusaurus v4: remove this logic using exceptions for control flow
+      //  We add this logic to make it similar to getLastUpdate() that also
+      //  returns null in these case and does not throw
+      if (error instanceof GitNotFoundError) {
+        return null;
+      } else if (error instanceof FileNotTrackedError) {
+        return null;
+      } else {
+        throw new Error(
+          `An error occurred when trying to get the last update date`,
+          {cause: error},
+        );
+      }
+    }
   },
   getFileLastUpdateInfo: async (filePath: string) => {
     // TODO non-ideal integration but good enough for now
