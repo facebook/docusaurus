@@ -257,6 +257,7 @@ async function processBlogSourceFile(
     blogSourceAbsolute,
     options,
     frontMatter.last_update,
+    vcs,
   );
 
   const draft = isDraft({frontMatter});

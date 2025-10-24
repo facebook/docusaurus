@@ -116,13 +116,15 @@ export async function readLastUpdateData(
   filePath: string,
   options: LastUpdateOptions,
   lastUpdateFrontMatter: FrontMatterLastUpdate | undefined,
-
-  // We fallback to the default VSC config on purpose
+  vcs: Pick<VcsConfig, 'getFileLastUpdateInfo'>,
+): Promise<LastUpdateData> {
+  // We fallback to the default VSC config at runtime on purpose
   // It preserves retro-compatibility if a third-party plugin imports it
   // This also ensures unit tests keep working without extra setup
+  // We still want to ensure type safety by requiring the VCS param
   // TODO Docusaurus v4: refactor all these Git read APIs
-  vcs: Pick<VcsConfig, 'getFileLastUpdateInfo'> = DEFAULT_VCS_CONFIG,
-): Promise<LastUpdateData> {
+  vcs = vcs ?? DEFAULT_VCS_CONFIG;
+
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
 
   if (!showLastUpdateAuthor && !showLastUpdateTime) {
