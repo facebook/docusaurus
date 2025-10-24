@@ -12,7 +12,8 @@ import {
   GitNotFoundError,
   getFileCommitDate,
 } from './gitUtils';
-import type {PluginOptions} from '@docusaurus/types';
+import {DEFAULT_VCS_CONFIG} from './vcsUtils';
+import type {PluginOptions, VcsConfig} from '@docusaurus/types';
 
 export type LastUpdateData = {
   /**
@@ -109,10 +110,18 @@ export type FrontMatterLastUpdate = {
   date?: Date | string;
 };
 
+// TODO Docusaurus v4: refactor/rename, make it clear this fn is only
+//  for Markdown files with front matter shared by content plugin
 export async function readLastUpdateData(
   filePath: string,
   options: LastUpdateOptions,
   lastUpdateFrontMatter: FrontMatterLastUpdate | undefined,
+
+  // We fallback to the default VSC config on purpose
+  // It preserves retro-compatibility if a third-party plugin imports it
+  // This also ensures unit tests keep working without extra setup
+  // TODO Docusaurus v4: refactor all these Git read APIs
+  vcs: Pick<VcsConfig, 'getFileLastUpdateInfo'> = DEFAULT_VCS_CONFIG,
 ): Promise<LastUpdateData> {
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
 
@@ -128,14 +137,16 @@ export async function readLastUpdateData(
   // We try to minimize git last update calls
   // We call it at most once
   // If all the data is provided as front matter, we do not call it
-  const getLastUpdateMemoized = _.memoize(() => getLastUpdate(filePath));
+  const getLastUpdateMemoized = _.memoize(() =>
+    vcs.getFileLastUpdateInfo(filePath),
+  );
   const getLastUpdateBy = () =>
     getLastUpdateMemoized().then((update) => {
       // Important, see https://github.com/facebook/docusaurus/pull/11211
       if (update === null) {
         return null;
       }
-      return update?.lastUpdatedBy;
+      return update?.author;
     });
   const getLastUpdateAt = () =>
     getLastUpdateMemoized().then((update) => {
@@ -143,7 +154,7 @@ export async function readLastUpdateData(
       if (update === null) {
         return null;
       }
-      return update?.lastUpdatedAt;
+      return update?.timestamp;
     });
 
   const lastUpdatedBy = showLastUpdateAuthor
