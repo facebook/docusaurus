@@ -6,6 +6,7 @@
  */
 
 import {jest} from '@jest/globals';
+import {DEFAULT_VCS_CONFIG} from '@docusaurus/utils';
 import {
   ConfigSchema,
   DEFAULT_CONFIG,
@@ -29,6 +30,7 @@ import type {
   PluginConfig,
   I18nConfig,
   I18nLocaleConfig,
+  VcsConfig,
 } from '@docusaurus/types';
 import type {DeepPartial} from 'utility-types';
 
@@ -72,6 +74,10 @@ describe('normalizeConfig', () => {
         experimental_storage: {
           type: 'sessionStorage',
           namespace: true,
+        },
+        experimental_vcs: {
+          getFileCreationInfo: (_filePath) => null,
+          getFileLastUpdateInfo: (_filePath) => null,
         },
         experimental_router: 'hash',
       },
@@ -1077,6 +1083,10 @@ describe('future', () => {
         rspackPersistentCache: true,
         ssgWorkerThreads: true,
       },
+      experimental_vcs: {
+        getFileCreationInfo: (_filePath) => null,
+        getFileLastUpdateInfo: (_filePath) => null,
+      },
       experimental_storage: {
         type: 'sessionStorage',
         namespace: 'myNamespace',
@@ -1390,6 +1400,284 @@ describe('future', () => {
                   ""future.experimental_storage.namespace" must be one of [string, boolean]
                   "
               `);
+      });
+    });
+  });
+
+  describe('vcs', () => {
+    function vcsContaining(vcs: Partial<VcsConfig>) {
+      return futureContaining({
+        experimental_vcs: expect.objectContaining(vcs),
+      });
+    }
+
+    it('accepts vcs - undefined', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            experimental_vcs: undefined,
+          },
+        }),
+      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
+    });
+
+    it('accepts vcs - empty', () => {
+      expect(
+        normalizeConfig({
+          future: {experimental_vcs: {}},
+        }),
+      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
+    });
+
+    it('accepts vcs - full', () => {
+      const vcs: VcsConfig = {
+        getFileCreationInfo: (_filePath) => null,
+        getFileLastUpdateInfo: (_filePath) => null,
+      };
+      expect(
+        normalizeConfig({
+          future: {
+            experimental_vcs: vcs,
+          },
+        }),
+      ).toEqual(vcsContaining(vcs));
+    });
+
+    it('rejects vcs - boolean', () => {
+      // @ts-expect-error: invalid
+      const vcs: Partial<VcsConfig> = true;
+      expect(() =>
+        normalizeConfig({
+          future: {
+            experimental_vcs: vcs,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""future.experimental_vcs" must be of type object
+        "
+      `);
+    });
+
+    it('rejects vcs - number', () => {
+      // @ts-expect-error: invalid
+      const vcs: Partial<VcsConfig> = 42;
+      expect(() =>
+        normalizeConfig({
+          future: {
+            experimental_vcs: vcs,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""future.experimental_vcs" must be of type object
+        "
+      `);
+    });
+
+    describe('getFileCreationInfo', () => {
+      it('accepts fn(filePath)', () => {
+        const vcs: Partial<VcsConfig> = {
+          getFileCreationInfo: (_filePath) => null,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toEqual(
+          vcsContaining({
+            ...DEFAULT_VCS_CONFIG,
+            ...vcs,
+          }),
+        );
+      });
+
+      it('accepts undefined', () => {
+        const vcs: Partial<VcsConfig> = {
+          getFileCreationInfo: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toEqual(
+          vcsContaining({
+            ...DEFAULT_VCS_CONFIG,
+          }),
+        );
+      });
+
+      it('rejects null', () => {
+        const vcs: Partial<VcsConfig> = {
+          // @ts-expect-error: invalid
+          getFileCreationInfo: null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.getFileCreationInfo" must be of type function
+          "
+        `);
+      });
+
+      it('rejects number', () => {
+        const vcs: Partial<VcsConfig> = {
+          // @ts-expect-error: invalid
+          getFileCreationInfo: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.getFileCreationInfo" must be of type function
+          "
+        `);
+      });
+
+      it('rejects fn()', () => {
+        const vcs: Partial<VcsConfig> = {
+          getFileCreationInfo: () => null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.getFileCreationInfo" must have an arity of 1
+          "
+        `);
+      });
+
+      it('rejects fn(filePath, anotherArg)', () => {
+        const vcs: Partial<VcsConfig> = {
+          // @ts-expect-error: invalid
+          getFileCreationInfo: (_filePath, _anotherArg) => null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.getFileCreationInfo" must have an arity of 1
+          "
+        `);
+      });
+    });
+
+    describe('getFileLastUpdateInfo', () => {
+      it('accepts fn(filePath)', () => {
+        const vcs: Partial<VcsConfig> = {
+          getFileLastUpdateInfo: (_filePath) => null,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toEqual(
+          vcsContaining({
+            ...DEFAULT_VCS_CONFIG,
+            ...vcs,
+          }),
+        );
+      });
+
+      it('accepts undefined', () => {
+        const vcs: Partial<VcsConfig> = {
+          getFileLastUpdateInfo: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toEqual(
+          vcsContaining({
+            ...DEFAULT_VCS_CONFIG,
+          }),
+        );
+      });
+
+      it('rejects null', () => {
+        const vcs: Partial<VcsConfig> = {
+          // @ts-expect-error: invalid
+          getFileLastUpdateInfo: null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.getFileLastUpdateInfo" must be of type function
+          "
+        `);
+      });
+
+      it('rejects number', () => {
+        const vcs: Partial<VcsConfig> = {
+          // @ts-expect-error: invalid
+          getFileLastUpdateInfo: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.getFileLastUpdateInfo" must be of type function
+          "
+        `);
+      });
+
+      it('rejects fn()', () => {
+        const vcs: Partial<VcsConfig> = {
+          getFileLastUpdateInfo: () => null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.getFileLastUpdateInfo" must have an arity of 1
+          "
+        `);
+      });
+
+      it('rejects fn(filePath, anotherArg)', () => {
+        const vcs: Partial<VcsConfig> = {
+          // @ts-expect-error: invalid
+          getFileLastUpdateInfo: (_filePath, _anotherArg) => null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.getFileLastUpdateInfo" must have an arity of 1
+          "
+        `);
       });
     });
   });

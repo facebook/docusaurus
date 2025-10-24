@@ -13,6 +13,7 @@ export {
   FutureV4Config,
   FasterConfig,
   StorageConfig,
+  VcsConfig,
   Config,
 } from './config';
 

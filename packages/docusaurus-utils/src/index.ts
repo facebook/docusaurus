@@ -129,4 +129,6 @@ export {
   type FrontMatterLastUpdate,
 } from './lastUpdateUtils';
 
+export {DEFAULT_VCS_CONFIG} from './vcsUtils';
+
 export {normalizeTags, reportInlineTags} from './tags';

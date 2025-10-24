@@ -9,6 +9,7 @@ import {
   DEFAULT_PARSE_FRONT_MATTER,
   DEFAULT_STATIC_DIR_NAME,
   DEFAULT_I18N_DIR_NAME,
+  DEFAULT_VCS_CONFIG,
 } from '@docusaurus/utils';
 import {Joi, printWarning} from '@docusaurus/utils-validation';
 import {
@@ -27,6 +28,7 @@ import type {
   MarkdownConfig,
   MarkdownHooks,
   I18nLocaleConfig,
+  VcsConfig,
 } from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
@@ -106,6 +108,7 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
   experimental_faster: DEFAULT_FASTER_CONFIG,
   experimental_storage: DEFAULT_STORAGE_CONFIG,
+  experimental_vcs: DEFAULT_VCS_CONFIG,
   experimental_router: 'browser',
 };
 
@@ -331,10 +334,24 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   .optional()
   .default(DEFAULT_STORAGE_CONFIG);
 
+const VCS_CONFIG_SCHEMA = Joi.object<VcsConfig>({
+  getFileCreationInfo: Joi.function()
+    .arity(1)
+    .optional()
+    .default(() => DEFAULT_VCS_CONFIG.getFileCreationInfo),
+  getFileLastUpdateInfo: Joi.function()
+    .arity(1)
+    .optional()
+    .default(() => DEFAULT_VCS_CONFIG.getFileLastUpdateInfo),
+})
+  .optional()
+  .default(DEFAULT_VCS_CONFIG);
+
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   v4: FUTURE_V4_SCHEMA,
   experimental_faster: FASTER_CONFIG_SCHEMA,
   experimental_storage: STORAGE_CONFIG_SCHEMA,
+  experimental_vcs: VCS_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
     .default(DEFAULT_FUTURE_CONFIG.experimental_router),

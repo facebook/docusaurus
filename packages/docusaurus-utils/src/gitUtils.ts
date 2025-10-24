@@ -126,6 +126,7 @@ export async function getFileCommitDate(
   timestamp: number;
   author?: string;
 }> {
+  console.log({file});
   if (!hasGit()) {
     throw new GitNotFoundError(
       `Failed to retrieve git history for "${file}" because git is not installed.`,

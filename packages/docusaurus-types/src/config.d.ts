@@ -40,6 +40,22 @@ export type FutureV4Config = {
   useCssCascadeLayers: boolean;
 };
 
+// VCS (Version Control System) info about a given change, e.g., a git commit.
+// The agnostic term "VCS" is used instead of "git" to acknowledge the existence
+// of other version control systems, and external systems like CMSs and i18n
+// translation SaaS (e.g., Crowdin)
+type VcsChangeInfo = {timestamp: number; author: string};
+
+// VCS (Version Control System) config hooks to get file change info.
+// This lets you override and customize the default Docusaurus behavior.
+// This can be useful to optimize calls or when using something else than git
+// See https://github.com/facebook/docusaurus/issues/11208
+// See https://github.com/e18e/ecosystem-issues/issues/216
+export type VcsConfig = {
+  getFileCreationInfo: (filePath: string) => Promise<VcsChangeInfo | null>;
+  getFileLastUpdateInfo: (filePath: string) => Promise<VcsChangeInfo | null>;
+};
+
 export type FutureConfig = {
   /**
    * Turns v4 future flags on
@@ -49,6 +65,8 @@ export type FutureConfig = {
   experimental_faster: FasterConfig;
 
   experimental_storage: StorageConfig;
+
+  experimental_vcs: VcsConfig;
 
   /**
    * Docusaurus can work with 2 router types.
