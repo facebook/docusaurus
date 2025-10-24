@@ -89,7 +89,9 @@ async function getAllNewestCommitDate(
     // The name of the file as of the commit being processed is always
     // the last part of the log line.
     const tabSplit = logLine.lastIndexOf('\t');
-    if (tabSplit === -1) {continue;}
+    if (tabSplit === -1) {
+      continue;
+    }
     const relativeFile = logLine.slice(tabSplit + 1);
 
     const currentLatest = runningMap.get(relativeFile)?.timestamp || 0;
