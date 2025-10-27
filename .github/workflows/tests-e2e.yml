@@ -109,7 +109,7 @@ jobs:
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: test-website-in-workspace
       - name: Upload Website artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: website-e2e-windows
           path: test-website-in-workspace/build
