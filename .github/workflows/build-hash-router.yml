@@ -43,7 +43,7 @@ jobs:
           # BASE_URL: '/docusaurus/' # hash router +
 
       - name: Upload Website artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: website-hash-router-archive
           path: website/build
