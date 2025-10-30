@@ -160,10 +160,15 @@ function createCustomVcsConfig(): VcsConfig {
 
   return {
     initialize: ({siteDir}) => {
-      console.log('initializing custom site VCS config...');
-      getRepoInfoForFile(siteDir).catch((e) => {
-        console.error('Failed to read the Docusaurus Git repository info', e);
-      });
+      if (process.env.NODE_ENV === 'production') {
+        // Only pre-init for production builds
+        getRepoInfoForFile(siteDir).catch((error) => {
+          console.error(
+            'Failed to initialize the custom Docusaurus site Git VCS',
+            error,
+          );
+        });
+      }
     },
 
     getFileCreationInfo: async (filePath: string) => {
@@ -171,6 +176,8 @@ function createCustomVcsConfig(): VcsConfig {
     },
 
     getFileLastUpdateInfo: async (filePath: string) => {
+      // TODO implement this too!
+
       return getRepoInfoForFile(filePath);
     },
   };

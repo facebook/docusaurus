@@ -101,6 +101,10 @@ export async function loadContext(
     }),
   });
 
+  // Not sure where is the best place to put this VCS initialization call?
+  // The sooner is probably the better
+  initialSiteConfig.future.experimental_vcs.initialize({siteDir});
+
   const currentBundler = await getCurrentBundler({
     siteConfig: initialSiteConfig,
   });
