@@ -289,13 +289,13 @@ export default {
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
-The behavior of Docusaurus when it detects any broken link.
+The behavior of Docusaurus when it detects any broken link `to` found in the Docusaurus `<Link>` element.
 
 By default, it throws an error, to ensure you never ship any broken link.
 
-Broken link detection only applies to relative links within a plugin, it does not work across plugins nor on pages specified in `/pages` or `static`.
+Broken link detection only applies to relative internal links that the Docusaurus framework knows about.
 
-To opt out of a broken link, add the HTML attribute `data-noBrokenLinkCheck` to the element that contains the link:
+To opt out of a broken link, add the attribute `data-noBrokenLinkCheck` to the `Link` element that contains the broken link:
 
 ```jsx
 <Link to="/broken-link" data-noBrokenLinkCheck>Link</Link>
