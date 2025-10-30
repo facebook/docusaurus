@@ -14,6 +14,10 @@ import {getLastUpdate} from './lastUpdateUtils';
 import type {VcsConfig} from '@docusaurus/types';
 
 export const DEFAULT_VCS_CONFIG: VcsConfig = {
+  initialize: () => {
+    // Nothing to do here for the default/historical Git implementation
+  },
+
   getFileCreationInfo: async (filePath: string) => {
     try {
       return await getFileCommitDate(filePath, {
@@ -36,6 +40,7 @@ export const DEFAULT_VCS_CONFIG: VcsConfig = {
       }
     }
   },
+
   getFileLastUpdateInfo: async (filePath: string) => {
     // TODO non-ideal integration but good enough for now
     // This keeps this new VscConfig system retro-compatible with the existing

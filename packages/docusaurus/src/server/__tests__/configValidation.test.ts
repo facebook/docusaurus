@@ -76,6 +76,7 @@ describe('normalizeConfig', () => {
           namespace: true,
         },
         experimental_vcs: {
+          initialize: (_params) => {},
           getFileCreationInfo: (_filePath) => null,
           getFileLastUpdateInfo: (_filePath) => null,
         },
@@ -1084,6 +1085,7 @@ describe('future', () => {
         ssgWorkerThreads: true,
       },
       experimental_vcs: {
+        initialize: (_params) => {},
         getFileCreationInfo: (_filePath) => null,
         getFileLastUpdateInfo: (_filePath) => null,
       },
@@ -1431,6 +1433,7 @@ describe('future', () => {
 
     it('accepts vcs - full', () => {
       const vcs: VcsConfig = {
+        initialize: (_params) => {},
         getFileCreationInfo: (_filePath) => null,
         getFileLastUpdateInfo: (_filePath) => null,
       };
@@ -1471,6 +1474,110 @@ describe('future', () => {
         ""future.experimental_vcs" must be of type object
         "
       `);
+    });
+
+    describe('initialize', () => {
+      it('accepts fn(params)', () => {
+        const vcs: Partial<VcsConfig> = {
+          initialize: (_params) => null,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toEqual(
+          vcsContaining({
+            ...DEFAULT_VCS_CONFIG,
+            ...vcs,
+          }),
+        );
+      });
+
+      it('accepts undefined', () => {
+        const vcs: Partial<VcsConfig> = {
+          initialize: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toEqual(
+          vcsContaining({
+            ...DEFAULT_VCS_CONFIG,
+          }),
+        );
+      });
+
+      it('rejects null', () => {
+        const vcs: Partial<VcsConfig> = {
+          // @ts-expect-error: invalid
+          initialize: null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.initialize" must be of type function
+          "
+        `);
+      });
+
+      it('rejects number', () => {
+        const vcs: Partial<VcsConfig> = {
+          // @ts-expect-error: invalid
+          initialize: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.initialize" must be of type function
+          "
+        `);
+      });
+
+      it('rejects fn()', () => {
+        const vcs: Partial<VcsConfig> = {
+          initialize: () => null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.initialize" must have an arity of 1
+          "
+        `);
+      });
+
+      it('rejects fn(filePath, anotherArg)', () => {
+        const vcs: Partial<VcsConfig> = {
+          // @ts-expect-error: invalid
+          initialize: (_params, _anotherArg) => null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs.initialize" must have an arity of 1
+          "
+        `);
+      });
     });
 
     describe('getFileCreationInfo', () => {

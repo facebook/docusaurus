@@ -159,9 +159,17 @@ function createCustomVcsConfig(): VcsConfig {
    */
 
   return {
+    initialize: ({siteDir}) => {
+      console.log('initializing custom site VCS config...');
+      getRepoInfoForFile(siteDir).catch((e) => {
+        console.error('Failed to read the Docusaurus Git repository info', e);
+      });
+    },
+
     getFileCreationInfo: async (filePath: string) => {
       return DEFAULT_VCS_CONFIG.getFileCreationInfo(filePath);
     },
+
     getFileLastUpdateInfo: async (filePath: string) => {
       return getRepoInfoForFile(filePath);
     },
