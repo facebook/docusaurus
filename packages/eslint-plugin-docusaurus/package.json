@@ -1,0 +1,13 @@
+{
+  "name": "eslint-plugin-docusaurus-local",
+  "version": "0.0.0",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha tests/*.test.js --timeout 5000"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "mocha": "^10.8.2"
+  }
+}
