@@ -1495,6 +1495,24 @@ describe('future', () => {
         );
       });
 
+      it('accepts fn()', () => {
+        const vcs: Partial<VcsConfig> = {
+          initialize: () => null,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toEqual(
+          vcsContaining({
+            ...DEFAULT_VCS_CONFIG,
+            ...vcs,
+          }),
+        );
+      });
+
       it('accepts undefined', () => {
         const vcs: Partial<VcsConfig> = {
           initialize: undefined,
@@ -1546,23 +1564,7 @@ describe('future', () => {
         `);
       });
 
-      it('rejects fn()', () => {
-        const vcs: Partial<VcsConfig> = {
-          initialize: () => null,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_vcs: vcs,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs.initialize" must have an arity of 1
-          "
-        `);
-      });
-
-      it('rejects fn(filePath, anotherArg)', () => {
+      it('rejects fn(params, anotherArg)', () => {
         const vcs: Partial<VcsConfig> = {
           // @ts-expect-error: invalid
           initialize: (_params, _anotherArg) => null,
@@ -1574,7 +1576,7 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs.initialize" must have an arity of 1
+          ""future.experimental_vcs.initialize" must have an arity lesser or equal to 1
           "
         `);
       });

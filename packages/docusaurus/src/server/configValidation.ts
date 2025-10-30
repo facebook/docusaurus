@@ -336,7 +336,7 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
 
 const VCS_CONFIG_SCHEMA = Joi.object<VcsConfig>({
   initialize: Joi.function()
-    .arity(1)
+    .maxArity(1)
     .optional()
     .default(() => DEFAULT_VCS_CONFIG.initialize),
   getFileCreationInfo: Joi.function()
