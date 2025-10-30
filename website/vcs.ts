@@ -7,19 +7,22 @@
 
 import {resolve} from 'node:path';
 import {realpath} from 'node:fs/promises';
-import {spawnSync} from 'node:child_process';
+import execa from 'execa';
 import {DEFAULT_VCS_CONFIG} from '@docusaurus/utils';
 import {PerfLogger} from '@docusaurus/logger';
 import type {VcsConfig} from '@docusaurus/types';
 
-async function getRepoRoot(directory: string): Promise<string> {
-  const result = spawnSync('git', ['rev-parse', '--show-toplevel'], {
-    cwd: directory,
-    encoding: 'utf-8',
+async function getRepoRoot(cwd: string): Promise<string> {
+  const result = await execa('git', ['rev-parse', '--show-toplevel'], {
+    cwd,
   });
-  if (result.error) {
-    return directory;
+
+  if (result.exitCode !== 0) {
+    throw new Error(
+      `Failed to retrieve the git repository root with exit code ${result.exitCode}: ${result.stderr}`,
+    );
   }
+
   return realpath(result.stdout.trim());
 }
 
@@ -30,14 +33,11 @@ type CommitInfoMap = Map<string, CommitInfo>;
 // Logic inspired from Astro Starlight:
 // See https://bsky.app/profile/bluwy.me/post/3lyihod6qos2a
 // See https://github.com/withastro/starlight/blob/c417f1efd463be63b7230617d72b120caed098cd/packages/starlight/utils/git.ts#L58
-async function getAllNewestCommitDate(
-  rootPath: string,
-  docsPath: string,
-): Promise<CommitInfoMap> {
-  const repoRoot = await getRepoRoot(docsPath);
+async function getAllNewestCommitDate(cwd: string): Promise<CommitInfoMap> {
+  const repoRoot = await getRepoRoot(cwd);
 
   // git log --format=t:%ct,a:%an --name-status
-  const gitLog = spawnSync(
+  const result = await execa(
     'git',
     [
       'log',
@@ -45,32 +45,31 @@ async function getAllNewestCommitDate(
       '--format=t:%ct,a:%an',
       // In each entry include the name and status for each modified file
       '--name-status',
-      '--',
-      docsPath,
     ],
     {
       cwd: repoRoot,
       encoding: 'utf-8',
-      // The default `maxBuffer` for `spawnSync` is 1024 * 1024 bytes, a.k.a 1 MB. In big projects,
-      // the full git history can be larger than this, so we increase this to ~10 MB. For example,
-      // Cloudflare passed 1 MB with ~4,800 pages and ~17,000 commits. If we get reports of others
-      // hitting ENOBUFS errors here in the future, we may want to switch to streaming the git log
-      // with `spawn` instead.
+      // TODO use streaming to avoid a large buffer
       // See https://github.com/withastro/starlight/issues/3154
       maxBuffer: 10 * 1024 * 1024,
     },
   );
 
-  if (gitLog.error) {
-    throw new Error("can't read Git repository", {cause: gitLog.error});
+  if (result.exitCode !== 0) {
+    throw new Error(
+      `Docusaurus failed to run the 'git log' to retrieve tracked files last update date/author.
+The command exited with code ${result.exitCode}: ${result.stderr}`,
+    );
   }
+
+  const logLines = result.stdout.split('\n');
 
   // TODO not fail-fast
   let runningDate = Date.now();
   let runningAuthor = 'N/A';
   const runningMap: CommitInfoMap = new Map();
 
-  for (const logLine of gitLog.stdout.split('\n')) {
+  for (const logLine of logLines) {
     if (logLine.startsWith('t:')) {
       // t:<timestamp>,a:<author name>
       const [timestampStr, authorStr] = logLine.split(',') as [string, string];
@@ -108,29 +107,29 @@ async function getAllNewestCommitDate(
   function transformMapEntry(
     entry: [string, CommitInfo],
   ): [string, CommitInfo] {
-    const [relativeFile, info] = entry;
-    const fileFullPath = resolve(repoRoot, relativeFile);
-    return [fileFullPath, info];
-    // let fileInDirectory = relative(rootPath, fileFullPath);
-    // Format path to unix style path.
-    // fileInDirectory = fileInDirectory?.replace(/\\/g, '/');
-    // return [fileInDirectory, info];
+    // We just resolve the Git paths that are relative to the repo root
+    return [resolve(repoRoot, entry[0]), entry[1]];
   }
 
   return new Map(Array.from(runningMap.entries()).map(transformMapEntry));
 }
 
-async function getFullRepoLastCommitInfoMap(): Promise<CommitInfoMap> {
-  const allData = await PerfLogger.async('getAllNewestCommitDate', () => {
-    return getAllNewestCommitDate('.', '.');
+async function getGitRepoLastCommitInfoMap(
+  cwd: string,
+): Promise<CommitInfoMap> {
+  return PerfLogger.async('getGitRepoLastCommitInfoMap', () => {
+    return getAllNewestCommitDate(cwd);
   });
-
-  return allData;
 }
 
 const isBuild = true; // TODO
 
 function createCustomVcsConfig(): VcsConfig {
+  if (process.env.DOCUSAURUS_WEBSITE_USE_OLD_VCS_STRATEGY === 'true') {
+    console.log("Using the old Docusaurus website's VCS strategy");
+    return DEFAULT_VCS_CONFIG;
+  }
+
   if (!isBuild) {
     return DEFAULT_VCS_CONFIG;
   }
@@ -141,13 +140,23 @@ function createCustomVcsConfig(): VcsConfig {
     filePath: string,
   ): Promise<CommitInfo | null> {
     if (repoInfoPromise === null) {
-      repoInfoPromise = getFullRepoLastCommitInfoMap();
+      repoInfoPromise = getGitRepoLastCommitInfoMap(process.cwd());
     }
 
     const repoInfo = await repoInfoPromise;
 
     return repoInfo.get(filePath) ?? null;
   }
+
+  // Try to pre-read the Git repository info as soon as possible
+
+  // TODO pre-init here doesn't work because of double config loading
+  /*
+  getRepoInfoForFile('.').catch((e) => {
+    console.error('Failed to read the Docusaurus Git repository info', e);
+  });
+
+   */
 
   return {
     getFileCreationInfo: async (filePath: string) => {
