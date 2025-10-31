@@ -122,15 +122,9 @@ async function getGitRepoLastCommitInfoMap(
   });
 }
 
-const isBuild = true; // TODO
-
 function createCustomVcsConfig(): VcsConfig {
   if (process.env.DOCUSAURUS_WEBSITE_USE_OLD_VCS_STRATEGY === 'true') {
     console.log("Using the old Docusaurus website's VCS strategy");
-    return DEFAULT_VCS_CONFIG;
-  }
-
-  if (!isBuild) {
     return DEFAULT_VCS_CONFIG;
   }
 
@@ -147,16 +141,6 @@ function createCustomVcsConfig(): VcsConfig {
 
     return repoInfo.get(filePath) ?? null;
   }
-
-  // Try to pre-read the Git repository info as soon as possible
-
-  // TODO pre-init here doesn't work because of double config loading
-  /*
-  getRepoInfoForFile('.').catch((e) => {
-    console.error('Failed to read the Docusaurus Git repository info', e);
-  });
-
-   */
 
   return {
     initialize: ({siteDir}) => {
