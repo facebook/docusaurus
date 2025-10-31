@@ -66,6 +66,52 @@ export default {
 
 See the [Mermaid theme documentation](https://mermaid-js.github.io/mermaid/#/theming) for more information on theming Mermaid diagrams.
 
+### Styling tooltips {#styling-tooltips}
+
+Mermaid charts support [Interactions](https://docs.mermaidchart.com/mermaid-oss/syntax/flowchart.html#interaction), which allow you to add hyperlinks to your diagrams. These hyperlinks can include tooltips that appear when hovering over elements in the diagram. Tooltips do not appear by default, but you can enable them by adding a custom `.mermaidTooltip` CSS class to your [site's stylesheet](../../styling-layout.mdx) (customize as you see fit).
+
+```css title="src/css/custom.css"
+.mermaidTooltip {
+  position: absolute;
+  text-align: center;
+  max-width: 200px;
+  padding: 2px;
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-primary);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 100;
+}
+```
+
+When a `.mermaidTooltip` class is defined, tooltips will appear on hover over any diagram elements that include a `click` directive. For example,
+
+````md title="Example Mermaid diagram with clickable elements and tooltips"
+```mermaid
+flowchart TB
+    GH[Docusaurus GitHub]
+    MI[Mermaid.js Installation]
+    SWIZZ[Swizzling Article]
+
+    click GH "https://www.github.com/facebook/docusaurus" "Git repo for the Docusaurus project"
+    click MI "#installation" "Link to the installation section of this doc"
+    click SWIZZ "../swizzling" "Link to the swizzling article"
+```
+````
+
+Will yield clickable elements with tooltips:
+
+```mermaid
+flowchart TB
+    GH[Docusaurus GitHub]
+    MI[Mermaid.js Installation]
+    SWIZZ[Swizzling Article]
+
+    click GH "https://www.github.com/facebook/docusaurus" "Git repo for the Docusaurus project"
+    click MI "#installation" "Link to the installation section of this doc"
+    click SWIZZ "../swizzling" "Link to the swizzling article"
+```
+
 ## Mermaid Config {#configuration}
 
 Options in `mermaid.options` will be passed directly to `mermaid.initialize`:

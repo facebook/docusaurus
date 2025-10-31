@@ -241,3 +241,16 @@ html[data-navbar='false'] {
 html[data-red-border] div#__docusaurus {
   border: red solid thick;
 }
+
+/* Show tooltips for clickable UI elements in Mermaid diagrams */
+.mermaidTooltip {
+  position: absolute;
+  text-align: center;
+  max-width: 200px;
+  padding: 2px;
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-primary);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 100;
+}
