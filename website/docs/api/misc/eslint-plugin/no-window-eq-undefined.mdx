@@ -6,7 +6,7 @@ slug: /api/misc/@docusaurus/eslint-plugin/no-window-eq-undefined
 
 Enforce not using typeof window, window === undefined, or any similar expression to detect the SSR (Server-Side Rendering) environment.
 
-In Docusaurus, it's recommended to safely separate client-side code using the `**@docusaurus/useIsBrowser**` hook or React lifecycle methods like `**useEffect**`.
+In Docusaurus, it's recommended to safely separate client-side code using the `@docusaurus/useIsBrowser` hook or React lifecycle methods like `useEffect`.
 
 ## Motivation and Rationale
 
@@ -20,7 +20,7 @@ However, in React applications, especially those using SSR like Docusaurus, this
 
 ## Rule Details {#details}
 
-Examples of **incorrect** code for this rule:
+** Examples of **incorrect** code for this rule ** :
 
 ```js
 import React from 'react';
@@ -44,7 +44,7 @@ The following code uses banned patterns to conditionally render or execute logic
 
 ---
 
-Examples of **correct** code for this rule:
+**Examples of **correct** code for this rule** :
 
 ```jsx
 import React from 'react';
