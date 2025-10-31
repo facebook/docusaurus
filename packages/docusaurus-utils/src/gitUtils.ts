@@ -191,6 +191,7 @@ export async function getFileCommitDate(
 
   const output = result.stdout.trim();
 
+  // Test
   if (!output) {
     return {
       date: new Date(),
