@@ -162,7 +162,8 @@ function getLocalizedConfigValue(key: keyof typeof ConfigLocalized) {
 // By default, we don't want to run "git log" commands on i18n sites
 // This makes localized sites build much slower on Netlify
 // See also https://github.com/facebook/docusaurus/issues/11208
-const showLastUpdate = process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale;
+// const showLastUpdate = process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale;
+const showLastUpdate = true;
 
 export default async function createConfigAsync() {
   return {
