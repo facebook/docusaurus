@@ -12,7 +12,7 @@ import {DEFAULT_VCS_CONFIG} from '@docusaurus/utils';
 import {PerfLogger} from '@docusaurus/logger';
 import type {VcsConfig} from '@docusaurus/types';
 
-async function getRepoRoot(cwd: string): Promise<string> {
+async function getGitRepoRoot(cwd: string): Promise<string> {
   const result = await execa('git', ['rev-parse', '--show-toplevel'], {
     cwd,
   });
@@ -26,17 +26,24 @@ async function getRepoRoot(cwd: string): Promise<string> {
   return realpath(result.stdout.trim());
 }
 
-type CommitInfo = {timestamp: number; author: string};
+type GitCommitInfo = {timestamp: number; author: string};
 
-type CommitInfoMap = Map<string, CommitInfo>;
+type GitFileInfo = {
+  creation: GitCommitInfo;
+  lastUpdate: GitCommitInfo;
+};
+
+type GitFilesInfo = Map<string, GitFileInfo>;
+
+type GitRepositoryInfo = {files: GitFilesInfo};
 
 // Logic inspired from Astro Starlight:
 // See https://bsky.app/profile/bluwy.me/post/3lyihod6qos2a
 // See https://github.com/withastro/starlight/blob/c417f1efd463be63b7230617d72b120caed098cd/packages/starlight/utils/git.ts#L58
-async function getAllNewestCommitDate(cwd: string): Promise<CommitInfoMap> {
-  const repoRoot = await getRepoRoot(cwd);
+async function loadGitFiles(cwd: string): Promise<GitFilesInfo> {
+  const repoRoot = await getGitRepoRoot(cwd);
 
-  // git -c log.showSignature=true log --format=t:%ct,a:%an --name-status
+  // git -c log.showSignature=false log --format=t:%ct,a:%an --name-status
   const result = await execa(
     'git',
     [
@@ -50,13 +57,15 @@ async function getAllNewestCommitDate(cwd: string): Promise<CommitInfoMap> {
       '--format=t:%ct,a:%an',
       // In each entry include the name and status for each modified file
       '--name-status',
+
+      // For creation info, should we use --follow --find-renames=100% ???
     ],
     {
       cwd: repoRoot,
       encoding: 'utf-8',
       // TODO use streaming to avoid a large buffer
       // See https://github.com/withastro/starlight/issues/3154
-      maxBuffer: 10 * 1024 * 1024,
+      maxBuffer: 20 * 1024 * 1024,
     },
   );
 
@@ -69,10 +78,12 @@ The command exited with code ${result.exitCode}: ${result.stderr}`,
 
   const logLines = result.stdout.split('\n');
 
+  const now = Date.now();
+
   // TODO not fail-fast
-  let runningDate = Date.now();
+  let runningDate = now;
   let runningAuthor = 'N/A';
-  const runningMap: CommitInfoMap = new Map();
+  const runningMap: GitFilesInfo = new Map();
 
   for (const logLine of logLines) {
     if (logLine.startsWith('t:')) {
@@ -98,20 +109,31 @@ The command exited with code ${result.exitCode}: ${result.stderr}`,
     }
     const relativeFile = logLine.slice(tabSplit + 1);
 
-    const currentLatest = runningMap.get(relativeFile)?.timestamp || 0;
-    const newLatest = Math.max(currentLatest, runningDate);
+    const currentFileInfo = runningMap.get(relativeFile);
 
-    if (newLatest !== currentLatest) {
-      runningMap.set(relativeFile, {
-        timestamp: runningDate,
-        author: runningAuthor,
-      });
-    }
+    const currentCreationTime = currentFileInfo?.creation.timestamp || now;
+    const newCreationTime = Math.min(currentCreationTime, runningDate);
+    const newCreation: GitCommitInfo =
+      !currentFileInfo || newCreationTime !== currentCreationTime
+        ? {timestamp: newCreationTime, author: runningAuthor}
+        : currentFileInfo.creation;
+
+    const currentLastUpdateTime = currentFileInfo?.lastUpdate.timestamp || 0;
+    const newLastUpdateTime = Math.max(currentLastUpdateTime, runningDate);
+    const newLastUpdate: GitCommitInfo =
+      !currentFileInfo || newLastUpdateTime !== currentLastUpdateTime
+        ? {timestamp: newLastUpdateTime, author: runningAuthor}
+        : currentFileInfo.lastUpdate;
+
+    runningMap.set(relativeFile, {
+      creation: newCreation,
+      lastUpdate: newLastUpdate,
+    });
   }
 
   function transformMapEntry(
-    entry: [string, CommitInfo],
-  ): [string, CommitInfo] {
+    entry: [string, GitFileInfo],
+  ): [string, GitFileInfo] {
     // We just resolve the Git paths that are relative to the repo root
     return [resolve(repoRoot, entry[0]), entry[1]];
   }
@@ -119,42 +141,40 @@ The command exited with code ${result.exitCode}: ${result.stderr}`,
   return new Map(Array.from(runningMap.entries()).map(transformMapEntry));
 }
 
-async function getGitRepoLastCommitInfoMap(
-  cwd: string,
-): Promise<CommitInfoMap> {
-  return PerfLogger.async('getGitRepoLastCommitInfoMap', () => {
-    return getAllNewestCommitDate(cwd);
+async function loadGitRepository(cwd: string): Promise<GitRepositoryInfo> {
+  return PerfLogger.async('getGitRepoLastCommitInfoMap', async () => {
+    const files = await loadGitFiles(cwd);
+    return {files};
   });
 }
 
-function createCustomVcsConfig(): VcsConfig {
+function createGitVcsConfig(): VcsConfig {
   if (process.env.DOCUSAURUS_WEBSITE_USE_OLD_VCS_STRATEGY === 'true') {
     console.log("Using the old Docusaurus website's VCS strategy");
     return DEFAULT_VCS_CONFIG;
   }
 
   if (process.env.NODE_ENV !== 'production') {
-    return DEFAULT_VCS_CONFIG;
+    // return DEFAULT_VCS_CONFIG;
   }
 
-  let repoInfoPromise: Promise<CommitInfoMap> | null = null;
+  // TODO need to support multiple repositories (git submodules, etc.)
+  let repositoryPromise: Promise<GitRepositoryInfo> | null = null;
 
-  async function getRepoInfoForFile(
-    filePath: string,
-  ): Promise<CommitInfo | null> {
-    if (repoInfoPromise === null) {
-      repoInfoPromise = getGitRepoLastCommitInfoMap(process.cwd());
+  async function getGitFileInfo(filePath: string): Promise<GitFileInfo | null> {
+    if (repositoryPromise === null) {
+      repositoryPromise = loadGitRepository(process.cwd());
     }
 
-    const repoInfo = await repoInfoPromise;
+    const repository = await repositoryPromise;
 
-    return repoInfo.get(filePath) ?? null;
+    return repository.files.get(filePath) ?? null;
   }
 
   return {
     initialize: ({siteDir}) => {
       // Only pre-init for production builds
-      getRepoInfoForFile(siteDir).catch((error) => {
+      getGitFileInfo(siteDir).catch((error) => {
         console.error(
           'Failed to initialize the custom Docusaurus site Git VCS',
           error,
@@ -163,15 +183,15 @@ function createCustomVcsConfig(): VcsConfig {
     },
 
     getFileCreationInfo: async (filePath: string) => {
-      return DEFAULT_VCS_CONFIG.getFileCreationInfo(filePath);
+      const fileInfo = await getGitFileInfo(filePath);
+      return fileInfo?.creation ?? null;
     },
 
     getFileLastUpdateInfo: async (filePath: string) => {
-      // TODO implement this too!
-
-      return getRepoInfoForFile(filePath);
+      const fileInfo = await getGitFileInfo(filePath);
+      return fileInfo?.lastUpdate ?? null;
     },
   };
 }
 
-export const customSiteVcsImplementation: VcsConfig = createCustomVcsConfig();
+export const customSiteVcsImplementation: VcsConfig = createGitVcsConfig();
