@@ -13,7 +13,14 @@ import {
 import {getLastUpdate} from '../lastUpdateUtils';
 import type {VcsConfig} from '@docusaurus/types';
 
-export const DEFAULT_VCS_CONFIG: VcsConfig = {
+/**
+ * A VCS strategy to query Git information in an ad-hoc way.
+ * This is the default/historical Docusaurus Git VCS implementation.
+ * Unfortunately, it is a major bottleneck for large sites/repositories.
+ *
+ * See also https://github.com/facebook/docusaurus/issues/11208
+ */
+export const VcsGitAdHoc: VcsConfig = {
   initialize: () => {
     // Nothing to do here for the default/historical Git implementation
   },
