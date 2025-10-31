@@ -17,6 +17,7 @@ import {
   LAST_UPDATE_UNTRACKED_GIT_FILEPATH,
   readLastUpdateData,
 } from '../lastUpdateUtils';
+import {DEFAULT_VCS_CONFIG} from '../vcs/vcs';
 import type {FrontMatterLastUpdate} from '../lastUpdateUtils';
 
 describe('getGitLastUpdate', () => {
@@ -104,6 +105,24 @@ describe('getGitLastUpdate', () => {
     );
     await fs.unlink(tempFilePath);
   });
+
+  it('multiple files not tracked by git', async () => {
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    const tempFilePath1 = path.join(repoDir, 'file1.md');
+    const tempFilePath2 = path.join(repoDir, 'file2.md');
+    await fs.writeFile(tempFilePath1, 'Lorem ipsum :)');
+    await fs.writeFile(tempFilePath2, 'Lorem ipsum :)');
+    await expect(getGitLastUpdate(tempFilePath1)).resolves.toBeNull();
+    await expect(getGitLastUpdate(tempFilePath2)).resolves.toBeNull();
+    expect(consoleMock).toHaveBeenCalledTimes(1);
+    expect(consoleMock).toHaveBeenLastCalledWith(
+      expect.stringMatching(/not tracked by git./),
+    );
+    await fs.unlink(tempFilePath1);
+    await fs.unlink(tempFilePath2);
+  });
 });
 
 describe('readLastUpdateData', () => {
@@ -111,9 +130,24 @@ describe('readLastUpdateData', () => {
   const testTimestamp = new Date(testDate).getTime();
   const testAuthor = 'ozaki';
 
+  async function readData(
+    filePath: string,
+    options: Parameters<typeof readLastUpdateData>[1],
+    lastUpdateFrontMatter: Parameters<typeof readLastUpdateData>[2],
+  ) {
+    return readLastUpdateData(
+      filePath,
+      options,
+      lastUpdateFrontMatter,
+      DEFAULT_VCS_CONFIG,
+    );
+  }
+
   describe('on untracked Git file', () => {
-    function test(lastUpdateFrontMatter: FrontMatterLastUpdate | undefined) {
-      return readLastUpdateData(
+    function readUntrackedFile(
+      lastUpdateFrontMatter: FrontMatterLastUpdate | undefined,
+    ) {
+      return readData(
         LAST_UPDATE_UNTRACKED_GIT_FILEPATH,
         {showLastUpdateAuthor: true, showLastUpdateTime: true},
         lastUpdateFrontMatter,
@@ -121,26 +155,30 @@ describe('readLastUpdateData', () => {
     }
 
     it('reads null at/by from Git', async () => {
-      const {lastUpdatedAt, lastUpdatedBy} = await test({});
+      const {lastUpdatedAt, lastUpdatedBy} = await readUntrackedFile({});
       expect(lastUpdatedAt).toBeNull();
       expect(lastUpdatedBy).toBeNull();
     });
 
     it('reads null at from Git and author from front matter', async () => {
-      const {lastUpdatedAt, lastUpdatedBy} = await test({author: testAuthor});
+      const {lastUpdatedAt, lastUpdatedBy} = await readUntrackedFile({
+        author: testAuthor,
+      });
       expect(lastUpdatedAt).toBeNull();
       expect(lastUpdatedBy).toEqual(testAuthor);
     });
 
     it('reads null by from Git and date from front matter', async () => {
-      const {lastUpdatedAt, lastUpdatedBy} = await test({date: testDate});
+      const {lastUpdatedAt, lastUpdatedBy} = await readUntrackedFile({
+        date: testDate,
+      });
       expect(lastUpdatedBy).toBeNull();
       expect(lastUpdatedAt).toEqual(testTimestamp);
     });
   });
 
   it('read last time show author time', async () => {
-    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+    const {lastUpdatedAt, lastUpdatedBy} = await readData(
       '',
       {showLastUpdateAuthor: true, showLastUpdateTime: true},
       {date: testDate},
@@ -150,7 +188,7 @@ describe('readLastUpdateData', () => {
   });
 
   it('read last author show author time', async () => {
-    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+    const {lastUpdatedAt, lastUpdatedBy} = await readData(
       '',
       {showLastUpdateAuthor: true, showLastUpdateTime: true},
       {author: testAuthor},
@@ -160,7 +198,7 @@ describe('readLastUpdateData', () => {
   });
 
   it('read last all show author time', async () => {
-    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+    const {lastUpdatedAt, lastUpdatedBy} = await readData(
       '',
       {showLastUpdateAuthor: true, showLastUpdateTime: true},
       {author: testAuthor, date: testDate},
@@ -170,7 +208,7 @@ describe('readLastUpdateData', () => {
   });
 
   it('read last default show none', async () => {
-    const lastUpdate = await readLastUpdateData(
+    const lastUpdate = await readData(
       '',
       {showLastUpdateAuthor: false, showLastUpdateTime: false},
       {},
@@ -179,7 +217,7 @@ describe('readLastUpdateData', () => {
   });
 
   it('read last author show none', async () => {
-    const lastUpdate = await readLastUpdateData(
+    const lastUpdate = await readData(
       '',
       {showLastUpdateAuthor: false, showLastUpdateTime: false},
       {author: testAuthor},
@@ -188,7 +226,7 @@ describe('readLastUpdateData', () => {
   });
 
   it('read last time show author', async () => {
-    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+    const {lastUpdatedAt, lastUpdatedBy} = await readData(
       '',
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {date: testDate},
@@ -198,7 +236,7 @@ describe('readLastUpdateData', () => {
   });
 
   it('read last author show author', async () => {
-    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+    const {lastUpdatedAt, lastUpdatedBy} = await readData(
       '',
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {author: testAuthor},
@@ -208,7 +246,7 @@ describe('readLastUpdateData', () => {
   });
 
   it('read last default show author default', async () => {
-    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+    const {lastUpdatedAt, lastUpdatedBy} = await readData(
       '',
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {},
@@ -218,7 +256,7 @@ describe('readLastUpdateData', () => {
   });
 
   it('read last time show time', async () => {
-    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+    const {lastUpdatedAt, lastUpdatedBy} = await readData(
       '',
       {showLastUpdateAuthor: false, showLastUpdateTime: true},
       {date: testDate},
@@ -228,7 +266,7 @@ describe('readLastUpdateData', () => {
   });
 
   it('read last author show time', async () => {
-    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+    const {lastUpdatedAt, lastUpdatedBy} = await readData(
       '',
       {showLastUpdateAuthor: false, showLastUpdateTime: true},
       {author: testAuthor},
@@ -238,7 +276,7 @@ describe('readLastUpdateData', () => {
   });
 
   it('read last author show time only - both front matter', async () => {
-    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+    const {lastUpdatedAt, lastUpdatedBy} = await readData(
       '',
       {showLastUpdateAuthor: false, showLastUpdateTime: true},
       {author: testAuthor, date: testDate},
@@ -248,7 +286,7 @@ describe('readLastUpdateData', () => {
   });
 
   it('read last author show author only - both front matter', async () => {
-    const {lastUpdatedAt, lastUpdatedBy} = await readLastUpdateData(
+    const {lastUpdatedAt, lastUpdatedBy} = await readData(
       '',
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {author: testAuthor, date: testDate},
