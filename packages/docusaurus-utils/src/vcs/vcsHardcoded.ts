@@ -7,15 +7,17 @@
 
 import type {VcsConfig, VcsChangeInfo} from '@docusaurus/types';
 
-export const VCS_CHANGE_HARDCODED_CREATION_INFO: VcsChangeInfo = {
+export const VCS_HARDCODED_CREATION_INFO: VcsChangeInfo = {
   timestamp: 1490997600000, // 1st Apr 2017
   author: 'Creator',
 };
 
-export const VCS_CHANGE_HARDCODED_LAST_UPDATE_INFO: VcsChangeInfo = {
+export const VCS_HARDCODED_LAST_UPDATE_INFO: VcsChangeInfo = {
   timestamp: 1539502055000, // 14th Oct 2018
   author: 'Author',
 };
+
+export const VCS_HARDCODED_UNTRACKED_FILE_PATH = `file/path/${Math.random()}.mdx`;
 
 /**
  * This VCS implementation always returns hardcoded values for testing purposes.
@@ -27,11 +29,17 @@ export const VcsHardcoded: VcsConfig = {
     // Noop
   },
 
-  getFileCreationInfo: async (_filePath: string) => {
-    return VCS_CHANGE_HARDCODED_CREATION_INFO;
+  getFileCreationInfo: async (filePath: string) => {
+    if (filePath === VCS_HARDCODED_UNTRACKED_FILE_PATH) {
+      return null;
+    }
+    return VCS_HARDCODED_CREATION_INFO;
   },
 
-  getFileLastUpdateInfo: async (_filePath: string) => {
-    return VCS_CHANGE_HARDCODED_LAST_UPDATE_INFO;
+  getFileLastUpdateInfo: async (filePath: string) => {
+    if (filePath === VCS_HARDCODED_UNTRACKED_FILE_PATH) {
+      return null;
+    }
+    return VCS_HARDCODED_LAST_UPDATE_INFO;
   },
 };

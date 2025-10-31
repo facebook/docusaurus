@@ -13,6 +13,7 @@ import {
   getFileCommitDate,
 } from './vcs/gitUtils';
 import {DEFAULT_VCS_CONFIG} from './vcs/vcs';
+import {VCS_HARDCODED_UNTRACKED_FILE_PATH} from './vcs/vcsHardcoded';
 import type {PluginOptions, VcsConfig} from '@docusaurus/types';
 
 export type LastUpdateData = {
@@ -79,8 +80,10 @@ export const LAST_UPDATE_FALLBACK: LastUpdateData = {
   lastUpdatedBy: 'Author',
 };
 
-// Not proud of this, but convenient for tests :/
-export const LAST_UPDATE_UNTRACKED_GIT_FILEPATH = `file/path/${Math.random()}.mdx`;
+// TODO Docusaurus v4
+//  should be removed in favor of using the hardcoded VSC impl/constant directly
+export const LAST_UPDATE_UNTRACKED_GIT_FILEPATH =
+  VCS_HARDCODED_UNTRACKED_FILE_PATH;
 
 export async function getLastUpdate(
   filePath: string,
