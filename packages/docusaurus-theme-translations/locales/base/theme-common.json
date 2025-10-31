@@ -19,6 +19,8 @@
   "theme.ErrorPageContent.title___DESCRIPTION": "The title of the fallback page when the page crashed",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.ErrorPageContent.tryAgain___DESCRIPTION": "The label of the button to try again rendering when the React error boundary captures an error",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
+  "theme.IconExternalLink.ariaLabel___DESCRIPTION": "The ARIA label for the external link icon",
   "theme.NavBar.navAriaLabel": "Main",
   "theme.NavBar.navAriaLabel___DESCRIPTION": "The ARIA label for the main navigation",
   "theme.NotFound.p1": "We could not find what you were looking for.",

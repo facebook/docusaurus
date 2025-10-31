@@ -9,18 +9,22 @@ import Rspack from '@rspack/core';
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
 import {minify as swcHtmlMinifier} from '@swc/html';
+import semver from 'semver';
 import type {JsMinifyOptions, Options as SwcOptions} from '@swc/core';
+import type {CurrentBundler} from '@docusaurus/types';
 
 export const swcLoader = require.resolve('swc-loader');
 
 export const getSwcLoaderOptions = ({
   isServer,
+  bundlerName,
 }: {
   isServer: boolean;
+  bundlerName: CurrentBundler['name'];
 }): SwcOptions => {
   return {
     env: {
-      targets: getBrowserslistQueries({isServer}),
+      targets: getBrowserslistQueries({isServer, bundlerName}),
     },
     jsc: {
       parser: {
@@ -63,20 +67,53 @@ export function getSwcJsMinimizerOptions(): JsMinifyOptions {
   };
 }
 
+// TODO this is not accurate
+//  for Rspack we should read from the built-in browserslist data
+//  see https://github.com/facebook/docusaurus/pull/11496
+function getLastBrowserslistKnownNodeVersion(
+  bundlerName: CurrentBundler['name'],
+): string {
+  if (bundlerName === 'rspack') {
+    // TODO hardcoded value until Rspack exposes its Browserslist data
+    //  see https://github.com/facebook/docusaurus/pull/11496
+    return '22.0.0';
+  }
+  // browserslist('last 1 node versions')[0]!.replace('node ', '')
+  return browserslist.nodeVersions.at(-1)!;
+}
+
+function getMinVersion(v1: string, v2: string): string {
+  return semver.lt(v1, v2) ? v1 : v2;
+}
+
 // We need this because of Rspack built-in LightningCSS integration
 // See https://github.com/orgs/browserslist/discussions/846
 export function getBrowserslistQueries({
   isServer,
+  bundlerName,
 }: {
   isServer: boolean;
+  bundlerName: CurrentBundler['name'];
 }): string[] {
   if (isServer) {
-    return [`node ${process.versions.node}`];
+    // Escape hatch env variable
+    if (process.env.DOCUSAURUS_SERVER_NODE_TARGET) {
+      return [`node ${process.env.DOCUSAURUS_SERVER_NODE_TARGET}`];
+    }
+    // For server builds, we want to use the current Node version as target
+    // But we can't pass a target that Browserslist doesn't know about yet
+    const nodeTarget = getMinVersion(
+      process.versions.node,
+      getLastBrowserslistKnownNodeVersion(bundlerName),
+    );
+
+    return [`node ${nodeTarget}`];
   }
 
   const queries = browserslist.loadConfig({path: process.cwd()}) ?? [
     ...browserslist.defaults,
   ];
+
   return queries;
 }
 

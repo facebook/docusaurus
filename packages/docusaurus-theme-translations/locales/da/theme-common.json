@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Expand sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Main",
   "theme.NotFound.p1": "Vi kunne ikke finde det, du søgte.",
   "theme.NotFound.p2": "Venligst kontakt ejeren til webstedet, som førte dig frem denne URL, og informer dem om at linket ikke virker.",

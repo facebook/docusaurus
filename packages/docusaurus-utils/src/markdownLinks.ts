@@ -20,9 +20,11 @@ export type ContentPaths = {
   contentPath: string;
   /**
    * The absolute path to the localized content directory, like
-   * `"<siteDir>/i18n/zh-Hans/plugin-content-docs"`.
+   * `"<siteDir>/i18n/zh-Hans/plugin-content-blog"`.
+   *
+   * Undefined when the locale has `translate: false` config
    */
-  contentPathLocalized: string;
+  contentPathLocalized: string | undefined;
 };
 
 /** Data structure representing each broken Markdown link to be reported. */
@@ -45,9 +47,6 @@ export type SourceToPermalink = Map<
   string // Permalink: "/docs/content"
 >;
 
-// Note this is historical logic extracted during a 2024 refactor
-// The algo has been kept exactly as before for retro compatibility
-// See also https://github.com/facebook/docusaurus/pull/10168
 export function resolveMarkdownLinkPathname(
   linkPathname: string,
   context: {
@@ -58,20 +57,45 @@ export function resolveMarkdownLinkPathname(
   },
 ): string | null {
   const {sourceFilePath, sourceToPermalink, contentPaths, siteDir} = context;
-  const sourceDirsToTry: string[] = [];
-  // ./file.md and ../file.md are always relative to the current file
-  if (!linkPathname.startsWith('./') && !linkPathname.startsWith('../')) {
-    sourceDirsToTry.push(...getContentPathList(contentPaths), siteDir);
-  }
-  // /file.md is never relative to the source file path
-  if (!linkPathname.startsWith('/')) {
-    sourceDirsToTry.push(path.dirname(sourceFilePath));
+
+  // If the link is already @site aliased, there's no need to resolve it
+  if (linkPathname.startsWith('@site/')) {
+    return sourceToPermalink.get(decodeURIComponent(linkPathname)) ?? null;
   }
 
-  const aliasedSourceMatch = sourceDirsToTry
+  // Get the dirs to "look into", ordered by priority, when resolving the link
+  function getSourceDirsToTry() {
+    // /file.md is always resolved from
+    // - the plugin content paths,
+    // - then siteDir
+    if (linkPathname.startsWith('/')) {
+      return [...getContentPathList(contentPaths), siteDir];
+    }
+    // ./file.md and ../file.md are always resolved from
+    // - the current file dir
+    else if (linkPathname.startsWith('./') || linkPathname.startsWith('../')) {
+      return [path.dirname(sourceFilePath)];
+    }
+    // file.md is resolved from
+    // - the current file dir,
+    // - then from the plugin content paths,
+    // - then siteDir
+    else {
+      return [
+        path.dirname(sourceFilePath),
+        ...getContentPathList(contentPaths),
+        siteDir,
+      ];
+    }
+  }
+
+  const sourcesToTry = getSourceDirsToTry()
     .map((sourceDir) => path.join(sourceDir, decodeURIComponent(linkPathname)))
-    .map((source) => aliasedSitePath(source, siteDir))
-    .find((source) => sourceToPermalink.has(source));
+    .map((source) => aliasedSitePath(source, siteDir));
+
+  const aliasedSourceMatch = sourcesToTry.find((source) =>
+    sourceToPermalink.has(source),
+  );
 
   return aliasedSourceMatch
     ? sourceToPermalink.get(aliasedSourceMatch) ?? null

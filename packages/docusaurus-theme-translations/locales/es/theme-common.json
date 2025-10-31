@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Ampliar la categoría '{label}' de la barra lateral",
   "theme.ErrorPageContent.title": "Esta página ha fallado.",
   "theme.ErrorPageContent.tryAgain": "Intente de nuevo",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Principal",
   "theme.NotFound.p1": "No pudimos encontrar lo que buscaba.",
   "theme.NotFound.p2": "Comuníquese con el dueño del sitio que le proporcionó la URL original y hágale saber que su vínculo está roto.",

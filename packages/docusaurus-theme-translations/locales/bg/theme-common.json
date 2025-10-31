@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Разширяване на категорията'{label}'",
   "theme.ErrorPageContent.title": "Тази страница се срина.",
   "theme.ErrorPageContent.tryAgain": "Опитайте отново",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Основен",
   "theme.NotFound.p1": "Не успяхме да намерим това, което търсите.",
   "theme.NotFound.p2": "Моля, свържете се със собственика на сайта, който ви е свързал с оригиналния URL адрес, и ги уведомете, че връзката им е повредена.",

@@ -339,7 +339,15 @@ declare module '@docusaurus/plugin-content-docs' {
      * @see {@link DocMetadata.slug}
      */
     slug?: string;
-    /** Customizes the sidebar label for this doc. Will default to its title. */
+    /**
+     * Customizes the sidebar key for this doc,
+     * to uniquely identify it in translations.
+     */
+    sidebar_key?: string;
+    /**
+     * Customizes the sidebar label for this doc.
+     * Will default to its title.
+     */
     sidebar_label?: string;
     /**
      * Controls the position of a doc inside the generated sidebar slice when

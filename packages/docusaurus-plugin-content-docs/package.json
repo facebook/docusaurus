@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "3.8.0",
+  "version": "3.9.2",
   "description": "Docs plugin for Docusaurus.",
   "main": "lib/index.js",
   "sideEffects": false,
@@ -35,15 +35,15 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.8.0",
-    "@docusaurus/logger": "3.8.0",
-    "@docusaurus/mdx-loader": "3.8.0",
-    "@docusaurus/module-type-aliases": "3.8.0",
-    "@docusaurus/theme-common": "3.8.0",
-    "@docusaurus/types": "3.8.0",
-    "@docusaurus/utils": "3.8.0",
-    "@docusaurus/utils-common": "3.8.0",
-    "@docusaurus/utils-validation": "3.8.0",
+    "@docusaurus/core": "3.9.2",
+    "@docusaurus/logger": "3.9.2",
+    "@docusaurus/mdx-loader": "3.9.2",
+    "@docusaurus/module-type-aliases": "3.9.2",
+    "@docusaurus/theme-common": "3.9.2",
+    "@docusaurus/types": "3.9.2",
+    "@docusaurus/utils": "3.9.2",
+    "@docusaurus/utils-common": "3.9.2",
+    "@docusaurus/utils-validation": "3.9.2",
     "@types/react-router-config": "^5.0.7",
     "combine-promises": "^1.1.0",
     "fs-extra": "^11.1.1",
@@ -65,6 +65,6 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   }
 }

@@ -30,10 +30,14 @@ function AuthorTitle({title}: {title: string}) {
 
 function AuthorName({name, as}: {name: string; as: Props['as']}) {
   if (!as) {
-    return <span className={styles.authorName}>{name}</span>;
+    return (
+      <span className={styles.authorName} translate="no">
+        {name}
+      </span>
+    );
   } else {
     return (
-      <Heading as={as} className={styles.authorName}>
+      <Heading as={as} className={styles.authorName} translate="no">
         {name}
       </Heading>
     );

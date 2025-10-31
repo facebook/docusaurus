@@ -47,6 +47,7 @@ exports[`DefaultSidebarItemsGenerator generates complex nested sidebar 1`] = `
             "type": "doc",
           },
         ],
+        "key": "SubGuides-category-unique-key",
         "label": "SubGuides (metadata file label)",
         "link": {
           "description": "subGuides-description",
@@ -90,6 +91,7 @@ exports[`DefaultSidebarItemsGenerator generates simple flat sidebar 1`] = `
       "custom": "prop",
     },
     "id": "doc1",
+    "key": "doc1-sidebar-key",
     "label": "doc1 sidebar label",
     "type": "doc",
   },
@@ -119,6 +121,7 @@ exports[`DefaultSidebarItemsGenerator generates subfolder sidebar 1`] = `
         "type": "doc",
       },
     ],
+    "key": "doc1-sidebar-key",
     "label": "Subsubsubfolder category label",
     "link": {
       "id": "doc1",
@@ -141,6 +144,7 @@ exports[`DefaultSidebarItemsGenerator generates subfolder sidebar 1`] = `
   },
   {
     "id": "doc1",
+    "key": "doc1-sidebar-key",
     "type": "doc",
   },
   {

@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Categorie zijbalk uitklappen '{label}'",
   "theme.ErrorPageContent.title": "Deze pagina is gecrasht.",
   "theme.ErrorPageContent.tryAgain": "Probeer opnieuw",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Main",
   "theme.NotFound.p1": "We kunnen niet vinden waar je naar op zoek bent.",
   "theme.NotFound.p2": "Neem contact op met de eigenaar van de website die naar de originele URL heeft geleid en laat weten dat de link niet meer werkt.",

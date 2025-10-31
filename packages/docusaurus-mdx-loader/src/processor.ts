@@ -22,6 +22,9 @@ import type {WebpackCompilerName} from '@docusaurus/utils';
 import type {MDXFrontMatter} from './frontMatter';
 import type {Options} from './options';
 import type {AdmonitionOptions} from './remark/admonitions';
+import type {PluginOptions as ResolveMarkdownLinksOptions} from './remark/resolveMarkdownLinks';
+import type {PluginOptions as TransformLinksOptions} from './remark/transformLinks';
+import type {PluginOptions as TransformImageOptions} from './remark/transformImage';
 import type {ProcessorOptions} from '@mdx-js/mdx';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
@@ -92,7 +95,7 @@ async function createProcessorFactory() {
         headings,
         {anchorsMaintainCase: options.markdownConfig.anchors.maintainCase},
       ],
-      emoji,
+      ...(options.markdownConfig.emoji ? [emoji] : []),
       toc,
     ];
   }
@@ -121,13 +124,19 @@ async function createProcessorFactory() {
         {
           staticDirs: options.staticDirs,
           siteDir: options.siteDir,
-        },
+          onBrokenMarkdownImages:
+            options.markdownConfig.hooks.onBrokenMarkdownImages,
+        } satisfies TransformImageOptions,
       ],
       // TODO merge this with transformLinks?
       options.resolveMarkdownLink
         ? [
             resolveMarkdownLinks,
-            {resolveMarkdownLink: options.resolveMarkdownLink},
+            {
+              resolveMarkdownLink: options.resolveMarkdownLink,
+              onBrokenMarkdownLinks:
+                options.markdownConfig.hooks.onBrokenMarkdownLinks,
+            } satisfies ResolveMarkdownLinksOptions,
           ]
         : undefined,
       [
@@ -135,7 +144,9 @@ async function createProcessorFactory() {
         {
           staticDirs: options.staticDirs,
           siteDir: options.siteDir,
-        },
+          onBrokenMarkdownLinks:
+            options.markdownConfig.hooks.onBrokenMarkdownLinks,
+        } satisfies TransformLinksOptions,
       ],
       gfm,
       options.markdownConfig.mdx1Compat.comments ? comment : null,

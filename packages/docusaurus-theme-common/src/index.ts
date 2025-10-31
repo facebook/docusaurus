@@ -53,6 +53,7 @@ export {
   type MultiColumnFooter,
   type SimpleFooter,
   type Footer,
+  type FooterColumnItem,
   type FooterLogo,
   type FooterLinkItem,
   type ColorModeConfig,
@@ -108,6 +109,8 @@ export {
   useSearchLinkCreator,
 } from './hooks/useSearchPage';
 
+export {useAnchorTargetClassName} from './utils/anchorUtils';
+
 export {isMultiColumnFooterLinks} from './utils/footerUtils';
 
 export {isRegexpStringMatch} from './utils/regexpUtils';
@@ -123,6 +126,8 @@ export {
   useQueryString,
   useQueryStringList,
   useClearQueryString,
+  mergeSearchParams,
+  mergeSearchStrings,
 } from './utils/historyUtils';
 
 export {

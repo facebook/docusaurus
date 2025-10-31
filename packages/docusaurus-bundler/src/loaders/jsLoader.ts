@@ -28,7 +28,7 @@ async function createSwcJsLoaderFactory(): Promise<
   return ({isServer}) => {
     return {
       loader,
-      options: getOptions({isServer}),
+      options: getOptions({isServer, bundlerName: 'webpack'}),
     };
   };
 }
@@ -42,7 +42,7 @@ async function createRspackSwcJsLoaderFactory(): Promise<
   return ({isServer}) => {
     return {
       loader,
-      options: getOptions({isServer}),
+      options: getOptions({isServer, bundlerName: 'rspack'}),
     };
   };
 }

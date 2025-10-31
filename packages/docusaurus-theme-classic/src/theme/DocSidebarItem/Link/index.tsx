@@ -16,6 +16,14 @@ import type {Props} from '@theme/DocSidebarItem/Link';
 
 import styles from './styles.module.css';
 
+function LinkLabel({label}: {label: string}) {
+  return (
+    <span title={label} className={styles.linkLabel}>
+      {label}
+    </span>
+  );
+}
+
 export default function DocSidebarItemLink({
   item,
   onItemClick,
@@ -51,7 +59,7 @@ export default function DocSidebarItemLink({
           onClick: onItemClick ? () => onItemClick(item) : undefined,
         })}
         {...props}>
-        {label}
+        <LinkLabel label={label} />
         {!isInternalLink && <IconExternalLink />}
       </Link>
     </li>
