@@ -44,9 +44,9 @@ export type FutureV4Config = {
 // The agnostic term "VCS" is used instead of "git" to acknowledge the existence
 // of other version control systems, and external systems like CMSs and i18n
 // translation SaaS (e.g., Crowdin)
-type VcsChangeInfo = {timestamp: number; author: string};
+export type VcsChangeInfo = {timestamp: number; author: string};
 
-type VscInitializeParams = {
+export type VscInitializeParams = {
   siteDir: string;
   // TODO could it be useful to provide all plugins getPathsToWatch() here?
   //  this could give the opportunity to find out all VCS roots ahead of times

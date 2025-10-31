@@ -5,24 +5,51 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {VcsHardcoded} from './vcsHardcoded';
 import {VcsGitAdHoc} from './vcsGitAdHoc';
 import type {VcsConfig} from '@docusaurus/types';
 
+const VcsPresets = {
+  'git-ad-hoc': VcsGitAdHoc,
+  hardcoded: VcsHardcoded,
+} as const satisfies Record<string, VcsConfig>;
+
+type VscPresetName = keyof typeof VcsPresets;
+
+function getVcsPreset(presetName: VscPresetName): VcsConfig {
+  return VcsPresets[presetName];
+}
+
 function getDefaultVcsConfig(): VcsConfig {
-  // TODO configure this properly for dev/test envs
-  //  + opt-in for new Git Eager config
-  //  + escape hatch env for forcing a given known config
+  // Escape hatch to override the default VCS preset we use
+  if (process.env.DOCUSAURUS_VCS) {
+    const vcs = getVcsPreset(process.env.DOCUSAURUS_VCS as VscPresetName);
+    if (vcs) {
+      return vcs;
+    } else {
+      throw new Error(
+        `Unknown DOCUSAURUS_VCS preset name: ${process.env.DOCUSAURUS_VCS}`,
+      );
+    }
+  }
 
   if (process.env.NODE_ENV === 'production') {
-    return VcsGitAdHoc;
+    return getVcsPreset('git-ad-hoc');
   }
+
+  // Return hardcoded values in dev to improve DX
   if (process.env.NODE_ENV === 'development') {
-    return VcsGitAdHoc;
+    return getVcsPreset('hardcoded');
   }
+
+  // Return hardcoded values in test to make tests simpler and faster
   if (process.env.NODE_ENV === 'test') {
-    return VcsGitAdHoc;
+    return getVcsPreset('hardcoded');
   }
+
   return VcsGitAdHoc;
 }
+
+export const DEFAULT_TEST_VCS_CONFIG: VcsConfig = VcsHardcoded;
 
 export const DEFAULT_VCS_CONFIG: VcsConfig = getDefaultVcsConfig();

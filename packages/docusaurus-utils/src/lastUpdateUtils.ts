@@ -72,6 +72,8 @@ export async function getGitLastUpdate(
   }
 }
 
+// TODO Docusaurus v4: remove this legacy fallback data
+//  we now have a Vcs API that does the same for dev/test envs
 export const LAST_UPDATE_FALLBACK: LastUpdateData = {
   lastUpdatedAt: 1539502055000,
   lastUpdatedBy: 'Author',

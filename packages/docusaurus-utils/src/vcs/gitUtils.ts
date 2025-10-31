@@ -48,9 +48,13 @@ const realHasGitFn = () => {
 const hasGit =
   process.env.NODE_ENV === 'test' ? realHasGitFn : _.memoize(realHasGitFn);
 
+// TODO Docusaurus v4: remove this
+//  Exceptions are not made for control flow logic
 /** Custom error thrown when git is not found in `PATH`. */
 export class GitNotFoundError extends Error {}
 
+// TODO Docusaurus v4: remove this, only kept for retro-compatibility
+//  Exceptions are not made for control flow logic
 /** Custom error thrown when the current file is not tracked by git. */
 export class FileNotTrackedError extends Error {}
 
