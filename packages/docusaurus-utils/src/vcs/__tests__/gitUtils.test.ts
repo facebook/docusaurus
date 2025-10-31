@@ -47,6 +47,7 @@ function initializeTempRepo() {
 
 describe('getFileCommitDate', () => {
   const repoDir = initializeTempRepo();
+
   it('returns earliest commit date', async () => {
     await expect(
       getFileCommitDate(path.join(repoDir, 'test.txt'), {}),
@@ -61,6 +62,7 @@ describe('getFileCommitDate', () => {
       timestamp: new Date('2020-09-13').getTime(),
     });
   });
+
   it('returns latest commit date', async () => {
     await expect(
       getFileCommitDate(path.join(repoDir, 'test.txt'), {age: 'newest'}),
@@ -75,6 +77,7 @@ describe('getFileCommitDate', () => {
       timestamp: new Date('2020-11-13').getTime(),
     });
   });
+
   it('returns latest commit date with author', async () => {
     await expect(
       getFileCommitDate(path.join(repoDir, 'test.txt'), {
@@ -97,6 +100,7 @@ describe('getFileCommitDate', () => {
       author: 'Caroline',
     });
   });
+
   it('returns earliest commit date with author', async () => {
     await expect(
       getFileCommitDate(path.join(repoDir, 'test.txt'), {
@@ -119,6 +123,7 @@ describe('getFileCommitDate', () => {
       author: 'Josh-Cena',
     });
   });
+
   it('throws custom error when file is not tracked', async () => {
     await expect(() =>
       getFileCommitDate(path.join(repoDir, 'untracked.txt'), {
@@ -127,6 +132,7 @@ describe('getFileCommitDate', () => {
       }),
     ).rejects.toThrow(FileNotTrackedError);
   });
+
   it('throws when file not found', async () => {
     await expect(() =>
       getFileCommitDate(path.join(repoDir, 'nonexistent.txt'), {
