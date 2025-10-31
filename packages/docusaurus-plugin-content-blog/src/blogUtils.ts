@@ -323,7 +323,9 @@ async function processBlogSourceFile(
     } else if (typeof editUrl === 'string') {
       const isLocalized = blogDirPath === contentPaths.contentPathLocalized;
       const fileContentPath =
-        isLocalized && options.editLocalizedFiles
+        isLocalized &&
+        options.editLocalizedFiles &&
+        contentPaths.contentPathLocalized
           ? contentPaths.contentPathLocalized
           : contentPaths.contentPath;
 

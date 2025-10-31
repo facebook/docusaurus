@@ -38,28 +38,23 @@ export function toSidebarDocItemLinkProp({
     'id' | 'title' | 'permalink' | 'unlisted' | 'frontMatter'
   >;
 }): PropSidebarItemLink {
-  const {
-    id,
-    title,
-    permalink,
-    frontMatter: {
-      sidebar_label: sidebarLabel,
-      sidebar_custom_props: customProps,
-    },
-    unlisted,
-  } = doc;
+  const {id, title, permalink, frontMatter, unlisted} = doc;
   return {
     type: 'link',
-    label: sidebarLabel ?? item.label ?? title,
+    ...(item.key && {key: item.key}),
     href: permalink,
-    className: item.className,
-    customProps: item.customProps ?? customProps,
+    // Front Matter data takes precedence over sidebars.json
+    label: frontMatter.sidebar_label ?? item.label ?? title,
+    className: frontMatter.sidebar_class_name ?? item.className,
+    customProps: frontMatter.sidebar_custom_props ?? item.customProps,
     docId: id,
     unlisted,
   };
 }
 
-export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
+export function toSidebarsProp(
+  loadedVersion: Pick<LoadedVersion, 'docs' | 'sidebars'>,
+): PropSidebars {
   const docsById = createDocsByIdIndex(loadedVersion.docs);
 
   function getDocById(docId: string): DocMetadata {

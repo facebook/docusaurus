@@ -791,6 +791,7 @@ bênção
 Bêta
 bêta
 c'était
+BYOLLM
 caabernathy
 cabe
 caberá
@@ -1808,6 +1809,8 @@ d'événements
 d'être
 Dabit
 dabit
+Dagre
+dagre
 Daishi
 dangereux
 Dans
@@ -3053,6 +3056,7 @@ fortemente
 forçado
 forçados
 fossem
+forwardable
 FOUC
 fourni
 fournie
@@ -4141,6 +4145,7 @@ Logotipo
 logotipo
 longo
 longtemps
+longlonglonglonglonglonglonglonglonglonglonglong
 Lorber
 lorber
 Lorber's
@@ -5162,6 +5167,8 @@ peuvent
 peux
 Peça
 peças
+perfetto
+pftrace
 philpl
 pico
 pieds
@@ -7176,7 +7183,6 @@ universelle
 unlinkable
 Unlisteds
 unlisteds
-Unlocalized
 unlocalized
 unswizzle
 upvotes

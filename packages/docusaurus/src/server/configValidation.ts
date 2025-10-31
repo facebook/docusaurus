@@ -22,14 +22,39 @@ import type {
   FutureConfig,
   FutureV4Config,
   StorageConfig,
-} from '@docusaurus/types/src/config';
-import type {
   DocusaurusConfig,
   I18nConfig,
   MarkdownConfig,
+  MarkdownHooks,
+  I18nLocaleConfig,
 } from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
+
+const SiteUrlSchema = Joi.string()
+  .custom((value: string, helpers) => {
+    try {
+      const {pathname} = new URL(value);
+      if (pathname !== '/') {
+        return helpers.error('docusaurus.subPathError', {pathname});
+      }
+    } catch {
+      return helpers.error('any.invalid');
+    }
+    return removeTrailingSlash(value);
+  })
+  .messages({
+    'any.invalid':
+      '"{#value}" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".',
+    'docusaurus.subPathError':
+      'The url is not supposed to contain a sub-path like "{#pathname}". Please use the baseUrl field for sub-paths.',
+  });
+
+const BaseUrlSchema = Joi
+  // Weird Joi trick needed, otherwise value '' is not normalized...
+  .alternatives()
+  .try(Joi.string().required().allow(''))
+  .custom((value: string) => addLeadingSlash(addTrailingSlash(value)));
 
 export const DEFAULT_I18N_CONFIG: I18nConfig = {
   defaultLocale: DEFAULT_I18N_LOCALE,
@@ -84,9 +109,15 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   experimental_router: 'browser',
 };
 
+export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
+  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownImages: 'throw',
+};
+
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
   mermaid: false,
+  emoji: true,
   preprocessor: undefined,
   parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
   mdx1Compat: {
@@ -98,6 +129,7 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
     maintainCase: false,
   },
   remarkRehypeOptions: undefined,
+  hooks: DEFAULT_MARKDOWN_HOOKS,
 };
 
 export const DEFAULT_CONFIG: Pick<
@@ -128,7 +160,7 @@ export const DEFAULT_CONFIG: Pick<
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownLinks: undefined,
   onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
@@ -214,12 +246,15 @@ const PresetSchema = Joi.alternatives()
 - A simple string, like \`"classic"\``,
   });
 
-const LocaleConfigSchema = Joi.object({
+const LocaleConfigSchema = Joi.object<I18nLocaleConfig>({
   label: Joi.string(),
   htmlLang: Joi.string(),
-  direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
+  direction: Joi.string().equal('ltr', 'rtl'),
   calendar: Joi.string(),
   path: Joi.string(),
+  translate: Joi.boolean(),
+  url: SiteUrlSchema,
+  baseUrl: BaseUrlSchema,
 });
 
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
@@ -307,38 +342,13 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   .optional()
   .default(DEFAULT_FUTURE_CONFIG);
 
-const SiteUrlSchema = Joi.string()
-  .required()
-  .custom((value: string, helpers) => {
-    try {
-      const {pathname} = new URL(value);
-      if (pathname !== '/') {
-        return helpers.error('docusaurus.subPathError', {pathname});
-      }
-    } catch {
-      return helpers.error('any.invalid');
-    }
-    return removeTrailingSlash(value);
-  })
-  .messages({
-    'any.invalid':
-      '"{#value}" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".',
-    'docusaurus.subPathError':
-      'The url is not supposed to contain a sub-path like "{#pathname}". Please use the baseUrl field for sub-paths.',
-  });
-
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object<DocusaurusConfig>({
-  baseUrl: Joi
-    // Weird Joi trick needed, otherwise value '' is not normalized...
-    .alternatives()
-    .try(Joi.string().required().allow(''))
-    .required()
-    .custom((value: string) => addLeadingSlash(addTrailingSlash(value))),
+  url: SiteUrlSchema.required(),
+  baseUrl: BaseUrlSchema.required(),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().optional(),
   title: Joi.string().required(),
-  url: SiteUrlSchema,
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   future: FUTURE_CONFIG_SCHEMA,
@@ -350,7 +360,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     .default(DEFAULT_CONFIG.onBrokenAnchors),
   onBrokenMarkdownLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
-    .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),
+    .default(() => DEFAULT_CONFIG.onBrokenMarkdownLinks),
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
@@ -430,6 +440,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       () => DEFAULT_CONFIG.markdown.parseFrontMatter,
     ),
     mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
+    emoji: Joi.boolean().default(DEFAULT_CONFIG.markdown.emoji),
     preprocessor: Joi.function()
       .arity(1)
       .optional()
@@ -455,6 +466,20 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         DEFAULT_CONFIG.markdown.anchors.maintainCase,
       ),
     }).default(DEFAULT_CONFIG.markdown.anchors),
+    hooks: Joi.object<MarkdownHooks>({
+      onBrokenMarkdownLinks: Joi.alternatives()
+        .try(
+          Joi.string().equal('ignore', 'log', 'warn', 'throw'),
+          Joi.function(),
+        )
+        .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownLinks),
+      onBrokenMarkdownImages: Joi.alternatives()
+        .try(
+          Joi.string().equal('ignore', 'log', 'warn', 'throw'),
+          Joi.function(),
+        )
+        .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownImages),
+    }).default(DEFAULT_CONFIG.markdown.hooks),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':
@@ -463,7 +488,16 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
 
 // Expressing this kind of logic in Joi is a pain
 // We also want to decouple logic from Joi: easier to remove it later!
-function ensureDocusaurusConfigConsistency(config: DocusaurusConfig) {
+function postProcessDocusaurusConfig(config: DocusaurusConfig) {
+  if (config.onBrokenMarkdownLinks) {
+    logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
+Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
+    // For v3 retro compatibility we use the old attribute over the new one
+    config.markdown.hooks.onBrokenMarkdownLinks = config.onBrokenMarkdownLinks;
+    // We erase the former one to ensure we don't use it anywhere
+    config.onBrokenMarkdownLinks = undefined;
+  }
+
   if (
     config.future.experimental_faster.ssgWorkerThreads &&
     !config.future.v4.removeLegacyPostBuildHeadAttribute
@@ -528,7 +562,7 @@ export function validateConfig(
     throw new Error(formattedError);
   }
 
-  ensureDocusaurusConfigConsistency(value);
+  postProcessDocusaurusConfig(value);
 
   return value;
 }

@@ -13,7 +13,6 @@ import {
   getCSSExtractPlugin,
   getMinimizers,
 } from '@docusaurus/bundler';
-
 import {getFileLoaderUtils, md5Hash} from '@docusaurus/utils';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
 import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
@@ -27,14 +26,6 @@ import type {
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
-
-const LibrariesToTranspile = [
-  'copy-text-to-clipboard', // Contains optional catch binding, incompatible with recent versions of Edge
-];
-
-const LibrariesToTranspileRegex = new RegExp(
-  LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
-);
 
 function getReactAliases(siteDir: string): Record<string, string> {
   // Escape hatch
@@ -58,8 +49,7 @@ export function excludeJS(modulePath: string): boolean {
   // Don't transpile node_modules except any docusaurus npm package
   return (
     modulePath.includes('node_modules') &&
-    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath) &&
-    !LibrariesToTranspileRegex.test(modulePath)
+    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath)
   );
 }
 
@@ -161,38 +151,41 @@ export async function createBaseConfig({
 
   function getExperiments(): Configuration['experiments'] {
     if (props.currentBundler.name === 'rspack') {
-      const PersistentCacheAttributes = process.env
-        .DOCUSAURUS_NO_PERSISTENT_CACHE
-        ? {}
-        : {
-            cache: {
-              type: 'persistent',
-              // Rspack doesn't have "cache.name" like Webpack
-              // This is not ideal but work around is to merge name/version
-              // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
-              version: `${getCacheName()}-${getCacheVersion()}`,
-              buildDependencies: getCacheBuildDependencies(),
-            },
-          };
-
       // TODO find a way to type this
-      return {
-        // This is mostly useful in dev
-        // See https://rspack.dev/config/experiments#experimentsincremental
-        // Produces warnings in production builds
-        // See https://github.com/web-infra-dev/rspack/pull/8311#issuecomment-2476014664
-        // We use the same integration as Rspress, with ability to disable
-        // See https://github.com/web-infra-dev/rspress/pull/1631
-        // See https://github.com/facebook/docusaurus/issues/10646
-        // @ts-expect-error: Rspack-only, not available in Webpack typedefs
-        incremental: !isProd && !process.env.DISABLE_RSPACK_INCREMENTAL,
+      const experiments: any = {};
 
-        // TODO re-enable later, there's an Rspack performance issue
-        //  see https://github.com/facebook/docusaurus/pull/11178
-        parallelCodeSplitting: false,
+      if (!process.env.DOCUSAURUS_NO_PERSISTENT_CACHE) {
+        experiments.cache = {
+          type: 'persistent',
+          // Rspack doesn't have "cache.name" like Webpack
+          // This is not ideal but work around is to merge name/version
+          // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
+          version: `${getCacheName()}-${getCacheVersion()}`,
+          buildDependencies: getCacheBuildDependencies(),
+        };
+      }
 
-        ...PersistentCacheAttributes,
-      };
+      if (process.env.DISABLE_RSPACK_INCREMENTAL) {
+        // Enabled by default since Rspack 1.4
+        console.log('Rspack incremental disabled');
+        experiments.incremental = false;
+      }
+
+      // See https://rspack.rs/blog/announcing-1-5#barrel-file-optimization
+      if (process.env.DISABLE_RSPACK_LAZY_BARREL) {
+        console.log('Rspack lazyBarrel disabled');
+        experiments.lazyBarrel = false;
+      } else {
+        // TODO remove after we upgrade to Rspack 1.6+
+        //  Enabled by default for Rspack >= 1.6
+        experiments.lazyBarrel = true;
+      }
+
+      // TODO re-enable later, there's an Rspack performance issue
+      //  see https://github.com/facebook/docusaurus/pull/11178
+      experiments.parallelCodeSplitting = false;
+
+      return experiments;
     }
     return undefined;
   }
@@ -253,13 +246,6 @@ export async function createBaseConfig({
       modules: ['node_modules', path.join(siteDir, 'node_modules')],
     },
     optimization: {
-      // The optimization.concatenateModules is expensive
-      // - On the server, it's not useful to run it at all
-      // - On the client, it leads to a ~3% JS assets total size decrease
-      //   Let's keep it by default, but large sites may prefer faster builds
-      // See also https://github.com/facebook/docusaurus/pull/11176
-      concatenateModules: !isServer,
-
       // The optimization.mergeDuplicateChunks is expensive
       // - On the server, it's not useful to run it at all
       // - On the client, we compared assets/js before/after and see 0 change

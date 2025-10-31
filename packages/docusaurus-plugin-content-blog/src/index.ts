@@ -19,6 +19,7 @@ import {
   getDataFilePath,
   DEFAULT_PLUGIN_ID,
   resolveMarkdownLinkPathname,
+  getLocaleConfig,
 } from '@docusaurus/utils';
 import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {createMDXLoaderItem} from '@docusaurus/mdx-loader';
@@ -71,15 +72,18 @@ export default async function pluginContentBlog(
     );
   }
 
-  const {onBrokenMarkdownLinks, baseUrl} = siteConfig;
+  const {baseUrl} = siteConfig;
 
+  const shouldTranslate = getLocaleConfig(context.i18n).translate;
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
-    contentPathLocalized: getPluginI18nPath({
-      localizationDir,
-      pluginName: PluginName,
-      pluginId: options.id,
-    }),
+    contentPathLocalized: shouldTranslate
+      ? getPluginI18nPath({
+          localizationDir,
+          pluginName: PluginName,
+          pluginId: options.id,
+        })
+      : undefined,
   };
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
 
@@ -154,18 +158,12 @@ export default async function pluginContentBlog(
       },
       markdownConfig: siteConfig.markdown,
       resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
-        const permalink = resolveMarkdownLinkPathname(linkPathname, {
+        return resolveMarkdownLinkPathname(linkPathname, {
           sourceFilePath,
           sourceToPermalink: contentHelpers.sourceToPermalink,
           siteDir,
           contentPaths,
         });
-        if (permalink === null) {
-          logger.report(
-            onBrokenMarkdownLinks,
-          )`Blog markdown link couldn't be resolved: (url=${linkPathname}) in source file path=${sourceFilePath}`;
-        }
-        return permalink;
       },
     });
 

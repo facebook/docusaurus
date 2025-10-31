@@ -139,6 +139,7 @@ Available doc IDs:
       const {
         sidebarPosition: position,
         frontMatter: {
+          sidebar_key: key,
           sidebar_label: label,
           sidebar_class_name: className,
           sidebar_custom_props: customProps,
@@ -151,6 +152,7 @@ Available doc IDs:
         source: fileName,
         // We don't want these fields to magically appear in the generated
         // sidebar
+        ...(key !== undefined && {key}),
         ...(label !== undefined && {label}),
         ...(className !== undefined && {className}),
         ...(customProps !== undefined && {customProps}),
@@ -191,6 +193,7 @@ Available doc IDs:
       function getCategoryLinkedDocMetadata():
         | {
             id: string;
+            key?: string;
             position?: number;
             label?: string;
             customProps?: {[key: string]: unknown};
@@ -212,6 +215,7 @@ Available doc IDs:
         return {
           id,
           position: doc.sidebarPosition,
+          key: doc.frontMatter.sidebar_key,
           label: doc.frontMatter.sidebar_label ?? doc.title,
           customProps: doc.frontMatter.sidebar_custom_props,
           className: doc.frontMatter.sidebar_class_name,
@@ -236,6 +240,8 @@ Available doc IDs:
         categoryMetadata?.customProps ?? categoryLinkedDoc?.customProps;
       const {filename, numberPrefix} = numberPrefixParser(folderName);
 
+      const key = categoryMetadata?.key ?? categoryLinkedDoc?.key;
+
       return {
         type: 'category',
         label: categoryMetadata?.label ?? categoryLinkedDoc?.label ?? filename,
@@ -252,6 +258,7 @@ Available doc IDs:
         ...(categoryMetadata?.description && {
           description: categoryMetadata?.description,
         }),
+        ...(key && {key}),
         ...(link && {link}),
       };
     }

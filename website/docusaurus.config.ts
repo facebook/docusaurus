@@ -204,6 +204,14 @@ export default async function createConfigAsync() {
     i18n: {
       defaultLocale,
 
+      localeConfigs: {
+        [defaultLocale]: {
+          // Forces the translation process to run for default locale
+          // Permits to dogfood translation key conflicts detection
+          translate: true,
+        },
+      },
+
       locales:
         isDeployPreview || isBranchDeploy
           ? // Deploy preview and branch deploys: keep them fast!
@@ -217,6 +225,9 @@ export default async function createConfigAsync() {
     markdown: {
       format: 'detect',
       mermaid: true,
+      hooks: {
+        onBrokenMarkdownLinks: 'warn',
+      },
       mdx1Compat: {
         // comments: false,
       },
@@ -265,7 +276,6 @@ export default async function createConfigAsync() {
       process.env.DOCUSAURUS_CURRENT_LOCALE !== defaultLocale
         ? 'warn'
         : 'throw',
-    onBrokenMarkdownLinks: 'warn',
     favicon: 'img/docusaurus.ico',
     customFields: {
       crashTest,
@@ -656,6 +666,21 @@ export default async function createConfigAsync() {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
         indexName: 'docusaurus-2',
+
+        // TODO Docusaurus v4: remove after we drop DocSearch v3
+        //  temporary, for DocSearch v3/v4 conditional Ask AI integration
+        //  see https://github.com/facebook/docusaurus/pull/11327
+        // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+        ...(require('@docsearch/react').version.startsWith('4.')
+          ? {
+              askAi: {
+                // cSpell:ignore IMYF
+                assistantId: 'RgIMYFUmTfrN',
+                indexName: 'docusaurus-markdown',
+              },
+            }
+          : {}),
+
         replaceSearchResultPathname:
           isDev || isDeployPreview
             ? {
@@ -832,14 +857,14 @@ export default async function createConfigAsync() {
               {
                 html: `
                 <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
-                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
+                  <img src="/img/footer/badge-netlify.svg" alt="Deploys by Netlify" width="114" height="51" />
                 </a>
               `,
               },
               {
                 html: `
                 <a href="https://argos-ci.com" target="_blank" rel="noreferrer noopener" aria-label="Covered by Argos">
-                  <img src="https://argos-ci.com/badge.svg" alt="Covered by Argos" width="133" height="20" />
+                  <img src="/img/footer/badge-argos.svg" alt="Covered by Argos" width="133" height="20" />
                 </a>
               `,
               },

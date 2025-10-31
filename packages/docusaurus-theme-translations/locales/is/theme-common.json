@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Víkka spássíu flokk '{label}'",
   "theme.ErrorPageContent.title": "Síðan hrundi.",
   "theme.ErrorPageContent.tryAgain": "Reyndu aftur",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Aðal",
   "theme.NotFound.p1": "Við fundum ekki það sem þú leitaðir að.",
   "theme.NotFound.p2": "Vinsamlegast hafðu samband við eiganda síðunnar sem sendi þig hingað og láttu hann vita að hlekkurinn er brotinn.",

@@ -43,6 +43,7 @@ website/.cpu-prof
 .netlify
 
 website/rspack-tracing.json
+website/rspack-tracing.pftrace
 website/bundler-cpu-profile.json
 website/profile.json.gz
 

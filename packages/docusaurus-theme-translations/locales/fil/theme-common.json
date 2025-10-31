@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Expand sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Main",
   "theme.NotFound.p1": "Hindi namin mahanap ang iyong hinananap.",
   "theme.NotFound.p2": "Mangyaring makipag-ugnayan sa may-ari ng site na nag-link sa iyo sa orihinal na URL at sabihin sa kanila na ang kanilang link ay putol.",

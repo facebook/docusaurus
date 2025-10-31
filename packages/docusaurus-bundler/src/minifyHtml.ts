@@ -84,6 +84,10 @@ async function getSwcMinifier(): Promise<HtmlMinifier> {
           // TODO maybe it's fine to only keep <!-- --> React comments?
           preserveComments: [],
 
+          // Keep <head> tag: important for social image crawlers like LinkedIn
+          // See https://github.com/swc-project/swc/issues/10994
+          tagOmission: 'keep-head-and-body',
+
           // Sorting these attributes (class) can lead to React hydration errors
           sortSpaceSeparatedAttributeValues: false,
           sortAttributes: false,

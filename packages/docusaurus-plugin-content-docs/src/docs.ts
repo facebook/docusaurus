@@ -196,7 +196,9 @@ async function doProcessDocMetadata({
         locale: context.i18n.currentLocale,
       });
     } else if (typeof options.editUrl === 'string') {
-      const isLocalized = contentPath === versionMetadata.contentPathLocalized;
+      const isLocalized =
+        typeof versionMetadata.contentPathLocalized !== 'undefined' &&
+        contentPath === versionMetadata.contentPathLocalized;
       const baseVersionEditUrl =
         isLocalized && options.editLocalizedFiles
           ? versionMetadata.editUrlLocalized
