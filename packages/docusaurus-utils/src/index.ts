@@ -25,10 +25,12 @@ export {
 } from './constants';
 export {generate, readOutputHTMLFile} from './emitUtils';
 export {
+  // TODO Docusaurus v4: remove these legacy exports,
+  //  they are only kept for retro-compatibility
   getFileCommitDate,
   FileNotTrackedError,
   GitNotFoundError,
-} from './gitUtils';
+} from './vcs/gitUtils';
 export {
   mergeTranslations,
   updateTranslationFileMessages,
@@ -129,6 +131,6 @@ export {
   type FrontMatterLastUpdate,
 } from './lastUpdateUtils';
 
-export {DEFAULT_VCS_CONFIG} from './vcsUtils';
+export {DEFAULT_VCS_CONFIG} from './vcs/vcsUtils';
 
 export {normalizeTags, reportInlineTags} from './tags';

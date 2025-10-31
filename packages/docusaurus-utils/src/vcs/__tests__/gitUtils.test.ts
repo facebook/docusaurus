@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import {createTempRepo} from '@testing-utils/git';
 import {FileNotTrackedError, getFileCommitDate} from '../gitUtils';
-import {getGitLastUpdate} from '../lastUpdateUtils';
+import {getGitLastUpdate} from '../../lastUpdateUtils';
 
 /* eslint-disable no-restricted-properties */
 function initializeTempRepo() {

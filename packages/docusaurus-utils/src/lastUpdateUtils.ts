@@ -11,8 +11,8 @@ import {
   FileNotTrackedError,
   GitNotFoundError,
   getFileCommitDate,
-} from './gitUtils';
-import {DEFAULT_VCS_CONFIG} from './vcsUtils';
+} from './vcs/gitUtils';
+import {DEFAULT_VCS_CONFIG} from './vcs/vcsUtils';
 import type {PluginOptions, VcsConfig} from '@docusaurus/types';
 
 export type LastUpdateData = {

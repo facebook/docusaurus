@@ -10,7 +10,7 @@ import {
   getFileCommitDate,
   GitNotFoundError,
 } from './gitUtils';
-import {getLastUpdate} from './lastUpdateUtils';
+import {getLastUpdate} from '../lastUpdateUtils';
 import type {VcsConfig} from '@docusaurus/types';
 
 export const DEFAULT_VCS_CONFIG: VcsConfig = {
