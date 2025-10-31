@@ -62,6 +62,7 @@ jobs:
           comment-key: DOCUSAURUS_INFRA_${{ matrix.DOCUSAURUS_INFRA }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+          DOCUSAURUS_PERF_LOGGER: 'true'
 
   # Ensures build times stay under reasonable thresholds
   build-time:
@@ -88,6 +89,7 @@ jobs:
         timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 3 || 2  }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+          DOCUSAURUS_PERF_LOGGER: 'true'
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
@@ -96,5 +98,6 @@ jobs:
         timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 1 || 2  }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+          DOCUSAURUS_PERF_LOGGER: 'true'
 
     # TODO post a GitHub comment with build with perf warnings?
