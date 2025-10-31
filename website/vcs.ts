@@ -40,10 +40,12 @@ async function getAllNewestCommitDate(cwd: string): Promise<CommitInfoMap> {
   const result = await execa(
     'git',
     [
-      'log',
       // Do not include GPG signature in the log output
       // See https://github.com/facebook/docusaurus/pull/10022
-      '-c log.showSignature=false',
+      '-c',
+      'log.showSignature=false',
+      // The git command we want to run
+      'log',
       // Format each history entry as t:<seconds since epoch>
       '--format=t:%ct,a:%an',
       // In each entry include the name and status for each modified file
@@ -131,6 +133,10 @@ function createCustomVcsConfig(): VcsConfig {
     return DEFAULT_VCS_CONFIG;
   }
 
+  if (process.env.NODE_ENV !== 'production') {
+    return DEFAULT_VCS_CONFIG;
+  }
+
   let repoInfoPromise: Promise<CommitInfoMap> | null = null;
 
   async function getRepoInfoForFile(
@@ -147,15 +153,13 @@ function createCustomVcsConfig(): VcsConfig {
 
   return {
     initialize: ({siteDir}) => {
-      if (process.env.NODE_ENV === 'production') {
-        // Only pre-init for production builds
-        getRepoInfoForFile(siteDir).catch((error) => {
-          console.error(
-            'Failed to initialize the custom Docusaurus site Git VCS',
-            error,
-          );
-        });
-      }
+      // Only pre-init for production builds
+      getRepoInfoForFile(siteDir).catch((error) => {
+        console.error(
+          'Failed to initialize the custom Docusaurus site Git VCS',
+          error,
+        );
+      });
     },
 
     getFileCreationInfo: async (filePath: string) => {
