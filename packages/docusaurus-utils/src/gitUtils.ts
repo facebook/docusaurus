@@ -193,6 +193,12 @@ export async function getFileCommitDate(
 
   // Test
   if (!output) {
+    console.log('NO GIT OUTPUT', file);
+    /*
+    throw new FileNotTrackedError(
+      `Failed to retrieve the git history for file "${file}" because the file is not tracked by git.`,
+    );
+     */
     return {
       date: new Date(),
       timestamp: Date.now(),
@@ -203,12 +209,16 @@ export async function getFileCommitDate(
   const match = output.match(regex);
 
   if (!match) {
+    console.log('NO GIT MATCH', file);
+
     return {
       date: new Date(),
       timestamp: Date.now(),
       author: 'Seb',
     };
   }
+
+  console.log('GIT MATCH', file, match.groups!.timestamp, match.groups!.author);
 
   const timestampInSeconds = Number(match.groups!.timestamp);
   const timestamp = timestampInSeconds * 1_000;
