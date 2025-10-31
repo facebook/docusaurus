@@ -150,6 +150,8 @@ export async function getFileCommitDate(
     .filter(Boolean)
     .join(' ');
 
+  // Do not include GPG signature in the log output
+  // See https://github.com/facebook/docusaurus/pull/10022
   const command = `git -c log.showSignature=false log ${args} -- "${path.basename(
     file,
   )}"`;

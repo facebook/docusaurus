@@ -36,11 +36,14 @@ type CommitInfoMap = Map<string, CommitInfo>;
 async function getAllNewestCommitDate(cwd: string): Promise<CommitInfoMap> {
   const repoRoot = await getRepoRoot(cwd);
 
-  // git log --format=t:%ct,a:%an --name-status
+  // git -c log.showSignature=true log --format=t:%ct,a:%an --name-status
   const result = await execa(
     'git',
     [
       'log',
+      // Do not include GPG signature in the log output
+      // See https://github.com/facebook/docusaurus/pull/10022
+      '-c log.showSignature=false',
       // Format each history entry as t:<seconds since epoch>
       '--format=t:%ct,a:%an',
       // In each entry include the name and status for each modified file
