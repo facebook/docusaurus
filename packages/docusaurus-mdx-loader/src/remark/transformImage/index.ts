@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import url from 'url';
 import fs from 'fs-extra';
 import {
   toMessageRelativeFilePath,
@@ -207,7 +206,7 @@ async function processImageNode(target: Target, context: Context) {
     return;
   }
 
-  const parsedUrl = url.parse(node.url);
+  const parsedUrl = parseURLOrPath(node.url);
   if (parsedUrl.protocol || !parsedUrl.pathname) {
     // pathname:// is an escape hatch, in case user does not want her images to
     // be converted to require calls going through webpack loader
