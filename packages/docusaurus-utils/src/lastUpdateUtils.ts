@@ -12,8 +12,7 @@ import {
   GitNotFoundError,
   getFileCommitDate,
 } from './vcs/gitUtils';
-import {DEFAULT_VCS_CONFIG} from './vcs/vcs';
-import {VCS_HARDCODED_UNTRACKED_FILE_PATH} from './vcs/vcsHardcoded';
+import {getDefaultVcsConfig} from './vcs/vcs';
 import type {PluginOptions, VcsConfig} from '@docusaurus/types';
 
 export type LastUpdateData = {
@@ -73,31 +72,9 @@ export async function getGitLastUpdate(
   }
 }
 
-// TODO Docusaurus v4: remove this legacy fallback data
-//  we now have a Vcs API that does the same for dev/test envs
-export const LAST_UPDATE_FALLBACK: LastUpdateData = {
-  lastUpdatedAt: 1539502055000,
-  lastUpdatedBy: 'Author',
-};
-
-// TODO Docusaurus v4
-//  should be removed in favor of using the hardcoded VSC impl/constant directly
-export const LAST_UPDATE_UNTRACKED_GIT_FILEPATH =
-  VCS_HARDCODED_UNTRACKED_FILE_PATH;
-
 export async function getLastUpdate(
   filePath: string,
 ): Promise<LastUpdateData | null> {
-  if (filePath === LAST_UPDATE_UNTRACKED_GIT_FILEPATH) {
-    return null;
-  }
-  if (
-    process.env.NODE_ENV !== 'production' ||
-    process.env.DOCUSAURUS_DISABLE_LAST_UPDATE === 'true'
-  ) {
-    // Use fake data in dev/test for faster development.
-    return LAST_UPDATE_FALLBACK;
-  }
   return getGitLastUpdate(filePath);
 }
 
@@ -128,7 +105,7 @@ export async function readLastUpdateData(
   // This also ensures unit tests keep working without extra setup
   // We still want to ensure type safety by requiring the VCS param
   // TODO Docusaurus v4: refactor all these Git read APIs
-  const vcs = vcsParam ?? DEFAULT_VCS_CONFIG;
+  const vcs = vcsParam ?? getDefaultVcsConfig();
 
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
 

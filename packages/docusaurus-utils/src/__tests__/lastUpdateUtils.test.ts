@@ -11,13 +11,13 @@ import path from 'path';
 import {createTempRepo} from '@testing-utils/git';
 import execa from 'execa';
 
+import {getGitLastUpdate, readLastUpdateData} from '../lastUpdateUtils';
 import {
-  getGitLastUpdate,
-  LAST_UPDATE_FALLBACK,
-  LAST_UPDATE_UNTRACKED_GIT_FILEPATH,
-  readLastUpdateData,
-} from '../lastUpdateUtils';
-import {DEFAULT_TEST_VCS_CONFIG} from '../vcs/vcs';
+  VcsHardcoded,
+  VCS_HARDCODED_UNTRACKED_FILE_PATH,
+  VCS_HARDCODED_LAST_UPDATE_INFO,
+} from '../vcs/vcsHardcoded';
+
 import type {FrontMatterLastUpdate} from '../lastUpdateUtils';
 
 describe('getGitLastUpdate', () => {
@@ -139,7 +139,7 @@ describe('readLastUpdateData', () => {
       filePath,
       options,
       lastUpdateFrontMatter,
-      DEFAULT_TEST_VCS_CONFIG,
+      VcsHardcoded,
     );
   }
 
@@ -148,7 +148,7 @@ describe('readLastUpdateData', () => {
       lastUpdateFrontMatter: FrontMatterLastUpdate | undefined,
     ) {
       return readData(
-        LAST_UPDATE_UNTRACKED_GIT_FILEPATH,
+        VCS_HARDCODED_UNTRACKED_FILE_PATH,
         {showLastUpdateAuthor: true, showLastUpdateTime: true},
         lastUpdateFrontMatter,
       );
@@ -184,7 +184,7 @@ describe('readLastUpdateData', () => {
       {date: testDate},
     );
     expect(lastUpdatedAt).toEqual(testTimestamp);
-    expect(lastUpdatedBy).toBe(LAST_UPDATE_FALLBACK.lastUpdatedBy);
+    expect(lastUpdatedBy).toBe(VCS_HARDCODED_LAST_UPDATE_INFO.author);
   });
 
   it('read last author show author time', async () => {
@@ -194,7 +194,7 @@ describe('readLastUpdateData', () => {
       {author: testAuthor},
     );
     expect(lastUpdatedBy).toEqual(testAuthor);
-    expect(lastUpdatedAt).toBe(LAST_UPDATE_FALLBACK.lastUpdatedAt);
+    expect(lastUpdatedAt).toBe(VCS_HARDCODED_LAST_UPDATE_INFO.timestamp);
   });
 
   it('read last all show author time', async () => {
@@ -231,7 +231,7 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {date: testDate},
     );
-    expect(lastUpdatedBy).toBe(LAST_UPDATE_FALLBACK.lastUpdatedBy);
+    expect(lastUpdatedBy).toBe(VCS_HARDCODED_LAST_UPDATE_INFO.author);
     expect(lastUpdatedAt).toBeUndefined();
   });
 
@@ -251,7 +251,7 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {},
     );
-    expect(lastUpdatedBy).toBe(LAST_UPDATE_FALLBACK.lastUpdatedBy);
+    expect(lastUpdatedBy).toBe(VCS_HARDCODED_LAST_UPDATE_INFO.author);
     expect(lastUpdatedAt).toBeUndefined();
   });
 
@@ -272,7 +272,7 @@ describe('readLastUpdateData', () => {
       {author: testAuthor},
     );
     expect(lastUpdatedBy).toBeUndefined();
-    expect(lastUpdatedAt).toEqual(LAST_UPDATE_FALLBACK.lastUpdatedAt);
+    expect(lastUpdatedAt).toEqual(VCS_HARDCODED_LAST_UPDATE_INFO.timestamp);
   });
 
   it('read last author show time only - both front matter', async () => {
