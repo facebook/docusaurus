@@ -17,7 +17,7 @@ import {
   LAST_UPDATE_UNTRACKED_GIT_FILEPATH,
   readLastUpdateData,
 } from '../lastUpdateUtils';
-import {DEFAULT_VCS_CONFIG} from '../vcs/vcs';
+import {DEFAULT_TEST_VCS_CONFIG} from '../vcs/vcs';
 import type {FrontMatterLastUpdate} from '../lastUpdateUtils';
 
 describe('getGitLastUpdate', () => {
@@ -139,7 +139,7 @@ describe('readLastUpdateData', () => {
       filePath,
       options,
       lastUpdateFrontMatter,
-      DEFAULT_VCS_CONFIG,
+      DEFAULT_TEST_VCS_CONFIG,
     );
   }
 
