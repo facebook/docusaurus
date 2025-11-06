@@ -123,7 +123,6 @@ export {askPreferredLanguage} from './cliUtils';
 export {flattenRoutes} from './routeUtils';
 
 export {
-  getGitLastUpdate,
   readLastUpdateData,
   type LastUpdateData,
   type FrontMatterLastUpdate,

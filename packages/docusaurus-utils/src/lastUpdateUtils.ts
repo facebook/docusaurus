@@ -6,12 +6,6 @@
  */
 
 import _ from 'lodash';
-import logger from '@docusaurus/logger';
-import {
-  FileNotTrackedError,
-  GitNotFoundError,
-  getFileCommitDate,
-} from './vcs/gitUtils';
 import {getDefaultVcsConfig} from './vcs/vcs';
 
 import type {PluginOptions, VcsConfig} from '@docusaurus/types';
@@ -30,48 +24,6 @@ export type LastUpdateData = {
    */
   lastUpdatedBy: string | undefined | null;
 };
-
-let showedGitRequirementError = false;
-let showedFileNotTrackedError = false;
-
-export async function getGitLastUpdate(
-  filePath: string,
-): Promise<LastUpdateData | null> {
-  if (!filePath) {
-    return null;
-  }
-
-  // Wrap in try/catch in case the shell commands fail
-  // (e.g. project doesn't use Git, etc).
-  try {
-    const result = await getFileCommitDate(filePath, {
-      age: 'newest',
-      includeAuthor: true,
-    });
-
-    return {lastUpdatedAt: result.timestamp, lastUpdatedBy: result.author};
-  } catch (err) {
-    if (err instanceof GitNotFoundError) {
-      if (!showedGitRequirementError) {
-        logger.warn('Sorry, the last update options require Git.');
-        showedGitRequirementError = true;
-      }
-    } else if (err instanceof FileNotTrackedError) {
-      if (!showedFileNotTrackedError) {
-        logger.warn(
-          'Cannot infer the update date for some files, as they are not tracked by git.',
-        );
-        showedFileNotTrackedError = true;
-      }
-    } else {
-      throw new Error(
-        `An error occurred when trying to get the last update date`,
-        {cause: err},
-      );
-    }
-    return null;
-  }
-}
 
 type LastUpdateOptions = Pick<
   PluginOptions,

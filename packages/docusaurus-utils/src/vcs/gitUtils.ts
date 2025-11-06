@@ -11,6 +11,7 @@ import os from 'os';
 import _ from 'lodash';
 import execa from 'execa';
 import PQueue from 'p-queue';
+import logger from '@docusaurus/logger';
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915
@@ -203,4 +204,61 @@ export async function getFileCommitDate(
     return {date, timestamp, author: match.groups!.author!};
   }
   return {date, timestamp};
+}
+
+type GitLastUpdateResult = {
+  /**
+   * A timestamp in **milliseconds**
+   * `undefined`: not read
+   * `null`: no value to read (usual for untracked files)
+   */
+  timestamp: number | undefined | null;
+  /**
+   * The Git author's name
+   * `undefined`: not read
+   * `null`: no value to read (usual for untracked files)
+   */
+  author: string | undefined | null;
+};
+
+let showedGitRequirementError = false;
+let showedFileNotTrackedError = false;
+
+export async function getGitLastUpdate(
+  filePath: string,
+): Promise<GitLastUpdateResult | null> {
+  if (!filePath) {
+    return null;
+  }
+
+  // Wrap in try/catch in case the shell commands fail
+  // (e.g. project doesn't use Git, etc).
+  try {
+    const result = await getFileCommitDate(filePath, {
+      age: 'newest',
+      includeAuthor: true,
+    });
+    return {timestamp: result.timestamp, author: result.author};
+  } catch (err) {
+    // TODO legacy perf issue: do not use exceptions for control flow!
+    if (err instanceof GitNotFoundError) {
+      if (!showedGitRequirementError) {
+        logger.warn('Sorry, the last update options require Git.');
+        showedGitRequirementError = true;
+      }
+    } else if (err instanceof FileNotTrackedError) {
+      if (!showedFileNotTrackedError) {
+        logger.warn(
+          'Cannot infer the update date for some files, as they are not tracked by git.',
+        );
+        showedFileNotTrackedError = true;
+      }
+    } else {
+      throw new Error(
+        `An error occurred when trying to get the last update date`,
+        {cause: err},
+      );
+    }
+    return null;
+  }
 }
