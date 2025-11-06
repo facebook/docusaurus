@@ -83,7 +83,7 @@ export async function getFileCommitDate(
   },
 ): Promise<{
   /** Relevant commit date. */
-  date: Date;
+  date: Date; // TODO duplicate data, not really useful?
   /** Timestamp returned from git, converted to **milliseconds**. */
   timestamp: number;
 }>;
@@ -206,36 +206,23 @@ export async function getFileCommitDate(
   return {date, timestamp};
 }
 
-type GitLastUpdateResult = {
-  /**
-   * A timestamp in **milliseconds**
-   * `undefined`: not read
-   * `null`: no value to read (usual for untracked files)
-   */
-  timestamp: number | undefined | null;
-  /**
-   * The Git author's name
-   * `undefined`: not read
-   * `null`: no value to read (usual for untracked files)
-   */
-  author: string | undefined | null;
-};
-
 let showedGitRequirementError = false;
 let showedFileNotTrackedError = false;
 
-export async function getGitLastUpdate(
+type GitCommitInfo = {timestamp: number; author: string};
+
+async function getGitCommitInfo(
   filePath: string,
-): Promise<GitLastUpdateResult | null> {
+  age: 'oldest' | 'newest',
+): Promise<GitCommitInfo | null> {
   if (!filePath) {
     return null;
   }
-
   // Wrap in try/catch in case the shell commands fail
   // (e.g. project doesn't use Git, etc).
   try {
     const result = await getFileCommitDate(filePath, {
-      age: 'newest',
+      age,
       includeAuthor: true,
     });
     return {timestamp: result.timestamp, author: result.author};
@@ -261,4 +248,16 @@ export async function getGitLastUpdate(
     }
     return null;
   }
+}
+
+export async function getGitLastUpdate(
+  filePath: string,
+): Promise<GitCommitInfo | null> {
+  return getGitCommitInfo(filePath, 'newest');
+}
+
+export async function getGitCreation(
+  filePath: string,
+): Promise<GitCommitInfo | null> {
+  return getGitCommitInfo(filePath, 'oldest');
 }

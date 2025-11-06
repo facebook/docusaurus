@@ -10,7 +10,12 @@ import fs from 'fs-extra';
 import path from 'path';
 import {createTempRepo} from '@testing-utils/git';
 import execa from 'execa';
-import {FileNotTrackedError, getFileCommitDate,getGitLastUpdate} from '../gitUtils';
+import {
+  FileNotTrackedError,
+  getFileCommitDate,
+  getGitLastUpdate,
+  getGitCreation,
+} from '../gitUtils';
 
 /* eslint-disable no-restricted-properties */
 function initializeTempRepo() {
@@ -249,5 +254,54 @@ describe('getGitLastUpdate', () => {
     );
     await fs.unlink(tempFilePath1);
     await fs.unlink(tempFilePath2);
+  });
+});
+
+describe('test repo commit info', () => {
+  const repoDir = initializeTempRepo();
+
+  it('returns creation info for test.txt', async () => {
+    const filePath = path.join(repoDir, 'test.txt');
+    await expect(getGitCreation(filePath)).resolves.toEqual({
+      author: 'Caroline',
+      timestamp: new Date('2020-06-19').getTime(),
+    });
+
+    await expect(getGitLastUpdate(filePath)).resolves.toEqual({
+      author: 'Caroline',
+      timestamp: new Date('2020-09-13').getTime(),
+    });
+  });
+
+  it('returns creation info for dest.txt', async () => {
+    const filePath = path.join(repoDir, 'dest.txt');
+    await expect(getGitCreation(filePath)).resolves.toEqual({
+      author: 'Caroline',
+      timestamp: new Date('2020-09-13').getTime(),
+    });
+    await expect(getGitLastUpdate(filePath)).resolves.toEqual({
+      author: 'Josh-Cena',
+      timestamp: new Date('2020-11-13').getTime(),
+    });
+  });
+
+  it('returns creation info for untracked.txt', async () => {
+    const filePath = path.join(repoDir, 'untracked.txt');
+    await expect(getGitCreation(filePath)).resolves.toEqual(null);
+    await expect(getGitLastUpdate(filePath)).resolves.toEqual(null);
+  });
+
+  it('returns creation info for non-existing.txt', async () => {
+    const filePath = path.join(repoDir, 'non-existing.txt');
+    await expect(
+      getGitCreation(filePath),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"An error occurred when trying to get the last update date"`,
+    );
+    await expect(
+      getGitLastUpdate(filePath),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"An error occurred when trying to get the last update date"`,
+    );
   });
 });
