@@ -13,7 +13,8 @@ import {
   posixPath,
   DEFAULT_PLUGIN_ID,
   getLocaleConfig,
-VCS_HARDCODED_LAST_UPDATE_INFO} from '@docusaurus/utils';
+  VCS_HARDCODED_LAST_UPDATE_INFO,
+} from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {createSidebarsUtils} from '../sidebars/utils';
 import {
