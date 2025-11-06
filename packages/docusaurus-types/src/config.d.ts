@@ -76,6 +76,11 @@ export type VcsConfig = {
   getFileLastUpdateInfo: (filePath: string) => Promise<VcsChangeInfo | null>;
 };
 
+/**
+ * List of pre-built VcsConfig that Docusaurus provides.
+ */
+export type VcsPreset = 'git-ad-hoc' | 'git-eager' | 'hardcoded';
+
 export type FutureConfig = {
   /**
    * Turns v4 future flags on
@@ -86,7 +91,7 @@ export type FutureConfig = {
 
   experimental_storage: StorageConfig;
 
-  experimental_vcs: VcsConfig;
+  experimental_vcs: VcsPreset | VcsConfig;
 
   /**
    * Docusaurus can work with 2 router types.

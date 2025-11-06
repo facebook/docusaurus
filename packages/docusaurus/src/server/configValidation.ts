@@ -9,7 +9,9 @@ import {
   DEFAULT_PARSE_FRONT_MATTER,
   DEFAULT_STATIC_DIR_NAME,
   DEFAULT_I18N_DIR_NAME,
-  DEFAULT_VCS_CONFIG,
+  getDefaultVcsConfig,
+  VcsPresetNames,
+  getVcsPreset,
 } from '@docusaurus/utils';
 import {Joi, printWarning} from '@docusaurus/utils-validation';
 import {
@@ -29,6 +31,7 @@ import type {
   MarkdownHooks,
   I18nLocaleConfig,
   VcsConfig,
+  VcsPreset,
 } from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
@@ -108,7 +111,9 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
   experimental_faster: DEFAULT_FASTER_CONFIG,
   experimental_storage: DEFAULT_STORAGE_CONFIG,
-  experimental_vcs: DEFAULT_VCS_CONFIG,
+
+  // Not good, need to be loaded lazily
+  experimental_vcs: getDefaultVcsConfig(),
   experimental_router: 'browser',
 };
 
@@ -334,22 +339,28 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   .optional()
   .default(DEFAULT_STORAGE_CONFIG);
 
-const VCS_CONFIG_SCHEMA = Joi.object<VcsConfig>({
-  initialize: Joi.function()
-    .maxArity(1)
-    .optional()
-    .default(() => DEFAULT_VCS_CONFIG.initialize),
-  getFileCreationInfo: Joi.function()
-    .arity(1)
-    .optional()
-    .default(() => DEFAULT_VCS_CONFIG.getFileCreationInfo),
-  getFileLastUpdateInfo: Joi.function()
-    .arity(1)
-    .optional()
-    .default(() => DEFAULT_VCS_CONFIG.getFileLastUpdateInfo),
-})
-  .optional()
-  .default(DEFAULT_VCS_CONFIG);
+const VCS_CONFIG_OBJECT_SCHEMA = Joi.object<VcsConfig>({
+  // All the fields are required on purpose
+  // You either provide a full VCS config or nothing
+  initialize: Joi.function().maxArity(1).required(),
+  getFileCreationInfo: Joi.function().arity(1).required(),
+  getFileLastUpdateInfo: Joi.function().arity(1).required(),
+});
+
+const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
+  if (typeof input === 'string') {
+    const presetName = input as VcsPreset;
+    if (!VcsPresetNames.includes(presetName)) {
+      throw new Error(`VCS config preset name '${input}' is not valid.`);
+    }
+    return getVcsPreset(presetName);
+  }
+  const {error, value} = VCS_CONFIG_OBJECT_SCHEMA.validate(input);
+  if (error) {
+    throw error;
+  }
+  return value;
+}).default(() => getDefaultVcsConfig());
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   v4: FUTURE_V4_SCHEMA,

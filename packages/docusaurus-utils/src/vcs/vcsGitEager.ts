@@ -163,6 +163,7 @@ function createGitVcsConfig(): VcsConfig {
 
   return {
     initialize: ({siteDir}) => {
+      console.log('git eager init');
       // Only pre-init for production builds
       getGitFileInfo(siteDir).catch((error) => {
         console.error(

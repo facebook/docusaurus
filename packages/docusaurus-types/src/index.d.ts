@@ -14,6 +14,7 @@ export {
   FasterConfig,
   StorageConfig,
   VcsConfig,
+  VcsPreset,
   VcsChangeInfo,
   VscInitializeParams,
   Config,
