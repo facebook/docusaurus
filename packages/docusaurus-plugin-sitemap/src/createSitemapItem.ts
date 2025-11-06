@@ -16,7 +16,7 @@ async function getRouteLastUpdatedAt(
   vcs: Pick<VcsConfig, 'getFileLastUpdateInfo'>,
 ): Promise<number | null | undefined> {
   // Important to bail-out early here
-  // This can lead to duplicated getLastUpdate() calls and performance problems
+  // This can lead to duplicated VCS calls and performance problems
   // See https://github.com/facebook/docusaurus/pull/11211
   if (route.metadata?.lastUpdatedAt === null) {
     return null;

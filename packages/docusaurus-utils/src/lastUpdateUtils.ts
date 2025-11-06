@@ -13,6 +13,7 @@ import {
   getFileCommitDate,
 } from './vcs/gitUtils';
 import {getDefaultVcsConfig} from './vcs/vcs';
+
 import type {PluginOptions, VcsConfig} from '@docusaurus/types';
 
 export type LastUpdateData = {
@@ -70,12 +71,6 @@ export async function getGitLastUpdate(
     }
     return null;
   }
-}
-
-export async function getLastUpdate(
-  filePath: string,
-): Promise<LastUpdateData | null> {
-  return getGitLastUpdate(filePath);
 }
 
 type LastUpdateOptions = Pick<

@@ -10,7 +10,7 @@ import {
   getFileCommitDate,
   GitNotFoundError,
 } from './gitUtils';
-import {getLastUpdate} from '../lastUpdateUtils';
+import {getGitLastUpdate} from '../lastUpdateUtils';
 import type {VcsConfig} from '@docusaurus/types';
 
 /**
@@ -52,7 +52,7 @@ export const VcsGitAdHoc: VcsConfig = {
     // TODO non-ideal integration but good enough for now
     // This keeps this new VscConfig system retro-compatible with the existing
     // historical Docusaurus behavior based on Git
-    const result = await getLastUpdate(filePath);
+    const result = await getGitLastUpdate(filePath);
     if (result === null) {
       return null;
     }

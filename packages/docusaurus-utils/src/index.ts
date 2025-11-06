@@ -124,7 +124,6 @@ export {flattenRoutes} from './routeUtils';
 
 export {
   getGitLastUpdate,
-  getLastUpdate,
   readLastUpdateData,
   type LastUpdateData,
   type FrontMatterLastUpdate,
