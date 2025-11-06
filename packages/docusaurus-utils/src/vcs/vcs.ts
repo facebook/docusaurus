@@ -7,10 +7,12 @@
 
 import {VcsHardcoded} from './vcsHardcoded';
 import {VcsGitAdHoc} from './vcsGitAdHoc';
+import {VscGitEager} from './vcsGitEager';
 import type {VcsConfig} from '@docusaurus/types';
 
 const VcsPresets = {
   'git-ad-hoc': VcsGitAdHoc,
+  'git-eager': VscGitEager,
   hardcoded: VcsHardcoded,
 } as const satisfies Record<string, VcsConfig>;
 
@@ -34,7 +36,9 @@ function getDefaultVcsConfig(): VcsConfig {
   }
 
   if (process.env.NODE_ENV === 'production') {
-    return getVcsPreset('git-ad-hoc');
+    // TODO add feature flag switch for git-eager / git-ad-hoc strategies
+    // return getVcsPreset('git-ad-hoc');
+    return getVcsPreset('git-eager');
   }
 
   // Return hardcoded values in dev to improve DX

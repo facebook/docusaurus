@@ -8,13 +8,12 @@
 import {resolve} from 'node:path';
 import {realpath} from 'node:fs/promises';
 import execa from 'execa';
-import {DEFAULT_VCS_CONFIG} from '@docusaurus/utils';
 import {PerfLogger} from '@docusaurus/logger';
 import type {VcsConfig} from '@docusaurus/types';
 
-async function getGitRepoRoot(cwd: string): Promise<string> {
+async function getGitRepoRoot(filePath: string): Promise<string> {
   const result = await execa('git', ['rev-parse', '--show-toplevel'], {
-    cwd,
+    cwd: filePath,
   });
 
   if (result.exitCode !== 0) {
@@ -40,8 +39,8 @@ type GitRepositoryInfo = {files: GitFilesInfo};
 // Logic inspired from Astro Starlight:
 // See https://bsky.app/profile/bluwy.me/post/3lyihod6qos2a
 // See https://github.com/withastro/starlight/blob/c417f1efd463be63b7230617d72b120caed098cd/packages/starlight/utils/git.ts#L58
-async function loadGitFiles(cwd: string): Promise<GitFilesInfo> {
-  const repoRoot = await getGitRepoRoot(cwd);
+async function loadGitFiles(filePath: string): Promise<GitFilesInfo> {
+  const repoRoot = await getGitRepoRoot(filePath);
 
   // git -c log.showSignature=false log --format=t:%ct,a:%an --name-status
   const result = await execa(
@@ -141,23 +140,14 @@ The command exited with code ${result.exitCode}: ${result.stderr}`,
   return new Map(Array.from(runningMap.entries()).map(transformMapEntry));
 }
 
-async function loadGitRepository(cwd: string): Promise<GitRepositoryInfo> {
-  return PerfLogger.async('getGitRepoLastCommitInfoMap', async () => {
-    const files = await loadGitFiles(cwd);
+async function loadGitRepository(filePath: string): Promise<GitRepositoryInfo> {
+  return PerfLogger.async('loadGitRepository', async () => {
+    const files = await loadGitFiles(filePath);
     return {files};
   });
 }
 
 function createGitVcsConfig(): VcsConfig {
-  if (process.env.DOCUSAURUS_WEBSITE_USE_OLD_VCS_STRATEGY === 'true') {
-    console.log("Using the old Docusaurus website's VCS strategy");
-    return DEFAULT_VCS_CONFIG;
-  }
-
-  if (process.env.NODE_ENV !== 'production') {
-    // return DEFAULT_VCS_CONFIG;
-  }
-
   // TODO need to support multiple repositories (git submodules, etc.)
   let repositoryPromise: Promise<GitRepositoryInfo> | null = null;
 
@@ -194,4 +184,4 @@ function createGitVcsConfig(): VcsConfig {
   };
 }
 
-export const customSiteVcsImplementation: VcsConfig = createGitVcsConfig();
+export const VscGitEager: VcsConfig = createGitVcsConfig();

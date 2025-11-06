@@ -25,8 +25,6 @@ import ConfigLocalized from './docusaurus.config.localized.json';
 import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
 
-import {customSiteVcsImplementation} from './vcs';
-
 import type {Config, DocusaurusConfig} from '@docusaurus/types';
 
 import type * as Preset from '@docusaurus/preset-classic';
@@ -192,7 +190,7 @@ export default async function createConfigAsync() {
       experimental_storage: {
         namespace: true,
       },
-      experimental_vcs: customSiteVcsImplementation,
+      // experimental_vcs: customSiteVcsImplementation,
       experimental_router: router,
     },
     // Dogfood both settings:
