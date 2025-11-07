@@ -334,7 +334,7 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
   // this command only works when inside submodules
   // otherwise it doesn't return anything when we are inside the main repo
   if (output) {
-    return output;
+    return fs.realpath.native(output);
   }
   return getGitRepoRoot(cwd);
 }
