@@ -55,7 +55,9 @@ stdout: ${commitRes.stdout}`);
 
 // This function is sync so the same mock repo can be shared across tests
 export function createTempRepo(): {repoDir: string; git: Git} {
-  const repoDir = fs.mkdtempSync(path.join(os.tmpdir(), 'git-test-repo'));
+  const repoDir = fs.realpath(
+    fs.mkdtempSync(path.join(os.tmpdir(), 'git-test-repo')),
+  );
 
   const git = new Git(repoDir);
 

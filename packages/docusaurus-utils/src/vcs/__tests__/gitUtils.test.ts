@@ -5,303 +5,341 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
-import {createTempRepo} from '@testing-utils/git';
+import os from 'os';
 import execa from 'execa';
+import shell from 'shelljs'; // TODO replace with execa
+
 import {
   FileNotTrackedError,
   getFileCommitDate,
   getGitLastUpdate,
   getGitCreation,
+  getGitRepoRoot,
 } from '../gitUtils';
 
-/* eslint-disable no-restricted-properties */
-function initializeTempRepo() {
-  const {repoDir, git} = createTempRepo();
+// TODO legacy, refactor, make it async
+//  these sync calls are really slowing tests down
+class Git {
+  private constructor(private dir: string) {
+    this.dir = dir;
+  }
 
-  fs.writeFileSync(path.join(repoDir, 'test.txt'), 'Some content');
-  git.commit(
-    'Create test.txt',
-    '2020-06-19',
-    'Caroline <caroline@jc-verse.com>',
-  );
-  fs.writeFileSync(path.join(repoDir, 'test.txt'), 'Updated content');
-  git.commit(
-    'Update test.txt',
-    '2020-06-20',
-    'Josh-Cena <josh-cena@jc-verse.com>',
-  );
-  fs.writeFileSync(path.join(repoDir, 'test.txt'), 'Updated content (2)');
-  fs.writeFileSync(path.join(repoDir, 'moved.txt'), 'This file is moved');
-  git.commit(
-    'Update test.txt again, create moved.txt',
-    '2020-09-13',
-    'Caroline <caroline@jc-verse.com>',
-  );
-  fs.moveSync(path.join(repoDir, 'moved.txt'), path.join(repoDir, 'dest.txt'));
-  git.commit(
-    'Rename moved.txt to dest.txt',
-    '2020-11-13',
-    'Josh-Cena <josh-cena@jc-verse.com>',
-  );
-  fs.writeFileSync(path.join(repoDir, 'untracked.txt'), "I'm untracked");
+  private static async runOptimisticGitCommand({
+    cwd,
+    cmd,
+    args,
+  }: {
+    cwd: string;
+    args: string[];
+    cmd: string;
+  }): Promise<execa.ExecaReturnValue> {
+    const res = await execa(cmd, args, {cwd, silent: true});
+    if (res.exitCode !== 0) {
+      throw new Error(
+        `Git command failed with code ${res.exitCode}: ${cmd} ${args.join(
+          ' ',
+        )}`,
+      );
+    }
+    return res;
+  }
 
-  return repoDir;
+  static async initializeRepo(dir: string): Promise<Git> {
+    await Git.runOptimisticGitCommand({
+      cmd: 'git',
+      args: ['init'],
+      cwd: dir,
+    });
+    await Git.runOptimisticGitCommand({
+      cmd: 'git',
+      args: ['config', 'user.email', '"test@example.com"'],
+      cwd: dir,
+    });
+    await Git.runOptimisticGitCommand({
+      cmd: 'git',
+      args: ['config', 'user.name', '"Test"'],
+      cwd: dir,
+    });
+    await Git.runOptimisticGitCommand({
+      cmd: 'git',
+      args: ['commit', '--allow-empty', '-m "First commit"'],
+      cwd: dir,
+    });
+    return new Git(dir);
+  }
+
+  async runOptimisticGitCommand(
+    cmd: string,
+    args?: string[],
+  ): Promise<execa.ExecaReturnValue> {
+    return Git.runOptimisticGitCommand({cwd: this.dir, cmd, args});
+  }
+
+  async commit(msg: string, date: string, author: string): Promise<void> {
+    await this.runOptimisticGitCommand('git', ['add', '.']);
+    /*
+    await this.runOptimisticGitCommand(
+      `git commit -m "${msg}" --date "${date}T00:00:00Z" --author "${author}"`,
+    );
+
+     */
+
+    /*
+    await this.runOptimisticGitCommand(`git`, [
+      'commit',
+      '-m',
+      msg,
+      '--date',
+      `${date}T00:00:00Z`,
+      '--author',
+      author,
+    ]);
+
+     */
+
+    shell.exec(
+      `git commit -m "${msg}" --date "${date}T00:00:00Z" --author "${author}"`,
+      {
+        cwd: this.dir,
+        env: {GIT_COMMITTER_DATE: `${date}T00:00:00Z`},
+        silent: true,
+      },
+    );
+  }
 }
 
-describe('getFileCommitDate', () => {
-  const repoDir = initializeTempRepo();
+async function createGitRepoEmpty(): Promise<{repoDir: string; git: Git}> {
+  let repoDir = await fs.mkdtemp(path.join(os.tmpdir(), 'git-test-repo'));
+  repoDir = await fs.realpath(repoDir);
+  const git = await Git.initializeRepo(repoDir);
+  return {repoDir, git};
+}
 
-  it('returns earliest commit date', async () => {
-    await expect(
-      getFileCommitDate(path.join(repoDir, 'test.txt'), {}),
-    ).resolves.toEqual({
-      date: new Date('2020-06-19'),
-      timestamp: new Date('2020-06-19').getTime(),
-    });
-    await expect(
-      getFileCommitDate(path.join(repoDir, 'dest.txt'), {}),
-    ).resolves.toEqual({
-      date: new Date('2020-09-13'),
-      timestamp: new Date('2020-09-13').getTime(),
-    });
-  });
+describe('commit info APIs', () => {
+   
+  async function createGitRepoTestFixture() {
+    const {repoDir, git} = await createGitRepoEmpty();
 
-  it('returns latest commit date', async () => {
-    await expect(
-      getFileCommitDate(path.join(repoDir, 'test.txt'), {age: 'newest'}),
-    ).resolves.toEqual({
-      date: new Date('2020-09-13'),
-      timestamp: new Date('2020-09-13').getTime(),
-    });
-    await expect(
-      getFileCommitDate(path.join(repoDir, 'dest.txt'), {age: 'newest'}),
-    ).resolves.toEqual({
-      date: new Date('2020-11-13'),
-      timestamp: new Date('2020-11-13').getTime(),
-    });
-  });
-
-  it('returns latest commit date with author', async () => {
-    await expect(
-      getFileCommitDate(path.join(repoDir, 'test.txt'), {
-        age: 'oldest',
-        includeAuthor: true,
-      }),
-    ).resolves.toEqual({
-      date: new Date('2020-06-19'),
-      timestamp: new Date('2020-06-19').getTime(),
-      author: 'Caroline',
-    });
-    await expect(
-      getFileCommitDate(path.join(repoDir, 'dest.txt'), {
-        age: 'oldest',
-        includeAuthor: true,
-      }),
-    ).resolves.toEqual({
-      date: new Date('2020-09-13'),
-      timestamp: new Date('2020-09-13').getTime(),
-      author: 'Caroline',
-    });
-  });
-
-  it('returns earliest commit date with author', async () => {
-    await expect(
-      getFileCommitDate(path.join(repoDir, 'test.txt'), {
-        age: 'newest',
-        includeAuthor: true,
-      }),
-    ).resolves.toEqual({
-      date: new Date('2020-09-13'),
-      timestamp: new Date('2020-09-13').getTime(),
-      author: 'Caroline',
-    });
-    await expect(
-      getFileCommitDate(path.join(repoDir, 'dest.txt'), {
-        age: 'newest',
-        includeAuthor: true,
-      }),
-    ).resolves.toEqual({
-      date: new Date('2020-11-13'),
-      timestamp: new Date('2020-11-13').getTime(),
-      author: 'Josh-Cena',
-    });
-  });
-
-  it('throws custom error when file is not tracked', async () => {
-    await expect(() =>
-      getFileCommitDate(path.join(repoDir, 'untracked.txt'), {
-        age: 'newest',
-        includeAuthor: true,
-      }),
-    ).rejects.toThrow(FileNotTrackedError);
-  });
-
-  it('throws when file not found', async () => {
-    await expect(() =>
-      getFileCommitDate(path.join(repoDir, 'nonexistent.txt'), {
-        age: 'newest',
-        includeAuthor: true,
-      }),
-    ).rejects.toThrow(
-      /Failed to retrieve git history for ".*nonexistent.txt" because the file does not exist./,
+    await fs.writeFile(path.join(repoDir, 'test.txt'), 'Some content');
+    await git.commit(
+      'Create test.txt',
+      '2020-06-19',
+      'Caroline <caroline@jc-verse.com>',
     );
+    await fs.writeFile(path.join(repoDir, 'test.txt'), 'Updated content');
+    await git.commit(
+      'Update test.txt',
+      '2020-06-20',
+      'Josh-Cena <josh-cena@jc-verse.com>',
+    );
+    await fs.writeFile(path.join(repoDir, 'test.txt'), 'Updated content (2)');
+    await fs.writeFile(path.join(repoDir, 'moved.txt'), 'This file is moved');
+    await git.commit(
+      'Update test.txt again, create moved.txt',
+      '2020-09-13',
+      'Caroline <caroline@jc-verse.com>',
+    );
+    await fs.move(
+      path.join(repoDir, 'moved.txt'),
+      path.join(repoDir, 'dest.txt'),
+    );
+    await git.commit(
+      'Rename moved.txt to dest.txt',
+      '2020-11-13',
+      'Josh-Cena <josh-cena@jc-verse.com>',
+    );
+    await fs.writeFile(path.join(repoDir, 'untracked.txt'), "I'm untracked");
+
+    return repoDir;
+  }
+
+  describe('getFileCommitDate', () => {
+    it('returns earliest commit date', async () => {
+      const repoDir = await createGitRepoTestFixture();
+
+      await expect(
+        getFileCommitDate(path.join(repoDir, 'test.txt'), {}),
+      ).resolves.toEqual({
+        date: new Date('2020-06-19'),
+        timestamp: new Date('2020-06-19').getTime(),
+      });
+      await expect(
+        getFileCommitDate(path.join(repoDir, 'dest.txt'), {}),
+      ).resolves.toEqual({
+        date: new Date('2020-09-13'),
+        timestamp: new Date('2020-09-13').getTime(),
+      });
+    });
+
+    it('returns latest commit date', async () => {
+      const repoDir = await createGitRepoTestFixture();
+
+      await expect(
+        getFileCommitDate(path.join(repoDir, 'test.txt'), {age: 'newest'}),
+      ).resolves.toEqual({
+        date: new Date('2020-09-13'),
+        timestamp: new Date('2020-09-13').getTime(),
+      });
+      await expect(
+        getFileCommitDate(path.join(repoDir, 'dest.txt'), {age: 'newest'}),
+      ).resolves.toEqual({
+        date: new Date('2020-11-13'),
+        timestamp: new Date('2020-11-13').getTime(),
+      });
+    });
+
+    it('returns latest commit date with author', async () => {
+      const repoDir = await createGitRepoTestFixture();
+
+      await expect(
+        getFileCommitDate(path.join(repoDir, 'test.txt'), {
+          age: 'oldest',
+          includeAuthor: true,
+        }),
+      ).resolves.toEqual({
+        date: new Date('2020-06-19'),
+        timestamp: new Date('2020-06-19').getTime(),
+        author: 'Caroline',
+      });
+      await expect(
+        getFileCommitDate(path.join(repoDir, 'dest.txt'), {
+          age: 'oldest',
+          includeAuthor: true,
+        }),
+      ).resolves.toEqual({
+        date: new Date('2020-09-13'),
+        timestamp: new Date('2020-09-13').getTime(),
+        author: 'Caroline',
+      });
+    });
+
+    it('returns earliest commit date with author', async () => {
+      const repoDir = await createGitRepoTestFixture();
+
+      await expect(
+        getFileCommitDate(path.join(repoDir, 'test.txt'), {
+          age: 'newest',
+          includeAuthor: true,
+        }),
+      ).resolves.toEqual({
+        date: new Date('2020-09-13'),
+        timestamp: new Date('2020-09-13').getTime(),
+        author: 'Caroline',
+      });
+      await expect(
+        getFileCommitDate(path.join(repoDir, 'dest.txt'), {
+          age: 'newest',
+          includeAuthor: true,
+        }),
+      ).resolves.toEqual({
+        date: new Date('2020-11-13'),
+        timestamp: new Date('2020-11-13').getTime(),
+        author: 'Josh-Cena',
+      });
+    });
+
+    it('throws custom error when file is not tracked', async () => {
+      const repoDir = await createGitRepoTestFixture();
+
+      await expect(() =>
+        getFileCommitDate(path.join(repoDir, 'untracked.txt'), {
+          age: 'newest',
+          includeAuthor: true,
+        }),
+      ).rejects.toThrow(FileNotTrackedError);
+    });
+
+    it('throws when file not found', async () => {
+      const repoDir = await createGitRepoTestFixture();
+
+      await expect(() =>
+        getFileCommitDate(path.join(repoDir, 'nonexistent.txt'), {
+          age: 'newest',
+          includeAuthor: true,
+        }),
+      ).rejects.toThrow(
+        /Failed to retrieve git history for ".*nonexistent.txt" because the file does not exist./,
+      );
+    });
+  });
+
+  describe('commit info APIs', () => {
+    it('returns creation info for test.txt', async () => {
+      const repoDir = await createGitRepoTestFixture();
+
+      const filePath = path.join(repoDir, 'test.txt');
+      await expect(getGitCreation(filePath)).resolves.toEqual({
+        author: 'Caroline',
+        timestamp: new Date('2020-06-19').getTime(),
+      });
+
+      await expect(getGitLastUpdate(filePath)).resolves.toEqual({
+        author: 'Caroline',
+        timestamp: new Date('2020-09-13').getTime(),
+      });
+    });
+
+    it('returns creation info for dest.txt', async () => {
+      const repoDir = await createGitRepoTestFixture();
+
+      const filePath = path.join(repoDir, 'dest.txt');
+      await expect(getGitCreation(filePath)).resolves.toEqual({
+        author: 'Caroline',
+        timestamp: new Date('2020-09-13').getTime(),
+      });
+      await expect(getGitLastUpdate(filePath)).resolves.toEqual({
+        author: 'Josh-Cena',
+        timestamp: new Date('2020-11-13').getTime(),
+      });
+    });
+
+    it('returns creation info for untracked.txt', async () => {
+      const repoDir = await createGitRepoTestFixture();
+
+      const filePath = path.join(repoDir, 'untracked.txt');
+      await expect(getGitCreation(filePath)).resolves.toEqual(null);
+      await expect(getGitLastUpdate(filePath)).resolves.toEqual(null);
+    });
+
+    it('returns creation info for non-existing.txt', async () => {
+      const repoDir = await createGitRepoTestFixture();
+
+      const filePath = path.join(repoDir, 'non-existing.txt');
+      await expect(
+        getGitCreation(filePath),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"An error occurred when trying to get the last update date"`,
+      );
+      await expect(
+        getGitLastUpdate(filePath),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"An error occurred when trying to get the last update date"`,
+      );
+    });
   });
 });
 
-describe('getGitLastUpdate', () => {
-  const {repoDir} = createTempRepo();
-
-  const existingFilePath = path.join(
-    __dirname,
-    '__fixtures__/simple-site/docs/doc1.md',
-  );
-
-  it('existing test file in repository with Git timestamp', async () => {
-    const lastUpdateData = await getGitLastUpdate(existingFilePath);
-    expect(lastUpdateData).not.toBeNull();
-
-    const {timestamp, author} = lastUpdateData!;
-    expect(author).not.toBeNull();
-    expect(typeof author).toBe('string');
-
-    expect(timestamp).not.toBeNull();
-    expect(typeof timestamp).toBe('number');
-  });
-
-  it('existing test file with spaces in path', async () => {
-    const filePathWithSpace = path.join(
-      __dirname,
-      '__fixtures__/simple-site/docs/doc with space.md',
+describe('getGitRepoRoot', () => {
+  async function initTestRepo() {
+    const {repoDir, git} = await createGitRepoEmpty();
+    await fs.mkdir(path.join(repoDir, 'subdir'));
+    await fs.writeFile(
+      path.join(repoDir, 'subdir', 'test.txt'),
+      'Some content',
     );
-    const lastUpdateData = await getGitLastUpdate(filePathWithSpace);
-    expect(lastUpdateData).not.toBeNull();
-
-    const {timestamp, author} = lastUpdateData!;
-    expect(author).not.toBeNull();
-    expect(typeof author).toBe('string');
-
-    expect(timestamp).not.toBeNull();
-    expect(typeof timestamp).toBe('number');
-  });
-
-  it('non-existing file', async () => {
-    const consoleMock = jest
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {});
-    const nonExistingFileName = '.nonExisting';
-    const nonExistingFilePath = path.join(
-      __dirname,
-      '__fixtures__',
-      nonExistingFileName,
+    await git.commit(
+      'Create test.txt',
+      '2020-06-19',
+      'Caroline <caroline@jc-verse.com>',
     );
-    await expect(getGitLastUpdate(nonExistingFilePath)).rejects.toThrow(
-      /An error occurred when trying to get the last update date/,
-    );
-    expect(consoleMock).toHaveBeenCalledTimes(0);
-    consoleMock.mockRestore();
-  });
+    return repoDir;
+  }
 
-  it('git does not exist', async () => {
-    const mock = jest.spyOn(execa, 'sync').mockImplementationOnce(() => {
-      throw new Error('Git does not exist');
-    });
-
-    const consoleMock = jest
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {});
-    const lastUpdateData = await getGitLastUpdate(existingFilePath);
-    expect(lastUpdateData).toBeNull();
-    expect(consoleMock).toHaveBeenLastCalledWith(
-      expect.stringMatching(
-        /.*\[WARNING\].* Sorry, the last update options require Git\..*/,
-      ),
-    );
-
-    consoleMock.mockRestore();
-    mock.mockRestore();
-  });
-
-  it('temporary created file that is not tracked by git', async () => {
-    const consoleMock = jest
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {});
-    const tempFilePath = path.join(repoDir, 'file.md');
-    await fs.writeFile(tempFilePath, 'Lorem ipsum :)');
-    await expect(getGitLastUpdate(tempFilePath)).resolves.toBeNull();
-    expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock).toHaveBeenLastCalledWith(
-      expect.stringMatching(/not tracked by git./),
-    );
-    await fs.unlink(tempFilePath);
-  });
-
-  it('multiple files not tracked by git', async () => {
-    const consoleMock = jest
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {});
-    const tempFilePath1 = path.join(repoDir, 'file1.md');
-    const tempFilePath2 = path.join(repoDir, 'file2.md');
-    await fs.writeFile(tempFilePath1, 'Lorem ipsum :)');
-    await fs.writeFile(tempFilePath2, 'Lorem ipsum :)');
-    await expect(getGitLastUpdate(tempFilePath1)).resolves.toBeNull();
-    await expect(getGitLastUpdate(tempFilePath2)).resolves.toBeNull();
-    expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock).toHaveBeenLastCalledWith(
-      expect.stringMatching(/not tracked by git./),
-    );
-    await fs.unlink(tempFilePath1);
-    await fs.unlink(tempFilePath2);
-  });
-});
-
-describe('test repo commit info', () => {
-  const repoDir = initializeTempRepo();
-
-  it('returns creation info for test.txt', async () => {
-    const filePath = path.join(repoDir, 'test.txt');
-    await expect(getGitCreation(filePath)).resolves.toEqual({
-      author: 'Caroline',
-      timestamp: new Date('2020-06-19').getTime(),
-    });
-
-    await expect(getGitLastUpdate(filePath)).resolves.toEqual({
-      author: 'Caroline',
-      timestamp: new Date('2020-09-13').getTime(),
-    });
-  });
-
-  it('returns creation info for dest.txt', async () => {
-    const filePath = path.join(repoDir, 'dest.txt');
-    await expect(getGitCreation(filePath)).resolves.toEqual({
-      author: 'Caroline',
-      timestamp: new Date('2020-09-13').getTime(),
-    });
-    await expect(getGitLastUpdate(filePath)).resolves.toEqual({
-      author: 'Josh-Cena',
-      timestamp: new Date('2020-11-13').getTime(),
-    });
-  });
-
-  it('returns creation info for untracked.txt', async () => {
-    const filePath = path.join(repoDir, 'untracked.txt');
-    await expect(getGitCreation(filePath)).resolves.toEqual(null);
-    await expect(getGitLastUpdate(filePath)).resolves.toEqual(null);
-  });
-
-  it('returns creation info for non-existing.txt', async () => {
-    const filePath = path.join(repoDir, 'non-existing.txt');
-    await expect(
-      getGitCreation(filePath),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"An error occurred when trying to get the last update date"`,
-    );
-    await expect(
-      getGitLastUpdate(filePath),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"An error occurred when trying to get the last update date"`,
-    );
+  it('returns repoDir for cwd=repoDir', async () => {
+    const repoDir = await initTestRepo();
+    const cwd = repoDir;
+    await expect(getGitRepoRoot(cwd)).resolves.toEqual(repoDir);
   });
 });

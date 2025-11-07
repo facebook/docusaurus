@@ -8,6 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import os from 'os';
+import {realpath} from 'node:fs/promises';
 import _ from 'lodash';
 import execa from 'execa';
 import PQueue from 'p-queue';
@@ -260,4 +261,18 @@ export async function getGitCreation(
   filePath: string,
 ): Promise<GitCommitInfo | null> {
   return getGitCommitInfo(filePath, 'oldest');
+}
+
+export async function getGitRepoRoot(cwd: string): Promise<string> {
+  const result = await execa('git', ['rev-parse', '--show-toplevel'], {
+    cwd,
+  });
+
+  if (result.exitCode !== 0) {
+    throw new Error(
+      `Failed to retrieve the git repository root with exit code ${result.exitCode}: ${result.stderr}`,
+    );
+  }
+
+  return realpath(result.stdout.trim());
 }
