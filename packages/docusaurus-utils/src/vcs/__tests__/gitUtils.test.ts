@@ -310,9 +310,9 @@ describe('commit info APIs', () => {
 describe('getGitRepoRoot', () => {
   async function initTestRepo() {
     const {repoDir, git} = await createGitRepoEmpty();
-    await fs.mkdir(path.join(repoDir, 'subdir'));
+    await fs.mkdir(path.join(repoDir, 'subDir'));
     await fs.writeFile(
-      path.join(repoDir, 'subdir', 'test.txt'),
+      path.join(repoDir, 'subDir', 'test.txt'),
       'Some content',
     );
     await git.commit(
@@ -327,5 +327,19 @@ describe('getGitRepoRoot', () => {
     const repoDir = await initTestRepo();
     const cwd = repoDir;
     await expect(getGitRepoRoot(cwd)).resolves.toEqual(repoDir);
+  });
+
+  it('returns repoDir for cwd=repoDir/subDir', async () => {
+    const repoDir = await initTestRepo();
+    const cwd = path.join(repoDir, 'subDir');
+    await expect(getGitRepoRoot(cwd)).resolves.toEqual(repoDir);
+  });
+
+  it('returns repoDir for cwd=repoDir/doesNotExist', async () => {
+    const repoDir = await initTestRepo();
+    const cwd = path.join(repoDir, 'doesNotExist');
+    await expect(getGitRepoRoot(cwd)).rejects.toThrow(
+      /Couldn't find the git repository root directory/,
+    );
   });
 });

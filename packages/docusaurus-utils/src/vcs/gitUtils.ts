@@ -264,13 +264,30 @@ export async function getGitCreation(
 }
 
 export async function getGitRepoRoot(cwd: string): Promise<string> {
+  const createErrorMessageBase = () => {
+    return `Couldn't find the git repository root directory
+Running ${logger.code('git rev-parse --show-toplevel')} from cwd=${logger.path(
+      cwd,
+    )})`;
+  };
+
   const result = await execa('git', ['rev-parse', '--show-toplevel'], {
     cwd,
+  }).catch((error) => {
+    // We enter this rejection when cwd is not a dir for example
+    throw new Error(
+      `${createErrorMessageBase()}
+The command executed throws an error`,
+      {cause: error},
+    );
   });
 
   if (result.exitCode !== 0) {
     throw new Error(
-      `Failed to retrieve the git repository root with exit code ${result.exitCode}: ${result.stderr}`,
+      `${createErrorMessageBase()}
+The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
+        result.stderr,
+      )}`,
     );
   }
 
