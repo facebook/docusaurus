@@ -314,6 +314,7 @@ Sucipto
 sunsetting
 Supabase
 supabase
+superproject
 svgs
 swizzlable
 Sébastien
