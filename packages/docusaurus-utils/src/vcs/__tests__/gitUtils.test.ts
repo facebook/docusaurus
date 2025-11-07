@@ -9,7 +9,6 @@ import fs from 'fs-extra';
 import path from 'path';
 import os from 'os';
 import execa from 'execa';
-import shell from 'shelljs'; // TODO replace with execa
 
 import {
   FileNotTrackedError,
@@ -19,8 +18,6 @@ import {
   getGitRepoRoot,
 } from '../gitUtils';
 
-// TODO legacy, refactor, make it async
-//  these sync calls are really slowing tests down
 class Git {
   private constructor(private dir: string) {
     this.dir = dir;
@@ -30,12 +27,19 @@ class Git {
     cwd,
     cmd,
     args,
+    options,
   }: {
     cwd: string;
     args: string[];
     cmd: string;
+    options?: execa.Options;
   }): Promise<execa.ExecaReturnValue> {
-    const res = await execa(cmd, args, {cwd, silent: true});
+    const res = await execa(cmd, args, {
+      cwd,
+      silent: true,
+      shell: true,
+      ...options,
+    });
     if (res.exitCode !== 0) {
       throw new Error(
         `Git command failed with code ${res.exitCode}: ${cmd} ${args.join(
@@ -73,39 +77,22 @@ class Git {
   async runOptimisticGitCommand(
     cmd: string,
     args?: string[],
+    options?: execa.Options,
   ): Promise<execa.ExecaReturnValue> {
-    return Git.runOptimisticGitCommand({cwd: this.dir, cmd, args});
+    return Git.runOptimisticGitCommand({cwd: this.dir, cmd, args, options});
   }
 
   async commit(msg: string, date: string, author: string): Promise<void> {
     await this.runOptimisticGitCommand('git', ['add', '.']);
-    /*
     await this.runOptimisticGitCommand(
-      `git commit -m "${msg}" --date "${date}T00:00:00Z" --author "${author}"`,
-    );
-
-     */
-
-    /*
-    await this.runOptimisticGitCommand(`git`, [
-      'commit',
-      '-m',
-      msg,
-      '--date',
-      `${date}T00:00:00Z`,
-      '--author',
-      author,
-    ]);
-
-     */
-
-    shell.exec(
-      `git commit -m "${msg}" --date "${date}T00:00:00Z" --author "${author}"`,
-      {
-        cwd: this.dir,
-        env: {GIT_COMMITTER_DATE: `${date}T00:00:00Z`},
-        silent: true,
-      },
+      `git`,
+      [
+        'commit',
+        `-m "${msg}"`,
+        `--date "${date}T00:00:00Z"`,
+        `--author "${author}"`,
+      ],
+      {env: {GIT_COMMITTER_DATE: `${date}T00:00:00Z`}},
     );
   }
 }
@@ -118,7 +105,6 @@ async function createGitRepoEmpty(): Promise<{repoDir: string; git: Git}> {
 }
 
 describe('commit info APIs', () => {
-   
   async function createGitRepoTestFixture() {
     const {repoDir, git} = await createGitRepoEmpty();
 
