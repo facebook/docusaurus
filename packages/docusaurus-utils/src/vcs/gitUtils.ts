@@ -414,22 +414,20 @@ export async function getGitAllRepoRoots(cwd: string): Promise<string[]> {
 }
 
 // Useful information about a file tracked in a Git repository
-type GitFileInfo = {
+export type GitFileInfo = {
   creation: GitCommitInfo;
   lastUpdate: GitCommitInfo;
 };
 
 // A map of all the files tracked in a Git repository
-type GitFilesInfo = Map<string, GitFileInfo>;
+export type GitFileInfoMap = Map<string, GitFileInfo>;
 
 // Logic inspired from Astro Starlight:
 // See https://bsky.app/profile/bluwy.me/post/3lyihod6qos2a
 // See https://github.com/withastro/starlight/blob/c417f1efd463be63b7230617d72b120caed098cd/packages/starlight/utils/git.ts#L58
 export async function getGitRepositoryFilesInfo(
-  filePath: string,
-): Promise<GitFilesInfo> {
-  const repoRoot = await getGitRepoRoot(filePath);
-
+  cwd: string,
+): Promise<GitFileInfoMap> {
   // git -c log.showSignature=false log --format=t:%ct,a:%an --name-status
   const result = await execa(
     'git',
@@ -448,7 +446,7 @@ export async function getGitRepositoryFilesInfo(
       // For creation info, should we use --follow --find-renames=100% ???
     ],
     {
-      cwd: repoRoot,
+      cwd,
       encoding: 'utf-8',
       // TODO use streaming to avoid a large buffer
       // See https://github.com/withastro/starlight/issues/3154
@@ -470,7 +468,7 @@ The command exited with code ${result.exitCode}: ${result.stderr}`,
   // TODO not fail-fast
   let runningDate = now;
   let runningAuthor = 'N/A';
-  const runningMap: GitFilesInfo = new Map();
+  const runningMap: GitFileInfoMap = new Map();
 
   for (const logLine of logLines) {
     if (logLine.startsWith('t:')) {

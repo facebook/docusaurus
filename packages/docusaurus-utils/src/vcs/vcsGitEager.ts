@@ -6,116 +6,15 @@
  */
 
 import {resolve} from 'node:path';
-import execa from 'execa';
-import {PerfLogger} from '@docusaurus/logger';
-import {getGitRepoRoot} from './gitUtils';
+import logger, {PerfLogger} from '@docusaurus/logger';
+import {getGitAllRepoRoots, getGitRepositoryFilesInfo} from './gitUtils';
+import type {GitFileInfo, GitFileInfoMap} from './gitUtils';
 import type {VcsConfig} from '@docusaurus/types';
 
-type GitCommitInfo = {timestamp: number; author: string};
-
-type GitFileInfo = {
-  creation: GitCommitInfo;
-  lastUpdate: GitCommitInfo;
-};
-
-type GitFilesInfo = Map<string, GitFileInfo>;
-
-type GitRepositoryInfo = {files: GitFilesInfo};
-
-// Logic inspired from Astro Starlight:
-// See https://bsky.app/profile/bluwy.me/post/3lyihod6qos2a
-// See https://github.com/withastro/starlight/blob/c417f1efd463be63b7230617d72b120caed098cd/packages/starlight/utils/git.ts#L58
-async function loadGitFiles(filePath: string): Promise<GitFilesInfo> {
-  const repoRoot = await getGitRepoRoot(filePath);
-
-  // git -c log.showSignature=false log --format=t:%ct,a:%an --name-status
-  const result = await execa(
-    'git',
-    [
-      // Do not include GPG signature in the log output
-      // See https://github.com/facebook/docusaurus/pull/10022
-      '-c',
-      'log.showSignature=false',
-      // The git command we want to run
-      'log',
-      // Format each history entry as t:<seconds since epoch>
-      '--format=t:%ct,a:%an',
-      // In each entry include the name and status for each modified file
-      '--name-status',
-
-      // For creation info, should we use --follow --find-renames=100% ???
-    ],
-    {
-      cwd: repoRoot,
-      encoding: 'utf-8',
-      // TODO use streaming to avoid a large buffer
-      // See https://github.com/withastro/starlight/issues/3154
-      maxBuffer: 20 * 1024 * 1024,
-    },
-  );
-
-  if (result.exitCode !== 0) {
-    throw new Error(
-      `Docusaurus failed to run the 'git log' to retrieve tracked files last update date/author.
-The command exited with code ${result.exitCode}: ${result.stderr}`,
-    );
-  }
-
-  const logLines = result.stdout.split('\n');
-
-  const now = Date.now();
-
-  // TODO not fail-fast
-  let runningDate = now;
-  let runningAuthor = 'N/A';
-  const runningMap: GitFilesInfo = new Map();
-
-  for (const logLine of logLines) {
-    if (logLine.startsWith('t:')) {
-      // t:<timestamp>,a:<author name>
-      const [timestampStr, authorStr] = logLine.split(',') as [string, string];
-      const timestamp = Number.parseInt(timestampStr.slice(2), 10) * 1000;
-      const author = authorStr.slice(2);
-
-      runningDate = timestamp;
-      runningAuthor = author;
-    }
-
-    // - Added files take the format `A\t<file>`
-    // - Modified files take the format `M\t<file>`
-    // - Deleted files take the format `D\t<file>`
-    // - Renamed files take the format `R<count>\t<old>\t<new>`
-    // - Copied files take the format `C<count>\t<old>\t<new>`
-    // The name of the file as of the commit being processed is always
-    // the last part of the log line.
-    const tabSplit = logLine.lastIndexOf('\t');
-    if (tabSplit === -1) {
-      continue;
-    }
-    const relativeFile = logLine.slice(tabSplit + 1);
-
-    const currentFileInfo = runningMap.get(relativeFile);
-
-    const currentCreationTime = currentFileInfo?.creation.timestamp || now;
-    const newCreationTime = Math.min(currentCreationTime, runningDate);
-    const newCreation: GitCommitInfo =
-      !currentFileInfo || newCreationTime !== currentCreationTime
-        ? {timestamp: newCreationTime, author: runningAuthor}
-        : currentFileInfo.creation;
-
-    const currentLastUpdateTime = currentFileInfo?.lastUpdate.timestamp || 0;
-    const newLastUpdateTime = Math.max(currentLastUpdateTime, runningDate);
-    const newLastUpdate: GitCommitInfo =
-      !currentFileInfo || newLastUpdateTime !== currentLastUpdateTime
-        ? {timestamp: newLastUpdateTime, author: runningAuthor}
-        : currentFileInfo.lastUpdate;
-
-    runningMap.set(relativeFile, {
-      creation: newCreation,
-      lastUpdate: newLastUpdate,
-    });
-  }
-
+function resolveFileInfoMapPaths(
+  repoRoot: string,
+  filesInfo: GitFileInfoMap,
+): GitFileInfoMap {
   function transformMapEntry(
     entry: [string, GitFileInfo],
   ): [string, GitFileInfo] {
@@ -123,33 +22,47 @@ The command exited with code ${result.exitCode}: ${result.stderr}`,
     return [resolve(repoRoot, entry[0]), entry[1]];
   }
 
-  return new Map(Array.from(runningMap.entries()).map(transformMapEntry));
+  return new Map(Array.from(filesInfo.entries()).map(transformMapEntry));
 }
 
-async function loadGitRepository(filePath: string): Promise<GitRepositoryInfo> {
-  return PerfLogger.async('loadGitRepository', async () => {
-    const files = await loadGitFiles(filePath);
-    return {files};
+function mergeFileMaps(fileMaps: GitFileInfoMap[]): GitFileInfoMap {
+  return new Map(fileMaps.flatMap((m) => [...m]));
+}
+
+async function loadGitFileInfoMap(cwd: string): Promise<GitFileInfoMap> {
+  return PerfLogger.async('loadGitFileInfoMap', async () => {
+    const roots = await PerfLogger.async('getGitAllRepoRoots', () =>
+      getGitAllRepoRoots(cwd),
+    );
+
+    const allMaps: GitFileInfoMap[] = await Promise.all(
+      roots.map(async (root) => {
+        const map = await PerfLogger.async(
+          `getGitRepositoryFilesInfo for ${logger.path(cwd)}`,
+          () => getGitRepositoryFilesInfo(cwd),
+        );
+        return resolveFileInfoMapPaths(root, map);
+      }),
+    );
+
+    return mergeFileMaps(allMaps);
   });
 }
 
 function createGitVcsConfig(): VcsConfig {
-  // TODO need to support multiple repositories (git submodules, etc.)
-  let repositoryPromise: Promise<GitRepositoryInfo> | null = null;
+  let filesMapPromise: Promise<GitFileInfoMap> | null = null;
 
   async function getGitFileInfo(filePath: string): Promise<GitFileInfo | null> {
-    if (repositoryPromise === null) {
-      repositoryPromise = loadGitRepository(process.cwd());
+    if (filesMapPromise === null) {
+      filesMapPromise = loadGitFileInfoMap(process.cwd());
     }
-
-    const repository = await repositoryPromise;
-
-    return repository.files.get(filePath) ?? null;
+    const filesMap = await filesMapPromise;
+    return filesMap.get(filePath) ?? null;
   }
 
   return {
     initialize: ({siteDir}) => {
-      console.log('git eager init');
+      console.trace('git eager init');
       // Only pre-init for production builds
       getGitFileInfo(siteDir).catch((error) => {
         console.error(
