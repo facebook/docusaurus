@@ -6,24 +6,10 @@
  */
 
 import {resolve} from 'node:path';
-import {realpath} from 'node:fs/promises';
 import execa from 'execa';
 import {PerfLogger} from '@docusaurus/logger';
+import {getGitRepoRoot} from './gitUtils';
 import type {VcsConfig} from '@docusaurus/types';
-
-async function getGitRepoRoot(filePath: string): Promise<string> {
-  const result = await execa('git', ['rev-parse', '--show-toplevel'], {
-    cwd: filePath,
-  });
-
-  if (result.exitCode !== 0) {
-    throw new Error(
-      `Failed to retrieve the git repository root with exit code ${result.exitCode}: ${result.stderr}`,
-    );
-  }
-
-  return realpath(result.stdout.trim());
-}
 
 type GitCommitInfo = {timestamp: number; author: string};
 
