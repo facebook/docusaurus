@@ -206,9 +206,12 @@ describe('commit info APIs', () => {
     return repoDir;
   }
 
+  // Create the repo only once for all tests => faster tests
+  const repoDirPromise = createGitRepoTestFixture();
+
   describe('getFileCommitDate', () => {
     it('returns latest commit date with author', async () => {
-      const repoDir = await createGitRepoTestFixture();
+      const repoDir = await repoDirPromise;
 
       await expect(
         getFileCommitDate(path.join(repoDir, 'test.txt'), {
@@ -233,7 +236,7 @@ describe('commit info APIs', () => {
     });
 
     it('returns earliest commit date with author', async () => {
-      const repoDir = await createGitRepoTestFixture();
+      const repoDir = await repoDirPromise;
 
       await expect(
         getFileCommitDate(path.join(repoDir, 'test.txt'), {
@@ -258,7 +261,7 @@ describe('commit info APIs', () => {
     });
 
     it('throws custom error when file is not tracked', async () => {
-      const repoDir = await createGitRepoTestFixture();
+      const repoDir = await repoDirPromise;
 
       await expect(() =>
         getFileCommitDate(path.join(repoDir, 'untracked.txt'), {
@@ -284,7 +287,7 @@ describe('commit info APIs', () => {
 
   describe('commit info APIs', () => {
     it('returns creation info for test.txt', async () => {
-      const repoDir = await createGitRepoTestFixture();
+      const repoDir = await repoDirPromise;
 
       const filePath = path.join(repoDir, 'test.txt');
       await expect(getGitCreation(filePath)).resolves.toEqual({
@@ -299,7 +302,7 @@ describe('commit info APIs', () => {
     });
 
     it('returns creation info for dest.txt', async () => {
-      const repoDir = await createGitRepoTestFixture();
+      const repoDir = await repoDirPromise;
 
       const filePath = path.join(repoDir, 'dest.txt');
       await expect(getGitCreation(filePath)).resolves.toEqual({
@@ -313,7 +316,7 @@ describe('commit info APIs', () => {
     });
 
     it('returns creation info for untracked.txt', async () => {
-      const repoDir = await createGitRepoTestFixture();
+      const repoDir = await repoDirPromise;
 
       const filePath = path.join(repoDir, 'untracked.txt');
       await expect(getGitCreation(filePath)).resolves.toEqual(null);
@@ -321,7 +324,7 @@ describe('commit info APIs', () => {
     });
 
     it('returns creation info for non-existing.txt', async () => {
-      const repoDir = await createGitRepoTestFixture();
+      const repoDir = await repoDirPromise;
 
       const filePath = path.join(repoDir, 'non-existing.txt');
       await expect(
@@ -337,7 +340,8 @@ describe('commit info APIs', () => {
     });
 
     it('returns files info', async () => {
-      const repoDir = await createGitRepoTestFixture();
+      const repoDir = await repoDirPromise;
+
       await expect(getGitRepositoryFilesInfo(repoDir)).resolves
         .toMatchInlineSnapshot(`
         Map {
@@ -384,14 +388,17 @@ describe('getGitRepoRoot', () => {
     return repoDir;
   }
 
+  // Create the repo only once for all tests => faster tests
+  const repoDirPromise = initTestRepo();
+
   it('returns repoDir for cwd=repoDir', async () => {
-    const repoDir = await initTestRepo();
+    const repoDir = await repoDirPromise;
     const cwd = repoDir;
     await expect(getGitRepoRoot(cwd)).resolves.toEqual(repoDir);
   });
 
   it('returns repoDir for cwd=repoDir/subDir', async () => {
-    const repoDir = await initTestRepo();
+    const repoDir = await repoDirPromise;
     const cwd = path.join(repoDir, 'subDir');
     await expect(getGitRepoRoot(cwd)).resolves.toEqual(repoDir);
   });
@@ -402,7 +409,7 @@ describe('getGitRepoRoot', () => {
   });
 
   it('rejects for cwd=repoDir/doesNotExist', async () => {
-    const repoDir = await initTestRepo();
+    const repoDir = await repoDirPromise;
     const cwd = path.join(repoDir, 'doesNotExist');
     await expect(getGitRepoRoot(cwd)).rejects.toThrow(
       /Couldn't find the git repository root directory/,
@@ -430,9 +437,12 @@ describe('submodules APIs', () => {
     return {superproject, submodule1, submodule2};
   }
 
+  // Create the repo only once for all tests => faster tests
+  const repoPromise = initTestRepo();
+
   describe('getGitSuperProjectRoot', () => {
     it('returns superproject dir for cwd=superproject', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir);
       await expect(getGitSuperProjectRoot(cwd)).resolves.toEqual(
         repo.superproject.repoDir,
@@ -440,7 +450,7 @@ describe('submodules APIs', () => {
     });
 
     it('returns superproject dir for cwd=superproject/submodules', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir, 'submodules');
       await expect(getGitSuperProjectRoot(cwd)).resolves.toEqual(
         repo.superproject.repoDir,
@@ -448,7 +458,7 @@ describe('submodules APIs', () => {
     });
 
     it('returns superproject dir for cwd=superproject/website/docs', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir, 'website/docs');
       await expect(getGitSuperProjectRoot(cwd)).resolves.toEqual(
         repo.superproject.repoDir,
@@ -456,7 +466,7 @@ describe('submodules APIs', () => {
     });
 
     it('returns superproject dir for cwd=submodule1', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir, 'submodules/submodule1');
       await expect(getGitSuperProjectRoot(cwd)).resolves.toEqual(
         repo.superproject.repoDir,
@@ -472,7 +482,7 @@ describe('submodules APIs', () => {
     });
 
     it('returns superproject dir for cwd=submodule2/subDir', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(
         repo.superproject.repoDir,
         'submodules/submodule2/subDir',
@@ -484,7 +494,6 @@ describe('submodules APIs', () => {
 
     it('rejects for cwd of untracked dir', async () => {
       const cwd = await os.tmpdir();
-
       // Do we really want this to throw?
       // Not sure, and Git doesn't help us failsafe and return null...
       await expect(getGitSuperProjectRoot(cwd)).rejects
@@ -499,7 +508,7 @@ describe('submodules APIs', () => {
 
   describe('getGitSubmodulePaths', () => {
     it('returns submodules for cwd=superproject', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir);
       await expect(getGitSubmodulePaths(cwd)).resolves.toEqual([
         'submodules/submodule1',
@@ -508,7 +517,7 @@ describe('submodules APIs', () => {
     });
 
     it('returns submodules for cwd=superproject/website/docs', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir, 'website', 'docs');
       await expect(getGitSubmodulePaths(cwd)).resolves.toEqual([
         // The returned paths are relative to CWD,
@@ -520,7 +529,7 @@ describe('submodules APIs', () => {
     });
 
     it('returns [] for cwd=submodules/submodule1', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(
         repo.superproject.repoDir,
         'submodules',
@@ -530,7 +539,7 @@ describe('submodules APIs', () => {
     });
 
     it('returns [] for cwd=submodules/submodule2/subDir', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(
         repo.superproject.repoDir,
         'submodules',
@@ -541,7 +550,7 @@ describe('submodules APIs', () => {
     });
 
     it('rejects for cwd=doesNotExist', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir, 'doesNotExist');
       await expect(getGitSubmodulePaths(cwd)).rejects.toThrow(
         /Couldn't read the list of git submodules/,
@@ -558,7 +567,7 @@ describe('submodules APIs', () => {
 
   describe('getGitAllRepoRoots', () => {
     it('returns root paths for cwd=superproject', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir);
       await expect(getGitAllRepoRoots(cwd)).resolves.toEqual([
         repo.superproject.repoDir,
@@ -568,7 +577,7 @@ describe('submodules APIs', () => {
     });
 
     it('returns root paths for cwd=superproject/website/docs', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir, 'website', 'docs');
       await expect(getGitAllRepoRoots(cwd)).resolves.toEqual([
         repo.superproject.repoDir,
@@ -578,7 +587,7 @@ describe('submodules APIs', () => {
     });
 
     it('returns root paths for cwd=superproject/submodules', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir, 'submodules');
       await expect(getGitAllRepoRoots(cwd)).resolves.toEqual([
         repo.superproject.repoDir,
@@ -588,7 +597,7 @@ describe('submodules APIs', () => {
     });
 
     it('returns root paths for cwd=superproject/submodules/submodule1', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(
         repo.superproject.repoDir,
         'submodules',
@@ -602,7 +611,7 @@ describe('submodules APIs', () => {
     });
 
     it('returns root paths for cwd=superproject/submodules/submodule2/subDir', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(
         repo.superproject.repoDir,
         'submodules',
@@ -617,7 +626,7 @@ describe('submodules APIs', () => {
     });
 
     it('rejects for cwd=doesNotExist', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir, 'doesNotExist');
       await expect(getGitAllRepoRoots(cwd)).rejects.toThrow(
         /Could not get all the git repository root paths/,
@@ -634,7 +643,7 @@ describe('submodules APIs', () => {
 
   describe('getGitRepositoryFilesInfo', () => {
     it('for superproject', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(repo.superproject.repoDir);
       await expect(getGitRepositoryFilesInfo(cwd)).resolves
         .toMatchInlineSnapshot(`
@@ -664,7 +673,7 @@ describe('submodules APIs', () => {
     });
 
     it('for submodule1', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(
         repo.superproject.repoDir,
         'submodules',
@@ -688,7 +697,7 @@ describe('submodules APIs', () => {
     });
 
     it('for submodule2', async () => {
-      const repo = await initTestRepo();
+      const repo = await repoPromise;
       const cwd = path.join(
         repo.superproject.repoDir,
         'submodules',
