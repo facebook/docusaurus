@@ -8,7 +8,6 @@
 import path from 'path';
 import fs from 'fs-extra';
 import os from 'os';
-import {realpath} from 'node:fs/promises';
 import _ from 'lodash';
 import execa from 'execa';
 import PQueue from 'p-queue';
@@ -291,5 +290,5 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
     );
   }
 
-  return realpath(result.stdout.trim());
+  return fs.realpath.native(result.stdout.trim());
 }
