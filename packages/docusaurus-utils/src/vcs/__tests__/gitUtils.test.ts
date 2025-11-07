@@ -335,7 +335,12 @@ describe('getGitRepoRoot', () => {
     await expect(getGitRepoRoot(cwd)).resolves.toEqual(repoDir);
   });
 
-  it('returns repoDir for cwd=repoDir/doesNotExist', async () => {
+  it('returns Docusaurus repo for cwd=__dirname', async () => {
+    const cwd = __dirname;
+    await expect(getGitRepoRoot(cwd)).resolves.toMatch(/\/docusaurus/);
+  });
+
+  it('rejects for cwd=repoDir/doesNotExist', async () => {
     const repoDir = await initTestRepo();
     const cwd = path.join(repoDir, 'doesNotExist');
     await expect(getGitRepoRoot(cwd)).rejects.toThrow(
