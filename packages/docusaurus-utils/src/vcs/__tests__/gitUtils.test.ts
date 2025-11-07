@@ -99,7 +99,7 @@ class Git {
 
 async function createGitRepoEmpty(): Promise<{repoDir: string; git: Git}> {
   let repoDir = await fs.mkdtemp(path.join(os.tmpdir(), 'git-test-repo'));
-  repoDir = await fs.realpath(repoDir);
+  repoDir = await fs.realpath.native(repoDir);
   const git = await Git.initializeRepo(repoDir);
   return {repoDir, git};
 }
@@ -337,7 +337,7 @@ describe('getGitRepoRoot', () => {
 
   it('returns Docusaurus repo for cwd=__dirname', async () => {
     const cwd = __dirname;
-    await expect(getGitRepoRoot(cwd)).resolves.toMatch(/\/docusaurus/);
+    await expect(getGitRepoRoot(cwd)).resolves.toMatch(/docusaurus$/);
   });
 
   it('rejects for cwd=repoDir/doesNotExist', async () => {
