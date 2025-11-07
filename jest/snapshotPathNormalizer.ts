@@ -82,7 +82,7 @@ function normalizePaths<T>(value: T): T {
     (val) => val.split(cwdReal).join('<PROJECT_ROOT>'),
     (val) => val.split(cwd).join('<PROJECT_ROOT>'),
 
-    // Replace home directory with <TEMP_DIR>
+    // Replace temp directory with <TEMP_DIR>
     (val) => val.split(tempDirReal).join('<TEMP_DIR>'),
     (val) => val.split(tempDir).join('<TEMP_DIR>'),
 

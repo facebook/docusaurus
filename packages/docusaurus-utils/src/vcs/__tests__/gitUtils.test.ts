@@ -19,6 +19,7 @@ import {
   getGitSuperProjectRoot,
   getGitSubmodulePaths,
   getGitAllRepoRoots,
+  getGitRepositoryFilesInfo,
 } from '../gitUtils';
 
 class Git {
@@ -186,7 +187,7 @@ describe('commit info APIs', () => {
     await git.commit(
       'Update test.txt again, create moved.txt',
       '2020-09-13',
-      'Caroline <caroline@example.com>',
+      'Robert <robert@example.com>',
     );
 
     await fs.move(
@@ -197,7 +198,7 @@ describe('commit info APIs', () => {
     await git.commit(
       'Rename moved.txt to dest.txt',
       '2020-11-13',
-      'Josh-Cena <josh-cena@example.com>',
+      'Seb <seb@example.com>',
     );
 
     await fs.writeFile(path.join(repoDir, 'untracked.txt'), "I'm untracked");
@@ -206,40 +207,6 @@ describe('commit info APIs', () => {
   }
 
   describe('getFileCommitDate', () => {
-    it('returns earliest commit date', async () => {
-      const repoDir = await createGitRepoTestFixture();
-
-      await expect(
-        getFileCommitDate(path.join(repoDir, 'test.txt'), {}),
-      ).resolves.toEqual({
-        date: new Date('2020-06-19'),
-        timestamp: new Date('2020-06-19').getTime(),
-      });
-      await expect(
-        getFileCommitDate(path.join(repoDir, 'dest.txt'), {}),
-      ).resolves.toEqual({
-        date: new Date('2020-09-13'),
-        timestamp: new Date('2020-09-13').getTime(),
-      });
-    });
-
-    it('returns latest commit date', async () => {
-      const repoDir = await createGitRepoTestFixture();
-
-      await expect(
-        getFileCommitDate(path.join(repoDir, 'test.txt'), {age: 'newest'}),
-      ).resolves.toEqual({
-        date: new Date('2020-09-13'),
-        timestamp: new Date('2020-09-13').getTime(),
-      });
-      await expect(
-        getFileCommitDate(path.join(repoDir, 'dest.txt'), {age: 'newest'}),
-      ).resolves.toEqual({
-        date: new Date('2020-11-13'),
-        timestamp: new Date('2020-11-13').getTime(),
-      });
-    });
-
     it('returns latest commit date with author', async () => {
       const repoDir = await createGitRepoTestFixture();
 
@@ -261,7 +228,7 @@ describe('commit info APIs', () => {
       ).resolves.toEqual({
         date: new Date('2020-09-13'),
         timestamp: new Date('2020-09-13').getTime(),
-        author: 'Caroline',
+        author: 'Robert',
       });
     });
 
@@ -276,7 +243,7 @@ describe('commit info APIs', () => {
       ).resolves.toEqual({
         date: new Date('2020-09-13'),
         timestamp: new Date('2020-09-13').getTime(),
-        author: 'Caroline',
+        author: 'Robert',
       });
       await expect(
         getFileCommitDate(path.join(repoDir, 'dest.txt'), {
@@ -286,7 +253,7 @@ describe('commit info APIs', () => {
       ).resolves.toEqual({
         date: new Date('2020-11-13'),
         timestamp: new Date('2020-11-13').getTime(),
-        author: 'Josh-Cena',
+        author: 'Seb',
       });
     });
 
@@ -326,7 +293,7 @@ describe('commit info APIs', () => {
       });
 
       await expect(getGitLastUpdate(filePath)).resolves.toEqual({
-        author: 'Caroline',
+        author: 'Robert',
         timestamp: new Date('2020-09-13').getTime(),
       });
     });
@@ -336,11 +303,11 @@ describe('commit info APIs', () => {
 
       const filePath = path.join(repoDir, 'dest.txt');
       await expect(getGitCreation(filePath)).resolves.toEqual({
-        author: 'Caroline',
+        author: 'Robert',
         timestamp: new Date('2020-09-13').getTime(),
       });
       await expect(getGitLastUpdate(filePath)).resolves.toEqual({
-        author: 'Josh-Cena',
+        author: 'Seb',
         timestamp: new Date('2020-11-13').getTime(),
       });
     });
@@ -367,6 +334,45 @@ describe('commit info APIs', () => {
       ).rejects.toThrowErrorMatchingInlineSnapshot(
         `"An error occurred when trying to get the last update date"`,
       );
+    });
+
+    it('returns files info', async () => {
+      const repoDir = await createGitRepoTestFixture();
+      await expect(getGitRepositoryFilesInfo(repoDir)).resolves
+        .toMatchInlineSnapshot(`
+        Map {
+          "dest.txt" => {
+            "creation": {
+              "author": "Seb",
+              "timestamp": 1605225600000,
+            },
+            "lastUpdate": {
+              "author": "Seb",
+              "timestamp": 1605225600000,
+            },
+          },
+          "moved.txt" => {
+            "creation": {
+              "author": "Robert",
+              "timestamp": 1599955200000,
+            },
+            "lastUpdate": {
+              "author": "Robert",
+              "timestamp": 1599955200000,
+            },
+          },
+          "test.txt" => {
+            "creation": {
+              "author": "Caroline",
+              "timestamp": 1592524800000,
+            },
+            "lastUpdate": {
+              "author": "Robert",
+              "timestamp": 1599955200000,
+            },
+          },
+        }
+      `);
     });
   });
 });
@@ -623,6 +629,86 @@ describe('submodules APIs', () => {
       await expect(getGitAllRepoRoots(cwd)).rejects.toThrow(
         /Could not get all the git repository root paths/,
       );
+    });
+  });
+
+  describe('getGitRepositoryFilesInfo', () => {
+    it('for superproject', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir);
+      await expect(getGitRepositoryFilesInfo(cwd)).resolves
+        .toMatchInlineSnapshot(`
+        Map {
+          "website/docs/myDoc.md" => {
+            "creation": {
+              "author": "Seb",
+              "timestamp": 1592524800000,
+            },
+            "lastUpdate": {
+              "author": "Seb",
+              "timestamp": 1592524800000,
+            },
+          },
+          "README.md" => {
+            "creation": {
+              "author": "Seb",
+              "timestamp": 1592524800000,
+            },
+            "lastUpdate": {
+              "author": "Seb",
+              "timestamp": 1592524800000,
+            },
+          },
+        }
+      `);
+    });
+
+    it('for submodule1', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(
+        repo.superproject.repoDir,
+        'submodules',
+        'submodule1',
+      );
+      await expect(getGitRepositoryFilesInfo(cwd)).resolves
+        .toMatchInlineSnapshot(`
+        Map {
+          "file1.txt" => {
+            "creation": {
+              "author": "Seb",
+              "timestamp": 1592524800000,
+            },
+            "lastUpdate": {
+              "author": "Seb",
+              "timestamp": 1592524800000,
+            },
+          },
+        }
+      `);
+    });
+
+    it('for submodule2', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(
+        repo.superproject.repoDir,
+        'submodules',
+        'submodule2',
+      );
+      await expect(getGitRepositoryFilesInfo(cwd)).resolves
+        .toMatchInlineSnapshot(`
+        Map {
+          "subDir/file2.txt" => {
+            "creation": {
+              "author": "Seb",
+              "timestamp": 1592524800000,
+            },
+            "lastUpdate": {
+              "author": "Seb",
+              "timestamp": 1592524800000,
+            },
+          },
+        }
+      `);
     });
   });
 });
