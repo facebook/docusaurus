@@ -338,3 +338,55 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
   }
   return getGitRepoRoot(cwd);
 }
+
+// See https://git-scm.com/book/en/v2/Git-Tools-Submodules
+export async function getGitSubmodulePaths(cwd: string): Promise<string[]> {
+  const createErrorMessageBase = () => {
+    return `Couldn't read the list of git submodules
+Failure while running ${logger.code(
+      'git submodule status',
+    )} from cwd=${logger.path(cwd)}`;
+  };
+
+  const result = await execa('git', ['submodule', 'status'], {
+    cwd,
+  }).catch((error) => {
+    // We enter this rejection when cwd is not a dir for example
+    throw new Error(
+      `${createErrorMessageBase()}
+The command executed throws an error: ${error.message}`,
+      {cause: error},
+    );
+  });
+
+  if (result.exitCode !== 0) {
+    throw new Error(
+      `${createErrorMessageBase()}
+The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
+        result.stderr,
+      )}`,
+    );
+  }
+
+  const output = result.stdout.trim();
+
+  if (!output) {
+    return [];
+  }
+
+  /* The output may contain a space/-/+/U prefix, for example
+     1234567e3e35d1f5b submodules/foo (heads/main)
+    -9ab1f1d3a2d77b0a4 submodules/bar (heads/dev)
+    +f00ba42e1b3ddead submodules/baz (remotes/origin/main)
+    Udeadbeefcafe1234 submodules/qux
+   */
+  const getSubmodulePath = async (line: string) => {
+    const submodulePath = line.substring(1).split(' ')[1];
+    if (!submodulePath) {
+      throw new Error(`Failed to parse git submodule line: ${line}`);
+    }
+    return submodulePath;
+  };
+
+  return Promise.all(output.split('\n').map(getSubmodulePath));
+}

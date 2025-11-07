@@ -17,6 +17,7 @@ import {
   getGitCreation,
   getGitRepoRoot,
   getGitSuperProjectRoot,
+  getGitSubmodulePaths,
 } from '../gitUtils';
 
 class Git {
@@ -486,6 +487,65 @@ describe('submodules APIs', () => {
         The command executed throws an error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
         fatal: not a git repository (or any of the parent directories): .git"
       `);
+    });
+  });
+
+  describe('getGitSubmodulePaths', () => {
+    it('returns submodules for cwd=superproject', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir);
+      await expect(getGitSubmodulePaths(cwd)).resolves.toEqual([
+        'submodules/submodule1',
+        'submodules/submodule2',
+      ]);
+    });
+
+    it('returns submodules for cwd=superproject/website/docs', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir, 'website', 'docs');
+      await expect(getGitSubmodulePaths(cwd)).resolves.toEqual([
+        // The returned paths are relative to CWD,
+        // Not sure if it's the best behavior.
+        // But you'd rather call this with the superproject root as CWD anyway!
+        '../../submodules/submodule1',
+        '../../submodules/submodule2',
+      ]);
+    });
+
+    it('returns [] for cwd=submodules/submodule1', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(
+        repo.superproject.repoDir,
+        'submodules',
+        'submodule1',
+      );
+      await expect(getGitSubmodulePaths(cwd)).resolves.toEqual([]);
+    });
+
+    it('returns [] for cwd=submodules/submodule2/subDir', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(
+        repo.superproject.repoDir,
+        'submodules',
+        'submodule2',
+        'subDir',
+      );
+      await expect(getGitSubmodulePaths(cwd)).resolves.toEqual([]);
+    });
+
+    it('rejects for cwd=doesNotExist', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir, 'doesNotExist');
+      await expect(getGitSubmodulePaths(cwd)).rejects.toThrow(
+        /Couldn't read the list of git submodules/,
+      );
+    });
+
+    it('rejects for cwd=notTracked', async () => {
+      const cwd = await os.tmpdir();
+      await expect(getGitSubmodulePaths(cwd)).rejects.toThrow(
+        /Couldn't read the list of git submodules/,
+      );
     });
   });
 });
