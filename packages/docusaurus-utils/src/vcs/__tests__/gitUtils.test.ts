@@ -16,6 +16,7 @@ import {
   getGitLastUpdate,
   getGitCreation,
   getGitRepoRoot,
+  getGitSuperProjectRoot,
 } from '../gitUtils';
 
 class Git {
@@ -94,6 +95,54 @@ class Git {
       ],
       {env: {GIT_COMMITTER_DATE: `${date}T00:00:00Z`}},
     );
+  }
+
+  async commitFile(
+    filePath: string,
+    {
+      fileContent,
+      commitMessage,
+      commitDate,
+      commitAuthor,
+    }: {
+      fileContent?: string;
+      commitMessage?: string;
+      commitDate?: string;
+      commitAuthor?: string;
+    } = {},
+  ): Promise<void> {
+    await fs.ensureDir(path.join(this.dir, path.dirname(filePath)));
+    await fs.writeFile(
+      path.join(this.dir, filePath),
+      fileContent ?? `Content of ${filePath}`,
+    );
+    await this.commit(
+      commitMessage ?? `Create ${filePath}`,
+      commitDate ?? '2020-06-19',
+      commitAuthor ?? 'Seb <seb@example.com>',
+    );
+  }
+
+  async addSubmodule(name: string, repoPath: string): Promise<void> {
+    return this.runOptimisticGitCommand('git', [
+      '-c protocol.file.allow=always',
+      'submodule',
+      'add',
+      repoPath,
+      name,
+    ]);
+  }
+
+  async defineSubmodules(submodules: {[name: string]: string}): Promise<void> {
+    for (const entry of Object.entries(submodules)) {
+      await this.addSubmodule(entry[0], entry[1]);
+    }
+    await this.runOptimisticGitCommand('git', [
+      'submodule',
+      'update',
+      '--init',
+      '--recursive',
+    ]);
   }
 }
 
@@ -346,5 +395,93 @@ describe('getGitRepoRoot', () => {
     await expect(getGitRepoRoot(cwd)).rejects.toThrow(
       /Couldn't find the git repository root directory/,
     );
+  });
+});
+
+describe('submodules APIs', () => {
+  async function initTestRepo() {
+    const superproject = await createGitRepoEmpty();
+    await superproject.git.commitFile('README.md');
+    await superproject.git.commitFile('website/docs/myDoc.md');
+
+    const submodule1 = await createGitRepoEmpty();
+    await submodule1.git.commitFile('file1.txt');
+
+    const submodule2 = await createGitRepoEmpty();
+    await submodule2.git.commitFile('subDir/file2.txt');
+
+    await superproject.git.defineSubmodules({
+      'submodules/submodule1': submodule1.repoDir,
+      'submodules/submodule2': submodule2.repoDir,
+    });
+
+    return {superproject, submodule1, submodule2};
+  }
+
+  describe('getGitSuperProjectRoot', () => {
+    it('returns superproject dir for cwd=superproject', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir);
+      await expect(getGitSuperProjectRoot(cwd)).resolves.toEqual(
+        repo.superproject.repoDir,
+      );
+    });
+
+    it('returns superproject dir for cwd=superproject/submodules', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir, 'submodules');
+      await expect(getGitSuperProjectRoot(cwd)).resolves.toEqual(
+        repo.superproject.repoDir,
+      );
+    });
+
+    it('returns superproject dir for cwd=superproject/website/docs', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir, 'website/docs');
+      await expect(getGitSuperProjectRoot(cwd)).resolves.toEqual(
+        repo.superproject.repoDir,
+      );
+    });
+
+    it('returns superproject dir for cwd=submodule1', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir, 'submodules/submodule1');
+      await expect(getGitSuperProjectRoot(cwd)).resolves.toEqual(
+        repo.superproject.repoDir,
+      );
+    });
+
+    it('returns superproject dir for cwd=submodule2', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir, 'submodules/submodule2');
+      await expect(getGitSuperProjectRoot(cwd)).resolves.toEqual(
+        repo.superproject.repoDir,
+      );
+    });
+
+    it('returns superproject dir for cwd=submodule2/subDir', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(
+        repo.superproject.repoDir,
+        'submodules/submodule2/subDir',
+      );
+      await expect(getGitSuperProjectRoot(cwd)).resolves.toEqual(
+        repo.superproject.repoDir,
+      );
+    });
+
+    it('rejects for cwd of untracked dir', async () => {
+      const cwd = await os.tmpdir();
+
+      // Do we really want this to throw?
+      // Not sure, and Git doesn't help us failsafe and return null...
+      await expect(getGitSuperProjectRoot(cwd)).rejects
+        .toThrowErrorMatchingInlineSnapshot(`
+        "Couldn't find the git superproject root directory
+        Failure while running \`git rev-parse --show-superproject-working-tree\` from cwd="<TEMP_DIR>"
+        The command executed throws an error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
+        fatal: not a git repository (or any of the parent directories): .git"
+      `);
+    });
   });
 });

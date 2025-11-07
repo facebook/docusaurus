@@ -265,9 +265,9 @@ export async function getGitCreation(
 export async function getGitRepoRoot(cwd: string): Promise<string> {
   const createErrorMessageBase = () => {
     return `Couldn't find the git repository root directory
-Running ${logger.code('git rev-parse --show-toplevel')} from cwd=${logger.path(
-      cwd,
-    )})`;
+Failure while running ${logger.code(
+      'git rev-parse --show-toplevel',
+    )} from cwd=${logger.path(cwd)}`;
   };
 
   const result = await execa('git', ['rev-parse', '--show-toplevel'], {
@@ -276,7 +276,7 @@ Running ${logger.code('git rev-parse --show-toplevel')} from cwd=${logger.path(
     // We enter this rejection when cwd is not a dir for example
     throw new Error(
       `${createErrorMessageBase()}
-The command executed throws an error`,
+The command executed throws an error: ${error.message}`,
       {cause: error},
     );
   });
@@ -291,4 +291,50 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
   }
 
   return fs.realpath.native(result.stdout.trim());
+}
+
+// A Git "superproject" is a Git repository that contains submodules
+// See https://git-scm.com/docs/git-rev-parse#Documentation/git-rev-parse.txt---show-superproject-working-tree
+// See https://git-scm.com/book/en/v2/Git-Tools-Submodules
+export async function getGitSuperProjectRoot(
+  cwd: string,
+): Promise<string | null> {
+  const createErrorMessageBase = () => {
+    return `Couldn't find the git superproject root directory
+Failure while running ${logger.code(
+      'git rev-parse --show-superproject-working-tree',
+    )} from cwd=${logger.path(cwd)}`;
+  };
+
+  const result = await execa(
+    'git',
+    ['rev-parse', '--show-superproject-working-tree'],
+    {
+      cwd,
+    },
+  ).catch((error) => {
+    // We enter this rejection when cwd is not a dir for example
+    throw new Error(
+      `${createErrorMessageBase()}
+The command executed throws an error: ${error.message}`,
+      {cause: error},
+    );
+  });
+
+  if (result.exitCode !== 0) {
+    throw new Error(
+      `${createErrorMessageBase()}
+The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
+        result.stderr,
+      )}`,
+    );
+  }
+
+  const output = result.stdout.trim();
+  // this command only works when inside submodules
+  // otherwise it doesn't return anything when we are inside the main repo
+  if (output) {
+    return output;
+  }
+  return getGitRepoRoot(cwd);
 }
