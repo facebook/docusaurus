@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import url from 'url';
 import fs from 'fs-extra';
 import {
   toMessageRelativeFilePath,
@@ -207,13 +206,63 @@ async function processImageNode(target: Target, context: Context) {
     return;
   }
 
-  const parsedUrl = url.parse(node.url);
-  if (parsedUrl.protocol || !parsedUrl.pathname) {
-    // pathname:// is an escape hatch, in case user does not want her images to
-    // be converted to require calls going through webpack loader
-    if (parsedUrl.protocol === 'pathname:') {
-      node.url = node.url.replace('pathname://', '');
+  // Parse URL trying to mimic url.parse() behavior
+  // Use URL constructor with a try/catch to handle the logic properly
+  let parsedUrl;
+  let protocol;
+  let pathname;
+  
+  // To mimic url.parse() behavior more closely, we need to determine if the original
+  // URL string would have a protocol or pathname when parsed with url.parse().
+  // First, try to parse without a base URL - if it succeeds, it has a protocol
+  try {
+    const urlObj = new URL(node.url);
+    protocol = urlObj.protocol;
+    pathname = urlObj.pathname;
+    parsedUrl = urlObj;
+  } catch {
+    // If it fails, try with a base URL for relative/absolute paths
+    try {
+      const urlObj = new URL(node.url, 'http://example.com');
+      protocol = null; // No protocol in original string
+      pathname = urlObj.pathname;
+      parsedUrl = urlObj;
+    } catch {
+      // Invalid URL, return early
+      return;
     }
+  }
+  
+  // Special case: check if original string is just fragments/queries without path
+  // url.parse('') -> pathname: null
+  // url.parse('#section') -> pathname: null  
+  // url.parse('?query') -> pathname: null
+  // To detect this, we check if original URL string doesn't contain a path
+  let hasPathname = true;
+  if (node.url === '' || node.url.startsWith('#') || node.url.startsWith('?')) {
+    hasPathname = false;
+  } else if (!protocol && !node.url.includes('/')) {
+    // If no protocol and no slashes, it might be a simple filename
+    // This is a relative path that should be processed
+    hasPathname = true;
+  } else if (!protocol && node.url.startsWith('.')) {
+    // Relative path like './file.png' - should be processed
+    hasPathname = true;
+  }
+  
+  // Original logic: if URL has protocol or no pathname, return early (except pathname://)
+  if (protocol && protocol !== 'pathname:') {
+    return;
+  }
+  
+  // Special handling for pathname:// protocol
+  if (protocol === 'pathname:') {
+    node.url = node.url.replace('pathname://', '');
+    return;
+  }
+  
+  // If no pathname according to our detection, return early (mimics original behavior)
+  if (!hasPathname) {
     return;
   }
 
