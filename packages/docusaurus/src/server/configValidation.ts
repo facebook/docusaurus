@@ -6,30 +6,29 @@
  */
 
 import {
+  DEFAULT_I18N_DIR_NAME,
   DEFAULT_PARSE_FRONT_MATTER,
   DEFAULT_STATIC_DIR_NAME,
-  DEFAULT_I18N_DIR_NAME,
-  getDefaultVcsConfig,
-  VcsPresetNames,
   getVcsPreset,
+  VcsPresetNames,
 } from '@docusaurus/utils';
 import {Joi, printWarning} from '@docusaurus/utils-validation';
 import {
-  addTrailingSlash,
   addLeadingSlash,
+  addTrailingSlash,
   removeTrailingSlash,
 } from '@docusaurus/utils-common';
 import logger from '@docusaurus/logger';
 import type {
+  DocusaurusConfig,
   FasterConfig,
   FutureConfig,
   FutureV4Config,
-  StorageConfig,
-  DocusaurusConfig,
   I18nConfig,
+  I18nLocaleConfig,
   MarkdownConfig,
   MarkdownHooks,
-  I18nLocaleConfig,
+  StorageConfig,
   VcsConfig,
   VcsPreset,
 } from '@docusaurus/types';
@@ -111,9 +110,7 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
   experimental_faster: DEFAULT_FASTER_CONFIG,
   experimental_storage: DEFAULT_STORAGE_CONFIG,
-
-  // Not good, need to be loaded lazily
-  experimental_vcs: getDefaultVcsConfig(),
+  experimental_vcs: getVcsPreset('default-v1'),
   experimental_router: 'browser',
 };
 
@@ -355,12 +352,19 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
     }
     return getVcsPreset(presetName);
   }
+  if (typeof input === 'boolean') {
+    // We return the boolean on purpose
+    // We'll normalize it to a real VcsConfig later
+    // This is annoying, but we have to read the future flag to switch to the
+    // new "default-v2" config
+    return input;
+  }
   const {error, value} = VCS_CONFIG_OBJECT_SCHEMA.validate(input);
   if (error) {
     throw error;
   }
   return value;
-}).default(() => getDefaultVcsConfig());
+}).default(true);
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   v4: FUTURE_V4_SCHEMA,
@@ -528,6 +532,17 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
     config.markdown.hooks.onBrokenMarkdownLinks = config.onBrokenMarkdownLinks;
     // We erase the former one to ensure we don't use it anywhere
     config.onBrokenMarkdownLinks = undefined;
+  }
+
+  // We normalize the VCS config when using a boolean value
+  if (typeof config.future.experimental_vcs === 'boolean') {
+    // TODO implement future flag for new VCS config default
+    const isNewVcsConfigEnabled = false;
+    config.future.experimental_vcs = config.future.experimental_vcs
+      ? isNewVcsConfigEnabled
+        ? getVcsPreset('default-v2')
+        : getVcsPreset('default-v1')
+      : getVcsPreset('disabled');
   }
 
   if (

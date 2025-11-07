@@ -6,7 +6,7 @@
  */
 
 import _ from 'lodash';
-import {getDefaultVcsConfig} from './vcs/vcs';
+import {getVcsPreset} from './vcs/vcs';
 
 import type {PluginOptions, VcsConfig} from '@docusaurus/types';
 
@@ -52,7 +52,7 @@ export async function readLastUpdateData(
   // This also ensures unit tests keep working without extra setup
   // We still want to ensure type safety by requiring the VCS param
   // TODO Docusaurus v4: refactor all these Git read APIs
-  const vcs = vcsParam ?? getDefaultVcsConfig();
+  const vcs = vcsParam ?? getVcsPreset('default-v1');
 
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
 

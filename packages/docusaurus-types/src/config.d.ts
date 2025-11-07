@@ -79,7 +79,13 @@ export type VcsConfig = {
 /**
  * List of pre-built VcsConfig that Docusaurus provides.
  */
-export type VcsPreset = 'git-ad-hoc' | 'git-eager' | 'hardcoded';
+export type VcsPreset =
+  | 'git-ad-hoc'
+  | 'git-eager'
+  | 'hardcoded'
+  | 'disabled'
+  | 'default-v1'
+  | 'default-v2';
 
 export type FutureConfig = {
   /**
