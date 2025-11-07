@@ -18,6 +18,7 @@ import {
   getGitRepoRoot,
   getGitSuperProjectRoot,
   getGitSubmodulePaths,
+  getGitAllRepoRoots,
 } from '../gitUtils';
 
 class Git {
@@ -545,6 +546,82 @@ describe('submodules APIs', () => {
       const cwd = await os.tmpdir();
       await expect(getGitSubmodulePaths(cwd)).rejects.toThrow(
         /Couldn't read the list of git submodules/,
+      );
+    });
+  });
+
+  describe('getGitAllRepoRoots', () => {
+    it('returns root paths for cwd=superproject', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir);
+      await expect(getGitAllRepoRoots(cwd)).resolves.toEqual([
+        repo.superproject.repoDir,
+        path.join(repo.superproject.repoDir, 'submodules', 'submodule1'),
+        path.join(repo.superproject.repoDir, 'submodules', 'submodule2'),
+      ]);
+    });
+
+    it('returns root paths for cwd=superproject/website/docs', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir, 'website', 'docs');
+      await expect(getGitAllRepoRoots(cwd)).resolves.toEqual([
+        repo.superproject.repoDir,
+        path.join(repo.superproject.repoDir, 'submodules', 'submodule1'),
+        path.join(repo.superproject.repoDir, 'submodules', 'submodule2'),
+      ]);
+    });
+
+    it('returns root paths for cwd=superproject/submodules', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir, 'submodules');
+      await expect(getGitAllRepoRoots(cwd)).resolves.toEqual([
+        repo.superproject.repoDir,
+        path.join(repo.superproject.repoDir, 'submodules', 'submodule1'),
+        path.join(repo.superproject.repoDir, 'submodules', 'submodule2'),
+      ]);
+    });
+
+    it('returns root paths for cwd=superproject/submodules/submodule1', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(
+        repo.superproject.repoDir,
+        'submodules',
+        'submodule1',
+      );
+      await expect(getGitAllRepoRoots(cwd)).resolves.toEqual([
+        repo.superproject.repoDir,
+        path.join(repo.superproject.repoDir, 'submodules', 'submodule1'),
+        path.join(repo.superproject.repoDir, 'submodules', 'submodule2'),
+      ]);
+    });
+
+    it('returns root paths for cwd=superproject/submodules/submodule2/subDir', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(
+        repo.superproject.repoDir,
+        'submodules',
+        'submodule2',
+        'subDir',
+      );
+      await expect(getGitAllRepoRoots(cwd)).resolves.toEqual([
+        repo.superproject.repoDir,
+        path.join(repo.superproject.repoDir, 'submodules', 'submodule1'),
+        path.join(repo.superproject.repoDir, 'submodules', 'submodule2'),
+      ]);
+    });
+
+    it('rejects for cwd=doesNotExist', async () => {
+      const repo = await initTestRepo();
+      const cwd = path.join(repo.superproject.repoDir, 'doesNotExist');
+      await expect(getGitAllRepoRoots(cwd)).rejects.toThrow(
+        /Could not get all the git repository root paths/,
+      );
+    });
+
+    it('rejects for cwd=notTracked', async () => {
+      const cwd = await os.tmpdir();
+      await expect(getGitAllRepoRoots(cwd)).rejects.toThrow(
+        /Could not get all the git repository root paths/,
       );
     });
   });

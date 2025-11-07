@@ -390,3 +390,25 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
 
   return Promise.all(output.split('\n').map(getSubmodulePath));
 }
+
+// Find the root git repository alongside all its submodules, if any
+export async function getGitAllRepoRoots(cwd: string): Promise<string[]> {
+  try {
+    const superProjectRoot = await getGitSuperProjectRoot(cwd);
+    if (!superProjectRoot) {
+      return [];
+    }
+    let submodulePaths = await getGitSubmodulePaths(superProjectRoot);
+    submodulePaths = await Promise.all(
+      submodulePaths.map((submodulePath) =>
+        fs.realpath.native(path.resolve(superProjectRoot, submodulePath)),
+      ),
+    );
+    return [superProjectRoot, ...submodulePaths];
+  } catch (error) {
+    throw new Error(
+      `Could not get all the git repository root paths (superproject + submodules) from cwd=${cwd}`,
+      {cause: error},
+    );
+  }
+}
