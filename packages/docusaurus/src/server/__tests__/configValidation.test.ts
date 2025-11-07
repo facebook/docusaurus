@@ -6,7 +6,7 @@
  */
 
 import {jest} from '@jest/globals';
-import {DEFAULT_TEST_VCS_CONFIG, getVcsPreset} from '@docusaurus/utils';
+import {getVcsPreset} from '@docusaurus/utils';
 import {
   ConfigSchema,
   DEFAULT_CONFIG,
@@ -1425,39 +1425,39 @@ describe('future', () => {
         ).toEqual(
           futureContaining({
             ...DEFAULT_FUTURE_CONFIG,
-            experimental_vcs: DEFAULT_TEST_VCS_CONFIG,
+            experimental_vcs: getVcsPreset('default-v1'),
           }),
         );
       });
 
-      it('rejects vcs - boolean', () => {
-        // @ts-expect-error: invalid
-        const vcs: Partial<VcsConfig> = true;
-        expect(() =>
+      it('accepts vcs - true', () => {
+        expect(
           normalizeConfig({
             future: {
-              experimental_vcs: vcs,
+              experimental_vcs: true,
             },
           }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because "value" must be of type object
-          "
-        `);
+        ).toEqual(
+          futureContaining({
+            ...DEFAULT_FUTURE_CONFIG,
+            experimental_vcs: getVcsPreset('default-v1'),
+          }),
+        );
       });
 
-      it('rejects vcs - number', () => {
-        // @ts-expect-error: invalid
-        const vcs: Partial<VcsConfig> = 42;
-        expect(() =>
+      it('accepts vcs - false', () => {
+        expect(
           normalizeConfig({
             future: {
-              experimental_vcs: vcs,
+              experimental_vcs: false,
             },
           }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because "value" must be of type object
-          "
-        `);
+        ).toEqual(
+          futureContaining({
+            ...DEFAULT_FUTURE_CONFIG,
+            experimental_vcs: getVcsPreset('disabled'),
+          }),
+        );
       });
     });
 

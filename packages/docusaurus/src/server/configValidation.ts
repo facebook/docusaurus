@@ -536,8 +536,9 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
 
   // We normalize the VCS config when using a boolean value
   if (typeof config.future.experimental_vcs === 'boolean') {
-    // TODO implement future flag for new VCS config default
+    // TODO implement future flag to turn on the new default VCS config
     const isNewVcsConfigEnabled = false;
+
     config.future.experimental_vcs = config.future.experimental_vcs
       ? isNewVcsConfigEnabled
         ? getVcsPreset('default-v2')

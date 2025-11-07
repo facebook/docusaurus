@@ -416,7 +416,7 @@ export type Config = Overwrite<
       {
         v4?: boolean | Partial<FutureV4Config>;
         experimental_faster?: boolean | Partial<FasterConfig>;
-        experimental_vcs?: VcsPreset | VcsConfig;
+        experimental_vcs?: VcsPreset | VcsConfig | boolean;
       }
     >;
   }
