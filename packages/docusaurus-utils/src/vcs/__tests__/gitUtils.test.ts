@@ -83,8 +83,14 @@ class Git {
     return Git.runOptimisticGitCommand({cwd: this.dir, cmd, args, options});
   }
 
-  async commit(msg: string, date: string, author: string): Promise<void> {
+  async add(filePath: string): Promise<void> {
+    await this.runOptimisticGitCommand('git', ['add', filePath]);
+  }
+  async addAll(): Promise<void> {
     await this.runOptimisticGitCommand('git', ['add', '.']);
+  }
+
+  async commit(msg: string, date: string, author: string): Promise<void> {
     await this.runOptimisticGitCommand(
       `git`,
       [
@@ -116,6 +122,7 @@ class Git {
       path.join(this.dir, filePath),
       fileContent ?? `Content of ${filePath}`,
     );
+    await this.add(filePath);
     await this.commit(
       commitMessage ?? `Create ${filePath}`,
       commitDate ?? '2020-06-19',
@@ -157,34 +164,40 @@ describe('commit info APIs', () => {
   async function createGitRepoTestFixture() {
     const {repoDir, git} = await createGitRepoEmpty();
 
-    await fs.writeFile(path.join(repoDir, 'test.txt'), 'Some content');
-    await git.commit(
-      'Create test.txt',
-      '2020-06-19',
-      'Caroline <caroline@jc-verse.com>',
-    );
-    await fs.writeFile(path.join(repoDir, 'test.txt'), 'Updated content');
-    await git.commit(
-      'Update test.txt',
-      '2020-06-20',
-      'Josh-Cena <josh-cena@jc-verse.com>',
-    );
+    await git.commitFile('test.txt', {
+      fileContent: 'Some content',
+      commitMessage: 'Create test.txt',
+      commitDate: '2020-06-19',
+      commitAuthor: 'Caroline <caroline@example.com>',
+    });
+
+    await git.commitFile('test.txt', {
+      fileContent: 'Updated content',
+      commitMessage: 'Update test.txt',
+      commitDate: '2020-06-20',
+      commitAuthor: 'Josh-Cena <josh-cena@example.com>',
+    });
+
     await fs.writeFile(path.join(repoDir, 'test.txt'), 'Updated content (2)');
     await fs.writeFile(path.join(repoDir, 'moved.txt'), 'This file is moved');
+    await git.addAll();
     await git.commit(
       'Update test.txt again, create moved.txt',
       '2020-09-13',
-      'Caroline <caroline@jc-verse.com>',
+      'Caroline <caroline@example.com>',
     );
+
     await fs.move(
       path.join(repoDir, 'moved.txt'),
       path.join(repoDir, 'dest.txt'),
     );
+    await git.addAll();
     await git.commit(
       'Rename moved.txt to dest.txt',
       '2020-11-13',
-      'Josh-Cena <josh-cena@jc-verse.com>',
+      'Josh-Cena <josh-cena@example.com>',
     );
+
     await fs.writeFile(path.join(repoDir, 'untracked.txt'), "I'm untracked");
 
     return repoDir;
@@ -359,16 +372,7 @@ describe('commit info APIs', () => {
 describe('getGitRepoRoot', () => {
   async function initTestRepo() {
     const {repoDir, git} = await createGitRepoEmpty();
-    await fs.mkdir(path.join(repoDir, 'subDir'));
-    await fs.writeFile(
-      path.join(repoDir, 'subDir', 'test.txt'),
-      'Some content',
-    );
-    await git.commit(
-      'Create test.txt',
-      '2020-06-19',
-      'Caroline <caroline@jc-verse.com>',
-    );
+    await git.commitFile('subDir/test.txt');
     return repoDir;
   }
 
