@@ -862,6 +862,42 @@ That's it. Watch the status and wait till the app is deployed. To open the appli
 
    - When the deployment is complete, you will receive an email notification and also see a log entry. All done! Your project is up and ready.
 
+## Deploying to DeployHQ {#deploying-to-deployhq}
+
+[DeployHQ](https://www.deployhq.com/) is a deployment automation platform that builds your code and pushes it to SSH/SFTP servers, FTP servers, cloud storage (Amazon S3, Cloudflare R2), and modern hosting platforms (Netlify, Heroku).
+
+:::note
+
+DeployHQ does not host your site. It automates building your Docusaurus project and deploying the built files to your chosen hosting provider or server.
+
+:::
+
+To deploy your Docusaurus site using DeployHQ:
+
+1. Sign up for a [DeployHQ account](https://www.deployhq.com/) and verify your email.
+
+2. Create your first project by clicking on **Projects** and **New Project**. Connect your Git repository (GitHub, GitLab, Bitbucket, or any private repository). Authorize DeployHQ to access your repository.
+
+3. Add a server and enter your server details:
+
+   - Give your server a name
+   - Select your protocol (SSH/SFTP, FTP, or cloud platform)
+   - Enter your server hostname, username, and password/SSH key
+   - Set **Deployment Path** to your web root (e.g., `public_html/`)
+
+4. In your project settings, navigate to **Build Pipeline** and add your build commands:
+
+   ```bash npm2yarn
+   npm install
+   npm run build
+   ```
+
+5. Click **Deploy Project**, then select your server and click **Deploy** to start your first deployment.
+
+Your Docusaurus site will be built and deployed to your server. You can enable automatic deployments to deploy on every Git push, or schedule deployments for specific times.
+
+For more information on advanced deployment features, see [DeployHQ's documentation](https://www.deployhq.com/support).
+
 ## Deploying to Surge {#deploying-to-surge}
 
 Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge) that you can use to deploy your Docusaurus project from the command line in seconds. Deploying your project to Surge is easy and free (including custom domains and SSL certs).
