@@ -75,6 +75,7 @@ export const Schema = Joi.object<ThemeConfig>({
           searchParameters: Joi.object({
             facetFilters: FacetFiltersSchema.optional(),
           }).optional(),
+          suggestedQuestions: Joi.boolean().optional(),
         }),
       )
       .custom(

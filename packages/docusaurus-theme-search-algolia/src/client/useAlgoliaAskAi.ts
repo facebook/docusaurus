@@ -91,7 +91,7 @@ export function useAlgoliaAskAi(props: DocSearchV4PropsLite): UseAskAiResult {
   }, []);
 
   const extraAskAiProps: UseAskAiResult['extraAskAiProps'] = {
-    askAi,
+    askAi: askAi as any,
     canHandleAskAi,
     isAskAiActive,
     onAskAiToggle,

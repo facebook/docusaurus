@@ -17,6 +17,7 @@ declare module '@docusaurus/theme-search-algolia' {
   import type {FacetFilters} from 'algoliasearch/lite';
 
   // The config after normalization (e.g. AskAI string -> object)
+  // This matches DocSearch v4.3+ AskAi configuration
   export type AskAiConfig = {
     indexName: string;
     apiKey: string;
@@ -25,6 +26,7 @@ declare module '@docusaurus/theme-search-algolia' {
     searchParameters?: {
       facetFilters?: FacetFilters;
     };
+    suggestedQuestions?: boolean;
   };
 
   // DocSearch props that Docusaurus exposes directly through props forwarding
