@@ -48,25 +48,23 @@ async function loadAllGitFilesInfoMap(cwd: string): Promise<GitFileInfoMap> {
   return mergeFileMaps(allMaps);
 }
 
-function createVcsUninitializedPromise(): Promise<GitFileInfoMap> {
-  const promise = Promise.reject(
-    new Error('Docusaurus Git Eager VCS strategy has not been initialized yet'),
-  );
-  promise.catch(() => {}); // Avoid unhandled promise rejection error + app exit
-  return promise;
-}
-
 function createGitVcsConfig(): VcsConfig {
-  let filesMapPromise: Promise<GitFileInfoMap> =
-    createVcsUninitializedPromise();
+  let filesMapPromise: Promise<GitFileInfoMap> | null = null;
 
   async function getGitFileInfo(filePath: string): Promise<GitFileInfo | null> {
     const filesMap = await filesMapPromise;
-    return filesMap.get(filePath) ?? null;
+    return filesMap?.get(filePath) ?? null;
   }
 
   return {
     initialize: ({siteDir}) => {
+      if (filesMapPromise) {
+        // Already initialized
+        // For i18n sites, we only initialize once for all locales
+        // We'll see if this cause troubles...
+        return;
+      }
+
       filesMapPromise = PerfLogger.async('Git Eager VCS init', () =>
         loadAllGitFilesInfoMap(siteDir),
       );
