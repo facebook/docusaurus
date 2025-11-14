@@ -49,6 +49,8 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn || yarn || yarn
+      - name: Test Git
+        run: yarn test:git
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
       - name: Install test-website project with Yarn v1
