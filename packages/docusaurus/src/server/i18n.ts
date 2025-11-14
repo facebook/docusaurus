@@ -111,7 +111,7 @@ Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or pro
   }
 }
 
-export function loadI18nLocaleList({
+export function getLocaleList({
   i18nConfig,
   currentLocale,
 }: {
@@ -140,7 +140,7 @@ export async function loadI18n({
 }): Promise<I18n> {
   const {i18n: i18nConfig} = config;
 
-  const locales = loadI18nLocaleList({
+  const locales = getLocaleList({
     i18nConfig,
     currentLocale,
   });
