@@ -2372,7 +2372,12 @@ describe('future', () => {
               experimental_faster: faster,
             },
           }),
-        ).toEqual(fasterContaining({gitEagerVcs: true}));
+        ).toEqual(
+          futureContaining({
+            experimental_faster: expect.objectContaining(faster),
+            experimental_vcs: getVcsPreset('default-v2'),
+          }),
+        );
       });
 
       it('accepts - false', () => {
@@ -2385,7 +2390,12 @@ describe('future', () => {
               experimental_faster: faster,
             },
           }),
-        ).toEqual(fasterContaining({gitEagerVcs: false}));
+        ).toEqual(
+          futureContaining({
+            experimental_faster: expect.objectContaining(faster),
+            experimental_vcs: getVcsPreset('default-v1'),
+          }),
+        );
       });
 
       it('rejects - null', () => {
