@@ -409,7 +409,7 @@ describe('loadI18n', () => {
       loadI18nTest({
         i18nConfig: {
           path: 'i18n',
-          defaultLocale: 'fr',
+          defaultLocale: 'en',
           locales: ['en', 'fr', 'de'],
           localeConfigs: {},
         },
@@ -442,8 +442,8 @@ describe('loadI18n', () => {
     const result = await loadI18nTest({
       i18nConfig: {
         path: 'i18n',
-        defaultLocale: 'fr',
-        locales: ['en', 'x1'],
+        defaultLocale: 'en',
+        locales: ['en', 'fr', 'x1'],
         localeConfigs: {
           x1: {htmlLang: 'en-US'},
         },
