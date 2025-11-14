@@ -100,9 +100,12 @@ export function getDefaultLocaleConfig(
     };
   } catch (e) {
     throw new Error(
-      `Docusaurus couldn't get default locale config for ${logger.name(
+      `Docusaurus couldn't infer a default locale config for ${logger.name(
         locale,
-      )}`,
+      )}.
+Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 ${logger.code(
+        `siteConfig.i18n.localeConfig['${locale}'].htmlLang`,
+      )} attribute.`,
       {cause: e},
     );
   }
@@ -150,7 +153,7 @@ export async function loadI18n({
       I18nLocaleConfig,
       'translate' | 'url' | 'baseUrl'
     > = {
-      ...getDefaultLocaleConfig(locale),
+      ...getDefaultLocaleConfig(localeConfigInput.htmlLang ?? locale),
       ...localeConfigInput,
     };
 
