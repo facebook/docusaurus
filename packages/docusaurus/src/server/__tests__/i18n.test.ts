@@ -123,9 +123,11 @@ describe('defaultLocaleConfig', () => {
 });
 
 describe('loadI18n', () => {
-  const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  const consoleWarnSpy = jest
+    .spyOn(console, 'warn')
+    .mockImplementation(() => {});
   beforeEach(() => {
-    consoleSpy.mockClear();
+    consoleWarnSpy.mockClear();
   });
 
   it('loads I18n for default config', async () => {
@@ -397,8 +399,67 @@ describe('loadI18n', () => {
       },
       currentLocale: 'it',
     });
-    expect(consoleSpy.mock.calls[0]![0]).toMatch(
-      /The locale .*it.* was not found in your site configuration/,
+    expect(consoleWarnSpy.mock.calls[0]![0]).toMatch(
+      /The locale .*it.* was not found in your Docusaurus site configuration/,
     );
+  });
+
+  it('throws when trying to load undeclared locale that is not a valid locale BCP47 name', async () => {
+    await expect(() =>
+      loadI18nTest({
+        i18nConfig: {
+          path: 'i18n',
+          defaultLocale: 'en',
+          locales: ['en', 'fr', 'de'],
+          localeConfigs: {},
+        },
+        currentLocale: 'x1',
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus couldn't infer a default locale config for x1.
+      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute."
+    `);
+  });
+
+  it('throws when trying to load declared locale that is not a valid locale BCP47 name', async () => {
+    await expect(() =>
+      loadI18nTest({
+        i18nConfig: {
+          path: 'i18n',
+          defaultLocale: 'fr',
+          locales: ['en', 'fr', 'de'],
+          localeConfigs: {x1: {}},
+        },
+        currentLocale: 'x1',
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus couldn't infer a default locale config for x1.
+      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute."
+    `);
+  });
+
+  it('loads i18n when trying to load declared locale with invalid BCP47 name but valid BCP47', async () => {
+    const result = await loadI18nTest({
+      i18nConfig: {
+        path: 'i18n',
+        defaultLocale: 'en',
+        locales: ['en', 'fr', 'x1'],
+        localeConfigs: {
+          x1: {htmlLang: 'en-US'},
+        },
+      },
+      currentLocale: 'x1',
+    });
+    expect(result.localeConfigs.x1).toEqual({
+      baseUrl: '/x1/',
+      calendar: 'gregory',
+      direction: 'ltr',
+      htmlLang: 'en-US',
+      label: 'American English',
+      path: 'en-US',
+      translate: false,
+      url: 'https://example.com',
+    });
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(0);
   });
 });
