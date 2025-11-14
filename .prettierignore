@@ -1,7 +1,7 @@
 dist
 node_modules
 .yarn
-build
+**/build/**
 coverage
 .docusaurus
 .idea

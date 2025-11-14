@@ -9,9 +9,8 @@ import fs from 'fs-extra';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {mapAsyncSequential} from '@docusaurus/utils';
 import {type LoadContextParams} from '../../server/site';
-import {loadI18n, loadI18nLocaleList} from '../../server/i18n';
+import {loadI18nLocaleList} from '../../server/i18n';
 import {buildLocale, type BuildLocaleParams} from './buildLocale';
-import {isAutomaticBaseUrlLocalizationDisabled} from './buildUtils';
 import {loadSiteConfig} from '../../server/config';
 
 export type BuildCLIOptions = Pick<LoadContextParams, 'config' | 'outDir'> & {
@@ -32,15 +31,6 @@ export async function build(
     process.env.BABEL_ENV = 'development';
     process.env.NODE_ENV = 'development';
   }
-
-
-
-
-
-
-
-
-
 
   const siteDir = await fs.realpath(siteDirParam);
 
@@ -84,25 +74,24 @@ function orderLocales({
   }
 }
 
-
-
 async function getLocalesToBuild({
-                                   siteDir,
-                                   cliOptions,
-                                 }: {
+  siteDir,
+  cliOptions,
+}: {
   siteDir: string;
   cliOptions: BuildCLIOptions;
 }): Promise<[string, ...string[]]> {
-
   const {siteConfig} = await loadSiteConfig({
     siteDir,
     customConfigFilePath: cliOptions.config,
   });
 
-  const locales = cliOptions.locale ?? loadI18nLocaleList({
-    i18nConfig: siteConfig.i18n,
-    currentLocale: siteConfig.i18n.defaultLocale, // Awkward but ok
-  });
+  const locales =
+    cliOptions.locale ??
+    loadI18nLocaleList({
+      i18nConfig: siteConfig.i18n,
+      currentLocale: siteConfig.i18n.defaultLocale, // Awkward but ok
+    });
 
   return orderLocales({
     locales: locales as [string, ...string[]],
