@@ -59,9 +59,17 @@ function createGitVcsConfig(): VcsConfig {
   return {
     initialize: ({siteDir}) => {
       if (filesMapPromise) {
-        // Already initialized
-        // For i18n sites, we only initialize once for all locales
-        // We'll see if this cause troubles...
+        // We only initialize this VCS once!
+        // For i18n sites, this permits reading ahead of time for all locales
+        // so that it only slows down the first locale
+        // I assume this logic is fine, but we'll see if it causes trouble
+
+        // Note: we could also only call "initialize()" once from the outside,
+        // But maybe it could be useful for custom VCS implementations to be
+        // able to initialize once per locale?
+        PerfLogger.log(
+          'Git Eager VCS strategy already initialized, skipping re-initialization',
+        );
         return;
       }
 
