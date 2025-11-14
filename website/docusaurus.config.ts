@@ -679,6 +679,7 @@ export default async function createConfigAsync() {
                 // cSpell:ignore IMYF
                 assistantId: 'RgIMYFUmTfrN',
                 indexName: 'docusaurus-markdown',
+                suggestedQuestions: true,
               },
             }
           : {}),

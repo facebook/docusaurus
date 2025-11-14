@@ -33,7 +33,7 @@
     "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "dependencies": {
-    "@docsearch/react": "^3.9.0 || ^4.1.0",
+    "@docsearch/react": "^3.9.0 || ^4.3.2",
     "@docusaurus/core": "3.9.2",
     "@docusaurus/logger": "3.9.2",
     "@docusaurus/plugin-content-docs": "3.9.2",

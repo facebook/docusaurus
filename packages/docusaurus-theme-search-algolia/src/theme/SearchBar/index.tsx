@@ -61,7 +61,7 @@ type DocSearchProps = Omit<
 
 // extend DocSearchProps for v4 features
 // TODO Docusaurus v4: cleanup after we drop support for DocSearch v3
-interface DocSearchV4Props extends DocSearchProps {
+interface DocSearchV4Props extends Omit<DocSearchProps, 'askAi'> {
   indexName: string;
   askAi?: ThemeConfigAlgolia['askAi'];
   translations?: DocSearchTranslations;
@@ -199,7 +199,7 @@ function useSearchParameters({
 
 function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
   const navigator = useNavigator({externalUrlRegex});
-  const searchParameters = useSearchParameters({...props});
+  const searchParameters = useSearchParameters({...props} as DocSearchProps);
   const transformItems = useTransformItems(props);
   const transformSearchClient = useTransformSearchClient();
 
@@ -301,7 +301,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
               resultsFooterComponent,
             })}
             placeholder={currentPlaceholder}
-            {...props}
+            {...(props as any)}
             translations={props.translations?.modal ?? translations.modal}
             searchParameters={searchParameters}
             {...extraAskAiProps}

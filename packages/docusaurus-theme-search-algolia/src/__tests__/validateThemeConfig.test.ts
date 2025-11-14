@@ -436,5 +436,95 @@ describe('validateThemeConfig', () => {
         });
       });
     });
+
+    describe('Ask AI suggestedQuestions', () => {
+      it('accepts suggestedQuestions as true', () => {
+        const algolia = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          askAi: {
+            assistantId: 'my-assistant-id',
+            suggestedQuestions: true,
+          },
+        } satisfies AlgoliaInput;
+
+        expect(testValidateThemeConfig(algolia)).toEqual({
+          algolia: {
+            ...DEFAULT_CONFIG,
+            ...algolia,
+            askAi: {
+              indexName: algolia.indexName,
+              apiKey: algolia.apiKey,
+              appId: algolia.appId,
+              assistantId: 'my-assistant-id',
+              suggestedQuestions: true,
+            },
+          },
+        });
+      });
+
+      it('accepts suggestedQuestions as false', () => {
+        const algolia = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          askAi: {
+            assistantId: 'my-assistant-id',
+            suggestedQuestions: false,
+          },
+        } satisfies AlgoliaInput;
+
+        expect(testValidateThemeConfig(algolia)).toEqual({
+          algolia: {
+            ...DEFAULT_CONFIG,
+            ...algolia,
+            askAi: {
+              indexName: algolia.indexName,
+              apiKey: algolia.apiKey,
+              appId: algolia.appId,
+              assistantId: 'my-assistant-id',
+              suggestedQuestions: false,
+            },
+          },
+        });
+      });
+
+      it('rejects invalid suggestedQuestions type', () => {
+        const algolia: AlgoliaInput = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          askAi: {
+            assistantId: 'my-assistant-id',
+            // @ts-expect-error: expected type error
+            suggestedQuestions: 'invalid-string',
+          },
+        };
+        expect(() =>
+          testValidateThemeConfig(algolia),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `""algolia.askAi.suggestedQuestions" must be a boolean"`,
+        );
+      });
+
+      it('rejects suggestedQuestions as number', () => {
+        const algolia: AlgoliaInput = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          askAi: {
+            assistantId: 'my-assistant-id',
+            // @ts-expect-error: expected type error
+            suggestedQuestions: 123,
+          },
+        };
+        expect(() =>
+          testValidateThemeConfig(algolia),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `""algolia.askAi.suggestedQuestions" must be a boolean"`,
+        );
+      });
+    });
   });
 });
