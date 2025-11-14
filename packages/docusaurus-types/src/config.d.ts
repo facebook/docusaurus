@@ -33,6 +33,7 @@ export type FasterConfig = {
   rspackBundler: boolean;
   rspackPersistentCache: boolean;
   ssgWorkerThreads: boolean;
+  gitEagerVcs: boolean;
 };
 
 export type FutureV4Config = {

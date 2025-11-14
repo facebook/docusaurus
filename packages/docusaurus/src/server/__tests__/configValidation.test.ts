@@ -71,6 +71,7 @@ describe('normalizeConfig', () => {
           rspackBundler: true,
           rspackPersistentCache: true,
           ssgWorkerThreads: true,
+          gitEagerVcs: true,
         },
         experimental_storage: {
           type: 'sessionStorage',
@@ -1084,6 +1085,7 @@ describe('future', () => {
         rspackBundler: true,
         rspackPersistentCache: true,
         ssgWorkerThreads: true,
+        gitEagerVcs: true,
       },
       experimental_vcs: {
         initialize: (_params) => {},
@@ -1632,6 +1634,7 @@ describe('future', () => {
         rspackBundler: true,
         rspackPersistentCache: true,
         ssgWorkerThreads: true,
+        gitEagerVcs: true,
       };
       expect(
         normalizeConfig({
@@ -2340,6 +2343,77 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.experimental_faster.ssgWorkerThreads" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('gitEagerVcs', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          gitEagerVcs: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({gitEagerVcs: false}));
+      });
+
+      it('accepts - true', () => {
+        const faster: Partial<FasterConfig> = {
+          gitEagerVcs: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({gitEagerVcs: true}));
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          gitEagerVcs: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({gitEagerVcs: false}));
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {gitEagerVcs: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.gitEagerVcs" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {gitEagerVcs: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.gitEagerVcs" must be a boolean
           "
         `);
       });

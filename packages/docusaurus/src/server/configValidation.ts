@@ -81,6 +81,7 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   rspackBundler: false,
   rspackPersistentCache: false,
   ssgWorkerThreads: false,
+  gitEagerVcs: false,
 };
 
 // When using the "faster: true" shortcut
@@ -93,6 +94,7 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   rspackBundler: true,
   rspackPersistentCache: true,
   ssgWorkerThreads: true,
+  gitEagerVcs: true,
 };
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
@@ -296,6 +298,7 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
       ssgWorkerThreads: Joi.boolean().default(
         DEFAULT_FASTER_CONFIG.ssgWorkerThreads,
       ),
+      gitEagerVcs: Joi.boolean().default(DEFAULT_FASTER_CONFIG.gitEagerVcs),
     }),
     Joi.boolean()
       .required()
