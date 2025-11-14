@@ -359,7 +359,7 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
     // We return the boolean on purpose
     // We'll normalize it to a real VcsConfig later
     // This is annoying, but we have to read the future flag to switch to the
-    // new "default-v2" config
+    // new "default-v2" config (not easy to do it here)
     return input;
   }
   const {error, value} = VCS_CONFIG_OBJECT_SCHEMA.validate(input);
@@ -539,14 +539,13 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
 
   // We normalize the VCS config when using a boolean value
   if (typeof config.future.experimental_vcs === 'boolean') {
-    const isNewVcsConfigEnabled = config.future.experimental_faster.gitEagerVcs;
-    config.future.experimental_vcs = config.future.experimental_vcs
-      ? isNewVcsConfigEnabled
+    const vcsConfig = config.future.experimental_vcs
+      ? config.future.experimental_faster.gitEagerVcs
         ? getVcsPreset('default-v2')
         : getVcsPreset('default-v1')
       : getVcsPreset('disabled');
 
-    console.log('');
+    config.future.experimental_vcs = vcsConfig;
   }
 
   if (
