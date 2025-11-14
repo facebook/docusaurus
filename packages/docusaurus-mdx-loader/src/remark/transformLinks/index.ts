@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import url from 'url';
 import fs from 'fs-extra';
 import {
   toMessageRelativeFilePath,
@@ -209,7 +208,7 @@ async function processLinkNode(target: Target, context: Context) {
     return;
   }
 
-  const parsedUrl = url.parse(node.url);
+  const parsedUrl = parseURLOrPath(node.url);
   if (parsedUrl.protocol || !parsedUrl.pathname) {
     // Don't process pathname:// here, it's used by the <Link> component
     return;
