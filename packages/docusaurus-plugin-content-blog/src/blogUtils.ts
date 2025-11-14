@@ -19,7 +19,6 @@ import {
   Globby,
   groupTaggedItems,
   getTagVisibility,
-  getFileCommitDate,
   getContentPathList,
   isUnlisted,
   isDraft,
@@ -225,6 +224,7 @@ async function processBlogSourceFile(
     siteConfig: {
       baseUrl,
       markdown: {parseFrontMatter},
+      future: {experimental_vcs: vcs},
     },
     siteDir,
     i18n,
@@ -257,6 +257,7 @@ async function processBlogSourceFile(
     blogSourceAbsolute,
     options,
     frontMatter.last_update,
+    vcs,
   );
 
   const draft = isDraft({frontMatter});
@@ -285,17 +286,11 @@ async function processBlogSourceFile(
       return parsedBlogFileName.date;
     }
 
-    try {
-      const result = await getFileCommitDate(blogSourceAbsolute, {
-        age: 'oldest',
-        includeAuthor: false,
-      });
-
-      return result.date;
-    } catch (err) {
-      logger.warn(err);
+    const result = await vcs.getFileCreationInfo(blogSourceAbsolute);
+    if (result == null) {
       return (await fs.stat(blogSourceAbsolute)).birthtime;
     }
+    return new Date(result.timestamp);
   }
 
   const date = await getDate();

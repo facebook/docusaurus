@@ -12,8 +12,3 @@ declare module 'to-vfile' {
 
   export function read(path: string, encoding?: string): Promise<VFile>;
 }
-
-declare module '@testing-utils/git' {
-  const createTempRepo: typeof import('./utils/git').createTempRepo;
-  export {createTempRepo};
-}

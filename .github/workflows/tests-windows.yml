@@ -54,6 +54,8 @@ jobs:
         run: yarn workspace website test:swizzle:wrap:ts
       - name: Docusaurus Build
         run: yarn build:website:fast
+        env:
+          DOCUSAURUS_PERF_LOGGER: 'true'
 
       - name: TypeCheck website
         # see https://github.com/facebook/docusaurus/pull/10486

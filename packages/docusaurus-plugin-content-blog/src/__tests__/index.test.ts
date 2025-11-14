@@ -8,12 +8,7 @@
 import {jest} from '@jest/globals';
 import * as path from 'path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {
-  posixPath,
-  getFileCommitDate,
-  LAST_UPDATE_FALLBACK,
-  getLocaleConfig,
-} from '@docusaurus/utils';
+import {posixPath, getLocaleConfig, TEST_VCS} from '@docusaurus/utils';
 import {DEFAULT_FUTURE_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
@@ -31,6 +26,10 @@ import type {
   PluginOptions,
   EditUrlFunction,
 } from '@docusaurus/plugin-content-blog';
+
+async function getFileCreationDate(filePath: string): Promise<Date> {
+  return new Date((await TEST_VCS.getFileCreationInfo(filePath)).timestamp);
+}
 
 const markdown: MarkdownConfig = {
   format: 'mdx',
@@ -561,9 +560,7 @@ describe('blog plugin', () => {
     const blogPosts = await getBlogPosts(siteDir);
     const noDateSource = path.posix.join('@site', PluginPath, 'no date.md');
     const noDateSourceFile = path.posix.join(siteDir, PluginPath, 'no date.md');
-    // We know the file exists and we know we have git
-    const result = await getFileCommitDate(noDateSourceFile, {age: 'oldest'});
-    const noDateSourceTime = result.date;
+    const noDateSourceTime = await getFileCreationDate(noDateSourceFile);
 
     expect({
       ...getByTitle(blogPosts, 'no date').metadata,
@@ -674,29 +671,23 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
+    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdateFor('2021-01-01'),
     );
 
-    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedBy,
-    );
+    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdateFor('2021-01-01'),
     );
 
     expect(blogPosts[2]?.metadata.lastUpdatedBy).toBe('seb');
-    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(
-      lastUpdateFor('2021-01-01'),
-    );
+    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
 
-    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedBy,
-    );
-    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(
-      lastUpdateFor('2021-01-01'),
-    );
+    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
+    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
   });
 
   it('time only', async () => {
@@ -710,29 +701,27 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    expect(blogPosts[0]?.metadata.title).toBe('Author');
+    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+
+    expect(blogPosts[0]?.metadata.title).toBe('Both');
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBeUndefined();
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdateFor('2021-01-01'),
     );
 
-    expect(blogPosts[1]?.metadata.title).toBe('Nothing');
+    expect(blogPosts[1]?.metadata.title).toBe('Last update date');
     expect(blogPosts[1]?.metadata.lastUpdatedBy).toBeUndefined();
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdateFor('2021-01-01'),
     );
 
-    expect(blogPosts[2]?.metadata.title).toBe('Both');
+    expect(blogPosts[2]?.metadata.title).toBe('Author');
     expect(blogPosts[2]?.metadata.lastUpdatedBy).toBeUndefined();
-    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(
-      lastUpdateFor('2021-01-01'),
-    );
+    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
 
-    expect(blogPosts[3]?.metadata.title).toBe('Last update date');
+    expect(blogPosts[3]?.metadata.title).toBe('Nothing');
     expect(blogPosts[3]?.metadata.lastUpdatedBy).toBeUndefined();
-    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(
-      lastUpdateFor('2021-01-01'),
-    );
+    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
   });
 
   it('author only', async () => {
@@ -746,20 +735,18 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
+    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBeUndefined();
 
-    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedBy,
-    );
+    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBeUndefined();
 
     expect(blogPosts[2]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[2]?.metadata.lastUpdatedAt).toBeUndefined();
 
-    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedBy,
-    );
+    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
     expect(blogPosts[3]?.metadata.lastUpdatedAt).toBeUndefined();
   });
 

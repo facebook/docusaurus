@@ -314,6 +314,7 @@ Sucipto
 sunsetting
 Supabase
 supabase
+superproject
 svgs
 swizzlable
 Sébastien
@@ -335,6 +336,7 @@ twoslash
 typesafe
 Typesense
 typesense
+Udeadbeefcafe
 Unavatar
 unlinkable
 Unlisteds

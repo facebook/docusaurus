@@ -13,6 +13,10 @@ export {
   FutureV4Config,
   FasterConfig,
   StorageConfig,
+  VcsConfig,
+  VcsPreset,
+  VcsChangeInfo,
+  VscInitializeParams,
   Config,
 } from './config';
 

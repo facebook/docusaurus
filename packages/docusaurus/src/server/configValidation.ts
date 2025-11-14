@@ -6,27 +6,31 @@
  */
 
 import {
+  DEFAULT_I18N_DIR_NAME,
   DEFAULT_PARSE_FRONT_MATTER,
   DEFAULT_STATIC_DIR_NAME,
-  DEFAULT_I18N_DIR_NAME,
+  getVcsPreset,
+  VcsPresetNames,
 } from '@docusaurus/utils';
 import {Joi, printWarning} from '@docusaurus/utils-validation';
 import {
-  addTrailingSlash,
   addLeadingSlash,
+  addTrailingSlash,
   removeTrailingSlash,
 } from '@docusaurus/utils-common';
 import logger from '@docusaurus/logger';
 import type {
+  DocusaurusConfig,
   FasterConfig,
   FutureConfig,
   FutureV4Config,
-  StorageConfig,
-  DocusaurusConfig,
   I18nConfig,
+  I18nLocaleConfig,
   MarkdownConfig,
   MarkdownHooks,
-  I18nLocaleConfig,
+  StorageConfig,
+  VcsConfig,
+  VcsPreset,
 } from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
@@ -77,6 +81,7 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   rspackBundler: false,
   rspackPersistentCache: false,
   ssgWorkerThreads: false,
+  gitEagerVcs: false,
 };
 
 // When using the "faster: true" shortcut
@@ -89,6 +94,7 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   rspackBundler: true,
   rspackPersistentCache: true,
   ssgWorkerThreads: true,
+  gitEagerVcs: true,
 };
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
@@ -106,6 +112,7 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
   experimental_faster: DEFAULT_FASTER_CONFIG,
   experimental_storage: DEFAULT_STORAGE_CONFIG,
+  experimental_vcs: getVcsPreset('default-v1'),
   experimental_router: 'browser',
 };
 
@@ -291,6 +298,7 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
       ssgWorkerThreads: Joi.boolean().default(
         DEFAULT_FASTER_CONFIG.ssgWorkerThreads,
       ),
+      gitEagerVcs: Joi.boolean().default(DEFAULT_FASTER_CONFIG.gitEagerVcs),
     }),
     Joi.boolean()
       .required()
@@ -331,10 +339,41 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   .optional()
   .default(DEFAULT_STORAGE_CONFIG);
 
+const VCS_CONFIG_OBJECT_SCHEMA = Joi.object<VcsConfig>({
+  // All the fields are required on purpose
+  // You either provide a full VCS config or nothing
+  initialize: Joi.function().maxArity(1).required(),
+  getFileCreationInfo: Joi.function().arity(1).required(),
+  getFileLastUpdateInfo: Joi.function().arity(1).required(),
+});
+
+const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
+  if (typeof input === 'string') {
+    const presetName = input as VcsPreset;
+    if (!VcsPresetNames.includes(presetName)) {
+      throw new Error(`VCS config preset name '${input}' is not valid.`);
+    }
+    return getVcsPreset(presetName);
+  }
+  if (typeof input === 'boolean') {
+    // We return the boolean on purpose
+    // We'll normalize it to a real VcsConfig later
+    // This is annoying, but we have to read the future flag to switch to the
+    // new "default-v2" config (not easy to do it here)
+    return input;
+  }
+  const {error, value} = VCS_CONFIG_OBJECT_SCHEMA.validate(input);
+  if (error) {
+    throw error;
+  }
+  return value;
+}).default(true);
+
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   v4: FUTURE_V4_SCHEMA,
   experimental_faster: FASTER_CONFIG_SCHEMA,
   experimental_storage: STORAGE_CONFIG_SCHEMA,
+  experimental_vcs: VCS_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
     .default(DEFAULT_FUTURE_CONFIG.experimental_router),
@@ -496,6 +535,17 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
     config.markdown.hooks.onBrokenMarkdownLinks = config.onBrokenMarkdownLinks;
     // We erase the former one to ensure we don't use it anywhere
     config.onBrokenMarkdownLinks = undefined;
+  }
+
+  // We normalize the VCS config when using a boolean value
+  if (typeof config.future.experimental_vcs === 'boolean') {
+    const vcsConfig = config.future.experimental_vcs
+      ? config.future.experimental_faster.gitEagerVcs
+        ? getVcsPreset('default-v2')
+        : getVcsPreset('default-v1')
+      : getVcsPreset('disabled');
+
+    config.future.experimental_vcs = vcsConfig;
   }
 
   if (

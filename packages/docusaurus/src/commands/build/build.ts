@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {mapAsyncSequential} from '@docusaurus/utils';
 import {type LoadContextParams} from '../../server/site';
-import {loadI18nLocaleList} from '../../server/i18n';
+import {getLocaleList} from '../../server/i18n';
 import {buildLocale, type BuildLocaleParams} from './buildLocale';
 import {loadSiteConfig} from '../../server/config';
 
@@ -88,7 +88,7 @@ async function getLocalesToBuild({
 
   const locales =
     cliOptions.locale ??
-    loadI18nLocaleList({
+    getLocaleList({
       i18nConfig: siteConfig.i18n,
       currentLocale: siteConfig.i18n.defaultLocale, // Awkward but ok
     });

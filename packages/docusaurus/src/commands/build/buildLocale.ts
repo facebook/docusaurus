@@ -36,6 +36,7 @@ export type BuildLocaleParams = {
 };
 
 const SkipBundling = process.env.DOCUSAURUS_SKIP_BUNDLING === 'true';
+const ReturnAfterLoading = process.env.DOCUSAURUS_RETURN_AFTER_LOADING === 'true';
 const ExitAfterLoading = process.env.DOCUSAURUS_EXIT_AFTER_LOADING === 'true';
 const ExitAfterBundling = process.env.DOCUSAURUS_EXIT_AFTER_BUNDLING === 'true';
 
@@ -61,6 +62,9 @@ export async function buildLocale({
     }),
   );
 
+  if (ReturnAfterLoading) {
+    return;
+  }
   if (ExitAfterLoading) {
     return process.exit(0);
   }

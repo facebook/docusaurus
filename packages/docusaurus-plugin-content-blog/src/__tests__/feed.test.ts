@@ -8,7 +8,10 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
-import {DEFAULT_PARSE_FRONT_MATTER} from '@docusaurus/utils';
+import {
+  DEFAULT_PARSE_FRONT_MATTER,
+  DEFAULT_VCS_CONFIG,
+} from '@docusaurus/utils';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import tree from 'tree-node-cli';
@@ -51,7 +54,7 @@ function getBlogContentPaths(siteDir: string): BlogContentPaths {
 }
 
 async function testGenerateFeeds(
-  context: LoadContext,
+  contextInput: LoadContext,
   optionsInput: Options,
 ): Promise<void> {
   const options = validateOptions({
@@ -61,6 +64,17 @@ async function testGenerateFeeds(
     >,
     options: optionsInput,
   });
+
+  const context: LoadContext = {
+    ...contextInput,
+    siteConfig: {
+      ...contextInput.siteConfig,
+      future: {
+        ...contextInput.siteConfig?.future,
+        experimental_vcs: DEFAULT_VCS_CONFIG,
+      },
+    },
+  };
 
   const contentPaths = getBlogContentPaths(context.siteDir);
   const authorsMap = await getAuthorsMap({
