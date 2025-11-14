@@ -398,7 +398,7 @@ describe('loadI18n', () => {
       currentLocale: 'it',
     });
     expect(consoleSpy.mock.calls[0]![0]).toMatch(
-      /The locale .*it.* was not found in your site configuration/,
+      /The locale .*it.* was not found in your Docusaurus site configuration/,
     );
   });
 });
