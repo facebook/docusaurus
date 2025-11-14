@@ -46,7 +46,7 @@ export function getVcsPreset(presetName: VcsPreset): VcsConfig {
 }
 
 // Convenient export for writing unit tests depending on VCS
-export const DEFAULT_TEST_VCS_CONFIG = {
+export const TEST_VCS = {
   CREATION_INFO: VCS_HARDCODED_CREATION_INFO,
   LAST_UPDATE_INFO: VCS_HARDCODED_LAST_UPDATE_INFO,
   UNTRACKED_FILE_PATH: VCS_HARDCODED_UNTRACKED_FILE_PATH,

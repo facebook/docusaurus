@@ -6,7 +6,7 @@
  */
 
 import {readLastUpdateData} from '../lastUpdateUtils';
-import {DEFAULT_TEST_VCS_CONFIG} from '../vcs/vcs';
+import {TEST_VCS} from '../vcs/vcs';
 
 import type {FrontMatterLastUpdate} from '../lastUpdateUtils';
 
@@ -24,7 +24,7 @@ describe('readLastUpdateData', () => {
       filePath,
       options,
       lastUpdateFrontMatter,
-      DEFAULT_TEST_VCS_CONFIG,
+      TEST_VCS,
     );
   }
 
@@ -33,7 +33,7 @@ describe('readLastUpdateData', () => {
       lastUpdateFrontMatter: FrontMatterLastUpdate | undefined,
     ) {
       return readData(
-        DEFAULT_TEST_VCS_CONFIG.UNTRACKED_FILE_PATH,
+        TEST_VCS.UNTRACKED_FILE_PATH,
         {showLastUpdateAuthor: true, showLastUpdateTime: true},
         lastUpdateFrontMatter,
       );
@@ -69,7 +69,7 @@ describe('readLastUpdateData', () => {
       {date: testDate},
     );
     expect(lastUpdatedAt).toEqual(testTimestamp);
-    expect(lastUpdatedBy).toBe(DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.author);
+    expect(lastUpdatedBy).toBe(TEST_VCS.LAST_UPDATE_INFO.author);
   });
 
   it('read last author show author time', async () => {
@@ -79,9 +79,7 @@ describe('readLastUpdateData', () => {
       {author: testAuthor},
     );
     expect(lastUpdatedBy).toEqual(testAuthor);
-    expect(lastUpdatedAt).toBe(
-      DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.timestamp,
-    );
+    expect(lastUpdatedAt).toBe(TEST_VCS.LAST_UPDATE_INFO.timestamp);
   });
 
   it('read last all show author time', async () => {
@@ -118,7 +116,7 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {date: testDate},
     );
-    expect(lastUpdatedBy).toBe(DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.author);
+    expect(lastUpdatedBy).toBe(TEST_VCS.LAST_UPDATE_INFO.author);
     expect(lastUpdatedAt).toBeUndefined();
   });
 
@@ -138,7 +136,7 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {},
     );
-    expect(lastUpdatedBy).toBe(DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.author);
+    expect(lastUpdatedBy).toBe(TEST_VCS.LAST_UPDATE_INFO.author);
     expect(lastUpdatedAt).toBeUndefined();
   });
 
@@ -159,9 +157,7 @@ describe('readLastUpdateData', () => {
       {author: testAuthor},
     );
     expect(lastUpdatedBy).toBeUndefined();
-    expect(lastUpdatedAt).toEqual(
-      DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.timestamp,
-    );
+    expect(lastUpdatedAt).toEqual(TEST_VCS.LAST_UPDATE_INFO.timestamp);
   });
 
   it('read last author show time only - both front matter', async () => {

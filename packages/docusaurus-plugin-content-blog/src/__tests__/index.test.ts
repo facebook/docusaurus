@@ -8,11 +8,7 @@
 import {jest} from '@jest/globals';
 import * as path from 'path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {
-  posixPath,
-  getLocaleConfig,
-  DEFAULT_TEST_VCS_CONFIG,
-} from '@docusaurus/utils';
+import {posixPath, getLocaleConfig, TEST_VCS} from '@docusaurus/utils';
 import {DEFAULT_FUTURE_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
@@ -32,9 +28,7 @@ import type {
 } from '@docusaurus/plugin-content-blog';
 
 async function getFileCreationDate(filePath: string): Promise<Date> {
-  return new Date(
-    (await DEFAULT_TEST_VCS_CONFIG.getFileCreationInfo(filePath)).timestamp,
-  );
+  return new Date((await TEST_VCS.getFileCreationInfo(filePath)).timestamp);
 }
 
 const markdown: MarkdownConfig = {
@@ -677,9 +671,7 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    const TestLastUpdate = await DEFAULT_TEST_VCS_CONFIG.getFileLastUpdateInfo(
-      'any path',
-    );
+    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
 
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBe(
@@ -709,9 +701,7 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    const TestLastUpdate = await DEFAULT_TEST_VCS_CONFIG.getFileLastUpdateInfo(
-      'any path',
-    );
+    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
 
     expect(blogPosts[0]?.metadata.title).toBe('Both');
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBeUndefined();
@@ -745,9 +735,7 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    const TestLastUpdate = await DEFAULT_TEST_VCS_CONFIG.getFileLastUpdateInfo(
-      'any path',
-    );
+    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
 
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBeUndefined();

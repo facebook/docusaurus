@@ -128,6 +128,6 @@ export {
   type FrontMatterLastUpdate,
 } from './lastUpdateUtils';
 
-export {VcsPresetNames, getVcsPreset, DEFAULT_TEST_VCS_CONFIG} from './vcs/vcs';
+export {VcsPresetNames, getVcsPreset, TEST_VCS} from './vcs/vcs';
 
 export {normalizeTags, reportInlineTags} from './tags';
