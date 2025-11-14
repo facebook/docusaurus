@@ -9,10 +9,12 @@ import noHtmlLinks from './no-html-links';
 import preferDocusaurusHeading from './prefer-docusaurus-heading';
 import noUntranslatedText from './no-untranslated-text';
 import stringLiteralI18nMessages from './string-literal-i18n-messages';
+import noWindowEqUndefined from './no-window-eq-undefined';
 
 export default {
   'no-untranslated-text': noUntranslatedText,
   'string-literal-i18n-messages': stringLiteralI18nMessages,
   'no-html-links': noHtmlLinks,
   'prefer-docusaurus-heading': preferDocusaurusHeading,
+  'no-window-eq-undefined': noWindowEqUndefined,
 };
