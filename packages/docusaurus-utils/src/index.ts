@@ -130,7 +130,4 @@ export {
 
 export {VcsPresetNames, getVcsPreset, DEFAULT_TEST_VCS_CONFIG} from './vcs/vcs';
 
-// Annoying to have to expose that for tests :/
-export {VCS_HARDCODED_LAST_UPDATE_INFO} from './vcs/vcsHardcoded';
-
 export {normalizeTags, reportInlineTags} from './tags';
