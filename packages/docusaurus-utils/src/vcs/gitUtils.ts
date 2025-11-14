@@ -428,10 +428,11 @@ export type GitFileInfoMap = Map<string, GitFileInfo>;
 export async function getGitRepositoryFilesInfo(
   cwd: string,
 ): Promise<GitFileInfoMap> {
-  // git -c log.showSignature=false log --format=t:%ct,a:%an --name-status
+  // git --no-pager -c log.showSignature=false log --format=t:%ct,a:%an --name-status
   const result = await execa(
     'git',
     [
+      '--no-pager',
       // Do not include GPG signature in the log output
       // See https://github.com/facebook/docusaurus/pull/10022
       '-c',
@@ -518,18 +519,6 @@ The command exited with code ${result.exitCode}: ${result.stderr}`,
       lastUpdate: newLastUpdate,
     });
   }
-
-  /*
-  function transformMapEntry(
-    entry: [string, GitFileInfo],
-  ): [string, GitFileInfo] {
-    // We just resolve the Git paths that are relative to the repo root
-    return [resolve(repoRoot, entry[0]), entry[1]];
-  }
-
-  return new Map(Array.from(runningMap.entries()).map(transformMapEntry));
-
-   */
 
   return runningMap;
 }
