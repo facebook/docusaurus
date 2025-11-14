@@ -13,7 +13,7 @@ import {
   posixPath,
   DEFAULT_PLUGIN_ID,
   getLocaleConfig,
-  VCS_HARDCODED_LAST_UPDATE_INFO,
+  DEFAULT_TEST_VCS_CONFIG,
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {createSidebarsUtils} from '../sidebars/utils';
@@ -529,8 +529,8 @@ describe('simple site', () => {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
         unrelated_front_matter: "won't be part of metadata",
       },
-      lastUpdatedAt: VCS_HARDCODED_LAST_UPDATE_INFO.timestamp,
-      lastUpdatedBy: VCS_HARDCODED_LAST_UPDATE_INFO.author,
+      lastUpdatedAt: DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.timestamp,
+      lastUpdatedBy: DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.author,
       tags: [],
       unlisted: false,
     });
@@ -664,7 +664,7 @@ describe('simple site', () => {
         },
         title: 'Last Update Author Only',
       },
-      lastUpdatedAt: VCS_HARDCODED_LAST_UPDATE_INFO.timestamp,
+      lastUpdatedAt: DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.timestamp,
       lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],

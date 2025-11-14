@@ -6,11 +6,7 @@
  */
 
 import {readLastUpdateData} from '../lastUpdateUtils';
-import {
-  VcsHardcoded,
-  VCS_HARDCODED_UNTRACKED_FILE_PATH,
-  VCS_HARDCODED_LAST_UPDATE_INFO,
-} from '../vcs/vcsHardcoded';
+import {DEFAULT_TEST_VCS_CONFIG} from '../vcs/vcs';
 
 import type {FrontMatterLastUpdate} from '../lastUpdateUtils';
 
@@ -28,7 +24,7 @@ describe('readLastUpdateData', () => {
       filePath,
       options,
       lastUpdateFrontMatter,
-      VcsHardcoded,
+      DEFAULT_TEST_VCS_CONFIG,
     );
   }
 
@@ -37,7 +33,7 @@ describe('readLastUpdateData', () => {
       lastUpdateFrontMatter: FrontMatterLastUpdate | undefined,
     ) {
       return readData(
-        VCS_HARDCODED_UNTRACKED_FILE_PATH,
+        DEFAULT_TEST_VCS_CONFIG.UNTRACKED_FILE_PATH,
         {showLastUpdateAuthor: true, showLastUpdateTime: true},
         lastUpdateFrontMatter,
       );
@@ -73,7 +69,7 @@ describe('readLastUpdateData', () => {
       {date: testDate},
     );
     expect(lastUpdatedAt).toEqual(testTimestamp);
-    expect(lastUpdatedBy).toBe(VCS_HARDCODED_LAST_UPDATE_INFO.author);
+    expect(lastUpdatedBy).toBe(DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.author);
   });
 
   it('read last author show author time', async () => {
@@ -83,7 +79,9 @@ describe('readLastUpdateData', () => {
       {author: testAuthor},
     );
     expect(lastUpdatedBy).toEqual(testAuthor);
-    expect(lastUpdatedAt).toBe(VCS_HARDCODED_LAST_UPDATE_INFO.timestamp);
+    expect(lastUpdatedAt).toBe(
+      DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.timestamp,
+    );
   });
 
   it('read last all show author time', async () => {
@@ -120,7 +118,7 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {date: testDate},
     );
-    expect(lastUpdatedBy).toBe(VCS_HARDCODED_LAST_UPDATE_INFO.author);
+    expect(lastUpdatedBy).toBe(DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.author);
     expect(lastUpdatedAt).toBeUndefined();
   });
 
@@ -140,7 +138,7 @@ describe('readLastUpdateData', () => {
       {showLastUpdateAuthor: true, showLastUpdateTime: false},
       {},
     );
-    expect(lastUpdatedBy).toBe(VCS_HARDCODED_LAST_UPDATE_INFO.author);
+    expect(lastUpdatedBy).toBe(DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.author);
     expect(lastUpdatedAt).toBeUndefined();
   });
 
@@ -161,7 +159,9 @@ describe('readLastUpdateData', () => {
       {author: testAuthor},
     );
     expect(lastUpdatedBy).toBeUndefined();
-    expect(lastUpdatedAt).toEqual(VCS_HARDCODED_LAST_UPDATE_INFO.timestamp);
+    expect(lastUpdatedAt).toEqual(
+      DEFAULT_TEST_VCS_CONFIG.LAST_UPDATE_INFO.timestamp,
+    );
   });
 
   it('read last author show time only - both front matter', async () => {

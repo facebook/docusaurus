@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {VcsHardcoded} from './vcsHardcoded';
+import {
+  VCS_HARDCODED_CREATION_INFO,
+  VCS_HARDCODED_LAST_UPDATE_INFO,
+  VCS_HARDCODED_UNTRACKED_FILE_PATH,
+  VcsHardcoded,
+} from './vcsHardcoded';
 import {VcsGitAdHoc} from './vcsGitAdHoc';
 import {VscGitEager} from './vcsGitEager';
 import {VcsDisabled} from './vcsDisabled';
@@ -40,4 +45,10 @@ export function getVcsPreset(presetName: VcsPreset): VcsConfig {
   }
 }
 
-export const DEFAULT_TEST_VCS_CONFIG: VcsConfig = VcsHardcoded;
+// Convenient export for writing unit tests depending on VCS
+export const DEFAULT_TEST_VCS_CONFIG = {
+  CREATION_INFO: VCS_HARDCODED_CREATION_INFO,
+  LAST_UPDATE_INFO: VCS_HARDCODED_LAST_UPDATE_INFO,
+  UNTRACKED_FILE_PATH: VCS_HARDCODED_UNTRACKED_FILE_PATH,
+  ...VcsHardcoded,
+};
