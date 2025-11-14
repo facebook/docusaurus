@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {resolve} from 'node:path';
+import {resolve, basename} from 'node:path';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {getGitAllRepoRoots, getGitRepositoryFilesInfo} from './gitUtils';
 import type {GitFileInfo, GitFileInfoMap} from './gitUtils';
 import type {VcsConfig} from '@docusaurus/types';
 
+// The Map keys should be absolute file paths, not relative Git paths
 function resolveFileInfoMapPaths(
   repoRoot: string,
   filesInfo: GitFileInfoMap,
@@ -29,43 +30,49 @@ function mergeFileMaps(fileMaps: GitFileInfoMap[]): GitFileInfoMap {
   return new Map(fileMaps.flatMap((m) => [...m]));
 }
 
-async function loadGitFileInfoMap(cwd: string): Promise<GitFileInfoMap> {
-  return PerfLogger.async('loadGitFileInfoMap', async () => {
-    const roots = await PerfLogger.async('getGitAllRepoRoots', () =>
-      getGitAllRepoRoots(cwd),
-    );
+async function loadAllGitFilesInfoMap(cwd: string): Promise<GitFileInfoMap> {
+  const roots = await PerfLogger.async('Reading Git root dirs', () =>
+    getGitAllRepoRoots(cwd),
+  );
 
-    const allMaps: GitFileInfoMap[] = await Promise.all(
-      roots.map(async (root) => {
-        const map = await PerfLogger.async(
-          `getGitRepositoryFilesInfo for ${logger.path(cwd)}`,
-          () => getGitRepositoryFilesInfo(cwd),
-        );
-        return resolveFileInfoMapPaths(root, map);
-      }),
-    );
+  const allMaps: GitFileInfoMap[] = await Promise.all(
+    roots.map(async (root) => {
+      const map = await PerfLogger.async(
+        `Reading Git history for repo ${logger.path(basename(root))}`,
+        () => getGitRepositoryFilesInfo(root),
+      );
+      return resolveFileInfoMapPaths(root, map);
+    }),
+  );
 
-    return mergeFileMaps(allMaps);
-  });
+  return mergeFileMaps(allMaps);
+}
+
+function createVcsUninitializedPromise(): Promise<GitFileInfoMap> {
+  const promise = Promise.reject(
+    new Error('Docusaurus Git Eager VCS strategy has not been initialized yet'),
+  );
+  promise.catch(() => {}); // Avoid unhandled promise rejection error + app exit
+  return promise;
 }
 
 function createGitVcsConfig(): VcsConfig {
-  let filesMapPromise: Promise<GitFileInfoMap> | null = null;
+  let filesMapPromise: Promise<GitFileInfoMap> =
+    createVcsUninitializedPromise();
 
   async function getGitFileInfo(filePath: string): Promise<GitFileInfo | null> {
-    if (filesMapPromise === null) {
-      filesMapPromise = loadGitFileInfoMap(process.cwd());
-    }
     const filesMap = await filesMapPromise;
     return filesMap.get(filePath) ?? null;
   }
 
   return {
     initialize: ({siteDir}) => {
-      // Only pre-init for production builds
-      getGitFileInfo(siteDir).catch((error) => {
+      filesMapPromise = PerfLogger.async('Git Eager VCS init', () =>
+        loadAllGitFilesInfoMap(siteDir),
+      );
+      filesMapPromise.catch((error) => {
         console.error(
-          'Failed to initialize the custom Docusaurus site Git VCS',
+          'Failed to initialize the Docusaurus Git Eager VCS strategy',
           error,
         );
       });
