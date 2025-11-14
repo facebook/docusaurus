@@ -1,7 +1,7 @@
 dist
 node_modules
 .yarn
-build
+**/build/**
 coverage
 .docusaurus
 .idea
@@ -10,6 +10,8 @@ coverage
 *.svg
 
 jest/vendor
+
+argos/test-results
 
 packages/lqip-loader/lib/
 packages/docusaurus/lib/
