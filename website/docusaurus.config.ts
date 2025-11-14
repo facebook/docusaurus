@@ -108,6 +108,8 @@ if (isSlower) {
 const router = process.env
   .DOCUSAURUS_ROUTER as DocusaurusConfig['future']['experimental_router'];
 
+const vcs = process.env.DOCUSAURUS_SITE_VCS as VcsPreset;
+
 const isDev = process.env.NODE_ENV === 'development';
 
 // See https://docs.netlify.com/configure-builds/environment-variables/
@@ -186,12 +188,12 @@ export default async function createConfigAsync() {
             rspackBundler: true,
             rspackPersistentCache: true,
             ssgWorkerThreads: true,
+            gitEagerVcs: true,
           },
       experimental_storage: {
         namespace: true,
       },
-      experimental_vcs:
-        (process.env.DOCUSAURUS_SITE_VCS as VcsPreset) ?? 'default-v2',
+      experimental_vcs: vcs,
       experimental_router: router,
     },
     // Dogfood both settings:
