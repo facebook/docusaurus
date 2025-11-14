@@ -1,0 +1,236 @@
+---
+id: introduction
+description: Docusaurus utilise MDX. En savoir plus sur les fonctionnalités spécifiques de Docusaurus lors de l'écriture de Markdown.
+slug: /markdown-features
+---
+
+# Fonctionnalités Markdown
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+Docusaurus utilise le **[Markdown](https://commonmark.org/)** comme principal format de création de contenu.
+
+:::tip Apprendre le Markdown
+
+Vous pouvez [apprendre le Markdown en 10 minutes](https://commonmark.org/help/).
+
+:::
+
+Docusaurus utilise des outils modernes pour vous aider à créer une **documentation interactive**.
+
+Le compilateur **[MDX](https://mdxjs.com/)** transforme **les fichiers Markdown en composants React**, et vous permet d'utiliser le JSX dans votre contenu Markdown. Cela vous permet d'intercaler facilement des composants React dans votre contenu et de créer des expériences d'apprentissage agréables.
+
+:::tip Utilisez le terrain de jeu MDX
+
+Le **[terrain de jeu MDX](https://mdxjs.com/playground/)** est votre nouveau meilleur ami !
+
+C'est un outil de débogage très utile qui montre comment le compilateur MDX transforme Markdown en React.
+
+**Options** : sélectionnez le bon format (MDX ou CommonMark) et les plugins suivants que Docusaurus utilise : `remark-gfm`, `remark-directive`, `rehype-raw`.
+
+:::
+
+## MDX vs. CommonMark {#mdx-vs-commonmark}
+
+Docusaurus compile les fichiers `.md` et `.mdx` en composants React en utilisant le compilateur MDX, mais **la syntaxe peut être interprétée différemment** en fonction de vos paramètres.
+
+Le compilateur MDX prend en charge [2 formats](https://mdxjs.com/packages/mdx/#optionsformat) :
+
+- Le [format MDX](https://mdxjs.com/docs/what-is-mdx/) : un analyseur puissant permettant l'utilisation de JSX
+- Le [format CommonMark](https://commonmark.org/) : un analyseur Markdown conforme à la norme qui n'autorise pas l'utilisation de JSX
+
+Par défaut, **Docusaurus v3 utilise le format MDX pour tous les fichiers** (y compris les fichiers `.md`) pour des raisons historiques.
+
+It is possible to **opt-in for CommonMark** using the [`siteConfig.markdown.format`](../../api/docusaurus.config.js.mdx#markdown) setting or the `mdx.format: md` front matter.
+
+:::tip comment utiliser CommonMark
+
+Si vous prévoyez d'utiliser CommonMark, nous vous recommandons le paramètre [`siteConfig.markdown.format: 'detect'`](../../api/docusaurus.config.js.mdx#markdown). Le format approprié sera sélectionné automatiquement, basé sur les extensions de fichier :
+
+- Les fichiers `.md` utiliseront le format CommonMark
+- Les fichiers `.mdx` utiliseront le format MDX
+
+:::
+
+:::danger Prise en charge expérimentale de CommonMark
+
+The CommonMark support is **experimental** and currently has a few [limitations](https://github.com/facebook/docusaurus/issues/9092).
+
+:::
+
+## Fonctionnalités standard {#standard-features}
+
+Markdown est une syntaxe vous permettant d'écrire du contenu formaté dans une syntaxe lisible.
+
+```md
+### Ma section du Doc
+
+Message « Hello world » avec du texte en **gras**, du texte en _italique_ et un [link](/)
+
+![img alt](/img/docusaurus.png)
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+<h3>Ma section du Doc</h3>
+
+Message « Hello world » avec du texte en **gras**, du texte en _italique_ et un [lien](/)
+
+![img alt](/img/docusaurus.png)
+
+</BrowserWindow>
+```
+
+<details>
+
+<summary>Markdown est déclaratif</summary>
+
+Certains peuvent supposer une correspondance de 1 pour 1 entre Markdown et HTML, par exemple, `![Preview](/img/docusaurus.png)` deviendra toujours `<img src="/img/docusaurus.png" alt="Preview" />`, tel quel. Cependant, _ce n'est pas le cas_.
+
+La syntaxe Markdown `![message](url)` indique seulement de manière déclarative à Docusaurus qu'une image doit être insérée ici, mais nous pouvons faire d'autres choses comme transformer un [chemin de fichier en chemin d'URL](./markdown-features-assets.mdx#images), donc le balisage généré peut différer de la sortie d'autres moteurs de rendu Markdown, ou d'une transcription manuelle naïve vers le code JSX/HTML équivalent.
+
+En général, vous ne devez assumer que la _sémantique_ du balisage (les délimitations ```` ``` ```` deviennent des [blocs de code](./markdown-features-code-blocks.mdx) et les `>` deviennent des [citations](#quotes), etc.), mais pas la sortie compilée.
+
+</details>
+
+## Front matter {#front-matter}
+
+Le frontmatter est utilisé pour ajouter des métadonnées à votre fichier Markdown. Tous les plugins de contenu ont leur propre schéma de frontmatter, et utilisent le frontmatter pour enrichir les métadonnées par défaut déduites du contenu ou d'une autre configuration.
+
+Le frontmatter est fourni en haut du fichier, entourée de trois tirets `---`. Le contenu est analysé comme du [YAML](https://yaml.org/spec/1.2.2/).
+
+```md
+---
+title: Mon titre de doc
+plus_de_donnees:
+  - peut être fourni
+  - comme: objets
+    ou: tableaux
+---
+```
+
+:::info
+
+La documentation de l'API de chaque plugin officiel énumère les attributs pris en charge :
+
+- [Front matter de Docs](../../api/plugins/plugin-content-docs.mdx#markdown-front-matter)
+- [Front matter de Blog](../../api/plugins/plugin-content-blog.mdx#markdown-front-matter)
+- [Front matter de Pages](../../api/plugins/plugin-content-pages.mdx#markdown-front-matter)
+
+:::
+
+:::tip améliorez votre front matter
+
+Utilisez la [fonction `parseFrontMatter` de la config du Markdown](../../api/docusaurus.config.js.mdx#markdown) pour fournir votre propre analyseur de contenu ou pour améliorer l'analyseur par défaut.
+
+Il est possible de réutiliser l'analyseur par défaut et de l'intégrer à votre propre logique propriétaire. Cela permet de mettre en œuvre des transformations pratiques du front matter, des raccourcis, ou de s'intégrer à des systèmes externes utilisant le front matter que les plugins de Docusaurus ne prennent pas en charge.
+
+```js title="docusaurus.config.js"
+export default {
+  markdown: {
+    // highlight-start
+    parseFrontMatter: async (params) => {
+      // Réutiliser l'analyseur par défaut
+      const result = await params.defaultParseFrontMatter(params);
+
+      // Traiter les placeholders de description de la page de garde
+      result.frontMatter.description =
+        result.frontMatter.description?.replaceAll('{{MY_VAR}}', 'MY_VALUE');
+
+      // Créer votre propre raccourci pour les pages de garde
+      if (result.frontMatter.i_do_not_want_docs_pagination) {
+        result.frontMatter.pagination_prev = null;
+        result.frontMatter.pagination_next = null;
+      }
+
+      // Renommer un front matter non supporté provenant d'un autre système
+      if (result.frontMatter.cms_seo_summary) {
+        result.frontMatter.description = result.frontMatter.cms_seo_summary;
+        delete result.frontMatter.cms_seo_summary;
+      }
+
+      return result;
+    },
+    // highlight-end
+  },
+};
+```
+
+:::
+
+## Citations {#quotes}
+
+Les citations Markdown sont joliment stylisées :
+
+```md
+> Site de Documentation Open Source facile à maintenir.
+>
+> — Docusaurus
+```
+
+<BrowserWindow>
+
+> Site de Documentation Open Source facile à maintenir.
+>
+> — Docusaurus
+
+</BrowserWindow>
+
+## Détails {#details}
+
+Markdown peut intégrer des éléments HTML, et les éléments HTML [`details`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) sont joliment stylisés :
+
+{/_ prettier-ignore _/}
+
+````md
+### Details element example
+
+<details>
+  <summary>Toggle me!</summary>
+
+  This is the detailed content
+
+  ```js
+  console.log("Markdown features including the code block are available");
+  ```
+
+  You can use Markdown here including **bold** and _italic_ text, and [inline link](https://docusaurus.io)
+  <details>
+    <summary>Nested toggle! Some surprise inside...</summary>
+
+    😲😲😲😲😲
+  </details>
+</details>
+````
+
+````mdx-code-block
+<BrowserWindow>
+
+<h3>Details element example</h3>
+
+<details>
+  <summary>Toggle me!</summary>
+
+  This is the detailed content
+
+  ```js
+  console.log("Markdown features including the code block are available");
+  ```
+
+  You can use Markdown here including **bold** and _italic_ text, and [inline link](https://docusaurus.io)
+  <details>
+    <summary>Nested toggle! Some surprise inside...</summary>
+
+    😲😲😲😲😲
+  </details>
+</details>
+
+</BrowserWindow>
+````
+
+:::info
+
+You may want to keep your `<summary>` on a single line. Keep in mind that [MDX creates extra HTML `<p>` paragraphs for line breaks.](https://mdxjs.com/migrating/v2/#jsx). When in doubt, use the [MDX playground](https://mdxjs.com/playground/) to troubleshoot `<details>` rendering problems.
+
+:::

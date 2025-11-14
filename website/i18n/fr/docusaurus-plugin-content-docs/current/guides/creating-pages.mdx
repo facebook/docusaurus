@@ -1,0 +1,140 @@
+---
+slug: /creating-pages
+sidebar_label: Pages
+---
+
+# Création des pages
+
+Dans cette section, nous allons apprendre à créer des pages dans Docusaurus.
+
+Le plugin `@docusaurus/plugin-content-pages` vous permet de créer des **pages autonomes** comme une page de présentation, une page de terrain de jeu ou une page de support. Vous pouvez utiliser des composants React ou Markdown.
+
+:::note
+
+Les pages n'ont pas de barres latérales, seuls les [docs](./docs/docs-introduction.mdx) en ont.
+
+:::
+
+:::info
+
+Consultez la [documentation de référence de l'API du plugin des pages](./../api/plugins/plugin-content-pages.mdx) pour une liste exhaustive des options.
+
+:::
+
+## Ajouter une page React {#add-a-react-page}
+
+React est utilisé comme la bibliothèque d'interface utilisateur pour créer des pages. Chaque composant de page devrait exporter une composant React et vous pouvez vous profiter de l'expressivité de React pour construire un contenu riche et interactif.
+
+Créer un fichier `/src/pages/helloReact.js` :
+
+```jsx title="/src/pages/helloReact.js"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+export default function Hello() {
+  return (
+    <Layout title="Hello" description="Hello React Page">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          fontSize: '20px',
+        }}>
+        <p>
+          Modifiez <code>pages/helloReact.js</code> et sauvegardez pour recharger.
+        </p>
+      </div>
+    </Layout>
+  );
+}
+```
+
+Une fois le fichier enregistré, le serveur de développement rechargera automatiquement les modifications. Maintenant, ouvrez [`http://localhost:3000/helloReact`](http://localhost:3000/helloReact) et vous verrez la nouvelle page que vous venez de créer.
+
+Chaque page ne possède aucun style. Vous devrez importer le composant `Layout` de `@theme/Layout` et envelopper votre contenu dans ce composant si vous voulez que la barre de navigation et/ou le pied de page apparaisse.
+
+:::tip
+
+Vous pouvez également créer des pages TypeScript avec l'extension `.tsx` (`helloReact.tsx`).
+
+:::
+
+## Ajouter une page Markdown {#add-a-markdown-page}
+
+Créer un fichier `/src/pages/helloMarkdown.md` :
+
+```md title="/src/pages/helloMarkdown.md"
+---
+title: mon titre de page bonjour
+description: ma description de page bonjour
+hide_table_of_contents: true
+---
+
+# Bonjour
+
+Comment allez-vous ?
+```
+
+De la même manière, une page sera créée à l'adresse [`http://localhost:3000/helloMarkdown`](http://localhost:3000/helloMarkdown).
+
+Les pages Markdown sont moins flexibles que les pages React car elles utilisent toujours la mise en page du thème.
+
+Voici un [exemple de page Markdown](/examples/markdownPageExample).
+
+:::tip
+
+Vous pouvez également utiliser la pleine puissance de React dans les pages Markdown, reportez-vous à la documentation de [MDX](https://mdxjs.com/).
+
+:::
+
+## Routage {#routing}
+
+Si vous êtes familier avec d'autres générateurs de sites statiques tels que Jekyll et Next, cette approche de routage vous sera familière. Tout fichier JavaScript que vous créez dans le répertoire `/src/pages/` sera automatiquement converti en page du site, en suivant la hiérarchie du répertoire `/src/pages/`. Par exemple :
+
+- `/src/pages/index.js` → `[baseUrl]`
+- `/src/pages/foo.js` → `[baseUrl]/foo`
+- `/src/pages/foo/test.js` → `[baseUrl]/foo/test`
+- `/src/pages/foo/index.js` → `[baseUrl]/foo/`
+
+Dans cette ère de développement basé sur des composants, il est encouragé à colocaliser votre style, balisage et comportement en composants. Chaque page est une composante et si vous avez besoin de personnaliser le design de votre page avec vos propres styles, nous vous recommandons de colocaliser vos styles avec la composante de page dans son propre répertoire. Par exemple, pour créer une page « Support », vous pouvez faire l'une des tâches suivantes :
+
+- Ajouter un fichier `/src/pages/support.js`
+- Créer un répertoire `/src/pages/support/` et un fichier `/src/pages/support/index.js`.
+
+Ce dernier est préféré car il a les avantages de vous permettre de mettre des fichiers liés à la page dans ce répertoire. Par exemple, un fichier de module CSS (`styles.module.css`) avec des styles destinés uniquement à être utilisés sur la page "Support".
+
+:::note
+
+Iil s'agit simplement d'une structure de répertoire recommandée et vous devrez toujours importer manuellement le fichier de module CSS dans votre module de composant (`support/index.js`).
+
+:::
+
+Par défaut, tout fichier Markdown ou JavaScript commençant par `_` sera ignoré et aucun chemin ne sera créé pour ce fichier (voir l'option `exclude`).
+
+```bash
+my-website
+├── src
+│   └── pages
+│       ├── styles.module.css
+│       ├── index.js
+│       ├── _ignored.js
+│       ├── _ignored-folder
+│       │   ├── Component1.js
+│       │   └── Component2.js
+│       └── support
+│           ├── index.js
+│           └── styles.module.css
+.
+```
+
+:::warning
+
+Tous les fichiers JavaScript/TypeScript situés dans le répertoire `src/pages/` auront des chemins d'accès correspondants au site web générés pour eux. Si vous voulez créer des composants réutilisables dans ce répertoire, utilisez l'option `exclude` (par défaut, les fichiers préfixés avec `_`, fichiers de test (`.test.js`) et les fichiers dans le répertoire `__tests__` ne sont pas transformés en pages).
+
+:::
+
+### Chemins dupliqués {#duplicate-routes}
+
+Vous pouvez accidentellement créer plusieurs pages qui sont censées être accédées sur le même chemin. Lorsque cela se produit, Docusaurus vous avertira des routes dupliquées lorsque vous lancerez `yarn start` ou `yarn build` (comportement configurable via la configuration [`onDuplicateRoutes`](../api/docusaurus.config.js.mdx#onDuplicateRoutes)), mais le site sera tout de même construit avec succès. La page qui a été créée en dernier sera accessible, mais elle remplacera les autres pages en conflit. Pour résoudre ce problème, vous devez modifier ou supprimer tout chemin en conflit.

@@ -1,0 +1,194 @@
+---
+description: 도큐사우루스를 로컬에 설치하고 즉시 도큐사우루스 사이트를 시작하는 방법
+---
+
+# 설치
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+Docusaurus consists of a set of npm [packages](https://github.com/facebook/docusaurus/tree/main/packages).
+
+:::tip
+
+Use the **[Fast Track](introduction.mdx#fast-track)** to understand Docusaurus in **5 minutes ⏱**!
+
+Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in your browser!
+
+:::
+
+## Requirements {#requirements}
+
+- [Node.js](https://nodejs.org/en/download/) version 18.0 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) to manage multiple Node.js versions on a single machine.
+  - Node.js 설치 시 종속성과 관련된 모든 체크박스 선택을 권장합니다.
+
+## Scaffold project website {#scaffold-project-website}
+
+The easiest way to install Docusaurus is to use the [`create-docusaurus`](./api/misc/create-docusaurus.mdx) command line tool that helps you scaffold a skeleton Docusaurus website. 새로 만든 저장소 또는 기존에 사용하던 저장소 어디든 실행할 수 있으며 프로젝트를 위한 기본 파일을 포함한 새로운 디렉터리를 만듭니다.
+
+```bash
+npx create-docusaurus@latest my-website classic
+```
+
+We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). classic 템플릿을 바로 적용해서 시작해볼 수 있습니다. 도큐사우루스에 익숙해지면 나중에 사용자 지정 템플릿을 반영할 수도 있습니다.
+
+You can also use the template's TypeScript variant by passing the `--typescript` flag. See [TypeScript support](./typescript-support.mdx) for more information.
+
+```bash
+npx create-docusaurus@latest my-website classic --typescript
+```
+
+:::info Meta-Only
+
+메타 오픈 소스 프로젝트를 위해 도큐사우루스 웹사이트를 설정하는 경우 내부 저장소에서 이 명령을 실행하면 몇 가지 유용한 메타 관련 기본값이 제공됩니다.
+
+```bash
+scarf static-docs-bootstrap
+```
+
+:::
+
+<details>
+  <summary>Alternative installation commands</summary>
+
+원하는 프로젝트 관리자를 사용해 새로운 프로젝트를 초기화할 수 있습니다.
+
+```bash npm2yarn
+npm init docusaurus
+```
+
+</details>
+
+Run `npx create-docusaurus@latest --help`, or check out its [API docs](./api/misc/create-docusaurus.mdx) for more information about all available flags.
+
+## Project structure {#project-structure}
+
+Assuming you chose the classic template and named your site `my-website`, you will see the following files generated under a new directory `my-website/`:
+
+```bash
+my-website
+├── blog
+│   ├── 2019-05-28-hola.md
+│   ├── 2019-05-29-hello-world.md
+│   └── 2020-05-30-welcome.md
+├── docs
+│   ├── doc1.md
+│   ├── doc2.md
+│   ├── doc3.md
+│   └── mdx.md
+├── src
+│   ├── css
+│   │   └── custom.css
+│   └── pages
+│       ├── styles.module.css
+│       └── index.js
+├── static
+│   └── img
+├── docusaurus.config.js
+├── package.json
+├── README.md
+├── sidebars.js
+└── yarn.lock
+```
+
+### Project structure rundown {#project-structure-rundown}
+
+- `/blog/` - Contains the blog Markdown files. You can delete the directory if you've disabled the blog plugin, or you can change its name after setting the `path` option. More details can be found in the [blog guide](blog.mdx)
+- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. You can delete the directory if you've disabled the docs plugin, or you can change its name after setting the `path` option. More details can be found in the [docs guide](./guides/docs/docs-introduction.mdx)
+- `/src/` - Non-documentation files like pages or custom React components. 문서가 아닌 파일들을 꼭 여기에 가져다 놓아야 하는 건 아닙니다. 하지만 한곳에 모아놓으면 오류를 체크하거나 추가 작업이 필요할 때 좀 더 편하게 처리할 수 있습니다.
+  - `/src/pages` - Any JSX/TSX/MDX file within this directory will be converted into a website page. More details can be found in the [pages guide](guides/creating-pages.mdx)
+- `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory
+- `/docusaurus.config.js` - A config file containing the site configuration. This is the equivalent of `siteConfig.js` in Docusaurus v1
+- `/package.json` - A Docusaurus website is a React app. 앱 안에서 원하는 npm 패키지를 설치하고 사용할 수 있습니다.
+- `/sidebars.js` - Used by the documentation to specify the order of documents in the sidebar
+
+### Monorepos {#monorepos}
+
+기존 프로젝트 문서화에 도큐사우루스를 사용하는 경우에는 단일 저장소가 해결책이 될 수 있습니다. 단일 저장소를 사용하면 비슷한 프로젝트 사이에 종속성을 공유할 수 있습니다. 예를 들어, 웹사이트는 출시 버전에 의존하지 않고 로컬 패키지를 사용하여 최신 기능을 선보일 수 있습니다. 그러면 기여자들은(contributors) 기능을 구현하면서 문서를 업데이트할 수 있습니다. 예를 들어 단일 저장소의 폴더 구조는 다음과 같습니다.
+
+```bash
+my-monorepo
+├── package-a # Another package, your actual project
+│   ├── src
+│   └── package.json # Package A's dependencies
+├── website   # Docusaurus root
+│   ├── docs
+│   ├── src
+│   └── package.json # Docusaurus' dependencies
+├── package.json # Monorepo's shared dependencies
+```
+
+In this case, you should run `npx create-docusaurus` within the `./my-monorepo` folder.
+
+If you're using a hosting provider such as Netlify or Vercel, you will need to change the `Base directory` of the site to where your Docusaurus root is. In this case, that would be `./website`. Read more about configuring ignore commands in the [deployment docs](./deployment.mdx#deploying-to-netlify).
+
+Read more about monorepos in the [Yarn documentation](https://yarnpkg.com/features/workspaces) (Yarn is not the only way to set up a monorepo, but it's a common solution), or checkout [Docusaurus](https://github.com/facebook/docusaurus) and [Jest](https://github.com/facebook/jest) for some real-world examples.
+
+## Running the development server {#running-the-development-server}
+
+편집한 내용을 미리보고 싶다면 로컬 개발 서버를 실행해야 합니다. 로컬 개발 서버를 통해 웹 사이트를 확인하고 마지막으로 변경된 내용을 반영해볼 수 있습니다.
+
+```bash npm2yarn
+cd my-website
+npm run start
+```
+
+By default, a browser window will open at [`http://localhost:3000`](http://localhost:3000).
+
+축하합니다! 여러분은 첫 번째 도큐사우루스 사이트를 방금 만들었습니다. 실행된 사이트를 둘러보고 어떤 콘텐츠가 만들어졌는지 확인해보세요.
+
+## Build {#build}
+
+도큐사우루스는 정적인 웹 사이트를 생성하는 도구입니다. 그래서 웹 사이트를 디렉터리 안에 생성하고 사용자가 접근할 수 있도록 웹 서버에 배치해주어야 합니다. 웹 사이트를 빌드하기 위해서는 아래 명령어를 사용합니다.
+
+```bash npm2yarn
+npm run build
+```
+
+and contents will be generated within the `/build` directory, which can be copied to any static file hosting service like [GitHub pages](https://pages.github.com/), [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/). Check out the docs on [deployment](deployment.mdx) for more details.
+
+## Updating your Docusaurus version {#updating-your-docusaurus-version}
+
+도큐사우루스 버전을 업데이트하는 방법은 여러가지가 있습니다. One guaranteed way is to manually change the version number in `package.json` to the desired version. Note that all `@docusaurus/`-namespaced packages should be using the same version.
+
+import UpgradeGuide from '@site/src/components/UpgradeGuide';
+
+<UpgradeGuide />
+
+Then, in the directory containing `package.json`, run your package manager's install command:
+
+```bash npm2yarn
+npm install
+```
+
+:::tip
+
+`npm install` may report several vulnerabilities and recommend running `npm audit` to address them. 보통 RegExp DOS와 같이 이미 보고된 취약점들은 문제가 없으므로 무시해도 됩니다. Also read this article, which reflects our thinking: [npm audit: Broken by Design](https://overreacted.io/npm-audit-broken-by-design/).
+
+:::
+
+업데이트가 정상적으로 처리되었는지는 아래 명령으로 확인해볼 수 있습니다.
+
+```bash
+npx docusaurus --version
+```
+
+올바른 버전이 출력되어야 합니다.
+
+Yarn을 사용하는 경우는 아래와 같이 업데이트할 수 있습니다.
+
+```bash
+yarn add @docusaurus/core @docusaurus/preset-classic
+```
+
+:::tip
+
+Use new unreleased features of Docusaurus with the [`@canary` npm dist tag](/community/canary)
+
+:::
+
+## 설치에 문제가 있나요? {#problems}
+
+Ask for help on [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus), on our [GitHub repository](https://github.com/facebook/docusaurus), our [Discord server](https://discordapp.com/invite/docusaurus), or [X](https://x.com/docusaurus).

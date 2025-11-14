@@ -40,10 +40,6 @@ CrowdinTranslations_*.zip
 
 website/.cpu-prof
 
-website/i18n/**/*
-#!website/i18n/fr
-#!website/i18n/fr/**/*
-
 .netlify
 
 website/rspack-tracing.json
@@ -52,3 +48,4 @@ website/bundler-cpu-profile.json
 website/profile.json.gz
 
 
+ignored

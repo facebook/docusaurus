@@ -1,0 +1,140 @@
+---
+title: 迈向 Docusaurus 2
+authors: endiliey
+tags:
+  - 新功能
+  - 采用
+---
+
+Docusaurus was [officially announced](https://v1.docusaurus.io/blog/2017/12/14/introducing-docusaurus) over nine months ago as a way to easily build open source documentation websites. Since then, it has amassed over 8,600 GitHub Stars, and is used by many popular open source projects such as [React Native](https://facebook.github.io/react-native/), [Babel](https://babeljs.io/), [Jest](https://jestjs.io/), [Reason](https://reasonml.github.io/) and [Prettier](https://prettier.io/).
+
+俗话说：“逆水行舟，不进则退”，软件也是如此。 您可能不知道，我们正规划开发下一版 Docusaurus 🎉。
+
+<!--truncate-->
+
+## Docusaurus 介绍
+
+It all started with this [RFC issue](https://github.com/facebook/docusaurus/issues/789) opened by [Yangshun](https://github.com/yangshun) towards the end of June 2018.
+
+<blockquote>
+  <h4>
+    <a href="https://github.com/facebook/docusaurus/issues/789">
+      {'[RFC] Docusaurus v2 · Issue #789 · facebook/docusaurus'}
+    </a>
+  </h4>
+  These are some of the problems I'm seeing in Docusaurus now and also how we can
+  address them in v2. 我们受到了 VuePress 及其他静态站点生成器的启发，产生了这里的一系列想法。 在当前静态网站生成器的生态系统中，存在以下工具……
+</blockquote>
+
+此议题中提到了多数推荐的改进措施；我将阐述 Docusaurus 1 中所存在的部分问题，以及在 Docusaurus 2 中的解决方式。
+
+## 基础设施
+
+### 内容
+
+Docusaurus 1 站点实际上被构建为一系列静态 HTML 页面。 虽然使用了 React，但我们并未发挥出它所提供的所有特性，如允许动态及交互页面的组件状态功能。 React was only used as a templating engine for static content and interactivity has to be added through script tags and `dangerouslySetInnerHTML` 😱.
+
+此外，改变 Docusaurus 加载内容的方式较为困难。 举个例子，我们不支持原生添加如 Sass 及 Less 在内的 CSS 预处理器，这导致了用户添加自定义脚本的一些奇技淫巧。
+
+For Docusaurus 2, we will be using [webpack](https://webpack.js.org/) as a module bundler and we are changing the way we serve content. 添加 CSS 预处理器仅如添加一款 webpack 加载器一样容易。 Instead of a pure static HTML, **during build time we will create a server-rendered version of the app** and render the corresponding HTML. Docusaurus 网站将成为一款同构/通用的应用程序。 This approach is heavily inspired by [Gatsby](https://github.com/gatsbyjs/gatsby).
+
+### 分版
+
+If you have been using Docusaurus for a while, you might notice that Docusaurus creates versioned docs **if and only if** the docs content are **different**.
+
+For example, if we have `docs/hello.md`:
+
+```text
+---
+id: hello
+title: 你好
+---
+你好，世界！
+```
+
+And **we cut version 1.0.0,** Docusaurus will create `versioned_docs/version-1.0.0/hello.md`:
+
+```text
+---
+id: version-1.0.0-hello
+title: hello
+original_id: hello
+---
+Hello world !
+```
+
+However, if there are no changes to `hello.md` when cutting v2.0.0, Docusaurus will not create any versioned docs for that document. In other words, `versioned_docs/version-2.0.0/hello.md` will not exist.
+
+This can be very confusing for users; if they want to edit the v2.0.0 docs, they have to edit `versioned_docs/version-1.0.0/hello.md` or manually add `versioned_docs/version-2.0.0/hello.md`. This could potentially lead to unwanted bugs. Here is a [real scenario in Jest](https://github.com/facebook/jest/pull/6758#issuecomment-408274413).
+
+In addition, this adds complexity within the codebase as we require a mechanism for version fallbacks. And during build time, Docusaurus has to replace the linking to the correct version. This is also the cause of a bug where [renaming docs breaks links in old versions](https://github.com/facebook/docusaurus/issues/845).
+
+For Docusaurus 2, **every time we cut a new version, we will instead take a snapshot of all the docs**. We will not require the content of a document to have changed. This is a space complexity trade-off for a better developer and user experience. We will use more space for better separation of concerns and guaranteed correctness.
+
+### 翻译
+
+Docusaurus allows for easy translation functionality by using [Crowdin](https://crowdin.com/). 英文编写的文档文件会被上传到 Crowdin，由社区中的用户进行翻译。 We always assumed that **English** is the default language, but this might not be the case for all users. 我们已经看到大量非英语的开源项目在使用 Docusaurus。
+
+For Docusaurus 2, **we will not assume English is the default language**. When a user enables internationalization, they have to set a default language in `siteConfig.js`. We will then assume that all the files in `docs` are written in that language.
+
+In addition, after working on the MVP of Docusaurus 2, I realized that it is possible not to use Crowdin for translations. Thus, we might need to add an additional workflow to enable that scenario. However, we will still strongly recommend people use Crowdin for easier integration.
+
+## 可自定义性
+
+### 布局
+
+Docusaurus 当前的问题是它全权掌控了所有的布局和风格， 无意中使用户很难按照自己的愿望定制自己网站的外观。
+
+For Docusaurus 2, **layout and styling should be controlled by the user**. Docusaurus 将处理内容生成、路由、翻译和版本控制。 Inspired by [create-react-app](https://github.com/facebook/create-react-app) and [VuePress](https://vuepress.vuejs.org/), Docusaurus will still provide a default theme, which the user can eject from, for further layout and styling customization. This means that it is very possible for the user to even change the HTML meta by using [React Helmet](https://github.com/nfl/react-helmet). 社区主题也是很可能会被推出的。 大多数静态站点生成器都采取了这种允许用户负责布局和样式的做法。
+
+### Markdown
+
+Our Markdown parsing is currently powered by [Remarkable](https://github.com/jonschlinkert/remarkable). What if the user wants to use [Markdown-it](https://github.com/Markdown-it/Markdown-it) or even [MDX](https://github.com/mdx-js/mdx)? And then there is an issue of which syntax highlighter to use, (e.g: [Prism](https://prismjs.com/) vs [Highlight.js](https://highlightjs.org/)). 我们应该让用户自己作出选择。
+
+For Docusaurus 2, **users can eject and choose their own Markdown parser**. It does not matter if they want to use another Markdown parser such as [Remark](https://github.com/remarkjs/remark), or even their own in-house Markdown parser. As a rule of thumb, the user has to provide a React component, in which we will provide a children props containing the _RAW string of Markdown_. 默认情况下，我们将使用 Remarkable 作为 Markdown 解析器并使用 Highlight.js 进行语法高亮。 默认解析器将来可能会改变，因为我们仍在不断尝试不同的Markdown 解析器。
+
+### 搜索
+
+Our core search functionality is based on [Algolia](https://www.algolia.com/). There are requests by users to be able to use different search offerings, such as `lunrjs` for offline search.
+
+我个人喜欢 Algolia，我们有很多与他们合作的经验。 They are very responsive; we can easily submit a pull request to Algolia since their `DocSearch` is open source. For example, I recently submitted [this PR that enables DocSearch to scrape alternate languages in sitemap](https://github.com/algolia/docsearch-scraper/pull/387).
+
+For Docusaurus 2, **we will allow users to customize the search box**. 用户只需从默认主题中继承并修改搜索界面（一个React组件）。 然而，我们仍将在默认主题中使用Algolia。
+
+## 稳定性
+
+软件永远不会完美，我们希望 Docusaurus 不要在我们添加新功能时项目中断。 当 Docusaurus 首次发布时，它没有任何强大的自动化测试套件。 导致了许多问题没能早早地被发现。 尽管我们最近增加了大量测试，但测试覆盖面相对较低。
+
+For Docusaurus 2, **we are adding tests as we develop** since we are going for a fresh rewrite. 因此我认为Docusaurus 2应该比以往任何时候、任何版本都将更加稳定，与Docusaurus 1相比，出问题应该也更加困难。
+
+## 常见问题
+
+### 会有重大变更吗？
+
+If you've read the post up until to this point, you should be able to notice that there will be breaking changes. While we will try to **minimize the number of breaking changes** and make it backward compatible as much as possible, we believe that some breaking changes are required. This is mostly due to Docusaurus 2 being a **major rewrite and re-architecting** of the codebase.
+
+The exact list of breaking changes is not totally known yet as development is not 100% finalized. However, one thing that I will highlight is that we will deprecate a lot of options in `siteConfig.js` and we plan to keep it as lean as possible. For example, the `cleanUrl` siteConfig will be deprecated as all the URL for Docusaurus 2 sites will be without the `.html` suffix.
+
+Our goal is that most sites should be able to upgrade to Docusaurus 2 without a lot of pain. We will also include a migration guide when we release Docusaurus 2. When the times come, feel free to ping us on [Discord](https://discord.gg/docusaurus) or [X](https://x.com/docusaurus) for questions and help.
+
+### Docusaurus 2 何时发布？
+
+As of now, we do not have an exact date planned for the release. I personally estimate that we might be able to release an alpha version in the next one to two months, but this is, of course, just an estimate.
+
+One thing that I would like to share is that while Docusaurus is part of [Facebook Open Source](https://opensource.fb.com/) and most of the team are Facebook employees, the maintenance and development work is mostly done outside of normal working hours. I am currently a final year undergraduate student at [NTU Singapore](https://x.com/NTUsg), so I had to juggle between doing my coursework, my final year project and maintaining/developing Docusaurus. However, that does not mean that we do not want to make Docusaurus better. In fact, **we want to make it as awesome as possible**.
+
+For now, the actual Docusaurus 2 work is still hosted in a private repository. In the near future, we will move them into the [public repository](https://github.com/facebook/docusaurus). When that time arrives, I encourage everyone to look into it and hopefully contribute in some way. Before then, please stay tuned 😉!
+
+## Final Thoughts
+
+Docusaurus has had a large impact on the open source community as seen from the [many popular projects](https://v1.docusaurus.io/en/users) which use Docusaurus for documentation. In order to move faster in the future, we are taking the opportunity to fix some core problems with Docusaurus 1 and striving to make Docusaurus better for everyone. In fact, it is safe to say that Docusaurus 2 is not just a plan any longer; the work on it has started and, hopefully, we will be able to see it materialize in the near future.
+
+Docusaurus' mission has always been to make it really easy for you to get a website with documentation up and running out of the box. That mission does not change with Docusaurus 2.
+
+We also want to let people know that **due to work on Docusaurus 2, we will be less likely to accept new features/major changes on Docusaurus 1.**
+
+If you are using Docusaurus, you are part of our community; keep letting us know how we can make Docusaurus better for you. If you appreciate the work we're doing, you can support [Docusaurus on Open Collective](https://opencollective.com/Docusaurus).
+
+> If you are sponsoring our work on [Open Collective](https://opencollective.com/Docusaurus), we'll personally offer you a helping hand for maintenance and upgrading of Docusaurus website.
+
+Lastly, if you haven't done so already, click the **star** and **watch** button on [GitHub](https://github.com/facebook/docusaurus), and follow us on [X](https://x.com/docusaurus).

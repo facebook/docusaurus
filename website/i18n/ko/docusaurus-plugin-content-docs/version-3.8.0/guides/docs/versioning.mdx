@@ -1,0 +1,373 @@
+---
+slug: /versioning
+---
+
+# 버전 관리
+
+You can use the versioning CLI to create a new documentation version based on the latest content in the `docs` directory. That specific set of documentation will then be preserved and accessible even as the documentation in the `docs` directory continues to evolve.
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+:::warning
+
+여러분의 문서에서 버전 관리를 시작하기 전에 충분한 검토가 필요합니다. 기여자들이 문서 내용을 개선하는 데 어려움이 생길 수도 있습니다.
+
+:::
+
+일반적으로 버전 관리가 필요하지는 않습니다. 버전 관리 기능을 활성화하면 빌드 시간이 길어지고 코드의 복잡도도 늘어납니다. Versioning is **best suited for websites with high-traffic and rapid changes to documentation between versions**. 여러분이 관리하는 문서가 거의 변경이 없다면 버전 관리 기능을 사용할 필요는 없습니다.
+
+버전 관리 기능이 어떻게 동작하고 여러분에게 필요한지 확인하려면 아래 내용을 계속 읽어주세요.
+
+## Overview {#overview}
+
+일반적으로 버전이 지정된 문서 사이트는 아래와 같은 형태입니다.
+
+```bash
+website
+├── sidebars.json        # 현재 버전 문서의 사이드바
+├── docs                 # 현재 버전 문서의 문서 디렉터리
+│   ├── foo
+│   │   └── bar.md       # https://mysite.com/docs/next/foo/bar
+│   └── hello.md         # https://mysite.com/docs/next/hello
+├── versions.json        # 사용할 수 있는 버전 정보가 명시된 파일
+├── versioned_docs
+│   ├── version-1.1.0
+│   │   ├── foo
+│   │   │   └── bar.md   # https://mysite.com/docs/foo/bar
+│   │   └── hello.md
+│   └── version-1.0.0
+│       ├── foo
+│       │   └── bar.md   # https://mysite.com/docs/1.0.0/foo/bar
+│       └── hello.md
+├── versioned_sidebars
+│   ├── version-1.1.0-sidebars.json
+│   └── version-1.0.0-sidebars.json
+├── docusaurus.config.js
+└── package.json
+```
+
+The `versions.json` file is a list of version names, ordered from newest to oldest.
+
+아래 표에서는 버전과 생성된 URL이 어떤 파일과 연결되는지 설명합니다.
+
+| 경로                                      | 버전             | URL               |
+| --------------------------------------- | -------------- | ----------------- |
+| `versioned_docs/version-1.0.0/hello.md` | 1.0.0          | /docs/1.0.0/hello |
+| `versioned_docs/version-1.1.0/hello.md` | 1.1.0 (최신)     | /docs/hello       |
+| `docs/hello.md`                         | current        | /docs/next/hello  |
+
+:::tip
+
+The files in the `docs` directory belong to the `current` docs version.
+
+By default, the `current` docs version is labeled as `Next` and hosted under `/docs/next/*`, but it is entirely configurable to fit your project's release lifecycle.
+
+:::
+
+### Terminology {#terminology}
+
+여기에서 사용하는 용어에 유의하세요.
+
+<dl>
+  <dt>
+    <b>Current version</b>
+  </dt>
+  <dd>
+    {'The version placed in the '}
+    <code>./docs</code>
+    {' folder.'}
+  </dd>
+  <dt>
+    <b>Latest version / last version</b>
+  </dt>
+  <dd>
+    {'The version served by default for docs navbar items. 일반적인 경로는 '} <code>/docs</code> {'입니다.'}
+  </dd>
+</dl>
+
+Current version is defined by the **file system location**, while latest version is defined by the **the navigation behavior**. 같은 버전이 될 수도 있고 그렇지 않을 수도 있습니다! (And the default configuration, as shown in the table above, would treat them as different: current version at `/docs/next` and latest at `/docs`.)
+
+## Tutorials {#tutorials}
+
+### Tagging a new version {#tagging-a-new-version}
+
+1. First, make sure the current docs version (the `./docs` directory) is ready to be frozen.
+2. 새로운 버전 번호를 부여합니다.
+
+```bash npm2yarn
+npm run docusaurus docs:version 1.1.0
+```
+
+새로운 버전으로 태그를 추가할 때 문서에서 아래와 같이 버전을 처리합니다.
+
+- Copy the full `docs/` folder contents into a new `versioned_docs/version-[versionName]/` folder.
+- Create a versioned sidebars file based from your current [sidebar](./sidebar/index.mdx) configuration (if it exists) - saved as `versioned_sidebars/version-[versionName]-sidebars.json`.
+- Append the new version number to `versions.json`.
+
+### Creating new docs {#creating-new-docs}
+
+1. 새로운 파일을 해당하는 버전 디렉터리에 가져다 놓습니다.
+2. 버전 번호에 따라 연결된 사이드바 설정 파일에 새로운 파일에 대한 참조를 추가합니다.
+
+```mdx-code-block
+<Tabs>
+<TabItem value="Current version structure">
+```
+
+```bash
+# The new file.
+docs/new.md
+
+# Edit the corresponding sidebar file.
+sidebars.js
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="Older version structure">
+```
+
+```bash
+# The new file.
+versioned_docs/version-1.0.0/new.md
+
+# Edit the corresponding sidebar file.
+versioned_sidebars/version-1.0.0-sidebars.json
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+:::tip
+
+Versioned sidebar files are, like standard sidebar files, relative to the content root for the given version — so for the example above, your versioned sidebar file may look like:
+
+```json
+{
+  "sidebar": [
+    {
+      "type": "autogenerated",
+      "dirName": "."
+    }
+  ]
+}
+```
+
+or for a manual sidebar:
+
+```json
+{
+  "sidebar": [
+    {
+      "type": "doc",
+      "id": "new",
+      "label": "New"
+    }
+  ]
+}
+```
+
+:::
+
+### Updating an existing version {#updating-an-existing-version}
+
+You can update multiple docs versions at the same time because each directory in `versioned_docs/` represents specific routes when published.
+
+1. 파일을 수정합니다.
+2. 변경사항을 커밋하고 푸시합니다.
+3. 해당 버전으로 게시됩니다.
+
+Example: When you change any file in `versioned_docs/version-2.6/`, it will only affect the docs for version `2.6`.
+
+### Deleting an existing version {#deleting-an-existing-version}
+
+특정 버전을 삭제할 수도 있습니다.
+
+1. Remove the version from `versions.json`.
+
+예:
+
+```diff
+[
+  "2.0.0",
+  "1.9.0",
+  // highlight-next-line
+- "1.8.0"
+]
+```
+
+2. 해당 버전의 문서 디렉터리를 삭제합니다. Example: `versioned_docs/version-1.8.0`.
+3. 해당 버전의 사이드바 파일을 삭제합니다. Example: `versioned_sidebars/version-1.8.0-sidebars.json`.
+
+## Configuring versioning behavior {#configuring-versioning-behavior}
+
+The "current" version is the version name for the `./docs` folder. 버전을 관리하는 방법은 다양하지만 두 가지 공통적인 패턴을 가지고 있습니다.
+
+- v1 버전을 출시하고 곧바로 v2 버전 작업을 진행합니다(문서도 마찬가지입니다). In this case, the **current version** is v2, which is in the `./docs` source folder, and can be browsed at `example.com/docs/next`. The **latest version** is v1, which is in the `./versioned_docs/version-1` source folder, and is browsed by most of your users at `example.com/docs`.
+- v1 버전을 출시하고 v2 버전을 시작하기 전에 일정 기간 유지 관리되는 기간이 있습니다. In this case, the **current version** and **latest version** will both be point to v1, since the v2 docs doesn't even exist yet!
+
+도큐사우루스는 기본적으로 첫 번째 패턴에 적절합니다. 현재 버전에 "next"라는 라벨을 지정하고 게시되지 않도록 선택할 수도 있습니다.
+
+**For the 2nd use case**: if you release v1 and don't plan to work on v2 anytime soon, instead of versioning v1 and having to maintain the docs in 2 folders (`./docs` + `./versioned_docs/version-1.0.0`), you may consider "pretending" that the current version is a cut version by giving it a path and a label:
+
+```js title="docusaurus.config.js"
+export default {
+  presets: [
+    '@docusaurus/preset-classic',
+    docs: {
+      // highlight-start
+      lastVersion: 'current',
+      versions: {
+        current: {
+          label: '1.0.0',
+          path: '1.0.0',
+        },
+      },
+      // highlight-end
+    },
+  ],
+};
+```
+
+The docs in `./docs` will be served at `/docs/1.0.0` instead of `/docs/next`, and `1.0.0` will become the default version we link to in the navbar dropdown, and you will only need to maintain a single `./docs` folder.
+
+사용자 지정 버전 관리 동작을 위해 아래와 같은 플러그인 옵션을 제공합니다.
+
+- `disableVersioning`: Explicitly disable versioning even with versions. 이렇게 하면 사이트에 현재 버전만 포함됩니다.
+- `includeCurrentVersion`: Include the current version (the `./docs` folder) of your docs.
+  - **Tip**: turn it off if the current version is a work-in-progress, not ready to be published.
+- `lastVersion`: Sets which version "latest version" (the `/docs` route) refers to.
+  - **Tip**: `lastVersion: 'current'` makes sense if your current version refers to a major version that's constantly patched and released. 최신 버전의 실제 라우트되는 base 경로와 라벨을 설정할 수 있습니다.
+- `onlyIncludeVersions`: Defines a subset of versions from `versions.json` to be deployed.
+  - **Tip**: limit to 2 or 3 versions in dev and deploy previews to improve startup and build time.
+- `versions`: A dictionary of version metadata. 각 버전에 대해 다음 항목을 사용자 지정할 수 있습니다.
+  - `label`: the label displayed in the versions dropdown and banner.
+  - `path`: the route base path of this version. By default, latest version has `/` and current version has `/next`.
+  - `banner`: one of `'none'`, `'unreleased'`, and `'unmaintained'`. 모든 문서 페이지 상단에 표시되는 내용을 지정합니다. 최신 버전보다 높은 버전은 "unreleased" 최신 버전보다 낮은 버전은 "unmaintained"가 됩니다.
+  - `badge`: show a badge with the version name at the top of a doc of that version.
+  - `className`: add a custom `className` to the `<html>` element of doc pages of that version.
+
+See [docs plugin configuration](../../api/plugins/plugin-content-docs.mdx#configuration) for more details.
+
+## Navbar items {#navbar-items}
+
+We offer several docs navbar items to help you quickly set up navigation without worrying about versioned routes.
+
+- [`doc`](../../api/themes/theme-configuration.mdx#navbar-doc-link): a link to a doc.
+- [`docSidebar`](../../api/themes/theme-configuration.mdx#navbar-doc-sidebar): a link to the first item in a sidebar.
+- [`docsVersion`](../../api/themes/theme-configuration.mdx#navbar-docs-version): a link to the main doc of the currently viewed version.
+- [`docsVersionDropdown`](../../api/themes/theme-configuration.mdx#navbar-docs-version-dropdown): a dropdown containing all the versions available.
+
+이런 링크는 모두 다음 순서로 연결할 적절한 버전을 찾습니다.
+
+1. **Active version**: the version that the user is currently browsing, if she is on a page provided by this doc plugin. 문서 페이지에 있는 것이 아니라면 다시 적절한 버전을 찾습니다.
+2. **Preferred version**: the version that the user last viewed. 탐색 이력이 없다면 다시 적절한 버전을 찾습니다.
+3. **Latest version**: the default version that we navigate to, configured by the `lastVersion` option.
+
+## `docsVersionDropdown` {#docsVersionDropdown}
+
+By default, the [`docsVersionDropdown`](../../api/themes/theme-configuration.mdx#navbar-docs-version-dropdown) displays a dropdown with all the available docs versions.
+
+The `versions` attribute allows you to display a subset of the available docs versions in a given order:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          versions: ['current', '3.0', '2.0'],
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```
+
+Passing a `versions` object, lets you override the display label of each version:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          // highlight-start
+          versions: {
+            current: {label: 'Version 4.0'},
+            '3.0': {label: 'Version 3.0'},
+            '2.0': {label: 'Version 2.0'},
+          },
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```
+
+## Recommended practices {#recommended-practices}
+
+### Version your documentation only when needed {#version-your-documentation-only-when-needed}
+
+For example, you are building documentation for your npm package `foo` and you are currently in version 1.0.0. 소소한 버그 수정이 반영된 패치버전이 배포했습니다. 이제 1.0.1 버전이 됐습니다.
+
+그럼 문서 버전도 1.0.1로 변경해야 할까요? **You probably shouldn't**. 1.0.1과 1.0.0 문서는 유의적 버전(semver)을 기준으로 새로운 기능이 없으므로 다르지 않아야 합니다. 새로운 버전으로 구분하게 되면 불필요하게 중복된 파일만 생겨나게 됩니다.
+
+### Keep the number of versions small {#keep-the-number-of-versions-small}
+
+경험상 버전 개수는 10개 이하로 유지하는 것이 좋습니다. You will **very likely** to have a lot of obsolete versioned documentation that nobody even reads anymore. For example, [Jest](https://jestjs.io/versions) is currently in version `27.4`, and only maintains several latest documentation versions with the lowest being `25.X`. 작게 유지하세요 😊
+
+:::tip archive older versions
+
+If you deploy your site on a Jamstack provider (e.g. [Netlify](../../deployment.mdx)), the provider will save each production build as a snapshot under an immutable URL. 이런 변경할 수 없는 URL에 대한 외부 링크로 다시 작성될 일이 없는 보관할 버전을 포함할 수 있습니다. Jest 웹사이트와 도큐사우루스 웹사이트는 이런 패턴을 사용해 활성화된 버전의 숫자를 낮게 유지하니다.
+
+:::
+
+### Use absolute import within the docs {#use-absolute-import-within-the-docs}
+
+문서 내에서 가져오기 시 상대 경로를 지정하지 마세요. 버전을 추가할 때 해당 경로가 더 이상 동작하지 않을 수 있어(중첩 수준이 다르거나 그 외 여러 이유로) You can utilize the `@site` alias provided by Docusaurus that points to the `website` directory. 예:
+
+```diff
+- import Foo from '../src/components/Foo';
++ import Foo from '@site/src/components/Foo';
+```
+
+### Link docs by file paths {#link-docs-by-file-paths}
+
+Refer to other docs by relative file paths with the `.md` extension, so that Docusaurus can rewrite them to actual URL paths during building. 파일은 정확히 대응하는 버전으로 링크되어야 합니다.
+
+```md
+The [@hello](hello.mdx#paginate) document is great!
+
+See the [Tutorial](../getting-started/tutorial.mdx) for more info.
+```
+
+### Global or versioned collocated assets {#global-or-versioned-collocated-assets}
+
+이미지나 파일 같은 애셋을 버전별로 구분할지 아니면 버전끼리 공유하도록 할지 결정해야 합니다.
+
+버전별로 애셋을 구분한다면 문서 버전에 따라 파일을 넣고 상대 경로를 사용합니다.
+
+```md
+![img alt](./myImage.png)
+
+[download this file](./file.pdf)
+```
+
+If your assets are global, put them in `/static` and use absolute paths:
+
+```md
+![img alt](/myImage.png)
+
+[download this file](/file.pdf)
+```

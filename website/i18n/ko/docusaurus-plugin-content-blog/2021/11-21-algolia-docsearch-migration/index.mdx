@@ -1,0 +1,111 @@
+---
+title: DocSearch 마이그레이션
+authors:
+  - shortcuts
+  - slorber
+tags:
+  - search
+image: ./img/social-card.png
+---
+
+[DocSearch](https://docsearch.algolia.com/) is migrating to a new, more powerful system, which gives users their own Algolia application and new credentials.
+
+Docusaurus site owners should upgrade their configuration with their new credentials **by February 1, 2022**, existing search indexes will be frozen and become read-only after this date.
+
+<!--truncate-->
+
+## 도큐사우루스 사이트 업그레이드하기
+
+앞으로 몇 주 안에 도큐사우루스 사이트 관리자는 알골리아 애플리케이션에 참여하도록 초대하는 이메일을 받게 될 겁니다.
+
+This email will include a new `appId` and `apiKey` to use in your Docusaurus configuration.
+
+여러분이 할 일은 아래와 같습니다.
+
+- 알골리아 애플리케이션 가입(새로운 알골리아 계정을 만들어야 합니다)
+- 여러분의 사이트 구성 업데이트
+
+```js title="docusaurus.config.js"
+const config = {
+  themeConfig: {
+    algolia: {
+      // highlight-start
+      appId: '<NEW_APP_ID>',
+      apiKey: '<NEW_SEARCH_API_KEY>',
+      // highlight-end
+    },
+  },
+};
+
+module.exports = config;
+```
+
+:::info
+
+`appId` is now **required**.
+
+키 값은 비밀이 아니며 여러분의 깃 저장소에 추가할 수 있습니다.
+
+:::
+
+## DocSearch에게 새로운 집이 생겼어요!
+
+### DocSearch는 무엇인가요?
+
+[DocSearch](https://docsearch.algolia.com/) is a program created by [Algolia](http://algolia.com/), which offers search to technical documentation of Open Source projects and technical blogs **for free**.
+
+You can [read more here](https://docsearch.algolia.com/docs/what-is-docsearch/), and [apply](https://docsearch.algolia.com/apply) if you'd like to give it a try!
+
+## 이번 마이그레이션은 어떤 것인가요?
+
+### 동기
+
+With the upcoming stable release of [DocSearch UI](https://docsearch.algolia.com/docs/DocSearch-v3), we wanted to go further and provide better tooling for our users to improve their search, but also leverage the full potential of Algolia.
+
+### 새로운 소식이 있나요?
+
+DocSearch now leverages the [Algolia Crawler](https://www.algolia.com/products/search-and-discovery/crawler/), which includes a web interface that will allow you to:
+
+- 크롤러를 시작하거나 일정을 관리하고 모니터링합니다.
+- 설정 파일을 실시간으로 편집할 수 있습니다.
+- DocSearch v3 결과를 테스트합니다.
+
+![The Algolia crawler front page showing the project's overview, such as last complete crawl and indices](./img/crawler-overview.png)
+
+![The Algolia config editor opened to the docusaurus-2 config. The right pane shows the results for index and various facet filters.](./img/editor.png)
+
+But also, more Algolia features in **your own Algolia app**:
+
+- 팀 관리
+- 알골리아에서 데이터를 어떻게 인덱싱하는지 탐색하고 확인하기
+- 무료로 다른 알골리아 기능 체험하기
+
+![The Algolia index overview page, showing various filters and the details of every single index](./img/index-overview.png)
+
+![The Algolia index analytics page, showing trends for total users, total searches, etc.](./img/index-analytics.png)
+
+And of course, **a lot more, for free**.
+
+## 자주 묻는 질문(FAQ)
+
+### 저는 Docusaurus와 DocSearch를 사용하고 있는데, 이걸 마이그레이션할 수 있나요? {#im-using-docusaurus-and-docsearch-can-i-migrate}
+
+이 글을 쓰는 현재로서는 아직 마이그레이션 초기 단계입니다. 매주 소규모 배치 작업을 진행하고 있으며 조만간 규모를 키울 예정입니다. 조금만 기다려주세요. 알골리아 앱을 사용할 준비가 되면 여러분의 메일함에서 확인할 수 있을 겁니다.
+
+### 자세한 내용은 어디에서 확인할 수 있나요?
+
+We wrote a small [migration guide](https://docsearch.algolia.com/docs/migrating-from-legacy) but you'll have more detailed information in the migration email.
+
+### 마이그레이션 이메일을 받았지만 초대가 만료됐습니다.
+
+Please contact us via either [email](mailto:docsearch@algolia.com) or [DocSearch's Discord](https://discord.gg/bRTacwYrfX) or on [Docusaurus's Discord #algolia channel](https://discordapp.com/invite/docusaurus)
+
+### 피드백은 어떻게 보낼 수 있나요?
+
+For any feedback regarding our documentation or the DocSearch UI component, you can open an issue [on our GitHub repository](https://github.com/algolia/docsearch/issues), but also contact us via the methods above.
+
+### 나만의 DocSearch 인스턴스는 계속 실행할 수 있나요?
+
+In favor of the new infrastructure and DocSearch v3, we will no longer maintain our beloved [DocSearch scraper](https://github.com/algolia/docsearch-scraper) and [DocSearch v2](https://github.com/algolia/docsearch/tree/master), but the repositories will still be available and open to pull requests.
+
+The previous documentation (now called `legacy`) remains available as well as our [`run your own`](https://docsearch.algolia.com/docs/legacy/run-your-own) guide.

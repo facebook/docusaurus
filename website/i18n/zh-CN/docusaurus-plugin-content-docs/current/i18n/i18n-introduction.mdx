@@ -1,0 +1,137 @@
+---
+id: introduction
+slug: /i18n/introduction
+---
+
+# i18n - 简介
+
+Docusaurus 自带国际化（[i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization)）支持，你可以**轻松翻译 Docusaurus 网站**。
+
+## 目标 {#goals}
+
+了解 Docusaurus 的 i18n 支持背后作出的**设计决策**非常关键。
+
+要了解来龙去脉，你可以阅读最初的 [RFC](https://github.com/facebook/docusaurus/issues/3317) 和[合并请求](https://github.com/facebook/docusaurus/pull/3325)提案。
+
+### i18n 目标 {#i18n-goals}
+
+Docusaurus i18n 系统旨在：
+
+- **简单易懂**：将翻译过的文件放在正确的文件系统位置即可。
+- **灵活翻译流程**：可以使用 Git（单仓、fork、子模块）、SaaS 软件、FTP，等等
+- **灵活部署选择**：可以部署于单个、多个域名，或混合部署
+- **模块化**：插件作者也可提供国际化支持
+- **轻量运行时**：文档大多数内容都是静态的，无需重量级的 JS 库或 Polyfill
+- **构建时间可控**：允许独立构建并部署本地化内容网站
+- **本地化资源**：你的网站上的图像可被翻译
+- **无耦合**：不强制使用任何 SaaS，但您可自己集成
+- **轻松搭配 [Crowdin](https://crowdin.com/)**：许多 Docusaurus v1 网站使用 Crowdin，它们都可以迁移至 v2。
+- **优秀的 SEO 默认值**：我们已经为你预先设置好了有用的 SEO head 数据（如 [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions)）
+- **RTL 支持**：支持并轻松实现自右向左阅读的语言（阿拉伯语、以色列语等）
+- **默认翻译**：经典主题的文本已为你翻译成[多种语言](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-translations/locales)
+
+### i18n 非目标 {#i18n-non-goals}
+
+我们不支持：
+
+- **自动检测语言**：太主观，最好在[服务器](../deployment.mdx)上实现。
+- **SaaS 翻译软件**：理解你选择的外部工具是你的责任。
+- **翻译 URL 路径**：技术困难，SEO 价值低。
+
+## 翻译流程 {#translation-workflow}
+
+### 概览 {#overview}
+
+以下是创建翻译版 Docusaurus 站点的主要流程：
+
+1. **配置**：在 [`docusaurus.config.js`](../api/docusaurus.config.js.mdx#i18n) 中声明默认语言和可选语言
+2. **翻译**：将翻译过的文件放置在正确的文件系统位置即可
+3. **部署**：使用单域名或多域名策略构建并部署你的站点
+
+### 翻译文件 {#translation-files}
+
+你会和三种翻译文件打交道。
+
+#### Markdown 文件 {#markdown-files}
+
+这是你的 Docusaurus 网站的主要内容。
+
+Markdown 和 MDX 文档会被统一翻译，而不会把每个句子分割成独立的字符串，以保证翻译语境正确。
+
+#### JSON 文件 {#json-files}
+
+JSON 用于翻译：
+
+- 你的 React 代码： `src/pages` 中的独立 React 页面或其他组件
+- 通过 `themeConfig` 提供的布局文本：导航栏，页脚等
+- 通过插件选项提供的布局文本：文档侧边栏菜单标签，博客侧边栏标题等
+
+我们使用的 JSON 格式名为 **Chrome i18n**：
+
+```json
+{
+  "myTranslationKey1": {
+    "message": "已翻译的信息 1",
+    "description": "myTranslationKey1 用于主页"
+  },
+  "myTranslationKey2": {
+    "message": "已翻译的信息2",
+    "description": "myTranslationKey2 用于 FAQ 页"
+  }
+}
+```
+
+这一选择有两个原因：
+
+- **每条文本都有描述属性**：为翻译者提供额外的语境
+- **广泛支持**：[Chrome 插件](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/)、[Crowdin](https://support.crowdin.com/file-formats/chrome-json/)、[Transifex](https://docs.transifex.com/formats/chrome-json)、[Phrase](https://help.phrase.com/help/chrome-json-messages)、[Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json)，等等
+
+#### 数据文件 {#data-files}
+
+某些插件可能会读取外部数据文件，这些数据文件会被整体翻译。 比如博客插件用了一个 [`authors.yml`](../blog.mdx#global-authors) 文件，这个文件的翻译方法就是在 `i18n/[locale]/docusaurus-plugin-content-blog/authors.yml` 目录下复制一份，然后翻译。
+
+### 翻译文件位置 {#translation-files-location}
+
+翻译文件必须创建在正确的文件系统位置。
+
+每种语言和每个插件均有其自己的 `i18n` 子文件夹：
+
+```
+website/i18n/[语言]/[插件名]/...
+```
+
+:::note
+
+对于多实例插件而言，路径则为 `website/i18n/[语言]/[插件名]-[插件 ID]/...`。
+
+:::
+
+把一个简单的 Docusaurus 网站翻译成简体中文，会产生如下的网站结构：
+
+```bash
+website/i18n
+└── fr
+    ├── code.json  # 所有 React 代码里的文本标签
+    │              # 也包括主题代码里的文本
+    ├── docusaurus-plugin-content-blog # 博客插件需要的翻译数据
+    │   └── 2020-01-01-hello.md
+    │
+    ├── docusaurus-plugin-content-docs # 文档插件需要的翻译数据
+    │   ├── current
+    │   │   ├── doc1.md
+    │   │   └── doc2.mdx
+    │   └── current.json
+    │
+    └── docusaurus-theme-classic # 经典主题需要的翻译数据
+        ├── footer.json   # 页脚主题配置对应的文本
+        └── navbar.json   # 导航栏主题配置对应的文本
+```
+
+JSON 文件由 [`docusaurus write-translations`](../cli.mdx#docusaurus-write-translations-sitedir) CLI 命令初始化。 每个插件会在它自己的对应文件夹下寻找翻译内容，而 `code.json` 文件定义了 React 代码中使用的所有文本标签。
+
+每个内容插件或主题都不同，都会**定义它自己的翻译文件位置**：
+
+- [文档 i18n](../api/plugins/plugin-content-docs.mdx#i18n)
+- [博客 i18n](../api/plugins/plugin-content-blog.mdx#i18n)
+- [页面 i18n](../api/plugins/plugin-content-pages.mdx#i18n)
+- [主题 i18n](../api/themes/theme-configuration.mdx#i18n)

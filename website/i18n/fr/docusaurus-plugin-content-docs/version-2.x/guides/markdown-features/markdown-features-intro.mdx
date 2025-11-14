@@ -1,0 +1,141 @@
+---
+id: introduction
+description: Docusaurus utilise MDX. En savoir plus sur les fonctionnalités spécifiques de Docusaurus lors de l'écriture de Markdown.
+slug: /markdown-features
+---
+
+# Fonctionnalités Markdown
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+La documentation est l'une des interactions entre votre produit et vos utilisateurs. Un ensemble de documents bien écrit et bien organisé aide vos utilisateurs à comprendre rapidement votre produit. Notre objectif est ici d'aider vos utilisateurs à trouver et à comprendre les informations dont ils ont besoin, le plus rapidement possible.
+
+Docusaurus 2 utilise des outils modernes pour vous aider à composer facilement votre documentation intéractive. Vous pouvez intégrer des composants React, ou construire des blocs de codage en ligne dans lesquels vos utilisateurs peuvent jouer avec le code sur place. Commencez à partager vos moments de créativité avec le code dont votre public ne peut se passer. C'est peut-être le moyen le plus efficace d'attirer des utilisateurs potentiels.
+
+:::info
+
+Cette section suppose que vous utilisez les plugins officiels de contenu Docusaurus.
+
+:::
+
+## Fonctionnalités standard {#standard-features}
+
+Markdown est une syntaxe vous permettant d'écrire du contenu formaté dans une syntaxe lisible.
+
+Nous utilisons [MDX](https://mdxjs.com/) comme moteur d'analyse, qui peut faire bien plus que d'analyser [la syntaxe standard de Markdown](https://daringfireball.net/projects/markdown/syntax), comme le rendu des composants React à l'intérieur de vos documents.
+
+```md
+### Ma section du Doc
+
+Message « Hello world » avec du texte en **gras**, du texte en _italique_ et un [link](/)
+
+![img alt](/img/docusaurus.png)
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+<h3>Ma section du Doc</h3>
+
+Message « Hello world » avec du texte en **gras**, du texte en _italique_ et un [lien](/)
+
+![img alt](/img/docusaurus.png)
+
+</BrowserWindow>
+```
+
+<details>
+
+<summary>Markdown est déclaratif</summary>
+
+Certains peuvent supposer une correspondance de 1 pour 1 entre Markdown et HTML, par exemple, `![Preview](/img/docusaurus.png)` deviendra toujours `<img src="/img/docusaurus.png" alt="Preview" />`, tel quel. Cependant, _ce n'est pas le cas_.
+
+La syntaxe Markdown `![message](url)` indique seulement de manière déclarative à Docusaurus qu'une image doit être insérée ici, mais nous pouvons faire d'autres choses comme transformer un [chemin de fichier en chemin d'URL](./markdown-features-assets.mdx#images), donc le balisage généré peut différer de la sortie d'autres moteurs de rendu Markdown, ou d'une transcription manuelle naïve vers le code JSX/HTML équivalent.
+
+En général, vous ne devez assumer que la _sémantique_ du balisage (les délimitations ```` ``` ```` deviennent des [blocs de code](./markdown-features-code-blocks.mdx) et les `>` deviennent des [citations](#quotes), etc.), mais pas la sortie compilée.
+
+</details>
+
+## Front matter {#front-matter}
+
+Le frontmatter est utilisé pour ajouter des métadonnées à votre fichier Markdown. Tous les plugins de contenu ont leur propre schéma de frontmatter, et utilisent le frontmatter pour enrichir les métadonnées par défaut déduites du contenu ou d'une autre configuration.
+
+Le frontmatter est fourni en haut du fichier, entourée de trois tirets `---`. Le contenu est analysé comme du [YAML](https://yaml.org/spec/1.2.2/).
+
+```md
+---
+title: Mon titre de doc
+plus_de_donnees:
+  - peut être fourni
+  - comme: objets
+    ou: tableaux
+---
+```
+
+## Citations {#quotes}
+
+Les citations Markdown sont joliment stylisées :
+
+```md
+> Site de Documentation Open Source facile à maintenir.
+>
+> — Docusaurus
+```
+
+<BrowserWindow>
+
+> Site de Documentation Open Source facile à maintenir.
+>
+> — Docusaurus
+
+</BrowserWindow>
+
+## Détails {#details}
+
+Markdown peut intégrer des éléments HTML, et les éléments HTML [`details`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) sont joliment stylisés :
+
+```md
+### Exemple d'élément de détails
+
+<details>
+  <summary>Changez-moi !</summary>
+  <div>
+    <div>Ceci est le contenu détaillé</div>
+    <br/>
+    <details>
+      <summary>
+        Détail imbriqué ! Quelques surprises à l'intérieur...
+      </summary>
+      <div>😲😲😲😲😲</div>
+    </details>
+  </div>
+</details>
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+<h3>Exemple d'élément de détails</h3>
+
+<details>
+  <summary>Changez-moi !</summary>
+  <div>
+    <div>Ceci est le contenu détaillé</div>
+    <br/>
+    <details>
+      <summary>
+        Détail imbriqué ! Quelques surprises à l'intérieur...
+      </summary>
+      <div>😲😲😲😲😲</div>
+    </details>
+  </div>
+</details>
+
+</BrowserWindow>
+```
+
+:::note
+
+En pratique, il ne s'agit pas vraiment d'éléments HTML, mais d'éléments React JSX, que nous aborderons ensuite !
+
+:::

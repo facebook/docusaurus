@@ -1,0 +1,328 @@
+---
+description: 자신만의 테마 컴포넌트를 만들어 사이트 UI를 원하는 형태로 구성합니다.
+---
+
+# 스위즐링
+
+이번 섹션에서는 도큐사우루스에서 사용자 정의 레이아웃을 처리하는 방법을 소개합니다.
+
+> 설마 데자뷰?
+
+This section is similar to [Styling and Layout](./styling-layout.mdx), but this time, we will customize React components themselves, rather than what they look like. We will talk about a central concept in Docusaurus: **swizzling**, which allows **deeper site customizations**.
+
+In practice, swizzling permits to **swap a theme component with your own implementation**, and it comes in 2 patterns:
+
+- [**Ejecting**](#ejecting): creates a **copy** of the original theme component, which you can fully **customize**
+- [**Wrapping**](#wrapping): creates a **wrapper** around the original theme component, which you can **enhance**
+
+<details>
+
+<summary>Why is it called swizzling?</summary>
+
+**The name comes from Objective-C and Swift-UI**: [method swizzling](https://pspdfkit.com/blog/2019/swizzling-in-swift/) is the process of changing the implementation of an existing selector (method).
+
+**For Docusaurus, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.**
+
+You can think of it as [Monkey Patching](https://en.wikipedia.org/wiki/Monkey_patch) for React components, enabling you to override the default implementation. Gatsby has a similar concept called [theme shadowing](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/).
+
+To gain a deeper understanding of this, you have to understand [how theme components are resolved](./advanced/client.mdx#theme-aliases).
+
+</details>
+
+## 스위즐링 프로세스
+
+### 개요
+
+Docusaurus provides a convenient **interactive CLI** to swizzle components. 일반적으로 다음 명령만 기억하면 됩니다.
+
+```bash npm2yarn
+npm run swizzle
+```
+
+It will generate a new component in your `src/theme` directory, which should look like this example:
+
+```mdx-code-block
+<Tabs>
+<TabItem value="Ejecting">
+```
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+
+export default function SomeComponent(props) {
+  // You can fully customize this implementation
+  // including changing the JSX, CSS and React hooks
+  return (
+    <div className="some-class">
+      <h1>Some Component</h1>
+      <p>Some component implementation details</p>
+    </div>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="Wrapping">
+```
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+import SomeComponent from '@theme-original/SomeComponent';
+
+export default function SomeComponentWrapper(props) {
+  // You can enhance the original component,
+  // including adding extra props or JSX elements around it
+  return (
+    <>
+      <SomeComponent {...props} />
+    </>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+스위즐할 수 있는 모든 테마, 컴포넌트에 대한 목록을 보려면 다음 명령을 실행하세요.
+
+```bash npm2yarn
+npm run swizzle -- --list
+```
+
+Use `--help` to see all available CLI options, or refer to the reference [swizzle CLI documentation](./cli.mdx#docusaurus-swizzle).
+
+:::note
+
+After swizzling a component, **restart your dev server** in order for Docusaurus to know about the new component.
+
+:::
+
+:::warning Prefer staying on the safe side
+
+Be sure to understand [which components are **safe to swizzle**](#what-is-safe-to-swizzle). Some components are **internal implementation details** of a theme.
+
+:::
+
+:::info
+
+`docusaurus swizzle` is only an automated way to help you swizzle the component. You can also create the `src/theme/SomeComponent.js` file manually, and Docusaurus will [resolve it](./advanced/client.mdx#theme-aliases). 이 명령 뒤에 보이지 않는 마법 따위는 없습니다!
+
+:::
+
+### Ejecting {#ejecting}
+
+Ejecting a theme component is the process of **creating a copy** of the original theme component, which you can **fully customize and override**.
+
+To eject a theme component, use the swizzle CLI interactively, or with the `--eject` option:
+
+```bash npm2yarn
+npm run swizzle [theme name] [component name] -- --eject
+```
+
+예:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
+```
+
+This will copy the current `<Footer />` component's implementation to your site's `src/theme` directory. Docusaurus will now use this `<Footer>` component copy instead of the original one. You are now free to completely re-implement the `<Footer>` component.
+
+```jsx title="src/theme/Footer/index.js"
+import React from 'react';
+
+export default function Footer(props) {
+  return (
+    <footer>
+      <h1>This is my custom site footer</h1>
+      <p>And it is very different from the original</p>
+    </footer>
+  );
+}
+```
+
+:::warning
+
+Ejecting an [**unsafe**](#what-is-safe-to-swizzle) component can sometimes lead to copying a large amount of internal code, which you now have to maintain yourself. 관련 속성이나 내부 테마 API가 변경되는 경우 사용자 지정 컴포넌트도 마이그레이션해야 하므로 도큐사우루스 업그레이드를 어렵게 만들 수 있습니다.
+
+**Prefer [wrapping](#wrapping) whenever possible**: the amount of code to maintain is smaller.
+
+:::
+
+:::tip Re-swizzling
+
+To keep ejected components up-to-date after a Docusaurus upgrade, re-run the eject command and compare the changes with `git diff`. 또한 파일 상단에 변경 사항에 대한 간단한 설명을 추가해놓으면 다시 추출했을 때 변경 사항을 좀 더 쉽게 적용할 수 있습니다.
+
+:::
+
+### Wrapping {#wrapping}
+
+Wrapping a theme component is the process of **creating a wrapper** around the original theme component, which you can **enhance**.
+
+To wrap a theme component, use the swizzle CLI interactively, or with the `--wrap` option:
+
+```bash npm2yarn
+npm run swizzle [theme name] [component name] -- --wrap
+```
+
+예:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer -- --wrap
+```
+
+This will create a wrapper in your site's `src/theme` directory. Docusaurus will now use the `<FooterWrapper>` component instead of the original one. 이제 원본 컴포넌트를 감싼 위에 사용자 지정 항목을 추가할 수 있습니다.
+
+```jsx title="src/theme/Footer/index.js"
+import React from 'react';
+import Footer from '@theme-original/Footer';
+
+export default function FooterWrapper(props) {
+  return (
+    <>
+      <section>
+        <h2>Extra section</h2>
+        <p>This is an extra section that appears above the original footer</p>
+      </section>
+      <Footer {...props} />
+    </>
+  );
+}
+```
+
+<details>
+  <summary>What is this <code>@theme-original</code> thing?</summary>
+
+Docusaurus uses [theme aliases](./advanced/client.mdx#theme-aliases) to resolve the theme components to use. The newly created wrapper takes the `@theme/SomeComponent` alias. `@theme-original/SomeComponent` permits to import original component that the wrapper shadows without creating an infinite import loop where the wrapper imports itself.
+
+</details>
+
+:::tip
+
+Wrapping a theme is a great way to **add extra components around existing one** without [ejecting](#ejecting) it. 예를 들어 각 블로그 게시물 아래에 사용자 지정 댓글 시스템을 손쉽게 추가할 수 있습니다.
+
+```jsx title="src/theme/BlogPostItem.js"
+import React from 'react';
+import BlogPostItem from '@theme-original/BlogPostItem';
+import MyCustomCommentSystem from '@site/src/MyCustomCommentSystem';
+
+export default function BlogPostItemWrapper(props) {
+  return (
+    <>
+      <BlogPostItem {...props} />
+      <MyCustomCommentSystem />
+    </>
+  );
+}
+```
+
+:::
+
+## 스위즐하기 안전하다는 것은 무엇인가요? {#what-is-safe-to-swizzle}
+
+> 권한이 크면 책임감도 커집니다.
+
+Some theme components are **internal implementation details** of a theme. Docusaurus allows you to swizzle them, but it **might be risky**.
+
+<details>
+
+<summary>Why is it risky?</summary>
+
+테마 작성자(저희도 마찬가지로)는 시간이 지나면서 테마를 업데이트할 수 있습니다. 컴포넌트 속성, 이름, 파일 시스템 위치, 타입 등이 바뀔 수 있습니다. For example, consider a component that receives two props `name` and `age`, but after a refactor, it now receives a `person` prop with the above two properties. Your component, which still expects these two props, will render `undefined` instead.
+
+또한 내부 컴포넌트가 삭제될 수도 있습니다. If a component is called `Sidebar` and it's later renamed to `DocSidebar`, your swizzled component will be completely ignored.
+
+**Theme components marked as unsafe may change in a backward-incompatible way between theme minor versions.** When upgrading a theme (or Docusaurus), your customizations might **behave unexpectedly**, and can even **break your site**.
+
+</details>
+
+For each theme component, the swizzle CLI will indicate **3 different levels of safety** declared by theme authors:
+
+- **Safe**: this component is safe to be swizzled, its public API is considered stable, and no breaking changes should happen within a theme **major version**
+- **Unsafe**: this component is a theme implementation detail, not safe to be swizzled, and breaking changes might happen within a theme **minor version**
+- **Forbidden**: the swizzle CLI will prevent you from swizzling this component, because it is not designed to be swizzled at all
+
+:::note
+
+일부 컴포넌트는 감싸기는 안전하지만 추출하기는 안전하지 않을 수 있습니다.
+
+:::
+
+:::info
+
+Don't be too **afraid to swizzle unsafe components**: just keep in mind that **breaking changes** might happen, and you might need to upgrade your customizations manually on minor version upgrades.
+
+:::
+
+:::note Report your use-case
+
+If you have a **strong use-case for swizzling an unsafe component**, please [**report it here**](https://github.com/facebook/docusaurus/discussions/5468) and we will work together to find a solution to make it safe.
+
+:::
+
+## 어떤 컴포넌트를 스위즐해야 하나요? {#which-component-should-i-swizzle}
+
+원하는 결과를 얻기 위해 정확하게 어떤 컴포넌트를 스위즐해야 하는지 항상 명확한 것은 아닙니다. `@docusaurus/theme-classic`, which provides most of the theme components, has about [100 components](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)!
+
+:::tip
+
+To print an overview of all the `@docusaurus/theme-classic` components:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic -- --list
+```
+
+:::
+
+다음 단계에 따라 스위즐하기 적절한 컴포넌트를 찾을 수 있습니다.
+
+1. **Component description.** Some components provide a short description, which is a good way to find the right one.
+2. **Component name.** Official theme components are semantically named, so you should be able to infer its function from the name. swizzle CLI를 사용하면 컴포넌트 이름 일부를 입력해 사용할 수 있는 선택 범위를 좁힐 수 있습니다. For example, if you run `yarn swizzle @docusaurus/theme-classic`, and enter `Doc`, only the docs-related components will be listed.
+3. **Start with a higher-level component.** Components form a tree with some components importing others. Every route will be associated with one top-level component that the route will render (most of them listed in [Routing in content plugins](./advanced/routing.mdx#routing-in-content-plugins)). For example, all blog post pages have `@theme/BlogPostPage` as the topmost component. 컴포넌트를 스위즐링한 다음 컴포넌트 트리를 해당 컴포넌트까지 타고 내려가서 여러분이 목표로 하는 것을 렌더링합니다. 너무 많은 컴포넌트를 관리하지 않으려면 올바른 파일을 찾은 후 파일을 삭제해서 나머지를 언스위즐하는 것을 잊지 마세요.
+4. **Read the [theme source code](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)** and use search wisely.
+
+:::tip Just ask!
+
+If you still have no idea which component to swizzle to achieve the desired effect, you can reach out for help in one of our [support channels](/community/support).
+
+We also want to understand better your fanciest customization use-cases, so please [**report them**](https://github.com/facebook/docusaurus/discussions/5468).
+
+:::
+
+## 스위즐이 꼭 필요한가요? {#do-i-need-to-swizzle}
+
+스위즐링은 궁극적으로 도큐사우루스 내부 API와 상호 작용하는 몇 가지 추가 리액트 코드를 유지하고 관리해야 함을 의미합니다. 사이트를 사용자 정의할 때는 다음과 같은 대안을 고려하세요.
+
+1. **Use CSS.** CSS rules and selectors can often help you achieve a decent degree of customization. Refer to [styling and layout](./styling-layout.mdx) for more details.
+2. **Use translations.** It may sound surprising, but translations are ultimately just a way to customize the text labels. For example, if your site's default language is `en`, you can still run `yarn write-translations -l en` and edit the `code.json` emitted. Refer to the [i18n tutorial](./i18n/i18n-tutorial.mdx) for more details.
+
+:::tip
+
+**The smaller, the better.** If swizzling is inevitable, prefer to swizzle only the relevant part and maintain as little code on your own as possible. Swizzling a small component often means less risk of **breaking changes** during upgrade.
+
+[Wrapping](#wrapping) is also a far safer alternative to [ejecting](#ejecting).
+
+:::
+
+## Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
+
+The `<Root>` component is rendered at the **very top** of the React tree, above the theme `<Layout>`, and **never unmounts**. It is the perfect place to add stateful logic that should not be re-initialized across navigations (user authentication status, shopping cart state...).
+
+Swizzle it **manually** by creating a file at `src/theme/Root.js`:
+
+```js title="src/theme/Root.js"
+import React from 'react';
+
+// Default implementation, that you can customize
+export default function Root({children}) {
+  return <>{children}</>;
+}
+```
+
+:::tip
+
+해당 컴포넌트를 사용해 리액트 컨텍스트 제공자를 렌더링합니다.
+
+:::

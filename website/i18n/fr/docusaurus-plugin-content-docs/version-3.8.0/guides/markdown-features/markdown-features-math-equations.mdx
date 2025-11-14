@@ -1,0 +1,210 @@
+---
+id: math-equations
+description: Écriture d'équations mathématiques LaTeX
+slug: /markdown-features/math-equations
+---
+
+# Équations mathématiques
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+Les équations mathématiques peuvent être rendues en utilisant [KaTeX](https://katex.org).
+
+See [below](#configuration) how to activate them.
+
+## Utilisation {#usage}
+
+Please read the [KaTeX](https://katex.org) documentation for more details.
+
+### En ligne {#inline}
+
+Écrivez des équations mathématiques en ligne en enveloppant les équations LaTeX entre `$` :
+
+```latex
+Soit $f\colon[a,b]\to\R$ est une intégrale de Riemann. Soit $F\colon[a,b]\to\R$ est
+$F(x)=\int_{a}^{x} f(t)\,dt$. Alors $F$ est continue, et pour tout $x$ tel que
+$f$ est continue à $x$, $F$ est différentiable à $x$ avec $F'(x)=f(x)$.
+```
+
+<BrowserWindow>
+
+Soit $f\colon[a,b] \to \R$ est une intégrale de Riemann. Soit $F\colon[a,b]\to\R$ est $F(x)=
+\int_{a}^{x} f(t)\,dt$. Alors $F$ est continue, et pour tout $x$ tel que $f$ est continue à $x$, $F$ est différentiable à $x$ avec $F'(x)=f(x)$.
+
+</BrowserWindow>
+
+### Blocs {#blocks}
+
+Pour le bloc d'équation ou le mode d'affichage, utilisez les sauts de ligne et le `$$` :
+
+```latex
+$$
+I = \int_0^{2\pi} \sin(x)\,dx
+$$
+```
+
+<BrowserWindow>
+
+$$
+I = \int_0^{2\pi} \sin(x)\,dx
+$$
+
+</BrowserWindow>
+
+## Enabling math equations {#configuration}
+
+Activer KaTeX :
+
+1. Install the `remark-math` and `rehype-katex` plugins:
+
+   ```bash npm2yarn
+   npm install --save remark-math@6 rehype-katex@7
+   ```
+
+   :::warning
+
+   Assurez-vous d'utiliser `remark-math 6` et `rehype-katex 7` pour Docusaurus v3 (en utilisant MDX v3). Nous ne pouvons pas garantir que d'autres versions fonctionneront.
+
+   :::
+
+2. These 2 plugins are [**only available as ES Modules**](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). We recommended to use an [**ES Modules**](https://flaviocopes.com/es-modules/) config file:
+
+   ```js title="ES module docusaurus.config.js"
+   // highlight-start
+   import remarkMath from 'remark-math';
+   import rehypeKatex from 'rehype-katex';
+   // highlight-end
+
+   // highlight-start
+   export default {
+     presets: [
+       [
+         '@docusaurus/preset-classic',
+         {
+           docs: {
+             path: 'docs',
+             // highlight-start
+             remarkPlugins: [remarkMath],
+             rehypePlugins: [rehypeKatex],
+             // highlight-end
+           },
+         },
+       ],
+     ],
+   };
+   ```
+
+   ```
+   <details>
+   ```
+
+   <summary>
+     Using a
+     [**CommonJS**](https://nodejs.org/api/modules.html#modules-commonjs-modules)
+     config file?
+   </summary>
+
+   ```
+       If you decide to use a CommonJS config file, it is possible to load those ES module plugins thanks to dynamic imports and an async config creator function:
+   ```
+
+   ```js title="CommonJS module docusaurus.config.js"
+   // highlight-start
+   module.exports = async function createConfigAsync() {
+     // highlight-end
+     return {
+       presets: [
+         [
+           '@docusaurus/preset-classic',
+           {
+             docs: {
+               path: 'docs',
+               // highlight-start
+               remarkPlugins: [(await import('remark-math')).default],
+               rehypePlugins: [(await import('rehype-katex')).default],
+               // highlight-end
+             },
+           },
+         ],
+       ],
+     };
+   };
+   ```
+
+   ```
+   </details>
+   ```
+
+3. Incluez le CSS de KaTeX dans votre configuration sous `stylesheets` :
+
+   ```js
+   export default {
+     //...
+     stylesheets: [
+       {
+         href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+         type: 'text/css',
+         integrity:
+           'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+         crossorigin: 'anonymous',
+       },
+     ],
+   };
+   ```
+
+<details>
+<summary>See a config file example</summary>
+
+```js title="docusaurus.config.js"
+// highlight-start
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+// highlight-end
+
+export default {
+  title: 'Docusaurus',
+  tagline: 'Construire rapidement des sites Web optimisés, se concentrer sur votre contenu',
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          path: 'docs',
+          // highlight-start
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
+          // highlight-end
+        },
+      },
+    ],
+  ],
+  // highlight-start
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      type: 'text/css',
+      integrity:
+        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+      crossorigin: 'anonymous',
+    },
+  ],
+  // highlight-end
+};
+```
+
+</details>
+
+## Auto-hébergement des ressources KaTeX {#self-hosting-katex-assets}
+
+Le chargement des feuilles de style, des polices et des bibliothèques JavaScript à partir de sources CDN est une bonne pratique pour les bibliothèques et les ressources populaires, car elle réduit la quantité de ressources que vous devez héberger. Si vous préférez héberger vous-même le fichier `katex.min.css` (avec les polices KaTeX requises), vous pouvez télécharger la dernière version depuis [KaTeX GitHub releases] (https://github.com/KaTeX/KaTeX/releases), extraire et copier `katex.min.css` et le répertoire `fonts` (seuls les types de polices `.woff2` devraient suffire) dans le répertoire `static` de votre site, et dans `docusaurus.config.js`, remplacez le `href` de la feuille de style de l'URL du CDN par votre chemin local (disons, `/katex/katex.min.css`).
+
+```js title="docusaurus.config.js"
+export default {
+  stylesheets: [
+    {
+      href: '/katex/katex.min.css',
+      type: 'text/css',
+    },
+  ],
+};
+```

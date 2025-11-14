@@ -1,0 +1,303 @@
+---
+sidebar_position: 9
+slug: /api/plugins/@docusaurus/plugin-pwa
+---
+
+# 📦 plugin-pwa
+
+[Workbox](https://developers.google.com/web/tools/workbox)를 사용해 PWA 지원을 추가할 수 있는 도큐사우루스 플러그인입니다. 제품 빌드에만 [서비스 워커](https://developers.google.com/web/fundamentals/primers/service-workers)를 만들어주는 플러그인입니다. 이를 통해 오프라인에서 실행할 수 있고 설치도 지원하는 완전한 PWA 호환 문서를 만들 수 있습니다.
+
+## 설치 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-pwa
+```
+
+## 설정 {#configuration}
+
+`./static/manifest.json` 파일에 [PWA 매니페스트](https://web.dev/add-manifest/)를 작성합니다.
+
+`docusaurus.config.js`에 필요한 PWA 설정을 추가합니다.
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-pwa',
+      {
+        debug: true,
+        offlineModeActivationStrategies: [
+          'appInstalled',
+          'standalone',
+          'queryString',
+        ],
+        pwaHead: [
+          {
+            tagName: 'link',
+            rel: 'icon',
+            href: '/img/docusaurus.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'manifest',
+            href: '/manifest.json', // your PWA manifest
+          },
+          {
+            tagName: 'meta',
+            name: 'theme-color',
+            content: 'rgb(37, 194, 160)',
+          },
+        ],
+      },
+    ],
+  ],
+};
+```
+
+## 프로그레시브 웹 앱 {#progressive-web-app}
+
+서비스 워커를 설치하는 것만으로 여러분의 애플리케이션이 PWA가 되는 건 아닙니다. 최소한 [웹 앱 매니페스트](https://developer.mozilla.org/en-US/docs/Web/Manifest)를 가지고 있어야 하며 `<head>` 태그 안에 적절한 태그가 포함되어 있어야 합니다 ([Options > pwaHead](#pwahead)).
+
+배포 후에는 [Lighthouse](https://developers.google.com/web/tools/lighthouse)를 사용해 여러분의 사이트를 점검할 수 있습니다.
+
+여러분의 사이트가 PWA가 되기 위해 필요한 좀 더 자세한 내용은 [PWA 체크리스트](https://developers.google.com/web/progressive-web-apps/checklist)를 참고하세요.
+
+## 앱 설치 지원 {#app-installation-support}
+
+여러분의 브라우저가 지원한다면 도큐사우루스 사이트를 앱처럼 설치할 수 있습니다.
+
+![설치 과정을 녹화한 영상입니다. 브라우저의 주소 표시줄에 표시된 버튼을 클릭하면 "install this application?"라는 대화 상자가 표시됩니다. "Install" 버튼을 클릭하면 운영 체제에서 새 응용 프로그램이 실행되고 도큐사우루스 홈페이지가 열립니다.](/img/pwa_install.gif)
+
+:::note
+
+앱 설치를 지원하려면 HTTPS 프로토콜을 사용해야 하며 유효한 매니페스트가 필요합니다.
+
+:::
+
+## 오프라인 모드(precaching) {#offline-mode-precaching}
+
+서비스 워커 사전캐싱을 사용해 도큐사우루스 사이트를 오프라인에서 사용자가 탐색할 수 있습니다.
+
+[workbox-precaching](https://developers.google.com/web/tools/workbox/modules/workbox-precaching) 페이지에서 아래와 같이 설명하고 있습니다.
+
+> 서비스 워커의 기능 중 하나로 서비스 워커 설치 시 캐시 처리할 파일 묶음을 저장해놓을 수 있습니다. 서비스 워커가 사용되기 전에 콘텐츠를 캐시 처리하기 때문에 "사전캐싱"이라고 부릅니다.
+> 
+> 이렇게 처리하는 이유는 개발자에게 캐시를 제어할 수 있는 권한을 주기 위함입니다. 개발자는 캐시를 언제 만들고 얼마나 오래 보관할지 결정할 수 있을 뿐 아니라 네트워크를 거치지 않고 브라우저에서 바로 서비스를 제공할 수 있습니다. 즉 오프라인에서 동작할 수 있는 웹 앱을 만들 수 있다는 겁니다.
+> 
+> Workbox는 API를 단순화하고 효율적으로 필요한 파일을 내려받을 수 있게 만들어 사전캐싱 작업을 쉽게 접근할 수 있도록 지원합니다.
+
+기본적으로 오프라인 모드는 사이트가 앱으로 설치되면 활성화됩니다. 자세한 내용은 `offlineModeActivationStrategies` 옵션 설명을 참고하세요.
+
+사이트 사전캐싱 이후에 서비스 워커는 방문자에게 캐시된 응답을 제공합니다. 새로운 빌드가 새로운 서비스 워커와 함께 배포되면 새로운 앱이 설치되고 대기 상태로 이동하게 됩니다. 대기 상태에 들어가면 리로드 팝업이 표시되고 사용자에게 새로운 콘텐츠를 위해 페이지를 리로드할 것인지 물어봅니다. 사용자가 애플리케이션 캐시를 삭제하거나 팝업에서 `reload` 버튼을 클릭할 때까지 서비스 워커는 기존 콘텐츠를 제공합니다.
+
+:::warning
+
+오프라인 모드나 사전캐싱은 사이트의 모든 애셋을 미리 내려받아야 하며 불필요한 대역폭을 사용할 수 있습니다. 모든 종류의 사이트에서 무조건 해당 기능을 활성화하는 건 좋은 생각은 아닙니다.
+
+:::
+
+## 옵션 {#options}
+
+### `debug` {#debug}
+
+- Type: `boolean`
+- Default: `false`
+
+아래와 같은 디버그 모드를 설정합니다.
+
+- Workbox 로그
+- 추가적인 도큐사우루스 로그
+- 최적화되지 못한 SW 파일 출력
+- 소스맵
+
+### `offlineModeActivationStrategies` {#offlinemodeactivationstrategies}
+
+- Type: `('appInstalled' | 'mobile' | 'saveData'| 'queryString' | 'always')[]`
+- Default: `['appInstalled', 'queryString', 'standalone']`
+
+오프라인 모드를 적용할 상태에 대한 옵션을 설정합니다.
+
+- `appInstalled`: 사용자가 사이트를 앱으로 설치한 경우 활성화(100% 신뢰할 수는 없습니다)
+- `standalone`: 사용자가 앱을 독립적으로 실행한 경우 활성화(PWA가 설치된 경우)
+- `queryString`: queryString에 `offlineMode=true`가 포함된 경우 활성화(PWA 디버깅 시 유용합니다)
+- `mobile`: 모바일 사용자인 경우 활성화(`width <= 996px`)
+- `saveData`: `navigator.connection.saveData === true`로 설정한 경우 활성화
+- `always`: 모든 사용자 활성화
+
+:::warning
+
+주의해서 사용해주세요. 일부 사용자는 오프라인 모드로 사용하도록 강제되는 것을 싫어할 수도 있습니다.
+
+:::
+
+:::danger
+
+페이지가 안정적인 형태로 PWA 렌더링을 처리했는지 여부를 확인할 수 없습니다.
+
+`appinstalled` 이벤트가 [스펙에서 제거되면서](https://github.com/w3c/manifest/pull/836) 최신 크롬 버전에서는 [`navigator.getInstalledRelatedApps()`](https://web.dev/get-installed-related-apps/) API만 지원하고 있습니다. 이를 사용하려면 매니페스트에서 `related_applications`를 선언해주어야 합니다.
+
+[`standalone` 전략](https://petelepage.com/blog/2019/07/is-my-pwa-installed/)을 사용하는 것이 오프라인 모드를 활성화하는 좋은 대안입니다(설치된 앱을 실행하는 경우).
+
+:::
+
+### `injectManifestConfig` {#injectmanifestconfig}
+
+`workbox.injectManifest()`에 전달할 [Workbox 옵션](https://developer.chrome.com/docs/workbox/reference/workbox-build/#type-InjectManifestOptions)을 설정합니다. 프리캐싱을 적용하고 오프라인에서 사용할 수 있는 애셋을 직접 설정할 수 있습니다.
+
+- Type: `InjectManifestOptions`
+- Default: `{}`
+
+```js title="docusaurus.config.js"
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-pwa',
+      {
+        injectManifestConfig: {
+          manifestTransforms: [
+            //...
+          ],
+          modifyURLPrefix: {
+            //...
+          },
+          // 일반적으로 사용하는 정적 애셋(HTML, 이미지 등)은 오프라인에서 사용할 수 있도록
+          // 기본적으로 추가했습니다. 추가로 필요한 파일만 설정해줍니다.
+          globPatterns: ['**/*.{pdf,docx,xlsx}'],
+          // ...
+        },
+      },
+    ],
+  ],
+};
+```
+
+### `pwaHead` {#pwahead}
+
+- Type: `({ tagName: string; [attributeName: string]: string })[]`
+- Default: `[]`
+
+`<head>` 태그 내에 삽입할 `tagName`과 키, 값 쌍을 포함하는 오브젝트 배열을 설정합니다. 기술적으로 어떤 head 태그 든 삽입할 수 있지만 여러분의 사이트 PWA에 적합한 태그를 사용하는 것이 이상적입니다. 아래 목록은 여러분의 앱에 적합한 태그 목록입니다.
+
+```js
+export default {
+  plugins: [
+    [
+      '@docusaurus/plugin-pwa',
+      {
+        pwaHead: [
+          {
+            tagName: 'link',
+            rel: 'icon',
+            href: '/img/docusaurus.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'manifest',
+            href: '/manifest.json',
+          },
+          {
+            tagName: 'meta',
+            name: 'theme-color',
+            content: 'rgb(37, 194, 160)',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-capable',
+            content: 'yes',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-status-bar-style',
+            content: '#000',
+          },
+          {
+            tagName: 'link',
+            rel: 'apple-touch-icon',
+            href: '/img/docusaurus.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'mask-icon',
+            href: '/img/docusaurus.svg',
+            color: 'rgb(37, 194, 160)',
+          },
+          {
+            tagName: 'meta',
+            name: 'msapplication-TileImage',
+            content: '/img/docusaurus.png',
+          },
+          {
+            tagName: 'meta',
+            name: 'msapplication-TileColor',
+            content: '#000',
+          },
+        ],
+      },
+    ],
+  ],
+};
+```
+
+### `swCustom` {#swcustom}
+
+- Type: `string | undefined`
+- Default: `undefined`
+
+Workbox에 적용할 규칙 추가 시 유용한 설정입니다. 서비스 워커의 모든 기능과 함께 Workbox 라이브러리의 강력한 추가 기능을 사용할 수 있습니다. 트랜스파일된 코드이며 최신 ES6+ 구문을 사용할 수 있습니다.
+
+예를 들어 외부 경로에 있는 파일을 캐시하는 경우에는 아래와 같이 사용합니다.
+
+```js
+import {registerRoute} from 'workbox-routing';
+import {StaleWhileRevalidate} from 'workbox-strategies';
+
+// default fn export receiving some useful params
+export default function swCustom(params) {
+  const {
+    debug, // :boolean
+    offlineMode, // :boolean
+  } = params;
+
+  // Cache responses from external resources
+  registerRoute((context) => {
+    return [
+      /graph\.facebook\.com\/.*\/picture/,
+      /netlify\.com\/img/,
+      /avatars1\.githubusercontent/,
+    ].some((regex) => context.url.href.match(regex));
+  }, new StaleWhileRevalidate());
+}
+```
+
+모듈은 `default` 내보내기 함수를 가지고 있어야 하며 일부 매개변수를 받아야 합니다.
+
+### `swRegister` {#swregister}
+
+- Type: `string | false`
+- Default: `'docusaurus-plugin-pwa/src/registerSW.js'`
+
+앱이 실행하기 전에 등록이 처리되도록 도큐사우루스 앱 앞에 항목을 추가합니다. 기본 `registerSW.js` 파일은 간단한 등록을 위한 충분한 설정을 포함합니다.
+
+`false`로 설정하면 등록을 처리할 수 없습니다.
+
+## 매니페스트 예 {#manifest-example}
+
+도큐사우루스 사이트 매니페스트를 참고하세요.
+
+```mdx-code-block
+import CodeBlock from '@theme/CodeBlock';
+
+<CodeBlock className="language-json">
+  {JSON.stringify(require('@site/static/manifest.json'),null,2)}
+</CodeBlock>
+```
+
+## 사용자 지정 새로고침 팝업 {#customizing-reload-popup}
+
+새로운 서비스 워커가 설치되기를 기다릴 때 `@theme/PwaReloadPopup` 컴포넌트가 표시되며 사용자에게 리로드를 안내합니다. 해당 컴포넌트를 [스위즐](../../swizzling.mdx)해서 여러분만의 UI를 구현할 수 있습니다. `reload` 버튼을 클릭할 때 호출되어야 하는 속성으로 `onReload` 콜백을 수신합니다. 그리고 기다리고 있는 서비스 워커에게 설치를 진행하고 페이지를 리로드하도록 전달합니다.
+
+기본 테마는 리로드 팝업이 구현되어 있으며 [Infima Alerts](https://infima.dev/docs/components/alert)을 사용합니다.
+
+![리로드 과정을 녹화한 영상입니다. "New content available"."이라는 알림 상자가 창 오른쪽 하단에 표시됩니다. "Refresh" 버튼을 클릭하면 페이지의 기본 제목이 "Introduction"에서 "PWA :))"로 변경됩니다.](/img/pwa_reload.gif)
+
+여러분의 컴포넌트가 `null`을 렌더링할 수 있지만 권장하지는 않습니다. 이런 경우 사용자는 최신 콘텐츠를 얻을 수 없습니다.

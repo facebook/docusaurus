@@ -1,0 +1,28 @@
+---
+description: Como o Docusaurus realiza o build seu aplicativo
+---
+
+# Arquitetura
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Zoom from 'react-medium-image-zoom';
+```
+
+<Zoom>
+
+![Visão geral de Arquitetura](/img/architecture.png)
+
+</Zoom>
+
+Este diagrama mostra como o Docusaurus funciona para realizar o build de seu aplicativo. Cada plugin coleta seu conteúdo e emite dados no formato JSON; os temas fornecem componentes de layout que recebem dados no formato JSON como módulos de rota. O bundler agrupa todos os componentes e emite um pacote de servidores e um pacote de clientes.
+
+Embora vocês (autores de plugins ou criadores de sites) estejam sempre escrevendo JavaScript, o tempo todo. Tenha em mente que o JS na verdade é executado em diferentes ambientes:
+
+- Todos os métodos do ciclo de vida de um plugin são executados utilizando Node. Portanto, até suportarmos ES Módulos em nossa base de código, o código-fonte do plugin deve ser fornecido como módulos ES para que sejam importados, ou CommonJS para que possam ser carregados utilizando `require`.
+- O código do tema foi construído com Webpack. Elas podem ser fornecidas como ESM — seguindo as convenções React.
+
+O código do plugin e o código do tema nunca realizam imports entre si: eles se comunicam apenas por protocolos (no nosso caso, através de arquivos JSON temp e chamadas para `addRoute`). Um modelo mental útil é imaginar que os plugins não estão escritos em JavaScript, mas em outra linguagem como o Rust. A única maneira de interagir com plugins para o usuário é através do `docusaurus.config.js`, que é executado utilizando Node (assim você pode usar `require` e passar callbacks como opções do plugin).
+
+Durante o empacotamento, o próprio arquivo de configuração será serializado e compactado, permitindo que o tema acesse opções de configuração como `themeConfig` ou `baseUrl` através da execução de [`useDocusaurusContext()`](../docusaurus-core.mdx#useDocusaurusContext). No entanto, o objeto `siteConfig` contém apenas **valores serializáveis** (valores que são preservados após `JSON.stringify()`). Functions, regexes, etc. would be lost on the client side. O `themeConfig` é projetado para ser inteiramente serializável.

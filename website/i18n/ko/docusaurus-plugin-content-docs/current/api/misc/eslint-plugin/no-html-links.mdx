@@ -1,0 +1,47 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/no-html-links
+---
+
+# no-html-links
+
+import APITable from '@site/src/components/APITable';
+
+`<a>` 태그 대신 도큐사우르스의 [`<Link>`](../../../docusaurus-core.mdx#link) 컴포넌트를 사용할 수 있는지 확인합니다.
+
+`<Link>` 컴포넌트는 프리페칭(prefetching), 사전 로딩(preloading) 기능을 포함하고 있습니다. 또한 빌드 시 끊어진 링크를 감지하고 도큐사우루스가 사이트 구조를 더 잘 이해할 수 있게 도와줍니다.
+
+## 상세 규칙 {#details}
+
+규칙이 **잘못 적용된** 코드 예시
+
+```html
+<a href="/page">go to page!</a>
+
+<a href="https://x.com/docusaurus" target="_blank">X</a>
+```
+
+규칙이 **적용된** 코드 예시
+
+```js
+import Link from '@docusaurus/Link'
+
+<Link to="/page">go to page!</Link>
+
+<Link to="https://x.com/docusaurus">X</Link>
+```
+
+## 규칙 설정 {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션                    | 타입        | 기본값     | 설명                                                            |
+| --------------------- | --------- | ------- | ------------------------------------------------------------- |
+| `ignoreFullyResolved` | `boolean` | `false` | true로 설정하면 프로토콜을 포함한 절대 URL이 있는 `<a>` 태그를 따로 보고하지 않습니다. |
+
+```mdx-code-block
+</APITable>
+```

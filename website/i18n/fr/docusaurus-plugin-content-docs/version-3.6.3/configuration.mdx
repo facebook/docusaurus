@@ -1,0 +1,294 @@
+---
+description: Configurer le comportement de votre site grâce à docusaurus.config.js et plus encore.
+---
+
+# Configuration
+
+import TOCInline from '@theme/TOCInline';
+
+:::info
+
+Consultez la [**référence de l'API de `docusaurus.config.js`**](api/docusaurus.config.js.mdx) pour une liste exhaustive d'options.
+
+:::
+
+Docusaurus a une approche unique sur les configurations. Nous vous encourageons à rassembler les informations de votre site en un seul endroit. Nous gardons les champs de ce fichier et facilitons l'accès à cet objet de données à travers votre site.
+
+Le fait de conserver un `docusaurus.config.js` bien maintenu vous aide, ainsi que vos collaborateurs et vos contributeurs open source, à pouvoir vous concentrer sur la documentation tout en étant en mesure de personnaliser le site.
+
+## Syntaxe pour déclarer `docusaurus.config.js` {#syntax-to-declare-docusaurus-config}
+
+Le fichier `docusaurus.config.js` est exécuté dans Node.js et doit exporter soit :
+
+- un **objet config**
+- une **fonction** qui crée l'objet config
+
+:::info
+
+Le fichier `docusaurus.config.js` prend en charge :
+
+- [**ES Modules**](https://flaviocopes.com/es-modules/)
+- [**CommonJS**](https://flaviocopes.com/commonjs/)
+- [**TypeScript**](./typescript-support.mdx#typing-config)
+
+Contraintes :
+
+- **Required:** use `export default /* your config*/` (or `module.exports`) to export your Docusaurus config
+- **Facultatif** : utilisez `import Lib from 'lib'` (ou `require('lib')`) pour importer les paquets Node.js
+
+:::
+
+Docusaurus nous donne la possibilité de déclarer sa configuration de différentes **manières équivalentes**, et tous les exemples de config suivants mènent exactement au même résultat :
+
+```js title="docusaurus.config.js"
+export default {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // votre config de site ...
+};
+```
+
+```js title="docusaurus.config.js"
+module.exports = {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // la config de votre site ...
+};
+```
+
+```ts title="docusaurus.config.ts"
+import type {Config} from '@docusaurus/types';
+
+export default {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // la configuration de votre site ...
+} satisfies Config;
+```
+
+```js title="docusaurus.config.js"
+const config = {
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
+  // la configuration de votre site ...
+};
+
+export default config;
+```
+
+```js title="docusaurus.config.js"
+export default function configCreator() {
+  return {
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
+    // la configuration de votre site ...
+  };
+}
+```
+
+```js title="docusaurus.config.js"
+export default async function createConfigAsync() {
+  return {
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
+    // la configuration de votre site ...
+  };
+}
+```
+
+:::tip Utilisation des paquets uniquement ESM
+
+L'utilisation d'un créateur de config asynchrone peut être utile pour importer des modules uniquement ESM (notamment la plupart des plugins Remark). Il est possible d'importer de tels modules grâce à des importations dynamiques :
+
+```js title="docusaurus.config.js"
+export default async function createConfigAsync() {
+  // Use a dynamic import instead of require('esm-lib')
+  // highlight-next-line
+  const lib = await import('lib');
+
+  return {
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
+    // le reste de la configuration de votre site...
+  };
+}
+```
+
+:::
+
+## Qu'est-ce qui va dans un `docusaurus.config.js` ? {#what-goes-into-a-docusaurusconfigjs}
+
+Vous ne devriez pas avoir à écrire votre `docusaurus.config.js` à partir de zéro, même si vous développez votre site. Tous les templates sont fournis avec un `docusaurus.config.js` qui inclut les valeurs par défaut pour les options courantes.
+
+Toutefois, il peut être utile d'avoir une compréhension de haut niveau de la façon dont les configurations sont conçues et mises en œuvre.
+
+La configuration de haut niveau de Docusaurus peut être classée en plusieurs catégories :
+
+<TOCInline toc={toc} minHeadingLevel={3} maxHeadingLevel={3} />
+
+### Métadonnées du site {#site-metadata}
+
+Les métadonnées du site contiennent les métadonnées globales essentielles telles que `title`, `url`, `baseUrl` et `favicon`.
+
+They are used in several places such as your site's title and headings, browser tab icon, social sharing (Facebook, X) information or even to generate the correct path to serve your static files.
+
+### Configurations de déploiement {#deployment-configurations}
+
+Les configurations de déploiement telles que `projectName`, `organizationName` et optionnellement `deploymentBranch` sont utilisées lorsque vous déployez votre site avec la commande `deploy`.
+
+Il est recommandé de vérifier la [documentation de déploiement](deployment.mdx) pour plus d'informations.
+
+### Configurations de thème, plugin et preset {#theme-plugin-and-preset-configurations}
+
+Indique les [thèmes](./using-plugins.mdx#using-themes), les [plugins](./using-plugins.mdx) et les [presets](./using-plugins.mdx#using-presets) de votre site dans les champs respectifs `themes`, `plugins` et `presets`. Il s'agit généralement de paquets npm :
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: [
+    '@docusaurus/plugin-content-blog',
+    '@docusaurus/plugin-content-pages',
+  ],
+  themes: ['@docusaurus/theme-classic'],
+};
+```
+
+:::tip
+
+Docusaurus prend en charge [**les raccourcis de module**](./using-plugins.mdx#module-shorthands), vous permettant de simplifier la configuration ci-dessus comme suit :
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: ['content-blog', 'content-pages'],
+  themes: ['classic'],
+};
+```
+
+:::
+
+Ils peuvent également être chargés à partir de répertoires locaux :
+
+```js title="docusaurus.config.js"
+import path from 'path';
+
+export default {
+  // ...
+  themes: [path.resolve(__dirname, '/path/to/docusaurus-local-theme')],
+};
+```
+
+Pour spécifier des options pour un plugin ou un thème, remplacer le nom du plugin ou du thème dans le fichier de configuration par un tableau contenant le nom et un objet d'options :
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  plugins: [
+    [
+      'content-blog',
+      {
+        path: 'blog',
+        routeBasePath: 'blog',
+        include: ['*.md', '*.mdx'],
+        // ...
+      },
+    ],
+    'content-pages',
+  ],
+};
+```
+
+Pour spécifier des options pour un plugin ou un thème qui est fourni dans un preset, passez les options à travers le champ `presets`. Dans cet exemple, `docs` fait référence à `@docusaurus/plugin-content-docs` et `theme` fait référence à `@docusaurus/theme-classic`.
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: './sidebars.js',
+        },
+        theme: {
+          customCss: ['./src/css/custom.css'],
+        },
+      },
+    ],
+  ],
+};
+```
+
+:::tip
+
+Le raccourci `presets : [['classic', {...}]]` fonctionne aussi bien.
+
+:::
+
+Pour de plus amples informations sur la configuration des thèmes, des plugins et des presets, consultez [Utilisation des plugins](./using-plugins.mdx).
+
+### Configurations personnalisées {#custom-configurations}
+
+Docusaurus préserve `docusaurus.config.js` des champs inconnus. Pour ajouter des champs personnalisés, définissez-les dans `customFields`.
+
+Exemple :
+
+```js title="docusaurus.config.js"
+export default {
+  // ...
+  // highlight-start
+  customFields: {
+    image: '',
+    keywords: [],
+  },
+  // highlight-end
+  // ...
+};
+```
+
+## Accès à la configuration depuis les composants {#accessing-configuration-from-components}
+
+Votre objet de configuration sera rendu disponible pour tous les composants de votre site. Et vous pouvez y accéder via le contexte React en tant que `siteConfig`.
+
+Exemple basique :
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+const Hello = () => {
+  // highlight-start
+  const {siteConfig} = useDocusaurusContext();
+  // highlight-end
+  const {title, tagline} = siteConfig;
+
+  return <div>{`${title} · ${tagline}`}</div>;
+};
+```
+
+:::tip
+
+Si vous voulez juste utiliser ces champs du côté client, vous pouvez créer vos propres fichiers JS et les importer en tant que modules ES6, il n'y a pas besoin de les mettre dans le `docusaurus.config.js`.
+
+:::
+
+## Personnalisation de la configuration de Babel {#customizing-babel-configuration}
+
+Docusaurus transpiles your site's source code using Babel by default. If you want to customize the Babel configuration, you can do so by creating a `babel.config.js` file in your project root.
+
+To use the built-in preset as a base configuration, install the following package and use it
+
+```bash npm2yarn
+npm install --save @docusaurus/babel
+```
+
+Then use the preset in your `babel.config.js` file:
+
+```js title="babel.config.js"
+export default {
+  presets: ['@docusaurus/babel/preset'],
+};
+```
+
+Most of the time, the default preset configuration will work just fine. Si vous voulez personnaliser votre configuration Babel (par exemple pour ajouter le support de Flow), vous pouvez directement modifier ce fichier. Pour que vos changements prennent effet, vous devez redémarrer le serveur de dev de Docusaurus.

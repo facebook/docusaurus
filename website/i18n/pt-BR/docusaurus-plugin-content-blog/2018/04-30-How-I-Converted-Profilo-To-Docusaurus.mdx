@@ -1,0 +1,131 @@
+---
+title: Como converti o Perfil para o Teste docusaurus em menos de 2 horas
+authors:
+  - abernathyca
+tags:
+  - profilo
+  - adoption
+---
+
+> _“Joel and I were discussing having a website and how it would have been great to launch with it. Então, eu me desafiei a adicionar suporte ao Docusaurus. Demorou pouco mais de uma hora e meia. Vou enviar-lhe um PR para que possa dar uma olhada e ver se gosta. Your workflow for adding docs wouldn't be much different from editing those Markdown files.”_
+>
+> _— Note sent to the Profilo team_
+
+This is the story of the rather short journey it took to create the [Profilo](https://facebookincubator.github.io/profilo/) website using Docusaurus.
+
+Profilo, an Android library for collecting performance traces from production, [was announced](https://code.fb.com/android/profilo-understanding-app-performance-in-the-wild/) earlier this year. The project was [published on GitHub](https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8) with a less than [a handful or Markdown files](https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8/docs) to describe its functionality and no website to showcase any branding and highlight the logo. A tarefa em questão era transformar a documentação e o logotipo existentes num site.
+
+<!--truncate-->
+
+Em geral, ao criar um site com o Docusaurus você faz o seguinte:
+
+1. Gere um site de modelos usando scripts do Docusaurus.
+2. Personalize os arquivos de modelo gerados para as cores do site desejado e a configuração do seu projeto (ex: site e links do GitHub).
+3. Crie o conteúdo do site:
+   1. Adicionar seus documentos e quaisquer ativos de suporte.
+   2. Personalize a página inicial padrão fornecida pelo Docusaurus para atender às suas necessidades.
+   3. Configurar o arquivo padrão de navegação do site.
+4. Publique o site e configure como ele será publicado para alterações futuras.
+
+Dado que tenho arquivos Markdown pré-existentes, Não precisei gerar o conteúdo do núcleo, mas tenha certeza de que o Docusaurus possa processar os arquivos, adicionando os metadados esperados. A maior parte do trabalho consistiria, portanto, em personalizar os padrões fornecidos pelo Docusaurus.
+
+## Visão geral de passos realizados
+
+Aqui está uma visão geral das etapas tomadas para converter um site. Discutirei alguns dos aspectos do design em uma seção posterior.
+
+**Design and colors:**
+
+1. Obteve todos os formatos de logo desejados pelo designer. I had to create the _.favicon_ one.
+2. Trabalhou algumas cores do site primário e secundário passáveis usando as ferramentas http://paletton.com/ - muito útil!
+
+**Initial website setup:**
+
+1. Forked the [Profilo project](https://github.com/facebookincubator/profilo/) on GitHub and created a local clone of the fork to set up the website.
+2. Created the initial Docusaurus website using the [installation instructions](https://v1.docusaurus.io/docs/en/installation.html).
+3. Deleted the `docs-examples-from-docusaurus` and `website/blog-examples-from-docusaurus` folders as these would not be needed. O perfil tinha documentos existentes que poderíamos usar e não havia necessidade de blogs neste momento.
+
+**Content creation:**
+
+1. Added metadata to the existing Markdown files found in the `docs` folder, for example:
+
+   ```md
+   ---
+   id: architecture
+   title: Architecture
+   sidebar_label: Architecture
+   ---
+   ```
+
+2. Added the logo assets to the `website/static/img` folder.
+
+3. Modified `website/pages/en/index.js`, the landing page, to highlight Profilo features.
+
+4. Modified `website/core/Footer.js`, the footer, to simplify it for Profilo.
+
+5. Edited `website/siteConfig.js` (website configuration file) to specify the previously chosen primary and secondary colors.
+
+6. Modified `website/sidebars.json` that specifies the sidebar navigation. Listando todos os documentos e personalizados com base nos metadados adicionados aos arquivos Markdown.
+
+7. Editado o arquivo de configuração do site para especificar as propriedades do GitHub, imagens do logotipo, links de cabeçalho e o link do site.
+
+8. Estado o site localmente durante esta fase. (I ran `yarn start` from the `website` folder to start the server.)
+
+**Feedback and review changes:**
+
+1. Sent a [pull request](https://github.com/facebookincubator/profilo/pull/6) to the project.
+2. Atualizadas as cores depois que o designer acertadamente percebeu as que eu escolhi (IANAD).
+3. Atualizado as cores e atualizado o PR.
+4. The PR was then accepted and [merged](https://github.com/facebookincubator/profilo/commit/6ad033aaf5a7d54e6d842f45a5bccd051a8e45ad). Uhul!
+
+**Website publishing:**
+
+1. Pushed the first website version by running the Docusaurus publish script from the command line:
+
+   ```bash
+   USE_SSH=true \
+     GIT_USER=caabernathy \
+     CURRENT_BRANCH=master \
+     yarn run publish-gh-pages
+   ```
+
+2. Configured CircleCI using the [provided Docusaurus instructions](https://v1.docusaurus.io/docs/en/publishing.html#automating-deployments-using-continuous-integration). There were 2 PRs for this, [the first](https://github.com/facebookincubator/profilo/pull/8)for the initial config and [the second](https://github.com/facebookincubator/profilo/pull/12) to make sure CircleCI only triggered for changes in the master branch (thanks Joel Marcey!).
+
+O site final foi publicado em https://facebookincubator.github.io/profilo/. Levara 1. horas para chegar ao estágio inicial do PR e mais meia hora aproximadamente para responder ao feedback de revisão e publicação do site.
+
+## Design
+
+Veja como o site inicial pareceu quando a primeira pull request foi enviada:
+
+![The website's front page, with a quite bright and saturated red color as the primary color, closely resembling the Profilo logo color, making the logo unrecognizable in the navbar](/img/profilo_blog_post_website_initial.png)
+
+A maioria das vezes na criação de conteúdo foi gasta escolhendo cores que funcionaram razoavelmente bem com o logotipo dado. Essas cores foram um bom ponto de salto para o feedback do designer. Eu usei o Photoshop para amostrar várias partes do logotipo.
+
+![Picking colors in Photoshop, with the Profilo logo and the main working area in the background and a color picker dialog in the foreground, selected to a red shade](/img/profilo_blog_post_photoshop_color_picker.png)
+
+I then took the RGB representation of the color and set it as the baseline color on [Paletton](http://paletton.com/). O site em seguida me deu várias opções de exibição de cores no site, editando o arquivo de configuração do site Docusaurus.
+
+![Using Paletton to generate a full palette from the red shade selected. There's a color wheel showing all hues on the left, and a square showing various shades of red on the right.](/img/profilo_blog_post_palette_website_color_picker.png)
+
+As cores primárias e secundárias selecionadas foram um bom ponto de salto para o feedback do designer.
+
+Houve também modificações feitas no site padrão gerado pelo Docusaurus. Essas alterações foram feitas principalmente em torno da simplificação do rodapé e criação de uma página inicial personalizada para o Perfil que listou os recursos do projeto.
+
+Veja como foi o site final:
+
+![The website's front page, with a much darker red color as the primary color, making both the logo and the primary-colored title text clearly legible.](/img/profilo_blog_post_website_final.png)
+
+Esta é uma página de exemplo mostrando o conteúdo principal, neste caso a página de introdução:
+
+![A doc page with the sidebar on the left quarter of the screen and the main content occupying the rest. Some text is using the primary color and the main body uses multiple kinds of typesetting including bold, list, and code](/img/profilo_blog_post_website_final_docs.png)
+
+This also shows the sidebar structure that was set up through editing `website/sidebars.json`.
+
+Por último, não tive que me preocupar em lidar com design responsivo. Você tira isso da caixa com o Docusaurus!
+
+![Mobile screenshots of the front page and sample doc page. The layout is automatically adjusted to make it appear more natural. The doc sidebar is hidden behind a button.](/img/profilo_blog_post_android_ios.png)
+
+## Considerações Finais
+
+Os engenheiros Profilo ficaram felizes em ver que eles não precisavam alterar seu fluxo de trabalho para atualizar o conteúdo existente. Eles puderam continuar trabalhando com arquivos do Markdown. Isso continuará a ser verdade no futuro se novos documentos forem adicionados, embora possa haver algumas alterações de configuração necessárias se a navegação na barra lateral precisar ser atualizada.
+
+A infraestrutura fornecida pelo Docusaurus facilitou a conversão de arquivos do Markdown em um site funcional. Embora o projeto tivesse apenas três documentos, isso deu um visual mais profissional ao Profilo. Portanto, valeu bem o pouco tempo de investimento para o fazer.

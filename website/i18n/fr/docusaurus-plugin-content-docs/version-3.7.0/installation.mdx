@@ -1,0 +1,194 @@
+---
+description: Comment installer Docusaurus localement, et démarrer un site Docusaurus en un rien de temps.
+---
+
+# Installation
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+Docusaurus se compose d'un ensemble de [paquets](https://github.com/facebook/docusaurus/tree/main/packages) npm.
+
+:::tip
+
+Utilisez la **[Procédure accélérée](introduction.mdx#fast-track)** pour comprendre Docusaurus **5 minutes ⏱** !
+
+Utilisez **[docusaurus.new](https://docusaurus.new)** pour tester immédiatement Docusaurus dans votre navigateur !
+
+:::
+
+## Pré-requis {#requirements}
+
+- [Node.js](https://nodejs.org/en/download/) version 18.0 ou supérieure (qui peut être vérifiée en exécutant `node -v`). Vous pouvez utiliser [nvm](https://github.com/nvm-sh/nvm) pour gérer plusieurs versions de Node sur une seule machine installée.
+  - Lors de l'installation de Node.js, il est recommandé de cocher toutes les cases liées aux dépendances.
+
+## Structurer un site web d'un projet {#scaffold-project-website}
+
+The easiest way to install Docusaurus is to use the [`create-docusaurus`](./api/misc/create-docusaurus.mdx) command line tool that helps you scaffold a skeleton Docusaurus website. Vous pouvez exécuter cette commande n'importe où dans un nouveau dépôt vide ou dans un dépôt existant, elle créera un nouveau répertoire contenant les fichiers de structure.
+
+```bash
+npx create-docusaurus@latest my-website classic
+```
+
+Nous recommandons le template `classic` pour que vous puissiez commencer rapidement et il contient des fonctionnalités disponibles dans Docusaurus 1. Le template `classic` contient `@docusaurus/preset-classic` qui inclut une documentation standard, un blog, des pages personnalisées et un framework CSS (avec support du mode sombre). Vous pouvez être opérationnel très rapidement avec le template classic et personnaliser les choses plus tard, lorsque vous serez plus familier avec Docusaurus.
+
+Vous pouvez également utiliser la variante TypeScript du template en passant l'option `--typescript`. Consultez [Support de TypeScript](./typescript-support.mdx) pour plus d'informations.
+
+```bash
+npx create-docusaurus@latest my-website classic --typescript
+```
+
+:::info Méta uniquement
+
+Si vous mettez en place un nouveau site web Docusaurus pour un projet Meta open source, exécutez cette commande à l'intérieur d'un dépôt interne, qui est livré avec des valeurs par défaut utiles aux spécificités de Meta :
+
+```bash
+scarf static-docs-bootstrap
+```
+
+:::
+
+<details>
+  <summary>Commandes d'installation alternatives</summary>
+
+Vous pouvez également initialiser un nouveau projet en utilisant votre gestionnaire de projet préféré :
+
+```bash npm2yarn
+npm init docusaurus
+```
+
+</details>
+
+Exécutez `npx create-docusaurus@latest --help`, ou consulter ses [docs de l'API](./api/misc/create-docusaurus.mdx) pour plus informations à propos des options disponibles.
+
+## Structure du projet {#project-structure}
+
+En supposant que vous avez choisi le template classic et nommé votre site `my-website`, vous verrez les fichiers suivants générés dans un nouveau répertoire `my-website/` :
+
+```bash
+my-website
+├── blog
+│   ├── 2019-05-28-hola.md
+│   ├── 2019-05-29-hello-world.md
+│   └── 2020-05-30-welcome.md
+├── docs
+│   ├── doc1.md
+│   ├── doc2.md
+│   ├── doc3.md
+│   └── mdx.md
+├── src
+│   ├── css
+│   │   └── custom.css
+│   └── pages
+│       ├── styles.module.css
+│       └── index.js
+├── static
+│   └── img
+├── docusaurus.config.js
+├── package.json
+├── README.md
+├── sidebars.js
+└── yarn.lock
+```
+
+### Récapitulatif de la structure du projet {#project-structure-rundown}
+
+- `/blog/` - Contient les fichiers Markdown du blog. Vous pouvez supprimer le répertoire si vous avez désactivé le plugin du blog, ou vous pouvez changer son nom après avoir défini l'option `path`. Vous trouverez plus de détails dans le [guide du blog](blog.mdx)
+- `/docs/` - Contient les fichiers Markdown pour la documentation. Personnalisez l'ordre de la barre latérale des docs dans `sidebars.js`. Vous pouvez supprimer le répertoire si vous avez désactivé le plugin des docs, ou vous pouvez changer son nom après avoir défini l'option `path`. Vous trouverez plus de détails dans le [guide des docs](./guides/docs/docs-introduction.mdx)
+- `/src/` - Fichiers de non-documentation comme les pages ou les composants React personnalisés. Vous n'êtes pas obligé de placer vos fichiers de non-documentation ici, mais les placer dans un répertoire centralisé permet de les spécifier plus facilement au cas où vous auriez besoin de faire une sorte de vérification/traitement
+  - `/src/pages` - Tous les fichiers JSX/TSX/MDX de ce répertoire seront convertis en page de site. Vous trouverez plus de détails dans le [guide des pages](./guides/docs/creating-pages.mdx)
+- `/static/` - Répertoire statique. Tout contenu à l'intérieur sera copié à la racine du répertoire final du `build`
+- `/docusaurus.config.js` - Un fichier de configuration contenant la configuration du site. Ceci est l'équivalent de `siteConfig.js` dans Docusaurus v1
+- `/package.json` - Un site Web Docusaurus est une application React. Vous pouvez y installer et utiliser tous les paquets npm que vous souhaitez
+- `/sidebars.js` - Utilisé par la documentation pour spécifier l'ordre des documents dans la barre latérale
+
+### Monorepos {#monorepos}
+
+Si vous utilisez Docusaurus pour la documentation d'un projet existant, un monorepo peut être la solution pour vous. Les monorepos vous permet de partager des dépendances entre des projets similaires. Par exemple, votre site web peut utiliser vos paquets locaux pour présenter les dernières fonctionnalités au lieu de dépendre d'une version publiée. Ensuite, vos contributeurs peuvent mettre à jour les documents au fur et à mesure qu'ils implémentent des fonctionnalités. Un exemple de structure de dossier monorepo est ci-dessous :
+
+```bash
+my-monorepo
+├── package-a # Un autre paquet, votre projet actuel
+│   ├── src
+│   └── package.json # Les dépendances du paquet A
+├── website   # racine de Docusaurus
+│   ├── docs
+│   ├── src
+│   └── package.json # Les dépendances de Docusaurus
+├── package.json # dépendances partagées du monorepo
+```
+
+Dans ce cas, vous devriez exécuter `npx create-docusaurus` dans le dossier `./my-monorepo`.
+
+Si vous utilisez un hébergeur comme Netlify ou Vercel, vous devrez changer le `répertoire de base` du site à l'endroit où se trouve votre racine Docusaurus. Dans ce cas, ce serait `./website`. Pour en savoir plus sur la configuration des commandes ignorées, consultez la [documentation sur le déploiement](./deployment.mdx#deploying-to-netlify).
+
+En savoir plus sur les monorepos dans la [documentation Yarn](https://yarnpkg.com/features/workspaces) (Yarn n'est pas le seul moyen de mettre en place un monorepo, mais c'est une solution commune), ou vérifiez [Docusaurus](https://github.com/facebook/docusaurus) et [Jest](https://github.com/facebook/jest) pour quelques exemples du monde réel.
+
+## Exécution du serveur de développement {#running-the-development-server}
+
+Pour prévisualiser vos modifications au fur et à mesure que vous modifiez les fichiers, vous pouvez lancer un serveur de développement local qui servira votre site Web et reflétera les dernières modifications.
+
+```bash npm2yarn
+cd my-website
+npm run start
+```
+
+Par défaut, une fenêtre du navigateur s'ouvrira sur [`http://localhost:3000`](http://localhost:3000).
+
+Félicitations ! Vous venez de créer votre premier site Docusaurus ! Naviguez sur le site pour voir ce qui est disponible.
+
+## Construction {#build}
+
+Docusaurus est un générateur de site web statique moderne donc nous avons besoin de construire le site web dans un répertoire de contenu statique et de le mettre sur un serveur web pour qu'il puisse être consulté. Pour construire le site web :
+
+```bash npm2yarn
+npm run build
+```
+
+et le contenu sera généré dans le répertoire `/build`, qui peut être copié dans n'importe quel service d'hébergement de fichiers statique comme [GitHub pages](https://pages.github.com/), [Vercel](https://vercel.com/) ou [Netlify](https://www.netlify.com/). Consultez la documentation sur le [déploiement](deployment.mdx) pour plus de détails.
+
+## Mise à jour de votre version Docusaurus {#updating-your-docusaurus-version}
+
+Il y a de nombreuses façons de mettre à jour votre version de Docusaurus. Une façon garantie est de changer manuellement le numéro de version dans `package.json` à la version désirée. Notez que tous les paquets nommés `@docusaurus/` doivent utiliser la même version.
+
+import UpgradeGuide from '@site/src/components/UpgradeGuide';
+
+<UpgradeGuide />
+
+Ensuite, dans le répertoire contenant le fichier `package.json`, exécutez la commande d'installation de votre gestionnaire de paquets :
+
+```bash npm2yarn
+npm install
+```
+
+:::tip
+
+`npm install` may report several vulnerabilities and recommend running `npm audit` to address them. Typically, these reported vulnerabilities, such as RegExp DOS vulnerabilities, are harmless and can be safely ignored. Also read this article, which reflects our thinking: [npm audit: Broken by Design](https://overreacted.io/npm-audit-broken-by-design/).
+
+:::
+
+Pour vérifier que la mise à jour a été effectuée avec succès, exécutez :
+
+```bash
+npx docusaurus --version
+```
+
+Vous devriez voir la version correcte en résultat.
+
+Alternativement, si vous utilisez Yarn, vous pouvez faire :
+
+```bash
+yarn add @docusaurus/core @docusaurus/preset-classic
+```
+
+:::tip
+
+Utilisez de nouvelles fonctionnalités inédites de Docusaurus avec [`@canary` npm dist tag](/community/canary)
+
+:::
+
+## Des problèmes ? {#problems}
+
+Ask for help on [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus), on our [GitHub repository](https://github.com/facebook/docusaurus), our [Discord server](https://discordapp.com/invite/docusaurus), or [X](https://x.com/docusaurus).

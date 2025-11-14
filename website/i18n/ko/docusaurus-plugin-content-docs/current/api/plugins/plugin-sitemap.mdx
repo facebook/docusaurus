@@ -1,0 +1,110 @@
+---
+sidebar_position: 10
+slug: /api/plugins/@docusaurus/plugin-sitemap
+---
+
+# 📦 plugin-sitemap
+
+import APITable from '@site/src/components/APITable';
+
+검색 엔진 크롤러가 여러분의 사이트를 정확하게 수집할 수 있도록 사이트맵을 만들어주는 플러그인입니다.
+
+:::warning production only
+
+해당 플러그인은 빌드 산출물에서만 작동하기 때문에 개발 중에는 비활성화되고 **제품 빌드 시에만 활성화**됩니다.
+
+:::
+
+## 설치 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-sitemap
+```
+
+:::tip
+
+`@docusaurus/preset-classic`을 설치한 경우에는 플러그인을 따로 설치할 필요는 없습니다.
+
+You can configure this plugin through the [preset options](../../using-plugins.mdx#docusauruspreset-classic).
+
+:::
+
+## 설정 {#configuration}
+
+설정할 수 있는 필드
+
+```mdx-code-block
+<APITable>
+```
+
+| 옵션명                  | 타입                               | 기본값           | 설명                                                                                                                                                         |
+| -------------------- | -------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lastmod`            | `'date' \| 'datetime' \| null` | `null`        | `date` is YYYY-MM-DD. `datetime` is a ISO 8601 datetime. `null` is disabled. See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions). |
+| `changefreq`         | `string \| null`                | `'weekly'`    | [사이트맵 문서](https://www.sitemaps.org/protocol.html#xmlTagDefinitions)를 참조하세요.                                                                                |
+| `priority`           | `number \| null`                | `0.5`         | [사이트맵 문서](https://www.sitemaps.org/protocol.html#xmlTagDefinitions)를 참조하세요.                                                                                |
+| `ignorePatterns`     | `string[]`                       | `[]`          | glob 패턴 목록입니다. 일치하는 라우트 경로는 사이트맵에서 필터링됩니다. 여기에 base URL을 포함해야 할 수도 있습니다.                                                                                   |
+| `filename`           | `string`                         | `sitemap.xml` | 출력 디렉토리를 기준으로 생성된 사이트맵 파일 경로입니다. 두 개의 파일을 출력하는 두 개의 플러그인 인스턴스가 있는 경우 유용합니다.                                                                                |
+| `createSitemapItems` | <code>[CreateSitemapItemsFn](#CreateSitemapItemsFn) \| undefined</code>        | `undefined`   | An optional function which can be used to transform and / or filter the items in the sitemap.                                                              |
+
+```mdx-code-block
+</APITable>
+```
+
+### 타입 {#types}
+
+#### `CreateSitemapItemsFn` {#CreateSitemapItemsFn}
+
+```ts
+type CreateSitemapItemsFn = (params: {
+  siteConfig: DocusaurusConfig;
+  routes: RouteConfig[];
+  defaultCreateSitemapItems: CreateSitemapItemsFn;
+}) => Promise<SitemapItem[]>;
+```
+
+:::info
+
+이 플러그인은 일부 사이트 설정을 유지합니다.
+
+- [`noIndex`](../docusaurus.config.js.mdx#noIndex): 사이트맵을 생성하지 않습니다.
+- [`trailingSlash`](../docusaurus.config.js.mdx#trailingSlash): 사이트맵 URL에 트레일링 슬래시가 있는지 확인합니다.
+
+:::
+
+:::note About `lastmod`
+
+The `lastmod` option will only output a sitemap `<lastmod>` tag if plugins provide [route metadata](../plugin-methods/lifecycle-apis.mdx#addRoute) attributes `sourceFilePath` and/or `lastUpdatedAt`.
+
+All the official content plugins provide the metadata for routes backed by a content file (Markdown, MDX or React page components), but it is possible third-party plugin authors do not provide this information, and the plugin will not be able to output a `<lastmod>` tag for their routes.
+
+:::
+
+### 설정 예시 {#ex-config}
+
+프리셋 옵션이나 플러그인 옵션에서 플러그인을 설정할 수 있습니다.
+
+:::tip
+
+대부분의 도큐사우루스 사용자는 프리셋 옵션을 사용해 플러그인을 설정합니다.
+
+:::
+
+```js config-tabs
+// Preset Options: sitemap
+// Plugin Options: @docusaurus/plugin-sitemap
+
+const config = {
+  lastmod: 'date',
+  changefreq: 'weekly',
+  priority: 0.5,
+  ignorePatterns: ['/tags/**'],
+  filename: 'sitemap.xml',
+  createSitemapItems: async (params) => {
+    const {defaultCreateSitemapItems, ...rest} = params;
+    const items = await defaultCreateSitemapItems(rest);
+    return items.filter((item) => !item.url.includes('/page/'));
+  },
+};
+```
+
+`/sitemap.xml`에서 사이트맵을 확인할 수 있습니다.

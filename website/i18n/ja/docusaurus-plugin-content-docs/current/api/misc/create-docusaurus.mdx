@@ -1,0 +1,58 @@
+---
+sidebar_position: 0
+slug: /api/misc/create-docusaurus
+---
+
+# 📦 create-docusaurus
+
+高機能なDocusaurusアプリを即座にセットアップするための足がかりとなるユーティリティ
+
+## 使い方 {#usage}
+
+```bash
+npx create-docusaurus@latest [name] [template] [rootDir]
+```
+
+引数`name`は、サイトのパスとして、また作成されたアプリのpackage.jsonの`name`フィールドとして使用されます。 絶対パスでも、`rootDir`からの相対パスでも構いません。
+
+`template` は、次のいずれかになります。
+
+- `classic`：標準的なテンプレートを使用（推奨）
+- `facebook`：Facebook/Metaテンプレート（Meta専用設定を含む）を使用
+- 作成先にクローンできるGitリポジトリのURL（「`https://`」または「`git@`」から始まる）
+- 現在のディレクトリを起点とする、作成先にコピーされるファイルを含むローカルファイルパス
+
+`rootDir`はサイトディレクトリへの絶対パスを解決するために利用されます。 初期値は現在のディレクトリです。
+
+:::warning
+
+このコマンドは、すべての機能が利用できるように、対話型シェルで使用することを推奨します。
+
+:::
+
+## Options {#options}
+
+### `-t, --typescript` {#typescript}
+
+テンプレート引数が認識可能な名前である場合に使用されます。 現在、`classic`のみがTypeScriptの派生型を提供しています。
+
+### `-g, --git-strategy` {#git-strategy}
+
+テンプレートの引数がGitリポジトリの場合に使用します。 次のいずれかである必要があります。
+
+- `deep`：Gitの全履歴を保持
+- `shallow`：`--depth=1`をつけてクローン
+- `copy`：浅いクローンを作成するが、Gitリポジトリは作成しない
+- `custom`：カスタムのgit cloneコマンドを入力。 プロンプトを表示して尋ねます。 `git clone --depth 10`のように書くと、リポジトリのURLとコピー先ディレクトリが後ろに付け足されます。
+
+### `-p, --package-manager` {#package-manager}
+
+Value should be one of `npm`, `yarn`, `pnpm`, or `bun`. 明示的に指定されない場合、Docusaurusは以下に基づいて推定します。
+
+- 現在のディレクトリ内に既に存在するロックファイル（例：既存のプロジェクトでウェブサイトを立ち上げる場合）
+- The command used to invoke `create-docusaurus` (e.g. `npm init`, `npx`, `yarn create`, `bunx`, etc.)
+- 発見的な方法がすべて存在しない場合の対話型プロンプト。
+
+### `-s, --skip-install` {#skip-install}
+
+このオプションを指定すると、Docusaurusはアプリ作成後に依存関係を自動的にインストールしません。 `--package-manager`オプションは、実際に依存関係をインストールするときにのみ有効です。

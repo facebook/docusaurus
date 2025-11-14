@@ -1,0 +1,181 @@
+---
+id: git
+slug: /i18n/git
+---
+
+# i18n - Utilisation de git
+
+Une **stratégie de traduction possible** est de **piloter les fichiers de traduction** avec Git (ou tout autre [VCS](https://en.wikipedia.org/wiki/Version_control)).
+
+## Compromis {#tradeoffs}
+
+Cette stratégie a des avantages :
+
+- **Facile à démarrer** : commitez simplement le dossier `i18n` à Git
+- **Facile pour les développeurs** : Git, GitHub et les pull requests sont des outils de développement standard
+- **Gratuit** (ou sans coût supplémentaire, en supposant que vous utilisiez déjà Git)
+- **Faible interaction** : ne nécessite pas de s'inscrire à un outil externe
+- **Gratifiant** : les contributeurs sont heureux d'avoir un bon historique de leurs contributions
+
+L'utilisation de Git présente également quelques lacunes :
+
+- **Difficile pour les non-développeurs** : ils ne maîtrisent pas Git et les pull-requests
+- **Difficile pour les traducteurs professionnels** : ils sont habitués aux logiciels de traduction SaaS et aux fonctionnalités avancées
+- **Difficile à maintenir**: vous devez garder les fichiers traduits **en les synchronisant** avec les fichiers non traduits
+
+:::note
+
+Certains **projets techniques à grande échelle** (React, Vue.js, MDN, TypeScript, Nuxt.js, etc.) utilisent Git pour les traductions.
+
+Consultez la [RFC Docusaurus i18n](https://github.com/facebook/docusaurus/issues/3317) pour nos notes et liens étudiant ces systèmes.
+
+:::
+
+## Initialisation {#initialization}
+
+Il s'agit d'une présentation de l'utilisation de Git pour traduire en français un site web Docusaurus anglais nouvellement initialisé, et suppose que vous avez déjà suivi le [tutoriel i18n](./i18n-tutorial.mdx).
+
+### Préparez le site Docusaurus {#prepare-the-docusaurus-site}
+
+Initialisez un nouveau site Docusaurus :
+
+```bash
+npx create-docusaurus@latest website classic
+```
+
+Ajoutez la configuration du site pour la langue française :
+
+```js title="docusaurus.config.js"
+export default {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
+  themeConfig: {
+    navbar: {
+      items: [
+        // ...
+        {
+          type: 'localeDropdown',
+          position: 'left',
+        },
+        // ...
+      ],
+    },
+  },
+  // ...
+};
+```
+
+Traduisez la page d'accueil :
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+import Translate from '@docusaurus/Translate';
+import Layout from '@theme/Layout';
+
+export default function Home() {
+  return (
+    <Layout>
+      <h1 style={{margin: 20}}>
+        <Translate description="The homepage main heading">
+          Welcome to my Docusaurus translated site!
+        </Translate>
+      </h1>
+    </Layout>
+  );
+}
+```
+
+### Initialisez le dossier `i18n` {#initialize-the-i18n-folder}
+
+Utilisez la commande CLI [write-translations](../cli.mdx#docusaurus-write-translations-sitedir) pour initialiser les fichiers de traduction JSON pour la langue française :
+
+```bash npm2yarn
+npm run write-translations -- --locale fr
+
+  1 translations written at i18n/fr/code.json
+ 11 translations written at i18n/fr/docusaurus-theme-classic/footer.json
+  4 translations written at i18n/fr/docusaurus-theme-classic/navbar.json
+  3 translations written at i18n/fr/docusaurus-plugin-content-docs/current.json
+```
+
+:::tip
+
+Utilisez l'option `--messagePrefix '(fr) '` pour faire ressortir les chaînes non traduites.
+
+`Hello` apparaîtra comme `(fr) Hello` et indique qu'une traduction est manquante.
+
+:::
+
+Copiez vos fichiers Markdown non traduits dans le dossier français :
+
+```bash
+mkdir -p i18n/fr/docusaurus-plugin-content-docs/current
+cp -r docs/** i18n/fr/docusaurus-plugin-content-docs/current
+
+mkdir -p i18n/fr/docusaurus-plugin-content-blog
+cp -r blog/** i18n/fr/docusaurus-plugin-content-blog
+
+mkdir -p i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.md i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
+```
+
+Ajoutez tous ces fichiers à Git.
+
+### Traduisez les fichiers {#translate-the-files}
+
+Traduisez les fichiers Markdown et JSON dans `i18n/fr` et committez la traduction.
+
+Vous devriez maintenant être en mesure de démarrer votre site en français et de voir les traductions :
+
+```bash npm2yarn
+npm run start -- --locale fr
+```
+
+Vous pouvez également construire le site localement ou sur votre CI :
+
+```bash npm2yarn
+npm run build
+# ou
+npm run build -- --locale fr
+```
+
+### Répétez {#repeat}
+
+Suivez le même processus pour chaque locale que vous devez prendre en charge.
+
+## Maintenance {#maintenance}
+
+Garder les fichiers traduits **cohérents** avec les originaux **peut être difficile**, en particulier pour les documents Markdown.
+
+### Traductions Markdown {#markdown-translations}
+
+Lorsqu'un document Markdown non traduit est modifié, il est **de votre responsabilité de maintenir les fichiers traduits respectivement**, et nous n'avons malheureusement pas un bon moyen de vous aider à le faire.
+
+Pour maintenir la cohérence de vos sites traduits, lorsque le doc `website/docs/doc1.md` est modifié, vous avez besoin **de reporter ces modifications** vers `i18n/fr/docusaurus-plugin-content-docs/current/doc1.md`.
+
+### Traductions JSON {#json-translations}
+
+Pour vous aider à maintenir les fichiers de traduction JSON, il est possible d'exécuter à nouveau la commande CLI [write-translations](../cli.mdx#docusaurus-write-translations-sitedir) :
+
+```bash npm2yarn
+npm run write-translations -- --locale fr
+```
+
+Les nouvelles traductions seront ajoutées et les traductions existantes ne seront pas remplacées.
+
+:::tip
+
+Réinitialisez vos traductions avec l'option `--override`.
+
+:::
+
+### Traduisez les URL de modification {#localize-edit-urls}
+
+Quand l'utilisateur navigue sur une page à `/fr/doc1`, le bouton de modification liera par défaut le doc non localisé `website/docs/doc1.md`.
+
+Vos traductions sont sur Git, et vous pouvez utiliser l'option `editLocalizedFiles : true` des plugins docs et blog.
+
+Le bouton de modification sera lié au doc localisé `i18n/fr/docusaurus-plugin-content-docs/current/doc1.md`.

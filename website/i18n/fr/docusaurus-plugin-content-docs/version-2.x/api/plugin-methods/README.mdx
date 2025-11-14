@@ -1,0 +1,146 @@
+# Références de Méthode de Plugin
+
+:::warning
+
+Cette section est en cours de rédaction. La stabilité des liens d'ancrage ou même des URL n'est pas garantie.
+
+:::
+
+Les API de plugins sont partagées par les thèmes et les plugins — les thèmes sont chargés comme les plugins.
+
+## Module de plugin {#plugin-module}
+
+Chaque plugin est importé en tant que module. Le module devrait avoir les membres suivants :
+
+- Un **default export** : la fonction constructeur du plugin.
+- **Exports nommés** : les [méthodes statiques](./static-methods.mdx) appelées avant que les plugins ne soient initialisés.
+
+## Constructeur de plugin {#plugin-constructor}
+
+L'export par défaut du module du plugin est une fonction constructeur avec la signature `(context: LoadContext, options: PluginOptions) => Plugin | Promise<Plugin>`.
+
+### `context` {#context}
+
+`context` est agnostique par rapport aux plugins et le même objet sera passé dans tous les plugins utilisés pour un site web Docusaurus. L'objet `context` contient les champs suivants :
+
+```ts
+type LoadContext = {
+  siteDir: string;
+  generatedFilesDir: string;
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  baseUrl: string;
+};
+```
+
+### `options` {#options}
+
+`options` sont le [second paramètre optionnel lorsque les plugins sont utilisés](../../using-plugins.mdx#configuring-plugins). `options` est spécifique à un plugin et est spécifié par les utilisateurs lorsqu'ils les utilisent dans `docusaurus.config.js`. S'il y a une fonction [`validateOptions`](./static-methods.mdx#validateOptions) exportée, les `options` seront validées et normalisées au préalable.
+
+En revanche, si un preset contient le plugin, le preset se chargera alors de passer les bonnes options au plugin. Il appartient au plugin de définir les options qu'il prend.
+
+## Exemple {#example}
+
+Voici un modèle de pensée pour une implémentation présumée d'un plugin.
+
+```js
+// Une fonction JavaScript qui renvoie un objet.
+// `context` est fourni par Docusaurus. Exemple : siteConfig est accessible depuis le contexte.
+// `opts` sont les options définies par l'utilisateur.
+async function myPlugin(context, opts) {
+  return {
+    // Un champ obligatoire utilisé comme espace nommé pour les répertoires à mettre en cache
+    // les données intermédiaires pour chaque plugin.
+    // Si vous écrivez votre propre plugin local, vous voudrez qu'il
+    //  soit unique afin de ne pas entrer en conflit avec des plugins importés.
+    // Une bonne façon sera d'ajouter votre propre nom de projet à l'intérieur.
+    name: 'docusaurus-my-project-cool-plugin',
+
+    async loadContent() {
+      // Le hook loadContent est exécuté après le chargement de siteConfig et env.
+      // Vous pouvez retourner un objet JavaScript qui sera passé au hook contentLoaded.
+    },
+
+    async contentLoaded({content, actions}) {
+      // Le hook contentLoaded est traité après que loadContent hook est terminé.
+      // `actions` est un ensemble d'API fonctionnelle fournie par Docusaurus (par exemple addRoute)
+    },
+
+    async postBuild(props) {
+      // Après que le <build> de docusaurus soit terminé.
+    },
+
+    // À FAIRE
+    async postStart(props) {
+      // Après que le <start> de docusaurus soit terminé
+    },
+
+    // À FAIRE
+    afterDevServer(app, server) {
+      // https://webpack.js.org/configuration/dev-server/#devserverbefore
+    },
+
+    // À FAIRE
+    beforeDevServer(app, server) {
+      // https://webpack.js.org/configuration/dev-server/#devserverafter
+    },
+
+    configureWebpack(config, isServer, utils, content) {
+      // Modifie la configuration interne de webpack. Si la valeur retournée est un Objet, elle
+      // sera fusionnée dans la configuration finale en utilisant webpack-merge;
+      // Si la valeur retournée est une fonction, elle recevra la configuration comme 1er argument et un drapeau isServer comme 2ème argument.
+    },
+
+    getPathsToWatch() {
+      // Chemins à surveiller.
+    },
+
+    getThemePath() {
+      // Retourne le chemin vers le répertoire où les composants du thème peuvent
+      // être trouvés.
+    },
+
+    getClientModules() {
+      // Retourne un tableau de chemins vers les modules qui doivent être importés
+      // dans le bundle client. Ces modules sont importés globalement avant même que
+      // React ne rend l'interface utilisateur initiale.
+    },
+
+    extendCli(cli) {
+      // Enregistre une commande supplémentaire pour améliorer le CLI de Docusaurus
+    },
+
+    injectHtmlTags({content}) {
+      // Injecte des balises HTML head et/ou body.
+    },
+
+    async getTranslationFiles({content}) {
+      // Renvoi des fichiers de traduction
+    },
+
+    translateContent({content, translationFiles}) {
+      // traduisez le contenu du plugin ici
+    },
+
+    translateThemeConfig({themeConfig, translationFiles}) {
+      // traduisez le themeConfig du site ici
+    },
+
+    async getDefaultCodeTranslationMessages() {
+      // renvoyez les traductions du thème par défaut ici
+    },
+  };
+}
+
+myPlugin.validateOptions = ({options, validate}) => {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validatedOptions;
+};
+
+myPlugin.validateThemeConfig = ({themeConfig, validate}) => {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+};
+
+module.exports = myPlugin;
+```

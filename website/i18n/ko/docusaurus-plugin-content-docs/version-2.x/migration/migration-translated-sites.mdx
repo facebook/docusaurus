@@ -1,0 +1,167 @@
+---
+slug: /migration/translated-sites
+---
+
+# 다국어 사이트
+
+이 페이지에서는 번역된 도큐사우루스 v1 사이트를 도큐사우루스 v2로 이전하는 방법을 설명합니다.
+
+## i18n differences {#i18n-differences}
+
+도큐사우루스 v2 i18n은 몇 가지 차이를 제외하면 도큐사우루스 v2 i18n과 개념적으로는 거의 비슷합니다.
+
+크라우드인(Crowdin) 서비스에 종속되어 있지 않으며 깃이나 다른 SaaS를 사용할 수도 있습니다.
+
+### Different filesystem paths {#different-filesystem-paths}
+
+On Docusaurus v2, localized content is generally found at `website/i18n/[locale]`.
+
+도큐사우루스 v2는 플러그인 시스템을 기반으로 하는 모듈 형태로 동작하며 각 플러그인은 자체적으로 번역을 관리합니다.
+
+Each plugin has its own i18n subfolder, like: `website/i18n/fr/docusaurus-plugin-content-blog`
+
+### Updated translation APIs {#updated-translation-apis}
+
+With Docusaurus v1, you translate your pages with `<translate>`:
+
+```jsx
+const translate = require('../../server/translate.js').translate;
+
+<h2>
+  <translate desc="the header description">
+    This header will be translated
+  </translate>
+</h2>;
+```
+
+On Docusaurus v2, you translate your pages with `<Translate>`
+
+```jsx
+import Translate from '@docusaurus/Translate';
+
+<h2>
+  <Translate id="header.translation.id" description="the header description">
+    This header will be translated
+  </Translate>
+</h2>;
+```
+
+:::note
+
+The `write-translations` CLI still works to extract translations from your code.
+
+The code translations are now added to `i18n/[locale]/code.json` using Chrome i18n JSON format.
+
+:::
+
+### Stricter Markdown parser {#stricter-markdown-parser}
+
+Docusaurus v2 is using [MDX](https://mdxjs.com/) to parse Markdown files.
+
+MDX는 마크다운 파일을 리액트 컴포넌트로 컴파일합니다. 도큐사우루스 v1 파서보다 좀 더 엄격한 규칙을 따릅니다. 때문에 잘못된 콘텐츠가 표시되는 대신 빌드 실패가 발생합니다.
+
+또한 HTML 요소는 JSX 요소로 바꾸어주어야 합니다.
+
+번역 대상이 크라우드인에 적합하지 않거나 유효하지 않는 마크업을 사용했다면 v2 번역 사이트 빌드에 실패할 수 있기 때문에 i18n 작업 시 유효성을 좀 더 중요하게 확인해야 합니다. 오류를 수정하기 위해 일부 번역 대상을 검토해야 할 수도 있습니다.
+
+## Migration strategies {#migration-strategies}
+
+This section will help you figure out how to **keep your existing v1 translations after you migrate to v2**.
+
+There are **multiple possible strategies** to migrate a Docusaurus v1 site using Crowdin, with different tradeoffs.
+
+:::warning
+
+이 문서는 여러분이 문서 이전 시 최선의 방법을 선택할 수 있도록 작성했습니다. 더 좋은 방법이 있다면 언제든지 알려주세요!
+
+:::
+
+다음 방법을 우선적으로 권장합니다.
+
+- 번역 없이 도큐사우루스 v1 사이트를 v2로 이전합니다.
+- Get familiar with the [new i18n system of Docusaurus v2](../i18n/i18n-introduction.mdx) an
+- Make Crowdin work for your v2 site, using a new and untranslated Crowdin project and the [Crowdin tutorial](../i18n/i18n-crowdin.mdx)
+
+:::danger
+
+크라우드인과 도큐사우루스 v2 i18n에 대한 이해 없이 이전을 시도하지는 말아주세요.
+
+:::
+
+### Create a new Crowdin project {#create-a-new-crowdin-project}
+
+To avoid any **risk of breaking your v1 site in production**, one possible strategy is to duplicate the original v1 Crowdin project.
+
+:::info
+
+This strategy was used to [upgrade the Jest website](https://jestjs.io/blog/2021/03/09/jest-website-upgrade).
+
+:::
+
+아쉽게도 크라우드인은 "프로젝트 사본 만들기나 복제하기" 기능이 없습니다. 때문에 좀 작업이 복잡해집니다.
+
+- Download the translation memory of your original project in `.tmx` format (`https://crowdin.com/project/<ORIGINAL_PROJECT>/settings#tm` > `View Records`)
+- Upload the translation memory to your new project (`https://crowdin.com/project/<NEW_PROJECT>/settings#tm` > `View Records`)
+- Reconfigure `crowdin.yml` for Docusaurus v2 according to the i18n docs
+- 도큐사우루스 v2 소스 파일을 크라우드인 CLI를 사용해 새로운 프로젝트에 업로드합니다.
+- Mark sensitive strings like `id` or `slug` as "hidden string" on Crowdin
+- On the "Translations" tab, click on "Pre-Translation > via TM" (`https://crowdin.com/project/<NEW_PROJECT>/settings#translations`)
+- "100% match"("Perfect" 옵션보다 좀 더 많은 콘텐츠가 번역 처리됩니다) 항목을 선택해 소스를 사전 번역합니다.
+- 크라우드인 번역 파일을 로컬에 내려받습니다.
+- 여러분의 사이트를 실행하고 빌드합니다. 그리고 다른 에러는 없는지 확인합니다.
+
+첫 번째 시도에서는 에러가 발생할 수 있습니다. 사전 번역에서 번역하지 않아야 하는 항목(프런트 매터, 권고사항, 코드 블록 등)을 번역하거나 번역된 MD 파일이 MDX 구문 분석에서 유효하지 않은 것으로 처리될 수 있습니다.
+
+사이트 빌드가 성공할 때까지 에러를 수정해주어야 합니다. You can do that by modifying the translated MD files locally, and fix your site for one locale at a time using `docusaurus build --locale fr`.
+
+에러를 수정하는 가이드가 따로 있지는 않습니다. 하지만 공통적으로 발생하는 에러는 다음과 같습니다.
+
+- 크라우드인에서 "hidden strings"을 적절하게 체크하지 않으면 사전 번역 시 번역하지 않아야 할 문자열이 번역될 수 있습니다.
+- v1 번역이 잘못되어 v2에서 유효하지 않은 마크업 에러가 발생합니다. 번역 내 잘못된 HTML 요소가 있거나 닫히지 않은 태그로 인해 발생합니다.
+- Anything rejected by the MDX parser, like using HTML elements instead of JSX elements (use the [MDX playground](https://mdxjs.com/playground/) for debugging)
+
+사전 번역 과정을 반복하고나서 마지막에는 "Perfect" 옵션을 사용해 일부 언어/파일을 대상으로 사전 번역을 시도합니다.
+
+:::tip
+
+Use [`mdx-code-block`](../i18n/i18n-crowdin.mdx#mdx-solutions) around problematic Markdown elements: Crowdin is less likely mess things up with code blocks.
+
+:::
+
+:::note
+
+이전 프로젝트에서는 번역되었지만 새로운 프로젝트에서 번역되지 않는 항목이 있을 수 있습니다.
+
+크라우드인 마크다운 파서도 업데이트되고 있어서 크라우드인 프로젝트에서 사용하는 파서 버전이 다를 수 있습니다. 때문에 모든 문자열에 대한 사전 번역 처리가 되지 않을 수 있습니다.
+
+파서 버전에 대한 정보는 별도 제공되지 않습니다. 필요하다면 크라우드인 지원팀에 연락해 여러분의 프로젝트에서 사용하는 파서 정보를 확인하고 버전에 따라 수정할 수 있습니다.
+
+같은 CLI 버전과 파서 버전을 사용하는 크라우드인 프로젝트라면 좀 더 좋은 결과를 만들 수 있습니다.
+
+:::
+
+:::danger
+
+크라우드인은 "upload translations" 기능을 지원합니다. 하지만 마크다운을 사용하는 경우에는 그다지 좋은 결과가 나오지 않습니다.
+
+:::
+
+### Use the existing Crowdin project {#use-the-existing-crowdin-project}
+
+기존 크라우드인 프로젝트를 수정해도 큰 문제가 없다면 크라우드인 브랜치 시스템을 사용할 수 있습니다.
+
+:::warning
+
+이 방법은 아직 테스트해보지 못했습니다. 적용해보시고 피드백을 부탁드립니다.
+
+:::
+
+이 방법을 사용하면 새로운 크라우드인 프로젝트를 만들고 번역 메모리를 전송하고 사전 번역을 처리하고 사전 번역에서 발생한 오류를 체크할 필요가 없습니다.
+
+도큐사우루스 v2를 위한 크라우드인 브랜치를 만들고 v2 소스를 업로드한 후 크라우드인 브랜치를 main에 병합하기만 하면 됩니다.
+
+### Use Git instead of Crowdin {#use-git-instead-of-crowdin}
+
+크라우드인에서 이전 작업을 하지 않고 번역 파일을 깃에 추가하는 방법도 있습니다.
+
+Crowdin CLI를 사용해 v1 번역 파일을 내려받고 도큐사우루스 v2 파일시스템에 적절한 위치에 번역 파일을 가져다놓습니다.

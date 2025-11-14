@@ -1,0 +1,47 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/no-html-links
+---
+
+# no-html-links
+
+import APITable from '@site/src/components/APITable';
+
+Ensure that the Docusaurus [`<Link>`](../../../docusaurus-core.mdx#link) component is used instead of `<a>` tags.
+
+The `<Link>` component has prefetching and preloading built-in. 它还能检测构建时的损坏链接，并帮助 Docusaurus 更好地理解你的站点结构。
+
+## Rule Details {#details}
+
+Examples of **incorrect** code for this rule:
+
+```html
+<a href="/page">go to page!</a>
+
+<a href="https://x.com/docusaurus" target="_blank">X</a>
+```
+
+Examples of **correct** code for this rule:
+
+```js
+import Link from '@docusaurus/Link'
+
+<Link to="/page">go to page!</Link>
+
+<Link to="https://x.com/docusaurus">X</Link>
+```
+
+## Rule Configuration {#configuration}
+
+接受的字段：
+
+```mdx-code-block
+<APITable>
+```
+
+| 选项                    | 类型        | 默认值     | 描述                                                                                  |
+| --------------------- | --------- | ------- | ----------------------------------------------------------------------------------- |
+| `ignoreFullyResolved` | `boolean` | `false` | Set to true will not report any `<a>` tags with absolute URLs including a protocol. |
+
+```mdx-code-block
+</APITable>
+```
