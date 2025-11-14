@@ -11,6 +11,8 @@ coverage
 
 jest/vendor
 
+argos/test-results
+
 packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
