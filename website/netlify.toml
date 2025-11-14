@@ -21,7 +21,7 @@
   command = "yarn --cwd .. build:packages && yarn netlify:build:branchDeploy"
 
 [context.deploy-preview]
-  command = "yarn --cwd .. build:packages && yarn netlify:build:deployPreview"
+  command = "yarn --cwd .. test:git && yarn --cwd .. build:packages && yarn netlify:build:deployPreview"
 
 [[plugins]]
 package = "netlify-plugin-cache"

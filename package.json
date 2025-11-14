@@ -13,6 +13,7 @@
     "admin/new.docusaurus.io"
   ],
   "scripts": {
+    "test:git": "git --no-pager -c log.showSignature=false log --format=t:%ct,a:%an --name-status",
     "start": "yarn build:packages && yarn start:website",
     "start:website": "yarn workspace website start",
     "start:website:profile": "DOCUSAURUS_BUNDLER_CPU_PROFILE=true DOCUSAURUS_RSPACK_TRACE=true yarn workspace website start",
