@@ -28,7 +28,6 @@
 [context.deploy-preview]
   command = "(echo 'Build packages start' && yarn --cwd .. build:packages && echo 'Build packages end') & (echo 'Git backfill start' && git backfill && echo 'Git backfill end' ) & wait && yarn netlify:build:deployPreview"
 
-
 [[plugins]]
 package = "netlify-plugin-cache"
   [plugins.inputs]
