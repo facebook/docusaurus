@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import url from 'url';
 import fs from 'fs-extra';
 import {
   toMessageRelativeFilePath,
@@ -15,6 +14,7 @@ import {
   findAsyncSequential,
   getFileLoaderUtils,
   parseURLOrPath,
+  parseLocalURLPath,
 } from '@docusaurus/utils';
 import escapeHtml from 'escape-html';
 import logger from '@docusaurus/logger';
@@ -209,21 +209,20 @@ async function processLinkNode(target: Target, context: Context) {
     return;
   }
 
-  const parsedUrl = url.parse(node.url);
-  if (parsedUrl.protocol || !parsedUrl.pathname) {
+  const pathname = parseLocalURLPath(node.url)?.pathname;
+  if (!pathname) {
     // Don't process pathname:// here, it's used by the <Link> component
     return;
   }
-  const hasSiteAlias = parsedUrl.pathname.startsWith('@site/');
+  const hasSiteAlias = pathname.startsWith('@site/');
   const hasAssetLikeExtension =
-    path.extname(parsedUrl.pathname) &&
-    !parsedUrl.pathname.match(/\.(?:mdx?|html)(?:#|$)/);
+    path.extname(pathname) && !pathname.match(/\.(?:mdx?|html)(?:#|$)/);
   if (!hasSiteAlias && !hasAssetLikeExtension) {
     return;
   }
 
   const localFilePath = await getLocalFileAbsolutePath(
-    decodeURIComponent(parsedUrl.pathname),
+    decodeURIComponent(pathname),
     context,
   );
 

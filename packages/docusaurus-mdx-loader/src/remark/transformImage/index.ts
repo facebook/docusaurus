@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import url from 'url';
 import fs from 'fs-extra';
 import {
   toMessageRelativeFilePath,
@@ -15,6 +14,7 @@ import {
   findAsyncSequential,
   getFileLoaderUtils,
   parseURLOrPath,
+  parseLocalURLPath,
 } from '@docusaurus/utils';
 import escapeHtml from 'escape-html';
 import {imageSizeFromFile} from 'image-size/fromFile';
@@ -207,20 +207,19 @@ async function processImageNode(target: Target, context: Context) {
     return;
   }
 
-  const parsedUrl = url.parse(node.url);
-  if (parsedUrl.protocol || !parsedUrl.pathname) {
+  const pathname = parseLocalURLPath(node.url)?.pathname;
+  if (!pathname) {
     // pathname:// is an escape hatch, in case user does not want her images to
     // be converted to require calls going through webpack loader
-    if (parsedUrl.protocol === 'pathname:') {
+    if (parseURLOrPath(node.url).protocol === 'pathname:') {
       node.url = node.url.replace('pathname://', '');
     }
     return;
   }
-
   // We decode it first because Node Url.pathname is always encoded
   // while the image file-system path are not.
   // See https://github.com/facebook/docusaurus/discussions/10720
-  const decodedPathname = decodeURIComponent(parsedUrl.pathname);
+  const decodedPathname = decodeURIComponent(pathname);
 
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time
