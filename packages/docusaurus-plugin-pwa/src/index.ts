@@ -198,7 +198,7 @@ export default function pluginPWA(
           // @ts-expect-error: internal API?
           ...((injectManifest.globPatterns as string[] | undefined) ?? []),
         ],
-        // Those attributes are not overrideable
+        // Those attributes are not overridable
         swDest,
         swSrc: swDest,
         globDirectory: props.outDir,
