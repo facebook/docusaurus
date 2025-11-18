@@ -294,12 +294,14 @@ export async function buildAllRoutes({
           sidebar: sidebarModulePath,
         },
         props: {
-          authors: authors.map((author) =>
-            toAuthorItemProp({
+          authors: authors.map((author) => {
+            const authorPosts = blogPostsByAuthorKey[author.key] ?? [];
+            const listedAuthorPosts = authorPosts.filter(shouldBeListed);
+            return toAuthorItemProp({
               author,
-              count: blogPostsByAuthorKey[author.key]?.length ?? 0,
-            }),
-          ),
+              count: listedAuthorPosts.length,
+            });
+          }),
         },
         context: {
           blogMetadata: blogMetadataModulePath,
@@ -309,12 +311,13 @@ export async function buildAllRoutes({
 
     function createAuthorPaginatedRoute(author: AuthorWithKey): RouteConfig[] {
       const authorBlogPosts = blogPostsByAuthorKey[author.key] ?? [];
+      const listedAuthorBlogPosts = authorBlogPosts.filter(shouldBeListed);
       if (!author.page) {
         return [];
       }
 
       const pages = paginateBlogPosts({
-        blogPosts: authorBlogPosts,
+        blogPosts: listedAuthorBlogPosts,
         basePageUrl: author.page.permalink,
         blogDescription,
         blogTitle,
@@ -332,7 +335,10 @@ export async function buildAllRoutes({
             sidebar: sidebarModulePath,
           },
           props: {
-            author: toAuthorItemProp({author, count: authorBlogPosts.length}),
+            author: toAuthorItemProp({
+              author,
+              count: listedAuthorBlogPosts.length,
+            }),
             listMetadata: metadata,
           },
           context: {
