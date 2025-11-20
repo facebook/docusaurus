@@ -583,7 +583,9 @@ declare module '@docusaurus/plugin-content-blog' {
   export type AuthorsMap = {[authorKey: string]: AuthorWithKey};
 
   export type BlogContent = {
-    blogSidebarTitle: string;
+    blogTitle: string; // for translation purposes
+    blogDescription: string; // for translation purposes
+    blogSidebarTitle: string; // for translation purposes
     blogPosts: BlogPost[];
     blogTags: BlogTags;
     blogTagsListPath: string;

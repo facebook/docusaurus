@@ -67,16 +67,21 @@ export async function buildAllRoutes({
     blogArchiveComponent,
     routeBasePath,
     archiveBasePath,
-    blogTitle,
     authorsBasePath,
     postsPerPage,
-    blogDescription,
     pageBasePath,
   } = options;
   const pluginId = options.id!;
   const {createData} = actions;
-  const {blogSidebarTitle, blogPosts, blogTags, blogTagsListPath, authorsMap} =
-    content;
+  const {
+    blogTitle,
+    blogDescription,
+    blogSidebarTitle,
+    blogPosts,
+    blogTags,
+    blogTagsListPath,
+    authorsMap,
+  } = content;
 
   const blogBasePath = normalizeUrl([baseUrl, routeBasePath]);
   const authorsListPath = normalizeUrl([blogBasePath, authorsBasePath]);

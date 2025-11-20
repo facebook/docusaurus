@@ -8,41 +8,20 @@
 import {updateTranslationFileMessages} from '@docusaurus/utils';
 import {getTranslationFiles, translateContent} from '../translations';
 import {DEFAULT_OPTIONS} from '../options';
-import type {
-  PluginOptions,
-  BlogPost,
-  BlogContent,
-} from '@docusaurus/plugin-content-blog';
+import type {PluginOptions, BlogContent} from '@docusaurus/plugin-content-blog';
 
 const sampleBlogOptions: PluginOptions = {
   ...DEFAULT_OPTIONS,
-  blogSidebarTitle: 'All my posts',
   blogTitle: 'My blog',
   blogDescription: "Someone's random blog",
+  blogSidebarTitle: 'All my posts',
 };
 
-const sampleBlogPosts: BlogPost[] = [
-  {
-    id: 'hello',
-    metadata: {
-      permalink: '/blog/2021/06/19/hello',
-      source: '/blog/2021/06/19/hello',
-      description: '/blog/2021/06/19/hello',
-      date: new Date(2021, 6, 19),
-      tags: [],
-      title: 'Hello',
-      hasTruncateMarker: true,
-      authors: [],
-      frontMatter: {},
-      unlisted: false,
-    },
-    content: '',
-  },
-];
-
 const sampleBlogContent: BlogContent = {
+  blogTitle: sampleBlogOptions.blogTitle,
+  blogDescription: sampleBlogOptions.blogDescription,
   blogSidebarTitle: sampleBlogOptions.blogSidebarTitle,
-  blogPosts: sampleBlogPosts,
+  blogPosts: [],
   blogTags: {},
   blogTagsListPath: '/tags',
 };

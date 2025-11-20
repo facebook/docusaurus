@@ -24,6 +24,7 @@ exports[`getContentTranslationFiles returns translation files matching snapshot 
 
 exports[`translateContent falls back when translation is incomplete 1`] = `
 {
+  "blogDescription": "Someone's random blog",
   "blogPosts": [
     {
       "content": "",
@@ -45,11 +46,13 @@ exports[`translateContent falls back when translation is incomplete 1`] = `
   "blogSidebarTitle": "All my posts",
   "blogTags": {},
   "blogTagsListPath": "/tags",
+  "blogTitle": "My blog",
 }
 `;
 
 exports[`translateContent returns translated loaded 1`] = `
 {
+  "blogDescription": "Someone's random blog (translated)",
   "blogPosts": [
     {
       "content": "",
@@ -71,5 +74,6 @@ exports[`translateContent returns translated loaded 1`] = `
   "blogSidebarTitle": "All my posts (translated)",
   "blogTags": {},
   "blogTagsListPath": "/tags",
+  "blogTitle": "My blog (translated)",
 }
 `;
