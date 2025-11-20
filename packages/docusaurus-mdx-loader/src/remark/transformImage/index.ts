@@ -207,19 +207,20 @@ async function processImageNode(target: Target, context: Context) {
     return;
   }
 
-  const pathname = parseLocalURLPath(node.url)?.pathname;
-  if (!pathname) {
-    // pathname:// is an escape hatch, in case user does not want her images to
+  const localUrlPath = parseLocalURLPath(node.url);
+  if (!localUrlPath) {
+    // pathname:// is an escape hatch, in case the user does not want images to
     // be converted to require calls going through webpack loader
     if (parseURLOrPath(node.url).protocol === 'pathname:') {
       node.url = node.url.replace('pathname://', '');
     }
     return;
   }
+
   // We decode it first because Node Url.pathname is always encoded
   // while the image file-system path are not.
   // See https://github.com/facebook/docusaurus/discussions/10720
-  const decodedPathname = decodeURIComponent(pathname);
+  const decodedPathname = decodeURIComponent(localUrlPath.pathname);
 
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time

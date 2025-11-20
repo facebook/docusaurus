@@ -209,20 +209,22 @@ async function processLinkNode(target: Target, context: Context) {
     return;
   }
 
-  const pathname = parseLocalURLPath(node.url)?.pathname;
-  if (!pathname) {
+  const localUrlPath = parseLocalURLPath(node.url);
+  if (!localUrlPath) {
     // Don't process pathname:// here, it's used by the <Link> component
     return;
   }
-  const hasSiteAlias = pathname.startsWith('@site/');
+
+  const hasSiteAlias = localUrlPath.pathname.startsWith('@site/');
   const hasAssetLikeExtension =
-    path.extname(pathname) && !pathname.match(/\.(?:mdx?|html)(?:#|$)/);
+    path.extname(localUrlPath.pathname) &&
+    !localUrlPath.pathname.match(/\.(?:mdx?|html)(?:#|$)/);
   if (!hasSiteAlias && !hasAssetLikeExtension) {
     return;
   }
 
   const localFilePath = await getLocalFileAbsolutePath(
-    decodeURIComponent(pathname),
+    decodeURIComponent(localUrlPath.pathname),
     context,
   );
 
