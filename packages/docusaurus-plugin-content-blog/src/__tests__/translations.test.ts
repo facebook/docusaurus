@@ -42,22 +42,6 @@ const sampleBlogPosts: BlogPost[] = [
 
 const sampleBlogContent: BlogContent = {
   blogSidebarTitle: sampleBlogOptions.blogSidebarTitle,
-  blogListPaginated: [
-    {
-      items: ['hello'],
-      metadata: {
-        permalink: '/',
-        page: 1,
-        postsPerPage: 10,
-        totalPages: 1,
-        totalCount: 1,
-        previousPage: undefined,
-        nextPage: undefined,
-        blogTitle: sampleBlogOptions.blogTitle,
-        blogDescription: sampleBlogOptions.blogDescription,
-      },
-    },
-  ],
   blogPosts: sampleBlogPosts,
   blogTags: {},
   blogTagsListPath: '/tags',

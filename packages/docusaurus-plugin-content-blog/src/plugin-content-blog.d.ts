@@ -585,7 +585,6 @@ declare module '@docusaurus/plugin-content-blog' {
   export type BlogContent = {
     blogSidebarTitle: string;
     blogPosts: BlogPost[];
-    blogListPaginated: BlogPaginated[];
     blogTags: BlogTags;
     blogTagsListPath: string;
     authorsMap?: AuthorsMap;

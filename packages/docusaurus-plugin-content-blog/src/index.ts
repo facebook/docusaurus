@@ -262,7 +262,6 @@ export default async function pluginContentBlog(
         return {
           blogSidebarTitle,
           blogPosts: [],
-          blogListPaginated: [],
           blogTags: {},
           blogTagsListPath,
           authorsMap,

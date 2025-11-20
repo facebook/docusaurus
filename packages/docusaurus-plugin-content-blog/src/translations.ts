@@ -5,13 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {TranslationFileContent, TranslationFile} from '@docusaurus/types';
-import type {
-  PluginOptions,
-  BlogContent,
-  BlogPaginated,
-} from '@docusaurus/plugin-content-blog';
+import type {TranslationFile} from '@docusaurus/types';
+import type {PluginOptions, BlogContent} from '@docusaurus/plugin-content-blog';
 
+/*
 function translateListPage(
   blogListPaginated: BlogPaginated[],
   translations: TranslationFileContent,
@@ -29,6 +26,8 @@ function translateListPage(
     };
   });
 }
+
+ */
 
 export function getTranslationFiles(options: PluginOptions): TranslationFile[] {
   return [
@@ -61,9 +60,11 @@ export function translateContent(
     ...content,
     blogSidebarTitle:
       optionsTranslations['sidebar.title']?.message ?? content.blogSidebarTitle,
+    /*
     blogListPaginated: translateListPage(
       content.blogListPaginated,
       optionsTranslations,
     ),
+     */
   };
 }

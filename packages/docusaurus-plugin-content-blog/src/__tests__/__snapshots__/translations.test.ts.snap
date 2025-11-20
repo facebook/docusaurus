@@ -24,24 +24,6 @@ exports[`getContentTranslationFiles returns translation files matching snapshot 
 
 exports[`translateContent falls back when translation is incomplete 1`] = `
 {
-  "blogListPaginated": [
-    {
-      "items": [
-        "hello",
-      ],
-      "metadata": {
-        "blogDescription": "Someone's random blog",
-        "blogTitle": "My blog",
-        "nextPage": undefined,
-        "page": 1,
-        "permalink": "/",
-        "postsPerPage": 10,
-        "previousPage": undefined,
-        "totalCount": 1,
-        "totalPages": 1,
-      },
-    },
-  ],
   "blogPosts": [
     {
       "content": "",
@@ -68,24 +50,6 @@ exports[`translateContent falls back when translation is incomplete 1`] = `
 
 exports[`translateContent returns translated loaded 1`] = `
 {
-  "blogListPaginated": [
-    {
-      "items": [
-        "hello",
-      ],
-      "metadata": {
-        "blogDescription": "Someone's random blog (translated)",
-        "blogTitle": "My blog (translated)",
-        "nextPage": undefined,
-        "page": 1,
-        "permalink": "/",
-        "postsPerPage": 10,
-        "previousPage": undefined,
-        "totalCount": 1,
-        "totalPages": 1,
-      },
-    },
-  ],
   "blogPosts": [
     {
       "content": "",
