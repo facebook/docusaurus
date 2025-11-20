@@ -638,10 +638,7 @@ describe('blog plugin', () => {
       },
       DefaultI18N,
     );
-    const {blogPosts, blogTags, blogListPaginated} =
-      (await plugin.loadContent!())!;
-
-    expect(blogListPaginated).toHaveLength(3);
+    const {blogPosts, blogTags} = (await plugin.loadContent!())!;
 
     expect(Object.keys(blogTags)).toHaveLength(2);
     expect(blogTags).toMatchSnapshot();

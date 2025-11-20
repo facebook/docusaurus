@@ -67,27 +67,24 @@ export async function buildAllRoutes({
     blogArchiveComponent,
     routeBasePath,
     archiveBasePath,
-    blogTitle,
     authorsBasePath,
     postsPerPage,
-    blogDescription,
+    pageBasePath,
   } = options;
   const pluginId = options.id!;
   const {createData} = actions;
   const {
+    blogTitle,
+    blogDescription,
     blogSidebarTitle,
     blogPosts,
-    blogListPaginated,
     blogTags,
     blogTagsListPath,
     authorsMap,
   } = content;
 
-  const authorsListPath = normalizeUrl([
-    baseUrl,
-    routeBasePath,
-    authorsBasePath,
-  ]);
+  const blogBasePath = normalizeUrl([baseUrl, routeBasePath]);
+  const authorsListPath = normalizeUrl([blogBasePath, authorsBasePath]);
 
   const listedBlogPosts = blogPosts.filter(shouldBeListed);
 
@@ -119,7 +116,7 @@ export async function buildAllRoutes({
 
   async function createBlogMetadataModule() {
     const blogMetadata: BlogMetadata = {
-      blogBasePath: normalizeUrl([baseUrl, routeBasePath]),
+      blogBasePath,
       blogTitle,
       authorsListPath,
     };
@@ -156,7 +153,7 @@ export async function buildAllRoutes({
     if (archiveBasePath && listedBlogPosts.length) {
       return [
         {
-          path: normalizeUrl([baseUrl, routeBasePath, archiveBasePath]),
+          path: normalizeUrl([blogBasePath, archiveBasePath]),
           component: blogArchiveComponent,
           exact: true,
           props: {
@@ -210,6 +207,15 @@ export async function buildAllRoutes({
   }
 
   function createBlogPostsPaginatedRoutes(): RouteConfig[] {
+    const blogListPaginated = paginateBlogPosts({
+      blogPosts: listedBlogPosts,
+      blogTitle,
+      blogDescription,
+      postsPerPageOption: postsPerPage,
+      basePageUrl: blogBasePath,
+      pageBasePath,
+    });
+
     return blogListPaginated.map((paginated) => {
       return {
         path: paginated.metadata.permalink,

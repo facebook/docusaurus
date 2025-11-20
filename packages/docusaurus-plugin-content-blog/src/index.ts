@@ -25,7 +25,6 @@ import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {createMDXLoaderItem} from '@docusaurus/mdx-loader';
 import {
   getBlogTags,
-  paginateBlogPosts,
   shouldBeListed,
   applyProcessBlogPosts,
   generateBlogPosts,
@@ -45,7 +44,6 @@ import type {
   Assets,
   BlogTags,
   BlogContent,
-  BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
 import type {RuleSetRule, RuleSetUseItem} from 'webpack';
 
@@ -260,9 +258,10 @@ export default async function pluginContentBlog(
 
       if (!blogPosts.length) {
         return {
+          blogTitle,
+          blogDescription,
           blogSidebarTitle,
           blogPosts: [],
-          blogListPaginated: [],
           blogTags: {},
           blogTagsListPath,
           authorsMap,
@@ -291,15 +290,6 @@ export default async function pluginContentBlog(
         }
       });
 
-      const blogListPaginated: BlogPaginated[] = paginateBlogPosts({
-        blogPosts: listedBlogPosts,
-        blogTitle,
-        blogDescription,
-        postsPerPageOption,
-        basePageUrl: baseBlogUrl,
-        pageBasePath,
-      });
-
       const blogTags: BlogTags = getBlogTags({
         blogPosts,
         postsPerPageOption,
@@ -309,9 +299,10 @@ export default async function pluginContentBlog(
       });
 
       return {
+        blogTitle,
+        blogDescription,
         blogSidebarTitle,
         blogPosts,
-        blogListPaginated,
         blogTags,
         blogTagsListPath,
         authorsMap,
