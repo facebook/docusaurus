@@ -289,6 +289,9 @@ export default async function pluginContentBlog(
         }
       });
 
+      // TODO this is not the correct place to aggregate and paginate tags
+      //  for reasons similar to https://github.com/facebook/docusaurus/pull/11562
+      //  What we should do here is only read the tags file (similar to authors)
       const blogTags: BlogTags = getBlogTags({
         blogPosts,
         postsPerPageOption,
