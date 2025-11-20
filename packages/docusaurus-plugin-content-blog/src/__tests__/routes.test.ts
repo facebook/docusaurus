@@ -265,23 +265,23 @@ describe('buildAllRoutes', () => {
         blogDescription: 'Custom blog description',
         blogSidebarTitle: 'Custom blog sidebar title',
         blogPosts: [
-          blogPost({metadata: {title: 'Post 1', authors: [{key: 'author1'}]}}),
-          blogPost({metadata: {title: 'Post 2', authors: [{key: 'author1'}]}}),
+          blogPost({id: 'post1', metadata: {authors: [{key: 'author2'}]}}),
+          blogPost({id: 'post2', metadata: {authors: [{key: 'author1'}]}}),
           blogPost({
+            id: 'post3',
             metadata: {
-              title: 'Post 3',
               authors: [{key: 'author3'}],
               unlisted: true,
             },
           }),
           blogPost({
+            id: 'post4',
             metadata: {
-              title: 'Post 4',
               authors: [{key: 'author1'}, {key: 'author2'}],
             },
           }),
-          blogPost({metadata: {title: 'Post 5', authors: [{key: 'author2'}]}}),
-          blogPost({metadata: {title: 'Post 6'}}),
+          blogPost({id: 'post5', metadata: {authors: [{key: 'author2'}]}}),
+          blogPost({id: 'post6'}),
         ],
         authorsMap: {
           author1: {
