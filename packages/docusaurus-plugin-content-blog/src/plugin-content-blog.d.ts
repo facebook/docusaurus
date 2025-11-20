@@ -431,7 +431,7 @@ declare module '@docusaurus/plugin-content-blog' {
   export type PluginOptions = MDXOptions &
     TagsPluginOptions & {
       /** Plugin ID. */
-      id?: string;
+      id: string;
       /**
        * Path to the blog content directory on the file system, relative to site
        * directory.
