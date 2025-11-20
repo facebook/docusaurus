@@ -401,6 +401,8 @@ export async function generateBlogPosts(
     ignore: exclude,
   });
 
+  // TODO this should be done outside of this function
+  //  directly in plugin loadContent()
   const tagsFile = await getTagsFile({contentPaths, tags: options.tags});
 
   async function doProcessBlogSourceFile(blogSourceFile: string) {
