@@ -6,6 +6,7 @@
  */
 
 import {updateTranslationFileMessages} from '@docusaurus/utils';
+import {fromPartial} from '@total-typescript/shoehorn';
 import {getTranslationFiles, translateContent} from '../translations';
 import {DEFAULT_OPTIONS} from '../options';
 import type {
@@ -16,13 +17,13 @@ import type {
 
 const sampleBlogOptions: PluginOptions = {
   ...DEFAULT_OPTIONS,
-  blogSidebarTitle: 'All my posts',
   blogTitle: 'My blog',
   blogDescription: "Someone's random blog",
+  blogSidebarTitle: 'All my posts',
 };
 
 const sampleBlogPosts: BlogPost[] = [
-  {
+  fromPartial({
     id: 'hello',
     metadata: {
       permalink: '/blog/2021/06/19/hello',
@@ -37,27 +38,13 @@ const sampleBlogPosts: BlogPost[] = [
       unlisted: false,
     },
     content: '',
-  },
+  }),
 ];
 
 const sampleBlogContent: BlogContent = {
+  blogTitle: sampleBlogOptions.blogTitle,
+  blogDescription: sampleBlogOptions.blogDescription,
   blogSidebarTitle: sampleBlogOptions.blogSidebarTitle,
-  blogListPaginated: [
-    {
-      items: ['hello'],
-      metadata: {
-        permalink: '/',
-        page: 1,
-        postsPerPage: 10,
-        totalPages: 1,
-        totalCount: 1,
-        previousPage: undefined,
-        nextPage: undefined,
-        blogTitle: sampleBlogOptions.blogTitle,
-        blogDescription: sampleBlogOptions.blogDescription,
-      },
-    },
-  ],
   blogPosts: sampleBlogPosts,
   blogTags: {},
   blogTagsListPath: '/tags',

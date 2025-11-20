@@ -15,7 +15,7 @@ import {
   RouteBasePathSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
-import {GlobExcludeDefault} from '@docusaurus/utils';
+import {DEFAULT_PLUGIN_ID, GlobExcludeDefault} from '@docusaurus/utils';
 import type {
   PluginOptions,
   Options,
@@ -25,6 +25,7 @@ import type {
 import type {OptionValidationContext} from '@docusaurus/types';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
+  id: DEFAULT_PLUGIN_ID,
   feedOptions: {
     type: ['rss', 'atom'],
     copyright: '',
