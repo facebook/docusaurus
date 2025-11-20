@@ -264,8 +264,9 @@ describe('buildAllRoutes', () => {
         blogTitle: 'Custom blog title',
         blogDescription: 'Custom blog description',
         blogSidebarTitle: 'Custom blog sidebar title',
+
         blogPosts: [
-          blogPost({id: 'post1', metadata: {authors: [{key: 'author2'}]}}),
+          blogPost({id: 'post1', metadata: {authors: [{key: 'author1'}]}}),
           blogPost({id: 'post2', metadata: {authors: [{key: 'author1'}]}}),
           blogPost({
             id: 'post3',
@@ -280,16 +281,26 @@ describe('buildAllRoutes', () => {
               authors: [{key: 'author1'}, {key: 'author2'}],
             },
           }),
-          blogPost({id: 'post5', metadata: {authors: [{key: 'author2'}]}}),
+          blogPost({
+            id: 'post5',
+            metadata: {authors: [{key: 'author2'}, {key: 'author3'}]},
+          }),
           blogPost({id: 'post6'}),
         ],
+
         authorsMap: {
           author1: {
+            key: 'author1',
             name: 'Author 1',
             page: {permalink: '/blog/authors/author1'},
           },
-          author2: {name: 'Author 2', page: null},
+          author2: {
+            key: 'author2',
+            name: 'Author 2',
+            page: null,
+          },
           author3: {
+            key: 'author3',
             name: 'Author 3',
             page: {permalink: '/blog/authors/author3'},
           },
@@ -300,7 +311,7 @@ describe('buildAllRoutes', () => {
     expect(_.countBy(routes, 'component')).toMatchInlineSnapshot(`
       {
         "@theme/Blog/Pages/BlogAuthorsListPage": 1,
-        "@theme/Blog/Pages/BlogAuthorsPostsPage": 2,
+        "@theme/Blog/Pages/BlogAuthorsPostsPage": 3,
         "@theme/BlogArchivePage": 1,
         "@theme/BlogListPage": 3,
         "@theme/BlogPostPage": 6,
