@@ -6,9 +6,14 @@
  */
 
 import {updateTranslationFileMessages} from '@docusaurus/utils';
+import {fromPartial} from '@total-typescript/shoehorn';
 import {getTranslationFiles, translateContent} from '../translations';
 import {DEFAULT_OPTIONS} from '../options';
-import type {PluginOptions, BlogContent} from '@docusaurus/plugin-content-blog';
+import type {
+  PluginOptions,
+  BlogPost,
+  BlogContent,
+} from '@docusaurus/plugin-content-blog';
 
 const sampleBlogOptions: PluginOptions = {
   ...DEFAULT_OPTIONS,
@@ -17,11 +22,30 @@ const sampleBlogOptions: PluginOptions = {
   blogSidebarTitle: 'All my posts',
 };
 
+const sampleBlogPosts: BlogPost[] = [
+  fromPartial({
+    id: 'hello',
+    metadata: {
+      permalink: '/blog/2021/06/19/hello',
+      source: '/blog/2021/06/19/hello',
+      description: '/blog/2021/06/19/hello',
+      date: new Date(2021, 6, 19),
+      tags: [],
+      title: 'Hello',
+      hasTruncateMarker: true,
+      authors: [],
+      frontMatter: {},
+      unlisted: false,
+    },
+    content: '',
+  }),
+];
+
 const sampleBlogContent: BlogContent = {
   blogTitle: sampleBlogOptions.blogTitle,
   blogDescription: sampleBlogOptions.blogDescription,
   blogSidebarTitle: sampleBlogOptions.blogSidebarTitle,
-  blogPosts: [],
+  blogPosts: sampleBlogPosts,
   blogTags: {},
   blogTagsListPath: '/tags',
 };
