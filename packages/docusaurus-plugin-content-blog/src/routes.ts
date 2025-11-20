@@ -71,7 +71,7 @@ export async function buildAllRoutes({
     postsPerPage,
     pageBasePath,
   } = options;
-  const pluginId = options.id!;
+  const pluginId = options.id;
   const {createData} = actions;
   const {
     blogTitle,

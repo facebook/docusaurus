@@ -17,7 +17,6 @@ import {
   createAbsoluteFilePathMatcher,
   getContentPathList,
   getDataFilePath,
-  DEFAULT_PLUGIN_ID,
   resolveMarkdownLinkPathname,
   getLocaleConfig,
 } from '@docusaurus/utils';
@@ -83,7 +82,7 @@ export default async function pluginContentBlog(
         })
       : undefined,
   };
-  const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
+  const pluginId = options.id;
 
   const pluginDataDirRoot = path.join(generatedFilesDir, PluginName);
   const dataDir = path.join(pluginDataDirRoot, pluginId);
