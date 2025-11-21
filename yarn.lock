@@ -2077,19 +2077,25 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
-"@docsearch/css@4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-4.1.0.tgz#e156e011539d73624b2354dc8be8e96ac9be9ddc"
-  integrity sha512-nuNKGjHj/FQeWgE9t+i83QD/V67QiaAmGY7xS9TVCRUiCqSljOgIKlsLoQZKKVwEG8f+OWKdznzZkJxGZ7d06A==
+"@docsearch/core@4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@docsearch/core/-/core-4.3.1.tgz#88a97a6fe4d4025269b6dee8b9d070b76758ad82"
+  integrity sha512-ktVbkePE+2h9RwqCUMbWXOoebFyDOxHqImAqfs+lC8yOU+XwEW4jgvHGJK079deTeHtdhUNj0PXHSnhJINvHzQ==
 
-"@docsearch/react@^3.9.0 || ^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-4.1.0.tgz#a04f22324067f2e39dbe12f0e1247e7e0341d26d"
-  integrity sha512-4GHI7TT3sJZ2Vs4Kjadv7vAkMrTsJqHvzvxO3JA7UT8iPRKaDottG5o5uNshPWhVVaBYPC35Ukf8bfCotGpjSg==
+"@docsearch/css@4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-4.3.2.tgz#d47d25336c9516b419245fa74e8dd5ae84a17492"
+  integrity sha512-K3Yhay9MgkBjJJ0WEL5MxnACModX9xuNt3UlQQkDEDZJZ0+aeWKtOkxHNndMRkMBnHdYvQjxkm6mdlneOtU1IQ==
+
+"@docsearch/react@^3.9.0 || ^4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-4.3.2.tgz#450b8341cb5cca03737a00075d4dfd3a904a3e3e"
+  integrity sha512-74SFD6WluwvgsOPqifYOviEEVwDxslxfhakTlra+JviaNcs7KK/rjsPj89kVEoQc9FUxRkAofaJnHIR7pb4TSQ==
   dependencies:
     "@ai-sdk/react" "^2.0.30"
     "@algolia/autocomplete-core" "1.19.2"
-    "@docsearch/css" "4.1.0"
+    "@docsearch/core" "4.3.1"
+    "@docsearch/css" "4.3.2"
     ai "^5.0.30"
     algoliasearch "^5.28.0"
     marked "^16.3.0"
