@@ -266,10 +266,100 @@ export default {
   - [`rspackPersistentCache`](https://github.com/facebook/docusaurus/pull/10931): Use [Rspack Persistent Cache](https://rspack.dev/config/cache) to re-build your app faster on subsequent builds. Requires `rspackBundler: true`. Requires persisting `./node_modules/.cache` across rebuilds.
   - [`mdxCrossCompilerCache`](https://github.com/facebook/docusaurus/pull/10479): Compile MDX files only once for both browser/Node.js environments instead of twice.
   - [`ssgWorkerThreads`](https://github.com/facebook/docusaurus/pull/10826): Using a Node.js worker thread pool to execute the static site generation phase faster. Requires `future.v4.removeLegacyPostBuildHeadAttribute` to be turned on.
+  - [`gitEagerVcs`](https://github.com/facebook/docusaurus/pull/11512): Upgrades the default [VCS strategy](#vcs) to `default-v2`, that reads your whole Git repository at once instead of per-file, making Git operations faster on large repositories.
 - `experimental_storage`: Site-wide browser storage options that theme authors should strive to respect.
   - `type`: The browser storage theme authors should use. Possible values are `localStorage` and `sessionStorage`. Defaults to `localStorage`.
   - `namespace`: Whether to namespace the browser storage keys to avoid storage key conflicts when Docusaurus sites are hosted under the same domain, or on localhost. Possible values are `string | boolean`. The namespace is appended at the end of the storage keys `key-namespace`. Use `true` to automatically generate a random namespace from your site `url + baseUrl`. Defaults to `false` (no namespace, historical behavior).
 - `experimental_router`: The router type to use. Possible values are `browser` and `hash`. Defaults to `browser`. The `hash` router is only useful for rare cases where you want to opt-out of static site generation, have a fully client-side app with a single `index.html` entrypoint file. This can be useful to distribute a Docusaurus site as a `.zip` archive that you can [browse locally without running a web server](https://github.com/facebook/docusaurus/issues/3825).
+- [`experimental_vcs`](#vcs): The Version Control System (VCS) implementation to use to read file info (creation/last update date/author). Read the [dedicated section](#vcs) below for details.
+
+#### `experimental_vcs` {#vcs}
+
+This exposes an API that lets you provide your own Version Control System (VCS) implementation to read file info (creation/last update date/author).
+
+```ts
+export default {
+  future: {
+    experimental_vcs: {
+      initialize: ({siteDir}) => {
+        // Initialize your VCS client here.
+        // If you want to read your VCS eagerly/incrementally on startup,
+        // this is the place to do it.
+        // This function is synchronous on purpose and not awaited
+        // It should not delay Docusaurus startup, but be run in parallel.
+      },
+      getFileCreationInfo: async (filePath: string) => {
+        // Provide your own implementation to read file creation info.
+        return getFileCreationInfo(filePath);
+      },
+      getFileLastUpdateInfo: async (filePath: string) => {
+        // Provide your own implementation to read file creation info.
+        return getFileLastUpdateInfo(filePath);
+      },
+    },
+  },
+};
+```
+
+##### VCS Presets {#vcs-presets}
+
+It is possible to pass a boolean VCS value:
+
+- `true`: enables the default VCS preset (`default-v1` or `default-v2`, depending on the Docusaurus Faster `gitEagerVcs` flag value)
+- `false`: disables the VCS, always returns `null` for all files
+
+```ts
+export default {
+  future: {
+    experimental_vcs: true, // Enables the default VCS preset
+  },
+};
+```
+
+It is also possible to choose VCS preset we provide out of the box by its name.
+
+```ts
+export default {
+  future: {
+    experimental_vcs: 'presetName',
+  },
+};
+```
+
+The available preset names are:
+
+- `git-ad-hoc`: the historical `git log <filename>` based strategy.
+- `git-eager`: the new Git strategy that reads your whole repository upfront.
+- `hardcoded`: returns hardcoded value, useful in dev/tests to speed up developer experience.
+- `disabled`: returns `null` for all files, considering them untracked.
+- `default-v1`: the historical default (`git-ad-hoc` in prod, `hardcoded` in dev)
+- `default-v2`: the upcoming default (`git-eager` in prod, `hardcoded` in dev)
+
+Unless you have specific needs, we recommend using the default presets (`default-v1` or `default-v2`), that skip reading file info in development mode for better performance.
+
+##### VCS Types {#vcs-types}
+
+```ts
+type VcsChangeInfo = {timestamp: number; author: string};
+
+type VscInitializeParams = {
+  siteDir: string;
+};
+
+type VcsConfig = {
+  initialize: (params: VscInitializeParams) => void;
+  getFileCreationInfo: (filePath: string) => Promise<VcsChangeInfo | null>;
+  getFileLastUpdateInfo: (filePath: string) => Promise<VcsChangeInfo | null>;
+};
+
+type VcsPreset =
+  | 'git-ad-hoc'
+  | 'git-eager'
+  | 'hardcoded'
+  | 'disabled'
+  | 'default-v1'
+  | 'default-v2';
+```
 
 ### `noIndex` {#noIndex}
 
@@ -540,7 +630,7 @@ type MDX1CompatOptions =
       headingIds: boolean;
     };
 
-export type ParseFrontMatter = (params: {
+type ParseFrontMatter = (params: {
   filePath: string;
   fileContent: string;
   defaultParseFrontMatter: ParseFrontMatter;

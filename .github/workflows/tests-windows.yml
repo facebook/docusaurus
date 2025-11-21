@@ -27,7 +27,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        node: ['20.0', '20', '22', '24', '25']
+        node: ['20.0', '20', '22', '24', '25.1']
     steps:
       - name: Support longpaths
         run: git config --system core.longpaths true
@@ -54,6 +54,8 @@ jobs:
         run: yarn workspace website test:swizzle:wrap:ts
       - name: Docusaurus Build
         run: yarn build:website:fast
+        env:
+          DOCUSAURUS_PERF_LOGGER: 'true'
 
       - name: TypeCheck website
         # see https://github.com/facebook/docusaurus/pull/10486

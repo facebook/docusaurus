@@ -37,6 +37,7 @@ jobs:
       - name: Build Hash Router
         run: yarn build:website:fast
         env:
+          DOCUSAURUS_PERF_LOGGER: 'true'
           DOCUSAURUS_ROUTER: 'hash'
           # Note: hash router + baseUrl do not play well together
           # This would host at https://facebook.github.io/docusaurus/#/docusaurus/

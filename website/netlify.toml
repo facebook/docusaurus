@@ -11,21 +11,26 @@
 [build.environment]
   NETLIFY_USE_YARN = "true"
   YARN_VERSION = "1.22.19"
-  NODE_VERSION = "22"
+  NODE_VERSION = "24"
   NODE_OPTIONS = "--max_old_space_size=8192"
 
+
+# Note, we run build:packages and git backfill in parallel to speed up builds
+# We run "git backfill" here to ensure the full Git history is available fast
+# See https://github.com/facebook/docusaurus/pull/11553
+
 [context.production]
-  command = "yarn --cwd .. build:packages && yarn netlify:build:production"
+  command = "(echo 'Build packages start' && yarn --cwd .. build:packages && echo 'Build packages end') & (echo 'Git backfill start' && git backfill && echo 'Git backfill end' ) & wait && yarn netlify:build:production"
 
 [context.branch-deploy]
-  command = "yarn --cwd .. build:packages && yarn netlify:build:branchDeploy"
+  command = "(echo 'Build packages start' && yarn --cwd .. build:packages && echo 'Build packages end') & (echo 'Git backfill start' && git backfill && echo 'Git backfill end' ) & wait && yarn netlify:build:branchDeploy"
 
 [context.deploy-preview]
-  command = "yarn --cwd .. build:packages && yarn netlify:build:deployPreview"
+  command = "(echo 'Build packages start' && yarn --cwd .. build:packages && echo 'Build packages end') & (echo 'Git backfill start' && git backfill && echo 'Git backfill end' ) & wait && yarn netlify:build:deployPreview"
 
 [[plugins]]
 package = "netlify-plugin-cache"
   [plugins.inputs]
   paths = [
-    "node_modules/.cache/webpack",
+    "node_modules/.cache",
   ]

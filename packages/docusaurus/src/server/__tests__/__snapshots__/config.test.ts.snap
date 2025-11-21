@@ -9,6 +9,7 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
     "customFields": {},
     "future": {
       "experimental_faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -22,6 +23,11 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
       },
       "v4": {
         "removeLegacyPostBuildHeadAttribute": false,
@@ -88,6 +94,7 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
     "customFields": {},
     "future": {
       "experimental_faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -101,6 +108,11 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
       },
       "v4": {
         "removeLegacyPostBuildHeadAttribute": false,
@@ -167,6 +179,7 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
     "customFields": {},
     "future": {
       "experimental_faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -180,6 +193,11 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
       },
       "v4": {
         "removeLegacyPostBuildHeadAttribute": false,
@@ -246,6 +264,7 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
     "customFields": {},
     "future": {
       "experimental_faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -259,6 +278,11 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
       },
       "v4": {
         "removeLegacyPostBuildHeadAttribute": false,
@@ -325,6 +349,7 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
     "customFields": {},
     "future": {
       "experimental_faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -338,6 +363,11 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
       },
       "v4": {
         "removeLegacyPostBuildHeadAttribute": false,
@@ -404,6 +434,7 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
     "customFields": {},
     "future": {
       "experimental_faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -417,6 +448,11 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
       },
       "v4": {
         "removeLegacyPostBuildHeadAttribute": false,
@@ -483,6 +519,7 @@ exports[`loadSiteConfig website with valid async config 1`] = `
     "customFields": {},
     "future": {
       "experimental_faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -496,6 +533,11 @@ exports[`loadSiteConfig website with valid async config 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
       },
       "v4": {
         "removeLegacyPostBuildHeadAttribute": false,
@@ -564,6 +606,7 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
     "customFields": {},
     "future": {
       "experimental_faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -577,6 +620,11 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
       },
       "v4": {
         "removeLegacyPostBuildHeadAttribute": false,
@@ -645,6 +693,7 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
     "customFields": {},
     "future": {
       "experimental_faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -658,6 +707,11 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
       },
       "v4": {
         "removeLegacyPostBuildHeadAttribute": false,
@@ -729,6 +783,7 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
     "favicon": "img/docusaurus.ico",
     "future": {
       "experimental_faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -742,6 +797,11 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
       "experimental_storage": {
         "namespace": false,
         "type": "localStorage",
+      },
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
       },
       "v4": {
         "removeLegacyPostBuildHeadAttribute": false,

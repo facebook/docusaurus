@@ -32,3 +32,5 @@ jobs:
         run: yarn || yarn || yarn
       - name: Build blog-only
         run: yarn workspace website build:blogOnly
+        env:
+          DOCUSAURUS_PERF_LOGGER: 'true'

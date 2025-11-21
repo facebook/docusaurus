@@ -6,6 +6,7 @@
  */
 
 import {fromPartial} from '@total-typescript/shoehorn';
+import {TEST_VCS} from '@docusaurus/utils';
 import {createSitemapItem} from '../createSitemapItem';
 import {DEFAULT_OPTIONS} from '../options';
 import type {PluginOptions} from '../options';
@@ -13,6 +14,7 @@ import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
 
 const siteConfig: DocusaurusConfig = fromPartial({
   url: 'https://example.com',
+  future: {experimental_vcs: TEST_VCS},
 });
 
 function test(params: {
