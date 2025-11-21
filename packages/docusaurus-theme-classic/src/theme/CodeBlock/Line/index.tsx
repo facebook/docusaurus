@@ -17,12 +17,13 @@ type Token = Props['line'][number];
 // Replaces '\n' by ''
 // Historical code, not sure why we even need this :/
 function fixLineBreak(line: Token[]) {
+  /*
   const singleLineBreakToken =
     line.length === 1 && line[0]!.content === '\n' ? line[0] : undefined;
-
   if (singleLineBreakToken) {
     return [{...singleLineBreakToken, content: ''}];
   }
+   */
 
   return line;
 }
@@ -51,7 +52,7 @@ export default function CodeBlockLine({
   });
 
   return (
-    <span {...lineProps}>
+    <div {...lineProps}>
       {showLineNumbers ? (
         <>
           <span className={styles.codeLineNumber} />
@@ -60,7 +61,6 @@ export default function CodeBlockLine({
       ) : (
         lineTokens
       )}
-      <br />
-    </span>
+    </div>
   );
 }
