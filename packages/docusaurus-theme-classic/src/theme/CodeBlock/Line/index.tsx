@@ -12,6 +12,16 @@ import type {Props} from '@theme/CodeBlock/Line';
 
 import styles from './styles.module.css';
 
+/*
+This <br/ seems useful when the line has no content to prevent collapsing.
+For code blocks with "diff" languages, this makes the empty lines collapse to
+zero height lines, which is undesirable.
+See also https://github.com/facebook/docusaurus/pull/11565
+*/
+function LineBreak() {
+  return <br />;
+}
+
 export default function CodeBlockLine({
   line,
   classNames,
@@ -43,6 +53,7 @@ export default function CodeBlockLine({
       ) : (
         lineTokens
       )}
+      <LineBreak />
     </div>
   );
 }
