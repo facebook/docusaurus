@@ -437,9 +437,14 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     .items(
       Joi.object({
         tagName: Joi.string().required(),
-        attributes: Joi.object()
-          .pattern(/[\w-]+/, Joi.string())
-          .required(),
+        attributes: Joi.object().when('customElement', {
+          is: Joi.valid(true),
+          then: Joi.optional(),
+          otherwise: Joi.object()
+            .pattern(/[\w-]+/, Joi.string())
+            .required(),
+        }),
+        customElement: Joi.bool().default(false),
       }).unknown(),
     )
     .messages({
