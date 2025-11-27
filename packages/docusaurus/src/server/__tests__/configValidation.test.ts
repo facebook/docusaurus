@@ -315,6 +315,19 @@ describe('headTags', () => {
     `);
   });
 
+  it('accepts headTags with a custom element without attributes', () => {
+    expect(() =>
+      normalizeConfig({
+        headTags: [
+          {
+            tagName: 'my-custom-element',
+            customElement: true,
+          },
+        ],
+      }),
+    ).not.toThrow();
+  });
+
   it("throws error if headTags doesn't have string attributes", () => {
     expect(() => {
       normalizeConfig({

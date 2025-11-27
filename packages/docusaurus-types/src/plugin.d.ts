@@ -104,6 +104,8 @@ export type HtmlTagObject = {
   tagName: string;
   /** The inner HTML */
   innerHTML?: string;
+  /** Allow custom html elements, e.g. `<custom-element>` */
+  customElement?: boolean;
 };
 
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];

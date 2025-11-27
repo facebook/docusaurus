@@ -767,9 +767,9 @@ export default {
 
 ### `headTags` {#headTags}
 
-An array of tags that will be inserted in the HTML `<head>`. The values must be objects that contain two properties; `tagName` and `attributes`. `tagName` must be a string that determines the tag being created; eg `"link"`. `attributes` must be an attribute-value map.
+An array of tags that will be inserted in the HTML `<head>`. The values must be objects that contain two properties; `tagName` and `attributes`. `tagName` must be a string that determines the tag being created; eg `"link"`. `attributes` must be an attribute-value map. When custom html elements are needed, set `customElement: true`.
 
-- Type: `{ tagName: string; attributes: Object; }[]`
+- Type: `{ tagName: string; attributes: Object; customElement?: boolean; }[]`
 
 Example:
 
