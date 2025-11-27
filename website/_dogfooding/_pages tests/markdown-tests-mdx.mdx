@@ -360,15 +360,10 @@ This is a test page to see if Docusaurus Markdown features are working properly
 See [#3337](https://github.com/facebook/docusaurus/issues/3337)
 
 - [/someFile.pdf](/someFile.pdf)
-
 - [/someFile.xyz](/someFile.xyz)
-
 - [/image with space.png](</image with spaces.png>)
-
 - [@site/\_dogfooding/\_asset-tests/someFile.pdf](@site/_dogfooding/_asset-tests/someFile.pdf)
-
 - [@site/\_dogfooding/\_asset-tests/someFile.xyz](@site/_dogfooding/_asset-tests/someFile.xyz)
-
 - [@site/\_dogfooding/\_asset-tests/image with space.png](<@site/_dogfooding/_asset-tests/image with spaces.png>)
 
 ### Linking to non-SPA page hosted within website
@@ -376,12 +371,15 @@ See [#3337](https://github.com/facebook/docusaurus/issues/3337)
 See [#3309](https://github.com/facebook/docusaurus/issues/3309)
 
 - [pathname:///dogfooding/javadoc](pathname:///dogfooding/javadoc)
-
 - [pathname:///dogfooding/javadoc/index.html](pathname:///dogfooding/javadoc/index.html)
-
 - [pathname://../dogfooding/javadoc](pathname://../dogfooding/javadoc)
-
 - [pathname://../dogfooding/javadoc/index.html](pathname://../dogfooding/javadoc/index.html)
+
+### Linking to non-SPA paths with custom schemes
+
+- [customScheme://whatever](customScheme://whatever)
+- [custom-scheme://whatever](custom-scheme://whatever)
+- [custom-sch.eme+-.://whatever](custom-sch.eme+-.://whatever)
 
 ### Linking to non-SPA page with Link component
 
