@@ -189,7 +189,7 @@ describe('loadHtmlTags', () => {
         },
       ]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {"tagName":"endiliey","attributes":{"this":"is invalid"}}, "endiliey" is not a valid HTML tag."`,
+      `"Error loading {"tagName":"endiliey","attributes":{"this":"is invalid"}}, "endiliey" is not a valid HTML tag. Either use a valid "tagName" or set "customElement: true"."`,
     );
   });
 
