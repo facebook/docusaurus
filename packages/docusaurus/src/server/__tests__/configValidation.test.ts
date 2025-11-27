@@ -315,7 +315,7 @@ describe('headTags', () => {
     `);
   });
 
-  it('accepts custom element without attributes', () => {
+  it('accepts headTags with a custom element without attributes', () => {
     expect(() =>
       normalizeConfig({
         headTags: [
