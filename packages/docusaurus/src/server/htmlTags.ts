@@ -17,6 +17,7 @@ import type {
   RouterType,
 } from '@docusaurus/types';
 
+// TODO this should be done at config validation time, not here
 function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
   if (typeof val !== 'object' || !val) {
     throw new Error(`"${val}" is not a valid HTML tag object.`);
