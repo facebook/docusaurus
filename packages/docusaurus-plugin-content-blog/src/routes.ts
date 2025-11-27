@@ -327,7 +327,7 @@ export async function buildAllRoutes({
         basePageUrl: author.page.permalink,
         blogDescription,
         blogTitle,
-        pageBasePath: authorsBasePath,
+        pageBasePath,
         postsPerPageOption: postsPerPage,
       });
 

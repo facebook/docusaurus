@@ -399,7 +399,7 @@ exports[`buildAllRoutes works for realistic blog post 2`] = `
       "listMetadata": {
         "blogDescription": "Custom blog description",
         "blogTitle": "Custom blog title",
-        "nextPage": "/blog/authors/author1/authors/2",
+        "nextPage": "/blog/authors/author1/page/2",
         "page": 1,
         "permalink": "/blog/authors/author1",
         "postsPerPage": 2,
@@ -429,7 +429,7 @@ exports[`buildAllRoutes works for realistic blog post 2`] = `
       ],
       "sidebar": "@aliased/data/blog-post-list-prop-default.json",
     },
-    "path": "/blog/authors/author1/authors/2",
+    "path": "/blog/authors/author1/page/2",
     "props": {
       "author": {
         "count": 3,
@@ -444,7 +444,7 @@ exports[`buildAllRoutes works for realistic blog post 2`] = `
         "blogTitle": "Custom blog title",
         "nextPage": undefined,
         "page": 2,
-        "permalink": "/blog/authors/author1/authors/2",
+        "permalink": "/blog/authors/author1/page/2",
         "postsPerPage": 2,
         "previousPage": "/blog/authors/author1",
         "totalCount": 3,
