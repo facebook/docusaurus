@@ -2,46 +2,12 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+### Introduction to Learning API Documentation
 
-Let's discover **Docusaurus in less than 5 minutes**.
+I’ve been writing API documentation for almost a decade now, and over the years I’ve learned what works, what doesn’t, and how to make documentation easier for developers to consume. APIs can seem overwhelming at first, but with the right structure and clarity, they become one of the most powerful tools for integration and product development.
 
-## Getting Started
+This space will walk you through the fundamentals of API documentation—clear, practical, and beginner-friendly.
 
-Get started by **creating a new site**.
+If you’re just getting started, the **Basic Guide** will help you understand API formats, requests, responses, endpoints, and best practices for writing clean docs.  
+When you’re ready to go deeper, the **Advanced Guide** will cover topics like authentication models, workflows, versioning, testing calls, and writing docs that scale for complex systems.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 20.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
