@@ -36,7 +36,6 @@
     "@babel/preset-react": "^7.25.9",
     "@babel/preset-typescript": "^7.25.9",
     "@babel/runtime": "^7.25.9",
-    "@babel/runtime-corejs3": "^7.25.9",
     "@babel/traverse": "^7.25.9",
     "@docusaurus/logger": "3.9.2",
     "@docusaurus/utils": "3.9.2",
