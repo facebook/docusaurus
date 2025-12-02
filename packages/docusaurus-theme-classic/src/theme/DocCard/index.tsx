@@ -115,25 +115,8 @@ function CardCategory({item}: {item: PropSidebarItemCategory}): ReactNode {
 function CardLink({item}: {item: PropSidebarItemLink}): ReactNode {
   const defaultIcon = isInternalUrl(item.href) ? '📄' : '🔗';
 
-  let customIcon;
-
-  // If the icon is a string, it can be an simple string icon or a PNG/JPEG image, render accordingly
-  if (typeof item.icon === 'string') {
-    if (
-      /^data:image\/(?:png|jpe?g)/i.test(item.icon) ||
-      /\.(?:png|jpe?g)/i.test(item.icon)
-    ) {
-      customIcon = (
-        <img
-          src={item.icon}
-          alt={`${item.label}-icon`}
-          style={{maxWidth: '24px', maxHeight: '24px'}}
-        />
-      );
-    } else {
-      customIcon = item.icon;
-    }
-  }
+  const customIcon =
+    typeof item.icon === 'string' && item.icon.length <= 2 ? item.icon : null;
 
   const icon = customIcon || defaultIcon;
   const doc = useDocById(item.docId ?? undefined);
