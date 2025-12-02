@@ -199,6 +199,7 @@ export type PropSidebarItemCategory = Expand<
 export type PropSidebarItemLink = SidebarItemLink & {
   docId?: string;
   unlisted?: boolean;
+  icon?: string;
 };
 
 export type PropSidebarItemHtml = SidebarItemHtml;
