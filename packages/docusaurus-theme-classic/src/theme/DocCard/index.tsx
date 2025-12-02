@@ -113,7 +113,9 @@ function CardCategory({item}: {item: PropSidebarItemCategory}): ReactNode {
 }
 
 function CardLink({item}: {item: PropSidebarItemLink}): ReactNode {
-  const icon = isInternalUrl(item.href) ? '📄️' : '🔗';
+  const defaultIcon = isInternalUrl(item.href) ? '📄' : '🔗';
+  const customIcon = item.icon && item.icon !== '';
+  const icon = customIcon ? item.icon : defaultIcon;
   const doc = useDocById(item.docId ?? undefined);
   return (
     <CardLayout
