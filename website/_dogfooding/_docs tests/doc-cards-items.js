@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import png from '@site/static/img/docusaurus.png';
+import svgImg from '@site/static/img/docusaurus.svg';
 
 const items = [
   {
@@ -48,9 +49,16 @@ const items = [
   },
   {
     label: 'Custom Image',
-    description: 'Test with custom image',
+    description: 'It works with PNG',
     href: 'https://docusaurus.io',
     icon: png,
+    type: 'link',
+  },
+  {
+    label: 'Custom Image',
+    description: 'It does not work with SVG',
+    href: 'https://docusaurus.io',
+    icon: svgImg,
     type: 'link',
   },
 ];
