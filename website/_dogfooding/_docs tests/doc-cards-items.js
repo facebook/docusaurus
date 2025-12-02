@@ -6,6 +6,7 @@
  */
 import png from '@site/static/img/docusaurus.png';
 import svgImg from '@site/static/img/docusaurus.svg';
+import jpg from '@site/static/img/endi.jpg';
 
 const items = [
   {
@@ -52,6 +53,13 @@ const items = [
     description: 'It works with PNG',
     href: 'https://docusaurus.io',
     icon: png,
+    type: 'link',
+  },
+  {
+    label: 'Custom Image',
+    description: 'It works with JPG',
+    href: 'https://docusaurus.io',
+    icon: jpg,
     type: 'link',
   },
   {
