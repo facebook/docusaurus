@@ -67,10 +67,6 @@ interface DocSearchV4Props extends Omit<DocSearchProps, 'askAi'> {
   translations?: DocSearchTranslations;
 }
 
-type SearchBarProps = Partial<
-  Pick<DocSearchModalProps, 'transformSearchClient'>
->;
-
 let DocSearchModal: typeof DocSearchModalType | null = null;
 
 function importDocSearchModalIfNeeded() {
@@ -316,12 +312,15 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
   );
 }
 
-export default function SearchBar(props: SearchBarProps): ReactNode {
+export default function SearchBar(props: Partial<DocSearchV4Props>): ReactNode {
   const {siteConfig} = useDocusaurusContext();
-  return (
-    <DocSearch
-      {...(siteConfig.themeConfig.algolia as DocSearchV4Props)}
-      {...props}
-    />
-  );
+
+  const docSearchProps: DocSearchV4Props = {
+    ...(siteConfig.themeConfig.algolia as DocSearchV4Props),
+    // Let props override theme config
+    // See https://github.com/facebook/docusaurus/pull/11581
+    ...props,
+  };
+
+  return <DocSearch {...docSearchProps} />;
 }
