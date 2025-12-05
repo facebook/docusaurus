@@ -53,6 +53,13 @@ export async function createAliasesForTheme(
 
   const themeComponentFiles = await Globby(['**/*.{js,jsx,ts,tsx}'], {
     cwd: themePath,
+    ignore: [
+      // Ignore co-located test files
+      '**/__tests__/**',
+      '**/*.test.{js,jsx,ts,tsx}',
+      // Ignore type declaration files
+      '**/*.d.ts',
+    ],
   });
 
   const aliases: ThemeAliases = {};
