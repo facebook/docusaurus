@@ -312,9 +312,15 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
   );
 }
 
-export default function SearchBar(): ReactNode {
+export default function SearchBar(props: Partial<DocSearchV4Props>): ReactNode {
   const {siteConfig} = useDocusaurusContext();
-  return (
-    <DocSearch {...(siteConfig.themeConfig.algolia as DocSearchV4Props)} />
-  );
+
+  const docSearchProps: DocSearchV4Props = {
+    ...(siteConfig.themeConfig.algolia as DocSearchV4Props),
+    // Let props override theme config
+    // See https://github.com/facebook/docusaurus/pull/11581
+    ...props,
+  };
+
+  return <DocSearch {...docSearchProps} />;
 }
