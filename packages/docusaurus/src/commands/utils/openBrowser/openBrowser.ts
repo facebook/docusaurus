@@ -95,6 +95,9 @@ async function tryOpenWithAppleScript({
       );
     }
 
+    // Test this manually with:
+    // osascript ./packages/docusaurus/src/commands/utils/openBrowser/openChrome.applescript "http://localhost:8080" "Google Chrome"
+    // osascript ./packages/docusaurus/src/commands/utils/openBrowser/openChrome.applescript "http://localhost:8080" "Arc"
     async function tryBrowser(browserName: string): Promise<boolean> {
       try {
         // This command runs the openChrome.applescript (copied from CRA)

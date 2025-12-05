@@ -19,6 +19,16 @@ on run argv
     set theProgram to item 2 of argv
   end if
 
+  -- Arc: simple open + activate, no tab reuse
+  -- See https://github.com/facebook/docusaurus/issues/11582
+  if theProgram is "Arc" then
+    tell application "Arc"
+      activate
+      open location theURL
+    end tell
+    return
+  end if
+
   using terms from application "Google Chrome"
     tell application theProgram
 
