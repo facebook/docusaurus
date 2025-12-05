@@ -9,7 +9,7 @@
  * and return as `style` property.
  *
  * Usage:
- * Asume you have `theme` object, which can be css-module
+ * Assume you have `theme` object, which can be css-module
  * or object or other css-in-js compatible with css-module
  *
  * <a {...compose(theme.link, theme.active, {color: "#000"})}>link</a>

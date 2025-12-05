@@ -55,6 +55,10 @@ export const ThemeClassNames = {
     container: 'theme-announcement-bar',
   },
 
+  tabs: {
+    container: 'theme-tabs-container',
+  },
+
   layout: {
     navbar: {
       container: 'theme-layout-navbar',

@@ -63,6 +63,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: '.',
           sidebarPosition: 2,
           frontMatter: {
+            sidebar_key: 'doc1-sidebar-key',
             sidebar_label: 'doc1 sidebar label',
             sidebar_custom_props: {custom: 'prop'},
           },
@@ -129,6 +130,7 @@ describe('DefaultSidebarItemsGenerator', () => {
         },
         '02-Guides/01-SubGuides': {
           label: 'SubGuides (metadata file label)',
+          key: 'SubGuides-category-unique-key',
           link: {
             type: 'generated-index',
             slug: 'subGuides-generated-index-slug',
@@ -253,7 +255,9 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'subfolder/subsubfolder',
           title: 'Subsubsubfolder category label',
           sidebarPosition: undefined,
-          frontMatter: {},
+          frontMatter: {
+            sidebar_key: 'doc1-sidebar-key',
+          },
         },
         {
           id: 'doc2',

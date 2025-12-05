@@ -10,112 +10,13 @@ import type {RuleSetRule} from 'webpack';
 import type {DeepPartial, Overwrite} from 'utility-types';
 import type {I18nConfig} from './i18n';
 import type {PluginConfig, PresetConfig, HtmlTagObject} from './plugin';
-
-import type {ProcessorOptions} from '@mdx-js/mdx';
-
-export type RemarkRehypeOptions = ProcessorOptions['remarkRehypeOptions'];
-
-export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
+import type {ReportingSeverity} from './reporting';
+import type {MarkdownConfig} from './markdown';
 
 export type RouterType = 'browser' | 'hash';
 
 export type ThemeConfig = {
   [key: string]: unknown;
-};
-
-export type MarkdownPreprocessor = (args: {
-  filePath: string;
-  fileContent: string;
-}) => string;
-
-export type MDX1CompatOptions = {
-  comments: boolean;
-  admonitions: boolean;
-  headingIds: boolean;
-};
-
-export type ParseFrontMatterParams = {filePath: string; fileContent: string};
-export type ParseFrontMatterResult = {
-  frontMatter: {[key: string]: unknown};
-  content: string;
-};
-export type DefaultParseFrontMatter = (
-  params: ParseFrontMatterParams,
-) => Promise<ParseFrontMatterResult>;
-export type ParseFrontMatter = (
-  params: ParseFrontMatterParams & {
-    defaultParseFrontMatter: DefaultParseFrontMatter;
-  },
-) => Promise<ParseFrontMatterResult>;
-
-export type MarkdownAnchorsConfig = {
-  /**
-   * Preserves the case of the heading text when generating anchor ids.
-   */
-  maintainCase: boolean;
-};
-
-export type MarkdownConfig = {
-  /**
-   * The Markdown format to use by default.
-   *
-   * This is the format passed down to the MDX compiler, impacting the way the
-   * content is parsed.
-   *
-   * Possible values:
-   * - `'mdx'`: use the MDX format (JSX support)
-   * - `'md'`: use the CommonMark format (no JSX support)
-   * - `'detect'`: select the format based on file extension (.md / .mdx)
-   *
-   * @see https://mdxjs.com/packages/mdx/#optionsformat
-   * @default 'mdx'
-   */
-  format: 'mdx' | 'md' | 'detect';
-
-  /**
-   * A function callback that lets users parse the front matter themselves.
-   * Gives the opportunity to read it from a different source, or process it.
-   *
-   * @see https://github.com/facebook/docusaurus/issues/5568
-   */
-  parseFrontMatter: ParseFrontMatter;
-
-  /**
-   * Allow mermaid language code blocks to be rendered into Mermaid diagrams:
-   *
-   * - `true`: code blocks with language mermaid will be rendered.
-   * - `false` | `undefined` (default): code blocks with language mermaid
-   * will be left as code blocks.
-   *
-   * @see https://docusaurus.io/docs/markdown-features/diagrams/
-   * @default false
-   */
-  mermaid: boolean;
-
-  /**
-   * Gives opportunity to preprocess the MDX string content before compiling.
-   * A good escape hatch that can be used to handle edge cases.
-   *
-   * @param args
-   */
-  preprocessor?: MarkdownPreprocessor;
-
-  /**
-   * Set of flags make it easier to upgrade from MDX 1 to MDX 2
-   * See also https://github.com/facebook/docusaurus/issues/4029
-   */
-  mdx1Compat: MDX1CompatOptions;
-
-  /**
-   * Ability to provide custom remark-rehype options
-   * See also https://github.com/remarkjs/remark-rehype#options
-   */
-  remarkRehypeOptions: RemarkRehypeOptions;
-
-  /**
-   * Options to control the behavior of anchors generated from Markdown headings
-   */
-  anchors: MarkdownAnchorsConfig;
 };
 
 export type StorageConfig = {
@@ -132,12 +33,60 @@ export type FasterConfig = {
   rspackBundler: boolean;
   rspackPersistentCache: boolean;
   ssgWorkerThreads: boolean;
+  gitEagerVcs: boolean;
 };
 
 export type FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: boolean;
   useCssCascadeLayers: boolean;
 };
+
+// VCS (Version Control System) info about a given change, e.g., a git commit.
+// The agnostic term "VCS" is used instead of "git" to acknowledge the existence
+// of other version control systems, and external systems like CMSs and i18n
+// translation SaaS (e.g., Crowdin)
+export type VcsChangeInfo = {timestamp: number; author: string};
+
+export type VscInitializeParams = {
+  siteDir: string;
+  // TODO could it be useful to provide all plugins getPathsToWatch() here?
+  //  this could give the opportunity to find out all VCS roots ahead of times
+  //  this is mostly useful for multi-git-repo setups, can be added later
+};
+
+// VCS (Version Control System) config hooks to get file change info.
+// This lets you override and customize the default Docusaurus behavior.
+// This can be useful to optimize calls or when using something else than git
+// See https://github.com/facebook/docusaurus/issues/11208
+// See https://github.com/e18e/ecosystem-issues/issues/216
+export type VcsConfig = {
+  /**
+   * Initialize the VCS system.
+   * This is notably useful to pre-read eagerly a full Git repository so that
+   * all the files first/last update info can be retrieved efficiently later
+   *
+   * Note: for now, this function is synchronous on purpose, it can be used to
+   * start warming up the VCS by reading eagerly, but we don't want to delay
+   * the rest of the Docusaurus start/build process. Instead of awaiting the
+   * init promise, you can create/store it and await it later during reads.
+   *
+   * @param params Initialization params that can be useful to warm up the VCS
+   */
+  initialize: (params: VscInitializeParams) => void;
+  getFileCreationInfo: (filePath: string) => Promise<VcsChangeInfo | null>;
+  getFileLastUpdateInfo: (filePath: string) => Promise<VcsChangeInfo | null>;
+};
+
+/**
+ * List of pre-built VcsConfig that Docusaurus provides.
+ */
+export type VcsPreset =
+  | 'git-ad-hoc'
+  | 'git-eager'
+  | 'hardcoded'
+  | 'disabled'
+  | 'default-v1'
+  | 'default-v2';
 
 export type FutureConfig = {
   /**
@@ -148,6 +97,8 @@ export type FutureConfig = {
   experimental_faster: FasterConfig;
 
   experimental_storage: StorageConfig;
+
+  experimental_vcs: VcsConfig;
 
   /**
    * Docusaurus can work with 2 router types.
@@ -258,7 +209,8 @@ export type DocusaurusConfig = {
    * @see https://docusaurus.io/docs/api/docusaurus-config#onBrokenMarkdownLinks
    * @default "warn"
    */
-  onBrokenMarkdownLinks: ReportingSeverity;
+  // TODO Docusaurus v4 remove
+  onBrokenMarkdownLinks: ReportingSeverity | undefined;
   /**
    * The behavior of Docusaurus when it detects any [duplicate
    * routes](https://docusaurus.io/docs/creating-pages#duplicate-routes).
@@ -463,8 +415,9 @@ export type Config = Overwrite<
     future?: Overwrite<
       DeepPartial<FutureConfig>,
       {
-        v4?: boolean | FutureV4Config;
-        experimental_faster?: boolean | FasterConfig;
+        v4?: boolean | Partial<FutureV4Config>;
+        experimental_faster?: boolean | Partial<FasterConfig>;
+        experimental_vcs?: VcsPreset | VcsConfig | boolean;
       }
     >;
   }

@@ -143,7 +143,7 @@ html[data-theme='dark'] {
   );
 }
 
-div[class^='announcementBar_'] {
+.theme-announcement-bar {
   font-size: 20px;
 
   /*
@@ -228,8 +228,14 @@ div[class^='announcementBar_'] {
   background-color: rgba(0 0 0 / 95%);
 }
 
-html[data-navbar='false'] .navbar {
-  display: none;
+html[data-navbar='false'] {
+  .navbar {
+    display: none;
+  }
+
+  .theme-announcement-bar {
+    display: none;
+  }
 }
 
 html[data-red-border] div#__docusaurus {

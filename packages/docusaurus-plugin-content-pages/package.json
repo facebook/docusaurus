@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-pages",
-  "version": "3.7.0",
+  "version": "3.9.2",
   "description": "Pages plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-content-pages.d.ts",
@@ -18,11 +18,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.7.0",
-    "@docusaurus/mdx-loader": "3.7.0",
-    "@docusaurus/types": "3.7.0",
-    "@docusaurus/utils": "3.7.0",
-    "@docusaurus/utils-validation": "3.7.0",
+    "@docusaurus/core": "3.9.2",
+    "@docusaurus/mdx-loader": "3.9.2",
+    "@docusaurus/types": "3.9.2",
+    "@docusaurus/utils": "3.9.2",
+    "@docusaurus/utils-validation": "3.9.2",
     "fs-extra": "^11.1.1",
     "tslib": "^2.6.0",
     "webpack": "^5.88.1"
@@ -32,6 +32,6 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   }
 }

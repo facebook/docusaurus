@@ -12,15 +12,11 @@ import {
   docuHash,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
-  DEFAULT_PLUGIN_ID,
+  getContentPathList,
 } from '@docusaurus/utils';
 import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
 import {createAllRoutes} from './routes';
-import {
-  createPagesContentPaths,
-  getContentPathList,
-  loadPagesContent,
-} from './content';
+import {createPagesContentPaths, loadPagesContent} from './content';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
   PluginOptions,
@@ -41,7 +37,7 @@ export default async function pluginContentPages(
     generatedFilesDir,
     'docusaurus-plugin-content-pages',
   );
-  const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
+  const dataDir = path.join(pluginDataDirRoot, options.id);
 
   async function createPagesMDXLoaderRule(): Promise<RuleSetRule> {
     const {

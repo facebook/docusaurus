@@ -25,9 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: lts/*
           cache: yarn
@@ -37,13 +37,14 @@ jobs:
       - name: Build Hash Router
         run: yarn build:website:fast
         env:
+          DOCUSAURUS_PERF_LOGGER: 'true'
           DOCUSAURUS_ROUTER: 'hash'
           # Note: hash router + baseUrl do not play well together
           # This would host at https://facebook.github.io/docusaurus/#/docusaurus/
           # BASE_URL: '/docusaurus/' # hash router +
 
       - name: Upload Website artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: website-hash-router-archive
           path: website/build

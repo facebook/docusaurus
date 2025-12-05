@@ -20,6 +20,19 @@ languages_mapping: &languages_mapping
   two_letters_code:
     pt-BR: pt-BR
 
+# Crowdin regularly update their MDX parser
+# Unfortunately, their v2 parser is more "MDX compliant" and thus can't parse
+# Docusaurus MDX files correctly due to our custom {#headingId} syntax.
+# Adding this type param permits using their older v1.2 parser.
+# Note: you can find the version of a file using browser DevTools
+# The source file icons will have a class such as "file_type_mdx_v1_2"
+#
+# TODO fix our headingId syntax
+# providing an explicit type is annoying and not future-proof
+# there's a risk that when adding an image in /docs, it will be parsed as mdx
+# and duplicating source file configs for various extensions is not great either
+mdx_file_type: &mdx_file_type mdx_v1_2
+
 #
 # Files configuration
 #
@@ -27,18 +40,33 @@ files:
   - source: /website/i18n/en/**/*
     translation: /website/i18n/%two_letters_code%/**/%original_file_name%
     languages_mapping: *languages_mapping
+
+  - source: /website/docs/**/*.mdx
+    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
+    languages_mapping: *languages_mapping
+    type: *mdx_file_type
   - source: /website/docs/**/*
     translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
     languages_mapping: *languages_mapping
-  - source: /website/community/**/*
-    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs-community/current/**/%original_file_name%
+    ignore: [/**/*.mdx]
+
+  - source: /website/versioned_docs/**/*.mdx
+    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/**/%original_file_name%
     languages_mapping: *languages_mapping
+    type: *mdx_file_type
   - source: /website/versioned_docs/**/*
     translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/**/%original_file_name%
     languages_mapping: *languages_mapping
+    ignore: [/**/*.mdx]
+
+  - source: /website/community/**/*
+    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs-community/current/**/%original_file_name%
+    languages_mapping: *languages_mapping
+
   - source: /website/blog/**/*
     translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-blog/**/%original_file_name%
     languages_mapping: *languages_mapping
+
   - source: /website/src/pages/**/*
     translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-pages/**/%original_file_name%
     ignore: [/**/*.js, /**/*.jsx, /**/*.ts, /**/*.tsx, /**/*.css]

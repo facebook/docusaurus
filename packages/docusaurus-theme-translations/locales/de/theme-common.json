@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Expand sidebar category '{label}'",
   "theme.ErrorPageContent.title": "Die Seite ist abgestürzt.",
   "theme.ErrorPageContent.tryAgain": "Nochmal versuchen",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Main",
   "theme.NotFound.p1": "Wir konnten nicht finden, wonach Sie gesucht haben.",
   "theme.NotFound.p2": "Bitte kontaktieren Sie den Besitzer der Seite, die Sie mit der ursprünglichen URL verlinkt hat, und teilen Sie ihm mit, dass der Link nicht mehr funktioniert.",

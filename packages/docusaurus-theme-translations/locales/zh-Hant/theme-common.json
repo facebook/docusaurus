@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "展開側邊欄分類 '{label}'",
   "theme.ErrorPageContent.title": "此頁已當機。",
   "theme.ErrorPageContent.tryAgain": "重試",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "主導航",
   "theme.NotFound.p1": "我們沒有您要找的頁面。",
   "theme.NotFound.p2": "請聯絡原始連結來源網站的所有者，並通知他們連結已毀損。",

@@ -12,7 +12,8 @@ import {
   createSlugger,
   posixPath,
   DEFAULT_PLUGIN_ID,
-  LAST_UPDATE_FALLBACK,
+  getLocaleConfig,
+  TEST_VCS,
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {createSidebarsUtils} from '../sidebars/utils';
@@ -25,7 +26,7 @@ import {
   type DocEnv,
 } from '../docs';
 import {loadSidebars} from '../sidebars';
-import {readVersionsMetadata} from '../versions';
+import {readVersionsMetadata} from '../versions/version';
 import {DEFAULT_OPTIONS} from '../options';
 import type {Sidebars} from '../sidebars/types';
 import type {DocFile} from '../types';
@@ -528,8 +529,8 @@ describe('simple site', () => {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
         unrelated_front_matter: "won't be part of metadata",
       },
-      lastUpdatedAt: LAST_UPDATE_FALLBACK.lastUpdatedAt,
-      lastUpdatedBy: LAST_UPDATE_FALLBACK.lastUpdatedBy,
+      lastUpdatedAt: TEST_VCS.LAST_UPDATE_INFO.timestamp,
+      lastUpdatedBy: TEST_VCS.LAST_UPDATE_INFO.author,
       tags: [],
       unlisted: false,
     });
@@ -663,7 +664,7 @@ describe('simple site', () => {
         },
         title: 'Last Update Author Only',
       },
-      lastUpdatedAt: LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdatedAt: TEST_VCS.LAST_UPDATE_INFO.timestamp,
       lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],
@@ -842,7 +843,11 @@ describe('simple site', () => {
 
 describe('versioned site', () => {
   async function loadSite(
-    loadSiteOptions: {options: Partial<PluginOptions>; locale?: string} = {
+    loadSiteOptions: {
+      options?: Partial<PluginOptions>;
+      locale?: string;
+      translate?: boolean;
+    } = {
       options: {},
     },
   ) {
@@ -851,6 +856,10 @@ describe('versioned site', () => {
       siteDir,
       locale: loadSiteOptions.locale,
     });
+
+    // hacky but gets the job done
+    getLocaleConfig(context.i18n).translate = loadSiteOptions.translate ?? true;
+
     const options = {
       id: DEFAULT_PLUGIN_ID,
       ...DEFAULT_OPTIONS,
@@ -1049,6 +1058,43 @@ describe('versioned site', () => {
           inline: false,
           label: 'globalTag-v1.0.1 label',
           permalink: '/docs/tags/globalTag-v1.0.1 permalink',
+        },
+      ],
+      unlisted: false,
+    });
+  });
+
+  it('versioned docs - translate: false', async () => {
+    const {version100TestUtils} = await loadSite({
+      translate: false,
+    });
+
+    // This doc is translated, but we still read the original
+    await version100TestUtils.testMeta(path.join('hello.md'), {
+      id: 'hello',
+      sourceDirName: '.',
+      permalink: '/docs/1.0.0/',
+      slug: '/',
+      title: 'hello',
+      description: 'Hello 1.0.0 !',
+      frontMatter: {
+        slug: '/',
+        tags: ['inlineTag-v1.0.0', 'globalTag-v1.0.0'],
+      },
+      version: '1.0.0',
+      source: '@site/versioned_docs/version-1.0.0/hello.md',
+      tags: [
+        {
+          description: undefined,
+          inline: true,
+          label: 'inlineTag-v1.0.0',
+          permalink: '/docs/1.0.0/tags/inline-tag-v-1-0-0',
+        },
+        {
+          description: 'globalTag-v1.0.0 description',
+          inline: false,
+          label: 'globalTag-v1.0.0 label',
+          permalink: '/docs/1.0.0/tags/globalTag-v1.0.0 permalink',
         },
       ],
       unlisted: false,

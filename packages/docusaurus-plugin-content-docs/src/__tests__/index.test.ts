@@ -18,7 +18,7 @@ import {
   createConfigureWebpackUtils,
 } from '@docusaurus/core/src/webpack/configure';
 import {sortRoutes} from '@docusaurus/core/src/server/plugins/routeConfig';
-import {posixPath} from '@docusaurus/utils';
+import {getLocaleConfig, posixPath} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 import {fromPartial} from '@total-typescript/shoehorn';
@@ -219,9 +219,13 @@ describe('empty/no docs website', () => {
 });
 
 describe('simple website', () => {
-  async function loadSite() {
+  async function loadSite({translate}: {translate?: boolean} = {}) {
     const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
     const context = await loadContext({siteDir});
+
+    // hacky but gets the job done
+    getLocaleConfig(context.i18n).translate = translate ?? true;
+
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const options = validateOptions({
       validate: normalizePluginOptions as Validate<Options, PluginOptions>,
@@ -233,7 +237,20 @@ describe('simple website', () => {
     const plugin = await pluginContentDocs(context, options);
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
-    return {siteDir, context, sidebarPath, plugin, options, pluginContentDir};
+    return {
+      siteDir,
+      context,
+      sidebarPath,
+      plugin,
+      options,
+      pluginContentDir,
+      getPathsToWatch: () => {
+        const pathToWatch = plugin.getPathsToWatch!();
+        return pathToWatch.map((filepath) =>
+          posixPath(path.relative(siteDir, filepath)),
+        );
+      },
+    };
   }
 
   it('extendCli - docsVersion', async () => {
@@ -242,8 +259,6 @@ describe('simple website', () => {
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
     const cli = new commander.Command();
-    // @ts-expect-error: in actual usage, we pass the static commander instead
-    // of the new command
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '1.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
@@ -251,25 +266,48 @@ describe('simple website', () => {
     mock.mockRestore();
   });
 
-  it('getPathToWatch', async () => {
-    const {siteDir, plugin} = await loadSite();
+  describe('getPathToWatch', () => {
+    it('translate: false', async () => {
+      const {getPathsToWatch} = await loadSite({translate: false});
+      expect(getPathsToWatch()).toMatchInlineSnapshot(`
+        [
+          "sidebars.json",
+          "docs/**/*.{md,mdx}",
+          "docs/tags.yml",
+          "docs/**/_category_.{json,yml,yaml}",
+        ]
+      `);
+    });
 
-    const pathToWatch = plugin.getPathsToWatch!();
-    const matchPattern = pathToWatch.map((filepath) =>
-      posixPath(path.relative(siteDir, filepath)),
-    );
-    expect(matchPattern).toMatchSnapshot();
-    expect(isMatch('docs/hello.md', matchPattern)).toBe(true);
-    expect(isMatch('docs/hello.mdx', matchPattern)).toBe(true);
-    expect(isMatch('docs/foo/bar.md', matchPattern)).toBe(true);
-    expect(isMatch('docs/hello.js', matchPattern)).toBe(false);
-    expect(isMatch('docs/super.mdl', matchPattern)).toBe(false);
-    expect(isMatch('docs/mdx', matchPattern)).toBe(false);
-    expect(isMatch('docs/headingAsTitle.md', matchPattern)).toBe(true);
-    expect(isMatch('sidebars.json', matchPattern)).toBe(true);
-    expect(isMatch('versioned_docs/hello.md', matchPattern)).toBe(false);
-    expect(isMatch('hello.md', matchPattern)).toBe(false);
-    expect(isMatch('super/docs/hello.md', matchPattern)).toBe(false);
+    it('translate: true', async () => {
+      const {getPathsToWatch} = await loadSite({translate: true});
+      expect(getPathsToWatch()).toMatchInlineSnapshot(`
+        [
+          "sidebars.json",
+          "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
+          "docs/**/*.{md,mdx}",
+          "i18n/en/docusaurus-plugin-content-docs/current/tags.yml",
+          "docs/tags.yml",
+          "docs/**/_category_.{json,yml,yaml}",
+        ]
+      `);
+    });
+
+    it('returns patterns matching docs', async () => {
+      const {getPathsToWatch} = await loadSite();
+      const matchPattern = getPathsToWatch();
+      expect(isMatch('docs/hello.md', matchPattern)).toBe(true);
+      expect(isMatch('docs/hello.mdx', matchPattern)).toBe(true);
+      expect(isMatch('docs/foo/bar.md', matchPattern)).toBe(true);
+      expect(isMatch('docs/hello.js', matchPattern)).toBe(false);
+      expect(isMatch('docs/super.mdl', matchPattern)).toBe(false);
+      expect(isMatch('docs/mdx', matchPattern)).toBe(false);
+      expect(isMatch('docs/headingAsTitle.md', matchPattern)).toBe(true);
+      expect(isMatch('sidebars.json', matchPattern)).toBe(true);
+      expect(isMatch('versioned_docs/hello.md', matchPattern)).toBe(false);
+      expect(isMatch('hello.md', matchPattern)).toBe(false);
+      expect(isMatch('super/docs/hello.md', matchPattern)).toBe(false);
+    });
   });
 
   it('configureWebpack', async () => {
@@ -329,9 +367,13 @@ describe('simple website', () => {
 });
 
 describe('versioned website', () => {
-  async function loadSite() {
+  async function loadSite({translate}: {translate?: boolean} = {}) {
     const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
     const context = await loadContext({siteDir});
+
+    // hacky but gets the job done
+    getLocaleConfig(context.i18n).translate = translate ?? true;
+
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const routeBasePath = 'docs';
     const options = validateOptions({
@@ -356,6 +398,13 @@ describe('versioned website', () => {
       options,
       plugin,
       pluginContentDir,
+
+      getPathsToWatch: () => {
+        const pathToWatch = plugin.getPathsToWatch!();
+        return pathToWatch.map((filepath) =>
+          posixPath(path.relative(siteDir, filepath)),
+        );
+      },
     };
   }
 
@@ -365,8 +414,6 @@ describe('versioned website', () => {
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
     const cli = new commander.Command();
-    // @ts-expect-error: in actual usage, we pass the static commander instead
-    // of the new command
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
@@ -374,48 +421,101 @@ describe('versioned website', () => {
     mock.mockRestore();
   });
 
-  it('getPathToWatch', async () => {
-    const {siteDir, plugin} = await loadSite();
-    const pathToWatch = plugin.getPathsToWatch!();
-    const matchPattern = pathToWatch.map((filepath) =>
-      posixPath(path.relative(siteDir, filepath)),
-    );
-    expect(matchPattern).not.toEqual([]);
-    expect(matchPattern).toMatchSnapshot();
-    expect(isMatch('docs/hello.md', matchPattern)).toBe(true);
-    expect(isMatch('docs/hello.mdx', matchPattern)).toBe(true);
-    expect(isMatch('docs/foo/bar.md', matchPattern)).toBe(true);
-    expect(isMatch('sidebars.json', matchPattern)).toBe(true);
-    expect(isMatch('versioned_docs/version-1.0.0/hello.md', matchPattern)).toBe(
-      true,
-    );
-    expect(
-      isMatch('versioned_docs/version-1.0.0/foo/bar.md', matchPattern),
-    ).toBe(true);
-    expect(
-      isMatch('versioned_sidebars/version-1.0.0-sidebars.json', matchPattern),
-    ).toBe(true);
+  describe('getPathToWatch', () => {
+    it('translate: false', async () => {
+      const {getPathsToWatch} = await loadSite({translate: false});
+      expect(getPathsToWatch()).toMatchInlineSnapshot(`
+        [
+          "sidebars.json",
+          "docs/**/*.{md,mdx}",
+          "docs/tags.yml",
+          "docs/**/_category_.{json,yml,yaml}",
+          "versioned_sidebars/version-1.0.1-sidebars.json",
+          "versioned_docs/version-1.0.1/**/*.{md,mdx}",
+          "versioned_docs/version-1.0.1/tags.yml",
+          "versioned_docs/version-1.0.1/**/_category_.{json,yml,yaml}",
+          "versioned_sidebars/version-1.0.0-sidebars.json",
+          "versioned_docs/version-1.0.0/**/*.{md,mdx}",
+          "versioned_docs/version-1.0.0/tags.yml",
+          "versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
+          "versioned_sidebars/version-withSlugs-sidebars.json",
+          "versioned_docs/version-withSlugs/**/*.{md,mdx}",
+          "versioned_docs/version-withSlugs/tags.yml",
+          "versioned_docs/version-withSlugs/**/_category_.{json,yml,yaml}",
+        ]
+      `);
+    });
 
-    // Non existing version
-    expect(
-      isMatch('versioned_docs/version-2.0.0/foo/bar.md', matchPattern),
-    ).toBe(false);
-    expect(isMatch('versioned_docs/version-2.0.0/hello.md', matchPattern)).toBe(
-      false,
-    );
-    expect(
-      isMatch('versioned_sidebars/version-2.0.0-sidebars.json', matchPattern),
-    ).toBe(false);
+    it('translate: true', async () => {
+      const {getPathsToWatch} = await loadSite({translate: true});
+      expect(getPathsToWatch()).toMatchInlineSnapshot(`
+        [
+          "sidebars.json",
+          "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
+          "docs/**/*.{md,mdx}",
+          "i18n/en/docusaurus-plugin-content-docs/current/tags.yml",
+          "docs/tags.yml",
+          "docs/**/_category_.{json,yml,yaml}",
+          "versioned_sidebars/version-1.0.1-sidebars.json",
+          "i18n/en/docusaurus-plugin-content-docs/version-1.0.1/**/*.{md,mdx}",
+          "versioned_docs/version-1.0.1/**/*.{md,mdx}",
+          "i18n/en/docusaurus-plugin-content-docs/version-1.0.1/tags.yml",
+          "versioned_docs/version-1.0.1/tags.yml",
+          "versioned_docs/version-1.0.1/**/_category_.{json,yml,yaml}",
+          "versioned_sidebars/version-1.0.0-sidebars.json",
+          "i18n/en/docusaurus-plugin-content-docs/version-1.0.0/**/*.{md,mdx}",
+          "versioned_docs/version-1.0.0/**/*.{md,mdx}",
+          "i18n/en/docusaurus-plugin-content-docs/version-1.0.0/tags.yml",
+          "versioned_docs/version-1.0.0/tags.yml",
+          "versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
+          "versioned_sidebars/version-withSlugs-sidebars.json",
+          "i18n/en/docusaurus-plugin-content-docs/version-withSlugs/**/*.{md,mdx}",
+          "versioned_docs/version-withSlugs/**/*.{md,mdx}",
+          "i18n/en/docusaurus-plugin-content-docs/version-withSlugs/tags.yml",
+          "versioned_docs/version-withSlugs/tags.yml",
+          "versioned_docs/version-withSlugs/**/_category_.{json,yml,yaml}",
+        ]
+      `);
+    });
 
-    expect(isMatch('docs/hello.js', matchPattern)).toBe(false);
-    expect(isMatch('docs/super.mdl', matchPattern)).toBe(false);
-    expect(isMatch('docs/mdx', matchPattern)).toBe(false);
-    expect(isMatch('hello.md', matchPattern)).toBe(false);
-    expect(isMatch('super/docs/hello.md', matchPattern)).toBe(false);
+    it('returns patterns matching docs', async () => {
+      const {getPathsToWatch} = await loadSite();
+      const matchPattern = getPathsToWatch();
+      expect(isMatch('docs/hello.md', matchPattern)).toBe(true);
+      expect(isMatch('docs/hello.mdx', matchPattern)).toBe(true);
+      expect(isMatch('docs/foo/bar.md', matchPattern)).toBe(true);
+      expect(isMatch('sidebars.json', matchPattern)).toBe(true);
+      expect(
+        isMatch('versioned_docs/version-1.0.0/hello.md', matchPattern),
+      ).toBe(true);
+      expect(
+        isMatch('versioned_docs/version-1.0.0/foo/bar.md', matchPattern),
+      ).toBe(true);
+      expect(
+        isMatch('versioned_sidebars/version-1.0.0-sidebars.json', matchPattern),
+      ).toBe(true);
+
+      // Non existing version
+      expect(
+        isMatch('versioned_docs/version-2.0.0/foo/bar.md', matchPattern),
+      ).toBe(false);
+      expect(
+        isMatch('versioned_docs/version-2.0.0/hello.md', matchPattern),
+      ).toBe(false);
+      expect(
+        isMatch('versioned_sidebars/version-2.0.0-sidebars.json', matchPattern),
+      ).toBe(false);
+
+      expect(isMatch('docs/hello.js', matchPattern)).toBe(false);
+      expect(isMatch('docs/super.mdl', matchPattern)).toBe(false);
+      expect(isMatch('docs/mdx', matchPattern)).toBe(false);
+      expect(isMatch('hello.md', matchPattern)).toBe(false);
+      expect(isMatch('super/docs/hello.md', matchPattern)).toBe(false);
+    });
   });
 
   it('content', async () => {
-    const {plugin, pluginContentDir} = await loadSite();
+    const {plugin, pluginContentDir} = await loadSite({translate: true});
     const content = await plugin.loadContent!();
     expect(content.loadedVersions).toHaveLength(4);
     const [currentVersion, version101, version100, versionWithSlugs] =
@@ -453,9 +553,13 @@ describe('versioned website', () => {
 });
 
 describe('versioned website (community)', () => {
-  async function loadSite() {
+  async function loadSite({translate}: {translate?: boolean} = {}) {
     const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
     const context = await loadContext({siteDir});
+
+    // hacky but gets the job done
+    getLocaleConfig(context.i18n).translate = translate ?? true;
+
     const sidebarPath = path.join(siteDir, 'community_sidebars.json');
     const routeBasePath = 'community';
     const pluginId = 'community';
@@ -479,6 +583,13 @@ describe('versioned website (community)', () => {
       options,
       plugin,
       pluginContentDir,
+
+      getPathsToWatch: () => {
+        const pathToWatch = plugin.getPathsToWatch!();
+        return pathToWatch.map((filepath) =>
+          posixPath(path.relative(siteDir, filepath)),
+        );
+      },
     };
   }
 
@@ -488,8 +599,6 @@ describe('versioned website (community)', () => {
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
     const cli = new commander.Command();
-    // @ts-expect-error: in actual usage, we pass the static commander instead
-    // of the new command
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
@@ -497,34 +606,67 @@ describe('versioned website (community)', () => {
     mock.mockRestore();
   });
 
-  it('getPathToWatch', async () => {
-    const {siteDir, plugin} = await loadSite();
-    const pathToWatch = plugin.getPathsToWatch!();
-    const matchPattern = pathToWatch.map((filepath) =>
-      posixPath(path.relative(siteDir, filepath)),
-    );
-    expect(matchPattern).not.toEqual([]);
-    expect(matchPattern).toMatchSnapshot();
-    expect(isMatch('community/team.md', matchPattern)).toBe(true);
-    expect(
-      isMatch('community_versioned_docs/version-1.0.0/team.md', matchPattern),
-    ).toBe(true);
+  describe('getPathToWatch', () => {
+    it('translate: false', async () => {
+      const {getPathsToWatch} = await loadSite({translate: false});
+      expect(getPathsToWatch()).toMatchInlineSnapshot(`
+        [
+          "community_sidebars.json",
+          "community/**/*.{md,mdx}",
+          "community/tags.yml",
+          "community/**/_category_.{json,yml,yaml}",
+          "community_versioned_sidebars/version-1.0.0-sidebars.json",
+          "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
+          "community_versioned_docs/version-1.0.0/tags.yml",
+          "community_versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
+        ]
+      `);
+    });
 
-    // Non existing version
-    expect(
-      isMatch('community_versioned_docs/version-2.0.0/team.md', matchPattern),
-    ).toBe(false);
-    expect(
-      isMatch(
-        'community_versioned_sidebars/version-2.0.0-sidebars.json',
-        matchPattern,
-      ),
-    ).toBe(false);
+    it('translate: true', async () => {
+      const {getPathsToWatch} = await loadSite({translate: true});
+      expect(getPathsToWatch()).toMatchInlineSnapshot(`
+        [
+          "community_sidebars.json",
+          "i18n/en/docusaurus-plugin-content-docs-community/current/**/*.{md,mdx}",
+          "community/**/*.{md,mdx}",
+          "i18n/en/docusaurus-plugin-content-docs-community/current/tags.yml",
+          "community/tags.yml",
+          "community/**/_category_.{json,yml,yaml}",
+          "community_versioned_sidebars/version-1.0.0-sidebars.json",
+          "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/**/*.{md,mdx}",
+          "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
+          "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/tags.yml",
+          "community_versioned_docs/version-1.0.0/tags.yml",
+          "community_versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
+        ]
+      `);
+    });
 
-    expect(isMatch('community/team.js', matchPattern)).toBe(false);
-    expect(
-      isMatch('community_versioned_docs/version-1.0.0/team.js', matchPattern),
-    ).toBe(false);
+    it('returns patterns matching docs', async () => {
+      const {getPathsToWatch} = await loadSite();
+      const matchPattern = getPathsToWatch();
+      expect(isMatch('community/team.md', matchPattern)).toBe(true);
+      expect(
+        isMatch('community_versioned_docs/version-1.0.0/team.md', matchPattern),
+      ).toBe(true);
+
+      // Non existing version
+      expect(
+        isMatch('community_versioned_docs/version-2.0.0/team.md', matchPattern),
+      ).toBe(false);
+      expect(
+        isMatch(
+          'community_versioned_sidebars/version-2.0.0-sidebars.json',
+          matchPattern,
+        ),
+      ).toBe(false);
+
+      expect(isMatch('community/team.js', matchPattern)).toBe(false);
+      expect(
+        isMatch('community_versioned_docs/version-1.0.0/team.js', matchPattern),
+      ).toBe(false);
+    });
   });
 
   it('content', async () => {
@@ -582,14 +724,16 @@ describe('site with doc label', () => {
     );
   });
 
-  it('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
+  it('frontMatter.sidebar_* data in doc has higher precedence over sidebar.json data', async () => {
     const {content} = await loadSite();
     const loadedVersion = content.loadedVersions[0]!;
     const sidebarProps = toSidebarsProp(loadedVersion);
 
-    expect((sidebarProps.docs![1] as PropSidebarItemLink).label).toBe(
-      'Hello 2 From Doc',
-    );
+    const item = sidebarProps.docs![1] as PropSidebarItemLink;
+
+    expect(item.label).toBe('Hello 2 From Doc');
+    expect(item.className).toBe('front-matter-class-name');
+    expect(item.customProps).toStrictEqual({custom: 'from front matter'});
   });
 });
 

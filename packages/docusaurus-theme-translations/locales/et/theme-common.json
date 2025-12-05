@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Ava külgrea kategooria '{label}'",
   "theme.ErrorPageContent.title": "See leht jooksis kokku.",
   "theme.ErrorPageContent.tryAgain": "Proovi uuesti",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Peamine",
   "theme.NotFound.p1": "Vabandame, kuid lehte ei leitud.",
   "theme.NotFound.p2": "Kui arvad, et see on viga, palun võta meiega ühendust.",

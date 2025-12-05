@@ -32,15 +32,16 @@ const ignorePatterns = [
 export default {
   rootDir: fileURLToPath(new URL('.', import.meta.url)),
   verbose: true,
+  // Default 5s timeout often fails on Windows :s,
+  // see https://github.com/facebook/docusaurus/pull/8259
+  testTimeout: 15000,
   setupFiles: ['./jest/setup.js'],
   testEnvironmentOptions: {
     url: 'https://docusaurus.io/',
   },
   testEnvironment: 'node',
   testPathIgnorePatterns: ignorePatterns,
-  // Default 5s timeout often fails on Windows :s,
-  // see https://github.com/facebook/docusaurus/pull/8259
-  testTimeout: 15000,
+  watchPathIgnorePatterns: ['/\\.docusaurus'],
   coveragePathIgnorePatterns: [
     ...ignorePatterns,
     // We also ignore all package entry points

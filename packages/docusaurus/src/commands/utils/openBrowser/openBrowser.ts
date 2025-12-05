@@ -64,13 +64,27 @@ async function tryOpenWithAppleScript({
         'Brave Browser',
         'Vivaldi',
         'Chromium',
+        'Arc',
       ];
 
       // Among all the supported browsers, retrieves to stdout the active ones
       const command = `ps cax -o command | grep -E "^(${supportedChromiumBrowsers.join(
         '|',
       )})$"`;
-      const result = await execPromise(command);
+
+      const result = await Promise
+        // TODO Docusaurus v4: use Promise.try()
+        // See why here https://github.com/facebook/docusaurus/issues/11204#issuecomment-3073480330
+        .resolve()
+        .then(() => execPromise(command))
+        .catch(() => {
+          // Ignore all errors
+          // In particular grep errors when macOS user has no Chromium-based browser open
+          // See https://github.com/facebook/docusaurus/issues/11204
+        });
+      if (!result) {
+        return [];
+      }
 
       const activeBrowsers = result.stdout.toString().trim().split('\n');
 
@@ -81,6 +95,9 @@ async function tryOpenWithAppleScript({
       );
     }
 
+    // Test this manually with:
+    // osascript ./packages/docusaurus/src/commands/utils/openBrowser/openChrome.applescript "http://localhost:8080" "Google Chrome"
+    // osascript ./packages/docusaurus/src/commands/utils/openBrowser/openChrome.applescript "http://localhost:8080" "Arc"
     async function tryBrowser(browserName: string): Promise<boolean> {
       try {
         // This command runs the openChrome.applescript (copied from CRA)

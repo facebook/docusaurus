@@ -84,17 +84,42 @@ export default {
 };
 ```
 
+:::info Special case for i18n sites
+
+If your site uses multiple locales, it is possible to provide a distinct `url` for each locale thanks to the [`siteConfig.i18n.localeConfigs[<locale>].url`](#i18n) attribute. This makes it possible to deploy a localized Docusaurus site [deploy a localized Docusaurus site over multiple domains](../i18n/i18n-tutorial.mdx#multi-domain-deployment).
+
+:::
+
 ### `baseUrl` {#baseUrl}
 
 - Type: `string`
 
-Base URL for your site. Can be considered as the path after the host. For example, `/metro/` is the base URL of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [`url`](#url) field. Always has both leading and trailing slash.
+The base URL of your site is the path segment appearing just after the [`url`](#url), letting you eventually host your site under a subpath instead of at the root of the domain.
+
+For example, let's consider you want to host a site at https://facebook.github.io/metro/, then you must configure it accordingly:
+
+- [`url`](#url) should be `'https://facebook.github.io'`
+- `baseUrl` should be `'/metro/'`
+
+By default, a Docusaurus site is hosted at the root of the domain:
 
 ```js title="docusaurus.config.js"
 export default {
   baseUrl: '/',
 };
 ```
+
+:::info Special case for i18n sites
+
+If your site uses multiple locales, then Docusaurus will automatically localize the `baseUrl` of your site based on smart heuristics:
+
+- For the default locale, `baseUrl` will be `/<siteBaseUrl>/`
+- For other locales, `baseUrl` will be `/<siteBaseUrl>/<locale>/`
+- When building a single locale at a time (with `docusaurus build --locale <locale>`), `baseUrl` will be `/<siteBaseUrl>/`, assuming the intent is to [deploy each locale on distinct domains](../i18n/i18n-tutorial.mdx#multi-domain-deployment).
+
+When the localized `baseUrl` Docusaurus computes doesn't satisfy you, it's always possible to override it by providing an explicit localized `baseUrl` thanks to the [`siteConfig.i18n.localeConfigs[<locale>].baseUrl`](#i18n) attribute.
+
+:::
 
 ## Optional fields {#optional-fields}
 
@@ -151,6 +176,9 @@ export default {
         htmlLang: 'en-US',
         calendar: 'gregory',
         path: 'en',
+        translate: false,
+        url: 'https://en.example.com',
+        baseUrl: '/',
       },
       fa: {
         label: 'فارسی',
@@ -158,6 +186,9 @@ export default {
         htmlLang: 'fa-IR',
         calendar: 'persian',
         path: 'fa',
+        translate: true,
+        url: 'https://fa.example.com',
+        baseUrl: '/',
       },
     },
   },
@@ -172,7 +203,10 @@ export default {
   - `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Farsi, Arabic, Hebrew, etc.). Used to select the locale's CSS and HTML meta attribute.
   - `htmlLang`: BCP 47 language tag to use in `<html lang="...">` (or any other DOM tag name) and in `<link ... hreflang="...">`
   - `calendar`: the [calendar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) used to calculate the date era. Note that it doesn't control the actual string displayed: `MM/DD/YYYY` and `DD/MM/YYYY` are both `gregory`. To choose the format (`DD/MM/YYYY` or `MM/DD/YYYY`), set your locale name to `en-GB` or `en-US` (`en` means `en-US`).
-  - `path`: Root folder that all plugin localization folders of this locale are relative to. Will be resolved against `i18n.path`. Defaults to the locale's name. Note: this has no effect on the locale's `baseUrl`—customization of base URL is a work-in-progress.
+  - `path`: Root folder that all plugin localization folders of this locale are relative to. Will be resolved against `i18n.path`. Defaults to the locale's name (`i18n/<locale>`). Note: this has no effect on the locale's `baseUrl`—customization of base URL is a work-in-progress.
+  - `translate`: Should we run the translation process for this locale? By default, it is enabled if the `i18n/<locale>` folder exists
+  - `url`: This lets you override the [`siteConfig.url`](#url), particularly useful if your site is [deployed over multiple domains](../i18n/i18n-tutorial.mdx#multi-domain-deployment).
+  - `baseUrl`: This lets you override the default localized `baseUrl` Docusaurus infers from your [`siteConfig.baseUrl`](#baseUrl), giving you more control to host your localized site in less common ways, in particularly [deployments over multi-domains](../i18n/i18n-tutorial.mdx#multi-domain-deployment)
 
 ### `future` {#future}
 
@@ -232,10 +266,100 @@ export default {
   - [`rspackPersistentCache`](https://github.com/facebook/docusaurus/pull/10931): Use [Rspack Persistent Cache](https://rspack.dev/config/cache) to re-build your app faster on subsequent builds. Requires `rspackBundler: true`. Requires persisting `./node_modules/.cache` across rebuilds.
   - [`mdxCrossCompilerCache`](https://github.com/facebook/docusaurus/pull/10479): Compile MDX files only once for both browser/Node.js environments instead of twice.
   - [`ssgWorkerThreads`](https://github.com/facebook/docusaurus/pull/10826): Using a Node.js worker thread pool to execute the static site generation phase faster. Requires `future.v4.removeLegacyPostBuildHeadAttribute` to be turned on.
+  - [`gitEagerVcs`](https://github.com/facebook/docusaurus/pull/11512): Upgrades the default [VCS strategy](#vcs) to `default-v2`, that reads your whole Git repository at once instead of per-file, making Git operations faster on large repositories.
 - `experimental_storage`: Site-wide browser storage options that theme authors should strive to respect.
   - `type`: The browser storage theme authors should use. Possible values are `localStorage` and `sessionStorage`. Defaults to `localStorage`.
   - `namespace`: Whether to namespace the browser storage keys to avoid storage key conflicts when Docusaurus sites are hosted under the same domain, or on localhost. Possible values are `string | boolean`. The namespace is appended at the end of the storage keys `key-namespace`. Use `true` to automatically generate a random namespace from your site `url + baseUrl`. Defaults to `false` (no namespace, historical behavior).
 - `experimental_router`: The router type to use. Possible values are `browser` and `hash`. Defaults to `browser`. The `hash` router is only useful for rare cases where you want to opt-out of static site generation, have a fully client-side app with a single `index.html` entrypoint file. This can be useful to distribute a Docusaurus site as a `.zip` archive that you can [browse locally without running a web server](https://github.com/facebook/docusaurus/issues/3825).
+- [`experimental_vcs`](#vcs): The Version Control System (VCS) implementation to use to read file info (creation/last update date/author). Read the [dedicated section](#vcs) below for details.
+
+#### `experimental_vcs` {#vcs}
+
+This exposes an API that lets you provide your own Version Control System (VCS) implementation to read file info (creation/last update date/author).
+
+```ts
+export default {
+  future: {
+    experimental_vcs: {
+      initialize: ({siteDir}) => {
+        // Initialize your VCS client here.
+        // If you want to read your VCS eagerly/incrementally on startup,
+        // this is the place to do it.
+        // This function is synchronous on purpose and not awaited
+        // It should not delay Docusaurus startup, but be run in parallel.
+      },
+      getFileCreationInfo: async (filePath: string) => {
+        // Provide your own implementation to read file creation info.
+        return getFileCreationInfo(filePath);
+      },
+      getFileLastUpdateInfo: async (filePath: string) => {
+        // Provide your own implementation to read file creation info.
+        return getFileLastUpdateInfo(filePath);
+      },
+    },
+  },
+};
+```
+
+##### VCS Presets {#vcs-presets}
+
+It is possible to pass a boolean VCS value:
+
+- `true`: enables the default VCS preset (`default-v1` or `default-v2`, depending on the Docusaurus Faster `gitEagerVcs` flag value)
+- `false`: disables the VCS, always returns `null` for all files
+
+```ts
+export default {
+  future: {
+    experimental_vcs: true, // Enables the default VCS preset
+  },
+};
+```
+
+It is also possible to choose VCS preset we provide out of the box by its name.
+
+```ts
+export default {
+  future: {
+    experimental_vcs: 'presetName',
+  },
+};
+```
+
+The available preset names are:
+
+- `git-ad-hoc`: the historical `git log <filename>` based strategy.
+- `git-eager`: the new Git strategy that reads your whole repository upfront.
+- `hardcoded`: returns hardcoded value, useful in dev/tests to speed up developer experience.
+- `disabled`: returns `null` for all files, considering them untracked.
+- `default-v1`: the historical default (`git-ad-hoc` in prod, `hardcoded` in dev)
+- `default-v2`: the upcoming default (`git-eager` in prod, `hardcoded` in dev)
+
+Unless you have specific needs, we recommend using the default presets (`default-v1` or `default-v2`), that skip reading file info in development mode for better performance.
+
+##### VCS Types {#vcs-types}
+
+```ts
+type VcsChangeInfo = {timestamp: number; author: string};
+
+type VscInitializeParams = {
+  siteDir: string;
+};
+
+type VcsConfig = {
+  initialize: (params: VscInitializeParams) => void;
+  getFileCreationInfo: (filePath: string) => Promise<VcsChangeInfo | null>;
+  getFileLastUpdateInfo: (filePath: string) => Promise<VcsChangeInfo | null>;
+};
+
+type VcsPreset =
+  | 'git-ad-hoc'
+  | 'git-eager'
+  | 'hardcoded'
+  | 'disabled'
+  | 'default-v1'
+  | 'default-v2';
+```
 
 ### `noIndex` {#noIndex}
 
@@ -274,6 +398,14 @@ The behavior of Docusaurus when it detects any broken anchor declared with the `
 By default, it prints a warning, to let you know about your broken anchors.
 
 ### `onBrokenMarkdownLinks` {#onBrokenMarkdownLinks}
+
+:::warning Deprecated
+
+Deprecated in Docusaurus v3.9, and will be removed in Docusaurus v4.
+
+Replaced by [`siteConfig.markdown.hooks.onBrokenMarkdownLinks`](#hooks.onBrokenMarkdownLinks)
+
+:::
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
@@ -498,7 +630,7 @@ type MDX1CompatOptions =
       headingIds: boolean;
     };
 
-export type ParseFrontMatter = (params: {
+type ParseFrontMatter = (params: {
   filePath: string;
   fileContent: string;
   defaultParseFrontMatter: ParseFrontMatter;
@@ -511,14 +643,35 @@ type MarkdownAnchorsConfig = {
   maintainCase: boolean;
 };
 
+type OnBrokenMarkdownLinksFunction = (params: {
+  sourceFilePath: string; // MD/MDX source file relative to cwd
+  url: string; // Link url
+  node: Link | Definition; // mdast Node
+}) => void | string;
+
+type OnBrokenMarkdownImagesFunction = (params: {
+  sourceFilePath: string; // MD/MDX source file relative to cwd
+  url: string; // Image url
+  node: Image; // mdast node
+}) => void | string;
+
+type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
+
+type MarkdownHooks = {
+  onBrokenMarkdownLinks: ReportingSeverity | OnBrokenMarkdownLinksFunction;
+  onBrokenMarkdownImages: ReportingSeverity | OnBrokenMarkdownImagesFunction;
+};
+
 type MarkdownConfig = {
   format: 'mdx' | 'md' | 'detect';
   mermaid: boolean;
+  emoji: boolean;
   preprocessor?: MarkdownPreprocessor;
   parseFrontMatter?: ParseFrontMatter;
   mdx1Compat: MDX1CompatOptions;
   remarkRehypeOptions: object; // see https://github.com/remarkjs/remark-rehype#options
   anchors: MarkdownAnchorsConfig;
+  hooks: MarkdownHooks;
 };
 ```
 
@@ -529,6 +682,7 @@ export default {
   markdown: {
     format: 'mdx',
     mermaid: true,
+    emoji: true,
     preprocessor: ({filePath, fileContent}) => {
       return fileContent.replaceAll('{{MY_VAR}}', 'MY_VALUE');
     },
@@ -546,6 +700,10 @@ export default {
     anchors: {
       maintainCase: true,
     },
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+      onBrokenMarkdownImages: 'throw',
+    },
   },
 };
 ```
@@ -558,11 +716,15 @@ export default {
 | --- | --- | --- | --- |
 | `format` | `'mdx' \| 'md' \| 'detect'` | `'mdx'` | The default parser format to use for Markdown content. Using 'detect' will select the appropriate format automatically based on file extensions: `.md` vs `.mdx`. |
 | `mermaid` | `boolean` | `false` | When `true`, allows Docusaurus to render Markdown code blocks with `mermaid` language as Mermaid diagrams. |
+| `emoji` | `boolean` | `true` | When `true`, allows Docusaurus to render emoji shortcodes (e.g., `:+1:`) as Unicode emoji (👍). When `false`, emoji shortcodes are left as-is. |
 | `preprocessor` | `MarkdownPreprocessor` | `undefined` | Gives you the ability to alter the Markdown content string before parsing. Use it as a last-resort escape hatch or workaround: it is almost always better to implement a Remark/Rehype plugin. |
 | `parseFrontMatter` | `ParseFrontMatter` | `undefined` | Gives you the ability to provide your own front matter parser, or to enhance the default parser. Read our [front matter guide](../guides/markdown-features/markdown-features-intro.mdx#front-matter) for details. |
 | `mdx1Compat` | `MDX1CompatOptions` | `{comments: true, admonitions: true, headingIds: true}` | Compatibility options to make it easier to upgrade to Docusaurus v3+. |
 | `anchors` | `MarkdownAnchorsConfig` | `{maintainCase: false}` | Options to control the behavior of anchors generated from Markdown headings |
 | `remarkRehypeOptions` | `object` | `undefined` | Makes it possible to pass custom [`remark-rehype` options](https://github.com/remarkjs/remark-rehype#options). |
+| `hooks` | `MarkdownHooks` | `object` | Make it possible to customize the MDX loader behavior with callbacks or built-in options. |
+| `hooks.onBrokenMarkdownLinks` | `ReportingSeverity \| OnBrokenMarkdownLinksFunction` | `'warn'` | Hook to customize the behavior when encountering a broken Markdown link URL. With the callback function, you can return a new link URL, or alter the link [mdast node](https://github.com/syntax-tree/mdast). |
+| `hooks.onBrokenMarkdownImages` | `ReportingSeverity \| OnBrokenMarkdownImagesFunction` | `'throw'` | Hook to customize the behavior when encountering a broken Markdown image URL. With the callback function, you can return a new image URL, or alter the image [mdast node](https://github.com/syntax-tree/mdast). |
 
 ```mdx-code-block
 </APITable>
@@ -605,9 +767,9 @@ export default {
 
 ### `headTags` {#headTags}
 
-An array of tags that will be inserted in the HTML `<head>`. The values must be objects that contain two properties; `tagName` and `attributes`. `tagName` must be a string that determines the tag being created; eg `"link"`. `attributes` must be an attribute-value map.
+An array of tags that will be inserted in the HTML `<head>`. The values must be objects that contain two properties; `tagName` and `attributes`. `tagName` must be a string that determines the tag being created; eg `"link"`. `attributes` must be an attribute-value map. When custom html elements are needed, set `customElement: true`.
 
-- Type: `{ tagName: string; attributes: Object; }[]`
+- Type: `{ tagName: string; attributes: Object; customElement?: boolean; }[]`
 
 Example:
 

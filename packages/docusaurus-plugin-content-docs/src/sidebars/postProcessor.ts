@@ -77,10 +77,13 @@ function postProcessSidebarItem(
       ) {
         return null;
       }
+      const {label, className, customProps} = category;
       return {
         type: 'doc',
-        label: category.label,
         id: category.link.id,
+        label,
+        ...(className && {className}),
+        ...(customProps && {customProps}),
       };
     }
     // A non-collapsible category can't be collapsed!

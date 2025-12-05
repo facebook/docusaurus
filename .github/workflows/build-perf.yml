@@ -41,9 +41,9 @@ jobs:
         DOCUSAURUS_INFRA: ['SLOWER', 'FASTER']
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: lts/*
           cache: yarn
@@ -62,6 +62,7 @@ jobs:
           comment-key: DOCUSAURUS_INFRA_${{ matrix.DOCUSAURUS_INFRA }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+          DOCUSAURUS_PERF_LOGGER: 'true'
 
   # Ensures build times stay under reasonable thresholds
   build-time:
@@ -73,9 +74,9 @@ jobs:
         DOCUSAURUS_INFRA: ['SLOWER', 'FASTER']
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: lts/*
           cache: yarn
@@ -88,6 +89,7 @@ jobs:
         timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 3 || 2  }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+          DOCUSAURUS_PERF_LOGGER: 'true'
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
@@ -96,5 +98,6 @@ jobs:
         timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 1 || 2  }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+          DOCUSAURUS_PERF_LOGGER: 'true'
 
     # TODO post a GitHub comment with build with perf warnings?

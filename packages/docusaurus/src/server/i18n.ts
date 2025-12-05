@@ -5,9 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
+import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
-import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
-import type {LoadContextParams} from './site';
+import combinePromises from 'combine-promises';
+import {normalizeUrl} from '@docusaurus/utils';
+import type {
+  I18n,
+  DocusaurusConfig,
+  I18nLocaleConfig,
+  I18nConfig,
+} from '@docusaurus/types';
 
 function inferLanguageDisplayName(locale: string) {
   const tryLocale = (l: string) => {
@@ -73,12 +81,15 @@ function getDefaultDirection(localeStr: string) {
   // see https://github.com/tc39/proposal-intl-locale-info
   // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getTextInfo
   // Node 18.0 implements a former version of the getTextInfo() proposal
+  // TODO Docusaurus v4: remove the fallback to locale.textInfo
   // @ts-expect-error: The TC39 proposal was updated
   const textInto = locale.getTextInfo?.() ?? locale.textInfo;
   return textInto.direction;
 }
 
-export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
+export function getDefaultLocaleConfig(
+  locale: string,
+): Omit<I18nLocaleConfig, 'translate' | 'url' | 'baseUrl'> {
   try {
     return {
       label: getDefaultLocaleLabel(locale),
@@ -89,38 +100,110 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
     };
   } catch (e) {
     throw new Error(
-      `Docusaurus couldn't get default locale config for ${locale}`,
+      `Docusaurus couldn't infer a default locale config for ${logger.name(
+        locale,
+      )}.
+Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 ${logger.code(
+        `siteConfig.i18n.localeConfig['${locale}'].htmlLang`,
+      )} attribute.`,
       {cause: e},
     );
   }
 }
 
-export async function loadI18n(
-  config: DocusaurusConfig,
-  options?: Pick<LoadContextParams, 'locale'>,
-): Promise<I18n> {
+export function getLocaleList({
+  i18nConfig,
+  currentLocale,
+}: {
+  i18nConfig: I18nConfig;
+  currentLocale: string;
+}): [string, ...string[]] {
+  if (!i18nConfig.locales.includes(currentLocale)) {
+    logger.warn`The locale name=${currentLocale} was not found in your Docusaurus site configuration.
+We recommend adding the name=${currentLocale} to your site i18n config, but we will still try to run your site.
+Declared site config locales are: ${i18nConfig.locales}`;
+    return i18nConfig.locales.concat(currentLocale) as [string, ...string[]];
+  }
+  return i18nConfig.locales;
+}
+
+export async function loadI18n({
+  siteDir,
+  config,
+  currentLocale,
+  automaticBaseUrlLocalizationDisabled,
+}: {
+  siteDir: string;
+  config: DocusaurusConfig;
+  currentLocale: string;
+  automaticBaseUrlLocalizationDisabled: boolean;
+}): Promise<I18n> {
   const {i18n: i18nConfig} = config;
 
-  const currentLocale = options?.locale ?? i18nConfig.defaultLocale;
+  const locales = getLocaleList({
+    i18nConfig,
+    currentLocale,
+  });
 
-  if (!i18nConfig.locales.includes(currentLocale)) {
-    logger.warn`The locale name=${currentLocale} was not found in your site configuration: Available locales are: ${i18nConfig.locales}
-Note: Docusaurus only support running one locale at a time.`;
-  }
+  async function getFullLocaleConfig(
+    locale: string,
+  ): Promise<I18nLocaleConfig> {
+    const localeConfigInput = i18nConfig.localeConfigs[locale] ?? {};
+    const localeConfig: Omit<
+      I18nLocaleConfig,
+      'translate' | 'url' | 'baseUrl'
+    > = {
+      ...getDefaultLocaleConfig(localeConfigInput.htmlLang ?? locale),
+      ...localeConfigInput,
+    };
 
-  const locales = i18nConfig.locales.includes(currentLocale)
-    ? i18nConfig.locales
-    : (i18nConfig.locales.concat(currentLocale) as [string, ...string[]]);
+    // By default, translations will be enabled if i18n/<locale> dir exists
+    async function inferTranslate() {
+      const localizationDir = path.resolve(
+        siteDir,
+        i18nConfig.path,
+        localeConfig.path,
+      );
+      return fs.pathExists(localizationDir);
+    }
 
-  function getLocaleConfig(locale: string): I18nLocaleConfig {
+    function getInferredBaseUrl(): string {
+      const addLocaleSegment =
+        locale !== i18nConfig.defaultLocale &&
+        !automaticBaseUrlLocalizationDisabled;
+
+      return normalizeUrl([
+        '/',
+        config.baseUrl,
+        addLocaleSegment ? locale : '',
+        '/',
+      ]);
+    }
+
+    const translate = localeConfigInput.translate ?? (await inferTranslate());
+
+    const url =
+      typeof localeConfigInput.url !== 'undefined'
+        ? localeConfigInput.url
+        : config.url;
+
+    const baseUrl =
+      typeof localeConfigInput.baseUrl !== 'undefined'
+        ? normalizeUrl(['/', localeConfigInput.baseUrl, '/'])
+        : getInferredBaseUrl();
+
     return {
-      ...getDefaultLocaleConfig(locale),
-      ...i18nConfig.localeConfigs[locale],
+      ...localeConfig,
+      translate,
+      url,
+      baseUrl,
     };
   }
 
-  const localeConfigs = Object.fromEntries(
-    locales.map((locale) => [locale, getLocaleConfig(locale)]),
+  const localeConfigs = await combinePromises(
+    Object.fromEntries(
+      locales.map((locale) => [locale, getFullLocaleConfig(locale)]),
+    ),
   );
 
   return {

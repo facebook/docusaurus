@@ -27,6 +27,7 @@ import type {
 import type {SiteCollectedData} from '../../common';
 import {BuildCLIOptions} from './build';
 import clearPath from '../utils/clearPath';
+import {isAutomaticBaseUrlLocalizationDisabled} from './buildUtils';
 
 export type BuildLocaleParams = {
   siteDir: string;
@@ -35,6 +36,8 @@ export type BuildLocaleParams = {
 };
 
 const SkipBundling = process.env.DOCUSAURUS_SKIP_BUNDLING === 'true';
+const ReturnAfterLoading = process.env.DOCUSAURUS_RETURN_AFTER_LOADING === 'true';
+const ExitAfterLoading = process.env.DOCUSAURUS_EXIT_AFTER_LOADING === 'true';
 const ExitAfterBundling = process.env.DOCUSAURUS_EXIT_AFTER_BUNDLING === 'true';
 
 export async function buildLocale({
@@ -55,9 +58,16 @@ export async function buildLocale({
       outDir: cliOptions.outDir,
       config: cliOptions.config,
       locale,
-      localizePath: cliOptions.locale?.length === 1 ? false : undefined,
+      automaticBaseUrlLocalizationDisabled: isAutomaticBaseUrlLocalizationDisabled(cliOptions),
     }),
   );
+
+  if (ReturnAfterLoading) {
+    return;
+  }
+  if (ExitAfterLoading) {
+    return process.exit(0);
+  }
 
   const {props} = site;
   const {outDir, plugins, siteConfig} = props;

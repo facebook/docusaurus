@@ -6,13 +6,9 @@
  */
 
 import {jest} from '@jest/globals';
-import path from 'path';
+import * as path from 'path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {
-  posixPath,
-  getFileCommitDate,
-  LAST_UPDATE_FALLBACK,
-} from '@docusaurus/utils';
+import {posixPath, getLocaleConfig, TEST_VCS} from '@docusaurus/utils';
 import {DEFAULT_FUTURE_CONFIG} from '@docusaurus/core/src/server/configValidation';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
@@ -22,6 +18,7 @@ import type {
   I18n,
   Validate,
   MarkdownConfig,
+  I18nLocaleConfig,
 } from '@docusaurus/types';
 import type {
   BlogPost,
@@ -29,6 +26,10 @@ import type {
   PluginOptions,
   EditUrlFunction,
 } from '@docusaurus/plugin-content-blog';
+
+async function getFileCreationDate(filePath: string): Promise<Date> {
+  return new Date((await TEST_VCS.getFileCreationInfo(filePath)).timestamp);
+}
 
 const markdown: MarkdownConfig = {
   format: 'mdx',
@@ -67,7 +68,10 @@ Available blog post titles are:\n- ${blogPosts
   return post;
 }
 
-function getI18n(locale: string): I18n {
+function getI18n(
+  locale: string,
+  localeConfigOptions?: Partial<I18nLocaleConfig>,
+): I18n {
   return {
     currentLocale: locale,
     locales: [locale],
@@ -80,6 +84,8 @@ function getI18n(locale: string): I18n {
         htmlLang: locale,
         direction: 'ltr',
         path: locale,
+        translate: true,
+        ...localeConfigOptions,
       },
     },
   };
@@ -94,13 +100,14 @@ const BaseEditUrl = 'https://baseEditUrl.com/edit';
 const getPlugin = async (
   siteDir: string,
   pluginOptions: Partial<PluginOptions> = {},
-  i18n: I18n = DefaultI18N,
+  i18nOptions: Partial<I18n> = {},
 ) => {
+  const i18n = {...DefaultI18N, ...i18nOptions};
   const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
   const localizationDir = path.join(
     siteDir,
     i18n.path,
-    i18n.localeConfigs[i18n.currentLocale]!.path,
+    getLocaleConfig(i18n).path,
   );
   const siteConfig = {
     title: 'Hello',
@@ -153,20 +160,34 @@ const getBlogTags = async (
 };
 
 describe('blog plugin', () => {
-  it('getPathsToWatch returns right files', async () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const plugin = await getPlugin(siteDir);
-    const pathsToWatch = plugin.getPathsToWatch!();
-    const relativePathsToWatch = pathsToWatch.map((p) =>
-      posixPath(path.relative(siteDir, p)),
-    );
-    expect(relativePathsToWatch).toEqual([
-      'i18n/en/docusaurus-plugin-content-blog/authors.yml',
-      'i18n/en/docusaurus-plugin-content-blog/tags.yml',
-      'blog/tags.yml',
-      'i18n/en/docusaurus-plugin-content-blog/**/*.{md,mdx}',
-      'blog/**/*.{md,mdx}',
-    ]);
+  describe('getPathsToWatch', () => {
+    async function runTest({translate}: {translate: boolean}) {
+      const siteDir = path.join(__dirname, '__fixtures__', 'website');
+      const plugin = await getPlugin(siteDir, {}, getI18n('en', {translate}));
+      const pathsToWatch = plugin.getPathsToWatch!();
+      return pathsToWatch.map((p) => posixPath(path.relative(siteDir, p)));
+    }
+
+    it('getPathsToWatch returns right files', async () => {
+      const relativePathsToWatch = await runTest({translate: true});
+      expect(relativePathsToWatch).toEqual([
+        'i18n/en/docusaurus-plugin-content-blog/authors.yml',
+        'i18n/en/docusaurus-plugin-content-blog/tags.yml',
+        // 'blog/authors.yml', // TODO weird that it's not here but tags is?
+        'blog/tags.yml',
+        'i18n/en/docusaurus-plugin-content-blog/**/*.{md,mdx}',
+        'blog/**/*.{md,mdx}',
+      ]);
+    });
+
+    it('getPathsToWatch returns right files (translate: false)', async () => {
+      const relativePathsToWatch = await runTest({translate: false});
+      expect(relativePathsToWatch).toEqual([
+        'blog/authors.yml',
+        'blog/tags.yml',
+        'blog/**/*.{md,mdx}',
+      ]);
+    });
   });
 
   it('builds a simple website', async () => {
@@ -377,6 +398,54 @@ describe('blog plugin', () => {
     });
   });
 
+  describe('i18n config translate is wired properly', () => {
+    async function runTest({translate}: {translate: boolean}) {
+      const siteDir = path.join(__dirname, '__fixtures__', 'website');
+      const blogPosts = await getBlogPosts(
+        siteDir,
+        {},
+        getI18n('en', {translate}),
+      );
+
+      // Simpler to snapshot
+      return blogPosts.map((post) => post.metadata.title);
+    }
+
+    it('works with translate: false', async () => {
+      await expect(runTest({translate: false})).resolves.toMatchInlineSnapshot(`
+        [
+          "test links",
+          "MDX Blog Sample with require calls",
+          "Full Blog Sample",
+          "Complex Slug",
+          "Simple Slug",
+          "draft",
+          "unlisted",
+          "some heading",
+          "date-matter",
+          "Happy 1st Birthday Slash!",
+        ]
+      `);
+    });
+
+    it('works with translate: true', async () => {
+      await expect(runTest({translate: true})).resolves.toMatchInlineSnapshot(`
+        [
+          "test links",
+          "MDX Blog Sample with require calls",
+          "Full Blog Sample",
+          "Complex Slug",
+          "Simple Slug",
+          "draft",
+          "unlisted",
+          "some heading",
+          "date-matter",
+          "Happy 1st Birthday Slash! (translated)",
+        ]
+      `);
+    });
+  });
+
   it('handles edit URL with editLocalizedBlogs: true', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPosts = await getBlogPosts(siteDir, {editLocalizedFiles: true});
@@ -387,6 +456,23 @@ describe('blog plugin', () => {
 
     expect(localizedBlogPost.metadata.editUrl).toBe(
       `${BaseEditUrl}/i18n/en/docusaurus-plugin-content-blog/2018-12-14-Happy-First-Birthday-Slash.md`,
+    );
+  });
+
+  it('handles edit URL with editLocalizedBlogs: true and translate: false', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const blogPosts = await getBlogPosts(
+      siteDir,
+      {editLocalizedFiles: true},
+      getI18n('en', {translate: false}),
+    );
+
+    const localizedBlogPost = blogPosts.find(
+      (v) => v.metadata.title === 'Happy 1st Birthday Slash!',
+    )!;
+
+    expect(localizedBlogPost.metadata.editUrl).toBe(
+      `${BaseEditUrl}/blog/2018-12-14-Happy-First-Birthday-Slash.md`,
     );
   });
 
@@ -474,9 +560,7 @@ describe('blog plugin', () => {
     const blogPosts = await getBlogPosts(siteDir);
     const noDateSource = path.posix.join('@site', PluginPath, 'no date.md');
     const noDateSourceFile = path.posix.join(siteDir, PluginPath, 'no date.md');
-    // We know the file exists and we know we have git
-    const result = await getFileCommitDate(noDateSourceFile, {age: 'oldest'});
-    const noDateSourceTime = result.date;
+    const noDateSourceTime = await getFileCreationDate(noDateSourceFile);
 
     expect({
       ...getByTitle(blogPosts, 'no date').metadata,
@@ -554,10 +638,7 @@ describe('blog plugin', () => {
       },
       DefaultI18N,
     );
-    const {blogPosts, blogTags, blogListPaginated} =
-      (await plugin.loadContent!())!;
-
-    expect(blogListPaginated).toHaveLength(3);
+    const {blogPosts, blogTags} = (await plugin.loadContent!())!;
 
     expect(Object.keys(blogTags)).toHaveLength(2);
     expect(blogTags).toMatchSnapshot();
@@ -587,29 +668,23 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
+    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdateFor('2021-01-01'),
     );
 
-    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedBy,
-    );
+    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdateFor('2021-01-01'),
     );
 
     expect(blogPosts[2]?.metadata.lastUpdatedBy).toBe('seb');
-    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(
-      lastUpdateFor('2021-01-01'),
-    );
+    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
 
-    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedBy,
-    );
-    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(
-      lastUpdateFor('2021-01-01'),
-    );
+    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
+    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
   });
 
   it('time only', async () => {
@@ -623,29 +698,27 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
-    expect(blogPosts[0]?.metadata.title).toBe('Author');
+    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+
+    expect(blogPosts[0]?.metadata.title).toBe('Both');
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBeUndefined();
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdateFor('2021-01-01'),
     );
 
-    expect(blogPosts[1]?.metadata.title).toBe('Nothing');
+    expect(blogPosts[1]?.metadata.title).toBe('Last update date');
     expect(blogPosts[1]?.metadata.lastUpdatedBy).toBeUndefined();
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdateFor('2021-01-01'),
     );
 
-    expect(blogPosts[2]?.metadata.title).toBe('Both');
+    expect(blogPosts[2]?.metadata.title).toBe('Author');
     expect(blogPosts[2]?.metadata.lastUpdatedBy).toBeUndefined();
-    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(
-      lastUpdateFor('2021-01-01'),
-    );
+    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
 
-    expect(blogPosts[3]?.metadata.title).toBe('Last update date');
+    expect(blogPosts[3]?.metadata.title).toBe('Nothing');
     expect(blogPosts[3]?.metadata.lastUpdatedBy).toBeUndefined();
-    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(
-      lastUpdateFor('2021-01-01'),
-    );
+    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
   });
 
   it('author only', async () => {
@@ -659,20 +732,18 @@ describe('last update', () => {
     );
     const {blogPosts} = (await plugin.loadContent!())!;
 
+    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBeUndefined();
 
-    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedBy,
-    );
+    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBeUndefined();
 
     expect(blogPosts[2]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[2]?.metadata.lastUpdatedAt).toBeUndefined();
 
-    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(
-      LAST_UPDATE_FALLBACK.lastUpdatedBy,
-    );
+    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
     expect(blogPosts[3]?.metadata.lastUpdatedAt).toBeUndefined();
   });
 

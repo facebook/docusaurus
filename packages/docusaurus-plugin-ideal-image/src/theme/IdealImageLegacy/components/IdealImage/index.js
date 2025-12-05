@@ -119,7 +119,7 @@ export default class IdealImage extends Component {
 
   /*
   static propTypes = {
-    /!** how much to wait in ms until concider download to slow *!/
+    /!** how much to wait in ms until consider download to slow *!/
     threshold: PropTypes.number,
     /!** function to generate src based on width and format *!/
     getUrl: PropTypes.func,

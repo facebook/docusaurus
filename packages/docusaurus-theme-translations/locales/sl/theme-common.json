@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Razširite kategorijo stranske vrstice '{label}'",
   "theme.ErrorPageContent.title": "Ta stran se je zrušila.",
   "theme.ErrorPageContent.tryAgain": "Poskusite ponovno",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Glavna navigacija",
   "theme.NotFound.p1": "Iskane strani ni bilo možno najti",
   "theme.NotFound.p2": "Prosim kontaktirajte lastnike strani, s katere ste sledili povezavi in jih obvestite, da povezava ne deluje.",

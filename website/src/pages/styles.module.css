@@ -58,17 +58,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 }
 
 .topBannerTitle {
   font-size: 54px;
   font-weight: bold;
   margin-bottom: 0.4rem;
-}
-
-@media only screen and (max-width: 768px) {
-  .topBannerTitle {
+  @media only screen and (max-width: 768px) {
     font-size: 40px;
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 40px;
+  }
+  @media only screen and (max-width: 450px) {
+    font-size: 32px;
+  }
+  @media only screen and (max-width: 350px) {
+    font-size: 24px;
+  }
+  @media only screen and (max-width: 250px) {
+    font-size: 16px;
   }
 }
 
@@ -166,6 +176,7 @@ html[data-theme='dark'] .topBannerTitleText {
   flex-wrap: wrap;
   align-items: center;
   margin-top: 24px;
+  overflow: hidden;
 }
 
 .indexCtas a,

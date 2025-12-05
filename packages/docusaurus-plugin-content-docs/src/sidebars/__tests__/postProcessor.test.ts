@@ -31,6 +31,8 @@ describe('postProcess', () => {
               type: 'doc',
               id: 'doc ID',
             },
+            className: 'category-className',
+            customProps: {custom: true},
             items: [],
           },
         ],

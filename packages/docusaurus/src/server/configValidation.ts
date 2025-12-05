@@ -6,30 +6,59 @@
  */
 
 import {
+  DEFAULT_I18N_DIR_NAME,
   DEFAULT_PARSE_FRONT_MATTER,
   DEFAULT_STATIC_DIR_NAME,
-  DEFAULT_I18N_DIR_NAME,
+  getVcsPreset,
+  VcsPresetNames,
 } from '@docusaurus/utils';
 import {Joi, printWarning} from '@docusaurus/utils-validation';
 import {
-  addTrailingSlash,
   addLeadingSlash,
+  addTrailingSlash,
   removeTrailingSlash,
 } from '@docusaurus/utils-common';
 import logger from '@docusaurus/logger';
 import type {
+  DocusaurusConfig,
   FasterConfig,
   FutureConfig,
   FutureV4Config,
-  StorageConfig,
-} from '@docusaurus/types/src/config';
-import type {
-  DocusaurusConfig,
   I18nConfig,
+  I18nLocaleConfig,
   MarkdownConfig,
+  MarkdownHooks,
+  StorageConfig,
+  VcsConfig,
+  VcsPreset,
 } from '@docusaurus/types';
 
 const DEFAULT_I18N_LOCALE = 'en';
+
+const SiteUrlSchema = Joi.string()
+  .custom((value: string, helpers) => {
+    try {
+      const {pathname} = new URL(value);
+      if (pathname !== '/') {
+        return helpers.error('docusaurus.subPathError', {pathname});
+      }
+    } catch {
+      return helpers.error('any.invalid');
+    }
+    return removeTrailingSlash(value);
+  })
+  .messages({
+    'any.invalid':
+      '"{#value}" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".',
+    'docusaurus.subPathError':
+      'The url is not supposed to contain a sub-path like "{#pathname}". Please use the baseUrl field for sub-paths.',
+  });
+
+const BaseUrlSchema = Joi
+  // Weird Joi trick needed, otherwise value '' is not normalized...
+  .alternatives()
+  .try(Joi.string().required().allow(''))
+  .custom((value: string) => addLeadingSlash(addTrailingSlash(value)));
 
 export const DEFAULT_I18N_CONFIG: I18nConfig = {
   defaultLocale: DEFAULT_I18N_LOCALE,
@@ -52,6 +81,7 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   rspackBundler: false,
   rspackPersistentCache: false,
   ssgWorkerThreads: false,
+  gitEagerVcs: false,
 };
 
 // When using the "faster: true" shortcut
@@ -64,6 +94,7 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   rspackBundler: true,
   rspackPersistentCache: true,
   ssgWorkerThreads: true,
+  gitEagerVcs: true,
 };
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
@@ -81,12 +112,19 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
   experimental_faster: DEFAULT_FASTER_CONFIG,
   experimental_storage: DEFAULT_STORAGE_CONFIG,
+  experimental_vcs: getVcsPreset('default-v1'),
   experimental_router: 'browser',
+};
+
+export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
+  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownImages: 'throw',
 };
 
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
   mermaid: false,
+  emoji: true,
   preprocessor: undefined,
   parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
   mdx1Compat: {
@@ -98,6 +136,7 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
     maintainCase: false,
   },
   remarkRehypeOptions: undefined,
+  hooks: DEFAULT_MARKDOWN_HOOKS,
 };
 
 export const DEFAULT_CONFIG: Pick<
@@ -128,7 +167,7 @@ export const DEFAULT_CONFIG: Pick<
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownLinks: undefined,
   onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
@@ -214,12 +253,15 @@ const PresetSchema = Joi.alternatives()
 - A simple string, like \`"classic"\``,
   });
 
-const LocaleConfigSchema = Joi.object({
+const LocaleConfigSchema = Joi.object<I18nLocaleConfig>({
   label: Joi.string(),
   htmlLang: Joi.string(),
-  direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
+  direction: Joi.string().equal('ltr', 'rtl'),
   calendar: Joi.string(),
   path: Joi.string(),
+  translate: Joi.boolean(),
+  url: SiteUrlSchema,
+  baseUrl: BaseUrlSchema,
 });
 
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
@@ -256,6 +298,7 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
       ssgWorkerThreads: Joi.boolean().default(
         DEFAULT_FASTER_CONFIG.ssgWorkerThreads,
       ),
+      gitEagerVcs: Joi.boolean().default(DEFAULT_FASTER_CONFIG.gitEagerVcs),
     }),
     Joi.boolean()
       .required()
@@ -296,10 +339,41 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   .optional()
   .default(DEFAULT_STORAGE_CONFIG);
 
+const VCS_CONFIG_OBJECT_SCHEMA = Joi.object<VcsConfig>({
+  // All the fields are required on purpose
+  // You either provide a full VCS config or nothing
+  initialize: Joi.function().maxArity(1).required(),
+  getFileCreationInfo: Joi.function().arity(1).required(),
+  getFileLastUpdateInfo: Joi.function().arity(1).required(),
+});
+
+const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
+  if (typeof input === 'string') {
+    const presetName = input as VcsPreset;
+    if (!VcsPresetNames.includes(presetName)) {
+      throw new Error(`VCS config preset name '${input}' is not valid.`);
+    }
+    return getVcsPreset(presetName);
+  }
+  if (typeof input === 'boolean') {
+    // We return the boolean on purpose
+    // We'll normalize it to a real VcsConfig later
+    // This is annoying, but we have to read the future flag to switch to the
+    // new "default-v2" config (not easy to do it here)
+    return input;
+  }
+  const {error, value} = VCS_CONFIG_OBJECT_SCHEMA.validate(input);
+  if (error) {
+    throw error;
+  }
+  return value;
+}).default(true);
+
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   v4: FUTURE_V4_SCHEMA,
   experimental_faster: FASTER_CONFIG_SCHEMA,
   experimental_storage: STORAGE_CONFIG_SCHEMA,
+  experimental_vcs: VCS_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
     .default(DEFAULT_FUTURE_CONFIG.experimental_router),
@@ -307,38 +381,13 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   .optional()
   .default(DEFAULT_FUTURE_CONFIG);
 
-const SiteUrlSchema = Joi.string()
-  .required()
-  .custom((value: string, helpers) => {
-    try {
-      const {pathname} = new URL(value);
-      if (pathname !== '/') {
-        return helpers.error('docusaurus.subPathError', {pathname});
-      }
-    } catch {
-      return helpers.error('any.invalid');
-    }
-    return removeTrailingSlash(value);
-  })
-  .messages({
-    'any.invalid':
-      '"{#value}" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".',
-    'docusaurus.subPathError':
-      'The url is not supposed to contain a sub-path like "{#pathname}". Please use the baseUrl field for sub-paths.',
-  });
-
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object<DocusaurusConfig>({
-  baseUrl: Joi
-    // Weird Joi trick needed, otherwise value '' is not normalized...
-    .alternatives()
-    .try(Joi.string().required().allow(''))
-    .required()
-    .custom((value: string) => addLeadingSlash(addTrailingSlash(value))),
+  url: SiteUrlSchema.required(),
+  baseUrl: BaseUrlSchema.required(),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().optional(),
   title: Joi.string().required(),
-  url: SiteUrlSchema,
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   future: FUTURE_CONFIG_SCHEMA,
@@ -350,7 +399,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     .default(DEFAULT_CONFIG.onBrokenAnchors),
   onBrokenMarkdownLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
-    .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),
+    .default(() => DEFAULT_CONFIG.onBrokenMarkdownLinks),
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
@@ -388,9 +437,14 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
     .items(
       Joi.object({
         tagName: Joi.string().required(),
-        attributes: Joi.object()
-          .pattern(/[\w-]+/, Joi.string())
-          .required(),
+        attributes: Joi.object().when('customElement', {
+          is: Joi.valid(true),
+          then: Joi.optional(),
+          otherwise: Joi.object()
+            .pattern(/[\w-]+/, Joi.string())
+            .required(),
+        }),
+        customElement: Joi.bool().default(false),
       }).unknown(),
     )
     .messages({
@@ -430,6 +484,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       () => DEFAULT_CONFIG.markdown.parseFrontMatter,
     ),
     mermaid: Joi.boolean().default(DEFAULT_CONFIG.markdown.mermaid),
+    emoji: Joi.boolean().default(DEFAULT_CONFIG.markdown.emoji),
     preprocessor: Joi.function()
       .arity(1)
       .optional()
@@ -455,6 +510,20 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         DEFAULT_CONFIG.markdown.anchors.maintainCase,
       ),
     }).default(DEFAULT_CONFIG.markdown.anchors),
+    hooks: Joi.object<MarkdownHooks>({
+      onBrokenMarkdownLinks: Joi.alternatives()
+        .try(
+          Joi.string().equal('ignore', 'log', 'warn', 'throw'),
+          Joi.function(),
+        )
+        .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownLinks),
+      onBrokenMarkdownImages: Joi.alternatives()
+        .try(
+          Joi.string().equal('ignore', 'log', 'warn', 'throw'),
+          Joi.function(),
+        )
+        .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownImages),
+    }).default(DEFAULT_CONFIG.markdown.hooks),
   }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':
@@ -463,7 +532,27 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
 
 // Expressing this kind of logic in Joi is a pain
 // We also want to decouple logic from Joi: easier to remove it later!
-function ensureDocusaurusConfigConsistency(config: DocusaurusConfig) {
+function postProcessDocusaurusConfig(config: DocusaurusConfig) {
+  if (config.onBrokenMarkdownLinks) {
+    logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
+Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
+    // For v3 retro compatibility we use the old attribute over the new one
+    config.markdown.hooks.onBrokenMarkdownLinks = config.onBrokenMarkdownLinks;
+    // We erase the former one to ensure we don't use it anywhere
+    config.onBrokenMarkdownLinks = undefined;
+  }
+
+  // We normalize the VCS config when using a boolean value
+  if (typeof config.future.experimental_vcs === 'boolean') {
+    const vcsConfig = config.future.experimental_vcs
+      ? config.future.experimental_faster.gitEagerVcs
+        ? getVcsPreset('default-v2')
+        : getVcsPreset('default-v1')
+      : getVcsPreset('disabled');
+
+    config.future.experimental_vcs = vcsConfig;
+  }
+
   if (
     config.future.experimental_faster.ssgWorkerThreads &&
     !config.future.v4.removeLegacyPostBuildHeadAttribute
@@ -528,7 +617,7 @@ export function validateConfig(
     throw new Error(formattedError);
   }
 
-  ensureDocusaurusConfigConsistency(value);
+  postProcessDocusaurusConfig(value);
 
   return value;
 }

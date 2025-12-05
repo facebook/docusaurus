@@ -97,6 +97,7 @@ async function doProcessDocMetadata({
     siteDir,
     siteConfig: {
       markdown: {parseFrontMatter},
+      future: {experimental_vcs: vcs},
     },
   } = context;
 
@@ -125,6 +126,7 @@ async function doProcessDocMetadata({
     filePath,
     options,
     lastUpdateFrontMatter,
+    vcs,
   );
 
   // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
@@ -196,7 +198,9 @@ async function doProcessDocMetadata({
         locale: context.i18n.currentLocale,
       });
     } else if (typeof options.editUrl === 'string') {
-      const isLocalized = contentPath === versionMetadata.contentPathLocalized;
+      const isLocalized =
+        typeof versionMetadata.contentPathLocalized !== 'undefined' &&
+        contentPath === versionMetadata.contentPathLocalized;
       const baseVersionEditUrl =
         isLocalized && options.editLocalizedFiles
           ? versionMetadata.editUrlLocalized

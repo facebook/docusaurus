@@ -19,7 +19,7 @@ declare module '@docusaurus/plugin-content-pages' {
   };
 
   export type PluginOptions = MDXOptions & {
-    id?: string;
+    id: string;
     path: string;
     routeBasePath: string;
     include: string[];

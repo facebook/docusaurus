@@ -14,11 +14,12 @@ import {
   RouteBasePathSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
-import {GlobExcludeDefault} from '@docusaurus/utils';
+import {DEFAULT_PLUGIN_ID, GlobExcludeDefault} from '@docusaurus/utils';
 import type {OptionValidationContext} from '@docusaurus/types';
 import type {PluginOptions, Options} from '@docusaurus/plugin-content-pages';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
+  id: DEFAULT_PLUGIN_ID,
   path: 'src/pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '/', // URL Route.
   include: ['**/*.{js,jsx,ts,tsx,md,mdx}'], // Extensions to include.

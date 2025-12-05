@@ -7,7 +7,8 @@
 
 import {useState, useEffect, useMemo} from 'react';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
-import mermaid from 'mermaid';
+import {loadMermaid} from './loadMermaid';
+
 import type {RenderResult, MermaidConfig} from 'mermaid';
 import type {ThemeConfig} from '@docusaurus/theme-mermaid';
 
@@ -37,7 +38,7 @@ function useMermaidId(): string {
   Note: Mermaid doesn't like values provided by Rect.useId() and throws
   */
 
-  // TODO 2025-2026: check if useId() now works
+  // TODO Docusaurus v4: check if useId() now works
   //  It could work thanks to https://github.com/facebook/react/pull/32001
   // return useId(); // tried that, doesn't work ('#d:re:' is not a valid selector.)
 
@@ -53,6 +54,8 @@ async function renderMermaid({
   text: string;
   config: MermaidConfig;
 }): Promise<RenderResult> {
+  const mermaid = await loadMermaid();
+
   /*
   Mermaid API is really weird :s
   It is a big mutable singleton with multiple config levels
@@ -71,7 +74,7 @@ async function renderMermaid({
   To use a new mermaid config (on colorMode change for example) we should
   update siteConfig, and it can only be done with initialize()
    */
-  mermaid.mermaidAPI.initialize(config);
+  mermaid.initialize(config);
 
   try {
     return await mermaid.render(id, text);

@@ -6,6 +6,7 @@
  */
 
 import {fromPartial} from '@total-typescript/shoehorn';
+import {TEST_VCS} from '@docusaurus/utils';
 import {createSitemapItem} from '../createSitemapItem';
 import {DEFAULT_OPTIONS} from '../options';
 import type {PluginOptions} from '../options';
@@ -13,6 +14,7 @@ import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
 
 const siteConfig: DocusaurusConfig = fromPartial({
   url: 'https://example.com',
+  future: {experimental_vcs: TEST_VCS},
 });
 
 function test(params: {
@@ -219,6 +221,67 @@ describe('createSitemapItem', () => {
           {
             "changefreq": "weekly",
             "lastmod": "2024-01-01T00:00:00.000Z",
+            "priority": 0.5,
+            "url": "https://example.com/routePath",
+          }
+        `);
+      });
+    });
+
+    describe('read from both - route metadata lastUpdatedAt null', () => {
+      const route = {
+        path: '/routePath',
+        metadata: {
+          sourceFilePath: 'route/file.md',
+          lastUpdatedAt: null,
+        },
+      };
+
+      it('lastmod default option', async () => {
+        await expect(
+          test({
+            route,
+          }),
+        ).resolves.toMatchInlineSnapshot(`
+              {
+                "changefreq": "weekly",
+                "lastmod": null,
+                "priority": 0.5,
+                "url": "https://example.com/routePath",
+              }
+          `);
+      });
+
+      it('lastmod date option', async () => {
+        await expect(
+          test({
+            route,
+            options: {
+              lastmod: 'date',
+            },
+          }),
+        ).resolves.toMatchInlineSnapshot(`
+          {
+            "changefreq": "weekly",
+            "lastmod": null,
+            "priority": 0.5,
+            "url": "https://example.com/routePath",
+          }
+        `);
+      });
+
+      it('lastmod datetime option', async () => {
+        await expect(
+          test({
+            route,
+            options: {
+              lastmod: 'datetime',
+            },
+          }),
+        ).resolves.toMatchInlineSnapshot(`
+          {
+            "changefreq": "weekly",
+            "lastmod": null,
             "priority": 0.5,
             "url": "https://example.com/routePath",
           }

@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Expand sidebar category '{label}'",
   "theme.ErrorPageContent.title": "Denna sida har kraschat.",
   "theme.ErrorPageContent.tryAgain": "Försök igen",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Main",
   "theme.NotFound.p1": "Vi kunde inte hitta det du letade efter.",
   "theme.NotFound.p2": "Vänligen kontakta ägaren av webbplatsen som länkade dig till den ursprungliga webbadressen och låt dem veta att denna länk är trasig.",
