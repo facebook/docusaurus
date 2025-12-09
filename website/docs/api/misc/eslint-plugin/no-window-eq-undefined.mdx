@@ -1,0 +1,66 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/no-window-eq-undefined
+---
+
+# no-window-eq-undefined
+
+Enforce not using typeof window, window === undefined, or any similar expression to detect the SSR (Server-Side Rendering) environment.
+
+In Docusaurus, it's recommended to safely separate client-side code using the `@docusaurus/useIsBrowser` hook or React lifecycle methods like `useEffect`.
+
+## Motivation and Rationale
+
+In web development, checking for the existence of the window object (e.g., typeof window !== 'undefined') is a common way to determine if code is running in a browser (client) or on a server (Node.js).
+
+However, in React applications, especially those using SSR like Docusaurus, this pattern is inappropriate and risky for the following reasons:
+
+**SSR Conflict**: When React components are rendered on the server (Node.js), attempting to access the global window object in the top-level scope or during the initial render phase will lead to build errors or hydration mismatches when the client-side JavaScript takes over.
+
+**Inconsistency**: Docusaurus requires robust mechanisms to ensure code only runs on the client. Checking typeof window is prone to subtle issues and doesn't align with the framework's recommended practice for environment segregation.
+
+## Rule Details {#details}
+
+** Examples of **incorrect** code for this rule ** :
+
+```js
+import React from 'react';
+
+// 1. Using typeof window for conditional rendering (runs during SSR)
+const MyComponent = () => {
+  // This is executed on the server and is dangerous.
+  const isClient = typeof window !== 'undefined';
+
+  return <div>{isClient ? 'Client Content' : 'Server Placeholder'}</div>;
+};
+
+// 2. Using direct window comparison
+if (window === undefined) {
+  // This dangerous pattern is discouraged, even if it seems to work.
+  console.log('Running on server');
+}
+```
+
+The following code uses banned patterns to conditionally render or execute logic.
+
+---
+
+**Examples of **correct** code for this rule** :
+
+```jsx
+import React from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+const App = () => {
+  // isBrowser is safely managed by Docusaurus.
+  const isBrowser = useIsBrowser();
+
+  return <div>{isBrowser ? 'Client HTML' : 'Server HTML'}</div>;
+};
+```
+
+This hook ensures the value is only true after the component has mounted on the client.
+
+## Further Reading
+
+- https://docusaurus.io/docs/docusaurus-core#useIsBrowser
+- https://react.dev/reference/rules/rules-of-hooks
