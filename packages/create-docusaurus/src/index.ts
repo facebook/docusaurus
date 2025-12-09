@@ -273,7 +273,10 @@ async function getSiteName(
       return 'A website name is required.';
     }
     const dest = path.resolve(rootDir, siteName);
-    if (await fs.pathExists(dest)) {
+    if (siteName === '.' && (await fs.readdir(dest)).length > 0) {
+      return logger.interpolate`Directory not empty at path=${dest}!`;
+    }
+    if (siteName !== '.' && (await fs.pathExists(dest))) {
       return logger.interpolate`Directory already exists at path=${dest}!`;
     }
     return true;
