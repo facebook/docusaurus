@@ -68,8 +68,11 @@ export async function eject({
       // In particular the .d.ts files that theme build output contains
       typescript ? null : '**/*.{d.ts,ts,tsx}',
       '**/{__fixtures__,__tests__}/*',
+      '**\\{__fixtures__,__tests__}\\*',
     ]),
   });
+
+  console.log('eject', componentName, {filesToCopy});
 
   if (filesToCopy.length === 0) {
     // This should never happen
