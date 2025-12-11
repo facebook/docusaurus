@@ -234,11 +234,40 @@ function getSidebarBreadcrumbs({
 }): PropSidebarBreadcrumbsItem[] {
   const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
 
-  function extract(items: PropSidebarItem[]) {
+  // When onlyCategories is true (e.g., for useCurrentSidebarCategory), we need
+  // to distinguish between:
+  // 1. A category that directly owns this URL (category.href === pathname)
+  // 2. A link that happens to point to this URL
+  //
+  // We should prefer (1) over (2) to fix the bug where a generated-index page
+  // shows items from the wrong category when another category has a link
+  // pointing to it. See https://github.com/facebook/docusaurus/issues/11612
+  //
+  // We use a two-pass approach:
+  // - First pass: Only look for categories that directly own the URL
+  // - Second pass: If not found, look for links (to support doc pages)
+
+  function extractCategoryOnly(items: PropSidebarItem[]): boolean {
+    for (const item of items) {
+      if (item.type === 'category') {
+        if (isSamePath(item.href, pathname)) {
+          breadcrumbs.unshift(item);
+          return true;
+        }
+        if (extractCategoryOnly(item.items)) {
+          breadcrumbs.unshift(item);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  function extractWithLinks(items: PropSidebarItem[]): boolean {
     for (const item of items) {
       if (
         (item.type === 'category' &&
-          (isSamePath(item.href, pathname) || extract(item.items))) ||
+          (isSamePath(item.href, pathname) || extractWithLinks(item.items))) ||
         (item.type === 'link' && isSamePath(item.href, pathname))
       ) {
         const filtered = onlyCategories && item.type !== 'category';
@@ -248,11 +277,19 @@ function getSidebarBreadcrumbs({
         return true;
       }
     }
-
     return false;
   }
 
-  extract(sidebarItems);
+  if (onlyCategories) {
+    // First try to find a category that directly owns this URL
+    if (!extractCategoryOnly(sidebarItems)) {
+      // Fall back to finding via links (for doc pages in a category)
+      extractWithLinks(sidebarItems);
+    }
+  } else {
+    // For breadcrumbs, use the original behavior (links included)
+    extractWithLinks(sidebarItems);
+  }
 
   return breadcrumbs;
 }
