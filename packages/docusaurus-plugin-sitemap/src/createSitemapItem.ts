@@ -6,16 +6,17 @@
  */
 
 import {applyTrailingSlash} from '@docusaurus/utils-common';
-import {getLastUpdate, normalizeUrl} from '@docusaurus/utils';
+import {normalizeUrl} from '@docusaurus/utils';
 import type {LastModOption, SitemapItem} from './types';
-import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
+import type {DocusaurusConfig, RouteConfig, VcsConfig} from '@docusaurus/types';
 import type {PluginOptions} from './options';
 
 async function getRouteLastUpdatedAt(
   route: RouteConfig,
+  vcs: Pick<VcsConfig, 'getFileLastUpdateInfo'>,
 ): Promise<number | null | undefined> {
   // Important to bail-out early here
-  // This can lead to duplicated getLastUpdate() calls and performance problems
+  // This can lead to duplicated VCS calls and performance problems
   // See https://github.com/facebook/docusaurus/pull/11211
   if (route.metadata?.lastUpdatedAt === null) {
     return null;
@@ -24,8 +25,10 @@ async function getRouteLastUpdatedAt(
     return route.metadata?.lastUpdatedAt;
   }
   if (route.metadata?.sourceFilePath) {
-    const lastUpdate = await getLastUpdate(route.metadata?.sourceFilePath);
-    return lastUpdate?.lastUpdatedAt ?? null;
+    const lastUpdateInfo = await vcs.getFileLastUpdateInfo(
+      route.metadata?.sourceFilePath,
+    );
+    return lastUpdateInfo?.timestamp ?? null;
   }
 
   return undefined;
@@ -46,14 +49,16 @@ function formatLastmod(timestamp: number, lastmodOption: LastModOption) {
 async function getRouteLastmod({
   route,
   lastmod,
+  vcs,
 }: {
   route: RouteConfig;
   lastmod: LastModOption | null;
+  vcs: Pick<VcsConfig, 'getFileLastUpdateInfo'>;
 }): Promise<string | null> {
   if (lastmod === null) {
     return null;
   }
-  const lastUpdatedAt = (await getRouteLastUpdatedAt(route)) ?? null;
+  const lastUpdatedAt = (await getRouteLastUpdatedAt(route, vcs)) ?? null;
   return lastUpdatedAt ? formatLastmod(lastUpdatedAt, lastmod) : null;
 }
 
@@ -77,6 +82,10 @@ export async function createSitemapItem({
     ]),
     changefreq,
     priority,
-    lastmod: await getRouteLastmod({route, lastmod}),
+    lastmod: await getRouteLastmod({
+      route,
+      lastmod,
+      vcs: siteConfig.future.experimental_vcs,
+    }),
   };
 }

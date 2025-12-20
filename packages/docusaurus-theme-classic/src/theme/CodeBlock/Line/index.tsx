@@ -14,16 +14,23 @@ import styles from './styles.module.css';
 
 type Token = Props['line'][number];
 
-// Replaces '\n' by ''
-// Historical code, not sure why we even need this :/
+// This <br/ seems useful when the line has no content to prevent collapsing.
+// For code blocks with "diff" languages, this makes the empty lines collapse to
+// zero height lines, which is undesirable.
+// See also https://github.com/facebook/docusaurus/pull/11565
+function LineBreak() {
+  return <br />;
+}
+
+// Replaces single lines with '\n' by '' so that we don't end up with
+// duplicate line breaks (the '\n' + the artificial <br/> above)
+// see also https://github.com/facebook/docusaurus/pull/11565
 function fixLineBreak(line: Token[]) {
   const singleLineBreakToken =
     line.length === 1 && line[0]!.content === '\n' ? line[0] : undefined;
-
   if (singleLineBreakToken) {
     return [{...singleLineBreakToken, content: ''}];
   }
-
   return line;
 }
 
@@ -35,7 +42,6 @@ export default function CodeBlockLine({
   getTokenProps,
 }: Props): ReactNode {
   const line = fixLineBreak(lineProp);
-
   const lineProps = getLineProps({
     line,
     className: clsx(classNames, showLineNumbers && styles.codeLine),
@@ -51,7 +57,7 @@ export default function CodeBlockLine({
   });
 
   return (
-    <span {...lineProps}>
+    <div {...lineProps}>
       {showLineNumbers ? (
         <>
           <span className={styles.codeLineNumber} />
@@ -60,7 +66,7 @@ export default function CodeBlockLine({
       ) : (
         lineTokens
       )}
-      <br />
-    </span>
+      <LineBreak />
+    </div>
   );
 }

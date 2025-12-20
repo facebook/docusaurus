@@ -25,15 +25,16 @@ export {
 } from './constants';
 export {generate, readOutputHTMLFile} from './emitUtils';
 export {
+  // TODO Docusaurus v4: remove these legacy exports,
+  //  they are only kept for retro-compatibility
   getFileCommitDate,
   FileNotTrackedError,
   GitNotFoundError,
-} from './gitUtils';
+} from './vcs/gitUtils';
 export {
   mergeTranslations,
   updateTranslationFileMessages,
   getPluginI18nPath,
-  localizePath,
   getLocaleConfig,
 } from './i18nUtils';
 export {mapAsyncSequential, findAsyncSequential} from './jsUtils';
@@ -122,12 +123,11 @@ export {askPreferredLanguage} from './cliUtils';
 export {flattenRoutes} from './routeUtils';
 
 export {
-  getGitLastUpdate,
-  getLastUpdate,
   readLastUpdateData,
-  LAST_UPDATE_FALLBACK,
   type LastUpdateData,
   type FrontMatterLastUpdate,
 } from './lastUpdateUtils';
+
+export {VcsPresetNames, getVcsPreset, TEST_VCS} from './vcs/vcs';
 
 export {normalizeTags, reportInlineTags} from './tags';

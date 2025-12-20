@@ -8,9 +8,10 @@
 import fs from 'fs-extra';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {mapAsyncSequential} from '@docusaurus/utils';
-import {loadContext, type LoadContextParams} from '../../server/site';
-import {loadI18n} from '../../server/i18n';
+import {type LoadContextParams} from '../../server/site';
+import {getLocaleList} from '../../server/i18n';
 import {buildLocale, type BuildLocaleParams} from './buildLocale';
+import {loadSiteConfig} from '../../server/config';
 
 export type BuildCLIOptions = Pick<LoadContextParams, 'config' | 'outDir'> & {
   locale?: [string, ...string[]];
@@ -80,28 +81,21 @@ async function getLocalesToBuild({
   siteDir: string;
   cliOptions: BuildCLIOptions;
 }): Promise<[string, ...string[]]> {
-  // We disable locale path localization if CLI has single "--locale" option
-  // yarn build --locale fr => baseUrl=/ instead of baseUrl=/fr/
-  const localizePath = cliOptions.locale?.length === 1 ? false : undefined;
-
-  const context = await loadContext({
+  const {siteConfig} = await loadSiteConfig({
     siteDir,
-    outDir: cliOptions.outDir,
-    config: cliOptions.config,
-    localizePath,
+    customConfigFilePath: cliOptions.config,
   });
 
-  const i18n = await loadI18n({
-    siteDir,
-    config: context.siteConfig,
-    currentLocale: context.siteConfig.i18n.defaultLocale // Awkward but ok
-  });
-
-  const locales = cliOptions.locale ?? i18n.locales;
+  const locales =
+    cliOptions.locale ??
+    getLocaleList({
+      i18nConfig: siteConfig.i18n,
+      currentLocale: siteConfig.i18n.defaultLocale, // Awkward but ok
+    });
 
   return orderLocales({
     locales: locales as [string, ...string[]],
-    defaultLocale: i18n.defaultLocale,
+    defaultLocale: siteConfig.i18n.defaultLocale,
   });
 }
 

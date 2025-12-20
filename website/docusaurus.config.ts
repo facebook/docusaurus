@@ -25,7 +25,7 @@ import ConfigLocalized from './docusaurus.config.localized.json';
 import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
 
-import type {Config, DocusaurusConfig} from '@docusaurus/types';
+import type {Config, DocusaurusConfig, VcsPreset} from '@docusaurus/types';
 
 import type * as Preset from '@docusaurus/preset-classic';
 import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
@@ -108,6 +108,8 @@ if (isSlower) {
 const router = process.env
   .DOCUSAURUS_ROUTER as DocusaurusConfig['future']['experimental_router'];
 
+const vcs = process.env.DOCUSAURUS_SITE_VCS as VcsPreset;
+
 const isDev = process.env.NODE_ENV === 'development';
 
 // See https://docs.netlify.com/configure-builds/environment-variables/
@@ -160,7 +162,8 @@ function getLocalizedConfigValue(key: keyof typeof ConfigLocalized) {
 // By default, we don't want to run "git log" commands on i18n sites
 // This makes localized sites build much slower on Netlify
 // See also https://github.com/facebook/docusaurus/issues/11208
-const showLastUpdate = process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale;
+// const showLastUpdate = process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale;
+const showLastUpdate = true;
 
 export default async function createConfigAsync() {
   return {
@@ -185,10 +188,12 @@ export default async function createConfigAsync() {
             rspackBundler: true,
             rspackPersistentCache: true,
             ssgWorkerThreads: true,
+            gitEagerVcs: true,
           },
       experimental_storage: {
         namespace: true,
       },
+      experimental_vcs: vcs,
       experimental_router: router,
     },
     // Dogfood both settings:
@@ -203,6 +208,14 @@ export default async function createConfigAsync() {
     ],
     i18n: {
       defaultLocale,
+
+      localeConfigs: {
+        [defaultLocale]: {
+          // Forces the translation process to run for default locale
+          // Permits to dogfood translation key conflicts detection
+          translate: true,
+        },
+      },
 
       locales:
         isDeployPreview || isBranchDeploy
@@ -655,6 +668,22 @@ export default async function createConfigAsync() {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
         indexName: 'docusaurus-2',
+
+        // TODO Docusaurus v4: remove after we drop DocSearch v3
+        //  temporary, for DocSearch v3/v4 conditional Ask AI integration
+        //  see https://github.com/facebook/docusaurus/pull/11327
+        // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+        ...(require('@docsearch/react').version.startsWith('4.')
+          ? {
+              askAi: {
+                // cSpell:ignore IMYF
+                assistantId: 'RgIMYFUmTfrN',
+                indexName: 'docusaurus-markdown',
+                suggestedQuestions: true,
+              },
+            }
+          : {}),
+
         replaceSearchResultPathname:
           isDev || isDeployPreview
             ? {

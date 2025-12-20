@@ -17,7 +17,6 @@ import {
   createAbsoluteFilePathMatcher,
   getContentPathList,
   getDataFilePath,
-  DEFAULT_PLUGIN_ID,
   resolveMarkdownLinkPathname,
   getLocaleConfig,
 } from '@docusaurus/utils';
@@ -25,7 +24,6 @@ import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {createMDXLoaderItem} from '@docusaurus/mdx-loader';
 import {
   getBlogTags,
-  paginateBlogPosts,
   shouldBeListed,
   applyProcessBlogPosts,
   generateBlogPosts,
@@ -45,7 +43,6 @@ import type {
   Assets,
   BlogTags,
   BlogContent,
-  BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
 import type {RuleSetRule, RuleSetUseItem} from 'webpack';
 
@@ -85,7 +82,7 @@ export default async function pluginContentBlog(
         })
       : undefined,
   };
-  const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
+  const pluginId = options.id;
 
   const pluginDataDirRoot = path.join(generatedFilesDir, PluginName);
   const dataDir = path.join(pluginDataDirRoot, pluginId);
@@ -260,9 +257,10 @@ export default async function pluginContentBlog(
 
       if (!blogPosts.length) {
         return {
+          blogTitle,
+          blogDescription,
           blogSidebarTitle,
           blogPosts: [],
-          blogListPaginated: [],
           blogTags: {},
           blogTagsListPath,
           authorsMap,
@@ -291,15 +289,9 @@ export default async function pluginContentBlog(
         }
       });
 
-      const blogListPaginated: BlogPaginated[] = paginateBlogPosts({
-        blogPosts: listedBlogPosts,
-        blogTitle,
-        blogDescription,
-        postsPerPageOption,
-        basePageUrl: baseBlogUrl,
-        pageBasePath,
-      });
-
+      // TODO this is not the correct place to aggregate and paginate tags
+      //  for reasons similar to https://github.com/facebook/docusaurus/pull/11562
+      //  What we should do here is only read the tags file (similar to authors)
       const blogTags: BlogTags = getBlogTags({
         blogPosts,
         postsPerPageOption,
@@ -309,9 +301,10 @@ export default async function pluginContentBlog(
       });
 
       return {
+        blogTitle,
+        blogDescription,
         blogSidebarTitle,
         blogPosts,
-        blogListPaginated,
         blogTags,
         blogTagsListPath,
         authorsMap,

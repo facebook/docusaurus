@@ -6,6 +6,7 @@
  */
 
 import {jest} from '@jest/globals';
+import {getVcsPreset} from '@docusaurus/utils';
 import {
   ConfigSchema,
   DEFAULT_CONFIG,
@@ -27,6 +28,10 @@ import type {
   Config,
   DocusaurusConfig,
   PluginConfig,
+  I18nConfig,
+  I18nLocaleConfig,
+  VcsConfig,
+  VcsPreset,
 } from '@docusaurus/types';
 import type {DeepPartial} from 'utility-types';
 
@@ -66,10 +71,16 @@ describe('normalizeConfig', () => {
           rspackBundler: true,
           rspackPersistentCache: true,
           ssgWorkerThreads: true,
+          gitEagerVcs: true,
         },
         experimental_storage: {
           type: 'sessionStorage',
           namespace: true,
+        },
+        experimental_vcs: {
+          initialize: (_params) => {},
+          getFileCreationInfo: (_filePath) => null,
+          getFileLastUpdateInfo: (_filePath) => null,
         },
         experimental_router: 'hash',
       },
@@ -304,6 +315,19 @@ describe('headTags', () => {
     `);
   });
 
+  it('accepts headTags with a custom element without attributes', () => {
+    expect(() =>
+      normalizeConfig({
+        headTags: [
+          {
+            tagName: 'my-custom-element',
+            customElement: true,
+          },
+        ],
+      }),
+    ).not.toThrow();
+  });
+
   it("throws error if headTags doesn't have string attributes", () => {
     expect(() => {
       normalizeConfig({
@@ -363,6 +387,121 @@ describe('onBrokenLinks', () => {
         'docusaurus.config.js',
       ),
     ).toThrowErrorMatchingSnapshot();
+  });
+});
+
+describe('i18n', () => {
+  function normalizeI18n(i18n: DeepPartial<I18nConfig>): I18nConfig {
+    return normalizeConfig({i18n}).i18n;
+  }
+
+  it('accepts undefined object', () => {
+    expect(normalizeI18n(undefined)).toEqual(DEFAULT_CONFIG.i18n);
+  });
+
+  it('rejects empty object', () => {
+    expect(() => normalizeI18n({})).toThrowErrorMatchingInlineSnapshot(`
+      ""i18n.defaultLocale" is required
+      "i18n.locales" is required
+      "
+    `);
+  });
+
+  it('accepts minimal i18n config', () => {
+    expect(normalizeI18n({defaultLocale: 'fr', locales: ['fr']})).toEqual({
+      defaultLocale: 'fr',
+      localeConfigs: {},
+      locales: ['fr'],
+      path: 'i18n',
+    });
+  });
+
+  describe('locale config', () => {
+    function normalizeLocaleConfig(
+      localeConfig?: Partial<I18nLocaleConfig>,
+    ): Partial<I18nLocaleConfig> {
+      return normalizeConfig({
+        i18n: {
+          defaultLocale: 'fr',
+          locales: ['fr'],
+          localeConfigs: {
+            fr: localeConfig,
+          },
+        },
+      }).i18n.localeConfigs.fr;
+    }
+
+    it('accepts undefined locale config', () => {
+      expect(normalizeLocaleConfig(undefined)).toBeUndefined();
+    });
+
+    it('accepts empty locale config', () => {
+      expect(normalizeLocaleConfig({})).toEqual({});
+    });
+
+    describe('url', () => {
+      it('accepts undefined', () => {
+        expect(normalizeLocaleConfig({url: undefined})).toEqual({
+          url: undefined,
+        });
+      });
+
+      it('rejects empty', () => {
+        expect(() => normalizeLocaleConfig({url: ''}))
+          .toThrowErrorMatchingInlineSnapshot(`
+          ""i18n.localeConfigs.fr.url" is not allowed to be empty
+          "
+        `);
+      });
+
+      it('accepts valid url', () => {
+        expect(
+          normalizeLocaleConfig({url: 'https://fr.docusaurus.io'}),
+        ).toEqual({
+          url: 'https://fr.docusaurus.io',
+        });
+      });
+
+      it('accepts valid url and removes trailing slash', () => {
+        expect(
+          normalizeLocaleConfig({url: 'https://fr.docusaurus.io/'}),
+        ).toEqual({
+          url: 'https://fr.docusaurus.io',
+        });
+      });
+    });
+
+    describe('baseUrl', () => {
+      it('accepts undefined baseUrl', () => {
+        expect(normalizeLocaleConfig({baseUrl: undefined})).toEqual({
+          baseUrl: undefined,
+        });
+      });
+
+      it('accepts empty baseUrl', () => {
+        expect(normalizeLocaleConfig({baseUrl: ''})).toEqual({
+          baseUrl: '/',
+        });
+      });
+
+      it('accepts regular baseUrl', () => {
+        expect(normalizeLocaleConfig({baseUrl: '/myBase/Url/'})).toEqual({
+          baseUrl: '/myBase/Url/',
+        });
+      });
+
+      it('accepts baseUrl without leading/trailing slashes', () => {
+        expect(normalizeLocaleConfig({baseUrl: 'myBase/Url'})).toEqual({
+          baseUrl: '/myBase/Url/',
+        });
+      });
+
+      it('accepts translate true', () => {
+        expect(normalizeLocaleConfig({translate: true})).toEqual({
+          translate: true,
+        });
+      });
+    });
   });
 });
 
@@ -508,9 +647,9 @@ describe('markdown', () => {
           emoji: 'yes',
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.emoji" must be a boolean
-      "
-    `);
+              ""markdown.emoji" must be a boolean
+              "
+          `);
     });
 
     it('throw for number emoji value', () => {
@@ -522,9 +661,9 @@ describe('markdown', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.emoji" must be a boolean
-      "
-    `);
+              ""markdown.emoji" must be a boolean
+              "
+          `);
     });
   });
 
@@ -959,6 +1098,12 @@ describe('future', () => {
         rspackBundler: true,
         rspackPersistentCache: true,
         ssgWorkerThreads: true,
+        gitEagerVcs: true,
+      },
+      experimental_vcs: {
+        initialize: (_params) => {},
+        getFileCreationInfo: (_filePath) => null,
+        getFileLastUpdateInfo: (_filePath) => null,
       },
       experimental_storage: {
         type: 'sessionStorage',
@@ -1277,6 +1422,196 @@ describe('future', () => {
     });
   });
 
+  describe('vcs', () => {
+    function vcsContaining(vcs: Partial<VcsConfig>) {
+      return futureContaining({
+        experimental_vcs: expect.objectContaining(vcs),
+      });
+    }
+
+    describe('base', () => {
+      it('accepts vcs - undefined', () => {
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: undefined,
+            },
+          }),
+        ).toEqual(
+          futureContaining({
+            ...DEFAULT_FUTURE_CONFIG,
+            experimental_vcs: getVcsPreset('default-v1'),
+          }),
+        );
+      });
+
+      it('accepts vcs - true', () => {
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: true,
+            },
+          }),
+        ).toEqual(
+          futureContaining({
+            ...DEFAULT_FUTURE_CONFIG,
+            experimental_vcs: getVcsPreset('default-v1'),
+          }),
+        );
+      });
+
+      it('accepts vcs - false', () => {
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: false,
+            },
+          }),
+        ).toEqual(
+          futureContaining({
+            ...DEFAULT_FUTURE_CONFIG,
+            experimental_vcs: getVcsPreset('disabled'),
+          }),
+        );
+      });
+    });
+
+    describe('presets', () => {
+      it('accepts git-ad-hoc', () => {
+        const presetName: VcsPreset = 'git-ad-hoc';
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: presetName,
+            },
+          }),
+        ).toEqual(vcsContaining(getVcsPreset(presetName)));
+      });
+
+      it('accepts git-eager', () => {
+        const presetName: VcsPreset = 'git-eager';
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: presetName,
+            },
+          }),
+        ).toEqual(vcsContaining(getVcsPreset(presetName)));
+      });
+
+      it('accepts hardcoded', () => {
+        const presetName: VcsPreset = 'hardcoded';
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: presetName,
+            },
+          }),
+        ).toEqual(vcsContaining(getVcsPreset(presetName)));
+      });
+
+      it('rejects unknown preset name', () => {
+        // @ts-expect-error: invalid on purpose
+        const presetName: VcsPreset = 'unknown-preset-name';
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: presetName,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs" failed custom validation because VCS config preset name 'unknown-preset-name' is not valid.
+          "
+        `);
+      });
+    });
+
+    describe('object config', () => {
+      it('accepts vcs - full', () => {
+        const vcs: VcsConfig = {
+          initialize: (_params) => {},
+          getFileCreationInfo: (_filePath) => null,
+          getFileLastUpdateInfo: (_filePath) => null,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toEqual(vcsContaining(vcs));
+      });
+
+      it('rejects vcs - empty', () => {
+        expect(() =>
+          normalizeConfig({
+            future: {experimental_vcs: {}},
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs" failed custom validation because "initialize" is required
+          "
+        `);
+      });
+
+      it('accepts vcs - bad initialize() arity', () => {
+        const vcs: VcsConfig = {
+          // @ts-expect-error: invalid arity
+          initialize: (_params, _extraParam) => {},
+          getFileCreationInfo: (_filePath) => null,
+          getFileLastUpdateInfo: (_filePath) => null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs" failed custom validation because "initialize" must have an arity lesser or equal to 1
+          "
+        `);
+      });
+
+      it('accepts vcs - bad getFileCreationInfo() arity', () => {
+        const vcs: VcsConfig = {
+          initialize: (_params) => {},
+          // @ts-expect-error: invalid arity
+          getFileCreationInfo: (_filePath, _extraParam) => null,
+          getFileLastUpdateInfo: (_filePath) => null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs" failed custom validation because "getFileCreationInfo" must have an arity of 1
+          "
+        `);
+      });
+
+      it('accepts vcs - bad getFileLastUpdateInfo() arity', () => {
+        const vcs: VcsConfig = {
+          initialize: (_params) => {},
+          getFileCreationInfo: (_filePath) => null,
+          // @ts-expect-error: invalid arity
+          getFileLastUpdateInfo: (_filePath, _extraParam) => null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_vcs: vcs,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_vcs" failed custom validation because "getFileLastUpdateInfo" must have an arity of 1
+          "
+        `);
+      });
+    });
+  });
+
   describe('faster', () => {
     function fasterContaining(faster: Partial<FasterConfig>) {
       return futureContaining({
@@ -1312,6 +1647,7 @@ describe('future', () => {
         rspackBundler: true,
         rspackPersistentCache: true,
         ssgWorkerThreads: true,
+        gitEagerVcs: true,
       };
       expect(
         normalizeConfig({
@@ -2020,6 +2356,87 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.experimental_faster.ssgWorkerThreads" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('gitEagerVcs', () => {
+      it('accepts - undefined', () => {
+        const faster: Partial<FasterConfig> = {
+          gitEagerVcs: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(fasterContaining({gitEagerVcs: false}));
+      });
+
+      it('accepts - true', () => {
+        const faster: Partial<FasterConfig> = {
+          gitEagerVcs: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(
+          futureContaining({
+            experimental_faster: expect.objectContaining(faster),
+            experimental_vcs: getVcsPreset('default-v2'),
+          }),
+        );
+      });
+
+      it('accepts - false', () => {
+        const faster: Partial<FasterConfig> = {
+          gitEagerVcs: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toEqual(
+          futureContaining({
+            experimental_faster: expect.objectContaining(faster),
+            experimental_vcs: getVcsPreset('default-v1'),
+          }),
+        );
+      });
+
+      it('rejects - null', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {gitEagerVcs: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.gitEagerVcs" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        // @ts-expect-error: invalid
+        const faster: Partial<FasterConfig> = {gitEagerVcs: 42};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              experimental_faster: faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.experimental_faster.gitEagerVcs" must be a boolean
           "
         `);
       });

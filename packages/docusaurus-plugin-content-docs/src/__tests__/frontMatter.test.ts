@@ -186,10 +186,24 @@ describe('validateDocFrontMatter slug', () => {
   });
 });
 
+describe('validateDocFrontMatter sidebar_key', () => {
+  testField({
+    prefix: 'sidebar_key',
+    validFrontMatters: [
+      {sidebar_key: undefined},
+      {sidebar_key: 'Awesome docs'},
+    ],
+    invalidFrontMatters: [[{sidebar_key: ''}, 'is not allowed to be empty']],
+  });
+});
+
 describe('validateDocFrontMatter sidebar_label', () => {
   testField({
     prefix: 'sidebar_label',
-    validFrontMatters: [{sidebar_label: 'Awesome docs'}],
+    validFrontMatters: [
+      {sidebar_label: undefined},
+      {sidebar_label: 'Awesome docs'},
+    ],
     invalidFrontMatters: [[{sidebar_label: ''}, 'is not allowed to be empty']],
   });
 });

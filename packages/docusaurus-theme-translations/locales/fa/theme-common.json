@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "باز کردن دسته بندی در نوار کناری '{label}'",
   "theme.ErrorPageContent.title": "بارگذاری صفحه با خطا روبرو شد.",
   "theme.ErrorPageContent.tryAgain": "تلاش مجدد",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "صفحه اصلی",
   "theme.NotFound.p1": "صفحه‌ای که دنبال آن بودید پیدا نشد.",
   "theme.NotFound.p2": "لطفا با صاحب وبسایت تماس بگیرید و ایشان را از مشکل پیش آمده مطلع کنید.",

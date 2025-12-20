@@ -24,12 +24,20 @@ import {
   isActiveSidebarItem,
   findFirstSidebarItemLink,
   useDocSidebarItemsExpandedState,
+  useVisibleSidebarItems,
 } from '@docusaurus/plugin-content-docs/client';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import DocSidebarItems from '@theme/DocSidebarItems';
+import DocSidebarItemLink from '@theme/DocSidebarItem/Link';
 import type {Props} from '@theme/DocSidebarItem/Category';
+
+import type {
+  PropSidebarItemCategory,
+  PropSidebarItemLink,
+} from '@docusaurus/plugin-content-docs';
+import styles from './styles.module.css';
 
 // If we navigate to a category and it becomes active, it should automatically
 // expand itself
@@ -37,18 +45,30 @@ function useAutoExpandActiveCategory({
   isActive,
   collapsed,
   updateCollapsed,
+  activePath,
 }: {
   isActive: boolean;
   collapsed: boolean;
   updateCollapsed: (b: boolean) => void;
+  activePath: string;
 }) {
   const wasActive = usePrevious(isActive);
+  const previousActivePath = usePrevious(activePath);
   useEffect(() => {
     const justBecameActive = isActive && !wasActive;
-    if (justBecameActive && collapsed) {
+    const stillActiveButPathChanged =
+      isActive && wasActive && activePath !== previousActivePath;
+    if ((justBecameActive || stillActiveButPathChanged) && collapsed) {
       updateCollapsed(false);
     }
-  }, [isActive, wasActive, collapsed, updateCollapsed]);
+  }, [
+    isActive,
+    wasActive,
+    collapsed,
+    updateCollapsed,
+    activePath,
+    previousActivePath,
+  ]);
 }
 
 /**
@@ -114,7 +134,56 @@ function CollapseButton({
   );
 }
 
-export default function DocSidebarItemCategory({
+function CategoryLinkLabel({label}: {label: string}) {
+  return (
+    <span title={label} className={styles.categoryLinkLabel}>
+      {label}
+    </span>
+  );
+}
+
+export default function DocSidebarItemCategory(props: Props): ReactNode {
+  const visibleChildren = useVisibleSidebarItems(
+    props.item.items,
+    props.activePath,
+  );
+  if (visibleChildren.length === 0) {
+    return <DocSidebarItemCategoryEmpty {...props} />;
+  } else {
+    return <DocSidebarItemCategoryCollapsible {...props} />;
+  }
+}
+
+function isCategoryWithHref(
+  category: PropSidebarItemCategory,
+): category is PropSidebarItemCategory & {href: string} {
+  return typeof category.href === 'string';
+}
+
+// If a category doesn't have any visible children, we render it as a link
+function DocSidebarItemCategoryEmpty({item, ...props}: Props): ReactNode {
+  // If the category has no link, we don't render anything
+  // It's not super useful to render a category you can't open nor click
+  if (!isCategoryWithHref(item)) {
+    return null;
+  }
+  // We remove props that don't make sense for a link and forward the rest
+  const {
+    type,
+    collapsed,
+    collapsible,
+    items,
+    linkUnlisted,
+    ...forwardableProps
+  } = item;
+  const linkItem: PropSidebarItemLink = {
+    type: 'link',
+    ...forwardableProps,
+  };
+  return <DocSidebarItemLink item={linkItem} {...props} />;
+}
+
+function DocSidebarItemCategoryCollapsible({
   item,
   onItemClick,
   activePath,
@@ -150,7 +219,12 @@ export default function DocSidebarItemCategory({
     setExpandedItem(toCollapsed ? null : index);
     setCollapsed(toCollapsed);
   };
-  useAutoExpandActiveCategory({isActive, collapsed, updateCollapsed});
+  useAutoExpandActiveCategory({
+    isActive,
+    collapsed,
+    updateCollapsed,
+    activePath,
+  });
   useEffect(() => {
     if (
       collapsible &&
@@ -161,6 +235,29 @@ export default function DocSidebarItemCategory({
       setCollapsed(true);
     }
   }, [collapsible, expandedItem, index, setCollapsed, autoCollapseCategories]);
+
+  const handleItemClick: ComponentProps<'a'>['onClick'] = (e) => {
+    onItemClick?.(item);
+    if (collapsible) {
+      if (href) {
+        // When already on the category's page, we collapse it
+        // We don't use "isActive" because it would collapse the
+        // category even when we browse a children element
+        // See https://github.com/facebook/docusaurus/issues/11213
+        if (isCurrentPage) {
+          e.preventDefault();
+          updateCollapsed();
+        } else {
+          // When navigating to a new category, we always expand
+          // see https://github.com/facebook/docusaurus/issues/10854#issuecomment-2609616182
+          updateCollapsed(false);
+        }
+      } else {
+        e.preventDefault();
+        updateCollapsed();
+      }
+    }
+  };
 
   return (
     <li
@@ -178,43 +275,18 @@ export default function DocSidebarItemCategory({
           'menu__list-item-collapsible--active': isCurrentPage,
         })}>
         <Link
-          className={clsx('menu__link', {
+          className={clsx(styles.categoryLink, 'menu__link', {
             'menu__link--sublist': collapsible,
             'menu__link--sublist-caret': !href && collapsible,
             'menu__link--active': isActive,
           })}
-          onClick={
-            collapsible
-              ? (e) => {
-                  onItemClick?.(item);
-                  if (href) {
-                    // When already on the category's page, we collapse it
-                    // We don't use "isActive" because it would collapse the
-                    // category even when we browse a children element
-                    // See https://github.com/facebook/docusaurus/issues/11213
-                    if (isCurrentPage) {
-                      e.preventDefault();
-                      updateCollapsed();
-                    } else {
-                      // When navigating to a new category, we always expand
-                      // see https://github.com/facebook/docusaurus/issues/10854#issuecomment-2609616182
-                      updateCollapsed(false);
-                    }
-                  } else {
-                    e.preventDefault();
-                    updateCollapsed();
-                  }
-                }
-              : () => {
-                  onItemClick?.(item);
-                }
-          }
+          onClick={handleItemClick}
           aria-current={isCurrentPage ? 'page' : undefined}
           role={collapsible && !href ? 'button' : undefined}
           aria-expanded={collapsible && !href ? !collapsed : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
-          {label}
+          <CategoryLinkLabel label={label} />
         </Link>
         {href && collapsible && (
           <CollapseButton

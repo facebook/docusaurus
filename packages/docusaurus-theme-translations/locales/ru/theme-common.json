@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Expand sidebar category '{label}'",
   "theme.ErrorPageContent.title": "На странице произошёл сбой.",
   "theme.ErrorPageContent.tryAgain": "Попробуйте ещё раз",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Main",
   "theme.NotFound.p1": "К сожалению, мы не смогли найти запрашиваемую вами страницу.",
   "theme.NotFound.p2": "Пожалуйста, обратитесь к владельцу сайта, с которого вы перешли на эту ссылку, чтобы сообщить ему, что ссылка не работает.",

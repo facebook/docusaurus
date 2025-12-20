@@ -407,7 +407,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build website
-        run: npm build
+        run: npm run build
 
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
@@ -461,7 +461,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Test build website
-        run: npm build
+        run: npm run build
 ```
 
   </TabItem>

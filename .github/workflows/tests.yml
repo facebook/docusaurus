@@ -27,12 +27,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['18.0', '20', '22', '24']
+        node: ['20.0', '20', '22', '24', '25.1']
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -55,12 +55,16 @@ jobs:
         run: yarn workspace website test:css-order
 
       - name: TypeCheck website
-        # TODO temporary, remove TS skipLibCheck
         # see https://github.com/facebook/docusaurus/pull/10486
-        run: yarn workspace website typecheck --project tsconfig.skipLibCheck.json
+        run: yarn workspace website typecheck
       - name: TypeCheck website - min version - v5.1
         run: |
           yarn add typescript@5.1.6 --exact -D -W --ignore-scripts
+
+          # DocSearch@4/ai@5 doesn't support TS 5.1 (with skipLibCheck=false)
+          jq '.resolutions."@docsearch/react" = "^3.9.0"' package.json > package.json.tmp && mv -f package.json.tmp package.json
+          yarn add @docsearch/react@^3.9.0 --exact -D -W --ignore-scripts
+
           yarn workspace website typecheck
       - name: TypeCheck website - max version - Latest
         # For latest TS there are often lib check errors, so we disable it

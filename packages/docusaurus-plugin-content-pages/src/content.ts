@@ -98,6 +98,7 @@ async function processPageSourceFile(
 ): Promise<Metadata | undefined> {
   const {context, options, contentPaths} = params;
   const {siteConfig, baseUrl, siteDir, i18n} = context;
+  const vcs = siteConfig.future.experimental_vcs;
   const {editUrl} = options;
 
   // Lookup in localized folder in priority
@@ -180,6 +181,7 @@ async function processPageSourceFile(
     source,
     options,
     frontMatter.last_update,
+    vcs,
   );
 
   if (isDraft({frontMatter})) {

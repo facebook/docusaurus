@@ -431,7 +431,7 @@ declare module '@docusaurus/plugin-content-blog' {
   export type PluginOptions = MDXOptions &
     TagsPluginOptions & {
       /** Plugin ID. */
-      id?: string;
+      id: string;
       /**
        * Path to the blog content directory on the file system, relative to site
        * directory.
@@ -583,9 +583,10 @@ declare module '@docusaurus/plugin-content-blog' {
   export type AuthorsMap = {[authorKey: string]: AuthorWithKey};
 
   export type BlogContent = {
-    blogSidebarTitle: string;
+    blogTitle: string; // for translation purposes
+    blogDescription: string; // for translation purposes
+    blogSidebarTitle: string; // for translation purposes
     blogPosts: BlogPost[];
-    blogListPaginated: BlogPaginated[];
     blogTags: BlogTags;
     blogTagsListPath: string;
     authorsMap?: AuthorsMap;

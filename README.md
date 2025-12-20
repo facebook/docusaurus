@@ -45,7 +45,7 @@ Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusau
 
 - **Customizable**
 
-> While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/blog), and additional support pages, it is also [customizable](https://docusaurus.io/docs/creating-pages) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/styling-layout).
+> While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/blog), and additional support pages, it is also [customizable](https://docusaurus.io/docs/creating-pages) to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/styling-layout).
 
 ## Installation
 
@@ -120,4 +120,4 @@ The Docusaurus documentation (e.g., `.md` files in the `/docs` folder) is [Creat
 
 [![Rocket Validator logo](./admin/img/rocketvalidator-logo.png)](https://rocketvalidator.com/)
 
-[Rocket Validator](https://rocketvalidator.com/) helps us find HTML markup or accessibility issues.
+[Rocket Validator](https://rocketvalidator.com/) helps us find [HTML markup and accessibility issues](https://rocketvalidator.com/stats/docusaurus.io).

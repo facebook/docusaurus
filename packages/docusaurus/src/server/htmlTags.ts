@@ -17,22 +17,27 @@ import type {
   RouterType,
 } from '@docusaurus/types';
 
+// TODO this should be done at config validation time, not here
 function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
   if (typeof val !== 'object' || !val) {
     throw new Error(`"${val}" is not a valid HTML tag object.`);
   }
-  if (typeof (val as HtmlTagObject).tagName !== 'string') {
+  const htmlTag = val as HtmlTagObject;
+  if (typeof htmlTag.tagName !== 'string') {
     throw new Error(
       `${JSON.stringify(
         val,
       )} is not a valid HTML tag object. "tagName" must be defined as a string.`,
     );
   }
-  if (!(htmlTags as string[]).includes((val as HtmlTagObject).tagName)) {
+  if (
+    !htmlTag.customElement &&
+    !(htmlTags as string[]).includes(htmlTag.tagName)
+  ) {
     throw new Error(
       `Error loading ${JSON.stringify(val)}, "${
-        (val as HtmlTagObject).tagName
-      }" is not a valid HTML tag.`,
+        htmlTag.tagName
+      }" is not a valid HTML tag. Either use a valid "tagName" or set "customElement: true".`,
     );
   }
 }

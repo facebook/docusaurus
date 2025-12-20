@@ -13,6 +13,9 @@ const preset: typeof advancedBasePreset = function preset(opts) {
   const advancedPreset = advancedBasePreset({
     autoprefixer: {add: false},
     discardComments: {removeAll: true},
+    // See CodeBlock custom line number bug: https://github.com/facebook/docusaurus/pull/11487
+    /* cSpell:ignore Idents */
+    reduceIdents: {counter: false},
     /* cSpell:ignore zindex */
     zindex: false,
     ...opts,

@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "'{label}'の目次を開く",
   "theme.ErrorPageContent.title": "エラーが発生しました",
   "theme.ErrorPageContent.tryAgain": "もう一度試してください",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "ナビゲーション",
   "theme.NotFound.p1": "お探しのページが見つかりませんでした",
   "theme.NotFound.p2": "このページにリンクしているサイトの所有者にリンクが壊れていることを伝えてください",

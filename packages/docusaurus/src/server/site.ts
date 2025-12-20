@@ -7,7 +7,6 @@
 
 import path from 'path';
 import {
-  localizePath,
   DEFAULT_BUILD_DIR_NAME,
   GENERATED_FILES_DIR_NAME,
   getLocaleConfig,
@@ -47,13 +46,21 @@ export type LoadContextParams = {
   config?: string;
   /** Default is `i18n.defaultLocale` */
   locale?: string;
+
   /**
-   * `true` means the paths will have the locale prepended; `false` means they
-   * won't (useful for `yarn build -l zh-Hans` where the output should be
-   * emitted into `build/` instead of `build/zh-Hans/`); `undefined` is like the
-   * "smart" option where only non-default locale paths are localized
+   * By default, we try to automatically infer a localized baseUrl.
+   * We prepend `/<siteBaseUrl>/` with a `/<locale>/` path segment,
+   * except for the default locale.
+   *
+   * This option permits opting out of this baseUrl localization process.
+   * It is mostly useful to simplify config for multi-domain i18n deployments.
+   * See https://docusaurus.io/docs/i18n/tutorial#multi-domain-deployment
+   *
+   * In all cases, this process doesn't happen if an explicit localized baseUrl
+   * has been provided using `i18n.localeConfigs[].baseUrl`. We always use the
+   * provided value over the inferred one, letting you override it.
    */
-  localizePath?: boolean;
+  automaticBaseUrlLocalizationDisabled?: boolean;
 };
 
 export type LoadSiteParams = LoadContextParams & {
@@ -79,6 +86,7 @@ export async function loadContext(
     outDir: baseOutDir = DEFAULT_BUILD_DIR_NAME,
     locale,
     config: customConfigFilePath,
+    automaticBaseUrlLocalizationDisabled,
   } = params;
   const generatedFilesDir = path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
@@ -93,6 +101,15 @@ export async function loadContext(
     }),
   });
 
+  // Not sure where is the best place to put this VCS initialization call?
+  // The sooner is probably the better
+  // Note: we don't await the result on purpose!
+  // VCS initialization can be slow for large repos, and we don't want to block
+  // VCS integrations should be carefully designed to avoid blocking
+  PerfLogger.async('VCS init', () => {
+    return initialSiteConfig.future.experimental_vcs.initialize({siteDir});
+  });
+
   const currentBundler = await getCurrentBundler({
     siteConfig: initialSiteConfig,
   });
@@ -101,27 +118,39 @@ export async function loadContext(
     siteDir,
     config: initialSiteConfig,
     currentLocale: locale ?? initialSiteConfig.i18n.defaultLocale,
+    automaticBaseUrlLocalizationDisabled:
+      automaticBaseUrlLocalizationDisabled ?? false,
   });
 
-  const baseUrl = localizePath({
-    path: initialSiteConfig.baseUrl,
-    i18n,
-    options: params,
-    pathType: 'url',
-  });
-  const outDir = localizePath({
-    path: path.resolve(siteDir, baseOutDir),
-    i18n,
-    options: params,
-    pathType: 'fs',
-  });
+  const localeConfig = getLocaleConfig(i18n);
+
+  // We use the baseUrl from the locale config.
+  // By default, it is inferred as /<siteConfig.baseUrl>/
+  // eventually including the /<locale>/ suffix
+  const baseUrl = localeConfig.baseUrl;
+
+  // TODO not ideal: we should allow configuring a custom outDir for each locale
+  // The site baseUrl should be 100% decoupled from the file system output shape
+  // We added this logic to restore v3 retro-compatibility, because by default
+  // Docusaurus always wrote to ./build for sites having a baseUrl
+  // See also https://github.com/facebook/docusaurus/issues/11433
+  // This logic assumes the locale baseUrl will start with the site baseUrl
+  // which is the case if an explicit locale baseUrl is not provided
+  // but in practice a custom locale baseUrl could be anything now
+  const outDirBaseUrl = baseUrl.replace(initialSiteConfig.baseUrl, '/');
+
+  const outDir = path.join(path.resolve(siteDir, baseOutDir), outDirBaseUrl);
+
   const localizationDir = path.resolve(
     siteDir,
     i18n.path,
     getLocaleConfig(i18n).path,
   );
 
-  const siteConfig: DocusaurusConfig = {...initialSiteConfig, baseUrl};
+  const siteConfig: DocusaurusConfig = {
+    ...initialSiteConfig,
+    baseUrl,
+  };
 
   const codeTranslations = await loadSiteCodeTranslations({localizationDir});
 

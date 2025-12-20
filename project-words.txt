@@ -27,6 +27,7 @@ Blockquotes
 blockquotes
 Bokmål
 bunx
+BYOLLM
 caabernathy
 Candillon
 cdabcdab
@@ -48,6 +49,8 @@ Csapo
 Csvg
 Dabit
 dabit
+Dagre
+dagre
 Daishi
 Datagit
 datagit
@@ -84,6 +87,7 @@ Fienny
 flac
 Flightcontrol
 Flightcontrol's
+forwardable
 FOUC
 Français
 froms
@@ -136,6 +140,7 @@ lifecycles
 lightningcss
 Linkify
 linkify
+longlonglonglonglonglonglonglonglonglonglonglong
 Lorber
 lorber
 Lorber's
@@ -309,6 +314,7 @@ Sucipto
 sunsetting
 Supabase
 supabase
+superproject
 svgs
 swizzlable
 Sébastien
@@ -330,11 +336,11 @@ twoslash
 typesafe
 Typesense
 typesense
+Udeadbeefcafe
 Unavatar
 unlinkable
 Unlisteds
 unlisteds
-Unlocalized
 unlocalized
 unswizzle
 upvotes

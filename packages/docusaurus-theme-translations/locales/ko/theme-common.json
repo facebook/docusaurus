@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "사이드바 분류 '{label}' 펼치기",
   "theme.ErrorPageContent.title": "페이지에 오류가 발생하였습니다.",
   "theme.ErrorPageContent.tryAgain": "다시 시도해 보세요",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "메인",
   "theme.NotFound.p1": "원하는 페이지를 찾을 수 없습니다.",
   "theme.NotFound.p2": "사이트 관리자에게 링크가 깨진 것을 알려주세요.",

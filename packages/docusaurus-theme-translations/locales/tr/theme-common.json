@@ -9,6 +9,7 @@
   "theme.DocSidebarItem.expandCategoryAriaLabel": "Kenar çubuğu kategorisini genişlet '{label}'",
   "theme.ErrorPageContent.title": "Bu sayfa çöktü.",
   "theme.ErrorPageContent.tryAgain": "Tekrar deneyin",
+  "theme.IconExternalLink.ariaLabel": "(opens in new tab)",
   "theme.NavBar.navAriaLabel": "Ana menü",
   "theme.NotFound.p1": "Aradığınız şeyi bulamadık.",
   "theme.NotFound.p2": "Lütfen sizi orijinal URL'ye yönlendiren sitenin sahibiyle iletişime geçin ve bağlantısının bozuk olduğunu bildirin.",

@@ -30,6 +30,9 @@ export default createRule<Options, MessageIds>({
         properties: {
           ignoredStrings: {
             type: 'array',
+            items: {
+              type: 'string',
+            },
           },
         },
         additionalProperties: false,
