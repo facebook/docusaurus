@@ -267,9 +267,7 @@ function getSidebarBreadcrumbs({
     return false;
   }
 
-  // We use a two-pass approach:
-  // - First pass: Only look for categories that directly own the URL
-  // - Second pass: If not found, look for links (to support doc pages)
+  // We use a two-pass approach
   // See why here: https://github.com/facebook/docusaurus/issues/11612
   extractCategory(sidebarItems) || extract(sidebarItems);
 
