@@ -234,42 +234,32 @@ function getSidebarBreadcrumbs({
 }): PropSidebarBreadcrumbsItem[] {
   const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
 
-  function extractCategory(items: PropSidebarItem[]): boolean {
+  function extract(items: PropSidebarItem[]): boolean {
     for (const item of items) {
+      // Extract category item
       if (item.type === 'category') {
-        if (isSamePath(item.href, pathname)) {
-          breadcrumbs.unshift(item);
-          return true;
-        }
-        if (extractCategory(item.items)) {
+        if (isSamePath(item.href, pathname) || extract(item.items)) {
           breadcrumbs.unshift(item);
           return true;
         }
       }
-    }
-    return false;
-  }
-
-  function extract(items: PropSidebarItem[]): boolean {
-    for (const item of items) {
-      if (
-        (item.type === 'category' &&
-          (isSamePath(item.href, pathname) || extract(item.items))) ||
-        (item.type === 'link' && isSamePath(item.href, pathname))
+      // Extract doc item
+      else if (
+        item.type === 'link' &&
+        item.docId &&
+        isSamePath(item.href, pathname)
       ) {
-        const filtered = onlyCategories && item.type !== 'category';
-        if (!filtered) {
+        if (!onlyCategories) {
           breadcrumbs.unshift(item);
         }
         return true;
       }
     }
+
     return false;
   }
 
-  // We use a two-pass approach
-  // See why here: https://github.com/facebook/docusaurus/issues/11612
-  extractCategory(sidebarItems) || extract(sidebarItems);
+  extract(sidebarItems);
 
   return breadcrumbs;
 }
