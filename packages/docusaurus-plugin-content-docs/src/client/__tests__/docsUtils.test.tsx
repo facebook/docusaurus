@@ -657,6 +657,35 @@ describe('useSidebarBreadcrumbs', () => {
       createUseSidebarBreadcrumbsMock(undefined, false)('/foo'),
     ).toBeNull();
   });
+
+  // Regression test for https://github.com/facebook/docusaurus/issues/11612
+  it('returns the category that owns the URL, not a category with a link pointing to it', () => {
+    const categoryA: PropSidebarItemCategory = testCategory({
+      label: 'Category A',
+      href: '/category-a',
+      items: [
+        testLink({href: '/category-a/doc1', label: 'Doc 1'}),
+        testLink({href: '/category-a/doc2', label: 'Doc 2'}),
+        // This link points to Category B's generated-index
+        testLink({href: '/category-b', label: 'Go to Category B'}),
+      ],
+    });
+
+    const categoryB: PropSidebarItemCategory = testCategory({
+      label: 'Category B',
+      href: '/category-b',
+      items: [
+        testLink({href: '/category-b/item1', label: 'Item 1'}),
+        testLink({href: '/category-b/item2', label: 'Item 2'}),
+      ],
+    });
+
+    const sidebar: PropSidebar = [categoryA, categoryB];
+
+    expect(createUseSidebarBreadcrumbsMock(sidebar)('/category-b')).toEqual([
+      categoryB,
+    ]);
+  });
 });
 
 describe('useCurrentSidebarCategory', () => {
@@ -782,21 +811,7 @@ describe('useCurrentSidebarCategory', () => {
   });
 
   // Regression test for https://github.com/facebook/docusaurus/issues/11612
-  // When a link in Category A points to a generated-index URL owned by
-  // Category B, useCurrentSidebarCategory should return Category B (the owner),
-  // not Category A (which merely has a link pointing to it).
   it('returns the category that owns the URL, not a category with a link pointing to it', () => {
-    // Category B is the actual owner of /category-b (its generated-index href)
-    const categoryB: PropSidebarItemCategory = testCategory({
-      label: 'Category B',
-      href: '/category-b',
-      items: [
-        testLink({href: '/category-b/item1', label: 'Item 1'}),
-        testLink({href: '/category-b/item2', label: 'Item 2'}),
-      ],
-    });
-
-    // Category A contains a link that points to Category B's URL
     const categoryA: PropSidebarItemCategory = testCategory({
       label: 'Category A',
       href: '/category-a',
@@ -805,6 +820,15 @@ describe('useCurrentSidebarCategory', () => {
         testLink({href: '/category-a/doc2', label: 'Doc 2'}),
         // This link points to Category B's generated-index
         testLink({href: '/category-b', label: 'Go to Category B'}),
+      ],
+    });
+
+    const categoryB: PropSidebarItemCategory = testCategory({
+      label: 'Category B',
+      href: '/category-b',
+      items: [
+        testLink({href: '/category-b/item1', label: 'Item 1'}),
+        testLink({href: '/category-b/item2', label: 'Item 2'}),
       ],
     });
 
