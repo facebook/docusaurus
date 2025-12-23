@@ -14,6 +14,7 @@ import {
   type NodePath,
   type TransformOptions,
 } from '@babel/core';
+import {logger} from '@docusaurus/logger';
 import type {TranslationFileContent} from '@docusaurus/types';
 
 export type SourceCodeFileTranslations = {
@@ -56,7 +57,7 @@ export async function extractSourceCodeFileTranslations(
     return translations;
   } catch (err) {
     throw new Error(
-      `Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}.`,
+      logger.interpolate`Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}.`,
       {cause: err as Error},
     );
   }
