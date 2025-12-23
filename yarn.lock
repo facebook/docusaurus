@@ -2079,7 +2079,7 @@
   resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-4.4.0.tgz#b8eebd21a1f79720bf037fda5242b910367f157e"
   integrity sha512-e9vPgtih6fkawakmYo0Y6V4BKBmDV7Ykudn7ADWXUs5b6pmtBRwDbpSG/WiaUG63G28OkJDEnsMvgIAnZgGwYw==
 
-"@docsearch/react@^3.9.0 || ^4.4.0":
+"@docsearch/react@^3.9.0 || ^4.3.2":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-4.4.0.tgz#f69bd533305a07247f4850ee74af11e784b99658"
   integrity sha512-z12zeg1mV7WD4Ag4pKSuGukETJLaucVFwszDXL/qLaEgRqxEaVacO9SR1qqnCXvZztlvz2rt7cMqryi/7sKfjA==
