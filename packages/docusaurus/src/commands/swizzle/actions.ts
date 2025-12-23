@@ -77,8 +77,6 @@ export async function eject({
     ]),
   });
 
-  console.log('eject', componentName, {filesToCopy});
-
   if (filesToCopy.length === 0) {
     // This should never happen
     throw new Error(
