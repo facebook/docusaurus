@@ -234,15 +234,22 @@ function getSidebarBreadcrumbs({
 }): PropSidebarBreadcrumbsItem[] {
   const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
 
-  function extract(items: PropSidebarItem[]) {
+  function extract(items: PropSidebarItem[]): boolean {
     for (const item of items) {
-      if (
-        (item.type === 'category' &&
-          (isSamePath(item.href, pathname) || extract(item.items))) ||
-        (item.type === 'link' && isSamePath(item.href, pathname))
+      // Extract category item
+      if (item.type === 'category') {
+        if (isSamePath(item.href, pathname) || extract(item.items)) {
+          breadcrumbs.unshift(item);
+          return true;
+        }
+      }
+      // Extract doc item
+      else if (
+        item.type === 'link' &&
+        item.docId &&
+        isSamePath(item.href, pathname)
       ) {
-        const filtered = onlyCategories && item.type !== 'category';
-        if (!filtered) {
+        if (!onlyCategories) {
           breadcrumbs.unshift(item);
         }
         return true;
