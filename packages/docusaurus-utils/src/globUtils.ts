@@ -136,6 +136,8 @@ export const isTranslatableSourceFile: (filePath: string) => boolean = (() => {
 export async function globTranslatableSourceFiles(
   patterns: string[],
 ): Promise<string[]> {
-  const filePaths = await safeGlobby(patterns);
+  const filePaths = await safeGlobby(patterns, {
+    absolute: true,
+  });
   return filePaths.filter(isTranslatableSourceFile);
 }
