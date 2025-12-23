@@ -66,6 +66,9 @@ function normalizePaths<T>(value: T): T {
 
   const cwd = process.cwd();
   const cwdReal = getRealPath(cwd);
+  console.log('CWD:', cwd);
+  console.log('CWD Real:', cwdReal);
+
   const tempDir = os.tmpdir();
   const tempDirReal = getRealPath(tempDir);
   const homeDir = os.homedir();
