@@ -50,14 +50,14 @@ jobs:
           path: website/build
 
       #- name: Upload Website Pages artifact
-      #  uses: actions/upload-pages-artifact@v4
+      #  uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
       #  with:
       #    path: website/build
 
       # Deploy to https://facebook.github.io/docusaurus/
       - name: Deploy to GitHub Pages
         if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: website/build
@@ -81,4 +81,4 @@ jobs:
   #  steps:
   #     - name: Deploy to GitHub Pages
   #      id: deployment
-  #      uses: actions/deploy-pages@v4
+  #      uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5

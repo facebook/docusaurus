@@ -48,7 +48,7 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Track build size changes
-        uses: preactjs/compressed-size-action@946a292cd35bd1088e0d7eb92b69d1a8d5b5d76a # v2
+        uses: preactjs/compressed-size-action@8518045ed95e94e971b83333085e1cb99aa18aa8 # v2.9.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           build-script: build:website:fast
