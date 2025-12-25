@@ -68,7 +68,8 @@ export async function readVersionDocs(
 ): Promise<DocFile[]> {
   const sources = await Globby(options.include, {
     cwd: versionMetadata.contentPath,
-    ignore: options.exclude,
+    // THE FIX: Transform simple folder names into recursive glob patterns
+    ignore: options.exclude.flatMap((pattern) => [pattern, `${pattern}/**`]),
   });
   return Promise.all(
     sources.map((source) => readDocFile(versionMetadata, source)),
