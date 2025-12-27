@@ -368,6 +368,13 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The component used to render <img> tags and Markdown images in MDX',
       },
+      'MDXComponents/Li': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The component used to render <li> tags in MDX',
+      },
       'MDXComponents/Pre': {
         actions: {
           eject: 'safe',
