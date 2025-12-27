@@ -220,6 +220,21 @@ Import the project into Vercel using the [Import Flow](https://vercel.com/import
 
 After your project has been imported, all subsequent pushes to branches will generate [Preview Deployments](https://vercel.com/docs/platform/deployments#preview), and all changes made to the [Production Branch](https://vercel.com/docs/git-integrations#production-branch) (usually "main" or "master") will result in a [Production Deployment](https://vercel.com/docs/platform/deployments#production).
 
+:::tip Using `showLastUpdateTime`
+
+If you use [`showLastUpdateTime`](api/plugins/plugin-content-docs.mdx#showLastUpdateTime), you may notice incorrect dates when deploying to Vercel because it uses [shallow clones](https://vercel.com/docs/deployments/configure-a-build#build-container) by default.
+
+To fix this, add the following [environment variable](https://vercel.com/docs/projects/environment-variables) to your Vercel project settings:
+
+| Variable             | Value  |
+| -------------------- | ------ |
+| `VERCEL_DEEP_CLONE`  | `true` |
+
+This enables deep cloning, allowing Docusaurus to access the full Git history and display accurate last update timestamps.
+
+:::
+
+
 ## Deploying to GitHub Pages {#deploying-to-github-pages}
 
 Docusaurus provides an easy way to publish to [GitHub Pages](https://pages.github.com/), which comes free with every GitHub repository.
