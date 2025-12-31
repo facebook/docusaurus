@@ -2069,25 +2069,25 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
-"@docsearch/core@4.3.1":
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/@docsearch/core/-/core-4.3.1.tgz#88a97a6fe4d4025269b6dee8b9d070b76758ad82"
-  integrity sha512-ktVbkePE+2h9RwqCUMbWXOoebFyDOxHqImAqfs+lC8yOU+XwEW4jgvHGJK079deTeHtdhUNj0PXHSnhJINvHzQ==
+"@docsearch/core@4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@docsearch/core/-/core-4.4.0.tgz#206c0df38ee08cf0d6e33c4eaee140706931b311"
+  integrity sha512-kiwNo5KEndOnrf5Kq/e5+D9NBMCFgNsDoRpKQJ9o/xnSlheh6b8AXppMuuUVVdAUIhIfQFk/07VLjjk/fYyKmw==
 
-"@docsearch/css@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-4.3.2.tgz#d47d25336c9516b419245fa74e8dd5ae84a17492"
-  integrity sha512-K3Yhay9MgkBjJJ0WEL5MxnACModX9xuNt3UlQQkDEDZJZ0+aeWKtOkxHNndMRkMBnHdYvQjxkm6mdlneOtU1IQ==
+"@docsearch/css@4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-4.4.0.tgz#b8eebd21a1f79720bf037fda5242b910367f157e"
+  integrity sha512-e9vPgtih6fkawakmYo0Y6V4BKBmDV7Ykudn7ADWXUs5b6pmtBRwDbpSG/WiaUG63G28OkJDEnsMvgIAnZgGwYw==
 
 "@docsearch/react@^3.9.0 || ^4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-4.3.2.tgz#450b8341cb5cca03737a00075d4dfd3a904a3e3e"
-  integrity sha512-74SFD6WluwvgsOPqifYOviEEVwDxslxfhakTlra+JviaNcs7KK/rjsPj89kVEoQc9FUxRkAofaJnHIR7pb4TSQ==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@docsearch/react/-/react-4.4.0.tgz#f69bd533305a07247f4850ee74af11e784b99658"
+  integrity sha512-z12zeg1mV7WD4Ag4pKSuGukETJLaucVFwszDXL/qLaEgRqxEaVacO9SR1qqnCXvZztlvz2rt7cMqryi/7sKfjA==
   dependencies:
     "@ai-sdk/react" "^2.0.30"
     "@algolia/autocomplete-core" "1.19.2"
-    "@docsearch/core" "4.3.1"
-    "@docsearch/css" "4.3.2"
+    "@docsearch/core" "4.4.0"
+    "@docsearch/css" "4.4.0"
     ai "^5.0.30"
     algoliasearch "^5.28.0"
     marked "^16.3.0"

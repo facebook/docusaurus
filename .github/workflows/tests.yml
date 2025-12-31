@@ -9,6 +9,7 @@ on:
       - package.json
       - yarn.lock
       - jest.config.mjs
+      - jest/**
       - packages/**
       - tsconfig.*.json
       - .github/workflows/tests.yml

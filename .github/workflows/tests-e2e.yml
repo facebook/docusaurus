@@ -9,6 +9,7 @@ on:
       - package.json
       - yarn.lock
       - jest.config.mjs
+      - jest/**
       - packages/**
       - tsconfig.*.json
   pull_request:
@@ -19,6 +20,7 @@ on:
       - package.json
       - yarn.lock
       - jest.config.mjs
+      - jest/**
       - packages/**
       - tsconfig.*.json
       - admin/verdaccio.yaml
