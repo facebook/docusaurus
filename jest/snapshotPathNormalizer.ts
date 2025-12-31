@@ -70,13 +70,6 @@ function normalizePaths<T>(value: T): T {
   const homeRelativeToTemp = path.relative(tempDir, homeDir);
 
   const runner: ((val: string) => string)[] = [
-    // Remove win32 drive letters, C:\ -> \
-    (val) => val.replace(/[a-zA-Z]:\\/g, '\\'),
-
-    // Convert win32 backslash's to forward slashes, \ -> /;
-    // ignore some that look like escape sequences.
-    (val) => val.replace(/\\(?!")/g, '/'),
-
     (val) => (val.includes('keepAnsi') ? val : stripAnsi(val)),
     // Replace process.cwd with <PROJECT_ROOT>
     (val) => val.split(cwd).join('<PROJECT_ROOT>'),
@@ -104,6 +97,10 @@ function normalizePaths<T>(value: T): T {
 
     // Remove duplicate backslashes created from escapePath
     (val) => val.replace(/\\\\/g, '\\'),
+
+    // Convert win32 backslash's to forward slashes, \ -> /;
+    // ignore some that look like escape sequences.
+    (val) => val.replace(/\\(?!")/g, '/'),
   ];
 
   let result = value as string;
