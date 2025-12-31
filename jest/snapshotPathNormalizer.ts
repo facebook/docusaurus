@@ -10,7 +10,6 @@
 
 import os from 'os';
 import path from 'path';
-import fs from 'fs';
 import _ from 'lodash';
 import {escapePath} from '@docusaurus/utils';
 import {version} from '@docusaurus/core/package.json';
@@ -65,47 +64,26 @@ function normalizePaths<T>(value: T): T {
   }
 
   const cwd = process.cwd();
-  const cwdReal = getRealPath(cwd);
   const tempDir = os.tmpdir();
-  const tempDirReal = getRealPath(tempDir);
   const homeDir = os.homedir();
-  const homeDirReal = getRealPath(homeDir);
 
   const homeRelativeToTemp = path.relative(tempDir, homeDir);
-  const homeRelativeToTempReal = path.relative(tempDirReal, homeDir);
-  const homeRealRelativeToTempReal = path.relative(tempDirReal, homeDirReal);
-  const homeRealRelativeToTemp = path.relative(tempDir, homeDirReal);
 
   const runner: ((val: string) => string)[] = [
     (val) => (val.includes('keepAnsi') ? val : stripAnsi(val)),
     // Replace process.cwd with <PROJECT_ROOT>
-    (val) => val.split(cwdReal).join('<PROJECT_ROOT>'),
     (val) => val.split(cwd).join('<PROJECT_ROOT>'),
 
     // Replace temp directory with <TEMP_DIR>
-    (val) => val.split(tempDirReal).join('<TEMP_DIR>'),
     (val) => val.split(tempDir).join('<TEMP_DIR>'),
 
     // Replace home directory with <HOME_DIR>
-    (val) => val.split(homeDirReal).join('<HOME_DIR>'),
     (val) => val.split(homeDir).join('<HOME_DIR>'),
 
     // Handle HOME_DIR nested inside TEMP_DIR
     (val) =>
       val
         .split(`<TEMP_DIR>${path.sep + homeRelativeToTemp}`)
-        .join('<HOME_DIR>'),
-    (val) =>
-      val
-        .split(`<TEMP_DIR>${path.sep + homeRelativeToTempReal}`)
-        .join('<HOME_DIR>'),
-    (val) =>
-      val
-        .split(`<TEMP_DIR>${path.sep + homeRealRelativeToTempReal}`)
-        .join('<HOME_DIR>'),
-    (val) =>
-      val
-        .split(`<TEMP_DIR>${path.sep + homeRealRelativeToTemp}`)
         .join('<HOME_DIR>'),
 
     // Replace the Docusaurus version with a stub
@@ -135,14 +113,4 @@ function normalizePaths<T>(value: T): T {
 
 function shouldUpdate(value: unknown) {
   return typeof value === 'string' && normalizePaths(value) !== value;
-}
-
-function getRealPath(pathname: string) {
-  try {
-    // eslint-disable-next-line no-restricted-properties
-    const realPath = fs.realpathSync(pathname);
-    return realPath;
-  } catch (err) {
-    return pathname;
-  }
 }
