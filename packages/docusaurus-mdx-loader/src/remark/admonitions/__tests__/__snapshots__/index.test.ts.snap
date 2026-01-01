@@ -11,6 +11,11 @@ exports[`admonitions remark plugin add custom keyword 1`] = `
 <p>++++</p>"
 `;
 
+exports[`admonitions remark plugin attributes 1`] = `
+"<p>Admonitions with attributes</p>
+<admonition title="Info Title" class="bold" type="info"><p>An info admonition with a className attribute.</p></admonition>"
+`;
+
 exports[`admonitions remark plugin base 1`] = `
 "<p>The blog feature enables you to deploy in no time a full-featured blog.</p>
 <admonition title="Sample Title" type="info"><p>Check the <a href="./api/plugins/plugin-content-blog.md">Blog Plugin API Reference documentation</a> for an exhaustive list of options.</p></admonition>
