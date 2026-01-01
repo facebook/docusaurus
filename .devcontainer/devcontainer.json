@@ -33,5 +33,6 @@
       "version": "22"
     },
     "github-cli": "latest"
-  }
+  },
+  "runArgs": ["--network=host"]
 }
