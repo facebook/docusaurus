@@ -18,7 +18,7 @@ describe('extractThemeCodeMessages', () => {
       Some warnings were found!
 
       Translate content could not be extracted. It has to be a static string and use optional but static props, like <Translate id="my-id" description="my-description">text</Translate>.
-      File: <PROJECT_ROOT>/packages/docusaurus-theme-translations/src/__tests__/__fixtures__/theme/index.js at line 4
+      File: packages/docusaurus-theme-translations/src/__tests__/__fixtures__/theme/index.js at line 4
       Full code: <Translate>{index}</Translate>
       "
     `);
