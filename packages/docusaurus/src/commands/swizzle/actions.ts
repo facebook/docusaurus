@@ -63,9 +63,9 @@ export async function eject({
 
   const filesToCopy = await Globby(globPatternPosix, {
     // Workaround for Tinyglobby bug?
-    // We glob from the repo root, not from the website dir
+    // We glob absolute from the theme root path, not from cwd
     // See https://github.com/SuperchupuDev/tinyglobby/issues/186
-    cwd: path.join(process.cwd(), '..'),
+    cwd: themePath,
     absolute: true,
 
     ignore: _.compact([
