@@ -17,7 +17,6 @@ async function createTmpDir() {
   const {path: siteDirPath} = await tmp.dir({
     prefix: 'jest-createTmpSiteDir',
   });
-  console.log(`Created temporary directory at ${siteDirPath}`);
   return siteDirPath;
 }
 
