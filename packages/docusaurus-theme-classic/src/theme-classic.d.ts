@@ -48,6 +48,7 @@ declare module '@theme/Admonition' {
     readonly icon?: ReactNode;
     readonly title?: ReactNode;
     readonly className?: string;
+    readonly id?: string;
   }
 
   export default function Admonition(props: Props): ReactNode;
@@ -123,6 +124,7 @@ declare module '@theme/Admonition/Layout' {
     readonly icon?: ReactNode;
     readonly title?: ReactNode;
     readonly className?: string;
+    readonly id?: string;
   }
   export default function AdmonitionLayout(props: Props): ReactNode;
 }

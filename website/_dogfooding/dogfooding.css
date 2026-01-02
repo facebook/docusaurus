@@ -27,7 +27,8 @@ html {
 
       .shadow {
         --shadow-color: red;
-        box-shadow: 10px 10px 10px var(--shadow-color);
+        --shadow-size: 10px;
+        box-shadow: 10px 10px var(--shadow-size) var(--shadow-color);
 
         &.blue {
           --shadow-color: blue;
