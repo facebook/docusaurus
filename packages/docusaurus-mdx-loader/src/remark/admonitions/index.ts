@@ -99,6 +99,15 @@ const plugin: Plugin<Partial<AdmonitionOptions>[], Root> = function plugin(
           node.attributes?.title ??
           (directiveLabel ? getTextOnlyTitle(directiveLabel) : undefined);
 
+        // Convert 'class' attribute to 'className' for React compatibility
+        const attributes = node.attributes
+          ? Object.fromEntries(
+              Object.entries(node.attributes).map(([key, value]) => [
+                key === 'class' ? 'className' : key,
+                value,
+              ]),
+            )
+          : {};
         // Transform the mdast directive node to a hast admonition node
         // See https://github.com/syntax-tree/mdast-util-to-hast#fields-on-nodes
         // TODO in MDX v2 we should transform the whole directive to
@@ -107,7 +116,7 @@ const plugin: Plugin<Partial<AdmonitionOptions>[], Root> = function plugin(
           hName: 'admonition',
           hProperties: {
             ...(textOnlyTitle && {title: textOnlyTitle}),
-            ...(node.attributes?.class && {className: node.attributes.class}),
+            ...attributes,
             type: node.name,
           },
         };
