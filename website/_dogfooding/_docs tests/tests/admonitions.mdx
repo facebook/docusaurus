@@ -54,11 +54,66 @@ import InfoIcon from "@theme/Admonition/Icon/Info"
 </Admonition>
 ```
 
-## Admonitions with classes
+## Admonitions with attributes
+
+<details>
+<summary>Relevant CSS for this section</summary>
+
+```css title="dogfooding.css"
+/* ... */
+.shadow {
+  --shadow-color: red;
+  box-shadow: 10px 10px 10px var(--shadow-color);
+
+  &.blue {
+    --shadow-color: blue;
+  }
+}
+
+#info-1 {
+  border: solid 2px blue;
+}
+
+#info-2 {
+  border: solid 2px green;
+}
+```
+
+</details>
+
+### Classes
 
 :::info{.shadow}
 
 The class `shadow` was added by writing `:::info{.shadow}`.
+
+:::
+
+:::info{.shadow .blue}
+
+The class `shadow` and `blue` were added by writing `:::info{.shadow .blue}`.
+
+:::
+
+### Ids
+
+:::info{#info-1}
+
+The id `info-1` was added by writing `:::{#info-1}`
+
+:::
+
+:::info{#info-3 #info-1 #info-2}
+
+The last provided id `info-2` wins when writing `:::{#info-3 #info-1 #info-2}`
+
+:::
+
+### Combination
+
+:::info{.shadow #info-4 .blue #info-2 hello=world}
+
+Multiple Classes, Ids and attributes: `:::info{.shadow #id1 .blue #id2 hello=world}`. `hello` is passed to the admonition component, but not further used, so ignored in the output.
 
 :::
 
@@ -155,3 +210,7 @@ success
 caution
 
 :::
+
+```
+
+```
