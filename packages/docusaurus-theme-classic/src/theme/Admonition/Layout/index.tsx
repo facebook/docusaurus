@@ -17,7 +17,7 @@ function AdmonitionContainer({
   type,
   className,
   children,
-  ...optional
+  id,
 }: Pick<Props, 'type' | 'className' | 'id'> & {children: ReactNode}) {
   return (
     <div
@@ -27,7 +27,7 @@ function AdmonitionContainer({
         styles.admonition,
         className,
       )}
-      {...optional}>
+      id={id}>
       {children}
     </div>
   );
@@ -49,9 +49,9 @@ function AdmonitionContent({children}: Pick<Props, 'children'>) {
 }
 
 export default function AdmonitionLayout(props: Props): ReactNode {
-  const {type, icon, title, children, className, ...optional} = props;
+  const {type, icon, title, children, className, id} = props;
   return (
-    <AdmonitionContainer type={type} className={className} {...optional}>
+    <AdmonitionContainer type={type} className={className} id={id}>
       {title || icon ? <AdmonitionHeading title={title} icon={icon} /> : null}
       <AdmonitionContent>{children}</AdmonitionContent>
     </AdmonitionContainer>
