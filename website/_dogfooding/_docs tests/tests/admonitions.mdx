@@ -63,8 +63,7 @@ import InfoIcon from "@theme/Admonition/Icon/Info"
 /* ... */
 .shadow {
   --shadow-color: red;
-  --shadow-size: 10px;
-  box-shadow: 10px 10px var(--shadow-size) var(--shadow-color);
+  box-shadow: 10px 10px 10px var(--shadow-color);
 
   &.blue {
     --shadow-color: blue;
@@ -112,9 +111,9 @@ The last provided id `info-2` wins when writing `:::{#info-3 #info-1 #info-2}`
 
 ### Combination
 
-:::info{.shadow #info-4 .blue #info-2 style="--shadow-size:5px"}
+:::info{.shadow #info-4 .blue #info-2}
 
-Multiple Classes, Ids and attributes: `:::info{.shadow #id1 .blue #id2 style="--shadow-size:5px"}`.
+Multiple classes and ids: `{.shadow #info-4 .blue #info-2}`.
 
 :::
 
@@ -211,7 +210,3 @@ success
 caution
 
 :::
-
-```
-
-```
