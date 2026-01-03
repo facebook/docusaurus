@@ -27,8 +27,7 @@ html {
 
       .shadow {
         --shadow-color: red;
-        --shadow-size: 10px;
-        box-shadow: 10px 10px var(--shadow-size) var(--shadow-color);
+        box-shadow: 10px 10px 10px var(--shadow-color);
 
         &.blue {
           --shadow-color: blue;
@@ -41,6 +40,10 @@ html {
 
       #info-2 {
         border: solid 2px green;
+      }
+
+      #info-3 {
+        border: solid 2px red;
       }
 
       .dogfood_sidebar_class_name_test {

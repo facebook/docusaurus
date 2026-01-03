@@ -131,12 +131,12 @@ Some **content** with some _Markdown_ `syntax`.
 
 ## Specifying attributes {#specifying-attributes}
 
-You may also provide optional attributes such as classes, IDs, or even inline styles. This feature is enabled by attribute parsing from remark-directives , where only text values are supported—no React syntax or evaluated expressions are allowed.
+You may also provide classes or IDs to admonitions.
 
 ```md
-:::note[With css classes]{.shadow--tl .text--italic}
+:::note[With css classes]{.padding--lg .text--italic}
 
-Note the box shadow and the italicized text.
+Note the padding and the italicized text.
 
 :::
 
@@ -146,15 +146,9 @@ You can link to [this admonition](#admonition-id).
 
 :::
 
-:::note[Style Attribute]{style="--ifm-alert-border-color:gold"}
+:::note{.padding--lg #admonition-id-2}
 
-Only html attributes are supported - react syntax won't work.
-
-:::
-
-:::note{.shadow--tl #admonition-id-2 style="--ifm-alert-border-color:teal"}
-
-Combine multiple attributes together.
+Use id and classes together.
 
 :::
 ```
@@ -162,9 +156,9 @@ Combine multiple attributes together.
 ```mdx-code-block
 <BrowserWindow>
 
-:::note[With css classes]{.shadow--tl .text--italic}
+:::note[With css classes]{.padding--lg .text--italic}
 
-Note the box shadow and the italicized text.
+Note the padding and the italicized text.
 
 :::
 
@@ -174,15 +168,9 @@ You can link to [this admonition](#admonition-id).
 
 :::
 
-:::note[Style Attribute]{style="--ifm-alert-border-color:gold"}
+:::note{.padding--lg #admonition-id-2}
 
-Only html attributes are supported - react syntax won't work.
-
-:::
-
-:::note{.shadow--tl #admonition-id-2 style="--ifm-alert-border-color:teal"}
-
-Combine multiple attributes together.
+Use id and classes together.
 
 :::
 
