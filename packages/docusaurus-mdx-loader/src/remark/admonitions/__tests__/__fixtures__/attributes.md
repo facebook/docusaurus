@@ -17,5 +17,5 @@ An info admonition with both id and className attributes.
 :::
 
 :::info{.c1 #id1 .c2 #id2 hello=world}
-An info admonition with multiple attributes.
+Arbitrary attributes are ignored.
 :::
