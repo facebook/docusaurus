@@ -13,12 +13,6 @@
   font: var(--ifm-heading-font-weight) var(--ifm-h5-font-size) /
     var(--ifm-heading-line-height) var(--ifm-heading-font-family);
   text-transform: uppercase;
-
-  .admonitionHeadingLink {
-    display: inline-block;
-    --ifm-heading-margin-top: 0;
-    --ifm-heading-margin-bottom: 0;
-  }
 }
 
 /* Heading alone without content (does not handle fragment content) */

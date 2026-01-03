@@ -10,7 +10,6 @@ import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 
 import type {Props} from '@theme/Admonition/Layout';
-import Heading from '@theme/Heading';
 
 import styles from './styles.module.css';
 
@@ -34,21 +33,11 @@ function AdmonitionContainer({
   );
 }
 
-function AdmonitionHeading({
-  icon,
-  title,
-  id,
-}: Pick<Props, 'icon' | 'title' | 'id'>) {
+function AdmonitionHeading({icon, title}: Pick<Props, 'icon' | 'title'>) {
   return (
     <div className={styles.admonitionHeading}>
       <span className={styles.admonitionIcon}>{icon}</span>
-      {id ? (
-        <Heading as="h5" id={id} className={styles.admonitionHeadingLink}>
-          {title}
-        </Heading>
-      ) : (
-        title
-      )}
+      {title}
     </div>
   );
 }
@@ -60,17 +49,10 @@ function AdmonitionContent({children}: Pick<Props, 'children'>) {
 }
 
 export default function AdmonitionLayout(props: Props): ReactNode {
-  const {type, icon, title, children, className, id, ...optional} = props;
-  const hasHeading = !!(title || icon);
+  const {type, icon, title, children, className, ...optional} = props;
   return (
-    <AdmonitionContainer
-      type={type}
-      className={className}
-      id={hasHeading ? undefined : id}
-      {...optional}>
-      {hasHeading ? (
-        <AdmonitionHeading title={title} icon={icon} id={id} />
-      ) : null}
+    <AdmonitionContainer type={type} className={className} {...optional}>
+      {title || icon ? <AdmonitionHeading title={title} icon={icon} /> : null}
       <AdmonitionContent>{children}</AdmonitionContent>
     </AdmonitionContainer>
   );
