@@ -129,6 +129,54 @@ Some **content** with some _Markdown_ `syntax`.
 </BrowserWindow>
 ```
 
+## Specifying attributes {#specifying-attributes}
+
+You may also provide classes or IDs to admonitions.
+
+```md
+:::note[With css classes]{.padding--lg .text--italic}
+
+Note the padding and the italicized text.
+
+:::
+
+:::note{#admonition-id}
+
+The admonition container has now the id `admonition-id`.
+
+:::
+
+:::note{.padding--lg #admonition-id-2}
+
+Use id and classes together.
+
+:::
+```
+
+```mdx-code-block
+<BrowserWindow>
+
+:::note[With css classes]{.padding--lg .text--italic}
+
+Note the padding and the italicized text.
+
+:::
+
+:::note{#admonition-id}
+
+The admonition container has now the id `admonition-id`.
+
+:::
+
+:::note{.padding--lg #admonition-id-2}
+
+Use id and classes together.
+
+:::
+
+</BrowserWindow>
+```
+
 ## Nested admonitions {#nested-admonitions}
 
 Admonitions can be nested. Use more colons `:` for each parent admonition level.

@@ -25,6 +25,27 @@ html {
         border-bottom: solid thin cyan;
       }
 
+      .shadow {
+        --shadow-color: red;
+        box-shadow: 10px 10px 10px var(--shadow-color);
+
+        &.blue {
+          --shadow-color: blue;
+        }
+      }
+
+      #info-1 {
+        border: solid 2px blue;
+      }
+
+      #info-2 {
+        border: solid 2px green;
+      }
+
+      #info-3 {
+        border: solid 2px red;
+      }
+
       .dogfood_sidebar_class_name_test {
         &.theme-doc-sidebar-item-link > a {
           color: cyan;
