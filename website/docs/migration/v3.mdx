@@ -284,7 +284,7 @@ http://localhost:3000
 
 #### Lower-case MDXComponent mapping
 
-For users providing a [custom `MDXComponent`mapping](../guides/markdown-features/markdown-features-react.mdx#mdx-component-scope), components are now "sandboxed":
+For users providing a [custom `MDXComponent` mapping](../guides/markdown-features/markdown-features-react.mdx#mdx-component-scope), components are now "sandboxed":
 
 - a `MDXComponent` mapping for `h1` only gets used for `# hi` but not for `<h1>hi</h1>`
 - a **lower-cased** custom element name will not be substituted by its respective `MDXComponent` component anymore
@@ -492,7 +492,7 @@ If the offending emphasis mark is surrounded by both a punctuation character and
 <strong>「。」の後に文を続けると`**`が意図した動作をしません。</strong>また、<strong>[リンク](https://docusaurus.io/)</strong>や<strong>`コード`</strong>のすぐ外側に`**`、そのさらに外側に句読点以外がある場合も同様です。
 ```
 
-While not an ideal solution, you can also either of the following without converting the document to MDX:
+While not an ideal solution, you can also use either of the following without converting the document to MDX:
 
 - Move the most outside punctuation character out of the emphasis mark.
 
@@ -508,7 +508,7 @@ While not an ideal solution, you can also either of the following without conver
   **「。」の後に文を続けると`**`が意図した動作をしません。** また、**[リンク](https://docusaurus.io/)** や **`コード`** のすぐ外側に`**`、そのさらに外側に句読点以外がある場合も同様です。
   ```
 
-A unofficial remark plugin [remark-cjk-friendly](https://www.npmjs.com/package/remark-cjk-friendly) can fix this issue in most cases without modifying the Markdown source written in Chinese, Japanese, and Korean like the above.
+An unofficial remark plugin [remark-cjk-friendly](https://www.npmjs.com/package/remark-cjk-friendly) can fix this issue in most cases without modifying the Markdown source written in Chinese, Japanese, and Korean like the above.
 
 :::
 
@@ -604,7 +604,7 @@ React 18 comes with its own breaking changes that should be relatively easy to h
 
 :::info How to upgrade
 
-Read the official [React v18.0](https://react.dev/blog/2022/03/29/react-v18) and [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide), and look at your own React code to figure out which components might be affected this upgrade.
+Read the official [React v18.0](https://react.dev/blog/2022/03/29/react-v18) and [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide), and look at your own React code to figure out which components might be affected by this upgrade.
 
 We recommend to particularly look for:
 
@@ -653,7 +653,7 @@ The API to import themes in your Docusaurus config file has been updated:
 + const darkTheme = themes.dracula;
 ```
 
-Previously, `react-prism-render` v1 [included more languages by default](https://github.com/FormidableLabs/prism-react-renderer/blob/v1.3.5/src/vendor/prism/includeLangs.js). From v2.0+, [less languages are included by default](https://github.com/FormidableLabs/prism-react-renderer/blob/prism-react-renderer%402.1.0/packages/generate-prism-languages/index.ts#L9). You may need to add extra languages to your Docusaurus config:
+Previously, `react-prism-render` v1 [included more languages by default](https://github.com/FormidableLabs/prism-react-renderer/blob/v1.3.5/src/vendor/prism/includeLangs.js). From v2.0+, [fewer languages are included by default](https://github.com/FormidableLabs/prism-react-renderer/blob/prism-react-renderer%402.1.0/packages/generate-prism-languages/index.ts#L9). You may need to add extra languages to your Docusaurus config:
 
 ```js title="docusaurus.config.js"
 const siteConfig = {
@@ -778,7 +778,7 @@ This is a Docusaurus v2 `:::warning` admonition.
 
 :::
 
-However, the color and icon have always been wrong. Docusaurus v3 re-introduces `:::warning` admonition officially, documents it, and fix the color and icon.
+However, the color and icon have always been wrong. Docusaurus v3 re-introduces `:::warning` admonition officially, documents it, and fixes the color and icon.
 
 :::warning
 
