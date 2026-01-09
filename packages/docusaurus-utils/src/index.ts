@@ -37,7 +37,7 @@ export {
   getPluginI18nPath,
   getLocaleConfig,
 } from './i18nUtils';
-export {mapAsyncSequential, findAsyncSequential} from './jsUtils';
+export {mapAsyncSequential, findAsyncSequential, kebabCase} from './jsUtils';
 export {
   normalizeUrl,
   getEditUrl,

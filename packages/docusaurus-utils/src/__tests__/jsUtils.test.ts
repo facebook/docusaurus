@@ -7,7 +7,7 @@
 
 import {jest} from '@jest/globals';
 import _ from 'lodash';
-import {mapAsyncSequential, findAsyncSequential} from '../jsUtils';
+import {mapAsyncSequential, findAsyncSequential, kebabCase} from '../jsUtils';
 
 describe('mapAsyncSequential', () => {
   function sleep(timeout: number): Promise<void> {
@@ -78,5 +78,23 @@ describe('findAsyncSequential', () => {
     const timeTotal = timeAfter - timeBefore;
     expect(timeTotal).toBeGreaterThanOrEqual(600);
     expect(timeTotal).toBeLessThan(1000);
+  });
+});
+
+describe('kebabCase', () => {
+  it('conversion', () => {
+    const testCases: [string, string][] = [
+      ['Foo Bar', 'foo-bar'],
+      ['fooBar', 'foo-bar'],
+      ['__FOO_BAR__', 'foo-bar'],
+      ['XMLHttpRequest', 'xml-http-request'],
+      ['sitemapXML', 'sitemap-xml'],
+      ['XMLHttp', 'xml-http'],
+      ['xml-http', 'xml-http'],
+    ];
+
+    testCases.forEach(([input, expected]) => {
+      expect(kebabCase(input)).toEqual(expected);
+    });
   });
 });
