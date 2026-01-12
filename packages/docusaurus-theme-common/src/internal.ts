@@ -45,6 +45,7 @@ export {
   parseCodeBlockTitle,
   parseClassNameLanguage as parseLanguage,
   parseLines,
+  parseCodeLinesFromTokens,
   getLineNumbersStart,
   containsLineNumbers,
 } from './utils/codeBlockUtils';
