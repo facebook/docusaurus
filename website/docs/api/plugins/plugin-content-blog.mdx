@@ -63,7 +63,7 @@ Accepted fields:
 | `blogAuthorsListComponent` | `string` | `'@theme/Blog/Pages/BlogAuthorsListPage'` | Root component of the blog authors page index. |
 | `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
 | `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
-| `rehypePlugins` | `any[]` | `[]` | Recma plugins passed to MDX. |
+| `recmaPlugins` | `any[]` | `[]` | Recma plugins passed to MDX. |
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `truncateMarker` | `RegExp` | `/<!--\s*truncate\s*-->/` \| `\{\/\*\s*truncate\s*\*\/\}/` | Truncate marker marking where the summary ends. |
@@ -79,10 +79,10 @@ Accepted fields:
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
 | `feedOptions.xslt` | <code>boolean \| [FeedXSLTOptions](#FeedXSLTOptions)</code> | `undefined` | Permits to style the blog XML feeds with XSLT so that browsers render them nicely. |
 | `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
-| `sortPosts` | <code>'descending' \| 'ascending' </code> | `'descending'` | Governs the direction of blog post sorting. |
+| `sortPosts` | <code>'descending' \| 'ascending'</code> | `'descending'` | Governs the direction of blog post sorting. |
 | `processBlogPosts` | <code>[ProcessBlogPostsFn](#ProcessBlogPostsFn)</code> | `undefined` | An optional function which can be used to transform blog posts (filter, modify, delete, etc...). |
 | `showLastUpdateAuthor` | `boolean` | `false` | Whether to display the author who last updated the blog post. |
-| `showLastUpdateTime` | `boolean` | `false` | Whether to display the last date the blog post was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use`fetch-depth: 0`. |
+| `showLastUpdateTime` | `boolean` | `false` | Whether to display the last date the blog post was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use `fetch-depth: 0`. When deploying to Vercel, set the environment variable `VERCEL_DEEP_CLONE=true`. |
 | `tags` | `string \| false \| null \| undefined` | `tags.yml` | Path to the YAML tags file listing pre-defined tags. Relative to the blog content directory. |
 | `onInlineTags` | `'ignore' \| 'log' \| 'warn' \| 'throw'` | `warn` | The plugin behavior when blog posts contain inline tags (not appearing in the list of pre-defined tags, usually `tags.yml`). |
 | `onUntruncatedBlogPosts` | `'ignore' \| 'log' \| 'warn' \| 'throw'` | `warn` | The plugin behavior when blog posts do not contain a truncate marker. |
