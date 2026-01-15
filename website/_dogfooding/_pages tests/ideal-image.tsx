@@ -7,12 +7,10 @@
 
 import Image from '@theme/IdealImage';
 
-import styles from './ideal-image.module.css';
-
 function Component() {
   return (
     <Image
-      className={styles.logo}
+      className="margin--xl"
       style={{width: '100px', height: '32px'}}
       img={require('./img/oss_logo.png')}
     />
