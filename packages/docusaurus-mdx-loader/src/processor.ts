@@ -61,6 +61,9 @@ export type MDXOptions = {
   recmaPlugins: MDXPlugin[];
   beforeDefaultRemarkPlugins: MDXPlugin[];
   beforeDefaultRehypePlugins: MDXPlugin[];
+
+  // NEW: used to rewrite .mdx links to permalinks
+  sourceToPermalink?: Map<string, string>;
 };
 
 function getAdmonitionsPlugins(

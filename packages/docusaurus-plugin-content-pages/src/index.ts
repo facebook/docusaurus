@@ -38,6 +38,9 @@ export default async function pluginContentPages(
     'docusaurus-plugin-content-pages',
   );
   const dataDir = path.join(pluginDataDirRoot, options.id);
+  // Mutable map used by mdx-loader to convert file-path links to permalinks.
+  // Same strategy used by other content plugins (docs/blog).
+  const sourceToPermalink = new Map<string, string>();
 
   async function createPagesMDXLoaderRule(): Promise<RuleSetRule> {
     const {
@@ -77,6 +80,7 @@ export default async function pluginContentPages(
           const aliasedSource = aliasedSitePath(mdxPath, siteDir);
           return path.join(dataDir, `${docuHash(aliasedSource)}.json`);
         },
+        sourceToPermalink,
         // createAssets converts relative paths to require() calls
         createAssets: ({frontMatter}: {frontMatter: PageFrontMatter}) => ({
           image: frontMatter.image,
@@ -109,6 +113,14 @@ export default async function pluginContentPages(
       if (!content) {
         return;
       }
+      // Let mdx-loader rewrite file-path links (./foo/bar.mdx) to final permalinks (/foo/bar)
+      sourceToPermalink.clear();
+      content
+        .filter((m) => m.type === 'mdx')
+        .forEach((m) => {
+          sourceToPermalink.set(m.source, m.permalink);
+        });
+
       await createAllRoutes({content, options, actions});
     },
 
