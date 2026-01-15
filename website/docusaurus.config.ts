@@ -298,6 +298,8 @@ export default async function createConfigAsync() {
     ],
     themes: ['live-codeblock', ...dogfoodingThemeInstances],
     plugins: [
+      // Exposes recent blog posts as global data for the homepage
+      './src/plugins/recentBlogs/index.ts',
       function disableExpensiveBundlerOptimizationPlugin() {
         return {
           name: 'disable-expensive-bundler-optimizations',

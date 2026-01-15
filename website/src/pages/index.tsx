@@ -20,6 +20,7 @@ import Tweet from '@site/src/components/Tweet';
 import Tweets, {type TweetItem} from '@site/src/data/tweets';
 import Quotes from '@site/src/data/quotes';
 import Features, {type FeatureItem} from '@site/src/data/features';
+import RecentBlogs from '@site/src/components/RecentBlogs';
 import Heading from '@theme/Heading';
 
 import styles from './styles.module.css';
@@ -272,6 +273,7 @@ export default function Home(): ReactNode {
           <FeaturesContainer />
           <VideoContainer />
         </div>
+        <RecentBlogs />
         <TweetsSection />
         <QuotesSection />
       </main>

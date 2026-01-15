@@ -1,0 +1,58 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.recentBlogs {
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+.blogCard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.blogCard .card__body {
+  flex: 1;
+}
+
+.blogCardTitle {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.blogCardDate {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.85rem;
+}
+
+.blogCardDescription {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.9rem;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blogCardAuthors {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.blogCardAuthor {
+  display: flex;
+  align-items: center;
+}
+
+.blogCardAuthorImage {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--ifm-color-emphasis-200);
+}
