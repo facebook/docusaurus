@@ -7,13 +7,20 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
-
 import styles from './styles.module.css';
 
-export default function PlaygroundHeader({
-  children,
-}: {
-  children: ReactNode;
-}): ReactNode {
-  return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
+interface Props {
+  label: ReactNode;
+  buttons?: ReactNode;
+}
+
+export default function PlaygroundHeader({label, buttons}: Props): ReactNode {
+  return (
+    <div className={clsx(styles.playgroundHeader)}>
+      <div className={styles.playgroundHeaderLabel}>{label}</div>
+      {buttons && (
+        <div className={styles.playgroundHeaderButtons}>{buttons}</div>
+      )}
+    </div>
+  );
 }
