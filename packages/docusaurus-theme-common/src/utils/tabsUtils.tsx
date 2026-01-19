@@ -74,7 +74,7 @@ export function sanitizeTabsChildren(children: TabsProps['children']) {
         `Docusaurus error: Bad <Tabs> child <${
           // @ts-expect-error: guarding against unexpected cases
           typeof child.type === 'string' ? child.type : child.type.name
-        }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
+        }>: children of the <Tabs> component must be direct <TabItem> elements. Wrapper or custom components around <TabItem> are not supported, and every <TabItem> must have a unique "value" prop.`,
       );
     })
     ?.filter(Boolean) ?? []) as ReactElement<TabItemProps>[];

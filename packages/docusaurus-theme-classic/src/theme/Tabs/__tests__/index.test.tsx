@@ -38,7 +38,7 @@ describe('Tabs', () => {
         </TestProviders>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop."`,
+      `"Docusaurus error: Bad <Tabs> child <div>: children of the <Tabs> component must be direct <TabItem> elements. Wrapper or custom components around <TabItem> are not supported, and every <TabItem> must have a unique \"value\" prop."`,
     );
   });
   it('rejects bad Tabs defaultValue', () => {
