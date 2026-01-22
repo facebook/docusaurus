@@ -5,18 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
-import {fileURLToPath} from 'url';
-import path from 'path';
+import * as fs from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+
+// KEEP DEPENDENCY SMALL HERE!
+// create-docusaurus CLI should be as lightweight as possible
+
+// TODO try to remove these third-party dependencies if possible
 import {logger} from '@docusaurus/logger';
 import execa from 'execa';
 import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
 
-// TODO remove dependency on large @docusaurus/utils
-//  would be better to have a new smaller @docusaurus/utils-cli package
-import {askPreferredLanguage} from '@docusaurus/utils';
 import {siteNameToPackageName} from './utils.js';
+import {askPreferredLanguage} from './promps.js';
 
 type LanguagesOptions = {
   javascript?: boolean;
@@ -54,12 +57,18 @@ type PackageManager = keyof typeof lockfileNames;
 
 const packageManagers = Object.keys(lockfileNames) as PackageManager[];
 
+function pathExists(filePath: string): Promise<boolean> {
+  return fs.promises
+    .access(filePath, fs.constants.F_OK)
+    .then(() => true)
+    .catch(() => false);
+}
 async function findPackageManagerFromLockFile(
   rootDir: string,
 ): Promise<PackageManager | undefined> {
   for (const packageManager of packageManagers) {
     const lockFilePath = path.join(rootDir, lockfileNames[packageManager]);
-    if (await fs.pathExists(lockFilePath)) {
+    if (await pathExists(lockFilePath)) {
       return packageManager;
     }
   }
@@ -138,7 +147,7 @@ type Template = {
 };
 
 async function readTemplates(): Promise<Template[]> {
-  const dirContents = await fs.readdir(templatesDir);
+  const dirContents = await fs.promises.readdir(templatesDir);
   const templates = await Promise.all(
     dirContents
       .filter(
@@ -156,7 +165,7 @@ async function readTemplates(): Promise<Template[]> {
         return {
           name,
           path: path.join(templatesDir, name),
-          tsVariantPath: (await fs.pathExists(tsVariantPath))
+          tsVariantPath: (await pathExists(tsVariantPath))
             ? tsVariantPath
             : undefined,
         };
@@ -180,15 +189,16 @@ async function copyTemplate(
   dest: string,
   language: 'javascript' | 'typescript',
 ): Promise<void> {
-  await fs.copy(path.join(templatesDir, 'shared'), dest);
+  await fs.promises.cp(path.join(templatesDir, 'shared'), dest);
 
   const sourcePath =
     language === 'typescript' ? template.tsVariantPath! : template.path;
 
-  await fs.copy(sourcePath, dest, {
+  await fs.promises.cp(sourcePath, dest, {
     // Symlinks don't exist in published npm packages anymore, so this is only
     // to prevent errors during local testing
-    filter: async (filePath) => !(await fs.lstat(filePath)).isSymbolicLink(),
+    filter: async (filePath) =>
+      !(await fs.promises.lstat(filePath)).isSymbolicLink(),
   });
 }
 
@@ -281,10 +291,10 @@ async function getSiteName(
       return 'A website name is required.';
     }
     const dest = path.resolve(rootDir, siteName);
-    if (siteName === '.' && (await fs.readdir(dest)).length > 0) {
+    if (siteName === '.' && (await fs.promises.readdir(dest)).length > 0) {
       return logger.interpolate`Directory not empty at path=${dest}!`;
     }
-    if (siteName !== '.' && (await fs.pathExists(dest))) {
+    if (siteName !== '.' && (await pathExists(dest))) {
       return logger.interpolate`Directory already exists at path=${dest}!`;
     }
     return true;
