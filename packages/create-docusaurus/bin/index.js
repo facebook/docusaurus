@@ -8,8 +8,8 @@
 
 // @ts-check
 
-import path from 'path';
-import {createRequire} from 'module';
+import path from 'node:path';
+import {createRequire} from 'node:module';
 import {logger} from '@docusaurus/logger';
 import semver from 'semver';
 import {program} from 'commander';
