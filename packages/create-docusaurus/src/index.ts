@@ -15,7 +15,8 @@ import supportsColor from 'supports-color';
 
 // TODO remove dependency on large @docusaurus/utils
 //  would be better to have a new smaller @docusaurus/utils-cli package
-import {askPreferredLanguage, kebabCase} from '@docusaurus/utils';
+import {askPreferredLanguage} from '@docusaurus/utils';
+import {siteNameToPackageName} from './utils.js';
 
 type LanguagesOptions = {
   javascript?: boolean;
@@ -569,7 +570,7 @@ export default async function init(
   // Update package.json info.
   try {
     await updatePkg(path.join(dest, 'package.json'), {
-      name: kebabCase(siteName),
+      name: siteNameToPackageName(siteName),
       version: '0.0.0',
       private: true,
     });
