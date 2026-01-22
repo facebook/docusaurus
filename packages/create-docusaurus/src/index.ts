@@ -8,7 +8,6 @@
 import fs from 'fs-extra';
 import {fileURLToPath} from 'url';
 import path from 'path';
-import _ from 'lodash';
 import {logger} from '@docusaurus/logger';
 import execa from 'execa';
 import prompts, {type Choice} from 'prompts';
@@ -17,6 +16,7 @@ import supportsColor from 'supports-color';
 // TODO remove dependency on large @docusaurus/utils
 //  would be better to have a new smaller @docusaurus/utils-cli package
 import {askPreferredLanguage} from '@docusaurus/utils';
+import {siteNameToPackageName} from './utils.js';
 
 type LanguagesOptions = {
   javascript?: boolean;
@@ -164,7 +164,15 @@ async function readTemplates(): Promise<Template[]> {
   );
 
   // Classic should be first in list!
-  return _.sortBy(templates, (t) => t.name !== recommendedTemplate);
+  return templates.sort((a, b) => {
+    if (a.name === recommendedTemplate) {
+      return -1;
+    }
+    if (b.name === recommendedTemplate) {
+      return 1;
+    }
+    return 0;
+  });
 }
 
 async function copyTemplate(
@@ -562,7 +570,7 @@ export default async function init(
   // Update package.json info.
   try {
     await updatePkg(path.join(dest, 'package.json'), {
-      name: _.kebabCase(siteName),
+      name: siteNameToPackageName(siteName),
       version: '0.0.0',
       private: true,
     });
