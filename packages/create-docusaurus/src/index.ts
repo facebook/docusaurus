@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as fs from 'node:fs';
+import * as fs from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 
@@ -58,7 +58,7 @@ type PackageManager = keyof typeof lockfileNames;
 const packageManagers = Object.keys(lockfileNames) as PackageManager[];
 
 function pathExists(filePath: string): Promise<boolean> {
-  return fs.promises
+  return fs
     .access(filePath, fs.constants.F_OK)
     .then(() => true)
     .catch(() => false);
@@ -147,7 +147,7 @@ type Template = {
 };
 
 async function readTemplates(): Promise<Template[]> {
-  const dirContents = await fs.promises.readdir(templatesDir);
+  const dirContents = await fs.readdir(templatesDir);
   const templates = await Promise.all(
     dirContents
       .filter(
@@ -189,16 +189,15 @@ async function copyTemplate(
   dest: string,
   language: 'javascript' | 'typescript',
 ): Promise<void> {
-  await fs.promises.cp(path.join(templatesDir, 'shared'), dest);
+  await fs.cp(path.join(templatesDir, 'shared'), dest);
 
   const sourcePath =
     language === 'typescript' ? template.tsVariantPath! : template.path;
 
-  await fs.promises.cp(sourcePath, dest, {
+  await fs.cp(sourcePath, dest, {
     // Symlinks don't exist in published npm packages anymore, so this is only
     // to prevent errors during local testing
-    filter: async (filePath) =>
-      !(await fs.promises.lstat(filePath)).isSymbolicLink(),
+    filter: async (filePath) => !(await fs.lstat(filePath)).isSymbolicLink(),
   });
 }
 
@@ -291,7 +290,7 @@ async function getSiteName(
       return 'A website name is required.';
     }
     const dest = path.resolve(rootDir, siteName);
-    if (siteName === '.' && (await fs.promises.readdir(dest)).length > 0) {
+    if (siteName === '.' && (await fs.readdir(dest)).length > 0) {
       return logger.interpolate`Directory not empty at path=${dest}!`;
     }
     if (siteName !== '.' && (await pathExists(dest))) {
@@ -402,7 +401,7 @@ async function getUserProvidedSource({
       strategy: cliOptions.gitStrategy ?? 'deep',
     };
   }
-  if (await fs.pathExists(path.resolve(reqTemplate))) {
+  if (await pathExists(path.resolve(reqTemplate))) {
     return {
       type: 'local',
       path: path.resolve(reqTemplate),
@@ -482,7 +481,7 @@ async function askLocalSource(): Promise<Source> {
       validate: async (dir?: string) => {
         if (dir) {
           const fullDir = path.resolve(dir);
-          if (await fs.pathExists(fullDir)) {
+          if (await pathExists(fullDir)) {
             return true;
           }
           return logger.red(
@@ -530,10 +529,13 @@ async function getSource(
 }
 
 async function updatePkg(pkgPath: string, obj: {[key: string]: unknown}) {
-  const pkg = (await fs.readJSON(pkgPath)) as {[key: string]: unknown};
+  const pkg = JSON.parse(await fs.readFile(pkgPath, 'utf8')) as {
+    [key: string]: unknown;
+  };
   const newPkg = Object.assign(pkg, obj);
 
-  await fs.outputFile(pkgPath, `${JSON.stringify(newPkg, null, 2)}\n`);
+  await fs.mkdir(path.dirname(pkgPath), {recursive: true});
+  await fs.writeFile(pkgPath, `${JSON.stringify(newPkg, null, 2)}\n`);
 }
 
 export default async function init(
@@ -559,7 +561,10 @@ export default async function init(
       process.exit(1);
     }
     if (source.strategy === 'copy') {
-      await fs.remove(path.join(dest, '.git'));
+      await fs.rm(path.join(dest, '.git'), {
+        force: true,
+        recursive: true,
+      });
     }
   } else if (source.type === 'template') {
     try {
@@ -570,7 +575,7 @@ export default async function init(
     }
   } else {
     try {
-      await fs.copy(source.path, dest);
+      await fs.cp(source.path, dest);
     } catch (err) {
       logger.error`Copying local template path=${source.path} failed!`;
       throw err;
@@ -591,13 +596,16 @@ export default async function init(
 
   // We need to rename the gitignore file to .gitignore
   if (
-    !(await fs.pathExists(path.join(dest, '.gitignore'))) &&
-    (await fs.pathExists(path.join(dest, 'gitignore')))
+    !(await pathExists(path.join(dest, '.gitignore'))) &&
+    (await pathExists(path.join(dest, 'gitignore')))
   ) {
-    await fs.move(path.join(dest, 'gitignore'), path.join(dest, '.gitignore'));
+    await fs.rename(
+      path.join(dest, 'gitignore'),
+      path.join(dest, '.gitignore'),
+    );
   }
-  if (await fs.pathExists(path.join(dest, 'gitignore'))) {
-    await fs.remove(path.join(dest, 'gitignore'));
+  if (await pathExists(path.join(dest, 'gitignore'))) {
+    await fs.rm(path.join(dest, 'gitignore'));
   }
 
   // Display the most elegant way to cd.
