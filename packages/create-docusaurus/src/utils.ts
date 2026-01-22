@@ -5,6 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {spawn} from 'node:child_process';
+
+export async function run(
+  command: string,
+  args: string[] = [],
+): Promise<number | null> {
+  return new Promise<number | null>((resolve, reject) => {
+    const p = spawn(command, args, {stdio: 'inherit'}); // ignore
+    p.on('error', reject);
+    p.on('close', (exitCode) =>
+      exitCode
+        ? resolve(exitCode)
+        : reject(new Error(`No exit code for command ${command}`)),
+    );
+  });
+}
+
 /**
  * We use a simple kebab-case-like conversion
  * It's not perfect, but good enough

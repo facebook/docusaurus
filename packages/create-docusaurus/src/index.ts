@@ -19,7 +19,7 @@ import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
 
 import {siteNameToPackageName} from './utils.js';
-import {askPreferredLanguage} from './promps.js';
+import {askPreferredLanguage} from './prompts.js';
 
 type LanguagesOptions = {
   javascript?: boolean;
