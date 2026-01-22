@@ -237,7 +237,6 @@ printfn
 producthunt
 Profilo
 profilo
-promps
 protobuffet
 PRPL
 Pyltsyn
