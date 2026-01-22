@@ -25,7 +25,7 @@ async function doStart(
   siteDirParam: string = '.',
   cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
-  logger.info('Starting the development server...');
+  logger.info('Starting the development server... TEST');
   // Temporary workaround to unlock the ability to translate the site config
   // We'll remove it if a better official API can be designed
   // See https://github.com/facebook/docusaurus/issues/4542
