@@ -5,6 +5,47 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// @ts-expect-error: no types, but same as spawn()
+import CrossSpawn from 'cross-spawn';
+import type {spawn, SpawnOptions} from 'node:child_process';
+
+// We use cross-spawn instead of spawn because of Windows compatibility issues.
+// For example, "yarn" doesn't work on Windows, it requires "yarn.cmd"
+// Tools like execa() use cross-spawn under the hood, and "resolve" the command
+const crossSpawn: typeof spawn = CrossSpawn;
+
+/**
+ * Run a command, similar to execa(cmd,args) but simpler
+ * @param command
+ * @param args
+ * @param options
+ * @returns the command exit code
+ */
+export async function runCommand(
+  command: string,
+  args: string[] = [],
+  options: SpawnOptions = {},
+): Promise<number> {
+  // This does something similar to execa.command()
+  // we split a string command (with optional args) into command+args
+  // this way it's compatible with spawn()
+  const [realCommand, ...baseArgs] = command.split(' ');
+  const allArgs = [...baseArgs, ...args];
+  if (!realCommand) {
+    throw new Error(`Invalid command: ${command}`);
+  }
+
+  return new Promise<number>((resolve, reject) => {
+    const p = crossSpawn(realCommand, allArgs, {stdio: 'ignore', ...options});
+    p.on('error', reject);
+    p.on('close', (exitCode) =>
+      exitCode !== null
+        ? resolve(exitCode)
+        : reject(new Error(`No exit code for command ${command}`)),
+    );
+  });
+}
+
 /**
  * We use a simple kebab-case-like conversion
  * It's not perfect, but good enough

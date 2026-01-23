@@ -5,18 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
-import {fileURLToPath} from 'url';
-import path from 'path';
+import * as fs from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+
+// KEEP DEPENDENCY SMALL HERE!
+// create-docusaurus CLI should be as lightweight as possible
+
+// TODO try to remove these third-party dependencies if possible
 import {logger} from '@docusaurus/logger';
-import execa from 'execa';
 import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
 
-// TODO remove dependency on large @docusaurus/utils
-//  would be better to have a new smaller @docusaurus/utils-cli package
-import {askPreferredLanguage} from '@docusaurus/utils';
-import {siteNameToPackageName} from './utils.js';
+import {runCommand, siteNameToPackageName} from './utils.js';
+import {askPreferredLanguage} from './prompts.js';
 
 type LanguagesOptions = {
   javascript?: boolean;
@@ -54,12 +56,18 @@ type PackageManager = keyof typeof lockfileNames;
 
 const packageManagers = Object.keys(lockfileNames) as PackageManager[];
 
+function pathExists(filePath: string): Promise<boolean> {
+  return fs
+    .access(filePath, fs.constants.F_OK)
+    .then(() => true)
+    .catch(() => false);
+}
 async function findPackageManagerFromLockFile(
   rootDir: string,
 ): Promise<PackageManager | undefined> {
   for (const packageManager of packageManagers) {
     const lockFilePath = path.join(rootDir, lockfileNames[packageManager]);
-    if (await fs.pathExists(lockFilePath)) {
+    if (await pathExists(lockFilePath)) {
       return packageManager;
     }
   }
@@ -73,9 +81,9 @@ function findPackageManagerFromUserAgent(): PackageManager | undefined {
 }
 
 async function askForPackageManagerChoice(): Promise<PackageManager> {
-  const hasYarn = (await execa.command('yarn --version')).exitCode === 0;
-  const hasPnpm = (await execa.command('pnpm --version')).exitCode === 0;
-  const hasBun = (await execa.command('bun --version')).exitCode === 0;
+  const hasYarn = (await runCommand('yarn --version')) === 0;
+  const hasPnpm = (await runCommand('pnpm --version')) === 0;
+  const hasBun = (await runCommand('bun --version')) === 0;
 
   if (!hasYarn && !hasPnpm && !hasBun) {
     return 'npm';
@@ -156,7 +164,7 @@ async function readTemplates(): Promise<Template[]> {
         return {
           name,
           path: path.join(templatesDir, name),
-          tsVariantPath: (await fs.pathExists(tsVariantPath))
+          tsVariantPath: (await pathExists(tsVariantPath))
             ? tsVariantPath
             : undefined,
         };
@@ -180,12 +188,15 @@ async function copyTemplate(
   dest: string,
   language: 'javascript' | 'typescript',
 ): Promise<void> {
-  await fs.copy(path.join(templatesDir, 'shared'), dest);
+  await fs.cp(path.join(templatesDir, 'shared'), dest, {
+    recursive: true,
+  });
 
   const sourcePath =
     language === 'typescript' ? template.tsVariantPath! : template.path;
 
-  await fs.copy(sourcePath, dest, {
+  await fs.cp(sourcePath, dest, {
+    recursive: true,
     // Symlinks don't exist in published npm packages anymore, so this is only
     // to prevent errors during local testing
     filter: async (filePath) => !(await fs.lstat(filePath)).isSymbolicLink(),
@@ -284,7 +295,7 @@ async function getSiteName(
     if (siteName === '.' && (await fs.readdir(dest)).length > 0) {
       return logger.interpolate`Directory not empty at path=${dest}!`;
     }
-    if (siteName !== '.' && (await fs.pathExists(dest))) {
+    if (siteName !== '.' && (await pathExists(dest))) {
       return logger.interpolate`Directory already exists at path=${dest}!`;
     }
     return true;
@@ -392,7 +403,7 @@ async function getUserProvidedSource({
       strategy: cliOptions.gitStrategy ?? 'deep',
     };
   }
-  if (await fs.pathExists(path.resolve(reqTemplate))) {
+  if (await pathExists(path.resolve(reqTemplate))) {
     return {
       type: 'local',
       path: path.resolve(reqTemplate),
@@ -472,7 +483,7 @@ async function askLocalSource(): Promise<Source> {
       validate: async (dir?: string) => {
         if (dir) {
           const fullDir = path.resolve(dir);
-          if (await fs.pathExists(fullDir)) {
+          if (await pathExists(fullDir)) {
             return true;
           }
           return logger.red(
@@ -520,10 +531,13 @@ async function getSource(
 }
 
 async function updatePkg(pkgPath: string, obj: {[key: string]: unknown}) {
-  const pkg = (await fs.readJSON(pkgPath)) as {[key: string]: unknown};
+  const pkg = JSON.parse(await fs.readFile(pkgPath, 'utf8')) as {
+    [key: string]: unknown;
+  };
   const newPkg = Object.assign(pkg, obj);
 
-  await fs.outputFile(pkgPath, `${JSON.stringify(newPkg, null, 2)}\n`);
+  await fs.mkdir(path.dirname(pkgPath), {recursive: true});
+  await fs.writeFile(pkgPath, `${JSON.stringify(newPkg, null, 2)}\n`);
 }
 
 export default async function init(
@@ -544,26 +558,33 @@ export default async function init(
 
   if (source.type === 'git') {
     const gitCommand = await getGitCommand(source.strategy);
-    if ((await execa(gitCommand, [source.url, dest])).exitCode !== 0) {
+    if ((await runCommand(gitCommand, [source.url, dest])) !== 0) {
       logger.error`Cloning Git template failed!`;
       process.exit(1);
     }
     if (source.strategy === 'copy') {
-      await fs.remove(path.join(dest, '.git'));
+      await fs.rm(path.join(dest, '.git'), {
+        force: true,
+        recursive: true,
+      });
     }
   } else if (source.type === 'template') {
     try {
       await copyTemplate(source.template, dest, source.language);
     } catch (err) {
-      logger.error`Copying Docusaurus template name=${source.template.name} failed!`;
-      throw err;
+      throw new Error(
+        logger.interpolate`Copying Docusaurus template name=${source.template.name} failed!`,
+        {cause: err},
+      );
     }
   } else {
     try {
-      await fs.copy(source.path, dest);
+      await fs.cp(source.path, dest, {recursive: true});
     } catch (err) {
-      logger.error`Copying local template path=${source.path} failed!`;
-      throw err;
+      throw new Error(
+        logger.interpolate`Copying local template path=${source.path} failed!`,
+        {cause: err},
+      );
     }
   }
 
@@ -575,19 +596,21 @@ export default async function init(
       private: true,
     });
   } catch (err) {
-    logger.error('Failed to update package.json.');
-    throw err;
+    throw new Error('Failed to update package.json.', {cause: err});
   }
 
   // We need to rename the gitignore file to .gitignore
   if (
-    !(await fs.pathExists(path.join(dest, '.gitignore'))) &&
-    (await fs.pathExists(path.join(dest, 'gitignore')))
+    !(await pathExists(path.join(dest, '.gitignore'))) &&
+    (await pathExists(path.join(dest, 'gitignore')))
   ) {
-    await fs.move(path.join(dest, 'gitignore'), path.join(dest, '.gitignore'));
+    await fs.rename(
+      path.join(dest, 'gitignore'),
+      path.join(dest, '.gitignore'),
+    );
   }
-  if (await fs.pathExists(path.join(dest, 'gitignore'))) {
-    await fs.remove(path.join(dest, 'gitignore'));
+  if (await pathExists(path.join(dest, 'gitignore'))) {
+    await fs.rm(path.join(dest, 'gitignore'));
   }
 
   // Display the most elegant way to cd.
@@ -599,22 +622,21 @@ export default async function init(
     // ...
 
     if (
-      (
-        await execa.command(
-          pkgManager === 'yarn'
-            ? 'yarn'
-            : pkgManager === 'bun'
-            ? 'bun install'
-            : `${pkgManager} install --color always`,
-          {
-            env: {
-              ...process.env,
-              // Force coloring the output
-              ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
-            },
+      (await runCommand(
+        pkgManager === 'yarn'
+          ? 'yarn'
+          : pkgManager === 'bun'
+          ? 'bun install'
+          : `${pkgManager} install --color always`,
+        [],
+        {
+          env: {
+            ...process.env,
+            // Force coloring the output
+            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
           },
-        )
-      ).exitCode !== 0
+        },
+      )) !== 0
     ) {
       logger.error('Dependency installation failed.');
       logger.info`The site directory has already been created, and you can retry by typing:
