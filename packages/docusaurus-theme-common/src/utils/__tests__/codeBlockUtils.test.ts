@@ -8,6 +8,7 @@
 import {
   getLineNumbersStart,
   type MagicCommentConfig,
+  parseCodeLinesFromTokens,
   parseCodeBlockTitle,
   parseClassNameLanguage,
   parseLines,
@@ -812,6 +813,65 @@ describe('getLineNumbersStart', () => {
   });
 });
 
+describe('parseCodeLinesFromTokens', () => {
+  function createTokens(code: string) {
+    return code.split(/\r?\n/).map((line) => [{content: line}]);
+  }
+
+  it('removes magic comment lines and returns line indexes', () => {
+    const codeInput = `// highlight-next-line\nconst x = 42;`;
+    const result = parseCodeLinesFromTokens({
+      codeInput,
+      tokens: createTokens(codeInput),
+      metastring: '',
+      language: 'js',
+      magicComments: defaultMagicComments,
+    });
+
+    expect(result.lineClassNames).toMatchInlineSnapshot(`
+      {
+        "0": [
+          "theme-code-block-highlighted-line",
+        ],
+      }
+    `);
+    expect(result.lineIndexes).toEqual([1]);
+  });
+
+  it('respects metastring ranges', () => {
+    const codeInput = `const x = 42;`;
+    const result = parseCodeLinesFromTokens({
+      codeInput,
+      tokens: createTokens(codeInput),
+      metastring: '{1}',
+      language: 'js',
+      magicComments: defaultMagicComments,
+    });
+
+    expect(result.lineClassNames).toMatchInlineSnapshot(`
+      {
+        "0": [
+          "theme-code-block-highlighted-line",
+        ],
+      }
+    `);
+    expect(result.lineIndexes).toEqual([0]);
+  });
+
+  it('drops trailing empty line when input ends with newline', () => {
+    const codeInput = `const x = 42;\n`;
+    const result = parseCodeLinesFromTokens({
+      codeInput,
+      tokens: createTokens(codeInput),
+      metastring: '',
+      language: 'js',
+      magicComments: defaultMagicComments,
+    });
+
+    expect(result.lineIndexes).toEqual([0]);
+  });
+});
+
 describe('createCodeBlockMetadata', () => {
   type Params = Parameters<typeof createCodeBlockMetadata>[0];
 
@@ -840,6 +900,7 @@ describe('createCodeBlockMetadata', () => {
         "language": "text",
         "lineClassNames": {},
         "lineNumbersStart": undefined,
+        "metastring": "",
         "title": undefined,
       }
     `);
