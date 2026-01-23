@@ -20,8 +20,17 @@ export async function runCommand(
   args: string[] = [],
   options: SpawnOptions = {},
 ): Promise<number> {
+  // This does something similar to execa.command()
+  // we split a string command (with optional args) into command+args
+  // this way it's compatible with spawn()
+  const [realCommand, ...baseArgs] = command.split(' ');
+  const allArgs = [...baseArgs, ...args];
+  if (!realCommand) {
+    throw new Error(`Invalid command: ${command}`);
+  }
+
   return new Promise<number>((resolve, reject) => {
-    const p = spawn(command, args, {stdio: 'inherit', ...options}); // ignore
+    const p = spawn(realCommand, allArgs, {stdio: 'ignore', ...options});
     p.on('error', reject);
     p.on('close', (exitCode) =>
       exitCode !== null
