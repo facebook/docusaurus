@@ -55,11 +55,11 @@ Accepted fields:
 | `docCategoryGeneratedIndexComponent` | `string` | `'@theme/DocCategoryGeneratedIndexPage'` | Root component of the generated category index page. |
 | `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
 | `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
-| `rehypePlugins` | `any[]` | `[]` | Recma plugins passed to MDX. |
+| `recmaPlugins` | `any[]` | `[]` | Recma plugins passed to MDX. |
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `showLastUpdateAuthor` | `boolean` | `false` | Whether to display the author who last updated the doc. |
-| `showLastUpdateTime` | `boolean` | `false` | Whether to display the last date the doc was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use`fetch-depth: 0`. |
+| `showLastUpdateTime` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the last date the doc was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use `fetch-depth: 0`. When deploying to Vercel, set the environment variable `VERCEL_DEEP_CLONE=true`. |
 | `breadcrumbs` | `boolean` | `true` | Enable or disable the breadcrumbs on doc pages. |
 | `disableVersioning` | `boolean` | `false` | Explicitly disable versioning even when multiple versions exist. This will make the site only include the current version. Will error if `includeCurrentVersion: false` and `disableVersioning: true`. |
 | `includeCurrentVersion` | `boolean` | `true` | Include the current version of your docs. |
