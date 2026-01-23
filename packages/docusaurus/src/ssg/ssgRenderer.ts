@@ -7,9 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-// TODO eval is archived / unmaintained: https://github.com/pierrec/node-eval
-//  We should internalize/modernize it
-import evaluate from 'eval';
+import {compileFunction} from 'vm';
 import pMap from 'p-map';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {getHtmlMinifier} from '@docusaurus/bundler';
@@ -55,35 +53,35 @@ async function loadAppRenderer({
   serverBundlePath: string;
 }): Promise<AppRenderer> {
   const source = await PerfLogger.async(`Load server bundle`, () =>
-    fs.readFile(serverBundlePath),
+    fs.readFile(serverBundlePath, 'utf8'),
   );
 
   const filename = path.basename(serverBundlePath);
 
   const ssgRequire = createSSGRequire(serverBundlePath);
 
-  const globals = {
-    // When using "new URL('file.js', import.meta.url)", Webpack will emit
-    // __filename, and this plugin will throw. not sure the __filename value
-    // has any importance for this plugin, just using an empty string to
-    // avoid the error. See https://github.com/facebook/docusaurus/issues/4922
-    __filename: '',
+  const serverEntry = await PerfLogger.async(`Evaluate server bundle`, () => {
+    const fn = compileFunction(
+      source,
+      ['exports', 'require', 'module', '__filename', '__dirname'],
+      {filename},
+    );
 
-    // This uses module.createRequire() instead of very old "require-like" lib
-    // See also: https://github.com/pierrec/node-eval/issues/33
-    require: ssgRequire.require,
-  };
+    const module = {
+      exports: {},
+    };
 
-  const serverEntry = await PerfLogger.async(
-    `Evaluate server bundle`,
-    () =>
-      evaluate(
-        source,
-        /* filename: */ filename,
-        /* scope: */ globals,
-        /* includeGlobals: */ true,
-      ) as {default?: AppRenderer},
-  );
+    fn(
+      module.exports,
+      ssgRequire.require,
+      module,
+      // See https://github.com/facebook/docusaurus/issues/4922
+      '',
+      path.dirname(serverBundlePath),
+    );
+
+    return module.exports as {default?: AppRenderer};
+  });
 
   if (!serverEntry?.default || typeof serverEntry.default !== 'function') {
     throw new Error(
