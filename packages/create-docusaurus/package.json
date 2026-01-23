@@ -24,6 +24,7 @@
   "dependencies": {
     "@docusaurus/logger": "3.9.2",
     "commander": "^5.1.0",
+    "cross-spawn": "^7.0.0",
     "prompts": "^2.4.2",
     "semver": "^7.5.4",
     "supports-color": "^9.4.0",

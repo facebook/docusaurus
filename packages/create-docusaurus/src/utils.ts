@@ -5,8 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {spawn} from 'node:child_process';
-import type {SpawnOptions} from 'node:child_process';
+// @ts-expect-error: no types, but same as spawn()
+import CrossSpawn from 'cross-spawn';
+import type {spawn, SpawnOptions} from 'node:child_process';
+
+// We use cross-spawn instead of spawn because of Windows compatibility issues.
+// For example, "yarn" doesn't work on Windows, it requires "yarn.cmd"
+// Tools like execa() use cross-spawn under the hood, and "resolve" the command
+const crossSpawn: typeof spawn = CrossSpawn;
 
 /**
  * Run a command, similar to execa(cmd,args) but simpler
@@ -30,7 +36,7 @@ export async function runCommand(
   }
 
   return new Promise<number>((resolve, reject) => {
-    const p = spawn(realCommand, allArgs, {stdio: 'ignore', ...options});
+    const p = crossSpawn(realCommand, allArgs, {stdio: 'ignore', ...options});
     p.on('error', reject);
     p.on('close', (exitCode) =>
       exitCode !== null
