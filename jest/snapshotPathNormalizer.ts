@@ -11,7 +11,7 @@
 import os from 'os';
 import path from 'path';
 import _ from 'lodash';
-import {escapePath} from '@docusaurus/utils';
+import {escapePath, posixPath} from '@docusaurus/utils';
 import {version} from '@docusaurus/core/package.json';
 import stripAnsi from 'strip-ansi';
 
@@ -71,8 +71,10 @@ function normalizePaths<T>(value: T): T {
 
   const runner: ((val: string) => string)[] = [
     (val) => (val.includes('keepAnsi') ? val : stripAnsi(val)),
+
     // Replace process.cwd with <PROJECT_ROOT>
     (val) => val.split(cwd).join('<PROJECT_ROOT>'),
+    (val) => val.split(posixPath(cwd)).join('<PROJECT_ROOT>'),
 
     // Replace temp directory with <TEMP_DIR>
     (val) => val.split(tempDir).join('<TEMP_DIR>'),
