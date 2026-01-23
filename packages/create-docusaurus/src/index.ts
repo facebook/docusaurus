@@ -14,11 +14,10 @@ import path from 'node:path';
 
 // TODO try to remove these third-party dependencies if possible
 import {logger} from '@docusaurus/logger';
-import execa from 'execa';
 import prompts, {type Choice} from 'prompts';
 import supportsColor from 'supports-color';
 
-import {siteNameToPackageName} from './utils.js';
+import {runCommand, siteNameToPackageName} from './utils.js';
 import {askPreferredLanguage} from './prompts.js';
 
 type LanguagesOptions = {
@@ -82,9 +81,9 @@ function findPackageManagerFromUserAgent(): PackageManager | undefined {
 }
 
 async function askForPackageManagerChoice(): Promise<PackageManager> {
-  const hasYarn = (await execa.command('yarn --version')).exitCode === 0;
-  const hasPnpm = (await execa.command('pnpm --version')).exitCode === 0;
-  const hasBun = (await execa.command('bun --version')).exitCode === 0;
+  const hasYarn = (await runCommand('yarn --version')) === 0;
+  const hasPnpm = (await runCommand('pnpm --version')) === 0;
+  const hasBun = (await runCommand('bun --version')) === 0;
 
   if (!hasYarn && !hasPnpm && !hasBun) {
     return 'npm';
@@ -189,12 +188,15 @@ async function copyTemplate(
   dest: string,
   language: 'javascript' | 'typescript',
 ): Promise<void> {
-  await fs.cp(path.join(templatesDir, 'shared'), dest);
+  await fs.cp(path.join(templatesDir, 'shared'), dest, {
+    recursive: true,
+  });
 
   const sourcePath =
     language === 'typescript' ? template.tsVariantPath! : template.path;
 
   await fs.cp(sourcePath, dest, {
+    recursive: true,
     // Symlinks don't exist in published npm packages anymore, so this is only
     // to prevent errors during local testing
     filter: async (filePath) => !(await fs.lstat(filePath)).isSymbolicLink(),
@@ -556,7 +558,7 @@ export default async function init(
 
   if (source.type === 'git') {
     const gitCommand = await getGitCommand(source.strategy);
-    if ((await execa(gitCommand, [source.url, dest])).exitCode !== 0) {
+    if ((await runCommand(gitCommand, [source.url, dest])) !== 0) {
       logger.error`Cloning Git template failed!`;
       process.exit(1);
     }
@@ -570,15 +572,19 @@ export default async function init(
     try {
       await copyTemplate(source.template, dest, source.language);
     } catch (err) {
-      logger.error`Copying Docusaurus template name=${source.template.name} failed!`;
-      throw err;
+      throw new Error(
+        logger.interpolate`Copying Docusaurus template name=${source.template.name} failed!`,
+        {cause: err},
+      );
     }
   } else {
     try {
-      await fs.cp(source.path, dest);
+      await fs.cp(source.path, dest, {recursive: true});
     } catch (err) {
-      logger.error`Copying local template path=${source.path} failed!`;
-      throw err;
+      throw new Error(
+        logger.interpolate`Copying local template path=${source.path} failed!`,
+        {cause: err},
+      );
     }
   }
 
@@ -590,8 +596,7 @@ export default async function init(
       private: true,
     });
   } catch (err) {
-    logger.error('Failed to update package.json.');
-    throw err;
+    throw new Error('Failed to update package.json.', {cause: err});
   }
 
   // We need to rename the gitignore file to .gitignore
@@ -617,22 +622,21 @@ export default async function init(
     // ...
 
     if (
-      (
-        await execa.command(
-          pkgManager === 'yarn'
-            ? 'yarn'
-            : pkgManager === 'bun'
-            ? 'bun install'
-            : `${pkgManager} install --color always`,
-          {
-            env: {
-              ...process.env,
-              // Force coloring the output
-              ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
-            },
+      (await runCommand(
+        pkgManager === 'yarn'
+          ? 'yarn'
+          : pkgManager === 'bun'
+          ? 'bun install'
+          : `${pkgManager} install --color always`,
+        [],
+        {
+          env: {
+            ...process.env,
+            // Force coloring the output
+            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
           },
-        )
-      ).exitCode !== 0
+        },
+      )) !== 0
     ) {
       logger.error('Dependency installation failed.');
       logger.info`The site directory has already been created, and you can retry by typing:

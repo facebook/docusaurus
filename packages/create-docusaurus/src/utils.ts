@@ -6,16 +6,25 @@
  */
 
 import {spawn} from 'node:child_process';
+import type {SpawnOptions} from 'node:child_process';
 
-export async function run(
+/**
+ * Run a command, similar to execa(cmd,args) but simpler
+ * @param command
+ * @param args
+ * @param options
+ * @returns the command exit code
+ */
+export async function runCommand(
   command: string,
   args: string[] = [],
-): Promise<number | null> {
-  return new Promise<number | null>((resolve, reject) => {
-    const p = spawn(command, args, {stdio: 'inherit'}); // ignore
+  options: SpawnOptions = {},
+): Promise<number> {
+  return new Promise<number>((resolve, reject) => {
+    const p = spawn(command, args, {stdio: 'inherit', ...options}); // ignore
     p.on('error', reject);
     p.on('close', (exitCode) =>
-      exitCode
+      exitCode !== null
         ? resolve(exitCode)
         : reject(new Error(`No exit code for command ${command}`)),
     );
