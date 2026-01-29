@@ -51,7 +51,7 @@
     "@types/prismjs": "^1.26.0",
     "@types/rtlcss": "^3.5.1",
     "fs-extra": "^11.1.1",
-    "react-test-renderer": "^18.0.0",
+    "react-test-renderer": "^19.2.4",
     "utility-types": "^3.10.0"
   },
   "peerDependencies": {

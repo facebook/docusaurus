@@ -42,7 +42,7 @@
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "react-test-renderer": "^18.0.0"
+    "react-test-renderer": "^19.2.4"
   },
   "peerDependencies": {
     "@mermaid-js/layout-elk": "^0.1.9",
