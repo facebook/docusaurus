@@ -86,6 +86,17 @@ function normalizePaths<T>(value: T): T {
         .split(`<TEMP_DIR>${path.sep + homeRelativeToTemp}`)
         .join('<HOME_DIR>'),
 
+    // replace /prefix___MKDTEMP_DIR___ABC123 with /prefix<MKDTEMP_DIR_STABLE>
+    // The random 6-char suffix of mkdtemp() is removed to make snapshots stable
+    (val) => {
+      const [before, after] = val.split('___MKDTEMP_DIR___');
+      if (after) {
+        const afterSub = after.substring(6);
+        return [before, afterSub].join('<MKDTEMP_DIR_STABLE>');
+      }
+      return before;
+    },
+
     // Replace the Docusaurus version with a stub
     (val) => val.split(version).join('<CURRENT_VERSION>'),
 
