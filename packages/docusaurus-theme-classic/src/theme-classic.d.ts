@@ -1119,9 +1119,11 @@ declare module '@theme/MDXComponents' {
   import type Mermaid from '@theme/Mermaid';
   import type Head from '@docusaurus/Head';
 
-  import type {MDXProvider} from '@mdx-js/react';
-
-  type MDXComponentsBase = ComponentProps<typeof MDXProvider>['components'];
+  // Doesn't work anymore under React 19 because MDX uses JSX and not React.JSX
+  // import type {MDXProvider} from '@mdx-js/react';
+  // type MDXComponentsBase = ComponentProps<typeof MDXProvider>['components'];
+  // See also https://github.com/mdx-js/mdx/issues/2487
+  type MDXComponentsBase = any;
 
   export type MDXComponentsObject = MDXComponentsBase & {
     readonly Head: typeof Head;
