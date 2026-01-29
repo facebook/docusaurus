@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`ensureUniquePluginInstanceIds reject multi instance plugins with same id 1`] = `
 "Plugin "plugin-docs" is used 2 times with ID "sameId".

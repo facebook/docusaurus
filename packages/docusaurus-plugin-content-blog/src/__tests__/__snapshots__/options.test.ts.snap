@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`validateOptions feed throws Error in case of invalid feed type 1`] = `""feedOptions.type" does not match any of the allowed types"`;
 
