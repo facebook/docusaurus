@@ -31,9 +31,7 @@ exports[`Head does exactly what Helmet does 2`] = `
     />
     <title
       data-rh={true}
-    >
-      
-    </title>
+    />
   </head>
   <body />
 </html>
