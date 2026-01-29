@@ -6,7 +6,6 @@
  */
 
 import fs from 'fs-extra';
-import logger from '@docusaurus/logger';
 import traverse, {type Node} from '@babel/traverse';
 import generate from '@babel/generator';
 import {
@@ -15,6 +14,7 @@ import {
   type NodePath,
   type TransformOptions,
 } from '@babel/core';
+import {logger} from '@docusaurus/logger';
 import type {TranslationFileContent} from '@docusaurus/types';
 
 export type SourceCodeFileTranslations = {
@@ -56,8 +56,10 @@ export async function extractSourceCodeFileTranslations(
     );
     return translations;
   } catch (err) {
-    logger.error`Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}.`;
-    throw err;
+    throw new Error(
+      logger.interpolate`Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}.`,
+      {cause: err as Error},
+    );
   }
 }
 
