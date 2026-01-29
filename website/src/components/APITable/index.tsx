@@ -26,7 +26,9 @@ interface Props {
 function getRowName(node: ReactElement): string {
   let curNode: ReactNode = node;
   while (isValidElement(curNode)) {
-    [curNode] = React.Children.toArray(curNode.props.children);
+    [curNode] = React.Children.toArray(
+      (curNode.props as {children: ReactNode}).children,
+    );
   }
   if (typeof curNode !== 'string') {
     throw new Error(
@@ -99,6 +101,7 @@ export default function APITable({children, name}: Props): ReactNode {
     highlightedRow.current?.focus();
   }, [highlightedRow]);
   const rows = React.Children.map(
+    // @ts-expect-error: TODO fix typing
     tbody.props.children,
     (row: ReactElement<ComponentProps<'tr'>>) => (
       <APITableRowComp name={name} ref={highlightedRow}>

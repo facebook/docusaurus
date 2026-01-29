@@ -85,7 +85,7 @@
     "@types/lodash": "^4.14.197",
     "@types/node": "^18.16.19",
     "@types/prompts": "^2.4.4",
-    "@types/react": "^18.2.15",
+    "@types/react": "^19.2.10",
     "@types/react-test-renderer": "^18.0.0",
     "@types/semver": "^7.5.0",
     "@types/shelljs": "^0.8.12",

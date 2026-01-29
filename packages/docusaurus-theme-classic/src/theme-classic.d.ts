@@ -1745,11 +1745,11 @@ declare module '@theme/Icon/LightMode' {
 }
 
 declare module '@theme/Icon/SystemColorMode' {
-  import type {ComponentProps} from 'react';
+  import type {ComponentProps, ReactNode} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  export default function IconSystemColorMode(props: Props): JSX.Element;
+  export default function IconSystemColorMode(props: Props): ReactNode;
 }
 
 declare module '@theme/Icon/Menu' {
