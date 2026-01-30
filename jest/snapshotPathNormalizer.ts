@@ -10,10 +10,33 @@
 
 import os from 'os';
 import path from 'path';
+import fs from 'fs';
 import _ from 'lodash';
 import {escapePath} from '@docusaurus/utils';
 import {version} from '@docusaurus/core/package.json';
 import stripAnsi from 'strip-ansi';
+
+// We memoize it to avoid useless FS calls on each path normalization
+const getPathsForNormalization = _.memoize(() => {
+  const cwd = process.cwd();
+  const tempDir = os.tmpdir();
+  const homeDir = os.homedir();
+
+  // Can we get rid of this legacy sync FS function?
+  function getRealPathSync(pathname: string) {
+    try {
+      // eslint-disable-next-line no-restricted-properties
+      return fs.realpathSync(pathname);
+    } catch (err) {
+      return pathname;
+    }
+  }
+
+  const tempDirReal = getRealPathSync(tempDir);
+  const homeDirReal = getRealPathSync(homeDir);
+
+  return {cwd, tempDir, tempDirReal, homeDir, homeDirReal};
+});
 
 export function print(
   val: unknown,
@@ -63,9 +86,8 @@ function normalizePaths<T>(value: T): T {
     return value;
   }
 
-  const cwd = process.cwd();
-  const tempDir = os.tmpdir();
-  const homeDir = os.homedir();
+  const {cwd, tempDir, tempDirReal, homeDir, homeDirReal} =
+    getPathsForNormalization();
 
   const homeRelativeToTemp = path.relative(tempDir, homeDir);
 
@@ -75,9 +97,11 @@ function normalizePaths<T>(value: T): T {
     (val) => val.split(cwd).join('<PROJECT_ROOT>'),
 
     // Replace temp directory with <TEMP_DIR>
+    (val) => val.split(tempDirReal).join('<TEMP_DIR>'),
     (val) => val.split(tempDir).join('<TEMP_DIR>'),
 
     // Replace home directory with <HOME_DIR>
+    (val) => val.split(homeDirReal).join('<HOME_DIR>'),
     (val) => val.split(homeDir).join('<HOME_DIR>'),
 
     // Handle HOME_DIR nested inside TEMP_DIR
