@@ -71,13 +71,35 @@ describe('interpolate', () => {
   it('placeholders with JSX values', () => {
     const text = 'Hello {name} how are you {day}?';
     const values = {name: <b>Sébastien</b>, day: <span>today</span>};
-    expect(interpolate(text, values)).toMatchSnapshot();
+    expect(interpolate(text, values)).toMatchInlineSnapshot(`
+      [
+        "Hello ",
+        <b>
+          Sébastien
+        </b>,
+        " how are you ",
+        <span>
+          today
+        </span>,
+        "?",
+      ]
+    `);
   });
 
   it('placeholders with mixed vales', () => {
     const text = 'Hello {name} how are you {day}?';
     const values = {name: 'Sébastien', day: <span>today</span>};
-    expect(interpolate(text, values)).toMatchSnapshot();
+    expect(interpolate(text, values)).toMatchInlineSnapshot(`
+      [
+        "Hello ",
+        "Sébastien",
+        " how are you ",
+        <span>
+          today
+        </span>,
+        "?",
+      ]
+    `);
   });
 
   it('acceptance test', () => {
@@ -88,7 +110,19 @@ describe('interpolate', () => {
       extraUselessValue1: <div>test</div>,
       extraUselessValue2: 'hi',
     };
-    expect(interpolate(text, values)).toMatchSnapshot();
+    expect(interpolate(text, values)).toMatchInlineSnapshot(`
+      [
+        "Hello ",
+        "Sébastien",
+        " how are you ",
+        <span>
+          today
+        </span>,
+        "? Another ",
+        "{unprovidedValue}",
+        "!",
+      ]
+    `);
   });
 });
 
