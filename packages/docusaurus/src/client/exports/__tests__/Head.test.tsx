@@ -40,7 +40,11 @@ describe('Head', () => {
       </HelmetProvider>,
     );
 
-    expect(container.innerHTML).toMatchInlineSnapshot(`"<div>Content</div>"`);
+    expect(container.firstElementChild).toMatchInlineSnapshot(`
+      <div>
+        Content
+      </div>
+    `);
     expect(helmetContext).toMatchInlineSnapshot(`
       {
         "helmet": <html>

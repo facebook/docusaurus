@@ -67,9 +67,11 @@ describe('<BrowserOnly>', () => {
         </BrowserOnly>
       </Context.Provider>,
     );
-    expect(container.innerHTML).toMatchInlineSnapshot(
-      `"<span>https://docusaurus.io/</span>"`,
-    );
+    expect(container.firstElementChild).toMatchInlineSnapshot(`
+      <span>
+        https://docusaurus.io/
+      </span>
+    `);
   });
 
   it('returns fallback when not in browser', () => {
@@ -80,7 +82,11 @@ describe('<BrowserOnly>', () => {
         </BrowserOnly>
       </Context.Provider>,
     );
-    expect(container.innerHTML).toMatchInlineSnapshot(`"<span>Loading</span>"`);
+    expect(container.firstElementChild).toMatchInlineSnapshot(`
+      <span>
+        Loading
+      </span>
+    `);
   });
 
   it('gracefully falls back', () => {
@@ -89,6 +95,6 @@ describe('<BrowserOnly>', () => {
         <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>
       </Context.Provider>,
     );
-    expect(container.innerHTML).toMatchInlineSnapshot(`""`);
+    expect(container.firstElementChild).toMatchInlineSnapshot(`null`);
   });
 });
