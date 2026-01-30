@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Head does exactly what Helmet does 1`] = `
 <div>
@@ -31,9 +31,7 @@ exports[`Head does exactly what Helmet does 2`] = `
     />
     <title
       data-rh={true}
-    >
-      
-    </title>
+    />
   </head>
   <body />
 </html>

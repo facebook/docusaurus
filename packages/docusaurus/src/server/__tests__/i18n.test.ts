@@ -417,7 +417,8 @@ describe('loadI18n', () => {
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
       "Docusaurus couldn't infer a default locale config for x1.
-      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute."
+      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute.
+      Cause: Incorrect locale information provided"
     `);
   });
 
@@ -434,7 +435,8 @@ describe('loadI18n', () => {
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
       "Docusaurus couldn't infer a default locale config for x1.
-      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute."
+      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute.
+      Cause: Incorrect locale information provided"
     `);
   });
 

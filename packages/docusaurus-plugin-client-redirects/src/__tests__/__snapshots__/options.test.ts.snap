@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`normalizePluginOptions rejects bad createRedirects user inputs 1`] = `""createRedirects" must be of type function"`;
 
