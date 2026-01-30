@@ -25,6 +25,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0 # Needed to get the commit number with "git rev-list --count HEAD"
+          ref: ${{ github.head_ref }} # TODO temp
 
       - name: Set up Node
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
