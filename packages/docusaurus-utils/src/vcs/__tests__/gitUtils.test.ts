@@ -529,13 +529,13 @@ describe('submodules APIs', () => {
     });
 
     it('rejects for cwd of untracked dir', async () => {
-      const cwd = await os.tmpdir();
+      const cwd = await os.homedir();
       // Do we really want this to throw?
       // Not sure, and Git doesn't help us failsafe and return null...
       await expect(getGitSuperProjectRoot(cwd)).rejects
         .toThrowErrorMatchingInlineSnapshot(`
         "Couldn't find the git superproject root directory
-        Failure while running \`git rev-parse --show-superproject-working-tree\` from cwd="<TEMP_DIR>"
+        Failure while running \`git rev-parse --show-superproject-working-tree\` from cwd="<HOME_DIR>"
         The command executed throws an error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
         fatal: not a git repository (or any of the parent directories): .git
         Cause: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
