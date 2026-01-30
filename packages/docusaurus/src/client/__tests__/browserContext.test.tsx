@@ -22,7 +22,7 @@ describe('BrowserContextProvider', () => {
   });
 
   /*
-   TODO it sems it's not really possible to test hydration anymore
+   TODO it seems not really possible to test before hydration anymore
     See https://github.com/testing-library/react-testing-library/issues/1120
 
   it('has value false on first render', () => {

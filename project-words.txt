@@ -281,7 +281,6 @@ Scaleway
 Sebastien
 sebastien
 sebastienlorber
-sems
 sensical
 setext
 setlocal
