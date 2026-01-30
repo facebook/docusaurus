@@ -16,14 +16,29 @@ import {escapePath} from '@docusaurus/utils';
 import {version} from '@docusaurus/core/package.json';
 import stripAnsi from 'strip-ansi';
 
-// We memoize it to avoid useless FS calls on each path normalization
-const getPathsForNormalization = _.memoize(() => {
+/*
+This weird thing is to normalize paths on our Windows GitHub Actions runners
+
+For some reason, os.tmpdir() returns the "legacy 8.3 DOS short paths"
+This prevents snapshot normalization on Windows
+
+      tempDir: 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp',
+      tempDirReal: 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp',
+      homeDir: 'C:\\Users\\runneradmin',
+      homeDirReal: 'C:\\Users\\runneradmin',
+ */
+function normalizeWindowTempDirShortPath(str: string): string {
+  return str.replace('\\RUNNER~1\\', '\\runneradmin\\');
+}
+
+function readPathsForNormalization() {
   const cwd = process.cwd();
+
   const tempDir = os.tmpdir();
   const homeDir = os.homedir();
 
   // Can we get rid of this legacy sync FS function?
-  function getRealPathSync(pathname: string) {
+  function getRealPathSync(pathname: string): string {
     try {
       // eslint-disable-next-line no-restricted-properties
       return fs.realpathSync(pathname);
@@ -35,8 +50,19 @@ const getPathsForNormalization = _.memoize(() => {
   const tempDirReal = getRealPathSync(tempDir);
   const homeDirReal = getRealPathSync(homeDir);
 
-  return {cwd, tempDir, tempDirReal, homeDir, homeDirReal};
-});
+  return {
+    cwd,
+    tempDir: normalizeWindowTempDirShortPath(tempDir),
+    tempDirReal: normalizeWindowTempDirShortPath(tempDirReal),
+    homeDir,
+    homeDirReal,
+  };
+}
+
+// We memoize it to avoid useless FS calls on each path normalization
+const getPathsForNormalization: typeof readPathsForNormalization = _.memoize(
+  readPathsForNormalization,
+);
 
 export function print(
   val: unknown,
@@ -100,11 +126,17 @@ function normalizePaths<T>(value: T): T {
     (val) => val.split(tempDirReal).join('<TEMP_DIR>'),
     (val) => val.split(tempDir).join('<TEMP_DIR>'),
 
+    (val) => val.split(tempDirReal).join('<TEMP_DIR>'),
+    (val) => val.split(tempDir).join('<TEMP_DIR>'),
+
     // Replace home directory with <HOME_DIR>
     (val) => val.split(homeDirReal).join('<HOME_DIR>'),
     (val) => val.split(homeDir).join('<HOME_DIR>'),
 
     // Handle HOME_DIR nested inside TEMP_DIR
+    // This happens on windows GitHub actions runners
+    // tempDir: 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp',
+    // homeDir: 'C:\\Users\\runneradmin',
     (val) =>
       val
         .split(`<TEMP_DIR>${path.sep + homeRelativeToTemp}`)
