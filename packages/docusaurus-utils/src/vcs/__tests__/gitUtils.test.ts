@@ -156,6 +156,27 @@ class Git {
   }
 }
 
+function testPaths() {
+  const cwd = process.cwd();
+  const tempDir = os.tmpdir();
+  const homeDir = os.homedir();
+
+  // Can we get rid of this legacy sync FS function?
+  function getRealPathSync(pathname: string) {
+    try {
+      // eslint-disable-next-line no-restricted-properties
+      return fs.realpathSync(pathname);
+    } catch (err) {
+      return pathname;
+    }
+  }
+
+  const tempDirReal = getRealPathSync(tempDir);
+  const homeDirReal = getRealPathSync(homeDir);
+
+  return {cwd, tempDir, tempDirReal, homeDir, homeDirReal};
+}
+
 async function createTempRepoDir() {
   let repoDir = await fs.mkdtemp(
     // Note, the <MKDTEMP_DIR> is useful for stabilizing Jest snapshots paths
@@ -164,6 +185,11 @@ async function createTempRepoDir() {
     path.join(os.tmpdir(), 'git-test-repo___MKDTEMP_DIR___'),
   );
   repoDir = await fs.realpath.native(repoDir);
+
+  const paths = testPaths();
+
+  console.log('TEST GITUTILS', {...paths, repoDir});
+
   return repoDir;
 }
 
