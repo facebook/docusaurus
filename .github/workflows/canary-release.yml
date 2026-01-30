@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - docusaurus-v**
+      - slorber/test-canary-trusted-publisher
     paths:
       - .github/workflows/canary-release.yml
       - package.json
@@ -13,6 +14,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write # For OIDC, see https://docs.npmjs.com/trusted-publishers
 
 jobs:
   publish-canary:
