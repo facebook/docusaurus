@@ -10,8 +10,6 @@
 // Jest doesn't allow pragma below other comments. https://github.com/facebook/jest/issues/12573
 // eslint-disable-next-line header/header
 import React from 'react';
-// TODO migrate to @testing-library/react when SSR rendering possible
-// See https://github.com/testing-library/react-testing-library/issues/1120
 import {renderHook} from '@testing-library/react';
 import {DocusaurusContextProvider} from '../docusaurusContext';
 import useDocusaurusContext from '../exports/useDocusaurusContext';
