@@ -3,10 +3,15 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @jest-environment jsdom
  */
 
+// Jest doesn't allow pragma below other comments. https://github.com/facebook/jest/issues/12573
+// eslint-disable-next-line header/header
 import React, {type ReactNode} from 'react';
-import renderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
+import '@testing-library/jest-dom';
 import {ScrollControllerProvider} from '@docusaurus/theme-common/internal';
 import {StaticRouter} from 'react-router-dom';
 import Tabs from '../index';
@@ -29,7 +34,7 @@ function TestProviders({
 describe('Tabs', () => {
   it('rejects bad Tabs child', () => {
     expect(() => {
-      renderer.create(
+      render(
         <TestProviders>
           <Tabs>
             <div>Naughty</div>
@@ -43,7 +48,7 @@ describe('Tabs', () => {
   });
   it('rejects bad Tabs defaultValue', () => {
     expect(() => {
-      renderer.create(
+      render(
         <TestProviders>
           <Tabs defaultValue="bad">
             <TabItem value="v1">Tab 1</TabItem>
@@ -57,7 +62,7 @@ describe('Tabs', () => {
   });
   it('rejects duplicate values', () => {
     expect(() => {
-      renderer.create(
+      render(
         <TestProviders>
           <Tabs>
             <TabItem value="v1">Tab 1</TabItem>
@@ -75,7 +80,7 @@ describe('Tabs', () => {
   });
   it('accepts valid Tabs config', () => {
     expect(() => {
-      renderer.create(
+      render(
         <TestProviders>
           <Tabs>
             <TabItem value="v1">Tab 1</TabItem>
@@ -129,7 +134,7 @@ describe('Tabs', () => {
   it('accepts dynamic Tabs with number values', () => {
     expect(() => {
       const tabs = ['Apple', 'Banana', 'Carrot'];
-      renderer.create(
+      render(
         <TestProviders>
           <Tabs
             values={tabs.map((t, idx) => ({label: t, value: idx}))}
@@ -146,7 +151,7 @@ describe('Tabs', () => {
   });
   it('rejects if querystring is true, but groupId falsy', () => {
     expect(() => {
-      renderer.create(
+      render(
         <TestProviders>
           <Tabs queryString>
             <TabItem value="val1">Val1</TabItem>
@@ -161,7 +166,7 @@ describe('Tabs', () => {
 
   it('accept querystring=true when groupId is defined', () => {
     expect(() => {
-      renderer.create(
+      render(
         <TestProviders>
           <Tabs queryString groupId="my-group-id">
             <TabItem value="val1">Val1</TabItem>
@@ -174,7 +179,7 @@ describe('Tabs', () => {
 
   it('accept querystring as string, but groupId falsy', () => {
     expect(() => {
-      renderer.create(
+      render(
         <TestProviders>
           <Tabs queryString="qsKey">
             <TabItem value="val1">Val1</TabItem>
@@ -187,7 +192,7 @@ describe('Tabs', () => {
 
   it('accepts a single TabItem', () => {
     expect(() => {
-      renderer.create(
+      render(
         <TestProviders>
           <Tabs>
             <TabItem value="val1">Val1</TabItem>
@@ -199,7 +204,7 @@ describe('Tabs', () => {
 
   it('allows a tab to be falsy', () => {
     expect(() => {
-      renderer.create(
+      render(
         <TestProviders>
           <Tabs>
             <TabItem value="val1">Val1</TabItem>

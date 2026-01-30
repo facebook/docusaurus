@@ -79,14 +79,15 @@
     "@prettier/plugin-xml": "^2.2.0",
     "@swc/core": "^1.7.14",
     "@swc/jest": "^0.2.39",
-    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.14.197",
     "@types/node": "^18.16.19",
     "@types/prompts": "^2.4.4",
     "@types/react": "^19.2.10",
-    "@types/react-test-renderer": "^18.0.0",
     "@types/semver": "^7.5.0",
     "@types/shelljs": "^0.8.12",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
@@ -118,9 +119,8 @@
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.8.8",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-test-renderer": "^18.0.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "rimraf": "^3.0.2",
     "sharp": "^0.32.3",
     "strip-ansi": "^6.0.1",
@@ -129,6 +129,8 @@
     "stylelint-config-standard": "^29.0.0",
     "typescript": "~5.8.2"
   },
-  "resolutions": {},
+  "resolutions": {
+    "**/pretty-format/react-is": "^19.2.4"
+  },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

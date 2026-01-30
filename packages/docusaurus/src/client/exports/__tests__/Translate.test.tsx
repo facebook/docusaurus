@@ -3,10 +3,16 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @jest-environment jsdom
  */
 
+// Jest doesn't allow pragma below other comments. https://github.com/facebook/jest/issues/12573
+// eslint-disable-next-line header/header
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
+import '@testing-library/jest-dom';
+
 import Translate, {translate} from '../Translate';
 
 describe('translate', () => {
@@ -35,41 +41,34 @@ describe('translate', () => {
 });
 
 describe('<Translate>', () => {
-  it('accepts id and uses it as fallback', () => {
-    expect(renderer.create(<Translate id="some-id" />).toJSON()).toBe(
-      'some-id',
-    );
+  it('loads and displays greeting', async () => {
+    const {container} = render(<Translate id="some-id" />);
+    expect(container).toHaveTextContent('some-id');
   });
 
   it('accepts message and uses it as fallback', () => {
-    expect(renderer.create(<Translate>some-message</Translate>).toJSON()).toBe(
-      'some-message',
-    );
+    const {container} = render(<Translate>some-message</Translate>);
+    expect(container).toHaveTextContent('some-message');
   });
 
   it('accepts id+message and uses message as fallback', () => {
-    expect(
-      renderer
-        .create(<Translate id="some-id">some-message</Translate>)
-        .toJSON(),
-    ).toBe('some-message');
+    const {container} = render(
+      <Translate id="some-id">some-message</Translate>,
+    );
+    expect(container).toHaveTextContent('some-message');
   });
 
   it('rejects when no id or message', () => {
-    expect(() =>
-      // @ts-expect-error: TS should protect when both id/message are missing
-      renderer.create(<Translate />),
-    ).toThrowErrorMatchingInlineSnapshot(
+    expect(() => render(<Translate />)).toThrowErrorMatchingInlineSnapshot(
       `"Docusaurus translation declarations must have at least a translation id or a default translation message"`,
     );
   });
 
   it('rejects when children is not a string', () => {
     expect(() =>
-      renderer.create(
+      render(
         // eslint-disable-next-line @docusaurus/string-literal-i18n-messages
         <Translate id="foo">
-          {/* @ts-expect-error: for test */}
           <span>aaa</span>
         </Translate>,
       ),

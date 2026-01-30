@@ -1,5 +1,10 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Download from '../components/Icon/Download';
 import Loading from '../components/Icon/Loading';
 import Offline from '../components/Icon/Offline';
@@ -9,28 +14,28 @@ const snapshotTestDescription = 'Should render a snapshot that is good';
 
 describe('Download icon', () => {
   it(snapshotTestDescription, () => {
-    const download = renderer.create(<Download />).toJSON();
-    expect(download).toMatchSnapshot();
+    const {container} = render(<Download />);
+    expect(container.firstElementChild).toMatchSnapshot();
   });
 });
 
 describe('Loading icon', () => {
   it(snapshotTestDescription, () => {
-    const loading = renderer.create(<Loading />).toJSON();
-    expect(loading).toMatchSnapshot();
+    const {container} = render(<Loading />);
+    expect(container.firstElementChild).toMatchSnapshot();
   });
 });
 
 describe('Offline icon', () => {
   it(snapshotTestDescription, () => {
-    const offline = renderer.create(<Offline />).toJSON();
-    expect(offline).toMatchSnapshot();
+    const {container} = render(<Offline />);
+    expect(container.firstElementChild).toMatchSnapshot();
   });
 });
 
 describe('Warning icon', () => {
   it(snapshotTestDescription, () => {
-    const warning = renderer.create(<Warning />).toJSON();
-    expect(warning).toMatchSnapshot();
+    const {container} = render(<Warning />);
+    expect(container.firstElementChild).toMatchSnapshot();
   });
 });
