@@ -156,9 +156,19 @@ class Git {
   }
 }
 
-async function createGitRepoEmpty(): Promise<{repoDir: string; git: Git}> {
-  let repoDir = await fs.mkdtemp(path.join(os.tmpdir(), 'git-test-repo'));
+async function createTempRepoDir() {
+  let repoDir = await fs.mkdtemp(
+    // Note, the <MKDTEMP_DIR> is useful for stabilizing Jest snapshots paths
+    // This way, snapshot paths don't contain random temp dir names.
+    // See our /docusaurus/jest/snapshotPathNormalizer.ts
+    path.join(os.tmpdir(), 'git-test-repo___MKDTEMP_DIR___'),
+  );
   repoDir = await fs.realpath.native(repoDir);
+  return repoDir;
+}
+
+async function createGitRepoEmpty(): Promise<{repoDir: string; git: Git}> {
+  const repoDir = await createTempRepoDir();
   const git = await Git.initializeRepo(repoDir);
   return {repoDir, git};
 }
@@ -327,16 +337,16 @@ describe('commit info APIs', () => {
       const repoDir = await repoDirPromise;
 
       const filePath = path.join(repoDir, 'non-existing.txt');
-      await expect(
-        getGitCreation(filePath),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"An error occurred when trying to get the last update date"`,
-      );
-      await expect(
-        getGitLastUpdate(filePath),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"An error occurred when trying to get the last update date"`,
-      );
+      await expect(getGitCreation(filePath)).rejects
+        .toThrowErrorMatchingInlineSnapshot(`
+        "An error occurred when trying to get the file creation date from Git
+        Cause: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist."
+      `);
+      await expect(getGitLastUpdate(filePath)).rejects
+        .toThrowErrorMatchingInlineSnapshot(`
+        "An error occurred when trying to get the file last update date from Git
+        Cause: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist."
+      `);
     });
 
     it('returns files info', async () => {
@@ -493,14 +503,16 @@ describe('submodules APIs', () => {
     });
 
     it('rejects for cwd of untracked dir', async () => {
-      const cwd = await os.tmpdir();
+      const cwd = await os.homedir();
       // Do we really want this to throw?
       // Not sure, and Git doesn't help us failsafe and return null...
       await expect(getGitSuperProjectRoot(cwd)).rejects
         .toThrowErrorMatchingInlineSnapshot(`
         "Couldn't find the git superproject root directory
-        Failure while running \`git rev-parse --show-superproject-working-tree\` from cwd="<TEMP_DIR>"
+        Failure while running \`git rev-parse --show-superproject-working-tree\` from cwd="<HOME_DIR>"
         The command executed throws an error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
+        fatal: not a git repository (or any of the parent directories): .git
+        Cause: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
         fatal: not a git repository (or any of the parent directories): .git"
       `);
     });

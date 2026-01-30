@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`validateRedirect throw for bad redirects 1`] = `"{"from":"https://fb.com/fromSomePath","to":"/toSomePath"} => Validation error: "from" (https://fb.com/fromSomePath) is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
 

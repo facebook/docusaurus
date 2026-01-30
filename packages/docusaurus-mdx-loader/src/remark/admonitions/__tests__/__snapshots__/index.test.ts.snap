@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`admonitions remark plugin add custom keyword 1`] = `
 "<p>The blog feature enables you to deploy in no time a full-featured blog.</p>
