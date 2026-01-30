@@ -10,7 +10,8 @@
 // Jest doesn't allow pragma below other comments. https://github.com/facebook/jest/issues/12573
 // eslint-disable-next-line header/header
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
+import '@testing-library/jest-dom';
 import BrowserOnly from '../BrowserOnly';
 import {Context} from '../../browserContext';
 
@@ -29,16 +30,14 @@ describe('<BrowserOnly>', () => {
   it('rejects react element children', () => {
     process.env.NODE_ENV = 'development';
     expect(() =>
-      renderer
-        .create(
-          <Context.Provider value>
-            <BrowserOnly>
-              {/* @ts-expect-error test */}
-              <span>{window.location.href}</span>
-            </BrowserOnly>
-          </Context.Provider>,
-        )
-        .toJSON(),
+      render(
+        <Context.Provider value>
+          <BrowserOnly>
+            {/* @ts-expect-error test */}
+            <span>{window.location.href}</span>
+          </BrowserOnly>
+        </Context.Provider>,
+      ),
     ).toThrowErrorMatchingInlineSnapshot(`
       "Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
       Current type: React element"
@@ -48,7 +47,7 @@ describe('<BrowserOnly>', () => {
   it('rejects string children', () => {
     process.env.NODE_ENV = 'development';
     expect(() => {
-      renderer.create(
+      render(
         <Context.Provider value>
           {/* @ts-expect-error test */}
           <BrowserOnly> </BrowserOnly>
@@ -61,52 +60,35 @@ describe('<BrowserOnly>', () => {
   });
 
   it('accepts valid children', () => {
-    expect(
-      renderer
-        .create(
-          <Context.Provider value>
-            <BrowserOnly fallback={<span>Loading</span>}>
-              {() => <span>{window.location.href}</span>}
-            </BrowserOnly>
-          </Context.Provider>,
-        )
-        .toJSON(),
-    ).toMatchInlineSnapshot(`
-      <span>
-        https://docusaurus.io/
-      </span>
-    `);
+    const {container} = render(
+      <Context.Provider value>
+        <BrowserOnly fallback={<span>Loading</span>}>
+          {() => <span>{window.location.href}</span>}
+        </BrowserOnly>
+      </Context.Provider>,
+    );
+    expect(container.innerHTML).toMatchInlineSnapshot(
+      `"<span>https://docusaurus.io/</span>"`,
+    );
   });
 
   it('returns fallback when not in browser', () => {
-    expect(
-      renderer
-        .create(
-          <Context.Provider value={false}>
-            <BrowserOnly fallback={<span>Loading</span>}>
-              {() => <span>{window.location.href}</span>}
-            </BrowserOnly>
-          </Context.Provider>,
-        )
-        .toJSON(),
-    ).toMatchInlineSnapshot(`
-      <span>
-        Loading
-      </span>
-    `);
+    const {container} = render(
+      <Context.Provider value={false}>
+        <BrowserOnly fallback={<span>Loading</span>}>
+          {() => <span>{window.location.href}</span>}
+        </BrowserOnly>
+      </Context.Provider>,
+    );
+    expect(container.innerHTML).toMatchInlineSnapshot(`"<span>Loading</span>"`);
   });
 
   it('gracefully falls back', () => {
-    expect(
-      renderer
-        .create(
-          <Context.Provider value={false}>
-            <BrowserOnly>
-              {() => <span>{window.location.href}</span>}
-            </BrowserOnly>
-          </Context.Provider>,
-        )
-        .toJSON(),
-    ).toMatchInlineSnapshot(`null`);
+    const {container} = render(
+      <Context.Provider value={false}>
+        <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>
+      </Context.Provider>,
+    );
+    expect(container.innerHTML).toMatchInlineSnapshot(`""`);
   });
 });
