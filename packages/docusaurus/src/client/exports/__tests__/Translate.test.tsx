@@ -9,7 +9,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 /* eslint-disable header/header */
-/* The Facebook header is here, but we need the Jest pragma first :s */
+/* The Facebook header is here, but we need the Jest pragma first */
 
 import React from 'react';
 import {render} from '@testing-library/react';

@@ -1,12 +1,19 @@
 /**
+ * @jest-environment jsdom
+ */
+
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+/* eslint-disable header/header */
+/* The Facebook header is here, but we need the Jest pragma first */
 
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Interpolate, {interpolate} from '../Interpolate';
 
 describe('interpolate', () => {
@@ -90,19 +97,17 @@ describe('interpolate', () => {
 describe('<Interpolate>', () => {
   it('without placeholders', () => {
     const text = 'Hello how are you?';
-    expect(renderer.create(<Interpolate>{text}</Interpolate>).toJSON()).toEqual(
-      text,
-    );
+    const {container} = render(<Interpolate>{text}</Interpolate>);
+    expect(container).toHaveTextContent(text);
   });
 
   it('placeholders with string values', () => {
     const text = 'Hello {name} how are you {day}?';
     const values = {name: 'Sébastien', day: 'today'};
-    expect(
-      renderer
-        .create(<Interpolate values={values}>{text}</Interpolate>)
-        .toJSON(),
-    ).toMatchInlineSnapshot(`"Hello Sébastien how are you today?"`);
+    const {container} = render(
+      <Interpolate values={values}>{text}</Interpolate>,
+    );
+    expect(container).toHaveTextContent('Hello Sébastien how are you today?');
   });
 
   it('acceptance test', () => {
@@ -113,16 +118,17 @@ describe('<Interpolate>', () => {
       extraUselessValue1: <div>test</div>,
       extraUselessValue2: 'hi',
     };
-    expect(
-      renderer
-        .create(<Interpolate values={values}>{text}</Interpolate>)
-        .toJSON(),
-    ).toMatchSnapshot();
+    const {container} = render(
+      <Interpolate values={values}>{text}</Interpolate>,
+    );
+    expect(container.innerHTML).toMatchInlineSnapshot(
+      `"Hello Sébastien how are you <span>today</span>? Another {unprovidedValue}!"`,
+    );
   });
 
   it('rejects when children is not string', () => {
     expect(() =>
-      renderer.create(
+      render(
         <Interpolate>
           <span>aaa</span>
         </Interpolate>,
@@ -131,7 +137,7 @@ describe('<Interpolate>', () => {
       `"The Docusaurus <Interpolate> component only accept simple string values. Received: React element"`,
     );
     expect(() =>
-      renderer.create(<Interpolate>{null}</Interpolate>),
+      render(<Interpolate>{null}</Interpolate>),
     ).toThrowErrorMatchingInlineSnapshot(
       `"The Docusaurus <Interpolate> component only accept simple string values. Received: object"`,
     );
