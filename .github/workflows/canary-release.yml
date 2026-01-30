@@ -44,10 +44,12 @@ jobs:
           git config --global user.email "canary@docusaurus.io"
           git fetch
           git checkout main
+          git log
 
       - name: TEST PUBLISH
         run: |
           cd packages/stylelint-copyright
+          cat package.json
           npm publish
 
       - name: Installation
