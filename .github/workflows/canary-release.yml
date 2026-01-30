@@ -50,7 +50,7 @@ jobs:
         run: |
           cd packages/stylelint-copyright
           cat package.json
-          npm publish
+          npm publish --tag TEST
 
       - name: Installation
         run: yarn || yarn || yarn
