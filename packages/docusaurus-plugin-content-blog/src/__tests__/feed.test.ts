@@ -13,7 +13,10 @@ import {
   DEFAULT_VCS_CONFIG,
 } from '@docusaurus/utils';
 import {fromPartial} from '@total-typescript/shoehorn';
-import {normalizePluginOptions} from '@docusaurus/utils-validation';
+import {
+  normalizePluginOptions,
+  getTagsFile,
+} from '@docusaurus/utils-validation';
 import tree from 'tree-node-cli';
 import {DEFAULT_OPTIONS, validateOptions} from '../options';
 import {generateBlogPosts} from '../blogUtils';
@@ -84,10 +87,13 @@ async function testGenerateFeeds(
     baseUrl: '/',
   });
 
+  const tagsFile = await getTagsFile({contentPaths, tags: options.tags});
+
   const blogPosts = await generateBlogPosts(
     contentPaths,
     context,
     options,
+    tagsFile,
     authorsMap,
   );
 

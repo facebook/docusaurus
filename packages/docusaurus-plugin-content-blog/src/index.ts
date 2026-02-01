@@ -20,7 +20,10 @@ import {
   resolveMarkdownLinkPathname,
   getLocaleConfig,
 } from '@docusaurus/utils';
-import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
+import {
+  getTagsFilePathsToWatch,
+  getTagsFile,
+} from '@docusaurus/utils-validation';
 import {createMDXLoaderItem} from '@docusaurus/mdx-loader';
 import {
   getBlogTags,
@@ -239,10 +242,12 @@ export default async function pluginContentBlog(
       });
       checkAuthorsMapPermalinkCollisions(authorsMap);
 
+      const tagsFile = await getTagsFile({contentPaths, tags: options.tags});
       let blogPosts = await generateBlogPosts(
         contentPaths,
         context,
         options,
+        tagsFile,
         authorsMap,
       );
       blogPosts = await applyProcessBlogPosts({
