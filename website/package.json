@@ -42,6 +42,7 @@
     "@docusaurus/core": "3.9.2",
     "@docusaurus/logger": "3.9.2",
     "@docusaurus/plugin-client-redirects": "3.9.2",
+    "@docusaurus/plugin-google-tag-manager": "3.9.2",
     "@docusaurus/plugin-ideal-image": "3.9.2",
     "@docusaurus/plugin-pwa": "3.9.2",
     "@docusaurus/plugin-rsdoctor": "3.9.2",

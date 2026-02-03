@@ -423,6 +423,12 @@ export default async function createConfigAsync() {
         } satisfies IdealImageOptions,
       ],
       [
+        '@docusaurus/plugin-google-tag-manager',
+        {
+          containerId: 'GTM-XXXXXXX',
+        },
+      ],
+      [
         'pwa',
         {
           // debug: isDeployPreview,
@@ -592,11 +598,11 @@ export default async function createConfigAsync() {
               './_dogfooding/dogfooding.css',
             ],
           },
-          gtag: !(isDeployPreview || isBranchDeploy)
-            ? {
-                trackingID: ['G-E5CR2Q1NRE'],
-              }
-            : undefined,
+          // gtag: !(isDeployPreview || isBranchDeploy)
+          //   ? {
+          //       trackingID: ['G-E5CR2Q1NRE'],
+          //     }
+          //   : undefined,
           sitemap: {
             ignorePatterns: isArgosBuild
               ? undefined
