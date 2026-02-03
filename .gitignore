@@ -51,4 +51,7 @@ website/rspack-tracing.pftrace
 website/bundler-cpu-profile.json
 website/profile.json.gz
 
-
+# Local Docker dev setup
+Dockerfile
+docker-compose.yml
+.dockerignore
