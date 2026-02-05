@@ -1,4 +1,4 @@
-name: Canary Release
+name: Publish
 
 on:
   workflow_dispatch:
@@ -7,12 +7,13 @@ on:
       - main
       - docusaurus-v**
     paths:
-      - .github/workflows/canary-release.yml
+      - .github/workflows/publish.yml
       - package.json
-      - packages/**
+      - packages/*
 
 permissions:
   contents: read
+  id-token: write # For OIDC, see https://docs.npmjs.com/trusted-publishers
 
 jobs:
   publish-canary:
@@ -32,18 +33,14 @@ jobs:
         run: |
           git config --global user.name "Docusaurus Canary"
           git config --global user.email "canary@docusaurus.io"
-          git fetch
-          git checkout main
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
-          cat .npmrc
-          echo "npm whoami"
-          npm whoami
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Installation
         run: yarn || yarn || yarn
+        # TODO Docusaurus v4: remove after we upgrade the Node version
+      - name: Upgrade Lerna
+        run: |
+          yarn add -D -W lerna@9.0.3 --ignore-scripts
+          git commit -am "chore: upgrade lerna"
       - name: Publish Canary release
         run: |
-          yarn canary
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          yarn canary:bumpVersion
+          yarn canary:publish
