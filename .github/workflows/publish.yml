@@ -1,4 +1,4 @@
-name: Canary Release
+name: Publish
 
 on:
   workflow_dispatch:
@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - docusaurus-v**
+      - slorber/fix-canary-publish-trusted
     paths:
       - .github/workflows/canary-release.yml
       - package.json
@@ -13,6 +14,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write # For OIDC, see https://docs.npmjs.com/trusted-publishers
 
 jobs:
   publish-canary:
@@ -28,22 +30,19 @@ jobs:
         with:
           node-version: lts/*
           cache: yarn
+      # Ensure the latest npm is installed for OIDC
+      - name: Update npm
+        run: |
+          npm install -g npm@latest
+          npm --version
       - name: Prepare git
         run: |
           git config --global user.name "Docusaurus Canary"
           git config --global user.email "canary@docusaurus.io"
           git fetch
           git checkout main
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
-          cat .npmrc
-          echo "npm whoami"
-          npm whoami
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Installation
         run: yarn || yarn || yarn
       - name: Publish Canary release
         run: |
           yarn canary
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
