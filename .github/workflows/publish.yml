@@ -36,6 +36,10 @@ jobs:
           git config --global user.email "canary@docusaurus.io"
       - name: Installation
         run: yarn || yarn || yarn
+        # TODO Docusaurus v4: remove after we upgrade the Node version
+      - name: Upgrade Lerna
+        run: |
+          yarn add -D -W lerna@9.0.3
       - name: Publish Canary release
         run: |
           yarn canary:bumpVersion
