@@ -30,17 +30,10 @@ jobs:
         with:
           node-version: lts/*
           cache: yarn
-      # Ensure the latest npm is installed for OIDC
-      - name: Update npm
-        run: |
-          npm install -g npm@latest
-          npm --version
       - name: Prepare git
         run: |
           git config --global user.name "Docusaurus Canary"
           git config --global user.email "canary@docusaurus.io"
-          git fetch
-        # git checkout main
       - name: Installation
         run: yarn || yarn || yarn
       - name: Publish Canary release
