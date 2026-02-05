@@ -40,6 +40,7 @@ jobs:
       - name: Upgrade Lerna
         run: |
           yarn add -D -W lerna@9.0.3
+          git commit -am "chore: upgrade lerna"
       - name: Publish Canary release
         run: |
           yarn canary:bumpVersion
