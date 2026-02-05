@@ -40,7 +40,7 @@ jobs:
           git config --global user.name "Docusaurus Canary"
           git config --global user.email "canary@docusaurus.io"
           git fetch
-          git checkout main
+        # git checkout main
       - name: Installation
         run: yarn || yarn || yarn
       - name: Publish Canary release
