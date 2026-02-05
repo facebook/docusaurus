@@ -8,9 +8,9 @@ on:
       - docusaurus-v**
       - slorber/fix-canary-publish-trusted
     paths:
-      - .github/workflows/canary-release.yml
+      - .github/workflows/publish.yml
       - package.json
-      - packages/**
+      - packages/*
 
 permissions:
   contents: read
