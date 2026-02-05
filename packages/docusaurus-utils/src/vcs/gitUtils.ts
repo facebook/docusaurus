@@ -8,7 +8,6 @@
 import path from 'path';
 import fs from 'fs-extra';
 import os from 'os';
-import _ from 'lodash';
 import execa from 'execa';
 import PQueue from 'p-queue';
 import logger from '@docusaurus/logger';
@@ -46,8 +45,17 @@ const realHasGitFn = () => {
 
 // The hasGit call is synchronous IO so we memoize it
 // The user won't install Git in the middle of a build anyway...
-const hasGit =
-  process.env.NODE_ENV === 'test' ? realHasGitFn : _.memoize(realHasGitFn);
+let hasGitCache: boolean | undefined;
+
+const hasGit = (): boolean => {
+  if (process.env.NODE_ENV === 'test') {
+    return realHasGitFn();
+  }
+  if (hasGitCache === undefined) {
+    hasGitCache = realHasGitFn();
+  }
+  return hasGitCache;
+};
 
 // TODO Docusaurus v4: remove this
 //  Exceptions are not made for control flow logic
