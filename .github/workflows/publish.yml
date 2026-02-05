@@ -45,4 +45,5 @@ jobs:
         run: yarn || yarn || yarn
       - name: Publish Canary release
         run: |
-          yarn canary
+          yarn canary:bumpVersion
+          yarn canary:publish
