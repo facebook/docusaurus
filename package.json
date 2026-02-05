@@ -51,7 +51,7 @@
     "canary:getCoreVersion": "node -p \"require('./packages/docusaurus/package.json').version\"",
     "canary:version": "echo `yarn --silent canary:getCoreVersion`-canary-`git rev-list --count HEAD`+`git rev-parse --short HEAD`",
     "canary:bumpVersion": "yarn lerna version `yarn --silent canary:version` --exact --no-push --yes",
-    "canary:publish": "yarn lerna publish from-package --dist-tag canary --yes --no-verify-access",
+    "canary:publish": "yarn lerna publish from-package --dist-tag canary --yes --no-verify-access --loglevel verbose",
     "changelog": "lerna-changelog",
     "postinstall": "patch-package && yarn lock:update && yarn build:packages",
     "prepare": "husky install",
