@@ -12062,7 +12062,7 @@ lerna-changelog@^2.2.0:
     progress "^2.0.0"
     yargs "^17.1.0"
 
-lerna@^9.0.3:
+lerna@^9.0.2:
   version "9.0.3"
   resolved "https://registry.yarnpkg.com/lerna/-/lerna-9.0.3.tgz#6913f4306071953026f9660760c6d947a38f4c17"
   integrity sha512-wCsJWKX8FaGJoWX2K5gL5q7ReqQNxNsS92AW5glBe/JzWEtoM/jgXXGrEzQzORMb8rTXYFjUjpn60et+i8XugA==
