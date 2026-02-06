@@ -151,6 +151,7 @@ export async function createTOCExportNodeAST({
         body: [
           {
             type: 'ExportNamedDeclaration',
+            attributes: [],
             declaration: {
               type: 'VariableDeclaration',
               declarations: [
