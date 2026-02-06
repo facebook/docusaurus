@@ -118,7 +118,7 @@ mkdir -p i18n/fr/docusaurus-plugin-content-blog
 cp -r blog/. i18n/fr/docusaurus-plugin-content-blog
 
 mkdir -p i18n/fr/docusaurus-plugin-content-pages
-find src/pages -name '*.md' -o -name '*.mdx' | while read f; do dir="i18n/fr/docusaurus-plugin-content-pages/$(dirname "${f#src/pages/}")"; mkdir -p "$dir"; cp "$f" "$dir/"; done
+cp -r src/pages/. i18n/fr/docusaurus-plugin-content-pages
 ```
 
 Add all these files to Git.
