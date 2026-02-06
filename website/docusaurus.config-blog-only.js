@@ -7,12 +7,15 @@
 
 /** @type {import('@docusaurus/types').Config} */
 export default {
-  title: 'Docusaurus blog only!',
+  title: 'Collegesaurus blog only!',
   tagline: 'Build optimized websites quickly, focus on your content',
-  organizationName: 'facebook',
-  projectName: 'docusaurus',
-  baseUrl: '/blog-only/',
-  url: 'https://docusaurus.io',
+  organizationName: 'h-khodor',
+  projectName: 'collegesaurus',
+  baseUrl: '/collegesaurus/',
+  url: 'https://h-khodor.github.io',
+  trailingSlash: false,
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   // We can only warn now, since we have blog pages linking to non-blog pages...
   onBrokenLinks: 'warn',
   favicon: 'img/docusaurus.ico',
