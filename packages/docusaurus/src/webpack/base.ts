@@ -165,16 +165,6 @@ export async function createBaseConfig({
         };
       }
 
-      if (process.env.DISABLE_RSPACK_INCREMENTAL) {
-        // Enabled by default since Rspack 1.4
-        console.log('Rspack incremental disabled');
-        experiments.incremental = false;
-      }
-
-      // TODO re-enable later, there's an Rspack performance issue
-      //  see https://github.com/facebook/docusaurus/pull/11178
-      experiments.parallelCodeSplitting = false;
-
       return experiments;
     }
     return undefined;
