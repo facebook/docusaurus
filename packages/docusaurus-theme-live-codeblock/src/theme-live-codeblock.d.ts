@@ -48,6 +48,13 @@ declare module '@theme/Playground/Provider' {
     children: ReactNode;
   }
 
+  export interface ResetContextValue {
+    resetKey: number;
+    reset: () => void;
+  }
+
+  export const PlaygroundResetContext: React.Context<ResetContextValue | null>;
+  export function usePlaygroundReset(): ResetContextValue;
   export default function PlaygroundProvider(props: Props): ReactNode;
 }
 
@@ -91,8 +98,10 @@ declare module '@theme/Playground/Editor' {
 declare module '@theme/Playground/Header' {
   import type {ReactNode} from 'react';
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  export interface Props {}
+  export interface Props {
+    label: ReactNode;
+    buttons?: ReactNode;
+  }
 
   export default function PlaygroundHeader(props: Props): ReactNode;
 }
@@ -104,4 +113,10 @@ declare module '@theme/ReactLiveScope' {
 
   const ReactLiveScope: Scope;
   export default ReactLiveScope;
+}
+
+declare module '@theme/Playground/Buttons/ResetButton' {
+  import type {Props} from '@theme/Playground/Buttons/ResetButton';
+
+  export default function ResetButton(props: Props): JSX.Element;
 }
