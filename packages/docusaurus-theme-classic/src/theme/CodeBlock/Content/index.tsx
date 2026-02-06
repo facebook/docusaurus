@@ -7,8 +7,11 @@
 
 import React, {type ComponentProps, type ReactNode} from 'react';
 import clsx from 'clsx';
-import {useCodeBlockContext} from '@docusaurus/theme-common/internal';
-import {usePrismTheme} from '@docusaurus/theme-common';
+import {
+  parseCodeLinesFromTokens,
+  useCodeBlockContext,
+} from '@docusaurus/theme-common/internal';
+import {usePrismTheme, useThemeConfig} from '@docusaurus/theme-common';
 import {Highlight} from 'prism-react-renderer';
 import type {Props} from '@theme/CodeBlock/Content';
 import Line from '@theme/CodeBlock/Line';
@@ -57,28 +60,39 @@ export default function CodeBlockContent({
 }: Props): ReactNode {
   const {metadata, wordWrap} = useCodeBlockContext();
   const prismTheme = usePrismTheme();
-  const {code, language, lineNumbersStart, lineClassNames} = metadata;
+  const {prism} = useThemeConfig();
+  const {codeInput, language, lineNumbersStart, metastring} = metadata;
   return (
-    <Highlight theme={prismTheme} code={code} language={language}>
-      {({className, style, tokens: lines, getLineProps, getTokenProps}) => (
-        <Pre
-          ref={wordWrap.codeBlockRef}
-          className={clsx(classNameProp, className)}
-          style={style}>
-          <Code>
-            {lines.map((line, i) => (
-              <Line
-                key={i}
-                line={line}
-                getLineProps={getLineProps}
-                getTokenProps={getTokenProps}
-                classNames={lineClassNames[i]}
-                showLineNumbers={lineNumbersStart !== undefined}
-              />
-            ))}
-          </Code>
-        </Pre>
-      )}
+    <Highlight theme={prismTheme} code={codeInput} language={language}>
+      {({className, style, tokens: lines, getLineProps, getTokenProps}) => {
+        const {lineClassNames, lineIndexes} = parseCodeLinesFromTokens({
+          codeInput,
+          tokens: lines,
+          metastring,
+          magicComments: prism.magicComments,
+          language,
+        });
+        const visibleLines = lineIndexes.map((index) => lines[index]!);
+        return (
+          <Pre
+            ref={wordWrap.codeBlockRef}
+            className={clsx(classNameProp, className)}
+            style={style}>
+            <Code>
+              {visibleLines.map((line, i) => (
+                <Line
+                  key={i}
+                  line={line}
+                  getLineProps={getLineProps}
+                  getTokenProps={getTokenProps}
+                  classNames={lineClassNames[i]}
+                  showLineNumbers={lineNumbersStart !== undefined}
+                />
+              ))}
+            </Code>
+          </Pre>
+        );
+      }}
     </Highlight>
   );
 }

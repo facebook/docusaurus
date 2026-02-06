@@ -248,20 +248,20 @@ function parseCodeLinesFromMetastring(
   return null;
 }
 
-function parseCodeLinesFromContent(
-  code: string,
+function parseCodeLinesFromLineArray(
+  lines: string[],
   params: ParseCodeLinesParam,
-): ParsedCodeLines {
+): {lineClassNames: CodeLineClassNames; lineIndexes: number[]} {
   const {language, magicComments} = params;
+  const lineIndexes = lines.map((_, index) => index);
   if (language === undefined) {
-    return {lineClassNames: {}, code};
+    return {lineClassNames: {}, lineIndexes};
   }
   const directiveRegex = getAllMagicCommentDirectiveStyles(
     language,
     magicComments,
   );
   // Go through line by line
-  const lines = code.split(/\r?\n/);
   const blocks = Object.fromEntries(
     magicComments.map((d) => [d.className, {start: 0, range: ''}]),
   );
@@ -301,6 +301,7 @@ function parseCodeLinesFromContent(
       }-${lineNumber - 1},`;
     }
     lines.splice(lineNumber, 1);
+    lineIndexes.splice(lineNumber, 1);
   }
 
   const lineClassNames: {[lineIndex: number]: string[]} = {};
@@ -311,7 +312,16 @@ function parseCodeLinesFromContent(
     });
   });
 
-  return {code: lines.join('\n'), lineClassNames};
+  return {lineClassNames, lineIndexes};
+}
+
+function parseCodeLinesFromContent(
+  code: string,
+  params: ParseCodeLinesParam,
+): ParsedCodeLines {
+  const lines = code.split(/\r?\n/);
+  const {lineClassNames} = parseCodeLinesFromLineArray(lines, params);
+  return {lineClassNames, code: lines.join('\n')};
 }
 
 /**
@@ -335,6 +345,46 @@ export function parseLines(
     parseCodeLinesFromMetastring(newCode, {...params}) ??
     parseCodeLinesFromContent(newCode, {...params})
   );
+}
+
+type TokenLine<T extends {content: string}> = T[];
+
+export function parseCodeLinesFromTokens<T extends {content: string}>(
+  params: {
+    codeInput: string;
+    tokens: TokenLine<T>[];
+  } & ParseCodeLinesParam,
+): {
+  lineClassNames: CodeLineClassNames;
+  lineIndexes: number[];
+} {
+  const {codeInput, tokens, metastring, magicComments, language} = params;
+  const lines = tokens.map((line) =>
+    line.map((token) => token.content).join(''),
+  );
+
+  if (codeInput.match(/\r?\n$/) && lines.at(-1) === '') {
+    lines.pop();
+  }
+
+  const metastringResult = parseCodeLinesFromMetastring(lines.join('\n'), {
+    metastring,
+    magicComments,
+    language,
+  });
+
+  if (metastringResult) {
+    return {
+      lineClassNames: metastringResult.lineClassNames,
+      lineIndexes: lines.map((_, index) => index),
+    };
+  }
+
+  return parseCodeLinesFromLineArray(lines, {
+    metastring,
+    magicComments,
+    language,
+  });
 }
 
 /**
@@ -402,6 +452,7 @@ export interface CodeBlockMetadata {
   className: string; // There's always a "language-<lang>" className
   language: string;
   title: ReactNode;
+  metastring: string | undefined;
   lineNumbersStart: number | undefined;
   lineClassNames: CodeLineClassNames;
 }
@@ -446,6 +497,7 @@ export function createCodeBlockMetadata(params: {
     className,
     language,
     title,
+    metastring: params.metastring,
     lineNumbersStart,
     lineClassNames,
   };
