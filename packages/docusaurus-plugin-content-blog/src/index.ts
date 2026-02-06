@@ -7,6 +7,8 @@
 
 import path from 'path';
 import logger from '@docusaurus/logger';
+import combinePromises from 'combine-promises';
+
 import {
   normalizeUrl,
   docuHash,
@@ -230,19 +232,27 @@ export default async function pluginContentBlog(
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
       const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
 
-      const authorsMap = await getAuthorsMap({
-        contentPaths,
-        authorsMapPath,
-        authorsBaseRoutePath: normalizeUrl([
+      async function getAuthorsMapChecked() {
+        const result = await getAuthorsMap({
+          contentPaths,
+          authorsMapPath,
+          authorsBaseRoutePath: normalizeUrl([
+            baseUrl,
+            routeBasePath,
+            authorsBasePath,
+          ]),
           baseUrl,
-          routeBasePath,
-          authorsBasePath,
-        ]),
-        baseUrl,
-      });
-      checkAuthorsMapPermalinkCollisions(authorsMap);
+        });
+        checkAuthorsMapPermalinkCollisions(result);
+        return result;
+      }
 
-      const tagsFile = await getTagsFile({contentPaths, tags: options.tags});
+      // Read all the input files in parallel
+      const {authorsMap, tagsFile} = await combinePromises({
+        authorsMap: getAuthorsMapChecked(),
+        tagsFile: getTagsFile({contentPaths, tags: options.tags}),
+      });
+
       let blogPosts = await generateBlogPosts(
         contentPaths,
         context,
