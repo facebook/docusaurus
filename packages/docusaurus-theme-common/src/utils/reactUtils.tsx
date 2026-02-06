@@ -88,6 +88,17 @@ export function useShallowMemoObject<O extends object>(obj: O): O {
   return useMemo(() => obj, deps.flat());
 }
 
+/**
+ * Shallow-memoize an array. Returns the same array reference if elements
+ * are shallowly equal to the previous render.
+ *
+ * @param arr
+ */
+export function useShallowMemoArray<T>(arr: T[] | undefined): T[] | undefined {
+  // eslint-disable-next-line react-compiler/react-compiler,react-hooks/exhaustive-deps
+  return useMemo(() => arr, arr ?? []);
+}
+
 type SimpleProvider = ComponentType<{children: ReactNode}>;
 
 /**
