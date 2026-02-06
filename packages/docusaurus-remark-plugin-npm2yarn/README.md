@@ -1,4 +1,4 @@
-# Remark plugin npm2yarn
+# `@docusaurus/remark-plugin-npm2yarn`
 
 ## Motivation:
 
