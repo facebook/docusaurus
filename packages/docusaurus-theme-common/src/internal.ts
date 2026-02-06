@@ -94,10 +94,6 @@ export {
 export {useDateTimeFormat} from './utils/IntlUtils';
 
 export {useHideableNavbar} from './hooks/useHideableNavbar';
-export {
-  useKeyboardNavigation,
-  keyboardFocusedClassName,
-} from './hooks/useKeyboardNavigation';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
