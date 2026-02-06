@@ -40,13 +40,13 @@ Accepted fields:
 | `include` | `string[]` | `['**/*.{js,jsx,ts,tsx,md,mdx}']` | Matching files will be included and processed. |
 | `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
 | `mdxPageComponent` | `string` | `'@theme/MDXPage'` | Component used by each MDX page. |
-| `remarkPlugins` | `[]` | `any[]` | Remark plugins passed to MDX. |
-| `rehypePlugins` | `[]` | `any[]` | Rehype plugins passed to MDX. |
-| `rehypePlugins` | `any[]` | `[]` | Recma plugins passed to MDX. |
+| `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
+| `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
+| `recmaPlugins` | `any[]` | `[]` | Recma plugins passed to MDX. |
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `showLastUpdateAuthor` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the author who last updated the page. |
-| `showLastUpdateTime` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the last date the page post was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use`fetch-depth: 0`. |
+| `showLastUpdateTime` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the last date the page post was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use `fetch-depth: 0`. When deploying to Vercel, set the environment variable `VERCEL_DEEP_CLONE=true`. |
 
 ```mdx-code-block
 </APITable>
