@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/types": "3.9.2",
-    "@rspack/core": "^1.5.0",
+    "@rspack/core": "^1.7.5",
     "@swc/core": "^1.7.39",
     "@swc/html": "^1.13.5",
     "browserslist": "^4.24.2",
