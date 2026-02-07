@@ -22,15 +22,17 @@ Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately 
 ## Requirements {#requirements}
 
 - [Node.js](https://nodejs.org/en/download/) version 20.0 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) to manage multiple Node.js versions on a single machine.
-  - When installing Node.js, it is recommended to check all checkboxes related to dependencies.
+  - When installing Node.js, it is recommended to check all checkboxes related to dependencies. 
+  - If you encounter unexpected installation errors, ensure that your Node.js version matches the above requirement exactly. 
 
 ## Scaffold project website {#scaffold-project-website}
 
-The easiest way to install Docusaurus is to use the [`create-docusaurus`](./api/misc/create-docusaurus.mdx) command line tool that helps you scaffold a skeleton Docusaurus website. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files.
+The easiest way to install Docusaurus is to use the [`create-docusaurus`](./api/misc/create-docusaurus.mdx) command line tool that helps you scaffold a skeleton Docusaurus website. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files. 
 
 ```bash
 npx create-docusaurus@latest my-website classic
 ```
+This command uses `npx` to run the latest version of `create-docusaurus` without updating it globally.
 
 We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
@@ -135,7 +137,7 @@ cd my-website
 npm run start
 ```
 
-By default, a browser window will open at [`http://localhost:3000`](http://localhost:3000).
+By default, a browser window will open at [`http://localhost:3000`](http://localhost:3000). If the browser window does not open, you can manually enter [`http://localhost:3000`](http://localhost:3000) into your browser.
 
 Congratulations! You have just created your first Docusaurus site! Browse around the site to see what's available.
 
