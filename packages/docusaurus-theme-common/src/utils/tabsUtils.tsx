@@ -6,7 +6,6 @@
  */
 
 import React, {
-  isValidElement,
   useCallback,
   useState,
   useMemo,
@@ -52,30 +51,11 @@ export interface TabItemProps {
   readonly attributes?: {[key: string]: unknown};
 }
 
-// A very rough duck type, but good enough to guard against mistakes while
-// allowing customization
-function isTabItem(
-  comp: ReactElement<unknown>,
-): comp is ReactElement<TabItemProps> {
-  const {props} = comp;
-  return !!props && typeof props === 'object' && 'value' in props;
-}
-
 export function sanitizeTabsChildren(children: TabsProps['children']) {
   return (React.Children.toArray(children)
     .filter((child) => child !== '\n')
     .map((child) => {
-      if (!child || (isValidElement(child) && isTabItem(child))) {
-        return child;
-      }
-      // child.type.name will give non-sensical values in prod because of
-      // minification, but we assume it won't throw in prod.
-      throw new Error(
-        `Docusaurus error: Bad <Tabs> child <${
-          // @ts-expect-error: guarding against unexpected cases
-          typeof child.type === 'string' ? child.type : child.type.name
-        }>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.`,
-      );
+      return child;
     })
     ?.filter(Boolean) ?? []) as ReactElement<TabItemProps>[];
 }
