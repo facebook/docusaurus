@@ -73,6 +73,16 @@ function hasGit() {
   return exec('git --version').exitCode === 0;
 }
 
+function isInsideGitWorkTree() {
+  try {
+    return (
+      execa.commandSync('git rev-parse --is-inside-work-tree').exitCode === 0
+    );
+  } catch {
+    return false;
+  }
+}
+
 export async function deploy(
   siteDirParam: string = '.',
   cliOptions: Partial<DeployCLIOptions> = {},
@@ -97,12 +107,37 @@ This behavior can have SEO impacts and create relative link issues.
     throw new Error('Git not installed or not added to PATH!');
   }
 
+  if (!isInsideGitWorkTree()) {
+    throw new Error(
+      `The deploy command requires the project to be in a Git repository.
+The project directory "${siteDir}" is not part of a Git repository.
+Please run "git init" and set up a remote "origin" repository before deploying.`,
+    );
+  }
+
   // Source repo is the repo from where the command is invoked
-  const {stdout} = exec('git remote get-url origin', {
-    log: false,
-    failfast: true,
-  });
-  const sourceRepoUrl = stdout.trim();
+  let sourceRepoUrl: string;
+  try {
+    const {stdout: sourceRepoUrlRaw} = exec('git remote get-url origin', {
+      log: false,
+    });
+    sourceRepoUrl = sourceRepoUrlRaw.trim();
+  } catch (err) {
+    throw new Error(
+      `The deploy command requires a Git remote called "origin" to be configured.
+No "origin" remote found in the Git repository at "${siteDir}".
+Please set up a remote by running: git remote add origin <your-repo-url>`,
+      {cause: err},
+    );
+  }
+
+  if (!sourceRepoUrl) {
+    throw new Error(
+      `The deploy command requires a Git remote called "origin" to be configured.
+The "origin" remote URL is empty in the Git repository at "${siteDir}".
+Please set up a remote by running: git remote set-url origin <your-repo-url>`,
+    );
+  }
 
   // The source branch; defaults to the currently checked out branch
   const sourceBranch =
