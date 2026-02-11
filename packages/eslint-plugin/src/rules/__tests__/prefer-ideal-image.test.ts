@@ -40,6 +40,9 @@ ruleTester.run('prefer-ideal-image', rule, {
     {
       code: '<img src={someVariable} />',
     },
+    {
+      code: "<img src='./img.svg' />",
+    },
   ],
   invalid: [
     {
