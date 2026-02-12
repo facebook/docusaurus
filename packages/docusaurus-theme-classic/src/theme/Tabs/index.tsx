@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {cloneElement, type ReactElement, type ReactNode} from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import {
@@ -13,7 +13,6 @@ import {
   useTabsContextValue,
   useTabsContext,
   sanitizeTabsChildren,
-  type TabItemProps,
   TabsContextProvider,
 } from '@docusaurus/theme-common/internal';
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -108,33 +107,7 @@ function TabList({className}: {className?: string}) {
 }
 
 function TabContent({children}: {children: ReactNode}) {
-  const {selectedValue, lazy} = useTabsContext();
-
-  const childTabs = (Array.isArray(children) ? children : [children]).filter(
-    Boolean,
-  ) as ReactElement<TabItemProps>[];
-  if (lazy) {
-    const selectedTabItem = childTabs.find(
-      (tabItem) => tabItem.props.value === selectedValue,
-    );
-    if (!selectedTabItem) {
-      // fail-safe or fail-fast? not sure what's best here
-      return null;
-    }
-    return cloneElement(selectedTabItem, {
-      className: clsx('margin-top--md', selectedTabItem.props.className),
-    });
-  }
-  return (
-    <div className="margin-top--md">
-      {childTabs.map((tabItem, i) =>
-        cloneElement(tabItem, {
-          key: i,
-          hidden: tabItem.props.value !== selectedValue,
-        }),
-      )}
-    </div>
-  );
+  return <div className="margin-top--md">{children}</div>;
 }
 
 function TabsContainer({
