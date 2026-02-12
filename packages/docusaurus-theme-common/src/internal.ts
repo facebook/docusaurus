@@ -23,7 +23,12 @@ export {
   useAnnouncementBar,
 } from './contexts/announcementBar';
 
-export {useTabs, sanitizeTabsChildren} from './utils/tabsUtils';
+export {
+  sanitizeTabsChildren,
+  TabsProvider,
+  useTabs,
+  useTabsContextValue,
+} from './utils/tabsUtils';
 export type {TabValue, TabsProps, TabItemProps} from './utils/tabsUtils';
 
 export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
