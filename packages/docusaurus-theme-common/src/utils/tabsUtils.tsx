@@ -229,6 +229,11 @@ type TabsContextValue = {
   selectedValue: string;
   selectValue: (value: string) => void;
   tabValues: readonly TabValue[];
+  lazy: boolean;
+  // TODO Docusaurus v4: remove this "block" concept?
+  //  TIL about it, and afaik we never used nor documented it
+  //  See https://infima.dev/docs/components/tabs#block
+  block: boolean;
 };
 
 export function useTabsContextValue(props: TabsProps): TabsContextValue {
@@ -276,7 +281,13 @@ export function useTabsContextValue(props: TabsProps): TabsContextValue {
     [setQueryString, setStorageValue, tabValues],
   );
 
-  return {selectedValue, selectValue, tabValues};
+  return {
+    selectedValue,
+    selectValue,
+    tabValues,
+    lazy: props.lazy ?? false,
+    block: props.block ?? false,
+  };
 }
 
 const TabsContext = createContext<TabsContextValue | null>(null);

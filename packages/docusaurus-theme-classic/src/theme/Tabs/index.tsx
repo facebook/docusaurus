@@ -20,8 +20,8 @@ import useIsBrowser from '@docusaurus/useIsBrowser';
 import type {Props} from '@theme/Tabs';
 import styles from './styles.module.css';
 
-function TabList({className, block}: Props) {
-  const {selectedValue, selectValue, tabValues} = useTabsContext();
+function TabList({className}: {className?: string}) {
+  const {selectedValue, selectValue, tabValues, block} = useTabsContext();
 
   const tabRefs: (HTMLLIElement | null)[] = [];
   const {blockElementScrollPositionUntilNextRender} =
@@ -86,8 +86,8 @@ function TabList({className, block}: Props) {
           tabIndex={selectedValue === value ? 0 : -1}
           aria-selected={selectedValue === value}
           key={value}
-          ref={(tabControl) => {
-            tabRefs.push(tabControl);
+          ref={(ref) => {
+            tabRefs.push(ref);
           }}
           onKeyDown={handleKeydown}
           onClick={handleTabChange}
@@ -107,8 +107,8 @@ function TabList({className, block}: Props) {
   );
 }
 
-function TabContent({lazy, children}: Props) {
-  const {selectedValue} = useTabsContext();
+function TabContent({children}: {children: ReactNode}) {
+  const {selectedValue, lazy} = useTabsContext();
 
   const childTabs = (Array.isArray(children) ? children : [children]).filter(
     Boolean,
@@ -137,7 +137,13 @@ function TabContent({lazy, children}: Props) {
   );
 }
 
-function TabsContainer(props: Props): ReactNode {
+function TabsContainer({
+  className,
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}): ReactNode {
   return (
     <div
       className={clsx(
@@ -147,8 +153,12 @@ function TabsContainer(props: Props): ReactNode {
         'tabs-container',
         styles.tabList,
       )}>
-      <TabList {...props} />
-      <TabContent {...props} />
+      <TabList
+        // Surprising but historical
+        // className is applied on TabList, not on TabsContainer
+        className={className}
+      />
+      <TabContent>{children}</TabContent>
     </div>
   );
 }
@@ -162,7 +172,7 @@ export default function Tabs(props: Props): ReactNode {
       // Remount tabs after hydration
       // Temporary fix for https://github.com/facebook/docusaurus/issues/5653
       key={String(isBrowser)}>
-      <TabsContainer {...props}>
+      <TabsContainer className={props.className}>
         {sanitizeTabsChildren(props.children)}
       </TabsContainer>
     </TabsContextProvider>
