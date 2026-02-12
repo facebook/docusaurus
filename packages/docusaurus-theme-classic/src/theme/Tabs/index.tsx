@@ -10,21 +10,19 @@ import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import {
   useScrollPositionBlocker,
-  useTabs,
+  useTabsContextValue,
+  useTabsContext,
   sanitizeTabsChildren,
   type TabItemProps,
+  TabsContextProvider,
 } from '@docusaurus/theme-common/internal';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import type {Props} from '@theme/Tabs';
 import styles from './styles.module.css';
 
-function TabList({
-  className,
-  block,
-  selectedValue,
-  selectValue,
-  tabValues,
-}: Props & ReturnType<typeof useTabs>) {
+function TabList({className, block}: Props) {
+  const {selectedValue, selectValue, tabValues} = useTabsContext();
+
   const tabRefs: (HTMLLIElement | null)[] = [];
   const {blockElementScrollPositionUntilNextRender} =
     useScrollPositionBlocker();
@@ -109,11 +107,9 @@ function TabList({
   );
 }
 
-function TabContent({
-  lazy,
-  children,
-  selectedValue,
-}: Props & ReturnType<typeof useTabs>) {
+function TabContent({lazy, children}: Props) {
+  const {selectedValue} = useTabsContext();
+
   const childTabs = (Array.isArray(children) ? children : [children]).filter(
     Boolean,
   ) as ReactElement<TabItemProps>[];
@@ -141,8 +137,7 @@ function TabContent({
   );
 }
 
-function TabsComponent(props: Props): ReactNode {
-  const tabs = useTabs(props);
+function TabsContainer(props: Props): ReactNode {
   return (
     <div
       className={clsx(
@@ -152,21 +147,24 @@ function TabsComponent(props: Props): ReactNode {
         'tabs-container',
         styles.tabList,
       )}>
-      <TabList {...tabs} {...props} />
-      <TabContent {...tabs} {...props} />
+      <TabList {...props} />
+      <TabContent {...props} />
     </div>
   );
 }
 
 export default function Tabs(props: Props): ReactNode {
   const isBrowser = useIsBrowser();
+  const value = useTabsContextValue(props);
   return (
-    <TabsComponent
+    <TabsContextProvider
+      value={value}
       // Remount tabs after hydration
       // Temporary fix for https://github.com/facebook/docusaurus/issues/5653
-      key={String(isBrowser)}
-      {...props}>
-      {sanitizeTabsChildren(props.children)}
-    </TabsComponent>
+      key={String(isBrowser)}>
+      <TabsContainer {...props}>
+        {sanitizeTabsChildren(props.children)}
+      </TabsContainer>
+    </TabsContextProvider>
   );
 }

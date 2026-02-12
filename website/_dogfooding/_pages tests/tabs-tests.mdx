@@ -45,3 +45,37 @@ When clicking tabs above, they should stay under cursor and we should adjust the
     This is a banana 🍌
   </TabItem>
 </Tabs>
+
+## Tabs with wrappers
+
+export function Local(props) {
+  return (
+    <TabItem value="local" {...props}>
+      Local content
+    </TabItem>
+  );
+}
+
+export function PaaS(props) {
+  return (
+    <TabItem value="paas" {...props}>
+      PaaS content
+    </TabItem>
+  );
+}
+
+export function InstallationTabs() {
+  return (
+    <Tabs
+      groupId="installation"
+      values={[
+        {value: 'local', label: 'Local Installation'},
+        {value: 'paas', label: 'Platform as a Service'},
+      ]}>
+      <Local />
+      <PaaS />
+    </Tabs>
+  );
+}
+
+<InstallationTabs />

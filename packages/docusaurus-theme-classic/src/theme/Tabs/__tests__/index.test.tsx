@@ -9,7 +9,8 @@
 
 // Jest doesn't allow pragma below other comments. https://github.com/facebook/jest/issues/12573
 // eslint-disable-next-line header/header
-import React, {type ReactNode} from 'react';
+import React from 'react';
+import type {PropsWithChildren, ReactNode} from 'react';
 import {render} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {ScrollControllerProvider} from '@docusaurus/theme-common/internal';
@@ -21,7 +22,7 @@ function TestProviders({
   children,
   pathname = '/',
 }: {
-  children: ReactNode;
+  children?: ReactNode;
   pathname?: string;
 }) {
   return (
@@ -42,10 +43,12 @@ describe('Tabs', () => {
           </Tabs>
         </TestProviders>,
       );
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop."`,
-    );
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus error: Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.
+      If you do not want to pass on a "value" prop to the direct children of <Tabs>, you can also pass an explicit <Tabs values={...}> prop."
+    `);
   });
+
   it('rejects bad Tabs defaultValue', () => {
     expect(() => {
       render(
@@ -60,6 +63,7 @@ describe('Tabs', () => {
       `"Docusaurus error: The <Tabs> has a defaultValue "bad" but none of its children has the corresponding value. Available values are: v1, v2. If you intend to show no default tab, use defaultValue={null} instead."`,
     );
   });
+
   it('rejects duplicate values', () => {
     expect(() => {
       render(
@@ -75,9 +79,36 @@ describe('Tabs', () => {
         </TestProviders>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: Duplicate values "v1, v2" found in <Tabs>. Every value needs to be unique."`,
+      `"Docusaurus error: Duplicate values "'v1', 'v2'" found in <Tabs>. Every value needs to be unique."`,
     );
   });
+
+  it('rejects duplicate values as prop', () => {
+    expect(() => {
+      render(
+        <TestProviders>
+          <Tabs
+            values={[
+              {value: 'v1', label: 'V1'},
+              {value: 'v2', label: 'V2'},
+              {value: 'v3', label: 'V3'},
+              {value: 'v1', label: 'V1 different label'},
+              {value: 'v2', label: 'V3 different label'},
+            ]}>
+            <TabItem value="v1">Tab 1</TabItem>
+            <TabItem value="v2">Tab 2</TabItem>
+            <TabItem value="v3">Tab 3</TabItem>
+            <TabItem value="v4">Tab 4</TabItem>
+            <TabItem value="v1">Tab 5</TabItem>
+            <TabItem value="v2">Tab 6</TabItem>
+          </Tabs>
+        </TestProviders>,
+      );
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Docusaurus error: Duplicate values "'v1', 'v2'" found in <Tabs>. Every value needs to be unique."`,
+    );
+  });
+
   it('accepts valid Tabs config', () => {
     expect(() => {
       render(
@@ -130,6 +161,7 @@ describe('Tabs', () => {
       );
     }).not.toThrow(); // TODO Better Jest infrastructure to mock the Layout
   });
+
   // https://github.com/facebook/docusaurus/issues/5729
   it('accepts dynamic Tabs with number values', () => {
     expect(() => {
@@ -149,6 +181,67 @@ describe('Tabs', () => {
       );
     }).not.toThrow();
   });
+
+  // https://github.com/facebook/docusaurus/issues/11672
+  it('rejects wrapped TabItem components when NOT using Tab values props', () => {
+    expect(() => {
+      function TabItem1({children}: PropsWithChildren) {
+        return (
+          <TabItem value="item1" label="Item 1">
+            {children}
+          </TabItem>
+        );
+      }
+
+      function TabItem2({children}: PropsWithChildren) {
+        return (
+          <TabItem value="item2" label="Item 2">
+            {children}
+          </TabItem>
+        );
+      }
+
+      render(
+        <TestProviders>
+          <Tabs>
+            <TabItem1>content1</TabItem1>
+            <TabItem2>content1</TabItem2>
+          </Tabs>
+        </TestProviders>,
+      );
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus error: Bad <Tabs> child <TabItem1>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.
+      If you do not want to pass on a "value" prop to the direct children of <Tabs>, you can also pass an explicit <Tabs values={...}> prop."
+    `);
+  });
+
+  // https://github.com/facebook/docusaurus/issues/11672
+  it('accepts wrapped TabItem components when using Tab values props', () => {
+    expect(() => {
+      function TabItem1({children}: PropsWithChildren) {
+        return <TabItem value="item1">{children}</TabItem>;
+      }
+
+      function TabItem2({children}: PropsWithChildren) {
+        return <TabItem value="item2">{children}</TabItem>;
+      }
+
+      render(
+        <TestProviders>
+          <Tabs
+            defaultValue="item1"
+            values={[
+              {label: 'Item 1', value: 'item1'},
+              {label: 'Item 2', value: 'item2'},
+            ]}>
+            <TabItem1>content1</TabItem1>
+            <TabItem2>content2</TabItem2>
+          </Tabs>
+        </TestProviders>,
+      );
+    }).not.toThrow();
+  });
+
   it('rejects if querystring is true, but groupId falsy', () => {
     expect(() => {
       render(
