@@ -25,6 +25,9 @@ import type {
 
 import styles from './styles.module.css';
 
+const startsWithEmoji = (str: string) =>
+  /^\p{Extended_Pictographic}/u.test(str);
+
 function useCategoryItemsPlural() {
   const {selectMessage} = usePluralForm();
   return (count: number) =>
@@ -101,11 +104,13 @@ function CardCategory({item}: {item: PropSidebarItemCategory}): ReactNode {
     return null;
   }
 
+  const icon = startsWithEmoji(item.label) ? undefined : '🗃️';
+
   return (
     <CardLayout
       className={item.className}
       href={href}
-      icon="🗃️"
+      icon={icon}
       title={item.label}
       description={item.description ?? categoryItemsPlural(item.items.length)}
     />
@@ -113,7 +118,12 @@ function CardCategory({item}: {item: PropSidebarItemCategory}): ReactNode {
 }
 
 function CardLink({item}: {item: PropSidebarItemLink}): ReactNode {
-  const icon = isInternalUrl(item.href) ? '📄️' : '🔗';
+  const icon = startsWithEmoji(item.label)
+    ? undefined
+    : isInternalUrl(item.href)
+    ? '📄️'
+    : '🔗';
+
   const doc = useDocById(item.docId ?? undefined);
   return (
     <CardLayout
