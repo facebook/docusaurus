@@ -291,7 +291,7 @@ export function useTabsContextValue(props: TabsProps): TabsContextValue {
 
 const TabsContext = createContext<TabsContextValue | null>(null);
 
-export function useTabsContext(): TabsContextValue {
+export function useTabs(): TabsContextValue {
   const contextValue = React.useContext(TabsContext);
   if (!contextValue) {
     throw new Error('useTabsContext() must be used within a Tabs component');
@@ -299,7 +299,7 @@ export function useTabsContext(): TabsContextValue {
   return contextValue;
 }
 
-export function TabsContextProvider(props: {
+export function TabsProvider(props: {
   children: ReactNode;
   value: TabsContextValue;
 }): ReactNode {

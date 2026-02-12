@@ -25,8 +25,8 @@ export {
 
 export {
   sanitizeTabsChildren,
-  TabsContextProvider,
-  useTabsContext,
+  TabsProvider,
+  useTabs,
   useTabsContextValue,
 } from './utils/tabsUtils';
 export type {TabValue, TabsProps, TabItemProps} from './utils/tabsUtils';

@@ -11,16 +11,16 @@ import {ThemeClassNames} from '@docusaurus/theme-common';
 import {
   useScrollPositionBlocker,
   useTabsContextValue,
-  useTabsContext,
+  useTabs,
   sanitizeTabsChildren,
-  TabsContextProvider,
+  TabsProvider,
 } from '@docusaurus/theme-common/internal';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import type {Props} from '@theme/Tabs';
 import styles from './styles.module.css';
 
 function TabList({className}: {className?: string}) {
-  const {selectedValue, selectValue, tabValues, block} = useTabsContext();
+  const {selectedValue, selectValue, tabValues, block} = useTabs();
 
   const tabRefs: (HTMLLIElement | null)[] = [];
   const {blockElementScrollPositionUntilNextRender} =
@@ -140,7 +140,7 @@ export default function Tabs(props: Props): ReactNode {
   const isBrowser = useIsBrowser();
   const value = useTabsContextValue(props);
   return (
-    <TabsContextProvider
+    <TabsProvider
       value={value}
       // Remount tabs after hydration
       // Temporary fix for https://github.com/facebook/docusaurus/issues/5653
@@ -148,6 +148,6 @@ export default function Tabs(props: Props): ReactNode {
       <TabsContainer className={props.className}>
         {sanitizeTabsChildren(props.children)}
       </TabsContainer>
-    </TabsContextProvider>
+    </TabsProvider>
   );
 }

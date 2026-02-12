@@ -7,7 +7,7 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
-import {useTabsContext} from '@docusaurus/theme-common/internal';
+import {useTabs} from '@docusaurus/theme-common/internal';
 import type {Props} from '@theme/TabItem';
 
 import styles from './styles.module.css';
@@ -36,7 +36,7 @@ export default function TabItem({
   className,
   value,
 }: Props): ReactNode {
-  const {selectedValue, lazy} = useTabsContext();
+  const {selectedValue, lazy} = useTabs();
   const isSelected = value === selectedValue;
 
   // TODO Docusaurus v4: use <Activity> ?
