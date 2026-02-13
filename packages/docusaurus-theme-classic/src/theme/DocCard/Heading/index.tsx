@@ -19,11 +19,7 @@ export default function DocCardHeading({item, title, icon}: Props): ReactNode {
   return (
     <Heading
       as="h2"
-      className={clsx(
-        'text--truncate',
-        ThemeClassNames.docs.docCard.heading,
-        styles.cardTitle,
-      )}
+      className={clsx(ThemeClassNames.docs.docCard.heading, styles.cardTitle)}
       title={title}>
       {icon && <Icon item={item} icon={icon} />}
       <Text item={item} title={title} />
