@@ -9,11 +9,13 @@ import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import Heading from '@theme/Heading';
+import Icon from '@theme/DocCard/Heading/Icon';
+import Text from '@theme/DocCard/Heading/Text';
 import type {Props} from '@theme/DocCard/Heading';
 
 import styles from './styles.module.css';
 
-export default function DocCardHeading({title, icon}: Props): ReactNode {
+export default function DocCardHeading({item, title, icon}: Props): ReactNode {
   return (
     <Heading
       as="h2"
@@ -23,22 +25,8 @@ export default function DocCardHeading({title, icon}: Props): ReactNode {
         styles.cardTitle,
       )}
       title={title}>
-      {icon && (
-        <span
-          className={clsx(
-            ThemeClassNames.docs.docCard.icon,
-            styles.cardTitleIcon,
-          )}>
-          {icon}
-        </span>
-      )}
-      <span
-        className={clsx(
-          ThemeClassNames.docs.docCard.title,
-          styles.cardTitleText,
-        )}>
-        {title}
-      </span>
+      {icon && <Icon item={item} icon={icon} />}
+      <Text item={item} title={title} />
     </Heading>
   );
 }

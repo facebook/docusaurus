@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.cardTitle {
-  display: inline-flex;
-  align-items: center;
+.cardTitleIcon {
+  font-size: 1.6rem;
+  margin-right: 0.6rem;
 }

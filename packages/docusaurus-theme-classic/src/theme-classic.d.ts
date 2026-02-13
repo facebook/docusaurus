@@ -595,6 +595,30 @@ declare module '@theme/DocCard/Heading' {
   export default function DocCardHeading(props: Props): ReactNode;
 }
 
+declare module '@theme/DocCard/Heading/Icon' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly icon: ReactNode;
+  }
+
+  export default function DocCardHeadingIcon(props: Props): ReactNode;
+}
+
+declare module '@theme/DocCard/Heading/Text' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly title: string;
+  }
+
+  export default function DocCardHeadingText(props: Props): ReactNode;
+}
+
 declare module '@theme/DocCard/Description' {
   import type {ReactNode} from 'react';
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
