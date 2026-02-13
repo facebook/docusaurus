@@ -10,10 +10,11 @@ import {
   useDocById,
   findFirstSidebarItemLink,
 } from '@docusaurus/plugin-content-docs/client';
-import {usePluralForm} from '@docusaurus/theme-common';
-import {extractLeadingEmoji} from '@docusaurus/theme-common/internal';
+import {
+  extractLeadingEmoji,
+  useDocCardDescriptionCategoryItemsPlural,
+} from '@docusaurus/theme-common/internal';
 import isInternalUrl from '@docusaurus/isInternalUrl';
-import {translate} from '@docusaurus/Translate';
 import Layout from '@theme/DocCard/Layout';
 
 import type {Props} from '@theme/DocCard';
@@ -21,23 +22,6 @@ import type {
   PropSidebarItemCategory,
   PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs';
-
-function useCategoryItemsPlural() {
-  const {selectMessage} = usePluralForm();
-  return (count: number) =>
-    selectMessage(
-      count,
-      translate(
-        {
-          message: '1 item|{count} items',
-          id: 'theme.docs.DocCard.categoryDescription.plurals',
-          description:
-            'The default description for a category card in the generated index about how many items this category includes',
-        },
-        {count},
-      ),
-    );
-}
 
 function getFallbackEmojiIcon(
   item: PropSidebarItemLink | PropSidebarItemCategory,
@@ -61,7 +45,7 @@ function getIconTitleProps(
 
 function CardCategory({item}: {item: PropSidebarItemCategory}): ReactNode {
   const href = findFirstSidebarItemLink(item);
-  const categoryItemsPlural = useCategoryItemsPlural();
+  const categoryItemsPlural = useDocCardDescriptionCategoryItemsPlural();
 
   // Unexpected: categories that don't have a link have been filtered upfront
   if (!href) {

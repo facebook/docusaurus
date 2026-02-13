@@ -105,6 +105,7 @@ export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
 
+export {useDocCardDescriptionCategoryItemsPlural} from './translations/docsTranslations';
 export {
   useBlogTagsPostsPageTitle,
   useBlogAuthorPageTitle,
