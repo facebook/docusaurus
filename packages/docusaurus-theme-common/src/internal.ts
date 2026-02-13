@@ -91,6 +91,8 @@ export {PluginHtmlClassNameProvider} from './utils/metadataUtils';
 
 export {splitNavbarItems, NavbarProvider} from './utils/navbarUtils';
 
+export {extractLeadingEmoji} from './utils/emojiUtils';
+
 export {
   useTOCHighlight,
   type TOCHighlightConfig,
@@ -103,6 +105,7 @@ export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
 
+export {useDocCardDescriptionCategoryItemsPlural} from './translations/docsTranslations';
 export {
   useBlogTagsPostsPageTitle,
   useBlogAuthorPageTitle,
