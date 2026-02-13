@@ -213,7 +213,7 @@ async function resolveXsltFilePaths({
     parsedPath.dir,
     `${parsedPath.name}.css`,
   );
-  if (!(await fs.pathExists(xsltAbsolutePath))) {
+  if (!(await fs.pathExists(cssAbsolutePath))) {
     throw new Error(
       logger.interpolate`Blog feed XSLT file was found at path=${path.relative(
         process.cwd(),
