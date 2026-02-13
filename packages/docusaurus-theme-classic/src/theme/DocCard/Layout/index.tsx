@@ -8,6 +8,7 @@
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 import Heading from '@theme/DocCard/Heading';
 import Description from '@theme/DocCard/Description';
 import type {Props} from '@theme/DocCard/Layout';
@@ -26,7 +27,12 @@ function Container({
   return (
     <Link
       href={href}
-      className={clsx('card padding--lg', styles.container, className)}>
+      className={clsx(
+        'card padding--lg',
+        ThemeClassNames.docs.docCard.container,
+        styles.cardContainer,
+        className,
+      )}>
       {children}
     </Link>
   );

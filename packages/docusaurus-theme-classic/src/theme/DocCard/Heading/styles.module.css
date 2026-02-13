@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.heading {
+.cardTitle {
   display: inline-flex;
   align-items: center;
 }
 
-.headingIcon {
+.cardTitleIcon {
   font-size: 1.6rem;
   margin-right: 0.6rem;
 }
 
-.headingText {
+.cardTitleText {
   font-size: 1.2rem;
 }

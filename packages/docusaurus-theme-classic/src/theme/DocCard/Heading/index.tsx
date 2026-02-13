@@ -7,6 +7,7 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 import Heading from '@theme/Heading';
 import type {Props} from '@theme/DocCard/Heading';
 
@@ -16,10 +17,28 @@ export default function DocCardHeading({title, icon}: Props): ReactNode {
   return (
     <Heading
       as="h2"
-      className={clsx('text--truncate', styles.heading)}
+      className={clsx(
+        'text--truncate',
+        ThemeClassNames.docs.docCard.heading,
+        styles.cardTitle,
+      )}
       title={title}>
-      {icon && <span className={styles.headingIcon}>{icon}</span>}
-      <span className={styles.headingText}>{title}</span>
+      {icon && (
+        <span
+          className={clsx(
+            ThemeClassNames.docs.docCard.icon,
+            styles.cardTitleIcon,
+          )}>
+          {icon}
+        </span>
+      )}
+      <span
+        className={clsx(
+          ThemeClassNames.docs.docCard.title,
+          styles.cardTitleText,
+        )}>
+        {title}
+      </span>
     </Heading>
   );
 }
