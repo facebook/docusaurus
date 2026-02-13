@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.cardContainer {
+.container {
   --ifm-link-color: var(--ifm-color-emphasis-800);
   --ifm-link-hover-color: var(--ifm-color-emphasis-700);
   --ifm-link-hover-decoration: none;
@@ -16,19 +16,11 @@
   transition-property: border, box-shadow;
 }
 
-.cardContainer:hover {
+.container:hover {
   border-color: var(--ifm-color-primary);
   box-shadow: 0 3px 6px 0 rgb(0 0 0 / 20%);
 }
 
-.cardContainer *:last-child {
+.container *:last-child {
   margin-bottom: 0;
-}
-
-.cardTitle {
-  font-size: 1.2rem;
-}
-
-.cardDescription {
-  font-size: 0.8rem;
 }

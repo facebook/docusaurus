@@ -6,27 +6,21 @@
  */
 
 import React, {type ReactNode} from 'react';
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
 import {
   useDocById,
   findFirstSidebarItemLink,
 } from '@docusaurus/plugin-content-docs/client';
 import {usePluralForm} from '@docusaurus/theme-common';
+import {extractLeadingEmoji} from '@docusaurus/theme-common/internal';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import {translate} from '@docusaurus/Translate';
+import Layout from '@theme/DocCard/Layout';
 
 import type {Props} from '@theme/DocCard';
-import Heading from '@theme/Heading';
 import type {
   PropSidebarItemCategory,
   PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs';
-
-import styles from './styles.module.css';
-
-const startsWithEmoji = (str: string) =>
-  /^\p{Extended_Pictographic}/u.test(str);
 
 function useCategoryItemsPlural() {
   const {selectMessage} = usePluralForm();
@@ -45,54 +39,24 @@ function useCategoryItemsPlural() {
     );
 }
 
-function CardContainer({
-  className,
-  href,
-  children,
-}: {
-  className?: string;
-  href: string;
-  children: ReactNode;
-}): ReactNode {
-  return (
-    <Link
-      href={href}
-      className={clsx('card padding--lg', styles.cardContainer, className)}>
-      {children}
-    </Link>
-  );
+function getFallbackEmojiIcon(
+  item: PropSidebarItemLink | PropSidebarItemCategory,
+): string {
+  if (item.type === 'category') {
+    return '🗃';
+  }
+  return isInternalUrl(item.href) ? '📄️' : '🔗';
 }
 
-function CardLayout({
-  className,
-  href,
-  icon,
-  title,
-  description,
-}: {
-  className?: string;
-  href: string;
-  icon: ReactNode;
-  title: string;
-  description?: string;
-}): ReactNode {
-  return (
-    <CardContainer href={href} className={className}>
-      <Heading
-        as="h2"
-        className={clsx('text--truncate', styles.cardTitle)}
-        title={title}>
-        {icon} {title}
-      </Heading>
-      {description && (
-        <p
-          className={clsx('text--truncate', styles.cardDescription)}
-          title={description}>
-          {description}
-        </p>
-      )}
-    </CardContainer>
-  );
+function getIconTitleProps(
+  item: PropSidebarItemLink | PropSidebarItemCategory,
+): {icon: ReactNode; title: string} {
+  const extracted = extractLeadingEmoji(item.label);
+  const emoji = extracted.emoji ?? getFallbackEmojiIcon(item);
+  return {
+    icon: emoji,
+    title: extracted.rest.trim(),
+  };
 }
 
 function CardCategory({item}: {item: PropSidebarItemCategory}): ReactNode {
@@ -103,35 +67,26 @@ function CardCategory({item}: {item: PropSidebarItemCategory}): ReactNode {
   if (!href) {
     return null;
   }
-
-  const icon = startsWithEmoji(item.label) ? undefined : '🗃️';
-
   return (
-    <CardLayout
+    <Layout
+      item={item}
       className={item.className}
       href={href}
-      icon={icon}
-      title={item.label}
       description={item.description ?? categoryItemsPlural(item.items.length)}
+      {...getIconTitleProps(item)}
     />
   );
 }
 
 function CardLink({item}: {item: PropSidebarItemLink}): ReactNode {
-  const icon = startsWithEmoji(item.label)
-    ? undefined
-    : isInternalUrl(item.href)
-    ? '📄️'
-    : '🔗';
-
   const doc = useDocById(item.docId ?? undefined);
   return (
-    <CardLayout
+    <Layout
+      item={item}
       className={item.className}
       href={item.href}
-      icon={icon}
-      title={item.label}
       description={item.description ?? doc?.description}
+      {...getIconTitleProps(item)}
     />
   );
 }
