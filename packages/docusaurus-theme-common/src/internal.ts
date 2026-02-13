@@ -91,6 +91,8 @@ export {PluginHtmlClassNameProvider} from './utils/metadataUtils';
 
 export {splitNavbarItems, NavbarProvider} from './utils/navbarUtils';
 
+export {extractLeadingEmoji} from './utils/emojiUtils';
+
 export {
   useTOCHighlight,
   type TOCHighlightConfig,
