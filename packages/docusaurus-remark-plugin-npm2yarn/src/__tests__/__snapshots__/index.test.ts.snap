@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`npm2yarn plugin does not re-import tabs components real-world multiple npm2yarn usage 1`] = `
 "import Tabs from '@theme/Tabs'

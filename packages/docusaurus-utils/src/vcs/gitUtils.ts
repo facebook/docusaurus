@@ -242,7 +242,9 @@ async function getGitCommitInfo(
       }
     } else {
       throw new Error(
-        `An error occurred when trying to get the last update date`,
+        `An error occurred when trying to get the file ${
+          age === 'oldest' ? 'creation' : 'last update'
+        } date from Git`,
         {cause: err},
       );
     }

@@ -582,6 +582,71 @@ declare module '@theme/DocCard' {
   export default function DocCard(props: Props): ReactNode;
 }
 
+declare module '@theme/DocCard/Heading' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly icon: ReactNode;
+    readonly title: string;
+  }
+
+  export default function DocCardHeading(props: Props): ReactNode;
+}
+
+declare module '@theme/DocCard/Heading/Icon' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly icon: ReactNode;
+  }
+
+  export default function DocCardHeadingIcon(props: Props): ReactNode;
+}
+
+declare module '@theme/DocCard/Heading/Text' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly title: string;
+  }
+
+  export default function DocCardHeadingText(props: Props): ReactNode;
+}
+
+declare module '@theme/DocCard/Description' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly description: string;
+  }
+
+  export default function DocCardDescription(props: Props): ReactNode;
+}
+
+declare module '@theme/DocCard/Layout' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly className?: string;
+    readonly href: string;
+    readonly icon: ReactNode;
+    readonly title: string;
+    readonly description?: string;
+  }
+
+  export default function DocCardLayout(props: Props): ReactNode;
+}
+
 declare module '@theme/DocCardList' {
   import type {ReactNode} from 'react';
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
@@ -1745,11 +1810,11 @@ declare module '@theme/Icon/LightMode' {
 }
 
 declare module '@theme/Icon/SystemColorMode' {
-  import type {ComponentProps} from 'react';
+  import type {ComponentProps, ReactNode} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  export default function IconSystemColorMode(props: Props): JSX.Element;
+  export default function IconSystemColorMode(props: Props): ReactNode;
 }
 
 declare module '@theme/Icon/Menu' {

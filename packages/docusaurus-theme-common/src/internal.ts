@@ -23,7 +23,12 @@ export {
   useAnnouncementBar,
 } from './contexts/announcementBar';
 
-export {useTabs, sanitizeTabsChildren} from './utils/tabsUtils';
+export {
+  sanitizeTabsChildren,
+  TabsProvider,
+  useTabs,
+  useTabsContextValue,
+} from './utils/tabsUtils';
 export type {TabValue, TabsProps, TabItemProps} from './utils/tabsUtils';
 
 export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
@@ -86,6 +91,8 @@ export {PluginHtmlClassNameProvider} from './utils/metadataUtils';
 
 export {splitNavbarItems, NavbarProvider} from './utils/navbarUtils';
 
+export {extractLeadingEmoji} from './utils/emojiUtils';
+
 export {
   useTOCHighlight,
   type TOCHighlightConfig,
@@ -94,14 +101,11 @@ export {
 export {useDateTimeFormat} from './utils/IntlUtils';
 
 export {useHideableNavbar} from './hooks/useHideableNavbar';
-export {
-  useKeyboardNavigation,
-  keyboardFocusedClassName,
-} from './hooks/useKeyboardNavigation';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
 
+export {useDocCardDescriptionCategoryItemsPlural} from './translations/docsTranslations';
 export {
   useBlogTagsPostsPageTitle,
   useBlogAuthorPageTitle,

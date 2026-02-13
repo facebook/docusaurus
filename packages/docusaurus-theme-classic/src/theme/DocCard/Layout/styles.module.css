@@ -24,11 +24,3 @@
 .cardContainer *:last-child {
   margin-bottom: 0;
 }
-
-.cardTitle {
-  font-size: 1.2rem;
-}
-
-.cardDescription {
-  font-size: 0.8rem;
-}

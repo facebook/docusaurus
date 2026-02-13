@@ -250,40 +250,36 @@ describe('loadFreshModule', () => {
       await expect(() =>
         // @ts-expect-error: undefined is invalid
         loadFreshModule(undefined),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(`
-              "Docusaurus could not load module at path "undefined"
-              Cause: Invalid module path of type undefined"
-          `);
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Invalid module path of type "undefined" with value "undefined""`,
+      );
     });
 
     it('throws if module path is null', async () => {
       await expect(() =>
         // @ts-expect-error: null is invalid
         loadFreshModule(null),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(`
-              "Docusaurus could not load module at path "null"
-              Cause: Invalid module path of type null"
-          `);
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Invalid module path of type "object" with value "null""`,
+      );
     });
 
     it('throws if module path is number', async () => {
       await expect(() =>
         // @ts-expect-error: number is invalid
         loadFreshModule(42),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(`
-              "Docusaurus could not load module at path "42"
-              Cause: Invalid module path of type 42"
-          `);
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Invalid module path of type "number" with value "42""`,
+      );
     });
 
     it('throws if module path is object', async () => {
       await expect(() =>
         // @ts-expect-error: object is invalid
         loadFreshModule({}),
-      ).rejects.toThrowErrorMatchingInlineSnapshot(`
-              "Docusaurus could not load module at path "[object Object]"
-              Cause: Invalid module path of type [object Object]"
-          `);
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Invalid module path of type "object" with value "[object Object]""`,
+      );
     });
   });
 });

@@ -40,6 +40,7 @@
     "@docusaurus/utils-common": "3.9.2",
     "@docusaurus/utils-validation": "3.9.2",
     "cheerio": "1.0.0-rc.12",
+    "combine-promises": "^1.1.0",
     "feed": "^4.2.2",
     "fs-extra": "^11.1.1",
     "lodash": "^4.17.21",

@@ -392,7 +392,7 @@ Copy your docs Markdown files from `docs/` to `i18n/fr/docusaurus-plugin-content
 
 ```bash
 mkdir -p i18n/fr/docusaurus-plugin-content-docs/current
-cp -r docs/** i18n/fr/docusaurus-plugin-content-docs/current
+cp -r docs/. i18n/fr/docusaurus-plugin-content-docs/current
 ```
 
 :::info
@@ -407,7 +407,7 @@ Copy your blog Markdown files to `i18n/fr/docusaurus-plugin-content-blog`, and t
 
 ```bash
 mkdir -p i18n/fr/docusaurus-plugin-content-blog
-cp -r blog/** i18n/fr/docusaurus-plugin-content-blog
+cp -r blog/. i18n/fr/docusaurus-plugin-content-blog
 ```
 
 #### Translate the pages {#translate-the-pages}
@@ -416,8 +416,7 @@ Copy your pages Markdown files to `i18n/fr/docusaurus-plugin-content-pages`, and
 
 ```bash
 mkdir -p i18n/fr/docusaurus-plugin-content-pages
-cp -r src/pages/**.md i18n/fr/docusaurus-plugin-content-pages
-cp -r src/pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/. i18n/fr/docusaurus-plugin-content-pages
 ```
 
 :::warning

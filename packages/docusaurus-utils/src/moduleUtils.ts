@@ -12,12 +12,12 @@ import logger from '@docusaurus/logger';
 jiti is able to load ESM, CJS, JSON, TS modules
  */
 export async function loadFreshModule(modulePath: string): Promise<unknown> {
+  if (typeof modulePath !== 'string') {
+    throw new Error(
+      logger.interpolate`Invalid module path of type "name=${typeof modulePath}" with value "name=${modulePath}"`,
+    );
+  }
   try {
-    if (typeof modulePath !== 'string') {
-      throw new Error(
-        logger.interpolate`Invalid module path of type name=${modulePath}`,
-      );
-    }
     const load = jiti(__filename, {
       // Transpilation cache, can be safely enabled
       cache: true,
@@ -34,9 +34,7 @@ export async function loadFreshModule(modulePath: string): Promise<unknown> {
     return load(modulePath);
   } catch (error) {
     throw new Error(
-      logger.interpolate`Docusaurus could not load module at path path=${modulePath}\nCause: ${
-        (error as Error).message
-      }`,
+      logger.interpolate`Docusaurus could not load module at path path=${modulePath}`,
       {cause: error},
     );
   }

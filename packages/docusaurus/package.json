@@ -81,12 +81,11 @@
     "@docusaurus/types": "3.9.2",
     "@total-typescript/shoehorn": "^0.1.2",
     "@types/detect-port": "^1.3.3",
-    "@types/react-dom": "^18.2.7",
+    "@types/react-dom": "^19.2.3",
     "@types/react-router-config": "^5.0.7",
     "@types/serve-handler": "^6.1.4",
     "@types/update-notifier": "^6.0.4",
     "@types/webpack-bundle-analyzer": "^4.7.0",
-    "react-test-renderer": "^18.0.0",
     "tmp-promise": "^3.0.3",
     "tree-node-cli": "^1.6.0"
   },
