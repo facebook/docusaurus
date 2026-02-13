@@ -75,6 +75,7 @@
     "update-translations": "yarn workspace @docusaurus/theme-translations update"
   },
   "devDependencies": {
+    "@ai-sdk/react": "^2.0.30",
     "@crowdin/cli": "^3.13.0",
     "@prettier/plugin-xml": "^2.2.0",
     "@swc/core": "^1.7.14",
