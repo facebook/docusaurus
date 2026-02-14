@@ -202,6 +202,21 @@ describe('getLoadedContentTranslationFiles', () => {
           ...(withUniqueKeys && {key: 'key-cat2'}),
         },
         {
+          type: 'category',
+          label: 'COMMON LABEL',
+          items: [],
+          collapsed: false,
+          collapsible: true,
+          link: {
+            type: 'generated-index',
+            slug: '/category/gen-index-slug',
+            permalink: '/docs/category/gen-index-slug',
+            title: 'Generated index title',
+            description: 'Generated index description',
+          },
+          ...(withUniqueKeys && {key: 'key-cat-with-link'}),
+        },
+        {
           type: 'link',
           href: 'https://example.com',
           label: 'COMMON LABEL',
@@ -231,6 +246,18 @@ describe('getLoadedContentTranslationFiles', () => {
         [
           {
             "content": {
+              "sidebar.sidebarWithConflicts.category.key-cat-with-link": {
+                "description": "The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts'",
+                "message": "COMMON LABEL",
+              },
+              "sidebar.sidebarWithConflicts.category.key-cat-with-link.link.generated-index.description": {
+                "description": "The generated-index page description for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts'",
+                "message": "Generated index description",
+              },
+              "sidebar.sidebarWithConflicts.category.key-cat-with-link.link.generated-index.title": {
+                "description": "The generated-index page title for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts'",
+                "message": "Generated index title",
+              },
               "sidebar.sidebarWithConflicts.category.key-cat1": {
                 "description": "The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts'",
                 "message": "COMMON LABEL",
@@ -278,7 +305,8 @@ describe('getLoadedContentTranslationFiles', () => {
       expect(() => runTest({withUniqueKeys: false}))
         .toThrowErrorMatchingInlineSnapshot(`
         "Multiple docs sidebar items produce the same translation key.
-        - \`sidebar.sidebarWithConflicts.category.COMMON LABEL\`: 2 duplicates found:
+        - \`sidebar.sidebarWithConflicts.category.COMMON LABEL\`: 3 duplicates found:
+          - COMMON LABEL (The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts')
           - COMMON LABEL (The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts')
           - COMMON LABEL (The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts')
 
@@ -315,5 +343,66 @@ describe('translateLoadedContent', () => {
     expect(
       translateLoadedContent(SampleLoadedContent, translationFiles),
     ).toMatchSnapshot();
+  });
+
+  it('translates generated-index title/description using category key', () => {
+    const loadedContent: LoadedContent = {
+      loadedVersions: [
+        createSampleVersion({
+          versionName: CURRENT_VERSION_NAME,
+          sidebars: {
+            mySidebar: [
+              {
+                type: 'category',
+                label: 'My Category',
+                key: 'my-custom-key',
+                collapsed: false,
+                collapsible: true,
+                link: {
+                  type: 'generated-index',
+                  slug: '/category/my-cat',
+                  permalink: '/docs/category/my-cat',
+                  title: 'Original Title',
+                  description: 'Original Description',
+                },
+                items: [],
+              },
+            ],
+          },
+        }),
+      ],
+    };
+
+    const translationFiles = getLoadedContentTranslationFiles(loadedContent);
+
+    // Verify that translation keys use the custom key, not the label
+    const content = translationFiles[0]!.content;
+    expect(
+      content[
+        'sidebar.mySidebar.category.my-custom-key.link.generated-index.title'
+      ],
+    ).toBeDefined();
+    expect(
+      content[
+        'sidebar.mySidebar.category.my-custom-key.link.generated-index.description'
+      ],
+    ).toBeDefined();
+
+    // Now translate and verify round-trip
+    const translatedFiles = translationFiles.map((f) =>
+      updateTranslationFileMessages(f, (message) => `${message} (translated)`),
+    );
+    const translated = translateLoadedContent(loadedContent, translatedFiles);
+    const sidebar = translated.loadedVersions[0]!.sidebars.mySidebar!;
+    const category = sidebar[0]!;
+    expect(category).toMatchObject({
+      type: 'category',
+      label: 'My Category (translated)',
+      link: {
+        type: 'generated-index',
+        title: 'Original Title (translated)',
+        description: 'Original Description (translated)',
+      },
+    });
   });
 });
