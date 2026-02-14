@@ -42,13 +42,13 @@ describe('applyTrailingSlash', () => {
     );
   });
 
-  it('does not apply to /baseUrl/', () => {
+  it('does not apply to /baseUrl/ unless trailingSlash is false', () => {
     const baseUrl = '/baseUrl/';
     expect(applyTrailingSlash('/baseUrl/', params(true, baseUrl))).toBe(
       '/baseUrl/',
     );
     expect(applyTrailingSlash('/baseUrl/', params(false, baseUrl))).toBe(
-      '/baseUrl/',
+      '/baseUrl',
     );
     expect(applyTrailingSlash('/baseUrl/', params(undefined, baseUrl))).toBe(
       '/baseUrl/',
@@ -59,7 +59,7 @@ describe('applyTrailingSlash', () => {
     ).toBe('/baseUrl/?query#anchor');
     expect(
       applyTrailingSlash('/baseUrl/?query#anchor', params(false, baseUrl)),
-    ).toBe('/baseUrl/?query#anchor');
+    ).toBe('/baseUrl?query#anchor');
     expect(
       applyTrailingSlash('/baseUrl/?query#anchor', params(undefined, baseUrl)),
     ).toBe('/baseUrl/?query#anchor');
