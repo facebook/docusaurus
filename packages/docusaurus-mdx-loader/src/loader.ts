@@ -232,3 +232,6 @@ export async function mdxLoader(
     return callback(error as Error);
   }
 }
+
+// Export for testing purposes
+export {loadMDX, loadMDXWithCaching};
