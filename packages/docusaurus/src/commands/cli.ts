@@ -23,7 +23,18 @@ function concatLocaleOptions(locale: string, locales: string[] = []): string[] {
   return locales.concat(locale);
 }
 
-function isInternalCommand(command: string | undefined) {
+export function normalizePollValue(value?: string) {
+  if (value === undefined || value === '') {
+    return false;
+  }
+  const parsedIntValue = Number.parseInt(value, 10);
+  if (!Number.isNaN(parsedIntValue)) {
+    return parsedIntValue;
+  }
+  return value === 'true';
+}
+
+export function isInternalCommand(command: string | undefined) {
   return (
     command &&
     [
@@ -167,17 +178,6 @@ export async function createCLIProgram({
       'path to the target directory to deploy to (default: `.`)',
     )
     .action(deploy);
-
-  function normalizePollValue(value?: string) {
-    if (value === undefined || value === '') {
-      return false;
-    }
-    const parsedIntValue = Number.parseInt(value, 10);
-    if (!Number.isNaN(parsedIntValue)) {
-      return parsedIntValue;
-    }
-    return value === 'true';
-  }
 
   cli
     .command('start [siteDir]')

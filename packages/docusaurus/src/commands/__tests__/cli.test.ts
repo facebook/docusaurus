@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {Command, type CommanderStatic} from 'commander';
-import {createCLIProgram} from '../cli';
+import {createCLIProgram, isInternalCommand, normalizePollValue} from '../cli';
 
 const ExitOverrideError = new Error('exitOverride');
 
@@ -222,6 +222,78 @@ describe('CLI', () => {
         ",
         }
       `);
+    });
+  });
+
+  describe('isInternalCommand', () => {
+    const validCommands = [
+      'start',
+      'build',
+      'swizzle',
+      'deploy',
+      'serve',
+      'clear',
+      'write-translations',
+      'write-heading-ids',
+    ];
+
+    const invalidCommands = [
+      'random',
+      ' ',
+      'undefined',
+      '123',
+      'build ',
+      'START',
+    ];
+
+    describe('valid internal commands', () => {
+      it.each(validCommands)('docusaurus %s', (command) => {
+        const result = isInternalCommand(command);
+        expect(result).toBe(true);
+      });
+    });
+
+    describe('invalid internal commands', () => {
+      it.each(invalidCommands)('docusaurus %s', (command) => {
+        const result = isInternalCommand(command);
+        expect(result).toBe(false);
+      });
+    });
+  });
+
+  describe('normalizePollValue', () => {
+    describe('empty or undefined values', () => {
+      it('returns false when value is undefined', () => {
+        expect(normalizePollValue(undefined)).toBe(false);
+      });
+
+      it('returns false when value is empty string', () => {
+        expect(normalizePollValue('')).toBe(false);
+      });
+    });
+
+    describe('numeric values', () => {
+      it('parses integer string correctly', () => {
+        expect(normalizePollValue('42')).toBe(42);
+      });
+
+      it('parses integer with leading zeros', () => {
+        expect(normalizePollValue('007')).toBe(7);
+      });
+
+      it('parses negative integers', () => {
+        expect(normalizePollValue('-10')).toBe(-10);
+      });
+    });
+
+    describe('boolean values', () => {
+      it('returns true when value is "true"', () => {
+        expect(normalizePollValue('true')).toBe(true);
+      });
+
+      it('returns false when value is "false"', () => {
+        expect(normalizePollValue('false')).toBe(false);
+      });
     });
   });
 });
