@@ -21,6 +21,8 @@ autogenerating
 autohide
 Autolinks
 Bartosz
+barz
+barzy
 beforeinstallprompt
 Bhatt
 Blockquotes
@@ -87,8 +89,18 @@ Fienny
 flac
 Flightcontrol
 Flightcontrol's
+foaz
+fooy
+fooybrbrz
+fooybrbz
+fooybz
+Fooz
+fooz
+foozy
+foozybarbaz
 forwardable
 FOUC
+fozz
 Français
 froms
 gabrielcsapo
