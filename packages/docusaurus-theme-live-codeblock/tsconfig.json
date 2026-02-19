@@ -5,5 +5,10 @@
     "noEmit": false
   },
   "include": ["src"],
-  "exclude": ["src/custom-buble.ts", "src/theme", "**/__tests__/**"]
+  "exclude": [
+    "src/custom-buble.ts",
+    "src/theme",
+    "src/client",
+    "**/__tests__/**"
+  ]
 }

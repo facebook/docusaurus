@@ -1,4 +1,5 @@
 {
   "theme.Playground.liveEditor": "Інтерактивний редактор",
+  "theme.Playground.buttons.reset": "Reset",
   "theme.Playground.result": "Результат"
 }

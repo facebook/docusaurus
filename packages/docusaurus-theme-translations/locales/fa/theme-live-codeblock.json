@@ -1,4 +1,5 @@
 {
   "theme.Playground.liveEditor": "ویرایشگر زنده",
+  "theme.Playground.buttons.reset": "Reset",
   "theme.Playground.result": "خروجی"
 }

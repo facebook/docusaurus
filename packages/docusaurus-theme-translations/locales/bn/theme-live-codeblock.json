@@ -1,4 +1,5 @@
 {
   "theme.Playground.liveEditor": "লাইভ এডিটর",
+  "theme.Playground.buttons.reset": "Reset",
   "theme.Playground.result": "ফলাফল"
 }

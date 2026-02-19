@@ -1,4 +1,5 @@
 {
   "theme.Playground.liveEditor": "Trình soạn thảo trực tuyến",
+  "theme.Playground.buttons.reset": "Reset",
   "theme.Playground.result": "Kết quả"
 }

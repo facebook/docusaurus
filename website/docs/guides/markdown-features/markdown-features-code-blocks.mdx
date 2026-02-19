@@ -470,23 +470,15 @@ To use the plugin, create a code block with `live` attached to the language meta
 ```jsx live
 function Clock(props) {
   const [date, setDate] = useState(new Date());
+
   useEffect(() => {
-    const timerID = setInterval(() => tick(), 1000);
+    const id = setInterval(() => {
+      setDate(new Date());
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
 
-    return function cleanup() {
-      clearInterval(timerID);
-    };
-  });
-
-  function tick() {
-    setDate(new Date());
-  }
-
-  return (
-    <div>
-      <h2>It is {date.toLocaleTimeString()}.</h2>
-    </div>
-  );
+  return <h2>It is {date.toLocaleTimeString()}.</h2>;
 }
 ```
 ````
@@ -500,23 +492,15 @@ The code block will be rendered as an interactive editor. Changes to the code wi
 ```jsx live
 function Clock(props) {
   const [date, setDate] = useState(new Date());
+
   useEffect(() => {
-    const timerID = setInterval(() => tick(), 1000);
+    const id = setInterval(() => {
+      setDate(new Date());
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
 
-    return function cleanup() {
-      clearInterval(timerID);
-    };
-  });
-
-  function tick() {
-    setDate(new Date());
-  }
-
-  return (
-    <div>
-      <h2>It is {date.toLocaleTimeString()}.</h2>
-    </div>
-  );
+  return <h2>It is {date.toLocaleTimeString()}.</h2>;
 }
 ```
 
