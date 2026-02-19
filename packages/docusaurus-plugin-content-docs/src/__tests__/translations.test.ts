@@ -116,6 +116,21 @@ function createSampleVersion(
           label: 'Fifth doc translatable',
           translatable: true,
         },
+        {
+          type: 'category',
+          key: 'cat-with-key',
+          label: 'Category with key',
+          collapsed: false,
+          collapsible: true,
+          link: {
+            type: 'generated-index',
+            slug: '/category/cat-with-key-slug',
+            permalink: '/docs/category/cat-with-key',
+            title: 'Category with key - index title',
+            description: 'Category with key - index description',
+          },
+          items: [],
+        },
       ],
     },
     ...version,
@@ -343,66 +358,5 @@ describe('translateLoadedContent', () => {
     expect(
       translateLoadedContent(SampleLoadedContent, translationFiles),
     ).toMatchSnapshot();
-  });
-
-  it('translates generated-index title/description using category key', () => {
-    const loadedContent: LoadedContent = {
-      loadedVersions: [
-        createSampleVersion({
-          versionName: CURRENT_VERSION_NAME,
-          sidebars: {
-            mySidebar: [
-              {
-                type: 'category',
-                label: 'My Category',
-                key: 'my-custom-key',
-                collapsed: false,
-                collapsible: true,
-                link: {
-                  type: 'generated-index',
-                  slug: '/category/my-cat',
-                  permalink: '/docs/category/my-cat',
-                  title: 'Original Title',
-                  description: 'Original Description',
-                },
-                items: [],
-              },
-            ],
-          },
-        }),
-      ],
-    };
-
-    const translationFiles = getLoadedContentTranslationFiles(loadedContent);
-
-    // Verify that translation keys use the custom key, not the label
-    const content = translationFiles[0]!.content;
-    expect(
-      content[
-        'sidebar.mySidebar.category.my-custom-key.link.generated-index.title'
-      ],
-    ).toBeDefined();
-    expect(
-      content[
-        'sidebar.mySidebar.category.my-custom-key.link.generated-index.description'
-      ],
-    ).toBeDefined();
-
-    // Now translate and verify round-trip
-    const translatedFiles = translationFiles.map((f) =>
-      updateTranslationFileMessages(f, (message) => `${message} (translated)`),
-    );
-    const translated = translateLoadedContent(loadedContent, translatedFiles);
-    const sidebar = translated.loadedVersions[0]!.sidebars.mySidebar!;
-    const category = sidebar[0]!;
-    expect(category).toMatchObject({
-      type: 'category',
-      label: 'My Category (translated)',
-      link: {
-        type: 'generated-index',
-        title: 'Original Title (translated)',
-        description: 'Original Description (translated)',
-      },
-    });
   });
 });

@@ -24,6 +24,18 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
         "description": "The label for link 'Link label' in sidebar 'docs', linking to 'https://facebook.com'",
         "message": "Link label",
       },
+      "sidebar.otherSidebar.category.cat-with-key": {
+        "description": "The label for category 'Category with key' in sidebar 'otherSidebar'",
+        "message": "Category with key",
+      },
+      "sidebar.otherSidebar.category.cat-with-key.link.generated-index.description": {
+        "description": "The generated-index page description for category 'Category with key' in sidebar 'otherSidebar'",
+        "message": "Category with key - index description",
+      },
+      "sidebar.otherSidebar.category.cat-with-key.link.generated-index.title": {
+        "description": "The generated-index page title for category 'Category with key' in sidebar 'otherSidebar'",
+        "message": "Category with key - index title",
+      },
       "sidebar.otherSidebar.doc.Fifth doc translatable": {
         "description": "The label for the doc item 'Fifth doc translatable' in sidebar 'otherSidebar', linking to the doc doc5",
         "message": "Fifth doc translatable",
@@ -57,6 +69,18 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
         "description": "The label for link 'Link label' in sidebar 'docs', linking to 'https://facebook.com'",
         "message": "Link label",
       },
+      "sidebar.otherSidebar.category.cat-with-key": {
+        "description": "The label for category 'Category with key' in sidebar 'otherSidebar'",
+        "message": "Category with key",
+      },
+      "sidebar.otherSidebar.category.cat-with-key.link.generated-index.description": {
+        "description": "The generated-index page description for category 'Category with key' in sidebar 'otherSidebar'",
+        "message": "Category with key - index description",
+      },
+      "sidebar.otherSidebar.category.cat-with-key.link.generated-index.title": {
+        "description": "The generated-index page title for category 'Category with key' in sidebar 'otherSidebar'",
+        "message": "Category with key - index title",
+      },
       "sidebar.otherSidebar.doc.Fifth doc translatable": {
         "description": "The label for the doc item 'Fifth doc translatable' in sidebar 'otherSidebar', linking to the doc doc5",
         "message": "Fifth doc translatable",
@@ -89,6 +113,18 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
       "sidebar.docs.link.Link label": {
         "description": "The label for link 'Link label' in sidebar 'docs', linking to 'https://facebook.com'",
         "message": "Link label",
+      },
+      "sidebar.otherSidebar.category.cat-with-key": {
+        "description": "The label for category 'Category with key' in sidebar 'otherSidebar'",
+        "message": "Category with key",
+      },
+      "sidebar.otherSidebar.category.cat-with-key.link.generated-index.description": {
+        "description": "The generated-index page description for category 'Category with key' in sidebar 'otherSidebar'",
+        "message": "Category with key - index description",
+      },
+      "sidebar.otherSidebar.category.cat-with-key.link.generated-index.title": {
+        "description": "The generated-index page title for category 'Category with key' in sidebar 'otherSidebar'",
+        "message": "Category with key - index title",
       },
       "sidebar.otherSidebar.doc.Fifth doc translatable": {
         "description": "The label for the doc item 'Fifth doc translatable' in sidebar 'otherSidebar', linking to the doc doc5",
@@ -273,6 +309,21 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
             "translatable": true,
             "type": "ref",
           },
+          {
+            "collapsed": false,
+            "collapsible": true,
+            "items": [],
+            "key": "cat-with-key",
+            "label": "Category with key (translated)",
+            "link": {
+              "description": "Category with key - index description (translated)",
+              "permalink": "/docs/category/cat-with-key",
+              "slug": "/category/cat-with-key-slug",
+              "title": "Category with key - index title (translated)",
+              "type": "generated-index",
+            },
+            "type": "category",
+          },
         ],
       },
       "tagsPath": "/tags/",
@@ -444,6 +495,21 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
             "translatable": true,
             "type": "ref",
           },
+          {
+            "collapsed": false,
+            "collapsible": true,
+            "items": [],
+            "key": "cat-with-key",
+            "label": "Category with key (translated)",
+            "link": {
+              "description": "Category with key - index description (translated)",
+              "permalink": "/docs/category/cat-with-key",
+              "slug": "/category/cat-with-key-slug",
+              "title": "Category with key - index title (translated)",
+              "type": "generated-index",
+            },
+            "type": "category",
+          },
         ],
       },
       "tagsPath": "/tags/",
@@ -614,6 +680,21 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
             "label": "Fifth doc translatable (translated)",
             "translatable": true,
             "type": "ref",
+          },
+          {
+            "collapsed": false,
+            "collapsible": true,
+            "items": [],
+            "key": "cat-with-key",
+            "label": "Category with key (translated)",
+            "link": {
+              "description": "Category with key - index description (translated)",
+              "permalink": "/docs/category/cat-with-key",
+              "slug": "/category/cat-with-key-slug",
+              "title": "Category with key - index title (translated)",
+              "type": "generated-index",
+            },
+            "type": "category",
           },
         ],
       },
