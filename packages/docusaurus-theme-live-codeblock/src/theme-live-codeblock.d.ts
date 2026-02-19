@@ -22,7 +22,9 @@ declare module '@theme/LiveCodeBlock' {
   import type {ReactNode} from 'react';
   import type {Props as BaseProps} from '@theme/CodeBlock';
 
-  export interface Props extends BaseProps {
+  type CodeBlockProps = Omit<BaseProps, 'children'>;
+
+  export interface Props extends CodeBlockProps {
     children?: string;
   }
 
@@ -34,7 +36,10 @@ declare module '@theme/Playground' {
   import type {Props as BaseProps} from '@theme/CodeBlock';
   import type {LiveProvider} from 'react-live';
 
-  type CodeBlockProps = Omit<BaseProps, 'className' | 'language' | 'title'>;
+  type CodeBlockProps = Omit<
+    BaseProps,
+    'children' | 'className' | 'language' | 'title'
+  >;
   type LiveProviderProps = React.ComponentProps<typeof LiveProvider>;
 
   export type PlaygroundPosition = 'top' | 'bottom';

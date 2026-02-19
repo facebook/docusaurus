@@ -21,8 +21,12 @@ declare module '@theme/CodeBlock' {
 
 function isLiveCodeBlock(
   props: CodeBlockProps,
-): props is {live: true; children: string} {
-  return !!props.live && typeof props.children === 'string';
+): props is {live: true; children: string | undefined} {
+  return (
+    !!props.live &&
+    (typeof props.children === 'undefined' ||
+      typeof props.children === 'string')
+  );
 }
 
 export default function CodeBlockEnhancer(props: CodeBlockProps): ReactNode {
