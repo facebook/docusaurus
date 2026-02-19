@@ -112,7 +112,6 @@ declare module '@theme/Playground/Buttons/ResetButton' {
 
   export interface Props {
     className?: string;
-    onClick: () => void;
   }
 
   export default function ResetButton(props: Props): ReactNode;

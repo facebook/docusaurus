@@ -7,6 +7,18 @@
   "sideEffects": [
     "lib/theme/Playground/*"
   ],
+  "exports": {
+    "./lib/*": "./lib/*",
+    "./src/*": "./src/*",
+    "./client": {
+      "type": "./lib/client/index.d.ts",
+      "default": "./lib/client/index.js"
+    },
+    ".": {
+      "types": "./src/theme-live-codeblock.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
   "publishConfig": {
     "access": "public"
   },

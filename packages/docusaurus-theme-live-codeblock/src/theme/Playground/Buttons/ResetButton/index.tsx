@@ -8,17 +8,19 @@
 import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
+import {usePlayground} from '@docusaurus/theme-live-codeblock/client';
 import type {Props} from '@theme/Playground/Buttons/ResetButton';
 import styles from './styles.module.css';
 
-export default function ResetButton({className, onClick}: Props): ReactNode {
+export default function ResetButton({className}: Props): ReactNode {
+  const {reset} = usePlayground();
   return (
     <button
       type="button"
       aria-label="Reset code to original"
       title="Reset"
       className={clsx('clean-btn', className, styles.resetButton)}
-      onClick={onClick}>
+      onClick={() => reset()}>
       <svg
         className={styles.resetButtonIcon}
         viewBox="0 0 16 16"

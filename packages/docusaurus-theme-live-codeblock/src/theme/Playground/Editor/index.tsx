@@ -11,13 +11,10 @@ import useIsBrowser from '@docusaurus/useIsBrowser';
 import Translate from '@docusaurus/Translate';
 import PlaygroundHeader from '@theme/Playground/Header';
 import ResetButton from '@theme/Playground/Buttons/ResetButton';
-import {usePlaygroundReset} from '@theme/Playground/Provider';
 import styles from './styles.module.css';
 
 export default function PlaygroundEditor(): ReactNode {
   const isBrowser = useIsBrowser();
-  const {reset} = usePlaygroundReset();
-
   return (
     <>
       <PlaygroundHeader
@@ -28,7 +25,7 @@ export default function PlaygroundEditor(): ReactNode {
             Live Editor
           </Translate>
         }
-        buttons={<ResetButton onClick={reset} />}
+        buttons={<ResetButton />}
       />
       <LiveEditor key={String(isBrowser)} className={styles.playgroundEditor} />
     </>
