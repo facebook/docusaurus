@@ -34,7 +34,7 @@ export default {
   verbose: true,
   // Default 5s timeout often fails on Windows :s,
   // see https://github.com/facebook/docusaurus/pull/8259
-  testTimeout: 15000,
+  testTimeout: 25000,
   setupFiles: ['./jest/setup.ts'],
   testEnvironmentOptions: {
     url: 'https://docusaurus.io/',
