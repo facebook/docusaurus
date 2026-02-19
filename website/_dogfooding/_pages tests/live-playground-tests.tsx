@@ -14,7 +14,7 @@ const TestCode = `function Counter() {
   const [count, setCount] = React.useState(0);
   return (
     <div>
-      <p>Count: {count}</p>
+      <div>Count: {count}</div>
       <button onClick={() => setCount(count + 1)}>Increment</button>
     </div>
   );
