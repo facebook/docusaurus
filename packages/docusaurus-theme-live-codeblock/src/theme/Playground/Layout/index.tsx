@@ -17,8 +17,13 @@ function useLiveCodeBlockThemeConfig() {
   return themeConfig.liveCodeBlock;
 }
 
+function usePlaygroundPosition() {
+  const themeConfig = useLiveCodeBlockThemeConfig();
+  return themeConfig.playgroundPosition;
+}
+
 export default function PlaygroundLayout(): ReactNode {
-  const {playgroundPosition} = useLiveCodeBlockThemeConfig();
+  const playgroundPosition = usePlaygroundPosition();
   return (
     <>
       {playgroundPosition === 'top' ? (

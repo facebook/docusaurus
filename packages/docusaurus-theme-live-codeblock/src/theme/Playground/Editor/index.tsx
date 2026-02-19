@@ -17,16 +17,13 @@ export default function PlaygroundEditor(): ReactNode {
   const isBrowser = useIsBrowser();
   return (
     <>
-      <PlaygroundHeader
-        label={
-          <Translate
-            id="theme.Playground.liveEditor"
-            description="The live editor label of the live codeblocks">
-            Live Editor
-          </Translate>
-        }
-        buttons={<ResetButton />}
-      />
+      <PlaygroundHeader buttons={<ResetButton />}>
+        <Translate
+          id="theme.Playground.liveEditor"
+          description="The live editor label of the live codeblocks">
+          Live Editor
+        </Translate>
+      </PlaygroundHeader>
       <LiveEditor
         // We force remount the editor on hydration,
         // otherwise dark prism theme is not applied

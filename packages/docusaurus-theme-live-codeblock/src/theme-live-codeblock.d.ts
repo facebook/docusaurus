@@ -9,9 +9,11 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 declare module '@docusaurus/theme-live-codeblock' {
+  import type {PlaygroundPosition} from '@theme/Playground';
+
   export type ThemeConfig = {
     liveCodeBlock: {
-      playgroundPosition: 'top' | 'bottom';
+      playgroundPosition: PlaygroundPosition;
     };
   };
 }
@@ -33,9 +35,12 @@ declare module '@theme/Playground' {
   type CodeBlockProps = Omit<BaseProps, 'className' | 'language' | 'title'>;
   type LiveProviderProps = React.ComponentProps<typeof LiveProvider>;
 
+  export type PlaygroundPosition = 'top' | 'bottom';
+
   export interface Props extends CodeBlockProps, LiveProviderProps {
     // Allow empty live playgrounds
     children?: string;
+    position?: PlaygroundPosition;
   }
   export default function Playground(props: LiveProviderProps): ReactNode;
 }
@@ -100,7 +105,7 @@ declare module '@theme/Playground/Header' {
   import type {ReactNode} from 'react';
 
   export interface Props {
-    label: ReactNode;
+    children: ReactNode;
     buttons?: ReactNode;
   }
 

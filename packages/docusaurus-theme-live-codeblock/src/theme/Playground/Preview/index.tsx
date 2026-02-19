@@ -44,15 +44,13 @@ function PlaygroundLivePreview(): ReactNode {
 export default function PlaygroundPreview(): ReactNode {
   return (
     <>
-      <PlaygroundHeader
-        label={
-          <Translate
-            id="theme.Playground.result"
-            description="The result label of the live codeblocks">
-            Result
-          </Translate>
-        }
-      />
+      <PlaygroundHeader>
+        <Translate
+          id="theme.Playground.result"
+          description="The result label of the live codeblocks">
+          Result
+        </Translate>
+      </PlaygroundHeader>
       <div className={styles.playgroundPreview}>
         <PlaygroundLivePreview />
       </div>
