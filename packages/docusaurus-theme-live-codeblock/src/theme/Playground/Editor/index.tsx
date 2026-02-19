@@ -27,7 +27,12 @@ export default function PlaygroundEditor(): ReactNode {
         }
         buttons={<ResetButton />}
       />
-      <LiveEditor key={String(isBrowser)} className={styles.playgroundEditor} />
+      <LiveEditor
+        // We force remount the editor on hydration,
+        // otherwise dark prism theme is not applied
+        key={String(isBrowser)}
+        className={styles.playgroundEditor}
+      />
     </>
   );
 }
