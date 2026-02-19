@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`validation schemas admonitionsSchema: for value=[] 1`] = `""value" does not look like a valid admonitions config"`;
 

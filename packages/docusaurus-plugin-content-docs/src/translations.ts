@@ -177,13 +177,14 @@ function translateSidebar({
       return undefined;
     }
     if (category.link.type === 'generated-index') {
+      const categoryKey = category.key ?? category.label;
       const title =
         sidebarsTranslations[
-          `sidebar.${sidebarName}.category.${category.label}.link.generated-index.title`
+          `sidebar.${sidebarName}.category.${categoryKey}.link.generated-index.title`
         ]?.message ?? category.link.title;
       const description =
         sidebarsTranslations[
-          `sidebar.${sidebarName}.category.${category.label}.link.generated-index.description`
+          `sidebar.${sidebarName}.category.${categoryKey}.link.generated-index.description`
         ]?.message ?? category.link.description;
       return {
         ...category.link,

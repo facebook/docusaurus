@@ -26,7 +26,7 @@ import {
   normalizeTags,
   aliasedSitePathToRelativePath,
 } from '@docusaurus/utils';
-import {getTagsFile} from '@docusaurus/utils-validation';
+
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {getBlogPostAuthors} from './authors';
 import {reportAuthorsProblems} from './authorsProblems';
@@ -388,6 +388,7 @@ export async function generateBlogPosts(
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
+  tagsFile: TagsFile | null,
   authorsMap?: AuthorsMap,
 ): Promise<BlogPost[]> {
   const {include, exclude} = options;
@@ -400,10 +401,6 @@ export async function generateBlogPosts(
     cwd: contentPaths.contentPath,
     ignore: exclude,
   });
-
-  // TODO this should be done outside of this function
-  //  directly in plugin loadContent()
-  const tagsFile = await getTagsFile({contentPaths, tags: options.tags});
 
   async function doProcessBlogSourceFile(blogSourceFile: string) {
     try {

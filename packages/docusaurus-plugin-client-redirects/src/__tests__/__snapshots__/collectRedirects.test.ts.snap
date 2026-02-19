@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`collectRedirects throw if plugin option redirects contain invalid to paths 1`] = `
 "You are trying to create client-side redirections to invalid paths.

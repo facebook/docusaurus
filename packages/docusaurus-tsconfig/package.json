@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/tsconfig",
   "version": "3.9.2",
-  "description": "Docusaurus base TypeScript configuration.",
+  "description": "Base TypeScript configuration for Docusaurus websites",
   "main": "tsconfig.json",
   "publishConfig": {
     "access": "public"

@@ -13,7 +13,7 @@ import type {
 } from '@docusaurus/types';
 import type {PluginOptions, Options} from './options';
 
-export default function pluginGoogleAnalytics(
+export default function pluginGoogleTagManager(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin | null {

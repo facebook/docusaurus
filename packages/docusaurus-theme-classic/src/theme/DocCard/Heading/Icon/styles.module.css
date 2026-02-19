@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-body:not(.navigation-with-keyboard) *:not(input):focus {
-  outline: none;
+.cardTitleIcon {
+  font-size: 1.6rem;
+  margin-right: 0.6rem;
 }

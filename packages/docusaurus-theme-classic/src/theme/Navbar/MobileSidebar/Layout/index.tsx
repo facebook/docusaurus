@@ -17,7 +17,8 @@ import type {Props} from '@theme/Navbar/MobileSidebar/Layout';
 function inertProps(inert: boolean) {
   const isBeforeReact19 = parseInt(version!.split('.')[0]!, 10) < 19;
   if (isBeforeReact19) {
-    return {inert: inert ? '' : undefined};
+    // TODO Docusaurus v4: remove temporary inert workaround
+    return {inert: inert ? '' : undefined} as unknown as {inert: boolean};
   }
   return {inert};
 }
