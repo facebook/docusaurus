@@ -5,17 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
+import type {Props} from '@theme/Playground/Buttons/ResetButton';
 import styles from './styles.module.css';
 
-interface Props {
-  className?: string;
-  onClick: () => void;
-}
-
-export default function ResetButton({className, onClick}: Props): JSX.Element {
+export default function ResetButton({className, onClick}: Props): ReactNode {
   return (
     <button
       type="button"

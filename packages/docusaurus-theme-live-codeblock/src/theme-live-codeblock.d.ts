@@ -17,6 +17,7 @@ declare module '@docusaurus/theme-live-codeblock' {
 }
 
 declare module '@theme/LiveCodeBlock' {
+  import type {ReactNode} from 'react';
   import type {Props as BaseProps} from '@theme/CodeBlock';
 
   export interface Props extends BaseProps {}
@@ -116,7 +117,12 @@ declare module '@theme/ReactLiveScope' {
 }
 
 declare module '@theme/Playground/Buttons/ResetButton' {
-  import type {Props} from '@theme/Playground/Buttons/ResetButton';
+  import type {ReactNode} from 'react';
 
-  export default function ResetButton(props: Props): JSX.Element;
+  export interface Props {
+    className?: string;
+    onClick: () => void;
+  }
+
+  export default function ResetButton(props: Props): ReactNode;
 }
