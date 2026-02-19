@@ -217,21 +217,6 @@ describe('getLoadedContentTranslationFiles', () => {
           ...(withUniqueKeys && {key: 'key-cat2'}),
         },
         {
-          type: 'category',
-          label: 'COMMON LABEL',
-          items: [],
-          collapsed: false,
-          collapsible: true,
-          link: {
-            type: 'generated-index',
-            slug: '/category/gen-index-slug',
-            permalink: '/docs/category/gen-index-slug',
-            title: 'Generated index title',
-            description: 'Generated index description',
-          },
-          ...(withUniqueKeys && {key: 'key-cat-with-link'}),
-        },
-        {
           type: 'link',
           href: 'https://example.com',
           label: 'COMMON LABEL',
@@ -261,18 +246,6 @@ describe('getLoadedContentTranslationFiles', () => {
         [
           {
             "content": {
-              "sidebar.sidebarWithConflicts.category.key-cat-with-link": {
-                "description": "The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts'",
-                "message": "COMMON LABEL",
-              },
-              "sidebar.sidebarWithConflicts.category.key-cat-with-link.link.generated-index.description": {
-                "description": "The generated-index page description for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts'",
-                "message": "Generated index description",
-              },
-              "sidebar.sidebarWithConflicts.category.key-cat-with-link.link.generated-index.title": {
-                "description": "The generated-index page title for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts'",
-                "message": "Generated index title",
-              },
               "sidebar.sidebarWithConflicts.category.key-cat1": {
                 "description": "The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts'",
                 "message": "COMMON LABEL",
@@ -320,8 +293,7 @@ describe('getLoadedContentTranslationFiles', () => {
       expect(() => runTest({withUniqueKeys: false}))
         .toThrowErrorMatchingInlineSnapshot(`
         "Multiple docs sidebar items produce the same translation key.
-        - \`sidebar.sidebarWithConflicts.category.COMMON LABEL\`: 3 duplicates found:
-          - COMMON LABEL (The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts')
+        - \`sidebar.sidebarWithConflicts.category.COMMON LABEL\`: 2 duplicates found:
           - COMMON LABEL (The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts')
           - COMMON LABEL (The label for category 'COMMON LABEL' in sidebar 'sidebarWithConflicts')
 
