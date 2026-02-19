@@ -79,9 +79,11 @@ declare module '@theme/Playground/Container' {
 
 declare module '@theme/Playground/Layout' {
   import type {ReactNode} from 'react';
+  import type {PlaygroundPosition} from '@theme/Playground';
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  export interface Props {}
+  export interface Props {
+    position?: PlaygroundPosition;
+  }
 
   export default function PlaygroundLayout(props: Props): ReactNode;
 }

@@ -15,12 +15,13 @@ import type {Props} from '@theme/Playground';
 export default function Playground({
   children,
   transformCode,
+  position,
   ...props
 }: Props): ReactNode {
   return (
     <PlaygroundContainer>
       <PlaygroundProvider code={children} {...props}>
-        <PlaygroundLayout />
+        <PlaygroundLayout position={position} />
       </PlaygroundProvider>
     </PlaygroundContainer>
   );

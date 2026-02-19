@@ -9,6 +9,7 @@ import React, {type ReactNode} from 'react';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import PlaygroundPreview from '@theme/Playground/Preview';
 import PlaygroundEditor from '@theme/Playground/Editor';
+import type {Props} from '@theme/Playground/Layout';
 
 import type {ThemeConfig} from '@docusaurus/theme-live-codeblock';
 
@@ -17,16 +18,12 @@ function useLiveCodeBlockThemeConfig() {
   return themeConfig.liveCodeBlock;
 }
 
-function usePlaygroundPosition() {
+export default function PlaygroundLayout(props: Props): ReactNode {
   const themeConfig = useLiveCodeBlockThemeConfig();
-  return themeConfig.playgroundPosition;
-}
-
-export default function PlaygroundLayout(): ReactNode {
-  const playgroundPosition = usePlaygroundPosition();
+  const position = props.position ?? themeConfig.playgroundPosition;
   return (
     <>
-      {playgroundPosition === 'top' ? (
+      {position === 'top' ? (
         <>
           <PlaygroundPreview />
           <PlaygroundEditor />

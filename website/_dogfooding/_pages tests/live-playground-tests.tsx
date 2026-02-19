@@ -26,11 +26,11 @@ export default function LivePlaygroundTests(): JSX.Element {
       <div style={{padding: '2rem'}}>
         <Heading as="h1">Live Playground tests</Heading>
 
+        <Heading as="h2">Position bottom (default)</Heading>
+        <Playground position="bottom">{TestCode}</Playground>
+
         <Heading as="h2">Position top</Heading>
         <Playground position="top">{TestCode}</Playground>
-
-        <Heading as="h2">Position bottom</Heading>
-        <Playground position="bottom">{TestCode}</Playground>
       </div>
     </Layout>
   );
