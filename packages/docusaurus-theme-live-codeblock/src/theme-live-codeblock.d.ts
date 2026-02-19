@@ -22,7 +22,9 @@ declare module '@theme/LiveCodeBlock' {
   import type {ReactNode} from 'react';
   import type {Props as BaseProps} from '@theme/CodeBlock';
 
-  export interface Props extends BaseProps {}
+  export interface Props extends BaseProps {
+    children?: string;
+  }
 
   export default function LiveCodeBlock(props: Props): ReactNode;
 }
@@ -42,7 +44,8 @@ declare module '@theme/Playground' {
     children?: string;
     position?: PlaygroundPosition;
   }
-  export default function Playground(props: LiveProviderProps): ReactNode;
+
+  export default function Playground(props: Props): ReactNode;
 }
 
 declare module '@theme/Playground/Provider' {
