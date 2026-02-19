@@ -107,15 +107,6 @@ declare module '@theme/Playground/Header' {
   export default function PlaygroundHeader(props: Props): ReactNode;
 }
 
-declare module '@theme/ReactLiveScope' {
-  type Scope = {
-    [key: string]: unknown;
-  };
-
-  const ReactLiveScope: Scope;
-  export default ReactLiveScope;
-}
-
 declare module '@theme/Playground/Buttons/ResetButton' {
   import type {ReactNode} from 'react';
 
@@ -125,4 +116,13 @@ declare module '@theme/Playground/Buttons/ResetButton' {
   }
 
   export default function ResetButton(props: Props): ReactNode;
+}
+
+declare module '@theme/ReactLiveScope' {
+  type Scope = {
+    [key: string]: unknown;
+  };
+
+  const ReactLiveScope: Scope;
+  export default ReactLiveScope;
 }
