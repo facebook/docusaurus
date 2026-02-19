@@ -7,12 +7,9 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
-import styles from './styles.module.css';
+import type {Props} from '@theme/Playground/Header';
 
-interface Props {
-  label: ReactNode;
-  buttons?: ReactNode;
-}
+import styles from './styles.module.css';
 
 export default function PlaygroundHeader({label, buttons}: Props): ReactNode {
   return (
