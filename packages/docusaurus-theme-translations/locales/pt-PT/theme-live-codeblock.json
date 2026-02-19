@@ -1,5 +1,5 @@
 {
   "theme.Playground.liveEditor": "Editor em tempo real",
-  "theme.Playground.resetButton": "Reset",
+  "theme.Playground.buttons.reset": "Reset",
   "theme.Playground.result": "Resultado"
 }

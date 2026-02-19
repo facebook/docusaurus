@@ -1,5 +1,5 @@
 {
   "theme.Playground.liveEditor": "Interaktív szerkesztő",
-  "theme.Playground.resetButton": "Reset",
+  "theme.Playground.buttons.reset": "Reset",
   "theme.Playground.result": "Eredmény"
 }
