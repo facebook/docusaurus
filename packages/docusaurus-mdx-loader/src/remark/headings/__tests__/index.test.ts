@@ -11,23 +11,39 @@ import u from 'unist-builder';
 import {removePosition} from 'unist-util-remove-position';
 import {toString} from 'mdast-util-to-string';
 import {visit} from 'unist-util-visit';
+import {escapeMarkdownHeadingIds} from '@docusaurus/utils';
 import plugin from '../index';
 import type {PluginOptions} from '../index';
 import type {Plugin} from 'unified';
 import type {Parent} from 'unist';
+import type {Root} from 'mdast';
 
 async function process(
-  doc: string,
+  input: string,
   plugins: Plugin[] = [],
   options: PluginOptions = {anchorsMaintainCase: false},
-) {
+  format: 'md' | 'mdx' = 'mdx',
+): Promise<Root> {
   const {remark} = await import('remark');
-  const processor = await remark().use({
-    plugins: [...plugins, [plugin, options]],
+
+  let content = input;
+  let formatPlugins: Plugin[] = [];
+
+  if (format === 'mdx') {
+    const {default: mdx} = await import('remark-mdx');
+    // Preprocess the input to support our invalid heading ids syntax
+    content = escapeMarkdownHeadingIds(input);
+    formatPlugins = [mdx];
+  }
+
+  const processor = remark().use({
+    plugins: [...formatPlugins, ...plugins, [plugin, options]],
   });
-  const result = await processor.run(processor.parse(doc));
+
+  const result = await processor.run(processor.parse(content));
   removePosition(result, {force: true});
-  return result;
+
+  return result as unknown as Root;
 }
 
 function heading(label: string | null, id: string) {
@@ -236,6 +252,7 @@ describe('headings remark plugin', () => {
     const result = await process(
       '# <span class="normal-header">Normal</span>\n',
     );
+
     const expected = u('root', [
       u(
         'heading',
@@ -244,9 +261,16 @@ describe('headings remark plugin', () => {
           data: {hProperties: {id: 'normal'}, id: 'normal'},
         },
         [
-          u('html', '<span class="normal-header">'),
-          u('text', 'Normal'),
-          u('html', '</span>'),
+          u('mdxJsxTextElement', {
+            name: 'span',
+            attributes: [
+              u('mdxJsxAttribute', {
+                name: 'class',
+                value: 'normal-header',
+              }),
+            ],
+            children: [u('text', 'Normal')],
+          }),
         ],
       ),
     ]);
@@ -254,70 +278,75 @@ describe('headings remark plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  it('creates custom headings ids', async () => {
-    const result = await process(`
-# Heading One {#custom_h1}
+  describe('creates custom headings ids', () => {
+    async function headingIdFor(input: string, format: 'md' | 'mdx' = 'mdx') {
+      const result = await process(
+        input,
+        [],
+        {anchorsMaintainCase: false},
+        format,
+      );
+      const headers: {text: string; id: string}[] = [];
+      visit(result, 'heading', (node) => {
+        headers.push({
+          text: toString(node),
+          id: (node.data! as {id: string}).id,
+        });
+      });
+      expect(headers).toHaveLength(1);
+      return headers[0]!.id;
+    }
 
-## Heading Two {#custom-heading-two}
+    describe('historical syntax', () => {
+      // Shared test because it's the same syntax for both md and mdx
+      async function testHeadingIds(format: 'md' | 'mdx') {
+        await expect(
+          headingIdFor('# Heading One {#custom_h1}', format),
+        ).resolves.toEqual('custom_h1');
+        await expect(
+          headingIdFor('## Heading Two {#custom-heading-two}', format),
+        ).resolves.toEqual('custom-heading-two');
 
-# With *Bold* {#custom-with-bold}
+        await expect(
+          headingIdFor('# With *Bold* {#custom-with-bold}', format),
+        ).resolves.toEqual('custom-with-bold');
 
-# With *Bold* hello{#custom-with-bold-hello}
+        await expect(
+          headingIdFor('# With *Bold* hello{#custom-with-bold-hello}', format),
+        ).resolves.toEqual('custom-with-bold-hello');
 
-# With *Bold* hello2 {#custom-with-bold-hello2}
+        await expect(
+          headingIdFor(
+            '# With *Bold* hello2 {#custom-with-bold-hello2}',
+            format,
+          ),
+        ).resolves.toEqual('custom-with-bold-hello2');
 
-# Snake-cased ID {#this_is_custom_id}
+        await expect(
+          headingIdFor('# Snake-cased ID {#this_is_custom_id}', format),
+        ).resolves.toEqual('this_is_custom_id');
 
-# No custom ID
+        await expect(headingIdFor('# No custom ID', format)).resolves.toEqual(
+          'no-custom-id',
+        );
 
-# {#id-only}
+        await expect(headingIdFor('# {#id-only}', format)).resolves.toEqual(
+          'id-only',
+        );
 
-# {#text-after} custom ID
-  `);
+        // in this case, we don't parse the heading id: the id is the text slug
+        await expect(
+          headingIdFor('# {#text-after} custom ID', format),
+        ).resolves.toEqual('text-after-custom-id');
+      }
+      it('works for format CommonMark', async () => {
+        await testHeadingIds('md');
+      });
 
-    const headers: {text: string; id: string}[] = [];
-    visit(result, 'heading', (node) => {
-      headers.push({text: toString(node), id: node.data!.id as string});
+      it('works for format MDX', async () => {
+        await testHeadingIds('mdx');
+      });
     });
-
-    expect(headers).toEqual([
-      {
-        id: 'custom_h1',
-        text: 'Heading One',
-      },
-      {
-        id: 'custom-heading-two',
-        text: 'Heading Two',
-      },
-      {
-        id: 'custom-with-bold',
-        text: 'With Bold',
-      },
-      {
-        id: 'custom-with-bold-hello',
-        text: 'With Bold hello',
-      },
-      {
-        id: 'custom-with-bold-hello2',
-        text: 'With Bold hello2',
-      },
-      {
-        id: 'this_is_custom_id',
-        text: 'Snake-cased ID',
-      },
-      {
-        id: 'no-custom-id',
-        text: 'No custom ID',
-      },
-      {
-        id: 'id-only',
-        text: '',
-      },
-      {
-        id: 'text-after-custom-id',
-        text: '{#text-after} custom ID',
-      },
-    ]);
   });
 
   it('preserve anchors case then "anchorsMaintainCase" option is set', async () => {
