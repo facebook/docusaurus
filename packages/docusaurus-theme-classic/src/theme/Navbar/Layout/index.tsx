@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ComponentProps, type ReactNode} from 'react';
+import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {ThemeClassNames, useThemeConfig} from '@docusaurus/theme-common';
 import {
@@ -17,16 +17,6 @@ import NavbarMobileSidebar from '@theme/Navbar/MobileSidebar';
 import type {Props} from '@theme/Navbar/Layout';
 
 import styles from './styles.module.css';
-
-function NavbarBackdrop(props: ComponentProps<'div'>) {
-  return (
-    <div
-      role="presentation"
-      {...props}
-      className={clsx('navbar-sidebar__backdrop', props.className)}
-    />
-  );
-}
 
 export default function NavbarLayout({children}: Props): ReactNode {
   const {
@@ -57,7 +47,6 @@ export default function NavbarLayout({children}: Props): ReactNode {
         },
       )}>
       {children}
-      <NavbarBackdrop onClick={mobileSidebar.toggle} />
       <NavbarMobileSidebar />
     </nav>
   );
