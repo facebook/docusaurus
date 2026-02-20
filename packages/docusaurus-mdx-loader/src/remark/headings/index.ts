@@ -9,10 +9,18 @@
 
 import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
 import type {Plugin, Transformer} from 'unified';
-import type {Root, Text} from 'mdast';
+import type {Heading, Root, Text} from 'mdast';
 
 export interface PluginOptions {
   anchorsMaintainCase: boolean;
+}
+
+function getCommentHeadingId(heading: Heading): string | undefined {
+  const lastChild = heading.children.at(-1);
+
+  console.log('Last child of heading:', lastChild);
+
+  return undefined;
 }
 
 const plugin: Plugin<PluginOptions[], Root> = function plugin({
@@ -22,43 +30,61 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin({
     const {toString} = await import('mdast-util-to-string');
     const {visit} = await import('unist-util-visit');
 
+    function getHeadingText(heading: Heading) {
+      const headingTextNodes = heading.children.filter(
+        ({type}) => !['html', 'jsx'].includes(type),
+      );
+      return toString(headingTextNodes.length > 0 ? headingTextNodes : heading);
+    }
+
     const slugs = createSlugger();
     visit(root, 'heading', (headingNode) => {
       const data = headingNode.data ?? (headingNode.data = {});
       const properties = (data.hProperties || (data.hProperties = {})) as {
         id: string;
       };
-      let {id} = properties;
 
-      if (id) {
-        id = slugs.slug(id, {maintainCase: true});
-      } else {
-        const headingTextNodes = headingNode.children.filter(
-          ({type}) => !['html', 'jsx'].includes(type),
+      function setId(newId: string) {
+        data.id = newId;
+        properties.id = newId;
+      }
+
+      // properties.id already set? Not sure when this happens, historical code
+      if (properties.id) {
+        const id = slugs.slug(properties.id, {maintainCase: true});
+        setId(id);
+        
+      }
+      // No id set
+      else {
+        // Try to find an explicit id in MD/MDX comments
+        const commentId = getCommentHeadingId(headingNode);
+        if (commentId) {
+          // Remove the comment node
+          headingNode.children.pop();
+          // Trim the trailing space from the last text node ("txt " → "txt")
+          const newLast = headingNode.children.at(-1);
+          if (newLast?.type === 'text') {
+            newLast.value = newLast.value.trimEnd();
+          }
+
+          setId(commentId);
+          return;
+        }
+
+        const headingText = getHeadingText(headingNode);
+
+        // Try to find an explicit id in the heading text (legacy syntax)
+        const parsedHeading = parseMarkdownHeadingId(
+          getHeadingText(headingNode),
         );
-        const heading = toString(
-          headingTextNodes.length > 0 ? headingTextNodes : headingNode,
-        );
-
-        // Support explicit heading IDs
-        const parsedHeading = parseMarkdownHeadingId(heading);
-
-        id =
-          parsedHeading.id ??
-          slugs.slug(heading, {maintainCase: anchorsMaintainCase});
-
+        // Remove the heading text from its id (legacy syntax)
         if (parsedHeading.id) {
           // When there's an id, it is always in the last child node
-          // Sometimes heading is in multiple "parts" (** syntax creates a child
-          // node):
-          // ## part1 *part2* part3 {#id}
-          const lastNode = headingNode.children[
-            headingNode.children.length - 1
-          ] as Text;
-
+          const lastNode = headingNode.children.at(-1) as Text;
           if (headingNode.children.length > 1) {
             const lastNodeText = parseMarkdownHeadingId(lastNode.value).text;
-            // When last part contains test+id, remove the id
+            // When the last part contains text + id, remove the id
             if (lastNodeText) {
               lastNode.value = lastNodeText;
             }
@@ -70,10 +96,14 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin({
             lastNode.value = parsedHeading.text;
           }
         }
-      }
 
-      data.id = id;
-      properties.id = id;
+        const id =
+          parsedHeading.id ??
+          slugs.slug(headingText, {maintainCase: anchorsMaintainCase});
+
+        setId(id);
+        
+      }
     });
   };
 };
