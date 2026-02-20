@@ -18,7 +18,35 @@ export interface PluginOptions {
 function getCommentHeadingId(heading: Heading): string | undefined {
   const lastChild = heading.children.at(-1);
 
-  console.log('Last child of heading:', lastChild);
+  // MDX comment: {/* my-id */}
+  if (
+    lastChild &&
+    lastChild.type === 'mdxTextExpression' &&
+    lastChild.data?.estree
+  ) {
+    const program = lastChild.data.estree;
+    // We only extract the id from single-comment MDX expressions
+    // ✅ {/* my-id */}
+    // ❌ {/* my-id */ /* my-id2 */}
+    // ❌ {someExpression /* my-id */}
+    if (program.body.length === 0 && program.comments?.length === 1) {
+      const singleComment = program.comments[0]!;
+      return singleComment.value.trim();
+    }
+
+    /*
+    const match = /^\/\*(?<id>[\s\S]*)\*\/$/.exec(lastChild.value);
+    return match?.groups?.id?.trim() || undefined;
+     */
+  }
+
+  // HTML comment: <!-- my-id -->
+  if (lastChild?.type === 'html') {
+    const match = /^<!--(?<id>[\s\S]*)-->$/.exec(
+      (lastChild as unknown as {value: string}).value,
+    );
+    return match?.groups?.id?.trim() || undefined;
+  }
 
   return undefined;
 }
