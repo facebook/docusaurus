@@ -213,7 +213,6 @@ module.exports = {
       {allowTaggedTemplates: true, allowShortCircuit: true},
     ],
     'no-useless-escape': WARNING,
-    'no-useless-return': WARNING,
     'no-void': [ERROR, {allowAsStatement: true}],
     'prefer-destructuring': OFF,
     'prefer-named-capture-group': WARNING,
