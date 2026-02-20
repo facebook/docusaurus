@@ -297,6 +297,7 @@ sluggify
 Smoosh
 Solana
 solana
+someexpression
 spâce
 stackblitz
 stackoverflow
