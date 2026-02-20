@@ -270,8 +270,23 @@ describe('headings remark plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  it('creates custom headings ids', async () => {
-    const result = await process(`
+  describe('creates custom headings ids', () => {
+    async function headingIdFor(input: string) {
+      const result = await process(input);
+      const headers: {text: string; id: string}[] = [];
+      visit(result, 'heading', (node) => {
+        headers.push({text: toString(node), id: node.data!.id as string});
+      });
+      expect(headers).toHaveLength(1);
+      return headers[0].id;
+    }
+
+    it('historical syntax', async () => {
+      await expect(headingIdFor('# Heading One {#custom_h1}')).resolves.toEqual(
+        'custom_h1',
+      );
+
+      const result = await process(`
 # Heading One {#custom_h1}
 
 ## Heading Two {#custom-heading-two}
@@ -291,49 +306,50 @@ describe('headings remark plugin', () => {
 # {#text-after} custom ID
   `);
 
-    const headers: {text: string; id: string}[] = [];
-    visit(result, 'heading', (node) => {
-      headers.push({text: toString(node), id: node.data!.id as string});
-    });
+      const headers: {text: string; id: string}[] = [];
+      visit(result, 'heading', (node) => {
+        headers.push({text: toString(node), id: node.data!.id as string});
+      });
 
-    expect(headers).toEqual([
-      {
-        id: 'custom_h1',
-        text: 'Heading One',
-      },
-      {
-        id: 'custom-heading-two',
-        text: 'Heading Two',
-      },
-      {
-        id: 'custom-with-bold',
-        text: 'With Bold',
-      },
-      {
-        id: 'custom-with-bold-hello',
-        text: 'With Bold hello',
-      },
-      {
-        id: 'custom-with-bold-hello2',
-        text: 'With Bold hello2',
-      },
-      {
-        id: 'this_is_custom_id',
-        text: 'Snake-cased ID',
-      },
-      {
-        id: 'no-custom-id',
-        text: 'No custom ID',
-      },
-      {
-        id: 'id-only',
-        text: '',
-      },
-      {
-        id: 'text-after-custom-id',
-        text: '{#text-after} custom ID',
-      },
-    ]);
+      expect(headers).toEqual([
+        {
+          id: 'custom_h1',
+          text: 'Heading One',
+        },
+        {
+          id: 'custom-heading-two',
+          text: 'Heading Two',
+        },
+        {
+          id: 'custom-with-bold',
+          text: 'With Bold',
+        },
+        {
+          id: 'custom-with-bold-hello',
+          text: 'With Bold hello',
+        },
+        {
+          id: 'custom-with-bold-hello2',
+          text: 'With Bold hello2',
+        },
+        {
+          id: 'this_is_custom_id',
+          text: 'Snake-cased ID',
+        },
+        {
+          id: 'no-custom-id',
+          text: 'No custom ID',
+        },
+        {
+          id: 'id-only',
+          text: '',
+        },
+        {
+          id: 'text-after-custom-id',
+          text: '{#text-after} custom ID',
+        },
+      ]);
+    });
   });
 
   it('preserve anchors case then "anchorsMaintainCase" option is set', async () => {
