@@ -133,9 +133,13 @@ describe('headings remark plugin', () => {
         '## Something also',
       ].join('\n\n'),
       [
-        () => (root) => {
-          (root as Parent).children[1]!.data = {hProperties: {id: 'here'}};
-          (root as Parent).children[3]!.data = {hProperties: {id: 'something'}};
+        function customIdPlugin() {
+          return (root) => {
+            (root as Parent).children[1]!.data = {hProperties: {id: 'here'}};
+            (root as Parent).children[3]!.data = {
+              hProperties: {id: 'something'},
+            };
+          };
         },
       ],
     );
