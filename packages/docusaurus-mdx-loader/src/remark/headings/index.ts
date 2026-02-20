@@ -9,10 +9,88 @@
 
 import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
 import type {Plugin, Transformer} from 'unified';
-import type {Root, Text} from 'mdast';
+import type {Heading, Root, Text} from 'mdast';
 
 export interface PluginOptions {
   anchorsMaintainCase: boolean;
+}
+
+function getCommentHeadingId(heading: Heading): string | undefined {
+  const lastChild = heading.children.at(-1);
+
+  // MDX comment: {/* my-id */}
+  if (
+    lastChild &&
+    lastChild.type === 'mdxTextExpression' &&
+    lastChild.data?.estree
+  ) {
+    const program = lastChild.data.estree;
+    // We only extract the id from single-comment MDX expressions
+    // ✅ {/* my-id */}
+    // ❌ {/* my-id */ /* my-id2 */}
+    // ❌ {someExpression /* my-id */}
+    if (program.body.length === 0 && program.comments?.length === 1) {
+      const singleComment = program.comments[0]!;
+      return singleComment.value.trim();
+    }
+
+    /*
+    const match = /^\/\*(?<id>[\s\S]*)\*\/$/.exec(lastChild.value);
+    return match?.groups?.id?.trim() || undefined;
+     */
+  }
+
+  // HTML comment: <!-- my-id -->
+  if (lastChild?.type === 'html') {
+    const match = /^<!--(?<id>[\s\S]*)-->$/.exec(
+      (lastChild as unknown as {value: string}).value,
+    );
+    return match?.groups?.id?.trim() || undefined;
+  }
+
+  return undefined;
+}
+
+// Try to find an explicit id in MD/MDX comments
+
+function extractCommentId(heading: Heading) {
+  const commentId = getCommentHeadingId(heading);
+  if (commentId) {
+    // Remove the last comment node
+    heading.children.pop();
+    // Trim the trailing space from the last text node ("text " → "text")
+    const newLast = heading.children.at(-1);
+    if (newLast?.type === 'text') {
+      newLast.value = newLast.value.trimEnd();
+    }
+    return commentId;
+  }
+  return undefined;
+}
+
+// Try to find an explicit id in the heading text (legacy {#id} syntax)
+function extractLegacySyntaxId(heading: Heading, headingText: string) {
+  const parsedHeading = parseMarkdownHeadingId(headingText);
+  // Remove the heading text from its id (legacy syntax)
+  if (parsedHeading.id) {
+    // When there's an id, it is always in the last child node
+    const lastNode = heading.children.at(-1) as Text;
+    if (heading.children.length > 1) {
+      const lastNodeText = parseMarkdownHeadingId(lastNode.value).text;
+      // When the last part contains text + id, remove the id
+      if (lastNodeText) {
+        lastNode.value = lastNodeText;
+      }
+      // When last part contains only the id: completely remove that node
+      else {
+        heading.children.pop();
+      }
+    } else {
+      lastNode.value = parsedHeading.text;
+    }
+    return parsedHeading.id;
+  }
+  return undefined;
 }
 
 const plugin: Plugin<PluginOptions[], Root> = function plugin({
@@ -22,55 +100,42 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin({
     const {toString} = await import('mdast-util-to-string');
     const {visit} = await import('unist-util-visit');
 
+    function getHeadingText(heading: Heading) {
+      const headingTextNodes = heading.children.filter(
+        ({type}) => !['html', 'jsx'].includes(type),
+      );
+      return toString(headingTextNodes.length > 0 ? headingTextNodes : heading);
+    }
+
     const slugs = createSlugger();
-    visit(root, 'heading', (headingNode) => {
-      const data = headingNode.data ?? (headingNode.data = {});
-      const properties = (data.hProperties || (data.hProperties = {})) as {
-        id: string;
-      };
-      let {id} = properties;
+    visit(root, 'heading', (heading) => {
+      const data = heading.data ?? (heading.data = {});
+      const properties = data.hProperties ?? (data.hProperties = {});
 
-      if (id) {
-        id = slugs.slug(id, {maintainCase: true});
-      } else {
-        const headingTextNodes = headingNode.children.filter(
-          ({type}) => !['html', 'jsx'].includes(type),
-        );
-        const heading = toString(
-          headingTextNodes.length > 0 ? headingTextNodes : headingNode,
-        );
-
-        // Support explicit heading IDs
-        const parsedHeading = parseMarkdownHeadingId(heading);
-
-        id =
-          parsedHeading.id ??
-          slugs.slug(heading, {maintainCase: anchorsMaintainCase});
-
-        if (parsedHeading.id) {
-          // When there's an id, it is always in the last child node
-          // Sometimes heading is in multiple "parts" (** syntax creates a child
-          // node):
-          // ## part1 *part2* part3 {#id}
-          const lastNode = headingNode.children[
-            headingNode.children.length - 1
-          ] as Text;
-
-          if (headingNode.children.length > 1) {
-            const lastNodeText = parseMarkdownHeadingId(lastNode.value).text;
-            // When last part contains test+id, remove the id
-            if (lastNodeText) {
-              lastNode.value = lastNodeText;
-            }
-            // When last part contains only the id: completely remove that node
-            else {
-              headingNode.children.pop();
-            }
-          } else {
-            lastNode.value = parsedHeading.text;
-          }
+      // Gives the ability to provide/write a remark plugin that sets an id
+      // When an id is already set, we use it instead of running our own plugin
+      function extractAlreadyExistingId() {
+        if (properties.id) {
+          // Not sure why we need to slugify here, historical code
+          return slugs.slug(properties.id, {maintainCase: true});
         }
+        return undefined;
       }
+
+      function extractIdFromText() {
+        const headingText = getHeadingText(heading);
+        return (
+          extractLegacySyntaxId(heading, headingText) ??
+          slugs.slug(headingText, {maintainCase: anchorsMaintainCase})
+        );
+      }
+
+      // All the ways we can extract an id, ordered by priority
+      // /!\ the extraction methods can perform AST cleanup side effects
+      const id =
+        extractAlreadyExistingId() ??
+        extractCommentId(heading) ??
+        extractIdFromText();
 
       data.id = id;
       properties.id = id;

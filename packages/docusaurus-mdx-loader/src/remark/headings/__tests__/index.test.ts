@@ -9,19 +9,18 @@
 
 import u from 'unist-builder';
 import {removePosition} from 'unist-util-remove-position';
-import {toString} from 'mdast-util-to-string';
 import {visit} from 'unist-util-visit';
 import {escapeMarkdownHeadingIds} from '@docusaurus/utils';
 import plugin from '../index';
 import type {PluginOptions} from '../index';
 import type {Plugin} from 'unified';
 import type {Parent} from 'unist';
-import type {Root} from 'mdast';
+import type {Heading, Root} from 'mdast';
 
 async function process(
   input: string,
   plugins: Plugin[] = [],
-  options: PluginOptions = {anchorsMaintainCase: false},
+  options: Partial<PluginOptions> = {anchorsMaintainCase: false},
   format: 'md' | 'mdx' = 'mdx',
 ): Promise<Root> {
   const {remark} = await import('remark');
@@ -46,11 +45,11 @@ async function process(
   return result as unknown as Root;
 }
 
-function heading(label: string | null, id: string) {
+function h(text: string | null, depth: number, id: string) {
   return u(
     'heading',
-    {depth: 2, data: {id, hProperties: {id}}},
-    label ? [u('text', label)] : [],
+    {depth, data: {id, hProperties: {id}}},
+    text ? [u('text', text)] : [],
   );
 }
 
@@ -58,11 +57,7 @@ describe('headings remark plugin', () => {
   it('patches `id`s and `data.hProperties.id', async () => {
     const result = await process('# Normal\n\n## Table of Contents\n\n# Baz\n');
     const expected = u('root', [
-      u(
-        'heading',
-        {depth: 1, data: {hProperties: {id: 'normal'}, id: 'normal'}},
-        [u('text', 'Normal')],
-      ),
+      h('Normal', 1, 'normal'),
       u(
         'heading',
         {
@@ -133,9 +128,13 @@ describe('headings remark plugin', () => {
         '## Something also',
       ].join('\n\n'),
       [
-        () => (root) => {
-          (root as Parent).children[1]!.data = {hProperties: {id: 'here'}};
-          (root as Parent).children[3]!.data = {hProperties: {id: 'something'}};
+        function customIdPlugin() {
+          return (root) => {
+            (root as Parent).children[1]!.data = {hProperties: {id: 'here'}};
+            (root as Parent).children[3]!.data = {
+              hProperties: {id: 'something'},
+            };
+          };
         },
       ],
     );
@@ -216,6 +215,15 @@ describe('headings remark plugin', () => {
         '',
       ].join('\n'),
     );
+
+    function heading(label: string | null, id: string) {
+      return u(
+        'heading',
+        {depth: 2, data: {id, hProperties: {id}}},
+        label ? [u('text', label)] : [],
+      );
+    }
+
     const expected = u('root', [
       heading('I ♥ unicode', 'i--unicode'),
       heading('Dash-dash', 'dash-dash'),
@@ -278,23 +286,26 @@ describe('headings remark plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  describe('creates custom headings ids', () => {
-    async function headingIdFor(input: string, format: 'md' | 'mdx' = 'mdx') {
-      const result = await process(
-        input,
-        [],
-        {anchorsMaintainCase: false},
-        format,
-      );
-      const headers: {text: string; id: string}[] = [];
+  describe('headings ids', () => {
+    async function processHeading(
+      input: string,
+      format: 'md' | 'mdx' = 'mdx',
+    ): Promise<Heading> {
+      const result = await process(input, [], {}, format);
+      const headings: Heading[] = [];
       visit(result, 'heading', (node) => {
-        headers.push({
-          text: toString(node),
-          id: (node.data! as {id: string}).id,
-        });
+        headings.push(node);
       });
-      expect(headers).toHaveLength(1);
-      return headers[0]!.id;
+      expect(headings).toHaveLength(1);
+      return headings[0]!;
+    }
+
+    async function headingIdFor(
+      input: string,
+      format: 'md' | 'mdx' = 'mdx',
+    ): Promise<string> {
+      const {data} = await processHeading(input, format);
+      return (data! as {id: string}).id;
     }
 
     describe('historical syntax', () => {
@@ -345,6 +356,138 @@ describe('headings remark plugin', () => {
 
       it('works for format MDX', async () => {
         await testHeadingIds('mdx');
+      });
+    });
+
+    describe('comment syntax', () => {
+      describe('works for format CommonMark', () => {
+        it('extracts id from HTML comment at end of heading', async () => {
+          await expect(
+            headingIdFor('# Heading One <!-- custom_h1 -->', 'md'),
+          ).resolves.toEqual('custom_h1');
+
+          await expect(
+            headingIdFor('## Heading Two <!--custom-heading-two    -->', 'md'),
+          ).resolves.toEqual('custom-heading-two');
+
+          await expect(
+            headingIdFor('# Snake-cased <!--       this_is_custom_id-->', 'md'),
+          ).resolves.toEqual('this_is_custom_id');
+        });
+
+        it('extracts id when comment is the only heading content', async () => {
+          await expect(
+            headingIdFor('# <!-- id-only -->', 'md'),
+          ).resolves.toEqual('id-only');
+        });
+
+        it('extracts id when heading has inline markup before comment', async () => {
+          await expect(
+            headingIdFor('# With *Bold* <!-- custom-with-bold -->', 'md'),
+          ).resolves.toEqual('custom-with-bold');
+        });
+
+        it('does NOT extract id when HTML comment is not the last node', async () => {
+          await expect(
+            headingIdFor('# <!-- custom-id --> some text', 'md'),
+          ).resolves.not.toEqual('custom-id');
+        });
+
+        it('removes the comment node from heading AST', async () => {
+          const heading = await processHeading(
+            '## Heading <!-- my-id -->',
+            'md',
+          );
+          expect(heading).toEqual(h('Heading', 2, 'my-id'));
+        });
+
+        it('removes the comment node when it is the only heading content', async () => {
+          const heading = await processHeading('## <!-- id-only -->', 'md');
+          expect(heading).toEqual(h(null, 2, 'id-only'));
+        });
+
+        it('does NOT support MDX comment syntax {/* id */} in CommonMark', async () => {
+          // In CommonMark (no remark-mdx), {/* id */} is regular text
+          const id = await headingIdFor('# Heading {/* my-id */}', 'md');
+          expect(id).not.toEqual('my-id');
+        });
+      });
+
+      describe('works for format MDX', () => {
+        it('extracts id from MDX comment at end of heading', async () => {
+          await expect(
+            headingIdFor('# Heading One {/* custom_h1 */}', 'mdx'),
+          ).resolves.toEqual('custom_h1');
+
+          await expect(
+            headingIdFor('## Heading Two {/* custom-heading-two */}', 'mdx'),
+          ).resolves.toEqual('custom-heading-two');
+
+          await expect(
+            headingIdFor('# Snake-cased {/* this_is_custom_id */}', 'mdx'),
+          ).resolves.toEqual('this_is_custom_id');
+        });
+
+        it('extracts id when comment is the only heading content', async () => {
+          await expect(
+            headingIdFor('# {/* id-only */}', 'mdx'),
+          ).resolves.toEqual('id-only');
+        });
+
+        it('extracts id when heading has inline markup before comment', async () => {
+          await expect(
+            headingIdFor('# With *Bold* {/* custom-with-bold */}', 'mdx'),
+          ).resolves.toEqual('custom-with-bold');
+        });
+
+        it('does NOT extract id when MDX comment is not the last node', async () => {
+          const id = await headingIdFor('# {/* custom-id */} some text', 'mdx');
+          expect(id).not.toEqual('custom-id');
+          expect(id).toMatchInlineSnapshot(`"-custom-id--some-text"`);
+        });
+
+        it('does NOT extract id when MDX comment is not the only part of the expression', async () => {
+          const id = await headingIdFor(
+            '# some text {someExpression /* custom-id */}',
+            'mdx',
+          );
+          expect(id).not.toEqual('custom-id');
+          expect(id).toMatchInlineSnapshot(
+            `"some-text-someexpression--custom-id-"`,
+          );
+        });
+
+        it('does NOT extract id when MDX expression has multiple comments', async () => {
+          const id = await headingIdFor(
+            '# some text {/* id1 *//* id2 */}',
+            'mdx',
+          );
+          expect(id).not.toEqual('id1');
+          expect(id).not.toEqual('id2');
+          expect(id).toMatchInlineSnapshot(`"some-text--id1--id2-"`);
+        });
+
+        it('removes the comment node from heading AST', async () => {
+          const heading = await processHeading(
+            '## Heading {/* my-id */}',
+            'mdx',
+          );
+          expect(heading).toEqual(h('Heading', 2, 'my-id'));
+        });
+
+        it('removes the comment node when it is the only heading content', async () => {
+          const heading = await processHeading('## {/* id-only */}', 'mdx');
+          expect(heading).toEqual(h(null, 2, 'id-only'));
+        });
+
+        it('does NOT support HTML comment syntax <!-- id --> in MDX', async () => {
+          // MDX throws a parse error for HTML comments inside headings
+          await expect(
+            processHeading('## Heading <!-- my-id -->', 'mdx'),
+          ).rejects.toThrowErrorMatchingInlineSnapshot(
+            `"Unexpected character \`!\` (U+0021) before name, expected a character that can start a name, such as a letter, \`$\`, or \`_\` (note: to create a comment in MDX, use \`{/* text */}\`)"`,
+          );
+        });
       });
     });
   });
