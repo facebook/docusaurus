@@ -342,6 +342,16 @@ describe('headings remark plugin', () => {
         await testHeadingIds('mdx');
       });
     });
+
+    describe('comment syntax', () => {
+      it('works for format CommonMark', async () => {
+        // TODO claude implement comment syntax support for md
+      });
+
+      it('works for format MDX', async () => {
+        // TODO claude implement comment syntax support for mdx
+      });
+    });
   });
 
   it('preserve anchors case then "anchorsMaintainCase" option is set', async () => {
