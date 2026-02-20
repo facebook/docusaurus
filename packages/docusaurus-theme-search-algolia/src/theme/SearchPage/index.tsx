@@ -35,6 +35,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {
   useAlgoliaThemeConfig,
   useSearchResultUrlProcessor,
+  sanitizeAlgoliaHtml,
 } from '@docusaurus/theme-search-algolia/client';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
@@ -321,12 +322,6 @@ function SearchPageContent(): ReactNode {
         return;
       }
 
-      const sanitizeValue = (value: string) =>
-        value.replace(
-          /algolia-docsearch-suggestion--highlight/g,
-          'search-result-match',
-        );
-
       const items = hits.map(
         ({
           url,
@@ -338,13 +333,13 @@ function SearchPageContent(): ReactNode {
           _snippetResult: {content?: {value: string}};
         }) => {
           const titles = Object.keys(hierarchy).map((key) =>
-            sanitizeValue(hierarchy[key]!.value),
+            sanitizeAlgoliaHtml(hierarchy[key]!.value),
           );
           return {
             title: titles.pop()!,
             url: processSearchResultUrl(url),
             summary: snippet.content
-              ? `${sanitizeValue(snippet.content.value)}...`
+              ? `${sanitizeAlgoliaHtml(snippet.content.value)}...`
               : '',
             breadcrumbs: titles,
           };
@@ -535,7 +530,7 @@ function SearchPageContent(): ReactNode {
                           <li
                             key={index}
                             className="breadcrumbs__item"
-                            // Developer provided the HTML, so assume it's safe.
+                            // HTML is sanitized to prevent XSS attacks
                             // eslint-disable-next-line react/no-danger
                             dangerouslySetInnerHTML={{__html: html}}
                           />
@@ -547,7 +542,7 @@ function SearchPageContent(): ReactNode {
                   {summary && (
                     <p
                       className={styles.searchResultItemSummary}
-                      // Developer provided the HTML, so assume it's safe.
+                      // HTML is sanitized to prevent XSS attacks
                       // eslint-disable-next-line react/no-danger
                       dangerouslySetInnerHTML={{__html: summary}}
                     />

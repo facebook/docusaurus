@@ -26,7 +26,7 @@ function TOCItemTree({
           <Link
             to={`#${heading.id}`}
             className={linkClassName ?? undefined}
-            // Developer provided the HTML, so assume it's safe.
+            // HTML is generated at build time from markdown and properly escaped
             dangerouslySetInnerHTML={{__html: heading.value}}
           />
           <TOCItemTree

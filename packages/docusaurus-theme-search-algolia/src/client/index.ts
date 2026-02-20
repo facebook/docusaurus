@@ -13,3 +13,4 @@ export {
 export {useSearchResultUrlProcessor} from './useSearchResultUrlProcessor';
 export {useAlgoliaAskAi} from './useAlgoliaAskAi';
 export {mergeFacetFilters} from './utils';
+export {sanitizeHtml, sanitizeAlgoliaHtml} from './htmlSanitizer';
