@@ -177,17 +177,102 @@ While you may expect that `BrowserOnly` hides away the children during server-si
 
 ### `useIsBrowser` {#useisbrowser}
 
-You can also use the `useIsBrowser()` hook to test if the component is currently in a browser environment. It returns `false` in SSR and `true` is CSR, after first client render. Use this hook if you only need to perform certain conditional operations on client-side, but not render an entirely different UI.
+Returns `true` when the React app has successfully hydrated in the browser.
+
+:::caution
+
+Use this hook instead of `typeof windows !== 'undefined'` in React rendering logic because `window` may be defined but hydration may not necessarily have been completed yet.
+
+The first client-side render output (in the browser) **must be exactly the same** as the server-side render output (Node.js). Not following this rule can lead to unexpected hydration behaviors, as described in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
+
+:::
+
+Usage example:
 
 ```jsx
+import React from // useEffect // useState,
+'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 
-function MyComponent() {
+const isFetchingLocationMessage = 'fetching location...';
+
+const MyComponent = () => {
+  // highlight-start
+  // Recommended
   const isBrowser = useIsBrowser();
-  const location = isBrowser ? window.location.href : 'fetching location...';
-  return <span>{location}</span>;
+  const location = isBrowser ? window.location.href : isFetchingLocationMessage;
+
+  // Not Recommended
+  // using typeof window !== 'undefined' will still work in this example
+  // but not recommended as it may cause issues depending on your business logic
+  const isWindowDefined = typeof window !== 'undefined';
+  const thisWillWorkButNotRecommended = isWindowDefined
+    ? window.location.href
+    : isFetchingLocationMessage;
+
+  // highlight-end
+  return (
+    <div>
+      {/* Recommended */}
+      {location}
+
+      {/* Not Recommended */}
+      {thisWillWorkButNotRecommended}
+    </div>
+  );
+};
+```
+
+:::caution If your business logic in the component relies on browser specifics to be functional at all, we recommend using [`<BrowserOnly>`](../docusaurus-core.mdx#browseronly). The following example will cause business logic issues when used with `useIsBrowser`:
+
+```jsx
+import React, {useState} from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+const isFetchingLocationMessage = 'fetching location...';
+
+const MyComponent = () => {
+  const isBrowser = useIsBrowser();
+  const location = isBrowser ? window.location.href : isFetchingLocationMessage;
+  // highlight-start
+  const [isFetchingLocation, setIsFetchingLocation] = useState(
+    location === isFetchingLocationMessage,
+  );
+
+  // highlight-end
+  return (
+    <div>
+      {/*
+        This will always print true and will not update.
+        Component already rendered once and useState referenced the initial value as `true`
+      */}
+      {isFetchingLocation}
+    </div>
+  );
+};
+```
+
+To solve this, you can add a `useEffect` to run when hydration has completed:
+
+```js
+useEffect(() => {
+  setIsFetchingLocation(location === isFetchingLocationMessage);
+}, [isBrowser]);
+```
+
+Or use [`<BrowserOnly>`](../docusaurus-core.mdx#browseronly):
+
+```
+const ParentComponent = () => {
+  return (
+    <BrowserOnly fallback={<div>Loading...</div>}>
+      {() => <MyComponent />}
+    </BrowserOnly>
+  )
 }
 ```
+
+:::
 
 ### `useEffect` {#useeffect}
 
