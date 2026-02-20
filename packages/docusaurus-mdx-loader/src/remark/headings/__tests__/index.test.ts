@@ -11,22 +11,30 @@ import u from 'unist-builder';
 import {removePosition} from 'unist-util-remove-position';
 import {toString} from 'mdast-util-to-string';
 import {visit} from 'unist-util-visit';
+import {escapeMarkdownHeadingIds} from '@docusaurus/utils';
 import plugin from '../index';
 import type {PluginOptions} from '../index';
 import type {Plugin} from 'unified';
 import type {Parent} from 'unist';
 
 async function process(
-  doc: string,
+  input: string,
   plugins: Plugin[] = [],
   options: PluginOptions = {anchorsMaintainCase: false},
 ) {
   const {remark} = await import('remark');
-  const processor = await remark().use({
-    plugins: [...plugins, [plugin, options]],
+  const {default: mdx} = await import('remark-mdx');
+
+  // Preprocess the input to support our invalid heading ids syntax
+  const mdxContent = escapeMarkdownHeadingIds(input);
+
+  const processor = remark().use({
+    plugins: [mdx, ...plugins, [plugin, options]],
   });
-  const result = await processor.run(processor.parse(doc));
+
+  const result = await processor.run(processor.parse(mdxContent));
   removePosition(result, {force: true});
+
   return result;
 }
 
@@ -236,6 +244,7 @@ describe('headings remark plugin', () => {
     const result = await process(
       '# <span class="normal-header">Normal</span>\n',
     );
+
     const expected = u('root', [
       u(
         'heading',
@@ -244,9 +253,16 @@ describe('headings remark plugin', () => {
           data: {hProperties: {id: 'normal'}, id: 'normal'},
         },
         [
-          u('html', '<span class="normal-header">'),
-          u('text', 'Normal'),
-          u('html', '</span>'),
+          u('mdxJsxTextElement', {
+            name: 'span',
+            attributes: [
+              u('mdxJsxAttribute', {
+                name: 'class',
+                value: 'normal-header',
+              }),
+            ],
+            children: [u('text', 'Normal')],
+          }),
         ],
       ),
     ]);
