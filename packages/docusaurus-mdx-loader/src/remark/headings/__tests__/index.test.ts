@@ -21,7 +21,7 @@ import type {Root} from 'mdast';
 async function process(
   input: string,
   plugins: Plugin[] = [],
-  options: PluginOptions = {anchorsMaintainCase: false},
+  options: Partial<PluginOptions> = {anchorsMaintainCase: false},
   format: 'md' | 'mdx' = 'mdx',
 ): Promise<Root> {
   const {remark} = await import('remark');
@@ -278,14 +278,9 @@ describe('headings remark plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  describe('creates custom headings ids', () => {
+  describe('headings ids', () => {
     async function headingIdFor(input: string, format: 'md' | 'mdx' = 'mdx') {
-      const result = await process(
-        input,
-        [],
-        {anchorsMaintainCase: false},
-        format,
-      );
+      const result = await process(input, [], {}, format);
       const headers: {text: string; id: string}[] = [];
       visit(result, 'heading', (node) => {
         headers.push({
