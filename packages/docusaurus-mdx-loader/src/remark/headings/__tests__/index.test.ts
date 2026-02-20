@@ -16,26 +16,34 @@ import plugin from '../index';
 import type {PluginOptions} from '../index';
 import type {Plugin} from 'unified';
 import type {Parent} from 'unist';
+import type {Root} from 'mdast';
 
 async function process(
   input: string,
   plugins: Plugin[] = [],
   options: PluginOptions = {anchorsMaintainCase: false},
-) {
+  format: 'md' | 'mdx' = 'mdx',
+): Promise<Root> {
   const {remark} = await import('remark');
-  const {default: mdx} = await import('remark-mdx');
 
-  // Preprocess the input to support our invalid heading ids syntax
-  const mdxContent = escapeMarkdownHeadingIds(input);
+  let content = input;
+  let formatPlugins: Plugin[] = [];
+
+  if (format === 'mdx') {
+    const {default: mdx} = await import('remark-mdx');
+    // Preprocess the input to support our invalid heading ids syntax
+    content = escapeMarkdownHeadingIds(input);
+    formatPlugins = [mdx];
+  }
 
   const processor = remark().use({
-    plugins: [mdx, ...plugins, [plugin, options]],
+    plugins: [...formatPlugins, ...plugins, [plugin, options]],
   });
 
-  const result = await processor.run(processor.parse(mdxContent));
+  const result = await processor.run(processor.parse(content));
   removePosition(result, {force: true});
 
-  return result;
+  return result as unknown as Root;
 }
 
 function heading(label: string | null, id: string) {
@@ -271,50 +279,73 @@ describe('headings remark plugin', () => {
   });
 
   describe('creates custom headings ids', () => {
-    async function headingIdFor(input: string) {
-      const result = await process(input);
+    async function headingIdFor(input: string, format: 'md' | 'mdx' = 'mdx') {
+      const result = await process(
+        input,
+        [],
+        {anchorsMaintainCase: false},
+        format,
+      );
       const headers: {text: string; id: string}[] = [];
       visit(result, 'heading', (node) => {
-        headers.push({text: toString(node), id: node.data!.id as string});
+        headers.push({
+          text: toString(node),
+          id: (node.data! as {id: string}).id,
+        });
       });
       expect(headers).toHaveLength(1);
-      return headers[0].id;
+      return headers[0]!.id;
     }
 
-    it('historical syntax', async () => {
-      await expect(headingIdFor('# Heading One {#custom_h1}')).resolves.toEqual(
-        'custom_h1',
-      );
-      await expect(
-        headingIdFor('## Heading Two {#custom-heading-two}'),
-      ).resolves.toEqual('custom-heading-two');
+    describe('historical syntax', () => {
+      // Shared test because it's the same syntax for both md and mdx
+      async function testHeadingIds(format: 'md' | 'mdx') {
+        await expect(
+          headingIdFor('# Heading One {#custom_h1}', format),
+        ).resolves.toEqual('custom_h1');
+        await expect(
+          headingIdFor('## Heading Two {#custom-heading-two}', format),
+        ).resolves.toEqual('custom-heading-two');
 
-      await expect(
-        headingIdFor('# With *Bold* {#custom-with-bold}'),
-      ).resolves.toEqual('custom-with-bold');
+        await expect(
+          headingIdFor('# With *Bold* {#custom-with-bold}', format),
+        ).resolves.toEqual('custom-with-bold');
 
-      await expect(
-        headingIdFor('# With *Bold* hello{#custom-with-bold-hello}'),
-      ).resolves.toEqual('custom-with-bold-hello');
+        await expect(
+          headingIdFor('# With *Bold* hello{#custom-with-bold-hello}', format),
+        ).resolves.toEqual('custom-with-bold-hello');
 
-      await expect(
-        headingIdFor('# With *Bold* hello2 {#custom-with-bold-hello2}'),
-      ).resolves.toEqual('custom-with-bold-hello2');
+        await expect(
+          headingIdFor(
+            '# With *Bold* hello2 {#custom-with-bold-hello2}',
+            format,
+          ),
+        ).resolves.toEqual('custom-with-bold-hello2');
 
-      await expect(
-        headingIdFor('# Snake-cased ID {#this_is_custom_id}'),
-      ).resolves.toEqual('this_is_custom_id');
+        await expect(
+          headingIdFor('# Snake-cased ID {#this_is_custom_id}', format),
+        ).resolves.toEqual('this_is_custom_id');
 
-      await expect(headingIdFor('# No custom ID')).resolves.toEqual(
-        'no-custom-id',
-      );
+        await expect(headingIdFor('# No custom ID', format)).resolves.toEqual(
+          'no-custom-id',
+        );
 
-      await expect(headingIdFor('# {#id-only}')).resolves.toEqual('id-only');
+        await expect(headingIdFor('# {#id-only}', format)).resolves.toEqual(
+          'id-only',
+        );
 
-      // in this case, we don't parse the heading id: the id is the text slug
-      await expect(headingIdFor('# {#text-after} custom ID')).resolves.toEqual(
-        'text-after-custom-id',
-      );
+        // in this case, we don't parse the heading id: the id is the text slug
+        await expect(
+          headingIdFor('# {#text-after} custom ID', format),
+        ).resolves.toEqual('text-after-custom-id');
+      }
+      it('works for format CommonMark', async () => {
+        await testHeadingIds('md');
+      });
+
+      it('works for format MDX', async () => {
+        await testHeadingIds('mdx');
+      });
     });
   });
 
