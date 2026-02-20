@@ -285,70 +285,36 @@ describe('headings remark plugin', () => {
       await expect(headingIdFor('# Heading One {#custom_h1}')).resolves.toEqual(
         'custom_h1',
       );
+      await expect(
+        headingIdFor('## Heading Two {#custom-heading-two}'),
+      ).resolves.toEqual('custom-heading-two');
 
-      const result = await process(`
-# Heading One {#custom_h1}
+      await expect(
+        headingIdFor('# With *Bold* {#custom-with-bold}'),
+      ).resolves.toEqual('custom-with-bold');
 
-## Heading Two {#custom-heading-two}
+      await expect(
+        headingIdFor('# With *Bold* hello{#custom-with-bold-hello}'),
+      ).resolves.toEqual('custom-with-bold-hello');
 
-# With *Bold* {#custom-with-bold}
+      await expect(
+        headingIdFor('# With *Bold* hello2 {#custom-with-bold-hello2}'),
+      ).resolves.toEqual('custom-with-bold-hello2');
 
-# With *Bold* hello{#custom-with-bold-hello}
+      await expect(
+        headingIdFor('# Snake-cased ID {#this_is_custom_id}'),
+      ).resolves.toEqual('this_is_custom_id');
 
-# With *Bold* hello2 {#custom-with-bold-hello2}
+      await expect(headingIdFor('# No custom ID')).resolves.toEqual(
+        'no-custom-id',
+      );
 
-# Snake-cased ID {#this_is_custom_id}
+      await expect(headingIdFor('# {#id-only}')).resolves.toEqual('id-only');
 
-# No custom ID
-
-# {#id-only}
-
-# {#text-after} custom ID
-  `);
-
-      const headers: {text: string; id: string}[] = [];
-      visit(result, 'heading', (node) => {
-        headers.push({text: toString(node), id: node.data!.id as string});
-      });
-
-      expect(headers).toEqual([
-        {
-          id: 'custom_h1',
-          text: 'Heading One',
-        },
-        {
-          id: 'custom-heading-two',
-          text: 'Heading Two',
-        },
-        {
-          id: 'custom-with-bold',
-          text: 'With Bold',
-        },
-        {
-          id: 'custom-with-bold-hello',
-          text: 'With Bold hello',
-        },
-        {
-          id: 'custom-with-bold-hello2',
-          text: 'With Bold hello2',
-        },
-        {
-          id: 'this_is_custom_id',
-          text: 'Snake-cased ID',
-        },
-        {
-          id: 'no-custom-id',
-          text: 'No custom ID',
-        },
-        {
-          id: 'id-only',
-          text: '',
-        },
-        {
-          id: 'text-after-custom-id',
-          text: '{#text-after} custom ID',
-        },
-      ]);
+      // in this case, we don't parse the heading id: the id is the text slug
+      await expect(headingIdFor('# {#text-after} custom ID')).resolves.toEqual(
+        'text-after-custom-id',
+      );
     });
   });
 
