@@ -5,6 +5,8 @@ slug: /markdown-features/toc
 ---
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Headings and Table of contents
 
@@ -39,13 +41,40 @@ By default, Docusaurus will generate heading IDs for you, based on the heading t
 Generated IDs have **some limitations**:
 
 - The ID might not look good
-- You might want to **change or translate** the text without updating the existing ID
+- You might want to **change or translate** the text without updating the existing ID to avoid breaking links
 
-A special Markdown syntax lets you set an **explicit heading id**:
+A special syntax lets you set an **explicit heading id**.
+
+<Tabs groupId="heading-id-syntax">
+<TabItem value="mdx" label="MDX">
 
 ```mdx-code-block
-<Code language="md">{'### Hello World \u007B#my-explicit-id}\n'}</Code>
+<Code language="md">{
+  '### Hello World {/* #my-explicit-id */}\n\n' +
+  '### Hello World \u007B#my-explicit-id}\n'
+}</Code>
 ```
+
+</TabItem>
+<TabItem value="md" label="CommonMark">
+
+```mdx-code-block
+<Code language="md">{
+  '### Hello World <!-- #my-explicit-id -->\n\n' +
+  '### Hello World \u007B#my-explicit-id}\n'
+}</Code>
+```
+
+</TabItem>
+</Tabs>
+
+The heading id comment must start with `#`, be placed at the **end** of the heading and will be stripped from the rendered output.
+
+:::warning Legacy `{#id}` syntax for MDX files
+
+For MDX files, the `{#id}` syntax should be avoided. Since Docusaurus v3 and MDX v2, it is **not valid MDX syntax anymore**. It can break external tools that support MDX (IDEs and linters). It is only supported in Docusaurus for backward compatibility, thanks to the `markdown.mdx1Compat.headingIds` config option. The comment-based syntax should be preferred for MDX documents.
+
+:::
 
 :::tip
 
