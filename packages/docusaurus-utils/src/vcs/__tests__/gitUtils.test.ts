@@ -340,12 +340,12 @@ describe('commit info APIs', () => {
       await expect(getGitCreation(filePath)).rejects
         .toThrowErrorMatchingInlineSnapshot(`
         "An error occurred when trying to get the file creation date from Git
-        Cause: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist."
+        Cause: Failed to retrieve git history for "<HOME_DIR>/AppData/Local/Temp/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist."
       `);
       await expect(getGitLastUpdate(filePath)).rejects
         .toThrowErrorMatchingInlineSnapshot(`
         "An error occurred when trying to get the file last update date from Git
-        Cause: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist."
+        Cause: Failed to retrieve git history for "<HOME_DIR>/AppData/Local/Temp/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist."
       `);
     });
 

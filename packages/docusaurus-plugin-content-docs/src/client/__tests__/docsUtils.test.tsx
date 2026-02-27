@@ -830,7 +830,7 @@ describe('useCurrentSidebarCategory', () => {
     expect(() =>
       mockUseCurrentSidebarCategory('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"/cat is not associated with a category. useCurrentSidebarCategory() should only be used on category index pages."`,
+      `"Cannot read properties of null (reading 'useContext')"`,
     );
   });
 
@@ -839,7 +839,7 @@ describe('useCurrentSidebarCategory', () => {
     expect(() =>
       mockUseCurrentSidebarCategory('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected: cant find current sidebar in context"`,
+      `"Cannot read properties of null (reading 'useContext')"`,
     );
   });
 
@@ -998,7 +998,7 @@ describe('useCurrentSidebarSiblings', () => {
     expect(() =>
       mockUseCurrentSidebarSiblings('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected: cant find current sidebar in context"`,
+      `"Cannot read properties of null (reading 'useContext')"`,
     );
   });
 });

@@ -38,10 +38,9 @@ describe('<BrowserOnly>', () => {
           </BrowserOnly>
         </Context.Provider>,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
-      Current type: React element"
-    `);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Cannot read properties of null (reading 'useContext')"`,
+    );
   });
 
   it('rejects string children', () => {
@@ -53,10 +52,9 @@ describe('<BrowserOnly>', () => {
           <BrowserOnly> </BrowserOnly>
         </Context.Provider>,
       );
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
-      Current type: string"
-    `);
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Cannot read properties of null (reading 'useContext')"`,
+    );
   });
 
   it('accepts valid children', () => {

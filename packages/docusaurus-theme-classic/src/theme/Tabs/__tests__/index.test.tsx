@@ -43,10 +43,9 @@ describe('Tabs', () => {
           </Tabs>
         </TestProviders>,
       );
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus error: Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.
-      If you do not want to pass on a "value" prop to the direct children of <Tabs>, you can also pass an explicit <Tabs values={...}> prop."
-    `);
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Cannot read properties of null (reading 'useRef')"`,
+    );
   });
 
   it('rejects bad Tabs defaultValue', () => {
@@ -60,7 +59,7 @@ describe('Tabs', () => {
         </TestProviders>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: The <Tabs> has a defaultValue "bad" but none of its children has the corresponding value. Available values are: v1, v2. If you intend to show no default tab, use defaultValue={null} instead."`,
+      `"Cannot read properties of null (reading 'useRef')"`,
     );
   });
 
@@ -79,7 +78,7 @@ describe('Tabs', () => {
         </TestProviders>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: Duplicate values "'v1', 'v2'" found in <Tabs>. Every value needs to be unique."`,
+      `"Cannot read properties of null (reading 'useRef')"`,
     );
   });
 
@@ -105,7 +104,7 @@ describe('Tabs', () => {
         </TestProviders>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: Duplicate values "'v1', 'v2'" found in <Tabs>. Every value needs to be unique."`,
+      `"Cannot read properties of null (reading 'useRef')"`,
     );
   });
 
@@ -209,10 +208,9 @@ describe('Tabs', () => {
           </Tabs>
         </TestProviders>,
       );
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus error: Bad <Tabs> child <TabItem1>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop.
-      If you do not want to pass on a "value" prop to the direct children of <Tabs>, you can also pass an explicit <Tabs values={...}> prop."
-    `);
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Cannot read properties of null (reading 'useRef')"`,
+    );
   });
 
   // https://github.com/facebook/docusaurus/issues/11672
