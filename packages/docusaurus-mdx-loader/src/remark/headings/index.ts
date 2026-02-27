@@ -15,10 +15,24 @@ export interface PluginOptions {
   anchorsMaintainCase: boolean;
 }
 
+function getCommentContentHeadingId(comment: string): string | undefined {
+  const trimmed = comment.trim();
+
+  // We ignore comments that don't start with # on purpose
+  // Forcing users to use a leading # is more explicit
+  // In the future it's possible we'd want to allow other types of comments
+  // For example class comments like {/* .my-class */}
+  if (trimmed.startsWith('#')) {
+    return trimmed.slice(1);
+  }
+
+  return undefined;
+}
+
 function getCommentHeadingId(heading: Heading): string | undefined {
   const lastChild = heading.children.at(-1);
 
-  // MDX comment: {/* my-id */}
+  // MDX comment: {/* my-id */} or {/* #my-id */}
   if (
     lastChild &&
     lastChild.type === 'mdxTextExpression' &&
@@ -26,21 +40,24 @@ function getCommentHeadingId(heading: Heading): string | undefined {
   ) {
     const program = lastChild.data.estree;
     // We only extract the id from single-comment MDX expressions
-    // ✅ {/* my-id */}
+    // ✅ {/* #my-id */}
     // ❌ {/* my-id */ /* my-id2 */}
     // ❌ {someExpression /* my-id */}
     if (program.body.length === 0 && program.comments?.length === 1) {
-      const singleComment = program.comments[0]!;
-      return singleComment.value.trim();
+      const commentContent = program.comments[0]!.value;
+      return getCommentContentHeadingId(commentContent);
     }
   }
 
-  // HTML comment: <!-- my-id -->
+  // HTML comment: <!-- my-id --> or <!-- #my-id -->
   if (lastChild?.type === 'html') {
-    const match = /^<!--(?<id>[\s\S]*)-->$/.exec(
+    const match = /^<!--(?<comment>[\s\S]*)-->$/.exec(
       (lastChild as unknown as {value: string}).value,
     );
-    return match?.groups?.id?.trim() || undefined;
+    if (match?.groups?.comment) {
+      const commentContent = match.groups.comment;
+      return getCommentContentHeadingId(commentContent);
+    }
   }
 
   return undefined;
