@@ -1795,9 +1795,23 @@ describe('writeMarkdownHeadingId', () => {
       );
     });
 
+    it('respects existing heading of other syntaxes', () => {
+      expect(write('## New heading {/* #old-heading */}')).toBe(
+        '## New heading {/* #old-heading */}',
+      );
+    });
+
     it('overwrites heading ID when asked to', () => {
       expect(
         write('## New heading {#old-heading}', {
+          overwrite: true,
+        }),
+      ).toBe('## New heading {#new-heading}');
+    });
+
+    it('overwrites heading ID of other syntaxes when asked to', () => {
+      expect(
+        write('## New heading {/* #old-heading */}', {
           overwrite: true,
         }),
       ).toBe('## New heading {#new-heading}');
@@ -1872,37 +1886,43 @@ describe('writeMarkdownHeadingId', () => {
     }
 
     it('works for simple level-2 heading', () => {
-      expect(write('## ABC')).toBe('## ABC {#abc}');
+      expect(write('## ABC')).toBe('## ABC {/* #abc */}');
     });
 
     it('works for simple level-3 heading', () => {
-      expect(write('### ABC')).toBe('### ABC {#abc}');
+      expect(write('### ABC')).toBe('### ABC {/* #abc */}');
     });
 
     it('works for simple level-4 heading', () => {
-      expect(write('#### ABC')).toBe('#### ABC {#abc}');
+      expect(write('#### ABC')).toBe('#### ABC {/* #abc */}');
     });
 
     it('unwraps markdown links', () => {
       const input = `## hello [facebook](https://facebook.com) [crowdin](https://crowdin.com/translate/docusaurus-v2/126/en-fr?filter=basic&value=0)`;
-      expect(write(input)).toBe(`${input} {#hello-facebook-crowdin}`);
+      expect(write(input)).toBe(`${input} {/* #hello-facebook-crowdin */}`);
     });
 
     it('can slugify complex headings', () => {
       const input = '## abc [Hello] How are you %Sébastien_-_$)( ## -56756';
       expect(write(input)).toBe(
         // cSpell:ignore ébastien
-        `${input} {#abc-hello-how-are-you-sébastien_-_---56756}`,
+        `${input} {/* #abc-hello-how-are-you-sébastien_-_---56756 */}`,
       );
     });
 
     it('does not duplicate duplicate id', () => {
-      expect(write('## hello world {#hello-world}')).toBe(
-        '## hello world {#hello-world}',
+      expect(write('## hello world {/* #hello-world */}')).toBe(
+        '## hello world {/* #hello-world */}',
       );
     });
 
     it('respects existing heading', () => {
+      expect(write('## New heading {/* #old-heading */}')).toBe(
+        '## New heading {/* #old-heading */}',
+      );
+    });
+
+    it('respects existing heading of other syntaxes', () => {
       expect(write('## New heading {#old-heading}')).toBe(
         '## New heading {#old-heading}',
       );
@@ -1910,10 +1930,18 @@ describe('writeMarkdownHeadingId', () => {
 
     it('overwrites heading ID when asked to', () => {
       expect(
+        write('## New heading {/* #old-heading */}', {
+          overwrite: true,
+        }),
+      ).toBe('## New heading {/* #new-heading */}');
+    });
+
+    it('overwrites heading ID of other syntaxes when asked to', () => {
+      expect(
         write('## New heading {#old-heading}', {
           overwrite: true,
         }),
-      ).toBe('## New heading {#new-heading}');
+      ).toBe('## New heading {/* #new-heading */}');
     });
 
     it('maintains casing when asked to', () => {
@@ -1921,7 +1949,7 @@ describe('writeMarkdownHeadingId', () => {
         write('## getDataFromAPI()', {
           maintainCase: true,
         }),
-      ).toBe('## getDataFromAPI() {#getDataFromAPI}');
+      ).toBe('## getDataFromAPI() {/* #getDataFromAPI */}');
     });
 
     it('transform the headings', () => {
@@ -1943,7 +1971,7 @@ describe('writeMarkdownHeadingId', () => {
     # Heading in escaped code block
     \`\`\`
 
-### abc {#abc}
+### abc {/* #abc */}
 
     `;
 
@@ -1951,21 +1979,21 @@ describe('writeMarkdownHeadingId', () => {
 
 # Ignored title
 
-## abc {#abc-1}
+## abc {/* #abc-1 */}
 
-### Hello world {#hello-world}
+### Hello world {/* #hello-world */}}
 
 \`\`\`
 # Heading in code block
 \`\`\`
 
-## Hello world {#hello-world-1}
+## Hello world {/* #hello-world-1 */}
 
     \`\`\`
     # Heading in escaped code block
     \`\`\`
 
-### abc {#abc}
+### abc {/* #abc */}
 
     `;
 
