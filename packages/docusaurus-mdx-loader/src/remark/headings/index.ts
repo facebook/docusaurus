@@ -16,16 +16,15 @@ export interface PluginOptions {
 }
 
 function getCommentContentHeadingId(comment: string): string | undefined {
-  const trimmed = comment.trim();
-
+  // If the comment has spaces, we only consider the first part
+  const firstPart = comment.trim().split(' ')[0];
   // We ignore comments that don't start with # on purpose
   // Forcing users to use a leading # is more explicit
   // In the future it's possible we'd want to allow other types of comments
   // For example class comments like {/* .my-class */}
-  if (trimmed.startsWith('#')) {
-    return trimmed.slice(1);
+  if (firstPart?.startsWith('#')) {
+    return firstPart.slice(1) || undefined;
   }
-
   return undefined;
 }
 
@@ -41,8 +40,8 @@ function getCommentHeadingId(heading: Heading): string | undefined {
     const program = lastChild.data.estree;
     // We only extract the id from single-comment MDX expressions
     // ✅ {/* #my-id */}
-    // ❌ {/* my-id */ /* my-id2 */}
-    // ❌ {someExpression /* my-id */}
+    // ❌ {/* #my-id */ /* #my-id2 */}
+    // ❌ {someExpression /* #my-id */}
     if (program.body.length === 0 && program.comments?.length === 1) {
       const commentContent = program.comments[0]!.value;
       return getCommentContentHeadingId(commentContent);
