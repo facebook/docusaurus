@@ -33,11 +33,6 @@ function getCommentHeadingId(heading: Heading): string | undefined {
       const singleComment = program.comments[0]!;
       return singleComment.value.trim();
     }
-
-    /*
-    const match = /^\/\*(?<id>[\s\S]*)\*\/$/.exec(lastChild.value);
-    return match?.groups?.id?.trim() || undefined;
-     */
   }
 
   // HTML comment: <!-- my-id -->
@@ -52,7 +47,6 @@ function getCommentHeadingId(heading: Heading): string | undefined {
 }
 
 // Try to find an explicit id in MD/MDX comments
-
 function extractCommentId(heading: Heading) {
   const commentId = getCommentHeadingId(heading);
   if (commentId) {
