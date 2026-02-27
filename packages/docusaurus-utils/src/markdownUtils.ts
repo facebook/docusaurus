@@ -391,10 +391,21 @@ function unwrapMarkdownLinks(line: string): string {
   );
 }
 
+/**
+ * The syntax to use for writing heading IDs.
+ * - `classic` => `{#id}` (invalid MDX, but commonly supported)
+ * - `mdx-comment` => `{/* #id * /}` (valid MDX)
+ *
+ * For now, we don't support `html-comment` syntax (`<!-- #id -->`)
+ * The classic syntax is probably enough for CommonMark files
+ */
+type HeadingIdSyntax = 'classic' | 'mdx-comment';
+
 function addHeadingId(
   line: string,
   slugger: Slugger,
   maintainCase: boolean,
+  syntax: HeadingIdSyntax,
 ): string {
   let headingLevel = 0;
   while (line.charAt(headingLevel) === '#') {
@@ -407,18 +418,16 @@ function addHeadingId(
     maintainCase,
   });
 
-  return `${headingHashes}${headingText} {#${slug}}`;
+  const headingIdSuffix =
+    syntax === 'mdx-comment' ? `{/* #${slug} */}` : `{#${slug}}`;
+
+  return `${headingHashes}${headingText} ${headingIdSuffix}`;
 }
 
 export type WriteHeadingIDOptions = SluggerOptions & {
   /** Overwrite existing heading IDs. */
   overwrite?: boolean;
-
-  /** The syntax to use for writing heading IDs.
-   * - `classic` => `{#id}` (invalid MDX, but commonly supported)
-   * - `mdx-comment` => `{/* #id * /}` (valid MDX)
-   */
-  syntax?: 'classic' | 'mdx-comment';
+  syntax?: HeadingIdSyntax;
 };
 
 /**
@@ -433,7 +442,7 @@ export function writeMarkdownHeadingId(
   const {
     maintainCase = false,
     overwrite = false,
-    // syntax = 'classic', // Maybe we'll want to change this default later?
+    syntax = 'classic', // Maybe we'll want to change this default later?
   } = options;
   const lines = content.split('\n');
   const slugger = createSlugger();
@@ -466,7 +475,7 @@ export function writeMarkdownHeadingId(
       if (parsedHeading.id && !overwrite) {
         return line;
       }
-      return addHeadingId(parsedHeading.text, slugger, maintainCase);
+      return addHeadingId(parsedHeading.text, slugger, maintainCase, syntax);
     })
     .join('\n');
 }
