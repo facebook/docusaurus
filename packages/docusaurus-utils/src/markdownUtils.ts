@@ -413,6 +413,12 @@ function addHeadingId(
 export type WriteHeadingIDOptions = SluggerOptions & {
   /** Overwrite existing heading IDs. */
   overwrite?: boolean;
+
+  /** The syntax to use for writing heading IDs.
+   * - `classic` => `{#id}` (invalid MDX, but commonly supported)
+   * - `mdx-comment` => `{/* #id * /}` (valid MDX)
+   */
+  syntax?: 'classic' | 'mdx-comment';
 };
 
 /**
@@ -422,9 +428,13 @@ export type WriteHeadingIDOptions = SluggerOptions & {
  */
 export function writeMarkdownHeadingId(
   content: string,
-  options: WriteHeadingIDOptions = {maintainCase: false, overwrite: false},
+  options: WriteHeadingIDOptions = {},
 ): string {
-  const {maintainCase = false, overwrite = false} = options;
+  const {
+    maintainCase = false,
+    overwrite = false,
+    // syntax = 'classic', // Maybe we'll want to change this default later?
+  } = options;
   const lines = content.split('\n');
   const slugger = createSlugger();
 
