@@ -39,6 +39,9 @@
       "last 5 safari version"
     ]
   },
+  "resolutions": {
+    "@types/gtag.js": "^0.0.20"
+  },
   "engines": {
     "node": ">=20.0"
   },
