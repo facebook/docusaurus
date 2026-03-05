@@ -450,53 +450,49 @@ describe('writeMarkdownHeadingId', () => {
     });
 
     it('transform the headings', () => {
-      const input = `
+      expect(
+        write(dedent`
+          # Ignored title
 
-# Ignored title
+          ## abc
 
-## abc
+          ### Hello world
 
-### Hello world
+          \`\`\`
+          # Heading in code block
+          \`\`\`
 
-\`\`\`
-# Heading in code block
-\`\`\`
+          ## Hello world
 
-## Hello world
+              \`\`\`
+              # Heading in escaped code block
+              \`\`\`
 
-    \`\`\`
-    # Heading in escaped code block
-    \`\`\`
+          ### abc {#abc}
 
-### abc {#abc}
+          ### def {/* #def */}
+        `),
+      ).toEqual(dedent`
+        # Ignored title
 
-### def {/* #def */}
-    `;
+        ## abc {#abc-1}
 
-      const expected = `
+        ### Hello world {#hello-world}
 
-# Ignored title
+        \`\`\`
+        # Heading in code block
+        \`\`\`
 
-## abc {#abc-1}
+        ## Hello world {#hello-world-1}
 
-### Hello world {#hello-world}
+            \`\`\`
+            # Heading in escaped code block
+            \`\`\`
 
-\`\`\`
-# Heading in code block
-\`\`\`
+        ### abc {#abc}
 
-## Hello world {#hello-world-1}
-
-    \`\`\`
-    # Heading in escaped code block
-    \`\`\`
-
-### abc {#abc}
-
-### def {/* #def */}
-    `;
-
-      expect(write(input)).toEqual(expected);
+        ### def {/* #def */}
+      `);
     });
   });
 
@@ -606,53 +602,49 @@ describe('writeMarkdownHeadingId', () => {
     });
 
     it('transform the headings', () => {
-      const input = `
+      expect(
+        write(dedent`
+          # Ignored title
 
-# Ignored title
+          ## abc
 
-## abc
+          ### Hello world
 
-### Hello world
+          \`\`\`
+          # Heading in code block
+          \`\`\`
 
-\`\`\`
-# Heading in code block
-\`\`\`
+          ## Hello world
 
-## Hello world
+              \`\`\`
+              # Heading in escaped code block
+              \`\`\`
 
-    \`\`\`
-    # Heading in escaped code block
-    \`\`\`
+          ### abc {/* #abc */}
 
-### abc {/* #abc */}
+          ### def {#def}
+        `),
+      ).toEqual(dedent`
+        # Ignored title
 
-### def {#def}
-`;
+        ## abc {/* #abc-1 */}
 
-      const expected = `
+        ### Hello world {/* #hello-world */}
 
-# Ignored title
+        \`\`\`
+        # Heading in code block
+        \`\`\`
 
-## abc {/* #abc-1 */}
+        ## Hello world {/* #hello-world-1 */}
 
-### Hello world {/* #hello-world */}
+            \`\`\`
+            # Heading in escaped code block
+            \`\`\`
 
-\`\`\`
-# Heading in code block
-\`\`\`
+        ### abc {/* #abc */}
 
-## Hello world {/* #hello-world-1 */}
-
-    \`\`\`
-    # Heading in escaped code block
-    \`\`\`
-
-### abc {/* #abc */}
-
-### def {#def}
-`;
-
-      expect(write(input)).toEqual(expected);
+        ### def {#def}
+      `);
     });
   });
 });
