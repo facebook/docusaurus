@@ -7,7 +7,6 @@
 
 import logger from '@docusaurus/logger';
 import matter from 'gray-matter';
-import {createSlugger, type Slugger, type SluggerOptions} from './slugger';
 import type {
   ParseFrontMatter,
   DefaultParseFrontMatter,
@@ -16,47 +15,6 @@ import type {
 // Some utilities for parsing Markdown content. These things are only used on
 // server-side when we infer metadata like `title` and `description` from the
 // content. Most parsing is still done in MDX through the mdx-loader.
-
-/**
- * Parses custom ID from a heading. The ID can contain any characters except
- * `{#` and `}`.
- *
- * @param heading e.g. `## Some heading {#some-heading}` where the last
- * character must be `}` for the ID to be recognized
- */
-export function parseMarkdownHeadingId(heading: string): {
-  /**
-   * The heading content sans the ID part, right-trimmed. e.g. `## Some heading`
-   */
-  text: string;
-  /** The heading ID. e.g. `some-heading` */
-  id: string | undefined;
-} {
-  const customHeadingIdRegex = /\s*\{#(?<id>(?:.(?!\{#|\}))*.)\}$/;
-  const matches = customHeadingIdRegex.exec(heading);
-  if (matches) {
-    return {
-      text: heading.replace(matches[0]!, ''),
-      id: matches.groups!.id!,
-    };
-  }
-  return {text: heading, id: undefined};
-}
-
-/**
- * MDX 2 requires escaping { with a \ so our anchor syntax need that now.
- * See https://mdxjs.com/docs/troubleshooting-mdx/#could-not-parse-expression-with-acorn-error
- */
-export function escapeMarkdownHeadingIds(content: string): string {
-  const markdownHeadingRegexp = /(?:^|\n)#{1,6}(?!#).*/g;
-  return content.replaceAll(markdownHeadingRegexp, (substring) =>
-    // TODO probably not the most efficient impl...
-    substring
-      .replace('{#', '\\{#')
-      // prevent duplicate escaping
-      .replace('\\\\{#', '\\{#'),
-  );
-}
 
 /**
  * Hacky temporary escape hatch for Crowdin bad MDX support
@@ -382,81 +340,4 @@ export async function parseMarkdownFile({
 This can happen if you use special characters in front matter values (try using double quotes around that value).`);
     throw err;
   }
-}
-
-function unwrapMarkdownLinks(line: string): string {
-  return line.replace(
-    /\[(?<alt>[^\]]+)\]\([^)]+\)/g,
-    (match, p1: string) => p1,
-  );
-}
-
-function addHeadingId(
-  line: string,
-  slugger: Slugger,
-  maintainCase: boolean,
-): string {
-  let headingLevel = 0;
-  while (line.charAt(headingLevel) === '#') {
-    headingLevel += 1;
-  }
-
-  const headingText = line.slice(headingLevel).trimEnd();
-  const headingHashes = line.slice(0, headingLevel);
-  const slug = slugger.slug(unwrapMarkdownLinks(headingText).trim(), {
-    maintainCase,
-  });
-
-  return `${headingHashes}${headingText} {#${slug}}`;
-}
-
-export type WriteHeadingIDOptions = SluggerOptions & {
-  /** Overwrite existing heading IDs. */
-  overwrite?: boolean;
-};
-
-/**
- * Takes Markdown content, returns new content with heading IDs written.
- * Respects existing IDs (unless `overwrite=true`) and never generates colliding
- * IDs (through the slugger).
- */
-export function writeMarkdownHeadingId(
-  content: string,
-  options: WriteHeadingIDOptions = {maintainCase: false, overwrite: false},
-): string {
-  const {maintainCase = false, overwrite = false} = options;
-  const lines = content.split('\n');
-  const slugger = createSlugger();
-
-  // If we can't overwrite existing slugs, make sure other headings don't
-  // generate colliding slugs by first marking these slugs as occupied
-  if (!overwrite) {
-    lines.forEach((line) => {
-      const parsedHeading = parseMarkdownHeadingId(line);
-      if (parsedHeading.id) {
-        slugger.slug(parsedHeading.id);
-      }
-    });
-  }
-
-  let inCode = false;
-  return lines
-    .map((line) => {
-      if (line.startsWith('```')) {
-        inCode = !inCode;
-        return line;
-      }
-      // Ignore h1 headings, as we don't create anchor links for those
-      if (inCode || !line.startsWith('##')) {
-        return line;
-      }
-      const parsedHeading = parseMarkdownHeadingId(line);
-
-      // Do not process if id is already there
-      if (parsedHeading.id && !overwrite) {
-        return line;
-      }
-      return addHeadingId(parsedHeading.text, slugger, maintainCase);
-    })
-    .join('\n');
 }
