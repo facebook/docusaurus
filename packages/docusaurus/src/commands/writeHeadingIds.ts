@@ -64,11 +64,16 @@ async function getPathsToWatch(siteDir: string): Promise<string[]> {
 // TODO Docusaurus v4 - Upgrade commander, use choices() API?
 function validateOptions(options: WriteHeadingIDOptions) {
   const validSyntaxValues: HeadingIdSyntax[] = ['classic', 'mdx-comment'];
-  if (options.syntax && !['classic', 'mdx-comment'].includes(options.syntax)) {
+  if (options.syntax && !validSyntaxValues.includes(options.syntax)) {
     throw new Error(
       `Invalid --syntax value "${
         options.syntax
       }". Valid values: ${validSyntaxValues.join(', ')}`,
+    );
+  }
+  if (options.overwrite && options.migrate) {
+    throw new Error(
+      "Options --overwrite and --migrate cannot be used together.\nThe --overwrite already re-generates IDs in the target syntax, so the --migrate option wouldn't have any effect.",
     );
   }
 }
