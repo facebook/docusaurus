@@ -1975,6 +1975,7 @@ describe('writeMarkdownHeadingId', () => {
 
 ### abc {#abc}
 
+### def {/* #def */}
     `;
 
       const expected = `
@@ -1997,6 +1998,7 @@ describe('writeMarkdownHeadingId', () => {
 
 ### abc {#abc}
 
+### def {/* #def */}
     `;
 
       expect(write(input)).toEqual(expected);
@@ -2129,7 +2131,8 @@ describe('writeMarkdownHeadingId', () => {
 
 ### abc {/* #abc */}
 
-    `;
+### def {#def}
+`;
 
       const expected = `
 
@@ -2151,7 +2154,8 @@ describe('writeMarkdownHeadingId', () => {
 
 ### abc {/* #abc */}
 
-    `;
+### def {#def}
+`;
 
       expect(write(input)).toEqual(expected);
     });
