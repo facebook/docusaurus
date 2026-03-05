@@ -186,5 +186,7 @@ Add [explicit heading IDs](./guides/markdown-features/markdown-features-toc.mdx#
 | Name | Default | Description |
 | --- | --- | --- |
 | `files` | All MD files used by plugins | The files that you want heading IDs to be written to. |
+| `--syntax` | `classic` | Heading ID syntax to use: `classic` (`{#id}`) or `mdx-comment` (`{/* #id */}`). |
+| `--migrate` | `false` | Migrate existing heading IDs to the target `--syntax`, if they are using a different syntax. |
+| `--overwrite` | `false` | Overwrite existing heading IDs, re-generate them from the heading text. |
 | `--maintain-case` | `false` | Keep the headings' casing, otherwise make all lowercase. |
-| `--overwrite` | `false` | Overwrite existing heading IDs. |
