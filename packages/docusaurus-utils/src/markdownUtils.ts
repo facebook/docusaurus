@@ -32,12 +32,22 @@ export function parseMarkdownHeadingId(heading: string): {
   /** The heading ID. e.g. `some-heading` */
   id: string | undefined;
 } {
+  // Classic syntax: {#my-id}
   const customHeadingIdRegex = /\s*\{#(?<id>(?:.(?!\{#|\}))*.)\}$/;
   const matches = customHeadingIdRegex.exec(heading);
   if (matches) {
     return {
       text: heading.replace(matches[0]!, ''),
       id: matches.groups!.id!,
+    };
+  }
+  // MDX comment syntax: {/* #my-id */}
+  const mdxCommentHeadingIdRegex = /\s*\{\/\*\s*#(?<id>\S+)\s*\*\/\}$/;
+  const mdxMatches = mdxCommentHeadingIdRegex.exec(heading);
+  if (mdxMatches) {
+    return {
+      text: heading.replace(mdxMatches[0]!, ''),
+      id: mdxMatches.groups!.id!,
     };
   }
   return {text: heading, id: undefined};

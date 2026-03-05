@@ -1981,7 +1981,7 @@ describe('writeMarkdownHeadingId', () => {
 
 ## abc {/* #abc-1 */}
 
-### Hello world {/* #hello-world */}}
+### Hello world {/* #hello-world */}
 
 \`\`\`
 # Heading in code block
