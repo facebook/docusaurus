@@ -61,11 +61,25 @@ async function getPathsToWatch(siteDir: string): Promise<string[]> {
   return plugins.flatMap((plugin) => plugin.getPathsToWatch?.() ?? []);
 }
 
+// TODO Docusaurus v4 - Upgrade commander, use choices() API?
+function validateOptions(options: WriteHeadingIDOptions) {
+  const validSyntaxValues: HeadingIdSyntax[] = ['classic', 'mdx-comment'];
+  if (options.syntax && !['classic', 'mdx-comment'].includes(options.syntax)) {
+    throw new Error(
+      `Invalid --syntax value "${
+        options.syntax
+      }". Valid values: ${validSyntaxValues.join(', ')}`,
+    );
+  }
+}
+
 export async function writeHeadingIds(
   siteDirParam: string = '.',
   files: string[] = [],
   options: WriteHeadingIDOptions = {},
 ): Promise<void> {
+  validateOptions(options);
+
   const siteDir = await fs.realpath(siteDirParam);
 
   const patterns = files.length ? files : await getPathsToWatch(siteDir);

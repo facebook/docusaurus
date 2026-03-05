@@ -259,6 +259,10 @@ export async function createCLIProgram({
       "keep the headings' casing, otherwise make all lowercase (default: false)",
     )
     .option('--overwrite', 'overwrite existing heading IDs (default: false)')
+    .option(
+      '--syntax <syntax>',
+      'heading ID syntax: "classic" ({#id}) or "mdx-comment" ({/* #id */}) (default: "classic")',
+    )
     .action(writeHeadingIds);
 
   cli.arguments('<command>').action((cmd) => {
