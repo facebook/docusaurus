@@ -68,18 +68,20 @@ export {
   getTagVisibility,
 } from './tags';
 export {
-  parseMarkdownHeadingId,
-  escapeMarkdownHeadingIds,
   unwrapMdxCodeBlocks,
   admonitionTitleToDirectiveLabel,
   createExcerpt,
   DEFAULT_PARSE_FRONT_MATTER,
   parseMarkdownContentTitle,
   parseMarkdownFile,
+} from './markdownUtils';
+export {
+  parseMarkdownHeadingId,
+  escapeMarkdownHeadingIds,
   writeMarkdownHeadingId,
   type HeadingIdSyntax,
   type WriteHeadingIDOptions,
-} from './markdownUtils';
+} from './markdownHeadingIdUtils';
 export {
   type ContentPaths,
   type SourceToPermalink,
