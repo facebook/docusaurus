@@ -398,6 +398,17 @@ describe('writeMarkdownHeadingId', () => {
       );
     });
 
+    it('migrate + overwrite is forbidden', () => {
+      expect(() =>
+        write('## Heading', {
+          migrate: true,
+          overwrite: true,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"Heading ids can either be overwritten or migrated, not both at the same time"`,
+      );
+    });
+
     it('migrate heading ID', () => {
       expect(
         write('## New heading {#old-heading}', {
@@ -590,6 +601,17 @@ describe('writeMarkdownHeadingId', () => {
     it('respects existing heading of other syntaxes', () => {
       expect(write('## New heading {#old-heading}')).toBe(
         '## New heading {#old-heading}',
+      );
+    });
+
+    it('migrate + overwrite is forbidden', () => {
+      expect(() =>
+        write('## Heading', {
+          migrate: true,
+          overwrite: true,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"Heading ids can either be overwritten or migrated, not both at the same time"`,
       );
     });
 

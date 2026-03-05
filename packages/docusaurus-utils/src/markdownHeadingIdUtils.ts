@@ -143,6 +143,14 @@ export function writeMarkdownHeadingId(
     maintainCase = false,
   } = options;
 
+  // For now, we have 2 booleans (retro compatible)
+  // but it could be useful to have a "mode" enum instead?
+  if (overwrite && migrate) {
+    throw new Error(
+      'Heading ids can either be overwritten or migrated, not both at the same time',
+    );
+  }
+
   const lines = content.split('\n');
   const slugger = createSlugger();
 
