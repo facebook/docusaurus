@@ -1919,6 +1919,33 @@ describe('writeMarkdownHeadingId', () => {
       ).toBe('## New heading {#new-heading}');
     });
 
+    it('overwrites heading ID of mixed syntaxes', () => {
+      expect(
+        write(
+          dedent`
+        ## Heading {#old-heading-1}
+
+        ## Heading {/* #old-heading-2 */}
+
+        ## Heading {#old-heading-3   }
+
+        ## Heading {/*       #old-heading-4*/}
+        `,
+          {
+            overwrite: true,
+          },
+        ),
+      ).toBe(dedent`
+        ## Heading {#heading}
+
+        ## Heading {#heading-1}
+
+        ## Heading {#heading-2}
+
+        ## Heading {#heading-3}
+        `);
+    });
+
     it('maintains casing when asked to', () => {
       expect(
         write('## getDataFromAPI()', {
@@ -2044,6 +2071,33 @@ describe('writeMarkdownHeadingId', () => {
           overwrite: true,
         }),
       ).toBe('## New heading {/* #new-heading */}');
+    });
+
+    it('overwrites heading ID of mixed syntaxes', () => {
+      expect(
+        write(
+          dedent`
+        ## Heading {#old-heading-1}
+
+        ## Heading {/* #old-heading-2 */}
+
+        ## Heading {#old-heading-3      }
+
+        ## Heading {/*     #old-heading-4*/}
+        `,
+          {
+            overwrite: true,
+          },
+        ),
+      ).toBe(dedent`
+        ## Heading {/* #heading */}
+
+        ## Heading {/* #heading-1 */}
+
+        ## Heading {/* #heading-2 */}
+
+        ## Heading {/* #heading-3 */}
+        `);
     });
 
     it('maintains casing when asked to', () => {
