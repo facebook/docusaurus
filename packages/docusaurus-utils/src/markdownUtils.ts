@@ -18,13 +18,24 @@ import type {
 // content. Most parsing is still done in MDX through the mdx-loader.
 
 /**
+ * The syntax to use for heading IDs.
+ * - `classic` => `{#id}` (invalid MDX, but commonly supported)
+ * - `mdx-comment` => `{/* #id * /}` (valid MDX)
+ */
+export type HeadingIdSyntax = 'classic' | 'mdx-comment';
+
+/**
  * Parses custom ID from a heading. The ID can contain any characters except
  * `{#` and `}`.
  *
  * @param heading e.g. `## Some heading {#some-heading}` where the last
  * character must be `}` for the ID to be recognized
+ * @param syntax which heading ID syntax to recognize
  */
-export function parseMarkdownHeadingId(heading: string): {
+export function parseMarkdownHeadingId(
+  heading: string,
+  syntax: HeadingIdSyntax = 'classic',
+): {
   /**
    * The heading content sans the ID part, right-trimmed. e.g. `## Some heading`
    */
@@ -33,22 +44,32 @@ export function parseMarkdownHeadingId(heading: string): {
   id: string | undefined;
 } {
   // Classic syntax: {#my-id}
-  const customHeadingIdRegex = /\s*\{#(?<id>(?:.(?!\{#|\}))*.)\}$/;
-  const matches = customHeadingIdRegex.exec(heading);
-  if (matches) {
-    return {
-      text: heading.replace(matches[0]!, ''),
-      id: matches.groups!.id!,
-    };
+  if (syntax === 'classic') {
+    const customHeadingIdRegex = /\s*\{#(?<id>(?:.(?!\{#|\}))*.)\}$/;
+    const matches = customHeadingIdRegex.exec(heading);
+    if (matches) {
+      return {
+        text: heading.replace(matches[0]!, ''),
+        id: matches.groups!.id!,
+      };
+    }
   }
   // MDX comment syntax: {/* #my-id */}
-  const mdxCommentHeadingIdRegex = /\s*\{\/\*\s*#(?<id>\S+)\s*\*\/\}$/;
-  const mdxMatches = mdxCommentHeadingIdRegex.exec(heading);
-  if (mdxMatches) {
-    return {
-      text: heading.replace(mdxMatches[0]!, ''),
-      id: mdxMatches.groups!.id!,
-    };
+  // Note: this is only used for the "write-heading-ids" CLI
+  // The mdx loader is using a real MDX parser to find these comments
+  else if (syntax === 'mdx-comment') {
+    const mdxCommentHeadingIdRegex = /\s*\{\/\*\s*#(?<id>\S+)\s*\*\/\}$/;
+    const mdxMatches = mdxCommentHeadingIdRegex.exec(heading);
+    if (mdxMatches) {
+      return {
+        text: heading.replace(mdxMatches[0]!, ''),
+        id: mdxMatches.groups!.id!,
+      };
+    }
+  }
+  // Unhandled cases, shouldn't happen
+  else {
+    throw new Error(`unknown heading id syntax '${syntax}'`);
   }
   return {text: heading, id: undefined};
 }
@@ -401,16 +422,6 @@ function unwrapMarkdownLinks(line: string): string {
   );
 }
 
-/**
- * The syntax to use for writing heading IDs.
- * - `classic` => `{#id}` (invalid MDX, but commonly supported)
- * - `mdx-comment` => `{/* #id * /}` (valid MDX)
- *
- * For now, we don't support `html-comment` syntax (`<!-- #id -->`)
- * The classic syntax is probably enough for CommonMark files
- */
-type HeadingIdSyntax = 'classic' | 'mdx-comment';
-
 function addHeadingId(
   line: string,
   slugger: Slugger,
@@ -457,11 +468,20 @@ export function writeMarkdownHeadingId(
   const lines = content.split('\n');
   const slugger = createSlugger();
 
+  // Parse heading ID trying both syntaxes (classic first, then mdx-comment)
+  function parseHeadingIdAnySyntax(heading: string) {
+    const classic = parseMarkdownHeadingId(heading, 'classic');
+    if (classic.id) {
+      return classic;
+    }
+    return parseMarkdownHeadingId(heading, 'mdx-comment');
+  }
+
   // If we can't overwrite existing slugs, make sure other headings don't
   // generate colliding slugs by first marking these slugs as occupied
   if (!overwrite) {
     lines.forEach((line) => {
-      const parsedHeading = parseMarkdownHeadingId(line);
+      const parsedHeading = parseHeadingIdAnySyntax(line);
       if (parsedHeading.id) {
         slugger.slug(parsedHeading.id);
       }
@@ -479,7 +499,7 @@ export function writeMarkdownHeadingId(
       if (inCode || !line.startsWith('##')) {
         return line;
       }
-      const parsedHeading = parseMarkdownHeadingId(line);
+      const parsedHeading = parseHeadingIdAnySyntax(line);
 
       // Do not process if id is already there
       if (parsedHeading.id && !overwrite) {

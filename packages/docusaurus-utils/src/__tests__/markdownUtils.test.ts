@@ -905,96 +905,198 @@ describe('parseMarkdownFile', () => {
 });
 
 describe('parseMarkdownHeadingId', () => {
-  it('can parse simple heading without id', () => {
-    expect(parseMarkdownHeadingId('## Some heading')).toEqual({
-      text: '## Some heading',
-      id: undefined,
+  describe('classic syntax', () => {
+    it('can parse simple heading without id', () => {
+      expect(parseMarkdownHeadingId('## Some heading', 'classic')).toEqual({
+        text: '## Some heading',
+        id: undefined,
+      });
+    });
+
+    it('can parse simple heading with id', () => {
+      expect(
+        parseMarkdownHeadingId('## Some heading {#custom-_id}', 'classic'),
+      ).toEqual({
+        text: '## Some heading',
+        id: 'custom-_id',
+      });
+    });
+
+    it('can parse heading not ending with the id', () => {
+      expect(
+        parseMarkdownHeadingId('## {#custom-_id} Some heading', 'classic'),
+      ).toEqual({
+        text: '## {#custom-_id} Some heading',
+        id: undefined,
+      });
+    });
+
+    it('can parse heading with multiple id', () => {
+      expect(
+        parseMarkdownHeadingId('## Some heading {#id1} {#id2}', 'classic'),
+      ).toEqual({
+        text: '## Some heading {#id1}',
+        id: 'id2',
+      });
+    });
+
+    it('can parse heading with link and id', () => {
+      expect(
+        parseMarkdownHeadingId(
+          '## Some heading [facebook](https://facebook.com) {#id}',
+          'classic',
+        ),
+      ).toEqual({
+        text: '## Some heading [facebook](https://facebook.com)',
+        id: 'id',
+      });
+    });
+
+    it('can parse heading with only id', () => {
+      expect(parseMarkdownHeadingId('## {#id}', 'classic')).toEqual({
+        text: '##',
+        id: 'id',
+      });
+    });
+
+    it('does not parse empty id', () => {
+      expect(parseMarkdownHeadingId('## a {#}', 'classic')).toEqual({
+        text: '## a {#}',
+        id: undefined,
+      });
+    });
+
+    it('can parse id with more characters', () => {
+      expect(parseMarkdownHeadingId('## a {#你好}', 'classic')).toEqual({
+        text: '## a',
+        id: '你好',
+      });
+
+      expect(parseMarkdownHeadingId('## a {#2022.1.1}', 'classic')).toEqual({
+        text: '## a',
+        id: '2022.1.1',
+      });
+
+      expect(parseMarkdownHeadingId('## a {#a#b}', 'classic')).toEqual({
+        text: '## a',
+        id: 'a#b',
+      });
+    });
+
+    // The actual behavior is unspecified, just need to ensure it stays
+    // consistent
+    it('handles unmatched boundaries', () => {
+      expect(parseMarkdownHeadingId('## a {# a {#bcd}', 'classic')).toEqual({
+        text: '## a {# a',
+        id: 'bcd',
+      });
+
+      expect(parseMarkdownHeadingId('## a {#bcd}}', 'classic')).toEqual({
+        text: '## a {#bcd}}',
+        id: undefined,
+      });
+
+      expect(parseMarkdownHeadingId('## a {#b{cd}', 'classic')).toEqual({
+        text: '## a',
+        id: 'b{cd',
+      });
+
+      expect(parseMarkdownHeadingId('## a {#b{#b}', 'classic')).toEqual({
+        text: '## a {#b',
+        id: 'b',
+      });
+    });
+
+    it('does not parse mdx-comment syntax', () => {
+      expect(
+        parseMarkdownHeadingId('## Some heading {/* #my-id */}', 'classic'),
+      ).toEqual({
+        text: '## Some heading {/* #my-id */}',
+        id: undefined,
+      });
     });
   });
 
-  it('can parse simple heading with id', () => {
-    expect(parseMarkdownHeadingId('## Some heading {#custom-_id}')).toEqual({
-      text: '## Some heading',
-      id: 'custom-_id',
-    });
-  });
-
-  it('can parse heading not ending with the id', () => {
-    expect(parseMarkdownHeadingId('## {#custom-_id} Some heading')).toEqual({
-      text: '## {#custom-_id} Some heading',
-      id: undefined,
-    });
-  });
-
-  it('can parse heading with multiple id', () => {
-    expect(parseMarkdownHeadingId('## Some heading {#id1} {#id2}')).toEqual({
-      text: '## Some heading {#id1}',
-      id: 'id2',
-    });
-  });
-
-  it('can parse heading with link and id', () => {
-    expect(
-      parseMarkdownHeadingId(
-        '## Some heading [facebook](https://facebook.com) {#id}',
-      ),
-    ).toEqual({
-      text: '## Some heading [facebook](https://facebook.com)',
-      id: 'id',
-    });
-  });
-
-  it('can parse heading with only id', () => {
-    expect(parseMarkdownHeadingId('## {#id}')).toEqual({
-      text: '##',
-      id: 'id',
-    });
-  });
-
-  it('does not parse empty id', () => {
-    expect(parseMarkdownHeadingId('## a {#}')).toEqual({
-      text: '## a {#}',
-      id: undefined,
-    });
-  });
-
-  it('can parse id with more characters', () => {
-    expect(parseMarkdownHeadingId('## a {#你好}')).toEqual({
-      text: '## a',
-      id: '你好',
+  describe('mdx-comment syntax', () => {
+    it('can parse simple heading without id', () => {
+      expect(parseMarkdownHeadingId('## Some heading', 'mdx-comment')).toEqual({
+        text: '## Some heading',
+        id: undefined,
+      });
     });
 
-    expect(parseMarkdownHeadingId('## a {#2022.1.1}')).toEqual({
-      text: '## a',
-      id: '2022.1.1',
+    it('can parse simple heading with id', () => {
+      expect(
+        parseMarkdownHeadingId(
+          '## Some heading {/* #custom-_id */}',
+          'mdx-comment',
+        ),
+      ).toEqual({
+        text: '## Some heading',
+        id: 'custom-_id',
+      });
     });
 
-    expect(parseMarkdownHeadingId('## a {#a#b}')).toEqual({
-      text: '## a',
-      id: 'a#b',
-    });
-  });
-
-  // The actual behavior is unspecified, just need to ensure it stays consistent
-  it('handles unmatched boundaries', () => {
-    expect(parseMarkdownHeadingId('## a {# a {#bcd}')).toEqual({
-      text: '## a {# a',
-      id: 'bcd',
-    });
-
-    expect(parseMarkdownHeadingId('## a {#bcd}}')).toEqual({
-      text: '## a {#bcd}}',
-      id: undefined,
+    it('can parse heading with link and id', () => {
+      expect(
+        parseMarkdownHeadingId(
+          '## Some heading [facebook](https://facebook.com) {/* #id */}',
+          'mdx-comment',
+        ),
+      ).toEqual({
+        text: '## Some heading [facebook](https://facebook.com)',
+        id: 'id',
+      });
     });
 
-    expect(parseMarkdownHeadingId('## a {#b{cd}')).toEqual({
-      text: '## a',
-      id: 'b{cd',
+    it('can parse heading with only id', () => {
+      expect(parseMarkdownHeadingId('## {/* #id */}', 'mdx-comment')).toEqual({
+        text: '##',
+        id: 'id',
+      });
     });
 
-    expect(parseMarkdownHeadingId('## a {#b{#b}')).toEqual({
-      text: '## a {#b',
-      id: 'b',
+    it('can parse id with extra spaces around comment', () => {
+      expect(
+        parseMarkdownHeadingId('## heading {/*   #my-id   */}', 'mdx-comment'),
+      ).toEqual({
+        text: '## heading',
+        id: 'my-id',
+      });
+    });
+
+    it('does not parse id with spaces in it', () => {
+      expect(
+        parseMarkdownHeadingId('## heading {/* #my id */}', 'mdx-comment'),
+      ).toEqual({
+        text: '## heading {/* #my id */}',
+        id: undefined,
+      });
+    });
+
+    it('does not parse empty id', () => {
+      expect(parseMarkdownHeadingId('## a {/* # */}', 'mdx-comment')).toEqual({
+        text: '## a {/* # */}',
+        id: undefined,
+      });
+    });
+
+    it('does not parse missing hash', () => {
+      expect(
+        parseMarkdownHeadingId('## a {/* my-id */}', 'mdx-comment'),
+      ).toEqual({
+        text: '## a {/* my-id */}',
+        id: undefined,
+      });
+    });
+
+    it('does not parse classic syntax', () => {
+      expect(
+        parseMarkdownHeadingId('## Some heading {#my-id}', 'mdx-comment'),
+      ).toEqual({
+        text: '## Some heading {#my-id}',
+        id: undefined,
+      });
     });
   });
 });

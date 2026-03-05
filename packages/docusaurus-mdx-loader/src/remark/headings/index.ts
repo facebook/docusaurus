@@ -78,15 +78,18 @@ function extractCommentId(heading: Heading) {
   return undefined;
 }
 
-// Try to find an explicit id in the heading text (legacy {#id} syntax)
-function extractLegacySyntaxId(heading: Heading, headingText: string) {
-  const parsedHeading = parseMarkdownHeadingId(headingText);
+// Try to find an explicit id in the heading text (classic {#id} syntax)
+function extractClassicSyntaxHeadingId(heading: Heading, headingText: string) {
+  const parsedHeading = parseMarkdownHeadingId(headingText, 'classic');
   // Remove the heading text from its id (legacy syntax)
   if (parsedHeading.id) {
     // When there's an id, it is always in the last child node
     const lastNode = heading.children.at(-1) as Text;
     if (heading.children.length > 1) {
-      const lastNodeText = parseMarkdownHeadingId(lastNode.value).text;
+      const lastNodeText = parseMarkdownHeadingId(
+        lastNode.value,
+        'classic',
+      ).text;
       // When the last part contains text + id, remove the id
       if (lastNodeText) {
         lastNode.value = lastNodeText;
@@ -135,7 +138,7 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin({
       function extractIdFromText() {
         const headingText = getHeadingText(heading);
         return (
-          extractLegacySyntaxId(heading, headingText) ??
+          extractClassicSyntaxHeadingId(heading, headingText) ??
           slugs.slug(headingText, {maintainCase: anchorsMaintainCase})
         );
       }

@@ -77,6 +77,7 @@ export {
   parseMarkdownContentTitle,
   parseMarkdownFile,
   writeMarkdownHeadingId,
+  type HeadingIdSyntax,
   type WriteHeadingIDOptions,
 } from './markdownUtils';
 export {
