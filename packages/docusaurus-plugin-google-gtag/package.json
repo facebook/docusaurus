@@ -21,7 +21,7 @@
     "@docusaurus/core": "3.9.2",
     "@docusaurus/types": "3.9.2",
     "@docusaurus/utils-validation": "3.9.2",
-    "@types/gtag.js": "^0.0.12",
+    "@types/gtag.js": "^0.0.20",
     "tslib": "^2.6.0"
   },
   "peerDependencies": {
