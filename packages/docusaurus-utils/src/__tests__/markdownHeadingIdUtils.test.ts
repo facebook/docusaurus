@@ -398,7 +398,50 @@ describe('writeMarkdownHeadingId', () => {
       );
     });
 
-    it('overwrites heading ID when asked to', () => {
+    it('migrate heading ID', () => {
+      expect(
+        write('## New heading {#old-heading}', {
+          migrate: true,
+        }),
+      ).toBe('## New heading {#old-heading}');
+    });
+
+    it('migrate heading ID of other syntax', () => {
+      expect(
+        write('## New heading {/* #old-heading */}', {
+          migrate: true,
+        }),
+      ).toBe('## New heading {#old-heading}');
+    });
+
+    it('migrate heading ID of mixed syntaxes', () => {
+      expect(
+        write(
+          dedent`
+        ## Heading {#old-heading-1}
+
+        ## Heading {/* #old-heading-2 */}
+
+        ## Heading {#old-heading-3   }
+
+        ## Heading {/*       #old-heading-4*/}
+        `,
+          {
+            migrate: true,
+          },
+        ),
+      ).toBe(dedent`
+        ## Heading {#old-heading-1}
+
+        ## Heading {#old-heading-2}
+
+        ## Heading {#old-heading-3}
+
+        ## Heading {#old-heading-4}
+        `);
+    });
+
+    it('overwrites heading ID', () => {
       expect(
         write('## New heading {#old-heading}', {
           overwrite: true,
@@ -406,7 +449,7 @@ describe('writeMarkdownHeadingId', () => {
       ).toBe('## New heading {#new-heading}');
     });
 
-    it('overwrites heading ID of other syntaxes when asked to', () => {
+    it('overwrites heading ID of other syntax', () => {
       expect(
         write('## New heading {/* #old-heading */}', {
           overwrite: true,
@@ -441,7 +484,7 @@ describe('writeMarkdownHeadingId', () => {
         `);
     });
 
-    it('maintains casing when asked to', () => {
+    it('maintains casing', () => {
       expect(
         write('## getDataFromAPI()', {
           maintainCase: true,
@@ -550,7 +593,50 @@ describe('writeMarkdownHeadingId', () => {
       );
     });
 
-    it('overwrites heading ID when asked to', () => {
+    it('migrate heading ID of current syntax', () => {
+      expect(
+        write('## New heading {/* #old-heading */}', {
+          migrate: true,
+        }),
+      ).toBe('## New heading {/* #old-heading */}');
+    });
+
+    it('migrate heading ID of other syntax', () => {
+      expect(
+        write('## New heading {#old-heading}', {
+          migrate: true,
+        }),
+      ).toBe('## New heading {/* #old-heading */}');
+    });
+
+    it('migrate heading ID of mixed syntaxes', () => {
+      expect(
+        write(
+          dedent`
+        ## Heading {#old-heading-1}
+
+        ## Heading {/* #old-heading-2 */}
+
+        ## Heading {#old-heading-3      }
+
+        ## Heading {/*     #old-heading-4*/}
+        `,
+          {
+            migrate: true,
+          },
+        ),
+      ).toBe(dedent`
+        ## Heading {/* #old-heading-1 */}
+
+        ## Heading {/* #old-heading-2 */}
+
+        ## Heading {/* #old-heading-3 */}
+
+        ## Heading {/* #old-heading-4 */}
+        `);
+    });
+
+    it('overwrites heading ID', () => {
       expect(
         write('## New heading {/* #old-heading */}', {
           overwrite: true,
@@ -558,7 +644,7 @@ describe('writeMarkdownHeadingId', () => {
       ).toBe('## New heading {/* #new-heading */}');
     });
 
-    it('overwrites heading ID of other syntaxes when asked to', () => {
+    it('overwrites heading ID of other syntax', () => {
       expect(
         write('## New heading {#old-heading}', {
           overwrite: true,
@@ -593,7 +679,7 @@ describe('writeMarkdownHeadingId', () => {
         `);
     });
 
-    it('maintains casing when asked to', () => {
+    it('maintains casing', () => {
       expect(
         write('## getDataFromAPI()', {
           maintainCase: true,

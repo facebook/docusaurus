@@ -40,7 +40,7 @@ export function parseMarkdownHeadingId(
     if (matches) {
       return {
         text: heading.replace(matches[0]!, ''),
-        id: matches.groups!.id!,
+        id: matches.groups!.id!.trim(),
       };
     }
   }
@@ -53,7 +53,7 @@ export function parseMarkdownHeadingId(
     if (mdxMatches) {
       return {
         text: heading.replace(mdxMatches[0]!, ''),
-        id: mdxMatches.groups!.id!,
+        id: mdxMatches.groups!.id!.trim(),
       };
     }
   }
@@ -84,6 +84,7 @@ function addHeadingId(
   slugger: Slugger,
   maintainCase: boolean,
   syntax: HeadingIdSyntax,
+  headingId: string | undefined,
 ): string {
   let headingLevel = 0;
   while (line.charAt(headingLevel) === '#') {
@@ -94,26 +95,36 @@ function addHeadingId(
 
   const headingContent = line.slice(headingLevel).trimEnd();
 
-  // Unwrap links
-  // "[ Hello](https://example.com) World " => "Hello world"
-  const headingText = headingContent
-    .replace(/\[(?<alt>[^\]]+)\]\([^)]+\)/g, (_match, p1: string) => p1)
-    .trim();
+  function getHeadingId() {
+    if (headingId) {
+      return headingId;
+    }
+    // Unwrap links
+    // "[ Hello](https://example.com) World " => "Hello world"
+    const headingText = headingContent
+      .replace(/\[(?<alt>[^\]]+)\]\([^)]+\)/g, (_match, p1: string) => p1)
+      .trim();
 
-  const slug = slugger.slug(headingText, {
-    maintainCase,
-  });
+    return slugger.slug(headingText, {
+      maintainCase,
+    });
+  }
 
   const headingIdSuffix =
-    syntax === 'mdx-comment' ? `{/* #${slug} */}` : `{#${slug}}`;
+    syntax === 'mdx-comment'
+      ? `{/* #${getHeadingId()} */}`
+      : `{#${getHeadingId()}}`;
 
   return `${headingHashes}${headingContent} ${headingIdSuffix}`;
 }
 
 export type WriteHeadingIDOptions = SluggerOptions & {
-  /** Overwrite existing heading IDs. */
-  overwrite?: boolean;
+  /** The target syntax to use for heading IDs. */
   syntax?: HeadingIdSyntax;
+  /** Migrate the existing heading IDs to the target syntax */
+  migrate?: boolean;
+  /** Overwrite existing heading IDs by re-generating them from the text. */
+  overwrite?: boolean;
 };
 
 /**
@@ -126,10 +137,12 @@ export function writeMarkdownHeadingId(
   options: WriteHeadingIDOptions = {},
 ): string {
   const {
-    maintainCase = false,
-    overwrite = false,
     syntax = 'classic', // Maybe we'll want to change this default later?
+    overwrite = false,
+    migrate = false,
+    maintainCase = false,
   } = options;
+
   const lines = content.split('\n');
   const slugger = createSlugger();
 
@@ -166,11 +179,23 @@ export function writeMarkdownHeadingId(
       }
       const parsedHeading = parseHeadingIdAnySyntax(line);
 
-      // Do not process if id is already there
-      if (parsedHeading.id && !overwrite) {
+      // Preserve the line if id is already there, unless we migrate/overwrite
+      if (parsedHeading.id && !overwrite && !migrate) {
         return line;
       }
-      return addHeadingId(parsedHeading.text, slugger, maintainCase, syntax);
+      const headingId = overwrite
+        ? undefined
+        : migrate
+        ? parsedHeading.id
+        : undefined;
+
+      return addHeadingId(
+        parsedHeading.text,
+        slugger,
+        maintainCase,
+        syntax,
+        headingId,
+      );
     })
     .join('\n');
 }
