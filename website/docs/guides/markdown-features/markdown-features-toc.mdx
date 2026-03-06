@@ -87,6 +87,18 @@ For MDX files, the `{#id}` syntax should be avoided. Since Docusaurus v3 and MDX
 
 :::
 
+:::tip Escaping heading IDs
+
+If your heading text contains a `{#` sequence that you don't want to be interpreted as a custom heading ID, you can escape it with a backslash:
+
+```md
+### Hello World \{#not-an-id}
+```
+
+This will render the heading text as-is, including the `{#not-an-id}` part, instead of treating it as a custom ID.
+
+:::
+
 :::warning Avoid colliding IDs
 
 Generated heading IDs will be guaranteed to be unique on each page, but if you use custom IDs, make sure each one appears exactly once on each page, or there will be two DOM elements with the same ID, which is invalid HTML semantics, and will lead to one heading being unlinkable.
