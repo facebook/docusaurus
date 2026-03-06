@@ -14,7 +14,7 @@ Refer to the Getting Started [**Configuration**](../configuration.mdx) for examp
 
 :::
 
-## Overview {#overview}
+## Overview {/* #overview */}
 
 `docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
 
@@ -58,9 +58,9 @@ Refer to [**Syntax to declare `docusaurus.config.js`**](../configuration.mdx#syn
 
 :::
 
-## Required fields {#required-fields}
+## Required fields {/* #required-fields */}
 
-### `title` {#title}
+### `title` {/* #title */}
 
 - Type: `string`
 
@@ -72,7 +72,7 @@ export default {
 };
 ```
 
-### `url` {#url}
+### `url` {/* #url */}
 
 - Type: `string`
 
@@ -84,7 +84,7 @@ export default {
 };
 ```
 
-### `baseUrl` {#baseUrl}
+### `baseUrl` {/* #baseUrl */}
 
 - Type: `string`
 
@@ -96,9 +96,9 @@ export default {
 };
 ```
 
-## Optional fields {#optional-fields}
+## Optional fields {/* #optional-fields */}
 
-### `favicon` {#favicon}
+### `favicon` {/* #favicon */}
 
 - Type: `string | undefined`
 
@@ -110,7 +110,7 @@ export default {
 };
 ```
 
-### `trailingSlash` {#trailingSlash}
+### `trailingSlash` {/* #trailingSlash */}
 
 - Type: `boolean | undefined`
 
@@ -128,7 +128,7 @@ Refer to the [deployment guide](../deployment.mdx) and [slorber/trailing-slash-g
 
 :::
 
-### `i18n` {#i18n}
+### `i18n` {/* #i18n */}
 
 - Type: `Object`
 
@@ -174,7 +174,7 @@ export default {
   - `calendar`: the [calendar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) used to calculate the date era. Note that it doesn't control the actual string displayed: `MM/DD/YYYY` and `DD/MM/YYYY` are both `gregory`. To choose the format (`DD/MM/YYYY` or `MM/DD/YYYY`), set your locale name to `en-GB` or `en-US` (`en` means `en-US`).
   - `path`: Root folder that all plugin localization folders of this locale are relative to. Will be resolved against `i18n.path`. Defaults to the locale's name. Note: this has no effect on the locale's `baseUrl`—customization of base URL is a work-in-progress.
 
-### `future` {#future}
+### `future` {/* #future */}
 
 - Type: `Object`
 
@@ -226,7 +226,7 @@ export default {
   - `namespace`: Whether to namespace the browser storage keys to avoid storage key conflicts when Docusaurus sites are hosted under the same domain, or on localhost. Possible values are `string | boolean`. The namespace is appended at the end of the storage keys `key-namespace`. Use `true` to automatically generate a random namespace from your site `url + baseUrl`. Defaults to `false` (no namespace, historical behavior).
 - `experimental_router`: The router type to use. Possible values are `browser` and `hash`. Defaults to `browser`. The `hash` router is only useful for rare cases where you want to opt-out of static site generation, have a fully client-side app with a single `index.html` entrypoint file. This can be useful to distribute a Docusaurus site as a `.zip` archive that you can [browse locally without running a web server](https://github.com/facebook/docusaurus/issues/3825).
 
-### `noIndex` {#noIndex}
+### `noIndex` {/* #noIndex */}
 
 - Type: `boolean`
 
@@ -240,7 +240,7 @@ export default {
 };
 ```
 
-### `onBrokenLinks` {#onBrokenLinks}
+### `onBrokenLinks` {/* #onBrokenLinks */}
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
@@ -254,7 +254,7 @@ The broken links detection is only available for a production build (`docusaurus
 
 :::
 
-### `onBrokenAnchors` {#onBrokenAnchors}
+### `onBrokenAnchors` {/* #onBrokenAnchors */}
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
@@ -262,7 +262,7 @@ The behavior of Docusaurus when it detects any broken anchor declared with the `
 
 By default, it prints a warning, to let you know about your broken anchors.
 
-### `onBrokenMarkdownLinks` {#onBrokenMarkdownLinks}
+### `onBrokenMarkdownLinks` {/* #onBrokenMarkdownLinks */}
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
@@ -270,7 +270,7 @@ The behavior of Docusaurus when it detects any broken Markdown link.
 
 By default, it prints a warning, to let you know about your broken Markdown link.
 
-### `onDuplicateRoutes` {#onDuplicateRoutes}
+### `onDuplicateRoutes` {/* #onDuplicateRoutes */}
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
@@ -278,7 +278,7 @@ The behavior of Docusaurus when it detects any [duplicate routes](/guides/creati
 
 By default, it displays a warning after you run `yarn start` or `yarn build`.
 
-### `tagline` {#tagline}
+### `tagline` {/* #tagline */}
 
 - Type: `string`
 
@@ -291,7 +291,7 @@ export default {
 };
 ```
 
-### `organizationName` {#organizationName}
+### `organizationName` {/* #organizationName */}
 
 - Type: `string`
 
@@ -304,7 +304,7 @@ export default {
 };
 ```
 
-### `projectName` {#projectName}
+### `projectName` {/* #projectName */}
 
 - Type: `string`
 
@@ -316,7 +316,7 @@ export default {
 };
 ```
 
-### `deploymentBranch` {#deploymentBranch}
+### `deploymentBranch` {/* #deploymentBranch */}
 
 - Type: `string`
 
@@ -328,7 +328,7 @@ export default {
 };
 ```
 
-### `githubHost` {#githubHost}
+### `githubHost` {/* #githubHost */}
 
 - Type: `string`
 
@@ -340,7 +340,7 @@ export default {
 };
 ```
 
-### `githubPort` {#githubPort}
+### `githubPort` {/* #githubPort */}
 
 - Type: `string`
 
@@ -352,7 +352,7 @@ export default {
 };
 ```
 
-### `themeConfig` {#themeConfig}
+### `themeConfig` {/* #themeConfig */}
 
 - Type: `Object`
 
@@ -419,7 +419,7 @@ export default {
 };
 ```
 
-### `plugins` {#plugins}
+### `plugins` {/* #plugins */}
 
 - Type: `PluginConfig[]`
 
@@ -443,7 +443,7 @@ export default {
 };
 ```
 
-### `themes` {#themes}
+### `themes` {/* #themes */}
 
 - Type: `PluginConfig[]`
 
@@ -453,7 +453,7 @@ export default {
 };
 ```
 
-### `presets` {#presets}
+### `presets` {/* #presets */}
 
 - Type: `PresetConfig[]`
 
@@ -467,7 +467,7 @@ export default {
 };
 ```
 
-### `markdown` {#markdown}
+### `markdown` {/* #markdown */}
 
 The global Docusaurus Markdown config.
 
@@ -557,7 +557,7 @@ export default {
 </APITable>
 ```
 
-### `customFields` {#customFields}
+### `customFields` {/* #customFields */}
 
 Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`.
 
@@ -578,7 +578,7 @@ Attempting to add unknown fields in the config will lead to errors during build 
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 ```
 
-### `staticDirectories` {#staticDirectories}
+### `staticDirectories` {/* #staticDirectories */}
 
 An array of paths, relative to the site's directory or absolute. Files under these paths will be copied to the build output as-is.
 
@@ -592,7 +592,7 @@ export default {
 };
 ```
 
-### `headTags` {#headTags}
+### `headTags` {/* #headTags */}
 
 An array of tags that will be inserted in the HTML `<head>`. The values must be objects that contain two properties; `tagName` and `attributes`. `tagName` must be a string that determines the tag being created; eg `"link"`. `attributes` must be an attribute-value map.
 
@@ -616,7 +616,7 @@ export default {
 
 This would become `<link rel="icon" href="img/docusaurus.png" />` in the generated HTML.
 
-### `scripts` {#scripts}
+### `scripts` {/* #scripts */}
 
 An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`. If you use a plain object, the only required attribute is `src`, and any other attributes are permitted (each one should have boolean/string values).
 
@@ -640,7 +640,7 @@ export default {
 };
 ```
 
-### `stylesheets` {#stylesheets}
+### `stylesheets` {/* #stylesheets */}
 
 An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The `<link>` tags will be inserted in the HTML `<head>`. If you use an object, the only required attribute is `href`, and any other attributes are permitted (each one should have boolean/string values).
 
@@ -667,7 +667,7 @@ By default, the `<link>` tags will have `rel="stylesheet"`, but you can explicit
 
 :::
 
-### `clientModules` {#clientModules}
+### `clientModules` {/* #clientModules */}
 
 An array of [client modules](../advanced/client.mdx#client-modules) to load globally on your site.
 
@@ -679,7 +679,7 @@ export default {
 };
 ```
 
-### `ssrTemplate` {#ssrTemplate}
+### `ssrTemplate` {/* #ssrTemplate */}
 
 An HTML template written in [Eta's syntax](https://eta.js.org/docs/syntax#syntax-overview) that will be used to render your application. This can be used to set custom attributes on the `body` tags, additional `meta` tags, customize the `viewport`, etc. Please note that Docusaurus will rely on the template to be correctly structured in order to function properly, once you do customize it, you will have to make sure that your template is compliant with the requirements from upstream.
 
@@ -719,7 +719,7 @@ export default {
 };
 ```
 
-### `titleDelimiter` {#titleDelimiter}
+### `titleDelimiter` {/* #titleDelimiter */}
 
 - Type: `string`
 
@@ -733,7 +733,7 @@ export default {
 };
 ```
 
-### `baseUrlIssueBanner` {#baseUrlIssueBanner}
+### `baseUrlIssueBanner` {/* #baseUrlIssueBanner */}
 
 - Type: `boolean`
 
