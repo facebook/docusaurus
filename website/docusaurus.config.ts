@@ -237,6 +237,7 @@ export default async function createConfigAsync() {
         onBrokenMarkdownLinks: 'warn',
       },
       mdx1Compat: {
+        headingIds: false,
         // comments: false,
       },
       remarkRehypeOptions: {
