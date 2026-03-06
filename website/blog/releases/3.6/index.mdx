@@ -16,11 +16,11 @@ Upgrading should be easy. Our [release process](/community/release-process) resp
 
 {/* truncate */}
 
-## Highlights
+## Highlights {/* #highlights */}
 
 This release has been mostly focused on build performance through the [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) project.
 
-## Docusaurus Faster
+## Docusaurus Faster {/* #docusaurus-faster */}
 
 The [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) project's goal is to reduce the build times and memory consumption.
 
@@ -30,13 +30,13 @@ We have worked on multiple optimizations and modernized our infrastructure to us
 - 🦀 [SWC](https://swc.rs/): Speedy Web Compiler, Rust-based platform for the Web (HTML, CSS, JS)
 - 🦀 [Lightning CSS](https://lightningcss.dev/): An extremely fast CSS parser, transformer, bundler, and minifier
 
-### Impacts
+### Impacts {/* #impacts */}
 
 Adopting a new infrastructure can have various impacts. It's impossible to list them all exhaustively, so let's focus on the major ones.
 
 To help you adopt it easily, we have been fairly conservative in terms of expected static site output and [browser support](/docs/browser-support).
 
-#### Build Time
+#### Build Time {/* #build-time */}
 
 Benchmarks on community site show that you can expect your production site to build ⚡️**2 to 4 times faster**! 🔥:
 
@@ -52,7 +52,7 @@ Benchmarks on community site show that you can expect your production site to bu
 
 :::
 
-#### Memory Consumption
+#### Memory Consumption {/* #memory-consumption */}
 
 You should also notice an improvement in memory consumption:
 
@@ -62,13 +62,13 @@ You should also notice an improvement in memory consumption:
 - We added [internal tooling](https://github.com/facebook/docusaurus/pull/10590) to better understand which step of a build consumes memory
 - We [removed a `process.exit(0)`](https://github.com/facebook/docusaurus/pull/10410) that can hide memory leaks in your own code and third-party plugins
 
-#### Other Impacts
+#### Other Impacts {/* #other-impacts */}
 
 - The HTML minifier now [emits warnings in case of invalid HTML markup](https://github.com/facebook/docusaurus/discussions/10580)
 - The static HTML output is [~5% smaller](https://github.com/facebook/docusaurus/pull/10554)
 - Some bugs are automatically fixed by the new infrastructure
 
-### Adoption Strategy
+### Adoption Strategy {/* #adoption-strategy */}
 
 This new infrastructure is a breaking change, but it is opt-in and does not require a new major version of Docusaurus.
 
@@ -122,7 +122,7 @@ The new infrastructure is robust and well-tested by our CI pipeline. The [Docusa
 
 :::
 
-#### Plugins
+#### Plugins {/* #plugins */}
 
 The new infrastructure uses [Rspack](https://rspack.dev/). By chance, Rspack is almost 100% compatible with [webpack](https://webpack.js.org/), and Rspack shouldn't break our plugin ecosystem.
 
@@ -155,7 +155,7 @@ Check the [dedicated issue](https://github.com/facebook/docusaurus/issues/10572)
 
 :::
 
-### Next Steps
+### Next Steps {/* #next-steps */}
 
 It's only the beginning: we will continue working on the [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) project and already have a few more performance improvements planned.
 
@@ -163,7 +163,7 @@ Depending on [your feedback](https://github.com/facebook/docusaurus/issues/10556
 
 🙏 We'd like to thank the authors of all these great tools that already helped us make Docusaurus much faster than before. In particular the [Rspack team](https://rspack.dev/misc/team/core-team) that supported us along the way, handled our feedback very quickly and implemented all the missing features we needed to make it happen. 👏
 
-## Rsdoctor plugin
+## Rsdoctor plugin {/* #rsdoctor-plugin */}
 
 In [#10588](https://github.com/facebook/docusaurus/pull/10588), we created a Docusaurus plugin for [Rsdoctor](https://rsdoctor.dev/). It analyzes the bundling phase of Docusaurus and helps you figure out what slows down the bundler in terms of loaders, plugins and minimizers. It works for both webpack and Rspack.
 
@@ -211,7 +211,7 @@ RSDOCTOR=true npm run build
 
 :::
 
-## Mermaid
+## Mermaid {/* #mermaid */}
 
 In [#10510](https://github.com/facebook/docusaurus/pull/10510), we relaxed our [Mermaid diagrams](https://mermaid.js.org/) dependency range to allow newer major versions of Mermaid. We now support both Mermaid 10/11, and expect upcoming versions to be compatible, letting you upgrade on your own terms.
 
@@ -231,13 +231,13 @@ architecture-beta
     disk2:T -- B:db
 ```
 
-## Translations
+## Translations {/* #translations */}
 
 - 🇸🇮 [#10551](https://github.com/facebook/docusaurus/pull/10551): Improve Slovenian theme translations.
 - 🇻🇳 [#10507](https://github.com/facebook/docusaurus/pull/10507): Improve Vietnamese theme translations.
 - 🇪🇸 [#10413](https://github.com/facebook/docusaurus/pull/10413): Improve Spanish theme translations.
 
-## Other changes
+## Other changes {/* #other-changes */}
 
 Other notable changes include:
 

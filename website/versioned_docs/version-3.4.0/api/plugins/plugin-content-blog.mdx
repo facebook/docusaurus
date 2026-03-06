@@ -15,7 +15,7 @@ The [feed feature](../../blog.mdx#feed) works by extracting the build output, an
 
 :::
 
-## Installation {#installation}
+## Installation {/* #installation */}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-content-blog
@@ -29,7 +29,7 @@ You can configure this plugin through the [preset options](../../using-plugins.m
 
 :::
 
-## Configuration {#configuration}
+## Configuration {/* #configuration */}
 
 Accepted fields:
 
@@ -85,9 +85,9 @@ Accepted fields:
 </APITable>
 ```
 
-### Types {#types}
+### Types {/* #types */}
 
-#### `EditUrlFn` {#EditUrlFn}
+#### `EditUrlFn` {/* #EditUrlFn */}
 
 ```ts
 type EditUrlFunction = (params: {
@@ -98,7 +98,7 @@ type EditUrlFunction = (params: {
 }) => string | undefined;
 ```
 
-#### `ReadingTimeFn` {#ReadingTimeFn}
+#### `ReadingTimeFn` {/* #ReadingTimeFn */}
 
 ```ts
 type ReadingTimeOptions = {
@@ -119,13 +119,13 @@ type ReadingTimeFn = (params: {
 }) => number | undefined;
 ```
 
-#### `FeedType` {#FeedType}
+#### `FeedType` {/* #FeedType */}
 
 ```ts
 type FeedType = 'rss' | 'atom' | 'json';
 ```
 
-#### `CreateFeedItemsFn` {#CreateFeedItemsFn}
+#### `CreateFeedItemsFn` {/* #CreateFeedItemsFn */}
 
 ```ts
 type CreateFeedItemsFn = (params: {
@@ -136,7 +136,7 @@ type CreateFeedItemsFn = (params: {
 }) => Promise<BlogFeedItem[]>;
 ```
 
-#### `ProcessBlogPostsFn` {#ProcessBlogPostsFn}
+#### `ProcessBlogPostsFn` {/* #ProcessBlogPostsFn */}
 
 ```ts
 type ProcessBlogPostsFn = (params: {
@@ -144,7 +144,7 @@ type ProcessBlogPostsFn = (params: {
 }) => Promise<void | BlogPost[]>;
 ```
 
-### Example configuration {#ex-config}
+### Example configuration {/* #ex-config */}
 
 You can configure this plugin through preset options or plugin options.
 
@@ -207,7 +207,7 @@ const config = {
 };
 ```
 
-## Markdown front matter {#markdown-front-matter}
+## Markdown front matter {/* #markdown-front-matter */}
 
 Markdown documents can use the following Markdown [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) metadata fields, enclosed by a line `---` on either side.
 
@@ -287,18 +287,18 @@ import TagsFileApiRefSection from './_partial-tags-file-api-ref-section.mdx';
 
 <TagsFileApiRefSection />
 
-## i18n {#i18n}
+## i18n {/* #i18n */}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
 
-### Translation files location {#translation-files-location}
+### Translation files location {/* #translation-files-location */}
 
 - **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
 - **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-blog-[pluginId]`
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
 - **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
 
-### Example file-system structure {#example-file-system-structure}
+### Example file-system structure {/* #example-file-system-structure */}
 
 ```bash
 website/i18n/[locale]/docusaurus-plugin-content-blog

@@ -109,6 +109,8 @@ export async function writeHeadingIds(
   } else {
     logger.warn`number=${
       markdownFiles.length
-    } Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the code=${'--overwrite'} option.`;
+    } Markdown files already have explicit heading IDs.
+If you intend to overwrite the existing heading IDs, use the code=${'--overwrite'} option.
+If you intend to change their heading ID syntax, use the code=${'--migrate'} option.`;
   }
 }

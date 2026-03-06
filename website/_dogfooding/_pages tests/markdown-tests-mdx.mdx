@@ -188,17 +188,19 @@ sequenceDiagram
     Bob-->>John: Jolly good!
 ```
 
-## Custom heading ID {#custom}
+## Classic heading ID syntax \{#classic-heading-id-syntax}
 
-### Weird heading {#你好}
+Dogfood that the classic heading ID syntax `{#id}` remains supported on MDX docs. It requires manual escaping with `\{#id}` since we disabled the MDX v1 compat layer (`markdown.mdx1Compat.headingIds`).
 
-### Weird heading {#2022.1.1}
+### Weird heading \{#你好}
 
-### Weird heading {#a#b}
+### Weird heading \{#2022.1.1}
 
-### Weird heading {#a b}
+### Weird heading \{#a#b}
 
-### Weird heading {#a\{b}
+### Weird heading \{#a b}
+
+### Weird heading \{#a\{b}
 
 ## Pipe
 

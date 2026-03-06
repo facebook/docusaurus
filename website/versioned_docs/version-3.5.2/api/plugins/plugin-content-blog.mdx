@@ -15,7 +15,7 @@ The [feed feature](../../blog.mdx#feed) works by extracting the build output, an
 
 :::
 
-## Installation {#installation}
+## Installation {/* #installation */}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-content-blog
@@ -29,7 +29,7 @@ You can configure this plugin through the [preset options](../../using-plugins.m
 
 :::
 
-## Configuration {#configuration}
+## Configuration {/* #configuration */}
 
 Accepted fields:
 
@@ -91,9 +91,9 @@ Accepted fields:
 </APITable>
 ```
 
-### Types {#types}
+### Types {/* #types */}
 
-#### `EditUrlFn` {#EditUrlFn}
+#### `EditUrlFn` {/* #EditUrlFn */}
 
 ```ts
 type EditUrlFunction = (params: {
@@ -104,7 +104,7 @@ type EditUrlFunction = (params: {
 }) => string | undefined;
 ```
 
-#### `ReadingTimeFn` {#ReadingTimeFn}
+#### `ReadingTimeFn` {/* #ReadingTimeFn */}
 
 ```ts
 type ReadingTimeOptions = {
@@ -125,13 +125,13 @@ type ReadingTimeFn = (params: {
 }) => number | undefined;
 ```
 
-#### `FeedType` {#FeedType}
+#### `FeedType` {/* #FeedType */}
 
 ```ts
 type FeedType = 'rss' | 'atom' | 'json';
 ```
 
-#### `FeedXSLTOptions` {#FeedXSLTOptions}
+#### `FeedXSLTOptions` {/* #FeedXSLTOptions */}
 
 Permits to style the blog XML feeds so that browsers render them nicely with [XSLT](https://developer.mozilla.org/en-US/docs/Web/XSLT).
 
@@ -150,7 +150,7 @@ type FeedXSLTOptions =
     };
 ```
 
-#### `CreateFeedItemsFn` {#CreateFeedItemsFn}
+#### `CreateFeedItemsFn` {/* #CreateFeedItemsFn */}
 
 ```ts
 type CreateFeedItemsFn = (params: {
@@ -161,7 +161,7 @@ type CreateFeedItemsFn = (params: {
 }) => Promise<BlogFeedItem[]>;
 ```
 
-#### `ProcessBlogPostsFn` {#ProcessBlogPostsFn}
+#### `ProcessBlogPostsFn` {/* #ProcessBlogPostsFn */}
 
 ```ts
 type ProcessBlogPostsFn = (params: {
@@ -169,7 +169,7 @@ type ProcessBlogPostsFn = (params: {
 }) => Promise<void | BlogPost[]>;
 ```
 
-### Example configuration {#ex-config}
+### Example configuration {/* #ex-config */}
 
 You can configure this plugin through preset options or plugin options.
 
@@ -232,7 +232,7 @@ const config = {
 };
 ```
 
-## Markdown front matter {#markdown-front-matter}
+## Markdown front matter {/* #markdown-front-matter */}
 
 Markdown documents can use the following Markdown [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) metadata fields, enclosed by a line `---` on either side.
 
@@ -322,7 +322,7 @@ import TagsFileApiRefSection from './_partial-tags-file-api-ref-section.mdx';
 
 <TagsFileApiRefSection />
 
-## Authors File {#authors-file}
+## Authors File {/* #authors-file */}
 
 Use the [`authors` plugin option](#authors) to configure the path of a YAML authors file.
 
@@ -330,7 +330,7 @@ By convention, the plugin will look for a `authors.yml` file at the root of your
 
 This file can contain a list of predefined [global blog authors](../../blog.mdx#global-authors). You can reference these authors by their keys in Markdown files thanks to the [`authors` front matter](#markdown-front-matter).
 
-### Types {#authors-file-types}
+### Types {/* #authors-file-types */}
 
 The YAML content of the provided authors file should respect the following shape:
 
@@ -352,7 +352,7 @@ type AuthorInput = {
 };
 ```
 
-### Example {#authors-file-example}
+### Example {/* #authors-file-example */}
 
 ```yml title="tags.yml"
 slorber:
@@ -388,18 +388,18 @@ authors: [slorber, jmarcey]
 Content
 ```
 
-## i18n {#i18n}
+## i18n {/* #i18n */}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
 
-### Translation files location {#translation-files-location}
+### Translation files location {/* #translation-files-location */}
 
 - **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
 - **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-blog-[pluginId]`
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
 - **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
 
-### Example file-system structure {#example-file-system-structure}
+### Example file-system structure {/* #example-file-system-structure */}
 
 ```bash
 website/i18n/[locale]/docusaurus-plugin-content-blog
