@@ -12,3 +12,18 @@
 .navbarHidden {
   transform: translate3d(0, calc(-100% - 2px), 0);
 }
+
+/*
+Constrain navbar inner content width to match main layout on wide screens.
+The navbar background still spans full width, but navbar items are aligned
+with the rest of the page content.
+See https://github.com/facebook/docusaurus/issues/7562
+*/
+:global(.navbar) {
+  justify-content: center;
+}
+
+:global(.navbar__inner) {
+  max-width: var(--ifm-container-width);
+  width: 100%;
+}
