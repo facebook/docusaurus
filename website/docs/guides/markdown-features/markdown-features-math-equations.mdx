@@ -35,7 +35,15 @@ Let $f\colon[a,b] \to \R$ be Riemann integrable. Let $F\colon[a,b]\to\R$ be $F(x
 
 ### Blocks {/* #blocks */}
 
-For equation block or display mode, use line breaks and `$$`:
+For equation block or display mode, use <code>```math</code> fenced code blocks.
+
+````latex
+```math
+I = \int_0^{2\pi} \sin(x)\,dx
+```
+````
+
+You can also use line breaks and `$$`, although this syntax relies on a [Markdown syntax extension](https://github.com/micromark/micromark-extension-math) and is less portable:
 
 ```latex
 $$
@@ -45,9 +53,9 @@ $$
 
 <BrowserWindow>
 
-$$
+```math
 I = \int_0^{2\pi} \sin(x)\,dx
-$$
+```
 
 </BrowserWindow>
 
