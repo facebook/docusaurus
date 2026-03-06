@@ -47,10 +47,10 @@ files:
   #    translation: /website/i18n/%two_letters_code%/**/%original_file_name%
   #    languages_mapping: *languages_mapping
   #
-  #  - source: /website/docs/**/*.mdx
-  #    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
-  #    languages_mapping: *languages_mapping
-  #    type: *mdx_file_type
+  - source: /website/docs/**/*.mdx
+    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
+    languages_mapping: *languages_mapping
+    type: *mdx_file_type
   #  - source: /website/docs/**/*
   #    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
   #    languages_mapping: *languages_mapping
