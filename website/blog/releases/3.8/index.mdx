@@ -22,11 +22,11 @@ import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
 import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
 ```
 
-## Performance
+## Performance {/* #performance */}
 
 This release keeps improving our build infrastructure performance with various optimizations, and 2 new Docusaurus Faster options.
 
-### Docusaurus Faster
+### Docusaurus Faster {/* #docusaurus-faster */}
 
 [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) has been introduced in [Docusaurus v3.6](/blog/releases/3.6#docusaurus-faster), and permits you to opt-in for our upgraded build infrastructure and helps you build your site much faster. The experimental flags can be turned on individually, but we recommend to turn them all at once with this convenient shortcut:
 
@@ -45,7 +45,7 @@ Don't forget to install the `@docusaurus/faster` dependency first!
 
 :::
 
-#### Persistent Cache
+#### Persistent Cache {/* #persistent-cache */}
 
 In [#10931](https://github.com/facebook/docusaurus/pull/10931), we have enabled the **[Rspack persistent cache](https://rspack.dev/blog/announcing-1-2#persistent-cache)**. Similarly to the [Webpack persistent cache](https://webpack.js.org/blog/2020-10-10-webpack-5-release/#persistent-caching) (already supported), it permits to greatly speed up the bundling of the Docusaurus app on subsequent builds.
 
@@ -76,7 +76,7 @@ Popular CDNs such as Netlify and Vercel do that for you automatically. Depending
 
 **Result**: On average, you can expect your site's bundling time to be ~2-5× faster on rebuilds 🔥. The impact can be even more significant if you [disable the optional `concatenateModule` optimization](https://github.com/facebook/docusaurus/discussions/11199).
 
-#### Worker Threads
+#### Worker Threads {/* #worker-threads */}
 
 In [#10826](https://github.com/facebook/docusaurus/pull/10826), we introduced a [Node.js Worker Thread pool](https://github.com/tinylibs/tinypool) to run the static side generation code. With this new strategy, we can better leverage all the available CPUs, reduce static site generation time, and contain potential memory leaks.
 
@@ -99,7 +99,7 @@ const config = {
 
 **Result**: On average, you can expect your site's static site generation time to be ~2× times faster 🔥. This was measured on a MacBook Pro M3 and result may vary depending on your CI.
 
-### Other Optimizations
+### Other Optimizations {/* #other-optimizations */}
 
 We identified and resolved several major bottlenecks, including:
 
@@ -114,7 +114,7 @@ If bundling time is a concern, consider disabling the optional `concatenateModul
 
 :::
 
-### Impact
+### Impact {/* #impact */}
 
 We have upgraded the [React Native website to Docusaurus v3.8](https://github.com/facebook/react-native-website/pull/4607) already. Here's an updated benchmark showing the global Docusaurus Faster impact on total build time for a site with ~2000 pages:
 
@@ -132,7 +132,7 @@ We measured similar results on our website:
 
 You can also expect memory usage improvements, and a faster `docusaurus start` experience.
 
-## Future Flags
+## Future Flags {/* #future-flags */}
 
 The Docusaurus v4 Future Flags let you **opt-in for upcoming Docusaurus v4 breaking changes**, and help you manage them incrementally, one at a time. Enabling all the future flags will make your site easier to upgrade to Docusaurus v4 when it's released.
 
@@ -162,7 +162,7 @@ This way, you are sure to always keep your site prepared for Docusaurus v4. Be a
 
 :::
 
-### CSS Cascade Layers
+### CSS Cascade Layers {/* #css-cascade-layers */}
 
 In Docusaurus v4, we plan to leverage [CSS Cascade Layers](https://css-tricks.com/css-cascade-layers/). This modern CSS feature is widely supported and permits to group CSS rules in layers of specificity. It is particularly useful to give you more control over the CSS cascade. It makes the CSS rules less dependent on their insertion order. Your un-layered rules will now always override the layered CSS we provide.
 
@@ -223,7 +223,7 @@ Then you can apply this class to any HTML element, so that Infima doesn't apply 
 
 </details>
 
-### `postBuild()` Change
+### `postBuild()` Change {/* #postbuild-change */}
 
 In [#10850](https://github.com/facebook/docusaurus/pull/10850), we added a new `removeLegacyPostBuildHeadAttribute` Future Flag that slightly changes the signature of the `postBuild()` plugin lifecycle method, removing the `head` attribute.
 
@@ -242,7 +242,7 @@ This legacy data structure is coming from our [react-helmet-async](https://githu
 
 While technically a **breaking change**, we believe this change will not affect anyone. We couldn't find any open source plugin that uses the `head` parameter that this method receives. If turning this flag on breaks your site, please let us know [here](https://github.com/facebook/docusaurus/pull/10850).
 
-## System Color Mode
+## System Color Mode {/* #system-color-mode */}
 
 In [#10987](https://github.com/facebook/docusaurus/pull/10987), the classic theme now lets you revert the color mode to the system/OS value.
 
@@ -256,20 +256,20 @@ In [#10987](https://github.com/facebook/docusaurus/pull/10987), the classic them
 </BrowserWindow>
 ```
 
-## Code Block Refactor
+## Code Block Refactor {/* #code-block-refactor */}
 
 In [#11058](https://github.com/facebook/docusaurus/pull/11058), [#11059](https://github.com/facebook/docusaurus/pull/11059), [#11062](https://github.com/facebook/docusaurus/pull/11062) and [#11077](https://github.com/facebook/docusaurus/pull/11077), the theme code block components have been significantly refactored in a way that should be much easier to swizzle and extend.
 
 According to our [release process](/community/release-process), this is not a breaking change, but sites that have swizzled these components may need to upgrade them.
 
-## Translations
+## Translations {/* #translations */}
 
 - 🇹🇷 [#10893](https://github.com/facebook/docusaurus/pull/10893): Add missing Turkish theme translations.
 - 🇵🇱 [#10884](https://github.com/facebook/docusaurus/pull/10884): Add missing Polish theme translations.
 - 🇨🇳 [#10816](https://github.com/facebook/docusaurus/pull/10816): Add missing Chinese theme translations.
 - 🇯🇵 [#11030](https://github.com/facebook/docusaurus/pull/11030): Add missing Japanese theme translations.
 
-## Maintenance
+## Maintenance {/* #maintenance */}
 
 Docusaurus 3.8 is ready for [Node.js 24](https://github.com/facebook/docusaurus/pull/11168) and [TypeScript 5.8](https://github.com/facebook/docusaurus/pull/10966).
 
@@ -281,7 +281,7 @@ We also removed useless npm packages and internalizing unmaintained ones:
 - In [#11138](https://github.com/facebook/docusaurus/pull/11138), we removed the `reading-time` package in favor of the built-in `Intl.Segmenter` standard API to compute blog post reading times.
 - In [#11037](https://github.com/facebook/docusaurus/pull/11037), we removed the useless `clean-webpack-plugin`.
 
-## Other changes
+## Other changes {/* #other-changes */}
 
 Other notable changes include:
 
