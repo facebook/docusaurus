@@ -18,10 +18,13 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 import type {Sidebar} from '../sidebars/types';
 
-function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
+function createSampleDoc(
+  doc: Pick<DocMetadata, 'id'> & Partial<DocMetadata>,
+): DocMetadata {
   return {
     sourceDirName: '',
     draft: false,
+    unlisted: false,
     tags: [],
     editUrl: 'any',
     lastUpdatedAt: 0,
@@ -50,6 +53,7 @@ function createSampleVersion(
     routePriority: undefined,
     sidebarFilePath: 'any',
     isLast: true,
+    noIndex: false,
     contentPath: 'any',
     contentPathLocalized: 'any',
     tagsPath: '/tags/',
