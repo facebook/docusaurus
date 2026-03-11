@@ -28,7 +28,10 @@ jobs:
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: lts/*
-          cache: yarn
+          #  ⚠️ Do not use any cache on purpose
+          # It increases the chance of a compromised release being publish
+          # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
+          # cache: yarn
       - name: Prepare git
         run: |
           git config --global user.name "Docusaurus Canary"
