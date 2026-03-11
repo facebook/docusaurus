@@ -383,25 +383,29 @@ describe('translateLoadedContent', () => {
     const translated = translateLoadedContent(content, translatedFiles);
     const [doc1, doc2, doc3] = translated.loadedVersions[0]!.docs;
 
-    // doc1.next points to a generated-index category => title should be translated
+    // doc1.next points to a generated-index category
+    // => title should be translated
     expect(doc1!.next).toEqual({
       title: 'Getting started (translated)',
       permalink: '/docs/category/getting-started-index-slug',
     });
 
-    // doc2.previous points to a generated-index category => title should be translated
+    // doc2.previous points to a generated-index category
+    // => title should be translated
     expect(doc2!.previous).toEqual({
       title: 'Getting started (translated)',
       permalink: '/docs/category/getting-started-index-slug',
     });
 
-    // doc2.next points to a regular doc => title should NOT be changed
+    // doc2.next points to a regular doc
+    // => title should NOT be changed
     expect(doc2!.next).toEqual({
       title: 'doc3 title',
       permalink: '/docs/doc3',
     });
 
-    // doc3.previous points to a regular doc => title should NOT be changed
+    // doc3.previous points to a regular doc
+    // => title should NOT be changed
     expect(doc3!.previous).toEqual({
       title: 'doc2 title',
       permalink: '/docs/doc2',
