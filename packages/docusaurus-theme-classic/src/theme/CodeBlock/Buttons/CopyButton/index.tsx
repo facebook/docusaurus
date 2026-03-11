@@ -44,6 +44,10 @@ function ariaLabel(isCopied: boolean) {
       });
 }
 
+function useClipboardSupported() {
+  return typeof navigator !== 'undefined' && !!navigator.clipboard;
+}
+
 function useCopyButton() {
   const {
     metadata: {code},
@@ -66,7 +70,12 @@ function useCopyButton() {
 }
 
 export default function CopyButton({className}: Props): ReactNode {
+  const isClipboardSupported = useClipboardSupported();
   const {copyCode, isCopied} = useCopyButton();
+
+  if (!isClipboardSupported) {
+    return null;
+  }
 
   return (
     <Button
