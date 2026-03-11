@@ -398,14 +398,14 @@ describe('translateLoadedContent', () => {
     });
 
     // doc2.next points to a regular doc
-    // => title should NOT be changed
+    // => title should NOT be changed, it's already translated from the i18n MDX
     expect(doc2!.next).toEqual({
       title: 'doc3 title',
       permalink: '/docs/doc3',
     });
 
     // doc3.previous points to a regular doc
-    // => title should NOT be changed
+    // => title should NOT be changed, it's already translated from the i18n MDX
     expect(doc3!.previous).toEqual({
       title: 'doc2 title',
       permalink: '/docs/doc2',

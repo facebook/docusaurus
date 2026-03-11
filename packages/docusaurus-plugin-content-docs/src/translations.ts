@@ -269,6 +269,12 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFile[] {
     },
   ];
 }
+
+// TODO Docusaurus v4 or later
+//  this temporarily works, but it is not an ideal solution
+//  The docs navigation can be computed and shouldn't be part of LoadedVersion
+//  We need to derive the navigation from already translated content
+//  See https://github.com/facebook/docusaurus/pull/11794
 function translateDocNavigation(
   docs: LoadedVersion['docs'],
   translatedSidebars: Sidebars,
@@ -278,10 +284,7 @@ function translateDocNavigation(
   for (const sidebar of Object.values(translatedSidebars)) {
     for (const category of collectSidebarCategories(sidebar)) {
       if (category.link?.type === 'generated-index') {
-        translatedLabelByPermalink.set(
-          category.link.permalink,
-          category.label,
-        );
+        translatedLabelByPermalink.set(category.link.permalink, category.label);
       }
     }
   }
