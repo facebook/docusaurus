@@ -18,10 +18,13 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 import type {Sidebar} from '../sidebars/types';
 
-function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
+function createSampleDoc(
+  doc: Pick<DocMetadata, 'id'> & Partial<DocMetadata>,
+): DocMetadata {
   return {
     sourceDirName: '',
     draft: false,
+    unlisted: false,
     tags: [],
     editUrl: 'any',
     lastUpdatedAt: 0,
@@ -50,6 +53,7 @@ function createSampleVersion(
     routePriority: undefined,
     sidebarFilePath: 'any',
     isLast: true,
+    noIndex: false,
     contentPath: 'any',
     contentPathLocalized: 'any',
     tagsPath: '/tags/',
@@ -330,5 +334,81 @@ describe('translateLoadedContent', () => {
     expect(
       translateLoadedContent(SampleLoadedContent, translationFiles),
     ).toMatchSnapshot();
+  });
+
+  it('translates pagination navigation titles for generated-index categories', () => {
+    const content: LoadedContent = {
+      loadedVersions: [
+        createSampleVersion({
+          versionName: CURRENT_VERSION_NAME,
+          docs: [
+            createSampleDoc({
+              id: 'doc1',
+              next: {
+                title: 'Getting started',
+                permalink: '/docs/category/getting-started-index-slug',
+              },
+            }),
+            createSampleDoc({
+              id: 'doc2',
+              previous: {
+                title: 'Getting started',
+                permalink: '/docs/category/getting-started-index-slug',
+              },
+              next: {
+                title: 'doc3 title',
+                permalink: '/docs/doc3',
+              },
+            }),
+            createSampleDoc({
+              id: 'doc3',
+              previous: {
+                title: 'doc2 title',
+                permalink: '/docs/doc2',
+              },
+            }),
+          ],
+        }),
+      ],
+    };
+
+    const translationFiles = getLoadedContentTranslationFiles(content);
+    const translatedFiles = translationFiles.map((translationFile) =>
+      updateTranslationFileMessages(
+        translationFile,
+        (message) => `${message} (translated)`,
+      ),
+    );
+
+    const translated = translateLoadedContent(content, translatedFiles);
+    const [doc1, doc2, doc3] = translated.loadedVersions[0]!.docs;
+
+    // doc1.next points to a generated-index category
+    // => title should be translated
+    expect(doc1!.next).toEqual({
+      title: 'Getting started (translated)',
+      permalink: '/docs/category/getting-started-index-slug',
+    });
+
+    // doc2.previous points to a generated-index category
+    // => title should be translated
+    expect(doc2!.previous).toEqual({
+      title: 'Getting started (translated)',
+      permalink: '/docs/category/getting-started-index-slug',
+    });
+
+    // doc2.next points to a regular doc
+    // => title should NOT be changed, it's already translated from the i18n MDX
+    expect(doc2!.next).toEqual({
+      title: 'doc3 title',
+      permalink: '/docs/doc3',
+    });
+
+    // doc3.previous points to a regular doc
+    // => title should NOT be changed, it's already translated from the i18n MDX
+    expect(doc3!.previous).toEqual({
+      title: 'doc2 title',
+      permalink: '/docs/doc2',
+    });
   });
 });
