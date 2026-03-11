@@ -27,6 +27,14 @@ const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
 
+const LibrariesToTranspile = [
+  'copy-text-to-clipboard', // Contains optional catch binding, incompatible with recent versions of Edge
+];
+
+const LibrariesToTranspileRegex = new RegExp(
+  LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
+);
+
 function getReactAliases(siteDir: string): Record<string, string> {
   // Escape hatch
   if (process.env.DOCUSAURUS_NO_REACT_ALIASES) {
@@ -49,7 +57,8 @@ export function excludeJS(modulePath: string): boolean {
   // Don't transpile node_modules except any docusaurus npm package
   return (
     modulePath.includes('node_modules') &&
-    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath)
+    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath) &&
+    !LibrariesToTranspileRegex.test(modulePath)
   );
 }
 

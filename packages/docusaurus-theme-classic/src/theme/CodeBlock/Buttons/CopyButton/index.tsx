@@ -44,6 +44,22 @@ function ariaLabel(isCopied: boolean) {
       });
 }
 
+async function copyCodeToClipboard(code: string): Promise<boolean> {
+  if (typeof navigator.clipboard?.writeText === 'function') {
+    try {
+      await navigator.clipboard.writeText(code);
+      return true;
+    } catch {}
+  }
+
+  try {
+    const copy = (await import('copy-text-to-clipboard')).default;
+    return copy(code);
+  } catch {
+    return false;
+  }
+}
+
 function useCopyButton() {
   const {
     metadata: {code},
@@ -52,7 +68,11 @@ function useCopyButton() {
   const copyTimeout = useRef<number | undefined>(undefined);
 
   const copyCode = useCallback(() => {
-    navigator.clipboard.writeText(code).then(() => {
+    void copyCodeToClipboard(code).then((didCopy) => {
+      if (!didCopy) {
+        return;
+      }
+
       setIsCopied(true);
       copyTimeout.current = window.setTimeout(() => {
         setIsCopied(false);
