@@ -9,9 +9,7 @@ import {normalizeUrl, simpleHash} from '@docusaurus/utils';
 import {addTrailingSlash} from '@docusaurus/utils-common';
 import type {DocusaurusConfig, SiteStorage} from '@docusaurus/types';
 
-type PartialConfig = Pick<DocusaurusConfig, 'url' | 'baseUrl'> & {
-  storage: DocusaurusConfig['storage'];
-};
+type PartialConfig = Pick<DocusaurusConfig, 'url' | 'baseUrl' | 'storage'>;
 
 function automaticNamespace(config: PartialConfig): string {
   const normalizedUrl = addTrailingSlash(
