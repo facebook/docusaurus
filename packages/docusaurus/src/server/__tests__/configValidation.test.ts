@@ -1392,6 +1392,42 @@ describe('future', () => {
         ).toEqual(storageContaining({namespace: false}));
       });
 
+      it('defaults namespace to true when v4.siteStorageNamespacing is true', () => {
+        expect(
+          normalizeConfig({
+            storage: {},
+            future: {v4: {siteStorageNamespacing: true}},
+          }),
+        ).toEqual(storageContaining({namespace: true}));
+      });
+
+      it('defaults namespace to false when v4.siteStorageNamespacing is false', () => {
+        expect(
+          normalizeConfig({
+            storage: {},
+            future: {v4: {siteStorageNamespacing: false}},
+          }),
+        ).toEqual(storageContaining({namespace: false}));
+      });
+
+      it('keeps explicit namespace false even when v4.siteStorageNamespacing is true', () => {
+        expect(
+          normalizeConfig({
+            storage: {namespace: false},
+            future: {v4: {siteStorageNamespacing: true}},
+          }),
+        ).toEqual(storageContaining({namespace: false}));
+      });
+
+      it('keeps explicit namespace string when v4.siteStorageNamespacing is true', () => {
+        expect(
+          normalizeConfig({
+            storage: {namespace: 'custom'},
+            future: {v4: {siteStorageNamespacing: true}},
+          }),
+        ).toEqual(storageContaining({namespace: 'custom'}));
+      });
+
       it('rejects namespace - null', () => {
         const storage: Partial<StorageConfig> = {namespace: null};
         expect(() =>
@@ -1416,44 +1452,6 @@ describe('future', () => {
                   "
               `);
       });
-    });
-  });
-
-  describe('siteStorageNamespacing', () => {
-    it('defaults namespace to true when siteStorageNamespacing is true', () => {
-      expect(
-        normalizeConfig({
-          storage: {},
-          future: {v4: {siteStorageNamespacing: true}},
-        }),
-      ).toEqual(storageContaining({namespace: true}));
-    });
-
-    it('defaults namespace to false when siteStorageNamespacing is false', () => {
-      expect(
-        normalizeConfig({
-          storage: {},
-          future: {v4: {siteStorageNamespacing: false}},
-        }),
-      ).toEqual(storageContaining({namespace: false}));
-    });
-
-    it('keeps explicit namespace false even when siteStorageNamespacing is true', () => {
-      expect(
-        normalizeConfig({
-          storage: {namespace: false},
-          future: {v4: {siteStorageNamespacing: true}},
-        }),
-      ).toEqual(storageContaining({namespace: false}));
-    });
-
-    it('keeps explicit namespace string when siteStorageNamespacing is true', () => {
-      expect(
-        normalizeConfig({
-          storage: {namespace: 'custom'},
-          future: {v4: {siteStorageNamespacing: true}},
-        }),
-      ).toEqual(storageContaining({namespace: 'custom'}));
     });
   });
 
@@ -2507,6 +2505,7 @@ describe('future', () => {
       const v4: FutureV4Config = {
         removeLegacyPostBuildHeadAttribute: true,
         useCssCascadeLayers: true,
+        siteStorageNamespacing: true,
       };
       expect(
         normalizeConfig({
@@ -2693,6 +2692,81 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.v4.useCssCascadeLayers" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('siteStorageNamespacing', () => {
+      it('accepts - undefined', () => {
+        const v4: Partial<FutureV4Config> = {
+          siteStorageNamespacing: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({siteStorageNamespacing: false}));
+      });
+
+      it('accepts - true', () => {
+        const v4: Partial<FutureV4Config> = {
+          siteStorageNamespacing: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({siteStorageNamespacing: true}));
+      });
+
+      it('accepts - false', () => {
+        const v4: Partial<FutureV4Config> = {
+          siteStorageNamespacing: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({siteStorageNamespacing: false}));
+      });
+
+      it('rejects - null', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          siteStorageNamespacing: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.siteStorageNamespacing" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          siteStorageNamespacing: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.siteStorageNamespacing" must be a boolean
           "
         `);
       });
