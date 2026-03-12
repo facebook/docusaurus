@@ -34,7 +34,8 @@ function automaticNamespace(config: PartialConfig): string {
 }
 
 function getNamespaceString(config: PartialConfig): string | null {
-  const namespace = config.storage.namespace ?? config.future.v4.siteStorageNamespacing;
+  const namespace =
+    config.storage.namespace ?? config.future.v4.siteStorageNamespacing;
 
   if (namespace === true) {
     return automaticNamespace(config);
