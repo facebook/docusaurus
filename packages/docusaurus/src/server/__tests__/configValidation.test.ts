@@ -2740,7 +2740,7 @@ describe('future', () => {
       it('rejects - null', () => {
         const v4: Partial<FutureV4Config> = {
           // @ts-expect-error: invalid
-          siteStorageNamespacing: 42,
+          siteStorageNamespacing: null,
         };
         expect(() =>
           normalizeConfig({
