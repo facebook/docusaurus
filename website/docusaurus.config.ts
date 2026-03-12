@@ -193,9 +193,6 @@ export default async function createConfigAsync() {
             ssgWorkerThreads: true,
             gitEagerVcs: true,
           },
-      experimental_storage: {
-        namespace: true,
-      },
       experimental_vcs: vcs,
       experimental_router: router,
     },

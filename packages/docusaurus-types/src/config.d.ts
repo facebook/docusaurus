@@ -39,6 +39,7 @@ export type FasterConfig = {
 export type FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: boolean;
   useCssCascadeLayers: boolean;
+  siteStorageNamespacing: boolean;
 };
 
 // VCS (Version Control System) info about a given change, e.g., a git commit.
@@ -95,8 +96,6 @@ export type FutureConfig = {
   v4: FutureV4Config;
 
   experimental_faster: FasterConfig;
-
-  experimental_storage: StorageConfig;
 
   experimental_vcs: VcsConfig;
 
@@ -175,6 +174,12 @@ export type DocusaurusConfig = {
    * @see https://docusaurus.io/docs/api/docusaurus-config#i18n
    */
   i18n: I18nConfig;
+  /**
+   * Site-wide browser storage options.
+   *
+   * @see https://docusaurus.io/docs/api/docusaurus-config#storage
+   */
+  storage: StorageConfig;
   /**
    * Docusaurus future flags and experimental features.
    * Similar to Remix future flags, see https://remix.run/blog/future-flags

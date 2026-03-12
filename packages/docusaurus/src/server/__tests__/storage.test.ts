@@ -6,11 +6,8 @@
  */
 
 import {createSiteStorage} from '../storage';
-import {
-  DEFAULT_FUTURE_CONFIG,
-  DEFAULT_STORAGE_CONFIG,
-} from '../configValidation';
-import type {FutureConfig, StorageConfig, SiteStorage} from '@docusaurus/types';
+import {DEFAULT_STORAGE_CONFIG} from '../configValidation';
+import type {StorageConfig, SiteStorage} from '@docusaurus/types';
 
 function test({
   url = 'https://docusaurus.io',
@@ -21,15 +18,14 @@ function test({
   baseUrl?: string;
   storage?: Partial<StorageConfig>;
 }): SiteStorage {
-  const future: FutureConfig = {
-    ...DEFAULT_FUTURE_CONFIG,
-    experimental_storage: {
+  return createSiteStorage({
+    url,
+    baseUrl,
+    storage: {
       ...DEFAULT_STORAGE_CONFIG,
       ...storage,
     },
-  };
-
-  return createSiteStorage({url, baseUrl, future});
+  });
 }
 
 const DefaultSiteStorage: SiteStorage = {

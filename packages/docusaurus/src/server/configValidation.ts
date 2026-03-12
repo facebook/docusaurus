@@ -100,18 +100,19 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: false,
   useCssCascadeLayers: false,
+  siteStorageNamespacing: false,
 };
 
 // When using the "v4: true" shortcut
 export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: true,
   useCssCascadeLayers: true,
+  siteStorageNamespacing: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
   experimental_faster: DEFAULT_FASTER_CONFIG,
-  experimental_storage: DEFAULT_STORAGE_CONFIG,
   experimental_vcs: getVcsPreset('default-v1'),
   experimental_router: 'browser',
 };
@@ -142,6 +143,7 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'i18n'
+  | 'storage'
   | 'future'
   | 'onBrokenLinks'
   | 'onBrokenAnchors'
@@ -164,6 +166,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'markdown'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
+  storage: DEFAULT_STORAGE_CONFIG,
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
@@ -318,6 +321,9 @@ const FUTURE_V4_SCHEMA = Joi.alternatives()
       useCssCascadeLayers: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.useCssCascadeLayers,
       ),
+      siteStorageNamespacing: Joi.boolean().default(
+        DEFAULT_FUTURE_V4_CONFIG.siteStorageNamespacing,
+      ),
     }),
     Joi.boolean()
       .required()
@@ -332,12 +338,13 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   type: Joi.string()
     .equal('localStorage', 'sessionStorage')
     .default(DEFAULT_STORAGE_CONFIG.type),
-  namespace: Joi.alternatives()
-    .try(Joi.string(), Joi.boolean())
-    .default(DEFAULT_STORAGE_CONFIG.namespace),
+  // namespace default is not set here on purpose
+  // It is resolved in postProcessDocusaurusConfig based on
+  // the future.v4.siteStorageNamespacing flag
+  namespace: Joi.alternatives().try(Joi.string(), Joi.boolean()),
 })
   .optional()
-  .default(DEFAULT_STORAGE_CONFIG);
+  .default({type: DEFAULT_STORAGE_CONFIG.type});
 
 const VCS_CONFIG_OBJECT_SCHEMA = Joi.object<VcsConfig>({
   // All the fields are required on purpose
@@ -372,11 +379,19 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   v4: FUTURE_V4_SCHEMA,
   experimental_faster: FASTER_CONFIG_SCHEMA,
-  experimental_storage: STORAGE_CONFIG_SCHEMA,
   experimental_vcs: VCS_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
     .default(DEFAULT_FUTURE_CONFIG.experimental_router),
+  experimental_storage: Joi.any().custom(() => {
+    throw new Error(
+      `The Docusaurus config ${logger.code(
+        'future.experimental_storage',
+      )} has been promoted to a stable top-level ${logger.code(
+        'storage',
+      )} config attribute. Please move your storage config to the top level.`,
+    );
+  }),
 })
   .optional()
   .default(DEFAULT_FUTURE_CONFIG);
@@ -390,6 +405,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   title: Joi.string().required(),
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
+  storage: STORAGE_CONFIG_SCHEMA,
   future: FUTURE_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
@@ -533,6 +549,12 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
 // Expressing this kind of logic in Joi is a pain
 // We also want to decouple logic from Joi: easier to remove it later!
 function postProcessDocusaurusConfig(config: DocusaurusConfig) {
+  // Resolve storage.namespace based on the v4 future flag
+  // undefined means "not explicitly set by user"
+  if (config.storage.namespace === undefined) {
+    config.storage.namespace = config.future.v4.siteStorageNamespacing;
+  }
+
   if (config.onBrokenMarkdownLinks) {
     logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
 Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
