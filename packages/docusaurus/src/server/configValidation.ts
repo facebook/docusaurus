@@ -100,18 +100,19 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: false,
   useCssCascadeLayers: false,
+  siteStorageNamespacing: false,
 };
 
 // When using the "v4: true" shortcut
 export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: true,
   useCssCascadeLayers: true,
+  siteStorageNamespacing: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
   experimental_faster: DEFAULT_FASTER_CONFIG,
-  experimental_storage: DEFAULT_STORAGE_CONFIG,
   experimental_vcs: getVcsPreset('default-v1'),
   experimental_router: 'browser',
 };
@@ -143,6 +144,7 @@ export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'i18n'
   | 'future'
+  | 'storage'
   | 'onBrokenLinks'
   | 'onBrokenAnchors'
   | 'onBrokenMarkdownLinks'
@@ -165,6 +167,7 @@ export const DEFAULT_CONFIG: Pick<
 > = {
   i18n: DEFAULT_I18N_CONFIG,
   future: DEFAULT_FUTURE_CONFIG,
+  storage: DEFAULT_STORAGE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
   onBrokenMarkdownLinks: undefined,
@@ -318,6 +321,9 @@ const FUTURE_V4_SCHEMA = Joi.alternatives()
       useCssCascadeLayers: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.useCssCascadeLayers,
       ),
+      siteStorageNamespacing: Joi.boolean().default(
+        DEFAULT_FUTURE_V4_CONFIG.siteStorageNamespacing,
+      ),
     }),
     Joi.boolean()
       .required()
@@ -332,12 +338,10 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   type: Joi.string()
     .equal('localStorage', 'sessionStorage')
     .default(DEFAULT_STORAGE_CONFIG.type),
-  namespace: Joi.alternatives()
-    .try(Joi.string(), Joi.boolean())
-    .default(DEFAULT_STORAGE_CONFIG.namespace),
+  namespace: Joi.alternatives().try(Joi.string(), Joi.boolean()),
 })
   .optional()
-  .default(DEFAULT_STORAGE_CONFIG);
+  .default({type: DEFAULT_STORAGE_CONFIG.type});
 
 const VCS_CONFIG_OBJECT_SCHEMA = Joi.object<VcsConfig>({
   // All the fields are required on purpose
@@ -372,7 +376,6 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   v4: FUTURE_V4_SCHEMA,
   experimental_faster: FASTER_CONFIG_SCHEMA,
-  experimental_storage: STORAGE_CONFIG_SCHEMA,
   experimental_vcs: VCS_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
@@ -391,6 +394,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   future: FUTURE_CONFIG_SCHEMA,
+  storage: STORAGE_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),
@@ -533,6 +537,10 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
 // Expressing this kind of logic in Joi is a pain
 // We also want to decouple logic from Joi: easier to remove it later!
 function postProcessDocusaurusConfig(config: DocusaurusConfig) {
+  if (config.storage.namespace === undefined) {
+    config.storage.namespace = config.future.v4.siteStorageNamespacing;
+  }
+
   if (config.onBrokenMarkdownLinks) {
     logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
 Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
@@ -584,11 +592,34 @@ All the v4 future flags are documented here: https://docusaurus.io/docs/api/docu
   }
 }
 
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function hasLegacyExperimentalStorageConfig(config: unknown): boolean {
+  if (!isObject(config)) {
+    return false;
+  }
+  const {future} = config;
+  return (
+    isObject(future) &&
+    Object.prototype.hasOwnProperty.call(future, 'experimental_storage')
+  );
+}
+
 // TODO move to @docusaurus/utils-validation
 export function validateConfig(
   config: unknown,
   siteConfigPath: string,
 ): DocusaurusConfig {
+  if (hasLegacyExperimentalStorageConfig(config)) {
+    throw new Error(`Docusaurus config ${logger.code(
+      'future.experimental_storage',
+    )} was moved and is no longer supported.
+Please use the top-level ${logger.code('storage')} option instead.
+See https://docusaurus.io/docs/api/docusaurus-config#storage`);
+  }
+
   const {error, warning, value} = ConfigSchema.validate(config, {
     abortEarly: false,
   });

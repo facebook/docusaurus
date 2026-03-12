@@ -8,6 +8,7 @@
 import {createSiteStorage} from '../storage';
 import {
   DEFAULT_FUTURE_CONFIG,
+  DEFAULT_FUTURE_V4_CONFIG,
   DEFAULT_STORAGE_CONFIG,
 } from '../configValidation';
 import type {FutureConfig, StorageConfig, SiteStorage} from '@docusaurus/types';
@@ -16,20 +17,30 @@ function test({
   url = 'https://docusaurus.io',
   baseUrl = '/',
   storage = {},
+  siteStorageNamespacing = DEFAULT_FUTURE_V4_CONFIG.siteStorageNamespacing,
 }: {
   url?: string;
   baseUrl?: string;
   storage?: Partial<StorageConfig>;
+  siteStorageNamespacing?: boolean;
 }): SiteStorage {
   const future: FutureConfig = {
     ...DEFAULT_FUTURE_CONFIG,
-    experimental_storage: {
-      ...DEFAULT_STORAGE_CONFIG,
-      ...storage,
+    v4: {
+      ...DEFAULT_FUTURE_V4_CONFIG,
+      siteStorageNamespacing,
     },
   };
 
-  return createSiteStorage({url, baseUrl, future});
+  return createSiteStorage({
+    url,
+    baseUrl,
+    future,
+    storage: {
+      type: DEFAULT_STORAGE_CONFIG.type,
+      ...storage,
+    },
+  });
 }
 
 const DefaultSiteStorage: SiteStorage = {
@@ -40,6 +51,17 @@ const DefaultSiteStorage: SiteStorage = {
 describe('storage', () => {
   it('default', () => {
     expect(test({})).toEqual(DefaultSiteStorage);
+  });
+
+  it('defaults namespace to true when future.v4.siteStorageNamespacing is enabled', () => {
+    expect(
+      test({
+        siteStorageNamespacing: true,
+      }),
+    ).toEqual({
+      ...DefaultSiteStorage,
+      namespace: '-189',
+    });
   });
 
   describe('type', () => {
@@ -149,7 +171,12 @@ describe('storage', () => {
     });
 
     it('false', () => {
-      expect(test({storage: {namespace: false}})).toEqual({
+      expect(
+        test({
+          storage: {namespace: false},
+          siteStorageNamespacing: true,
+        }),
+      ).toEqual({
         ...DefaultSiteStorage,
         namespace: '',
       });

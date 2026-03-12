@@ -7,12 +7,23 @@
 
 import {normalizeUrl, simpleHash} from '@docusaurus/utils';
 import {addTrailingSlash} from '@docusaurus/utils-common';
-import type {DocusaurusConfig, SiteStorage} from '@docusaurus/types';
+import type {
+  DocusaurusConfig,
+  SiteStorage,
+  StorageConfig,
+} from '@docusaurus/types';
 
-type PartialFuture = Pick<DocusaurusConfig['future'], 'experimental_storage'>;
+type PartialFuture = {
+  v4: Pick<DocusaurusConfig['future']['v4'], 'siteStorageNamespacing'>;
+};
+
+type PartialStorage = Pick<StorageConfig, 'type'> & {
+  namespace?: StorageConfig['namespace'];
+};
 
 type PartialConfig = Pick<DocusaurusConfig, 'url' | 'baseUrl'> & {
   future: PartialFuture;
+  storage: PartialStorage;
 };
 
 function automaticNamespace(config: PartialConfig): string {
@@ -23,17 +34,19 @@ function automaticNamespace(config: PartialConfig): string {
 }
 
 function getNamespaceString(config: PartialConfig): string | null {
-  if (config.future.experimental_storage.namespace === true) {
+  const namespace = config.storage.namespace ?? config.future.v4.siteStorageNamespacing;
+
+  if (namespace === true) {
     return automaticNamespace(config);
-  } else if (config.future.experimental_storage.namespace === false) {
+  } else if (namespace === false) {
     return null;
   } else {
-    return config.future.experimental_storage.namespace;
+    return namespace;
   }
 }
 
 export function createSiteStorage(config: PartialConfig): SiteStorage {
-  const {type} = config.future.experimental_storage;
+  const {type} = config.storage;
   const namespaceString = getNamespaceString(config);
 
   const namespace = namespaceString ? `-${namespaceString}` : '';
