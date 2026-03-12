@@ -376,22 +376,24 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
   return value;
 }).default(true);
 
-const FUTURE_CONFIG_SCHEMA = Joi.object({
+const FUTURE_CONFIG_SCHEMA = Joi.object<
+  FutureConfig & {experimental_storage: never}
+>({
   v4: FUTURE_V4_SCHEMA,
   experimental_faster: FASTER_CONFIG_SCHEMA,
   experimental_vcs: VCS_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
     .default(DEFAULT_FUTURE_CONFIG.experimental_router),
-  experimental_storage: Joi.any().custom(() => {
-    throw new Error(
-      `The Docusaurus config ${logger.code(
+  experimental_storage: Joi.any()
+    .forbidden()
+    .messages({
+      'any.unknown': `The Docusaurus config ${logger.code(
         'future.experimental_storage',
       )} has been promoted to a stable top-level ${logger.code(
         'storage',
       )} config attribute. Please move your storage config to the top level.`,
-    );
-  }),
+    }),
 })
   .optional()
   .default(DEFAULT_FUTURE_CONFIG);
