@@ -376,7 +376,7 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
   return value;
 }).default(true);
 
-const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
+const FUTURE_CONFIG_SCHEMA = Joi.object({
   v4: FUTURE_V4_SCHEMA,
   experimental_faster: FASTER_CONFIG_SCHEMA,
   experimental_vcs: VCS_CONFIG_SCHEMA,
