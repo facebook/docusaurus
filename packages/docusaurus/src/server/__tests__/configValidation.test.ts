@@ -57,10 +57,15 @@ describe('normalizeConfig', () => {
     const userConfig: Config = {
       ...DEFAULT_CONFIG,
       ...baseConfig,
+      storage: {
+        type: 'sessionStorage',
+        namespace: true,
+      },
       future: {
         v4: {
           removeLegacyPostBuildHeadAttribute: true,
           useCssCascadeLayers: true,
+          siteStorageNamespacing: true,
         },
         experimental_faster: {
           swcJsLoader: true,
@@ -72,10 +77,6 @@ describe('normalizeConfig', () => {
           rspackPersistentCache: true,
           ssgWorkerThreads: true,
           gitEagerVcs: true,
-        },
-        experimental_storage: {
-          type: 'sessionStorage',
-          namespace: true,
         },
         experimental_vcs: {
           initialize: (_params) => {},
@@ -1060,6 +1061,248 @@ describe('presets', () => {
   });
 });
 
+describe('storage', () => {
+  function storageContaining(storage: Partial<StorageConfig>) {
+    return expect.objectContaining({
+      storage: expect.objectContaining(storage),
+    });
+  }
+
+  it('accepts storage - undefined', () => {
+    expect(
+      normalizeConfig({
+        storage: undefined,
+      }),
+    ).toEqual(storageContaining(DEFAULT_STORAGE_CONFIG));
+  });
+
+  it('accepts storage - empty', () => {
+    expect(
+      normalizeConfig({
+        storage: {},
+      }),
+    ).toEqual(storageContaining(DEFAULT_STORAGE_CONFIG));
+  });
+
+  it('accepts storage - full', () => {
+    const storage: StorageConfig = {
+      type: 'sessionStorage',
+      namespace: 'myNamespace',
+    };
+    expect(
+      normalizeConfig({
+        storage,
+      }),
+    ).toEqual(storageContaining(storage));
+  });
+
+  it('rejects storage - boolean', () => {
+    // @ts-expect-error: invalid
+    const storage: Partial<StorageConfig> = true;
+    expect(() =>
+      normalizeConfig({
+        storage,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      ""storage" must be of type object
+      "
+    `);
+  });
+
+  it('rejects storage - number', () => {
+    // @ts-expect-error: invalid
+    const storage: Partial<StorageConfig> = 42;
+    expect(() =>
+      normalizeConfig({
+        storage,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      ""storage" must be of type object
+      "
+    `);
+  });
+
+  it('rejects future.experimental_storage', () => {
+    expect(() =>
+      normalizeConfig({
+        future: {
+          // @ts-expect-error: testing removed config
+          experimental_storage: {
+            type: 'sessionStorage',
+            namespace: true,
+          },
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "The Docusaurus config \`future.experimental_storage\` has been promoted to a stable top-level \`storage\` config attribute. Please move your storage config to the top level.
+      "
+    `);
+  });
+
+  describe('type', () => {
+    it('accepts type', () => {
+      const storage: Partial<StorageConfig> = {
+        type: 'sessionStorage',
+      };
+      expect(
+        normalizeConfig({
+          storage,
+        }),
+      ).toEqual(
+        storageContaining({
+          ...DEFAULT_STORAGE_CONFIG,
+          ...storage,
+        }),
+      );
+    });
+
+    it('accepts type - undefined', () => {
+      const storage: Partial<StorageConfig> = {
+        type: undefined,
+      };
+      expect(
+        normalizeConfig({
+          storage,
+        }),
+      ).toEqual(storageContaining({type: 'localStorage'}));
+    });
+
+    it('rejects type - null', () => {
+      // @ts-expect-error: invalid
+      const storage: Partial<StorageConfig> = {type: 42};
+      expect(() =>
+        normalizeConfig({
+          storage,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""storage.type" must be one of [localStorage, sessionStorage]
+        "storage.type" must be a string
+        "
+      `);
+    });
+
+    it('rejects type - number', () => {
+      // @ts-expect-error: invalid
+      const storage: Partial<StorageConfig> = {type: 42};
+      expect(() =>
+        normalizeConfig({
+          storage,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""storage.type" must be one of [localStorage, sessionStorage]
+        "storage.type" must be a string
+        "
+      `);
+    });
+
+    it('rejects type - invalid enum value', () => {
+      // @ts-expect-error: invalid
+      const storage: Partial<StorageConfig> = {type: 'badType'};
+      expect(() =>
+        normalizeConfig({
+          storage,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""storage.type" must be one of [localStorage, sessionStorage]
+        "
+      `);
+    });
+  });
+
+  describe('namespace', () => {
+    it('accepts namespace - boolean', () => {
+      const storage: Partial<StorageConfig> = {
+        namespace: true,
+      };
+      expect(
+        normalizeConfig({
+          storage,
+        }),
+      ).toEqual(storageContaining(storage));
+    });
+
+    it('accepts namespace - string', () => {
+      const storage: Partial<StorageConfig> = {
+        namespace: 'myNamespace',
+      };
+      expect(
+        normalizeConfig({
+          storage,
+        }),
+      ).toEqual(storageContaining(storage));
+    });
+
+    it('defaults namespace to false', () => {
+      expect(
+        normalizeConfig({
+          storage: {},
+        }),
+      ).toEqual(storageContaining({namespace: false}));
+    });
+
+    it('defaults namespace to true when v4.siteStorageNamespacing is true', () => {
+      expect(
+        normalizeConfig({
+          storage: {},
+          future: {v4: {siteStorageNamespacing: true}},
+        }),
+      ).toEqual(storageContaining({namespace: true}));
+    });
+
+    it('defaults namespace to false when v4.siteStorageNamespacing is false', () => {
+      expect(
+        normalizeConfig({
+          storage: {},
+          future: {v4: {siteStorageNamespacing: false}},
+        }),
+      ).toEqual(storageContaining({namespace: false}));
+    });
+
+    it('keeps explicit namespace false even when v4.siteStorageNamespacing is true', () => {
+      expect(
+        normalizeConfig({
+          storage: {namespace: false},
+          future: {v4: {siteStorageNamespacing: true}},
+        }),
+      ).toEqual(storageContaining({namespace: false}));
+    });
+
+    it('keeps explicit namespace string when v4.siteStorageNamespacing is true', () => {
+      expect(
+        normalizeConfig({
+          storage: {namespace: 'custom'},
+          future: {v4: {siteStorageNamespacing: true}},
+        }),
+      ).toEqual(storageContaining({namespace: 'custom'}));
+    });
+
+    it('rejects namespace - null', () => {
+      const storage: Partial<StorageConfig> = {namespace: null};
+      expect(() =>
+        normalizeConfig({
+          storage,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""storage.namespace" must be one of [string, boolean]
+        "
+      `);
+    });
+
+    it('rejects namespace - number', () => {
+      // @ts-expect-error: invalid
+      const storage: Partial<StorageConfig> = {namespace: 42};
+      expect(() =>
+        normalizeConfig({
+          storage,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        ""storage.namespace" must be one of [string, boolean]
+        "
+      `);
+    });
+  });
+});
+
 describe('future', () => {
   function futureContaining(future: Partial<FutureConfig>) {
     return expect.objectContaining({
@@ -1088,6 +1331,7 @@ describe('future', () => {
       v4: {
         removeLegacyPostBuildHeadAttribute: true,
         useCssCascadeLayers: true,
+        siteStorageNamespacing: true,
       },
       experimental_faster: {
         swcJsLoader: true,
@@ -1104,10 +1348,6 @@ describe('future', () => {
         initialize: (_params) => {},
         getFileCreationInfo: (_filePath) => null,
         getFileLastUpdateInfo: (_filePath) => null,
-      },
-      experimental_storage: {
-        type: 'sessionStorage',
-        namespace: 'myNamespace',
       },
       experimental_router: 'hash',
     };
@@ -1212,213 +1452,6 @@ describe('future', () => {
         "future.experimental_router" must be a string
         "
       `);
-    });
-  });
-
-  describe('storage', () => {
-    function storageContaining(storage: Partial<StorageConfig>) {
-      return futureContaining({
-        experimental_storage: expect.objectContaining(storage),
-      });
-    }
-
-    it('accepts storage - undefined', () => {
-      expect(
-        normalizeConfig({
-          future: {
-            experimental_storage: undefined,
-          },
-        }),
-      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
-    });
-
-    it('accepts storage - empty', () => {
-      expect(
-        normalizeConfig({
-          future: {experimental_storage: {}},
-        }),
-      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
-    });
-
-    it('accepts storage - full', () => {
-      const storage: StorageConfig = {
-        type: 'sessionStorage',
-        namespace: 'myNamespace',
-      };
-      expect(
-        normalizeConfig({
-          future: {
-            experimental_storage: storage,
-          },
-        }),
-      ).toEqual(storageContaining(storage));
-    });
-
-    it('rejects storage - boolean', () => {
-      // @ts-expect-error: invalid
-      const storage: Partial<StorageConfig> = true;
-      expect(() =>
-        normalizeConfig({
-          future: {
-            experimental_storage: storage,
-          },
-        }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_storage" must be of type object
-        "
-      `);
-    });
-
-    it('rejects storage - number', () => {
-      // @ts-expect-error: invalid
-      const storage: Partial<StorageConfig> = 42;
-      expect(() =>
-        normalizeConfig({
-          future: {
-            experimental_storage: storage,
-          },
-        }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_storage" must be of type object
-        "
-      `);
-    });
-
-    describe('type', () => {
-      it('accepts type', () => {
-        const storage: Partial<StorageConfig> = {
-          type: 'sessionStorage',
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toEqual(
-          storageContaining({
-            ...DEFAULT_STORAGE_CONFIG,
-            ...storage,
-          }),
-        );
-      });
-
-      it('accepts type - undefined', () => {
-        const storage: Partial<StorageConfig> = {
-          type: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toEqual(storageContaining({type: 'localStorage'}));
-      });
-
-      it('rejects type - null', () => {
-        // @ts-expect-error: invalid
-        const storage: Partial<StorageConfig> = {type: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-                  ""future.experimental_storage.type" must be one of [localStorage, sessionStorage]
-                  "future.experimental_storage.type" must be a string
-                  "
-              `);
-      });
-
-      it('rejects type - number', () => {
-        // @ts-expect-error: invalid
-        const storage: Partial<StorageConfig> = {type: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-                  ""future.experimental_storage.type" must be one of [localStorage, sessionStorage]
-                  "future.experimental_storage.type" must be a string
-                  "
-              `);
-      });
-
-      it('rejects type - invalid enum value', () => {
-        // @ts-expect-error: invalid
-        const storage: Partial<StorageConfig> = {type: 'badType'};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-                  ""future.experimental_storage.type" must be one of [localStorage, sessionStorage]
-                  "
-              `);
-      });
-    });
-
-    describe('namespace', () => {
-      it('accepts namespace - boolean', () => {
-        const storage: Partial<StorageConfig> = {
-          namespace: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toEqual(storageContaining(storage));
-      });
-
-      it('accepts namespace - string', () => {
-        const storage: Partial<StorageConfig> = {
-          namespace: 'myNamespace',
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toEqual(storageContaining(storage));
-      });
-
-      it('rejects namespace - null', () => {
-        const storage: Partial<StorageConfig> = {namespace: null};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-                  ""future.experimental_storage.namespace" must be one of [string, boolean]
-                  "
-              `);
-      });
-
-      it('rejects namespace - number', () => {
-        // @ts-expect-error: invalid
-        const storage: Partial<StorageConfig> = {namespace: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-                  ""future.experimental_storage.namespace" must be one of [string, boolean]
-                  "
-              `);
-      });
     });
   });
 
@@ -2472,6 +2505,7 @@ describe('future', () => {
       const v4: FutureV4Config = {
         removeLegacyPostBuildHeadAttribute: true,
         useCssCascadeLayers: true,
+        siteStorageNamespacing: true,
       };
       expect(
         normalizeConfig({
@@ -2658,6 +2692,80 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.v4.useCssCascadeLayers" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('siteStorageNamespacing', () => {
+      it('accepts - undefined', () => {
+        const v4: Partial<FutureV4Config> = {
+          siteStorageNamespacing: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({siteStorageNamespacing: false}));
+      });
+
+      it('accepts - true', () => {
+        const v4: Partial<FutureV4Config> = {
+          siteStorageNamespacing: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({siteStorageNamespacing: true}));
+      });
+
+      it('accepts - false', () => {
+        const v4: Partial<FutureV4Config> = {
+          siteStorageNamespacing: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({siteStorageNamespacing: false}));
+      });
+
+      it('rejects - null', () => {
+        const v4: Partial<FutureV4Config> = {
+          siteStorageNamespacing: null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.siteStorageNamespacing" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          siteStorageNamespacing: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.siteStorageNamespacing" must be a boolean
           "
         `);
       });
