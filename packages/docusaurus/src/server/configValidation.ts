@@ -338,6 +338,7 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   type: Joi.string()
     .equal('localStorage', 'sessionStorage')
     .default(DEFAULT_STORAGE_CONFIG.type),
+  // No schema default on purpose: we derive this from future.v4 flag later.
   namespace: Joi.alternatives().try(Joi.string(), Joi.boolean()),
 })
   .optional()
@@ -376,6 +377,15 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
 const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
   v4: FUTURE_V4_SCHEMA,
   experimental_faster: FASTER_CONFIG_SCHEMA,
+  experimental_storage: Joi.any()
+    .forbidden()
+    .messages({
+      'any.unknown': `Docusaurus config ${logger.code(
+        'future.experimental_storage',
+      )} has been promoted to stable and is no longer supported.
+Please use the top-level ${logger.code('storage')} option instead.
+See https://docusaurus.io/docs/api/docusaurus-config#storage`,
+    }),
   experimental_vcs: VCS_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
@@ -592,34 +602,11 @@ All the v4 future flags are documented here: https://docusaurus.io/docs/api/docu
   }
 }
 
-function isObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
-}
-
-function hasLegacyExperimentalStorageConfig(config: unknown): boolean {
-  if (!isObject(config)) {
-    return false;
-  }
-  const {future} = config;
-  return (
-    isObject(future) &&
-    Object.prototype.hasOwnProperty.call(future, 'experimental_storage')
-  );
-}
-
 // TODO move to @docusaurus/utils-validation
 export function validateConfig(
   config: unknown,
   siteConfigPath: string,
 ): DocusaurusConfig {
-  if (hasLegacyExperimentalStorageConfig(config)) {
-    throw new Error(`Docusaurus config ${logger.code(
-      'future.experimental_storage',
-    )} was moved and is no longer supported.
-Please use the top-level ${logger.code('storage')} option instead.
-See https://docusaurus.io/docs/api/docusaurus-config#storage`);
-  }
-
   const {error, warning, value} = ConfigSchema.validate(config, {
     abortEarly: false,
   });

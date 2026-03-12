@@ -7,23 +7,10 @@
 
 import {normalizeUrl, simpleHash} from '@docusaurus/utils';
 import {addTrailingSlash} from '@docusaurus/utils-common';
-import type {
-  DocusaurusConfig,
-  SiteStorage,
-  StorageConfig,
-} from '@docusaurus/types';
-
-type PartialFuture = {
-  v4: Pick<DocusaurusConfig['future']['v4'], 'siteStorageNamespacing'>;
-};
-
-type PartialStorage = Pick<StorageConfig, 'type'> & {
-  namespace?: StorageConfig['namespace'];
-};
+import type {DocusaurusConfig, SiteStorage} from '@docusaurus/types';
 
 type PartialConfig = Pick<DocusaurusConfig, 'url' | 'baseUrl'> & {
-  future: PartialFuture;
-  storage: PartialStorage;
+  storage: DocusaurusConfig['storage'];
 };
 
 function automaticNamespace(config: PartialConfig): string {
@@ -34,8 +21,7 @@ function automaticNamespace(config: PartialConfig): string {
 }
 
 function getNamespaceString(config: PartialConfig): string | null {
-  const namespace =
-    config.storage.namespace ?? config.future.v4.siteStorageNamespacing;
+  const {namespace} = config.storage;
 
   if (namespace === true) {
     return automaticNamespace(config);

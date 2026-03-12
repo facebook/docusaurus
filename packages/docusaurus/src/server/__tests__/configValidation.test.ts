@@ -1283,9 +1283,10 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        "Docusaurus config \`future.experimental_storage\` was moved and is no longer supported.
+        "Docusaurus config \`future.experimental_storage\` has been promoted to stable and is no longer supported.
         Please use the top-level \`storage\` option instead.
-        See https://docusaurus.io/docs/api/docusaurus-config#storage"
+        See https://docusaurus.io/docs/api/docusaurus-config#storage
+        "
       `);
     });
 
@@ -2724,7 +2725,7 @@ describe('future', () => {
       it('rejects - null', () => {
         const v4: Partial<FutureV4Config> = {
           // @ts-expect-error: invalid
-          siteStorageNamespacing: 42,
+          siteStorageNamespacing: null,
         };
         expect(() =>
           normalizeConfig({
