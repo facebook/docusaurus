@@ -374,11 +374,9 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
   return value;
 }).default(true);
 
-type FutureConfigWithLegacyStorage = FutureConfig & {
-  experimental_storage?: never;
-};
-
-const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfigWithLegacyStorage>({
+const FUTURE_CONFIG_SCHEMA = Joi.object<
+  FutureConfig & {experimental_storage?: never}
+>({
   v4: FUTURE_V4_SCHEMA,
   experimental_faster: FASTER_CONFIG_SCHEMA,
   experimental_storage: Joi.any()

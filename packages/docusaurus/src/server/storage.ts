@@ -19,14 +19,12 @@ function automaticNamespace(config: PartialConfig): string {
 }
 
 function getNamespaceString(config: PartialConfig): string | null {
-  const {namespace} = config.storage;
-
-  if (namespace === true) {
+  if (config.storage.namespace === true) {
     return automaticNamespace(config);
-  } else if (namespace === false) {
+  } else if (config.storage.namespace === false) {
     return null;
   } else {
-    return namespace;
+    return config.storage.namespace;
   }
 }
 
