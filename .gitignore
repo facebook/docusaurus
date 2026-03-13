@@ -52,3 +52,6 @@ website/bundler-cpu-profile.json
 website/profile.json.gz
 
 
+.claude
+.codex
+
