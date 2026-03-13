@@ -61,8 +61,7 @@ export async function createSSGParams({
     noIndex: props.siteConfig.noIndex,
     DOCUSAURUS_VERSION,
     serverBundlePath,
-    htmlMinifierType: props.siteConfig.future.experimental_faster
-      .swcHtmlMinimizer
+    htmlMinifierType: props.siteConfig.future.faster.swcHtmlMinimizer
       ? 'swc'
       : 'terser',
 

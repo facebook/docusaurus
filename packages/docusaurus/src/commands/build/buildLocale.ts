@@ -217,7 +217,7 @@ async function getBuildClientConfig({
   const result = await createBuildClientConfig({
     props,
     minify: cliOptions.minify ?? true,
-    faster: props.siteConfig.future.experimental_faster,
+    faster: props.siteConfig.future.faster,
     configureWebpackUtils,
     bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });

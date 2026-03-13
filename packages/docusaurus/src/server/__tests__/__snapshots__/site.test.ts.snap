@@ -88,7 +88,13 @@ exports[`loadSite custom-i18n-site loads site 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -99,13 +105,8 @@ exports[`loadSite custom-i18n-site loads site 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -262,7 +263,13 @@ exports[`loadSite simple-site-with-baseUrl loads site - custom config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -273,13 +280,8 @@ exports[`loadSite simple-site-with-baseUrl loads site - custom config 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -428,7 +430,13 @@ exports[`loadSite simple-site-with-baseUrl loads site - custom outDir 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -439,13 +447,8 @@ exports[`loadSite simple-site-with-baseUrl loads site - custom outDir 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -594,7 +597,13 @@ exports[`loadSite simple-site-with-baseUrl loads site 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -605,13 +614,8 @@ exports[`loadSite simple-site-with-baseUrl loads site 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -804,7 +808,13 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site -  locale fr + custom
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -815,13 +825,8 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site -  locale fr + custom
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -1036,7 +1041,13 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - custom outDir 1`] =
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -1047,13 +1058,8 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - custom outDir 1`] =
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -1268,7 +1274,13 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale de 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -1279,13 +1291,8 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale de 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -1500,7 +1507,13 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale en 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -1511,13 +1524,8 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale en 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -1732,7 +1740,13 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale es 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -1743,13 +1757,8 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale es 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -1964,7 +1973,13 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale fr 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -1975,13 +1990,8 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale fr 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -2196,7 +2206,13 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale it 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -2207,13 +2223,8 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale it 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -2428,7 +2439,13 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
         "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
@@ -2439,13 +2456,8 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "v4": {
+        "fasterByDefault": false,
         "removeLegacyPostBuildHeadAttribute": false,
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,

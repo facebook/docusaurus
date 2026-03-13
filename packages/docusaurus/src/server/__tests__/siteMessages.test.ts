@@ -29,7 +29,7 @@ describe('collectAllSiteMessages', () => {
               siteDir,
               siteConfig: {
                 future: {
-                  experimental_faster: {
+                  faster: {
                     swcJsLoader,
                   },
                 },
