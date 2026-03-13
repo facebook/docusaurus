@@ -596,8 +596,9 @@ See also https://github.com/facebook/docusaurus/issues/10787`);
       config.future.faster.rspackBundler = false;
       config.future.faster.rspackPersistentCache = false;
 
-      // This also won't work due to Webpack peerDependencies :s
+      // This also won't work due to Webpack libs using peerDependencies :s
       // This could eventually work if the deps are added at the site level
+      // TODO Docusaurus v4 clean this up
       config.future.faster.lightningCssMinimizer = false;
       config.future.faster.swcJsMinimizer = false;
     }
