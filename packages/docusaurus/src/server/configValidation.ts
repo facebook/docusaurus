@@ -584,16 +584,22 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
     }
   }
 
-  // Docusaurus Faster (Rspack) doesn't work with Yarn PnP :s
+  // Docusaurus Faster doesn't fully support Yarn PnP :s
   // Until we support Rspack + PnP, we simply revert to Webpack with a warning
   // See https://github.com/facebook/docusaurus/issues/10787
   if (process.versions.pnp) {
     if (config.future.faster.rspackBundler) {
-      logger.warn(`The Docusaurus bundler Rspack doesn't support the Yarn PnP linker yet.
-Your app will be built with Webpack instead of Rspack.
+      logger.warn(`Docusaurus Faster doesn't fully support the Yarn PnP linker yet.
+We recommend to use Yarn node-linker instead.
+Docusaurus will still attempt to build your app with Webpack (instead of Rspack) and use slower minimizers.
 See also https://github.com/facebook/docusaurus/issues/10787`);
       config.future.faster.rspackBundler = false;
       config.future.faster.rspackPersistentCache = false;
+
+      // This also won't work due to Webpack peerDependencies :s
+      // This could eventually work if the deps are added at the site level
+      config.future.faster.lightningCssMinimizer = false;
+      config.future.faster.swcJsMinimizer = false;
     }
   }
 
