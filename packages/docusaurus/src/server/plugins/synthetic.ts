@@ -81,7 +81,7 @@ export async function createMDXFallbackPlugin({
 }: LoadContext): Promise<InitializedPlugin> {
   const mdxLoaderItem = await createMDXLoaderItem({
     useCrossCompilerCache:
-      siteConfig.future.experimental_faster.mdxCrossCompilerCache,
+      siteConfig.future.faster.mdxCrossCompilerCache,
     admonitions: true,
     staticDirs: siteConfig.staticDirectories.map((dir) =>
       path.resolve(siteDir, dir),

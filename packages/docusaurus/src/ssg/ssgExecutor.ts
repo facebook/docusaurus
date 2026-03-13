@@ -201,7 +201,7 @@ export async function executeSSG({
     return {collectedData: {}};
   }
 
-  const createExecutor = props.siteConfig.future.experimental_faster
+  const createExecutor = props.siteConfig.future.faster
     .ssgWorkerThreads
     ? createPooledSSGExecutor
     : createSimpleSSGExecutor;

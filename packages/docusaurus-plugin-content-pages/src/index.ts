@@ -59,7 +59,7 @@ export default async function pluginContentPages(
         .map(addTrailingPathSeparator),
       options: {
         useCrossCompilerCache:
-          siteConfig.future.experimental_faster.mdxCrossCompilerCache,
+          siteConfig.future.faster.mdxCrossCompilerCache,
         admonitions,
         remarkPlugins,
         rehypePlugins,

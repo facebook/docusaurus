@@ -119,7 +119,7 @@ export default async function pluginContentBlog(
 
     const mdxLoaderItem = await createMDXLoaderItem({
       useCrossCompilerCache:
-        siteConfig.future.experimental_faster.mdxCrossCompilerCache,
+        siteConfig.future.faster.mdxCrossCompilerCache,
       admonitions,
       remarkPlugins,
       rehypePlugins,

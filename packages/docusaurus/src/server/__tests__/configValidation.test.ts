@@ -66,8 +66,9 @@ describe('normalizeConfig', () => {
           removeLegacyPostBuildHeadAttribute: true,
           useCssCascadeLayers: true,
           siteStorageNamespacing: true,
+          fasterByDefault: true,
         },
-        experimental_faster: {
+        faster: {
           swcJsLoader: true,
           swcJsMinimizer: true,
           swcHtmlMinimizer: true,
@@ -1139,6 +1140,20 @@ describe('storage', () => {
     `);
   });
 
+  it('rejects future.experimental_faster', () => {
+    expect(() =>
+      normalizeConfig({
+        future: {
+          // @ts-expect-error: testing removed config
+          experimental_faster: true,
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "The Docusaurus config \`future.experimental_faster\` has been renamed to \`future.faster\`. Please update your Docusaurus config.
+      "
+    `);
+  });
+
   describe('type', () => {
     it('accepts type', () => {
       const storage: Partial<StorageConfig> = {
@@ -1332,8 +1347,9 @@ describe('future', () => {
         removeLegacyPostBuildHeadAttribute: true,
         useCssCascadeLayers: true,
         siteStorageNamespacing: true,
+        fasterByDefault: true,
       },
-      experimental_faster: {
+      faster: {
         swcJsLoader: true,
         swcJsMinimizer: true,
         swcHtmlMinimizer: true,
@@ -1648,7 +1664,7 @@ describe('future', () => {
   describe('faster', () => {
     function fasterContaining(faster: Partial<FasterConfig>) {
       return futureContaining({
-        experimental_faster: expect.objectContaining(faster),
+        faster: expect.objectContaining(faster),
       });
     }
 
@@ -1656,7 +1672,7 @@ describe('future', () => {
       expect(
         normalizeConfig({
           future: {
-            experimental_faster: undefined,
+            faster: undefined,
           },
         }),
       ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
@@ -1665,7 +1681,7 @@ describe('future', () => {
     it('accepts faster - empty', () => {
       expect(
         normalizeConfig({
-          future: {experimental_faster: {}},
+          future: {faster: {}},
         }),
       ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
     });
@@ -1686,7 +1702,7 @@ describe('future', () => {
         normalizeConfig({
           future: {
             v4: true,
-            experimental_faster: faster,
+            faster: faster,
           },
         }),
       ).toEqual(fasterContaining(faster));
@@ -1695,7 +1711,7 @@ describe('future', () => {
     it('accepts faster - false', () => {
       expect(
         normalizeConfig({
-          future: {experimental_faster: false},
+          future: {faster: false},
         }),
       ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
     });
@@ -1705,7 +1721,7 @@ describe('future', () => {
         normalizeConfig({
           future: {
             v4: true,
-            experimental_faster: true,
+            faster: true,
           },
         }),
       ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
@@ -1716,11 +1732,11 @@ describe('future', () => {
         normalizeConfig({
           future: {
             v4: false,
-            experimental_faster: true,
+            faster: true,
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+        "Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
         If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
         All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
       `);
@@ -1731,11 +1747,11 @@ describe('future', () => {
         normalizeConfig({
           future: {
             v4: false,
-            experimental_faster: true,
+            faster: true,
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+        "Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
         If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
         All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
       `);
@@ -1747,11 +1763,11 @@ describe('future', () => {
       expect(() =>
         normalizeConfig({
           future: {
-            experimental_faster: faster,
+            faster: faster,
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_faster" must be one of [object, boolean]
+        ""future.faster" must be one of [object, boolean]
         "
       `);
     });
@@ -1764,7 +1780,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsLoader: false}));
@@ -1777,7 +1793,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsLoader: true}));
@@ -1790,7 +1806,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsLoader: false}));
@@ -1802,11 +1818,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcJsLoader" must be a boolean
+          ""future.faster.swcJsLoader" must be a boolean
           "
         `);
       });
@@ -1817,11 +1833,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcJsLoader" must be a boolean
+          ""future.faster.swcJsLoader" must be a boolean
           "
         `);
       });
@@ -1835,7 +1851,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsMinimizer: false}));
@@ -1848,7 +1864,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsMinimizer: true}));
@@ -1861,7 +1877,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsMinimizer: false}));
@@ -1873,11 +1889,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcJsMinimizer" must be a boolean
+          ""future.faster.swcJsMinimizer" must be a boolean
           "
         `);
       });
@@ -1888,11 +1904,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcJsMinimizer" must be a boolean
+          ""future.faster.swcJsMinimizer" must be a boolean
           "
         `);
       });
@@ -1906,7 +1922,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
@@ -1919,7 +1935,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({swcHtmlMinimizer: true}));
@@ -1932,7 +1948,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
@@ -1944,11 +1960,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcHtmlMinimizer" must be a boolean
+          ""future.faster.swcHtmlMinimizer" must be a boolean
           "
         `);
       });
@@ -1959,11 +1975,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcHtmlMinimizer" must be a boolean
+          ""future.faster.swcHtmlMinimizer" must be a boolean
           "
         `);
       });
@@ -1977,7 +1993,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({lightningCssMinimizer: false}));
@@ -1990,7 +2006,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({lightningCssMinimizer: true}));
@@ -2003,7 +2019,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({lightningCssMinimizer: false}));
@@ -2015,11 +2031,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.lightningCssMinimizer" must be a boolean
+          ""future.faster.lightningCssMinimizer" must be a boolean
           "
         `);
       });
@@ -2030,11 +2046,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.lightningCssMinimizer" must be a boolean
+          ""future.faster.lightningCssMinimizer" must be a boolean
           "
         `);
       });
@@ -2048,7 +2064,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
@@ -2061,7 +2077,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({mdxCrossCompilerCache: true}));
@@ -2074,7 +2090,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
@@ -2086,11 +2102,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.mdxCrossCompilerCache" must be a boolean
+          ""future.faster.mdxCrossCompilerCache" must be a boolean
           "
         `);
       });
@@ -2101,11 +2117,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.mdxCrossCompilerCache" must be a boolean
+          ""future.faster.mdxCrossCompilerCache" must be a boolean
           "
         `);
       });
@@ -2119,7 +2135,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({rspackBundler: false}));
@@ -2132,7 +2148,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({rspackBundler: true}));
@@ -2145,7 +2161,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({rspackBundler: false}));
@@ -2157,11 +2173,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.rspackBundler" must be a boolean
+          ""future.faster.rspackBundler" must be a boolean
           "
         `);
       });
@@ -2172,11 +2188,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.rspackBundler" must be a boolean
+          ""future.faster.rspackBundler" must be a boolean
           "
         `);
       });
@@ -2190,7 +2206,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({rspackPersistentCache: false}));
@@ -2204,7 +2220,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({rspackPersistentCache: true}));
@@ -2218,11 +2234,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(
-          `"Docusaurus config flag \`future.experimental_faster.rspackPersistentCache\` requires the flag \`future.experimental_faster.rspackBundler\` to be turned on."`,
+          `"Docusaurus config flag \`future.faster.rspackPersistentCache\` requires the flag \`future.faster.rspackBundler\` to be turned on."`,
         );
       });
 
@@ -2234,11 +2250,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(
-          `"Docusaurus config flag \`future.experimental_faster.rspackPersistentCache\` requires the flag \`future.experimental_faster.rspackBundler\` to be turned on."`,
+          `"Docusaurus config flag \`future.faster.rspackPersistentCache\` requires the flag \`future.faster.rspackBundler\` to be turned on."`,
         );
       });
 
@@ -2249,7 +2265,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({rspackPersistentCache: false}));
@@ -2261,11 +2277,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.rspackPersistentCache" must be a boolean
+          ""future.faster.rspackPersistentCache" must be a boolean
           "
         `);
       });
@@ -2276,11 +2292,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.rspackPersistentCache" must be a boolean
+          ""future.faster.rspackPersistentCache" must be a boolean
           "
         `);
       });
@@ -2294,7 +2310,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({ssgWorkerThreads: false}));
@@ -2308,7 +2324,7 @@ describe('future', () => {
           normalizeConfig({
             future: {
               v4: true,
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({ssgWorkerThreads: true}));
@@ -2322,11 +2338,11 @@ describe('future', () => {
           normalizeConfig({
             future: {
               v4: false,
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+          "Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
           If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
           All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
         `);
@@ -2340,11 +2356,11 @@ describe('future', () => {
           normalizeConfig({
             future: {
               v4: undefined,
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+          "Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
           If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
           All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
         `);
@@ -2357,7 +2373,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({ssgWorkerThreads: false}));
@@ -2369,11 +2385,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.ssgWorkerThreads" must be a boolean
+          ""future.faster.ssgWorkerThreads" must be a boolean
           "
         `);
       });
@@ -2384,11 +2400,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.ssgWorkerThreads" must be a boolean
+          ""future.faster.ssgWorkerThreads" must be a boolean
           "
         `);
       });
@@ -2402,7 +2418,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(fasterContaining({gitEagerVcs: false}));
@@ -2415,12 +2431,12 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(
           futureContaining({
-            experimental_faster: expect.objectContaining(faster),
+            faster: expect.objectContaining(faster),
             experimental_vcs: getVcsPreset('default-v2'),
           }),
         );
@@ -2433,12 +2449,12 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toEqual(
           futureContaining({
-            experimental_faster: expect.objectContaining(faster),
+            faster: expect.objectContaining(faster),
             experimental_vcs: getVcsPreset('default-v1'),
           }),
         );
@@ -2450,11 +2466,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.gitEagerVcs" must be a boolean
+          ""future.faster.gitEagerVcs" must be a boolean
           "
         `);
       });
@@ -2465,14 +2481,57 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster: faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.gitEagerVcs" must be a boolean
+          ""future.faster.gitEagerVcs" must be a boolean
           "
         `);
       });
+    });
+
+    it('v4.fasterByDefault defaults all faster flags to true', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            v4: {
+              fasterByDefault: true,
+              removeLegacyPostBuildHeadAttribute: true,
+            },
+          },
+        }),
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
+    });
+
+    it('v4.fasterByDefault with partial faster keeps overrides', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            v4: {
+              fasterByDefault: true,
+              removeLegacyPostBuildHeadAttribute: true,
+            },
+            faster: {swcJsLoader: false},
+          },
+        }),
+      ).toEqual(
+        fasterContaining({
+          ...DEFAULT_FASTER_CONFIG_TRUE,
+          swcJsLoader: false,
+        }),
+      );
+    });
+
+    it('faster: false overrides fasterByDefault', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            v4: {fasterByDefault: true},
+            faster: false,
+          },
+        }),
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
     });
   });
 
@@ -2506,6 +2565,7 @@ describe('future', () => {
         removeLegacyPostBuildHeadAttribute: true,
         useCssCascadeLayers: true,
         siteStorageNamespacing: true,
+        fasterByDefault: true,
       };
       expect(
         normalizeConfig({
@@ -2766,6 +2826,82 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           ""future.v4.siteStorageNamespacing" must be a boolean
+          "
+        `);
+      });
+    });
+
+    describe('fasterByDefault', () => {
+      it('accepts - undefined', () => {
+        const v4: Partial<FutureV4Config> = {
+          fasterByDefault: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({fasterByDefault: false}));
+      });
+
+      it('accepts - true', () => {
+        const v4: Partial<FutureV4Config> = {
+          fasterByDefault: true,
+          removeLegacyPostBuildHeadAttribute: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({fasterByDefault: true}));
+      });
+
+      it('accepts - false', () => {
+        const v4: Partial<FutureV4Config> = {
+          fasterByDefault: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({fasterByDefault: false}));
+      });
+
+      it('rejects - null', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          fasterByDefault: null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.fasterByDefault" must be a boolean
+          "
+        `);
+      });
+
+      it('rejects - number', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          fasterByDefault: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          ""future.v4.fasterByDefault" must be a boolean
           "
         `);
       });

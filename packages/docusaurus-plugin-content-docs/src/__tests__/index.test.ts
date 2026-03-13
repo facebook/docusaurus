@@ -330,7 +330,7 @@ describe('simple website', () => {
       configureWebpackUtils: await createConfigureWebpackUtils({
         siteConfig: {
           webpack: {jsLoader: 'babel'},
-          future: {experimental_faster: fromPartial({})},
+          future: {faster: fromPartial({})},
         },
       }),
       content,

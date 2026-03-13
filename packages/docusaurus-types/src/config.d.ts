@@ -40,6 +40,7 @@ export type FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: boolean;
   useCssCascadeLayers: boolean;
   siteStorageNamespacing: boolean;
+  fasterByDefault: boolean;
 };
 
 // VCS (Version Control System) info about a given change, e.g., a git commit.
@@ -95,7 +96,7 @@ export type FutureConfig = {
    */
   v4: FutureV4Config;
 
-  experimental_faster: FasterConfig;
+  faster: FasterConfig;
 
   experimental_vcs: VcsConfig;
 
@@ -421,7 +422,7 @@ export type Config = Overwrite<
       DeepPartial<FutureConfig>,
       {
         v4?: boolean | Partial<FutureV4Config>;
-        experimental_faster?: boolean | Partial<FasterConfig>;
+        faster?: boolean | Partial<FasterConfig>;
         experimental_vcs?: VcsPreset | VcsConfig | boolean;
       }
     >;

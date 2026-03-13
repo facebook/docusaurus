@@ -130,7 +130,7 @@ export async function createBaseConfig({
       return disabledPersistentCacheValue;
     }
     if (props.currentBundler.name === 'rspack') {
-      if (props.siteConfig.future.experimental_faster.rspackPersistentCache) {
+      if (props.siteConfig.future.faster.rspackPersistentCache) {
         // Use cache: true + experiments.cache.type: "persistent"
         // See https://rspack.dev/config/experiments#persistent-cache
         return true;

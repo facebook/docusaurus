@@ -16,15 +16,15 @@ import type {CurrentBundler, DocusaurusConfig} from '@docusaurus/types';
 // We inject a site config slice because the Rspack flag might change place
 type SiteConfigSlice = {
   future: {
-    experimental_faster: Pick<
-      DocusaurusConfig['future']['experimental_faster'],
+    faster: Pick<
+      DocusaurusConfig['future']['faster'],
       'rspackBundler'
     >;
   };
 };
 
 function isRspack(siteConfig: SiteConfigSlice): boolean {
-  return siteConfig.future.experimental_faster.rspackBundler;
+  return siteConfig.future.faster.rspackBundler;
 }
 
 export async function getCurrentBundler({

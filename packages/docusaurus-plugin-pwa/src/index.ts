@@ -157,7 +157,7 @@ export default function pluginPWA(
           minimizer: debug
             ? []
             : await getMinimizers({
-                faster: props.siteConfig.future.experimental_faster,
+                faster: props.siteConfig.future.faster,
                 currentBundler: props.currentBundler,
               }),
         },

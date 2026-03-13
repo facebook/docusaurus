@@ -101,6 +101,7 @@ export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: false,
   useCssCascadeLayers: false,
   siteStorageNamespacing: false,
+  fasterByDefault: false,
 };
 
 // When using the "v4: true" shortcut
@@ -108,11 +109,12 @@ export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
   removeLegacyPostBuildHeadAttribute: true,
   useCssCascadeLayers: true,
   siteStorageNamespacing: true,
+  fasterByDefault: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
-  experimental_faster: DEFAULT_FASTER_CONFIG,
+  faster: DEFAULT_FASTER_CONFIG,
   experimental_vcs: getVcsPreset('default-v1'),
   experimental_router: 'browser',
 };
@@ -278,30 +280,21 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
+// Individual boolean defaults are not set here on purpose
+// They are resolved in postProcessDocusaurusConfig based on
+// the future.v4.fasterByDefault flag
 const FASTER_CONFIG_SCHEMA = Joi.alternatives()
   .try(
     Joi.object<FasterConfig>({
-      swcJsLoader: Joi.boolean().default(DEFAULT_FASTER_CONFIG.swcJsLoader),
-      swcJsMinimizer: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.swcJsMinimizer,
-      ),
-      swcHtmlMinimizer: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.swcHtmlMinimizer,
-      ),
-      lightningCssMinimizer: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.lightningCssMinimizer,
-      ),
-      mdxCrossCompilerCache: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.mdxCrossCompilerCache,
-      ),
-      rspackBundler: Joi.boolean().default(DEFAULT_FASTER_CONFIG.rspackBundler),
-      rspackPersistentCache: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.rspackPersistentCache,
-      ),
-      ssgWorkerThreads: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.ssgWorkerThreads,
-      ),
-      gitEagerVcs: Joi.boolean().default(DEFAULT_FASTER_CONFIG.gitEagerVcs),
+      swcJsLoader: Joi.boolean(),
+      swcJsMinimizer: Joi.boolean(),
+      swcHtmlMinimizer: Joi.boolean(),
+      lightningCssMinimizer: Joi.boolean(),
+      mdxCrossCompilerCache: Joi.boolean(),
+      rspackBundler: Joi.boolean(),
+      rspackPersistentCache: Joi.boolean(),
+      ssgWorkerThreads: Joi.boolean(),
+      gitEagerVcs: Joi.boolean(),
     }),
     Joi.boolean()
       .required()
@@ -309,8 +302,7 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
         bool ? DEFAULT_FASTER_CONFIG_TRUE : DEFAULT_FASTER_CONFIG,
       ),
   )
-  .optional()
-  .default(DEFAULT_FASTER_CONFIG);
+  .optional();
 
 const FUTURE_V4_SCHEMA = Joi.alternatives()
   .try(
@@ -323,6 +315,9 @@ const FUTURE_V4_SCHEMA = Joi.alternatives()
       ),
       siteStorageNamespacing: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.siteStorageNamespacing,
+      ),
+      fasterByDefault: Joi.boolean().default(
+        DEFAULT_FUTURE_V4_CONFIG.fasterByDefault,
       ),
     }),
     Joi.boolean()
@@ -377,10 +372,10 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
 }).default(true);
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<
-  FutureConfig & {experimental_storage: never}
+  FutureConfig & {experimental_storage: never; experimental_faster: never}
 >({
   v4: FUTURE_V4_SCHEMA,
-  experimental_faster: FASTER_CONFIG_SCHEMA,
+  faster: FASTER_CONFIG_SCHEMA,
   experimental_vcs: VCS_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
@@ -393,6 +388,15 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<
       )} has been promoted to a stable top-level ${logger.code(
         'storage',
       )} config attribute. Please move your storage config to the top level.`,
+    }),
+  experimental_faster: Joi.any()
+    .forbidden()
+    .messages({
+      'any.unknown': `The Docusaurus config ${logger.code(
+        'future.experimental_faster',
+      )} has been renamed to ${logger.code(
+        'future.faster',
+      )}. Please update your Docusaurus config.`,
     }),
 })
   .optional()
@@ -557,6 +561,29 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
     config.storage.namespace = config.future.v4.siteStorageNamespacing;
   }
 
+  // Resolve faster config based on the v4.fasterByDefault flag
+  // undefined means "not explicitly set by user"
+  if (config.future.faster === undefined) {
+    config.future.faster = {} as FasterConfig;
+  }
+  const fasterDefault = config.future.v4.fasterByDefault;
+  const fasterKeys: (keyof FasterConfig)[] = [
+    'swcJsLoader',
+    'swcJsMinimizer',
+    'swcHtmlMinimizer',
+    'lightningCssMinimizer',
+    'mdxCrossCompilerCache',
+    'rspackBundler',
+    'rspackPersistentCache',
+    'ssgWorkerThreads',
+    'gitEagerVcs',
+  ];
+  for (const key of fasterKeys) {
+    if (config.future.faster[key] === undefined) {
+      config.future.faster[key] = fasterDefault;
+    }
+  }
+
   if (config.onBrokenMarkdownLinks) {
     logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
 Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
@@ -569,7 +596,7 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
   // We normalize the VCS config when using a boolean value
   if (typeof config.future.experimental_vcs === 'boolean') {
     const vcsConfig = config.future.experimental_vcs
-      ? config.future.experimental_faster.gitEagerVcs
+      ? config.future.faster.gitEagerVcs
         ? getVcsPreset('default-v2')
         : getVcsPreset('default-v1')
       : getVcsPreset('disabled');
@@ -578,12 +605,12 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
   }
 
   if (
-    config.future.experimental_faster.ssgWorkerThreads &&
+    config.future.faster.ssgWorkerThreads &&
     !config.future.v4.removeLegacyPostBuildHeadAttribute
   ) {
     throw new Error(
       `Docusaurus config ${logger.code(
-        'future.experimental_faster.ssgWorkerThreads',
+        'future.faster.ssgWorkerThreads',
       )} requires the future flag ${logger.code(
         'future.v4.removeLegacyPostBuildHeadAttribute',
       )} to be turned on.
@@ -595,14 +622,14 @@ All the v4 future flags are documented here: https://docusaurus.io/docs/api/docu
   }
 
   if (
-    config.future.experimental_faster.rspackPersistentCache &&
-    !config.future.experimental_faster.rspackBundler
+    config.future.faster.rspackPersistentCache &&
+    !config.future.faster.rspackBundler
   ) {
     throw new Error(
       `Docusaurus config flag ${logger.code(
-        'future.experimental_faster.rspackPersistentCache',
+        'future.faster.rspackPersistentCache',
       )} requires the flag ${logger.code(
-        'future.experimental_faster.rspackBundler',
+        'future.faster.rspackBundler',
       )} to be turned on.`,
     );
   }

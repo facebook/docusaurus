@@ -179,7 +179,7 @@ export default async function createConfigAsync() {
     url: 'https://docusaurus.io',
     future: {
       v4: !isSlower, // Not accurate, but good enough
-      experimental_faster: isSlower
+      faster: isSlower
         ? false
         : {
             // Verbose object: easier to independently test single attributes
