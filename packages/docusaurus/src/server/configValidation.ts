@@ -567,17 +567,9 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
     config.future.faster = {} as FasterConfig;
   }
   const fasterDefault = config.future.v4.fasterByDefault;
-  const fasterKeys: (keyof FasterConfig)[] = [
-    'swcJsLoader',
-    'swcJsMinimizer',
-    'swcHtmlMinimizer',
-    'lightningCssMinimizer',
-    'mdxCrossCompilerCache',
-    'rspackBundler',
-    'rspackPersistentCache',
-    'ssgWorkerThreads',
-    'gitEagerVcs',
-  ];
+  const fasterKeys = Object.keys(
+    DEFAULT_FASTER_CONFIG,
+  ) as (keyof FasterConfig)[];
   for (const key of fasterKeys) {
     if (config.future.faster[key] === undefined) {
       config.future.faster[key] = fasterDefault;
