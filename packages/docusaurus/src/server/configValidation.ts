@@ -592,8 +592,8 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
       logger.warn(`The Docusaurus bundler Rspack doesn't support the Yarn PnP linker yet.
 Your app will be built with Webpack instead of Rspack.
 See also https://github.com/facebook/docusaurus/issues/10787`);
-      config.future.faster.rspackBundler = true;
-      config.future.faster.rspackPersistentCache = true;
+      config.future.faster.rspackBundler = false;
+      config.future.faster.rspackPersistentCache = false;
     }
   }
 
