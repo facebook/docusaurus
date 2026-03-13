@@ -584,6 +584,19 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
     }
   }
 
+  // Docusaurus Faster (Rspack) doesn't work with Yarn PnP :s
+  // Until we support Rspacl+PnP, we simply revert to Webpack with a warning
+  // See https://github.com/facebook/docusaurus/issues/10787
+  if (process.versions.pnp) {
+    if (config.future.faster.rspackBundler) {
+      logger.warn(`The Docusaurus bundler Rspack doesn't support the Yarn PnP linker yet.
+Your app will be built with Webpack instead of Rspack.
+See also https://github.com/facebook/docusaurus/issues/10787`);
+      config.future.faster.rspackBundler = false;
+      config.future.faster.rspackPersistentCache = false;
+    }
+  }
+
   if (config.onBrokenMarkdownLinks) {
     logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
 Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
