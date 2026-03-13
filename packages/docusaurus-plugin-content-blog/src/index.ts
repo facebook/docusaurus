@@ -118,8 +118,7 @@ export default async function pluginContentBlog(
     const contentDirs = getContentPathList(contentPaths);
 
     const mdxLoaderItem = await createMDXLoaderItem({
-      useCrossCompilerCache:
-        siteConfig.future.faster.mdxCrossCompilerCache,
+      useCrossCompilerCache: siteConfig.future.faster.mdxCrossCompilerCache,
       admonitions,
       remarkPlugins,
       rehypePlugins,

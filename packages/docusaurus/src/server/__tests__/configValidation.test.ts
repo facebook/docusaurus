@@ -1702,7 +1702,7 @@ describe('future', () => {
         normalizeConfig({
           future: {
             v4: true,
-            faster: faster,
+            faster,
           },
         }),
       ).toEqual(fasterContaining(faster));
@@ -1763,7 +1763,7 @@ describe('future', () => {
       expect(() =>
         normalizeConfig({
           future: {
-            faster: faster,
+            faster,
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
@@ -1780,7 +1780,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsLoader: false}));
@@ -1793,7 +1793,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsLoader: true}));
@@ -1806,7 +1806,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsLoader: false}));
@@ -1818,7 +1818,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -1833,7 +1833,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -1851,7 +1851,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsMinimizer: false}));
@@ -1864,7 +1864,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsMinimizer: true}));
@@ -1877,7 +1877,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsMinimizer: false}));
@@ -1889,7 +1889,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -1904,7 +1904,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -1922,7 +1922,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
@@ -1935,7 +1935,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcHtmlMinimizer: true}));
@@ -1948,7 +1948,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
@@ -1960,7 +1960,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -1975,7 +1975,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -1993,7 +1993,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({lightningCssMinimizer: false}));
@@ -2006,7 +2006,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({lightningCssMinimizer: true}));
@@ -2019,7 +2019,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({lightningCssMinimizer: false}));
@@ -2031,7 +2031,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2046,7 +2046,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2064,7 +2064,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
@@ -2077,7 +2077,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({mdxCrossCompilerCache: true}));
@@ -2090,7 +2090,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
@@ -2102,7 +2102,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2117,7 +2117,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2135,7 +2135,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackBundler: false}));
@@ -2148,7 +2148,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackBundler: true}));
@@ -2161,7 +2161,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackBundler: false}));
@@ -2173,7 +2173,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2188,7 +2188,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2206,7 +2206,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackPersistentCache: false}));
@@ -2220,7 +2220,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackPersistentCache: true}));
@@ -2234,7 +2234,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(
@@ -2250,7 +2250,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(
@@ -2265,7 +2265,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackPersistentCache: false}));
@@ -2277,7 +2277,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2292,7 +2292,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2310,7 +2310,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({ssgWorkerThreads: false}));
@@ -2324,7 +2324,7 @@ describe('future', () => {
           normalizeConfig({
             future: {
               v4: true,
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({ssgWorkerThreads: true}));
@@ -2338,7 +2338,7 @@ describe('future', () => {
           normalizeConfig({
             future: {
               v4: false,
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2356,7 +2356,7 @@ describe('future', () => {
           normalizeConfig({
             future: {
               v4: undefined,
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2373,7 +2373,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({ssgWorkerThreads: false}));
@@ -2385,7 +2385,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2400,7 +2400,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2418,7 +2418,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({gitEagerVcs: false}));
@@ -2431,7 +2431,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(
@@ -2449,7 +2449,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toEqual(
@@ -2466,7 +2466,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
@@ -2481,7 +2481,7 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
