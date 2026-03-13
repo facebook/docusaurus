@@ -264,6 +264,21 @@ export async function getGitCreation(
   return getGitCommitInfo(filePath, 'oldest');
 }
 
+export async function isGitInsideWorktree(cwd: string): Promise<boolean> {
+  try {
+    const result = await execa('git', ['rev-parse', '--is-inside-work-tree'], {
+      cwd,
+      reject: false,
+    });
+    return result.exitCode === 0;
+  } catch (error) {
+    throw new Error(
+      `Couldn't check if this directory is within a Git worktree: ${cwd}`,
+      {cause: error},
+    );
+  }
+}
+
 export async function getGitRepoRoot(cwd: string): Promise<string> {
   const createErrorMessageBase = () => {
     return `Couldn't find the git repository root directory
