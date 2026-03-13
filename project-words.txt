@@ -364,6 +364,8 @@ webfactory
 webpackbar
 webstorm
 Wolcott
+Worktree
+worktree
 Xplorer
 XSOAR
 Yacop
