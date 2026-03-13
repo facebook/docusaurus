@@ -202,7 +202,7 @@ By contributing to Docusaurus, you agree that your contributions will be license
  */
 ```
 
-This is also auto-fixable with the `header/header` ESLint rule.
+This is also auto-fixable with the `@tony.ganchev/header/header` ESLint rule.
 
 ### Contributor License Agreement (CLA)
 

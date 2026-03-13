@@ -1,5 +1,5 @@
-// Provided by Canny.
 /* eslint-disable */
+// Provided by Canny.
 
 function cannyScript() {
   !(function (w, d, i, s) {

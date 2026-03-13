@@ -3901,6 +3901,11 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
+"@tony.ganchev/eslint-plugin-header@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@tony.ganchev/eslint-plugin-header/-/eslint-plugin-header-3.3.0.tgz#723ce34b15d8f19f822fdee23ead299c4339b2d8"
+  integrity sha512-yWP5n7GXWU2NdOJuQtGSKiRm4i+YwqSjNqHMCOscnzHiv9rI7PIap7DiHz4E4ajWa0MdQICxnwKrk5isvZFcjw==
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -8489,11 +8494,6 @@ eslint-plugin-eslint-plugin@^5.1.0:
   dependencies:
     eslint-utils "^3.0.0"
     estraverse "^5.3.0"
-
-eslint-plugin-header@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-header/-/eslint-plugin-header-3.1.1.tgz#6ce512432d57675265fac47292b50d1eff11acd6"
-  integrity sha512-9vlKxuJ4qf793CmeeSrZUvVClw6amtpghq3CuWcB5cUNnWHQhgcqy5eF8oVKFk1G3Y/CbchGfEaw3wiIJaNmVg==
 
 eslint-plugin-import@^2.27.5:
   version "2.31.0"

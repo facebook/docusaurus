@@ -62,7 +62,7 @@ module.exports = {
   plugins: [
     'react-compiler',
     'react-hooks',
-    'header',
+    '@tony.ganchev/header',
     'jest',
     '@typescript-eslint',
     'regexp',
@@ -219,17 +219,29 @@ module.exports = {
     'prefer-template': WARNING,
     yoda: WARNING,
 
-    'header/header': [
+    '@tony.ganchev/header/header': [
       ERROR,
-      'block',
-      [
-        '*',
-        ' * Copyright (c) Facebook, Inc. and its affiliates.',
-        ' *',
-        ' * This source code is licensed under the MIT license found in the',
-        ' * LICENSE file in the root directory of this source tree.',
-        ' ',
-      ],
+      {
+        header: {
+          commentType: 'block',
+          lines: [
+            '*',
+            ' * Copyright (c) Facebook, Inc. and its affiliates.',
+            ' *',
+            ' * This source code is licensed under the MIT license found in the',
+            ' * LICENSE file in the root directory of this source tree.',
+            ' ',
+          ],
+        },
+        leadingComments: {
+          comments: [
+            {
+              commentType: 'block',
+              lines: [/^\* @jest-environment \w+ $/]
+            }
+          ]
+        }
+      }
     ],
 
     'import/extensions': OFF,
@@ -483,7 +495,7 @@ module.exports = {
     {
       files: ['packages/create-docusaurus/templates/**/*.{js,ts,tsx}'],
       rules: {
-        'header/header': OFF,
+        '@tony.ganchev/header/header': OFF,
         'global-require': OFF,
         '@typescript-eslint/no-var-requires': OFF,
         '@docusaurus/no-untranslated-text': OFF,
