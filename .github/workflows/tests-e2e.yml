@@ -149,8 +149,6 @@ jobs:
           # https://yarnpkg.com/features/pnp#fallback-mode
           yarn config set pnpFallbackMode none
 
-          yarn config set 'packageExtensions["@docusaurus/bundler@*"]' --json '{"dependencies":{"@docusaurus/faster":"*"}}'
-
           yarn || yarn || yarn
         working-directory: ../test-website
         env:

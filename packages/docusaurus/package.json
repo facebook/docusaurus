@@ -90,9 +90,15 @@
     "tree-node-cli": "^1.6.0"
   },
   "peerDependencies": {
+    "@docusaurus/faster": "*",
     "@mdx-js/react": "^3.0.0",
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@docusaurus/faster": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=20.0"
