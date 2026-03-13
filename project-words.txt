@@ -272,6 +272,7 @@ rsdoctor
 RSPACK
 Rspack
 rspack
+Rspacl
 Rspress
 rtcts
 runneradmin
