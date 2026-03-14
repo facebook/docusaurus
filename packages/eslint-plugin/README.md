@@ -1,7 +1,8 @@
-# `@docusaurus/eslint-plugin`
+# @docusaurus/eslint-plugin
 
-ESLint plugin to enforce best Docusaurus practices.
+ESLint plugin for Docusaurus best practices.
 
-## Usage
+## Installation
 
-See [eslint-plugin documentation](https://docusaurus.io/docs/api/misc/@docusaurus/eslint-plugin).
+```bash
+npm install --save-dev @docusaurus/eslint-plugin

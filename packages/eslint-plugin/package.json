@@ -1,34 +1,42 @@
 {
   "name": "@docusaurus/eslint-plugin",
+  "description": "ESLint plugin for Docusaurus best practices",
   "version": "3.9.2",
-  "description": "ESLint plugin to enforce best Docusaurus practices.",
-  "main": "lib/index.js",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "eslint",
     "eslintplugin",
-    "eslint-plugin"
+    "docusaurus",
+    "i18n",
+    "translation"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/docusaurus.git",
     "directory": "packages/eslint-plugin"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc --build"
+  },
+  "bugs": {
+    "url": "https://github.com/facebook/docusaurus/issues"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^5.62.0",
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "eslint-plugin-eslint-plugin": "^5.1.0"
+    "@types/eslint": "^8.44.0"
   },
   "peerDependencies": {
-    "eslint": ">=6"
+    "eslint": ">=8"
   },
   "engines": {
     "node": ">=20.0"

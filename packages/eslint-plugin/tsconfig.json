@@ -1,8 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib",
+    "module": "NodeNext",
     "noEmit": false
   },
-  "include": ["src"],
-  "exclude": ["**/__tests__/**"]
+  "include": ["src"]
 }

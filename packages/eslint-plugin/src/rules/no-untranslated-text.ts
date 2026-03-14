@@ -1,82 +1,96 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
+import type {Rule} from 'eslint';
 
-import {isTextLabelChild, createRule} from '../util';
-import type {TSESTree} from '@typescript-eslint/types/dist/ts-estree';
-
-type Options = [
-  {
-    ignoredStrings: string[];
-  },
-];
-type MessageIds = 'translateChildren';
-
-export default createRule<Options, MessageIds>({
-  name: 'no-untranslated-text',
+const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
       description:
-        'enforce text labels in JSX to be wrapped by translate calls',
+        'Enforce that JSX text content is wrapped with <Translate> or translate()',
       recommended: false,
+      url: 'https://docusaurus.io/docs/i18n/tutorial#translate-your-react-code',
     },
     schema: [
       {
         type: 'object',
         properties: {
-          ignoredStrings: {
+          ignoredComponents: {
             type: 'array',
-            items: {
-              type: 'string',
-            },
+            items: {type: 'string'},
+            default: ['code', 'Code', 'pre', 'CodeBlock'],
           },
         },
         additionalProperties: false,
       },
     ],
     messages: {
-      translateChildren:
-        'All text labels in JSX should be wrapped by translate calls',
+      untranslatedText:
+        'Text "{{text}}" is not wrapped in a <Translate> component.',
     },
   },
-  defaultOptions: [
-    {
-      ignoredStrings: [],
-    },
-  ],
 
-  create(context, [options]) {
-    const {ignoredStrings} = options;
+  create(context) {
+    const options = context.options[0] || {};
+    const ignoredComponents: string[] = options.ignoredComponents || [
+      'code',
+      'Code',
+      'pre',
+      'CodeBlock',
+    ];
+
+    function shouldIgnoreText(text: string): boolean {
+      const trimmed = text.trim();
+      if (!trimmed) return true;
+      if (trimmed.length === 1) return true;
+      if (/^[\d.,\s]+$/.test(trimmed)) return true;
+      return false;
+    }
+
+    function isInsideTranslate(node: Rule.Node): boolean {
+      let current = node.parent;
+      while (current) {
+        if (
+          current.type === 'JSXElement' &&
+          current.openingElement?.name?.type === 'JSXIdentifier' &&
+          current.openingElement.name.name === 'Translate'
+        ) {
+          return true;
+        }
+        current = current.parent;
+      }
+      return false;
+    }
+
+    function isInsideIgnored(node: Rule.Node): boolean {
+      let current = node.parent;
+      while (current) {
+        if (
+          current.type === 'JSXElement' &&
+          current.openingElement?.name?.type === 'JSXIdentifier' &&
+          ignoredComponents.includes(current.openingElement.name.name)
+        ) {
+          return true;
+        }
+        current = current.parent;
+      }
+      return false;
+    }
+
     return {
-      JSXElement(node) {
-        if (
-          node.openingElement.selfClosing ||
-          (node.openingElement.name as TSESTree.JSXIdentifier).name ===
-            'Translate'
-        ) {
-          return;
-        }
-        if (
-          node.children.some((child) =>
-            isTextLabelChild(child, {ignoredStrings}),
-          )
-        ) {
-          context.report({node, messageId: 'translateChildren'});
-        }
-      },
-      JSXFragment(node) {
-        if (
-          node.children.some((child) =>
-            isTextLabelChild(child, {ignoredStrings}),
-          )
-        ) {
-          context.report({node, messageId: 'translateChildren'});
-        }
+      JSXText(node) {
+        const text = node.value;
+        if (shouldIgnoreText(text)) return;
+        if (isInsideTranslate(node)) return;
+        if (isInsideIgnored(node)) return;
+
+        const displayText = text.trim().substring(0, 30);
+        context.report({
+          node,
+          messageId: 'untranslatedText',
+          data: {text: displayText},
+        });
       },
     };
   },
-});
+};
+
+export default rule;
