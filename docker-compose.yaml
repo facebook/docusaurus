@@ -1,0 +1,51 @@
+version: "3.9"
+
+# =============================================================================
+# Docusaurus — Docker Compose
+#
+# Profiles:
+#   (default / no profile)  →  production build served by Nginx
+#   --profile dev           →  live-reload dev server on port 3000
+# =============================================================================
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # Production: multi-stage build → Nginx static file server
+  # ---------------------------------------------------------------------------
+  docusaurus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production       # uses the "production" stage from Dockerfile
+    container_name: docusaurus_prod
+    restart: unless-stopped
+    ports:
+      - "80:80"     
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    profiles: ["", "prod"]  
+
+  # ---------------------------------------------------------------------------
+  # Development: hot-reload dev server (yarn start)
+  # ---------------------------------------------------------------------------
+  docusaurus-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development      # uses the "development" stage from Dockerfile
+    container_name: docusaurus_dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true  
+    profiles: ["dev"]
