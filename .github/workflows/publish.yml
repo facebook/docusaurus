@@ -15,11 +15,14 @@ on:
   # Publish release on manual dispatch
   workflow_dispatch:
     inputs:
-      # NPM-specific inputs
+      npm_version:
+        description: 'NPM Version - including prerelease suffix (optional)'
+        required: true
+        default: 3.0.0-alpha.0
       npm_tag:
         type: choice
-        description: 'npm tag'
-        default: canary
+        description: 'NPM Dist Tag'
+        # default: canary
         required: true
         options:
           - canary
@@ -51,7 +54,7 @@ jobs:
           # cache: yarn
 
   publish:
-    name: Publish Canary
+    name: Publish
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -68,8 +71,8 @@ jobs:
           # cache: yarn
       - name: Prepare git
         run: |
-          git config --global user.name "Docusaurus Canary"
-          git config --global user.email "canary@docusaurus.io"
+          git config --global user.name "Docusaurus"
+          git config --global user.email "github@docusaurus.io"
       - name: Installation
         run: yarn || yarn || yarn
         # TODO Docusaurus v4: remove after we upgrade the Node version
@@ -77,7 +80,23 @@ jobs:
         run: |
           yarn add -D -W lerna@9.0.3 --ignore-scripts
           git commit -am "chore: upgrade lerna"
+
       - name: Publish Canary release
+        if: |
+          github.event_name == 'push' ||
+          (github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag == 'canary')
         run: |
           yarn canary:bumpVersion
           yarn canary:publish
+
+      - name: Publish NPM release
+        if: |
+          github.event_name == 'workflow_dispatch' &&
+          github.event.inputs.npm_tag != 'canary'
+        run: |
+          yarn lerna publish \
+            --force-publish \
+            --exact \
+            "${{ github.event.inputs.npm_version }}" \
+            --dist-tag "${{ github.event.inputs.npm_tag }}" \
+            --loglevel verbose
