@@ -10,18 +10,18 @@ on:
     paths:
       - .github/workflows/publish.yml
       - package.json
-      - packages/*
+      - packages/**
 
   # Publish release on manual dispatch
   workflow_dispatch:
     inputs:
       npm_version:
-        description: 'NPM Version - including prerelease suffix (optional)'
+        description: 'NPM Version - Including prerelease suffix (optional)'
         required: true
         default: 3.0.0-alpha.0
       npm_tag:
         type: choice
-        description: 'NPM Dist Tag'
+        description: 'NPM Dist Tag - Use `latest` for official releases'
         # default: canary
         required: true
         options:
