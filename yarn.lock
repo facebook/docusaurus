@@ -3401,81 +3401,81 @@
     fs-extra "^11.1.1"
     lodash "^4.17.21"
 
-"@rspack/binding-darwin-arm64@npm:@rspack-canary/binding-darwin-arm64@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/binding-darwin-arm64/-/binding-darwin-arm64-1.7.9-canary-6410c531-20260317082909.tgz#2a3e825d09ca34e4446e536e6d74576af33a9d94"
-  integrity sha512-hr6rf53vgUeuJXOGk5Ct4sy12o7CTVuUi5fO02mDAMgPSr2KBj9Kx60hK6rwvKK6xh0Kg3fyXqyQjjQc+y0dFA==
+"@rspack/binding-darwin-arm64@1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/binding-darwin-arm64/-/binding-darwin-arm64-1.7.9.tgz#29be9666f97f79ae9968b91bbec86a80a40d0f04"
+  integrity sha512-64dgstte0If5czi9bA/cpOe0ryY6wC9AIQRtyJ3DlOF6Tt+y9cKkmUoGu3V+WYaYIZRT7HNk8V7kL8amVjFTYw==
 
-"@rspack/binding-darwin-x64@npm:@rspack-canary/binding-darwin-x64@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/binding-darwin-x64/-/binding-darwin-x64-1.7.9-canary-6410c531-20260317082909.tgz#1ba53a893d51003e3362979456ce53a7e8994e05"
-  integrity sha512-7Zss0EnpXuKjBrCIn2oIT7BsZyOuyZYmKGt8GskXy4r8uS8QUyRuM5OsbGkFQMV9K8cVm8hA0Zw221sxlpYP3g==
+"@rspack/binding-darwin-x64@1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/binding-darwin-x64/-/binding-darwin-x64-1.7.9.tgz#6ef39ca80250f00b6c8281420488cc8b3cb0b7c0"
+  integrity sha512-2QSLs3w4rLy4UUGVnIlkt6IlIKOzR1e0RPsq2FYQW6s3p9JrwRCtOeHohyh7EJSqF54dtfhe9UZSAwba3LqH1Q==
 
-"@rspack/binding-linux-arm64-gnu@npm:@rspack-canary/binding-linux-arm64-gnu@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/binding-linux-arm64-gnu/-/binding-linux-arm64-gnu-1.7.9-canary-6410c531-20260317082909.tgz#47ecca5636bcea08d137f1062db01899b9dd3d90"
-  integrity sha512-Jf3tKX1B5E6ZnEgIuPPB1pf8mty8CXQ7/ofjNqiwWKG8kVBiPjtky6fWBTi0b6skwVlvlnL+4SwYA1Y27QGFwQ==
+"@rspack/binding-linux-arm64-gnu@1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/binding-linux-arm64-gnu/-/binding-linux-arm64-gnu-1.7.9.tgz#a396d30dd2c0575360c13dfd9fce2672228bc961"
+  integrity sha512-qhUGI/uVfvLmKWts4QkVHGL8yfUyJkblZs+OFD5Upa2y676EOsbQgWsCwX4xGB6Tv+TOzFP0SLh/UfO8ZfdE+w==
 
-"@rspack/binding-linux-arm64-musl@npm:@rspack-canary/binding-linux-arm64-musl@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/binding-linux-arm64-musl/-/binding-linux-arm64-musl-1.7.9-canary-6410c531-20260317082909.tgz#3ef585bd2b6e99e23f4899591335e17e4ef19abe"
-  integrity sha512-KvDXD2Ml58tPTx7RuOo3VPXX8EprWqcOID0asf+MHSTaa/5oDGX+mvgbCyqEzQjokuyYFVhsCeEur0HnEiSUVQ==
+"@rspack/binding-linux-arm64-musl@1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/binding-linux-arm64-musl/-/binding-linux-arm64-musl-1.7.9.tgz#37785ce2cbc328501c3e4704fe82701ce4caf560"
+  integrity sha512-VjfmR1hgO9n3L6MaE5KG+DXSrrLVqHHOkVcOtS2LMq3bjMTwbBywY7ycymcLnX5KJsol8d3ZGYep6IfSOt3lFA==
 
-"@rspack/binding-linux-x64-gnu@npm:@rspack-canary/binding-linux-x64-gnu@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/binding-linux-x64-gnu/-/binding-linux-x64-gnu-1.7.9-canary-6410c531-20260317082909.tgz#e9013a3758c49716f7e9a59ad3ce9f59e461dc31"
-  integrity sha512-sIYNBct2Fmtxdiz0dRwwkgsNb5ASvL/x1kZJOjC9J9eOhxv++s54rt6usqtjW/yJw6OJYdnY/6eDX6COgzqeHg==
+"@rspack/binding-linux-x64-gnu@1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/binding-linux-x64-gnu/-/binding-linux-x64-gnu-1.7.9.tgz#65c31f2fe85d4dd5d857302a698b290240cea6cd"
+  integrity sha512-0kldV+3WTs/VYDWzxJ7K40hCW26IHtnk8xPK3whKoo1649rgeXXa0EdsU5P7hG8Ef5SWQjHHHZ/fuHYSO3Y6HA==
 
-"@rspack/binding-linux-x64-musl@npm:@rspack-canary/binding-linux-x64-musl@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/binding-linux-x64-musl/-/binding-linux-x64-musl-1.7.9-canary-6410c531-20260317082909.tgz#14091e5f4f4c0f3a85a60bcc57146729e004887b"
-  integrity sha512-8qlOo8wBwPfLrwa0mnFAURiu3ISBdGcAhw+a2aG0XqjYXT7H+ogCRnwVQ9IX4xjATYM9aC/31RirhdHD7E/XxQ==
+"@rspack/binding-linux-x64-musl@1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/binding-linux-x64-musl/-/binding-linux-x64-musl-1.7.9.tgz#700ca0e677b8ccce25c42edaf16f018049bc68aa"
+  integrity sha512-Gi4872cFtc2d83FKATR6Qcf2VBa/tFCqffI/IwRRl6Hx5FulEBqx+tH7gAuRVF693vrbXNxK+FQ+k4iEsEJxrw==
 
-"@rspack/binding-wasm32-wasi@npm:@rspack-canary/binding-wasm32-wasi@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/binding-wasm32-wasi/-/binding-wasm32-wasi-1.7.9-canary-6410c531-20260317082909.tgz#c56c60c0f2b02e2d3c99d5923d7942f3a474fa50"
-  integrity sha512-6yy0Zu1CZLX84ftQ/byXU2VK4hL67LyKTJNYcyqOwO31QGOb3UsSY8CLt1QMWeeSGMiexAmeZmeGaY2mCO4VUA==
+"@rspack/binding-wasm32-wasi@1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/binding-wasm32-wasi/-/binding-wasm32-wasi-1.7.9.tgz#a5ce5fc060aa05373b32fc0170247f6d4302d9ac"
+  integrity sha512-5QEzqo6EaolpuZmK6w/mgSueorgGnnzp7dJaAvBj6ECFIg/aLXhXXmWCWbxt7Ws2gKvG5/PgaxDqbUxYL51juA==
   dependencies:
     "@napi-rs/wasm-runtime" "1.0.7"
 
-"@rspack/binding-win32-arm64-msvc@npm:@rspack-canary/binding-win32-arm64-msvc@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/binding-win32-arm64-msvc/-/binding-win32-arm64-msvc-1.7.9-canary-6410c531-20260317082909.tgz#1fdb37487182c0b70a26853d47a2536e2ecf98c3"
-  integrity sha512-qooIOMwQYo7KwwbFNVILfTBJaaiUdmmtFth2MVLPqg2rHqIfICP7je5biq4iPBkYuwnfcUuXin7aZ3sVDQAwsQ==
+"@rspack/binding-win32-arm64-msvc@1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/binding-win32-arm64-msvc/-/binding-win32-arm64-msvc-1.7.9.tgz#0b9cb3f5da38d955d7eb9036d7a0acac3974f78f"
+  integrity sha512-MMqvcrIc8aOqTuHjWkjdzilvoZ3Hv07Od0Foogiyq3JMudsS3Wcmh7T1dFerGg19MOJcRUeEkrg2NQOMOQ6xDA==
 
-"@rspack/binding-win32-ia32-msvc@npm:@rspack-canary/binding-win32-ia32-msvc@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/binding-win32-ia32-msvc/-/binding-win32-ia32-msvc-1.7.9-canary-6410c531-20260317082909.tgz#9b89757102cfc8e9725936a7bf0a9709c46ff92d"
-  integrity sha512-nJ4SdGZAIWq5dyi4QpH9P58tzT2jnsSmb7cPGJzPr/r6v+GNCD4vbJwtamKzbtzc110ozpE5f5pEIBD5svKgdA==
+"@rspack/binding-win32-ia32-msvc@1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/binding-win32-ia32-msvc/-/binding-win32-ia32-msvc-1.7.9.tgz#615fab80a4b75d43979933b16ce33fa42669a86c"
+  integrity sha512-4kYYS+NZ2CuNbKjq40yB/UEyB51o1PHj5wpr+Y943oOJXpEKWU2Q4vkF8VEohPEcnA9cKVotYCnqStme+02suA==
 
-"@rspack/binding-win32-x64-msvc@npm:@rspack-canary/binding-win32-x64-msvc@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/binding-win32-x64-msvc/-/binding-win32-x64-msvc-1.7.9-canary-6410c531-20260317082909.tgz#4252a924636a4ba3b2bb45207a7103c717720b6d"
-  integrity sha512-P5PQ7ux4rOwLOdn8Qtc+Um1E/RsGZxTMsDHwr8ppFssZx51n3RxTpPiNQ/PdaEC1oecFYxruRwzglR45H6qxnA==
+"@rspack/binding-win32-x64-msvc@1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/binding-win32-x64-msvc/-/binding-win32-x64-msvc-1.7.9.tgz#fd3c818bbbdf536c36203654344ea6e22676b1c3"
+  integrity sha512-1g+QyXXvs+838Un/4GaUvJfARDGHMCs15eXDYWBl5m/Skubyng8djWAgr6ag1+cVoJZXCPOvybTItcblWF3gbQ==
 
-"@rspack/binding@npm:@rspack-canary/binding@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/binding/-/binding-1.7.9-canary-6410c531-20260317082909.tgz#6f9d9b181e70a2e87e502a348caa87f054a44cf9"
-  integrity sha512-ttE199bfk3IbdrHjFu3SLntUZGrWDdeAha0DB+iijzhwZWNfC2suXY5RZN1IwBKxN393pBXvqF2ZZOAj/An0pQ==
+"@rspack/binding@1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/binding/-/binding-1.7.9.tgz#4f2a025ad0d0d0bf3d73cfa48b49c930f257ce83"
+  integrity sha512-A56e0NdfNwbOSJoilMkxzaPuVYaKCNn1shuiwWnCIBmhV9ix1n9S1XvquDjkGyv+gCdR1+zfJBOa5DMB7htLHw==
   optionalDependencies:
-    "@rspack/binding-darwin-arm64" "npm:@rspack-canary/binding-darwin-arm64@1.7.9-canary-6410c531-20260317082909"
-    "@rspack/binding-darwin-x64" "npm:@rspack-canary/binding-darwin-x64@1.7.9-canary-6410c531-20260317082909"
-    "@rspack/binding-linux-arm64-gnu" "npm:@rspack-canary/binding-linux-arm64-gnu@1.7.9-canary-6410c531-20260317082909"
-    "@rspack/binding-linux-arm64-musl" "npm:@rspack-canary/binding-linux-arm64-musl@1.7.9-canary-6410c531-20260317082909"
-    "@rspack/binding-linux-x64-gnu" "npm:@rspack-canary/binding-linux-x64-gnu@1.7.9-canary-6410c531-20260317082909"
-    "@rspack/binding-linux-x64-musl" "npm:@rspack-canary/binding-linux-x64-musl@1.7.9-canary-6410c531-20260317082909"
-    "@rspack/binding-wasm32-wasi" "npm:@rspack-canary/binding-wasm32-wasi@1.7.9-canary-6410c531-20260317082909"
-    "@rspack/binding-win32-arm64-msvc" "npm:@rspack-canary/binding-win32-arm64-msvc@1.7.9-canary-6410c531-20260317082909"
-    "@rspack/binding-win32-ia32-msvc" "npm:@rspack-canary/binding-win32-ia32-msvc@1.7.9-canary-6410c531-20260317082909"
-    "@rspack/binding-win32-x64-msvc" "npm:@rspack-canary/binding-win32-x64-msvc@1.7.9-canary-6410c531-20260317082909"
+    "@rspack/binding-darwin-arm64" "1.7.9"
+    "@rspack/binding-darwin-x64" "1.7.9"
+    "@rspack/binding-linux-arm64-gnu" "1.7.9"
+    "@rspack/binding-linux-arm64-musl" "1.7.9"
+    "@rspack/binding-linux-x64-gnu" "1.7.9"
+    "@rspack/binding-linux-x64-musl" "1.7.9"
+    "@rspack/binding-wasm32-wasi" "1.7.9"
+    "@rspack/binding-win32-arm64-msvc" "1.7.9"
+    "@rspack/binding-win32-ia32-msvc" "1.7.9"
+    "@rspack/binding-win32-x64-msvc" "1.7.9"
 
-"@rspack/core@^1.7.5", "@rspack/core@npm:@rspack-canary/core@1.7.9-canary-6410c531-20260317082909":
-  version "1.7.9-canary-6410c531-20260317082909"
-  resolved "https://registry.yarnpkg.com/@rspack-canary/core/-/core-1.7.9-canary-6410c531-20260317082909.tgz#acd3441b67840c44da1983f0692450d4c106356a"
-  integrity sha512-25/oJ37IdRfJzF4f1eOaMLzYFpwMm7RyP8Xzh2GH34P/aEl/oLIiyBB1C7MkxZRYh1P2P5Q7vL6X89T/qHcm0Q==
+"@rspack/core@^1.7.5":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@rspack/core/-/core-1.7.9.tgz#7d75acad2964fb821b1d150e77491c99162829e6"
+  integrity sha512-VHuSKvRkuv42Ya+TxEGO0LE0r9+8P4tKGokmomj4R1f/Nu2vtS3yoaIMfC4fR6VuHGd3MZ+KTI0cNNwHfFcskw==
   dependencies:
     "@module-federation/runtime-tools" "0.22.0"
-    "@rspack/binding" "npm:@rspack-canary/binding@1.7.9-canary-6410c531-20260317082909"
+    "@rspack/binding" "1.7.9"
     "@rspack/lite-tapable" "1.1.0"
 
 "@rspack/lite-tapable@1.1.0":
