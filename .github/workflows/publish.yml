@@ -83,3 +83,6 @@ jobs:
             "${{ github.event.inputs.npm_version }}" \
             --dist-tag "${{ github.event.inputs.npm_tag }}" \
             --loglevel verbose
+            --yes
+            --no-verify-access
+        # TODO Docusaurus v4: upgrade Lerna, remove useless --no-verify-access everywhere
