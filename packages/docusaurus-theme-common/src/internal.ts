@@ -103,6 +103,7 @@ export {useDateTimeFormat} from './utils/IntlUtils';
 export {useHideableNavbar} from './hooks/useHideableNavbar';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
+export {useTabBecameVisibleCallback} from './hooks/useTabBecameVisibleCallback';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
 
 export {useDocCardDescriptionCategoryItemsPlural} from './translations/docsTranslations';

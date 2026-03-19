@@ -5,9 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useRef, type ReactNode} from 'react';
+import React, {useEffect, useRef, useState, type ReactNode} from 'react';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
-import {ErrorBoundaryErrorMessageFallback} from '@docusaurus/theme-common';
+import {
+  ErrorBoundaryErrorMessageFallback,
+  useTabBecameVisibleCallback,
+} from '@docusaurus/theme-common/internal';
 import {
   MermaidContainerClassName,
   useMermaidRenderResult,
@@ -19,10 +22,14 @@ import styles from './styles.module.css';
 
 function MermaidRenderResult({
   renderResult,
+  onTabBecameVisible,
 }: {
   renderResult: RenderResult;
+  onTabBecameVisible: () => void;
 }): ReactNode {
   const ref = useRef<HTMLDivElement>(null);
+
+  useTabBecameVisibleCallback(ref, onTabBecameVisible);
 
   useEffect(() => {
     const div = ref.current!;
@@ -40,11 +47,19 @@ function MermaidRenderResult({
 }
 
 function MermaidRenderer({value}: Props): ReactNode {
-  const renderResult = useMermaidRenderResult({text: value});
+  const [renderCounter, setRenderCounter] = useState(0);
+  const renderResult = useMermaidRenderResult({text: value, renderCounter});
   if (renderResult === null) {
     return null;
   }
-  return <MermaidRenderResult renderResult={renderResult} />;
+  return (
+    <MermaidRenderResult
+      renderResult={renderResult}
+      onTabBecameVisible={() => {
+        setRenderCounter((value) => value + 1);
+      }}
+    />
+  );
 }
 
 export default function Mermaid(props: Props): ReactNode {
