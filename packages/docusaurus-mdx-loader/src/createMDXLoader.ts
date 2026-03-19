@@ -16,11 +16,6 @@ type CreateOptions = {
 async function normalizeOptions(
   optionsInput: Options & CreateOptions,
 ): Promise<Options> {
-  // Because Jest doesn't like ESM / createProcessors()
-  if (process.env.N0DE_ENV === 'test' || process.env.JEST_WORKER_ID) {
-    return optionsInput;
-  }
-
   let options = optionsInput;
 
   // We create the processor earlier here, to avoid the lazy processor creating
