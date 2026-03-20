@@ -1,0 +1,190 @@
+---
+title: Docusaurus 3.10
+authors: [slorber]
+tags: [release]
+image: ./img/social-card.png
+date: 2026-03-26
+---
+
+We are happy to announce **Docusaurus 3.10**.
+
+Upgrading is easy. We follow [Semantic Versioning](https://semver.org/), and minor version updates have **no breaking changes**, accordingly to our [release process](/community/release-process).
+
+![Docusaurus blog post social card](./img/social-card.png)
+
+{/* truncate */}
+
+```mdx-code-block
+import BrowserWindow from '@site/src/components/BrowserWindow';
+```
+
+## Changelog TODO temp
+
+`yarn changelog --from v3.9.2`
+
+#### :rocket: New Feature
+
+- `create-docusaurus`, `docusaurus-bundler`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-pwa`, `docusaurus-types`, `docusaurus`
+- [#11802](https://github.com/facebook/docusaurus/pull/11802) feat(core): Docusaurus Faster is stable + v4 future flag turns it on by default ([@slorber](https://github.com/slorber))
+- `docusaurus-types`, `docusaurus`
+- [#11797](https://github.com/facebook/docusaurus/pull/11797) feat(core): promote `siteConfig.storage` to stable + add `future.v4.siteStorageNamespacing` flag [Claude] ([@slorber](https://github.com/slorber))
+- [#11571](https://github.com/facebook/docusaurus/pull/11571) feat(core): support custom html elements in head tags ([@lebalz](https://github.com/lebalz))
+- `docusaurus-mdx-loader`, `docusaurus-utils`, `docusaurus`
+- [#11777](https://github.com/facebook/docusaurus/pull/11777) feat(cli): `write-heading-ids` CLI now supports the `--syntax` option ([@slorber](https://github.com/slorber))
+- `docusaurus-mdx-loader`
+- [#11755](https://github.com/facebook/docusaurus/pull/11755) feat(mdx-loader): add support for explicit `headingId` based on MD/MDX comments ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-live-codeblock`, `docusaurus-theme-translations`
+- [#11675](https://github.com/facebook/docusaurus/pull/11675) feat(theme-live-codeblock): reset button + wire `position` prop ([@NPX2218](https://github.com/NPX2218))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+- [#11734](https://github.com/facebook/docusaurus/pull/11734) feat(theme): Split `<DocCard>`, improve extensibility, better handling of emoji icons, stable classNames ([@slorber](https://github.com/slorber))
+- [#11733](https://github.com/facebook/docusaurus/pull/11733) feat(theme): Use React context for `<Tabs>`, allow custom `<TabItem>` components ([@slorber](https://github.com/slorber))
+- `docusaurus-faster`, `docusaurus`
+- [#11715](https://github.com/facebook/docusaurus/pull/11715) feat(bundler): upgrade to Rspack 1.7, remove useless experimental feature flags ([@slorber](https://github.com/slorber))
+- Other
+- [#11712](https://github.com/facebook/docusaurus/pull/11712) feat(publish): Use trusted publishing (OIDC) for canary releases ([@slorber](https://github.com/slorber))
+- `create-docusaurus`
+- [#11696](https://github.com/facebook/docusaurus/pull/11696) feat(create-docusaurus): Newly initialized TS sites should use "strict: true" ([@slorber](https://github.com/slorber))
+- [#11611](https://github.com/facebook/docusaurus/pull/11611) feat(create-docusaurus): enable creation in current directory ([@Mcheung7272](https://github.com/Mcheung7272))
+- `docusaurus-plugin-content-pages`
+- [#11666](https://github.com/facebook/docusaurus/pull/11666) feat(pages): add support for Markdown file path links ([@VedantMadane](https://github.com/VedantMadane))
+- `docusaurus-mdx-loader`, `docusaurus-theme-classic`
+- [#11642](https://github.com/facebook/docusaurus/pull/11642) feat(mdx-loader): add admonitions directive support for class/id shortcuts ([@lebalz](https://github.com/lebalz))
+- `docusaurus-theme-classic`
+- [#11635](https://github.com/facebook/docusaurus/pull/11635) feat(theme): add MDXComponents/Li to swizzle config ([@moskalakamil](https://github.com/moskalakamil))
+- `docusaurus-theme-search-algolia`
+- [#11581](https://github.com/facebook/docusaurus/pull/11581) feat(theme-search-algolia): allow overriding transformSearchClient ([@hugohaggmark](https://github.com/hugohaggmark))
+- [#11541](https://github.com/facebook/docusaurus/pull/11541) feat(theme-search-algolia): add support for DocSearch v4.3.2 and new Suggested Questions ([@NatanTechofNY](https://github.com/NatanTechofNY))
+- `create-docusaurus`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-sitemap`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+- [#11512](https://github.com/facebook/docusaurus/pull/11512) feat(core): New siteConfig `future.experimental_vcs` API + `future.experimental_faster.gitEagerVcs` flag ([@slorber](https://github.com/slorber))
+
+#### :bug: Bug Fix
+
+- `docusaurus-utils`
+- [#11804](https://github.com/facebook/docusaurus/pull/11804) fix(utils): Git Eager VSC should have better DX ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`
+- [#11796](https://github.com/facebook/docusaurus/pull/11796) fix(theme): restore copy-text-to-clipboard as lazy fallback for non-secure contexts ([@dmoranp](https://github.com/dmoranp))
+- [#11513](https://github.com/facebook/docusaurus/pull/11513) fix(a11y): add Space key support for navbar dropdowns ([@TheCyperpunk](https://github.com/TheCyperpunk))
+- [#11565](https://github.com/facebook/docusaurus/pull/11565) fix(theme): Change code block line from span to div, fix Firefox text selection/copy bug ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`
+- [#11794](https://github.com/facebook/docusaurus/pull/11794) fix(content-docs): translate generated-index category titles in pagination links ([@dmoranp](https://github.com/dmoranp))
+- [#11743](https://github.com/facebook/docusaurus/pull/11743) fix(content-docs): use category key for generated-index translation lookup ([@4RH1T3CT0R7](https://github.com/4RH1T3CT0R7))
+- [#11616](https://github.com/facebook/docusaurus/pull/11616) fix(docs): breadcrumb APIs only return category/docs items, ignoring links ([@Chesars](https://github.com/Chesars))
+- `docusaurus-plugin-google-gtag`
+- [#11770](https://github.com/facebook/docusaurus/pull/11770) fix(create-docusaurus): update @types/gtag.js to 0.0.20 ([@fresh3nough](https://github.com/fresh3nough))
+- `docusaurus`
+- [#11763](https://github.com/facebook/docusaurus/pull/11763) fix(cli): fix `write-heading-ids` CLI when no files provided ([@slorber](https://github.com/slorber))
+- [#11693](https://github.com/facebook/docusaurus/pull/11693) fix(core): Remove deprecated experiments.lazyBarrel config for RsPack ([@VedikaGupt](https://github.com/VedikaGupt))
+- [#11604](https://github.com/facebook/docusaurus/pull/11604) fix(core): webpack aliases shouldn't be created for test files and typedefs ([@slorber](https://github.com/slorber))
+- [#11603](https://github.com/facebook/docusaurus/pull/11603) fix(core): Fix openBrowser AppleScript support for Arc ([@slorber](https://github.com/slorber))
+- [#11579](https://github.com/facebook/docusaurus/pull/11579) fix(core): in `isInternalUrl()`, URI protocol scheme detection should implement the spec more strictly ([@slorber](https://github.com/slorber))
+- [#11550](https://github.com/facebook/docusaurus/pull/11550) fix(core): optimize i18n integration for site builds + improve inference of locale config ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-search-algolia`
+- [#11683](https://github.com/facebook/docusaurus/pull/11683) fix(algolia): upgrade to DocSearch 4.5 + fix types ([@slorber](https://github.com/slorber))
+- [#11560](https://github.com/facebook/docusaurus/pull/11560) fix(theme-search-algolia): preserve query strings in useSearchResultUrlProcessor ([@pyrytakala](https://github.com/pyrytakala))
+- `docusaurus-plugin-content-blog`
+- [#11736](https://github.com/facebook/docusaurus/pull/11736) fix(content-blog): fix wrong path variable in feed XSLT CSS file validation ([@akshatsinha0](https://github.com/akshatsinha0))
+- [#11577](https://github.com/facebook/docusaurus/pull/11577) fix(blog): Fix author paginated page url: `/blog/authors/<author>/page/2` ([@slorber](https://github.com/slorber))
+- [#11562](https://github.com/facebook/docusaurus/pull/11562) chore(blog): refactor blog Content, remove useless `blogListPaginated` attribute ([@slorber](https://github.com/slorber))
+- [#11559](https://github.com/facebook/docusaurus/pull/11559) fix(content-blog): filter unlisted posts from author pages ([@pyrytakala](https://github.com/pyrytakala))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`
+- [#11713](https://github.com/facebook/docusaurus/pull/11713) fix(a11y): remove `useKeyboardNavigation` hook ([@nmggithub](https://github.com/nmggithub))
+- `docusaurus-plugin-ideal-image`
+- [#11659](https://github.com/facebook/docusaurus/pull/11659) fix(ideal-image): `<IdealImage>` should forward remaining props to the underlying component ([@tempoz](https://github.com/tempoz))
+- `eslint-plugin`
+- [#11587](https://github.com/facebook/docusaurus/pull/11587) fix(eslint-plugin): specify exact type of `no-untranslated-text` rule options ([@andreww2012](https://github.com/andreww2012))
+- `docusaurus-mdx-loader`
+- [#11530](https://github.com/facebook/docusaurus/pull/11530) fix(mdx-loader): fix url.parse deprecation warning on Node 24+ ([@kou029w](https://github.com/kou029w))
+- `docusaurus-bundler`, `docusaurus-faster`, `docusaurus-theme-mermaid`
+- [#11496](https://github.com/facebook/docusaurus/pull/11496) fix(faster): fix server build SWC / browserslist node target ([@slorber](https://github.com/slorber))
+
+#### :running_woman: Performance
+
+- `docusaurus-plugin-content-blog`
+- [#11707](https://github.com/facebook/docusaurus/pull/11707) refactor(content-blog): decouple getTagsFile from generateBlogPosts ([@garry00107](https://github.com/garry00107))
+- `create-docusaurus`, `docusaurus-utils`, `docusaurus`
+- [#11684](https://github.com/facebook/docusaurus/pull/11684) refactor(create-docusaurus): remove useless dependencies (docusaurus-utils, execa, fs-extra) + simplify some code ([@slorber](https://github.com/slorber))
+- `create-docusaurus`
+- [#11653](https://github.com/facebook/docusaurus/pull/11653) refactor(create-docusaurus): replace lodash with native implementation ([@torresgol10](https://github.com/torresgol10))
+
+#### :memo: Documentation
+
+- `docusaurus`
+- [#11779](https://github.com/facebook/docusaurus/pull/11779) chore(website): migrate MDX heading ids to comment syntax + upgrade Crowdin parser version ([@slorber](https://github.com/slorber))
+- Other
+- [#11784](https://github.com/facebook/docusaurus/pull/11784) docs(website): change recommended syntax for math equations ([@slorber](https://github.com/slorber))
+- [#11623](https://github.com/facebook/docusaurus/pull/11623) docs: Add expose-markdown-docusaurus-plugin resource ([@FlyNumber](https://github.com/FlyNumber))
+
+#### :robot: Dependencies
+
+- Other
+- [#11822](https://github.com/facebook/docusaurus/pull/11822) chore(deps): bump flatted from 3.3.1 to 3.4.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11810](https://github.com/facebook/docusaurus/pull/11810) chore(deps): bump marocchino/sticky-pull-request-comment from 2.9.4 to 3.0.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11811](https://github.com/facebook/docusaurus/pull/11811) chore(deps): bump treosh/lighthouse-ci-action from 12.6.1 to 12.6.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11813](https://github.com/facebook/docusaurus/pull/11813) chore(deps): bump socket.io-parser from 4.2.4 to 4.2.6 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11806](https://github.com/facebook/docusaurus/pull/11806) chore(deps): bump yauzl from 3.1.3 to 3.2.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11789](https://github.com/facebook/docusaurus/pull/11789) chore(deps): bump actions/dependency-review-action from 4.8.3 to 4.9.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11790](https://github.com/facebook/docusaurus/pull/11790) chore(deps): bump actions/setup-node from 6.2.0 to 6.3.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11776](https://github.com/facebook/docusaurus/pull/11776) chore(deps): bump dompurify from 3.2.5 to 3.3.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11768](https://github.com/facebook/docusaurus/pull/11768) chore(deps): bump actions/upload-artifact from 6.0.0 to 7.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11774](https://github.com/facebook/docusaurus/pull/11774) chore(deps): bump svgo from 3.2.0 to 3.3.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11762](https://github.com/facebook/docusaurus/pull/11762) chore(deps): bump rollup from 2.79.2 to 2.80.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11756](https://github.com/facebook/docusaurus/pull/11756) chore(deps): bump actions/dependency-review-action from 4.8.2 to 4.8.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11692](https://github.com/facebook/docusaurus/pull/11692) chore(deps): bump actions/checkout from 6.0.1 to 6.0.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11679](https://github.com/facebook/docusaurus/pull/11679) chore(deps): bump lodash from 4.17.21 to 4.17.23 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11674](https://github.com/facebook/docusaurus/pull/11674) chore(deps): bump actions/setup-node from 6.1.0 to 6.2.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11625](https://github.com/facebook/docusaurus/pull/11625) chore(deps): bump preactjs/compressed-size-action from 2.8.0 to 2.9.0 - pin all remaining GitHub actions ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11608](https://github.com/facebook/docusaurus/pull/11608) chore(deps): bump actions/setup-node from 6.0.0 to 6.1.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11609](https://github.com/facebook/docusaurus/pull/11609) chore(deps): bump actions/checkout from 6.0.0 to 6.0.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11589](https://github.com/facebook/docusaurus/pull/11589) chore(deps): bump mdast-util-to-hast from 13.2.0 to 13.2.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11574](https://github.com/facebook/docusaurus/pull/11574) chore(deps): bump node-forge from 1.3.1 to 1.3.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11557](https://github.com/facebook/docusaurus/pull/11557) chore(deps): bump actions/dependency-review-action from 4.8.1 to 4.8.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11569](https://github.com/facebook/docusaurus/pull/11569) chore(deps): bump actions/checkout from 5.0.0 to 6.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11551](https://github.com/facebook/docusaurus/pull/11551) chore(deps): bump js-yaml from 4.1.0 to 4.1.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11514](https://github.com/facebook/docusaurus/pull/11514) chore(deps): bump actions/upload-artifact from 4 to 5 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11515](https://github.com/facebook/docusaurus/pull/11515) chore(deps): bump github/codeql-action from 4.30.9 to 4.31.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11504](https://github.com/facebook/docusaurus/pull/11504) chore(deps): bump github/codeql-action from 4.30.8 to 4.30.9 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- [#11503](https://github.com/facebook/docusaurus/pull/11503) chore(deps): bump actions/setup-node from 5.0.0 to 6.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+- `docusaurus-bundler`, `docusaurus-mdx-loader`
+- [#11717](https://github.com/facebook/docusaurus/pull/11717) chore(deps): bump webpack from 5.95.0 to 5.104.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### :wrench: Maintenance
+
+- `create-docusaurus`, `docusaurus-babel`, `docusaurus-bundler`, `docusaurus-cssnano-preset`, `docusaurus-faster`, `docusaurus-logger`, `docusaurus-mdx-loader`, `docusaurus-module-type-aliases`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-css-cascade-layers`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-google-tag-manager`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-rsdoctor`, `docusaurus-plugin-sitemap`, `docusaurus-plugin-svgr`, `docusaurus-plugin-vercel-analytics`, `docusaurus-preset-classic`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-mermaid`, `docusaurus-theme-search-algolia`, `docusaurus-theme-translations`, `docusaurus-tsconfig`, `docusaurus-types`, `docusaurus-utils-common`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`, `eslint-plugin`, `lqip-loader`, `stylelint-copyright`
+- [#11823](https://github.com/facebook/docusaurus/pull/11823) chore(ci): fixes for the npm trusted publishing workflow ([@slorber](https://github.com/slorber))
+- [#11819](https://github.com/facebook/docusaurus/pull/11819) chore(ci): add Trusted Publishing release workflow through dispatch action ([@slorber](https://github.com/slorber))
+- Other
+- [#11795](https://github.com/facebook/docusaurus/pull/11795) chore(ci): canary/trusted publishing shouldn't use any caching ([@slorber](https://github.com/slorber))
+- [#11753](https://github.com/facebook/docusaurus/pull/11753) chore: Add basic AGENTS.md ([@slorber](https://github.com/slorber))
+- [#11639](https://github.com/facebook/docusaurus/pull/11639) test(jest): simplify Jest snapshotPathNormalizer.ts ([@slorber](https://github.com/slorber))
+- [#11626](https://github.com/facebook/docusaurus/pull/11626) chore(website): upgrade to DocSearch 4.4.0 + fix little website theming issues ([@slorber](https://github.com/slorber))
+- [#11553](https://github.com/facebook/docusaurus/pull/11553) chore(ci): upgrade Netlify to Node 24 (LTS) + add `git backfill` command ([@slorber](https://github.com/slorber))
+- `docusaurus-plugin-content-docs`, `docusaurus-plugin-ideal-image`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-mermaid`, `docusaurus-utils`, `docusaurus`
+- [#11698](https://github.com/facebook/docusaurus/pull/11698) chore(monorepo): upgrade React packages to v19 ([@slorber](https://github.com/slorber))
+- `docusaurus-cssnano-preset`, `docusaurus-logger`, `docusaurus-mdx-loader`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-ideal-image`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils-validation`, `docusaurus-utils`, `docusaurus`
+- [#11702](https://github.com/facebook/docusaurus/pull/11702) chore(monorepo): upgrade to Jest 30 ([@slorber](https://github.com/slorber))
+- `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus`
+- [#11697](https://github.com/facebook/docusaurus/pull/11697) chore(monorepo): upgrade React monorepo types to v19 ([@slorber](https://github.com/slorber))
+- `docusaurus-babel`
+- [#11586](https://github.com/facebook/docusaurus/pull/11586) chore(deps): remove unused @babel/runtime-corejs3 dependency ([@JustinBeckwith](https://github.com/JustinBeckwith))
+- `docusaurus-plugin-content-blog`
+- [#11564](https://github.com/facebook/docusaurus/pull/11564) test(blog): Add basic tests for blog routes. ([@slorber](https://github.com/slorber))
+
+#### :globe_with_meridians: Translations
+
+- `docusaurus-theme-translations`
+- [#11632](https://github.com/facebook/docusaurus/pull/11632) feat(i18n): add Urdu (ur) default theme translations ([@hammadurrehman2006](https://github.com/hammadurrehman2006))
+- [#11533](https://github.com/facebook/docusaurus/pull/11533) fix(translations): complete theme translations for Algolia pt-br ([@luicfrr](https://github.com/luicfrr))
+
+TODO
+
+## Translations {/* #translations */}
+
+TODO
+
+## Other changes {/* #other-changes */}
+
+Other notable changes include:
+
+TODO + edit changelog link!
+
+Check the **[3.10.0 changelog entry](/changelog/3.9.0)** for an exhaustive list of changes.
