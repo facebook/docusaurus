@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-mermaid",
-  "version": "3.9.2",
+  "version": "3.9.2-alpha.3",
   "description": "Mermaid components for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/theme-mermaid.d.ts",
@@ -33,15 +33,14 @@
     "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "dependencies": {
-    "@docusaurus/core": "3.9.2",
-    "@docusaurus/module-type-aliases": "3.9.2",
-    "@docusaurus/theme-common": "3.9.2",
-    "@docusaurus/types": "3.9.2",
-    "@docusaurus/utils-validation": "3.9.2",
+    "@docusaurus/core": "3.9.2-alpha.3",
+    "@docusaurus/module-type-aliases": "3.9.2-alpha.3",
+    "@docusaurus/theme-common": "3.9.2-alpha.3",
+    "@docusaurus/types": "3.9.2-alpha.3",
+    "@docusaurus/utils-validation": "3.9.2-alpha.3",
     "mermaid": ">=11.6.0",
     "tslib": "^2.6.0"
   },
-  "devDependencies": {},
   "peerDependencies": {
     "@mermaid-js/layout-elk": "^0.1.9",
     "react": "^18.0.0 || ^19.0.0",
