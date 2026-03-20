@@ -62,7 +62,7 @@ jobs:
       - name: Upgrade Lerna
         run: |
           yarn add -D -W lerna@9.0.3 --ignore-scripts
-          git commit -am "chore: upgrade lerna"
+          git restore .
 
       - name: Publish Canary release
         if: |
