@@ -48,7 +48,7 @@
     "argos:build": "cross-env DOCUSAURUS_ARGOS_BUILD=true yarn build:website:fast --dev",
     "argos:screenshot": "yarn workspace argos screenshot",
     "canary": "yarn canary:bumpVersion && yarn canary:publish",
-    "canary:getCoreVersion": "node -p \"require('./packages/docusaurus/package.json').version\"",
+    "canary:getCoreVersion": "node -p \"require('./packages/docusaurus/package.json').version.split('-')[0]\"",
     "canary:version": "echo `yarn --silent canary:getCoreVersion`-canary-`git rev-list --count HEAD`+`git rev-parse --short HEAD`",
     "canary:bumpVersion": "yarn lerna version `yarn --silent canary:version` --exact --no-push --yes --loglevel verbose",
     "canary:publish": "yarn lerna publish from-package --dist-tag canary --yes --no-verify-access --loglevel verbose",
