@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-search-algolia",
-  "version": "3.9.2",
+  "version": "3.9.2-alpha.4",
   "description": "Algolia search component for Docusaurus.",
   "main": "lib/index.js",
   "sideEffects": [
@@ -33,15 +33,15 @@
     "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "dependencies": {
-    "@docsearch/react": "^3.9.0 || ^4.3.2",
-    "@docusaurus/core": "3.9.2",
-    "@docusaurus/logger": "3.9.2",
-    "@docusaurus/plugin-content-docs": "3.9.2",
-    "@docusaurus/theme-common": "3.9.2",
-    "@docusaurus/theme-translations": "3.9.2",
-    "@docusaurus/utils": "3.9.2",
-    "@docusaurus/utils-validation": "3.9.2",
     "@algolia/autocomplete-core": "^1.19.2",
+    "@docsearch/react": "^3.9.0 || ^4.3.2",
+    "@docusaurus/core": "3.9.2-alpha.4",
+    "@docusaurus/logger": "3.9.2-alpha.4",
+    "@docusaurus/plugin-content-docs": "3.9.2-alpha.4",
+    "@docusaurus/theme-common": "3.9.2-alpha.4",
+    "@docusaurus/theme-translations": "3.9.2-alpha.4",
+    "@docusaurus/utils": "3.9.2-alpha.4",
+    "@docusaurus/utils-validation": "3.9.2-alpha.4",
     "algoliasearch": "^5.37.0",
     "algoliasearch-helper": "^3.26.0",
     "clsx": "^2.0.0",
@@ -52,7 +52,7 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.9.2"
+    "@docusaurus/module-type-aliases": "3.9.2-alpha.4"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
