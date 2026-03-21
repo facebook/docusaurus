@@ -132,6 +132,7 @@ const FeedXSLTOptionsSchema = Joi.alternatives()
   })
   .default(DEFAULT_OPTIONS.feedOptions.xslt);
 
+const joiThenKey = 'then' as const; // for removing the "then" keys below in the conditional Joi
 const FeedOptionsSchema = Joi.object({
   type: Joi.alternatives()
     .try(
@@ -139,7 +140,7 @@ const FeedOptionsSchema = Joi.object({
       Joi.alternatives().conditional(
         Joi.string().equal('all', 'rss', 'atom', 'json'),
         {
-          then: Joi.custom((val: FeedType | 'all') =>
+          [joiThenKey]: Joi.custom((val: FeedType | 'all') =>
             val === 'all' ? ['rss', 'atom', 'json'] : [val],
           ),
         },
@@ -153,7 +154,7 @@ const FeedOptionsSchema = Joi.object({
   // Only add default value when user actually wants a feed (type is not null)
   copyright: Joi.when('type', {
     is: Joi.any().valid(null),
-    then: Joi.string().optional(),
+    [joiThenKey]: Joi.string().optional(),
     otherwise: Joi.string()
       .allow('')
       .default(DEFAULT_OPTIONS.feedOptions.copyright),
