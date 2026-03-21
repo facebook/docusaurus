@@ -30,7 +30,7 @@
     "webpack": "^5.95.0"
   },
   "engines": {
-    "node": ">=20.0"
+    "node": ">=20.19"
   },
   "peerDependencies": {
     "@docusaurus/types": "*"
