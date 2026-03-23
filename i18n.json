@@ -1,0 +1,14 @@
+{
+  "en": {
+    "not_found": {
+      "title": "Page Not Found",
+      "message": "The page you are looking for does not exist."
+    }
+  },
+  "fr": {
+    "not_found": {
+      "title": "Page Introuvable",
+      "message": "La page que vous recherchez n'existe pas."
+    }
+  }
+}
