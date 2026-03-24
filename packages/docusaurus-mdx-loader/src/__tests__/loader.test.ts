@@ -53,7 +53,7 @@ describe('loadMDXWithCaching', () => {
       const filePath = '/test/file.mdx';
       const resource = '/test/file.mdx';
       const compilerName: WebpackCompilerName = 'client';
-      const options = createMockOptions(undefined);
+      const options = createMockOptions();
       const expectedContent = 'compiled result';
 
       mockCompileToJSX.mockResolvedValue({
@@ -86,7 +86,7 @@ describe('loadMDXWithCaching', () => {
       const filePath = '/test/file.mdx';
       const resource = '/test/file.mdx';
       const compilerName: WebpackCompilerName = 'client';
-      const options = createMockOptions(undefined);
+      const options = createMockOptions();
       const expectedContent = 'compiled result';
 
       mockCompileToJSX.mockResolvedValue({
@@ -117,7 +117,7 @@ describe('loadMDXWithCaching', () => {
       const filePath = '/test/file.mdx';
       const resource = '/test/file.mdx';
       const compilerName: WebpackCompilerName = 'server';
-      const options = createMockOptions(undefined);
+      const options = createMockOptions();
       const expectedContent = 'compiled result';
 
       mockCompileToJSX.mockResolvedValue({
@@ -143,7 +143,7 @@ describe('loadMDXWithCaching', () => {
       const filePath = '/test/file.mdx';
       const resource = '/test/file.mdx';
       const compilerName: WebpackCompilerName = 'client';
-      const options = createMockOptions(undefined);
+      const options = createMockOptions();
 
       mockCompileToJSX.mockResolvedValue({
         content: 'result',
@@ -185,7 +185,7 @@ describe('loadMDXWithCaching', () => {
       const filePath = '/test/file.mdx';
       const resource = '/test/file.mdx';
       const compilerName: WebpackCompilerName = 'client';
-      const options = createMockOptions(undefined);
+      const options = createMockOptions();
 
       let callCount = 0;
       mockCompileToJSX.mockImplementation(() => {
@@ -261,7 +261,7 @@ describe('loadMDXWithCaching', () => {
       const filePath = '/test/file.mdx';
       const resource = '/test/file.mdx';
       const compilerName: WebpackCompilerName = 'client';
-      const options = createMockOptions(undefined);
+      const options = createMockOptions();
       const error = new Error('compile error');
 
       mockCompileToJSX.mockRejectedValue(error);
