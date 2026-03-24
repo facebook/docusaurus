@@ -31,9 +31,6 @@
     "@types/react": "^19.0.0",
     "typescript": "~5.6.2"
   },
-  "resolutions": {
-    "@rspack/core": "npm:@rspack-canary/core@1.7.9-canary-6410c531-20260317082909"
-  },
   "browserslist": {
     "production": [
       ">0.5%",
