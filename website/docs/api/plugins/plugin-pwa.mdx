@@ -291,6 +291,22 @@ import CodeBlock from '@theme/CodeBlock';
   {JSON.stringify(require('@site/static/manifest.json'),null,2)}
 </CodeBlock>
 ```
+## Environment-specific manifests {/* #environment-specific-manifests */}
+
+By default, the PWA plugin expects a single `manifest.json` file located in the `static/` folder. However, you may need different manifest configurations (e.g., app icons, name, or theme color) for different environments like staging and production. You can achieve this by maintaining multiple manifest files and copying the appropriate one before building.
+
+Add the following scripts to your `package.json`:
+
+```json title="package.json"
+{
+  "scripts": {
+    "build:staging": "cp static/manifest.staging.json static/manifest.json && docusaurus build",
+    "build:prod": "cp static/manifest.prod.json static/manifest.json && docusaurus build"
+  }
+}
+```
+
+Alternatively, you can write a short Node.js script to replace string placeholders inside a single `manifest.json` template based on `process.env` variables before running the `docusaurus build` command.
 
 ## Customizing reload popup {/* #customizing-reload-popup */}
 
