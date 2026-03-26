@@ -61,23 +61,18 @@ jobs:
       - name: TypeCheck website
         # see https://github.com/facebook/docusaurus/pull/10486
         run: yarn workspace website typecheck
-
-      - name: TypeCheck website - max version - Latest
-        # For latest TS there are often lib check errors, so we disable it
-        # Details: https://github.com/facebook/docusaurus/pull/10486
-        run: |
-          yarn add typescript@latest --exact -D -W --ignore-scripts
-          yarn workspace website typecheck --project tsconfig.skipLibCheck.json
-
       - name: TypeCheck website - min version - v5.1
         run: |
           yarn add typescript@5.1.6 --exact -D -W --ignore-scripts
-
-          # Downgrade TS ignoreDeprecations option
-          jq '.compilerOptions.ignoreDeprecations = "5.0"' tsconfig.json > tsconfig.json.tmp && mv -Force tsconfig.json.tmp tsconfig.json
 
           # DocSearch@4/ai@5 doesn't support TS 5.1 (with skipLibCheck=false)
           jq '.resolutions."@docsearch/react" = "^3.9.0"' package.json > package.json.tmp && mv -Force package.json.tmp package.json
           yarn add @docsearch/react@^3.9.0 --exact -D -W --ignore-scripts
 
           yarn workspace website typecheck
+      - name: TypeCheck website - max version - Latest
+        # For latest TS there are often lib check errors, so we disable it
+        # Details: https://github.com/facebook/docusaurus/pull/10486
+        run: |
+          yarn add typescript@latest --exact -D -W --ignore-scripts
+          yarn workspace website typecheck --project tsconfig.skipLibCheck.json
