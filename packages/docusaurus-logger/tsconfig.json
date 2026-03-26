@@ -3,8 +3,7 @@
   "compilerOptions": {
     "noEmit": false,
     "sourceMap": true,
-    "declarationMap": true,
-    "lib": ["DOM"]
+    "declarationMap": true
   },
   "include": ["src"],
   "exclude": ["**/__tests__/**"]

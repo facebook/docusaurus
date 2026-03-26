@@ -6,7 +6,7 @@
  */
 
 import {AsyncLocalStorage} from 'node:async_hooks';
-// import {type PerformanceMark} from 'node:perf_hooks';
+import {type PerformanceMark} from 'node:perf_hooks';
 import logger from './logger';
 
 // For now this is a private env variable we use internally
