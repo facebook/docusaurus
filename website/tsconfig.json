@@ -4,6 +4,7 @@
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "resolveJsonModule": true,
     "allowArbitraryExtensions": true,
 
