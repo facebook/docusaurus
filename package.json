@@ -86,7 +86,7 @@
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.14.197",
-    "@types/node": "^18.16.19",
+    "@types/node": "^20.19.37",
     "@types/prompts": "^2.4.4",
     "@types/react": "^19.2.10",
     "@types/semver": "^7.5.0",
