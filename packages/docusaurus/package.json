@@ -86,6 +86,7 @@
     "@types/serve-handler": "^6.1.4",
     "@types/update-notifier": "^6.0.4",
     "@types/webpack-bundle-analyzer": "^4.7.0",
+    "@types/webpack-env": "^1.18.8",
     "tmp-promise": "^3.0.3",
     "tree-node-cli": "^1.6.0"
   },
