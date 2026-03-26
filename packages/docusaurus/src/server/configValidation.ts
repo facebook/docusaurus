@@ -576,26 +576,6 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
     }
   }
 
-  // Docusaurus Faster doesn't fully support Yarn PnP :s
-  // Until we support Rspack + PnP, we simply revert to Webpack with a warning
-  // See https://github.com/facebook/docusaurus/issues/10787
-  if (process.versions.pnp) {
-    if (config.future.faster.rspackBundler) {
-      logger.warn(`Docusaurus Faster doesn't fully support the Yarn PnP linker yet.
-We recommend to use Yarn node-linker instead.
-Docusaurus will still attempt to build your app with Webpack (instead of Rspack) and use slower minimizers.
-See also https://github.com/facebook/docusaurus/issues/10787`);
-      config.future.faster.rspackBundler = false;
-      config.future.faster.rspackPersistentCache = false;
-
-      // This also won't work due to Webpack libs using peerDependencies :s
-      // This could eventually work if the deps are added at the site level
-      // TODO Docusaurus v4 clean this up
-      config.future.faster.lightningCssMinimizer = false;
-      config.future.faster.swcJsMinimizer = false;
-    }
-  }
-
   if (config.onBrokenMarkdownLinks) {
     logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
 Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
