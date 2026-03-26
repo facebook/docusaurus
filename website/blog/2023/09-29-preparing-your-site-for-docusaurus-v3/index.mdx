@@ -31,7 +31,7 @@ This article mentions most Docusaurus v3 breaking changes, but is not exhaustive
 
 :::
 
-:::tip Don't be afraid
+:::tip[Don't be afraid]
 
 There's a lot of content in this blog post, but many Docusaurus v2 sites can upgrade with very few changes.
 
@@ -57,7 +57,7 @@ Upgrading MDX comes with all the breaking changes documented on the [MDX v2](htt
 
 Make sure to also read our updated [**MDX and React**](/docs/markdown-features/react) documentation page.
 
-:::tip Ask for help
+:::tip[Ask for help]
 
 We have a dedicated [MDX v3 - Upgrade Support](https://github.com/facebook/docusaurus/discussions/9053) discussion.
 
@@ -87,7 +87,7 @@ To obtain a compilation behavior similar to what Docusaurus v2 uses, please turn
 
 Using the two MDX playgrounds side-by-side, you will soon notice that some content is compiled differently or fails to compile in v3.
 
-:::tip Making your content future-proof
+:::tip[Making your content future-proof]
 
 The goal will be to refactor your problematic content so that it **works fine with both versions of MDX**. This way, when you upgrade to Docusaurus v3, this content will already work out-of-the-box.
 
@@ -137,13 +137,13 @@ The `{` character is used for opening [JavaScript expressions](https://mdxjs.com
 The object shape looks like {username: string, age: number}
 ```
 
-:::danger Error message
+:::danger[Error message]
 
 > Could not parse expression with acorn: Unexpected content after expression
 
 :::
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 Available options to fix this error:
 
@@ -165,7 +165,7 @@ You can use a generic type like Array<T>
 Follow the template "Road to <YOUR_MINOR_VERSION>"
 ```
 
-:::danger Error messages
+:::danger[Error messages]
 
 > Unexpected character `5` (U+0035) before name, expected a character that can start a name, such as a letter, `$`, or `_`
 
@@ -175,7 +175,7 @@ Follow the template "Road to <YOUR_MINOR_VERSION>"
 
 :::
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 Available options to fix this error:
 
@@ -195,7 +195,7 @@ Docusaurus supports [GitHub Flavored Markdown (GFM)](https://github.github.com/g
 <http://localhost:3000>
 ```
 
-:::danger Error messages
+:::danger[Error messages]
 
 > Unexpected character `@` (U+0040) in name, expected a name character such as letters, digits, `$`, or `_`; whitespace before attributes; or the end of the tag (note: to create a link in MDX, use `[text](url)`)
 
@@ -203,7 +203,7 @@ Docusaurus supports [GitHub Flavored Markdown (GFM)](https://github.github.com/g
 
 :::
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 Use regular Markdown links, or remove the `<` and `>`. MDX and GFM are able to autolink literals already.
 
@@ -225,13 +225,13 @@ For users providing a [custom `MDXComponent`mapping](/docs/markdown-features/rea
 - a `MDXComponent` mapping for `h1` only gets used for `# hi` but not for `<h1>hi</h1>`
 - a **lower-cased** custom element name will not be substituted by its respective `MDXComponent` component anymore
 
-:::danger visual difference
+:::danger[visual difference]
 
 Your [`MDXComponent` component mapping](/docs/markdown-features/react#mdx-component-scope) might not be applied as before, and your custom components might no longer be used.
 
 :::
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 For native Markdown elements, you can keep using **lower-case**: `p`, `h1`, `img`, `a`...
 
@@ -254,7 +254,7 @@ For any other element, **use upper-case names**.
 
 In MDX, it is now possible to interleave JSX and Markdown more easily without requiring extra line breaks. Writing content on multiple lines can also produce new expected `<p>` tags.
 
-:::danger visual difference
+:::danger[visual difference]
 
 See how this content is rendered differently by MDX v1 and v3.
 
@@ -279,7 +279,7 @@ See how this content is rendered differently by MDX v1 and v3.
 
 :::
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 If you don't want an extra `<p>` tag, refactor content on a case by case basis to use a single-line JSX tag.
 
@@ -313,7 +313,7 @@ Container directive content
 :::
 ```
 
-:::danger Visual change
+:::danger[Visual change]
 
 Directives are parsed with the purpose of being handled by other Remark plugins. Unhandled directives will be ignored, and won't be rendered back in their original form.
 
@@ -330,7 +330,7 @@ conf is great
 
 :::
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 - Use the HTML code: `&#58;`
 - Add a space after `:` (if it makes sense): `: text`
@@ -346,13 +346,13 @@ MDX does not transform indented text as code blocks anymore.
     console.log("hello");
 ```
 
-:::danger Visual change
+:::danger[Visual change]
 
 The upgrade does not generally produce new MDX compilation errors, but can lead to content being rendered in an unexpected way because there isn't a code block anymore.
 
 :::
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 Use the regular code block syntax instead of indentation:
 
@@ -370,7 +370,7 @@ All the official packages (Unified, Remark, Rehype...) in the MDX ecosystem are 
 
 In practice this means that you can't do `require("remark-plugin")` anymore.
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 Docusaurus v3 now supports [**ES Modules**](https://flaviocopes.com/es-modules/) configuration files. We recommend that you migrate your config file to ES module, that enables you to import the Remark plugins easily:
 
@@ -396,7 +396,7 @@ module.exports = async function () {
 
 :::
 
-:::info For plugin authors
+:::info[For plugin authors]
 
 If you created custom Remark or Rehype plugins, you may need to refactor those, or eventually rewrite them completely, due to how the new AST is structured. We have created a [dedicated support discussion](https://github.com/facebook/docusaurus/discussions/9337) to help plugin authors upgrade their code.
 
@@ -410,7 +410,7 @@ Apart from MDX, there are other breaking changes that you can already prepare yo
 
 Node.js 16 [reached End-of-Life](https://nodejs.org/en/blog/announcements/nodejs16-eol), and Docusaurus v3 now requires **Node.js >= 18.0**.
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 Upgrade your Docusaurus v2 site to Node.js 18 before upgrading to Docusaurus v3.
 
@@ -424,7 +424,7 @@ React 18 comes with its own breaking changes that should be relatively easy to h
 
 Simple Docusaurus sites that only use our official theme code without swizzling do not have anything to do.
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 Read the official [React v18.0](https://react.dev/blog/2022/03/29/react-v18) and [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide), and look at your first-party React code to figure out which components might be affected this React 18 upgrade.
 
@@ -439,7 +439,7 @@ We recommend to particularly look for:
 
 Docusaurus v3 now requires **TypeScript >= 5.0**.
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 Upgrade your Docusaurus v2 site to TypeScript 5 before upgrading to Docusaurus v3.
 
@@ -451,7 +451,7 @@ The official Docusaurus TypeScript config has been re-internalized from the exte
 
 This new package is versioned alongside all the other Docusaurus core packages, and will be used to ensure TypeScript retro-compatibility and breaking changes on major version upgrades.
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 The new Docusaurus v3 TypeScript config is sensibly the same as the former Docusaurus v2 TypeScript config. If you upgraded to TypeScript 5, using the Docusaurus v3 config on a v2 site is already possible:
 
@@ -480,7 +480,7 @@ The new Docusaurus v3 TypeScript config is sensibly the same as the former Docus
 
 For historical reasons, we support an undocumented admonition `:::warning` that renders with a red color.
 
-:::danger Warning
+:::danger[Warning]
 
 This is a Docusaurus v2 `:::warning` admonition.
 
@@ -494,7 +494,7 @@ This is a Docusaurus v3 `:::warning` admonition.
 
 :::
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 If you previously used the undocumented `:::warning` admonition, make sure to verify for each usage if yellow is now an appropriate color. If you want to keep the red color, use `:::danger` instead.
 
@@ -517,7 +517,7 @@ When creating version `v1.0.0`, the sidebar file contained a prefix `version-v1.
 }
 ```
 
-:::tip How to prepare
+:::tip[How to prepare]
 
 Your Docusaurus v2 site is able to handle the 2 sidebar formats similarly.
 

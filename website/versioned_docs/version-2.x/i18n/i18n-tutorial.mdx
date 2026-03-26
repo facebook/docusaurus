@@ -224,7 +224,7 @@ Most documentation websites are generally **static** and don't need advanced i18
 
 The `docusaurus write-translations` command will statically analyze all React code files used in your site, extract calls to these APIs, and aggregate them in the `code.json` file. The translation files will be stored as maps from IDs to translation message objects (including the translated label and the description of the label). In your calls to the translation APIs (`<Translate>` or `translate()`), you need to specify either the default untranslated message or the ID, in order for Docusaurus to correctly correlate each translation entry to the API call.
 
-:::warning text labels must be static
+:::warning[text labels must be static]
 
 The `docusaurus write-translations` command only does **static analysis** of your code. It doesn't actually run your site. Therefore, dynamic messages can't be extracted, as the message is an _expression_, not a _string_:
 
@@ -425,7 +425,7 @@ We only copy `.md` and `.mdx` files, as React pages are translated through JSON 
 
 :::
 
-:::tip Use explicit heading IDs
+:::tip[Use explicit heading IDs]
 
 By default, a Markdown heading `### Hello World` will have a generated ID `hello-world`. Other documents can link it with `[link](#hello-world)`. However, after translation, the heading becomes `### Bonjour le Monde`, with ID `bonjour-le-monde`.
 

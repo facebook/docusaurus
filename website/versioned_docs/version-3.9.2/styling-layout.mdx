@@ -158,7 +158,7 @@ html[data-red-border] div#__docusaurus {
 
 <IframeWindow url="/docs/?docusaurus-data-navbar=false&docusaurus-data-red-border" />
 
-:::tip Iframe Mode
+:::tip[Iframe Mode]
 
 If you plan to embed some Docusaurus pages on another site though an iframe, it can be useful to create an alternative display mode and use iframe urls such as `https://mysite.com/docs/myDoc?docusaurus-data-mode=iframe`. It is your responsibility to provide the additional styles and decide which UI elements you want to keep or hide.
 
@@ -180,7 +180,7 @@ Docusaurus uses `996px` as the cutoff between mobile screen width and desktop. I
 }
 ```
 
-:::tip Customizing the breakpoint
+:::tip[Customizing the breakpoint]
 
 Some React components, such as the header and the sidebar, implement different JavaScript logic when in mobile view. If you change the breakpoint value in your custom CSS, you probably also want to update the invocations of the `useWindowSize` hook by [swizzling](./swizzling.mdx) the components it's used in and passing an explicit option argument.
 

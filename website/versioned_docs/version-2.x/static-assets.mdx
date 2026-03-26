@@ -69,7 +69,7 @@ You write a link like this: [Download this document](/files/note.docx)
 Docusaurus changes that to: <a href={require('static/files/note.docx')}>Download this document</a>
 ```
 
-:::warning use Markdown syntax
+:::warning[use Markdown syntax]
 
 Docusaurus will only parse links that are in Markdown syntax. If your asset references are using the JSX tag `<a>` / `<img>`, nothing will be done.
 
@@ -88,7 +88,7 @@ In CSS, the `url()` function is commonly used to reference assets like fonts and
 
 The `static/font/Caroline.otf` asset will be loaded by the bundler.
 
-:::warning important takeaway
+:::warning[important takeaway]
 
 One important takeaway: **never hardcode your base URL!** The base URL is considered an implementation detail and should be easily changeable. All paths, even when they look like URL slugs, are actually file paths.
 

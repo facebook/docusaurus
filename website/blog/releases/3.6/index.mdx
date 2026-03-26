@@ -46,7 +46,7 @@ Benchmarks on community site show that you can expect your production site to bu
 
 [How to benchmark](https://github.com/facebook/docusaurus/issues/10556#issuecomment-2407671873)
 
-:::note About rebuilds
+:::note[About rebuilds]
 
 [Rspack doesn't support persistent caching yet](https://rspack.dev/misc/planning/roadmap#persistent-cache), but it's on the roadmap and should be implemented soon. We think it's not a problem for the adoption of Rspack considering a cold Rspack build is usually as fast as a warm Webpack build using persistent caching.
 
@@ -114,7 +114,7 @@ const config = {
 - [`rspackBundler`](https://github.com/facebook/docusaurus/pull/10402): Use [Rspack](https://rspack.dev/) to bundle your app (instead of [webpack](https://webpack.js.org/))
 - [`mdxCrossCompilerCache`](https://github.com/facebook/docusaurus/pull/10479): Compile MDX files once for both browser/Node.js environments instead of twice
 
-:::tip Experimental but safe
+:::tip[Experimental but safe]
 
 Don't be afraid to turn this feature on. What's experimental is the config options.
 
@@ -149,7 +149,7 @@ export default function (context, options) {
 }
 ```
 
-:::tip For plugins authors
+:::tip[For plugins authors]
 
 Check the [dedicated issue](https://github.com/facebook/docusaurus/issues/10572) for guidelines and support.
 

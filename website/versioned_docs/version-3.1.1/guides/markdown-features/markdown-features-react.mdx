@@ -17,7 +17,7 @@ Docusaurus has built-in support for [MDX](https://mdxjs.com/), which allows you 
 
 Check out the [MDX docs](https://mdxjs.com/) to see what fancy stuff you can do with MDX.
 
-:::tip Debugging MDX
+:::tip[Debugging MDX]
 
 The MDX format is quite strict, and you may get compilation errors.
 
@@ -78,7 +78,7 @@ I can write **Markdown** alongside my _JSX_!
 </BrowserWindow>
 ```
 
-:::warning MDX is JSX
+:::warning[MDX is JSX]
 
 Since all doc files are parsed using MDX, anything that looks like HTML is actually JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects.
 
@@ -244,7 +244,7 @@ Some valid CommonMark features won't work with MDX ([more info](https://mdxjs.co
 - HTML syntax (`<p style="color: red;">`): use JSX instead (`<p style={{color: 'red'}}>`)
 - Unescaped `{` and `<`: escape them with `\` instead (`\{` and `\<`)
 
-:::danger Experimental CommonMark support
+:::danger[Experimental CommonMark support]
 
 Docusaurus v3 makes it possible to opt-in for a less strict, standard [CommonMark](https://commonmark.org/) support with the following options:
 

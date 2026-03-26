@@ -26,7 +26,7 @@ The simplest sites will only need to upgrade a few npm dependencies. For more co
 - [Prepare your site](/blog/preparing-your-site-for-docusaurus-v3) ahead of time, incrementally, while staying on Docusaurus v2
 - [Set up visual regression tests](/blog/upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing) to catch unexpected visual changes happening during the upgrade
 
-:::info About Docusaurus v2
+:::info[About Docusaurus v2]
 
 According to our [release process](/community/release-process), Docusaurus v2 has now entered **maintenance mode**. It will only receive support for major security issues for 3 months, until 31 January 2024. It is recommended to upgrade within that time frame to v3.
 
@@ -107,7 +107,7 @@ Docusaurus v3 upgraded from MDX v1 to MDX v3:
 
 This new MDX version is **much better for content writers and plugin authors**, and lays the ground for implementing new exciting Markdown features.
 
-:::warning MDX v3 - the main challenge
+:::warning[MDX v3 - the main challenge]
 
 The transition from MDX v1 to MDX v3 is the **main challenge** to the adoption of Docusaurus v3.
 
@@ -208,7 +208,7 @@ In [#8961](https://github.com/facebook/docusaurus/pull/8961), we upgraded to Rea
 
 This new version of React should be a drop-in replacement for most Docusaurus sites. It comes with breaking changes that we handled internally in the Docusaurus codebase. If your site is using a lot of custom React code, we recommend you to take a look at the official article on [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide), notably the new [automatic batching](https://react.dev/blog/2022/03/08/react-18-upgrade-guide#automatic-batching) behavior.
 
-:::danger Experimental support for React 18 features
+:::danger[Experimental support for React 18 features]
 
 React 18 comes with new features:
 
@@ -242,7 +242,7 @@ It is now possible to build your static site in dev mode.
 docusaurus build --dev
 ```
 
-:::tip Debug React-related problems
+:::tip[Debug React-related problems]
 
 Docusaurus will log more errors to the console, notably React 18 hydration errors through the new [`onRecoverableError` callback](https://react.dev/reference/react-dom/client/hydrateRoot#parameters).
 

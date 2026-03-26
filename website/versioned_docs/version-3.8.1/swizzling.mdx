@@ -94,7 +94,7 @@ npm run swizzle -- --list
 
 Use `--help` to see all available CLI options, or refer to the reference [swizzle CLI documentation](./cli.mdx#docusaurus-swizzle).
 
-:::tip Removing Unneeded Swizzled Components
+:::tip[Removing Unneeded Swizzled Components]
 
 If you decide that a previously swizzled component is no longer necessary, you can simply remove its file(s) from the `src/theme` directory. After removing the component, make sure to restart your development server to ensure the changes are properly reflected.
 
@@ -106,7 +106,7 @@ After swizzling a component, **restart your dev server** in order for Docusaurus
 
 :::
 
-:::warning Prefer staying on the safe side
+:::warning[Prefer staying on the safe side]
 
 Be sure to understand [which components are **safe to swizzle**](#what-is-safe-to-swizzle). Some components are **internal implementation details** of a theme.
 
@@ -157,7 +157,7 @@ Ejecting an [**unsafe**](#what-is-safe-to-swizzle) component can sometimes lead 
 
 :::
 
-:::tip Re-swizzling
+:::tip[Re-swizzling]
 
 To keep ejected components up-to-date after a Docusaurus upgrade, re-run the eject command and compare the changes with `git diff`. You are also recommended to write a brief comment at the top of the file explaining what changes you have made, so that you could more easily re-apply your changes after re-ejection.
 
@@ -262,7 +262,7 @@ Don't be too **afraid to swizzle unsafe components**: just keep in mind that **b
 
 :::
 
-:::note Report your use-case
+:::note[Report your use-case]
 
 If you have a **strong use-case for swizzling an unsafe component**, please [**report it here**](https://github.com/facebook/docusaurus/discussions/5468) and we will work together to find a solution to make it safe.
 
@@ -289,7 +289,7 @@ You can follow these steps to locate the appropriate component to swizzle:
 3. **Start with a higher-level component.** Components form a tree with some components importing others. Every route will be associated with one top-level component that the route will render (most of them listed in [Routing in content plugins](./advanced/routing.mdx#routing-in-content-plugins)). For example, all blog post pages have `@theme/BlogPostPage` as the topmost component. You can start with swizzling this component, and then go down the component tree to locate the component that renders just what you are targeting. Don't forget to unswizzle the rest by deleting the files after you've found the correct one, so you don't maintain too many components.
 4. **Read the [theme source code](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)** and use search wisely.
 
-:::tip Just ask!
+:::tip[Just ask!]
 
 If you still have no idea which component to swizzle to achieve the desired effect, you can reach out for help in one of our [support channels](/community/support).
 

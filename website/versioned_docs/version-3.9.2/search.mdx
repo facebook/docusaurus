@@ -37,7 +37,7 @@ By default, the Docusaurus preset generates a [sitemap.xml](https://docusaurus.i
 
 :::
 
-:::info From the old docsearch?
+:::info[From the old docsearch?]
 
 You can read more about migration from the legacy DocSearch infra in [our blog post](/blog/2021/11/21/algolia-docsearch-migration) or [the DocSearch migration docs](https://docsearch.algolia.com/docs/migrating-from-legacy).
 
@@ -47,13 +47,13 @@ You can read more about migration from the legacy DocSearch infra in [our blog p
 
 After your application has been approved and deployed, you will receive an email with all the details for you to add DocSearch to your project. Editing and managing your crawls can be done via [the web interface](https://crawler.algolia.com/). Indices are readily available after deployment, so manual configuration usually isn't necessary.
 
-:::danger Use the recommended crawler config
+:::danger[Use the recommended crawler config]
 
 It is highly recommended to use our official [**Docusaurus v3 crawler configuration**](https://docsearch.algolia.com/docs/templates/#docusaurus-v3-template). We cannot support you if you choose a different crawler configuration.
 
 :::
 
-:::warning When updating your crawler config
+:::warning[When updating your crawler config]
 
 The crawler configuration contains a `initialIndexSettings`, which will only be used to initialize your Algolia index if it does not exist yet.
 
@@ -211,7 +211,7 @@ Refer to the relevant [Algolia faceting documentation](https://www.algolia.com/d
 
 :::
 
-:::warning Contextual search doesn't work?
+:::warning[Contextual search doesn't work?]
 
 If you only get search results when Contextual Search is disabled, this is very likely because of an [index configuration issue](#algolia-no-search-results).
 
@@ -371,7 +371,7 @@ Alternatively, if you disable [Contextual Search](#contextual-search) with `{con
 
 </details>
 
-:::danger Use the recommended configuration
+:::danger[Use the recommended configuration]
 
 We [recommend a specific crawler configuration](#algolia-index-configuration) for a good reason. We cannot support you if you choose to use a different configuration.
 

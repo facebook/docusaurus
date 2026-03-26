@@ -13,7 +13,7 @@ This is not a full rewrite, and the breaking changes are relatively easy to hand
 
 The main breaking change is the upgrade from MDX v1 to MDX v3. Read the [**MDX v2**](https://mdxjs.com/blog/v2/) and [**MDX v3**](https://mdxjs.com/blog/v3/) release notes for details. MDX will now compile your Markdown content **more strictly** and with **subtle differences**.
 
-:::tip Before upgrading
+:::tip[Before upgrading]
 
 Before upgrading, we recommend [**preparing your site for Docusaurus v3**](/blog/preparing-your-site-for-docusaurus-v3). There are changes that you can already **handle incrementally, under Docusaurus v2**. Doing so will help reduce the work needed to finally upgrade to Docusaurus v3.
 
@@ -42,7 +42,7 @@ Docusaurus v3 now uses the following dependencies:
 - remark-emoji v4.0+
 - mermaid v10.4+
 
-:::warning Upgrading community plugins
+:::warning[Upgrading community plugins]
 
 If your site uses third-party community plugins and themes, you might need to upgrade them.
 
@@ -113,7 +113,7 @@ The transition from MDX v1 to MDX v3 is the **main challenge** to the adoption o
 
 Some documents that compiled successfully under Docusaurus v2 might now **fail to compile** under Docusaurus v3.
 
-:::tip Find problematic content ahead of time
+:::tip[Find problematic content ahead of time]
 
 Run [`npx docusaurus-mdx-checker`](https://github.com/slorber/docusaurus-mdx-checker) on your site to get a list of files that will now fail to compile under Docusaurus v3.
 
@@ -123,7 +123,7 @@ This command is also a good way to estimate the amount of work to be done to mak
 
 Other documents might also **render differently**.
 
-:::tip Use visual regression tests
+:::tip[Use visual regression tests]
 
 For large sites where a manual review of all pages is complicated, we recommend you to setup [visual regression tests](https://docusaurus.io/blog/upgrading-frontend-dependencies-with-confidence-using-visual-regression-testing).
 
@@ -155,7 +155,7 @@ To obtain a compilation behavior similar to what Docusaurus v2 uses, please turn
 
 Using the two MDX playgrounds side-by-side, you will soon notice that some content is compiled differently or fails to compile in v2.
 
-:::tip Making your content future-proof
+:::tip[Making your content future-proof]
 
 The goal will be to refactor your problematic content so that it **works fine with both versions of MDX**. This way, when you upgrade to Docusaurus v3, this content will already work out-of-the-box.
 
@@ -201,13 +201,13 @@ The `{` character is used for opening [JavaScript expressions](https://mdxjs.com
 The object shape looks like {username: string, age: number}
 ```
 
-:::danger Error message
+:::danger[Error message]
 
 > Could not parse expression with acorn: Unexpected content after expression
 
 :::
 
-:::tip How to upgrade
+:::tip[How to upgrade]
 
 Available options to fix this error:
 
@@ -229,7 +229,7 @@ You can use a generic type like Array<T>
 Follow the template "Road to <YOUR_MINOR_VERSION>"
 ```
 
-:::danger Error messages
+:::danger[Error messages]
 
 > Unexpected character `5` (U+0035) before name, expected a character that can start a name, such as a letter, `$`, or `_`
 
@@ -239,7 +239,7 @@ Follow the template "Road to <YOUR_MINOR_VERSION>"
 
 :::
 
-:::tip How to upgrade
+:::tip[How to upgrade]
 
 Available options to fix this error:
 
@@ -259,7 +259,7 @@ Docusaurus supports [GitHub Flavored Markdown (GFM)](https://github.github.com/g
 <http://localhost:3000>
 ```
 
-:::danger Error messages
+:::danger[Error messages]
 
 > Unexpected character `@` (U+0040) in name, expected a name character such as letters, digits, `$`, or `_`; whitespace before attributes; or the end of the tag (note: to create a link in MDX, use `[text](url)`)
 
@@ -267,7 +267,7 @@ Docusaurus supports [GitHub Flavored Markdown (GFM)](https://github.github.com/g
 
 :::
 
-:::tip How to upgrade
+:::tip[How to upgrade]
 
 Use regular Markdown links, or remove the `<` and `>`. MDX and GFM are able to autolink literals already.
 
@@ -289,13 +289,13 @@ For users providing a [custom `MDXComponent`mapping](../guides/markdown-features
 - a `MDXComponent` mapping for `h1` only gets used for `# hi` but not for `<h1>hi</h1>`
 - a **lower-cased** custom element name will not be substituted by its respective `MDXComponent` component anymore
 
-:::danger visual difference
+:::danger[visual difference]
 
 Your [`MDXComponent` component mapping](../guides/markdown-features/markdown-features-react.mdx#mdx-component-scope) might not be applied as before, and your custom components might no longer be used.
 
 :::
 
-:::tip How to upgrade
+:::tip[How to upgrade]
 
 For native Markdown elements, you can keep using **lower-case**: `p`, `h1`, `img`, `a`...
 
@@ -318,7 +318,7 @@ For any other element, **use upper-case names**.
 
 In MDX v3, it is now possible to interleave JSX and Markdown more easily without requiring extra line breaks. Writing content on multiple lines can also produce new expected `<p>` tags.
 
-:::danger visual difference
+:::danger[visual difference]
 
 See how this content is rendered differently by MDX v1 and v3.
 
@@ -343,7 +343,7 @@ See how this content is rendered differently by MDX v1 and v3.
 
 :::
 
-:::tip How to upgrade
+:::tip[How to upgrade]
 
 If you don't want an extra `<p>` tag, refactor content on a case by case basis to use a single-line JSX tag.
 
@@ -375,7 +375,7 @@ Container directive content
 :::
 ```
 
-:::danger Visual change
+:::danger[Visual change]
 
 Directives are parsed with the purpose of being handled by other Remark plugins. Unhandled directives will be ignored, and won't be rendered back in their original form.
 
@@ -392,7 +392,7 @@ conf is great
 
 :::
 
-:::tip How to upgrade
+:::tip[How to upgrade]
 
 - Use the HTML code: `&#58;`
 - Add a space after `:` (if it makes sense): `: text`
@@ -408,13 +408,13 @@ MDX does not transform indented text as code blocks anymore.
     console.log("hello");
 ```
 
-:::danger Visual change
+:::danger[Visual change]
 
 The upgrade does not generally produce new MDX compilation errors, but can lead to content being rendered in an unexpected way because there isn't a code block anymore.
 
 :::
 
-:::tip How to upgrade
+:::tip[How to upgrade]
 
 Use the regular code block syntax instead of indentation:
 
@@ -432,7 +432,7 @@ All the official packages (Unified, Remark, Rehype...) in the MDX ecosystem are 
 
 In practice this means that you can't do `require("remark-plugin")` anymore.
 
-:::tip How to upgrade
+:::tip[How to upgrade]
 
 Docusaurus v3 now supports [**ES Modules**](https://flaviocopes.com/es-modules/) configuration files. We recommend that you migrate your config file to ES module, that enables you to import the Remark plugins easily:
 
@@ -458,7 +458,7 @@ module.exports = async function () {
 
 :::
 
-:::info For plugin authors
+:::info[For plugin authors]
 
 If you created custom Remark or Rehype plugins, you may need to refactor those, or eventually rewrite them completely, due to how the new AST is structured. We have created a [dedicated support discussion](https://github.com/facebook/docusaurus/discussions/9337) to help plugin authors upgrade their code.
 
@@ -472,7 +472,7 @@ Apart the MDX v3 upgrade, here is an exhaustive list of breaking changes coming 
 
 Node.js 16 [reached End-of-Life](https://nodejs.org/en/blog/announcements/nodejs16-eol), and Docusaurus v3 now requires **Node.js >= 18.0**.
 
-:::tip How to upgrade
+:::tip[How to upgrade]
 
 Install Node.js 18.0+ on your computer.
 
@@ -499,7 +499,7 @@ Docusaurus v3 now requires **React >= 18.0**.
 
 React 18 comes with its own breaking changes that should be relatively easy to handle, depending on the amount of custom React code you created for your site. The official themes and plugins are compatible with React 18.
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 Read the official [React v18.0](https://react.dev/blog/2022/03/29/react-v18) and [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide), and look at your own React code to figure out which components might be affected this upgrade.
 
@@ -510,7 +510,7 @@ We recommend to particularly look for:
 
 :::
 
-:::danger Experimental support for React 18 features
+:::danger[Experimental support for React 18 features]
 
 React 18 comes with new features:
 
@@ -526,7 +526,7 @@ Their Docusaurus support is considered as experimental. We might have to adjust 
 
 Docusaurus v3 upgrades [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer) to v2.0+. This library is used for code block syntax highlighting.
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 This is a new major library version containing breaking changes, and we can't guarantee a strict retro-compatibility. The [`prism-react-renderer` v2 release notes](https://github.com/FormidableLabs/prism-react-renderer/releases/tag/prism-react-renderer%402.0.0) are not super exhaustive, but there are 3 major changes to be aware of for Docusaurus users.
 
@@ -569,7 +569,7 @@ const siteConfig = {
 
 For users of the `@docusaurus/theme-live-codeblock` package, Docusaurus v3 upgrades [`react-live`](https://github.com/FormidableLabs/react-live) to v4.0+.
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 In theory, you have nothing to do, and your existing interactive code blocks should keep working as before.
 
@@ -581,7 +581,7 @@ However, this is a new major library version containing breaking changes, and we
 
 Docusaurus v3 upgrades [`remark-emoji`](https://github.com/rhysd/remark-emoji) to v4.0+. This library is to support `:emoji:` shortcuts in Markdown.
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 Most Docusaurus users have nothing to do. Users of emoji shortcodes should read the [changelog](https://github.com/rhysd/remark-emoji/blob/master/CHANGELOG.md) and double-check their emojis keep rendering as expected.
 
@@ -593,7 +593,7 @@ Most Docusaurus users have nothing to do. Users of emoji shortcodes should read 
 
 For users of the `@docusaurus/theme-mermaid` package, Docusaurus v3 upgrades [`mermaid`](https://github.com/mermaid-js/mermaid) to v10.4+.
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 In theory, you have nothing to do, and your existing diagrams should keep working as before.
 
@@ -605,7 +605,7 @@ However, this is a new major library version containing breaking changes, and we
 
 Docusaurus v3 now requires **TypeScript >= 5.1**.
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 Upgrade your dependencies to use TypeScript 5+
 
@@ -626,7 +626,7 @@ The official Docusaurus TypeScript config has been re-internalized from the exte
 
 This new package is versioned alongside all the other Docusaurus core packages, and will be used to ensure TypeScript retro-compatibility and breaking changes on major version upgrades.
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 Swap the external TypeScript config package for the new official one
 
@@ -657,7 +657,7 @@ Use it in your `tsconfig.json` file:
 
 Docusaurus v3 changes its internal config loading library from [`import-fresh`](https://github.com/sindresorhus/import-fresh) to [`jiti`](https://github.com/unjs/jiti). It is responsible for loading files such as `docusaurus.config.js` or `sidebars.js`, and Docusaurus plugins.
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 In theory, you have nothing to do, and your existing config files should keep working as before.
 
@@ -669,7 +669,7 @@ However, this is a major dependency swap and subtle behavior changes could occur
 
 For historical reasons, we support an undocumented admonition `:::warning` that renders with a red color.
 
-:::danger Warning
+:::danger[Warning]
 
 This is a Docusaurus v2 `:::warning` admonition.
 
@@ -683,7 +683,7 @@ This is a Docusaurus v3 `:::warning` admonition.
 
 :::
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 If you previously used the undocumented `:::warning` admonition, make sure to verify for each usage if yellow is now an appropriate color. If you want to keep the red color, use `:::danger` instead.
 
@@ -706,7 +706,7 @@ When creating version `v1.0.0`, the sidebar file contained a prefix `version-v1.
 }
 ```
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 Remove the useless versioned prefix from your versioned sidebars.
 
@@ -722,7 +722,7 @@ Remove the useless versioned prefix from your versioned sidebars.
 
 The `@docusaurus/plugin-content-blog` now limits the RSS feed to the last 20 entries by default. For large Docusaurus blogs, this is a more sensible default value to avoid an increasingly large RSS file.
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 In case you don't like this new default behavior, you can revert to the former "unlimited feed" behavior with the new `limit: false` feed option:
 
@@ -743,7 +743,7 @@ For users that swizzled docs-related theme components (like `@theme/DocPage`), t
 
 Technically, **this is not a breaking change** because these components are **flagged as unsafe to swizzle**, however many Docusaurus sites ejected docs-related components, and will be interested to know their customizations might break Docusaurus.
 
-:::info How to upgrade
+:::info[How to upgrade]
 
 Delete all your swizzled components, re-swizzle them, and re-apply your customizations on top of the newly updated components.
 
@@ -848,7 +848,7 @@ This option allows the usage of HTML comments inside MDX, while HTML comments ar
 
 For MDX files, we recommend to progressively use MDX `{/* comments */}` instead of HTML `<!-- comments -->`, and then turn this compatibility option off.
 
-:::info Blog truncate marker
+:::info[Blog truncate marker]
 
 The default blog truncate marker now supports both `<!-- truncate -->` and `{/* truncate */}`.
 
@@ -859,7 +859,7 @@ The default blog truncate marker now supports both `<!-- truncate -->` and `{/* 
 This option allows the usage of the Docusaurus v2 [admonition title](../guides/markdown-features/markdown-features-admonitions.mdx#specifying-title) syntax:
 
 ```md
-:::note Your Title
+:::note[Your Title]
 
 content
 

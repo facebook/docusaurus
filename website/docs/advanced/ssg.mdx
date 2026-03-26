@@ -10,7 +10,7 @@ In [architecture](architecture.mdx), we mentioned that the theme is run in Webpa
 - During **server-side rendering**, the theme is compiled in a sandbox called [React DOM Server](https://reactjs.org/docs/react-dom-server.html). You can see this as a "headless browser", where there is no `window` or `document`, only React. SSR produces static HTML pages.
 - During **client-side rendering**, the theme is compiled to JavaScript that gets eventually executed in the browser, so it has access to browser variables.
 
-:::info SSR or SSG?
+:::info[SSR or SSG?]
 
 _Server-side rendering_ and _static site generation_ can be different concepts, but we use them interchangeably.
 

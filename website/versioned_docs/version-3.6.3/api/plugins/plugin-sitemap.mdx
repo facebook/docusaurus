@@ -9,7 +9,7 @@ import APITable from '@site/src/components/APITable';
 
 This plugin creates sitemaps for your site so that search engine crawlers can crawl your site more accurately.
 
-:::warning production only
+:::warning[production only]
 
 This plugin is always inactive in development and **only active in production** because it works on the build output.
 
@@ -71,7 +71,7 @@ This plugin also respects some site config:
 
 :::
 
-:::note About `lastmod`
+:::note[About `lastmod`]
 
 The `lastmod` option will only output a sitemap `<lastmod>` tag if plugins provide [route metadata](../plugin-methods/lifecycle-apis.mdx#addRoute) attributes `sourceFilePath` and/or `lastUpdatedAt`.
 
