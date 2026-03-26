@@ -173,12 +173,12 @@ jobs:
           yarn add typescript@5.1.6 --exact
 
           # Downgrade TS ignoreDeprecations option
-          jq '.compilerOptions.ignoreDeprecations = "5.0"' tsconfig.json > tsconfig.json.tmp && mv -f tsconfig.json.tmp tsconfig.json
+          node -e "const fs = require('fs'); const f = 'tsconfig.json'; fs.writeFileSync(f, fs.readFileSync(f,'utf8').replace('\"ignoreDeprecations\": \"6.0\"', '\"ignoreDeprecations\": \"5.0\"'))"
 
           yarn typecheck
 
           # Restore TS ignoreDeprecations option
-          jq '.compilerOptions.ignoreDeprecations = "6.0"' tsconfig.json > tsconfig.json.tmp && mv -f tsconfig.json.tmp tsconfig.json
+          node -e "const fs = require('fs'); const f = 'tsconfig.json'; fs.writeFileSync(f, fs.readFileSync(f,'utf8').replace('\"ignoreDeprecations\": \"5.0\"', '\"ignoreDeprecations\": \"6.0\"'))"
 
       - name: TypeCheck website - max version - Latest
         # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
