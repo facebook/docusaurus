@@ -158,18 +158,28 @@ jobs:
         working-directory: ../test-website
         env:
           E2E_TEST: true
+
       - name: TypeCheck website
         # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
         if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
         working-directory: ../test-website
         run: yarn typecheck
+
       - name: TypeCheck website - min version - v5.1
         # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
         if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
         working-directory: ../test-website
         run: |
           yarn add typescript@5.1.6 --exact
+
+          # Downgrade TS ignoreDeprecations option
+          node -e "const fs = require('fs'); const f = 'tsconfig.json'; fs.writeFileSync(f, fs.readFileSync(f,'utf8').replace('\"ignoreDeprecations\": \"6.0\"', '\"ignoreDeprecations\": \"5.0\"'))"
+
           yarn typecheck
+
+          # Restore TS ignoreDeprecations option
+          node -e "const fs = require('fs'); const f = 'tsconfig.json'; fs.writeFileSync(f, fs.readFileSync(f,'utf8').replace('\"ignoreDeprecations\": \"5.0\"', '\"ignoreDeprecations\": \"6.0\"'))"
+
       - name: TypeCheck website - max version - Latest
         # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
         if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'

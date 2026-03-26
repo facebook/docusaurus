@@ -6,8 +6,7 @@
     "tsBuildInfoFile": "lib/.tsbuildinfo-worker",
     "moduleResolution": "bundler",
     "module": "esnext",
-    "target": "esnext",
-    "types": ["node"]
+    "target": "esnext"
   },
   "include": ["src/sw.ts"],
   "exclude": ["**/__tests__/**"]

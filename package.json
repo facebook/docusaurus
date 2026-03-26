@@ -48,7 +48,7 @@
     "argos:build": "cross-env DOCUSAURUS_ARGOS_BUILD=true yarn build:website:fast --dev",
     "argos:screenshot": "yarn workspace argos screenshot",
     "canary": "yarn canary:bumpVersion && yarn canary:publish",
-    "canary:getCoreVersion": "node -p \"require('./packages/docusaurus/package.json').version\"",
+    "canary:getCoreVersion": "node -p \"require('./packages/docusaurus/package.json').version.split('-')[0]\"",
     "canary:version": "echo `yarn --silent canary:getCoreVersion`-canary-`git rev-list --count HEAD`+`git rev-parse --short HEAD`",
     "canary:bumpVersion": "yarn lerna version `yarn --silent canary:version` --exact --no-push --yes --loglevel verbose",
     "canary:publish": "yarn lerna publish from-package --dist-tag canary --yes --no-verify-access --loglevel verbose",
@@ -86,7 +86,7 @@
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.14.197",
-    "@types/node": "^18.16.19",
+    "@types/node": "^20.19.37",
     "@types/prompts": "^2.4.4",
     "@types/react": "^19.2.10",
     "@types/semver": "^7.5.0",
@@ -128,7 +128,7 @@
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
-    "typescript": "~5.8.2"
+    "typescript": "~6.0.2"
   },
   "resolutions": {
     "**/pretty-format/react-is": "^19.2.4"

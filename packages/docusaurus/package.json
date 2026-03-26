@@ -67,7 +67,7 @@
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.3.4",
     "semver": "^7.5.4",
-    "serve-handler": "^6.1.6",
+    "serve-handler": "^6.1.7",
     "tinypool": "^1.0.2",
     "tslib": "^2.6.0",
     "update-notifier": "^6.0.2",
@@ -86,6 +86,7 @@
     "@types/serve-handler": "^6.1.4",
     "@types/update-notifier": "^6.0.4",
     "@types/webpack-bundle-analyzer": "^4.7.0",
+    "@types/webpack-env": "^1.18.8",
     "tmp-promise": "^3.0.3",
     "tree-node-cli": "^1.6.0"
   },

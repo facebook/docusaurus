@@ -1,7 +1,7 @@
 name: Publish
 
 on:
-  workflow_dispatch:
+  # Publish canary on push
   push:
     branches:
       - main
@@ -9,15 +9,34 @@ on:
     paths:
       - .github/workflows/publish.yml
       - package.json
-      - packages/*
+      - packages/**
+
+  # Publish release on manual dispatch
+  workflow_dispatch:
+    inputs:
+      npm_version:
+        description: 'NPM Version - Including prerelease suffix (optional)'
+        required: true
+        default: 3.0.0-alpha.0
+      npm_tag:
+        type: choice
+        description: 'NPM Dist Tag - Use `latest` for official stable releases'
+        # default: canary
+        required: true
+        options:
+          - canary
+          - alpha
+          - beta
+          - rc
+          - latest
 
 permissions:
-  contents: read
   id-token: write # For OIDC, see https://docs.npmjs.com/trusted-publishers
+  contents: write # For GitHub tags
 
 jobs:
-  publish-canary:
-    name: Publish Canary
+  publish:
+    name: Publish NPM release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,16 +53,39 @@ jobs:
           # cache: yarn
       - name: Prepare git
         run: |
-          git config --global user.name "Docusaurus Canary"
-          git config --global user.email "canary@docusaurus.io"
+          git config --global user.name "Docusaurus"
+          git config --global user.email "github@docusaurus.io"
       - name: Installation
         run: yarn || yarn || yarn
         # TODO Docusaurus v4: remove after we upgrade the Node version
       - name: Upgrade Lerna
         run: |
           yarn add -D -W lerna@9.0.3 --ignore-scripts
-          git commit -am "chore: upgrade lerna"
+          git restore .
+
       - name: Publish Canary release
+        if: |
+          github.event_name == 'push' ||
+          (github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag == 'canary')
         run: |
           yarn canary:bumpVersion
           yarn canary:publish
+
+      - name: Publish NPM release
+        if: |
+          github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag != 'canary'
+        run: |
+          yarn lerna publish \
+            --force-publish \
+            --exact "${{ github.event.inputs.npm_version }}" \
+            --dist-tag "${{ github.event.inputs.npm_tag }}" \
+            --loglevel verbose \
+            --yes \
+            --no-verify-access \
+            --no-push
+          git push origin v"${{ github.event.inputs.npm_version }}"
+
+        # TODO Docusaurus v4: upgrade Lerna, remove useless --no-verify-access everywhere
+        # TODO should we push the package version local updates to Git?
+        #  "main" is currently protected, even GitHub Actions can't push to it
+        #  However it remains useful to push the git tag
