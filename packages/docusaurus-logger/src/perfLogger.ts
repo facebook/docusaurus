@@ -4,7 +4,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {AsyncLocalStorage} from 'async_hooks';
+
+import {AsyncLocalStorage} from 'node:async_hooks';
+// import {type PerformanceMark} from 'node:perf_hooks';
 import logger from './logger';
 
 // For now this is a private env variable we use internally

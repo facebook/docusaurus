@@ -4,7 +4,6 @@
     "noEmit": false,
     "sourceMap": true,
     "declarationMap": true,
-    "types": ["node"],
     "lib": ["DOM"]
   },
   "include": ["src"],

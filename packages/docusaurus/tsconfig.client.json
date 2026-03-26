@@ -3,7 +3,7 @@
   "include": ["src/client", "src/*.d.ts"],
   "exclude": ["**/__tests__/**"],
   "compilerOptions": {
-    "types": ["node"],
-    "lib": ["DOM"]
+    "types": ["node", "webpack-env"],
+    "lib": ["DOM", "ESNext"]
   }
 }
