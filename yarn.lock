@@ -15508,10 +15508,10 @@ react-live@^4.1.6:
     sucrase "^3.31.0"
     use-editable "^2.3.3"
 
-react-loadable-ssr-addon-v5-slorber@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-loadable-ssr-addon-v5-slorber/-/react-loadable-ssr-addon-v5-slorber-1.0.1.tgz#2cdc91e8a744ffdf9e3556caabeb6e4278689883"
-  integrity sha512-lq3Lyw1lGku8zUEJPDxsNm1AfYHBrO9Y1+olAYwpUJ2IGFBskM0DMKok97A6LWUpHm+o7IvQBOWu9MLenp9Z+A==
+react-loadable-ssr-addon-v5-slorber@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-loadable-ssr-addon-v5-slorber/-/react-loadable-ssr-addon-v5-slorber-1.0.3.tgz#bb3791bf481222c63a5bc6b96ee23f68cb5614b9"
+  integrity sha512-GXfh9VLwB5ERaCsU6RULh7tkemeX15aNh6wuMEBtfdyMa7fFG8TXrhXlx1SoEK2Ty/l6XIkzzYIQmyaWW3JgdQ==
   dependencies:
     "@babel/runtime" "^7.10.3"
 
