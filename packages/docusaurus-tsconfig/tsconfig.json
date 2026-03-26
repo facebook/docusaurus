@@ -12,6 +12,7 @@
     "module": "esnext",
     "noEmit": true,
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@site/*": ["./*"]
     },
