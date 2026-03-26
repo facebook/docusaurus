@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "references": [{"path": "./tsconfig.client.json"}],
   "compilerOptions": {
-    "noEmit": false
+    "noEmit": false,
+    "types": ["node"]
   },
   "include": ["src"],
   "exclude": ["src/analytics.ts", "**/__tests__/**"]
