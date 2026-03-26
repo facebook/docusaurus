@@ -3,6 +3,7 @@
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
+    "baseUrl": ".",
     "resolveJsonModule": true,
     "allowArbitraryExtensions": true,
 
