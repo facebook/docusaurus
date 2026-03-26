@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": false,
-    "tsBuildInfoFile": "${configDir}/lib/.tsbuildinfo-server"
+    "tsBuildInfoFile": "${configDir}/lib/.tsbuildinfo-server",
+    "types": ["node"]
   },
   "include": ["src"],
   "exclude": ["src/client", "**/__tests__/**"]

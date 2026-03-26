@@ -64,7 +64,6 @@ function getDefaultCalendar(localeStr: string) {
   // See https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getCalendars
   // See https://caniuse.com/mdn-javascript_builtins_intl_locale_getcalendars
   const calendars =
-    // @ts-expect-error: new std method (Bun/JSC/WebKit)
     locale.getCalendars?.() ??
     // @ts-expect-error: non-std attribute (V8/Chromium/Node)
     locale.calendars;
@@ -84,7 +83,7 @@ function getDefaultDirection(localeStr: string) {
   // TODO Docusaurus v4: remove the fallback to locale.textInfo
   // @ts-expect-error: The TC39 proposal was updated
   const textInto = locale.getTextInfo?.() ?? locale.textInfo;
-  return textInto.direction;
+  return textInto.direction ?? 'ltr';
 }
 
 export function getDefaultLocaleConfig(

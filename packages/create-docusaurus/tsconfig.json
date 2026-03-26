@@ -3,7 +3,8 @@
   "references": [{"path": "./tsconfig.build.json"}],
   "compilerOptions": {
     "noEmit": true,
-    "rootDir": "."
+    "rootDir": ".",
+    "types": ["node"]
   },
   "include": ["package.json", "bin"],
   "exclude": ["**/__tests__/**"]
