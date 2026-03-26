@@ -21,7 +21,14 @@ export function useBreadcrumbsStructuredData({
     itemListElement: breadcrumbs
       // We filter breadcrumb items without links, they are not allowed
       // See also https://github.com/facebook/docusaurus/issues/9319#issuecomment-2643560845
-      .filter((breadcrumb) => breadcrumb.href)
+      // We also filter unlisted category links: the href is present on the
+      // item (so the sidebar highlight still works) but must not be emitted
+      // into structured data where it would be crawled by search engines.
+      .filter(
+        (breadcrumb) =>
+          breadcrumb.href &&
+          !(breadcrumb.type === 'category' && breadcrumb.linkUnlisted),
+      )
       .map((breadcrumb, index) => ({
         '@type': 'ListItem',
         position: index + 1,
