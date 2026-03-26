@@ -3,11 +3,6 @@
   "include": ["src/client", "src/*.d.ts"],
   "exclude": ["**/__tests__/**"],
   "compilerOptions": {
-    "types": [
-      // TODO "node" shouldn't be there
-      //  need to extract serverEntry / renderToHtml in separate dir
-      "node",
-      "webpack-env"
-    ]
+    "types": ["node", "webpack-env"]
   }
 }
