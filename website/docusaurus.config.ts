@@ -236,6 +236,7 @@ export default async function createConfigAsync() {
       mdx1Compat: {
         headingIds: false,
         comments: false,
+        admonitions: false,
       },
       remarkRehypeOptions: {
         footnoteLabel: getLocalizedConfigValue('remarkRehypeOptions_footnotes'),
