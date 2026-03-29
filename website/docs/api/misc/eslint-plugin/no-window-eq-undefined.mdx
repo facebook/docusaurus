@@ -1,0 +1,48 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/no-window-eq-undefined
+---
+
+# no-window-eq-undefined
+
+Disallow `typeof window !== "undefined"` checks as an SSR escape hatch.
+
+## Rule details
+
+In Docusaurus, using `typeof window !== 'undefined'` is **not the recommended way** to detect a browser environment. This check may not work correctly with Docusaurus's SSR/pre-rendering pipeline.
+
+### ❌ Incorrect
+
+```js
+if (typeof window !== 'undefined') {
+  // browser-only code
+}
+```
+
+### ✅ Correct
+
+Use the `useIsBrowser()` hook from `@docusaurus/useIsBrowser` inside React components:
+
+```js
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+function MyComponent() {
+  const isBrowser = useIsBrowser();
+  if (isBrowser) {
+    // browser-only code
+  }
+}
+```
+
+Or use `ExecutionEnvironment.canUseDOM` from `@docusaurus/ExecutionEnvironment` outside React:
+
+```js
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+if (ExecutionEnvironment.canUseDOM) {
+  // browser-only code
+}
+```
+
+## Options
+
+This rule has no options.
