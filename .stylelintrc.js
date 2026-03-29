@@ -6,17 +6,13 @@
  */
 
 module.exports = {
-  extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
-  plugins: ['stylelint-copyright'],
+  extends: ['stylelint-config-standard'],
   rules: {
-    'docusaurus/copyright-header': [
+    'plugin/require-file-header-comment': [
       true,
       {
-        header: `*
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.`,
+        pattern:
+          'Copyright \\(c\\) Facebook, Inc\\. and its affiliates\\.',
       },
     ],
     'selector-pseudo-class-no-unknown': [

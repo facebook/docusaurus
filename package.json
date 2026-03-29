@@ -63,7 +63,7 @@
     "lint:js:fix": "yarn lint:js --fix",
     "lint:spelling": "cspell \"**\" --no-progress --show-context --show-suggestions",
     "lint:spelling:fix": "yarn rimraf project-words.txt && echo \"# Project Words - DO NOT TOUCH - This is updated through CI\" >> project-words.txt && yarn -s lint:spelling --words-only --unique --no-exit-code --no-summary \"**\" | cross-env LC_ALL=C sort --ignore-case >> project-words.txt",
-    "lint:style": "stylelint \"**/*.css\"",
+    "lint:style": "gale \"**/*.css\"",
     "lint:style:fix": "yarn lint:style --fix",
     "lerna": "lerna",
     "test": "jest",
@@ -125,9 +125,7 @@
     "rimraf": "^3.0.2",
     "sharp": "^0.32.3",
     "strip-ansi": "^6.0.1",
-    "stylelint": "^14.16.1",
-    "stylelint-config-prettier": "^9.0.5",
-    "stylelint-config-standard": "^29.0.0",
+    "@lyricalstring/gale": "^0.1.5",
     "typescript": "~6.0.2"
   },
   "resolutions": {
