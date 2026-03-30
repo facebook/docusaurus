@@ -54,6 +54,44 @@ export default {
 };
 ```
 
+### Environment-specific `manifest.json`
+
+If you deploy the same site to multiple environments (for example, staging and production), you may need different manifest values such as `name`, `start_url`, `scope`, or icon URLs.
+
+You can do this in two common ways:
+
+1. Keep one manifest file per environment and copy the right one to `./static/manifest.json` during your build.
+2. Keep a template manifest with placeholders and replace those placeholders in CI before build.
+
+Example placeholder manifest:
+
+```json title="static/manifest.template.json"
+{
+  "name": "${APP_NAME}",
+  "short_name": "${APP_SHORT_NAME}",
+  "start_url": "${START_URL}",
+  "scope": "${SCOPE}",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#25c2a0",
+  "icons": [
+    {
+      "src": "${BASE_URL}img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
+```
+
+Then generate `static/manifest.json` in your build pipeline before running `docusaurus build`.
+
+:::tip
+
+When using placeholders, make sure the output is always valid JSON.
+
+:::
+
 ## Progressive Web App {/* #progressive-web-app */}
 
 Having a service worker installed is not enough to make your application a PWA. You'll need to at least include a [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest) and have the correct tags in `<head>` ([Options > pwaHead](#pwahead)).
