@@ -12,3 +12,13 @@
 .navbarHidden {
   transform: translate3d(0, calc(-100% - 2px), 0);
 }
+
+@media (min-width: 1440px) {
+  :global(.navbar) {
+    justify-content: center;
+  }
+
+  :global(.navbar__inner) {
+    max-width: var(--ifm-container-width-xl);
+  }
+}
