@@ -33,5 +33,5 @@
 }
 
 :global(.theme-code-block:hover) .buttonGroup button {
-  opacity: 0.4;
+  opacity: 1;
 }
