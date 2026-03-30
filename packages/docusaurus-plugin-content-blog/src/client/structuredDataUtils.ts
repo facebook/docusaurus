@@ -8,6 +8,8 @@
 import {useBaseUrlUtils, type BaseUrlUtils} from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
+import {normalizeUrl} from '@docusaurus/utils';
 import type {Props as BlogListPageStructuredDataProps} from '@theme/BlogListPage/StructuredData';
 import {useBlogPost} from './contexts';
 
@@ -26,6 +28,16 @@ import type {DocusaurusConfig} from '@docusaurus/types';
 
 const convertDate = (dateMs: number) => new Date(dateMs).toISOString();
 
+function buildAbsoluteSiteUrl(path: string, siteConfig: DocusaurusConfig): string {
+  return normalizeUrl([
+    siteConfig.url,
+    applyTrailingSlash(path, {
+      trailingSlash: siteConfig.trailingSlash,
+      baseUrl: siteConfig.baseUrl,
+    }),
+  ]);
+}
+
 function getBlogPost(
   blogPostContent: PropBlogPostContent,
   siteConfig: DocusaurusConfig,
@@ -37,7 +49,7 @@ function getBlogPost(
   const image = assets.image ?? frontMatter.image;
   const keywords = frontMatter.keywords ?? [];
 
-  const blogUrl = `${siteConfig.url}${metadata.permalink}`;
+  const blogUrl = buildAbsoluteSiteUrl(metadata.permalink, siteConfig);
 
   const dateModified = lastUpdatedAt ? convertDate(lastUpdatedAt) : undefined;
 
@@ -92,7 +104,7 @@ export function useBlogListPageStructuredData(
     metadata: {blogDescription, blogTitle, permalink},
   } = props;
 
-  const url = `${siteConfig.url}${permalink}`;
+  const url = buildAbsoluteSiteUrl(permalink, siteConfig);
 
   // details on structured data support: https://schema.org/Blog
   return {
@@ -121,7 +133,7 @@ export function useBlogPostStructuredData(): WithContext<BlogPosting> {
 
   const dateModified = lastUpdatedAt ? convertDate(lastUpdatedAt) : undefined;
 
-  const url = `${siteConfig.url}${metadata.permalink}`;
+  const url = buildAbsoluteSiteUrl(metadata.permalink, siteConfig);
 
   // details on structured data support: https://schema.org/BlogPosting
   // BlogPosting is one of the structured data types that Google explicitly
@@ -142,7 +154,7 @@ export function useBlogPostStructuredData(): WithContext<BlogPosting> {
     ...(keywords ? {keywords} : {}),
     isPartOf: {
       '@type': 'Blog',
-      '@id': `${siteConfig.url}${blogMetadata.blogBasePath}`,
+      '@id': buildAbsoluteSiteUrl(blogMetadata.blogBasePath, siteConfig),
       name: blogMetadata.blogTitle,
     },
   };
