@@ -64,6 +64,7 @@ jobs:
 
           strictDepBuilds: true
           allowBuilds:
+          '@swc/core': true
             core-js-pure: true
             core-js: true
 
