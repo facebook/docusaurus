@@ -96,12 +96,15 @@ describe('validateOptions', () => {
     );
   });
 
-  it('accepts anonymizeIP', () => {
+  it('rejects anonymizeIP', () => {
     const config: Options = {
       ...MinimalConfig,
+      // @ts-expect-error: removed option
       anonymizeIP: true,
     };
-    expect(testValidateOptions(config)).toEqual(validationResult(config));
+    expect(() => testValidateOptions(config)).toThrowErrorMatchingInlineSnapshot(
+      `"The "anonymizeIP" option is no longer needed and has been removed. In Google Analytics 4, IP addresses are not logged or stored, making IP anonymization unnecessary. See https://support.google.com/analytics/answer/2763052"`,
+    );
   });
 
   it('accepts single trackingID', () => {
