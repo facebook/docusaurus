@@ -1,5 +1,6 @@
 version: 2
 updates:
+  # Update GitHub actions
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
@@ -7,6 +8,8 @@ updates:
     open-pull-requests-limit: 99
     labels:
       - 'pr: dependencies'
+
+  # Update npm / Yarn dependencies
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
@@ -16,3 +19,11 @@ updates:
     open-pull-requests-limit: 0
     labels:
       - 'pr: dependencies'
+    # Reduce supply chain risk, delay updates
+    # We also don't need to be early adopters
+    # https://github.blog/changelog/2025-07-01-dependabot-supports-configuration-of-a-minimum-package-age/
+    cooldown:
+      default-days: 5
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 7
