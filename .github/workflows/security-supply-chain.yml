@@ -1,0 +1,87 @@
+name: Security
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # every day at 03:00 UTC
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - docusaurus-v**
+  pull_request:
+    branches:
+      - main
+      - docusaurus-v**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  supply-chain-checks:
+    name: Supply Chain Checks
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: lts/*
+          # No cache on purpose! We want SFW to fetch packages
+
+      # See https://socket.dev/blog/introducing-socket-firewall
+      - name: Install Socket Firewall Free
+        run: npm install -g sfw@2.0.4
+
+      # Ensure our monorepo gets scanned by SFW
+      - name: Install monorepo dependencies with SFW
+        run: sfw yarn install --frozen-lockfile
+
+      # Check for malicious lockfile injections
+      # See https://github.com/lirantal/npm-security-best-practices#4-prevent-npm-lockfile-injection
+      - name: Check for suspicious yarn.lock
+        # for allowed aliases, see https://github.com/yargs/cliui/pull/139/files#r1670711112
+        run: yarn lockfile-lint --path yarn.lock --type yarn --allowed-hosts yarn --validate-https --validate-package-names --validate-integrity --empty-hostname=false --allowed-package-name-aliases react-loadable react-helmet-async string-width-cjs strip-ansi-cjs wrap-ansi-cjs
+
+      # Generate init template
+      - name: Generate test-website project against main branch
+        run: yarn create-docusaurus ../test-website classic --javascript --skip-install
+
+      # Ensure our init template gets scanned by SFW
+      - name: Install test-website project with SFW
+        run: sfw yarn install --frozen-lockfile
+        working-directory: ../test-website
+
+      # Ensure no unexpected lifecycle (preintall/postinstall scripts)
+      # Only pnpm 10+ has options to fail a build on suspicious lifecycles
+      - name: Forbid lifecycle scripts
+        working-directory: ../test-website
+        run: |
+          rm -rf node_modules
+
+          npm install -g pnpm@10.33.0
+
+          cat > pnpm-workspace.yaml <<'YAML'
+
+          blockExoticSubdeps: true
+
+          strictDepBuilds: true
+          allowBuilds:
+            '@swc/core': true
+            core-js-pure: true
+            core-js: true
+
+          trustPolicy: no-downgrade
+          trustPolicyExclude:
+            - 'detect-port@1.6.1'
+            - 'semver@6.3.1'
+
+          YAML
+
+          pnpm install

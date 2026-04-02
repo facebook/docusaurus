@@ -1,5 +1,7 @@
 version: 2
 updates:
+  ########################
+  # GITHUB ACTIONS UPDATES
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
@@ -7,12 +9,36 @@ updates:
     open-pull-requests-limit: 99
     labels:
       - 'pr: dependencies'
+
+  ########################
+  # NPM SECURITY UPDATES
   - package-ecosystem: 'npm'
     directory: '/'
+    exclude-paths:
+      - 'examples/**'
     schedule:
       interval: 'daily'
     # Disable version updates for npm dependencies
+    # This is what restricts Dependabot to security updates only
     # https://docs.github.com/en/code-security/dependabot/dependabot-security-updates/configuring-dependabot-security-updates#overriding-the-default-behavior-with-a-configuration-file
     open-pull-requests-limit: 0
     labels:
       - 'pr: dependencies'
+
+  ########################
+  # NPM VERSION UPDATES
+  - package-ecosystem: 'npm'
+    directory: '/'
+    exclude-paths:
+      - 'examples/**'
+    schedule:
+      interval: 'weekly'
+    # Do not spam too much, we'll adjust this setting if needed
+    open-pull-requests-limit: 5
+    labels:
+      - 'pr: dependencies'
+    cooldown:
+      default-days: 5
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 7

@@ -32,7 +32,7 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
 
       - name: Build Hash Router
         run: yarn build:website:fast
