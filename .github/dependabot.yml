@@ -14,6 +14,8 @@ updates:
   # NPM SECURITY UPDATES
   - package-ecosystem: 'npm'
     directory: '/'
+    exclude-paths:
+      - 'examples/**'
     schedule:
       interval: 'daily'
     # Disable version updates for npm dependencies
@@ -27,6 +29,8 @@ updates:
   # NPM VERSION UPDATES
   - package-ecosystem: 'npm'
     directory: '/'
+    exclude-paths:
+      - 'examples/**'
     schedule:
       interval: 'weekly'
     # Do not spam too much, we'll adjust this setting if needed
