@@ -15700,9 +15700,9 @@ react-is@^17.0.1, react-is@^18.0.0, react-is@^18.3.1, react-is@^19.2.4:
   integrity sha512-W+EWGn2v0ApPKgKKCy/7s7WHXkboGcsrXE+2joLyVxkbyVQfO3MUEaUQDHoSmb8TFFrSKYa9mw64WZHNHSDzYA==
 
 react-json-view-lite@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/react-json-view-lite/-/react-json-view-lite-2.3.0.tgz#872e36202c00711bf3f8582e0ae6c5cf63bbaac0"
-  integrity sha512-btGE+nynBIPRPLWMkE7ASOeF7QzzG6S3bTOTL0FLFNvprMsODmv8eUMFCUK9SOJqV8GCOW/avCpDJnMSchTafQ==
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/react-json-view-lite/-/react-json-view-lite-2.5.0.tgz#c7ff011c7cc80e9900abc7aa4916c6a5c6d6c1c6"
+  integrity sha512-tk7o7QG9oYyELWHL8xiMQ8x4WzjCzbWNyig3uexmkLb54r8jO0yH3WCWx8UZS0c49eSA4QUmG5caiRJ8fAn58g==
 
 react-lite-youtube-embed@^2.3.52:
   version "2.4.0"
