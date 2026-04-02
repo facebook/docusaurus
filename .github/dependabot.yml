@@ -19,8 +19,8 @@ updates:
     open-pull-requests-limit: 0
     labels:
       - 'pr: dependencies'
-    # Reduce supply chain risk, delay updates
-    # We also don't need to be early adopters
+    # Reduce supply chain risk, delay npm version updates,
+    # but stay responsive to critical security updates
     # https://github.blog/changelog/2025-07-01-dependabot-supports-configuration-of-a-minimum-package-age/
     cooldown:
       default-days: 5
