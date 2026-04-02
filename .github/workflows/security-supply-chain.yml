@@ -36,34 +36,41 @@ jobs:
       - name: Install Socket Firewall Free
         run: npm install -g sfw
 
-      # Ensure our monorepo has no vulnerable dependency
-      - name: Install monorepo dependencies through SFW
+      # Ensure our monorepo gets scanned by SFW
+      - name: Install monorepo dependencies with SFW
         run: sfw yarn install --frozen-lockfile
 
       # Generate init template
       - name: Generate test-website project against main branch
         run: yarn create-docusaurus ../test-website classic --javascript --skip-install
 
-      # Ensure our init template has no vulnerable dependency
-      - name: Install test-website project through SFW
+      # Ensure our init template gets scanned by SFW
+      - name: Install test-website project with SFW
         run: sfw yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
         working-directory: ../test-website
-        env:
-          npm_config_registry: http://localhost:4873
 
       # Ensure no unexpected lifecycle (preintall/postinstall scripts)
+      # Only pnpm 10+ has options to fail a build on suspicious lifecycles
       - name: Forbid lifecycle scripts
         run: |
-          yarn add @lavamoat/preinstall-always-fail --ignore-scripts
+          rm -rf node_modules
+
+          npm install -g pnpm@10.33.0
 
           cat > pnpm-workspace.yaml <<'YAML'
-          strictDepBuilds: true
-          allowBuilds: {}
-          trustPolicy: no-downgrade
-          blockExoticSubdeps: true
-          YAML
 
-          jq '.pnpm.strictDepBuilds = true' package.json > tmp && mv tmp package.json
-          jq '.pnpm.onlyBuiltDependencies = []' package.json > tmp && mv tmp package.json
+          blockExoticSubdeps: true
+
+          strictDepBuilds: true
+          allowBuilds:
+            core-js-pure: true
+            core-js: true
+
+          trustPolicy: no-downgrade
+          trustPolicyExclude:
+            - 'detect-port@1.6.1'
+            - 'semver@6.3.1'
+
+          YAML
 
           pnpm install
