@@ -52,6 +52,8 @@ jobs:
       # Ensure no unexpected lifecycle (preintall/postinstall scripts)
       # Only pnpm 10+ has options to fail a build on suspicious lifecycles
       - name: Forbid lifecycle scripts
+        env:
+          PNPM_PACKAGE_MANAGER_STRICT: 'false'
         run: |
           rm -rf node_modules
 
