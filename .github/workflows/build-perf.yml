@@ -81,7 +81,7 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
 
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)

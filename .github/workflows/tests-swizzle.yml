@@ -33,7 +33,7 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
 
       # Swizzle all the theme components
       - name: Swizzle (${{matrix.action}} - ${{matrix.variant}})

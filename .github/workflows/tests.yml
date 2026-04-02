@@ -38,7 +38,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
       - name: Test
         run: yarn test
       - name: Remove Theme Internal Re-export

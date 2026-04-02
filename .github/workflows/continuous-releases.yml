@@ -27,7 +27,7 @@ jobs:
           cache: yarn
 
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
 
       - name: Build packages
         run: yarn build:packages
