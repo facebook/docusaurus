@@ -34,7 +34,7 @@ jobs:
 
       # See https://socket.dev/blog/introducing-socket-firewall
       - name: Install Socket Firewall Free
-        run: npm install -g sfw
+        run: npm install -g sfw@2.0.4
 
       # Ensure our monorepo gets scanned by SFW
       - name: Install monorepo dependencies with SFW
