@@ -46,7 +46,7 @@ jobs:
 
       # Ensure our init template gets scanned by SFW
       - name: Install test-website project with SFW
-        run: sfw yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
+        run: sfw yarn install --frozen-lockfile
         working-directory: ../test-website
 
       # Ensure no unexpected lifecycle (preintall/postinstall scripts)
