@@ -1,0 +1,64 @@
+name: E2E Tests
+
+on:
+  push:
+    branches:
+      - main
+      - docusaurus-v**
+  pull_request:
+    branches:
+      - main
+      - docusaurus-v**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  secure-supply-chain:
+    name: Security - Supply Chain Checks
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: lts/*
+          cache: yarn
+
+      # See https://socket.dev/blog/introducing-socket-firewall
+      - name: Install Socket Firewall Free
+        run: npm install -g sfw
+
+      - name: Install monorepo dependencies through SFW
+        run: sfw yarn install --frozen-lockfile
+
+      - name: Generate test-website project against main branch
+        run: yarn test:build:website -s
+
+      - name: Install test-website project with Yarn v1 through SFW
+        run: sfw yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
+        working-directory: ../test-website
+        env:
+          npm_config_registry: http://localhost:4873
+
+      - name: Start test-website project
+        run: yarn start --no-open
+        working-directory: ../test-website
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        # We build 2 locales to ensure a localized site doesn't leak memory
+        # See https://github.com/facebook/docusaurus/pull/10599
+        run: yarn build --locale en --locale fr
+        env:
+          # Our website should build even with limited memory
+          # See https://github.com/facebook/docusaurus/pull/10590
+          NODE_OPTIONS: '--max-old-space-size=300'
+          DOCUSAURUS_PERF_LOGGER: 'true'
+        working-directory: ../test-website
