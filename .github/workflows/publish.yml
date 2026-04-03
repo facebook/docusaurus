@@ -56,7 +56,7 @@ jobs:
           git config --global user.name "Docusaurus"
           git config --global user.email "github@docusaurus.io"
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
         # TODO Docusaurus v4: remove after we upgrade the Node version
       - name: Upgrade Lerna
         run: |

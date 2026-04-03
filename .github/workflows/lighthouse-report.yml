@@ -30,7 +30,7 @@ jobs:
           cache: yarn
 
       - name: Install dependencies
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
 
       - name: Build website fast
         run: yarn build:website:fast

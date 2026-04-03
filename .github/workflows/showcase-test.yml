@@ -29,6 +29,6 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
       - name: Test
         run: yarn test website/src/data/__tests__/user.test.ts

@@ -40,7 +40,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
       - name: Docusaurus Jest Tests
         run: yarn test
       - name: Create a deep path
