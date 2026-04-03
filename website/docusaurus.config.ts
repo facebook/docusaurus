@@ -234,8 +234,7 @@ export default async function createConfigAsync() {
         onBrokenMarkdownLinks: 'warn',
       },
       mdx1Compat: {
-        headingIds: false,
-        comments: false,
+        admonitions: true,
       },
       remarkRehypeOptions: {
         footnoteLabel: getLocalizedConfigValue('remarkRehypeOptions_footnotes'),

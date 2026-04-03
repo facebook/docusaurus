@@ -44,12 +44,26 @@ const baseConfig = {
 const normalizeConfig = (config: DeepPartial<Config>): DocusaurusConfig =>
   validateConfig({...baseConfig, ...config}, 'docusaurus.config.js');
 
+// mdx1Compat defaults are resolved in postProcessDocusaurusConfig
+// based on the future.v4.mdx1CompatDisabledByDefault flag
+// DEFAULT_CONFIG.markdown.mdx1Compat is {} (unresolved)
+// This is the resolved version when the flag is off (default)
+const DEFAULT_MDX1_COMPAT_RESOLVED = {
+  comments: true,
+  admonitions: true,
+  headingIds: true,
+};
+
 describe('normalizeConfig', () => {
   it('normalizes empty config', () => {
     const value = normalizeConfig({markdown: {}});
     expect(value).toEqual({
       ...DEFAULT_CONFIG,
       ...baseConfig,
+      markdown: {
+        ...DEFAULT_CONFIG.markdown,
+        mdx1Compat: DEFAULT_MDX1_COMPAT_RESOLVED,
+      },
     });
   });
 
@@ -67,6 +81,7 @@ describe('normalizeConfig', () => {
           useCssCascadeLayers: true,
           siteStorageNamespacing: true,
           fasterByDefault: true,
+          mdx1CompatDisabledByDefault: true,
         },
         faster: {
           swcJsLoader: true,
@@ -146,6 +161,10 @@ describe('normalizeConfig', () => {
     expect(value).toEqual({
       ...DEFAULT_CONFIG,
       ...baseConfig,
+      markdown: {
+        ...DEFAULT_CONFIG.markdown,
+        mdx1Compat: DEFAULT_MDX1_COMPAT_RESOLVED,
+      },
       customFields: {
         author: 'anshul',
       },
@@ -513,12 +532,17 @@ describe('markdown', () => {
   ): MarkdownConfig {
     return normalizeConfig({markdown}).markdown;
   }
+  const DEFAULT_MARKDOWN_RESOLVED = {
+    ...DEFAULT_CONFIG.markdown,
+    mdx1Compat: DEFAULT_MDX1_COMPAT_RESOLVED,
+  };
+
   it('accepts undefined object', () => {
-    expect(normalizeMarkdown(undefined)).toEqual(DEFAULT_CONFIG.markdown);
+    expect(normalizeMarkdown(undefined)).toEqual(DEFAULT_MARKDOWN_RESOLVED);
   });
 
   it('accepts empty object', () => {
-    expect(normalizeMarkdown({})).toEqual(DEFAULT_CONFIG.markdown);
+    expect(normalizeMarkdown({})).toEqual(DEFAULT_MARKDOWN_RESOLVED);
   });
 
   it('accepts valid markdown object', () => {
@@ -558,10 +582,10 @@ describe('markdown', () => {
       },
     };
     expect(normalizeMarkdown(markdown)).toEqual({
-      ...DEFAULT_CONFIG.markdown,
+      ...DEFAULT_MARKDOWN_RESOLVED,
       ...markdown,
       mdx1Compat: {
-        ...DEFAULT_CONFIG.markdown.mdx1Compat,
+        ...DEFAULT_MDX1_COMPAT_RESOLVED,
         ...markdown.mdx1Compat,
       },
     });
@@ -1348,6 +1372,7 @@ describe('future', () => {
         useCssCascadeLayers: true,
         siteStorageNamespacing: true,
         fasterByDefault: true,
+        mdx1CompatDisabledByDefault: true,
       },
       faster: {
         swcJsLoader: true,
@@ -2566,6 +2591,7 @@ describe('future', () => {
         useCssCascadeLayers: true,
         siteStorageNamespacing: true,
         fasterByDefault: true,
+        mdx1CompatDisabledByDefault: true,
       };
       expect(
         normalizeConfig({
@@ -2904,6 +2930,65 @@ describe('future', () => {
           ""future.v4.fasterByDefault" must be a boolean
           "
         `);
+      });
+    });
+
+    describe('mdx1CompatDisabledByDefault', () => {
+      function mdx1CompatContaining(mdx1Compat: object) {
+        return expect.objectContaining({
+          markdown: expect.objectContaining({mdx1Compat}),
+        });
+      }
+
+      const MDX1_COMPAT_ALL_TRUE = {
+        comments: true,
+        admonitions: true,
+        headingIds: true,
+      };
+
+      const MDX1_COMPAT_ALL_FALSE = {
+        comments: false,
+        admonitions: false,
+        headingIds: false,
+      };
+
+      it('defaults mdx1Compat to all true when flag is off', () => {
+        expect(normalizeConfig({})).toEqual(
+          mdx1CompatContaining(MDX1_COMPAT_ALL_TRUE),
+        );
+      });
+
+      it('defaults mdx1Compat to all false when flag is on', () => {
+        expect(
+          normalizeConfig({
+            future: {v4: {mdx1CompatDisabledByDefault: true}},
+          }),
+        ).toEqual(mdx1CompatContaining(MDX1_COMPAT_ALL_FALSE));
+      });
+
+      it('defaults mdx1Compat to all false when v4: true', () => {
+        expect(
+          normalizeConfig({
+            future: {v4: true},
+          }),
+        ).toEqual(mdx1CompatContaining(MDX1_COMPAT_ALL_FALSE));
+      });
+
+      it('keeps explicit mdx1Compat overrides when flag is on', () => {
+        expect(
+          normalizeConfig({
+            future: {v4: {mdx1CompatDisabledByDefault: true}},
+            markdown: {
+              mdx1Compat: {admonitions: true},
+            },
+          }),
+        ).toEqual(
+          mdx1CompatContaining({
+            comments: false,
+            admonitions: true,
+            headingIds: false,
+          }),
+        );
       });
     });
   });
