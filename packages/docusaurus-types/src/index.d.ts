@@ -21,6 +21,7 @@ export {
 } from './config';
 
 export {
+  MDX1CompatOptions,
   MarkdownConfig,
   MarkdownHooks,
   DefaultParseFrontMatter,
