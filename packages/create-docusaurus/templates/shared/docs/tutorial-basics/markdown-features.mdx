@@ -20,9 +20,25 @@ slug: /my-custom-url
 ---
 // highlight-end
 
-## Markdown heading
+Markdown content
+```
 
-Markdown text with [links](./hello.md)
+## Headings {/* #my-heading-id */}
+
+Markdown headings are supported using the standard “#” syntax and are automatically added to the table of contents. The number of `#` corresponds to the heading level.
+
+```md
+## Headings
+
+My text
+```
+
+### Heading Ids {/* #my-custom-id */}
+
+Add `{/* #my-custom-id */}` after the heading text to assign it an explicit anchor id, used for linking.
+
+```md
+### Heading Ids {/_ #my-custom-id _/}
 ```
 
 ## Links
