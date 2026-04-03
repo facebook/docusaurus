@@ -437,8 +437,48 @@ export default async function createConfigAsync() {
           pwaHead: [
             {
               tagName: 'link',
+              rel: 'canonical',
+              href: 'https://docusaurus.io/',
+            },
+            {
+              tagName: 'link',
               rel: 'icon',
               href: 'img/docusaurus.png',
+            },
+            {
+              tagName: 'script',
+              type: 'application/ld+json',
+              innerHTML: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'WebSite',
+                'url': 'https://docusaurus.io/',
+                'name': 'Docusaurus',
+                'description': 'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
+                'potentialAction': {
+                  '@type': 'SearchAction',
+                  'target': {
+                    '@type': 'EntryPoint',
+                    'urlTemplate': 'https://docusaurus.io/search?q={search_term_string}',
+                  },
+                  'query-input': 'required name=search_term_string',
+                },
+              }),
+            },
+            {
+              tagName: 'script',
+              type: 'application/ld+json',
+              innerHTML: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Organization',
+                'name': 'Meta',
+                'url': 'https://opensource.fb.com',
+                'logo': 'https://docusaurus.io/img/meta_opensource_logo_negative.svg',
+                'sameAs': [
+                  'https://github.com/facebook/docusaurus',
+                  'https://x.com/docusaurus',
+                  'https://discord.gg/docusaurus',
+                ],
+              }),
             },
             {
               tagName: 'link',
@@ -664,7 +704,19 @@ export default async function createConfigAsync() {
         darkTheme: PrismDark,
       },
       image: 'img/docusaurus-social-card.jpg',
-      // metadata: [{name: 'twitter:card', content: 'summary'}],
+      metadata: [
+        {name: 'twitter:card', content: 'summary_large_image'},
+        {name: 'twitter:site', content: '@docusaurus'},
+        {name: 'twitter:title', content: 'Docusaurus'},
+        {name: 'twitter:description', content: 'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.'},
+        {name: 'twitter:image', content: 'https://docusaurus.io/img/docusaurus-social-card.jpg'},
+        {property: 'og:type', content: 'website'},
+        {property: 'og:title', content: 'Docusaurus'},
+        {property: 'og:description', content: 'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.'},
+        {property: 'og:image', content: 'https://docusaurus.io/img/docusaurus-social-card.jpg'},
+        {property: 'og:url', content: 'https://docusaurus.io/'},
+        {property: 'og:site_name', content: 'Docusaurus'},
+      ],
       algolia: {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
