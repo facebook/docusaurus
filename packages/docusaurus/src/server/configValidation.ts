@@ -127,16 +127,22 @@ export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
   onBrokenMarkdownImages: 'throw',
 };
 
+export const DEFAULT_MARKDOWN_MDX1COMPAT: MDX1CompatOptions = {
+  comments: true,
+  admonitions: true,
+  headingIds: true,
+};
+
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
-  format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
+  // TODO Docusaurus v5: change this to "detect"?
+  //  we probably need stable CommonMark support first
+  //  see https://github.com/facebook/docusaurus/issues/9092
+  format: 'mdx',
   mermaid: false,
   emoji: true,
   preprocessor: undefined,
   parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
-  // Individual mdx1Compat boolean defaults are not set here on purpose
-  // They are resolved in postProcessDocusaurusConfig based on
-  // the future.v4.mdx1CompatDisabledByDefault flag
-  mdx1Compat: {} as MDX1CompatOptions,
+  mdx1Compat: DEFAULT_MARKDOWN_MDX1COMPAT,
   anchors: {
     maintainCase: false,
   },
@@ -548,7 +554,12 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         )
         .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownImages),
     }).default(DEFAULT_CONFIG.markdown.hooks),
-  }).default(DEFAULT_CONFIG.markdown),
+  }).default({
+    ...DEFAULT_CONFIG.markdown,
+    mdx1Compat: {
+      // erased on purpose, filled using postprocessing
+    },
+  }),
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
@@ -581,11 +592,9 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
   // Resolve mdx1Compat config based on the v4.mdx1CompatDisabledByDefault flag
   // undefined means "not explicitly set by user"
   const mdx1CompatDefault = !config.future.v4.mdx1CompatDisabledByDefault;
-  const mdx1CompatKeys: (keyof MDX1CompatOptions)[] = [
-    'comments',
-    'admonitions',
-    'headingIds',
-  ];
+  const mdx1CompatKeys = Object.keys(
+    DEFAULT_MARKDOWN_MDX1COMPAT,
+  ) as (keyof MDX1CompatOptions)[];
   for (const key of mdx1CompatKeys) {
     config.markdown.mdx1Compat[key] ??= mdx1CompatDefault;
   }

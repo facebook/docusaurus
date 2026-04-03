@@ -44,26 +44,12 @@ const baseConfig = {
 const normalizeConfig = (config: DeepPartial<Config>): DocusaurusConfig =>
   validateConfig({...baseConfig, ...config}, 'docusaurus.config.js');
 
-// mdx1Compat defaults are resolved in postProcessDocusaurusConfig
-// based on the future.v4.mdx1CompatDisabledByDefault flag
-// DEFAULT_CONFIG.markdown.mdx1Compat is {} (unresolved)
-// This is the resolved version when the flag is off (default)
-const DEFAULT_MDX1_COMPAT_RESOLVED = {
-  comments: true,
-  admonitions: true,
-  headingIds: true,
-};
-
 describe('normalizeConfig', () => {
   it('normalizes empty config', () => {
     const value = normalizeConfig({markdown: {}});
     expect(value).toEqual({
       ...DEFAULT_CONFIG,
       ...baseConfig,
-      markdown: {
-        ...DEFAULT_CONFIG.markdown,
-        mdx1Compat: DEFAULT_MDX1_COMPAT_RESOLVED,
-      },
     });
   });
 
@@ -161,10 +147,6 @@ describe('normalizeConfig', () => {
     expect(value).toEqual({
       ...DEFAULT_CONFIG,
       ...baseConfig,
-      markdown: {
-        ...DEFAULT_CONFIG.markdown,
-        mdx1Compat: DEFAULT_MDX1_COMPAT_RESOLVED,
-      },
       customFields: {
         author: 'anshul',
       },
@@ -532,17 +514,13 @@ describe('markdown', () => {
   ): MarkdownConfig {
     return normalizeConfig({markdown}).markdown;
   }
-  const DEFAULT_MARKDOWN_RESOLVED = {
-    ...DEFAULT_CONFIG.markdown,
-    mdx1Compat: DEFAULT_MDX1_COMPAT_RESOLVED,
-  };
 
   it('accepts undefined object', () => {
-    expect(normalizeMarkdown(undefined)).toEqual(DEFAULT_MARKDOWN_RESOLVED);
+    expect(normalizeMarkdown(undefined)).toEqual(DEFAULT_CONFIG.markdown);
   });
 
   it('accepts empty object', () => {
-    expect(normalizeMarkdown({})).toEqual(DEFAULT_MARKDOWN_RESOLVED);
+    expect(normalizeMarkdown({})).toEqual(DEFAULT_CONFIG.markdown);
   });
 
   it('accepts valid markdown object', () => {
@@ -582,10 +560,10 @@ describe('markdown', () => {
       },
     };
     expect(normalizeMarkdown(markdown)).toEqual({
-      ...DEFAULT_MARKDOWN_RESOLVED,
+      ...DEFAULT_CONFIG.markdown,
       ...markdown,
       mdx1Compat: {
-        ...DEFAULT_MDX1_COMPAT_RESOLVED,
+        comments: true,
         ...markdown.mdx1Compat,
       },
     });
