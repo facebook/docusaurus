@@ -19,10 +19,39 @@
   height: 100%;
   border-radius: 50%;
   transition: background var(--ifm-transition-fast);
+  position: relative;
 }
 
 .toggleButton:hover {
   background: var(--ifm-color-emphasis-200);
+}
+
+.toggleButton::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 4px 8px;
+  background: var(--ifm-color-emphasis-900);
+  color: var(--ifm-color-emphasis-100);
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s 0.2s;
+  z-index: 100;
+}
+
+.toggleButton:hover::after,
+.toggleButton:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s;
 }
 
 .toggleIcon {

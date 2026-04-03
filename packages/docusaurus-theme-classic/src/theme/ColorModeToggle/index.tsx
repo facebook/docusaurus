@@ -124,7 +124,7 @@ function ColorModeToggle({
           onChange(getNextColorMode(value, respectPrefersColorScheme))
         }
         disabled={!isBrowser}
-        title={getColorModeLabel(value)}
+        data-tooltip={getColorModeLabel(value)}
         aria-label={getColorModeAriaLabel(value)}
 
         // For accessibility decisions
