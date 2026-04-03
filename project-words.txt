@@ -304,6 +304,7 @@ stackoverflow
 Stormkit
 Strikethrough
 strikethroughs
+Subdeps
 sublabel
 sublicensable
 sublist
