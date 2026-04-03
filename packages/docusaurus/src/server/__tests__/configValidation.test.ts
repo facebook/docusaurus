@@ -563,7 +563,7 @@ describe('markdown', () => {
       ...DEFAULT_CONFIG.markdown,
       ...markdown,
       mdx1Compat: {
-        comments: true,
+        ...DEFAULT_CONFIG.markdown.mdx1Compat,
         ...markdown.mdx1Compat,
       },
     });
