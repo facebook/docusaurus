@@ -254,6 +254,7 @@ export default {
       useCssCascadeLayers: true,
       siteStorageNamespacing: true,
       fasterByDefault: true,
+      mdx1CompatDisabledByDefault: true,
     },
     faster: {
       swcJsLoader: true,
@@ -275,6 +276,7 @@ export default {
   - [`useCssCascadeLayers`](https://github.com/facebook/docusaurus/pull/11142): This enables the [Docusaurus CSS Cascade Layers plugin](./plugins/plugin-css-cascade-layers.mdx) with pre-configured layers that we plan to apply by default for Docusaurus v4.
   - `siteStorageNamespacing`: Defaults the [`storage.namespace`](#storage) config to `true` instead of `false`. This enables automatic browser storage key namespacing, which avoids storage key conflicts when multiple Docusaurus sites are hosted under the same domain, or on localhost.
   - `fasterByDefault`: Defaults all `future.faster` flags to `true` instead of `false`. This enables [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) features by default. Requires having `@docusaurus/faster` in your dependencies. If you explicitly set individual `faster` flags, those explicit values take precedence.
+  - `mdx1CompatDisabledByDefault`: Defaults all [`markdown.mdx1Compat`](#markdown) flags to `false` instead of `true`. This prepares your site for Docusaurus v4, which will not enable MDX v1 compatibility by default. If you explicitly set individual `mdx1Compat` flags, those explicit values take precedence.
 - `faster`: An object containing feature flags to make the Docusaurus build faster. This requires adding the `@docusaurus/faster` package to your site's dependencies. Use `true` as a shorthand to enable all flags. Read more on the [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) issue. Available feature flags:
   - [`swcJsLoader`](https://github.com/facebook/docusaurus/pull/10435): Use [SWC](https://swc.rs/) to transpile JS (instead of [Babel](https://babeljs.io/)).
   - [`swcJsMinimizer`](https://github.com/facebook/docusaurus/pull/10441): Use [SWC](https://swc.rs/) to minify JS (instead of [Terser](https://github.com/terser/terser)).
@@ -734,7 +736,7 @@ export default {
 | `emoji` | `boolean` | `true` | When `true`, allows Docusaurus to render emoji shortcodes (e.g., `:+1:`) as Unicode emoji (👍). When `false`, emoji shortcodes are left as-is. |
 | `preprocessor` | `MarkdownPreprocessor` | `undefined` | Gives you the ability to alter the Markdown content string before parsing. Use it as a last-resort escape hatch or workaround: it is almost always better to implement a Remark/Rehype plugin. |
 | `parseFrontMatter` | `ParseFrontMatter` | `undefined` | Gives you the ability to provide your own front matter parser, or to enhance the default parser. Read our [front matter guide](../guides/markdown-features/markdown-features-intro.mdx#front-matter) for details. |
-| `mdx1Compat` | `MDX1CompatOptions` | `{comments: true, admonitions: true, headingIds: true}` | Compatibility options to make it easier to upgrade to Docusaurus v3+. |
+| `mdx1Compat` | `MDX1CompatOptions` | `{comments: true, admonitions: true, headingIds: true}` | Compatibility options to make it easier to upgrade to Docusaurus v3+. Defaults to all `false` when [`future.v4.mdx1CompatDisabledByDefault`](#future) is enabled. |
 | `anchors` | `MarkdownAnchorsConfig` | `{maintainCase: false}` | Options to control the behavior of anchors generated from Markdown headings |
 | `remarkRehypeOptions` | `object` | `undefined` | Makes it possible to pass custom [`remark-rehype` options](https://github.com/remarkjs/remark-rehype#options). |
 | `hooks` | `MarkdownHooks` | `object` | Make it possible to customize the MDX loader behavior with callbacks or built-in options. |
