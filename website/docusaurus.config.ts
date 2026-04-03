@@ -234,6 +234,8 @@ export default async function createConfigAsync() {
         onBrokenMarkdownLinks: 'warn',
       },
       mdx1Compat: {
+        // Needed for us until Crowdin improves support
+        // See https://github.com/facebook/docusaurus/pull/11847#issuecomment-4183213345
         admonitions: true,
       },
       remarkRehypeOptions: {
