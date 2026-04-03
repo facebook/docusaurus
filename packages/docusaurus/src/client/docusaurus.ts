@@ -16,8 +16,7 @@ const fetched = new Set<string>();
 const loaded = new Set<string>();
 
 declare global {
-  // eslint-disable-next-line camelcase, no-underscore-dangle
-  const __webpack_require__: {gca: (name: string) => string};
+  // See https://github.com/microsoft/TypeScript/issues/56962
   interface Navigator {
     connection?: {effectiveType: string; saveData: boolean};
   }

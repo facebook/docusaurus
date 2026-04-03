@@ -14,12 +14,6 @@ import flat from '../flat';
 import {RouteContextProvider} from '../routeContext';
 import type {RouteContext} from '@docusaurus/types';
 
-declare global {
-  interface NodeRequire {
-    resolveWeak: (name: string) => number;
-  }
-}
-
 export default function ComponentCreator(
   path: string,
   hash: string,

@@ -50,11 +50,11 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
       - name: Install test-website project with Yarn v1
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
         working-directory: ../test-website
         env:
           npm_config_registry: http://localhost:4873
@@ -87,13 +87,13 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
       - name: Generate test-website project against main branch
         # Not using test-release.sh => no verdaccio docker image on Windows
         # run: bash ./admin/scripts/test-release.sh -s
         run: yarn create-docusaurus test-website-in-workspace classic --typescript
       - name: Install test-website project with Yarn v1
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
         working-directory: test-website-in-workspace
       - name: Start test-website project
         run: yarn start --no-open
@@ -133,7 +133,7 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
       - name: Generate test-website project with ${{ matrix.variant }} against main branch
         run: yarn test:build:website ${{ matrix.variant }}
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
@@ -158,18 +158,28 @@ jobs:
         working-directory: ../test-website
         env:
           E2E_TEST: true
+
       - name: TypeCheck website
         # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
         if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
         working-directory: ../test-website
         run: yarn typecheck
+
       - name: TypeCheck website - min version - v5.1
         # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
         if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
         working-directory: ../test-website
         run: |
           yarn add typescript@5.1.6 --exact
+
+          # Downgrade TS ignoreDeprecations option
+          node -e "const fs = require('fs'); const f = 'tsconfig.json'; fs.writeFileSync(f, fs.readFileSync(f,'utf8').replace('\"ignoreDeprecations\": \"6.0\"', '\"ignoreDeprecations\": \"5.0\"'))"
+
           yarn typecheck
+
+          # Restore TS ignoreDeprecations option
+          node -e "const fs = require('fs'); const f = 'tsconfig.json'; fs.writeFileSync(f, fs.readFileSync(f,'utf8').replace('\"ignoreDeprecations\": \"5.0\"', '\"ignoreDeprecations\": \"6.0\"'))"
+
       - name: TypeCheck website - max version - Latest
         # TODO: there're some lingering issues with PnP + tsc. Enable tsc in PnP later.
         if: matrix.variant == '-st' && matrix.nodeLinker != 'pnp'
@@ -202,7 +212,7 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
       - name: Generate test-website project against main branch
         run: yarn test:build:website -st
       - name: Install test-website project with npm
@@ -242,7 +252,7 @@ jobs:
           node-version: lts/*
           cache: yarn
       - name: Installation
-        run: yarn || yarn || yarn
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
       - name: Generate test-website project against main branch
         run: yarn test:build:website -st
       - name: Install test-website project with pnpm

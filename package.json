@@ -83,10 +83,10 @@
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
-    "@types/fs-extra": "^9.0.13",
+    "@types/fs-extra": "^11.0.4",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.14.197",
-    "@types/node": "^18.16.19",
+    "@types/node": "^20.19.37",
     "@types/prompts": "^2.4.4",
     "@types/react": "^19.2.10",
     "@types/semver": "^7.5.0",
@@ -118,6 +118,7 @@
     "lockfile-lint": "^4.14.0",
     "npm-run-all": "^4.1.5",
     "patch-package": "^8.0.0",
+    "pkg-pr-new": "^0.0.66",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.8.8",
     "react": "^19.2.4",
@@ -128,7 +129,7 @@
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
-    "typescript": "~5.8.2"
+    "typescript": "~6.0.2"
   },
   "resolutions": {
     "**/pretty-format/react-is": "^19.2.4"
