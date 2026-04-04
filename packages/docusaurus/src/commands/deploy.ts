@@ -20,7 +20,12 @@ export type DeployCLIOptions = Pick<LoadContextParams, 'config' | 'outDir'> & {
   targetDir?: string;
 };
 
-// GIT_PASS env variable should not appear in logs
+/**
+ * Replaces the GIT_PASS environment variable value with a placeholder
+ * to prevent credentials from appearing in logs.
+ * @param str - The string in which to obfuscate the git password.
+ * @returns The string with GIT_PASS value replaced by 'GIT_PASS'.
+ */
 function obfuscateGitPass(str: string) {
   const gitPass = process.env.GIT_PASS;
   return gitPass ? str.replace(gitPass, 'GIT_PASS') : str;
@@ -28,8 +33,15 @@ function obfuscateGitPass(str: string) {
 
 const debugMode = !!process.env.DOCUSAURUS_DEPLOY_DEBUG;
 
-// Log executed commands so that user can figure out mistakes on his own
-// for example: https://github.com/facebook/docusaurus/issues/3875
+/**
+ * Executes a shell command synchronously and optionally logs the result.
+ * @see https://github.com/facebook/docusaurus/issues/3875
+ * @param cmd - The shell command to execute.
+ * @param options - Execution options.
+ * @param options.log - Whether to log the command output. Defaults to true.
+ * @param options.failfast - Whether to throw on non-zero exit code. Defaults to false.
+ * @returns The execa result object.
+ */
 function exec(cmd: string, options?: {log?: boolean; failfast?: boolean}) {
   const log = options?.log ?? true;
   const failfast = options?.failfast ?? false;
@@ -63,12 +75,21 @@ In CWD code=${process.cwd()}`,
   }
 }
 
-// Execa escape args and add necessary quotes automatically
-// When using Execa.command, the args containing spaces must be escaped manually
+/**
+ * Escapes spaces in a shell argument by prepending a backslash.
+ * Required when passing arguments to execa.command() which does not
+ * handle spaces in args automatically.
+ * @param arg - The shell argument string to escape.
+ * @returns The escaped argument string.
+ */
 function escapeArg(arg: string): string {
   return arg.replaceAll(' ', '\\ ');
 }
 
+/**
+ * Checks whether Git is installed and available in the system PATH.
+ * @returns True if git is available, false otherwise.
+ */
 function hasGit() {
   return exec('git --version').exitCode === 0;
 }
