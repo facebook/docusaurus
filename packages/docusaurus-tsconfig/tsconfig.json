@@ -11,7 +11,6 @@
     "moduleResolution": "bundler",
     "module": "esnext",
     "noEmit": true,
-    "baseUrl": ".",
     "paths": {
       "@site/*": ["./*"]
     },
