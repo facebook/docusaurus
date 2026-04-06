@@ -28,8 +28,6 @@ TODO new additions:
 
 - mdx1compat: https://github.com/facebook/docusaurus/pull/11896
 - init template mdx https://github.com/facebook/docusaurus/pull/11897
-- supply chain https://github.com/facebook/docusaurus/pull/11874
-- rspack pnp https://github.com/facebook/docusaurus/pull/11817
 - TS 6 https://github.com/facebook/docusaurus/pull/11843
 
 ## Security {/* #security */}
@@ -118,13 +116,53 @@ minimumReleaseAge = 604800
 
 ## Docusaurus Faster stable {/* #docusaurus-faster */}
 
-- [#11802](https://github.com/facebook/docusaurus/pull/11802) feat(core): Docusaurus Faster is stable + v4 future flag turns it on by default
+**[Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556)** lets you opting in for our modernized build infrastructure. This includes Rspack, SWC, LightningCSS, and other optimizations.
 
-* mention VCS Eager strategy
+This release improves Docusaurus faster with a new [`gitEagerVcs`](gitEagerVcs) flag (explained below in [VCS](#vcs) section below) and [full support for Yarn PnP](https://github.com/facebook/docusaurus/pull/11817).
+
+In [#11802](https://github.com/facebook/docusaurus/pull/11802), we marked **Docusaurus Faster as stable**. You now need to update your config accordingly:
+
+```diff
+const config = {
+  future: {
+-   experimental_faster: true,
++   faster: true,
+  },
+};
+```
+
+:::info Faster By Default in v4
+
+Docusaurus Faster will be **enabled by default in Docusaurus v4**, and is already used for all newly initialized v3 sites. It is now part of our v4 future flags (`future.v4.fasterByDefault: true`) to help our community prepare for Docusaurus v4.
+
+:::
 
 ## Site Storage stable {/* #site-storage */}
 
-- [#11797](https://github.com/facebook/docusaurus/pull/11797) feat(core): promote `siteConfig.storage` to stable + add `future.v4.siteStorageNamespacing` flag
+In [#11797](https://github.com/facebook/docusaurus/pull/11797), we marked the `config.storage` API as stable. You now need to update your config accordingly:
+
+```diff
+ const config = {
++  storage: {
++    type: 'localStorage',
++    namespace: true,
++  },
+-  future: {
+-    experimental_storage: {
+-      type: 'localStorage',
+-      namespace: true,
+-    },
+-  },
+ };
+```
+
+:::info Automatic namespacing in v4
+
+Docusaurus v4 will automatically namespace your storage keys to avoid `localStorage` key conflicts by default, and is now part of our v4 future flags (`future.v4.siteStorageNamespacing: true`). Instead of using a `theme` key, it will use `theme-<hash>`.
+
+These storage key conflicts usually happen when running multiple `http://localhost:3000` apps, or when running multiple apps under the same domain (`https://example.com/app` and `https://example.com/docs`).
+
+:::
 
 ## MDX Heading Ids {/* #heading-ids */}
 
