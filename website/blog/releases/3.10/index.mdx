@@ -30,18 +30,6 @@ This release introduces new flags that might break your site if you use `future.
 - [`future.v4.fasterByDefault`](https://github.com/facebook/docusaurus/pull/11802): Docusaurus Faster is now stable and will be enabled by default in Docusaurus v4, see the dedicated [Docusaurus Faster section](#docusaurus-faster).
 - [`mdx1CompatDisabledByDefault`](https://github.com/facebook/docusaurus/pull/11896): In Docusaurus v4, MDX v1 compatibility options will be disabled by default, and you might have to adjust your docs accordingly. See the dedicated [Strict MDX section](#strict-mdx).
 
-## Changelog TODO temp
-
-`yarn changelog --from v3.9.2`
-
-generated on Mar 20, 2026 from this commit: https://github.com/facebook/docusaurus/commit/6192b6a97925a8ea36e6dfa9c6082dabc0ac89ea
-
-TODO new additions:
-
-- mdx1compat: https://github.com/facebook/docusaurus/pull/11896
-- init template mdx https://github.com/facebook/docusaurus/pull/11897
-- TS 6 https://github.com/facebook/docusaurus/pull/11843
-
 ## Security {/* #security */}
 
 There has been a **[surge in npm supply chain attacks](https://github.blog/security/supply-chain-security/our-plan-for-a-more-secure-npm-supply-chain/)**. A single compromised maintainer or npm package can ripple through the ecosystem and affect thousands of downstream users, as seen recently with the [axios compromise](https://socket.dev/blog/hidden-blast-radius-of-the-axios-compromise).
@@ -180,11 +168,11 @@ These storage key conflicts usually happen when running multiple `http://localho
 
 This release introduces new MDX options to encourage you to use MDX in a stricter way, using native MDX syntax instead of inventing our own proprietary Docusaurus syntax on top of MDX.
 
-Historically, Docusaurus compiled your files with MDX v1, which was quite forgiving. It allowed HTML comments `<!-- -->` and our proprietary admonitions `:::note Title` and heading ids syntax `{#headingId}`. Since then, the whole ecosystem has widely moved to MDX v3, which is stricter. Docusaurus v3 introduced `markdown.mdx1Compat` flags to help make this transition smoother.
+Historically, Docusaurus compiled your files with MDX v1, which was quite forgiving. Since then, the whole ecosystem has widely moved to MDX v3, which is stricter. Docusaurus v3 introduced `markdown.mdx1Compat` to help you upgrade incrementally.
 
 In Docusaurus v4, we plan to turn the `markdown.mdx1Compat` options off by default. This upcoming change is now part of our [v4 future flags](#v4-future-flags) (`future.v4.mdx1CompatDisabledByDefault: true`).
 
-We'd like to encourage the community to adopt a stricter, native MDX syntax for a few reasons:
+We'd like the community to adopt a stricter, native MDX syntax for a few reasons:
 
 - This makes your docs more portable, other external tools can understand them: Prettier, ESLint, TypeScript, VSCode, GitHub, and more.
 - Docusaurus doesn't need to pre-process your document with RegExp before the MDX compilation.
@@ -192,12 +180,12 @@ We'd like to encourage the community to adopt a stricter, native MDX syntax for 
 
 ### Strict Extensions {/* #strict-extensions */}
 
-Historically, Docusaurus has always compiled your `.md` files with MDX, parsing `<element>` as JSX instead of HTML. We now consider this a lie:
+We believe that:
 
-- `.md` should be parsed as CommonMark, allow `<span style="color: red;">` and reject `<span style={{color: 'red'}}>`
-- `.mdx` should be parsed as MDX, allow `<span style={{color: 'red'}}>` and reject `<span style="color: red;">`
+- `.md` should be parsed as CommonMark
+- `.mdx` should be parsed as MDX
 
-In reality, Docusaurus has only ever supported MDX, and we should have accounted for that by always using the `.mdx` extension. From now on, newly initialized Docusaurus sites will use the `.mdx` extension ([#11897](https://github.com/facebook/docusaurus/pull/11897)). We encourage you to consider moving all your files to the `.mdx` extension as well, so that external tools understand the content is MDX.
+In reality, Docusaurus has only ever supported MDX, and we should have accounted for that by always using the `.mdx` extension. From now on, newly initialized Docusaurus sites will use the `.mdx` extension ([#11897](https://github.com/facebook/docusaurus/pull/11897)). We encourage you to consider moving all your files to the `.mdx` extension as well. This helps external tools understand your content is MDX.
 
 :::info About CommonMark support
 
@@ -207,7 +195,7 @@ Although we also have experimental support for CommonMark, it still doesn't have
 
 ### Strict Admonitions {/* #strict-admonitions */}
 
-We historically support admonitions with titles using the following syntax: `:::type My Title`. Although it is convenient, it remains a proprietary Docusaurus syntax.
+We historically support admonitions with titles using the following syntax: `:::type My Title`. Although it is convenient, it remains a proprietary Docusaurus syntax that we invented.
 
 Although not standardized yet, the [Markdown Directive](https://talk.commonmark.org/t/generic-directives-plugins-syntax/444) syntax is more generic and reusable. It is widely used and implemented in various ecosystems, including through the [remark-directive](https://github.com/remarkjs/remark-directive) package. For that reason, we encourage you to migrate your admonitions to the `:::type[My Title]` syntax:
 
@@ -222,7 +210,7 @@ Although not standardized yet, the [Markdown Directive](https://talk.commonmark.
 
 ### Strict Comments {/* #strict-comments */}
 
-MDX v3 does not support HTML comments `<!-- comment -->`, but support JSX comment expressions `{/* comment */}`.
+MDX v3 does not support HTML comments `<!-- comment -->`, but supports JSX comment expressions `{/* comment */}`.
 
 If you use HTML comments, we encourage you to consider JSX comments instead. For example, you can truncate blog posts with a JSX comment:
 
@@ -237,11 +225,21 @@ If you use HTML comments, we encourage you to consider JSX comments instead. For
 
 ### Strict Heading IDs {/* #strict-heading-ids */}
 
-### MDX Heading Ids {/* #heading-ids */}
+Our historical heading IDs syntax `{#my-id}` is also a proprietary Docusaurus syntax that we invented, leading to ecosystem incompatibilities.
 
-- [#11777](https://github.com/facebook/docusaurus/pull/11777) feat(cli): `write-heading-ids` CLI now supports the `--syntax` option
-- [#11755](https://github.com/facebook/docusaurus/pull/11755) feat(mdx-loader): add support for explicit `headingId` based on MD/MDX comments
-- [#11779](https://github.com/facebook/docusaurus/pull/11779) chore(website): migrate MDX heading ids to comment syntax + upgrade Crowdin parser version ([@slorber](https://github.com/slorber))
+In [#11755](https://github.com/facebook/docusaurus/pull/11755), we introduced a new heading id syntax based on native MDX comments that we encourage you to adopt:
+
+```diff
+
+-## My Heading {#my-id}
++## My Heading {/* #my-id */}
+```
+
+In [#11777](https://github.com/facebook/docusaurus/pull/11777), we also added an option to our `write-heading-ids` CLI to emit and migrate to the new syntax:
+
+```bash
+docusaurus write-heading-ids --syntax mdx-comment --migrate
+```
 
 ## Experimental VCS API {/* #vcs */}
 
@@ -257,6 +255,7 @@ If you use HTML comments, we encourage you to consider JSX comments instead. For
 
 Other notable changes include:
 
+- In [#11843](https://github.com/facebook/docusaurus/pull/11843), we now use TypeScript 6.0 for newly initialized sites. However it requires the `"ignoreDeprecations": "6.0"` for now.
 - In [#11571](https://github.com/facebook/docusaurus/pull/11571), the `siteConfig.headTags` API now accepts custom HTML elements.
 - In [#11675](https://github.com/facebook/docusaurus/pull/11675), the live code block theme now has a button to reset the playground
 - In [#11734](https://github.com/facebook/docusaurus/pull/11734), we split the `<DocCard>` component to make it easier to extend/swizzle. It's now easier to use assign custom emojis for the docs generated index page.
