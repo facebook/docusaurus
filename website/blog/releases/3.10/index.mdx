@@ -50,11 +50,13 @@ This greatly reduces the risk of shipping compromised packages. Each release now
 
 ### Security Workflow {/* #security-workflow */}
 
-In [#11874](https://github.com/facebook/docusaurus/pull/11874), we introduced a new security workflow that looks for suspicious dependency updates published on npm that affect our official packages and their transitive dependencies. It runs every day and on each pull-request.
+In [#11874](https://github.com/facebook/docusaurus/pull/11874), we introduced a new security workflow that scans for suspicious dependency updates published on npm that affect our official packages and their transitive dependencies. It runs daily and on every pull request.
 
-:::caution Not Bulletproof
+:::danger Security Limitations
 
-Using semver dependency ranges, we can't guarantee a 100% secure supply chain, since any new npm publish in our dependency graph can introduce a vulnerability. This workflow can only let us know as soon as possible when a serious vulnerability affects our community. Ultimately, you have to secure your site with additional measures. The bare minimum is to use a lockfile and upgrade dependencies carefully.
+This security workflow **does not protect your site**. It is designed to detect serious vulnerabilities affecting the Docusaurus ecosystem as early as possible, so we can react quickly and notify you.
+
+Using semver dependency ranges, it's impossible to guarantee a 100% secure supply chain, since any new npm publish in our dependency graph can introduce a vulnerability. Ultimately, securing your site is your responsibility. At a minimum, you should rely on a lockfile and upgrade dependencies deliberately and cautiously.
 
 :::
 
@@ -62,13 +64,13 @@ The security workflow runs the following checks:
 
 - Install the Docusaurus site template through the [Socket Firewall](https://socket.dev/blog/introducing-socket-firewall) to detect known malware in our dependency graph
 - Check for unexpected and newly introduced `preinstall` and `postinstall` lifecycle scripts, using [pnpm `strictDepBuilds`](https://pnpm.io/settings#strictdepbuilds)
-- Blocks usage of GitHub repository and tarball url dependencies, using [pnpm `blockExoticSubdeps`](https://pnpm.io/settings#blockexoticsubdeps)
-- Blocks packages that downgrade their trust level, using [pnpm `trustPolicy: no-downgrade`](https://pnpm.io/settings#trustpolicy)
+- Check for usage of GitHub repository and tarball url dependencies, using [pnpm `blockExoticSubdeps`](https://pnpm.io/settings#blockexoticsubdeps)
+- Check for packages that downgrade their trust level, using [pnpm `trustPolicy: no-downgrade`](https://pnpm.io/settings#trustpolicy)
 - Do similar checks on our own monorepo, to protect Docusaurus maintainers and contributors
 
-:::tip How to secure your
+:::tip Secure your site
 
-Read the [npm security best practices](https://github.com/lirantal/npm-security-best-practices) guide to learn how to further secure your site.
+Read the [npm security best practices](https://github.com/lirantal/npm-security-best-practices) guide to learn how to secure your site — and npm applications in general — from compromised dependencies.
 
 Each package manager offers different security options that you can leverage. In our experience, [pnpm](https://pnpm.io/blog/2025/12/05/newsroom-npm-supply-chain-security) offers the best security options. We won't document all the possibilities, but here's a pnpm config example that should work well with Docusaurus:
 
