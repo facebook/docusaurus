@@ -10,6 +10,8 @@ We are happy to announce **Docusaurus 3.10**.
 
 Upgrading is easy. We follow [Semantic Versioning](https://semver.org/), and minor version updates have **no breaking changes**, accordingly to our [release process](/community/release-process).
 
+However, if you opted in for future breaking changes with our global `v4: true` future flag to prepare for Docusaurus v4, make sure to review the [v4 future flags](#v4-future-flags) section.
+
 ![Docusaurus blog post social card](./img/social-card.png)
 
 {/* truncate */}
@@ -17,6 +19,16 @@ Upgrading is easy. We follow [Semantic Versioning](https://semver.org/), and min
 ```mdx-code-block
 import BrowserWindow from '@site/src/components/BrowserWindow';
 ```
+
+## v4 future flags {/* #v4-future-flags */}
+
+The [Docusaurus v4 Future Flags](/api/docusaurus-config#future) let you **opt-in for upcoming Docusaurus v4 breaking changes** incrementally and let you prepare for Docusaurus v4 ahead of time. You can enable them all at once with `future.v4: true`.
+
+This release introduces new flags that might break your site if you use `future.v4: true`:
+
+- [`future.v4.siteStorageNamespacing`](https://github.com/facebook/docusaurus/pull/11797): In Docusaurus v4, `localStorage` keys will be automatically namespaced by default (`theme` => `theme-<hash>`) to prevent key conflicts. This is likely to reset your site's visitor storage unless you migrate it to new key names. See the dedicated [Site Storage](#site-storage) section.
+- [`future.v4.fasterByDefault`](https://github.com/facebook/docusaurus/pull/11802): Docusaurus Faster is now stable and will be enabled by default in Docusaurus v4, see the dedicated [Docusaurus Faster section](#docusaurus-faster).
+- [`mdx1CompatDisabledByDefault`](https://github.com/facebook/docusaurus/pull/11896): In Docusaurus v4, MDX v1 compatibility options will be disabled by default, and you might have to adjust your docs accordingly. See the dedicated [Strict MDX section](#strict-mdx).
 
 ## Changelog TODO temp
 
@@ -164,7 +176,67 @@ These storage key conflicts usually happen when running multiple `http://localho
 
 :::
 
-## MDX Heading Ids {/* #heading-ids */}
+## Strict MDX {/* #strict-mdx */}
+
+This release introduces new MDX options to encourage you to use MDX in a stricter way, using native MDX syntax instead of inventing our own proprietary Docusaurus syntax on top of MDX.
+
+Historically, Docusaurus compiled your files with MDX v1, which was quite forgiving. It allowed HTML comments `<!-- -->` and our proprietary admonitions `:::note Title` and heading ids syntax `{#headingId}`. Since then, the whole ecosystem has widely moved to MDX v3, which is stricter. Docusaurus v3 introduced `markdown.mdx1Compat` flags to help make this transition smoother.
+
+In Docusaurus v4, we plan to turn the `markdown.mdx1Compat` options off by default. This upcoming change is now part of our [v4 future flags](#v4-future-flags) (`future.v4.mdx1CompatDisabledByDefault: true`).
+
+We'd like to encourage the community to adopt a stricter, native MDX syntax for a few reasons:
+
+- This makes your docs more portable, other external tools can understand them: Prettier, ESLint, TypeScript, VSCode, GitHub, and more.
+- Docusaurus doesn't need to pre-process your document with RegExp before the MDX compilation
+
+### Strict Extensions {/* #strict-extensions */}
+
+Historically, Docusaurus has always compiled your `.md` files with MDX, parsing `<element>` as JSX instead of HTML. We now consider this a lie:
+
+- `.md` should be parsed as CommonMark, allow `<span style="color: red;">` and reject `<span style={{color: 'red'}}>`
+- `.mdx` should be parsed as MDX, allow `<span style={{color: 'red'}}>` and reject `<span style="color: red;">`
+
+In reality, Docusaurus has only ever supported MDX, and we should have accounted for that by always using the `.mdx` extension. From now on, newly initialized Docusaurus sites will use the `.mdx` extension ([#11897](https://github.com/facebook/docusaurus/pull/11897)). We encourage you to consider moving all your files to the `.mdx` extension as well, so that external tools understand the content is MDX.
+
+:::info About CommonMark support
+
+Although we also have experimental support for CommonMark, it still doesn't have the feature parity of MDX ([issue](https://github.com/facebook/docusaurus/issues/9092)). Once we reach full feature parity, we'll use `markdown.format: 'detect'` to ensure that `.md` files are parsed as CommonMark instead of MDX.
+
+:::
+
+### Strict Admonitions {/* #strict-admonitions */}
+
+We historically support admonitions with titles using the following syntax: `:::type My Title`. Although it is convenient, it remains a proprietary Docusaurus syntax.
+
+Although not standardized yet, the [Markdown Directive](https://talk.commonmark.org/t/generic-directives-plugins-syntax/444) syntax is more generic and reusable. It is widely used and implemented in various ecosystems, including through the [remark-directive](https://github.com/remarkjs/remark-directive) package. For that reason, we encourage you to migrate your admonitions to the `:::type[My Title]` syntax:
+
+```diff
+-:::warning Pay Attention
++:::warning[Pay Attention]
+
+ Content
+
+ :::
+```
+
+### Strict Comments {/* #strict-comments */}
+
+MDX v3 does not support HTML comments `<!-- comment -->`, but support JSX comment expressions `{/* comment */}`.
+
+If you use HTML comments, we encourage you to consider JSX comments instead. For example, you can truncate blog posts with a JSX comment:
+
+```diff title="blog/my-post.mdx"
+ # My Blog Post
+
+-<!-- truncate -->
++{/* truncate */}
+
+ blog post content
+```
+
+### Strict Heading IDs {/* #strict-heading-ids */}
+
+### MDX Heading Ids {/* #heading-ids */}
 
 - [#11777](https://github.com/facebook/docusaurus/pull/11777) feat(cli): `write-heading-ids` CLI now supports the `--syntax` option
 - [#11755](https://github.com/facebook/docusaurus/pull/11755) feat(mdx-loader): add support for explicit `headingId` based on MD/MDX comments
