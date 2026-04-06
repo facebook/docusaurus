@@ -48,6 +48,10 @@ ruleTester.run('prefer-docusaurus-link', rule, {
       code: '<a href={`https://x.com/${"docu" + "saurus"} ${"rex"}`}>Twitter</a>',
       options: [{ignoreFullyResolved: true}],
     },
+    {
+      code: '<a href={"https://x.com/" + "docusaurus"}>X</a>',
+      options: [{ignoreFullyResolved: true}],
+    },
   ],
   invalid: [
     {
@@ -83,6 +87,17 @@ ruleTester.run('prefer-docusaurus-link', rule, {
       options: [{ignoreFullyResolved: true}],
       errors: errorsJSX,
     },
-
+    {
+      // Dynamic template literals that can't be resolved should be reported
+      code: '<a href={`https://github.com/${repo}`}>GitHub</a>',
+      options: [{ignoreFullyResolved: true}],
+      errors: errorsJSX,
+    },
+    {
+      // Partially resolved but not fully (path starts with /)
+      code: '<a href={`/${path}`}>Internal</a>',
+      options: [{ignoreFullyResolved: true}],
+      errors: errorsJSX,
+    },
   ],
 });

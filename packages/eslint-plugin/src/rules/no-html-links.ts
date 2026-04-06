@@ -29,6 +29,41 @@ function isFullyResolvedUrl(urlString: string): boolean {
   return false;
 }
 
+function staticPreEvaluate(node: TSESTree.Node): string | null {
+  if (node.type === 'Literal' && typeof node.value === 'string') {
+    return node.value;
+  }
+  if (node.type === 'TemplateLiteral') {
+    let result = '';
+    for (let i = 0; i < node.quasis.length; i++) {
+      const quasi = node.quasis[i];
+      if (quasi) {
+        result += quasi.value.raw;
+      }
+      if (i < node.expressions.length) {
+        const expr = node.expressions[i];
+        if (!expr) {
+          return null;
+        }
+        const evaluated = staticPreEvaluate(expr);
+        if (evaluated === null) {
+          return null;
+        }
+        result += String(evaluated);
+      }
+    }
+    return result;
+  }
+  if (node.type === 'BinaryExpression' && node.operator === '+') {
+    const left = staticPreEvaluate(node.left);
+    const right = staticPreEvaluate(node.right);
+    if (left !== null && right !== null) {
+      return String(left) + String(right);
+    }
+  }
+  return null;
+}
+
 export default createRule<Options, MessageIds>({
   name: 'no-html-links',
   meta: {
@@ -81,17 +116,9 @@ export default createRule<Options, MessageIds>({
           if (hrefAttr?.value?.type === 'JSXExpressionContainer') {
             const container: TSESTree.JSXExpressionContainer = hrefAttr.value;
             const {expression} = container;
-            if (expression.type === 'TemplateLiteral') {
-              const firstQuasi = expression.quasis[0];
-              if (firstQuasi?.type === 'TemplateElement') {
-                const prefix = String(firstQuasi.value.raw);
-                if (
-                  isFullyResolvedUrl(prefix) ||
-                  isFullyResolvedUrl(`${prefix}dummy.com`)
-                ) {
-                  return;
-                }
-              }
+            const evaluated = staticPreEvaluate(expression);
+            if (evaluated !== null && isFullyResolvedUrl(evaluated)) {
+              return;
             }
           }
         }
