@@ -43,6 +43,11 @@ ruleTester.run('prefer-docusaurus-link', rule, {
       code: '<a href="tel:123456789">Call</a>',
       options: [{ignoreFullyResolved: true}],
     },
+    {
+      // eslint-disable-next-line no-template-curly-in-string
+      code: '<a href={`https://x.com/${"docu" + "saurus"} ${"rex"}`}>Twitter</a>',
+      options: [{ignoreFullyResolved: true}],
+    },
   ],
   invalid: [
     {
@@ -78,13 +83,6 @@ ruleTester.run('prefer-docusaurus-link', rule, {
       options: [{ignoreFullyResolved: true}],
       errors: errorsJSX,
     },
-    {
-      // TODO we might want to make this test pass
-      // Can template literals be statically pre-evaluated? (Babel can do it)
-      // eslint-disable-next-line no-template-curly-in-string
-      code: '<a href={`https://x.com/${"docu" + "saurus"} ${"rex"}`}>Twitter</a>',
-      options: [{ignoreFullyResolved: true}],
-      errors: errorsJSX,
-    },
+
   ],
 });

@@ -82,16 +82,16 @@ export default createRule<Options, MessageIds>({
             const container: TSESTree.JSXExpressionContainer = hrefAttr.value;
             const {expression} = container;
             if (expression.type === 'TemplateLiteral') {
-              // Simple static string template literals
-              if (
-                expression.expressions.length === 0 &&
-                expression.quasis.length === 1 &&
-                expression.quasis[0]?.type === 'TemplateElement' &&
-                isFullyResolvedUrl(String(expression.quasis[0].value.raw))
-              ) {
-                return;
+              const firstQuasi = expression.quasis[0];
+              if (firstQuasi?.type === 'TemplateElement') {
+                const prefix = String(firstQuasi.value.raw);
+                if (
+                  isFullyResolvedUrl(prefix) ||
+                  isFullyResolvedUrl(`${prefix}dummy.com`)
+                ) {
+                  return;
+                }
               }
-              // TODO add more complex TemplateLiteral cases here
             }
           }
         }
