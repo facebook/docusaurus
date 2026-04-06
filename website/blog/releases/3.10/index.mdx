@@ -34,15 +34,15 @@ TODO new additions:
 
 ## Security {/* #security */}
 
-There has been a **[surge in npm supply chain attacks](https://github.blog/security/supply-chain-security/our-plan-for-a-more-secure-npm-supply-chain/)**. A single compromised maintainer or package can impact thousands of downstream users.
+There has been a **[surge in npm supply chain attacks](https://github.blog/security/supply-chain-security/our-plan-for-a-more-secure-npm-supply-chain/)**. A single compromised maintainer or npm package can ripple through the ecosystem and affect thousands of downstream users, as seen recently with the [axios compromise](https://socket.dev/blog/hidden-blast-radius-of-the-axios-compromise).
+
+We’ve taken steps to strengthen our supply chain, and recommend securing your own site with additional measures as well.
 
 ### Trusted Publishing {/* #trusted-publishing */}
 
-To reduce this risk, we hardened our publishing pipeline. We adopted **[npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers)** for both stable ([#11819](https://github.com/facebook/docusaurus/pull/11819)) and canary releases ([#11712](https://github.com/facebook/docusaurus/pull/11712)). We also mitigated cache poisoning risks in the publish process ([#11795](https://github.com/facebook/docusaurus/pull/11795)).
+We adopted **[npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers)** for [stable](https://github.com/facebook/docusaurus/pull/11819) and [canary](https://github.com/facebook/docusaurus/pull/11712) releases.
 
-All releases now go through a single `publish.yml` GitHub Actions workflow using short-lived OIDC tokens. Previously, releases were published from a maintainer’s machine with long-lived tokens.
-
-This greatly reduces the risk of shipping compromised packages. Each release now has verifiable provenance, with a transparency log showing how and when it was published.
+Releases are now published through a single `publish.yml` GitHub Actions workflow using short-lived OIDC tokens. Each release now has verifiable provenance, with a transparency log showing how and when it was published.
 
 ![npm trusted publishing checkmark displayed under the version](./img/security.jpg)
 
@@ -68,7 +68,7 @@ The security workflow runs the following checks:
 - Check for packages that downgrade their trust level, using [pnpm `trustPolicy: no-downgrade`](https://pnpm.io/settings#trustpolicy)
 - Do similar checks on our own monorepo, to protect Docusaurus maintainers and contributors
 
-:::tip Secure your site
+### Secure your site {/* #secure-your-site */}
 
 Read the [npm security best practices](https://github.com/lirantal/npm-security-best-practices) guide to learn how to secure your site — and npm applications in general — from compromised dependencies.
 
@@ -89,6 +89,29 @@ trustPolicy: no-downgrade
 trustPolicyExclude:
   - 'detect-port@1.6.1'
   - 'semver@6.3.1'
+```
+
+:::tip Use release cooldowns
+
+When a popular npm dependency gets compromised, the community usually notice rapidly.
+
+When a popular npm package gets compromised, the community usually notices quickly. [Using a release cooldown](https://daniakash.com/posts/simplest-supply-chain-defense/) is an effective way to reduce risk during that time.
+
+Modern package managers now offer a way to delay npm updates, giving time for security scanners to report vulnerabilities.
+
+```yaml
+# npm v11.10+ - .npmrc
+min-release-age=7
+
+# pnpm v10.16+ - pnpm-workspace.yaml
+minimumReleaseAge: 10080
+
+# Yarn v4.10+ - .yarnrc.yml
+npmMinimalAgeGate: "7d"
+
+# Bun v1.3+ - bunfig.toml
+[install]
+minimumReleaseAge = 604800
 ```
 
 :::
