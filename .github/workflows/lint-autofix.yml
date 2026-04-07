@@ -24,6 +24,12 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.head_ref }}
 
+      - name: Set up Node LTS
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: lts/*
+          cache: yarn
+
       - name: Installation
         run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
 
