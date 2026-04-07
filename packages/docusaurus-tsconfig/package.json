@@ -16,5 +16,8 @@
     "url": "https://github.com/facebook/docusaurus.git",
     "directory": "packages/docusaurus-tsconfig"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "peerDependencies": {
+    "typescript": ">=6.0"
+  }
 }
