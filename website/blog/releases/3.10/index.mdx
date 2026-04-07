@@ -71,7 +71,7 @@ Read the [npm security best practices](https://github.com/lirantal/npm-security-
 Each package manager offers different security options. In our experience, [pnpm](https://pnpm.io/blog/2025/12/05/newsroom-npm-supply-chain-security) offers the best ones. We won't document all the possibilities, but here's a pnpm config example that should work well with Docusaurus:
 
 ```yaml title="pnpm-workspace.yaml"
-minimumReleaseAge: 604800
+minimumReleaseAge: 10080
 
 blockExoticSubdeps: true
 
@@ -98,7 +98,7 @@ Modern package managers now offer a way to delay npm updates, giving time for se
 min-release-age=7
 
 # pnpm v10.16+ - pnpm-workspace.yaml
-minimumReleaseAge: 604800
+minimumReleaseAge: 10080
 
 # Yarn v4.10+ - .yarnrc.yml
 npmMinimalAgeGate: "7d"
