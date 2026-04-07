@@ -1,6 +1,6 @@
 # Docusaurus Changelog
 
-## 3.10.0 (2026-04-06)
+## 3.10.0 (2026-04-07)
 
 #### :rocket: New Feature
 
@@ -18,7 +18,7 @@
 - `create-docusaurus`, `docusaurus-bundler`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-pwa`, `docusaurus-types`, `docusaurus`
   - [#11802](https://github.com/facebook/docusaurus/pull/11802) feat(core): Docusaurus Faster is stable + v4 future flag turns it on by default ([@slorber](https://github.com/slorber))
 - `docusaurus-mdx-loader`, `docusaurus-utils`, `docusaurus`
-  - [#11777](https://github.com/facebook/docusaurus/pull/11777) feat(cli): `write-heading-ids` CLI now supports the `--syntax` option ([@slorber](https://github.com/slorber))
+  - [#11777](https://github.com/facebook/docusaurus/pull/11777) feat(cli): `write-heading-ids` CLI now supports the `--syntax` and `--migrate` options ([@slorber](https://github.com/slorber))
 - `docusaurus-mdx-loader`
   - [#11755](https://github.com/facebook/docusaurus/pull/11755) feat(mdx-loader): add support for explicit `headingId` based on MD/MDX comments ([@slorber](https://github.com/slorber))
 - `docusaurus-theme-live-codeblock`, `docusaurus-theme-translations`
@@ -176,7 +176,7 @@
   - [#11632](https://github.com/facebook/docusaurus/pull/11632) feat(i18n): add Urdu (ur) default theme translations ([@hammadurrehman2006](https://github.com/hammadurrehman2006))
   - [#11533](https://github.com/facebook/docusaurus/pull/11533) fix(translations): complete theme translations for Algolia pt-br ([@luicfrr](https://github.com/luicfrr))
 
-#### Committers: 40
+#### Committers: 41
 
 - Akshat Sinha ([@akshatsinha0](https://github.com/akshatsinha0))
 - Aleksandar Zgonjan ([@acosoft](https://github.com/acosoft))
@@ -188,6 +188,7 @@
 - Cesar Garcia ([@Chesars](https://github.com/Chesars))
 - Denny Morán ([@dmoranp](https://github.com/dmoranp))
 - Dmitriy Rotaenko ([@dmitriyrotaenko](https://github.com/dmitriyrotaenko))
+- Eoin Shaughnessy ([@EoinTrial](https://github.com/EoinTrial))
 - Gaurav Sulsule ([@garry00107](https://github.com/garry00107))
 - Gnana Eswar Gunturu ([@GnanaEswarGunturu](https://github.com/GnanaEswarGunturu))
 - Hugo Häggmark ([@hugohaggmark](https://github.com/hugohaggmark))
@@ -217,7 +218,7 @@
 - Zoey Greer ([@tempoz](https://github.com/tempoz))
 - [@TheCyperpunk](https://github.com/TheCyperpunk)
 - [@snikkrs](https://github.com/snikkrs)
-- fre$h ([@fresh3nough](https://github.com/fresh3nough))
+- fre$h ([@fresh3nough](https://github.com/fresh3nough)
 
 ## 3.9.2 (2025-10-17)
 
