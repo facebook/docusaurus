@@ -41,7 +41,7 @@
     ]
   },
   "engines": {
-    "node": ">=20.0"
+    "node": ">=24.14"
   },
   "description": "Docusaurus example project"
 }
