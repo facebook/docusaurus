@@ -3,10 +3,5 @@
 // and can also run the package.json "typecheck" script manually.
 {
   "extends": "@docusaurus/tsconfig",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
-    "strict": true
-  },
-  "exclude": [".docusaurus", "build"]
+  "compilerOptions": {}
 }
