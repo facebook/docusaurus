@@ -10,7 +10,7 @@ We are happy to announce **Docusaurus 3.10**.
 
 Upgrading is easy. We follow [Semantic Versioning](https://semver.org/), and minor version updates have **no breaking changes**, accordingly to our [release process](/community/release-process).
 
-However, if you opted in for future breaking changes with our global `v4: true` future flag to prepare for Docusaurus v4, make sure to review the [v4 future flags](#v4-future-flags) section.
+However, if you opt in for upcoming Docusaurus v4 breaking changes globally with `future.v4: true`, make sure to review the dedicated section below.
 
 ![Docusaurus blog post social card](./img/social-card.png)
 
@@ -24,11 +24,11 @@ import BrowserWindow from '@site/src/components/BrowserWindow';
 
 The [Docusaurus v4 Future Flags](/docs/api/docusaurus-config#future) let you **opt-in for upcoming Docusaurus v4 breaking changes** incrementally and let you prepare for Docusaurus v4 ahead of time. You can enable them all at once with `future.v4: true`.
 
-This release introduces new flags that might break your site if you use `future.v4: true`:
+This release introduces new flags and breaking changes that might break your site if you use `future.v4: true` and upgrade:
 
-- [`future.v4.siteStorageNamespacing`](https://github.com/facebook/docusaurus/pull/11797): In Docusaurus v4, `localStorage` keys will be automatically namespaced by default (`theme` => `theme-<hash>`) to prevent key conflicts. This is likely to reset your site's visitor storage unless you migrate it to new key names. See the dedicated [Site Storage](#site-storage) section.
-- [`future.v4.fasterByDefault`](https://github.com/facebook/docusaurus/pull/11802): Docusaurus Faster is now stable and will be enabled by default in Docusaurus v4, see the dedicated [Docusaurus Faster section](#docusaurus-faster).
-- [`mdx1CompatDisabledByDefault`](https://github.com/facebook/docusaurus/pull/11896): In Docusaurus v4, MDX v1 compatibility options will be disabled by default, and you might have to adjust your docs accordingly. See the dedicated [Strict MDX section](#strict-mdx).
+- [`future.v4.siteStorageNamespacing`](https://github.com/facebook/docusaurus/pull/11797): In Docusaurus v4, `localStorage` keys will be automatically namespaced by default (`theme` => `theme-<hash>`) to prevent key conflicts. This is likely to reset your site's visitor storage unless you migrate it to new key names. See the dedicated [Site Storage section](#site-storage) below.
+- [`future.v4.fasterByDefault`](https://github.com/facebook/docusaurus/pull/11802): Docusaurus Faster is now stable and will be enabled by default in Docusaurus v4. See the dedicated [Docusaurus Faster section](#docusaurus-faster) below.
+- [`mdx1CompatDisabledByDefault`](https://github.com/facebook/docusaurus/pull/11896): In Docusaurus v4, MDX v1 compatibility options will be disabled by default, and you might have to adjust your docs accordingly. See the dedicated [Strict MDX section](#strict-mdx) below.
 
 ## Security {/* #security */}
 
@@ -48,17 +48,7 @@ Releases are now published through a single `publish.yml` GitHub Actions workflo
 
 ### Security Workflow {/* #security-workflow */}
 
-In [#11874](https://github.com/facebook/docusaurus/pull/11874), we introduced a new security workflow that scans for suspicious dependency updates published on npm that affect our official packages and their transitive dependencies. It runs daily and on every pull request.
-
-:::danger Security Limitations
-
-This security workflow **does not protect your site**. It is designed to detect serious vulnerabilities affecting the Docusaurus ecosystem as early as possible, so we can react quickly and notify you.
-
-Using semver dependency ranges, it's impossible to guarantee a 100% secure supply chain, since any new npm publish in our dependency graph can introduce a vulnerability. Ultimately, securing your site is your responsibility. At a minimum, you should rely on a lockfile and upgrade dependencies deliberately and cautiously.
-
-:::
-
-The security workflow runs the following checks:
+In [#11874](https://github.com/facebook/docusaurus/pull/11874), we introduced a new security workflow that scans for suspicious dependency updates published on npm that affect our official packages and their transitive dependencies. It runs the following checks daily and on every pull request:
 
 - Install the Docusaurus site template through the [Socket Firewall](https://socket.dev/blog/introducing-socket-firewall) to detect known malware in our dependency graph
 - Check for unexpected and newly introduced `preinstall` and `postinstall` lifecycle scripts, using [pnpm `strictDepBuilds`](https://pnpm.io/settings#strictdepbuilds)
@@ -66,14 +56,22 @@ The security workflow runs the following checks:
 - Check for packages that downgrade their trust level, using [pnpm `trustPolicy: no-downgrade`](https://pnpm.io/settings#trustpolicy)
 - Do similar checks on our own monorepo, to protect Docusaurus maintainers and contributors
 
-### Secure your site {/* #secure-your-site */}
+:::danger Security Limitations
+
+This security workflow **does not protect your site**. It is designed to detect serious vulnerabilities affecting the Docusaurus ecosystem as early as possible, so we can react quickly and notify you.
+
+Using semver dependency ranges, it's impossible for us to guarantee a 100% secure supply chain, since any new npm publish in our dependency graph can introduce a vulnerability. Ultimately, securing your site is your responsibility. At a minimum, you should rely on a lockfile and upgrade dependencies deliberately and cautiously.
+
+:::
+
+### Secure Your Site {/* #secure-your-site */}
 
 Read the [npm security best practices](https://github.com/lirantal/npm-security-best-practices) guide to learn how to secure your site — and npm applications in general — from compromised dependencies.
 
 Each package manager offers different security options that you can leverage. In our experience, [pnpm](https://pnpm.io/blog/2025/12/05/newsroom-npm-supply-chain-security) offers the best security options. We won't document all the possibilities, but here's a pnpm config example that should work well with Docusaurus:
 
 ```yaml title="pnpm-workspace.yaml"
-minimumReleaseAge: 1440
+minimumReleaseAge: 604800
 
 blockExoticSubdeps: true
 
@@ -91,9 +89,7 @@ trustPolicyExclude:
 
 :::tip Use release cooldowns
 
-When a popular npm dependency gets compromised, the community usually notice rapidly.
-
-When a popular npm package gets compromised, the community usually notices quickly. [Using a release cooldown](https://daniakash.com/posts/simplest-supply-chain-defense/) is an effective way to reduce risk during that time.
+When a popular npm package gets compromised, the community usually notices quickly and take it down. [Using a release cooldown](https://daniakash.com/posts/simplest-supply-chain-defense/) is an effective way to reduce risk during the exposure window.
 
 Modern package managers now offer a way to delay npm updates, giving time for security scanners to report vulnerabilities.
 
@@ -102,7 +98,7 @@ Modern package managers now offer a way to delay npm updates, giving time for se
 min-release-age=7
 
 # pnpm v10.16+ - pnpm-workspace.yaml
-minimumReleaseAge: 10080
+minimumReleaseAge: 604800
 
 # Yarn v4.10+ - .yarnrc.yml
 npmMinimalAgeGate: "7d"
@@ -114,11 +110,11 @@ minimumReleaseAge = 604800
 
 :::
 
-## Docusaurus Faster stable {/* #docusaurus-faster */}
+## Docusaurus Faster - Stable {/* #docusaurus-faster */}
 
 **[Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556)** lets you opting in for our modernized build infrastructure. This includes Rspack, SWC, LightningCSS, and other optimizations.
 
-This release improves Docusaurus faster with a new `gitEagerVcs` flag (explained below in [VCS](#vcs) section below) and [full support for Yarn PnP](https://github.com/facebook/docusaurus/pull/11817).
+This release improves Docusaurus Faster with a new [`gitEagerVcs`](#vcs) flag and [full support for Yarn PnP](https://github.com/facebook/docusaurus/pull/11817).
 
 In [#11802](https://github.com/facebook/docusaurus/pull/11802), we marked **Docusaurus Faster as stable**. You now need to update your config accordingly:
 
@@ -133,11 +129,11 @@ const config = {
 
 :::info Faster By Default in v4
 
-Docusaurus Faster will be **enabled by default in Docusaurus v4**, and is already used for all newly initialized v3 sites. It is now part of our v4 future flags (`future.v4.fasterByDefault: true`) to help our community prepare for Docusaurus v4.
+Docusaurus Faster will be **enabled by default in Docusaurus v4**, and is already used for all newly initialized v3 sites. It is now part of our v4 future flags (`future.v4.fasterByDefault: true`) to help our community prepare for Docusaurus v4. If you haven't already, now is a good time to turn it on!
 
 :::
 
-## Site Storage stable {/* #site-storage */}
+## Site Storage - Stable {/* #site-storage */}
 
 In [#11797](https://github.com/facebook/docusaurus/pull/11797), we marked the `config.storage` API as stable. You now need to update your config accordingly:
 
@@ -168,7 +164,7 @@ These storage key conflicts usually happen when running multiple `http://localho
 
 This release introduces new MDX options to encourage you to use MDX in a stricter way, using native MDX syntax instead of inventing our own proprietary Docusaurus syntax on top of MDX.
 
-Historically, Docusaurus compiled your files with MDX v1, which was quite forgiving. Since then, the whole ecosystem has widely moved to MDX v3, which is stricter. Docusaurus v3 introduced `markdown.mdx1Compat` to help you upgrade incrementally.
+Historically, Docusaurus compiled your files with MDX v1, which was quite forgiving. Since then, the whole ecosystem has widely moved to MDX v3, which is stricter. Docusaurus v3.0 introduced `markdown.mdx1Compat` to help you upgrade incrementally.
 
 In Docusaurus v4, we plan to turn the `markdown.mdx1Compat` options off by default. This upcoming change is now part of our [v4 future flags](#v4-future-flags) (`future.v4.mdx1CompatDisabledByDefault: true`).
 
@@ -176,7 +172,7 @@ We'd like the community to adopt a stricter, native MDX syntax for a few reasons
 
 - This makes your docs more portable, other external tools can understand them: Prettier, ESLint, TypeScript, VSCode, GitHub, and more.
 - Docusaurus doesn't need to pre-process your document with RegExp before the MDX compilation.
-- This improves compatibility with the Unified/Remark/Rehype ecosystem and the [MDX Playground](https://mdxjs.com/playground/).
+- This improves compatibility with the [Unified](https://unifiedjs.com/) ecosystem (Remark, MDX) and the [MDX Playground](https://mdxjs.com/playground/).
 
 ### Strict Extensions {/* #strict-extensions */}
 
@@ -189,7 +185,7 @@ In reality, Docusaurus has only ever supported MDX, and we should have accounted
 
 :::info About CommonMark support
 
-Although we also have experimental support for CommonMark, it still doesn't have the feature parity of MDX ([issue](https://github.com/facebook/docusaurus/issues/9092)). Once we reach full feature parity, we'll use `markdown.format: 'detect'` to ensure that `.md` files are parsed as CommonMark instead of MDX.
+Although we also have experimental support for CommonMark, it still doesn't have full feature parity with MDX ([issue](https://github.com/facebook/docusaurus/issues/9092)). Once we reach full feature parity, we'll default to `markdown.format: 'detect'` to ensure that `.md` files are parsed as CommonMark instead of MDX.
 
 :::
 
@@ -227,7 +223,7 @@ If you use HTML comments, we encourage you to consider JSX comments instead. For
 
 Our historical heading IDs syntax `{#my-id}` is also a proprietary Docusaurus syntax that we invented, leading to ecosystem incompatibilities.
 
-In [#11755](https://github.com/facebook/docusaurus/pull/11755), we introduced a new heading id syntax based on native MDX comments that we encourage you to adopt:
+In [#11755](https://github.com/facebook/docusaurus/pull/11755), we introduced a new heading ID syntax based on native MDX comments that we encourage you to adopt:
 
 ```diff
 -## My Heading {#my-id}
@@ -240,7 +236,7 @@ In [#11777](https://github.com/facebook/docusaurus/pull/11777), we also added an
 docusaurus write-heading-ids --syntax mdx-comment --migrate
 ```
 
-## Experimental VCS API {/* #vcs */}
+## VCS API - Experimental {/* #vcs */}
 
 In [#11512](https://github.com/facebook/docusaurus/pull/11512), we added a new experimental VCS (Version Control System) API, and implemented built-in performance improvements when reading from the Git history.
 
@@ -274,7 +270,7 @@ export default {
 
 We have also noticed that our historical strategy to read from the Git history can be a **significant build performance bottleneck** for large Docusaurus sites. Issuing one `git log <filepath>` call per MDX file doesn't scale and might overflow your system.
 
-To solve this bottleneck, we implemented a new strategy that reads the whole Git repository eagerly in a single `git log`, leading to significant performance improvements. This new strategy is now part of [Docusaurus Faster](#docusaurus-faster) (`future.faster.gitEagerVcs: true`) and will become the new default strategy in Docusaurus v4.
+To solve this bottleneck, we implemented a new strategy that reads the whole Git repository eagerly in a single `git log` call, leading to significant performance improvements. This new strategy is now part of [Docusaurus Faster](#docusaurus-faster) (`future.faster.gitEagerVcs: true`) and will become the new default strategy in Docusaurus v4.
 
 We also provide built-in VCS preset strategies. The available presets are:
 
@@ -284,6 +280,14 @@ We also provide built-in VCS preset strategies. The available presets are:
 - `disabled`: returns null for all files, considering them untracked
 - `default-v1`: the historical default (dynamic, `git-ad-hoc` in prod, `hardcoded` in dev)
 - `default-v2`: the upcoming Docusaurus v4 default (dynamic, `git-eager` in prod, `hardcoded` in dev)
+
+```ts title="docusaurus.config.ts"
+export default {
+  future: {
+    experimental_vcs: 'default-v2',
+  },
+};
+```
 
 :::danger Experimental
 
@@ -318,10 +322,4 @@ Other notable changes include:
 - In [#11753](https://github.com/facebook/docusaurus/pull/11753), we added a basic `AGENTS.md` file. Let's remind that any AI usage on Docusaurus contribution must be disclosed.
 - In [#11698](https://github.com/facebook/docusaurus/pull/11698), we upgraded our monorepo to React 19. We'll drop support for React 18 in Docusaurus v4.
 
-TODO + edit changelog link!
-
 Check the **[3.10.0 changelog entry](/changelog/3.10.0)** for an exhaustive list of changes.
-
-```
-
-```
