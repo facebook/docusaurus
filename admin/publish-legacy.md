@@ -1,4 +1,14 @@
-# Publishing Instructions
+# Publishing Instructions - Legacy
+
+These instructions are out of date.
+
+Since April 2026, Docusaurus releases are published in a GitHub Action `deploy.yml` workflow, using npm Trusted Publishing.
+
+See also:
+
+- https://docusaurus.io/blog/releases/3.10#trusted-publishing
+- https://github.com/facebook/docusaurus/pull/11819
+- ***
 
 Docusaurus is published as an npm package that can be installed via `npm` or `yarn`.
 

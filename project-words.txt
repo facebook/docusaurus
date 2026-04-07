@@ -26,6 +26,7 @@ Bhatt
 Blockquotes
 blockquotes
 Bokmål
+bunfig
 bunx
 BYOLLM
 caabernathy
@@ -42,6 +43,8 @@ codegen
 codesandbox
 commonmark
 contravariance
+cooldown
+cooldowns
 corejs
 Couriol
 creativecommons
@@ -304,6 +307,7 @@ stackoverflow
 Stormkit
 Strikethrough
 strikethroughs
+Subdeps
 sublabel
 sublicensable
 sublist
