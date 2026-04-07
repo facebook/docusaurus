@@ -122,7 +122,7 @@ This release improves Docusaurus faster with a new [`gitEagerVcs`](gitEagerVcs) 
 
 In [#11802](https://github.com/facebook/docusaurus/pull/11802), we marked **Docusaurus Faster as stable**. You now need to update your config accordingly:
 
-```diff
+```diff title="docusaurus.config.js"
 const config = {
   future: {
 -   experimental_faster: true,
@@ -141,7 +141,7 @@ Docusaurus Faster will be **enabled by default in Docusaurus v4**, and is alread
 
 In [#11797](https://github.com/facebook/docusaurus/pull/11797), we marked the `config.storage` API as stable. You now need to update your config accordingly:
 
-```diff
+```diff title="docusaurus.config.js"
  const config = {
 +  storage: {
 +    type: 'localStorage',
@@ -230,7 +230,6 @@ Our historical heading IDs syntax `{#my-id}` is also a proprietary Docusaurus sy
 In [#11755](https://github.com/facebook/docusaurus/pull/11755), we introduced a new heading id syntax based on native MDX comments that we encourage you to adopt:
 
 ```diff
-
 -## My Heading {#my-id}
 +## My Heading {/* #my-id */}
 ```
@@ -243,8 +242,56 @@ docusaurus write-heading-ids --syntax mdx-comment --migrate
 
 ## Experimental VCS API {/* #vcs */}
 
-- [#11512](https://github.com/facebook/docusaurus/pull/11512) feat(core): New siteConfig `future.experimental_vcs` API + `future.experimental_faster.gitEagerVcs` flag ([@slorber](https://github.com/slorber))
-- [#11804](https://github.com/facebook/docusaurus/pull/11804) fix(utils): Git Eager VSC should have better DX ([@slorber](https://github.com/slorber))
+In [#11512](https://github.com/facebook/docusaurus/pull/11512), we added a new experimental VCS (Version Control System) API, and implemented built-in performance improvements when reading from the Git history.
+
+Historically, Docusaurus only integrates with Git, reading the commit history to implement features such as:
+
+- Displaying the last update date/time in the docs, blog and pages plugin when using the `showLastUpdateAuthor` or `showLastUpdateAuthor` options
+- Displaying the blog creation date in the blog plugin
+- Computing the `<lastmod>` value in the sitemap plugin
+
+This new API makes it possible to integrate Docusaurus with other VCS, such as SVN, Mercurial, a CMS or any other external system.
+
+Here's an example implementation using hardcoded data:
+
+```ts title="docusaurus.config.ts"
+export default {
+  future: {
+    experimental_vcs: {
+      initialize: ({siteDir}) => {
+        // You can initialize and cache VCS data here, if needed
+      },
+      getFileCreationInfo: async (filePath: string) => {
+        return {timestamp: 1490997600000, author: 'Slash'};
+      },
+      getFileLastUpdateInfo: async (filePath: string) => {
+        return {timestamp: 1490997600000, author: 'Slash'};
+      },
+    },
+  },
+};
+```
+
+We have also noticed that our historical strategy to read from the Git history can be a **significant build performance bottleneck** for large Docusaurus sites. Issuing one `git log <filepath>` call per MDX file doesn't scale and might overflow your system.
+
+To solve this bottleneck, we implemented a new strategy that reads the whole Git repository eagerly in a single `git log`, leading to significant performance improvements. This new strategy is now part of [Docusaurus Faster](#docusaurus-faster) (`future.faster.gitEagerVcs: true`) and will become the new default strategy in Docusaurus v4.
+
+We also provide built-in VCS preset strategies. The available presets are:
+
+- `git-ad-hoc`: the historical strategy based on `git log <filename>` calls
+- `git-eager`: the new Git strategy that reads your whole repository upfront
+- `hardcoded`: returns hardcoded value, useful in dev/tests to speed up DX
+- `disabled`: returns null for all files, considering them untracked
+- `default-v1`: the historical default (dynamic, `git-ad-hoc` in prod, `hardcoded` in dev)
+- `default-v2`: the upcoming Docusaurus v4 default (dynamic, `git-eager` in prod, `hardcoded` in dev)
+
+:::danger Experimental
+
+The VCS API is experimental and we might have to adjust its design. If you give it a try, please share feedback on this [community discussion](https://github.com/facebook/docusaurus/discussions/11909).
+
+Although the API might change, we consider the new built-in Git Eager strategy to be stable for simple Git repositories. There might be edge cases related to using multiple nested Git repositories or submodules.
+
+:::
 
 ## Translations {/* #translations */}
 
@@ -273,7 +320,7 @@ Other notable changes include:
 
 TODO + edit changelog link!
 
-Check the **[3.10.0 changelog entry](/changelog/3.9.0)** for an exhaustive list of changes.
+Check the **[3.10.0 changelog entry](/changelog/3.10.0)** for an exhaustive list of changes.
 
 ```
 
