@@ -14,7 +14,7 @@
     "paths": {
       "@site/*": ["${configDir}/*"]
     },
-    "exclude": ["${configDir}/.docusaurus", "${configDir}/build"],
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["${configDir}/.docusaurus", "${configDir}/build"]
 }
