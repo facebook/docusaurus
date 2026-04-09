@@ -20,8 +20,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.25.9",
-    "@babel/preset-env": "^7.25.9",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
     "@docusaurus/bundler": "3.9.2",
     "@docusaurus/core": "3.9.2",
     "@docusaurus/logger": "3.9.2",
