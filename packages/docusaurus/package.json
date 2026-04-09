@@ -71,7 +71,7 @@
     "tinypool": "^1.0.2",
     "tslib": "^2.6.0",
     "update-notifier": "^6.0.2",
-    "webpack": "^5.95.0",
+    "webpack": "^5.106.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-dev-server": "^5.2.2",
     "webpack-merge": "^6.0.1"

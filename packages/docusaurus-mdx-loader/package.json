@@ -41,7 +41,7 @@
     "unist-util-visit": "^5.0.0",
     "url-loader": "^4.1.1",
     "vfile": "^6.0.1",
-    "webpack": "^5.88.1"
+    "webpack": "^5.106.0"
   },
   "devDependencies": {
     "@docusaurus/types": "3.9.2",
