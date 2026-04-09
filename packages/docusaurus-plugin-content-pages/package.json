@@ -25,7 +25,7 @@
     "@docusaurus/utils-validation": "3.9.2",
     "fs-extra": "^11.1.1",
     "tslib": "^2.6.0",
-    "webpack": "^5.88.1"
+    "webpack": "^5.106.0"
   },
   "peerDependencies": {
     "react": "^19.2.0",

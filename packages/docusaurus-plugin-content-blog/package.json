@@ -49,7 +49,7 @@
     "tslib": "^2.6.0",
     "unist-util-visit": "^5.0.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.88.1"
+    "webpack": "^5.106.0"
   },
   "peerDependencies": {
     "@docusaurus/plugin-content-docs": "*",
