@@ -22,7 +22,7 @@
     "react-helmet-async": "npm:@slorber/react-helmet-async@1.3.0",
     "utility-types": "^3.10.0",
     "webpack": "^5.106.0",
-    "webpack-merge": "^5.9.0"
+    "webpack-merge": "^6.0.1"
   },
   "peerDependencies": {
     "react": "^19.2.0",
