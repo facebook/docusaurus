@@ -24,9 +24,9 @@
     "@docusaurus/logger": "3.9.2",
     "@docusaurus/types": "3.9.2",
     "@docusaurus/utils": "3.9.2",
-    "babel-loader": "^9.2.1",
+    "babel-loader": "^10.1.1",
     "clean-css": "^5.3.3",
-    "copy-webpack-plugin": "^11.0.0",
+    "copy-webpack-plugin": "^14.0.0",
     "css-loader": "^6.11.0",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "cssnano": "^6.1.2",
@@ -34,14 +34,14 @@
     "html-minifier-terser": "^7.2.0",
     "mini-css-extract-plugin": "^2.9.2",
     "null-loader": "^4.0.1",
-    "postcss": "^8.5.4",
-    "postcss-loader": "^7.3.4",
-    "postcss-preset-env": "^10.2.1",
-    "terser-webpack-plugin": "^5.3.9",
+    "postcss": "^8.5.9",
+    "postcss-loader": "^8.2.1",
+    "postcss-preset-env": "^11.2.0",
+    "terser-webpack-plugin": "^5.4.0",
     "tslib": "^2.6.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.95.0",
-    "webpackbar": "^6.0.1"
+    "webpack": "^5.106.0",
+    "webpackbar": "^7.0.0"
   },
   "peerDependencies": {
     "@docusaurus/faster": "*"
