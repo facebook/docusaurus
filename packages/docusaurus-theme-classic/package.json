@@ -39,7 +39,7 @@
     "infima": "0.2.0-alpha.45",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
-    "postcss": "^8.5.4",
+    "postcss": "^8.5.9",
     "prism-react-renderer": "^2.3.0",
     "prismjs": "^1.29.0",
     "react-router-dom": "^5.3.4",
@@ -51,8 +51,7 @@
     "@types/nprogress": "^0.2.0",
     "@types/prismjs": "^1.26.0",
     "@types/rtlcss": "^3.5.1",
-    "fs-extra": "^11.1.1",
-    "utility-types": "^3.10.0"
+    "fs-extra": "^11.1.1"
   },
   "peerDependencies": {
     "react": "^19.2.0",
