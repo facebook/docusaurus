@@ -74,6 +74,7 @@ export default {
       dependencies: ['eslint'],
       isIgnored: true,
     },
+
     {
       label: 'Ignore broad Jimp peerDep range in Ideal Image plugin',
       packages: ['@docusaurus/plugin-ideal-image'],
