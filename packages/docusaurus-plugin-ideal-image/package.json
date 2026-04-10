@@ -35,7 +35,7 @@
     "fs-extra": "^11.2.0"
   },
   "peerDependencies": {
-    "jimp": "*",
+    "jimp": "^1.6.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

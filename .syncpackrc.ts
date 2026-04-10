@@ -76,14 +76,6 @@ export default {
     },
 
     {
-      label: 'Ignore broad Jimp peerDep range in Ideal Image plugin',
-      packages: ['@docusaurus/plugin-ideal-image'],
-      dependencyTypes: ['peer'],
-      dependencies: ['jimp'],
-      isIgnored: true,
-    },
-
-    {
       label: 'Ignore >= TS range in @docusaurus/tsconfig',
       packages: ['@docusaurus/tsconfig'],
       dependencyTypes: ['peer'],
