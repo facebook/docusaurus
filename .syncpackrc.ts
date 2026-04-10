@@ -39,9 +39,19 @@ export default {
       ],
       isIgnored: true,
     },
+
     // Ignore * internal peerDependencies (optional/flexible deps)
     {
       label: 'Ignore * internal peerDependencies',
+      packages: [
+        '@docusaurus/core',
+        '@docusaurus/bundler',
+        '@docusaurus/faster',
+
+        // TODO Docusaurus v4: refactor, these peerDeps shouldn't be needed
+        '@docusaurus/plugin-content-blog',
+        '@docusaurus/theme-common',
+      ],
       dependencies: [
         '@docusaurus/faster',
         '@docusaurus/plugin-content-docs',
@@ -50,6 +60,7 @@ export default {
       dependencyTypes: ['peer'],
       isIgnored: true,
     },
+
     // Ignore broad peerDep ranges (eslint >=6, jimp *)
     {
       label: 'Ignore broad peerDep ranges',
@@ -57,6 +68,7 @@ export default {
       dependencyTypes: ['peer'],
       isIgnored: true,
     },
+
     // Ignore non-caret pinned third-party deps (handled manually)
     {
       label: 'Ignore non-caret pinned third-party dependencies',
@@ -72,18 +84,21 @@ export default {
       ],
       isIgnored: true,
     },
+
     // Ignore @docusaurus/responsive-loader (external package)
     {
       label: 'Ignore @docusaurus/responsive-loader (external package)',
       dependencies: ['@docusaurus/responsive-loader'],
       isIgnored: true,
     },
+
     // Internal @docusaurus/* packages pinned to monorepo version
     {
       label: 'Internal @docusaurus/* packages use pinned version',
       dependencies: ['@docusaurus/**'],
       pinVersion: CurrentDocusaurusVersion,
     },
+
     // Default: all remaining dependencies — highest version wins (syncpack default)
   ],
 } satisfies RcFile;
