@@ -40,7 +40,7 @@
     "@docusaurus/logger": "3.9.2",
     "@docusaurus/utils": "3.9.2",
     "babel-plugin-dynamic-import-node": "^2.3.3",
-    "fs-extra": "^11.1.1",
+    "fs-extra": "^11.2.0",
     "tslib": "^2.6.0"
   },
   "engines": {
