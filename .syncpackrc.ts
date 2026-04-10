@@ -21,8 +21,6 @@ export default {
     'packages/create-docusaurus/templates/*/package.json',
   ],
   versionGroups: [
-    // Ignore * deps in type-alias/type-definition packages
-    // These packages use * for react, @types/react, etc. on purpose
     {
       label: 'Ignore * deps in type-alias packages',
       packages: [
@@ -52,20 +50,27 @@ export default {
         '@docusaurus/plugin-content-blog',
         '@docusaurus/theme-common',
       ],
+      dependencyTypes: ['peer'],
       dependencies: [
         '@docusaurus/faster',
         '@docusaurus/plugin-content-docs',
         '@docusaurus/types',
       ],
-      dependencyTypes: ['peer'],
       isIgnored: true,
     },
 
-    // Ignore broad peerDep ranges (eslint >=6, jimp *)
     {
-      label: 'Ignore broad peerDep ranges',
-      dependencies: ['eslint', 'jimp'],
+      label: 'Ignore broad ESLint peerDep range in ESLint plugin',
+      packages: ['@docusaurus/eslint-plugin'],
       dependencyTypes: ['peer'],
+      dependencies: ['eslint'],
+      isIgnored: true,
+    },
+    {
+      label: 'Ignore broad Jimp peerDep range in Ideal Image plugin',
+      packages: ['@docusaurus/plugin-ideal-image'],
+      dependencyTypes: ['peer'],
+      dependencies: ['jimp'],
       isIgnored: true,
     },
 
@@ -85,17 +90,14 @@ export default {
       isIgnored: true,
     },
 
-    // Ignore @docusaurus/responsive-loader (external package)
     {
-      label: 'Ignore @docusaurus/responsive-loader (external package)',
-      dependencies: ['@docusaurus/responsive-loader'],
-      isIgnored: true,
-    },
+      label: 'Internal @docusaurus/* monorepo packages use pinned version',
+      dependencies: [
+        '@docusaurus/**',
 
-    // Internal @docusaurus/* packages pinned to monorepo version
-    {
-      label: 'Internal @docusaurus/* packages use pinned version',
-      dependencies: ['@docusaurus/**'],
+        // This one is not a monorepo package
+        '!@docusaurus/responsive-loader',
+      ],
       pinVersion: CurrentDocusaurusVersion,
     },
 
