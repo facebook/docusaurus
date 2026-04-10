@@ -8,7 +8,9 @@
 import fs from 'fs-extra';
 import type {RcFile} from 'syncpack';
 
-const lernaJson = fs.readJSON('./lerna.json');
+const lernaJson = await fs.readJSON('./lerna.json');
+
+const CurrentDocusaurusVersion = lernaJson.version;
 
 export default {
   source: [
@@ -96,7 +98,7 @@ export default {
     {
       label: 'Internal @docusaurus/* packages use pinned version',
       dependencies: ['@docusaurus/**'],
-      pinVersion: lernaJson.version,
+      pinVersion: CurrentDocusaurusVersion,
     },
     // Default: all remaining dependencies — highest version wins (syncpack default)
   ],
