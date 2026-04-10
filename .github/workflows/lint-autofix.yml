@@ -45,6 +45,9 @@ jobs:
       - name: AutoFix Spelling
         run: yarn lint:spelling:fix
 
+      - name: AutoFix Dependency versions
+        run: yarn lint:spelling:fix
+
       - name: Print Diff
         run: git diff
 
