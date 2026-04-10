@@ -20,6 +20,15 @@ export default {
     'argos/package.json',
     'packages/create-docusaurus/templates/*/package.json',
   ],
+
+  semverGroups: [
+    {
+      label: 'Use ~ for TypeScript monorepo root and init templates',
+      dependencies: ['typescript'],
+      range: '~',
+    },
+  ],
+
   versionGroups: [
     {
       label: 'Ignore * deps in type-alias packages',
@@ -38,7 +47,6 @@ export default {
       isIgnored: true,
     },
 
-    // Ignore * internal peerDependencies (optional/flexible deps)
     {
       label: 'Ignore * internal peerDependencies',
       packages: [
@@ -74,19 +82,10 @@ export default {
       isIgnored: true,
     },
 
-    // Ignore non-caret pinned third-party deps (handled manually)
     {
-      label: 'Ignore non-caret pinned third-party dependencies',
-      dependencies: [
-        'typescript',
-        'lint-staged',
-        'infima',
-        '@svgr/core',
-        'netlify-plugin-cache',
-        'cheerio',
-        'mermaid',
-        '@docsearch/react',
-      ],
+      label: 'Ignore >= TS range in @docusaurus/tsconfig',
+      packages: ['@docusaurus/tsconfig'],
+      dependencyTypes: ['peer'],
       isIgnored: true,
     },
 
