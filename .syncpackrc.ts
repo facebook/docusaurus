@@ -21,22 +21,6 @@ export default {
     'packages/create-docusaurus/templates/*/package.json',
   ],
   versionGroups: [
-    // Ignore npm:-aliased dependencies
-    {
-      label: 'Ignore npm:-aliased dependencies',
-      dependencies: ['react-helmet-async', 'react-loadable'],
-      isIgnored: true,
-    },
-    // Ignore template react/react-dom/@types/react (intentionally broader for users)
-    {
-      label: 'Ignore template react/react-dom',
-      packages: [
-        'docusaurus-2-classic-template',
-        'docusaurus-2-classic-typescript-template',
-      ],
-      dependencies: ['react', 'react-dom', '@types/react'],
-      isIgnored: true,
-    },
     // Ignore * deps in type-alias/type-definition packages
     // These packages use * for react, @types/react, etc. on purpose
     {
