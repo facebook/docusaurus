@@ -9,3 +9,10 @@
 .test-marker-theme-layout {
   content: 'theme-layout';
 }
+
+html {
+  text-autospace: normal;
+}
+pre, code, kbd, samp {
+  text-autospace: no-autospace;
+}
