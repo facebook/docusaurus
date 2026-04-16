@@ -80,6 +80,11 @@ describe('transformLinks plugin', () => {
     expect(result).toMatchInlineSnapshot(`"[file](dir/file.zip)"`);
   });
 
+  it('does not transform existing dotted directory links to asset requires', async () => {
+    const result = await processContent(`[directory](../dotted-directory.whatever)`);
+    expect(result).toMatchInlineSnapshot(`"[directory](../dotted-directory.whatever)"`);
+  });
+
   describe('onBrokenMarkdownLinks', () => {
     const fixtures = {
       urlEmpty: `[empty]()`,
