@@ -23,10 +23,15 @@ declare module '@docusaurus/theme-search-algolia' {
     apiKey: string;
     appId: string;
     assistantId: string;
-    searchParameters?: {
-      facetFilters?: FacetFilters;
-    };
+    // When `agentStudio: true`, searchParameters is keyed by index name rather
+    // than being a flat Algolia SearchParams object. See DocSearch v4 types.
+    searchParameters?:
+      | {facetFilters?: FacetFilters}
+      | Record<string, unknown>;
     suggestedQuestions?: boolean;
+    // Experimental: route Ask AI through Algolia's Agent Studio backend.
+    // See https://github.com/algolia/docsearch
+    agentStudio?: boolean;
   };
 
   // DocSearch props that Docusaurus exposes directly through props forwarding

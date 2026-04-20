@@ -525,6 +525,102 @@ describe('validateThemeConfig', () => {
           `""algolia.askAi.suggestedQuestions" must be a boolean"`,
         );
       });
+
+      it('accepts agentStudio flag', () => {
+        const algolia = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          askAi: {
+            assistantId: 'my-assistant-id',
+            agentStudio: true,
+          },
+        } satisfies AlgoliaInput;
+
+        expect(testValidateThemeConfig(algolia)).toEqual({
+          algolia: {
+            ...DEFAULT_CONFIG,
+            ...algolia,
+            askAi: {
+              assistantId: 'my-assistant-id',
+              agentStudio: true,
+              indexName: 'index',
+              apiKey: 'apiKey',
+              appId: 'BH4D9OD16A',
+            },
+          },
+        });
+      });
+
+      it('does not inject facetFilters into agentStudio askAi', () => {
+        const algolia = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          searchParameters: {
+            facetFilters: ['version:1.0'],
+          },
+          askAi: {
+            assistantId: 'my-assistant-id',
+            agentStudio: true,
+          },
+        } satisfies AlgoliaInput;
+
+        const result = testValidateThemeConfig(algolia);
+        expect(result.algolia.askAi).toEqual({
+          assistantId: 'my-assistant-id',
+          agentStudio: true,
+          indexName: 'index',
+          apiKey: 'apiKey',
+          appId: 'BH4D9OD16A',
+        });
+      });
+
+      it('accepts index-keyed searchParameters when agentStudio is true', () => {
+        const algolia = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          askAi: {
+            assistantId: 'my-assistant-id',
+            agentStudio: true,
+            searchParameters: {
+              index: {distinct: false},
+            },
+          },
+        } satisfies AlgoliaInput;
+
+        expect(testValidateThemeConfig(algolia)).toEqual({
+          algolia: {
+            ...DEFAULT_CONFIG,
+            ...algolia,
+            askAi: {
+              ...algolia.askAi,
+              indexName: 'index',
+              apiKey: 'apiKey',
+              appId: 'BH4D9OD16A',
+            },
+          },
+        });
+      });
+
+      it('rejects non-boolean agentStudio', () => {
+        const algolia: AlgoliaInput = {
+          appId: 'BH4D9OD16A',
+          indexName: 'index',
+          apiKey: 'apiKey',
+          askAi: {
+            assistantId: 'my-assistant-id',
+            // @ts-expect-error: expected type error
+            agentStudio: 'yes',
+          },
+        };
+        expect(() =>
+          testValidateThemeConfig(algolia),
+        ).toThrowErrorMatchingInlineSnapshot(
+          `""algolia.askAi.agentStudio" must be a boolean"`,
+        );
+      });
     });
   });
 });

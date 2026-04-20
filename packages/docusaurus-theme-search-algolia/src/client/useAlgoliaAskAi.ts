@@ -58,13 +58,20 @@ function applyAskAiContextualSearch(
   if (!contextualSearchFilters) {
     return askAi;
   }
-  const askAiFacetFilters = askAi.searchParameters?.facetFilters;
+  // When agentStudio is enabled, searchParameters is keyed by index name and
+  // doesn't accept facetFilters at the top level — skip contextual merging.
+  if (askAi.agentStudio) {
+    return askAi;
+  }
+  const searchParameters = askAi.searchParameters as
+    | {facetFilters?: FacetFilters}
+    | undefined;
   return {
     ...askAi,
     searchParameters: {
-      ...askAi.searchParameters,
+      ...searchParameters,
       facetFilters: mergeFacetFilters(
-        askAiFacetFilters,
+        searchParameters?.facetFilters,
         contextualSearchFilters,
       ),
     },
