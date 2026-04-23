@@ -63,12 +63,23 @@ export const AdmonitionsSchema = JoiFrontMatter.alternatives()
 
 // TODO how can we make this emit a custom error message :'(
 //  Joi is such a pain, good luck to annoying trying to improve this
+const dangerousUriSchemesRegex = /^(javascript|data|vbscript):/i;
 export const URISchema = Joi.alternatives(
-  Joi.string().uri({allowRelative: true}),
+  Joi.string()
+    .uri({allowRelative: true})
+    .custom((val: string, helpers) => {
+      if (dangerousUriSchemesRegex.test(val.trimStart())) {
+        return helpers.error('any.invalid');
+      }
+      return val;
+    }),
   // This custom validation logic is required notably because Joi does not
   // accept paths like /a/b/c ...
   Joi.custom((val: unknown, helpers) => {
     if (typeof val !== 'string') {
+      return helpers.error('any.invalid');
+    }
+    if (dangerousUriSchemesRegex.test(val.trimStart())) {
       return helpers.error('any.invalid');
     }
     try {
