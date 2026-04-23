@@ -315,6 +315,7 @@ export default async function createConfigAsync() {
           },
         };
       },
+      './src/plugins/agent-docs/index.ts',
       isRsdoctor && [
         'rsdoctor',
         {
@@ -854,6 +855,9 @@ export default async function createConfigAsync() {
               {
                 label: 'GitHub',
                 href: 'https://github.com/facebook/docusaurus',
+              },
+              {
+                html: '<span aria-label="AI agents can use /llms.txt"><code>/llms.txt</code></span>',
               },
               {
                 label: 'X',
