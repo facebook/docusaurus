@@ -668,7 +668,7 @@ export default async function createConfigAsync() {
       // metadata: [{name: 'twitter:card', content: 'summary'}],
       algolia: {
         appId: 'X1Z85QJPUV',
-        apiKey: 'bf7211c161e8205da2f933a02534105a',
+        apiKey: process.env.ALGOLIA_SEARCH_API_KEY ?? 'bf7211c161e8205da2f933a02534105a',
         indexName: 'docusaurus-2',
 
         // TODO Docusaurus v4: remove after we drop DocSearch v3
