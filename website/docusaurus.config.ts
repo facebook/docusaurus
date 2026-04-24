@@ -857,9 +857,6 @@ export default async function createConfigAsync() {
                 href: 'https://github.com/facebook/docusaurus',
               },
               {
-                html: '<span aria-label="AI agents can use /llms.txt"><code>/llms.txt</code></span>',
-              },
-              {
                 label: 'X',
                 href: 'https://x.com/docusaurus',
               },
