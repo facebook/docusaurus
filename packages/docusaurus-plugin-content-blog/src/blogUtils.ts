@@ -350,7 +350,7 @@ async function processBlogSourceFile(
   const tags = normalizeTags({
     options,
     source: blogSourceRelative,
-    frontMatterTags: frontMatter.tags,
+    frontMatterTags: frontMatter.tags ?? [],
     tagsBaseRoutePath,
     tagsFile,
   });
