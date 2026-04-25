@@ -107,7 +107,16 @@ export async function serve(
 
   const url = servingUrl + baseUrl;
   logger.success`Serving path=${buildDir} directory at: url=${url}`;
-  server.listen(port);
+
+  server.on('error', (err: NodeJS.ErrnoException) => {
+    if (err.code === 'EADDRINUSE') {
+      logger.error`Port number=${port} is already in use.`;
+    } else {
+      throw err;
+    }
+  });
+
+  server.listen(port, host);
 
   if (cliOptions.open && !process.env.CI) {
     await openBrowser(url);
