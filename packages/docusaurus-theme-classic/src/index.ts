@@ -38,7 +38,11 @@ export default function themeClassic(
   const {
     announcementBar,
     colorMode,
-    prism: {additionalLanguages},
+    prism: {
+      additionalLanguages,
+      theme: prismLightTheme,
+      darkTheme: prismDarkTheme,
+    },
   } = themeConfig;
   const {customCss} = options;
   const {direction} = localeConfigs[currentLocale]!;
@@ -120,7 +124,25 @@ export default function themeClassic(
     },
 
     injectHtmlTags() {
+      const lightTheme = prismLightTheme;
+      const darkTheme = prismDarkTheme || lightTheme;
+      const prismCssStyle = `
+[data-theme='light'] {
+  --prism-background-color: ${lightTheme.plain.backgroundColor || 'inherit'};
+  --prism-color: ${lightTheme.plain.color || 'inherit'};
+}
+[data-theme='dark'] {
+  --prism-background-color: ${darkTheme.plain.backgroundColor || 'inherit'};
+  --prism-color: ${darkTheme.plain.color || 'inherit'};
+}
+`;
       return {
+        headTags: [
+          {
+            tagName: 'style',
+            innerHTML: prismCssStyle,
+          },
+        ],
         preBodyTags: [
           {
             tagName: 'svg',
