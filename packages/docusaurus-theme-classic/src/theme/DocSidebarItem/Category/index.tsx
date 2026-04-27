@@ -135,11 +135,7 @@ function CollapseButton({
 }
 
 function CategoryLinkLabel({label}: {label: string}) {
-  return (
-    <span title={label} className={styles.categoryLinkLabel}>
-      {label}
-    </span>
-  );
+  return <span className={styles.categoryLinkLabel}>{label}</span>;
 }
 
 export default function DocSidebarItemCategory(props: Props): ReactNode {
