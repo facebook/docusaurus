@@ -164,14 +164,10 @@ export function validateOptions({
     // When sidebarCollapsible=false and sidebarCollapsed=undefined, we don't
     // want to have the inconsistency warning. We let options.sidebarCollapsible
     // become the default value for options.sidebarCollapsed
-    if (typeof options.sidebarCollapsed === 'undefined') {
-      options = {
-        ...options,
-        sidebarCollapsed: false,
-      };
-    }
     if (options.sidebarCollapsed) {
       logger.warn`The docs plugin config is inconsistent. It does not make sense to use code=${'sidebarCollapsible: false'} and code=${'sidebarCollapsed: true'} at the same time. code=${'sidebarCollapsed: true'} will be ignored.`;
+    }
+    if (options.sidebarCollapsed !== false) {
       options = {
         ...options,
         sidebarCollapsed: false,
