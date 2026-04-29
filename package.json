@@ -95,7 +95,7 @@
     "@types/shelljs": "^0.8.12",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.1.0",
     "cspell": "^8.18.1",
     "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
