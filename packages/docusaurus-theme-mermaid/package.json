@@ -44,8 +44,8 @@
   "devDependencies": {},
   "peerDependencies": {
     "@mermaid-js/layout-elk": "^0.1.9",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "peerDependenciesMeta": {
     "@mermaid-js/layout-elk": {

@@ -92,9 +92,9 @@
   },
   "peerDependencies": {
     "@docusaurus/faster": "*",
-    "@mdx-js/react": "^3.0.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "@mdx-js/react": "^3.1.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "peerDependenciesMeta": {
     "@docusaurus/faster": {
