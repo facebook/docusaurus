@@ -209,8 +209,6 @@ orta
 osascript
 Outerbounds
 outerbounds
-Oxfmt
-oxfmt
 overrideable
 ozaki
 ozakione
