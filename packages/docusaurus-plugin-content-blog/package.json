@@ -47,9 +47,9 @@
     "schema-dts": "^1.1.2",
     "srcset": "^4.0.0",
     "tslib": "^2.6.0",
-    "unist-util-visit": "^5.0.0",
+    "unist-util-visit": "^5.1.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.106.0"
+    "webpack": "^5.106.2"
   },
   "peerDependencies": {
     "@docusaurus/plugin-content-docs": "*",

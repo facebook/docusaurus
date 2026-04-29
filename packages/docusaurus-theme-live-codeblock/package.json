@@ -42,7 +42,7 @@
     "@philpl/buble": "^0.19.7",
     "clsx": "^2.0.0",
     "fs-extra": "^11.2.0",
-    "react-live": "^4.1.6",
+    "react-live": "^4.1.8",
     "tslib": "^2.6.0"
   },
   "devDependencies": {

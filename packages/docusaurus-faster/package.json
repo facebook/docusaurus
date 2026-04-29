@@ -27,7 +27,7 @@
     "semver": "^7.7.4",
     "swc-loader": "^0.2.7",
     "tslib": "^2.6.0",
-    "webpack": "^5.106.0"
+    "webpack": "^5.106.2"
   },
   "engines": {
     "node": ">=24.14"

@@ -60,15 +60,15 @@
     "fs-extra": "^11.2.0",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "react-lite-youtube-embed": "^2.3.52",
     "react-medium-image-zoom": "^5.1.6",
     "recma-mdx-displayname": "^0.4.1",
     "rehype-katex": "^7.0.0",
     "remark-math": "^6.0.0",
-    "unist-util-visit": "^5.0.0",
-    "webpack": "^5.106.0",
+    "unist-util-visit": "^5.1.0",
+    "webpack": "^5.106.2",
     "workbox-routing": "^7.4.0",
     "workbox-strategies": "^7.4.0"
   },
@@ -91,6 +91,6 @@
     "@types/jest": "^30.0.0",
     "cross-env": "^10.1.0",
     "rimraf": "^3.0.2",
-    "search-insights": "^2.8.2"
+    "search-insights": "^2.17.3"
   }
 }
