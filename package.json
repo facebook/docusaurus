@@ -132,7 +132,7 @@
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
     "syncpack": "^14.3.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.2"
   },
   "resolutions": {
     "**/pretty-format/react-is": "^19.2.0"
