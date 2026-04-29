@@ -121,7 +121,7 @@
     "patch-package": "^8.0.0",
     "pkg-pr-new": "^0.0.66",
     "postinstall-postinstall": "^2.1.0",
-    "oxfmt": "^0.41.0",
+    "oxfmt": "^0.47.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "rimraf": "^3.0.2",
