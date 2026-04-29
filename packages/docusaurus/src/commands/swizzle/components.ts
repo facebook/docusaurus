@@ -79,9 +79,7 @@ export async function readComponentNames(themePath: string): Promise<string[]> {
 
   async function walk(dir: string): Promise<ComponentFile[]> {
     const files: File[] = await Promise.all(
-      (
-        await fs.readdir(dir)
-      ).flatMap(async (file) => {
+      (await fs.readdir(dir)).flatMap(async (file) => {
         const fullPath = path.join(dir, file);
         const stat = await fs.stat(fullPath);
         const isDir = stat.isDirectory();

@@ -13,7 +13,6 @@ Docusaurus uses itself to build its own website, which serves as both documentat
 ### Monorepo Structure
 
 - `packages/` - Core Docusaurus packages and plugins, published to npm
-
   - `docusaurus/` - Main CLI and core functionality
   - `docusaurus-plugin-*` - Official plugins, the main ones are `docs`, `blog`, `pages`
   - `docusaurus-theme-classic/` - Default theme, based on the Infima.dev design system and CSS modules

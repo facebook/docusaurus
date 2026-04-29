@@ -140,8 +140,7 @@ function useResultsFooterComponent({
 }): DocSearchProps['resultsFooterComponent'] {
   return useMemo(
     () =>
-      ({state}) =>
-        <ResultsFooter state={state} onClose={closeModal} />,
+      ({state}) => <ResultsFooter state={state} onClose={closeModal} />,
     [closeModal],
   );
 }

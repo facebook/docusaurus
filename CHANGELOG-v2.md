@@ -5503,9 +5503,7 @@ Bad release, check ## 2.0.0-alpha.58
 #### :boom: Breaking Change
 
 - `infima`
-
   - The following Infima classes have been renamed for consistency:
-
     - `page-item` → `pagination__item`
     - `pagination-nav__link--label` → `pagination-nav__label`
     - `pagination-nav__link--sublabel` → `pagination-nav__sublabel`
@@ -5515,7 +5513,6 @@ Bad release, check ## 2.0.0-alpha.58
     If you have swizzled components, you need to replace these class names.
 
 - `docusaurus`
-
   - [#2764](https://github.com/facebook/docusaurus/pull/2764) feat(v2): allow import SVG images ([@lex111](https://github.com/lex111))
 
 #### :rocket: New Feature

@@ -221,9 +221,9 @@ const TWEETS: TweetItem[] = [
         I ❤️ <b>@docusaurus</b> - it makes it so easy to spin up docs, blogs and
         simple websites. I&apos;ve used it to:
         <br />
-        <br /> ✅ Replatform my blog with GitHub pages <br />
-        ✅ Build a website for a local business <br />✅ Build internal facing
-        blog/docs sites with @AzureStaticApps
+        <br /> ✅ Replatform my blog with GitHub pages <br />✅ Build a website
+        for a local business <br />✅ Build internal facing blog/docs sites with
+        @AzureStaticApps
       </>
     ),
     showOnHomepage: false,
@@ -258,11 +258,9 @@ const TWEETS: TweetItem[] = [
         <b>@docusaurus</b>
         v2
         <br />
-        Some obvious changes: <br />
-        🌔 Dark mode <br />
-        ⚡️ SPA navigation / prefetching <br />
-        🧐 @algolia DocSearch v3 <br />
-        💥 @mdx_js enable many new possibilities <br />
+        Some obvious changes: <br />🌔 Dark mode <br />
+        ⚡️ SPA navigation / prefetching <br />🧐 @algolia DocSearch v3 <br />💥
+        @mdx_js enable many new possibilities <br />
         <br />
         Check it out: https://reactnative.dev
       </>
@@ -299,9 +297,8 @@ const TWEETS: TweetItem[] = [
       <>
         New #mobx docs are online! More modern, fixing many UI issues.
         <br />
-        <br />
-        👏 @cloverich did the awesome job of migrating from ancient gitbook
-        -&gt; <b>@docusaurus</b>! 👏 <br />
+        <br />👏 @cloverich did the awesome job of migrating from ancient
+        gitbook -&gt; <b>@docusaurus</b>! 👏 <br />
         <br />
         No real content updates yet, but contributing and publishing has become
         way easier
