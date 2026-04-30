@@ -101,7 +101,7 @@ If you want to release `3.10.1` while `main` is already for `4.0.0`
 
 3. Rename the docs version from `3.10.0` to `3.10.1`
 
-4. Create the `3.10.1` changelog entry manually (TODO can this be automated?)
+4. Create the `3.10.1` changelog entry: `yarn changelog --from v3.10.0 --to docusaurus-v3-maintenance`
 
 ## After any release
 
