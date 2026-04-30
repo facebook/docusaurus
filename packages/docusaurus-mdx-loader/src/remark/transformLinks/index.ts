@@ -229,6 +229,11 @@ async function processLinkNode(target: Target, context: Context) {
   );
 
   if (localFilePath) {
+    const localPathDirectory = (await fs.stat(localFilePath))
+      .isDirectory();
+    if (localPathDirectory) {
+      return;
+    }
     await toAssetRequireNode(target, localFilePath, context);
   } else {
     // The @site alias is the only way to believe that the user wants an asset.
