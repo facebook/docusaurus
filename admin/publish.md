@@ -46,7 +46,7 @@ yarn build:website
 
 8. Create a PR ([example](https://github.com/facebook/docusaurus/pull/11825)). Make sure all CI checks pass. If useful, create it earlier to get a deploy preview to review.
 
-9. Upgrade the `package.json` versions to the next "planned" version (next minor or major): `yarn lerna version 3.12.0 --exact --no-push --yes`. This is mostly useful for canary releases to have the correct "upcoming" version, and to not be confusing for contributors. These versions that are always overridden on release anyway.
+9. Upgrade the `package.json` versions: `yarn lerna version 3.11.0 --exact --no-push --yes` (mostly useful for canary releases versions).
 
 10. Go to the [Publish workflow](https://github.com/facebook/docusaurus/actions/workflows/publish.yml) and click the "Run workflow" button. Fill in the form with:
 
