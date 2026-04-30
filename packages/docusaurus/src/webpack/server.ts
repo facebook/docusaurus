@@ -44,7 +44,8 @@ export default async function createServerConfig({
     output: {
       path: outputDir,
       filename: outputFilename,
-      libraryTarget: 'commonjs2',
+      // rspack v2 dropped libraryTarget in favor of library.type
+      library: {type: 'commonjs2'},
     },
     plugins: [
       new ProgressBarPlugin({

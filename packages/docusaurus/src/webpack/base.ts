@@ -131,9 +131,16 @@ export async function createBaseConfig({
     }
     if (props.currentBundler.name === 'rspack') {
       if (props.siteConfig.future.faster.rspackPersistentCache) {
-        // Use cache: true + experiments.cache.type: "persistent"
-        // See https://rspack.dev/config/experiments#persistent-cache
-        return true;
+        // Rspack v2: persistent cache moved from experiments.cache to top-level cache
+        // See https://rspack.dev/config/cache
+        return {
+          type: 'persistent',
+          // Rspack doesn't have "cache.name" like Webpack
+          // This is not ideal but work around is to merge name/version
+          // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
+          version: `${getCacheName()}-${getCacheVersion()}`,
+          buildDependencies: getCacheBuildDependencies(),
+        } as unknown as Configuration['cache'];
       } else {
         return disabledPersistentCacheValue;
       }
@@ -149,32 +156,10 @@ export async function createBaseConfig({
     };
   }
 
-  function getExperiments(): Configuration['experiments'] {
-    if (props.currentBundler.name === 'rspack') {
-      // TODO find a way to type this
-      const experiments: any = {};
-
-      if (!process.env.DOCUSAURUS_NO_PERSISTENT_CACHE) {
-        experiments.cache = {
-          type: 'persistent',
-          // Rspack doesn't have "cache.name" like Webpack
-          // This is not ideal but work around is to merge name/version
-          // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
-          version: `${getCacheName()}-${getCacheVersion()}`,
-          buildDependencies: getCacheBuildDependencies(),
-        };
-      }
-
-      return experiments;
-    }
-    return undefined;
-  }
-
   return {
     mode,
     name,
     cache: getCache(),
-    experiments: getExperiments(),
     output: {
       pathinfo: false,
       path: outDir,
