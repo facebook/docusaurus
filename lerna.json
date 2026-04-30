@@ -1,5 +1,5 @@
 {
-  "version": "3.9.2",
+  "version": "4.0.0",
   "npmClient": "yarn",
   "useNx": false,
   "changelog": {
