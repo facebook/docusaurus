@@ -115,6 +115,8 @@ export const dogfoodingPluginInstances: PluginConfig[] = [
               locale: 'en',
               options: {wordsPerMinute: 5},
             }),
+      showLastUpdateAuthor: true,
+      showLastUpdateTime: true,
       onInlineTags: 'warn',
       onInlineAuthors: 'ignore',
       onUntruncatedBlogPosts: 'ignore',
