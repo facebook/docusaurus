@@ -1,5 +1,21 @@
 # Docusaurus Changelog
 
+## 3.10.1 (2026-04-30)
+
+#### :bug: Bug Fix
+
+- `docusaurus-bundler`
+  - [#11981](https://github.com/facebook/docusaurus/pull/11981) fix(bundler): fix v3 webpackbar bug due to webpack breaking change ([@slorber](https://github.com/slorber))
+
+#### :wrench: Maintenance
+
+- `docusaurus`
+  - [#11982](https://github.com/facebook/docusaurus/pull/11982) chore: cherry-pick commits for v3.10.1 patch release ([@slorber](https://github.com/slorber))
+
+#### Committers: 1
+
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 3.10.0 (2026-04-07)
 
 #### :rocket: New Feature
