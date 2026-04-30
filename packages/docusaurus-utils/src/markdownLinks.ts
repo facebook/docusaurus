@@ -98,6 +98,6 @@ export function resolveMarkdownLinkPathname(
   );
 
   return aliasedSourceMatch
-    ? sourceToPermalink.get(aliasedSourceMatch) ?? null
+    ? (sourceToPermalink.get(aliasedSourceMatch) ?? null)
     : null;
 }

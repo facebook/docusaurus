@@ -92,7 +92,7 @@ function mergeTranslationFileContent({
         // If messages already exist, we don't override them (unless requested)
         message: options.override
           ? message
-          : existingContent[key]?.message ?? message,
+          : (existingContent[key]?.message ?? message),
         description,
       };
     },

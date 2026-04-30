@@ -33,7 +33,7 @@ jobs:
       - name: Installation
         run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
 
-      - name: AutoFix Format
+      - name: AutoFix Formatting
         run: yarn format
 
       - name: AutoFix JS

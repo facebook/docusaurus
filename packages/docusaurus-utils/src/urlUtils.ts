@@ -190,8 +190,8 @@ export function toURLPath(url: URL): URLPath {
   const search = url.search
     ? url.search.slice(1)
     : url.href.includes('?')
-    ? ''
-    : undefined;
+      ? ''
+      : undefined;
 
   // Fixes annoying url.hash behavior
   // "" => undefined
@@ -200,8 +200,8 @@ export function toURLPath(url: URL): URLPath {
   const hash = url.hash
     ? url.hash.slice(1)
     : url.href.includes('#')
-    ? ''
-    : undefined;
+      ? ''
+      : undefined;
 
   return {
     pathname,

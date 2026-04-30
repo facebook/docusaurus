@@ -36,5 +36,5 @@ jobs:
           echo "::add-matcher::.github/workflows/cspell-problem-matcher.json"
           yarn lint:ci
 
-      - name: Prettier Code
+      - name: Check Formatting
         run: yarn format:diff

@@ -118,8 +118,10 @@ declare module '@theme/IdealImageLegacy' {
 
   type ThemeKey = 'placeholder' | 'img' | 'icon' | 'noscript';
 
-  export interface ImageProps
-    extends Omit<ComponentProps<'img'>, 'srcSet' | 'placeholder'> {
+  export interface ImageProps extends Omit<
+    ComponentProps<'img'>,
+    'srcSet' | 'placeholder'
+  > {
     /**
      * This function decides what icon to show based on the current state of the
      * component.
