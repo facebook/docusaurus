@@ -184,6 +184,30 @@ describe('createExcerpt', () => {
         `),
     ).toBe('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
   });
+
+  it('creates excerpt with XML tag inside inline code', () => {
+    expect(
+      createExcerpt(dedent`
+          # Markdown Regular Title
+
+          This paragraph includes a link to the \`<metadata>\` documentation.
+        `),
+    ).toBe(
+      'This paragraph includes a link to the &lt;metadata&gt; documentation.',
+    );
+  });
+
+  it('creates excerpt with XML tag inside inline code with hyperlink', () => {
+    expect(
+      createExcerpt(dedent`
+          # Markdown Regular Title
+
+          This paragraph includes a link to the [\`<metadata>\`](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/metadata) documentation.
+        `),
+    ).toBe(
+      'This paragraph includes a link to the &lt;metadata&gt; documentation.',
+    );
+  });
 });
 
 describe('parseMarkdownContentTitle', () => {
