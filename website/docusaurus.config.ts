@@ -315,6 +315,7 @@ export default async function createConfigAsync() {
           },
         };
       },
+      './src/plugins/agent-docs/index.ts',
       isRsdoctor && [
         'rsdoctor',
         {
