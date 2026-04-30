@@ -17,9 +17,9 @@
     "directory": "packages/docusaurus-cssnano-preset"
   },
   "dependencies": {
-    "cssnano-preset-advanced": "^7.0.12",
-    "postcss": "^8.5.9",
-    "postcss-sort-media-queries": "^6.4.4",
+    "cssnano-preset-advanced": "^7.0.15",
+    "postcss": "^8.5.12",
+    "postcss-sort-media-queries": "^6.5.0",
     "tslib": "^2.6.0"
   },
   "devDependencies": {

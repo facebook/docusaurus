@@ -42,7 +42,7 @@
     "@philpl/buble": "^0.19.7",
     "clsx": "^2.0.0",
     "fs-extra": "^11.2.0",
-    "react-live": "^4.1.6",
+    "react-live": "^4.1.8",
     "tslib": "^2.6.0"
   },
   "devDependencies": {
@@ -50,8 +50,8 @@
     "@types/buble": "^0.20.1"
   },
   "peerDependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "engines": {
     "node": ">=24.14"

@@ -24,14 +24,14 @@
   "dependencies": {
     "@docusaurus/logger": "3.9.2",
     "commander": "^5.1.0",
-    "cross-spawn": "^7.0.0",
+    "cross-spawn": "^7.0.6",
     "prompts": "^2.4.2",
-    "semver": "^7.5.4",
-    "supports-color": "^9.4.0",
+    "semver": "^7.7.4",
+    "supports-color": "^10.2.2",
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "@types/supports-color": "^8.1.1"
+    "@types/supports-color": "^10.0.0"
   },
   "engines": {
     "node": ">=24.14"

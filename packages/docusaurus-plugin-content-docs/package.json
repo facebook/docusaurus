@@ -52,7 +52,7 @@
     "schema-dts": "^1.1.2",
     "tslib": "^2.6.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.106.0"
+    "webpack": "^5.106.2"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",
@@ -61,8 +61,8 @@
     "picomatch": "^2.3.1"
   },
   "peerDependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "engines": {
     "node": ">=24.14"

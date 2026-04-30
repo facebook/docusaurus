@@ -20,14 +20,14 @@
   "dependencies": {
     "@docusaurus/types": "3.9.2",
     "@rspack/core": "^1.7.10",
-    "@swc/core": "^1.7.39",
-    "@swc/html": "^1.13.5",
-    "browserslist": "^4.24.2",
-    "lightningcss": "^1.27.0",
-    "semver": "^7.5.4",
-    "swc-loader": "^0.2.6",
+    "@swc/core": "^1.15.32",
+    "@swc/html": "^1.15.32",
+    "browserslist": "^4.28.2",
+    "lightningcss": "^1.32.0",
+    "semver": "^7.7.4",
+    "swc-loader": "^0.2.7",
     "tslib": "^2.6.0",
-    "webpack": "^5.106.0"
+    "webpack": "^5.106.2"
   },
   "engines": {
     "node": ">=24.14"

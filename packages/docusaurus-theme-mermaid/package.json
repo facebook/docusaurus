@@ -38,14 +38,14 @@
     "@docusaurus/theme-common": "3.9.2",
     "@docusaurus/types": "3.9.2",
     "@docusaurus/utils-validation": "3.9.2",
-    "mermaid": ">=11.6.0",
+    "mermaid": ">=11.14.0",
     "tslib": "^2.6.0"
   },
   "devDependencies": {},
   "peerDependencies": {
     "@mermaid-js/layout-elk": "^0.1.9",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "peerDependenciesMeta": {
     "@mermaid-js/layout-elk": {
