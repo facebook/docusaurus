@@ -87,14 +87,20 @@ function getDefaultDirection(localeStr: string) {
 }
 
 export function getDefaultLocaleConfig(
+  // Locale "key/identifier"
+  // Can be anything, but usually a country / BCP47 code
   locale: string,
+  // optionally provided in i18n.localConfigs, need to respect BCP47
+  htmlLang?: string,
 ): Omit<I18nLocaleConfig, 'translate' | 'url' | 'baseUrl'> {
   try {
     return {
-      label: getDefaultLocaleLabel(locale),
-      direction: getDefaultDirection(locale),
-      htmlLang: locale,
-      calendar: getDefaultCalendar(locale),
+      label: getDefaultLocaleLabel(htmlLang ?? locale),
+      direction: getDefaultDirection(htmlLang ?? locale),
+      htmlLang: htmlLang ?? locale,
+      calendar: getDefaultCalendar(htmlLang ?? locale),
+      // Fot the i18n/<path>, we don't use htmlLang on purpose
+      // see bug https://github.com/facebook/docusaurus/issues/11952
       path: locale,
     };
   } catch (e) {
@@ -152,7 +158,7 @@ export async function loadI18n({
       I18nLocaleConfig,
       'translate' | 'url' | 'baseUrl'
     > = {
-      ...getDefaultLocaleConfig(localeConfigInput.htmlLang ?? locale),
+      ...getDefaultLocaleConfig(locale, localeConfigInput.htmlLang),
       ...localeConfigInput,
     };
 
