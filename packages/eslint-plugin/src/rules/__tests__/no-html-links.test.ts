@@ -43,6 +43,15 @@ ruleTester.run('prefer-docusaurus-link', rule, {
       code: '<a href="tel:123456789">Call</a>',
       options: [{ignoreFullyResolved: true}],
     },
+    {
+      // eslint-disable-next-line no-template-curly-in-string
+      code: '<a href={`https://x.com/${"docu" + "saurus"} ${"rex"}`}>Twitter</a>',
+      options: [{ignoreFullyResolved: true}],
+    },
+    {
+      code: '<a href={"https://x.com/" + "docusaurus"}>X</a>',
+      options: [{ignoreFullyResolved: true}],
+    },
   ],
   invalid: [
     {
@@ -79,10 +88,14 @@ ruleTester.run('prefer-docusaurus-link', rule, {
       errors: errorsJSX,
     },
     {
-      // TODO we might want to make this test pass
-      // Can template literals be statically pre-evaluated? (Babel can do it)
-      // eslint-disable-next-line no-template-curly-in-string
-      code: '<a href={`https://x.com/${"docu" + "saurus"} ${"rex"}`}>Twitter</a>',
+      // Dynamic template literals that can't be resolved should be reported
+      code: '<a href={`https://github.com/${repo}`}>GitHub</a>',
+      options: [{ignoreFullyResolved: true}],
+      errors: errorsJSX,
+    },
+    {
+      // Partially resolved but not fully (path starts with /)
+      code: '<a href={`/${path}`}>Internal</a>',
       options: [{ignoreFullyResolved: true}],
       errors: errorsJSX,
     },

@@ -29,6 +29,41 @@ function isFullyResolvedUrl(urlString: string): boolean {
   return false;
 }
 
+function staticPreEvaluate(node: TSESTree.Node): string | null {
+  if (node.type === 'Literal' && typeof node.value === 'string') {
+    return node.value;
+  }
+  if (node.type === 'TemplateLiteral') {
+    let result = '';
+    for (let i = 0; i < node.quasis.length; i++) {
+      const quasi = node.quasis[i];
+      if (quasi) {
+        result += quasi.value.raw;
+      }
+      if (i < node.expressions.length) {
+        const expr = node.expressions[i];
+        if (!expr) {
+          return null;
+        }
+        const evaluated = staticPreEvaluate(expr);
+        if (evaluated === null) {
+          return null;
+        }
+        result += String(evaluated);
+      }
+    }
+    return result;
+  }
+  if (node.type === 'BinaryExpression' && node.operator === '+') {
+    const left = staticPreEvaluate(node.left);
+    const right = staticPreEvaluate(node.right);
+    if (left !== null && right !== null) {
+      return String(left) + String(right);
+    }
+  }
+  return null;
+}
+
 export default createRule<Options, MessageIds>({
   name: 'no-html-links',
   meta: {
@@ -81,17 +116,9 @@ export default createRule<Options, MessageIds>({
           if (hrefAttr?.value?.type === 'JSXExpressionContainer') {
             const container: TSESTree.JSXExpressionContainer = hrefAttr.value;
             const {expression} = container;
-            if (expression.type === 'TemplateLiteral') {
-              // Simple static string template literals
-              if (
-                expression.expressions.length === 0 &&
-                expression.quasis.length === 1 &&
-                expression.quasis[0]?.type === 'TemplateElement' &&
-                isFullyResolvedUrl(String(expression.quasis[0].value.raw))
-              ) {
-                return;
-              }
-              // TODO add more complex TemplateLiteral cases here
+            const evaluated = staticPreEvaluate(expression);
+            if (evaluated !== null && isFullyResolvedUrl(evaluated)) {
+              return;
             }
           }
         }
