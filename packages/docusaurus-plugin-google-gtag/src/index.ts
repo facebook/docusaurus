@@ -8,25 +8,14 @@
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Options} from './options';
 
-function createConfigSnippet({
-  trackingID,
-  anonymizeIP,
-}: {
-  trackingID: string;
-  anonymizeIP: boolean;
-}): string {
-  return `gtag('config', '${trackingID}', { ${
-    anonymizeIP ? "'anonymize_ip': true" : ''
-  } });`;
+function createConfigSnippet(trackingID: string): string {
+  return `gtag('config', '${trackingID}');`;
 }
 
 function createConfigSnippets({
   trackingID: trackingIDArray,
-  anonymizeIP,
 }: PluginOptions): string {
-  return trackingIDArray
-    .map((trackingID) => createConfigSnippet({trackingID, anonymizeIP}))
-    .join('\n');
+  return trackingIDArray.map(createConfigSnippet).join('\n');
 }
 
 export default function pluginGoogleGtag(
