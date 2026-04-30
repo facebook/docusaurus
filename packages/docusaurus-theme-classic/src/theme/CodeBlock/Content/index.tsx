@@ -60,11 +60,10 @@ export default function CodeBlockContent({
   const {code, language, lineNumbersStart, lineClassNames} = metadata;
   return (
     <Highlight theme={prismTheme} code={code} language={language}>
-      {({className, style, tokens: lines, getLineProps, getTokenProps}) => (
+      {({className, tokens: lines, getLineProps, getTokenProps}) => (
         <Pre
           ref={wordWrap.codeBlockRef}
-          className={clsx(classNameProp, className)}
-          style={style}>
+          className={clsx(classNameProp, className)}>
           <Code>
             {lines.map((line, i) => (
               <Line
