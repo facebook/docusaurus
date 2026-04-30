@@ -41,7 +41,7 @@ jobs:
 
       # Ensure our monorepo gets scanned by SFW
       - name: Install monorepo dependencies with SFW
-        run: sfw yarn install --frozen-lockfile
+        run: sfw yarn install --frozen-lockfile || sfw yarn install --frozen-lockfile || sfw yarn install --frozen-lockfile
 
       # Check for malicious lockfile injections
       # See https://github.com/lirantal/npm-security-best-practices#4-prevent-npm-lockfile-injection
@@ -55,7 +55,7 @@ jobs:
 
       # Ensure our init template gets scanned by SFW
       - name: Install test-website project with SFW
-        run: sfw yarn install --frozen-lockfile
+        run: sfw yarn install --frozen-lockfile || sfw yarn install --frozen-lockfile || sfw yarn install --frozen-lockfile
         working-directory: ../test-website
 
       # Ensure no unexpected lifecycle (preintall/postinstall scripts)
@@ -84,4 +84,4 @@ jobs:
 
           YAML
 
-          pnpm install
+          sfw pnpm install || sfw pnpm install || sfw pnpm install
