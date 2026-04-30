@@ -41,7 +41,7 @@
     "@docusaurus/utils-validation": "3.10.1",
     "cheerio": "^1.2.0",
     "combine-promises": "^1.1.0",
-    "feed": "^4.2.2",
+    "feed": "^5.2.0",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
     "schema-dts": "^1.1.2",
