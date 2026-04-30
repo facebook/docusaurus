@@ -33,7 +33,8 @@
     "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "dependencies": {
-    "@docsearch/react": "^3.9.0 || ^4.3.2",
+    "@algolia/autocomplete-core": "^1.19.8",
+    "@docsearch/react": "^4.6.3",
     "@docusaurus/core": "3.9.2",
     "@docusaurus/logger": "3.9.2",
     "@docusaurus/plugin-content-docs": "3.9.2",
@@ -41,9 +42,8 @@
     "@docusaurus/theme-translations": "3.9.2",
     "@docusaurus/utils": "3.9.2",
     "@docusaurus/utils-validation": "3.9.2",
-    "@algolia/autocomplete-core": "^1.19.2",
-    "algoliasearch": "^5.37.0",
-    "algoliasearch-helper": "^3.26.0",
+    "algoliasearch": "^5.51.0",
+    "algoliasearch-helper": "^3.28.2",
     "clsx": "^2.0.0",
     "eta": "^2.2.0",
     "fs-extra": "^11.2.0",
@@ -55,8 +55,8 @@
     "@docusaurus/module-type-aliases": "3.9.2"
   },
   "peerDependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "engines": {
     "node": ">=24.14"

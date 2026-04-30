@@ -996,7 +996,7 @@ Bad npm publish, please use 2.0.1
 - `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
   - [#7027](https://github.com/facebook/docusaurus/pull/7027) refactor(content-docs): deduplicate types, JSDoc for some APIs ([@Josh-Cena](https://github.com/Josh-Cena))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`, `docusaurus-utils-common`
   - [#7085](https://github.com/facebook/docusaurus/pull/7085) refactor: mark a few client-side packages as side-effect-free ([@Josh-Cena](https://github.com/Josh-Cena))
@@ -1554,7 +1554,7 @@ Bad npm publish, please use 2.0.1
 - `docusaurus-mdx-loader`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus`
   - [#6474](https://github.com/facebook/docusaurus/pull/6474) test: rename 'fixtures' to '**fixtures**' ([@nschonni](https://github.com/nschonni))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `create-docusaurus`, `docusaurus-mdx-loader`, `docusaurus-migrate`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-search-algolia`, `docusaurus-theme-translations`, `docusaurus-utils`, `docusaurus`
   - [#6725](https://github.com/facebook/docusaurus/pull/6725) refactor: convert all fs methods to async ([@Josh-Cena](https://github.com/Josh-Cena))
@@ -2433,7 +2433,7 @@ Bad npm publish, use beta.13 instead
   - [#5720](https://github.com/facebook/docusaurus/pull/5720) chore: regenerate beta.7 examples ([@lex111](https://github.com/lex111))
   - [#5719](https://github.com/facebook/docusaurus/pull/5719) chore: remove beta.5 docs ([@lex111](https://github.com/lex111))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus`
   - [#5748](https://github.com/facebook/docusaurus/pull/5748) refactor: perform shallow clone during deploy ([@nlfurniss](https://github.com/nlfurniss))
@@ -2861,7 +2861,7 @@ Bad npm publish, use beta.13 instead
 - `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-common`
   - [#5284](https://github.com/facebook/docusaurus/pull/5284) refactor: properly type docs version ([@Josh-Cena](https://github.com/Josh-Cena))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-module-type-aliases`, `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-live-codeblock`, `docusaurus-types`, `docusaurus`
   - [#5349](https://github.com/facebook/docusaurus/pull/5349) refactor(core): replace useDocusaurusContext().isClient by useIsBrowser() ([@slorber](https://github.com/slorber))
@@ -3015,7 +3015,7 @@ Bad npm publish, use beta.13 instead
   - [#5137](https://github.com/facebook/docusaurus/pull/5137) chore: upgrade crowdin ([@slorber](https://github.com/slorber))
   - [#5111](https://github.com/facebook/docusaurus/pull/5111) misc: monitor site global data with build size bot ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-theme-classic`, `docusaurus-theme-common`
   - [#5136](https://github.com/facebook/docusaurus/pull/5136) perf(v2): lazy sidebar categories / collapsibles, reduce html output / build times ([@slorber](https://github.com/slorber))
@@ -3689,7 +3689,7 @@ Read the [2.0.0 beta blog post](https://docusaurus.io/blog/2021/05/12/announcing
 - `docusaurus-migrate`, `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-ideal-image`, `docusaurus-theme-common`, `docusaurus-utils`, `docusaurus`
   - [#4462](https://github.com/facebook/docusaurus/pull/4462) chore: json files should be linted ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-theme-classic`
   - [#4626](https://github.com/facebook/docusaurus/pull/4626) refactor(v2): toggleResponsiveSidebar => more stable callback ([@slorber](https://github.com/slorber))
@@ -4122,7 +4122,7 @@ Starting with this release for a proper work of i18n functionality, you need to 
 - `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-remark-plugin-npm2yarn`, `docusaurus-utils`, `docusaurus`, `stylelint-copyright`
   - [#3959](https://github.com/facebook/docusaurus/pull/3959) chore(v2): fix windows Jest tests ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-cssnano-preset`, `docusaurus-plugin-content-blog`, `docusaurus`
   - [#4355](https://github.com/facebook/docusaurus/pull/4355) perf(v2): improve blog mdx-loader and postcss loader ([@lex111](https://github.com/lex111))
@@ -4968,7 +4968,7 @@ Failed release
 - `docusaurus-1.x`
   - [#3218](https://github.com/facebook/docusaurus/pull/3218) chore(v1): release 1.14.6 ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-plugin-client-redirects`, `docusaurus-theme-search-algolia`, `docusaurus`
   - [#3238](https://github.com/facebook/docusaurus/pull/3238) refactor(v2): precompile ETA templates ([@slorber](https://github.com/slorber))
@@ -5395,7 +5395,7 @@ Failed release
 - `docusaurus-theme-classic`
   - [#2858](https://github.com/facebook/docusaurus/pull/2858) refactor(v2): add missing main landmark for needed pages ([@lex111](https://github.com/lex111))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-plugin-content-blog`, `docusaurus-plugin-sitemap`
   - [#2936](https://github.com/facebook/docusaurus/pull/2936) perf(v2): convert synchronous filewrite to asynchronous ([@moonrailgun](https://github.com/moonrailgun))
@@ -5567,7 +5567,7 @@ Bad release, check ## 2.0.0-alpha.58
 - `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus`
   - [#2464](https://github.com/facebook/docusaurus/pull/2464) refactor(v2): add @theme-init alias to give access to initial components ([@lex111](https://github.com/lex111))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus`
   - [#2684](https://github.com/facebook/docusaurus/pull/2684) refactor(v2): replace EJS with Eta for SSR generation ([@nebrelbug](https://github.com/nebrelbug))
@@ -6175,7 +6175,7 @@ Bad release, check ## 2.0.0-alpha.58
 - `docusaurus-1.x`, `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-ideal-image`, `docusaurus-theme-live-codeblock`, `docusaurus`
   - [#2102](https://github.com/facebook/docusaurus/pull/2102) misc: add command to run prettier on docs ([@yangshun](https://github.com/yangshun))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus`
   - [#2118](https://github.com/facebook/docusaurus/pull/2118) perf(v2): reduce HTML payload by eliminating chunk-map ([@endiliey](https://github.com/endiliey))
@@ -6248,7 +6248,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
   - [#2081](https://github.com/facebook/docusaurus/pull/2081) refactor(v2): move scripts/stylesheets injection to server side ([@endiliey](https://github.com/endiliey))
   - [#2080](https://github.com/facebook/docusaurus/pull/2080) refactor(v2): minor code refactoring on component creator ([@endiliey](https://github.com/endiliey))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-utils`
   - [#2089](https://github.com/facebook/docusaurus/pull/2089) perf(v2): improve dev build time by not overwriting file if possible ([@endiliey](https://github.com/endiliey))
@@ -6328,7 +6328,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
 - `docusaurus-init`, `docusaurus-mdx-loader`, `docusaurus-plugin-content-docs`, `docusaurus`
   - [#2029](https://github.com/facebook/docusaurus/pull/2029) chore(v2): bump deps and remove unused deps ([@endiliey](https://github.com/endiliey))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`
   - [#2070](https://github.com/facebook/docusaurus/pull/2070) perf(v2): more performant gtag and analytics plugin ([@endiliey](https://github.com/endiliey))
@@ -6454,7 +6454,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
 - `docusaurus-1.x`, `docusaurus-init-1.x`, `docusaurus-init`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-ideal-image`, `docusaurus-types`, `docusaurus`
   - [#1985](https://github.com/facebook/docusaurus/pull/1985) chore(v2): update dependencies ([@endiliey](https://github.com/endiliey))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus`
   - [#1979](https://github.com/facebook/docusaurus/pull/1979) perf(v2): reduce main bundle size by using es5 if possible ([@endiliey](https://github.com/endiliey))
@@ -6501,7 +6501,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
 - Other
   - [#1952](https://github.com/facebook/docusaurus/pull/1952) chore(v2): add lerna-changelog ([@endiliey](https://github.com/endiliey))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-plugin-content-docs`, `docusaurus-utils`, `docusaurus`
   - [#1951](https://github.com/facebook/docusaurus/pull/1951) perf(v2): skip runtime fileHash cache in prod & get timestamp asynchronously ([@endiliey](https://github.com/endiliey))

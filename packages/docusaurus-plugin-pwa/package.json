@@ -34,7 +34,7 @@
     "clsx": "^2.0.0",
     "core-js": "^3.31.1",
     "tslib": "^2.6.0",
-    "webpack": "^5.106.0",
+    "webpack": "^5.106.2",
     "webpack-merge": "^6.0.1",
     "workbox-build": "^7.4.0",
     "workbox-precaching": "^7.4.0",
@@ -45,8 +45,8 @@
     "fs-extra": "^11.2.0"
   },
   "peerDependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "engines": {
     "node": ">=24.14"

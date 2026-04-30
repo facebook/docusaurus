@@ -278,7 +278,7 @@ describe('loadI18n', () => {
           defaultLocale: 'fr',
           locales: ['en', 'fr', 'de'],
           localeConfigs: {
-            fr: {label: 'Français', translate: false},
+            fr: {label: 'Français', translate: false, htmlLang: 'fr-FR'},
             en: {translate: true, baseUrl: 'en-EN/whatever/else'},
             de: {translate: false, baseUrl: '/de-DE/'},
           },
@@ -295,7 +295,7 @@ describe('loadI18n', () => {
         fr: {
           label: 'Français',
           direction: 'ltr',
-          htmlLang: 'fr',
+          htmlLang: 'fr-FR',
           calendar: 'gregory',
           path: 'fr',
           translate: false,
@@ -458,7 +458,7 @@ describe('loadI18n', () => {
       direction: 'ltr',
       htmlLang: 'en-US',
       label: 'American English',
-      path: 'en-US',
+      path: 'x1',
       translate: false,
       url: 'https://example.com',
     });
