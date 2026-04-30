@@ -15,6 +15,8 @@ For simplicity, usually don't maintain multiple major-version release lines in p
 
 However, we might occasionally have to backport critical bug and security fixes to a branch that could be cut on-demand. For major versions we usually create a `docusaurus-vX` branch once we have started merging breaking changes for the upcoming major version.
 
+---
+
 ## Publish a minor/major release
 
 We'll consider that the latest version is `3.10.0`, and we are now releasing `3.11.0`.
@@ -48,13 +50,15 @@ yarn build:website
 
 9. Go to the [Publish workflow](https://github.com/facebook/docusaurus/actions/workflows/publish.yml) and click the "Run workflow" button. Fill in the form with:
 
-- From branch: main
-- NPM version: 3.10.0
-- NPM Dist tag: latest
+- From branch: `main`
+- NPM version: `3.10.0`
+- NPM Dist tag: `latest`
 
 10. Once the workflow finishes and code is on npm, you can merge the release PR.
 
 11. Follow the "After any release" section.
+
+---
 
 ## Release a patch
 
@@ -95,13 +99,29 @@ git push
 
 If you want to release `3.10.1` while `main` is already for `4.0.0`
 
-1. Backport/merge all the fixes for the patch release to `docusaurus-v3-maintenance` (using PRs because the branch is protected, [example](https://github.com/facebook/docusaurus/pull/11982))
+0. Make sure `docusaurus-v3-maintenance` is up to date. If not, upgrade it from the latest v3 release. The branch is protected so you need to use PRs.
 
-2. Create release branch from **main**: `git co main && git pull && git co -b slorber/release-v3.10.1`
+1. Backport/merge all the fixes for the patch release to `docusaurus-v3-maintenance` (using a PR, [example](https://github.com/facebook/docusaurus/pull/11982))
+
+2. Create a release branch from **main**: `git co main && git pull && git co -b slorber/release-v3.10.1`
 
 3. Rename the docs version from `3.10.0` to `3.10.1`
 
 4. Create the `3.10.1` changelog entry: `yarn changelog --from v3.10.0 --to docusaurus-v3-maintenance`
+
+5. Create a release PR that targets `main` ([example](https://github.com/facebook/docusaurus/pull/11983))
+
+6. Go to the [Publish workflow](https://github.com/facebook/docusaurus/actions/workflows/publish.yml) and click the "Run workflow" button. Fill in the form with:
+
+- From branch: `docusaurus-v3-maintenance` - ⚠️ Do not use `main`!
+- NPM version: `3.10.1`
+- NPM Dist tag: `latest` or `v3-stable` - ⚠️ Do not use `latest` if `4.0.0` is already out, use `v3-stable`
+
+7. Once the workflow finishes and code is on npm, you can merge the release PR in `main`.
+
+8. Follow the "After any release" section.
+
+---
 
 ## After any release
 
