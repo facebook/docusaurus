@@ -1,0 +1,50 @@
+---
+slug: /api/misc/@docusaurus/eslint-plugin/prefer-ideal-image
+---
+
+# prefer-ideal-image
+
+Ensure that the `<IdealImage />` component provided by the [`@docusaurus/plugin-ideal-image`](../../plugins/plugin-ideal-image.mdx) plugin is used instead of standard `<img>` tags for local assets.
+
+The `@theme/IdealImage` component automatically generates responsive images, provides lazy-loading, and adds low-quality image placeholders (LQIP) to improve LCP and user experience.
+
+## Rule Details {#details}
+
+This rule flags standard HTML `<img>` tags that point to local files, suggesting the use of `IdealImage` for better optimization.
+
+Examples of **incorrect** code for this rule:
+
+```jsx
+// Error: Definitely a local image via require()
+<img src={require('./thumbnail.png')} />
+
+// Warning: Likely a local image via relative path
+<img src="./img/logo.png" />
+
+// Warning: Root-relative path usually points to the static folder
+<img src="/img/hero.jpg" />
+```
+
+Examples of **correct** code for this rule:
+
+```jsx
+// Optimized using the IdealImage component
+import IdealImage from '@theme/IdealImage';
+
+<IdealImage img={require('./thumbnail.png')} />
+
+// External images are ignored
+<img src="[https://example.com/external.png](https://example.com/external.png)" />
+
+// SVGs are ignored as IdealImage does not support them
+<img src="./icon.svg" />
+```
+
+## When to not use it
+
+If you have not installed or do not plan to use @docusaurus/plugin-ideal-image, you should keep this rule disabled.
+
+## Further Reading {#further-reading}
+
+- https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-ideal-image
+- https://web.dev/articles/browser-level-image-lazy-loading
