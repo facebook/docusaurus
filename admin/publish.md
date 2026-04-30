@@ -58,7 +58,50 @@ yarn build:website
 
 ## Release a patch
 
-TODO
+### Simple patch
+
+If you haven't merged any feature or breaking change on `main`, you can just follow the regular process above
+
+### Maintenance patch
+
+If you already merged features or breaking changes on `main`, you can't release a patch from `main` anymore and need to create a dedicated branch. We usually have protected `docusaurus-v<number>` maintenance branches for that reason (v3 is an exception, named `docusaurus-v3-maintenance` because `docusaurus-v3` was a mistake and I can't reset it).
+
+#### Feature merged on `main`
+
+If you want to release a fix for v3 while a feature has already been merged on `main`, you have 2 choices:
+
+- The fix waits for the next minor version
+- The fix is critical/urgent: you can update the `docusaurus-v<number>` branch, merge or backport the fix on this branch, and release from there
+
+#### Breaking change merged on `main`
+
+If a breaking change has already been merged on `main`, this means `main` is for the upcoming major version. If a patch is critical/urgent, you'll also want fix and/or backport it to the appropriate `docusaurus-v<number>` branch.
+
+#### How to backport a commit from `main`
+
+Cut a branch from `docusaurus-v<number>` and cherry pick commits to it, then open a PR and merge it.
+
+```bash
+git co docusaurus-v3-maintenance
+git pull
+git co -b slorber/v3.10.1-backports
+git cherry-pick <commit1>
+git cherry-pick <commit2>
+git cherry-pick <commit3>
+git push
+```
+
+#### Full example
+
+If you want to release `3.10.1` while `main` is already for `4.0.0`
+
+1. Backport/merge all the fixes for the patch release to `docusaurus-v3-maintenance` (using PRs because the branch is protected, [example](https://github.com/facebook/docusaurus/pull/11982))
+
+2. Create release branch from **main**: `git co main && git pull && git co -b slorber/release-v3.10.1`
+
+3. Rename the docs version from `3.10.0` to `3.10.1`
+
+4. Create the `3.10.1` changelog entry manually (TODO can this be automated?)
 
 ## After any release
 
