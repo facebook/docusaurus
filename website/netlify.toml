@@ -27,6 +27,9 @@
 
 [context.deploy-preview]
   command = "(echo 'Build packages start' && yarn --cwd .. build:packages && echo 'Build packages end') & (echo 'Git backfill start' && git backfill && echo 'Git backfill end' ) & wait && yarn netlify:build:deployPreview"
+  [context.deploy-preview.environment]
+    DISABLE_RSPACK_INCREMENTAL = "true"
+    DOCUSAURUS_NO_PERSISTENT_CACHE = "true"
 
 [[plugins]]
 package = "netlify-plugin-cache"
