@@ -1,6 +1,6 @@
 {
   "name": "create-docusaurus",
-  "version": "4.0.0",
+  "version": "3.9.2",
   "description": "Create Docusaurus apps easily.",
   "type": "module",
   "repository": {
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "4.0.0",
+    "@docusaurus/logger": "3.9.2",
     "commander": "^5.1.0",
     "cross-spawn": "^7.0.6",
     "prompts": "^2.4.2",
