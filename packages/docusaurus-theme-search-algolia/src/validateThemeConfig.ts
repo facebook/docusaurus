@@ -9,6 +9,7 @@ import {escapeRegexp} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import {docSearchV3} from './docSearchVersion';
 import type {ThemeConfigValidationContext} from '@docusaurus/types';
+import type {FacetFilters} from 'algoliasearch/lite';
 import type {
   ThemeConfig,
   ThemeConfigAlgolia,
@@ -72,10 +73,11 @@ export const Schema = Joi.object<ThemeConfig>({
           indexName: Joi.string().optional(),
           apiKey: Joi.string().optional(),
           appId: Joi.string().optional(),
-          searchParameters: Joi.object({
-            facetFilters: FacetFiltersSchema.optional(),
-          }).optional(),
+          // When `agentStudio: true`, searchParameters is keyed by index name,
+          // so we relax validation rather than enforce the flat shape.
+          searchParameters: Joi.object().unknown().optional(),
           suggestedQuestions: Joi.boolean().optional(),
+          agentStudio: Joi.boolean().optional(),
         }),
       )
       .custom(
@@ -108,12 +110,20 @@ export const Schema = Joi.object<ThemeConfig>({
           askAiInput.indexName = askAiInput.indexName ?? algolia.indexName;
           askAiInput.apiKey = askAiInput.apiKey ?? algolia.apiKey;
           askAiInput.appId = askAiInput.appId ?? algolia.appId;
+          // agentStudio uses an index-keyed `searchParameters` shape and
+          // rejects `facetFilters`, so skip the contextual merge for it.
+          const flatSearchParams = askAiInput.searchParameters as
+            | {facetFilters?: FacetFilters}
+            | undefined;
           if (
-            askAiInput.searchParameters?.facetFilters === undefined &&
+            !askAiInput.agentStudio &&
+            flatSearchParams?.facetFilters === undefined &&
             algoliaFacetFilters
           ) {
-            askAiInput.searchParameters = askAiInput.searchParameters ?? {};
-            askAiInput.searchParameters.facetFilters = algoliaFacetFilters;
+            askAiInput.searchParameters = {
+              ...flatSearchParams,
+              facetFilters: algoliaFacetFilters,
+            };
           }
 
           return askAiInput;
