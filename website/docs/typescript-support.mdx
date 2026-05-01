@@ -41,6 +41,33 @@ Docusaurus doesn't use this `tsconfig.json` to compile your project. It is added
 
 Now you can start writing TypeScript theme components.
 
+## Ambient types for optional plugins {/* #ambient-types-for-optional-plugins */}
+
+Some plugins and themes ship their own ambient `.d.ts` files that TypeScript does not load automatically.
+
+For example, importing from `@theme/Playground` (provided by `@docusaurus/theme-live-codeblock`) fails with `TS2307: Cannot find module '@theme/Playground'` until you opt the plugin's types in.
+
+Add a triple-slash reference in a project `.d.ts` file (recommended):
+
+```ts title="src/types.d.ts"
+/// <reference types="@docusaurus/theme-live-codeblock" />
+```
+
+Alternatively, add the package to the `types` compiler option of your `tsconfig.json`. This disables TypeScript's default loading of `@types/*` packages, so include any other type packages you rely on explicitly:
+
+```json title="tsconfig.json"
+{
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    // highlight-next-line
+    "types": ["@docusaurus/theme-live-codeblock"]
+  }
+}
+```
+
+The same applies to any other optional plugin or theme that ships ambient types.
+
 ## Typing the config file {/* #typing-config */}
 
 It is possible to use a TypeScript config file in Docusaurus.
