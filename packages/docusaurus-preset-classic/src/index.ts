@@ -23,10 +23,26 @@ function makePluginConfig(
   return require.resolve(source);
 }
 
+function validatePresetMigrations(themeConfig: Record<string, unknown>): void {
+  if (themeConfig.gtag) {
+    throw new Error(
+      'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. For preset-classic, simply move themeConfig.gtag to preset options. More information at https://github.com/facebook/docusaurus/pull/5832.',
+    );
+  }
+  if (themeConfig.googleAnalytics) {
+    throw new Error(
+      'The "googleAnalytics" field in themeConfig should now be specified as option for plugin-google-analytics. For preset-classic, simply move themeConfig.googleAnalytics to preset options. More information at https://github.com/facebook/docusaurus/pull/5832.',
+    );
+  }
+}
+
 export default function preset(
   context: LoadContext,
   opts: Options = {},
 ): Preset {
+  validatePresetMigrations(
+    context.siteConfig.themeConfig as Record<string, unknown>,
+  );
   const {siteConfig} = context;
   const {themeConfig} = siteConfig;
   const {algolia} = themeConfig as Partial<ThemeConfig>;
@@ -49,16 +65,6 @@ export default function preset(
   themes.push(makePluginConfig('@docusaurus/theme-classic', theme));
   if (algolia) {
     themes.push(require.resolve('@docusaurus/theme-search-algolia'));
-  }
-  if ('gtag' in themeConfig) {
-    throw new Error(
-      'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. For preset-classic, simply move themeConfig.gtag to preset options. More information at https://github.com/facebook/docusaurus/pull/5832.',
-    );
-  }
-  if ('googleAnalytics' in themeConfig) {
-    throw new Error(
-      'The "googleAnalytics" field in themeConfig should now be specified as option for plugin-google-analytics. For preset-classic, simply move themeConfig.googleAnalytics to preset options. More information at https://github.com/facebook/docusaurus/pull/5832.',
-    );
   }
 
   const plugins: PluginConfig[] = [];
