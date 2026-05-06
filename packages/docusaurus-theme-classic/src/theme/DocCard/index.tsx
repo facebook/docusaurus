@@ -27,7 +27,7 @@ function getFallbackEmojiIcon(
   item: PropSidebarItemLink | PropSidebarItemCategory,
 ): string {
   if (item.type === 'category') {
-    return '🗃';
+    return '🗃️';
   }
   return isInternalUrl(item.href) ? '📄️' : '🔗';
 }
