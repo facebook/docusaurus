@@ -79,7 +79,6 @@
   "devDependencies": {
     "@ai-sdk/react": "^2.0.30",
     "@crowdin/cli": "^4.14.2",
-    "@prettier/plugin-xml": "^2.2.0",
     "@swc/core": "^1.15.32",
     "@swc/jest": "^0.2.39",
     "@testing-library/dom": "^10.4.1",
