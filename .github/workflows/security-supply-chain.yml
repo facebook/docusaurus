@@ -65,7 +65,7 @@ jobs:
         run: |
           rm -rf node_modules
 
-          npm install -g pnpm@10.33.0
+          npm install -g pnpm@11.0.8
 
           cat > pnpm-workspace.yaml <<'YAML'
 

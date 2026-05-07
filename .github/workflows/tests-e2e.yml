@@ -249,11 +249,11 @@ jobs:
         run: yarn test:build:website -st
       - name: Install test-website project with pnpm
         run: |
-          npm install -g pnpm
+          npm install -g pnpm@11.0.8
           pnpm install
         working-directory: ../test-website
         env:
-          npm_config_registry: http://localhost:4873
+          pnpm_config_registry: http://localhost:4873
       - name: TypeCheck website
         working-directory: ../test-website
         run: yarn typecheck
