@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
-import {createMDXLoaderItem} from '@docusaurus/mdx-loader';
+import {
+  createMDXLoaderItem,
+  createMDXLoaderOptionsBuilder,
+} from '@docusaurus/mdx-loader';
 import type {RuleSetRule} from 'webpack';
 import type {
   HtmlTagObject,
@@ -79,19 +81,21 @@ export async function createMDXFallbackPlugin({
   siteDir,
   siteConfig,
 }: LoadContext): Promise<InitializedPlugin> {
-  const mdxLoaderItem = await createMDXLoaderItem({
+  const mdxOptionsBuilder = createMDXLoaderOptionsBuilder({
+    siteDir,
+    siteConfig,
     useCrossCompilerCache:
       siteConfig.future.experimental_faster.mdxCrossCompilerCache,
-    admonitions: true,
-    staticDirs: siteConfig.staticDirectories.map((dir) =>
-      path.resolve(siteDir, dir),
-    ),
-    siteDir,
-    // External MDX files are always meant to be imported as partials
-    isMDXPartial: () => true,
-    // External MDX files might have front matter, just disable the warning
-    isMDXPartialFrontMatterWarningDisabled: true,
-    markdownConfig: siteConfig.markdown,
+  });
+
+  const mdxLoaderItem = await createMDXLoaderItem({
+    ...mdxOptionsBuilder.build({
+      admonitions: true,
+      // External MDX files are always meant to be imported as partials
+      isMDXPartial: () => true,
+      // External MDX files might have front matter, just disable the warning
+      isMDXPartialFrontMatterWarningDisabled: true,
+    }),
   });
 
   return {
