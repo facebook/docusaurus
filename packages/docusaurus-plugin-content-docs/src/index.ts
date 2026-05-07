@@ -19,7 +19,10 @@ import {
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
-import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
+import {
+  createMDXLoaderOptionsBuilder,
+  createMDXLoaderRule,
+} from '@docusaurus/mdx-loader';
 import {resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {type DocEnv} from './docs';
@@ -120,56 +123,57 @@ export default async function pluginContentDocs(
       // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
       .map(addTrailingPathSeparator);
 
+    const mdxOptionsBuilder = createMDXLoaderOptionsBuilder({
+      siteDir,
+      siteConfig,
+      useCrossCompilerCache:
+        siteConfig.future.experimental_faster.mdxCrossCompilerCache,
+    });
+
     return createMDXLoaderRule({
       include: contentDirs,
       options: {
-        dependencies: [
-          await createMdxLoaderDependencyFile({
-            dataDir,
-            options,
-            versionsMetadata,
+        ...mdxOptionsBuilder.build({
+          dependencies: [
+            await createMdxLoaderDependencyFile({
+              dataDir,
+              options,
+              versionsMetadata,
+            }),
+          ].filter((d): d is string => typeof d === 'string'),
+          admonitions: options.admonitions,
+          remarkPlugins,
+          rehypePlugins,
+          recmaPlugins,
+          beforeDefaultRehypePlugins,
+          beforeDefaultRemarkPlugins,
+          isMDXPartial: createAbsoluteFilePathMatcher(
+            options.exclude,
+            contentDirs,
+          ),
+          metadataPath: (mdxPath: string) => {
+            // Note that metadataPath must be the same/in-sync as
+            // the path from createData for each MDX.
+            const aliasedPath = aliasedSitePath(mdxPath, siteDir);
+            return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
+          },
+          // createAssets converts relative paths to require() calls
+          createAssets: ({frontMatter}: {frontMatter: DocFrontMatter}) => ({
+            image: frontMatter.image,
           }),
-        ].filter((d): d is string => typeof d === 'string'),
-
-        useCrossCompilerCache:
-          siteConfig.future.experimental_faster.mdxCrossCompilerCache,
-        admonitions: options.admonitions,
-        remarkPlugins,
-        rehypePlugins,
-        recmaPlugins,
-        beforeDefaultRehypePlugins,
-        beforeDefaultRemarkPlugins,
-        staticDirs: siteConfig.staticDirectories.map((dir) =>
-          path.resolve(siteDir, dir),
-        ),
-        siteDir,
-        isMDXPartial: createAbsoluteFilePathMatcher(
-          options.exclude,
-          contentDirs,
-        ),
-        metadataPath: (mdxPath: string) => {
-          // Note that metadataPath must be the same/in-sync as
-          // the path from createData for each MDX.
-          const aliasedPath = aliasedSitePath(mdxPath, siteDir);
-          return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
-        },
-        // createAssets converts relative paths to require() calls
-        createAssets: ({frontMatter}: {frontMatter: DocFrontMatter}) => ({
-          image: frontMatter.image,
+          resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
+            const version = getVersionFromSourceFilePath(
+              sourceFilePath,
+              versionsMetadata,
+            );
+            return resolveMarkdownLinkPathname(linkPathname, {
+              sourceFilePath,
+              sourceToPermalink: contentHelpers.sourceToPermalink,
+              siteDir,
+              contentPaths: version,
+            });
+          },
         }),
-        markdownConfig: siteConfig.markdown,
-        resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
-          const version = getVersionFromSourceFilePath(
-            sourceFilePath,
-            versionsMetadata,
-          );
-          return resolveMarkdownLinkPathname(linkPathname, {
-            sourceFilePath,
-            sourceToPermalink: contentHelpers.sourceToPermalink,
-            siteDir,
-            contentPaths: version,
-          });
-        },
       },
     });
   }
