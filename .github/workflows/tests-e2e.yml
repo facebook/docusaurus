@@ -249,7 +249,7 @@ jobs:
         run: yarn test:build:website -st
       - name: Install test-website project with pnpm
         run: |
-          npm install -g pnpm@11.0.8
+          npm install -g pnpm
           pnpm install
         working-directory: ../test-website
         env:
