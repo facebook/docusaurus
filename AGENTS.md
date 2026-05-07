@@ -41,7 +41,7 @@ The main CLI commands available
 - `yarn install` - Install dependencies and then build all monorepo packages
 - `yarn build:packages` - Build all monorepo packages
 - `yarn watch` - Incremental build of monorepo packages with file watchers
-- `yarn format` - Format code with Prettier
+- `yarn format` - Format code with oxfmt
 - `yarn lint` - Run linting (ESLint + Stylelint + spell check)
 - `yarn test` - Run all tests using Jest
 - `yarn clear` - Clean all build artifacts and caches
@@ -67,7 +67,7 @@ Update Jest failing snapshots with the `-u` option. Do not blindly update snapsh
 
 ### Linting & Formatting
 
-- `yarn format` - Format code with Prettier
+- `yarn format` - Format code with oxfmt
 - `yarn lint:js` - ESLint for JS/TS files
 - `yarn lint:style` - Stylelint for CSS files
 - `yarn lint:spelling` - CSpell for spell checking
