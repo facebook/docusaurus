@@ -250,6 +250,14 @@ jobs:
       - name: Install test-website project with pnpm
         run: |
           npm install -g pnpm
+
+          cat > pnpm-workspace.yaml <<'YAML'
+          strictDepBuilds: true
+          allowBuilds:
+            '@swc/core': true
+            core-js: true
+          YAML
+
           pnpm install
         working-directory: ../test-website
         env:
