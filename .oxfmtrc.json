@@ -18,7 +18,10 @@
     "packages/lqip-loader/lib/",
     "packages/docusaurus/lib/",
     "packages/docusaurus-*/lib/*",
+
     "packages/create-docusaurus/lib/*",
+    "!packages/docusaurus-*/lib/theme/**",
+
     "packages/create-docusaurus/templates/*/docusaurus.config.js",
     "packages/eslint-plugin/lib/",
     "packages/stylelint-copyright/lib/",
