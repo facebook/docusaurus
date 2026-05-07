@@ -36,9 +36,9 @@
     "tslib": "^2.6.0",
     "webpack": "^5.106.2",
     "webpack-merge": "^6.0.1",
-    "workbox-build": "^7.4.0",
-    "workbox-precaching": "^7.4.0",
-    "workbox-window": "^7.4.0"
+    "workbox-build": "^7.4.1",
+    "workbox-precaching": "^7.4.1",
+    "workbox-window": "^7.4.1"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.10.1",
