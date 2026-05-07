@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`createMDXLoaderOptionsBuilder produces the same options as manual assembly 1`] = `
+{
+  "admonitions": true,
+  "isMDXPartial": [Function],
+  "markdownConfig": {
+    "mermaid": true,
+  },
+  "siteDir": "/mySite",
+  "staticDirs": [
+    "/mySite/static",
+    "/mySite/static2",
+  ],
+  "useCrossCompilerCache": true,
+}
+`;
