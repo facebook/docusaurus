@@ -3,6 +3,7 @@
   "version": "3.10.1",
   "description": "Stylelint plugin to check CSS files for a copyright header.",
   "main": "lib/index.js",
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
