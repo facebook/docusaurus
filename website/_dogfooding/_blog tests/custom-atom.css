@@ -13,13 +13,13 @@ main {
   flex: 1 0 auto;
   width: 100%;
   margin: 4rem auto;
-  padding: 1.5 rem;
+  padding: 1.5rem;
   max-width: 800px;
   /* stylelint-disable-next-line font-family-name-quotes */
   font-family:
     system-ui,
     -apple-system,
-    Segoe UI,
+    'Segoe UI',
     Roboto,
     Ubuntu,
     Cantarell;

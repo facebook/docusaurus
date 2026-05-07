@@ -175,7 +175,6 @@ html[data-theme='dark'] {
 
 .screen-reader-only {
   border: 0;
-  clip: rect(0 0 0 0);
   clip-path: polygon(0 0, 0 0, 0 0);
   height: 1px;
   margin: -1px;
@@ -227,11 +226,11 @@ html[data-theme='dark'] {
 }
 
 [data-rmiz-modal-overlay='visible'] {
-  background-color: rgba(255 255 255 / 95%);
+  background-color: rgb(255 255 255 / 95%);
 }
 
 [data-theme='dark'] [data-rmiz-modal-overlay='visible'] {
-  background-color: rgba(0 0 0 / 95%);
+  background-color: rgb(0 0 0 / 95%);
 }
 
 html[data-navbar='false'] {

@@ -6,7 +6,7 @@
  */
 
 html {
-  @media screen and (min-width: 1px) {
+  @media screen and (width >= 1px) {
     &.plugin-docs.plugin-id-docs-tests {
       .red > a {
         color: red;

@@ -70,7 +70,7 @@
   font-style: italic;
 }
 
-@media only screen and (max-width: 996px) {
+@media only screen and (width <= 996px) {
   .searchQueryColumn {
     max-width: 60% !important;
   }
@@ -89,7 +89,7 @@
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (width <= 576px) {
   .searchQueryColumn {
     max-width: 100% !important;
   }
