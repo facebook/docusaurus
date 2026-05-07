@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import type {MDXOptions, SimpleProcessors} from './processor';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
@@ -32,3 +33,43 @@ export type Options = Partial<MDXOptions> & {
 };
 
 type CrossCompilerCacheEntry = PromiseWithResolvers<string>;
+
+export type MDXLoaderOptionsBuilderSiteConfig = {
+  staticDirectories: string[];
+  markdown: MarkdownConfig;
+};
+
+export function createMDXLoaderOptionsBuilder({
+  siteDir,
+  siteConfig,
+  useCrossCompilerCache,
+}: {
+  siteDir: string;
+  siteConfig: MDXLoaderOptionsBuilderSiteConfig;
+  useCrossCompilerCache?: boolean;
+}): {
+  build: (
+    overrides: Omit<Options, 'siteDir' | 'staticDirs' | 'markdownConfig'>,
+  ) => Options;
+} {
+  const baseOptions: Pick<
+    Options,
+    'siteDir' | 'staticDirs' | 'markdownConfig' | 'useCrossCompilerCache'
+  > = {
+    siteDir,
+    staticDirs: siteConfig.staticDirectories.map((dir) =>
+      path.resolve(siteDir, dir),
+    ),
+    markdownConfig: siteConfig.markdown,
+    useCrossCompilerCache,
+  };
+
+  return {
+    build(overrides) {
+      return {
+        ...baseOptions,
+        ...overrides,
+      };
+    },
+  };
+}

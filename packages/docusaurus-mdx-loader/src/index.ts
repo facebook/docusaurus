@@ -42,3 +42,7 @@ export type LoadedMDXContent<FrontMatter, Metadata, Assets = undefined> = {
 export type {MDXPlugin} from './loader';
 export type {MDXOptions} from './processor';
 export type {Options} from './options';
+export {
+  createMDXLoaderOptionsBuilder,
+  type MDXLoaderOptionsBuilderSiteConfig,
+} from './options';
