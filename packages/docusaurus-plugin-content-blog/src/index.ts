@@ -21,7 +21,10 @@ import {
   getLocaleConfig,
 } from '@docusaurus/utils';
 import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
-import {createMDXLoaderItem} from '@docusaurus/mdx-loader';
+import {
+  createMDXLoaderItem,
+  createMDXLoaderOptionsBuilder,
+} from '@docusaurus/mdx-loader';
 import {
   getBlogTags,
   shouldBeListed,
@@ -112,56 +115,61 @@ export default async function pluginContentBlog(
 
     const contentDirs = getContentPathList(contentPaths);
 
-    const mdxLoaderItem = await createMDXLoaderItem({
+    const mdxOptionsBuilder = createMDXLoaderOptionsBuilder({
+      siteDir,
+      siteConfig,
       useCrossCompilerCache:
         siteConfig.future.experimental_faster.mdxCrossCompilerCache,
-      admonitions,
-      remarkPlugins,
-      rehypePlugins,
-      recmaPlugins,
-      beforeDefaultRemarkPlugins: [
-        footnoteIDFixer,
-        ...beforeDefaultRemarkPlugins,
-      ],
-      beforeDefaultRehypePlugins,
-      staticDirs: siteConfig.staticDirectories.map((dir) =>
-        path.resolve(siteDir, dir),
-      ),
-      siteDir,
-      isMDXPartial: createAbsoluteFilePathMatcher(options.exclude, contentDirs),
-      metadataPath: (mdxPath: string) => {
-        // Note that metadataPath must be the same/in-sync as
-        // the path from createData for each MDX.
-        const aliasedPath = aliasedSitePath(mdxPath, siteDir);
-        return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
-      },
-      // For blog posts a title in markdown is always removed
-      // Blog posts title are rendered separately
-      removeContentTitle: true,
-      // createAssets converts relative paths to require() calls
-      createAssets: ({filePath}: {filePath: string}): Assets => {
-        const blogPost = contentHelpers.sourceToBlogPost.get(
-          aliasedSitePath(filePath, siteDir),
-        )!;
-        if (!blogPost) {
-          throw new Error(`Blog post not found for  filePath=${filePath}`);
-        }
-        return {
-          image: blogPost.metadata.frontMatter.image as string,
-          authorsImageUrls: blogPost.metadata.authors.map(
-            (author) => author.imageURL,
-          ),
-        };
-      },
-      markdownConfig: siteConfig.markdown,
-      resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
-        return resolveMarkdownLinkPathname(linkPathname, {
-          sourceFilePath,
-          sourceToPermalink: contentHelpers.sourceToPermalink,
-          siteDir,
-          contentPaths,
-        });
-      },
+    });
+
+    const mdxLoaderItem = await createMDXLoaderItem({
+      ...mdxOptionsBuilder.build({
+        admonitions,
+        remarkPlugins,
+        rehypePlugins,
+        recmaPlugins,
+        beforeDefaultRemarkPlugins: [
+          footnoteIDFixer,
+          ...beforeDefaultRemarkPlugins,
+        ],
+        beforeDefaultRehypePlugins,
+        isMDXPartial: createAbsoluteFilePathMatcher(
+          options.exclude,
+          contentDirs,
+        ),
+        metadataPath: (mdxPath: string) => {
+          // Note that metadataPath must be the same/in-sync as
+          // the path from createData for each MDX.
+          const aliasedPath = aliasedSitePath(mdxPath, siteDir);
+          return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
+        },
+        // For blog posts a title in markdown is always removed
+        // Blog posts title are rendered separately
+        removeContentTitle: true,
+        // createAssets converts relative paths to require() calls
+        createAssets: ({filePath}: {filePath: string}): Assets => {
+          const blogPost = contentHelpers.sourceToBlogPost.get(
+            aliasedSitePath(filePath, siteDir),
+          )!;
+          if (!blogPost) {
+            throw new Error(`Blog post not found for  filePath=${filePath}`);
+          }
+          return {
+            image: blogPost.metadata.frontMatter.image as string,
+            authorsImageUrls: blogPost.metadata.authors.map(
+              (author) => author.imageURL,
+            ),
+          };
+        },
+        resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
+          return resolveMarkdownLinkPathname(linkPathname, {
+            sourceFilePath,
+            sourceToPermalink: contentHelpers.sourceToPermalink,
+            siteDir,
+            contentPaths,
+          });
+        },
+      }),
     });
 
     function createBlogMarkdownLoader(): RuleSetUseItem {
