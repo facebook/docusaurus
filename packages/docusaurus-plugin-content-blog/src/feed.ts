@@ -196,8 +196,8 @@ async function resolveXsltFilePaths({
 }) {
   const xsltAbsolutePath: string = path.isAbsolute(xsltFilePath)
     ? xsltFilePath
-    : (await getDataFilePath({filePath: xsltFilePath, contentPaths})) ??
-      path.resolve(contentPaths.contentPath, xsltFilePath);
+    : ((await getDataFilePath({filePath: xsltFilePath, contentPaths})) ??
+      path.resolve(contentPaths.contentPath, xsltFilePath));
 
   if (!(await fs.pathExists(xsltAbsolutePath))) {
     throw new Error(

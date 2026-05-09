@@ -47,9 +47,8 @@ describe('tsconfig files', () => {
         try {
           Joi.attempt(file.content, tsconfigSchema);
         } catch (e) {
-          (
-            e as Error
-          ).message += `\n${file.file} does not match the required schema.`;
+          (e as Error).message +=
+            `\n${file.file} does not match the required schema.`;
           throw e;
         }
       });

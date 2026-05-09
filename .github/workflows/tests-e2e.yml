@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['24.14', '25']
+        node: ['24.14', '26']
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -250,10 +250,18 @@ jobs:
       - name: Install test-website project with pnpm
         run: |
           npm install -g pnpm
+
+          cat > pnpm-workspace.yaml <<'YAML'
+          strictDepBuilds: true
+          allowBuilds:
+            '@swc/core': true
+            core-js: true
+          YAML
+
           pnpm install
         working-directory: ../test-website
         env:
-          npm_config_registry: http://localhost:4873
+          pnpm_config_registry: http://localhost:4873
       - name: TypeCheck website
         working-directory: ../test-website
         run: yarn typecheck

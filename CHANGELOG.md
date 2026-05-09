@@ -1,5 +1,21 @@
 # Docusaurus Changelog
 
+## 3.10.1 (2026-04-30)
+
+#### :bug: Bug Fix
+
+- `docusaurus-bundler`
+  - [#11981](https://github.com/facebook/docusaurus/pull/11981) fix(bundler): fix v3 webpackbar bug due to webpack breaking change ([@slorber](https://github.com/slorber))
+
+#### :wrench: Maintenance
+
+- `docusaurus`
+  - [#11982](https://github.com/facebook/docusaurus/pull/11982) chore: cherry-pick commits for v3.10.1 patch release ([@slorber](https://github.com/slorber))
+
+#### Committers: 1
+
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 3.10.0 (2026-04-07)
 
 #### :rocket: New Feature
@@ -86,7 +102,7 @@
 - `docusaurus-bundler`, `docusaurus-faster`, `docusaurus-theme-mermaid`
   - [#11496](https://github.com/facebook/docusaurus/pull/11496) fix(faster): fix server build SWC / browserslist node target ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-plugin-content-blog`
   - [#11707](https://github.com/facebook/docusaurus/pull/11707) refactor(content-blog): decouple getTagsFile from generateBlogPosts ([@garry00107](https://github.com/garry00107))
@@ -239,7 +255,7 @@
 - `docusaurus-theme-mermaid`
   - [#11437](https://github.com/facebook/docusaurus/pull/11437) fix(theme-mermaid): Fix Mermaid ELK layout dependency required bug on v3.9 ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-theme-mermaid`
   - [#11438](https://github.com/facebook/docusaurus/pull/11438) perf(theme-mermaid): lazy load the Mermaid library ([@slorber](https://github.com/slorber))
@@ -416,7 +432,7 @@
 - `docusaurus-types`
   - [#11221](https://github.com/facebook/docusaurus/pull/11221) fix(types): fix future flags public types ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-plugin-content-blog`, `docusaurus-plugin-sitemap`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
   - [#11211](https://github.com/facebook/docusaurus/pull/11211) perf: avoid duplicated `git log` calls in `loadContent()` and `postBuild()` for untracked Git files ([@slorber](https://github.com/slorber))
@@ -533,7 +549,7 @@
 - `docusaurus-logger`
   - [#10818](https://github.com/facebook/docusaurus/pull/10818) fix: perflogger mark detail bug ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-utils`, `docusaurus`
   - [#11178](https://github.com/facebook/docusaurus/pull/11178) perf(core): disable Rspack `parallelCodeSplitting` temporarily ([@slorber](https://github.com/slorber))
@@ -885,7 +901,7 @@
 - `docusaurus-types`, `docusaurus`
   - [#10420](https://github.com/facebook/docusaurus/pull/10420) fix(types): fix type of PluginModule ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-bundler`, `docusaurus-faster`
   - [#10605](https://github.com/facebook/docusaurus/pull/10605) fix(core): Use proper swc loader options ([@slorber](https://github.com/slorber))
@@ -1281,7 +1297,7 @@ Failed release
 - `docusaurus-utils`
   - [#10022](https://github.com/facebook/docusaurus/pull/10022) fix(utils): getFileCommitDate should support `log.showSignature=true` ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus`
   - [#10060](https://github.com/facebook/docusaurus/pull/10060) refactor(core): optimize App entrypoint, it should not re-render when navigating ([@slorber](https://github.com/slorber))
@@ -1414,7 +1430,7 @@ Failed release
 - `docusaurus-theme-classic`, `docusaurus-theme-translations`
   - [#9851](https://github.com/facebook/docusaurus/pull/9851) fix(theme-classic): should use plurals for category items description ([@baradusov](https://github.com/baradusov))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus-types`, `docusaurus-utils`, `docusaurus`
   - [#9975](https://github.com/facebook/docusaurus/pull/9975) refactor(core): improve dev perf, fine-grained site reloads - part 3 ([@slorber](https://github.com/slorber))
@@ -1516,7 +1532,7 @@ Failed release
 - `docusaurus-module-type-aliases`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-utils`, `docusaurus`
   - [#9732](https://github.com/facebook/docusaurus/pull/9732) fix(core): various broken anchor link fixes ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus`
   - [#9778](https://github.com/facebook/docusaurus/pull/9778) perf(core): optimize broken links checker ([@slorber](https://github.com/slorber))
@@ -1773,7 +1789,7 @@ Failed release
 - `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus`
   - [#7966](https://github.com/facebook/docusaurus/pull/7966) fix(plugin-docs,theme): refactor docs plugin routes and component tree ([@slorber](https://github.com/slorber))
 
-#### :running_woman: Performance
+#### :zap: Performance
 
 - `docusaurus`
   - [#9051](https://github.com/facebook/docusaurus/pull/9051) perf(core): use React 18 startTransition for hydration ([@sanjaiyan-dev](https://github.com/sanjaiyan-dev))

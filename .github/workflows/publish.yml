@@ -29,6 +29,7 @@ on:
           - beta
           - rc
           - latest
+          - v3-stable
 
 permissions:
   id-token: write # For OIDC, see https://docs.npmjs.com/trusted-publishers

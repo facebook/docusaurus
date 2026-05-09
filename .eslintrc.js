@@ -82,7 +82,7 @@ module.exports = {
     'max-len': [
       WARNING,
       {
-        code: Infinity, // Code width is already enforced by Prettier
+        code: Infinity, // Code width is already enforced by Prettier/oxfmt
         tabWidth: 2,
         comments: 80,
         ignoreUrls: true,
