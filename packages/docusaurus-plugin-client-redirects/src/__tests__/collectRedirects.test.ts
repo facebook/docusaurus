@@ -232,6 +232,30 @@ describe('collectRedirects', () => {
     ]);
   });
 
+  it('preserves external redirect targets with trailingSlash=true', () => {
+    expect(
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: 'https://example.com/somePath?a=1#x',
+              },
+            ],
+          },
+          ['/'],
+        ),
+        true,
+      ),
+    ).toEqual([
+      {
+        from: '/someLegacyPath',
+        to: 'https://example.com/somePath?a=1#x',
+      },
+    ]);
+  });
+
   it('collects redirects from plugin option redirects with trailingSlash=false', () => {
     expect(
       collectRedirects(
@@ -264,6 +288,30 @@ describe('collectRedirects', () => {
       {
         from: '/someLegacyPathArray2',
         to: '/',
+      },
+    ]);
+  });
+
+  it('preserves external redirect targets with trailingSlash=false', () => {
+    expect(
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: 'https://example.com/somePath/?a=1#x',
+              },
+            ],
+          },
+          ['/'],
+        ),
+        false,
+      ),
+    ).toEqual([
+      {
+        from: '/someLegacyPath',
+        to: 'https://example.com/somePath/?a=1#x',
       },
     ]);
   });
