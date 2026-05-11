@@ -78,12 +78,15 @@ function testStylelintRule(config: stylelint.Config, tests: TestSuite) {
           expect(warnings.length).toBeGreaterThanOrEqual(1);
           expect(testCase).toHaveMessage();
           if (testCase.message != null) {
+            // eslint-disable-next-line @vitest/no-conditional-expect
             expect(warning.text).toBe(testCase.message);
           }
           if (testCase.line != null) {
+            // eslint-disable-next-line @vitest/no-conditional-expect
             expect(warning.line).toBe(testCase.line);
           }
           if (testCase.column != null) {
+            // eslint-disable-next-line @vitest/no-conditional-expect
             expect(warning.column).toBe(testCase.column);
           }
           if (!tests.fix) {

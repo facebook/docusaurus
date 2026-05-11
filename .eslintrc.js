@@ -42,8 +42,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:react-hooks/recommended',
 
-    // 'plugin:vitest/recommended',
-    // 'plugin:@vitest/legacy-recommended',
+    'plugin:@vitest/legacy-recommended',
 
     'airbnb',
     'plugin:@typescript-eslint/recommended',
@@ -65,7 +64,7 @@ module.exports = {
     'react-compiler',
     'react-hooks',
     'header',
-    'vitest',
+    '@vitest',
     '@typescript-eslint',
     'regexp',
     '@docusaurus',
@@ -296,20 +295,20 @@ module.exports = {
     ],
     'import/prefer-default-export': OFF,
 
-    'vitest/consistent-test-it': WARNING,
-    'vitest/expect-expect': OFF,
-    'vitest/no-large-snapshots': [
+    '@vitest/consistent-test-it': WARNING,
+    '@vitest/expect-expect': OFF,
+    '@vitest/no-large-snapshots': [
       WARNING,
       {maxSize: Infinity, inlineMaxSize: 50},
     ],
-    'vitest/no-test-return-statement': ERROR,
-    'vitest/prefer-expect-resolves': WARNING,
-    'vitest/prefer-lowercase-title': [WARNING, {ignore: ['describe']}],
-    'vitest/prefer-spy-on': WARNING,
-    'vitest/prefer-to-be': OFF,
-    'vitest/prefer-to-have-length': WARNING,
-    'vitest/require-top-level-describe': ERROR,
-    'vitest/valid-title': [
+    '@vitest/no-test-return-statement': ERROR,
+    '@vitest/prefer-expect-resolves': WARNING,
+    '@vitest/prefer-lowercase-title': [WARNING, {ignore: ['describe']}],
+    '@vitest/prefer-spy-on': WARNING,
+    '@vitest/prefer-to-be': OFF,
+    '@vitest/prefer-to-have-length': WARNING,
+    '@vitest/require-top-level-describe': ERROR,
+    '@vitest/valid-title': [
       ERROR,
       {
         mustNotMatch: {
