@@ -12,14 +12,6 @@ import {imageSizeFromFile} from 'image-size/fromFile';
 import {Joi} from '@docusaurus/utils-validation';
 import {TagList, sortedUsers, type User} from '../users';
 
-declare global {
-  namespace vi {
-    interface Matchers<R> {
-      toHaveGoodDimensions: () => R;
-    }
-  }
-}
-
 expect.extend({
   toHaveGoodDimensions({width, height}: {width: number; height: number}) {
     // Put this one first because aspect ratio is harder to fix than resizing
@@ -45,7 +37,7 @@ expect.extend({
 });
 
 describe('users data', () => {
-  it.each(sortedUsers)('$title', (user) => {
+  it.each(sortedUsers)('$title', (user: User) => {
     Joi.attempt(
       user,
       Joi.object<User>({
@@ -158,7 +150,7 @@ describe('preview images', () => {
     .readdirSync(imageDir)
     .filter((file) => ['.png', 'jpg', '.jpeg'].includes(path.extname(file)));
 
-  it.each(files)('%s', async (file) => {
+  it.each(files)('%s', async (file: string) => {
     const size = await imageSizeFromFile(path.join(imageDir, file));
 
     expect(size).toHaveGoodDimensions();

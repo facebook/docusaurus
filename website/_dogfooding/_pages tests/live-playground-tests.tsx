@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import Playground from '@theme/Playground';
@@ -20,7 +20,7 @@ const TestCode = `function Counter() {
   );
 }`;
 
-export default function LivePlaygroundTests(): JSX.Element {
+export default function LivePlaygroundTests(): ReactNode {
   return (
     <Layout title="Test Reset Button">
       <div style={{padding: '2rem'}}>
