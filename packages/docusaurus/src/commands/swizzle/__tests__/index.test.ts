@@ -57,17 +57,16 @@ class MockExitError extends Error {
 function createExitMock() {
   let mock: MockInstance<(code?: number) => never>;
 
-  // TODO fix?
-  /* eslint-disable vitest/require-top-level-describe */
+  /* eslint-disable-next-line vitest/require-top-level-describe */
   beforeEach(async () => {
     mock = vi.spyOn(process, 'exit').mockImplementation((code) => {
       throw new MockExitError(code!);
     }) as MockInstance<(code?: number) => never>;
   });
+  /* eslint-disable-next-line vitest/require-top-level-describe */
   afterEach(async () => {
     mock.mockRestore();
   });
-  /* eslint-enable vitest/require-top-level-describe */
 
   return {
     expectExitCode: (code: number) => {
