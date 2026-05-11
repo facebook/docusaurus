@@ -15,7 +15,7 @@ describe('useDocsSidebar', () => {
     expect(
       () => renderHook(() => useDocsSidebar()).result.current?.items,
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Hook useDocsSidebar is called outside the <DocsSidebarProvider>. "`,
+      `[ReactContextError: Hook useDocsSidebar is called outside the <DocsSidebarProvider>. ]`,
     );
   });
 
