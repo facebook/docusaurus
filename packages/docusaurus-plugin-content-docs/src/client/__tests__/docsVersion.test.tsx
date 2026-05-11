@@ -30,7 +30,7 @@ describe('useDocsVersion', () => {
     expect(
       () => renderHook(() => useDocsVersion()).result.current,
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Hook useDocsVersion is called outside the <DocsVersionProvider>. "`,
+      `[ReactContextError: Hook useDocsVersion is called outside the <DocsVersionProvider>. ]`,
     );
   });
 

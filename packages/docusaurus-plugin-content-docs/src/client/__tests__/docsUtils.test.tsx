@@ -110,7 +110,7 @@ describe('useDocById', () => {
 
   it('throws for doc3', () => {
     expect(() => mockUseDocById('doc3')).toThrowErrorMatchingInlineSnapshot(
-      `"no version doc found by id=doc3"`,
+      `[Error: no version doc found by id=doc3]`,
     );
   });
 });
@@ -826,7 +826,7 @@ describe('useCurrentSidebarCategory', () => {
     expect(() =>
       mockUseCurrentSidebarCategory('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"/cat is not associated with a category. useCurrentSidebarCategory() should only be used on category index pages."`,
+      `[Error: /cat is not associated with a category. useCurrentSidebarCategory() should only be used on category index pages.]`,
     );
   });
 
@@ -835,7 +835,7 @@ describe('useCurrentSidebarCategory', () => {
     expect(() =>
       mockUseCurrentSidebarCategory('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected: cant find current sidebar in context"`,
+      `[Error: Unexpected: cant find current sidebar in context]`,
     );
   });
 
@@ -994,7 +994,7 @@ describe('useCurrentSidebarSiblings', () => {
     expect(() =>
       mockUseCurrentSidebarSiblings('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected: cant find current sidebar in context"`,
+      `[Error: Unexpected: cant find current sidebar in context]`,
     );
   });
 });
