@@ -54,8 +54,7 @@
     "remark-mdx": "^3.1.1",
     "remark-rehype": "^11.1.2",
     "to-vfile": "^6.1.0",
-    "unist-builder": "^2.0.3",
-    "unist-util-remove-position": "^5.0.0"
+    "unist-builder": "^2.0.3"
   },
   "peerDependencies": {
     "react": "^19.2.5",
