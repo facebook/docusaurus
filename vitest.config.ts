@@ -39,7 +39,6 @@ export default defineConfig({
   // React plugin enables the automatic JSX runtime in `.tsx`/`.jsx` test files
   // (required for React 19 + Testing Library).
   plugins: [react()],
-
   resolve: {
     alias: [
       // Vite/Vitest doesn't know how to load CSS or binary assets when imported
@@ -81,7 +80,6 @@ export default defineConfig({
       },
     ],
   },
-
   test: {
     // Inject `describe`/`it`/`expect`/`vi` as globals (no per-file imports).
     // Mirrors the Jest setup we migrated from; we may switch to explicit
