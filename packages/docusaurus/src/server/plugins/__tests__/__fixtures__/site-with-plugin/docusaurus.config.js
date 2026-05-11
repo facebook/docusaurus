@@ -28,7 +28,7 @@ module.exports = {
     './plugin3.js',
     ['./plugin4.js', {}],
     './pluginEsm',
-    './pluginTypeScript',
+    './pluginTypeScript.ts'
   ],
   presets: ['./preset.js'],
 };
