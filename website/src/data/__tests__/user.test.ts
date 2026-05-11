@@ -60,7 +60,8 @@ describe('users data', () => {
           .pattern(/^https?:\/\//)
           .message('')
           .required(),
-        // The preview should be vi/emptyModule
+        // The preview should be null
+        // See "test/setup.ts"
         preview: Joi.object({default: Joi.any()})
           .unknown(false)
           .allow(null)

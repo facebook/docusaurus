@@ -41,13 +41,6 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: [
-      // Vite/Vitest doesn't know how to load CSS or binary assets when imported
-      // from source. Stub them with an empty module so the import resolves.
-      {
-        find: /\.(css|jpe?g|png|svg|webp)$/,
-        replacement: `${rootDir}test/emptyModule.ts`,
-      },
-
       // Resolve `@docusaurus/<exportName>` to the live source in
       // `docusaurus-core` rather than the compiled `lib/` of consumer
       // packages, so tests always exercise current source.
@@ -81,6 +74,7 @@ export default defineConfig({
     ],
   },
   test: {
+    setupFiles: ['test/setup.ts'],
     // Inject `describe`/`it`/`expect`/`vi` as globals (no per-file imports).
     // Mirrors the Jest setup we migrated from; we may switch to explicit
     // imports later.
