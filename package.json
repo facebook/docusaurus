@@ -104,7 +104,6 @@
     "eslint-plugin-react-compiler": "^19.0.0-beta-40c6c23-20250301",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-regexp": "^1.15.0",
-    "eslint-plugin-vitest": "^0.5.4",
     "husky": "^9.1.7",
     "image-size": "^2.0.2",
     "jest-serializer-ansi-escapes": "^5.0.0",
