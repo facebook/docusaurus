@@ -5,9 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import reactRouterConfig from 'react-router-config';
+import vi from 'vitest';
+import * as reactRouterConfig from 'react-router-config';
 import {handleBrokenLinks} from '../brokenLinks';
 import type {RouteConfig} from '@docusaurus/types';
+
+vi.mock('react-router-config', async () => {
+  const actual = await vi.importActual<typeof import('react-router-config')>(
+    'react-router-config',
+  );
+
+  return {
+    ...actual,
+    matchRoutes: vi.fn(actual.matchRoutes),
+  };
+});
 
 type Params = Parameters<typeof handleBrokenLinks>[0];
 
@@ -867,7 +879,8 @@ describe('handleBrokenLinks', () => {
   });
 
   it('is performant and minimize calls to matchRoutes', async () => {
-    const matchRoutesMock = vi.spyOn(reactRouterConfig, 'matchRoutes');
+    const matchRoutesMock = vi.mocked(reactRouterConfig.matchRoutes);
+    vi.clearAllMocks();
 
     const scale = 100;
 
