@@ -4,14 +4,13 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-/* eslint-disable jest/no-conditional-expect */
 
 import path from 'path';
 import stylelint from 'stylelint';
 import rule from '../index';
 
 declare global {
-  namespace jest {
+  namespace vi {
     interface Matchers<R> {
       toHaveMessage: () => R;
     }

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import * as path from 'path';
 import {loadContext} from '@docusaurus/core/src/server/site';
 import {
@@ -423,7 +422,7 @@ describe('simple site', () => {
   it('docs with function editUrl', async () => {
     const hardcodedEditUrl = 'hardcoded-edit-url';
 
-    const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
+    const editUrlFunction: EditUrlFunction = vi.fn(() => hardcodedEditUrl);
 
     const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
       await loadSite({
@@ -836,7 +835,7 @@ describe('simple site', () => {
     await expect(
       defaultTestUtils.generateNavigation(docs),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Error when loading bad in .: the pagination_prev front matter points to a non-existent ID nonexistent."`,
+      `[Error: Error when loading bad in .: the pagination_prev front matter points to a non-existent ID nonexistent.]`,
     );
   });
 });
@@ -1163,7 +1162,7 @@ describe('versioned site', () => {
   it('doc with editUrl function', async () => {
     const hardcodedEditUrl = 'hardcoded-edit-url';
 
-    const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
+    const editUrlFunction: EditUrlFunction = vi.fn(() => hardcodedEditUrl);
 
     const {siteDir, context, options, version100} = await loadSite({
       options: {

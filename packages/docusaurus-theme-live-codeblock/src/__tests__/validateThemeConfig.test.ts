@@ -81,7 +81,7 @@ describe('validateThemeConfig', () => {
     expect(() =>
       testValidateThemeConfig({liveCodeBlock}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""liveCodeBlock.playgroundPosition" must be one of [top, bottom]"`,
+      `[ValidationError: "liveCodeBlock.playgroundPosition" must be one of [top, bottom]]`,
     );
   });
   it('playgroundPosition invalid boolean', () => {
@@ -89,7 +89,7 @@ describe('validateThemeConfig', () => {
     expect(() =>
       testValidateThemeConfig({liveCodeBlock}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""liveCodeBlock.playgroundPosition" must be one of [top, bottom]"`,
+      `[ValidationError: "liveCodeBlock.playgroundPosition" must be one of [top, bottom]]`,
     );
   });
 });

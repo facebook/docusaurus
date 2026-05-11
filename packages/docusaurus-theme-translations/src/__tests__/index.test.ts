@@ -83,7 +83,7 @@ describe('readDefaultCodeTranslationMessages', () => {
         dirPath,
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"First argument to Intl.Locale constructor can't be empty or missing"`,
+      `[RangeError: First argument to Intl.Locale constructor can't be empty or missing]`,
     );
   });
 

@@ -245,27 +245,27 @@ describe('validateOptions', () => {
       it('rejects xslt: 42', () => {
         // @ts-expect-error: bad type
         expect(() => testXSLT(42)).toThrowErrorMatchingInlineSnapshot(
-          `""feedOptions.xslt" must be one of [object, boolean]"`,
+          `[ValidationError: "feedOptions.xslt" must be one of [object, boolean]]`,
         );
       });
       it('rejects xslt: []', () => {
         // @ts-expect-error: bad type
         expect(() => testXSLT([])).toThrowErrorMatchingInlineSnapshot(
-          `""feedOptions.xslt" must be one of [object, boolean]"`,
+          `[ValidationError: "feedOptions.xslt" must be one of [object, boolean]]`,
         );
       });
 
       it('rejects xslt: {rss: 42}', () => {
         // @ts-expect-error: bad type
         expect(() => testXSLT({rss: 42})).toThrowErrorMatchingInlineSnapshot(
-          `""feedOptions.xslt.rss" must be one of [string, boolean]"`,
+          `[ValidationError: "feedOptions.xslt.rss" must be one of [string, boolean]]`,
         );
       });
 
       it('rejects xslt: {rss: []}', () => {
         // @ts-expect-error: bad type
         expect(() => testXSLT({rss: 42})).toThrowErrorMatchingInlineSnapshot(
-          `""feedOptions.xslt.rss" must be one of [string, boolean]"`,
+          `[ValidationError: "feedOptions.xslt.rss" must be one of [string, boolean]]`,
         );
       });
     });
@@ -291,7 +291,7 @@ describe('validateOptions', () => {
     const userOptions = {blogSidebarCount: 'abcdef'};
     // @ts-expect-error: test
     expect(() => testValidate(userOptions)).toThrowErrorMatchingInlineSnapshot(
-      `""blogSidebarCount" must be one of [ALL, number]"`,
+      `[ValidationError: "blogSidebarCount" must be one of [ALL, number]]`,
     );
   });
 
@@ -307,7 +307,7 @@ describe('validateOptions', () => {
     const userOptions = {blogSidebarTitle: 42};
     // @ts-expect-error: test
     expect(() => testValidate(userOptions)).toThrowErrorMatchingInlineSnapshot(
-      `""blogSidebarTitle" must be a string"`,
+      `[ValidationError: "blogSidebarTitle" must be a string]`,
     );
   });
 
@@ -333,7 +333,7 @@ describe('validateOptions', () => {
     it('rejects tags - 42', () => {
       // @ts-expect-error: test
       expect(() => testValidate({tags: 42})).toThrowErrorMatchingInlineSnapshot(
-        `""tags" must be a string"`,
+        `[ValidationError: "tags" must be a string]`,
       );
     });
   });
@@ -352,7 +352,7 @@ describe('validateOptions', () => {
         // @ts-expect-error: test
         testValidate({onInlineTags: 'trace'}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""onInlineTags" must be one of [ignore, log, warn, throw]"`,
+        `[ValidationError: "onInlineTags" must be one of [ignore, log, warn, throw]]`,
       );
     });
 
@@ -361,7 +361,7 @@ describe('validateOptions', () => {
         // @ts-expect-error: test
         testValidate({onInlineTags: 42}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""onInlineTags" must be one of [ignore, log, warn, throw]"`,
+        `[ValidationError: "onInlineTags" must be one of [ignore, log, warn, throw]]`,
       );
     });
 
@@ -370,7 +370,7 @@ describe('validateOptions', () => {
         // @ts-expect-error: test
         testValidate({onInlineTags: 42}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""onInlineTags" must be one of [ignore, log, warn, throw]"`,
+        `[ValidationError: "onInlineTags" must be one of [ignore, log, warn, throw]]`,
       );
     });
   });
@@ -394,7 +394,7 @@ describe('validateOptions', () => {
         // @ts-expect-error: test
         testValidate({onUntruncatedBlogPosts: 'trace'}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]"`,
+        `[ValidationError: "onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]]`,
       );
     });
 
@@ -403,7 +403,7 @@ describe('validateOptions', () => {
         // @ts-expect-error: test
         testValidate({onUntruncatedBlogPosts: 42}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]"`,
+        `[ValidationError: "onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]]`,
       );
     });
 
@@ -412,7 +412,7 @@ describe('validateOptions', () => {
         // @ts-expect-error: test
         testValidate({onUntruncatedBlogPosts: 42}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]"`,
+        `[ValidationError: "onUntruncatedBlogPosts" must be one of [ignore, log, warn, throw]]`,
       );
     });
   });

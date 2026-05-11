@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import * as path from 'path';
 import vfile from 'to-vfile';
 import plugin, {type PluginOptions} from '..';
@@ -90,17 +89,17 @@ describe('transformLinks plugin', () => {
       it('if url is empty', async () => {
         await expect(processContent(fixtures.urlEmpty)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1).
-          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+          [Error: Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1).
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs.]
         `);
       });
 
       it('if file with site alias does not exist', async () => {
         await expect(processContent(fixtures.fileDoesNotExistSiteAlias)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
+          [Error: Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.
-          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs.]
         `);
       });
     });
@@ -110,7 +109,7 @@ describe('transformLinks plugin', () => {
         return processContent(content, {onBrokenMarkdownLinks: 'warn'});
       }
 
-      const warnMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      const warnMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
       beforeEach(() => {
         warnMock.mockClear();
       });
@@ -157,7 +156,7 @@ describe('transformLinks plugin', () => {
         });
       }
 
-      const logMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+      const logMock = vi.spyOn(console, 'log').mockImplementation(() => {});
       beforeEach(() => {
         logMock.mockClear();
       });

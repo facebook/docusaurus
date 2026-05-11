@@ -118,7 +118,7 @@ describe('getThemeComponents', () => {
     expect(() =>
       themeComponents.getConfig('DoesNotExistComp'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't get component config: component doesn't exist: DoesNotExistComp"`,
+      `[Error: Can't get component config: component doesn't exist: DoesNotExistComp]`,
     );
   });
 

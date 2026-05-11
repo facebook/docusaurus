@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import path from 'path';
 import {createSlugger} from '@docusaurus/utils';
 import {loadSidebars, DisabledSidebars} from '../index';
@@ -79,7 +78,7 @@ describe('loadSidebars', () => {
     await expect(() =>
       loadSidebars(sidebarPath, params),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Invalid sidebar items collection \`"doc1"\` in \`items\` of the category Category Label: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a \`type\` property). See https://docusaurus.io/docs/sidebar/items for all valid syntaxes."`,
+      `[Error: Invalid sidebar items collection \`"doc1"\` in \`items\` of the category Category Label: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a \`type\` property). See https://docusaurus.io/docs/sidebar/items for all valid syntaxes.]`,
     );
   });
 
@@ -160,10 +159,10 @@ describe('loadSidebars', () => {
       fixtureDir,
       'sidebars-collapsed-first-level.json',
     );
-    const consoleWarnMock = jest
+    const consoleWarnMock = vi
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
-    const consoleErrorMock = jest
+    const consoleErrorMock = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
     await expect(() =>
@@ -174,7 +173,7 @@ describe('loadSidebars', () => {
           contentPathLocalized: path.join(fixtureDir, 'invalid-docs'),
         } as VersionMetadata,
       }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`""foo" is not allowed"`);
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`[ValidationError: "foo" is not allowed]`);
     expect(consoleWarnMock).toHaveBeenCalledWith(
       expect.stringMatching(
         /.*\[WARNING\].* There are more than one category metadata files for .*foo.*: foo\/_category_.json, foo\/_category_.yml. The behavior is undetermined./,

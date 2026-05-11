@@ -4,10 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
-// Jest doesn't allow pragma below other comments. https://github.com/facebook/jest/issues/12573
+// Jest doesn't allow pragma below other comments. https://github.com/facebook/vi/issues/12573
 // eslint-disable-next-line header/header
 import React from 'react';
 import {render} from '@testing-library/react';
@@ -19,7 +19,7 @@ describe('<BrowserOnly>', () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
-    jest.resetModules();
+    vi.resetModules();
     process.env = {...originalEnv};
   });
 
@@ -39,8 +39,8 @@ describe('<BrowserOnly>', () => {
         </Context.Provider>,
       ),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
-      Current type: React element"
+      [Error: Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
+      Current type: React element]
     `);
   });
 
@@ -54,8 +54,8 @@ describe('<BrowserOnly>', () => {
         </Context.Provider>,
       );
     }).toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
-      Current type: string"
+      [Error: Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
+      Current type: string]
     `);
   });
 

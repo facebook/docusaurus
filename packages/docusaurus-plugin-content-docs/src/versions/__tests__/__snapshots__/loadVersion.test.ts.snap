@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`loadVersion minimal site can load current version 1`] = `
+exports[`loadVersion > minimal site > can load current version 1`] = `
 {
   "badge": false,
   "banner": null,

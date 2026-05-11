@@ -33,9 +33,9 @@ describe('validateOptions', () => {
     const config: Options = {id: 'custom', mode: 'auto', debug: false};
     expect(() => testValidateOptions(config))
       .toThrowErrorMatchingInlineSnapshot(`
-      "You site uses the Vercel Analytics plugin with a custom plugin id (custom).
-            But this plugin is only supposed to be used at most once per site. Therefore providing a custom plugin id is unsupported."
-    `);
+        [Error: You site uses the Vercel Analytics plugin with a custom plugin id (custom).
+              But this plugin is only supposed to be used at most once per site. Therefore providing a custom plugin id is unsupported.]
+      `);
   });
 
   it('accept for default id', () => {
@@ -46,7 +46,7 @@ describe('validateOptions', () => {
   it('throws for null options', () => {
     // @ts-expect-error: TS should error
     expect(() => testValidateOptions(null)).toThrowErrorMatchingInlineSnapshot(
-      `""value" must be of type object"`,
+      `[ValidationError: "value" must be of type object]`,
     );
   });
 
@@ -59,7 +59,7 @@ describe('validateOptions', () => {
     expect(
       // @ts-expect-error: TS should error
       () => testValidateOptions(42),
-    ).toThrowErrorMatchingInlineSnapshot(`""value" must be of type object"`);
+    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "value" must be of type object]`);
   });
 
   it('throws for null mode', () => {
@@ -67,7 +67,7 @@ describe('validateOptions', () => {
       // @ts-expect-error: TS should error
       () => testValidateOptions({mode: null}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""mode" must be one of [auto, production, development]"`,
+      `[ValidationError: "mode" must be one of [auto, production, development]]`,
     );
   });
   it('throws for number mode', () => {
@@ -75,7 +75,7 @@ describe('validateOptions', () => {
       // @ts-expect-error: TS should error
       () => testValidateOptions({mode: 42}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""mode" must be one of [auto, production, development]"`,
+      `[ValidationError: "mode" must be one of [auto, production, development]]`,
     );
   });
   it('throws for empty mode', () => {
@@ -83,7 +83,7 @@ describe('validateOptions', () => {
       // @ts-expect-error: TS should error
       testValidateOptions({mode: ''}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""mode" must be one of [auto, production, development]"`,
+      `[ValidationError: "mode" must be one of [auto, production, development]]`,
     );
   });
 

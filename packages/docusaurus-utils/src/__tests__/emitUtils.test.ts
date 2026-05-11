@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
 import {readOutputHTMLFile, generate} from '../emitUtils';
@@ -114,15 +113,15 @@ describe('readOutputHTMLFile', () => {
         undefined,
       ).then(String),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Expected output HTML file to be found at <PROJECT_ROOT>/packages/docusaurus-utils/src/__tests__/__fixtures__/build-snap/nonExistent/index.html for permalink /nonExistent."`,
+      `[Error: Expected output HTML file to be found at <PROJECT_ROOT>/packages/docusaurus-utils/src/__tests__/__fixtures__/build-snap/nonExistent/index.html for permalink /nonExistent.]`,
     );
   });
 });
 
 describe('generate', () => {
-  const writeMock = jest.spyOn(fs, 'outputFile').mockImplementation(() => {});
-  const existsMock = jest.spyOn(fs, 'pathExists');
-  const readMock = jest.spyOn(fs, 'readFile');
+  const writeMock = vi.spyOn(fs, 'outputFile').mockImplementation(() => {});
+  const existsMock = vi.spyOn(fs, 'pathExists');
+  const readMock = vi.spyOn(fs, 'readFile');
 
   it('works with no file and no cache', async () => {
     existsMock.mockImplementationOnce(() => false);

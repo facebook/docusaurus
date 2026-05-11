@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
 import {getBabelOptions} from '../utils';
@@ -45,7 +44,7 @@ const default => {
 `,
     });
 
-    const errorMock = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const errorMock = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     await expect(
       extractSourceCodeFileTranslations(sourceCodeFilePath, TestBabelOptions),

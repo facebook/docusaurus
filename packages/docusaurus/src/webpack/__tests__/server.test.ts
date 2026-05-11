@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import webpack from 'webpack';
 
 import createServerConfig from '../server';
@@ -21,7 +20,7 @@ function createTestConfigureWebpackUtils() {
 
 describe('webpack production config', () => {
   it('simple', async () => {
-    jest.spyOn(console, 'log').mockImplementation(() => {});
+    vi.spyOn(console, 'log').mockImplementation(() => {});
     const {props} = await loadSiteFixture('simple-site');
     const {config} = await createServerConfig({
       props,
@@ -31,7 +30,7 @@ describe('webpack production config', () => {
   });
 
   it('custom', async () => {
-    jest.spyOn(console, 'log').mockImplementation(() => {});
+    vi.spyOn(console, 'log').mockImplementation(() => {});
     const {props} = await loadSiteFixture('custom-site');
     const {config} = await createServerConfig({
       props,

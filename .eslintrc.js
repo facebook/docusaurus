@@ -28,7 +28,6 @@ module.exports = {
   env: {
     browser: true,
     commonjs: true,
-    jest: true,
     node: true,
   },
   parser: '@typescript-eslint/parser',
@@ -42,7 +41,10 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react-hooks/recommended',
-    'plugin:jest/recommended',
+
+    // 'plugin:vitest/recommended',
+    // 'plugin:@vitest/legacy-recommended',
+
     'airbnb',
     'plugin:@typescript-eslint/recommended',
     // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -63,7 +65,7 @@ module.exports = {
     'react-compiler',
     'react-hooks',
     'header',
-    'jest',
+    'vitest',
     '@typescript-eslint',
     'regexp',
     '@docusaurus',
@@ -267,7 +269,7 @@ module.exports = {
             patternOptions: {matchBase: true},
             position: 'after',
           },
-          {pattern: '@jest/globals', group: 'builtin', position: 'before'},
+          {pattern: 'vitest', group: 'builtin', position: 'before'},
           {pattern: 'react', group: 'builtin', position: 'before'},
           {pattern: 'react-dom', group: 'builtin', position: 'before'},
           {pattern: 'react-dom/**', group: 'builtin', position: 'before'},
@@ -294,20 +296,20 @@ module.exports = {
     ],
     'import/prefer-default-export': OFF,
 
-    'jest/consistent-test-it': WARNING,
-    'jest/expect-expect': OFF,
-    'jest/no-large-snapshots': [
+    'vitest/consistent-test-it': WARNING,
+    'vitest/expect-expect': OFF,
+    'vitest/no-large-snapshots': [
       WARNING,
       {maxSize: Infinity, inlineMaxSize: 50},
     ],
-    'jest/no-test-return-statement': ERROR,
-    'jest/prefer-expect-resolves': WARNING,
-    'jest/prefer-lowercase-title': [WARNING, {ignore: ['describe']}],
-    'jest/prefer-spy-on': WARNING,
-    'jest/prefer-to-be': OFF,
-    'jest/prefer-to-have-length': WARNING,
-    'jest/require-top-level-describe': ERROR,
-    'jest/valid-title': [
+    'vitest/no-test-return-statement': ERROR,
+    'vitest/prefer-expect-resolves': WARNING,
+    'vitest/prefer-lowercase-title': [WARNING, {ignore: ['describe']}],
+    'vitest/prefer-spy-on': WARNING,
+    'vitest/prefer-to-be': OFF,
+    'vitest/prefer-to-have-length': WARNING,
+    'vitest/require-top-level-describe': ERROR,
+    'vitest/valid-title': [
       ERROR,
       {
         mustNotMatch: {
@@ -526,7 +528,7 @@ module.exports = {
       files: [
         '*.test.{js,ts,tsx}',
         'admin/**',
-        'jest/**',
+        'test/**',
         'website/**',
         'packages/docusaurus-theme-common/removeThemeInternalReexport.mjs',
         'packages/docusaurus-theme-translations/update.mjs',

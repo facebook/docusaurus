@@ -172,12 +172,12 @@ describe('reportInlineTags', () => {
       });
 
     expect(testFn).toThrowErrorMatchingInlineSnapshot(
-      `"Tags [hello, world] used in wrong.md are not defined in tags.yml"`,
+      `[Error: Tags [hello, world] used in wrong.md are not defined in tags.yml]`,
     );
   });
 
   it('warn when docs has invalid tags', () => {
-    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
     reportInlineTags({
       tags: [
@@ -210,9 +210,9 @@ describe('reportInlineTags', () => {
   });
 
   it('ignore when docs has invalid tags', () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
     reportInlineTags({
       tags: [
@@ -261,7 +261,7 @@ describe('reportInlineTags', () => {
         },
       });
     expect(testFn).toThrowErrorMatchingInlineSnapshot(
-      `"Tags [world] used in default.md are not defined in tags.yml"`,
+      `[Error: Tags [world] used in default.md are not defined in tags.yml]`,
     );
   });
 

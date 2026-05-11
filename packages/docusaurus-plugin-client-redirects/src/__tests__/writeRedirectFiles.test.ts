@@ -239,7 +239,7 @@ describe('writeRedirectFiles', () => {
     await expect(
       writeRedirectFiles(filesMetadata),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"The redirect plugin is not supposed to override existing files."`,
+      `[Error: The redirect plugin is not supposed to override existing files.]`,
     );
   });
 });

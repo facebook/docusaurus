@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
 import {
@@ -108,7 +107,7 @@ async function testGenerateFeeds(
 }
 
 describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
-  const fsMock = jest.spyOn(fs, 'outputFile').mockImplementation(() => {});
+  const fsMock = vi.spyOn(fs, 'outputFile').mockImplementation(() => {});
 
   it('does not get generated without posts', async () => {
     const siteDir = __dirname;

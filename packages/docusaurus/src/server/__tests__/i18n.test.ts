@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import path from 'path';
 import {loadI18n, getDefaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
@@ -123,7 +122,7 @@ describe('defaultLocaleConfig', () => {
 });
 
 describe('loadI18n', () => {
-  const consoleWarnSpy = jest
+  const consoleWarnSpy = vi
     .spyOn(console, 'warn')
     .mockImplementation(() => {});
   beforeEach(() => {
@@ -416,9 +415,8 @@ describe('loadI18n', () => {
         currentLocale: 'x1',
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus couldn't infer a default locale config for x1.
-      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute.
-      Cause: Incorrect locale information provided"
+      [Error: Docusaurus couldn't infer a default locale config for x1.
+      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute.]
     `);
   });
 
@@ -434,9 +432,8 @@ describe('loadI18n', () => {
         currentLocale: 'x1',
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus couldn't infer a default locale config for x1.
-      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute.
-      Cause: Incorrect locale information provided"
+      [Error: Docusaurus couldn't infer a default locale config for x1.
+      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute.]
     `);
   });
 

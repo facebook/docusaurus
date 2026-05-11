@@ -124,7 +124,7 @@ describe('createAbsoluteFilePathMatcher', () => {
     expect(() =>
       matcher('/bad/path/myDoc.md'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"createAbsoluteFilePathMatcher unexpected error, absoluteFilePath=/bad/path/myDoc.md was not contained in any of the root folders: /_root/docs, /root/_docs/, /__test__/website/src"`,
+      `[Error: createAbsoluteFilePathMatcher unexpected error, absoluteFilePath=/bad/path/myDoc.md was not contained in any of the root folders: /_root/docs, /root/_docs/, /__test__/website/src]`,
     );
   });
 

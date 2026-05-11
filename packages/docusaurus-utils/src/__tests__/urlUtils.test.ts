@@ -170,7 +170,7 @@ describe('normalizeUrl', () => {
       // @ts-expect-error undefined for test
       normalizeUrl(['http:example.com', undefined]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Url must be a string. Received undefined"`,
+      `[TypeError: Url must be a string. Received undefined]`,
     );
   });
 });

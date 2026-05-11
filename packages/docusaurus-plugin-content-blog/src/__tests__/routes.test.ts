@@ -15,7 +15,7 @@ import type {BlogPost, BlogPostMetadata} from '@docusaurus/plugin-content-blog';
 type Params = Parameters<typeof buildAllRoutes>[0];
 
 async function testBuildAllRoutes(overrides: PartialDeep<Params> = {}) {
-  const createData = jest.fn(
+  const createData = vi.fn(
     async (name: string, _data: unknown) => `/data/${name}`,
   );
 

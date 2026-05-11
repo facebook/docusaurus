@@ -34,9 +34,9 @@ describe('ensureUniquePermalinks', () => {
 
     expect(() => ensureUniquePermalinks(definedTags))
       .toThrowErrorMatchingInlineSnapshot(`
-      "Duplicate permalinks found in tags file:
-        - /custom-open-source"
-    `);
+        [Error: Duplicate permalinks found in tags file:
+          - /custom-open-source]
+      `);
   });
 
   it('throw when multiple duplicate permalink found', () => {
@@ -65,10 +65,10 @@ describe('ensureUniquePermalinks', () => {
 
     expect(() => ensureUniquePermalinks(definedTags))
       .toThrowErrorMatchingInlineSnapshot(`
-      "Duplicate permalinks found in tags file:
-        - /custom-open-source
-        - /hello"
-    `);
+        [Error: Duplicate permalinks found in tags file:
+          - /custom-open-source
+          - /hello]
+      `);
   });
 
   it('do not throw when no duplicate permalink found', () => {
@@ -492,9 +492,9 @@ describe('getTagsFile', () => {
 
     await expect(getTagsFile(params)).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      "No tags file 'custom-tags-path.yml' could be found in any of those directories:
+      [Error: No tags file 'custom-tags-path.yml' could be found in any of those directories:
       - localizedAny
-      - any"
+      - any]
     `);
   });
 

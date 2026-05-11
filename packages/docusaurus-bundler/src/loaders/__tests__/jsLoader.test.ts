@@ -82,10 +82,10 @@ describe('createJsLoaderFactory', () => {
         },
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "You can't use siteConfig.webpack.jsLoader and siteConfig.future.faster.swcJsLoader at the same time.
+      [Error: You can't use siteConfig.webpack.jsLoader and siteConfig.future.faster.swcJsLoader at the same time.
       To avoid any configuration ambiguity, you must make an explicit choice:
       - If you want to use Docusaurus Faster and SWC (recommended), remove siteConfig.webpack.jsLoader
-      - If you want to use a custom JS loader, use siteConfig.future.faster.swcJsLoader: false"
+      - If you want to use a custom JS loader, use siteConfig.future.faster.swcJsLoader: false]
     `);
   });
 

@@ -166,7 +166,7 @@ describe('getLocaleConfig', () => {
         }),
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't find locale config for locale \`fr\`"`,
+      `[Error: Can't find locale config for locale \`fr\`]`,
     );
   });
 });

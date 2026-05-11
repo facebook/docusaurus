@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`base webpack config creates webpack aliases 1`] = `
+exports[`base webpack config > creates webpack aliases 1`] = `
 {
   "@docusaurus/BrowserOnly": "../../../../client/exports/BrowserOnly.tsx",
   "@docusaurus/ComponentCreator": "../../../../client/exports/ComponentCreator.tsx",

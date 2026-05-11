@@ -119,8 +119,8 @@ describe('normalizeSocials', () => {
     };
 
     expect(() => normalizeSocials(socials)).toThrowErrorMatchingInlineSnapshot(`
-      "Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
-      Social platform 'twitter' has illegal value '/ozakione/XYZ'"
+      [Error: Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+      Social platform 'twitter' has illegal value '/ozakione/XYZ']
     `);
   });
 

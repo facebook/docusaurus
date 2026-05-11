@@ -50,7 +50,7 @@ describe('initPlugins', () => {
     await expect(() =>
       loadSite('site-with-plugin', {config: 'badPlugins.docusaurus.config.js'}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      " => Bad Docusaurus plugin value plugins[0].
+      [Error:  => Bad Docusaurus plugin value plugins[0].
       Example valid plugin config:
       {
         plugins: [
@@ -74,24 +74,24 @@ describe('initPlugins', () => {
         ],
       };
 
-      "
+      ]
     `);
   });
 
   it('throws user-friendly error message for plugins with no name', async () => {
     await expect(() => loadSite('site-with-unnamed-plugin')).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      "A Docusaurus plugin is missing a 'name' property.
-      Note that even inline/anonymous plugin functions require a 'name' property."
+      [Error: A Docusaurus plugin is missing a 'name' property.
+      Note that even inline/anonymous plugin functions require a 'name' property.]
     `);
   });
 
   it('throws user-friendly error message for plugins returning undefined', async () => {
     await expect(() => loadSite('site-with-undefined-plugin')).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      "A Docusaurus plugin returned 'undefined', which is forbidden.
+      [Error: A Docusaurus plugin returned 'undefined', which is forbidden.
       A plugin is expected to return an object having at least a 'name' property.
-      If you want a plugin to self-disable depending on context/options, you can explicitly return 'null' instead of 'undefined'"
+      If you want a plugin to self-disable depending on context/options, you can explicitly return 'null' instead of 'undefined']
     `);
   });
 });

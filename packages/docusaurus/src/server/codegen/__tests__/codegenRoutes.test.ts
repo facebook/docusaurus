@@ -256,9 +256,9 @@ describe('loadRoutes', () => {
 
     expect(() => generateRoutesCode([routeConfigWithoutPath]))
       .toThrowErrorMatchingInlineSnapshot(`
-      "Invalid route config: path must be a string and component is required.
-      {"component":"hello/world.js"}"
-    `);
+        [Error: Invalid route config: path must be a string and component is required.
+        {"component":"hello/world.js"}]
+      `);
 
     const routeConfigWithoutComponent = {
       path: '/hello/world',
@@ -266,9 +266,9 @@ describe('loadRoutes', () => {
 
     expect(() => generateRoutesCode([routeConfigWithoutComponent]))
       .toThrowErrorMatchingInlineSnapshot(`
-      "Invalid route config: path must be a string and component is required.
-      {"path":"/hello/world"}"
-    `);
+        [Error: Invalid route config: path must be a string and component is required.
+        {"path":"/hello/world"}]
+      `);
   });
 
   it('loads route config with empty (but valid) path string', () => {

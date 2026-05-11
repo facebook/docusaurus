@@ -70,9 +70,9 @@ describe('packages', () => {
         packageJsonFile.content.name?.startsWith('@'),
       )
       .forEach((packageJsonFile) => {
-        // Unfortunately jest custom message do not exist in loops,
+        // Unfortunately vi custom message do not exist in loops,
         // so using an exception instead to show failing package file
-        // (see https://github.com/facebook/jest/issues/3293)
+        // (see https://github.com/facebook/vi/issues/3293)
         // expect(packageJsonFile.content.publishConfig?.access)
         //  .toEqual('public');
         if (packageJsonFile.content.publishConfig?.access !== 'public') {

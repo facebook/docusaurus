@@ -16,7 +16,7 @@ describe('getHttpsConfig', () => {
   }
 
   beforeEach(() => {
-    jest.resetModules();
+    vi.resetModules();
     process.env = {...originalEnv};
   });
 
@@ -48,7 +48,7 @@ describe('getHttpsConfig', () => {
     process.env.SSL_CRT_FILE = getFixture('nonexistent.crt');
     process.env.SSL_KEY_FILE = getFixture('host.key');
     await expect(getHttpsConfig()).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"You specified SSL_CRT_FILE in your env, but the file "<PROJECT_ROOT>/packages/docusaurus/src/webpack/utils/__tests__/__fixtures__/getHttpsConfig/nonexistent.crt" can't be found."`,
+      `[Error: You specified SSL_CRT_FILE in your env, but the file "<PROJECT_ROOT>/packages/docusaurus/src/webpack/utils/__tests__/__fixtures__/getHttpsConfig/nonexistent.crt" can't be found.]`,
     );
   });
 

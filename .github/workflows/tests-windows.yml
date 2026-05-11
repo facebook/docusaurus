@@ -8,8 +8,8 @@ on:
     paths:
       - package.json
       - yarn.lock
-      - jest.config.mjs
-      - jest/**
+      - vitest.config.ts
+      - test/**
       - packages/**
       - tsconfig.*.json
       - .github/workflows/tests-windows.yml
@@ -41,7 +41,7 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
-      - name: Docusaurus Jest Tests
+      - name: Docusaurus Tests
         run: yarn test
       - name: Create a deep path
         # https://github.com/facebook/docusaurus/pull/4899

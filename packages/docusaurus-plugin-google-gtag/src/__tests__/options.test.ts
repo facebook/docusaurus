@@ -42,28 +42,28 @@ describe('validateOptions', () => {
     expect(
       // @ts-expect-error: TS should error
       () => testValidateOptions(undefined),
-    ).toThrowErrorMatchingInlineSnapshot(`""trackingID" is required"`);
+    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "trackingID" is required]`);
   });
 
   it('throws for null options', () => {
     expect(
       // @ts-expect-error: TS should error
       () => testValidateOptions(null),
-    ).toThrowErrorMatchingInlineSnapshot(`""value" must be of type object"`);
+    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "value" must be of type object]`);
   });
 
   it('throws for empty object options', () => {
     expect(
       // @ts-expect-error: TS should error
       () => testValidateOptions({}),
-    ).toThrowErrorMatchingInlineSnapshot(`""trackingID" is required"`);
+    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "trackingID" is required]`);
   });
 
   it('throws for number options', () => {
     expect(
       // @ts-expect-error: TS should error
       () => testValidateOptions(42),
-    ).toThrowErrorMatchingInlineSnapshot(`""value" must be of type object"`);
+    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "value" must be of type object]`);
   });
 
   it('throws for null trackingID', () => {
@@ -71,7 +71,7 @@ describe('validateOptions', () => {
       // @ts-expect-error: TS should error
       () => testValidateOptions({trackingID: null}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
+      `[ValidationError: "trackingID" does not match any of the allowed types]`,
     );
   });
   it('throws for number trackingID', () => {
@@ -79,14 +79,14 @@ describe('validateOptions', () => {
       // @ts-expect-error: TS should error
       () => testValidateOptions({trackingID: 42}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
+      `[ValidationError: "trackingID" does not match any of the allowed types]`,
     );
   });
   it('throws for empty trackingID', () => {
     expect(() =>
       testValidateOptions({trackingID: ''}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
+      `[ValidationError: "trackingID" does not match any of the allowed types]`,
     );
   });
 
@@ -126,7 +126,7 @@ describe('validateOptions', () => {
     expect(() =>
       testValidateOptions(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
+      `[ValidationError: "trackingID" does not match any of the allowed types]`,
     );
   });
 
@@ -138,7 +138,7 @@ describe('validateOptions', () => {
     expect(() =>
       testValidateOptions(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
+      `[ValidationError: "trackingID" does not match any of the allowed types]`,
     );
   });
 
@@ -150,7 +150,7 @@ describe('validateOptions', () => {
     expect(() =>
       testValidateOptions(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""trackingID" does not match any of the allowed types"`,
+      `[ValidationError: "trackingID" does not match any of the allowed types]`,
     );
   });
 });

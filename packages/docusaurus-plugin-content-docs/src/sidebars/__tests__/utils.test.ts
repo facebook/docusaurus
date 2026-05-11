@@ -275,7 +275,7 @@ describe('createSidebarsUtils', () => {
         unlistedIds: new Set(),
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Doc with ID doc3 wants to display sidebar foo but a sidebar with this name doesn't exist"`,
+      `[Error: Doc with ID doc3 wants to display sidebar foo but a sidebar with this name doesn't exist]`,
     );
     expect(
       getDocNavigation({
@@ -799,7 +799,7 @@ describe('toNavigationLink', () => {
     expect(() =>
       toNavigationLink({type: 'doc', id: 'doc3'}, docsById),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't create navigation link: no doc found with id=doc3"`,
+      `[Error: Can't create navigation link: no doc found with id=doc3]`,
     );
   });
 
@@ -836,7 +836,7 @@ describe('toNavigationLink', () => {
         docsById,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't create navigation link: no doc found with id=doc3"`,
+      `[Error: Can't create navigation link: no doc found with id=doc3]`,
     );
   });
 

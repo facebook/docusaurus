@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import {DefaultSidebarItemsGenerator} from '../generator';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 import {isCategoryIndex} from '../../docs';
@@ -33,7 +32,7 @@ describe('DefaultSidebarItemsGenerator', () => {
   }
 
   it('generates empty sidebar slice when no docs and emit a warning', async () => {
-    const consoleWarn = jest.spyOn(console, 'warn');
+    const consoleWarn = vi.spyOn(console, 'warn');
     const sidebarSlice = await testDefaultSidebarItemsGenerator({
       docs: [],
     });
@@ -515,9 +514,9 @@ describe('DefaultSidebarItemsGenerator', () => {
       });
 
     expect(() => generateSidebar()).toThrowErrorMatchingInlineSnapshot(`
-            "Can't find any doc with ID foo.
-            Available doc IDs:
-            - intro"
-          `);
+      [Error: Can't find any doc with ID foo.
+      Available doc IDs:
+      - intro]
+    `);
   });
 });

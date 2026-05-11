@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
@@ -135,12 +134,12 @@ describe('sidebar', () => {
 
       await plugin.loadContent!();
     }).rejects.toThrowErrorMatchingInlineSnapshot(`
-            "The path to the sidebar file does not exist at "wrong-path-sidebar.json".
-            Please set the docs "sidebarPath" field in your config file to:
-            - a sidebars path that exists
-            - false: to disable the sidebar
-            - undefined: for Docusaurus to generate it automatically"
-          `);
+      [Error: The path to the sidebar file does not exist at "wrong-path-sidebar.json".
+      Please set the docs "sidebarPath" field in your config file to:
+      - a sidebars path that exists
+      - false: to disable the sidebar
+      - undefined: for Docusaurus to generate it automatically]
+    `);
   });
 
   it('site with undefined sidebar', async () => {
@@ -196,7 +195,7 @@ describe('empty/no docs website', () => {
     await expect(
       plugin.loadContent!(),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Docs version "current" has no docs! At least one doc should exist at "docs"."`,
+      `[Error: Docs version "current" has no docs! At least one doc should exist at "docs".]`,
     );
   });
 
@@ -213,7 +212,7 @@ describe('empty/no docs website', () => {
         }),
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"The docs folder does not exist for version "current". A docs folder is expected to be found at path/does/not/exist."`,
+      `[Error: The docs folder does not exist for version "current". A docs folder is expected to be found at path/does/not/exist.]`,
     );
   });
 });
@@ -255,7 +254,7 @@ describe('simple website', () => {
 
   it('extendCli - docsVersion', async () => {
     const {plugin, options, context} = await loadSite();
-    const mock = jest
+    const mock = vi
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
     const cli = new commander.Command();
@@ -410,7 +409,7 @@ describe('versioned website', () => {
 
   it('extendCli - docsVersion', async () => {
     const {plugin, context, options} = await loadSite();
-    const mock = jest
+    const mock = vi
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
     const cli = new commander.Command();
@@ -595,7 +594,7 @@ describe('versioned website (community)', () => {
 
   it('extendCli - docsVersion', async () => {
     const {pluginId, plugin, options, context} = await loadSite();
-    const mock = jest
+    const mock = vi
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
     const cli = new commander.Command();
@@ -908,7 +907,7 @@ describe('site with custom sidebar items generator', () => {
   }
 
   it('sidebarItemsGenerator is called with appropriate data', async () => {
-    const customSidebarItemsGeneratorMock = jest.fn(async () => []);
+    const customSidebarItemsGeneratorMock = vi.fn(async () => []);
     const {siteDir} = await loadSite(customSidebarItemsGeneratorMock);
 
     const generatorArg = (

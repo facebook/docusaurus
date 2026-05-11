@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import * as path from 'path';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {readVersionsMetadata} from '../version';
@@ -173,7 +172,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Docs option lastVersion: unknownVersionName is invalid. Available version names are: current"`,
+        `[Error: Docs option lastVersion: unknownVersionName is invalid. Available version names are: current]`,
       );
     });
 
@@ -194,7 +193,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid docs option "versions": unknown versions (unknownVersionName1,unknownVersionName2) found. Available version names are: current"`,
+        `[Error: Invalid docs option "versions": unknown versions (unknownVersionName1,unknownVersionName2) found. Available version names are: current]`,
       );
     });
 
@@ -207,7 +206,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Docs: using "disableVersioning: true" option on a non-versioned site does not make sense."`,
+        `[Error: Docs: using "disableVersioning: true" option on a non-versioned site does not make sense.]`,
       );
     });
 
@@ -220,7 +219,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"It is not possible to use docs without any version. No version is included because you have requested to not include <PROJECT_ROOT>/docs through "includeCurrentVersion: false", while the versions file is empty/non-existent."`,
+        `[Error: It is not possible to use docs without any version. No version is included because you have requested to not include <PROJECT_ROOT>/docs through "includeCurrentVersion: false", while the versions file is empty/non-existent.]`,
       );
     });
   });
@@ -619,7 +618,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"It is not possible to use docs without any version. No version is included because you have requested to not include <PROJECT_ROOT>/docs through "includeCurrentVersion: false", while versioning is disabled with "disableVersioning: true"."`,
+        `[Error: It is not possible to use docs without any version. No version is included because you have requested to not include <PROJECT_ROOT>/docs through "includeCurrentVersion: false", while versioning is disabled with "disableVersioning: true".]`,
       );
     });
 
@@ -636,7 +635,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid docs option "onlyIncludeVersions": an empty array is not allowed, at least one version is needed."`,
+        `[Error: Invalid docs option "onlyIncludeVersions": an empty array is not allowed, at least one version is needed.]`,
       );
     });
 
@@ -653,7 +652,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid docs option "onlyIncludeVersions": unknown versions (unknownVersion1,unknownVersion2) found. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
+        `[Error: Invalid docs option "onlyIncludeVersions": unknown versions (unknownVersion1,unknownVersion2) found. Available version names are: current, 1.0.1, 1.0.0, withSlugs]`,
       );
     });
 
@@ -671,14 +670,14 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid docs option "lastVersion": if you use both the "onlyIncludeVersions" and "lastVersion" options, then "lastVersion" must be present in the provided "onlyIncludeVersions" array."`,
+        `[Error: Invalid docs option "lastVersion": if you use both the "onlyIncludeVersions" and "lastVersion" options, then "lastVersion" must be present in the provided "onlyIncludeVersions" array.]`,
       );
     });
 
     it('throws with invalid versions.json file', async () => {
       const {defaultOptions, defaultContext} = await loadSite();
 
-      const jsonMock = jest.spyOn(JSON, 'parse');
+      const jsonMock = vi.spyOn(JSON, 'parse');
       jsonMock.mockImplementationOnce(() => ({
         invalid: 'json',
       }));
@@ -689,7 +688,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"The versions file should contain an array of version names! Found content: {"invalid":"json"}"`,
+        `[Error: The versions file should contain an array of version names! Found content: {"invalid":"json"}]`,
       );
       jsonMock.mockImplementationOnce(() => [1.1]);
 
@@ -699,7 +698,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Versions should be strings. Found type "number" for version 1.1."`,
+        `[Error: Versions should be strings. Found type "number" for version 1.1.]`,
       );
       jsonMock.mockImplementationOnce(() => ['   ']);
 
@@ -709,7 +708,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid version name "   ": version name must contain at least one non-whitespace character."`,
+        `[Error: Invalid version name "   ": version name must contain at least one non-whitespace character.]`,
       );
       jsonMock.mockRestore();
     });
@@ -841,7 +840,7 @@ describe('readVersionsMetadata', () => {
           context: defaultContext,
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"It is not possible to use docs without any version. No version is included because you have requested to not include <PROJECT_ROOT>/community through "includeCurrentVersion: false", while versioning is disabled with "disableVersioning: true"."`,
+        `[Error: It is not possible to use docs without any version. No version is included because you have requested to not include <PROJECT_ROOT>/community through "includeCurrentVersion: false", while versioning is disabled with "disableVersioning: true".]`,
       );
     });
   });

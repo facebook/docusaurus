@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import {handleDuplicateRoutes} from '../routes';
 import type {RouteConfig} from '@docusaurus/types';
 
@@ -45,14 +44,14 @@ describe('handleDuplicateRoutes', () => {
     expect(() => {
       handleDuplicateRoutes(routes, 'throw');
     }).toThrowErrorMatchingInlineSnapshot(`
-      "Duplicate routes found!
+      [Error: Duplicate routes found!
       - Attempting to create page at /search, but a page already exists at this route.
       - Attempting to create page at /sameDoc, but a page already exists at this route.
       - Attempting to create page at /, but a page already exists at this route.
       - Attempting to create page at /, but a page already exists at this route.
-      This could lead to non-deterministic routing behavior."
+      This could lead to non-deterministic routing behavior.]
     `);
-    const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {});
     handleDuplicateRoutes(routes, 'ignore');
     expect(consoleMock).toHaveBeenCalledTimes(0);
   });

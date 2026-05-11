@@ -240,10 +240,7 @@ describe('loadFreshModule', () => {
   describe('invalid module path param', () => {
     it('throws if module path does not exist', async () => {
       await expect(() => loadFreshModule('/some/unknown/module/path.js'))
-        .rejects.toThrowErrorMatchingInlineSnapshot(`
-        "Docusaurus could not load module at path "/some/unknown/module/path.js"
-        Cause: Cannot find module '/some/unknown/module/path.js' from 'packages/docusaurus-utils/src/moduleUtils.ts'"
-      `);
+        .rejects.toThrowErrorMatchingInlineSnapshot(`[Error: Docusaurus could not load module at path "/some/unknown/module/path.js"]`);
     });
 
     it('throws if module path is undefined', async () => {
@@ -251,7 +248,7 @@ describe('loadFreshModule', () => {
         // @ts-expect-error: undefined is invalid
         loadFreshModule(undefined),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid module path of type "undefined" with value "undefined""`,
+        `[Error: Invalid module path of type "undefined" with value "undefined"]`,
       );
     });
 
@@ -260,7 +257,7 @@ describe('loadFreshModule', () => {
         // @ts-expect-error: null is invalid
         loadFreshModule(null),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid module path of type "object" with value "null""`,
+        `[Error: Invalid module path of type "object" with value "null"]`,
       );
     });
 
@@ -269,7 +266,7 @@ describe('loadFreshModule', () => {
         // @ts-expect-error: number is invalid
         loadFreshModule(42),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid module path of type "number" with value "42""`,
+        `[Error: Invalid module path of type "number" with value "42"]`,
       );
     });
 
@@ -278,7 +275,7 @@ describe('loadFreshModule', () => {
         // @ts-expect-error: object is invalid
         loadFreshModule({}),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Invalid module path of type "object" with value "[object Object]""`,
+        `[Error: Invalid module path of type "object" with value "[object Object]"]`,
       );
     });
   });

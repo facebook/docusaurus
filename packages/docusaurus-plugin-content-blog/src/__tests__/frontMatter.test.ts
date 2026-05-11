@@ -52,7 +52,6 @@ function testField(params: {
             )}`,
           );
         } catch (err) {
-          // eslint-disable-next-line jest/no-conditional-expect
           expect((err as Error).message).toMatch(
             new RegExp(escapeRegexp(message)),
           );

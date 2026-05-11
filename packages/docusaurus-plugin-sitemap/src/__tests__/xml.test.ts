@@ -17,7 +17,7 @@ describe('createSitemap', () => {
     await expect(
       sitemapItemsToXmlString(items, options),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Can't generate a sitemap with no items"`,
+      `[Error: Can't generate a sitemap with no items]`,
     );
   });
 

@@ -528,7 +528,7 @@ describe('headings remark plugin', () => {
           await expect(
             processHeading('## Heading <!-- #my-id -->', 'mdx'),
           ).rejects.toThrowErrorMatchingInlineSnapshot(
-            `"Unexpected character \`!\` (U+0021) before name, expected a character that can start a name, such as a letter, \`$\`, or \`_\` (note: to create a comment in MDX, use \`{/* text */}\`)"`,
+            `[1:13: Unexpected character \`!\` (U+0021) before name, expected a character that can start a name, such as a letter, \`$\`, or \`_\` (note: to create a comment in MDX, use \`{/* text */}\`)]`,
           );
         });
       });

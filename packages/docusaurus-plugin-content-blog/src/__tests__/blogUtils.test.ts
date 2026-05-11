@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {
   truncate,
@@ -62,17 +61,17 @@ describe('reportUntruncatedBlogPosts', () => {
     expect(() =>
       reportUntruncatedBlogPosts({blogPosts, onUntruncatedBlogPosts: 'throw'}),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus found blog posts without truncation markers:
+      [Error: Docusaurus found blog posts without truncation markers:
       - "blog/post1.md"
       - "blog/subDir/post3.md"
 
       We recommend using truncation markers (\`<!-- truncate -->\` or \`{/* truncate */}\`) in blog posts to create shorter previews on blog paginated lists.
-      Tip: turn this security off with the \`onUntruncatedBlogPosts: 'ignore'\` blog plugin option."
+      Tip: turn this security off with the \`onUntruncatedBlogPosts: 'ignore'\` blog plugin option.]
     `);
   });
 
   it('warn for untruncated blog posts', () => {
-    const consoleMock = jest.spyOn(console, 'warn');
+    const consoleMock = vi.spyOn(console, 'warn');
 
     const blogPosts = [
       testPost({source: '@site/blog/post1.md', hasTruncateMarker: false}),
@@ -102,9 +101,9 @@ describe('reportUntruncatedBlogPosts', () => {
   });
 
   it('ignore untruncated blog posts', () => {
-    const logMock = jest.spyOn(console, 'log');
-    const warnMock = jest.spyOn(console, 'warn');
-    const errorMock = jest.spyOn(console, 'error');
+    const logMock = vi.spyOn(console, 'log');
+    const warnMock = vi.spyOn(console, 'warn');
+    const errorMock = vi.spyOn(console, 'error');
 
     const blogPosts = [
       testPost({source: '@site/blog/post1.md', hasTruncateMarker: false}),

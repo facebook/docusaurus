@@ -566,10 +566,10 @@ describe('collectRedirects', () => {
         undefined,
       ),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "@docusaurus/plugin-client-redirects: multiple redirects are created with the same "from" pathname: "/random-path"
+      [Error: @docusaurus/plugin-client-redirects: multiple redirects are created with the same "from" pathname: "/random-path"
       It is not possible to redirect the same pathname to multiple destinations:
       - {"from":"/random-path","to":"/path-one"}
-      - {"from":"/random-path","to":"/path-two"}"
+      - {"from":"/random-path","to":"/path-two"}]
     `);
     expect(() =>
       collectRedirects(
@@ -586,8 +586,8 @@ describe('collectRedirects', () => {
         undefined,
       ),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "@docusaurus/plugin-client-redirects: some redirects would override existing paths, and will be ignored:
-      - {"from":"/path-two","to":"/path-one"}"
+      [Error: @docusaurus/plugin-client-redirects: some redirects would override existing paths, and will be ignored:
+      - {"from":"/path-two","to":"/path-one"}]
     `);
   });
 });

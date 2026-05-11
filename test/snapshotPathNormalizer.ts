@@ -64,10 +64,15 @@ const getPathsForNormalization: typeof readPathsForNormalization = _.memoize(
   readPathsForNormalization,
 );
 
-export function print(
-  val: unknown,
-  serialize: (val: unknown) => string,
-): string {
+// pretty-format Plugin "serialize" signature:
+//   serialize(val, config, indentation, depth, refs, printer)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function serialize(val: any, ...rest: any[]): string {
+  // The last argument is the recursive printer
+  const printer = rest[rest.length - 1] as (
+    v: unknown,
+    ...args: unknown[]
+  ) => string;
   if (val instanceof Error) {
     const message = normalizePaths(val.message);
     const error = new Error(message);
@@ -78,19 +83,19 @@ export function print(
     allKeys.forEach((key) => {
       error[key] = normalizePaths(val[key]) as never;
     });
-    return serialize(error);
+    return printer(error, ...rest.slice(0, -1));
   } else if (val && typeof val === 'object') {
     const normalizedValue = _.cloneDeep(val) as {[key: string]: unknown};
 
     Object.keys(normalizedValue).forEach((key) => {
       normalizedValue[key] = normalizePaths(normalizedValue[key]);
     });
-    return serialize(normalizedValue);
+    return printer(normalizedValue, ...rest.slice(0, -1));
   }
-  return serialize(normalizePaths(val));
+  return printer(normalizePaths(val), ...rest.slice(0, -1));
 }
 
-export function test(val: unknown): boolean {
+function test(val: unknown): boolean {
   return (
     (typeof val === 'object' &&
       val &&
@@ -102,6 +107,8 @@ export function test(val: unknown): boolean {
     shouldUpdate(val)
   );
 }
+
+export default {test, serialize};
 
 /**
  * Normalize paths across platforms.

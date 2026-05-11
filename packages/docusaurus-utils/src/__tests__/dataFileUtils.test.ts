@@ -155,13 +155,7 @@ describe('getDataFileData', () => {
 
   it('throw for invalid file', async () => {
     await expect(testFile('invalid.yml')).rejects
-      .toThrowErrorMatchingInlineSnapshot(`
-      "The file at "packages/docusaurus-utils/src/__tests__/__fixtures__/dataFiles/dataFiles/invalid.yml" looks invalid (not Yaml nor JSON).
-      Cause: end of the stream or a document separator is expected (1:1)
-
-       1 | }{{{{12434665¨£%£%%£%£}}}}
-      -----^"
-    `);
+      .toThrowErrorMatchingInlineSnapshot(`[Error: The file at "packages/docusaurus-utils/src/__tests__/__fixtures__/dataFiles/dataFiles/invalid.yml" looks invalid (not Yaml nor JSON).]`);
   });
 });
 
@@ -199,10 +193,10 @@ describe('getFolderContainingFile', () => {
         'dataFileUtils.test.ts',
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-            "File "dataFileUtils.test.ts" does not exist in any of these folders:
-            - /foo
-            - /bar
-            - /baz"
-          `);
+      [Error: File "dataFileUtils.test.ts" does not exist in any of these folders:
+      - /foo
+      - /bar
+      - /baz]
+    `);
   });
 });

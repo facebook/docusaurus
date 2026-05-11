@@ -97,7 +97,7 @@ describe('loadVersion', () => {
     it('rejects version with doc id conflict', async () => {
       await expect(() => loadTestVersion('with-id-conflicts')).rejects
         .toThrowErrorMatchingInlineSnapshot(`
-        "The docs plugin found docs sharing the same id:
+        [Error: The docs plugin found docs sharing the same id:
 
         - \`frontMatter/doc\` found in 3 docs:
           - versioned_docs/version-with-id-conflicts/frontMatter/doc.md
@@ -114,7 +114,7 @@ describe('loadVersion', () => {
 
         Docs should have distinct ids.
         In case of conflict, you can rename the docs file, or use the \`id\` front matter to assign an explicit distinct id to each doc.
-            "
+            ]
       `);
     });
   });

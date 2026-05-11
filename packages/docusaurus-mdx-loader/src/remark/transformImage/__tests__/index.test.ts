@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import * as path from 'path';
 import vfile from 'to-vfile';
 import plugin, {type PluginOptions} from '../index';
@@ -68,7 +67,7 @@ describe('transformImage plugin', () => {
   });
 
   it('does not choke on invalid image', async () => {
-    const errorMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const errorMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const result = await processContent(`![invalid image](/invalid.png)`);
     expect(result).toMatchSnapshot();
     expect(errorMock).toHaveBeenCalledTimes(1);
@@ -86,32 +85,32 @@ describe('transformImage plugin', () => {
       it('if image absolute path does not exist', async () => {
         await expect(processContent(fixtures.doesNotExistAbsolute)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.
-          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
+          [Error: Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs.]
         `);
       });
 
       it('if image relative path does not exist', async () => {
         await expect(processContent(fixtures.doesNotExistRelative)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.
-          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
+          [Error: Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs.]
         `);
       });
 
       it('if image @site path does not exist', async () => {
         await expect(processContent(fixtures.doesNotExistSiteAlias)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.
-          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
+          [Error: Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs.]
         `);
       });
 
       it('if image url empty', async () => {
         await expect(processContent(fixtures.urlEmpty)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1).
-          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs."
+          [Error: Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1).
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownImages\` option, or apply the \`pathname://\` protocol to the broken image URLs.]
         `);
       });
     });
@@ -121,7 +120,7 @@ describe('transformImage plugin', () => {
         return processContent(content, {onBrokenMarkdownImages: 'warn'});
       }
 
-      const warnMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      const warnMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
       beforeEach(() => {
         warnMock.mockClear();
       });
@@ -205,7 +204,7 @@ describe('transformImage plugin', () => {
         });
       }
 
-      const logMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+      const logMock = vi.spyOn(console, 'log').mockImplementation(() => {});
       beforeEach(() => {
         logMock.mockClear();
       });

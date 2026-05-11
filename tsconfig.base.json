@@ -6,7 +6,7 @@
     "incremental": true,
     "tsBuildInfoFile": "${configDir}/lib/.tsbuildinfo",
     "erasableSyntaxOnly": true,
-    "types": ["node"],
+    "types": ["node", "vitest/globals"],
     /* Emit */
     "target": "ES2020",
     "lib": ["ESNext"],

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import path from 'path';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
@@ -129,7 +128,7 @@ export default function MyComponent() {
 }
 `,
     );
-    const consoleWarnMock = jest
+    const consoleWarnMock = vi
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
     const plugin1 = createTestPlugin(plugin1Dir);

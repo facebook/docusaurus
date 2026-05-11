@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import path from 'path';
 import {
   isNameTooLong,
@@ -125,7 +124,7 @@ describe('shortName', () => {
 
 describe('toMessageRelativeFilePath', () => {
   it('works', () => {
-    jest
+    vi
       .spyOn(process, 'cwd')
       .mockImplementationOnce(() => path.join(__dirname, '..'));
     expect(toMessageRelativeFilePath(path.join(__dirname, 'foo/bar.js'))).toBe(

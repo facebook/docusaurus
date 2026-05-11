@@ -192,11 +192,11 @@ export function parseFileContentFrontMatter(fileContent: string): {
   // We want to make it possible as part of the parseFrontMatter API
   // So we make it safe to mutate by always providing a deep copy
   const frontMatter =
-    // And of course structuredClone() doesn't work well with Date in Jest...
+    // And of course structuredClone() doesn't work well with Date in tests...
     // See https://github.com/jestjs/jest/issues/2549
     // So we parse again for tests with a {} option object
     // This undocumented empty option object disables gray-matter caching..
-    process.env.JEST_WORKER_ID
+    process.env.NODE_ENV === 'test' || process.env.VITEST
       ? matter(fileContent, {}).data
       : structuredClone(data);
 

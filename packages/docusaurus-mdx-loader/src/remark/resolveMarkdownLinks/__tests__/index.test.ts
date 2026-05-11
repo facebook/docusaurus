@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import * as path from 'path';
 import plugin from '..';
 import type {PluginOptions} from '../index';
@@ -184,7 +183,7 @@ this is a code block
   });
 
   describe('onBrokenMarkdownLinks', () => {
-    const warnMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const warnMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
     beforeEach(() => {
       warnMock.mockClear();
     });
@@ -206,9 +205,9 @@ this is a code block
 
         await expect(() => processResolutionErrors(content)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown link with URL \`link1.mdx\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" (1:1) couldn't be resolved.
+          [Error: Markdown link with URL \`link1.mdx\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" (1:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.
-          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs.]
         `);
       });
 
@@ -218,9 +217,9 @@ this is a code block
 
         await expect(() => processResolutionErrors(content)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown link with URL \`link1.md\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" (1:1) couldn't be resolved.
+          [Error: Markdown link with URL \`link1.md\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" (1:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.
-          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs.]
         `);
       });
     });

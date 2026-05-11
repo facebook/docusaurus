@@ -13,7 +13,7 @@ import {Joi} from '@docusaurus/utils-validation';
 import {TagList, sortedUsers, type User} from '../users';
 
 declare global {
-  namespace jest {
+  namespace vi {
     interface Matchers<R> {
       toHaveGoodDimensions: () => R;
     }
@@ -60,7 +60,7 @@ describe('users data', () => {
           .pattern(/^https?:\/\//)
           .message('')
           .required(),
-        // The preview should be jest/emptyModule
+        // The preview should be vi/emptyModule
         preview: Joi.object({default: Joi.any()})
           .unknown(false)
           .allow(null)

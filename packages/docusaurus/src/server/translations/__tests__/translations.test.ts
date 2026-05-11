@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
 import tmp from 'tmp-promise';
@@ -52,7 +51,7 @@ async function createTmpTranslationFile(
 }
 
 describe('writeCodeTranslations', () => {
-  const consoleInfoMock = jest
+  const consoleInfoMock = vi
     .spyOn(console, 'info')
     .mockImplementation(() => {});
   beforeEach(() => {
@@ -264,7 +263,7 @@ describe('writeCodeTranslations', () => {
         {},
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `""bad" must be of type object"`,
+      `[ValidationError: "bad" must be of type object]`,
     );
   });
 });
@@ -398,7 +397,7 @@ describe('writePluginTranslations', () => {
         options: {},
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Translation file path at "my/translation/file.json" does not need to end with ".json", we add the extension automatically."`,
+      `[Error: Translation file path at "my/translation/file.json" does not need to end with ".json", we add the extension automatically.]`,
     );
   });
 });
@@ -508,23 +507,23 @@ describe('readCodeTranslationFileContent', () => {
       // @ts-expect-error: test
       testReadTranslation('HEY'),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `""value" must be of type object"`,
+      `[ValidationError: "value" must be of type object]`,
     );
     await expect(() =>
       // @ts-expect-error: test
       testReadTranslation(42),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `""value" must be of type object"`,
+      `[ValidationError: "value" must be of type object]`,
     );
     await expect(() =>
       // @ts-expect-error: test
       testReadTranslation({key: {description: 'no message'}}),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`""key.message" is required"`);
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`[ValidationError: "key.message" is required]`);
     await expect(() =>
       // @ts-expect-error: test
       testReadTranslation({key: {message: 42}}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `""key.message" must be a string"`,
+      `[ValidationError: "key.message" must be a string]`,
     );
     await expect(() =>
       testReadTranslation({
@@ -532,7 +531,7 @@ describe('readCodeTranslationFileContent', () => {
         key: {message: 'Message', description: 42},
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `""key.description" must be a string"`,
+      `[ValidationError: "key.description" must be a string]`,
     );
   });
 });
@@ -624,7 +623,7 @@ describe('loadPluginsDefaultCodeTranslationMessages', () => {
 });
 
 describe('applyDefaultCodeTranslations', () => {
-  const consoleWarnMock = jest
+  const consoleWarnMock = vi
     .spyOn(console, 'warn')
     .mockImplementation(() => {});
   beforeEach(() => {

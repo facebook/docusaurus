@@ -36,8 +36,8 @@ const processFixture = async (
 };
 
 describe('directives remark plugin - client compiler', () => {
-  const consoleMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
-  beforeEach(() => jest.clearAllMocks());
+  const consoleMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  beforeEach(() => vi.clearAllMocks());
 
   const options = {compilerName: 'client'} as const;
 
@@ -64,8 +64,8 @@ describe('directives remark plugin - client compiler', () => {
 });
 
 describe('directives remark plugin - server compiler', () => {
-  const consoleMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
-  beforeEach(() => jest.clearAllMocks());
+  const consoleMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  beforeEach(() => vi.clearAllMocks());
 
   const options = {compilerName: 'server'} as const;
 

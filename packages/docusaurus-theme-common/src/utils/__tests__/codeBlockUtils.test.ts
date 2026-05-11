@@ -154,7 +154,7 @@ bbbbb`,
         },
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"A highlight range has been given in code block's metastring (\`\`\` {1}), but no magic comment config is available. Docusaurus applies the first magic comment entry's className for metastring ranges."`,
+      `[Error: A highlight range has been given in code block's metastring (\`\`\` {1}), but no magic comment config is available. Docusaurus applies the first magic comment entry's className for metastring ranges.]`,
     );
   });
 

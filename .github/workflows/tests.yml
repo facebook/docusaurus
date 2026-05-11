@@ -8,8 +8,8 @@ on:
     paths:
       - package.json
       - yarn.lock
-      - jest.config.mjs
-      - jest/**
+      - vitest.config.ts
+      - test/**
       - packages/**
       - tsconfig.*.json
       - .github/workflows/tests.yml

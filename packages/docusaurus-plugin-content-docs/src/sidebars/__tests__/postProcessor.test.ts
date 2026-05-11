@@ -64,7 +64,7 @@ describe('postProcess', () => {
         } as unknown as SidebarPostProcessorParams,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Sidebar category Bad category has neither any subitem nor a link. This makes this item not able to link to anything."`,
+      `[Error: Sidebar category Bad category has neither any subitem nor a link. This makes this item not able to link to anything.]`,
     );
   });
 

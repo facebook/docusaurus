@@ -37,7 +37,7 @@ describe('loadSite', () => {
           config: 'docusaurus.config.doesNotExist.js',
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Config file at "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/docusaurus.config.doesNotExist.js" not found."`,
+        `[Error: Config file at "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/docusaurus.config.doesNotExist.js" not found.]`,
       );
     });
   });

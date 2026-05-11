@@ -71,7 +71,7 @@ describe('validateOptions', () => {
       };
       expect(() =>
         testValidateOptions(config),
-      ).toThrowErrorMatchingInlineSnapshot(`""layers.layer 1" is not allowed"`);
+      ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "layers.layer 1" is not allowed]`);
     });
 
     it('rejects layer with bad value', () => {
@@ -84,7 +84,7 @@ describe('validateOptions', () => {
       expect(() =>
         testValidateOptions(config),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""layers.layer1" must be of type function"`,
+        `[ValidationError: "layers.layer1" must be of type function]`,
       );
     });
 
@@ -98,7 +98,7 @@ describe('validateOptions', () => {
       expect(() =>
         testValidateOptions(config),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""layers.layer1" must have an arity of 1"`,
+        `[ValidationError: "layers.layer1" must have an arity of 1]`,
       );
     });
   });

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`loadSite custom-i18n-site loads site 1`] = `
+exports[`loadSite > custom-i18n-site > loads site 1`] = `
 {
   "baseUrl": "/",
   "codeTranslations": {},
@@ -187,7 +187,7 @@ exports[`loadSite custom-i18n-site loads site 1`] = `
 }
 `;
 
-exports[`loadSite simple-site-with-baseUrl loads site - custom config 1`] = `
+exports[`loadSite > simple-site-with-baseUrl > loads site - custom config 1`] = `
 {
   "baseUrl": "/myBaseUrl-2/",
   "codeTranslations": {},
@@ -355,7 +355,7 @@ exports[`loadSite simple-site-with-baseUrl loads site - custom config 1`] = `
 }
 `;
 
-exports[`loadSite simple-site-with-baseUrl loads site - custom outDir 1`] = `
+exports[`loadSite > simple-site-with-baseUrl > loads site - custom outDir 1`] = `
 {
   "baseUrl": "/myBaseUrl/",
   "codeTranslations": {},
@@ -523,7 +523,7 @@ exports[`loadSite simple-site-with-baseUrl loads site - custom outDir 1`] = `
 }
 `;
 
-exports[`loadSite simple-site-with-baseUrl loads site 1`] = `
+exports[`loadSite > simple-site-with-baseUrl > loads site 1`] = `
 {
   "baseUrl": "/myBaseUrl/",
   "codeTranslations": {},
@@ -691,7 +691,7 @@ exports[`loadSite simple-site-with-baseUrl loads site 1`] = `
 }
 `;
 
-exports[`loadSite simple-site-with-baseUrl-i18n loads site -  locale fr + custom outDir 1`] = `
+exports[`loadSite > simple-site-with-baseUrl-i18n > loads site -  locale fr + custom outDir 1`] = `
 {
   "baseUrl": "/myBaseUrl/fr/",
   "codeTranslations": {},
@@ -925,7 +925,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site -  locale fr + custom
 }
 `;
 
-exports[`loadSite simple-site-with-baseUrl-i18n loads site - custom outDir 1`] = `
+exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - custom outDir 1`] = `
 {
   "baseUrl": "/myBaseUrl/",
   "codeTranslations": {},
@@ -1159,7 +1159,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - custom outDir 1`] =
 }
 `;
 
-exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale de 1`] = `
+exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale de 1`] = `
 {
   "baseUrl": "/WHATEVER/de/",
   "codeTranslations": {},
@@ -1393,7 +1393,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale de 1`] = `
 }
 `;
 
-exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale en 1`] = `
+exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale en 1`] = `
 {
   "baseUrl": "/myBaseUrl/",
   "codeTranslations": {},
@@ -1627,7 +1627,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale en 1`] = `
 }
 `;
 
-exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale es 1`] = `
+exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale es 1`] = `
 {
   "baseUrl": "/es/",
   "codeTranslations": {},
@@ -1861,7 +1861,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale es 1`] = `
 }
 `;
 
-exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale fr 1`] = `
+exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale fr 1`] = `
 {
   "baseUrl": "/myBaseUrl/fr/",
   "codeTranslations": {},
@@ -2095,7 +2095,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale fr 1`] = `
 }
 `;
 
-exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale it 1`] = `
+exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale it 1`] = `
 {
   "baseUrl": "/",
   "codeTranslations": {},
@@ -2329,7 +2329,7 @@ exports[`loadSite simple-site-with-baseUrl-i18n loads site - locale it 1`] = `
 }
 `;
 
-exports[`loadSite simple-site-with-baseUrl-i18n loads site 1`] = `
+exports[`loadSite > simple-site-with-baseUrl-i18n > loads site 1`] = `
 {
   "baseUrl": "/myBaseUrl/",
   "codeTranslations": {},

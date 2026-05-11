@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`inlineScripts inline javascript for default options 1`] = `
+exports[`inlineScripts > inline javascript for default options 1`] = `
 "(function() {
   function getSystemColorMode() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -21,7 +21,7 @@ exports[`inlineScripts inline javascript for default options 1`] = `
 })();"
 `;
 
-exports[`inlineScripts inline javascript for prefers color scheme and no switch 1`] = `
+exports[`inlineScripts > inline javascript for prefers color scheme and no switch 1`] = `
 "(function() {
   function getSystemColorMode() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';

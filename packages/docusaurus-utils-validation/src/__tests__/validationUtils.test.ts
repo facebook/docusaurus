@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import Joi from '../Joi';
 import {JoiFrontMatter} from '../JoiFrontMatter';
 import {
@@ -43,12 +42,12 @@ describe('normalizePluginOptions', () => {
     const options = {foo: 1};
     expect(() =>
       normalizePluginOptions(Joi.object<object>({foo: Joi.string()}), options),
-    ).toThrowErrorMatchingInlineSnapshot(`""foo" must be a string"`);
+    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "foo" must be a string]`);
   });
 
   it('warns', () => {
     const options = {foo: 'a'};
-    const consoleMock = jest
+    const consoleMock = vi
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
     expect(
@@ -94,12 +93,12 @@ describe('normalizeThemeConfig', () => {
         Joi.object<object>({foo: Joi.string()}),
         themeConfig,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(`""foo" must be a string"`);
+    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "foo" must be a string]`);
   });
 
   it('warns', () => {
     const themeConfig = {foo: 'a', bar: 1};
-    const consoleMock = jest
+    const consoleMock = vi
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
     expect(
@@ -128,7 +127,7 @@ describe('validateFrontMatter', () => {
   });
 
   it('rejects bad values', () => {
-    const consoleError = jest
+    const consoleError = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
     const schema = Joi.object<{test: string}>({
@@ -139,7 +138,7 @@ describe('validateFrontMatter', () => {
     };
     expect(() =>
       validateFrontMatter(frontMatter, schema),
-    ).toThrowErrorMatchingInlineSnapshot(`""test" must be a string"`);
+    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "test" must be a string]`);
     expect(consoleError).toHaveBeenCalledWith(
       expect.stringContaining('The following front matter'),
     );

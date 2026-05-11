@@ -5,8 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
 import logger from '../index';
+
+// Force chalk to ANSI level 3 in tests, so output is colored even in CI
+vi.mock('chalk', async () => {
+  const chalk = await vi.importActual<typeof import('chalk')>('chalk');
+  return {default: new chalk.default.Instance({level: 3})};
+});
 
 describe('formatters', () => {
   it('path', () => {
@@ -82,13 +87,13 @@ describe('interpolate', () => {
       () =>
         logger.interpolate`(keepAnsi) I mistyped this: cde=${'this code'} and I will be damned`,
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Bad Docusaurus logging message. This is likely an internal bug, please report it."`,
+      `[Error: Bad Docusaurus logging message. This is likely an internal bug, please report it.]`,
     );
   });
 });
 
 describe('info', () => {
-  const consoleMock = jest.spyOn(console, 'info').mockImplementation(() => {});
+  const consoleMock = vi.spyOn(console, 'info').mockImplementation(() => {});
   it('prints objects', () => {
     logger.info({a: 1});
     logger.info(undefined);
@@ -99,7 +104,7 @@ describe('info', () => {
 });
 
 describe('warn', () => {
-  const consoleMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  const consoleMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
   it('prints objects', () => {
     logger.warn({a: 1});
     logger.warn(undefined);
@@ -110,7 +115,7 @@ describe('warn', () => {
 });
 
 describe('error', () => {
-  const consoleMock = jest.spyOn(console, 'error').mockImplementation(() => {});
+  const consoleMock = vi.spyOn(console, 'error').mockImplementation(() => {});
   it('prints objects', () => {
     logger.error({a: 1});
     logger.error(undefined);
@@ -121,7 +126,7 @@ describe('error', () => {
 });
 
 describe('success', () => {
-  const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+  const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {});
   it('prints objects', () => {
     logger.success({a: 1});
     logger.success(undefined);
@@ -132,10 +137,10 @@ describe('success', () => {
 });
 
 describe('report', () => {
-  beforeAll(() => jest.clearAllMocks());
+  beforeAll(() => vi.clearAllMocks());
   it('works with all severities', () => {
-    const consoleLog = jest.spyOn(console, 'info').mockImplementation(() => {});
-    const consoleWarn = jest
+    const consoleLog = vi.spyOn(console, 'info').mockImplementation(() => {});
+    const consoleWarn = vi
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
     logger.report('ignore')('hey');
@@ -143,12 +148,12 @@ describe('report', () => {
     logger.report('warn')('hey');
     expect(() =>
       logger.report('throw')('hey'),
-    ).toThrowErrorMatchingInlineSnapshot(`"hey"`);
+    ).toThrowErrorMatchingInlineSnapshot(`[Error: hey]`);
     expect(() =>
       // @ts-expect-error: for test
       logger.report('foo')('hey'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected "reportingSeverity" value: foo."`,
+      `[Error: Unexpected "reportingSeverity" value: foo.]`,
     );
     expect(consoleLog).toHaveBeenCalledTimes(1);
     expect(consoleLog).toHaveBeenCalledWith(
