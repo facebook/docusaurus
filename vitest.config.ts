@@ -9,6 +9,8 @@ import {fileURLToPath} from 'url';
 import {defineConfig} from 'vitest/config';
 import react from '@vitejs/plugin-react';
 
+import {transformWithOxc} from 'vite';
+
 // Force UTC so snapshots involving dates are stable across local & CI runs.
 process.env.TZ = 'UTC';
 
@@ -35,10 +37,36 @@ const ignorePatterns = [
   '**/argos/**',
 ];
 
+// Not sure why we need this to ensure .js files are parsed as JSX by Oxc
+// This must be configurable??? But can't find how
+function docusaurusJsAsJsx() {
+  return {
+    name: 'docusaurus-js-as-jsx',
+    enforce: 'pre' as const,
+    async transform(code: string, id: string) {
+      const cleanId = id.split('?')[0];
+      if (
+        cleanId.endsWith('.js') &&
+        cleanId.includes('/packages/docusaurus-')
+      ) {
+        return transformWithOxc(code, cleanId, {
+          lang: 'jsx',
+        });
+      }
+      return null;
+    },
+  };
+}
+
 export default defineConfig({
-  // React plugin enables the automatic JSX runtime in `.tsx`/`.jsx` test files
-  // (required for React 19 + Testing Library).
-  plugins: [react()],
+  plugins: [
+    // Apparently Vitest can't interpret .js files as JSX???
+    docusaurusJsAsJsx(),
+    // React plugin enables the automatic JSX runtime in `.tsx`/`.jsx` files
+    // (required for React 19 + Testing Library).
+    react(),
+  ],
+
   resolve: {
     alias: [
       // Resolve `@docusaurus/<exportName>` to the live source in
