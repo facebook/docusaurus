@@ -42,14 +42,14 @@ describe('normalizePluginOptions', () => {
     const options = {foo: 1};
     expect(() =>
       normalizePluginOptions(Joi.object<object>({foo: Joi.string()}), options),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "foo" must be a string]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "foo" must be a string]`,
+    );
   });
 
   it('warns', () => {
     const options = {foo: 'a'};
-    const consoleMock = vi
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {});
+    const consoleMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
     expect(
       normalizePluginOptions(
         Joi.object({foo: Joi.string().warning('deprecated', {})}).messages({
@@ -93,14 +93,14 @@ describe('normalizeThemeConfig', () => {
         Joi.object<object>({foo: Joi.string()}),
         themeConfig,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "foo" must be a string]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "foo" must be a string]`,
+    );
   });
 
   it('warns', () => {
     const themeConfig = {foo: 'a', bar: 1};
-    const consoleMock = vi
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {});
+    const consoleMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
     expect(
       normalizeThemeConfig(
         Joi.object({foo: Joi.string().warning('deprecated', {})}).messages({
@@ -138,7 +138,9 @@ describe('validateFrontMatter', () => {
     };
     expect(() =>
       validateFrontMatter(frontMatter, schema),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "test" must be a string]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "test" must be a string]`,
+    );
     expect(consoleError).toHaveBeenCalledWith(
       expect.stringContaining('The following front matter'),
     );

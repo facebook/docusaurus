@@ -338,10 +338,16 @@ describe('commit info APIs', () => {
       const repoDir = await repoDirPromise;
 
       const filePath = path.join(repoDir, 'non-existing.txt');
-      await expect(getGitCreation(filePath)).rejects
-        .toThrowErrorMatchingInlineSnapshot(`[Error: An error occurred when trying to get the file creation date from Git]`);
-      await expect(getGitLastUpdate(filePath)).rejects
-        .toThrowErrorMatchingInlineSnapshot(`[Error: An error occurred when trying to get the file last update date from Git]`);
+      await expect(
+        getGitCreation(filePath),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `[Error: An error occurred when trying to get the file creation date from Git]`,
+      );
+      await expect(
+        getGitLastUpdate(filePath),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `[Error: An error occurred when trying to get the file last update date from Git]`,
+      );
     });
 
     it('returns files info', async () => {

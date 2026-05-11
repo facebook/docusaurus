@@ -39,9 +39,7 @@ describe('usePluralForm', () => {
         currentLocale: 'zh-Hans',
       },
     } as DocusaurusContext);
-    const consoleMock = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
+    const consoleMock = vi.spyOn(console, 'error').mockImplementation(() => {});
     expect(mockUsePluralForm().selectMessage(1, 'one|many')).toBe('one');
     expect(mockUsePluralForm().selectMessage(10, 'one|many')).toBe('one');
     expect(consoleMock.mock.calls[0]![0]).toMatchInlineSnapshot(
@@ -65,9 +63,7 @@ describe('usePluralForm', () => {
         currentLocale: 'zh-Hans',
       },
     } as DocusaurusContext);
-    const consoleMock = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
+    const consoleMock = vi.spyOn(console, 'error').mockImplementation(() => {});
     const pluralMock = vi
       .spyOn(Intl, 'PluralRules')
       // @ts-expect-error: for testing when it doesn't exist

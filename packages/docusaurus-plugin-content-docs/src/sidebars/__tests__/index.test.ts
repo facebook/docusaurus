@@ -173,7 +173,9 @@ describe('loadSidebars', () => {
           contentPathLocalized: path.join(fixtureDir, 'invalid-docs'),
         } as VersionMetadata,
       }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`[ValidationError: "foo" is not allowed]`);
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "foo" is not allowed]`,
+    );
     expect(consoleWarnMock).toHaveBeenCalledWith(
       expect.stringMatching(
         /.*\[WARNING\].* There are more than one category metadata files for .*foo.*: foo\/_category_.json, foo\/_category_.yml. The behavior is undetermined./,

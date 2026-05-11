@@ -71,7 +71,9 @@ describe('validateOptions', () => {
       };
       expect(() =>
         testValidateOptions(config),
-      ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "layers.layer 1" is not allowed]`);
+      ).toThrowErrorMatchingInlineSnapshot(
+        `[ValidationError: "layers.layer 1" is not allowed]`,
+      );
     });
 
     it('rejects layer with bad value', () => {

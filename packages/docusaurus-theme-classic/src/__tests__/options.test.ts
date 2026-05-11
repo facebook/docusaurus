@@ -340,7 +340,9 @@ describe('themeConfig', () => {
     };
     expect(() =>
       testValidateThemeConfig(config),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: Bad navbar item type joke]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: Bad navbar item type joke]`,
+    );
   });
 
   it('rejects nested dropdowns', () => {
@@ -367,7 +369,9 @@ describe('themeConfig', () => {
     };
     expect(() =>
       testValidateThemeConfig(config),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: Nested dropdowns are not allowed]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: Nested dropdowns are not allowed]`,
+    );
   });
 
   it('rejects nested dropdowns 2', () => {
@@ -384,7 +388,9 @@ describe('themeConfig', () => {
     };
     expect(() =>
       testValidateThemeConfig(config),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: Nested dropdowns are not allowed]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: Nested dropdowns are not allowed]`,
+    );
   });
 
   it('rejects position attribute within dropdown', () => {

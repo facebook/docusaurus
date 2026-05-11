@@ -59,7 +59,9 @@ describe('validateOptions', () => {
     expect(
       // @ts-expect-error: TS should error
       () => testValidateOptions(42),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "value" must be of type object]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "value" must be of type object]`,
+    );
   });
 
   it('throws for null mode', () => {

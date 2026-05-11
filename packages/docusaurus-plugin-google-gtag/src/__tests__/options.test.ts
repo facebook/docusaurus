@@ -42,28 +42,36 @@ describe('validateOptions', () => {
     expect(
       // @ts-expect-error: TS should error
       () => testValidateOptions(undefined),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "trackingID" is required]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "trackingID" is required]`,
+    );
   });
 
   it('throws for null options', () => {
     expect(
       // @ts-expect-error: TS should error
       () => testValidateOptions(null),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "value" must be of type object]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "value" must be of type object]`,
+    );
   });
 
   it('throws for empty object options', () => {
     expect(
       // @ts-expect-error: TS should error
       () => testValidateOptions({}),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "trackingID" is required]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "trackingID" is required]`,
+    );
   });
 
   it('throws for number options', () => {
     expect(
       // @ts-expect-error: TS should error
       () => testValidateOptions(42),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "value" must be of type object]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "value" must be of type object]`,
+    );
   });
 
   it('throws for null trackingID', () => {

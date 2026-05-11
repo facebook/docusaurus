@@ -72,7 +72,9 @@ describe('validateThemeConfig', () => {
     const algolia = undefined;
     expect(() =>
       testValidateThemeConfig(algolia),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "themeConfig.algolia" is required]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "themeConfig.algolia" is required]`,
+    );
   });
 
   it('empty config', () => {
@@ -94,7 +96,9 @@ describe('validateThemeConfig', () => {
     };
     expect(() =>
       testValidateThemeConfig(algolia),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "algolia.indexName" is required]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "algolia.indexName" is required]`,
+    );
   });
 
   it('missing apiKey config', () => {
@@ -105,7 +109,9 @@ describe('validateThemeConfig', () => {
     };
     expect(() =>
       testValidateThemeConfig(algolia),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "algolia.apiKey" is required]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "algolia.apiKey" is required]`,
+    );
   });
 
   it('missing appId config', () => {

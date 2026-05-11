@@ -201,7 +201,9 @@ describe('normalizeDocsPluginOptions', () => {
     expect(() =>
       // @ts-expect-error: test
       testValidate({include: '**/*.{md,mdx}'}),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "include" must be an array]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "include" must be an array]`,
+    );
   });
 
   it('rejects bad showLastUpdateTime inputs', () => {
@@ -217,14 +219,18 @@ describe('normalizeDocsPluginOptions', () => {
     expect(() =>
       // @ts-expect-error: test
       testValidate({remarkPlugins: 'remark-math'}),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "remarkPlugins" must be an array]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "remarkPlugins" must be an array]`,
+    );
   });
 
   it('rejects bad lastVersion', () => {
     expect(() =>
       // @ts-expect-error: test
       testValidate({lastVersion: false}),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "lastVersion" must be a string]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "lastVersion" must be a string]`,
+    );
   });
 
   it('rejects bad versions', () => {

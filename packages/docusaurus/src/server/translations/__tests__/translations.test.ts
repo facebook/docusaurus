@@ -518,7 +518,9 @@ describe('readCodeTranslationFileContent', () => {
     await expect(() =>
       // @ts-expect-error: test
       testReadTranslation({key: {description: 'no message'}}),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`[ValidationError: "key.message" is required]`);
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "key.message" is required]`,
+    );
     await expect(() =>
       // @ts-expect-error: test
       testReadTranslation({key: {message: 42}}),

@@ -154,8 +154,11 @@ describe('getDataFileData', () => {
   });
 
   it('throw for invalid file', async () => {
-    await expect(testFile('invalid.yml')).rejects
-      .toThrowErrorMatchingInlineSnapshot(`[Error: The file at "packages/docusaurus-utils/src/__tests__/__fixtures__/dataFiles/dataFiles/invalid.yml" looks invalid (not Yaml nor JSON).]`);
+    await expect(
+      testFile('invalid.yml'),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `[Error: The file at "packages/docusaurus-utils/src/__tests__/__fixtures__/dataFiles/dataFiles/invalid.yml" looks invalid (not Yaml nor JSON).]`,
+    );
   });
 });
 

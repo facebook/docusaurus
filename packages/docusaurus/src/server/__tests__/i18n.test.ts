@@ -122,9 +122,7 @@ describe('defaultLocaleConfig', () => {
 });
 
 describe('loadI18n', () => {
-  const consoleWarnSpy = vi
-    .spyOn(console, 'warn')
-    .mockImplementation(() => {});
+  const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
   beforeEach(() => {
     consoleWarnSpy.mockClear();
   });

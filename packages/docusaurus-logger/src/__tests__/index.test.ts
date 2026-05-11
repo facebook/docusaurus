@@ -140,9 +140,7 @@ describe('report', () => {
   beforeAll(() => vi.clearAllMocks());
   it('works with all severities', () => {
     const consoleLog = vi.spyOn(console, 'info').mockImplementation(() => {});
-    const consoleWarn = vi
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {});
+    const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {});
     logger.report('ignore')('hey');
     logger.report('log')('hey');
     logger.report('warn')('hey');

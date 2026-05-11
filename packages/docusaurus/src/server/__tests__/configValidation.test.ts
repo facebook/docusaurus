@@ -718,9 +718,7 @@ describe('markdown', () => {
       });
 
       describe('onBrokenMarkdownLinks migration', () => {
-        const warnMock = vi
-          .spyOn(console, 'warn')
-          .mockImplementation(() => {});
+        const warnMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
         beforeEach(() => {
           warnMock.mockClear();
         });

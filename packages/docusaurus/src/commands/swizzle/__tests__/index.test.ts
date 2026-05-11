@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {type MockInstance} from 'vitest';
 import path from 'path';
 import fs from 'fs-extra';
 import tree from 'tree-node-cli';
-import {type MockInstance} from 'vitest';
 import {escapePath, Globby, posixPath} from '@docusaurus/utils';
 import {ThemePath, createTempSiteDir, Components} from './testUtils';
 import {swizzle} from '../index';

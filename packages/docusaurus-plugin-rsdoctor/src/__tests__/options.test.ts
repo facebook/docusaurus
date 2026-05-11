@@ -49,14 +49,18 @@ describe('validateOptions', () => {
     expect(
       // @ts-expect-error: TS should error
       () => validate(null),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "value" must be of type object]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "value" must be of type object]`,
+    );
   });
 
   it('rejects number', () => {
     expect(
       // @ts-expect-error: TS should error
       () => validate(42),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "value" must be of type object]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "value" must be of type object]`,
+    );
   });
 
   describe('rsdoctorOptions', () => {

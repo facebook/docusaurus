@@ -281,7 +281,9 @@ describe('validateSidebars', () => {
           ],
         },
       }),
-    ).toThrowErrorMatchingInlineSnapshot(`[TypeError: sidebar.forEach is not a function]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: sidebar.forEach is not a function]`,
+    );
   });
 
   it('sidebars item doc but id is not a string', () => {
@@ -346,7 +348,9 @@ describe('validateCategoryMetadataFile', () => {
   it('throw for bad value', () => {
     expect(() =>
       validateCategoryMetadataFile(42),
-    ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "value" must be of type object]`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "value" must be of type object]`,
+    );
   });
 
   it('accept empty object', () => {
@@ -382,7 +386,9 @@ describe('validateCategoryMetadataFile', () => {
     it('throws for number label', () => {
       expect(() =>
         validateCategoryMetadataFile({label: 42}),
-      ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "label" must be a string]`);
+      ).toThrowErrorMatchingInlineSnapshot(
+        `[ValidationError: "label" must be a string]`,
+      );
     });
   });
 
@@ -395,7 +401,9 @@ describe('validateCategoryMetadataFile', () => {
     it('throws for number key', () => {
       expect(() =>
         validateCategoryMetadataFile({key: 42}),
-      ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "key" must be a string]`);
+      ).toThrowErrorMatchingInlineSnapshot(
+        `[ValidationError: "key" must be a string]`,
+      );
     });
   });
 
@@ -408,7 +416,9 @@ describe('validateCategoryMetadataFile', () => {
     it('throws for number key', () => {
       expect(() =>
         validateCategoryMetadataFile({className: 42}),
-      ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "className" must be a string]`);
+      ).toThrowErrorMatchingInlineSnapshot(
+        `[ValidationError: "className" must be a string]`,
+      );
     });
   });
 
@@ -436,7 +446,9 @@ describe('validateCategoryMetadataFile', () => {
       };
       expect(() =>
         validateCategoryMetadataFile(content),
-      ).toThrowErrorMatchingInlineSnapshot(`[ValidationError: "link.permalink" is not allowed]`);
+      ).toThrowErrorMatchingInlineSnapshot(
+        `[ValidationError: "link.permalink" is not allowed]`,
+      );
     });
   });
 });

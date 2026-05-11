@@ -239,8 +239,11 @@ describe('loadFreshModule', () => {
 
   describe('invalid module path param', () => {
     it('throws if module path does not exist', async () => {
-      await expect(() => loadFreshModule('/some/unknown/module/path.js'))
-        .rejects.toThrowErrorMatchingInlineSnapshot(`[Error: Docusaurus could not load module at path "/some/unknown/module/path.js"]`);
+      await expect(() =>
+        loadFreshModule('/some/unknown/module/path.js'),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `[Error: Docusaurus could not load module at path "/some/unknown/module/path.js"]`,
+      );
     });
 
     it('throws if module path is undefined', async () => {
