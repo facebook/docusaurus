@@ -9,14 +9,6 @@ import path from 'path';
 import stylelint from 'stylelint';
 import rule from '../index';
 
-declare global {
-  namespace vi {
-    interface Matchers<R> {
-      toHaveMessage: () => R;
-    }
-  }
-}
-
 type TestSuite = {
   ruleName: string;
   fix: boolean;
@@ -76,7 +68,7 @@ function testStylelintRule(config: stylelint.Config, tests: TestSuite) {
           const {warnings} = output.results[0]!;
           const warning = warnings[0]!;
           expect(warnings.length).toBeGreaterThanOrEqual(1);
-          expect(testCase).toHaveMessage();
+          expect(testCase.message).not.toBeNull();
           if (testCase.message != null) {
             // eslint-disable-next-line @vitest/no-conditional-expect
             expect(warning.text).toBe(testCase.message);
@@ -102,24 +94,6 @@ function testStylelintRule(config: stylelint.Config, tests: TestSuite) {
           expect(fixedCode).toBe(testCase.fixed);
         });
       });
-    });
-
-    expect.extend({
-      toHaveMessage(testCase: TestCase) {
-        if (testCase.message == null) {
-          return {
-            message: () =>
-              'Expected "reject" test case to have a "message" property',
-            pass: false,
-          };
-        }
-
-        return {
-          message: () =>
-            'Expected "reject" test case to not have a "message" property',
-          pass: true,
-        };
-      },
     });
   });
 }
