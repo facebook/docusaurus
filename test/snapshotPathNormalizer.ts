@@ -8,6 +8,7 @@
 // Forked from https://github.com/tribou/jest-serializer-path/blob/master/lib/index.js
 // Added some project-specific handlers
 
+import type {SnapshotSerializer} from 'vitest';
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
@@ -64,51 +65,51 @@ const getPathsForNormalization: typeof readPathsForNormalization = _.memoize(
   readPathsForNormalization,
 );
 
-// pretty-format Plugin "serialize" signature:
-//   serialize(val, config, indentation, depth, refs, printer)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function serialize(val: any, ...rest: any[]): string {
-  // The last argument is the recursive printer
-  const printer = rest[rest.length - 1] as (
-    v: unknown,
-    ...args: unknown[]
-  ) => string;
-  if (val instanceof Error) {
-    const message = normalizePaths(val.message);
-    const error = new Error(message);
-    const allKeys = [
-      ...Object.getOwnPropertyNames(error),
-      ...Object.keys(val),
-    ] as (keyof Error)[];
-    allKeys.forEach((key) => {
-      error[key] = normalizePaths(val[key]) as never;
-    });
-    return printer(error, ...rest.slice(0, -1));
-  } else if (val && typeof val === 'object') {
-    const normalizedValue = _.cloneDeep(val) as {[key: string]: unknown};
+const snapshotSerializer: SnapshotSerializer = {
+  serialize(...params): string {
+    const val = params[0];
+    const printer = params[5];
 
-    Object.keys(normalizedValue).forEach((key) => {
-      normalizedValue[key] = normalizePaths(normalizedValue[key]);
-    });
-    return printer(normalizedValue, ...rest.slice(0, -1));
-  }
-  return printer(normalizePaths(val), ...rest.slice(0, -1));
-}
+    const printValue = (v: unknown) =>
+      printer(v, params[1], params[2], params[3], params[4]);
 
-function test(val: unknown): boolean {
-  return (
-    (typeof val === 'object' &&
-      val &&
-      Object.keys(val).some((key) =>
-        shouldUpdate((val as {[key: string]: unknown})[key]),
-      )) ||
-    // val.message is non-enumerable in an error
-    (val instanceof Error && shouldUpdate(val.message)) ||
-    shouldUpdate(val)
-  );
-}
+    if (val instanceof Error) {
+      const message = normalizePaths(val.message);
+      const error = new Error(message);
+      const allKeys = [
+        ...Object.getOwnPropertyNames(error),
+        ...Object.keys(val),
+      ] as (keyof Error)[];
+      allKeys.forEach((key) => {
+        error[key] = normalizePaths(val[key]) as never;
+      });
+      return printValue(error);
+    } else if (val && typeof val === 'object') {
+      const normalizedValue = _.cloneDeep(val) as {[key: string]: unknown};
 
-export default {test, serialize};
+      Object.keys(normalizedValue).forEach((key) => {
+        normalizedValue[key] = normalizePaths(normalizedValue[key]);
+      });
+      return printValue(normalizedValue);
+    }
+    return printValue(normalizePaths(val));
+  },
+
+  test: (val: unknown): boolean => {
+    return (
+      (typeof val === 'object' &&
+        val &&
+        Object.keys(val).some((key) =>
+          shouldUpdate((val as {[key: string]: unknown})[key]),
+        )) ||
+      // val.message is non-enumerable in an error
+      (val instanceof Error && shouldUpdate(val.message)) ||
+      shouldUpdate(val)
+    );
+  },
+};
+
+export default snapshotSerializer;
 
 /**
  * Normalize paths across platforms.

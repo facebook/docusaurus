@@ -139,7 +139,7 @@ export default defineConfig({
     snapshotSerializers: [
       // Strips absolute paths, the current Docusaurus version, ANSI codes,
       // and Windows backslashes so snapshots are stable across machines/CI.
-      `${rootDir}test/snapshotPathNormalizer.ts`,
+      `test/snapshotPathNormalizer.ts`,
       // Turns ANSI escape sequences into human-readable `<cyan>…</color>`
       // tags so logger snapshots stay readable in diffs.
       'jest-serializer-ansi-escapes',
