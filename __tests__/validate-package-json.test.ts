@@ -70,11 +70,6 @@ describe('packages', () => {
         packageJsonFile.content.name?.startsWith('@'),
       )
       .forEach((packageJsonFile) => {
-        // Unfortunately vi custom message do not exist in loops,
-        // so using an exception instead to show failing package file
-        // (see https://github.com/facebook/vi/issues/3293)
-        // expect(packageJsonFile.content.publishConfig?.access)
-        //  .toEqual('public');
         if (packageJsonFile.content.publishConfig?.access !== 'public') {
           throw new Error(
             `Package ${packageJsonFile.file} does not have publishConfig.access: 'public'`,
