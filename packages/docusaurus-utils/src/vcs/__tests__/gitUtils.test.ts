@@ -161,7 +161,7 @@ async function createTempDir(): Promise<string> {
   let repoDir = await fs.mkdtemp(
     // Note, the <MKDTEMP_DIR> is useful for stabilizing Jest snapshots paths
     // This way, snapshot paths don't contain random temp dir names.
-    // See our /docusaurus/vi/snapshotPathNormalizer.ts
+    // See our ./test/snapshotPathNormalizer.ts
     path.join(os.tmpdir(), 'git-test-repo___MKDTEMP_DIR___'),
   );
   repoDir = await fs.realpath.native(repoDir);
