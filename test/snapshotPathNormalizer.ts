@@ -70,20 +70,29 @@ const snapshotSerializer: SnapshotSerializer = {
     const val = params[0];
     const printer = params[5];
 
-    const printValue = (v: unknown) =>
-      printer(v, params[1], params[2], params[3], params[4]);
+    const printValue = (v: unknown) => {
+      const str = printer(v, params[1], params[2], params[3], params[4]);
+      // console.log('printing', {v, params, str});
+      return str;
+    };
 
-    if (val instanceof Error) {
+    function updateError(error: Error): Error {
       const message = normalizePaths(val.message);
-      const error = new Error(message);
+      const newError = new Error(message, {
+        cause: error.cause instanceof Error ? updateError(error.cause) : error,
+      });
       const allKeys = [
         ...Object.getOwnPropertyNames(error),
         ...Object.keys(val),
       ] as (keyof Error)[];
       allKeys.forEach((key) => {
-        error[key] = normalizePaths(val[key]) as never;
+        newError[key] = normalizePaths(val[key]) as never;
       });
-      return printValue(error);
+      return newError;
+    }
+
+    if (val instanceof Error) {
+      return printValue(updateError(val));
     } else if (val && typeof val === 'object') {
       const normalizedValue = _.cloneDeep(val) as {[key: string]: unknown};
 
@@ -96,16 +105,32 @@ const snapshotSerializer: SnapshotSerializer = {
   },
 
   test: (val: unknown): boolean => {
-    return (
-      (typeof val === 'object' &&
-        val &&
-        Object.keys(val).some((key) =>
-          shouldUpdate((val as {[key: string]: unknown})[key]),
-        )) ||
-      // val.message is non-enumerable in an error
-      (val instanceof Error && shouldUpdate(val.message)) ||
-      shouldUpdate(val)
-    );
+    function stringContainsPath(v: unknown) {
+      return typeof v === 'string' && normalizePaths(v) !== v;
+    }
+
+    function objectContainsPath(v: unknown) {
+      return (
+        typeof v === 'object' &&
+        v &&
+        Object.keys(v).some((key) =>
+          stringContainsPath((v as {[key: string]: unknown})[key]),
+        )
+      );
+    }
+
+    function errorContainsPath(v: unknown): boolean {
+      return v instanceof Error && stringContainsPath(v.message);
+    }
+
+    const result =
+      objectContainsPath(val) ||
+      errorContainsPath(val) ||
+      stringContainsPath(val);
+
+    // console.log({val, result});
+
+    return result;
   },
 };
 
@@ -184,8 +209,4 @@ function normalizePaths<T>(value: T): T {
   });
 
   return result as T & string;
-}
-
-function shouldUpdate(value: unknown) {
-  return typeof value === 'string' && normalizePaths(value) !== value;
 }
