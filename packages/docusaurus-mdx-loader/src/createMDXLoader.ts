@@ -16,6 +16,11 @@ type CreateOptions = {
 async function normalizeOptions(
   optionsInput: Options & CreateOptions,
 ): Promise<Options> {
+  // Skip eager processor creation in tests
+  if (process.env.NODE_ENV === 'test' || process.env.VITEST) {
+    return optionsInput;
+  }
+
   let options = optionsInput;
 
   // We create the processor earlier here, to avoid the lazy processor creating
