@@ -157,7 +157,13 @@ describe('getDataFileData', () => {
     await expect(
       testFile('invalid.yml'),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[Error: The file at "packages/docusaurus-utils/src/__tests__/__fixtures__/dataFiles/dataFiles/invalid.yml" looks invalid (not Yaml nor JSON).]`,
+      `
+      [Error: The file at "packages/docusaurus-utils/src/__tests__/__fixtures__/dataFiles/dataFiles/invalid.yml" looks invalid (not Yaml nor JSON).]
+      Cause: [YAMLException: end of the stream or a document separator is expected (1:1)
+
+       1 | }{{{{12434665¨£%£%%£%£}}}}
+      -----^]
+    `,
     );
   });
 });

@@ -12,7 +12,7 @@ describe('validateSidebars', () => {
   it('throw for bad value', () => {
     expect(() => validateSidebars({sidebar: [{type: 42}]}))
       .toThrowErrorMatchingInlineSnapshot(`
-        [Error: {
+        [ValidationError: {
           "type": 42,
           "undefined" [1]: -- missing --
         }
@@ -55,7 +55,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: {
+      [ValidationError: {
         "type": "category",
         "items": [
           {
@@ -82,7 +82,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: {
+      [ValidationError: {
         "type": "category",
         "items": [
           {
@@ -109,7 +109,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: {
+      [ValidationError: {
         "type": "link",
         "href": "https://github.com",
         "label" [1]: false
@@ -131,7 +131,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: {
+      [ValidationError: {
         "type": "link",
         "href": "https://github.com",
         "key" [1]: false
@@ -153,7 +153,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: {
+      [ValidationError: {
         "type": "link",
         "label": "GitHub",
         "href" [1]: [
@@ -175,7 +175,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: {
+      [ValidationError: {
         "type": "superman",
         "undefined" [1]: -- missing --
       }
@@ -200,7 +200,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: {
+      [ValidationError: {
         "type": "category",
         "label": "category",
         "items" [1]: -- missing --
@@ -228,7 +228,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: {
+      [ValidationError: {
         "type": "category",
         "label": "category",
         "items": [],
@@ -257,7 +257,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: {
+      [ValidationError: {
         "type": "category",
         "label": "category",
         "items": [],
@@ -297,7 +297,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: {
+      [ValidationError: {
         "type": "doc",
         "id" [1]: [
           "doc1"
@@ -319,7 +319,7 @@ describe('validateSidebars', () => {
     };
     expect(() => validateSidebars(sidebars))
       .toThrowErrorMatchingInlineSnapshot(`
-        [Error: {
+        [ValidationError: {
           "type": "html",
           "value" [1]: -- missing --
         }

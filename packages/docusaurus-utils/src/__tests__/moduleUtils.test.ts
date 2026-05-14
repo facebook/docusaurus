@@ -242,7 +242,12 @@ describe('loadFreshModule', () => {
       await expect(() =>
         loadFreshModule('/some/unknown/module/path.js'),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `[Error: Docusaurus could not load module at path "/some/unknown/module/path.js"]`,
+        `
+        [Error: Docusaurus could not load module at path "/some/unknown/module/path.js"]
+        Cause: [Error: Cannot find module '/some/unknown/module/path.js'
+        Require stack:
+        - <PROJECT_ROOT>/packages/docusaurus-utils/src/moduleUtils.ts]
+      `,
       );
     });
 

@@ -65,84 +65,13 @@ const getPathsForNormalization: typeof readPathsForNormalization = _.memoize(
   readPathsForNormalization,
 );
 
-const snapshotSerializer: SnapshotSerializer = {
-  serialize(...params): string {
-    const val = params[0];
-    const printer = params[5];
-
-    const printValue = (v: unknown) => {
-      const str = printer(v, params[1], params[2], params[3], params[4]);
-      // console.log('printing', {v, params, str});
-      return str;
-    };
-
-    function updateError(error: Error): Error {
-      const message = normalizePaths(val.message);
-      const newError = new Error(message, {
-        cause: error.cause instanceof Error ? updateError(error.cause) : error,
-      });
-      const allKeys = [
-        ...Object.getOwnPropertyNames(error),
-        ...Object.keys(val),
-      ] as (keyof Error)[];
-      allKeys.forEach((key) => {
-        newError[key] = normalizePaths(val[key]) as never;
-      });
-      return newError;
-    }
-
-    if (val instanceof Error) {
-      return printValue(updateError(val));
-    } else if (val && typeof val === 'object') {
-      const normalizedValue = _.cloneDeep(val) as {[key: string]: unknown};
-
-      Object.keys(normalizedValue).forEach((key) => {
-        normalizedValue[key] = normalizePaths(normalizedValue[key]);
-      });
-      return printValue(normalizedValue);
-    }
-    return printValue(normalizePaths(val));
-  },
-
-  test: (val: unknown): boolean => {
-    function stringContainsPath(v: unknown) {
-      return typeof v === 'string' && normalizePaths(v) !== v;
-    }
-
-    function objectContainsPath(v: unknown) {
-      return (
-        typeof v === 'object' &&
-        v &&
-        Object.keys(v).some((key) =>
-          stringContainsPath((v as {[key: string]: unknown})[key]),
-        )
-      );
-    }
-
-    function errorContainsPath(v: unknown): boolean {
-      return v instanceof Error && stringContainsPath(v.message);
-    }
-
-    const result =
-      objectContainsPath(val) ||
-      errorContainsPath(val) ||
-      stringContainsPath(val);
-
-    // console.log({val, result});
-
-    return result;
-  },
-};
-
-export default snapshotSerializer;
-
 /**
  * Normalize paths across platforms.
  * Filters must be ran on all platforms to guard against false positives
  */
-function normalizePaths<T>(value: T): T {
+function normalizeString(value: string): string {
   if (typeof value !== 'string') {
-    return value;
+    throw new Error(`Value is not a string: ${typeof value} ${value}`);
   }
 
   const {cwd, tempDir, tempDirReal, homeDir, homeDirReal} =
@@ -208,5 +137,97 @@ function normalizePaths<T>(value: T): T {
     result = current(result);
   });
 
-  return result as T & string;
+  return result;
 }
+
+function normalizeObject(val: object): object {
+  const normalizedValue = _.cloneDeep(val) as {[key: string]: unknown};
+  Object.keys(normalizedValue).forEach((key) => {
+    if (typeof normalizedValue[key] === 'string') {
+      normalizedValue[key] = normalizeValue(normalizedValue[key]);
+    }
+  });
+  return normalizedValue;
+}
+
+function normalizeError(error: Error): Error {
+  const message = normalizeString(error.message);
+
+  const newError = new Error(message, {
+    cause:
+      error.cause instanceof Error ? normalizeError(error.cause) : error.cause,
+  });
+  Object.setPrototypeOf(newError, Object.getPrototypeOf(error));
+
+  const allKeys = [
+    ...Object.getOwnPropertyNames(error),
+    ...Object.keys(error),
+  ] as (keyof Error)[];
+  allKeys.forEach((key) => {
+    if (typeof error[key] === 'string') {
+      newError[key] = normalizeString(error[key]) as never;
+    }
+  });
+  return newError;
+}
+
+function normalizeValue(val: unknown): unknown {
+  // Normalize Error + Error.cause
+  if (val instanceof Error) {
+    return normalizeError(val);
+  }
+  // Normalize JS objects
+  else if (val && typeof val === 'object') {
+    return normalizeObject(val);
+  }
+  // Normalize strings
+  else if (typeof val === 'string') {
+    return normalizeString(val);
+  }
+  return val;
+}
+
+function shouldNormalize(value: unknown) {
+  return (
+    shouldNormalizeString(value) ||
+    shouldNormalizeObject(value) ||
+    shouldNormalizeError(value)
+  );
+
+  function shouldNormalizeString(v: unknown) {
+    if (typeof v === 'string') {
+      return normalizeString(v) !== v;
+    }
+    return false;
+  }
+
+  function shouldNormalizeObject(v: unknown) {
+    if (v && typeof v === 'object') {
+      return Object.keys(v).some((key) =>
+        shouldNormalizeString((v as {[key: string]: unknown})[key]),
+      );
+    }
+    return false;
+  }
+
+  function shouldNormalizeError(v: unknown): boolean {
+    if (v && v instanceof Error) {
+      return shouldNormalizeString(v.message) || shouldNormalizeError(v.cause);
+    }
+    return false;
+  }
+}
+
+const snapshotSerializer: SnapshotSerializer = {
+  serialize(value: unknown, ...rest): string {
+    const normalizedValue = normalizeValue(value);
+    const printer = rest[4];
+    return printer(normalizedValue, rest[0], rest[1], rest[2], rest[3]);
+  },
+
+  test: (value: unknown): boolean => {
+    return shouldNormalize(value);
+  },
+};
+
+export default snapshotSerializer;

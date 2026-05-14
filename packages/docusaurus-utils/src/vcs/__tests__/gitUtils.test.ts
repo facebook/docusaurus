@@ -341,12 +341,18 @@ describe('commit info APIs', () => {
       await expect(
         getGitCreation(filePath),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `[Error: An error occurred when trying to get the file creation date from Git]`,
+        `
+        [Error: An error occurred when trying to get the file creation date from Git]
+        Cause: [Error: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist.]
+      `,
       );
       await expect(
         getGitLastUpdate(filePath),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `[Error: An error occurred when trying to get the file last update date from Git]`,
+        `
+        [Error: An error occurred when trying to get the file last update date from Git]
+        Cause: [Error: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist.]
+      `,
       );
     });
 
@@ -512,6 +518,8 @@ describe('submodules APIs', () => {
         [Error: Couldn't find the git superproject root directory
         Failure while running \`git rev-parse --show-superproject-working-tree\` from cwd="<HOME_DIR>"
         The command executed throws an error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
+        fatal: not a git repository (or any of the parent directories): .git]
+        Cause: [Error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
         fatal: not a git repository (or any of the parent directories): .git]
       `);
     });

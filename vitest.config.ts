@@ -137,6 +137,10 @@ export default defineConfig({
       printBasicPrototype: false,
     },
     snapshotSerializers: [
+      // TOP: serializer applied last
+      // Because Vitest doesn't Snapshot Error.cause automatically
+      // see https://github.com/vitest-dev/vitest/issues/10339
+      `test/snapshotErrorCause.ts`,
       // Strips absolute paths, the current Docusaurus version, ANSI codes,
       // and Windows backslashes so snapshots are stable across machines/CI.
       `test/snapshotPathNormalizer.ts`,
@@ -145,6 +149,7 @@ export default defineConfig({
       'jest-serializer-ansi-escapes',
       // Serializes react-helmet-async output predictably.
       'jest-serializer-react-helmet-async',
+      // BOTTOM: serializer applied first
     ],
     // GitHub Actions reporter emits annotations on failing tests directly
     // in the PR UI; enable it only in CI to keep local output clean.
