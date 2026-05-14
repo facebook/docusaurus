@@ -133,8 +133,6 @@ export default defineConfig({
       'jest-serializer-react-helmet-async',
       // BOTTOM: applied first
     ],
-    // GitHub Actions reporter emits annotations on failing tests directly
-    // in the PR UI; enable it only in CI to keep local output clean.
     reporters: process.env.GITHUB_ACTIONS
       ? ['default', 'github-actions']
       : ['default'],
