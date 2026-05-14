@@ -526,6 +526,7 @@ module.exports = {
       // they run
       files: [
         '*.test.{js,ts,tsx}',
+        '**/__tests__/**',
         'admin/**',
         'test/**',
         'website/**',

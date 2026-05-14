@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {beforeAll, describe, expect, it, vi} from 'vitest';
 import logger from '../index';
 
 // Force chalk to ANSI level 3 in tests, so output is colored even in CI

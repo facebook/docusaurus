@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 // @vitest-environment jsdom
+import {describe, expect, it} from 'vitest';
 import React from 'react';
 import {renderHook} from '@testing-library/react';
 import {BrowserContextProvider} from '../browserContext';

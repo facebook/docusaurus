@@ -6,9 +6,10 @@
  */
 // @vitest-environment jsdom
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import {describe, expect, it, vi} from 'vitest';
 import React, {type ReactNode} from 'react';
 import {render as renderRTL} from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {StaticRouter} from 'react-router-dom';
 import Link from '../Link';

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, test} from 'vitest';
 import {escapeRegexp} from '@docusaurus/utils';
 import {validateDocFrontMatter} from '../frontMatter';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';

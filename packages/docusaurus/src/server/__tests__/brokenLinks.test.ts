@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, vi} from 'vitest';
 import * as reactRouterConfig from 'react-router-config';
 import {handleBrokenLinks} from '../brokenLinks';
 import type {RouteConfig} from '@docusaurus/types';

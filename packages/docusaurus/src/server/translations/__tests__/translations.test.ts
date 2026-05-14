@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import fs from 'fs-extra';
 import path from 'path';
 import tmp from 'tmp-promise';

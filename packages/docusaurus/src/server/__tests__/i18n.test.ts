@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import {loadI18n, getDefaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';

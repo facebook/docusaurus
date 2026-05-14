@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 // @vitest-environment jsdom
+import {describe, expect, it} from 'vitest';
 import React from 'react';
 import type {PropsWithChildren, ReactNode} from 'react';
 import {render} from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import {ScrollControllerProvider} from '@docusaurus/theme-common/internal';
 import {StaticRouter} from 'react-router-dom';
 import Tabs from '../index';

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import remark2rehype from 'remark-rehype';
 import stringify from 'rehype-stringify';

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, it, vi} from 'vitest';
 import webpack from 'webpack';
 
 import createServerConfig from '../server';

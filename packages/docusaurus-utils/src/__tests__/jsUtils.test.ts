@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, vi} from 'vitest';
 import _ from 'lodash';
 import {mapAsyncSequential, findAsyncSequential} from '../jsUtils';
 

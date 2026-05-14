@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import * as path from 'path';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {DEFAULT_PARSE_FRONT_MATTER} from '@docusaurus/utils/src';

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {validateThemeConfig, DEFAULT_CONFIG} from '../validateThemeConfig';
 import type {Joi} from '@docusaurus/utils-validation';
 

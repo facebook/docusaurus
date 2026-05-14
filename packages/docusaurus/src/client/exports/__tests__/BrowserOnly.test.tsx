@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 // @vitest-environment jsdom
+import {afterAll, beforeEach, describe, expect, it, vi} from 'vitest';
 import React from 'react';
 import {render} from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import BrowserOnly from '../BrowserOnly';
 import {Context} from '../../browserContext';
 

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {updateTranslationFileMessages} from '@docusaurus/utils';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {getTranslationFiles, translateContent} from '../translations';

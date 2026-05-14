@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {getVcsPreset} from '@docusaurus/utils';
 import {
   ConfigSchema,

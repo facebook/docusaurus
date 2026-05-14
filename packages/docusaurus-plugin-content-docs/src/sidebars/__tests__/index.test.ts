@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import {createSlugger} from '@docusaurus/utils';
 import {loadSidebars, DisabledSidebars} from '../index';

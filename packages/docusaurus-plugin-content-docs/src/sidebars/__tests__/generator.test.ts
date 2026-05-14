@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, vi} from 'vitest';
 import {DefaultSidebarItemsGenerator} from '../generator';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 import {isCategoryIndex} from '../../docs';

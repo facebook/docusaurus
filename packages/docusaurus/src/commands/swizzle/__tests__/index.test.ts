@@ -5,7 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {type MockInstance} from 'vitest';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+  type MockInstance,
+} from 'vitest';
 import path from 'path';
 import fs from 'fs-extra';
 import tree from 'tree-node-cli';

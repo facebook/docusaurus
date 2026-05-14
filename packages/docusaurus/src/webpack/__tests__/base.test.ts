@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {afterEach, describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import _ from 'lodash';
 import webpack from 'webpack';

@@ -23,6 +23,8 @@ async function testProcess({
 }
  */
 
+import {describe, it} from 'vitest';
+
 describe('md processor', () => {
   it('parses simple commonmark', async () => {
     // TODO no tests for now, wait until ESM support

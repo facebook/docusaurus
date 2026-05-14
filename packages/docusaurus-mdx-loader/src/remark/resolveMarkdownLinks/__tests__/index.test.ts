@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
 import plugin from '..';
 import type {PluginOptions} from '../index';

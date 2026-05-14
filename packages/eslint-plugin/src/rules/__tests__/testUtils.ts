@@ -5,9 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {afterAll, describe, it} from 'vitest';
 import {ESLintUtils} from '@typescript-eslint/utils';
 
 const {RuleTester} = ESLintUtils;
+
+// `RuleTester` defers to globals when these are unset; we run with
+// `globals: false`, so wire it to Vitest's test-framework functions instead.
+RuleTester.afterAll = afterAll;
+RuleTester.describe = describe;
+RuleTester.it = it;
+RuleTester.itOnly = it.only;
 
 export {RuleTester};
 

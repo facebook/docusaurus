@@ -7,6 +7,7 @@
 
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
+import {describe, expect, it} from 'vitest';
 import u from 'unist-builder';
 import {visit} from 'unist-util-visit';
 import {escapeMarkdownHeadingIds} from '@docusaurus/utils';
