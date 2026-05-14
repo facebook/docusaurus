@@ -110,13 +110,6 @@ export default defineConfig({
     // See https://github.com/facebook/docusaurus/pull/8259
     testTimeout: 25000,
     exclude: ignorePatterns,
-    sequence: {
-      // Jest runs hooks in declaration order (outermost-first for
-      // `beforeEach`, etc.). Vitest defaults to "stack" (innermost-first)
-      // which would flip semantics; "list" preserves the Jest behavior our
-      // tests were written against.
-      hooks: 'list',
-    },
     snapshotFormat: {
       escapeString: false,
       printBasicPrototype: false,
