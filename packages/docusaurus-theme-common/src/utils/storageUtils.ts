@@ -7,6 +7,7 @@
 
 import {useCallback, useState, useSyncExternalStore} from 'react';
 import SiteStorage from '@generated/site-storage';
+import {reportRecoverableError} from './errorUtils';
 
 export type StorageType = (typeof SiteStorage)['type'] | 'none';
 
@@ -153,7 +154,11 @@ export function createStorageSlot(
       try {
         return storage.getItem(key);
       } catch (err) {
-        console.error(`Docusaurus storage error, can't get key=${key}`, err);
+        reportRecoverableError(
+          new Error(`Docusaurus storage error, can't get key=${key}`, {
+            cause: err,
+          }),
+        );
         return null;
       }
     },
@@ -168,9 +173,10 @@ export function createStorageSlot(
           storage,
         });
       } catch (err) {
-        console.error(
-          `Docusaurus storage error, can't set ${key}=${newValue}`,
-          err,
+        reportRecoverableError(
+          new Error(`Docusaurus storage error, can't set ${key}=${newValue}`, {
+            cause: err,
+          }),
         );
       }
     },
@@ -180,7 +186,11 @@ export function createStorageSlot(
         storage.removeItem(key);
         dispatchChangeEvent({key, oldValue, newValue: null, storage});
       } catch (err) {
-        console.error(`Docusaurus storage error, can't delete key=${key}`, err);
+        reportRecoverableError(
+          new Error(`Docusaurus storage error, can't delete key=${key}`, {
+            cause: err,
+          }),
+        );
       }
     },
     listen: (onChange) => {
@@ -193,9 +203,11 @@ export function createStorageSlot(
         window.addEventListener('storage', listener);
         return () => window.removeEventListener('storage', listener);
       } catch (err) {
-        console.error(
-          `Docusaurus storage error, can't listen for changes of key=${key}`,
-          err,
+        reportRecoverableError(
+          new Error(
+            `Docusaurus storage error, can't listen for changes of key=${key}`,
+            {cause: err},
+          ),
         );
         return () => {};
       }
