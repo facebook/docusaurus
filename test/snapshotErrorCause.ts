@@ -7,20 +7,6 @@
 
 import type {SnapshotSerializer} from 'vitest';
 
-// Because Vitest doesn't Snapshot Error.cause automatically
-// see https://github.com/vitest-dev/vitest/issues/10339
-const snapshotSerializer: SnapshotSerializer = {
-  test: (val: unknown): boolean => {
-    return !!((val as Error)?.cause && (val as Error)?.cause instanceof Error);
-  },
-
-  serialize(error: Error) {
-    return `[${getErrorName(error)}: ${error.message}]${serializeCausalChain(error)}`;
-  },
-};
-
-export default snapshotSerializer;
-
 function getErrorName(error: Error): string {
   return error.name !== 'Error'
     ? error.name
@@ -44,3 +30,17 @@ function serializeCausalChain(e: Error): string {
   }
   return message;
 }
+
+// Because Vitest doesn't Snapshot Error.cause automatically
+// see https://github.com/vitest-dev/vitest/issues/10339
+const snapshotSerializer: SnapshotSerializer = {
+  test: (val: unknown): boolean => {
+    return !!((val as Error)?.cause && (val as Error)?.cause instanceof Error);
+  },
+
+  serialize(error: Error) {
+    return `[${getErrorName(error)}: ${error.message}]${serializeCausalChain(error)}`;
+  },
+};
+
+export default snapshotSerializer;
