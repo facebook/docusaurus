@@ -706,7 +706,7 @@ describe('handleBrokenLinks', () => {
   });
 
   it('can warn for broken links', async () => {
-    const warnMock = vi.spyOn(console, 'warn');
+    using warn = vi.spyOn(console, 'warn');
 
     await testBrokenLinks({
       onBrokenLinks: 'warn',
@@ -719,8 +719,8 @@ describe('handleBrokenLinks', () => {
       },
     });
 
-    expect(warnMock).toHaveBeenCalledTimes(1);
-    expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls).toMatchInlineSnapshot(`
       [
         [
           "[WARNING] Docusaurus found broken links!
@@ -735,11 +735,10 @@ describe('handleBrokenLinks', () => {
         ],
       ]
     `);
-    warnMock.mockRestore();
   });
 
   it('can warn for broken anchors', async () => {
-    const warnMock = vi.spyOn(console, 'warn');
+    using warn = vi.spyOn(console, 'warn');
 
     await testBrokenLinks({
       onBrokenAnchors: 'warn',
@@ -752,8 +751,8 @@ describe('handleBrokenLinks', () => {
       },
     });
 
-    expect(warnMock).toHaveBeenCalledTimes(1);
-    expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls).toMatchInlineSnapshot(`
       [
         [
           "[WARNING] Docusaurus found broken anchors!
@@ -768,11 +767,10 @@ describe('handleBrokenLinks', () => {
         ],
       ]
     `);
-    warnMock.mockRestore();
   });
 
   it('can warn for both broken links and anchors', async () => {
-    const warnMock = vi.spyOn(console, 'warn');
+    using warn = vi.spyOn(console, 'warn');
 
     await testBrokenLinks({
       onBrokenLinks: 'warn',
@@ -786,8 +784,8 @@ describe('handleBrokenLinks', () => {
       },
     });
 
-    expect(warnMock).toHaveBeenCalledTimes(2);
-    expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+    expect(warn).toHaveBeenCalledTimes(2);
+    expect(warn.mock.calls).toMatchInlineSnapshot(`
       [
         [
           "[WARNING] Docusaurus found broken links!
@@ -813,7 +811,6 @@ describe('handleBrokenLinks', () => {
         ],
       ]
     `);
-    warnMock.mockRestore();
   });
 
   it('reports frequent broken links differently', async () => {

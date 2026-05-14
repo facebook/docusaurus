@@ -44,13 +44,13 @@ const default => {
 `,
     });
 
-    const errorMock = vi.spyOn(console, 'error').mockImplementation(() => {});
+    using error = vi.spyOn(console, 'error');
 
     await expect(
       extractSourceCodeFileTranslations(sourceCodeFilePath, TestBabelOptions),
     ).rejects.toThrow();
 
-    expect(errorMock).toHaveBeenCalledWith(
+    expect(error).toHaveBeenCalledWith(
       expect.stringMatching(
         /Error while attempting to extract Docusaurus translations from source code file at/,
       ),
