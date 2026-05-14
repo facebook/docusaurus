@@ -111,8 +111,7 @@ export default defineConfig({
     testTimeout: 25000,
     exclude: ignorePatterns,
     snapshotFormat: {
-      escapeString: false,
-      printBasicPrototype: false,
+      // Vitest defaults are fine
     },
     snapshotSerializers: [
       // TOP: applied last
