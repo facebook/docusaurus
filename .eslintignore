@@ -6,9 +6,6 @@ node_modules
 .history
 build
 coverage
-jest.config.js
-jest.transform.js
-jest/vendor
 examples/
 
 packages/lqip-loader/lib/
