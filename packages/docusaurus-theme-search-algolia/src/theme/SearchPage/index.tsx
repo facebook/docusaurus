@@ -536,7 +536,6 @@ function SearchPageContent(): ReactNode {
                             key={index}
                             className="breadcrumbs__item"
                             // Developer provided the HTML, so assume it's safe.
-                            // eslint-disable-next-line react/no-danger
                             dangerouslySetInnerHTML={{__html: html}}
                           />
                         ))}
@@ -548,7 +547,6 @@ function SearchPageContent(): ReactNode {
                     <p
                       className={styles.searchResultItemSummary}
                       // Developer provided the HTML, so assume it's safe.
-                      // eslint-disable-next-line react/no-danger
                       dangerouslySetInnerHTML={{__html: summary}}
                     />
                   )}

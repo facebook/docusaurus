@@ -27,7 +27,6 @@ export default function DocSidebarItemHtml({
         className,
       )}
       key={index}
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{__html: value}}
     />
   );
