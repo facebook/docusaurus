@@ -6,7 +6,7 @@
  */
 
 import rule from '../no-untranslated-text';
-import {ruleTester, getCommonValidTests} from './testUtils';
+import {getCommonValidTests, ruleTester} from './testUtils';
 
 const errorsJSX = [{messageId: 'translateChildren'}] as const;
 
