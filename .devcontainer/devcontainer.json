@@ -26,6 +26,9 @@
   },
   "forwardPorts": [3000],
   "containerUser": "vscode",
+  "containerEnv": {
+    "COREPACK_ENABLE_DOWNLOAD_PROMPT": "0" // Avoid waiting for a prompt in the postCreateCommand
+  },
   "postCreateCommand": "yarn install",
   "waitFor": "postCreateCommand", // otherwise automated jest tests fail
   "features": {
