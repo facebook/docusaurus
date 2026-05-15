@@ -14,7 +14,7 @@ describe('extractThemeCodeMessages', () => {
     await expect(() =>
       extractThemeCodeMessages([path.join(__dirname, '__fixtures__/theme')]),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      [Error:
+      [Error: 
       Please make sure all theme translations are static!
       Some warnings were found!
 
