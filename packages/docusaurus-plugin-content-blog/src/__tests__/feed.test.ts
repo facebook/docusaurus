@@ -346,6 +346,104 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
     fsMock.mockClear();
   });
 
+  it('emits trailing-slashed URLs in feed structure when trailingSlash is true', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const outDir = path.join(siteDir, 'build-snap');
+    const siteConfig = {
+      title: 'Hello',
+      baseUrl: '/myBaseUrl/',
+      url: 'https://docusaurus.io',
+      favicon: 'image/favicon.ico',
+      trailingSlash: true,
+      markdown,
+    };
+
+    await testGenerateFeeds(
+      fromPartial({
+        siteDir,
+        siteConfig,
+        i18n: DefaultI18N,
+        outDir,
+      }),
+      {
+        path: 'blog',
+        routeBasePath: 'blog',
+        tagsBasePath: 'tags',
+        authorsMapPath: 'authors.yml',
+        include: DEFAULT_OPTIONS.include,
+        exclude: DEFAULT_OPTIONS.exclude,
+        feedOptions: {
+          type: [feedType],
+          copyright: 'Copyright',
+          xslt: {atom: null, rss: null},
+        },
+        readingTime: ({content, defaultReadingTime}) =>
+          defaultReadingTime({content, locale: 'en'}),
+        truncateMarker: /<!--\s*truncate\s*-->/,
+        onInlineTags: 'ignore',
+        onInlineAuthors: 'ignore',
+      },
+    );
+
+    try {
+      const feedContent = fsMock.mock.calls[0]?.[1] as string | undefined;
+      expect(feedContent).toBeDefined();
+
+      // Extract URLs from feed-structural positions only — post body HTML
+      // legitimately may contain author-written non-slashed URLs, so we ignore
+      // CDATA sections for XML formats and content_html for JSON.
+      const blogUrlPrefix = 'https://docusaurus.io/myBaseUrl/blog/';
+      let structuralUrls: string[] = [];
+
+      if (feedType === 'atom' || feedType === 'rss') {
+        const xmlOnly = feedContent!.replace(/<!\[CDATA\[[\s\S]*?\]\]>/g, '');
+        if (feedType === 'atom') {
+          structuralUrls = [
+            ...[...xmlOnly.matchAll(/<id>(?<url>[^<]+)<\/id>/g)].map(
+              (m) => m.groups!.url!,
+            ),
+            ...[...xmlOnly.matchAll(/<link[^>]*href="(?<url>[^"]+)"/g)].map(
+              (m) => m.groups!.url!,
+            ),
+          ];
+        } else {
+          structuralUrls = [
+            ...[...xmlOnly.matchAll(/<link>(?<url>[^<]+)<\/link>/g)].map(
+              (m) => m.groups!.url!,
+            ),
+            ...[...xmlOnly.matchAll(/<guid[^>]*>(?<url>[^<]+)<\/guid>/g)].map(
+              (m) => m.groups!.url!,
+            ),
+          ];
+        }
+      } else {
+        const parsed = JSON.parse(feedContent!) as {
+          home_page_url?: string;
+          feed_url?: string;
+          items: {id: string; url: string}[];
+        };
+        structuralUrls = [
+          parsed.home_page_url,
+          parsed.feed_url,
+          ...parsed.items.flatMap((item) => [item.id, item.url]),
+        ].filter((u): u is string => typeof u === 'string');
+      }
+
+      const blogUrls = structuralUrls.filter((url) =>
+        url.startsWith(blogUrlPrefix),
+      );
+
+      // Sanity: confirm we actually checked something.
+      expect(blogUrls.length).toBeGreaterThan(0);
+
+      for (const url of blogUrls) {
+        expect(url, `${feedType} feed URL should end with "/"`).toMatch(/\/$/);
+      }
+    } finally {
+      fsMock.mockClear();
+    }
+  });
+
   it('has xslt files for feed', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
