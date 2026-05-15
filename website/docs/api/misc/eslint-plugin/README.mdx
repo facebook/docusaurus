@@ -37,44 +37,42 @@ Both built-in configs exist in flat and legacy variants:
 
 ### Recommended config {/* #recommended-config-flat */}
 
-Add `plugin:@docusaurus/recommended` to the `extends` section of your `.eslintrc` configuration file:
+Import `@docusaurus/eslint-plugin` and add `docusaurus.configs.flat.recommended` to your flat config array:
 
-```json title=".eslintrc"
-{
-  "extends": ["plugin:@docusaurus/recommended"]
-}
+```js title="eslint.config.js"
+import {defineConfig} from 'eslint/config';
+// highlight-next-line
+import docusaurus from '@docusaurus/eslint-plugin';
+
+export default defineConfig(
+  // highlight-next-line
+  docusaurus.configs.flat.recommended,
+  {
+    // Other config
+  },
+);
 ```
 
-This will enable the `@docusaurus` eslint plugin and use the `recommended` config. See [Supported rules](#supported-rules) below for a list of rules that this will enable.
+This will enable the `@docusaurus` eslint plugin and use the `recommended` config. See [Supported rules](#supported-rules) above for a list of rules that this will enable.
 
 ### Manual config {/* #manual-config-flat */}
 
 For more fine-grained control, you can also enable the plugin manually and configure the rules you want to use directly:
 
-```json title=".eslintrc"
-{
-  "plugins": ["@docusaurus"],
-  "rules": {
-    "@docusaurus/string-literal-i18n-messages": "error",
-    "@docusaurus/no-untranslated-text": "warn"
-  }
-}
-```
+```js title="eslint.config.js"
+import {defineConfig} from 'eslint/config';
+// highlight-next-line
+import docusaurus from '@docusaurus/eslint-plugin';
 
-## Example configuration {/* #example-configuration-flat */}
-
-Here's an example configuration:
-
-```js title=".eslintrc.js"
-module.exports = {
-  extends: ['plugin:@docusaurus/recommended'],
+export default defineConfig({
+  // highlight-start
+  plugins: {docusaurus},
   rules: {
-    '@docusaurus/no-untranslated-text': [
-      'warn',
-      {ignoredStrings: ['·', '—', '×']},
-    ],
+    '@docusaurus/string-literal-i18n-messages': 'error',
+    '@docusaurus/no-untranslated-text': 'warn',
   },
-};
+  // highlight-end
+});
 ```
 
 ## Usage - Legacy {/* #usage-legacy */}
@@ -89,7 +87,7 @@ Add `plugin:@docusaurus/recommended` to the `extends` section of your `.eslintrc
 }
 ```
 
-This will enable the `@docusaurus` eslint plugin and use the `recommended` config. See [Supported rules](#supported-rules) below for a list of rules that this will enable.
+This will enable the `@docusaurus` eslint plugin and use the `recommended` config. See [Supported rules](#supported-rules) above for a list of rules that this will enable.
 
 ### Manual config {/* #manual-config-legacy */}
 
@@ -103,20 +101,4 @@ For more fine-grained control, you can also enable the plugin manually and confi
     "@docusaurus/no-untranslated-text": "warn"
   }
 }
-```
-
-## Example configuration {/* #example-configuration-legacy */}
-
-Here's an example configuration:
-
-```js title=".eslintrc.js"
-module.exports = {
-  extends: ['plugin:@docusaurus/recommended'],
-  rules: {
-    '@docusaurus/no-untranslated-text': [
-      'warn',
-      {ignoredStrings: ['·', '—', '×']},
-    ],
-  },
-};
 ```
