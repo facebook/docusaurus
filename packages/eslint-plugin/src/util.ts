@@ -60,7 +60,14 @@ export function isTextLabelChild(
   }
 }
 
-export const createRule = ESLintUtils.RuleCreator(
+// Not sure if we really need this
+// See https://typescript-eslint.io/blog/announcing-typescript-eslint-v8/#custom-rule-metadocs-types
+// See https://github.com/typescript-eslint/typescript-eslint/pull/9025
+export interface PluginDocs {
+  recommended: boolean | 'error';
+}
+
+export const createRule = ESLintUtils.RuleCreator<PluginDocs>(
   (name) =>
     `https://docusaurus.io/docs/api/misc/@docusaurus/eslint-plugin/${name}`,
 );

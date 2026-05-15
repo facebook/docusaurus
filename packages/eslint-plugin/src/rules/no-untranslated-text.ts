@@ -6,7 +6,7 @@
  */
 
 import {isTextLabelChild, createRule} from '../util';
-import type {TSESTree} from '@typescript-eslint/types/dist/ts-estree';
+import type {TSESTree} from '@typescript-eslint/types';
 
 type Options = [
   {
