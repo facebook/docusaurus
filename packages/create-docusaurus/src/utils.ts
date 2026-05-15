@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// @ts-expect-error: no types, but same as spawn()
-import CrossSpawn from 'cross-spawn';
-import type {spawn, SpawnOptions} from 'node:child_process';
+import crossSpawn from 'cross-spawn';
+
+// This is the same as node's child_process.SpawnOptions type, but extract from
+// cross-spawn directly to ensure direct compatibility.
+type SpawnOptions = NonNullable<Parameters<typeof crossSpawn>[2]>;
 
 // We use cross-spawn instead of spawn because of Windows compatibility issues.
 // For example, "yarn" doesn't work on Windows, it requires "yarn.cmd"
 // Tools like execa() use cross-spawn under the hood, and "resolve" the command
-const crossSpawn: typeof spawn = CrossSpawn;
 
 /**
  * Run a command, similar to execa(cmd,args) but simpler
