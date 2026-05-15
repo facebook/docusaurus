@@ -179,6 +179,7 @@ microdata
 Milnes
 Mindmap
 mindmap
+mkdirs
 mkdn
 mkdocs
 mkdown
@@ -225,6 +226,7 @@ Paraiso
 paraiso
 pathinfo
 paularmstrong
+pcss
 perfetto
 pftrace
 philpl
@@ -308,6 +310,7 @@ stackoverflow
 Stormkit
 Strikethrough
 strikethroughs
+styl
 Subdeps
 sublabel
 sublicensable

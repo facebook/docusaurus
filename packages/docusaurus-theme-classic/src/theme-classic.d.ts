@@ -499,8 +499,7 @@ declare module '@theme/CodeBlock/Buttons/WordWrapButton' {
 }
 
 declare module '@theme/CodeBlock/Container' {
-  import type {ReactNode} from 'react';
-  import type {ComponentProps} from 'react';
+  import type {ReactNode, ComponentProps} from 'react';
 
   export default function CodeBlockContainer<T extends 'div' | 'pre'>({
     as: As,
