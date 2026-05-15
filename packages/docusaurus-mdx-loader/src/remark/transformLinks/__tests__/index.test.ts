@@ -79,6 +79,16 @@ describe('transformLinks plugin', () => {
     expect(result).toMatchInlineSnapshot(`"[file](dir/file.zip)"`);
   });
 
+  // Regression test for https://github.com/facebook/docusaurus/issues/11940
+  // A relative link to an existing directory whose name contains a dot
+  // (e.g. `../directory-with.dot/`) should be left as a plain link.
+  // Previously it was misclassified as an asset and passed to
+  // toAssetRequireNode(), which produced a webpack "Module not found" error.
+  it('accepts relative link to an existing directory with a dot in its name', async () => {
+    const result = await processContent(`[dir](../directory-with.dot/)`);
+    expect(result).toMatchInlineSnapshot(`"[dir](../directory-with.dot/)"`);
+  });
+
   describe('onBrokenMarkdownLinks', () => {
     const fixtures = {
       urlEmpty: `[empty]()`,

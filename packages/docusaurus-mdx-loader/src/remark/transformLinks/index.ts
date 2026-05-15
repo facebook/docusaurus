@@ -197,6 +197,15 @@ async function getLocalFileAbsolutePath(
   return null;
 }
 
+async function isExistingDirectory(absolutePath: string): Promise<boolean> {
+  try {
+    const stat = await fs.stat(absolutePath);
+    return stat.isDirectory();
+  } catch {
+    return false;
+  }
+}
+
 async function processLinkNode(target: Target, context: Context) {
   const [node] = target;
   if (!node.url) {
@@ -229,6 +238,13 @@ async function processLinkNode(target: Target, context: Context) {
   );
 
   if (localFilePath) {
+    // A path like `../some.dir/` has `path.extname() === ".dot"` and trips the
+    // asset-like heuristic above, but it points to a directory, not a file.
+    // Don't try to require() a directory — leave the link as a plain link.
+    // See https://github.com/facebook/docusaurus/issues/11940
+    if (await isExistingDirectory(localFilePath)) {
+      return;
+    }
     await toAssetRequireNode(target, localFilePath, context);
   } else {
     // The @site alias is the only way to believe that the user wants an asset.
