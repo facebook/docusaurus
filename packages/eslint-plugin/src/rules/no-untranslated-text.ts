@@ -24,6 +24,7 @@ export default createRule<Options, MessageIds>({
         'enforce text labels in JSX to be wrapped by translate calls',
       recommended: false,
     },
+
     schema: [
       {
         type: 'object',
@@ -33,9 +34,16 @@ export default createRule<Options, MessageIds>({
             items: {
               type: 'string',
             },
+            description:
+              'Text labels that only contain strings in this list will not be reported.',
           },
         },
         additionalProperties: false,
+      },
+    ],
+    defaultOptions: [
+      {
+        ignoredStrings: [],
       },
     ],
     messages: {

@@ -42,12 +42,15 @@ export default createRule<Options, MessageIds>({
         type: 'object',
         properties: {
           ignoreFullyResolved: {
+            description:
+              'Set to true will not report any <a> tags with absolute URLs including a protocol.',
             type: 'boolean',
           },
         },
         additionalProperties: false,
       },
     ],
+    defaultOptions: [{ignoreFullyResolved: false}],
     messages: {
       link: `Do not use an \`<a>\` element to navigate. Use the \`<Link />\` component from \`@docusaurus/Link\` instead. See: ${docsUrl}`,
     },

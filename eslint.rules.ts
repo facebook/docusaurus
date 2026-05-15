@@ -6,7 +6,7 @@
  */
 
 import {defineConfig} from 'eslint/config';
-import js from '@eslint/js';
+import eslintPlugin from 'eslint-plugin-eslint-plugin';
 
 const OFF = 0;
 const WARNING = 1;
@@ -517,7 +517,7 @@ export default defineConfig(
 
   {
     files: ['packages/eslint-plugin/**/*.{js,ts}'],
-    ...js.configs.recommended,
+    ...eslintPlugin.configs.recommended,
   },
 
   {
