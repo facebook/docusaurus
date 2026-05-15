@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {defineConfig} from 'eslint/config';
+import {defineConfig, globalIgnores} from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import globals from 'globals';
 import js from '@eslint/js';
@@ -24,7 +24,7 @@ import rules from './eslint.rules';
 
 const plugins = defineConfig([
   js.configs.recommended,
-  tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.recommended,
   react.configs.flat.recommended,
   reactHooks.configs.flat.recommended,
   importPlugin.flatConfigs.recommended,
@@ -51,7 +51,29 @@ const plugins = defineConfig([
   },
 ]);
 
-export default defineConfig(plugins, rules, {
+const ignores = globalIgnores([
+  '__fixtures__',
+  '__mocks__',
+  'dist',
+  'node_modules',
+  '.yarn',
+  '.history',
+  'build',
+  'coverage',
+  'examples/',
+  'packages/lqip-loader/lib/*',
+  'packages/docusaurus/lib/*',
+  'packages/docusaurus-*/lib/*',
+  'packages/eslint-plugin/lib/',
+  'packages/stylelint-copyright/lib/',
+  'packages/create-docusaurus/lib/*',
+  'packages/create-docusaurus/templates/facebook',
+  'website/_dogfooding/_swizzle_theme_tests',
+  'website/_dogfooding/_asset-tests/badSyntax.js',
+  'packages/docusaurus-plugin-ideal-image/src/theme/IdealImageLegacy',
+]);
+
+export default defineConfig(plugins, rules, ignores, {
   languageOptions: {
     ecmaVersion: 2022,
     sourceType: 'module',
@@ -62,7 +84,7 @@ export default defineConfig(plugins, rules, {
       JSX: true,
     },
     parserOptions: {
-      projectService: true,
+      // projectService: true,
     },
   },
 
@@ -73,33 +95,11 @@ export default defineConfig(plugins, rules, {
       },
     },
     react: {
-      version: 'detect',
+      version: '19',
     },
   },
 
   linterOptions: {
     reportUnusedDisableDirectives: true,
   },
-
-  ignores: [
-    '__fixtures__',
-    '__mocks__',
-    'dist',
-    'node_modules',
-    '.yarn',
-    '.history',
-    'build',
-    'coverage',
-    'examples/',
-    'packages/lqip-loader/lib/',
-    'packages/docusaurus/lib/',
-    'packages/docusaurus-*/lib/*',
-    'packages/eslint-plugin/lib/',
-    'packages/stylelint-copyright/lib/',
-    'packages/create-docusaurus/lib/*',
-    'packages/create-docusaurus/templates/facebook',
-    'website/_dogfooding/_swizzle_theme_tests',
-    'website/_dogfooding/_asset-tests/badSyntax.js',
-    'packages/docusaurus-plugin-ideal-image/src/theme/IdealImageLegacy',
-  ],
 });

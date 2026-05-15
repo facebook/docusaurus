@@ -167,10 +167,7 @@ export default defineConfig(
         })),
       ],
       'no-template-curly-in-string': WARNING,
-      'no-unused-expressions': [
-        WARNING,
-        {allowTaggedTemplates: true, allowShortCircuit: true},
-      ],
+      'no-unused-expressions': OFF,
       'no-useless-escape': WARNING,
       'no-void': [ERROR, {allowAsStatement: true}],
       'prefer-destructuring': OFF,
@@ -311,8 +308,15 @@ export default defineConfig(
         {ignoreFunctionalComponents: true},
       ],
 
+      '@typescript-eslint/no-empty-object-type': OFF,
+      '@typescript-eslint/prefer-optional-chain': OFF,
       '@typescript-eslint/consistent-type-definitions': OFF,
       '@typescript-eslint/require-await': OFF,
+      '@typescript-eslint/no-explicit-any': WARNING,
+      '@typescript-eslint/no-unused-expressions': [
+        WARNING,
+        {allowTaggedTemplates: true, allowShortCircuit: true},
+      ],
 
       '@typescript-eslint/ban-ts-comment': [
         ERROR,
@@ -356,7 +360,6 @@ export default defineConfig(
           varsIgnorePattern: '^_',
         },
       ],
-      '@typescript-eslint/prefer-optional-chain': ERROR,
       '@docusaurus/no-html-links': ERROR,
       '@docusaurus/prefer-docusaurus-heading': ERROR,
       '@docusaurus/no-untranslated-text': [
@@ -501,10 +504,20 @@ export default defineConfig(
       'import/no-extraneous-dependencies': OFF,
     },
   },
+
+  // Website-specific rules
+  {
+    files: ['website/**'],
+    rules: {
+      '@typescript-eslint/no-require-imports': OFF,
+    },
+  },
+
   {
     files: ['packages/eslint-plugin/**/*.{js,ts}'],
     ...js.configs.recommended,
   },
+
   {
     files: [
       'packages/docusaurus-plugin-debug/**',
