@@ -10,7 +10,8 @@ import globals from 'globals';
 import js from '@eslint/js';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
-// import header from 'eslint-plugin-header'; // TODO replace
+// @ts-expect-error: no types provided
+import header from 'eslint-plugin-header';
 import importPlugin from 'eslint-plugin-import';
 import vitest from '@vitest/eslint-plugin';
 // @ts-expect-error: no types provided
@@ -32,14 +33,25 @@ const plugins = defineConfig([
   regexp.configs.recommended,
   prettier,
   docusaurus.configs.flat.all,
+
+  // TODO replace by maintained plugin?
+  // See https://github.com/facebook/docusaurus/pull/11803
+  // This adapts the legacy plugin to flat config
+  {
+    plugins: {
+      header: {
+        meta: {
+          name: 'eslint-plugin-header',
+          version: 'whatever',
+          namespace: 'header',
+        },
+        rules: header.rules,
+      },
+    },
+  },
 ]);
 
 export default defineConfig(plugins, rules, {
-  extends: [
-    // TODO:
-    // 'header/header',
-  ],
-
   languageOptions: {
     ecmaVersion: 2022,
     sourceType: 'module',
@@ -53,6 +65,7 @@ export default defineConfig(plugins, rules, {
       projectService: true,
     },
   },
+
   settings: {
     'import/resolver': {
       node: {
@@ -63,9 +76,11 @@ export default defineConfig(plugins, rules, {
       version: 'detect',
     },
   },
+
   linterOptions: {
     reportUnusedDisableDirectives: true,
   },
+
   ignores: [
     '__fixtures__',
     '__mocks__',
