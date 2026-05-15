@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {defineConfig} from 'eslint/config';
+
 const OFF = 0;
 const WARNING = 1;
 const ERROR = 2;
@@ -23,7 +25,9 @@ const ContentPluginsImportPatterns = [
   '@docusaurus/plugin-content-pages/**',
 ];
 
-module.exports = {
+export default defineConfig({});
+
+defineConfig({
   root: true,
   env: {
     browser: true,
@@ -38,6 +42,27 @@ module.exports = {
   globals: {
     JSX: true,
   },
+  ignores: [
+    '__fixtures__',
+    '__mocks__',
+    'dist',
+    'node_modules',
+    '.yarn',
+    '.history',
+    'build',
+    'coverage',
+    'examples/',
+    'packages/lqip-loader/lib/',
+    'packages/docusaurus/lib/',
+    'packages/docusaurus-*/lib/*',
+    'packages/eslint-plugin/lib/',
+    'packages/stylelint-copyright/lib/',
+    'packages/create-docusaurus/lib/*',
+    'packages/create-docusaurus/templates/facebook',
+    'website/_dogfooding/_swizzle_theme_tests',
+    'website/_dogfooding/_asset-tests/badSyntax.js',
+    'packages/docusaurus-plugin-ideal-image/src/theme/IdealImageLegacy',
+  ],
   extends: [
     'eslint:recommended',
     'plugin:react-hooks/recommended',
@@ -552,4 +577,4 @@ module.exports = {
       },
     },
   ],
-};
+});
