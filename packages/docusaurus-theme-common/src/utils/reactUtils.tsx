@@ -105,14 +105,16 @@ type SimpleProvider = ComponentType<{children: ReactNode}>;
  */
 export function composeProviders(providers: SimpleProvider[]): SimpleProvider {
   // Creates a single React component: it's cheaper to compose JSX elements
-  return ({children}) => (
-    <>
-      {providers.reduceRight(
-        (element, CurrentProvider) => (
-          <CurrentProvider>{element}</CurrentProvider>
-        ),
-        children,
-      )}
-    </>
-  );
+  return function ComposedProvider({children}: {children: ReactNode}) {
+    return (
+      <>
+        {providers.reduceRight(
+          (element, CurrentProvider) => (
+            <CurrentProvider>{element}</CurrentProvider>
+          ),
+          children,
+        )}
+      </>
+    );
+  };
 }

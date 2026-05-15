@@ -409,7 +409,7 @@ export default defineConfig(
       'packages/docusaurus-theme-common/src/**/*.{js,ts,tsx}',
       'packages/docusaurus-utils-common/src/**/*.{js,ts,tsx}',
     ],
-    ignores: ['*.test.{js,ts,tsx}'],
+    ignores: ['**/*.test.{js,ts,tsx}', '**/__tests__/**'],
     rules: {
       'no-restricted-imports': [
         ERROR,

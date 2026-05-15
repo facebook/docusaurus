@@ -140,6 +140,7 @@ function useResultsFooterComponent({
 }): DocSearchProps['resultsFooterComponent'] {
   return useMemo(
     () =>
+      // eslint-disable-next-line react/display-name
       ({state}) => <ResultsFooter state={state} onClose={closeModal} />,
     [closeModal],
   );

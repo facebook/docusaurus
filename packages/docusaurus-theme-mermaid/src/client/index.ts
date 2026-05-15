@@ -42,7 +42,9 @@ function useMermaidId(): string {
   //  It could work thanks to https://github.com/facebook/react/pull/32001
   // return useId(); // tried that, doesn't work ('#d:re:' is not a valid selector.)
 
-  return useState(`mermaid-svg-${Math.round(Math.random() * 10000000)}`)[0];
+  return useState(
+    () => `mermaid-svg-${Math.round(Math.random() * 10000000)}`,
+  )[0];
 }
 
 async function renderMermaid({

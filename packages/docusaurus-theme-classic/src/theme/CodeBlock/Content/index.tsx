@@ -5,11 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  type ComponentProps,
-  type ComponentPropsWithRef,
-  type ReactNode,
-} from 'react';
+import React, {type ComponentProps, type ReactNode} from 'react';
 import clsx from 'clsx';
 import {useCodeBlockContext} from '@docusaurus/theme-common/internal';
 import {usePrismTheme} from '@docusaurus/theme-common';
