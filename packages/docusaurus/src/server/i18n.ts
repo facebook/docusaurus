@@ -24,7 +24,7 @@ function inferLanguageDisplayName(locale: string) {
         type: 'language',
         fallback: 'code',
       }).of(l)!;
-    } catch (e) {
+    } catch {
       // This is to compensate "of()" that is a bit strict
       // Looks like starting Node 22, this locale throws: "en-US-u-ca-buddhist"
       // RangeError: invalid_argument

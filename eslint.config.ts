@@ -30,7 +30,7 @@ const plugins = defineConfig([
   importPlugin.flatConfigs.recommended,
   vitest.configs.recommended,
   jsxA11y.flatConfigs.recommended,
-  regexp.configs.recommended,
+  regexp.configs['flat/recommended'],
   prettier,
   docusaurus.configs.flat.all,
 
