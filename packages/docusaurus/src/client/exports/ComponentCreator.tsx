@@ -116,14 +116,12 @@ export default function ComponentCreator(
         val[keyPaths[keyPaths.length - 1]!] = chunk;
       });
 
-      /* eslint-disable no-underscore-dangle */
       const Component = loadedModules.__comp!;
       delete loadedModules.__comp;
       const routeContext = loadedModules.__context!;
       delete loadedModules.__context;
       const routeProps = loadedModules.__props;
       delete loadedModules.__props;
-      /* eslint-enable no-underscore-dangle */
 
       // Is there any way to put this RouteContextProvider upper in the tree?
       return (

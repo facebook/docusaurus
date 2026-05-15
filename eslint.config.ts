@@ -52,8 +52,8 @@ const plugins = defineConfig([
 ]);
 
 const ignores = globalIgnores([
-  '.docusaurus',
-  '__fixtures__',
+  '**/.docusaurus/**',
+  '**/__fixtures__/**',
   '__mocks__',
   'dist',
   'node_modules',
@@ -69,6 +69,7 @@ const ignores = globalIgnores([
   'packages/stylelint-copyright/lib/',
   'packages/create-docusaurus/lib/*',
   'packages/create-docusaurus/templates/facebook',
+  'website/i18n',
   'website/_dogfooding/_swizzle_theme_tests',
   'website/_dogfooding/_asset-tests/badSyntax.js',
   'packages/docusaurus-plugin-ideal-image/src/theme/IdealImageLegacy',

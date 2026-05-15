@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 // @vitest-environment jsdom
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import {describe, expect, it, vi} from 'vitest';
 import React, {type ReactNode} from 'react';
 import {render as renderRTL} from '@testing-library/react';

@@ -514,14 +514,6 @@ export default defineConfig(
       '@typescript-eslint/no-require-imports': OFF,
     },
   },
-  // Website-specific rules
-  {
-    files: ['**/__fixtures__/**'],
-    rules: {
-      '@typescript-eslint/no-unused-vars': WARNING,
-      'react/display-name': WARNING,
-    },
-  },
 
   {
     files: ['packages/eslint-plugin/**/*.{js,ts}'],

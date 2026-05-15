@@ -14,6 +14,7 @@ import {
   FrontMatterLastUpdateSchema,
 } from '@docusaurus/utils-validation';
 import type {PageFrontMatter} from '@docusaurus/plugin-content-pages';
+/* eslint-disable camelcase */
 
 const PageFrontMatterSchema = Joi.object<PageFrontMatter>({
   // See https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398

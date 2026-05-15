@@ -72,7 +72,6 @@ export const URISchema = Joi.alternatives(
       return helpers.error('any.invalid');
     }
     try {
-      // eslint-disable-next-line no-new
       new URL(String(val));
       return val;
     } catch {

@@ -27,7 +27,7 @@ export default async function lqipLoader(
     content,
   );
 
-  let source = '';
+  let source: string;
 
   if (contentIsUrlExport) {
     source = content.match(

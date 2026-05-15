@@ -27,7 +27,6 @@ type TestCase = {
 };
 
 function getOutputCss(output: stylelint.LinterResult) {
-  // eslint-disable-next-line no-underscore-dangle
   const result = output.results[0]!._postcssResult!;
   return result.root.toString(result.opts!.syntax);
 }
