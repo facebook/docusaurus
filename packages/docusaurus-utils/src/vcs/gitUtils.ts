@@ -159,11 +159,11 @@ export async function getFileCommitDate(
         `--format=${resultFormat}`,
         '--max-count=1',
         ...(age === 'oldest' ? ['--follow', '--diff-filter=A'] : []),
+        '--',
         path.basename(file),
       ],
       {
         cwd: path.dirname(file),
-        shell: true,
       },
     );
   }))!;
