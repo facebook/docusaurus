@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ESLintUtils} from '@typescript-eslint/utils';
-import type {TSESTree} from '@typescript-eslint/types/dist/ts-estree';
+import {ESLintUtils, type TSESTree} from '@typescript-eslint/utils';
 
 type CheckTranslateChildOptions = {
   ignoredStrings?: string[];
