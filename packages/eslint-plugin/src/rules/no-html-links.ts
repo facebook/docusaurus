@@ -25,7 +25,7 @@ function isFullyResolvedUrl(urlString: string): boolean {
     if (url.protocol) {
       return true;
     }
-  } catch (e) {}
+  } catch {}
   return false;
 }
 

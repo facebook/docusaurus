@@ -28,7 +28,7 @@ function searchAnchorForwarding(toUrl: string): boolean {
     const url = new URL(toUrl, 'https://example.com');
     const containsSearchOrAnchor = url.search || url.hash;
     return !containsSearchOrAnchor;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
