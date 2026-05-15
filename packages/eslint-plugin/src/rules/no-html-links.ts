@@ -6,7 +6,7 @@
  */
 
 import {createRule} from '../util';
-import type {TSESTree} from '@typescript-eslint/types/dist/ts-estree';
+import type {TSESTree} from '@typescript-eslint/types';
 
 const docsUrl = 'https://docusaurus.io/docs/docusaurus-core#link';
 

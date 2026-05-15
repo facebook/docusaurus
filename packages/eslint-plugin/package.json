@@ -18,17 +18,20 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^5.62.0",
+    "@typescript-eslint/utils": "^8.59.3",
+    "@typescript-eslint/types": "^8.59.3",
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "eslint-plugin-eslint-plugin": "^5.1.0"
+    "@typescript-eslint/rule-tester": "^8.59.3",
+    "eslint-plugin-eslint-plugin": "^6.5.0"
   },
   "peerDependencies": {
-    "eslint": ">=6"
+    "eslint": ">=8.57.0"
   },
   "engines": {
     "node": ">=24.14"

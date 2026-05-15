@@ -6,9 +6,7 @@
  */
 
 import {afterAll, describe, it} from 'vitest';
-import {ESLintUtils} from '@typescript-eslint/utils';
-
-const {RuleTester} = ESLintUtils;
+import {RuleTester} from '@typescript-eslint/rule-tester';
 
 // `RuleTester` defers to globals when these are unset; we run with
 // `globals: false`, so wire it to Vitest's test-framework functions instead.
@@ -17,7 +15,15 @@ RuleTester.describe = describe;
 RuleTester.it = it;
 RuleTester.itOnly = it.only;
 
-export {RuleTester};
+export const ruleTester = new RuleTester({
+  languageOptions: {
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
+});
 
 export const getCommonValidTests = (): {code: string}[] => [
   {
