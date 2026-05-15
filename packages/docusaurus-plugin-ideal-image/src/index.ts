@@ -67,7 +67,7 @@ export default function pluginIdealImage(
                   options: {
                     // Don't emit for server-side rendering
                     emitFile: !isServer,
-                    // eslint-disable-next-line global-require
+                    // eslint-disable-next-line @typescript-eslint/no-require-imports
                     adapter: require('@docusaurus/responsive-loader/sharp'),
                     name: 'assets/ideal-img/[name].[hash:hex:7].[width].[ext]',
                     ...loaderOptions,

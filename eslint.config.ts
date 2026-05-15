@@ -52,6 +52,7 @@ const plugins = defineConfig([
 ]);
 
 const ignores = globalIgnores([
+  '.docusaurus',
   '__fixtures__',
   '__mocks__',
   'dist',

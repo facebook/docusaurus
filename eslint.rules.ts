@@ -33,7 +33,7 @@ export default defineConfig(
       camelcase: WARNING,
       'class-methods-use-this': OFF, // It's a way of allowing private variables.
       curly: [WARNING, 'all'],
-      'global-require': WARNING,
+      'global-require': OFF, // Deprecated, @typescript-eslint/no-require-import is enough
       'no-alert': WARNING,
       'lines-between-class-members': OFF,
       'max-classes-per-file': OFF,
@@ -389,7 +389,7 @@ export default defineConfig(
     files: ['packages/docusaurus/src/client/**/*.{js,ts,tsx}'],
     rules: {
       'no-restricted-imports': [
-        'error',
+        ERROR,
         {
           patterns: [
             ...LodashImportPatterns,
@@ -412,7 +412,7 @@ export default defineConfig(
     ignores: ['*.test.{js,ts,tsx}'],
     rules: {
       'no-restricted-imports': [
-        'error',
+        ERROR,
         {
           patterns: [...LodashImportPatterns, ...ContentPluginsImportPatterns],
         },
@@ -421,10 +421,10 @@ export default defineConfig(
   },
   {
     files: ['packages/docusaurus-*/src/theme/**/*.{js,ts,tsx}'],
-    ignores: ['*.test.{js,ts,tsx}'],
+    ignores: ['**/*.test.{js,ts,tsx}', '**/__tests__/**'],
     rules: {
       'no-restricted-imports': [
-        'error',
+        ERROR,
         {
           patterns: LodashImportPatterns.concat(
             // Prevents relative imports between React theme components
@@ -512,6 +512,14 @@ export default defineConfig(
     files: ['website/**'],
     rules: {
       '@typescript-eslint/no-require-imports': OFF,
+    },
+  },
+  // Website-specific rules
+  {
+    files: ['**/__fixtures__/**'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': WARNING,
+      'react/display-name': WARNING,
     },
   },
 
