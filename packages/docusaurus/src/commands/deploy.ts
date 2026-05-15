@@ -288,7 +288,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
       );
     } else if (commitResults.exitCode === 0) {
       // The commit might return a non-zero value when site is up to date.
-      let websiteURL = '';
+      let websiteURL;
       if (githubHost === 'github.com') {
         websiteURL = projectName.includes('.github.io')
           ? `https://${organizationName}.github.io/`
@@ -297,12 +297,8 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
         // GitHub enterprise hosting.
         websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
       }
-      try {
-        exec(`echo "Website is live at ${websiteURL}."`, {failfast: true});
-        process.exit(0);
-      } catch (err) {
-        throw new Error(`Failed to execute command: ${err}`);
-      }
+      exec(`echo "Website is live at ${websiteURL}."`, {failfast: true});
+      process.exit(0);
     }
   };
 
