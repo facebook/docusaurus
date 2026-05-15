@@ -35,7 +35,7 @@ export default async function lqipLoader(
     )!.groups!.source!;
   } else {
     if (!contentIsFileExport) {
-      // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+      // eslint-disable-next-line global-require, @typescript-eslint/no-require-imports
       const fileLoader = require('file-loader') as LoaderModule['default'];
       // @ts-expect-error: type is a bit unwieldy...
       content = fileLoader!.call(this, contentBuffer) as string;

@@ -18,7 +18,7 @@ describe('BrowserContextProvider', () => {
     ),
   });
 
-  // eslint-disable-next-line @vitest/no-commented-out-tests
+  // eslint-disable-next-line vitest/no-commented-out-tests
   /*
    TODO it seems not really possible to test before hydration anymore
     See https://github.com/testing-library/react-testing-library/issues/1120

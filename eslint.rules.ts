@@ -29,13 +29,12 @@ const ContentPluginsImportPatterns = [
 export default defineConfig(
   {
     rules: {
-      'react/jsx-uses-react': OFF, // JSX runtime: automatic
-      'react/react-in-jsx-scope': OFF, // JSX runtime: automatic
       'array-callback-return': WARNING,
       camelcase: WARNING,
       'class-methods-use-this': OFF, // It's a way of allowing private variables.
       curly: [WARNING, 'all'],
       'global-require': WARNING,
+      'no-alert': WARNING,
       'lines-between-class-members': OFF,
       'max-classes-per-file': OFF,
       'max-len': [
@@ -283,9 +282,6 @@ export default defineConfig(
       'jsx-a11y/no-noninteractive-element-interactions': WARNING,
       'jsx-a11y/html-has-lang': OFF,
 
-      'react-hooks/rules-of-hooks': ERROR,
-      'react-hooks/exhaustive-deps': ERROR,
-
       // Sometimes we do need the props as a whole, e.g. when spreading
       'react/destructuring-assignment': OFF,
       'react/function-component-definition': [
@@ -307,6 +303,11 @@ export default defineConfig(
         ERROR,
         {ignoreFunctionalComponents: true},
       ],
+      'react/jsx-uses-react': OFF, // JSX runtime: automatic
+      'react/react-in-jsx-scope': OFF, // JSX runtime: automatic
+      'react-hooks/set-state-in-effect': WARNING, // TODO re-enable later?
+      'react-hooks/rules-of-hooks': ERROR,
+      'react-hooks/exhaustive-deps': ERROR,
 
       '@typescript-eslint/no-empty-object-type': OFF,
       '@typescript-eslint/prefer-optional-chain': OFF,
@@ -452,6 +453,7 @@ export default defineConfig(
     rules: {
       'header/header': OFF,
       'global-require': OFF,
+      '@typescript-eslint/no-require-imports': WARNING,
       '@typescript-eslint/no-var-requires': OFF,
       '@docusaurus/no-untranslated-text': OFF,
     },
