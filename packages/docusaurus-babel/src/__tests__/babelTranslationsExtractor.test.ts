@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, vi} from 'vitest';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
 import {getBabelOptions} from '../utils';

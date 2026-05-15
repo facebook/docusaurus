@@ -62,7 +62,7 @@ async function getTerserMinifier(): Promise<HtmlMinifier> {
         return {code, warnings: []};
       } catch (err) {
         throw new Error(`HTML minification failed (Terser)`, {
-          cause: err as Error,
+          cause: err,
         });
       }
     },
@@ -116,7 +116,7 @@ async function getSwcMinifier(): Promise<HtmlMinifier> {
         };
       } catch (err) {
         throw new Error(`HTML minification failed (SWC)`, {
-          cause: err as Error,
+          cause: err,
         });
       }
     },

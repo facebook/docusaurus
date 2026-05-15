@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 // @vitest-environment jsdom
+import {describe, expect, it, vi} from 'vitest';
 import React from 'react';
 import {renderHook} from '@testing-library/react';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';

@@ -35,7 +35,7 @@
     // imported, invalid semantics...). Because we don't have end-to-end type
     // tests, removing this would make things much harder to catch.
     "skipLibCheck": false,
-    "types": ["vitest/globals"]
+    "types": []
   },
   "exclude": ["build", ".docusaurus", "src/sw.js", "_dogfooding/_asset-tests"]
 }

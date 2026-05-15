@@ -415,7 +415,7 @@ export async function generateBlogPosts(
     } catch (err) {
       throw new Error(
         `Processing of blog source file path=${blogSourceFile} failed.`,
-        {cause: err as Error},
+        {cause: err},
       );
     }
   }

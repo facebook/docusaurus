@@ -5,7 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {type MockInstance} from 'vitest';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+  type MockInstance,
+} from 'vitest';
 import path from 'path';
 import fs from 'fs-extra';
 import tree from 'tree-node-cli';
@@ -57,13 +65,13 @@ class MockExitError extends Error {
 function createExitMock() {
   let mock: MockInstance<(code?: number) => never>;
 
-  /* eslint-disable-next-line @vitest/require-top-level-describe */
+  /* eslint-disable-next-line vitest/require-top-level-describe */
   beforeEach(async () => {
     mock = vi.spyOn(process, 'exit').mockImplementation((code) => {
-      throw new MockExitError(code!);
+      throw new MockExitError(code as number);
     }) as MockInstance<(code?: number) => never>;
   });
-  /* eslint-disable-next-line @vitest/require-top-level-describe */
+  /* eslint-disable-next-line vitest/require-top-level-describe */
   afterEach(async () => {
     mock.mockRestore();
   });

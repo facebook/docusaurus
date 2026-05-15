@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import * as path from 'path';
 import * as webpack from 'webpack';
 import {fromPartial} from '@total-typescript/shoehorn';

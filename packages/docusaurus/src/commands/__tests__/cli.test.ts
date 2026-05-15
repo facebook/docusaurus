@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import {Command, type CommanderStatic} from 'commander';
 import {createCLIProgram} from '../cli';

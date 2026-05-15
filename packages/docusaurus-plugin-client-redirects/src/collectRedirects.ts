@@ -101,7 +101,7 @@ function validateCollectedRedirects(
       if (to.startsWith('/')) {
         try {
           return decodeURI(new URL(to, 'https://example.com').pathname);
-        } catch (e) {}
+        } catch {}
       }
       return undefined;
     })

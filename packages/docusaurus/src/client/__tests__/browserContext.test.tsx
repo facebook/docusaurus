@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 // @vitest-environment jsdom
+import {describe, expect, it} from 'vitest';
 import React from 'react';
 import {renderHook} from '@testing-library/react';
 import {BrowserContextProvider} from '../browserContext';
@@ -17,7 +18,7 @@ describe('BrowserContextProvider', () => {
     ),
   });
 
-  // eslint-disable-next-line @vitest/no-commented-out-tests
+  // eslint-disable-next-line vitest/no-commented-out-tests
   /*
    TODO it seems not really possible to test before hydration anymore
     See https://github.com/testing-library/react-testing-library/issues/1120

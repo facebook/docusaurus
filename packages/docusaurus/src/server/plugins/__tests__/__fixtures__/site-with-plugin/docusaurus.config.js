@@ -12,16 +12,16 @@ module.exports = {
   baseUrl: '/',
   favicon: 'img/favicon.ico',
   plugins: [
-    function (context, options) {
+    function (_context, _options) {
       return {name: 'first-plugin'};
     },
     [
-      function (context, options) {
+      function (_context, _options) {
         return {name: 'second-plugin'};
       },
       {it: 'should work'},
     ],
-    function (context, options) {
+    function (_context, _options) {
       // it's ok for a plugin to self-disable
       return null;
     },

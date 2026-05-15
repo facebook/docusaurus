@@ -39,7 +39,7 @@ const GitCommandQueue = new PQueue({
 const realHasGitFn = () => {
   try {
     return execa.sync('git', ['--version']).exitCode === 0;
-  } catch (error) {
+  } catch {
     return false;
   }
 };

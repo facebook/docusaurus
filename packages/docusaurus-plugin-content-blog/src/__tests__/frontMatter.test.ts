@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {escapeRegexp} from '@docusaurus/utils';
 import {validateBlogPostFrontMatter} from '../frontMatter';
 import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
@@ -52,7 +53,7 @@ function testField(params: {
             )}`,
           );
         } catch (err) {
-          // eslint-disable-next-line @vitest/no-conditional-expect
+          // eslint-disable-next-line vitest/no-conditional-expect
           expect((err as Error).message).toMatch(
             new RegExp(escapeRegexp(message)),
           );

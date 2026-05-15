@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {fromPartial, type PartialDeep} from '@total-typescript/shoehorn';
 import {getBlogPostAuthors, groupBlogPostsByAuthorKey} from '../authors';
 import type {

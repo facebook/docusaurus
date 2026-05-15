@@ -17,7 +17,7 @@ import styles from './styles.module.css';
 
 // TODO Docusaurus v4: remove useless forwardRef
 const Pre = React.forwardRef<HTMLPreElement, ComponentProps<'pre'>>(
-  (props, ref) => {
+  function Pre(props, ref) {
     return (
       <pre
         ref={ref}

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {afterAll, beforeEach, describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import getHttpsConfig from '../getHttpsConfig';
 

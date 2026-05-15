@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, vi} from 'vitest';
 import {createSlugger} from '@docusaurus/utils';
 import {processSidebars} from '../processor';
 import {DefaultSidebarItemsGenerator} from '../generator';

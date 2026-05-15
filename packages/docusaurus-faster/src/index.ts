@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Rspack from '@rspack/core';
+import {rspack as Rspack} from '@rspack/core';
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
 import {minify as swcHtmlMinifier} from '@swc/html';

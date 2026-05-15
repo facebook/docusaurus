@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, test} from 'vitest';
 import {escapeRegexp} from '@docusaurus/utils';
 import {validateDocFrontMatter} from '../frontMatter';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
@@ -21,14 +22,14 @@ function testField(params: {
     ErrorMessage: string,
   ][];
 }) {
-  // eslint-disable-next-line @vitest/require-top-level-describe
+  // eslint-disable-next-line vitest/require-top-level-describe
   test(`[${params.prefix}] accept valid values`, () => {
     params.validFrontMatters.forEach((frontMatter) => {
       expect(validateDocFrontMatter(frontMatter)).toEqual(frontMatter);
     });
   });
 
-  // eslint-disable-next-line @vitest/require-top-level-describe
+  // eslint-disable-next-line vitest/require-top-level-describe
   test(`[${params.prefix}] convert valid values`, () => {
     params.convertibleFrontMatter?.forEach(
       ([convertibleFrontMatter, convertedFrontMatter]) => {
@@ -39,7 +40,7 @@ function testField(params: {
     );
   });
 
-  // eslint-disable-next-line @vitest/require-top-level-describe
+  // eslint-disable-next-line vitest/require-top-level-describe
   test(`[${params.prefix}] throw error for values`, () => {
     params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
       try {
@@ -52,7 +53,7 @@ function testField(params: {
           )}`,
         );
       } catch (err) {
-        // eslint-disable-next-line @vitest/no-conditional-expect
+        // eslint-disable-next-line vitest/no-conditional-expect
         expect((err as Error).message).toMatch(
           new RegExp(escapeRegexp(message)),
         );

@@ -19,7 +19,6 @@ function ColumnLinkItem({item}: {item: ColumnItemType}) {
     <li
       className={clsx('footer__item', item.className)}
       // Developer provided the HTML, so assume it's safe.
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{__html: item.html}}
     />
   ) : (

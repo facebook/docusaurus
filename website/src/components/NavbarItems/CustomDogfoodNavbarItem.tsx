@@ -22,7 +22,6 @@ export default function CustomDogfoodNavbarItem(props: {
   return (
     <button
       onClick={() => {
-        // eslint-disable-next-line no-alert
         alert("I'm a custom navbar item type example");
       }}
       type="button">

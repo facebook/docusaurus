@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, it} from 'vitest';
 import webpack from 'webpack';
 
 import {createBuildClientConfig, createStartClientConfig} from '../client';

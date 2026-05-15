@@ -9,7 +9,7 @@
 // Spec: https://datatracker.ietf.org/doc/html/rfc3986#section-3.1
 // In particular: scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
 export function hasProtocol(url: string): boolean {
-  return /^(?:[A-Za-z][A-Za-z\d+.-]*:|\/\/)/.test(url);
+  return /^(?:[A-Z][A-Z\d+.-]*:|\/\/)/i.test(url);
 }
 
 export default function isInternalUrl(url?: string): boolean {

@@ -18,7 +18,7 @@ async function loadPackageJsonVersion(
   packageJsonPath: string,
 ): Promise<string | undefined> {
   if (await fs.pathExists(packageJsonPath)) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     return (require(packageJsonPath) as {version?: string}).version;
   }
   return undefined;
@@ -27,7 +27,7 @@ async function loadPackageJsonVersion(
 async function loadPackageJsonName(
   packageJsonPath: string,
 ): Promise<string | undefined> {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   return (require(packageJsonPath) as {name?: string}).name;
 }
 

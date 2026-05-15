@@ -43,7 +43,7 @@ function readPathsForNormalization() {
     try {
       // eslint-disable-next-line no-restricted-properties
       return fs.realpathSync(pathname);
-    } catch (err) {
+    } catch {
       return pathname;
     }
   }
@@ -122,7 +122,7 @@ function normalizeString(value: string): string {
     (val) => val.split(escapePath(cwd)).join('<PROJECT_ROOT>'),
 
     // Remove win32 drive letters, C:\ -> \
-    (val) => val.replace(/[a-zA-Z]:\\/g, '\\'),
+    (val) => val.replace(/[a-z]:\\/gi, '\\'),
 
     // Remove duplicate backslashes created from escapePath
     (val) => val.replace(/\\\\/g, '\\'),

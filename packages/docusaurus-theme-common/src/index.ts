@@ -13,19 +13,19 @@ import {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 //  This is public API surface that we need to keep for v3
 //  See https://github.com/facebook/docusaurus/pull/10316
 export function useCurrentSidebarCategory(...args: unknown[]): unknown {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   return require('@docusaurus/plugin-content-docs/client').useCurrentSidebarCategory(
     ...args,
   );
 }
 export function filterDocCardListItems(...args: unknown[]): unknown {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   return require('@docusaurus/plugin-content-docs/client').filterDocCardListItems(
     ...args,
   );
 }
 export function useDocsPreferredVersion(...args: unknown[]): unknown {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   return require('@docusaurus/plugin-content-docs/client').useDocsPreferredVersion(
     ...args,
   );
@@ -33,7 +33,7 @@ export function useDocsPreferredVersion(...args: unknown[]): unknown {
 export function useContextualSearchFilters() {
   const {i18n} = useDocusaurusContext();
   const docsTags =
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, react-compiler/react-compiler
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     require('@docusaurus/plugin-content-docs/client').useDocsContextualSearchTags();
   const tags = [DEFAULT_SEARCH_TAG, ...docsTags];
   return {locale: i18n.currentLocale, tags};

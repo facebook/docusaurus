@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 // @vitest-environment jsdom
+import {describe, expect, it} from 'vitest';
 import {renderHook} from '@testing-library/react';
 import {useFilteredAndTreeifiedTOC, useTreeifiedTOC} from '../tocUtils';
 import type {TOCItem} from '@docusaurus/mdx-loader';

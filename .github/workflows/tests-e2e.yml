@@ -8,8 +8,8 @@ on:
     paths:
       - package.json
       - yarn.lock
-      - jest.config.mjs
-      - jest/**
+      - vitest.config.ts
+      - test/**
       - packages/**
       - tsconfig.*.json
   pull_request:
@@ -19,8 +19,8 @@ on:
     paths:
       - package.json
       - yarn.lock
-      - jest.config.mjs
-      - jest/**
+      - vitest.config.ts
+      - test/**
       - packages/**
       - tsconfig.*.json
       - admin/verdaccio.yaml

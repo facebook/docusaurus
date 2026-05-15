@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import path from 'path';
+// eslint-disable-next-line import/default
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -674,7 +675,6 @@ export default async function createConfigAsync() {
         // TODO Docusaurus v4: remove after we drop DocSearch v3
         //  temporary, for DocSearch v3/v4 conditional Ask AI integration
         //  see https://github.com/facebook/docusaurus/pull/11327
-        // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
         ...(require('@docsearch/react').version.startsWith('4.')
           ? {
               askAi: {

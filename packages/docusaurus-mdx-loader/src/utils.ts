@@ -128,7 +128,7 @@ export async function compileToJSX({
         error.message
       }\nDetails:\n${errorDetails}`,
       // TODO error cause doesn't seem to be used by Webpack stats.errors :s
-      {cause: error},
+      {cause: errorUnknown},
     );
   }
 }
