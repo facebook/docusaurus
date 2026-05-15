@@ -15,6 +15,7 @@ export = {
       plugins: ['@docusaurus'],
       rules: {
         '@docusaurus/string-literal-i18n-messages': 'error',
+        '@docusaurus/no-window-eq-undefined': 'error',
         '@docusaurus/no-html-links': 'warn',
         '@docusaurus/prefer-docusaurus-heading': 'warn',
       },
@@ -23,6 +24,7 @@ export = {
       plugins: ['@docusaurus'],
       rules: {
         '@docusaurus/string-literal-i18n-messages': 'error',
+        '@docusaurus/no-window-eq-undefined': 'error',
         '@docusaurus/no-untranslated-text': 'warn',
         '@docusaurus/no-html-links': 'warn',
         '@docusaurus/prefer-docusaurus-heading': 'warn',
