@@ -182,3 +182,10 @@ export const FrontMatterLastUpdateSchema = Joi.object({
     'object.missing': FrontMatterLastUpdateErrorMessage,
     'object.base': FrontMatterLastUpdateErrorMessage,
   });
+
+export const FrontMatterCreatedErrorMessage =
+  '{{#label}} does not look like a valid created date. Please use a string or Date value.';
+
+export const FrontMatterCreatedSchema = Joi.date().raw().messages({
+  'date.base': FrontMatterCreatedErrorMessage,
+});

@@ -409,6 +409,12 @@ declare module '@docusaurus/plugin-content-docs' {
     unlisted?: boolean;
     /** Allows overriding the last updated author and/or date. */
     last_update?: FrontMatterLastUpdate;
+    /**
+     * The creation date of the document. Can be any
+     * [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse).
+     * @see https://github.com/facebook/docusaurus/issues/5691
+     */
+    created?: Date | string;
   };
 
   export type DocMetadataBase = LastUpdateData & {
@@ -460,6 +466,13 @@ declare module '@docusaurus/plugin-content-docs' {
     editUrl?: string | null;
     /** Tags, normalized. */
     tags: TagMetadata[];
+    /**
+     * The creation timestamp of the document in milliseconds, sourced from
+     * the `created` front matter field.
+     * `undefined`: no `created` front matter provided
+     * `null`: value could not be parsed
+     */
+    createdAt?: number | null;
     /** Front matter, as-is. */
     frontMatter: DocFrontMatter & {[key: string]: unknown};
   };

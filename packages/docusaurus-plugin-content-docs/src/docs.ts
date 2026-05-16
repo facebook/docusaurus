@@ -120,6 +120,7 @@ async function doProcessDocMetadata({
     // but allow to disable this behavior with front matter
     parse_number_prefixes: parseNumberPrefixes = true,
     last_update: lastUpdateFrontMatter,
+    created: createdFrontMatter,
   } = frontMatter;
 
   const lastUpdate = await readLastUpdateData(
@@ -225,6 +226,16 @@ async function doProcessDocMetadata({
   // NodeJS optimization.
   // Adding properties to object after instantiation will cause hidden
   // class transitions.
+
+  // Parse the created front matter value into a millisecond timestamp
+  const createdAt: number | null | undefined =
+    createdFrontMatter !== undefined
+      ? (() => {
+          const parsed = new Date(createdFrontMatter).getTime();
+          return Number.isNaN(parsed) ? null : parsed;
+        })()
+      : undefined;
+
   return {
     id,
     title,
@@ -240,6 +251,7 @@ async function doProcessDocMetadata({
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
+    createdAt,
     sidebarPosition,
     frontMatter,
   };

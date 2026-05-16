@@ -492,3 +492,35 @@ describe('validateDocFrontMatter last_update', () => {
     ],
   });
 });
+
+describe('validateDocFrontMatter created', () => {
+  testField({
+    prefix: 'created',
+    validFrontMatters: [
+      {created: undefined},
+      {created: '1/1/2000'},
+      {created: new Date('1/1/2000')},
+      {created: '2024-01-15'},
+      {created: '1995-12-17T03:24:00'},
+      {created: 'December 17, 1995 03:24:00'},
+    ],
+    invalidFrontMatters: [
+      [
+        {created: 'I am not a date :('},
+        'does not look like a valid created date',
+      ],
+      [
+        {created: '2011-10-45'},
+        'does not look like a valid created date',
+      ],
+      [
+        {created: '2011-0-10'},
+        'does not look like a valid created date',
+      ],
+      [
+        {created: ''},
+        'does not look like a valid created date',
+      ],
+    ],
+  });
+});
