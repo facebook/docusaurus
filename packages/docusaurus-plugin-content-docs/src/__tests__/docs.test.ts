@@ -263,6 +263,7 @@ describe('simple site', () => {
         'doc-draft.md',
         'doc-unlisted.md',
         'customLastUpdate.md',
+        'customCreated.md',
         'lastUpdateAuthorOnly.md',
         'lastUpdateDateOnly.md',
         'foo/bar.md',
@@ -708,6 +709,62 @@ describe('simple site', () => {
       tags: [],
       unlisted: false,
     });
+  });
+
+  it('docs with created front matter', async () => {
+    const {defaultTestUtils} = await loadSite();
+
+    await defaultTestUtils.testMeta('customCreated.md', {
+      version: 'current',
+      id: 'customCreated',
+      sourceDirName: '.',
+      permalink: '/docs/customCreated',
+      slug: '/customCreated',
+      title: 'Custom Created',
+      description: 'Custom created date',
+      frontMatter: {
+        title: 'Custom Created',
+        // YAML parses bare date values (e.g. 2024-01-15) into Date objects
+        created: new Date('2024-01-15'),
+      },
+      createdAt: new Date('2024-01-15').getTime(),
+      sidebarPosition: undefined,
+      tags: [],
+      unlisted: false,
+    });
+  });
+
+  it('docs without created front matter have undefined createdAt', async () => {
+    const {defaultTestUtils} = await loadSite();
+
+    // lorem.md has no 'created' field, so createdAt should be undefined
+    const metadata = await defaultTestUtils.processDocFile('lorem.md');
+    expect(metadata.createdAt).toBeUndefined();
+  });
+
+  it('docs with created front matter using processDocFile directly', async () => {
+    const {defaultTestUtils} = await loadSite();
+
+    // Use a fake doc file to test various created date formats
+    const isoDateDoc = createFakeDocFile({
+      source: 'isoDate.md',
+      frontMatter: {created: '2023-06-15T10:30:00'},
+    });
+    const isoMeta = await defaultTestUtils.processDocFile(isoDateDoc);
+    expect(isoMeta.createdAt).toBe(new Date('2023-06-15T10:30:00').getTime());
+
+    const plainDateDoc = createFakeDocFile({
+      source: 'plainDate.md',
+      frontMatter: {created: '1/1/2000'},
+    });
+    const plainMeta = await defaultTestUtils.processDocFile(plainDateDoc);
+    expect(plainMeta.createdAt).toBe(new Date('1/1/2000').getTime());
+
+    const noCreatedDoc = createFakeDocFile({
+      source: 'noCreated.md',
+    });
+    const noCreatedMeta = await defaultTestUtils.processDocFile(noCreatedDoc);
+    expect(noCreatedMeta.createdAt).toBeUndefined();
   });
 
   it('docs with last_update front matter disabled', async () => {

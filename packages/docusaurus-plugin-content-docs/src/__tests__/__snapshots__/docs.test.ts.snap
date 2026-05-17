@@ -4,12 +4,23 @@ exports[`simple site > custom pagination - development 1`] = `
 {
   "pagination": [
     {
+      "id": "customCreated",
+      "next": {
+        "permalink": "/docs/customLastUpdate",
+        "title": "Custom Last Update",
+      },
+      "prev": undefined,
+    },
+    {
       "id": "customLastUpdate",
       "next": {
         "permalink": "/docs/doc with space",
         "title": "Hoo hoo, if this path tricks you...",
       },
-      "prev": undefined,
+      "prev": {
+        "permalink": "/docs/customCreated",
+        "title": "Custom Created",
+      },
     },
     {
       "id": "doc with space",
@@ -237,6 +248,10 @@ exports[`simple site > custom pagination - development 1`] = `
   "sidebars": {
     "defaultSidebar": [
       {
+        "id": "customCreated",
+        "type": "doc",
+      },
+      {
         "id": "customLastUpdate",
         "type": "doc",
       },
@@ -360,12 +375,23 @@ exports[`simple site > custom pagination - production 1`] = `
 {
   "pagination": [
     {
+      "id": "customCreated",
+      "next": {
+        "permalink": "/docs/customLastUpdate",
+        "title": "Custom Last Update",
+      },
+      "prev": undefined,
+    },
+    {
       "id": "customLastUpdate",
       "next": {
         "permalink": "/docs/doc with space",
         "title": "Hoo hoo, if this path tricks you...",
       },
-      "prev": undefined,
+      "prev": {
+        "permalink": "/docs/customCreated",
+        "title": "Custom Created",
+      },
     },
     {
       "id": "doc with space",
@@ -571,6 +597,10 @@ exports[`simple site > custom pagination - production 1`] = `
   ],
   "sidebars": {
     "defaultSidebar": [
+      {
+        "id": "customCreated",
+        "type": "doc",
+      },
       {
         "id": "customLastUpdate",
         "type": "doc",

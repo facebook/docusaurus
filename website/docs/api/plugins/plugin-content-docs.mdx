@@ -301,6 +301,7 @@ Accepted fields:
 | `draft` | `boolean` | `false` | Draft documents will only be available during development. |
 | `unlisted` | `boolean` | `false` | Unlisted documents will be available in both development and production. They will be "hidden" in production, not indexed, excluded from sitemaps, and can only be accessed by users having a direct link. |
 | `last_update` | `FrontMatterLastUpdate` | `undefined` | Allows overriding the last update author/date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |
+| `created` | `Date \| string` | `undefined` | The creation date of the document. Can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). Exposed as `createdAt` (milliseconds timestamp) in the doc metadata. |
 
 ```mdx-code-block
 </APITable>
@@ -331,6 +332,7 @@ keywords:
 tags: [docusaurus]
 image: https://i.imgur.com/mErPwqL.png
 slug: /myDoc
+created: 2024-01-15
 last_update:
   date: 1/1/2000
   author: custom author name
