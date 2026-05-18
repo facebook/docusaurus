@@ -267,4 +267,22 @@ describe('transformLinks plugin', () => {
       });
     });
   });
+
+  it('does not transform link to a directory with a dot in its name', async () => {
+    const result = await processContent(
+      `[link](../directory-with.dot/)`,
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"[link](../directory-with.dot/)"`,
+    );
+  });
+
+  it('does not transform link to a directory with a dot (no trailing slash)', async () => {
+    const result = await processContent(
+      `[link](../directory-with.dot)`,
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"[link](../directory-with.dot)"`,
+    );
+  });
 });

@@ -229,6 +229,13 @@ async function processLinkNode(target: Target, context: Context) {
   );
 
   if (localFilePath) {
+    // Skip asset transformation for directories (e.g., "directory-with.dot/")
+    // A directory path with a dot can match hasAssetLikeExtension, but it
+    // should not be treated as a file asset — it's a valid link target.
+    const stats = await fs.stat(localFilePath);
+    if (stats.isDirectory()) {
+      return;
+    }
     await toAssetRequireNode(target, localFilePath, context);
   } else {
     // The @site alias is the only way to believe that the user wants an asset.
