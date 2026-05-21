@@ -8,7 +8,7 @@
 import logger from '@docusaurus/logger';
 import {createJiti} from 'jiti';
 
-const DEBUG = true;
+const DEBUG = false;
 
 const jiti = createJiti(__filename, {
   // Transpilation cache, can be safely enabled
@@ -40,12 +40,15 @@ export async function loadFreshModule(
     });
 
     if (DEBUG) {
-      console.log(modulePath, {
+      console.log('Jiti module loaded', {
+        modulePath,
+        options,
         type: typeof module,
         keys:
           module && typeof module === 'object'
             ? Object.keys(module)
             : undefined,
+        module,
       });
     }
 
