@@ -48,10 +48,18 @@ jobs:
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: lts/*
-          #  ⚠️ Do not use any cache on purpose
-          # It increases the chance of a compromised release being publish
+
+          #  ⚠️ Do not use any shared cache on sensitive workflows! ⚠️
+          # Our releases could get compromised through a cache poisoning attack
           # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
-          # cache: yarn
+          cache: '' # ⚠️ cache attribute explicitly disabled on purpose
+
+          # Explicitly disabled, although not strictly required for Yarn
+          # setup-node's "automatic caching" logic changes over time,
+          # making it possible to enable it by mistake during an action upgrade
+          # See https://github.com/actions/setup-node/pull/1549
+          package-manager-cache: false
+
       - name: Prepare git
         run: |
           git config --global user.name "Docusaurus"
