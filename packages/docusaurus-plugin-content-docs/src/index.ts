@@ -150,7 +150,8 @@ export default async function pluginContentDocs(
           // Note that metadataPath must be the same/in-sync as
           // the path from createData for each MDX.
           const aliasedPath = aliasedSitePath(mdxPath, siteDir);
-          return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
+          const metadataSource = contentHelpers.getMetadataSource(aliasedPath);
+          return path.join(dataDir, `${docuHash(metadataSource)}.json`);
         },
         // createAssets converts relative paths to require() calls
         createAssets: ({frontMatter}: {frontMatter: DocFrontMatter}) => ({

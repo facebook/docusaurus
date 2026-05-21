@@ -99,6 +99,7 @@ export {
   addTrailingPathSeparator,
 } from './pathUtils';
 export {md5Hash, simpleHash, docuHash} from './hashUtils';
+export {createMetadataSourceResolver} from './metadataUtils';
 export {
   Globby,
   GlobExcludeDefault,
