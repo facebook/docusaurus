@@ -140,8 +140,7 @@ async function loadMDXWithCaching({
   compilerName: WebpackCompilerName;
 }): Promise<string> {
   const {crossCompilerCache} = options;
-  // For the repro only
-  if (!crossCompilerCache || !process.env.DOES_NOT_EXIST) {
+  if (!crossCompilerCache) {
     return loadMDX({
       fileContent,
       filePath,
