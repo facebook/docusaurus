@@ -147,6 +147,15 @@ async function loadMDXWithCaching({
       options,
       compilerName,
     });
+  } else if (crossCompilerCache) {
+    // TODO only useful for the repro
+    // There's definitively a cross-compiler cache bug
+    return loadMDX({
+      fileContent,
+      filePath,
+      options,
+      compilerName,
+    });
   }
 
   // Note we "resource" as cache key, not "filePath" nor "fileContent"
