@@ -45,7 +45,6 @@
   },
   "devDependencies": {
     "@types/dedent": "^0.7.0",
-    "@types/github-slugger": "^2.0.0",
     "@types/micromatch": "^4.0.10",
     "@types/react-dom": "^19.2.3",
     "dedent": "^0.7.0",
