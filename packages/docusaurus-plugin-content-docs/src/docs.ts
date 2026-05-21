@@ -41,6 +41,18 @@ import type {LoadContext} from '@docusaurus/types';
 import type {SidebarsUtils} from './sidebars/utils';
 import type {DocFile} from './types';
 
+// Extended front matter type to include custom_field in last_update
+type ExtendedDocFrontMatter = Omit<
+  ReturnType<typeof validateDocFrontMatter>,
+  'last_update'
+> & {
+  last_update?: {
+    author?: string;
+    date?: Date | string;
+    custom_field?: string;
+  };
+};
+
 export async function readDocFile(
   versionMetadata: Pick<
     VersionMetadata,
@@ -110,7 +122,11 @@ async function doProcessDocMetadata({
     fileContent: content,
     parseFrontMatter,
   });
-  const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
+
+  // Cast to extended type to carry custom_field through
+  const frontMatter = validateDocFrontMatter(
+    unsafeFrontMatter,
+  ) as ExtendedDocFrontMatter;
 
   const {
     custom_edit_url: customEditURL,
@@ -122,12 +138,31 @@ async function doProcessDocMetadata({
     last_update: lastUpdateFrontMatter,
   } = frontMatter;
 
-  const lastUpdate = await readLastUpdateData(
+  // Log custom_field from last_update if present (remove if not needed)
+  if (lastUpdateFrontMatter?.custom_field) {
+    console.log(
+      `[docs] custom_field for "${filePath}": ${lastUpdateFrontMatter.custom_field}`,
+    );
+  }
+
+  // UPDATED — front matter overrides git values
+  const gitLastUpdate = await readLastUpdateData(
     filePath,
     options,
     lastUpdateFrontMatter,
     vcs,
   );
+
+  const lastUpdate = {
+    lastUpdatedAt: options.showLastUpdateTime
+      ? lastUpdateFrontMatter?.date
+        ? new Date(lastUpdateFrontMatter.date).getTime() / 1000
+        : gitLastUpdate.lastUpdatedAt
+      : undefined,
+    lastUpdatedBy: options.showLastUpdateAuthor
+      ? (lastUpdateFrontMatter?.author ?? gitLastUpdate.lastUpdatedBy)
+      : undefined,
+  };
 
   // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
   const sourceFileNameWithoutExtension = path.basename(
@@ -386,7 +421,6 @@ export function toCategoryIndexMatcherParam({
   DocMetadataBase,
   'source' | 'sourceDirName'
 >): Parameters<CategoryIndexMatcher>[0] {
-  // source + sourceDirName are always posix-style
   return {
     fileName: path.posix.parse(source).name,
     extension: path.posix.parse(source).ext,

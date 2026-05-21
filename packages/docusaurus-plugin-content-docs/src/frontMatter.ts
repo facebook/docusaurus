@@ -7,7 +7,7 @@
 /* eslint-disable camelcase */
 
 import {
-  JoiFrontMatter as Joi, // Custom instance for front matter
+  JoiFrontMatter as Joi,
   URISchema,
   FrontMatterTagsSchema,
   FrontMatterTOCHeadingLevels,
@@ -17,11 +17,20 @@ import {
 } from '@docusaurus/utils-validation';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 
+// Extends DocFrontMatter to include custom_field inside last_update
+export type ExtendedDocFrontMatter = Omit<DocFrontMatter, 'last_update'> & {
+  last_update?: {
+    author?: string;
+    date?: Date | string;
+    custom_field?: string;
+  };
+};
+
 // NOTE: we don't add any default value on purpose here
 // We don't want default values to magically appear in doc metadata and props
 // While the user did not provide those values explicitly
 // We use default values in code instead
-export const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
+export const DocFrontMatterSchema = Joi.object<ExtendedDocFrontMatter>({
   id: Joi.string(),
   // See https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
   title: Joi.string().allow(''),
@@ -45,13 +54,22 @@ export const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   pagination_next: Joi.string().allow(null),
   pagination_prev: Joi.string().allow(null),
   ...FrontMatterTOCHeadingLevels,
-  last_update: FrontMatterLastUpdateSchema,
+  last_update: FrontMatterLastUpdateSchema.concat(
+    Joi.object({
+      custom_field: Joi.string(),
+    }),
+  ),
 })
   .unknown()
   .concat(ContentVisibilitySchema);
 
+// Return type is now ExtendedDocFrontMatter so custom_field is typed correctly
+// in docs.ts and anywhere else that consumes front matter
 export function validateDocFrontMatter(frontMatter: {
   [key: string]: unknown;
-}): DocFrontMatter {
-  return validateFrontMatter(frontMatter, DocFrontMatterSchema);
+}): ExtendedDocFrontMatter {
+  return validateFrontMatter(
+    frontMatter,
+    DocFrontMatterSchema,
+  ) as ExtendedDocFrontMatter;
 }
