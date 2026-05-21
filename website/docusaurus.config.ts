@@ -112,7 +112,7 @@ if (isSlower) {
 const router = process.env
   .DOCUSAURUS_ROUTER as DocusaurusConfig['future']['experimental_router'];
 
-const vcs = process.env.DOCUSAURUS_SITE_VCS as VcsPreset;
+const vcs = 'git-ad-hoc' as VcsPreset;
 
 const isDev = process.env.NODE_ENV === 'development';
 
