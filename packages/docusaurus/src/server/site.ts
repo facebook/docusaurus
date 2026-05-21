@@ -18,7 +18,7 @@ import {loadSiteConfig} from './config';
 import {getAllClientModules} from './clientModules';
 import {loadPlugins, reloadPlugin} from './plugins/plugins';
 import {loadHtmlTags} from './htmlTags';
-import {createSiteMetadata, loadSiteVersion} from './siteMetadata';
+import {createSiteMetadata, tryLoadSitePackageJson} from './siteMetadata';
 import {loadI18n} from './i18n';
 import {
   loadSiteCodeTranslations,
@@ -94,7 +94,7 @@ export async function loadContext(
     siteVersion,
     loadSiteConfig: {siteConfig: initialSiteConfig, siteConfigPath},
   } = await combinePromises({
-    siteVersion: loadSiteVersion(siteDir),
+    siteVersion: tryLoadSitePackageJson(siteDir).then((pkg) => pkg?.version),
     loadSiteConfig: loadSiteConfig({
       siteDir,
       customConfigFilePath,
