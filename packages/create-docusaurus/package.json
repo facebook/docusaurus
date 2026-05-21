@@ -31,6 +31,7 @@
     "tslib": "^2.6.0"
   },
   "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
     "@types/supports-color": "^10.0.0"
   },
   "engines": {
