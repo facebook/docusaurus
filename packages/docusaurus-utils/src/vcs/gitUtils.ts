@@ -147,25 +147,25 @@ export async function getFileCommitDate(
   // See why: https://github.com/facebook/docusaurus/pull/10022
   const resultFormat = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
 
-  const args = [
-    `--format=${resultFormat}`,
-    '--max-count=1',
-    age === 'oldest' ? '--follow --diff-filter=A' : undefined,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  // Do not include GPG signature in the log output
-  // See https://github.com/facebook/docusaurus/pull/10022
-  const command = `git -c log.showSignature=false log ${args} -- "${path.basename(
-    file,
-  )}"`;
-
   const result = (await GitCommandQueue.add(() => {
-    return execa(command, {
-      cwd: path.dirname(file),
-      shell: true,
-    });
+    return execa(
+      'git',
+      [
+        // Do not include GPG signature in the log output
+        // See https://github.com/facebook/docusaurus/pull/10022
+        '-c',
+        'log.showSignature=false',
+        'log',
+        `--format=${resultFormat}`,
+        '--max-count=1',
+        ...(age === 'oldest' ? ['--follow', '--diff-filter=A'] : []),
+        '--',
+        path.basename(file),
+      ],
+      {
+        cwd: path.dirname(file),
+      },
+    );
   }))!;
 
   if (result.exitCode !== 0) {
