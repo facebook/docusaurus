@@ -138,13 +138,6 @@ async function doProcessDocMetadata({
     last_update: lastUpdateFrontMatter,
   } = frontMatter;
 
-  // Log custom_field from last_update if present (remove if not needed)
-  if (lastUpdateFrontMatter?.custom_field) {
-    console.log(
-      `[docs] custom_field for "${filePath}": ${lastUpdateFrontMatter.custom_field}`,
-    );
-  }
-
   // UPDATED — front matter overrides git values
   const gitLastUpdate = await readLastUpdateData(
     filePath,
