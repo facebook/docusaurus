@@ -13,6 +13,9 @@ const lernaJson = await fs.readJSON('./lerna.json');
 const CurrentDocusaurusVersion = lernaJson.version;
 
 export default {
+  // 7 days cooldown for `syncpack update` commands
+  minimumReleaseAge: 10080,
+
   source: [
     'package.json',
     'packages/*/package.json',

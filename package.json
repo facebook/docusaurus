@@ -128,7 +128,7 @@
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^29.0.0",
-    "syncpack": "^14.3.1",
+    "syncpack": "^15.3.1",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.59.3",
     "vitest": "^4.0.0"
