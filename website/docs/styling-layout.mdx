@@ -23,6 +23,17 @@ This is the most traditional way of styling that most developers (including non-
 
 If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing them as an option of the classic theme.
 
+Your project structure should look like this:
+
+```
+my-website/
+├── src/
+│   └── css/
+│       └── custom.css   ← add your custom styles here
+├── docusaurus.config.js
+└── package.json
+```
+
 ```js title="docusaurus.config.js"
 export default {
   // ...
