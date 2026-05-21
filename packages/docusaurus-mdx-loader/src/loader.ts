@@ -140,16 +140,8 @@ async function loadMDXWithCaching({
   compilerName: WebpackCompilerName;
 }): Promise<string> {
   const {crossCompilerCache} = options;
-  if (!crossCompilerCache) {
-    return loadMDX({
-      fileContent,
-      filePath,
-      options,
-      compilerName,
-    });
-  } else if (crossCompilerCache) {
-    // TODO only useful for the repro
-    // There's definitively a cross-compiler cache bug
+  // For the repro only
+  if (!crossCompilerCache || !process.env.DOES_NOT_EXIST) {
     return loadMDX({
       fileContent,
       filePath,
