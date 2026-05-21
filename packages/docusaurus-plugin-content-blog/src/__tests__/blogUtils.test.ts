@@ -72,7 +72,7 @@ describe('reportUntruncatedBlogPosts', () => {
   });
 
   it('warn for untruncated blog posts', () => {
-    const consoleMock = vi.spyOn(console, 'warn');
+    using warn = vi.spyOn(console, 'warn');
 
     const blogPosts = [
       testPost({source: '@site/blog/post1.md', hasTruncateMarker: false}),
@@ -86,7 +86,7 @@ describe('reportUntruncatedBlogPosts', () => {
       reportUntruncatedBlogPosts({blogPosts, onUntruncatedBlogPosts: 'warn'}),
     ).not.toThrow();
 
-    expect(consoleMock.mock.calls).toMatchInlineSnapshot(`
+    expect(warn.mock.calls).toMatchInlineSnapshot(`
       [
         [
           "[WARNING] Docusaurus found blog posts without truncation markers:
@@ -98,13 +98,13 @@ describe('reportUntruncatedBlogPosts', () => {
         ],
       ]
     `);
-    consoleMock.mockRestore();
+    warn.mockRestore();
   });
 
   it('ignore untruncated blog posts', () => {
-    const logMock = vi.spyOn(console, 'log');
-    const warnMock = vi.spyOn(console, 'warn');
-    const errorMock = vi.spyOn(console, 'error');
+    using log = vi.spyOn(console, 'log');
+    using warn = vi.spyOn(console, 'warn');
+    using error = vi.spyOn(console, 'error');
 
     const blogPosts = [
       testPost({source: '@site/blog/post1.md', hasTruncateMarker: false}),
@@ -118,12 +118,9 @@ describe('reportUntruncatedBlogPosts', () => {
       reportUntruncatedBlogPosts({blogPosts, onUntruncatedBlogPosts: 'ignore'}),
     ).not.toThrow();
 
-    expect(logMock).not.toHaveBeenCalled();
-    expect(warnMock).not.toHaveBeenCalled();
-    expect(errorMock).not.toHaveBeenCalled();
-    logMock.mockRestore();
-    warnMock.mockRestore();
-    errorMock.mockRestore();
+    expect(log).not.toHaveBeenCalled();
+    expect(warn).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
   });
 
   it('does not throw for truncated posts', () => {

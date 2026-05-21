@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {beforeEach, describe, expect, it, vi} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import remark2rehype from 'remark-rehype';
 import stringify from 'rehype-stringify';
@@ -37,55 +37,55 @@ const processFixture = async (
 };
 
 describe('directives remark plugin - client compiler', () => {
-  const consoleMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
-  beforeEach(() => vi.clearAllMocks());
-
   const options = {compilerName: 'client'} as const;
 
   it('default behavior for container directives', async () => {
+    using warn = vi.spyOn(console, 'warn');
     const result = await processFixture('containerDirectives', options);
     expect(result).toMatchSnapshot('result');
-    expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock.mock.calls).toMatchSnapshot('console');
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls).toMatchSnapshot('console');
   });
 
   it('default behavior for leaf directives', async () => {
+    using warn = vi.spyOn(console, 'warn');
     const result = await processFixture('leafDirectives', options);
     expect(result).toMatchSnapshot('result');
-    expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock.mock.calls).toMatchSnapshot('console');
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls).toMatchSnapshot('console');
   });
 
   it('default behavior for text directives', async () => {
+    using warn = vi.spyOn(console, 'warn');
     const result = await processFixture('textDirectives', options);
     expect(result).toMatchSnapshot('result');
-    expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock.mock.calls).toMatchSnapshot('console');
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls).toMatchSnapshot('console');
   });
 });
 
 describe('directives remark plugin - server compiler', () => {
-  const consoleMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
-  beforeEach(() => vi.clearAllMocks());
-
   const options = {compilerName: 'server'} as const;
 
   it('default behavior for container directives', async () => {
+    using warn = vi.spyOn(console, 'warn');
     const result = await processFixture('containerDirectives', options);
     expect(result).toMatchSnapshot('result');
-    expect(consoleMock).toHaveBeenCalledTimes(0);
+    expect(warn).toHaveBeenCalledTimes(0);
   });
 
   it('default behavior for leaf directives', async () => {
+    using warn = vi.spyOn(console, 'warn');
     const result = await processFixture('leafDirectives', options);
     expect(result).toMatchSnapshot('result');
-    expect(consoleMock).toHaveBeenCalledTimes(0);
+    expect(warn).toHaveBeenCalledTimes(0);
   });
 
   it('default behavior for text directives', async () => {
+    using warn = vi.spyOn(console, 'warn');
     const result = await processFixture('textDirectives', options);
     expect(result).toMatchSnapshot('result');
-    expect(consoleMock).toHaveBeenCalledTimes(0);
+    expect(warn).toHaveBeenCalledTimes(0);
   });
 });
 

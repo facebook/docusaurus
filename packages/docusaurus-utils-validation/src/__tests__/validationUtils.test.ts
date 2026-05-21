@@ -49,8 +49,9 @@ describe('normalizePluginOptions', () => {
   });
 
   it('warns', () => {
+    using warn = vi.spyOn(console, 'warn');
+
     const options = {foo: 'a'};
-    const consoleMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
     expect(
       normalizePluginOptions(
         Joi.object({foo: Joi.string().warning('deprecated', {})}).messages({
@@ -59,7 +60,7 @@ describe('normalizePluginOptions', () => {
         options,
       ),
     ).toEqual({foo: 'a', id: 'default'});
-    expect(consoleMock).toHaveBeenCalledWith(
+    expect(warn).toHaveBeenCalledWith(
       expect.stringMatching(/"foo" deprecated/),
     );
   });
@@ -100,8 +101,9 @@ describe('normalizeThemeConfig', () => {
   });
 
   it('warns', () => {
+    using warn = vi.spyOn(console, 'warn');
+
     const themeConfig = {foo: 'a', bar: 1};
-    const consoleMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
     expect(
       normalizeThemeConfig(
         Joi.object({foo: Joi.string().warning('deprecated', {})}).messages({
@@ -110,7 +112,7 @@ describe('normalizeThemeConfig', () => {
         themeConfig,
       ),
     ).toEqual(themeConfig);
-    expect(consoleMock).toHaveBeenCalledWith(
+    expect(warn).toHaveBeenCalledWith(
       expect.stringMatching(/"foo" deprecated/),
     );
   });
@@ -128,9 +130,8 @@ describe('validateFrontMatter', () => {
   });
 
   it('rejects bad values', () => {
-    const consoleError = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
+    using error = vi.spyOn(console, 'error');
+
     const schema = Joi.object<{test: string}>({
       test: Joi.string(),
     });
@@ -142,7 +143,7 @@ describe('validateFrontMatter', () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `[ValidationError: "test" must be a string]`,
     );
-    expect(consoleError).toHaveBeenCalledWith(
+    expect(error).toHaveBeenCalledWith(
       expect.stringContaining('The following front matter'),
     );
   });

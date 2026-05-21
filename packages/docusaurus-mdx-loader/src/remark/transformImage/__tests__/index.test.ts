@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {beforeEach, describe, expect, it, vi} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
 import vfile from 'to-vfile';
 import plugin, {type PluginOptions} from '../index';
@@ -68,10 +68,10 @@ describe('transformImage plugin', () => {
   });
 
   it('does not choke on invalid image', async () => {
-    const errorMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    using warn = vi.spyOn(console, 'warn');
     const result = await processContent(`![invalid image](/invalid.png)`);
     expect(result).toMatchSnapshot();
-    expect(errorMock).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledTimes(1);
   });
 
   describe('onBrokenMarkdownImages', () => {
@@ -121,19 +121,15 @@ describe('transformImage plugin', () => {
         return processContent(content, {onBrokenMarkdownImages: 'warn'});
       }
 
-      const warnMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
-      beforeEach(() => {
-        warnMock.mockClear();
-      });
-
       it('if image absolute path does not exist', async () => {
+        using warn = vi.spyOn(console, 'warn');
         const result = await processWarn(fixtures.doesNotExistAbsolute);
         expect(result).toMatchInlineSnapshot(`
           "![img](/img/doesNotExist.png)
           "
         `);
-        expect(warnMock).toHaveBeenCalledTimes(1);
-        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "[WARNING] Markdown image with URL \`/img/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.",
@@ -143,13 +139,14 @@ describe('transformImage plugin', () => {
       });
 
       it('if image relative path does not exist', async () => {
+        using warn = vi.spyOn(console, 'warn');
         const result = await processWarn(fixtures.doesNotExistRelative);
         expect(result).toMatchInlineSnapshot(`
           "![img](./doesNotExist.png)
           "
         `);
-        expect(warnMock).toHaveBeenCalledTimes(1);
-        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "[WARNING] Markdown image with URL \`./doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.",
@@ -159,13 +156,14 @@ describe('transformImage plugin', () => {
       });
 
       it('if image @site path does not exist', async () => {
+        using warn = vi.spyOn(console, 'warn');
         const result = await processWarn(fixtures.doesNotExistSiteAlias);
         expect(result).toMatchInlineSnapshot(`
           "![img](@site/doesNotExist.png)
           "
         `);
-        expect(warnMock).toHaveBeenCalledTimes(1);
-        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "[WARNING] Markdown image with URL \`@site/doesNotExist.png\` in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved to an existing local image file.",
@@ -175,13 +173,14 @@ describe('transformImage plugin', () => {
       });
 
       it('if image url empty', async () => {
+        using warn = vi.spyOn(console, 'warn');
         const result = await processWarn(fixtures.urlEmpty);
         expect(result).toMatchInlineSnapshot(`
           "![img]()
           "
         `);
-        expect(warnMock).toHaveBeenCalledTimes(1);
-        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "[WARNING] Markdown image with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/docs/myFile.mdx" (1:1).",
@@ -205,19 +204,16 @@ describe('transformImage plugin', () => {
         });
       }
 
-      const logMock = vi.spyOn(console, 'log').mockImplementation(() => {});
-      beforeEach(() => {
-        logMock.mockClear();
-      });
-
       it('if image absolute path does not exist', async () => {
+        using log = vi.spyOn(console, 'log');
+
         const result = await processWarn(fixtures.doesNotExistAbsolute);
         expect(result).toMatchInlineSnapshot(`
           "![new 404 alt](/404.png)
           "
         `);
-        expect(logMock).toHaveBeenCalledTimes(1);
-        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+        expect(log).toHaveBeenCalledTimes(1);
+        expect(log.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownImages called for ",
@@ -249,13 +245,15 @@ describe('transformImage plugin', () => {
       });
 
       it('if image relative path does not exist', async () => {
+        using log = vi.spyOn(console, 'log');
+
         const result = await processWarn(fixtures.doesNotExistRelative);
         expect(result).toMatchInlineSnapshot(`
           "![new 404 alt](/404.png)
           "
         `);
-        expect(logMock).toHaveBeenCalledTimes(1);
-        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+        expect(log).toHaveBeenCalledTimes(1);
+        expect(log.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownImages called for ",
@@ -287,13 +285,15 @@ describe('transformImage plugin', () => {
       });
 
       it('if image @site path does not exist', async () => {
+        using log = vi.spyOn(console, 'log');
+
         const result = await processWarn(fixtures.doesNotExistSiteAlias);
         expect(result).toMatchInlineSnapshot(`
           "![new 404 alt](/404.png)
           "
         `);
-        expect(logMock).toHaveBeenCalledTimes(1);
-        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+        expect(log).toHaveBeenCalledTimes(1);
+        expect(log.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownImages called for ",
@@ -325,13 +325,15 @@ describe('transformImage plugin', () => {
       });
 
       it('if image url empty', async () => {
+        using log = vi.spyOn(console, 'log');
+
         const result = await processWarn(fixtures.urlEmpty);
         expect(result).toMatchInlineSnapshot(`
           "![new 404 alt](/404.png)
           "
         `);
-        expect(logMock).toHaveBeenCalledTimes(1);
-        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+        expect(log).toHaveBeenCalledTimes(1);
+        expect(log.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownImages called for ",

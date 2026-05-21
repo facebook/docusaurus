@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {beforeEach, describe, expect, it, vi} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import {getVcsPreset} from '@docusaurus/utils';
 import {
   ConfigSchema,
@@ -719,12 +719,9 @@ describe('markdown', () => {
       });
 
       describe('onBrokenMarkdownLinks migration', () => {
-        const warnMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
-        beforeEach(() => {
-          warnMock.mockClear();
-        });
-
         it('accepts migrated v3 config', () => {
+          using warn = vi.spyOn(console, 'warn');
+
           expect(
             normalizeConfig({
               onBrokenMarkdownLinks: undefined,
@@ -745,10 +742,12 @@ describe('markdown', () => {
             }),
           );
 
-          expect(warnMock).not.toHaveBeenCalled();
+          expect(warn).not.toHaveBeenCalled();
         });
 
         it('accepts deprecated v3 config with migration warning', () => {
+          using warn = vi.spyOn(console, 'warn');
+
           expect(
             normalizeConfig({
               onBrokenMarkdownLinks: 'log',
@@ -769,8 +768,8 @@ describe('markdown', () => {
             }),
           );
 
-          expect(warnMock).toHaveBeenCalledTimes(1);
-          expect(warnMock.mock.calls[0]).toMatchInlineSnapshot(`
+          expect(warn).toHaveBeenCalledTimes(1);
+          expect(warn.mock.calls[0]).toMatchInlineSnapshot(`
             [
               "[WARNING] The \`siteConfig.onBrokenMarkdownLinks\` config option is deprecated and will be removed in Docusaurus v4.
             Please migrate and move this option to \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` instead.",

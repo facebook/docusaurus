@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {beforeAll, describe, expect, it, vi} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import logger from '../index';
 
 // Force chalk to ANSI level 3 in tests, so output is colored even in CI
@@ -94,54 +94,53 @@ describe('interpolate', () => {
 });
 
 describe('info', () => {
-  const consoleMock = vi.spyOn(console, 'info').mockImplementation(() => {});
   it('prints objects', () => {
+    using info = vi.spyOn(console, 'info');
     logger.info({a: 1});
     logger.info(undefined);
     logger.info([1, 2, 3]);
     logger.info(new Date(2021, 10, 13));
-    expect(consoleMock.mock.calls).toMatchSnapshot();
+    expect(info.mock.calls).toMatchSnapshot();
   });
 });
 
 describe('warn', () => {
-  const consoleMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
   it('prints objects', () => {
+    using warn = vi.spyOn(console, 'warn');
     logger.warn({a: 1});
     logger.warn(undefined);
     logger.warn([1, 2, 3]);
     logger.warn(new Date(2021, 10, 13));
-    expect(consoleMock.mock.calls).toMatchSnapshot();
+    expect(warn.mock.calls).toMatchSnapshot();
   });
 });
 
 describe('error', () => {
-  const consoleMock = vi.spyOn(console, 'error').mockImplementation(() => {});
   it('prints objects', () => {
+    using error = vi.spyOn(console, 'error');
     logger.error({a: 1});
     logger.error(undefined);
     logger.error([1, 2, 3]);
     logger.error(new Date(2021, 10, 13));
-    expect(consoleMock.mock.calls).toMatchSnapshot();
+    expect(error.mock.calls).toMatchSnapshot();
   });
 });
 
 describe('success', () => {
-  const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {});
   it('prints objects', () => {
+    using log = vi.spyOn(console, 'log');
     logger.success({a: 1});
     logger.success(undefined);
     logger.success([1, 2, 3]);
     logger.success(new Date(2021, 10, 13));
-    expect(consoleMock.mock.calls).toMatchSnapshot();
+    expect(log.mock.calls).toMatchSnapshot();
   });
 });
 
 describe('report', () => {
-  beforeAll(() => vi.clearAllMocks());
   it('works with all severities', () => {
-    const consoleLog = vi.spyOn(console, 'info').mockImplementation(() => {});
-    const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    using log = vi.spyOn(console, 'info');
+    using warn = vi.spyOn(console, 'warn');
     logger.report('ignore')('hey');
     logger.report('log')('hey');
     logger.report('warn')('hey');
@@ -154,12 +153,10 @@ describe('report', () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `[Error: Unexpected "reportingSeverity" value: foo.]`,
     );
-    expect(consoleLog).toHaveBeenCalledTimes(1);
-    expect(consoleLog).toHaveBeenCalledWith(
-      expect.stringMatching(/.*\[INFO\].* hey/),
-    );
-    expect(consoleWarn).toHaveBeenCalledTimes(1);
-    expect(consoleWarn).toHaveBeenCalledWith(
+    expect(log).toHaveBeenCalledTimes(1);
+    expect(log).toHaveBeenCalledWith(expect.stringMatching(/.*\[INFO\].* hey/));
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(
       expect.stringMatching(/.*\[WARNING\].* hey/),
     );
   });

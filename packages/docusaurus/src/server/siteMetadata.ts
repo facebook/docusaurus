@@ -14,27 +14,30 @@ import type {
   SiteMetadata,
 } from '@docusaurus/types';
 
-async function loadPackageJsonVersion(
+type PackageJson = {
+  name?: string;
+  version?: string;
+};
+
+async function tryLoadPackageJson(
   packageJsonPath: string,
-): Promise<string | undefined> {
+): Promise<PackageJson | undefined> {
   if (await fs.pathExists(packageJsonPath)) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    return (require(packageJsonPath) as {version?: string}).version;
+    try {
+      return (await fs.readJSON(packageJsonPath)) as PackageJson;
+    } catch (error) {
+      throw new Error(`Couldn't load package.json file at ${packageJsonPath}`, {
+        cause: error,
+      });
+    }
   }
   return undefined;
 }
 
-async function loadPackageJsonName(
-  packageJsonPath: string,
-): Promise<string | undefined> {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  return (require(packageJsonPath) as {name?: string}).name;
-}
-
-export async function loadSiteVersion(
+export async function tryLoadSitePackageJson(
   siteDir: string,
-): Promise<string | undefined> {
-  return loadPackageJsonVersion(path.join(siteDir, 'package.json'));
+): Promise<PackageJson | undefined> {
+  return tryLoadPackageJson(path.join(siteDir, 'package.json'));
 }
 
 export async function loadPluginVersion(
@@ -56,10 +59,11 @@ export async function loadPluginVersion(
         // as local plugin.
         return {type: 'project'};
       }
+      const packageJson = await tryLoadPackageJson(packageJsonPath);
       return {
         type: 'package',
-        name: await loadPackageJsonName(packageJsonPath),
-        version: await loadPackageJsonVersion(packageJsonPath),
+        name: packageJson?.name,
+        version: packageJson?.version,
       };
     }
     potentialPluginPackageJsonDirectory = path.dirname(

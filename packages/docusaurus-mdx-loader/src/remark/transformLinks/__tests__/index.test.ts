@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {beforeEach, describe, expect, it, vi} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
 import vfile from 'to-vfile';
 import plugin, {type PluginOptions} from '..';
@@ -110,16 +110,12 @@ describe('transformLinks plugin', () => {
         return processContent(content, {onBrokenMarkdownLinks: 'warn'});
       }
 
-      const warnMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
-      beforeEach(() => {
-        warnMock.mockClear();
-      });
-
       it('if url is empty', async () => {
+        using warn = vi.spyOn(console, 'warn');
         const result = await processWarn(fixtures.urlEmpty);
         expect(result).toMatchInlineSnapshot(`"[empty]()"`);
-        expect(warnMock).toHaveBeenCalledTimes(1);
-        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "[WARNING] Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1).",
@@ -129,10 +125,11 @@ describe('transformLinks plugin', () => {
       });
 
       it('if file with site alias does not exist', async () => {
+        using warn = vi.spyOn(console, 'warn');
         const result = await processWarn(fixtures.fileDoesNotExistSiteAlias);
         expect(result).toMatchInlineSnapshot(`"[file](@site/file.zip)"`);
-        expect(warnMock).toHaveBeenCalledTimes(1);
-        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "[WARNING] Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
@@ -157,18 +154,15 @@ describe('transformLinks plugin', () => {
         });
       }
 
-      const logMock = vi.spyOn(console, 'log').mockImplementation(() => {});
-      beforeEach(() => {
-        logMock.mockClear();
-      });
-
       it('if url is empty', async () => {
+        using log = vi.spyOn(console, 'log');
+
         const result = await processWarn(fixtures.urlEmpty);
         expect(result).toMatchInlineSnapshot(
           `"[empty](/404 "fixed link title")"`,
         );
-        expect(logMock).toHaveBeenCalledTimes(1);
-        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+        expect(log).toHaveBeenCalledTimes(1);
+        expect(log.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownLinks called with",
@@ -217,12 +211,14 @@ describe('transformLinks plugin', () => {
       });
 
       it('if file with site alias does not exist', async () => {
+        using log = vi.spyOn(console, 'log');
+
         const result = await processWarn(fixtures.fileDoesNotExistSiteAlias);
         expect(result).toMatchInlineSnapshot(
           `"[file](/404 "fixed link title")"`,
         );
-        expect(logMock).toHaveBeenCalledTimes(1);
-        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+        expect(log).toHaveBeenCalledTimes(1);
+        expect(log.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownLinks called with",

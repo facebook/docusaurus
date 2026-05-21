@@ -178,7 +178,7 @@ describe('reportInlineTags', () => {
   });
 
   it('warn when docs has invalid tags', () => {
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    using warn = vi.spyOn(console, 'warn');
 
     reportInlineTags({
       tags: [
@@ -198,8 +198,8 @@ describe('reportInlineTags', () => {
       source: 'wrong.md',
       options: {onInlineTags: 'warn', tags: 'tags.yml'},
     });
-    expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy.mock.calls).toMatchInlineSnapshot(`
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls).toMatchInlineSnapshot(`
       [
         [
           "[WARNING] Tags [world] used in wrong.md are not defined in tags.yml",
@@ -207,13 +207,13 @@ describe('reportInlineTags', () => {
       ]
     `);
 
-    warnSpy.mockRestore();
+    warn.mockRestore();
   });
 
   it('ignore when docs has invalid tags', () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    using error = vi.spyOn(console, 'error');
+    using warn = vi.spyOn(console, 'warn');
+    using log = vi.spyOn(console, 'log');
 
     reportInlineTags({
       tags: [
@@ -233,13 +233,13 @@ describe('reportInlineTags', () => {
       source: 'wrong.md',
       options: {onInlineTags: 'ignore', tags: 'tags.yml'},
     });
-    expect(errorSpy).not.toHaveBeenCalled();
-    expect(warnSpy).not.toHaveBeenCalled();
-    expect(logSpy).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+    expect(warn).not.toHaveBeenCalled();
+    expect(log).not.toHaveBeenCalled();
 
-    errorSpy.mockRestore();
-    warnSpy.mockRestore();
-    logSpy.mockRestore();
+    error.mockRestore();
+    warn.mockRestore();
+    log.mockRestore();
   });
 
   it('throw for unknown string and object tag', () => {

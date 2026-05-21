@@ -120,7 +120,7 @@ describe('readOutputHTMLFile', () => {
 });
 
 describe('generate', () => {
-  const writeMock = vi.spyOn(fs, 'outputFile').mockImplementation(() => {});
+  const writeMock = vi.spyOn(fs, 'outputFile');
   const existsMock = vi.spyOn(fs, 'pathExists');
   const readMock = vi.spyOn(fs, 'readFile');
 

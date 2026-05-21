@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {beforeEach, describe, expect, it, vi} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
 import plugin from '..';
 import type {PluginOptions} from '../index';
@@ -184,11 +184,6 @@ this is a code block
   });
 
   describe('onBrokenMarkdownLinks', () => {
-    const warnMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    beforeEach(() => {
-      warnMock.mockClear();
-    });
-
     async function processResolutionErrors(
       content: string,
       onBrokenMarkdownLinks: PluginOptions['onBrokenMarkdownLinks'] = 'throw',
@@ -227,6 +222,8 @@ this is a code block
 
     describe('warns', () => {
       it('for unresolvable md and mdx link', async () => {
+        using warn = vi.spyOn(console, 'warn');
+
         /* language=markdown */
         const content = `
 [link1](link1.mdx)
@@ -251,8 +248,8 @@ this is a code block
                   "
               `);
 
-        expect(warnMock).toHaveBeenCalledTimes(2);
-        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warn).toHaveBeenCalledTimes(2);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "[WARNING] Markdown link with URL \`link1.mdx\` in source file "packages/docusaurus-mdx-loader/src/remark/resolveMarkdownLinks/__tests__/docs/myFile.mdx" (2:1) couldn't be resolved.
@@ -267,6 +264,8 @@ this is a code block
       });
 
       it('for unresolvable md and mdx link - with recovery', async () => {
+        using warn = vi.spyOn(console, 'warn');
+
         /* language=markdown */
         const content = `
 [link1](link1.mdx)
@@ -298,8 +297,8 @@ this is a code block
           "
         `);
 
-        expect(warnMock).toHaveBeenCalledTimes(2);
-        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warn).toHaveBeenCalledTimes(2);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownLinks called with",

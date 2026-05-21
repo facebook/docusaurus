@@ -33,12 +33,12 @@ describe('DefaultSidebarItemsGenerator', () => {
   }
 
   it('generates empty sidebar slice when no docs and emit a warning', async () => {
-    const consoleWarn = vi.spyOn(console, 'warn');
+    using warn = vi.spyOn(console, 'warn');
     const sidebarSlice = await testDefaultSidebarItemsGenerator({
       docs: [],
     });
     expect(sidebarSlice).toEqual([]);
-    expect(consoleWarn).toHaveBeenCalledWith(
+    expect(warn).toHaveBeenCalledWith(
       expect.stringMatching(
         /.*\[WARNING\].* No docs found in [^.]*\..*: can't auto-generate a sidebar\..*/,
       ),

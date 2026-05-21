@@ -52,8 +52,8 @@ describe('handleDuplicateRoutes', () => {
       - Attempting to create page at /, but a page already exists at this route.
       This could lead to non-deterministic routing behavior.]
     `);
-    const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {});
+    using log = vi.spyOn(console, 'log');
     handleDuplicateRoutes(routes, 'ignore');
-    expect(consoleMock).toHaveBeenCalledTimes(0);
+    expect(log).toHaveBeenCalledTimes(0);
   });
 });

@@ -129,9 +129,9 @@ export default function MyComponent() {
 }
 `,
     );
-    const consoleWarnMock = vi
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {});
+
+    using warn = vi.spyOn(console, 'warn');
+
     const plugin1 = createTestPlugin(plugin1Dir);
 
     const plugin2Dir = await createTmpDir();
@@ -191,7 +191,7 @@ export default function MyComponent(props: Props) {
         message: 'plugin2 message 2',
       },
     });
-    expect(consoleWarnMock.mock.calls[0]![0]).toMatch(
+    expect(warn.mock.calls[0]![0]).toMatch(
       /.*\[WARNING\].* Translation extraction warnings for file .*src.theme.file4\.jsx.*\n.*- translate\(\) first arg should be a statically evaluable object\./,
     );
   });

@@ -30,12 +30,6 @@ export default {
   ],
 
   versionGroups: [
-    // TODO temporary, need to upgrade jiti deps
-    {
-      dependencies: ['jiti'],
-      isIgnored: true,
-    },
-
     {
       label: 'Ignore * deps in type-alias packages',
       packages: [

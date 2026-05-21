@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {describe, it, vi} from 'vitest';
+import {describe, it} from 'vitest';
 import webpack from 'webpack';
 
 import createServerConfig from '../server';
@@ -21,7 +21,6 @@ function createTestConfigureWebpackUtils() {
 
 describe('webpack production config', () => {
   it('simple', async () => {
-    vi.spyOn(console, 'log').mockImplementation(() => {});
     const {props} = await loadSiteFixture('simple-site');
     const {config} = await createServerConfig({
       props,
@@ -31,7 +30,6 @@ describe('webpack production config', () => {
   });
 
   it('custom', async () => {
-    vi.spyOn(console, 'log').mockImplementation(() => {});
     const {props} = await loadSiteFixture('custom-site');
     const {config} = await createServerConfig({
       props,
