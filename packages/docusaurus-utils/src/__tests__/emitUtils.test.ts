@@ -120,7 +120,7 @@ describe('readOutputHTMLFile', () => {
 });
 
 describe('generate', () => {
-  const writeMock = vi.spyOn(fs, 'outputFile');
+  const writeMock = vi.spyOn(fs, 'outputFile').mockImplementation(() => {});
   const existsMock = vi.spyOn(fs, 'pathExists');
   const readMock = vi.spyOn(fs, 'readFile');
 
@@ -141,7 +141,6 @@ describe('generate', () => {
 
   it('works with existing file but no cache', async () => {
     existsMock.mockImplementationOnce(() => true);
-    // @ts-expect-error: seems the typedef doesn't understand overload
     readMock.mockImplementationOnce(() => Promise.resolve('bar'));
     await generate(__dirname, 'baz', 'bar');
     expect(writeMock).toHaveBeenCalledTimes(1);
