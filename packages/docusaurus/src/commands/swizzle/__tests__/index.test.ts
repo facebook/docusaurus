@@ -50,7 +50,7 @@ module.exports = {
 function createExitMock(expectedExitCode: number = 0) {
   const mock = vi
     .spyOn(process, 'exit')
-    .mockImplementation((() => {}) as () => never);
+    .mockImplementationOnce((() => {}) as () => never);
 
   return {
     [Symbol.dispose]: () => {
