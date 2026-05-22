@@ -149,6 +149,7 @@ export async function loadContext(
 
   const siteConfig: DocusaurusConfig = {
     ...initialSiteConfig,
+    url: localeConfig.url,
     baseUrl,
   };
 
