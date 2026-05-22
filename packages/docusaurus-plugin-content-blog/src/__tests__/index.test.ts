@@ -541,14 +541,14 @@ describe('blog plugin', () => {
   });
 
   it('excludes draft blog post from production build', async () => {
-    const originalEnv = process.env;
     vi.resetModules();
-    process.env = {...originalEnv, NODE_ENV: 'production'};
+    vi.stubEnv('NODE_ENV', 'production');
+
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPosts = await getBlogPosts(siteDir);
 
     expect(blogPosts.find((v) => v.metadata.title === 'draft')).toBeUndefined();
-    process.env = originalEnv;
+    vi.unstubAllEnvs();
   });
 
   it('creates blog post without date', async () => {

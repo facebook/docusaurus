@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 // @vitest-environment jsdom
-import {afterAll, beforeEach, describe, expect, it, vi} from 'vitest';
+
+import {afterAll, describe, expect, it, vi} from 'vitest';
 import React from 'react';
 import {render} from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
@@ -13,24 +14,16 @@ import BrowserOnly from '../BrowserOnly';
 import {Context} from '../../browserContext';
 
 describe('<BrowserOnly>', () => {
-  const originalEnv = process.env;
-
-  beforeEach(() => {
-    vi.resetModules();
-    process.env = {...originalEnv};
-  });
-
   afterAll(() => {
-    process.env = originalEnv;
+    vi.unstubAllEnvs();
   });
 
   it('rejects react element children', () => {
-    process.env.NODE_ENV = 'development';
+    vi.stubEnv('NODE_ENV', 'development');
     expect(() =>
       render(
         <Context.Provider value>
           <BrowserOnly>
-            {/* @ts-expect-error test */}
             <span>{window.location.href}</span>
           </BrowserOnly>
         </Context.Provider>,
@@ -42,11 +35,10 @@ describe('<BrowserOnly>', () => {
   });
 
   it('rejects string children', () => {
-    process.env.NODE_ENV = 'development';
+    vi.stubEnv('NODE_ENV', 'development');
     expect(() => {
       render(
         <Context.Provider value>
-          {/* @ts-expect-error test */}
           <BrowserOnly> </BrowserOnly>
         </Context.Provider>,
       );
