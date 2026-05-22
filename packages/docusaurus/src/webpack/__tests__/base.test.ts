@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {afterEach, describe, expect, it, vi} from 'vitest';
+import {describe, expect, it} from 'vitest';
 import path from 'path';
 import _ from 'lodash';
 import webpack from 'webpack';
@@ -111,10 +111,6 @@ describe('base webpack config', () => {
       },
     ],
   } as Props;
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
 
   it('creates webpack aliases', async () => {
     const aliases = ((
