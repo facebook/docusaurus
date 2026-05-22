@@ -8,7 +8,6 @@
 import {rspack as Rspack} from '@rspack/core';
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
-import {minify as swcHtmlMinifier} from '@swc/html';
 import semver from 'semver';
 import type {JsMinifyOptions, Options as SwcOptions} from '@swc/core';
 import type {CurrentBundler} from '@docusaurus/types';
@@ -42,8 +41,15 @@ export const getSwcLoaderOptions = ({
 
 export const rspack: typeof Rspack = Rspack;
 
-export function getSwcHtmlMinifier(): typeof swcHtmlMinifier {
-  return swcHtmlMinifier;
+type SwcHtmlMinifier = (typeof import('@swc/html'))['minify'];
+
+// Import it lazily: not need for the dev server, more performant
+// This also temporarily fix our StackBlitz playground
+// See https://github.com/facebook/docusaurus/issues/12008
+// See https://github.com/swc-project/swc/issues/11833
+export async function getSwcHtmlMinifier(): Promise<SwcHtmlMinifier> {
+  const {minify} = await import('@swc/html');
+  return minify;
 }
 
 // Note: these options are similar to what we use in core
