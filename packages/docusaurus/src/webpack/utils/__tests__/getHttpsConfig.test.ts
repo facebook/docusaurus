@@ -5,24 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {afterAll, beforeEach, describe, expect, it, vi} from 'vitest';
+import {afterEach, describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import getHttpsConfig from '../getHttpsConfig';
 
 describe('getHttpsConfig', () => {
-  const originalEnv = process.env;
-
   function getFixture(name: string) {
     return path.join(__dirname, '__fixtures__/getHttpsConfig', name);
   }
 
-  beforeEach(() => {
-    vi.resetModules();
-    process.env = {...originalEnv};
-  });
-
-  afterAll(() => {
-    process.env = originalEnv;
+  afterEach(() => {
+    vi.unstubAllEnvs();
   });
 
   it('returns true for HTTPS not env', async () => {
@@ -30,14 +23,15 @@ describe('getHttpsConfig', () => {
   });
 
   it('returns true for HTTPS in env', async () => {
-    process.env.HTTPS = 'true';
+    vi.stubEnv('HTTPS', 'true');
     await expect(getHttpsConfig()).resolves.toBe(true);
   });
 
   it('returns custom certs if they are in env', async () => {
-    process.env.HTTPS = 'true';
-    process.env.SSL_CRT_FILE = getFixture('host.crt');
-    process.env.SSL_KEY_FILE = getFixture('host.key');
+    vi.stubEnv('HTTPS', 'true');
+    vi.stubEnv('SSL_CRT_FILE', getFixture('host.crt'));
+    vi.stubEnv('SSL_KEY_FILE', getFixture('host.key'));
+
     await expect(getHttpsConfig()).resolves.toEqual({
       key: expect.any(Buffer),
       cert: expect.any(Buffer),
@@ -45,25 +39,25 @@ describe('getHttpsConfig', () => {
   });
 
   it("throws if file doesn't exist", async () => {
-    process.env.HTTPS = 'true';
-    process.env.SSL_CRT_FILE = getFixture('nonexistent.crt');
-    process.env.SSL_KEY_FILE = getFixture('host.key');
+    vi.stubEnv('HTTPS', 'true');
+    vi.stubEnv('SSL_CRT_FILE', getFixture('nonexistent.crt'));
+    vi.stubEnv('SSL_KEY_FILE', getFixture('host.key'));
     await expect(getHttpsConfig()).rejects.toThrowErrorMatchingInlineSnapshot(
       `[Error: You specified SSL_CRT_FILE in your env, but the file "<PROJECT_ROOT>/packages/docusaurus/src/webpack/utils/__tests__/__fixtures__/getHttpsConfig/nonexistent.crt" can't be found.]`,
     );
   });
 
   it('throws for invalid key', async () => {
-    process.env.HTTPS = 'true';
-    process.env.SSL_CRT_FILE = getFixture('host.crt');
-    process.env.SSL_KEY_FILE = getFixture('invalid.key');
+    vi.stubEnv('HTTPS', 'true');
+    vi.stubEnv('SSL_CRT_FILE', getFixture('host.crt'));
+    vi.stubEnv('SSL_KEY_FILE', getFixture('invalid.key'));
     await expect(getHttpsConfig()).rejects.toThrow();
   });
 
   it('throws for invalid cert', async () => {
-    process.env.HTTPS = 'true';
-    process.env.SSL_CRT_FILE = getFixture('invalid.crt');
-    process.env.SSL_KEY_FILE = getFixture('host.key');
+    vi.stubEnv('HTTPS', 'true');
+    vi.stubEnv('SSL_CRT_FILE', getFixture('invalid.crt'));
+    vi.stubEnv('SSL_KEY_FILE', getFixture('host.key'));
     await expect(getHttpsConfig()).rejects.toThrow();
   });
 });
