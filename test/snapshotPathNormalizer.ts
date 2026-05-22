@@ -226,6 +226,8 @@ const snapshotSerializer: SnapshotSerializer = {
   },
 
   test: (value: unknown): boolean => {
+    // TODO this is not ideal and not very performant
+    // see https://github.com/vitest-dev/vitest/issues/10349
     return shouldNormalize(value);
   },
 };
