@@ -87,6 +87,13 @@ describe('loadSite', () => {
       expect(site.props).toMatchSnapshot();
     });
 
+    it('uses locale url in site config', async () => {
+      const site = await loadSiteFixture(siteFixture, {
+        locale: 'es',
+      });
+      expect(site.props.siteConfig.url).toBe('https://es.docusaurus.io');
+    });
+
     it('loads site - locale de', async () => {
       const site = await loadSiteFixture(siteFixture, {
         locale: 'de',
