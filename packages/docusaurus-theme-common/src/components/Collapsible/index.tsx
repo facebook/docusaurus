@@ -65,6 +65,21 @@ function applyCollapsedStyle(el: HTMLElement, collapsed: boolean) {
   el.style.height = collapsedStyles.height;
 }
 
+function parseTransitionTime(time: string) {
+  return time
+    .split(',')
+    .map((value) => value.trim())
+    .reduce((total, value) => {
+      if (value.endsWith('ms')) {
+        return total + Number.parseFloat(value);
+      }
+      if (value.endsWith('s')) {
+        return total + Number.parseFloat(value) * 1000;
+      }
+      return total;
+    }, 0);
+}
+
 /*
 Lex111: Dynamic transition duration is used in Material design, this technique
 is good for a large number of items.
@@ -90,12 +105,19 @@ function useCollapseAnimation({
   collapsibleRef,
   collapsed,
   animation,
+  onCollapseTransitionEnd,
 }: {
   collapsibleRef: RefObject<HTMLElement | null>;
   collapsed: boolean;
   animation?: CollapsibleAnimationConfig;
+  onCollapseTransitionEnd?: (collapsed: boolean) => void;
 }) {
   const mounted = useRef(false);
+  const onCollapseTransitionEndRef = useRef(onCollapseTransitionEnd);
+
+  useEffect(() => {
+    onCollapseTransitionEndRef.current = onCollapseTransitionEnd;
+  }, [onCollapseTransitionEnd]);
 
   useEffect(() => {
     const el = collapsibleRef.current!;
@@ -116,6 +138,18 @@ function useCollapseAnimation({
       el.style.height = transitionStyles.height;
     }
 
+    function finishAnimation() {
+      applyCollapsedStyle(el, collapsed);
+      onCollapseTransitionEndRef.current?.(collapsed);
+    }
+
+    function finishAnimationIfTransitionDisabled() {
+      const {transitionDuration} = getComputedStyle(el);
+      if (parseTransitionTime(transitionDuration) === 0) {
+        finishAnimation();
+      }
+    }
+
     // On mount, we just apply styles, no animated transition
     if (!mounted.current) {
       applyCollapsedStyle(el, collapsed);
@@ -134,6 +168,7 @@ function useCollapseAnimation({
           requestAnimationFrame(() => {
             el.style.height = CollapsedStyles.height;
             el.style.overflow = CollapsedStyles.overflow;
+            finishAnimationIfTransitionDisabled();
           });
         }
         // When expanding
@@ -141,6 +176,7 @@ function useCollapseAnimation({
           el.style.display = 'block';
           requestAnimationFrame(() => {
             applyTransitionStyles();
+            finishAnimationIfTransitionDisabled();
           });
         }
       });
@@ -185,7 +221,12 @@ function CollapsibleBase({
 }: CollapsibleBaseProps) {
   const collapsibleRef = useRef<HTMLElement>(null);
 
-  useCollapseAnimation({collapsibleRef, collapsed, animation});
+  useCollapseAnimation({
+    collapsibleRef,
+    collapsed,
+    animation,
+    onCollapseTransitionEnd,
+  });
 
   return (
     <As
