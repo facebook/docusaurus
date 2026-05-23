@@ -135,8 +135,13 @@ function CollapseButton({
 }
 
 function CategoryLinkLabel({label}: {label: string}) {
+  // Note: The `title` attribute is intentionally omitted here.
+  // Adding title={label} when the visible text is already `label` creates
+  // redundant tooltip text, which WAVE and other accessibility tools flag
+  // as a WCAG violation. Screen readers already read the visible label.
+  // See: https://github.com/facebook/docusaurus/issues/11945
   return (
-    <span title={label} className={styles.categoryLinkLabel}>
+    <span className={styles.categoryLinkLabel}>
       {label}
     </span>
   );
