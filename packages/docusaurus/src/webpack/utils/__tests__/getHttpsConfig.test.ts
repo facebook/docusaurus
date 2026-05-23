@@ -60,4 +60,75 @@ describe('getHttpsConfig', () => {
     vi.stubEnv('SSL_KEY_FILE', getFixture('host.key'));
     await expect(getHttpsConfig()).rejects.toThrow();
   });
+
+  it('accepts ECDSA certs (not just RSA)', async () => {
+    vi.stubEnv('HTTPS', 'true');
+    vi.stubEnv('SSL_CRT_FILE', getFixture('host-ec.crt'));
+    vi.stubEnv('SSL_KEY_FILE', getFixture('host-ec.key'));
+
+    await expect(getHttpsConfig()).resolves.toEqual({
+      key: expect.any(Buffer),
+      cert: expect.any(Buffer),
+    });
+  });
+
+  it('throws when cert and key do not match', async () => {
+    vi.stubEnv('HTTPS', 'true');
+    vi.stubEnv('SSL_CRT_FILE', getFixture('host-ec.crt'));
+    vi.stubEnv('SSL_KEY_FILE', getFixture('other-ec.key'));
+    await expect(getHttpsConfig()).rejects.toThrow(/do not match/);
+  });
+
+  it('reads certs from CLI options (no env vars set)', async () => {
+    await expect(
+      getHttpsConfig({
+        sslCert: getFixture('host-ec.crt'),
+        sslKey: getFixture('host-ec.key'),
+      }),
+    ).resolves.toEqual({
+      key: expect.any(Buffer),
+      cert: expect.any(Buffer),
+    });
+  });
+
+  it('CLI options take precedence over env vars', async () => {
+    vi.stubEnv('HTTPS', 'true');
+    vi.stubEnv('SSL_CRT_FILE', getFixture('host.crt'));
+    vi.stubEnv('SSL_KEY_FILE', getFixture('invalid.key'));
+    // CLI override should succeed despite the broken env-var key pair.
+    await expect(
+      getHttpsConfig({
+        sslCert: getFixture('host-ec.crt'),
+        sslKey: getFixture('host-ec.key'),
+      }),
+    ).resolves.toEqual({
+      key: expect.any(Buffer),
+      cert: expect.any(Buffer),
+    });
+  });
+
+  it('uses --ssl-cert error label when missing CLI file', async () => {
+    await expect(
+      getHttpsConfig({
+        sslCert: getFixture('nonexistent.crt'),
+        sslKey: getFixture('host-ec.key'),
+      }),
+    ).rejects.toThrow(/You specified --ssl-cert/);
+  });
+
+  it('--ssl-cert + --ssl-key implies HTTPS without --https', async () => {
+    await expect(
+      getHttpsConfig({
+        sslCert: getFixture('host-ec.crt'),
+        sslKey: getFixture('host-ec.key'),
+      }),
+    ).resolves.toEqual({
+      key: expect.any(Buffer),
+      cert: expect.any(Buffer),
+    });
+  });
+
+  it('returns true for --https alone', async () => {
+    await expect(getHttpsConfig({https: true})).resolves.toBe(true);
+  });
 });

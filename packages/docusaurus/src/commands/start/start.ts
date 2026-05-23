@@ -19,6 +19,9 @@ export type StartCLIOptions = HostPortOptions &
     open?: boolean;
     poll?: boolean | number;
     minify?: boolean;
+    https?: boolean;
+    sslCert?: string;
+    sslKey?: string;
   };
 
 async function doStart(

@@ -60,7 +60,11 @@ async function createDevServerConfig({
 
   const pollingOptions = createPollingOptions(cliOptions);
 
-  const httpsConfig = await getHttpsConfig();
+  const httpsConfig = await getHttpsConfig({
+    https: cliOptions.https,
+    sslCert: cliOptions.sslCert,
+    sslKey: cliOptions.sslKey,
+  });
 
   // https://webpack.js.org/configuration/dev-server
   return {
