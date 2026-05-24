@@ -65,6 +65,39 @@ export function posixPath(str: string): string {
 }
 
 /**
+ * On Windows, Git can be run from a Unix-like shell (Git Bash / MSYS2 / Cygwin)
+ * that exposes drives as Unix-style mount points. In that environment, commands
+ * such as `git rev-parse --show-toplevel` may print an absolute path like
+ * `/c/Users/me/site` instead of the native `C:\Users\me\site`.
+ *
+ * Such a path is not a valid Windows path: passing it to `path.resolve` or
+ * `fs.realpath` resolves it against the current drive root, turning
+ * `/c/Users/me/site` into something like `C:\c\Users\me\site` (the drive letter
+ * gets duplicated). This converts the `/<drive>/...` prefix back to a native
+ * Windows path so the rest of the code can use it safely.
+ *
+ * It only does anything on Windows, and only for paths that actually use the
+ * `/<drive>/` mount syntax. Native Windows paths (`C:\...` or `C:/...`), UNC
+ * paths (`//server/share`) and regular posix paths are returned unchanged. On
+ * non-Windows platforms the path is always returned as-is, because `/c/...` is
+ * a perfectly valid absolute path there.
+ *
+ * See https://github.com/facebook/docusaurus/issues/11920
+ */
+export function fromGitPathToNativePath(gitPath: string): string {
+  if (!isWindows()) {
+    return gitPath;
+  }
+  const match = gitPath.match(/^\/(?<drive>[a-z])(?:\/(?<rest>.*))?$/i);
+  if (!match) {
+    return gitPath;
+  }
+  const drive = match.groups!.drive!.toUpperCase();
+  const rest = match.groups!.rest ?? '';
+  return path.win32.join(`${drive}:\\`, rest);
+}
+
+/**
  * When you want to display a path in a message/warning/error, it's more
  * convenient to:
  *

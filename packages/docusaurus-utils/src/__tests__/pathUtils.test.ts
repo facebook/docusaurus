@@ -16,6 +16,7 @@ import {
   toMessageRelativeFilePath,
   addTrailingPathSeparator,
   aliasedSitePathToRelativePath,
+  fromGitPathToNativePath,
 } from '../pathUtils';
 
 describe('isNameTooLong', () => {
@@ -206,5 +207,56 @@ describe('addTrailingPathSeparator', () => {
     expect(addTrailingPathSeparator('foo/')).toEqual(
       process.platform === 'win32' ? 'foo\\' : 'foo/',
     );
+  });
+});
+
+describe('fromGitPathToNativePath', () => {
+  function withPlatform<T>(platform: NodeJS.Platform, fn: () => T): T {
+    const oldProcessPlatform = process.platform;
+    Object.defineProperty(process, 'platform', {value: platform});
+    try {
+      return fn();
+    } finally {
+      Object.defineProperty(process, 'platform', {value: oldProcessPlatform});
+    }
+  }
+
+  it('converts MSYS/Cygwin drive paths to native Windows paths on Windows', () => {
+    withPlatform('win32', () => {
+      // See https://github.com/facebook/docusaurus/issues/11920
+      expect(fromGitPathToNativePath('/p/projets/my-repo')).toBe(
+        'P:\\projets\\my-repo',
+      );
+      expect(fromGitPathToNativePath('/c/Users/me/site')).toBe(
+        'C:\\Users\\me\\site',
+      );
+      expect(fromGitPathToNativePath('/c')).toBe('C:\\');
+      expect(fromGitPathToNativePath('/c/')).toBe('C:\\');
+    });
+  });
+
+  it('leaves native Windows, UNC and posix paths unchanged on Windows', () => {
+    withPlatform('win32', () => {
+      expect(fromGitPathToNativePath('C:\\Users\\me\\site')).toBe(
+        'C:\\Users\\me\\site',
+      );
+      expect(fromGitPathToNativePath('C:/Users/me/site')).toBe(
+        'C:/Users/me/site',
+      );
+      expect(fromGitPathToNativePath('//server/share')).toBe('//server/share');
+      // A real posix dir whose top-level segment is more than one character
+      // is not a drive mount and must not be rewritten.
+      expect(fromGitPathToNativePath('/home/me/site')).toBe('/home/me/site');
+    });
+  });
+
+  it('returns the path unchanged on non-Windows platforms', () => {
+    withPlatform('linux', () => {
+      // On Unix, /c/... is a perfectly valid absolute path and must be kept.
+      expect(fromGitPathToNativePath('/c/Users/me/site')).toBe(
+        '/c/Users/me/site',
+      );
+      expect(fromGitPathToNativePath('/home/me/site')).toBe('/home/me/site');
+    });
   });
 });

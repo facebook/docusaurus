@@ -12,6 +12,7 @@ import _ from 'lodash';
 import execa from 'execa';
 import PQueue from 'p-queue';
 import logger from '@docusaurus/logger';
+import {fromGitPathToNativePath} from '../pathUtils';
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915
@@ -307,7 +308,7 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
     );
   }
 
-  return fs.realpath.native(result.stdout.trim());
+  return fs.realpath.native(fromGitPathToNativePath(result.stdout.trim()));
 }
 
 // A Git "superproject" is a Git repository that contains submodules
@@ -351,7 +352,7 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
   // this command only works when inside submodules
   // otherwise it doesn't return anything when we are inside the main repo
   if (output) {
-    return fs.realpath.native(output);
+    return fs.realpath.native(fromGitPathToNativePath(output));
   }
   return getGitRepoRoot(cwd);
 }
