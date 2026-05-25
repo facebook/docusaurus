@@ -396,6 +396,24 @@ describe('commit info APIs', () => {
         }
       `);
     });
+
+    it('preserves author names containing commas', async () => {
+      const {repoDir, git} = await createGitRepoEmpty();
+
+      await git.commitFile('comma-author.txt', {
+        fileContent: 'content',
+        commitMessage: 'Commit by author with comma in name',
+        commitDate: '2024-01-15',
+        commitAuthor: 'Doe, Jane <jane@example.com>',
+      });
+
+      const filesInfo = await getGitRepositoryFilesInfo(repoDir);
+      const fileInfo = filesInfo.get('comma-author.txt');
+
+      expect(fileInfo).toBeDefined();
+      expect(fileInfo!.creation.author).toBe('Doe, Jane');
+      expect(fileInfo!.lastUpdate.author).toBe('Doe, Jane');
+    });
   });
 });
 
