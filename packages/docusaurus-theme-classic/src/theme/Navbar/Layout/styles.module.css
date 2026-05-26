@@ -12,3 +12,12 @@
 .navbarHidden {
   transform: translate3d(0, calc(-100% - 2px), 0);
 }
+
+/* Fix for Issue #7562: Keep navbar width consistent with main container */
+:global(.navbar) {
+  justify-content: center;
+}
+
+:global(.navbar__inner) {
+  max-width: var(--ifm-container-width-xl);
+}
