@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, vi} from 'vitest';
 import {
   reportInlineTags,
   groupTaggedItems,
@@ -172,12 +173,12 @@ describe('reportInlineTags', () => {
       });
 
     expect(testFn).toThrowErrorMatchingInlineSnapshot(
-      `"Tags [hello, world] used in wrong.md are not defined in tags.yml"`,
+      `[Error: Tags [hello, world] used in wrong.md are not defined in tags.yml]`,
     );
   });
 
   it('warn when docs has invalid tags', () => {
-    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    using warn = vi.spyOn(console, 'warn');
 
     reportInlineTags({
       tags: [
@@ -197,8 +198,8 @@ describe('reportInlineTags', () => {
       source: 'wrong.md',
       options: {onInlineTags: 'warn', tags: 'tags.yml'},
     });
-    expect(warnSpy).toHaveBeenCalledTimes(1);
-    expect(warnSpy.mock.calls).toMatchInlineSnapshot(`
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls).toMatchInlineSnapshot(`
       [
         [
           "[WARNING] Tags [world] used in wrong.md are not defined in tags.yml",
@@ -206,13 +207,13 @@ describe('reportInlineTags', () => {
       ]
     `);
 
-    warnSpy.mockRestore();
+    warn.mockRestore();
   });
 
   it('ignore when docs has invalid tags', () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    using error = vi.spyOn(console, 'error');
+    using warn = vi.spyOn(console, 'warn');
+    using log = vi.spyOn(console, 'log');
 
     reportInlineTags({
       tags: [
@@ -232,13 +233,13 @@ describe('reportInlineTags', () => {
       source: 'wrong.md',
       options: {onInlineTags: 'ignore', tags: 'tags.yml'},
     });
-    expect(errorSpy).not.toHaveBeenCalled();
-    expect(warnSpy).not.toHaveBeenCalled();
-    expect(logSpy).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+    expect(warn).not.toHaveBeenCalled();
+    expect(log).not.toHaveBeenCalled();
 
-    errorSpy.mockRestore();
-    warnSpy.mockRestore();
-    logSpy.mockRestore();
+    error.mockRestore();
+    warn.mockRestore();
+    log.mockRestore();
   });
 
   it('throw for unknown string and object tag', () => {
@@ -261,7 +262,7 @@ describe('reportInlineTags', () => {
         },
       });
     expect(testFn).toThrowErrorMatchingInlineSnapshot(
-      `"Tags [world] used in default.md are not defined in tags.yml"`,
+      `[Error: Tags [world] used in default.md are not defined in tags.yml]`,
     );
   });
 

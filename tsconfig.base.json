@@ -58,7 +58,7 @@
     "allowJs": true,
     "skipLibCheck": true // @types/webpack and webpack/types.d.ts are not the same thing
   },
-  "include": ["./**/*", "./**/.eslintrc.js"],
+  "include": ["./**/*", "./**/eslint.config.*"],
   "exclude": [
     "node_modules",
     "coverage/**",

@@ -33,7 +33,6 @@ function MermaidRenderResult({
     <div
       ref={ref}
       className={`${MermaidContainerClassName} ${styles.container}`}
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{__html: renderResult.svg}}
     />
   );

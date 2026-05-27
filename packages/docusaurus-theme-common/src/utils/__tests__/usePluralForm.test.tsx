@@ -3,13 +3,9 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @jest-environment jsdom
  */
-
-// Jest doesn't allow pragma below other comments. https://github.com/facebook/jest/issues/12573
-// eslint-disable-next-line header/header
-import {jest} from '@jest/globals';
+// @vitest-environment jsdom
+import {describe, expect, it, vi} from 'vitest';
 import React from 'react';
 import {renderHook} from '@testing-library/react';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
@@ -40,15 +36,12 @@ describe('usePluralForm', () => {
         currentLocale: 'zh-Hans',
       },
     } as DocusaurusContext);
-    const consoleMock = jest
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
+    using error = vi.spyOn(console, 'error');
     expect(mockUsePluralForm().selectMessage(1, 'one|many')).toBe('one');
     expect(mockUsePluralForm().selectMessage(10, 'one|many')).toBe('one');
-    expect(consoleMock.mock.calls[0]![0]).toMatchInlineSnapshot(
+    expect(error.mock.calls[0]![0]).toMatchInlineSnapshot(
       `"For locale=zh-Hans, a maximum of 1 plural forms are expected (other), but the message contains 2: one|many"`,
     );
-    consoleMock.mockRestore();
   });
 
   it('uses the last with not enough plurals', () => {
@@ -66,33 +59,30 @@ describe('usePluralForm', () => {
         currentLocale: 'zh-Hans',
       },
     } as DocusaurusContext);
-    const consoleMock = jest
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
-    const pluralMock = jest
+    using error = vi.spyOn(console, 'error');
+    using pluralMock = vi
       .spyOn(Intl, 'PluralRules')
-      // @ts-expect-error: for testing when it doesn't exist
       .mockImplementation(() => undefined);
 
     expect(mockUsePluralForm().selectMessage(1, 'one|many')).toBe('one');
-    expect(consoleMock.mock.calls).toHaveLength(1);
-    expect(consoleMock.mock.calls[0]![0]).toMatchInlineSnapshot(`
+    expect(error.mock.calls).toHaveLength(1);
+    expect(error.mock.calls[0]![0]).toMatchInlineSnapshot(`
       "Failed to use Intl.PluralRules for locale "zh-Hans".
       Docusaurus will fallback to the default (English) implementation.
-      Error: pluralRules.resolvedOptions is not a function
+      Error: () => undefined is not a constructor
       "
     `);
 
     expect(mockUsePluralForm().selectMessage(10, 'one|many')).toBe('many');
-    expect(consoleMock.mock.calls).toHaveLength(2);
-    expect(consoleMock.mock.calls[1]![0]).toMatchInlineSnapshot(`
+    expect(error.mock.calls).toHaveLength(2);
+    expect(error.mock.calls[1]![0]).toMatchInlineSnapshot(`
       "Failed to use Intl.PluralRules for locale "zh-Hans".
       Docusaurus will fallback to the default (English) implementation.
-      Error: pluralRules.resolvedOptions is not a function
+      Error: () => undefined is not a constructor
       "
     `);
 
-    consoleMock.mockRestore();
+    error.mockRestore();
     pluralMock.mockRestore();
   });
 });

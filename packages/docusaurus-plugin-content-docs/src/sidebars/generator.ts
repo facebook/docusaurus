@@ -206,7 +206,7 @@ Available doc IDs:
           return undefined;
         }
         const id = link
-          ? findDocByLocalId(link.id)?.id ?? getDoc(link.id).id
+          ? (findDocByLocalId(link.id)?.id ?? getDoc(link.id).id)
           : findConventionalCategoryDocLink()?.id;
         if (!id) {
           return undefined;

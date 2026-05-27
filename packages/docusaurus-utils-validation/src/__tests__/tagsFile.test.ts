@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as tmp from 'tmp-promise';
@@ -34,9 +35,9 @@ describe('ensureUniquePermalinks', () => {
 
     expect(() => ensureUniquePermalinks(definedTags))
       .toThrowErrorMatchingInlineSnapshot(`
-      "Duplicate permalinks found in tags file:
-        - /custom-open-source"
-    `);
+        [Error: Duplicate permalinks found in tags file:
+          - /custom-open-source]
+      `);
   });
 
   it('throw when multiple duplicate permalink found', () => {
@@ -65,10 +66,10 @@ describe('ensureUniquePermalinks', () => {
 
     expect(() => ensureUniquePermalinks(definedTags))
       .toThrowErrorMatchingInlineSnapshot(`
-      "Duplicate permalinks found in tags file:
-        - /custom-open-source
-        - /hello"
-    `);
+        [Error: Duplicate permalinks found in tags file:
+          - /custom-open-source
+          - /hello]
+      `);
   });
 
   it('do not throw when no duplicate permalink found', () => {
@@ -492,9 +493,9 @@ describe('getTagsFile', () => {
 
     await expect(getTagsFile(params)).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      "No tags file 'custom-tags-path.yml' could be found in any of those directories:
+      [Error: No tags file 'custom-tags-path.yml' could be found in any of those directories:
       - localizedAny
-      - any"
+      - any]
     `);
   });
 

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {createSiteStorage} from '../storage';
 import {DEFAULT_STORAGE_CONFIG} from '../configValidation';
 import type {StorageConfig, SiteStorage} from '@docusaurus/types';

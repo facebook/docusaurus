@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
+import {describe, expect, it, vi} from 'vitest';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
 import {getBabelOptions} from '../utils';
@@ -45,13 +45,13 @@ const default => {
 `,
     });
 
-    const errorMock = jest.spyOn(console, 'error').mockImplementation(() => {});
+    using error = vi.spyOn(console, 'error');
 
     await expect(
       extractSourceCodeFileTranslations(sourceCodeFilePath, TestBabelOptions),
     ).rejects.toThrow();
 
-    expect(errorMock).toHaveBeenCalledWith(
+    expect(error).toHaveBeenCalledWith(
       expect.stringMatching(
         /Error while attempting to extract Docusaurus translations from source code file at/,
       ),

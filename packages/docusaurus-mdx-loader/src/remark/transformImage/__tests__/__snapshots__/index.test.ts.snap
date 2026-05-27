@@ -1,16 +1,16 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`transformImage plugin does not choke on invalid image 1`] = `
+exports[`transformImage plugin > does not choke on invalid image 1`] = `
 "<img alt="invalid image" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./../static/invalid.png").default} />
 "
 `;
 
-exports[`transformImage plugin pathname protocol 1`] = `
+exports[`transformImage plugin > pathname protocol 1`] = `
 "![img](/img/unchecked.png)
 "
 `;
 
-exports[`transformImage plugin transform md images to <img /> 1`] = `
+exports[`transformImage plugin > transform md images to <img /> 1`] = `
 "![img](https://example.com/img.png)
 
 <img src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./static/img.png").default} width="200" height="200" />

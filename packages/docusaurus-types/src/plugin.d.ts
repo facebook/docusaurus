@@ -208,10 +208,10 @@ export type LoadedPlugin = InitializedPlugin & {
 };
 
 export type PluginModule<Content = unknown> = {
-  (context: LoadContext, options: unknown):
-    | Plugin<Content>
-    | null
-    | Promise<Plugin<Content> | null>;
+  (
+    context: LoadContext,
+    options: unknown,
+  ): Plugin<Content> | null | Promise<Plugin<Content> | null>;
 
   validateOptions?: <T, U>(data: OptionValidationContext<T, U>) => U;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;

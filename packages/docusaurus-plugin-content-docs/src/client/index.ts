@@ -138,7 +138,7 @@ export const useDocsData = (pluginId: string | undefined): GlobalPluginData => {
       `You are using a feature of the Docusaurus docs plugin, but this plugin does not seem to be enabled${
         pluginId === 'Default' ? '' : ` (pluginId=${pluginId}`
       }`,
-      {cause: error as Error},
+      {cause: error},
     );
   }
 };

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {validateSidebars, validateCategoryMetadataFile} from '../validation';
 import type {SidebarsConfig, CategoryMetadataFile} from '../types';
 
@@ -12,13 +13,13 @@ describe('validateSidebars', () => {
   it('throw for bad value', () => {
     expect(() => validateSidebars({sidebar: [{type: 42}]}))
       .toThrowErrorMatchingInlineSnapshot(`
-      "{
-        "type": 42,
-        "undefined" [1]: -- missing --
-      }
+        [ValidationError: {
+          "type": 42,
+          "undefined" [1]: -- missing --
+        }
 
-      [1] Unknown sidebar item type "42"."
-    `);
+        [1] Unknown sidebar item type "42".]
+      `);
   });
 
   it('accept empty object', () => {
@@ -55,7 +56,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "{
+      [ValidationError: {
         "type": "category",
         "items": [
           {
@@ -66,7 +67,7 @@ describe('validateSidebars', () => {
         "label" [1]: true
       }
 
-      [1] "label" must be a string"
+      [1] "label" must be a string]
     `);
   });
 
@@ -82,7 +83,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "{
+      [ValidationError: {
         "type": "category",
         "items": [
           {
@@ -93,7 +94,7 @@ describe('validateSidebars', () => {
         "key" [1]: ""
       }
 
-      [1] "key" is not allowed to be empty"
+      [1] "key" is not allowed to be empty]
     `);
   });
 
@@ -109,13 +110,13 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "{
+      [ValidationError: {
         "type": "link",
         "href": "https://github.com",
         "label" [1]: false
       }
 
-      [1] "label" must be a string"
+      [1] "label" must be a string]
     `);
   });
 
@@ -131,13 +132,13 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "{
+      [ValidationError: {
         "type": "link",
         "href": "https://github.com",
         "key" [1]: false
       }
 
-      [1] "key" must be a string"
+      [1] "key" must be a string]
     `);
   });
 
@@ -153,7 +154,7 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "{
+      [ValidationError: {
         "type": "link",
         "label": "GitHub",
         "href" [1]: [
@@ -161,7 +162,7 @@ describe('validateSidebars', () => {
         ]
       }
 
-      [1] "href" contains an invalid value"
+      [1] "href" contains an invalid value]
     `);
   });
 
@@ -175,12 +176,12 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "{
+      [ValidationError: {
         "type": "superman",
         "undefined" [1]: -- missing --
       }
 
-      [1] Unknown sidebar item type "superman"."
+      [1] Unknown sidebar item type "superman".]
     `);
   });
 
@@ -200,13 +201,13 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "{
+      [ValidationError: {
         "type": "category",
         "label": "category",
         "items" [1]: -- missing --
       }
 
-      [1] "items" is required"
+      [1] "items" is required]
     `);
   });
 
@@ -228,14 +229,14 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "{
+      [ValidationError: {
         "type": "category",
         "label": "category",
         "items": [],
         "href" [1]: "https://google.com"
       }
 
-      [1] "href" is not allowed"
+      [1] "href" is not allowed]
     `);
   });
 
@@ -257,14 +258,14 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "{
+      [ValidationError: {
         "type": "category",
         "label": "category",
         "items": [],
         "key" [1]: 42
       }
 
-      [1] "key" must be a string"
+      [1] "key" must be a string]
     `);
   });
 
@@ -281,7 +282,9 @@ describe('validateSidebars', () => {
           ],
         },
       }),
-    ).toThrowErrorMatchingInlineSnapshot(`"sidebar.forEach is not a function"`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: sidebar.forEach is not a function]`,
+    );
   });
 
   it('sidebars item doc but id is not a string', () => {
@@ -295,14 +298,14 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "{
+      [ValidationError: {
         "type": "doc",
         "id" [1]: [
           "doc1"
         ]
       }
 
-      [1] "id" must be a string"
+      [1] "id" must be a string]
     `);
   });
 
@@ -317,13 +320,13 @@ describe('validateSidebars', () => {
     };
     expect(() => validateSidebars(sidebars))
       .toThrowErrorMatchingInlineSnapshot(`
-      "{
-        "type": "html",
-        "value" [1]: -- missing --
-      }
+        [ValidationError: {
+          "type": "html",
+          "value" [1]: -- missing --
+        }
 
-      [1] "value" is required"
-    `);
+        [1] "value" is required]
+      `);
   });
 
   it('html type accepts valid values', () => {
@@ -346,7 +349,9 @@ describe('validateCategoryMetadataFile', () => {
   it('throw for bad value', () => {
     expect(() =>
       validateCategoryMetadataFile(42),
-    ).toThrowErrorMatchingInlineSnapshot(`""value" must be of type object"`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "value" must be of type object]`,
+    );
   });
 
   it('accept empty object', () => {
@@ -382,7 +387,9 @@ describe('validateCategoryMetadataFile', () => {
     it('throws for number label', () => {
       expect(() =>
         validateCategoryMetadataFile({label: 42}),
-      ).toThrowErrorMatchingInlineSnapshot(`""label" must be a string"`);
+      ).toThrowErrorMatchingInlineSnapshot(
+        `[ValidationError: "label" must be a string]`,
+      );
     });
   });
 
@@ -395,7 +402,9 @@ describe('validateCategoryMetadataFile', () => {
     it('throws for number key', () => {
       expect(() =>
         validateCategoryMetadataFile({key: 42}),
-      ).toThrowErrorMatchingInlineSnapshot(`""key" must be a string"`);
+      ).toThrowErrorMatchingInlineSnapshot(
+        `[ValidationError: "key" must be a string]`,
+      );
     });
   });
 
@@ -408,7 +417,9 @@ describe('validateCategoryMetadataFile', () => {
     it('throws for number key', () => {
       expect(() =>
         validateCategoryMetadataFile({className: 42}),
-      ).toThrowErrorMatchingInlineSnapshot(`""className" must be a string"`);
+      ).toThrowErrorMatchingInlineSnapshot(
+        `[ValidationError: "className" must be a string]`,
+      );
     });
   });
 
@@ -436,7 +447,9 @@ describe('validateCategoryMetadataFile', () => {
       };
       expect(() =>
         validateCategoryMetadataFile(content),
-      ).toThrowErrorMatchingInlineSnapshot(`""link.permalink" is not allowed"`);
+      ).toThrowErrorMatchingInlineSnapshot(
+        `[ValidationError: "link.permalink" is not allowed]`,
+      );
     });
   });
 });

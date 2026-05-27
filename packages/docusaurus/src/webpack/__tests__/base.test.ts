@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
+import {describe, expect, it} from 'vitest';
 import path from 'path';
 import _ from 'lodash';
 import webpack from 'webpack';
@@ -111,10 +111,6 @@ describe('base webpack config', () => {
       },
     ],
   } as Props;
-
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
 
   it('creates webpack aliases', async () => {
     const aliases = ((

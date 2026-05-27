@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`sortRoutes sorts route config correctly 1`] = `
+exports[`sortRoutes > sorts route config correctly 1`] = `
 [
   {
     "component": "",
@@ -55,7 +55,7 @@ exports[`sortRoutes sorts route config correctly 1`] = `
 ]
 `;
 
-exports[`sortRoutes sorts route config given a baseURL 1`] = `
+exports[`sortRoutes > sorts route config given a baseURL 1`] = `
 [
   {
     "component": "",
@@ -104,7 +104,7 @@ exports[`sortRoutes sorts route config given a baseURL 1`] = `
 ]
 `;
 
-exports[`sortRoutes sorts route config recursively 1`] = `
+exports[`sortRoutes > sorts route config recursively 1`] = `
 [
   {
     "component": "",

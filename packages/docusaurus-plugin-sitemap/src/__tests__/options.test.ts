@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {
   validateOptions,
@@ -80,7 +81,7 @@ describe('validateOptions', () => {
       expect(() =>
         testValidate(userOptions),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""lastmod" must be one of [null, date, datetime]"`,
+        `[ValidationError: "lastmod" must be one of [null, date, datetime]]`,
       );
     });
   });
@@ -140,7 +141,7 @@ describe('validateOptions', () => {
       expect(() =>
         testValidate(userOptions),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""priority" must be less than or equal to 1"`,
+        `[ValidationError: "priority" must be less than or equal to 1]`,
       );
     });
 
@@ -151,7 +152,7 @@ describe('validateOptions', () => {
       expect(() =>
         testValidate(userOptions),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""priority" must be greater than or equal to 0"`,
+        `[ValidationError: "priority" must be greater than or equal to 0]`,
       );
     });
   });
@@ -192,7 +193,7 @@ describe('validateOptions', () => {
       expect(() =>
         testValidate(userOptions),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""changefreq" must be one of [null, hourly, daily, weekly, monthly, yearly, always, never]"`,
+        `[ValidationError: "changefreq" must be one of [null, hourly, daily, weekly, monthly, yearly, always, never]]`,
       );
     });
   });
@@ -233,7 +234,7 @@ describe('validateOptions', () => {
       expect(() =>
         testValidate(userOptions),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""ignorePatterns" must be an array"`,
+        `[ValidationError: "ignorePatterns" must be an array]`,
       );
     });
 
@@ -245,7 +246,7 @@ describe('validateOptions', () => {
       expect(() =>
         testValidate(userOptions),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""ignorePatterns[0]" must be a string"`,
+        `[ValidationError: "ignorePatterns[0]" must be a string]`,
       );
     });
   });
@@ -285,7 +286,7 @@ describe('validateOptions', () => {
       expect(() =>
         testValidate(userOptions),
       ).toThrowErrorMatchingInlineSnapshot(
-        `""createSitemapItems" must be of type function"`,
+        `[ValidationError: "createSitemapItems" must be of type function]`,
       );
     });
   });

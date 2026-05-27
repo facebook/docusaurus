@@ -9,7 +9,7 @@ import path from 'path';
 import logger from '@docusaurus/logger';
 import sharp from 'sharp';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const {version} = require('../package.json') as {version: string};
 
 const ERROR_EXT = `Error: Input file is missing or uses unsupported image format, lqip v${version}`;

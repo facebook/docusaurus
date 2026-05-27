@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {loadHtmlTags} from '../htmlTags';
 import type {LoadedPlugin} from '@docusaurus/types';
 
@@ -189,7 +190,7 @@ describe('loadHtmlTags', () => {
         },
       ]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {"tagName":"endiliey","attributes":{"this":"is invalid"}}, "endiliey" is not a valid HTML tag. Either use a valid "tagName" or set "customElement: true"."`,
+      `[Error: Error loading {"tagName":"endiliey","attributes":{"this":"is invalid"}}, "endiliey" is not a valid HTML tag. Either use a valid "tagName" or set "customElement: true".]`,
     );
   });
 
@@ -208,7 +209,7 @@ describe('loadHtmlTags', () => {
         },
       ]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"{"tagName":true} is not a valid HTML tag object. "tagName" must be defined as a string."`,
+      `[Error: {"tagName":true} is not a valid HTML tag object. "tagName" must be defined as a string.]`,
     );
   });
 
@@ -225,7 +226,7 @@ describe('loadHtmlTags', () => {
         },
       ]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""2" is not a valid HTML tag object."`,
+      `[Error: "2" is not a valid HTML tag object.]`,
     );
   });
 });

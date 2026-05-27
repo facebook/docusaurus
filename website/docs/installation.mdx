@@ -21,14 +21,14 @@ Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately 
 
 ## Requirements {/* #requirements */}
 
-- [Node.js](https://nodejs.org/en/download/) version 20.0 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) to manage multiple Node.js versions on a single machine.
+- [Node.js](https://nodejs.org/en/download/) version 24.14 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) to manage multiple Node.js versions on a single machine.
   - When installing Node.js, it is recommended to check all checkboxes related to dependencies.
 
 ## Scaffold project website {/* #scaffold-project-website */}
 
 The easiest way to install Docusaurus is to use the [`create-docusaurus`](./api/misc/create-docusaurus.mdx) command line tool that helps you scaffold a skeleton Docusaurus website. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files.
 
-```bash
+```bash npm2yarn
 npx create-docusaurus@latest my-website classic
 ```
 
@@ -36,7 +36,7 @@ We recommend the `classic` template so that you can get started quickly, and it 
 
 You can also use the template's TypeScript variant by passing the `--typescript` flag. See [TypeScript support](./typescript-support.mdx) for more information.
 
-```bash
+```bash npm2yarn
 npx create-docusaurus@latest my-website classic --typescript
 ```
 
@@ -70,14 +70,14 @@ Assuming you chose the classic template and named your site `my-website`, you wi
 ```bash
 my-website
 ├── blog
-│   ├── 2019-05-28-hola.md
-│   ├── 2019-05-29-hello-world.md
-│   └── 2020-05-30-welcome.md
+│   ├── 2019-05-28-hola.mdx
+│   ├── 2019-05-29-hello-world.mdx
+│   └── 2020-05-30-welcome.mdx
 ├── docs
-│   ├── doc1.md
-│   ├── doc2.md
-│   ├── doc3.md
-│   └── mdx.md
+│   ├── doc1.mdx
+│   ├── doc2.mdx
+│   ├── doc3.mdx
+│   └── mdx.mdx
 ├── src
 │   ├── css
 │   │   └── custom.css
@@ -101,7 +101,7 @@ my-website
   - `/src/pages` - Any JSX/TSX/MDX file within this directory will be converted into a website page. More details can be found in the [pages guide](guides/creating-pages.mdx)
 - `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory
 - `/docusaurus.config.js` - A config file containing the site configuration. This is the equivalent of `siteConfig.js` in Docusaurus v1
-- `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in it.
+- `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in it
 - `/sidebars.js` - Used by the documentation to specify the order of documents in the sidebar
 
 ### Monorepos {/* #monorepos */}

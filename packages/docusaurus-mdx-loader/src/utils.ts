@@ -119,7 +119,7 @@ export async function compileToJSX({
     const errorDetails =
       errorJSON === '{}'
         ? // regular JS error case: print stacktrace
-          error.stack ?? 'N/A'
+          (error.stack ?? 'N/A')
         : // MDX error: print extra attributes + stacktrace
           `${errorJSON}\n${error.stack}`;
 
@@ -128,7 +128,7 @@ export async function compileToJSX({
         error.message
       }\nDetails:\n${errorDetails}`,
       // TODO error cause doesn't seem to be used by Webpack stats.errors :s
-      {cause: error},
+      {cause: errorUnknown},
     );
   }
 }

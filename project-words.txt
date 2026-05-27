@@ -26,6 +26,7 @@ Bhatt
 Blockquotes
 blockquotes
 Bokmål
+bunfig
 bunx
 BYOLLM
 caabernathy
@@ -42,6 +43,8 @@ codegen
 codesandbox
 commonmark
 contravariance
+cooldown
+cooldowns
 corejs
 Couriol
 creativecommons
@@ -176,6 +179,7 @@ microdata
 Milnes
 Mindmap
 mindmap
+mkdirs
 mkdn
 mkdocs
 mkdown
@@ -207,6 +211,7 @@ osascript
 Outerbounds
 outerbounds
 overrideable
+oxfmt
 ozaki
 ozakione
 O’Shannessy
@@ -221,6 +226,7 @@ Paraiso
 paraiso
 pathinfo
 paularmstrong
+pcss
 perfetto
 pftrace
 philpl
@@ -304,6 +310,8 @@ stackoverflow
 Stormkit
 Strikethrough
 strikethroughs
+styl
+Subdeps
 sublabel
 sublicensable
 sublist
@@ -346,6 +354,7 @@ unlinkable
 Unlisteds
 unlisteds
 unlocalized
+unstub
 unswizzle
 upvotes
 urlset

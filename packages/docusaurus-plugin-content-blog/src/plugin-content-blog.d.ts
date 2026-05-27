@@ -7,8 +7,7 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 declare module '@docusaurus/plugin-content-blog' {
-  import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
-  import type {MDXOptions} from '@docusaurus/mdx-loader';
+  import type {LoadedMDXContent, MDXOptions} from '@docusaurus/mdx-loader';
   import type {
     FrontMatterTag,
     TagMetadata,

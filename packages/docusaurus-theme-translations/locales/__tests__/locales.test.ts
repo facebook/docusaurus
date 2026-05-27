@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';

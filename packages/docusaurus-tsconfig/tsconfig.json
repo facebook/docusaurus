@@ -11,10 +11,10 @@
     "moduleResolution": "bundler",
     "module": "esnext",
     "noEmit": true,
-    "baseUrl": ".",
     "paths": {
-      "@site/*": ["./*"]
+      "@site/*": ["${configDir}/*"]
     },
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["${configDir}/.docusaurus", "${configDir}/build"]
 }

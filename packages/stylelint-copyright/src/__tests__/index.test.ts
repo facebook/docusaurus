@@ -4,19 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-/* eslint-disable jest/no-conditional-expect */
 
+import {describe, expect, it} from 'vitest';
 import path from 'path';
 import stylelint from 'stylelint';
 import rule from '../index';
-
-declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toHaveMessage: () => R;
-    }
-  }
-}
 
 type TestSuite = {
   ruleName: string;
@@ -35,7 +27,6 @@ type TestCase = {
 };
 
 function getOutputCss(output: stylelint.LinterResult) {
-  // eslint-disable-next-line no-underscore-dangle
   const result = output.results[0]!._postcssResult!;
   return result.root.toString(result.opts!.syntax);
 }
@@ -77,14 +68,17 @@ function testStylelintRule(config: stylelint.Config, tests: TestSuite) {
           const {warnings} = output.results[0]!;
           const warning = warnings[0]!;
           expect(warnings.length).toBeGreaterThanOrEqual(1);
-          expect(testCase).toHaveMessage();
+          expect(testCase.message).not.toBeNull();
           if (testCase.message != null) {
+            // eslint-disable-next-line vitest/no-conditional-expect
             expect(warning.text).toBe(testCase.message);
           }
           if (testCase.line != null) {
+            // eslint-disable-next-line vitest/no-conditional-expect
             expect(warning.line).toBe(testCase.line);
           }
           if (testCase.column != null) {
+            // eslint-disable-next-line vitest/no-conditional-expect
             expect(warning.column).toBe(testCase.column);
           }
           if (!tests.fix) {
@@ -100,24 +94,6 @@ function testStylelintRule(config: stylelint.Config, tests: TestSuite) {
           expect(fixedCode).toBe(testCase.fixed);
         });
       });
-    });
-
-    expect.extend({
-      toHaveMessage(testCase: TestCase) {
-        if (testCase.message == null) {
-          return {
-            message: () =>
-              'Expected "reject" test case to have a "message" property',
-            pass: false,
-          };
-        }
-
-        return {
-          message: () =>
-            'Expected "reject" test case to not have a "message" property',
-          pass: true,
-        };
-      },
     });
   });
 }
