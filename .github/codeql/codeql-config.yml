@@ -4,7 +4,7 @@ name: Docusaurus CodeQL config
 # The inputs (files, CLI args) are usually controlled locally
 query-filters:
   # Many false positives
-  # Example: https://github.com/facebook/docusaurus/security/code-scanning/18
+  # Example: https://github.com/facebook/docusaurus/security/code-scanning/168
   - exclude:
       id: js/path-injection
   # Many false positives
