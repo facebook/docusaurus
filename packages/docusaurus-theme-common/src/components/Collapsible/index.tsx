@@ -11,6 +11,7 @@ import React, {
   useRef,
   useCallback,
   type RefObject,
+  type MutableRefObject,
   type Dispatch,
   type SetStateAction,
   type ReactNode,
@@ -65,6 +66,30 @@ function applyCollapsedStyle(el: HTMLElement, collapsed: boolean) {
   el.style.height = collapsedStyles.height;
 }
 
+function willNotTransitionHeight(el: HTMLElement) {
+  const style = getComputedStyle(el);
+  const transitionProperties = style.transitionProperty.split(',');
+  const transitionDurations = style.transitionDuration.split(',');
+
+  if (!style.transitionDuration || transitionDurations.length === 0) {
+    return true;
+  }
+
+  const willTransition = transitionProperties.some((property, index) => {
+    const propName = property.trim();
+    if (propName === 'height' || propName === 'all') {
+      const duration = transitionDurations[index % transitionDurations.length];
+      if (duration !== undefined) {
+        const parsedDuration = parseFloat(duration);
+        return !isNaN(parsedDuration) && parsedDuration > 0;
+      }
+    }
+    return false;
+  });
+
+  return !willTransition;
+}
+
 /*
 Lex111: Dynamic transition duration is used in Material design, this technique
 is good for a large number of items.
@@ -90,10 +115,12 @@ function useCollapseAnimation({
   collapsibleRef,
   collapsed,
   animation,
+  onCollapseTransitionEnd,
 }: {
   collapsibleRef: RefObject<HTMLElement | null>;
   collapsed: boolean;
   animation?: CollapsibleAnimationConfig;
+  onCollapseTransitionEnd: MutableRefObject<(() => void) | null>;
 }) {
   const mounted = useRef(false);
 
@@ -134,6 +161,9 @@ function useCollapseAnimation({
           requestAnimationFrame(() => {
             el.style.height = CollapsedStyles.height;
             el.style.overflow = CollapsedStyles.overflow;
+            if (willNotTransitionHeight(el)) {
+              onCollapseTransitionEnd.current?.();
+            }
           });
         }
         // When expanding
@@ -141,6 +171,9 @@ function useCollapseAnimation({
           el.style.display = 'block';
           requestAnimationFrame(() => {
             applyTransitionStyles();
+            if (willNotTransitionHeight(el)) {
+              onCollapseTransitionEnd.current?.();
+            }
           });
         }
       });
@@ -149,7 +182,7 @@ function useCollapseAnimation({
     }
 
     return startAnimation();
-  }, [collapsibleRef, collapsed, animation]);
+  }, [collapsibleRef, collapsed, animation, onCollapseTransitionEnd]);
 }
 
 type CollapsibleElementType = React.ElementType<
@@ -184,8 +217,27 @@ function CollapsibleBase({
   className,
 }: CollapsibleBaseProps) {
   const collapsibleRef = useRef<HTMLElement>(null);
+  const collapseTransitionEnd = useRef<(() => void) | null>(null);
+  const transitionFinished = useRef(false);
 
-  useCollapseAnimation({collapsibleRef, collapsed, animation});
+  useEffect(() => {
+    transitionFinished.current = false;
+    collapseTransitionEnd.current = () => {
+      if (transitionFinished.current) {
+        return;
+      }
+      transitionFinished.current = true;
+      applyCollapsedStyle(collapsibleRef.current!, collapsed);
+      onCollapseTransitionEnd?.(collapsed);
+    };
+  }, [collapsed, onCollapseTransitionEnd]);
+
+  useCollapseAnimation({
+    collapsibleRef,
+    collapsed,
+    animation,
+    onCollapseTransitionEnd: collapseTransitionEnd,
+  });
 
   return (
     <As
@@ -197,8 +249,7 @@ function CollapsibleBase({
           return;
         }
 
-        applyCollapsedStyle(collapsibleRef.current!, collapsed);
-        onCollapseTransitionEnd?.(collapsed);
+        collapseTransitionEnd.current?.();
       }}
       className={className}>
       {children}
