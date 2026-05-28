@@ -3,8 +3,8 @@
   "hardReloadOnChange": true,
   "view": "browser",
   "template": "docusaurus",
-  "node": "24",
+  "node": "18",
   "container": {
-    "node": "24"
+    "node": "18"
   }
 }
