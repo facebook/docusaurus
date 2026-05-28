@@ -143,6 +143,8 @@ lifecycles
 lightningcss
 Linkify
 linkify
+llms
+llmstxt
 longlonglonglonglonglonglonglonglonglonglonglong
 Lorber
 lorber
@@ -179,6 +181,7 @@ microdata
 Milnes
 Mindmap
 mindmap
+mkdirs
 mkdn
 mkdocs
 mkdown
@@ -210,6 +213,7 @@ osascript
 Outerbounds
 outerbounds
 overrideable
+oxfmt
 ozaki
 ozakione
 O’Shannessy
@@ -224,6 +228,7 @@ Paraiso
 paraiso
 pathinfo
 paularmstrong
+pcss
 perfetto
 pftrace
 philpl
@@ -307,6 +312,7 @@ stackoverflow
 Stormkit
 Strikethrough
 strikethroughs
+styl
 Subdeps
 sublabel
 sublicensable
@@ -350,6 +356,7 @@ unlinkable
 Unlisteds
 unlisteds
 unlocalized
+unstub
 unswizzle
 upvotes
 urlset

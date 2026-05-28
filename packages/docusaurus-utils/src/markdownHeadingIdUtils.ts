@@ -194,8 +194,8 @@ export function writeMarkdownHeadingId(
       const headingId = overwrite
         ? undefined
         : migrate
-        ? parsedHeading.id
-        : undefined;
+          ? parsedHeading.id
+          : undefined;
 
       return addHeadingId(
         parsedHeading.text,

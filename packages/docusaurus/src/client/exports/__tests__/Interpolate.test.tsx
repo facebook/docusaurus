@@ -3,15 +3,12 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @jest-environment jsdom
  */
-
-// Jest doesn't allow pragma below other comments. https://github.com/facebook/jest/issues/12573
-// eslint-disable-next-line header/header
+// @vitest-environment jsdom
+import {describe, expect, it} from 'vitest';
 import React from 'react';
 import {render} from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import Interpolate, {interpolate} from '../Interpolate';
 
 describe('interpolate', () => {
@@ -166,12 +163,12 @@ describe('<Interpolate>', () => {
         </Interpolate>,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"The Docusaurus <Interpolate> component only accept simple string values. Received: React element"`,
+      `[Error: The Docusaurus <Interpolate> component only accept simple string values. Received: React element]`,
     );
     expect(() =>
       render(<Interpolate>{null}</Interpolate>),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"The Docusaurus <Interpolate> component only accept simple string values. Received: object"`,
+      `[Error: The Docusaurus <Interpolate> component only accept simple string values. Received: object]`,
     );
   });
 });

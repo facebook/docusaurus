@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {fromPartial, type PartialDeep} from '@total-typescript/shoehorn';
 import {getBlogPostAuthors, groupBlogPostsByAuthorKey} from '../authors';
 import type {
@@ -304,15 +305,15 @@ describe('getBlogPostAuthors', () => {
     // @ts-expect-error test
     expect(() => testSocials({twitter: undefined}))
       .toThrowErrorMatchingInlineSnapshot(`
-      "Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
-      Social platform 'twitter' has illegal value 'undefined'"
-    `);
+        [Error: Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+        Social platform 'twitter' has illegal value 'undefined']
+      `);
     expect(
       // @ts-expect-error test
       () => testSocials({twitter: null}),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
-      Social platform 'twitter' has illegal value 'null'"
+      [Error: Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+      Social platform 'twitter' has illegal value 'null']
     `);
   });
 
@@ -587,8 +588,8 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Can't reference blog post authors by a key (such as 'slorber') because no authors map file could be loaded.
-      Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty, and is valid!"
+      [Error: Can't reference blog post authors by a key (such as 'slorber') because no authors map file could be loaded.
+      Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty, and is valid!]
     `);
   });
 
@@ -602,8 +603,8 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Can't reference blog post authors by a key (such as 'slorber') because no authors map file could be loaded.
-      Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty, and is valid!"
+      [Error: Can't reference blog post authors by a key (such as 'slorber') because no authors map file could be loaded.
+      Please double-check your blog plugin config (in particular 'authorsMapPath'), ensure the file exists at the configured path, is not empty, and is valid!]
     `);
   });
 
@@ -621,10 +622,10 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Blog author with key "slorber" not found in the authors map file.
+      [Error: Blog author with key "slorber" not found in the authors map file.
       Valid author keys are:
       - yangshun
-      - jmarcey"
+      - jmarcey]
     `);
   });
 
@@ -641,10 +642,10 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Blog author with key "slorber" not found in the authors map file.
+      [Error: Blog author with key "slorber" not found in the authors map file.
       Valid author keys are:
       - yangshun
-      - jmarcey"
+      - jmarcey]
     `);
   });
 
@@ -662,10 +663,10 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Blog author with key "slorber" not found in the authors map file.
+      [Error: Blog author with key "slorber" not found in the authors map file.
       Valid author keys are:
       - yangshun
-      - jmarcey"
+      - jmarcey]
     `);
   });
 
@@ -680,8 +681,8 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "To declare blog post authors, use the 'authors' front matter in priority.
-      Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time."
+      [Error: To declare blog post authors, use the 'authors' front matter in priority.
+      Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time.]
     `);
 
     expect(() =>
@@ -696,8 +697,8 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "To declare blog post authors, use the 'authors' front matter in priority.
-      Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time."
+      [Error: To declare blog post authors, use the 'authors' front matter in priority.
+      Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time.]
     `);
   });
 
@@ -817,7 +818,7 @@ describe('getBlogPostAuthors', () => {
         baseUrl: '/baseUrl/',
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus internal bug: global authors image /ozaki.png should start with the expected baseUrl=/baseUrl/"`,
+      `[Error: Docusaurus internal bug: global authors image /ozaki.png should start with the expected baseUrl=/baseUrl/]`,
     );
   });
 

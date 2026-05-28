@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
 import path from 'path';
 
@@ -239,7 +240,7 @@ describe('writeRedirectFiles', () => {
     await expect(
       writeRedirectFiles(filesMetadata),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"The redirect plugin is not supposed to override existing files."`,
+      `[Error: The redirect plugin is not supposed to override existing files.]`,
     );
   });
 });

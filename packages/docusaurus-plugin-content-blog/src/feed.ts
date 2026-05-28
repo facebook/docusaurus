@@ -196,8 +196,8 @@ async function resolveXsltFilePaths({
 }) {
   const xsltAbsolutePath: string = path.isAbsolute(xsltFilePath)
     ? xsltFilePath
-    : (await getDataFilePath({filePath: xsltFilePath, contentPaths})) ??
-      path.resolve(contentPaths.contentPath, xsltFilePath);
+    : ((await getDataFilePath({filePath: xsltFilePath, contentPaths})) ??
+      path.resolve(contentPaths.contentPath, xsltFilePath));
 
   if (!(await fs.pathExists(xsltAbsolutePath))) {
     throw new Error(
@@ -323,7 +323,7 @@ async function createBlogFeedFile({
     await fs.outputFile(outputPath, feedContent);
   } catch (err) {
     throw new Error(`Generating ${feedType} feed failed.`, {
-      cause: err as Error,
+      cause: err,
     });
   }
 }

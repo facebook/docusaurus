@@ -145,7 +145,7 @@ export async function readVersionNames(
     );
   }
 
-  const versions = options.disableVersioning ? [] : versionFileContent ?? [];
+  const versions = options.disableVersioning ? [] : (versionFileContent ?? []);
 
   // We add the current version at the beginning, unless:
   // - user don't want to; or

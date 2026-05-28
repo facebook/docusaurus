@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import path from 'path';
 import fs from 'fs-extra';
 import {
@@ -83,7 +84,7 @@ describe('readDefaultCodeTranslationMessages', () => {
         dirPath,
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"First argument to Intl.Locale constructor can't be empty or missing"`,
+      `[RangeError: First argument to Intl.Locale constructor can't be empty or missing]`,
     );
   });
 

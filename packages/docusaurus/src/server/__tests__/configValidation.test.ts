@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
+import {describe, expect, it, vi} from 'vitest';
 import {getVcsPreset} from '@docusaurus/utils';
 import {
   ConfigSchema,
@@ -197,8 +197,8 @@ describe('url', () => {
         url: 1,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""url" must be a string
-      "
+      [Error: "url" must be a string
+      ]
     `);
   });
 
@@ -208,8 +208,8 @@ describe('url', () => {
         url: 'mysite.com',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""mysite.com" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".
-      "
+      [Error: "mysite.com" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".
+      ]
     `);
   });
 
@@ -228,8 +228,8 @@ describe('url', () => {
         baseUrl: 1,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""baseUrl" must be a string
-      "
+      [Error: "baseUrl" must be a string
+      ]
     `);
   });
 
@@ -298,8 +298,8 @@ describe('headTags', () => {
         ],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""headTags[0].tagName" is required
-      "
+      [Error: "headTags[0].tagName" is required
+      ]
     `);
   });
 
@@ -313,8 +313,8 @@ describe('headTags', () => {
         ],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""headTags[0].attributes" is required
-      "
+      [Error: "headTags[0].attributes" is required
+      ]
     `);
   });
 
@@ -345,8 +345,8 @@ describe('headTags', () => {
         ],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""headTags[0].attributes.rel" must be a string
-      "
+      [Error: "headTags[0].attributes.rel" must be a string
+      ]
     `);
   });
 });
@@ -358,8 +358,8 @@ describe('css', () => {
         stylesheets: ['https://somescript.com', {type: 'text/css'}],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""stylesheets[1]" is invalid. A stylesheet must be a plain string (the href), or an object with at least a "href" property.
-      "
+      [Error: "stylesheets[1]" is invalid. A stylesheet must be a plain string (the href), or an object with at least a "href" property.
+      ]
     `);
   });
 });
@@ -371,8 +371,8 @@ describe('scripts', () => {
         scripts: ['https://some.com', {}],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""scripts[1]" is invalid. A script must be a plain string (the src), or an object with at least a "src" property.
-      "
+      [Error: "scripts[1]" is invalid. A script must be a plain string (the src), or an object with at least a "src" property.
+      ]
     `);
   });
 });
@@ -404,9 +404,9 @@ describe('i18n', () => {
 
   it('rejects empty object', () => {
     expect(() => normalizeI18n({})).toThrowErrorMatchingInlineSnapshot(`
-      ""i18n.defaultLocale" is required
+      [Error: "i18n.defaultLocale" is required
       "i18n.locales" is required
-      "
+      ]
     `);
   });
 
@@ -452,9 +452,9 @@ describe('i18n', () => {
       it('rejects empty', () => {
         expect(() => normalizeLocaleConfig({url: ''}))
           .toThrowErrorMatchingInlineSnapshot(`
-          ""i18n.localeConfigs.fr.url" is not allowed to be empty
-          "
-        `);
+            [Error: "i18n.localeConfigs.fr.url" is not allowed to be empty
+            ]
+          `);
       });
 
       it('accepts valid url', () => {
@@ -575,8 +575,8 @@ describe('markdown', () => {
         markdown: {preprocessor: () => 'content'},
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.preprocessor" must have an arity of 1
-      "
+      [Error: "markdown.preprocessor" must have an arity of 1
+      ]
     `);
     expect(() =>
       normalizeMarkdown(
@@ -584,8 +584,8 @@ describe('markdown', () => {
         {preprocessor: (arg1, arg2) => String(arg1) + String(arg2)},
       ),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.preprocessor" must have an arity of 1
-      "
+      [Error: "markdown.preprocessor" must have an arity of 1
+      ]
     `);
   });
 
@@ -599,9 +599,9 @@ describe('markdown', () => {
         format: null,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.format" must be one of [mdx, md, detect]
+      [Error: "markdown.format" must be one of [mdx, md, detect]
       "markdown.format" must be a string
-      "
+      ]
     `);
     expect(() =>
       normalizeMarkdown(
@@ -609,8 +609,8 @@ describe('markdown', () => {
         {format: 'xyz'},
       ),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.format" must be one of [mdx, md, detect]
-      "
+      [Error: "markdown.format" must be one of [mdx, md, detect]
+      ]
     `);
   });
 
@@ -618,8 +618,8 @@ describe('markdown', () => {
     expect(() => {
       normalizeMarkdown(null);
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown" must be of type object
-      "
+      [Error: "markdown" must be of type object
+      ]
     `);
   });
 
@@ -651,9 +651,9 @@ describe('markdown', () => {
           emoji: 'yes',
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-              ""markdown.emoji" must be a boolean
-              "
-          `);
+        [Error: "markdown.emoji" must be a boolean
+        ]
+      `);
     });
 
     it('throw for number emoji value', () => {
@@ -665,9 +665,9 @@ describe('markdown', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-              ""markdown.emoji" must be a boolean
-              "
-          `);
+        [Error: "markdown.emoji" must be a boolean
+        ]
+      `);
     });
   });
 
@@ -702,8 +702,8 @@ describe('markdown', () => {
             42,
           ),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
-          "
+          [Error: "markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
+          ]
         `);
       });
 
@@ -713,20 +713,15 @@ describe('markdown', () => {
 
       it('rejects null', () => {
         expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
-          "
+          [Error: "markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
+          ]
         `);
       });
 
       describe('onBrokenMarkdownLinks migration', () => {
-        const warnMock = jest
-          .spyOn(console, 'warn')
-          .mockImplementation(() => {});
-        beforeEach(() => {
-          warnMock.mockClear();
-        });
-
         it('accepts migrated v3 config', () => {
+          using warn = vi.spyOn(console, 'warn');
+
           expect(
             normalizeConfig({
               onBrokenMarkdownLinks: undefined,
@@ -747,10 +742,12 @@ describe('markdown', () => {
             }),
           );
 
-          expect(warnMock).not.toHaveBeenCalled();
+          expect(warn).not.toHaveBeenCalled();
         });
 
         it('accepts deprecated v3 config with migration warning', () => {
+          using warn = vi.spyOn(console, 'warn');
+
           expect(
             normalizeConfig({
               onBrokenMarkdownLinks: 'log',
@@ -771,8 +768,8 @@ describe('markdown', () => {
             }),
           );
 
-          expect(warnMock).toHaveBeenCalledTimes(1);
-          expect(warnMock.mock.calls[0]).toMatchInlineSnapshot(`
+          expect(warn).toHaveBeenCalledTimes(1);
+          expect(warn.mock.calls[0]).toMatchInlineSnapshot(`
             [
               "[WARNING] The \`siteConfig.onBrokenMarkdownLinks\` config option is deprecated and will be removed in Docusaurus v4.
             Please migrate and move this option to \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` instead.",
@@ -806,8 +803,8 @@ describe('markdown', () => {
             42,
           ),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
-          "
+          [Error: "markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
+          ]
         `);
       });
 
@@ -817,8 +814,8 @@ describe('markdown', () => {
 
       it('rejects null', () => {
         expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
-          "
+          [Error: "markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
+          ]
         `);
       });
     });
@@ -1022,8 +1019,8 @@ describe('themes', () => {
         themes: {},
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""themes" must be an array
-      "
+      [Error: "themes" must be an array
+      ]
     `);
   });
 });
@@ -1036,8 +1033,8 @@ describe('presets', () => {
         presets: {},
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""presets" must be an array
-      "
+      [Error: "presets" must be an array
+      ]
     `);
   });
 
@@ -1048,10 +1045,10 @@ describe('presets', () => {
         presets: [() => {}],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""presets[0]" does not look like a valid preset config. A preset config entry should be one of:
+      [Error: "presets[0]" does not look like a valid preset config. A preset config entry should be one of:
       - A tuple of [presetName, options], like \`["classic", { blog: false }]\`, or
       - A simple string, like \`"classic"\`
-      "
+      ]
     `);
   });
 
@@ -1107,8 +1104,8 @@ describe('storage', () => {
         storage,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""storage" must be of type object
-      "
+      [Error: "storage" must be of type object
+      ]
     `);
   });
 
@@ -1120,8 +1117,8 @@ describe('storage', () => {
         storage,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""storage" must be of type object
-      "
+      [Error: "storage" must be of type object
+      ]
     `);
   });
 
@@ -1137,8 +1134,8 @@ describe('storage', () => {
         },
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "The Docusaurus config \`future.experimental_storage\` has been promoted to a stable top-level \`storage\` config attribute. Please move your storage config to the top level.
-      "
+      [Error: The Docusaurus config \`future.experimental_storage\` has been promoted to a stable top-level \`storage\` config attribute. Please move your storage config to the top level.
+      ]
     `);
   });
 
@@ -1151,8 +1148,8 @@ describe('storage', () => {
         },
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "The Docusaurus config \`future.experimental_faster\` has been renamed to \`future.faster\`. Please update your Docusaurus config.
-      "
+      [Error: The Docusaurus config \`future.experimental_faster\` has been renamed to \`future.faster\`. Please update your Docusaurus config.
+      ]
     `);
   });
 
@@ -1192,9 +1189,9 @@ describe('storage', () => {
           storage,
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""storage.type" must be one of [localStorage, sessionStorage]
+        [Error: "storage.type" must be one of [localStorage, sessionStorage]
         "storage.type" must be a string
-        "
+        ]
       `);
     });
 
@@ -1206,9 +1203,9 @@ describe('storage', () => {
           storage,
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""storage.type" must be one of [localStorage, sessionStorage]
+        [Error: "storage.type" must be one of [localStorage, sessionStorage]
         "storage.type" must be a string
-        "
+        ]
       `);
     });
 
@@ -1220,8 +1217,8 @@ describe('storage', () => {
           storage,
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""storage.type" must be one of [localStorage, sessionStorage]
-        "
+        [Error: "storage.type" must be one of [localStorage, sessionStorage]
+        ]
       `);
     });
   });
@@ -1300,8 +1297,8 @@ describe('storage', () => {
           storage,
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""storage.namespace" must be one of [string, boolean]
-        "
+        [Error: "storage.namespace" must be one of [string, boolean]
+        ]
       `);
     });
 
@@ -1313,8 +1310,8 @@ describe('storage', () => {
           storage,
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""storage.namespace" must be one of [string, boolean]
-        "
+        [Error: "storage.namespace" must be one of [string, boolean]
+        ]
       `);
     });
   });
@@ -1390,9 +1387,9 @@ describe('future', () => {
         future,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "These field(s) ("future.doesNotExistKey",) are not recognized in docusaurus.config.js.
+      [Error: These field(s) ("future.doesNotExistKey",) are not recognized in docusaurus.config.js.
       If you still want these fields to be in your configuration, put them in the "customFields" field.
-      See https://docusaurus.io/docs/api/docusaurus-config/#customfields"
+      See https://docusaurus.io/docs/api/docusaurus-config/#customfields]
     `);
   });
 
@@ -1437,8 +1434,8 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_router" must be one of [browser, hash]
-        "
+        [Error: "future.experimental_router" must be one of [browser, hash]
+        ]
       `);
     });
 
@@ -1451,9 +1448,9 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_router" must be one of [browser, hash]
+        [Error: "future.experimental_router" must be one of [browser, hash]
         "future.experimental_router" must be a string
-        "
+        ]
       `);
     });
 
@@ -1467,9 +1464,9 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_router" must be one of [browser, hash]
+        [Error: "future.experimental_router" must be one of [browser, hash]
         "future.experimental_router" must be a string
-        "
+        ]
       `);
     });
   });
@@ -1572,8 +1569,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because VCS config preset name 'unknown-preset-name' is not valid.
-          "
+          [Error: "future.experimental_vcs" failed custom validation because VCS config preset name 'unknown-preset-name' is not valid.
+          ]
         `);
       });
     });
@@ -1600,8 +1597,8 @@ describe('future', () => {
             future: {experimental_vcs: {}},
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because "initialize" is required
-          "
+          [Error: "future.experimental_vcs" failed custom validation because "initialize" is required
+          ]
         `);
       });
 
@@ -1619,8 +1616,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because "initialize" must have an arity lesser or equal to 1
-          "
+          [Error: "future.experimental_vcs" failed custom validation because "initialize" must have an arity lesser or equal to 1
+          ]
         `);
       });
 
@@ -1638,8 +1635,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because "getFileCreationInfo" must have an arity of 1
-          "
+          [Error: "future.experimental_vcs" failed custom validation because "getFileCreationInfo" must have an arity of 1
+          ]
         `);
       });
 
@@ -1657,8 +1654,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because "getFileLastUpdateInfo" must have an arity of 1
-          "
+          [Error: "future.experimental_vcs" failed custom validation because "getFileLastUpdateInfo" must have an arity of 1
+          ]
         `);
       });
     });
@@ -1739,9 +1736,9 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        "Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+        [Error: Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
         If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
+        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future]
       `);
     });
 
@@ -1754,9 +1751,9 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        "Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+        [Error: Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
         If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
+        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future]
       `);
     });
 
@@ -1770,8 +1767,8 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.faster" must be one of [object, boolean]
-        "
+        [Error: "future.faster" must be one of [object, boolean]
+        ]
       `);
     });
 
@@ -1825,8 +1822,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.swcJsLoader" must be a boolean
-          "
+          [Error: "future.faster.swcJsLoader" must be a boolean
+          ]
         `);
       });
 
@@ -1840,8 +1837,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.swcJsLoader" must be a boolean
-          "
+          [Error: "future.faster.swcJsLoader" must be a boolean
+          ]
         `);
       });
     });
@@ -1896,8 +1893,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.swcJsMinimizer" must be a boolean
-          "
+          [Error: "future.faster.swcJsMinimizer" must be a boolean
+          ]
         `);
       });
 
@@ -1911,8 +1908,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.swcJsMinimizer" must be a boolean
-          "
+          [Error: "future.faster.swcJsMinimizer" must be a boolean
+          ]
         `);
       });
     });
@@ -1967,8 +1964,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.swcHtmlMinimizer" must be a boolean
-          "
+          [Error: "future.faster.swcHtmlMinimizer" must be a boolean
+          ]
         `);
       });
 
@@ -1982,8 +1979,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.swcHtmlMinimizer" must be a boolean
-          "
+          [Error: "future.faster.swcHtmlMinimizer" must be a boolean
+          ]
         `);
       });
     });
@@ -2038,8 +2035,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.lightningCssMinimizer" must be a boolean
-          "
+          [Error: "future.faster.lightningCssMinimizer" must be a boolean
+          ]
         `);
       });
 
@@ -2053,8 +2050,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.lightningCssMinimizer" must be a boolean
-          "
+          [Error: "future.faster.lightningCssMinimizer" must be a boolean
+          ]
         `);
       });
     });
@@ -2109,8 +2106,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.mdxCrossCompilerCache" must be a boolean
-          "
+          [Error: "future.faster.mdxCrossCompilerCache" must be a boolean
+          ]
         `);
       });
 
@@ -2124,8 +2121,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.mdxCrossCompilerCache" must be a boolean
-          "
+          [Error: "future.faster.mdxCrossCompilerCache" must be a boolean
+          ]
         `);
       });
     });
@@ -2180,8 +2177,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.rspackBundler" must be a boolean
-          "
+          [Error: "future.faster.rspackBundler" must be a boolean
+          ]
         `);
       });
 
@@ -2195,8 +2192,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.rspackBundler" must be a boolean
-          "
+          [Error: "future.faster.rspackBundler" must be a boolean
+          ]
         `);
       });
     });
@@ -2241,7 +2238,7 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(
-          `"Docusaurus config flag \`future.faster.rspackPersistentCache\` requires the flag \`future.faster.rspackBundler\` to be turned on."`,
+          `[Error: Docusaurus config flag \`future.faster.rspackPersistentCache\` requires the flag \`future.faster.rspackBundler\` to be turned on.]`,
         );
       });
 
@@ -2257,7 +2254,7 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(
-          `"Docusaurus config flag \`future.faster.rspackPersistentCache\` requires the flag \`future.faster.rspackBundler\` to be turned on."`,
+          `[Error: Docusaurus config flag \`future.faster.rspackPersistentCache\` requires the flag \`future.faster.rspackBundler\` to be turned on.]`,
         );
       });
 
@@ -2284,8 +2281,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.rspackPersistentCache" must be a boolean
-          "
+          [Error: "future.faster.rspackPersistentCache" must be a boolean
+          ]
         `);
       });
 
@@ -2299,8 +2296,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.rspackPersistentCache" must be a boolean
-          "
+          [Error: "future.faster.rspackPersistentCache" must be a boolean
+          ]
         `);
       });
     });
@@ -2345,9 +2342,9 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          "Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+          [Error: Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
           If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
+          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future]
         `);
       });
 
@@ -2363,9 +2360,9 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          "Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
+          [Error: Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
           If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
+          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future]
         `);
       });
 
@@ -2392,8 +2389,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.ssgWorkerThreads" must be a boolean
-          "
+          [Error: "future.faster.ssgWorkerThreads" must be a boolean
+          ]
         `);
       });
 
@@ -2407,8 +2404,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.ssgWorkerThreads" must be a boolean
-          "
+          [Error: "future.faster.ssgWorkerThreads" must be a boolean
+          ]
         `);
       });
     });
@@ -2473,8 +2470,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.gitEagerVcs" must be a boolean
-          "
+          [Error: "future.faster.gitEagerVcs" must be a boolean
+          ]
         `);
       });
 
@@ -2488,8 +2485,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.faster.gitEagerVcs" must be a boolean
-          "
+          [Error: "future.faster.gitEagerVcs" must be a boolean
+          ]
         `);
       });
     });
@@ -2606,8 +2603,8 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.v4" must be one of [object, boolean]
-        "
+        [Error: "future.v4" must be one of [object, boolean]
+        ]
       `);
     });
 
@@ -2663,8 +2660,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
-          "
+          [Error: "future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
+          ]
         `);
       });
 
@@ -2680,8 +2677,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
-          "
+          [Error: "future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
+          ]
         `);
       });
     });
@@ -2738,8 +2735,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.useCssCascadeLayers" must be a boolean
-          "
+          [Error: "future.v4.useCssCascadeLayers" must be a boolean
+          ]
         `);
       });
 
@@ -2755,8 +2752,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.useCssCascadeLayers" must be a boolean
-          "
+          [Error: "future.v4.useCssCascadeLayers" must be a boolean
+          ]
         `);
       });
     });
@@ -2812,8 +2809,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.siteStorageNamespacing" must be a boolean
-          "
+          [Error: "future.v4.siteStorageNamespacing" must be a boolean
+          ]
         `);
       });
 
@@ -2829,8 +2826,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.siteStorageNamespacing" must be a boolean
-          "
+          [Error: "future.v4.siteStorageNamespacing" must be a boolean
+          ]
         `);
       });
     });
@@ -2888,8 +2885,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.fasterByDefault" must be a boolean
-          "
+          [Error: "future.v4.fasterByDefault" must be a boolean
+          ]
         `);
       });
 
@@ -2905,8 +2902,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.fasterByDefault" must be a boolean
-          "
+          [Error: "future.v4.fasterByDefault" must be a boolean
+          ]
         `);
       });
     });

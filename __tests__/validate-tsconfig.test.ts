@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, it} from 'vitest';
 import fs from 'fs-extra';
 import {Globby} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
@@ -47,9 +48,8 @@ describe('tsconfig files', () => {
         try {
           Joi.attempt(file.content, tsconfigSchema);
         } catch (e) {
-          (
-            e as Error
-          ).message += `\n${file.file} does not match the required schema.`;
+          (e as Error).message +=
+            `\n${file.file} does not match the required schema.`;
           throw e;
         }
       });

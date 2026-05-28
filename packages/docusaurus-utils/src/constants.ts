@@ -18,7 +18,7 @@ export const NODE_MINOR_VERSION = parseInt(
 
 /** Docusaurus core version. */
 export const DOCUSAURUS_VERSION =
-  // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   (require('../package.json') as {version: string}).version;
 
 /**

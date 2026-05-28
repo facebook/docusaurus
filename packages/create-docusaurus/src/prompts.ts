@@ -25,3 +25,20 @@ export async function askPreferredLanguage(): Promise<
   }
   return language;
 }
+
+export async function askForCustomGitCloneCommand(): Promise<string> {
+  const {command} = (await prompts(
+    {
+      type: 'text',
+      name: 'command',
+      message:
+        'Write your own git clone command. The repository URL and destination directory will be supplied. E.g. "git clone --depth 10"',
+    },
+    {
+      onCancel() {
+        logger.info`Falling back to code=${'git clone'}`;
+      },
+    },
+  )) as {command?: string};
+  return command ?? 'git clone';
+}

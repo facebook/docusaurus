@@ -8,8 +8,8 @@ on:
     paths:
       - package.json
       - yarn.lock
-      - jest.config.mjs
-      - jest/**
+      - vitest.config.ts
+      - test/**
       - packages/**
       - tsconfig.*.json
       - .github/workflows/tests-windows.yml
@@ -28,20 +28,20 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        node: ['24.14', '25']
+        node: ['24.14', '26']
     steps:
       - name: Support longpaths
         run: git config --system core.longpaths true
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Installation
         run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
-      - name: Docusaurus Jest Tests
+      - name: Docusaurus Tests
         run: yarn test
       - name: Create a deep path
         # https://github.com/facebook/docusaurus/pull/4899

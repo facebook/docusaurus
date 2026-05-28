@@ -7,15 +7,23 @@
 
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
+import {describe, expect, it} from 'vitest';
 import u from 'unist-builder';
-import {removePosition} from 'unist-util-remove-position';
 import {visit} from 'unist-util-visit';
 import {escapeMarkdownHeadingIds} from '@docusaurus/utils';
 import plugin from '../index';
 import type {PluginOptions} from '../index';
 import type {Plugin} from 'unified';
-import type {Parent} from 'unist';
+import type {Parent, Node} from 'unist';
 import type {Heading, Root} from 'mdast';
+
+function removePositions(tree: Node) {
+  visit(tree, (node) => {
+    delete node.position;
+    // cleanup positions in JSX attributes too
+    (node as any).attributes?.forEach(removePositions);
+  });
+}
 
 async function process(
   input: string,
@@ -40,7 +48,7 @@ async function process(
   });
 
   const result = await processor.run(processor.parse(content));
-  removePosition(result, {force: true});
+  removePositions(result);
 
   return result as unknown as Root;
 }
@@ -528,7 +536,7 @@ describe('headings remark plugin', () => {
           await expect(
             processHeading('## Heading <!-- #my-id -->', 'mdx'),
           ).rejects.toThrowErrorMatchingInlineSnapshot(
-            `"Unexpected character \`!\` (U+0021) before name, expected a character that can start a name, such as a letter, \`$\`, or \`_\` (note: to create a comment in MDX, use \`{/* text */}\`)"`,
+            `[1:13: Unexpected character \`!\` (U+0021) before name, expected a character that can start a name, such as a letter, \`$\`, or \`_\` (note: to create a comment in MDX, use \`{/* text */}\`)]`,
           );
         });
       });

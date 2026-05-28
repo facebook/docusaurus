@@ -260,7 +260,6 @@ declare module '@docusaurus/Translate' {
 }
 
 declare module '@docusaurus/router' {
-  // eslint-disable-next-line import/no-extraneous-dependencies
   export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
 }
 
@@ -352,7 +351,6 @@ declare module '@docusaurus/Noop' {
 }
 
 declare module '@docusaurus/renderRoutes' {
-  // eslint-disable-next-line import/no-extraneous-dependencies
   import {renderRoutes} from 'react-router-config';
 
   export default renderRoutes;

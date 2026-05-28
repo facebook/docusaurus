@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import path from 'path';
 import {getThemeComponents, readComponentNames} from '../components';
 import {Components} from './testUtils';
@@ -118,7 +119,7 @@ describe('getThemeComponents', () => {
     expect(() =>
       themeComponents.getConfig('DoesNotExistComp'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't get component config: component doesn't exist: DoesNotExistComp"`,
+      `[Error: Can't get component config: component doesn't exist: DoesNotExistComp]`,
     );
   });
 

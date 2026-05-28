@@ -135,11 +135,7 @@ function CollapseButton({
 }
 
 function CategoryLinkLabel({label}: {label: string}) {
-  return (
-    <span title={label} className={styles.categoryLinkLabel}>
-      {label}
-    </span>
-  );
+  return <span className={styles.categoryLinkLabel}>{label}</span>;
 }
 
 export default function DocSidebarItemCategory(props: Props): ReactNode {
@@ -284,7 +280,9 @@ function DocSidebarItemCategoryCollapsible({
           aria-current={isCurrentPage ? 'page' : undefined}
           role={collapsible && !href ? 'button' : undefined}
           aria-expanded={collapsible && !href ? !collapsed : undefined}
-          href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
+          href={
+            collapsible ? (hrefWithSSRFallback ?? '#') : hrefWithSSRFallback
+          }
           {...props}>
           <CategoryLinkLabel label={label} />
         </Link>

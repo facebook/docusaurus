@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
+exports[`getLoadedContentTranslationFiles > returns translation files 1`] = `
 [
   {
     "content": {
@@ -140,7 +140,7 @@ exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
 ]
 `;
 
-exports[`translateLoadedContent returns translated loaded content 1`] = `
+exports[`translateLoadedContent > returns translated loaded content 1`] = `
 {
   "loadedVersions": [
     {
