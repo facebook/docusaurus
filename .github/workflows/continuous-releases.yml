@@ -17,6 +17,7 @@ concurrency:
 jobs:
   release:
     name: Continuous Releases
+    if: github.repository == 'facebook/docusaurus'
     runs-on: ubuntu-latest
 
     steps:
