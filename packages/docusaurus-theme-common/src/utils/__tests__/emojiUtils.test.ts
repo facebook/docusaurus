@@ -71,4 +71,11 @@ describe('extractLeadingEmoji', () => {
       rest: '11 Hello World',
     });
   });
+
+  it('extract emoji digits', () => {
+    expect(extractLeadingEmoji('1️⃣ Hello World')).toEqual({
+      emoji: '1️⃣',
+      rest: ' Hello World',
+    });
+  });
 });
