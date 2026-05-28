@@ -1,0 +1,18 @@
+name: Docusaurus CodeQL config
+
+# We can disable various rules because Docusaurus has no runtime
+# The inputs (files, CLI args) are usually controlled locally
+query-filters:
+  # Many false positives
+  # Example: https://github.com/facebook/docusaurus/security/code-scanning/18
+  - exclude:
+      id: js/path-injection
+  # Many false positives
+  # Example: https://github.com/facebook/docusaurus/security/code-scanning/150
+  - exclude:
+      id: js/polynomial-redos
+
+  # - exclude:
+  #    id: js/command-line-injection
+  # - exclude:
+  #    id: js/indirect-command-line-injection

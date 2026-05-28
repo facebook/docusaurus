@@ -25,12 +25,6 @@ jobs:
       contents: read
       security-events: write
 
-    strategy:
-      fail-fast: false
-      matrix:
-        language:
-          - javascript
-
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -38,7 +32,8 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@4e94bd11f71e507f7f87df81788dff88d1dacbfb # 4.31.0
         with:
-          languages: ${{ matrix.language }}
+          languages: javascript-typescript
+          config-file: ./.github/codeql/codeql-config.yml
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@4e94bd11f71e507f7f87df81788dff88d1dacbfb # 4.31.0
