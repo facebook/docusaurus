@@ -143,6 +143,8 @@ lifecycles
 lightningcss
 Linkify
 linkify
+llms
+llmstxt
 longlonglonglonglonglonglonglonglonglonglonglong
 Lorber
 lorber
