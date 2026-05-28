@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Types copied from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/gtag.js
+// Types directly copied from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/gtag.js
+// I'd prefer not do that, but this should fix our StackBlitz playground
+// See https://github.com/facebook/docusaurus/pull/12080
+// See https://github.com/facebook/docusaurus/issues/11615
 
 /* eslint-disable */
 declare var gtag: Gtag.Gtag;
