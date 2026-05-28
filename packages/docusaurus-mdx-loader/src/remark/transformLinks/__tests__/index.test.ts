@@ -126,9 +126,9 @@ describe('transformLinks plugin', () => {
       it('if site alias points to a directory with a dot', async () => {
         await expect(processContent(fixtures.directoryWithDotSiteAlias)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown link with URL \`@site/dotted-directory.whatever\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
+          [Error: Markdown link with URL \`@site/dotted-directory.whatever\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.
-          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs.]
         `);
       });
     });
@@ -168,12 +168,13 @@ describe('transformLinks plugin', () => {
       });
 
       it('if site alias points to a directory with a dot', async () => {
+        using warn = vi.spyOn(console, 'warn');
         const result = await processWarn(fixtures.directoryWithDotSiteAlias);
         expect(result).toMatchInlineSnapshot(
           `"[dir](@site/dotted-directory.whatever)"`,
         );
-        expect(warnMock).toHaveBeenCalledTimes(1);
-        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "[WARNING] Markdown link with URL \`@site/dotted-directory.whatever\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
@@ -200,7 +201,6 @@ describe('transformLinks plugin', () => {
 
       it('if url is empty', async () => {
         using log = vi.spyOn(console, 'log');
-
         const result = await processWarn(fixtures.urlEmpty);
         expect(result).toMatchInlineSnapshot(
           `"[empty](/404 "fixed link title")"`,
@@ -256,7 +256,6 @@ describe('transformLinks plugin', () => {
 
       it('if file with site alias does not exist', async () => {
         using log = vi.spyOn(console, 'log');
-
         const result = await processWarn(fixtures.fileDoesNotExistSiteAlias);
         expect(result).toMatchInlineSnapshot(
           `"[file](/404 "fixed link title")"`,
@@ -311,12 +310,13 @@ describe('transformLinks plugin', () => {
       });
 
       it('if site alias points to a directory with a dot', async () => {
+        using log = vi.spyOn(console, 'log');
         const result = await processWarn(fixtures.directoryWithDotSiteAlias);
         expect(result).toMatchInlineSnapshot(
           `"[dir](/404 "fixed link title")"`,
         );
-        expect(logMock).toHaveBeenCalledTimes(1);
-        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+        expect(log).toHaveBeenCalledTimes(1);
+        expect(log.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownLinks called with",
