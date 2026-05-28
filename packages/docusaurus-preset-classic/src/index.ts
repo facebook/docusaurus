@@ -61,7 +61,7 @@ export default function preset(
       `In Docusaurus v4, the Google Analytics plugin has been removed.
 You can now use either:
 - @docusaurus/plugin-google-gtag - presetOptions.gtag
-- @docusaurus/plugin-google-tag-managerreplaced - presetOptions.googleTagManager
+- @docusaurus/plugin-google-tag-manager - presetOptions.googleTagManager
 
 See also: https://github.com/facebook/docusaurus/issues/7221`,
     );
