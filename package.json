@@ -80,7 +80,7 @@
     "@ai-sdk/react": "^2.0.30",
     "@crowdin/cli": "^4.14.2",
     "@eslint/js": "^10.0.1",
-    "@swc/core": "^1.15.32",
+    "@swc/core": "^1.15.40",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
