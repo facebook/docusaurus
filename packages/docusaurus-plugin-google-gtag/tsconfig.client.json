@@ -1,8 +1,6 @@
 {
   "extends": "../../tsconfig.base.client.json",
-  "compilerOptions": {
-    "types": ["gtag.js"]
-  },
-  "include": ["src/gtag.ts", "src/*.d.ts"],
+  "compilerOptions": {},
+  "include": ["src/gtag.ts", "src//vendor-gtag.ts", "src/*.d.ts"],
   "exclude": ["**/__tests__/**"]
 }

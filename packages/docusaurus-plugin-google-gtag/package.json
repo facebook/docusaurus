@@ -5,8 +5,10 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc --build",
-    "watch": "tsc --build --watch"
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "publishConfig": {
     "access": "public"
@@ -21,7 +23,6 @@
     "@docusaurus/core": "3.10.1",
     "@docusaurus/types": "3.10.1",
     "@docusaurus/utils-validation": "3.10.1",
-    "@types/gtag.js": "^0.0.20",
     "tslib": "^2.6.0"
   },
   "peerDependencies": {

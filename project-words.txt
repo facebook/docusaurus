@@ -59,6 +59,7 @@ Datagit
 datagit
 Datagit's
 dedup
+definitelytyped
 devto
 dingers
 Dmitry
@@ -95,6 +96,7 @@ FOUC
 Français
 froms
 gabrielcsapo
+gclid
 getcanary
 Gifs
 gingergeek
@@ -143,6 +145,8 @@ lifecycles
 lightningcss
 Linkify
 linkify
+llms
+llmstxt
 longlonglonglonglonglonglonglonglonglonglonglong
 Lorber
 lorber
