@@ -152,6 +152,7 @@ Lorber's
 LQIP
 lqip
 lunrjs
+managerreplaced
 Marcey
 marcey
 Marcey's
