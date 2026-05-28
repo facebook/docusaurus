@@ -78,11 +78,6 @@ export default function preset(
   if (pages !== false) {
     plugins.push(makePluginConfig('@docusaurus/plugin-content-pages', pages));
   }
-  if (googleAnalytics) {
-    plugins.push(
-      makePluginConfig('@docusaurus/plugin-google-analytics', googleAnalytics),
-    );
-  }
   if (debug || (debug === undefined && !isProd)) {
     plugins.push(require.resolve('@docusaurus/plugin-debug'));
   }
