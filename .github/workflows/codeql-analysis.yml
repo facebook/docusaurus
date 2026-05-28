@@ -19,6 +19,7 @@ concurrency:
 jobs:
   analyze:
     name: Analyze
+    if: github.repository == 'facebook/docusaurus'
     runs-on: ubuntu-latest
     permissions:
       actions: read
