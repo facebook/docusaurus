@@ -614,7 +614,6 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
     config.future.experimental_vcs = vcsConfig;
   }
 
-
   if (
     config.future.faster.rspackPersistentCache &&
     !config.future.faster.rspackBundler
