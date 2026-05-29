@@ -1,0 +1,119 @@
+name: MSYS Git Path Repro
+
+# Reproduces the MSYS/Cygwin Git path bug on Windows.
+# See https://github.com/facebook/docusaurus/issues/11920
+#
+# Under Git Bash / MSYS2 / Cygwin, `git rev-parse --show-toplevel` prints an
+# MSYS-style path like `/c/Users/.../site`. The previous getGitRepoRoot passed
+# that straight to `fs.realpath.native`, which resolves it against the current
+# drive root and duplicates the drive letter into `C:\c\Users\...`, a path that
+# does not exist. This job runs the real getGitRepoRoot from inside an MSYS2
+# shell and proves both the bug and the fix in a single run.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'fixed (assert the fix) or nofix (assert the old broken behaviour, expected to fail)'
+        required: false
+        default: 'fixed'
+        type: choice
+        options:
+          - fixed
+          - nofix
+  pull_request:
+    branches:
+      - main
+      - docusaurus-v**
+    paths:
+      - packages/docusaurus-utils/src/pathUtils.ts
+      - packages/docusaurus-utils/src/vcs/gitUtils.ts
+      - admin/scripts/msys-git-path-repro/**
+      - .github/workflows/msys-git-path-repro.yml
+  push:
+    branches:
+      - fix-git-msys-path-windows
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  msys-repro:
+    name: MSYS Git Path Repro
+    timeout-minutes: 30
+    runs-on: windows-latest
+    steps:
+      - name: Support longpaths
+        run: git config --system core.longpaths true
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Use Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: '24.14'
+          cache: yarn
+
+      - name: Installation
+        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
+
+      - name: Build packages
+        run: yarn build:packages
+
+      # Provide the MSYS2 build of Git. path-type inherit keeps the native
+      # Windows PATH (so node/yarn stay reachable) while MSYS2 bin is prepended,
+      # so `git` resolves to the MSYS build inside this shell.
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@e9898307ac31d1a803454791be09ab9973336e1c # v2.31.1
+        with:
+          msystem: MSYS
+          path-type: inherit
+          install: git
+
+      - name: Show toolchain (MSYS2 shell)
+        shell: msys2 {0}
+        run: |
+          echo "uname: $(uname -a)"
+          echo "git on PATH: $(command -v git)"
+          git --version
+          echo "node on PATH: $(command -v node)"
+          node -e "console.log('node platform:', process.platform, 'version:', process.version)"
+
+      # Create a real git repo on the C: drive and commit, then run the repro
+      # from the MSYS2 shell so getGitRepoRoot's internal `git rev-parse
+      # --show-toplevel` returns a `/c/...` MSYS path.
+      - name: Create git repo and run repro
+        shell: msys2 {0}
+        env:
+          MSYS_REPRO_MODE: ${{ github.event.inputs.mode || 'fixed' }}
+        run: |
+          set -euo pipefail
+          # MSYS path of the repo (a real directory on the C: drive).
+          REPO_DIR="/c/msys-repro-site"
+          rm -rf "$REPO_DIR"
+          mkdir -p "$REPO_DIR"
+          cd "$REPO_DIR"
+          git init -q
+          git config user.email repro@example.com
+          git config user.name Repro
+          echo "# repro" > README.md
+          git add README.md
+          git commit -q -m "initial commit"
+          echo "git rev-parse --show-toplevel => $(git rev-parse --show-toplevel)"
+
+          # The repro itself is native Windows Node, so it needs native Windows
+          # paths for both its script location and the repo cwd it passes to
+          # execa. The git that getGitRepoRoot shells out to is still the MSYS
+          # git on PATH, so it keeps returning the `/c/...` MSYS path.
+          WORKSPACE_UNIX="$(cygpath -u "${GITHUB_WORKSPACE}")"
+          REPO_DIR_WIN="$(cygpath -w "$REPO_DIR")"
+          SCRIPT_WIN="$(cygpath -w "${WORKSPACE_UNIX}/admin/scripts/msys-git-path-repro/repro.mjs")"
+          echo "repo dir (win)  : ${REPO_DIR_WIN}"
+          echo "script (win)    : ${SCRIPT_WIN}"
+          echo "running repro in mode: ${MSYS_REPRO_MODE}"
+          node "${SCRIPT_WIN}" "${REPO_DIR_WIN}"
