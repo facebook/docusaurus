@@ -45,6 +45,9 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 | `--config` | `undefined` | Path to Docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--poll [optionalIntervalMs]` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
 | `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
+| `--https` | `false` | Serve the dev site over HTTPS using a self-signed certificate. Implied when both `--ssl-cert` and `--ssl-key` are provided. |
+| `--ssl-cert` | `undefined` | Path to a TLS certificate file (implies HTTPS). |
+| `--ssl-key` | `undefined` | Path to a TLS private key file (implies HTTPS). |
 
 :::info
 
@@ -70,13 +73,23 @@ There are multiple ways to obtain a certificate. We will use [mkcert](https://gi
 
 2. Run `mkcert -install` to install the cert in your trust store, and restart your browser
 
-3. Start the app with Docusaurus HTTPS env variables:
+3. Start the app with the Docusaurus HTTPS CLI options:
 
-```bash
-HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
+```bash npm2yarn
+npm run start -- --ssl-cert localhost.pem --ssl-key localhost-key.pem
 ```
 
 4. Open `https://localhost:3000/`
+
+:::tip Self-signed certificate
+
+Use the `--https` option to serve the dev site over HTTPS with an automatically generated self-signed certificate:
+
+```bash npm2yarn
+npm run start -- --https
+```
+
+:::
 
 ### `docusaurus build [siteDir]` {/* #docusaurus-build-sitedir */}
 
