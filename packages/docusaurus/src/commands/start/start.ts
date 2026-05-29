@@ -19,13 +19,9 @@ export type StartCLIOptions = HostPortOptions &
     open?: boolean;
     poll?: boolean | number;
     minify?: boolean;
-
-    /*
-    TODO Docusaurus v4: wire new CLI parameters
     https?: true;
     sslCert?: string;
     sslKey?: string;
-     */
   };
 
 async function doStart(
