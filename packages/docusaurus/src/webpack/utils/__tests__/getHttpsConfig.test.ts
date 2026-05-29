@@ -65,7 +65,7 @@ describe('getHttpsConfig', () => {
       await expect(getHttpsConfig()).resolves.toEqual(configMatcher);
     });
 
-    it('throws for unexisting cert', async () => {
+    it('throws for non-existent cert', async () => {
       vi.stubEnv('HTTPS', 'true');
       vi.stubEnv('SSL_CRT_FILE', getFixture('nonexistent.crt'));
       vi.stubEnv('SSL_KEY_FILE', getFixture('host.key'));
@@ -85,7 +85,7 @@ describe('getHttpsConfig', () => {
       `);
     });
 
-    it('throws for unexisting key', async () => {
+    it('throws for non-existent key', async () => {
       vi.stubEnv('HTTPS', 'true');
       vi.stubEnv('SSL_CRT_FILE', getFixture('host.crt'));
       vi.stubEnv('SSL_KEY_FILE', getFixture('nonexistent.key'));
@@ -184,7 +184,7 @@ describe('getHttpsConfig', () => {
       ).resolves.toEqual(configMatcher);
     });
 
-    it('throws for unexisting cert', async () => {
+    it('throws for non-existent cert', async () => {
       await expect(
         getHttpsConfig({
           https: true,
@@ -209,7 +209,7 @@ describe('getHttpsConfig', () => {
       `);
     });
 
-    it('throws for unexisting key', async () => {
+    it('throws for non-existent key', async () => {
       await expect(
         getHttpsConfig({
           https: true,
@@ -276,7 +276,7 @@ describe('getHttpsConfig', () => {
   describe('mixed', () => {
     it('cLI options take precedence over env vars', async () => {
       vi.stubEnv('HTTPS', 'false');
-      vi.stubEnv('SSL_CRT_FILE', getFixture('nonexistant.crt'));
+      vi.stubEnv('SSL_CRT_FILE', getFixture('nonexistent.crt'));
       vi.stubEnv('SSL_KEY_FILE', getFixture('invalid.key'));
       // CLI override should succeed despite the broken env-var key pair.
       await expect(
@@ -292,7 +292,7 @@ describe('getHttpsConfig', () => {
       vi.stubEnv('HTTPS', 'false');
       vi.stubEnv('DOCUSAURUS_HTTPS', 'true');
 
-      vi.stubEnv('SSL_CRT_FILE', getFixture('nonexistant.crt'));
+      vi.stubEnv('SSL_CRT_FILE', getFixture('nonexistent.crt'));
       vi.stubEnv('DOCUSAURUS_SSL_CRT_FILE', getFixture('host-ec.crt'));
 
       vi.stubEnv('SSL_KEY_FILE', getFixture('invalid.key'));
