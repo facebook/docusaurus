@@ -63,7 +63,6 @@ describe('normalizeConfig', () => {
       },
       future: {
         v4: {
-          removeLegacyPostBuildHeadAttribute: true,
           useCssCascadeLayers: true,
           siteStorageNamespacing: true,
           fasterByDefault: true,
@@ -1343,7 +1342,6 @@ describe('future', () => {
   it('accepts future - full', () => {
     const future: DocusaurusConfig['future'] = {
       v4: {
-        removeLegacyPostBuildHeadAttribute: true,
         useCssCascadeLayers: true,
         siteStorageNamespacing: true,
         fasterByDefault: true,
@@ -1727,34 +1725,26 @@ describe('future', () => {
       ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
     });
 
-    it('rejects faster - true (v4: false)', () => {
-      expect(() =>
+    it('accepts faster - true (v4: false)', () => {
+      expect(
         normalizeConfig({
           future: {
             v4: false,
             faster: true,
           },
         }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        [Error: Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future]
-      `);
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
     });
 
-    it('rejects faster - true (v4: undefined)', () => {
-      expect(() =>
+    it('accepts faster - true (v4: undefined)', () => {
+      expect(
         normalizeConfig({
           future: {
-            v4: false,
+            v4: undefined,
             faster: true,
           },
         }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        [Error: Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future]
-      `);
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
     });
 
     it('rejects faster - number', () => {
@@ -2330,40 +2320,32 @@ describe('future', () => {
         ).toEqual(fasterContaining({ssgWorkerThreads: true}));
       });
 
-      it('rejects - true (v4: false)', () => {
+      it('accepts - true (v4: false)', () => {
         const faster: Partial<FasterConfig> = {
           ssgWorkerThreads: true,
         };
-        expect(() =>
+        expect(
           normalizeConfig({
             future: {
               v4: false,
               faster,
             },
           }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future]
-        `);
+        ).toEqual(fasterContaining({ssgWorkerThreads: true}));
       });
 
-      it('rejects - true (v4: undefined)', () => {
+      it('accepts - true (v4: undefined)', () => {
         const faster: Partial<FasterConfig> = {
           ssgWorkerThreads: true,
         };
-        expect(() =>
+        expect(
           normalizeConfig({
             future: {
               v4: undefined,
               faster,
             },
           }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: Docusaurus config \`future.faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future]
-        `);
+        ).toEqual(fasterContaining({ssgWorkerThreads: true}));
       });
 
       it('accepts - false', () => {
@@ -2497,7 +2479,6 @@ describe('future', () => {
           future: {
             v4: {
               fasterByDefault: true,
-              removeLegacyPostBuildHeadAttribute: true,
             },
           },
         }),
@@ -2510,7 +2491,6 @@ describe('future', () => {
           future: {
             v4: {
               fasterByDefault: true,
-              removeLegacyPostBuildHeadAttribute: true,
             },
             faster: {swcJsLoader: false},
           },
@@ -2562,7 +2542,6 @@ describe('future', () => {
 
     it('accepts v4 - full', () => {
       const v4: FutureV4Config = {
-        removeLegacyPostBuildHeadAttribute: true,
         useCssCascadeLayers: true,
         siteStorageNamespacing: true,
         fasterByDefault: true,
@@ -2606,81 +2585,6 @@ describe('future', () => {
         [Error: "future.v4" must be one of [object, boolean]
         ]
       `);
-    });
-
-    describe('removeLegacyPostBuildHeadAttribute', () => {
-      it('accepts - undefined', () => {
-        const v4: Partial<FutureV4Config> = {
-          removeLegacyPostBuildHeadAttribute: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: false}));
-      });
-
-      it('accepts - true', () => {
-        const v4: Partial<FutureV4Config> = {
-          removeLegacyPostBuildHeadAttribute: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: true}));
-      });
-
-      it('accepts - false', () => {
-        const v4: Partial<FutureV4Config> = {
-          removeLegacyPostBuildHeadAttribute: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: false}));
-      });
-
-      it('rejects - null', () => {
-        const v4: Partial<FutureV4Config> = {
-          // @ts-expect-error: invalid
-          removeLegacyPostBuildHeadAttribute: 42,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        const v4: Partial<FutureV4Config> = {
-          // @ts-expect-error: invalid
-          removeLegacyPostBuildHeadAttribute: 42,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
-          ]
-        `);
-      });
     });
 
     describe('useCssCascadeLayers', () => {
@@ -2849,7 +2753,6 @@ describe('future', () => {
       it('accepts - true', () => {
         const v4: Partial<FutureV4Config> = {
           fasterByDefault: true,
-          removeLegacyPostBuildHeadAttribute: true,
         };
         expect(
           normalizeConfig({

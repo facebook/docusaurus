@@ -8,7 +8,6 @@
 // This file is for types that are common between client/server
 // In particular the interface between SSG and serverEntry code
 
-import type {HelmetServerState} from 'react-helmet-async';
 import type {RouteBuildMetadata} from '@docusaurus/types';
 
 export type AppRenderResult = {
@@ -17,12 +16,7 @@ export type AppRenderResult = {
 };
 
 export type AppRenderer = {
-  render: (params: {
-    pathname: string;
-
-    // TODO Docusaurus v4: remove deprecated postBuild({head}) API
-    v4RemoveLegacyPostBuildHeadAttribute: boolean;
-  }) => Promise<AppRenderResult>;
+  render: (params: {pathname: string}) => Promise<AppRenderResult>;
 
   // It's important to shut down the app renderer
   // Otherwise Node.js require cache leaks memory
@@ -42,9 +36,6 @@ export type RouteBuildMetadataInternal = {
 
 export type PageCollectedMetadata = {
   public: RouteBuildMetadata;
-  // TODO Docusaurus v4 remove legacy unserializable helmet data structure
-  // See https://github.com/facebook/docusaurus/pull/10850
-  helmet: HelmetServerState | null;
 };
 
 // This data structure must remain serializable!

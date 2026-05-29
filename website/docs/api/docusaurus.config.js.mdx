@@ -250,7 +250,6 @@ Example:
 export default {
   future: {
     v4: {
-      removeLegacyPostBuildHeadAttribute: true,
       useCssCascadeLayers: true,
       siteStorageNamespacing: true,
       fasterByDefault: true,
@@ -272,7 +271,6 @@ export default {
 ```
 
 - `v4`: Permits to opt-in for upcoming Docusaurus v4 breaking changes and features, to prepare your site in advance for this new version. Use `true` as a shorthand to enable all the flags.
-  - [`removeLegacyPostBuildHeadAttribute`](https://github.com/facebook/docusaurus/pull/10435): Removes the legacy `plugin.postBuild({head})` API that prevents us from applying useful SSG optimizations ([explanations](https://github.com/facebook/docusaurus/pull/10850)).
   - [`useCssCascadeLayers`](https://github.com/facebook/docusaurus/pull/11142): This enables the [Docusaurus CSS Cascade Layers plugin](./plugins/plugin-css-cascade-layers.mdx) with pre-configured layers that we plan to apply by default for Docusaurus v4.
   - [`siteStorageNamespacing`](https://github.com/facebook/docusaurus/pull/11797): Defaults the [`storage.namespace`](#storage) config to `true` instead of `false`. This enables automatic browser storage key namespacing, which avoids storage key conflicts when multiple Docusaurus sites are hosted under the same domain, or on localhost.
   - [`fasterByDefault`](https://github.com/facebook/docusaurus/pull/11802): Defaults all `future.faster` flags to `true` instead of `false`. This enables [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) features by default. Requires having `@docusaurus/faster` in your dependencies. If you explicitly set individual `faster` flags, those explicit values take precedence.
@@ -285,7 +283,7 @@ export default {
   - [`rspackBundler`](https://github.com/facebook/docusaurus/pull/10402): Use [Rspack](https://rspack.dev/) to bundle your app (instead of [webpack](https://webpack.js.org/)).
   - [`rspackPersistentCache`](https://github.com/facebook/docusaurus/pull/10931): Use [Rspack Persistent Cache](https://rspack.dev/config/cache) to re-build your app faster on subsequent builds. Requires `rspackBundler: true`. Requires persisting `./node_modules/.cache` across rebuilds.
   - [`mdxCrossCompilerCache`](https://github.com/facebook/docusaurus/pull/10479): Compile MDX files only once for both browser/Node.js environments instead of twice.
-  - [`ssgWorkerThreads`](https://github.com/facebook/docusaurus/pull/10826): Using a Node.js worker thread pool to execute the static site generation phase faster. Requires `future.v4.removeLegacyPostBuildHeadAttribute` to be turned on.
+  - [`ssgWorkerThreads`](https://github.com/facebook/docusaurus/pull/10826): Using a Node.js worker thread pool to execute the static site generation phase faster.
   - [`gitEagerVcs`](https://github.com/facebook/docusaurus/pull/11512): Upgrades the default [VCS strategy](#vcs) to `default-v2`, that reads your whole Git repository at once instead of per-file, making Git operations faster on large repositories.
 - `experimental_router`: The router type to use. Possible values are `browser` and `hash`. Defaults to `browser`. The `hash` router is only useful for rare cases where you want to opt-out of static site generation, have a fully client-side app with a single `index.html` entrypoint file. This can be useful to distribute a Docusaurus site as a `.zip` archive that you can [browse locally without running a web server](https://github.com/facebook/docusaurus/issues/3825).
 - [`experimental_vcs`](#vcs): The Version Control System (VCS) implementation to use to read file info (creation/last update date/author). Read the [dedicated section](#vcs) below for details.
