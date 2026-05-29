@@ -138,7 +138,6 @@ export {
 export {
   UnlistedBannerTitle,
   UnlistedBannerMessage,
-  UnlistedMetadata,
   DraftBannerTitle,
   DraftBannerMessage,
 } from './translations/contentVisibilityTranslations';
