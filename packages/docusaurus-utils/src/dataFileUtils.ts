@@ -64,7 +64,7 @@ export async function readDataFile(params: DataFileParams): Promise<unknown> {
       process.cwd(),
       filePath,
     )} looks invalid (not Yaml nor JSON).`;
-    throw new Error(msg, {cause: err as Error});
+    throw new Error(msg, {cause: err});
   }
 }
 

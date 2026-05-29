@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import dedent from 'dedent';
 import {
   parseMarkdownHeadingId,
@@ -405,7 +406,7 @@ describe('writeMarkdownHeadingId', () => {
           overwrite: true,
         }),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"Heading ids can either be overwritten or migrated, not both at the same time"`,
+        `[Error: Heading ids can either be overwritten or migrated, not both at the same time]`,
       );
     });
 
@@ -611,7 +612,7 @@ describe('writeMarkdownHeadingId', () => {
           overwrite: true,
         }),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"Heading ids can either be overwritten or migrated, not both at the same time"`,
+        `[Error: Heading ids can either be overwritten or migrated, not both at the same time]`,
       );
     });
 

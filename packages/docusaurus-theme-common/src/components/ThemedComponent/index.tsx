@@ -12,9 +12,7 @@ import {useColorMode} from '../../contexts/colorMode';
 
 import styles from './styles.module.css';
 
-const AllThemes = ['light', 'dark'] as const;
-
-type Theme = (typeof AllThemes)[number];
+type Theme = 'light' | 'dark';
 
 type RenderFn = ({
   theme,

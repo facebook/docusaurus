@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import path from 'path';
 import {
   findFolderContainingFile,
@@ -154,14 +155,17 @@ describe('getDataFileData', () => {
   });
 
   it('throw for invalid file', async () => {
-    await expect(testFile('invalid.yml')).rejects
-      .toThrowErrorMatchingInlineSnapshot(`
-      "The file at "packages/docusaurus-utils/src/__tests__/__fixtures__/dataFiles/dataFiles/invalid.yml" looks invalid (not Yaml nor JSON).
-      Cause: end of the stream or a document separator is expected (1:1)
+    await expect(
+      testFile('invalid.yml'),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `
+      [Error: The file at "packages/docusaurus-utils/src/__tests__/__fixtures__/dataFiles/dataFiles/invalid.yml" looks invalid (not Yaml nor JSON).]
+      Cause: [YAMLException: end of the stream or a document separator is expected (1:1)
 
        1 | }{{{{12434665¨£%£%%£%£}}}}
-      -----^"
-    `);
+      -----^]
+    `,
+    );
   });
 });
 
@@ -199,10 +203,10 @@ describe('getFolderContainingFile', () => {
         'dataFileUtils.test.ts',
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-            "File "dataFileUtils.test.ts" does not exist in any of these folders:
-            - /foo
-            - /bar
-            - /baz"
-          `);
+      [Error: File "dataFileUtils.test.ts" does not exist in any of these folders:
+      - /foo
+      - /bar
+      - /baz]
+    `);
   });
 });

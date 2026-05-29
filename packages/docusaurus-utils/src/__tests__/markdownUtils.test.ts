@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import dedent from 'dedent';
 import {
   createExcerpt,
@@ -894,9 +895,9 @@ describe('parseMarkdownFile', () => {
       ---
       `),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 2, column 7:
+      [YAMLException: incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 2, column 7:
           foo: f: a
-                ^"
+                ^]
     `);
   });
 });

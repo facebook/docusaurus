@@ -14,7 +14,6 @@ function BlockNavigation() {
   const history = useHistory();
   useEffect(() => {
     return history.block(() => {
-      // eslint-disable-next-line no-alert
       alert('navigation blocked successfully');
       return false;
     });

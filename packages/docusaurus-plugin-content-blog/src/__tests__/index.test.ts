@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
+import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {posixPath, getLocaleConfig, TEST_VCS} from '@docusaurus/utils';
@@ -480,7 +480,7 @@ describe('blog plugin', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
 
     const hardcodedEditUrl = 'hardcoded-edit-url';
-    const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
+    const editUrlFunction: EditUrlFunction = vi.fn(() => hardcodedEditUrl);
 
     const blogPosts = await getBlogPosts(siteDir, {editUrl: editUrlFunction});
 
@@ -541,14 +541,14 @@ describe('blog plugin', () => {
   });
 
   it('excludes draft blog post from production build', async () => {
-    const originalEnv = process.env;
-    jest.resetModules();
-    process.env = {...originalEnv, NODE_ENV: 'production'};
+    vi.resetModules();
+    vi.stubEnv('NODE_ENV', 'production');
+
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPosts = await getBlogPosts(siteDir);
 
     expect(blogPosts.find((v) => v.metadata.title === 'draft')).toBeUndefined();
-    process.env = originalEnv;
+    vi.unstubAllEnvs();
   });
 
   it('creates blog post without date', async () => {

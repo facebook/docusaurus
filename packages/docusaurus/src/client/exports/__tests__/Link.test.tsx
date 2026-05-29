@@ -3,16 +3,13 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @jest-environment jsdom
  */
+// @vitest-environment jsdom
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
-// Jest doesn't allow pragma below other comments. https://github.com/facebook/jest/issues/12573
-// eslint-disable-next-line header/header
+import {describe, expect, it, vi} from 'vitest';
 import React, {type ReactNode} from 'react';
 import {render as renderRTL} from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {StaticRouter} from 'react-router-dom';
 import Link from '../Link';
@@ -20,7 +17,7 @@ import {Context} from '../../docusaurusContext';
 import type {DocusaurusContext} from '@docusaurus/types';
 
 window.docusaurus = {
-  prefetch: jest.fn(),
+  prefetch: vi.fn(),
 };
 
 type Options = {

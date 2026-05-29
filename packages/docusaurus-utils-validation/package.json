@@ -22,7 +22,7 @@
     "@docusaurus/utils": "3.10.1",
     "@docusaurus/utils-common": "3.10.1",
     "fs-extra": "^11.2.0",
-    "joi": "^17.9.2",
+    "joi": "^18.1.2",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "tslib": "^2.6.0"

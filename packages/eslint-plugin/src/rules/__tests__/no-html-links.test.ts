@@ -6,18 +6,9 @@
  */
 
 import rule from '../no-html-links';
-import {RuleTester} from './testUtils';
+import {ruleTester} from './testUtils';
 
 const errorsJSX = [{messageId: 'link'}] as const;
-
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
-});
 
 ruleTester.run('prefer-docusaurus-link', rule, {
   valid: [

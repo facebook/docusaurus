@@ -59,6 +59,7 @@ Datagit
 datagit
 Datagit's
 dedup
+definitelytyped
 devto
 dingers
 Dmitry
@@ -95,6 +96,7 @@ FOUC
 Français
 froms
 gabrielcsapo
+gclid
 getcanary
 Gifs
 gingergeek
@@ -143,6 +145,8 @@ lifecycles
 lightningcss
 Linkify
 linkify
+llms
+llmstxt
 longlonglonglonglonglonglonglonglonglonglonglong
 Lorber
 lorber
@@ -179,6 +183,7 @@ microdata
 Milnes
 Mindmap
 mindmap
+mkdirs
 mkdn
 mkdocs
 mkdown
@@ -225,6 +230,7 @@ Paraiso
 paraiso
 pathinfo
 paularmstrong
+pcss
 perfetto
 pftrace
 philpl
@@ -308,6 +314,7 @@ stackoverflow
 Stormkit
 Strikethrough
 strikethroughs
+styl
 Subdeps
 sublabel
 sublicensable
@@ -351,6 +358,7 @@ unlinkable
 Unlisteds
 unlisteds
 unlocalized
+unstub
 unswizzle
 upvotes
 urlset

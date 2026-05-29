@@ -19,17 +19,12 @@ concurrency:
 jobs:
   analyze:
     name: Analyze
+    if: github.repository == 'facebook/docusaurus'
     runs-on: ubuntu-latest
     permissions:
       actions: read
       contents: read
       security-events: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language:
-          - javascript
 
     steps:
       - name: Checkout
@@ -38,7 +33,8 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@4e94bd11f71e507f7f87df81788dff88d1dacbfb # 4.31.0
         with:
-          languages: ${{ matrix.language }}
+          languages: javascript-typescript
+          config-file: ./.github/codeql/codeql-config.yml
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@4e94bd11f71e507f7f87df81788dff88d1dacbfb # 4.31.0

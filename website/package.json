@@ -88,7 +88,6 @@
     "@docusaurus/eslint-plugin": "3.10.1",
     "@docusaurus/tsconfig": "3.10.1",
     "@types/color": "^3.0.4",
-    "@types/jest": "^30.0.0",
     "cross-env": "^10.1.0",
     "rimraf": "^3.0.2",
     "search-insights": "^2.17.3"

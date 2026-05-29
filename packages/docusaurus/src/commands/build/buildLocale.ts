@@ -19,15 +19,15 @@ import {
   executePluginsConfigureWebpack,
 } from '../../webpack/configure';
 import {executeSSG} from '../../ssg/ssgExecutor';
+import clearPath from '../utils/clearPath';
+import {isAutomaticBaseUrlLocalizationDisabled} from './buildUtils';
+import type {BuildCLIOptions} from './build';
+import type {SiteCollectedData} from '../../common';
 import type {
   ConfigureWebpackUtils,
   LoadedPlugin,
   Props,
 } from '@docusaurus/types';
-import type {SiteCollectedData} from '../../common';
-import {BuildCLIOptions} from './build';
-import clearPath from '../utils/clearPath';
-import {isAutomaticBaseUrlLocalizationDisabled} from './buildUtils';
 
 export type BuildLocaleParams = {
   siteDir: string;

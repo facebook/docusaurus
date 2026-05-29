@@ -172,7 +172,6 @@ npm access ls-packages
   "@docusaurus/theme-search-algolia": "read-write",
   "@docusaurus/theme-classic": "read-write",
   "@docusaurus/theme-live-codeblock": "read-write",
-  "@docusaurus/plugin-google-analytics": "read-write",
   "@docusaurus/plugin-google-gtag": "read-write",
   "@docusaurus/plugin-content-docs-legacy": "read-write",
   "@docusaurus/plugin-ideal-image": "read-write",

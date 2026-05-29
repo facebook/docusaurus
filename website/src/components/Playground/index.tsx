@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable global-require */
-
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';

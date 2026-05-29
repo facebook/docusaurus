@@ -65,23 +65,18 @@ jobs:
         run: |
           rm -rf node_modules
 
-          npm install -g pnpm@10.33.0
+          npm install -g pnpm@11.0.8
 
           cat > pnpm-workspace.yaml <<'YAML'
-
           blockExoticSubdeps: true
-
           strictDepBuilds: true
           allowBuilds:
             '@swc/core': true
-            core-js-pure: true
             core-js: true
-
           trustPolicy: no-downgrade
           trustPolicyExclude:
             - 'detect-port@1.6.1'
             - 'semver@6.3.1'
-
           YAML
 
           sfw pnpm install || sfw pnpm install || sfw pnpm install

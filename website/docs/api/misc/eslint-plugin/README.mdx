@@ -7,41 +7,17 @@ slug: /api/misc/@docusaurus/eslint-plugin
 
 [ESLint](https://eslint.org/) is a tool that statically analyzes your code and reports problems or suggests best practices through editor hints and command line. Docusaurus provides an ESLint plugin to enforce best Docusaurus practices.
 
+This ESLint plugin supports ESLint `>= 8.57.0`, flat configs and legacy configs.
+
 ## Installation {/* #installation */}
 
 ```bash npm2yarn
 npm install --save-dev @docusaurus/eslint-plugin
 ```
 
-## Usage {/* #usage */}
-
-### Recommended config {/* #recommended-config */}
-
-Add `plugin:@docusaurus/recommended` to the `extends` section of your `.eslintrc` configuration file:
-
-```json title=".eslintrc"
-{
-  "extends": ["plugin:@docusaurus/recommended"]
-}
-```
-
-This will enable the `@docusaurus` eslint plugin and use the `recommended` config. See [Supported rules](#supported-rules) below for a list of rules that this will enable.
-
-### Manual config {/* #manual-config */}
-
-For more fine-grained control, you can also enable the plugin manually and configure the rules you want to use directly:
-
-```json title=".eslintrc"
-{
-  "plugins": ["@docusaurus"],
-  "rules": {
-    "@docusaurus/string-literal-i18n-messages": "error",
-    "@docusaurus/no-untranslated-text": "warn"
-  }
-}
-```
-
 ## Supported configs {/* #supported-configs */}
+
+Both built-in configs exist in flat and legacy variants:
 
 - Recommended: recommended rule set for most Docusaurus sites that should be extended from.
 - All: **all** rules enabled. This will change between minor versions, so you should not use this if you want to avoid unexpected breaking changes.
@@ -57,18 +33,72 @@ For more fine-grained control, you can also enable the plugin manually and confi
 
 ✅ = recommended
 
-## Example configuration {/* #example-configuration */}
+## Usage - Flat {/* #usage-flat */}
 
-Here's an example configuration:
+### Recommended config {/* #recommended-config-flat */}
 
-```js title=".eslintrc.js"
-module.exports = {
-  extends: ['plugin:@docusaurus/recommended'],
-  rules: {
-    '@docusaurus/no-untranslated-text': [
-      'warn',
-      {ignoredStrings: ['·', '—', '×']},
-    ],
+Import `@docusaurus/eslint-plugin` and add `docusaurus.configs.flat.recommended` to your flat config array:
+
+```js title="eslint.config.js"
+import {defineConfig} from 'eslint/config';
+// highlight-next-line
+import docusaurus from '@docusaurus/eslint-plugin';
+
+export default defineConfig(
+  // highlight-next-line
+  docusaurus.configs.flat.recommended,
+  {
+    // Other config
   },
-};
+);
+```
+
+This will enable the `@docusaurus` eslint plugin and use the `recommended` config. See [Supported rules](#supported-rules) above for a list of rules that this will enable.
+
+### Manual config {/* #manual-config-flat */}
+
+For more fine-grained control, you can also enable the plugin manually and configure the rules you want to use directly:
+
+```js title="eslint.config.js"
+import {defineConfig} from 'eslint/config';
+// highlight-next-line
+import docusaurus from '@docusaurus/eslint-plugin';
+
+export default defineConfig({
+  // highlight-start
+  plugins: {docusaurus},
+  rules: {
+    '@docusaurus/string-literal-i18n-messages': 'error',
+    '@docusaurus/no-untranslated-text': 'warn',
+  },
+  // highlight-end
+});
+```
+
+## Usage - Legacy {/* #usage-legacy */}
+
+### Recommended config {/* #recommended-config-legacy */}
+
+Add `plugin:@docusaurus/recommended` to the `extends` section of your `.eslintrc` configuration file:
+
+```json title=".eslintrc"
+{
+  "extends": ["plugin:@docusaurus/recommended"]
+}
+```
+
+This will enable the `@docusaurus` eslint plugin and use the `recommended` config. See [Supported rules](#supported-rules) above for a list of rules that this will enable.
+
+### Manual config {/* #manual-config-legacy */}
+
+For more fine-grained control, you can also enable the plugin manually and configure the rules you want to use directly:
+
+```json title=".eslintrc"
+{
+  "plugins": ["@docusaurus"],
+  "rules": {
+    "@docusaurus/string-literal-i18n-messages": "error",
+    "@docusaurus/no-untranslated-text": "warn"
+  }
+}
 ```
