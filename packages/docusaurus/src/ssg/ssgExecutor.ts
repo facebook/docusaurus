@@ -83,11 +83,7 @@ function getNumberOfThreads(pathnames: string[]) {
   }
 
   // See also https://github.com/tinylibs/tinypool/pull/108
-  const cpuCount =
-    // TODO Docusaurus v4: bump node, availableParallelism() now always exists
-    typeof os.availableParallelism === 'function'
-      ? os.availableParallelism()
-      : os.cpus().length;
+  const cpuCount = os.availableParallelism();
 
   return inferNumberOfThreads({
     pageCount: pathnames.length,
