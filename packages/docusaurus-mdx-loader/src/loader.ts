@@ -17,7 +17,6 @@ import {
   compileToJSX,
   createAssetsExportCode,
   extractContentTitleData,
-  promiseWithResolvers,
 } from './utils';
 import type {WebpackCompilerName} from '@docusaurus/utils';
 import type {Options} from './options';
@@ -202,7 +201,7 @@ async function loadMDXWithCaching({
       deleteCacheEntry();
       return cacheEntry.promise;
     } else {
-      const {promise, resolve, reject} = promiseWithResolvers<string>();
+      const {promise, resolve, reject} = Promise.withResolvers<string>();
       crossCompilerCache.set(cacheKey, {promise, resolve, reject});
       return promise;
     }
