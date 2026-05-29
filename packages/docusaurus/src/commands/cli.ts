@@ -203,8 +203,6 @@ export async function createCLIProgram({
       '--no-minify',
       'build website without minimizing JS bundles (default: false)',
     )
-    /*
-    TODO
     .option(
       '--https',
       'serve the dev site over HTTPS using a self-signed cert (default: false). Preferred over the HTTPS=true env var. Implied when both --ssl-cert and --ssl-key are provided.',
@@ -217,7 +215,6 @@ export async function createCLIProgram({
       '--ssl-key <path>',
       'path to a TLS private key file (implies HTTPS). Preferred over the SSL_KEY_FILE env var; CLI takes precedence if both are set.',
     )
-    */
     .action(start);
 
   cli
