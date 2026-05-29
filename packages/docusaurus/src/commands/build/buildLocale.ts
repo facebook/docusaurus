@@ -158,10 +158,6 @@ async function executePluginsPostBuild({
   props: Props;
   collectedData: SiteCollectedData;
 }) {
-  const head = props.siteConfig.future.v4.removeLegacyPostBuildHeadAttribute
-    ? {}
-    : _.mapValues(collectedData, (d) => d.metadata.helmet!);
-
   const routesBuildMetadata = _.mapValues(
     collectedData,
     (d) => d.metadata.public,
@@ -174,7 +170,6 @@ async function executePluginsPostBuild({
       }
       await plugin.postBuild({
         ...props,
-        head,
         routesBuildMetadata,
         content: plugin.content,
       });
