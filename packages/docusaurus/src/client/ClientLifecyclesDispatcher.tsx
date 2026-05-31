@@ -28,15 +28,43 @@ export function dispatchLifecycleAction<K extends keyof ClientModule>(
   return () => callbacks.forEach((cb) => cb?.());
 }
 
+const MAX_SCROLL_FRAME_RETRIES = 5;
+
+// Scrolls to the element matching the hash id, retrying on subsequent animation
+// frames if the element is not in the DOM yet (race on slow/async navigation).
+// Returns a cleanup function that cancels any pending retry.
+function scrollToHashElement(id: string): () => void {
+  let rafId: number | null = null;
+
+  const tryScroll = (remainingRetries: number) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView();
+      return;
+    }
+    if (remainingRetries > 0) {
+      rafId = requestAnimationFrame(() => tryScroll(remainingRetries - 1));
+    }
+  };
+
+  tryScroll(MAX_SCROLL_FRAME_RETRIES);
+
+  return () => {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+    }
+  };
+}
+
 function scrollAfterNavigation({
   location,
   previousLocation,
 }: {
   location: Location;
   previousLocation: Location | null;
-}) {
+}): (() => void) | undefined {
   if (!previousLocation) {
-    return; // no-op: use native browser feature
+    return undefined; // no-op: use native browser feature
   }
 
   const samePathname = location.pathname === previousLocation.pathname;
@@ -45,17 +73,24 @@ function scrollAfterNavigation({
 
   // Query-string changes: do not scroll to top/hash
   if (samePathname && sameHash && !sameSearch) {
-    return;
+    return undefined;
   }
 
   const {hash} = location;
   if (!hash) {
     window.scrollTo(0, 0);
-  } else {
-    const id = decodeURIComponent(hash.substring(1));
-    const element = document.getElementById(id);
-    element?.scrollIntoView();
+    return undefined;
   }
+
+  let id: string;
+  try {
+    id = decodeURIComponent(hash.substring(1));
+  } catch {
+    // Malformed hash (e.g. "#%E0%A4%A"): can't decode, nothing to scroll to.
+    return undefined;
+  }
+
+  return scrollToHashElement(id);
 }
 
 function ClientLifecyclesDispatcher({
@@ -69,9 +104,17 @@ function ClientLifecyclesDispatcher({
 }): ReactNode {
   useIsomorphicLayoutEffect(() => {
     if (previousLocation !== location) {
-      scrollAfterNavigation({location, previousLocation});
-      dispatchLifecycleAction('onRouteDidUpdate', {previousLocation, location});
+      const cancelScroll = scrollAfterNavigation({location, previousLocation});
+      const cleanupLifecycle = dispatchLifecycleAction('onRouteDidUpdate', {
+        previousLocation,
+        location,
+      });
+      return () => {
+        cancelScroll?.();
+        cleanupLifecycle();
+      };
     }
+    return undefined;
   }, [previousLocation, location]);
   return children;
 }
