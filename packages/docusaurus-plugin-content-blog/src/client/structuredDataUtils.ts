@@ -10,6 +10,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
 import type {Props as BlogListPageStructuredDataProps} from '@theme/BlogListPage/StructuredData';
 import {useBlogPost} from './contexts';
+import {getAbsoluteUrl} from './structuredDataUrl';
 
 import type {
   Blog,
@@ -37,7 +38,7 @@ function getBlogPost(
   const image = assets.image ?? frontMatter.image;
   const keywords = frontMatter.keywords ?? [];
 
-  const blogUrl = `${siteConfig.url}${metadata.permalink}`;
+  const blogUrl = getAbsoluteUrl(metadata.permalink, siteConfig);
 
   const dateModified = lastUpdatedAt ? convertDate(lastUpdatedAt) : undefined;
 
@@ -92,7 +93,7 @@ export function useBlogListPageStructuredData(
     metadata: {blogDescription, blogTitle, permalink},
   } = props;
 
-  const url = `${siteConfig.url}${permalink}`;
+  const url = getAbsoluteUrl(permalink, siteConfig);
 
   // details on structured data support: https://schema.org/Blog
   return {
@@ -121,7 +122,7 @@ export function useBlogPostStructuredData(): WithContext<BlogPosting> {
 
   const dateModified = lastUpdatedAt ? convertDate(lastUpdatedAt) : undefined;
 
-  const url = `${siteConfig.url}${metadata.permalink}`;
+  const url = getAbsoluteUrl(metadata.permalink, siteConfig);
 
   // details on structured data support: https://schema.org/BlogPosting
   // BlogPosting is one of the structured data types that Google explicitly
@@ -142,7 +143,7 @@ export function useBlogPostStructuredData(): WithContext<BlogPosting> {
     ...(keywords ? {keywords} : {}),
     isPartOf: {
       '@type': 'Blog',
-      '@id': `${siteConfig.url}${blogMetadata.blogBasePath}`,
+      '@id': getAbsoluteUrl(blogMetadata.blogBasePath, siteConfig),
       name: blogMetadata.blogTitle,
     },
   };
