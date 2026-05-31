@@ -7,7 +7,11 @@
 
 import React, {type ComponentProps, type ReactNode} from 'react';
 import clsx from 'clsx';
-import {useCodeBlockContext} from '@docusaurus/theme-common/internal';
+import {
+  useCodeBlockContext,
+  filterMagicCommentLines,
+  type PrismTokenLine,
+} from '@docusaurus/theme-common/internal';
 import {usePrismTheme} from '@docusaurus/theme-common';
 import {Highlight} from 'prism-react-renderer';
 import type {Props} from '@theme/CodeBlock/Content';
@@ -57,28 +61,65 @@ export default function CodeBlockContent({
 }: Props): ReactNode {
   const {metadata, wordWrap} = useCodeBlockContext();
   const prismTheme = usePrismTheme();
-  const {code, language, lineNumbersStart, lineClassNames} = metadata;
+
+  // When magic comment lines were stripped (codeInput !== code), pass the
+  // original codeInput to Prism so after-tokenize hooks see the full line set,
+  // then filter magic comment token lines and rebuild lineClassNames post-hook.
+  // When metastring-based highlighting is used or there are no magic comments,
+  // codeInput === code (parseLines doesn't strip anything), so we use
+  // metadata.lineClassNames directly with the stripped code.
+  const {
+    codeInput,
+    code,
+    language,
+    lineNumbersStart,
+    lineClassNames: metadataLineClassNames,
+    magicComments,
+  } = metadata;
+
+  // parseLines trims a trailing newline from codeInput, so codeInput and code
+  // may differ by only a trailing newline even when no magic comment lines were
+  // stripped. Compare line counts to detect actual line stripping.
+  const hasMagicCommentLines =
+    codeInput.replace(/\r?\n$/, '').split(/\r?\n/).length >
+      code.split(/\r?\n/).length &&
+    magicComments.length > 0 &&
+    language !== undefined;
+
   return (
-    <Highlight theme={prismTheme} code={code} language={language}>
-      {({className, style, tokens: lines, getLineProps, getTokenProps}) => (
-        <Pre
-          ref={wordWrap.codeBlockRef}
-          className={clsx(classNameProp, className)}
-          style={style}>
-          <Code>
-            {lines.map((line, i) => (
-              <Line
-                key={i}
-                line={line}
-                getLineProps={getLineProps}
-                getTokenProps={getTokenProps}
-                classNames={lineClassNames[i]}
-                showLineNumbers={lineNumbersStart !== undefined}
-              />
-            ))}
-          </Code>
-        </Pre>
-      )}
+    <Highlight
+      theme={prismTheme}
+      code={hasMagicCommentLines ? codeInput : code}
+      language={language}>
+      {({className, style, tokens: lines, getLineProps, getTokenProps}) => {
+        const {filteredLines, lineClassNames} = hasMagicCommentLines
+          ? filterMagicCommentLines(
+              lines as PrismTokenLine[],
+              language!,
+              magicComments,
+            )
+          : {filteredLines: lines, lineClassNames: metadataLineClassNames};
+
+        return (
+          <Pre
+            ref={wordWrap.codeBlockRef}
+            className={clsx(classNameProp, className)}
+            style={style}>
+            <Code>
+              {filteredLines.map((line, i) => (
+                <Line
+                  key={i}
+                  line={line}
+                  getLineProps={getLineProps}
+                  getTokenProps={getTokenProps}
+                  classNames={lineClassNames[i]}
+                  showLineNumbers={lineNumbersStart !== undefined}
+                />
+              ))}
+            </Code>
+          </Pre>
+        );
+      }}
     </Highlight>
   );
 }

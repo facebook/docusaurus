@@ -338,6 +338,92 @@ export function parseLines(
 }
 
 /**
+ * New approach: given token lines from Prism (post-tokenization) and magic
+ * comment config, filter out magic comment lines from the token array and
+ * build lineClassNames from scratch. This runs AFTER any Prism after-tokenize
+ * hooks have run, so the indices are always correct.
+ */
+export type PrismTokenLine = Array<{content: string; types: string[]}>;
+
+export function filterMagicCommentLines(
+  tokenLines: PrismTokenLine[],
+  language: string,
+  magicComments: MagicCommentConfig[],
+): {
+  filteredLines: PrismTokenLine[];
+  lineClassNames: CodeLineClassNames;
+} {
+  const directiveRegex = getAllMagicCommentDirectiveStyles(
+    language,
+    magicComments,
+  );
+
+  const blocks: Record<string, {start: number; range: string}> =
+    Object.fromEntries(
+      magicComments.map((d) => [d.className, {start: 0, range: ''}]),
+    );
+  const lineToClassName: Record<string, string> = Object.fromEntries(
+    magicComments
+      .filter((d) => d.line)
+      .map(({className, line}) => [line!, className]),
+  );
+  const blockStartToClassName: Record<string, string> = Object.fromEntries(
+    magicComments
+      .filter((d) => d.block)
+      .map(({className, block}) => [block!.start, className]),
+  );
+  const blockEndToClassName: Record<string, string> = Object.fromEntries(
+    magicComments
+      .filter((d) => d.block)
+      .map(({className, block}) => [block!.end, className]),
+  );
+
+  const filteredLines: PrismTokenLine[] = [];
+
+  for (let i = 0; i < tokenLines.length; i++) {
+    // Reconstruct full text of the line from its tokens
+    const lineText = tokenLines[i]!.map((t) => t.content).join('');
+    const match = lineText.match(directiveRegex);
+
+    if (!match) {
+      // Not a magic comment line — keep it
+      filteredLines.push(tokenLines[i]!);
+      continue;
+    }
+
+    // It's a magic comment line — filter it out AND track the directive
+    const directive = match
+      .slice(1)
+      .find((item: string | undefined) => item !== undefined)!;
+
+    if (lineToClassName[directive]) {
+      // "highlight-next-line": the NEXT non-magic line gets the class
+      // That next line will be placed at index = filteredLines.length
+      blocks[lineToClassName[directive]!]!.range += `${filteredLines.length},`;
+    } else if (blockStartToClassName[directive]) {
+      // "highlight-start": starts at the current end of filteredLines
+      blocks[blockStartToClassName[directive]!]!.start = filteredLines.length;
+    } else if (blockEndToClassName[directive]) {
+      // "highlight-end": from stored start to (last added line index)
+      blocks[blockEndToClassName[directive]!]!.range += `${
+        blocks[blockEndToClassName[directive]!]!.start
+      }-${filteredLines.length - 1},`;
+    }
+  }
+
+  // Build lineClassNames from recorded blocks
+  const lineClassNames: CodeLineClassNames = {};
+  Object.entries(blocks).forEach(([className, {range}]) => {
+    rangeParser(range).forEach((l) => {
+      lineClassNames[l] ??= [];
+      lineClassNames[l]!.push(className);
+    });
+  });
+
+  return {filteredLines, lineClassNames};
+}
+
+/**
  * Gets the language name from the class name (set by MDX).
  * e.g. `"language-javascript"` => `"javascript"`.
  * Returns undefined if there is no language class name.
@@ -404,6 +490,7 @@ export interface CodeBlockMetadata {
   title: ReactNode;
   lineNumbersStart: number | undefined;
   lineClassNames: CodeLineClassNames;
+  magicComments: MagicCommentConfig[];
 }
 
 export function createCodeBlockMetadata(params: {
@@ -448,6 +535,7 @@ export function createCodeBlockMetadata(params: {
     title,
     lineNumbersStart,
     lineClassNames,
+    magicComments: params.magicComments,
   };
 }
 

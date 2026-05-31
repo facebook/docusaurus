@@ -52,6 +52,8 @@ export {
   parseLines,
   getLineNumbersStart,
   containsLineNumbers,
+  filterMagicCommentLines,
+  type PrismTokenLine,
 } from './utils/codeBlockUtils';
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';

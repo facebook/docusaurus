@@ -13,6 +13,7 @@ import {
   parseClassNameLanguage,
   parseLines,
   createCodeBlockMetadata,
+  filterMagicCommentLines,
 } from '../codeBlockUtils';
 
 const defaultMagicComments: MagicCommentConfig[] = [
@@ -841,6 +842,16 @@ describe('createCodeBlockMetadata', () => {
         "language": "text",
         "lineClassNames": {},
         "lineNumbersStart": undefined,
+        "magicComments": [
+          {
+            "block": {
+              "end": "highlight-end",
+              "start": "highlight-start",
+            },
+            "className": "theme-code-block-highlighted-line",
+            "line": "highlight-next-line",
+          },
+        ],
         "title": undefined,
       }
     `);
@@ -1021,5 +1032,122 @@ describe('createCodeBlockMetadata', () => {
       });
       expect(meta.lineNumbersStart).toBe(3);
     });
+  });
+});
+
+// Issue #8550: MagicComments should be applied after Prism tokenization
+describe('filterMagicCommentLines', () => {
+  it('filters highlight-next-line and assigns class to the following line', () => {
+    const tokenLines = [
+      [{content: '// highlight-next-line', types: ['comment']}],
+      [{content: 'const x = 1;', types: ['keyword']}],
+    ];
+    const {filteredLines, lineClassNames} = filterMagicCommentLines(
+      tokenLines,
+      'js',
+      defaultMagicComments,
+    );
+    expect(filteredLines).toHaveLength(1);
+    expect(filteredLines[0]!.map((t) => t.content).join('')).toBe(
+      'const x = 1;',
+    );
+    expect(lineClassNames[0]).toEqual(['theme-code-block-highlighted-line']);
+    expect(lineClassNames[1]).toBeUndefined();
+  });
+
+  it('correctly handles Prism hook removing a non-magic-comment line (Issue #8550)', () => {
+    // Scenario: Prism after-tokenize hook removed '// custom-type:Vehicle' (line 0).
+    // Token array now only has the magic comment line and target code line.
+    const linesAfterHook = [
+      [{content: '// highlight-next-line', types: ['comment']}],
+      [{content: 'const x = 1;', types: ['keyword']}],
+    ];
+    const {filteredLines, lineClassNames} = filterMagicCommentLines(
+      linesAfterHook,
+      'js',
+      defaultMagicComments,
+    );
+    expect(filteredLines).toHaveLength(1);
+    expect(filteredLines[0]!.map((t) => t.content).join('')).toBe(
+      'const x = 1;',
+    );
+    // Must highlight index 0 — the only remaining line
+    expect(lineClassNames[0]).toEqual(['theme-code-block-highlighted-line']);
+  });
+
+  it('filters highlight-start/end blocks correctly', () => {
+    const tokenLines = [
+      [{content: '// highlight-start', types: ['comment']}],
+      [{content: 'line a', types: ['plain']}],
+      [{content: 'line b', types: ['plain']}],
+      [{content: '// highlight-end', types: ['comment']}],
+      [{content: 'line c', types: ['plain']}],
+    ];
+    const {filteredLines, lineClassNames} = filterMagicCommentLines(
+      tokenLines,
+      'js',
+      defaultMagicComments,
+    );
+    expect(filteredLines).toHaveLength(3);
+    expect(lineClassNames[0]).toEqual(['theme-code-block-highlighted-line']);
+    expect(lineClassNames[1]).toEqual(['theme-code-block-highlighted-line']);
+    expect(lineClassNames[2]).toBeUndefined();
+  });
+
+  it('returns all lines unchanged when no magic comment lines in code', () => {
+    const tokenLines = [
+      [{content: 'const x = 1;', types: ['keyword']}],
+      [{content: 'const y = 2;', types: ['keyword']}],
+    ];
+    const {filteredLines, lineClassNames} = filterMagicCommentLines(
+      tokenLines,
+      'js',
+      defaultMagicComments,
+    );
+    // No magic comment lines — filteredLines should contain all original lines
+    expect(filteredLines).toHaveLength(2);
+    expect(filteredLines[0]![0]!.content).toBe('const x = 1;');
+    expect(filteredLines[1]![0]!.content).toBe('const y = 2;');
+    expect(lineClassNames).toEqual({});
+  });
+});
+
+describe('Issue #8550 — lineClassNames offset after Prism hook', () => {
+  it('parseLines: hasMagicCommentLines detection via line count not string equality', () => {
+    // Trailing newline: codeInput ends with \n but code (from parseLines) does not.
+    // hasMagicCommentLines must NOT trigger just because of trailing newline.
+    const codeWithTrailingNewline = 'line1\nline2\n';
+    const result = parseLines(codeWithTrailingNewline, {
+      metastring: '',
+      language: 'js',
+      magicComments: defaultMagicComments,
+    });
+    // No magic comments stripped — line count same after trim
+    const codeLines = result.code.split('\n').length;
+    const inputLines = codeWithTrailingNewline
+      .replace(/\r?\n$/, '')
+      .split('\n').length;
+    expect(codeLines).toBe(inputLines); // no lines stripped
+  });
+
+  it('metastring {1} highlight preserved when magicComments config is non-empty', () => {
+    // Regression: when using metastring {1}, parseLines returns codeInput===code
+    // (no lines stripped). Content/index.tsx must NOT call filterMagicCommentLines.
+    const meta = createCodeBlockMetadata({
+      code: 'line1\nline2\nline3',
+      className: 'language-js',
+      language: 'js',
+      defaultLanguage: undefined,
+      metastring: '{1}',
+      magicComments: defaultMagicComments,
+      title: undefined,
+      showLineNumbers: undefined,
+    });
+    // codeInput trimmed === code: no magic comment lines stripped
+    expect(meta.codeInput.replace(/\r?\n$/, '')).toBe(meta.code);
+    // lineClassNames set from metastring
+    expect(meta.lineClassNames[0]).toEqual([
+      'theme-code-block-highlighted-line',
+    ]);
   });
 });
