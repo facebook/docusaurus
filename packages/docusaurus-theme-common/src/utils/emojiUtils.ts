@@ -7,6 +7,15 @@
 
 const segmenter = new Intl.Segmenter(undefined, {granularity: 'grapheme'});
 
+function isEmojiGrapheme(grapheme: string): boolean {
+  return (
+    /\p{Extended_Pictographic}/u.test(grapheme) ||
+    /\p{Emoji_Presentation}/u.test(grapheme) ||
+    /\p{Regional_Indicator}/u.test(grapheme) ||
+    /[#*0-9]\uFE0F?\u20E3/u.test(grapheme)
+  );
+}
+
 /**
  * This method splits "⚠️ Hello World" into "⚠️" + " Hello World".
  * It is quite strict and dumb, only useful to handle best-effort heuristics.
@@ -30,10 +39,7 @@ export function extractLeadingEmoji(input: string): {
   }
 
   // Leading grapheme contains an emoji (covers flags/ZWJ/skin tones)
-  if (
-    !/\p{Extended_Pictographic}/u.test(grapheme) &&
-    !/\p{Emoji}/u.test(grapheme)
-  ) {
+  if (!isEmojiGrapheme(grapheme)) {
     return {emoji: null, rest: input};
   }
 

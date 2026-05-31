@@ -37,10 +37,24 @@ describe('extractLeadingEmoji', () => {
     });
   });
 
+  it('extracts leading keycap emoji', () => {
+    expect(extractLeadingEmoji('1️⃣ First item')).toEqual({
+      emoji: '1️⃣',
+      rest: ' First item',
+    });
+  });
+
   it('preserves original string', () => {
     expect(extractLeadingEmoji('Hello World')).toEqual({
       emoji: null,
       rest: 'Hello World',
+    });
+  });
+
+  it('preserves original string - leading digit', () => {
+    expect(extractLeadingEmoji('11 Something')).toEqual({
+      emoji: null,
+      rest: '11 Something',
     });
   });
 
