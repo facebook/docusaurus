@@ -25,22 +25,11 @@ function printSSGWarnings(results: SSGSuccess[]): void {
     return;
   }
 
-  const ignoredWarnings: string[] = [
-    // TODO Docusaurus v4: remove with React 19 upgrade
-    //  React 18 emit NULL chars, and minifier detects it
-    //  see https://github.com/facebook/docusaurus/issues/9985
-    'Unexpected null character',
-  ];
-
-  const keepWarning = (warning: string) => {
-    return !ignoredWarnings.some((iw) => warning.includes(iw));
-  };
-
   const resultsWithWarnings = results
     .map((success) => {
       return {
         ...success,
-        warnings: success.result.warnings.filter(keepWarning),
+        warnings: success.result.warnings,
       };
     })
     .filter((result) => result.warnings.length > 0);
