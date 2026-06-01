@@ -134,7 +134,7 @@ describe('loadFreshModule', () => {
 
   describe('module graph', () => {
     it('can load and reload fresh module graph', async () => {
-      const helpers = await moduleGraphHelpers();
+      await using helpers = await moduleGraphHelpers();
       const {fileHelper} = helpers;
 
       const dependency1 = await fileHelper(
