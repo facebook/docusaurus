@@ -134,6 +134,31 @@ describe('<Link>', () => {
       `);
     });
 
+    it('can opt out of trailing slash with autoApplyTrailingSlash={false}', () => {
+      const {container} = render(
+        <Link to="/docs/intro" autoApplyTrailingSlash={false} />,
+        {trailingSlash: true},
+      );
+      expect(container.firstElementChild).toMatchInlineSnapshot(`
+        <a
+          data-test-link-type="react-router"
+          href="/docs/intro"
+        />
+      `);
+    });
+
+    it('still applies trailing slash by default when autoApplyTrailingSlash is not set', () => {
+      const {container} = render(<Link to="/docs/intro" />, {
+        trailingSlash: true,
+      });
+      expect(container.firstElementChild).toMatchInlineSnapshot(`
+        <a
+          data-test-link-type="react-router"
+          href="/docs/intro/"
+        />
+      `);
+    });
+
     it("can render '#anchor'", () => {
       const {container} = render(<Link to="#anchor" />);
       expect(container.firstElementChild).toMatchInlineSnapshot(`

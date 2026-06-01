@@ -37,6 +37,7 @@ function Link(
     isActive,
     'data-noBrokenLinkCheck': noBrokenLinkCheck,
     autoAddBaseUrl = true,
+    autoApplyTrailingSlash = true,
     ...props
   }: Props,
   forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
@@ -91,7 +92,7 @@ function Link(
     targetLink = targetLink?.slice(1);
   }
 
-  if (targetLink && isInternal) {
+  if (targetLink && isInternal && autoApplyTrailingSlash) {
     targetLink = applyTrailingSlash(targetLink, {trailingSlash, baseUrl});
   }
 

@@ -181,6 +181,12 @@ declare module '@docusaurus/Link' {
       readonly href?: string;
       readonly autoAddBaseUrl?: boolean;
 
+      /**
+       * Set to false to skip applying the site trailingSlash config to this
+       * link (useful for direct asset/file links).
+       */
+      readonly autoApplyTrailingSlash?: boolean;
+
       /** Escape hatch in case broken links check doesn't make sense. */
       readonly 'data-noBrokenLinkCheck'?: boolean;
     };
