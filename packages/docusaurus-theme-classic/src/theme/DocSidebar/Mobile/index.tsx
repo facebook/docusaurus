@@ -5,14 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useRef} from 'react';
 import clsx from 'clsx';
 import {
   NavbarSecondaryMenuFiller,
   type NavbarSecondaryMenuComponent,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
-import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
+import {
+  useNavbarMobileSidebar,
+  useScrollToActiveItem,
+} from '@docusaurus/theme-common/internal';
 import DocSidebarItems from '@theme/DocSidebarItems';
 import type {Props} from '@theme/DocSidebar/Mobile';
 
@@ -22,8 +25,14 @@ const DocSidebarMobileSecondaryMenu: NavbarSecondaryMenuComponent<Props> = ({
   path,
 }) => {
   const mobileSidebar = useNavbarMobileSidebar();
+  const menuListRef = useRef<HTMLUListElement | null>(null);
+
+  useScrollToActiveItem(menuListRef, path, mobileSidebar.shown);
+
   return (
-    <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
+    <ul
+      ref={menuListRef}
+      className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
       <DocSidebarItems
         items={sidebar}
         activePath={path}

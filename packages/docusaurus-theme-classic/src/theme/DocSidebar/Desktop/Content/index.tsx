@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode, useState} from 'react';
+import React, {type ReactNode, useRef, useState} from 'react';
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import {
   useAnnouncementBar,
   useScrollPosition,
+  useScrollToActiveItem,
 } from '@docusaurus/theme-common/internal';
 import {translate} from '@docusaurus/Translate';
 import DocSidebarItems from '@theme/DocSidebarItems';
@@ -39,9 +40,13 @@ export default function DocSidebarDesktopContent({
   className,
 }: Props): ReactNode {
   const showAnnouncementBar = useShowAnnouncementBar();
+  const navRef = useRef<HTMLElement | null>(null);
+
+  useScrollToActiveItem(navRef, path, true);
 
   return (
     <nav
+      ref={navRef}
       aria-label={translate({
         id: 'theme.docs.sidebar.navAriaLabel',
         message: 'Docs sidebar',

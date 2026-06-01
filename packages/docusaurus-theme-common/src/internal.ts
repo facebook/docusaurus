@@ -93,6 +93,8 @@ export {splitNavbarItems, NavbarProvider} from './utils/navbarUtils';
 
 export {extractLeadingEmoji} from './utils/emojiUtils';
 
+export {useScrollToActiveItem} from './hooks/useScrollToActiveItem';
+
 export {
   useTOCHighlight,
   type TOCHighlightConfig,
