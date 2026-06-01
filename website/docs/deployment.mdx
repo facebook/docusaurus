@@ -86,6 +86,47 @@ export default function Home() {
 }
 ```
 
+## Authentication and access restriction {/* #authentication */}
+
+Docusaurus builds a **static site**, so there is no built-in way to restrict access to pages or require users to log in. By default, anything you deploy is public. To put content behind authentication, you handle it at the **hosting/infrastructure layer**, or render protected content **client-side** from an authenticated API.
+
+There is no single right answer — the best approach depends on your host and on what exactly you want to protect.
+
+### Protecting the whole site {/* #protecting-the-whole-site */}
+
+The simplest option is to let your static host or CDN gate access to the entire deployment:
+
+- Some hosts offer **built-in password protection**, such as [Netlify's site protection](https://docs.netlify.com/visitor-access/password-protection/).
+- CDNs with **edge functions** (for example [Cloudflare Workers](https://developers.cloudflare.com/workers/)) let you implement cookie-based sessions or an OAuth flow in front of a static site. See this [Cloudflare Worker GitHub OAuth example](https://github.com/gr2m/cloudflare-worker-github-oauth-login).
+
+With edge functions you can go further and build **two versions** of your static site (one for anonymous visitors, one for authenticated users), then use the edge function to inspect the auth cookie and serve the appropriate deployment.
+
+### Protecting a section of the site {/* #protecting-a-section */}
+
+If only part of your site is sensitive, you can render that section **client-side** and fetch its content from a protected API at runtime, similar to [Gatsby's client-only routes](https://www.gatsbyjs.com/docs/how-to/routing/client-only-routes-and-user-authentication/). The static build only ships a shell (a spinner or a login screen), and the real content is loaded in the browser after the user is authenticated.
+
+A typical setup looks like this:
+
+- Register a catch-all route for the protected area, for example with a [plugin's `addRoute`](./api/plugin-methods/lifecycle-apis.mdx#addRoute):
+
+  ```js
+  addRoute({
+    path: '/admin',
+    component: '@site/src/components/Admin',
+    exact: false,
+  });
+  ```
+
+- On the server, that route statically renders only a placeholder (a spinner or login page) to `/admin/index.html`.
+- Configure your host to serve `/admin/index.html` for any `/admin/*` request (for example, a Netlify redirect — remember to handle every [i18n](./i18n/i18n-introduction.mdx) locale).
+- After mounting in the browser, the `Admin` component reads the auth state, renders the real UI client-side, and fetches data from an authenticated API.
+
+:::warning
+
+Client-side gating hides content in the UI but the **API** is what actually enforces access. Never rely on the static site alone to keep data private — always authorize requests on the server that serves the protected data.
+
+:::
+
 ## Choosing a hosting provider {/* #choosing-a-hosting-provider */}
 
 There are a few common hosting options:
