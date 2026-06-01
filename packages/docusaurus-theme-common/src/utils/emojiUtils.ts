@@ -29,7 +29,28 @@ export function extractLeadingEmoji(input: string): {
     return {emoji: null, rest: input};
   }
 
-  // Leading grapheme contains an emoji (covers flags/ZWJ/skin tones)
+  // Distinguish single-codepoint from multi-codepoint graphemes.
+  //
+  // Single-codepoint graphemes: many non-emoji symbols like ©, ®, ™, ♠, ♥,
+  // #, *, and ASCII digits match /\p{Emoji}/u because Unicode classifies
+  // them as Emoji Keycap Base or text-default emoji.  Using
+  // /\p{Emoji_Presentation}/u instead correctly rejects them — it only
+  // matches characters whose default presentation is emoji (e.g. 😀, 🎉).
+  //
+  // Multi-codepoint graphemes (length > 1): real keycap emoji (digit +
+  // U+FE0F + U+20E3), VS16 sequences (⚠ + U+FE0F → ⚠️), flags, and ZWJ
+  // compositions.  These are unambiguous emoji and should be detected via
+  // the broader /\p{Extended_Pictographic}/u || /\p{Emoji}/u check.
+  if ([...grapheme].length === 1) {
+    // Single codepoint — only emoji-presentation chars qualify
+    if (/\p{Emoji_Presentation}/u.test(grapheme)) {
+      return {emoji: grapheme, rest: input.slice(grapheme.length)};
+    }
+    return {emoji: null, rest: input};
+  }
+
+  // Multi-codepoint grapheme — accept if it contains an emoji property
+  // (covers keycaps, VS16 combos, flags, ZWJ, skin tones)
   if (
     !/\p{Extended_Pictographic}/u.test(grapheme) &&
     !/\p{Emoji}/u.test(grapheme)
