@@ -81,8 +81,6 @@ function APITableRow({
   );
 }
 
-const APITableRowComp = React.forwardRef(APITableRow);
-
 /*
  * Note: this is not a quite robust component since it makes a lot of
  * assumptions about how the children looks; however, those assumptions
@@ -106,9 +104,9 @@ export default function APITable({children, name}: Props): ReactNode {
     // @ts-expect-error: TODO fix typing
     tbody.props.children,
     (row: ReactElement<ComponentProps<'tr'>>) => (
-      <APITableRowComp name={name} ref={highlightedRow}>
+      <APITableRow name={name} ref={highlightedRow}>
         {row}
-      </APITableRowComp>
+      </APITableRow>
     ),
   );
 
