@@ -64,4 +64,18 @@ describe('extractLeadingEmoji', () => {
       rest: 'Hello World 😀',
     });
   });
+
+  it('does not extract digits', () => {
+    expect(extractLeadingEmoji('11 Hello World')).toEqual({
+      emoji: null,
+      rest: '11 Hello World',
+    });
+  });
+
+  it('extract emoji digits', () => {
+    expect(extractLeadingEmoji('1️⃣ Hello World')).toEqual({
+      emoji: '1️⃣',
+      rest: ' Hello World',
+    });
+  });
 });
