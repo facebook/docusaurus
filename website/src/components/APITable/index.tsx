@@ -42,13 +42,15 @@ function getRowName(node: ReactElement): string {
   return curNode as string;
 }
 
-function APITableRow(
-  {
-    name,
-    children,
-  }: {name: string | undefined; children: ReactElement<ComponentProps<'tr'>>},
-  ref: React.ForwardedRef<HTMLTableRowElement>,
-) {
+function APITableRow({
+  name,
+  children,
+  ref,
+}: {
+  name: string | undefined;
+  children: ReactElement<ComponentProps<'tr'>>;
+  ref: React.Ref<HTMLTableRowElement>;
+}) {
   const entryName = getRowName(children);
   const id = name ? `${name}-${entryName}` : entryName;
   const anchor = `#${id}`;

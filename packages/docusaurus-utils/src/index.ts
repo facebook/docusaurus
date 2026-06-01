@@ -25,13 +25,6 @@ export {
 } from './constants';
 export {generate, readOutputHTMLFile} from './emitUtils';
 export {
-  // TODO Docusaurus v4: remove these legacy exports,
-  //  they are only kept for retro-compatibility
-  getFileCommitDate,
-  FileNotTrackedError,
-  GitNotFoundError,
-} from './vcs/gitUtils';
-export {
   mergeTranslations,
   updateTranslationFileMessages,
   getPluginI18nPath,
