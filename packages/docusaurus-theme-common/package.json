@@ -51,7 +51,6 @@
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
-    "@docusaurus/plugin-content-docs": "*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
