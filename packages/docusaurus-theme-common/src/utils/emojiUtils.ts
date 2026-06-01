@@ -30,9 +30,13 @@ export function extractLeadingEmoji(input: string): {
   }
 
   // Leading grapheme contains an emoji (covers flags/ZWJ/skin tones)
+  // Use Extended_Pictographic for actual emoji/pictographs
+  // Use Emoji_Presentation instead of Emoji to exclude digits (0-9),
+  // #, *, and other characters that are technically Emoji but displayed
+  // as text by default. See https://github.com/facebook/docusaurus/issues/12071
   if (
     !/\p{Extended_Pictographic}/u.test(grapheme) &&
-    !/\p{Emoji}/u.test(grapheme)
+    !/\p{Emoji_Presentation}/u.test(grapheme)
   ) {
     return {emoji: null, rest: input};
   }
