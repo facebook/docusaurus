@@ -105,6 +105,13 @@ describe('extractLeadingEmoji', () => {
     });
   });
 
+  it('does detect ©️', () => {
+    expect(extractLeadingEmoji('©️ 2026')).toEqual({
+      emoji: '©️',
+      rest: ' 2026',
+    });
+  });
+
   it('does not detect text-presentation symbols - ™', () => {
     expect(extractLeadingEmoji('™ Brand')).toEqual({
       emoji: null,
