@@ -79,7 +79,7 @@ function getDefaultDirection(localeStr: string) {
   const locale = new Intl.Locale(localeStr);
   // see https://github.com/tc39/proposal-intl-locale-info
   // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getTextInfo
-  return locale.getTextInfo().direction;
+  return locale.getTextInfo().direction ?? 'ltr';
 }
 
 export function getDefaultLocaleConfig(
