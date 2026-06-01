@@ -7,9 +7,8 @@
 
 // Secret way to set SSR plugin async concurrency option
 // Waiting for feedback before documenting this officially?
-// TODO Docusaurus v4, rename SSR => SSG
-export const SSGConcurrency = process.env.DOCUSAURUS_SSR_CONCURRENCY
-  ? parseInt(process.env.DOCUSAURUS_SSR_CONCURRENCY, 10)
+export const SSGConcurrency = process.env.DOCUSAURUS_SSG_CONCURRENCY
+  ? parseInt(process.env.DOCUSAURUS_SSG_CONCURRENCY, 10)
   : // Not easy to define a reasonable option default
     // Will still be better than Infinity
     // See also https://github.com/sindresorhus/p-map/issues/24
