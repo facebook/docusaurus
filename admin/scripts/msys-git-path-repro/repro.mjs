@@ -31,9 +31,21 @@ import fs from 'fs';
 import {execFileSync} from 'child_process';
 import {createRequire} from 'module';
 import {fileURLToPath} from 'url';
+import {promisify} from 'util';
 
 const require = createRequire(import.meta.url);
 const here = path.dirname(fileURLToPath(import.meta.url));
+
+// Async equivalents of the sync fs helpers (the repo lint bans sync fs methods).
+const realpathNative = promisify(fs.realpath.native);
+async function pathExists(p) {
+  try {
+    await fs.promises.access(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 // The compiled package output (lib), produced by `yarn build:packages`. We
 // require the built module files directly because getGitRepoRoot is
@@ -51,8 +63,8 @@ const libRoot = path.resolve(
 const {getGitRepoRoot} = require(path.join(libRoot, 'vcs', 'gitUtils.js'));
 const {fromGitPathToNativePath} = require(path.join(libRoot, 'pathUtils.js'));
 
-const DUPLICATED_DRIVE_RE = /^[a-z]:[\\/][a-z]([\\/]|$)/i;
-const MSYS_PATH_RE = /^\/[a-z](\/|$)/i;
+const DUPLICATED_DRIVE_RE = /^[a-z]:[\\/][a-z](?:[\\/]|$)/i;
+const MSYS_PATH_RE = /^\/[a-z](?:\/|$)/i;
 
 async function main() {
   const repoDir = process.argv[2];
@@ -89,7 +101,7 @@ async function main() {
   let unfixedResult = null;
   let unfixedError = null;
   try {
-    unfixedResult = fs.realpathSync.native(rawToplevel);
+    unfixedResult = await realpathNative(rawToplevel);
   } catch (err) {
     unfixedError = err.message;
   }
@@ -101,7 +113,7 @@ async function main() {
     unfixedError !== null ||
     unfixedResult === null ||
     DUPLICATED_DRIVE_RE.test(unfixedResult) ||
-    !fs.existsSync(unfixedResult);
+    !(await pathExists(unfixedResult));
   console.log(`  unfixed is broken     : ${unfixedIsBroken}`);
 
   // 3. Show what the fix produces for the same input, in isolation.
@@ -116,7 +128,7 @@ async function main() {
 
   const repoRootIsNative = /^[a-z]:[\\/]/i.test(repoRoot);
   const repoRootHasDuplicatedDrive = DUPLICATED_DRIVE_RE.test(repoRoot);
-  const repoRootExists = fs.existsSync(repoRoot);
+  const repoRootExists = await pathExists(repoRoot);
   console.log(`  is native C:\\ path    : ${repoRootIsNative}`);
   console.log(`  has duplicated drive  : ${repoRootHasDuplicatedDrive}`);
   console.log(`  path exists on disk   : ${repoRootExists}`);
@@ -166,7 +178,7 @@ async function main() {
             unfixedResult,
         );
       }
-      if (!fs.existsSync(unfixedResult)) {
+      if (!(await pathExists(unfixedResult))) {
         errors.push(
           'Unfixed code produced a path that does not exist (this is the bug): ' +
             unfixedResult,
