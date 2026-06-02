@@ -8,23 +8,21 @@
 import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
 import path from 'path';
-import tmp from 'tmp-promise';
+import {mkdtempDisposable, realpath} from 'node:fs/promises';
+import {join} from 'node:path';
+import {tmpdir} from 'node:os';
 import dedent from 'dedent';
 import {loadFreshModule} from '../moduleUtils';
 
 async function createTmpDir() {
-  return (
-    await tmp.dir({
-      prefix: 'jest-tmp-moduleUtils-tests',
-    })
-  ).path;
+  return mkdtempDisposable(join(await realpath(tmpdir()), 'docusaurus-tmp-'));
 }
 
 async function moduleGraphHelpers() {
   const dir = await createTmpDir();
 
   async function fileHelper(name: string, initialContent?: string) {
-    const filePath = path.resolve(dir, name);
+    const filePath = path.resolve(dir.path, name);
     if (initialContent) {
       await fs.outputFile(filePath, initialContent);
     }
@@ -35,7 +33,7 @@ async function moduleGraphHelpers() {
     };
   }
 
-  return {fileHelper};
+  return {fileHelper, [Symbol.asyncDispose]: dir[Symbol.asyncDispose]};
 }
 
 async function loadModule(modulePath: string, withDefault: boolean) {
@@ -136,7 +134,8 @@ describe('loadFreshModule', () => {
 
   describe('module graph', () => {
     it('can load and reload fresh module graph', async () => {
-      const {fileHelper} = await moduleGraphHelpers();
+      await using helpers = await moduleGraphHelpers();
+      const {fileHelper} = helpers;
 
       const dependency1 = await fileHelper(
         'dependency1.js',
