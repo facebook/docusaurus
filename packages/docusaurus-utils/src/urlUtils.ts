@@ -138,8 +138,8 @@ export function fileToPath(file: string): string {
  * Similar to `encodeURI`, but uses `encodeURIComponent` and assumes there's no
  * query.
  *
- * `encodeURI("/question?/answer")` => `"/question?/answer#section"`;
- * `encodePath("/question?/answer#section")` => `"/question%3F/answer%23foo"`
+ * `encodeURI("/question?/answer")` => `"/question?/answer"`;
+ * `encodePath("/question?/answer#section")` => `"/question%3F/answer%23section"`
  */
 export function encodePath(userPath: string): string {
   return userPath
