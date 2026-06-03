@@ -27,6 +27,7 @@ strictDepBuilds: true
 
 dangerouslyAllowAllBuilds: false
 allowBuilds:
+  - '@swc/core': true
 
 #  '@parcel/watcher': true
 #  '@swc/core': true
