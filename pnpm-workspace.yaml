@@ -10,21 +10,28 @@ packages:
 overrides:
   axios: ^1.15.2
 
-# Supply-chain hardening for pnpm 11.
 minimumReleaseAge: 10080
 minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
+
 trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 525600 # ignore packages published 1+ year ago
+trustPolicyExclude:
+  - 'tinyexec@1.2.2'
+  - '@trickfilm400/rollup-plugin-off-main-thread@3.0.0-pre1'
+
 trustLockfile: false
 blockExoticSubdeps: true
 verifyDepsBeforeRun: error
 strictDepBuilds: true
+
 dangerouslyAllowAllBuilds: false
 allowBuilds:
-  '@parcel/watcher': true
-  '@swc/core': true
-  core-js: true
-  husky: true
-  oxfmt: true
-  playwright: true
-  sharp: true
+
+#  '@parcel/watcher': true
+#  '@swc/core': true
+#  core-js: true
+#  husky: true
+#  oxfmt: true
+#  playwright: true
+#  sharp: true
