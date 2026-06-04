@@ -62,7 +62,7 @@ jobs:
         run: node ./packages/create-docusaurus/bin/index.js ../test-website classic --javascript --skip-install
 
       # Ensure no unexpected lifecycle (preintall/postinstall scripts)
-      # Only pnpm 10+ has options to fail a build on suspicious lifecycles
+      # pnpm has options to fail a build on suspicious lifecycles
       - name: Install test-website project with SFW and secure pnpm config
         working-directory: ../test-website
         run: |
@@ -79,3 +79,4 @@ jobs:
           YAML
 
           sfw pnpm install || sfw pnpm install || sfw pnpm install
+          pnpm build
