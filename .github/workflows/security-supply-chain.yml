@@ -57,8 +57,6 @@ jobs:
 
       # Generate init template
       - name: Generate test-website project against main branch
-        # create-docusaurus is a workspace bin; pnpm doesn't link it to the
-        # monorepo root, so we run it directly instead of "pnpm create-docusaurus"
         run: node ./packages/create-docusaurus/bin/index.js ../test-website classic --javascript --skip-install
 
       # Ensure no unexpected lifecycle (preintall/postinstall scripts)

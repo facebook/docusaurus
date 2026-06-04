@@ -94,9 +94,6 @@ jobs:
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
       - name: Generate test-website project against main branch
         # Not using test-release.sh => no verdaccio docker image on Windows
-        # run: bash ./admin/scripts/test-release.sh -s
-        # create-docusaurus is a workspace bin; pnpm doesn't link it to the
-        # monorepo root, so we run it directly instead of "pnpm create-docusaurus"
         run: node ./packages/create-docusaurus/bin/index.js ../test-website classic --typescript --package-manager yarn
       - name: Install test-website project with Yarn v1
         run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
