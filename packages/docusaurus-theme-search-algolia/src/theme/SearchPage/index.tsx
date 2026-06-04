@@ -28,13 +28,13 @@ import {
   PageMetadata,
   useEvent,
   usePluralForm,
-  useSearchQueryString,
 } from '@docusaurus/theme-common';
 import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {
   useAlgoliaThemeConfig,
   useSearchResultUrlProcessor,
+  useSearchQueryString,
 } from '@docusaurus/theme-search-algolia/client';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';

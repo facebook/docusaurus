@@ -18,15 +18,13 @@ import {useDocSearchKeyboardEvents} from '@docsearch/react/useDocSearchKeyboardE
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import {useHistory} from '@docusaurus/router';
-import {
-  isRegexpStringMatch,
-  useSearchLinkCreator,
-} from '@docusaurus/theme-common';
+import {isRegexpStringMatch} from '@docusaurus/theme-common';
 import {
   useAlgoliaContextualFacetFilters,
   useSearchResultUrlProcessor,
   useAlgoliaAskAi,
   mergeFacetFilters,
+  useSearchLinkCreator,
 } from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
