@@ -4,9 +4,9 @@
 !*.css
 __tests__/
 build
+.docusaurus
 coverage
 examples/
-
 packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
