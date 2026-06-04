@@ -70,11 +70,6 @@ export {
   type TagLetterEntry,
 } from './utils/tagsUtils';
 
-export {
-  useSearchQueryString,
-  useSearchLinkCreator,
-} from './hooks/useSearchPage';
-
 export {useAnchorTargetClassName} from './utils/anchorUtils';
 
 export {isMultiColumnFooterLinks} from './utils/footerUtils';
