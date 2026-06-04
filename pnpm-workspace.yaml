@@ -31,11 +31,17 @@ trustPolicyExclude:
 trustLockfile: false
 blockExoticSubdeps: true
 verifyDepsBeforeRun: error
-strictDepBuilds: true
 
+strictDepBuilds: true
 dangerouslyAllowAllBuilds: false
 allowBuilds:
-  - '@swc/core': true
+  '@parcel/watcher': false
+  '@swc/core': false
+  core-js: false
+  fast-folder-size: false
+  nx: false
+  postinstall-postinstall: false
+  sharp: false
 
 #  '@parcel/watcher': true
 #  '@swc/core': true
