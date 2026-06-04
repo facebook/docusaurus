@@ -63,7 +63,7 @@ jobs:
 
       # Ensure our init template gets scanned by SFW
       - name: Install test-website project with SFW
-        run: sfw pnpm install --frozen-lockfile || sfw pnpm install --frozen-lockfile || sfw pnpm install --frozen-lockfile
+        run: sfw pnpm install || sfw pnpm install || sfw pnpm install
         working-directory: ../test-website
 
       # Ensure no unexpected lifecycle (preintall/postinstall scripts)
