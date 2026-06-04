@@ -118,7 +118,7 @@ importers:
         version: 5.0.0
       jest-serializer-react-helmet-async:
         specifier: ^1.0.21
-        version: 1.0.21(react-helmet-async@3.0.0(react@19.2.6))(react@19.2.6)
+        version: 1.0.21(@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
       jiti:
         specifier: ^2.7.0
         version: 2.7.0
@@ -152,6 +152,9 @@ importers:
       react-dom:
         specifier: ^19.2.5
         version: 19.2.6(react@19.2.6)
+      react-helmet-async:
+        specifier: npm:@slorber/react-helmet-async@1.3.0
+        version: '@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)'
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2
@@ -11319,11 +11322,6 @@ packages:
   react-fast-compare@3.2.2:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
 
-  react-helmet-async@3.0.0:
-    resolution: {integrity: sha512-nA3IEZfXiclgrz4KLxAhqJqIfFDuvzQwlKwpdmzZIuC1KNSghDEIXmyU0TKtbM+NafnkICcwx8CECFrZ/sL/1w==}
-    peerDependencies:
-      react: ^16.6.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -21459,10 +21457,10 @@ snapshots:
     dependencies:
       pretty-ansi: 4.0.0
 
-  jest-serializer-react-helmet-async@1.0.21(react-helmet-async@3.0.0(react@19.2.6))(react@19.2.6):
+  jest-serializer-react-helmet-async@1.0.21(@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6):
     dependencies:
       react: 19.2.6
-      react-helmet-async: 3.0.0(react@19.2.6)
+      react-helmet-async: '@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)'
 
   jest-util@30.4.1:
     dependencies:
@@ -24184,13 +24182,6 @@ snapshots:
       scheduler: 0.27.0
 
   react-fast-compare@3.2.2: {}
-
-  react-helmet-async@3.0.0(react@19.2.6):
-    dependencies:
-      invariant: 2.2.4
-      react: 19.2.6
-      react-fast-compare: 3.2.2
-      shallowequal: 1.1.0
 
   react-is@16.13.1: {}
 
