@@ -59,11 +59,6 @@ jobs:
           git config --global user.email "github@docusaurus.io"
       - name: Installation
         run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
-        # TODO Docusaurus v4: remove after we upgrade the Node version
-      - name: Upgrade Lerna
-        run: |
-          yarn add -D -W lerna@9.0.3 --ignore-scripts
-          git restore .
 
       - name: Publish Canary release
         if: |
@@ -83,11 +78,9 @@ jobs:
             --dist-tag "${{ github.event.inputs.npm_tag }}" \
             --loglevel verbose \
             --yes \
-            --no-verify-access \
             --no-push
           git push origin v"${{ github.event.inputs.npm_version }}"
 
-        # TODO Docusaurus v4: upgrade Lerna, remove useless --no-verify-access everywhere
         # TODO should we push the package version local updates to Git?
         #  "main" is currently protected, even GitHub Actions can't push to it
         #  However it remains useful to push the git tag
