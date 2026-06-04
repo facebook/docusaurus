@@ -55,12 +55,6 @@ type ContextValue = {
   readonly colorModeChoice: ColorModeChoice;
   /** Set new color mode. */
   readonly setColorMode: (colorMode: ColorModeChoice) => void;
-
-  // TODO Docusaurus v4
-  //  legacy APIs kept for retro-compatibility: deprecate them
-  readonly isDarkTheme: boolean;
-  readonly setLightTheme: () => void;
-  readonly setDarkTheme: () => void;
 };
 
 const Context = React.createContext<ContextValue | undefined>(undefined);
@@ -237,30 +231,6 @@ function useContextValue(): ContextValue {
       colorMode,
       colorModeChoice,
       setColorMode,
-      get isDarkTheme() {
-        if (process.env.NODE_ENV === 'development') {
-          console.error(
-            '`useColorMode().isDarkTheme` is deprecated. Please use `useColorMode().colorMode === "dark"` instead.',
-          );
-        }
-        return colorMode === 'dark';
-      },
-      setLightTheme() {
-        if (process.env.NODE_ENV === 'development') {
-          console.error(
-            '`useColorMode().setLightTheme` is deprecated. Please use `useColorMode().setColorMode("light")` instead.',
-          );
-        }
-        setColorMode('light');
-      },
-      setDarkTheme() {
-        if (process.env.NODE_ENV === 'development') {
-          console.error(
-            '`useColorMode().setDarkTheme` is deprecated. Please use `useColorMode().setColorMode("dark")` instead.',
-          );
-        }
-        setColorMode('dark');
-      },
     }),
     [colorMode, colorModeChoice, setColorMode],
   );

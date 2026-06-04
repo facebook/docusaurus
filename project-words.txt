@@ -133,6 +133,8 @@ Kaszubowski
 Katex
 katex
 Kato
+Keycap
+keycap
 Keytar
 keytar
 Kinsta

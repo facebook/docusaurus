@@ -423,7 +423,8 @@ describe('getGitRepoRoot', () => {
 
   it('returns Docusaurus repo for cwd=__dirname', async () => {
     const cwd = __dirname;
-    await expect(getGitRepoRoot(cwd)).resolves.toMatch(/docusaurus$/);
+    const repoRoot = path.resolve(cwd, '..', '..', '..', '..', '..');
+    await expect(getGitRepoRoot(cwd)).resolves.toEqual(repoRoot);
   });
 
   it('rejects for cwd=repoDir/doesNotExist', async () => {

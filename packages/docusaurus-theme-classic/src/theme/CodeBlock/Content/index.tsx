@@ -15,20 +15,17 @@ import Line from '@theme/CodeBlock/Line';
 
 import styles from './styles.module.css';
 
-// TODO Docusaurus v4: remove useless forwardRef
-const Pre = React.forwardRef<HTMLPreElement, ComponentProps<'pre'>>(
-  function Pre(props, ref) {
-    return (
-      <pre
-        ref={ref}
-        /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
-        tabIndex={0}
-        {...props}
-        className={clsx(props.className, styles.codeBlock, 'thin-scrollbar')}
-      />
-    );
-  },
-);
+function Pre({className, ref, ...props}: ComponentProps<'pre'>) {
+  return (
+    <pre
+      ref={ref}
+      /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
+      tabIndex={0}
+      {...props}
+      className={clsx(className, styles.codeBlock, 'thin-scrollbar')}
+    />
+  );
+}
 
 function Code(props: ComponentProps<'code'>) {
   const {metadata} = useCodeBlockContext();

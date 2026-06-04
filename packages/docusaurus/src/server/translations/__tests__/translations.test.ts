@@ -8,7 +8,9 @@
 import {describe, expect, it, vi} from 'vitest';
 import fs from 'fs-extra';
 import path from 'path';
-import tmp from 'tmp-promise';
+import {mkdtempDisposable, realpath} from 'node:fs/promises';
+import {join} from 'node:path';
+import {tmpdir} from 'node:os';
 import {
   writePluginTranslations,
   writeCodeTranslations,
@@ -26,17 +28,14 @@ import type {
 } from '@docusaurus/types';
 
 async function createTmpSiteDir() {
-  const {path: siteDirPath} = await tmp.dir({
-    prefix: 'jest-createTmpSiteDir',
-  });
-  return siteDirPath;
+  return mkdtempDisposable(join(await realpath(tmpdir()), 'docusaurus-tmp-'));
 }
 
 async function createTmpTranslationFile(
   content: TranslationFileContent | null,
 ) {
   const siteDir = await createTmpSiteDir();
-  const filePath = path.join(siteDir, 'i18n/en/code.json');
+  const filePath = path.join(siteDir.path, 'i18n/en/code.json');
 
   // null means we don't want a file, just a filename
   if (content !== null) {
@@ -44,10 +43,11 @@ async function createTmpTranslationFile(
   }
 
   return {
-    localizationDir: path.join(siteDir, 'i18n/en'),
+    localizationDir: path.join(siteDir.path, 'i18n/en'),
     readFile() {
       return fs.readJSON(filePath);
     },
+    [Symbol.asyncDispose]: siteDir[Symbol.asyncDispose],
   };
 }
 
@@ -55,7 +55,9 @@ describe('writeCodeTranslations', () => {
   it('creates new translation file', async () => {
     using info = vi.spyOn(console, 'info');
 
-    const {localizationDir, readFile} = await createTmpTranslationFile(null);
+    await using tmpTranslationFile = await createTmpTranslationFile(null);
+    const {localizationDir, readFile} = tmpTranslationFile;
+
     await writeCodeTranslations(
       {localizationDir},
       {
@@ -79,7 +81,9 @@ describe('writeCodeTranslations', () => {
   it('creates new translation file with prefix', async () => {
     using info = vi.spyOn(console, 'info');
 
-    const {localizationDir, readFile} = await createTmpTranslationFile(null);
+    await using tmpTranslationFile = await createTmpTranslationFile(null);
+    const {localizationDir, readFile} = tmpTranslationFile;
+
     await writeCodeTranslations(
       {localizationDir},
       {
@@ -105,11 +109,12 @@ describe('writeCodeTranslations', () => {
   it('appends missing translations', async () => {
     using info = vi.spyOn(console, 'info');
 
-    const {localizationDir, readFile} = await createTmpTranslationFile({
+    await using tmpTranslationFile = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
       key2: {message: 'key2 message'},
       key3: {message: 'key3 message'},
     });
+    const {localizationDir, readFile} = tmpTranslationFile;
 
     await writeCodeTranslations(
       {localizationDir},
@@ -136,9 +141,10 @@ describe('writeCodeTranslations', () => {
   it('appends missing.* translations with prefix', async () => {
     using info = vi.spyOn(console, 'info');
 
-    const {localizationDir, readFile} = await createTmpTranslationFile({
+    await using tmpTranslationFile = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
     });
+    const {localizationDir, readFile} = tmpTranslationFile;
 
     await writeCodeTranslations(
       {localizationDir},
@@ -163,9 +169,10 @@ describe('writeCodeTranslations', () => {
   it('overrides missing translations', async () => {
     using info = vi.spyOn(console, 'info');
 
-    const {localizationDir, readFile} = await createTmpTranslationFile({
+    await using tmpTranslationFile = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
     });
+    const {localizationDir, readFile} = tmpTranslationFile;
 
     await writeCodeTranslations(
       {localizationDir},
@@ -190,9 +197,10 @@ describe('writeCodeTranslations', () => {
   it('overrides missing translations with prefix', async () => {
     using info = vi.spyOn(console, 'info');
 
-    const {localizationDir, readFile} = await createTmpTranslationFile({
+    await using tmpTranslationFile = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
     });
+    const {localizationDir, readFile} = tmpTranslationFile;
 
     await writeCodeTranslations(
       {localizationDir},
@@ -218,11 +226,12 @@ describe('writeCodeTranslations', () => {
   it('always overrides message description', async () => {
     using info = vi.spyOn(console, 'info');
 
-    const {localizationDir, readFile} = await createTmpTranslationFile({
+    await using tmpTranslationFile = await createTmpTranslationFile({
       key1: {message: 'key1 message', description: 'key1 desc'},
       key2: {message: 'key2 message', description: 'key2 desc'},
       key3: {message: 'key3 message', description: undefined},
     });
+    const {localizationDir, readFile} = tmpTranslationFile;
 
     await writeCodeTranslations(
       {localizationDir},
@@ -247,7 +256,8 @@ describe('writeCodeTranslations', () => {
   it('does not create empty translation files', async () => {
     using info = vi.spyOn(console, 'info');
 
-    const {localizationDir, readFile} = await createTmpTranslationFile(null);
+    await using tmpTranslationFile = await createTmpTranslationFile(null);
+    const {localizationDir, readFile} = tmpTranslationFile;
 
     await writeCodeTranslations({localizationDir}, {}, {});
 
@@ -280,7 +290,8 @@ describe('writeCodeTranslations', () => {
 
 describe('writePluginTranslations', () => {
   it('writes plugin translations', async () => {
-    const localizationDir = await createTmpSiteDir();
+    await using tmpDir = await createTmpSiteDir();
+    const localizationDir = tmpDir.path;
 
     const filePath = path.join(
       localizationDir,
@@ -314,7 +325,8 @@ describe('writePluginTranslations', () => {
   });
 
   it('writes plugin translations consecutively with different options', async () => {
-    const localizationDir = await createTmpSiteDir();
+    await using tmpDir = await createTmpSiteDir();
+    const localizationDir = tmpDir.path;
 
     const filePath = path.join(
       localizationDir,
@@ -387,7 +399,8 @@ describe('writePluginTranslations', () => {
   });
 
   it('throws with explicit extension', async () => {
-    const localizationDir = await createTmpSiteDir();
+    await using tmpDir = await createTmpSiteDir();
+    const localizationDir = tmpDir.path;
 
     await expect(() =>
       writePluginTranslations({
@@ -414,7 +427,8 @@ describe('writePluginTranslations', () => {
 
 describe('localizePluginTranslationFile', () => {
   it('does not localize if localized file does not exist', async () => {
-    const localizationDir = await createTmpSiteDir();
+    await using tmpDir = await createTmpSiteDir();
+    const localizationDir = tmpDir.path;
 
     const translationFile: TranslationFile = {
       path: 'my/translation/file',
@@ -438,7 +452,8 @@ describe('localizePluginTranslationFile', () => {
   });
 
   it('normalizes partially localized translation files', async () => {
-    const localizationDir = await createTmpSiteDir();
+    await using tmpDir = await createTmpSiteDir();
+    const localizationDir = tmpDir.path;
 
     await fs.outputJSON(
       path.join(localizationDir, 'my-plugin-name', 'my/translation/file.json'),

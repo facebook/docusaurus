@@ -8,21 +8,21 @@
 import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import fs from 'fs-extra';
-import tmp from 'tmp-promise';
+import {mkdtempDisposable, realpath} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import {SRC_DIR_NAME} from '@docusaurus/utils';
 import {extractSiteSourceCodeTranslations} from '../translationsExtractor';
 import type {InitializedPlugin, LoadedPlugin} from '@docusaurus/types';
 
 async function createTmpDir() {
-  const {path: siteDirPath} = await tmp.dir({
-    prefix: 'jest-createTmpSiteDir',
-  });
-  return siteDirPath;
+  return mkdtempDisposable(join(await realpath(tmpdir()), 'docusaurus-tmp-'));
 }
 
 describe('extractSiteSourceCodeTranslations', () => {
   it('extracts translation from all plugins source code', async () => {
-    const siteDir = await createTmpDir();
+    await using siteDirTmp = await createTmpDir();
+    const siteDir = siteDirTmp.path;
 
     const siteComponentFile1 = path.join(
       siteDir,
@@ -60,7 +60,8 @@ export default function MySiteComponent1() {
       };
     }
 
-    const plugin1Dir = await createTmpDir();
+    await using plugin1DirTmp = await createTmpDir();
+    const plugin1Dir = plugin1DirTmp.path;
     const plugin1File1 = path.join(plugin1Dir, 'subpath', 'file1.jsx');
     await fs.outputFile(
       plugin1File1,
@@ -134,7 +135,8 @@ export default function MyComponent() {
 
     const plugin1 = createTestPlugin(plugin1Dir);
 
-    const plugin2Dir = await createTmpDir();
+    await using plugin2DirTmp = await createTmpDir();
+    const plugin2Dir = plugin2DirTmp.path;
     const plugin2File = path.join(plugin1Dir, 'subpath', 'file.tsx');
     await fs.outputFile(
       plugin2File,

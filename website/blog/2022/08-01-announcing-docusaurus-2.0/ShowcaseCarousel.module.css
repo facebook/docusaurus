@@ -11,8 +11,7 @@
 
 .cssCarouselSlider {
   display: flex;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  overflow: scroll hidden;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
 }
@@ -85,7 +84,7 @@
   --ifm-link-hover-decoration: none;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (width <= 768px) {
   .siteLink {
     font-size: 12px;
     padding: 0 8px;

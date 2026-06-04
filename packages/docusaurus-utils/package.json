@@ -48,7 +48,6 @@
     "@types/micromatch": "^4.0.10",
     "@types/js-yaml": "^4.0.9",
     "@types/react-dom": "^19.2.3",
-    "dedent": "^0.7.0",
-    "tmp-promise": "^3.0.3"
+    "dedent": "^0.7.0"
   }
 }
