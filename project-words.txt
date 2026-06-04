@@ -12,18 +12,13 @@ apfs
 appinstalled
 Applanga
 applescript
-architecting
 atrule
-Autoconverted
-Autogen
-autogen
 autogenerating
 autohide
 Autolinks
 Bartosz
 beforeinstallprompt
 Bhatt
-Blockquotes
 blockquotes
 Bokmål
 bunfig
@@ -49,7 +44,6 @@ corejs
 Couriol
 creativecommons
 Csapo
-Csvg
 Dabit
 dabit
 Dagre
@@ -72,7 +66,6 @@ Dogfood
 dogfood
 Dogfooding
 dogfooding
-Dojocat
 Dyte
 dyte
 easyops
@@ -83,12 +76,9 @@ Endilie
 endilie
 endiliey
 ERRNAMETOOLONG
-evaluable
 externalwaiting
 failfast
-Fargate
 Fienny
-flac
 Flightcontrol
 Flightcontrol's
 forwardable
@@ -146,7 +136,6 @@ Lifecycles
 lifecycles
 lightningcss
 Linkify
-linkify
 llms
 llmstxt
 longlonglonglonglonglonglonglonglonglonglonglong
@@ -165,8 +154,6 @@ Massoud
 mathjax
 maxlynch
 maxresdefault
-MDAST
-mdast
 mdwn
 MDXA
 MDXAST
@@ -205,7 +192,6 @@ noicon
 nojekyll
 noninteractive
 npmjs
-Nuxt
 opensearch
 opensearchdescription
 opensource
@@ -217,13 +203,10 @@ osascript
 Outerbounds
 outerbounds
 overrideable
-oxfmt
 ozaki
 ozakione
 O’Shannessy
 paas
-Pagefind
-pagefind
 Palenight
 palenight
 Paletton
@@ -233,7 +216,6 @@ paraiso
 pathinfo
 paularmstrong
 pcss
-perfetto
 pftrace
 philpl
 Pipeable
@@ -244,7 +226,6 @@ plushies
 posthog
 precached
 precaching
-preconfigured
 prerendered
 printfn
 producthunt
@@ -314,10 +295,8 @@ spâce
 stackblitz
 stackoverflow
 Stormkit
-Strikethrough
 strikethroughs
 styl
-Subdeps
 sublabel
 sublicensable
 sublist
@@ -332,7 +311,6 @@ sunsetting
 Supabase
 supabase
 superproject
-svgs
 swizzlable
 Sébastien
 Tagkey
@@ -363,7 +341,6 @@ unlocalized
 unstub
 unswizzle
 upvotes
-urlset
 Vannicatte
 vbnet
 Vetter
