@@ -920,9 +920,6 @@ importers:
       '@docusaurus/module-type-aliases':
         specifier: 3.10.1
         version: link:../docusaurus-module-type-aliases
-      '@docusaurus/plugin-content-docs':
-        specifier: '*'
-        version: link:../docusaurus-plugin-content-docs
       '@docusaurus/theme-common':
         specifier: 3.10.1
         version: link:../docusaurus-theme-common
