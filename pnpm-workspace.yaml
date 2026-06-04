@@ -44,13 +44,4 @@ allowBuilds:
   core-js: false
   fast-folder-size: false
   nx: false
-  postinstall-postinstall: false
   sharp: false
-
-#  '@parcel/watcher': true
-#  '@swc/core': true
-#  core-js: true
-#  husky: true
-#  oxfmt: true
-#  playwright: true
-#  sharp: true
