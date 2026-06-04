@@ -905,6 +905,9 @@ importers:
       '@docusaurus/mdx-loader':
         specifier: 3.10.1
         version: link:../docusaurus-mdx-loader
+      '@docusaurus/module-type-aliases':
+        specifier: 3.10.1
+        version: link:../docusaurus-module-type-aliases
       '@docusaurus/plugin-content-docs':
         specifier: '*'
         version: link:../docusaurus-plugin-content-docs
@@ -1672,6 +1675,9 @@ importers:
       '@docusaurus/core':
         specifier: 3.10.1
         version: link:../docusaurus
+      '@docusaurus/theme-classic':
+        specifier: 3.10.1
+        version: link:../docusaurus-theme-classic
       '@docusaurus/theme-common':
         specifier: 3.10.1
         version: link:../docusaurus-theme-common
@@ -1703,6 +1709,9 @@ importers:
         specifier: ^2.6.0
         version: 2.8.1
     devDependencies:
+      '@docusaurus/module-type-aliases':
+        specifier: 3.10.1
+        version: link:../docusaurus-module-type-aliases
       '@docusaurus/types':
         specifier: 3.10.1
         version: link:../docusaurus-types
@@ -1760,6 +1769,9 @@ importers:
       '@docusaurus/plugin-content-docs':
         specifier: 3.10.1
         version: link:../docusaurus-plugin-content-docs
+      '@docusaurus/theme-classic':
+        specifier: 3.10.1
+        version: link:../docusaurus-theme-classic
       '@docusaurus/theme-common':
         specifier: 3.10.1
         version: link:../docusaurus-theme-common
@@ -1806,6 +1818,9 @@ importers:
       '@docusaurus/module-type-aliases':
         specifier: 3.10.1
         version: link:../docusaurus-module-type-aliases
+      '@docusaurus/types':
+        specifier: 3.10.1
+        version: link:../docusaurus-types
 
   packages/docusaurus-theme-translations:
     dependencies:
