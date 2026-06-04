@@ -1,6 +1,11 @@
 # TODO change later to "isolated" ?
 nodeLinker: 'hoisted'
 
+# For now we use this setting instead of the workspace:* protocol
+# To use workspace:* we probably need to adopt pnpm for publishing
+# See https://pnpm.io/workspaces#publishing-workspace-packages
+linkWorkspacePackages: true
+
 packages:
   - 'packages/*'
   - 'argos'

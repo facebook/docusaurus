@@ -9,6 +9,10 @@ import {RsdoctorRspackMultiplePlugin} from '@rsdoctor/rspack-plugin';
 import {RsdoctorWebpackMultiplePlugin} from '@rsdoctor/webpack-plugin';
 import type {CurrentBundler, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Options} from './options';
+import {ConfigureWebpackResult} from "@docusaurus/types/src/plugin";
+
+
+
 
 function createRsdoctorBundlerPlugin({
   isServer,
@@ -24,10 +28,13 @@ function createRsdoctorBundlerPlugin({
       ? RsdoctorRspackMultiplePlugin
       : RsdoctorWebpackMultiplePlugin;
 
+  // Little type incompatibility?
+  type WebpackPlugin = NonNullable<ConfigureWebpackResult["plugins"]>[number]
+
   return new RsdoctorPlugin({
     name: isServer ? 'server' : 'client',
     ...options.rsdoctorOptions,
-  });
+  }) as WebpackPlugin;
 }
 
 export default (async function pluginRsdoctor(
@@ -37,6 +44,7 @@ export default (async function pluginRsdoctor(
   return {
     name: 'docusaurus-plugin-rsdoctor',
     configureWebpack: (__config, isServer) => {
+
       return {
         plugins: [
           createRsdoctorBundlerPlugin({

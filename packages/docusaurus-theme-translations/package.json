@@ -26,6 +26,7 @@
     "@docusaurus/babel": "3.10.1",
     "@docusaurus/core": "3.10.1",
     "@docusaurus/logger": "3.10.1",
+    "@docusaurus/types": "3.10.1",
     "@docusaurus/utils": "3.10.1",
     "lodash": "^4.17.21"
   },
