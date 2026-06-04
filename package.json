@@ -3,15 +3,6 @@
   "version": "0.0.0",
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "argos",
-    "website",
-    "test-website-in-workspace",
-    "packages/create-docusaurus/templates/*",
-    "admin/test-bad-package",
-    "admin/new.docusaurus.io"
-  ],
   "scripts": {
     "start": "pnpm build:packages && pnpm start:website",
     "start:website": "pnpm --filter website start",
