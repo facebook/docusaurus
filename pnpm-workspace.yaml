@@ -30,6 +30,7 @@ trustPolicyIgnoreAfter: 525600 # ignore packages published 1+ year ago
 trustPolicyExclude:
   - 'tinyexec@1.2.2'
   - '@trickfilm400/rollup-plugin-off-main-thread@3.0.0-pre1'
+  - 'browserslist-load-config@1.0.2'
 
 trustLockfile: false
 blockExoticSubdeps: true
