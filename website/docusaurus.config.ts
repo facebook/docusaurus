@@ -98,12 +98,12 @@ function getNextVersionName() {
 
 // Artificial way to crash the SSR rendering and test errors
 // See website/_dogfooding/_pages tests/crashTest.tsx
-// Test with: DOCUSAURUS_CRASH_TEST=true yarn build:website:fast
+// Test with: DOCUSAURUS_CRASH_TEST=true pnpm build:website:fast
 const crashTest = process.env.DOCUSAURUS_CRASH_TEST === 'true';
 
 // By default, we use Docusaurus Faster
 // DOCUSAURUS_SLOWER=true is useful for benchmarking faster against slower
-// hyperfine --prepare 'yarn clear:website' --runs 3 'DOCUSAURUS_SLOWER=true yarn build:website:fast' 'yarn build:website:fast'
+// hyperfine --prepare 'pnpm clear:website' --runs 3 'DOCUSAURUS_SLOWER=true pnpm build:website:fast' 'pnpm build:website:fast'
 const isSlower = process.env.DOCUSAURUS_SLOWER === 'true';
 if (isSlower) {
   console.log('🐢 Using slower Docusaurus build');
