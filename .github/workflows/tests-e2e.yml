@@ -97,13 +97,13 @@ jobs:
         # run: bash ./admin/scripts/test-release.sh -s
         # create-docusaurus is a workspace bin; pnpm doesn't link it to the
         # monorepo root, so we run it directly instead of "pnpm create-docusaurus"
-        run: node ./packages/create-docusaurus/bin/index.js test-website classic --typescript --package-manager yarn
+        run: node ./packages/create-docusaurus/bin/index.js ../test-website classic --typescript --package-manager yarn
       - name: Install test-website project with Yarn v1
         run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
-        working-directory: test-website
+        working-directory: ../test-website
       - name: Start test-website project
         run: yarn start --no-open
-        working-directory: test-website
+        working-directory: ../test-website
         env:
           E2E_TEST: true
       - name: Build test-website project
@@ -115,12 +115,18 @@ jobs:
           # See https://github.com/facebook/docusaurus/pull/10590
           NODE_OPTIONS: '--max-old-space-size=300'
           DOCUSAURUS_PERF_LOGGER: 'true'
-        working-directory: test-website
+        working-directory: ../test-website
+      - name: Copy to CWD
+        # Workaround for actions/upload-artifact, see comment below
+        run: cp -R ../test-website test-website
       - name: Upload Website artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: website-e2e-windows
+          # Note: actions/upload-artifact can't upload from '../test-website'
+          # Error: Invalid pattern '../test-website/build'. Relative pathing '.' and '..' is not allowed.
           path: test-website/build
+          if-no-files-found: error
 
   yarn-berry:
     name: E2E — Yarn Berry
