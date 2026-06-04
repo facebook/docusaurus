@@ -16,11 +16,14 @@ packages:
   - 'admin/new.docusaurus.io'
 
 overrides:
-  axios: ^1.15.2
+  axios: 1.16.1 # Fix CVEs https://github.com/axios/axios/security/advisories
+  tar: ^7.5.16 # Fix CVEs https://github.com/isaacs/node-tar/security/advisories
 
 minimumReleaseAge: 10080
 minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
+minimumReleaseAgeExclude:
+  - tar@7.5.16
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 525600 # ignore packages published 1+ year ago
