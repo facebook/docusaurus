@@ -27,6 +27,7 @@
     "node": ">=24.14"
   },
   "devDependencies": {
-    "@types/file-loader": "^5.0.1"
+    "@types/file-loader": "^5.0.1",
+    "webpack": "^5.106.2"
   }
 }
