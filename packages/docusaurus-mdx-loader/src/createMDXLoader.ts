@@ -47,7 +47,7 @@ export async function createMDXLoaderItem(
   options: Options & CreateOptions,
 ): Promise<RuleSetUseItem> {
   return {
-    loader: require.resolve('@docusaurus/mdx-loader'),
+    loader: require.resolve('./index'),
     options: await normalizeOptions(options),
   };
 }
