@@ -2105,6 +2105,9 @@ importers:
       '@docusaurus/plugin-content-pages':
         specifier: 3.10.1
         version: link:../packages/docusaurus-plugin-content-pages
+      '@docusaurus/plugin-google-gtag':
+        specifier: 3.10.1
+        version: link:../packages/docusaurus-plugin-google-gtag
       '@docusaurus/plugin-ideal-image':
         specifier: 3.10.1
         version: link:../packages/docusaurus-plugin-ideal-image
@@ -2141,6 +2144,9 @@ importers:
       '@docusaurus/utils-common':
         specifier: 3.10.1
         version: link:../packages/docusaurus-utils-common
+      '@docusaurus/utils-validation':
+        specifier: 3.10.1
+        version: link:../packages/docusaurus-utils-validation
       '@mermaid-js/layout-elk':
         specifier: ^0.1.9
         version: 0.1.9(mermaid@11.15.0)
