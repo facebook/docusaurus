@@ -53,7 +53,7 @@ jobs:
       # See https://github.com/lirantal/lockfile-lint#what-about-pnpm-support
       # - name: Check for suspicious pnpm-lock.yaml
       #   # for allowed aliases, see https://github.com/yargs/cliui/pull/139/files#r1670711112
-      #   run: pnpm lockfile-lint --path pnpm-lock.yaml --type npm --allowed-hosts npm --validate-https --validate-package-names --validate-integrity --empty-hostname=false --allowed-package-name-aliases react-loadable react-helmet-async string-width-cjs strip-ansi-cjs wrap-ansi-cjs
+      #   run: pnpm lockfile-lint --path pnpm-lock.yaml --type npm --allowed-hosts npm --validate-https --validate-package-names --validate-integrity --empty-hostname=false --allowed-package-name-aliases react-loadable react-helmet-async string-width-cjs strip-ansi-cjs wrap-ansi-cjs react-is-18 react-is-19
 
       # Generate init template
       - name: Generate test-website project against main branch
