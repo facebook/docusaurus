@@ -13,9 +13,8 @@ import os from 'os';
 import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';
-import {escapePath} from '@docusaurus/utils';
-import {version} from '@docusaurus/core/package.json';
 import stripAnsi from 'strip-ansi';
+import {version} from '../packages/docusaurus/package.json';
 
 /*
 This weird thing is to normalize paths on our Windows GitHub Actions runners
@@ -117,9 +116,6 @@ function normalizeString(value: string): string {
 
     // Replace the Docusaurus version with a stub
     (val) => val.split(version).join('<CURRENT_VERSION>'),
-
-    // In case the CWD is escaped
-    (val) => val.split(escapePath(cwd)).join('<PROJECT_ROOT>'),
 
     // Remove win32 drive letters, C:\ -> \
     (val) => val.replace(/[a-z]:\\/gi, '\\'),
