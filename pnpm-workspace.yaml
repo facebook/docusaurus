@@ -1,3 +1,6 @@
+# TODO change later to "isolated" ?
+nodeLinker: 'hoisted'
+
 packages:
   - 'packages/*'
   - 'argos'
