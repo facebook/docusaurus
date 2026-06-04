@@ -20,6 +20,15 @@ importers:
       '@docusaurus/eslint-plugin':
         specifier: 3.10.1
         version: link:packages/eslint-plugin
+      '@docusaurus/plugin-content-blog':
+        specifier: 3.10.1
+        version: link:packages/docusaurus-plugin-content-blog
+      '@docusaurus/plugin-content-docs':
+        specifier: 3.10.1
+        version: link:packages/docusaurus-plugin-content-docs
+      '@docusaurus/plugin-content-pages':
+        specifier: 3.10.1
+        version: link:packages/docusaurus-plugin-content-pages
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@9.39.4(jiti@2.7.0))
