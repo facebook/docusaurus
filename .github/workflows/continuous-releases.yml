@@ -24,22 +24,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
+
       - name: Set up Node
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: lts/*
-          cache: yarn
+          #  ⚠️ Do not use any cache on purpose
+          # It increases the chance of a compromised release being publish
+          # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
+          # cache: pnpm
 
       - name: Installation
-        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 
       - name: Build packages
-        run: yarn build:packages
+        run: pnpm build:packages
 
       - name: Initialize fresh templates
         run: |
-          yarn create-docusaurus template/docusaurus-classic-js classic --javascript -p npm
-          yarn create-docusaurus template/docusaurus-classic-ts classic --typescript -p npm
+          node ./packages/create-docusaurus/bin/index.js template/docusaurus-classic-js classic --javascript -p npm
+          node ./packages/create-docusaurus/bin/index.js template/docusaurus-classic-ts classic --typescript -p npm
 
       - name: Release
-        run: yarn pkg-pr-new publish './packages/*' --template './template/*' --compact --comment=off
+        run: pnpm pkg-pr-new publish './packages/*' --template './template/*' --compact --comment=off

@@ -45,6 +45,8 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0 # Needed to get the commit number with "git rev-list --count HEAD"
+      - name: Install pnpm
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
       - name: Set up Node
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
@@ -52,27 +54,27 @@ jobs:
           #  ⚠️ Do not use any cache on purpose
           # It increases the chance of a compromised release being publish
           # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
-          # cache: yarn
+          # cache: pnpm
       - name: Prepare git
         run: |
           git config --global user.name "Docusaurus"
           git config --global user.email "github@docusaurus.io"
       - name: Installation
-        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 
       - name: Publish Canary release
         if: |
           github.event_name == 'push' ||
           (github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag == 'canary')
         run: |
-          yarn canary:bumpVersion
-          yarn canary:publish
+          pnpm canary:bumpVersion
+          pnpm canary:publish
 
       - name: Publish NPM release
         if: |
           github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag != 'canary'
         run: |
-          yarn lerna publish \
+          pnpm lerna publish \
             --force-publish \
             --exact "${{ github.event.inputs.npm_version }}" \
             --dist-tag "${{ github.event.inputs.npm_tag }}" \

@@ -20,6 +20,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@docusaurus/types": "3.10.1",
     "chalk": "^4.1.2",
     "tslib": "^2.6.0"
   },

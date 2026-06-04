@@ -21,20 +21,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Install pnpm
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
       - name: Set up Node
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: lts/*
-          cache: yarn
+          cache: pnpm
       - name: Installation
-        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
-      - name: Check immutable yarn.lock
+        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+      - name: Check immutable pnpm-lock.yaml
         run: git diff --exit-code
 
       - name: Lint
         run: |
           echo "::add-matcher::.github/workflows/cspell-problem-matcher.json"
-          yarn lint:ci
+          pnpm lint:ci
 
       - name: Check Formatting
-        run: yarn format:diff
+        run: pnpm format:diff

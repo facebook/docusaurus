@@ -43,7 +43,7 @@ const resolveAliases: AliasOptions = [
   // Resolve `@docusaurus/<exportName>` to `docusaurus-core` source files
   {
     find: /^@docusaurus\/(BrowserOnly|ComponentCreator|constants|ExecutionEnvironment|Head|Interpolate|isInternalUrl|Link|Noop|renderRoutes|router|Translate|use.*)$/,
-    replacement: '@docusaurus/core/src/client/exports/$1',
+    replacement: `${rootDir}packages/docusaurus/src/client/exports/$1`,
   },
 
   // Stub `@generated/*` modules for tests
@@ -62,10 +62,24 @@ const resolveAliases: AliasOptions = [
 
   // Resolving content plugins client exports to src instead of lib
   // This way, tests work without having to rebuild those packages
-
   {
     find: /^@docusaurus\/plugin-content-(docs|blog|pages)\/client$/,
-    replacement: '@docusaurus/plugin-content-$1/src/client/index.ts',
+    replacement: `${rootDir}packages/docusaurus-plugin-content-$1/src/client/index.ts`,
+  },
+  // Resolve content plugins (bare package) to src instead of lib.
+  {
+    find: /^@docusaurus\/plugin-content-(docs|blog|pages)$/,
+    replacement: `${rootDir}packages/docusaurus-plugin-content-$1/src/index.ts`,
+  },
+  // Resolve @docusaurus/utils to src instead of lib.
+  {
+    find: /^@docusaurus\/utils$/,
+    replacement: `${rootDir}packages/docusaurus-utils/src/index.ts`,
+  },
+  // Resolve @docusaurus/utils-validation to src instead of lib.
+  {
+    find: /^@docusaurus\/utils-validation$/,
+    replacement: `${rootDir}packages/docusaurus-utils-validation/src/index.ts`,
   },
 ];
 

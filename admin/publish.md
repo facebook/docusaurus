@@ -29,26 +29,26 @@ However, we need a release branch to cut the new docs version, publish a release
 
 2. Make sure all the recent PRs have a `pr: ` GitHub label. This [link](https://github.com/facebook/docusaurus/pulls?q=is%3Apr+is%3Amerged+sort%3Aupdated-desc+-label%3A%22pr%3A+breaking+change%22%2C%22pr%3A+new+feature%22%2C%22pr%3A+bug+fix%22%2C%22pr%3A+performance%22%2C%22pr%3A+polish%22%2C%22pr%3A+documentation%22%2C%22pr%3A+maintenance%22%2C%22pr%3A+internal%22%2C%22pr%3A+dependencies%22%2C%22pr%3A+showcase%22%2C%22pr%3A+ignore%22%2C%22pr%3A+translations%22+) helps you find untagged PRs.
 
-3. Run `yarn changelog --from v3.10.0` to generate a changelog from the tagged PRs since a given release/tag.
+3. Run `pnpm changelog --from v3.10.0` to generate a changelog from the tagged PRs since a given release/tag.
 
 4. Copy that at the top of the `CHANGELOG.md` file with title `## 3.11.0 (date)`.
 
 5. Write a release blog post, inspired by former release posts.
 
-6. Create the docs version: `yarn workspace website docusaurus docs:version 3.11.0`
+6. Create the docs version: `pnpm --filter website docusaurus docs:version 3.11.0`
 
 7. Make sure there's no Crowdin translation problem. Run this:
 
 ```bash
-yarn workspace website write-translations
-yarn crowdin:upload:website
-yarn crowdin:download:website
-yarn build:website
+pnpm --filter website write-translations
+pnpm crowdin:upload:website
+pnpm crowdin:download:website
+pnpm build:website
 ```
 
 8. Create a PR ([example](https://github.com/facebook/docusaurus/pull/11825)). Make sure all CI checks pass. If useful, create it earlier to get a deploy preview to review.
 
-9. Upgrade the `package.json` versions: `yarn lerna version 3.11.0 --exact --no-push --yes` (mostly useful for canary releases versions).
+9. Upgrade the `package.json` versions: `pnpm lerna version 3.11.0 --exact --no-push --yes` (mostly useful for canary releases versions).
 
 10. Go to the [Publish workflow](https://github.com/facebook/docusaurus/actions/workflows/publish.yml) and click the "Run workflow" button. Fill in the form with:
 
@@ -109,7 +109,7 @@ If you want to release `3.10.1` while `main` is already for `4.0.0`
 
 3. Rename the docs version from `3.10.0` to `3.10.1`
 
-4. Create the `3.10.1` changelog entry: `yarn changelog --from v3.10.0 --to docusaurus-v3-maintenance`
+4. Create the `3.10.1` changelog entry: `pnpm changelog --from v3.10.0 --to docusaurus-v3-maintenance`
 
 5. Create a release PR that targets `main` ([example](https://github.com/facebook/docusaurus/pull/11983))
 
@@ -133,7 +133,7 @@ Do this on a separate branch/PR after a major/minor/patch release:
 
 ```bash
 git co -b slorber/release-v3.11.0-examples
-yarn examples:generate
+pnpm examples:generate
 git push
 ```
 

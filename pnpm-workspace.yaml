@@ -1,0 +1,47 @@
+# TODO change later to "isolated" ?
+nodeLinker: 'hoisted'
+
+# For now we use this setting instead of the workspace:* protocol
+# To use workspace:* we probably need to adopt pnpm for publishing
+# See https://pnpm.io/workspaces#publishing-workspace-packages
+linkWorkspacePackages: true
+
+packages:
+  - 'packages/*'
+  - 'argos'
+  - 'website'
+  - 'test-website-in-workspace'
+  - 'packages/create-docusaurus/templates/*'
+  - 'admin/test-bad-package'
+  - 'admin/new.docusaurus.io'
+
+overrides:
+  axios: 1.16.1 # Fix CVEs https://github.com/axios/axios/security/advisories
+  tar: ^7.5.16 # Fix CVEs https://github.com/isaacs/node-tar/security/advisories
+
+minimumReleaseAge: 10080
+minimumReleaseAgeStrict: true
+minimumReleaseAgeIgnoreMissingTime: false
+minimumReleaseAgeExclude:
+  - tar@7.5.16
+
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 525600 # ignore packages published 1+ year ago
+trustPolicyExclude:
+  - 'tinyexec@1.2.2'
+  - '@trickfilm400/rollup-plugin-off-main-thread@3.0.0-pre1'
+  - 'browserslist-load-config@1.0.2'
+
+trustLockfile: false
+blockExoticSubdeps: true
+verifyDepsBeforeRun: error
+
+strictDepBuilds: true
+dangerouslyAllowAllBuilds: false
+allowBuilds:
+  '@parcel/watcher': false
+  '@swc/core': false
+  core-js: false
+  fast-folder-size: false
+  nx: false
+  sharp: false

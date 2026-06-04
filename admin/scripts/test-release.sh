@@ -41,7 +41,7 @@ fi
 docker run -d --rm --name "$CONTAINER_NAME" -p 4873:4873 -v "$PWD/admin/verdaccio.yaml":/verdaccio/conf/config.yaml verdaccio/verdaccio:latest
 
 # Build packages
-yarn build:packages
+pnpm build:packages
 
 # Publish the monorepo
 npx --no-install lerna publish --exact --yes --no-verify-access --no-git-reset --no-git-tag-version --no-push --registry "$CUSTOM_REGISTRY_URL" "$NEW_VERSION"
@@ -50,7 +50,7 @@ npx --no-install lerna publish --exact --yes --no-verify-access --no-git-reset -
 git diff --name-only -- '*.json' | sed 's, ,\\&,g' | xargs git checkout --
 
 
-# The website is generated outside the repo to minimize chances of yarn resolving the wrong version
+# The website is generated outside the repo to minimize chances of pnpm resolving the wrong version
 cd ..
 
 echo Generating test-website in `pwd`

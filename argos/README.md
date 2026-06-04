@@ -6,8 +6,8 @@ This workspace can be run manually, but is generally run through the [Argos GitH
 
 The workflow execute those following steps:
 
-- Build the website locally with `yarn build:website:fast`
-- Start the website server with `yarn serve:website` on [http://localhost:3000](http://localhost:3000)
+- Build the website locally with `pnpm build:website:fast`
+- Start the website server with `pnpm serve:website` on [http://localhost:3000](http://localhost:3000)
 - Take screenshots of all pages found in `sitemap.xml` with Playwright
 - Upload all screenshots to [Argos CI](https://argos-ci.com)
 

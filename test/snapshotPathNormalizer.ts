@@ -13,9 +13,8 @@ import os from 'os';
 import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';
-import {escapePath} from '@docusaurus/utils';
-import {version} from '@docusaurus/core/package.json';
 import stripAnsi from 'strip-ansi';
+import {version} from '../packages/docusaurus/package.json';
 
 /*
 This weird thing is to normalize paths on our Windows GitHub Actions runners
@@ -32,8 +31,17 @@ function normalizeWindowTempDirShortPath(str: string): string {
   return str.replace('\\RUNNER~1\\', '\\runneradmin\\');
 }
 
+function escapePath(str: string): string {
+  const escaped = JSON.stringify(str);
+  // Remove the " around the json string;
+  return escaped.substring(1, escaped.length - 1);
+}
+
 function readPathsForNormalization() {
   const cwd = process.cwd();
+  const cwdEscaped = escapePath(cwd);
+
+  console.log({cwd, cwdEscaped});
 
   const tempDir = os.tmpdir();
   const homeDir = os.homedir();
@@ -53,6 +61,7 @@ function readPathsForNormalization() {
 
   return {
     cwd,
+    cwdEscaped,
     tempDir: normalizeWindowTempDirShortPath(tempDir),
     tempDirReal: normalizeWindowTempDirShortPath(tempDirReal),
     homeDir,
@@ -74,7 +83,7 @@ function normalizeString(value: string): string {
     throw new Error(`Value is not a string: ${typeof value} ${value}`);
   }
 
-  const {cwd, tempDir, tempDirReal, homeDir, homeDirReal} =
+  const {cwd, cwdEscaped, tempDir, tempDirReal, homeDir, homeDirReal} =
     getPathsForNormalization();
 
   const homeRelativeToTemp = path.relative(tempDir, homeDir);
@@ -83,6 +92,8 @@ function normalizeString(value: string): string {
     (val) => (val.includes('keepAnsi') ? val : stripAnsi(val)),
     // Replace process.cwd with <PROJECT_ROOT>
     (val) => val.split(cwd).join('<PROJECT_ROOT>'),
+    // In case the CWD is escaped
+    (val) => val.split(cwdEscaped).join('<PROJECT_ROOT>'),
 
     // Replace temp directory with <TEMP_DIR>
     (val) => val.split(tempDirReal).join('<TEMP_DIR>'),
@@ -117,9 +128,6 @@ function normalizeString(value: string): string {
 
     // Replace the Docusaurus version with a stub
     (val) => val.split(version).join('<CURRENT_VERSION>'),
-
-    // In case the CWD is escaped
-    (val) => val.split(escapePath(cwd)).join('<PROJECT_ROOT>'),
 
     // Remove win32 drive letters, C:\ -> \
     (val) => val.replace(/[a-z]:\\/gi, '\\'),
