@@ -68,7 +68,7 @@
     "update-translations": "pnpm --filter @docusaurus/theme-translations update"
   },
   "devDependencies": {
-    "@ai-sdk/react": "^2.0.30",
+    "@ai-sdk/react": "^3.0.177",
     "@crowdin/cli": "^4.14.2",
     "@docusaurus/eslint-plugin": "3.10.1",
     "@docusaurus/plugin-content-blog": "3.10.1",
