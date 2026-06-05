@@ -120,6 +120,7 @@ async function doProcessDocMetadata({
     // but allow to disable this behavior with front matter
     parse_number_prefixes: parseNumberPrefixes = true,
     last_update: lastUpdateFrontMatter,
+    created,
   } = frontMatter;
 
   const lastUpdate = await readLastUpdateData(
@@ -240,6 +241,7 @@ async function doProcessDocMetadata({
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
+    createdAt: created !== undefined ? new Date(created).getTime() : undefined,
     sidebarPosition,
     frontMatter,
   };
