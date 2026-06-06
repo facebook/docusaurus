@@ -121,4 +121,13 @@ Available locales are: ${context.i18n.locales.join(',')}.`,
       await writePluginTranslationFiles({localizationDir, plugin, options});
     }),
   );
+
+  console.log(
+    `\n${'='.repeat(60)}\n` +
+      `📝 Note: This command only creates JSON translation files for UI strings and plugin data.\n` +
+      `   Markdown files (docs, blog, pages) are NOT copied automatically.\n` +
+      `   To translate Markdown content, copy your files manually to the i18n folder.\n` +
+      `   See: https://docusaurus.io/docs/i18n/tutorial#translate-markdown-files\n` +
+      `${'='.repeat(60)}\n`,
+  );
 }
