@@ -13,6 +13,14 @@
 
 :root {
   --docusaurus-progress-bar-color: var(--ifm-color-primary);
+  /*
+  Override Infima's system-ui font stack to use a proper documentation font.
+  system-ui causes CJK character rendering issues on non-CJK OS locales.
+  See https://github.com/facebook/docusaurus/issues/11727
+  */
+  --ifm-font-family-base: 'Inter', 'Segoe UI', 'Roboto', 'Ubuntu',
+    'Cantarell', 'Noto Sans', sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 #nprogress {
