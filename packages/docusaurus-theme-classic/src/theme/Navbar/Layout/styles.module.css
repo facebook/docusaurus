@@ -5,6 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+.navbar {
+  justify-content: center;
+}
+
+.navbar__inner {
+  max-width: var(--ifm-container-width-xl);
+}
+
 .navbarHideable {
   transition: transform var(--ifm-transition-fast) ease;
 }
