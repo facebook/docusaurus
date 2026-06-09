@@ -20,6 +20,8 @@ export default function BlogPostItemFooter(): ReactNode {
     title,
     editUrl,
     hasTruncateMarker,
+    createdBy,
+    createdAt,
     lastUpdatedBy,
     lastUpdatedAt,
   } = metadata;
@@ -37,7 +39,13 @@ export default function BlogPostItemFooter(): ReactNode {
 
   // BlogPost footer - details view
   if (isBlogPostPage) {
-    const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
+    const canDisplayEditMetaRow = !!(
+      editUrl ||
+      createdAt ||
+      createdBy ||
+      lastUpdatedAt ||
+      lastUpdatedBy
+    );
 
     return (
       <footer className="docusaurus-mt-lg">
@@ -60,6 +68,8 @@ export default function BlogPostItemFooter(): ReactNode {
               ThemeClassNames.blog.blogFooterEditMetaRow,
             )}
             editUrl={editUrl}
+            createdAt={createdAt}
+            createdBy={createdBy}
             lastUpdatedAt={lastUpdatedAt}
             lastUpdatedBy={lastUpdatedBy}
           />

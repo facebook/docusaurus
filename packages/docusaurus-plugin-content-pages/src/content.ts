@@ -17,6 +17,7 @@ import {
   parseMarkdownFile,
   isUnlisted,
   isDraft,
+  readCreateData,
   readLastUpdateData,
   getEditUrl,
   posixPath,
@@ -177,12 +178,10 @@ async function processPageSourceFile(
     return undefined;
   }
 
-  const lastUpdatedData = await readLastUpdateData(
-    source,
-    options,
-    frontMatter.last_update,
-    vcs,
-  );
+  const [createdData, lastUpdatedData] = await Promise.all([
+    readCreateData(source, options, frontMatter.created, vcs),
+    readLastUpdateData(source, options, frontMatter.last_update, vcs),
+  ]);
 
   if (isDraft({frontMatter})) {
     return undefined;
@@ -196,6 +195,8 @@ async function processPageSourceFile(
     title: frontMatter.title ?? contentTitle,
     description: frontMatter.description ?? excerpt,
     frontMatter,
+    createdBy: createdData.createdBy,
+    createdAt: createdData.createdAt,
     lastUpdatedBy: lastUpdatedData.lastUpdatedBy,
     lastUpdatedAt: lastUpdatedData.lastUpdatedAt,
     editUrl: getPagesEditUrl(),

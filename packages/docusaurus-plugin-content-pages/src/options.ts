@@ -31,6 +31,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: true,
+  showCreateTime: false,
+  showCreateAuthor: false,
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   editLocalizedFiles: false,
@@ -52,6 +54,8 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
     DEFAULT_OPTIONS.beforeDefaultRemarkPlugins,
   ),
   admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
+  showCreateTime: Joi.bool().default(DEFAULT_OPTIONS.showCreateTime),
+  showCreateAuthor: Joi.bool().default(DEFAULT_OPTIONS.showCreateAuthor),
   showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,

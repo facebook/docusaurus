@@ -9,7 +9,10 @@ import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {posixPath, getLocaleConfig, TEST_VCS} from '@docusaurus/utils';
-import {DEFAULT_FUTURE_CONFIG} from '@docusaurus/core/src/server/configValidation';
+import {
+  DEFAULT_FUTURE_CONFIG,
+  DEFAULT_MARKDOWN_CONFIG,
+} from '@docusaurus/core/src/server/configValidation';
 import pluginContentBlog from '../index';
 import {validateOptions} from '../options';
 import type {
@@ -21,6 +24,7 @@ import type {
   I18nLocaleConfig,
 } from '@docusaurus/types';
 import type {
+  BlogContent,
   BlogPost,
   Options,
   PluginOptions,
@@ -28,10 +32,15 @@ import type {
 } from '@docusaurus/plugin-content-blog';
 
 async function getFileCreationDate(filePath: string): Promise<Date> {
-  return new Date((await TEST_VCS.getFileCreationInfo(filePath)).timestamp);
+  const creationInfo = await TEST_VCS.getFileCreationInfo(filePath);
+  if (!creationInfo) {
+    throw new Error(`No creation info found for file ${filePath}`);
+  }
+  return new Date(creationInfo.timestamp);
 }
 
 const markdown: MarkdownConfig = {
+  ...DEFAULT_MARKDOWN_CONFIG,
   format: 'mdx',
   mermaid: true,
   mdx1Compat: {
@@ -72,21 +81,25 @@ function getI18n(
   locale: string,
   localeConfigOptions?: Partial<I18nLocaleConfig>,
 ): I18n {
+  const localeConfig: I18nLocaleConfig = {
+    calendar: 'gregory',
+    label: locale,
+    htmlLang: locale,
+    direction: 'ltr',
+    path: locale,
+    translate: true,
+    url: '',
+    baseUrl: `/${locale}/`,
+    ...localeConfigOptions,
+  };
+
   return {
     currentLocale: locale,
     locales: [locale],
     defaultLocale: locale,
     path: 'i18n',
     localeConfigs: {
-      [locale]: {
-        calendar: 'gregory',
-        label: locale,
-        htmlLang: locale,
-        direction: 'ltr',
-        path: locale,
-        translate: true,
-        ...localeConfigOptions,
-      },
+      [locale]: localeConfig,
     },
   };
 }
@@ -138,6 +151,16 @@ const getPlugin = async (
     }),
   );
 };
+
+async function loadBlogContent(
+  plugin: Awaited<ReturnType<typeof getPlugin>>,
+): Promise<BlogContent> {
+  const content = await plugin.loadContent!();
+  if (!content) {
+    throw new Error('Expected blog content to be loaded');
+  }
+  return content;
+}
 
 const getBlogPosts = async (
   siteDir: string,
@@ -666,25 +689,25 @@ describe('last update', () => {
       },
       DefaultI18N,
     );
-    const {blogPosts} = (await plugin.loadContent!())!;
+    const {blogPosts} = await loadBlogContent(plugin);
 
-    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+    const testLastUpdate = TEST_VCS.LAST_UPDATE_INFO;
 
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBe(
       lastUpdateFor('2021-01-01'),
     );
 
-    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
+    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(testLastUpdate.author);
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBe(
       lastUpdateFor('2021-01-01'),
     );
 
     expect(blogPosts[2]?.metadata.lastUpdatedBy).toBe('seb');
-    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
+    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(testLastUpdate.timestamp);
 
-    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
-    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
+    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(testLastUpdate.author);
+    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(testLastUpdate.timestamp);
   });
 
   it('time only', async () => {
@@ -696,9 +719,9 @@ describe('last update', () => {
       },
       DefaultI18N,
     );
-    const {blogPosts} = (await plugin.loadContent!())!;
+    const {blogPosts} = await loadBlogContent(plugin);
 
-    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+    const testLastUpdate = TEST_VCS.LAST_UPDATE_INFO;
 
     expect(blogPosts[0]?.metadata.title).toBe('Both');
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBeUndefined();
@@ -714,11 +737,11 @@ describe('last update', () => {
 
     expect(blogPosts[2]?.metadata.title).toBe('Author');
     expect(blogPosts[2]?.metadata.lastUpdatedBy).toBeUndefined();
-    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
+    expect(blogPosts[2]?.metadata.lastUpdatedAt).toBe(testLastUpdate.timestamp);
 
     expect(blogPosts[3]?.metadata.title).toBe('Nothing');
     expect(blogPosts[3]?.metadata.lastUpdatedBy).toBeUndefined();
-    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(TestLastUpdate.timestamp);
+    expect(blogPosts[3]?.metadata.lastUpdatedAt).toBe(testLastUpdate.timestamp);
   });
 
   it('author only', async () => {
@@ -730,20 +753,20 @@ describe('last update', () => {
       },
       DefaultI18N,
     );
-    const {blogPosts} = (await plugin.loadContent!())!;
+    const {blogPosts} = await loadBlogContent(plugin);
 
-    const TestLastUpdate = await TEST_VCS.getFileLastUpdateInfo('any path');
+    const testLastUpdate = TEST_VCS.LAST_UPDATE_INFO;
 
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBeUndefined();
 
-    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
+    expect(blogPosts[1]?.metadata.lastUpdatedBy).toBe(testLastUpdate.author);
     expect(blogPosts[1]?.metadata.lastUpdatedAt).toBeUndefined();
 
     expect(blogPosts[2]?.metadata.lastUpdatedBy).toBe('seb');
     expect(blogPosts[2]?.metadata.lastUpdatedAt).toBeUndefined();
 
-    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(TestLastUpdate.author);
+    expect(blogPosts[3]?.metadata.lastUpdatedBy).toBe(testLastUpdate.author);
     expect(blogPosts[3]?.metadata.lastUpdatedAt).toBeUndefined();
   });
 
@@ -756,7 +779,7 @@ describe('last update', () => {
       },
       DefaultI18N,
     );
-    const {blogPosts} = (await plugin.loadContent!())!;
+    const {blogPosts} = await loadBlogContent(plugin);
 
     expect(blogPosts[0]?.metadata.lastUpdatedBy).toBeUndefined();
     expect(blogPosts[0]?.metadata.lastUpdatedAt).toBeUndefined();
@@ -769,5 +792,35 @@ describe('last update', () => {
 
     expect(blogPosts[3]?.metadata.lastUpdatedBy).toBeUndefined();
     expect(blogPosts[3]?.metadata.lastUpdatedAt).toBeUndefined();
+  });
+});
+
+describe('created metadata', () => {
+  const siteDir = path.join(
+    __dirname,
+    '__fixtures__',
+    'website-blog-with-last-update',
+  );
+
+  const createdFor = (date: string) => new Date(date).getTime();
+
+  it('author and time', async () => {
+    const plugin = await getPlugin(
+      siteDir,
+      {
+        showCreateAuthor: true,
+        showCreateTime: true,
+      },
+      DefaultI18N,
+    );
+    const {blogPosts} = await loadBlogContent(plugin);
+
+    const testCreation = TEST_VCS.CREATION_INFO;
+
+    expect(blogPosts[0]?.metadata.createdBy).toBe('original-seb');
+    expect(blogPosts[0]?.metadata.createdAt).toBe(createdFor('2019-01-01'));
+
+    expect(blogPosts[1]?.metadata.createdBy).toBe(testCreation.author);
+    expect(blogPosts[1]?.metadata.createdAt).toBe(testCreation.timestamp);
   });
 });

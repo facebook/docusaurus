@@ -19,6 +19,7 @@ import {
   Globby,
   isUnlisted,
   isDraft,
+  readCreateData,
   readLastUpdateData,
   normalizeTags,
 } from '@docusaurus/utils';
@@ -119,15 +120,14 @@ async function doProcessDocMetadata({
     // (01-MyFolder/01-MyDoc.md => MyFolder/MyDoc)
     // but allow to disable this behavior with front matter
     parse_number_prefixes: parseNumberPrefixes = true,
+    created: createdFrontMatter,
     last_update: lastUpdateFrontMatter,
   } = frontMatter;
 
-  const lastUpdate = await readLastUpdateData(
-    filePath,
-    options,
-    lastUpdateFrontMatter,
-    vcs,
-  );
+  const [created, lastUpdate] = await Promise.all([
+    readCreateData(filePath, options, createdFrontMatter, vcs),
+    readLastUpdateData(filePath, options, lastUpdateFrontMatter, vcs),
+  ]);
 
   // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
   const sourceFileNameWithoutExtension = path.basename(
@@ -238,6 +238,8 @@ async function doProcessDocMetadata({
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
     tags,
     version: versionMetadata.versionName,
+    createdBy: created.createdBy,
+    createdAt: created.createdAt,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
     sidebarPosition,

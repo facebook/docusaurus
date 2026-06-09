@@ -86,4 +86,33 @@ describe('docusaurus-plugin-content-pages', () => {
 
     expect(pagesMetadata).toMatchSnapshot();
   });
+
+  it('loads simple pages with created metadata', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const context = await loadContext({siteDir});
+    const plugin = await pluginContentPages(
+      context,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'src/pages',
+          showCreateAuthor: true,
+          showCreateTime: true,
+        },
+      }),
+    );
+    const pagesMetadata = await plugin.loadContent!();
+    if (!pagesMetadata) {
+      throw new Error('Expected pages metadata to be loaded');
+    }
+    const mdxPage = pagesMetadata.find(
+      (page) => page.type === 'mdx' && page.permalink === '/custom-mdx/slug',
+    );
+
+    expect(mdxPage).toMatchObject({
+      type: 'mdx',
+      createdAt: new Date('2021-02-03').getTime(),
+      createdBy: 'Page Creator',
+    });
+  });
 });

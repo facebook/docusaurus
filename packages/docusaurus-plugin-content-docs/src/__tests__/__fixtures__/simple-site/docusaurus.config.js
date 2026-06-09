@@ -15,6 +15,11 @@ module.exports = {
     parseFrontMatter: async (params) => {
       // Reuse the default parser
       const result = await params.defaultParseFrontMatter(params);
+      if (result.frontMatter.created?.author) {
+        result.frontMatter.created.author =
+          result.frontMatter.created.author +
+          ' (processed by parseFrontMatter)';
+      }
       if (result.frontMatter.last_update?.author) {
         result.frontMatter.last_update.author =
           result.frontMatter.last_update.author +

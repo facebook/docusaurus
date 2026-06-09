@@ -54,10 +54,16 @@ Available document ids are:
 exports[`simple website > content > data 1`] = `
 {
   "site-docs-custom-last-update-md-b8d.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Custom last update",
     "draft": false,
     "editUrl": undefined,
     "frontMatter": {
+      "created": {
+        "author": "Custom Creator (processed by parseFrontMatter)",
+        "date": "1/1/1999",
+      },
       "last_update": {
         "author": "Custom Author (processed by parseFrontMatter)",
         "date": "1/1/2000",
@@ -81,6 +87,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-doc-draft-md-584.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "This is a draft document",
     "draft": false,
     "editUrl": undefined,
@@ -104,6 +112,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-doc-unlisted-md-80b.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "This is an unlisted document",
     "draft": false,
     "editUrl": undefined,
@@ -133,6 +143,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-doc-with-space-md-e90.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "",
     "draft": false,
     "editUrl": undefined,
@@ -154,6 +166,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-foo-bar-md-8c2.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "This is custom description",
     "draft": false,
     "editUrl": undefined,
@@ -181,6 +195,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-foo-baz-md-a69.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Images",
     "draft": false,
     "editUrl": undefined,
@@ -247,6 +263,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-heading-as-title-md-c6d.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "",
     "draft": false,
     "editUrl": undefined,
@@ -274,6 +292,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-hello-md-9df.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Hi, Endilie here :)",
     "draft": false,
     "editUrl": undefined,
@@ -320,6 +340,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-ipsum-md-c61.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem ipsum.",
     "draft": false,
     "editUrl": null,
@@ -347,6 +369,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-last-update-author-only-md-352.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Only custom author, so it will still use the date from Git",
     "draft": false,
     "editUrl": undefined,
@@ -373,6 +397,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-last-update-date-only-md-987.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Only custom date, so it will still use the author from Git",
     "draft": false,
     "editUrl": undefined,
@@ -399,6 +425,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-lorem-md-b27.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem ipsum.",
     "draft": false,
     "editUrl": "https://github.com/customUrl/docs/lorem.md",
@@ -423,6 +451,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-root-absolute-slug-md-db5.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -454,6 +484,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-root-relative-slug-md-3dd.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -485,6 +517,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-root-resolved-slug-md-4d1.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -516,6 +550,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-root-try-to-escape-slug-md-9ee.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -547,6 +583,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-slugs-absolute-slug-md-4e8.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -570,6 +608,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-slugs-relative-slug-md-d1c.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -593,6 +633,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-slugs-resolved-slug-md-02b.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -616,6 +658,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-slugs-try-to-escape-slug-md-70d.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -639,6 +683,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-unlisted-category-index-md-efa.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "This is an unlisted category index",
     "draft": false,
     "editUrl": undefined,
@@ -669,6 +715,8 @@ exports[`simple website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-unlisted-category-unlisted-category-doc-md-bd6.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "This is an unlisted category doc",
     "draft": false,
     "editUrl": undefined,
@@ -1605,6 +1653,8 @@ exports[`simple website > content > route config 1`] = `
 
 exports[`simple website > content 1`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Images",
   "draft": false,
   "editUrl": undefined,
@@ -1674,6 +1724,8 @@ exports[`simple website > content 1`] = `
 
 exports[`simple website > content 2`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Hi, Endilie here :)",
   "draft": false,
   "editUrl": undefined,
@@ -1723,6 +1775,8 @@ exports[`simple website > content 2`] = `
 
 exports[`simple website > content 3`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "This is custom description",
   "draft": false,
   "editUrl": undefined,
@@ -2277,6 +2331,8 @@ exports[`site with custom sidebar items generator > sidebarItemsGenerator is cal
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 1`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Getting started text",
   "draft": false,
   "editUrl": undefined,
@@ -2304,6 +2360,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 2`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Installation text",
   "draft": false,
   "editUrl": undefined,
@@ -2334,6 +2392,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 3`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 1 text",
   "draft": false,
   "editUrl": undefined,
@@ -2367,6 +2427,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 4`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 2 text",
   "draft": false,
   "editUrl": undefined,
@@ -2399,6 +2461,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 5`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 2.5 text",
   "draft": false,
   "editUrl": undefined,
@@ -2432,6 +2496,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 6`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 3 text",
   "draft": false,
   "editUrl": undefined,
@@ -2465,6 +2531,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 7`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 4 text",
   "draft": false,
   "editUrl": undefined,
@@ -2497,6 +2565,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 8`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Guide 5 text",
   "draft": false,
   "editUrl": undefined,
@@ -2529,6 +2599,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 9`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "API Overview text",
   "draft": false,
   "editUrl": undefined,
@@ -2559,6 +2631,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 10`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Client API text",
   "draft": false,
   "editUrl": undefined,
@@ -2589,6 +2663,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 11`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Server API text",
   "draft": false,
   "editUrl": undefined,
@@ -2619,6 +2695,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 12`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Plugin API text",
   "draft": false,
   "editUrl": undefined,
@@ -2649,6 +2727,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 13`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Theme API text",
   "draft": false,
   "editUrl": undefined,
@@ -2679,6 +2759,8 @@ exports[`site with full autogenerated sidebar > docs in fully generated sidebar 
 
 exports[`site with full autogenerated sidebar > docs in fully generated sidebar have correct metadata 14`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "API End text",
   "draft": false,
   "editUrl": undefined,
@@ -2805,6 +2887,8 @@ exports[`site with full autogenerated sidebar > sidebar is fully autogenerated 1
 
 exports[`site with partial autogenerated sidebars > docs in partially generated sidebar have correct metadata 1`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "API End text",
   "draft": false,
   "editUrl": undefined,
@@ -2832,6 +2916,8 @@ exports[`site with partial autogenerated sidebars > docs in partially generated 
 
 exports[`site with partial autogenerated sidebars > docs in partially generated sidebar have correct metadata 2`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "API Overview text",
   "draft": false,
   "editUrl": undefined,
@@ -2862,6 +2948,8 @@ exports[`site with partial autogenerated sidebars > docs in partially generated 
 
 exports[`site with partial autogenerated sidebars > docs in partially generated sidebar have correct metadata 3`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Plugin API text",
   "draft": false,
   "editUrl": undefined,
@@ -2892,6 +2980,8 @@ exports[`site with partial autogenerated sidebars > docs in partially generated 
 
 exports[`site with partial autogenerated sidebars > docs in partially generated sidebar have correct metadata 4`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Theme API text",
   "draft": false,
   "editUrl": undefined,
@@ -3027,6 +3117,8 @@ exports[`versioned website (community) > content > current version sidebars 1`] 
 exports[`versioned website (community) > content > data 1`] = `
 {
   "site-community-versioned-docs-version-1-0-0-team-md-359.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Team 1.0.0",
     "draft": false,
     "editUrl": undefined,
@@ -3048,6 +3140,8 @@ exports[`versioned website (community) > content > data 1`] = `
     "version": "1.0.0",
   },
   "site-i-18-n-en-docusaurus-plugin-content-docs-community-current-team-md-7e5.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Team current version (translated)",
     "draft": false,
     "editUrl": undefined,
@@ -3268,6 +3362,8 @@ exports[`versioned website (community) > content > route config 1`] = `
 
 exports[`versioned website (community) > content 1`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Team current version (translated)",
   "draft": false,
   "editUrl": undefined,
@@ -3294,6 +3390,8 @@ exports[`versioned website (community) > content 1`] = `
 
 exports[`versioned website (community) > content 2`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Team 1.0.0",
   "draft": false,
   "editUrl": undefined,
@@ -3422,6 +3520,8 @@ exports[`versioned website > content > current version sidebars 1`] = `
 exports[`versioned website > content > data 1`] = `
 {
   "site-docs-foo-bar-md-8c2.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "This is next version of bar.",
     "draft": false,
     "editUrl": undefined,
@@ -3475,6 +3575,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-hello-md-9df.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Hello next !",
     "draft": false,
     "editUrl": undefined,
@@ -3501,6 +3603,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-slugs-absolute-slug-md-4e8.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3524,6 +3628,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-slugs-relative-slug-md-d1c.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3547,6 +3653,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-slugs-resolved-slug-md-02b.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3570,6 +3678,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "current",
   },
   "site-docs-slugs-try-to-escape-slug-md-70d.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3593,6 +3703,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "current",
   },
   "site-i-18-n-en-docusaurus-plugin-content-docs-version-1-0-0-hello-md-fe5.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Hello 1.0.0 ! (translated en)",
     "draft": false,
     "editUrl": undefined,
@@ -3636,6 +3748,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "1.0.0",
   },
   "site-versioned-docs-version-1-0-0-foo-bar-md-7a6.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Bar 1.0.0 !",
     "draft": false,
     "editUrl": undefined,
@@ -3662,6 +3776,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "1.0.0",
   },
   "site-versioned-docs-version-1-0-0-foo-baz-md-883.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Baz 1.0.0 ! This will be deleted in next subsequent versions.",
     "draft": false,
     "editUrl": undefined,
@@ -3689,6 +3805,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "1.0.0",
   },
   "site-versioned-docs-version-1-0-1-foo-bar-md-7a3.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Bar 1.0.1 !",
     "draft": false,
     "editUrl": undefined,
@@ -3713,6 +3831,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "1.0.1",
   },
   "site-versioned-docs-version-1-0-1-hello-md-0c7.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Hello 1.0.1 !",
     "draft": false,
     "editUrl": undefined,
@@ -3756,6 +3876,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "1.0.1",
   },
   "site-versioned-docs-version-with-slugs-root-absolute-slug-md-4d2.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3779,6 +3901,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "withSlugs",
   },
   "site-versioned-docs-version-with-slugs-root-relative-slug-md-32a.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3802,6 +3926,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "withSlugs",
   },
   "site-versioned-docs-version-with-slugs-root-resolved-slug-md-aee.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3825,6 +3951,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "withSlugs",
   },
   "site-versioned-docs-version-with-slugs-root-try-to-escape-slug-md-b5d.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3848,6 +3976,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "withSlugs",
   },
   "site-versioned-docs-version-with-slugs-slugs-absolute-slug-md-47a.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3871,6 +4001,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "withSlugs",
   },
   "site-versioned-docs-version-with-slugs-slugs-relative-slug-md-a95.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3894,6 +4026,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "withSlugs",
   },
   "site-versioned-docs-version-with-slugs-slugs-resolved-slug-md-5a1.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -3917,6 +4051,8 @@ exports[`versioned website > content > data 1`] = `
     "version": "withSlugs",
   },
   "site-versioned-docs-version-with-slugs-slugs-try-to-escape-slug-md-4e1.json": {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Lorem",
     "draft": false,
     "editUrl": undefined,
@@ -4996,6 +5132,8 @@ exports[`versioned website > content > withSlugs version sidebars 1`] = `
 
 exports[`versioned website > content 1`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "This is next version of bar.",
   "draft": false,
   "editUrl": undefined,
@@ -5052,6 +5190,8 @@ exports[`versioned website > content 1`] = `
 
 exports[`versioned website > content 2`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Bar 1.0.1 !",
   "draft": false,
   "editUrl": undefined,
@@ -5079,6 +5219,8 @@ exports[`versioned website > content 2`] = `
 
 exports[`versioned website > content 3`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Hello next !",
   "draft": false,
   "editUrl": undefined,
@@ -5108,6 +5250,8 @@ exports[`versioned website > content 3`] = `
 
 exports[`versioned website > content 4`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Hello 1.0.1 !",
   "draft": false,
   "editUrl": undefined,
@@ -5154,6 +5298,8 @@ exports[`versioned website > content 4`] = `
 
 exports[`versioned website > content 5`] = `
 {
+  "createdAt": undefined,
+  "createdBy": undefined,
   "description": "Baz 1.0.0 ! This will be deleted in next subsequent versions.",
   "draft": false,
   "editUrl": undefined,

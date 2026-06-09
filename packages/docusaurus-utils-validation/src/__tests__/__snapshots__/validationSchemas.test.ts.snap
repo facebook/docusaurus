@@ -30,6 +30,22 @@ exports[`validation schemas > contentVisibilitySchema > for value={"unlisted":"b
 
 exports[`validation schemas > contentVisibilitySchema > for value={"unlisted":42} 1`] = `[ValidationError: "unlisted" must be a boolean]`;
 
+exports[`validation schemas > frontMatterCreatedSchema schema > for value="string" 1`] = `[ValidationError: "value" does not look like a valid created object. Please use an author key with a string or a date with a string or Date.]`;
+
+exports[`validation schemas > frontMatterCreatedSchema schema > for value=[] 1`] = `[ValidationError: "value" does not look like a valid created object. Please use an author key with a string or a date with a string or Date.]`;
+
+exports[`validation schemas > frontMatterCreatedSchema schema > for value={"author":23} 1`] = `[ValidationError: "author" must be a string]`;
+
+exports[`validation schemas > frontMatterCreatedSchema schema > for value={"date":"20-20-20"} 1`] = `[ValidationError: "date" must be a valid date]`;
+
+exports[`validation schemas > frontMatterCreatedSchema schema > for value={} 1`] = `[ValidationError: "value" does not look like a valid created object. Please use an author key with a string or a date with a string or Date.]`;
+
+exports[`validation schemas > frontMatterCreatedSchema schema > for value=42 1`] = `[ValidationError: "value" does not look like a valid created object. Please use an author key with a string or a date with a string or Date.]`;
+
+exports[`validation schemas > frontMatterCreatedSchema schema > for value=null 1`] = `[ValidationError: "value" does not look like a valid created object. Please use an author key with a string or a date with a string or Date.]`;
+
+exports[`validation schemas > frontMatterCreatedSchema schema > for value=true 1`] = `[ValidationError: "value" does not look like a valid created object. Please use an author key with a string or a date with a string or Date.]`;
+
 exports[`validation schemas > frontMatterLastUpdateSchema schema > for value="string" 1`] = `[ValidationError: "value" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date.]`;
 
 exports[`validation schemas > frontMatterLastUpdateSchema schema > for value=[] 1`] = `[ValidationError: "value" does not look like a valid last update object. Please use an author key with a string or a date with a string or Date.]`;

@@ -8,6 +8,7 @@
 
 import {
   ContentVisibilitySchema,
+  FrontMatterCreatedSchema,
   FrontMatterLastUpdateSchema,
   FrontMatterTOCHeadingLevels,
   FrontMatterTagsSchema,
@@ -75,6 +76,7 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   hide_table_of_contents: Joi.boolean(),
 
   ...FrontMatterTOCHeadingLevels,
+  created: FrontMatterCreatedSchema,
   last_update: FrontMatterLastUpdateSchema,
 })
   .messages({

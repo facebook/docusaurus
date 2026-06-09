@@ -343,6 +343,8 @@ export default async function createConfigAsync() {
           // Otherwise the sitemap plugin will run them in postBuild()
           showLastUpdateAuthor: showLastUpdate,
           showLastUpdateTime: showLastUpdate,
+          showCreateAuthor: true,
+          showCreateTime: true,
           blogDescription:
             'Keep yourself up-to-date about new features in every release',
           blogSidebarCount: 'ALL',
@@ -380,6 +382,8 @@ export default async function createConfigAsync() {
           sidebarPath: './sidebarsCommunity.js',
           showLastUpdateAuthor: showLastUpdate,
           showLastUpdateTime: showLastUpdate,
+          showCreateAuthor: true,
+          showCreateTime: true,
         } satisfies DocsOptions,
       ],
       !process.env.DOCUSAURUS_SKIP_BUNDLING && [
@@ -515,6 +519,8 @@ export default async function createConfigAsync() {
             },
             showLastUpdateAuthor: showLastUpdate,
             showLastUpdateTime: showLastUpdate,
+            showCreateAuthor: true,
+            showCreateTime: true,
             remarkPlugins: [[npm2yarn, {sync: true}], remarkMath, configTabs],
             rehypePlugins: [rehypeKatex],
             disableVersioning: isVersioningDisabled,
@@ -549,6 +555,8 @@ export default async function createConfigAsync() {
             path: 'blog',
             showLastUpdateAuthor: showLastUpdate,
             showLastUpdateTime: showLastUpdate,
+            showCreateAuthor: true,
+            showCreateTime: true,
             editUrl: ({locale, blogDirPath, blogPath}) => {
               if (locale !== defaultLocale) {
                 return `https://crowdin.com/project/docusaurus-v2/${locale}`;

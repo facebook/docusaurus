@@ -570,6 +570,17 @@ declare module '@theme/CodeBlock/Line/Token' {
   export default function CodeBlockLine(props: Props): ReactNode;
 }
 
+declare module '@theme/Created' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly createdAt?: number | null;
+    readonly createdBy?: string | null;
+  }
+
+  export default function Created(props: Props): ReactNode;
+}
+
 declare module '@theme/DocCard' {
   import type {ReactNode} from 'react';
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
@@ -918,6 +929,8 @@ declare module '@theme/EditMetaRow' {
   export interface Props {
     readonly className: string;
     readonly editUrl: string | null | undefined;
+    readonly createdAt: number | null | undefined;
+    readonly createdBy: string | null | undefined;
     readonly lastUpdatedAt: number | null | undefined;
     readonly lastUpdatedBy: string | null | undefined;
   }

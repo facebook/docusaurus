@@ -44,6 +44,8 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   recmaPlugins: [],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
+  showCreateTime: false,
+  showCreateAuthor: false,
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   admonitions: true,
@@ -133,6 +135,8 @@ const OptionsSchema = Joi.object<PluginOptions>({
     DEFAULT_OPTIONS.beforeDefaultRehypePlugins,
   ),
   admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
+  showCreateTime: Joi.bool().default(DEFAULT_OPTIONS.showCreateTime),
+  showCreateAuthor: Joi.bool().default(DEFAULT_OPTIONS.showCreateAuthor),
   showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,

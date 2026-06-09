@@ -13,6 +13,8 @@ exports[`docusaurus-plugin-content-pages > loads simple pages 1`] = `
     "type": "jsx",
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Markdown index page",
     "editUrl": undefined,
     "frontMatter": {
@@ -27,9 +29,15 @@ exports[`docusaurus-plugin-content-pages > loads simple pages 1`] = `
     "unlisted": false,
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "my MDX page",
     "editUrl": undefined,
     "frontMatter": {
+      "created": {
+        "author": "Page Creator",
+        "date": 2021-02-03T00:00:00.000Z,
+      },
       "custom_frontMatter": "added by parseFrontMatter",
       "description": "my MDX page",
       "slug": "/custom-mdx/slug",
@@ -49,6 +57,8 @@ exports[`docusaurus-plugin-content-pages > loads simple pages 1`] = `
     "type": "jsx",
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "translated Markdown page",
     "editUrl": undefined,
     "frontMatter": {
@@ -83,6 +93,8 @@ exports[`docusaurus-plugin-content-pages > loads simple pages with french transl
     "type": "jsx",
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Markdown index page",
     "editUrl": undefined,
     "frontMatter": {
@@ -97,9 +109,15 @@ exports[`docusaurus-plugin-content-pages > loads simple pages with french transl
     "unlisted": false,
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "my MDX page",
     "editUrl": undefined,
     "frontMatter": {
+      "created": {
+        "author": "Page Creator",
+        "date": 2021-02-03T00:00:00.000Z,
+      },
       "custom_frontMatter": "added by parseFrontMatter",
       "description": "my MDX page",
       "slug": "/custom-mdx/slug",
@@ -119,6 +137,8 @@ exports[`docusaurus-plugin-content-pages > loads simple pages with french transl
     "type": "jsx",
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "translated Markdown page",
     "editUrl": undefined,
     "frontMatter": {
@@ -153,6 +173,8 @@ exports[`docusaurus-plugin-content-pages > loads simple pages with french transl
     "type": "jsx",
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Markdown index page",
     "editUrl": undefined,
     "frontMatter": {
@@ -167,9 +189,15 @@ exports[`docusaurus-plugin-content-pages > loads simple pages with french transl
     "unlisted": false,
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "my MDX page",
     "editUrl": undefined,
     "frontMatter": {
+      "created": {
+        "author": "Page Creator",
+        "date": 2021-02-03T00:00:00.000Z,
+      },
       "custom_frontMatter": "added by parseFrontMatter",
       "description": "my MDX page",
       "slug": "/custom-mdx/slug",
@@ -189,6 +217,8 @@ exports[`docusaurus-plugin-content-pages > loads simple pages with french transl
     "type": "jsx",
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "translated Markdown page (fr)",
     "editUrl": undefined,
     "frontMatter": {
@@ -223,6 +253,8 @@ exports[`docusaurus-plugin-content-pages > loads simple pages with last update 1
     "type": "jsx",
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "Markdown index page",
     "editUrl": "url placeholder",
     "frontMatter": {
@@ -237,9 +269,15 @@ exports[`docusaurus-plugin-content-pages > loads simple pages with last update 1
     "unlisted": false,
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "my MDX page",
     "editUrl": "url placeholder",
     "frontMatter": {
+      "created": {
+        "author": "Page Creator",
+        "date": 2021-02-03T00:00:00.000Z,
+      },
       "custom_frontMatter": "added by parseFrontMatter",
       "description": "my MDX page",
       "slug": "/custom-mdx/slug",
@@ -259,6 +297,8 @@ exports[`docusaurus-plugin-content-pages > loads simple pages with last update 1
     "type": "jsx",
   },
   {
+    "createdAt": undefined,
+    "createdBy": undefined,
     "description": "translated Markdown page",
     "editUrl": "url placeholder",
     "frontMatter": {

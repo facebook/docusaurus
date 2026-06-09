@@ -10,7 +10,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
 import {isMatch} from 'picomatch';
-import commander from 'commander';
+import {Command, type CommanderStatic} from 'commander';
 import webpack from 'webpack';
 import {loadContext} from '@docusaurus/core/src/server/site';
 import {
@@ -40,6 +40,10 @@ import type {
   SidebarItemsGeneratorOption,
   NormalizedSidebar,
 } from '../sidebars/types';
+
+function createTestCli(): CommanderStatic {
+  return new Command() as CommanderStatic;
+}
 
 function findDocById(version: LoadedVersion | undefined, id: string) {
   if (!version) {
@@ -258,7 +262,7 @@ describe('simple website', () => {
     const mock = vi
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
-    const cli = new commander.Command();
+    const cli = createTestCli();
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '1.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
@@ -413,7 +417,7 @@ describe('versioned website', () => {
     const mock = vi
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
-    const cli = new commander.Command();
+    const cli = createTestCli();
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
@@ -598,7 +602,7 @@ describe('versioned website (community)', () => {
     const mock = vi
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
-    const cli = new commander.Command();
+    const cli = createTestCli();
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);

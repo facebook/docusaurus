@@ -11,6 +11,7 @@ import {
   FrontMatterTOCHeadingLevels,
   ContentVisibilitySchema,
   URISchema,
+  FrontMatterCreatedSchema,
   FrontMatterLastUpdateSchema,
 } from '@docusaurus/utils-validation';
 import type {PageFrontMatter} from '@docusaurus/plugin-content-pages';
@@ -27,6 +28,7 @@ const PageFrontMatterSchema = Joi.object<PageFrontMatter>({
   wrapperClassName: Joi.string(),
   hide_table_of_contents: Joi.boolean(),
   ...FrontMatterTOCHeadingLevels,
+  created: FrontMatterCreatedSchema,
   last_update: FrontMatterLastUpdateSchema,
 }).concat(ContentVisibilitySchema);
 

@@ -67,6 +67,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   readingTime: ({content, defaultReadingTime, locale}) =>
     defaultReadingTime({content, locale}),
   sortPosts: 'descending',
+  showCreateTime: false,
+  showCreateAuthor: false,
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   processBlogPosts: async () => undefined,
@@ -223,6 +225,8 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   sortPosts: Joi.string()
     .valid('descending', 'ascending')
     .default(DEFAULT_OPTIONS.sortPosts),
+  showCreateTime: Joi.bool().default(DEFAULT_OPTIONS.showCreateTime),
+  showCreateAuthor: Joi.bool().default(DEFAULT_OPTIONS.showCreateAuthor),
   showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,

@@ -17,6 +17,7 @@ import {
   PathnameSchema,
   RouteBasePathSchema,
   ContentVisibilitySchema,
+  FrontMatterCreatedSchema,
   FrontMatterLastUpdateSchema,
 } from '../validationSchemas';
 
@@ -222,6 +223,30 @@ describe('validation schemas', () => {
   it('frontMatterLastUpdateSchema schema', () => {
     const {testFail, testOK} = createTestHelpers({
       schema: FrontMatterLastUpdateSchema,
+    });
+
+    testOK(undefined);
+    testOK({date: '2021-01-01'});
+    testOK({date: '2021-01'});
+    testOK({date: '2021'});
+    testOK({date: new Date()});
+    testOK({author: 'author'});
+    testOK({author: 'author', date: '2021-01-01'});
+    testOK({author: 'author', date: new Date()});
+
+    testFail(null);
+    testFail({});
+    testFail('string');
+    testFail(42);
+    testFail(true);
+    testFail([]);
+    testFail({author: 23});
+    testFail({date: '20-20-20'});
+  });
+
+  it('frontMatterCreatedSchema schema', () => {
+    const {testFail, testOK} = createTestHelpers({
+      schema: FrontMatterCreatedSchema,
     });
 
     testOK(undefined);

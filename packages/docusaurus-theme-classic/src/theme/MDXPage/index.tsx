@@ -29,6 +29,8 @@ export default function MDXPage(props: Props): ReactNode {
     editUrl,
     description,
     frontMatter,
+    createdBy,
+    createdAt,
     lastUpdatedBy,
     lastUpdatedAt,
   } = metadata;
@@ -39,7 +41,13 @@ export default function MDXPage(props: Props): ReactNode {
   } = frontMatter;
   const image = assets.image ?? frontMatter.image;
 
-  const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
+  const canDisplayEditMetaRow = !!(
+    editUrl ||
+    createdAt ||
+    createdBy ||
+    lastUpdatedAt ||
+    lastUpdatedBy
+  );
 
   return (
     <HtmlClassNameProvider
@@ -70,6 +78,8 @@ export default function MDXPage(props: Props): ReactNode {
                     ThemeClassNames.pages.pageFooterEditMetaRow,
                   )}
                   editUrl={editUrl}
+                  createdAt={createdAt}
+                  createdBy={createdBy}
                   lastUpdatedAt={lastUpdatedAt}
                   lastUpdatedBy={lastUpdatedBy}
                 />

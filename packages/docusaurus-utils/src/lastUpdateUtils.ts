@@ -8,7 +8,7 @@
 import _ from 'lodash';
 import {getVcsPreset} from './vcs/vcs';
 
-import type {PluginOptions, VcsConfig} from '@docusaurus/types';
+import type {VcsConfig} from '@docusaurus/types';
 
 export type LastUpdateData = {
   /**
@@ -25,12 +25,32 @@ export type LastUpdateData = {
   lastUpdatedBy: string | undefined | null;
 };
 
-type LastUpdateOptions = Pick<
-  PluginOptions,
-  'showLastUpdateAuthor' | 'showLastUpdateTime'
->;
+export type CreatedData = {
+  /**
+   * A timestamp in **milliseconds**, usually read from `git log`
+   * `undefined`: not read
+   * `null`: no value to read (usual for untracked files)
+   */
+  createdAt: number | undefined | null;
+  /**
+   * The author's name, usually coming from `git log`
+   * `undefined`: not read
+   * `null`: no value to read (usual for untracked files)
+   */
+  createdBy: string | undefined | null;
+};
 
-export type FrontMatterLastUpdate = {
+type LastUpdateOptions = {
+  showLastUpdateAuthor: boolean;
+  showLastUpdateTime: boolean;
+};
+
+type CreatedOptions = {
+  showCreateAuthor: boolean;
+  showCreateTime: boolean;
+};
+
+type FrontMatterAuthorDate = {
   author?: string;
   /**
    * Date can be any
@@ -38,6 +58,54 @@ export type FrontMatterLastUpdate = {
    */
   date?: Date | string;
 };
+
+export type FrontMatterLastUpdate = FrontMatterAuthorDate;
+export type FrontMatterCreated = FrontMatterAuthorDate;
+
+async function readAuthorDateData(
+  filePath: string,
+  {
+    showAuthor,
+    showTime,
+  }: {
+    showAuthor: boolean;
+    showTime: boolean;
+  },
+  frontMatter: FrontMatterAuthorDate | undefined,
+  getFileInfo: (
+    filePath: string,
+  ) => Promise<{author?: string; timestamp?: number} | null>,
+): Promise<{by: string | undefined | null; at: number | undefined | null}> {
+  if (!showAuthor && !showTime) {
+    return {by: undefined, at: undefined};
+  }
+
+  const frontMatterAuthor = frontMatter?.author;
+  const frontMatterTimestamp = frontMatter?.date
+    ? new Date(frontMatter.date).getTime()
+    : undefined;
+
+  const getInfoMemoized = _.memoize(() => getFileInfo(filePath));
+  const getBy = () =>
+    getInfoMemoized().then((update) => {
+      if (update === null) {
+        return null;
+      }
+      return update?.author;
+    });
+  const getAt = () =>
+    getInfoMemoized().then((update) => {
+      if (update === null) {
+        return null;
+      }
+      return update?.timestamp;
+    });
+
+  const by = showAuthor ? (frontMatterAuthor ?? (await getBy())) : undefined;
+  const at = showTime ? (frontMatterTimestamp ?? (await getAt())) : undefined;
+
+  return {by, at};
+}
 
 // TODO Docusaurus v4: refactor/rename, make it clear this fn is only
 //  for Markdown files with front matter shared by content plugin
@@ -55,49 +123,42 @@ export async function readLastUpdateData(
   const vcs = vcsParam ?? getVcsPreset('default-v1');
 
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
-
-  if (!showLastUpdateAuthor && !showLastUpdateTime) {
-    return {lastUpdatedBy: undefined, lastUpdatedAt: undefined};
-  }
-
-  const frontMatterAuthor = lastUpdateFrontMatter?.author;
-  const frontMatterTimestamp = lastUpdateFrontMatter?.date
-    ? new Date(lastUpdateFrontMatter.date).getTime()
-    : undefined;
-
-  // We try to minimize git last update calls
-  // We call it at most once
-  // If all the data is provided as front matter, we do not call it
-  const getLastUpdateMemoized = _.memoize(() =>
-    vcs.getFileLastUpdateInfo(filePath),
+  const {by: lastUpdatedBy, at: lastUpdatedAt} = await readAuthorDateData(
+    filePath,
+    {
+      showAuthor: showLastUpdateAuthor,
+      showTime: showLastUpdateTime,
+    },
+    lastUpdateFrontMatter,
+    (pathParam) => vcs.getFileLastUpdateInfo(pathParam),
   );
-  const getLastUpdateBy = () =>
-    getLastUpdateMemoized().then((update) => {
-      // Important, see https://github.com/facebook/docusaurus/pull/11211
-      if (update === null) {
-        return null;
-      }
-      return update?.author;
-    });
-  const getLastUpdateAt = () =>
-    getLastUpdateMemoized().then((update) => {
-      // Important, see https://github.com/facebook/docusaurus/pull/11211
-      if (update === null) {
-        return null;
-      }
-      return update?.timestamp;
-    });
-
-  const lastUpdatedBy = showLastUpdateAuthor
-    ? (frontMatterAuthor ?? (await getLastUpdateBy()))
-    : undefined;
-
-  const lastUpdatedAt = showLastUpdateTime
-    ? (frontMatterTimestamp ?? (await getLastUpdateAt()))
-    : undefined;
 
   return {
     lastUpdatedBy,
     lastUpdatedAt,
+  };
+}
+
+export async function readCreateData(
+  filePath: string,
+  options: CreatedOptions,
+  createdFrontMatter: FrontMatterCreated | undefined,
+  vcsParam: Pick<VcsConfig, 'getFileCreationInfo'>,
+): Promise<CreatedData> {
+  const vcs = vcsParam ?? getVcsPreset('default-v1');
+  const {showCreateAuthor, showCreateTime} = options;
+  const {by: createdBy, at: createdAt} = await readAuthorDateData(
+    filePath,
+    {
+      showAuthor: showCreateAuthor,
+      showTime: showCreateTime,
+    },
+    createdFrontMatter,
+    (pathParam) => vcs.getFileCreationInfo(pathParam),
+  );
+
+  return {
+    createdBy,
+    createdAt,
   };
 }

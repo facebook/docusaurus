@@ -22,6 +22,7 @@ import {
   getContentPathList,
   isUnlisted,
   isDraft,
+  readCreateData,
   readLastUpdateData,
   normalizeTags,
   aliasedSitePathToRelativePath,
@@ -253,12 +254,15 @@ async function processBlogSourceFile(
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
-  const lastUpdate = await readLastUpdateData(
-    blogSourceAbsolute,
-    options,
-    frontMatter.last_update,
-    vcs,
-  );
+  const [created, lastUpdate] = await Promise.all([
+    readCreateData(blogSourceAbsolute, options, frontMatter.created, vcs),
+    readLastUpdateData(
+      blogSourceAbsolute,
+      options,
+      frontMatter.last_update,
+      vcs,
+    ),
+  ]);
 
   const draft = isDraft({frontMatter});
   const unlisted = isUnlisted({frontMatter});
@@ -377,6 +381,8 @@ async function processBlogSourceFile(
       authors,
       frontMatter,
       unlisted,
+      createdAt: created.createdAt,
+      createdBy: created.createdBy,
       lastUpdatedAt: lastUpdate.lastUpdatedAt,
       lastUpdatedBy: lastUpdate.lastUpdatedBy,
     },

@@ -12,7 +12,12 @@ declare module '@docusaurus/plugin-content-pages' {
     Plugin,
     OptionValidationContext,
   } from '@docusaurus/types';
-  import type {FrontMatterLastUpdate, LastUpdateData} from '@docusaurus/utils';
+  import type {
+    CreatedData,
+    FrontMatterCreated,
+    FrontMatterLastUpdate,
+    LastUpdateData,
+  } from '@docusaurus/utils';
 
   export type Assets = {
     image?: string;
@@ -25,6 +30,8 @@ declare module '@docusaurus/plugin-content-pages' {
     include: string[];
     exclude: string[];
     mdxPageComponent: string;
+    showCreateTime: boolean;
+    showCreateAuthor: boolean;
     showLastUpdateTime: boolean;
     showLastUpdateAuthor: boolean;
     editUrl?: string | EditUrlFunction;
@@ -45,6 +52,7 @@ declare module '@docusaurus/plugin-content-pages' {
     readonly toc_max_heading_level?: number;
     readonly draft?: boolean;
     readonly unlisted?: boolean;
+    readonly created?: FrontMatterCreated;
     readonly last_update?: FrontMatterLastUpdate;
   };
 
@@ -54,16 +62,17 @@ declare module '@docusaurus/plugin-content-pages' {
     source: string;
   };
 
-  export type MDXPageMetadata = LastUpdateData & {
-    type: 'mdx';
-    permalink: string;
-    source: string;
-    frontMatter: PageFrontMatter & {[key: string]: unknown};
-    editUrl?: string;
-    title?: string;
-    description?: string;
-    unlisted: boolean;
-  };
+  export type MDXPageMetadata = LastUpdateData &
+    CreatedData & {
+      type: 'mdx';
+      permalink: string;
+      source: string;
+      frontMatter: PageFrontMatter & {[key: string]: unknown};
+      editUrl?: string;
+      title?: string;
+      description?: string;
+      unlisted: boolean;
+    };
 
   export type EditUrlFunction = (editUrlParams: {
     /**

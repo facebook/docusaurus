@@ -120,12 +120,20 @@ async function createTestUtils({
     docFileSource: string,
     expectedMetadata: Optional<
       DocMetadataBase,
-      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'editUrl' | 'draft'
+      | 'source'
+      | 'createdBy'
+      | 'createdAt'
+      | 'lastUpdatedBy'
+      | 'lastUpdatedAt'
+      | 'editUrl'
+      | 'draft'
     >,
   ) {
     const docFile = await readDoc(docFileSource);
     const metadata = await processDocFile(docFile);
     expect(metadata).toEqual({
+      createdBy: undefined,
+      createdAt: undefined,
       lastUpdatedBy: undefined,
       lastUpdatedAt: undefined,
       editUrl: undefined,
@@ -620,6 +628,10 @@ describe('simple site', () => {
       title: 'Custom Last Update',
       description: 'Custom last update',
       frontMatter: {
+        created: {
+          author: 'Custom Creator (processed by parseFrontMatter)',
+          date: '1/1/1999',
+        },
         last_update: {
           author: 'Custom Author (processed by parseFrontMatter)',
           date: '1/1/2000',
@@ -628,6 +640,96 @@ describe('simple site', () => {
       },
       lastUpdatedAt: new Date('1/1/2000').getTime(),
       lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
+      sidebarPosition: undefined,
+      tags: [],
+      unlisted: false,
+    });
+  });
+
+  it('docs with created front matter', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showCreateAuthor: true,
+          showCreateTime: true,
+        },
+      });
+
+    const testUtilsLocal = await createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('customLastUpdate.md', {
+      version: 'current',
+      id: 'customLastUpdate',
+      sourceDirName: '.',
+      permalink: '/docs/customLastUpdate',
+      slug: '/customLastUpdate',
+      title: 'Custom Last Update',
+      description: 'Custom last update',
+      frontMatter: {
+        created: {
+          author: 'Custom Creator (processed by parseFrontMatter)',
+          date: '1/1/1999',
+        },
+        last_update: {
+          author: 'Custom Author (processed by parseFrontMatter)',
+          date: '1/1/2000',
+        },
+        title: 'Custom Last Update',
+      },
+      createdAt: new Date('1/1/1999').getTime(),
+      createdBy: 'Custom Creator (processed by parseFrontMatter)',
+      sidebarPosition: undefined,
+      tags: [],
+      unlisted: false,
+    });
+  });
+
+  it('docs with created front matter disabled', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showCreateAuthor: false,
+          showCreateTime: false,
+          showLastUpdateAuthor: false,
+          showLastUpdateTime: false,
+        },
+      });
+
+    const testUtilsLocal = await createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('customLastUpdate.md', {
+      version: 'current',
+      id: 'customLastUpdate',
+      sourceDirName: '.',
+      permalink: '/docs/customLastUpdate',
+      slug: '/customLastUpdate',
+      title: 'Custom Last Update',
+      description: 'Custom last update',
+      frontMatter: {
+        created: {
+          author: 'Custom Creator (processed by parseFrontMatter)',
+          date: '1/1/1999',
+        },
+        last_update: {
+          author: 'Custom Author (processed by parseFrontMatter)',
+          date: '1/1/2000',
+        },
+        title: 'Custom Last Update',
+      },
+      createdAt: undefined,
+      createdBy: undefined,
+      lastUpdatedAt: undefined,
+      lastUpdatedBy: undefined,
       sidebarPosition: undefined,
       tags: [],
       unlisted: false,
@@ -735,6 +837,10 @@ describe('simple site', () => {
       title: 'Custom Last Update',
       description: 'Custom last update',
       frontMatter: {
+        created: {
+          author: 'Custom Creator (processed by parseFrontMatter)',
+          date: '1/1/1999',
+        },
         last_update: {
           author: 'Custom Author (processed by parseFrontMatter)',
           date: '1/1/2000',
@@ -802,8 +908,8 @@ describe('simple site', () => {
     expect(error.message).toMatchInlineSnapshot(
       `"Can't process doc metadata for doc at path path=some/fake/path in version name=current"`,
     );
-    expect(error.cause).toBeDefined();
-    expect(error.cause!.message).toMatchInlineSnapshot(
+    expect(error.cause).toBeInstanceOf(Error);
+    expect((error.cause as Error).message).toMatchInlineSnapshot(
       `"Document id "Hello/world" cannot include slash."`,
     );
   });

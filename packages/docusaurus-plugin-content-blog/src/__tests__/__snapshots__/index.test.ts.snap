@@ -128,6 +128,8 @@ exports[`blog plugin > process blog posts load content 2`] = `
           "url": "https://sebastienlorber.com",
         },
       ],
+      "createdAt": undefined,
+      "createdBy": undefined,
       "date": 2020-08-15T00:00:00.000Z,
       "description": "simple url slug",
       "editUrl": "https://baseEditUrl.com/edit/blog/another-simple-slug-with-tags.md",
@@ -169,6 +171,8 @@ exports[`blog plugin > process blog posts load content 2`] = `
     "id": "/another/tags",
     "metadata": {
       "authors": [],
+      "createdAt": undefined,
+      "createdBy": undefined,
       "date": 2020-08-15T00:00:00.000Z,
       "description": "with tag",
       "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags.md",
@@ -218,6 +222,8 @@ exports[`blog plugin > process blog posts load content 2`] = `
     "id": "/another/tags2",
     "metadata": {
       "authors": [],
+      "createdAt": undefined,
+      "createdBy": undefined,
       "date": 2020-08-15T00:00:00.000Z,
       "description": "with tag",
       "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags2.md",

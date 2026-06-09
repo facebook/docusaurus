@@ -15,10 +15,17 @@ import EditMetaRow from '@theme/EditMetaRow';
 
 export default function DocItemFooter(): ReactNode {
   const {metadata} = useDoc();
-  const {editUrl, lastUpdatedAt, lastUpdatedBy, tags} = metadata;
+  const {editUrl, createdAt, createdBy, lastUpdatedAt, lastUpdatedBy, tags} =
+    metadata;
 
   const canDisplayTagsRow = tags.length > 0;
-  const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
+  const canDisplayEditMetaRow = !!(
+    editUrl ||
+    createdAt ||
+    createdBy ||
+    lastUpdatedAt ||
+    lastUpdatedBy
+  );
 
   const canDisplayFooter = canDisplayTagsRow || canDisplayEditMetaRow;
 
@@ -47,6 +54,8 @@ export default function DocItemFooter(): ReactNode {
             ThemeClassNames.docs.docFooterEditMetaRow,
           )}
           editUrl={editUrl}
+          createdAt={createdAt}
+          createdBy={createdBy}
           lastUpdatedAt={lastUpdatedAt}
           lastUpdatedBy={lastUpdatedBy}
         />

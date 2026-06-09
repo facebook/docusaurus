@@ -13,6 +13,7 @@ import {
   FrontMatterTOCHeadingLevels,
   validateFrontMatter,
   ContentVisibilitySchema,
+  FrontMatterCreatedSchema,
   FrontMatterLastUpdateSchema,
 } from '@docusaurus/utils-validation';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
@@ -45,6 +46,7 @@ export const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   pagination_next: Joi.string().allow(null),
   pagination_prev: Joi.string().allow(null),
   ...FrontMatterTOCHeadingLevels,
+  created: FrontMatterCreatedSchema,
   last_update: FrontMatterLastUpdateSchema,
 })
   .unknown()

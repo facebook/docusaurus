@@ -45,6 +45,8 @@ Accepted fields:
 | `recmaPlugins` | `any[]` | `[]` | Recma plugins passed to MDX. |
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
+| `showCreateAuthor` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the author who created the page. |
+| `showCreateTime` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the date the page was created. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use `fetch-depth: 0`. When deploying to Vercel, set the environment variable `VERCEL_DEEP_CLONE=true`. |
 | `showLastUpdateAuthor` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the author who last updated the page. |
 | `showLastUpdateTime` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the last date the page post was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use `fetch-depth: 0`. When deploying to Vercel, set the environment variable `VERCEL_DEEP_CLONE=true`. |
 
