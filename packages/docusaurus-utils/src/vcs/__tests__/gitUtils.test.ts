@@ -357,6 +357,49 @@ describe('commit info APIs', () => {
       );
     });
 
+    it('returns files info for author names containing commas', async () => {
+      const {repoDir, git} = await createGitRepoEmpty();
+      await git.commitFile('test.txt', {
+        commitDate: '2020-06-19',
+        commitAuthor: 'Doe, John <john.doe@example.com>',
+      });
+
+      const filesInfo = await getGitRepositoryFilesInfo(repoDir);
+      expect(filesInfo.get('test.txt')).toEqual({
+        creation: {
+          author: 'Doe, John',
+          timestamp: new Date('2020-06-19').getTime(),
+        },
+        lastUpdate: {
+          author: 'Doe, John',
+          timestamp: new Date('2020-06-19').getTime(),
+        },
+      });
+    });
+
+    it('returns files info for non-ASCII file paths', async () => {
+      const {repoDir, git} = await createGitRepoEmpty();
+      // Write the file and use "git add ." to avoid shell encoding issues
+      await fs.outputFile(
+        path.join(repoDir, 'docs', 'café.md'),
+        'Some content',
+      );
+      await git.addAll();
+      await git.commit('Add doc', '2020-06-19', 'Seb <seb@example.com>');
+
+      const filesInfo = await getGitRepositoryFilesInfo(repoDir);
+      expect(filesInfo.get('docs/café.md')).toEqual({
+        creation: {
+          author: 'Seb',
+          timestamp: new Date('2020-06-19').getTime(),
+        },
+        lastUpdate: {
+          author: 'Seb',
+          timestamp: new Date('2020-06-19').getTime(),
+        },
+      });
+    });
+
     it('returns files info', async () => {
       const repoDir = await repoDirPromise;
 

@@ -80,6 +80,14 @@ describe('transformLinks plugin', () => {
     expect(result).toMatchInlineSnapshot(`"[file](dir/file.zip)"`);
   });
 
+  it('transforms json file links inside a directory with ".json" in its name', async () => {
+    const result = await processContent(`[json](../dir.json/data.json)`);
+    // The ".raw" extension swap must only apply to the file extension,
+    // not to the first ".json" occurrence (here, the directory name)
+    expect(result).toContain('require("./../dir.json/data.raw!=!');
+    expect(result).toContain('!./../dir.json/data.json").default');
+  });
+
   it('does not transform existing dotted directory links to asset requires', async () => {
     const result = await processContent(
       `[directory](../dotted-directory.whatever)`,

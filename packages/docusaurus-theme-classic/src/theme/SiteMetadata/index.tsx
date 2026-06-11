@@ -34,8 +34,10 @@ function AlternateLangHeaders(): ReactNode {
   // using underscores instead of dashes.
   // See https://ogp.me/#optional
   // See https://en.wikipedia.org/wiki/IETF_language_tag)
+  // Note: BCP 47 tags can have multiple subtags (e.g. zh-Hans-CN),
+  // so all dashes must be replaced, not just the first one
   const bcp47ToOpenGraphLocale = (code: string): string =>
-    code.replace('-', '_');
+    code.replaceAll('-', '_');
 
   // Note: it is fine to use both "x-default" and "en" to target the same url
   // See https://www.searchviu.com/en/multiple-hreflang-tags-one-url/

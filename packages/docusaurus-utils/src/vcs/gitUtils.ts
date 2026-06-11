@@ -450,6 +450,11 @@ export async function getGitRepositoryFilesInfo(
       // See https://github.com/facebook/docusaurus/pull/10022
       '-c',
       'log.showSignature=false',
+      // Do not quote/escape non-ASCII file paths in the --name-status output
+      // Otherwise paths like "docs/café.md" are emitted as
+      // "\"docs/caf\\303\\251.md\"" and can't be matched to real file paths
+      '-c',
+      'core.quotepath=false',
       // The git command we want to run
       'log',
       // Format each history entry as t:<seconds since epoch>
@@ -485,14 +490,12 @@ The command exited with code ${result.exitCode}: ${result.stderr}`,
   const runningMap: GitFileInfoMap = new Map();
 
   for (const logLine of logLines) {
-    if (logLine.startsWith('t:')) {
-      // t:<timestamp>,a:<author name>
-      const [timestampStr, authorStr] = logLine.split(',') as [string, string];
-      const timestamp = Number.parseInt(timestampStr.slice(2), 10) * 1000;
-      const author = authorStr.slice(2);
-
-      runningDate = timestamp;
-      runningAuthor = author;
+    // t:<timestamp>,a:<author name>
+    // Note: the author name can contain commas, so we can't just split(',')
+    const entryMatch = logLine.match(/^t:(?<timestamp>\d+),a:(?<author>.*)$/);
+    if (entryMatch) {
+      runningDate = Number.parseInt(entryMatch.groups!.timestamp!, 10) * 1000;
+      runningAuthor = entryMatch.groups!.author!;
     }
 
     // TODO the code below doesn't handle delete/move/rename operations properly

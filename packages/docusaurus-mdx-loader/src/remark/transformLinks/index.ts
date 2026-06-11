@@ -106,8 +106,10 @@ async function toAssetRequireNode(
 
   const requireString = `${
     // A hack to stop Webpack from using its built-in loader to parse JSON
+    // Note: only replace the file extension at the end of the path:
+    // the ".json" string can also appear in directory/file names
     path.extname(relativeAssetPath) === '.json'
-      ? `${relativeAssetPath.replace('.json', '.raw')}!=`
+      ? `${relativeAssetPath.replace(/\.json$/, '.raw')}!=`
       : ''
   }${context.inlineMarkdownLinkFileLoader}${
     escapePath(relativeAssetPath) + search
