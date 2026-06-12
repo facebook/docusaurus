@@ -9,25 +9,35 @@
 
 import path from 'path';
 import {glob} from 'node:fs/promises';
-import {join} from 'node:path';
 import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
 import {addSuffix} from '@docusaurus/utils-common';
 import {posixPath} from './pathUtils';
 
 type GlobOptions = {
   cwd?: string;
+  absolute?: boolean;
   exclude?: ((fileName: string) => boolean) | readonly string[];
 };
 
 export async function Globby(
   patterns: string | readonly string[],
-  options?: GlobOptions,
+  options: GlobOptions = {},
 ): Promise<string[]> {
+  const {absolute, cwd, exclude} = options;
   const files = await Array.fromAsync(
-    glob(patterns, {...options, withFileTypes: true} as any),
+    glob(patterns, {patterns, cwd, exclude, withFileTypes: true} as any),
   );
 
-  return files.filter((d) => d.isFile()).map((d) => join(d.parentPath, d.name));
+  return files
+    .filter((d) => d.isFile())
+    .map((d) => {
+      const absolutePath = path.join(d.parentPath, d.name);
+      if (absolute) {
+        return absolutePath;
+      } else {
+        return path.relative(cwd ?? process.cwd(), absolutePath);
+      }
+    });
 }
 
 /**
