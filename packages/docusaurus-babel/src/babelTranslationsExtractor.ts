@@ -58,7 +58,7 @@ export async function extractSourceCodeFileTranslations(
   } catch (err) {
     throw new Error(
       logger.interpolate`Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}.`,
-      {cause: err as Error},
+      {cause: err},
     );
   }
 }

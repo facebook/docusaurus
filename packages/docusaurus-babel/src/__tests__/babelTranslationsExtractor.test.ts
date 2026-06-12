@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {describe, expect, it, vi} from 'vitest';
+import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
 import {mkdtempDisposable, realpath} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -53,16 +53,10 @@ const default => {
 `,
     });
 
-    using error = vi.spyOn(console, 'error');
-
     await expect(
       extractSourceCodeFileTranslations(sourceCodeFile.path, TestBabelOptions),
-    ).rejects.toThrow();
-
-    expect(error).toHaveBeenCalledWith(
-      expect.stringMatching(
-        /Error while attempting to extract Docusaurus translations from source code file at/,
-      ),
+    ).rejects.toThrow(
+      /Error while attempting to extract Docusaurus translations from source code file at/,
     );
   });
 
