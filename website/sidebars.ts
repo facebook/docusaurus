@@ -92,7 +92,18 @@ const sidebars: SidebarsConfig = {
         'browser-support',
         'seo',
         'using-plugins',
-        'deployment',
+        {
+          type: 'category',
+          label: 'Deployment',
+          link: {type: 'doc', id: 'deployment/index'},
+          items: [
+            'deployment/vercel',
+            'deployment/netlify',
+            'deployment/cloudflare',
+            'deployment/azure',
+            'deployment/github-pages',
+          ],
+        },
         {
           type: 'category',
           label: 'Internationalization',
