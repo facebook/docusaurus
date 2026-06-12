@@ -8,17 +8,27 @@
 // Globby/Micromatch are the 2 libs we use in Docusaurus consistently
 
 import path from 'path';
+import {glob} from 'node:fs/promises';
+import {join} from 'node:path';
 import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
 import {addSuffix} from '@docusaurus/utils-common';
-import * as Tinyglobby from 'tinyglobby';
 import {posixPath} from './pathUtils';
 
-type GlobOptions = Tinyglobby.GlobOptions;
+type GlobOptions = {
+  cwd?: string;
+  exclude?: ((fileName: string) => boolean) | readonly string[];
+};
 
-// TODO Docusaurus v4 refactor, hide lib behind home-made abstraction
-// See https://github.com/facebook/docusaurus/pull/11042
-/** A re-export of the globby instance. */
-export const Globby = Tinyglobby.glob;
+export async function Globby(
+  patterns: string | readonly string[],
+  options?: GlobOptions,
+): Promise<string[]> {
+  const files = await Array.fromAsync(
+    glob(patterns, {...options, withFileTypes: true} as any),
+  );
+
+  return files.filter((d) => d.isFile()).map((d) => join(d.parentPath, d.name));
+}
 
 /**
  * The default glob patterns we ignore when sourcing content.
@@ -137,7 +147,7 @@ export async function globTranslatableSourceFiles(
   patterns: string[],
 ): Promise<string[]> {
   const filePaths = await safeGlobby(patterns, {
-    absolute: true,
+    // absolute: true,
   });
   return filePaths.filter(isTranslatableSourceFile);
 }
