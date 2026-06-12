@@ -714,43 +714,6 @@ yarn deploy
 
 After creating this simple pipeline, each new commit pushed to the branch you selected deploys your website to GitHub Pages using `yarn deploy`. Read [this guide](https://buddy.works/guides/react-docusaurus) to learn more about setting up a CI/CD pipeline for Docusaurus.
 
-### Using Azure Pipelines {/* #using-azure-pipelines */}
-
-1. Sign Up at [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) if you haven't already.
-2. Create an organization. Within the organization, create a project and connect your repository from GitHub.
-3. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) with the `repo` scope.
-4. In the project page (which looks like `https://dev.azure.com/ORG_NAME/REPO_NAME/_build`), create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named `azure-pipelines.yml` at your repository root.
-
-```yml title="azure-pipelines.yml"
-trigger:
-  - main
-
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-  - checkout: self
-    persistCredentials: true
-
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '24'
-    displayName: Install Node.js
-
-  - script: |
-      git config --global user.name "${GH_NAME}"
-      git config --global user.email "${GH_EMAIL}"
-      git checkout -b main
-      echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
-      yarn install
-      GIT_USER="${GH_NAME}" yarn deploy
-    env:
-      GH_NAME: $(GH_NAME)
-      GH_EMAIL: $(GH_EMAIL)
-      GH_TOKEN: $(GH_TOKEN)
-    displayName: Install and build
-```
-
 ## Deploying to Flightcontrol {/* #deploying-to-flightcontrol */}
 
 [Flightcontrol](https://www.flightcontrol.dev/?ref=docusaurus) is a service that automatically builds and deploys your web apps to AWS Fargate directly from your Git repository. It gives you full access to inspect and make infrastructure changes without the limitations of a traditional PaaS.
