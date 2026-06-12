@@ -90,9 +90,9 @@ export default function Home() {
 
 There are a few common hosting options:
 
-- [Self hosting](#self-hosting) with an HTTP server like Apache2 or Nginx.
-- Jamstack providers (e.g. [Netlify](./netlify.mdx) and [Vercel](./vercel.mdx)). We will use them as references, but the same reasoning can apply to other providers.
-- [GitHub Pages](./github-pages.mdx) (by definition, it is also Jamstack, but we compare it separately).
+- [Self-hosting](#self-hosting) with an HTTP server like Apache2 or Nginx.
+- Static hosting providers (e.g. [Netlify](./netlify.mdx) and [Vercel](./vercel.mdx)). We will use them as references, but the same reasoning can apply to other providers.
+- [GitHub Pages](./github-pages.mdx) (by definition, it is also static hosting provider, but we compare it separately).
 
 If you are unsure of which one to choose, ask the following questions:
 
@@ -103,7 +103,7 @@ If you are unsure of which one to choose, ask the following questions:
 </summary>
 
 - 🔴 Self-hosting requires experience in networking as well as Linux and web server administration. It's the most difficult option, and would require the most time to manage successfully. Expense-wise, cloud services are almost never free, and purchasing/deploying an onsite server can be even more costly.
-- 🟢 Jamstack providers can help you set up a working website in almost no time and offer features like server-side redirects that are easily configurable. Many providers offer generous build-time quotas even for free plans that you would almost never exceed. However, free plans have limits, and you would need to pay once you hit those limits. Check the pricing page of your provider for details.
+- 🟢 Static hosting providers can help you set up a working website in almost no time and offer features like server-side redirects that are easily configurable. Many providers offer generous build-time quotas even for free plans that you would almost never exceed. However, free plans have limits, and you would need to pay once you hit those limits. Check the pricing page of your provider for details.
 - 🟡 The GitHub Pages deployment workflow can be tedious to set up. (Evidence: see the length of [Deploying to GitHub Pages](./github-pages.mdx)!) However, this service (including build and deployment) is always free for public repositories, and we have detailed instructions to help you make it work.
 
 </details>
@@ -113,7 +113,7 @@ If you are unsure of which one to choose, ask the following questions:
 <summary>How much server-side customization do I need?</summary>
 
 - 🟢 With self-hosting, you have access to the entire server's configuration. You can configure the virtual host to serve different content based on the request URL, you can do complicated server-side redirects, you can implement authentication, and so on. If you need a lot of server-side features, self-host your website.
-- 🟡 Jamstack usually offers some server-side configuration (e.g. URL formatting (trailing slashes), server-side redirects, etc.).
+- 🟡 Static hosting providers usually offers some server-side configuration (e.g. URL formatting (trailing slashes), server-side redirects, etc.).
 - 🔴 GitHub Pages doesn't expose server-side configuration besides enforcing HTTPS and setting CNAME records.
 
 </details>
