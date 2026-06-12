@@ -21,7 +21,7 @@ const uselessBabelConfigMessages: SiteMessageCreator = async ({site}) => {
   const {
     props: {siteDir, siteConfig},
   } = site;
-  if (siteConfig.future.experimental_faster.swcJsLoader) {
+  if (siteConfig.future.faster.swcJsLoader) {
     const babelConfigFilePath = await getCustomBabelConfigFilePath(siteDir);
     if (babelConfigFilePath) {
       return [

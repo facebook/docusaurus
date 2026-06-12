@@ -8,8 +8,9 @@
 
 // @ts-check
 
-import path from 'path';
-import {createRequire} from 'module';
+import path from 'node:path';
+import {inspect} from 'node:util';
+import {createRequire} from 'node:module';
 import {logger} from '@docusaurus/logger';
 import semver from 'semver';
 import {program} from 'commander';
@@ -61,7 +62,7 @@ if (!process.argv.slice(1).length) {
   program.outputHelp();
 }
 
-process.on('unhandledRejection', (err) => {
-  logger.error(err);
+process.on('unhandledRejection', (error) => {
+  logger.error(inspect(error));
   process.exit(1);
 });

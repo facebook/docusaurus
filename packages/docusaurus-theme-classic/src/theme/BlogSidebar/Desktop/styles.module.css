@@ -38,7 +38,7 @@
   color: var(--ifm-color-primary) !important;
 }
 
-@media (max-width: 996px) {
+@media (width <= 996px) {
   .sidebar {
     display: none;
   }

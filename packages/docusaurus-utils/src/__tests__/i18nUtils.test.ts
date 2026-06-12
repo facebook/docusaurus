@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {
   mergeTranslations,
   updateTranslationFileMessages,
@@ -166,7 +167,7 @@ describe('getLocaleConfig', () => {
         }),
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't find locale config for locale \`fr\`"`,
+      `[Error: Can't find locale config for locale \`fr\`]`,
     );
   });
 });

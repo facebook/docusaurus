@@ -93,6 +93,7 @@ export default function IdealImage(props: Props): ReactNode {
 
   return (
     <ReactIdealImage
+      {...propsRest}
       height={img.src.height ?? 100}
       width={img.src.width ?? 100}
       placeholder={{lqip: img.preSrc}}

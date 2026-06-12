@@ -16,7 +16,7 @@ async function isElkLayoutPackageAvailable() {
   try {
     await import('@mermaid-js/layout-elk');
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 }

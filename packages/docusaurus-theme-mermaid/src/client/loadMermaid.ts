@@ -9,7 +9,6 @@ import type {Mermaid} from 'mermaid';
 
 declare global {
   // Global variable provided by bundler DefinePlugin
-  /* eslint-disable-next-line no-underscore-dangle */
   const __DOCUSAURUS_MERMAID_LAYOUT_ELK_ENABLED__: boolean;
 }
 

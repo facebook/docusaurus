@@ -1,4 +1,4 @@
-## Tags File {#tags-file}
+## Tags File {/* #tags-file */}
 
 Use the [`tags` plugin option](#tags) to configure the path of a YAML tags file.
 
@@ -12,7 +12,7 @@ Using a tags file, you can ensure that your tags usage is consistent across your
 
 :::
 
-### Types {#tags-file-types}
+### Types {/* #tags-file-types */}
 
 The YAML content of the provided tags file should respect the following shape:
 
@@ -26,7 +26,7 @@ type Tag = {
 type TagsFileInput = Record<string, Partial<Tag> | null>;
 ```
 
-### Example {#tags-file-example}
+### Example {/* #tags-file-example */}
 
 ```yml title="tags.yml"
 releases:

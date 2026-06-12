@@ -12,14 +12,14 @@ Upgrading should be easy. Our [release process](/community/release-process) resp
 
 ![Docusaurus blog post social card](./img/social-card.png)
 
-<!--truncate-->
+{/* truncate */}
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
 import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
 
-## Highlights
+## Highlights {/* #highlights */}
 
-### Prepare for React 19
+### Prepare for React 19 {/* #prepare-for-react-19 */}
 
 The React core team recently [released the first **React 19 beta**](https://react.dev/blog/2024/04/25/react-19). They also [published an upgrade guide and a **React v18.3 release**](https://react.dev/blog/2024/04/25/react-19-upgrade-guide) with new warnings to help us identify issues **before upgrading to React 19**.
 
@@ -31,7 +31,7 @@ It turns out in its current state, **Docusaurus had a few of those extra warning
 
 In [#10079](https://github.com/facebook/docusaurus/pull/10079), we got Docusaurus ready for React 19. We fixed all the React 18.3 warnings we encountered. In case we missed any, don't hesitate to [**report new warnings**](https://github.com/facebook/docusaurus/issues/10099) if you see them, to us but also to other Docusaurus third-party plugin authors.
 
-### `createSitemapItems`
+### `createSitemapItems` {/* #createsitemapitems */}
 
 In [#10083](https://github.com/facebook/docusaurus/pull/10083), we introduced a new flexible `createSitemapItems()` hook to the sitemap plugin. This enables users to create/filter/transform/enhance the sitemap items with their own custom logic.
 
@@ -58,7 +58,7 @@ export default {
 };
 ```
 
-### Pages plugin improvements
+### Pages plugin improvements {/* #pages-plugin-improvements */}
 
 The Docusaurus [pages plugin](/docs/api/plugins/@docusaurus/plugin-content-pages) has historically been lagging behind the docs and blog plugins in terms of available feature.
 
@@ -93,7 +93,7 @@ These new plugin options only apply to Markdown pages, and have no effect on Rea
 
 :::
 
-## Other changes
+## Other changes {/* #other-changes */}
 
 Other notable changes include:
 

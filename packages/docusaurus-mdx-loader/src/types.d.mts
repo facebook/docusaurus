@@ -33,4 +33,8 @@ declare module 'mdast' {
     hName?: string;
     hProperties?: Record<string, unknown>;
   }
+
+  interface HeadingData {
+    hProperties?: {id?: string};
+  }
 }

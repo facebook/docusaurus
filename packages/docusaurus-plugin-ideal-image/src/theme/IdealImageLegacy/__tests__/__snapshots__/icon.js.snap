@@ -1,10 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Download icon Should render a snapshot that is good 1`] = `
 <svg
-  height={24}
+  height="24"
   viewBox="0 0 24 24"
-  width={24}
+  width="24"
   xmlns="http://www.w3.org/2000/svg"
 >
   <path
@@ -20,9 +20,9 @@ exports[`Download icon Should render a snapshot that is good 1`] = `
 
 exports[`Loading icon Should render a snapshot that is good 1`] = `
 <svg
-  height={24}
+  height="24"
   viewBox="0 0 24 24"
-  width={24}
+  width="24"
   xmlns="http://www.w3.org/2000/svg"
 >
   <path
@@ -38,9 +38,9 @@ exports[`Loading icon Should render a snapshot that is good 1`] = `
 
 exports[`Offline icon Should render a snapshot that is good 1`] = `
 <svg
-  height={24}
+  height="24"
   viewBox="0 0 24 24"
-  width={24}
+  width="24"
   xmlns="http://www.w3.org/2000/svg"
 >
   <path
@@ -56,9 +56,9 @@ exports[`Offline icon Should render a snapshot that is good 1`] = `
 
 exports[`Warning icon Should render a snapshot that is good 1`] = `
 <svg
-  height={24}
+  height="24"
   viewBox="0 0 24 24"
-  width={24}
+  width="24"
   xmlns="http://www.w3.org/2000/svg"
 >
   <path

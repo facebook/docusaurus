@@ -1,4 +1,4 @@
-# Docusaurus theme translations
+# `@docusaurus/theme-translations`
 
 This package includes default translations for labels (like the pagination "Next" / "Previous") used by official Docusaurus themes.
 

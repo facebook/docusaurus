@@ -4,9 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
+// @vitest-environment jsdom
+import {describe, expect, it} from 'vitest';
 import React from 'react';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import useGlobalData, {
   useAllPluginInstancesData,
   usePluginData,
@@ -63,7 +64,7 @@ describe('useAllPluginInstancesData', () => {
           ),
         }).result.current,
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus plugin global data not found for "bar" plugin."`,
+      `[Error: Docusaurus plugin global data not found for "bar" plugin.]`,
     );
   });
 });
@@ -119,7 +120,7 @@ describe('usePluginData', () => {
           ),
         }).result.current,
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus plugin global data not found for "foo" plugin with id "baz"."`,
+      `[Error: Docusaurus plugin global data not found for "foo" plugin with id "baz".]`,
     );
   });
 });

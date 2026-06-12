@@ -131,8 +131,7 @@ export default async function pluginContentDocs(
           }),
         ].filter((d): d is string => typeof d === 'string'),
 
-        useCrossCompilerCache:
-          siteConfig.future.experimental_faster.mdxCrossCompilerCache,
+        useCrossCompilerCache: siteConfig.future.faster.mdxCrossCompilerCache,
         admonitions: options.admonitions,
         remarkPlugins,
         rehypePlugins,

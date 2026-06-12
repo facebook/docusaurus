@@ -9,7 +9,7 @@ import APITable from '@site/src/components/APITable';
 
 Provides the [Docs](../../guides/docs/docs-introduction.mdx) functionality and is the default docs plugin for Docusaurus.
 
-## Installation {#installation}
+## Installation {/* #installation */}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-content-docs
@@ -23,7 +23,7 @@ You can configure this plugin through the [preset options](../../using-plugins.m
 
 :::
 
-## Configuration {#configuration}
+## Configuration {/* #configuration */}
 
 Accepted fields:
 
@@ -72,9 +72,9 @@ Accepted fields:
 </APITable>
 ```
 
-### Types {#types}
+### Types {/* #types */}
 
-#### `EditUrlFunction` {#EditUrlFunction}
+#### `EditUrlFunction` {/* #EditUrlFunction */}
 
 ```ts
 type EditUrlFunction = (params: {
@@ -86,7 +86,7 @@ type EditUrlFunction = (params: {
 }) => string | undefined;
 ```
 
-#### `PrefixParser` {#PrefixParser}
+#### `PrefixParser` {/* #PrefixParser */}
 
 ```ts
 type PrefixParser = (filename: string) => {
@@ -95,7 +95,7 @@ type PrefixParser = (filename: string) => {
 };
 ```
 
-#### `SidebarGenerator` {#SidebarGenerator}
+#### `SidebarGenerator` {/* #SidebarGenerator */}
 
 ```ts
 type SidebarGenerator = (generatorArgs: {
@@ -143,7 +143,7 @@ type CategoryIndexMatcher = (param: {
 }) => boolean;
 ```
 
-#### `VersionsConfig` {#VersionsConfig}
+#### `VersionsConfig` {/* #VersionsConfig */}
 
 ```ts
 type VersionConfig = {
@@ -167,7 +167,7 @@ type VersionConfig = {
 type VersionsConfig = {[versionName: string]: VersionConfig};
 ```
 
-### Example configuration {#ex-config}
+### Example configuration {/* #ex-config */}
 
 You can configure this plugin through preset options or plugin options.
 
@@ -263,7 +263,7 @@ const config = {
 };
 ```
 
-## Markdown front matter {#markdown-front-matter}
+## Markdown front matter {/* #markdown-front-matter */}
 
 Markdown documents can use the following Markdown [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) metadata fields, enclosed by a line `---` on either side.
 
@@ -343,18 +343,18 @@ import TagsFileApiRefSection from './_partial-tags-file-api-ref-section.mdx';
 
 <TagsFileApiRefSection />
 
-## i18n {#i18n}
+## i18n {/* #i18n */}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
 
-### Translation files location {#translation-files-location}
+### Translation files location {/* #translation-files-location */}
 
 - **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-docs`
 - **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-docs-[pluginId]`
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
 - **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-docs/[versionName]`
 
-### Example file-system structure {#example-file-system-structure}
+### Example file-system structure {/* #example-file-system-structure */}
 
 ```bash
 website/i18n/[locale]/docusaurus-plugin-content-docs

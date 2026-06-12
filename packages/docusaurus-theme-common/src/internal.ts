@@ -23,7 +23,12 @@ export {
   useAnnouncementBar,
 } from './contexts/announcementBar';
 
-export {useTabs, sanitizeTabsChildren} from './utils/tabsUtils';
+export {
+  sanitizeTabsChildren,
+  TabsProvider,
+  useTabs,
+  useTabsContextValue,
+} from './utils/tabsUtils';
 export type {TabValue, TabsProps, TabItemProps} from './utils/tabsUtils';
 
 export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
@@ -39,14 +44,6 @@ export {
   getPrismCssVariables,
   CodeBlockContextProvider,
   useCodeBlockContext,
-
-  // TODO Docusaurus v4: remove, only kept for internal retro-compatibility
-  //  See https://github.com/facebook/docusaurus/pull/11153
-  parseCodeBlockTitle,
-  parseClassNameLanguage as parseLanguage,
-  parseLines,
-  getLineNumbersStart,
-  containsLineNumbers,
 } from './utils/codeBlockUtils';
 
 export {DEFAULT_SEARCH_TAG} from './utils/searchUtils';
@@ -86,6 +83,8 @@ export {PluginHtmlClassNameProvider} from './utils/metadataUtils';
 
 export {splitNavbarItems, NavbarProvider} from './utils/navbarUtils';
 
+export {extractLeadingEmoji} from './utils/emojiUtils';
+
 export {
   useTOCHighlight,
   type TOCHighlightConfig,
@@ -94,14 +93,11 @@ export {
 export {useDateTimeFormat} from './utils/IntlUtils';
 
 export {useHideableNavbar} from './hooks/useHideableNavbar';
-export {
-  useKeyboardNavigation,
-  keyboardFocusedClassName,
-} from './hooks/useKeyboardNavigation';
 export {useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {useCodeWordWrap} from './hooks/useCodeWordWrap';
 export {useBackToTopButton} from './hooks/useBackToTopButton';
 
+export {useDocCardDescriptionCategoryItemsPlural} from './translations/docsTranslations';
 export {
   useBlogTagsPostsPageTitle,
   useBlogAuthorPageTitle,

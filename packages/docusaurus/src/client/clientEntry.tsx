@@ -23,12 +23,6 @@ function Router({children}: {children: ReactNode}): ReactNode {
   );
 }
 
-declare global {
-  interface NodeModule {
-    hot?: {accept: () => void};
-  }
-}
-
 const hydrate = Boolean(process.env.HYDRATE_CLIENT_ENTRY);
 
 // Client-side render (e.g: running in browser) to become single-page

@@ -231,8 +231,8 @@ const messages = locales.map(([name, stat]) => {
     percentage > 0.99
       ? logger.green
       : percentage > 0.7
-      ? logger.yellow
-      : logger.red;
+        ? logger.yellow
+        : logger.red;
   const progress = color(
     `[${''.padStart(filled, '=')}${''.padStart(30 - filled, ' ')}]`,
   );

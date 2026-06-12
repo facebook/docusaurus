@@ -16,9 +16,9 @@ Upgrading should be easy. Our [release process](/community/release-process) resp
 
 {/* truncate */}
 
-## Highlights
+## Highlights {/* #highlights */}
 
-### Blog Social Icons
+### Blog Social Icons {/* #blog-social-icons */}
 
 In [#10222](https://github.com/facebook/docusaurus/pull/10222), we added the possibility to associate social links to blog authors, for inline authors declared in front matter or global through the `authors.yml` file.
 
@@ -39,7 +39,7 @@ slorber:
 
 Icons and handle shortcuts are provided for pre-defined platforms `x`, `linkedin`, `github` and `stackoverflow`. It's possible to provide any additional platform entry (like `newsletter` in the example above) with a full URL.
 
-### Blog Authors Pages
+### Blog Authors Pages {/* #blog-authors-pages */}
 
 In [#10216](https://github.com/facebook/docusaurus/pull/10216), we added the possibility for [global blog authors](/docs/blog#global-authors) (declared in `authors.yml`) to have their own dedicated page listing all the blog posts they contributed to.
 
@@ -64,7 +64,7 @@ An [authors index page](/blog/authors) is also created, listing all the blog aut
 
 Check the [blog authors pages guide](/docs/blog#authors-pages) for details.
 
-### Blog Feeds Styling
+### Blog Feeds Styling {/* #blog-feeds-styling */}
 
 In [#9252](https://github.com/facebook/docusaurus/pull/9252), we added support for [styling your blog feeds](https://darekkay.com/blog/rss-styling/) by providing custom XSLT `.xls` files for the RSS and Atom feeds. This allows browsers to render the feeds in a more visually appealing way, like a regular HTML page, instead of the default XML view.
 
@@ -95,7 +95,7 @@ const blogOptions = {
 
 ![Screenshot of the Docusaurus blog RSS feed, beautifully styled](./img/blog-feed-xslt.png)
 
-### Blog Sidebar Grouping
+### Blog Sidebar Grouping {/* #blog-sidebar-grouping */}
 
 In [#10252](https://github.com/facebook/docusaurus/pull/10252), we added support for grouping blog posts by years in the blog sidebar.
 
@@ -103,23 +103,23 @@ In [#10252](https://github.com/facebook/docusaurus/pull/10252), we added support
 
 This feature is now turned on by default, but can be disabled with `themeConfig.blog.sidebar.groupByYear: false`.
 
-### Blog Consistency Options
+### Blog Consistency Options {/* #blog-consistency-options */}
 
 We added new blog options to enforce recommended practices for your blog posts:
 
-#### `onInlineAuthors`
+#### `onInlineAuthors` {/* #oninlineauthors */}
 
 We believe large multi-blogs are easier to manage by using [global authors](/docs/blog#global-authors), declared in `authors.yml`. This notably permits to avoids duplicating author information across multiple blog posts, and now permits to generate [author pages](/docs/blog#authors-pages).
 
 In [#10224](https://github.com/facebook/docusaurus/pull/10224), we added the `onInlineAuthors` option. Use `onInlineAuthors: 'throw'` to forbid [inline authors](/docs/blog#inline-authors), and enforce a consistent usage of [global authors](/docs/blog#global-authors).
 
-#### `onUntruncatedBlogPosts`
+#### `onUntruncatedBlogPosts` {/* #onuntruncatedblogposts */}
 
 We believe blog posts are better using [truncation markers](/docs/blog#blog-list) (`<!-- truncate -->` or `{/* truncate */}`). On paginated lists (blog home, tags pages, authors pages), this permits to render a more concise preview of the blog post instead of a full blog post.
 
 In [#10375](https://github.com/facebook/docusaurus/pull/10375), we added the `onUntruncatedBlogPosts` option. Use `onUntruncatedBlogPosts: 'throw'` to enforce a consistent usage of [truncation markers](/docs/blog#blog-list).
 
-## Translations
+## Translations {/* #translations */}
 
 - 🇪🇪 [#10339](https://github.com/facebook/docusaurus/pull/10339): Add Estonian theme translations.
 - 🇮🇩 [#10325](https://github.com/facebook/docusaurus/pull/10325): Add Indonesian theme translations.
@@ -127,7 +127,7 @@ In [#10375](https://github.com/facebook/docusaurus/pull/10375), we added the `on
 - 🇩🇪 [#10235](https://github.com/facebook/docusaurus/pull/10235): Improve German theme translations.
 - 🇨🇳 [#10257](https://github.com/facebook/docusaurus/pull/10257): Improve Traditional Chinese (zh-Hant) theme translations.
 
-## Other changes
+## Other changes {/* #other-changes */}
 
 Other notable changes include:
 

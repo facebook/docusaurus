@@ -4,9 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
+// @vitest-environment jsdom
+import {describe, expect, it} from 'vitest';
 import React from 'react';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {StaticRouter} from 'react-router-dom';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
 import {
@@ -110,7 +111,7 @@ describe('useDocById', () => {
 
   it('throws for doc3', () => {
     expect(() => mockUseDocById('doc3')).toThrowErrorMatchingInlineSnapshot(
-      `"no version doc found by id=doc3"`,
+      `[Error: no version doc found by id=doc3]`,
     );
   });
 });
@@ -826,7 +827,7 @@ describe('useCurrentSidebarCategory', () => {
     expect(() =>
       mockUseCurrentSidebarCategory('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"/cat is not associated with a category. useCurrentSidebarCategory() should only be used on category index pages."`,
+      `[Error: /cat is not associated with a category. useCurrentSidebarCategory() should only be used on category index pages.]`,
     );
   });
 
@@ -835,7 +836,7 @@ describe('useCurrentSidebarCategory', () => {
     expect(() =>
       mockUseCurrentSidebarCategory('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected: cant find current sidebar in context"`,
+      `[Error: Unexpected: cant find current sidebar in context]`,
     );
   });
 
@@ -994,7 +995,7 @@ describe('useCurrentSidebarSiblings', () => {
     expect(() =>
       mockUseCurrentSidebarSiblings('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected: cant find current sidebar in context"`,
+      `[Error: Unexpected: cant find current sidebar in context]`,
     );
   });
 });

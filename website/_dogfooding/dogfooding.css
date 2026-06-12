@@ -6,7 +6,7 @@
  */
 
 html {
-  @media screen and (min-width: 1px) {
+  @media screen and (width >= 1px) {
     &.plugin-docs.plugin-id-docs-tests {
       .red > a {
         color: red;
@@ -23,6 +23,27 @@ html {
 
       .navbar {
         border-bottom: solid thin cyan;
+      }
+
+      .shadow {
+        --shadow-color: red;
+        box-shadow: 10px 10px 10px var(--shadow-color);
+
+        &.blue {
+          --shadow-color: blue;
+        }
+      }
+
+      #info-1 {
+        border: solid 2px blue;
+      }
+
+      #info-2 {
+        border: solid 2px green;
+      }
+
+      #info-3 {
+        border: solid 2px red;
       }
 
       .dogfood_sidebar_class_name_test {

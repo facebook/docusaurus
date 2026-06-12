@@ -1,4 +1,5 @@
 {
   "theme.Playground.liveEditor": "Live Redaktor",
+  "theme.Playground.buttons.reset": "Reset",
   "theme.Playground.result": "Tulemus"
 }

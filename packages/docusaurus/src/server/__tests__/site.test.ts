@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import path from 'path';
 import {loadSiteFixture} from './testUtils';
 
@@ -37,7 +38,7 @@ describe('loadSite', () => {
           config: 'docusaurus.config.doesNotExist.js',
         }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"Config file at "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/docusaurus.config.doesNotExist.js" not found."`,
+        `[Error: Config file at "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/docusaurus.config.doesNotExist.js" not found.]`,
       );
     });
   });
@@ -84,6 +85,13 @@ describe('loadSite', () => {
         locale: 'es',
       });
       expect(site.props).toMatchSnapshot();
+    });
+
+    it('uses locale url in site config', async () => {
+      const site = await loadSiteFixture(siteFixture, {
+        locale: 'es',
+      });
+      expect(site.props.siteConfig.url).toBe('https://es.docusaurus.io');
     });
 
     it('loads site - locale de', async () => {

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import {Command, type CommanderStatic} from 'commander';
 import {createCLIProgram} from '../cli';
@@ -24,14 +25,14 @@ async function testCommand(args: string[]) {
   //  see https://github.com/tj/commander.js#override-exit-and-output-handling
   let stdout = '';
   let stderr = '';
-  jest.spyOn(console, 'log').mockImplementation((msg: string) => {
+  vi.spyOn(console, 'log').mockImplementation((msg: string) => {
     stdout += msg;
   });
   // @ts-expect-error: only used with strings
-  jest.spyOn(process.stdout, 'write').mockImplementation((msg: string) => {
+  vi.spyOn(process.stdout, 'write').mockImplementation((msg: string) => {
     stdout += String(msg);
   });
-  jest.spyOn(console, 'error').mockImplementation((msg: string) => {
+  vi.spyOn(console, 'error').mockImplementation((msg: string) => {
     stderr += msg;
   });
 
@@ -57,7 +58,7 @@ async function testCommand(args: string[]) {
     }
   }
 
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 
   return {
     exit,
@@ -171,7 +172,7 @@ describe('CLI', () => {
         await expect(
           testCommand(['']),
         ).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Missing Docusaurus CLI command."`,
+          `[Error: Missing Docusaurus CLI command.]`,
         );
       });
 
@@ -179,7 +180,7 @@ describe('CLI', () => {
         await expect(
           testCommand(['unknown']),
         ).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Unknown Docusaurus CLI command \`unknown\`"`,
+          `[Error: Unknown Docusaurus CLI command \`unknown\`]`,
         );
       });
 
@@ -206,8 +207,7 @@ describe('CLI', () => {
         {
           "exit": undefined,
           "stderr": "",
-          "stdout": "TEST ACTION
-        ",
+          "stdout": "TEST ACTION",
         }
       `);
     });
@@ -218,8 +218,7 @@ describe('CLI', () => {
         {
           "exit": undefined,
           "stderr": "",
-          "stdout": "TEST ACTION
-        ",
+          "stdout": "TEST ACTION",
         }
       `);
     });

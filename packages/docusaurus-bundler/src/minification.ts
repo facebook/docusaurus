@@ -147,12 +147,14 @@ async function getRspackMinimizers({
     bundlerName: 'rspack',
   });
   const swcJsMinimizerOptions = await importSwcJsMinimizerOptions();
+
   return [
     // See https://rspack.dev/plugins/rspack/swc-js-minimizer-rspack-plugin
     // See https://swc.rs/docs/configuration/minification
     new rspack.SwcJsMinimizerRspackPlugin({
       minimizerOptions: {
         minify: true,
+        ecma: swcJsMinimizerOptions.ecma,
         ...swcJsMinimizerOptions,
       },
     }),

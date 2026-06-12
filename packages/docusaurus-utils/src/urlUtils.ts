@@ -138,8 +138,8 @@ export function fileToPath(file: string): string {
  * Similar to `encodeURI`, but uses `encodeURIComponent` and assumes there's no
  * query.
  *
- * `encodeURI("/question?/answer")` => `"/question?/answer#section"`;
- * `encodePath("/question?/answer#section")` => `"/question%3F/answer%23foo"`
+ * `encodeURI("/question?/answer")` => `"/question?/answer"`;
+ * `encodePath("/question?/answer#section")` => `"/question%3F/answer%23section"`
  */
 export function encodePath(userPath: string): string {
   return userPath
@@ -165,17 +165,13 @@ export function isValidPathname(str: string): boolean {
 }
 
 export function parseURLOrPath(url: string, base?: string | URL): URL {
-  try {
-    // TODO Docusaurus v4: use URL.parse()
-    //  Node 24 supports it, use URL.parse could be faster?
-    //  see https://kilianvalkhof.com/2024/javascript/the-problem-with-new-url-and-how-url-parse-fixes-that/
-    return new URL(url, base ?? 'https://example.com');
-  } catch (e) {
-    throw new Error(
-      `Can't parse URL ${url}${base ? ` with base ${base}` : ''}`,
-      {cause: e},
-    );
+  const parsedURL = URL.parse(url, base ?? 'https://example.com');
+
+  if (parsedURL) {
+    return parsedURL;
   }
+
+  throw new Error(`Can't parse URL ${url}${base ? ` with base ${base}` : ''}`);
 }
 
 export type URLPath = {pathname: string; search?: string; hash?: string};
@@ -190,8 +186,8 @@ export function toURLPath(url: URL): URLPath {
   const search = url.search
     ? url.search.slice(1)
     : url.href.includes('?')
-    ? ''
-    : undefined;
+      ? ''
+      : undefined;
 
   // Fixes annoying url.hash behavior
   // "" => undefined
@@ -200,8 +196,8 @@ export function toURLPath(url: URL): URLPath {
   const hash = url.hash
     ? url.hash.slice(1)
     : url.href.includes('#')
-    ? ''
-    : undefined;
+      ? ''
+      : undefined;
 
   return {
     pathname,

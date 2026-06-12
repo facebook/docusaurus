@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import path from 'path';
 import {
   type AuthorsMapInput,
@@ -60,9 +61,9 @@ describe('checkAuthorsMapPermalinkCollisions', () => {
     expect(() => {
       checkAuthorsMapPermalinkCollisions(authors);
     }).toThrowErrorMatchingInlineSnapshot(`
-      "The following permalinks are duplicated:
+      [Error: The following permalinks are duplicated:
       Permalink: /author1
-      Authors: author1, author1"
+      Authors: author1, author1]
     `);
   });
 });
@@ -229,7 +230,7 @@ describe('validateAuthorsMapInput', () => {
     expect(() =>
       validateAuthorsMapInput(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""slorber" must contain at least one of [name, imageURL]"`,
+      `[ValidationError: "slorber" must contain at least one of [name, imageURL]]`,
     );
   });
 
@@ -239,7 +240,7 @@ describe('validateAuthorsMapInput', () => {
         slorber: undefined,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""slorber" cannot be undefined. It should be an author object containing properties like name, title, and imageURL."`,
+      `[ValidationError: "slorber" cannot be undefined. It should be an author object containing properties like name, title, and imageURL.]`,
     );
   });
 
@@ -249,7 +250,7 @@ describe('validateAuthorsMapInput', () => {
         slorber: null,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
+      `[ValidationError: "slorber" should be an author object containing properties like name, title, and imageURL.]`,
     );
   });
 
@@ -257,7 +258,7 @@ describe('validateAuthorsMapInput', () => {
     expect(() =>
       validateAuthorsMapInput({slorber: []}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
+      `[ValidationError: "slorber" should be an author object containing properties like name, title, and imageURL.]`,
     );
   });
 
@@ -265,7 +266,7 @@ describe('validateAuthorsMapInput', () => {
     expect(() =>
       validateAuthorsMapInput([]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"The authors map file should contain an object where each entry contains an author key and the corresponding author's data."`,
+      `[ValidationError: The authors map file should contain an object where each entry contains an author key and the corresponding author's data.]`,
     );
   });
 
@@ -273,7 +274,7 @@ describe('validateAuthorsMapInput', () => {
     expect(() =>
       validateAuthorsMapInput({name: 'Sébastien'}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""name" should be an author object containing properties like name, title, and imageURL."`,
+      `[ValidationError: "name" should be an author object containing properties like name, title, and imageURL.]`,
     );
   });
 
@@ -285,7 +286,7 @@ describe('validateAuthorsMapInput', () => {
     expect(() =>
       validateAuthorsMapInput(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
+      `[ValidationError: "slorber" should be an author object containing properties like name, title, and imageURL.]`,
     );
   });
 });
@@ -339,17 +340,17 @@ describe('authors socials', () => {
     expect(() =>
       validateAuthorsMap(socialNumber),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""ozaki.socials.twitter" must be a string"`,
+      `[ValidationError: "ozaki.socials.twitter" must be a string]`,
     );
     expect(() =>
       validateAuthorsMap(socialNull),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""ozaki.socials.twitter" must be a string"`,
+      `[ValidationError: "ozaki.socials.twitter" must be a string]`,
     );
     expect(() =>
       validateAuthorsMap(socialNull2),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""ozaki.socials" should be an author object containing properties like name, title, and imageURL."`,
+      `[ValidationError: "ozaki.socials" should be an author object containing properties like name, title, and imageURL.]`,
     );
   });
 
@@ -367,7 +368,7 @@ describe('authors socials', () => {
     expect(() =>
       validateAuthorsMap(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(
-      `""ozaki.socials.twitter" must be a string"`,
+      `[ValidationError: "ozaki.socials.twitter" must be a string]`,
     );
   });
 

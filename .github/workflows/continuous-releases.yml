@@ -7,6 +7,9 @@ on:
       - docusaurus-v**
   pull_request:
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -14,28 +17,35 @@ concurrency:
 jobs:
   release:
     name: Continuous Releases
+    if: github.repository == 'facebook/docusaurus'
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
 
       - name: Set up Node
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: lts/*
-          cache: yarn
+          #  ⚠️ Do not use any cache on purpose
+          # It increases the chance of a compromised release being publish
+          # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
+          # cache: pnpm
 
       - name: Installation
-        run: yarn || yarn || yarn
+        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 
       - name: Build packages
-        run: yarn build:packages
+        run: pnpm build:packages
 
       - name: Initialize fresh templates
         run: |
-          yarn create-docusaurus template/docusaurus-classic-js classic --javascript -p npm
-          yarn create-docusaurus template/docusaurus-classic-ts classic --typescript -p npm
+          node ./packages/create-docusaurus/bin/index.js template/docusaurus-classic-js classic --javascript -p npm
+          node ./packages/create-docusaurus/bin/index.js template/docusaurus-classic-ts classic --typescript -p npm
 
       - name: Release
-        run: npx pkg-pr-new@0.0.20 publish './packages/*' --template './template/*' --compact --comment=off
+        run: pnpm pkg-pr-new publish './packages/*' --template './template/*' --compact --comment=off

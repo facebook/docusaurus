@@ -29,10 +29,10 @@ export default function prismIncludeLanguages(
 
   additionalLanguages.forEach((lang) => {
     if (lang === 'php') {
-      // eslint-disable-next-line global-require
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require('prismjs/components/prism-markup-templating.js');
     }
-    // eslint-disable-next-line global-require, import/no-dynamic-require
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     require(`prismjs/components/prism-${lang}`);
   });
 

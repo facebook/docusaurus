@@ -25,13 +25,6 @@ export {
 } from './constants';
 export {generate, readOutputHTMLFile} from './emitUtils';
 export {
-  // TODO Docusaurus v4: remove these legacy exports,
-  //  they are only kept for retro-compatibility
-  getFileCommitDate,
-  FileNotTrackedError,
-  GitNotFoundError,
-} from './vcs/gitUtils';
-export {
   mergeTranslations,
   updateTranslationFileMessages,
   getPluginI18nPath,
@@ -68,17 +61,20 @@ export {
   getTagVisibility,
 } from './tags';
 export {
-  parseMarkdownHeadingId,
-  escapeMarkdownHeadingIds,
   unwrapMdxCodeBlocks,
   admonitionTitleToDirectiveLabel,
   createExcerpt,
   DEFAULT_PARSE_FRONT_MATTER,
   parseMarkdownContentTitle,
   parseMarkdownFile,
-  writeMarkdownHeadingId,
-  type WriteHeadingIDOptions,
 } from './markdownUtils';
+export {
+  parseMarkdownHeadingId,
+  escapeMarkdownHeadingIds,
+  writeMarkdownHeadingId,
+  type HeadingIdSyntax,
+  type WriteHeadingIDOptions,
+} from './markdownHeadingIdUtils';
 export {
   type ContentPaths,
   type SourceToPermalink,
@@ -118,8 +114,6 @@ export {
   getFolderContainingFile,
 } from './dataFileUtils';
 export {isDraft, isUnlisted} from './contentVisibilityUtils';
-export {escapeRegexp} from './regExpUtils';
-export {askPreferredLanguage} from './cliUtils';
 export {flattenRoutes} from './routeUtils';
 
 export {

@@ -19,11 +19,11 @@ const config: PlaywrightTestConfig = {
   reporter: [['list'], ['@argos-ci/playwright/reporter']],
 
   // Run website production built
-  // Need to run "yarn website:build:fast" before
+  // Need to run "pnpm build:website:fast" before
   webServer: {
     cwd: '..',
     port: 3000,
-    command: 'yarn serve:website',
+    command: 'pnpm serve:website',
   },
 
   // Browsers: only Chrome for now

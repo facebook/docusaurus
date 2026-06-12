@@ -15,7 +15,7 @@ The [feed feature](../../blog.mdx#feed) works by extracting the build output, an
 
 :::
 
-## Installation {#installation}
+## Installation {/* #installation */}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-content-blog
@@ -29,7 +29,7 @@ You can configure this plugin through the [preset options](../../using-plugins.m
 
 :::
 
-## Configuration {#configuration}
+## Configuration {/* #configuration */}
 
 Accepted fields:
 
@@ -63,7 +63,7 @@ Accepted fields:
 | `blogAuthorsListComponent` | `string` | `'@theme/Blog/Pages/BlogAuthorsListPage'` | Root component of the blog authors page index. |
 | `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
 | `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
-| `rehypePlugins` | `any[]` | `[]` | Recma plugins passed to MDX. |
+| `recmaPlugins` | `any[]` | `[]` | Recma plugins passed to MDX. |
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `truncateMarker` | `RegExp` | `/<!--\s*truncate\s*-->/` \| `\{\/\*\s*truncate\s*\*\/\}/` | Truncate marker marking where the summary ends. |
@@ -79,10 +79,10 @@ Accepted fields:
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
 | `feedOptions.xslt` | <code>boolean \| [FeedXSLTOptions](#FeedXSLTOptions)</code> | `undefined` | Permits to style the blog XML feeds with XSLT so that browsers render them nicely. |
 | `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
-| `sortPosts` | <code>'descending' \| 'ascending' </code> | `'descending'` | Governs the direction of blog post sorting. |
+| `sortPosts` | <code>'descending' \| 'ascending'</code> | `'descending'` | Governs the direction of blog post sorting. |
 | `processBlogPosts` | <code>[ProcessBlogPostsFn](#ProcessBlogPostsFn)</code> | `undefined` | An optional function which can be used to transform blog posts (filter, modify, delete, etc...). |
 | `showLastUpdateAuthor` | `boolean` | `false` | Whether to display the author who last updated the blog post. |
-| `showLastUpdateTime` | `boolean` | `false` | Whether to display the last date the blog post was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use`fetch-depth: 0`. |
+| `showLastUpdateTime` | `boolean` | `false` | Whether to display the last date the blog post was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use `fetch-depth: 0`. When deploying to Vercel, set the environment variable `VERCEL_DEEP_CLONE=true`. |
 | `tags` | `string \| false \| null \| undefined` | `tags.yml` | Path to the YAML tags file listing pre-defined tags. Relative to the blog content directory. |
 | `onInlineTags` | `'ignore' \| 'log' \| 'warn' \| 'throw'` | `warn` | The plugin behavior when blog posts contain inline tags (not appearing in the list of pre-defined tags, usually `tags.yml`). |
 | `onUntruncatedBlogPosts` | `'ignore' \| 'log' \| 'warn' \| 'throw'` | `warn` | The plugin behavior when blog posts do not contain a truncate marker. |
@@ -91,9 +91,9 @@ Accepted fields:
 </APITable>
 ```
 
-### Types {#types}
+### Types {/* #types */}
 
-#### `EditUrlFn` {#EditUrlFn}
+#### `EditUrlFn` {/* #EditUrlFn */}
 
 ```ts
 type EditUrlFunction = (params: {
@@ -104,7 +104,7 @@ type EditUrlFunction = (params: {
 }) => string | undefined;
 ```
 
-#### `ReadingTimeFn` {#ReadingTimeFn}
+#### `ReadingTimeFn` {/* #ReadingTimeFn */}
 
 ```ts
 type ReadingTimeOptions = {
@@ -126,13 +126,13 @@ type ReadingTimeFn = (params: {
 }) => number | undefined;
 ```
 
-#### `FeedType` {#FeedType}
+#### `FeedType` {/* #FeedType */}
 
 ```ts
 type FeedType = 'rss' | 'atom' | 'json';
 ```
 
-#### `FeedXSLTOptions` {#FeedXSLTOptions}
+#### `FeedXSLTOptions` {/* #FeedXSLTOptions */}
 
 Permits to style the blog XML feeds so that browsers render them nicely with [XSLT](https://developer.mozilla.org/en-US/docs/Web/XSLT).
 
@@ -151,7 +151,7 @@ type FeedXSLTOptions =
     };
 ```
 
-#### `CreateFeedItemsFn` {#CreateFeedItemsFn}
+#### `CreateFeedItemsFn` {/* #CreateFeedItemsFn */}
 
 ```ts
 type CreateFeedItemsFn = (params: {
@@ -162,7 +162,7 @@ type CreateFeedItemsFn = (params: {
 }) => Promise<BlogFeedItem[]>;
 ```
 
-#### `ProcessBlogPostsFn` {#ProcessBlogPostsFn}
+#### `ProcessBlogPostsFn` {/* #ProcessBlogPostsFn */}
 
 ```ts
 type ProcessBlogPostsFn = (params: {
@@ -170,7 +170,7 @@ type ProcessBlogPostsFn = (params: {
 }) => Promise<void | BlogPost[]>;
 ```
 
-### Example configuration {#ex-config}
+### Example configuration {/* #ex-config */}
 
 You can configure this plugin through preset options or plugin options.
 
@@ -233,7 +233,7 @@ const config = {
 };
 ```
 
-## Markdown front matter {#markdown-front-matter}
+## Markdown front matter {/* #markdown-front-matter */}
 
 Markdown documents can use the following Markdown [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) metadata fields, enclosed by a line `---` on either side.
 
@@ -326,7 +326,7 @@ import TagsFileApiRefSection from './_partial-tags-file-api-ref-section.mdx';
 
 <TagsFileApiRefSection />
 
-## Authors File {#authors-file}
+## Authors File {/* #authors-file */}
 
 Use the [`authors` plugin option](#authors) to configure the path of a YAML authors file.
 
@@ -334,7 +334,7 @@ By convention, the plugin will look for a `authors.yml` file at the root of your
 
 This file can contain a list of predefined [global blog authors](../../blog.mdx#global-authors). You can reference these authors by their keys in Markdown files thanks to the [`authors` front matter](#markdown-front-matter).
 
-### Types {#authors-file-types}
+### Types {/* #authors-file-types */}
 
 The YAML content of the provided authors file should respect the following shape:
 
@@ -356,9 +356,9 @@ type AuthorInput = {
 };
 ```
 
-### Example {#authors-file-example}
+### Example {/* #authors-file-example */}
 
-```yml title="tags.yml"
+```yml title="authors.yml"
 slorber:
   name: Sébastien Lorber
   title: Docusaurus maintainer
@@ -393,18 +393,18 @@ authors: [slorber, jmarcey]
 Content
 ```
 
-## i18n {#i18n}
+## i18n {/* #i18n */}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
 
-### Translation files location {#translation-files-location}
+### Translation files location {/* #translation-files-location */}
 
 - **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
 - **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-blog-[pluginId]`
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
 - **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
 
-### Example file-system structure {#example-file-system-structure}
+### Example file-system structure {/* #example-file-system-structure */}
 
 ```bash
 website/i18n/[locale]/docusaurus-plugin-content-blog

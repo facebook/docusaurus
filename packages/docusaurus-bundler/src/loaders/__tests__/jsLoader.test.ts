@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {fromPartial, type PartialDeep} from '@total-typescript/shoehorn';
 import {createJsLoaderFactory} from '../jsLoader';
 
@@ -25,8 +26,8 @@ describe('createJsLoaderFactory', () => {
         webpack: siteConfig?.webpack,
         future: fromPartial({
           ...siteConfig?.future,
-          experimental_faster: fromPartial({
-            ...siteConfig?.future?.experimental_faster,
+          faster: fromPartial({
+            ...siteConfig?.future?.faster,
           }),
         }),
       },
@@ -71,7 +72,7 @@ describe('createJsLoaderFactory', () => {
     await expect(() =>
       testJsLoaderFactory({
         future: {
-          experimental_faster: {
+          faster: {
             swcJsLoader: true,
           },
         },
@@ -82,10 +83,10 @@ describe('createJsLoaderFactory', () => {
         },
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "You can't use siteConfig.webpack.jsLoader and siteConfig.future.experimental_faster.swcJsLoader at the same time.
+      [Error: You can't use siteConfig.webpack.jsLoader and siteConfig.future.faster.swcJsLoader at the same time.
       To avoid any configuration ambiguity, you must make an explicit choice:
       - If you want to use Docusaurus Faster and SWC (recommended), remove siteConfig.webpack.jsLoader
-      - If you want to use a custom JS loader, use siteConfig.future.experimental_faster.swcJsLoader: false"
+      - If you want to use a custom JS loader, use siteConfig.future.faster.swcJsLoader: false]
     `);
   });
 

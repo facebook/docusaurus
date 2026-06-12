@@ -20,7 +20,7 @@ Upgrading is easy. We follow [Semantic Versioning](https://semver.org/), and min
 import BrowserWindow from '@site/src/components/BrowserWindow';
 ```
 
-## Dropping Node.js 18
+## Dropping Node.js 18 {/* #dropping-nodejs-18 */}
 
 In [#11408](https://github.com/facebook/docusaurus/pull/11408), we have dropped support for Node.js 18, and the new minimum required Node.js version is now v20.0.
 
@@ -31,7 +31,7 @@ This upgrade is further motivated by our dependencies:
 - Some of our dependencies now only receive security patches on newer versions that do not support Node.js 18 anymore. See, for example, this [`webpack-dev-server@4` security warning](https://github.com/facebook/docusaurus/pull/11410). To keep the Docusaurus v3 release line secure for our users, for both the runtime and third-party dependencies, the upgrade is necessary.
 - Some of our dependencies are also dropping support for Node.js 18 in minor releases, transitively impacting Docusaurus runtime requirements. For example, [Rspack 1.5 now requires Node.js 18.12](https://rspack.rs/blog/announcing-1-5), while Docusaurus v3 initially supported Node.js 18.0.
 
-## DocSearch v4
+## DocSearch v4 {/* #docsearch-v4 */}
 
 In [#11327](https://github.com/facebook/docusaurus/pull/11327) and [#11421](https://github.com/facebook/docusaurus/pull/11421), we added support for Algolia DocSearch v4. This new version comes with [AskAI](https://docsearch.algolia.com/docs/v4/askai) support, letting you add an AI-powered search assistant to your Docusaurus site that can answer questions based on what's in your documentation with a conversational experience.
 
@@ -53,7 +53,7 @@ When using DocSearch v4, the new AskAI feature is not enabled by default: you al
 
 :::
 
-## i18n improvements
+## i18n improvements {/* #i18n-improvements */}
 
 In [#11316](https://github.com/facebook/docusaurus/pull/11316), we added new `i18n.localeConfigs[locale].{url,baseUrl}` config options to better support complex and multi-domain i18n deployments. Previously, Docusaurus relied on hard-coded heuristics that made sense for most i18n projects, but weren't flexible enough to accommodate all use cases, leading UX and SEO issues. It is now possible to configure each locale's deployment URL and base URL independently, overriding the default values inferred by Docusaurus:
 
@@ -105,7 +105,7 @@ export default {
 };
 ```
 
-## Mermaid ELK layouts
+## Mermaid ELK layouts {/* #mermaid-elk-layouts */}
 
 In [#11357](https://github.com/facebook/docusaurus/pull/11357), we added support for [Mermaid ELK layout algorithm](https://mermaid.js.org/intro/syntax-reference.html#supported-layout-algorithms), based on the [Eclipse Layout Kernel (ELK)](https://www.eclipse.org/elk/). Compared to the default Dagre layout, it provides more sophisticated layout capabilities and configuration options, especially useful when working with large or intricate diagrams.
 
@@ -136,12 +136,12 @@ erDiagram
     CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
 ```
 
-## Translations
+## Translations {/* #translations */}
 
 - 🇧🇷 [#11315](https://github.com/facebook/docusaurus/pull/11315): Add missing Brazilian Portuguese theme translations.
 - 🇺🇦 [#11305](https://github.com/facebook/docusaurus/pull/11305): Add missing Ukrainian theme translations.
 
-## Other changes
+## Other changes {/* #other-changes */}
 
 Other notable changes include:
 

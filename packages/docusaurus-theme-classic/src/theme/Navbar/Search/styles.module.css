@@ -13,14 +13,14 @@ See https://github.com/facebook/docusaurus/pull/9385
   display: none;
 }
 
-@media (max-width: 996px) {
+@media (width <= 996px) {
   .navbarSearchContainer {
     position: absolute;
     right: var(--ifm-navbar-padding-horizontal);
   }
 }
 
-@media (min-width: 997px) {
+@media (width >= 997px) {
   .navbarSearchContainer {
     padding: 0 var(--ifm-navbar-item-padding-horizontal);
   }

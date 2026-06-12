@@ -4,9 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
+// @vitest-environment jsdom
+import {describe, expect, it} from 'vitest';
 import React from 'react';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {useDocsSidebar, DocsSidebarProvider} from '../docsSidebar';
 import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
@@ -15,7 +16,7 @@ describe('useDocsSidebar', () => {
     expect(
       () => renderHook(() => useDocsSidebar()).result.current?.items,
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Hook useDocsSidebar is called outside the <DocsSidebarProvider>. "`,
+      `[ReactContextError: Hook useDocsSidebar is called outside the <DocsSidebarProvider>. ]`,
     );
   });
 

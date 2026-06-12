@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable global-require */
-
 import {translate} from '@docusaurus/Translate';
 import {sortBy} from '@site/src/utils/jsUtils';
 
@@ -860,10 +858,10 @@ const Users: User[] = [
     source: null,
     tags: ['personal'],
   },
-  
-  
-  
-  
+
+
+
+
   {
     title: 'Metro',
     description: 'The JavaScript bundler for React Native',

@@ -18,7 +18,6 @@ export type WebpackCompilerName = 'server' | 'client';
 export function getWebpackLoaderCompilerName(
   context: LoaderContext<unknown>,
 ): WebpackCompilerName {
-  // eslint-disable-next-line no-underscore-dangle
   const compilerName = context._compiler?.name;
   switch (compilerName) {
     case 'server':

@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-
+import {fn} from 'vitest';
 import {guessMaxImageWidth, fallbackParams} from '../components/helpers';
 
 describe('guessMaxImageWidth', () => {
@@ -25,7 +25,7 @@ describe('FallbackParams', () => {
         format: 'png',
       },
     ],
-    getUrl: jest.fn(),
+    getUrl: fn(),
   };
 
   it('Should return an object when run in the node environment', () => {

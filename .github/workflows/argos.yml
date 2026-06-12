@@ -14,6 +14,9 @@ on:
       # We want trigger workflow on labeled too!
       - labeled
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -23,26 +26,34 @@ jobs:
     # Argos is heavy to run
     # We only want to trigger Argos on PRs with the 'Argos' label
     # See https://stackoverflow.com/questions/62325286/run-github-actions-when-pull-requests-have-a-specific-label
-    if: ${{ (github.event_name != 'pull_request' && github.ref_name == 'main') || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'Argos')) }}
+    if: |
+      github.repository == 'facebook/docusaurus' &&
+      (
+        (github.event_name != 'pull_request' && github.ref_name == 'main') ||
+        (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'Argos'))
+      )
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
 
       - name: Use Node.js
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: lts/*
-          cache: yarn
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn || yarn || yarn
+        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: pnpm playwright install --with-deps chromium
 
       - name: Build website fast
-        run: yarn argos:build
+        run: pnpm argos:build
 
       - name: Take Argos screenshots
-        run: yarn argos:screenshot
+        run: pnpm argos:screenshot

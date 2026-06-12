@@ -1,4 +1,5 @@
 {
   "theme.Playground.liveEditor": "लाइव एडिटर",
+  "theme.Playground.buttons.reset": "Reset",
   "theme.Playground.result": "परिणाम"
 }

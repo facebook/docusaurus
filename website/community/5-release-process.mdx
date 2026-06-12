@@ -8,7 +8,7 @@ This topic is particularly important for highly customized sites that may have d
 
 :::
 
-## Semantic versioning {#semantic-versioning}
+## Semantic versioning {/* #semantic-versioning */}
 
 Docusaurus versioning is based on the `major.minor.patch` scheme and respects [Semantic Versioning](https://semver.org/).
 
@@ -19,7 +19,7 @@ Respecting Semantic Versioning is important for multiple reasons:
 - A new major version is an opportunity to thoroughly document breaking changes
 - A new major/minor version is an opportunity to communicate new features through a blog post
 
-### Major versions {#major-versions}
+### Major versions {/* #major-versions */}
 
 The `major` version number is incremented on **every breaking change**.
 
@@ -34,7 +34,7 @@ Read our [public API surface](#public-api-surface) section to clearly understand
 
 :::
 
-### Minor versions {#minor-versions}
+### Minor versions {/* #minor-versions */}
 
 The `minor` version number is incremented on every significant retro-compatible change.
 
@@ -55,7 +55,7 @@ We may drop support for End-of-Life Node.js versions in minor Docusaurus version
 
 :::
 
-### Patch versions {#patch-versions}
+### Patch versions {/* #patch-versions */}
 
 The `patch` version number is incremented on bugfixes releases.
 
@@ -63,7 +63,7 @@ Whenever a new patch version is released, we publish:
 
 - an exhaustive changelog entry
 
-## Node.js support policy {#nodejs-support}
+## Node.js support policy {/* #nodejs-support */}
 
 Each major version of Docusaurus supports a minimum Node.js version. This retro-compatibility will be preserved all along that release line. This runtime backward compatibility will be preserved throughout all the minor versions of the release line, except for End-of-Life Node.js versions.
 
@@ -73,7 +73,7 @@ On minor releases, we reserve the right to drop support for Node.js versions tha
 
 :::
 
-## Versions {#versions}
+## Versions {/* #versions */}
 
 ```mdx-code-block
 import {
@@ -107,7 +107,7 @@ It is recommended to upgrade within that time frame to the new stable version.
 
 :::
 
-## Public API surface {#public-api-surface}
+## Public API surface {/* #public-api-surface */}
 
 Docusaurus commits to respecting Semantic Versioning. This means that whenever changes occur in Docusaurus public APIs and break backward compatibility, we will increment the `major` version number.
 
@@ -119,7 +119,7 @@ Docusaurus guarantees public API retro-compatibility across `minor` versions. Un
 
 We will outline what accounts as the public API surface.
 
-### Core public API {#core-public-api}
+### Core public API {/* #core-public-api */}
 
 ✅ Our public API includes:
 
@@ -148,7 +148,7 @@ For non-theme APIs, any documented API is considered public (and will be stable)
 
 An API being "stable" means if you increment the patch or minor version of your Docusaurus installation without any other change, running `docusaurus start` or `docusaurus build` should not throw an error.
 
-### Theming public API {#theming-public-api}
+### Theming public API {/* #theming-public-api */}
 
 Docusaurus has a very flexible theming system:
 

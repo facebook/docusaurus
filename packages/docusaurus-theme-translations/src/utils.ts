@@ -66,7 +66,7 @@ export async function extractThemeCodeMessages(
   const filesExtractedTranslations = await extractAllSourceCodeFileTranslations(
     filePaths,
     {
-      presets: ['@docusaurus/babel/preset'],
+      presets: [require.resolve('@docusaurus/babel/preset')],
     },
   );
 

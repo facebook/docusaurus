@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-rsdoctor",
-  "version": "3.9.2",
+  "version": "3.10.1",
   "description": "Rsdoctor plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,18 +18,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.9.2",
-    "@docusaurus/types": "3.9.2",
-    "@docusaurus/utils-validation": "3.9.2",
-    "@rsdoctor/rspack-plugin": "^0.4.6",
-    "@rsdoctor/webpack-plugin": "^0.4.6",
+    "@docusaurus/core": "3.10.1",
+    "@docusaurus/types": "3.10.1",
+    "@docusaurus/utils-validation": "3.10.1",
+    "@rsdoctor/rspack-plugin": "^1.5.12",
+    "@rsdoctor/webpack-plugin": "^1.5.12",
     "tslib": "^2.6.0"
   },
   "peerDependencies": {
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "engines": {
-    "node": ">=20.0"
+    "node": ">=24.14"
   }
 }

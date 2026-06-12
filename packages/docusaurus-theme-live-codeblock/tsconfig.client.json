@@ -1,5 +1,5 @@
 {
   "extends": "../../tsconfig.base.client.json",
-  "include": ["src/theme", "src/*.d.ts", "src/custom-buble.ts"],
+  "include": ["src/theme", "src/client", "src/*.d.ts", "src/custom-buble.ts"],
   "exclude": ["**/__tests__/**"]
 }

@@ -48,6 +48,7 @@ declare module '@theme/Admonition' {
     readonly icon?: ReactNode;
     readonly title?: ReactNode;
     readonly className?: string;
+    readonly id?: string;
   }
 
   export default function Admonition(props: Props): ReactNode;
@@ -123,6 +124,7 @@ declare module '@theme/Admonition/Layout' {
     readonly icon?: ReactNode;
     readonly title?: ReactNode;
     readonly className?: string;
+    readonly id?: string;
   }
   export default function AdmonitionLayout(props: Props): ReactNode;
 }
@@ -497,8 +499,7 @@ declare module '@theme/CodeBlock/Buttons/WordWrapButton' {
 }
 
 declare module '@theme/CodeBlock/Container' {
-  import type {ReactNode} from 'react';
-  import type {ComponentProps} from 'react';
+  import type {ReactNode, ComponentProps} from 'react';
 
   export default function CodeBlockContainer<T extends 'div' | 'pre'>({
     as: As,
@@ -578,6 +579,71 @@ declare module '@theme/DocCard' {
   }
 
   export default function DocCard(props: Props): ReactNode;
+}
+
+declare module '@theme/DocCard/Heading' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly icon: ReactNode;
+    readonly title: string;
+  }
+
+  export default function DocCardHeading(props: Props): ReactNode;
+}
+
+declare module '@theme/DocCard/Heading/Icon' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly icon: ReactNode;
+  }
+
+  export default function DocCardHeadingIcon(props: Props): ReactNode;
+}
+
+declare module '@theme/DocCard/Heading/Text' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly title: string;
+  }
+
+  export default function DocCardHeadingText(props: Props): ReactNode;
+}
+
+declare module '@theme/DocCard/Description' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly description: string;
+  }
+
+  export default function DocCardDescription(props: Props): ReactNode;
+}
+
+declare module '@theme/DocCard/Layout' {
+  import type {ReactNode} from 'react';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+    readonly className?: string;
+    readonly href: string;
+    readonly icon: ReactNode;
+    readonly title: string;
+    readonly description?: string;
+  }
+
+  export default function DocCardLayout(props: Props): ReactNode;
 }
 
 declare module '@theme/DocCardList' {
@@ -1258,9 +1324,6 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     readonly position?: 'left' | 'right';
   };
 
-  // TODO Docusaurus v4, remove old type name
-  export type DesktopOrMobileNavBarItemProps = DefaultNavbarItemProps;
-
   export interface Props extends DefaultNavbarItemProps {
     readonly mobile?: boolean;
   }
@@ -1313,9 +1376,6 @@ declare module '@theme/NavbarItem/DropdownNavbarItem' {
     readonly items: readonly LinkLikeNavbarItemProps[];
     readonly className?: string;
   };
-
-  // TODO Docusaurus v4, remove old type name
-  export type DesktopOrMobileNavBarItemProps = DropdownNavbarItemProps;
 
   export interface Props extends DropdownNavbarItemProps {
     readonly mobile?: boolean;
@@ -1743,11 +1803,11 @@ declare module '@theme/Icon/LightMode' {
 }
 
 declare module '@theme/Icon/SystemColorMode' {
-  import type {ComponentProps} from 'react';
+  import type {ComponentProps, ReactNode} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  export default function IconSystemColorMode(props: Props): JSX.Element;
+  export default function IconSystemColorMode(props: Props): ReactNode;
 }
 
 declare module '@theme/Icon/Menu' {

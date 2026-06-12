@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
 import path from 'path';
 import os from 'os';
@@ -21,6 +22,7 @@ import {
   getGitAllRepoRoots,
   getGitRepositoryFilesInfo,
 } from '../gitUtils';
+import {createVcsGitEagerConfig} from '../vcsGitEager';
 
 class Git {
   private constructor(private dir: string) {
@@ -156,9 +158,19 @@ class Git {
   }
 }
 
-async function createGitRepoEmpty(): Promise<{repoDir: string; git: Git}> {
-  let repoDir = await fs.mkdtemp(path.join(os.tmpdir(), 'git-test-repo'));
+async function createTempDir(): Promise<string> {
+  let repoDir = await fs.mkdtemp(
+    // Note, the <MKDTEMP_DIR> is useful for stabilizing Jest snapshots paths
+    // This way, snapshot paths don't contain random temp dir names.
+    // See our ./test/snapshotPathNormalizer.ts
+    path.join(os.tmpdir(), 'git-test-repo___MKDTEMP_DIR___'),
+  );
   repoDir = await fs.realpath.native(repoDir);
+  return repoDir;
+}
+
+async function createGitRepoEmpty(): Promise<{repoDir: string; git: Git}> {
+  const repoDir = await createTempDir();
   const git = await Git.initializeRepo(repoDir);
   return {repoDir, git};
 }
@@ -330,12 +342,18 @@ describe('commit info APIs', () => {
       await expect(
         getGitCreation(filePath),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"An error occurred when trying to get the last update date"`,
+        `
+        [Error: An error occurred when trying to get the file creation date from Git]
+        Cause: [Error: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist.]
+      `,
       );
       await expect(
         getGitLastUpdate(filePath),
       ).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"An error occurred when trying to get the last update date"`,
+        `
+        [Error: An error occurred when trying to get the file last update date from Git]
+        Cause: [Error: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist.]
+      `,
       );
     });
 
@@ -405,7 +423,8 @@ describe('getGitRepoRoot', () => {
 
   it('returns Docusaurus repo for cwd=__dirname', async () => {
     const cwd = __dirname;
-    await expect(getGitRepoRoot(cwd)).resolves.toMatch(/docusaurus$/);
+    const repoRoot = path.resolve(cwd, '..', '..', '..', '..', '..');
+    await expect(getGitRepoRoot(cwd)).resolves.toEqual(repoRoot);
   });
 
   it('rejects for cwd=repoDir/doesNotExist', async () => {
@@ -493,15 +512,17 @@ describe('submodules APIs', () => {
     });
 
     it('rejects for cwd of untracked dir', async () => {
-      const cwd = await os.tmpdir();
+      const cwd = await os.homedir();
       // Do we really want this to throw?
       // Not sure, and Git doesn't help us failsafe and return null...
       await expect(getGitSuperProjectRoot(cwd)).rejects
         .toThrowErrorMatchingInlineSnapshot(`
-        "Couldn't find the git superproject root directory
-        Failure while running \`git rev-parse --show-superproject-working-tree\` from cwd="<TEMP_DIR>"
+        [Error: Couldn't find the git superproject root directory
+        Failure while running \`git rev-parse --show-superproject-working-tree\` from cwd="<HOME_DIR>"
         The command executed throws an error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
-        fatal: not a git repository (or any of the parent directories): .git"
+        fatal: not a git repository (or any of the parent directories): .git]
+        Cause: [Error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
+        fatal: not a git repository (or any of the parent directories): .git]
       `);
     });
   });
@@ -718,6 +739,94 @@ describe('submodules APIs', () => {
           },
         }
       `);
+    });
+  });
+});
+
+describe('VSC strategies', () => {
+  async function initTestRepo() {
+    const superproject = await createGitRepoEmpty();
+    await superproject.git.commitFile('rootFile.md');
+
+    const submodule = await createGitRepoEmpty();
+    await submodule.git.commitFile('submoduleFile.md');
+    await submodule.git.commitFile('submoduleFile.md', {
+      commitDate: '2020-06-20',
+      fileContent: 'updated',
+    });
+
+    await superproject.git.defineSubmodules({
+      'submodules/submodule': submodule.repoDir,
+    });
+
+    return {superproject, submodule};
+  }
+
+  // Create the repo only once for all tests => faster tests
+  const repoPromise = initTestRepo();
+
+  async function initVsc() {
+    const repo = await repoPromise;
+    const repoDir = repo.superproject.repoDir;
+    const vcs = createVcsGitEagerConfig();
+    // TODO awkward siteDir -> repoDir although it works
+    vcs.initialize({siteDir: repoDir});
+    return {vcs, repoDir};
+  }
+
+  describe('VSC Git Eager Strategy', () => {
+    it('can read repo file info', async () => {
+      const {vcs, repoDir} = await initVsc();
+
+      const filepath = path.join(repoDir, 'rootFile.md');
+
+      await expect(vcs.getFileLastUpdateInfo(filepath)).resolves.toEqual({
+        author: 'Seb',
+        timestamp: new Date('2020-06-19').getTime(),
+      });
+      await expect(vcs.getFileCreationInfo(filepath)).resolves.toEqual({
+        author: 'Seb',
+        timestamp: new Date('2020-06-19').getTime(),
+      });
+    });
+
+    it('can read submodule file', async () => {
+      const {vcs, repoDir} = await initVsc();
+
+      const filepath = path.join(
+        repoDir,
+        'submodules/submodule/submoduleFile.md',
+      );
+
+      await expect(vcs.getFileLastUpdateInfo(filepath)).resolves.toEqual({
+        author: 'Seb',
+        timestamp: new Date('2020-06-20').getTime(),
+      });
+      await expect(vcs.getFileCreationInfo(filepath)).resolves.toEqual({
+        author: 'Seb',
+        timestamp: new Date('2020-06-19').getTime(),
+      });
+    });
+
+    describe('when site is not using git', () => {
+      async function initNonGitVsc() {
+        const repoDir = await createTempDir();
+        const vcs = createVcsGitEagerConfig();
+        vcs.initialize({siteDir: repoDir});
+        return {vcs, repoDir};
+      }
+
+      it('throws on read attempts', async () => {
+        const {vcs, repoDir} = await initNonGitVsc();
+
+        const filepath = path.join(repoDir, 'any.md');
+
+        await expect(vcs.getFileLastUpdateInfo(filepath)).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          [Error: This Docusaurus site is outside any Git worktree.
+          Unable to read Git info for file "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/any.md" ]
+        `);
+      });
     });
   });
 });

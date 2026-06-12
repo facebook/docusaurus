@@ -24,7 +24,7 @@ function inferLanguageDisplayName(locale: string) {
         type: 'language',
         fallback: 'code',
       }).of(l)!;
-    } catch (e) {
+    } catch {
       // This is to compensate "of()" that is a bit strict
       // Looks like starting Node 22, this locale throws: "en-US-u-ca-buddhist"
       // RangeError: invalid_argument
@@ -64,7 +64,6 @@ function getDefaultCalendar(localeStr: string) {
   // See https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getCalendars
   // See https://caniuse.com/mdn-javascript_builtins_intl_locale_getcalendars
   const calendars =
-    // @ts-expect-error: new std method (Bun/JSC/WebKit)
     locale.getCalendars?.() ??
     // @ts-expect-error: non-std attribute (V8/Chromium/Node)
     locale.calendars;
@@ -80,22 +79,24 @@ function getDefaultDirection(localeStr: string) {
   const locale = new Intl.Locale(localeStr);
   // see https://github.com/tc39/proposal-intl-locale-info
   // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getTextInfo
-  // Node 18.0 implements a former version of the getTextInfo() proposal
-  // TODO Docusaurus v4: remove the fallback to locale.textInfo
-  // @ts-expect-error: The TC39 proposal was updated
-  const textInto = locale.getTextInfo?.() ?? locale.textInfo;
-  return textInto.direction;
+  return locale.getTextInfo().direction ?? 'ltr';
 }
 
 export function getDefaultLocaleConfig(
+  // Locale "key/identifier"
+  // Can be anything, but usually a country / BCP47 code
   locale: string,
+  // optionally provided in i18n.localConfigs, need to respect BCP47
+  htmlLang?: string,
 ): Omit<I18nLocaleConfig, 'translate' | 'url' | 'baseUrl'> {
   try {
     return {
-      label: getDefaultLocaleLabel(locale),
-      direction: getDefaultDirection(locale),
-      htmlLang: locale,
-      calendar: getDefaultCalendar(locale),
+      label: getDefaultLocaleLabel(htmlLang ?? locale),
+      direction: getDefaultDirection(htmlLang ?? locale),
+      htmlLang: htmlLang ?? locale,
+      calendar: getDefaultCalendar(htmlLang ?? locale),
+      // Fot the i18n/<path>, we don't use htmlLang on purpose
+      // see bug https://github.com/facebook/docusaurus/issues/11952
       path: locale,
     };
   } catch (e) {
@@ -153,7 +154,7 @@ export async function loadI18n({
       I18nLocaleConfig,
       'translate' | 'url' | 'baseUrl'
     > = {
-      ...getDefaultLocaleConfig(localeConfigInput.htmlLang ?? locale),
+      ...getDefaultLocaleConfig(locale, localeConfigInput.htmlLang),
       ...localeConfigInput,
     };
 

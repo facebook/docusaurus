@@ -4,9 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
+// @vitest-environment jsdom
+import {describe, expect, it} from 'vitest';
 import React from 'react';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {useDocsVersion, DocsVersionProvider} from '../docsVersion';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
 
@@ -30,7 +31,7 @@ describe('useDocsVersion', () => {
     expect(
       () => renderHook(() => useDocsVersion()).result.current,
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Hook useDocsVersion is called outside the <DocsVersionProvider>. "`,
+      `[ReactContextError: Hook useDocsVersion is called outside the <DocsVersionProvider>. ]`,
     );
   });
 

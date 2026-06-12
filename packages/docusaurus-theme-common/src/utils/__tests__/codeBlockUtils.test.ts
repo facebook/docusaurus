@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {
   getLineNumbersStart,
   type MagicCommentConfig,
@@ -154,7 +155,7 @@ bbbbb`,
         },
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"A highlight range has been given in code block's metastring (\`\`\` {1}), but no magic comment config is available. Docusaurus applies the first magic comment entry's className for metastring ranges."`,
+      `[Error: A highlight range has been given in code block's metastring (\`\`\` {1}), but no magic comment config is available. Docusaurus applies the first magic comment entry's className for metastring ranges.]`,
     );
   });
 

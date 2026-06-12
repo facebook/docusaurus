@@ -196,8 +196,8 @@ async function resolveXsltFilePaths({
 }) {
   const xsltAbsolutePath: string = path.isAbsolute(xsltFilePath)
     ? xsltFilePath
-    : (await getDataFilePath({filePath: xsltFilePath, contentPaths})) ??
-      path.resolve(contentPaths.contentPath, xsltFilePath);
+    : ((await getDataFilePath({filePath: xsltFilePath, contentPaths})) ??
+      path.resolve(contentPaths.contentPath, xsltFilePath));
 
   if (!(await fs.pathExists(xsltAbsolutePath))) {
     throw new Error(
@@ -213,7 +213,7 @@ async function resolveXsltFilePaths({
     parsedPath.dir,
     `${parsedPath.name}.css`,
   );
-  if (!(await fs.pathExists(xsltAbsolutePath))) {
+  if (!(await fs.pathExists(cssAbsolutePath))) {
     throw new Error(
       logger.interpolate`Blog feed XSLT file was found at path=${path.relative(
         process.cwd(),
@@ -323,7 +323,7 @@ async function createBlogFeedFile({
     await fs.outputFile(outputPath, feedContent);
   } catch (err) {
     throw new Error(`Generating ${feedType} feed failed.`, {
-      cause: err as Error,
+      cause: err,
     });
   }
 }

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
+import {describe, expect, it, vi} from 'vitest';
 import {getVcsPreset} from '@docusaurus/utils';
 import {
   ConfigSchema,
@@ -57,12 +57,18 @@ describe('normalizeConfig', () => {
     const userConfig: Config = {
       ...DEFAULT_CONFIG,
       ...baseConfig,
+      storage: {
+        type: 'sessionStorage',
+        namespace: true,
+      },
       future: {
         v4: {
-          removeLegacyPostBuildHeadAttribute: true,
           useCssCascadeLayers: true,
+          siteStorageNamespacing: true,
+          fasterByDefault: true,
+          mdx1CompatDisabledByDefault: true,
         },
-        experimental_faster: {
+        faster: {
           swcJsLoader: true,
           swcJsMinimizer: true,
           swcHtmlMinimizer: true,
@@ -72,10 +78,6 @@ describe('normalizeConfig', () => {
           rspackPersistentCache: true,
           ssgWorkerThreads: true,
           gitEagerVcs: true,
-        },
-        experimental_storage: {
-          type: 'sessionStorage',
-          namespace: true,
         },
         experimental_vcs: {
           initialize: (_params) => {},
@@ -194,8 +196,8 @@ describe('url', () => {
         url: 1,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""url" must be a string
-      "
+      [Error: "url" must be a string
+      ]
     `);
   });
 
@@ -205,8 +207,8 @@ describe('url', () => {
         url: 'mysite.com',
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""mysite.com" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".
-      "
+      [Error: "mysite.com" does not look like a valid URL. Make sure it has a protocol; for example, "https://example.com".
+      ]
     `);
   });
 
@@ -225,8 +227,8 @@ describe('url', () => {
         baseUrl: 1,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""baseUrl" must be a string
-      "
+      [Error: "baseUrl" must be a string
+      ]
     `);
   });
 
@@ -295,8 +297,8 @@ describe('headTags', () => {
         ],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""headTags[0].tagName" is required
-      "
+      [Error: "headTags[0].tagName" is required
+      ]
     `);
   });
 
@@ -310,8 +312,8 @@ describe('headTags', () => {
         ],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""headTags[0].attributes" is required
-      "
+      [Error: "headTags[0].attributes" is required
+      ]
     `);
   });
 
@@ -342,8 +344,8 @@ describe('headTags', () => {
         ],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""headTags[0].attributes.rel" must be a string
-      "
+      [Error: "headTags[0].attributes.rel" must be a string
+      ]
     `);
   });
 });
@@ -355,8 +357,8 @@ describe('css', () => {
         stylesheets: ['https://somescript.com', {type: 'text/css'}],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""stylesheets[1]" is invalid. A stylesheet must be a plain string (the href), or an object with at least a "href" property.
-      "
+      [Error: "stylesheets[1]" is invalid. A stylesheet must be a plain string (the href), or an object with at least a "href" property.
+      ]
     `);
   });
 });
@@ -368,8 +370,8 @@ describe('scripts', () => {
         scripts: ['https://some.com', {}],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""scripts[1]" is invalid. A script must be a plain string (the src), or an object with at least a "src" property.
-      "
+      [Error: "scripts[1]" is invalid. A script must be a plain string (the src), or an object with at least a "src" property.
+      ]
     `);
   });
 });
@@ -401,9 +403,9 @@ describe('i18n', () => {
 
   it('rejects empty object', () => {
     expect(() => normalizeI18n({})).toThrowErrorMatchingInlineSnapshot(`
-      ""i18n.defaultLocale" is required
+      [Error: "i18n.defaultLocale" is required
       "i18n.locales" is required
-      "
+      ]
     `);
   });
 
@@ -449,9 +451,9 @@ describe('i18n', () => {
       it('rejects empty', () => {
         expect(() => normalizeLocaleConfig({url: ''}))
           .toThrowErrorMatchingInlineSnapshot(`
-          ""i18n.localeConfigs.fr.url" is not allowed to be empty
-          "
-        `);
+            [Error: "i18n.localeConfigs.fr.url" is not allowed to be empty
+            ]
+          `);
       });
 
       it('accepts valid url', () => {
@@ -511,6 +513,7 @@ describe('markdown', () => {
   ): MarkdownConfig {
     return normalizeConfig({markdown}).markdown;
   }
+
   it('accepts undefined object', () => {
     expect(normalizeMarkdown(undefined)).toEqual(DEFAULT_CONFIG.markdown);
   });
@@ -571,8 +574,8 @@ describe('markdown', () => {
         markdown: {preprocessor: () => 'content'},
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.preprocessor" must have an arity of 1
-      "
+      [Error: "markdown.preprocessor" must have an arity of 1
+      ]
     `);
     expect(() =>
       normalizeMarkdown(
@@ -580,8 +583,8 @@ describe('markdown', () => {
         {preprocessor: (arg1, arg2) => String(arg1) + String(arg2)},
       ),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.preprocessor" must have an arity of 1
-      "
+      [Error: "markdown.preprocessor" must have an arity of 1
+      ]
     `);
   });
 
@@ -595,9 +598,9 @@ describe('markdown', () => {
         format: null,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.format" must be one of [mdx, md, detect]
+      [Error: "markdown.format" must be one of [mdx, md, detect]
       "markdown.format" must be a string
-      "
+      ]
     `);
     expect(() =>
       normalizeMarkdown(
@@ -605,8 +608,8 @@ describe('markdown', () => {
         {format: 'xyz'},
       ),
     ).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown.format" must be one of [mdx, md, detect]
-      "
+      [Error: "markdown.format" must be one of [mdx, md, detect]
+      ]
     `);
   });
 
@@ -614,8 +617,8 @@ describe('markdown', () => {
     expect(() => {
       normalizeMarkdown(null);
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""markdown" must be of type object
-      "
+      [Error: "markdown" must be of type object
+      ]
     `);
   });
 
@@ -647,9 +650,9 @@ describe('markdown', () => {
           emoji: 'yes',
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-              ""markdown.emoji" must be a boolean
-              "
-          `);
+        [Error: "markdown.emoji" must be a boolean
+        ]
+      `);
     });
 
     it('throw for number emoji value', () => {
@@ -661,9 +664,9 @@ describe('markdown', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-              ""markdown.emoji" must be a boolean
-              "
-          `);
+        [Error: "markdown.emoji" must be a boolean
+        ]
+      `);
     });
   });
 
@@ -698,8 +701,8 @@ describe('markdown', () => {
             42,
           ),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
-          "
+          [Error: "markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
+          ]
         `);
       });
 
@@ -709,20 +712,15 @@ describe('markdown', () => {
 
       it('rejects null', () => {
         expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
-          "
+          [Error: "markdown.hooks.onBrokenMarkdownLinks" does not match any of the allowed types
+          ]
         `);
       });
 
       describe('onBrokenMarkdownLinks migration', () => {
-        const warnMock = jest
-          .spyOn(console, 'warn')
-          .mockImplementation(() => {});
-        beforeEach(() => {
-          warnMock.mockClear();
-        });
-
         it('accepts migrated v3 config', () => {
+          using warn = vi.spyOn(console, 'warn');
+
           expect(
             normalizeConfig({
               onBrokenMarkdownLinks: undefined,
@@ -743,10 +741,12 @@ describe('markdown', () => {
             }),
           );
 
-          expect(warnMock).not.toHaveBeenCalled();
+          expect(warn).not.toHaveBeenCalled();
         });
 
         it('accepts deprecated v3 config with migration warning', () => {
+          using warn = vi.spyOn(console, 'warn');
+
           expect(
             normalizeConfig({
               onBrokenMarkdownLinks: 'log',
@@ -767,8 +767,8 @@ describe('markdown', () => {
             }),
           );
 
-          expect(warnMock).toHaveBeenCalledTimes(1);
-          expect(warnMock.mock.calls[0]).toMatchInlineSnapshot(`
+          expect(warn).toHaveBeenCalledTimes(1);
+          expect(warn.mock.calls[0]).toMatchInlineSnapshot(`
             [
               "[WARNING] The \`siteConfig.onBrokenMarkdownLinks\` config option is deprecated and will be removed in Docusaurus v4.
             Please migrate and move this option to \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` instead.",
@@ -802,8 +802,8 @@ describe('markdown', () => {
             42,
           ),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
-          "
+          [Error: "markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
+          ]
         `);
       });
 
@@ -813,8 +813,8 @@ describe('markdown', () => {
 
       it('rejects null', () => {
         expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
-          ""markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
-          "
+          [Error: "markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
+          ]
         `);
       });
     });
@@ -1018,8 +1018,8 @@ describe('themes', () => {
         themes: {},
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""themes" must be an array
-      "
+      [Error: "themes" must be an array
+      ]
     `);
   });
 });
@@ -1032,8 +1032,8 @@ describe('presets', () => {
         presets: {},
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""presets" must be an array
-      "
+      [Error: "presets" must be an array
+      ]
     `);
   });
 
@@ -1044,10 +1044,10 @@ describe('presets', () => {
         presets: [() => {}],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      ""presets[0]" does not look like a valid preset config. A preset config entry should be one of:
+      [Error: "presets[0]" does not look like a valid preset config. A preset config entry should be one of:
       - A tuple of [presetName, options], like \`["classic", { blog: false }]\`, or
       - A simple string, like \`"classic"\`
-      "
+      ]
     `);
   });
 
@@ -1057,6 +1057,262 @@ describe('presets', () => {
         presets: [false, null, 'classic'],
       });
     }).not.toThrow();
+  });
+});
+
+describe('storage', () => {
+  function storageContaining(storage: Partial<StorageConfig>) {
+    return expect.objectContaining({
+      storage: expect.objectContaining(storage),
+    });
+  }
+
+  it('accepts storage - undefined', () => {
+    expect(
+      normalizeConfig({
+        storage: undefined,
+      }),
+    ).toEqual(storageContaining(DEFAULT_STORAGE_CONFIG));
+  });
+
+  it('accepts storage - empty', () => {
+    expect(
+      normalizeConfig({
+        storage: {},
+      }),
+    ).toEqual(storageContaining(DEFAULT_STORAGE_CONFIG));
+  });
+
+  it('accepts storage - full', () => {
+    const storage: StorageConfig = {
+      type: 'sessionStorage',
+      namespace: 'myNamespace',
+    };
+    expect(
+      normalizeConfig({
+        storage,
+      }),
+    ).toEqual(storageContaining(storage));
+  });
+
+  it('rejects storage - boolean', () => {
+    // @ts-expect-error: invalid
+    const storage: Partial<StorageConfig> = true;
+    expect(() =>
+      normalizeConfig({
+        storage,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      [Error: "storage" must be of type object
+      ]
+    `);
+  });
+
+  it('rejects storage - number', () => {
+    // @ts-expect-error: invalid
+    const storage: Partial<StorageConfig> = 42;
+    expect(() =>
+      normalizeConfig({
+        storage,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      [Error: "storage" must be of type object
+      ]
+    `);
+  });
+
+  it('rejects future.experimental_storage', () => {
+    expect(() =>
+      normalizeConfig({
+        future: {
+          // @ts-expect-error: testing removed config
+          experimental_storage: {
+            type: 'sessionStorage',
+            namespace: true,
+          },
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      [Error: The Docusaurus config \`future.experimental_storage\` has been promoted to a stable top-level \`storage\` config attribute. Please move your storage config to the top level.
+      ]
+    `);
+  });
+
+  it('rejects future.experimental_faster', () => {
+    expect(() =>
+      normalizeConfig({
+        future: {
+          // @ts-expect-error: testing removed config
+          experimental_faster: true,
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      [Error: The Docusaurus config \`future.experimental_faster\` has been renamed to \`future.faster\`. Please update your Docusaurus config.
+      ]
+    `);
+  });
+
+  describe('type', () => {
+    it('accepts type', () => {
+      const storage: Partial<StorageConfig> = {
+        type: 'sessionStorage',
+      };
+      expect(
+        normalizeConfig({
+          storage,
+        }),
+      ).toEqual(
+        storageContaining({
+          ...DEFAULT_STORAGE_CONFIG,
+          ...storage,
+        }),
+      );
+    });
+
+    it('accepts type - undefined', () => {
+      const storage: Partial<StorageConfig> = {
+        type: undefined,
+      };
+      expect(
+        normalizeConfig({
+          storage,
+        }),
+      ).toEqual(storageContaining({type: 'localStorage'}));
+    });
+
+    it('rejects type - null', () => {
+      // @ts-expect-error: invalid
+      const storage: Partial<StorageConfig> = {type: 42};
+      expect(() =>
+        normalizeConfig({
+          storage,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "storage.type" must be one of [localStorage, sessionStorage]
+        "storage.type" must be a string
+        ]
+      `);
+    });
+
+    it('rejects type - number', () => {
+      // @ts-expect-error: invalid
+      const storage: Partial<StorageConfig> = {type: 42};
+      expect(() =>
+        normalizeConfig({
+          storage,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "storage.type" must be one of [localStorage, sessionStorage]
+        "storage.type" must be a string
+        ]
+      `);
+    });
+
+    it('rejects type - invalid enum value', () => {
+      // @ts-expect-error: invalid
+      const storage: Partial<StorageConfig> = {type: 'badType'};
+      expect(() =>
+        normalizeConfig({
+          storage,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "storage.type" must be one of [localStorage, sessionStorage]
+        ]
+      `);
+    });
+  });
+
+  describe('namespace', () => {
+    it('accepts namespace - boolean', () => {
+      const storage: Partial<StorageConfig> = {
+        namespace: true,
+      };
+      expect(
+        normalizeConfig({
+          storage,
+        }),
+      ).toEqual(storageContaining(storage));
+    });
+
+    it('accepts namespace - string', () => {
+      const storage: Partial<StorageConfig> = {
+        namespace: 'myNamespace',
+      };
+      expect(
+        normalizeConfig({
+          storage,
+        }),
+      ).toEqual(storageContaining(storage));
+    });
+
+    it('defaults namespace to false', () => {
+      expect(
+        normalizeConfig({
+          storage: {},
+        }),
+      ).toEqual(storageContaining({namespace: false}));
+    });
+
+    it('defaults namespace to true when v4.siteStorageNamespacing is true', () => {
+      expect(
+        normalizeConfig({
+          storage: {},
+          future: {v4: {siteStorageNamespacing: true}},
+        }),
+      ).toEqual(storageContaining({namespace: true}));
+    });
+
+    it('defaults namespace to false when v4.siteStorageNamespacing is false', () => {
+      expect(
+        normalizeConfig({
+          storage: {},
+          future: {v4: {siteStorageNamespacing: false}},
+        }),
+      ).toEqual(storageContaining({namespace: false}));
+    });
+
+    it('keeps explicit namespace false even when v4.siteStorageNamespacing is true', () => {
+      expect(
+        normalizeConfig({
+          storage: {namespace: false},
+          future: {v4: {siteStorageNamespacing: true}},
+        }),
+      ).toEqual(storageContaining({namespace: false}));
+    });
+
+    it('keeps explicit namespace string when v4.siteStorageNamespacing is true', () => {
+      expect(
+        normalizeConfig({
+          storage: {namespace: 'custom'},
+          future: {v4: {siteStorageNamespacing: true}},
+        }),
+      ).toEqual(storageContaining({namespace: 'custom'}));
+    });
+
+    it('rejects namespace - null', () => {
+      const storage: Partial<StorageConfig> = {namespace: null};
+      expect(() =>
+        normalizeConfig({
+          storage,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "storage.namespace" must be one of [string, boolean]
+        ]
+      `);
+    });
+
+    it('rejects namespace - number', () => {
+      // @ts-expect-error: invalid
+      const storage: Partial<StorageConfig> = {namespace: 42};
+      expect(() =>
+        normalizeConfig({
+          storage,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "storage.namespace" must be one of [string, boolean]
+        ]
+      `);
+    });
   });
 });
 
@@ -1086,10 +1342,12 @@ describe('future', () => {
   it('accepts future - full', () => {
     const future: DocusaurusConfig['future'] = {
       v4: {
-        removeLegacyPostBuildHeadAttribute: true,
         useCssCascadeLayers: true,
+        siteStorageNamespacing: true,
+        fasterByDefault: true,
+        mdx1CompatDisabledByDefault: true,
       },
-      experimental_faster: {
+      faster: {
         swcJsLoader: true,
         swcJsMinimizer: true,
         swcHtmlMinimizer: true,
@@ -1104,10 +1362,6 @@ describe('future', () => {
         initialize: (_params) => {},
         getFileCreationInfo: (_filePath) => null,
         getFileLastUpdateInfo: (_filePath) => null,
-      },
-      experimental_storage: {
-        type: 'sessionStorage',
-        namespace: 'myNamespace',
       },
       experimental_router: 'hash',
     };
@@ -1131,9 +1385,9 @@ describe('future', () => {
         future,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "These field(s) ("future.doesNotExistKey",) are not recognized in docusaurus.config.js.
+      [Error: These field(s) ("future.doesNotExistKey",) are not recognized in docusaurus.config.js.
       If you still want these fields to be in your configuration, put them in the "customFields" field.
-      See https://docusaurus.io/docs/api/docusaurus-config/#customfields"
+      See https://docusaurus.io/docs/api/docusaurus-config/#customfields]
     `);
   });
 
@@ -1178,8 +1432,8 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_router" must be one of [browser, hash]
-        "
+        [Error: "future.experimental_router" must be one of [browser, hash]
+        ]
       `);
     });
 
@@ -1192,9 +1446,9 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_router" must be one of [browser, hash]
+        [Error: "future.experimental_router" must be one of [browser, hash]
         "future.experimental_router" must be a string
-        "
+        ]
       `);
     });
 
@@ -1208,217 +1462,10 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_router" must be one of [browser, hash]
+        [Error: "future.experimental_router" must be one of [browser, hash]
         "future.experimental_router" must be a string
-        "
+        ]
       `);
-    });
-  });
-
-  describe('storage', () => {
-    function storageContaining(storage: Partial<StorageConfig>) {
-      return futureContaining({
-        experimental_storage: expect.objectContaining(storage),
-      });
-    }
-
-    it('accepts storage - undefined', () => {
-      expect(
-        normalizeConfig({
-          future: {
-            experimental_storage: undefined,
-          },
-        }),
-      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
-    });
-
-    it('accepts storage - empty', () => {
-      expect(
-        normalizeConfig({
-          future: {experimental_storage: {}},
-        }),
-      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
-    });
-
-    it('accepts storage - full', () => {
-      const storage: StorageConfig = {
-        type: 'sessionStorage',
-        namespace: 'myNamespace',
-      };
-      expect(
-        normalizeConfig({
-          future: {
-            experimental_storage: storage,
-          },
-        }),
-      ).toEqual(storageContaining(storage));
-    });
-
-    it('rejects storage - boolean', () => {
-      // @ts-expect-error: invalid
-      const storage: Partial<StorageConfig> = true;
-      expect(() =>
-        normalizeConfig({
-          future: {
-            experimental_storage: storage,
-          },
-        }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_storage" must be of type object
-        "
-      `);
-    });
-
-    it('rejects storage - number', () => {
-      // @ts-expect-error: invalid
-      const storage: Partial<StorageConfig> = 42;
-      expect(() =>
-        normalizeConfig({
-          future: {
-            experimental_storage: storage,
-          },
-        }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_storage" must be of type object
-        "
-      `);
-    });
-
-    describe('type', () => {
-      it('accepts type', () => {
-        const storage: Partial<StorageConfig> = {
-          type: 'sessionStorage',
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toEqual(
-          storageContaining({
-            ...DEFAULT_STORAGE_CONFIG,
-            ...storage,
-          }),
-        );
-      });
-
-      it('accepts type - undefined', () => {
-        const storage: Partial<StorageConfig> = {
-          type: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toEqual(storageContaining({type: 'localStorage'}));
-      });
-
-      it('rejects type - null', () => {
-        // @ts-expect-error: invalid
-        const storage: Partial<StorageConfig> = {type: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-                  ""future.experimental_storage.type" must be one of [localStorage, sessionStorage]
-                  "future.experimental_storage.type" must be a string
-                  "
-              `);
-      });
-
-      it('rejects type - number', () => {
-        // @ts-expect-error: invalid
-        const storage: Partial<StorageConfig> = {type: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-                  ""future.experimental_storage.type" must be one of [localStorage, sessionStorage]
-                  "future.experimental_storage.type" must be a string
-                  "
-              `);
-      });
-
-      it('rejects type - invalid enum value', () => {
-        // @ts-expect-error: invalid
-        const storage: Partial<StorageConfig> = {type: 'badType'};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-                  ""future.experimental_storage.type" must be one of [localStorage, sessionStorage]
-                  "
-              `);
-      });
-    });
-
-    describe('namespace', () => {
-      it('accepts namespace - boolean', () => {
-        const storage: Partial<StorageConfig> = {
-          namespace: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toEqual(storageContaining(storage));
-      });
-
-      it('accepts namespace - string', () => {
-        const storage: Partial<StorageConfig> = {
-          namespace: 'myNamespace',
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toEqual(storageContaining(storage));
-      });
-
-      it('rejects namespace - null', () => {
-        const storage: Partial<StorageConfig> = {namespace: null};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-                  ""future.experimental_storage.namespace" must be one of [string, boolean]
-                  "
-              `);
-      });
-
-      it('rejects namespace - number', () => {
-        // @ts-expect-error: invalid
-        const storage: Partial<StorageConfig> = {namespace: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_storage: storage,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-                  ""future.experimental_storage.namespace" must be one of [string, boolean]
-                  "
-              `);
-      });
     });
   });
 
@@ -1520,8 +1567,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because VCS config preset name 'unknown-preset-name' is not valid.
-          "
+          [Error: "future.experimental_vcs" failed custom validation because VCS config preset name 'unknown-preset-name' is not valid.
+          ]
         `);
       });
     });
@@ -1548,8 +1595,8 @@ describe('future', () => {
             future: {experimental_vcs: {}},
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because "initialize" is required
-          "
+          [Error: "future.experimental_vcs" failed custom validation because "initialize" is required
+          ]
         `);
       });
 
@@ -1567,8 +1614,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because "initialize" must have an arity lesser or equal to 1
-          "
+          [Error: "future.experimental_vcs" failed custom validation because "initialize" must have an arity lesser or equal to 1
+          ]
         `);
       });
 
@@ -1586,8 +1633,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because "getFileCreationInfo" must have an arity of 1
-          "
+          [Error: "future.experimental_vcs" failed custom validation because "getFileCreationInfo" must have an arity of 1
+          ]
         `);
       });
 
@@ -1605,8 +1652,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_vcs" failed custom validation because "getFileLastUpdateInfo" must have an arity of 1
-          "
+          [Error: "future.experimental_vcs" failed custom validation because "getFileLastUpdateInfo" must have an arity of 1
+          ]
         `);
       });
     });
@@ -1615,7 +1662,7 @@ describe('future', () => {
   describe('faster', () => {
     function fasterContaining(faster: Partial<FasterConfig>) {
       return futureContaining({
-        experimental_faster: expect.objectContaining(faster),
+        faster: expect.objectContaining(faster),
       });
     }
 
@@ -1623,7 +1670,7 @@ describe('future', () => {
       expect(
         normalizeConfig({
           future: {
-            experimental_faster: undefined,
+            faster: undefined,
           },
         }),
       ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
@@ -1632,7 +1679,7 @@ describe('future', () => {
     it('accepts faster - empty', () => {
       expect(
         normalizeConfig({
-          future: {experimental_faster: {}},
+          future: {faster: {}},
         }),
       ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
     });
@@ -1653,7 +1700,7 @@ describe('future', () => {
         normalizeConfig({
           future: {
             v4: true,
-            experimental_faster: faster,
+            faster,
           },
         }),
       ).toEqual(fasterContaining(faster));
@@ -1662,7 +1709,7 @@ describe('future', () => {
     it('accepts faster - false', () => {
       expect(
         normalizeConfig({
-          future: {experimental_faster: false},
+          future: {faster: false},
         }),
       ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
     });
@@ -1672,40 +1719,32 @@ describe('future', () => {
         normalizeConfig({
           future: {
             v4: true,
-            experimental_faster: true,
+            faster: true,
           },
         }),
       ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
     });
 
-    it('rejects faster - true (v4: false)', () => {
-      expect(() =>
+    it('accepts faster - true (v4: false)', () => {
+      expect(
         normalizeConfig({
           future: {
             v4: false,
-            experimental_faster: true,
+            faster: true,
           },
         }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
-      `);
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
     });
 
-    it('rejects faster - true (v4: undefined)', () => {
-      expect(() =>
+    it('accepts faster - true (v4: undefined)', () => {
+      expect(
         normalizeConfig({
           future: {
-            v4: false,
-            experimental_faster: true,
+            v4: undefined,
+            faster: true,
           },
         }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-        If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-        All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
-      `);
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
     });
 
     it('rejects faster - number', () => {
@@ -1714,12 +1753,12 @@ describe('future', () => {
       expect(() =>
         normalizeConfig({
           future: {
-            experimental_faster: faster,
+            faster,
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.experimental_faster" must be one of [object, boolean]
-        "
+        [Error: "future.faster" must be one of [object, boolean]
+        ]
       `);
     });
 
@@ -1731,7 +1770,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsLoader: false}));
@@ -1744,7 +1783,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsLoader: true}));
@@ -1757,7 +1796,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsLoader: false}));
@@ -1769,12 +1808,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcJsLoader" must be a boolean
-          "
+          [Error: "future.faster.swcJsLoader" must be a boolean
+          ]
         `);
       });
 
@@ -1784,12 +1823,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcJsLoader" must be a boolean
-          "
+          [Error: "future.faster.swcJsLoader" must be a boolean
+          ]
         `);
       });
     });
@@ -1802,7 +1841,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsMinimizer: false}));
@@ -1815,7 +1854,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsMinimizer: true}));
@@ -1828,7 +1867,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcJsMinimizer: false}));
@@ -1840,12 +1879,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcJsMinimizer" must be a boolean
-          "
+          [Error: "future.faster.swcJsMinimizer" must be a boolean
+          ]
         `);
       });
 
@@ -1855,12 +1894,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcJsMinimizer" must be a boolean
-          "
+          [Error: "future.faster.swcJsMinimizer" must be a boolean
+          ]
         `);
       });
     });
@@ -1873,7 +1912,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
@@ -1886,7 +1925,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcHtmlMinimizer: true}));
@@ -1899,7 +1938,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
@@ -1911,12 +1950,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcHtmlMinimizer" must be a boolean
-          "
+          [Error: "future.faster.swcHtmlMinimizer" must be a boolean
+          ]
         `);
       });
 
@@ -1926,12 +1965,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.swcHtmlMinimizer" must be a boolean
-          "
+          [Error: "future.faster.swcHtmlMinimizer" must be a boolean
+          ]
         `);
       });
     });
@@ -1944,7 +1983,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({lightningCssMinimizer: false}));
@@ -1957,7 +1996,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({lightningCssMinimizer: true}));
@@ -1970,7 +2009,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({lightningCssMinimizer: false}));
@@ -1982,12 +2021,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.lightningCssMinimizer" must be a boolean
-          "
+          [Error: "future.faster.lightningCssMinimizer" must be a boolean
+          ]
         `);
       });
 
@@ -1997,12 +2036,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.lightningCssMinimizer" must be a boolean
-          "
+          [Error: "future.faster.lightningCssMinimizer" must be a boolean
+          ]
         `);
       });
     });
@@ -2015,7 +2054,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
@@ -2028,7 +2067,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({mdxCrossCompilerCache: true}));
@@ -2041,7 +2080,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
@@ -2053,12 +2092,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.mdxCrossCompilerCache" must be a boolean
-          "
+          [Error: "future.faster.mdxCrossCompilerCache" must be a boolean
+          ]
         `);
       });
 
@@ -2068,12 +2107,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.mdxCrossCompilerCache" must be a boolean
-          "
+          [Error: "future.faster.mdxCrossCompilerCache" must be a boolean
+          ]
         `);
       });
     });
@@ -2086,7 +2125,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackBundler: false}));
@@ -2099,7 +2138,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackBundler: true}));
@@ -2112,7 +2151,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackBundler: false}));
@@ -2124,12 +2163,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.rspackBundler" must be a boolean
-          "
+          [Error: "future.faster.rspackBundler" must be a boolean
+          ]
         `);
       });
 
@@ -2139,12 +2178,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.rspackBundler" must be a boolean
-          "
+          [Error: "future.faster.rspackBundler" must be a boolean
+          ]
         `);
       });
     });
@@ -2157,7 +2196,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackPersistentCache: false}));
@@ -2171,7 +2210,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackPersistentCache: true}));
@@ -2185,11 +2224,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(
-          `"Docusaurus config flag \`future.experimental_faster.rspackPersistentCache\` requires the flag \`future.experimental_faster.rspackBundler\` to be turned on."`,
+          `[Error: Docusaurus config flag \`future.faster.rspackPersistentCache\` requires the flag \`future.faster.rspackBundler\` to be turned on.]`,
         );
       });
 
@@ -2201,11 +2240,11 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(
-          `"Docusaurus config flag \`future.experimental_faster.rspackPersistentCache\` requires the flag \`future.experimental_faster.rspackBundler\` to be turned on."`,
+          `[Error: Docusaurus config flag \`future.faster.rspackPersistentCache\` requires the flag \`future.faster.rspackBundler\` to be turned on.]`,
         );
       });
 
@@ -2216,7 +2255,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({rspackPersistentCache: false}));
@@ -2228,12 +2267,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.rspackPersistentCache" must be a boolean
-          "
+          [Error: "future.faster.rspackPersistentCache" must be a boolean
+          ]
         `);
       });
 
@@ -2243,12 +2282,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.rspackPersistentCache" must be a boolean
-          "
+          [Error: "future.faster.rspackPersistentCache" must be a boolean
+          ]
         `);
       });
     });
@@ -2261,7 +2300,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({ssgWorkerThreads: false}));
@@ -2275,46 +2314,38 @@ describe('future', () => {
           normalizeConfig({
             future: {
               v4: true,
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({ssgWorkerThreads: true}));
       });
 
-      it('rejects - true (v4: false)', () => {
+      it('accepts - true (v4: false)', () => {
         const faster: Partial<FasterConfig> = {
           ssgWorkerThreads: true,
         };
-        expect(() =>
+        expect(
           normalizeConfig({
             future: {
               v4: false,
-              experimental_faster: faster,
+              faster,
             },
           }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
-        `);
+        ).toEqual(fasterContaining({ssgWorkerThreads: true}));
       });
 
-      it('rejects - true (v4: undefined)', () => {
+      it('accepts - true (v4: undefined)', () => {
         const faster: Partial<FasterConfig> = {
           ssgWorkerThreads: true,
         };
-        expect(() =>
+        expect(
           normalizeConfig({
             future: {
               v4: undefined,
-              experimental_faster: faster,
+              faster,
             },
           }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          "Docusaurus config \`future.experimental_faster.ssgWorkerThreads\` requires the future flag \`future.v4.removeLegacyPostBuildHeadAttribute\` to be turned on.
-          If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: \`{future: {v4: true}}\`
-          All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future"
-        `);
+        ).toEqual(fasterContaining({ssgWorkerThreads: true}));
       });
 
       it('accepts - false', () => {
@@ -2324,7 +2355,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({ssgWorkerThreads: false}));
@@ -2336,12 +2367,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.ssgWorkerThreads" must be a boolean
-          "
+          [Error: "future.faster.ssgWorkerThreads" must be a boolean
+          ]
         `);
       });
 
@@ -2351,12 +2382,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.ssgWorkerThreads" must be a boolean
-          "
+          [Error: "future.faster.ssgWorkerThreads" must be a boolean
+          ]
         `);
       });
     });
@@ -2369,7 +2400,7 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(fasterContaining({gitEagerVcs: false}));
@@ -2382,12 +2413,12 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(
           futureContaining({
-            experimental_faster: expect.objectContaining(faster),
+            faster: expect.objectContaining(faster),
             experimental_vcs: getVcsPreset('default-v2'),
           }),
         );
@@ -2400,12 +2431,12 @@ describe('future', () => {
         expect(
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toEqual(
           futureContaining({
-            experimental_faster: expect.objectContaining(faster),
+            faster: expect.objectContaining(faster),
             experimental_vcs: getVcsPreset('default-v1'),
           }),
         );
@@ -2417,12 +2448,12 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.gitEagerVcs" must be a boolean
-          "
+          [Error: "future.faster.gitEagerVcs" must be a boolean
+          ]
         `);
       });
 
@@ -2432,14 +2463,55 @@ describe('future', () => {
         expect(() =>
           normalizeConfig({
             future: {
-              experimental_faster: faster,
+              faster,
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.experimental_faster.gitEagerVcs" must be a boolean
-          "
+          [Error: "future.faster.gitEagerVcs" must be a boolean
+          ]
         `);
       });
+    });
+
+    it('v4.fasterByDefault defaults all faster flags to true', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            v4: {
+              fasterByDefault: true,
+            },
+          },
+        }),
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
+    });
+
+    it('v4.fasterByDefault with partial faster keeps overrides', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            v4: {
+              fasterByDefault: true,
+            },
+            faster: {swcJsLoader: false},
+          },
+        }),
+      ).toEqual(
+        fasterContaining({
+          ...DEFAULT_FASTER_CONFIG_TRUE,
+          swcJsLoader: false,
+        }),
+      );
+    });
+
+    it('faster: false overrides fasterByDefault', () => {
+      expect(
+        normalizeConfig({
+          future: {
+            v4: {fasterByDefault: true},
+            faster: false,
+          },
+        }),
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
     });
   });
 
@@ -2470,8 +2542,10 @@ describe('future', () => {
 
     it('accepts v4 - full', () => {
       const v4: FutureV4Config = {
-        removeLegacyPostBuildHeadAttribute: true,
         useCssCascadeLayers: true,
+        siteStorageNamespacing: true,
+        fasterByDefault: true,
+        mdx1CompatDisabledByDefault: true,
       };
       expect(
         normalizeConfig({
@@ -2508,84 +2582,9 @@ describe('future', () => {
           },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`
-        ""future.v4" must be one of [object, boolean]
-        "
+        [Error: "future.v4" must be one of [object, boolean]
+        ]
       `);
-    });
-
-    describe('removeLegacyPostBuildHeadAttribute', () => {
-      it('accepts - undefined', () => {
-        const v4: Partial<FutureV4Config> = {
-          removeLegacyPostBuildHeadAttribute: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: false}));
-      });
-
-      it('accepts - true', () => {
-        const v4: Partial<FutureV4Config> = {
-          removeLegacyPostBuildHeadAttribute: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: true}));
-      });
-
-      it('accepts - false', () => {
-        const v4: Partial<FutureV4Config> = {
-          removeLegacyPostBuildHeadAttribute: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({removeLegacyPostBuildHeadAttribute: false}));
-      });
-
-      it('rejects - null', () => {
-        const v4: Partial<FutureV4Config> = {
-          // @ts-expect-error: invalid
-          removeLegacyPostBuildHeadAttribute: 42,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
-          "
-        `);
-      });
-
-      it('rejects - number', () => {
-        const v4: Partial<FutureV4Config> = {
-          // @ts-expect-error: invalid
-          removeLegacyPostBuildHeadAttribute: 42,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.removeLegacyPostBuildHeadAttribute" must be a boolean
-          "
-        `);
-      });
     });
 
     describe('useCssCascadeLayers', () => {
@@ -2640,8 +2639,8 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.useCssCascadeLayers" must be a boolean
-          "
+          [Error: "future.v4.useCssCascadeLayers" must be a boolean
+          ]
         `);
       });
 
@@ -2657,9 +2656,217 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          ""future.v4.useCssCascadeLayers" must be a boolean
-          "
+          [Error: "future.v4.useCssCascadeLayers" must be a boolean
+          ]
         `);
+      });
+    });
+
+    describe('siteStorageNamespacing', () => {
+      it('accepts - undefined', () => {
+        const v4: Partial<FutureV4Config> = {
+          siteStorageNamespacing: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({siteStorageNamespacing: false}));
+      });
+
+      it('accepts - true', () => {
+        const v4: Partial<FutureV4Config> = {
+          siteStorageNamespacing: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({siteStorageNamespacing: true}));
+      });
+
+      it('accepts - false', () => {
+        const v4: Partial<FutureV4Config> = {
+          siteStorageNamespacing: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({siteStorageNamespacing: false}));
+      });
+
+      it('rejects - null', () => {
+        const v4: Partial<FutureV4Config> = {
+          siteStorageNamespacing: null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          [Error: "future.v4.siteStorageNamespacing" must be a boolean
+          ]
+        `);
+      });
+
+      it('rejects - number', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          siteStorageNamespacing: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          [Error: "future.v4.siteStorageNamespacing" must be a boolean
+          ]
+        `);
+      });
+    });
+
+    describe('fasterByDefault', () => {
+      it('accepts - undefined', () => {
+        const v4: Partial<FutureV4Config> = {
+          fasterByDefault: undefined,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({fasterByDefault: false}));
+      });
+
+      it('accepts - true', () => {
+        const v4: Partial<FutureV4Config> = {
+          fasterByDefault: true,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({fasterByDefault: true}));
+      });
+
+      it('accepts - false', () => {
+        const v4: Partial<FutureV4Config> = {
+          fasterByDefault: false,
+        };
+        expect(
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toEqual(v4Containing({fasterByDefault: false}));
+      });
+
+      it('rejects - null', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          fasterByDefault: null,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          [Error: "future.v4.fasterByDefault" must be a boolean
+          ]
+        `);
+      });
+
+      it('rejects - number', () => {
+        const v4: Partial<FutureV4Config> = {
+          // @ts-expect-error: invalid
+          fasterByDefault: 42,
+        };
+        expect(() =>
+          normalizeConfig({
+            future: {
+              v4,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          [Error: "future.v4.fasterByDefault" must be a boolean
+          ]
+        `);
+      });
+    });
+
+    describe('mdx1CompatDisabledByDefault', () => {
+      function mdx1CompatContaining(mdx1Compat: object) {
+        return expect.objectContaining({
+          markdown: expect.objectContaining({mdx1Compat}),
+        });
+      }
+
+      const MDX1_COMPAT_ALL_TRUE = {
+        comments: true,
+        admonitions: true,
+        headingIds: true,
+      };
+
+      const MDX1_COMPAT_ALL_FALSE = {
+        comments: false,
+        admonitions: false,
+        headingIds: false,
+      };
+
+      it('defaults mdx1Compat to all true when flag is off', () => {
+        expect(normalizeConfig({})).toEqual(
+          mdx1CompatContaining(MDX1_COMPAT_ALL_TRUE),
+        );
+      });
+
+      it('defaults mdx1Compat to all false when flag is on', () => {
+        expect(
+          normalizeConfig({
+            future: {v4: {mdx1CompatDisabledByDefault: true}},
+          }),
+        ).toEqual(mdx1CompatContaining(MDX1_COMPAT_ALL_FALSE));
+      });
+
+      it('defaults mdx1Compat to all false when v4: true', () => {
+        expect(
+          normalizeConfig({
+            future: {v4: true},
+          }),
+        ).toEqual(mdx1CompatContaining(MDX1_COMPAT_ALL_FALSE));
+      });
+
+      it('keeps explicit mdx1Compat overrides when flag is on', () => {
+        expect(
+          normalizeConfig({
+            future: {v4: {mdx1CompatDisabledByDefault: true}},
+            markdown: {
+              mdx1Compat: {admonitions: true},
+            },
+          }),
+        ).toEqual(
+          mdx1CompatContaining({
+            comments: false,
+            admonitions: true,
+            headingIds: false,
+          }),
+        );
       });
     });
   });

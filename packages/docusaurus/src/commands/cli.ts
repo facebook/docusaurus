@@ -203,6 +203,18 @@ export async function createCLIProgram({
       '--no-minify',
       'build website without minimizing JS bundles (default: false)',
     )
+    .option(
+      '--https',
+      'serve the dev site over HTTPS using a self-signed cert (default: false). Preferred over the HTTPS=true env var. Implied when both --ssl-cert and --ssl-key are provided.',
+    )
+    .option(
+      '--ssl-cert <path>',
+      'path to a TLS certificate file (implies HTTPS). Preferred over the SSL_CRT_FILE env var; CLI takes precedence if both are set.',
+    )
+    .option(
+      '--ssl-key <path>',
+      'path to a TLS private key file (implies HTTPS). Preferred over the SSL_KEY_FILE env var; CLI takes precedence if both are set.',
+    )
     .action(start);
 
   cli
@@ -255,10 +267,21 @@ export async function createCLIProgram({
     .command('write-heading-ids [siteDir] [files...]')
     .description('Generate heading ids in Markdown content.')
     .option(
+      '--syntax <syntax>',
+      'heading ID syntax: "classic" ({#id}) or "mdx-comment" ({/* #id */}) (default: "classic")',
+    )
+    .option(
+      '--migrate',
+      'migrate existing heading IDs to the target --syntax, if they are using a different syntax (default: false)',
+    )
+    .option(
+      '--overwrite',
+      'overwrite existing heading IDs, re-generate them from the heading text (default: false)',
+    )
+    .option(
       '--maintain-case',
       "keep the headings' casing, otherwise make all lowercase (default: false)",
     )
-    .option('--overwrite', 'overwrite existing heading IDs (default: false)')
     .action(writeHeadingIds);
 
   cli.arguments('<command>').action((cmd) => {

@@ -19,10 +19,7 @@ import {
 import {toPageCollectedMetadataInternal} from './serverHelmetUtils';
 import type {AppRenderer, PageCollectedDataInternal} from '../common';
 
-const render: AppRenderer['render'] = async ({
-  pathname,
-  v4RemoveLegacyPostBuildHeadAttribute,
-}) => {
+const render: AppRenderer['render'] = async ({pathname}) => {
   await preload(pathname);
 
   const modules = new Set<string>();
@@ -48,12 +45,6 @@ const render: AppRenderer['render'] = async ({
   const {helmet} = helmetContext as FilledContext;
 
   const metadata = toPageCollectedMetadataInternal({helmet});
-
-  // TODO Docusaurus v4 remove with deprecated postBuild({head}) API
-  //  the returned collectedData must be serializable to run in workers
-  if (v4RemoveLegacyPostBuildHeadAttribute) {
-    metadata.helmet = null;
-  }
 
   const collectedData: PageCollectedDataInternal = {
     metadata,

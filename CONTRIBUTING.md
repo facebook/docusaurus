@@ -94,7 +94,7 @@ You can use Gitpod (a free, online, VS Code-like IDE) for contributing. With a s
 
 - clone the docusaurus repo.
 - install the dependencies.
-- run `yarn start`
+- run `pnpm start`
 
 So that you can start contributing straight away.
 
@@ -104,9 +104,9 @@ You can also try using the new [github.dev](https://github.dev/facebook/docusaur
 
 ### Installation
 
-1. Ensure you have [Yarn](https://yarnpkg.com/) installed.
-2. After cloning the repository, run `yarn install` in the root of the repository. This will install all dependencies as well as build all local packages.
-3. To start a development server, run `yarn workspace website start`.
+1. Ensure you have [pnpm](https://pnpm.io/) installed.
+2. After cloning the repository, run `pnpm install` in the root of the repository. This will install all dependencies as well as build all local packages.
+3. To start a development server, run `pnpm --filter website start`.
 
 ### Code Conventions
 
@@ -185,7 +185,7 @@ A good test plan has the exact commands you ran and their output and provides sc
 Tests are integrated into our continuous integration system, so you don't always need to run local tests. However, for significant code changes, it saves both your and the maintainers' time if you can do exhaustive tests locally first to make sure your PR is in good shape. There are many types of tests:
 
 - **Build and typecheck.** We use TypeScript in our codebase, which can make sure your code is consistent and catches some obvious mistakes early.
-- **Unit tests.** We use [Jest](https://jestjs.io/) for unit tests of API endpoints' behavior. You can run `yarn test` in the root directory to run all tests, or `yarn test path/to/your/file.test.ts` to run a specific test.
+- **Unit tests.** We use [Vitest](https://vitest.dev/) for unit tests of API endpoints' behavior. You can run `pnpm test` in the root directory to run all tests, or `pnpm test path/to/your/file.test.ts` to run a specific test.
 - **Dogfooding.** Our website itself covers all kinds of potential configuration cases and we even have a dedicated [tests area](https://docusaurus.io/tests). Don't be afraid to update our website's configuration in your PR—it can help the maintainers preview the effects. We can decide if the website change should be kept when merging and deploying for production.
 - **E2E tests.** You can simulate the distribution and installation of the code with your fresh changes. If you need help testing your changes locally, you can check out the doc on doing [local third-party testing](https://github.com/facebook/docusaurus/blob/main/admin/local-third-party-project-testing.md).
 

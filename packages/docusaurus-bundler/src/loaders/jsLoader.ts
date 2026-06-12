@@ -56,19 +56,19 @@ export async function createJsLoaderFactory({
   siteConfig: {
     webpack?: DocusaurusConfig['webpack'];
     future: {
-      experimental_faster: DocusaurusConfig['future']['experimental_faster'];
+      faster: DocusaurusConfig['future']['faster'];
     };
   };
 }): Promise<ConfigureWebpackUtils['getJSLoader']> {
   const currentBundler = await getCurrentBundler({siteConfig});
-  const isSWCLoader = siteConfig.future.experimental_faster.swcJsLoader;
+  const isSWCLoader = siteConfig.future.faster.swcJsLoader;
   if (isSWCLoader) {
     if (siteConfig.webpack?.jsLoader) {
       throw new Error(
-        `You can't use siteConfig.webpack.jsLoader and siteConfig.future.experimental_faster.swcJsLoader at the same time.
+        `You can't use siteConfig.webpack.jsLoader and siteConfig.future.faster.swcJsLoader at the same time.
 To avoid any configuration ambiguity, you must make an explicit choice:
 - If you want to use Docusaurus Faster and SWC (recommended), remove siteConfig.webpack.jsLoader
-- If you want to use a custom JS loader, use siteConfig.future.experimental_faster.swcJsLoader: false`,
+- If you want to use a custom JS loader, use siteConfig.future.faster.swcJsLoader: false`,
       );
     }
     return currentBundler.name === 'rspack'

@@ -30,9 +30,6 @@ export type SSGParams = {
   htmlMinifierType: HtmlMinifierType;
   serverBundlePath: string;
   ssgTemplateContent: string;
-
-  // TODO Docusaurus v4: remove deprecated postBuild({head}) API
-  v4RemoveLegacyPostBuildHeadAttribute: boolean;
 };
 
 export async function createSSGParams({
@@ -61,13 +58,9 @@ export async function createSSGParams({
     noIndex: props.siteConfig.noIndex,
     DOCUSAURUS_VERSION,
     serverBundlePath,
-    htmlMinifierType: props.siteConfig.future.experimental_faster
-      .swcHtmlMinimizer
+    htmlMinifierType: props.siteConfig.future.faster.swcHtmlMinimizer
       ? 'swc'
       : 'terser',
-
-    v4RemoveLegacyPostBuildHeadAttribute:
-      props.siteConfig.future.v4.removeLegacyPostBuildHeadAttribute,
   };
 
   // Useless but ensures that SSG params remain serializable

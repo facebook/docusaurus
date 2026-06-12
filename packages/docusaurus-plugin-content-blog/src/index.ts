@@ -7,6 +7,8 @@
 
 import path from 'path';
 import logger from '@docusaurus/logger';
+import combinePromises from 'combine-promises';
+
 import {
   normalizeUrl,
   docuHash,
@@ -20,7 +22,10 @@ import {
   resolveMarkdownLinkPathname,
   getLocaleConfig,
 } from '@docusaurus/utils';
-import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
+import {
+  getTagsFilePathsToWatch,
+  getTagsFile,
+} from '@docusaurus/utils-validation';
 import {createMDXLoaderItem} from '@docusaurus/mdx-loader';
 import {
   getBlogTags,
@@ -113,8 +118,7 @@ export default async function pluginContentBlog(
     const contentDirs = getContentPathList(contentPaths);
 
     const mdxLoaderItem = await createMDXLoaderItem({
-      useCrossCompilerCache:
-        siteConfig.future.experimental_faster.mdxCrossCompilerCache,
+      useCrossCompilerCache: siteConfig.future.faster.mdxCrossCompilerCache,
       admonitions,
       remarkPlugins,
       rehypePlugins,
@@ -227,22 +231,32 @@ export default async function pluginContentBlog(
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
       const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
 
-      const authorsMap = await getAuthorsMap({
-        contentPaths,
-        authorsMapPath,
-        authorsBaseRoutePath: normalizeUrl([
+      async function getAuthorsMapChecked() {
+        const result = await getAuthorsMap({
+          contentPaths,
+          authorsMapPath,
+          authorsBaseRoutePath: normalizeUrl([
+            baseUrl,
+            routeBasePath,
+            authorsBasePath,
+          ]),
           baseUrl,
-          routeBasePath,
-          authorsBasePath,
-        ]),
-        baseUrl,
+        });
+        checkAuthorsMapPermalinkCollisions(result);
+        return result;
+      }
+
+      // Read all the input files in parallel
+      const {authorsMap, tagsFile} = await combinePromises({
+        authorsMap: getAuthorsMapChecked(),
+        tagsFile: getTagsFile({contentPaths, tags: options.tags}),
       });
-      checkAuthorsMapPermalinkCollisions(authorsMap);
 
       let blogPosts = await generateBlogPosts(
         contentPaths,
         context,
         options,
+        tagsFile,
         authorsMap,
       );
       blogPosts = await applyProcessBlogPosts({

@@ -26,6 +26,7 @@ import type {
   FutureV4Config,
   I18nConfig,
   I18nLocaleConfig,
+  MDX1CompatOptions,
   MarkdownConfig,
   MarkdownHooks,
   StorageConfig,
@@ -98,20 +99,23 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
 };
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
-  removeLegacyPostBuildHeadAttribute: false,
   useCssCascadeLayers: false,
+  siteStorageNamespacing: false,
+  fasterByDefault: false,
+  mdx1CompatDisabledByDefault: false,
 };
 
 // When using the "v4: true" shortcut
 export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
-  removeLegacyPostBuildHeadAttribute: true,
   useCssCascadeLayers: true,
+  siteStorageNamespacing: true,
+  fasterByDefault: true,
+  mdx1CompatDisabledByDefault: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
-  experimental_faster: DEFAULT_FASTER_CONFIG,
-  experimental_storage: DEFAULT_STORAGE_CONFIG,
+  faster: DEFAULT_FASTER_CONFIG,
   experimental_vcs: getVcsPreset('default-v1'),
   experimental_router: 'browser',
 };
@@ -121,17 +125,22 @@ export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
   onBrokenMarkdownImages: 'throw',
 };
 
+export const DEFAULT_MARKDOWN_MDX1COMPAT: MDX1CompatOptions = {
+  comments: true,
+  admonitions: true,
+  headingIds: true,
+};
+
 export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
-  format: 'mdx', // TODO change this to "detect" in Docusaurus v4?
+  // TODO Docusaurus v5: change this to "detect"?
+  //  we probably need stable CommonMark support first
+  //  see https://github.com/facebook/docusaurus/issues/9092
+  format: 'mdx',
   mermaid: false,
   emoji: true,
   preprocessor: undefined,
   parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
-  mdx1Compat: {
-    comments: true,
-    admonitions: true,
-    headingIds: true,
-  },
+  mdx1Compat: DEFAULT_MARKDOWN_MDX1COMPAT,
   anchors: {
     maintainCase: false,
   },
@@ -142,6 +151,7 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'i18n'
+  | 'storage'
   | 'future'
   | 'onBrokenLinks'
   | 'onBrokenAnchors'
@@ -164,6 +174,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'markdown'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
+  storage: DEFAULT_STORAGE_CONFIG,
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
@@ -275,30 +286,21 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
+// Individual boolean defaults are not set here on purpose
+// They are resolved in postProcessDocusaurusConfig based on
+// the future.v4.fasterByDefault flag
 const FASTER_CONFIG_SCHEMA = Joi.alternatives()
   .try(
     Joi.object<FasterConfig>({
-      swcJsLoader: Joi.boolean().default(DEFAULT_FASTER_CONFIG.swcJsLoader),
-      swcJsMinimizer: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.swcJsMinimizer,
-      ),
-      swcHtmlMinimizer: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.swcHtmlMinimizer,
-      ),
-      lightningCssMinimizer: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.lightningCssMinimizer,
-      ),
-      mdxCrossCompilerCache: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.mdxCrossCompilerCache,
-      ),
-      rspackBundler: Joi.boolean().default(DEFAULT_FASTER_CONFIG.rspackBundler),
-      rspackPersistentCache: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.rspackPersistentCache,
-      ),
-      ssgWorkerThreads: Joi.boolean().default(
-        DEFAULT_FASTER_CONFIG.ssgWorkerThreads,
-      ),
-      gitEagerVcs: Joi.boolean().default(DEFAULT_FASTER_CONFIG.gitEagerVcs),
+      swcJsLoader: Joi.boolean(),
+      swcJsMinimizer: Joi.boolean(),
+      swcHtmlMinimizer: Joi.boolean(),
+      lightningCssMinimizer: Joi.boolean(),
+      mdxCrossCompilerCache: Joi.boolean(),
+      rspackBundler: Joi.boolean(),
+      rspackPersistentCache: Joi.boolean(),
+      ssgWorkerThreads: Joi.boolean(),
+      gitEagerVcs: Joi.boolean(),
     }),
     Joi.boolean()
       .required()
@@ -306,17 +308,22 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
         bool ? DEFAULT_FASTER_CONFIG_TRUE : DEFAULT_FASTER_CONFIG,
       ),
   )
-  .optional()
-  .default(DEFAULT_FASTER_CONFIG);
+  .optional();
 
 const FUTURE_V4_SCHEMA = Joi.alternatives()
   .try(
     Joi.object<FutureV4Config>({
-      removeLegacyPostBuildHeadAttribute: Joi.boolean().default(
-        DEFAULT_FUTURE_V4_CONFIG.removeLegacyPostBuildHeadAttribute,
-      ),
       useCssCascadeLayers: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.useCssCascadeLayers,
+      ),
+      siteStorageNamespacing: Joi.boolean().default(
+        DEFAULT_FUTURE_V4_CONFIG.siteStorageNamespacing,
+      ),
+      fasterByDefault: Joi.boolean().default(
+        DEFAULT_FUTURE_V4_CONFIG.fasterByDefault,
+      ),
+      mdx1CompatDisabledByDefault: Joi.boolean().default(
+        DEFAULT_FUTURE_V4_CONFIG.mdx1CompatDisabledByDefault,
       ),
     }),
     Joi.boolean()
@@ -332,12 +339,13 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   type: Joi.string()
     .equal('localStorage', 'sessionStorage')
     .default(DEFAULT_STORAGE_CONFIG.type),
-  namespace: Joi.alternatives()
-    .try(Joi.string(), Joi.boolean())
-    .default(DEFAULT_STORAGE_CONFIG.namespace),
+  // namespace default is not set here on purpose
+  // It is resolved in postProcessDocusaurusConfig based on
+  // the future.v4.siteStorageNamespacing flag
+  namespace: Joi.alternatives().try(Joi.string(), Joi.boolean()),
 })
   .optional()
-  .default(DEFAULT_STORAGE_CONFIG);
+  .default({type: DEFAULT_STORAGE_CONFIG.type});
 
 const VCS_CONFIG_OBJECT_SCHEMA = Joi.object<VcsConfig>({
   // All the fields are required on purpose
@@ -369,14 +377,33 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
   return value;
 }).default(true);
 
-const FUTURE_CONFIG_SCHEMA = Joi.object<FutureConfig>({
+const FUTURE_CONFIG_SCHEMA = Joi.object<
+  FutureConfig & {experimental_storage: never; experimental_faster: never}
+>({
   v4: FUTURE_V4_SCHEMA,
-  experimental_faster: FASTER_CONFIG_SCHEMA,
-  experimental_storage: STORAGE_CONFIG_SCHEMA,
+  faster: FASTER_CONFIG_SCHEMA,
   experimental_vcs: VCS_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
     .default(DEFAULT_FUTURE_CONFIG.experimental_router),
+  experimental_storage: Joi.any()
+    .forbidden()
+    .messages({
+      'any.unknown': `The Docusaurus config ${logger.code(
+        'future.experimental_storage',
+      )} has been promoted to a stable top-level ${logger.code(
+        'storage',
+      )} config attribute. Please move your storage config to the top level.`,
+    }),
+  experimental_faster: Joi.any()
+    .forbidden()
+    .messages({
+      'any.unknown': `The Docusaurus config ${logger.code(
+        'future.experimental_faster',
+      )} has been renamed to ${logger.code(
+        'future.faster',
+      )}. Please update your Docusaurus config.`,
+    }),
 })
   .optional()
   .default(DEFAULT_FUTURE_CONFIG);
@@ -390,6 +417,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   title: Joi.string().required(),
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
+  storage: STORAGE_CONFIG_SCHEMA,
   future: FUTURE_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
@@ -489,17 +517,14 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       .arity(1)
       .optional()
       .default(() => DEFAULT_CONFIG.markdown.preprocessor),
+    // Individual boolean defaults are not set here on purpose
+    // They are resolved in postProcessDocusaurusConfig based on
+    // the future.v4.mdx1CompatDisabledByDefault flag
     mdx1Compat: Joi.object({
-      comments: Joi.boolean().default(
-        DEFAULT_CONFIG.markdown.mdx1Compat.comments,
-      ),
-      admonitions: Joi.boolean().default(
-        DEFAULT_CONFIG.markdown.mdx1Compat.admonitions,
-      ),
-      headingIds: Joi.boolean().default(
-        DEFAULT_CONFIG.markdown.mdx1Compat.headingIds,
-      ),
-    }).default(DEFAULT_CONFIG.markdown.mdx1Compat),
+      comments: Joi.boolean(),
+      admonitions: Joi.boolean(),
+      headingIds: Joi.boolean(),
+    }).default({}),
     remarkRehypeOptions:
       // add proper external options validation?
       // Not sure if it's a good idea, validation is likely to become stale
@@ -524,7 +549,12 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         )
         .default(DEFAULT_CONFIG.markdown.hooks.onBrokenMarkdownImages),
     }).default(DEFAULT_CONFIG.markdown.hooks),
-  }).default(DEFAULT_CONFIG.markdown),
+  }).default({
+    ...DEFAULT_CONFIG.markdown,
+    mdx1Compat: {
+      // erased on purpose, filled using postprocessing
+    },
+  }),
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
@@ -533,6 +563,37 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
 // Expressing this kind of logic in Joi is a pain
 // We also want to decouple logic from Joi: easier to remove it later!
 function postProcessDocusaurusConfig(config: DocusaurusConfig) {
+  // Resolve storage.namespace based on the v4 future flag
+  // undefined means "not explicitly set by user"
+  if (config.storage.namespace === undefined) {
+    config.storage.namespace = config.future.v4.siteStorageNamespacing;
+  }
+
+  // Resolve faster config based on the v4.fasterByDefault flag
+  // undefined means "not explicitly set by user"
+  if (config.future.faster === undefined) {
+    config.future.faster = {} as FasterConfig;
+  }
+  const fasterDefault = config.future.v4.fasterByDefault;
+  const fasterKeys = Object.keys(
+    DEFAULT_FASTER_CONFIG,
+  ) as (keyof FasterConfig)[];
+  for (const key of fasterKeys) {
+    if (config.future.faster[key] === undefined) {
+      config.future.faster[key] = fasterDefault;
+    }
+  }
+
+  // Resolve mdx1Compat config based on the v4.mdx1CompatDisabledByDefault flag
+  // undefined means "not explicitly set by user"
+  const mdx1CompatDefault = !config.future.v4.mdx1CompatDisabledByDefault;
+  const mdx1CompatKeys = Object.keys(
+    DEFAULT_MARKDOWN_MDX1COMPAT,
+  ) as (keyof MDX1CompatOptions)[];
+  for (const key of mdx1CompatKeys) {
+    config.markdown.mdx1Compat[key] ??= mdx1CompatDefault;
+  }
+
   if (config.onBrokenMarkdownLinks) {
     logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
 Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
@@ -545,7 +606,7 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
   // We normalize the VCS config when using a boolean value
   if (typeof config.future.experimental_vcs === 'boolean') {
     const vcsConfig = config.future.experimental_vcs
-      ? config.future.experimental_faster.gitEagerVcs
+      ? config.future.faster.gitEagerVcs
         ? getVcsPreset('default-v2')
         : getVcsPreset('default-v1')
       : getVcsPreset('disabled');
@@ -554,31 +615,14 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
   }
 
   if (
-    config.future.experimental_faster.ssgWorkerThreads &&
-    !config.future.v4.removeLegacyPostBuildHeadAttribute
-  ) {
-    throw new Error(
-      `Docusaurus config ${logger.code(
-        'future.experimental_faster.ssgWorkerThreads',
-      )} requires the future flag ${logger.code(
-        'future.v4.removeLegacyPostBuildHeadAttribute',
-      )} to be turned on.
-If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: ${logger.code(
-        '{future: {v4: true}}',
-      )}
-All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future`,
-    );
-  }
-
-  if (
-    config.future.experimental_faster.rspackPersistentCache &&
-    !config.future.experimental_faster.rspackBundler
+    config.future.faster.rspackPersistentCache &&
+    !config.future.faster.rspackBundler
   ) {
     throw new Error(
       `Docusaurus config flag ${logger.code(
-        'future.experimental_faster.rspackPersistentCache',
+        'future.faster.rspackPersistentCache',
       )} requires the flag ${logger.code(
-        'future.experimental_faster.rspackBundler',
+        'future.faster.rspackBundler',
       )} to be turned on.`,
     );
   }

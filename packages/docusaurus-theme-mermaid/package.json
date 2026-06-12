@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-mermaid",
-  "version": "3.9.2",
+  "version": "3.10.1",
   "description": "Mermaid components for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/theme-mermaid.d.ts",
@@ -27,27 +27,24 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && oxfmt \"lib/theme/**/*.js\"",
     "watch": "run-p -c copy:watch build:watch",
     "build:watch": "tsc --build --watch",
     "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
   },
   "dependencies": {
-    "@docusaurus/core": "3.9.2",
-    "@docusaurus/module-type-aliases": "3.9.2",
-    "@docusaurus/theme-common": "3.9.2",
-    "@docusaurus/types": "3.9.2",
-    "@docusaurus/utils-validation": "3.9.2",
-    "mermaid": ">=11.6.0",
+    "@docusaurus/core": "3.10.1",
+    "@docusaurus/module-type-aliases": "3.10.1",
+    "@docusaurus/theme-common": "3.10.1",
+    "@docusaurus/types": "3.10.1",
+    "@docusaurus/utils-validation": "3.10.1",
+    "mermaid": ">=11.14.0",
     "tslib": "^2.6.0"
-  },
-  "devDependencies": {
-    "react-test-renderer": "^18.0.0"
   },
   "peerDependencies": {
     "@mermaid-js/layout-elk": "^0.1.9",
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "peerDependenciesMeta": {
     "@mermaid-js/layout-elk": {
@@ -55,6 +52,6 @@
     }
   },
   "engines": {
-    "node": ">=20.0"
+    "node": ">=24.14"
   }
 }
