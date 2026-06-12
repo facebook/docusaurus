@@ -17,18 +17,22 @@ type GlobOptions = {
   cwd?: string;
   absolute?: boolean;
   exclude?: ((fileName: string) => boolean) | readonly string[];
+  expandDirectories?: boolean;
 };
 
 export async function Globby(
   patterns: string | readonly string[],
   options: GlobOptions = {},
 ): Promise<string[]> {
-  const {absolute, cwd, exclude} = options;
+  const {absolute, cwd, exclude, expandDirectories} = options;
+
+  console.log({patterns, expandDirectories}); // TODO wire
+
   const files = await Array.fromAsync(
     glob(patterns, {patterns, cwd, exclude, withFileTypes: true} as any),
   );
 
-  return files
+  const filePaths = files
     .filter((d) => d.isFile())
     .map((d) => {
       const absolutePath = path.join(d.parentPath, d.name);
@@ -38,6 +42,11 @@ export async function Globby(
         return path.relative(cwd ?? process.cwd(), absolutePath);
       }
     });
+
+  console.log({filePaths});
+  filePaths.sort();
+
+  return filePaths;
 }
 
 /**
@@ -157,7 +166,7 @@ export async function globTranslatableSourceFiles(
   patterns: string[],
 ): Promise<string[]> {
   const filePaths = await safeGlobby(patterns, {
-    // absolute: true,
+    absolute: true,
   });
   return filePaths.filter(isTranslatableSourceFile);
 }

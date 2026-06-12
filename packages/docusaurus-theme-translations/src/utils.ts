@@ -59,7 +59,9 @@ export async function extractThemeCodeMessages(
   // eslint-disable-next-line no-param-reassign
   targetDirs ??= (await getThemes()).flatMap((theme) => theme.src);
 
-  const filePaths = (await globTranslatableSourceFiles(targetDirs)).filter(
+  const patterns = targetDirs.map((dir) => path.join(dir, '**/*'));
+
+  const filePaths = (await globTranslatableSourceFiles(patterns)).filter(
     (filePath) => ['.js', '.jsx'].includes(path.extname(filePath)),
   );
 
