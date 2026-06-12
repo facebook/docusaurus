@@ -71,7 +71,7 @@ export async function loadPagesContent(
 
   const pagesFiles = await Globby(params.options.include, {
     cwd: params.contentPaths.contentPath,
-    ignore: options.exclude,
+    exclude: options.exclude,
   });
 
   async function doProcessPageSourceFile(relativeSource: string) {

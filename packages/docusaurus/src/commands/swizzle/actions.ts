@@ -62,13 +62,9 @@ export async function eject({
   const globPatternPosix = posixPath(globPattern);
 
   const filesToCopy = await Globby(globPatternPosix, {
-    // Workaround for Tinyglobby bug?
-    // We glob absolute from the theme root path, not from cwd
-    // See https://github.com/SuperchupuDev/tinyglobby/issues/186
     cwd: themePath,
     absolute: true,
-
-    ignore: _.compact([
+    exclude: _.compact([
       '**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}',
       // When ejecting JS components, we want to avoid emitting TS files
       // In particular the .d.ts files that theme build output contains
