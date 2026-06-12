@@ -32,7 +32,7 @@ function getPluginSourceCodeFilePaths(plugin: InitializedPlugin): string[] {
   // We also include theme code
   const themePath = plugin.getThemePath?.();
   if (themePath) {
-    codePaths.push(themePath);
+    codePaths.push(nodePath.join(themePath, '**/*'));
   }
 
   return codePaths.map((p) => nodePath.resolve(plugin.path, p));
@@ -42,7 +42,9 @@ async function getSourceCodeFilePaths(
   siteDir: string,
   plugins: InitializedPlugin[],
 ): Promise<string[]> {
-  const sitePaths = getSiteSourceCodeFilePaths(siteDir);
+  const sitePaths = getSiteSourceCodeFilePaths(siteDir).map((p) =>
+    nodePath.join(p, '**/*'),
+  );
 
   // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
   // We can use this method as well to know which folders we should try to

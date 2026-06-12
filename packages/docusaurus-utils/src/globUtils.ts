@@ -8,13 +8,46 @@
 // Globby/Micromatch are the 2 libs we use in Docusaurus consistently
 
 import path from 'path';
+import {glob} from 'node:fs/promises';
 import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
 import {addSuffix} from '@docusaurus/utils-common';
-import Globby from 'globby';
 import {posixPath} from './pathUtils';
 
-/** A re-export of the globby instance. */
-export {Globby};
+type GlobOptions = {
+  cwd?: string;
+  absolute?: boolean;
+  exclude?: ((fileName: string) => boolean) | readonly string[];
+  expandDirectories?: boolean;
+};
+
+export async function Globby(
+  patterns: string | readonly string[],
+  options: GlobOptions = {},
+): Promise<string[]> {
+  const {absolute, cwd, exclude, expandDirectories} = options;
+
+  console.log({patterns, expandDirectories}); // TODO wire expandDirectories ?
+
+  const files = await Array.fromAsync(
+    glob(patterns, {patterns, cwd, exclude, withFileTypes: true} as any),
+  );
+
+  const filePaths = files
+    .filter((d) => d.isFile())
+    .map((d) => {
+      const absolutePath = path.join(d.parentPath, d.name);
+      if (absolute) {
+        return absolutePath;
+      } else {
+        return path.relative(cwd ?? process.cwd(), absolutePath);
+      }
+    });
+
+  console.log({filePaths});
+  filePaths.sort();
+
+  return filePaths;
+}
 
 /**
  * The default glob patterns we ignore when sourcing content.
@@ -93,7 +126,7 @@ export function createAbsoluteFilePathMatcher(
 // See https://github.com/facebook/docusaurus/pull/4222#issuecomment-795517329
 export async function safeGlobby(
   patterns: string[],
-  options?: Globby.GlobbyOptions,
+  options?: GlobOptions,
 ): Promise<string[]> {
   // Required for Windows support, as paths using \ should not be used by globby
   // (also using the windows hard drive prefix like c: is not a good idea)
@@ -132,6 +165,8 @@ export const isTranslatableSourceFile: (filePath: string) => boolean = (() => {
 export async function globTranslatableSourceFiles(
   patterns: string[],
 ): Promise<string[]> {
-  const filePaths = await safeGlobby(patterns);
+  const filePaths = await safeGlobby(patterns, {
+    absolute: true,
+  });
   return filePaths.filter(isTranslatableSourceFile);
 }

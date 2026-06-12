@@ -62,7 +62,9 @@ export async function eject({
   const globPatternPosix = posixPath(globPattern);
 
   const filesToCopy = await Globby(globPatternPosix, {
-    ignore: _.compact([
+    cwd: themePath,
+    absolute: true,
+    exclude: _.compact([
       '**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}',
       // When ejecting JS components, we want to avoid emitting TS files
       // In particular the .d.ts files that theme build output contains

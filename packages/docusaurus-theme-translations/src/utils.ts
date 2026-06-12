@@ -59,7 +59,9 @@ export async function extractThemeCodeMessages(
   // eslint-disable-next-line no-param-reassign
   targetDirs ??= (await getThemes()).flatMap((theme) => theme.src);
 
-  const filePaths = (await globTranslatableSourceFiles(targetDirs)).filter(
+  const patterns = targetDirs.map((dir) => path.join(dir, '**/*'));
+
+  const filePaths = (await globTranslatableSourceFiles(patterns)).filter(
     (filePath) => ['.js', '.jsx'].includes(path.extname(filePath)),
   );
 
@@ -72,8 +74,7 @@ export async function extractThemeCodeMessages(
 
   filesExtractedTranslations.forEach((fileExtractedTranslations) => {
     if (fileExtractedTranslations.warnings.length > 0) {
-      throw new Error(`
-Please make sure all theme translations are static!
+      throw new Error(`Please make sure all theme translations are static!
 Some warnings were found!
 
 ${fileExtractedTranslations.warnings.join('\n\n')}

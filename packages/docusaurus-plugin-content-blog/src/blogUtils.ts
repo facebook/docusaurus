@@ -399,7 +399,7 @@ export async function generateBlogPosts(
 
   const blogSourceFiles = await Globby(include, {
     cwd: contentPaths.contentPath,
-    ignore: exclude,
+    exclude,
   });
 
   async function doProcessBlogSourceFile(blogSourceFile: string) {

@@ -68,7 +68,7 @@ export async function readVersionDocs(
 ): Promise<DocFile[]> {
   const sources = await Globby(options.include, {
     cwd: versionMetadata.contentPath,
-    ignore: options.exclude,
+    exclude: options.exclude,
   });
   return Promise.all(
     sources.map((source) => readDocFile(versionMetadata, source)),
