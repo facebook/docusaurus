@@ -97,11 +97,9 @@ const sidebars: SidebarsConfig = {
           label: 'Deployment',
           link: {type: 'doc', id: 'deployment/index'},
           items: [
-            'deployment/vercel',
-            'deployment/netlify',
-            'deployment/cloudflare',
-            'deployment/azure',
             'deployment/github-pages',
+            'deployment/netlify',
+            'deployment/vercel',
           ],
         },
         {
