@@ -20,10 +20,14 @@ export {validateOptions} from '@docusaurus/plugin-content-blog';
 
 const MonorepoRoot = path.resolve(path.join(__dirname, '../../../..'));
 
-const ChangelogFilePattern = 'CHANGELOG(-v[0-9]*)?.md';
+const ChangelogFileNames = [
+  'CHANGELOG.md',
+  'CHANGELOG-v2.md',
+  'CHANGELOG-v3.md',
+];
 
 async function getChangelogFiles() {
-  const files = await safeGlobby([ChangelogFilePattern], {
+  const files = await safeGlobby(ChangelogFileNames, {
     cwd: MonorepoRoot,
   });
   // As of today, there are 2 changelog files
@@ -110,7 +114,7 @@ const ChangelogPlugin: typeof pluginContentBlog =
       },
 
       getPathsToWatch() {
-        return [path.join(MonorepoRoot, ChangelogFilePattern)];
+        return ChangelogFileNames.map((name) => path.join(MonorepoRoot, name));
       },
     };
   };

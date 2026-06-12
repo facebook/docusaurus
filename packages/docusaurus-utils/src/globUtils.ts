@@ -26,7 +26,7 @@ export async function Globby(
 ): Promise<string[]> {
   const {absolute, cwd, exclude, expandDirectories} = options;
 
-  console.log({patterns, expandDirectories}); // TODO wire
+  console.log({patterns, expandDirectories}); // TODO wire expandDirectories ?
 
   const files = await Array.fromAsync(
     glob(patterns, {patterns, cwd, exclude, withFileTypes: true} as any),
