@@ -6,7 +6,6 @@
  */
 
 import {describe, expect, it, test} from 'vitest';
-import {escapeRegexp} from '@docusaurus/utils';
 import {validateDocFrontMatter} from '../frontMatter';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 
@@ -55,7 +54,7 @@ function testField(params: {
       } catch (err) {
         // eslint-disable-next-line vitest/no-conditional-expect
         expect((err as Error).message).toMatch(
-          new RegExp(escapeRegexp(message)),
+          new RegExp(RegExp.escape(message)),
         );
       }
     });
