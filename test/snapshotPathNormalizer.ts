@@ -15,6 +15,7 @@ import fs from 'fs';
 import _ from 'lodash';
 import stripAnsi from 'strip-ansi';
 import {version} from '../packages/docusaurus/package.json';
+import {posixPath} from '../packages/docusaurus-utils/src';
 
 /*
 This weird thing is to normalize paths on our Windows GitHub Actions runners
@@ -40,8 +41,6 @@ function escapePath(str: string): string {
 function readPathsForNormalization() {
   const cwd = process.cwd();
   const cwdEscaped = escapePath(cwd);
-
-  console.log({cwd, cwdEscaped});
 
   const tempDir = os.tmpdir();
   const homeDir = os.homedir();
@@ -92,6 +91,7 @@ function normalizeString(value: string): string {
     (val) => (val.includes('keepAnsi') ? val : stripAnsi(val)),
     // Replace process.cwd with <PROJECT_ROOT>
     (val) => val.split(cwd).join('<PROJECT_ROOT>'),
+    (val) => val.split(posixPath(cwd)).join('<PROJECT_ROOT>'),
     // In case the CWD is escaped
     (val) => val.split(cwdEscaped).join('<PROJECT_ROOT>'),
 
