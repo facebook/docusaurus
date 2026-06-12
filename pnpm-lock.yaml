@@ -1916,9 +1916,6 @@ importers:
       '@docusaurus/utils-common':
         specifier: 3.10.1
         version: link:../docusaurus-utils-common
-      escape-string-regexp:
-        specifier: ^4.0.0
-        version: 4.0.0
       execa:
         specifier: ^5.1.1
         version: 5.1.1
