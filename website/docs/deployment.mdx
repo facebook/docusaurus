@@ -751,39 +751,6 @@ steps:
     displayName: Install and build
 ```
 
-### Using Drone {/* #using-drone */}
-
-1. Create a new SSH key that will be the [deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys) for your project.
-2. Name your private and public keys to be specific and so that it does not overwrite your other [SSH keys](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
-3. Go to `https://github.com/USERNAME/REPO/settings/keys` and add a new deploy key by pasting in the public key you just generated.
-4. Open your Drone.io dashboard and log in. The URL looks like `https://cloud.drone.io/USERNAME/REPO`.
-5. Click on the repository, click on activate repository, and add a secret called `git_deploy_private_key` with your private key value that you just generated.
-6. Create a `.drone.yml` on the root of your repository with the below text.
-
-```yml title=".drone.yml"
-kind: pipeline
-type: docker
-trigger:
-  event:
-    - tag
-- name: Website
-  image: node
-  commands:
-    - mkdir -p $HOME/.ssh
-    - ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
-    - echo "$GITHUB_PRIVATE_KEY" > "$HOME/.ssh/id_rsa"
-    - chmod 0600 $HOME/.ssh/id_rsa
-    - cd website
-    - yarn install
-    - yarn deploy
-  environment:
-    USE_SSH: true
-    GITHUB_PRIVATE_KEY:
-      from_secret: git_deploy_private_key
-```
-
-Now, whenever you push a new tag to GitHub, this trigger will start the drone CI job to publish your website.
-
 ## Deploying to Flightcontrol {/* #deploying-to-flightcontrol */}
 
 [Flightcontrol](https://www.flightcontrol.dev/?ref=docusaurus) is a service that automatically builds and deploys your web apps to AWS Fargate directly from your Git repository. It gives you full access to inspect and make infrastructure changes without the limitations of a traditional PaaS.
