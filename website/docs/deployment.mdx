@@ -144,22 +144,6 @@ It is not the best option, compared to a static hosting provider / CDN.
 
 :::
 
-### Localized 404 Pages {/* #localized-404-pages */}
-
-When your site has [multiple languages](../i18n/i18n-introduction.mdx), Docusaurus automatically generates a localized `404.html` file for each locale (e.g., `/fr/404.html`). However, most servers will only serve the root `/404.html` by default, regardless of which language the visitor was using.
-
-To serve the correct localized 404 page, you need to configure your server to redirect missing pages to the appropriate locale-specific 404 file. For example:
-
-- If a visitor requests `/fr/nonexistent-page`, the server should serve `/fr/404.html` instead of `/404.html`.
-
-This behavior depends on your hosting provider:
-
-- **Netlify and Cloudflare Pages**: Use a `_redirects` file to define locale-specific redirects.
-- **Apache/Nginx**: Use `ErrorDocument` or `try_files` directives with locale-aware rules.
-- **GitHub Pages**: Does not support server-side redirects, so localized 404 pages cannot be served automatically.
-
-Consult your hosting provider's documentation for the exact configuration.
-
 :::warning
 
 In the following sections, we will introduce a few common hosting providers and how they should be configured to deploy Docusaurus sites most efficiently. Docusaurus is not affiliated with any of these services, and this information is provided for convenience only. Some of the write-ups are provided by third-parties, and recent API changes may not be reflected on our side. If you see outdated content, PRs are welcome.
