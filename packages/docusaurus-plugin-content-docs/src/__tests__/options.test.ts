@@ -67,6 +67,8 @@ describe('normalizeDocsPluginOptions', () => {
       breadcrumbs: true,
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
+      showCreateTime: true,
+      showCreateAuthor: true,
       admonitions: false,
       includeCurrentVersion: false,
       disableVersioning: true,
@@ -213,6 +215,24 @@ describe('normalizeDocsPluginOptions', () => {
       testValidate({showLastUpdateTime: 'true'}),
     ).toThrowErrorMatchingInlineSnapshot(
       `[ValidationError: "showLastUpdateTime" must be a boolean]`,
+    );
+  });
+
+  it('rejects bad showCreateTime inputs', () => {
+    expect(() =>
+      // @ts-expect-error: test
+      testValidate({showCreateTime: 'true'}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "showCreateTime" must be a boolean]`,
+    );
+  });
+
+  it('rejects bad showCreateAuthor inputs', () => {
+    expect(() =>
+      // @ts-expect-error: test
+      testValidate({showCreateAuthor: 'true'}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[ValidationError: "showCreateAuthor" must be a boolean]`,
     );
   });
 

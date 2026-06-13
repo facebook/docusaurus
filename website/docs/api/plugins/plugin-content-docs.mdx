@@ -60,6 +60,8 @@ Accepted fields:
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `showLastUpdateAuthor` | `boolean` | `false` | Whether to display the author who last updated the doc. |
 | `showLastUpdateTime` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the last date the doc was updated. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use `fetch-depth: 0`. When deploying to Vercel, set the environment variable `VERCEL_DEEP_CLONE=true`. |
+| `showCreateAuthor` | `boolean` | `false` | Whether to display the author who created the doc. |
+| `showCreateTime` | `boolean` | `false` | **Only for Markdown pages**. Whether to display the date the doc was created. This requires access to git history during the build, so will not work correctly with shallow clones (a common default for CI systems). With GitHub `actions/checkout`, use `fetch-depth: 0`. When deploying to Vercel, set the environment variable `VERCEL_DEEP_CLONE=true`. |
 | `breadcrumbs` | `boolean` | `true` | Enable or disable the breadcrumbs on doc pages. |
 | `disableVersioning` | `boolean` | `false` | Explicitly disable versioning even when multiple versions exist. This will make the site only include the current version. Will error if `includeCurrentVersion: false` and `disableVersioning: true`. |
 | `includeCurrentVersion` | `boolean` | `true` | Include the current version of your docs. |
@@ -245,6 +247,8 @@ const config = {
   beforeDefaultRehypePlugins: [],
   showLastUpdateAuthor: false,
   showLastUpdateTime: false,
+  showCreateAuthor: false,
+  showCreateTime: false,
   disableVersioning: false,
   includeCurrentVersion: true,
   lastVersion: undefined,
@@ -301,13 +305,18 @@ Accepted fields:
 | `draft` | `boolean` | `false` | Draft documents will only be available during development. |
 | `unlisted` | `boolean` | `false` | Unlisted documents will be available in both development and production. They will be "hidden" in production, not indexed, excluded from sitemaps, and can only be accessed by users having a direct link. |
 | `last_update` | `FrontMatterLastUpdate` | `undefined` | Allows overriding the last update author/date. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |
+| `last_update_author` | `string` | `undefined` | Allows overriding the last update author. Takes priority over `last_update.author` and git history. |
+| `last_update_time` | <code>string \| Date</code> | `undefined` | Allows overriding the last update date. Takes priority over `last_update.date` and git history. |
+| `create_author` | `string` | `undefined` | Allows overriding the doc creation author. Takes priority over git history. |
+| `create_time` | <code>string \| Date</code> | `undefined` | Allows overriding the doc creation date. Takes priority over git history. Date can be any [parsable date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse). |
 
 ```mdx-code-block
 </APITable>
 ```
 
 ```ts
-type FrontMatterLastUpdate = {date?: string; author?: string};
+type FrontMatterLastUpdate = {date?: string | Date; author?: string};
+type FrontMatterCreation = {date?: string | Date; author?: string};
 
 type Tag = string | {label: string; permalink: string};
 ```
@@ -334,6 +343,10 @@ slug: /myDoc
 last_update:
   date: 1/1/2000
   author: custom author name
+last_update_time: 1/2/2000
+last_update_author: custom last update author name
+create_time: 12/31/1999
+create_author: custom create author name
 ---
 
 # Markdown Features

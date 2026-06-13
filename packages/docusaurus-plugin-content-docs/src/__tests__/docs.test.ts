@@ -49,12 +49,16 @@ const createFakeDocFile = ({
   markdown = 'some markdown content',
 }: {
   source: string;
-  frontMatter?: {[key: string]: string};
+  frontMatter?: Record<string, unknown>;
   markdown?: string;
 }): DocFile => {
   const content = `---
 ${Object.entries(frontMatter)
-  .map(([key, value]) => `${key}: ${value}`)
+  .map(([key, value]) =>
+    typeof value === 'object'
+      ? `${key}: ${JSON.stringify(value)}`
+      : `${key}: ${String(value)}`,
+  )
   .join('\n')}
 ---
 ${markdown}
@@ -120,12 +124,20 @@ async function createTestUtils({
     docFileSource: string,
     expectedMetadata: Optional<
       DocMetadataBase,
-      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'editUrl' | 'draft'
+      | 'source'
+      | 'createdBy'
+      | 'createdAt'
+      | 'lastUpdatedBy'
+      | 'lastUpdatedAt'
+      | 'editUrl'
+      | 'draft'
     >,
   ) {
     const docFile = await readDoc(docFileSource);
     const metadata = await processDocFile(docFile);
     expect(metadata).toEqual({
+      createdBy: undefined,
+      createdAt: undefined,
       lastUpdatedBy: undefined,
       lastUpdatedAt: undefined,
       editUrl: undefined,
@@ -536,6 +548,42 @@ describe('simple site', () => {
     });
   });
 
+  it('docs with creation time and author', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showCreateAuthor: true,
+          showCreateTime: true,
+        },
+      });
+
+    const testUtilsLocal = await createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await testUtilsLocal.testMeta('lorem.md', {
+      version: 'current',
+      id: 'lorem',
+      sourceDirName: '.',
+      permalink: '/docs/lorem',
+      slug: '/lorem',
+      title: 'lorem',
+      editUrl: 'https://github.com/customUrl/docs/lorem.md',
+      description: 'Lorem ipsum.',
+      frontMatter: {
+        custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
+        unrelated_front_matter: "won't be part of metadata",
+      },
+      createdAt: TEST_VCS.CREATION_INFO.timestamp,
+      createdBy: TEST_VCS.CREATION_INFO.author,
+      tags: [],
+      unlisted: false,
+    });
+  });
+
   it('docs with draft frontmatter', async () => {
     const {createTestUtilsPartial} = await loadSite();
 
@@ -707,6 +755,149 @@ describe('simple site', () => {
       sidebarPosition: undefined,
       tags: [],
       unlisted: false,
+    });
+  });
+
+  it('docs with last_update_time and last_update_author front matter', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+        },
+      });
+
+    const testUtilsLocal = await createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await expect(
+      testUtilsLocal.processDocFile(
+        createFakeDocFile({
+          source: 'customLastUpdateFields.md',
+          frontMatter: {
+            last_update_time: '1/1/2000',
+            last_update_author: 'Custom Author',
+            title: 'Custom Last Update Fields',
+          },
+        }),
+      ),
+    ).resolves.toMatchObject({
+      id: 'customLastUpdateFields',
+      frontMatter: {
+        last_update_time: '1/1/2000',
+        last_update_author: 'Custom Author',
+        title: 'Custom Last Update Fields',
+      },
+      lastUpdatedAt: new Date('1/1/2000').getTime(),
+      lastUpdatedBy: 'Custom Author',
+    });
+  });
+
+  it('docs with create_time and create_author front matter', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showCreateAuthor: true,
+          showCreateTime: true,
+        },
+      });
+
+    const testUtilsLocal = await createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await expect(
+      testUtilsLocal.processDocFile(
+        createFakeDocFile({
+          source: 'customCreationFields.md',
+          frontMatter: {
+            create_time: '1/1/2000',
+            create_author: 'Custom Creator',
+            title: 'Custom Creation Fields',
+          },
+        }),
+      ),
+    ).resolves.toMatchObject({
+      id: 'customCreationFields',
+      frontMatter: {
+        create_time: '1/1/2000',
+        create_author: 'Custom Creator',
+        title: 'Custom Creation Fields',
+      },
+      createdAt: new Date('1/1/2000').getTime(),
+      createdBy: 'Custom Creator',
+    });
+  });
+
+  it('docs with partial create_time front matter fall back to VCS author', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showCreateAuthor: true,
+          showCreateTime: true,
+        },
+      });
+
+    const testUtilsLocal = await createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await expect(
+      testUtilsLocal.processDocFile(
+        createFakeDocFile({
+          source: 'customCreationDateOnly.md',
+          frontMatter: {
+            create_time: '1/1/2000',
+            title: 'Custom Creation Date Only',
+          },
+        }),
+      ),
+    ).resolves.toMatchObject({
+      createdAt: new Date('1/1/2000').getTime(),
+      createdBy: TEST_VCS.CREATION_INFO.author,
+    });
+  });
+
+  it('docs with create_time front matter disabled', async () => {
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showCreateAuthor: true,
+          showCreateTime: false,
+        },
+      });
+
+    const testUtilsLocal = await createTestUtilsPartial({
+      siteDir,
+      context,
+      options,
+      versionMetadata: currentVersion,
+    });
+
+    await expect(
+      testUtilsLocal.processDocFile(
+        createFakeDocFile({
+          source: 'customCreationFields.md',
+          frontMatter: {
+            create_time: '1/1/2000',
+            create_author: 'Custom Creator',
+            title: 'Custom Creation Fields',
+          },
+        }),
+      ),
+    ).resolves.toMatchObject({
+      createdAt: undefined,
+      createdBy: 'Custom Creator',
     });
   });
 

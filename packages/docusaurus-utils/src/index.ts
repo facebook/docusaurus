@@ -118,7 +118,10 @@ export {escapeRegexp} from './regExpUtils';
 export {flattenRoutes} from './routeUtils';
 
 export {
+  readCreationData,
   readLastUpdateData,
+  type CreationData,
+  type FrontMatterCreation,
   type LastUpdateData,
   type FrontMatterLastUpdate,
 } from './lastUpdateUtils';

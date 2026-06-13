@@ -20,6 +20,7 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
+  readCreationData,
   normalizeTags,
 } from '@docusaurus/utils';
 import {validateDocFrontMatter} from './frontMatter';
@@ -61,10 +62,7 @@ export async function readDocFile(
 
 export async function readVersionDocs(
   versionMetadata: VersionMetadata,
-  options: Pick<
-    PluginOptions,
-    'include' | 'exclude' | 'showLastUpdateAuthor' | 'showLastUpdateTime'
-  >,
+  options: Pick<PluginOptions, 'include' | 'exclude'>,
 ): Promise<DocFile[]> {
   const sources = await Globby(options.include, {
     cwd: versionMetadata.contentPath,
@@ -120,14 +118,32 @@ async function doProcessDocMetadata({
     // but allow to disable this behavior with front matter
     parse_number_prefixes: parseNumberPrefixes = true,
     last_update: lastUpdateFrontMatter,
+    last_update_time: lastUpdateTimeFrontMatter,
+    last_update_author: lastUpdateAuthorFrontMatter,
+    create_time: createTimeFrontMatter,
+    create_author: createAuthorFrontMatter,
   } = frontMatter;
 
-  const lastUpdate = await readLastUpdateData(
-    filePath,
-    options,
-    lastUpdateFrontMatter,
-    vcs,
-  );
+  const [lastUpdate, creation] = await Promise.all([
+    readLastUpdateData(
+      filePath,
+      options,
+      {
+        author: lastUpdateAuthorFrontMatter ?? lastUpdateFrontMatter?.author,
+        date: lastUpdateTimeFrontMatter ?? lastUpdateFrontMatter?.date,
+      },
+      vcs,
+    ),
+    readCreationData(
+      filePath,
+      options,
+      {
+        author: createAuthorFrontMatter,
+        date: createTimeFrontMatter,
+      },
+      vcs,
+    ),
+  ]);
 
   // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
   const sourceFileNameWithoutExtension = path.basename(
@@ -240,6 +256,8 @@ async function doProcessDocMetadata({
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
+    createdBy: creation.createdBy,
+    createdAt: creation.createdAt,
     sidebarPosition,
     frontMatter,
   };

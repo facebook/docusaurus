@@ -62,10 +62,66 @@ function LastUpdatedByUser({
   );
 }
 
-export default function LastUpdated({
-  lastUpdatedAt,
-  lastUpdatedBy,
-}: Props): ReactNode {
+function CreatedAtDate({createdAt}: {createdAt: number}): ReactNode {
+  const atDate = new Date(createdAt);
+
+  const dateTimeFormat = useDateTimeFormat({
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+
+  const formattedCreatedAt = dateTimeFormat.format(atDate);
+
+  return (
+    <Translate
+      id="theme.lastUpdated.createdAtDate"
+      description="The words used to describe on which date a page has been created"
+      values={{
+        date: (
+          <b>
+            <time dateTime={atDate.toISOString()} itemProp="dateCreated">
+              {formattedCreatedAt}
+            </time>
+          </b>
+        ),
+      }}>
+      {' on {date}'}
+    </Translate>
+  );
+}
+
+function CreatedByUser({createdBy}: {createdBy: string}): ReactNode {
+  return (
+    <Translate
+      id="theme.lastUpdated.createdByUser"
+      description="The words used to describe by who the page has been created"
+      values={{
+        user: <b>{createdBy}</b>,
+      }}>
+      {' by {user}'}
+    </Translate>
+  );
+}
+
+function Created({createdAt, createdBy}: Props): ReactNode {
+  return (
+    <span className={ThemeClassNames.common.lastUpdated}>
+      <Translate
+        id="theme.lastUpdated.createdAtBy"
+        description="The sentence used to display when a page has been created, and by who"
+        values={{
+          atDate: createdAt ? <CreatedAtDate createdAt={createdAt} /> : '',
+          byUser: createdBy ? <CreatedByUser createdBy={createdBy} /> : '',
+        }}>
+        {'Created{atDate}{byUser}'}
+      </Translate>
+    </span>
+  );
+}
+
+function LastUpdatedMetadata({lastUpdatedAt, lastUpdatedBy}: Props): ReactNode {
   return (
     <span className={ThemeClassNames.common.lastUpdated}>
       <Translate
@@ -85,12 +141,37 @@ export default function LastUpdated({
         }}>
         {'Last updated{atDate}{byUser}'}
       </Translate>
+    </span>
+  );
+}
+
+export default function LastUpdated({
+  createdAt,
+  createdBy,
+  lastUpdatedAt,
+  lastUpdatedBy,
+}: Props): ReactNode {
+  const canDisplayCreated = !!(createdAt || createdBy);
+  const canDisplayLastUpdated = !!(lastUpdatedAt || lastUpdatedBy);
+
+  return (
+    <>
+      {canDisplayCreated && (
+        <Created createdAt={createdAt} createdBy={createdBy} />
+      )}
+      {canDisplayCreated && canDisplayLastUpdated && <br />}
+      {canDisplayLastUpdated && (
+        <LastUpdatedMetadata
+          lastUpdatedAt={lastUpdatedAt}
+          lastUpdatedBy={lastUpdatedBy}
+        />
+      )}
       {process.env.NODE_ENV === 'development' && (
         <div>
           {/* eslint-disable-next-line @docusaurus/no-untranslated-text */}
           <small> (Simulated during dev for better perf)</small>
         </div>
       )}
-    </span>
+    </>
   );
 }

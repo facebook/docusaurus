@@ -14,6 +14,8 @@ import styles from './styles.module.css';
 
 export default function EditMetaRow({
   className,
+  createdAt,
+  createdBy,
   editUrl,
   lastUpdatedAt,
   lastUpdatedBy,
@@ -24,8 +26,10 @@ export default function EditMetaRow({
         {editUrl && <EditThisPage editUrl={editUrl} />}
       </div>
       <div className={clsx('col', styles.lastUpdated)}>
-        {(lastUpdatedAt || lastUpdatedBy) && (
+        {(createdAt || createdBy || lastUpdatedAt || lastUpdatedBy) && (
           <LastUpdated
+            createdAt={createdAt}
+            createdBy={createdBy}
             lastUpdatedAt={lastUpdatedAt}
             lastUpdatedBy={lastUpdatedBy}
           />

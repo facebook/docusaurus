@@ -46,6 +46,10 @@ export const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   pagination_prev: Joi.string().allow(null),
   ...FrontMatterTOCHeadingLevels,
   last_update: FrontMatterLastUpdateSchema,
+  last_update_time: Joi.date().raw(),
+  last_update_author: Joi.string().strict(),
+  create_time: Joi.date().raw(),
+  create_author: Joi.string().strict(),
 })
   .unknown()
   .concat(ContentVisibilitySchema);

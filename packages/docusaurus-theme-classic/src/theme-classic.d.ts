@@ -917,6 +917,8 @@ declare module '@theme/EditMetaRow' {
 
   export interface Props {
     readonly className: string;
+    readonly createdAt?: number | null;
+    readonly createdBy?: string | null;
     readonly editUrl: string | null | undefined;
     readonly lastUpdatedAt: number | null | undefined;
     readonly lastUpdatedBy: string | null | undefined;
@@ -1090,6 +1092,8 @@ declare module '@theme/LastUpdated' {
   import type {ReactNode} from 'react';
 
   export interface Props {
+    readonly createdAt?: number | null;
+    readonly createdBy?: string | null;
     readonly lastUpdatedAt?: number | null;
     readonly lastUpdatedBy?: string | null;
   }

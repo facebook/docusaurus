@@ -6,10 +6,13 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {readLastUpdateData} from '../lastUpdateUtils';
+import {readCreationData, readLastUpdateData} from '../lastUpdateUtils';
 import {TEST_VCS} from '../vcs/vcs';
 
-import type {FrontMatterLastUpdate} from '../lastUpdateUtils';
+import type {
+  FrontMatterCreation,
+  FrontMatterLastUpdate,
+} from '../lastUpdateUtils';
 
 describe('readLastUpdateData', () => {
   const testDate = '2021-01-01';
@@ -179,5 +182,82 @@ describe('readLastUpdateData', () => {
     );
     expect(lastUpdatedBy).toEqual(testAuthor);
     expect(lastUpdatedAt).toBeUndefined();
+  });
+});
+
+describe('readCreationData', () => {
+  const testDate = '2021-01-01';
+  const testTimestamp = new Date(testDate).getTime();
+  const testAuthor = 'ozaki';
+
+  async function readData(
+    filePath: string,
+    options: Parameters<typeof readCreationData>[1],
+    creationFrontMatter: Parameters<typeof readCreationData>[2],
+  ) {
+    return readCreationData(filePath, options, creationFrontMatter, TEST_VCS);
+  }
+
+  describe('on untracked Git file', () => {
+    function readUntrackedFile(
+      creationFrontMatter: FrontMatterCreation | undefined,
+    ) {
+      return readData(
+        TEST_VCS.UNTRACKED_FILE_PATH,
+        {showCreateAuthor: true, showCreateTime: true},
+        creationFrontMatter,
+      );
+    }
+
+    it('reads null at/by from Git', async () => {
+      const {createdAt, createdBy} = await readUntrackedFile({});
+      expect(createdAt).toBeNull();
+      expect(createdBy).toBeNull();
+    });
+
+    it('reads null at from Git and author from front matter', async () => {
+      const {createdAt, createdBy} = await readUntrackedFile({
+        author: testAuthor,
+      });
+      expect(createdAt).toBeNull();
+      expect(createdBy).toEqual(testAuthor);
+    });
+
+    it('reads null by from Git and date from front matter', async () => {
+      const {createdAt, createdBy} = await readUntrackedFile({
+        date: testDate,
+      });
+      expect(createdBy).toBeNull();
+      expect(createdAt).toEqual(testTimestamp);
+    });
+  });
+
+  it('reads creation time and author from Git', async () => {
+    const {createdAt, createdBy} = await readData(
+      '',
+      {showCreateAuthor: true, showCreateTime: true},
+      {},
+    );
+    expect(createdAt).toBe(TEST_VCS.CREATION_INFO.timestamp);
+    expect(createdBy).toBe(TEST_VCS.CREATION_INFO.author);
+  });
+
+  it('prefers creation date and author from front matter', async () => {
+    const {createdAt, createdBy} = await readData(
+      '',
+      {showCreateAuthor: true, showCreateTime: true},
+      {author: testAuthor, date: testDate},
+    );
+    expect(createdBy).toEqual(testAuthor);
+    expect(createdAt).toEqual(testTimestamp);
+  });
+
+  it('does not read creation metadata when display options are off', async () => {
+    const creation = await readData(
+      '',
+      {showCreateAuthor: false, showCreateTime: false},
+      {author: testAuthor, date: testDate},
+    );
+    expect(creation).toEqual({});
   });
 });

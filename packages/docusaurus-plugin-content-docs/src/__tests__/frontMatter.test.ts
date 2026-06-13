@@ -492,3 +492,67 @@ describe('validateDocFrontMatter last_update', () => {
     ],
   });
 });
+
+describe('validateDocFrontMatter last_update_time', () => {
+  testField({
+    prefix: 'last_update_time',
+    validFrontMatters: [
+      {last_update_time: undefined},
+      {last_update_time: '1/1/2000'},
+      {last_update_time: new Date('1/1/2000')},
+      {last_update_time: '1995-12-17T03:24:00'},
+      {last_update_time: 'December 17, 1995 03:24:00'},
+    ],
+    invalidFrontMatters: [
+      [{last_update_time: 'I am not a date :('}, 'must be a valid date'],
+      [{last_update_time: '2011-10-45'}, 'must be a valid date'],
+      [{last_update_time: ''}, 'must be a valid date'],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter last_update_author', () => {
+  testField({
+    prefix: 'last_update_author',
+    validFrontMatters: [
+      {last_update_author: undefined},
+      {last_update_author: 'test author'},
+    ],
+    invalidFrontMatters: [
+      [{last_update_author: ''}, 'is not allowed to be empty'],
+      [{last_update_author: 42}, 'must be a string'],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter create_time', () => {
+  testField({
+    prefix: 'create_time',
+    validFrontMatters: [
+      {create_time: undefined},
+      {create_time: '1/1/2000'},
+      {create_time: new Date('1/1/2000')},
+      {create_time: '1995-12-17T03:24:00'},
+      {create_time: 'December 17, 1995 03:24:00'},
+    ],
+    invalidFrontMatters: [
+      [{create_time: 'I am not a date :('}, 'must be a valid date'],
+      [{create_time: '2011-10-45'}, 'must be a valid date'],
+      [{create_time: ''}, 'must be a valid date'],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter create_author', () => {
+  testField({
+    prefix: 'create_author',
+    validFrontMatters: [
+      {create_author: undefined},
+      {create_author: 'test author'},
+    ],
+    invalidFrontMatters: [
+      [{create_author: ''}, 'is not allowed to be empty'],
+      [{create_author: 42}, 'must be a string'],
+    ],
+  });
+});
