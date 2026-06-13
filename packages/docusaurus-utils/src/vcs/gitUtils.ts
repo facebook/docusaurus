@@ -32,6 +32,22 @@ const GitCommandQueue = new PQueue({
   concurrency: GitCommandConcurrency,
 });
 
+export function normalizeGitPath(gitPath: string): string {
+  if (process.platform !== 'win32') {
+    return gitPath;
+  }
+
+  const msysPathMatch = gitPath.match(/^\/(?<drive>[a-z])(?:\/(?<rest>.*))?$/i);
+  const drive = msysPathMatch?.groups?.drive;
+  if (!drive) {
+    return gitPath;
+  }
+
+  const rest = msysPathMatch?.groups?.rest ?? '';
+  const windowsRest = rest.replace(/\//g, '\\');
+  return `${drive.toUpperCase()}:\\${windowsRest}`;
+}
+
 const realHasGitFn = () => {
   try {
     return execa.sync('git', ['--version']).exitCode === 0;
@@ -303,7 +319,7 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
     );
   }
 
-  return fs.realpath.native(result.stdout.trim());
+  return fs.realpath.native(normalizeGitPath(result.stdout.trim()));
 }
 
 // A Git "superproject" is a Git repository that contains submodules
@@ -347,7 +363,7 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
   // this command only works when inside submodules
   // otherwise it doesn't return anything when we are inside the main repo
   if (output) {
-    return fs.realpath.native(output);
+    return fs.realpath.native(normalizeGitPath(output));
   }
   return getGitRepoRoot(cwd);
 }

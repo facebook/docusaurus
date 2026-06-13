@@ -21,6 +21,7 @@ import {
   getGitSubmodulePaths,
   getGitAllRepoRoots,
   getGitRepositoryFilesInfo,
+  normalizeGitPath,
 } from '../gitUtils';
 import {createVcsGitEagerConfig} from '../vcsGitEager';
 
@@ -396,6 +397,33 @@ describe('commit info APIs', () => {
         }
       `);
     });
+  });
+});
+
+describe('normalizeGitPath', () => {
+  it('converts MSYS drive paths to Windows paths on Windows', () => {
+    const oldProcessPlatform = process.platform;
+
+    Object.defineProperty(process, 'platform', {value: 'win32'});
+
+    expect(normalizeGitPath('/p/projets/my-repo')).toBe('P:\\projets\\my-repo');
+    expect(normalizeGitPath('/c')).toBe('C:\\');
+    expect(normalizeGitPath('P:\\projets\\my-repo')).toBe(
+      'P:\\projets\\my-repo',
+    );
+    expect(normalizeGitPath('P:/projets/my-repo')).toBe('P:/projets/my-repo');
+
+    Object.defineProperty(process, 'platform', {value: oldProcessPlatform});
+  });
+
+  it('leaves MSYS-like paths unchanged on non-Windows platforms', () => {
+    const oldProcessPlatform = process.platform;
+
+    Object.defineProperty(process, 'platform', {value: 'linux'});
+
+    expect(normalizeGitPath('/p/projets/my-repo')).toBe('/p/projets/my-repo');
+
+    Object.defineProperty(process, 'platform', {value: oldProcessPlatform});
   });
 });
 
