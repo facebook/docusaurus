@@ -11,14 +11,24 @@ import CodeBlock from '@theme/CodeBlock';
 import CodeInline from '@theme/CodeInline';
 import type {Props} from '@theme/MDXComponents/Code';
 
+function containsNewline(node: ReactNode): boolean {
+  if (typeof node === 'string') {
+    return node.includes('\n');
+  }
+  if (React.isValidElement(node)) {
+    return React.Children.toArray(
+      (node as React.ReactElement<{children?: ReactNode}>).props.children,
+    ).some(containsNewline);
+  }
+  return false;
+}
+
 function shouldBeInline(props: Props) {
   return (
     // empty code blocks have no props.children,
     // see https://github.com/facebook/docusaurus/pull/9704
     typeof props.children !== 'undefined' &&
-    React.Children.toArray(props.children).every(
-      (el) => typeof el === 'string' && !el.includes('\n'),
-    )
+    React.Children.toArray(props.children).every((el) => !containsNewline(el))
   );
 }
 
