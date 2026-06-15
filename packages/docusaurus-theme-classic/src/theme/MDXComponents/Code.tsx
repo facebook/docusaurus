@@ -17,7 +17,9 @@ function shouldBeInline(props: Props) {
     // see https://github.com/facebook/docusaurus/pull/9704
     typeof props.children !== 'undefined' &&
     React.Children.toArray(props.children).every(
-      (el) => typeof el === 'string' && !el.includes('\n'),
+      (el) =>
+        (typeof el === 'string' && !el.includes('\n')) ||
+        (typeof el === 'object' && el !== null),
     )
   );
 }
