@@ -101,3 +101,88 @@ export async function readLastUpdateData(
     lastUpdatedAt,
   };
 }
+
+export type CreatedData = {
+  /**
+   * A timestamp in **milliseconds**, usually read from `git log --diff-filter=A`
+   * `undefined`: not read
+   * `null`: no value to read (usual for untracked files)
+   */
+  createdAt: number | undefined | null;
+  /**
+   * The author's name, usually coming from `git log`
+   * `undefined`: not read
+   * `null`: no value to read (usual for untracked files)
+   */
+  createdBy: string | undefined | null;
+};
+
+export type CreatedOptions = {
+  showCreateAuthor?: boolean;
+  showCreateTime?: boolean;
+};
+
+export type FrontMatterCreated = {
+  author?: string;
+  date?: Date | string;
+};
+
+export async function readCreatedData(
+  filePath: string,
+  options: CreatedOptions,
+  createdFrontMatter: FrontMatterCreated | undefined,
+  vcsParam: any, // Tipado como 'any' para evitar erros caso getFileCreationInfo não esteja exportado globalmente no VcsConfig ainda
+): Promise<CreatedData> {
+  const vcs = vcsParam ?? getVcsPreset('default-v1');
+
+  const {showCreateAuthor, showCreateTime} = options;
+
+  if (!showCreateAuthor && !showCreateTime) {
+    return {createdBy: undefined, createdAt: undefined};
+  }
+
+  const frontMatterAuthor = createdFrontMatter?.author;
+  const frontMatterTimestamp = createdFrontMatter?.date
+    ? new Date(createdFrontMatter.date).getTime()
+    : undefined;
+
+  // Memoizamos a chamada ao Git para garantir performance, igual ao lastUpdate
+  const getCreationMemoized = _.memoize(() =>
+    typeof vcs.getFileCreationInfo === 'function'
+      ? vcs.getFileCreationInfo(filePath)
+      : Promise.resolve(null),
+  );
+
+  const getCreatedBy = () =>
+    getCreationMemoized().then(
+      (update: {author?: string; timestamp?: number} | null) => {
+        if (update === null) {
+          return null;
+        }
+        return update?.author;
+      },
+    );
+
+  const getCreatedAt = () =>
+    getCreationMemoized().then(
+      (update: {author?: string; timestamp?: number} | null) => {
+        if (update === null) {
+          return null;
+        }
+        return update?.timestamp;
+      },
+    );
+
+  const createdBy = showCreateAuthor
+    ? (frontMatterAuthor ?? (await getCreatedBy()))
+    : undefined;
+
+  const createdAt = showCreateTime
+    ? (frontMatterTimestamp ?? (await getCreatedAt()))
+    : undefined;
+
+  return {
+    createdBy,
+    createdAt,
+  };
+}

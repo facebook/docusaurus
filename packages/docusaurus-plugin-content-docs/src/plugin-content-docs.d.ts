@@ -409,6 +409,12 @@ declare module '@docusaurus/plugin-content-docs' {
     unlisted?: boolean;
     /** Allows overriding the last updated author and/or date. */
     last_update?: FrontMatterLastUpdate;
+    /* Override the default creation author and date.
+     */
+    created?: {
+      author?: string;
+      date?: Date | string;
+    };
   };
 
   export type DocMetadataBase = LastUpdateData & {

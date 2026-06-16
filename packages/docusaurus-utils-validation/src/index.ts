@@ -29,5 +29,7 @@ export {
   ContentVisibilitySchema,
   FrontMatterLastUpdateErrorMessage,
   FrontMatterLastUpdateSchema,
+  FrontMatterCreatedSchema,
+  FrontMatterCreatedErrorMessage,
 } from './validationSchemas';
 export {getTagsFilePathsToWatch, getTagsFile} from './tagsFile';
