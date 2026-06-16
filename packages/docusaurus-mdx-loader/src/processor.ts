@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import logger from '@docusaurus/logger';
 import headings from './remark/headings';
 import contentTitle from './remark/contentTitle';
 import toc from './remark/toc';
@@ -26,6 +27,7 @@ import type {PluginOptions as ResolveMarkdownLinksOptions} from './remark/resolv
 import type {PluginOptions as TransformLinksOptions} from './remark/transformLinks';
 import type {PluginOptions as TransformImageOptions} from './remark/transformImage';
 import type {ProcessorOptions} from '@mdx-js/mdx';
+import type {VFileMessage} from 'vfile-message';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // This might change soon, likely after TS 5.2
@@ -210,10 +212,20 @@ async function createProcessorFactory() {
             compilerName,
           },
         });
-        return mdxProcessor.process(vfile).then((result) => ({
-          content: result.toString(),
-          data: result.data,
-        }));
+        return mdxProcessor.process(vfile).then((result) => {
+          // Report warnings/errors that Remark plugins attached to the vfile
+          result.messages.forEach((message: VFileMessage) => {
+            if (message.fatal) {
+              logger.error(String(message));
+            } else {
+              logger.warn(String(message));
+            }
+          });
+          return {
+            content: result.toString(),
+            data: result.data,
+          };
+        });
       },
     };
   }
