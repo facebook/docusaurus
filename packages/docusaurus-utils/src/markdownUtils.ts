@@ -164,6 +164,13 @@ export function createExcerpt(fileString: string): string | undefined {
   return undefined;
 }
 
+const frontMatterCache = new Map<
+  string,
+  {data: {[key: string]: unknown}; content: string}
+>();
+
+const MAX_CACHE_SIZE = 1000;
+
 /**
  * Takes a raw Markdown file content, and parses the front matter using
  * gray-matter. Worth noting that gray-matter accepts TOML and other markup
@@ -182,20 +189,39 @@ export function parseFileContentFrontMatter(fileContent: string): {
   /** The remaining content, trimmed. */
   content: string;
 } {
-  // TODO Docusaurus v4: replace gray-matter by a better lib
-  // gray-matter is unmaintained, not flexible, and the code doesn't look good
-  const {data, content} = matter(fileContent);
+  let parsed = frontMatterCache.get(fileContent);
+
+  if (!parsed) {
+    // TODO Docusaurus v4: replace gray-matter by a better lib
+    // gray-matter is unmaintained, not flexible, and the code doesn't look good
+    // Passing {} as options disables gray-matter's internal leaking cache
+    const result = matter(fileContent, {});
+
+    parsed = {
+      data: result.data,
+      content: result.content,
+    };
+
+    if (frontMatterCache.size >= MAX_CACHE_SIZE) {
+      const oldestKey = frontMatterCache.keys().next().value;
+      if (oldestKey !== undefined) {
+        frontMatterCache.delete(oldestKey);
+      }
+    }
+
+    frontMatterCache.set(fileContent, parsed);
+  }
 
   // gray-matter has an undocumented front matter caching behavior
   // https://github.com/jonschlinkert/gray-matter/blob/ce67a86dba419381db0dd01cc84e2d30a1d1e6a5/index.js#L39
   // Unfortunately, this becomes a problem when we mutate returned front matter
   // We want to make it possible as part of the parseFrontMatter API
   // So we make it safe to mutate by always providing a deep copy
-  const frontMatter = structuredClone(data);
+  const frontMatter = structuredClone(parsed.data);
 
   return {
     frontMatter,
-    content: content.trim(),
+    content: parsed.content.trim(),
   };
 }
 
