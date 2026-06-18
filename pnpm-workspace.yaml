@@ -18,6 +18,7 @@ packages:
 overrides:
   axios: 1.16.1 # Fix CVEs https://github.com/axios/axios/security/advisories
   tar: ^7.5.16 # Fix CVEs https://github.com/isaacs/node-tar/security/advisories
+  tmp: 0.2.7 # Fix CVEs https://github.com/advisories/GHSA-52f5-9888-hmc6
 
 minimumReleaseAge: 10080
 minimumReleaseAgeStrict: true
