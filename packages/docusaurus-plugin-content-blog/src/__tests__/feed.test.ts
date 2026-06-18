@@ -17,7 +17,7 @@ import {
   normalizePluginOptions,
   getTagsFile,
 } from '@docusaurus/utils-validation';
-import tree from 'tree-node-cli';
+import {tree} from 'tree-node-cli';
 import {DEFAULT_OPTIONS, validateOptions} from '../options';
 import {generateBlogPosts} from '../blogUtils';
 import {createBlogFeedFiles} from '../feed';
