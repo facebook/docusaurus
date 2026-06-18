@@ -446,24 +446,6 @@ const MyComponent = () => {
 };
 ```
 
-:::note
-
-Avoid using `useIsBrowser()` to access `window` or DOM APIs. It returns `false` during the initial client render, which can cause code to silently fall back to unexpected values.
-
-```jsx
-// ❌ Wrong — testUrl is undefined during the initial render, even in the browser
-const isBrowser = useIsBrowser();
-const testUrl = isBrowser ? new URL(window.location.href) : null;
-
-// ✅ Correct — use ExecutionEnvironment for environment detection
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-const testUrl = ExecutionEnvironment.canUseDOM
-  ? new URL(window.location.href)
-  : null;
-```
-
-:::
-
 ### `useBaseUrl` {/* #useBaseUrl */}
 
 React hook to prepend your site `baseUrl` to a string.
