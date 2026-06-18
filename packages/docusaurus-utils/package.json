@@ -25,7 +25,7 @@
     "file-loader": "^6.2.0",
     "fs-extra": "^11.2.0",
     "github-slugger": "^2.0.0",
-    "gray-matter": "^4.0.3",
+    "@11ty/gray-matter": "^1.0.0",
     "jiti": "^2.7.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
