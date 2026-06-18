@@ -3,15 +3,12 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @jest-environment jsdom
  */
-
-// Jest doesn't allow pragma below other comments. https://github.com/facebook/jest/issues/12573
-// eslint-disable-next-line header/header
+// @vitest-environment jsdom
+import {describe, expect, it} from 'vitest';
 import React from 'react';
 import {render} from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 
 import Translate, {translate} from '../Translate';
 
@@ -35,7 +32,7 @@ describe('translate', () => {
     // files in a tsconfig file
     // @ts-expect-error: TS should protect when both id/message are missing
     expect(() => translate({})).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus translation declarations must have at least a translation id or a default translation message"`,
+      `[Error: Docusaurus translation declarations must have at least a translation id or a default translation message]`,
     );
   });
 });
@@ -60,7 +57,7 @@ describe('<Translate>', () => {
 
   it('rejects when no id or message', () => {
     expect(() => render(<Translate />)).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus translation declarations must have at least a translation id or a default translation message"`,
+      `[Error: Docusaurus translation declarations must have at least a translation id or a default translation message]`,
     );
   });
 
@@ -73,7 +70,7 @@ describe('<Translate>', () => {
         </Translate>,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"The Docusaurus <Translate> component only accept simple string values"`,
+      `[Error: The Docusaurus <Translate> component only accept simple string values]`,
     );
   });
 });

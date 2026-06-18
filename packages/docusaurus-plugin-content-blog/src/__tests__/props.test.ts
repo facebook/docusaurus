@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {toBlogSidebarProp, toTagsProp} from '../props';
 import type {BlogPost} from '@docusaurus/plugin-content-blog';

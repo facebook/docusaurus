@@ -36,6 +36,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/core": "3.10.1",
+    "@docusaurus/theme-classic": "3.10.1",
     "@docusaurus/theme-common": "3.10.1",
     "@docusaurus/theme-translations": "3.10.1",
     "@docusaurus/utils-validation": "3.10.1",
@@ -46,6 +47,7 @@
     "tslib": "^2.6.0"
   },
   "devDependencies": {
+    "@docusaurus/module-type-aliases": "3.10.1",
     "@docusaurus/types": "3.10.1",
     "@types/buble": "^0.20.1"
   },

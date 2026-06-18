@@ -28,19 +28,16 @@ import type {Props} from '@docusaurus/Link';
 // like "introduction" to "/baseUrl/introduction" => bad behavior to fix
 const shouldAddBaseUrlAutomatically = (to: string) => to.startsWith('/');
 
-function Link(
-  {
-    isNavLink,
-    to,
-    href,
-    activeClassName,
-    isActive,
-    'data-noBrokenLinkCheck': noBrokenLinkCheck,
-    autoAddBaseUrl = true,
-    ...props
-  }: Props,
-  forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
-): ReactNode {
+function Link({
+  isNavLink,
+  to,
+  href,
+  activeClassName,
+  isActive,
+  'data-noBrokenLinkCheck': noBrokenLinkCheck,
+  autoAddBaseUrl = true,
+  ...props
+}: Props): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const {trailingSlash, baseUrl} = siteConfig;
   const router = siteConfig.future.experimental_router;
@@ -48,7 +45,7 @@ function Link(
   const brokenLinks = useBrokenLinks();
   const innerRef = useRef<HTMLAnchorElement | null>(null);
 
-  useImperativeHandle(forwardedRef, () => innerRef.current!);
+  useImperativeHandle(props.ref, () => innerRef.current!);
 
   // IMPORTANT: using to or href should not change anything
   // For example, MDX links will ALWAYS give us the href props
@@ -207,4 +204,4 @@ function Link(
   );
 }
 
-export default React.forwardRef(Link);
+export default Link;

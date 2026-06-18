@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`getDocusaurusAliases returns appropriate webpack aliases 1`] = `
+exports[`getDocusaurusAliases > returns appropriate webpack aliases 1`] = `
 {
   "@docusaurus/BrowserOnly": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/BrowserOnly.tsx",
   "@docusaurus/ComponentCreator": "<PROJECT_ROOT>/packages/docusaurus/src/client/exports/ComponentCreator.tsx",
@@ -25,7 +25,7 @@ exports[`getDocusaurusAliases returns appropriate webpack aliases 1`] = `
 }
 `;
 
-exports[`loadThemeAliases next alias can override the previous alias 1`] = `
+exports[`loadThemeAliases > next alias can override the previous alias 1`] = `
 [
   [
     "@theme-init/Layout",

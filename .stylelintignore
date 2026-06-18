@@ -3,10 +3,12 @@
 !*/
 !*.css
 __tests__/
+.claude
+.codex
 build
+.docusaurus
 coverage
 examples/
-
 packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*

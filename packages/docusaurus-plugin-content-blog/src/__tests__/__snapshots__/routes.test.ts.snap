@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`buildAllRoutes works for realistic blog post 2`] = `
+exports[`buildAllRoutes > works for realistic blog post 2`] = `
 [
   {
     "component": "@theme/BlogPostPage",
@@ -498,7 +498,7 @@ exports[`buildAllRoutes works for realistic blog post 2`] = `
 ]
 `;
 
-exports[`buildAllRoutes works for realistic blog post 3`] = `
+exports[`buildAllRoutes > works for realistic blog post 3`] = `
 {
   "blog-post-list-prop-default.json": {
     "items": [

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import _ from 'lodash';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {
@@ -50,12 +51,12 @@ describe('docsClientUtils', () => {
     expect(() =>
       getActivePlugin(data, '/', {failfast: true}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't find active docs plugin for "/" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
+      `[Error: Can't find active docs plugin for "/" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android]`,
     );
     expect(() =>
       getActivePlugin(data, '/xyz', {failfast: true}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Can't find active docs plugin for "/xyz" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android"`,
+      `[Error: Can't find active docs plugin for "/xyz" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: /ios, /android]`,
     );
 
     const activePluginIos: ActivePlugin = {

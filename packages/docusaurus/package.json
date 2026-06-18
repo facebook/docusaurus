@@ -80,13 +80,15 @@
     "@docusaurus/module-type-aliases": "3.10.1",
     "@docusaurus/types": "3.10.1",
     "@total-typescript/shoehorn": "^0.1.2",
+    "@types/escape-html": "^1.0.4",
+    "@types/history": "^4.7.11",
     "@types/react-dom": "^19.2.3",
+    "@types/react-router-dom": "^5.3.3",
     "@types/react-router-config": "^5.0.7",
     "@types/serve-handler": "^6.1.4",
     "@types/update-notifier": "^6.0.4",
     "@types/webpack-bundle-analyzer": "^4.7.0",
     "@types/webpack-env": "^1.18.8",
-    "tmp-promise": "^3.0.3",
     "tree-node-cli": "^1.6.0"
   },
   "peerDependencies": {

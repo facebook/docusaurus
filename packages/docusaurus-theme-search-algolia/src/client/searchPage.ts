@@ -7,8 +7,8 @@
 
 import {useCallback} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useQueryString} from '../utils/historyUtils';
-import type {ThemeConfig as AlgoliaThemeConfig} from '@docusaurus/theme-search-algolia';
+import {useQueryString} from '@docusaurus/theme-common';
+import {useAlgoliaThemeConfig} from './useAlgoliaThemeConfig';
 
 const SEARCH_PARAM_QUERY = 'q';
 
@@ -24,19 +24,20 @@ export function useSearchQueryString(): [string, (newValue: string) => void] {
  */
 export function useSearchLinkCreator(): (searchValue: string) => string {
   const {
-    siteConfig: {baseUrl, themeConfig},
+    siteConfig: {baseUrl},
   } = useDocusaurusContext();
   const {
     algolia: {searchPagePath},
-  } = themeConfig as AlgoliaThemeConfig;
+  } = useAlgoliaThemeConfig();
 
   return useCallback(
-    (searchValue: string) =>
+    function createSearchLink(searchValue: string) {
       // Refer to https://github.com/facebook/docusaurus/pull/2838
       // Note: if searchPagePath is falsy, useSearchPage() will not be called
-      `${baseUrl}${
+      return `${baseUrl}${
         searchPagePath as string
-      }?${SEARCH_PARAM_QUERY}=${encodeURIComponent(searchValue)}`,
+      }?${SEARCH_PARAM_QUERY}=${encodeURIComponent(searchValue)}`;
+    },
     [baseUrl, searchPagePath],
   );
 }

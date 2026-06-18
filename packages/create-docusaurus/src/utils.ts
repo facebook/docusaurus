@@ -5,46 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// @ts-expect-error: no types, but same as spawn()
-import CrossSpawn from 'cross-spawn';
-import type {spawn, SpawnOptions} from 'node:child_process';
-
-// We use cross-spawn instead of spawn because of Windows compatibility issues.
-// For example, "yarn" doesn't work on Windows, it requires "yarn.cmd"
-// Tools like execa() use cross-spawn under the hood, and "resolve" the command
-const crossSpawn: typeof spawn = CrossSpawn;
-
-/**
- * Run a command, similar to execa(cmd,args) but simpler
- * @param command
- * @param args
- * @param options
- * @returns the command exit code
- */
-export async function runCommand(
-  command: string,
-  args: string[] = [],
-  options: SpawnOptions = {},
-): Promise<number> {
-  // This does something similar to execa.command()
-  // we split a string command (with optional args) into command+args
-  // this way it's compatible with spawn()
-  const [realCommand, ...baseArgs] = command.split(' ');
-  const allArgs = [...baseArgs, ...args];
-  if (!realCommand) {
-    throw new Error(`Invalid command: ${command}`);
-  }
-
-  return new Promise<number>((resolve, reject) => {
-    const p = crossSpawn(realCommand, allArgs, {stdio: 'ignore', ...options});
-    p.on('error', reject);
-    p.on('close', (exitCode) =>
-      exitCode !== null
-        ? resolve(exitCode)
-        : reject(new Error(`No exit code for command ${command}`)),
-    );
-  });
-}
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {logger} from '@docusaurus/logger';
+import {type PackageManager} from './constants.js';
 
 /**
  * We use a simple kebab-case-like conversion
@@ -61,4 +25,59 @@ export function siteNameToPackageName(siteName: string): string {
     return match.map((x) => x.toLowerCase()).join('-');
   }
   return siteName;
+}
+
+export async function updatePkg(
+  pkgPath: string,
+  obj: {[key: string]: unknown},
+): Promise<void> {
+  const pkg = JSON.parse(await fs.readFile(pkgPath, 'utf8')) as {
+    [key: string]: unknown;
+  };
+  const newPkg = Object.assign(pkg, obj);
+
+  await fs.mkdir(path.dirname(pkgPath), {recursive: true});
+  await fs.writeFile(pkgPath, `${JSON.stringify(newPkg, null, 2)}\n`);
+}
+
+// No need for fs-extra dependency
+export async function pathExists(filePath: string): Promise<boolean> {
+  return fs
+    .access(filePath, fs.constants.F_OK)
+    .then(() => true)
+    .catch(() => false);
+}
+
+export function printPackageManagerHelp({
+  pkgManager,
+  cdpath,
+}: {
+  pkgManager: PackageManager;
+  cdpath: string;
+}) {
+  const useNpm = pkgManager === 'npm';
+  const useBun = pkgManager === 'bun';
+  const run = useNpm || useBun ? 'run ' : '';
+  logger.success`Created name=${cdpath}.`;
+  logger.info`Inside that directory, you can run several commands:
+
+  code=${`${pkgManager} start`}
+    Starts the development server.
+
+  code=${`${pkgManager} ${run}build`}
+    Bundles your website into static files for production.
+
+  code=${`${pkgManager} ${run}serve`}
+    Serves the built website locally.
+
+  code=${`${pkgManager} ${run}deploy`}
+    Publishes the website to GitHub pages.
+
+We recommend that you begin by typing:
+
+  code=${`cd ${cdpath}`}
+  code=${`${pkgManager} start`}
+
+Happy building awesome websites!
+`;
 }

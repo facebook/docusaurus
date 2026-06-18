@@ -12,7 +12,7 @@ module.exports = {
   baseUrl: '/',
   favicon: 'img/favicon.ico',
   plugins: [
-    function (context, options) {
+    function (_context, _options) {
       return undefined;
     },
   ],

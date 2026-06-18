@@ -24,7 +24,7 @@ function inferLanguageDisplayName(locale: string) {
         type: 'language',
         fallback: 'code',
       }).of(l)!;
-    } catch (e) {
+    } catch {
       // This is to compensate "of()" that is a bit strict
       // Looks like starting Node 22, this locale throws: "en-US-u-ca-buddhist"
       // RangeError: invalid_argument
@@ -79,11 +79,7 @@ function getDefaultDirection(localeStr: string) {
   const locale = new Intl.Locale(localeStr);
   // see https://github.com/tc39/proposal-intl-locale-info
   // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getTextInfo
-  // Node 18.0 implements a former version of the getTextInfo() proposal
-  // TODO Docusaurus v4: remove the fallback to locale.textInfo
-  // @ts-expect-error: The TC39 proposal was updated
-  const textInto = locale.getTextInfo?.() ?? locale.textInfo;
-  return textInto.direction ?? 'ltr';
+  return locale.getTextInfo().direction ?? 'ltr';
 }
 
 export function getDefaultLocaleConfig(

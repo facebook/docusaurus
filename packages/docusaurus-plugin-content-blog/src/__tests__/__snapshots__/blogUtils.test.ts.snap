@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`paginateBlogPosts generates a single page 1`] = `
+exports[`paginateBlogPosts > generates a single page 1`] = `
 [
   {
     "items": [
@@ -25,7 +25,7 @@ exports[`paginateBlogPosts generates a single page 1`] = `
 ]
 `;
 
-exports[`paginateBlogPosts generates pages - 0 blog post 1`] = `
+exports[`paginateBlogPosts > generates pages - 0 blog post 1`] = `
 [
   {
     "items": [],
@@ -44,7 +44,7 @@ exports[`paginateBlogPosts generates pages - 0 blog post 1`] = `
 ]
 `;
 
-exports[`paginateBlogPosts generates pages 1`] = `
+exports[`paginateBlogPosts > generates pages 1`] = `
 [
   {
     "items": [
@@ -99,7 +99,7 @@ exports[`paginateBlogPosts generates pages 1`] = `
 ]
 `;
 
-exports[`paginateBlogPosts generates pages at blog root 1`] = `
+exports[`paginateBlogPosts > generates pages at blog root 1`] = `
 [
   {
     "items": [
@@ -154,7 +154,7 @@ exports[`paginateBlogPosts generates pages at blog root 1`] = `
 ]
 `;
 
-exports[`paginateBlogPosts generates pages with custom pageBasePath 1`] = `
+exports[`paginateBlogPosts > generates pages with custom pageBasePath 1`] = `
 [
   {
     "items": [

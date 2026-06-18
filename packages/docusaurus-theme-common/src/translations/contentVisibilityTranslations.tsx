@@ -7,7 +7,6 @@
 
 import React, {type ReactNode} from 'react';
 import Translate from '@docusaurus/Translate';
-import Head from '@docusaurus/Head';
 
 export function UnlistedBannerTitle(): ReactNode {
   return (
@@ -27,16 +26,6 @@ export function UnlistedBannerMessage(): ReactNode {
       This page is unlisted. Search engines will not index it, and only users
       having a direct link can access it.
     </Translate>
-  );
-}
-
-// TODO Docusaurus v4 breaking change (since it's v3 public theme-common API :/)
-//  Move this to theme/ContentVisibility/Unlisted
-export function UnlistedMetadata(): ReactNode {
-  return (
-    <Head>
-      <meta name="robots" content="noindex, nofollow" />
-    </Head>
   );
 }
 

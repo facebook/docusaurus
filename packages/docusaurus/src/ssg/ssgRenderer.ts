@@ -162,7 +162,6 @@ function reduceCollectedData(
     anchors: pageCollectedData.anchors,
     metadata: {
       public: pageCollectedData.metadata.public,
-      helmet: pageCollectedData.metadata.helmet,
     },
     links: pageCollectedData.links,
   };
@@ -183,11 +182,7 @@ async function generateStaticFile({
 }): Promise<SSGResult> {
   try {
     // This only renders the app HTML
-    const appRenderResult = await appRenderer.render({
-      pathname,
-      v4RemoveLegacyPostBuildHeadAttribute:
-        params.v4RemoveLegacyPostBuildHeadAttribute,
-    });
+    const appRenderResult = await appRenderer.render({pathname});
     // This renders the full page HTML, including head tags...
     const fullPageHtml = renderSSGTemplate({
       params,

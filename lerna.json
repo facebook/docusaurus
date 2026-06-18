@@ -1,6 +1,6 @@
 {
   "version": "3.10.1",
-  "npmClient": "yarn",
+  "npmClient": "pnpm",
   "useNx": false,
   "changelog": {
     "repo": "facebook/docusaurus",

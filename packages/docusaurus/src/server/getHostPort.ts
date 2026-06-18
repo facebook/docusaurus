@@ -85,8 +85,10 @@ Would you like to run the app on another port instead?`),
     })) as {shouldChangePort: boolean};
     return shouldChangePort ? port : null;
   } catch (err) {
-    logger.error`Could not find an open port at ${host}.`;
-    throw err;
+    throw new Error(
+      logger.interpolate`Could not find an open port at ${host}.`,
+      {cause: err},
+    );
   }
 }
 

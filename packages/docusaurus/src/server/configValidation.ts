@@ -99,7 +99,6 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
 };
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
-  removeLegacyPostBuildHeadAttribute: false,
   useCssCascadeLayers: false,
   siteStorageNamespacing: false,
   fasterByDefault: false,
@@ -108,7 +107,6 @@ export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
 
 // When using the "v4: true" shortcut
 export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
-  removeLegacyPostBuildHeadAttribute: true,
   useCssCascadeLayers: true,
   siteStorageNamespacing: true,
   fasterByDefault: true,
@@ -315,9 +313,6 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
 const FUTURE_V4_SCHEMA = Joi.alternatives()
   .try(
     Joi.object<FutureV4Config>({
-      removeLegacyPostBuildHeadAttribute: Joi.boolean().default(
-        DEFAULT_FUTURE_V4_CONFIG.removeLegacyPostBuildHeadAttribute,
-      ),
       useCssCascadeLayers: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.useCssCascadeLayers,
       ),
@@ -617,23 +612,6 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
       : getVcsPreset('disabled');
 
     config.future.experimental_vcs = vcsConfig;
-  }
-
-  if (
-    config.future.faster.ssgWorkerThreads &&
-    !config.future.v4.removeLegacyPostBuildHeadAttribute
-  ) {
-    throw new Error(
-      `Docusaurus config ${logger.code(
-        'future.faster.ssgWorkerThreads',
-      )} requires the future flag ${logger.code(
-        'future.v4.removeLegacyPostBuildHeadAttribute',
-      )} to be turned on.
-If you use Docusaurus Faster, we recommend that you also activate Docusaurus v4 future flags: ${logger.code(
-        '{future: {v4: true}}',
-      )}
-All the v4 future flags are documented here: https://docusaurus.io/docs/api/docusaurus-config#future`,
-    );
   }
 
   if (

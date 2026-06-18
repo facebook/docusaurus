@@ -4,7 +4,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-/* eslint-disable no-restricted-globals */
 
 import {PrecacheController, type PrecacheEntry} from 'workbox-precaching';
 
@@ -62,7 +61,6 @@ function getPossibleURLs(url: string) {
 (async () => {
   const params = parseSwParams();
 
-  // eslint-disable-next-line no-underscore-dangle
   const precacheManifest = (
     self as typeof globalThis & {__WB_MANIFEST: (string | PrecacheEntry)[]}
   ).__WB_MANIFEST;

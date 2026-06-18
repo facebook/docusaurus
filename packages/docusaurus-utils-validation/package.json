@@ -28,7 +28,7 @@
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "tmp-promise": "^3.0.3"
+    "@types/js-yaml": "^4.0.9"
   },
   "engines": {
     "node": ">=24.14"

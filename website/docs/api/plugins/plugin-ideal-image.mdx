@@ -36,6 +36,25 @@ import thumbnail from './path/to/img.png';
 <Image img={require('./path/to/img.png')} />
 ```
 
+:::note
+
+When `plugin-ideal-image` is installed, importing a supported image file no longer returns a plain URL string. Instead, it returns an object with the shape: `{ preSrc: string, src: { src: string, width: number, height: number } }`.
+
+If you need to use the image in a standard `<img>` tag, access it like this:
+
+```jsx
+<img
+  src={image.src.src}
+  width={image.src.width}
+  height={image.src.height}
+  alt="description"
+/>
+```
+
+To avoid dealing with this object shape directly, it is recommended to use the `<Image>` component provided by this plugin instead.
+
+:::
+
 :::warning
 
 This plugin registers a [Webpack loader](https://webpack.js.org/loaders/) that changes the type of imported/require images:

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`docusaurus-plugin-content-pages loads simple pages 1`] = `
+exports[`docusaurus-plugin-content-pages > loads simple pages 1`] = `
 [
   {
     "permalink": "/",
@@ -70,7 +70,7 @@ exports[`docusaurus-plugin-content-pages loads simple pages 1`] = `
 ]
 `;
 
-exports[`docusaurus-plugin-content-pages loads simple pages with french translations (translate: false) 1`] = `
+exports[`docusaurus-plugin-content-pages > loads simple pages with french translations (translate: false) 1`] = `
 [
   {
     "permalink": "/fr/",
@@ -140,7 +140,7 @@ exports[`docusaurus-plugin-content-pages loads simple pages with french translat
 ]
 `;
 
-exports[`docusaurus-plugin-content-pages loads simple pages with french translations 1`] = `
+exports[`docusaurus-plugin-content-pages > loads simple pages with french translations 1`] = `
 [
   {
     "permalink": "/fr/",
@@ -210,7 +210,7 @@ exports[`docusaurus-plugin-content-pages loads simple pages with french translat
 ]
 `;
 
-exports[`docusaurus-plugin-content-pages loads simple pages with last update 1`] = `
+exports[`docusaurus-plugin-content-pages > loads simple pages with last update 1`] = `
 [
   {
     "permalink": "/",

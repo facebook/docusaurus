@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it, vi} from 'vitest';
 import * as _ from 'lodash';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {buildAllRoutes} from '../routes';
@@ -15,7 +16,7 @@ import type {BlogPost, BlogPostMetadata} from '@docusaurus/plugin-content-blog';
 type Params = Parameters<typeof buildAllRoutes>[0];
 
 async function testBuildAllRoutes(overrides: PartialDeep<Params> = {}) {
-  const createData = jest.fn(
+  const createData = vi.fn(
     async (name: string, _data: unknown) => `/data/${name}`,
   );
 

@@ -12,4 +12,5 @@ export {
 } from './useAlgoliaContextualFacetFilters';
 export {useSearchResultUrlProcessor} from './useSearchResultUrlProcessor';
 export {useAlgoliaAskAi} from './useAlgoliaAskAi';
+export {useSearchQueryString, useSearchLinkCreator} from './searchPage';
 export {mergeFacetFilters} from './utils';

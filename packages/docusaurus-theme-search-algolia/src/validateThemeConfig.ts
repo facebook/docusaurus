@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {escapeRegexp} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import {docSearchV3} from './docSearchVersion';
 import type {ThemeConfigValidationContext} from '@docusaurus/types';
@@ -50,7 +49,7 @@ export const Schema = Joi.object<ThemeConfig>({
     replaceSearchResultPathname: Joi.object({
       from: Joi.custom((from) => {
         if (typeof from === 'string') {
-          return escapeRegexp(from);
+          return RegExp.escape(from);
         } else if (from instanceof RegExp) {
           return from.source;
         }

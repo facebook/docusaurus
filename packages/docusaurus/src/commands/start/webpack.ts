@@ -9,6 +9,7 @@ import path from 'path';
 import merge from 'webpack-merge';
 import {formatStatsErrorMessage, printStatsWarnings} from '@docusaurus/bundler';
 import logger from '@docusaurus/logger';
+// eslint-disable-next-line import/default
 import WebpackDevServer from 'webpack-dev-server';
 import evalSourceMapMiddleware from '../utils/legacy/evalSourceMapMiddleware';
 import {createPollingOptions} from './watcher';
@@ -59,7 +60,11 @@ async function createDevServerConfig({
 
   const pollingOptions = createPollingOptions(cliOptions);
 
-  const httpsConfig = await getHttpsConfig();
+  const httpsConfig = await getHttpsConfig({
+    https: cliOptions.https,
+    sslCert: cliOptions.sslCert,
+    sslKey: cliOptions.sslKey,
+  });
 
   // https://webpack.js.org/configuration/dev-server
   return {

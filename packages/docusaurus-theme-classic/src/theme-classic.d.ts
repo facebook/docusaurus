@@ -499,8 +499,7 @@ declare module '@theme/CodeBlock/Buttons/WordWrapButton' {
 }
 
 declare module '@theme/CodeBlock/Container' {
-  import type {ReactNode} from 'react';
-  import type {ComponentProps} from 'react';
+  import type {ReactNode, ComponentProps} from 'react';
 
   export default function CodeBlockContainer<T extends 'div' | 'pre'>({
     as: As,
@@ -1325,9 +1324,6 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     readonly position?: 'left' | 'right';
   };
 
-  // TODO Docusaurus v4, remove old type name
-  export type DesktopOrMobileNavBarItemProps = DefaultNavbarItemProps;
-
   export interface Props extends DefaultNavbarItemProps {
     readonly mobile?: boolean;
   }
@@ -1380,9 +1376,6 @@ declare module '@theme/NavbarItem/DropdownNavbarItem' {
     readonly items: readonly LinkLikeNavbarItemProps[];
     readonly className?: string;
   };
-
-  // TODO Docusaurus v4, remove old type name
-  export type DesktopOrMobileNavBarItemProps = DropdownNavbarItemProps;
 
   export interface Props extends DropdownNavbarItemProps {
     readonly mobile?: boolean;
