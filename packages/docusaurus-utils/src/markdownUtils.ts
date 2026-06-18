@@ -6,7 +6,7 @@
  */
 
 import logger from '@docusaurus/logger';
-import matter from 'gray-matter';
+import matter from '@11ty/gray-matter';
 import type {
   ParseFrontMatter,
   DefaultParseFrontMatter,
