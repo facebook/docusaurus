@@ -421,12 +421,12 @@ The initial render output must be consistent between server and client — compo
 
 :::caution
 
-`useIsBrowser()` and `ExecutionEnvironment.canUseDOM` serve different purposes:
+`useIsBrowser()` and `typeof window !== 'undefined'` serve different purposes:
 
 - **`useIsBrowser()`** — tracks hydration state. Use it to gate UI behavior that should only activate after initial hydration.
-- **`ExecutionEnvironment.canUseDOM`** — detects the runtime environment. Use it when you need to check DOM availability outside of React rendering logic.
+- **`typeof window !== 'undefined'`** — detects the runtime environment. Use it when you need to check DOM availability outside of React rendering logic.
 
-| Context | `useIsBrowser()` | `ExecutionEnvironment.canUseDOM` |
+| Context | `useIsBrowser()` | `typeof window !== 'undefined'` |
 | --- | --- | --- |
 | Node.js / SSR | `false` | `false` |
 | During initial client render | `false` | `true` (DOM is available) |
