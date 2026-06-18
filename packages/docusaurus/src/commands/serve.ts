@@ -16,6 +16,7 @@ import openBrowser from './utils/openBrowser/openBrowser';
 import {loadSiteConfig} from '../server/config';
 import {build} from './build/build';
 import {getHostPort, type HostPortOptions} from '../server/getHostPort';
+import {listenToServer} from './utils/listenToServer';
 import type {LoadContextParams} from '../server/site';
 
 function redirect(res: http.ServerResponse, location: string) {
@@ -107,7 +108,7 @@ export async function serve(
 
   const url = servingUrl + baseUrl;
   logger.success`Serving path=${buildDir} directory at: url=${url}`;
-  server.listen(port);
+  await listenToServer({server, host, port});
 
   if (cliOptions.open && !process.env.CI) {
     await openBrowser(url);
