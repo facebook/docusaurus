@@ -8,7 +8,7 @@
 import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import fs from 'fs-extra';
-import tree from 'tree-node-cli';
+import {tree} from 'tree-node-cli';
 import {escapePath, Globby, posixPath} from '@docusaurus/utils';
 import {ThemePath, createTempSiteDir, Components} from './testUtils';
 import {swizzle} from '../index';
