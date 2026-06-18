@@ -6,7 +6,7 @@ A file for [guiding AI coding agents](https://agents.md/).
 
 Docusaurus is a modern static site generator framework focused on documentation websites. It's built with React and supports MDX, i18n, versioning, and extensive plugin architecture.
 
-The project is a monorepo managed by Lerna and uses Yarn v1 workspaces.
+The project is a monorepo managed by Lerna and uses pnpm workspaces.
 
 Docusaurus uses itself to build its own website, which serves as both documentation and a way to dogfood the framework.
 
@@ -21,7 +21,7 @@ Docusaurus uses itself to build its own website, which serves as both documentat
   - `docusaurus-types/` - TypeScript definitions
   - `create-docusaurus/` - Site initialization CLI tool
 
-Monorepo packages depend on each other. Use `yarn lerna list --toposort` to know in which order to build them, and `yarn workspace <package-name> build` to build one in particular. The using `yarn build:packages` builds them all in the correct order, but is slower.
+Monorepo packages depend on each other. Use `pnpm lerna list --toposort` to know in which order to build them, and `pnpm --filter <package-name> build` to build one in particular. Using `pnpm build:packages` builds them all in the correct order, but is slower.
 
 ### Website structure
 
@@ -38,28 +38,28 @@ The main CLI commands available
 
 ### Core Commands
 
-- `yarn install` - Install dependencies and then build all monorepo packages
-- `yarn build:packages` - Build all monorepo packages
-- `yarn watch` - Incremental build of monorepo packages with file watchers
-- `yarn format` - Format code with oxfmt
-- `yarn lint` - Run linting (ESLint + Stylelint + spell check)
-- `yarn test` - Run all tests using Jest
-- `yarn clear` - Clean all build artifacts and caches
-- `yarn workspace <package-name> build` - Build an individual monorepo package
+- `pnpm install` - Install dependencies and then build all monorepo packages
+- `pnpm build:packages` - Build all monorepo packages
+- `pnpm watch` - Incremental build of monorepo packages with file watchers
+- `pnpm format` - Format code with oxfmt
+- `pnpm lint` - Run linting (ESLint + Stylelint + spell check)
+- `pnpm test` - Run all tests using Jest
+- `pnpm clear` - Clean all build artifacts and caches
+- `pnpm --filter <package-name> build` - Build an individual monorepo package
 
 ### Website Development
 
-- `yarn start:website` - Start the Docusaurus website in dev mode
-- `yarn build:website` - Build the website for production
-- `yarn build:website:fast` - Build website for production, only the last few versions, to speed up build time and feedback loop
-- `yarn serve:website` - Serve the built website locally
-- `yarn workspace website typecheck` - Ensure the website pass TypeScript type checking
+- `pnpm start:website` - Start the Docusaurus website in dev mode
+- `pnpm build:website` - Build the website for production
+- `pnpm build:website:fast` - Build website for production, only the last few versions, to speed up build time and feedback loop
+- `pnpm serve:website` - Serve the built website locally
+- `pnpm --filter website typecheck` - Ensure the website pass TypeScript type checking
 
 ### Testing
 
-- `yarn test` - Run all Jest tests
-- `yarn test <path/to/test.file.ts>` - Run single test file
-- `yarn workspace <package-name> test` - Run tests in a specific package:
+- `pnpm test` - Run all Jest tests
+- `pnpm test <path/to/test.file.ts>` - Run single test file
+- `pnpm --filter <package-name> test` - Run tests in a specific package:
 
 When a test is failing, run only that test file until it passes. Make sure to run all tests at the end to ensure there's no unexpected failure in other places.
 
@@ -67,11 +67,11 @@ Update Jest failing snapshots with the `-u` option. Do not blindly update snapsh
 
 ### Linting & Formatting
 
-- `yarn format` - Format code with oxfmt
-- `yarn lint:js` - ESLint for JS/TS files
-- `yarn lint:style` - Stylelint for CSS files
-- `yarn lint:spelling` - CSpell for spell checking
-- Add `:fix` suffix to auto-fix issues (e.g., `yarn lint:js:fix`)
+- `pnpm format` - Format code with oxfmt
+- `pnpm lint:js` - ESLint for JS/TS files
+- `pnpm lint:style` - Stylelint for CSS files
+- `pnpm lint:spelling` - CSpell for spell checking
+- Add `:fix` suffix to auto-fix issues (e.g., `pnpm lint:js:fix`)
 
 ## Contributing, Issue and PR Guidelines
 

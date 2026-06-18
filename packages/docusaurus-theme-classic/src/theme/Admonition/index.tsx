@@ -24,5 +24,6 @@ function getAdmonitionTypeComponent(type: string): ComponentType<Props> {
 export default function Admonition(unprocessedProps: Props): ReactNode {
   const props = processAdmonitionProps(unprocessedProps);
   const AdmonitionTypeComponent = getAdmonitionTypeComponent(props.type);
+  // eslint-disable-next-line react-hooks/static-components
   return <AdmonitionTypeComponent {...props} />;
 }

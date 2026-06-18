@@ -5,12 +5,10 @@
 # See also https://github.com/netlify/build/issues/2483
 
 [build]
-command = "yarn --cwd .. build:packages && yarn build"
+command = "pnpm --dir .. build:packages && pnpm build"
 publish = "website/build"
 
 [build.environment]
-NETLIFY_USE_YARN = "true"
-YARN_VERSION = "1.22.19"
 NODE_VERSION = "24"
 NODE_OPTIONS = "--max_old_space_size=8192"
 
@@ -20,13 +18,13 @@ NODE_OPTIONS = "--max_old_space_size=8192"
 # See https://github.com/facebook/docusaurus/pull/11553
 
 [context.production]
-command = "(echo 'Build packages start' && yarn --cwd .. build:packages && echo 'Build packages end') & (echo 'Git backfill start' && git backfill && echo 'Git backfill end' ) & wait && yarn netlify:build:production"
+command = "(echo 'Build packages start' && pnpm --dir .. build:packages && echo 'Build packages end') & (echo 'Git backfill start' && git backfill && echo 'Git backfill end' ) & wait && pnpm netlify:build:production"
 
 [context.branch-deploy]
-command = "(echo 'Build packages start' && yarn --cwd .. build:packages && echo 'Build packages end') & (echo 'Git backfill start' && git backfill && echo 'Git backfill end' ) & wait && yarn netlify:build:branchDeploy"
+command = "(echo 'Build packages start' && pnpm --dir .. build:packages && echo 'Build packages end') & (echo 'Git backfill start' && git backfill && echo 'Git backfill end' ) & wait && pnpm netlify:build:branchDeploy"
 
 [context.deploy-preview]
-command = "(echo 'Build packages start' && yarn --cwd .. build:packages && echo 'Build packages end') & (echo 'Git backfill start' && git backfill && echo 'Git backfill end' ) & wait && yarn netlify:build:deployPreview"
+command = "(echo 'Build packages start' && pnpm --dir .. build:packages && echo 'Build packages end') & (echo 'Git backfill start' && git backfill && echo 'Git backfill end' ) & wait && pnpm netlify:build:deployPreview"
 
 [[plugins]]
 package = "netlify-plugin-cache"

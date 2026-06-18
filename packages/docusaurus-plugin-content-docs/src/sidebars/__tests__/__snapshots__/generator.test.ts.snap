@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DefaultSidebarItemsGenerator generates complex nested sidebar 1`] = `
+exports[`DefaultSidebarItemsGenerator > generates complex nested sidebar 1`] = `
 [
   {
     "id": "intro",
@@ -76,7 +76,7 @@ exports[`DefaultSidebarItemsGenerator generates complex nested sidebar 1`] = `
 ]
 `;
 
-exports[`DefaultSidebarItemsGenerator generates simple flat sidebar 1`] = `
+exports[`DefaultSidebarItemsGenerator > generates simple flat sidebar 1`] = `
 [
   {
     "id": "doc3",
@@ -106,7 +106,7 @@ exports[`DefaultSidebarItemsGenerator generates simple flat sidebar 1`] = `
 ]
 `;
 
-exports[`DefaultSidebarItemsGenerator generates subfolder sidebar 1`] = `
+exports[`DefaultSidebarItemsGenerator > generates subfolder sidebar 1`] = `
 [
   {
     "collapsed": undefined,
@@ -166,7 +166,7 @@ exports[`DefaultSidebarItemsGenerator generates subfolder sidebar 1`] = `
 ]
 `;
 
-exports[`DefaultSidebarItemsGenerator respects custom isCategoryIndex 1`] = `
+exports[`DefaultSidebarItemsGenerator > respects custom isCategoryIndex 1`] = `
 [
   {
     "id": "intro",
@@ -216,7 +216,7 @@ exports[`DefaultSidebarItemsGenerator respects custom isCategoryIndex 1`] = `
 ]
 `;
 
-exports[`DefaultSidebarItemsGenerator uses explicit link over the index/readme.{md,mdx} naming convention 1`] = `
+exports[`DefaultSidebarItemsGenerator > uses explicit link over the index/readme.{md,mdx} naming convention 1`] = `
 [
   {
     "collapsed": undefined,

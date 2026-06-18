@@ -20,8 +20,8 @@
   "dependencies": {
     "@docusaurus/types": "3.10.1",
     "@rspack/core": "^1.7.10",
-    "@swc/core": "^1.15.32",
-    "@swc/html": "^1.15.32",
+    "@swc/core": "^1.15.40",
+    "@swc/html": "^1.15.40",
     "browserslist": "^4.28.2",
     "lightningcss": "^1.32.0",
     "semver": "^7.7.4",

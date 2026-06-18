@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {normalizeSwizzleConfig} from '../config';
 import type {SwizzleConfig} from '@docusaurus/types';
 
@@ -66,7 +67,7 @@ describe('normalizeSwizzleConfig', () => {
     expect(() =>
       normalizeSwizzleConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Swizzle config does not match expected schema: "components" is required"`,
+      `[Error: Swizzle config does not match expected schema: "components" is required]`,
     );
   });
 
@@ -87,7 +88,7 @@ describe('normalizeSwizzleConfig', () => {
     expect(() =>
       normalizeSwizzleConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Swizzle config does not match expected schema: "components.MyComponent.actions.bad" is not allowed"`,
+      `[Error: Swizzle config does not match expected schema: "components.MyComponent.actions.bad" is not allowed]`,
     );
   });
 
@@ -107,7 +108,7 @@ describe('normalizeSwizzleConfig', () => {
     expect(() =>
       normalizeSwizzleConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Swizzle config does not match expected schema: "components.MyComponent.actions.eject" must be one of [safe, unsafe, forbidden]"`,
+      `[Error: Swizzle config does not match expected schema: "components.MyComponent.actions.eject" must be one of [safe, unsafe, forbidden]]`,
     );
   });
 });

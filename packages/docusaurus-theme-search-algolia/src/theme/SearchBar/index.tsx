@@ -18,15 +18,13 @@ import {useDocSearchKeyboardEvents} from '@docsearch/react/useDocSearchKeyboardE
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import {useHistory} from '@docusaurus/router';
-import {
-  isRegexpStringMatch,
-  useSearchLinkCreator,
-} from '@docusaurus/theme-common';
+import {isRegexpStringMatch} from '@docusaurus/theme-common';
 import {
   useAlgoliaContextualFacetFilters,
   useSearchResultUrlProcessor,
   useAlgoliaAskAi,
   mergeFacetFilters,
+  useSearchLinkCreator,
 } from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -140,6 +138,7 @@ function useResultsFooterComponent({
 }): DocSearchProps['resultsFooterComponent'] {
   return useMemo(
     () =>
+      // eslint-disable-next-line react/display-name
       ({state}) => <ResultsFooter state={state} onClose={closeModal} />,
     [closeModal],
   );
@@ -286,6 +285,8 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
 
       {isOpen &&
         DocSearchModal &&
+        // TODO fix this
+        // eslint-disable-next-line react-hooks/refs
         searchContainer.current &&
         createPortal(
           <DocSearchModal
@@ -305,6 +306,9 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
             searchParameters={searchParameters}
             {...extraAskAiProps}
           />,
+
+          // TODO fix this
+          // eslint-disable-next-line react-hooks/refs
           searchContainer.current,
         )}
     </>

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
+import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import {loadI18n, getDefaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
@@ -123,13 +123,6 @@ describe('defaultLocaleConfig', () => {
 });
 
 describe('loadI18n', () => {
-  const consoleWarnSpy = jest
-    .spyOn(console, 'warn')
-    .mockImplementation(() => {});
-  beforeEach(() => {
-    consoleWarnSpy.mockClear();
-  });
-
   it('loads I18n for default config', async () => {
     await expect(
       loadI18nTest({
@@ -390,6 +383,8 @@ describe('loadI18n', () => {
   });
 
   it('warns when trying to load undeclared locale', async () => {
+    using warn = vi.spyOn(console, 'warn');
+
     await loadI18nTest({
       i18nConfig: {
         path: 'i18n',
@@ -399,7 +394,7 @@ describe('loadI18n', () => {
       },
       currentLocale: 'it',
     });
-    expect(consoleWarnSpy.mock.calls[0]![0]).toMatch(
+    expect(warn.mock.calls[0]![0]).toMatch(
       /The locale .*it.* was not found in your Docusaurus site configuration/,
     );
   });
@@ -416,9 +411,9 @@ describe('loadI18n', () => {
         currentLocale: 'x1',
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus couldn't infer a default locale config for x1.
-      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute.
-      Cause: Incorrect locale information provided"
+      [Error: Docusaurus couldn't infer a default locale config for x1.
+      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute.]
+      Cause: [RangeError: Incorrect locale information provided]
     `);
   });
 
@@ -434,13 +429,15 @@ describe('loadI18n', () => {
         currentLocale: 'x1',
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "Docusaurus couldn't infer a default locale config for x1.
-      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute.
-      Cause: Incorrect locale information provided"
+      [Error: Docusaurus couldn't infer a default locale config for x1.
+      Make sure it is a valid BCP 47 locale name (e.g. en, fr, fr-FR, etc.) and/or provide a valid BCP 47 \`siteConfig.i18n.localeConfig['x1'].htmlLang\` attribute.]
+      Cause: [RangeError: Incorrect locale information provided]
     `);
   });
 
   it('loads i18n when trying to load declared locale with invalid BCP47 name but valid BCP47', async () => {
+    using warn = vi.spyOn(console, 'warn');
+
     const result = await loadI18nTest({
       i18nConfig: {
         path: 'i18n',
@@ -462,6 +459,6 @@ describe('loadI18n', () => {
       translate: false,
       url: 'https://example.com',
     });
-    expect(consoleWarnSpy).toHaveBeenCalledTimes(0);
+    expect(warn).toHaveBeenCalledTimes(0);
   });
 });

@@ -35,10 +35,8 @@ export type WrapperProps<
 > =
   T extends JSXElementConstructor<infer P>
     ? unknown extends P
-      ? // eslint-disable-next-line @typescript-eslint/ban-types
-        {}
+      ? {}
       : P
     : T extends keyof JSX.IntrinsicElements
       ? JSX.IntrinsicElements[T]
-      : // eslint-disable-next-line @typescript-eslint/ban-types
-        {};
+      : {};

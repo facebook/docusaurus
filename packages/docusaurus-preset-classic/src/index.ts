@@ -39,7 +39,6 @@ export default function preset(
     sitemap,
     svgr,
     theme,
-    googleAnalytics,
     gtag,
     googleTagManager,
     ...rest
@@ -55,9 +54,16 @@ export default function preset(
       'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. For preset-classic, simply move themeConfig.gtag to preset options. More information at https://github.com/facebook/docusaurus/pull/5832.',
     );
   }
-  if ('googleAnalytics' in themeConfig) {
+
+  // TODO Docusaurus v5: remove
+  if ('googleAnalytics' in opts || 'googleAnalytics' in themeConfig) {
     throw new Error(
-      'The "googleAnalytics" field in themeConfig should now be specified as option for plugin-google-analytics. For preset-classic, simply move themeConfig.googleAnalytics to preset options. More information at https://github.com/facebook/docusaurus/pull/5832.',
+      `In Docusaurus v4, the Google Analytics plugin has been removed.
+You can now use either:
+- @docusaurus/plugin-google-gtag - presetOptions.gtag
+- @docusaurus/plugin-google-tag-manager - presetOptions.googleTagManager
+
+See also: https://github.com/facebook/docusaurus/issues/7221`,
     );
   }
 
@@ -77,11 +83,6 @@ export default function preset(
   }
   if (pages !== false) {
     plugins.push(makePluginConfig('@docusaurus/plugin-content-pages', pages));
-  }
-  if (googleAnalytics) {
-    plugins.push(
-      makePluginConfig('@docusaurus/plugin-google-analytics', googleAnalytics),
-    );
   }
   if (debug || (debug === undefined && !isProd)) {
     plugins.push(require.resolve('@docusaurus/plugin-debug'));

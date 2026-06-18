@@ -154,7 +154,6 @@ async function getRspackMinimizers({
     new rspack.SwcJsMinimizerRspackPlugin({
       minimizerOptions: {
         minify: true,
-        // @ts-expect-error: annoying type incompatibility
         ecma: swcJsMinimizerOptions.ecma,
         ...swcJsMinimizerOptions,
       },

@@ -19,15 +19,15 @@ import {
   executePluginsConfigureWebpack,
 } from '../../webpack/configure';
 import {executeSSG} from '../../ssg/ssgExecutor';
+import clearPath from '../utils/clearPath';
+import {isAutomaticBaseUrlLocalizationDisabled} from './buildUtils';
+import type {BuildCLIOptions} from './build';
+import type {SiteCollectedData} from '../../common';
 import type {
   ConfigureWebpackUtils,
   LoadedPlugin,
   Props,
 } from '@docusaurus/types';
-import type {SiteCollectedData} from '../../common';
-import {BuildCLIOptions} from './build';
-import clearPath from '../utils/clearPath';
-import {isAutomaticBaseUrlLocalizationDisabled} from './buildUtils';
 
 export type BuildLocaleParams = {
   siteDir: string;
@@ -158,10 +158,6 @@ async function executePluginsPostBuild({
   props: Props;
   collectedData: SiteCollectedData;
 }) {
-  const head = props.siteConfig.future.v4.removeLegacyPostBuildHeadAttribute
-    ? {}
-    : _.mapValues(collectedData, (d) => d.metadata.helmet!);
-
   const routesBuildMetadata = _.mapValues(
     collectedData,
     (d) => d.metadata.public,
@@ -174,7 +170,6 @@ async function executePluginsPostBuild({
       }
       await plugin.postBuild({
         ...props,
-        head,
         routesBuildMetadata,
         content: plugin.content,
       });

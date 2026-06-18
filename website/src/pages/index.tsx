@@ -39,7 +39,6 @@ function HeroBanner() {
           />
           <span
             className={styles.heroTitleTextHtml}
-            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: translate({
                 id: 'homepage.hero.title',

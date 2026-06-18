@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
 import path from 'path';
 import os from 'os';
@@ -161,7 +162,7 @@ async function createTempDir(): Promise<string> {
   let repoDir = await fs.mkdtemp(
     // Note, the <MKDTEMP_DIR> is useful for stabilizing Jest snapshots paths
     // This way, snapshot paths don't contain random temp dir names.
-    // See our /docusaurus/jest/snapshotPathNormalizer.ts
+    // See our ./test/snapshotPathNormalizer.ts
     path.join(os.tmpdir(), 'git-test-repo___MKDTEMP_DIR___'),
   );
   repoDir = await fs.realpath.native(repoDir);
@@ -338,16 +339,22 @@ describe('commit info APIs', () => {
       const repoDir = await repoDirPromise;
 
       const filePath = path.join(repoDir, 'non-existing.txt');
-      await expect(getGitCreation(filePath)).rejects
-        .toThrowErrorMatchingInlineSnapshot(`
-        "An error occurred when trying to get the file creation date from Git
-        Cause: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist."
-      `);
-      await expect(getGitLastUpdate(filePath)).rejects
-        .toThrowErrorMatchingInlineSnapshot(`
-        "An error occurred when trying to get the file last update date from Git
-        Cause: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist."
-      `);
+      await expect(
+        getGitCreation(filePath),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `
+        [Error: An error occurred when trying to get the file creation date from Git]
+        Cause: [Error: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist.]
+      `,
+      );
+      await expect(
+        getGitLastUpdate(filePath),
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `
+        [Error: An error occurred when trying to get the file last update date from Git]
+        Cause: [Error: Failed to retrieve git history for "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/non-existing.txt" because the file does not exist.]
+      `,
+      );
     });
 
     it('returns files info', async () => {
@@ -416,7 +423,8 @@ describe('getGitRepoRoot', () => {
 
   it('returns Docusaurus repo for cwd=__dirname', async () => {
     const cwd = __dirname;
-    await expect(getGitRepoRoot(cwd)).resolves.toMatch(/docusaurus$/);
+    const repoRoot = path.resolve(cwd, '..', '..', '..', '..', '..');
+    await expect(getGitRepoRoot(cwd)).resolves.toEqual(repoRoot);
   });
 
   it('rejects for cwd=repoDir/doesNotExist', async () => {
@@ -509,12 +517,12 @@ describe('submodules APIs', () => {
       // Not sure, and Git doesn't help us failsafe and return null...
       await expect(getGitSuperProjectRoot(cwd)).rejects
         .toThrowErrorMatchingInlineSnapshot(`
-        "Couldn't find the git superproject root directory
+        [Error: Couldn't find the git superproject root directory
         Failure while running \`git rev-parse --show-superproject-working-tree\` from cwd="<HOME_DIR>"
         The command executed throws an error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
-        fatal: not a git repository (or any of the parent directories): .git
-        Cause: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
-        fatal: not a git repository (or any of the parent directories): .git"
+        fatal: not a git repository (or any of the parent directories): .git]
+        Cause: [Error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
+        fatal: not a git repository (or any of the parent directories): .git]
       `);
     });
   });
@@ -815,8 +823,8 @@ describe('VSC strategies', () => {
 
         await expect(vcs.getFileLastUpdateInfo(filepath)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "This Docusaurus site is outside any Git worktree.
-          Unable to read Git info for file "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/any.md" "
+          [Error: This Docusaurus site is outside any Git worktree.
+          Unable to read Git info for file "<TEMP_DIR>/git-test-repo<MKDTEMP_DIR_STABLE>/any.md" ]
         `);
       });
     });

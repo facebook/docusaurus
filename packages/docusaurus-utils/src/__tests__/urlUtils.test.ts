@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {
   normalizeUrl,
   getEditUrl,
@@ -170,7 +171,7 @@ describe('normalizeUrl', () => {
       // @ts-expect-error undefined for test
       normalizeUrl(['http:example.com', undefined]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Url must be a string. Received undefined"`,
+      `[TypeError: Url must be a string. Received undefined]`,
     );
   });
 });

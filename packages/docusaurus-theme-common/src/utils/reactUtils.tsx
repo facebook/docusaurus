@@ -52,7 +52,7 @@ export function usePrevious<T>(value: T): T | undefined {
 
   // TODO need to fix this React Compiler lint error
   //  probably requires changing the API though
-  // eslint-disable-next-line react-compiler/react-compiler
+  // eslint-disable-next-line react-hooks/refs
   return ref.current;
 }
 
@@ -84,7 +84,7 @@ export function useShallowMemoObject<O extends object>(obj: O): O {
   const deps = Object.entries(obj);
   // Sort by keys to make it order-insensitive
   deps.sort((a, b) => a[0].localeCompare(b[0]));
-  // eslint-disable-next-line react-compiler/react-compiler,react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps,react-hooks/use-memo
   return useMemo(() => obj, deps.flat());
 }
 
@@ -105,14 +105,16 @@ type SimpleProvider = ComponentType<{children: ReactNode}>;
  */
 export function composeProviders(providers: SimpleProvider[]): SimpleProvider {
   // Creates a single React component: it's cheaper to compose JSX elements
-  return ({children}) => (
-    <>
-      {providers.reduceRight(
-        (element, CurrentProvider) => (
-          <CurrentProvider>{element}</CurrentProvider>
-        ),
-        children,
-      )}
-    </>
-  );
+  return function ComposedProvider({children}: {children: ReactNode}) {
+    return (
+      <>
+        {providers.reduceRight(
+          (element, CurrentProvider) => (
+            <CurrentProvider>{element}</CurrentProvider>
+          ),
+          children,
+        )}
+      </>
+    );
+  };
 }

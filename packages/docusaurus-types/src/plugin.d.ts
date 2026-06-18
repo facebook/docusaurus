@@ -10,7 +10,6 @@ import type {RuleSetRule, Configuration as WebpackConfiguration} from 'webpack';
 import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
 import type Joi from 'joi';
-import type {HelmetServerState} from 'react-helmet-async';
 import type {ThemeConfig} from './config';
 import type {LoadContext, Props} from './context';
 import type {SwizzleConfig} from './swizzle';
@@ -137,10 +136,6 @@ export type Plugin<Content = unknown> = {
   postBuild?: (
     props: Props & {
       content: Content;
-      // TODO Docusaurus v4: remove old messy unserializable "head" API
-      //  breaking change, replaced by routesBuildMetadata
-      //  Reason: https://github.com/facebook/docusaurus/pull/10826
-      head: {[location: string]: HelmetServerState};
       routesBuildMetadata: {[location: string]: RouteBuildMetadata};
     },
   ) => Promise<void> | void;

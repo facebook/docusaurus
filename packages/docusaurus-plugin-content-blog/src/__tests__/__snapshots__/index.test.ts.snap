@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`blog plugin process blog posts load content 1`] = `
+exports[`blog plugin > process blog posts load content 1`] = `
 {
   "/blog/tags/tag-1": {
     "description": undefined,
@@ -112,7 +112,7 @@ exports[`blog plugin process blog posts load content 1`] = `
 }
 `;
 
-exports[`blog plugin process blog posts load content 2`] = `
+exports[`blog plugin > process blog posts load content 2`] = `
 [
   {
     "content": "simple url slug",
@@ -261,7 +261,7 @@ exports[`blog plugin process blog posts load content 2`] = `
 ]
 `;
 
-exports[`blog plugin works on blog tags without pagination 1`] = `
+exports[`blog plugin > works on blog tags without pagination 1`] = `
 {
   "/blog/tags/tag-1": {
     "description": undefined,
@@ -356,7 +356,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
 }
 `;
 
-exports[`blog plugin works with blog tags 1`] = `
+exports[`blog plugin > works with blog tags 1`] = `
 {
   "/blog/tags/tag-1": {
     "description": undefined,

@@ -16,8 +16,8 @@ type CreateOptions = {
 async function normalizeOptions(
   optionsInput: Options & CreateOptions,
 ): Promise<Options> {
-  // Because Jest doesn't like ESM / createProcessors()
-  if (process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID) {
+  // Skip eager processor creation in tests
+  if (process.env.NODE_ENV === 'test' || process.env.VITEST) {
     return optionsInput;
   }
 
@@ -47,7 +47,7 @@ export async function createMDXLoaderItem(
   options: Options & CreateOptions,
 ): Promise<RuleSetUseItem> {
   return {
-    loader: require.resolve('@docusaurus/mdx-loader'),
+    loader: require.resolve('./index'),
     options: await normalizeOptions(options),
   };
 }

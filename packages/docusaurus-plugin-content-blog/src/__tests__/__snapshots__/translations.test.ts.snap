@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`getContentTranslationFiles returns translation files matching snapshot 1`] = `
+exports[`getContentTranslationFiles > returns translation files matching snapshot 1`] = `
 [
   {
     "content": {
@@ -22,7 +22,7 @@ exports[`getContentTranslationFiles returns translation files matching snapshot 
 ]
 `;
 
-exports[`translateContent falls back when translation is incomplete 1`] = `
+exports[`translateContent > falls back when translation is incomplete 1`] = `
 {
   "blogDescription": "Someone's random blog",
   "blogPosts": [
@@ -50,7 +50,7 @@ exports[`translateContent falls back when translation is incomplete 1`] = `
 }
 `;
 
-exports[`translateContent returns translated loaded 1`] = `
+exports[`translateContent > returns translated loaded 1`] = `
 {
   "blogDescription": "Someone's random blog (translated)",
   "blogPosts": [

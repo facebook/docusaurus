@@ -15,11 +15,7 @@ import logger from '@docusaurus/logger';
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915
-const DefaultGitCommandConcurrency =
-  // TODO Docusaurus v4: bump node, availableParallelism() now always exists
-  (typeof os.availableParallelism === 'function'
-    ? os.availableParallelism()
-    : os.cpus().length) * 4;
+const DefaultGitCommandConcurrency = os.availableParallelism() * 4;
 
 const GitCommandConcurrencyEnv = process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY
   ? parseInt(process.env.DOCUSAURUS_GIT_COMMAND_CONCURRENCY, 10)
@@ -39,7 +35,7 @@ const GitCommandQueue = new PQueue({
 const realHasGitFn = () => {
   try {
     return execa.sync('git', ['--version']).exitCode === 0;
-  } catch (error) {
+  } catch {
     return false;
   }
 };
@@ -147,25 +143,25 @@ export async function getFileCommitDate(
   // See why: https://github.com/facebook/docusaurus/pull/10022
   const resultFormat = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
 
-  const args = [
-    `--format=${resultFormat}`,
-    '--max-count=1',
-    age === 'oldest' ? '--follow --diff-filter=A' : undefined,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  // Do not include GPG signature in the log output
-  // See https://github.com/facebook/docusaurus/pull/10022
-  const command = `git -c log.showSignature=false log ${args} -- "${path.basename(
-    file,
-  )}"`;
-
   const result = (await GitCommandQueue.add(() => {
-    return execa(command, {
-      cwd: path.dirname(file),
-      shell: true,
-    });
+    return execa(
+      'git',
+      [
+        // Do not include GPG signature in the log output
+        // See https://github.com/facebook/docusaurus/pull/10022
+        '-c',
+        'log.showSignature=false',
+        'log',
+        `--format=${resultFormat}`,
+        '--max-count=1',
+        ...(age === 'oldest' ? ['--follow', '--diff-filter=A'] : []),
+        '--',
+        path.basename(file),
+      ],
+      {
+        cwd: path.dirname(file),
+      },
+    );
   }))!;
 
   if (result.exitCode !== 0) {
