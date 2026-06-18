@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {BuildCLIOptions} from './build';
+import type {BuildCLIOptions} from './build';
 
 /**
  * We disable locale path localization if CLI has a single "--locale" option

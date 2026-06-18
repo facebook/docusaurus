@@ -19,7 +19,7 @@
   "scripts": {
     "build": "tsc --build",
     "watch": "tsc --build --watch",
-    "test:generate-build-snap": "yarn docusaurus build src/__tests__/__fixtures__/website --out-dir build-snap && yarn rimraf src/__tests__/__fixtures__/website/.docusaurus && yarn rimraf src/__tests__/__fixtures__/website/build-snap/assets && git add src/__tests__/__fixtures__/website/build-snap"
+    "test:generate-build-snap": "pnpm docusaurus build src/__tests__/__fixtures__/website --out-dir build-snap && pnpm rimraf src/__tests__/__fixtures__/website/.docusaurus && pnpm rimraf src/__tests__/__fixtures__/website/build-snap/assets && git add src/__tests__/__fixtures__/website/build-snap"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
     "@docusaurus/core": "3.10.1",
     "@docusaurus/logger": "3.10.1",
     "@docusaurus/mdx-loader": "3.10.1",
+    "@docusaurus/module-type-aliases": "3.10.1",
     "@docusaurus/theme-common": "3.10.1",
     "@docusaurus/types": "3.10.1",
     "@docusaurus/utils": "3.10.1",
@@ -41,18 +42,17 @@
     "@docusaurus/utils-validation": "3.10.1",
     "cheerio": "^1.2.0",
     "combine-promises": "^1.1.0",
-    "feed": "^4.2.2",
+    "feed": "^5.2.1",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
     "schema-dts": "^1.1.2",
-    "srcset": "^4.0.0",
+    "srcset": "^5.0.3",
     "tslib": "^2.6.0",
     "unist-util-visit": "^5.1.0",
     "utility-types": "^3.10.0",
     "webpack": "^5.106.2"
   },
   "peerDependencies": {
-    "@docusaurus/plugin-content-docs": "*",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
   },
@@ -61,6 +61,6 @@
   },
   "devDependencies": {
     "@total-typescript/shoehorn": "^0.1.2",
-    "tree-node-cli": "^1.6.0"
+    "tree-node-cli": "^3.0.0"
   }
 }

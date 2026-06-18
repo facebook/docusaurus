@@ -131,7 +131,6 @@ ${indent(parts.join(',\n'))}
 const isModule = (value: unknown): value is Module =>
   typeof value === 'string' ||
   (typeof value === 'object' &&
-    // eslint-disable-next-line no-underscore-dangle
     !!(value as {[key: string]: unknown} | null)?.__import);
 
 /**

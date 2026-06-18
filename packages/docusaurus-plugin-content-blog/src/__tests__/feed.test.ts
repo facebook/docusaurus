@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
+import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import fs from 'fs-extra';
 import {
@@ -17,7 +17,7 @@ import {
   normalizePluginOptions,
   getTagsFile,
 } from '@docusaurus/utils-validation';
-import tree from 'tree-node-cli';
+import {tree} from 'tree-node-cli';
 import {DEFAULT_OPTIONS, validateOptions} from '../options';
 import {generateBlogPosts} from '../blogUtils';
 import {createBlogFeedFiles} from '../feed';
@@ -108,9 +108,9 @@ async function testGenerateFeeds(
 }
 
 describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
-  const fsMock = jest.spyOn(fs, 'outputFile').mockImplementation(() => {});
-
   it('does not get generated without posts', async () => {
+    using fsMock = vi.spyOn(fs, 'outputFile');
+
     const siteDir = __dirname;
     const siteConfig = {
       title: 'Hello',
@@ -148,10 +148,11 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
     );
 
     expect(fsMock).toHaveBeenCalledTimes(0);
-    fsMock.mockClear();
   });
 
   it('has feed item for each post', async () => {
+    using fsMock = vi.spyOn(fs, 'outputFile');
+
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
     const siteConfig = {
@@ -194,10 +195,11 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
     expect(
       fsMock.mock.calls.map((call) => call[1] as string),
     ).toMatchSnapshot();
-    fsMock.mockClear();
   });
 
   it('filters to the first two entries', async () => {
+    using fsMock = vi.spyOn(fs, 'outputFile');
+
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
     const siteConfig = {
@@ -250,10 +252,11 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
     expect(
       fsMock.mock.calls.map((call) => call[1] as string),
     ).toMatchSnapshot();
-    fsMock.mockClear();
   });
 
   it('filters to the first two entries using limit', async () => {
+    using fsMock = vi.spyOn(fs, 'outputFile');
+
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
     const siteConfig = {
@@ -297,10 +300,11 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
     expect(
       fsMock.mock.calls.map((call) => call[1] as string),
     ).toMatchSnapshot();
-    fsMock.mockClear();
   });
 
   it('has feed item for each post - with trailing slash', async () => {
+    using fsMock = vi.spyOn(fs, 'outputFile');
+
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
     const siteConfig = {
@@ -344,10 +348,11 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
     expect(
       fsMock.mock.calls.map((call) => call[1] as string),
     ).toMatchSnapshot();
-    fsMock.mockClear();
   });
 
   it('has xslt files for feed', async () => {
+    using fsMock = vi.spyOn(fs, 'outputFile');
+
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
     const siteConfig = {
@@ -390,10 +395,11 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
     expect(tree(path.join(outDir, 'blog'))).toMatchSnapshot('blog tree');
 
     expect(fsMock.mock.calls).toMatchSnapshot();
-    fsMock.mockClear();
   });
 
   it('has custom xslt files for feed', async () => {
+    using fsMock = vi.spyOn(fs, 'outputFile');
+
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
     const siteConfig = {
@@ -439,6 +445,5 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
     expect(tree(path.join(outDir, 'blog'))).toMatchSnapshot('blog tree');
 
     expect(fsMock.mock.calls).toMatchSnapshot();
-    fsMock.mockClear();
   });
 });

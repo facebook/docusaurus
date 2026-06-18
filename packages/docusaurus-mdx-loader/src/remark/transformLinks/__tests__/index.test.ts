@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
+import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
 import vfile from 'to-vfile';
 import plugin, {type PluginOptions} from '..';
@@ -80,27 +80,55 @@ describe('transformLinks plugin', () => {
     expect(result).toMatchInlineSnapshot(`"[file](dir/file.zip)"`);
   });
 
+  it('does not transform existing dotted directory links to asset requires', async () => {
+    const result = await processContent(
+      `[directory](../dotted-directory.whatever)`,
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"[directory](../dotted-directory.whatever)"`,
+    );
+  });
+
+  it('does not transform absolute dotted directory links to asset requires', async () => {
+    const result = await processContent(
+      `[directory](/static-dotted-directory.test)`,
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"[directory](/static-dotted-directory.test)"`,
+    );
+  });
+
   describe('onBrokenMarkdownLinks', () => {
     const fixtures = {
       urlEmpty: `[empty]()`,
       fileDoesNotExistSiteAlias: `[file](@site/file.zip)`,
+      directoryWithDotSiteAlias: `[dir](@site/dotted-directory.whatever)`,
     };
 
     describe('throws', () => {
       it('if url is empty', async () => {
         await expect(processContent(fixtures.urlEmpty)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1).
-          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+          [Error: Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1).
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs.]
         `);
       });
 
       it('if file with site alias does not exist', async () => {
         await expect(processContent(fixtures.fileDoesNotExistSiteAlias)).rejects
           .toThrowErrorMatchingInlineSnapshot(`
-          "Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
+          [Error: Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.
-          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs."
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs.]
+        `);
+      });
+
+      it('if site alias points to a directory with a dot', async () => {
+        await expect(processContent(fixtures.directoryWithDotSiteAlias)).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          [Error: Markdown link with URL \`@site/dotted-directory.whatever\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
+          Make sure it references a local Markdown file that exists within the current plugin.
+          To ignore this error, use the \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` option, or apply the \`pathname://\` protocol to the broken link URLs.]
         `);
       });
     });
@@ -110,16 +138,12 @@ describe('transformLinks plugin', () => {
         return processContent(content, {onBrokenMarkdownLinks: 'warn'});
       }
 
-      const warnMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
-      beforeEach(() => {
-        warnMock.mockClear();
-      });
-
       it('if url is empty', async () => {
+        using warn = vi.spyOn(console, 'warn');
         const result = await processWarn(fixtures.urlEmpty);
         expect(result).toMatchInlineSnapshot(`"[empty]()"`);
-        expect(warnMock).toHaveBeenCalledTimes(1);
-        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "[WARNING] Markdown link with empty URL found in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1).",
@@ -129,13 +153,31 @@ describe('transformLinks plugin', () => {
       });
 
       it('if file with site alias does not exist', async () => {
+        using warn = vi.spyOn(console, 'warn');
         const result = await processWarn(fixtures.fileDoesNotExistSiteAlias);
         expect(result).toMatchInlineSnapshot(`"[file](@site/file.zip)"`);
-        expect(warnMock).toHaveBeenCalledTimes(1);
-        expect(warnMock.mock.calls).toMatchInlineSnapshot(`
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "[WARNING] Markdown link with URL \`@site/file.zip\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
+          Make sure it references a local Markdown file that exists within the current plugin.",
+            ],
+          ]
+        `);
+      });
+
+      it('if site alias points to a directory with a dot', async () => {
+        using warn = vi.spyOn(console, 'warn');
+        const result = await processWarn(fixtures.directoryWithDotSiteAlias);
+        expect(result).toMatchInlineSnapshot(
+          `"[dir](@site/dotted-directory.whatever)"`,
+        );
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "[WARNING] Markdown link with URL \`@site/dotted-directory.whatever\` in source file "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx" (1:1) couldn't be resolved.
           Make sure it references a local Markdown file that exists within the current plugin.",
             ],
           ]
@@ -157,18 +199,14 @@ describe('transformLinks plugin', () => {
         });
       }
 
-      const logMock = jest.spyOn(console, 'log').mockImplementation(() => {});
-      beforeEach(() => {
-        logMock.mockClear();
-      });
-
       it('if url is empty', async () => {
+        using log = vi.spyOn(console, 'log');
         const result = await processWarn(fixtures.urlEmpty);
         expect(result).toMatchInlineSnapshot(
           `"[empty](/404 "fixed link title")"`,
         );
-        expect(logMock).toHaveBeenCalledTimes(1);
-        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+        expect(log).toHaveBeenCalledTimes(1);
+        expect(log.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownLinks called with",
@@ -217,12 +255,13 @@ describe('transformLinks plugin', () => {
       });
 
       it('if file with site alias does not exist', async () => {
+        using log = vi.spyOn(console, 'log');
         const result = await processWarn(fixtures.fileDoesNotExistSiteAlias);
         expect(result).toMatchInlineSnapshot(
           `"[file](/404 "fixed link title")"`,
         );
-        expect(logMock).toHaveBeenCalledTimes(1);
-        expect(logMock.mock.calls).toMatchInlineSnapshot(`
+        expect(log).toHaveBeenCalledTimes(1);
+        expect(log.mock.calls).toMatchInlineSnapshot(`
           [
             [
               "onBrokenMarkdownLinks called with",
@@ -264,6 +303,61 @@ describe('transformLinks plugin', () => {
                 },
                 "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx",
                 "url": "@site/file.zip",
+              },
+            ],
+          ]
+        `);
+      });
+
+      it('if site alias points to a directory with a dot', async () => {
+        using log = vi.spyOn(console, 'log');
+        const result = await processWarn(fixtures.directoryWithDotSiteAlias);
+        expect(result).toMatchInlineSnapshot(
+          `"[dir](/404 "fixed link title")"`,
+        );
+        expect(log).toHaveBeenCalledTimes(1);
+        expect(log.mock.calls).toMatchInlineSnapshot(`
+          [
+            [
+              "onBrokenMarkdownLinks called with",
+              {
+                "node": {
+                  "children": [
+                    {
+                      "position": {
+                        "end": {
+                          "column": 5,
+                          "line": 1,
+                          "offset": 4,
+                        },
+                        "start": {
+                          "column": 2,
+                          "line": 1,
+                          "offset": 1,
+                        },
+                      },
+                      "type": "text",
+                      "value": "dir",
+                    },
+                  ],
+                  "position": {
+                    "end": {
+                      "column": 39,
+                      "line": 1,
+                      "offset": 38,
+                    },
+                    "start": {
+                      "column": 1,
+                      "line": 1,
+                      "offset": 0,
+                    },
+                  },
+                  "title": "fixed link title",
+                  "type": "link",
+                  "url": "/404",
+                },
+                "sourceFilePath": "packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/docs/myFile.mdx",
+                "url": "@site/dotted-directory.whatever",
               },
             ],
           ]

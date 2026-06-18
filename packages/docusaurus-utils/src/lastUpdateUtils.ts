@@ -89,11 +89,11 @@ export async function readLastUpdateData(
     });
 
   const lastUpdatedBy = showLastUpdateAuthor
-    ? frontMatterAuthor ?? (await getLastUpdateBy())
+    ? (frontMatterAuthor ?? (await getLastUpdateBy()))
     : undefined;
 
   const lastUpdatedAt = showLastUpdateTime
-    ? frontMatterTimestamp ?? (await getLastUpdateAt())
+    ? (frontMatterTimestamp ?? (await getLastUpdateAt()))
     : undefined;
 
   return {

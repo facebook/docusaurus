@@ -7,14 +7,22 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
+import Head from '@docusaurus/Head';
 import {
   ThemeClassNames,
   UnlistedBannerTitle,
   UnlistedBannerMessage,
-  UnlistedMetadata,
 } from '@docusaurus/theme-common';
 import Admonition from '@theme/Admonition';
 import type {Props} from '@theme/ContentVisibility/Unlisted';
+
+function UnlistedMetadata(): ReactNode {
+  return (
+    <Head>
+      <meta name="robots" content="noindex, nofollow" />
+    </Head>
+  );
+}
 
 function UnlistedBanner({className}: Props) {
   return (

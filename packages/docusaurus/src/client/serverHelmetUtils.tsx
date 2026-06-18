@@ -39,7 +39,6 @@ export function toPageCollectedMetadataInternal({
   const noIndex = tags.some(isNoIndexTag);
 
   return {
-    helmet, // TODO Docusaurus v4 remove
     public: {
       noIndex,
     },

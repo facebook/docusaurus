@@ -45,17 +45,18 @@
   },
   "devDependencies": {
     "@docusaurus/types": "3.10.1",
-    "@types/escape-html": "^1.0.2",
+    "@types/escape-html": "^1.0.4",
     "@types/mdast": "^4.0.2",
     "@types/stringify-object": "^3.3.1",
-    "@types/unist": "^3.0.1",
+    "@types/unist": "^3.0.3",
+    "@types/estree": "^1.0.9",
+    "mdast-util-directive": "3.1.0",
     "rehype-stringify": "^10.0.0",
     "remark": "^15.0.1",
     "remark-mdx": "^3.1.1",
     "remark-rehype": "^11.1.2",
     "to-vfile": "^6.1.0",
-    "unist-builder": "^2.0.3",
-    "unist-util-remove-position": "^5.0.0"
+    "unist-builder": "^2.0.3"
   },
   "peerDependencies": {
     "react": "^19.2.5",

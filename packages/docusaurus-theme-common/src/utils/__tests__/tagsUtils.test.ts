@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import _ from 'lodash';
 import {listTagsByLetters} from '../tagsUtils';
 import type {TagsListItem} from '@docusaurus/utils';

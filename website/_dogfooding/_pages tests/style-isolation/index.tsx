@@ -85,7 +85,6 @@ function ExamplesTable() {
         </ExampleRow>
 
         <ExampleRow name="button">
-          {/* eslint-disable-next-line */}
           <button>button</button>
         </ExampleRow>
 
@@ -133,7 +132,6 @@ function ExamplesTable() {
         </ExampleRow>
 
         <ExampleRow name="Infima button primary">
-          {/* eslint-disable-next-line */}
           <button className="button button--primary">button</button>
         </ExampleRow>
 

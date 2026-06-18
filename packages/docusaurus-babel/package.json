@@ -39,9 +39,15 @@
     "@babel/traverse": "^7.29.0",
     "@docusaurus/logger": "3.10.1",
     "@docusaurus/utils": "3.10.1",
+    "@docusaurus/types": "3.10.1",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "fs-extra": "^11.2.0",
     "tslib": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "@types/babel__generator": "^7.27.0",
+    "@types/babel__traverse": "^7.28.0"
   },
   "engines": {
     "node": ">=24.14"

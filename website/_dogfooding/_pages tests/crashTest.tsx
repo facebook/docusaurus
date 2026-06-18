@@ -26,7 +26,7 @@ function boomParent() {
   try {
     return boomRoot();
   } catch (err) {
-    throw new Error('Boom parent', {cause: err as Error});
+    throw new Error('Boom parent', {cause: err});
   }
 }
 

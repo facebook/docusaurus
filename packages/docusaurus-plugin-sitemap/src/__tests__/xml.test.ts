@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {sitemapItemsToXmlString} from '../xml';
 import type {SitemapItem} from '../types';
 
@@ -17,7 +18,7 @@ describe('createSitemap', () => {
     await expect(
       sitemapItemsToXmlString(items, options),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Can't generate a sitemap with no items"`,
+      `[Error: Can't generate a sitemap with no items]`,
     );
   });
 

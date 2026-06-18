@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import {Feed, type Author as FeedAuthor} from 'feed';
-import * as srcset from 'srcset';
+import {parseSrcset, stringifySrcset} from 'srcset';
 import {
   getDataFilePath,
   normalizeUrl,
@@ -153,8 +153,8 @@ async function defaultCreateFeedItems({
               elm.attribs.src = toAbsoluteUrl(src);
             }
             if (srcsetAttr) {
-              elm.attribs.srcset = srcset.stringify(
-                srcset.parse(srcsetAttr).map((props) => ({
+              elm.attribs.srcset = stringifySrcset(
+                parseSrcset(srcsetAttr).map((props) => ({
                   ...props,
                   url: toAbsoluteUrl(props.url),
                 })),
@@ -196,8 +196,8 @@ async function resolveXsltFilePaths({
 }) {
   const xsltAbsolutePath: string = path.isAbsolute(xsltFilePath)
     ? xsltFilePath
-    : (await getDataFilePath({filePath: xsltFilePath, contentPaths})) ??
-      path.resolve(contentPaths.contentPath, xsltFilePath);
+    : ((await getDataFilePath({filePath: xsltFilePath, contentPaths})) ??
+      path.resolve(contentPaths.contentPath, xsltFilePath));
 
   if (!(await fs.pathExists(xsltAbsolutePath))) {
     throw new Error(
@@ -323,7 +323,7 @@ async function createBlogFeedFile({
     await fs.outputFile(outputPath, feedContent);
   } catch (err) {
     throw new Error(`Generating ${feedType} feed failed.`, {
-      cause: err as Error,
+      cause: err,
     });
   }
 }

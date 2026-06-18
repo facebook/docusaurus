@@ -66,14 +66,13 @@ export async function extractThemeCodeMessages(
   const filesExtractedTranslations = await extractAllSourceCodeFileTranslations(
     filePaths,
     {
-      presets: ['@docusaurus/babel/preset'],
+      presets: [require.resolve('@docusaurus/babel/preset')],
     },
   );
 
   filesExtractedTranslations.forEach((fileExtractedTranslations) => {
     if (fileExtractedTranslations.warnings.length > 0) {
-      throw new Error(`
-Please make sure all theme translations are static!
+      throw new Error(`Please make sure all theme translations are static!
 Some warnings were found!
 
 ${fileExtractedTranslations.warnings.join('\n\n')}

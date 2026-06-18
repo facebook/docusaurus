@@ -65,19 +65,24 @@
   font-size: 54px;
   font-weight: bold;
   margin-bottom: 0.4rem;
-  @media only screen and (max-width: 768px) {
+
+  @media only screen and (width <= 768px) {
     font-size: 40px;
   }
-  @media only screen and (max-width: 768px) {
+
+  @media only screen and (width <= 768px) {
     font-size: 40px;
   }
-  @media only screen and (max-width: 450px) {
+
+  @media only screen and (width <= 450px) {
     font-size: 32px;
   }
-  @media only screen and (max-width: 350px) {
+
+  @media only screen and (width <= 350px) {
     font-size: 24px;
   }
-  @media only screen and (max-width: 250px) {
+
+  @media only screen and (width <= 250px) {
     font-size: 16px;
   }
 }
@@ -112,7 +117,8 @@ html[data-theme='dark'] .topBannerTitleText {
 .topBannerDescription {
   font-size: 20px;
 }
-@media only screen and (max-width: 768px) {
+
+@media only screen and (width <= 768px) {
   .topBannerDescription {
     font-size: 16px;
     white-space: normal;
@@ -200,7 +206,7 @@ html[data-theme='dark'] .topBannerTitleText {
   color: var(--ifm-color-primary);
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (width <= 768px) {
   .hero {
     padding-left: 20px;
     padding-right: 20px;
@@ -238,13 +244,13 @@ html[data-theme='dark'] .topBannerTitleText {
   margin-bottom: 2rem;
 }
 
-@media (max-width: 996px) {
+@media (width <= 996px) {
   .tweetsSection > :global(.col:last-child) > *:last-child {
     margin-bottom: 0;
   }
 }
 
-@media (min-width: 997px) {
+@media (width >= 997px) {
   .tweetsSection > :global(.col) > *:last-child {
     margin-bottom: 0;
   }

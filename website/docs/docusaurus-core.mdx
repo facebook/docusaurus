@@ -409,13 +409,24 @@ The `siteConfig` object only contains **serializable values** (values that are p
 
 ### `useIsBrowser` {/* #useIsBrowser */}
 
-Returns `true` when the React app has successfully hydrated in the browser.
+Returns `true` after initial hydration completes in the browser.
 
 :::warning
 
-Use this hook instead of `typeof windows !== 'undefined'` in React rendering logic.
+Use this hook instead of `typeof window !== 'undefined'` in React rendering logic.
 
-The first client-side render output (in the browser) **must be exactly the same** as the server-side render output (Node.js). Not following this rule can lead to unexpected hydration behaviors, as described in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
+The initial render output must be consistent between server and client — components should not depend on browser-only state during the initial render. See [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
+
+`useIsBrowser()` and `typeof window !== 'undefined'` serve different purposes:
+
+- **`useIsBrowser()`** — tracks hydration state. Use it to gate UI behavior that should only activate after initial hydration.
+- **`typeof window !== 'undefined'`** — detects the runtime environment. Use it when you need to check DOM availability outside of React rendering logic.
+
+| Context | `useIsBrowser()` | `typeof window !== 'undefined'` |
+| --- | --- | --- |
+| Node.js / SSR | `false` | `false` |
+| During initial client render | `false` | `true` (DOM is available) |
+| After initial hydration | `true` | `true` |
 
 :::
 
@@ -426,10 +437,8 @@ import React from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 
 const MyComponent = () => {
-  // highlight-start
   const isBrowser = useIsBrowser();
-  // highlight-end
-  return <div>{isBrowser ? 'Client' : 'Server'}</div>;
+  return <div>{isBrowser ? 'Browser' : 'Server'}</div>;
 };
 ```
 

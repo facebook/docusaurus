@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
+import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
-import tmp from 'tmp-promise';
+import {mkdtempDisposable, realpath} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import {getBabelOptions} from '../utils';
 import {extractSourceCodeFileTranslations} from '../babelTranslationsExtractor';
 
@@ -15,28 +17,34 @@ const TestBabelOptions = getBabelOptions({
   isServer: true,
 });
 
-async function createTmpSourceCodeFile({
+async function tmpFile(name: string) {
+  const dir = await mkdtempDisposable(
+    join(await realpath(tmpdir()), 'docusaurus-tmp-'),
+  );
+  return {
+    path: join(dir.path, name),
+    [Symbol.asyncDispose]: dir[Symbol.asyncDispose],
+  };
+}
+
+async function tmpSourceCodeFile({
   extension,
   content,
 }: {
   extension: string;
   content: string;
 }) {
-  const file = await tmp.file({
-    prefix: 'jest-createTmpSourceCodeFile',
-    postfix: `.${extension}`,
-  });
-
+  const file = await tmpFile(`sourceCode.${extension}`);
   await fs.writeFile(file.path, content);
-
   return {
-    sourceCodeFilePath: file.path,
+    path: file.path,
+    [Symbol.asyncDispose]: file[Symbol.asyncDispose],
   };
 }
 
 describe('extractSourceCodeFileTranslations', () => {
   it('throws for bad source code', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 const default => {
@@ -45,21 +53,15 @@ const default => {
 `,
     });
 
-    const errorMock = jest.spyOn(console, 'error').mockImplementation(() => {});
-
     await expect(
-      extractSourceCodeFileTranslations(sourceCodeFilePath, TestBabelOptions),
-    ).rejects.toThrow();
-
-    expect(errorMock).toHaveBeenCalledWith(
-      expect.stringMatching(
-        /Error while attempting to extract Docusaurus translations from source code file at/,
-      ),
+      extractSourceCodeFileTranslations(sourceCodeFile.path, TestBabelOptions),
+    ).rejects.toThrow(
+      /Error while attempting to extract Docusaurus translations from source code file at/,
     );
   });
 
   it('extracts nothing from untranslated source code', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 const unrelated =  42;
@@ -67,19 +69,19 @@ const unrelated =  42;
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {},
       warnings: [],
     });
   });
 
   it('extracts from a translate() functions calls', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 import {translate} from '@docusaurus/Translate';
@@ -97,12 +99,12 @@ export default function MyComponent() {
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {
         codeId: {message: 'code message', description: 'code description'},
         codeId1: {message: 'codeId1'},
@@ -112,7 +114,7 @@ export default function MyComponent() {
   });
 
   it('extracts from a <Translate> components', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 import Translate from '@docusaurus/Translate';
@@ -132,12 +134,12 @@ export default function MyComponent() {
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {
         codeId: {message: 'code message', description: 'code description'},
         codeId1: {message: 'codeId1', description: 'description 2'},
@@ -147,7 +149,7 @@ export default function MyComponent() {
   });
 
   it('extracts statically evaluable content', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 import Translate, {translate} from '@docusaurus/Translate';
@@ -184,12 +186,12 @@ export default function MyComponent() {
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {
         'prefix codeId comp': {
           message: 'prefix code message',
@@ -208,7 +210,7 @@ export default function MyComponent() {
   });
 
   it('extracts from TypeScript file', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'tsx',
       content: `
 import {translate} from '@docusaurus/Translate';
@@ -227,12 +229,12 @@ export default function MyComponent<T>(props: ComponentProps<T>) {
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {
         codeId: {message: 'code message', description: 'code description'},
         'code message 2': {
@@ -245,7 +247,7 @@ export default function MyComponent<T>(props: ComponentProps<T>) {
   });
 
   it('does not extract from functions that is not docusaurus provided', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 import translate from 'a-lib';
@@ -258,19 +260,19 @@ export default function somethingElse() {
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {},
       warnings: [],
     });
   });
 
   it('does not extract from functions that is internal', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 function translate() {
@@ -285,19 +287,19 @@ export default function somethingElse() {
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {},
       warnings: [],
     });
   });
 
   it('recognizes aliased imports', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 import Foo, {translate as bar} from '@docusaurus/Translate';
@@ -327,12 +329,12 @@ export default function () {
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {
         codeId: {
           description: 'code description',
@@ -347,7 +349,7 @@ export default function () {
   });
 
   it('recognizes aliased imports as string literal', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 import {'translate' as bar} from '@docusaurus/Translate';
@@ -365,12 +367,12 @@ export default function () {
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {
         codeId1: {
           message: 'codeId1',
@@ -381,7 +383,7 @@ export default function () {
   });
 
   it('warns about id if no children', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 import Translate from '@docusaurus/Translate';
@@ -395,24 +397,24 @@ export default function () {
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {},
       warnings: [
         `<Translate> without children must have id prop.
 Example: <Translate id="my-id" />
-File: ${sourceCodeFilePath} at line 6
+File: ${sourceCodeFile.path} at line 6
 Full code: <Translate description="foo" />`,
       ],
     });
   });
 
   it('warns about dynamic id', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 import Translate from '@docusaurus/Translate';
@@ -426,12 +428,12 @@ export default function () {
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {
         foo: {
           message: 'foo',
@@ -441,14 +443,14 @@ export default function () {
         `<Translate> prop=id should be a statically evaluable object.
 Example: <Translate id="optional id" description="optional description">Message</Translate>
 Dynamically constructed values are not allowed, because they prevent translations to be extracted.
-File: ${sourceCodeFilePath} at line 6
+File: ${sourceCodeFile.path} at line 6
 Full code: <Translate id={index}>foo</Translate>`,
       ],
     });
   });
 
   it('warns about dynamic children', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 import Translate from '@docusaurus/Translate';
@@ -462,23 +464,23 @@ export default function () {
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {},
       warnings: [
         `Translate content could not be extracted. It has to be a static string and use optional but static props, like <Translate id="my-id" description="my-description">text</Translate>.
-File: ${sourceCodeFilePath} at line 6
+File: ${sourceCodeFile.path} at line 6
 Full code: <Translate id='foo'><a>hhh</a></Translate>`,
       ],
     });
   });
 
   it('warns about dynamic translate argument', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 import {translate} from '@docusaurus/Translate';
@@ -488,25 +490,25 @@ translate(foo);
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {},
       warnings: [
         `translate() first arg should be a statically evaluable object.
 Example: translate({message: "text",id: "optional.id",description: "optional description"}
 Dynamically constructed values are not allowed, because they prevent translations to be extracted.
-File: ${sourceCodeFilePath} at line 4
+File: ${sourceCodeFile.path} at line 4
 Full code: translate(foo)`,
       ],
     });
   });
 
   it('warns about too many arguments', async () => {
-    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+    await using sourceCodeFile = await tmpSourceCodeFile({
       extension: 'js',
       content: `
 import {translate} from '@docusaurus/Translate';
@@ -516,16 +518,16 @@ translate({message: 'a'}, {a: 1}, 2);
     });
 
     const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
-      sourceCodeFilePath,
+      sourceCodeFile.path,
       TestBabelOptions,
     );
 
     expect(sourceCodeFileTranslations).toEqual({
-      sourceCodeFilePath,
+      sourceCodeFilePath: sourceCodeFile.path,
       translations: {},
       warnings: [
         `translate() function only takes 1 or 2 args
-File: ${sourceCodeFilePath} at line 4
+File: ${sourceCodeFile.path} at line 4
 Full code: translate({
   message: 'a'
 }, {

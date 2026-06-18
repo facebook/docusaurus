@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`transformLinks plugin transform md links to <a /> 1`] = `
+exports[`transformLinks plugin > transform md links to <a /> 1`] = `
 "[asset](https://example.com/asset.pdf)
 
 <a target="_blank" data-noBrokenLinkCheck={true} href={require("!<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[contenthash].[ext]!./asset.pdf").default} />

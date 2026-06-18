@@ -160,8 +160,8 @@ export function HonoraryAlumniTeamRow(): ReactNode {
         githubUrl="https://github.com/wgao19"
         xUrl="https://x.com/wgao19">
         <Translate id="team.profile.Wei Gao.body">
-          🏻‍🌾 Work in progress React developer, maintains Docusaurus, writes
-          docs and spams this world with many websites.
+          🏻‍🌾 Work in progress React developer, maintains Docusaurus, writes docs
+          and spams this world with many websites.
         </Translate>
       </TeamProfileCardCol>
     </div>

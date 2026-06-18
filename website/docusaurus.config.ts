@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import path from 'path';
+// eslint-disable-next-line import/default
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -97,12 +98,12 @@ function getNextVersionName() {
 
 // Artificial way to crash the SSR rendering and test errors
 // See website/_dogfooding/_pages tests/crashTest.tsx
-// Test with: DOCUSAURUS_CRASH_TEST=true yarn build:website:fast
+// Test with: DOCUSAURUS_CRASH_TEST=true pnpm build:website:fast
 const crashTest = process.env.DOCUSAURUS_CRASH_TEST === 'true';
 
 // By default, we use Docusaurus Faster
 // DOCUSAURUS_SLOWER=true is useful for benchmarking faster against slower
-// hyperfine --prepare 'yarn clear:website' --runs 3 'DOCUSAURUS_SLOWER=true yarn build:website:fast' 'yarn build:website:fast'
+// hyperfine --prepare 'pnpm clear:website' --runs 3 'DOCUSAURUS_SLOWER=true pnpm build:website:fast' 'pnpm build:website:fast'
 const isSlower = process.env.DOCUSAURUS_SLOWER === 'true';
 if (isSlower) {
   console.log('🐢 Using slower Docusaurus build');
@@ -222,10 +223,10 @@ export default async function createConfigAsync() {
           ? // Deploy preview and branch deploys: keep them fast!
             [defaultLocale]
           : isI18nStaging
-          ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
-            [defaultLocale, 'ja']
-          : // Production locales
-            [defaultLocale, 'fr', 'pt-BR', 'ko', 'zh-CN'],
+            ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
+              [defaultLocale, 'ja']
+            : // Production locales
+              [defaultLocale, 'fr', 'pt-BR', 'ko', 'zh-CN'],
     },
     markdown: {
       format: 'detect',
@@ -674,7 +675,6 @@ export default async function createConfigAsync() {
         // TODO Docusaurus v4: remove after we drop DocSearch v3
         //  temporary, for DocSearch v3/v4 conditional Ask AI integration
         //  see https://github.com/facebook/docusaurus/pull/11327
-        // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
         ...(require('@docsearch/react').version.startsWith('4.')
           ? {
               askAi: {
