@@ -417,10 +417,6 @@ Use this hook instead of `typeof window !== 'undefined'` in React rendering logi
 
 The initial render output must be consistent between server and client — components should not depend on browser-only state during the initial render. See [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
 
-:::
-
-:::caution
-
 `useIsBrowser()` and `typeof window !== 'undefined'` serve different purposes:
 
 - **`useIsBrowser()`** — tracks hydration state. Use it to gate UI behavior that should only activate after initial hydration.
