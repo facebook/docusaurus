@@ -261,7 +261,7 @@ importers:
         version: link:../../../docusaurus-preset-classic
       '@mdx-js/react':
         specifier: ^3.1.1
-        version: 3.1.1(@types/react@19.2.17)(react@19.2.6)
+        version: 3.1.1(@types/react@19.2.14)(react@19.2.6)
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
@@ -376,8 +376,8 @@ importers:
         specifier: ^3.31.1
         version: 3.49.0
       detect-port:
-        specifier: ^1.5.1
-        version: 1.6.1
+        specifier: ^2.1.0
+        version: 2.1.0
       escape-html:
         specifier: ^1.0.3
         version: 1.0.3
@@ -475,9 +475,6 @@ importers:
       '@total-typescript/shoehorn':
         specifier: ^0.1.2
         version: 0.1.2
-      '@types/detect-port':
-        specifier: ^1.3.3
-        version: 1.3.5
       '@types/escape-html':
         specifier: ^1.0.4
         version: 1.0.4
@@ -486,7 +483,7 @@ importers:
         version: 4.7.11
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.17)
+        version: 19.2.3(@types/react@19.2.14)
       '@types/react-router-config':
         specifier: ^5.0.7
         version: 5.0.11
@@ -1562,7 +1559,7 @@ importers:
         version: link:../docusaurus-utils-validation
       '@mdx-js/react':
         specifier: ^3.1.1
-        version: 3.1.1(@types/react@19.2.17)(react@19.2.6)
+        version: 3.1.1(@types/react@19.2.14)(react@19.2.6)
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
@@ -1979,7 +1976,7 @@ importers:
         version: 4.0.10
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.17)
+        version: 19.2.3(@types/react@19.2.14)
       dedent:
         specifier: ^0.7.0
         version: 0.7.0
@@ -5827,9 +5824,6 @@ packages:
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
 
-  '@types/detect-port@1.3.5':
-    resolution: {integrity: sha512-Rf3/lB9WkDfIL9eEKaSYKc+1L/rNVYBjThk22JTqQw0YozXarX8YljFAz+HCoC6h4B4KwCMsBPZHaFezwT4BNA==}
-
   '@types/escape-html@1.0.4':
     resolution: {integrity: sha512-qZ72SFTgUAZ5a7Tj6kf2SHLetiH5S6f8G5frB2SPQ3EyF02kxdyBFf4Tz4banE3xCgGnKgWLt//a6VuYHKYJTg==}
 
@@ -6340,9 +6334,9 @@ packages:
   add-stream@1.0.0:
     resolution: {integrity: sha512-qQLMr+8o0WC4FZGQTcJiKBVC59JylcPSrTtk6usvmIDFUOCKegapy1VHQwRbFMOFyb/inzUVqHs+eMYKDM1YeQ==}
 
-  address@1.2.2:
-    resolution: {integrity: sha512-4B/qKCfeE/ODUaAUpSwfzazo5x29WD4r3vXiWsB7I2mSDAihwEqKO+g8GELZUQSSAo5e1XTYh3ZVfLyxBc12nA==}
-    engines: {node: '>= 10.0.0'}
+  address@2.0.3:
+    resolution: {integrity: sha512-XNAb/a6TCqou+TufU8/u11HCu9x1gYvOoxLwtlXgIqmkrYQADVv6ljyW2zwiPhHz9R1gItAWpuDrdJMmrOBFEA==}
+    engines: {node: '>= 16.0.0'}
 
   agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -7805,9 +7799,9 @@ packages:
   detect-node@2.1.0:
     resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
 
-  detect-port@1.6.1:
-    resolution: {integrity: sha512-CmnVc+Hek2egPx1PeTFVta2W78xy2K/9Rkf6cC4T59S50tVnzKj+tnx5mmx5lwvCkujZ4uRrpRSuV+IVs3f90Q==}
-    engines: {node: '>= 4.0.0'}
+  detect-port@2.1.0:
+    resolution: {integrity: sha512-epZuWb/6Q62L+nDHJc/hQAqf8pylsqgk3BpZXVBx1CDnr3nkrVNn73Uu1rXcFzkNcc+hkP3whuOg7JZYaQB65Q==}
+    engines: {node: '>= 16.0.0'}
     hasBin: true
 
   devlop@1.1.0:
@@ -15932,12 +15926,6 @@ snapshots:
       '@types/react': 19.2.14
       react: 19.2.6
 
-  '@mdx-js/react@3.1.1(@types/react@19.2.17)(react@19.2.6)':
-    dependencies:
-      '@types/mdx': 2.0.13
-      '@types/react': 19.2.17
-      react: 19.2.6
-
   '@mermaid-js/layout-elk@0.1.9(mermaid@11.15.0)':
     dependencies:
       d3: 7.9.0
@@ -17436,8 +17424,6 @@ snapshots:
 
   '@types/deep-eql@4.0.2': {}
 
-  '@types/detect-port@1.3.5': {}
-
   '@types/escape-html@1.0.4': {}
 
   '@types/estree-jsx@1.0.5':
@@ -17561,11 +17547,6 @@ snapshots:
   '@types/react-dom@19.2.3(@types/react@19.2.14)':
     dependencies:
       '@types/react': 19.2.14
-    optional: true
-
-  '@types/react-dom@19.2.3(@types/react@19.2.17)':
-    dependencies:
-      '@types/react': 19.2.17
 
   '@types/react-router-config@5.0.11':
     dependencies:
@@ -17591,6 +17572,7 @@ snapshots:
   '@types/react@19.2.17':
     dependencies:
       csstype: 3.2.3
+    optional: true
 
   '@types/resolve@1.20.2': {}
 
@@ -18036,7 +18018,7 @@ snapshots:
 
   add-stream@1.0.0: {}
 
-  address@1.2.2: {}
+  address@2.0.3: {}
 
   agent-base@6.0.2(supports-color@7.2.0):
     dependencies:
@@ -19640,12 +19622,9 @@ snapshots:
 
   detect-node@2.1.0: {}
 
-  detect-port@1.6.1:
+  detect-port@2.1.0:
     dependencies:
-      address: 1.2.2
-      debug: 4.4.3(supports-color@7.2.0)
-    transitivePeerDependencies:
-      - supports-color
+      address: 2.0.3
 
   devlop@1.1.0:
     dependencies:
