@@ -1905,8 +1905,8 @@ importers:
   packages/docusaurus-utils:
     dependencies:
       '@11ty/gray-matter':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^2.0.0
+        version: 2.0.2
       '@docusaurus/logger':
         specifier: 3.10.1
         version: link:../docusaurus-logger
@@ -2218,8 +2218,8 @@ importers:
 
 packages:
 
-  '@11ty/gray-matter@1.0.0':
-    resolution: {integrity: sha512-7mJJl+wf1AByoT0PknQiQfOPnVNT4fevGrUBVWO4HXsnYn1aQPyRyrELYrNUFleUBM++KzMKN6QaxHPk0t/6/g==}
+  '@11ty/gray-matter@2.0.2':
+    resolution: {integrity: sha512-+sbmr+BPzzi0z4lFvruKiGQ3D/d5zBssavhH9SzXmWkf7rStnB4gfeEMgz6k1Ac8bpN5NAFCH5GyR3xHk1BGPA==}
     engines: {node: '>=11'}
 
   '@actions/core@3.0.1':
@@ -12232,10 +12232,6 @@ packages:
     resolution: {integrity: sha512-yDPMNjp4WyfYBkHnjIRLfca1i6KMyGCtsVgoKe/z1+6vukgaENdgGBZt+ZmKPc4gavvEZ5OgHfHdrazhgNyG7w==}
     engines: {node: '>=12'}
 
-  strip-bom-string@1.0.0:
-    resolution: {integrity: sha512-uCC2VHvQRYu+lMh4My/sFNmF2klFymLX1wHJeXnbEJERpV/ZsVuonzerjfrGpIGF7LBVa1O7i9kjiWvJiFck8g==}
-    engines: {node: '>=0.10.0'}
-
   strip-bom@3.0.0:
     resolution: {integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==}
     engines: {node: '>=4'}
@@ -13442,12 +13438,10 @@ packages:
 
 snapshots:
 
-  '@11ty/gray-matter@1.0.0':
+  '@11ty/gray-matter@2.0.2':
     dependencies:
       js-yaml: 4.2.0
-      kind-of: 6.0.3
       section-matter: 1.0.0
-      strip-bom-string: 1.0.0
 
   '@actions/core@3.0.1':
     dependencies:
@@ -25299,8 +25293,6 @@ snapshots:
   strip-ansi@7.2.0:
     dependencies:
       ansi-regex: 6.2.2
-
-  strip-bom-string@1.0.0: {}
 
   strip-bom@3.0.0: {}
 
