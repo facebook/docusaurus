@@ -943,8 +943,8 @@ importers:
         specifier: ^1.1.0
         version: 1.2.0
       feed:
-        specifier: ^4.2.2
-        version: 4.2.2
+        specifier: ^5.2.1
+        version: 5.2.1
       fs-extra:
         specifier: ^11.2.0
         version: 11.3.5
@@ -8343,9 +8343,9 @@ packages:
       picomatch:
         optional: true
 
-  feed@4.2.2:
-    resolution: {integrity: sha512-u5/sxGfiMfZNtJ3OvQpXcvotFpYkL0n9u9mM2vkui2nGo8b4wvDkJ8gAkYqbA8QpGyFCv3RK0Z+Iv+9veCS9bQ==}
-    engines: {node: '>=0.4.0'}
+  feed@5.2.1:
+    resolution: {integrity: sha512-jTynzYPWs9ALjro0GW8j7sv9y7cJBeOdD4Y88kVqYy/eyusIX3g+499JiTDIlD9Ge/unebx57T4Uzo6vpYvMtA==}
+    engines: {node: '>=20', pnpm: '>=10'}
 
   figures@3.2.0:
     resolution: {integrity: sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg==}
@@ -20346,7 +20346,7 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.4
 
-  feed@4.2.2:
+  feed@5.2.1:
     dependencies:
       xml-js: 1.6.11
 
