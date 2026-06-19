@@ -42,7 +42,6 @@
     "postcss": "^8.5.12",
     "prism-react-renderer": "^2.4.1",
     "prismjs": "^1.29.0",
-    "react-router-dom": "^5.3.4",
     "rtlcss": "^4.1.0",
     "tslib": "^2.6.0",
     "utility-types": "^3.10.0"
@@ -54,8 +53,8 @@
     "fs-extra": "^11.2.0"
   },
   "peerDependencies": {
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "engines": {
     "node": ">=24.14"

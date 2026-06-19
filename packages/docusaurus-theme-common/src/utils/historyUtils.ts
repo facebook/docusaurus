@@ -23,7 +23,13 @@ function useHistoryActionHandler(handler: HistoryBlockHandler): void {
   const stableHandler = useEvent(handler);
   useEffect(
     // See https://github.com/remix-run/history/blob/main/docs/blocking-transitions.md
-    () => history.block((location, action) => stableHandler(location, action)),
+    () =>
+      history.block((transition) => {
+        const result = stableHandler(transition.location, transition.action);
+        if (result !== false) {
+          transition.retry();
+        }
+      }),
     [history, stableHandler],
   );
 }
@@ -51,7 +57,7 @@ export function useHistoryPopHandler(handler: HistoryBlockHandler): void {
  * @param selector
  */
 export function useHistorySelector<Value>(
-  selector: (history: History<unknown>) => Value,
+  selector: (history: History) => Value,
 ): Value {
   const history = useHistory();
   return useSyncExternalStore(

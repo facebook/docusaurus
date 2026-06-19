@@ -8,18 +8,44 @@
 import React, {startTransition, type ReactNode} from 'react';
 import ReactDOM, {type ErrorInfo} from 'react-dom/client';
 import {HelmetProvider} from 'react-helmet-async';
-import {BrowserRouter, HashRouter} from 'react-router-dom';
+import {parsePath} from 'react-router';
+import {unstable_HistoryRouter as HistoryRouter} from 'react-router';
+import {createBrowserHistory, createHashHistory} from 'history';
 import siteConfig from '@generated/docusaurus.config';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
+import {HistoryProvider} from './historyContext';
+import type {History, To} from 'history';
+
+type ReactRouterHistory = History & {
+  createURL: (to: To) => URL;
+  encodeLocation: (to: To) => Partial<Location>;
+};
+
+function addReactRouterHistoryMethods(history: History): ReactRouterHistory {
+  return Object.assign(history, {
+    createURL(to: To) {
+      return new URL(history.createHref(to), window.location.origin);
+    },
+    encodeLocation(to: To) {
+      return typeof to === 'string' ? parsePath(to) : to;
+    },
+  });
+}
+
+const history = addReactRouterHistoryMethods(
+  siteConfig.future.experimental_router === 'hash'
+    ? createHashHistory()
+    : createBrowserHistory(),
+);
 
 function Router({children}: {children: ReactNode}): ReactNode {
-  return siteConfig.future.experimental_router === 'hash' ? (
-    <HashRouter>{children}</HashRouter>
-  ) : (
-    <BrowserRouter>{children}</BrowserRouter>
+  return (
+    <HistoryProvider history={history}>
+      <HistoryRouter history={history as never}>{children}</HistoryRouter>
+    </HistoryProvider>
   );
 }
 

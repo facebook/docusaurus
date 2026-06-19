@@ -6,7 +6,6 @@
  */
 
 import React, {type ReactNode} from 'react';
-import {Route} from 'react-router-dom';
 import ClientLifecyclesDispatcher, {
   dispatchLifecycleAction,
 } from './ClientLifecyclesDispatcher';
@@ -82,13 +81,11 @@ class PendingNavigation extends React.Component<Props, State> {
 
   override render(): ReactNode {
     const {children, location} = this.props;
-    // Use a controlled <Route> to trick all descendants into rendering the old
-    // location.
     return (
       <ClientLifecyclesDispatcher
         previousLocation={this.previousLocation}
         location={location}>
-        <Route location={location} render={() => children} />
+        {children}
       </ClientLifecyclesDispatcher>
     );
   }
