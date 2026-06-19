@@ -44,9 +44,6 @@ export default async function createServerConfig({
     output: {
       path: outputDir,
       filename: outputFilename,
-      // TODO do we really need this?
-      // See https://webpack.js.org/configuration/output/#outputlibrary
-      // See https://www.rspack.dev/config/output#outputlibrary
       library: {type: 'commonjs2'},
     },
     plugins: [
