@@ -18,6 +18,10 @@ packages:
 overrides:
   axios: 1.16.1 # Fix CVEs https://github.com/axios/axios/security/advisories
   tar: ^7.5.16 # Fix CVEs https://github.com/isaacs/node-tar/security/advisories
+  # Monorepo deduplicate sharp (force Argos > Sharp upgrade)
+  # This version doesn't use a postinstall script
+  # See https://sharp.pixelplumbing.com/changelog/v0.35.0/
+  sharp: ^0.35.1
 
 minimumReleaseAge: 10080
 minimumReleaseAgeStrict: true
