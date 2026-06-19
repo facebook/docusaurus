@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunkwebsite=self.rspackChunkwebsite||[]).push([[56745],{54256(e,t,n){n.r(t);var r=n(62540);function s(){return(0,r.jsx)("div",{style:{border:"solid",margin:10,padding:10},children:(0,r.jsx)("button",{type:"button",onClick:()=>alert("click"),children:"HeavyComponent"})})}n(63696),n.d(t,{default:()=>s})}}]);
