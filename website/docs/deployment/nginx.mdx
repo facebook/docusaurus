@@ -1,0 +1,178 @@
+---
+sidebar_label: Nginx
+description: Deploy your Docusaurus app for production with Nginx.
+---
+
+# Deploying with Nginx
+
+Deploying your Docusaurus site behind [Nginx](https://nginx.org/) is a common choice for self-hosted deployments. Nginx is a high-performance HTTP server and reverse proxy that excels at serving static files.
+
+## Building your site
+
+Before deploying, you need to build your Docusaurus site:
+
+```bash npm2yarn
+npm run build
+```
+
+The static files will be generated in the `build` directory.
+
+## Basic Nginx configuration
+
+Here is a minimal Nginx configuration to serve a Docusaurus site with client-side routing support. Create a file at `/etc/nginx/sites-available/docusaurus` (or equivalent path for your system), replacing `your-domain.com` with your actual domain and `/path/to/build` with the absolute path to your `build` directory:
+
+```nginx title="/etc/nginx/sites-available/docusaurus"
+server {
+    listen 80;
+    server_name your-domain.com;
+    root /path/to/build;
+
+    index index.html;
+
+    # Serve pre-generated static files directly
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Cache static assets aggressively
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
+```
+
+### Enabling the site
+
+```bash
+sudo ln -s /etc/nginx/sites-available/docusaurus /etc/nginx/sites-enabled/
+sudo nginx -t    # Test configuration
+sudo systemctl reload nginx  # Apply changes
+```
+
+### Client-side routing
+
+The key directive `try_files $uri $uri/ /index.html` ensures that client-side routing works correctly. When a user navigates to a path like `/docs/intro`, Nginx first checks if a corresponding static file exists (`$uri`), then checks for a directory (`$uri/`), and finally falls back to `index.html` so Docusaurus's React router can handle the route.
+
+## Enabling HTTPS with Let's Encrypt
+
+For production, enable HTTPS using [Certbot](https://certbot.eff.org/):
+
+```bash
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d your-domain.com
+```
+
+Certbot will automatically modify your Nginx configuration to serve HTTPS. Your final configuration will use port 443 with SSL certificates.
+
+## Gzip compression
+
+Enable Gzip to reduce bandwidth usage. Add these lines to your `nginx.conf` or within the `http` block:
+
+```nginx
+gzip on;
+gzip_types text/plain text/css application/json application/javascript
+           text/xml application/xml application/xml+rss text/javascript
+           image/svg+xml;
+gzip_min_length 256;
+gzip_vary on;
+```
+
+## Advanced configuration
+
+For a more robust setup with HTTPS, security headers, and compression:
+
+```nginx title="/etc/nginx/sites-available/docusaurus"
+server {
+    listen 443 ssl http2;
+    server_name your-domain.com;
+
+    root /path/to/build;
+    index index.html;
+
+    ssl_certificate /etc/letsencrypt/live/your-domain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/your-domain.com/privkey.pem;
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    # Client-side routing
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Aggressive caching for hashed assets
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Cache HTML briefly
+    location ~* \.html$ {
+        expires 5m;
+        add_header Cache-Control "public";
+    }
+
+    # Gzip
+    gzip on;
+    gzip_types text/plain text/css application/json
+               application/javascript image/svg+xml;
+    gzip_min_length 256;
+    gzip_vary on;
+}
+
+server {
+    listen 80;
+    server_name your-domain.com;
+    return 301 https://$server_name$request_uri;
+}
+```
+
+## Serving from a subpath
+
+If your site is configured with a [`baseUrl`](../api/docusaurus.config.js.mdx#baseUrl) like `/docs/`, adjust the `try_files` directive accordingly:
+
+```nginx
+location /docs/ {
+    alias /path/to/build/;
+    try_files $uri $uri/ /docs/index.html;
+}
+```
+
+## Docker deployment
+
+You can deploy with Docker using the official Nginx image:
+
+```dockerfile title="Dockerfile"
+FROM nginx:alpine
+COPY build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+```
+
+```nginx title="nginx.conf"
+server {
+    listen 80;
+    server_name localhost;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
+```
+
+Build and run:
+
+```bash
+docker build -t docusaurus-site .
+docker run -d -p 80:80 docusaurus-site
+```
