@@ -9,16 +9,16 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
-  type ComponentType,
   type ReactNode,
 } from 'react';
-import {NavLink, Link as RRLink} from 'react-router-dom';
+import {Link as RRLink} from 'react-router';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import useBrokenLinks from './useBrokenLinks';
 import {useBaseUrlUtils} from './useBaseUrl';
+import {useLocation, matchPath} from './router';
 import type {Props} from '@docusaurus/Link';
 
 // TODO all this wouldn't be necessary if we used ReactRouter basename feature
@@ -33,7 +33,10 @@ function Link({
   to,
   href,
   activeClassName,
+  activeStyle,
   isActive,
+  exact,
+  strict,
   'data-noBrokenLinkCheck': noBrokenLinkCheck,
   autoAddBaseUrl = true,
   ...props
@@ -93,7 +96,24 @@ function Link({
   }
 
   const preloaded = useRef(false);
-  const LinkComponent = (isNavLink ? NavLink : RRLink) as ComponentType<Props>;
+
+  // React Router v6+ removed NavLink's `isActive`/`activeClassName` props, so we
+  // compute the active state ourselves to preserve Docusaurus' NavLink behavior
+  // (including the custom `isActive(match, location)` signature used by navbar
+  // items for `activeBasePath`/`activeBaseRegex` etc.).
+  const location = useLocation();
+  const navLinkActive =
+    isNavLink &&
+    (() => {
+      const match = targetLink
+        ? matchPath(location.pathname, {
+            path: targetLink,
+            exact: exact ?? false,
+            strict: strict ?? false,
+          })
+        : null;
+      return isActive ? Boolean(isActive(match, location)) : Boolean(match);
+    })();
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
@@ -190,15 +210,23 @@ function Link({
       {...testOnlyProps}
     />
   ) : (
-    <LinkComponent
+    <RRLink
       {...props}
+      className={
+        navLinkActive && activeClassName
+          ? [props.className, activeClassName].filter(Boolean).join(' ')
+          : props.className
+      }
+      style={
+        navLinkActive && activeStyle
+          ? {...props.style, ...activeStyle}
+          : props.style
+      }
+      {...(navLinkActive ? {'aria-current': 'page' as const} : {})}
       onMouseEnter={onInteractionEnter}
       onTouchStart={onInteractionEnter}
-      innerRef={handleRef}
-      to={targetLink}
-      // Avoid "React does not recognize the `activeClassName` prop on a DOM
-      // element"
-      {...(isNavLink && {isActive, activeClassName})}
+      to={targetLink!}
+      ref={handleRef}
       {...testOnlyProps}
     />
   );

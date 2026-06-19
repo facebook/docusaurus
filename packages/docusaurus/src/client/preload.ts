@@ -6,7 +6,7 @@
  */
 
 import routes from '@generated/routes';
-import {matchRoutes} from 'react-router-config';
+import {matchRoutes} from './matchRoutes';
 
 /**
  * Helper function to make sure all async components for that particular route

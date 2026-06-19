@@ -5,23 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {startTransition, type ReactNode} from 'react';
+import React, {startTransition} from 'react';
 import ReactDOM, {type ErrorInfo} from 'react-dom/client';
 import {HelmetProvider} from 'react-helmet-async';
-import {BrowserRouter, HashRouter} from 'react-router-dom';
+import {createBrowserHistory, createHashHistory} from 'history';
 import siteConfig from '@generated/docusaurus.config';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
+import {DocusaurusRouter} from './exports/router';
 import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
-
-function Router({children}: {children: ReactNode}): ReactNode {
-  return siteConfig.future.experimental_router === 'hash' ? (
-    <HashRouter>{children}</HashRouter>
-  ) : (
-    <BrowserRouter>{children}</BrowserRouter>
-  );
-}
 
 const hydrate = Boolean(process.env.HYDRATE_CLIENT_ENTRY);
 
@@ -31,11 +24,20 @@ if (ExecutionEnvironment.canUseDOM) {
   window.docusaurus = docusaurus;
   const container = document.getElementById('__docusaurus')!;
 
+  // React Router v6+ no longer exposes a mutable history object, so Docusaurus
+  // creates its own (from the `history` package) and drives React Router with it
+  // through <DocusaurusRouter>. This powers useHistory() (blocking, listening,
+  // querystring updates).
+  const history =
+    siteConfig.future.experimental_router === 'hash'
+      ? createHashHistory()
+      : createBrowserHistory();
+
   const app = (
     <HelmetProvider>
-      <Router>
+      <DocusaurusRouter history={history}>
         <App />
-      </Router>
+      </DocusaurusRouter>
     </HelmetProvider>
   );
 

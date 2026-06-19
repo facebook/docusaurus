@@ -8,7 +8,7 @@
 import {useMemo} from 'react';
 import generatedRoutes from '@generated/routes';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import type {RouteConfig} from 'react-router-config';
+import type {RouteConfig} from '@docusaurus/types';
 
 /**
  * Compare the 2 paths, case insensitive and ignoring trailing slash
@@ -69,7 +69,11 @@ export function findHomePageRoute({
 export function useHomePageRoute(): RouteConfig | undefined {
   const {baseUrl} = useDocusaurusContext().siteConfig;
   return useMemo(
-    () => findHomePageRoute({routes: generatedRoutes, baseUrl}),
+    () =>
+      findHomePageRoute({
+        routes: generatedRoutes as unknown as RouteConfig[],
+        baseUrl,
+      }),
     [baseUrl],
   );
 }

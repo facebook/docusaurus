@@ -6,11 +6,11 @@
  */
 
 import React, {type ReactNode} from 'react';
-import {Route} from 'react-router-dom';
 import ClientLifecyclesDispatcher, {
   dispatchLifecycleAction,
 } from './ClientLifecyclesDispatcher';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
+import {LocationOverrideProvider} from './exports/router';
 import preload from './preload';
 import type {Location} from 'history';
 
@@ -82,13 +82,16 @@ class PendingNavigation extends React.Component<Props, State> {
 
   override render(): ReactNode {
     const {children, location} = this.props;
-    // Use a controlled <Route> to trick all descendants into rendering the old
-    // location.
+    // Use a location override context to trick all descendants into rendering
+    // the old location until the next route has loaded (React Router v6+ removed
+    // the controlled `<Route location={...}>` API used previously).
     return (
       <ClientLifecyclesDispatcher
         previousLocation={this.previousLocation}
         location={location}>
-        <Route location={location} render={() => children} />
+        <LocationOverrideProvider location={location}>
+          {children}
+        </LocationOverrideProvider>
       </ClientLifecyclesDispatcher>
     );
   }
