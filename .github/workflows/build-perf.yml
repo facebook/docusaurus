@@ -50,7 +50,7 @@ jobs:
           node-version: lts/*
           cache: pnpm
       - name: Track build size changes
-        uses: preactjs/compressed-size-action@66325aad6443cb7cf89c4bfcd414aea2367cda94 # v2.9.1
+        uses: preactjs/compressed-size-action@f322c295dde06a1cb7ccaef105732dd8a726d1d9 # v2.10.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           build-script: build:website:fast
