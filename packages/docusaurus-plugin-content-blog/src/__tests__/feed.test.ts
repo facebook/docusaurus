@@ -10,7 +10,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import {
   DEFAULT_PARSE_FRONT_MATTER,
-  DEFAULT_VCS_CONFIG,
+  TEST_VCS as DEFAULT_VCS_CONFIG,
 } from '@docusaurus/utils';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {
@@ -38,6 +38,9 @@ const DefaultI18N: I18n = {
       htmlLang: 'en',
       calendar: 'gregory',
       path: 'en',
+      translate: true,
+      url: 'https://docusaurus.io',
+      baseUrl: '/',
     },
   },
 };
@@ -345,9 +348,16 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
       },
     );
 
-    expect(
-      fsMock.mock.calls.map((call) => call[1] as string),
-    ).toMatchSnapshot();
+    const outputs = fsMock.mock.calls.map((call) => call[1] as string);
+    expect(outputs).toMatchSnapshot();
+
+    // Regression test for https://github.com/facebook/docusaurus/issues/7656
+    // Feed URLs should have trailing slashes when trailingSlash: true
+    outputs.forEach((output) => {
+      expect(output).toContain(
+        'https://docusaurus.io/myBaseUrl/blog/blog-with-links/',
+      );
+    });
   });
 
   it('has xslt files for feed', async () => {
