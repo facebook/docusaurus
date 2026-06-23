@@ -1,0 +1,184 @@
+---
+sidebar_label: NGINX
+description: Deploy your Docusaurus app for production on NGINX.
+---
+
+# Deploying to NGINX
+
+Docusaurus provides an easy way to deploy your documentation site using [NGINX](https://www.nginx.com/) as a web server. This guide covers setting up NGINX to serve your Docusaurus site, including a Docker-based approach.
+
+## Overview {/* #nginx-overview */}
+
+NGINX is a high-performance web server that can serve static files efficiently. To deploy a Docusaurus site on NGINX:
+
+1. Build your Docusaurus site
+2. Copy the `build` folder to your NGINX server
+3. Configure NGINX to serve the static files
+
+## Prerequisites {/* #prerequisites */}
+
+- A server with NGINX installed
+- Docker (optional, for containerized deployment)
+- Your Docusaurus site ready for deployment
+
+## Building Your Site {/* #building-your-site */}
+
+First, build your Docusaurus site for production:
+
+```bash
+npm run build
+```
+
+This generates a `build` folder containing all static files ready for deployment.
+
+## NGINX Configuration {/* #nginx-configuration */}
+
+Create an NGINX configuration file for your Docusaurus site:
+
+```nginx
+server {
+    listen 80;
+    server_name docs.example.com;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Handle client-side routing
+    location / {
+        try_files $uri $uri/index.html $uri.html =404;
+    }
+
+    # Cache static assets
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+}
+```
+
+## Manual Deployment {/* #manual-deployment */}
+
+1. Build your site:
+   ```bash
+   npm run build
+   ```
+
+2. Copy the `build` folder to your NGINX server:
+   ```bash
+   scp -r build/* user@server:/usr/share/nginx/html/
+   ```
+
+3. Restart NGINX:
+   ```bash
+   sudo systemctl restart nginx
+   ```
+
+## Docker Deployment {/* #docker-deployment */}
+
+For a containerized approach, create a `Dockerfile`:
+
+```dockerfile
+# Build stage
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Production stage
+FROM nginx:alpine
+COPY --from=builder /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+### Build and Run {/* #build-and-run */}
+
+```bash
+# Build the Docker image
+docker build -t docusaurus-nginx .
+
+# Run the container
+docker run -d -p 8080:80 --name docusaurus-docs docusaurus-nginx
+```
+
+Your site will be available at `http://localhost:8080`.
+
+## Docker Compose {/* #docker-compose */}
+
+For a complete setup with Docker Compose, create a `docker-compose.yml`:
+
+```yaml
+version: '3.8'
+services:
+  docusaurus:
+    build: .
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+```
+
+Run with:
+
+```bash
+docker-compose up -d
+```
+
+## Custom Domain {/* #custom-domain */}
+
+To use a custom domain:
+
+1. Update `docusaurus.config.js`:
+   ```js
+   module.exports = {
+     url: 'https://docs.example.com',
+     baseUrl: '/',
+   };
+   ```
+
+2. Configure NGINX with your domain:
+   ```nginx
+   server {
+       listen 80;
+       server_name docs.example.com;
+       # ... rest of configuration
+   }
+   ```
+
+3. Set up SSL with Let's Encrypt:
+   ```bash
+   sudo apt install certbot python3-certbot-nginx
+   sudo certbot --nginx -d docs.example.com
+   ```
+
+## Troubleshooting {/* #troubleshooting */}
+
+### 404 Errors on Page Refresh {/* #404-errors */}
+
+This is the most common issue with client-side routing. Make sure your NGINX configuration includes the `try_files` directive:
+
+```nginx
+location / {
+    try_files $uri $uri/index.html $uri.html =404;
+}
+```
+
+### Assets Not Loading {/* #assets-not-loading */}
+
+Check that the `baseUrl` in `docusaurus.config.js` matches your deployment path. If your site is at `https://docs.example.com/`, set `baseUrl: '/'`.
+
+### Build Failures {/* #build-failures */}
+
+Ensure you have the correct Node.js version. Check `package.json` for the required version.
+
+## Further Reading {/* #further-reading */}
+
+- [NGINX Official Documentation](https://nginx.org/en/docs/)
+- [Docker Documentation](https://docs.docker.com/)
+- [Let's Encrypt](https://letsencrypt.org/)
