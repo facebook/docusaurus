@@ -34,6 +34,7 @@ Accepted fields:
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `path` | `string` | `'docs'` | Path to the docs content directory on the file system, relative to site directory. |
+| `versionedDocsPath` | `string` | `undefined` | Path to the directory where versioned docs and sidebars are stored, relative to the site directory. This is where the `docusaurus docs:version` command writes version snapshots. Defaults to the site directory. |
 | `editUrl` | <code>string \| [EditUrlFunction](#EditUrlFunction)</code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
 | `editLocalizedFiles` | `boolean` | `false` | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
 | `editCurrentVersion` | `boolean` | `false` | The edit URL will always target the current version doc instead of older versions. Ignored when `editUrl` is a function. |
