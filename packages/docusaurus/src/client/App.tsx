@@ -11,6 +11,7 @@ import {
   createBrowserRouter,
   createHashRouter,
   RouterProvider,
+  Outlet,
 } from 'react-router';
 import routes from '@generated/routes';
 import siteConfig from '@generated/docusaurus.config';
@@ -33,9 +34,16 @@ const createRouter =
     ? createHashRouter
     : createBrowserRouter;
 
-const router = createRouter(routes);
+const router = createRouter([
+  {
+    Component: AppRoot,
+    // children: [{path: '/', Component: () => <h1>Hello</h1>}],
+    // children: [routes.at(-2)!],
+    children: routes,
+  },
+]);
 
-function AppNavigation() {
+export default function App(): ReactNode {
   return <RouterProvider router={router} />;
 }
 
@@ -52,7 +60,7 @@ function AppNavigation() {
 
  */
 
-export default function App(): ReactNode {
+function AppRoot(): ReactNode {
   return (
     <ErrorBoundary>
       <DocusaurusContextProvider>
@@ -62,7 +70,7 @@ export default function App(): ReactNode {
               <SiteMetadataDefaults />
               <SiteMetadata />
               <BaseUrlIssueBanner />
-              <AppNavigation />
+              <Outlet />
             </ThemeProvider>
           </Root>
           <HasHydratedDataAttribute />

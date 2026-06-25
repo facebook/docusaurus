@@ -14,6 +14,7 @@ import {
   groupTaggedItems,
   getTagVisibility,
 } from '@docusaurus/utils';
+import {addTrailingSlash} from '@docusaurus/utils-common';
 import {
   toTagDocListProp,
   toTagsListTagsProp,
@@ -107,7 +108,7 @@ async function buildVersionSidebarRoute(param: BuildVersionRoutesParam) {
   ]);
   const subRoutes = [...docRoutes, ...categoryGeneratedIndexRoutes];
   return {
-    path: param.version.path,
+    path: addTrailingSlash(param.version.path),
     exact: false,
     component: param.options.docRootComponent,
     routes: subRoutes,
@@ -196,7 +197,7 @@ async function buildVersionRoutes(
 
   async function doBuildVersionRoutes(): Promise<RouteConfig> {
     return {
-      path: version.path,
+      path: addTrailingSlash(version.path),
       exact: false,
       component: options.docVersionRootComponent,
       routes: await buildVersionSubRoutes(),

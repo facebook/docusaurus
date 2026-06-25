@@ -17,6 +17,11 @@ import {matchRoutes} from 'react-router';
  * @returns Promise object represents whether pathname has been preloaded
  */
 export default function preload(pathname: string): Promise<void[]> {
+  // TODO temporary disabled
+  if (pathname) {
+    return Promise.all([]);
+  }
+
   const matches = Array.from(new Set([pathname, decodeURI(pathname)])).flatMap(
     (p) => matchRoutes(routes, p) ?? [],
   );

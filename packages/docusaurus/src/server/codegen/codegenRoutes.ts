@@ -101,16 +101,17 @@ function serializeRouteConfig({
 }) {
   const parts = [
     `path: '${routePath}'`,
-    `component: ComponentCreator('${routePath}', '${routeHash}')`,
+    `Component: ComponentCreator('${routePath}', '${routeHash}')`,
   ];
 
+  // TODO now useless
   if (exact) {
     parts.push(`exact: true`);
   }
 
   if (subroutesCodeStrings) {
     parts.push(
-      `routes: [
+      `children: [
 ${indent(subroutesCodeStrings.join(',\n'))}
 ]`,
     );
