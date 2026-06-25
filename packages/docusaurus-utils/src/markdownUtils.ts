@@ -128,6 +128,13 @@ export function createExcerpt(fileString: string): string | undefined {
     }
 
     const cleanedLine = fileLine
+      // Remove inline code (must come before HTML tag removal so that
+      // XML-like tags inside backticks are not stripped as HTML).
+      // Angle brackets in code content are escaped to HTML entities so they
+      // survive the HTML-tag removal step that follows.
+      .replace(/`(?<text>.+?)`/g, (_match, text: string) =>
+        text.replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+      )
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
@@ -144,8 +151,6 @@ export function createExcerpt(fileString: string): string | undefined {
       .replace(/\[\^.+?\](?:: .*$)?/g, '')
       // Remove inline links.
       .replace(/\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
-      // Remove inline code.
-      .replace(/`(?<text>.+?)`/g, '$1')
       // Remove blockquotes.
       .replace(/^\s{0,3}>\s?/g, '')
       // Remove admonition definition.
