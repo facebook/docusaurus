@@ -128,6 +128,10 @@ export function createExcerpt(fileString: string): string | undefined {
     }
 
     const cleanedLine = fileLine
+      // Remove inline code.
+      .replace(/`(?<text>.+?)`/g, (_match, p1) => {
+        return p1.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+      })
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
@@ -144,8 +148,6 @@ export function createExcerpt(fileString: string): string | undefined {
       .replace(/\[\^.+?\](?:: .*$)?/g, '')
       // Remove inline links.
       .replace(/\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
-      // Remove inline code.
-      .replace(/`(?<text>.+?)`/g, '$1')
       // Remove blockquotes.
       .replace(/^\s{0,3}>\s?/g, '')
       // Remove admonition definition.
