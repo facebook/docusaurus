@@ -8,10 +8,7 @@
 import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import fs from 'fs-extra';
-import {
-  DEFAULT_PARSE_FRONT_MATTER,
-  DEFAULT_VCS_CONFIG,
-} from '@docusaurus/utils';
+import {DEFAULT_PARSE_FRONT_MATTER, TEST_VCS} from '@docusaurus/utils';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {
   normalizePluginOptions,
@@ -74,7 +71,7 @@ async function testGenerateFeeds(
       ...contextInput.siteConfig,
       future: {
         ...contextInput.siteConfig?.future,
-        experimental_vcs: DEFAULT_VCS_CONFIG,
+        experimental_vcs: TEST_VCS,
       },
     },
   };
