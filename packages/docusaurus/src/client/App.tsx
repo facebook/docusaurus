@@ -7,17 +7,20 @@
 
 import React, {type ReactNode} from 'react';
 import '@generated/client-modules';
-
+import {
+  createBrowserRouter,
+  createHashRouter,
+  RouterProvider,
+  Outlet,
+} from 'react-router';
 import routes from '@generated/routes';
-import {useLocation} from '@docusaurus/router';
-import renderRoutes from '@docusaurus/renderRoutes';
+import siteConfig from '@generated/docusaurus.config';
+
 import Root from '@theme/Root';
 import ThemeProvider from '@theme/ThemeProvider';
 import SiteMetadata from '@theme/SiteMetadata';
-import normalizeLocation from './normalizeLocation';
 import {BrowserContextProvider} from './browserContext';
 import {DocusaurusContextProvider} from './docusaurusContext';
-import PendingNavigation from './PendingNavigation';
 import BaseUrlIssueBanner from './BaseUrlIssueBanner';
 import SiteMetadataDefaults from './SiteMetadataDefaults';
 
@@ -26,8 +29,25 @@ import SiteMetadataDefaults from './SiteMetadataDefaults';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import HasHydratedDataAttribute from './hasHydratedDataAttribute';
 
-const routesElement = renderRoutes(routes);
+const createRouter =
+  siteConfig.future.experimental_router === 'hash'
+    ? createHashRouter
+    : createBrowserRouter;
 
+const router = createRouter([
+  {
+    Component: AppRoot,
+    // children: [{path: '/', Component: () => <h1>Hello</h1>}],
+    // children: [routes.at(-2)!],
+    children: routes,
+  },
+]);
+
+export default function App(): ReactNode {
+  return <RouterProvider router={router} />;
+}
+
+/*
 function AppNavigation() {
   const location = useLocation();
   const normalizedLocation = normalizeLocation(location);
@@ -38,7 +58,9 @@ function AppNavigation() {
   );
 }
 
-export default function App(): ReactNode {
+ */
+
+function AppRoot(): ReactNode {
   return (
     <ErrorBoundary>
       <DocusaurusContextProvider>
@@ -48,7 +70,7 @@ export default function App(): ReactNode {
               <SiteMetadataDefaults />
               <SiteMetadata />
               <BaseUrlIssueBanner />
-              <AppNavigation />
+              <Outlet />
             </ThemeProvider>
           </Root>
           <HasHydratedDataAttribute />

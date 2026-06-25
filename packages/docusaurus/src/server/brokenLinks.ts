@@ -7,7 +7,7 @@
 
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {matchRoutes as reactRouterMatchRoutes} from 'react-router-config';
+import {matchRoutes} from 'react-router';
 import {
   parseURLPath,
   serializeURLPath,
@@ -16,13 +16,6 @@ import {
 } from '@docusaurus/utils';
 import {addTrailingSlash, removeTrailingSlash} from '@docusaurus/utils-common';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-
-function matchRoutes(routeConfig: RouteConfig[], pathname: string) {
-  // @ts-expect-error: React router types RouteConfig with an actual React
-  // component, but we load route components with string paths.
-  // We don't actually access component here, so it's fine.
-  return reactRouterMatchRoutes(routeConfig, pathname);
-}
 
 type BrokenLink = {
   link: string;
@@ -89,7 +82,7 @@ function createBrokenLinksHelper({
   })();
 
   function isPathnameMatchingAnyRoute(pathname: string): boolean {
-    if (matchRoutes(remainingRoutes, pathname).length > 0) {
+    if (matchRoutes(remainingRoutes, pathname)?.length ?? 0 > 0) {
       // IMPORTANT: this is an optimization
       // See https://github.com/facebook/docusaurus/issues/9754
       // Large Docusaurus sites have many routes!

@@ -98,11 +98,11 @@ export type RouteConfig = {
   /**
    * Nested routes config, useful for "layout routes" having subroutes.
    */
-  routes?: RouteConfig[];
+  routes?: RouteConfig[]; // TODO rename to children?
   /**
    * React router config option: `exact` routes would not match subroutes.
    */
-  exact?: boolean;
+  exact?: boolean; // TODO remove?
   /**
    * React router config option: `strict` routes are sensitive to the presence
    * of a trailing slash.

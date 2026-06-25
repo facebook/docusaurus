@@ -6,7 +6,7 @@
  */
 
 import routes from '@generated/routes';
-import {matchRoutes} from 'react-router-config';
+import {matchRoutes} from 'react-router';
 
 /**
  * Helper function to make sure all async components for that particular route
@@ -17,8 +17,13 @@ import {matchRoutes} from 'react-router-config';
  * @returns Promise object represents whether pathname has been preloaded
  */
 export default function preload(pathname: string): Promise<void[]> {
+  // TODO temporary disabled
+  if (pathname) {
+    return Promise.all([]);
+  }
+
   const matches = Array.from(new Set([pathname, decodeURI(pathname)])).flatMap(
-    (p) => matchRoutes(routes, p),
+    (p) => matchRoutes(routes, p) ?? [],
   );
 
   return Promise.all(matches.map((match) => match.route.component.preload?.()));

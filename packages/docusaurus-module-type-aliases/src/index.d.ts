@@ -41,10 +41,10 @@ declare module '@generated/registry' {
 }
 
 declare module '@generated/routes' {
-  import type {RouteConfig as RRRouteConfig} from 'react-router-config';
+  import type {RouteObject} from 'react-router';
   import type Loadable from 'react-loadable';
 
-  type RouteConfig = RRRouteConfig & {
+  type RouteConfig = RouteObject & {
     path: string;
     component: ReturnType<typeof Loadable>;
   };
@@ -169,7 +169,7 @@ declare module '@docusaurus/Head' {
 
 declare module '@docusaurus/Link' {
   import type {CSSProperties, ComponentProps, ReactNode} from 'react';
-  import type {NavLinkProps as RRNavLinkProps} from 'react-router-dom';
+  import type {NavLinkProps as RRNavLinkProps} from 'react-router';
 
   type NavLinkProps = Partial<RRNavLinkProps>;
   export type Props = NavLinkProps &
@@ -180,6 +180,10 @@ declare module '@docusaurus/Link' {
       readonly to?: string;
       readonly href?: string;
       readonly autoAddBaseUrl?: boolean;
+      // TODO double check these,
+      //  comes from https://github.com/facebook/docusaurus/pull/6037
+      readonly isActive?: boolean;
+      readonly activeClassName?: string;
 
       /** Escape hatch in case broken links check doesn't make sense. */
       readonly 'data-noBrokenLinkCheck'?: boolean;
@@ -260,7 +264,9 @@ declare module '@docusaurus/Translate' {
 }
 
 declare module '@docusaurus/router' {
-  export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
+  // TODO expose everything?
+  //  remove abstraction?
+  export {useNavigate, useLocation, Redirect, matchPath} from 'react-router';
 }
 
 declare module '@docusaurus/useIsomorphicLayoutEffect' {
@@ -351,9 +357,9 @@ declare module '@docusaurus/Noop' {
 }
 
 declare module '@docusaurus/renderRoutes' {
-  import {renderRoutes} from 'react-router-config';
+  import {useRoutes} from 'react-router';
 
-  export default renderRoutes;
+  export default useRoutes;
 }
 
 declare module '@docusaurus/useGlobalData' {

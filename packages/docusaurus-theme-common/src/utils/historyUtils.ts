@@ -5,11 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useCallback, useEffect, useMemo, useSyncExternalStore} from 'react';
-import {useHistory} from '@docusaurus/router';
+import {useCallback, useMemo, useSyncExternalStore} from 'react';
+import {
+  useBlocker,
+  useNavigate,
+  createBrowserRouter,
+  type RouterState,
+  type Location,
+} from 'react-router';
 import {useEvent} from './reactUtils';
 
-import type {History, Location, Action} from 'history';
+type Action = RouterState['historyAction'];
 
 type HistoryBlockHandler = (location: Location, action: Action) => void | false;
 
@@ -19,13 +25,12 @@ type HistoryBlockHandler = (location: Location, action: Action) => void | false;
  * will be blocked/cancelled.
  */
 function useHistoryActionHandler(handler: HistoryBlockHandler): void {
-  const history = useHistory();
   const stableHandler = useEvent(handler);
-  useEffect(
-    // See https://github.com/remix-run/history/blob/main/docs/blocking-transitions.md
-    () => history.block((location, action) => stableHandler(location, action)),
-    [history, stableHandler],
-  );
+
+  // TODO double-check this works
+  useBlocker(({nextLocation, historyAction}) => {
+    return stableHandler(nextLocation, historyAction) ?? false;
+  });
 }
 
 /**
@@ -51,17 +56,17 @@ export function useHistoryPopHandler(handler: HistoryBlockHandler): void {
  * @param selector
  */
 export function useHistorySelector<Value>(
-  selector: (history: History<unknown>) => Value,
+  selector: (history: {location: Location}) => Value,
 ): Value {
-  const history = useHistory();
+  // TODO fix this, import real router singleton
+  const router = createBrowserRouter([]);
   return useSyncExternalStore(
-    history.listen,
-    () => selector(history),
+    router.subscribe,
+    () => selector({location: router.state.location}),
     () =>
       selector({
-        ...history,
         location: {
-          ...history.location,
+          ...router.state.location,
           // On the server/hydration, these attributes should always be empty
           // Forcing empty state makes this hook safe from hydration errors
           search: '',
@@ -88,21 +93,20 @@ export function useQueryStringValue(key: string | null): string | null {
 function useQueryStringUpdater(
   key: string,
 ): (newValue: string | null, options?: {push: boolean}) => void {
-  const history = useHistory();
+  const search = useHistorySelector(({location}) => location.search);
+  const navigate = useNavigate();
   return useCallback(
     (newValue, options) => {
-      const searchParams = new URLSearchParams(history.location.search);
+      const searchParams = new URLSearchParams(search);
       if (newValue) {
         searchParams.set(key, newValue);
       } else {
         searchParams.delete(key);
       }
-      const updateHistory = options?.push ? history.push : history.replace;
-      updateHistory({
-        search: searchParams.toString(),
-      });
+
+      navigate({search: searchParams.toString()}, {replace: !options?.push});
     },
-    [key, history],
+    [search, navigate, key],
   );
 }
 
@@ -132,23 +136,23 @@ type ListUpdateFunction = (
 ) => void;
 
 function useQueryStringListUpdater(key: string): ListUpdateFunction {
-  const history = useHistory();
+  const search = useHistorySelector(({location}) => location.search);
+
+  const navigate = useNavigate();
   const setValues: ListUpdateFunction = useCallback(
     (update, options) => {
-      const searchParams = new URLSearchParams(history.location.search);
+      const searchParams = new URLSearchParams(search);
       const newValues = Array.isArray(update)
         ? update
         : update(searchParams.getAll(key));
       searchParams.delete(key);
       newValues.forEach((v) => searchParams.append(key, v));
 
-      const updateHistory = options?.push ? history.push : history.replace;
-      updateHistory({
-        search: searchParams.toString(),
-      });
+      navigate({search: searchParams.toString()}, {replace: !options?.push});
     },
-    [history, key],
+    [search, navigate, key],
   );
+
   return setValues;
 }
 
@@ -161,12 +165,10 @@ export function useQueryStringList(
 }
 
 export function useClearQueryString(): () => void {
-  const history = useHistory();
+  const navigate = useNavigate();
   return useCallback(() => {
-    history.replace({
-      search: undefined,
-    });
-  }, [history]);
+    navigate({search: undefined}, {replace: true});
+  }, [navigate]);
 }
 
 export function mergeSearchParams(

@@ -32,6 +32,7 @@ export default function DocNavbarItem({
     <DefaultNavbarItem
       exact
       {...props}
+      // @ts-expect-error: TODO review
       isActive={() =>
         pageActive ||
         (!!activeDoc?.sidebar && activeDoc.sidebar === doc.sidebar)

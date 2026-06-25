@@ -11,7 +11,7 @@ import React, {
   type ComponentProps,
   type ReactNode,
 } from 'react';
-import {useHistory} from '@docusaurus/router';
+import {useNavigationType} from 'react-router';
 import {translate} from '@docusaurus/Translate';
 import {useLocationChange} from './useLocationChange';
 
@@ -60,7 +60,8 @@ function useSkipToContent(): {
   onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 } {
   const containerRef = useRef<HTMLDivElement>(null);
-  const {action} = useHistory();
+
+  const action = useNavigationType();
 
   const onClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

@@ -58,10 +58,12 @@ export default function NavbarNavLink({
   }
 
   return (
+    // @ts-expect-error: TODO review
     <Link
       to={toUrl}
       isNavLink
       {...((activeBasePath || activeBaseRegex) && {
+        // @ts-expect-error: TODO review
         isActive: (_match, location) =>
           activeBaseRegex
             ? isRegexpStringMatch(activeBaseRegex, location.pathname)

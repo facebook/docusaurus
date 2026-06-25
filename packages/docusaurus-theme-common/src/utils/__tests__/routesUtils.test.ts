@@ -7,7 +7,7 @@
 
 import {describe, expect, it} from 'vitest';
 import {findHomePageRoute, isSamePath} from '../routesUtils';
-import type {RouteConfig} from 'react-router-config';
+import type {RouteObject} from 'react-router';
 
 describe('isSamePath', () => {
   it('returns true for compared path without trailing slash', () => {
@@ -42,7 +42,7 @@ describe('isSamePath', () => {
 });
 
 describe('findHomePageRoute', () => {
-  const homePage: RouteConfig = {
+  const homePage: RouteObject = {
     path: '/',
     exact: true,
   };
