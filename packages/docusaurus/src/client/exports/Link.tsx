@@ -9,10 +9,9 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
-  type ComponentType,
   type ReactNode,
 } from 'react';
-import {NavLink, Link as RRLink} from 'react-router-dom';
+import {NavLink, Link as RRLink, useLocation} from 'react-router';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
@@ -20,6 +19,12 @@ import ExecutionEnvironment from './ExecutionEnvironment';
 import useBrokenLinks from './useBrokenLinks';
 import {useBaseUrlUtils} from './useBaseUrl';
 import type {Props} from '@docusaurus/Link';
+import type {Location} from 'history';
+
+type LegacyNavLinkProps = {
+  activeClassName?: string;
+  isActive?: (match: unknown, location: Location) => boolean;
+};
 
 // TODO all this wouldn't be necessary if we used ReactRouter basename feature
 // We don't automatically add base urls to all links,
@@ -37,13 +42,14 @@ function Link({
   'data-noBrokenLinkCheck': noBrokenLinkCheck,
   autoAddBaseUrl = true,
   ...props
-}: Props): ReactNode {
+}: Props & LegacyNavLinkProps): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const {trailingSlash, baseUrl} = siteConfig;
   const router = siteConfig.future.experimental_router;
   const {withBaseUrl} = useBaseUrlUtils();
   const brokenLinks = useBrokenLinks();
   const innerRef = useRef<HTMLAnchorElement | null>(null);
+  const location = useLocation();
 
   useImperativeHandle(props.ref, () => innerRef.current!);
 
@@ -93,7 +99,6 @@ function Link({
   }
 
   const preloaded = useRef(false);
-  const LinkComponent = (isNavLink ? NavLink : RRLink) as ComponentType<Props>;
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
@@ -190,17 +195,34 @@ function Link({
       {...testOnlyProps}
     />
   ) : (
-    <LinkComponent
+    isNavLink ? (
+    <NavLink
       {...props}
       onMouseEnter={onInteractionEnter}
       onTouchStart={onInteractionEnter}
-      innerRef={handleRef}
-      to={targetLink}
-      // Avoid "React does not recognize the `activeClassName` prop on a DOM
-      // element"
-      {...(isNavLink && {isActive, activeClassName})}
+      ref={handleRef}
+      to={targetLink!}
+      className={(navLinkProps) =>
+        [
+          props.className,
+          (isActive?.(null, location) ?? navLinkProps.isActive) &&
+            activeClassName,
+        ]
+          .filter(Boolean)
+          .join(' ')
+      }
       {...testOnlyProps}
     />
+  ) : (
+    <RRLink
+      {...props}
+      onMouseEnter={onInteractionEnter}
+      onTouchStart={onInteractionEnter}
+      ref={handleRef}
+      to={targetLink!}
+      {...testOnlyProps}
+    />
+  )
   );
 }
 

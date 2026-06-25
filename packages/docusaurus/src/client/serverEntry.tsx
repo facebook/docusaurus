@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import {StaticRouter} from 'react-router-dom';
+import {StaticRouter} from 'react-router';
+import {createMemoryHistory} from 'history';
 import {HelmetProvider, type FilledContext} from 'react-helmet-async';
 import Loadable from 'react-loadable';
 import {renderToHtml} from './renderToHtml';
@@ -17,25 +18,28 @@ import {
   BrokenLinksProvider,
 } from './BrokenLinksContext';
 import {toPageCollectedMetadataInternal} from './serverHelmetUtils';
+import {HistoryProvider} from './historyContext';
 import type {AppRenderer, PageCollectedDataInternal} from '../common';
 
 const render: AppRenderer['render'] = async ({pathname}) => {
   await preload(pathname);
 
   const modules = new Set<string>();
-  const routerContext = {};
   const helmetContext = {};
   const statefulBrokenLinks = createStatefulBrokenLinks();
+  const history = createMemoryHistory({initialEntries: [pathname]});
 
   const app = (
     // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
-        <StaticRouter location={pathname} context={routerContext}>
-          <BrokenLinksProvider brokenLinks={statefulBrokenLinks}>
-            <App />
-          </BrokenLinksProvider>
-        </StaticRouter>
+        <HistoryProvider history={history}>
+          <StaticRouter location={pathname}>
+            <BrokenLinksProvider brokenLinks={statefulBrokenLinks}>
+              <App />
+            </BrokenLinksProvider>
+          </StaticRouter>
+        </HistoryProvider>
       </HelmetProvider>
     </Loadable.Capture>
   );
