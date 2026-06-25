@@ -37,13 +37,7 @@ export default {
         '@docusaurus/theme-common',
         '@docusaurus/types',
       ],
-      dependencies: [
-        'react',
-        'react-dom',
-        '@types/react',
-        '@types/react-router-config',
-        '@types/react-router-dom',
-      ],
+      dependencies: ['react', 'react-dom', '@types/react'],
       isIgnored: true,
     },
 

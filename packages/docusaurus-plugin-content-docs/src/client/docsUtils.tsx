@@ -6,6 +6,7 @@
  */
 
 import {type ReactNode, useMemo} from 'react';
+import {type RouteObject} from 'react-router';
 import {matchPath, useLocation} from '@docusaurus/router';
 import renderRoutes from '@docusaurus/renderRoutes';
 import {
@@ -401,15 +402,19 @@ export function useDocRootMetadata({route}: DocRootProps): null | {
 } {
   const location = useLocation();
   const versionMetadata = useDocsVersion();
-  const docRoutes = route.routes!;
+
+  // TODO review
+  const docRoutes = (route as any).routes as RouteObject[];
   const currentDocRoute = docRoutes.find((docRoute) =>
-    matchPath(location.pathname, docRoute),
+    matchPath(docRoute.path!, location.pathname),
   );
+
   if (!currentDocRoute) {
     return null;
   }
 
   // For now, the sidebarName is added as route config: not ideal!
+  // @ts-expect-error: TODO review
   const sidebarName = currentDocRoute.sidebar as string;
 
   const sidebarItems = sidebarName

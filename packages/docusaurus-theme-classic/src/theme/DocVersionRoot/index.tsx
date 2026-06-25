@@ -6,12 +6,12 @@
  */
 
 import React, {type ReactNode} from 'react';
+import {Outlet} from 'react-router';
 import {HtmlClassNameProvider, PageMetadata} from '@docusaurus/theme-common';
 import {
   getDocsVersionSearchTag,
   DocsVersionProvider,
 } from '@docusaurus/plugin-content-docs/client';
-import renderRoutes from '@docusaurus/renderRoutes';
 import SearchMetadata from '@theme/SearchMetadata';
 
 import type {Props} from '@theme/DocVersionRoot';
@@ -32,11 +32,11 @@ function DocVersionRootMetadata(props: Props): ReactNode {
 }
 
 function DocVersionRootContent(props: Props): ReactNode {
-  const {version, route} = props;
+  const {version} = props;
   return (
     <HtmlClassNameProvider className={version.className}>
       <DocsVersionProvider version={version}>
-        {renderRoutes(route.routes!)}
+        <Outlet />
       </DocsVersionProvider>
     </HtmlClassNameProvider>
   );

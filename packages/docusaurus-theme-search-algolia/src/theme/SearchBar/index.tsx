@@ -17,7 +17,7 @@ import {DocSearchButton} from '@docsearch/react/button';
 import {useDocSearchKeyboardEvents} from '@docsearch/react/useDocSearchKeyboardEvents';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
-import {useHistory} from '@docusaurus/router';
+import {useNavigate} from 'react-router';
 import {isRegexpStringMatch} from '@docusaurus/theme-common';
 import {
   useAlgoliaContextualFacetFilters,
@@ -83,7 +83,7 @@ function importDocSearchModalIfNeeded() {
 function useNavigator({
   externalUrlRegex,
 }: Pick<DocSearchProps, 'externalUrlRegex'>) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [navigator] = useState<DocSearchModalProps['navigator']>(() => {
     return {
       navigate(params) {
@@ -92,7 +92,7 @@ function useNavigator({
         if (isRegexpStringMatch(externalUrlRegex, params.itemUrl)) {
           window.location.href = params.itemUrl;
         } else {
-          history.push(params.itemUrl);
+          navigate(params.itemUrl);
         }
       },
     };

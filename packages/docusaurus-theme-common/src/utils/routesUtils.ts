@@ -8,7 +8,7 @@
 import {useMemo} from 'react';
 import generatedRoutes from '@generated/routes';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import type {RouteConfig} from 'react-router-config';
+import type {RouteObject} from 'react-router';
 
 /**
  * Compare the 2 paths, case insensitive and ignoring trailing slash
@@ -34,18 +34,20 @@ export function findHomePageRoute({
   baseUrl,
   routes: initialRoutes,
 }: {
-  routes: RouteConfig[];
+  routes: RouteObject[];
   baseUrl: string;
-}): RouteConfig | undefined {
-  function isHomePageRoute(route: RouteConfig): boolean {
+}): RouteObject | undefined {
+  function isHomePageRoute(route: RouteObject): boolean {
+    // @ts-expect-error: TODO review
     return route.path === baseUrl && route.exact === true;
   }
 
-  function isHomeParentRoute(route: RouteConfig): boolean {
+  function isHomeParentRoute(route: RouteObject): boolean {
+    // @ts-expect-error: TODO review
     return route.path === baseUrl && !route.exact;
   }
 
-  function doFindHomePageRoute(routes: RouteConfig[]): RouteConfig | undefined {
+  function doFindHomePageRoute(routes: RouteObject[]): RouteObject | undefined {
     if (routes.length === 0) {
       return undefined;
     }
@@ -55,6 +57,7 @@ export function findHomePageRoute({
     }
     const indexSubRoutes = routes
       .filter(isHomeParentRoute)
+      // @ts-expect-error: TODO review
       .flatMap((route) => route.routes ?? []);
     return doFindHomePageRoute(indexSubRoutes);
   }
@@ -66,7 +69,7 @@ export function findHomePageRoute({
  * Fetches the route that points to "/". Use this instead of the naive "/",
  * because the homepage may not exist.
  */
-export function useHomePageRoute(): RouteConfig | undefined {
+export function useHomePageRoute(): RouteObject | undefined {
   const {baseUrl} = useDocusaurusContext().siteConfig;
   return useMemo(
     () => findHomePageRoute({routes: generatedRoutes, baseUrl}),

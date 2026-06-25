@@ -6,7 +6,7 @@
  */
 
 import React, {type ReactNode} from 'react';
-import {Route} from 'react-router-dom';
+import {StaticRouter} from 'react-router';
 import ClientLifecyclesDispatcher, {
   dispatchLifecycleAction,
 } from './ClientLifecyclesDispatcher';
@@ -88,7 +88,7 @@ class PendingNavigation extends React.Component<Props, State> {
       <ClientLifecyclesDispatcher
         previousLocation={this.previousLocation}
         location={location}>
-        <Route location={location} render={() => children} />
+        <StaticRouter location={location}>{children}</StaticRouter>
       </ClientLifecyclesDispatcher>
     );
   }
