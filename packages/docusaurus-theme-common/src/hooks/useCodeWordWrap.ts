@@ -6,51 +6,7 @@
  */
 import type {RefObject} from 'react';
 import {useState, useCallback, useEffect, useRef} from 'react';
-import {useMutationObserver} from './useMutationObserver';
-
-// Callback fires when the "hidden" attribute of a tabpanel changes
-// See https://github.com/facebook/docusaurus/pull/7485
-function useTabBecameVisibleCallback(
-  codeBlockRef: RefObject<HTMLPreElement | null>,
-  callback: () => void,
-) {
-  const [hiddenTabElement, setHiddenTabElement] = useState<
-    Element | null | undefined
-  >();
-
-  const updateHiddenTabElement = useCallback(() => {
-    // No need to observe non-hidden tabs
-    // + we want to force a re-render when a tab becomes visible
-    setHiddenTabElement(
-      codeBlockRef.current?.closest('[role=tabpanel][hidden]'),
-    );
-  }, [codeBlockRef, setHiddenTabElement]);
-
-  useEffect(() => {
-    updateHiddenTabElement();
-  }, [updateHiddenTabElement]);
-
-  useMutationObserver(
-    hiddenTabElement,
-    (mutations: MutationRecord[]) => {
-      mutations.forEach((mutation) => {
-        if (
-          mutation.type === 'attributes' &&
-          mutation.attributeName === 'hidden'
-        ) {
-          callback();
-          updateHiddenTabElement();
-        }
-      });
-    },
-    {
-      attributes: true,
-      characterData: false,
-      childList: false,
-      subtree: false,
-    },
-  );
-}
+import {useTabBecameVisibleCallback} from './useTabBecameVisibleCallback';
 
 export type WordWrap = {
   readonly codeBlockRef: RefObject<HTMLPreElement | null>;
