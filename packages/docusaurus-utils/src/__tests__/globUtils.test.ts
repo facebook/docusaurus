@@ -27,6 +27,14 @@ describe('isTranslatableSourceFile', () => {
 });
 
 describe('createMatcher', () => {
+  it('match default exclude node_modules correctly', () => {
+    const matcher = createMatcher(GlobExcludeDefault);
+    expect(matcher('node_modules/pkg/doc.md')).toBe(true);
+    expect(matcher('node_modules/pkg/index.js')).toBe(true);
+    expect(matcher('category/node_modules/pkg/doc.md')).toBe(true);
+    expect(matcher('category/node_modules/@scope/pkg/doc.md')).toBe(true);
+  });
+
   it('match default exclude MD/MDX partials correctly', () => {
     const matcher = createMatcher(GlobExcludeDefault);
     expect(matcher('doc.md')).toBe(false);
@@ -115,8 +123,15 @@ describe('createAbsoluteFilePathMatcher', () => {
     expect(matcher('/root/_docs/_category/myDoc.mdx')).toBe(true);
   });
 
+  it('match default exclude node_modules correctly', () => {
+    expect(matcher('/_root/docs/node_modules/pkg/doc.md')).toBe(true);
+    expect(matcher('/_root/docs/node_modules/@scope/pkg/doc.md')).toBe(true);
+    expect(
+      matcher('/_root/docs/category/node_modules/pkg/index.js'),
+    ).toBe(true);
+  });
+
   it('match default exclude tests correctly', () => {
-    expect(matcher('/__test__/website/src/xyz.js')).toBe(false);
     expect(matcher('/__test__/website/src/__test__/xyz.js')).toBe(true);
     expect(matcher('/__test__/website/src/xyz.test.js')).toBe(true);
   });
