@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {matchRoutes} from 'react-router-config';
 import routesChunkNames from '@generated/routesChunkNames';
 import routes from '@generated/routes';
+import {matchRoutes} from './matchRoutes';
 import prefetchHelper from './prefetch';
 import preloadHelper from './preload';
 import flat from './flat';

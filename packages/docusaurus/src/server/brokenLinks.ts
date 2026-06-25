@@ -7,22 +7,18 @@
 
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {matchRoutes as reactRouterMatchRoutes} from 'react-router-config';
+import {addTrailingSlash, removeTrailingSlash} from '@docusaurus/utils-common';
 import {
   parseURLPath,
   serializeURLPath,
   flattenRoutes,
   type URLPath,
 } from '@docusaurus/utils';
-import {addTrailingSlash, removeTrailingSlash} from '@docusaurus/utils-common';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
-function matchRoutes(routeConfig: RouteConfig[], pathname: string) {
-  // @ts-expect-error: React router types RouteConfig with an actual React
-  // component, but we load route components with string paths.
-  // We don't actually access component here, so it's fine.
-  return reactRouterMatchRoutes(routeConfig, pathname);
-}
+// react-router is ESM-only and this module runs as CommonJS, so matchPath is
+// loaded via a dynamic import (see handleBrokenLinks) and threaded down.
+type MatchPath = typeof import('react-router').matchPath;
 
 type BrokenLink = {
   link: string;
@@ -54,9 +50,11 @@ type BrokenLinksHelper = {
 function createBrokenLinksHelper({
   collectedLinks,
   routes,
+  matchPath,
 }: {
   collectedLinks: CollectedLinksNormalized;
   routes: RouteConfig[];
+  matchPath: MatchPath;
 }): BrokenLinksHelper {
   const validPathnames = new Set(collectedLinks.keys());
 
@@ -89,7 +87,19 @@ function createBrokenLinksHelper({
   })();
 
   function isPathnameMatchingAnyRoute(pathname: string): boolean {
-    if (matchRoutes(remainingRoutes, pathname).length > 0) {
+    const matchesRoute = (route: RouteConfig): boolean => {
+      if (!matchPath({path: route.path, end: !!route.exact}, pathname)) {
+        return false;
+      }
+      // React Router's matchPath ignores trailing slashes and has no `strict`
+      // option, so we honor strict routes here: a strict pattern ending with
+      // "/" only matches a pathname that includes that trailing slash.
+      if (route.strict && route.path.endsWith('/') && route.path !== '/') {
+        return pathname.startsWith(route.path);
+      }
+      return true;
+    };
+    if (remainingRoutes.some(matchesRoute)) {
       // IMPORTANT: this is an optimization
       // See https://github.com/facebook/docusaurus/issues/9754
       // Large Docusaurus sites have many routes!
@@ -201,15 +211,18 @@ function filterIntermediateRoutes(routesInput: RouteConfig[]): RouteConfig[] {
 function getBrokenLinks({
   collectedLinks,
   routes,
+  matchPath,
 }: {
   collectedLinks: CollectedLinksNormalized;
   routes: RouteConfig[];
+  matchPath: MatchPath;
 }): BrokenLinksMap {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
   const helper = createBrokenLinksHelper({
     collectedLinks,
     routes: filteredRoutes,
+    matchPath,
   });
 
   const result: BrokenLinksMap = {};
@@ -413,9 +426,13 @@ export async function handleBrokenLinks({
   if (onBrokenLinks === 'ignore' && onBrokenAnchors === 'ignore') {
     return;
   }
+  // react-router is ESM-only, so we load matchPath via a dynamic import here
+  // (this module runs as CommonJS, which can import ESM dynamically).
+  const {matchPath} = await import('react-router');
   const brokenLinks = getBrokenLinks({
     routes,
     collectedLinks: normalizeCollectedLinks(collectedLinks),
+    matchPath,
   });
   reportBrokenLinks({brokenLinks, onBrokenLinks, onBrokenAnchors});
 }
