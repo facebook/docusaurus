@@ -661,7 +661,7 @@ type MarkdownAnchorsConfig = {
 type OnBrokenMarkdownLinksFunction = (params: {
   sourceFilePath: string; // MD/MDX source file relative to cwd
   url: string; // Link url
-  node: Link | Definition; // mdast Node
+  node: Link | Definition; // mdast node
 }) => void | string;
 
 type OnBrokenMarkdownImagesFunction = (params: {
@@ -670,11 +670,19 @@ type OnBrokenMarkdownImagesFunction = (params: {
   node: Image; // mdast node
 }) => void | string;
 
+type OnUnusedMarkdownDirectivesFunction = (params: {
+  sourceFilePath: string; // MD/MDX source file relative to cwd
+  directives: Directives[]; // mdast nodes
+}) => void | string;
+
 type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
 
 type MarkdownHooks = {
   onBrokenMarkdownLinks: ReportingSeverity | OnBrokenMarkdownLinksFunction;
   onBrokenMarkdownImages: ReportingSeverity | OnBrokenMarkdownImagesFunction;
+  onUnusedMarkdownDirectives:
+    | ReportingSeverity
+    | onUnusedMarkdownDirectivesFunction;
 };
 
 type MarkdownConfig = {
@@ -718,6 +726,7 @@ export default {
     hooks: {
       onBrokenMarkdownLinks: 'warn',
       onBrokenMarkdownImages: 'throw',
+      onUnusedMarkdownDirectives: 'warn',
     },
   },
 };
