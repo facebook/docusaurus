@@ -246,3 +246,33 @@ html[data-navbar='false'] {
 html[data-red-border] div#__docusaurus {
   border: red solid thick;
 }
+/* CSS Anchor Positioning for Tooltips */
+:root {
+  --docusaurus-tooltip-bg: #1b1b1d;
+}
+
+[data-tooltip-trigger] {
+  anchor-name: --docusaurus-tooltip;
+}
+
+[data-tooltip-content] {
+  position: fixed;
+  position-anchor: --docusaurus-tooltip;
+  top: anchor(bottom);
+  left: anchor(center);
+  transform: translateX(-50%);
+  margin-top: 8px;
+  padding: 6px 10px;
+  background-color: var(--docusaurus-tooltip-bg);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out;
+}
+
+[data-tooltip-trigger]:hover + [data-tooltip-content] {
+  opacity: 1;
+}
