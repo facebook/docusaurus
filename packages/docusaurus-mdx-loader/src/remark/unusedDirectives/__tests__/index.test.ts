@@ -28,7 +28,9 @@ const processFixture = async (
   const result = await remark()
     .use(directives)
     .use(admonition)
-    .use(plugin)
+    .use(plugin, {
+      onUnusedMarkdownDirectives: 'warn',
+    })
     .use(remark2rehype)
     .use(stringify)
     .process(file);
