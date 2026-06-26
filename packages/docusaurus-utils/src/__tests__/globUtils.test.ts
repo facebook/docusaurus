@@ -33,6 +33,10 @@ describe('createMatcher', () => {
     expect(matcher('node_modules/pkg/index.js')).toBe(true);
     expect(matcher('category/node_modules/pkg/doc.md')).toBe(true);
     expect(matcher('category/node_modules/@scope/pkg/doc.md')).toBe(true);
+    // When contentPath is inside node_modules, relative paths of content
+    // files do NOT contain node_modules, so they should NOT be excluded.
+    expect(matcher('intro.md')).toBe(false);
+    expect(matcher('guide/setup.mdx')).toBe(false);
   });
 
   it('match default exclude MD/MDX partials correctly', () => {
@@ -131,7 +135,30 @@ describe('createAbsoluteFilePathMatcher', () => {
     ).toBe(true);
   });
 
+  // Ensures that when contentPath is inside node_modules (e.g.,
+  // node_modules/@myCompany/docs), content files at that root are NOT
+  // excluded, because their relative paths don't contain node_modules.
+  it('does not exclude content when root folder is inside node_modules', () => {
+    const nmMatcher = createAbsoluteFilePathMatcher(GlobExcludeDefault, [
+      '/project/node_modules/@myCompany/docs',
+    ]);
+    // Content at the root should NOT be excluded
+    expect(
+      nmMatcher('/project/node_modules/@myCompany/docs/intro.md'),
+    ).toBe(false);
+    expect(
+      nmMatcher('/project/node_modules/@myCompany/docs/guide/setup.mdx'),
+    ).toBe(false);
+    // But nested node_modules inside that root SHOULD be excluded
+    expect(
+      nmMatcher(
+        '/project/node_modules/@myCompany/docs/node_modules/dep/file.md',
+      ),
+    ).toBe(true);
+  });
+
   it('match default exclude tests correctly', () => {
+    expect(matcher('/__test__/website/src/xyz.js')).toBe(false);
     expect(matcher('/__test__/website/src/__test__/xyz.js')).toBe(true);
     expect(matcher('/__test__/website/src/xyz.test.js')).toBe(true);
   });
