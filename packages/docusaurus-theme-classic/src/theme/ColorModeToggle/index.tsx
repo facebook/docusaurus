@@ -1,10 +1,26 @@
-import React from 'react';
+ import React from 'react';
 import clsx from 'clsx';
-import ThemeClassNames from '@theme/ThemeClassNames';
+import {translate} from '@docusaurus/Translate';
+import IconLightMode from '@theme/IconLightMode';
+import IconDarkMode from '@theme/IconDarkMode';
+import type {Props} from '@theme/ColorModeToggle';
 import styles from './styles.module.css';
 
-export default function ColorModeToggle({className, value, onChange}) {
+export default function ColorModeToggle({
+  className,
+  value,
+  onChange,
+}: Props): React.JSX.Element {
   const isDark = value === 'dark';
+
+  const title = translate(
+    {
+      message: 'Switch between dark and light mode (current is {mode})',
+      id: 'theme.colorToggle.ariaLabel',
+      description: 'The ARIA label for the navbar color mode toggle button',
+    },
+    {mode: isDark ? 'dark mode' : 'light mode'},
+  );
 
   return (
     <div className={clsx(styles.toggleContainer, className)}>
@@ -13,12 +29,18 @@ export default function ColorModeToggle({className, value, onChange}) {
         className={clsx('clean-btn', styles.toggleButton)}
         type="button"
         onClick={() => onChange(isDark ? 'light' : 'dark')}
-        aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}>
-        <span className={clsx(styles.toggleIcon, isDark ? styles.toggleIconDark : styles.toggleIconLight)} />
+        disabled={!onChange}
+        title={title}
+        aria-label={title}>
+        <IconLightMode
+          className={clsx(styles.toggleIcon, styles.lightToggleIcon)}
+        />
+        <IconDarkMode
+          className={clsx(styles.toggleIcon, styles.darkToggleIcon)}
+        />
       </button>
       
-      {/* Dynamic Tooltip Content Using Native Anchor Positioning */}
-      <div data-tooltip-content="true" className={styles.tooltipContent}>
+      <div data-tooltip-content="true" className={styles.toggleTooltip}>
         {isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       </div>
     </div>
