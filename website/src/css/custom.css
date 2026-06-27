@@ -276,3 +276,46 @@ html[data-red-border] div#__docusaurus {
 [data-tooltip-trigger]:hover + [data-tooltip-content] {
   opacity: 1;
 }
+
+/* Existing repository styles remain untouched up here */
+
+.toggleContainer {
+  position: relative;
+  display: inline-flex;
+}
+.toggleButton {
+  anchor-name: --color-toggle-anchor;
+}
+.toggleTooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  padding: 6px 10px;
+  background-color: #1b1b1d;
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.15s ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+/* Modern Engine Positioning with safe fallback layer */
+@supports (anchor-name: --test) {
+  .toggleTooltip {
+    position: fixed;
+    position-anchor: --color-toggle-anchor;
+    top: anchor(bottom);
+    left: anchor(center);
+    transform: translateX(-50%);
+  }
+  }
+
+.toggleButton:hover + .toggleTooltip,
+.toggleButton:focus-visible + .toggleTooltip {
+  opacity: 1;
+}
