@@ -1,4 +1,4 @@
- import React from 'react';
+  import React from 'react';
 import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
 import IconLightMode from '@theme/IconLightMode';
