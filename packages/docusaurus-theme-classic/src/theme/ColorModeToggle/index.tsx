@@ -1,8 +1,8 @@
   import React from 'react';
 import clsx from 'clsx';
 import {translate} from '@docusaurus/Translate';
-import IconLightMode from '@theme/IconLightMode';
-import IconDarkMode from '@theme/IconDarkMode';
+import IconLightMode from '@theme-init/IconLightMode';
+import IconDarkMode from '@theme-init/IconDarkMode';
 import type {Props} from '@theme/ColorModeToggle';
 import styles from './styles.module.css';
 
