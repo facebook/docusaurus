@@ -21,7 +21,7 @@ async function getRouteLastUpdatedAt(
   if (route.metadata?.lastUpdatedAt === null) {
     return null;
   }
-  if (route.metadata?.lastUpdatedAt) {
+  if (route.metadata?.lastUpdatedAt != null) {
     return route.metadata?.lastUpdatedAt;
   }
   if (route.metadata?.sourceFilePath) {
@@ -59,7 +59,7 @@ async function getRouteLastmod({
     return null;
   }
   const lastUpdatedAt = (await getRouteLastUpdatedAt(route, vcs)) ?? null;
-  return lastUpdatedAt ? formatLastmod(lastUpdatedAt, lastmod) : null;
+  return lastUpdatedAt != null ? formatLastmod(lastUpdatedAt, lastmod) : null;
 }
 
 export async function createSitemapItem({
