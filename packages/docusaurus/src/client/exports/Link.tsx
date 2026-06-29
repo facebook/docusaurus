@@ -12,7 +12,7 @@ import React, {
   type ComponentType,
   type ReactNode,
 } from 'react';
-import {NavLink, Link as RRLink} from 'react-router-dom';
+import {NavLink, Link as RRLink, useLocation} from 'react-router-dom';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
@@ -27,6 +27,21 @@ import type {Props} from '@docusaurus/Link';
 // this is because useBaseUrl() actually transforms relative links
 // like "introduction" to "/baseUrl/introduction" => bad behavior to fix
 const shouldAddBaseUrlAutomatically = (to: string) => to.startsWith('/');
+
+const isPathRelativeUrl = (url: string) =>
+  !url.startsWith('/') && !url.startsWith('#') && !url.startsWith('?');
+
+function getPathnameWithoutTrailingSlash(pathname: string): string {
+  return pathname === '/' ? pathname : pathname.replace(/\/$/, '');
+}
+
+function resolvePathRelativeUrl(url: string, currentPathname: string): string {
+  const base = `https://docusaurus.local${getPathnameWithoutTrailingSlash(
+    currentPathname,
+  )}`;
+  const resolvedUrl = new URL(url, base);
+  return `${resolvedUrl.pathname}${resolvedUrl.search}${resolvedUrl.hash}`;
+}
 
 function Link({
   isNavLink,
@@ -44,6 +59,7 @@ function Link({
   const {withBaseUrl} = useBaseUrlUtils();
   const brokenLinks = useBrokenLinks();
   const innerRef = useRef<HTMLAnchorElement | null>(null);
+  const location = useLocation();
 
   useImperativeHandle(props.ref, () => innerRef.current!);
 
@@ -86,6 +102,15 @@ function Link({
   // unfortunately we can't really make the difference :/
   if (router === 'hash' && targetLink?.startsWith('./')) {
     targetLink = targetLink?.slice(1);
+  }
+
+  if (
+    router === 'browser' &&
+    targetLink &&
+    isInternal &&
+    isPathRelativeUrl(targetLink)
+  ) {
+    targetLink = resolvePathRelativeUrl(targetLink, location.pathname);
   }
 
   if (targetLink && isInternal) {

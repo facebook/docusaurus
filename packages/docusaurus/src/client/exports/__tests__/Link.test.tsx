@@ -213,6 +213,30 @@ describe('<Link>', () => {
       `);
     });
 
+    it('can render relative links when the current location has a trailing slash', () => {
+      const {container} = render(<Link to="../features/multi-layer" />, {
+        currentLocation: '/docs/getting-started/quick-start/',
+      });
+      expect(container.firstElementChild).toMatchInlineSnapshot(`
+        <a
+          data-test-link-type="react-router"
+          href="/docs/features/multi-layer"
+        />
+      `);
+    });
+
+    it('can render path-relative links when the current location has a trailing slash', () => {
+      const {container} = render(<Link to="relativeDoc" />, {
+        currentLocation: '/sub/category/currentPathname/',
+      });
+      expect(container.firstElementChild).toMatchInlineSnapshot(`
+        <a
+          data-test-link-type="react-router"
+          href="/sub/category/relativeDoc"
+        />
+      `);
+    });
+
     it("can render 'https://example.com/xyz'", () => {
       const {container} = render(<Link to="https://example.com/xyz" />);
       expect(container.firstElementChild).toMatchInlineSnapshot(`
