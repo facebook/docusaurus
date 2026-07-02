@@ -51,7 +51,7 @@ export default function applyTrailingSlash(
     ? pathname
     : handleTrailingSlash(pathname, trailingSlash);
 
-  return path.replace(pathname, newPathname);
+  return newPathname + path.slice(pathname.length);
 }
 
 /** Appends a leading slash to `str`, if one doesn't exist. */
