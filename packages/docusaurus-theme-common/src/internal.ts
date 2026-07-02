@@ -41,7 +41,6 @@ export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 export {
   type CodeBlockMetadata,
   createCodeBlockMetadata,
-  getPrismCssVariables,
   CodeBlockContextProvider,
   useCodeBlockContext,
 } from './utils/codeBlockUtils';
