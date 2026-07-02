@@ -18,15 +18,13 @@ export function useBreadcrumbsStructuredData({
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: breadcrumbs
-      // We filter breadcrumb items without links, they are not allowed
-      // See also https://github.com/facebook/docusaurus/issues/9319#issuecomment-2643560845
-      .filter((breadcrumb) => breadcrumb.href)
-      .map((breadcrumb, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        name: breadcrumb.label,
-        item: `${siteConfig.url}${breadcrumb.href}`,
-      })),
+    itemListElement: breadcrumbs.map((breadcrumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: breadcrumb.label,
+      // We keep items without links (as they are part of the path),
+      // even though previously filtered (see https://github.com/facebook/docusaurus/issues/9319#issuecomment-2643560845)
+      ...(breadcrumb.href ? {item: `${siteConfig.url}${breadcrumb.href}`} : {}),
+    })),
   };
 }
