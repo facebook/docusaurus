@@ -6,18 +6,17 @@
  */
 
 import {describe, expect, it, vi} from 'vitest';
-import * as reactRouterConfig from 'react-router-config';
+import * as reactRouter from 'react-router';
 import {handleBrokenLinks} from '../brokenLinks';
 import type {RouteConfig} from '@docusaurus/types';
 
-vi.mock('react-router-config', async () => {
-  const actual = await vi.importActual<typeof import('react-router-config')>(
-    'react-router-config',
-  );
+vi.mock('react-router', async () => {
+  const actual =
+    await vi.importActual<typeof import('react-router')>('react-router');
 
   return {
     ...actual,
-    matchRoutes: vi.fn(actual.matchRoutes),
+    matchPath: vi.fn(actual.matchPath),
   };
 });
 
@@ -875,8 +874,8 @@ describe('handleBrokenLinks', () => {
     `);
   });
 
-  it('is performant and minimize calls to matchRoutes', async () => {
-    const matchRoutesMock = vi.mocked(reactRouterConfig.matchRoutes);
+  it('is performant and minimizes route matching work', async () => {
+    const matchPathMock = vi.mocked(reactRouter.matchPath);
     vi.clearAllMocks();
 
     const scale = 100;
@@ -925,15 +924,25 @@ describe('handleBrokenLinks', () => {
     });
     // console.timeEnd('testBrokenLinks');
 
-    // Idiomatic code calling matchRoutes multiple times is not performant
-    // We try to minimize the calls to this expensive function
-    // Otherwise large sites will have super long execution times
+    // Matching every link against every route is not performant.
+    // We minimize the expensive matching work, otherwise large sites would have
+    // super long execution times.
     // See https://github.com/facebook/docusaurus/issues/9754
     // See https://x.com/sebastienlorber/status/1749392773415858587
-    // We expect no more matchRoutes calls than number of dynamic route links
-    expect(matchRoutesMock).toHaveBeenCalledTimes(scale * 2);
-    // We expect matchRoutes to be called with a reduced number of routes
     expect(routes).toHaveLength(scale * 3);
-    expect(matchRoutesMock.mock.calls[0]![0]).toHaveLength(scale * 2);
+    // Only dynamic/non-exact pathnames need matching (exact ones are
+    // pre-validated), and thanks to caching each is matched exactly once - so
+    // matchPath sees no more than `scale * 2` distinct pathnames.
+    const matchedPathnames = new Set(
+      matchPathMock.mock.calls.map((call) => call[1]),
+    );
+    expect(matchedPathnames.size).toBe(scale * 2);
+    // The pre-validated exact routes are excluded from matching entirely.
+    const matchedAgainstExactRoute = matchPathMock.mock.calls.some((call) => {
+      const pattern = call[0];
+      const path = typeof pattern === 'string' ? pattern : pattern.path;
+      return /^\/page\d+$/.test(path ?? '');
+    });
+    expect(matchedAgainstExactRoute).toBe(false);
   });
 });

@@ -41,12 +41,17 @@ declare module '@generated/registry' {
 }
 
 declare module '@generated/routes' {
-  import type {RouteConfig as RRRouteConfig} from 'react-router-config';
   import type Loadable from 'react-loadable';
 
-  type RouteConfig = RRRouteConfig & {
+  // At runtime the route `component` is a react-loadable component (with a
+  // `.preload()` method), not the string module path used in the route config.
+  type RouteConfig = {
     path: string;
     component: ReturnType<typeof Loadable>;
+    exact?: boolean;
+    strict?: boolean;
+    routes?: RouteConfig[];
+    [attribute: string]: unknown;
   };
   const routes: RouteConfig[];
   export default routes;
@@ -169,9 +174,17 @@ declare module '@docusaurus/Head' {
 
 declare module '@docusaurus/Link' {
   import type {CSSProperties, ComponentProps, ReactNode} from 'react';
-  import type {NavLinkProps as RRNavLinkProps} from 'react-router-dom';
+  import type {Location} from 'history';
 
-  type NavLinkProps = Partial<RRNavLinkProps>;
+  // React Router v6+ removed NavLink's `isActive`/`activeClassName`/`exact`/
+  // `strict` props; Docusaurus reimplements them, so we declare them ourselves.
+  type NavLinkProps = {
+    readonly exact?: boolean;
+    readonly strict?: boolean;
+    readonly activeClassName?: string;
+    readonly activeStyle?: CSSProperties;
+    readonly isActive?: (match: unknown, location: Location) => boolean;
+  };
   export type Props = NavLinkProps &
     ComponentProps<'a'> & {
       readonly className?: string;
@@ -260,7 +273,34 @@ declare module '@docusaurus/Translate' {
 }
 
 declare module '@docusaurus/router' {
-  export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
+  import type {ComponentType, ReactNode} from 'react';
+  import type {History, Location, To} from 'history';
+
+  export function useHistory(): History;
+  export function useLocation(): Location;
+  export function matchPath(
+    pathname: string,
+    options?:
+      | string
+      | {
+          path?: string | string[];
+          exact?: boolean;
+          strict?: boolean;
+          sensitive?: boolean;
+        },
+  ): {
+    path: string | undefined;
+    url: string;
+    isExact: boolean;
+    params: {[paramName: string]: string | undefined};
+  } | null;
+
+  export type RedirectProps = {
+    readonly to: To;
+    readonly push?: boolean;
+    readonly children?: ReactNode;
+  };
+  export const Redirect: ComponentType<RedirectProps>;
 }
 
 declare module '@docusaurus/useIsomorphicLayoutEffect' {
@@ -351,9 +391,22 @@ declare module '@docusaurus/Noop' {
 }
 
 declare module '@docusaurus/renderRoutes' {
-  import {renderRoutes} from 'react-router-config';
+  import type {ReactElement, ReactNode} from 'react';
 
-  export default renderRoutes;
+  type RouteConfig = {
+    path?: string;
+    component?: unknown;
+    exact?: boolean;
+    strict?: boolean;
+    render?: (props: {[key: string]: unknown}) => ReactNode;
+    routes?: RouteConfig[];
+    [attribute: string]: unknown;
+  };
+
+  export default function renderRoutes(
+    routes: RouteConfig[],
+    extraProps?: {[propName: string]: unknown},
+  ): ReactElement;
 }
 
 declare module '@docusaurus/useGlobalData' {

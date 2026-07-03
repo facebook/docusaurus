@@ -19,6 +19,7 @@ Autolinks
 Bartosz
 beforeinstallprompt
 Bhatt
+blockable
 blockquotes
 Bokmål
 bunfig

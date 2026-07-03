@@ -6,11 +6,12 @@
  */
 
 import React from 'react';
-import {StaticRouter} from 'react-router-dom';
+import {createMemoryHistory} from 'history';
 import {HelmetProvider, type FilledContext} from 'react-helmet-async';
 import Loadable from 'react-loadable';
 import {renderToHtml} from './renderToHtml';
 import preload from './preload';
+import {DocusaurusRouter} from './exports/router';
 import App from './App';
 import {
   createStatefulBrokenLinks,
@@ -23,19 +24,23 @@ const render: AppRenderer['render'] = async ({pathname}) => {
   await preload(pathname);
 
   const modules = new Set<string>();
-  const routerContext = {};
   const helmetContext = {};
   const statefulBrokenLinks = createStatefulBrokenLinks();
+
+  // We use a memory history seeded with the rendered pathname. Driving React
+  // Router with a real history object (instead of <StaticRouter>) keeps
+  // useHistory() working uniformly on both server and client.
+  const history = createMemoryHistory({initialEntries: [pathname]});
 
   const app = (
     // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
-        <StaticRouter location={pathname} context={routerContext}>
+        <DocusaurusRouter history={history}>
           <BrokenLinksProvider brokenLinks={statefulBrokenLinks}>
             <App />
           </BrokenLinksProvider>
-        </StaticRouter>
+        </DocusaurusRouter>
       </HelmetProvider>
     </Loadable.Capture>
   );

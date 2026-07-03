@@ -21,11 +21,30 @@ type HistoryBlockHandler = (location: Location, action: Action) => void | false;
 function useHistoryActionHandler(handler: HistoryBlockHandler): void {
   const history = useHistory();
   const stableHandler = useEvent(handler);
-  useEffect(
+  useEffect(() => {
+    // history v5 changed the block() API: the blocker now receives a
+    // "transition" object and the navigation stays blocked until `retry()` is
+    // called. We adapt it to the previous `(location, action) => false` API
+    // (returning `false` cancels the navigation), re-registering the blocker
+    // after each allowed navigation.
     // See https://github.com/remix-run/history/blob/main/docs/blocking-transitions.md
-    () => history.block((location, action) => stableHandler(location, action)),
-    [history, stableHandler],
-  );
+    let unblock: () => void = () => {};
+    const block = () => {
+      unblock = history.block((transition) => {
+        const result = stableHandler(transition.location, transition.action);
+        if (result === false) {
+          // Cancel the navigation: keep blocking, don't retry.
+          return;
+        }
+        // Allow the navigation, then re-arm the blocker for next time.
+        unblock();
+        transition.retry();
+        block();
+      });
+    };
+    block();
+    return () => unblock();
+  }, [history, stableHandler]);
 }
 
 /**
@@ -51,7 +70,7 @@ export function useHistoryPopHandler(handler: HistoryBlockHandler): void {
  * @param selector
  */
 export function useHistorySelector<Value>(
-  selector: (history: History<unknown>) => Value,
+  selector: (history: History) => Value,
 ): Value {
   const history = useHistory();
   return useSyncExternalStore(
