@@ -137,7 +137,7 @@ export function createExcerpt(fileString: string): string | undefined {
       }
       continue;
     }
-    if (/^\s*<[A-Za-z][^>]*$/.test(fileLine)) {
+    if (/^\s*<[a-z][^>]*$/i.test(fileLine)) {
       inHTML = true;
       continue;
     }
