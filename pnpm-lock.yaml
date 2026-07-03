@@ -15,7 +15,7 @@ importers:
     devDependencies:
       '@ai-sdk/react':
         specifier: ^3.0.177
-        version: 3.0.177(react@19.2.6)(zod@4.4.3)
+        version: 3.0.177(react@19.2.7)(zod@4.4.3)
       '@crowdin/cli':
         specifier: ^4.14.2
         version: 4.14.2(encoding@0.1.13)
@@ -45,7 +45,7 @@ importers:
         version: 6.9.1
       '@testing-library/react':
         specifier: ^16.3.2
-        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
@@ -120,7 +120,7 @@ importers:
         version: 5.0.0
       jest-serializer-react-helmet-async:
         specifier: ^1.0.21
-        version: 1.0.21(@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
+        version: 1.0.21(@slorber/react-helmet-async@1.3.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
       jiti:
         specifier: ^2.7.0
         version: 2.7.0
@@ -149,14 +149,14 @@ importers:
         specifier: ^0.0.68
         version: 0.0.68
       react:
-        specifier: ^19.2.5
-        version: 19.2.6
+        specifier: ^19.2.7
+        version: 19.2.7
       react-dom:
-        specifier: ^19.2.5
-        version: 19.2.6(react@19.2.6)
+        specifier: ^19.2.7
+        version: 19.2.7(react@19.2.7)
       react-helmet-async:
         specifier: npm:@slorber/react-helmet-async@1.3.0
-        version: '@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)'
+        version: '@slorber/react-helmet-async@1.3.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)'
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2
@@ -354,7 +354,7 @@ importers:
         version: link:../docusaurus-utils-validation
       '@mdx-js/react':
         specifier: ^3.1.1
-        version: 3.1.1(@types/react@19.2.14)(react@19.2.6)
+        version: 3.1.1(@types/react@19.2.14)(react@19.2.7)
       boxen:
         specifier: ^6.2.1
         version: 6.2.1
@@ -394,6 +394,9 @@ importers:
       fs-extra:
         specifier: ^11.2.0
         version: 11.3.5
+      history:
+        specifier: ^5.3.0
+        version: 5.3.0
       html-tags:
         specifier: ^3.3.1
         version: 3.3.1
@@ -416,29 +419,23 @@ importers:
         specifier: ^2.4.2
         version: 2.4.2
       react:
-        specifier: ^19.2.5
-        version: 19.2.6
+        specifier: ^19.2.7
+        version: 19.2.7
       react-dom:
-        specifier: ^19.2.5
-        version: 19.2.6(react@19.2.6)
+        specifier: ^19.2.7
+        version: 19.2.7(react@19.2.7)
       react-helmet-async:
         specifier: npm:@slorber/react-helmet-async@1.3.0
-        version: '@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)'
+        version: '@slorber/react-helmet-async@1.3.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)'
       react-loadable:
         specifier: npm:@docusaurus/react-loadable@6.0.0
-        version: '@docusaurus/react-loadable@6.0.0(react@19.2.6)'
+        version: '@docusaurus/react-loadable@6.0.0(react@19.2.7)'
       react-loadable-ssr-addon-v5-slorber:
         specifier: ^1.0.3
-        version: 1.0.3(@docusaurus/react-loadable@6.0.0(react@19.2.6))(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
+        version: 1.0.3(@docusaurus/react-loadable@6.0.0(react@19.2.7))(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       react-router:
-        specifier: ^5.3.4
-        version: 5.3.4(react@19.2.6)
-      react-router-config:
-        specifier: ^5.1.1
-        version: 5.1.1(react-router@5.3.4(react@19.2.6))(react@19.2.6)
-      react-router-dom:
-        specifier: ^5.3.4
-        version: 5.3.4(react@19.2.6)
+        specifier: ^8.0.1
+        version: 8.0.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       semver:
         specifier: ^7.7.4
         version: 7.8.1
@@ -479,18 +476,9 @@ importers:
       '@types/escape-html':
         specifier: ^1.0.4
         version: 1.0.4
-      '@types/history':
-        specifier: ^4.7.11
-        version: 4.7.11
       '@types/react-dom':
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.14)
-      '@types/react-router-config':
-        specifier: ^5.0.7
-        version: 5.0.11
-      '@types/react-router-dom':
-        specifier: ^5.3.3
-        version: 5.3.3
       '@types/serve-handler':
         specifier: ^6.1.4
         version: 6.1.4
@@ -840,18 +828,12 @@ importers:
       '@docusaurus/types':
         specifier: 3.10.1
         version: link:../docusaurus-types
-      '@types/history':
-        specifier: ^4.7.11
-        version: 4.7.11
       '@types/react':
         specifier: 19.2.14
         version: 19.2.14
-      '@types/react-router-config':
-        specifier: '*'
-        version: 5.0.11
-      '@types/react-router-dom':
-        specifier: '*'
-        version: 5.3.3
+      history:
+        specifier: ^5.3.0
+        version: 5.3.0
       react:
         specifier: '*'
         version: 19.2.6
@@ -864,6 +846,9 @@ importers:
       react-loadable:
         specifier: npm:@docusaurus/react-loadable@6.0.0
         version: '@docusaurus/react-loadable@6.0.0(react@19.2.6)'
+      react-router:
+        specifier: ^8.0.1
+        version: 8.0.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
 
   packages/docusaurus-plugin-client-redirects:
     dependencies:
@@ -1010,9 +995,6 @@ importers:
       '@docusaurus/utils-validation':
         specifier: 3.10.1
         version: link:../docusaurus-utils-validation
-      '@types/react-router-config':
-        specifier: ^5.0.7
-        version: 5.0.11
       combine-promises:
         specifier: ^1.1.0
         version: 1.2.0
@@ -1560,7 +1542,7 @@ importers:
         version: link:../docusaurus-utils-validation
       '@mdx-js/react':
         specifier: ^3.1.1
-        version: 3.1.1(@types/react@19.2.14)(react@19.2.6)
+        version: 3.1.1(@types/react@19.2.14)(react@19.2.7)
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
@@ -1581,19 +1563,16 @@ importers:
         version: 8.5.15
       prism-react-renderer:
         specifier: ^2.4.1
-        version: 2.4.1(react@19.2.6)
+        version: 2.4.1(react@19.2.7)
       prismjs:
         specifier: ^1.29.0
         version: 1.30.0
       react:
-        specifier: ^19.2.5
-        version: 19.2.6
+        specifier: ^19.2.7
+        version: 19.2.7
       react-dom:
-        specifier: ^19.2.5
-        version: 19.2.6(react@19.2.6)
-      react-router-dom:
-        specifier: ^5.3.4
-        version: 5.3.4(react@19.2.6)
+        specifier: ^19.2.7
+        version: 19.2.7(react@19.2.7)
       rtlcss:
         specifier: ^4.1.0
         version: 4.3.0
@@ -1631,30 +1610,27 @@ importers:
       '@docusaurus/utils-common':
         specifier: 3.10.1
         version: link:../docusaurus-utils-common
-      '@types/history':
-        specifier: ^4.7.11
-        version: 4.7.11
       '@types/react':
         specifier: 19.2.14
         version: 19.2.14
-      '@types/react-router-config':
-        specifier: '*'
-        version: 5.0.11
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
+      history:
+        specifier: ^5.3.0
+        version: 5.3.0
       parse-numeric-range:
         specifier: ^1.3.0
         version: 1.3.0
       prism-react-renderer:
         specifier: ^2.4.1
-        version: 2.4.1(react@19.2.6)
+        version: 2.4.1(react@19.2.7)
       react:
-        specifier: ^19.2.0
-        version: 19.2.6
+        specifier: ^19.2.7
+        version: 19.2.7
       react-dom:
-        specifier: ^19.2.0
-        version: 19.2.6(react@19.2.6)
+        specifier: ^19.2.7
+        version: 19.2.7(react@19.2.7)
       tslib:
         specifier: ^2.6.0
         version: 2.8.1
@@ -1869,9 +1845,6 @@ importers:
       '@mdx-js/mdx':
         specifier: ^3.1.1
         version: 3.1.1
-      '@types/history':
-        specifier: ^4.7.11
-        version: 4.7.11
       '@types/mdast':
         specifier: ^4.0.2
         version: 4.0.4
@@ -1881,6 +1854,9 @@ importers:
       commander:
         specifier: ^5.1.0
         version: 5.1.0
+      history:
+        specifier: ^5.3.0
+        version: 5.3.0
       joi:
         specifier: ^18.1.2
         version: 18.2.1
@@ -2165,17 +2141,17 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       react:
-        specifier: ^19.2.5
-        version: 19.2.6
+        specifier: ^19.2.7
+        version: 19.2.7
       react-dom:
-        specifier: ^19.2.5
-        version: 19.2.6(react@19.2.6)
+        specifier: ^19.2.7
+        version: 19.2.7(react@19.2.7)
       react-lite-youtube-embed:
         specifier: ^2.3.52
-        version: 2.6.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 2.6.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react-medium-image-zoom:
         specifier: ^5.1.6
-        version: 5.4.5(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 5.4.5(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       recma-mdx-displayname:
         specifier: ^0.4.1
         version: 0.4.1
@@ -5857,9 +5833,6 @@ packages:
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
 
-  '@types/history@4.7.11':
-    resolution: {integrity: sha512-qjDJRrmvBMiTx+jyLxvLfJU7UznFuokDv4f3WRuriHKERccVpFU+8XMQUAbDzoiJCsmexxRExQeMwwCdamSKDA==}
-
   '@types/html-minifier-terser@6.1.0':
     resolution: {integrity: sha512-oh/6byDPnL1zeNXFrDXFLyZjkr1MsBG667IM792caf1L2UPOOMf65NFzjUH/ltyfwjAGfs1rsX1eftK0jC/KIg==}
 
@@ -5954,15 +5927,6 @@ packages:
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
     peerDependencies:
       '@types/react': ^19.2.0
-
-  '@types/react-router-config@5.0.11':
-    resolution: {integrity: sha512-WmSAg7WgqW7m4x8Mt4N6ZyKz0BubSj/2tVUMsAHp+Yd2AMwcSbeFq9WympT19p5heCFmF97R9eD5uUR/t4HEqw==}
-
-  '@types/react-router-dom@5.3.3':
-    resolution: {integrity: sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==}
-
-  '@types/react-router@5.1.20':
-    resolution: {integrity: sha512-jGjmu/ZqS7FjSH6owMcD5qpq19+1RS9DeVRqfl1FeBMxTDQAGwlMWOcs52NDoXaNKyG3d1cYQFMs9rCrb88o9Q==}
 
   '@types/react@19.2.14':
     resolution: {integrity: sha512-ilcTH/UniCkMdtexkoCN0bI7pMcJDvmQFPvuPvmEaYA/NSfFTAgdUSLAoVjaRJm7+6PvcM+q1zYOwS4wTYMF9w==}
@@ -7142,6 +7106,9 @@ packages:
   convict@6.2.5:
     resolution: {integrity: sha512-JtXpxqDqJ8P0UwEHwhxLzCIXQy97vlYBZR222Sbzb1q1Erex9ASrztJ29SyhWFQjod1AeFBaPzEEC8YvtZMIYg==}
     engines: {node: '>=6'}
+
+  cookie-es@3.1.1:
+    resolution: {integrity: sha512-UaXxwISYJPTr9hwQxMFYZ7kNhSXboMXP+Z3TRX6f1/NyaGPfuNUZOWP1pUEb75B2HjfklIYLVRfWiFZJyC6Npg==}
 
   cookie-signature@1.0.7:
     resolution: {integrity: sha512-NXdYc3dLr47pBkpUCHtKSwIOQXLVn8dZEuywboCOJY/osA0wFSLlSawr3KN8qXJEyX66FcONTH8EIlVuK0yyFA==}
@@ -8694,11 +8661,8 @@ packages:
   highlight.js@10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
 
-  history@4.10.1:
-    resolution: {integrity: sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==}
-
-  hoist-non-react-statics@3.3.2:
-    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
+  history@5.3.0:
+    resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
 
   hookified@1.15.1:
     resolution: {integrity: sha512-MvG/clsADq1GPM2KGo2nyfaWVyn9naPiXrqIe4jYjXNZQt238kWyOGrsyc/DmRAQ+Re6yeo6yX/yoNCG5KAEVg==}
@@ -9236,9 +9200,6 @@ packages:
   is-yarn-global@0.4.1:
     resolution: {integrity: sha512-/kppl+R+LO5VmhYSEWARUFjodS25D68gvj8W7z0I7OWhUla5xWu8KL6CtB2V0R6yqhnRgbcaREMr4EEM6htLPQ==}
     engines: {node: '>=12'}
-
-  isarray@0.0.1:
-    resolution: {integrity: sha512-D2S+3GLxWH+uhrNEcoh/fnmYeP8E8/zHl644d/jdA0g2uyXvy3sb0qxotE+ne0LtccHknQzWwZEzhak7oJ0COQ==}
 
   isarray@1.0.0:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
@@ -10644,9 +10605,6 @@ packages:
   path-to-regexp@0.1.13:
     resolution: {integrity: sha512-A/AGNMFN3c8bOlvV9RreMdrv7jsmF9XIfDeCd87+I8RNg6s78BhJxMu69NEMHBSJFxKidViTEdruRwEk/WIKqA==}
 
-  path-to-regexp@1.9.0:
-    resolution: {integrity: sha512-xIp7/apCFJuUHdDLWe8O1HIkb0kQrOMb/0u6FXQjemHn/ii5LrIzU6bdECnsiTF/GjZkMEKg1xdiZwNqDYlZ6g==}
-
   path-to-regexp@3.3.0:
     resolution: {integrity: sha512-qyCH421YQPS2WFDxDjftfc1ZR5WKQzVzqsp4n9M2kQhVOo/ByahFoUNJfl58kOcEGfQ//7weFTDhm+ss8Ecxgw==}
 
@@ -11325,6 +11283,11 @@ packages:
     peerDependencies:
       react: ^19.2.6
 
+  react-dom@19.2.7:
+    resolution: {integrity: sha512-t0BRVXvbiE/o20Hfw669rLbMCDWtYZLvmJigy2f0MxsXF+71pxhR3xOkspmsO8h3ZlNzyibAmtCa3l4lYKk6gQ==}
+    peerDependencies:
+      react: ^19.2.7
+
   react-fast-compare@3.2.2:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
 
@@ -11376,21 +11339,15 @@ packages:
     resolution: {integrity: sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw==}
     engines: {node: '>=0.10.0'}
 
-  react-router-config@5.1.1:
-    resolution: {integrity: sha512-DuanZjaD8mQp1ppHjgnnUnyOlqYXZVjnov/JzFhjLEwd3Z4dYjMSnqrEzzGThH47vpCOqPPwJM2FtthLeJ8Pbg==}
+  react-router@8.0.1:
+    resolution: {integrity: sha512-5EL/fANovVUhRK50NLS8RYfX0BxrimoKsHWUPPy8v5UEl8i6vzF7e4POo3u+AhPItDwccUAJjMfIOmydxBJmQw==}
+    engines: {node: '>=22.22.0'}
     peerDependencies:
-      react: '>=15'
-      react-router: '>=5'
-
-  react-router-dom@5.3.4:
-    resolution: {integrity: sha512-m4EqFMHv/Ih4kpcBCONHbkT68KoAeHN4p3lAGoNryfHi0dMy0kCzEZakiKRsvg5wHZ/JLrLW8o8KomWiz/qbYQ==}
-    peerDependencies:
-      react: '>=15'
-
-  react-router@5.3.4:
-    resolution: {integrity: sha512-Ys9K+ppnJah3QuaRiLxk+jDWOR1MekYQrlytiXxC1RyfbdsZkS5pvKAzCCr031xHixZwpnsYNT5xysdFHQaYsA==}
-    peerDependencies:
-      react: '>=15'
+      react: '>=19.2.7'
+      react-dom: '>=19.2.7'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
 
   react@16.14.0:
     resolution: {integrity: sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==}
@@ -11398,6 +11355,10 @@ packages:
 
   react@19.2.6:
     resolution: {integrity: sha512-sfWGGfavi0xr8Pg0sVsyHMAOziVYKgPLNrS7ig+ivMNb3wbCBw3KxtflsGBAwD3gYQlE/AEZsTLgToRrSCjb0Q==}
+    engines: {node: '>=0.10.0'}
+
+  react@19.2.7:
+    resolution: {integrity: sha512-HNe9WslTbXmFK8o8cmwgAeJFSBvt1bPdHCVKtaaV+WlAN36mpT4hcRpwbf3fY56ar2oIXzsBpOAiIRHAdY0OlQ==}
     engines: {node: '>=0.10.0'}
 
   read-cmd-shim@4.0.0:
@@ -12413,12 +12374,6 @@ packages:
   thunky@1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
 
-  tiny-invariant@1.3.3:
-    resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
-
-  tiny-warning@1.0.3:
-    resolution: {integrity: sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==}
-
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
 
@@ -12829,9 +12784,6 @@ packages:
   validate-npm-package-name@6.0.2:
     resolution: {integrity: sha512-IUoow1YUtvoBBC06dXs8bR8B9vuA3aJfmQNKMoaPG/OFsPmoQvw8xh+6Ye25Gx9DQhoEom3Pcu9MKHerm/NpUQ==}
     engines: {node: ^18.17.0 || >=20.5.0}
-
-  value-equal@1.0.1:
-    resolution: {integrity: sha512-NOJ6JZCAWr0zlxZt+xqCHNTEKOsrks2HQd4MqhP1qy4z1SkbEP467eNx6TgDKXMvUOb+OENfJCZwM+16n7fRfw==}
 
   vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
@@ -13372,12 +13324,12 @@ snapshots:
     dependencies:
       json-schema: 0.4.0
 
-  '@ai-sdk/react@3.0.177(react@19.2.6)(zod@4.4.3)':
+  '@ai-sdk/react@3.0.177(react@19.2.7)(zod@4.4.3)':
     dependencies:
       '@ai-sdk/provider-utils': 4.0.26(zod@4.4.3)
       ai: 6.0.175(zod@4.4.3)
-      react: 19.2.6
-      swr: 2.4.1(react@19.2.6)
+      react: 19.2.7
+      swr: 2.4.1(react@19.2.7)
       throttleit: 2.1.0
     transitivePeerDependencies:
       - zod
@@ -14978,6 +14930,11 @@ snapshots:
       '@types/react': 19.2.14
       react: 19.2.6
 
+  '@docusaurus/react-loadable@6.0.0(react@19.2.7)':
+    dependencies:
+      '@types/react': 19.2.14
+      react: 19.2.7
+
   '@docusaurus/responsive-loader@1.7.1(jimp@1.6.1)(sharp@0.35.1)':
     dependencies:
       loader-utils: 2.0.4
@@ -15808,6 +15765,12 @@ snapshots:
       '@types/mdx': 2.0.13
       '@types/react': 19.2.14
       react: 19.2.6
+
+  '@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.7)':
+    dependencies:
+      '@types/mdx': 2.0.13
+      '@types/react': 19.2.14
+      react: 19.2.7
 
   '@mermaid-js/layout-elk@0.1.9(mermaid@11.15.0)':
     dependencies:
@@ -16797,6 +16760,16 @@ snapshots:
       react-fast-compare: 3.2.2
       shallowequal: 1.1.0
 
+  '@slorber/react-helmet-async@1.3.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+    dependencies:
+      '@babel/runtime': 7.29.7
+      invariant: 2.2.4
+      prop-types: 15.8.1
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
+      react-fast-compare: 3.2.2
+      shallowequal: 1.1.0
+
   '@slorber/remark-comment@1.0.0':
     dependencies:
       micromark-factory-space: 1.1.0
@@ -17037,12 +17010,12 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
 
-  '@testing-library/react@16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
+  '@testing-library/react@16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       '@babel/runtime': 7.29.7
       '@testing-library/dom': 10.4.1
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
     optionalDependencies:
       '@types/react': 19.2.14
       '@types/react-dom': 19.2.3(@types/react@19.2.14)
@@ -17321,8 +17294,6 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
 
-  '@types/history@4.7.11': {}
-
   '@types/html-minifier-terser@6.1.0': {}
 
   '@types/html-minifier-terser@7.0.2': {}
@@ -17402,23 +17373,6 @@ snapshots:
 
   '@types/react-dom@19.2.3(@types/react@19.2.14)':
     dependencies:
-      '@types/react': 19.2.14
-
-  '@types/react-router-config@5.0.11':
-    dependencies:
-      '@types/history': 4.7.11
-      '@types/react': 19.2.14
-      '@types/react-router': 5.1.20
-
-  '@types/react-router-dom@5.3.3':
-    dependencies:
-      '@types/history': 4.7.11
-      '@types/react': 19.2.14
-      '@types/react-router': 5.1.20
-
-  '@types/react-router@5.1.20':
-    dependencies:
-      '@types/history': 4.7.11
       '@types/react': 19.2.14
 
   '@types/react@19.2.14':
@@ -18772,6 +18726,8 @@ snapshots:
     dependencies:
       lodash.clonedeep: 4.5.0
       yargs-parser: 20.2.9
+
+  cookie-es@3.1.1: {}
 
   cookie-signature@1.0.7: {}
 
@@ -20657,18 +20613,9 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
-  history@4.10.1:
+  history@5.3.0:
     dependencies:
       '@babel/runtime': 7.29.7
-      loose-envify: 1.4.0
-      resolve-pathname: 3.0.0
-      tiny-invariant: 1.3.3
-      tiny-warning: 1.0.3
-      value-equal: 1.0.1
-
-  hoist-non-react-statics@3.3.2:
-    dependencies:
-      react-is: 16.13.1
 
   hookified@1.15.1: {}
 
@@ -21175,8 +21122,6 @@ snapshots:
 
   is-yarn-global@0.4.1: {}
 
-  isarray@0.0.1: {}
-
   isarray@1.0.0: {}
 
   isarray@2.0.5: {}
@@ -21223,10 +21168,10 @@ snapshots:
     dependencies:
       pretty-ansi: 4.0.0
 
-  jest-serializer-react-helmet-async@1.0.21(@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6):
+  jest-serializer-react-helmet-async@1.0.21(@slorber/react-helmet-async@1.3.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7):
     dependencies:
-      react: 19.2.6
-      react-helmet-async: '@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)'
+      react: 19.2.7
+      react-helmet-async: '@slorber/react-helmet-async@1.3.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)'
 
   jest-util@30.4.1:
     dependencies:
@@ -23257,10 +23202,6 @@ snapshots:
 
   path-to-regexp@0.1.13: {}
 
-  path-to-regexp@1.9.0:
-    dependencies:
-      isarray: 0.0.1
-
   path-to-regexp@3.3.0: {}
 
   path-type@3.0.0:
@@ -23827,6 +23768,12 @@ snapshots:
       clsx: 2.1.1
       react: 19.2.6
 
+  prism-react-renderer@2.4.1(react@19.2.7):
+    dependencies:
+      '@types/prismjs': 1.26.6
+      clsx: 2.1.1
+      react: 19.2.7
+
   prismjs@1.30.0: {}
 
   proc-log@5.0.0: {}
@@ -23958,6 +23905,11 @@ snapshots:
       react: 19.2.6
       scheduler: 0.27.0
 
+  react-dom@19.2.7(react@19.2.7):
+    dependencies:
+      react: 19.2.7
+      scheduler: 0.27.0
+
   react-fast-compare@3.2.2: {}
 
   react-is@16.13.1: {}
@@ -23972,10 +23924,10 @@ snapshots:
     dependencies:
       react: 19.2.6
 
-  react-lite-youtube-embed@2.6.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+  react-lite-youtube-embed@2.6.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
 
   react-live@4.1.8(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
@@ -23985,48 +23937,32 @@ snapshots:
       sucrase: 3.35.1
       use-editable: 2.3.3(react@19.2.6)
 
-  react-loadable-ssr-addon-v5-slorber@1.0.3(@docusaurus/react-loadable@6.0.0(react@19.2.6))(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15)):
+  react-loadable-ssr-addon-v5-slorber@1.0.3(@docusaurus/react-loadable@6.0.0(react@19.2.7))(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15)):
     dependencies:
       '@babel/runtime': 7.29.7
-      react-loadable: '@docusaurus/react-loadable@6.0.0(react@19.2.6)'
+      react-loadable: '@docusaurus/react-loadable@6.0.0(react@19.2.7)'
       webpack: 5.107.2(@swc/core@1.15.40)(postcss@8.5.15)
 
-  react-medium-image-zoom@5.4.5(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+  react-medium-image-zoom@5.4.5(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
 
   react-refresh@0.18.0: {}
 
-  react-router-config@5.1.1(react-router@5.3.4(react@19.2.6))(react@19.2.6):
+  react-router@8.0.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
-      '@babel/runtime': 7.29.7
+      cookie-es: 3.1.1
       react: 19.2.6
-      react-router: 5.3.4(react@19.2.6)
+    optionalDependencies:
+      react-dom: 19.2.6(react@19.2.6)
 
-  react-router-dom@5.3.4(react@19.2.6):
+  react-router@8.0.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
-      '@babel/runtime': 7.29.7
-      history: 4.10.1
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
-      react: 19.2.6
-      react-router: 5.3.4(react@19.2.6)
-      tiny-invariant: 1.3.3
-      tiny-warning: 1.0.3
-
-  react-router@5.3.4(react@19.2.6):
-    dependencies:
-      '@babel/runtime': 7.29.7
-      history: 4.10.1
-      hoist-non-react-statics: 3.3.2
-      loose-envify: 1.4.0
-      path-to-regexp: 1.9.0
-      prop-types: 15.8.1
-      react: 19.2.6
-      react-is: 16.13.1
-      tiny-invariant: 1.3.3
-      tiny-warning: 1.0.3
+      cookie-es: 3.1.1
+      react: 19.2.7
+    optionalDependencies:
+      react-dom: 19.2.7(react@19.2.7)
 
   react@16.14.0:
     dependencies:
@@ -24035,6 +23971,8 @@ snapshots:
       prop-types: 15.8.1
 
   react@19.2.6: {}
+
+  react@19.2.7: {}
 
   read-cmd-shim@4.0.0: {}
 
@@ -25212,11 +25150,11 @@ snapshots:
       '@swc/counter': 0.1.3
       webpack: 5.107.2(@swc/core@1.15.40)(@swc/html@1.15.40)(lightningcss@1.32.0)(postcss@8.5.15)
 
-  swr@2.4.1(react@19.2.6):
+  swr@2.4.1(react@19.2.7):
     dependencies:
       dequal: 2.0.3
-      react: 19.2.6
-      use-sync-external-store: 1.6.0(react@19.2.6)
+      react: 19.2.7
+      use-sync-external-store: 1.6.0(react@19.2.7)
 
   symbol-tree@3.2.4: {}
 
@@ -25359,10 +25297,6 @@ snapshots:
   through@2.3.8: {}
 
   thunky@1.1.0: {}
-
-  tiny-invariant@1.3.3: {}
-
-  tiny-warning@1.0.3: {}
 
   tinybench@2.9.0: {}
 
@@ -25733,9 +25667,9 @@ snapshots:
     dependencies:
       react: 19.2.6
 
-  use-sync-external-store@1.6.0(react@19.2.6):
+  use-sync-external-store@1.6.0(react@19.2.7):
     dependencies:
-      react: 19.2.6
+      react: 19.2.7
 
   utif2@4.1.0:
     dependencies:
@@ -25761,8 +25695,6 @@ snapshots:
   validate-npm-package-name@5.0.1: {}
 
   validate-npm-package-name@6.0.2: {}
-
-  value-equal@1.0.1: {}
 
   vary@1.1.2: {}
 

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {matchRoutes} from 'react-router-config';
+import {matchRoutes} from './exports/routerCompat';
 import routes from '@generated/routes';
 import type {Location} from 'history';
 
@@ -22,7 +22,7 @@ export default function normalizeLocation<T extends Location>(location: T): T {
 
   // If the location was registered with an `.html` extension, we don't strip it
   // away, or it will render to a 404 page.
-  const matchedRoutes = matchRoutes(routes, location.pathname);
+  const matchedRoutes = matchRoutes(routes as never, location.pathname);
   if (matchedRoutes.some(({route}) => route.exact === true)) {
     pathnames.set(location.pathname, location.pathname);
     return location;

@@ -41,10 +41,10 @@ declare module '@generated/registry' {
 }
 
 declare module '@generated/routes' {
-  import type {RouteConfig as RRRouteConfig} from 'react-router-config';
+  import type {RouteConfig as DocusaurusRouteConfig} from '@docusaurus/types';
   import type Loadable from 'react-loadable';
 
-  type RouteConfig = RRRouteConfig & {
+  type RouteConfig = DocusaurusRouteConfig & {
     path: string;
     component: ReturnType<typeof Loadable>;
   };
@@ -169,7 +169,7 @@ declare module '@docusaurus/Head' {
 
 declare module '@docusaurus/Link' {
   import type {CSSProperties, ComponentProps, ReactNode} from 'react';
-  import type {NavLinkProps as RRNavLinkProps} from 'react-router-dom';
+  import type {NavLinkProps as RRNavLinkProps} from 'react-router';
 
   type NavLinkProps = Partial<RRNavLinkProps>;
   export type Props = NavLinkProps &
@@ -260,7 +260,40 @@ declare module '@docusaurus/Translate' {
 }
 
 declare module '@docusaurus/router' {
-  export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
+  import type {ReactNode} from 'react';
+  import type {History, Location} from 'history';
+
+  export {
+    useLocation,
+    useNavigate,
+    useNavigationType,
+    Link,
+    NavLink,
+    BrowserRouter,
+    HashRouter,
+    unstable_HistoryRouter as HistoryRouter,
+    StaticRouter,
+  } from 'react-router';
+
+  export function useHistory(): History;
+  export function Redirect(props: {
+    push?: boolean;
+    to: string | Partial<Location>;
+  }): ReactNode;
+  export function matchPath(
+    pathname: string,
+    options: {
+      path: string;
+      exact?: boolean;
+      strict?: boolean;
+      sensitive?: boolean;
+    },
+  ): {
+    path: string;
+    url: string;
+    isExact: boolean;
+    params: Record<string, string | undefined>;
+  } | null;
 }
 
 declare module '@docusaurus/useIsomorphicLayoutEffect' {
@@ -351,9 +384,10 @@ declare module '@docusaurus/Noop' {
 }
 
 declare module '@docusaurus/renderRoutes' {
-  import {renderRoutes} from 'react-router-config';
+  import type {ReactNode} from 'react';
+  import type {RouteConfig} from '@generated/routes';
 
-  export default renderRoutes;
+  export default function renderRoutes(routes: RouteConfig[]): ReactNode;
 }
 
 declare module '@docusaurus/useGlobalData' {

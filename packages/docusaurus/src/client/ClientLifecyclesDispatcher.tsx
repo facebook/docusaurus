@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ReactElement, ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import clientModules from '@generated/client-modules';
 import useIsomorphicLayoutEffect from './exports/useIsomorphicLayoutEffect';
 import type {ClientModule} from '@docusaurus/types';
@@ -63,7 +63,7 @@ function ClientLifecyclesDispatcher({
   location,
   previousLocation,
 }: {
-  children: ReactElement;
+  children: ReactNode;
   location: Location;
   previousLocation: Location | null;
 }): ReactNode {
