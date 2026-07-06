@@ -9,6 +9,8 @@ exports[`loadVersion > minimal site > can load current version 1`] = `
   "contentPathLocalized": "<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/versions/__tests__/__fixtures__/site-minimal/i18n/en/docusaurus-plugin-content-docs/current",
   "docs": [
     {
+      "createdAt": undefined,
+      "createdBy": undefined,
       "description": "World",
       "draft": false,
       "editUrl": undefined,

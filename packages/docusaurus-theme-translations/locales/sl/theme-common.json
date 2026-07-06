@@ -72,6 +72,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "To je še neobjavljena dokumentacija za {siteTitle}, verzijo {versionLabel}.",
   "theme.lastUpdated.atDate": " {date}",
   "theme.lastUpdated.byUser": " {user}",
+  "theme.lastUpdated.createdAtBy": "Created{atDate}{byUser}",
   "theme.lastUpdated.lastUpdatedAtBy": "Nazadnje posodobil {byUser}, {atDate}",
   "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": "Collapse the dropdown",
   "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": "Expand the dropdown",
