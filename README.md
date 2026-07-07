@@ -61,9 +61,9 @@ npm init docusaurus@latest
 
 We've released Docusaurus because it helps us better scale and supports the many OSS projects at Meta. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
 
-### [Code of Conduct](https://code.fb.com/codeofconduct)
+### [Code of Conduct](https://opensource.fb.com/code-of-conduct/)
 
-Meta has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
+Meta has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://opensource.fb.com/code-of-conduct/) so that you can understand what actions will and will not be tolerated.
 
 ### Contributing guide
 
