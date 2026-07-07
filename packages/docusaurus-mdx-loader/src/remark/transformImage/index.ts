@@ -17,7 +17,7 @@ import {
   parseLocalURLPath,
 } from '@docusaurus/utils';
 import escapeHtml from 'escape-html';
-import {imageSizeFromFile} from 'image-size/fromFile';
+import {imageDimensionsFromData} from 'image-dimensions';
 import logger from '@docusaurus/logger';
 import {
   assetRequireAttributeValue,
@@ -125,15 +125,19 @@ async function toImageRequireNode(
   }
 
   try {
-    const size = (await imageSizeFromFile(imagePath))!;
-    if (size.width) {
+    const buffer = await fs.readFile(imagePath);
+    const size = imageDimensionsFromData(buffer);
+
+    // Check if 'size' exists AND has a width
+    if (size && size.width) {
       attributes.push({
         type: 'mdxJsxAttribute',
         name: 'width',
         value: String(size.width),
       });
     }
-    if (size.height) {
+    // Check if 'size' exists AND has a height
+    if (size && size.height) {
       attributes.push({
         type: 'mdxJsxAttribute',
         name: 'height',
