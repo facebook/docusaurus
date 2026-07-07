@@ -148,6 +148,11 @@ export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   hooks: DEFAULT_MARKDOWN_HOOKS,
 };
 
+const HtmlTagAttributeValueSchema = Joi.alternatives().try(
+  Joi.string().strict(),
+  Joi.boolean().strict(),
+);
+
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'i18n'
@@ -469,7 +474,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
           is: Joi.valid(true),
           then: Joi.optional(),
           otherwise: Joi.object()
-            .pattern(/[\w-]+/, Joi.string())
+            .pattern(/[\w-]+/, HtmlTagAttributeValueSchema)
             .required(),
         }),
         customElement: Joi.bool().default(false),

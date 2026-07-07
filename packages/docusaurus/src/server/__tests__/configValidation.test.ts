@@ -284,6 +284,23 @@ describe('headTags', () => {
     }).not.toThrow();
   });
 
+  it('accepts headTags with boolean attributes', () => {
+    expect(() => {
+      normalizeConfig({
+        headTags: [
+          {
+            tagName: 'script',
+            attributes: {
+              src: '/analytics.js',
+              async: true,
+              defer: false,
+            },
+          },
+        ],
+      });
+    }).not.toThrow();
+  });
+
   it("throws error if headTags doesn't have tagName", () => {
     expect(() => {
       normalizeConfig({
@@ -330,21 +347,21 @@ describe('headTags', () => {
     ).not.toThrow();
   });
 
-  it("throws error if headTags doesn't have string attributes", () => {
+  it('throws error if headTags has non-string/boolean attributes', () => {
     expect(() => {
       normalizeConfig({
         headTags: [
           {
             tagName: 'link',
             attributes: {
-              rel: false,
+              rel: 42,
               href: 'img/docusaurus.png',
             },
           },
         ],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      [Error: "headTags[0].attributes.rel" must be a string
+      [Error: "headTags[0].attributes.rel" must be one of [string, boolean]
       ]
     `);
   });
