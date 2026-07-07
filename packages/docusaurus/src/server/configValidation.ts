@@ -469,7 +469,10 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
           is: Joi.valid(true),
           then: Joi.optional(),
           otherwise: Joi.object()
-            .pattern(/[\w-]+/, Joi.string())
+            .pattern(
+              /[\w-]+/,
+              Joi.alternatives().try(Joi.string(), Joi.boolean()),
+            )
             .required(),
         }),
         customElement: Joi.bool().default(false),

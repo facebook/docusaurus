@@ -330,23 +330,39 @@ describe('headTags', () => {
     ).not.toThrow();
   });
 
-  it("throws error if headTags doesn't have string attributes", () => {
+  it('throws error if headTags has invalid attribute values', () => {
     expect(() => {
       normalizeConfig({
         headTags: [
           {
             tagName: 'link',
             attributes: {
-              rel: false,
+              rel: 123,
               href: 'img/docusaurus.png',
             },
           },
         ],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      [Error: "headTags[0].attributes.rel" must be a string
+      [Error: "headTags[0].attributes.rel" must be one of [string, boolean]
       ]
     `);
+  });
+
+  it('accepts headTags with boolean attributes', () => {
+    expect(() => {
+      normalizeConfig({
+        headTags: [
+          {
+            tagName: 'script',
+            attributes: {
+              src: '/analytics.js',
+              async: true,
+            },
+          },
+        ],
+      });
+    }).not.toThrow();
   });
 });
 
