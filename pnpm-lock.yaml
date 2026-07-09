@@ -1312,7 +1312,7 @@ importers:
         version: link:../docusaurus-utils-validation
       '@rsdoctor/rspack-plugin':
         specifier: ^1.5.17
-        version: 1.5.17(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
+        version: 1.5.17(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@rspack/core@2.1.2)(supports-color@7.2.0)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       '@rsdoctor/webpack-plugin':
         specifier: ^1.5.17
         version: 1.5.17(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
@@ -2171,8 +2171,8 @@ importers:
         specifier: ^19.2.5
         version: 19.2.6(react@19.2.6)
       react-lite-youtube-embed:
-        specifier: ^2.3.52
-        version: 2.6.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        specifier: ^3.6.0
+        version: 3.6.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       react-medium-image-zoom:
         specifier: ^5.1.6
         version: 5.4.8(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -8478,7 +8478,7 @@ packages:
   git-raw-commits@3.0.0:
     resolution: {integrity: sha512-b5OHmZ3vAgGrDn/X0kS+9qCfNKWe4K/jFnhwzVWWg0/k5eLa3060tZShrRg8Dja5kPc+YjS0Gc6y7cRr44Lpjw==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-remote-origin-url@2.0.0:
@@ -8488,7 +8488,7 @@ packages:
   git-semver-tags@5.0.1:
     resolution: {integrity: sha512-hIvOeZwRbQ+7YEUmCkHqo8FOLQZCEn18yevLHADlFPZY02KJGsu5FZt9YW/lybfK2uhWFI7Qg/07LekJiTv7iA==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-up@7.0.0:
@@ -11370,8 +11370,8 @@ packages:
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
 
-  react-lite-youtube-embed@2.6.0:
-    resolution: {integrity: sha512-IOz67PY67a/2hlEkiUIBJ9D6TYX7RQnJgCa5J2xgDWd9yhGxEacuamo4c3b5nV6+CwssyL6OCLtgFh2guaKsmw==}
+  react-lite-youtube-embed@3.6.0:
+    resolution: {integrity: sha512-LnMu5xtvIDe7BOgcSldClh3nQGjr0RsTCLDOhJwXG2sF79BPHniLaxz/qcQckfpV/k9mj06j8zPM5RAJ+AbNeA==}
     peerDependencies:
       react: '>=18.2.0'
       react-dom: '>=18.2.0'
@@ -16519,7 +16519,7 @@ snapshots:
     dependencies:
       '@rsbuild/plugin-check-syntax': 1.6.1
       '@rsdoctor/graph': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
-      '@rsdoctor/sdk': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
+      '@rsdoctor/sdk': 1.5.17(@rspack/core@2.1.2)(supports-color@7.2.0)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       '@rsdoctor/types': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       '@rsdoctor/utils': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       '@rspack/resolver': 0.2.8(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
@@ -16550,11 +16550,11 @@ snapshots:
       - '@rspack/core'
       - webpack
 
-  '@rsdoctor/rspack-plugin@1.5.17(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))':
+  '@rsdoctor/rspack-plugin@1.5.17(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@rspack/core@2.1.2)(supports-color@7.2.0)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))':
     dependencies:
       '@rsdoctor/core': 1.5.17(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       '@rsdoctor/graph': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
-      '@rsdoctor/sdk': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
+      '@rsdoctor/sdk': 1.5.17(@rspack/core@2.1.2)(supports-color@7.2.0)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       '@rsdoctor/types': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       '@rsdoctor/utils': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
     optionalDependencies:
@@ -16568,7 +16568,7 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@rsdoctor/sdk@1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))':
+  '@rsdoctor/sdk@1.5.17(@rspack/core@2.1.2)(supports-color@7.2.0)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))':
     dependencies:
       '@rsdoctor/client': 1.5.17
       '@rsdoctor/graph': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
@@ -16576,7 +16576,7 @@ snapshots:
       '@rsdoctor/utils': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       launch-editor: 2.13.2
       safer-buffer: 2.1.2
-      socket.io: 4.8.1
+      socket.io: 4.8.1(supports-color@7.2.0)
       tapable: 2.3.3
     transitivePeerDependencies:
       - '@rspack/core'
@@ -16620,7 +16620,7 @@ snapshots:
     dependencies:
       '@rsdoctor/core': 1.5.17(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       '@rsdoctor/graph': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
-      '@rsdoctor/sdk': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
+      '@rsdoctor/sdk': 1.5.17(@rspack/core@2.1.2)(supports-color@7.2.0)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       '@rsdoctor/types': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       '@rsdoctor/utils': 1.5.17(@rspack/core@2.1.2)(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       webpack: 5.107.2(@swc/core@1.15.40)(postcss@8.5.15)
@@ -19614,7 +19614,7 @@ snapshots:
 
   engine.io-parser@5.2.3: {}
 
-  engine.io@6.6.8:
+  engine.io@6.6.8(supports-color@7.2.0):
     dependencies:
       '@types/cors': 2.8.19
       '@types/node': 25.9.1
@@ -24075,7 +24075,7 @@ snapshots:
     dependencies:
       react: 19.2.6
 
-  react-lite-youtube-embed@2.6.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+  react-lite-youtube-embed@3.6.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
@@ -24909,7 +24909,7 @@ snapshots:
       dot-case: 3.0.4
       tslib: 2.8.1
 
-  socket.io-adapter@2.5.7:
+  socket.io-adapter@2.5.7(supports-color@7.2.0):
     dependencies:
       debug: 4.4.3(supports-color@7.2.0)
       ws: 8.20.1
@@ -24918,22 +24918,22 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  socket.io-parser@4.2.6:
+  socket.io-parser@4.2.6(supports-color@7.2.0):
     dependencies:
       '@socket.io/component-emitter': 3.1.2
       debug: 4.4.3(supports-color@7.2.0)
     transitivePeerDependencies:
       - supports-color
 
-  socket.io@4.8.1:
+  socket.io@4.8.1(supports-color@7.2.0):
     dependencies:
       accepts: 1.3.8
       base64id: 2.0.0
       cors: 2.8.5
       debug: 4.3.7
-      engine.io: 6.6.8
-      socket.io-adapter: 2.5.7
-      socket.io-parser: 4.2.6
+      engine.io: 6.6.8(supports-color@7.2.0)
+      socket.io-adapter: 2.5.7(supports-color@7.2.0)
+      socket.io-parser: 4.2.6(supports-color@7.2.0)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
