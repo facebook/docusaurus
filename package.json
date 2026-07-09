@@ -120,14 +120,14 @@
     "sharp": "^0.35.1",
     "strip-ansi": "^7.2.0",
     "stylelint": "^17.12.0",
-    "stylelint-copyright": "3.10.1",
     "stylelint-config-standard": "^40.0.0",
+    "stylelint-copyright": "3.10.1",
     "syncpack": "^14.3.1",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.59.3",
     "vitest": "^4.0.0"
   },
-  "packageManager": "pnpm@11.5.1",
+  "packageManager": "pnpm@11.10.0",
   "engines": {
     "node": ">=24.14",
     "pnpm": ">=11.5"
