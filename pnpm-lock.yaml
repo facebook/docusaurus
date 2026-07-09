@@ -1745,8 +1745,8 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-validation
       '@mermaid-js/layout-elk':
-        specifier: ^0.1.9
-        version: 0.1.9(mermaid@11.15.0)
+        specifier: ^0.2.2
+        version: 0.2.2(mermaid@11.15.0)
       mermaid:
         specifier: '>=11.14.0'
         version: 11.15.0
@@ -4363,11 +4363,6 @@ packages:
     peerDependencies:
       '@types/react': '>=16'
       react: '>=16'
-
-  '@mermaid-js/layout-elk@0.1.9':
-    resolution: {integrity: sha512-HuvaqFZBr6yT9PpWYockvKAZPJVd89yn/UjOYPxhzbZxlybL2v+2BjVCg7MVH6vRs1irUohb/s42HEdec1CCZw==}
-    peerDependencies:
-      mermaid: ^11.0.2
 
   '@mermaid-js/layout-elk@0.2.2':
     resolution: {integrity: sha512-vnH3gtqfhyBiRVKNpT8iDENTw18q/OF0GF/SfYfHN43KZpu+6eZDEOMHTfNYAkpmUWJNgtRQFIS6BTc7vH/DYQ==}
@@ -8483,7 +8478,7 @@ packages:
   git-raw-commits@3.0.0:
     resolution: {integrity: sha512-b5OHmZ3vAgGrDn/X0kS+9qCfNKWe4K/jFnhwzVWWg0/k5eLa3060tZShrRg8Dja5kPc+YjS0Gc6y7cRr44Lpjw==}
     engines: {node: '>=14'}
-    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
+    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-remote-origin-url@2.0.0:
@@ -8493,7 +8488,7 @@ packages:
   git-semver-tags@5.0.1:
     resolution: {integrity: sha512-hIvOeZwRbQ+7YEUmCkHqo8FOLQZCEn18yevLHADlFPZY02KJGsu5FZt9YW/lybfK2uhWFI7Qg/07LekJiTv7iA==}
     engines: {node: '>=14'}
-    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
+    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-up@7.0.0:
@@ -15840,12 +15835,6 @@ snapshots:
       '@types/mdx': 2.0.13
       '@types/react': 19.2.14
       react: 19.2.6
-
-  '@mermaid-js/layout-elk@0.1.9(mermaid@11.15.0)':
-    dependencies:
-      d3: 7.9.0
-      elkjs: 0.9.3
-      mermaid: 11.15.0
 
   '@mermaid-js/layout-elk@0.2.2(mermaid@11.15.0)':
     dependencies:
