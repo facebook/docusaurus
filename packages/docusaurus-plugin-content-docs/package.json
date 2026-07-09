@@ -56,9 +56,9 @@
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
-    "@types/picomatch": "^2.3.0",
+    "@types/picomatch": "^4.0.3",
     "commander": "^5.1.0",
-    "picomatch": "^2.3.1"
+    "picomatch": "^4.0.4"
   },
   "peerDependencies": {
     "react": "^19.2.5",
