@@ -25,5 +25,6 @@ updates:
     cooldown:
       default-days: 5
       semver-major-days: 30
-      semver-minor-days: 7
-      semver-patch-days: 7
+      # +1d compared to pnpm cutoff, otherwise Dependabot opens PRs too early
+      semver-minor-days: 8
+      semver-patch-days: 8

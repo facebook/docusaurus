@@ -23,7 +23,7 @@ overrides:
   # See https://sharp.pixelplumbing.com/changelog/v0.35.0/
   sharp: ^0.35.1
 
-minimumReleaseAge: 10080
+minimumReleaseAge: 10080 # 7 days in minutes
 minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
 minimumReleaseAgeExclude:
