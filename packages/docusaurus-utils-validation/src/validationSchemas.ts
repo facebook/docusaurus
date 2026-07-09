@@ -180,7 +180,9 @@ export const FrontMatterLastUpdateSchema = Joi.object<
   true
 >({
   author: Joi.string(),
-  date: JoiFrontMatter.alternatives().try(Joi.date().raw(), Joi.string()),
+  // Joi doesn't like our "string | Date" union type
+  // It expects an "alternative" type, even when using date().raw()
+  date: Joi.alternatives().try(Joi.date().raw()),
 })
   .or('author', 'date')
   .messages({
