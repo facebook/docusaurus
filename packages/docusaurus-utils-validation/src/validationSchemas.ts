@@ -9,6 +9,7 @@ import {
   isValidPathname,
   DEFAULT_PLUGIN_ID,
   type FrontMatterTag,
+  type FrontMatterLastUpdate,
 } from '@docusaurus/utils';
 import {addLeadingSlash} from '@docusaurus/utils-common';
 import Joi from './Joi';
@@ -152,12 +153,13 @@ export type ContentVisibility = {
   unlisted: boolean;
 };
 
-export const ContentVisibilitySchema = JoiFrontMatter.object<ContentVisibility>(
-  {
-    draft: JoiFrontMatter.boolean(),
-    unlisted: JoiFrontMatter.boolean(),
-  },
-)
+export const ContentVisibilitySchema = JoiFrontMatter.object<
+  ContentVisibility,
+  true
+>({
+  draft: JoiFrontMatter.boolean(),
+  unlisted: JoiFrontMatter.boolean(),
+})
   .custom((frontMatter: ContentVisibility, helpers) => {
     if (frontMatter.draft && frontMatter.unlisted) {
       return helpers.error('frontMatter.draftAndUnlistedError');
@@ -173,9 +175,14 @@ export const ContentVisibilitySchema = JoiFrontMatter.object<ContentVisibility>(
 export const FrontMatterLastUpdateErrorMessage =
   '{{#label}} does not look like a valid last update object. Please use an author key with a string or a date with a string or Date.';
 
-export const FrontMatterLastUpdateSchema = Joi.object({
+export const FrontMatterLastUpdateSchema = Joi.object<
+  FrontMatterLastUpdate,
+  true
+>({
   author: Joi.string(),
-  date: Joi.date().raw(),
+  // Joi doesn't like our "string | Date" union type
+  // It expects an "alternative" type, even when using date().raw()
+  date: Joi.alternatives().try(Joi.date().raw()),
 })
   .or('author', 'date')
   .messages({

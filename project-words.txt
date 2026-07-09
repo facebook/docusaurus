@@ -16,6 +16,7 @@ atrule
 autogenerating
 autohide
 Autolinks
+backgrounded
 Bartosz
 beforeinstallprompt
 Bhatt

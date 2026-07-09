@@ -92,6 +92,7 @@ export function createExcerpt(fileString: string): string | undefined {
     .split(/\r?\n/);
   let inCode = false;
   let inImport = false;
+  let inHTML = false;
   let lastCodeFence = '';
 
   for (const fileLine of fileLines) {
@@ -124,6 +125,20 @@ export function createExcerpt(fileString: string): string | undefined {
       }
       continue;
     } else if (inCode) {
+      continue;
+    }
+
+    // Skip lines inside a multi-line JSX/HTML element. An opening "<Tag ..."
+    // with no ">" on the same line would otherwise leak into the excerpt
+    // (e.g. "<MyComponent"). Skip until the element's tag closes.
+    if (inHTML) {
+      if (fileLine.includes('>')) {
+        inHTML = false;
+      }
+      continue;
+    }
+    if (/^\s*<[a-z][^>]*$/i.test(fileLine)) {
+      inHTML = true;
       continue;
     }
 

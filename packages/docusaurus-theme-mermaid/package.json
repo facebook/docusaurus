@@ -42,7 +42,7 @@
     "tslib": "^2.6.0"
   },
   "peerDependencies": {
-    "@mermaid-js/layout-elk": "^0.1.9",
+    "@mermaid-js/layout-elk": "^0.2.2",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
   },
