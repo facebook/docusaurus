@@ -59,7 +59,7 @@
     "@docusaurus/utils": "3.10.1",
     "@docusaurus/utils-common": "3.10.1",
     "@docusaurus/utils-validation": "3.10.1",
-    "@mermaid-js/layout-elk": "^0.1.9",
+    "@mermaid-js/layout-elk": "^0.2.2",
     "clsx": "^2.0.0",
     "color": "^4.2.3",
     "execa": "^5.1.1",
