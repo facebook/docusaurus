@@ -35,7 +35,7 @@
     "remark-emoji": "^4.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
-    "stringify-object": "^3.3.0",
+    "stringify-object": "^6.0.0",
     "tslib": "^2.6.0",
     "unified": "^11.0.3",
     "unist-util-visit": "^5.1.0",
