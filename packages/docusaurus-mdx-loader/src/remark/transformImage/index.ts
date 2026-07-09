@@ -128,15 +128,19 @@ async function toImageRequireNode(
     const buffer = await fs.readFile(imagePath);
     const size = imageDimensionsFromData(buffer);
 
-    // Check if 'size' exists and has width/height before pushing attributes
-    if (size?.width) {
+    // Explicitly throw an error if the image data couldn't be parsed
+    if (!size) {
+      throw new Error(`image-dimensions could not parse the image data.`);
+    }
+
+    if (size.width) {
       attributes.push({
         type: 'mdxJsxAttribute',
         name: 'width',
         value: String(size.width),
       });
     }
-    if (size?.height) {
+    if (size.height) {
       attributes.push({
         type: 'mdxJsxAttribute',
         name: 'height',

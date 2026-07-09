@@ -28,7 +28,6 @@
     "file-loader": "^6.2.0",
     "fs-extra": "^11.2.0",
     "image-dimensions": "^2.5.1",
-    "image-size": "^2.0.2",
     "mdast-util-mdx": "^3.0.0",
     "mdast-util-to-string": "^4.0.0",
     "rehype-raw": "^7.0.0",
