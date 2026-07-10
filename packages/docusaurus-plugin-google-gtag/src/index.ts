@@ -8,6 +8,9 @@
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions, Options} from './options';
 
+// Not sure why it's needed to expose vendored types 🤷‍️
+export {} from './vendor-gtag';
+
 function createConfigSnippet({
   trackingID,
   anonymizeIP,

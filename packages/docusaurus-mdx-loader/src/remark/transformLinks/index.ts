@@ -171,26 +171,38 @@ async function toAssetRequireNode(
   });
 }
 
+/**
+ * Checks if the given file path exists and is a file.
+ * Returns true if it exists, false otherwise.
+ */
+async function isExistingFile(filePath: string): Promise<boolean> {
+  try {
+    return (await fs.stat(filePath)).isFile();
+  } catch {
+    return false;
+  }
+}
+
 async function getLocalFileAbsolutePath(
   assetPath: string,
   {siteDir, filePath, staticDirs}: Context,
 ) {
   if (assetPath.startsWith('@site/')) {
     const assetFilePath = path.join(siteDir, assetPath.replace('@site/', ''));
-    if (await fs.pathExists(assetFilePath)) {
+    if (await isExistingFile(assetFilePath)) {
       return assetFilePath;
     }
   } else if (path.isAbsolute(assetPath)) {
     const assetFilePath = await findAsyncSequential(
       staticDirs.map((dir) => path.join(dir, assetPath)),
-      fs.pathExists,
+      isExistingFile,
     );
     if (assetFilePath) {
       return assetFilePath;
     }
   } else {
     const assetFilePath = path.join(path.dirname(filePath), assetPath);
-    if (await fs.pathExists(assetFilePath)) {
+    if (await isExistingFile(assetFilePath)) {
       return assetFilePath;
     }
   }

@@ -17,11 +17,7 @@ import type {Props} from '@theme/DocSidebarItem/Link';
 import styles from './styles.module.css';
 
 function LinkLabel({label}: {label: string}) {
-  return (
-    <span title={label} className={styles.linkLabel}>
-      {label}
-    </span>
-  );
+  return <span className={styles.linkLabel}>{label}</span>;
 }
 
 export default function DocSidebarItemLink({
