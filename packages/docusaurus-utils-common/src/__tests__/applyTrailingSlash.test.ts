@@ -91,6 +91,8 @@ describe('applyTrailingSlash', () => {
   });
 
   it('keeps dollar signs in the pathname', () => {
+    // Regression test for edge case bug
+    // see https://github.com/facebook/docusaurus/pull/12219
     expect(applyTrailingSlash('/docs/a$$b', params(true))).toBe('/docs/a$$b/');
     expect(applyTrailingSlash('/docs/a$&b', params(true))).toBe('/docs/a$&b/');
     expect(applyTrailingSlash("/docs/a$'b", params(true))).toBe("/docs/a$'b/");
