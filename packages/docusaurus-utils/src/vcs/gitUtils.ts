@@ -275,6 +275,21 @@ export async function isGitInsideWorktree(cwd: string): Promise<boolean> {
   }
 }
 
+// Git (via Git Bash / Cygwin on Windows) can report POSIX-style drive
+// paths such as `/c/Users/me/repo` instead of `C:\Users\me\repo`. Node would
+// interpret the leading `/c/` as drive-relative and resolve it to `C:\c\...`,
+// which breaks `fs.realpath` with an ENOENT. Convert these to native Windows
+// paths first. Exported for testing; callers gate on `process.platform`.
+// See https://github.com/facebook/docusaurus/issues/11920
+export function gitPosixDrivePathToWindows(gitPath: string): string {
+  const posixDriveMatch = /^\/(?<drive>[a-z])\/(?<rest>.*)$/i.exec(gitPath);
+  if (!posixDriveMatch?.groups) {
+    return gitPath;
+  }
+  const {drive = '', rest = ''} = posixDriveMatch.groups;
+  return path.win32.join(`${drive.toUpperCase()}:\\`, rest);
+}
+
 export async function getGitRepoRoot(cwd: string): Promise<string> {
   const createErrorMessageBase = () => {
     return `Couldn't find the git repository root directory
@@ -303,7 +318,12 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
     );
   }
 
-  return fs.realpath.native(result.stdout.trim());
+  const repoRoot = result.stdout.trim();
+  return fs.realpath.native(
+    process.platform === 'win32'
+      ? gitPosixDrivePathToWindows(repoRoot)
+      : repoRoot,
+  );
 }
 
 // A Git "superproject" is a Git repository that contains submodules

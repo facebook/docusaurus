@@ -17,6 +17,7 @@ import {
   getGitLastUpdate,
   getGitCreation,
   getGitRepoRoot,
+  gitPosixDrivePathToWindows,
   getGitSuperProjectRoot,
   getGitSubmodulePaths,
   getGitAllRepoRoots,
@@ -451,6 +452,34 @@ describe('getGitRepoRoot', () => {
     await expect(getGitRepoRoot(cwd)).rejects.toThrow(
       /Couldn't find the git repository root directory/,
     );
+  });
+});
+
+describe('gitPosixDrivePathToWindows', () => {
+  it('converts Git-Bash / Cygwin drive paths to native Windows paths', () => {
+    expect(gitPosixDrivePathToWindows('/p/projects/my-repo')).toBe(
+      'P:\\projects\\my-repo',
+    );
+    expect(gitPosixDrivePathToWindows('/c/Users/me/website')).toBe(
+      'C:\\Users\\me\\website',
+    );
+  });
+
+  it('handles a drive root with no remaining segments', () => {
+    expect(gitPosixDrivePathToWindows('/d/')).toBe('D:\\');
+  });
+
+  it('leaves native Windows paths unchanged', () => {
+    expect(gitPosixDrivePathToWindows('C:/already/windows')).toBe(
+      'C:/already/windows',
+    );
+  });
+
+  it('leaves non-drive-mount POSIX paths unchanged', () => {
+    expect(gitPosixDrivePathToWindows('/home/user/repo')).toBe(
+      '/home/user/repo',
+    );
+    expect(gitPosixDrivePathToWindows('/usr/local/lib')).toBe('/usr/local/lib');
   });
 });
 
