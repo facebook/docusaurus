@@ -200,7 +200,7 @@ export default async function createConfigAsync() {
     // Dogfood both settings:
     // - force trailing slashes for deploy previews
     // - avoid trailing slashes in prod
-    trailingSlash: true,
+    trailingSlash: isDeployPreview,
     stylesheets: [
       {
         href: '/katex/katex.min.css',
