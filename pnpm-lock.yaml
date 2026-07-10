@@ -660,7 +660,7 @@ importers:
         version: 8.5.15
       postcss-sort-media-queries:
         specifier: ^6.5.0
-        version: 6.6.1(postcss@8.5.15)
+        version: 6.6.2(postcss@8.5.15)
       tslib:
         specifier: ^2.6.0
         version: 2.8.1
@@ -11294,8 +11294,8 @@ packages:
     resolution: {integrity: sha512-orRsuYpJVw8LdAwqqLykBj9ecS5/cRHlI5+nvTo8LcCKmzDmqVORXtOIYEEQuL9D4BxtA1lm5isAqzQZCoQ6Eg==}
     engines: {node: '>=4'}
 
-  postcss-sort-media-queries@6.6.1:
-    resolution: {integrity: sha512-RUxLyxyG//HZ9Ax07u7vNgufwcnsqWx/IGafKzpsNgGulsxsKjNb8KV3Znzc0u2RLH3D3MCzwwSj16dVyvL7pA==}
+  postcss-sort-media-queries@6.6.2:
+    resolution: {integrity: sha512-4whmLOUtFFX2V0w5JM7Wqp1Du+DiOsfgFhJuxdy1d5kBoNy/dfkq4He8eNDGI3ZEJlCk95yQhG75aVcEMKGaFQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       postcss: ^8.5.6
@@ -24135,7 +24135,7 @@ snapshots:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss-sort-media-queries@6.6.1(postcss@8.5.15):
+  postcss-sort-media-queries@6.6.2(postcss@8.5.15):
     dependencies:
       postcss: 8.5.15
       sort-css-media-queries: 3.0.5
