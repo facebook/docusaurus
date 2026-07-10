@@ -920,6 +920,8 @@ declare module '@theme/EditMetaRow' {
     readonly editUrl: string | null | undefined;
     readonly lastUpdatedAt: number | null | undefined;
     readonly lastUpdatedBy: string | null | undefined;
+    readonly createdAt?: number | null | undefined;
+    readonly createdBy?: string | null | undefined;
   }
   export default function EditMetaRow(props: Props): ReactNode;
 }
@@ -1092,6 +1094,8 @@ declare module '@theme/LastUpdated' {
   export interface Props {
     readonly lastUpdatedAt?: number | null;
     readonly lastUpdatedBy?: string | null;
+    readonly createdAt?: number | null;
+    readonly createdBy?: string | null;
   }
 
   export default function LastUpdated(props: Props): ReactNode;

@@ -22,6 +22,8 @@ export default function BlogPostItemFooter(): ReactNode {
     hasTruncateMarker,
     lastUpdatedBy,
     lastUpdatedAt,
+    createdBy,
+    createdAt,
   } = metadata;
 
   // A post is truncated if it's in the "list view" and it has a truncate marker
@@ -37,7 +39,13 @@ export default function BlogPostItemFooter(): ReactNode {
 
   // BlogPost footer - details view
   if (isBlogPostPage) {
-    const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
+    const canDisplayEditMetaRow = !!(
+      editUrl ||
+      lastUpdatedAt ||
+      lastUpdatedBy ||
+      createdAt ||
+      createdBy
+    );
 
     return (
       <footer className="docusaurus-mt-lg">
@@ -62,6 +70,8 @@ export default function BlogPostItemFooter(): ReactNode {
             editUrl={editUrl}
             lastUpdatedAt={lastUpdatedAt}
             lastUpdatedBy={lastUpdatedBy}
+            createdAt={createdAt}
+            createdBy={createdBy}
           />
         )}
       </footer>

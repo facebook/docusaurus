@@ -14,6 +14,7 @@ import {
   validateFrontMatter,
   ContentVisibilitySchema,
   FrontMatterLastUpdateSchema,
+  FrontMatterCreationSchema,
 } from '@docusaurus/utils-validation';
 import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 
@@ -46,6 +47,7 @@ export const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   pagination_prev: Joi.string().allow(null),
   ...FrontMatterTOCHeadingLevels,
   last_update: FrontMatterLastUpdateSchema,
+  created_at: FrontMatterCreationSchema,
 })
   .unknown()
   .concat(ContentVisibilitySchema);
