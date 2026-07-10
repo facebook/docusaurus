@@ -41,7 +41,7 @@ export const getSwcLoaderOptions = ({
 
 export const rspack: typeof Rspack = Rspack;
 
-type SwcHtmlMinifier = (typeof import('@swc/html'))['minify'];
+type SwcHtmlMinifier = typeof import('@swc/html')['minify'];
 
 // Import it lazily: not need for the dev server, more performant
 // This also temporarily fix our StackBlitz playground
