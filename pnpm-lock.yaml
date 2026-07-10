@@ -234,7 +234,7 @@ importers:
         version: 2.4.2
       semver:
         specifier: ^7.7.4
-        version: 7.8.1
+        version: 7.8.5
       supports-color:
         specifier: ^10.2.2
         version: 10.2.2
@@ -441,7 +441,7 @@ importers:
         version: 5.3.4(react@19.2.6)
       semver:
         specifier: ^7.7.4
-        version: 7.8.1
+        version: 7.8.5
       serve-handler:
         specifier: ^6.1.7
         version: 6.1.7
@@ -691,7 +691,7 @@ importers:
         version: 1.32.0
       semver:
         specifier: ^7.7.4
-        version: 7.8.1
+        version: 7.8.5
       swc-loader:
         specifier: ^0.2.7
         version: 0.2.7(@swc/core@1.15.40)(webpack@5.107.2(@swc/core@1.15.40)(@swc/html@1.15.40)(lightningcss@1.32.0)(postcss@8.5.15))
@@ -17875,7 +17875,7 @@ snapshots:
       eslint: 9.39.4(jiti@2.7.0)
       json-stable-stringify-without-jsonify: 1.0.1
       lodash.merge: 4.6.2
-      semver: 7.8.1
+      semver: 7.8.5
       typescript: 6.0.3
     transitivePeerDependencies:
       - supports-color
@@ -19303,7 +19303,7 @@ snapshots:
       postcss-modules-scope: 3.2.1(postcss@8.5.15)
       postcss-modules-values: 4.0.0(postcss@8.5.15)
       postcss-value-parser: 4.2.0
-      semver: 7.8.1
+      semver: 7.8.5
     optionalDependencies:
       webpack: 5.107.2(@swc/core@1.15.40)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.15))(html-minifier-terser@7.2.0)(postcss@8.5.15)
 
@@ -23862,7 +23862,7 @@ snapshots:
       cosmiconfig: 9.0.1(typescript@6.0.3)
       jiti: 2.7.0
       postcss: 8.5.15
-      semver: 7.8.1
+      semver: 7.8.5
     optionalDependencies:
       webpack: 5.107.2(@swc/core@1.15.40)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.15))(html-minifier-terser@7.2.0)(postcss@8.5.15)
     transitivePeerDependencies:
@@ -26110,7 +26110,7 @@ snapshots:
       is-yarn-global: 0.4.1
       latest-version: 7.0.0
       pupa: 3.3.0
-      semver: 7.8.1
+      semver: 7.8.5
       semver-diff: 4.0.0
       xdg-basedir: 5.1.0
 
