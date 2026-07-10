@@ -17,7 +17,10 @@ export function addTrailingSlash(str: string): string {
   return str.endsWith('/') ? str : `${str}/`;
 }
 
-// Trailing slash handling depends in some site configuration options
+/**
+ * Apply/remove a trailing slash on an URL path according to site config options
+ * Usually applied on permalinks / URL paths, but also works with absolute URL
+ */
 export default function applyTrailingSlash(
   path: string,
   options: ApplyTrailingSlashParams,

@@ -8,8 +8,8 @@
 import {useBaseUrlUtils, type BaseUrlUtils} from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useBlogMetadata} from '@docusaurus/plugin-content-blog/client';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 import type {Props as BlogListPageStructuredDataProps} from '@theme/BlogListPage/StructuredData';
-import {getAbsoluteUrl} from './structuredDataUrl';
 import {useBlogPost} from './contexts';
 
 import type {
@@ -26,6 +26,17 @@ import type {
 import type {DocusaurusConfig} from '@docusaurus/types';
 
 const convertDate = (dateMs: number) => new Date(dateMs).toISOString();
+
+function getAbsoluteUrl(
+  permalink: string,
+  siteConfig: DocusaurusConfig,
+): string {
+  const absoluteUrl = `${siteConfig.url}${permalink}`;
+  return applyTrailingSlash(absoluteUrl, {
+    trailingSlash: siteConfig.trailingSlash,
+    baseUrl: siteConfig.baseUrl,
+  });
+}
 
 function getBlogPost(
   blogPostContent: PropBlogPostContent,

@@ -6,15 +6,28 @@
  */
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 import type {PropSidebarBreadcrumbsItem} from '@docusaurus/plugin-content-docs';
 import type {WithContext, BreadcrumbList} from 'schema-dts';
+import type {DocusaurusConfig} from '@docusaurus/types';
 
-export function useBreadcrumbsStructuredData({
+type Params = Pick<DocusaurusConfig, 'url' | 'baseUrl' | 'trailingSlash'>;
+
+function getAbsoluteUrl(permalink: string, params: Params): string {
+  const absoluteUrl = `${params.url}${permalink}`;
+  return applyTrailingSlash(absoluteUrl, {
+    trailingSlash: params.trailingSlash,
+    baseUrl: params.baseUrl,
+  });
+}
+
+function getBreadcrumbsStructuredData({
   breadcrumbs,
+  params,
 }: {
   breadcrumbs: PropSidebarBreadcrumbsItem[];
+  params: Params;
 }): WithContext<BreadcrumbList> {
-  const {siteConfig} = useDocusaurusContext();
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -26,7 +39,16 @@ export function useBreadcrumbsStructuredData({
         '@type': 'ListItem',
         position: index + 1,
         name: breadcrumb.label,
-        item: `${siteConfig.url}${breadcrumb.href}`,
+        item: getAbsoluteUrl(breadcrumb.href!, params),
       })),
   };
+}
+
+export function useBreadcrumbsStructuredData({
+  breadcrumbs,
+}: {
+  breadcrumbs: PropSidebarBreadcrumbsItem[];
+}): WithContext<BreadcrumbList> {
+  const {siteConfig} = useDocusaurusContext();
+  return getBreadcrumbsStructuredData({breadcrumbs, params: siteConfig});
 }
