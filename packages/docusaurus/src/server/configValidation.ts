@@ -38,13 +38,13 @@ const DEFAULT_I18N_LOCALE = 'en';
 
 const SiteUrlSchema = Joi.string()
   .custom((value: string, helpers) => {
-    try {
-      const {pathname} = new URL(value);
-      if (pathname !== '/') {
-        return helpers.error('docusaurus.subPathError', {pathname});
-      }
-    } catch {
+    const url = URL.parse(value);
+    if (url === null) {
       return helpers.error('any.invalid');
+    }
+    const {pathname} = url;
+    if (pathname !== '/') {
+      return helpers.error('docusaurus.subPathError', {pathname});
     }
     return removeTrailingSlash(value);
   })

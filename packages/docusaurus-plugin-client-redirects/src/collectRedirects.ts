@@ -99,9 +99,10 @@ function validateCollectedRedirects(
     // See https://github.com/facebook/docusaurus/issues/6845
     .map((to) => {
       if (to.startsWith('/')) {
-        try {
-          return decodeURI(new URL(to, 'https://example.com').pathname);
-        } catch {}
+        const url = URL.parse(to, 'https://example.com');
+        if (url) {
+          return decodeURI(url.pathname);
+        }
       }
       return undefined;
     })

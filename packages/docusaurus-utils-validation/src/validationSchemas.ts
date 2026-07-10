@@ -72,12 +72,11 @@ export const URISchema = Joi.alternatives(
     if (typeof val !== 'string') {
       return helpers.error('any.invalid');
     }
-    try {
-      new URL(String(val));
-      return val;
-    } catch {
+    const url = URL.parse(String(val));
+    if (url === null) {
       return helpers.error('any.invalid');
     }
+    return val;
   }),
 ).messages({
   'alternatives.match':
