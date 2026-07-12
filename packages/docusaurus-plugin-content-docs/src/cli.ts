@@ -28,15 +28,11 @@ export type DocsVersionCommandOptions = {
 };
 
 async function createVersionedSidebarFile({
-  siteDir,
-  pluginId,
+  versionSidebarsPath,
   sidebarPath,
-  version,
 }: {
-  siteDir: string;
-  pluginId: string;
+  versionSidebarsPath: string;
   sidebarPath: string | false | undefined;
-  version: string;
 }) {
   // Load current sidebar and create a new versioned sidebars file (if needed).
   // Note: we don't need the sidebars file to be normalized: it's ok to let
@@ -50,62 +46,11 @@ async function createVersionedSidebarFile({
 
   if (shouldCreateVersionedSidebarFile) {
     await fs.outputFile(
-      getVersionSidebarsPath(siteDir, pluginId, version),
+      versionSidebarsPath,
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
     );
   }
-}
-
-async function removeDocsVersion({
-  siteDir,
-  pluginId,
-  version,
-  i18n,
-}: {
-  siteDir: string;
-  pluginId: string;
-  version: string;
-  i18n: LoadContext['i18n'];
-}) {
-  // Delete the version's sidebar file
-  await fs.rm(getVersionSidebarsPath(siteDir, pluginId, version), {
-    force: true,
-  });
-
-  // Delete the version's docs files for all locales
-  // Note: Only locales still present in config will be removed.
-  await Promise.all(
-    i18n.locales.map(async (locale) => {
-      const localizationDir = path.resolve(
-        siteDir,
-        i18n.path,
-        getLocaleConfig(i18n, locale).path,
-      );
-
-      const newVersionDir =
-        locale === i18n.defaultLocale
-          ? getVersionDocsDirPath(siteDir, pluginId, version)
-          : getDocsDirPathLocalized({
-              localizationDir,
-              pluginId,
-              versionName: version,
-            });
-
-      // Delete docs folder
-      await fs.rm(newVersionDir, {recursive: true, force: true});
-
-      if (locale !== i18n.defaultLocale) {
-        const dir = getPluginDirPathLocalized({
-          localizationDir,
-          pluginId,
-        });
-
-        // Delete JSON translation file
-        await fs.rm(path.join(dir, `version-${version}.json`), {force: true});
-      }
-    }),
-  );
 }
 
 // Tests depend on non-default export for mocking.
@@ -137,39 +82,69 @@ async function cliDocsVersionCommand(
     );
   } else if (versionExists) {
     logger.warn`${pluginIdLogPrefix}: version ${version} already exists and will be overwritten.`;
-    await removeDocsVersion({
-      siteDir,
-      pluginId,
-      version,
-      i18n,
-    });
   }
 
   if (i18n.locales.length > 1) {
     logger.info`Versioned docs will be created for the following locales: name=${i18n.locales}`;
   }
 
+  const versionSidebarsPath = getVersionSidebarsPath(
+    siteDir,
+    pluginId,
+    version,
+  );
+
+  if (versionExists) {
+    // Delete previous sidebar file in case overwritten version doesn't need it
+    await fs.rm(versionSidebarsPath, {force: true});
+  }
+
   await Promise.all(
     i18n.locales.map(async (locale) => {
+      const isDefaultLocale = locale === i18n.defaultLocale;
       const localizationDir = path.resolve(
         siteDir,
         i18n.path,
         getLocaleConfig(i18n, locale).path,
       );
-      const docsDir =
-        locale === i18n.defaultLocale
-          ? path.resolve(siteDir, docsPath)
-          : getDocsDirPathLocalized({
-              localizationDir,
-              pluginId,
-              versionName: CURRENT_VERSION_NAME,
-            });
+      const docsDir = isDefaultLocale
+        ? path.resolve(siteDir, docsPath)
+        : getDocsDirPathLocalized({
+            localizationDir,
+            pluginId,
+            versionName: CURRENT_VERSION_NAME,
+          });
+      const versionedDocsDir = isDefaultLocale
+        ? getVersionDocsDirPath(siteDir, pluginId, version)
+        : getDocsDirPathLocalized({
+            localizationDir,
+            pluginId,
+            versionName: version,
+          });
+      const pluginDir = getPluginDirPathLocalized({
+        localizationDir,
+        pluginId,
+      });
+      const translationFile = !isDefaultLocale
+        ? path.join(pluginDir, `version-${version}.json`)
+        : undefined;
+
+      if (versionExists) {
+        // Note: Will only remove locales still present in config.
+        // Delete previous docs folder
+        await fs.rm(versionedDocsDir, {recursive: true, force: true});
+
+        if (!isDefaultLocale && translationFile) {
+          // Delete previous JSON translation file
+          await fs.rm(translationFile, {force: true});
+        }
+      }
 
       if (
         !(await fs.pathExists(docsDir)) ||
         (await fs.readdir(docsDir)).length === 0
       ) {
-        if (locale === i18n.defaultLocale) {
+        if (isDefaultLocale) {
           throw new Error(
             logger.interpolate`${pluginIdLogPrefix}: no docs found in path=${docsDir}.`,
           );
@@ -180,28 +155,15 @@ async function cliDocsVersionCommand(
       }
 
       // Copy docs folder for this locale
-      const newVersionDir =
-        locale === i18n.defaultLocale
-          ? getVersionDocsDirPath(siteDir, pluginId, version)
-          : getDocsDirPathLocalized({
-              localizationDir,
-              pluginId,
-              versionName: version,
-            });
-      await fs.copy(docsDir, newVersionDir);
+      await fs.copy(docsDir, versionedDocsDir);
 
       // Copy version JSON translation file for this locale
       // i18n/<l>/docusaurus-plugin-content-docs/current.json => version-v1.json
       // See https://docusaurus.io/docs/next/api/plugins/@docusaurus/plugin-content-docs#translation-files-location
-      if (locale !== i18n.defaultLocale) {
-        const dir = getPluginDirPathLocalized({
-          localizationDir,
-          pluginId,
-        });
-        const sourceFile = path.join(dir, 'current.json');
-        const dest = path.join(dir, `version-${version}.json`);
+      if (!isDefaultLocale && translationFile) {
+        const sourceFile = path.join(pluginDir, 'current.json');
         if (await fs.pathExists(sourceFile)) {
-          await fs.copy(sourceFile, dest);
+          await fs.copy(sourceFile, translationFile);
         } else {
           logger.warn`${pluginIdLogPrefix}: i18n translation file does not exist in path=${sourceFile}. Skipping.`;
         }
@@ -210,9 +172,7 @@ async function cliDocsVersionCommand(
   );
 
   await createVersionedSidebarFile({
-    siteDir,
-    pluginId,
-    version,
+    versionSidebarsPath,
     sidebarPath,
   });
 
