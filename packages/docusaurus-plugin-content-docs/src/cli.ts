@@ -23,6 +23,10 @@ import {CURRENT_VERSION_NAME} from './constants';
 import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 
+export type DocsVersionCommandOptions = {
+  overwrite: boolean;
+};
+
 async function createVersionedSidebarFile({
   siteDir,
   pluginId,
@@ -53,11 +57,63 @@ async function createVersionedSidebarFile({
   }
 }
 
+async function removeDocsVersion({
+  siteDir,
+  pluginId,
+  version,
+  i18n,
+}: {
+  siteDir: string;
+  pluginId: string;
+  version: string;
+  i18n: LoadContext['i18n'];
+}) {
+  // Delete the version's sidebar file
+  await fs.rm(getVersionSidebarsPath(siteDir, pluginId, version), {
+    force: true,
+  });
+
+  // Delete the version's docs files for all locales
+  // Note: Only locales still present in config will be removed.
+  await Promise.all(
+    i18n.locales.map(async (locale) => {
+      const localizationDir = path.resolve(
+        siteDir,
+        i18n.path,
+        getLocaleConfig(i18n, locale).path,
+      );
+
+      const newVersionDir =
+        locale === i18n.defaultLocale
+          ? getVersionDocsDirPath(siteDir, pluginId, version)
+          : getDocsDirPathLocalized({
+              localizationDir,
+              pluginId,
+              versionName: version,
+            });
+
+      // Delete docs folder
+      await fs.rm(newVersionDir, {recursive: true, force: true});
+
+      if (locale !== i18n.defaultLocale) {
+        const dir = getPluginDirPathLocalized({
+          localizationDir,
+          pluginId,
+        });
+
+        // Delete JSON translation file
+        await fs.rm(path.join(dir, `version-${version}.json`), {force: true});
+      }
+    }),
+  );
+}
+
 // Tests depend on non-default export for mocking.
 async function cliDocsVersionCommand(
   version: unknown,
   {id: pluginId, path: docsPath, sidebarPath}: PluginOptions,
   {siteDir, i18n}: LoadContext,
+  commandOptions: Partial<DocsVersionCommandOptions> = {},
 ): Promise<void> {
   // It wouldn't be very user-friendly to show a [default] log prefix,
   // so we use [docs] instead of [default]
@@ -72,12 +128,21 @@ async function cliDocsVersionCommand(
   }
 
   const versions = (await readVersionsFile(siteDir, pluginId)) ?? [];
+  const versionExists = versions.includes(version);
 
   // Check if version already exists.
-  if (versions.includes(version)) {
+  if (versionExists && !commandOptions.overwrite) {
     throw new Error(
-      `${pluginIdLogPrefix}: this version already exists! Use a version tag that does not already exist.`,
+      `${pluginIdLogPrefix}: version ${version} already exists. Use --overwrite to replace it, or choose a new version name.`,
     );
+  } else if (versionExists) {
+    logger.warn`${pluginIdLogPrefix}: version ${version} already exists and will be overwritten.`;
+    await removeDocsVersion({
+      siteDir,
+      pluginId,
+      version,
+      i18n,
+    });
   }
 
   if (i18n.locales.length > 1) {
@@ -91,7 +156,6 @@ async function cliDocsVersionCommand(
         i18n.path,
         getLocaleConfig(i18n, locale).path,
       );
-      // Copy docs files.
       const docsDir =
         locale === i18n.defaultLocale
           ? path.resolve(siteDir, docsPath)
@@ -115,6 +179,7 @@ async function cliDocsVersionCommand(
         }
       }
 
+      // Copy docs folder for this locale
       const newVersionDir =
         locale === i18n.defaultLocale
           ? getVersionDocsDirPath(siteDir, pluginId, version)
@@ -151,12 +216,14 @@ async function cliDocsVersionCommand(
     sidebarPath,
   });
 
-  // Update versions.json file.
-  versions.unshift(version);
-  await fs.outputFile(
-    getVersionsFilePath(siteDir, pluginId),
-    `${JSON.stringify(versions, null, 2)}\n`,
-  );
+  // Append new version to versions.json
+  if (!versionExists) {
+    versions.unshift(version);
+    await fs.outputFile(
+      getVersionsFilePath(siteDir, pluginId),
+      `${JSON.stringify(versions, null, 2)}\n`,
+    );
+  }
 
   logger.success`name=${pluginIdLogPrefix}: version name=${version} created!`;
 }
