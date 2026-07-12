@@ -1,0 +1,112 @@
+---
+description: Enable smooth animated page transitions using the View Transition API.
+---
+
+# View Transitions
+
+Docusaurus supports smooth animated transitions between pages during client-side navigation using the browser [View Transition API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API).
+
+This feature is **experimental** and disabled by default.
+
+## Setup
+
+Enable the experimental flag in `docusaurus.config.js`:
+
+```js title="docusaurus.config.js"
+export default {
+  future: {
+    experimental_viewTransitions: true,
+  },
+};
+```
+
+That's all you need for the default fade transition animation.
+
+## How it works
+
+Docusaurus integrates View Transitions at the core routing layer (`PendingNavigation`), at the exact moment the next route is committed to the DOM. This is required because the View Transition API needs a synchronous DOM update (via `flushSync`) between the old and new page snapshots.
+
+Client module hooks like `onRouteUpdate` fire too early (during route preloading), so they cannot implement this feature reliably on their own.
+
+## Browser support
+
+| Browser       | Same-document (SPA) transitions |
+| ------------- | ------------------------------- |
+| Chrome / Edge | ✅ 111+                         |
+| Safari        | ✅ 18+                          |
+| Firefox       | ❌ Not yet supported            |
+
+When the API is unavailable, Docusaurus falls back to instant navigation with no errors.
+
+Docusaurus also respects the [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) media query and skips animations for users who prefer reduced motion.
+
+:::info
+
+Cross-document (multi-page) View Transitions using the CSS `@view-transition` at-rule are a separate feature targeted by [Interop 2026](https://developer.chrome.com/blog/view-transitions-update-io2025). Docusaurus static sites use client-side routing (SPA), so this experimental feature uses `document.startViewTransition()` instead.
+
+:::
+
+## Customization
+
+### Default animation
+
+Docusaurus ships a subtle 200ms root fade transition. Override it in your custom CSS:
+
+```css title="src/css/custom.css"
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in-out;
+  }
+}
+```
+
+### Navigation-specific animations
+
+Docusaurus assigns [view transition types](https://developer.mozilla.org/en-US/docs/Web/API/ViewTransition/types) based on the navigation action:
+
+| History action       | Transition types               |
+| -------------------- | ------------------------------ |
+| Link click (`PUSH`)  | `navigate`, `navigate-push`    |
+| Back/forward (`POP`) | `navigate`, `navigate-pop`     |
+| `REPLACE`            | `navigate`, `navigate-replace` |
+
+Style them differently:
+
+```css title="src/css/custom.css"
+@media (prefers-reduced-motion: no-preference) {
+  html:active-view-transition-type(navigate-push) {
+    &::view-transition-old(root) {
+      animation: 0.25s ease-out both fade-out;
+    }
+    &::view-transition-new(root) {
+      animation: 0.25s ease-in both fade-in;
+    }
+  }
+
+  html:active-view-transition-type(navigate-pop) {
+    &::view-transition-old(root),
+    &::view-transition-new(root) {
+      animation-duration: 0.15s;
+    }
+  }
+}
+```
+
+## Behavior details
+
+- **Cross-page navigations** (pathname changes) are animated.
+- **Hash-only** or **search-only** changes are instant (no animation).
+- **Rapid consecutive navigations** skip the in-progress transition via [`ViewTransition.skipTransition()`](https://developer.mozilla.org/en-US/docs/Web/API/ViewTransition/skipTransition) to avoid visual glitches.
+- The default stylesheet is **lazy-loaded** only when the feature is enabled.
+
+## Future: React `<ViewTransition>`
+
+Docusaurus currently uses the browser View Transition API directly. When React's stable [`<ViewTransition>`](https://react.dev/reference/react/ViewTransition) component becomes available in a stable React release, Docusaurus may migrate to it for better integration with React concurrent rendering and Suspense.
+
+## See also
+
+- [MDN: View Transition API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API)
+- [MDN: `Document.startViewTransition()`](https://developer.mozilla.org/en-US/docs/Web/API/Document/startViewTransition)
+- [GitHub discussion: #12217](https://github.com/facebook/docusaurus/issues/12217)

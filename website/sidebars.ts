@@ -86,6 +86,7 @@ const sidebars: SidebarsConfig = {
           ],
         },
         'styling-layout',
+        'guides/view-transitions',
         'swizzling',
         'static-assets',
         'search',

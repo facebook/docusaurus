@@ -85,6 +85,7 @@ describe('normalizeConfig', () => {
           getFileLastUpdateInfo: (_filePath) => null,
         },
         experimental_router: 'hash',
+        experimental_viewTransitions: false,
       },
       tagline: 'my awesome site',
       organizationName: 'facebook',

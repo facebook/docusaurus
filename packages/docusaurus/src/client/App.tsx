@@ -9,7 +9,7 @@ import React, {type ReactNode} from 'react';
 import '@generated/client-modules';
 
 import routes from '@generated/routes';
-import {useLocation} from '@docusaurus/router';
+import {useHistory, useLocation} from '@docusaurus/router';
 import renderRoutes from '@docusaurus/renderRoutes';
 import Root from '@theme/Root';
 import ThemeProvider from '@theme/ThemeProvider';
@@ -30,9 +30,12 @@ const routesElement = renderRoutes(routes);
 
 function AppNavigation() {
   const location = useLocation();
+  const history = useHistory();
   const normalizedLocation = normalizeLocation(location);
   return (
-    <PendingNavigation location={normalizedLocation}>
+    <PendingNavigation
+      location={normalizedLocation}
+      navigationAction={history.action}>
       {routesElement}
     </PendingNavigation>
   );

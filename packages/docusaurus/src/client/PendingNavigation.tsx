@@ -12,10 +12,12 @@ import ClientLifecyclesDispatcher, {
 } from './ClientLifecyclesDispatcher';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import preload from './preload';
-import type {Location} from 'history';
+import {runRouteUpdateWithViewTransition} from './viewTransitionUtils';
+import type {Action, Location} from 'history';
 
 type Props = {
   readonly location: Location;
+  readonly navigationAction: Action;
   readonly children: ReactNode;
 };
 type State = {
@@ -68,7 +70,16 @@ class PendingNavigation extends React.Component<Props, State> {
     preload(nextLocation.pathname)
       .then(() => {
         this.routeUpdateCleanupCb();
-        this.setState({nextRouteHasLoaded: true});
+        runRouteUpdateWithViewTransition(
+          () => {
+            this.setState({nextRouteHasLoaded: true});
+          },
+          {
+            previousLocation: this.previousLocation,
+            nextLocation,
+            navigationAction: this.props.navigationAction,
+          },
+        );
       })
       .catch((e: unknown) => {
         console.warn(e);

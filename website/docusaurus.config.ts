@@ -196,6 +196,7 @@ export default async function createConfigAsync() {
           },
       experimental_vcs: vcs,
       experimental_router: router,
+      experimental_viewTransitions: true,
     },
     // Dogfood both settings:
     // - force trailing slashes for deploy previews

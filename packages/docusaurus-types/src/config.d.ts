@@ -117,6 +117,17 @@ export type FutureConfig = {
    *   @see https://github.com/facebook/docusaurus/issues/3825
    */
   experimental_router: RouterType;
+
+  /**
+   * Enable View Transitions API for client-side route navigations.
+   *
+   * When enabled, Docusaurus animates page transitions between routes using
+   * the browser's View Transitions API. The feature is automatically disabled
+   * when the API is unavailable or when the user prefers reduced motion.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API
+   */
+  experimental_viewTransitions: boolean;
 };
 
 /**
