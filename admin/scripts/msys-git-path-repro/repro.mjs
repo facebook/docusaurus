@@ -33,7 +33,7 @@ import {promisify} from 'util';
 const require = createRequire(import.meta.url);
 const here = path.dirname(fileURLToPath(import.meta.url));
 
-// Async equivalents of the sync fs helpers (the repo lint bans sync fs methods).
+// Async equivalents of sync fs helpers (repo lint bans sync fs methods).
 const realpathNative = promisify(fs.realpath.native);
 async function pathExists(p) {
   try {
@@ -137,9 +137,7 @@ async function main() {
     );
   }
   if (repoRootHasDuplicatedDrive) {
-    errors.push(
-      `getGitRepoRoot returned a duplicated-drive path: ${repoRoot}`,
-    );
+    errors.push(`getGitRepoRoot returned a duplicated-drive path: ${repoRoot}`);
   }
   if (!repoRootExists) {
     errors.push(

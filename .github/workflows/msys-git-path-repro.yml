@@ -18,13 +18,9 @@ on:
       - main
       - docusaurus-v**
     paths:
-      - packages/docusaurus-utils/src/pathUtils.ts
       - packages/docusaurus-utils/src/vcs/gitUtils.ts
       - admin/scripts/msys-git-path-repro/**
       - .github/workflows/msys-git-path-repro.yml
-  push:
-    branches:
-      - fix/msys-git-path-ci-repro
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
