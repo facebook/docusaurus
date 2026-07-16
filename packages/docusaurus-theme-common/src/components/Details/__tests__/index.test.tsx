@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 // @vitest-environment jsdom
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import React from 'react';
 import {render, act, fireEvent} from '@testing-library/react';
 import {Details} from '../index';
@@ -29,6 +29,13 @@ function setOpenExternally(details: HTMLDetailsElement, open: boolean) {
 }
 
 describe('Details', () => {
+  // Fix jsdom not implementing matchMedia()
+  // See https://github.com/jsdom/jsdom/issues/3522
+  // Used through Details > Collapsible > getAutoHeightDuration()
+  vi.stubGlobal('matchMedia', () => {
+    return {matches: true};
+  });
+
   it('renders collapsed by default', () => {
     const details = renderDetails();
     expect(details.open).toBe(false);
