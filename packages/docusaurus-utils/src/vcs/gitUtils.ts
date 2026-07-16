@@ -275,6 +275,27 @@ export async function isGitInsideWorktree(cwd: string): Promise<boolean> {
   }
 }
 
+// Git (via Git Bash / MSYS2 / Cygwin on Windows) can report POSIX-style drive
+// paths such as `/c/Users/me/repo` instead of `C:\Users\me\repo`. Node would
+// interpret the leading `/c/` as drive-relative and resolve it to `C:\c\...`,
+// which breaks `fs.realpath` with an ENOENT. Convert these to native Windows
+// paths first. Exported for testing; callers gate on `process.platform`.
+// See https://github.com/facebook/docusaurus/issues/11920
+export function gitPosixDrivePathToWindows(gitPath: string): string {
+  const posixDriveMatch = /^\/(?<drive>[a-z])\/(?<rest>.*)$/i.exec(gitPath);
+  if (!posixDriveMatch?.groups) {
+    return gitPath;
+  }
+  const {drive = '', rest = ''} = posixDriveMatch.groups;
+  return path.win32.join(`${drive.toUpperCase()}:\\`, rest);
+}
+
+function toNativeGitPath(gitPath: string): string {
+  return process.platform === 'win32'
+    ? gitPosixDrivePathToWindows(gitPath)
+    : gitPath;
+}
+
 export async function getGitRepoRoot(cwd: string): Promise<string> {
   const createErrorMessageBase = () => {
     return `Couldn't find the git repository root directory
@@ -303,7 +324,7 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
     );
   }
 
-  return fs.realpath.native(result.stdout.trim());
+  return fs.realpath.native(toNativeGitPath(result.stdout.trim()));
 }
 
 // A Git "superproject" is a Git repository that contains submodules
@@ -347,7 +368,7 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
   // this command only works when inside submodules
   // otherwise it doesn't return anything when we are inside the main repo
   if (output) {
-    return fs.realpath.native(output);
+    return fs.realpath.native(toNativeGitPath(output));
   }
   return getGitRepoRoot(cwd);
 }
