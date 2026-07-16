@@ -86,7 +86,7 @@
     "@types/react": "^19.2.14",
     "@types/semver": "^7.7.1",
     "@types/shelljs": "^0.8.12",
-    "@vitejs/plugin-react": "^5.0.0",
+    "@vitejs/plugin-react": "^6.0.2",
     "@vitest/eslint-plugin": "^1.6.17",
     "cross-env": "^10.1.0",
     "cspell": "^8.18.1",

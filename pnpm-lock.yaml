@@ -68,8 +68,8 @@ importers:
         specifier: ^0.8.12
         version: 0.8.17
       '@vitejs/plugin-react':
-        specifier: ^5.0.0
-        version: 5.2.0(vite@8.0.14(@types/node@25.9.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0))
+        specifier: ^6.0.2
+        version: 6.0.2(vite@8.0.14(@types/node@25.9.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0))
       '@vitest/eslint-plugin':
         specifier: ^1.6.17
         version: 1.6.20(@typescript-eslint/eslint-plugin@8.60.0(@typescript-eslint/parser@8.60.0(eslint@9.39.4(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@7.0.2))(eslint@9.39.4(jiti@2.7.0)(supports-color@7.2.0))(typescript@7.0.2))(eslint@9.39.4(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@7.0.2)(vitest@4.1.7(@opentelemetry/api@1.9.1)(@types/node@25.9.1)(jsdom@25.0.1(supports-color@7.2.0))(vite@8.0.14(@types/node@25.9.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)))
@@ -234,7 +234,7 @@ importers:
         version: 2.4.2
       semver:
         specifier: ^7.7.4
-        version: 7.8.1
+        version: 7.8.5
       supports-color:
         specifier: ^10.2.2
         version: 10.2.2
@@ -441,7 +441,7 @@ importers:
         version: 5.3.4(react@19.2.6)
       semver:
         specifier: ^7.7.4
-        version: 7.8.1
+        version: 7.8.5
       serve-handler:
         specifier: ^6.1.7
         version: 6.1.7
@@ -660,7 +660,7 @@ importers:
         version: 8.5.15
       postcss-sort-media-queries:
         specifier: ^6.5.0
-        version: 6.6.1(postcss@8.5.15)
+        version: 6.6.2(postcss@8.5.15)
       tslib:
         specifier: ^2.6.0
         version: 2.8.1
@@ -691,7 +691,7 @@ importers:
         version: 1.32.0
       semver:
         specifier: ^7.7.4
-        version: 7.8.1
+        version: 7.8.5
       swc-loader:
         specifier: ^0.2.7
         version: 0.2.7(@swc/core@1.15.40)(webpack@5.107.2(@swc/core@1.15.40)(@swc/html@1.15.40)(lightningcss@1.32.0)(postcss@8.5.15))
@@ -1979,8 +1979,8 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.14)
       dedent:
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^1.7.2
+        version: 1.7.2
 
   packages/docusaurus-utils-common:
     dependencies:
@@ -2804,18 +2804,6 @@ packages:
 
   '@babel/plugin-transform-react-jsx-development@7.29.7':
     resolution: {integrity: sha512-Xfy3UVMF04+ypnFbkhvfqtmvwfe92qwQdbGZVonhE+6v35GzlofmOnA1szaZqzb9xYWr0nl1e5EMmzi0DNON1g==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-transform-react-jsx-self@7.29.7':
-    resolution: {integrity: sha512-TL0hMc9xzy86VD31nUiwzd5otRAcyEPcsegCxolO0PvcXuH1v0kECe/UIznYFihpkvU5wg/jk4v0TTEFfm53fw==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-transform-react-jsx-source@7.29.7':
-    resolution: {integrity: sha512-06IyK09H3wi4cGbhDBwp5gUGo0IKtnYa8tyTiephirPCK6fbobVGiXMMI5zLQ4aKEYP3wZ3ArU44o+8KMrSG/Q==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -5050,9 +5038,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@rolldown/pluginutils@1.0.0-rc.3':
-    resolution: {integrity: sha512-eybk3TjzzzV97Dlj5c+XrBFW57eTNhzod66y9HrBlzJ6NsCrWCp/2kaPS3K9wJmurBC0Tdw4yPjXKZqlznim3Q==}
-
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
@@ -6445,11 +6430,18 @@ packages:
     resolution: {integrity: sha512-UycprH3T6n3jH0k44NHMa7pnFHGu/N05MjojYr+Mc6I7obkoLIJujSWwin1pCvdy/eOxrI/l3uDLQsmcrOb4ug==}
     engines: {node: '>= 20'}
 
-  '@vitejs/plugin-react@5.2.0':
-    resolution: {integrity: sha512-YmKkfhOAi3wsB1PhJq5Scj3GXMn3WvtQ/JC0xoopuHoXSdmtdStOpFrYaT1kie2YgFBcIe64ROzMYRjCrYOdYw==}
+  '@vitejs/plugin-react@6.0.2':
+    resolution: {integrity: sha512-DlSMqo4WhThw4vB8Mpn0Woe9J+Jfq1geJ61AKW0QEgLzGMNwtIMdxbDUzLxcun8W7NbJO0e2Jg/Nxm3cCSVzzg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
-      vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+      '@rolldown/plugin-babel': ^0.1.7 || ^0.2.0
+      babel-plugin-react-compiler: ^1.0.0
+      vite: ^8.0.0
+    peerDependenciesMeta:
+      '@rolldown/plugin-babel':
+        optional: true
+      babel-plugin-react-compiler:
+        optional: true
 
   '@vitest/eslint-plugin@1.6.20':
     resolution: {integrity: sha512-xRwWHFG0Utp6hXtbGiWk4VdKXCGdExD8kbWrrmFEiG5dk8anOJ+vbWbeOa8EbkocKQRTsx7JAWETccZiBgFp/Q==}
@@ -7920,11 +7912,16 @@ packages:
     resolution: {integrity: sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==}
     engines: {node: '>=10'}
 
-  dedent@0.7.0:
-    resolution: {integrity: sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA==}
-
   dedent@1.5.3:
     resolution: {integrity: sha512-NHQtfOOW68WD8lgypbLA5oT+Bt0xXJhiYvoR6SmmNXZfpzOGXwdKWmcwG8N7PwVVWV3eF/68nmD9BaJSsTBhyQ==}
+    peerDependencies:
+      babel-plugin-macros: ^3.1.0
+    peerDependenciesMeta:
+      babel-plugin-macros:
+        optional: true
+
+  dedent@1.7.2:
+    resolution: {integrity: sha512-WzMx3mW98SN+zn3hgemf4OzdmyNhhhKz5Ay0pUfQiMQ3e1g+xmTJWp/pKdwKVXhdSkAEGIIzqeuWrL3mV/AXbA==}
     peerDependencies:
       babel-plugin-macros: ^3.1.0
     peerDependenciesMeta:
@@ -11414,8 +11411,8 @@ packages:
     resolution: {integrity: sha512-orRsuYpJVw8LdAwqqLykBj9ecS5/cRHlI5+nvTo8LcCKmzDmqVORXtOIYEEQuL9D4BxtA1lm5isAqzQZCoQ6Eg==}
     engines: {node: '>=4'}
 
-  postcss-sort-media-queries@6.6.1:
-    resolution: {integrity: sha512-RUxLyxyG//HZ9Ax07u7vNgufwcnsqWx/IGafKzpsNgGulsxsKjNb8KV3Znzc0u2RLH3D3MCzwwSj16dVyvL7pA==}
+  postcss-sort-media-queries@6.6.2:
+    resolution: {integrity: sha512-4whmLOUtFFX2V0w5JM7Wqp1Du+DiOsfgFhJuxdy1d5kBoNy/dfkq4He8eNDGI3ZEJlCk95yQhG75aVcEMKGaFQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       postcss: ^8.5.6
@@ -11670,10 +11667,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
-  react-refresh@0.18.0:
-    resolution: {integrity: sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw==}
-    engines: {node: '>=0.10.0'}
 
   react-router-config@5.1.1:
     resolution: {integrity: sha512-DuanZjaD8mQp1ppHjgnnUnyOlqYXZVjnov/JzFhjLEwd3Z4dYjMSnqrEzzGThH47vpCOqPPwJM2FtthLeJ8Pbg==}
@@ -14388,16 +14381,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/plugin-transform-react-jsx-self@7.29.7(@babel/core@7.29.7)':
-    dependencies:
-      '@babel/core': 7.29.7
-      '@babel/helper-plugin-utils': 7.29.7
-
-  '@babel/plugin-transform-react-jsx-source@7.29.7(@babel/core@7.29.7)':
-    dependencies:
-      '@babel/core': 7.29.7
-      '@babel/helper-plugin-utils': 7.29.7
-
   '@babel/plugin-transform-react-jsx@7.29.7(@babel/core@7.29.7)':
     dependencies:
       '@babel/core': 7.29.7
@@ -16765,8 +16748,6 @@ snapshots:
   '@rolldown/binding-win32-x64-msvc@1.0.2':
     optional: true
 
-  '@rolldown/pluginutils@1.0.0-rc.3': {}
-
   '@rolldown/pluginutils@1.0.1': {}
 
   '@rollup/plugin-babel@6.1.0(@babel/core@7.29.7)(@types/babel__core@7.20.5)(rollup@4.60.4)':
@@ -18020,7 +18001,7 @@ snapshots:
       eslint: 9.39.4(jiti@2.7.0)
       json-stable-stringify-without-jsonify: 1.0.1
       lodash.merge: 4.6.2
-      semver: 7.8.1
+      semver: 7.8.5
       typescript: 6.0.3
     transitivePeerDependencies:
       - supports-color
@@ -18224,17 +18205,10 @@ snapshots:
 
   '@vercel/oidc@3.2.0': {}
 
-  '@vitejs/plugin-react@5.2.0(vite@8.0.14(@types/node@25.9.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0))':
+  '@vitejs/plugin-react@6.0.2(vite@8.0.14(@types/node@25.9.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0))':
     dependencies:
-      '@babel/core': 7.29.7
-      '@babel/plugin-transform-react-jsx-self': 7.29.7(@babel/core@7.29.7)
-      '@babel/plugin-transform-react-jsx-source': 7.29.7(@babel/core@7.29.7)
-      '@rolldown/pluginutils': 1.0.0-rc.3
-      '@types/babel__core': 7.20.5
-      react-refresh: 0.18.0
+      '@rolldown/pluginutils': 1.0.1
       vite: 8.0.14(@types/node@25.9.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)
-    transitivePeerDependencies:
-      - supports-color
 
   '@vitest/eslint-plugin@1.6.20(@typescript-eslint/eslint-plugin@8.60.0(@typescript-eslint/parser@8.60.0(eslint@9.39.4(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@7.0.2))(eslint@9.39.4(jiti@2.7.0)(supports-color@7.2.0))(typescript@7.0.2))(eslint@9.39.4(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@7.0.2)(vitest@4.1.7(@opentelemetry/api@1.9.1)(@types/node@25.9.1)(jsdom@25.0.1(supports-color@7.2.0))(vite@8.0.14(@types/node@25.9.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)))':
     dependencies:
@@ -19545,7 +19519,7 @@ snapshots:
       postcss-modules-scope: 3.2.1(postcss@8.5.15)
       postcss-modules-values: 4.0.0(postcss@8.5.15)
       postcss-value-parser: 4.2.0
-      semver: 7.8.1
+      semver: 7.8.5
     optionalDependencies:
       webpack: 5.107.2(@swc/core@1.15.40)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.15))(html-minifier-terser@7.2.0)(postcss@8.5.15)
 
@@ -19920,9 +19894,9 @@ snapshots:
     dependencies:
       mimic-response: 3.1.0
 
-  dedent@0.7.0: {}
-
   dedent@1.5.3: {}
+
+  dedent@1.7.2: {}
 
   deep-eql@4.1.4:
     dependencies:
@@ -24104,7 +24078,7 @@ snapshots:
       cosmiconfig: 9.0.1(typescript@6.0.3)
       jiti: 2.7.0
       postcss: 8.5.15
-      semver: 7.8.1
+      semver: 7.8.5
     optionalDependencies:
       webpack: 5.107.2(@swc/core@1.15.40)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.15))(html-minifier-terser@7.2.0)(postcss@8.5.15)
     transitivePeerDependencies:
@@ -24377,7 +24351,7 @@ snapshots:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss-sort-media-queries@6.6.1(postcss@8.5.15):
+  postcss-sort-media-queries@6.6.2(postcss@8.5.15):
     dependencies:
       postcss: 8.5.15
       sort-css-media-queries: 3.0.5
@@ -24598,8 +24572,6 @@ snapshots:
     dependencies:
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
-
-  react-refresh@0.18.0: {}
 
   react-router-config@5.1.1(react-router@5.3.4(react@19.2.6))(react@19.2.6):
     dependencies:
@@ -26379,7 +26351,7 @@ snapshots:
       is-yarn-global: 0.4.1
       latest-version: 7.0.0
       pupa: 3.3.0
-      semver: 7.8.1
+      semver: 7.8.5
       semver-diff: 4.0.0
       xdg-basedir: 5.1.0
 

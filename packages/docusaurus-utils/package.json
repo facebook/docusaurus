@@ -47,6 +47,6 @@
     "@types/micromatch": "^4.0.10",
     "@types/js-yaml": "^4.0.9",
     "@types/react-dom": "^19.2.3",
-    "dedent": "^0.7.0"
+    "dedent": "^1.7.2"
   }
 }
