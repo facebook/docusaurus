@@ -106,10 +106,7 @@ export function Details({
       }}
       onToggle={(e) => {
         // The toggle event also fires when React syncs the open attribute
-        // after our own click handling/animations: only handle external
-        // changes to the open attribute (e.g. `details.open = true` from a
-        // print script or devtools)
-        // See https://github.com/facebook/docusaurus/issues/10140
+        // See https://github.com/facebook/docusaurus/pull/12277
         const isOpen = e.currentTarget.open;
         if (isOpen === !collapsed) {
           return;
