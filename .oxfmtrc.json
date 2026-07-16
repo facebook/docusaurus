@@ -4,6 +4,8 @@
   "bracketSameLine": true,
   "bracketSpacing": false,
   "ignorePatterns": [
+    ".claude",
+    ".codex",
     "dist",
     "node_modules",
     ".yarn",

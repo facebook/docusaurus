@@ -28,6 +28,7 @@ export {
   ParseFrontMatter,
   OnBrokenMarkdownLinksFunction,
   OnBrokenMarkdownImagesFunction,
+  OnUnusedMarkdownDirectivesFunction,
 } from './markdown';
 
 export {ReportingSeverity} from './reporting';

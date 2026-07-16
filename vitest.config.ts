@@ -17,6 +17,8 @@ process.env.TZ = 'UTC';
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
 const ignorePatterns = [
+  '.claude',
+  '.codex',
   '**/node_modules/**',
   '**/__fixtures__/**',
   '**/__mocks__/**',

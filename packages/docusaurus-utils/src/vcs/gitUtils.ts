@@ -487,11 +487,13 @@ The command exited with code ${result.exitCode}: ${result.stderr}`,
   for (const logLine of logLines) {
     if (logLine.startsWith('t:')) {
       // t:<timestamp>,a:<author name>
-      const [timestampStr, authorStr] = logLine.split(',') as [string, string];
-      const timestamp = Number.parseInt(timestampStr.slice(2), 10) * 1000;
-      const author = authorStr.slice(2);
-
-      runningDate = timestamp;
+      // We can't use split(',') because author names may contain commas
+      // Example: "t:123456,a:John Doe, Jr."
+      const [timestampStr, author] = logLine.slice(2).split(',a:') as [
+        string,
+        string,
+      ];
+      runningDate = Number.parseInt(timestampStr, 10) * 1000;
       runningAuthor = author;
     }
 

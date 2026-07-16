@@ -89,9 +89,11 @@ export async function writeHeadingIds(
 
   const patterns = files.length ? files : await getPathsToWatch(siteDir);
 
-  const markdownFiles = await safeGlobby(patterns, {
-    expandDirectories: ['**/*.{md,mdx}'],
-  });
+  const markdownFiles = (
+    await safeGlobby(patterns, {
+      expandDirectories: true,
+    })
+  ).filter((file) => file.endsWith('.md') || file.endsWith('.mdx'));
 
   if (markdownFiles.length === 0) {
     logger.warn`No markdown files found in siteDir path=${siteDir} for patterns: ${patterns}`;

@@ -10,8 +10,8 @@
     "report": "playwright show-report"
   },
   "dependencies": {
-    "@argos-ci/playwright": "^2.0.0",
-    "@playwright/test": "^1.48.1",
+    "@argos-ci/playwright": "^7.0.6",
+    "@playwright/test": "^1.60.0",
     "cheerio": "^1.2.0"
   }
 }

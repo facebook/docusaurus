@@ -15,7 +15,7 @@ import details from './remark/details';
 import head from './remark/head';
 import mermaid from './remark/mermaid';
 import transformAdmonitions from './remark/admonitions';
-import unusedDirectivesWarning from './remark/unusedDirectives';
+import unusedDirectives from './remark/unusedDirectives';
 import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
 import {getFormat} from './format';
 import type {WebpackCompilerName} from '@docusaurus/utils';
@@ -25,6 +25,7 @@ import type {AdmonitionOptions} from './remark/admonitions';
 import type {PluginOptions as ResolveMarkdownLinksOptions} from './remark/resolveMarkdownLinks';
 import type {PluginOptions as TransformLinksOptions} from './remark/transformLinks';
 import type {PluginOptions as TransformImageOptions} from './remark/transformImage';
+import type {PluginOptions as UnusedDirectivesOptions} from './remark/unusedDirectives';
 import type {ProcessorOptions} from '@mdx-js/mdx';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
@@ -151,7 +152,13 @@ async function createProcessorFactory() {
       gfm,
       options.markdownConfig.mdx1Compat.comments ? comment : null,
       ...(options.remarkPlugins ?? []),
-      unusedDirectivesWarning,
+      [
+        unusedDirectives,
+        {
+          onUnusedMarkdownDirectives:
+            options.markdownConfig.hooks.onUnusedMarkdownDirectives,
+        } satisfies UnusedDirectivesOptions,
+      ],
     ].filter((plugin): plugin is MDXPlugin => Boolean(plugin));
 
     // codeCompatPlugin needs to be applied last after user-provided plugins

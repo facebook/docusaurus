@@ -52,6 +52,8 @@ const plugins = defineConfig([
 ]);
 
 const ignores = globalIgnores([
+  '.claude',
+  '.codex',
   '**/dist/**',
   '**/lib/**',
   '**/build/**',

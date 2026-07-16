@@ -9,7 +9,7 @@ import {describe, expect, it} from 'vitest';
 import * as path from 'path';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {DEFAULT_PARSE_FRONT_MATTER} from '@docusaurus/utils/src';
-import {DEFAULT_VCS_CONFIG} from '@docusaurus/utils';
+import {TEST_VCS} from '@docusaurus/utils';
 import {readVersionsMetadata} from '../version';
 import {DEFAULT_OPTIONS} from '../../options';
 import {loadVersion} from '../loadVersion';
@@ -40,7 +40,7 @@ async function siteFixture(fixture: string) {
         parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
       },
       future: {
-        experimental_vcs: DEFAULT_VCS_CONFIG,
+        experimental_vcs: TEST_VCS,
       },
     },
   });

@@ -72,8 +72,7 @@ export async function extractThemeCodeMessages(
 
   filesExtractedTranslations.forEach((fileExtractedTranslations) => {
     if (fileExtractedTranslations.warnings.length > 0) {
-      throw new Error(`
-Please make sure all theme translations are static!
+      throw new Error(`Please make sure all theme translations are static!
 Some warnings were found!
 
 ${fileExtractedTranslations.warnings.join('\n\n')}

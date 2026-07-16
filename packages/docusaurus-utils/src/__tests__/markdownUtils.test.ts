@@ -174,6 +174,18 @@ describe('createExcerpt', () => {
     ).toBe('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
   });
 
+  it('creates excerpt after a multi-line JSX element', () => {
+    expect(
+      createExcerpt(dedent`
+          <MyComponent
+            prop={{a: 'b'}}
+          />
+
+          Lorem ipsum dolor sit amet.
+        `),
+    ).toBe('Lorem ipsum dolor sit amet.');
+  });
+
   it('creates excerpt after multi-line imports', () => {
     expect(
       createExcerpt(dedent`
@@ -895,9 +907,11 @@ describe('parseMarkdownFile', () => {
       ---
       `),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      [YAMLException: incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 2, column 7:
-          foo: f: a
-                ^]
+      [YAMLException: bad indentation of a mapping entry (2:7)
+
+       1 | 
+       2 | foo: f: a
+      -----------^]
     `);
   });
 });

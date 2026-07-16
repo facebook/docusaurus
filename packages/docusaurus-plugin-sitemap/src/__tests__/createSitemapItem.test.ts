@@ -108,6 +108,15 @@ describe('createSitemapItem', () => {
                   }
               `);
       });
+
+      it('lastmod from epoch (0) timestamp is not dropped', async () => {
+        await expect(
+          test({
+            options: {lastmod: 'date'},
+            route: {metadata: {lastUpdatedAt: 0}, path: '/routePath'},
+          }),
+        ).resolves.toMatchObject({lastmod: '1970-01-01'});
+      });
     });
 
     describe('read from git', () => {

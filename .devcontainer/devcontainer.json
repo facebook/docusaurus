@@ -26,11 +26,14 @@
   },
   "forwardPorts": [3000],
   "containerUser": "vscode",
+  "containerEnv": {
+    "COREPACK_ENABLE_DOWNLOAD_PROMPT": "0" // Avoid waiting for a prompt in the postCreateCommand
+  },
   "postCreateCommand": "pnpm install",
   "waitFor": "postCreateCommand", // otherwise automated jest tests fail
   "features": {
     "node": {
-      "version": "22"
+      "version": "24"
     },
     "github-cli": "latest"
   }
