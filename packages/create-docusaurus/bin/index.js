@@ -15,7 +15,7 @@ import {logger} from '@docusaurus/logger';
 import semver from 'semver';
 import {program} from 'commander';
 
-const packageJson = /** @type {import("../package.json")} */ (
+const packageJson = /** @type {typeof import("../package.json")} */ (
   createRequire(import.meta.url)('../package.json')
 );
 const requiredVersion = packageJson.engines.node;
