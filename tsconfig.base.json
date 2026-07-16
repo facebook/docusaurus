@@ -46,7 +46,6 @@
     /* Handled by ESLint */
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "importsNotUsedAsValues": "remove",
 
     /* Module Resolution */
     "moduleResolution": "NodeNext",
