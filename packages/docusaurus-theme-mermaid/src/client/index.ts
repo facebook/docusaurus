@@ -34,7 +34,8 @@ export function useMermaidConfig(): MermaidConfig {
 
 // Random client-only id, we don't care much but mermaid want an id so...
 function useMermaidId(): string {
-  return useId();
+  // Mermaid marker IDs must be unique per diagram; sanitize React useId().
+  return useId().replace(/[^a-zA-Z0-9_-]/g, '');
 }
 
 async function renderMermaid({
@@ -81,9 +82,11 @@ async function renderMermaid({
 export function useMermaidRenderResult({
   text,
   config: providedConfig,
+  enabled = true,
 }: {
   text: string;
   config?: MermaidConfig;
+  enabled?: boolean;
 }): RenderResult | null {
   const [result, setResult] = useState<RenderResult | null>(null);
   const id = useMermaidId();
@@ -96,6 +99,9 @@ export function useMermaidRenderResult({
   const config = providedConfig ?? defaultMermaidConfig;
 
   useEffect(() => {
+    if (!enabled) {
+      return undefined;
+    }
     renderMermaid({id, text, config})
       // TODO maybe try to use Suspense here and throw the promise?
       // See also https://github.com/pmndrs/suspend-react
@@ -107,7 +113,7 @@ export function useMermaidRenderResult({
           throw e;
         });
       });
-  }, [id, text, config]);
+  }, [id, text, config, enabled]);
 
   return result;
 }

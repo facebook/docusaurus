@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useRef, type ReactNode} from 'react';
+import React, {useEffect, useRef, useState, type ReactNode} from 'react';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import {ErrorBoundaryErrorMessageFallback} from '@docusaurus/theme-common';
 import {
@@ -39,11 +39,32 @@ function MermaidRenderResult({
 }
 
 function MermaidRenderer({value}: Props): ReactNode {
-  const renderResult = useMermaidRenderResult({text: value});
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element) {
+      return undefined;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+      }
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  const renderResult = useMermaidRenderResult({text: value, enabled: isVisible});
   if (renderResult === null) {
-    return null;
+    return <div ref={containerRef} />;
   }
-  return <MermaidRenderResult renderResult={renderResult} />;
+  return (
+    <div ref={containerRef}>
+      <MermaidRenderResult renderResult={renderResult} />
+    </div>
+  );
 }
 
 export default function Mermaid(props: Props): ReactNode {
