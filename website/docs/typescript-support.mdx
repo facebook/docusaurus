@@ -6,7 +6,7 @@ description: Docusaurus is written in TypeScript and provides first-class TypeSc
 
 Docusaurus is written in TypeScript and provides first-class TypeScript support.
 
-The minimum required version is **TypeScript 5.1**.
+The minimum required version is **TypeScript 6.0**.
 
 ## Initialization {/* #initialization */}
 
@@ -31,9 +31,7 @@ Then add `tsconfig.json` to your project root with the following content:
 ```json title="tsconfig.json"
 {
   "extends": "@docusaurus/tsconfig",
-  "compilerOptions": {
-    "baseUrl": "."
-  }
+  "compilerOptions": {}
 }
 ```
 
@@ -59,7 +57,6 @@ Alternatively, add the package to the `types` compiler option of your `tsconfig.
 {
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
-    "baseUrl": ".",
     // highlight-next-line
     "types": ["@docusaurus/theme-live-codeblock"]
   }
