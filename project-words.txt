@@ -1,6 +1,7 @@
 # Project Words - DO NOT TOUCH - This is updated through CI
 abernathyca
 Adriaan
+agentreadyweb
 alexbdebrie
 Alexey
 algoliasearch
