@@ -158,8 +158,8 @@ importers:
         specifier: npm:@slorber/react-helmet-async@1.3.0
         version: '@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)'
       rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
+        specifier: ^6.1.3
+        version: 6.1.3
       sharp:
         specifier: ^0.35.1
         version: 0.35.3(@types/node@25.9.1)
@@ -2211,8 +2211,8 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0
       rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
+        specifier: ^6.1.3
+        version: 6.1.3
       search-insights:
         specifier: ^2.17.3
         version: 2.17.3
@@ -11822,6 +11822,11 @@ packages:
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
     deprecated: Rimraf versions prior to v4 are no longer supported
+    hasBin: true
+
+  rimraf@6.1.3:
+    resolution: {integrity: sha512-LKg+Cr2ZF61fkcaK1UdkH2yEBBKnYjTyWzTJT6KNPcSPaiT7HSdhtMXQuN5wkTX0Xu72KQ1l8S42rlmexS2hSA==}
+    engines: {node: 20 || >=22}
     hasBin: true
 
   robust-predicates@3.0.3:
@@ -24726,6 +24731,11 @@ snapshots:
   rimraf@3.0.2:
     dependencies:
       glob: 7.2.3
+
+  rimraf@6.1.3:
+    dependencies:
+      glob: 13.0.6
+      package-json-from-dist: 1.0.1
 
   robust-predicates@3.0.3: {}
 
