@@ -37,14 +37,18 @@ const createRouter =
 const router = createRouter([
   {
     Component: AppRoot,
-    // children: [{path: '/', Component: () => <h1>Hello</h1>}],
-    // children: [routes.at(-2)!],
     children: routes,
   },
 ]);
 
 export default function App(): ReactNode {
-  return <RouterProvider router={router} />;
+  return (
+    <RouterProvider
+      router={router}
+      // TODO enable?
+      useTransitions={false}
+    />
+  );
 }
 
 /*
