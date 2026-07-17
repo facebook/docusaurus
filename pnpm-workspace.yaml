@@ -23,11 +23,12 @@ overrides:
   # See https://sharp.pixelplumbing.com/changelog/v0.35.0/
   sharp: ^0.35.1
 
-minimumReleaseAge: 10080
+minimumReleaseAge: 10080 # 7 days in minutes
 minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
 minimumReleaseAgeExclude:
   - tar@7.5.16
+  - pnpm
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 525600 # ignore packages published 1+ year ago

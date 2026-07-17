@@ -103,6 +103,16 @@ export function Details({
           // Don't do this, it breaks close animation!
           // setOpen(false);
         }
+      }}
+      onToggle={(e) => {
+        // The toggle event also fires when React syncs the open attribute
+        // See https://github.com/facebook/docusaurus/pull/12277
+        const isOpen = e.currentTarget.open;
+        if (isOpen === !collapsed) {
+          return;
+        }
+        setCollapsed(!isOpen);
+        setOpen(isOpen);
       }}>
       {summaryElement}
 

@@ -7,6 +7,7 @@
 
 import type {ProcessorOptions} from '@mdx-js/mdx';
 import type {Image, Definition, Link} from 'mdast';
+import type {Directives} from 'mdast-util-directive';
 
 import type {ReportingSeverity} from './reporting';
 
@@ -86,6 +87,21 @@ export type OnBrokenMarkdownImagesFunction = (params: {
   node: Image;
 }) => void | string;
 
+export type OnUnusedMarkdownDirectivesFunction = (params: {
+  /**
+   * Path of the source file on which the unused directive was found
+   * Relative to the site dir.
+   * Example: "docs/category/myDoc.mdx"
+   */
+  sourceFilePath: string;
+
+  /**
+   * The Markdown directives that were unused.
+   * Example: "myDirective"
+   */
+  directives: Directives[];
+}) => void | string;
+
 export type MarkdownHooks = {
   /**
    * The behavior of Docusaurus when it detects any broken Markdown link.
@@ -97,6 +113,10 @@ export type MarkdownHooks = {
   onBrokenMarkdownLinks: ReportingSeverity | OnBrokenMarkdownLinksFunction;
 
   onBrokenMarkdownImages: ReportingSeverity | OnBrokenMarkdownImagesFunction;
+
+  onUnusedMarkdownDirectives:
+    | ReportingSeverity
+    | OnUnusedMarkdownDirectivesFunction;
 };
 
 export type MarkdownConfig = {

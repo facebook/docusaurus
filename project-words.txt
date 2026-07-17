@@ -1,6 +1,7 @@
 # Project Words - DO NOT TOUCH - This is updated through CI
 abernathyca
 Adriaan
+agentreadyweb
 alexbdebrie
 Alexey
 algoliasearch
@@ -16,6 +17,7 @@ atrule
 autogenerating
 autohide
 Autolinks
+backgrounded
 Bartosz
 beforeinstallprompt
 Bhatt
@@ -235,6 +237,7 @@ Quickwit
 quickwit
 rachelnabors
 Ramón
+rangefind
 reactjs
 rearchitecture
 Recma

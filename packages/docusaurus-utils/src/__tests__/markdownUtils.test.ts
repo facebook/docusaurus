@@ -174,6 +174,18 @@ describe('createExcerpt', () => {
     ).toBe('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
   });
 
+  it('creates excerpt after a multi-line JSX element', () => {
+    expect(
+      createExcerpt(dedent`
+          <MyComponent
+            prop={{a: 'b'}}
+          />
+
+          Lorem ipsum dolor sit amet.
+        `),
+    ).toBe('Lorem ipsum dolor sit amet.');
+  });
+
   it('creates excerpt after multi-line imports', () => {
     expect(
       createExcerpt(dedent`

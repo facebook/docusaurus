@@ -130,6 +130,7 @@ describe('normalizeConfig', () => {
         hooks: {
           onBrokenMarkdownLinks: 'log',
           onBrokenMarkdownImages: 'log',
+          onUnusedMarkdownDirectives: 'log',
         },
       },
     };
@@ -330,23 +331,39 @@ describe('headTags', () => {
     ).not.toThrow();
   });
 
-  it("throws error if headTags doesn't have string attributes", () => {
+  it('throws error if headTags has invalid attribute values', () => {
     expect(() => {
       normalizeConfig({
         headTags: [
           {
             tagName: 'link',
             attributes: {
-              rel: false,
+              rel: 123,
               href: 'img/docusaurus.png',
             },
           },
         ],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      [Error: "headTags[0].attributes.rel" must be a string
+      [Error: "headTags[0].attributes.rel" must be one of [string, boolean]
       ]
     `);
+  });
+
+  it('accepts headTags with boolean attributes', () => {
+    expect(() => {
+      normalizeConfig({
+        headTags: [
+          {
+            tagName: 'script',
+            attributes: {
+              src: '/analytics.js',
+              async: true,
+            },
+          },
+        ],
+      });
+    }).not.toThrow();
   });
 });
 
@@ -546,6 +563,7 @@ describe('markdown', () => {
       hooks: {
         onBrokenMarkdownLinks: 'log',
         onBrokenMarkdownImages: 'warn',
+        onUnusedMarkdownDirectives: 'warn',
       },
     };
     expect(normalizeMarkdown(markdown)).toEqual(markdown);
@@ -814,6 +832,47 @@ describe('markdown', () => {
       it('rejects null', () => {
         expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
           [Error: "markdown.hooks.onBrokenMarkdownImages" does not match any of the allowed types
+          ]
+        `);
+      });
+    });
+
+    describe('onUnusedMarkdownDirectives', () => {
+      function normalizeValue(
+        onUnusedMarkdownDirectives?: MarkdownHooks['onUnusedMarkdownDirectives'],
+      ) {
+        return normalizeHooks({
+          onUnusedMarkdownDirectives,
+        }).onUnusedMarkdownDirectives;
+      }
+
+      it('accepts undefined', () => {
+        expect(normalizeValue(undefined)).toBe('warn');
+      });
+
+      it('accepts severity level', () => {
+        expect(normalizeValue('log')).toBe('log');
+      });
+
+      it('rejects number', () => {
+        expect(() =>
+          normalizeValue(
+            // @ts-expect-error: bad value
+            42,
+          ),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          [Error: "markdown.hooks.onUnusedMarkdownDirectives" does not match any of the allowed types
+          ]
+        `);
+      });
+
+      it('accepts function', () => {
+        expect(normalizeValue(() => {})).toBeInstanceOf(Function);
+      });
+
+      it('rejects null', () => {
+        expect(() => normalizeValue(null)).toThrowErrorMatchingInlineSnapshot(`
+          [Error: "markdown.hooks.onUnusedMarkdownDirectives" does not match any of the allowed types
           ]
         `);
       });

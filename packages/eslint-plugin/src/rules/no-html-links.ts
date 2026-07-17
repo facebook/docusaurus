@@ -19,14 +19,8 @@ type Options = [
 type MessageIds = 'link';
 
 function isFullyResolvedUrl(urlString: string): boolean {
-  try {
-    // href gets coerced to a string when it gets rendered anyway
-    const url = new URL(String(urlString));
-    if (url.protocol) {
-      return true;
-    }
-  } catch {}
-  return false;
+  const url = URL.parse(String(urlString));
+  return !!(url && url.protocol);
 }
 
 export default createRule<Options, MessageIds>({
