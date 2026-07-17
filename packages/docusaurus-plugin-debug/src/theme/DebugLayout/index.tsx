@@ -12,14 +12,7 @@ import styles from './styles.module.css';
 
 function DebugNavLink({to, children}: {to: string; children: ReactNode}) {
   return (
-    <Link
-      className={styles.navlink}
-      isNavLink
-      to={to}
-      exact
-      activeStyle={{
-        backgroundColor: '#363739',
-      }}>
+    <Link className={styles.navlink} isNavLink to={to}>
       {children}
     </Link>
   );

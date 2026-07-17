@@ -16,18 +16,15 @@ export default function DebugRoutes(): ReactNode {
     <DebugLayout>
       <h2>Routes</h2>
       <ul className="clean-list">
-        {routes.map(({path, exact, routes: childRoutes}) => (
+        {routes.map(({path, children}) => (
           <li key={path} className={styles.listItem}>
             <div className={styles.route}>
               <code className={styles.routeName}>{path}</code>
             </div>
-            <div>
-              Is exact: <code>{String(Boolean(exact))}</code>
-            </div>
-            {childRoutes && (
+            {children && (
               <div>
                 Child Routes:
-                <DebugJsonView src={childRoutes} />
+                <DebugJsonView src={children} />
               </div>
             )}
           </li>
