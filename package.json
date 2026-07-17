@@ -123,7 +123,7 @@
     "stylelint-config-standard": "^40.0.0",
     "stylelint-copyright": "3.10.1",
     "syncpack": "^14.3.1",
-    "typescript": "~6.0.3",
+    "typescript": "~7.0.2",
     "typescript-eslint": "^8.59.3",
     "vitest": "^4.0.0"
   },

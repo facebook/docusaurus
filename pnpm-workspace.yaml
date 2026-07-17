@@ -29,6 +29,8 @@ minimumReleaseAgeIgnoreMissingTime: false
 minimumReleaseAgeExclude:
   - tar@7.5.16
   - pnpm
+  - typescript
+  - '@typescript/*'
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 525600 # ignore packages published 1+ year ago

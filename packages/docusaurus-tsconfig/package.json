@@ -18,6 +18,6 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "typescript": ">=6.0"
+    "typescript": ">=7.0"
   }
 }
