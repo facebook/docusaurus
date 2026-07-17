@@ -59,7 +59,8 @@ export function useHistorySelector<Value>(
   selector: (history: {location: Location}) => Value,
 ): Value {
   // TODO fix this, import real router singleton
-  const router = createBrowserRouter([]);
+  // @ts-expect-error: TODO fix
+  const router = window.router;
   return useSyncExternalStore(
     router.subscribe,
     () => selector({location: router.state.location}),

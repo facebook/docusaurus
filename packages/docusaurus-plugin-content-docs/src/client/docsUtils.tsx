@@ -391,7 +391,7 @@ Available doc ids are:
  */
 export function useDocRootMetadata({route}: DocRootProps): null | {
   /** The element that should be rendered at the current location. */
-  docElement: ReactNode;
+  // docElement: ReactNode;
   /**
    * The name of the sidebar associated with the current doc. `sidebarName` and
    * `sidebarItems` correspond to the value of {@link useDocsSidebar}.
@@ -400,31 +400,34 @@ export function useDocRootMetadata({route}: DocRootProps): null | {
   /** The items of the sidebar associated with the current doc. */
   sidebarItems: PropSidebar | undefined;
 } {
-  const location = useLocation();
   const versionMetadata = useDocsVersion();
 
-  // TODO review
-  const docRoutes = (route as any).routes as RouteObject[];
-  const currentDocRoute = docRoutes.find((docRoute) =>
-    matchPath(docRoute.path!, location.pathname),
-  );
+  /*
+const docRoutes = (route as any).routes as RouteObject[];
+const currentDocRoute = docRoutes.find((docRoute) =>
+  matchPath(docRoute.path!, location.pathname),
+);
 
-  if (!currentDocRoute) {
-    return null;
-  }
+
+if (!currentDocRoute) {
+  return null;
+}
+ */
 
   // For now, the sidebarName is added as route config: not ideal!
-  // @ts-expect-error: TODO review
-  const sidebarName = currentDocRoute.sidebar as string;
+
+  // TODO use RouteObject.handle?
+  // const sidebarName = currentDocRoute.sidebar as string;
+  const sidebarName = 'docs';
 
   const sidebarItems = sidebarName
     ? versionMetadata.docsSidebars[sidebarName]
     : undefined;
 
-  const docElement = renderRoutes(docRoutes);
+  // const docElement = renderRoutes(docRoutes);
 
   return {
-    docElement,
+    // docElement,
     sidebarName,
     sidebarItems,
   };

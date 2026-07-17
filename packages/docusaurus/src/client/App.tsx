@@ -41,6 +41,9 @@ const router = createRouter([
   },
 ]);
 
+// @ts-expect-error: TODO
+window.router = router;
+
 export default function App(): ReactNode {
   return (
     <RouterProvider
