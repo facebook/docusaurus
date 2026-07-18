@@ -131,5 +131,8 @@
   "engines": {
     "node": ">=24.14",
     "pnpm": ">=11.5"
+  },
+  "dependencies": {
+    "undici": "7.28.0"
   }
 }
