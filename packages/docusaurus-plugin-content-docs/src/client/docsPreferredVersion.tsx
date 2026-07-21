@@ -21,10 +21,7 @@ import {
 } from '@docusaurus/plugin-content-docs/client';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 import {useThemeConfig, type ThemeConfig} from '@docusaurus/theme-common';
-import {
-  ReactContextError,
-  createStorageSlot,
-} from '@docusaurus/theme-common/internal';
+import {ReactContextError, createStorageSlot} from '@docusaurus/theme-common';
 
 type DocsVersionPersistence = ThemeConfig['docs']['versionPersistence'];
 

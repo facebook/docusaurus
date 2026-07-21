@@ -7,14 +7,14 @@
 
 import {describe, expect, it} from 'vitest';
 import {fromPartial} from '@total-typescript/shoehorn';
-import {DEFAULT_VCS_CONFIG} from '@docusaurus/utils';
+import {TEST_VCS} from '@docusaurus/utils';
 import createSitemap from '../createSitemap';
 import type {PluginOptions} from '../options';
 import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
 
 const siteConfig: DocusaurusConfig = fromPartial({
   url: 'https://example.com',
-  future: {experimental_vcs: DEFAULT_VCS_CONFIG},
+  future: {experimental_vcs: TEST_VCS},
 });
 
 const options: PluginOptions = {

@@ -1,5 +1,26 @@
 # Docusaurus Changelog
 
+## 3.10.2 (2026-07-10)
+
+Backport and cherry-pick commits from main for v3.10.2 patch release:
+
+- [fix(bundler): do not import `@swc/html`, fix StackBlitz playground \#12055](https://github.com/facebook/docusaurus/pull/12055)
+- [fix(core): use locale url in site config \#12054](https://github.com/facebook/docusaurus/pull/12054)
+- [fix(theme-classic): remove redundant sidebar label titles \#11966](https://github.com/facebook/docusaurus/pull/11966)
+- [fix(mdx-loader): avoid transforming dotted directory links into asset… \#11944](https://github.com/facebook/docusaurus/pull/11944)
+- [fix(dev-server): for HTTPS, support non-RSA TLS certs \#12065](https://github.com/facebook/docusaurus/pull/12065)
+- [fix(utils): fix `extractLeadingEmoji()` edge cases \#12100](https://github.com/facebook/docusaurus/pull/12100)
+- [fix(gtag.js, faster): Fix StackBlitz, vendor `@types/gtag.js`, upgrade `@swc/html` \#12080](https://github.com/facebook/docusaurus/pull/12080)
+- [fix(create-docusaurus): init template README should use npm commands by default \#12138](https://github.com/facebook/docusaurus/pull/12138)
+- [fix(cli): `docusaurus serve` should pass `--host` to `server.listen()` \#12127](https://github.com/facebook/docusaurus/pull/12127)
+- [fix(core): bump detect-port to v2.1, fix pnpm `trustPolicy` downgrade issue \#12012](https://github.com/facebook/docusaurus/pull/12012)
+- [fix(i18n): complete Spanish translations for theme-common and theme-l… \#12180](https://github.com/facebook/docusaurus/pull/12180)
+- [chore(deps): migrate to `@11ty/gray-matter` \#12181](https://github.com/facebook/docusaurus/pull/12181)
+- [fix(core): fix BaseUrlIssueBanner little security issue \#12260](https://github.com/facebook/docusaurus/pull/12260)
+- [fix(core): accept boolean attributes in headTags config validation \#12238](https://github.com/facebook/docusaurus/pull/12238)
+- [fix(sitemap): don't drop lastmod for an epoch (0) timestamp \#12212](https://github.com/facebook/docusaurus/pull/12212)
+- [fix(utils): preserve author names containing commas in git log parsing \#12069](https://github.com/facebook/docusaurus/pull/12069)
+
 ## 3.10.1 (2026-04-30)
 
 #### :bug: Bug Fix

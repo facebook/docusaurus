@@ -61,7 +61,7 @@ function insertBanner() {
   var suggestedBaseUrl = actualHomePagePath.substr(-1) === '/'
         ? actualHomePagePath
         : actualHomePagePath + '/';
-  suggestionContainer.innerHTML = suggestedBaseUrl;
+  suggestionContainer.textContent = suggestedBaseUrl;
 }
 `;
 }

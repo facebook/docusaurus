@@ -3,6 +3,8 @@
 !*/
 !*.css
 __tests__/
+.claude
+.codex
 build
 .docusaurus
 coverage

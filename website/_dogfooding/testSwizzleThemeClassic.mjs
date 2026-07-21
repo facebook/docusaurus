@@ -80,6 +80,7 @@ async function getAllComponentNames() {
 }
 
 const componentNames = await getAllComponentNames();
+console.log('componentNames', componentNames);
 
 const componentsNotFound = Object.keys(swizzleConfig.components).filter(
   (componentName) => !componentNames.includes(componentName),

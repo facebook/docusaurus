@@ -174,7 +174,7 @@ describe('validateThemeConfig', () => {
           ...DEFAULT_CONFIG,
           ...algolia,
           replaceSearchResultPathname: {
-            from: '/docs/some\\x2d\\\\special\\x2d\\.\\[regexp\\]\\{chars\\*\\}',
+            from: '\\/docs\\/some\\x2d\\\\special\\x2d\\.\\[regexp\\]\\{chars\\*\\}',
             to: '/abc',
           },
         },

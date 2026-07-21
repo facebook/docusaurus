@@ -44,7 +44,7 @@ export default async function createServerConfig({
     output: {
       path: outputDir,
       filename: outputFilename,
-      libraryTarget: 'commonjs2',
+      library: {type: 'commonjs2'},
     },
     plugins: [
       new ProgressBarPlugin({

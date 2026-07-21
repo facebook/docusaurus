@@ -477,7 +477,7 @@ Docusaurus will build **one single-page application per locale**:
 - `website/build`: for the default, English language
 - `website/build/fr`: for the French language
 
-You can now [deploy](../deployment.mdx) the `build` folder to the static hosting solution of your choice.
+You can now [deploy](../deployment/index.mdx) the `build` folder to the static hosting solution of your choice.
 
 :::note
 
@@ -508,7 +508,7 @@ npm run build -- --locale fr
 
 When building a single locale at a time, Docusaurus will not add the `/fr/` URL prefix automatically, assuming you want to deploy each locale to a distinct domain.
 
-On your [static hosting provider](../deployment.mdx):
+On your [static hosting provider](../deployment/index.mdx):
 
 - create one deployment per locale
 - configure the appropriate build command, using the `--locale` option

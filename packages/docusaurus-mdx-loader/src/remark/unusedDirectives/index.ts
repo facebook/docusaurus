@@ -7,12 +7,16 @@
 import path from 'path';
 import process from 'process';
 import logger from '@docusaurus/logger';
-import {posixPath} from '@docusaurus/utils';
+import {toMessageRelativeFilePath, posixPath} from '@docusaurus/utils';
 import {formatNodePositionExtraMessage, transformNode} from '../utils';
 import type {Root} from 'mdast';
 import type {Parent} from 'unist';
 import type {Transformer, Processor, Plugin} from 'unified';
 import type {Directives, TextDirective} from 'mdast-util-directive';
+import type {
+  MarkdownConfig,
+  OnUnusedMarkdownDirectivesFunction,
+} from '@docusaurus/types';
 
 type DirectiveType = Directives['type'];
 
@@ -64,19 +68,33 @@ ${warningMessages}
 Your content might render in an unexpected way. Visit ${customSupportUrl} to find out why and how to fix it.`;
 }
 
-function logUnusedDirectivesWarning({
-  directives,
-  filePath,
-}: {
-  directives: Directives[];
-  filePath: string;
-}) {
-  if (directives.length > 0) {
-    const message = formatUnusedDirectivesMessage({
-      directives,
-      filePath,
-    });
-    logger.warn(message);
+export type PluginOptions = {
+  onUnusedMarkdownDirectives: MarkdownConfig['hooks']['onUnusedMarkdownDirectives'];
+};
+
+function asFunction(
+  onUnusedMarkdownDirectives: PluginOptions['onUnusedMarkdownDirectives'],
+): OnUnusedMarkdownDirectivesFunction {
+  if (typeof onUnusedMarkdownDirectives === 'string') {
+    const extraHelp =
+      onUnusedMarkdownDirectives === 'throw'
+        ? logger.interpolate`\nTo ignore this error, use the code=${'siteConfig.markdown.hooks.onUnusedMarkdownDirectives'} option.`
+        : '';
+    return ({sourceFilePath, directives}) => {
+      const relativePath = toMessageRelativeFilePath(sourceFilePath);
+      logger.report(onUnusedMarkdownDirectives)`${formatUnusedDirectivesMessage(
+        {
+          directives,
+          filePath: relativePath,
+        },
+      )}${extraHelp}`;
+    };
+  } else {
+    return (params) =>
+      onUnusedMarkdownDirectives({
+        ...params,
+        sourceFilePath: toMessageRelativeFilePath(params.sourceFilePath),
+      });
   }
 }
 
@@ -112,9 +130,14 @@ function isUnusedDirective(directive: Directives) {
   return !directive.data;
 }
 
-const plugin: Plugin<unknown[], Root> = function plugin(
+const plugin: Plugin<PluginOptions[], Root> = function plugin(
   this: Processor,
+  options,
 ): Transformer<Root> {
+  const onUnusedMarkdownDirectives = asFunction(
+    options.onUnusedMarkdownDirectives,
+  );
+
   return async (tree, file) => {
     const {visit} = await import('unist-util-visit');
 
@@ -133,14 +156,14 @@ const plugin: Plugin<unknown[], Root> = function plugin(
       }
     });
 
-    // We only enable these warnings for the client compiler
-    // This avoids emitting duplicate warnings in prod mode
+    // We only process unused directives for the client compiler
+    // This avoids emitting duplicate errors/warnings in prod mode
     // Note: the client compiler is used in both dev/prod modes
     // Also: the client compiler is what gets used when using crossCompilerCache
-    if (file.data.compilerName === 'client') {
-      logUnusedDirectivesWarning({
+    if (file.data.compilerName === 'client' && unusedDirectives.length > 0) {
+      onUnusedMarkdownDirectives({
+        sourceFilePath: file.path!,
         directives: unusedDirectives,
-        filePath: file.path,
       });
     }
   };

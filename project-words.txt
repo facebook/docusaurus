@@ -1,6 +1,7 @@
 # Project Words - DO NOT TOUCH - This is updated through CI
 abernathyca
 Adriaan
+agentreadyweb
 alexbdebrie
 Alexey
 algoliasearch
@@ -16,6 +17,7 @@ atrule
 autogenerating
 autohide
 Autolinks
+backgrounded
 Bartosz
 beforeinstallprompt
 Bhatt
@@ -79,8 +81,6 @@ ERRNAMETOOLONG
 externalwaiting
 failfast
 Fienny
-Flightcontrol
-Flightcontrol's
 forwardable
 FOUC
 Français
@@ -101,7 +101,6 @@ hasura
 Heavener
 Hideable
 hideable
-Hostman
 hoverable
 Husain
 Héctor
@@ -127,10 +126,7 @@ Keycap
 keycap
 Keytar
 keytar
-Kinsta
 Knapen
-Koyeb
-Koyeb's
 Lamana
 Lifecycles
 lifecycles
@@ -184,7 +180,6 @@ nand
 Navigations
 navigations
 navlink
-netrc
 newtab
 Nisarag
 noflash
@@ -235,7 +230,6 @@ protobuffet
 PRPL
 Pyltsyn
 QJPUV
-Qovery
 quasis
 Quddus
 Quddús
@@ -243,6 +237,7 @@ Quickwit
 quickwit
 rachelnabors
 Ramón
+rangefind
 reactjs
 rearchitecture
 Recma
@@ -271,7 +266,6 @@ runneradmin
 Samply
 samply
 saurus
-Scaleway
 Sebastien
 sebastien
 sebastienlorber
@@ -294,7 +288,6 @@ someexpression
 spâce
 stackblitz
 stackoverflow
-Stormkit
 strikethroughs
 styl
 sublabel
