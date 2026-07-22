@@ -72,11 +72,13 @@ export async function getAvailablePackageManagers(): Promise<PackageManager[]> {
 export async function runPackageManagerInstallCommand(
   pkgManager: PackageManager,
 ): Promise<boolean> {
+  // bun and nub don't accept "--color always" and color their output based on
+  // the terminal / FORCE_COLOR (set below) instead.
   const installCommand =
     pkgManager === 'yarn'
       ? 'yarn'
-      : pkgManager === 'bun'
-        ? 'bun install'
+      : pkgManager === 'bun' || pkgManager === 'nub'
+        ? `${pkgManager} install`
         : `${pkgManager} install --color always`;
 
   return (
