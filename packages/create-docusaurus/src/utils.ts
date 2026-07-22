@@ -48,6 +48,19 @@ export async function pathExists(filePath: string): Promise<boolean> {
     .catch(() => false);
 }
 
+// The command that runs a package.json script. nub has no implicit script
+// shortcut, so every script needs an explicit "run". npm/bun need it too,
+// except for the "start" lifecycle script; yarn/pnpm never need it.
+export function packageManagerScriptCommand(
+  pkgManager: PackageManager,
+  script: string,
+): string {
+  const needsRun =
+    pkgManager === 'nub' ||
+    ((pkgManager === 'npm' || pkgManager === 'bun') && script !== 'start');
+  return `${pkgManager} ${needsRun ? 'run ' : ''}${script}`;
+}
+
 export function printPackageManagerHelp({
   pkgManager,
   cdpath,
@@ -55,28 +68,27 @@ export function printPackageManagerHelp({
   pkgManager: PackageManager;
   cdpath: string;
 }) {
-  const useNpm = pkgManager === 'npm';
-  const useBun = pkgManager === 'bun';
-  const run = useNpm || useBun ? 'run ' : '';
+  const script = (name: string) =>
+    packageManagerScriptCommand(pkgManager, name);
   logger.success`Created name=${cdpath}.`;
   logger.info`Inside that directory, you can run several commands:
 
-  code=${`${pkgManager} start`}
+  code=${script('start')}
     Starts the development server.
 
-  code=${`${pkgManager} ${run}build`}
+  code=${script('build')}
     Bundles your website into static files for production.
 
-  code=${`${pkgManager} ${run}serve`}
+  code=${script('serve')}
     Serves the built website locally.
 
-  code=${`${pkgManager} ${run}deploy`}
+  code=${script('deploy')}
     Publishes the website to GitHub pages.
 
 We recommend that you begin by typing:
 
   code=${`cd ${cdpath}`}
-  code=${`${pkgManager} start`}
+  code=${script('start')}
 
 Happy building awesome websites!
 `;
