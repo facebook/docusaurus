@@ -47,6 +47,26 @@ describe('createExcerpt', () => {
     );
   });
 
+  it('skips h1 headings containing # in their text', () => {
+    expect(
+      createExcerpt(dedent`
+
+          # C# Programming Guide
+
+          This paragraph should become the description.
+        `),
+    ).toBe('This paragraph should become the description.');
+
+    expect(
+      createExcerpt(dedent`
+
+          # F# Programming Guide #
+
+          This paragraph should also become the description.
+        `),
+    ).toBe('This paragraph should also become the description.');
+  });
+
   it('creates excerpt for regular content with alternate title', () => {
     expect(
       createExcerpt(dedent`

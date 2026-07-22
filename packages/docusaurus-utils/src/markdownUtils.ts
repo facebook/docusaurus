@@ -145,8 +145,8 @@ export function createExcerpt(fileString: string): string | undefined {
     const cleanedLine = fileLine
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
-      // Remove Title headers
-      .replace(/^#[^#]+#?/gm, '')
+      // Remove H1/Title headers
+      .replace(/^#[ \t][^\r\n]*$/gm, '')
       // Remove Markdown + ATX-style headers
       .replace(/^#{1,6}\s*(?<text>[^#]*?)\s*#{0,6}/gm, '$1')
       // Remove emphasis.
