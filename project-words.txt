@@ -57,6 +57,8 @@ Datagit's
 dedup
 definitelytyped
 devto
+Dhub
+dhub
 dingers
 Dmitry
 Docu
