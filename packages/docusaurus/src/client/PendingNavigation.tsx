@@ -25,6 +25,8 @@ type State = {
 class PendingNavigation extends React.Component<Props, State> {
   private previousLocation: Location | null;
   private routeUpdateCleanupCb: () => void;
+  // Guard variable to prevent double-execution in Strict Mode
+  private pendingLocation: Location | null = null;
 
   constructor(props: Props) {
     super(props);
@@ -54,8 +56,21 @@ class PendingNavigation extends React.Component<Props, State> {
     // props.location being different means the router is trying to navigate to
     // a new route. We will preload the new route.
     const nextLocation = nextProps.location;
+
+    // If shouldComponentUpdate is double-invoked with the
+    // exact same target location, return false immediately
+    // to bypass side effects
+    if (this.pendingLocation === nextLocation) {
+      return false;
+    }
+
     // Save the location first.
+    this.pendingLocation = nextLocation; // guard against double-triggers
     this.previousLocation = this.props.location;
+
+    // Clear an active transition if one was already registered
+    this.routeUpdateCleanupCb();
+
     this.setState({nextRouteHasLoaded: false});
     this.routeUpdateCleanupCb = dispatchLifecycleAction('onRouteUpdate', {
       previousLocation: this.previousLocation,
@@ -67,8 +82,13 @@ class PendingNavigation extends React.Component<Props, State> {
     // user is on saveData
     preload(nextLocation.pathname)
       .then(() => {
-        this.routeUpdateCleanupCb();
-        this.setState({nextRouteHasLoaded: true});
+        // Only finalize the transition
+        // if the user hasn't started preloading a newer location
+        if (this.pendingLocation === nextLocation) {
+          this.pendingLocation = null;
+          this.routeUpdateCleanupCb();
+          this.setState({nextRouteHasLoaded: true});
+        }
       })
       .catch((e: unknown) => {
         console.warn(e);
