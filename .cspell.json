@@ -41,6 +41,7 @@
     "admin/scripts",
     "website/src/data/users.tsx",
     "website/src/data/tweets.tsx",
+    "website/community/2-resources.mdx",
     "website/docusaurus.config.localized.json",
     "website/_dogfooding/_pages tests/diagrams.mdx",
     "*.xyz",

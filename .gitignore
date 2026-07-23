@@ -55,3 +55,6 @@ website/profile.json.gz
 .claude
 .codex
 
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
