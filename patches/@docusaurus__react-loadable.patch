@@ -1,20 +1,7 @@
 diff --git a/lib/index.js b/lib/index.js
-index 1167aa26f6ad3cbacde07230386a54270e0bcdb9..47b6c3d299434cff99768c8862f365e6e2e12cdd 100644
+index 1167aa26f6ad3cbacde07230386a54270e0bcdb9..a6069a0acfbac9003b68232f9e471663d54cfe03 100644
 --- a/lib/index.js
 +++ b/lib/index.js
-@@ -134,10 +134,10 @@ function createLoadableComponent(loadFn, options) {
-   function (_React$Component) {
-     _inheritsLoose(LoadableComponent, _React$Component);
- 
--    function LoadableComponent(props) {
-+    function LoadableComponent(props, context) {
-       var _this;
- 
--      _this = _React$Component.call(this, props) || this;
-+      _this = _React$Component.call(this, props, context) || this;
- 
-       _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "retry", function () {
-         _this.setState({
 @@ -159,6 +159,9 @@ function createLoadableComponent(loadFn, options) {
          loading: res.loading,
          loaded: res.loaded
