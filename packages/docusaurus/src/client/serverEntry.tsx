@@ -28,7 +28,6 @@ const render: AppRenderer['render'] = async ({pathname}) => {
   const statefulBrokenLinks = createStatefulBrokenLinks();
 
   const app = (
-    // @ts-expect-error: we are migrating away from react-loadable anyways
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
         <StaticRouter location={pathname} context={routerContext}>

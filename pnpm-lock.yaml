@@ -425,11 +425,11 @@ importers:
         specifier: npm:@slorber/react-helmet-async@1.3.0
         version: '@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)'
       react-loadable:
-        specifier: npm:@docusaurus/react-loadable@6.0.0
-        version: '@docusaurus/react-loadable@6.0.0(react@19.2.6)'
+        specifier: npm:@seyoon20087/react-loadable@^6.0.2
+        version: '@seyoon20087/react-loadable@6.0.2(react@19.2.6)'
       react-loadable-ssr-addon-v5-slorber:
         specifier: ^1.0.3
-        version: 1.0.3(@docusaurus/react-loadable@6.0.0(react@19.2.6))(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
+        version: 1.0.3(@seyoon20087/react-loadable@6.0.2(react@19.2.6))(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15))
       react-router:
         specifier: ^5.3.4
         version: 5.3.4(react@19.2.6)
@@ -862,8 +862,8 @@ importers:
         specifier: npm:@slorber/react-helmet-async@1.3.0
         version: '@slorber/react-helmet-async@1.3.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)'
       react-loadable:
-        specifier: npm:@docusaurus/react-loadable@6.0.0
-        version: '@docusaurus/react-loadable@6.0.0(react@19.2.6)'
+        specifier: npm:@seyoon20087/react-loadable@^6.0.2
+        version: '@seyoon20087/react-loadable@6.0.2(react@19.2.6)'
 
   packages/docusaurus-plugin-client-redirects:
     dependencies:
@@ -3590,11 +3590,6 @@ packages:
       search-insights:
         optional: true
 
-  '@docusaurus/react-loadable@6.0.0':
-    resolution: {integrity: sha512-YMMxTUQV/QFSnbgrP3tjDzLHRg7vsbMn8e9HAa8o/1iXoiomo48b7sk/kkmWEuWNDPJVlKSJRB6Y2fHqdJk+SQ==}
-    peerDependencies:
-      react: '*'
-
   '@docusaurus/responsive-loader@1.7.1':
     resolution: {integrity: sha512-jAebZ43f8GVpZSrijLGHVVp7Y0OMIPRaL+HhiIWQ+f/b72lTsKLkSkOVHEzvd2psNJ9lsoiM3gt6akpak6508w==}
     engines: {node: '>=12'}
@@ -5414,6 +5409,11 @@ packages:
 
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
+
+  '@seyoon20087/react-loadable@6.0.2':
+    resolution: {integrity: sha512-lFrOIFxg+gcKAHguSO0IvYhjEqoo/27LzfpVDeqN/qbd3bWqVWhMoYS/7kGz51pT+qlrXyINnKsqECU19dfOtg==}
+    peerDependencies:
+      react: '>=16.14.0'
 
   '@sigstore/bundle@4.0.0':
     resolution: {integrity: sha512-NwCl5Y0V6Di0NexvkTqdoVfmjTaQwoLM236r89KEojGmq/jMls8S+zb7yOwAPdXvbwfKDlP+lmXgAL4vKSQT+A==}
@@ -15128,11 +15128,6 @@ snapshots:
       - '@algolia/client-search'
       - algoliasearch
 
-  '@docusaurus/react-loadable@6.0.0(react@19.2.6)':
-    dependencies:
-      '@types/react': 19.2.14
-      react: 19.2.6
-
   '@docusaurus/responsive-loader@1.7.1(jimp@1.6.1(supports-color@7.2.0))(sharp@0.35.3(@types/node@25.9.1))':
     dependencies:
       loader-utils: 2.0.4
@@ -16983,6 +16978,10 @@ snapshots:
       - '@emnapi/runtime'
 
   '@rtsao/scc@1.1.0': {}
+
+  '@seyoon20087/react-loadable@6.0.2(react@19.2.6)':
+    dependencies:
+      react: 19.2.6
 
   '@sigstore/bundle@4.0.0':
     dependencies:
@@ -24320,10 +24319,10 @@ snapshots:
       sucrase: 3.35.1
       use-editable: 2.3.3(react@19.2.6)
 
-  react-loadable-ssr-addon-v5-slorber@1.0.3(@docusaurus/react-loadable@6.0.0(react@19.2.6))(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15)):
+  react-loadable-ssr-addon-v5-slorber@1.0.3(@seyoon20087/react-loadable@6.0.2(react@19.2.6))(webpack@5.107.2(@swc/core@1.15.40)(postcss@8.5.15)):
     dependencies:
       '@babel/runtime': 7.29.7
-      react-loadable: '@docusaurus/react-loadable@6.0.0(react@19.2.6)'
+      react-loadable: '@seyoon20087/react-loadable@6.0.2(react@19.2.6)'
       webpack: 5.107.2(@swc/core@1.15.40)(postcss@8.5.15)
 
   react-medium-image-zoom@5.4.8(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
