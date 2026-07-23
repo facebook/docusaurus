@@ -116,7 +116,7 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-helmet-async": "npm:@slorber/react-helmet-async@1.3.0",
-    "rimraf": "^3.0.2",
+    "rimraf": "^6.1.3",
     "sharp": "^0.35.1",
     "strip-ansi": "^7.2.0",
     "stylelint": "^17.12.0",
