@@ -277,6 +277,15 @@ describe('toURLPath', () => {
       hash: '',
     });
   });
+
+  it('pathname + hash containing a question mark (no query)', () => {
+    const url = parseURLOrPath('/pathname#hash?notquery');
+    expect(toURLPath(url)).toEqual({
+      pathname: '/pathname',
+      search: undefined,
+      hash: 'hash?notquery',
+    });
+  });
 });
 
 describe('parseLocalURLPath', () => {

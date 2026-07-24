@@ -177,13 +177,17 @@ export type URLPath = {pathname: string; search?: string; hash?: string};
 export function toURLPath(url: URL): URLPath {
   const {pathname} = url;
 
+  // Only the part before the fragment can contain the query string. A "?"
+  // inside the hash (e.g. "/foo#bar?baz") must not be read as an empty query.
+  const beforeHash = url.hash ? url.href.slice(0, -url.hash.length) : url.href;
+
   // Fixes annoying url.search behavior
   // "" => undefined
   // "?" => ""
   // "?param => "param"
   const search = url.search
     ? url.search.slice(1)
-    : url.href.includes('?')
+    : beforeHash.includes('?')
       ? ''
       : undefined;
 
