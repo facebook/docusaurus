@@ -10,7 +10,6 @@ import {Route} from 'react-router-dom';
 import ClientLifecyclesDispatcher, {
   dispatchLifecycleAction,
 } from './ClientLifecyclesDispatcher';
-import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import preload from './preload';
 import type {Location} from 'history';
 
@@ -39,12 +38,10 @@ class PendingNavigation extends React.Component<Props, State> {
   }
 
   override componentDidMount(): void {
-    if (ExecutionEnvironment.canUseDOM) {
-      this.routeUpdateCleanupCb = dispatchLifecycleAction('onRouteUpdate', {
-        previousLocation: null,
-        location: this.props.location,
-      });
-    }
+    this.routeUpdateCleanupCb = dispatchLifecycleAction('onRouteUpdate', {
+      previousLocation: null,
+      location: this.props.location,
+    });
   }
 
   // Intercept location updates in commit phase and still show old route
@@ -53,15 +50,13 @@ class PendingNavigation extends React.Component<Props, State> {
     if (this.props.location !== prevProps.location) {
       this.routeUpdateCleanupCb();
 
-      // props.location being different means the router is trying to navigate to
-      // a new route. We will preload the new route.
+      // props.location being different means the router is trying to navigate
+      // to a new route. We will preload the new route.
       const nextLocation = this.props.location;
-      this.routeUpdateCleanupCb = ExecutionEnvironment.canUseDOM
-        ? dispatchLifecycleAction('onRouteUpdate', {
-            previousLocation: prevProps.location,
-            location: nextLocation,
-          })
-        : () => {};
+      this.routeUpdateCleanupCb = dispatchLifecycleAction('onRouteUpdate', {
+        previousLocation: prevProps.location,
+        location: nextLocation,
+      });
 
       // Load data while the old screen remains. Force preload instead of using
       // `window.docusaurus`, because we want to avoid loading screen even when
