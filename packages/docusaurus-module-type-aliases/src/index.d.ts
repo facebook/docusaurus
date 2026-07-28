@@ -183,6 +183,9 @@ declare module '@docusaurus/Link' {
 
       /** Escape hatch in case broken links check doesn't make sense. */
       readonly 'data-noBrokenLinkCheck'?: boolean;
+
+      /** Escape hatch for links that should preserve their exact URL. */
+      readonly 'data-noTrailingSlash'?: boolean;
     };
   export default function Link(props: Props): ReactNode;
 }

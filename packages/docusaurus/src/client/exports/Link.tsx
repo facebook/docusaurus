@@ -35,6 +35,7 @@ function Link({
   activeClassName,
   isActive,
   'data-noBrokenLinkCheck': noBrokenLinkCheck,
+  'data-noTrailingSlash': noTrailingSlash,
   autoAddBaseUrl = true,
   ...props
 }: Props): ReactNode {
@@ -88,7 +89,7 @@ function Link({
     targetLink = targetLink?.slice(1);
   }
 
-  if (targetLink && isInternal) {
+  if (targetLink && isInternal && !noTrailingSlash) {
     targetLink = applyTrailingSlash(targetLink, {trailingSlash, baseUrl});
   }
 

@@ -122,6 +122,24 @@ describe('<Link>', () => {
       `);
     });
 
+    it('does not add a trailing slash to an asset link', () => {
+      const {container} = render(
+        <Link
+          href="/assets/files/example-a1b2c3.docx"
+          target="_blank"
+          data-noTrailingSlash
+        />,
+        {trailingSlash: true},
+      );
+      expect(container.firstElementChild).toMatchInlineSnapshot(`
+        <a
+          data-test-link-type="regular"
+          href="/assets/files/example-a1b2c3.docx"
+          target="_blank"
+        />
+      `);
+    });
+
     it("can render '/docs/intro/' with trailingSlash false", () => {
       const {container} = render(<Link to="/docs/intro/" />, {
         trailingSlash: false,
