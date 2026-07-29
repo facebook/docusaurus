@@ -56,13 +56,26 @@ ${DocusaurusGetChunkAssetFn} = function(chunkId) { chunkId = ${JSON.stringify(
  */
 export default class ChunkAssetPlugin {
   apply(compiler: Compiler): void {
+    const runtimeModules = new Set<ChunkAssetRuntimeModule>();
+
     compiler.hooks.thisCompilation.tap(PluginName, (compilation) => {
+      runtimeModules.clear();
       compilation.hooks.additionalTreeRuntimeRequirements.tap(
         PluginName,
         (chunk) => {
-          compilation.addRuntimeModule(chunk, new ChunkAssetRuntimeModule());
+          const runtimeModule = new ChunkAssetRuntimeModule();
+          runtimeModules.add(runtimeModule);
+          compilation.addRuntimeModule(chunk, runtimeModule);
         },
       );
+    });
+
+    compiler.hooks.shutdown.tap(PluginName, () => {
+      // Rspack keeps runtime module generator callbacks alive after shutdown.
+      runtimeModules.forEach((runtimeModule) =>
+        runtimeModule.clearCompilationReferences(),
+      );
+      runtimeModules.clear();
     });
   }
 }
@@ -77,5 +90,11 @@ class ChunkAssetRuntimeModule extends webpack.RuntimeModule {
   }
   override generate() {
     return generateGetChunkAssetRuntimeCode(this.chunk!);
+  }
+
+  clearCompilationReferences() {
+    this.compilation = undefined;
+    this.chunk = undefined;
+    this.chunkGraph = undefined;
   }
 }
