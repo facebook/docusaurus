@@ -572,6 +572,26 @@ Lorem Ipsum
     });
   });
 
+  it('parses markdown h1 title placed after export declarations', () => {
+    const markdown = dedent`
+          export function Author() {
+            return (
+              <a href="mailto:author@example.com">Author</a>
+            );
+          }
+
+          # Markdown Title
+
+          Lorem Ipsum
+
+        `;
+
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: markdown,
+      contentTitle: 'Markdown Title',
+    });
+  });
+
   it('parses markdown h1 title placed after multiple import declarations', () => {
     const markdown = dedent`
           import Component1 from '@site/src/components/Component1';
