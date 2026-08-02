@@ -17,6 +17,12 @@ import type {
 // content. Most parsing is still done in MDX through the mdx-loader.
 
 /**
+ * Characters that have markup behavior for the Markdown/MDX renderer to
+ * interpret.
+ */
+const MARKUP_CHARS = ['_', ':', '*', '<', '>', '~', '!', '[', ']'];
+
+/**
  * Hacky temporary escape hatch for Crowdin bad MDX support
  * See https://docusaurus.io/docs/i18n/crowdin#mdx
  *
@@ -143,6 +149,12 @@ export function createExcerpt(fileString: string): string | undefined {
     }
 
     const cleanedLine = fileLine
+      // Unwrap inline code.
+      .replace(/`(?<text>.+?)`/g, (_, text) => {
+        return MARKUP_CHARS.reduce((acc, val) => {
+          return acc.replaceAll(val, `\u{FFFE}${val.codePointAt(0)}\u{FFFF}`);
+        }, text);
+      })
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
@@ -159,8 +171,6 @@ export function createExcerpt(fileString: string): string | undefined {
       .replace(/\[\^.+?\](?:: .*$)?/g, '')
       // Remove inline links.
       .replace(/\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
-      // Remove inline code.
-      .replace(/`(?<text>.+?)`/g, '$1')
       // Remove blockquotes.
       .replace(/^\s{0,3}>\s?/g, '')
       // Remove admonition definition.
@@ -172,7 +182,9 @@ export function createExcerpt(fileString: string): string | undefined {
       .trim();
 
     if (cleanedLine) {
-      return cleanedLine;
+      return MARKUP_CHARS.reduce((acc, val) => {
+        return acc.replaceAll(`\u{FFFE}${val.codePointAt(0)}\u{FFFF}`, val);
+      }, cleanedLine);
     }
   }
 
