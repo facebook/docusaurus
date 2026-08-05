@@ -47,6 +47,38 @@ describe('createExcerpt', () => {
     );
   });
 
+  it('skips H1 heading whose text contains a hash character (e.g. "C#", "F#")', () => {
+    expect(
+      createExcerpt(dedent`
+
+          # C# Programming Guide
+
+          This paragraph should become the description.
+        `),
+    ).toBe('This paragraph should become the description.');
+  });
+
+  it('skips H1 heading with trailing closing hashes and interior hash', () => {
+    expect(
+      createExcerpt(dedent`
+
+          # F# Programming Guide #
+
+          This paragraph should become the description.
+        `),
+    ).toBe('This paragraph should become the description.');
+  });
+
+  it('keeps hash characters inside non-heading text', () => {
+    expect(
+      createExcerpt(dedent`
+          The language C# is used with .NET, and F# is a functional alternative.
+
+          Nunc porttitor libero nec vulputate venenatis.
+        `),
+    ).toBe('The language C# is used with .NET, and F# is a functional alternative.');
+  });
+
   it('creates excerpt for regular content with alternate title', () => {
     expect(
       createExcerpt(dedent`

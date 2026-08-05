@@ -145,10 +145,15 @@ export function createExcerpt(fileString: string): string | undefined {
     const cleanedLine = fileLine
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
-      // Remove Title headers
-      .replace(/^#[^#]+#?/gm, '')
+      // Remove Title headers (single-# ATX headings are skipped entirely)
+      // Note: the heading text may legitimately contain "#" (e.g. "C#", "F#"),
+      // so we must match the whole line instead of using a negated class
+      .replace(/^#.*$/gm, '')
       // Remove Markdown + ATX-style headers
-      .replace(/^#{1,6}\s*(?<text>[^#]*?)\s*#{0,6}/gm, '$1')
+      // Note: we must not forbid "#" inside the heading text (e.g. "C#", "F#")
+      // Only the leading marker and an optional trailing closing sequence are
+      // stripped, anchored to the end of the line to avoid eating interior "#"
+      .replace(/^#{1,6}\s*(?<text>.*?)\s*#*$/gm, '$1')
       // Remove emphasis.
       .replace(/(?<opening>[*_]{1,3})(?<text>.*?)\1/g, '$2')
       // Remove strikethroughs.
