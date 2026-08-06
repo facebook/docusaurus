@@ -13,7 +13,7 @@ import {createRequire} from 'module';
 import execa from 'execa';
 import {logger} from '@docusaurus/logger';
 import semver from 'semver';
-import updateNotifier from 'update-notifier';
+import updateNotifier from 'nano-update-notifier';
 import boxen from 'boxen';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
@@ -77,7 +77,7 @@ export default async function beforeCli() {
   /**
    * We don't want to display update message for canary releases.
    * See https://github.com/facebook/docusaurus/issues/5378
-   * @param {import('update-notifier').UpdateInfo} update
+   * @param {import('nano-update-notifier').Update} update
    */
   function ignoreUpdate(update) {
     const isCanaryRelease = update?.current?.startsWith('0.0.0');
