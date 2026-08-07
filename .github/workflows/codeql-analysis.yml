@@ -37,4 +37,4 @@ jobs:
           config-file: ./.github/codeql/codeql-config.yml
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@7188fc363630916deb702c7fdcf4e481b751f97a # 4.37.1
+        uses: github/codeql-action/analyze@5595ccaf912efad79be6eef63a5619ff05969be3 # 4.37.6
