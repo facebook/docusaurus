@@ -275,6 +275,28 @@ export async function isGitInsideWorktree(cwd: string): Promise<boolean> {
   }
 }
 
+/**
+ * Normalizes MSYS/Git Bash paths on Windows from POSIX format to Windows format.
+ * For example: /c/Users/... -> C:\Users\...
+ * This fixes issues where Git on Windows (via MSYS/Git Bash) returns POSIX-style paths.
+ */
+function normalizeMSYSPath(gitPath: string): string {
+  // Only apply on Windows
+  if (process.platform !== 'win32') {
+    return gitPath;
+  }
+
+  // Match MSYS-style paths like /c/..., /d/..., /p/... etc.
+  const msysMatch = gitPath.match(/^\/([a-z])\/(.*)$/i);
+  if (msysMatch) {
+    const driveLetter = msysMatch[1]!.toUpperCase();
+    const restOfPath = msysMatch[2]!.replace(/\//g, '\\');
+    return `${driveLetter}:\\${restOfPath}`;
+  }
+
+  return gitPath;
+}
+
 export async function getGitRepoRoot(cwd: string): Promise<string> {
   const createErrorMessageBase = () => {
     return `Couldn't find the git repository root directory
@@ -303,7 +325,10 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
     );
   }
 
-  return fs.realpath.native(result.stdout.trim());
+  const gitPath = result.stdout.trim();
+  // Normalize MSYS paths before passing to fs.realpath
+  const normalizedPath = normalizeMSYSPath(gitPath);
+  return fs.realpath.native(normalizedPath);
 }
 
 // A Git "superproject" is a Git repository that contains submodules
@@ -347,7 +372,8 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
   // this command only works when inside submodules
   // otherwise it doesn't return anything when we are inside the main repo
   if (output) {
-    return fs.realpath.native(output);
+    const normalizedOutput = normalizeMSYSPath(output);
+    return fs.realpath.native(normalizedOutput);
   }
   return getGitRepoRoot(cwd);
 }
