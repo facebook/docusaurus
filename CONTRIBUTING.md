@@ -13,7 +13,7 @@ Meta has adopted a Code of Conduct that we expect project participants to adhere
 
 ## Get Involved
 
-There are many ways to contribute to Docusaurus, and many of them do not involve writing any code. Here's a few ideas to get started:
+There are many ways to contribute to Docusaurus, and many of them do not involve writing any code. Here are a few ideas to get started:
 
 - Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/installation) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#issues).
 - Look through the [open issues](https://github.com/facebook/docusaurus/issues). Provide workarounds, ask for clarification, or suggest labels. Help [triage issues](#triaging-issues-and-pull-requests).
