@@ -37,7 +37,7 @@ Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusau
 
 - **Simple to Start**
 
-> Docusaurus is built in a way so that it can [get running](https://docusaurus.io/docs/installation) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
+> Docusaurus is built in a way so that it can [get it running](https://docusaurus.io/docs/installation) in as little time as possible. We've built Docusaurus to handle the website build process so you can focus on your project.
 
 - **Localizable**
 
