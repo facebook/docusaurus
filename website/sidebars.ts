@@ -100,6 +100,7 @@ const sidebars: SidebarsConfig = {
             'deployment/github-pages',
             'deployment/netlify',
             'deployment/vercel',
+            'deployment/nginx',
           ],
         },
         {
