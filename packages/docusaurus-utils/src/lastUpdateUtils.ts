@@ -61,9 +61,10 @@ export async function readLastUpdateData(
   }
 
   const frontMatterAuthor = lastUpdateFrontMatter?.author;
-  const frontMatterTimestamp = lastUpdateFrontMatter?.date
-    ? new Date(lastUpdateFrontMatter.date).getTime()
-    : undefined;
+  const rawDate = lastUpdateFrontMatter?.date;
+  const parsedDate = rawDate ? new Date(rawDate).getTime() : undefined;
+  const frontMatterTimestamp =
+    parsedDate && !Number.isNaN(parsedDate) ? parsedDate : undefined;
 
   // We try to minimize git last update calls
   // We call it at most once

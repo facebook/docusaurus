@@ -61,6 +61,14 @@ describe('readLastUpdateData', () => {
       expect(lastUpdatedBy).toBeNull();
       expect(lastUpdatedAt).toEqual(testTimestamp);
     });
+
+    it('handles invalid date string in front matter gracefully', async () => {
+      const {lastUpdatedAt, lastUpdatedBy} = await readUntrackedFile({
+        date: 'invalid-date-string',
+      });
+      expect(lastUpdatedAt).toBeNull();
+      expect(lastUpdatedBy).toBeNull();
+    });
   });
 
   it('read last time show author time', async () => {
