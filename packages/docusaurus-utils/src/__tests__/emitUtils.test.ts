@@ -7,6 +7,7 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
+import os from 'os';
 import fs from 'fs-extra';
 import {readOutputHTMLFile, generate} from '../emitUtils';
 
@@ -113,6 +114,20 @@ describe('readOutputHTMLFile', () => {
         undefined,
       ).then(String),
     ).resolves.toBe('nestedHtmlFile.html\n');
+  });
+  it('reads index.html when the permalink path is a directory', async () => {
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'docusaurus-'));
+    try {
+      const dirPath = path.join(tempDir, 'dir.html');
+      await fs.ensureDir(dirPath);
+      await fs.writeFile(path.join(dirPath, 'index.html'), 'dir-index\n');
+
+      await expect(
+        readOutputHTMLFile('/dir.html', tempDir, undefined).then(String),
+      ).resolves.toBe('dir-index\n');
+    } finally {
+      await fs.remove(tempDir);
+    }
   });
   // Can it ever happen?
   it('throws if file does not exist', async () => {

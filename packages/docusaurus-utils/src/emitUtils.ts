@@ -99,12 +99,43 @@ export async function readOutputHTMLFile(
         ? [`${withoutTrailingSlashPath}.html`]
         : [withTrailingSlashPath, `${withoutTrailingSlashPath}.html`];
 
-  const HTMLPath = await findAsyncSequential(possibleHtmlPaths, fs.pathExists);
+  async function readCandidateHTMLFile(
+    candidatePath: string,
+  ): Promise<Buffer | null> {
+    if (!(await fs.pathExists(candidatePath))) {
+      return null;
+    }
+    try {
+      return await fs.readFile(candidatePath);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException)?.code !== 'EISDIR') {
+        throw error;
+      }
+    }
+
+    const candidateIndexPath = path.join(candidatePath, 'index.html');
+    if (await fs.pathExists(candidateIndexPath)) {
+      return fs.readFile(candidateIndexPath);
+    }
+
+    return null;
+  }
+
+  const HTMLPath = await findAsyncSequential(possibleHtmlPaths, async (p) =>
+    Boolean(await readCandidateHTMLFile(p)),
+  );
 
   if (!HTMLPath) {
     throw new Error(
       `Expected output HTML file to be found at ${possibleHtmlPaths[0]} for permalink ${permalink}.`,
     );
   }
-  return fs.readFile(HTMLPath);
+
+  const content = await readCandidateHTMLFile(HTMLPath);
+  if (!content) {
+    throw new Error(
+      `Expected output HTML file to be found at ${HTMLPath} for permalink ${permalink}.`,
+    );
+  }
+  return content;
 }
