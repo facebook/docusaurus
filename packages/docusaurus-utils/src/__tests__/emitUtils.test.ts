@@ -89,6 +89,15 @@ describe('readOutputHTMLFile', () => {
       ).then(String),
     ).resolves.toBe('htmlFile.html\n');
   });
+  it('reads file ending in .html with trailing slash true', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/htmlFile.html',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        true,
+      ).then(String),
+    ).resolves.toBe('htmlFile.html\n');
+  });
   it('reads file ending in .html in folder containing .html', async () => {
     await expect(
       readOutputHTMLFile(
