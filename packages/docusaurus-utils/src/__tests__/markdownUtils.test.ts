@@ -153,6 +153,22 @@ describe('createExcerpt', () => {
     );
   });
 
+  it('creates excerpt for inline code containing XML-like text', () => {
+    expect(
+      createExcerpt(dedent`
+          Removes the [\`<metadata>\`](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/metadata) element from the document.
+        `),
+    ).toBe('Removes the <metadata> element from the document.');
+  });
+
+  it('creates excerpt for inline code containing XML-like text in a linkless sentence', () => {
+    expect(
+      createExcerpt(dedent`
+          Removes the \`<metadata>\` element from the document.
+        `),
+    ).toBe('Removes the <metadata> element from the document.');
+  });
+
   it('creates excerpt for heading specified with anchor-id syntax', () => {
     expect(
       createExcerpt(dedent`

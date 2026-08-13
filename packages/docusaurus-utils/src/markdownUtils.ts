@@ -94,6 +94,10 @@ export function createExcerpt(fileString: string): string | undefined {
   let inImport = false;
   let inHTML = false;
   let lastCodeFence = '';
+  const inlineCodeSegments: string[] = [];
+
+  const inlineCodeToken = (index: number) =>
+    `\u0000excerpt-inline-code-${index}\u0000`;
 
   for (const fileLine of fileLines) {
     // An empty line marks the end of imports
@@ -142,7 +146,17 @@ export function createExcerpt(fileString: string): string | undefined {
       continue;
     }
 
-    const cleanedLine = fileLine
+    const lineWithProtectedInlineCode = fileLine.replace(
+      /`(?<text>.+?)`/g,
+      (_match, _text, offset, _input, groups) => {
+        const text = groups?.text ?? _text;
+        const token = inlineCodeToken(inlineCodeSegments.length);
+        inlineCodeSegments.push(text);
+        return token;
+      },
+    );
+
+    const cleanedLine = lineWithProtectedInlineCode
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
@@ -169,6 +183,10 @@ export function createExcerpt(fileString: string): string | undefined {
       .replace(/\s?:(?:::|[^:\n])+:/g, '')
       // Remove custom Markdown heading id.
       .replace(/\{#*[\w-]+\}/, '')
+      .replace(
+        /\u0000excerpt-inline-code-(\d+)\u0000/g,
+        (_match, index: string) => inlineCodeSegments[Number(index)] ?? '',
+      )
       .trim();
 
     if (cleanedLine) {
