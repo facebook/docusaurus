@@ -47,6 +47,28 @@ describe('createExcerpt', () => {
     );
   });
 
+  it('creates excerpt for regular content with regular title containing #', () => {
+    expect(
+      createExcerpt(dedent`
+
+          # C# Programming Guide
+
+          This paragraph should become the description.
+        `),
+    ).toBe('This paragraph should become the description.');
+  });
+
+  it('creates excerpt for regular content with regular title containing # and trailing hash', () => {
+    expect(
+      createExcerpt(dedent`
+
+          # F# Programming Guide #
+
+          This paragraph should become the description.
+        `),
+    ).toBe('This paragraph should become the description.');
+  });
+
   it('creates excerpt for regular content with alternate title', () => {
     expect(
       createExcerpt(dedent`

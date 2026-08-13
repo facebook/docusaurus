@@ -112,6 +112,12 @@ export function createExcerpt(fileString: string): string | undefined {
       continue;
     }
 
+    // Skip level-1 ATX headings entirely so inline `#` characters like `C#`
+    // don't leave behind a partial heading fragment in the excerpt.
+    if (/^\s*#(?!#)\s/.test(fileLine)) {
+      continue;
+    }
+
     // Skip code block line.
     if (fileLine.trim().startsWith('```')) {
       const codeFence = fileLine.trim().match(/^`+/)![0]!;
