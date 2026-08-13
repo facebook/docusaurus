@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {resolve, basename} from 'node:path';
+import {resolve, basename, isAbsolute} from 'node:path';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {
   getGitAllRepoRoots,
@@ -82,11 +82,15 @@ async function initialize({
 
 export function createVcsGitEagerConfig(): VcsConfig {
   let initPromise: Promise<InitializeResult> | null = null;
+  let currentSiteDir: string;
 
   async function getGitFileInfo(filePath: string): Promise<GitFileInfo | null> {
     const init = (await initPromise)!;
     if (init.type === 'success') {
-      return init.filesMap.get(filePath) ?? null;
+      const absoluteFilePath = isAbsolute(filePath)
+        ? filePath
+        : resolve(currentSiteDir, filePath);
+      return init.filesMap.get(absoluteFilePath) ?? null;
     } else if (init.reason === 'not-in-worktree') {
       throw new Error(
         `This Docusaurus site is outside any Git worktree.
@@ -114,6 +118,7 @@ Unable to read Git info for file ${logger.path(filePath)} `,
         return;
       }
 
+      currentSiteDir = siteDir;
       initPromise = PerfLogger.async('Git Eager VCS init', () =>
         initialize({siteDir}),
       );
