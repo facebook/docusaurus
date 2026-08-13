@@ -87,6 +87,18 @@ describe('createExcerpt', () => {
     );
   });
 
+  it('creates excerpt for content starting with html comments', () => {
+    expect(
+      createExcerpt(dedent`
+          <!--
+            This comment will be ignored:
+          -->
+
+          Page text here, lorem ipsum etc etc etc
+        `),
+    ).toBe('Page text here, lorem ipsum etc etc etc');
+  });
+
   it('creates excerpt for content with h2 heading', () => {
     expect(
       createExcerpt(dedent`

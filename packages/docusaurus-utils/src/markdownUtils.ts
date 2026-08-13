@@ -93,6 +93,7 @@ export function createExcerpt(fileString: string): string | undefined {
   let inCode = false;
   let inImport = false;
   let inHTML = false;
+  let inHTMLComment = false;
   let lastCodeFence = '';
 
   for (const fileLine of fileLines) {
@@ -109,6 +110,20 @@ export function createExcerpt(fileString: string): string | undefined {
     // Skip import/export declaration.
     if ((/^(?:import|export)\s.*/.test(fileLine) || inImport) && !inCode) {
       inImport = true;
+      continue;
+    }
+
+    // Ignore HTML comments entirely when building excerpts.
+    if (inHTMLComment) {
+      if (fileLine.includes('-->')) {
+        inHTMLComment = false;
+      }
+      continue;
+    }
+    if (/^\s*<!--/.test(fileLine)) {
+      if (!fileLine.includes('-->')) {
+        inHTMLComment = true;
+      }
       continue;
     }
 
