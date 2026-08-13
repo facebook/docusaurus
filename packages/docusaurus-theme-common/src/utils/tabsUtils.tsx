@@ -14,10 +14,10 @@ import React, {
   type ReactNode,
   type ReactElement,
 } from 'react';
-import {useHistory} from '@docusaurus/router';
 import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
 import {useQueryStringValue} from '@docusaurus/theme-common/internal';
-import {duplicates, useStorageSlot} from '../index';
+import {useNavigate} from 'react-router';
+import {duplicates, useHistorySelector, useStorageSlot} from '../index';
 
 /**
  * TabValue is the "config" of a given Tab
@@ -188,7 +188,8 @@ function useTabQueryString({
   queryString = false,
   groupId,
 }: Pick<TabsProps, 'queryString' | 'groupId'>) {
-  const history = useHistory();
+  const search = useHistorySelector(({location}) => location.search);
+  const navigate = useNavigate();
   const key = getQueryStringKey({queryString, groupId});
   const value = useQueryStringValue(key);
 
@@ -197,11 +198,11 @@ function useTabQueryString({
       if (!key) {
         return; // no-op
       }
-      const searchParams = new URLSearchParams(history.location.search);
+      const searchParams = new URLSearchParams(search);
       searchParams.set(key, newValue);
-      history.replace({...history.location, search: searchParams.toString()});
+      navigate({search: searchParams.toString()}, {replace: true});
     },
-    [key, history],
+    [search, navigate, key],
   );
 
   return [value, setValue] as const;

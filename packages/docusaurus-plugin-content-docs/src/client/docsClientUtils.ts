@@ -30,14 +30,7 @@ export function getActivePlugin(
   const activeEntry = Object.entries(allPluginData)
     // Route sorting: '/android/foo' should match '/android' instead of '/'
     .sort((a, b) => b[1].path.localeCompare(a[1].path))
-    .find(
-      ([, pluginData]) =>
-        !!matchPath(pathname, {
-          path: pluginData.path,
-          exact: false,
-          strict: false,
-        }),
-    );
+    .find(([, pluginData]) => !!matchPath(pluginData.path, pathname));
 
   const activePlugin: ActivePlugin | undefined = activeEntry
     ? {pluginId: activeEntry[0], pluginData: activeEntry[1]}
@@ -80,12 +73,7 @@ export function getActiveVersion(
   });
 
   return sortedVersions.find(
-    (version) =>
-      !!matchPath(pathname, {
-        path: version.path,
-        exact: false,
-        strict: false,
-      }),
+    (version) => !!matchPath(`${version.path}/*`, pathname),
   );
 }
 
@@ -95,12 +83,7 @@ export function getActiveDocContext(
 ): ActiveDocContext {
   const activeVersion = getActiveVersion(data, pathname);
   const activeDoc = activeVersion?.docs.find(
-    (doc) =>
-      !!matchPath(pathname, {
-        path: doc.path,
-        exact: true,
-        strict: false,
-      }),
+    (doc) => !!matchPath(doc.path, pathname),
   );
 
   function getAlternateVersionDocs(

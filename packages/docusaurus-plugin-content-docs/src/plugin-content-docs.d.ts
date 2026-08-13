@@ -635,10 +635,11 @@ declare module '@theme/DocBreadcrumbs' {
 
 declare module '@theme/DocsRoot' {
   import type {ReactNode} from 'react';
-  import type {RouteConfigComponentProps} from 'react-router-config';
   import type {Required} from 'utility-types';
 
-  export interface Props extends Required<RouteConfigComponentProps, 'route'> {}
+  type RouteProps = {}; // TODO
+
+  export interface Props extends Required<RouteProps, 'route'> {}
 
   export default function DocsRoot(props: Props): ReactNode;
 }
@@ -646,10 +647,11 @@ declare module '@theme/DocsRoot' {
 declare module '@theme/DocVersionRoot' {
   import type {ReactNode} from 'react';
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
-  import type {RouteConfigComponentProps} from 'react-router-config';
   import type {Required} from 'utility-types';
 
-  export interface Props extends Required<RouteConfigComponentProps, 'route'> {
+  type RouteProps = {}; // TODO
+
+  export interface Props extends Required<RouteProps, 'route'> {
     readonly version: PropVersionMetadata;
   }
 
@@ -658,10 +660,11 @@ declare module '@theme/DocVersionRoot' {
 
 declare module '@theme/DocRoot' {
   import type {ReactNode} from 'react';
-  import type {RouteConfigComponentProps} from 'react-router-config';
   import type {Required} from 'utility-types';
 
-  export interface Props extends Required<RouteConfigComponentProps, 'route'> {}
+  type RouteProps = {}; // TODO
+
+  export interface Props extends Required<RouteProps, 'route'> {}
 
   export default function DocRoot(props: Props): ReactNode;
 }

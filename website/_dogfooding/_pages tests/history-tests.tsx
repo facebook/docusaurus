@@ -4,20 +4,17 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {useEffect, type ReactNode} from 'react';
-import {useHistory} from '@docusaurus/router';
+import {type ReactNode} from 'react';
+import {useBlocker} from 'react-router';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 
 // Test for https://github.com/facebook/docusaurus/issues/10988
 function BlockNavigation() {
-  const history = useHistory();
-  useEffect(() => {
-    return history.block(() => {
-      alert('navigation blocked successfully');
-      return false;
-    });
-  }, [history]);
+  useBlocker(() => {
+    alert('navigation blocked successfully');
+    return false;
+  });
   return false;
 }
 

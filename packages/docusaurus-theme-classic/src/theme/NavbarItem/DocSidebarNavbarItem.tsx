@@ -30,6 +30,7 @@ export default function DocSidebarNavbarItem({
     <DefaultNavbarItem
       exact
       {...props}
+      // @ts-expect-error: TODO review
       isActive={() => activeDoc?.sidebar === sidebarId}
       label={label ?? sidebarLink.label}
       to={sidebarLink.path}

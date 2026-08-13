@@ -138,6 +138,7 @@ export default function DocsVersionDropdownNavbarItem({
       label,
       // preserve ?search#hash suffix on version switches
       to: `${targetDoc.path}${search}${hash}`,
+      // @ts-expect-error: TODO review
       isActive: () => version === activeDocContext.activeVersion,
       onClick: () => savePreferredVersionName(version.name),
     };
@@ -176,6 +177,7 @@ export default function DocsVersionDropdownNavbarItem({
         mobile={mobile}
         label={dropdownLabel}
         to={dropdownTo}
+        // @ts-expect-error: TODO review
         isActive={dropdownActiveClassDisabled ? () => false : undefined}
       />
     );
@@ -188,6 +190,7 @@ export default function DocsVersionDropdownNavbarItem({
       label={dropdownLabel}
       to={dropdownTo}
       items={items}
+      // @ts-expect-error: TODO review
       isActive={dropdownActiveClassDisabled ? () => false : undefined}
     />
   );

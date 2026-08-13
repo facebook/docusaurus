@@ -15,13 +15,27 @@ import type {RouteConfig} from '@docusaurus/types';
 export function applyRouteTrailingSlash<Route extends RouteConfig>(
   route: Route,
   params: ApplyTrailingSlashParams,
+  parent?: Route,
 ): Route {
+  let trailingSlash = params.trailingSlash;
+
+  // React Router v8 doesn't like:
+  // - parent: /docs/
+  // - child: /docs
+  if (parent && parent.path === route.path) {
+    trailingSlash = true;
+  }
+
   return {
     ...route,
-    path: applyTrailingSlash(route.path, params),
+    path: applyTrailingSlash(route.path, {
+      ...params,
+      trailingSlash,
+    }),
+
     ...(route.routes && {
       routes: route.routes.map((subroute) =>
-        applyRouteTrailingSlash(subroute, params),
+        applyRouteTrailingSlash(subroute, params, route),
       ),
     }),
   };

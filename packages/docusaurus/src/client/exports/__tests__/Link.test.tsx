@@ -11,7 +11,7 @@ import React, {type ReactNode} from 'react';
 import {render as renderRTL} from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import {fromPartial} from '@total-typescript/shoehorn';
-import {StaticRouter} from 'react-router-dom';
+import {StaticRouter} from 'react-router';
 import Link from '../Link';
 import {Context} from '../../docusaurusContext';
 import type {DocusaurusContext} from '@docusaurus/types';

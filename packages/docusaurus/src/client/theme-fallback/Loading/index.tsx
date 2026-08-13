@@ -55,6 +55,7 @@ export default function Loading({
           justifyContent: 'center',
           alignItems: 'center',
           height: '100vh',
+          backgroundColor: 'red', // TODO revert
         }}>
         <svg
           id="loader"
@@ -140,5 +141,16 @@ export default function Loading({
     );
   }
 
-  return null;
+  // TODO revert
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundColor: 'red',
+      }}
+    />
+  );
 }

@@ -8,7 +8,7 @@
 import {describe, expect, it} from 'vitest';
 import React from 'react';
 import {renderHook} from '@testing-library/react';
-import {StaticRouter} from 'react-router-dom';
+import {StaticRouter} from 'react-router';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
 import {
   findFirstSidebarItemLink,

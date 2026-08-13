@@ -12,7 +12,7 @@ import React, {
   type ComponentType,
   type ReactNode,
 } from 'react';
-import {NavLink, Link as RRLink} from 'react-router-dom';
+import {NavLink, Link as RRLink} from 'react-router';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
@@ -194,6 +194,7 @@ function Link({
       {...props}
       onMouseEnter={onInteractionEnter}
       onTouchStart={onInteractionEnter}
+      // @ts-expect-error: TODO fix this
       innerRef={handleRef}
       to={targetLink}
       // Avoid "React does not recognize the `activeClassName` prop on a DOM

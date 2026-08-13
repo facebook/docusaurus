@@ -5,4 +5,5 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export {renderRoutes as default} from 'react-router-config';
+// TODO rename ? remove abstraction?
+export {useRoutes as default} from 'react-router';
