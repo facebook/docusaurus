@@ -15,6 +15,18 @@ import {
 import type {GitFileInfo, GitFileInfoMap} from './gitUtils';
 import type {VcsConfig} from '@docusaurus/types';
 
+export function normalizeGitRelativePath(filePath: string): string {
+  // MSYS/Git Bash can return `/x/...` paths that look absolute on Windows even
+  // though Git means "relative to the repo root on drive X".
+  if (process.platform === 'win32') {
+    const match = filePath.match(/^\/([a-z])\/(.*)/i);
+    if (match) {
+      return match[2] ?? '';
+    }
+  }
+  return filePath;
+}
+
 // The Map keys should be absolute file paths, not relative Git paths
 function resolveFileInfoMapPaths(
   repoRoot: string,
@@ -24,7 +36,7 @@ function resolveFileInfoMapPaths(
     entry: [string, GitFileInfo],
   ): [string, GitFileInfo] {
     // We just resolve the Git paths that are relative to the repo root
-    return [resolve(repoRoot, entry[0]), entry[1]];
+    return [resolve(repoRoot, normalizeGitRelativePath(entry[0])), entry[1]];
   }
 
   return new Map(Array.from(filesInfo.entries()).map(transformMapEntry));
