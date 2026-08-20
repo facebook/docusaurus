@@ -808,6 +808,20 @@ describe('VSC strategies', () => {
       });
     });
 
+    // see https://github.com/facebook/docusaurus/issues/12322
+    it('can read repo file info from a relative path', async () => {
+      const {vcs} = await initVsc();
+
+      await expect(vcs.getFileLastUpdateInfo('rootFile.md')).resolves.toEqual({
+        author: 'Seb',
+        timestamp: new Date('2020-06-19').getTime(),
+      });
+      await expect(vcs.getFileCreationInfo('rootFile.md')).resolves.toEqual({
+        author: 'Seb',
+        timestamp: new Date('2020-06-19').getTime(),
+      });
+    });
+
     it('can read submodule file', async () => {
       const {vcs, repoDir} = await initVsc();
 
