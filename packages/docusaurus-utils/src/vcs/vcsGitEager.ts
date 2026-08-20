@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {resolve, basename, isAbsolute} from 'node:path';
+import {resolve, basename} from 'node:path';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {
   getGitAllRepoRoots,
@@ -56,6 +56,7 @@ type InitializeResult =
   | {
       type: 'success';
       filesMap: GitFileInfoMap;
+      siteDir: string;
     }
   | {
       type: 'error';
@@ -74,7 +75,7 @@ async function initialize({
       return {type: 'error', reason: 'not-in-worktree'};
     }
     const filesMap = await loadAllGitFilesInfoMap(siteDir);
-    return {type: 'success', filesMap};
+    return {type: 'success', filesMap, siteDir};
   } catch (error) {
     return {type: 'error', reason: 'unknown', cause: error as Error};
   }
@@ -82,21 +83,11 @@ async function initialize({
 
 export function createVcsGitEagerConfig(): VcsConfig {
   let initPromise: Promise<InitializeResult> | null = null;
-  let initSiteDir: string | null = null;
 
   async function getGitFileInfo(filePath: string): Promise<GitFileInfo | null> {
     const init = (await initPromise)!;
     if (init.type === 'success') {
-      // The map is keyed by absolute paths, but callers may pass a path
-      // relative to the site dir. RouteMetadata.sourceFilePath in particular
-      // "is expected to be relative to the site directory", which is what the
-      // sitemap plugin forwards here. The ad-hoc strategy tolerates both
-      // because it shells out to `git log`, so a relative path silently
-      // returned null here instead.
-      const key =
-        isAbsolute(filePath) || !initSiteDir
-          ? filePath
-          : resolve(initSiteDir, filePath);
+      const key = resolve(init.siteDir, filePath);
       return init.filesMap.get(key) ?? null;
     } else if (init.reason === 'not-in-worktree') {
       throw new Error(
@@ -125,7 +116,6 @@ Unable to read Git info for file ${logger.path(filePath)} `,
         return;
       }
 
-      initSiteDir = siteDir;
       initPromise = PerfLogger.async('Git Eager VCS init', () =>
         initialize({siteDir}),
       );

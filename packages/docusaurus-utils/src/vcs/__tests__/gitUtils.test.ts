@@ -808,13 +808,10 @@ describe('VSC strategies', () => {
       });
     });
 
-    it('can read repo file info from a site-relative path', async () => {
+    // see https://github.com/facebook/docusaurus/issues/12322
+    it('can read repo file info from a relative path', async () => {
       const {vcs} = await initVsc();
 
-      // RouteMetadata.sourceFilePath is documented as relative to the site dir,
-      // and the sitemap plugin forwards it here unchanged. The map is keyed by
-      // absolute paths, so a relative path used to miss and silently return
-      // null, dropping <lastmod> from the sitemap.
       await expect(vcs.getFileLastUpdateInfo('rootFile.md')).resolves.toEqual({
         author: 'Seb',
         timestamp: new Date('2020-06-19').getTime(),
