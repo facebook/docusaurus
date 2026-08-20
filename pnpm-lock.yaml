@@ -1021,7 +1021,7 @@ importers:
         version: 11.3.5
       js-yaml:
         specifier: ^4.1.0
-        version: 4.2.0
+        version: 4.3.1
       lodash:
         specifier: ^4.17.21
         version: 4.18.1
@@ -1934,7 +1934,7 @@ importers:
         version: 2.7.0
       js-yaml:
         specifier: ^4.1.0
-        version: 4.2.0
+        version: 4.3.1
       lodash:
         specifier: ^4.17.21
         version: 4.18.1
@@ -2010,7 +2010,7 @@ importers:
         version: 18.2.3
       js-yaml:
         specifier: ^4.1.0
-        version: 4.2.0
+        version: 4.3.1
       lodash:
         specifier: ^4.17.21
         version: 4.18.1
@@ -9567,6 +9567,10 @@ packages:
     resolution: {integrity: sha512-ePWsvanv0DWuDRsW8dnt+R4jQ31SCRCQ7hhNcPXZPsoBZiemuZNYGf7adZdqX2D86j6rvKp3RpCxVTSb8WQlOw==}
     hasBin: true
 
+  js-yaml@4.3.1:
+    resolution: {integrity: sha512-CY6crGq313MX8GkwvB7tzgp99vjQxY1++5y10/BKN/GUfHqWaOGQMNZkBvqSzsZKWk/ijwHlWzzkLulsGHhjWQ==}
+    hasBin: true
+
   jsdoc-type-pratt-parser@7.2.0:
     resolution: {integrity: sha512-dh140MMgjyg3JhJZY/+iEzW+NO5xR2gpbDFKHqotCmexElVntw7GjWjt511+C/Ef02RU5TKYrJo/Xlzk+OLaTw==}
     engines: {node: '>=20.0.0'}
@@ -11374,10 +11378,6 @@ packages:
 
   postcss@8.5.15:
     resolution: {integrity: sha512-FfR8sjd4em2T6fb3I2MwAJU7HWVMr9zba+enmQeeWFfCbm+UOC/0X4DS8XtpUTMwWMGbjKYP7xjfNekzyGmB3A==}
-    engines: {node: ^10 || ^12 || >=14}
-
-  postcss@8.5.18:
-    resolution: {integrity: sha512-xdB1oSLHbz1vRWgCDalrCqEFTWzFlhqFC5tIHLMOSUIjhm3XXQ1qrFy8S/ESr1JYRRXqM3c1QFiMZUJdUTqyMQ==}
     engines: {node: ^10 || ^12 || >=14}
 
   postcss@8.5.25:
@@ -13601,7 +13601,7 @@ snapshots:
 
   '@11ty/gray-matter@2.0.2':
     dependencies:
-      js-yaml: 4.2.0
+      js-yaml: 4.3.1
       section-matter: 1.0.0
 
   '@adobe/css-tools@4.5.0': {}
@@ -19274,7 +19274,7 @@ snapshots:
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.1
-      js-yaml: 4.1.1
+      js-yaml: 4.2.0
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.9.3
@@ -21816,6 +21816,10 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
+  js-yaml@4.3.1:
+    dependencies:
+      argparse: 2.0.1
+
   jsdoc-type-pratt-parser@7.2.0: {}
 
   jsdom@25.0.1(supports-color@7.2.0):
@@ -24290,12 +24294,6 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postcss@8.5.18:
-    dependencies:
-      nanoid: 3.3.16
-      picocolors: 1.1.1
-      source-map-js: 1.2.1
-
   postcss@8.5.25:
     dependencies:
       nanoid: 3.3.16
@@ -26351,7 +26349,7 @@ snapshots:
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
-      postcss: 8.5.18
+      postcss: 8.5.25
       rolldown: 1.0.2
       tinyglobby: 0.2.17
     optionalDependencies:
