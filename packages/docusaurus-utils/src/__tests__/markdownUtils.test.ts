@@ -75,6 +75,44 @@ describe('createExcerpt', () => {
     ).toBe('Lorem ipsum dolor sit amet');
   });
 
+  it('creates excerpt for content with h1 containing hash symbols (C#, F#)', () => {
+    expect(
+      createExcerpt(dedent`
+          # C# Programming Guide
+
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.
+
+          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
+        `),
+    ).toBe(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
+    );
+    expect(
+      createExcerpt(dedent`
+          # Introduction to F# and C#
+
+          Learn functional and object-oriented programming.
+        `),
+    ).toBe('Learn functional and object-oriented programming.');
+  });
+
+  it('creates excerpt for content with h2 heading containing hash symbols (C#, F#)', () => {
+    expect(
+      createExcerpt(dedent`
+          ## C# is awesome
+
+          Nunc porttitor libero nec vulputate venenatis.
+        `),
+    ).toBe('C# is awesome');
+    expect(
+      createExcerpt(dedent`
+          ## F# Guide ##
+
+          Nunc porttitor libero nec vulputate venenatis.
+        `),
+    ).toBe('F# Guide');
+  });
+
   it('creates excerpt for content beginning with blockquote', () => {
     expect(
       createExcerpt(dedent`
@@ -329,6 +367,56 @@ Lorem Ipsum
     expect(parseMarkdownContentTitle(markdown)).toEqual({
       content: markdown,
       contentTitle: 'Markdown Title',
+    });
+  });
+
+  it('parses markdown h1 title with hash symbols (C#, F#)', () => {
+    const csharpMarkdown = dedent`
+
+          # C# Guide
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(csharpMarkdown)).toEqual({
+      content: csharpMarkdown,
+      contentTitle: 'C# Guide',
+    });
+
+    const csharpOnlyMarkdown = dedent`
+
+          # C#
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(csharpOnlyMarkdown)).toEqual({
+      content: csharpOnlyMarkdown,
+      contentTitle: 'C#',
+    });
+
+    const fsharpClosingHashMarkdown = dedent`
+
+          # F# Guide ##
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(fsharpClosingHashMarkdown)).toEqual({
+      content: fsharpClosingHashMarkdown,
+      contentTitle: 'F# Guide',
+    });
+
+    const csharpAnchorMarkdown = dedent`
+
+          # C# {#csharp-anchor}
+
+          Lorem Ipsum
+
+        `;
+    expect(parseMarkdownContentTitle(csharpAnchorMarkdown)).toEqual({
+      content: csharpAnchorMarkdown,
+      contentTitle: 'C#',
     });
   });
 

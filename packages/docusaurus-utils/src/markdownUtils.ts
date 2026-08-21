@@ -146,9 +146,10 @@ export function createExcerpt(fileString: string): string | undefined {
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
-      .replace(/^#[^#]+#?/gm, '')
+      .replace(/^\s*#[ \t]+.*$/gm, '')
       // Remove Markdown + ATX-style headers
-      .replace(/^#{1,6}\s*(?<text>[^#]*?)\s*#{0,6}/gm, '$1')
+      .replace(/^\s*#{1,6}[ \t]+/gm, '')
+      .replace(/[ \t]+#+$/gm, '')
       // Remove emphasis.
       .replace(/(?<opening>[*_]{1,3})(?<text>.*?)\1/g, '$2')
       // Remove strikethroughs.
@@ -282,7 +283,7 @@ export function parseMarkdownContentTitle(
       contentTitle: toTextContentTitle(
         regularTitleMatch
           .groups!.title!.trim()
-          .replace(/\s*(?:\{#*[\w-]+\}|#+)$/, ''),
+          .replace(/(?:\s*\{#*[\w-]+\}|\s+#+)$/, ''),
       ).trim(),
     };
   }
