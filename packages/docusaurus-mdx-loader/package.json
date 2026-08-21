@@ -55,7 +55,7 @@
     "remark": "^15.0.1",
     "remark-mdx": "^3.1.1",
     "remark-rehype": "^11.1.2",
-    "to-vfile": "^6.1.0",
+    "to-vfile": "^8.0.0",
     "unist-builder": "^2.0.3"
   },
   "peerDependencies": {
