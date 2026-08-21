@@ -47,6 +47,47 @@ describe('createExcerpt', () => {
     );
   });
 
+  it('creates excerpt for h1 heading containing hash in text (e.g. C#)', () => {
+    expect(
+      createExcerpt(dedent`
+
+          # C# Programming Guide
+
+          This paragraph should become the description.
+        `),
+    ).toBe('This paragraph should become the description.');
+  });
+
+  it('creates excerpt for h1 heading containing hash in text (e.g. F#)', () => {
+    expect(
+      createExcerpt(dedent`
+
+          # F# Programming Guide
+
+          This paragraph should become the description.
+        `),
+    ).toBe('This paragraph should become the description.');
+  });
+
+  it('creates excerpt for h1 heading containing hash with trailing ATX closing marker', () => {
+    expect(
+      createExcerpt(dedent`
+
+          # C# Programming Guide #
+
+          This paragraph should become the description.
+        `),
+    ).toBe('This paragraph should become the description.');
+  });
+
+  it('creates excerpt for h2 heading containing hash in text (e.g. C#)', () => {
+    expect(
+      createExcerpt(dedent`
+          ## C# Setup Guide
+        `),
+    ).toBe('C# Setup Guide');
+  });
+
   it('creates excerpt for regular content with alternate title', () => {
     expect(
       createExcerpt(dedent`
