@@ -622,23 +622,21 @@ Lorem Ipsum
     });
   });
 
-  it('parses markdown h1 title placed after multiple import declarations and remove it', () => {
+  it('parses markdown h1 title placed after multiple import/export declarations and remove it', () => {
     const markdown = dedent`
           import Component1 from '@site/src/components/Component1';
           import Component2 from '@site/src/components/Component2';
-          import Component3 from '@site/src/components/Component3';
-          import Component4 from '@site/src/components/Component4';
+          export function Component3() {
+            return <span>Component3</span>
+          }
+
+          export function Component4() {
+            return <span>Component4</span>
+          }
           import Component5 from '@site/src/components/Component5';
-          import Component6 from '@site/src/components/Component6';
-          import Component7 from '@site/src/components/Component7';
-          import Component8 from '@site/src/components/Component8';
-          import Component9 from '@site/src/components/Component9';
-          import Component10 from '@site/src/components/Component10';
-          import Component11 from '@site/src/components/Component11';
-          import Component12 from '@site/src/components/Component12';
-          import Component13 from '@site/src/components/Component13';
-          import Component14 from '@site/src/components/Component14';
-          import Component15 from '@site/src/components/Component15';
+          export function Component6() {
+            return <span>Component6</span>
+          }
 
           # Markdown Title
 
@@ -650,6 +648,33 @@ Lorem Ipsum
       parseMarkdownContentTitle(markdown, {removeContentTitle: true}),
     ).toEqual({
       content: markdown.replace('# Markdown Title\n', ''),
+      contentTitle: 'Markdown Title',
+    });
+  });
+
+  it('parses markdown h1 title placed after multiple import/export declarations', () => {
+    const markdown = dedent`
+          import Component1 from '@site/src/components/Component1';
+          import Component2 from '@site/src/components/Component2';
+          export function Component3() {
+            return <span>Component3</span>
+          }
+
+          export function Component4() {
+            return <span>Component4</span>
+          }
+          import Component5 from '@site/src/components/Component5';
+          export function Component6() {
+            return <span>Component6</span>
+          }
+
+          # Markdown Title
+
+          Lorem Ipsum
+        `;
+
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: markdown,
       contentTitle: 'Markdown Title',
     });
   });
@@ -929,7 +954,7 @@ describe('parseMarkdownFile', () => {
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
       [YAMLException: bad indentation of a mapping entry (2:7)
 
-       1 | 
+       1 |
        2 | foo: f: a
       -----------^]
     `);
