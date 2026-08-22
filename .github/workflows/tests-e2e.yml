@@ -67,12 +67,12 @@ jobs:
           E2E_TEST: true
       - name: Build test-website project
         # We build 2 locales to ensure a localized site doesn't leak memory
-        # See https://github.com/facebook/docusaurus/pull/10599
+        # See https://github.com/facebook/docusaurus/issues/10944
         run: yarn build --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=300'
+          NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
 
@@ -105,12 +105,12 @@ jobs:
           E2E_TEST: true
       - name: Build test-website project
         # We build 2 locales to ensure a localized site doesn't leak memory
-        # See https://github.com/facebook/docusaurus/pull/10599
+        # See https://github.com/facebook/docusaurus/issues/10944
         run: yarn build --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=300'
+          NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
       - name: Copy to CWD
@@ -194,12 +194,12 @@ jobs:
 
       - name: Build test-website project
         # We build 2 locales to ensure a localized site doesn't leak memory
-        # See https://github.com/facebook/docusaurus/pull/10599
+        # See https://github.com/facebook/docusaurus/issues/10944
         run: yarn build --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=300'
+          NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
 
@@ -236,12 +236,12 @@ jobs:
           E2E_TEST: true
       - name: Build test-website project
         # We build 2 locales to ensure a localized site doesn't leak memory
-        # See https://github.com/facebook/docusaurus/pull/10599
+        # See https://github.com/facebook/docusaurus/issues/10944
         run: npm run build -- --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=300'
+          NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
 
@@ -286,11 +286,11 @@ jobs:
           E2E_TEST: true
       - name: Build test-website project
         # We build 2 locales to ensure a localized site doesn't leak memory
-        # See https://github.com/facebook/docusaurus/pull/10599
+        # See https://github.com/facebook/docusaurus/issues/10944
         run: pnpm run build --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=300'
+          NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
