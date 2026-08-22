@@ -72,7 +72,7 @@ jobs:
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=300'
+          NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
 
@@ -110,7 +110,7 @@ jobs:
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=300'
+          NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
       - name: Copy to CWD
@@ -199,7 +199,7 @@ jobs:
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=300'
+          NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
 
@@ -241,7 +241,7 @@ jobs:
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=300'
+          NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
 
@@ -291,6 +291,6 @@ jobs:
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=300'
+          NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
