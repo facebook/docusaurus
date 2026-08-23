@@ -21,7 +21,7 @@ export function TagsPageLinkLabel(): ReactNode {
     <Translate
       id="theme.tags.tagsPageLink"
       description="The label of the link targeting the tag list page">
-      View All Tags
+      View all tags
     </Translate>
   );
 }
