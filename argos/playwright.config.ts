@@ -6,7 +6,12 @@
  */
 
 import {devices} from '@playwright/test';
+import {createArgosReporterOptions} from '@argos-ci/playwright/reporter';
 import type {PlaywrightTestConfig} from '@playwright/test';
+
+const argosOptions = createArgosReporterOptions({
+  uploadToArgos: true, // for now, we always upload even outside of CI
+});
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -16,7 +21,7 @@ const config: PlaywrightTestConfig = {
 
   timeout: 60000,
 
-  reporter: [['list'], ['@argos-ci/playwright/reporter']],
+  reporter: [['list'], ['@argos-ci/playwright/reporter', argosOptions]],
 
   // Run website production built
   // Need to run "pnpm build:website:fast" before
