@@ -169,7 +169,9 @@ function createPathnameTest(pathname: string) {
     await page.waitForFunction(waitForDocusaurusHydration);
     await page.addStyleTag({content: stylesheet});
     // await expect(page).toHaveScreenshot({ fullPage: true, ...options });
-    await argosScreenshot(page, pathnameToArgosName(pathname));
+    await argosScreenshot(page, pathnameToArgosName(pathname), {
+      ariaSnapshot: true,
+    });
   });
 }
 
