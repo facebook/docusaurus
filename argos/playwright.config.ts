@@ -10,6 +10,7 @@ import {createArgosReporterOptions} from '@argos-ci/playwright/reporter';
 
 const argosOptions = createArgosReporterOptions({
   uploadToArgos: true, // for now, we always upload even outside of CI
+  buildName: 'screenshots',
 });
 
 /**
