@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {translate} from '@docusaurus/Translate';
+import type {ReactNode} from 'react';
+import Translate, {translate} from '@docusaurus/Translate';
 import type {TagsListItem} from '@docusaurus/utils';
 
 export const translateTagsPageTitle = (): string =>
@@ -14,6 +15,16 @@ export const translateTagsPageTitle = (): string =>
     message: 'Tags',
     description: 'The title of the tag list page',
   });
+
+export function TagsPageLinkLabel(): ReactNode {
+  return (
+    <Translate
+      id="theme.tags.tagsPageLink"
+      description="The label of the link targeting the tag list page">
+      View All Tags
+    </Translate>
+  );
+}
 
 export type TagLetterEntry = {letter: string; tags: TagsListItem[]};
 
