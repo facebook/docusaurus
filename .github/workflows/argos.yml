@@ -53,11 +53,16 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm playwright install --with-deps chromium
 
-      - name: Build website fast
+      - name: Build website for screenshots
         run: pnpm argos:build
-
       - name: Take and upload Argos screenshots
         run: pnpm argos:screenshot
 
+      - name: Build website for text snapshots
+        run: pnpm argos:build
+        env:
+          # Easier HTML diffs to review on Argos
+          # an alternative could be to use Prettier
+          SKIP_HTML_MINIFICATION: true
       - name: Upload Argos text snapshots
         run: pnpm argos:upload-text-snapshots
