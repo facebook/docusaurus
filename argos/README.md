@@ -4,18 +4,29 @@ We use [Argos CI](https://argos-ci.com) to detect visual regressions on Docusaur
 
 This workspace can be run manually, but is generally run through the [Argos GitHub Action](../.github/workflows/argos.yml).
 
+## Workflow overview
+
 The workflow execute those following steps:
 
 - Build the website locally with `pnpm build:website:fast`
 - Start the website server with `pnpm serve:website` on [http://localhost:3000](http://localhost:3000)
 - Take screenshots of all pages found in `sitemap.xml` with Playwright
-- Upload all screenshots to [Argos CI](https://argos-ci.com)
+- Upload all screenshots to [Argos CI](https://argos-ci.com) using the [Playwright reporter](https://argos-ci.com/docs/reference/playwright)
 
 This workflow runs for `main` and PR branches, and add a commit status to each PR with a visual diff that we can easily inspect.
 
----
+## Run manually
 
-Some additional capabilities:
+To run this manually, use:
+
+```bash
+pnpm argos:build
+pnpm argos:screenshot
+```
+
+The Playwright reporter will upload the screenshots to Argos.
+
+## How to modify
 
 - Use [./tests/screenshot.spec.ts](./tests/screenshot.spec.ts) to customize the screenshots we take, eventually filter out some useless sitemap pages like versioned docs
 - Use [./tests/screenshot.css](./tests/screenshot.css) to hide flaky CSS elements: iframe, video, gif...
