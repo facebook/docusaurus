@@ -158,7 +158,7 @@
   "theme.navbar.mobileVersionsDropdown.label___DESCRIPTION": "The label for the navbar versions dropdown on mobile view",
   "theme.tags.tagsListLabel": "Tags:",
   "theme.tags.tagsListLabel___DESCRIPTION": "The label alongside a tag list",
-  "theme.tags.tagsPageLink": "View all tags",
+  "theme.tags.tagsPageLink": "View All Tags",
   "theme.tags.tagsPageLink___DESCRIPTION": "The label of the link targeting the tag list page",
   "theme.tags.tagsPageTitle": "Tags",
   "theme.tags.tagsPageTitle___DESCRIPTION": "The title of the tag list page"
