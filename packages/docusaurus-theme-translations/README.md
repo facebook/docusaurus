@@ -6,7 +6,7 @@ This package includes default translations for labels (like the pagination "Next
 
 Please help us provide exhaustive translations:
 
-- add new translation by running `pnpm --filter @docusaurus/theme-translations update %new_lang_code%`, then edit generated JSON files
+- add new translation by running `yarn workspace @docusaurus/theme-translations update %new_lang_code%`, then edit generated JSON files
 - double-check existent `language.json` file for bad or missing translations
 
 ## For maintainers:
@@ -14,7 +14,7 @@ Please help us provide exhaustive translations:
 After updating the theme code, you can "synchronize" the translations by running:
 
 ```bash
-pnpm --filter @docusaurus/theme-translations run update
+yarn workspace @docusaurus/theme-translations update
 ```
 
 Then, ask contributors to translate the newly added labels on this [issue](https://github.com/facebook/docusaurus/issues/3526)
