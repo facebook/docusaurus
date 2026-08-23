@@ -55,5 +55,8 @@ jobs:
       - name: Build website fast
         run: pnpm argos:build
 
-      - name: Take Argos screenshots
+      - name: Take and upload Argos screenshots
         run: pnpm argos:screenshot
+
+      - name: Upload Argos text snapshots
+        run: pnpm argos:upload-text-snapshots
