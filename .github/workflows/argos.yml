@@ -32,13 +32,14 @@ jobs:
         (github.event_name != 'pull_request' && github.ref_name == 'main') ||
         (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'Argos'))
       )
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: 8-core-ubuntu
     steps:
       - name: Check out repository code
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
 
       - name: Use Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -52,8 +53,16 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm playwright install --with-deps chromium
 
-      - name: Build website fast
+      - name: Build website for screenshots
         run: pnpm argos:build
-
-      - name: Take Argos screenshots
+      - name: Take and upload Argos screenshots
         run: pnpm argos:screenshot
+
+      - name: Build website for text snapshots
+        run: pnpm argos:build
+        env:
+          # Easier HTML diffs to review on Argos
+          # an alternative could be to use Prettier/Oxfmt on build output
+          SKIP_HTML_MINIFICATION: true
+      - name: Upload Argos text snapshots
+        run: pnpm argos:upload-text-snapshots

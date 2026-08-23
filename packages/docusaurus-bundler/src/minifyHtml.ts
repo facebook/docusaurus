@@ -88,6 +88,11 @@ async function getSwcMinifier(): Promise<HtmlMinifier> {
           // See https://github.com/swc-project/swc/issues/10994
           tagOmission: 'keep-head-and-body',
 
+          // Keep attribute quotes. WhatsApp and some RDFa parsers ignore
+          // og:image when the minifier emits property=og:image without quotes.
+          // See https://github.com/facebook/docusaurus/issues/12368
+          quotes: true,
+
           // Sorting these attributes (class) can lead to React hydration errors
           sortSpaceSeparatedAttributeValues: false,
           sortAttributes: false,

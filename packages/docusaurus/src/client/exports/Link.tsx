@@ -6,6 +6,7 @@
  */
 
 import React, {
+  useCallback,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -99,30 +100,39 @@ function Link({
 
   const ioRef = useRef<IntersectionObserver>(undefined);
 
-  const handleRef = (el: HTMLAnchorElement | null) => {
-    innerRef.current = el;
+  const handleRef = useCallback(
+    (el: HTMLAnchorElement | null) => {
+      innerRef.current = el;
+      ioRef.current?.disconnect();
+      ioRef.current = undefined;
 
-    if (IOSupported && el && isInternal) {
-      // If IO supported and element reference found, set up Observer.
-      ioRef.current = new window.IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (el === entry.target) {
-            // If element is in viewport, stop observing and run callback.
-            // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-            if (entry.isIntersecting || entry.intersectionRatio > 0) {
-              ioRef.current!.unobserve(el);
-              ioRef.current!.disconnect();
-              if (targetLink != null) {
-                window.docusaurus.prefetch(targetLink);
+      if (IOSupported && el && isInternal) {
+        // If IO supported and element reference found, set up Observer.
+        const observer = new window.IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (el === entry.target) {
+              // If element is in viewport, stop observing and run callback.
+              // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+              if (entry.isIntersecting || entry.intersectionRatio > 0) {
+                observer.unobserve(el);
+                observer.disconnect();
+                if (ioRef.current === observer) {
+                  ioRef.current = undefined;
+                }
+                if (targetLink != null) {
+                  window.docusaurus.prefetch(targetLink);
+                }
               }
             }
-          }
+          });
         });
-      });
-      // Add element to the observer.
-      ioRef.current.observe(el);
-    }
-  };
+        // Add element to the observer.
+        ioRef.current = observer;
+        observer.observe(el);
+      }
+    },
+    [IOSupported, isInternal, targetLink],
+  );
 
   const onInteractionEnter = () => {
     if (!preloaded.current && targetLink != null) {
@@ -138,14 +148,7 @@ function Link({
         window.docusaurus.prefetch(targetLink);
       }
     }
-
-    // When unmounting, stop intersection observer from watching.
-    return () => {
-      if (IOSupported && ioRef.current) {
-        ioRef.current.disconnect();
-      }
-    };
-  }, [ioRef, targetLink, IOSupported, isInternal]);
+  }, [targetLink, IOSupported, isInternal]);
 
   // It is simple local anchor link targeting current page?
   const isAnchorLink = targetLink?.startsWith('#') ?? false;
