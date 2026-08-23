@@ -18,7 +18,6 @@ import {
   dogfoodingThemeInstances,
   dogfoodingRedirects,
   dogfoodingTransformFrontMatter,
-  isArgosBuild,
 } from './_dogfooding/dogfooding.config';
 
 import ConfigLocalized from './docusaurus.config.localized.json';
@@ -26,6 +25,7 @@ import ConfigLocalized from './docusaurus.config.localized.json';
 import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
 
+import {isArgosBuild, argosBuildPlugin} from './_dogfooding/argosBuild';
 import type {Config, DocusaurusConfig, VcsPreset} from '@docusaurus/types';
 
 import type * as Preset from '@docusaurus/preset-classic';
@@ -489,6 +489,7 @@ export default async function createConfigAsync() {
       '@docusaurus/theme-mermaid',
       './src/plugins/featureRequests/FeatureRequestsPlugin.js',
       ...dogfoodingPluginInstances,
+      argosBuildPlugin,
     ],
     presets: [
       [

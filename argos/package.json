@@ -7,9 +7,11 @@
   "scripts": {
     "screenshot": "playwright test",
     "upload": "pnpm dlx @argos-ci/cli upload ./screenshots/chromium",
+    "upload-text-snapshots": "node ./snapshot.ts",
     "report": "playwright show-report"
   },
   "dependencies": {
+    "@argos-ci/cli": "^6.9.0",
     "@argos-ci/playwright": "^7.4.6",
     "@playwright/test": "^1.62.1",
     "cheerio": "^1.2.0"
