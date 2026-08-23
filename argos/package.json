@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "screenshot": "playwright test",
-    "upload": "pnpm dlx @argos-ci/cli upload ./screenshots/chromium",
-    "upload-text-snapshots": "node ./snapshot.ts",
+    "upload": "pnpm exec -- argos upload ./screenshots/chromium",
+    "upload-text-snapshots": "pnpm exec -- argos upload \"../website/build\" --build-name text-snapshots --files styles.css --files \"docs/**/*.html\" --files \"blog/**/*.html\"",
     "report": "playwright show-report"
   },
   "dependencies": {

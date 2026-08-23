@@ -8,10 +8,11 @@ This workspace can be run manually, but is generally run through the [Argos GitH
 
 The workflow execute those following steps:
 
-- Build the website locally with `pnpm build:website:fast`
+- Build the website locally with `pnpm argos:build` (a variant of `pnpm build:website:fast`)
 - Start the website server with `pnpm serve:website` on [http://localhost:3000](http://localhost:3000)
 - Take screenshots of all pages found in `sitemap.xml` with Playwright
 - Upload all screenshots to [Argos CI](https://argos-ci.com) using the [Playwright reporter](https://argos-ci.com/docs/reference/playwright)
+- Upload [HTML/CSS/JS files to also diff them on Argos](https://argos-ci.com/docs/learn/how-to-guides/visual-coverage/compare-non-image-files) using `pnpm argos:upload-text-snapshots`
 
 This workflow runs for `main` and PR branches, and add a commit status to each PR with a visual diff that we can easily inspect.
 
@@ -22,6 +23,7 @@ To run this manually, use:
 ```bash
 pnpm argos:build
 pnpm argos:screenshot
+pnpm argos:upload-text-snapshots
 ```
 
 The Playwright reporter will upload the screenshots to Argos.

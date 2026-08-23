@@ -382,38 +382,39 @@ export default async function createConfigAsync() {
           showLastUpdateTime: showLastUpdate,
         } satisfies DocsOptions,
       ],
-      !process.env.DOCUSAURUS_SKIP_BUNDLING && [
-        'client-redirects',
-        {
-          fromExtensions: ['html'],
-          createRedirects(routePath) {
-            // Redirect to /docs from /docs/introduction (now docs root doc)
-            if (routePath === '/docs' || routePath === '/docs/') {
-              return [`${routePath}/introduction`];
-            }
-            return [];
-          },
-          redirects: [
-            {
-              from: ['/docs/support', '/docs/next/support'],
-              to: '/community/support',
+      !process.env.DOCUSAURUS_SKIP_BUNDLING &&
+        !isArgosBuild && [
+          'client-redirects',
+          {
+            fromExtensions: ['html'],
+            createRedirects(routePath) {
+              // Redirect to /docs from /docs/introduction (now docs root doc)
+              if (routePath === '/docs' || routePath === '/docs/') {
+                return [`${routePath}/introduction`];
+              }
+              return [];
             },
-            {
-              from: ['/docs/team', '/docs/next/team'],
-              to: '/community/team',
-            },
-            {
-              from: ['/docs/resources', '/docs/next/resources'],
-              to: '/community/resources',
-            },
-            {
-              from: '/docs/api/misc/docusaurus-init',
-              to: '/docs/api/misc/create-docusaurus',
-            },
-            ...dogfoodingRedirects,
-          ],
-        } satisfies ClientRedirectsOptions,
-      ],
+            redirects: [
+              {
+                from: ['/docs/support', '/docs/next/support'],
+                to: '/community/support',
+              },
+              {
+                from: ['/docs/team', '/docs/next/team'],
+                to: '/community/team',
+              },
+              {
+                from: ['/docs/resources', '/docs/next/resources'],
+                to: '/community/resources',
+              },
+              {
+                from: '/docs/api/misc/docusaurus-init',
+                to: '/docs/api/misc/create-docusaurus',
+              },
+              ...dogfoodingRedirects,
+            ],
+          } satisfies ClientRedirectsOptions,
+        ],
       [
         'ideal-image',
         {
