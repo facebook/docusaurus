@@ -62,7 +62,7 @@ jobs:
         run: pnpm argos:build
         env:
           # Easier HTML diffs to review on Argos
-          # an alternative could be to use Prettier
+          # an alternative could be to use Prettier/Oxfmt on build output
           SKIP_HTML_MINIFICATION: true
       - name: Upload Argos text snapshots
         run: pnpm argos:upload-text-snapshots
