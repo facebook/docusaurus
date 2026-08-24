@@ -285,6 +285,24 @@ describe('createExcerpt', () => {
       );
     });
   });
+
+  describe('internal markers', () => {
+    // Internal markers are used to escape/unescape MDX special chars
+    // within inline code blocks. We want to make sure the provided input
+    // doesn't conflict with the internal usage we have.
+
+    it('creates excerpt without letting the input forge internal markers', () => {
+      expect(createExcerpt('A \u{FFFE}60\u{FFFF} B')).toBe('A 60 B');
+    });
+
+    it('creates excerpt without letting inline code forge internal markers', () => {
+      expect(createExcerpt('A `\u{FFFE}60\u{FFFF}` B')).toBe('A 60 B');
+    });
+
+    it('creates no excerpt for a line of Unicode non-characters', () => {
+      expect(createExcerpt('\u{FFFE}\u{FFFF}')).toBeUndefined();
+    });
+  });
 });
 
 describe('parseMarkdownContentTitle', () => {

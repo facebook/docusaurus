@@ -181,10 +181,16 @@ export function createExcerpt(fileString: string): string | undefined {
     // Pre/postprocessing to handle MDX special chars within inline code blocks
     // See https://github.com/facebook/docusaurus/pull/11821
     function preprocessLine(str: string) {
-      // Unwrap inline code and escape special MDX chars within it
-      return str.replace(/`(?<text>.+?)`/g, (_, text) => {
-        return MDXEscapingUtils.escapeMDX(text);
-      });
+      return (
+        str
+          // Ignore internal Unicode markers found in input
+          // This ensures no possible conflict with our MDX escaping logic
+          .replace(/[\u{FFFE}\u{FFFF}]/gu, '')
+          // Unwrap inline code and escape special MDX chars within it
+          .replace(/`(?<text>.+?)`/g, (_, text) => {
+            return MDXEscapingUtils.escapeMDX(text);
+          })
+      );
     }
     function postProcessLine(str: string) {
       // Restore escaped MDX chars that have been previously escaped
