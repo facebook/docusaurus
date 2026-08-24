@@ -258,6 +258,33 @@ describe('createExcerpt', () => {
         `),
     ).toBe('This paragraph includes a link to the <metadata> documentation.');
   });
+
+  describe('complex case', () => {
+    const complexString =
+      '_aa_ *bb* **cc** ~~dd~~ <ee>ff</ee> ![gg](hh.png) [ii](jj) {#kk}';
+
+    it('creates excerpt for complex string', () => {
+      expect(
+        createExcerpt(dedent`
+          # Markdown Regular Title
+
+          Escaping ${complexString} is hard.
+        `),
+      ).toBe('Escaping aa bb cc dd ff gg ii is hard.');
+    });
+
+    it('creates excerpt for complex string in inline code block', () => {
+      expect(
+        createExcerpt(dedent`
+          # Markdown Regular Title
+
+          Escaping \`${complexString}\` is hard.
+        `),
+      ).toBe(
+        'Escaping _aa_ *bb* **cc** ~~dd~~ <ee>ff</ee> ![gg](hh.png) [ii](jj) {#kk} is hard.',
+      );
+    });
+  });
 });
 
 describe('parseMarkdownContentTitle', () => {
@@ -1015,7 +1042,7 @@ describe('parseMarkdownFile', () => {
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
       [YAMLException: bad indentation of a mapping entry (2:7)
 
-       1 | 
+       1 |
        2 | foo: f: a
       -----------^]
     `);
