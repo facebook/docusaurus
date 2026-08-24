@@ -58,11 +58,11 @@ jobs:
       - name: Take and upload Argos screenshots
         run: pnpm argos:screenshot
 
+        # We rebuild the site with unminified assets
+        # This makes it easier to review text snapshots on Argos
       - name: Build website for text snapshots
-        run: pnpm argos:build
-        env:
-          # Easier HTML diffs to review on Argos
-          # an alternative could be to use Prettier/Oxfmt on build output
-          SKIP_HTML_MINIFICATION: true
+        run: pnpm argos:build:text-snapshots
+      - name: Format HTML for easier Argos diffs
+        run: pnpm argos:format:text-snapshots
       - name: Upload Argos text snapshots
-        run: pnpm argos:upload-text-snapshots
+        run: pnpm argos:upload:text-snapshots
