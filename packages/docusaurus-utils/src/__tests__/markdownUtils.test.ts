@@ -238,6 +238,71 @@ describe('createExcerpt', () => {
         `),
     ).toBe('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
   });
+
+  it('creates excerpt with XML tag inside inline code', () => {
+    expect(
+      createExcerpt(dedent`
+          # Markdown Regular Title
+
+          This paragraph includes a link to the \`<metadata>\` documentation.
+        `),
+    ).toBe('This paragraph includes a link to the <metadata> documentation.');
+  });
+
+  it('creates excerpt with XML tag inside inline code with hyperlink', () => {
+    expect(
+      createExcerpt(dedent`
+          # Markdown Regular Title
+
+          This paragraph includes a link to the [\`<metadata>\`](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/metadata) documentation.
+        `),
+    ).toBe('This paragraph includes a link to the <metadata> documentation.');
+  });
+
+  describe('complex case', () => {
+    const complexString =
+      '_aa_ *bb* **cc** ~~dd~~ <ee>ff</ee> ![gg](hh.png) [ii](jj) {#kk}';
+
+    it('creates excerpt for complex string', () => {
+      expect(
+        createExcerpt(dedent`
+          # Markdown Regular Title
+
+          Escaping ${complexString} is hard.
+        `),
+      ).toBe('Escaping aa bb cc dd ff gg ii is hard.');
+    });
+
+    it('creates excerpt for complex string in inline code block', () => {
+      expect(
+        createExcerpt(dedent`
+          # Markdown Regular Title
+
+          Escaping \`${complexString}\` is hard.
+        `),
+      ).toBe(
+        'Escaping _aa_ *bb* **cc** ~~dd~~ <ee>ff</ee> ![gg](hh.png) [ii](jj) {#kk} is hard.',
+      );
+    });
+  });
+
+  describe('internal markers', () => {
+    // Internal markers are used to escape/unescape MDX special chars
+    // within inline code blocks. We want to make sure the provided input
+    // doesn't conflict with the internal usage we have.
+
+    it('creates excerpt without letting the input forge internal markers', () => {
+      expect(createExcerpt('A \u{FFFE}60\u{FFFF} B')).toBe('A 60 B');
+    });
+
+    it('creates excerpt without letting inline code forge internal markers', () => {
+      expect(createExcerpt('A `\u{FFFE}60\u{FFFF}` B')).toBe('A 60 B');
+    });
+
+    it('creates no excerpt for a line of Unicode non-characters', () => {
+      expect(createExcerpt('\u{FFFE}\u{FFFF}')).toBeUndefined();
+    });
+  });
 });
 
 describe('parseMarkdownContentTitle', () => {

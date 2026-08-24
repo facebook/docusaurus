@@ -7,6 +7,7 @@
 
 import logger from '@docusaurus/logger';
 import matter from '@11ty/gray-matter';
+
 import type {
   ParseFrontMatter,
   DefaultParseFrontMatter,
@@ -15,6 +16,41 @@ import type {
 // Some utilities for parsing Markdown content. These things are only used on
 // server-side when we infer metadata like `title` and `description` from the
 // content. Most parsing is still done in MDX through the mdx-loader.
+
+const MDXEscapingUtils = (function () {
+  const MARKUP_CHARS = ['_', ':', '*', '<', '>', '~', '!', '[', ']', '{', '}'];
+
+  const markerOf = (char: string) => `\u{FFFE}${char.codePointAt(0)}\u{FFFF}`;
+
+  const MARKUP_CHARS_ESCAPE_MAP = new Map(
+    MARKUP_CHARS.map((char) => [char, markerOf(char)]),
+  );
+  const MARKUP_CHARS_UNESCAPE_MAP = new Map(
+    MARKUP_CHARS.map((char) => [markerOf(char), char]),
+  );
+
+  const MARKUP_CHARS_REGEX = new RegExp(
+    `[${RegExp.escape(MARKUP_CHARS.join(''))}]`,
+    'g',
+  );
+  const MARKUP_MARKERS_REGEX = /\u{FFFE}\d+\u{FFFF}/gu;
+
+  function escapeMDX(str: string) {
+    return str.replace(
+      MARKUP_CHARS_REGEX,
+      (char) => MARKUP_CHARS_ESCAPE_MAP.get(char)!,
+    );
+  }
+
+  function unescapeMDX(str: string) {
+    return str.replace(
+      MARKUP_MARKERS_REGEX,
+      (marker) => MARKUP_CHARS_UNESCAPE_MAP.get(marker) ?? marker,
+    );
+  }
+
+  return {escapeMDX, unescapeMDX};
+})();
 
 /**
  * Hacky temporary escape hatch for Crowdin bad MDX support
@@ -142,7 +178,26 @@ export function createExcerpt(fileString: string): string | undefined {
       continue;
     }
 
-    const cleanedLine = fileLine
+    // Pre/postprocessing to handle MDX special chars within inline code blocks
+    // See https://github.com/facebook/docusaurus/pull/11821
+    function preprocessLine(str: string) {
+      return (
+        str
+          // Ignore internal Unicode markers found in input
+          // This ensures no possible conflict with our MDX escaping logic
+          .replace(/[\u{FFFE}\u{FFFF}]/gu, '')
+          // Unwrap inline code and escape special MDX chars within it
+          .replace(/`(?<text>.+?)`/g, (_, text) => {
+            return MDXEscapingUtils.escapeMDX(text);
+          })
+      );
+    }
+    function postProcessLine(str: string) {
+      // Restore escaped MDX chars that have been previously escaped
+      return MDXEscapingUtils.unescapeMDX(str);
+    }
+
+    const cleanedLine = preprocessLine(fileLine)
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
@@ -159,8 +214,6 @@ export function createExcerpt(fileString: string): string | undefined {
       .replace(/\[\^.+?\](?:: .*$)?/g, '')
       // Remove inline links.
       .replace(/\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
-      // Remove inline code.
-      .replace(/`(?<text>.+?)`/g, '$1')
       // Remove blockquotes.
       .replace(/^\s{0,3}>\s?/g, '')
       // Remove admonition definition.
@@ -169,10 +222,12 @@ export function createExcerpt(fileString: string): string | undefined {
       .replace(/\s?:(?:::|[^:\n])+:/g, '')
       // Remove custom Markdown heading id.
       .replace(/\{#*[\w-]+\}/, '')
+      // Collapse whitespace left behind by the removals above.
+      .replace(/\s+/g, ' ')
       .trim();
 
     if (cleanedLine) {
-      return cleanedLine;
+      return postProcessLine(cleanedLine);
     }
   }
 
