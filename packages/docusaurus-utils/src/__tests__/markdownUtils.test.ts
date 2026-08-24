@@ -1042,7 +1042,7 @@ describe('parseMarkdownFile', () => {
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
       [YAMLException: bad indentation of a mapping entry (2:7)
 
-       1 |
+       1 | 
        2 | foo: f: a
       -----------^]
     `);
