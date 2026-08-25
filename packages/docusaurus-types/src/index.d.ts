@@ -29,6 +29,8 @@ export {
   OnBrokenMarkdownLinksFunction,
   OnBrokenMarkdownImagesFunction,
   OnUnusedMarkdownDirectivesFunction,
+  MeasureImageFunction,
+  MeasureImageSize,
 } from './markdown';
 
 export {ReportingSeverity} from './reporting';

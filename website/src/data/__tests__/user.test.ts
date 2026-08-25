@@ -9,7 +9,7 @@ import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
-import {imageSizeFromFile} from 'image-size/fromFile';
+import {imageDimensionsFromData} from 'image-dimensions';
 import {Joi} from '@docusaurus/utils-validation';
 import {TagList, sortedUsers, type User} from '../users';
 
@@ -128,7 +128,14 @@ describe('preview images have good dimensions', () => {
     .filter((file) => ['.png', 'jpg', '.jpeg'].includes(path.extname(file)));
 
   it.each(files)('%s', async (file: string) => {
-    const {width, height} = await imageSizeFromFile(path.join(imageDir, file));
+    const buffer = await fs.readFile(path.join(imageDir, file));
+    const dimensions = imageDimensionsFromData(buffer);
+    if (!dimensions) {
+      throw new Error(
+        `Could not parse showcase image size for showcase ${file}`,
+      );
+    }
+    const {width, height} = dimensions;
     const aspectRatio = width / height;
     expect(
       aspectRatio,

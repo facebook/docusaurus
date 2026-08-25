@@ -17,19 +17,20 @@ import {
   parseLocalURLPath,
 } from '@docusaurus/utils';
 import escapeHtml from 'escape-html';
-import {imageSizeFromFile} from 'image-size/fromFile';
 import logger from '@docusaurus/logger';
 import {
   assetRequireAttributeValue,
   formatNodePositionExtraMessage,
   transformNode,
 } from '../utils';
+import {readImageSize} from './measureImage';
 import type {Plugin, Transformer} from 'unified';
 import type {MdxJsxTextElement} from 'mdast-util-mdx';
 import type {Image, Root} from 'mdast';
 import type {Parent} from 'unist';
 import type {
   MarkdownConfig,
+  MeasureImageFunction,
   OnBrokenMarkdownImagesFunction,
 } from '@docusaurus/types';
 
@@ -37,12 +38,14 @@ export type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
   onBrokenMarkdownImages: MarkdownConfig['hooks']['onBrokenMarkdownImages'];
+  measureImage?: MeasureImageFunction;
 };
 
 type Context = {
   staticDirs: PluginOptions['staticDirs'];
   siteDir: PluginOptions['siteDir'];
   onBrokenMarkdownImages: OnBrokenMarkdownImagesFunction;
+  measureImage?: MeasureImageFunction;
   filePath: string;
   inlineMarkdownImageFileLoader: string;
 };
@@ -124,30 +127,20 @@ async function toImageRequireNode(
     });
   }
 
-  try {
-    const size = (await imageSizeFromFile(imagePath))!;
-    if (size.width) {
-      attributes.push({
-        type: 'mdxJsxAttribute',
-        name: 'width',
-        value: String(size.width),
-      });
-    }
-    if (size.height) {
-      attributes.push({
-        type: 'mdxJsxAttribute',
-        name: 'height',
-        value: String(size.height),
-      });
-    }
-  } catch (err) {
-    console.error(err);
-    // Workaround for https://github.com/yarnpkg/berry/pull/3889#issuecomment-1034469784
-    // TODO remove this check once fixed in Yarn PnP
-    if (!process.versions.pnp) {
-      logger.warn`The image at path=${imagePath} can't be read correctly. Please ensure it's a valid image.
-${(err as Error).message}`;
-    }
+  const size = await readImageSize(imagePath, context.measureImage);
+  if (size?.width) {
+    attributes.push({
+      type: 'mdxJsxAttribute',
+      name: 'width',
+      value: String(size.width),
+    });
+  }
+  if (size?.height) {
+    attributes.push({
+      type: 'mdxJsxAttribute',
+      name: 'height',
+      value: String(size.height),
+    });
   }
 
   transformNode(jsxNode, {

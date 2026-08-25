@@ -877,6 +877,34 @@ describe('markdown', () => {
         `);
       });
     });
+
+    describe('measureImage', () => {
+      function normalizeValue(measureImage?: MarkdownHooks['measureImage']) {
+        return normalizeHooks({
+          measureImage,
+        }).measureImage;
+      }
+
+      it('accepts undefined', () => {
+        expect(normalizeValue(undefined)).toBeUndefined();
+      });
+
+      it('accepts function', () => {
+        expect(normalizeValue(() => null)).toBeInstanceOf(Function);
+      });
+
+      it('rejects number', () => {
+        expect(() =>
+          normalizeValue(
+            // @ts-expect-error: bad value
+            42,
+          ),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          [Error: "markdown.hooks.measureImage" must be of type function
+          ]
+        `);
+      });
+    });
   });
 });
 

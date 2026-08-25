@@ -102,6 +102,18 @@ export type OnUnusedMarkdownDirectivesFunction = (params: {
   directives: Directives[];
 }) => void | string;
 
+export type MeasureImageSize = {
+  width?: number;
+  height?: number;
+};
+
+export type MeasureImageFunction = (params: {
+  /**
+   * Absolute path of the resolved local image file.
+   */
+  imagePath: string;
+}) => MeasureImageSize | null | Promise<MeasureImageSize | null>;
+
 export type MarkdownHooks = {
   /**
    * The behavior of Docusaurus when it detects any broken Markdown link.
@@ -117,6 +129,15 @@ export type MarkdownHooks = {
   onUnusedMarkdownDirectives:
     | ReportingSeverity
     | OnUnusedMarkdownDirectivesFunction;
+
+  /**
+   * Override how Markdown images are measured at build time (width/height
+   * attributes). When omitted, Docusaurus measures SVG locally and other
+   * common raster formats via `image-dimensions`.
+   *
+   * Return `null` to skip emitting width/height.
+   */
+  measureImage?: MeasureImageFunction;
 };
 
 export type MarkdownConfig = {

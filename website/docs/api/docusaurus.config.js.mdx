@@ -675,6 +675,13 @@ type OnUnusedMarkdownDirectivesFunction = (params: {
   directives: Directives[]; // mdast nodes
 }) => void | string;
 
+type MeasureImageFunction = (params: {
+  imagePath: string; // absolute path of the resolved local image
+}) =>
+  | {width?: number; height?: number}
+  | null
+  | Promise<{width?: number; height?: number} | null>;
+
 type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'throw';
 
 type MarkdownHooks = {
@@ -683,6 +690,7 @@ type MarkdownHooks = {
   onUnusedMarkdownDirectives:
     | ReportingSeverity
     | OnUnusedMarkdownDirectivesFunction;
+  measureImage?: MeasureImageFunction;
 };
 
 type MarkdownConfig = {
@@ -727,6 +735,7 @@ export default {
       onBrokenMarkdownLinks: 'warn',
       onBrokenMarkdownImages: 'throw',
       onUnusedMarkdownDirectives: 'warn',
+      // measureImage: async ({imagePath}) => ({width: 16, height: 16}),
     },
   },
 };
@@ -750,6 +759,7 @@ export default {
 | `hooks.onBrokenMarkdownLinks` | `ReportingSeverity \| OnBrokenMarkdownLinksFunction` | `'warn'` | Hook to customize the behavior when encountering a broken Markdown link URL. With the callback function, you can return a new link URL, or alter the link [mdast node](https://github.com/syntax-tree/mdast). |
 | `hooks.onBrokenMarkdownImages` | `ReportingSeverity \| OnBrokenMarkdownImagesFunction` | `'throw'` | Hook to customize the behavior when encountering a broken Markdown image URL. With the callback function, you can return a new image URL, or alter the image [mdast node](https://github.com/syntax-tree/mdast). |
 | `hooks.onUnusedMarkdownDirectives` | `ReportingSeverity \| OnUnusedMarkdownDirectivesFunction` | `'warn'` | Hook to customize the behavior when encountering an unused [Markdown directive](https://github.com/remarkjs/remark-directive). Also accepts a callback function, giving you access to the raw `Directive` AST nodes. |
+| `hooks.measureImage` | `MeasureImageFunction` | `undefined` | Override how local Markdown images are measured at build time (`width`/`height` attributes). The default measures SVG via a local parser and common raster formats (JPEG/PNG/GIF/WebP/AVIF/HEIF) via [`image-dimensions`](https://github.com/sindresorhus/image-dimensions). Return `null` to skip emitting dimensions. Formats previously handled only by `image-size` (BMP/ICO/TIFF/PSD/JXL/ICNS) are no longer auto-measured unless you provide this hook. |
 
 ```mdx-code-block
 </APITable>

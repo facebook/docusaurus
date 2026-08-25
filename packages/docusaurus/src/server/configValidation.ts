@@ -558,6 +558,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
           Joi.function(),
         )
         .default(DEFAULT_CONFIG.markdown.hooks.onUnusedMarkdownDirectives),
+      measureImage: Joi.function().optional(),
     }).default(DEFAULT_CONFIG.markdown.hooks),
   }).default({
     ...DEFAULT_CONFIG.markdown,
