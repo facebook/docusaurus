@@ -279,11 +279,11 @@ describe('toURLPath', () => {
   });
 
   it('pathname + hash containing a question mark (no query)', () => {
-    const url = parseURLOrPath('/pathname#hash?notquery');
+    const url = parseURLOrPath('/pathname#hash?notQuery');
     expect(toURLPath(url)).toEqual({
       pathname: '/pathname',
       search: undefined,
-      hash: 'hash?notquery',
+      hash: 'hash?notQuery',
     });
   });
 });
