@@ -20,6 +20,7 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
+  readCreationData,
   normalizeTags,
 } from '@docusaurus/utils';
 import {validateDocFrontMatter} from './frontMatter';
@@ -63,7 +64,12 @@ export async function readVersionDocs(
   versionMetadata: VersionMetadata,
   options: Pick<
     PluginOptions,
-    'include' | 'exclude' | 'showLastUpdateAuthor' | 'showLastUpdateTime'
+    | 'include'
+    | 'exclude'
+    | 'showLastUpdateAuthor'
+    | 'showLastUpdateTime'
+    | 'showCreatedTime'
+    | 'showCreatedBy'
   >,
 ): Promise<DocFile[]> {
   const sources = await Globby(options.include, {
@@ -120,12 +126,20 @@ async function doProcessDocMetadata({
     // but allow to disable this behavior with front matter
     parse_number_prefixes: parseNumberPrefixes = true,
     last_update: lastUpdateFrontMatter,
+    created_at: creationFrontMatter,
   } = frontMatter;
 
   const lastUpdate = await readLastUpdateData(
     filePath,
     options,
     lastUpdateFrontMatter,
+    vcs,
+  );
+
+  const creation = await readCreationData(
+    filePath,
+    options,
+    creationFrontMatter,
     vcs,
   );
 
@@ -240,6 +254,8 @@ async function doProcessDocMetadata({
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
+    createdBy: creation.createdBy,
+    createdAt: creation.createdAt,
     sidebarPosition,
     frontMatter,
   };
