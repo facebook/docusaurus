@@ -9,7 +9,6 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
-import Image from '@theme/IdealImage';
 import {Tags, TagList, type TagType, type User} from '@site/src/data/users';
 import {sortBy} from '@site/src/utils/jsUtils';
 import Heading from '@theme/Heading';
@@ -65,7 +64,7 @@ function ShowcaseCard({user}: {user: User}) {
   return (
     <li key={user.title} className="card shadow--md">
       <div className={clsx('card__image', styles.showcaseCardImage)}>
-        <Image img={image} alt={user.title} />
+        <img src={image} alt={user.title} loading="lazy" />
       </div>
       <div className="card__body">
         <div className={clsx(styles.showcaseCardHeader)}>
