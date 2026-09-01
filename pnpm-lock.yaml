@@ -1493,7 +1493,7 @@ importers:
         version: 3.0.0
       npm-to-yarn:
         specifier: ^3.0.1
-        version: 3.0.1
+        version: 3.2.0
       tslib:
         specifier: ^2.6.0
         version: 2.8.1
@@ -8584,7 +8584,7 @@ packages:
   git-raw-commits@3.0.0:
     resolution: {integrity: sha512-b5OHmZ3vAgGrDn/X0kS+9qCfNKWe4K/jFnhwzVWWg0/k5eLa3060tZShrRg8Dja5kPc+YjS0Gc6y7cRr44Lpjw==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-remote-origin-url@2.0.0:
@@ -8594,7 +8594,7 @@ packages:
   git-semver-tags@5.0.1:
     resolution: {integrity: sha512-hIvOeZwRbQ+7YEUmCkHqo8FOLQZCEn18yevLHADlFPZY02KJGsu5FZt9YW/lybfK2uhWFI7Qg/07LekJiTv7iA==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-up@7.0.0:
@@ -10447,8 +10447,8 @@ packages:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
     engines: {node: '>=8'}
 
-  npm-to-yarn@3.0.1:
-    resolution: {integrity: sha512-tt6PvKu4WyzPwWUzy/hvPFqn+uwXO0K1ZHka8az3NnrhWJDmSqI8ncWq0fkL0k/lmmi5tAC11FXwXuh0rFbt1A==}
+  npm-to-yarn@3.2.0:
+    resolution: {integrity: sha512-K1HmQeZT2HrjpsR6KgqbN2FAXL2NrJJmNUSD9ck7HGTVu1JKXox8n9SB+tjbU8m8JGLF4OscrroPepew/L7/Xw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   nprogress@0.2.0:
@@ -13708,7 +13708,7 @@ snapshots:
       jsonpointer: 5.0.1
       leven: 3.1.0
 
-  '@argos-ci/api-client@0.31.0(supports-color@7.2.0)':
+  '@argos-ci/api-client@0.31.0':
     dependencies:
       debug: 4.4.3(supports-color@7.2.0)
       openapi-fetch: 0.17.0
@@ -13720,7 +13720,7 @@ snapshots:
 
   '@argos-ci/cli@6.9.0(@types/node@25.9.1)(supports-color@7.2.0)':
     dependencies:
-      '@argos-ci/api-client': 0.31.0(supports-color@7.2.0)
+      '@argos-ci/api-client': 0.31.0
       '@argos-ci/core': 6.8.1(@types/node@25.9.1)(supports-color@7.2.0)
       '@vercel/detect-agent': 1.2.5
       commander: 15.0.0
@@ -13732,7 +13732,7 @@ snapshots:
 
   '@argos-ci/core@6.8.1(@types/node@25.9.1)(supports-color@7.2.0)':
     dependencies:
-      '@argos-ci/api-client': 0.31.0(supports-color@7.2.0)
+      '@argos-ci/api-client': 0.31.0
       '@argos-ci/util': 4.1.0
       convict: 6.2.5
       debug: 4.4.3(supports-color@7.2.0)
@@ -23182,7 +23182,7 @@ snapshots:
     dependencies:
       path-key: 3.1.1
 
-  npm-to-yarn@3.0.1: {}
+  npm-to-yarn@3.2.0: {}
 
   nprogress@0.2.0: {}
 
