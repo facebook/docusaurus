@@ -18,6 +18,7 @@ import {
   createAssetsExportCode,
   extractContentTitleData,
 } from './utils';
+import {reportMDXMessages} from './messages';
 import type {WebpackCompilerName} from '@docusaurus/utils';
 import type {Options} from './options';
 import type {LoaderContext} from 'webpack';
@@ -55,6 +56,8 @@ async function loadMDX({
     options,
     compilerName,
   });
+
+  reportMDXMessages({messages: result.messages, filePath, compilerName});
 
   const contentTitle = extractContentTitleData(result.data);
 
