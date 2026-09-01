@@ -8584,7 +8584,7 @@ packages:
   git-raw-commits@3.0.0:
     resolution: {integrity: sha512-b5OHmZ3vAgGrDn/X0kS+9qCfNKWe4K/jFnhwzVWWg0/k5eLa3060tZShrRg8Dja5kPc+YjS0Gc6y7cRr44Lpjw==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-remote-origin-url@2.0.0:
@@ -8594,7 +8594,7 @@ packages:
   git-semver-tags@5.0.1:
     resolution: {integrity: sha512-hIvOeZwRbQ+7YEUmCkHqo8FOLQZCEn18yevLHADlFPZY02KJGsu5FZt9YW/lybfK2uhWFI7Qg/07LekJiTv7iA==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-up@7.0.0:
@@ -13708,7 +13708,7 @@ snapshots:
       jsonpointer: 5.0.1
       leven: 3.1.0
 
-  '@argos-ci/api-client@0.31.0(supports-color@7.2.0)':
+  '@argos-ci/api-client@0.31.0':
     dependencies:
       debug: 4.4.3(supports-color@7.2.0)
       openapi-fetch: 0.17.0
@@ -13720,7 +13720,7 @@ snapshots:
 
   '@argos-ci/cli@6.9.0(@types/node@25.9.1)(supports-color@7.2.0)':
     dependencies:
-      '@argos-ci/api-client': 0.31.0(supports-color@7.2.0)
+      '@argos-ci/api-client': 0.31.0
       '@argos-ci/core': 6.8.1(@types/node@25.9.1)(supports-color@7.2.0)
       '@vercel/detect-agent': 1.2.5
       commander: 15.0.0
@@ -13732,7 +13732,7 @@ snapshots:
 
   '@argos-ci/core@6.8.1(@types/node@25.9.1)(supports-color@7.2.0)':
     dependencies:
-      '@argos-ci/api-client': 0.31.0(supports-color@7.2.0)
+      '@argos-ci/api-client': 0.31.0
       '@argos-ci/util': 4.1.0
       convict: 6.2.5
       debug: 4.4.3(supports-color@7.2.0)
@@ -18793,7 +18793,7 @@ snapshots:
   caniuse-api@3.0.0:
     dependencies:
       browserslist: 4.28.2
-      caniuse-lite: 1.0.30001793
+      caniuse-lite: 1.0.30001809
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
