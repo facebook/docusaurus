@@ -6,12 +6,52 @@
  */
 
 import {describe, expect, it} from 'vitest';
+import fs from 'fs-extra';
+import {mkdtempDisposable, realpath} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import {
+  Globby,
   GlobExcludeDefault,
   createMatcher,
   createAbsoluteFilePathMatcher,
   isTranslatableSourceFile,
 } from '../globUtils';
+
+describe('Globby', () => {
+  it('keeps content sourced from node_modules', async () => {
+    await using tempDir = await mkdtempDisposable(
+      join(await realpath(tmpdir()), 'docusaurus-tmp-'),
+    );
+    const contentPath = join(
+      tempDir.path,
+      'node_modules',
+      '@myCompany',
+      'docs',
+    );
+    await Promise.all([
+      fs.outputFile(join(contentPath, '_category_.json'), '{}'),
+      fs.outputFile(
+        join(contentPath, 'guide', '_category_.yml'),
+        'label: Guide',
+      ),
+      fs.outputFile(
+        join(contentPath, 'node_modules', 'dependency', '_category_.yaml'),
+        'label: Dependency',
+      ),
+    ]);
+
+    const categoryFiles = await Globby('**/_category_.{json,yml,yaml}', {
+      cwd: contentPath,
+      ignore: ['**/node_modules/**'],
+    });
+
+    expect(categoryFiles.sort()).toEqual([
+      '_category_.json',
+      'guide/_category_.yml',
+    ]);
+  });
+});
 
 describe('isTranslatableSourceFile', () => {
   it('works', () => {
@@ -130,31 +170,9 @@ describe('createAbsoluteFilePathMatcher', () => {
   it('match default exclude node_modules correctly', () => {
     expect(matcher('/_root/docs/node_modules/pkg/doc.md')).toBe(true);
     expect(matcher('/_root/docs/node_modules/@scope/pkg/doc.md')).toBe(true);
-    expect(
-      matcher('/_root/docs/category/node_modules/pkg/index.js'),
-    ).toBe(true);
-  });
-
-  // Ensures that when contentPath is inside node_modules (e.g.,
-  // node_modules/@myCompany/docs), content files at that root are NOT
-  // excluded, because their relative paths don't contain node_modules.
-  it('does not exclude content when root folder is inside node_modules', () => {
-    const nmMatcher = createAbsoluteFilePathMatcher(GlobExcludeDefault, [
-      '/project/node_modules/@myCompany/docs',
-    ]);
-    // Content at the root should NOT be excluded
-    expect(
-      nmMatcher('/project/node_modules/@myCompany/docs/intro.md'),
-    ).toBe(false);
-    expect(
-      nmMatcher('/project/node_modules/@myCompany/docs/guide/setup.mdx'),
-    ).toBe(false);
-    // But nested node_modules inside that root SHOULD be excluded
-    expect(
-      nmMatcher(
-        '/project/node_modules/@myCompany/docs/node_modules/dep/file.md',
-      ),
-    ).toBe(true);
+    expect(matcher('/_root/docs/category/node_modules/pkg/index.js')).toBe(
+      true,
+    );
   });
 
   it('match default exclude tests correctly', () => {
