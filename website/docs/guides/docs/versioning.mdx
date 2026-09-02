@@ -186,6 +186,12 @@ You can update multiple docs versions at the same time because each directory in
 
 Example: When you change any file in `versioned_docs/version-2.6/`, it will only affect the docs for version `2.6`.
 
+You can fully overwrite an existing version using the `--overwrite` option. This is a destructive action and will remove any manual updates to the existing version.
+
+```bash npm2yarn
+npm run docusaurus docs:version 1.1.0 --overwrite
+```
+
 ### Deleting an existing version {/* #deleting-an-existing-version */}
 
 You can delete/remove versions as well.
