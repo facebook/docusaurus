@@ -32,27 +32,39 @@ function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {
     : `${pluginId}_${fileOrDir}`;
 }
 
-/** `[siteDir]/community_versioned_docs/version-1.0.0` */
+/**
+ * Root directory for versioned docs/sidebars folders. Defaults to `siteDir`.
+ */
+export function getVersionedContentRoot(
+  siteDir: string,
+  versionedDocsPath: string | undefined,
+): string {
+  return versionedDocsPath ? path.resolve(siteDir, versionedDocsPath) : siteDir;
+}
+
+/** `[versionedContentRoot]/community_versioned_docs/version-1.0.0` */
 export function getVersionDocsDirPath(
   siteDir: string,
   pluginId: string,
   versionName: string,
+  versionedDocsPath?: string,
 ): string {
   return path.join(
-    siteDir,
+    getVersionedContentRoot(siteDir, versionedDocsPath),
     addPluginIdPrefix(VERSIONED_DOCS_DIR, pluginId),
     `version-${versionName}`,
   );
 }
 
-/** `[siteDir]/community_versioned_sidebars/version-1.0.0-sidebars.json` */
+/** Path to a versioned sidebars file. */
 export function getVersionSidebarsPath(
   siteDir: string,
   pluginId: string,
   versionName: string,
+  versionedDocsPath?: string,
 ): string {
   return path.join(
-    siteDir,
+    getVersionedContentRoot(siteDir, versionedDocsPath),
     addPluginIdPrefix(VERSIONED_SIDEBARS_DIR, pluginId),
     `version-${versionName}-sidebars.json`,
   );
@@ -202,10 +214,20 @@ export async function getVersionMetadataPaths({
 
   const contentPath = isCurrent
     ? path.resolve(context.siteDir, options.path)
-    : getVersionDocsDirPath(context.siteDir, options.id, versionName);
+    : getVersionDocsDirPath(
+        context.siteDir,
+        options.id,
+        versionName,
+        options.versionedDocsPath,
+      );
   const sidebarFilePath = isCurrent
     ? options.sidebarPath
-    : getVersionSidebarsPath(context.siteDir, options.id, versionName);
+    : getVersionSidebarsPath(
+        context.siteDir,
+        options.id,
+        versionName,
+        options.versionedDocsPath,
+      );
 
   if (!(await fs.pathExists(contentPath))) {
     throw new Error(

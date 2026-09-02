@@ -28,11 +28,13 @@ async function createVersionedSidebarFile({
   pluginId,
   sidebarPath,
   version,
+  versionedDocsPath,
 }: {
   siteDir: string;
   pluginId: string;
   sidebarPath: string | false | undefined;
   version: string;
+  versionedDocsPath: string | undefined;
 }) {
   // Load current sidebar and create a new versioned sidebars file (if needed).
   // Note: we don't need the sidebars file to be normalized: it's ok to let
@@ -46,7 +48,7 @@ async function createVersionedSidebarFile({
 
   if (shouldCreateVersionedSidebarFile) {
     await fs.outputFile(
-      getVersionSidebarsPath(siteDir, pluginId, version),
+      getVersionSidebarsPath(siteDir, pluginId, version, versionedDocsPath),
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
     );
@@ -56,7 +58,7 @@ async function createVersionedSidebarFile({
 // Tests depend on non-default export for mocking.
 async function cliDocsVersionCommand(
   version: unknown,
-  {id: pluginId, path: docsPath, sidebarPath}: PluginOptions,
+  {id: pluginId, path: docsPath, sidebarPath, versionedDocsPath}: PluginOptions,
   {siteDir, i18n}: LoadContext,
 ): Promise<void> {
   // It wouldn't be very user-friendly to show a [default] log prefix,
@@ -117,7 +119,7 @@ async function cliDocsVersionCommand(
 
       const newVersionDir =
         locale === i18n.defaultLocale
-          ? getVersionDocsDirPath(siteDir, pluginId, version)
+          ? getVersionDocsDirPath(siteDir, pluginId, version, versionedDocsPath)
           : getDocsDirPathLocalized({
               localizationDir,
               pluginId,
@@ -149,6 +151,7 @@ async function cliDocsVersionCommand(
     pluginId,
     version,
     sidebarPath,
+    versionedDocsPath,
   });
 
   // Update versions.json file.
