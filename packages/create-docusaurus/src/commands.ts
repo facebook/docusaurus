@@ -7,7 +7,6 @@
 
 // We use cross-spawn instead of spawn because of Windows compatibility issues.
 // For example, "yarn" doesn't work on Windows, it requires "yarn.cmd"
-// Tools like execa() use cross-spawn under the hood, and "resolve" the command
 import crossSpawn from 'cross-spawn';
 import supportsColor from 'supports-color';
 import {

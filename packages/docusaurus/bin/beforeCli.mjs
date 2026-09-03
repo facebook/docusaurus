@@ -112,14 +112,12 @@ export default async function beforeCli() {
       }
 
       const yarnVersionResult = await execa`yarn --version`;
-      if (yarnVersionResult.exitCode === 0) {
-        const majorVersion = parseInt(
-          yarnVersionResult.stdout?.trim().split('.')[0] ?? '',
-          10,
-        );
-        if (!Number.isNaN(majorVersion)) {
-          return majorVersion;
-        }
+      const majorVersion = parseInt(
+        yarnVersionResult.stdout?.trim().split('.')[0] ?? '',
+        10,
+      );
+      if (!Number.isNaN(majorVersion)) {
+        return majorVersion;
       }
 
       return undefined;
