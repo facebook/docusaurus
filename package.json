@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "@ai-sdk/react": "^3.0.177",
-    "@crowdin/cli": "^4.14.2",
+    "@crowdin/cli": "^5.0.1",
     "@docusaurus/eslint-plugin": "3.10.1",
     "@docusaurus/plugin-content-blog": "3.10.1",
     "@docusaurus/plugin-content-docs": "3.10.1",
