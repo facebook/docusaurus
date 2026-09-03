@@ -7,64 +7,19 @@
 
 import {translate} from '@docusaurus/Translate';
 
-import type {DocSearchTranslations} from '@docsearch/react';
+import type {DocSearchAITranslations} from '@docsearch/react';
 
-// TODO Docusaurus v4: require DocSearch v4
-//  This needs to be cleaned after the upgrade
-//  Docusaurus v3 was made compatible with both DocSearch v3 and v4
-//  This implies that labels have been kept retro-compatible with v3
-//  Once we upgrade, we should be able to rely on v4 types only
-//  and remove v3 retro-compatibility labels that do not exist anymore in v4
-const translations: DocSearchTranslations & {
-  placeholder: string;
-  modal: {
-    searchBox: {
-      placeholderText: string;
-      placeholderTextAskAi: string;
-      placeholderTextAskAiStreaming: string;
-      enterKeyHintAskAi: string;
-      searchInputLabel: string;
-      backToKeywordSearchButtonText: string;
-      backToKeywordSearchButtonAriaLabel: string;
-      enterKeyHint: string;
-      clearButtonTitle: string;
-      clearButtonAriaLabel: string;
-      closeButtonText: string;
-      resetButtonTitle: string;
-      resetButtonAriaLabel: string;
-      cancelButtonText: string;
-      cancelButtonAriaLabel: string;
-      closeButtonAriaLabel: string;
-    };
-    startScreen: {
-      recentConversationsTitle: string;
-      removeRecentConversationButtonTitle: string;
-    };
-    resultsScreen: {
-      askAiPlaceholder: string;
-    };
-    askAiScreen: {
-      disclaimerText: string;
-      relatedSourcesText: string;
-      thinkingText: string;
-      copyButtonText: string;
-      copyButtonCopiedText: string;
-      copyButtonTitle: string;
-      likeButtonTitle: string;
-      dislikeButtonTitle: string;
-      thanksForFeedbackText: string;
-      preToolCallText: string;
-      duringToolCallText: string;
-      afterToolCallText: string;
-    };
-    footer: {
-      submitQuestionText: string;
-      poweredByText: string;
-      backToSearchText: string;
-      searchByText: string;
+// Using the "AI" translations type as it covers both search only and AI
+type RuntimeDocSearchAITranslations = DocSearchAITranslations & {
+  modal?: {
+    askAiScreen?: {
+      // Used by DocSearch v5 but missing from its published types
+      feedbackCancelButtonText?: string;
     };
   };
-} = {
+};
+
+const translations: RuntimeDocSearchAITranslations = {
   button: {
     buttonText: translate({
       id: 'theme.SearchBar.label',
@@ -79,28 +34,6 @@ const translations: DocSearchTranslations & {
   },
   modal: {
     searchBox: {
-      resetButtonTitle: translate({
-        id: 'theme.SearchModal.searchBox.resetButtonTitle',
-        message: 'Clear the query',
-        description: 'The label and ARIA label for search box reset button',
-      }),
-      resetButtonAriaLabel: translate({
-        id: 'theme.SearchModal.searchBox.resetButtonTitle',
-        message: 'Clear the query',
-        description: 'The label and ARIA label for search box reset button',
-      }),
-      cancelButtonText: translate({
-        id: 'theme.SearchModal.searchBox.cancelButtonText',
-        message: 'Cancel',
-        description: 'The label and ARIA label for search box cancel button',
-      }),
-      cancelButtonAriaLabel: translate({
-        id: 'theme.SearchModal.searchBox.cancelButtonText',
-        message: 'Cancel',
-        description: 'The label and ARIA label for search box cancel button',
-      }),
-
-      // v4
       clearButtonTitle: translate({
         id: 'theme.SearchModal.searchBox.resetButtonTitle',
         message: 'Clear the query',
@@ -161,6 +94,64 @@ const translations: DocSearchTranslations & {
         id: 'theme.SearchModal.searchBox.backToKeywordSearchButtonAriaLabel',
         message: 'Back to keyword search',
         description: 'The ARIA label for back to keyword search button',
+      }),
+      newConversationPlaceholder: translate({
+        id: 'theme.SearchModal.searchBox.newConversationPlaceholder',
+        message: 'Ask a question',
+        description: 'The placeholder text for a new AI conversation',
+      }),
+      conversationHistoryTitle: translate({
+        id: 'theme.SearchModal.searchBox.conversationHistoryTitle',
+        message: 'My conversation history',
+        description: 'The title for AI conversation history',
+      }),
+      startNewConversationText: translate({
+        id: 'theme.SearchModal.searchBox.startNewConversationText',
+        message: 'Start a new conversation',
+        description: 'The label for starting a new AI conversation',
+      }),
+      viewConversationHistoryText: translate({
+        id: 'theme.SearchModal.searchBox.viewConversationHistoryText',
+        message: 'Conversation history',
+        description: 'The label for opening AI conversation history',
+      }),
+      threadDepthErrorPlaceholder: translate({
+        id: 'theme.SearchModal.searchBox.threadDepthErrorPlaceholder',
+        message: 'Conversation limit reached',
+        description:
+          'The search box placeholder when the AI conversation limit is reached',
+      }),
+    },
+    facets: {
+      defaultValueLabel: translate({
+        id: 'theme.SearchModal.facets.defaultValueLabel',
+        message: 'All',
+        description: 'The default value label for a search facet',
+      }),
+      facetMenuTriggerAriaLabel: translate({
+        id: 'theme.SearchModal.facets.facetMenuTriggerAriaLabel',
+        message: 'selected',
+        description: 'The ARIA label suffix for a selected search facet',
+      }),
+      clearAllLabel: translate({
+        id: 'theme.SearchModal.facets.clearAllLabel',
+        message: 'Clear all',
+        description: 'The label for clearing all selected search facets',
+      }),
+      facetsAriaLabel: translate({
+        id: 'theme.SearchModal.facets.facetsAriaLabel',
+        message: 'Search filters',
+        description: 'The ARIA label for available search facets',
+      }),
+      selectedFacetsAriaLabel: translate({
+        id: 'theme.SearchModal.facets.selectedFacetsAriaLabel',
+        message: 'Selected search filters',
+        description: 'The ARIA label for selected search facets',
+      }),
+      clearFacetAriaLabel: translate({
+        id: 'theme.SearchModal.facets.clearFacetAriaLabel',
+        message: 'Clear filter:',
+        description: 'The ARIA label prefix for clearing a search facet',
       }),
     },
     startScreen: {
@@ -223,6 +214,29 @@ const translations: DocSearchTranslations & {
         message: 'Ask AI: ',
         description: 'The placeholder text for Ask AI input',
       }),
+      askAiResultsTitle: translate({
+        id: 'theme.SearchModal.resultsScreen.askAiResultsTitle',
+        message: 'Ask AI Assistant',
+        description: 'The title for Ask AI actions in search results',
+      }),
+      resultBadgeLabelText: translate({
+        id: 'theme.SearchModal.resultsScreen.resultBadgeLabelText',
+        message: 'Category',
+        description: 'The screen reader label for a search result badge',
+      }),
+    },
+    newConversation: {
+      newConversationTitle: translate({
+        id: 'theme.SearchModal.newConversation.newConversationTitle',
+        message: 'How can I help you today?',
+        description: 'The title for a new AI conversation',
+      }),
+      newConversationDescription: translate({
+        id: 'theme.SearchModal.newConversation.newConversationDescription',
+        message:
+          'I search through your documentation to help you find setup guides, feature details and troubleshooting tips, fast.',
+        description: 'The description for a new AI conversation',
+      }),
     },
     askAiScreen: {
       disclaimerText: translate({
@@ -235,6 +249,11 @@ const translations: DocSearchTranslations & {
         id: 'theme.SearchModal.askAiScreen.relatedSourcesText',
         message: 'Related sources',
         description: 'The text for related sources',
+      }),
+      relatedSourcesTextPlural: translate({
+        id: 'theme.SearchModal.askAiScreen.relatedSourcesTextPlural',
+        message: 'Sources',
+        description: 'The text for multiple related sources',
       }),
       thinkingText: translate({
         id: 'theme.SearchModal.askAiScreen.thinkingText',
@@ -271,6 +290,56 @@ const translations: DocSearchTranslations & {
         message: 'Thanks for your feedback!',
         description: 'The text for thanks for feedback',
       }),
+      feedbackPanelTitle: translate({
+        id: 'theme.SearchModal.askAiScreen.feedbackPanelTitle',
+        message: 'What went wrong? (optional)',
+        description: 'The title for the AI response feedback panel',
+      }),
+      feedbackDetailsPlaceholder: translate({
+        id: 'theme.SearchModal.askAiScreen.feedbackDetailsPlaceholder',
+        message: 'Share some details...',
+        description: 'The placeholder for AI response feedback details',
+      }),
+      feedbackSubmitButtonText: translate({
+        id: 'theme.SearchModal.askAiScreen.feedbackSubmitButtonText',
+        message: 'Submit',
+        description: 'The label for submitting AI response feedback',
+      }),
+      feedbackCancelButtonText: translate({
+        id: 'theme.SearchModal.askAiScreen.feedbackCancelButtonText',
+        message: 'Cancel',
+        description: 'The label for cancelling AI response feedback',
+      }),
+      feedbackTagIncorrect: translate({
+        id: 'theme.SearchModal.askAiScreen.feedbackTagIncorrect',
+        message: 'Incorrect or incomplete',
+        description: 'The AI feedback tag for an incorrect response',
+      }),
+      feedbackTagNotWhatIAsked: translate({
+        id: 'theme.SearchModal.askAiScreen.feedbackTagNotWhatIAsked',
+        message: 'Not what I asked for',
+        description: 'The AI feedback tag for an irrelevant response',
+      }),
+      feedbackTagSlowOrBuggy: translate({
+        id: 'theme.SearchModal.askAiScreen.feedbackTagSlowOrBuggy',
+        message: 'Slow or buggy',
+        description: 'The AI feedback tag for a slow or buggy response',
+      }),
+      feedbackTagStyleOrTone: translate({
+        id: 'theme.SearchModal.askAiScreen.feedbackTagStyleOrTone',
+        message: 'Style or tone',
+        description: 'The AI feedback tag for an inappropriate style or tone',
+      }),
+      feedbackTagSafetyOrLegal: translate({
+        id: 'theme.SearchModal.askAiScreen.feedbackTagSafetyOrLegal',
+        message: 'Safety or legal concern',
+        description: 'The AI feedback tag for a safety or legal concern',
+      }),
+      feedbackTagOther: translate({
+        id: 'theme.SearchModal.askAiScreen.feedbackTagOther',
+        message: 'Other',
+        description: 'The AI feedback tag for another concern',
+      }),
       preToolCallText: translate({
         id: 'theme.SearchModal.askAiScreen.preToolCallText',
         message: 'Searching...',
@@ -285,6 +354,60 @@ const translations: DocSearchTranslations & {
         id: 'theme.SearchModal.askAiScreen.afterToolCallText',
         message: 'Searched for',
         description: 'The text after tool call',
+      }),
+      savedMemoryToolResultText: translate({
+        id: 'theme.SearchModal.askAiScreen.savedMemoryToolResultText',
+        message: 'Saved to memory',
+        description: 'The text after AI saves information to memory',
+      }),
+      memoryToolResultText: translate({
+        id: 'theme.SearchModal.askAiScreen.memoryToolResultText',
+        message: 'Used memory to enhance results',
+        description: 'The text after AI uses memory to enhance results',
+      }),
+      stoppedStreamingText: translate({
+        id: 'theme.SearchModal.askAiScreen.stoppedStreamingText',
+        message: 'You stopped this response',
+        description: 'The text after stopping a streaming AI response',
+      }),
+      errorTitleText: translate({
+        id: 'theme.SearchModal.askAiScreen.errorTitleText',
+        message: 'Chat error',
+        description: 'The title for an AI chat error',
+      }),
+      threadDepthExceededMessage: translate({
+        id: 'theme.SearchModal.askAiScreen.threadDepthExceededMessage',
+        message: 'This conversation is now closed to keep responses accurate.',
+        description: 'The message when the AI conversation limit is reached',
+      }),
+      startNewConversationButtonText: translate({
+        id: 'theme.SearchModal.askAiScreen.startNewConversationButtonText',
+        message: 'Start a new conversation',
+        description:
+          'The button label for starting a new AI conversation after reaching the conversation limit',
+      }),
+      suggestedPromptsTitleText: translate({
+        id: 'theme.SearchModal.askAiScreen.suggestedPromptsTitleText',
+        message: 'Suggested prompts',
+        description: 'The title for suggested AI prompts',
+      }),
+      aggregatedToolCallText: () => ({
+        before: translate({
+          id: 'theme.SearchModal.askAiScreen.aggregatedToolCallText.before',
+          message: 'Searched for ',
+          description: 'The text before a list of AI search tool queries',
+        }),
+        separator: translate({
+          id: 'theme.SearchModal.askAiScreen.aggregatedToolCallText.separator',
+          message: ', ',
+          description: 'The separator between AI search tool queries',
+        }),
+        lastSeparator: translate({
+          id: 'theme.SearchModal.askAiScreen.aggregatedToolCallText.lastSeparator',
+          message: ' and ',
+          description: 'The separator before the last AI search tool query',
+        }),
+        after: '',
       }),
     },
     footer: {
@@ -333,11 +456,6 @@ const translations: DocSearchTranslations & {
         message: 'Powered by',
         description: "The 'Powered by' text for footer",
       }),
-      searchByText: translate({
-        id: 'theme.SearchModal.footer.searchByText',
-        message: 'Powered by',
-        description: "The 'Powered by' text for footer",
-      }),
       backToSearchText: translate({
         id: 'theme.SearchModal.footer.backToSearchText',
         message: 'Back to search',
@@ -367,11 +485,6 @@ const translations: DocSearchTranslations & {
       }),
     },
   },
-  placeholder: translate({
-    id: 'theme.SearchModal.placeholder',
-    message: 'Search docs',
-    description: 'The placeholder of the input of the DocSearch pop-up modal',
-  }),
 };
 
 export default translations;
