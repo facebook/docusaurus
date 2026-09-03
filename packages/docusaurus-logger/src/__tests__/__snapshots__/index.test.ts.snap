@@ -34,6 +34,74 @@ exports[`info > prints objects 1`] = `
 ]
 `;
 
+exports[`logger > error > prints objects 1`] = `
+[
+  [
+    "[ERROR] {"a":1}",
+  ],
+  [
+    "[ERROR] undefined",
+  ],
+  [
+    "[ERROR] 1,2,3",
+  ],
+  [
+    "[ERROR] Sat, 13 Nov 2021 00:00:00 GMT",
+  ],
+]
+`;
+
+exports[`logger > info > prints objects 1`] = `
+[
+  [
+    "[INFO] {"a":1}",
+  ],
+  [
+    "[INFO] undefined",
+  ],
+  [
+    "[INFO] 1,2,3",
+  ],
+  [
+    "[INFO] Sat, 13 Nov 2021 00:00:00 GMT",
+  ],
+]
+`;
+
+exports[`logger > success > prints objects 1`] = `
+[
+  [
+    "[SUCCESS] {"a":1}",
+  ],
+  [
+    "[SUCCESS] undefined",
+  ],
+  [
+    "[SUCCESS] 1,2,3",
+  ],
+  [
+    "[SUCCESS] Sat, 13 Nov 2021 00:00:00 GMT",
+  ],
+]
+`;
+
+exports[`logger > warn > prints objects 1`] = `
+[
+  [
+    "[WARNING] {"a":1}",
+  ],
+  [
+    "[WARNING] undefined",
+  ],
+  [
+    "[WARNING] 1,2,3",
+  ],
+  [
+    "[WARNING] Sat, 13 Nov 2021 00:00:00 GMT",
+  ],
+]
+`;
+
 exports[`success > prints objects 1`] = `
 [
   [
