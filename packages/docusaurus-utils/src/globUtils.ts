@@ -26,6 +26,7 @@ export const Globby = Tinyglobby.glob;
  * - Ignore tests
  */
 export const GlobExcludeDefault = [
+  '**/node_modules/**',
   '**/_*.{js,jsx,ts,tsx,md,mdx}',
   '**/_*/**',
   '**/*.test.{js,jsx,ts,tsx}',
