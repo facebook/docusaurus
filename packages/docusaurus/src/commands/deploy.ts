@@ -95,10 +95,11 @@ This behavior can have SEO impacts and create relative link issues.
   }
 
   // Source repo is the repo from where the command is invoked
-  const {stdout} = await exec('git', ['remote', 'get-url', 'origin'], {
-    log: false,
-  });
-  const sourceRepoUrl = stdout.trim();
+  const sourceRepoUrl = (
+    await exec('git', ['remote', 'get-url', 'origin'], {
+      log: false,
+    })
+  ).stdout.trim();
 
   // The source branch; defaults to the currently checked out branch
   const sourceBranch =
