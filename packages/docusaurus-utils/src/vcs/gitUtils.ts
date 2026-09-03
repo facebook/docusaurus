@@ -270,19 +270,15 @@ export async function isGitInsideWorktree(cwd: string): Promise<boolean> {
 }
 
 export async function getGitRepoRoot(cwd: string): Promise<string> {
-  const createErrorMessageBase = () => {
-    return `Couldn't find the git repository root directory
-Failure while running ${logger.code(
-      'git rev-parse --show-toplevel',
-    )} from cwd=${logger.path(cwd)}`;
-  };
-
   const result = await execa('git', ['rev-parse', '--show-toplevel'], {
     cwd,
   }).catch((error) => {
     // We enter this rejection when cwd is not a dir for example
     throw new Error(
-      `${createErrorMessageBase()}
+      `Couldn't find the git repository root directory
+Failure while running ${logger.code(
+        'git rev-parse --show-toplevel',
+      )} from cwd=${logger.path(cwd)}
 The command executed throws an error: ${error.message}`,
       {cause: error},
     );
@@ -297,13 +293,6 @@ The command executed throws an error: ${error.message}`,
 export async function getGitSuperProjectRoot(
   cwd: string,
 ): Promise<string | null> {
-  const createErrorMessageBase = () => {
-    return `Couldn't find the git superproject root directory
-Failure while running ${logger.code(
-      'git rev-parse --show-superproject-working-tree',
-    )} from cwd=${logger.path(cwd)}`;
-  };
-
   const result = await execa(
     'git',
     ['rev-parse', '--show-superproject-working-tree'],
@@ -313,7 +302,10 @@ Failure while running ${logger.code(
   ).catch((error) => {
     // We enter this rejection when cwd is not a dir for example
     throw new Error(
-      `${createErrorMessageBase()}
+      `Couldn't find the git superproject root directory
+Failure while running ${logger.code(
+        'git rev-parse --show-superproject-working-tree',
+      )} from cwd=${logger.path(cwd)}
 The command executed throws an error: ${error.message}`,
       {cause: error},
     );
@@ -330,19 +322,15 @@ The command executed throws an error: ${error.message}`,
 
 // See https://git-scm.com/book/en/v2/Git-Tools-Submodules
 export async function getGitSubmodulePaths(cwd: string): Promise<string[]> {
-  const createErrorMessageBase = () => {
-    return `Couldn't read the list of git submodules
-Failure while running ${logger.code(
-      'git submodule status',
-    )} from cwd=${logger.path(cwd)}`;
-  };
-
   const result = await execa('git', ['submodule', 'status'], {
     cwd,
   }).catch((error) => {
     // We enter this rejection when cwd is not a dir for example
     throw new Error(
-      `${createErrorMessageBase()}
+      `Couldn't read the list of git submodules
+Failure while running ${logger.code(
+        'git submodule status',
+      )} from cwd=${logger.path(cwd)}
 The command executed throws an error: ${error.message}`,
       {cause: error},
     );
