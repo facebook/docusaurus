@@ -37,7 +37,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@crowdin/cli": "^4.14.2",
+    "@crowdin/cli": "^5.0.1",
     "@crowdin/crowdin-api-client": "^1.55.1",
     "@docusaurus/core": "3.10.1",
     "@docusaurus/logger": "3.10.1",
