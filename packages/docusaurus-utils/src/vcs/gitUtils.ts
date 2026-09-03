@@ -416,7 +416,6 @@ export async function getGitRepositoryFilesInfo(
     ],
     {
       cwd,
-      encoding: 'utf8',
       // TODO use streaming to avoid a large buffer
       // See https://github.com/withastro/starlight/issues/3154
       maxBuffer: 20 * 1024 * 1024,
