@@ -52,3 +52,5 @@ allowBuilds:
   fast-folder-size: false
   nx: false
   sharp: false
+patchedDependencies:
+  '@docusaurus/react-loadable': patches/@docusaurus__react-loadable.patch
