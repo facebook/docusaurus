@@ -21,7 +21,7 @@
     "@docusaurus/logger": "3.10.1",
     "@docusaurus/types": "3.10.1",
     "@docusaurus/utils-common": "3.10.1",
-    "execa": "^5.1.1",
+    "execa": "^10.0.0",
     "file-loader": "^6.2.0",
     "fs-extra": "^11.2.0",
     "github-slugger": "^2.0.0",

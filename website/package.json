@@ -62,7 +62,7 @@
     "@mermaid-js/layout-elk": "^0.2.2",
     "clsx": "^2.0.0",
     "color": "^4.2.3",
-    "execa": "^5.1.1",
+    "execa": "^10.0.0",
     "fs-extra": "^11.2.0",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",
