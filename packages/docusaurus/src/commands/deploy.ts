@@ -255,8 +255,10 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     try {
       await fs.copy(fromPath, targetPath);
     } catch (err) {
-      logger.error`Copying build assets from path=${fromPath} to path=${targetPath} failed.`;
-      throw err;
+      throw new Error(
+        `Failed to copy build assets from path=${fromPath} to path=${targetPath}.`,
+        {cause: err},
+      );
     }
     await exec('git', ['add', '--all']);
 
