@@ -8,12 +8,6 @@
 import {describe, expect, it, vi} from 'vitest';
 import logger from '../index';
 
-// Force chalk to ANSI level 3 in tests, so output is colored even in CI
-vi.mock('chalk', async () => {
-  const chalk = await vi.importActual<typeof import('chalk')>('chalk');
-  return {default: new chalk.default.Instance({level: 3})};
-});
-
 describe('formatters', () => {
   it('path', () => {
     expect(logger.path('keepAnsi')).toMatchInlineSnapshot(

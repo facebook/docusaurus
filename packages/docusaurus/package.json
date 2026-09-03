@@ -41,7 +41,6 @@
     "@docusaurus/utils-common": "3.10.1",
     "@docusaurus/utils-validation": "3.10.1",
     "boxen": "^6.2.1",
-    "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "cli-table3": "^0.6.3",
     "combine-promises": "^1.1.0",

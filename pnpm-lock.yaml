@@ -361,9 +361,6 @@ importers:
       boxen:
         specifier: ^6.2.1
         version: 6.2.1
-      chalk:
-        specifier: ^4.1.2
-        version: 4.1.2
       chokidar:
         specifier: ^3.5.3
         version: 3.6.0
@@ -710,9 +707,6 @@ importers:
       '@docusaurus/types':
         specifier: 3.10.1
         version: link:../docusaurus-types
-      chalk:
-        specifier: ^4.1.2
-        version: 4.1.2
       tslib:
         specifier: ^2.6.0
         version: 2.8.1
