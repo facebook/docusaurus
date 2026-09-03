@@ -29,6 +29,8 @@ minimumReleaseAgeIgnoreMissingTime: false
 minimumReleaseAgeExclude:
   - tar@7.5.16
   - pnpm
+  - '@rspack/*'
+  - '@crowdin/*'
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 525600 # ignore packages published 1+ year ago
@@ -37,6 +39,7 @@ trustPolicyExclude:
   - '@trickfilm400/rollup-plugin-off-main-thread@3.0.0-pre1'
   - 'browserslist-load-config@1.0.2'
   - '@vercel/detect-agent@1.2.5' # See https://github.com/vercel/vercel/issues/17408
+  - '@crowdin/cli@5.0.1' # Moved from staged to trusted publishing :s
 
 trustLockfile: false
 blockExoticSubdeps: true
