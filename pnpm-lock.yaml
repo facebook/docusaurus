@@ -386,8 +386,8 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
       eta:
-        specifier: ^2.2.0
-        version: 2.2.0
+        specifier: ^4.6.0
+        version: 4.6.0
       eval:
         specifier: ^0.1.8
         version: 0.1.8
@@ -886,8 +886,8 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-validation
       eta:
-        specifier: ^2.2.0
-        version: 2.2.0
+        specifier: ^4.6.0
+        version: 4.6.0
       fs-extra:
         specifier: ^11.2.0
         version: 11.3.5
@@ -1805,8 +1805,8 @@ importers:
         specifier: ^2.0.0
         version: 2.1.1
       eta:
-        specifier: ^2.2.0
-        version: 2.2.0
+        specifier: ^4.6.0
+        version: 4.6.0
       fs-extra:
         specifier: ^11.2.0
         version: 11.3.5
@@ -8304,10 +8304,6 @@ packages:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
 
-  eta@2.2.0:
-    resolution: {integrity: sha512-UVQ72Rqjy/ZKQalzV5dCCJP80GrmPrMxh6NlNf+erV6ObL0ZFkhCstWRawS85z3smdr3d2wXPsZEY7rDPfGd2g==}
-    engines: {node: '>=6.0.0'}
-
   eta@4.6.0:
     resolution: {integrity: sha512-lW6is4T1NFOYnmqGZIfvixqj7A7sSvScF+DN8EK6K58xI5MZ5UvYe0GjopxOXQtZvUn4eDdVuZ8XSoYWTMEKwA==}
     engines: {node: '>=20'}
@@ -8640,7 +8636,7 @@ packages:
   git-raw-commits@3.0.0:
     resolution: {integrity: sha512-b5OHmZ3vAgGrDn/X0kS+9qCfNKWe4K/jFnhwzVWWg0/k5eLa3060tZShrRg8Dja5kPc+YjS0Gc6y7cRr44Lpjw==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-remote-origin-url@2.0.0:
@@ -8650,7 +8646,7 @@ packages:
   git-semver-tags@5.0.1:
     resolution: {integrity: sha512-hIvOeZwRbQ+7YEUmCkHqo8FOLQZCEn18yevLHADlFPZY02KJGsu5FZt9YW/lybfK2uhWFI7Qg/07LekJiTv7iA==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-up@7.0.0:
@@ -20489,8 +20485,6 @@ snapshots:
       '@types/estree': 1.0.9
 
   esutils@2.0.3: {}
-
-  eta@2.2.0: {}
 
   eta@4.6.0: {}
 

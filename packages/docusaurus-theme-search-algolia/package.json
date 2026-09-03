@@ -46,7 +46,7 @@
     "algoliasearch": "^5.51.0",
     "algoliasearch-helper": "^3.28.2",
     "clsx": "^2.0.0",
-    "eta": "^2.2.0",
+    "eta": "^4.6.0",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
     "tslib": "^2.6.0",
