@@ -6,8 +6,10 @@
  */
 
 import _ from 'lodash';
-import * as eta from 'eta';
+import {Eta} from 'eta';
 import redirectPageTemplate from './templates/redirectPage.template.html';
+
+const eta = new Eta();
 
 const getCompiledRedirectPageTemplate = _.memoize(() =>
   eta.compile(redirectPageTemplate.trim()),
@@ -18,7 +20,7 @@ function renderRedirectPageTemplate(data: {
   searchAnchorForwarding: boolean;
 }) {
   const compiled = getCompiledRedirectPageTemplate();
-  return compiled(data, eta.defaultConfig);
+  return eta.render(compiled, data);
 }
 
 // if the target url does not include ?search#anchor,
