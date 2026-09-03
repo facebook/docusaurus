@@ -23,6 +23,7 @@ import {
   isUnlisted,
   isDraft,
   readLastUpdateData,
+  readCreationData,
   normalizeTags,
   aliasedSitePathToRelativePath,
 } from '@docusaurus/utils';
@@ -260,6 +261,13 @@ async function processBlogSourceFile(
     vcs,
   );
 
+  const creation = await readCreationData(
+    blogSourceAbsolute,
+    options,
+    frontMatter.created_at,
+    vcs,
+  );
+
   const draft = isDraft({frontMatter});
   const unlisted = isUnlisted({frontMatter});
 
@@ -379,6 +387,8 @@ async function processBlogSourceFile(
       unlisted,
       lastUpdatedAt: lastUpdate.lastUpdatedAt,
       lastUpdatedBy: lastUpdate.lastUpdatedBy,
+      createdAt: creation.createdAt,
+      createdBy: creation.createdBy,
     },
     content,
   };
