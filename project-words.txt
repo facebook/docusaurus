@@ -12,6 +12,7 @@ apfs
 appinstalled
 Applanga
 applescript
+askai
 atrule
 autogenerating
 autohide
