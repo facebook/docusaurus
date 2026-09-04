@@ -6,8 +6,10 @@
  */
 
 import path from 'path';
-import chokidar from 'chokidar';
-import {posixPath} from '@docusaurus/utils';
+import * as chokidar from 'chokidar';
+import {Globby, posixPath} from '@docusaurus/utils';
+import picomatch from 'picomatch';
+
 import type {StartCLIOptions} from './start';
 import type {LoadedPlugin, Props} from '@docusaurus/types';
 
@@ -27,12 +29,18 @@ export function createPollingOptions(
   };
 }
 
-export type FileWatchEventName =
-  | 'add'
-  | 'addDir'
-  | 'change'
-  | 'unlink'
-  | 'unlinkDir';
+type ChokidarEventNames = keyof chokidar.FSWatcherEventMap;
+
+// We only subscribe to a subset of Chokidar events we care about
+const FileWatchEvents = [
+  'add',
+  'change',
+  'unlink',
+  'addDir',
+  'unlinkDir',
+] as const satisfies ChokidarEventNames[];
+
+export type FileWatchEventName = (typeof FileWatchEvents)[number];
 
 export type FileWatchEvent = {
   name: FileWatchEventName;
@@ -48,10 +56,10 @@ type WatchParams = {
  * Watch file system paths for changes and emit events
  * Returns an async handle to stop watching
  */
-export function watch(
+async function watch(
   params: WatchParams,
   callback: (event: FileWatchEvent) => void,
-): () => Promise<void> {
+): Promise<() => Promise<void>> {
   const {pathsToWatch, siteDir, ...options} = params;
 
   const fsWatcher = chokidar.watch(pathsToWatch, {
@@ -60,12 +68,22 @@ export function watch(
     ...options,
   });
 
-  fsWatcher.on('all', (name, eventPath) => callback({name, path: eventPath}));
+  console.log('watch glob', {
+    patterns: pathsToWatch,
+    scans: pathsToWatch.map((pattern) => picomatch.scan(pattern).base),
+    result: await Globby(pathsToWatch),
+  });
+
+  FileWatchEvents.forEach((eventName) =>
+    fsWatcher.on(eventName, (eventPath) => {
+      callback({name: eventName, path: eventPath});
+    }),
+  );
 
   return () => fsWatcher.close();
 }
 
-export function getSitePathsToWatch({props}: {props: Props}): string[] {
+function getSitePathsToWatch({props}: {props: Props}): string[] {
   return [
     // TODO we should also watch all imported modules!
     //  Use https://github.com/vercel/nft ?
@@ -74,7 +92,7 @@ export function getSitePathsToWatch({props}: {props: Props}): string[] {
   ];
 }
 
-export function getPluginPathsToWatch({
+function getPluginPathsToWatch({
   siteDir,
   plugin,
 }: {
@@ -93,7 +111,7 @@ export function getPluginPathsToWatch({
     .map(normalizeToSiteDir);
 }
 
-export function setupSiteFileWatchers(
+export async function setupSiteFileWatchers(
   {
     props,
     cliOptions,
@@ -105,7 +123,7 @@ export function setupSiteFileWatchers(
     plugin: LoadedPlugin | null;
     event: FileWatchEvent;
   }) => void,
-): void {
+): Promise<void> {
   const {siteDir} = props;
   const pollingOptions = createPollingOptions(cliOptions);
 
@@ -113,7 +131,7 @@ export function setupSiteFileWatchers(
   //  the getFilePathsToWatch lifecycle code might get updated
   //  so we should probably reset the watchers?
 
-  watch(
+  const siteWatcher = watch(
     {
       pathsToWatch: getSitePathsToWatch({props}),
       siteDir: props.siteDir,
@@ -122,8 +140,8 @@ export function setupSiteFileWatchers(
     (event) => callback({plugin: null, event}),
   );
 
-  props.plugins.forEach((plugin) => {
-    watch(
+  const pluginWatchers = props.plugins.map((plugin) => {
+    return watch(
       {
         pathsToWatch: getPluginPathsToWatch({plugin, siteDir}),
         siteDir,
@@ -132,4 +150,6 @@ export function setupSiteFileWatchers(
       (event) => callback({plugin, event}),
     );
   });
+
+  await Promise.all([siteWatcher, ...pluginWatchers]);
 }
