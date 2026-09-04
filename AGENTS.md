@@ -11,12 +11,12 @@ Overview:
 - Extensive plugin architecture
 - Uses itself to build its own sites & dogfood
 
-### Monorepo
-
 Monorepo based on:
 
 - Lerna
 - pnpm workspaces
+
+### Monorepo
 
 - `packages/` - Core Docusaurus packages and plugins, published to npm
   - `docusaurus/` - Main CLI and core functionality
@@ -27,7 +27,13 @@ Monorepo based on:
   - `docusaurus-types/` - TypeScript definitions
   - `create-docusaurus/` - Site initialization CLI tool
 
-Monorepo packages depend on each other. Use `pnpm lerna list --toposort` to know in which order to build them, and `pnpm --filter <package-name> build` to build one in particular. Using `pnpm build:packages` builds them all in the correct order, but is slower.
+Packages depend on each other.
+
+Use:
+
+- `pnpm lerna list --toposort` to know in which order to build them
+- `pnpm --filter <package-name> build` to build one in particular
+- `pnpm build:packages` to build them all in the correct order
 
 ### Website structure
 
