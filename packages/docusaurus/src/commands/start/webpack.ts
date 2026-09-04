@@ -7,10 +7,15 @@
 
 import path from 'path';
 import merge from 'webpack-merge';
-import {formatStatsErrorMessage, printStatsWarnings} from '@docusaurus/bundler';
+import {
+  formatStatsErrorMessage,
+  importRspackDevServer,
+  printStatsWarnings,
+} from '@docusaurus/bundler';
 import logger from '@docusaurus/logger';
-// eslint-disable-next-line import/default
-import WebpackDevServer from 'webpack-dev-server';
+import WebpackDevServer, {
+  type Configuration as DevServerConfig,
+} from 'webpack-dev-server';
 import evalSourceMapMiddleware from '../utils/legacy/evalSourceMapMiddleware';
 import {createPollingOptions} from './watcher';
 import getHttpsConfig from '../../webpack/utils/getHttpsConfig';
@@ -20,7 +25,11 @@ import {
 } from '../../webpack/configure';
 import {createStartClientConfig} from '../../webpack/client';
 import type {StartCLIOptions} from './start';
-import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
+import type {
+  ConfigureWebpackUtils,
+  CurrentBundler,
+  Props,
+} from '@docusaurus/types';
 import type {Compiler} from 'webpack';
 import type {OpenUrlContext} from './utils';
 
@@ -55,7 +64,7 @@ async function createDevServerConfig({
   props: Props;
   host: string;
   port: number;
-}): Promise<WebpackDevServer.Configuration> {
+}): Promise<DevServerConfig> {
   const {baseUrl, siteDir, siteConfig} = props;
 
   const pollingOptions = createPollingOptions(cliOptions);
@@ -175,7 +184,7 @@ export async function createWebpackDevServer({
   const compiler = props.currentBundler.instance(config);
   registerWebpackE2ETestHook(compiler);
 
-  const defaultDevServerConfig = await createDevServerConfig({
+  const defaultDevServerConfig: DevServerConfig = await createDevServerConfig({
     cliOptions,
     props,
     host: openUrlContext.host,
@@ -183,9 +192,31 @@ export async function createWebpackDevServer({
   });
 
   // Allow plugin authors to customize/override devServer config
-  const devServerConfig: WebpackDevServer.Configuration = merge(
+  const devServerConfig: DevServerConfig = merge(
     [defaultDevServerConfig, config.devServer].filter(Boolean),
   );
 
-  return new WebpackDevServer(devServerConfig, compiler);
+  return createDevServer({
+    devServerConfig,
+    compiler,
+    currentBundler: props.currentBundler,
+  });
+}
+
+async function createDevServer({
+  devServerConfig,
+  compiler,
+  currentBundler,
+}: {
+  devServerConfig: DevServerConfig;
+  compiler: Compiler;
+  currentBundler: CurrentBundler;
+}): Promise<WebpackDevServer> {
+  if (currentBundler.name === 'webpack') {
+    return new WebpackDevServer(devServerConfig, compiler);
+  } else {
+    const RspackDevServer = await importRspackDevServer();
+    // @ts-expect-error: different types
+    return new RspackDevServer(devServerConfig, compiler);
+  }
 }
