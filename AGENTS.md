@@ -2,19 +2,19 @@
 
 ## Docusaurus
 
-Project Overview:
+Overview:
 
 - Modern static site generator framework - SPA
-- Focused on documentation websites
+- Focus on documentation sites
 - Built with React
 - Supports MDX, i18n, versioning
 - Extensive plugin architecture
+- Uses itself to build its own sites & dogfood
 
-Monorepo:
+Monorepo based on:
 
 - Lerna
-- pnpm workspaces.
-- uses itself to build its own website
+- pnpm workspaces
 
 ### Monorepo Structure
 
