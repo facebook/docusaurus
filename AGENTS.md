@@ -1,14 +1,20 @@
-# Agent Development Guide
+# AGENTS.md
 
-A file for [guiding AI coding agents](https://agents.md/).
+## Docusaurus
 
-## Project Overview
+Project Overview:
 
-Docusaurus is a modern static site generator framework focused on documentation websites. It's built with React and supports MDX, i18n, versioning, and extensive plugin architecture.
+- Modern static site generator framework - SPA
+- Focused on documentation websites
+- Built with React
+- Supports MDX, i18n, versioning
+- Extensive plugin architecture
 
-The project is a monorepo managed by Lerna and uses pnpm workspaces.
+Monorepo:
 
-Docusaurus uses itself to build its own website, which serves as both documentation and a way to dogfood the framework.
+- Lerna
+- pnpm workspaces.
+- uses itself to build its own website
 
 ### Monorepo Structure
 
@@ -43,7 +49,7 @@ The main CLI commands available
 - `pnpm watch` - Incremental build of monorepo packages with file watchers
 - `pnpm format` - Format code with oxfmt
 - `pnpm lint` - Run linting (ESLint + Stylelint + spell check)
-- `pnpm test` - Run all tests using Jest
+- `pnpm test` - Run all tests using Vitest
 - `pnpm clear` - Clean all build artifacts and caches
 - `pnpm --filter <package-name> build` - Build an individual monorepo package
 
@@ -57,13 +63,13 @@ The main CLI commands available
 
 ### Testing
 
-- `pnpm test` - Run all Jest tests
+- `pnpm test` - Run all Vitest tests
 - `pnpm test <path/to/test.file.ts>` - Run single test file
 - `pnpm --filter <package-name> test` - Run tests in a specific package:
 
 When a test is failing, run only that test file until it passes. Make sure to run all tests at the end to ensure there's no unexpected failure in other places.
 
-Update Jest failing snapshots with the `-u` option. Do not blindly update snapshots, and make sure they capture the correct behavior.
+Update Vitest failing snapshots with the `-u` option. Do not blindly update snapshots, and make sure they capture the correct behavior.
 
 ### Linting & Formatting
 
