@@ -27,6 +27,7 @@ import type {PluginOptions as TransformLinksOptions} from './remark/transformLin
 import type {PluginOptions as TransformImageOptions} from './remark/transformImage';
 import type {PluginOptions as UnusedDirectivesOptions} from './remark/unusedDirectives';
 import type {ProcessorOptions} from '@mdx-js/mdx';
+import type {VFile} from 'vfile';
 
 // TODO as of April 2023, no way to import/re-export this ESM type easily :/
 // This might change soon, likely after TS 5.2
@@ -36,6 +37,11 @@ type Pluggable = any; // TODO fix this asap
 export type SimpleProcessorResult = {
   content: string;
   data: {[key: string]: unknown};
+  /**
+   * Warnings reported by Remark/Rehype plugins through the vfile API.
+   * See https://github.com/vfile/vfile#filemessagereason-options
+   */
+  messages: VFile['messages'];
 };
 
 // TODO alt interface because impossible to import type Processor (ESM + TS :/)
@@ -220,6 +226,7 @@ async function createProcessorFactory() {
         return mdxProcessor.process(vfile).then((result) => ({
           content: result.toString(),
           data: result.data,
+          messages: result.messages,
         }));
       },
     };
