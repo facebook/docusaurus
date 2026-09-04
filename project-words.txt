@@ -41,7 +41,6 @@ commonmark
 contravariance
 cooldown
 cooldowns
-corejs
 Couriol
 creativecommons
 Csapo
