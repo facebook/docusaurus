@@ -134,15 +134,6 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
         path.resolve(__dirname, 'ssgWorkerThread.js'),
       );
 
-      // TS workaround, see https://github.com/tinylibs/tinypool/issues/136
-      const env: Record<string, string> = Object.fromEntries(
-        Object.entries(process.env).filter(
-          (entry): entry is [string, string] => {
-            return entry[1] !== undefined;
-          },
-        ),
-      );
-
       return new Tinypool({
         filename: workerURL.pathname,
         minThreads: numberOfThreads,
@@ -152,7 +143,9 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
         isolateWorkers: false,
         workerData: {params},
         env: {
-          ...env,
+          // Cast is safe
+          // See https://github.com/tinylibs/tinypool/issues/136
+          ...(process.env as Record<string, string>),
           ...getWorkerColorEnv(),
         },
 
