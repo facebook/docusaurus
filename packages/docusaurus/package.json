@@ -45,7 +45,6 @@
     "cli-table3": "^0.6.3",
     "combine-promises": "^1.1.0",
     "commander": "^5.1.0",
-    "core-js": "^3.31.1",
     "detect-port": "^2.1.0",
     "escape-html": "^1.0.3",
     "eta": "^4.0.1",

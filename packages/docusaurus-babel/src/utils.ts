@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
-import type {TransformOptions} from '@babel/core';
+import type {InputOptions} from '@babel/core';
 
 export async function getCustomBabelConfigFilePath(
   siteDir: string,
@@ -29,8 +29,8 @@ export function getBabelOptions({
   isServer?: boolean;
   // TODO Docusaurus v4 fix this
   //  weird to have getBabelOptions take a babelOptions param
-  babelOptions?: TransformOptions | string;
-} = {}): TransformOptions {
+  babelOptions?: InputOptions | string;
+} = {}): InputOptions {
   const caller = {name: isServer ? 'server' : 'client'};
   if (typeof babelOptions === 'string') {
     return {

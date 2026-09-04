@@ -6,9 +6,9 @@
  */
 
 import path from 'path';
-import type {ConfigAPI, TransformOptions} from '@babel/core';
+import type {ConfigAPI, InputOptions} from '@babel/core';
 
-function getTransformOptions(isServer: boolean): TransformOptions {
+function getTransformOptions(isServer: boolean): InputOptions {
   const absoluteRuntimePath = path.dirname(
     require.resolve(`@babel/runtime/package.json`),
   );
@@ -29,9 +29,6 @@ function getTransformOptions(isServer: boolean): TransformOptions {
         : [
             require.resolve('@babel/preset-env'),
             {
-              useBuiltIns: 'entry',
-              loose: true,
-              corejs: '3',
               // Do not transform modules to CJS
               modules: false,
               // Exclude transforms that make all code slower
@@ -52,31 +49,23 @@ function getTransformOptions(isServer: boolean): TransformOptions {
       [
         require.resolve('@babel/plugin-transform-runtime'),
         {
-          corejs: false,
-          helpers: true,
-          // By default, it assumes @babel/runtime@7.0.0. Since we use >7.0.0,
+          // By default, it assumes @babel/runtime@8.0.0. Since we use >8.0.0,
           // better to explicitly specify the version so that it can reuse the
           // helper better. See https://github.com/babel/babel/issues/10261
           // eslint-disable-next-line @typescript-eslint/no-require-imports
           version: (require('@babel/runtime/package.json') as {version: string})
             .version,
-          regenerator: true,
-          useESModules: true,
           // Undocumented option that lets us encapsulate our runtime, ensuring
           // the correct version is used
           // https://github.com/babel/babel/blob/090c364a90fe73d36a30707fc612ce037bdbbb24/packages/babel-plugin-transform-runtime/src/index.js#L35-L42
           absoluteRuntime: absoluteRuntimePath,
         },
       ],
-      // Adds syntax support for import()
-      isServer
-        ? require.resolve('babel-plugin-dynamic-import-node')
-        : require.resolve('@babel/plugin-syntax-dynamic-import'),
     ],
   };
 }
 
-export default function babelPresets(api: ConfigAPI): TransformOptions {
+export default function babelPresets(api: ConfigAPI): InputOptions {
   const callerName = api.caller((caller) => caller?.name);
   return getTransformOptions(callerName === 'server');
 }

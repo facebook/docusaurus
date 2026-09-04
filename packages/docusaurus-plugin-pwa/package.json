@@ -20,8 +20,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/preset-env": "^7.29.2",
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
     "@docusaurus/bundler": "3.10.1",
     "@docusaurus/core": "3.10.1",
     "@docusaurus/logger": "3.10.1",
@@ -32,7 +32,6 @@
     "@docusaurus/utils-validation": "3.10.1",
     "babel-loader": "^10.1.1",
     "clsx": "^2.0.0",
-    "core-js": "^3.31.1",
     "tslib": "^2.6.0",
     "webpack": "^5.106.2",
     "webpack-merge": "^6.0.1",

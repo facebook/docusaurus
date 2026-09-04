@@ -6,16 +6,18 @@
  */
 
 import fs from 'fs-extra';
-import traverse, {type Node} from '@babel/traverse';
-import generate from '@babel/generator';
+import traverse from '@babel/traverse';
+import {generate} from '@babel/generator';
 import {
-  parse,
+  parseAsync,
   type types as t,
   type NodePath,
-  type TransformOptions,
+  type InputOptions,
 } from '@babel/core';
 import {logger} from '@docusaurus/logger';
 import type {TranslationFileContent} from '@docusaurus/types';
+
+type Node = t.Node;
 
 export type SourceCodeFileTranslations = {
   sourceCodeFilePath: string;
@@ -25,7 +27,7 @@ export type SourceCodeFileTranslations = {
 
 export async function extractAllSourceCodeFileTranslations(
   sourceCodeFilePaths: string[],
-  babelOptions: TransformOptions,
+  babelOptions: InputOptions,
 ): Promise<SourceCodeFileTranslations[]> {
   return Promise.all(
     sourceCodeFilePaths.flatMap((sourceFilePath) =>
@@ -36,19 +38,19 @@ export async function extractAllSourceCodeFileTranslations(
 
 export async function extractSourceCodeFileTranslations(
   sourceCodeFilePath: string,
-  babelOptions: TransformOptions,
+  babelOptions: InputOptions,
 ): Promise<SourceCodeFileTranslations> {
   try {
     const code = await fs.readFile(sourceCodeFilePath, 'utf8');
 
-    const ast = parse(code, {
+    const ast = (await parseAsync(code, {
       ...babelOptions,
       ast: true,
       // filename is important, because babel does not process the same files
       // according to their js/ts extensions.
       // See https://x.com/NicoloRibaudo/status/1321130735605002243
       filename: sourceCodeFilePath,
-    }) as Node;
+    })) as Node;
 
     const translations = extractSourceCodeAstTranslations(
       ast,

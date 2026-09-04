@@ -28,26 +28,19 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/generator": "^7.29.1",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-transform-runtime": "^7.29.0",
-    "@babel/preset-env": "^7.29.2",
-    "@babel/preset-react": "^7.28.5",
-    "@babel/preset-typescript": "^7.28.5",
-    "@babel/runtime": "^7.29.2",
-    "@babel/traverse": "^7.29.0",
+    "@babel/core": "^8.0.1",
+    "@babel/generator": "^8.0.0",
+    "@babel/plugin-transform-runtime": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
+    "@babel/preset-react": "^8.0.1",
+    "@babel/preset-typescript": "^8.0.1",
+    "@babel/runtime": "^8.0.0",
+    "@babel/traverse": "^8.0.4",
     "@docusaurus/logger": "3.10.1",
     "@docusaurus/utils": "3.10.1",
     "@docusaurus/types": "3.10.1",
-    "babel-plugin-dynamic-import-node": "^2.3.3",
     "fs-extra": "^11.2.0",
     "tslib": "^2.6.0"
-  },
-  "devDependencies": {
-    "@types/babel__core": "^7.20.5",
-    "@types/babel__generator": "^7.27.0",
-    "@types/babel__traverse": "^7.28.0"
   },
   "engines": {
     "node": ">=24.14"
