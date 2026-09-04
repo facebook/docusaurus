@@ -19,7 +19,7 @@
     "@types/react": "19.2.14",
     "commander": "^5.1.0",
     "joi": "^18.1.2",
-    "react-helmet-async": "npm:@slorber/react-helmet-async@1.3.0",
+    "react-helmet-async": "^2.0.0",
     "utility-types": "^3.10.0",
     "webpack": "^5.106.2",
     "webpack-merge": "^6.0.1"
