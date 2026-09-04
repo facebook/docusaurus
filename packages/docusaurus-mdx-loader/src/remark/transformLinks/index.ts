@@ -120,7 +120,7 @@ async function toAssetRequireNode(
   });
 
   // Assets are not routes, and are required by Webpack already
-  // They should not trigger the broken link checker
+  // They should not trigger route-specific link handling
   attributes.push({
     type: 'mdxJsxAttribute',
     name: 'data-noBrokenLinkCheck',
@@ -147,6 +147,31 @@ async function toAssetRequireNode(
     },
   });
 
+  attributes.push({
+    type: 'mdxJsxAttribute',
+    name: 'data-noTrailingSlash',
+    value: {
+      type: 'mdxJsxAttributeValueExpression',
+      value: 'true',
+      data: {
+        estree: {
+          type: 'Program',
+          body: [
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'Literal',
+                value: true,
+                raw: 'true',
+              },
+            },
+          ],
+          sourceType: 'module',
+          comments: [],
+        },
+      },
+    },
+  });
   attributes.push({
     type: 'mdxJsxAttribute',
     name: 'href',
