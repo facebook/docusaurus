@@ -11,12 +11,12 @@ Overview:
 - Extensive plugin architecture
 - Uses itself to build its own sites & dogfood
 
+### Monorepo
+
 Monorepo based on:
 
 - Lerna
 - pnpm workspaces
-
-### Monorepo Structure
 
 - `packages/` - Core Docusaurus packages and plugins, published to npm
   - `docusaurus/` - Main CLI and core functionality
