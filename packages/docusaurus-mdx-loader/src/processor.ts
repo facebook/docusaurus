@@ -127,6 +127,7 @@ async function createProcessorFactory() {
           siteDir: options.siteDir,
           onBrokenMarkdownImages:
             options.markdownConfig.hooks.onBrokenMarkdownImages,
+          measureImage: options.markdownConfig.hooks.measureImage,
         } satisfies TransformImageOptions,
       ],
       // TODO merge this with transformLinks?

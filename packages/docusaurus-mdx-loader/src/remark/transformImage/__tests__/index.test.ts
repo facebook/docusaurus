@@ -365,4 +365,18 @@ describe('transformImage plugin', () => {
       });
     });
   });
+
+  it('adds width/height for SVG images', async () => {
+    const result = await processContent(`![icon](/icon.svg)`);
+    expect(result).toContain('width="24"');
+    expect(result).toContain('height="16"');
+  });
+
+  it('uses markdown.hooks.measureImage when provided', async () => {
+    const result = await processContent(`![img](/img.png)`, {
+      measureImage: async () => ({width: 11, height: 22}),
+    });
+    expect(result).toContain('width="11"');
+    expect(result).toContain('height="22"');
+  });
 });

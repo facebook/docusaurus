@@ -11,7 +11,7 @@ import {fileURLToPath} from 'url';
 import {program} from 'commander';
 import {logger} from '@docusaurus/logger';
 import sharp from 'sharp';
-import {imageSizeFromFile} from 'image-size/fromFile';
+import {imageDimensionsFromData} from 'image-dimensions';
 
 // You can use it as:
 //
@@ -64,7 +64,11 @@ program
 
     await Promise.all(
       images.map(async (imgPath) => {
-        const {width, height} = await imageSizeFromFile(imgPath);
+        const dimensions = imageDimensionsFromData(await fs.readFile(imgPath));
+        if (!dimensions) {
+          throw new Error(`Could not parse image size for ${imgPath}`);
+        }
+        const {width, height} = dimensions;
         const targetWidth =
           options.width ?? (imgPath.includes(showcasePath) ? 640 : 1000);
         const targetHeight =
