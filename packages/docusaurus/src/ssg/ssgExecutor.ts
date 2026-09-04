@@ -20,10 +20,10 @@ import {
 import {generateHashRouterEntrypoint} from './ssgUtils';
 import {createGlobalSSGResult} from './ssgGlobalResult';
 import {executeSSGInlineTask} from './ssgWorkerInline';
+import type {SSGGlobalResult} from './ssgGlobalResult';
+import type {SSGParams} from './ssgParams';
 import type {Props, RouterType} from '@docusaurus/types';
 import type {SiteCollectedData} from '../common';
-import type {SSGParams} from './ssgParams';
-import type {SSGGlobalResult} from './ssgGlobalResult';
 import type {ExecuteSSGWorkerThreadTask} from './ssgWorkerThread';
 
 type SSGExecutor = {
@@ -94,6 +94,24 @@ function getNumberOfThreads(pathnames: string[]) {
   });
 }
 
+// Workaround for Node styleText() limitation
+// See https://github.com/nodejs/node/issues/65766
+function getWorkerColorEnv(): Record<string, string> {
+  // Preserve an explicit user choice
+  if (process.env.FORCE_COLOR !== undefined) {
+    return {};
+  }
+
+  const depth = process.stdout.isTTY
+    ? (process.stdout.getColorDepth?.() ?? 0)
+    : 0;
+  if (depth > 2) {
+    return {FORCE_COLOR: depth >= 24 ? '3' : depth >= 8 ? '2' : '1'};
+  }
+
+  return {};
+}
+
 const createPooledSSGExecutor: CreateSSGExecutor = async ({
   params,
   pathnames,
@@ -124,6 +142,12 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
         runtime: 'worker_threads',
         isolateWorkers: false,
         workerData: {params},
+        env: {
+          // Cast is safe
+          // See https://github.com/tinylibs/tinypool/issues/136
+          ...(process.env as Record<string, string>),
+          ...getWorkerColorEnv(),
+        },
 
         // WORKER MEMORY MANAGEMENT
         // Allows containing SSG memory leaks with a thread recycling workaround

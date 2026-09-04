@@ -9,7 +9,7 @@ import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
 import path from 'path';
 import os from 'os';
-import execa from 'execa';
+import {execa, type Options, type Result} from 'execa';
 
 import {
   FileNotTrackedError,
@@ -38,22 +38,13 @@ class Git {
     cwd: string;
     args: string[];
     cmd: string;
-    options?: execa.Options;
-  }): Promise<execa.ExecaReturnValue> {
-    const res = await execa(cmd, args, {
+    options?: Options;
+  }): Promise<Result> {
+    return execa(cmd, args, {
       cwd,
-      silent: true,
       shell: true,
       ...options,
     });
-    if (res.exitCode !== 0) {
-      throw new Error(
-        `Git command failed with code ${res.exitCode}: ${cmd} ${args.join(
-          ' ',
-        )}`,
-      );
-    }
-    return res;
   }
 
   static async initializeRepo(dir: string): Promise<Git> {
@@ -83,8 +74,8 @@ class Git {
   async runOptimisticGitCommand(
     cmd: string,
     args?: string[],
-    options?: execa.Options,
-  ): Promise<execa.ExecaReturnValue> {
+    options?: Options,
+  ): Promise<Result> {
     return Git.runOptimisticGitCommand({cwd: this.dir, cmd, args, options});
   }
 
@@ -538,8 +529,10 @@ describe('submodules APIs', () => {
         [Error: Couldn't find the git superproject root directory
         Failure while running \`git rev-parse --show-superproject-working-tree\` from cwd="<HOME_DIR>"
         The command executed throws an error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
+
         fatal: not a git repository (or any of the parent directories): .git]
-        Cause: [Error: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
+        Cause: [ExecaError: Command failed with exit code 128: git rev-parse --show-superproject-working-tree
+
         fatal: not a git repository (or any of the parent directories): .git]
       `);
     });

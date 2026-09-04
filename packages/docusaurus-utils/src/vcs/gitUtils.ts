@@ -9,7 +9,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import os from 'os';
 import _ from 'lodash';
-import execa from 'execa';
+import {execa, execaSync} from 'execa';
 import PQueue from 'p-queue';
 import logger from '@docusaurus/logger';
 
@@ -34,7 +34,7 @@ const GitCommandQueue = new PQueue({
 
 const realHasGitFn = () => {
   try {
-    return execa.sync('git', ['--version']).exitCode === 0;
+    return execaSync('git', ['--version']).exitCode === 0;
   } catch {
     return false;
   }
@@ -164,12 +164,6 @@ export async function getFileCommitDate(
     );
   }))!;
 
-  if (result.exitCode !== 0) {
-    throw new Error(
-      `Failed to retrieve the git history for file "${file}" with exit code ${result.exitCode}: ${result.stderr}`,
-    );
-  }
-
   // We only parse the output line starting with our "RESULT:" prefix
   // See why https://github.com/facebook/docusaurus/pull/10022
   const regex = includeAuthor
@@ -276,32 +270,19 @@ export async function isGitInsideWorktree(cwd: string): Promise<boolean> {
 }
 
 export async function getGitRepoRoot(cwd: string): Promise<string> {
-  const createErrorMessageBase = () => {
-    return `Couldn't find the git repository root directory
-Failure while running ${logger.code(
-      'git rev-parse --show-toplevel',
-    )} from cwd=${logger.path(cwd)}`;
-  };
-
   const result = await execa('git', ['rev-parse', '--show-toplevel'], {
     cwd,
   }).catch((error) => {
     // We enter this rejection when cwd is not a dir for example
     throw new Error(
-      `${createErrorMessageBase()}
+      `Couldn't find the git repository root directory
+Failure while running ${logger.code(
+        'git rev-parse --show-toplevel',
+      )} from cwd=${logger.path(cwd)}
 The command executed throws an error: ${error.message}`,
       {cause: error},
     );
   });
-
-  if (result.exitCode !== 0) {
-    throw new Error(
-      `${createErrorMessageBase()}
-The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
-        result.stderr,
-      )}`,
-    );
-  }
 
   return fs.realpath.native(result.stdout.trim());
 }
@@ -312,13 +293,6 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
 export async function getGitSuperProjectRoot(
   cwd: string,
 ): Promise<string | null> {
-  const createErrorMessageBase = () => {
-    return `Couldn't find the git superproject root directory
-Failure while running ${logger.code(
-      'git rev-parse --show-superproject-working-tree',
-    )} from cwd=${logger.path(cwd)}`;
-  };
-
   const result = await execa(
     'git',
     ['rev-parse', '--show-superproject-working-tree'],
@@ -328,20 +302,14 @@ Failure while running ${logger.code(
   ).catch((error) => {
     // We enter this rejection when cwd is not a dir for example
     throw new Error(
-      `${createErrorMessageBase()}
+      `Couldn't find the git superproject root directory
+Failure while running ${logger.code(
+        'git rev-parse --show-superproject-working-tree',
+      )} from cwd=${logger.path(cwd)}
 The command executed throws an error: ${error.message}`,
       {cause: error},
     );
   });
-
-  if (result.exitCode !== 0) {
-    throw new Error(
-      `${createErrorMessageBase()}
-The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
-        result.stderr,
-      )}`,
-    );
-  }
 
   const output = result.stdout.trim();
   // this command only works when inside submodules
@@ -354,32 +322,19 @@ The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
 
 // See https://git-scm.com/book/en/v2/Git-Tools-Submodules
 export async function getGitSubmodulePaths(cwd: string): Promise<string[]> {
-  const createErrorMessageBase = () => {
-    return `Couldn't read the list of git submodules
-Failure while running ${logger.code(
-      'git submodule status',
-    )} from cwd=${logger.path(cwd)}`;
-  };
-
   const result = await execa('git', ['submodule', 'status'], {
     cwd,
   }).catch((error) => {
     // We enter this rejection when cwd is not a dir for example
     throw new Error(
-      `${createErrorMessageBase()}
+      `Couldn't read the list of git submodules
+Failure while running ${logger.code(
+        'git submodule status',
+      )} from cwd=${logger.path(cwd)}
 The command executed throws an error: ${error.message}`,
       {cause: error},
     );
   });
-
-  if (result.exitCode !== 0) {
-    throw new Error(
-      `${createErrorMessageBase()}
-The command returned exit code ${logger.code(result.exitCode)}: ${logger.subdue(
-        result.stderr,
-      )}`,
-    );
-  }
 
   const output = result.stdout.trim();
 
@@ -461,19 +416,11 @@ export async function getGitRepositoryFilesInfo(
     ],
     {
       cwd,
-      encoding: 'utf-8',
       // TODO use streaming to avoid a large buffer
       // See https://github.com/withastro/starlight/issues/3154
       maxBuffer: 20 * 1024 * 1024,
     },
   );
-
-  if (result.exitCode !== 0) {
-    throw new Error(
-      `Docusaurus failed to run the 'git log' to retrieve tracked files last update date/author.
-The command exited with code ${result.exitCode}: ${result.stderr}`,
-    );
-  }
 
   const logLines = result.stdout.split('\n');
 
