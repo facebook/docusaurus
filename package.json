@@ -52,7 +52,7 @@
     "format": "oxfmt .",
     "format:website:build": "oxfmt --config .oxfmtrc.website.build.json website/build",
     "format:diff": "oxfmt --list-different .",
-    "lint": "pnpm lint:js && pnpm lint:style && pnpm lint:SPELLING && pnpm lint:syncpack",
+    "lint": "pnpm lint:js && pnpm lint:style && pnpm lint:spelling && pnpm lint:syncpack",
     "lint:ci": "pnpm lint:js --quiet && pnpm lint:style && pnpm lint:spelling && pnpm lint:syncpack",
     "lint:js": "eslint --cache --report-unused-disable-directives \"**/*.{js,jsx,ts,tsx,mjs}\"",
     "lint:js:fix": "pnpm lint:js --fix",
