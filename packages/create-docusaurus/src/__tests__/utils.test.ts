@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {siteNameToPackageName} from '../utils';
+import {packageManagerScriptCommand, siteNameToPackageName} from '../utils';
 
 describe('siteNameToPackageName', () => {
   it('converts simple cases', () => {
@@ -39,5 +39,24 @@ describe('siteNameToPackageName', () => {
 
   it('skips !!!', () => {
     expect(siteNameToPackageName('!!!')).toEqual('!!!');
+  });
+});
+
+describe('packageManagerScriptCommand', () => {
+  it('adds "run" to every nub script (nub has no implicit shortcut)', () => {
+    expect(packageManagerScriptCommand('nub', 'start')).toBe('nub run start');
+    expect(packageManagerScriptCommand('nub', 'build')).toBe('nub run build');
+  });
+
+  it('keeps "start" bare for npm/bun but adds "run" to other scripts', () => {
+    expect(packageManagerScriptCommand('npm', 'start')).toBe('npm start');
+    expect(packageManagerScriptCommand('npm', 'build')).toBe('npm run build');
+    expect(packageManagerScriptCommand('bun', 'start')).toBe('bun start');
+    expect(packageManagerScriptCommand('bun', 'build')).toBe('bun run build');
+  });
+
+  it('never adds "run" for yarn/pnpm', () => {
+    expect(packageManagerScriptCommand('yarn', 'start')).toBe('yarn start');
+    expect(packageManagerScriptCommand('pnpm', 'build')).toBe('pnpm build');
   });
 });
