@@ -81,9 +81,11 @@ async function renderMermaid({
 export function useMermaidRenderResult({
   text,
   config: providedConfig,
+  renderCounter = 0,
 }: {
   text: string;
   config?: MermaidConfig;
+  renderCounter?: number;
 }): RenderResult | null {
   const [result, setResult] = useState<RenderResult | null>(null);
   const id = useMermaidId();
@@ -107,7 +109,7 @@ export function useMermaidRenderResult({
           throw e;
         });
       });
-  }, [id, text, config]);
+  }, [id, text, config, renderCounter]);
 
   return result;
 }
