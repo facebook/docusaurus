@@ -17,24 +17,58 @@ export async function createStyleLoadersFactory({
 
   return function getStyleLoaders(
     isServer: boolean,
-    cssOptionsArg: {
+    cssLoaderOptionsArg: {
       [key: string]: unknown;
     } = {},
   ) {
-    const cssOptions: {[key: string]: unknown} = {
-      // TODO turn esModule on later, see https://github.com/facebook/docusaurus/pull/6424
-      esModule: false,
-      ...cssOptionsArg,
-    };
+    function getCssModulesOptions() {
+      const defaultModules = {
+        // Keep exported CSS module class names compatible with css-loader v6
+        // ".themedComponent--dark" => not converted as .themedComponentDark
+        // See https://github.com/webpack/css-loader/releases/tag/v7.0.0
+        exportLocalsConvention: 'as-is',
+      };
+
+      const modulesArg = cssLoaderOptionsArg.modules;
+      if (
+        modulesArg === null ||
+        typeof modulesArg === 'boolean' ||
+        typeof modulesArg === 'string'
+      ) {
+        return modulesArg;
+      }
+      if (typeof modulesArg === 'object' && !Array.isArray(modulesArg)) {
+        return {
+          ...defaultModules,
+          ...modulesArg,
+        };
+      }
+      throw new Error(
+        `unexpected cssOptionsArg.modules type: ${typeof modulesArg}`,
+      );
+    }
+
+    function getCssLoaderOptions(): {[key: string]: unknown} {
+      const modules = getCssModulesOptions();
+
+      return {
+        // TODO turn esModule on later, see https://github.com/facebook/docusaurus/pull/6424
+        esModule: false,
+        ...cssLoaderOptionsArg,
+        ...(modules !== undefined && {modules}),
+      };
+    }
+
+    const cssLoaderOptions = getCssLoaderOptions();
 
     // On the server we don't really need to extract/emit CSS
     // We only need to transform CSS module imports to a styles object
     if (isServer) {
-      return cssOptions.modules
+      return cssLoaderOptions.modules
         ? [
             {
               loader: require.resolve('css-loader'),
-              options: cssOptions,
+              options: cssLoaderOptions,
             },
           ]
         : // Ignore regular CSS files
@@ -50,7 +84,7 @@ export async function createStyleLoadersFactory({
       },
       {
         loader: require.resolve('css-loader'),
-        options: cssOptions,
+        options: cssLoaderOptions,
       },
 
       // TODO apart for configurePostCss(), do we really need this loader?

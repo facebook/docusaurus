@@ -593,7 +593,7 @@ importers:
         version: 7.0.2
       babel-loader:
         specifier: ^10.1.1
-        version: 10.1.1(@babel/core@7.29.7)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26))
+        version: 10.1.1(@babel/core@7.29.7)(@rspack/core@2.2.2)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26))
       clean-css:
         specifier: ^5.3.3
         version: 5.3.3
@@ -601,8 +601,8 @@ importers:
         specifier: ^14.0.0
         version: 14.0.0(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26))
       css-loader:
-        specifier: ^6.11.0
-        version: 6.11.0(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26))
+        specifier: ^7.1.5
+        version: 7.1.5(@rspack/core@2.2.2)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26))
       css-minimizer-webpack-plugin:
         specifier: ^8.0.0
         version: 8.0.0(clean-css@5.3.3)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26))
@@ -626,7 +626,7 @@ importers:
         version: 8.5.26
       postcss-loader:
         specifier: ^8.2.1
-        version: 8.2.1(postcss@8.5.26)(typescript@6.0.3)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26))
+        version: 8.2.1(@rspack/core@2.2.2)(postcss@8.5.26)(typescript@6.0.3)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26))
       postcss-preset-env:
         specifier: ^11.2.1
         version: 11.3.0(postcss@8.5.26)
@@ -644,7 +644,7 @@ importers:
         version: 5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)
       webpackbar:
         specifier: ^7.0.0
-        version: 7.0.0(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26))
+        version: 7.0.0(@rspack/core@2.2.2)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26))
     devDependencies:
       '@total-typescript/shoehorn':
         specifier: ^0.1.2
@@ -7440,12 +7440,12 @@ packages:
     peerDependencies:
       postcss: ^8.4
 
-  css-loader@6.11.0:
-    resolution: {integrity: sha512-CTJ+AEQJjq5NzLga5pE39qdiSV56F8ywCIsqNIRF0r7BDgWsN25aazToqAFg7ZrtA/U016xudB3ffgweORxX7g==}
-    engines: {node: '>= 12.13.0'}
+  css-loader@7.1.5:
+    resolution: {integrity: sha512-Q7iAfQkU2twNBryKX/vGAlE+GAmkF7quhSzAGNK8fBimxk3+tqg245rH52UPb9dioBolBc8rP0ihmHBaDTJQBA==}
+    engines: {node: '>= 18.12.0'}
     peerDependencies:
-      '@rspack/core': 0.x || 1.x
-      webpack: ^5.0.0
+      '@rspack/core': 0.x || ^1.0.0 || ^2.0.0-0
+      webpack: ^5.27.0
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -8627,7 +8627,7 @@ packages:
   git-raw-commits@3.0.0:
     resolution: {integrity: sha512-b5OHmZ3vAgGrDn/X0kS+9qCfNKWe4K/jFnhwzVWWg0/k5eLa3060tZShrRg8Dja5kPc+YjS0Gc6y7cRr44Lpjw==}
     engines: {node: '>=14'}
-    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
+    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-remote-origin-url@2.0.0:
@@ -8637,7 +8637,7 @@ packages:
   git-semver-tags@5.0.1:
     resolution: {integrity: sha512-hIvOeZwRbQ+7YEUmCkHqo8FOLQZCEn18yevLHADlFPZY02KJGsu5FZt9YW/lybfK2uhWFI7Qg/07LekJiTv7iA==}
     engines: {node: '>=14'}
-    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
+    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-up@7.0.0:
@@ -18463,6 +18463,14 @@ snapshots:
 
   axobject-query@4.1.0: {}
 
+  babel-loader@10.1.1(@babel/core@7.29.7)(@rspack/core@2.2.2)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)):
+    dependencies:
+      '@babel/core': 7.29.7
+      find-up: 5.0.0
+    optionalDependencies:
+      '@rspack/core': 2.2.2
+      webpack: 5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)
+
   babel-loader@10.1.1(@babel/core@7.29.7)(@rspack/core@2.2.2)(webpack@5.107.2(@swc/core@1.15.43)(postcss@8.5.15)):
     dependencies:
       '@babel/core': 7.29.7
@@ -18470,13 +18478,6 @@ snapshots:
     optionalDependencies:
       '@rspack/core': 2.2.2
       webpack: 5.107.2(@swc/core@1.15.43)(postcss@8.5.15)
-
-  babel-loader@10.1.1(@babel/core@7.29.7)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)):
-    dependencies:
-      '@babel/core': 7.29.7
-      find-up: 5.0.0
-    optionalDependencies:
-      webpack: 5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)
 
   babel-plugin-dynamic-import-node@2.3.3:
     dependencies:
@@ -19313,7 +19314,7 @@ snapshots:
       postcss-selector-parser: 7.1.1
       postcss-value-parser: 4.2.0
 
-  css-loader@6.11.0(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)):
+  css-loader@7.1.5(@rspack/core@2.2.2)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)):
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.26)
       postcss: 8.5.26
@@ -19324,6 +19325,7 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.8.5
     optionalDependencies:
+      '@rspack/core': 2.2.2
       webpack: 5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)
 
   css-minimizer-webpack-plugin@8.0.0(clean-css@5.3.3)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)):
@@ -23878,13 +23880,14 @@ snapshots:
       '@csstools/utilities': 3.0.0(postcss@8.5.26)
       postcss: 8.5.26
 
-  postcss-loader@8.2.1(postcss@8.5.26)(typescript@6.0.3)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)):
+  postcss-loader@8.2.1(@rspack/core@2.2.2)(postcss@8.5.26)(typescript@6.0.3)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)):
     dependencies:
       cosmiconfig: 9.0.1(typescript@6.0.3)
       jiti: 2.7.0
       postcss: 8.5.26
       semver: 7.8.5
     optionalDependencies:
+      '@rspack/core': 2.2.2
       webpack: 5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)
     transitivePeerDependencies:
       - typescript
@@ -26441,13 +26444,14 @@ snapshots:
       - postcss
       - uglify-js
 
-  webpackbar@7.0.0(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)):
+  webpackbar@7.0.0(@rspack/core@2.2.2)(webpack@5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)):
     dependencies:
       ansis: 3.17.0
       consola: 3.4.2
       pretty-time: 1.1.0
       std-env: 3.10.0
     optionalDependencies:
+      '@rspack/core': 2.2.2
       webpack: 5.107.2(@swc/core@1.15.43)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.26))(html-minifier-terser@7.2.0)(postcss@8.5.26)
 
   whatwg-encoding@3.1.1:
