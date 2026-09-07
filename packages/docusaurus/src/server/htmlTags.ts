@@ -6,8 +6,7 @@
  */
 
 import _ from 'lodash';
-import htmlTags from 'html-tags';
-import voidHtmlTags from 'html-tags/void';
+import htmlTags, {voidHtmlTags} from 'html-tags';
 import escapeHTML from 'escape-html';
 import type {
   Props,
