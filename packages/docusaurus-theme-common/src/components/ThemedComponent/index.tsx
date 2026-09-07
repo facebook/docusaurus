@@ -12,8 +12,6 @@ import {useColorMode} from '../../contexts/colorMode';
 
 import styles from './styles.module.css';
 
-console.log({styles});
-
 type Theme = 'light' | 'dark';
 
 type RenderFn = ({
