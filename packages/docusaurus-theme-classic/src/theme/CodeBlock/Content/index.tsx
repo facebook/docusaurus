@@ -5,15 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ComponentProps, type ReactNode} from 'react';
+import {type ComponentProps, type ReactNode} from 'react';
 import clsx from 'clsx';
 import {useCodeBlockContext} from '@docusaurus/theme-common/internal';
-import {usePrismTheme} from '@docusaurus/theme-common';
-import {Highlight} from 'prism-react-renderer';
+import {Highlight, type PrismTheme} from 'prism-react-renderer';
 import type {Props} from '@theme/CodeBlock/Content';
 import Line from '@theme/CodeBlock/Line';
 
 import styles from './styles.module.css';
+
+// A bare theme with no colors so that prism-react-renderer does NOT
+// inject inline styles on each token span. Token classnames (e.g.
+// `token keyword`) are still applied by Prism.js regardless of theme.
+// Actual syntax-highlight colors are provided by the CSS generated in
+// loadContent() and bundled via getClientModules(), scoped under
+// [data-theme='light|dark']. This prevents the flash of wrong colors
+// in dark mode (issue #11566).
+const BARE_PRISM_THEME: PrismTheme = {plain: {}, styles: []};
 
 function Pre({className, ref, ...props}: ComponentProps<'pre'>) {
   return (
@@ -53,15 +61,13 @@ export default function CodeBlockContent({
   className: classNameProp,
 }: Props): ReactNode {
   const {metadata, wordWrap} = useCodeBlockContext();
-  const prismTheme = usePrismTheme();
   const {code, language, lineNumbersStart, lineClassNames} = metadata;
   return (
-    <Highlight theme={prismTheme} code={code} language={language}>
-      {({className, style, tokens: lines, getLineProps, getTokenProps}) => (
+    <Highlight theme={BARE_PRISM_THEME} code={code} language={language}>
+      {({className, tokens: lines, getLineProps, getTokenProps}) => (
         <Pre
           ref={wordWrap.codeBlockRef}
-          className={clsx(classNameProp, className)}
-          style={style}>
+          className={clsx(classNameProp, className)}>
           <Code>
             {lines.map((line, i) => (
               <Line
