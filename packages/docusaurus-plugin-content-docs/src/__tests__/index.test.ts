@@ -262,7 +262,9 @@ describe('simple website', () => {
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '1.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith('1.0.0', options, context);
+    expect(mock).toHaveBeenCalledWith('1.0.0', options, context, {
+      overwrite: false,
+    });
     mock.mockRestore();
   });
 
@@ -417,7 +419,24 @@ describe('versioned website', () => {
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith('2.0.0', options, context);
+    expect(mock).toHaveBeenCalledWith('2.0.0', options, context, {
+      overwrite: false,
+    });
+    mock.mockRestore();
+  });
+
+  it('extendCli - docsVersion overwrite', async () => {
+    const {plugin, options, context} = await loadSite();
+    const mock = vi
+      .spyOn(cliDocs, 'cliDocsVersionCommand')
+      .mockImplementation(async () => {});
+    const cli = new commander.Command();
+    plugin.extendCli!(cli);
+    cli.parse(['node', 'test', 'docs:version', '2.0.0', '--overwrite']);
+    expect(mock).toHaveBeenCalledTimes(1);
+    expect(mock).toHaveBeenCalledWith('2.0.0', options, context, {
+      overwrite: true,
+    });
     mock.mockRestore();
   });
 
@@ -602,7 +621,30 @@ describe('versioned website (community)', () => {
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith('2.0.0', options, context);
+    expect(mock).toHaveBeenCalledWith('2.0.0', options, context, {
+      overwrite: false,
+    });
+    mock.mockRestore();
+  });
+
+  it('extendCli - docsVersion overwrite', async () => {
+    const {pluginId, plugin, options, context} = await loadSite();
+    const mock = vi
+      .spyOn(cliDocs, 'cliDocsVersionCommand')
+      .mockImplementation(async () => {});
+    const cli = new commander.Command();
+    plugin.extendCli!(cli);
+    cli.parse([
+      'node',
+      'test',
+      `docs:version:${pluginId}`,
+      '2.0.0',
+      '--overwrite',
+    ]);
+    expect(mock).toHaveBeenCalledTimes(1);
+    expect(mock).toHaveBeenCalledWith('2.0.0', options, context, {
+      overwrite: true,
+    });
     mock.mockRestore();
   });
 

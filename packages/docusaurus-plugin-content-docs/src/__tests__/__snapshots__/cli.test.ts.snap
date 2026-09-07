@@ -71,6 +71,19 @@ exports[`docsVersion > success cases > not the first time versioning 1`] = `
 }
 `;
 
+exports[`docsVersion > success cases > overwrites an existing version 1`] = `
+{
+  "docs": {
+    "Guides": [
+      "hello",
+    ],
+    "Test": [
+      "foo/bar",
+    ],
+  },
+}
+`;
+
 exports[`docsVersion > success cases > second docs instance versioning 1`] = `
 {
   "community": [

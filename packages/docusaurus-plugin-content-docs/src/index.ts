@@ -193,9 +193,15 @@ export default async function pluginContentDocs(
       cli
         .command(command)
         .arguments('<version>')
+        .option(
+          '--overwrite',
+          'Overwrite an existing docs version (default: false)',
+        )
         .description(commandDescription)
-        .action((version: unknown) =>
-          cliDocs.cliDocsVersionCommand(version, options, context),
+        .action((version: unknown, opts: {overwrite?: boolean}) =>
+          cliDocs.cliDocsVersionCommand(version, options, context, {
+            overwrite: opts.overwrite ?? false,
+          }),
         );
     },
 
