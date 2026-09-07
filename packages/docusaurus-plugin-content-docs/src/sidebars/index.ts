@@ -43,6 +43,7 @@ export function resolveSidebarPathOption(
 async function readCategoriesMetadata(contentPath: string) {
   const categoryFiles = await Globby('**/_category_.{json,yml,yaml}', {
     cwd: contentPath,
+    ignore: ['**/node_modules/**'],
   });
   const categoryToFile = _.groupBy(categoryFiles, path.dirname);
   return combinePromises(
