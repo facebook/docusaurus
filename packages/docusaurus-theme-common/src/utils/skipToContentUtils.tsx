@@ -48,18 +48,18 @@ function programmaticFocus(el: HTMLElement) {
 /** This hook wires the logic for a skip-to-content link. */
 function useSkipToContent(): {
   /**
-   * The ref to the container. On page transition, the container will be focused
-   * so that keyboard navigators can instantly interact with the link and jump
-   * to content.
+   * The ref to the skip link anchor. On page transition, the anchor will be
+   * focused so that keyboard navigators can instantly interact with the link
+   * and jump to content.
    */
-  containerRef: React.RefObject<HTMLDivElement | null>;
+  anchorRef: React.RefObject<HTMLAnchorElement | null>;
   /**
    * Callback fired when the skip to content link has been clicked.
    * It will programmatically focus the main content.
    */
   onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 } {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const anchorRef = useRef<HTMLAnchorElement>(null);
   const {action} = useHistory();
 
   const onClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -73,12 +73,12 @@ function useSkipToContent(): {
   // "Reset" focus when navigating.
   // See https://github.com/facebook/docusaurus/pull/8204#issuecomment-1276547558
   useLocationChange(({location}) => {
-    if (containerRef.current && !location.hash && action === 'PUSH') {
-      programmaticFocus(containerRef.current);
+    if (anchorRef.current && !location.hash && action === 'PUSH') {
+      programmaticFocus(anchorRef.current);
     }
   });
 
-  return {containerRef, onClick};
+  return {anchorRef, onClick};
 }
 
 const DefaultSkipToContentLabel = translate({
@@ -92,21 +92,17 @@ type SkipToContentLinkProps = Omit<ComponentProps<'a'>, 'href' | 'onClick'>;
 
 export function SkipToContentLink(props: SkipToContentLinkProps): ReactNode {
   const linkLabel = props.children ?? DefaultSkipToContentLabel;
-  const {containerRef, onClick} = useSkipToContent();
+  const {anchorRef, onClick} = useSkipToContent();
+  // eslint-disable-next-line @docusaurus/no-html-links
   return (
-    <div
-      ref={containerRef}
-      role="region"
-      aria-label={DefaultSkipToContentLabel}>
-      {/* eslint-disable-next-line @docusaurus/no-html-links */}
-      <a
-        {...props}
-        // Note this is a fallback href in case JS is disabled
-        // It has limitations, see https://github.com/facebook/docusaurus/issues/6411#issuecomment-1284136069
-        href={`#${SkipToContentFallbackId}`}
-        onClick={onClick}>
-        {linkLabel}
-      </a>
-    </div>
+    <a
+      {...props}
+      ref={anchorRef}
+      // Note this is a fallback href in case JS is disabled
+      // It has limitations, see https://github.com/facebook/docusaurus/issues/6411#issuecomment-1284136069
+      href={`#${SkipToContentFallbackId}`}
+      onClick={onClick}>
+      {linkLabel}
+    </a>
   );
 }
