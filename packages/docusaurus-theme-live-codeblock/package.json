@@ -52,8 +52,8 @@
     "@types/buble": "^0.20.1"
   },
   "peerDependencies": {
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "engines": {
     "node": ">=24.14"

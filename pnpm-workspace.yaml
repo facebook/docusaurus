@@ -27,6 +27,11 @@ minimumReleaseAge: 10080 # 7 days in minutes
 minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
 minimumReleaseAgeExclude:
+  - react@19.3.0
+  - react-dom@19.3.0
+  - scheduler@0.28.0
+  - '@types/react@19.3.0'
+  - '@types/react-dom@19.3.0'
   - tar@7.5.16
   - pnpm
   - '@rspack/*'
