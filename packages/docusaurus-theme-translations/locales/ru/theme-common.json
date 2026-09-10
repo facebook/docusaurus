@@ -72,6 +72,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "Это документация для будущей версии {siteTitle} {versionLabel}.",
   "theme.lastUpdated.atDate": " {date}",
   "theme.lastUpdated.byUser": " от {user}",
+  "theme.lastUpdated.createdAtBy": "Created{atDate}{byUser}",
   "theme.lastUpdated.lastUpdatedAtBy": "Последнее обновление{atDate}{byUser}",
   "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": "Collapse the dropdown",
   "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": "Expand the dropdown",

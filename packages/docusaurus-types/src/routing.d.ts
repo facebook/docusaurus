@@ -69,6 +69,19 @@ export type RouteMetadata = {
    * sure there isn't any. This usually happens for untracked Git files.
    */
   lastUpdatedAt?: number | null;
+  /**
+   * The creation date of this route
+   * This is generally read from the Git history of the sourceFilePath
+   * but can also be provided through other means (usually front matter).
+   *
+   * `undefined` means we haven't tried to compute the value for this route.
+   * This is usually the case for routes created by third-party plugins that do
+   * not need this metadata.
+   *
+   * `null` means we already tried to compute a createdAt, but we know for
+   * sure there isn't any. This usually happens for untracked Git files.
+   */
+  createdAt?: number | null;
 };
 
 /**

@@ -118,8 +118,11 @@ export {flattenRoutes} from './routeUtils';
 
 export {
   readLastUpdateData,
+  readCreationData,
   type LastUpdateData,
+  type CreationData,
   type FrontMatterLastUpdate,
+  type FrontMatterCreation,
 } from './lastUpdateUtils';
 
 export {VcsPresetNames, getVcsPreset, TEST_VCS} from './vcs/vcs';

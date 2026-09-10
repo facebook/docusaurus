@@ -35,6 +35,7 @@ function createDocRouteMetadata(docMeta: DocMetadata): RouteMetadata {
   return {
     sourceFilePath: aliasedSitePathToRelativePath(docMeta.source),
     lastUpdatedAt: docMeta.lastUpdatedAt,
+    createdAt: docMeta.createdAt,
   };
 }
 
