@@ -56,7 +56,9 @@ cd ..
 echo Generating test-website in `pwd`
 
 # Build skeleton website with new version
-npm_config_registry="$CUSTOM_REGISTRY_URL" npx --yes --loglevel silly create-docusaurus@"$NEW_VERSION" test-website classic --javascript $EXTRA_OPTS
+npm_config_registry="$CUSTOM_REGISTRY_URL" \
+  npm_config_min_release_age_exclude='create-docusaurus,@docusaurus/*,stylelint-copyright' \
+  npx --yes --loglevel silly create-docusaurus@"$NEW_VERSION" test-website classic --javascript $EXTRA_OPTS
 
 
 # Stop Docker container
