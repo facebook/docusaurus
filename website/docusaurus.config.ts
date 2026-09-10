@@ -672,22 +672,13 @@ export default async function createConfigAsync() {
       algolia: {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
-        indexName: 'docusaurus-2',
-
-        // TODO Docusaurus v4: remove after we drop DocSearch v3
-        //  temporary, for DocSearch v3/v4 conditional Ask AI integration
-        //  see https://github.com/facebook/docusaurus/pull/11327
-        ...(require('@docsearch/react').version.startsWith('4.')
-          ? {
-              askAi: {
-                // cSpell:ignore IMYF
-                assistantId: 'RgIMYFUmTfrN',
-                indexName: 'docusaurus-markdown',
-                suggestedQuestions: true,
-              },
-            }
-          : {}),
-
+        indices: ['docusaurus-2'],
+        // TODO Enable once there is an Agent Studio agent to use
+        // askAi: {
+        // cSpell:ignore IMYF
+        //   agentId: 'RgIMYFUmTfrN',
+        //   suggestedQuestions: true,
+        // },
         replaceSearchResultPathname:
           isDev || isDeployPreview
             ? {

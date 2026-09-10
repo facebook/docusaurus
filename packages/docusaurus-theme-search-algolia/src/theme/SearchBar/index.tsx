@@ -28,21 +28,20 @@ import {
 } from '@docusaurus/theme-search-algolia/client';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import translations from '@theme/SearchTranslations';
-import type {
-  InternalDocSearchHit,
-  DocSearchModal as DocSearchModalType,
-  DocSearchModalProps,
-  StoredDocSearchHit,
-  DocSearchTransformClient,
-  DocSearchHit,
-  DocSearchTranslations,
-  UseDocSearchKeyboardEventsProps,
+import {
+  type InternalDocSearchHit,
+  type DocSearchModal as DocSearchModalType,
+  type DocSearchAskAiModal as DocSearchAskAiModalType,
+  type DocSearchModalProps,
+  type StoredDocSearchHit,
+  type DocSearchTransformClient,
+  type DocSearchHit,
+  type DocSearchAskAi,
 } from '@docsearch/react';
+import translations from '@theme/SearchTranslations';
 
 import type {AutocompleteState} from '@algolia/autocomplete-core';
 import type {FacetFilters} from 'algoliasearch/lite';
-import type {ThemeConfigAlgolia} from '@docusaurus/theme-search-algolia';
 
 type DocSearchProps = Omit<
   DocSearchModalProps,
@@ -51,32 +50,32 @@ type DocSearchProps = Omit<
   contextualSearch?: string;
   externalUrlRegex?: string;
   searchPagePath: boolean | string;
-  askAi?: Exclude<
-    (DocSearchModalProps & {askAi: unknown})['askAi'],
-    string | undefined
-  >;
+  askAi?: DocSearchAskAi;
 };
 
-// extend DocSearchProps for v4 features
-// TODO Docusaurus v4: cleanup after we drop support for DocSearch v3
-interface DocSearchV4Props extends Omit<DocSearchProps, 'askAi'> {
-  indexName: string;
-  askAi?: ThemeConfigAlgolia['askAi'];
-  translations?: DocSearchTranslations;
-}
+type ModalKind = 'askai' | 'search';
+type ModalComponentType =
+  | typeof DocSearchModalType
+  | typeof DocSearchAskAiModalType;
 
-let DocSearchModal: typeof DocSearchModalType | null = null;
+const loadedModules: Partial<Record<ModalKind, ModalComponentType>> = {};
 
-function importDocSearchModalIfNeeded() {
-  if (DocSearchModal) {
+function importDocSearchModalIfNeeded(kind: ModalKind) {
+  if (loadedModules[kind]) {
     return Promise.resolve();
   }
+
+  const modalImport =
+    kind === 'askai'
+      ? import('@docsearch/react/askaiModal').then((m) => m.DocSearchAskAiModal)
+      : import('@docsearch/react/modal').then((m) => m.DocSearchModal);
+
   return Promise.all([
-    import('@docsearch/react/modal'),
+    modalImport,
     import('@docsearch/react/style'),
     import('./styles.css'),
-  ]).then(([{DocSearchModal: Modal}]) => {
-    DocSearchModal = Modal;
+  ]).then(([Modal]) => {
+    loadedModules[kind] = Modal;
   });
 }
 
@@ -173,31 +172,42 @@ function ResultsFooter({state, onClose}: ResultsFooterProps) {
   );
 }
 
-function useSearchParameters({
+// Normalizes `indices` with configured and merged search parameters
+function useNormalizeIndices({
   contextualSearch,
   ...props
-}: DocSearchProps): DocSearchProps['searchParameters'] {
+}: DocSearchProps): DocSearchProps['indices'] {
   const contextualSearchFacetFilters = useAlgoliaContextualFacetFilters();
+  const indices: DocSearchProps['indices'] = [];
 
-  const configFacetFilters: FacetFilters =
-    props.searchParameters?.facetFilters ?? [];
+  for (const index of props.indices) {
+    const normalizedIndex =
+      typeof index === 'string' ? {name: index, searchParameters: {}} : index;
+    const configFacetFilters: FacetFilters =
+      normalizedIndex.searchParameters?.facetFilters ?? [];
 
-  const facetFilters: FacetFilters = contextualSearch
-    ? // Merge contextual search filters with config filters
-      mergeFacetFilters(contextualSearchFacetFilters, configFacetFilters)
-    : // ... or use config facetFilters
-      configFacetFilters;
+    const facetFilters: FacetFilters = contextualSearch
+      ? // Merge contextual search filters with config filters
+        mergeFacetFilters(contextualSearchFacetFilters, configFacetFilters)
+      : // ... or use config facetFilters
+        configFacetFilters;
 
-  // We let users override default searchParameters if they want to
-  return {
-    ...props.searchParameters,
-    facetFilters,
-  };
+    // We let users override default searchParameters if they want to
+    indices.push({
+      name: normalizedIndex.name,
+      searchParameters: {
+        ...normalizedIndex.searchParameters,
+        facetFilters,
+      },
+    });
+  }
+
+  return indices;
 }
 
-function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
+function DocSearch({externalUrlRegex, ...props}: DocSearchProps) {
   const navigator = useNavigator({externalUrlRegex});
-  const searchParameters = useSearchParameters({...props} as DocSearchProps);
+  const indices = useNormalizeIndices({...props});
   const transformItems = useTransformItems(props);
   const transformSearchClient = useTransformSearchClient();
 
@@ -208,8 +218,13 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
     undefined,
   );
 
-  const {isAskAiActive, currentPlaceholder, onAskAiToggle, extraAskAiProps} =
-    useAlgoliaAskAi(props);
+  const {
+    isAskAiActive,
+    currentPlaceholder,
+    onAskAiToggle,
+    extraAskAiProps,
+    canHandleAskAi,
+  } = useAlgoliaAskAi(props);
 
   const prepareSearchContainer = useCallback(() => {
     if (!searchContainer.current) {
@@ -219,10 +234,16 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
     }
   }, []);
 
+  const modalKind: ModalKind = canHandleAskAi ? 'askai' : 'search';
+
+  const loadModal = useCallback(() => {
+    return importDocSearchModalIfNeeded(modalKind);
+  }, [modalKind]);
+
   const openModal = useCallback(() => {
     prepareSearchContainer();
-    importDocSearchModalIfNeeded().then(() => setIsOpen(true));
-  }, [prepareSearchContainer]);
+    loadModal().then(() => setIsOpen(true));
+  }, [prepareSearchContainer, loadModal]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
@@ -255,11 +276,9 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
     searchButtonRef,
     isAskAiActive: isAskAiActive ?? false,
     onAskAiToggle: onAskAiToggle ?? (() => {}),
-  } satisfies UseDocSearchKeyboardEventsProps & {
-    // TODO Docusaurus v4: cleanup after we drop support for DocSearch v3
-    isAskAiActive: boolean;
-    onAskAiToggle: (askAiToggle: boolean) => void;
-  } as UseDocSearchKeyboardEventsProps);
+  });
+
+  const DocSearchModal = loadedModules[modalKind];
 
   return (
     <>
@@ -275,9 +294,9 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
       </Head>
 
       <DocSearchButton
-        onTouchStart={importDocSearchModalIfNeeded}
-        onFocus={importDocSearchModalIfNeeded}
-        onMouseOver={importDocSearchModalIfNeeded}
+        onTouchStart={loadModal}
+        onFocus={loadModal}
+        onMouseOver={loadModal}
         onClick={openModal}
         ref={searchButtonRef}
         translations={props.translations?.button ?? translations.button}
@@ -303,7 +322,7 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
             placeholder={currentPlaceholder}
             {...(props as any)}
             translations={props.translations?.modal ?? translations.modal}
-            searchParameters={searchParameters}
+            indices={indices}
             {...extraAskAiProps}
           />,
 
@@ -315,11 +334,11 @@ function DocSearch({externalUrlRegex, ...props}: DocSearchV4Props) {
   );
 }
 
-export default function SearchBar(props: Partial<DocSearchV4Props>): ReactNode {
+export default function SearchBar(props: Partial<DocSearchProps>): ReactNode {
   const {siteConfig} = useDocusaurusContext();
 
-  const docSearchProps: DocSearchV4Props = {
-    ...(siteConfig.themeConfig.algolia as DocSearchV4Props),
+  const docSearchProps: DocSearchProps = {
+    ...(siteConfig.themeConfig.algolia as DocSearchProps),
     // Let props override theme config
     // See https://github.com/facebook/docusaurus/pull/11581
     ...props,
