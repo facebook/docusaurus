@@ -83,6 +83,13 @@ export default {
     },
 
     {
+      label: 'Monorepo root uses workspace: protocol for internal packages',
+      packages: ['root'],
+      dependencies: ['@docusaurus/**'],
+      pinVersion: 'workspace:',
+    },
+
+    {
       label: 'Internal @docusaurus/* monorepo packages use pinned version',
       dependencies: [
         '@docusaurus/**',
