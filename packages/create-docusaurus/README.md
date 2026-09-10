@@ -54,3 +54,27 @@ yarn typecheck
 yarn build
 yarn start
 ```
+
+To run end-to-end tests similar to our CI workflows, publishing monorepo packages to a local Verdaccio repository:
+
+```bash
+cd `git rev-parse --show-toplevel` # Back to repo root
+pnpm install
+pnpm test:build:website -st
+cd ../test-website # website is generated outside of the monorepo
+
+cat > pnpm-workspace.yaml <<'YAML'
+strictDepBuilds: true
+allowBuilds:
+  '@swc/core': false
+  core-js: false
+YAML
+
+pnpm_config_registry=http://localhost:4873 pnpm install
+
+pnpm run typecheck
+pnpm start --no-open
+pnpm run build --locale en --locale fr
+```
+
+2 end tests like
