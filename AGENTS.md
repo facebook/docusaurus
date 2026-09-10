@@ -26,6 +26,7 @@ Monorepo based on:
   - `docusaurus-bundler/` - Webpack/Rspack bundler abstraction
   - `docusaurus-types/` - TypeScript definitions
   - `create-docusaurus/` - Site initialization CLI tool
+- `examples/` is CLI-generated; never edit it manually. Update `packages/create-docusaurus/templates/` for template changes, including dependency upgrades.
 
 Packages depend on each other.
 

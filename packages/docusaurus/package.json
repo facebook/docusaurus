@@ -81,7 +81,7 @@
     "@total-typescript/shoehorn": "^0.1.2",
     "@types/escape-html": "^1.0.4",
     "@types/history": "^4.7.11",
-    "@types/react-dom": "^19.2.3",
+    "@types/react-dom": "^19.3.0",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-router-config": "^5.0.7",
     "@types/serve-handler": "^6.1.4",
@@ -93,8 +93,8 @@
   "peerDependencies": {
     "@docusaurus/faster": "*",
     "@mdx-js/react": "^3.1.1",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "peerDependenciesMeta": {
     "@docusaurus/faster": {
