@@ -55,7 +55,11 @@ yarn build
 yarn start
 ```
 
-To run end-to-end tests similar to our CI workflows, publishing monorepo packages to a local Verdaccio repository:
+### End-to-end tests
+
+To run end-to-end tests similar to our CI workflows, publishing monorepo packages to a local Verdaccio repository inside Docker.
+
+**Important**: this modifies `package.json` files before publish, so make sure to commit your local work first!
 
 ```bash
 cd `git rev-parse --show-toplevel` # Back to repo root
