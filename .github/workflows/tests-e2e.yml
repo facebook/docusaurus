@@ -151,6 +151,13 @@ jobs:
         run: |
           yarn set version berry
 
+          # Disable supply chain cooldown
+          # We don't need it in that workflow
+          # Our other workflows already have cooldown checks!
+          yarn config set npmMinimalAgeGate 0
+          yarn config get npmMinimalAgeGate --why
+          yarn config set npmMinimalAgeGate 0
+
           yarn config set nodeLinker ${{ matrix.nodeLinker }}
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
