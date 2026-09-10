@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/eslint-plugin",
-  "version": "3.10.1-canary-6797",
+  "version": "3.10.1",
   "description": "ESLint plugin to enforce best Docusaurus practices.",
   "main": "lib/index.js",
   "keywords": [
@@ -22,8 +22,8 @@
     "watch": "tsc --watch"
   },
   "dependencies": {
-    "@typescript-eslint/types": "^8.59.3",
     "@typescript-eslint/utils": "^8.59.3",
+    "@typescript-eslint/types": "^8.59.3",
     "tslib": "^2.6.0"
   },
   "devDependencies": {
