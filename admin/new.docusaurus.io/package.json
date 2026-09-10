@@ -1,6 +1,6 @@
 {
   "name": "new.docusaurus.io",
-  "version": "3.10.1",
+  "version": "3.10.1-canary-6797",
   "private": true,
   "scripts": {
     "start": "npx --package netlify-cli netlify dev"

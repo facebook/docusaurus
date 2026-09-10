@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/utils",
-  "version": "3.10.1",
+  "version": "3.10.1-canary-6797",
   "description": "Node utility functions for Docusaurus packages.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -18,14 +18,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "3.10.1",
-    "@docusaurus/types": "3.10.1",
-    "@docusaurus/utils-common": "3.10.1",
+    "@11ty/gray-matter": "^2.0.0",
+    "@docusaurus/logger": "3.10.1-canary-6797",
+    "@docusaurus/types": "3.10.1-canary-6797",
+    "@docusaurus/utils-common": "3.10.1-canary-6797",
     "execa": "^10.0.0",
     "file-loader": "^6.2.0",
     "fs-extra": "^11.2.0",
     "github-slugger": "^2.0.0",
-    "@11ty/gray-matter": "^2.0.0",
     "jiti": "^2.7.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
@@ -44,8 +44,8 @@
   },
   "devDependencies": {
     "@types/dedent": "^0.7.0",
-    "@types/micromatch": "^4.0.10",
     "@types/js-yaml": "^4.0.9",
+    "@types/micromatch": "^4.0.10",
     "@types/react-dom": "^19.2.3",
     "dedent": "^1.7.2"
   }
