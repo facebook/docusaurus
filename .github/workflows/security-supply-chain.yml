@@ -75,6 +75,7 @@ jobs:
             - 'detect-port@1.6.1'
             - 'semver@6.3.1'
             - 'webpack-dev-middleware@7.4.6'
+            - 'undici-types@6.21.0'
           YAML
 
           sfw pnpm install || sfw pnpm install || sfw pnpm install

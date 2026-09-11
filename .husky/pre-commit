@@ -1,1 +1,7 @@
-pnpm lint-staged
+
+# In case we need to execute a pnpm-based precommit hook
+# this will be faster
+export pnpm_config_verify_deps_before_run=false
+
+# Favor direct bins if possible to bypass pnpm
+lint-staged
