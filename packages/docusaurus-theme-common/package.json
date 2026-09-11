@@ -30,10 +30,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/mdx-loader": "workspace:",
-    "@docusaurus/module-type-aliases": "workspace:",
-    "@docusaurus/utils": "workspace:",
-    "@docusaurus/utils-common": "workspace:",
+    "@docusaurus/mdx-loader": "4.0.0",
+    "@docusaurus/module-type-aliases": "4.0.0",
+    "@docusaurus/utils": "4.0.0",
+    "@docusaurus/utils-common": "4.0.0",
     "@types/history": "^4.7.11",
     "@types/react": "19.3.0",
     "@types/react-router-config": "*",
@@ -44,8 +44,8 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/core": "workspace:",
-    "@docusaurus/types": "workspace:",
+    "@docusaurus/core": "4.0.0",
+    "@docusaurus/types": "4.0.0",
     "@total-typescript/shoehorn": "^0.1.2",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21"
