@@ -33,13 +33,13 @@
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "dependencies": {
-    "@docusaurus/babel": "4.0.0",
-    "@docusaurus/bundler": "4.0.0",
-    "@docusaurus/logger": "4.0.0",
-    "@docusaurus/mdx-loader": "4.0.0",
-    "@docusaurus/utils": "4.0.0",
-    "@docusaurus/utils-common": "4.0.0",
-    "@docusaurus/utils-validation": "4.0.0",
+    "@docusaurus/babel": "workspace:",
+    "@docusaurus/bundler": "workspace:",
+    "@docusaurus/logger": "workspace:",
+    "@docusaurus/mdx-loader": "workspace:",
+    "@docusaurus/utils": "workspace:",
+    "@docusaurus/utils-common": "workspace:",
+    "@docusaurus/utils-validation": "workspace:",
     "boxen": "^6.2.1",
     "chokidar": "^3.5.3",
     "cli-table3": "^0.6.3",
@@ -76,8 +76,8 @@
     "webpack-merge": "^6.0.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "4.0.0",
-    "@docusaurus/types": "4.0.0",
+    "@docusaurus/module-type-aliases": "workspace:",
+    "@docusaurus/types": "workspace:",
     "@total-typescript/shoehorn": "^0.1.2",
     "@types/escape-html": "^1.0.4",
     "@types/history": "^4.7.11",

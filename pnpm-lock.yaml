@@ -325,7 +325,7 @@ importers:
   packages/create-docusaurus:
     dependencies:
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       commander:
         specifier: ^5.1.0
@@ -356,13 +356,13 @@ importers:
   packages/create-docusaurus/templates/classic:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../../../docusaurus
       '@docusaurus/faster':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../../../docusaurus-faster
       '@docusaurus/preset-classic':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../../../docusaurus-preset-classic
       '@mdx-js/react':
         specifier: ^3.1.1
@@ -381,22 +381,22 @@ importers:
         version: 19.3.0(react@19.3.0)
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../../../docusaurus-module-type-aliases
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../../../docusaurus-types
 
   packages/create-docusaurus/templates/classic-typescript:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../../../docusaurus
       '@docusaurus/faster':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../../../docusaurus-faster
       '@docusaurus/preset-classic':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../../../docusaurus-preset-classic
       '@mdx-js/react':
         specifier: ^3.1.1
@@ -415,13 +415,13 @@ importers:
         version: 19.3.0(react@19.3.0)
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../../../docusaurus-module-type-aliases
       '@docusaurus/tsconfig':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../../../docusaurus-tsconfig
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../../../docusaurus-types
       '@types/react':
         specifier: ^19.3.0
@@ -433,28 +433,28 @@ importers:
   packages/docusaurus:
     dependencies:
       '@docusaurus/babel':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-babel
       '@docusaurus/bundler':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-bundler
       '@docusaurus/faster':
         specifier: 'workspace:'
         version: link:../docusaurus-faster
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/mdx-loader':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-mdx-loader
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-common
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       '@mdx-js/react':
         specifier: ^3.1.1
@@ -569,10 +569,10 @@ importers:
         version: 6.0.1
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@total-typescript/shoehorn':
         specifier: ^0.1.2
@@ -638,13 +638,13 @@ importers:
         specifier: ^7.29.0
         version: 7.29.7(supports-color@7.2.0)
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       babel-plugin-dynamic-import-node:
         specifier: ^2.3.3
@@ -672,22 +672,22 @@ importers:
         specifier: ^7.29.0
         version: 7.29.7(supports-color@10.2.2)
       '@docusaurus/babel':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-babel
       '@docusaurus/cssnano-preset':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-cssnano-preset
       '@docusaurus/faster':
         specifier: 'workspace:'
         version: link:../docusaurus-faster
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@types/html-minifier-terser':
         specifier: ^7.0.2
@@ -773,7 +773,7 @@ importers:
   packages/docusaurus-faster:
     dependencies:
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@rspack/core':
         specifier: ^2.2.2
@@ -809,7 +809,7 @@ importers:
   packages/docusaurus-logger:
     dependencies:
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       tslib:
         specifier: ^2.6.0
@@ -818,13 +818,13 @@ importers:
   packages/docusaurus-mdx-loader:
     dependencies:
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       '@mdx-js/mdx':
         specifier: ^3.1.1
@@ -897,7 +897,7 @@ importers:
         version: 5.107.2(@swc/core@1.15.43)(@swc/html@1.15.47)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.15))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.32.0)(postcss@8.5.15)(uglify-js@3.19.3)
     devDependencies:
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@types/escape-html':
         specifier: ^1.0.4
@@ -939,7 +939,7 @@ importers:
   packages/docusaurus-module-type-aliases:
     dependencies:
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@types/history':
         specifier: ^4.7.11
@@ -969,19 +969,19 @@ importers:
   packages/docusaurus-plugin-client-redirects:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-common
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       eta:
         specifier: ^4.0.1
@@ -1003,37 +1003,37 @@ importers:
         version: 2.8.1
     devDependencies:
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
 
   packages/docusaurus-plugin-content-blog:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/mdx-loader':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-mdx-loader
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       '@docusaurus/theme-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-common
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-common
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       cheerio:
         specifier: ^1.2.0
@@ -1085,31 +1085,31 @@ importers:
   packages/docusaurus-plugin-content-docs:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/mdx-loader':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-mdx-loader
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       '@docusaurus/theme-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-common
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-common
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       '@types/react-router-config':
         specifier: ^5.0.7
@@ -1161,19 +1161,19 @@ importers:
   packages/docusaurus-plugin-content-pages:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/mdx-loader':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-mdx-loader
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       fs-extra:
         specifier: ^11.2.0
@@ -1194,16 +1194,16 @@ importers:
   packages/docusaurus-plugin-css-cascade-layers:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       tslib:
         specifier: ^2.6.0
@@ -1212,16 +1212,16 @@ importers:
   packages/docusaurus-plugin-debug:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       fs-extra:
         specifier: ^11.2.0
@@ -1242,13 +1242,13 @@ importers:
   packages/docusaurus-plugin-google-gtag:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       react:
         specifier: ^19.3.0
@@ -1263,13 +1263,13 @@ importers:
   packages/docusaurus-plugin-google-tag-manager:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       react:
         specifier: ^19.3.0
@@ -1284,22 +1284,22 @@ importers:
   packages/docusaurus-plugin-ideal-image:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/lqip-loader':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../lqip-loader
       '@docusaurus/responsive-loader':
         specifier: ^1.7.1
         version: 1.7.1(jimp@1.6.1(supports-color@7.2.0))(sharp@0.35.4(@types/node@25.9.1))
       '@docusaurus/theme-translations':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-translations
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       jimp:
         specifier: ^1.6.1
@@ -1321,7 +1321,7 @@ importers:
         version: 5.107.2(@swc/core@1.15.43)(@swc/html@1.15.47)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.15))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.32.0)(postcss@8.5.15)(uglify-js@3.19.3)
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       fs-extra:
         specifier: ^11.2.0
@@ -1336,28 +1336,28 @@ importers:
         specifier: ^7.29.2
         version: 7.29.7(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
       '@docusaurus/bundler':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-bundler
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/theme-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-common
       '@docusaurus/theme-translations':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-translations
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       babel-loader:
         specifier: ^10.1.1
@@ -1394,7 +1394,7 @@ importers:
         version: 7.4.1
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       fs-extra:
         specifier: ^11.2.0
@@ -1403,13 +1403,13 @@ importers:
   packages/docusaurus-plugin-rsdoctor:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       '@rsdoctor/rspack-plugin':
         specifier: ^1.5.17
@@ -1430,22 +1430,22 @@ importers:
   packages/docusaurus-plugin-sitemap:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-common
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       fs-extra:
         specifier: ^11.2.0
@@ -1470,16 +1470,16 @@ importers:
   packages/docusaurus-plugin-svgr:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       '@svgr/core':
         specifier: ^8.1.0
@@ -1503,22 +1503,22 @@ importers:
   packages/docusaurus-plugin-vercel-analytics:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       '@vercel/analytics':
         specifier: ^2.0.1
@@ -1536,46 +1536,46 @@ importers:
   packages/docusaurus-preset-classic:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/plugin-content-blog':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-content-blog
       '@docusaurus/plugin-content-docs':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-content-docs
       '@docusaurus/plugin-content-pages':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-content-pages
       '@docusaurus/plugin-css-cascade-layers':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-css-cascade-layers
       '@docusaurus/plugin-debug':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-debug
       '@docusaurus/plugin-google-gtag':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-google-gtag
       '@docusaurus/plugin-google-tag-manager':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-google-tag-manager
       '@docusaurus/plugin-sitemap':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-sitemap
       '@docusaurus/plugin-svgr':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-svgr
       '@docusaurus/theme-classic':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-classic
       '@docusaurus/theme-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-common
       '@docusaurus/theme-search-algolia':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-search-algolia
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       react:
         specifier: ^19.3.0
@@ -1621,43 +1621,43 @@ importers:
   packages/docusaurus-theme-classic:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/mdx-loader':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-mdx-loader
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       '@docusaurus/plugin-content-blog':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-content-blog
       '@docusaurus/plugin-content-docs':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-content-docs
       '@docusaurus/plugin-content-pages':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-content-pages
       '@docusaurus/theme-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-common
       '@docusaurus/theme-translations':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-translations
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-common
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       '@mdx-js/react':
         specifier: ^3.1.1
@@ -1721,16 +1721,16 @@ importers:
   packages/docusaurus-theme-common:
     dependencies:
       '@docusaurus/mdx-loader':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-mdx-loader
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-common
       '@types/history':
         specifier: ^4.7.11
@@ -1764,10 +1764,10 @@ importers:
         version: 3.11.0
     devDependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@total-typescript/shoehorn':
         specifier: ^0.1.2
@@ -1782,19 +1782,19 @@ importers:
   packages/docusaurus-theme-live-codeblock:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/theme-classic':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-classic
       '@docusaurus/theme-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-common
       '@docusaurus/theme-translations':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-translations
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       '@philpl/buble':
         specifier: ^0.19.7
@@ -1819,10 +1819,10 @@ importers:
         version: 2.8.1
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@types/buble':
         specifier: ^0.20.1
@@ -1831,19 +1831,19 @@ importers:
   packages/docusaurus-theme-mermaid:
     dependencies:
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       '@docusaurus/theme-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-common
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       '@mermaid-js/layout-elk':
         specifier: ^0.2.2
@@ -1870,28 +1870,28 @@ importers:
         specifier: ^4.6.3
         version: 4.6.3(@algolia/client-search@5.52.1)(@types/react@19.3.0)(algoliasearch@5.52.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(search-insights@2.17.3)
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/plugin-content-docs':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-plugin-content-docs
       '@docusaurus/theme-classic':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-classic
       '@docusaurus/theme-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-common
       '@docusaurus/theme-translations':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-theme-translations
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-validation
       algoliasearch:
         specifier: ^5.51.0
@@ -1925,10 +1925,10 @@ importers:
         version: 3.11.0
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-module-type-aliases
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
 
   packages/docusaurus-theme-translations:
@@ -1941,19 +1941,19 @@ importers:
         version: 2.8.1
     devDependencies:
       '@docusaurus/babel':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-babel
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       lodash:
         specifier: ^4.17.21
@@ -2010,13 +2010,13 @@ importers:
         specifier: ^2.0.0
         version: 2.0.2
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       '@docusaurus/utils-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-common
       execa:
         specifier: ^10.0.0
@@ -2086,7 +2086,7 @@ importers:
   packages/docusaurus-utils-common:
     dependencies:
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-types
       tslib:
         specifier: ^2.6.0
@@ -2095,13 +2095,13 @@ importers:
   packages/docusaurus-utils-validation:
     dependencies:
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils
       '@docusaurus/utils-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-utils-common
       fs-extra:
         specifier: ^11.2.0
@@ -2145,7 +2145,7 @@ importers:
   packages/lqip-loader:
     dependencies:
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../docusaurus-logger
       file-loader:
         specifier: ^6.2.0
@@ -2185,64 +2185,64 @@ importers:
         specifier: ^1.55.1
         version: 1.55.2(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
       '@docusaurus/core':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus
       '@docusaurus/logger':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-logger
       '@docusaurus/plugin-client-redirects':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-plugin-client-redirects
       '@docusaurus/plugin-content-blog':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-plugin-content-blog
       '@docusaurus/plugin-content-docs':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-plugin-content-docs
       '@docusaurus/plugin-content-pages':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-plugin-content-pages
       '@docusaurus/plugin-google-gtag':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-plugin-google-gtag
       '@docusaurus/plugin-ideal-image':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-plugin-ideal-image
       '@docusaurus/plugin-pwa':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-plugin-pwa
       '@docusaurus/plugin-rsdoctor':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-plugin-rsdoctor
       '@docusaurus/preset-classic':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-preset-classic
       '@docusaurus/remark-plugin-npm2yarn':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-remark-plugin-npm2yarn
       '@docusaurus/theme-classic':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-theme-classic
       '@docusaurus/theme-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-theme-common
       '@docusaurus/theme-live-codeblock':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-theme-live-codeblock
       '@docusaurus/theme-mermaid':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-theme-mermaid
       '@docusaurus/types':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-types
       '@docusaurus/utils':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-utils
       '@docusaurus/utils-common':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-utils-common
       '@docusaurus/utils-validation':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-utils-validation
       '@mermaid-js/layout-elk':
         specifier: ^0.2.2
@@ -2297,10 +2297,10 @@ importers:
         version: 7.4.1
     devDependencies:
       '@docusaurus/eslint-plugin':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/eslint-plugin
       '@docusaurus/tsconfig':
-        specifier: 'workspace:'
+        specifier: 4.0.0
         version: link:../packages/docusaurus-tsconfig
       '@types/color':
         specifier: ^3.0.4
