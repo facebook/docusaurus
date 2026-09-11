@@ -88,7 +88,7 @@ export default {
         'create-docusaurus',
         'stylelint-copyright',
 
-        // These ones are not monorepo packages
+        // These are not monorepo packages
         '!@docusaurus/responsive-loader',
         '!@docusaurus/responsive-loader',
       ],
