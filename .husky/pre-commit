@@ -1,1 +1,1 @@
-pnpm lint-staged
+PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm lint-staged
