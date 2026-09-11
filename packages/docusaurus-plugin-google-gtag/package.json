@@ -20,9 +20,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "workspace:",
-    "@docusaurus/types": "workspace:",
-    "@docusaurus/utils-validation": "workspace:",
+    "@docusaurus/core": "workspace:*",
+    "@docusaurus/types": "workspace:*",
+    "@docusaurus/utils-validation": "workspace:*",
     "tslib": "^2.6.0"
   },
   "peerDependencies": {

@@ -92,7 +92,7 @@ export default {
         '!@docusaurus/responsive-loader',
         '!@docusaurus/responsive-loader',
       ],
-      pinVersion: 'workspace:',
+      pinVersion: 'workspace:*',
     },
 
     // Default: all remaining dependencies — highest version wins (syncpack default)

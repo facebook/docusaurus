@@ -18,12 +18,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "workspace:",
-    "@docusaurus/logger": "workspace:",
-    "@docusaurus/types": "workspace:",
-    "@docusaurus/utils": "workspace:",
-    "@docusaurus/utils-common": "workspace:",
-    "@docusaurus/utils-validation": "workspace:",
+    "@docusaurus/core": "workspace:*",
+    "@docusaurus/logger": "workspace:*",
+    "@docusaurus/types": "workspace:*",
+    "@docusaurus/utils": "workspace:*",
+    "@docusaurus/utils-common": "workspace:*",
+    "@docusaurus/utils-validation": "workspace:*",
     "fs-extra": "^11.2.0",
     "sitemap": "^7.1.1",
     "tslib": "^2.6.0"

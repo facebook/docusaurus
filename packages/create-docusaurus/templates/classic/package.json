@@ -14,9 +14,9 @@
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
-    "@docusaurus/core": "workspace:",
-    "@docusaurus/faster": "workspace:",
-    "@docusaurus/preset-classic": "workspace:",
+    "@docusaurus/core": "workspace:*",
+    "@docusaurus/faster": "workspace:*",
+    "@docusaurus/preset-classic": "workspace:*",
     "@mdx-js/react": "^3.1.1",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.4.1",
@@ -24,8 +24,8 @@
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "workspace:",
-    "@docusaurus/types": "workspace:"
+    "@docusaurus/module-type-aliases": "workspace:*",
+    "@docusaurus/types": "workspace:*"
   },
   "browserslist": {
     "production": [
