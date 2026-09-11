@@ -23,11 +23,11 @@
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "@docusaurus/babel": "4.0.0",
-    "@docusaurus/core": "4.0.0",
-    "@docusaurus/logger": "4.0.0",
-    "@docusaurus/types": "4.0.0",
-    "@docusaurus/utils": "4.0.0",
+    "@docusaurus/babel": "workspace:",
+    "@docusaurus/core": "workspace:",
+    "@docusaurus/logger": "workspace:",
+    "@docusaurus/types": "workspace:",
+    "@docusaurus/utils": "workspace:",
     "lodash": "^4.17.21"
   },
   "engines": {

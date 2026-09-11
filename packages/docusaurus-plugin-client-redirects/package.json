@@ -18,18 +18,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "4.0.0",
-    "@docusaurus/logger": "4.0.0",
-    "@docusaurus/utils": "4.0.0",
-    "@docusaurus/utils-common": "4.0.0",
-    "@docusaurus/utils-validation": "4.0.0",
+    "@docusaurus/core": "workspace:",
+    "@docusaurus/logger": "workspace:",
+    "@docusaurus/utils": "workspace:",
+    "@docusaurus/utils-common": "workspace:",
+    "@docusaurus/utils-validation": "workspace:",
     "eta": "^4.0.1",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "4.0.0"
+    "@docusaurus/types": "workspace:"
   },
   "peerDependencies": {
     "react": "^19.3.0",
