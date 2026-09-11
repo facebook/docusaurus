@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "workspace:*",
-    "@docusaurus/utils": "workspace:*",
-    "@docusaurus/utils-validation": "workspace:*",
+    "@docusaurus/logger": "workspace:",
+    "@docusaurus/utils": "workspace:",
+    "@docusaurus/utils-validation": "workspace:",
     "@mdx-js/mdx": "^3.1.1",
     "@slorber/remark-comment": "^1.0.0",
     "escape-html": "^1.0.3",
@@ -44,7 +44,7 @@
     "webpack": "^5.106.2"
   },
   "devDependencies": {
-    "@docusaurus/types": "workspace:*",
+    "@docusaurus/types": "workspace:",
     "@types/escape-html": "^1.0.4",
     "@types/estree": "^1.0.9",
     "@types/mdast": "^4.0.2",

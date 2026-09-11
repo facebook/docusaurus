@@ -20,18 +20,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "workspace:*",
-    "@docusaurus/lqip-loader": "workspace:*",
+    "@docusaurus/core": "workspace:",
+    "@docusaurus/lqip-loader": "workspace:",
     "@docusaurus/responsive-loader": "^1.7.1",
-    "@docusaurus/theme-translations": "workspace:*",
-    "@docusaurus/types": "workspace:*",
-    "@docusaurus/utils-validation": "workspace:*",
+    "@docusaurus/theme-translations": "workspace:",
+    "@docusaurus/types": "workspace:",
+    "@docusaurus/utils-validation": "workspace:",
     "sharp": "^0.35.1",
     "tslib": "^2.6.0",
     "webpack": "^5.106.2"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "workspace:*",
+    "@docusaurus/module-type-aliases": "workspace:",
     "fs-extra": "^11.2.0"
   },
   "peerDependencies": {

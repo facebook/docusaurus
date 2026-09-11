@@ -20,10 +20,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "workspace:*",
-    "@docusaurus/module-type-aliases": "workspace:*",
-    "@docusaurus/types": "workspace:*",
-    "@docusaurus/utils": "workspace:*",
+    "@docusaurus/core": "workspace:",
+    "@docusaurus/module-type-aliases": "workspace:",
+    "@docusaurus/types": "workspace:",
+    "@docusaurus/utils": "workspace:",
     "fs-extra": "^11.2.0",
     "react-json-view-lite": "^2.3.0",
     "tslib": "^2.6.0"

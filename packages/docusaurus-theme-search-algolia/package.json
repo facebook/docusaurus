@@ -35,14 +35,14 @@
   "dependencies": {
     "@algolia/autocomplete-core": "^1.19.8",
     "@docsearch/react": "^4.6.3",
-    "@docusaurus/core": "workspace:*",
-    "@docusaurus/logger": "workspace:*",
-    "@docusaurus/plugin-content-docs": "workspace:*",
-    "@docusaurus/theme-classic": "workspace:*",
-    "@docusaurus/theme-common": "workspace:*",
-    "@docusaurus/theme-translations": "workspace:*",
-    "@docusaurus/utils": "workspace:*",
-    "@docusaurus/utils-validation": "workspace:*",
+    "@docusaurus/core": "workspace:",
+    "@docusaurus/logger": "workspace:",
+    "@docusaurus/plugin-content-docs": "workspace:",
+    "@docusaurus/theme-classic": "workspace:",
+    "@docusaurus/theme-common": "workspace:",
+    "@docusaurus/theme-translations": "workspace:",
+    "@docusaurus/utils": "workspace:",
+    "@docusaurus/utils-validation": "workspace:",
     "algoliasearch": "^5.51.0",
     "algoliasearch-helper": "^3.28.2",
     "clsx": "^2.0.0",
@@ -53,8 +53,8 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "workspace:*",
-    "@docusaurus/types": "workspace:*"
+    "@docusaurus/module-type-aliases": "workspace:",
+    "@docusaurus/types": "workspace:"
   },
   "peerDependencies": {
     "react": "^19.3.0",

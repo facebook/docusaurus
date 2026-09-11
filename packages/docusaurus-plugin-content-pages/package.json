@@ -18,11 +18,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "workspace:*",
-    "@docusaurus/mdx-loader": "workspace:*",
-    "@docusaurus/types": "workspace:*",
-    "@docusaurus/utils": "workspace:*",
-    "@docusaurus/utils-validation": "workspace:*",
+    "@docusaurus/core": "workspace:",
+    "@docusaurus/mdx-loader": "workspace:",
+    "@docusaurus/types": "workspace:",
+    "@docusaurus/utils": "workspace:",
+    "@docusaurus/utils-validation": "workspace:",
     "fs-extra": "^11.2.0",
     "tslib": "^2.6.0",
     "webpack": "^5.106.2"

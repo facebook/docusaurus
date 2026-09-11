@@ -18,12 +18,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "workspace:*",
-    "@docusaurus/logger": "workspace:*",
-    "@docusaurus/module-type-aliases": "workspace:*",
-    "@docusaurus/types": "workspace:*",
-    "@docusaurus/utils": "workspace:*",
-    "@docusaurus/utils-validation": "workspace:*",
+    "@docusaurus/core": "workspace:",
+    "@docusaurus/logger": "workspace:",
+    "@docusaurus/module-type-aliases": "workspace:",
+    "@docusaurus/types": "workspace:",
+    "@docusaurus/utils": "workspace:",
+    "@docusaurus/utils-validation": "workspace:",
     "@vercel/analytics": "^2.0.1",
     "tslib": "^2.6.0"
   },

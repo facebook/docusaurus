@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "workspace:*",
+    "@docusaurus/types": "workspace:",
     "tslib": "^2.6.0"
   },
   "engines": {
