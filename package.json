@@ -131,9 +131,9 @@
     "typescript-eslint": "^8.59.3",
     "vitest": "^4.0.0"
   },
-  "packageManager": "pnpm@11.10.0",
+  "packageManager": "pnpm@12.3.4",
   "engines": {
     "node": ">=24.14",
-    "pnpm": ">=11.5"
+    "pnpm": ">=12.3.4"
   }
 }
