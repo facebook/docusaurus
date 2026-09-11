@@ -108,3 +108,40 @@ For canary releases, prefer using an exact version instead of a semver range (av
 ```mdx-code-block
 </VersionsProvider>
 ```
+
+:::warning package manager security
+
+Some package managers have security options enabled by default to mitigate supply chain attacks, notably [requiring npm packages to reach a minimum age](https://github.com/lirantal/npm-security-best-practices#31-npm--pnpm--bun--yarn-minimumreleaseage-cooldown).
+
+To ensure the most recent canary release can install successfully, try the following options env variables:
+
+```bash
+# npm
+# if it doesn't work, try "npm_config_min_release_age=0"
+# see https://github.com/facebook/docusaurus/pull/12437
+npm_config_min_release_age_exclude='create-docusaurus,@docusaurus/*'
+
+# pnpm
+PNPM_CONFIG_MINIMUM_RELEASE_AGE_EXCLUDE='["create-docusaurus","@docusaurus/*"]'
+
+# Yarn Berry
+yarn config set --json npmPreapprovedPackages '["create-docusaurus","@docusaurus/*"]'
+```
+
+:::
+
+## Creating a new canary website
+
+Here's a full example script to initialize a new Docusaurus site with our most recent canary release:
+
+```bash
+PNPM_CONFIG_MINIMUM_RELEASE_AGE_EXCLUDE='["create-docusaurus","@docusaurus/*"]' pnpm dlx create-docusaurus@canary my-canary-website classic --typescript
+
+cd my-canary-website
+
+pnpm config set --location=project --json minimumReleaseAgeExclude '["create-docusaurus","@docusaurus/*"]'
+pnpm config set --location=project --json allowBuilds '{"@swc/core":false,"core-js":false}'
+pnpm install
+
+pnpm build
+```
