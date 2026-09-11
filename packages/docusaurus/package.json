@@ -91,7 +91,7 @@
     "tree-node-cli": "^3.0.0"
   },
   "peerDependencies": {
-    "@docusaurus/faster": "*",
+    "@docusaurus/faster": "workspace:",
     "@mdx-js/react": "^3.1.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

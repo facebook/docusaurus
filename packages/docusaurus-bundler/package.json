@@ -44,7 +44,7 @@
     "webpackbar": "^7.0.0"
   },
   "peerDependencies": {
-    "@docusaurus/faster": "*",
+    "@docusaurus/faster": "workspace:",
     "@types/html-minifier-terser": "^7.0.2"
   },
   "peerDependenciesMeta": {

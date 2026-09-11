@@ -68,6 +68,7 @@ jobs:
           (github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag == 'canary')
         run: |
           pnpm canary:bumpVersion
+          pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
           pnpm canary:publish
 
       - name: Publish NPM release

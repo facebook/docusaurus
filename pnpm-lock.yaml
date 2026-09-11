@@ -338,7 +338,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-bundler
       '@docusaurus/faster':
-        specifier: '*'
+        specifier: 'workspace:'
         version: link:../docusaurus-faster
       '@docusaurus/logger':
         specifier: 3.10.1
@@ -577,7 +577,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-cssnano-preset
       '@docusaurus/faster':
-        specifier: '*'
+        specifier: 'workspace:'
         version: link:../docusaurus-faster
       '@docusaurus/logger':
         specifier: 3.10.1
