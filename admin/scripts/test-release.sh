@@ -38,16 +38,26 @@ then
 fi
 
 # Run Docker container with private npm registry Verdaccio
+docker rm -f verdaccio
 docker run -d --rm --name "$CONTAINER_NAME" -p 4873:4873 -v "$PWD/admin/verdaccio.yaml":/verdaccio/conf/config.yaml verdaccio/verdaccio:latest
 
 # Build packages
 pnpm build:packages
 
 # Publish the monorepo
-npx --no-install lerna publish --exact --yes --no-verify-access --no-git-reset --no-git-tag-version --no-push --registry "$CUSTOM_REGISTRY_URL" "$NEW_VERSION"
+npx --no-install lerna publish \
+  --exact \
+  --yes \
+  --no-verify-access \
+  --no-git-reset \
+  --no-git-tag-version \
+  --no-push \
+  --include-private docusaurus-2-classic-template \
+  --include-private docusaurus-2-classic-typescript-template \
+  --registry "$CUSTOM_REGISTRY_URL" "$NEW_VERSION"
 
 # Revert version changes
-git diff --name-only -- '*.json' | sed 's, ,\\&,g' | xargs git checkout --
+git restore -- '**/package.json' lerna.json pnpm-lock.yaml
 
 
 # The website is generated outside the repo to minimize chances of pnpm resolving the wrong version
@@ -56,9 +66,9 @@ cd ..
 echo Generating test-website in `pwd`
 
 # Build skeleton website with new version
-npm_config_registry="$CUSTOM_REGISTRY_URL" \
-  npm_config_min_release_age_exclude='create-docusaurus,@docusaurus/*,stylelint-copyright' \
-  npx --yes --loglevel silly create-docusaurus@"$NEW_VERSION" test-website classic --javascript $EXTRA_OPTS
+pnpm_config_registry="$CUSTOM_REGISTRY_URL" \
+  pnpm_config_minimum_release_age_exclude='["create-docusaurus","@docusaurus/*","stylelint-copyright"]' \
+  pnpm --loglevel debug dlx create-docusaurus@"$NEW_VERSION" test-website classic --javascript $EXTRA_OPTS
 
 
 # Stop Docker container

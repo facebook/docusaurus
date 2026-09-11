@@ -36,6 +36,9 @@ jobs:
       - name: Installation
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 
+      - name: AutoFix Duplicated deps
+        run: pnpm lint:deps:fix
+
       - name: AutoFix Formatting
         run: pnpm format
 

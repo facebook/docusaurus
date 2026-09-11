@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-translations",
-  "version": "3.10.1",
+  "version": "4.0.0",
   "description": "Docusaurus theme translations.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -23,11 +23,11 @@
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "@docusaurus/babel": "3.10.1",
-    "@docusaurus/core": "3.10.1",
-    "@docusaurus/logger": "3.10.1",
-    "@docusaurus/types": "3.10.1",
-    "@docusaurus/utils": "3.10.1",
+    "@docusaurus/babel": "workspace:*",
+    "@docusaurus/core": "workspace:*",
+    "@docusaurus/logger": "workspace:*",
+    "@docusaurus/types": "workspace:*",
+    "@docusaurus/utils": "workspace:*",
     "lodash": "^4.17.21"
   },
   "engines": {
