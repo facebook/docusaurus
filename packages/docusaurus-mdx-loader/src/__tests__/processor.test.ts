@@ -5,31 +5,55 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// import {createProcessor} from '../processor';
-// import type {Options} from '../loader';
+import {describe, expect, it} from 'vitest';
+import {createProcessorUncached} from '../processor';
+import {DefaultMarkdownConfig} from './testUtils';
+import type {Options} from '../options';
+import type {Root} from 'mdast';
+import type {Plugin} from 'unified';
 
-/*
-async function testProcess({
-  format,
-  options,
+async function process({
+  content,
+  remarkPlugins,
 }: {
-  format: 'md' | 'mdx';
-  options: Options;
+  content: string;
+  remarkPlugins?: Options['remarkPlugins'];
 }) {
-  return async (content: string) => {
-    const processor = await createProcessor({format, options});
-    return processor.process(content);
-  };
+  const processor = await createProcessorUncached({
+    options: {
+      markdownConfig: DefaultMarkdownConfig,
+      staticDirs: [],
+      siteDir: '/site',
+      remarkPlugins,
+    },
+    format: 'md',
+  });
+  return processor.process({
+    content,
+    filePath: '/site/docs/test.md',
+    frontMatter: {},
+    compilerName: 'client',
+  });
 }
- */
 
-import {describe, it} from 'vitest';
+describe('mdx processor', () => {
+  it('returns messages reported by Remark plugins', async () => {
+    const reportingPlugin: Plugin<[], Root> = () => (_tree, file) => {
+      file.message('This is a Remark plugin warning');
+    };
 
-describe('md processor', () => {
-  it('parses simple commonmark', async () => {
-    // TODO no tests for now, wait until ESM support
-    // Jest does not support well ESM modules
-    // It would require to vendor too much Unified modules as CJS
-    // See https://mdxjs.com/docs/troubleshooting-mdx/#esm
+    const result = await process({
+      content: '# Title',
+      remarkPlugins: [reportingPlugin],
+    });
+
+    expect(result.messages).toHaveLength(1);
+    expect(result.messages[0]!.reason).toBe('This is a Remark plugin warning');
+  });
+
+  it('returns no messages when Remark plugins report nothing', async () => {
+    const result = await process({content: '# Title'});
+
+    expect(result.messages).toEqual([]);
   });
 });
