@@ -57,7 +57,7 @@ npx --no-install lerna publish \
   --registry "$CUSTOM_REGISTRY_URL" "$NEW_VERSION"
 
 # Revert version changes
-# git diff --name-only -- '*.json' | sed 's, ,\\&,g' | xargs git checkout --
+git restore -- '**/package.json' pnpm-lock.yaml
 
 
 # The website is generated outside the repo to minimize chances of pnpm resolving the wrong version
