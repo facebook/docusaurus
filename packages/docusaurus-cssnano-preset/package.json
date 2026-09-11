@@ -23,7 +23,7 @@
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "to-vfile": "^6.1.0"
+    "to-vfile": "^8.0.0"
   },
   "engines": {
     "node": ">=24.14"
