@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "workspace:",
-    "@docusaurus/types": "workspace:",
-    "@docusaurus/utils-validation": "workspace:",
+    "@docusaurus/core": "workspace:*",
+    "@docusaurus/types": "workspace:*",
+    "@docusaurus/utils-validation": "workspace:*",
     "@rsdoctor/rspack-plugin": "^1.5.17",
     "@rsdoctor/webpack-plugin": "^1.5.17",
     "tslib": "^2.6.0"

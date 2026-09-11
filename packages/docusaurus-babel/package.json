@@ -37,9 +37,9 @@
     "@babel/preset-typescript": "^7.28.5",
     "@babel/runtime": "^7.29.2",
     "@babel/traverse": "^7.29.0",
-    "@docusaurus/logger": "workspace:",
-    "@docusaurus/types": "workspace:",
-    "@docusaurus/utils": "workspace:",
+    "@docusaurus/logger": "workspace:*",
+    "@docusaurus/types": "workspace:*",
+    "@docusaurus/utils": "workspace:*",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "fs-extra": "^11.2.0",
     "tslib": "^2.6.0"

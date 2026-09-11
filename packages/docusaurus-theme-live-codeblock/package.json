@@ -35,11 +35,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "workspace:",
-    "@docusaurus/theme-classic": "workspace:",
-    "@docusaurus/theme-common": "workspace:",
-    "@docusaurus/theme-translations": "workspace:",
-    "@docusaurus/utils-validation": "workspace:",
+    "@docusaurus/core": "workspace:*",
+    "@docusaurus/theme-classic": "workspace:*",
+    "@docusaurus/theme-common": "workspace:*",
+    "@docusaurus/theme-translations": "workspace:*",
+    "@docusaurus/utils-validation": "workspace:*",
     "@philpl/buble": "^0.19.7",
     "clsx": "^2.0.0",
     "fs-extra": "^11.2.0",
@@ -47,8 +47,8 @@
     "tslib": "^2.6.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "workspace:",
-    "@docusaurus/types": "workspace:",
+    "@docusaurus/module-type-aliases": "workspace:*",
+    "@docusaurus/types": "workspace:*",
     "@types/buble": "^0.20.1"
   },
   "peerDependencies": {

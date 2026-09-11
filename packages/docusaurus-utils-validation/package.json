@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "workspace:",
-    "@docusaurus/utils": "workspace:",
-    "@docusaurus/utils-common": "workspace:",
+    "@docusaurus/logger": "workspace:*",
+    "@docusaurus/utils": "workspace:*",
+    "@docusaurus/utils-common": "workspace:*",
     "fs-extra": "^11.2.0",
     "joi": "^18.1.2",
     "js-yaml": "^4.1.0",
