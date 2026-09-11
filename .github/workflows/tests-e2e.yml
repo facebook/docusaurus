@@ -295,7 +295,7 @@ jobs:
         # We build 2 locales to ensure a localized site doesn't leak memory
         # See https://github.com/facebook/docusaurus/issues/10944
         run: pnpm run build --locale en --locale fr
-        env:
+        ensv:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
           NODE_OPTIONS: '--max-old-space-size=200'
