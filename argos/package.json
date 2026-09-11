@@ -1,6 +1,6 @@
 {
   "name": "argos",
-  "version": "3.10.1",
+  "version": "4.0.0",
   "description": "Argos visual diff tests",
   "license": "MIT",
   "private": true,
