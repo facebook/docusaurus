@@ -82,7 +82,18 @@ export default {
 
     {
       label:
-        'Internal @docusaurus/* monorepo packages use the :workspace protocol',
+        'Templates should use pinned versions, not the workspace:* protocol',
+      packages: [
+        'docusaurus-2-classic-template',
+        'docusaurus-2-classic-typescript-template',
+      ],
+      dependencies: ['@docusaurus/**'],
+      pinVersion: '4.0.0', // TODO make this dynamic
+    },
+
+    {
+      label:
+        'Internal @docusaurus/* monorepo packages use the workspace:* protocol',
       dependencies: [
         '@docusaurus/**',
         'create-docusaurus',

@@ -356,13 +356,13 @@ importers:
   packages/create-docusaurus/templates/classic:
     dependencies:
       '@docusaurus/core':
-        specifier: workspace:*
+        specifier: 4.0.0
         version: link:../../../docusaurus
       '@docusaurus/faster':
-        specifier: workspace:*
+        specifier: 4.0.0
         version: link:../../../docusaurus-faster
       '@docusaurus/preset-classic':
-        specifier: workspace:*
+        specifier: 4.0.0
         version: link:../../../docusaurus-preset-classic
       '@mdx-js/react':
         specifier: ^3.1.1
@@ -381,22 +381,22 @@ importers:
         version: 19.3.0(react@19.3.0)
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: workspace:*
+        specifier: 4.0.0
         version: link:../../../docusaurus-module-type-aliases
       '@docusaurus/types':
-        specifier: workspace:*
+        specifier: 4.0.0
         version: link:../../../docusaurus-types
 
   packages/create-docusaurus/templates/classic-typescript:
     dependencies:
       '@docusaurus/core':
-        specifier: workspace:*
+        specifier: 4.0.0
         version: link:../../../docusaurus
       '@docusaurus/faster':
-        specifier: workspace:*
+        specifier: 4.0.0
         version: link:../../../docusaurus-faster
       '@docusaurus/preset-classic':
-        specifier: workspace:*
+        specifier: 4.0.0
         version: link:../../../docusaurus-preset-classic
       '@mdx-js/react':
         specifier: ^3.1.1
@@ -415,13 +415,13 @@ importers:
         version: 19.3.0(react@19.3.0)
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: workspace:*
+        specifier: 4.0.0
         version: link:../../../docusaurus-module-type-aliases
       '@docusaurus/tsconfig':
-        specifier: workspace:*
+        specifier: 4.0.0
         version: link:../../../docusaurus-tsconfig
       '@docusaurus/types':
-        specifier: workspace:*
+        specifier: 4.0.0
         version: link:../../../docusaurus-types
       '@types/react':
         specifier: ^19.3.0
