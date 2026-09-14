@@ -115,7 +115,7 @@ importers:
   .:
     devDependencies:
       '@ai-sdk/react':
-        specifier: ^3.0.177
+        specifier: ^3.0.280
         version: 3.0.280(react@19.3.0)(zod@4.5.4)
       '@crowdin/cli':
         specifier: ^5.0.2
@@ -136,55 +136,55 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))
       '@swc/core':
-        specifier: ^1.15.40
+        specifier: ^1.16.2
         version: 1.16.2
       '@testing-library/dom':
         specifier: ^10.4.1
         version: 10.4.1
       '@testing-library/jest-dom':
-        specifier: ^6.9.1
+        specifier: ^6.10.0
         version: 6.10.0(@testing-library/dom@10.4.1)
       '@testing-library/react':
-        specifier: ^16.3.2
+        specifier: ^16.3.3
         version: 16.3.3(@testing-library/dom@10.4.1)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
       '@types/lodash':
-        specifier: ^4.17.24
+        specifier: ^4.17.25
         version: 4.17.25
       '@types/node':
-        specifier: ^25.6.0
+        specifier: ^25.9.5
         version: 25.9.5
       '@types/prompts':
-        specifier: ^2.4.4
+        specifier: ^2.4.9
         version: 2.4.9
       '@types/react':
         specifier: ^19.3.0
         version: 19.3.0
       '@types/semver':
-        specifier: ^7.7.1
+        specifier: ^7.8.0
         version: 7.8.0
       '@vitejs/plugin-react':
-        specifier: ^6.0.2
+        specifier: ^6.1.1
         version: 6.1.1(vite@8.2.2(@types/node@25.9.5)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0))
       '@vitest/eslint-plugin':
-        specifier: ^1.6.17
+        specifier: ^1.6.27
         version: 1.6.27(@typescript-eslint/eslint-plugin@8.69.0(@typescript-eslint/parser@8.69.0(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)(vitest@4.1.11(@opentelemetry/api@1.9.1)(@types/node@25.9.5)(jsdom@25.0.1(supports-color@7.2.0))(vite@8.2.2(@types/node@25.9.5)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0)))
       cross-env:
         specifier: ^10.1.0
         version: 10.1.0
       cspell:
-        specifier: ^8.18.1
+        specifier: ^8.19.4
         version: 8.19.4
       eslint:
-        specifier: ^9.39.4
+        specifier: ^9.39.5
         version: 9.39.5(jiti@2.7.0)(supports-color@7.2.0)
       eslint-config-prettier:
         specifier: ^10.1.8
         version: 10.1.8(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))
       eslint-plugin-eslint-plugin:
-        specifier: ^7.3.3
+        specifier: ^7.6.2
         version: 7.6.2(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))
       eslint-plugin-header:
         specifier: ^3.1.1
@@ -202,13 +202,13 @@ importers:
         specifier: ^7.1.1
         version: 7.1.1(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)
       eslint-plugin-regexp:
-        specifier: ^3.1.0
+        specifier: ^3.3.0
         version: 3.3.0(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))
       execa:
-        specifier: ^10.0.0
+        specifier: ^10.0.1
         version: 10.0.1
       globals:
-        specifier: ^17.6.0
+        specifier: ^17.12.0
         version: 17.12.0
       husky:
         specifier: ^9.1.7
@@ -235,10 +235,10 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(supports-color@7.2.0)
       lint-staged:
-        specifier: ^17.0.2
+        specifier: ^17.5.0
         version: 17.5.0
       lockfile-lint:
-        specifier: ^5.0.0
+        specifier: ^5.0.1
         version: 5.0.1(supports-color@7.2.0)(typescript@6.0.3)
       npm-run-all:
         specifier: ^4.1.5
@@ -268,7 +268,7 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0
       stylelint:
-        specifier: ^17.12.0
+        specifier: ^17.15.0
         version: 17.15.0(supports-color@7.2.0)(typescript@6.0.3)
       stylelint-config-standard:
         specifier: ^40.0.0
@@ -283,10 +283,10 @@ importers:
         specifier: ~6.0.3
         version: 6.0.3
       typescript-eslint:
-        specifier: ^8.59.3
+        specifier: ^8.69.0
         version: 8.69.0(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       vitest:
-        specifier: ^4.0.0
+        specifier: ^4.1.11
         version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@25.9.5)(jsdom@25.0.1(supports-color@7.2.0))(vite@8.2.2(@types/node@25.9.5)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0))
 
   admin/new.docusaurus.io:
@@ -310,13 +310,13 @@ importers:
   argos:
     dependencies:
       '@argos-ci/cli':
-        specifier: ^6.9.0
+        specifier: ^6.9.2
         version: 6.9.2(@types/node@25.9.5)(supports-color@10.2.2)
       '@argos-ci/playwright':
-        specifier: ^7.4.6
+        specifier: ^7.5.0
         version: 7.5.0(@types/node@25.9.5)(supports-color@10.2.2)
       '@playwright/test':
-        specifier: ^1.62.1
+        specifier: ^1.63.0
         version: 1.63.0
       cheerio:
         specifier: ^1.2.0
@@ -337,13 +337,13 @@ importers:
         specifier: ^2.4.2
         version: 2.4.2
       semver:
-        specifier: ^7.7.4
+        specifier: ^7.8.5
         version: 7.8.5
       supports-color:
         specifier: ^10.2.2
         version: 10.2.2
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@types/cross-spawn':
@@ -368,7 +368,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1(@types/react@19.3.0)(react@19.3.0)
       clsx:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: 2.1.1
       prism-react-renderer:
         specifier: ^2.4.1
@@ -402,7 +402,7 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1(@types/react@19.3.0)(react@19.3.0)
       clsx:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: 2.1.1
       prism-react-renderer:
         specifier: ^2.4.1
@@ -463,19 +463,19 @@ importers:
         specifier: ^6.2.1
         version: 6.2.1
       chokidar:
-        specifier: ^3.5.3
+        specifier: ^3.6.0
         version: 3.6.0
       cli-table3:
-        specifier: ^0.6.3
+        specifier: ^0.6.5
         version: 0.6.5
       combine-promises:
-        specifier: ^1.1.0
+        specifier: ^1.2.0
         version: 1.2.0
       commander:
         specifier: ^5.1.0
         version: 5.1.0
       core-js:
-        specifier: ^3.31.1
+        specifier: ^3.50.0
         version: 3.50.0
       detect-port:
         specifier: ^2.1.0
@@ -484,31 +484,31 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
       eta:
-        specifier: ^4.0.1
+        specifier: ^4.6.0
         version: 4.6.0
       eval:
         specifier: ^0.1.8
         version: 0.1.8
       execa:
-        specifier: ^10.0.0
+        specifier: ^10.0.1
         version: 10.0.1
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       html-tags:
         specifier: ^5.1.0
         version: 5.1.0
       html-webpack-plugin:
-        specifier: ^5.6.7
+        specifier: ^5.6.8
         version: 5.6.8(@rspack/core@2.2.3)(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       leven:
         specifier: ^3.1.0
         version: 3.1.0
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.18.1
         version: 4.18.1
       open:
-        specifier: ^11.0.0
+        specifier: ^11.0.2
         version: 11.0.2
       p-map:
         specifier: ^4.0.0
@@ -541,25 +541,25 @@ importers:
         specifier: ^5.3.4
         version: 5.3.4(react@19.3.0)
       semver:
-        specifier: ^7.7.4
+        specifier: ^7.8.5
         version: 7.8.5
       serve-handler:
         specifier: ^6.1.7
         version: 6.1.7
       tinypool:
-        specifier: ^2.1.0
+        specifier: ^2.1.2
         version: 2.1.2
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       update-notifier:
         specifier: ^6.0.2
         version: 6.0.2
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
       webpack-bundle-analyzer:
-        specifier: ^5.3.0
+        specifier: ^5.3.2
         version: 5.3.2
       webpack-dev-server:
         specifier: ^6.0.0
@@ -587,7 +587,7 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(@types/react@19.3.0)
       '@types/react-router-config':
-        specifier: ^5.0.7
+        specifier: ^5.0.11
         version: 5.0.11
       '@types/react-router-dom':
         specifier: ^5.3.3
@@ -596,7 +596,7 @@ importers:
         specifier: ^6.1.4
         version: 6.1.4
       '@types/update-notifier':
-        specifier: ^6.0.4
+        specifier: ^6.0.8
         version: 6.0.8
       '@types/webpack-bundle-analyzer':
         specifier: ^4.7.0
@@ -611,31 +611,31 @@ importers:
   packages/docusaurus-babel:
     dependencies:
       '@babel/core':
-        specifier: ^7.29.0
+        specifier: ^7.29.7
         version: 7.29.7(supports-color@10.2.2)
       '@babel/generator':
-        specifier: ^7.29.1
+        specifier: ^7.29.8
         version: 7.29.8
       '@babel/plugin-syntax-dynamic-import':
         specifier: ^7.8.3
         version: 7.8.3(@babel/core@7.29.7(supports-color@10.2.2))
       '@babel/plugin-transform-runtime':
-        specifier: ^7.29.0
+        specifier: ^7.29.7
         version: 7.29.7(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
       '@babel/preset-env':
-        specifier: ^7.29.2
+        specifier: ^7.29.7
         version: 7.29.7(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
       '@babel/preset-react':
-        specifier: ^7.28.5
+        specifier: ^7.29.7
         version: 7.29.7(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
       '@babel/preset-typescript':
-        specifier: ^7.28.5
+        specifier: ^7.29.7
         version: 7.29.7(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
       '@babel/runtime':
-        specifier: ^7.29.2
+        specifier: ^7.29.7
         version: 7.29.7
       '@babel/traverse':
-        specifier: ^7.29.0
+        specifier: ^7.29.8
         version: 7.29.8(supports-color@10.2.2)
       '@docusaurus/logger':
         specifier: 3.10.1
@@ -650,10 +650,10 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@types/babel__core':
@@ -669,7 +669,7 @@ importers:
   packages/docusaurus-bundler:
     dependencies:
       '@babel/core':
-        specifier: ^7.29.0
+        specifier: ^7.29.7
         version: 7.29.7(supports-color@10.2.2)
       '@docusaurus/babel':
         specifier: 3.10.1
@@ -708,7 +708,7 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0(clean-css@5.3.3)(csso@5.0.5)(lightningcss@1.33.0)(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       cssnano:
-        specifier: ^7.1.7
+        specifier: ^7.1.9
         version: 7.1.9(postcss@8.5.28)
       file-loader:
         specifier: ^6.2.0
@@ -723,25 +723,25 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       postcss:
-        specifier: ^8.5.12
+        specifier: ^8.5.28
         version: 8.5.28
       postcss-loader:
         specifier: ^8.2.1
         version: 8.2.1(@rspack/core@2.2.3)(postcss@8.5.28)(typescript@6.0.3)(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       postcss-preset-env:
-        specifier: ^11.2.1
+        specifier: ^11.5.2
         version: 11.5.2(postcss@8.5.28)
       terser-webpack-plugin:
-        specifier: ^5.4.0
+        specifier: ^5.6.1
         version: 5.6.1(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(uglify-js@3.19.3)(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       url-loader:
         specifier: ^4.1.1
         version: 4.1.1(file-loader@6.2.0(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)))(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
       webpackbar:
         specifier: ^7.0.0
@@ -754,16 +754,16 @@ importers:
   packages/docusaurus-cssnano-preset:
     dependencies:
       cssnano-preset-advanced:
-        specifier: ^7.0.15
+        specifier: ^7.0.16
         version: 7.0.16(postcss@8.5.28)
       postcss:
-        specifier: ^8.5.12
+        specifier: ^8.5.28
         version: 8.5.28
       postcss-sort-media-queries:
-        specifier: ^6.5.0
+        specifier: ^6.7.1
         version: 6.7.1(postcss@8.5.28)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       to-vfile:
@@ -776,34 +776,34 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-types
       '@rspack/core':
-        specifier: ^2.2.2
+        specifier: ^2.2.3
         version: 2.2.3
       '@rspack/dev-server':
         specifier: ^2.2.1
         version: 2.2.1(@rspack/core@2.2.3)(selfsigned@5.5.0)
       '@swc/core':
-        specifier: ^1.15.40
+        specifier: ^1.16.2
         version: 1.16.2
       '@swc/html':
-        specifier: ^1.15.40
+        specifier: ^1.16.2
         version: 1.16.2
       browserslist:
-        specifier: ^4.28.2
+        specifier: ^4.28.9
         version: 4.28.9
       lightningcss:
-        specifier: ^1.32.0
+        specifier: ^1.33.0
         version: 1.33.0
       semver:
-        specifier: ^7.7.4
+        specifier: ^7.8.5
         version: 7.8.5
       swc-loader:
         specifier: ^0.2.7
         version: 0.2.7(@swc/core@1.16.2)(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
 
   packages/docusaurus-logger:
@@ -812,7 +812,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-types
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
 
   packages/docusaurus-mdx-loader:
@@ -842,7 +842,7 @@ importers:
         specifier: ^6.2.0
         version: 6.2.0(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       image-size:
         specifier: ^2.0.2
@@ -863,10 +863,10 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       remark-directive:
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.1(supports-color@10.2.2)
       remark-emoji:
-        specifier: ^4.0.0
+        specifier: ^4.0.1
         version: 4.0.1
       remark-frontmatter:
         specifier: ^5.0.0
@@ -878,10 +878,10 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       unified:
-        specifier: ^11.0.3
+        specifier: ^11.0.5
         version: 11.0.5
       unist-util-visit:
         specifier: ^5.1.0
@@ -890,10 +890,10 @@ importers:
         specifier: ^4.1.1
         version: 4.1.1(file-loader@6.2.0(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)))(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       vfile:
-        specifier: ^6.0.1
+        specifier: ^6.0.3
         version: 6.0.3
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
     devDependencies:
       '@docusaurus/types':
@@ -906,7 +906,7 @@ importers:
         specifier: ^1.0.9
         version: 1.0.9
       '@types/mdast':
-        specifier: ^4.0.2
+        specifier: ^4.0.4
         version: 4.0.4
       '@types/stringify-object':
         specifier: ^3.3.1
@@ -918,7 +918,7 @@ importers:
         specifier: 3.1.0
         version: 3.1.0(supports-color@10.2.2)
       rehype-stringify:
-        specifier: ^10.0.0
+        specifier: ^10.0.1
         version: 10.0.1
       remark:
         specifier: ^15.0.1
@@ -948,10 +948,10 @@ importers:
         specifier: 19.3.0
         version: 19.3.0
       '@types/react-router-config':
-        specifier: '*'
+        specifier: ^5.0.11
         version: 5.0.11
       '@types/react-router-dom':
-        specifier: '*'
+        specifier: ^5.3.3
         version: 5.3.3
       react:
         specifier: ^19.3.0
@@ -984,13 +984,13 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-validation
       eta:
-        specifier: ^4.0.1
+        specifier: ^4.6.0
         version: 4.6.0
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.18.1
         version: 4.18.1
       react:
         specifier: ^19.3.0
@@ -999,7 +999,7 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@docusaurus/types':
@@ -1039,16 +1039,16 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       combine-promises:
-        specifier: ^1.1.0
+        specifier: ^1.2.0
         version: 1.2.0
       feed:
         specifier: ^5.2.1
         version: 5.2.1
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.18.1
         version: 4.18.1
       react:
         specifier: ^19.3.0
@@ -1057,22 +1057,22 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       schema-dts:
-        specifier: ^1.1.2
+        specifier: ^1.1.5
         version: 1.1.5
       srcset:
         specifier: ^5.0.3
         version: 5.0.3
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       unist-util-visit:
         specifier: ^5.1.0
         version: 5.1.0
       utility-types:
-        specifier: ^3.10.0
+        specifier: ^3.11.0
         version: 3.11.0
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
     devDependencies:
       '@total-typescript/shoehorn':
@@ -1112,19 +1112,19 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-validation
       '@types/react-router-config':
-        specifier: ^5.0.7
+        specifier: ^5.0.11
         version: 5.0.11
       combine-promises:
-        specifier: ^1.1.0
+        specifier: ^1.2.0
         version: 1.2.0
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       js-yaml:
-        specifier: ^4.1.0
+        specifier: ^4.3.2
         version: 4.3.2
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.18.1
         version: 4.18.1
       react:
         specifier: ^19.3.0
@@ -1133,29 +1133,29 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       schema-dts:
-        specifier: ^1.1.2
+        specifier: ^1.1.5
         version: 1.1.5
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       utility-types:
-        specifier: ^3.10.0
+        specifier: ^3.11.0
         version: 3.11.0
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
     devDependencies:
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
       '@types/picomatch':
-        specifier: ^2.3.0
+        specifier: ^2.3.4
         version: 2.3.4
       commander:
         specifier: ^5.1.0
         version: 5.1.0
       picomatch:
-        specifier: ^2.3.1
+        specifier: ^2.3.2
         version: 2.3.2
 
   packages/docusaurus-plugin-content-pages:
@@ -1176,7 +1176,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-validation
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       react:
         specifier: ^19.3.0
@@ -1185,10 +1185,10 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
 
   packages/docusaurus-plugin-css-cascade-layers:
@@ -1206,7 +1206,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-validation
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
 
   packages/docusaurus-plugin-debug:
@@ -1224,7 +1224,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       react:
         specifier: ^19.3.0
@@ -1233,10 +1233,10 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       react-json-view-lite:
-        specifier: ^2.3.0
+        specifier: ^2.5.0
         version: 2.5.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
 
   packages/docusaurus-plugin-google-gtag:
@@ -1257,7 +1257,7 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
 
   packages/docusaurus-plugin-google-tag-manager:
@@ -1278,7 +1278,7 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
 
   packages/docusaurus-plugin-ideal-image:
@@ -1314,26 +1314,26 @@ importers:
         specifier: ^0.35.1
         version: 0.35.4(@types/node@25.9.5)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
     devDependencies:
       '@docusaurus/module-type-aliases':
         specifier: 3.10.1
         version: link:../docusaurus-module-type-aliases
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
 
   packages/docusaurus-plugin-pwa:
     dependencies:
       '@babel/core':
-        specifier: ^7.29.0
+        specifier: ^7.29.7
         version: 7.29.7(supports-color@10.2.2)
       '@babel/preset-env':
-        specifier: ^7.29.2
+        specifier: ^7.29.7
         version: 7.29.7(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
       '@docusaurus/bundler':
         specifier: 3.10.1
@@ -1363,10 +1363,10 @@ importers:
         specifier: ^10.1.1
         version: 10.1.1(@babel/core@7.29.7(supports-color@10.2.2))(@rspack/core@2.2.3)(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       clsx:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: 2.1.1
       core-js:
-        specifier: ^3.31.1
+        specifier: ^3.50.0
         version: 3.50.0
       react:
         specifier: ^19.3.0
@@ -1375,10 +1375,10 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
       webpack-merge:
         specifier: ^6.0.1
@@ -1397,7 +1397,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-module-type-aliases
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
 
   packages/docusaurus-plugin-rsdoctor:
@@ -1412,10 +1412,10 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-validation
       '@rsdoctor/rspack-plugin':
-        specifier: ^1.5.17
+        specifier: ^1.6.3
         version: 1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       '@rsdoctor/webpack-plugin':
-        specifier: ^1.5.17
+        specifier: ^1.6.3
         version: 1.6.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rspack/core@2.2.3)(supports-color@10.2.2)(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       react:
         specifier: ^19.3.0
@@ -1424,7 +1424,7 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
 
   packages/docusaurus-plugin-sitemap:
@@ -1448,7 +1448,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-validation
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       react:
         specifier: ^19.3.0
@@ -1457,10 +1457,10 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       sitemap:
-        specifier: ^7.1.1
+        specifier: ^7.1.3
         version: 7.1.3
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@total-typescript/shoehorn':
@@ -1494,10 +1494,10 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
 
   packages/docusaurus-plugin-vercel-analytics:
@@ -1530,7 +1530,7 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
 
   packages/docusaurus-preset-classic:
@@ -1590,20 +1590,20 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(supports-color@10.2.2)
       npm-to-yarn:
-        specifier: ^3.0.1
+        specifier: ^3.2.0
         version: 3.2.0
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       unified:
-        specifier: ^11.0.3
+        specifier: ^11.0.5
         version: 11.0.5
       unist-util-visit:
         specifier: ^5.1.0
         version: 5.1.0
     devDependencies:
       '@types/mdast':
-        specifier: ^4.0.2
+        specifier: ^4.0.4
         version: 4.0.4
       '@types/unist':
         specifier: ^3.0.3
@@ -1663,28 +1663,28 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1(@types/react@19.3.0)(react@19.3.0)
       clsx:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: 2.1.1
       copy-text-to-clipboard:
-        specifier: ^3.2.0
+        specifier: ^3.2.2
         version: 3.2.2
       infima:
         specifier: 0.2.0-alpha.45
         version: 0.2.0-alpha.45
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.18.1
         version: 4.18.1
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
       postcss:
-        specifier: ^8.5.12
+        specifier: ^8.5.28
         version: 8.5.28
       prism-react-renderer:
         specifier: ^2.4.1
         version: 2.4.1(react@19.3.0)
       prismjs:
-        specifier: ^1.29.0
+        specifier: ^1.30.0
         version: 1.30.0
       react:
         specifier: ^19.3.0
@@ -1696,26 +1696,26 @@ importers:
         specifier: ^5.3.4
         version: 5.3.4(react@19.3.0)
       rtlcss:
-        specifier: ^4.1.0
+        specifier: ^4.3.0
         version: 4.3.0
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       utility-types:
-        specifier: ^3.10.0
+        specifier: ^3.11.0
         version: 3.11.0
     devDependencies:
       '@types/nprogress':
-        specifier: ^0.2.0
+        specifier: ^0.2.3
         version: 0.2.3
       '@types/prismjs':
         specifier: ^1.26.6
         version: 1.26.6
       '@types/rtlcss':
-        specifier: ^3.5.1
+        specifier: ^3.5.4
         version: 3.5.4
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
 
   packages/docusaurus-theme-common:
@@ -1739,10 +1739,10 @@ importers:
         specifier: 19.3.0
         version: 19.3.0
       '@types/react-router-config':
-        specifier: '*'
+        specifier: ^5.0.11
         version: 5.0.11
       clsx:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: 2.1.1
       parse-numeric-range:
         specifier: ^1.3.0
@@ -1757,10 +1757,10 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       utility-types:
-        specifier: ^3.10.0
+        specifier: ^3.11.0
         version: 3.11.0
     devDependencies:
       '@docusaurus/core':
@@ -1773,10 +1773,10 @@ importers:
         specifier: ^0.1.2
         version: 0.1.2
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.18.1
         version: 4.18.1
 
   packages/docusaurus-theme-live-codeblock:
@@ -1800,10 +1800,10 @@ importers:
         specifier: ^0.19.7
         version: 0.19.7
       clsx:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: 2.1.1
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       react:
         specifier: ^19.3.0
@@ -1815,7 +1815,7 @@ importers:
         specifier: ^4.1.8
         version: 4.1.8(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@docusaurus/module-type-aliases':
@@ -1825,7 +1825,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-types
       '@types/buble':
-        specifier: ^0.20.1
+        specifier: ^0.20.5
         version: 0.20.5
 
   packages/docusaurus-theme-mermaid:
@@ -1849,7 +1849,7 @@ importers:
         specifier: ^0.2.2
         version: 0.2.3(mermaid@11.17.2)
       mermaid:
-        specifier: '>=11.14.0'
+        specifier: ^11.17.2
         version: 11.17.2
       react:
         specifier: ^19.3.0
@@ -1858,16 +1858,16 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
 
   packages/docusaurus-theme-search-algolia:
     dependencies:
       '@algolia/autocomplete-core':
-        specifier: ^1.19.8
+        specifier: ^1.19.10
         version: 1.19.10(@algolia/client-search@5.57.0)(algoliasearch@5.57.0)(search-insights@2.17.3)
       '@docsearch/react':
-        specifier: ^4.6.3
+        specifier: ^4.7.0
         version: 4.7.0(@algolia/client-search@5.57.0)(@types/react@19.3.0)(algoliasearch@5.57.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(search-insights@2.17.3)
       '@docusaurus/core':
         specifier: 3.10.1
@@ -1894,22 +1894,22 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-validation
       algoliasearch:
-        specifier: ^5.51.0
+        specifier: ^5.57.0
         version: 5.57.0
       algoliasearch-helper:
-        specifier: ^3.28.2
+        specifier: ^3.29.3
         version: 3.29.3(algoliasearch@5.57.0)
       clsx:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: 2.1.1
       eta:
-        specifier: ^4.0.1
+        specifier: ^4.6.0
         version: 4.6.0
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.18.1
         version: 4.18.1
       react:
         specifier: ^19.3.0
@@ -1918,10 +1918,10 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       utility-types:
-        specifier: ^3.10.0
+        specifier: ^3.11.0
         version: 3.11.0
     devDependencies:
       '@docusaurus/module-type-aliases':
@@ -1934,10 +1934,10 @@ importers:
   packages/docusaurus-theme-translations:
     dependencies:
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@docusaurus/babel':
@@ -1956,7 +1956,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.18.1
         version: 4.18.1
 
   packages/docusaurus-tsconfig:
@@ -1974,7 +1974,7 @@ importers:
         specifier: ^4.7.11
         version: 4.7.11
       '@types/mdast':
-        specifier: ^4.0.2
+        specifier: ^4.0.4
         version: 4.0.4
       '@types/react':
         specifier: 19.3.0
@@ -1983,7 +1983,7 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0
       joi:
-        specifier: ^18.1.2
+        specifier: ^18.2.8
         version: 18.2.8
       react:
         specifier: ^19.3.0
@@ -1995,10 +1995,10 @@ importers:
         specifier: npm:@slorber/react-helmet-async@1.3.0
         version: '@slorber/react-helmet-async@1.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)'
       utility-types:
-        specifier: ^3.10.0
+        specifier: ^3.11.0
         version: 3.11.0
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
       webpack-merge:
         specifier: ^6.0.1
@@ -2007,7 +2007,7 @@ importers:
   packages/docusaurus-utils:
     dependencies:
       '@11ty/gray-matter':
-        specifier: ^2.0.0
+        specifier: ^2.1.0
         version: 2.1.0
       '@docusaurus/logger':
         specifier: 3.10.1
@@ -2019,13 +2019,13 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-common
       execa:
-        specifier: ^10.0.0
+        specifier: ^10.0.1
         version: 10.0.1
       file-loader:
         specifier: ^6.2.0
         version: 6.2.0(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       github-slugger:
         specifier: ^2.0.0
@@ -2034,13 +2034,13 @@ importers:
         specifier: ^2.7.0
         version: 2.7.0
       js-yaml:
-        specifier: ^4.1.0
+        specifier: ^4.3.2
         version: 4.3.2
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.18.1
         version: 4.18.1
       micromatch:
-        specifier: ^4.0.5
+        specifier: ^4.0.8
         version: 4.0.8
       p-queue:
         specifier: ^6.6.2
@@ -2055,20 +2055,20 @@ importers:
         specifier: ^0.2.17
         version: 0.2.17
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
       url-loader:
         specifier: ^4.1.1
         version: 4.1.1(file-loader@6.2.0(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)))(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       utility-types:
-        specifier: ^3.10.0
+        specifier: ^3.11.0
         version: 3.11.0
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
     devDependencies:
       '@types/dedent':
-        specifier: ^0.7.0
+        specifier: ^0.7.2
         version: 0.7.2
       '@types/js-yaml':
         specifier: ^4.0.9
@@ -2089,7 +2089,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-types
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
 
   packages/docusaurus-utils-validation:
@@ -2104,19 +2104,19 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-common
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       joi:
-        specifier: ^18.1.2
+        specifier: ^18.2.8
         version: 18.2.8
       js-yaml:
-        specifier: ^4.1.0
+        specifier: ^4.3.2
         version: 4.3.2
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.18.1
         version: 4.18.1
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@types/js-yaml':
@@ -2135,7 +2135,7 @@ importers:
         specifier: '>=8.57.0'
         version: 9.39.5(jiti@2.7.0)(supports-color@10.2.2)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@typescript-eslint/rule-tester':
@@ -2151,29 +2151,29 @@ importers:
         specifier: ^6.2.0
         version: 6.2.0(webpack@5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3))
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.18.1
         version: 4.18.1
       sharp:
         specifier: ^0.35.1
         version: 0.35.4(@types/node@25.9.5)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@types/file-loader':
-        specifier: ^5.0.1
+        specifier: ^5.0.4
         version: 5.0.4
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
 
   packages/stylelint-copyright:
     dependencies:
       stylelint:
-        specifier: ^17.12.0
+        specifier: ^17.15.0
         version: 17.15.0(supports-color@7.2.0)(typescript@6.0.3)
       tslib:
-        specifier: ^2.6.0
+        specifier: ^2.8.1
         version: 2.8.1
 
   website:
@@ -2182,7 +2182,7 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2
       '@crowdin/crowdin-api-client':
-        specifier: ^1.55.1
+        specifier: ^1.57.0
         version: 1.57.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
       '@docusaurus/core':
         specifier: 3.10.1
@@ -2245,16 +2245,16 @@ importers:
         specifier: 3.10.1
         version: link:../packages/docusaurus-utils-validation
       '@mermaid-js/layout-elk':
-        specifier: ^0.2.2
+        specifier: ^0.2.3
         version: 0.2.3(mermaid@11.17.2)
       clsx:
-        specifier: ^2.0.0
+        specifier: ^2.1.1
         version: 2.1.1
       color:
         specifier: ^4.2.3
         version: 4.2.3
       fs-extra:
-        specifier: ^11.2.0
+        specifier: ^11.4.0
         version: 11.4.0
       netlify-plugin-cache:
         specifier: ^1.0.3
@@ -2269,16 +2269,16 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(react@19.3.0)
       react-lite-youtube-embed:
-        specifier: ^3.6.0
+        specifier: ^3.7.0
         version: 3.7.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react-medium-image-zoom:
-        specifier: ^5.1.6
+        specifier: ^5.4.9
         version: 5.4.9(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       recma-mdx-displayname:
         specifier: ^0.4.1
         version: 0.4.1
       rehype-katex:
-        specifier: ^7.0.0
+        specifier: ^7.0.1
         version: 7.0.1
       remark-math:
         specifier: ^6.0.0
@@ -2287,13 +2287,13 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0
       webpack:
-        specifier: ^5.106.2
+        specifier: ^5.110.3
         version: 5.110.3(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
       workbox-routing:
-        specifier: ^7.4.0
+        specifier: ^7.4.1
         version: 7.4.1
       workbox-strategies:
-        specifier: ^7.4.0
+        specifier: ^7.4.1
         version: 7.4.1
     devDependencies:
       '@docusaurus/eslint-plugin':
@@ -2303,7 +2303,7 @@ importers:
         specifier: 3.10.1
         version: link:../packages/docusaurus-tsconfig
       '@types/color':
-        specifier: ^3.0.4
+        specifier: ^3.0.7
         version: 3.0.7
       cross-env:
         specifier: ^10.1.0

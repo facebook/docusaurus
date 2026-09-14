@@ -20,8 +20,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/preset-env": "^7.29.2",
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
     "@docusaurus/bundler": "3.10.1",
     "@docusaurus/core": "3.10.1",
     "@docusaurus/logger": "3.10.1",
@@ -31,10 +31,10 @@
     "@docusaurus/utils": "3.10.1",
     "@docusaurus/utils-validation": "3.10.1",
     "babel-loader": "^10.1.1",
-    "clsx": "^2.0.0",
-    "core-js": "^3.31.1",
-    "tslib": "^2.6.0",
-    "webpack": "^5.106.2",
+    "clsx": "^2.1.1",
+    "core-js": "^3.50.0",
+    "tslib": "^2.8.1",
+    "webpack": "^5.110.3",
     "webpack-merge": "^6.0.1",
     "workbox-build": "^7.4.1",
     "workbox-precaching": "^7.4.1",
@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.10.1",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.4.0"
   },
   "peerDependencies": {
     "react": "^19.3.0",

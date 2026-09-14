@@ -23,7 +23,7 @@
     "@docusaurus/core": "3.10.1",
     "@docusaurus/types": "3.10.1",
     "@docusaurus/utils-validation": "3.10.1",
-    "tslib": "^2.6.0"
+    "tslib": "^2.8.1"
   },
   "peerDependencies": {
     "react": "^19.3.0",
