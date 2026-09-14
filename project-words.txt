@@ -39,7 +39,6 @@ codegen
 codesandbox
 commonmark
 contravariance
-cooldown
 cooldowns
 corejs
 Couriol
