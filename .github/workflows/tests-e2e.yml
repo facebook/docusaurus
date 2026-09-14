@@ -34,6 +34,57 @@ permissions:
   contents: read
 
 jobs:
+  # e2e tests running on Windows
+  e2e-windows:
+    name: E2E — Windows
+    timeout-minutes: 30
+    runs-on: windows-8-core
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Install pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+      - name: Use Node.js LTS
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - name: Installation
+        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+      - name: Generate test-website project against main branch
+        # Not using test-release.sh => no verdaccio docker image on Windows
+        # We have to generate the test website in workspace so that it uses
+        # current packages as dependencies instead of deps from npm
+        run: node ./packages/create-docusaurus/bin/index.js test-website-in-workspace classic --typescript
+      - name: Install test-website-in-workspace project
+        run: pnpm install --no-frozen-lockfile --ignore-scripts || pnpm install --no-frozen-lockfile --ignore-scripts || pnpm install --no-frozen-lockfile --ignore-scripts
+        working-directory: test-website-in-workspace
+      - name: Start test-website-in-workspace project
+        run: pnpm start --no-open
+        working-directory: test-website-in-workspace
+        env:
+          E2E_TEST: true
+      - name: Build test-website-in-workspace project
+        # We build 2 locales to ensure a localized site doesn't leak memory
+        # See https://github.com/facebook/docusaurus/issues/10944
+        run: pnpm build --locale en --locale fr
+        env:
+          # Our website should build even with limited memory
+          # See https://github.com/facebook/docusaurus/pull/10590
+          NODE_OPTIONS: '--max-old-space-size=200'
+          DOCUSAURUS_PERF_LOGGER: 'true'
+        working-directory: test-website-in-workspace
+      # Upload build artifacts to ease Windows-specific troubleshooting
+      - name: Upload website artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: website-e2e-windows
+          path: test-website-in-workspace/build
+          if-no-files-found: error
+      - name: TypeCheck website
+        working-directory: test-website-in-workspace
+        run: pnpm typecheck
+
   yarn-v1:
     name: E2E — Yarn v1
     timeout-minutes: 30
@@ -75,55 +126,6 @@ jobs:
           NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
         working-directory: ../test-website
-
-  yarn-v1-windows:
-    name: E2E — Yarn v1 Windows
-    timeout-minutes: 30
-    runs-on: windows-8-core
-    steps:
-      - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Install pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-      - name: Use Node.js LTS
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: lts/*
-          cache: pnpm
-      - name: Installation
-        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
-      - name: Generate test-website project against main branch
-        # Not using test-release.sh => no verdaccio docker image on Windows
-        run: node ./packages/create-docusaurus/bin/index.js ../test-website classic --typescript --package-manager yarn
-      - name: Install test-website project with Yarn v1
-        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
-        working-directory: ../test-website
-      - name: Start test-website project
-        run: yarn start --no-open
-        working-directory: ../test-website
-        env:
-          E2E_TEST: true
-      - name: Build test-website project
-        # We build 2 locales to ensure a localized site doesn't leak memory
-        # See https://github.com/facebook/docusaurus/issues/10944
-        run: yarn build --locale en --locale fr
-        env:
-          # Our website should build even with limited memory
-          # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=200'
-          DOCUSAURUS_PERF_LOGGER: 'true'
-        working-directory: ../test-website
-      - name: Copy to CWD
-        # Workaround for actions/upload-artifact, see comment below
-        run: cp -R ../test-website test-website
-      - name: Upload Website artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: website-e2e-windows
-          # Note: actions/upload-artifact can't upload from '../test-website'
-          # Error: Invalid pattern '../test-website/build'. Relative pathing '.' and '..' is not allowed.
-          path: test-website/build
-          if-no-files-found: error
 
   yarn-berry:
     name: E2E — Yarn Berry
