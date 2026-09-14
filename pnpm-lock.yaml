@@ -237,9 +237,6 @@ importers:
       lint-staged:
         specifier: ^17.5.0
         version: 17.5.0
-      lockfile-lint:
-        specifier: ^5.0.1
-        version: 5.0.1(supports-color@7.2.0)(typescript@6.0.3)
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
@@ -6424,10 +6421,6 @@ packages:
   '@yarnpkg/lockfile@1.1.0':
     resolution: {integrity: sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==}
 
-  '@yarnpkg/parsers@3.1.0':
-    resolution: {integrity: sha512-WoxUM/Be4hfsX06FxsvpGgfYqwgivMV7/Ol7aFuSfSmY6rRaiju4QxOEe9RUS0iYcSHWl5i9AhB1cMoE0p+XiA==}
-    engines: {node: '>=18.12.0'}
-
   '@zkochan/js-yaml@0.0.7':
     resolution: {integrity: sha512-nrUSn7hzt7J6JWgWGz78ZYI8wj+gdIJdk0Ynjpp8l+trkn58Uqsf6RYrYkEK+3X18EX+TNdtJI0WxAtc+L84SQ==}
     hasBin: true
@@ -9754,15 +9747,6 @@ packages:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
 
-  lockfile-lint-api@5.9.2:
-    resolution: {integrity: sha512-3QhxWxl3jT9GcMxuCnTsU8Tz5U6U1lKBlKBu2zOYOz/x3ONUoojEtky3uzoaaDgExcLqIX0Aqv2I7TZXE383CQ==}
-    engines: {node: '>=16.0.0'}
-
-  lockfile-lint@5.0.1:
-    resolution: {integrity: sha512-Ukjf5yGBQwfl7L2niV3in7bU5wEww3+4Dkw89JGTzOuq18tzS7jaszl2oO7M6u+jcim080MfX5E4Gokt1KhRHQ==}
-    engines: {node: '>=16.0.0'}
-    hasBin: true
-
   lodash-es@4.18.1:
     resolution: {integrity: sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==}
 
@@ -10494,10 +10478,6 @@ packages:
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
-
-  object-hash@3.0.0:
-    resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
-    engines: {node: '>= 6'}
 
   object-inspect@1.13.4:
     resolution: {integrity: sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==}
@@ -18042,11 +18022,6 @@ snapshots:
 
   '@yarnpkg/lockfile@1.1.0': {}
 
-  '@yarnpkg/parsers@3.1.0':
-    dependencies:
-      js-yaml: 4.3.2
-      tslib: 2.8.1
-
   '@zkochan/js-yaml@0.0.7':
     dependencies:
       argparse: 2.0.1
@@ -21949,25 +21924,6 @@ snapshots:
     dependencies:
       p-locate: 5.0.0
 
-  lockfile-lint-api@5.9.2(supports-color@7.2.0):
-    dependencies:
-      '@yarnpkg/parsers': 3.1.0
-      debug: 4.4.3(supports-color@7.2.0)
-      object-hash: 3.0.0
-    transitivePeerDependencies:
-      - supports-color
-
-  lockfile-lint@5.0.1(supports-color@7.2.0)(typescript@6.0.3):
-    dependencies:
-      cosmiconfig: 9.0.2(typescript@6.0.3)
-      debug: 4.4.3(supports-color@7.2.0)
-      lockfile-lint-api: 5.9.2(supports-color@7.2.0)
-      tinyglobby: 0.2.17
-      yargs: 17.7.3
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
   lodash-es@4.18.1: {}
 
   lodash.clonedeep@4.5.0: {}
@@ -23171,8 +23127,6 @@ snapshots:
       '@swc/core': 1.16.2
 
   object-assign@4.1.1: {}
-
-  object-hash@3.0.0: {}
 
   object-inspect@1.13.4: {}
 

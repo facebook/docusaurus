@@ -21,10 +21,44 @@ permissions:
   contents: read
 
 jobs:
-  supply-chain-checks:
-    name: Supply Chain Checks
+  # Check our monorepo for new supply chain compromissions
+  supply-chain-monorepo:
+    name: Supply Chain - Monorepo
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Install pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: lts/*
+          # No cache on purpose! We want SFW to fetch packages
+
+      # See https://socket.dev/blog/introducing-socket-firewall
+      - name: Install Socket Firewall Free
+        run: npm install -g sfw@2.0.6
+
+      # Ensure our monorepo gets scanned by SFW
+      - name: Install monorepo dependencies with SFW
+        run: sfw pnpm install --frozen-lockfile || sfw pnpm install --frozen-lockfile || sfw pnpm install --frozen-lockfile
+
+  # Check our init template deps for new supply chain compromissions
+  # This workflow is not ideal but good enough for now
+  # See why https://github.com/facebook/docusaurus/pull/12448
+  supply-chain-site-template:
+    name: Supply Chain - Site Template @${{ matrix.npm_dist_tag }}
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # We check on various npm dist tags
+        npm_dist_tag: ['latest', 'canary']
+
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -40,24 +74,14 @@ jobs:
 
       # See https://socket.dev/blog/introducing-socket-firewall
       - name: Install Socket Firewall Free
-        run: npm install -g sfw@2.0.4
+        run: npm install -g sfw@2.0.6
 
-      # Ensure our monorepo gets scanned by SFW
-      - name: Install monorepo dependencies with SFW
-        run: sfw pnpm install --frozen-lockfile || sfw pnpm install --frozen-lockfile || sfw pnpm install --frozen-lockfile
-
-      # Check for malicious lockfile injections
-      # See https://github.com/lirantal/npm-security-best-practices#4-prevent-npm-lockfile-injection
-      # TODO lockfile-lint does not support pnpm-lock.yaml yet, so this check is
-      # disabled until pnpm support lands.
-      # See https://github.com/lirantal/lockfile-lint#what-about-pnpm-support
-      # - name: Check for suspicious pnpm-lock.yaml
-      #   # for allowed aliases, see https://github.com/yargs/cliui/pull/139/files#r1670711112
-      #   run: pnpm lockfile-lint --path pnpm-lock.yaml --type npm --allowed-hosts npm --validate-https --validate-package-names --validate-integrity --empty-hostname=false --allowed-package-name-aliases react-loadable react-helmet-async string-width-cjs strip-ansi-cjs wrap-ansi-cjs react-is-18 react-is-19
-
-      # Generate init template
-      - name: Generate test-website project against main branch
-        run: node ./packages/create-docusaurus/bin/index.js ../test-website classic --javascript --skip-install
+      # Generate the init template from a given npm dist tag
+      - name: Generate published template
+        run: sfw pnpm create docusaurus@${{matrix.npm_dist_tag}} ../test-website classic --typescript --skip-install
+        env:
+          # We want to use the freshest "create-docusaurus" initializer
+          PNPM_CONFIG_MINIMUM_RELEASE_AGE: 0
 
       # Ensure no unexpected lifecycle (preintall/postinstall scripts)
       # pnpm has options to fail a build on suspicious lifecycles
@@ -65,11 +89,17 @@ jobs:
         working-directory: ../test-website
         run: |
           cat > pnpm-workspace.yaml <<'YAML'
+
+          # SFW should check the newest possible release + transitive deps
+          minimumReleaseAge: 0
+
           blockExoticSubdeps: true
           strictDepBuilds: true
+
           allowBuilds:
             '@swc/core': false
             core-js: false
+
           trustPolicy: no-downgrade
           trustPolicyExclude:
             - 'detect-port@1.6.1'
