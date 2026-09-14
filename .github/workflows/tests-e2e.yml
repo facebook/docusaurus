@@ -55,7 +55,7 @@ jobs:
         # Not using test-release.sh => no verdaccio docker image on Windows
         # We have to generate the test website in workspace so that it uses
         # current packages as dependencies instead of deps from npm
-        run: node ./packages/create-docusaurus/bin/index.js ../test-website classic --typescript
+        run: node ./packages/create-docusaurus/bin/index.js test-website-in-workspace classic --typescript
       - name: Install test-website-in-workspace project
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
         working-directory: test-website-in-workspace
