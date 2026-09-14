@@ -25,7 +25,7 @@ jobs:
   windows-test:
     name: Windows Tests
     timeout-minutes: 30
-    runs-on: windows-8-core
+    runs-on: windows-latest
     strategy:
       matrix:
         node: ['24.14', '26']
