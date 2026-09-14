@@ -31,7 +31,7 @@ export default async function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
 ): Promise<Plugin<LoadedContent | null>> {
-  const {siteConfig, siteDir, generatedFilesDir} = context;
+  const {siteConfig, siteDir, generatedFilesDir, siteMarkdownLinks} = context;
 
   const contentPaths = createPagesContentPaths({context, options});
   const contentHelpers = createContentHelpers();
@@ -92,6 +92,7 @@ export default async function pluginContentPages(
             contentPaths,
           });
         },
+        resolveSiteMarkdownLink: siteMarkdownLinks.resolveMarkdownLink,
       },
     });
   }
