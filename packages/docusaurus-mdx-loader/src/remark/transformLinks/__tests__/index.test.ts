@@ -62,6 +62,7 @@ describe('transformLinks plugin', () => {
   it('transform md links to <a />', async () => {
     // TODO split fixture in many smaller test cases
     const result = await processFixture('asset');
+    expect(result).toContain('data-noTrailingSlash={true}');
     expect(result).toMatchSnapshot();
   });
 
