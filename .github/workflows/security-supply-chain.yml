@@ -46,8 +46,10 @@ jobs:
         run: sfw pnpm install --frozen-lockfile || sfw pnpm install --frozen-lockfile || sfw pnpm install --frozen-lockfile
 
   # Check our init template deps for new supply chain compromissions
-  supply-chain-init-template:
-    name: Supply Chain - Init Template @${{ matrix.npm_dist_tag }}
+  # This workflow is not ideal but good enough for now
+  # See why https://github.com/facebook/docusaurus/pull/12448
+  supply-chain-site-template:
+    name: Supply Chain - Site Template @${{ matrix.npm_dist_tag }}
     timeout-minutes: 30
     runs-on: ubuntu-latest
 
@@ -87,12 +89,17 @@ jobs:
         working-directory: ../test-website
         run: |
           cat > pnpm-workspace.yaml <<'YAML'
+
+          # SFW should check the newest possible release + transitive deps
           minimumReleaseAge: 0
+
           blockExoticSubdeps: true
           strictDepBuilds: true
+
           allowBuilds:
             '@swc/core': false
             core-js: false
+
           trustPolicy: no-downgrade
           trustPolicyExclude:
             - 'detect-port@1.6.1'
