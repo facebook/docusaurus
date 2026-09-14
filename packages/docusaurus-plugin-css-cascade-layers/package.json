@@ -22,7 +22,7 @@
     "@docusaurus/types": "3.10.1",
     "@docusaurus/utils": "3.10.1",
     "@docusaurus/utils-validation": "3.10.1",
-    "tslib": "^2.6.0"
+    "tslib": "^2.8.1"
   },
   "engines": {
     "node": ">=24.14"

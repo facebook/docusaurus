@@ -24,8 +24,8 @@
     "@docusaurus/utils-validation": "3.10.1",
     "@svgr/core": "^8.1.0",
     "@svgr/webpack": "^8.1.0",
-    "tslib": "^2.6.0",
-    "webpack": "^5.106.2"
+    "tslib": "^2.8.1",
+    "webpack": "^5.110.3"
   },
   "peerDependencies": {
     "react": "^19.3.0",

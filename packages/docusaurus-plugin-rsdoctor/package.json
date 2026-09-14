@@ -21,9 +21,9 @@
     "@docusaurus/core": "3.10.1",
     "@docusaurus/types": "3.10.1",
     "@docusaurus/utils-validation": "3.10.1",
-    "@rsdoctor/rspack-plugin": "^1.5.17",
-    "@rsdoctor/webpack-plugin": "^1.5.17",
-    "tslib": "^2.6.0"
+    "@rsdoctor/rspack-plugin": "^1.6.3",
+    "@rsdoctor/webpack-plugin": "^1.6.3",
+    "tslib": "^2.8.1"
   },
   "peerDependencies": {
     "react": "^19.3.0",
