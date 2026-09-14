@@ -72,3 +72,7 @@ jobs:
         run: |
           pnpm add typescript@latest --save-exact -D -w --ignore-scripts
           pnpm --filter website typecheck --project tsconfig.skipLibCheck.json
+        env:
+          # Ignore "a linked package is out of date" pnpm errors
+          # that can happen after a fresh TS-related package publish.
+          pnpm_config_verify_deps_before_run: warn

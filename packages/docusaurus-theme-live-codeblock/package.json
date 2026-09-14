@@ -41,15 +41,15 @@
     "@docusaurus/theme-translations": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
     "@philpl/buble": "^0.19.7",
-    "clsx": "^2.0.0",
-    "fs-extra": "^11.2.0",
+    "clsx": "^2.1.1",
+    "fs-extra": "^11.4.0",
     "react-live": "^4.1.8",
-    "tslib": "^2.6.0"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "workspace:*",
     "@docusaurus/types": "workspace:*",
-    "@types/buble": "^0.20.1"
+    "@types/buble": "^0.20.5"
   },
   "peerDependencies": {
     "react": "^19.3.0",
