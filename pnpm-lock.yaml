@@ -1846,7 +1846,7 @@ importers:
         specifier: 3.10.1
         version: link:../docusaurus-utils-validation
       '@mermaid-js/layout-elk':
-        specifier: ^0.2.2
+        specifier: ^0.2.3
         version: 0.2.3(mermaid@11.17.2)
       mermaid:
         specifier: ^11.17.2
