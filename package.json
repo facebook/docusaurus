@@ -105,7 +105,6 @@
     "execa": "^10.0.0",
     "globals": "^17.6.0",
     "husky": "^9.1.7",
-    "image-size": "^2.0.2",
     "jest-serializer-ansi-escapes": "^5.0.0",
     "jest-serializer-react-helmet-async": "^1.0.21",
     "jiti": "^2.7.0",
