@@ -36,7 +36,7 @@ async function doStart(
 
   const reloadableSite = await createReloadableSite({siteDirParam, cliOptions});
 
-  setupSiteFileWatchers(
+  await setupSiteFileWatchers(
     {props: reloadableSite.get().props, cliOptions},
     ({plugin}) => {
       if (plugin) {
