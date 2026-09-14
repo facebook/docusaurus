@@ -57,7 +57,7 @@ jobs:
         # current packages as dependencies instead of deps from npm
         run: node ./packages/create-docusaurus/bin/index.js test-website-in-workspace classic --typescript
       - name: Install test-website-in-workspace project
-        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+        run: pnpm install || pnpm install || pnpm install
         working-directory: test-website-in-workspace
       - name: Start test-website-in-workspace project
         run: pnpm start --no-open
