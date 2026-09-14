@@ -5,12 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {CSSProperties, ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {createContext, useContext, useMemo} from 'react';
 import clsx from 'clsx';
 import rangeParser from 'parse-numeric-range';
 import {ReactContextError} from './reactUtils';
-import type {PrismTheme, PrismThemeEntry} from 'prism-react-renderer';
 import type {WordWrap} from '../hooks/useCodeWordWrap';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
@@ -443,22 +442,6 @@ export function createCodeBlockMetadata(params: {
     lineNumbersStart,
     lineClassNames,
   };
-}
-
-export function getPrismCssVariables(prismTheme: PrismTheme): CSSProperties {
-  const mapping: PrismThemeEntry = {
-    color: '--prism-color',
-    backgroundColor: '--prism-background-color',
-  };
-
-  const properties: {[key: string]: string} = {};
-  Object.entries(prismTheme.plain).forEach(([key, value]) => {
-    const varName = mapping[key as keyof PrismThemeEntry];
-    if (varName && typeof value === 'string') {
-      properties[varName] = value;
-    }
-  });
-  return properties;
 }
 
 type CodeBlockContextValue = {
