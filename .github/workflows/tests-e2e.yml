@@ -94,13 +94,16 @@ jobs:
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
       - name: Generate test-website project against main branch
         # Not using test-release.sh => no verdaccio docker image on Windows
-        run: node ./packages/create-docusaurus/bin/index.js ../test-website classic --typescript --package-manager yarn
+        # We have to generate the test website in workspace so that it uses
+        # current packages as dependencies instead of deps from npm
+        run: |
+          yarn create-docusaurus test-website-in-workspace classic --javascript --package-manager yarn
       - name: Install test-website project with Yarn v1
         run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
-        working-directory: ../test-website
+        working-directory: test-website-in-workspace
       - name: Start test-website project
         run: yarn start --no-open
-        working-directory: ../test-website
+        working-directory: test-website-in-workspace
         env:
           E2E_TEST: true
       - name: Build test-website project
@@ -112,17 +115,14 @@ jobs:
           # See https://github.com/facebook/docusaurus/pull/10590
           NODE_OPTIONS: '--max-old-space-size=200'
           DOCUSAURUS_PERF_LOGGER: 'true'
-        working-directory: ../test-website
-      - name: Copy to CWD
-        # Workaround for actions/upload-artifact, see comment below
-        run: cp -R ../test-website test-website
+        working-directory: test-website-in-workspace
       - name: Upload Website artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: website-e2e-windows
           # Note: actions/upload-artifact can't upload from '../test-website'
           # Error: Invalid pattern '../test-website/build'. Relative pathing '.' and '..' is not allowed.
-          path: test-website/build
+          path: test-website-in-workspace/build
           if-no-files-found: error
 
   yarn-berry:
