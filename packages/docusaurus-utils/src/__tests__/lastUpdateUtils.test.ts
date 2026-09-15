@@ -6,10 +6,13 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {readLastUpdateData} from '../lastUpdateUtils';
+import {readLastUpdateData, readCreationData} from '../lastUpdateUtils';
 import {TEST_VCS} from '../vcs/vcs';
 
-import type {FrontMatterLastUpdate} from '../lastUpdateUtils';
+import type {
+  FrontMatterLastUpdate,
+  FrontMatterCreation,
+} from '../lastUpdateUtils';
 
 describe('readLastUpdateData', () => {
   const testDate = '2021-01-01';
@@ -179,5 +182,121 @@ describe('readLastUpdateData', () => {
     );
     expect(lastUpdatedBy).toEqual(testAuthor);
     expect(lastUpdatedAt).toBeUndefined();
+  });
+});
+
+describe('readCreationData', () => {
+  const testDate = '2021-01-01';
+  const testTimestamp = new Date(testDate).getTime();
+  const testAuthor = 'ozaki';
+
+  async function readData(
+    filePath: string,
+    options: Parameters<typeof readCreationData>[1],
+    creationFrontMatter: Parameters<typeof readCreationData>[2],
+  ) {
+    return readCreationData(filePath, options, creationFrontMatter, TEST_VCS);
+  }
+
+  describe('on untracked Git file', () => {
+    function readUntrackedFile(
+      creationFrontMatter: FrontMatterCreation | undefined,
+    ) {
+      return readData(
+        TEST_VCS.UNTRACKED_FILE_PATH,
+        {showCreatedBy: true, showCreatedTime: true},
+        creationFrontMatter,
+      );
+    }
+
+    it('reads null at/by from Git', async () => {
+      const {createdAt, createdBy} = await readUntrackedFile({});
+      expect(createdAt).toBeNull();
+      expect(createdBy).toBeNull();
+    });
+
+    it('reads null at from Git and author from front matter', async () => {
+      const {createdAt, createdBy} = await readUntrackedFile({
+        author: testAuthor,
+      });
+      expect(createdAt).toBeNull();
+      expect(createdBy).toEqual(testAuthor);
+    });
+
+    it('reads null by from Git and date from front matter', async () => {
+      const {createdAt, createdBy} = await readUntrackedFile({
+        date: testDate,
+      });
+      expect(createdBy).toBeNull();
+      expect(createdAt).toEqual(testTimestamp);
+    });
+  });
+
+  it('read creation time with creation author', async () => {
+    const {createdAt, createdBy} = await readData(
+      '',
+      {showCreatedBy: true, showCreatedTime: true},
+      {date: testDate},
+    );
+    expect(createdAt).toEqual(testTimestamp);
+    expect(createdBy).toBe(TEST_VCS.CREATION_INFO.author);
+  });
+
+  it('read creation author with creation time', async () => {
+    const {createdAt, createdBy} = await readData(
+      '',
+      {showCreatedBy: true, showCreatedTime: true},
+      {author: testAuthor},
+    );
+    expect(createdBy).toEqual(testAuthor);
+    expect(createdAt).toBe(TEST_VCS.CREATION_INFO.timestamp);
+  });
+
+  it('read creation all from front matter', async () => {
+    const {createdAt, createdBy} = await readData(
+      '',
+      {showCreatedBy: true, showCreatedTime: true},
+      {author: testAuthor, date: testDate},
+    );
+    expect(createdBy).toEqual(testAuthor);
+    expect(createdAt).toEqual(testTimestamp);
+  });
+
+  it('read creation default show none', async () => {
+    const creation = await readData(
+      '',
+      {showCreatedBy: false, showCreatedTime: false},
+      {},
+    );
+    expect(creation).toEqual({});
+  });
+
+  it('read creation author show none', async () => {
+    const creation = await readData(
+      '',
+      {showCreatedBy: false, showCreatedTime: false},
+      {author: testAuthor},
+    );
+    expect(creation).toEqual({});
+  });
+
+  it('read creation time show author', async () => {
+    const {createdAt, createdBy} = await readData(
+      '',
+      {showCreatedBy: true, showCreatedTime: false},
+      {date: testDate},
+    );
+    expect(createdBy).toBe(TEST_VCS.CREATION_INFO.author);
+    expect(createdAt).toBeUndefined();
+  });
+
+  it('read creation author show time', async () => {
+    const {createdAt, createdBy} = await readData(
+      '',
+      {showCreatedBy: false, showCreatedTime: true},
+      {date: testDate},
+    );
+    expect(createdBy).toBeUndefined();
+    expect(createdAt).toEqual(testTimestamp);
   });
 });
