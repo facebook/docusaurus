@@ -5,12 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import type {RcFile} from 'syncpack';
 
-const lernaJson = await fs.readJSON('./lerna.json');
-
-const CurrentDocusaurusVersion = lernaJson.version;
+// const lernaJson = await fs.readJSON('./lerna.json');
+// const CurrentDocusaurusVersion = lernaJson.version;
 
 export default {
   source: [
@@ -83,21 +81,29 @@ export default {
     },
 
     {
-      label: 'Monorepo root uses workspace: protocol for internal packages',
-      packages: ['root'],
+      label:
+        'Templates should use pinned versions, not the workspace:* protocol',
+      packages: [
+        'docusaurus-2-classic-template',
+        'docusaurus-2-classic-typescript-template',
+      ],
       dependencies: ['@docusaurus/**'],
-      pinVersion: 'workspace:',
+      pinVersion: '4.0.0', // TODO make this dynamic
     },
 
     {
-      label: 'Internal @docusaurus/* monorepo packages use pinned version',
+      label:
+        'Internal @docusaurus/* monorepo packages use the workspace:* protocol',
       dependencies: [
         '@docusaurus/**',
+        'create-docusaurus',
+        'stylelint-copyright',
 
-        // This one is not a monorepo package
+        // These are not monorepo packages
+        '!@docusaurus/responsive-loader',
         '!@docusaurus/responsive-loader',
       ],
-      pinVersion: CurrentDocusaurusVersion,
+      pinVersion: 'workspace:*',
     },
 
     // Default: all remaining dependencies — highest version wins (syncpack default)
