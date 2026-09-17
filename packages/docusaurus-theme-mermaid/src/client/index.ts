@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useEffect, useMemo, useId} from 'react';
+import {useState, useEffect, useMemo, useId, useRef} from 'react';
 import {useColorMode, useThemeConfig} from '@docusaurus/theme-common';
 import {loadMermaid} from './loadMermaid';
 
@@ -30,11 +30,6 @@ export function useMermaidConfig(): MermaidConfig {
     () => ({startOnLoad: false, ...options, theme}),
     [theme, options],
   );
-}
-
-// Random client-only id, we don't care much but mermaid want an id so...
-function useMermaidId(): string {
-  return useId();
 }
 
 async function renderMermaid({
@@ -86,7 +81,8 @@ export function useMermaidRenderResult({
   config?: MermaidConfig;
 }): RenderResult | null {
   const [result, setResult] = useState<RenderResult | null>(null);
-  const id = useMermaidId();
+  const id = useId();
+  const renderCount = useRef(0);
 
   /*
   For flexibility, we allow the hook to receive a custom Mermaid config
@@ -96,7 +92,10 @@ export function useMermaidRenderResult({
   const config = providedConfig ?? defaultMermaidConfig;
 
   useEffect(() => {
-    renderMermaid({id, text, config})
+    // Mermaid removes existing DOM elements with the requested ID. Reusing an
+    // ID can delete the displayed SVG, which React won't restore if the new
+    // SVG markup is identical. Give every render its own ID instead.
+    renderMermaid({id: `${id}-${renderCount.current++}`, text, config})
       // TODO maybe try to use Suspense here and throw the promise?
       // See also https://github.com/pmndrs/suspend-react
       .then(setResult)
