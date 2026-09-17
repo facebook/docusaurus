@@ -8,7 +8,6 @@
 import webpack from 'webpack';
 import WebpackBar from 'webpackbar';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 import {importRspack} from './importFaster';
 import type {FasterModule} from './importFaster';
 import type {CurrentBundler, DocusaurusConfig} from '@docusaurus/types';
@@ -70,12 +69,12 @@ export async function getCopyPlugin({
   currentBundler,
 }: {
   currentBundler: CurrentBundler;
-}): Promise<typeof CopyWebpackPlugin> {
+}): Promise<typeof webpack.CopyPlugin> {
   if (currentBundler.name === 'rspack') {
     // @ts-expect-error: this exists only in Rspack
     return currentBundler.instance.CopyRspackPlugin;
   }
-  return CopyWebpackPlugin;
+  return currentBundler.instance.CopyPlugin;
 }
 
 export async function getProgressBarPlugin({
