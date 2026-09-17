@@ -22,12 +22,26 @@ export default {
   semverGroups: [
     {
       label: 'Use ~ for TypeScript monorepo root and init templates',
-      dependencies: ['typescript'],
+      // We temporarily use a Dual TypeScript 6 + 7 setup
+      // See https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6.0
+      //  TODO remove once TS-ESLint add TS 7 support
+      //   https://github.com/typescript-eslint/typescript-eslint/issues/10940
+      dependencies: ['typescript', '@typescript/native'],
       range: '~',
     },
   ],
 
   versionGroups: [
+    {
+      // We temporarily use a Dual TypeScript 6 + 7 setup
+      // See https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6.0
+      //  TODO remove once TS-ESLint add TS 7 support
+      //   https://github.com/typescript-eslint/typescript-eslint/issues/10940
+      label: 'Dual TypeScript 6 + 7 setup, installed through npm aliases',
+      dependencies: ['typescript', '@typescript/native'],
+      specifierTypes: ['alias'],
+    },
+
     {
       label: 'Ignore * deps in type-alias packages',
       packages: [

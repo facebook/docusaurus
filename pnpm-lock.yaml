@@ -166,7 +166,7 @@ importers:
         specifier: ^7.8.0
         version: 7.8.0
       '@typescript/native':
-        specifier: npm:typescript@^7.0.2
+        specifier: npm:typescript@~7.0.2
         version: typescript@7.0.2
       '@vitejs/plugin-react':
         specifier: ^6.1.1
@@ -280,7 +280,7 @@ importers:
         specifier: ^14.3.1
         version: 14.3.1
       typescript:
-        specifier: npm:@typescript/typescript6@^6.0.2
+        specifier: npm:@typescript/typescript6@~6.0.2
         version: '@typescript/typescript6@6.0.2'
       typescript-eslint:
         specifier: ^8.70.0
