@@ -877,7 +877,6 @@ describe('handleBrokenLinks', () => {
 
   it('is performant and minimize calls to matchRoutes', async () => {
     const matchRoutesMock = vi.mocked(reactRouterConfig.matchRoutes);
-    vi.clearAllMocks();
 
     const scale = 100;
 
