@@ -1,7 +1,6 @@
 # Project Words - DO NOT TOUCH - This is updated through CI
 abernathyca
 Adriaan
-agentreadyweb
 alexbdebrie
 Alexey
 algoliasearch
@@ -40,7 +39,6 @@ codegen
 codesandbox
 commonmark
 contravariance
-cooldown
 cooldowns
 corejs
 Couriol
@@ -70,7 +68,6 @@ Dogfooding
 dogfooding
 Dyte
 dyte
-easyops
 Endi
 endi
 Endi's
@@ -87,7 +84,6 @@ Français
 froms
 gabrielcsapo
 gclid
-getcanary
 Gifs
 gingergeek
 gingergeekuk
@@ -132,8 +128,6 @@ Lifecycles
 lifecycles
 lightningcss
 Linkify
-llms
-llmstxt
 longlonglonglonglonglonglonglonglonglonglonglong
 Lorber
 lorber
@@ -144,8 +138,6 @@ lunrjs
 Marcey
 marcey
 Marcey's
-Markprompt
-markprompt
 Massoud
 mathjax
 maxlynch
@@ -156,14 +148,10 @@ MDXAST
 MDXHAST
 Mdxjs
 mdxjs
-Meilisearch
-meilisearch
 merveilleuse
 metadatum
 Metastring
 metastring
-metrica
-Metrika
 microdata
 Milnes
 Mindmap
@@ -172,8 +160,6 @@ mkdirs
 mkdn
 mkdocs
 mkdown
-Moesif
-moesif
 Nabors
 Nakagawa
 nand
@@ -190,8 +176,6 @@ npmjs
 opensearch
 opensearchdescription
 opensource
-Orama
-orama
 Orta
 orta
 osascript
@@ -218,7 +202,7 @@ playbtn
 Plushie
 plushie
 plushies
-posthog
+Preapproved
 precached
 precaching
 prerendered
@@ -226,7 +210,6 @@ printfn
 producthunt
 Profilo
 profilo
-protobuffet
 PRPL
 Pyltsyn
 QJPUV
@@ -237,7 +220,6 @@ Quickwit
 quickwit
 rachelnabors
 Ramón
-rangefind
 reactjs
 rearchitecture
 Recma
@@ -293,7 +275,6 @@ styl
 sublabel
 sublicensable
 sublist
-subsetting
 subsubcategory
 subsubfolder
 subsubsection
@@ -331,6 +312,7 @@ unlinkable
 Unlisteds
 unlisteds
 unlocalized
+unminified
 unstub
 unswizzle
 upvotes

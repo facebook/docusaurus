@@ -36,6 +36,13 @@ export async function importRspack(): Promise<FasterModule['rspack']> {
   return faster.rspack;
 }
 
+export async function importRspackDevServer(): Promise<
+  FasterModule['rspackDevServer']
+> {
+  const faster = await ensureFaster();
+  return faster.rspackDevServer;
+}
+
 export async function importSwcLoader(): Promise<string> {
   const faster = await ensureFaster();
   return faster.swcLoader;

@@ -11,8 +11,9 @@ import React, {type ReactNode} from 'react';
 import {render as renderRTL} from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import {fromPartial} from '@total-typescript/shoehorn';
-import {StaticRouter} from 'react-router-dom';
+import {MemoryRouter, StaticRouter} from 'react-router-dom';
 import Link from '../Link';
+import ExecutionEnvironment from '../ExecutionEnvironment';
 import {Context} from '../../docusaurusContext';
 import type {DocusaurusContext} from '@docusaurus/types';
 
@@ -67,6 +68,55 @@ function createLinkRenderer(defaultRendererOptions: Partial<Options> = {}) {
 }
 
 describe('<Link>', () => {
+  it('reuses and disposes its intersection observer across renders', () => {
+    const canUseIntersectionObserver =
+      ExecutionEnvironment.canUseIntersectionObserver;
+    const observers: IntersectionObserver[] = [];
+    const createIntersectionObserver = vi.fn(function IntersectionObserver() {
+      const observer = fromPartial<IntersectionObserver>({
+        disconnect: vi.fn(),
+        observe: vi.fn(),
+        unobserve: vi.fn(),
+      });
+      observers.push(observer);
+      return observer;
+    });
+    vi.stubGlobal('IntersectionObserver', createIntersectionObserver);
+    ExecutionEnvironment.canUseIntersectionObserver = true;
+
+    const context = createDocusaurusContext(defaultOptions);
+    function Wrapper({children}: {children: ReactNode}) {
+      return (
+        <MemoryRouter initialEntries={[defaultOptions.currentLocation]}>
+          <Context.Provider value={context}>{children}</Context.Provider>
+        </MemoryRouter>
+      );
+    }
+
+    try {
+      const {rerender, unmount} = renderRTL(<Link to="/docs/intro" />, {
+        wrapper: Wrapper,
+      });
+      expect(createIntersectionObserver).toHaveBeenCalledTimes(1);
+
+      rerender(<Link to="/docs/intro" />);
+      expect(createIntersectionObserver).toHaveBeenCalledTimes(1);
+      expect(observers[0]!.disconnect).not.toHaveBeenCalled();
+
+      rerender(<Link to="/docs/api" />);
+      expect(createIntersectionObserver).toHaveBeenCalledTimes(2);
+      expect(observers[0]!.disconnect).toHaveBeenCalledTimes(1);
+      expect(observers[1]!.disconnect).not.toHaveBeenCalled();
+
+      unmount();
+      expect(observers[1]!.disconnect).toHaveBeenCalledTimes(1);
+    } finally {
+      ExecutionEnvironment.canUseIntersectionObserver =
+        canUseIntersectionObserver;
+      vi.unstubAllGlobals();
+    }
+  });
+
   describe('using "browser" router', () => {
     const render = createLinkRenderer({router: 'browser'});
 

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as eta from 'eta';
+import {Eta} from 'eta';
 import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
 import {PerfLogger} from '@docusaurus/logger';
 import type {SSGParams} from './ssgParams';
@@ -35,11 +35,10 @@ export type SSGTemplateCompiled = (data: SSGTemplateData) => string;
 export async function compileSSGTemplate(
   template: string,
 ): Promise<SSGTemplateCompiled> {
-  const compiledTemplate = eta.compile(template.trim(), {
-    rmWhitespace: true,
-  });
+  const eta = new Eta({rmWhitespace: true});
+  const compiledTemplate = eta.compile(template.trim());
 
-  return (data: SSGTemplateData) => compiledTemplate(data, eta.defaultConfig);
+  return (data: SSGTemplateData) => eta.render(compiledTemplate, data);
 }
 
 /**

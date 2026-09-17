@@ -66,6 +66,7 @@ export {useWindowSize} from './hooks/useWindowSize';
 
 export {
   translateTagsPageTitle,
+  TagsPageLinkLabel,
   listTagsByLetters,
   type TagLetterEntry,
 } from './utils/tagsUtils';

@@ -41,6 +41,7 @@
     "admin/scripts",
     "website/src/data/users.tsx",
     "website/src/data/tweets.tsx",
+    "website/community/2-resources.mdx",
     "website/docusaurus.config.localized.json",
     "website/_dogfooding/_pages tests/diagrams.mdx",
     "*.xyz",
@@ -52,6 +53,6 @@
     "*.min.*",
     "jest/vendor"
   ],
-  "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"],
+  "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*", "\\u\\{[0-9A-F]{4}\\}"],
   "enableFiletypes": ["mdx"]
 }

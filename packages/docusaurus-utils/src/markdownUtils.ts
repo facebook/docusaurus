@@ -7,6 +7,7 @@
 
 import logger from '@docusaurus/logger';
 import matter from '@11ty/gray-matter';
+
 import type {
   ParseFrontMatter,
   DefaultParseFrontMatter,
@@ -15,6 +16,41 @@ import type {
 // Some utilities for parsing Markdown content. These things are only used on
 // server-side when we infer metadata like `title` and `description` from the
 // content. Most parsing is still done in MDX through the mdx-loader.
+
+const MDXEscapingUtils = (function () {
+  const MARKUP_CHARS = ['_', ':', '*', '<', '>', '~', '!', '[', ']', '{', '}'];
+
+  const markerOf = (char: string) => `\u{FFFE}${char.codePointAt(0)}\u{FFFF}`;
+
+  const MARKUP_CHARS_ESCAPE_MAP = new Map(
+    MARKUP_CHARS.map((char) => [char, markerOf(char)]),
+  );
+  const MARKUP_CHARS_UNESCAPE_MAP = new Map(
+    MARKUP_CHARS.map((char) => [markerOf(char), char]),
+  );
+
+  const MARKUP_CHARS_REGEX = new RegExp(
+    `[${RegExp.escape(MARKUP_CHARS.join(''))}]`,
+    'g',
+  );
+  const MARKUP_MARKERS_REGEX = /\u{FFFE}\d+\u{FFFF}/gu;
+
+  function escapeMDX(str: string) {
+    return str.replace(
+      MARKUP_CHARS_REGEX,
+      (char) => MARKUP_CHARS_ESCAPE_MAP.get(char)!,
+    );
+  }
+
+  function unescapeMDX(str: string) {
+    return str.replace(
+      MARKUP_MARKERS_REGEX,
+      (marker) => MARKUP_CHARS_UNESCAPE_MAP.get(marker) ?? marker,
+    );
+  }
+
+  return {escapeMDX, unescapeMDX};
+})();
 
 /**
  * Hacky temporary escape hatch for Crowdin bad MDX support
@@ -142,11 +178,30 @@ export function createExcerpt(fileString: string): string | undefined {
       continue;
     }
 
-    const cleanedLine = fileLine
+    // Pre/postprocessing to handle MDX special chars within inline code blocks
+    // See https://github.com/facebook/docusaurus/pull/11821
+    function preprocessLine(str: string) {
+      return (
+        str
+          // Ignore internal Unicode markers found in input
+          // This ensures no possible conflict with our MDX escaping logic
+          .replace(/[\u{FFFE}\u{FFFF}]/gu, '')
+          // Unwrap inline code and escape special MDX chars within it
+          .replace(/`(?<text>.+?)`/g, (_, text) => {
+            return MDXEscapingUtils.escapeMDX(text);
+          })
+      );
+    }
+    function postProcessLine(str: string) {
+      // Restore escaped MDX chars that have been previously escaped
+      return MDXEscapingUtils.unescapeMDX(str);
+    }
+
+    const cleanedLine = preprocessLine(fileLine)
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
-      .replace(/^#[^#]+#?/gm, '')
+      .replace(/^#(?!#).*/gm, '')
       // Remove Markdown + ATX-style headers
       .replace(/^#{1,6}\s*(?<text>[^#]*?)\s*#{0,6}/gm, '$1')
       // Remove emphasis.
@@ -159,8 +214,6 @@ export function createExcerpt(fileString: string): string | undefined {
       .replace(/\[\^.+?\](?:: .*$)?/g, '')
       // Remove inline links.
       .replace(/\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
-      // Remove inline code.
-      .replace(/`(?<text>.+?)`/g, '$1')
       // Remove blockquotes.
       .replace(/^\s{0,3}>\s?/g, '')
       // Remove admonition definition.
@@ -169,10 +222,12 @@ export function createExcerpt(fileString: string): string | undefined {
       .replace(/\s?:(?:::|[^:\n])+:/g, '')
       // Remove custom Markdown heading id.
       .replace(/\{#*[\w-]+\}/, '')
+      // Collapse whitespace left behind by the removals above.
+      .replace(/\s+/g, ' ')
       .trim();
 
     if (cleanedLine) {
-      return cleanedLine;
+      return postProcessLine(cleanedLine);
     }
   }
 
@@ -255,18 +310,18 @@ export function parseMarkdownContentTitle(
   const removeContentTitleOption = options?.removeContentTitle ?? false;
 
   const content = contentUntrimmed.trim();
-  // We only need to detect import statements that will be parsed by MDX as
-  // `import` nodes, as broken syntax can't render anyways. That means any block
-  // that has `import` at the very beginning and surrounded by empty lines.
-  const contentWithoutImport = content
-    .replace(/^(?:import\s(?:.|\r?\n(?!\r?\n))*(?:\r?\n){2,})*/, '')
+  // We only need to detect import/export statements that will be parsed by MDX as
+  // `import` or `export` nodes, as broken syntax can't render anyways. That means any block
+  // that has `import` or `export` at the very beginning and surrounded by empty lines.
+  const contentWithoutImportExport = content
+    .replace(/^(?:(?:import|export)\s(?:.|\r?\n(?!\r?\n))*(?:\r?\n){2,})*/, '')
     .trim();
 
   const regularTitleMatch = /^#[ \t]+(?<title>[^ \t].*)(?:\r?\n|$)/.exec(
-    contentWithoutImport,
+    contentWithoutImportExport,
   );
   const alternateTitleMatch = /^(?<title>.*)\r?\n=+(?:\r?\n|$)/.exec(
-    contentWithoutImport,
+    contentWithoutImportExport,
   );
 
   const titleMatch = regularTitleMatch ?? alternateTitleMatch;

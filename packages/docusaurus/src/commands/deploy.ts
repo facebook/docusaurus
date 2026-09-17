@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import os from 'os';
 import logger from '@docusaurus/logger';
-import execa from 'execa';
+import {execa} from 'execa';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
 import {loadContext, type LoadContextParams} from '../server/site';
 import {build} from './build/build';
@@ -30,14 +30,16 @@ const debugMode = !!process.env.DOCUSAURUS_DEPLOY_DEBUG;
 
 // Log executed commands so that user can figure out mistakes on his own
 // for example: https://github.com/facebook/docusaurus/issues/3875
-function exec(cmd: string, options?: {log?: boolean; failfast?: boolean}) {
+async function exec(
+  file: string,
+  args: string[],
+  options?: {log?: boolean; failfast?: boolean},
+) {
   const log = options?.log ?? true;
-  const failfast = options?.failfast ?? false;
+  const failfast = options?.failfast ?? true;
+  const cmd = [file, ...args].join(' ');
   try {
-    // TODO migrate to execa(file,[...args]) instead
-    //  Use async/await everything
-    //  Avoid execa.command: the args need to be escaped manually
-    const result = execa.commandSync(cmd);
+    const result = await execa(file, args, {reject: false});
     if (log || debugMode) {
       logger.info`code=${obfuscateGitPass(
         cmd,
@@ -48,7 +50,8 @@ function exec(cmd: string, options?: {log?: boolean; failfast?: boolean}) {
     }
     if (failfast && result.exitCode !== 0) {
       throw new Error(
-        `Command returned unexpected exitCode ${result.exitCode}`,
+        `Command returned unexpected exitCode ${result.exitCode}
+${result.stderr}`,
       );
     }
     return result;
@@ -63,14 +66,8 @@ In CWD code=${process.cwd()}`,
   }
 }
 
-// Execa escape args and add necessary quotes automatically
-// When using Execa.command, the args containing spaces must be escaped manually
-function escapeArg(arg: string): string {
-  return arg.replaceAll(' ', '\\ ');
-}
-
-function hasGit() {
-  return exec('git --version').exitCode === 0;
+async function hasGit() {
+  return (await exec('git', ['--version'], {failfast: false})).exitCode === 0;
 }
 
 export async function deploy(
@@ -93,26 +90,23 @@ This behavior can have SEO impacts and create relative link issues.
   }
 
   logger.info('Deploy command invoked...');
-  if (!hasGit()) {
+  if (!(await hasGit())) {
     throw new Error('Git not installed or not added to PATH!');
   }
 
   // Source repo is the repo from where the command is invoked
-  const {stdout} = exec('git remote get-url origin', {
-    log: false,
-    failfast: true,
-  });
-  const sourceRepoUrl = stdout.trim();
+  const sourceRepoUrl = (
+    await exec('git', ['remote', 'get-url', 'origin'], {
+      log: false,
+    })
+  ).stdout.trim();
 
   // The source branch; defaults to the currently checked out branch
   const sourceBranch =
     process.env.CURRENT_BRANCH ??
-    exec('git rev-parse --abbrev-ref HEAD', {
-      log: false,
-      failfast: true,
-    })
-      ?.stdout?.toString()
-      .trim();
+    (
+      await exec('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {log: false})
+    ).stdout.trim();
 
   const gitUser = process.env.GIT_USER;
 
@@ -157,10 +151,7 @@ This behavior can have SEO impacts and create relative link issues.
   const isPullRequest =
     process.env.CI_PULL_REQUEST ?? process.env.CIRCLE_PULL_REQUEST;
   if (isPullRequest) {
-    exec('echo "Skipping deploy on a pull request."', {
-      log: false,
-      failfast: true,
-    });
+    logger.info('Skipping deploy on a pull request.');
     process.exit(0);
   }
 
@@ -225,7 +216,9 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
 
   // Save the commit hash that triggers publish-gh-pages before checking
   // out to deployment branch.
-  const currentCommit = exec('git rev-parse HEAD')?.stdout?.toString().trim();
+  const currentCommit = (
+    await exec('git', ['rev-parse', 'HEAD'])
+  ).stdout.trim();
 
   const runDeploy = async (outputDirectory: string) => {
     const targetDirectory = cliOptions.targetDir ?? '.';
@@ -238,56 +231,67 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     // Clones the repo into the temp folder and checks out the target branch.
     // If the branch doesn't exist, it creates a new one based on the
     // repository default branch.
-    if (
-      exec(
-        `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} ${escapeArg(
-          toPath,
-        )}`,
-      ).exitCode !== 0
-    ) {
-      exec(`git clone --depth 1 ${deploymentRepoURL} ${escapeArg(toPath)}`);
-      exec(`git checkout -b ${deploymentBranch}`);
+    const cloneResult = await exec(
+      'git',
+      [
+        'clone',
+        '--depth',
+        '1',
+        '--branch',
+        deploymentBranch,
+        deploymentRepoURL,
+        toPath,
+      ],
+      {failfast: false},
+    );
+    if (cloneResult.exitCode !== 0) {
+      await exec('git', ['clone', '--depth', '1', deploymentRepoURL, toPath]);
+      await exec('git', ['checkout', '-b', deploymentBranch]);
     }
 
     // Clear out any existing contents in the target directory
-    exec(`git rm -rf ${escapeArg(targetDirectory)}`, {
-      log: false,
-      failfast: true,
-    });
+    await exec('git', ['rm', '-rf', targetDirectory], {log: false});
 
     const targetPath = path.join(toPath, targetDirectory);
     try {
       await fs.copy(fromPath, targetPath);
     } catch (err) {
-      logger.error`Copying build assets from path=${fromPath} to path=${targetPath} failed.`;
-      throw err;
+      throw new Error(
+        `Failed to copy build assets from path=${fromPath} to path=${targetPath}.`,
+        {cause: err},
+      );
     }
-    exec('git add --all', {failfast: true});
+    await exec('git', ['add', '--all']);
 
     const gitUserName = process.env.GIT_USER_NAME;
     if (gitUserName) {
-      exec(`git config user.name ${escapeArg(gitUserName)}`, {failfast: true});
+      await exec('git', ['config', 'user.name', gitUserName]);
     }
 
     const gitUserEmail = process.env.GIT_USER_EMAIL;
     if (gitUserEmail) {
-      exec(`git config user.email ${escapeArg(gitUserEmail)}`, {
-        failfast: true,
-      });
+      await exec('git', ['config', 'user.email', gitUserEmail]);
     }
 
     const commitMessage =
       process.env.CUSTOM_COMMIT_MESSAGE ??
       `Deploy website - based on ${currentCommit}`;
-    const commitResults = exec(
-      `git commit -m ${escapeArg(commitMessage)} --allow-empty`,
+    // The commit might return a non-zero value when site is up to date.
+    const commitResults = await exec(
+      'git',
+      ['commit', '-m', commitMessage, '--allow-empty'],
+      {failfast: false},
     );
-    if (exec(`git push --force origin ${deploymentBranch}`).exitCode !== 0) {
+    const pushResult = await exec(
+      'git',
+      ['push', '--force', 'origin', deploymentBranch],
+      {failfast: false},
+    );
+    if (pushResult.exitCode !== 0) {
       throw new Error(
         'Running "git push" command failed. Does the GitHub user account you are using have push access to the repository?',
       );
     } else if (commitResults.exitCode === 0) {
-      // The commit might return a non-zero value when site is up to date.
       let websiteURL;
       if (githubHost === 'github.com') {
         websiteURL = projectName.includes('.github.io')
@@ -297,7 +301,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
         // GitHub enterprise hosting.
         websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
       }
-      exec(`echo "Website is live at ${websiteURL}."`, {failfast: true});
+      logger.success`Website is live at url=${websiteURL}.`;
       process.exit(0);
     }
   };

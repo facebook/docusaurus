@@ -12,9 +12,10 @@ import {
   PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
+  TagsPageLinkLabel,
   usePluralForm,
 } from '@docusaurus/theme-common';
-import Translate, {translate} from '@docusaurus/Translate';
+import {translate} from '@docusaurus/Translate';
 import SearchMetadata from '@theme/SearchMetadata';
 import type {Props} from '@theme/DocTagDocListPage';
 import Unlisted from '@theme/ContentVisibility/Unlisted';
@@ -88,11 +89,7 @@ function DocTagDocListPageContent({
               <Heading as="h1">{title}</Heading>
               {tag.description && <p>{tag.description}</p>}
               <Link href={tag.allTagsPath}>
-                <Translate
-                  id="theme.tags.tagsPageLink"
-                  description="The label of the link targeting the tag list page">
-                  View all tags
-                </Translate>
+                <TagsPageLinkLabel />
               </Link>
             </header>
             <section className="margin-vert--lg">

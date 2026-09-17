@@ -5,17 +5,34 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import {styleText} from 'node:util';
 import type {ReportingSeverity} from '@docusaurus/types';
 
 type InterpolatableValue = string | number | (string | number)[];
 
-const path = (msg: unknown): string => chalk.cyan.underline(`"${String(msg)}"`);
-const url = (msg: unknown): string => chalk.cyan.underline(msg);
-const name = (msg: unknown): string => chalk.blue.bold(msg);
-const code = (msg: unknown): string => chalk.cyan(`\`${String(msg)}\``);
-const subdue = (msg: unknown): string => chalk.gray(msg);
-const num = (msg: unknown): string => chalk.yellow(msg);
+type StyleTextFormat = Parameters<typeof styleText>[0];
+
+const CommonStyles = {
+  blueBold: ['blue', 'bold'],
+  cyanUnderline: ['cyan', 'underline'],
+} satisfies Record<string, StyleTextFormat>;
+
+const Prefixes = {
+  success: styleText(['green', 'bold'], '[SUCCESS]'),
+  info: styleText(['cyan', 'bold'], '[INFO]'),
+  warning: styleText(['yellow', 'bold'], '[WARNING]'),
+  error: styleText(['red', 'bold'], '[ERROR]'),
+};
+
+const path = (msg: unknown): string =>
+  styleText(CommonStyles.cyanUnderline, `"${String(msg)}"`);
+const url = (msg: unknown): string =>
+  styleText(CommonStyles.cyanUnderline, String(msg));
+const name = (msg: unknown): string =>
+  styleText(CommonStyles.blueBold, String(msg));
+const code = (msg: unknown): string => styleText('cyan', `\`${String(msg)}\``);
+const subdue = (msg: unknown): string => styleText('gray', String(msg));
+const num = (msg: unknown): string => styleText('yellow', String(msg));
 
 function interpolate(
   msgs: TemplateStringsArray,
@@ -73,7 +90,7 @@ function info(
 ): void;
 function info(msg: unknown, ...values: InterpolatableValue[]): void {
   console.info(
-    `${chalk.cyan.bold('[INFO]')} ${
+    `${Prefixes.info} ${
       values.length === 0
         ? stringify(msg)
         : interpolate(msg as TemplateStringsArray, ...values)
@@ -87,8 +104,9 @@ function warn(
 ): void;
 function warn(msg: unknown, ...values: InterpolatableValue[]): void {
   console.warn(
-    chalk.yellow(
-      `${chalk.bold('[WARNING]')} ${
+    styleText(
+      'yellow',
+      `${Prefixes.warning} ${
         values.length === 0
           ? stringify(msg)
           : interpolate(msg as TemplateStringsArray, ...values)
@@ -103,8 +121,9 @@ function error(
 ): void;
 function error(msg: unknown, ...values: InterpolatableValue[]): void {
   console.error(
-    chalk.red(
-      `${chalk.bold('[ERROR]')} ${
+    styleText(
+      'red',
+      `${Prefixes.error} ${
         values.length === 0
           ? stringify(msg)
           : interpolate(msg as TemplateStringsArray, ...values)
@@ -119,7 +138,7 @@ function success(
 ): void;
 function success(msg: unknown, ...values: InterpolatableValue[]): void {
   console.log(
-    `${chalk.green.bold('[SUCCESS]')} ${
+    `${Prefixes.success} ${
       values.length === 0
         ? stringify(msg)
         : interpolate(msg as TemplateStringsArray, ...values)
@@ -175,12 +194,12 @@ function report(reportingSeverity: ReportingSeverity): typeof success {
 }
 
 const logger = {
-  red: (msg: string | number): string => chalk.red(msg),
-  yellow: (msg: string | number): string => chalk.yellow(msg),
-  green: (msg: string | number): string => chalk.green(msg),
-  cyan: (msg: string | number): string => chalk.cyan(msg),
-  bold: (msg: string | number): string => chalk.bold(msg),
-  dim: (msg: string | number): string => chalk.dim(msg),
+  red: (msg: string | number): string => styleText('red', String(msg)),
+  yellow: (msg: string | number): string => styleText('yellow', String(msg)),
+  green: (msg: string | number): string => styleText('green', String(msg)),
+  cyan: (msg: string | number): string => styleText('cyan', String(msg)),
+  bold: (msg: string | number): string => styleText('bold', String(msg)),
+  dim: (msg: string | number): string => styleText('dim', String(msg)),
   path,
   url,
   name,

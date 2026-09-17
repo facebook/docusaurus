@@ -6,6 +6,7 @@
  */
 
 import {rspack as Rspack} from '@rspack/core';
+import {RspackDevServer} from '@rspack/dev-server';
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
 import semver from 'semver';
@@ -39,7 +40,9 @@ export const getSwcLoaderOptions = ({
   };
 };
 
-export const rspack: typeof Rspack = Rspack;
+export const rspack = Rspack;
+
+export const rspackDevServer = RspackDevServer;
 
 type SwcHtmlMinifier = (typeof import('@swc/html'))['minify'];
 

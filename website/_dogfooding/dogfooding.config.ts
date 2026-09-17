@@ -7,6 +7,7 @@
 
 import path from 'path';
 import RecmaMDXDisplayName from 'recma-mdx-displayname';
+import {isArgosBuild} from './argosBuild';
 import type {PluginConfig, Plugin} from '@docusaurus/types';
 import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
 import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
@@ -17,14 +18,6 @@ import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 // See also https://github.com/facebook/docusaurus/issues/11208
 // TODO duplicated :/
 export const showLastUpdate = process.env.DOCUSAURUS_CURRENT_LOCALE === 'en';
-
-export const isArgosBuild = process.env.DOCUSAURUS_ARGOS_BUILD === 'true';
-
-if (isArgosBuild) {
-  console.warn(
-    'Building site for Argos CI - additional dogfooding pages will be preserved in sitemap',
-  );
-}
 
 export function dogfoodingTransformFrontMatter(frontMatter: {
   [key: string]: unknown;

@@ -25,7 +25,7 @@ jobs:
   windows-test:
     name: Windows Tests
     timeout-minutes: 30
-    runs-on: windows-latest
+    runs-on: windows-8-core
     strategy:
       matrix:
         node: ['24.14', '26']
@@ -35,9 +35,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ matrix.node }}
           cache: pnpm
@@ -75,3 +75,7 @@ jobs:
         run: |
           pnpm add typescript@latest --save-exact -D -w --ignore-scripts
           pnpm --filter website typecheck --project tsconfig.skipLibCheck.json
+        env:
+          # Ignore "a linked package is out of date" pnpm errors
+          # that can happen after a fresh TS-related package publish.
+          pnpm_config_verify_deps_before_run: warn

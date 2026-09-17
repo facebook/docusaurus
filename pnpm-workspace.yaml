@@ -27,10 +27,16 @@ minimumReleaseAge: 10080 # 7 days in minutes
 minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
 minimumReleaseAgeExclude:
+  - react@19.3.0
+  - react-dom@19.3.0
+  - scheduler@0.28.0
+  - '@types/react@19.3.0'
+  - '@types/react-dom@19.3.0'
   - tar@7.5.16
   - pnpm
   - typescript
-  - '@typescript/*'
+  - '@rspack/*'
+  - '@crowdin/*'
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 525600 # ignore packages published 1+ year ago
@@ -38,6 +44,7 @@ trustPolicyExclude:
   - 'tinyexec@1.2.2'
   - '@trickfilm400/rollup-plugin-off-main-thread@3.0.0-pre1'
   - 'browserslist-load-config@1.0.2'
+  - '@vercel/detect-agent@1.2.5' # See https://github.com/vercel/vercel/issues/17408
 
 trustLockfile: false
 blockExoticSubdeps: true

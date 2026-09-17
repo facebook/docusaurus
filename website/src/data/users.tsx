@@ -7,6 +7,7 @@
 
 import {translate} from '@docusaurus/Translate';
 import {sortBy} from '@site/src/utils/jsUtils';
+import type {Props as IdealImageProps} from '@theme/IdealImage';
 
 /*
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE
@@ -2386,7 +2387,7 @@ const Users: User[] = [
 export type User = {
   title: string;
   description: string;
-  preview: string | null; // null = use our serverless screenshot service
+  preview: IdealImageProps['img'] | string | null; // null = use our serverless screenshot service
   website: string;
   source: string | null;
   tags: TagType[];

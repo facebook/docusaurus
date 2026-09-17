@@ -33,9 +33,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ matrix.node }}
           cache: pnpm
@@ -47,12 +47,12 @@ jobs:
         run: pnpm --filter @docusaurus/theme-common removeThemeInternalReexport
       - name: Docusaurus Build
         # We build 2 locales to ensure a localized site doesn't leak memory
-        # See https://github.com/facebook/docusaurus/pull/10599
+        # See https://github.com/facebook/docusaurus/issues/10944
         run: pnpm build:website:fast --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
-          NODE_OPTIONS: '--max-old-space-size=450'
+          NODE_OPTIONS: '--max-old-space-size=300'
           DOCUSAURUS_PERF_LOGGER: 'true'
       - name: Docusaurus site CSS order
         run: pnpm --filter website test:css-order
@@ -72,3 +72,7 @@ jobs:
         run: |
           pnpm add typescript@latest --save-exact -D -w --ignore-scripts
           pnpm --filter website typecheck --project tsconfig.skipLibCheck.json
+        env:
+          # Ignore "a linked package is out of date" pnpm errors
+          # that can happen after a fresh TS-related package publish.
+          pnpm_config_verify_deps_before_run: warn

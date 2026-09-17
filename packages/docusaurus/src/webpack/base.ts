@@ -286,6 +286,10 @@ export async function createBaseConfig({
               // See https://github.com/facebook/docusaurus/pull/10423
               localIdentName: `[local]_[contenthash:base64:4]`,
               exportOnlyLocals: isServer,
+              // Export CSS module class names compatible with css-loader v6
+              // export ".themedComponent--dark" instead of .themedComponentDark
+              // See https://github.com/webpack/css-loader/releases/tag/v7.0.0
+              exportLocalsConvention: 'as-is',
             },
             importLoaders: 1,
             sourceMap: !isProd,

@@ -22,6 +22,7 @@ const sidebars = {
     },
     'doc-without-sidebar',
     'doc-with-another-sidebar',
+    'doc-with-complex-description',
     'doc-with-last-update',
     {
       type: 'category',

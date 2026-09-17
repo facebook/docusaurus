@@ -25,16 +25,19 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Install pnpm
-        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
 
       - name: Set up Node LTS
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: lts/*
           cache: pnpm
 
       - name: Installation
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+
+      - name: AutoFix Duplicated deps
+        run: pnpm lint:deps:fix
 
       - name: AutoFix Formatting
         run: pnpm format
@@ -55,5 +58,6 @@ jobs:
         run: git diff
 
       - uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
+        if: github.event.pull_request.head.repo.full_name == github.repository
         with:
           commit_message: 'refactor: apply lint autofix'

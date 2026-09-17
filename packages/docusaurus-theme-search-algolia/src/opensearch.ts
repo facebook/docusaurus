@@ -8,15 +8,17 @@
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
-import {defaultConfig, compile} from 'eta';
+import {Eta} from 'eta';
 import {normalizeUrl} from '@docusaurus/utils';
 import openSearchTemplate from './templates/opensearch';
 
 import type {HtmlTags, LoadContext} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
 
+const eta = new Eta();
+
 const getCompiledOpenSearchTemplate = _.memoize(() =>
-  compile(openSearchTemplate.trim()),
+  eta.compile(openSearchTemplate.trim()),
 );
 
 function renderOpenSearchTemplate(data: {
@@ -26,7 +28,7 @@ function renderOpenSearchTemplate(data: {
   faviconUrl: string | null;
 }) {
   const compiled = getCompiledOpenSearchTemplate();
-  return compiled(data, defaultConfig);
+  return eta.render(compiled, data);
 }
 
 const OPEN_SEARCH_FILENAME = 'opensearch.xml';

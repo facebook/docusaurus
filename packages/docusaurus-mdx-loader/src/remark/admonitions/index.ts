@@ -107,7 +107,9 @@ const plugin: Plugin<Partial<AdmonitionOptions>[], Root> = function plugin(
           hName: 'admonition',
           hProperties: {
             ...(textOnlyTitle && {title: textOnlyTitle}),
-            ...(node.attributes?.class && {className: node.attributes.class}),
+            ...(node.attributes?.class && {
+              className: node.attributes.class.split(' '),
+            }),
             ...(node.attributes?.id && {id: node.attributes.id}),
             type: node.name,
           },

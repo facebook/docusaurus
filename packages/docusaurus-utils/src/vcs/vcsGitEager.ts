@@ -56,6 +56,7 @@ type InitializeResult =
   | {
       type: 'success';
       filesMap: GitFileInfoMap;
+      siteDir: string;
     }
   | {
       type: 'error';
@@ -74,7 +75,7 @@ async function initialize({
       return {type: 'error', reason: 'not-in-worktree'};
     }
     const filesMap = await loadAllGitFilesInfoMap(siteDir);
-    return {type: 'success', filesMap};
+    return {type: 'success', filesMap, siteDir};
   } catch (error) {
     return {type: 'error', reason: 'unknown', cause: error as Error};
   }
@@ -86,7 +87,8 @@ export function createVcsGitEagerConfig(): VcsConfig {
   async function getGitFileInfo(filePath: string): Promise<GitFileInfo | null> {
     const init = (await initPromise)!;
     if (init.type === 'success') {
-      return init.filesMap.get(filePath) ?? null;
+      const key = resolve(init.siteDir, filePath);
+      return init.filesMap.get(key) ?? null;
     } else if (init.reason === 'not-in-worktree') {
       throw new Error(
         `This Docusaurus site is outside any Git worktree.

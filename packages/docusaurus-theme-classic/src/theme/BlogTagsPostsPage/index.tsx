@@ -7,10 +7,10 @@
 
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
-import Translate from '@docusaurus/Translate';
 import {
   PageMetadata,
   HtmlClassNameProvider,
+  TagsPageLinkLabel,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
 import {useBlogTagsPostsPageTitle} from '@docusaurus/theme-common/internal';
@@ -47,11 +47,7 @@ function BlogTagsPostsPageContent({
         <Heading as="h1">{title}</Heading>
         {tag.description && <p>{tag.description}</p>}
         <Link href={tag.allTagsPath}>
-          <Translate
-            id="theme.tags.tagsPageLink"
-            description="The label of the link targeting the tag list page">
-            View All Tags
-          </Translate>
+          <TagsPageLinkLabel />
         </Link>
       </header>
       <BlogPostItems items={items} />
