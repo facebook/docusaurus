@@ -5,6 +5,8 @@ description: Writing diagrams with Mermaid
 slug: /markdown-features/diagrams
 ---
 
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
 # Diagrams
 
 Diagrams can be rendered using [Mermaid](https://mermaid-js.github.io/mermaid/) in a code block.
@@ -40,6 +42,8 @@ graph TD;
 ```
 ````
 
+<BrowserWindow>
+
 ```mermaid
 graph TD;
     A-->B;
@@ -47,6 +51,8 @@ graph TD;
     B-->D;
     C-->D;
 ```
+
+</BrowserWindow>
 
 See the [Mermaid syntax documentation](https://mermaid-js.github.io/mermaid/#/./n00b-syntaxReference) for more information on the Mermaid syntax.
 
@@ -141,6 +147,36 @@ graph TD;
 ```
 ````
 
+The same diagram rendered with each layout:
+
+<div className="row">
+<div className="col col--6">
+
+**ELK (default)**
+
+<BrowserWindow>
+
+```mermaid
+---
+config:
+  layout: elk
+---
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+</BrowserWindow>
+
+</div>
+<div className="col col--6">
+
+**Dagre**
+
+<BrowserWindow>
+
 ```mermaid
 ---
 config:
@@ -152,3 +188,8 @@ graph TD;
     B-->D;
     C-->D;
 ```
+
+</BrowserWindow>
+
+</div>
+</div>
