@@ -128,8 +128,9 @@
     "stylelint-config-standard": "^40.0.0",
     "stylelint-copyright": "workspace:*",
     "syncpack": "^14.3.1",
-    "typescript": "~7.0.2",
-    "typescript-eslint": "^8.69.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "typescript-eslint": "^8.70.0",
     "vitest": "^4.1.11"
   },
   "packageManager": "pnpm@12.3.4",
