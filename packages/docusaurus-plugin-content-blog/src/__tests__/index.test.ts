@@ -124,6 +124,10 @@ const getPlugin = async (
       generatedFilesDir,
       i18n,
       localizationDir,
+      siteMarkdownLinks: {
+        sourceToPermalink: new Map(),
+        resolveMarkdownLink: () => null,
+      },
     } as LoadContext,
     validateOptions({
       validate: normalizePluginOptions as Validate<

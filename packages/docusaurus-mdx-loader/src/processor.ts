@@ -130,11 +130,12 @@ async function createProcessorFactory() {
         } satisfies TransformImageOptions,
       ],
       // TODO merge this with transformLinks?
-      options.resolveMarkdownLink
+      options.resolveMarkdownLink || options.resolveSiteMarkdownLink
         ? [
             resolveMarkdownLinks,
             {
               resolveMarkdownLink: options.resolveMarkdownLink,
+              resolveSiteMarkdownLink: options.resolveSiteMarkdownLink,
               onBrokenMarkdownLinks:
                 options.markdownConfig.hooks.onBrokenMarkdownLinks,
             } satisfies ResolveMarkdownLinksOptions,

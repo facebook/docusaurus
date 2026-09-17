@@ -24,6 +24,13 @@ export type Options = Partial<MDXOptions> & {
     frontMatter: {[key: string]: unknown};
   }) => {[key: string]: unknown};
   resolveMarkdownLink?: ResolveMarkdownLink;
+  /**
+   * Fallback used when `resolveMarkdownLink` can't resolve a Markdown link.
+   * It looks at the Markdown files of the whole site, not just those of the
+   * plugin owning the source file, and enables cross-plugin Markdown links.
+   * See https://github.com/facebook/docusaurus/issues/9117
+   */
+  resolveSiteMarkdownLink?: ResolveMarkdownLink;
 
   // Will usually be created by "createMDXLoaderItem"
   processors?: SimpleProcessors;
