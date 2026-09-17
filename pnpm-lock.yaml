@@ -1962,7 +1962,7 @@ importers:
   packages/docusaurus-tsconfig:
     dependencies:
       typescript:
-        specifier: '>=7.0'
+        specifier: '>=6.0'
         version: 7.0.2
 
   packages/docusaurus-types:
