@@ -184,6 +184,17 @@ export function parseBlogFileName(
   return {date: undefined, text, slug};
 }
 
+export function parseBlogPostDate(date: string | Date): Date {
+  if (typeof date === 'string') {
+    // YAML 1.2 leaves timestamps as strings, including their timezone.
+    // Treat dates without an explicit timezone as UTC.
+    const hasTimeZone = /[t ]\d.*(?:z|[+-]\d{1,2}(?::?\d{2})?)$/i.test(date);
+    return new Date(hasTimeZone ? date : `${date}Z`);
+  }
+  // Custom front matter parsers can still return Date objects.
+  return date;
+}
+
 async function parseBlogPostMarkdownFile({
   filePath,
   parseFrontMatter,
@@ -276,18 +287,7 @@ async function processBlogSourceFile(
   async function getDate(): Promise<Date> {
     // Prefer user-defined date.
     if (frontMatter.date) {
-      if (typeof frontMatter.date === 'string') {
-        // YAML 1.2 leaves timestamps as strings, including their timezone.
-        // Treat dates without an explicit timezone as UTC.
-        const hasTimeZone = /[t ]\d.*(?:z|[+-]\d{1,2}(?::?\d{2})?)$/i.test(
-          frontMatter.date,
-        );
-        return new Date(
-          hasTimeZone ? frontMatter.date : `${frontMatter.date}Z`,
-        );
-      }
-      // Custom front matter parsers can still return Date objects.
-      return frontMatter.date;
+      return parseBlogPostDate(frontMatter.date);
     } else if (parsedBlogFileName.date) {
       return parsedBlogFileName.date;
     }

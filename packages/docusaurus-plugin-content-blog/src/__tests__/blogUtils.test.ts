@@ -10,6 +10,7 @@ import {fromPartial} from '@total-typescript/shoehorn';
 import {
   truncate,
   parseBlogFileName,
+  parseBlogPostDate,
   paginateBlogPosts,
   applyProcessBlogPosts,
   reportUntruncatedBlogPosts,
@@ -211,6 +212,25 @@ describe('paginateBlogPosts', () => {
         pageBasePath: 'customPageBasePath',
       }),
     ).toMatchSnapshot();
+  });
+});
+
+describe('parseBlogPostDate', () => {
+  it.each([
+    ['2026-09-18', '2026-09-18T00:00:00.000Z'],
+    ['2026-09-18T12:00:00', '2026-09-18T12:00:00.000Z'],
+    ['2026-09-18T12:00:00Z', '2026-09-18T12:00:00.000Z'],
+    ['2026-09-18T12:00:00+02:00', '2026-09-18T10:00:00.000Z'],
+    ['2026-09-18T12:00:00-0430', '2026-09-18T16:30:00.000Z'],
+    ['2026-09-18 12:00:00 +02', '2026-09-18T10:00:00.000Z'],
+    ['2026-09-18 2:00:00 -5', '2026-09-18T07:00:00.000Z'],
+  ])('preserves the publication date for %s', (date, expected) => {
+    expect(parseBlogPostDate(date).toISOString()).toBe(expected);
+  });
+
+  it('preserves Date objects returned by custom front matter parsers', () => {
+    const date = new Date('2026-09-18T12:00:00Z');
+    expect(parseBlogPostDate(date)).toBe(date);
   });
 });
 
