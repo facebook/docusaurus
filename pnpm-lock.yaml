@@ -328,8 +328,8 @@ importers:
         specifier: workspace:*
         version: link:../docusaurus-logger
       commander:
-        specifier: ^5.1.0
-        version: 5.1.0
+        specifier: ^15.0.0
+        version: 15.0.0
       cross-spawn:
         specifier: ^7.0.6
         version: 7.0.6
@@ -472,8 +472,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       commander:
-        specifier: ^5.1.0
-        version: 5.1.0
+        specifier: ^15.0.0
+        version: 15.0.0
       core-js:
         specifier: ^3.50.0
         version: 3.50.0
@@ -1155,8 +1155,8 @@ importers:
         specifier: ^2.3.4
         version: 2.3.4
       commander:
-        specifier: ^5.1.0
-        version: 5.1.0
+        specifier: ^15.0.0
+        version: 15.0.0
       picomatch:
         specifier: ^2.3.2
         version: 2.3.2
@@ -1980,8 +1980,8 @@ importers:
         specifier: 19.3.0
         version: 19.3.0
       commander:
-        specifier: ^5.1.0
-        version: 5.1.0
+        specifier: ^15.0.0
+        version: 15.0.0
       joi:
         specifier: ^18.2.8
         version: 18.2.8
@@ -7265,10 +7265,6 @@ packages:
 
   commander@4.1.1:
     resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
-    engines: {node: '>= 6'}
-
-  commander@5.1.0:
-    resolution: {integrity: sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==}
     engines: {node: '>= 6'}
 
   commander@7.2.0:
@@ -18729,8 +18725,6 @@ snapshots:
   commander@2.20.3: {}
 
   commander@4.1.1: {}
-
-  commander@5.1.0: {}
 
   commander@7.2.0: {}
 

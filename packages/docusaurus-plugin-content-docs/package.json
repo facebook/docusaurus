@@ -57,7 +57,7 @@
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
     "@types/picomatch": "^2.3.4",
-    "commander": "^5.1.0",
+    "commander": "^15.0.0",
     "picomatch": "^2.3.2"
   },
   "peerDependencies": {

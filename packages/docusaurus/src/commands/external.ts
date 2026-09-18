@@ -8,14 +8,14 @@
 import fs from 'fs-extra';
 import {loadContext} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
-import type {CommanderStatic} from 'commander';
+import type {Command} from 'commander';
 
 export async function externalCommand({
   cli,
   siteDir: siteDirInput,
   config,
 }: {
-  cli: CommanderStatic;
+  cli: Command;
   siteDir: string;
   config: string | undefined;
 }): Promise<void> {
