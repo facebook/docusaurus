@@ -5,16 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {describe, expect, it, vi} from 'vitest';
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
+import fs from 'fs-extra';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {
   truncate,
   parseBlogFileName,
+  parseFrontMatterDate,
+  getBlogPostDate,
   paginateBlogPosts,
   applyProcessBlogPosts,
   reportUntruncatedBlogPosts,
 } from '../blogUtils';
 import type {BlogPost} from '@docusaurus/plugin-content-blog';
+import type {VcsConfig} from '@docusaurus/types';
 
 describe('truncate', () => {
   it('truncates texts', () => {
@@ -211,6 +215,113 @@ describe('paginateBlogPosts', () => {
         pageBasePath: 'customPageBasePath',
       }),
     ).toMatchSnapshot();
+  });
+});
+
+describe.each(['UTC', 'America/New_York', 'Asia/Tokyo'])(
+  'parseFrontMatterDate in %s',
+  (timeZone) => {
+    beforeEach(() => vi.stubEnv('TZ', timeZone));
+    afterEach(() => vi.unstubAllEnvs());
+    it.each([
+      ['2026-09-18', '2026-09-18T00:00:00.000Z'],
+      ['2026-09-18T12:00:00', '2026-09-18T12:00:00.000Z'],
+      ['2026-09-18T12:00:00Z', '2026-09-18T12:00:00.000Z'],
+      ['2026-09-18T12:00:00+02:00', '2026-09-18T10:00:00.000Z'],
+      ['2026-09-18T12:00:00-0430', '2026-09-18T16:30:00.000Z'],
+      ['2026-09-18 12:00:00 +02', '2026-09-18T10:00:00.000Z'],
+      ['2026-09-18 2:00:00 -5', '2026-09-18T07:00:00.000Z'],
+      ['2026-09-18\t12:00:00+02:00', '2026-09-18T10:00:00.000Z'],
+      ['2026-09-18 12:00:00 +02:00 ', '2026-09-18T10:00:00.000Z'],
+      [' 2026-09-18 ', '2026-09-18T00:00:00.000Z'],
+      ['2026/09/18', '2026-09-18T00:00:00.000Z'],
+      ['2001-12-14t21:59:43.10-05:00', '2001-12-15T02:59:43.100Z'],
+      ['2001-12-15 2:59:43.10', '2001-12-15T02:59:43.100Z'],
+      ['2026-09-18T12:00:00+05:45', '2026-09-18T06:15:00.000Z'],
+    ])('preserves the publication date for %s', (date, expected) => {
+      expect(parseFrontMatterDate(date).toISOString()).toBe(expected);
+    });
+
+    it('preserves Date objects returned by custom front matter parsers', () => {
+      const date = new Date('2026-09-18T12:00:00Z');
+      expect(parseFrontMatterDate(date)).toBe(date);
+    });
+  },
+);
+
+describe('getBlogPostDate', () => {
+  function setup() {
+    const getFileCreationInfo = vi.fn<VcsConfig['getFileCreationInfo']>();
+    const params = {
+      filePath: '/blog/post.md',
+      vcs: fromPartial<VcsConfig>({getFileCreationInfo}),
+    };
+    return {params, getFileCreationInfo};
+  }
+
+  it.each(['2026-09-18', new Date('2026-09-18')])(
+    'prefers front matter over the filename and VCS: %s',
+    async (frontMatterDate) => {
+      const {params, getFileCreationInfo} = setup();
+      await expect(
+        getBlogPostDate({
+          ...params,
+          frontMatterDate,
+          filenameDate: new Date('2020-01-01'),
+        }),
+      ).resolves.toEqual(new Date('2026-09-18'));
+      expect(getFileCreationInfo).not.toHaveBeenCalled();
+    },
+  );
+
+  it('prefers the filename over VCS', async () => {
+    const {params, getFileCreationInfo} = setup();
+    const filenameDate = new Date('2020-01-01');
+    await expect(getBlogPostDate({...params, filenameDate})).resolves.toBe(
+      filenameDate,
+    );
+    expect(getFileCreationInfo).not.toHaveBeenCalled();
+  });
+
+  it.each([0, Date.UTC(2020, 0, 1)])(
+    'uses the VCS creation timestamp: %s',
+    async (timestamp) => {
+      const {params, getFileCreationInfo} = setup();
+      getFileCreationInfo.mockResolvedValue({timestamp, author: 'Author'});
+      await expect(getBlogPostDate(params)).resolves.toEqual(
+        new Date(timestamp),
+      );
+      expect(getFileCreationInfo).toHaveBeenCalledExactlyOnceWith(
+        params.filePath,
+      );
+    },
+  );
+
+  it('falls back to filesystem birthtime when VCS has no creation info', async () => {
+    const {params, getFileCreationInfo} = setup();
+    getFileCreationInfo.mockResolvedValue(null);
+    const birthtime = new Date('2020-01-01');
+    using stat = vi
+      .spyOn(fs, 'stat')
+      .mockResolvedValue(fromPartial({birthtime}));
+    await expect(getBlogPostDate(params)).resolves.toBe(birthtime);
+    expect(stat).toHaveBeenCalledExactlyOnceWith(params.filePath);
+  });
+
+  it('propagates VCS errors', async () => {
+    const {params, getFileCreationInfo} = setup();
+    const error = new Error('VCS unavailable');
+    getFileCreationInfo.mockRejectedValue(error);
+    await expect(getBlogPostDate(params)).rejects.toBe(error);
+  });
+
+  it('propagates filesystem errors', async () => {
+    const {params, getFileCreationInfo} = setup();
+    getFileCreationInfo.mockResolvedValue(null);
+    const error = new Error('File not found');
+    using stat = vi.spyOn(fs, 'stat').mockRejectedValue(error);
+    await expect(getBlogPostDate(params)).rejects.toBe(error);
+    expect(stat).toHaveBeenCalledExactlyOnceWith(params.filePath);
   });
 });
 

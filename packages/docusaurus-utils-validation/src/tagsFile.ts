@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'node:path';
 import _ from 'lodash';
 import Joi from 'joi';
-import YAML from 'js-yaml';
+import * as YAML from 'js-yaml';
 import {getContentPathList, getDataFilePath} from '@docusaurus/utils';
 import type {
   ContentPaths,

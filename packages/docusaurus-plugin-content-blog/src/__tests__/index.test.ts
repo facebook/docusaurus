@@ -207,7 +207,7 @@ describe('blog plugin', () => {
       authors: [],
       date: new Date('2019-01-01'),
       frontMatter: {
-        date: new Date('2019-01-01'),
+        date: '2019-01-01',
         tags: ['date'],
       },
       prevItem: undefined,
@@ -363,7 +363,7 @@ describe('blog plugin', () => {
         author: 'Sébastien Lorber',
         author_title: 'Docusaurus maintainer',
         author_url: 'https://sebastienlorber.com',
-        date: new Date('2020-08-15'),
+        date: '2020-08-15',
         slug: '/simple/slug',
         title: 'Simple Slug',
       },
@@ -385,7 +385,7 @@ describe('blog plugin', () => {
       authors: [],
       date: new Date('2019-01-02'),
       frontMatter: {
-        date: new Date('2019-01-02'),
+        date: '2019-01-02',
       },
       prevItem: undefined,
       tags: [],
