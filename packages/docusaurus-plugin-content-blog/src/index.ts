@@ -104,7 +104,7 @@ export default async function pluginContentBlog(
 
   const contentHelpers = createContentHelpers();
 
-  async function createBlogMDXLoaderRule(): Promise<RuleSetRule> {
+  function createBlogMDXLoaderRule(): RuleSetRule {
     const {
       admonitions,
       rehypePlugins,
@@ -117,7 +117,7 @@ export default async function pluginContentBlog(
 
     const contentDirs = getContentPathList(contentPaths);
 
-    const mdxLoaderItem = await createMDXLoaderItem({
+    const mdxLoaderItem = createMDXLoaderItem({
       useCrossCompilerCache: siteConfig.future.faster.mdxCrossCompilerCache,
       admonitions,
       remarkPlugins,
@@ -187,7 +187,7 @@ export default async function pluginContentBlog(
     };
   }
 
-  const blogMDXLoaderRule = await createBlogMDXLoaderRule();
+  const blogMDXLoaderRule = createBlogMDXLoaderRule();
 
   return {
     name: PluginName,

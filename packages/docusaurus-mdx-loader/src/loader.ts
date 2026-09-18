@@ -21,13 +21,7 @@ import {
 import type {WebpackCompilerName} from '@docusaurus/utils';
 import type {Options} from './options';
 import type {LoaderContext} from 'webpack';
-
-// TODO as of April 2023, no way to import/re-export this ESM type easily :/
-// This might change soon, likely after TS 5.2
-// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
-type Pluggable = any; // TODO fix this asap
-
-export type MDXPlugin = Pluggable;
+export type {MDXPlugin} from './processor';
 
 async function loadMDX({
   fileContent,

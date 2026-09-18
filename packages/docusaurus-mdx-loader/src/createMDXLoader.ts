@@ -13,9 +13,7 @@ type CreateOptions = {
   useCrossCompilerCache?: boolean;
 };
 
-async function normalizeOptions(
-  optionsInput: Options & CreateOptions,
-): Promise<Options> {
+function normalizeOptions(optionsInput: Options & CreateOptions): Options {
   // Skip eager processor creation in tests
   if (process.env.NODE_ENV === 'test' || process.env.VITEST) {
     return optionsInput;
@@ -26,7 +24,7 @@ async function normalizeOptions(
   // We create the processor earlier here, to avoid the lazy processor creating
   // Lazy creation messes-up with Rsdoctor ability to measure mdx-loader perf
   if (!options.processors) {
-    options = {...options, processors: await createProcessors({options})};
+    options = {...options, processors: createProcessors({options})};
   }
 
   // Cross-compiler cache permits to compile client/server MDX only once
@@ -43,25 +41,25 @@ async function normalizeOptions(
   return options;
 }
 
-export async function createMDXLoaderItem(
+export function createMDXLoaderItem(
   options: Options & CreateOptions,
-): Promise<RuleSetUseItem> {
+): RuleSetUseItem {
   return {
     loader: require.resolve('./index'),
-    options: await normalizeOptions(options),
+    options: normalizeOptions(options),
   };
 }
 
-export async function createMDXLoaderRule({
+export function createMDXLoaderRule({
   include,
   options,
 }: {
   include: RuleSetRule['include'];
   options: Options & CreateOptions;
-}): Promise<RuleSetRule> {
+}): RuleSetRule {
   return {
     test: /\.mdx?$/i,
     include,
-    use: [await createMDXLoaderItem(options)],
+    use: [createMDXLoaderItem(options)],
   };
 }
