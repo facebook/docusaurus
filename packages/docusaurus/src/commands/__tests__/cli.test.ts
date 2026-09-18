@@ -203,35 +203,42 @@ describe('CLI', () => {
   });
 
   describe('extendCLI', () => {
-    it.each([
-      {args: [], label: 'default', cache: true},
-      {
-        args: ['--label', 'custom', '--no-cache'],
+    it('preserves legacy action callbacks with default options', async () => {
+      const result = await testCommand(['cliPlugin:legacy', 'input', 'extra']);
+      expect(result.exit).toBeUndefined();
+      expect(result.stderr).toBe('');
+      expect(JSON.parse(result.stdout)).toEqual({
+        input: 'input',
+        label: 'default',
+        cache: true,
+        options: {label: 'default', cache: true},
+        name: 'cliPlugin:legacy',
+        args: ['input', 'extra'],
+        thisIsCommand: true,
+      });
+    });
+
+    it('preserves legacy action callbacks with custom options', async () => {
+      const result = await testCommand([
+        'cliPlugin:legacy',
+        'input',
+        'extra',
+        '--label',
+        'custom',
+        '--no-cache',
+      ]);
+      expect(result.exit).toBeUndefined();
+      expect(result.stderr).toBe('');
+      expect(JSON.parse(result.stdout)).toEqual({
+        input: 'input',
         label: 'custom',
         cache: false,
-      },
-    ])(
-      'preserves legacy action callbacks: $args',
-      async ({args, label, cache}) => {
-        const result = await testCommand([
-          'cliPlugin:legacy',
-          'input',
-          'extra',
-          ...args,
-        ]);
-        expect(result.exit).toBeUndefined();
-        expect(result.stderr).toBe('');
-        expect(JSON.parse(result.stdout)).toEqual({
-          input: 'input',
-          label,
-          cache,
-          options: {label, cache},
-          name: 'cliPlugin:legacy',
-          args: ['input', 'extra'],
-          thisIsCommand: true,
-        });
-      },
-    );
+        options: {label: 'custom', cache: false},
+        name: 'cliPlugin:legacy',
+        args: ['input', 'extra'],
+        thisIsCommand: true,
+      });
+    });
 
     it('inherits compatibility settings in nested commands', async () => {
       const result = await testCommand([
