@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {visit} from 'unist-util-visit';
+import {transformNode} from '../utils';
 import type {Transformer, Plugin} from 'unified';
 import type {ContainerDirective} from 'mdast-util-directive';
-import type {Parent, Root} from 'mdast';
+import type {Paragraph, Root} from 'mdast';
+import type {MdxJsxFlowElement, MdxJsxTextElement} from 'mdast-util-mdx';
 
 export type AdmonitionOptions = {
   keywords: string[];
@@ -50,7 +52,7 @@ export function normalizeAdmonitionOptions(
   return options;
 }
 
-type DirectiveLabel = Parent;
+type DirectiveLabel = Paragraph;
 type DirectiveContent = ContainerDirective['children'];
 
 function parseDirective(directive: ContainerDirective): {
@@ -68,12 +70,9 @@ function parseDirective(directive: ContainerDirective): {
 }
 
 function getTextOnlyTitle(directiveLabel: DirectiveLabel): string | undefined {
-  const isTextOnlyTitle =
-    directiveLabel?.children?.length === 1 &&
-    directiveLabel?.children?.[0]?.type === 'text';
-  return isTextOnlyTitle
-    ? // @ts-expect-error: todo type
-      (directiveLabel?.children?.[0].value as string)
+  const [child] = directiveLabel.children;
+  return directiveLabel.children.length === 1 && child?.type === 'text'
+    ? child.value
     : undefined;
 }
 
@@ -98,38 +97,41 @@ const plugin: Plugin<Partial<AdmonitionOptions>[], Root> = function plugin(
           node.attributes?.title ??
           (directiveLabel ? getTextOnlyTitle(directiveLabel) : undefined);
 
-        // Transform the mdast directive node to a hast admonition node
-        // See https://github.com/syntax-tree/mdast-util-to-hast#fields-on-nodes
-        // TODO in MDX v2 we should transform the whole directive to
-        // mdxJsxFlowElement instead of using hast
-        node.data = {
-          hName: 'admonition',
-          hProperties: {
-            ...(textOnlyTitle && {title: textOnlyTitle}),
-            ...(node.attributes?.class && {
-              className: node.attributes.class.split(' '),
-            }),
-            ...(node.attributes?.id && {id: node.attributes.id}),
-            type: node.name,
-          },
+        const properties = {
+          ...(textOnlyTitle && {title: textOnlyTitle}),
+          ...(node.attributes?.class && {className: node.attributes.class}),
+          ...(node.attributes?.id && {id: node.attributes.id}),
+          type: node.name,
         };
-        node.children = contentNodes;
+        const admonition: MdxJsxFlowElement = {
+          type: 'mdxJsxFlowElement',
+          name: 'Admonition',
+          attributes: Object.entries(properties).map(([name, value]) => ({
+            type: 'mdxJsxAttribute',
+            name,
+            value,
+          })),
+          children: contentNodes,
+          position: node.position,
+        };
 
-        // TODO legacy MDX v1 <mdxAdmonitionTitle> workaround
-        // v1: not possible to inject complex JSX elements as props
-        // v2: now possible: use a mdxJsxFlowElement element
-        if (directiveLabel && !textOnlyTitle) {
-          const complexTitleNode = {
-            type: 'mdxAdmonitionTitle',
-            data: {
-              hName: 'mdxAdmonitionTitle',
-              hProperties: {},
-            },
+        // Keep rich titles in the tree for subsequent remark/rehype plugins.
+        // The final rehype plugin moves this fragment into the title prop.
+        if (directiveLabel?.children.length && !textOnlyTitle) {
+          const complexTitleNode: MdxJsxTextElement = {
+            type: 'mdxJsxTextElement',
+            name: null,
+            attributes: [],
+            data: {admonitionTitle: true},
             children: directiveLabel.children,
+            position: directiveLabel.position,
           };
-          // @ts-expect-error: invented node type
-          node.children.unshift(complexTitleNode);
+          // MDX supports inline JSX here without an extra paragraph wrapper.
+          // @ts-expect-error: JSX flow children are typed as block content only
+          admonition.children.unshift(complexTitleNode);
         }
+
+        transformNode(node, admonition);
       }
     });
   };

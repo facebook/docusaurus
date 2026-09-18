@@ -9,8 +9,7 @@ import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import {remark} from 'remark';
 import directives from 'remark-directive';
-import remark2rehype from 'remark-rehype';
-import stringify from 'rehype-stringify';
+import mdx from 'remark-mdx';
 import {read} from 'to-vfile';
 import plugin, {type PluginOptions} from '../index';
 import admonition from '../../admonitions';
@@ -24,8 +23,7 @@ const getProcessor = (options?: Partial<PluginOptions>) => {
       onUnusedMarkdownDirectives: 'warn',
       ...options,
     })
-    .use(remark2rehype)
-    .use(stringify);
+    .use(mdx);
 };
 
 const processFixture = async (

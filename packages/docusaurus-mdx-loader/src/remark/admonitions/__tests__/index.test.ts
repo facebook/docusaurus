@@ -9,9 +9,9 @@ import {describe, expect, it} from 'vitest';
 import path from 'path';
 import {remark} from 'remark';
 import directives from 'remark-directive';
-import remark2rehype from 'remark-rehype';
-import stringify from 'rehype-stringify';
+import mdx from 'remark-mdx';
 import {read} from 'to-vfile';
+import {visit} from 'unist-util-visit';
 import preprocessor from '../../../preprocessor';
 import plugin, {DefaultAdmonitionOptions} from '../index';
 import type {AdmonitionOptions} from '../index';
@@ -31,34 +31,41 @@ const processFixture = async (
       mdx1Compat: {
         admonitions: true,
         comments: false,
-        headingIds: false,
+        headingIds: true,
       },
     },
   });
 
-  /*
-  // TODO we shouldn't use rehype in these tests
-  // this requires to re-implement admonitions with mdxJsxFlowElement
-  const {default: mdx} = await import('remark-mdx');
-  const result = await remark()
-    .use(directives)
-    .use(plugin)
-    .use(mdx)
-    .process(fileContentPreprocessed);
-  return result.value;
-   */
-
   const result = await remark()
     .use(directives)
     .use(plugin, options)
-    .use(remark2rehype)
-    .use(stringify)
+    .use(mdx)
     .process(fileContentPreprocessed);
 
   return result.value;
 };
 
 describe('admonitions remark plugin', () => {
+  it('exposes standard JSX nodes to subsequent remark plugins', async () => {
+    const processor = remark().use(directives).use(plugin).use(mdx);
+    const tree = await processor.run(
+      processor.parse(':::note[**Title**]\nBody\n:::'),
+    );
+    const nodeTypes: string[] = [];
+    visit(tree, (node) => {
+      nodeTypes.push(node.type);
+    });
+    expect(nodeTypes).toEqual([
+      'root',
+      'mdxJsxFlowElement',
+      'mdxJsxTextElement',
+      'strong',
+      'text',
+      'paragraph',
+      'text',
+    ]);
+  });
+
   it('base', async () => {
     const result = await processFixture('base');
     await expect(result).toMatchSnapshot();
