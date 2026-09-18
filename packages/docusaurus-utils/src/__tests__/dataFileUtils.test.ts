@@ -160,11 +160,25 @@ describe('getDataFileData', () => {
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `
       [Error: The file at "packages/docusaurus-utils/src/__tests__/__fixtures__/dataFiles/dataFiles/invalid.yml" looks invalid (not Yaml nor JSON).]
-      Cause: [YAMLException: end of the stream or a document separator is expected (1:1)
+      Cause: [YAMLException: expected the node content, but found ',' (1:13)
 
-       1 | }{{{{12434665¨£%£%%£%£}}}}
-      -----^]
+       1 | value: [one,,two]
+      -----------------^]
     `,
+    );
+  });
+
+  it('uses YAML 1.2 core types for data files', async () => {
+    await expect(testFile('schema.yml')).resolves.toEqual({
+      date: '2000-07-23',
+      defaults: {title: 'Default title'},
+      page: {'<<': {title: 'Default title'}},
+    });
+  });
+
+  it('rejects data files without a YAML document', async () => {
+    await expect(testFile('comments.yml')).rejects.toThrow(
+      'looks invalid (not Yaml nor JSON)',
     );
   });
 });

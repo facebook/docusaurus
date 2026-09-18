@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import logger from '@docusaurus/logger';
-import Yaml from 'js-yaml';
+import * as Yaml from 'js-yaml';
 import {findAsyncSequential} from './index';
 import type {ContentPaths} from './markdownLinks';
 

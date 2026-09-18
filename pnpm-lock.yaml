@@ -1124,8 +1124,8 @@ importers:
         specifier: ^11.4.0
         version: 11.4.0
       js-yaml:
-        specifier: ^4.3.2
-        version: 4.3.2
+        specifier: ^5.4.1
+        version: 5.4.1
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -1148,9 +1148,6 @@ importers:
         specifier: ^5.111.0
         version: 5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@25.9.5))(svgo@4.1.0)(uglify-js@3.19.3)
     devDependencies:
-      '@types/js-yaml':
-        specifier: ^4.0.9
-        version: 4.0.9
       '@types/picomatch':
         specifier: ^2.3.4
         version: 2.3.4
@@ -2007,8 +2004,8 @@ importers:
   packages/docusaurus-utils:
     dependencies:
       '@11ty/gray-matter':
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^3.0.0
+        version: 3.0.0
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger
@@ -2034,8 +2031,8 @@ importers:
         specifier: ^2.7.0
         version: 2.7.0
       js-yaml:
-        specifier: ^4.3.2
-        version: 4.3.2
+        specifier: ^5.4.1
+        version: 5.4.1
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -2070,9 +2067,6 @@ importers:
       '@types/dedent':
         specifier: ^0.7.2
         version: 0.7.2
-      '@types/js-yaml':
-        specifier: ^4.0.9
-        version: 4.0.9
       '@types/micromatch':
         specifier: ^4.0.10
         version: 4.0.10
@@ -2110,18 +2104,14 @@ importers:
         specifier: ^18.2.8
         version: 18.2.8
       js-yaml:
-        specifier: ^4.3.2
-        version: 4.3.2
+        specifier: ^5.4.1
+        version: 5.4.1
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
-    devDependencies:
-      '@types/js-yaml':
-        specifier: ^4.0.9
-        version: 4.0.9
 
   packages/eslint-plugin:
     dependencies:
@@ -2314,8 +2304,8 @@ importers:
 
 packages:
 
-  '@11ty/gray-matter@2.1.0':
-    resolution: {integrity: sha512-fNdBOb3MgDz/1UCIoeY4wDuGbp+/3s5y6UrsyfMabECbh/CVycj7Er33JXqSxRwxrRKXcGE1Jipuq/1mODInsQ==}
+  '@11ty/gray-matter@3.0.0':
+    resolution: {integrity: sha512-mi6KB36DZCpCfCb9XP3NtDDNXe1N0jKtuFj9mTCZNy5H7vTabODyMgFmmOiGIGJKt+i8mJqEb/REtK+JTEzlpQ==}
     engines: {node: '>=11'}
 
   '@adobe/css-tools@4.5.0':
@@ -6074,9 +6064,6 @@ packages:
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha512-pk2B1NWalF9toCRu6gjBzR69syFjP4Od8WRAX+0mmf9lAjCRicLOWc+ZrxZHx/0XRjotgkF9t6iaMJ+aXcOdZQ==}
 
-  '@types/js-yaml@4.0.9':
-    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
-
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
@@ -9477,6 +9464,10 @@ packages:
 
   js-yaml@4.3.2:
     resolution: {integrity: sha512-SFNOvSJ+Dgf/9An904Yx+CgSlIPCkIpao4qo51lpee25TIRejdH3rhR4EZMGoNx3/TP3O+wzWuiTFl4sqbltzA==}
+    hasBin: true
+
+  js-yaml@5.4.1:
+    resolution: {integrity: sha512-28R/k+NAjeuf7+CKlTxWZVExJGwVVLwY06DgEnOMz2gEpfNkDcD7QvyiVPT0xy0XXhU8vHsd4Ot42OOPdJG7dQ==}
     hasBin: true
 
   jsdoc-type-pratt-parser@9.2.1:
@@ -13262,9 +13253,9 @@ packages:
 
 snapshots:
 
-  '@11ty/gray-matter@2.1.0':
+  '@11ty/gray-matter@3.0.0':
     dependencies:
-      js-yaml: 4.3.2
+      js-yaml: 5.4.1
       section-matter: 1.0.0
 
   '@adobe/css-tools@4.5.0': {}
@@ -17411,8 +17402,6 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-report': 3.0.3
 
-  '@types/js-yaml@4.0.9': {}
-
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
@@ -21387,6 +21376,10 @@ snapshots:
       argparse: 2.0.1
 
   js-yaml@4.3.2:
+    dependencies:
+      argparse: 2.0.1
+
+  js-yaml@5.4.1:
     dependencies:
       argparse: 2.0.1
 

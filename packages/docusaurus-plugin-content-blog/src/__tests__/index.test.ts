@@ -7,6 +7,9 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
+import fs from 'fs-extra';
+import {mkdtempDisposable} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {posixPath, getLocaleConfig, TEST_VCS} from '@docusaurus/utils';
 import {DEFAULT_FUTURE_CONFIG} from '@docusaurus/core/src/server/configValidation';
@@ -160,6 +163,27 @@ const getBlogTags = async (
 };
 
 describe('blog plugin', () => {
+  it.each([
+    ['2026-09-18', '2026-09-18T00:00:00.000Z'],
+    ['2026-09-18T12:00:00', '2026-09-18T12:00:00.000Z'],
+    ['2026-09-18T12:00:00Z', '2026-09-18T12:00:00.000Z'],
+    ['2026-09-18T12:00:00+02:00', '2026-09-18T10:00:00.000Z'],
+    ['2026-09-18T12:00:00-0430', '2026-09-18T16:30:00.000Z'],
+    ['2026-09-18 12:00:00 +02', '2026-09-18T10:00:00.000Z'],
+    ['2026-09-18 2:00:00 -5', '2026-09-18T07:00:00.000Z'],
+  ])('preserves the publication date for %s', async (date, expected) => {
+    await using site = await mkdtempDisposable(
+      path.join(tmpdir(), 'blog-date-'),
+    );
+    await fs.outputFile(
+      path.join(site.path, 'blog', 'post.md'),
+      `---\ndate: ${date}\n---\n# Post`,
+    );
+    const [post] = await getBlogPosts(site.path);
+    expect(post!.metadata.date.toISOString()).toBe(expected);
+    expect(post!.metadata.frontMatter.date).toBe(date);
+  });
+
   describe('getPathsToWatch', () => {
     async function runTest({translate}: {translate: boolean}) {
       const siteDir = path.join(__dirname, '__fixtures__', 'website');
@@ -207,7 +231,7 @@ describe('blog plugin', () => {
       authors: [],
       date: new Date('2019-01-01'),
       frontMatter: {
-        date: new Date('2019-01-01'),
+        date: '2019-01-01',
         tags: ['date'],
       },
       prevItem: undefined,
@@ -363,7 +387,7 @@ describe('blog plugin', () => {
         author: 'Sébastien Lorber',
         author_title: 'Docusaurus maintainer',
         author_url: 'https://sebastienlorber.com',
-        date: new Date('2020-08-15'),
+        date: '2020-08-15',
         slug: '/simple/slug',
         title: 'Simple Slug',
       },
@@ -385,7 +409,7 @@ describe('blog plugin', () => {
       authors: [],
       date: new Date('2019-01-02'),
       frontMatter: {
-        date: new Date('2019-01-02'),
+        date: '2019-01-02',
       },
       prevItem: undefined,
       tags: [],

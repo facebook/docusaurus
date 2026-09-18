@@ -277,10 +277,16 @@ async function processBlogSourceFile(
     // Prefer user-defined date.
     if (frontMatter.date) {
       if (typeof frontMatter.date === 'string') {
-        // Always treat dates as UTC by adding the `Z`
-        return new Date(`${frontMatter.date}Z`);
+        // YAML 1.2 leaves timestamps as strings, including their timezone.
+        // Treat dates without an explicit timezone as UTC.
+        const hasTimeZone = /[t ]\d.*(?:z|[+-]\d{1,2}(?::?\d{2})?)$/i.test(
+          frontMatter.date,
+        );
+        return new Date(
+          hasTimeZone ? frontMatter.date : `${frontMatter.date}Z`,
+        );
       }
-      // YAML only converts YYYY-MM-DD to dates and leaves others as strings.
+      // Custom front matter parsers can still return Date objects.
       return frontMatter.date;
     } else if (parsedBlogFileName.date) {
       return parsedBlogFileName.date;
