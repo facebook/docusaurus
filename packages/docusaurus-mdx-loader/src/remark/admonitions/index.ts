@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {visit} from 'unist-util-visit';
 import type {Transformer, Plugin} from 'unified';
 import type {ContainerDirective} from 'mdast-util-directive';
 import type {Parent, Root} from 'mdast';
@@ -82,9 +83,7 @@ const plugin: Plugin<Partial<AdmonitionOptions>[], Root> = function plugin(
 ): Transformer<Root> {
   const {keywords} = normalizeAdmonitionOptions(optionsInput);
 
-  return async (root) => {
-    const {visit} = await import('unist-util-visit');
-
+  return (root) => {
     visit(root, (node) => {
       if (node.type === 'containerDirective') {
         const isAdmonition = keywords.includes(node.name);
@@ -107,7 +106,9 @@ const plugin: Plugin<Partial<AdmonitionOptions>[], Root> = function plugin(
           hName: 'admonition',
           hProperties: {
             ...(textOnlyTitle && {title: textOnlyTitle}),
-            ...(node.attributes?.class && {className: node.attributes.class}),
+            ...(node.attributes?.class && {
+              className: node.attributes.class.split(' '),
+            }),
             ...(node.attributes?.id && {id: node.attributes.id}),
             type: node.name,
           },

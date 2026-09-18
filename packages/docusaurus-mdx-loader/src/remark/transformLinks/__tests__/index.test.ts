@@ -7,7 +7,9 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
-import vfile from 'to-vfile';
+import {remark} from 'remark';
+import mdx from 'remark-mdx';
+import {read} from 'to-vfile';
 import plugin, {type PluginOptions} from '..';
 import transformImage from '../../transformImage';
 
@@ -18,9 +20,7 @@ const staticDirs = [
   path.join(siteDir, 'static2'),
 ];
 
-const getProcessor = async (options?: Partial<PluginOptions>) => {
-  const {remark} = await import('remark');
-  const {default: mdx} = await import('remark-mdx');
+const getProcessor = (options?: Partial<PluginOptions>) => {
   return remark()
     .use(mdx)
     .use(transformImage, {
@@ -40,8 +40,8 @@ const processFixture = async (
   name: string,
   options?: Partial<PluginOptions>,
 ) => {
-  const processor = await getProcessor(options);
-  const file = await vfile.read(path.join(siteDir, `${name}.md`));
+  const processor = getProcessor(options);
+  const file = await read(path.join(siteDir, `${name}.md`));
   const result = await processor.process(file);
   return result.value.toString().trim();
 };
@@ -50,7 +50,7 @@ const processContent = async (
   content: string,
   options?: Partial<PluginOptions>,
 ) => {
-  const processor = await getProcessor(options);
+  const processor = getProcessor(options);
   const result = await processor.process({
     value: content,
     path: path.posix.join(siteDir, 'docs', 'myFile.mdx'),

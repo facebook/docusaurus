@@ -38,9 +38,7 @@ Clément
 Codegen
 codegen
 codesandbox
-commonmark
 contravariance
-cooldown
 cooldowns
 corejs
 Couriol
@@ -204,6 +202,7 @@ playbtn
 Plushie
 plushie
 plushies
+Preapproved
 precached
 precaching
 prerendered
@@ -314,6 +313,7 @@ Unlisteds
 unlisteds
 unlocalized
 unminified
+unreviewed
 unstub
 unswizzle
 upvotes

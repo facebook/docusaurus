@@ -12,6 +12,7 @@ node_modules
 package-lock.json
 
 .eslintcache
+.vitest
 
 yarn-error.log
 website/build

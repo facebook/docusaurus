@@ -5,6 +5,8 @@ description: Writing diagrams with Mermaid
 slug: /markdown-features/diagrams
 ---
 
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
 # Diagrams
 
 Diagrams can be rendered using [Mermaid](https://mermaid-js.github.io/mermaid/) in a code block.
@@ -40,6 +42,8 @@ graph TD;
 ```
 ````
 
+<BrowserWindow>
+
 ```mermaid
 graph TD;
     A-->B;
@@ -47,6 +51,8 @@ graph TD;
     B-->D;
     C-->D;
 ```
+
+</BrowserWindow>
 
 See the [Mermaid syntax documentation](https://mermaid-js.github.io/mermaid/#/./n00b-syntaxReference) for more information on the Mermaid syntax.
 
@@ -104,14 +110,34 @@ import Mermaid from '@theme/Mermaid';
 
 Mermaid supports different [layout engines](https://mermaid.js.org/intro/syntax-reference.html#layout-and-look):
 
-- The `dagre` layout engine is supported by default in Docusaurus.
-- The `elk` layout engine is heavier and can be enabled by installing the optional `@mermaid-js/layout-elk` dependency.
+- The `elk` layout engine is bundled and used by default for supported diagram types.
+- The `dagre` layout engine is also bundled and can be selected explicitly.
+
+### Site-wide layout {/* #site-wide-layout */}
+
+To use Dagre across your site, set `themeConfig.mermaid.options.layout`:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    mermaid: {
+      options: {
+        layout: 'dagre',
+      },
+    },
+  },
+};
+```
+
+### Per-diagram layout {/* #per-diagram-layout */}
+
+To use Dagre for a single diagram, set `layout: dagre` in its Mermaid front matter. This overrides the site-wide layout. Use `layout: elk` to select ELK explicitly.
 
 ````md
 ```mermaid
 ---
 config:
-  layout: elk
+  layout: dagre
 ---
 graph TD;
     A-->B;
@@ -121,6 +147,15 @@ graph TD;
 ```
 ````
 
+The same diagram rendered with each layout:
+
+<div className="row">
+<div className="col col--6">
+
+**ELK (default)**
+
+<BrowserWindow>
+
 ```mermaid
 ---
 config:
@@ -132,3 +167,29 @@ graph TD;
     B-->D;
     C-->D;
 ```
+
+</BrowserWindow>
+
+</div>
+<div className="col col--6">
+
+**Dagre**
+
+<BrowserWindow>
+
+```mermaid
+---
+config:
+  layout: dagre
+---
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+</BrowserWindow>
+
+</div>
+</div>

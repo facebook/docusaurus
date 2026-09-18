@@ -7,6 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import {visit} from 'unist-util-visit';
 import {
   toMessageRelativeFilePath,
   posixPath,
@@ -246,8 +247,6 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
   const onBrokenMarkdownImages = asFunction(options.onBrokenMarkdownImages);
 
   return async (root, vfile) => {
-    const {visit} = await import('unist-util-visit');
-
     const fileLoaderUtils = getFileLoaderUtils(
       vfile.data.compilerName === 'server',
     );

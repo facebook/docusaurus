@@ -48,10 +48,10 @@ describe('validateThemeConfig', () => {
   it('theme', () => {
     const mermaid = {
       theme: {
-        light: 'light',
+        light: 'default',
         dark: 'dark',
       },
-    };
+    } satisfies UserThemeConfig['mermaid'];
     expect(testValidateThemeConfig({mermaid})).toEqual({
       mermaid: {
         ...DEFAULT_THEME_CONFIG.mermaid,
@@ -60,12 +60,14 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  it('mermaid options', () => {
+  it.each(['dagre', 'elk'])('mermaid options with %s layout', (layout) => {
     const mermaid = {
       options: {
         fontFamily: 'Ariel',
+        layout,
+        look: 'classic',
       },
-    };
+    } satisfies UserThemeConfig['mermaid'];
     expect(testValidateThemeConfig({mermaid})).toEqual({
       mermaid: {
         ...DEFAULT_THEME_CONFIG.mermaid,

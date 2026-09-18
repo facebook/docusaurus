@@ -98,7 +98,7 @@ export async function compileToJSX({
 
   const mdxFrontMatter = validateMDXFrontMatter(frontMatter.mdx);
 
-  const processor = await getProcessor({
+  const processor = getProcessor({
     filePath,
     options,
     mdxFrontMatter,

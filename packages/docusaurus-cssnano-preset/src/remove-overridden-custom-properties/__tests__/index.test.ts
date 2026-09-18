@@ -7,12 +7,12 @@
 
 import {describe, expect, it} from 'vitest';
 import path from 'path';
-import vfile from 'to-vfile';
+import {read} from 'to-vfile';
 import postcss from 'postcss';
 import postCssRemoveOverriddenCustomProperties from '../index';
 
 const processFixture = async (name: string) => {
-  const input = await vfile.read(
+  const input = await read(
     path.join(__dirname, '__fixtures__', `${name}.css`),
     'utf8',
   );

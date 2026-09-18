@@ -10,12 +10,7 @@ import {toHeadingHTMLValue} from '../utils';
 import type {Heading} from 'mdast';
 
 describe('toHeadingHTMLValue', () => {
-  async function convert(heading: Heading): Promise<string> {
-    const {toString} = await import('mdast-util-to-string');
-    return toHeadingHTMLValue(heading, toString);
-  }
-
-  it('converts a simple heading', async () => {
+  it('converts a simple heading', () => {
     const heading: Heading = {
       type: 'heading',
       depth: 2,
@@ -27,12 +22,12 @@ describe('toHeadingHTMLValue', () => {
       ],
     };
 
-    await expect(convert(heading)).resolves.toMatchInlineSnapshot(
+    expect(toHeadingHTMLValue(heading)).toMatchInlineSnapshot(
       `"Some heading text"`,
     );
   });
 
-  it('converts a heading with b tag', async () => {
+  it('converts a heading with b tag', () => {
     const heading: Heading = {
       type: 'heading',
       depth: 2,
@@ -51,12 +46,12 @@ describe('toHeadingHTMLValue', () => {
       ],
     };
 
-    await expect(convert(heading)).resolves.toMatchInlineSnapshot(
+    expect(toHeadingHTMLValue(heading)).toMatchInlineSnapshot(
       `"<b>Some title</b>"`,
     );
   });
 
-  it('converts a heading with span tag + className', async () => {
+  it('converts a heading with span tag + className', () => {
     const heading: Heading = {
       type: 'heading',
       depth: 2,
@@ -81,12 +76,12 @@ describe('toHeadingHTMLValue', () => {
       ],
     };
 
-    await expect(convert(heading)).resolves.toMatchInlineSnapshot(
+    expect(toHeadingHTMLValue(heading)).toMatchInlineSnapshot(
       `"<span class="my-class">Some title</span>"`,
     );
   });
 
-  it('converts a heading - remove img tag', async () => {
+  it('converts a heading - remove img tag', () => {
     const heading: Heading = {
       type: 'heading',
       depth: 2,
@@ -120,8 +115,6 @@ describe('toHeadingHTMLValue', () => {
       ],
     };
 
-    await expect(convert(heading)).resolves.toMatchInlineSnapshot(
-      `"Some title"`,
-    );
+    expect(toHeadingHTMLValue(heading)).toMatchInlineSnapshot(`"Some title"`);
   });
 });

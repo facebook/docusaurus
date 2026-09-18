@@ -7,17 +7,16 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
+import {remark} from 'remark';
+import directives from 'remark-directive';
 import remark2rehype from 'remark-rehype';
 import stringify from 'rehype-stringify';
-import vfile from 'to-vfile';
+import {read} from 'to-vfile';
 import plugin, {type PluginOptions} from '../index';
 import admonition from '../../admonitions';
 import type {WebpackCompilerName} from '@docusaurus/utils';
 
-const getProcessor = async (options?: Partial<PluginOptions>) => {
-  const {remark} = await import('remark');
-  const {default: directives} = await import('remark-directive');
-
+const getProcessor = (options?: Partial<PluginOptions>) => {
   return remark()
     .use(directives)
     .use(admonition)
@@ -34,10 +33,10 @@ const processFixture = async (
   {compilerName}: {compilerName: WebpackCompilerName},
   options?: Partial<PluginOptions>,
 ) => {
-  const processor = await getProcessor(options);
+  const processor = getProcessor(options);
 
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
-  const file = await vfile.read(filePath);
+  const file = await read(filePath);
   file.data.compilerName = compilerName;
 
   const result = await processor.process(file);

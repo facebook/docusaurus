@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {visit} from 'unist-util-visit';
+import {toString} from 'mdast-util-to-string';
 import {
   addTocSliceImportIfNeeded,
   createTOCExportNodeAST,
@@ -41,18 +43,16 @@ function createTocSliceImportName({
   return `__${tocExportName}${componentName}`;
 }
 
-async function collectImportsExports({
+function collectImportsExports({
   root,
   tocExportName,
 }: {
   root: Root;
   tocExportName: string;
-}): Promise<{
+}): {
   markdownImports: MarkdownImports;
   existingTocExport: ExistingTOCExport;
-}> {
-  const {visit} = await import('unist-util-visit');
-
+} {
   const markdownImports = new Map<string, {declaration: ImportDeclaration}>();
   let existingTocExport: MdxjsEsm | null = null;
 
@@ -81,7 +81,7 @@ async function collectImportsExports({
   return {markdownImports, existingTocExport};
 }
 
-async function collectTOCItems({
+function collectTOCItems({
   root,
   tocExportName,
   markdownImports,
@@ -89,13 +89,10 @@ async function collectTOCItems({
   root: Root;
   tocExportName: string;
   markdownImports: MarkdownImports;
-}): Promise<{
+}): {
   // The toc items we collected in the tree
   tocItems: TOCItems;
-}> {
-  const {toString} = await import('mdast-util-to-string');
-  const {visit} = await import('unist-util-visit');
-
+} {
   const tocItems: TOCItems = [];
 
   visit(root, (child) => {
@@ -155,8 +152,8 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
 ): Transformer<Root> {
   const tocExportName = options.name || 'toc';
 
-  return async (root) => {
-    const {markdownImports, existingTocExport} = await collectImportsExports({
+  return (root) => {
+    const {markdownImports, existingTocExport} = collectImportsExports({
       root,
       tocExportName,
     });
@@ -168,14 +165,14 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
       return;
     }
 
-    const {tocItems} = await collectTOCItems({
+    const {tocItems} = collectTOCItems({
       root,
       tocExportName,
       markdownImports,
     });
 
     root.children.push(
-      await createTOCExportNodeAST({
+      createTOCExportNodeAST({
         tocExportName,
         tocItems,
       }),

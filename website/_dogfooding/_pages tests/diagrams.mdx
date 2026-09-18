@@ -454,9 +454,13 @@ Mermaid provides an [ELK layout](https://mermaid.js.org/syntax/entityRelationshi
 
 ### Dagre
 
-This is a "classical" Mermaid diagram, using the default Dagre layout.
+This diagram explicitly uses the Dagre layout.
 
 ```mermaid
+---
+config:
+  layout: dagre
+---
 erDiagram
 
   COMPANY ||--o{ DEPARTMENT : has

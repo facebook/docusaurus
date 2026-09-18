@@ -135,22 +135,30 @@ describe('generate', () => {
   });
 
   it('works with existing cache', async () => {
-    await generate(__dirname, 'foo', 'bar');
-    expect(writeMock).toHaveBeenCalledTimes(1);
+    existsMock.mockImplementationOnce(() => false);
+    await generate(__dirname, 'cached', 'bar');
+    writeMock.mockClear();
+
+    await generate(__dirname, 'cached', 'bar');
+    expect(writeMock).not.toHaveBeenCalled();
   });
 
   it('works with existing file but no cache', async () => {
     existsMock.mockImplementationOnce(() => true);
     readMock.mockImplementationOnce(() => Promise.resolve('bar'));
     await generate(__dirname, 'baz', 'bar');
-    expect(writeMock).toHaveBeenCalledTimes(1);
+    expect(writeMock).not.toHaveBeenCalled();
   });
 
   it('works when force skipping cache', async () => {
-    await generate(__dirname, 'foo', 'bar', true);
+    existsMock.mockImplementationOnce(() => false);
+    await generate(__dirname, 'skip-cache', 'bar');
+    writeMock.mockClear();
+
+    await generate(__dirname, 'skip-cache', 'bar', true);
     expect(writeMock).toHaveBeenNthCalledWith(
-      2,
-      path.join(__dirname, 'foo'),
+      1,
+      path.join(__dirname, 'skip-cache'),
       'bar',
     );
   });

@@ -5,12 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import type {RcFile} from 'syncpack';
 
-const lernaJson = await fs.readJSON('./lerna.json');
-
-const CurrentDocusaurusVersion = lernaJson.version;
+// const lernaJson = await fs.readJSON('./lerna.json');
+// const CurrentDocusaurusVersion = lernaJson.version;
 
 export default {
   source: [
@@ -24,12 +22,26 @@ export default {
   semverGroups: [
     {
       label: 'Use ~ for TypeScript monorepo root and init templates',
-      dependencies: ['typescript'],
+      // We temporarily use a Dual TypeScript 6 + 7 setup
+      // See https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6.0
+      //  TODO remove once TS-ESLint add TS 7 support
+      //   https://github.com/typescript-eslint/typescript-eslint/issues/10940
+      dependencies: ['typescript', '@typescript/native'],
       range: '~',
     },
   ],
 
   versionGroups: [
+    {
+      // We temporarily use a Dual TypeScript 6 + 7 setup
+      // See https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6.0
+      //  TODO remove once TS-ESLint add TS 7 support
+      //   https://github.com/typescript-eslint/typescript-eslint/issues/10940
+      label: 'Dual TypeScript 6 + 7 setup, installed through npm aliases',
+      dependencies: ['typescript', '@typescript/native'],
+      specifierTypes: ['alias'],
+    },
+
     {
       label: 'Ignore * deps in type-alias packages',
       packages: [
@@ -83,14 +95,29 @@ export default {
     },
 
     {
-      label: 'Internal @docusaurus/* monorepo packages use pinned version',
+      label:
+        'Templates should use pinned versions, not the workspace:* protocol',
+      packages: [
+        'docusaurus-2-classic-template',
+        'docusaurus-2-classic-typescript-template',
+      ],
+      dependencies: ['@docusaurus/**'],
+      pinVersion: '4.0.0', // TODO make this dynamic
+    },
+
+    {
+      label:
+        'Internal @docusaurus/* monorepo packages use the workspace:* protocol',
       dependencies: [
         '@docusaurus/**',
+        'create-docusaurus',
+        'stylelint-copyright',
 
-        // This one is not a monorepo package
+        // These are not monorepo packages
+        '!@docusaurus/responsive-loader',
         '!@docusaurus/responsive-loader',
       ],
-      pinVersion: CurrentDocusaurusVersion,
+      pinVersion: 'workspace:*',
     },
 
     // Default: all remaining dependencies — highest version wins (syncpack default)

@@ -5,6 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {createProcessor as createMdxProcessor} from '@mdx-js/mdx';
+import frontmatter from 'remark-frontmatter';
+import rehypeRaw from 'rehype-raw';
+import gfm from 'remark-gfm';
+// TODO using fork until PR merged: https://github.com/leebyron/remark-comment/pull/3
+import remarkComment from '@slorber/remark-comment';
+import directive from 'remark-directive';
+import {VFile} from 'vfile';
+import emoji from 'remark-emoji';
 import headings from './remark/headings';
 import contentTitle from './remark/contentTitle';
 import toc from './remark/toc';
@@ -27,18 +36,13 @@ import type {PluginOptions as TransformLinksOptions} from './remark/transformLin
 import type {PluginOptions as TransformImageOptions} from './remark/transformImage';
 import type {PluginOptions as UnusedDirectivesOptions} from './remark/unusedDirectives';
 import type {ProcessorOptions} from '@mdx-js/mdx';
-
-// TODO as of April 2023, no way to import/re-export this ESM type easily :/
-// This might change soon, likely after TS 5.2
-// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
-type Pluggable = any; // TODO fix this asap
+import type {Pluggable} from 'unified';
 
 export type SimpleProcessorResult = {
   content: string;
   data: {[key: string]: unknown};
 };
 
-// TODO alt interface because impossible to import type Processor (ESM + TS :/)
 export type SimpleProcessor = {
   process: ({
     content,
@@ -78,163 +82,139 @@ function getAdmonitionsPlugins(
   return [];
 }
 
-// Need to be async due to ESM dynamic imports...
-async function createProcessorFactory() {
-  const {createProcessor: createMdxProcessor} = await import('@mdx-js/mdx');
-  const {default: frontmatter} = await import('remark-frontmatter');
-  const {default: rehypeRaw} = await import('rehype-raw');
-  const {default: gfm} = await import('remark-gfm');
-  // TODO using fork until PR merged: https://github.com/leebyron/remark-comment/pull/3
-  const {default: comment} = await import('@slorber/remark-comment');
-  const {default: directive} = await import('remark-directive');
-  const {VFile} = await import('vfile');
-  const {default: emoji} = await import('remark-emoji');
-
-  function getDefaultRemarkPlugins({options}: {options: Options}): MDXPlugin[] {
-    return [
-      [
-        headings,
-        {anchorsMaintainCase: options.markdownConfig.anchors.maintainCase},
-      ],
-      ...(options.markdownConfig.emoji ? [emoji] : []),
-      toc,
-    ];
-  }
-
-  // /!\ this method is synchronous on purpose
-  // Using async code here can create cache entry race conditions!
-  function createProcessorSync({
-    options,
-    format,
-  }: {
-    options: Options;
-    format: 'md' | 'mdx';
-  }): SimpleProcessor {
-    const remarkPlugins: MDXPlugin[] = [
-      ...(options.beforeDefaultRemarkPlugins ?? []),
-      frontmatter,
-      directive,
-      [contentTitle, {removeContentTitle: options.removeContentTitle}],
-      ...getAdmonitionsPlugins(options.admonitions ?? false),
-      ...getDefaultRemarkPlugins({options}),
-      details,
-      head,
-      ...(options.markdownConfig.mermaid ? [mermaid] : []),
-      [
-        transformImage,
-        {
-          staticDirs: options.staticDirs,
-          siteDir: options.siteDir,
-          onBrokenMarkdownImages:
-            options.markdownConfig.hooks.onBrokenMarkdownImages,
-        } satisfies TransformImageOptions,
-      ],
-      // TODO merge this with transformLinks?
-      options.resolveMarkdownLink
-        ? [
-            resolveMarkdownLinks,
-            {
-              resolveMarkdownLink: options.resolveMarkdownLink,
-              onBrokenMarkdownLinks:
-                options.markdownConfig.hooks.onBrokenMarkdownLinks,
-            } satisfies ResolveMarkdownLinksOptions,
-          ]
-        : undefined,
-      [
-        transformLinks,
-        {
-          staticDirs: options.staticDirs,
-          siteDir: options.siteDir,
-          onBrokenMarkdownLinks:
-            options.markdownConfig.hooks.onBrokenMarkdownLinks,
-        } satisfies TransformLinksOptions,
-      ],
-      gfm,
-      options.markdownConfig.mdx1Compat.comments ? comment : null,
-      ...(options.remarkPlugins ?? []),
-      [
-        unusedDirectives,
-        {
-          onUnusedMarkdownDirectives:
-            options.markdownConfig.hooks.onUnusedMarkdownDirectives,
-        } satisfies UnusedDirectivesOptions,
-      ],
-    ].filter((plugin): plugin is MDXPlugin => Boolean(plugin));
-
-    // codeCompatPlugin needs to be applied last after user-provided plugins
-    // (after npm2yarn for example)
-    remarkPlugins.push(codeCompatPlugin);
-
-    const rehypePlugins: MDXPlugin[] = [
-      ...(options.beforeDefaultRehypePlugins ?? []),
-      ...(options.rehypePlugins ?? []),
-    ];
-
-    // Maybe we'll want to introduce default recma plugins later?
-    // For example https://github.com/domdomegg/recma-mdx-displayname ?
-    const recmaPlugins = [...(options.recmaPlugins ?? [])];
-
-    if (format === 'md') {
-      // This is what permits to embed HTML elements with format 'md'
-      // See https://github.com/facebook/docusaurus/pull/8960
-      // See https://github.com/mdx-js/mdx/pull/2295#issuecomment-1540085960
-      const rehypeRawPlugin: MDXPlugin = [
-        rehypeRaw,
-        {
-          passThrough: [
-            'mdxFlowExpression',
-            'mdxJsxFlowElement',
-            'mdxJsxTextElement',
-            'mdxTextExpression',
-            'mdxjsEsm',
-          ],
-        },
-      ];
-      rehypePlugins.unshift(rehypeRawPlugin);
-    }
-
-    const processorOptions: ProcessorOptions & Options = {
-      ...options,
-      remarkPlugins,
-      rehypePlugins,
-      recmaPlugins,
-      providerImportSource: '@mdx-js/react',
-    };
-
-    const mdxProcessor = createMdxProcessor({
-      ...processorOptions,
-      remarkRehypeOptions: options.markdownConfig.remarkRehypeOptions,
-      format,
-    });
-
-    return {
-      process: async ({content, filePath, frontMatter, compilerName}) => {
-        const vfile = new VFile({
-          value: content,
-          path: filePath,
-          data: {
-            frontMatter,
-            compilerName,
-          },
-        });
-        return mdxProcessor.process(vfile).then((result) => ({
-          content: result.toString(),
-          data: result.data,
-        }));
-      },
-    };
-  }
-
-  return {createProcessorSync};
+function getDefaultRemarkPlugins({options}: {options: Options}): MDXPlugin[] {
+  return [
+    [
+      headings,
+      {anchorsMaintainCase: options.markdownConfig.anchors.maintainCase},
+    ],
+    ...(options.markdownConfig.emoji ? [emoji] : []),
+    toc,
+  ];
 }
 
-// Will be useful for tests
-export async function createProcessorUncached(parameters: {
+// /!\ this method is synchronous on purpose
+// Using async code here can create cache entry race conditions!
+export function createProcessorUncached({
+  options,
+  format,
+}: {
   options: Options;
   format: 'md' | 'mdx';
-}): Promise<SimpleProcessor> {
-  const {createProcessorSync} = await createProcessorFactory();
-  return createProcessorSync(parameters);
+}): SimpleProcessor {
+  const remarkPlugins: MDXPlugin[] = [
+    ...(options.beforeDefaultRemarkPlugins ?? []),
+    frontmatter,
+    directive,
+    [contentTitle, {removeContentTitle: options.removeContentTitle}],
+    ...getAdmonitionsPlugins(options.admonitions ?? false),
+    ...getDefaultRemarkPlugins({options}),
+    details,
+    head,
+    ...(options.markdownConfig.mermaid ? [mermaid] : []),
+    [
+      transformImage,
+      {
+        staticDirs: options.staticDirs,
+        siteDir: options.siteDir,
+        onBrokenMarkdownImages:
+          options.markdownConfig.hooks.onBrokenMarkdownImages,
+      } satisfies TransformImageOptions,
+    ],
+    // TODO merge this with transformLinks?
+    options.resolveMarkdownLink
+      ? [
+          resolveMarkdownLinks,
+          {
+            resolveMarkdownLink: options.resolveMarkdownLink,
+            onBrokenMarkdownLinks:
+              options.markdownConfig.hooks.onBrokenMarkdownLinks,
+          } satisfies ResolveMarkdownLinksOptions,
+        ]
+      : undefined,
+    [
+      transformLinks,
+      {
+        staticDirs: options.staticDirs,
+        siteDir: options.siteDir,
+        onBrokenMarkdownLinks:
+          options.markdownConfig.hooks.onBrokenMarkdownLinks,
+      } satisfies TransformLinksOptions,
+    ],
+    gfm,
+    options.markdownConfig.mdx1Compat.comments ? remarkComment : null,
+    ...(options.remarkPlugins ?? []),
+    [
+      unusedDirectives,
+      {
+        onUnusedMarkdownDirectives:
+          options.markdownConfig.hooks.onUnusedMarkdownDirectives,
+      } satisfies UnusedDirectivesOptions,
+    ],
+  ].filter((plugin): plugin is MDXPlugin => Boolean(plugin));
+
+  // codeCompatPlugin needs to be applied last after user-provided plugins
+  // (after npm2yarn for example)
+  remarkPlugins.push(codeCompatPlugin);
+
+  const rehypePlugins: MDXPlugin[] = [
+    ...(options.beforeDefaultRehypePlugins ?? []),
+    ...(options.rehypePlugins ?? []),
+  ];
+
+  // Maybe we'll want to introduce default recma plugins later?
+  // For example https://github.com/domdomegg/recma-mdx-displayname ?
+  const recmaPlugins = [...(options.recmaPlugins ?? [])];
+
+  if (format === 'md') {
+    // This is what permits to embed HTML elements with format 'md'
+    // See https://github.com/facebook/docusaurus/pull/8960
+    // See https://github.com/mdx-js/mdx/pull/2295#issuecomment-1540085960
+    const rehypeRawPlugin: MDXPlugin = [
+      rehypeRaw,
+      {
+        passThrough: [
+          'mdxFlowExpression',
+          'mdxJsxFlowElement',
+          'mdxJsxTextElement',
+          'mdxTextExpression',
+          'mdxjsEsm',
+        ],
+      },
+    ];
+    rehypePlugins.unshift(rehypeRawPlugin);
+  }
+
+  const processorOptions: ProcessorOptions & Options = {
+    ...options,
+    remarkPlugins,
+    rehypePlugins,
+    recmaPlugins,
+    providerImportSource: '@mdx-js/react',
+  };
+
+  const mdxProcessor = createMdxProcessor({
+    ...processorOptions,
+    remarkRehypeOptions: options.markdownConfig.remarkRehypeOptions,
+    format,
+  });
+
+  return {
+    process: async ({content, filePath, frontMatter, compilerName}) => {
+      const vfile = new VFile({
+        value: content,
+        path: filePath,
+        data: {
+          frontMatter,
+          compilerName,
+        },
+      });
+      return mdxProcessor.process(vfile).then((result) => ({
+        content: result.toString(),
+        data: result.data,
+      }));
+    },
+  };
 }
 
 // We use different compilers depending on the file type (md vs mdx)
@@ -247,39 +227,38 @@ export type SimpleProcessors = {
 // expensive code during initialization
 const ProcessorsCache = new Map<string | Options, SimpleProcessors>();
 
-export async function createProcessors({
+export function createProcessors({
   options,
 }: {
   options: Options;
-}): Promise<SimpleProcessors> {
-  const {createProcessorSync} = await createProcessorFactory();
+}): SimpleProcessors {
   return {
-    mdProcessor: createProcessorSync({
+    mdProcessor: createProcessorUncached({
       options,
       format: 'md',
     }),
-    mdxProcessor: createProcessorSync({
+    mdxProcessor: createProcessorUncached({
       options,
       format: 'mdx',
     }),
   };
 }
 
-async function createProcessorsCacheEntry({
+function createProcessorsCacheEntry({
   options,
 }: {
   options: Options;
-}): Promise<SimpleProcessors> {
+}): SimpleProcessors {
   const compilers = ProcessorsCache.get(options);
   if (compilers) {
     return compilers;
   }
-  const processors = await createProcessors({options});
+  const processors = createProcessors({options});
   ProcessorsCache.set(options, processors);
   return processors;
 }
 
-export async function getProcessor({
+export function getProcessor({
   filePath,
   mdxFrontMatter,
   options,
@@ -287,9 +266,9 @@ export async function getProcessor({
   filePath: string;
   mdxFrontMatter: MDXFrontMatter;
   options: Options;
-}): Promise<SimpleProcessor> {
+}): SimpleProcessor {
   const processors =
-    options.processors ?? (await createProcessorsCacheEntry({options}));
+    options.processors ?? createProcessorsCacheEntry({options});
 
   const format = getFormat({
     filePath,

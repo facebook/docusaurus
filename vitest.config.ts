@@ -125,9 +125,6 @@ export default defineConfig({
     // See https://github.com/facebook/docusaurus/pull/8259
     testTimeout: 25000,
     exclude: ignorePatterns,
-    snapshotFormat: {
-      // Vitest defaults are fine
-    },
     snapshotSerializers: [
       // TOP: applied last
       // Capture Error.cause in snapshots, see https://github.com/vitest-dev/vitest/issues/10339
@@ -140,8 +137,5 @@ export default defineConfig({
       'jest-serializer-react-helmet-async',
       // BOTTOM: applied first
     ],
-    reporters: process.env.GITHUB_ACTIONS
-      ? ['default', 'github-actions']
-      : ['default'],
   },
 });
