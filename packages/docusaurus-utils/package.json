@@ -40,7 +40,7 @@
     "webpack": "^5.111.0"
   },
   "engines": {
-    "node": ">=24.14"
+    "node": ">=26.9"
   },
   "devDependencies": {
     "@types/dedent": "^0.7.2",
