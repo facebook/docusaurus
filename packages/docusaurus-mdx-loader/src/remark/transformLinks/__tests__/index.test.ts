@@ -7,7 +7,7 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
-import vfile from 'to-vfile';
+import {read} from 'to-vfile';
 import plugin, {type PluginOptions} from '..';
 import transformImage from '../../transformImage';
 
@@ -41,7 +41,7 @@ const processFixture = async (
   options?: Partial<PluginOptions>,
 ) => {
   const processor = await getProcessor(options);
-  const file = await vfile.read(path.join(siteDir, `${name}.md`));
+  const file = await read(path.join(siteDir, `${name}.md`));
   const result = await processor.process(file);
   return result.value.toString().trim();
 };

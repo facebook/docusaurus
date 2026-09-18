@@ -7,7 +7,7 @@
 
 import {describe, expect, it} from 'vitest';
 import path from 'path';
-import vfile from 'to-vfile';
+import {read} from 'to-vfile';
 
 import {simpleHash} from '@docusaurus/utils';
 import footnoteIDFixer from '../footnoteIDFixer';
@@ -17,7 +17,7 @@ const processFixture = async (name: string) => {
   const {default: gfm} = await import('remark-gfm');
 
   const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
-  const file = await vfile.read(filePath);
+  const file = await read(filePath);
 
   const result = await mdx.compile(file, {
     remarkPlugins: [gfm, footnoteIDFixer],

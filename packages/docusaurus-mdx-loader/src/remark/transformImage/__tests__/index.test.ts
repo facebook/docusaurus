@@ -7,7 +7,7 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
-import vfile from 'to-vfile';
+import {read} from 'to-vfile';
 import plugin, {type PluginOptions} from '../index';
 
 const siteDir = path.join(__dirname, '__fixtures__');
@@ -35,7 +35,7 @@ const processFixture = async (
   options?: Partial<PluginOptions>,
 ) => {
   const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
-  const file = await vfile.read(filePath);
+  const file = await read(filePath);
   const processor = await getProcessor(options);
   const result = await processor.process(file);
   return result.value;

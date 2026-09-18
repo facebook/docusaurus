@@ -31,8 +31,8 @@
     "mdast-util-mdx": "^3.0.0",
     "mdast-util-to-string": "^4.0.0",
     "rehype-raw": "^7.0.0",
-    "remark-directive": "^3.0.1",
-    "remark-emoji": "^4.0.1",
+    "remark-directive": "^4.0.0",
+    "remark-emoji": "^5.0.2",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
     "stringify-object": "^6.0.0",
@@ -50,13 +50,15 @@
     "@types/mdast": "^4.0.4",
     "@types/stringify-object": "^3.3.1",
     "@types/unist": "^3.0.3",
+    "lodash": "^4.18.1",
     "mdast-util-directive": "3.1.0",
     "rehype-stringify": "^10.0.1",
     "remark": "^15.0.1",
     "remark-mdx": "^3.1.1",
     "remark-rehype": "^11.1.2",
-    "to-vfile": "^6.1.0",
-    "unist-builder": "^2.0.3"
+    "to-vfile": "^8.0.0",
+    "unist-builder": "^4.0.0",
+    "utility-types": "^3.11.0"
   },
   "peerDependencies": {
     "react": "^19.3.0",

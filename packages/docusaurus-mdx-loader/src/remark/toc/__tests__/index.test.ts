@@ -7,7 +7,7 @@
 
 import {describe, expect, it} from 'vitest';
 import path from 'path';
-import vfile from 'to-vfile';
+import {read} from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
 
@@ -22,7 +22,7 @@ const processFixture = async (name: string) => {
     name.endsWith('.mdx') ? name : `${name}.md`,
   );
 
-  const file = await vfile.read(filePath);
+  const file = await read(filePath);
 
   const result = await compile(file, {
     format: 'mdx',

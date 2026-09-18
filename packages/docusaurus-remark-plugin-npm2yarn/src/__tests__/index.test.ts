@@ -7,7 +7,7 @@
 
 import {describe, expect, it} from 'vitest';
 import path from 'path';
-import vfile from 'to-vfile';
+import {read} from 'to-vfile';
 import dedent from 'dedent';
 import npm2yarn from '../index';
 
@@ -31,7 +31,7 @@ const processFixture = async (
   options?: Parameters<typeof npm2yarn>[0],
 ) => {
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
-  const file = await vfile.read(filePath);
+  const file = await read(filePath);
   return process(file, options);
 };
 
