@@ -807,13 +807,13 @@ describe('parseFileContentFrontMatter', () => {
       content: 'Some text',
       frontMatter: {
         title: 'Frontmatter title',
-        author: {age: 42, birth: new Date('2000-07-23')},
+        author: {age: 42, birth: '2000-07-23'},
       },
     };
 
     const result = test(input) as typeof expectedResult;
     expect(result).toEqual(expectedResult);
-    expect(result.frontMatter.author.birth).toBeInstanceOf(Date);
+    expect(result.frontMatter.author.birth).toBe('2000-07-23');
 
     // A regression test, ensure we don't return gray-matter cached objects
     result.frontMatter.title = 'modified';
@@ -821,6 +821,57 @@ describe('parseFileContentFrontMatter', () => {
     result.frontMatter.author.age = 53;
     expect(test(input)).toEqual(expectedResult);
   });
+
+  it('uses YAML 1.2 core scalar types and keeps merge keys literal', () => {
+    expect(
+      test(dedent`
+        ---
+        defaults: &defaults
+          title: Default title
+        page:
+          <<: *defaults
+        date: 2026-09-18T12:00:00Z
+        enabled: true
+        answer: yes
+        binary: 0b10
+        octal: 0o10
+        ---
+        Content
+      `),
+    ).toEqual({
+      content: 'Content',
+      frontMatter: {
+        defaults: {title: 'Default title'},
+        page: {'<<': {title: 'Default title'}},
+        date: '2026-09-18T12:00:00Z',
+        enabled: true,
+        answer: 'yes',
+        binary: '0b10',
+        octal: 8,
+      },
+    });
+  });
+
+  it.each(['!!timestamp 2000-07-23', '!!binary SGVsbG8=', '!!set {foo: null}'])(
+    'rejects legacy YAML tags: %s',
+    (value) => {
+      expect(() => test(`---\nvalue: ${value}\n---`)).toThrow();
+    },
+  );
+
+  it('rejects complex mapping keys', () => {
+    expect(() => test('---\n? [foo, bar]\n: value\n---')).toThrow();
+  });
+
+  it.each(['', '\n', '# Only a comment'])(
+    'accepts empty front matter: %j',
+    (value) => {
+      expect(test(`---\n${value}\n---\nContent`)).toEqual({
+        content: 'Content',
+        frontMatter: {},
+      });
+    },
+  );
 });
 
 describe('parseMarkdownFile', () => {

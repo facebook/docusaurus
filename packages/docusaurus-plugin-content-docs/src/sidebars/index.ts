@@ -10,7 +10,7 @@ import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {loadFreshModule, Globby} from '@docusaurus/utils';
-import Yaml from 'js-yaml';
+import * as Yaml from 'js-yaml';
 import combinePromises from 'combine-promises';
 import {validateSidebars, validateCategoryMetadataFile} from './validation';
 import {normalizeSidebars} from './normalization';

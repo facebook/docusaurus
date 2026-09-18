@@ -6,7 +6,7 @@
  */
 
 import {logger} from '@docusaurus/logger';
-import Commander, {type CommanderStatic} from 'commander';
+import {Command} from 'commander';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 
 import {build} from './build/build';
@@ -39,9 +39,6 @@ function isInternalCommand(command: string | undefined) {
   );
 }
 
-// TODO Docusaurus v4: use Command instead of CommanderStatic here
-type CLIProgram = CommanderStatic;
-
 // Something like ['../node','../docusaurus.mjs','<command>',...rest]
 type CLIArgs = [string, string, ...string[]];
 
@@ -57,7 +54,7 @@ const DEFAULT_CONFIG = process.env.DOCUSAURUS_CLI_CONFIG ?? undefined;
 
 export async function runCLI(cliArgs: CLIArgs): Promise<void> {
   const program = await createCLIProgram({
-    cli: Commander,
+    cli: new Command(),
     cliArgs,
     siteDir: DEFAULT_SITE_DIR,
     config: DEFAULT_CONFIG,
@@ -71,12 +68,18 @@ export async function createCLIProgram({
   siteDir,
   config,
 }: {
-  cli: CLIProgram;
+  cli: Command;
   cliArgs: CLIArgs;
   siteDir: string;
   config: string | undefined;
-}): Promise<CLIProgram> {
+}): Promise<Command> {
   const command = cliArgs[2];
+
+  // Preserve Commander 5 behavior for plugins using extendCli: options remain
+  // properties of the command passed to action handlers, and commands may read
+  // undeclared positional arguments from command.args. Subcommands created with
+  // .command() inherit these settings, including nested plugin commands.
+  cli.storeOptionsAsProperties(true).allowExcessArguments(true);
 
   cli.version(DOCUSAURUS_VERSION).usage('<command> [options]');
 
@@ -284,7 +287,7 @@ export async function createCLIProgram({
     )
     .action(writeHeadingIds);
 
-  cli.arguments('<command>').action((cmd) => {
+  cli.arguments('[command]').action((cmd) => {
     cli.outputHelp();
     if (!cmd) {
       throw new Error(logger.interpolate`Missing Docusaurus CLI command.`);

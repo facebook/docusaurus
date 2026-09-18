@@ -135,7 +135,7 @@ exports[`blog plugin > process blog posts load content 2`] = `
         "author": "Sébastien Lorber",
         "author_title": "Docusaurus maintainer",
         "author_url": "https://sebastienlorber.com",
-        "date": 2020-08-15T00:00:00.000Z,
+        "date": "2020-08-15",
         "slug": "/simple/slug/another",
         "tags": [
           "tag1",
@@ -173,7 +173,7 @@ exports[`blog plugin > process blog posts load content 2`] = `
       "description": "with tag",
       "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags.md",
       "frontMatter": {
-        "date": 2020-08-15T00:00:00.000Z,
+        "date": "2020-08-15",
         "slug": "/another/tags",
         "tags": [
           "tag1",
@@ -222,7 +222,7 @@ exports[`blog plugin > process blog posts load content 2`] = `
       "description": "with tag",
       "editUrl": "https://baseEditUrl.com/edit/blog/another-with-tags2.md",
       "frontMatter": {
-        "date": 2020-08-15T00:00:00.000Z,
+        "date": "2020-08-15",
         "slug": "/another/tags2",
         "tags": [
           "tag1",
