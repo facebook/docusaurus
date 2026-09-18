@@ -50,6 +50,6 @@
     "@types/babel__traverse": "^7.28.0"
   },
   "engines": {
-    "node": ">=26.9"
+    "node": ">=24.21"
   }
 }
