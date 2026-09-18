@@ -36,7 +36,8 @@ const MDXComponents: MDXComponentsObject = {
   h4: (props: ComponentProps<'h4'>) => <MDXHeading as="h4" {...props} />,
   h5: (props: ComponentProps<'h5'>) => <MDXHeading as="h5" {...props} />,
   h6: (props: ComponentProps<'h6'>) => <MDXHeading as="h6" {...props} />,
-  admonition: Admonition,
+  Admonition,
+  admonition: Admonition, // Legacy MDX component name
   mermaid: Mermaid,
 };
 

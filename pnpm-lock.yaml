@@ -841,6 +841,9 @@ importers:
       fs-extra:
         specifier: ^11.4.0
         version: 11.4.0
+      hast-util-to-estree:
+        specifier: ^3.1.3
+        version: 3.1.3(supports-color@10.2.2)
       image-size:
         specifier: ^2.0.2
         version: 2.0.2
@@ -902,6 +905,9 @@ importers:
       '@types/estree':
         specifier: ^1.0.9
         version: 1.0.9
+      '@types/hast':
+        specifier: ^3.0.5
+        version: 3.0.5
       '@types/mdast':
         specifier: ^4.0.4
         version: 4.0.4

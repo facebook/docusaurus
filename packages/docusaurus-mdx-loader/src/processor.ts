@@ -24,6 +24,7 @@ import details from './remark/details';
 import head from './remark/head';
 import mermaid from './remark/mermaid';
 import transformAdmonitions from './remark/admonitions';
+import admonitionTitle from './rehype/admonitionTitle';
 import unusedDirectives from './remark/unusedDirectives';
 import codeCompatPlugin from './remark/mdx1Compat/codeCompatPlugin';
 import {getFormat} from './format';
@@ -166,6 +167,8 @@ function createProcessorFactory() {
     const rehypePlugins: MDXPlugin[] = [
       ...(options.beforeDefaultRehypePlugins ?? []),
       ...(options.rehypePlugins ?? []),
+      // Rich titles must stay in the tree until user plugins have run.
+      admonitionTitle,
     ];
 
     // Maybe we'll want to introduce default recma plugins later?

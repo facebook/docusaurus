@@ -1203,6 +1203,8 @@ declare module '@theme/MDXComponents' {
     readonly h4: (props: ComponentProps<'h4'>) => ReactNode;
     readonly h5: (props: ComponentProps<'h5'>) => ReactNode;
     readonly h6: (props: ComponentProps<'h6'>) => ReactNode;
+    readonly Admonition: typeof Admonition;
+    /** @deprecated Use Admonition instead. */
     readonly admonition: typeof Admonition;
     readonly mermaid: typeof Mermaid;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

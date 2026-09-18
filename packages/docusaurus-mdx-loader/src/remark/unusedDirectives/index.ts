@@ -126,7 +126,7 @@ function transformSimpleTextDirectiveToString(textDirective: Directives) {
 }
 
 function isUnusedDirective(directive: Directives) {
-  // If directive data is set (notably hName/hProperties set by admonitions)
+  // If directive data is set (notably hName/hProperties)
   // this usually means the directive has been handled by another plugin
   return !directive.data;
 }
@@ -144,7 +144,7 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
 
     // @ts-expect-error: TODO fix type
     visit<Parent, Directives>(tree, directiveTypes, (directive: Directives) => {
-      // If directive data is set (hName/hProperties set by admonitions)
+      // If directive data is set (hName/hProperties)
       // this usually means the directive has been handled by another plugin
       if (isUnusedDirective(directive)) {
         if (isSimpleTextDirective(directive)) {

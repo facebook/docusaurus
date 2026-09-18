@@ -28,6 +28,10 @@ function extractMDXAdmonitionTitle(children: ReactNode): {
   };
 }
 
+/**
+ * @deprecated Rich admonition titles are now passed through the title prop.
+ * Kept for compatibility with previously swizzled Admonition components.
+ */
 export function processAdmonitionProps<
   Props extends {readonly children: ReactNode; readonly title?: ReactNode},
 >(props: Props): Props {
