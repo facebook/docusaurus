@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {visit} from 'unist-util-visit';
 import npmToYarn from 'npm-to-yarn';
 import type {Code, Literal} from 'mdast';
 import type {MdxJsxFlowElement, MdxJsxAttribute} from 'mdast-util-mdx';
@@ -173,9 +174,7 @@ function createImportNode() {
 
 const plugin: Plugin<[PluginOptions?]> = (options = {}): Transformer => {
   const {sync = false, converters = ['yarn', 'pnpm', 'bun']} = options;
-  return async (root) => {
-    const {visit} = await import('unist-util-visit');
-
+  return (root) => {
     let transformed = false;
     let alreadyImported = false;
 

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {visit} from 'unist-util-visit';
 import {
   parseLocalURLPath,
   serializeURLPath,
@@ -100,9 +101,7 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
 
   const onBrokenMarkdownLinks = asFunction(options.onBrokenMarkdownLinks);
 
-  return async (root, file) => {
-    const {visit} = await import('unist-util-visit');
-
+  return (root, file) => {
     visit(root, ['link', 'definition'], (node) => {
       const link = node as unknown as Link | Definition;
       const linkURLPath = parseMarkdownLinkURLPath(link.url);

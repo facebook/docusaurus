@@ -7,15 +7,13 @@
 
 import {describe, expect, it} from 'vitest';
 import path from 'path';
+import gfm from 'remark-gfm';
+import {compile} from '@mdx-js/mdx';
 import {read} from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
 
 const processFixture = async (name: string) => {
-  const {default: gfm} = await import('remark-gfm');
-
-  const {compile} = await import('@mdx-js/mdx');
-
   const filePath = path.join(
     __dirname,
     '__fixtures__',

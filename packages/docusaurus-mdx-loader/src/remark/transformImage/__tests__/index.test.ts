@@ -7,6 +7,8 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
+import {remark} from 'remark';
+import mdx from 'remark-mdx';
 import {read} from 'to-vfile';
 import plugin, {type PluginOptions} from '../index';
 
@@ -17,9 +19,7 @@ const staticDirs = [
   path.join(__dirname, '__fixtures__/static2'),
 ];
 
-const getProcessor = async (options?: Partial<PluginOptions>) => {
-  const {remark} = await import('remark');
-  const {default: mdx} = await import('remark-mdx');
+const getProcessor = (options?: Partial<PluginOptions>) => {
   return remark()
     .use(mdx)
     .use(plugin, {
@@ -36,7 +36,7 @@ const processFixture = async (
 ) => {
   const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
   const file = await read(filePath);
-  const processor = await getProcessor(options);
+  const processor = getProcessor(options);
   const result = await processor.process(file);
   return result.value;
 };
@@ -45,7 +45,7 @@ const processContent = async (
   content: string,
   options?: Partial<PluginOptions>,
 ) => {
-  const processor = await getProcessor(options);
+  const processor = getProcessor(options);
   const result = await processor.process({
     value: content,
     path: path.posix.join(siteDir, 'docs', 'myFile.mdx'),
