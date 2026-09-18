@@ -188,3 +188,19 @@ export const FrontMatterLastUpdateSchema = Joi.object<
     'object.missing': FrontMatterLastUpdateErrorMessage,
     'object.base': FrontMatterLastUpdateErrorMessage,
   });
+
+export const FrontMatterCreationErrorMessage =
+  '{{#label}} does not look like a valid creation object. Please use an author key with a string or a date with a string or Date.';
+
+export const FrontMatterCreationSchema = Joi.object<
+  FrontMatterLastUpdate,
+  true
+>({
+  author: Joi.string(),
+  date: Joi.alternatives().try(Joi.date().raw()),
+})
+  .or('author', 'date')
+  .messages({
+    'object.missing': FrontMatterCreationErrorMessage,
+    'object.base': FrontMatterCreationErrorMessage,
+  });
