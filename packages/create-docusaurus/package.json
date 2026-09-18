@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/logger": "workspace:*",
-    "commander": "^5.1.0",
+    "commander": "^15.0.0",
     "cross-spawn": "^7.0.6",
     "prompts": "^2.4.2",
     "semver": "^7.8.5",
