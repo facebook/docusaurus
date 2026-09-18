@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.19.10",
-    "@docsearch/react": "^4.7.0",
+    "@docsearch/react": "^5.0.4",
     "@docusaurus/core": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/plugin-content-docs": "workspace:*",
