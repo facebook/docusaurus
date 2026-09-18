@@ -35,6 +35,7 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: lts/*
+          check-latest: true
           # No cache on purpose! We want SFW to fetch packages
 
       # See https://socket.dev/blog/introducing-socket-firewall
@@ -70,6 +71,7 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: lts/*
+          check-latest: true
           # No cache on purpose! We want SFW to fetch packages
 
       # See https://socket.dev/blog/introducing-socket-firewall

@@ -31,7 +31,7 @@
     "webpack": "^5.111.0"
   },
   "engines": {
-    "node": ">=24.14"
+    "node": ">=24.21"
   },
   "peerDependencies": {
     "@docusaurus/types": "*"

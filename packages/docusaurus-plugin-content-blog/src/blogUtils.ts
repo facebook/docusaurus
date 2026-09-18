@@ -32,7 +32,7 @@ import {getBlogPostAuthors} from './authors';
 import {reportAuthorsProblems} from './authorsProblems';
 import {calculateReadingTime} from './readingTime';
 import type {TagsFile} from '@docusaurus/utils';
-import type {LoadContext, ParseFrontMatter} from '@docusaurus/types';
+import type {LoadContext, ParseFrontMatter, VcsConfig} from '@docusaurus/types';
 import type {
   AuthorsMap,
   PluginOptions,
@@ -184,6 +184,48 @@ export function parseBlogFileName(
   return {date: undefined, text, slug};
 }
 
+export function parseFrontMatterDate(date: string | Date): Date {
+  if (typeof date === 'string') {
+    const dateString = date.trim();
+    // Detect a timezone suffix in the time portion, not the date's day/year.
+    // YAML timestamps allow tabs and short offsets; also accept ISO +/-HHMM.
+    // https://yaml.org/type/timestamp.html
+    // This detects a timezone, not date validity (already checked by Joi).
+    const hasTimeZone = /[t \t]\d.*(?:z|[+-]\d{1,2}(?::?\d{2})?)$/i.test(
+      dateString,
+    );
+    // Treat dates without an explicit timezone as UTC.
+    return new Date(hasTimeZone ? dateString : `${dateString}Z`);
+  }
+  // Custom front matter parsers can still return Date objects.
+  return date;
+}
+
+export async function getBlogPostDate({
+  frontMatterDate,
+  filenameDate,
+  filePath,
+  vcs,
+}: {
+  frontMatterDate?: string | Date;
+  filenameDate?: Date;
+  filePath: string;
+  vcs: VcsConfig;
+}): Promise<Date> {
+  // Prefer front matter, then the filename, then the file creation date.
+  if (frontMatterDate) {
+    return parseFrontMatterDate(frontMatterDate);
+  } else if (filenameDate) {
+    return filenameDate;
+  }
+
+  const result = await vcs.getFileCreationInfo(filePath);
+  if (result == null) {
+    return (await fs.stat(filePath)).birthtime;
+  }
+  return new Date(result.timestamp);
+}
+
 async function parseBlogPostMarkdownFile({
   filePath,
   parseFrontMatter,
@@ -273,27 +315,12 @@ async function processBlogSourceFile(
 
   const parsedBlogFileName = parseBlogFileName(blogSourceRelative);
 
-  async function getDate(): Promise<Date> {
-    // Prefer user-defined date.
-    if (frontMatter.date) {
-      if (typeof frontMatter.date === 'string') {
-        // Always treat dates as UTC by adding the `Z`
-        return new Date(`${frontMatter.date}Z`);
-      }
-      // YAML only converts YYYY-MM-DD to dates and leaves others as strings.
-      return frontMatter.date;
-    } else if (parsedBlogFileName.date) {
-      return parsedBlogFileName.date;
-    }
-
-    const result = await vcs.getFileCreationInfo(blogSourceAbsolute);
-    if (result == null) {
-      return (await fs.stat(blogSourceAbsolute)).birthtime;
-    }
-    return new Date(result.timestamp);
-  }
-
-  const date = await getDate();
+  const date = await getBlogPostDate({
+    frontMatterDate: frontMatter.date,
+    filenameDate: parsedBlogFileName.date,
+    filePath: blogSourceAbsolute,
+    vcs,
+  });
 
   const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
   const description = frontMatter.description ?? excerpt ?? '';

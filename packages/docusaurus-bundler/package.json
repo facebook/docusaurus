@@ -55,6 +55,6 @@
     "@total-typescript/shoehorn": "^0.1.2"
   },
   "engines": {
-    "node": ">=24.14"
+    "node": ">=24.21"
   }
 }

@@ -27,6 +27,7 @@ minimumReleaseAge: 10080 # 7 days in minutes
 minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
 minimumReleaseAgeExclude:
+  - image-size@2.0.4
   - webpack@5.111.0
   - enhanced-resolve@5.25.0
   - schema-utils@4.5.0

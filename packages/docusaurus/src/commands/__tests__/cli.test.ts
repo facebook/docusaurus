@@ -5,10 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {describe, expect, it, vi} from 'vitest';
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 import path from 'path';
-import {Command, type CommanderStatic} from 'commander';
+import {Command} from 'commander';
 import {createCLIProgram} from '../cli';
+import * as buildCommand from '../build/build';
+import * as startCommand from '../start/start';
+import * as serveCommand from '../serve';
 
 const ExitOverrideError = new Error('exitOverride');
 
@@ -20,45 +23,43 @@ async function testCommand(args: string[]) {
   ];
   const siteDir = path.resolve(__dirname, '__fixtures__', 'site');
 
-  // TODO Docusaurus v4: upgrade Commander
-  //  new versions make it easier to intercept logs
-  //  see https://github.com/tj/commander.js#override-exit-and-output-handling
   let stdout = '';
   let stderr = '';
-  vi.spyOn(console, 'log').mockImplementation((msg: string) => {
+  const log = vi.spyOn(console, 'log').mockImplementation((msg: string) => {
     stdout += msg;
   });
-  // @ts-expect-error: only used with strings
-  vi.spyOn(process.stdout, 'write').mockImplementation((msg: string) => {
-    stdout += String(msg);
-  });
-  vi.spyOn(console, 'error').mockImplementation((msg: string) => {
-    stderr += msg;
-  });
 
-  const cli = await createCLIProgram({
-    cli: new Command() as CommanderStatic,
-    cliArgs,
-    siteDir,
-    config: undefined,
+  const command = new Command().configureOutput({
+    writeOut: (str) => {
+      stdout += str;
+    },
+    writeErr: (str) => {
+      stderr += str;
+    },
   });
 
   let exit: undefined | {code: string; exitCode: number};
-  cli.exitOverride((err) => {
+  command.exitOverride((err) => {
     exit = {code: err.code, exitCode: err.exitCode};
-    // If you don't throw here, commander will still exit :/
     throw ExitOverrideError;
   });
 
   try {
+    const cli = await createCLIProgram({
+      cli: command,
+      cliArgs,
+      siteDir,
+      config: undefined,
+    });
+
     await cli.parseAsync(cliArgs);
   } catch (e) {
     if (e !== ExitOverrideError) {
       throw e;
     }
+  } finally {
+    log.mockRestore();
   }
-
-  vi.restoreAllMocks();
 
   return {
     exit,
@@ -170,7 +171,7 @@ describe('CLI', () => {
     describe('errors', () => {
       it('docusaurus', async () => {
         await expect(
-          testCommand(['']),
+          testCommand([]),
         ).rejects.toThrowErrorMatchingInlineSnapshot(
           `[Error: Missing Docusaurus CLI command.]`,
         );
@@ -192,7 +193,8 @@ describe('CLI', () => {
               "code": "commander.unknownOption",
               "exitCode": 1,
             },
-            "stderr": "error: unknown option '--unknown'",
+            "stderr": "error: unknown option '--unknown'
+          ",
             "stdout": "",
           }
         `);
@@ -201,6 +203,82 @@ describe('CLI', () => {
   });
 
   describe('extendCLI', () => {
+    it('preserves legacy action callbacks with default options', async () => {
+      const result = await testCommand(['cliPlugin:legacy', 'input', 'extra']);
+      expect(result.exit).toBeUndefined();
+      expect(result.stderr).toBe('');
+      expect(JSON.parse(result.stdout)).toEqual({
+        input: 'input',
+        label: 'default',
+        cache: true,
+        options: {label: 'default', cache: true},
+        name: 'cliPlugin:legacy',
+        args: ['input', 'extra'],
+        thisIsCommand: true,
+      });
+    });
+
+    it('preserves legacy action callbacks with custom options', async () => {
+      const result = await testCommand([
+        'cliPlugin:legacy',
+        'input',
+        'extra',
+        '--label',
+        'custom',
+        '--no-cache',
+      ]);
+      expect(result.exit).toBeUndefined();
+      expect(result.stderr).toBe('');
+      expect(JSON.parse(result.stdout)).toEqual({
+        input: 'input',
+        label: 'custom',
+        cache: false,
+        options: {label: 'custom', cache: false},
+        name: 'cliPlugin:legacy',
+        args: ['input', 'extra'],
+        thisIsCommand: true,
+      });
+    });
+
+    it('inherits compatibility settings in nested commands', async () => {
+      const result = await testCommand([
+        'cliPlugin:nested',
+        'run',
+        '--label',
+        'nested',
+        'extra',
+      ]);
+      expect(result.exit).toBeUndefined();
+      expect(JSON.parse(result.stdout)).toEqual({
+        label: 'nested',
+        options: {label: 'nested'},
+        args: ['extra'],
+        parent: 'cliPlugin:nested',
+      });
+    });
+
+    it('allows plugins to opt into modern option handling', async () => {
+      const result = await testCommand([
+        'cliPlugin:modern',
+        '--label',
+        'modern',
+      ]);
+      expect(result.exit).toBeUndefined();
+      expect(JSON.parse(result.stdout)).toEqual({
+        options: {label: 'modern'},
+        name: 'cliPlugin:modern',
+        separateOptions: true,
+      });
+    });
+
+    it('allows plugins to reject excess arguments', async () => {
+      const result = await testCommand(['cliPlugin:modern', 'extra']);
+      expect(result.exit).toEqual({
+        code: 'commander.excessArguments',
+        exitCode: 1,
+      });
+    });
+
     it('docusaurus cliPlugin:test', async () => {
       const result = await testCommand(['cliPlugin:test']);
       expect(result).toMatchInlineSnapshot(`
@@ -221,6 +299,71 @@ describe('CLI', () => {
           "stdout": "TEST ACTION",
         }
       `);
+    });
+  });
+
+  describe('internal commands', () => {
+    beforeEach(() => {
+      vi.spyOn(buildCommand, 'build').mockResolvedValue(undefined);
+      vi.spyOn(startCommand, 'start').mockResolvedValue(undefined);
+      vi.spyOn(serveCommand, 'serve').mockResolvedValue(undefined);
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it('parses variadic and repeated build locales', async () => {
+      await testCommand([
+        'build',
+        'website',
+        '--locale',
+        'en',
+        'fr',
+        '--locale',
+        'de',
+        '--no-minify',
+      ]);
+      expect(buildCommand.build).toHaveBeenCalledWith(
+        'website',
+        expect.objectContaining({locale: ['en', 'fr', 'de'], minify: false}),
+        expect.any(Command),
+      );
+    });
+
+    it('preserves start host, port, polling, and negated options', async () => {
+      await testCommand([
+        'start',
+        'website',
+        '-h',
+        '0.0.0.0',
+        '-p',
+        '4000',
+        '--poll',
+        '500',
+        '--no-open',
+        '--no-minify',
+      ]);
+      expect(startCommand.start).toHaveBeenCalledWith(
+        'website',
+        expect.objectContaining({
+          host: '0.0.0.0',
+          port: '4000',
+          poll: 500,
+          open: false,
+          minify: false,
+        }),
+        expect.any(Command),
+      );
+    });
+
+    it('preserves serve defaults and omitted siteDir', async () => {
+      await testCommand(['serve']);
+      expect(serveCommand.serve).toHaveBeenCalledWith(
+        undefined,
+        expect.objectContaining({open: true}),
+        expect.any(Command),
+      );
     });
   });
 });

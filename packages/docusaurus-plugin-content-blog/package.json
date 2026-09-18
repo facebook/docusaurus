@@ -57,7 +57,7 @@
     "react-dom": "^19.3.0"
   },
   "engines": {
-    "node": ">=24.14"
+    "node": ">=24.21"
   },
   "devDependencies": {
     "@total-typescript/shoehorn": "^0.1.2",

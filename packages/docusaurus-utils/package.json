@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@11ty/gray-matter": "^2.1.0",
+    "@11ty/gray-matter": "^3.0.0",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "@docusaurus/utils-common": "workspace:*",
@@ -27,7 +27,7 @@
     "fs-extra": "^11.4.0",
     "github-slugger": "^2.0.0",
     "jiti": "^2.7.0",
-    "js-yaml": "^4.3.2",
+    "js-yaml": "^5.4.1",
     "lodash": "^4.18.1",
     "micromatch": "^4.0.8",
     "p-queue": "^6.6.2",
@@ -40,11 +40,10 @@
     "webpack": "^5.111.0"
   },
   "engines": {
-    "node": ">=24.14"
+    "node": ">=24.21"
   },
   "devDependencies": {
     "@types/dedent": "^0.7.2",
-    "@types/js-yaml": "^4.0.9",
     "@types/micromatch": "^4.0.10",
     "@types/react-dom": "^19.3.0",
     "dedent": "^1.7.2"

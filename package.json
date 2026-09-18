@@ -107,7 +107,7 @@
     "execa": "^10.0.1",
     "globals": "^17.12.0",
     "husky": "^9.1.7",
-    "image-size": "^2.0.2",
+    "image-size": "^2.0.4",
     "jest-serializer-ansi-escapes": "^5.0.0",
     "jest-serializer-react-helmet-async": "^1.0.21",
     "jiti": "^2.7.0",
@@ -135,7 +135,7 @@
   },
   "packageManager": "pnpm@12.3.4",
   "engines": {
-    "node": ">=24.14",
+    "node": ">=24.21",
     "pnpm": ">=12.3.4"
   }
 }

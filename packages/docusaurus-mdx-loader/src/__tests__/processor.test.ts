@@ -76,6 +76,32 @@ describe('MDX processor', () => {
       expect(result.content).toMatchSnapshot();
     });
 
+    it('reuses the processor when compiling files concurrently', async () => {
+      let pluginInitializations = 0;
+      const asyncPlugin: Plugin<[], Root> = () => {
+        pluginInitializations += 1;
+        return async (_tree, file) => {
+          await new Promise<void>((resolve) => setImmediate(resolve));
+          file.data.asyncPluginContent = file.toString();
+        };
+      };
+      const options = createOptions({
+        markdownConfig: {format},
+        remarkPlugins: [asyncPlugin],
+      });
+
+      const results = await Promise.all([
+        processContent('First document', options),
+        processContent('Second document', options),
+      ]);
+
+      expect(pluginInitializations).toBe(1);
+      expect(results.map((result) => result.data.asyncPluginContent)).toEqual([
+        'First document',
+        'Second document',
+      ]);
+    });
+
     it('preserves nested admonitions and rich titles', async () => {
       const options = createOptions({
         markdownConfig: {format},

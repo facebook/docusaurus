@@ -47,7 +47,7 @@
     "@types/react-router-config": "^5.0.11",
     "combine-promises": "^1.2.0",
     "fs-extra": "^11.4.0",
-    "js-yaml": "^4.3.2",
+    "js-yaml": "^5.4.1",
     "lodash": "^4.18.1",
     "schema-dts": "^1.1.5",
     "tslib": "^2.8.1",
@@ -55,9 +55,8 @@
     "webpack": "^5.111.0"
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.9",
     "@types/picomatch": "^2.3.4",
-    "commander": "^5.1.0",
+    "commander": "^15.0.0",
     "picomatch": "^2.3.2"
   },
   "peerDependencies": {
@@ -65,6 +64,6 @@
     "react-dom": "^19.3.0"
   },
   "engines": {
-    "node": ">=24.14"
+    "node": ">=24.21"
   }
 }

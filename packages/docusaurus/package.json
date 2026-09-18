@@ -44,7 +44,7 @@
     "chokidar": "^3.6.0",
     "cli-table3": "^0.6.5",
     "combine-promises": "^1.2.0",
-    "commander": "^5.1.0",
+    "commander": "^15.0.0",
     "core-js": "^3.50.0",
     "detect-port": "^2.1.0",
     "escape-html": "^1.0.3",
@@ -102,6 +102,6 @@
     }
   },
   "engines": {
-    "node": ">=24.14"
+    "node": ">=24.21"
   }
 }
