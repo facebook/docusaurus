@@ -7,9 +7,11 @@
 
 import {describe, expect, it} from 'vitest';
 import path from 'path';
+import {remark} from 'remark';
+import directives from 'remark-directive';
 import remark2rehype from 'remark-rehype';
 import stringify from 'rehype-stringify';
-import vfile from 'to-vfile';
+import {read} from 'to-vfile';
 import preprocessor from '../../../preprocessor';
 import plugin, {DefaultAdmonitionOptions} from '../index';
 import type {AdmonitionOptions} from '../index';
@@ -18,11 +20,8 @@ const processFixture = async (
   name: string,
   options?: Partial<AdmonitionOptions>,
 ) => {
-  const {remark} = await import('remark');
-  const {default: directives} = await import('remark-directive');
-
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
-  const file = await vfile.read(filePath);
+  const file = await read(filePath);
   const fileContentPreprocessed = preprocessor({
     fileContent: file.toString(),
     filePath,

@@ -6,6 +6,7 @@
  */
 import path from 'path';
 import process from 'process';
+import {visit} from 'unist-util-visit';
 import logger from '@docusaurus/logger';
 import {toMessageRelativeFilePath, posixPath} from '@docusaurus/utils';
 import {formatNodePositionExtraMessage, transformNode} from '../utils';
@@ -138,9 +139,7 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
     options.onUnusedMarkdownDirectives,
   );
 
-  return async (tree, file) => {
-    const {visit} = await import('unist-util-visit');
-
+  return (tree, file) => {
     const unusedDirectives: Directives[] = [];
 
     // @ts-expect-error: TODO fix type

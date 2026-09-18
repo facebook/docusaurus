@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {visit} from 'unist-util-visit';
 import {simpleHash} from '@docusaurus/utils';
 import type {Transformer} from 'unified';
 import type {FootnoteReference, FootnoteDefinition} from 'mdast';
@@ -16,9 +17,7 @@ import type {FootnoteReference, FootnoteDefinition} from 'mdast';
  * unique hash to each reference/definition.
  */
 export default function plugin(): Transformer {
-  return async (root, vfile) => {
-    const {visit} = await import('unist-util-visit');
-
+  return (root, vfile) => {
     const suffix = `-${simpleHash(vfile.path!, 6)}`;
     visit(root, 'footnoteReference', (node: FootnoteReference) => {
       node.identifier += suffix;

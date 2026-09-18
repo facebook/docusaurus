@@ -4,6 +4,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {toString} from 'mdast-util-to-string';
+import {visit, EXIT} from 'unist-util-visit';
 import type {Transformer, Plugin} from 'unified';
 import type {Heading, Parent, Root} from 'mdast';
 import type {MdxJsxFlowElement} from 'mdast-util-mdx';
@@ -37,9 +39,7 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
   // content title is
   const removeContentTitle = options.removeContentTitle ?? false;
 
-  return async (root, vfile) => {
-    const {toString} = await import('mdast-util-to-string');
-    const {visit, EXIT} = await import('unist-util-visit');
+  return (root, vfile) => {
     visit(root, ['heading', 'thematicBreak'], (node, index, parent) => {
       if (!parent || index === undefined) {
         return undefined;

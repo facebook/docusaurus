@@ -6,6 +6,8 @@
  */
 
 import {describe, expect, it} from 'vitest';
+import {remark} from 'remark';
+import mdx from 'remark-mdx';
 import {escapeMarkdownHeadingIds} from '@docusaurus/utils';
 import plugin from '../index';
 
@@ -13,9 +15,6 @@ async function process(
   content: string,
   options: {removeContentTitle?: boolean} = {},
 ) {
-  const {remark} = await import('remark');
-  const {default: mdx} = await import('remark-mdx');
-
   const result = await remark()
     .use(mdx)
     .use(plugin, options)

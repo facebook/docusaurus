@@ -5,6 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {createProcessor as createMdxProcessor} from '@mdx-js/mdx';
+import frontmatter from 'remark-frontmatter';
+import rehypeRaw from 'rehype-raw';
+import gfm from 'remark-gfm';
+// TODO using fork until PR merged: https://github.com/leebyron/remark-comment/pull/3
+import remarkComment from '@slorber/remark-comment';
+import directive from 'remark-directive';
+import {VFile} from 'vfile';
+import emoji from 'remark-emoji';
 import headings from './remark/headings';
 import contentTitle from './remark/contentTitle';
 import toc from './remark/toc';
@@ -78,18 +87,7 @@ function getAdmonitionsPlugins(
   return [];
 }
 
-// Need to be async due to ESM dynamic imports...
-async function createProcessorFactory() {
-  const {createProcessor: createMdxProcessor} = await import('@mdx-js/mdx');
-  const {default: frontmatter} = await import('remark-frontmatter');
-  const {default: rehypeRaw} = await import('rehype-raw');
-  const {default: gfm} = await import('remark-gfm');
-  // TODO using fork until PR merged: https://github.com/leebyron/remark-comment/pull/3
-  const {default: comment} = await import('@slorber/remark-comment');
-  const {default: directive} = await import('remark-directive');
-  const {VFile} = await import('vfile');
-  const {default: emoji} = await import('remark-emoji');
-
+function createProcessorFactory() {
   function getDefaultRemarkPlugins({options}: {options: Options}): MDXPlugin[] {
     return [
       [
@@ -150,7 +148,7 @@ async function createProcessorFactory() {
         } satisfies TransformLinksOptions,
       ],
       gfm,
-      options.markdownConfig.mdx1Compat.comments ? comment : null,
+      options.markdownConfig.mdx1Compat.comments ? remarkComment : null,
       ...(options.remarkPlugins ?? []),
       [
         unusedDirectives,
@@ -233,7 +231,7 @@ export async function createProcessorUncached(parameters: {
   options: Options;
   format: 'md' | 'mdx';
 }): Promise<SimpleProcessor> {
-  const {createProcessorSync} = await createProcessorFactory();
+  const {createProcessorSync} = createProcessorFactory();
   return createProcessorSync(parameters);
 }
 
@@ -252,7 +250,7 @@ export async function createProcessors({
 }: {
   options: Options;
 }): Promise<SimpleProcessors> {
-  const {createProcessorSync} = await createProcessorFactory();
+  const {createProcessorSync} = createProcessorFactory();
   return {
     mdProcessor: createProcessorSync({
       options,
