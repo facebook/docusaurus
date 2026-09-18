@@ -872,8 +872,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1(supports-color@10.2.2)
       stringify-object:
-        specifier: ^6.0.0
-        version: 6.0.0
+        specifier: ^7.0.0
+        version: 7.0.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -905,9 +905,6 @@ importers:
       '@types/mdast':
         specifier: ^4.0.4
         version: 4.0.4
-      '@types/stringify-object':
-        specifier: ^3.3.1
-        version: 3.3.1
       '@types/unist':
         specifier: ^3.0.3
         version: 3.0.3
@@ -6178,9 +6175,6 @@ packages:
   '@types/source-list-map@0.1.6':
     resolution: {integrity: sha512-5JcVt1u5HDmlXkwOD2nslZVllBBc7HDuOICfiZah2Z0is8M8g+ddAEawbmd3VjedfDHBzxCaXLs07QEmb7y54g==}
 
-  '@types/stringify-object@3.3.1':
-    resolution: {integrity: sha512-bpCBW0O+QrMLNFBY/+rkZtGzcYRmc2aTD8qYHOMNUmednqETfEZtFcGEA11l9xqbIeiT1PgXG0eq3zqayVzZSQ==}
-
   '@types/supports-color@10.0.0':
     resolution: {integrity: sha512-Kpp/hhA8/pcxqBBKmOCIgvwCOJAI5y6TWTHhhqnB6KmuYlKtixKgN/Z7VzhShdgONe2jYREnTQbsrb3E0nt/OQ==}
     deprecated: This is a stub types definition. supports-color provides its own type definitions, so you do not need this installed.
@@ -11375,6 +11369,10 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
 
+  quote-js-string@0.1.0:
+    resolution: {integrity: sha512-Y3NoRtprEEZQD8RfxMCfS0ZTqc4e+i18OrXEXAvpM6TfC/3y+0L5rNbZiSnbBBEkDfFzbpd8o+cE8q3/anjMGA==}
+    engines: {node: '>=22'}
+
   range-parser@1.2.0:
     resolution: {integrity: sha512-kA5WQoNVo4t9lNx2kQNFCxKeBl5IbbSNBl1M/tLkw9WCn+hxNBAW5Qh8gdhs63CJnhjJ2zQWFoqPJP2sK1AV5A==}
     engines: {node: '>= 0.6'}
@@ -12154,9 +12152,9 @@ packages:
     resolution: {integrity: sha512-rHqiFh1elqCQ9WPLIC8I0Q/g/wj5J1eMkyoiD6eoQApWHP0FtlK7rqnhmabL5VUY9JQCcqwwvlOaSuutekgyrw==}
     engines: {node: '>=4'}
 
-  stringify-object@6.0.0:
-    resolution: {integrity: sha512-6f94vIED6vmJJfh3lyVsVWxCYSfI5uM+16ntED/Ql37XIyV6kj0mRAAiTeMMc/QLYIaizC3bUprQ8pQnDDrKfA==}
-    engines: {node: '>=20'}
+  stringify-object@7.0.0:
+    resolution: {integrity: sha512-RQU1n5OVVXD9fhww7e/rqiKdMa+LPMFLz0zDTbZ+KUjMfiMmh9soT8aw5iwvCGVquUJOodoinyv3VECyY7aFBQ==}
+    engines: {node: '>=22'}
 
   strip-ansi@6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
@@ -17520,8 +17518,6 @@ snapshots:
       '@types/node': 25.9.5
 
   '@types/source-list-map@0.1.6': {}
-
-  '@types/stringify-object@3.3.1': {}
 
   '@types/supports-color@10.0.0':
     dependencies:
@@ -23899,6 +23895,8 @@ snapshots:
 
   quick-lru@5.1.1: {}
 
+  quote-js-string@0.1.0: {}
+
   range-parser@1.2.0: {}
 
   range-parser@1.3.0: {}
@@ -24946,12 +24944,13 @@ snapshots:
       is-obj: 1.0.1
       is-regexp: 1.0.0
 
-  stringify-object@6.0.0:
+  stringify-object@7.0.0:
     dependencies:
       get-own-enumerable-keys: 1.0.0
       is-identifier: 1.1.0
       is-obj: 3.0.0
       is-regexp: 3.1.0
+      quote-js-string: 0.1.0
 
   strip-ansi@6.0.1:
     dependencies:

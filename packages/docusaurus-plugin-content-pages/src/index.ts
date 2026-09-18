@@ -27,10 +27,10 @@ import type {
 } from '@docusaurus/plugin-content-pages';
 import type {RuleSetRule} from 'webpack';
 
-export default async function pluginContentPages(
+export default function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
-): Promise<Plugin<LoadedContent | null>> {
+): Plugin<LoadedContent | null> {
   const {siteConfig, siteDir, generatedFilesDir} = context;
 
   const contentPaths = createPagesContentPaths({context, options});
@@ -42,7 +42,7 @@ export default async function pluginContentPages(
   );
   const dataDir = path.join(pluginDataDirRoot, options.id);
 
-  async function createPagesMDXLoaderRule(): Promise<RuleSetRule> {
+  function createPagesMDXLoaderRule(): RuleSetRule {
     const {
       admonitions,
       rehypePlugins,
@@ -96,7 +96,7 @@ export default async function pluginContentPages(
     });
   }
 
-  const pagesMDXLoaderRule = await createPagesMDXLoaderRule();
+  const pagesMDXLoaderRule = createPagesMDXLoaderRule();
 
   return {
     name: 'docusaurus-plugin-content-pages',
