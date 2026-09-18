@@ -218,8 +218,7 @@ describe('paginateBlogPosts', () => {
   });
 });
 
-// cspell:ignore Kolkata
-describe.each(['UTC', 'America/New_York', 'Asia/Kolkata'])(
+describe.each(['UTC', 'America/New_York', 'Asia/Tokyo'])(
   'parseFrontMatterDate in %s',
   (timeZone) => {
     beforeEach(() => vi.stubEnv('TZ', timeZone));
