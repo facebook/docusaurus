@@ -49,6 +49,7 @@ declare module '@docusaurus/plugin-content-blog' {
     | 'twitter'
     | 'github'
     | 'linkedin'
+    | 'linkedin_company'
     | 'stackoverflow'
     | 'x'
     | 'bluesky'

@@ -16,6 +16,7 @@ export const AuthorSocialsSchema = Joi.object<AuthorSocials>({
   twitter: Joi.string(),
   github: Joi.string(),
   linkedin: Joi.string(),
+  linkedin_company: Joi.string(), // company pages, not /in/ people profiles
   // StackOverflow userIds like '82609' are parsed as numbers by Yaml
   stackoverflow: Joi.alternatives()
     .try(Joi.number(), Joi.string())
@@ -40,6 +41,8 @@ const PredefinedPlatformNormalizers: Record<
   twitter: (handle: string) => `https://twitter.com/${handle}`,
   github: (handle: string) => `https://github.com/${handle}`,
   linkedin: (handle: string) => `https://www.linkedin.com/in/${handle}/`,
+  linkedin_company: (handle: string) =>
+    `https://www.linkedin.com/company/${handle}/`,
   stackoverflow: (userId: string) =>
     `https://stackoverflow.com/users/${userId}`,
   bluesky: (handle: string) => `https://bsky.app/profile/${handle}`,
