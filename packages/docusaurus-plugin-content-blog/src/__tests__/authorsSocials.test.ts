@@ -14,6 +14,7 @@ describe('normalizeSocials', () => {
     const socials: AuthorSocials = {
       twitter: 'ozakione',
       linkedin: 'ozakione',
+      linkedin_company: 'docusaurus',
       github: 'ozakione',
       stackoverflow: 'ozakione',
       threads: 'gingergeekuk',
@@ -32,6 +33,7 @@ describe('normalizeSocials', () => {
         "github": "https://github.com/ozakione",
         "instagram": "https://www.instagram.com/thisweekinreact",
         "linkedin": "https://www.linkedin.com/in/ozakione/",
+        "linkedin_company": "https://www.linkedin.com/company/docusaurus/",
         "mastodon": "https://mastodon.social/@Mastodon",
         "stackoverflow": "https://stackoverflow.com/users/ozakione",
         "threads": "https://www.threads.net/@gingergeekuk",
@@ -46,6 +48,7 @@ describe('normalizeSocials', () => {
     const socials: AuthorSocials = {
       Twitter: 'ozakione',
       linkedIn: 'ozakione',
+      LinkedIn_Company: 'docusaurus',
       gitHub: 'ozakione',
       STACKoverflow: 'ozakione',
       instaGRam: 'thisweekinreact',
@@ -61,6 +64,7 @@ describe('normalizeSocials', () => {
         "github": "https://github.com/ozakione",
         "instagram": "https://www.instagram.com/thisweekinreact",
         "linkedin": "https://www.linkedin.com/in/ozakione/",
+        "linkedin_company": "https://www.linkedin.com/company/docusaurus/",
         "stackoverflow": "https://stackoverflow.com/users/ozakione",
         "threads": "https://www.threads.net/@gingergeekuk",
         "twitter": "https://twitter.com/ozakione",
@@ -140,5 +144,17 @@ describe('normalizeSocials', () => {
     };
 
     expect(normalizeSocials(socials)).toEqual(socials);
+  });
+
+  it('normalizes LinkedIn company handles separately from people profiles', () => {
+    const socials: AuthorSocials = {
+      linkedin: 'sebastienlorber',
+      linkedin_company: 'docusaurus',
+    };
+
+    expect(normalizeSocials(socials)).toEqual({
+      linkedin: 'https://www.linkedin.com/in/sebastienlorber/',
+      linkedin_company: 'https://www.linkedin.com/company/docusaurus/',
+    });
   });
 });

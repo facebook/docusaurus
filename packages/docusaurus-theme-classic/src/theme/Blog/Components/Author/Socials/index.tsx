@@ -36,6 +36,7 @@ const SocialPlatformConfigs: Record<string, SocialPlatformConfig> = {
   github: {Icon: GitHub, label: 'GitHub'},
   stackoverflow: {Icon: StackOverflow, label: 'Stack Overflow'},
   linkedin: {Icon: LinkedIn, label: 'LinkedIn'},
+  linkedin_company: {Icon: LinkedIn, label: 'LinkedIn'},
   x: {Icon: X, label: 'X'},
   bluesky: {Icon: Bluesky, label: 'Bluesky'},
   instagram: {Icon: Instagram, label: 'Instagram'},
