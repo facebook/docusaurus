@@ -80,6 +80,16 @@ describe('normalizeSocials', () => {
     expect(normalizeSocials(socials)).toEqual(socials);
   });
 
+  it('supports LinkedIn company handles', () => {
+    const socials: AuthorSocials = {
+      linkedin: 'company/docusaurus',
+    };
+
+    expect(normalizeSocials(socials)).toEqual({
+      linkedin: 'https://www.linkedin.com/company/docusaurus/',
+    });
+  });
+
   it('mixed links', () => {
     const socials: AuthorSocials = {
       twitter: 'ozakione',
