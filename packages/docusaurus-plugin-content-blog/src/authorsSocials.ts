@@ -39,7 +39,8 @@ const PredefinedPlatformNormalizers: Record<
   x: (handle: string) => `https://x.com/${handle}`,
   twitter: (handle: string) => `https://twitter.com/${handle}`,
   github: (handle: string) => `https://github.com/${handle}`,
-  linkedin: (handle: string) => `https://www.linkedin.com/in/${handle}/`,
+  linkedin: (handle: string) =>
+    `https://www.linkedin.com/${handle.startsWith('company/') ? handle : `in/${handle}`}/`,
   stackoverflow: (userId: string) =>
     `https://stackoverflow.com/users/${userId}`,
   bluesky: (handle: string) => `https://bsky.app/profile/${handle}`,
@@ -66,7 +67,10 @@ Social platform '${platform}' has illegal value '${value}'`,
     value.startsWith('mailto:');
   if (isAbsoluteUrl) {
     return [platform, value];
-  } else if (value.includes('/')) {
+  } else if (
+    value.includes('/') &&
+    !(platform.toLowerCase() === 'linkedin' && value.startsWith('company/'))
+  ) {
     throw new Error(
       `Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
 Social platform '${platform}' has illegal value '${value}'`,
