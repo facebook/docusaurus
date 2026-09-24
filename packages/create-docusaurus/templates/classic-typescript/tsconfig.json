@@ -6,7 +6,6 @@
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
     // Node.js types, for Node.js code (docusaurus.config.ts, sidebars.ts...)
-    // and globals provided by the bundler to client code (require()...)
     "types": ["node"]
   }
 }
