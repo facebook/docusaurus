@@ -36,6 +36,11 @@ export const getSwcLoaderOptions = ({
           runtime: 'automatic',
         },
       },
+      experimental: {
+        // Required to match import attributes in rules, see
+        // https://rspack.rs/config/module-rules#ruleswith
+        keepImportAttributes: true,
+      },
     },
   };
 };

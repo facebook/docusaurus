@@ -85,19 +85,19 @@ import MyComponent from './myComponent';
 
 </BrowserWindow>
 
-But you can also display its source code directly in MDX, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/)
+But you can also display its source code directly in MDX, thanks to [import attributes](https://github.com/tc39/proposal-import-attributes)
 
 ```jsx title="myMarkdownFile.mdx"
 import CodeBlock from '@theme/CodeBlock';
 
-import MyComponentSource from '!!raw-loader!./myComponent';
+import MyComponentSource from './myComponent.js' with {type: 'text'};
 
 <CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>;
 ```
 
 import CodeBlock from '@theme/CodeBlock';
 
-import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponent';
+import MyComponentSource from '@site/src/pages/examples/_myComponent.tsx' with {type: 'text'};
 
 <BrowserWindow>
 

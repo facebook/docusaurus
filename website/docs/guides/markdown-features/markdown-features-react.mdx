@@ -257,25 +257,19 @@ This feature is **experimental** and currently has a few [limitations](https://g
 
 ## Importing code snippets {/* #importing-code-snippets */}
 
-You can not only import a file containing a component definition, but also import any code file as raw text, and then insert it in a code block, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/). In order to use `raw-loader`, you first need to install it in your project:
-
-```bash npm2yarn
-npm install --save raw-loader
-```
-
-Now you can import code snippets from another file as it is:
+You can not only import a file containing a component definition, but also import any code file as raw text, and then insert it in a code block, thanks to the standard [import attributes](https://github.com/tc39/proposal-import-attributes) syntax:
 
 {/* prettier-ignore */}
 ```jsx title="myMarkdownFile.mdx"
 import CodeBlock from '@theme/CodeBlock';
-import MyComponentSource from '!!raw-loader!./myComponent';
+import MyComponentSource from './myComponent.js' with {type: 'text'};
 
 <CodeBlock language="jsx">{MyComponentSource}</CodeBlock>
 ```
 
 ```mdx-code-block
 import CodeBlock from '@theme/CodeBlock';
-import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponent';
+import MyComponentSource from '@site/src/pages/examples/_myComponent.tsx' with {type: 'text'};
 
 <BrowserWindow>
 

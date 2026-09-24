@@ -60,6 +60,7 @@ export function createMDXLoaderRule({
   return {
     test: /\.mdx?$/i,
     include,
+    with: {type: {not: 'text'}},
     use: [createMDXLoaderItem(options)],
   };
 }

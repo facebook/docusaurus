@@ -54,6 +54,7 @@ export default function pluginIdealImage(
           rules: [
             {
               test: /\.(?:png|jpe?g)$/i,
+              with: {type: {not: 'text'}},
               // We don't want to use the image loader for non-React source code
               // ie we don't want to use ideal image loader for CSS files...
               // See https://github.com/facebook/docusaurus/issues/10862
