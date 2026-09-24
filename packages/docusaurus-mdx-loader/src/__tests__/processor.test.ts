@@ -152,31 +152,26 @@ describe('MDX processor', () => {
 
 {text}`;
 
-    const ecmaVersion2025: Options['remarkMdxOptions'] = {
-      acornOptions: {ecmaVersion: 2025, sourceType: 'module'},
-    };
-
-    it('does not parse import attributes by default', async () => {
+    it('parses import attributes by default (ES2025)', async () => {
       const options = createOptions({markdownConfig: {format: 'mdx'}});
+      const result = await processContent(importAttributes, options);
+      expect(result.content).toMatchSnapshot();
+    });
+
+    it('can downgrade to ES2024', async () => {
+      const options = createOptions({
+        markdownConfig: {format: 'mdx'},
+        remarkMdxOptions: {
+          acornOptions: {ecmaVersion: 2024, sourceType: 'module'},
+        },
+      });
       await expect(processContent(importAttributes, options)).rejects.toThrow(
         /Could not parse import\/exports with acorn/,
       );
     });
 
-    it('parses import attributes with ecmaVersion 2025', async () => {
-      const options = createOptions({
-        markdownConfig: {format: 'mdx'},
-        remarkMdxOptions: ecmaVersion2025,
-      });
-      const result = await processContent(importAttributes, options);
-      expect(result.content).toMatchSnapshot();
-    });
-
     it('does not apply to the md format', async () => {
-      const options = createOptions({
-        markdownConfig: {format: 'md'},
-        remarkMdxOptions: ecmaVersion2025,
-      });
+      const options = createOptions({markdownConfig: {format: 'md'}});
       const result = await processContent(importAttributes, options);
       expect(result.content).toMatchSnapshot();
     });

@@ -1,0 +1,9 @@
+# Import attributes tests
+
+MDX files are parsed with ES2025 syntax, allowing the usage of [import attributes](https://github.com/tc39/proposal-import-attributes).
+
+```mdx-code-block
+import data from './data.json' with {type: 'json'};
+
+<pre>{JSON.stringify(data)}</pre>
+```
