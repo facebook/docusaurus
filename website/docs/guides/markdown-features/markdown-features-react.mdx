@@ -280,26 +280,6 @@ import MyComponentSource from '@site/src/pages/examples/_myComponent.tsx' with {
 
 See [using code blocks in JSX](./markdown-features-code-blocks.mdx#usage-in-jsx) for more details of the `<CodeBlock>` component.
 
-A module imported with `with {type: 'text'}` is the raw file content, as a string. Docusaurus doesn't process it with any loader: JS/TS files are not transpiled, Markdown files are not compiled, CSS files are not processed, SVG files are not turned into React components… This works for any file type, in both MDX and JS/TS files.
-
-:::note For plugin authors
-
-Loaders added by third-party plugins may still process text imports. To return the raw file content, a plugin rule should exclude text imports with the `with: {type: {not: 'text'}}` condition.
-
-:::
-
-:::tip TypeScript
-
-TypeScript types imported modules according to their file extension, and doesn't know that text imports are strings. In TS files, you may need to cast the imported value, or to use a `// @ts-expect-error` comment.
-
-:::
-
-:::info `raw-loader`
-
-We used to recommend the Webpack [`raw-loader`](https://webpack.js.org/loaders/raw-loader/) for this use case, with `!!raw-loader!./myComponent` imports. This still works, but import attributes are now preferred: they are a standard, and don't require any extra dependency.
-
-:::
-
 :::note
 
 You have to use `<CodeBlock>` rather than the Markdown triple-backtick ` ``` `, because the latter will ship out any of its content as-is, but you want to interpolate the imported text here.
