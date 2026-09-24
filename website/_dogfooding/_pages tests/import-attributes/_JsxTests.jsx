@@ -15,13 +15,13 @@ import jsText from './_fixtures/js-fixture.js' with {type: 'text'};
 import tsText from './_fixtures/ts-fixture.ts' with {type: 'text'};
 import tsxText from './_fixtures/tsx-fixture.tsx' with {type: 'text'};
 import jsonText from './_fixtures/json-fixture.json' with {type: 'text'};
-import cssText from './_fixtures/css-fixture.css' with {type: 'text'};
-import cssModuleText from './_fixtures/css-module-fixture.module.css' with {type: 'text'};
 import svgText from './_fixtures/svg-fixture.svg' with {type: 'text'};
 import mdText from './_fixtures/md-fixture.md' with {type: 'text'};
 import mdxText from './_fixtures/mdx-fixture.mdx' with {type: 'text'};
 import yamlText from './_fixtures/yaml-fixture.yaml' with {type: 'text'};
 import txtText from './_fixtures/txt-fixture.txt' with {type: 'text'};
+import cssModuleText from './_fixtures/css-module-fixture.module.css' with {type: 'text'};
+import cssText from './_fixtures/css-fixture.css' with {type: 'text'};
 
 export default function JsxTests() {
   return (
