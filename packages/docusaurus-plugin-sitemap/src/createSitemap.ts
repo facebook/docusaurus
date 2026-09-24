@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createMatcher, flattenRoutes} from '@docusaurus/utils';
+import {flattenRoutes} from '@docusaurus/utils';
+import {createMatcher} from '@docusaurus/glob';
 import {sitemapItemsToXmlString} from './xml';
 import {createSitemapItem} from './createSitemapItem';
 import {isNoIndexMetaRoute} from './head';

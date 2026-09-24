@@ -16,12 +16,12 @@ import {
   normalizeUrl,
   parseMarkdownFile,
   posixPath,
-  Globby,
   isUnlisted,
   isDraft,
   readLastUpdateData,
   normalizeTags,
 } from '@docusaurus/utils';
+import {glob} from '@docusaurus/glob';
 import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
@@ -66,7 +66,7 @@ export async function readVersionDocs(
     'include' | 'exclude' | 'showLastUpdateAuthor' | 'showLastUpdateTime'
   >,
 ): Promise<DocFile[]> {
-  const sources = await Globby(options.include, {
+  const sources = await glob(options.include, {
     cwd: versionMetadata.contentPath,
     ignore: options.exclude,
   });

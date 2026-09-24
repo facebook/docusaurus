@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {GlobExcludeDefault} from '@docusaurus/utils';
+import {GlobExcludeDefault} from '@docusaurus/glob';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import {DefaultSidebarItemsGenerator} from '../sidebars/generator';

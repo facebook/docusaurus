@@ -16,12 +16,12 @@ import {
   getPluginI18nPath,
   posixPath,
   addTrailingPathSeparator,
-  createAbsoluteFilePathMatcher,
   getContentPathList,
   getDataFilePath,
   resolveMarkdownLinkPathname,
   getLocaleConfig,
 } from '@docusaurus/utils';
+import {createAbsoluteFilePathMatcher} from '@docusaurus/glob';
 import {
   getTagsFilePathsToWatch,
   getTagsFile,

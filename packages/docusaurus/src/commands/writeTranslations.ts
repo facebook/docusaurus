@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {globTranslatableSourceFiles} from '@docusaurus/utils';
+import {globTranslatableSourceFiles} from '@docusaurus/glob';
 import {loadContext, type LoadContextParams} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 import {

@@ -13,7 +13,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {globTranslatableSourceFiles} from '@docusaurus/utils';
+import {globTranslatableSourceFiles} from '@docusaurus/glob';
 import {extractAllSourceCodeFileTranslations} from '@docusaurus/babel';
 import type {TranslationFileContent} from '@docusaurus/types';
 

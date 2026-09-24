@@ -93,6 +93,7 @@
     "@types/semver": "^7.8.0",
     "@vitejs/plugin-react": "^6.1.1",
     "@vitest/eslint-plugin": "^1.6.27",
+    "chokidar": "^3.6.0",
     "cross-env": "^10.1.0",
     "cspell": "^8.19.4",
     "eslint": "^9.39.5",

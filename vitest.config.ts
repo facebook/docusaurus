@@ -78,6 +78,11 @@ const resolveAliases: AliasOptions = [
     find: /^@docusaurus\/utils$/,
     replacement: `${rootDir}packages/docusaurus-utils/src/index.ts`,
   },
+  // Resolve @docusaurus/glob to src instead of lib.
+  {
+    find: /^@docusaurus\/glob$/,
+    replacement: `${rootDir}packages/docusaurus-glob/src/index.ts`,
+  },
   // Resolve @docusaurus/utils-validation to src instead of lib.
   {
     find: /^@docusaurus\/utils-validation$/,

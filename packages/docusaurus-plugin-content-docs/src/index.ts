@@ -14,10 +14,10 @@ import {
   getContentPathList,
   posixPath,
   addTrailingPathSeparator,
-  createAbsoluteFilePathMatcher,
   resolveMarkdownLinkPathname,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
+import {createAbsoluteFilePathMatcher} from '@docusaurus/glob';
 import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
 import {resolveSidebarPathOption} from './sidebars';

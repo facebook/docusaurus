@@ -15,7 +15,7 @@ import {
   RouteBasePathSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
-import {GlobExcludeDefault} from '@docusaurus/utils';
+import {GlobExcludeDefault} from '@docusaurus/glob';
 import {DefaultSidebarItemsGenerator} from './sidebars/generator';
 import {
   DefaultNumberPrefixParser,
