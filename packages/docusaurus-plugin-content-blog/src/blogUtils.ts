@@ -16,7 +16,6 @@ import {
   getEditUrl,
   getFolderContainingFile,
   posixPath,
-  Globby,
   groupTaggedItems,
   getTagVisibility,
   getContentPathList,
@@ -26,6 +25,7 @@ import {
   normalizeTags,
   aliasedSitePathToRelativePath,
 } from '@docusaurus/utils';
+import {glob} from '@docusaurus/glob';
 
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {getBlogPostAuthors} from './authors';
@@ -424,7 +424,7 @@ export async function generateBlogPosts(
     return [];
   }
 
-  const blogSourceFiles = await Globby(include, {
+  const blogSourceFiles = await glob(include, {
     cwd: contentPaths.contentPath,
     ignore: exclude,
   });

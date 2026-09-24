@@ -11,10 +11,10 @@ import {
   aliasedSitePath,
   docuHash,
   addTrailingPathSeparator,
-  createAbsoluteFilePathMatcher,
   getContentPathList,
   resolveMarkdownLinkPathname,
 } from '@docusaurus/utils';
+import {createAbsoluteFilePathMatcher} from '@docusaurus/glob';
 import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
 import {createAllRoutes} from './routes';
 import {createPagesContentPaths, loadPagesContent} from './content';

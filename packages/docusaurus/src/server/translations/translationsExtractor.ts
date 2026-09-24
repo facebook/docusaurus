@@ -7,7 +7,8 @@
 
 import nodePath from 'path';
 import logger from '@docusaurus/logger';
-import {globTranslatableSourceFiles, SRC_DIR_NAME} from '@docusaurus/utils';
+import {SRC_DIR_NAME} from '@docusaurus/utils';
+import {globTranslatableSourceFiles} from '@docusaurus/glob';
 import {
   getBabelOptions,
   getCustomBabelConfigFilePath,

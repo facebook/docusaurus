@@ -7,7 +7,7 @@
 
 import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
-import {Globby} from '@docusaurus/utils';
+import {glob} from '@docusaurus/glob';
 
 type PackageJsonFile = {
   file: string;
@@ -27,7 +27,7 @@ type PackageJsonFile = {
 };
 
 async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
-  const files = await Globby('packages/*/package.json');
+  const files = await glob('packages/*/package.json');
   return Promise.all(
     files.map((file) =>
       fs

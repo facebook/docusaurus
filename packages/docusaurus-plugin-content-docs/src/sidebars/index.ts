@@ -9,7 +9,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {loadFreshModule, Globby} from '@docusaurus/utils';
+import {loadFreshModule} from '@docusaurus/utils';
+import {glob} from '@docusaurus/glob';
 import * as Yaml from 'js-yaml';
 import combinePromises from 'combine-promises';
 import {validateSidebars, validateCategoryMetadataFile} from './validation';
@@ -41,7 +42,7 @@ export function resolveSidebarPathOption(
 }
 
 async function readCategoriesMetadata(contentPath: string) {
-  const categoryFiles = await Globby('**/_category_.{json,yml,yaml}', {
+  const categoryFiles = await glob('**/_category_.{json,yml,yaml}', {
     cwd: contentPath,
   });
   const categoryToFile = _.groupBy(categoryFiles, path.dirname);

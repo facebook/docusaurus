@@ -25,6 +25,7 @@
   "devDependencies": {
     "@docusaurus/babel": "workspace:*",
     "@docusaurus/core": "workspace:*",
+    "@docusaurus/glob": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "@docusaurus/utils": "workspace:*",

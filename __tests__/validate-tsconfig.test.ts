@@ -7,7 +7,7 @@
 
 import {describe, it} from 'vitest';
 import fs from 'fs-extra';
-import {Globby} from '@docusaurus/utils';
+import {glob} from '@docusaurus/glob';
 import {Joi} from '@docusaurus/utils-validation';
 
 type TsconfigFile = {
@@ -21,7 +21,7 @@ type TsconfigFile = {
 };
 
 async function getTsconfigFiles(): Promise<TsconfigFile[]> {
-  const files = await Globby('packages/*/tsconfig.*');
+  const files = await glob('packages/*/tsconfig.*');
   return Promise.all(
     files.map((file) =>
       fs

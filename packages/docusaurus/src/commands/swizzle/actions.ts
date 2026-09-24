@@ -9,7 +9,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {Globby, posixPath, THEME_PATH} from '@docusaurus/utils';
+import {posixPath, THEME_PATH} from '@docusaurus/utils';
+import {glob} from '@docusaurus/glob';
 import {askSwizzleAction} from './prompts';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleCLIOptions} from './common';
@@ -61,7 +62,7 @@ export async function eject({
 
   const globPatternPosix = posixPath(globPattern);
 
-  const filesToCopy = await Globby(globPatternPosix, {
+  const filesToCopy = await glob(globPatternPosix, {
     // Workaround for Tinyglobby bug?
     // We glob absolute from the theme root path, not from cwd
     // See https://github.com/SuperchupuDev/tinyglobby/issues/186

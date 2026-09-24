@@ -174,6 +174,9 @@ importers:
       '@vitest/eslint-plugin':
         specifier: ^1.6.27
         version: 1.6.27(@typescript-eslint/eslint-plugin@8.70.0(@typescript-eslint/parser@8.70.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(vitest@5.0.0(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(jsdom@30.1.0)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0)))
+      chokidar:
+        specifier: ^3.6.0
+        version: 3.6.0
       cross-env:
         specifier: ^10.1.0
         version: 10.1.0
@@ -447,6 +450,9 @@ importers:
       '@docusaurus/faster':
         specifier: workspace:*
         version: link:../docusaurus-faster
+      '@docusaurus/glob':
+        specifier: workspace:*
+        version: link:../docusaurus-glob
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger
@@ -468,9 +474,6 @@ importers:
       boxen:
         specifier: ^8.0.1
         version: 8.0.1
-      chokidar:
-        specifier: ^3.6.0
-        version: 3.6.0
       cli-table3:
         specifier: ^0.6.5
         version: 0.6.5
@@ -809,6 +812,25 @@ importers:
         specifier: ^5.111.0
         version: 5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)
 
+  packages/docusaurus-glob:
+    dependencies:
+      chokidar:
+        specifier: ^3.6.0
+        version: 3.6.0
+      micromatch:
+        specifier: ^4.0.8
+        version: 4.0.8
+      tinyglobby:
+        specifier: ^0.2.17
+        version: 0.2.17
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@types/micromatch':
+        specifier: ^4.0.10
+        version: 4.0.10
+
   packages/docusaurus-logger:
     dependencies:
       '@docusaurus/types':
@@ -1017,6 +1039,9 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
+      '@docusaurus/glob':
+        specifier: workspace:*
+        version: link:../docusaurus-glob
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger
@@ -1093,6 +1118,9 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
+      '@docusaurus/glob':
+        specifier: workspace:*
+        version: link:../docusaurus-glob
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger
@@ -1166,6 +1194,9 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
+      '@docusaurus/glob':
+        specifier: workspace:*
+        version: link:../docusaurus-glob
       '@docusaurus/mdx-loader':
         specifier: workspace:*
         version: link:../docusaurus-mdx-loader
@@ -1435,6 +1466,9 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
+      '@docusaurus/glob':
+        specifier: workspace:*
+        version: link:../docusaurus-glob
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger
@@ -1946,6 +1980,9 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
+      '@docusaurus/glob':
+        specifier: workspace:*
+        version: link:../docusaurus-glob
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger
@@ -2039,9 +2076,6 @@ importers:
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
-      micromatch:
-        specifier: ^4.0.8
-        version: 4.0.8
       p-queue:
         specifier: ^6.6.2
         version: 6.6.2
@@ -2051,9 +2085,6 @@ importers:
       resolve-pathname:
         specifier: ^3.0.0
         version: 3.0.0
-      tinyglobby:
-        specifier: ^0.2.17
-        version: 0.2.17
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2070,9 +2101,6 @@ importers:
       '@types/dedent':
         specifier: ^0.7.2
         version: 0.7.2
-      '@types/micromatch':
-        specifier: ^4.0.10
-        version: 4.0.10
       '@types/react-dom':
         specifier: ^19.3.0
         version: 19.3.0(@types/react@19.3.0)
@@ -2180,6 +2208,9 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../packages/docusaurus
+      '@docusaurus/glob':
+        specifier: workspace:*
+        version: link:../packages/docusaurus-glob
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../packages/docusaurus-logger
