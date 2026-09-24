@@ -91,7 +91,6 @@
     "@types/prompts": "^2.4.9",
     "@types/react": "^19.3.0",
     "@types/semver": "^7.8.0",
-    "@typescript/native": "npm:typescript@~7.0.2",
     "@vitejs/plugin-react": "^6.1.1",
     "@vitest/eslint-plugin": "^1.6.27",
     "cross-env": "^10.1.0",
@@ -129,7 +128,8 @@
     "stylelint": "^17.15.0",
     "stylelint-config-standard": "^40.0.0",
     "stylelint-copyright": "workspace:*",
-    "syncpack": "^14.3.1",
+    "syncpack": "^15.3.3",
+    "@typescript/native": "npm:typescript@~7.0.2",
     "typescript": "npm:@typescript/typescript6@~6.0.2",
     "typescript-eslint": "^8.70.0",
     "vitest": "^5.0.0"
