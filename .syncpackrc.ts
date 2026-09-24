@@ -115,8 +115,12 @@ export default {
 
         // These are not monorepo packages
         '!@docusaurus/responsive-loader',
-        '!@docusaurus/responsive-loader',
       ],
+      // Skip the "local" dependency type, which is each monorepo package's
+      // own "version" field (e.g. "version": "4.0.0" in its package.json).
+      // It can't be pinned to workspace:*, and since syncpack v15 including
+      // it prints a RefuseToPinLocal warning for every internal package.
+      dependencyTypes: ['!local'],
       pinVersion: 'workspace:*',
     },
 
