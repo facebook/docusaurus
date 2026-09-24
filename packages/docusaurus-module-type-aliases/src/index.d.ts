@@ -5,6 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// Site client code can use Node globals provided by the bundler
+// (require, process.env...), previously exposed transitively through deps
+/// <reference types="node" />
+
 declare module '@generated/client-modules' {
   import type {ClientModule} from '@docusaurus/types';
 
