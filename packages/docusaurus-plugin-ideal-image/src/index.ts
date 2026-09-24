@@ -54,7 +54,6 @@ export default function pluginIdealImage(
           rules: [
             {
               test: /\.(?:png|jpe?g)$/i,
-              // Text import attributes must return the raw file content
               with: {type: {not: 'text'}},
               // We don't want to use the image loader for non-React source code
               // ie we don't want to use ideal image loader for CSS files...

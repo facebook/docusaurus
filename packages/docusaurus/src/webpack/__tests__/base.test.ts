@@ -112,7 +112,12 @@ describe('base webpack config', () => {
     ],
   } as Props;
 
-  it('excludes text import attributes from all rules', async () => {
+  // Rspack and webpack have a default rule giving the 'asset/source' type to
+  // modules imported with `with {type: 'text'}`, but the loaders of all other
+  // matching rules still apply (JS transpilation, MDX compilation, SVGR...)
+  // Our rules must exclude text imports to return the raw file content
+  // See https://rspack.rs/config/module-rules#ruleswith
+  it('excludes text import attributes from all core rules', async () => {
     const config = await createBaseConfig({
       props,
       isServer: false,

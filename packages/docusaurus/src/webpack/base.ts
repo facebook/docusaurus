@@ -16,7 +16,7 @@ import {
 import {getFileLoaderUtils, md5Hash} from '@docusaurus/utils';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
 import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
-import type {Configuration} from 'webpack';
+import type {Configuration, RuleSetRule} from 'webpack';
 import type {
   ConfigureWebpackUtils,
   FasterConfig,
@@ -154,6 +154,8 @@ export async function createBaseConfig({
     };
   }
 
+  const notTextImport: RuleSetRule['with'] = {type: {not: 'text'}};
+
   return {
     mode,
     name,
@@ -261,8 +263,7 @@ export async function createBaseConfig({
         {
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
-          // Text import attributes must return the raw file content
-          with: {type: {not: 'text'}},
+          with: notTextImport,
           use: [
             createJsLoader({
               isServer,
@@ -273,7 +274,7 @@ export async function createBaseConfig({
         {
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
-          with: {type: {not: 'text'}},
+          with: notTextImport,
           use: configureWebpackUtils.getStyleLoaders(isServer, {
             importLoaders: 1,
             sourceMap: !isProd,
@@ -283,7 +284,7 @@ export async function createBaseConfig({
         // using the extension .module.css
         {
           test: CSS_MODULE_REGEX,
-          with: {type: {not: 'text'}},
+          with: notTextImport,
           use: configureWebpackUtils.getStyleLoaders(isServer, {
             modules: {
               // Using the same CSS Module class pattern in dev/prod on purpose

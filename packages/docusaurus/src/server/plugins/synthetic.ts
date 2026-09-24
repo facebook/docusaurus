@@ -120,7 +120,6 @@ export async function createMDXFallbackPlugin({
             {
               test: /\.mdx?$/i,
               exclude: getMDXFallbackExcludedPaths(),
-              // Text import attributes must return the raw file content
               with: {type: {not: 'text'}},
               use: [mdxLoaderItem],
             },

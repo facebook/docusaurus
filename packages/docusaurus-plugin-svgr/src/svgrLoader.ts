@@ -67,7 +67,6 @@ export function enhanceConfig(config: Configuration, params: Params): void {
 
   const newSvgRule: RuleSetRule = {
     test: /\.svg$/i,
-    // Text import attributes must return the raw file content
     with: {type: {not: 'text'}},
     oneOf: [
       {
