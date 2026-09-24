@@ -3,5 +3,9 @@
 // You can also run the package.json "typecheck" script manually.
 // Our base config is often good enough, but feel free to customize it!
 {
-  "extends": "@docusaurus/tsconfig"
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    // Node.js types, for Node.js code (docusaurus.config.ts, sidebars.ts...)
+    "types": ["node"]
+  }
 }
