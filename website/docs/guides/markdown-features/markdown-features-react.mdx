@@ -257,25 +257,19 @@ This feature is **experimental** and currently has a few [limitations](https://g
 
 ## Importing code snippets {/* #importing-code-snippets */}
 
-You can not only import a file containing a component definition, but also import any code file as raw text, and then insert it in a code block, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/). In order to use `raw-loader`, you first need to install it in your project:
-
-```bash npm2yarn
-npm install --save raw-loader
-```
-
-Now you can import code snippets from another file as it is:
+You can not only import a file containing a component definition, but also import any code file as raw text, and then insert it in a code block, thanks to the standard [import attributes](https://github.com/tc39/proposal-import-attributes) syntax:
 
 {/* prettier-ignore */}
 ```jsx title="myMarkdownFile.mdx"
 import CodeBlock from '@theme/CodeBlock';
-import MyComponentSource from '!!raw-loader!./myComponent';
+import MyComponentSource from './myComponent.js' with {type: 'text'};
 
 <CodeBlock language="jsx">{MyComponentSource}</CodeBlock>
 ```
 
 ```mdx-code-block
 import CodeBlock from '@theme/CodeBlock';
-import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponent';
+import MyComponentSource from '@site/src/pages/examples/_myComponent.tsx' with {type: 'text'};
 
 <BrowserWindow>
 
@@ -285,6 +279,20 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponen
 ```
 
 See [using code blocks in JSX](./markdown-features-code-blocks.mdx#usage-in-jsx) for more details of the `<CodeBlock>` component.
+
+A module imported with `with {type: 'text'}` is the raw file content, as a string. Docusaurus doesn't process it with any loader: JS/TS files are not transpiled, Markdown files are not compiled, CSS files are not processed, SVG files are not turned into React components… This works for any file type, in both MDX and JS/TS files.
+
+:::tip TypeScript
+
+TypeScript types imported modules according to their file extension, and doesn't know that text imports are strings. In TS files, you may need to cast the imported value, or to use a `// @ts-expect-error` comment.
+
+:::
+
+:::info `raw-loader`
+
+We used to recommend the Webpack [`raw-loader`](https://webpack.js.org/loaders/raw-loader/) for this use case, with `!!raw-loader!./myComponent` imports. This still works, but import attributes are now preferred: they are a standard, and don't require any extra dependency.
+
+:::
 
 :::note
 

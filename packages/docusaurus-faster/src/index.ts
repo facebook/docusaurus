@@ -36,6 +36,9 @@ export const getSwcLoaderOptions = ({
           runtime: 'automatic',
         },
       },
+      experimental: {
+        keepImportAttributes: true,
+      },
     },
   };
 };

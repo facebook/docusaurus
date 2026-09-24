@@ -241,10 +241,10 @@ A real-world example from the Docusaurus site:
 
 ```mdx-code-block
 import CodeBlock from '@theme/CodeBlock';
+import SidebarsSource from '@site/sidebars.ts' with {type: 'text'};
 
 <CodeBlock language="js" title="sidebars.js">
-  {require('!!raw-loader!@site/sidebars.ts')
-    .default
+  {SidebarsSource
     .split('\n')
     // remove comments
     .map((line) => !['//','/*','*'].some(commentPattern => line.trim().startsWith(commentPattern)) && line)
