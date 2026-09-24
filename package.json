@@ -95,7 +95,7 @@
     "@vitest/eslint-plugin": "^1.6.27",
     "chokidar": "^3.6.0",
     "cross-env": "^10.1.0",
-    "cspell": "^8.19.4",
+    "cspell": "^10.3.3",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-eslint-plugin": "^7.6.2",

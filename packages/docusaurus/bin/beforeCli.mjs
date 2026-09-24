@@ -60,11 +60,12 @@ export default async function beforeCli() {
   // Note: the notification will only happen in the 2nd run
   // See https://github.com/yeoman/update-notifier/issues/209
   try {
+    // Note: notifier.config is undefined when the notifier is disabled
+    const lastUpdateCheck = notifier.config?.get('lastUpdateCheck');
     if (
       notifier.config &&
-      // @ts-expect-error: this is an internal API
-      !notifier.disabled &&
-      Date.now() - notifier.config.get('lastUpdateCheck') < 50
+      typeof lastUpdateCheck === 'number' &&
+      Date.now() - lastUpdateCheck < 50
     ) {
       notifier.config.set('lastUpdateCheck', 0);
       notifier.check();
