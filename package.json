@@ -111,7 +111,7 @@
     "jest-serializer-ansi-escapes": "^5.0.0",
     "jest-serializer-react-helmet-async": "^1.0.21",
     "jiti": "^2.7.0",
-    "jsdom": "^25.0.1",
+    "jsdom": "^30.1.0",
     "lerna": "^10.0.1",
     "lerna-changelog": "^2.2.0",
     "lint-staged": "^17.5.0",
