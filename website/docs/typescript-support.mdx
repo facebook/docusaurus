@@ -37,17 +37,6 @@ Then add `tsconfig.json` to your project root with the following content:
 }
 ```
 
-:::info Node.js types
-
-Since TypeScript 6.0, the `types` compiler option defaults to `[]`, and `@types/*` packages are not loaded automatically anymore. Your site needs [Node.js types](https://www.npmjs.com/package/@types/node) to type-check:
-
-- Node.js code, such as `docusaurus.config.ts` or `sidebars.ts`
-- Node.js globals that the bundler makes available to your client code, such as `require()` or `process.env`
-
-We recommend installing the `@types/node` version matching the minimum Node.js version your site runs on.
-
-:::
-
 Docusaurus doesn't use this `tsconfig.json` to compile your project. It is added just for a nicer Editor experience, although you can choose to run `tsc` to type check your code for yourself or on CI.
 
 Now you can start writing TypeScript theme components.
