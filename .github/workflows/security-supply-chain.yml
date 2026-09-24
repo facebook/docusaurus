@@ -37,6 +37,7 @@ jobs:
           node-version: lts/*
           check-latest: true
           # No cache on purpose! We want SFW to fetch packages
+          package-manager-cache: false
 
       # See https://socket.dev/blog/introducing-socket-firewall
       - name: Install Socket Firewall Free
@@ -73,6 +74,7 @@ jobs:
           node-version: lts/*
           check-latest: true
           # No cache on purpose! We want SFW to fetch packages
+          package-manager-cache: false
 
       # See https://socket.dev/blog/introducing-socket-firewall
       - name: Install Socket Firewall Free
