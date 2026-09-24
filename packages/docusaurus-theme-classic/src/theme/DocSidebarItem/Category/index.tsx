@@ -10,6 +10,7 @@ import React, {
   type ReactNode,
   useEffect,
   useMemo,
+  useState,
 } from 'react';
 import clsx from 'clsx';
 import {
@@ -221,7 +222,12 @@ function DocSidebarItemCategoryCollapsible({
     updateCollapsed,
     activePath,
   });
-  useEffect(() => {
+
+  // Collapse when a sibling category gets expanded
+  // See https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes
+  const [prevExpandedItem, setPrevExpandedItem] = useState(expandedItem);
+  if (expandedItem !== prevExpandedItem) {
+    setPrevExpandedItem(expandedItem);
     if (
       collapsible &&
       expandedItem != null &&
@@ -230,7 +236,7 @@ function DocSidebarItemCategoryCollapsible({
     ) {
       setCollapsed(true);
     }
-  }, [collapsible, expandedItem, index, setCollapsed, autoCollapseCategories]);
+  }
 
   const handleItemClick: ComponentProps<'a'>['onClick'] = (e) => {
     onItemClick?.(item);
