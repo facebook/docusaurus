@@ -321,7 +321,7 @@ export default function MDXContent(props = {}) {
 "
 `;
 
-exports[`MDX processor > remarkMdxOptions > parses import attributes with ecmaVersion 2025 1`] = `
+exports[`MDX processor > remarkMdxOptions > parses import attributes by default (ES2025) 1`] = `
 "import {Fragment as _Fragment, jsx as _jsx} from "react/jsx-runtime";
 import {useMDXComponents as _provideComponents} from "@mdx-js/react";
 import text from './file.txt' with { type: 'text' };

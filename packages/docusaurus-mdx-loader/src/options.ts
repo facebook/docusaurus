@@ -26,7 +26,7 @@ export type Options = Partial<MDXOptions> & {
   }) => {[key: string]: unknown};
   resolveMarkdownLink?: ResolveMarkdownLink;
   // Options passed to remark-mdx (only for the 'mdx' format)
-  // Note: acornOptions replaces the default {ecmaVersion: 2024, sourceType: 'module'}
+  // Replaces our default {acornOptions: {ecmaVersion: 2025, sourceType: 'module'}}
   remarkMdxOptions?: RemarkMdxOptions;
 
   // Will usually be created by "createMDXLoaderItem"

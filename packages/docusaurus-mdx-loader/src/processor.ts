@@ -37,6 +37,7 @@ import type {PluginOptions as TransformLinksOptions} from './remark/transformLin
 import type {PluginOptions as TransformImageOptions} from './remark/transformImage';
 import type {PluginOptions as UnusedDirectivesOptions} from './remark/unusedDirectives';
 import type {ProcessorOptions} from '@mdx-js/mdx';
+import type {Options as RemarkMdxOptions} from 'remark-mdx';
 import type {Pluggable} from 'unified';
 
 export type SimpleProcessorResult = {
@@ -59,6 +60,11 @@ export type SimpleProcessor = {
 };
 
 export type MDXPlugin = Pluggable;
+
+// MDX defaults to ES2024, we opt-in for ES2025 syntax (import attributes...)
+const DefaultRemarkMdxOptions: RemarkMdxOptions = {
+  acornOptions: {ecmaVersion: 2025, sourceType: 'module'},
+};
 
 export type MDXOptions = {
   admonitions: boolean | Partial<AdmonitionOptions>;
@@ -99,7 +105,6 @@ function getDefaultRemarkPlugins({options}: {options: Options}): MDXPlugin[] {
 // unified dedupes plugins by reference: using remark-mdx again reconfigures
 // the existing attacher in place, at its original pipeline position
 // This only applies to the 'mdx' format: we must not add remark-mdx for 'md'
-// Without options, we keep the exact createProcessor() pipeline untouched
 function getRemarkMdxPlugins({
   options,
   format,
@@ -107,10 +112,10 @@ function getRemarkMdxPlugins({
   options: Options;
   format: 'md' | 'mdx';
 }): MDXPlugin[] {
-  if (format === 'md' || !options.remarkMdxOptions) {
+  if (format === 'md') {
     return [];
   }
-  return [[remarkMdx, options.remarkMdxOptions]];
+  return [[remarkMdx, options.remarkMdxOptions ?? DefaultRemarkMdxOptions]];
 }
 
 // /!\ this method is synchronous on purpose
