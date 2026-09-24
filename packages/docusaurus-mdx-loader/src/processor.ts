@@ -99,6 +99,7 @@ function getDefaultRemarkPlugins({options}: {options: Options}): MDXPlugin[] {
 // unified dedupes plugins by reference: using remark-mdx again reconfigures
 // the existing attacher in place, at its original pipeline position
 // This only applies to the 'mdx' format: we must not add remark-mdx for 'md'
+// Without options, we keep the exact createProcessor() pipeline untouched
 function getRemarkMdxPlugins({
   options,
   format,
@@ -106,10 +107,10 @@ function getRemarkMdxPlugins({
   options: Options;
   format: 'md' | 'mdx';
 }): MDXPlugin[] {
-  if (format === 'md') {
+  if (format === 'md' || !options.remarkMdxOptions) {
     return [];
   }
-  return [[remarkMdx, options.remarkMdxOptions ?? {}]];
+  return [[remarkMdx, options.remarkMdxOptions]];
 }
 
 // /!\ this method is synchronous on purpose

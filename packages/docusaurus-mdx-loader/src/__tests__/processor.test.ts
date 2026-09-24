@@ -147,6 +147,7 @@ describe('MDX processor', () => {
   });
 
   describe('remarkMdxOptions', () => {
+    // See https://github.com/mdx-js/mdx/issues/2628
     const importAttributes = `import text from './file.txt' with {type: 'text'};
 
 {text}`;
