@@ -127,7 +127,7 @@
     "stylelint": "^17.15.0",
     "stylelint-config-standard": "^40.0.0",
     "stylelint-copyright": "workspace:*",
-    "syncpack": "^14.3.1",
+    "syncpack": "^15.3.3",
     "@typescript/native": "npm:typescript@~7.0.2",
     "typescript": "npm:@typescript/typescript6@~6.0.2",
     "typescript-eslint": "^8.70.0",
