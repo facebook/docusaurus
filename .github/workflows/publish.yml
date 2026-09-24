@@ -56,6 +56,7 @@ jobs:
           # It increases the chance of a compromised release being publish
           # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
           # cache: pnpm
+          package-manager-cache: false
       - name: Prepare git
         run: |
           git config --global user.name "Docusaurus"

@@ -36,6 +36,7 @@ jobs:
           # It increases the chance of a compromised release being publish
           # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
           # cache: pnpm
+          package-manager-cache: false
 
       - name: Installation
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
