@@ -96,6 +96,14 @@ export default {
 
     {
       label:
+        'Templates @types/node should match the min supported Node.js version',
+      packages: ['docusaurus-2-classic-typescript-template'],
+      dependencies: ['@types/node'],
+      isIgnored: true,
+    },
+
+    {
+      label:
         'Templates should use pinned versions, not the workspace:* protocol',
       packages: [
         'docusaurus-2-classic-template',
