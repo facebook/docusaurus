@@ -137,34 +137,6 @@ function executePluginsConfigurePostCss({
   return resultConfig;
 }
 
-// Modules imported with the `with {type: 'text'}` import attribute should
-// resolve to their raw file content (similar to the legacy `!!raw-loader!`)
-// The bundler default rules already give them the 'asset/source' type
-// But all other matching rules would still apply their loaders first
-// (JS/TS transpilation, MDX compilation, CSS processing, SVGR...)
-// See https://rspack.rs/config/module-rules#ruleswith
-export function excludeTextImportAttributesFromRules(
-  config: Configuration,
-): Configuration {
-  const rules = config.module?.rules;
-  if (!rules) {
-    return config;
-  }
-  return {
-    ...config,
-    module: {
-      ...config.module,
-      rules: rules.map((rule) => {
-        // Skip "...", falsy values, and rules already matching on attributes
-        if (!rule || typeof rule !== 'object' || rule.with?.type) {
-          return rule;
-        }
-        return {...rule, with: {...rule.with, type: {not: 'text'}}};
-      }),
-    },
-  };
-}
-
 // Plugin Lifecycle - configureWebpack()
 export function executePluginsConfigureWebpack({
   plugins,
@@ -204,10 +176,6 @@ export function executePluginsConfigureWebpack({
       config,
     });
   }
-
-  // Step3 - Text import attributes should return raw file contents
-  // The order matters! This must apply to rules added by configureWebpack
-  config = excludeTextImportAttributesFromRules(config);
 
   return config;
 }

@@ -261,6 +261,8 @@ export async function createBaseConfig({
         {
           test: /\.[jt]sx?$/i,
           exclude: excludeJS,
+          // Text import attributes must return the raw file content
+          with: {type: {not: 'text'}},
           use: [
             createJsLoader({
               isServer,
@@ -271,6 +273,7 @@ export async function createBaseConfig({
         {
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
+          with: {type: {not: 'text'}},
           use: configureWebpackUtils.getStyleLoaders(isServer, {
             importLoaders: 1,
             sourceMap: !isProd,
@@ -280,6 +283,7 @@ export async function createBaseConfig({
         // using the extension .module.css
         {
           test: CSS_MODULE_REGEX,
+          with: {type: {not: 'text'}},
           use: configureWebpackUtils.getStyleLoaders(isServer, {
             modules: {
               // Using the same CSS Module class pattern in dev/prod on purpose

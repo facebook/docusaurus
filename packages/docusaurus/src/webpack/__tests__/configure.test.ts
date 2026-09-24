@@ -14,7 +14,6 @@ import {
   applyConfigurePostCss,
   executePluginsConfigureWebpack,
   createConfigureWebpackUtils,
-  excludeTextImportAttributesFromRules,
 } from '../configure';
 import {DEFAULT_FUTURE_CONFIG} from '../../server/configValidation';
 import type {Configuration} from 'webpack';
@@ -448,11 +447,6 @@ describe('executePluginsConfigureWebpack', () => {
         },
         "test": /\\\\\\.module\\.scss\\$/,
         "use": "some-loader",
-        "with": {
-          "type": {
-            "not": "text",
-          },
-        },
       }
     `);
     expect(config.module.rules[1]).toMatchInlineSnapshot(`
@@ -473,11 +467,6 @@ describe('executePluginsConfigureWebpack', () => {
             },
           },
         ],
-        "with": {
-          "type": {
-            "not": "text",
-          },
-        },
       }
     `);
     expect(config.module.rules[2]).toMatchInlineSnapshot(`
@@ -498,103 +487,7 @@ describe('executePluginsConfigureWebpack', () => {
           },
         ],
         "test": /\\\\\\.module\\.scss\\$/,
-        "with": {
-          "type": {
-            "not": "text",
-          },
-        },
       }
     `);
-  });
-});
-
-describe('excludeTextImportAttributesFromRules', () => {
-  it('excludes text import attributes from all rules', () => {
-    const config: Configuration = {
-      module: {
-        rules: [
-          '...',
-          null,
-          {test: /\.css$/, use: ['css-loader']},
-          {test: /\.svg$/, oneOf: [{issuer: /\.tsx$/, use: ['svgr']}]},
-          {test: /\.png$/, with: {foo: 'bar'}, type: 'asset/resource'},
-          {with: {type: 'url'}, type: 'asset/resource'},
-        ],
-      },
-    };
-    expect(excludeTextImportAttributesFromRules(config).module?.rules)
-      .toMatchInlineSnapshot(`
-        [
-          "...",
-          null,
-          {
-            "test": /\\\\\\.css\\$/,
-            "use": [
-              "css-loader",
-            ],
-            "with": {
-              "type": {
-                "not": "text",
-              },
-            },
-          },
-          {
-            "oneOf": [
-              {
-                "issuer": /\\\\\\.tsx\\$/,
-                "use": [
-                  "svgr",
-                ],
-              },
-            ],
-            "test": /\\\\\\.svg\\$/,
-            "with": {
-              "type": {
-                "not": "text",
-              },
-            },
-          },
-          {
-            "test": /\\\\\\.png\\$/,
-            "type": "asset/resource",
-            "with": {
-              "foo": "bar",
-              "type": {
-                "not": "text",
-              },
-            },
-          },
-          {
-            "type": "asset/resource",
-            "with": {
-              "type": "url",
-            },
-          },
-        ]
-      `);
-  });
-
-  it('handles config without rules', () => {
-    const config: Configuration = {mode: 'production'};
-    expect(excludeTextImportAttributesFromRules(config)).toBe(config);
-  });
-
-  it('applies to rules added by plugins configureWebpack()', async () => {
-    const utils = await createTestConfigureWebpackUtils();
-    const plugin = fromPartial<LoadedPlugin>({
-      configureWebpack: () => ({
-        module: {rules: [{test: /\.mdx$/, use: ['mdx-loader']}]},
-      }),
-    });
-    const config = executePluginsConfigureWebpack({
-      plugins: [plugin],
-      config: {module: {rules: [{test: /\.js$/, use: ['babel-loader']}]}},
-      isServer,
-      configureWebpackUtils: utils,
-    });
-    expect(config.module?.rules).toEqual([
-      {test: /\.js$/, use: ['babel-loader'], with: {type: {not: 'text'}}},
-      {test: /\.mdx$/, use: ['mdx-loader'], with: {type: {not: 'text'}}},
-    ]);
   });
 });

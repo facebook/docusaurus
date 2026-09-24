@@ -60,6 +60,8 @@ export function createMDXLoaderRule({
   return {
     test: /\.mdx?$/i,
     include,
+    // Text import attributes must return the raw file content
+    with: {type: {not: 'text'}},
     use: [createMDXLoaderItem(options)],
   };
 }
