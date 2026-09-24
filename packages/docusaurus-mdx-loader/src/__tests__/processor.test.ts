@@ -145,4 +145,40 @@ describe('MDX processor', () => {
     );
     expect(result.content).toMatchSnapshot();
   });
+
+  describe('remarkMdxOptions', () => {
+    // See https://github.com/mdx-js/mdx/issues/2628
+    const importAttributes = `import text from './file.txt' with {type: 'text'};
+
+{text}`;
+
+    const ecmaVersion2025: Options['remarkMdxOptions'] = {
+      acornOptions: {ecmaVersion: 2025, sourceType: 'module'},
+    };
+
+    it('does not parse import attributes by default', async () => {
+      const options = createOptions({markdownConfig: {format: 'mdx'}});
+      await expect(processContent(importAttributes, options)).rejects.toThrow(
+        /Could not parse import\/exports with acorn/,
+      );
+    });
+
+    it('parses import attributes with ecmaVersion 2025', async () => {
+      const options = createOptions({
+        markdownConfig: {format: 'mdx'},
+        remarkMdxOptions: ecmaVersion2025,
+      });
+      const result = await processContent(importAttributes, options);
+      expect(result.content).toMatchSnapshot();
+    });
+
+    it('does not apply to the md format', async () => {
+      const options = createOptions({
+        markdownConfig: {format: 'md'},
+        remarkMdxOptions: ecmaVersion2025,
+      });
+      const result = await processContent(importAttributes, options);
+      expect(result.content).toMatchSnapshot();
+    });
+  });
 });
