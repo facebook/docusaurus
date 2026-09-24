@@ -6,5 +6,8 @@
     "src/registerSw.ts",
     "src/renderReloadPopup.tsx"
   ],
-  "exclude": ["**/__tests__/**"]
+  "exclude": ["**/__tests__/**"],
+  "compilerOptions": {
+    "types": ["node"]
+  }
 }

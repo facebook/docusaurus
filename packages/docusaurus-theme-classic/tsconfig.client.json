@@ -6,5 +6,8 @@
     "src/theme",
     "src/*.d.ts"
   ],
-  "exclude": ["**/__tests__/**"]
+  "exclude": ["**/__tests__/**"],
+  "compilerOptions": {
+    "types": ["node"]
+  }
 }

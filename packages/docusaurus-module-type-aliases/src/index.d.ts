@@ -5,11 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Site client code can use Node.js globals provided by the bundler, such as
-// require() and process.env. TypeScript 6+ doesn't auto-include @types/node
-// anymore, so we reference it explicitly for all TypeScript sites.
-/// <reference types="node" />
-
 declare module '@generated/client-modules' {
   import type {ClientModule} from '@docusaurus/types';
 
