@@ -899,6 +899,9 @@ importers:
       remark-gfm:
         specifier: ^4.0.1
         version: 4.0.1(supports-color@10.2.2)
+      remark-mdx:
+        specifier: ^3.1.1
+        version: 3.1.1(supports-color@10.2.2)
       stringify-object:
         specifier: ^7.0.0
         version: 7.0.0
@@ -948,9 +951,6 @@ importers:
       remark:
         specifier: ^15.0.1
         version: 15.0.1(supports-color@10.2.2)
-      remark-mdx:
-        specifier: ^3.1.1
-        version: 3.1.1(supports-color@10.2.2)
       remark-rehype:
         specifier: ^11.1.2
         version: 11.1.2
