@@ -68,6 +68,9 @@ const QuietDelay = 500;
 const EventsTimeout = 5000;
 // Let the FS settle, FSEvents may report changes that happened before watching
 const SettleDelay = 300;
+// TODO Chokidar v3 race: a file written right after its parent dir is created
+//  may be missed (seen on Windows CI in polling mode), so we retry there
+const retry = process.platform === 'win32' ? 2 : 0;
 
 async function writeFiles(dir: string, files: string[]): Promise<void> {
   for (const file of files) {
@@ -182,7 +185,7 @@ async function createTestWatcher({
   };
 }
 
-describe.concurrent.each(WatchModes)('watch() - $name', (mode) => {
+describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
   const {isFsEvents} = mode;
 
   // Helper for tests that assert the expected events
