@@ -9,13 +9,14 @@ import path from 'path';
 import merge from 'webpack-merge';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {getProgressBarPlugin} from '@docusaurus/bundler';
 import {getLocaleConfig} from '@docusaurus/utils';
 import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import ForceTerminatePlugin from './plugins/ForceTerminatePlugin';
+import DevHtmlPlugin from './plugins/DevHtmlPlugin';
 import {createStaticDirectoriesCopyPlugin} from './plugins/StaticDirectoriesCopyPlugin';
+import {renderDevHtml} from './templates/dev.html.template';
 import type {
   ConfigureWebpackUtils,
   FasterConfig,
@@ -109,16 +110,17 @@ export async function createStartClientConfig({
       },
       plugins: [
         // Generates an `index.html` file with the <script> injected.
-        new HtmlWebpackPlugin({
-          template: path.join(__dirname, './templates/dev.html.template.ejs'),
-          // So we can define the position where the scripts are injected.
-          inject: false,
+        new DevHtmlPlugin({
           filename: 'index.html',
-          title: siteConfig.title,
-          headTags,
-          preBodyTags,
-          postBodyTags,
-          lang: getLocaleConfig(props.i18n).htmlLang,
+          render: (assets) =>
+            renderDevHtml({
+              ...assets,
+              title: siteConfig.title,
+              headTags,
+              preBodyTags,
+              postBodyTags,
+              lang: getLocaleConfig(props.i18n).htmlLang,
+            }),
         }),
       ],
     },
