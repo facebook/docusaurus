@@ -23,7 +23,7 @@ export type ColorMode = 'light' | 'dark';
 
 // The color mode explicitly chosen by the user
 // null => no choice has been made, or the choice has been reverted to OS value
-export type ColorModeChoice = ColorMode | null;
+type ColorModeChoice = ColorMode | null;
 
 function getSystemColorMode(): ColorMode {
   return window.matchMedia('(prefers-color-scheme: dark)').matches

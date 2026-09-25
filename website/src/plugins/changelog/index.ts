@@ -8,12 +8,8 @@
 import path from 'path';
 import fs from 'fs-extra';
 import pluginContentBlog from '@docusaurus/plugin-content-blog';
-import {
-  aliasedSitePath,
-  docuHash,
-  normalizeUrl,
-  safeGlobby,
-} from '@docusaurus/utils';
+import {aliasedSitePath, docuHash, normalizeUrl} from '@docusaurus/utils';
+import {safeGlob} from '@docusaurus/glob';
 import {createBlogFiles, toChangelogEntries} from './utils';
 
 export {validateOptions} from '@docusaurus/plugin-content-blog';
@@ -23,7 +19,7 @@ const MonorepoRoot = path.resolve(path.join(__dirname, '../../../..'));
 const ChangelogFilePattern = 'CHANGELOG(-v[0-9]*)?.md';
 
 async function getChangelogFiles() {
-  const files = await safeGlobby([ChangelogFilePattern], {
+  const files = await safeGlob([ChangelogFilePattern], {
     cwd: MonorepoRoot,
   });
   // As of today, there are 2 changelog files

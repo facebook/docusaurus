@@ -8,7 +8,9 @@
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
 import {describe, expect, it} from 'vitest';
-import u from 'unist-builder';
+import {remark} from 'remark';
+import mdx from 'remark-mdx';
+import {u} from 'unist-builder';
 import {visit} from 'unist-util-visit';
 import {escapeMarkdownHeadingIds} from '@docusaurus/utils';
 import plugin from '../index';
@@ -31,13 +33,10 @@ async function process(
   options: Partial<PluginOptions> = {anchorsMaintainCase: false},
   format: 'md' | 'mdx' = 'mdx',
 ): Promise<Root> {
-  const {remark} = await import('remark');
-
   let content = input;
   let formatPlugins: Plugin[] = [];
 
   if (format === 'mdx') {
-    const {default: mdx} = await import('remark-mdx');
     // Preprocess the input to support our invalid heading ids syntax
     content = escapeMarkdownHeadingIds(input);
     formatPlugins = [mdx];

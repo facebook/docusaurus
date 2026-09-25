@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/bundler",
-  "version": "3.10.1",
+  "version": "4.0.0",
   "description": "Docusaurus util package to abstract the current bundler.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -18,33 +18,28 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.29.0",
-    "@docusaurus/babel": "3.10.1",
-    "@docusaurus/cssnano-preset": "3.10.1",
-    "@docusaurus/logger": "3.10.1",
-    "@docusaurus/types": "3.10.1",
-    "@docusaurus/utils": "3.10.1",
+    "@babel/core": "^7.29.7",
+    "@docusaurus/babel": "workspace:*",
+    "@docusaurus/cssnano-preset": "workspace:*",
+    "@docusaurus/logger": "workspace:*",
+    "@docusaurus/types": "workspace:*",
     "babel-loader": "^10.1.1",
     "clean-css": "^5.3.3",
-    "copy-webpack-plugin": "^14.0.0",
     "css-loader": "^7.1.5",
     "css-minimizer-webpack-plugin": "^8.0.0",
-    "cssnano": "^7.1.7",
-    "file-loader": "^6.2.0",
+    "cssnano": "^7.1.9",
     "html-minifier-terser": "^7.2.0",
     "mini-css-extract-plugin": "^2.10.2",
-    "null-loader": "^4.0.1",
-    "postcss": "^8.5.12",
+    "postcss": "^8.5.28",
     "postcss-loader": "^8.2.1",
-    "postcss-preset-env": "^11.2.1",
-    "terser-webpack-plugin": "^5.4.0",
-    "tslib": "^2.6.0",
-    "url-loader": "^4.1.1",
-    "webpack": "^5.106.2",
+    "postcss-preset-env": "^11.5.2",
+    "terser-webpack-plugin": "^5.6.1",
+    "tslib": "^2.8.1",
+    "webpack": "^5.111.0",
     "webpackbar": "^7.0.0"
   },
   "peerDependencies": {
-    "@docusaurus/faster": "*",
+    "@docusaurus/faster": "workspace:*",
     "@types/html-minifier-terser": "^7.0.2"
   },
   "peerDependenciesMeta": {
@@ -56,6 +51,6 @@
     "@total-typescript/shoehorn": "^0.1.2"
   },
   "engines": {
-    "node": ">=24.14"
+    "node": ">=24.21"
   }
 }

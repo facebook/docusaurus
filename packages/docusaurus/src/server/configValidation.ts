@@ -81,7 +81,6 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   mdxCrossCompilerCache: false,
   rspackBundler: false,
   rspackPersistentCache: false,
-  ssgWorkerThreads: false,
   gitEagerVcs: false,
 };
 
@@ -94,7 +93,6 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   mdxCrossCompilerCache: true,
   rspackBundler: true,
   rspackPersistentCache: true,
-  ssgWorkerThreads: true,
   gitEagerVcs: true,
 };
 
@@ -120,19 +118,19 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   experimental_router: 'browser',
 };
 
-export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
+const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
   onBrokenMarkdownLinks: 'warn',
   onBrokenMarkdownImages: 'throw',
   onUnusedMarkdownDirectives: 'warn',
 };
 
-export const DEFAULT_MARKDOWN_MDX1COMPAT: MDX1CompatOptions = {
+const DEFAULT_MARKDOWN_MDX1COMPAT: MDX1CompatOptions = {
   comments: true,
   admonitions: true,
   headingIds: true,
 };
 
-export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
+const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   // TODO Docusaurus v5: change this to "detect"?
   //  we probably need stable CommonMark support first
   //  see https://github.com/facebook/docusaurus/issues/9092
@@ -300,7 +298,6 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
       mdxCrossCompilerCache: Joi.boolean(),
       rspackBundler: Joi.boolean(),
       rspackPersistentCache: Joi.boolean(),
-      ssgWorkerThreads: Joi.boolean(),
       gitEagerVcs: Joi.boolean(),
     }),
     Joi.boolean()

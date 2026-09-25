@@ -14,10 +14,10 @@ import {
   getContentPathList,
   posixPath,
   addTrailingPathSeparator,
-  createAbsoluteFilePathMatcher,
   resolveMarkdownLinkPathname,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
+import {createAbsoluteFilePathMatcher} from '@docusaurus/glob';
 import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
 import {resolveSidebarPathOption} from './sidebars';
@@ -108,7 +108,13 @@ export default async function pluginContentDocs(
 
   const contentHelpers = createContentHelpers();
 
-  async function createDocsMDXLoaderRule(): Promise<RuleSetRule> {
+  const mdxLoaderDependency = await createMdxLoaderDependencyFile({
+    dataDir,
+    options,
+    versionsMetadata,
+  });
+
+  function createDocsMDXLoaderRule(): RuleSetRule {
     const {
       rehypePlugins,
       remarkPlugins,
@@ -124,13 +130,9 @@ export default async function pluginContentDocs(
     return createMDXLoaderRule({
       include: contentDirs,
       options: {
-        dependencies: [
-          await createMdxLoaderDependencyFile({
-            dataDir,
-            options,
-            versionsMetadata,
-          }),
-        ].filter((d): d is string => typeof d === 'string'),
+        dependencies: [mdxLoaderDependency].filter(
+          (d): d is string => typeof d === 'string',
+        ),
 
         useCrossCompilerCache: siteConfig.future.faster.mdxCrossCompilerCache,
         admonitions: options.admonitions,
@@ -175,7 +177,7 @@ export default async function pluginContentDocs(
     });
   }
 
-  const docsMDXLoaderRule = await createDocsMDXLoaderRule();
+  const docsMDXLoaderRule = createDocsMDXLoaderRule();
 
   return {
     name: 'docusaurus-plugin-content-docs',

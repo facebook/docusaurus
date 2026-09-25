@@ -5,20 +5,29 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Globby/Micromatch are the 2 libs we use in Docusaurus consistently
+// Tinyglobby/Micromatch are the 2 libs we use in Docusaurus consistently
 
 import path from 'path';
-import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
-import {addSuffix} from '@docusaurus/utils-common';
+import Micromatch from 'micromatch';
 import * as Tinyglobby from 'tinyglobby';
-import {posixPath} from './pathUtils';
 
-type GlobOptions = Tinyglobby.GlobOptions;
+/**
+ * Our own glob options: we only expose the options we actually use, so that
+ * we can swap the underlying lib (e.g. for Node.js native `fs.glob`).
+ */
+export type GlobOptions = Pick<
+  Tinyglobby.GlobOptions,
+  'cwd' | 'ignore' | 'absolute'
+>;
 
-// TODO Docusaurus v4 refactor, hide lib behind home-made abstraction
-// See https://github.com/facebook/docusaurus/pull/11042
-/** A re-export of the globby instance. */
-export const Globby = Tinyglobby.glob;
+/** Finds the files matching the given glob patterns. */
+export async function glob(
+  patterns: string | string[],
+  options?: GlobOptions,
+): Promise<string[]> {
+  // Other lib options are still forwarded at runtime for retro-compatibility
+  return Tinyglobby.glob(patterns, {...options});
+}
 
 /**
  * The default glob patterns we ignore when sourcing content.
@@ -35,7 +44,7 @@ export const GlobExcludeDefault = [
 type Matcher = (str: string) => boolean;
 
 /**
- * A very thin wrapper around `Micromatch.makeRe`.
+ * Creates a matcher that tells if a path is matched by any of the patterns.
  *
  * @see {@link createAbsoluteFilePathMatcher}
  * @param patterns A list of glob patterns. If the list is empty, it defaults to
@@ -75,8 +84,10 @@ export function createAbsoluteFilePathMatcher(
 
   function getRelativeFilePath(absoluteFilePath: string) {
     const rootFolder = rootFolders.find((folderPath) =>
-      [addSuffix(folderPath, '/'), addSuffix(folderPath, '\\')].some((p) =>
-        absoluteFilePath.startsWith(p),
+      ['/', '\\'].some((separator) =>
+        absoluteFilePath.startsWith(
+          folderPath.endsWith(separator) ? folderPath : folderPath + separator,
+        ),
       ),
     );
     if (!rootFolder) {
@@ -93,51 +104,27 @@ export function createAbsoluteFilePathMatcher(
     matcher(getRelativeFilePath(absoluteFilePath));
 }
 
-// Globby that fix Windows path patterns
+// Duplicated from @docusaurus/utils to keep this package dependency-free
+// See https://github.com/sindresorhus/slash/blob/main/index.js
+function posixPath(str: string): string {
+  const isExtendedLengthPath = str.startsWith('\\\\?\\');
+  if (isExtendedLengthPath) {
+    return str;
+  }
+  return str.replace(/\\/g, '/');
+}
+
+// Glob that fix Windows path patterns
 // See https://github.com/facebook/docusaurus/pull/4222#issuecomment-795517329
-export async function safeGlobby(
+export async function safeGlob(
   patterns: string[],
   options?: GlobOptions,
 ): Promise<string[]> {
-  // Required for Windows support, as paths using \ should not be used by globby
+  // Required for Windows support, as paths using \ should not be used by glob
   // (also using the windows hard drive prefix like c: is not a good idea)
   const globPaths = patterns.map((dirPath) =>
     posixPath(path.relative(process.cwd(), dirPath)),
   );
 
-  return Globby(globPaths, options);
-}
-
-export const isTranslatableSourceFile: (filePath: string) => boolean = (() => {
-  // We only support extracting source code translations from these extensions
-  const extensionsAllowed = new Set([
-    '.js',
-    '.jsx',
-    '.ts',
-    '.tsx',
-    // TODO support md/mdx too? (may be overkill)
-    // need to compile the MDX to JSX first and remove front matter
-    // '.md',
-    // '.mdx',
-  ]);
-
-  const isBlacklistedFilePath = (filePath: string) => {
-    // We usually extract from ts files, unless they are .d.ts files
-    return filePath.endsWith('.d.ts');
-  };
-
-  return (filePath): boolean => {
-    const ext = path.extname(filePath);
-    return extensionsAllowed.has(ext) && !isBlacklistedFilePath(filePath);
-  };
-})();
-
-// A bit weird to put this here, but it's used by core + theme-translations
-export async function globTranslatableSourceFiles(
-  patterns: string[],
-): Promise<string[]> {
-  const filePaths = await safeGlobby(patterns, {
-    absolute: true,
-  });
-  return filePaths.filter(isTranslatableSourceFile);
+  return glob(globPaths, options);
 }

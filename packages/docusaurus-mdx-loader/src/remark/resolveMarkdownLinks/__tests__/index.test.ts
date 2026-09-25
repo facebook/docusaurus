@@ -7,6 +7,7 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
+import {remark} from 'remark';
 import plugin from '..';
 import type {PluginOptions} from '../index';
 
@@ -22,8 +23,6 @@ async function process(content: string, optionsInput?: Partial<PluginOptions>) {
     ...DefaultTestOptions,
     ...optionsInput,
   };
-
-  const {remark} = await import('remark');
 
   const result = await remark()
     .use(plugin, options)

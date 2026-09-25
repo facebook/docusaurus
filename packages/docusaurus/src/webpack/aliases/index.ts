@@ -13,8 +13,8 @@ import {
   fileToPath,
   posixPath,
   normalizeUrl,
-  Globby,
 } from '@docusaurus/utils';
+import {glob} from '@docusaurus/glob';
 import type {LoadedPlugin} from '@docusaurus/types';
 
 /**
@@ -51,7 +51,7 @@ export async function createAliasesForTheme(
     return {};
   }
 
-  const themeComponentFiles = await Globby(['**/*.{js,jsx,ts,tsx}'], {
+  const themeComponentFiles = await glob(['**/*.{js,jsx,ts,tsx}'], {
     cwd: themePath,
     ignore: [
       // Ignore co-located test files

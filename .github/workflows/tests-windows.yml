@@ -25,10 +25,10 @@ jobs:
   windows-test:
     name: Windows Tests
     timeout-minutes: 30
-    runs-on: windows-latest
+    runs-on: windows-8-core
     strategy:
       matrix:
-        node: ['24.14', '26']
+        node: ['24.21', '26']
     steps:
       - name: Support longpaths
         run: git config --system core.longpaths true
@@ -75,3 +75,7 @@ jobs:
         run: |
           pnpm add typescript@latest --save-exact -D -w --ignore-scripts
           pnpm --filter website typecheck --project tsconfig.skipLibCheck.json
+        env:
+          # Ignore "a linked package is out of date" pnpm errors
+          # that can happen after a fresh TS-related package publish.
+          pnpm_config_verify_deps_before_run: warn

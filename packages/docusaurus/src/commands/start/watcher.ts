@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import chokidar from 'chokidar';
+import {watch} from '@docusaurus/glob';
 import {posixPath} from '@docusaurus/utils';
 import type {StartCLIOptions} from './start';
 import type {LoadedPlugin, Props} from '@docusaurus/types';
@@ -27,12 +27,7 @@ export function createPollingOptions(
   };
 }
 
-export type FileWatchEventName =
-  | 'add'
-  | 'addDir'
-  | 'change'
-  | 'unlink'
-  | 'unlinkDir';
+type FileWatchEventName = 'add' | 'addDir' | 'change' | 'unlink' | 'unlinkDir';
 
 export type FileWatchEvent = {
   name: FileWatchEventName;
@@ -48,24 +43,24 @@ type WatchParams = {
  * Watch file system paths for changes and emit events
  * Returns an async handle to stop watching
  */
-export function watch(
+function watchPaths(
   params: WatchParams,
   callback: (event: FileWatchEvent) => void,
 ): () => Promise<void> {
   const {pathsToWatch, siteDir, ...options} = params;
 
-  const fsWatcher = chokidar.watch(pathsToWatch, {
+  const watcher = watch(pathsToWatch, {
     cwd: siteDir,
     ignoreInitial: true,
     ...options,
   });
 
-  fsWatcher.on('all', (name, eventPath) => callback({name, path: eventPath}));
+  watcher.on('all', (name, eventPath) => callback({name, path: eventPath}));
 
-  return () => fsWatcher.close();
+  return () => watcher.close();
 }
 
-export function getSitePathsToWatch({props}: {props: Props}): string[] {
+function getSitePathsToWatch({props}: {props: Props}): string[] {
   return [
     // TODO we should also watch all imported modules!
     //  Use https://github.com/vercel/nft ?
@@ -74,7 +69,7 @@ export function getSitePathsToWatch({props}: {props: Props}): string[] {
   ];
 }
 
-export function getPluginPathsToWatch({
+function getPluginPathsToWatch({
   siteDir,
   plugin,
 }: {
@@ -113,7 +108,7 @@ export function setupSiteFileWatchers(
   //  the getFilePathsToWatch lifecycle code might get updated
   //  so we should probably reset the watchers?
 
-  watch(
+  watchPaths(
     {
       pathsToWatch: getSitePathsToWatch({props}),
       siteDir: props.siteDir,
@@ -123,7 +118,7 @@ export function setupSiteFileWatchers(
   );
 
   props.plugins.forEach((plugin) => {
-    watch(
+    watchPaths(
       {
         pathsToWatch: getPluginPathsToWatch({plugin, siteDir}),
         siteDir,

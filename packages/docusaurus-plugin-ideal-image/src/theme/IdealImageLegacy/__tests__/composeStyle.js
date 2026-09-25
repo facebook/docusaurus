@@ -1,3 +1,4 @@
+import {describe, expect, it} from 'vitest';
 import compose from '../components/composeStyle';
 
 describe('composeStyle', () => {

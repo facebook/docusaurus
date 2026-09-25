@@ -11,7 +11,7 @@ import type {DeepPartial} from 'utility-types';
 import type {MagicCommentConfig} from './codeBlockUtils';
 import type {ColorMode} from '../contexts/colorMode';
 
-export type DocsVersionPersistence = 'localStorage' | 'none';
+type DocsVersionPersistence = 'localStorage' | 'none';
 
 // TODO improve types, use unions
 export type NavbarItem = {
@@ -50,7 +50,7 @@ export type ColorModeConfig = {
   respectPrefersColorScheme: boolean;
 };
 
-export type AnnouncementBarConfig = {
+type AnnouncementBarConfig = {
   id: string;
   content: string;
   backgroundColor: string;
@@ -58,7 +58,7 @@ export type AnnouncementBarConfig = {
   isCloseable: boolean;
 };
 
-export type PrismConfig = {
+type PrismConfig = {
   theme: PrismTheme;
   darkTheme?: PrismTheme;
   defaultLanguage?: string;
@@ -83,7 +83,7 @@ export type FooterColumnItem = {
 
 export type FooterLogo = BaseLogo;
 
-export type FooterBase = {
+type FooterBase = {
   style: 'light' | 'dark';
   logo?: FooterLogo;
   copyright?: string;
@@ -99,7 +99,7 @@ export type SimpleFooter = FooterBase & {
 
 export type Footer = MultiColumnFooter | SimpleFooter;
 
-export type TableOfContents = {
+type TableOfContents = {
   minHeadingLevel: number;
   maxHeadingLevel: number;
 };

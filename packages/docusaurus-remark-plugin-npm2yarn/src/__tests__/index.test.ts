@@ -7,7 +7,9 @@
 
 import {describe, expect, it} from 'vitest';
 import path from 'path';
-import vfile from 'to-vfile';
+import {remark} from 'remark';
+import mdx from 'remark-mdx';
+import {read} from 'to-vfile';
 import dedent from 'dedent';
 import npm2yarn from '../index';
 
@@ -15,9 +17,6 @@ const process = async (
   content: any,
   options?: Parameters<typeof npm2yarn>[0],
 ) => {
-  const {remark} = await import('remark');
-  const {default: mdx} = await import('remark-mdx');
-
   const result = await remark()
     .use(mdx)
     .use(npm2yarn, options)
@@ -31,7 +30,7 @@ const processFixture = async (
   options?: Parameters<typeof npm2yarn>[0],
 ) => {
   const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
-  const file = await vfile.read(filePath);
+  const file = await read(filePath);
   return process(file, options);
 };
 

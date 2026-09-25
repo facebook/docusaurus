@@ -78,6 +78,11 @@ const resolveAliases: AliasOptions = [
     find: /^@docusaurus\/utils$/,
     replacement: `${rootDir}packages/docusaurus-utils/src/index.ts`,
   },
+  // Resolve @docusaurus/glob to src instead of lib.
+  {
+    find: /^@docusaurus\/glob$/,
+    replacement: `${rootDir}packages/docusaurus-glob/src/index.ts`,
+  },
   // Resolve @docusaurus/utils-validation to src instead of lib.
   {
     find: /^@docusaurus\/utils-validation$/,
@@ -124,10 +129,13 @@ export default defineConfig({
     // Default 5s timeout often fails on Windows runners.
     // See https://github.com/facebook/docusaurus/pull/8259
     testTimeout: 25000,
+    include: [
+      // Vitest default
+      '**/*.{test,spec}.?(c|m)[jt]s?(x)',
+      // Legacy code, forked from react-ideal-image
+      'packages/docusaurus-plugin-ideal-image/src/theme/IdealImageLegacy/__tests__/*.js',
+    ],
     exclude: ignorePatterns,
-    snapshotFormat: {
-      // Vitest defaults are fine
-    },
     snapshotSerializers: [
       // TOP: applied last
       // Capture Error.cause in snapshots, see https://github.com/vitest-dev/vitest/issues/10339
@@ -140,8 +148,5 @@ export default defineConfig({
       'jest-serializer-react-helmet-async',
       // BOTTOM: applied first
     ],
-    reporters: process.env.GITHUB_ACTIONS
-      ? ['default', 'github-actions']
-      : ['default'],
   },
 });

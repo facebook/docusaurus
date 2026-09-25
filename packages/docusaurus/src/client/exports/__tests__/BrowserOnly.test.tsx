@@ -6,84 +6,182 @@
  */
 // @vitest-environment jsdom
 
-import {afterAll, describe, expect, it, vi} from 'vitest';
-import React from 'react';
+import {afterEach, describe, expect, it, vi} from 'vitest';
+import React, {Suspense, act, type ReactNode} from 'react';
+import {hydrateRoot} from 'react-dom/client';
 import {render} from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import BrowserOnly from '../BrowserOnly';
-import {Context} from '../../browserContext';
+import useIsBrowser from '../useIsBrowser';
+import {renderToHtml} from '../../renderToHtml';
+
+function htmlToElement(html: string): Element {
+  const container = document.createElement('div');
+  container.innerHTML = html;
+  return container.firstElementChild!;
+}
 
 describe('<BrowserOnly>', () => {
-  afterAll(() => {
+  afterEach(() => {
     vi.unstubAllEnvs();
+    vi.restoreAllMocks();
   });
 
-  it('rejects react element children', () => {
-    vi.stubEnv('NODE_ENV', 'development');
-    expect(() =>
-      render(
-        <Context.Provider value>
+  describe('client', () => {
+    it('rejects react element children', () => {
+      vi.stubEnv('NODE_ENV', 'development');
+      vi.spyOn(console, 'error').mockImplementation(() => {});
+      expect(() =>
+        render(
           <BrowserOnly>
             <span>{window.location.href}</span>
-          </BrowserOnly>
-        </Context.Provider>,
-      ),
-    ).toThrowErrorMatchingInlineSnapshot(`
-      [Error: Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
-      Current type: React element]
-    `);
-  });
+          </BrowserOnly>,
+        ),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
+        Current type: React element]
+      `);
+    });
 
-  it('rejects string children', () => {
-    vi.stubEnv('NODE_ENV', 'development');
-    expect(() => {
-      render(
-        <Context.Provider value>
-          <BrowserOnly> </BrowserOnly>
-        </Context.Provider>,
+    it('rejects string children', () => {
+      vi.stubEnv('NODE_ENV', 'development');
+      vi.spyOn(console, 'error').mockImplementation(() => {});
+      expect(() => {
+        render(<BrowserOnly> </BrowserOnly>);
+      }).toThrowErrorMatchingInlineSnapshot(`
+        [Error: Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
+        Current type: string]
+      `);
+    });
+
+    it('renders children', () => {
+      const {container} = render(
+        <BrowserOnly fallback={<span>Loading</span>}>
+          {() => <span>{window.location.href}</span>}
+        </BrowserOnly>,
       );
-    }).toThrowErrorMatchingInlineSnapshot(`
-      [Error: Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
-      Current type: string]
-    `);
+      expect(container.firstElementChild).toMatchInlineSnapshot(`
+        <span>
+          https://docusaurus.io/
+        </span>
+      `);
+    });
+
+    it('renders children with useIsBrowser() true', () => {
+      function IsBrowser() {
+        return <span>isBrowser={String(useIsBrowser())}</span>;
+      }
+      const {container} = render(
+        <BrowserOnly>{() => <IsBrowser />}</BrowserOnly>,
+      );
+      expect(container).toHaveTextContent(/^isBrowser=true$/);
+    });
+
+    it('renders fallback while children suspend', async () => {
+      let resolveLazy!: () => void;
+      const Lazy = React.lazy(
+        () =>
+          new Promise<{default: () => ReactNode}>((resolve) => {
+            resolveLazy = () => resolve({default: () => <span>Loaded</span>});
+          }),
+      );
+      const {container} = render(
+        <Suspense fallback={<span>Parent fallback</span>}>
+          <span>Sibling</span>
+          <BrowserOnly fallback={<span>Loading</span>}>
+            {() => <Lazy />}
+          </BrowserOnly>
+        </Suspense>,
+      );
+      // Suspending children do not hide siblings behind parent fallback
+      expect(container).toMatchInlineSnapshot(`
+        <div>
+          <span>
+            Sibling
+          </span>
+          <span>
+            Loading
+          </span>
+        </div>
+      `);
+      await act(async () => resolveLazy());
+      expect(container).toMatchInlineSnapshot(`
+        <div>
+          <span>
+            Sibling
+          </span>
+          <span>
+            Loaded
+          </span>
+        </div>
+      `);
+    });
   });
 
-  it('accepts valid children', () => {
-    const {container} = render(
-      <Context.Provider value>
-        <BrowserOnly fallback={<span>Loading</span>}>
-          {() => <span>{window.location.href}</span>}
-        </BrowserOnly>
-      </Context.Provider>,
-    );
-    expect(container.firstElementChild).toMatchInlineSnapshot(`
-      <span>
-        https://docusaurus.io/
-      </span>
-    `);
+  describe('server', () => {
+    it('renders fallback and never calls children', async () => {
+      const children = vi.fn(() => <span>Client content</span>);
+      const html = await renderToHtml(
+        <div>
+          <BrowserOnly fallback={<span>Loading</span>}>{children}</BrowserOnly>
+        </div>,
+      );
+      expect(children).not.toHaveBeenCalled();
+      expect(htmlToElement(html)).toHaveTextContent(/^Loading$/);
+    });
+
+    it('renders nothing without fallback', async () => {
+      const html = await renderToHtml(
+        <div>
+          <BrowserOnly>{() => <span>Client content</span>}</BrowserOnly>
+        </div>,
+      );
+      const element = htmlToElement(html);
+      expect(element).toHaveTextContent(/^$/);
+      expect(element.children).toHaveLength(1);
+      expect(element.firstElementChild!.tagName).toBe('TEMPLATE');
+    });
+
+    it('does not validate children', async () => {
+      vi.stubEnv('NODE_ENV', 'development');
+      await expect(
+        renderToHtml(
+          <BrowserOnly fallback={<span>Loading</span>}>
+            <span>Invalid</span>
+          </BrowserOnly>,
+        ),
+      ).resolves.toContain('<span>Loading</span>');
+    });
   });
 
-  it('returns fallback when not in browser', () => {
-    const {container} = render(
-      <Context.Provider value={false}>
-        <BrowserOnly fallback={<span>Loading</span>}>
-          {() => <span>{window.location.href}</span>}
-        </BrowserOnly>
-      </Context.Provider>,
-    );
-    expect(container.firstElementChild).toMatchInlineSnapshot(`
-      <span>
-        Loading
-      </span>
-    `);
-  });
+  describe('hydration', () => {
+    it('hydrates server fallback and renders children', async () => {
+      function App() {
+        return (
+          <div>
+            <p>Before</p>
+            <BrowserOnly fallback={<span>Loading</span>}>
+              {() => <span>{window.location.href}</span>}
+            </BrowserOnly>
+            <p>After</p>
+          </div>
+        );
+      }
+      const container = document.createElement('div');
+      container.innerHTML = await renderToHtml(<App />);
+      expect(container).toHaveTextContent('BeforeLoadingAfter');
 
-  it('gracefully falls back', () => {
-    const {container} = render(
-      <Context.Provider value={false}>
-        <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>
-      </Context.Provider>,
-    );
-    expect(container.firstElementChild).toMatchInlineSnapshot(`null`);
+      const consoleError = vi.spyOn(console, 'error');
+      const onRecoverableError = vi.fn();
+      await act(async () => {
+        hydrateRoot(container, <App />, {onRecoverableError});
+      });
+
+      expect(onRecoverableError).not.toHaveBeenCalled();
+      expect(consoleError).not.toHaveBeenCalled();
+      expect(container.innerHTML).toMatchInlineSnapshot(
+        `"<div><p>Before</p><span>https://docusaurus.io/</span><p>After</p></div>"`,
+      );
+    });
   });
 });

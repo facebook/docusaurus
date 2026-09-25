@@ -19,7 +19,6 @@ import {
 } from './ssgEnv';
 import {generateHashRouterEntrypoint} from './ssgUtils';
 import {createGlobalSSGResult} from './ssgGlobalResult';
-import {executeSSGInlineTask} from './ssgWorkerInline';
 import type {SSGGlobalResult} from './ssgGlobalResult';
 import type {SSGParams} from './ssgParams';
 import type {Props, RouterType} from '@docusaurus/types';
@@ -29,32 +28,6 @@ import type {ExecuteSSGWorkerThreadTask} from './ssgWorkerThread';
 type SSGExecutor = {
   run: () => Promise<SSGGlobalResult>;
   destroy: () => Promise<void>;
-};
-
-type CreateSSGExecutor = (params: {
-  params: SSGParams;
-  pathnames: string[];
-}) => Promise<SSGExecutor>;
-
-const createSimpleSSGExecutor: CreateSSGExecutor = async ({
-  params,
-  pathnames,
-}) => {
-  return {
-    run: () => {
-      return PerfLogger.async('SSG (current thread)', async () => {
-        const ssgResults = await executeSSGInlineTask({
-          pathnames,
-          params,
-        });
-        return createGlobalSSGResult(ssgResults);
-      });
-    },
-
-    destroy: async () => {
-      // nothing to do
-    },
-  };
 };
 
 // Sensible default that gives decent performances
@@ -112,18 +85,16 @@ function getWorkerColorEnv(): Record<string, string> {
   return {};
 }
 
-const createPooledSSGExecutor: CreateSSGExecutor = async ({
+// SSG always runs in worker threads, even for small sites
+// This isolates the server bundle execution from the main Docusaurus process
+async function createSSGExecutor({
   params,
   pathnames,
-}) => {
+}: {
+  params: SSGParams;
+  pathnames: string[];
+}): Promise<SSGExecutor> {
   const numberOfThreads = getNumberOfThreads(pathnames);
-  // When the inferred or provided number of threads is just 1
-  // It's not worth it to use a thread pool
-  // This also allows users to disable the thread pool with the env variable
-  // DOCUSAURUS_SSG_WORKER_THREADS=1
-  if (numberOfThreads === 1) {
-    return createSimpleSSGExecutor({params, pathnames});
-  }
 
   const pool = await PerfLogger.async(
     `Create SSG thread pool - ${logger.cyan(numberOfThreads)} threads`,
@@ -193,7 +164,7 @@ const createPooledSSGExecutor: CreateSSGExecutor = async ({
       await pool.destroy();
     },
   };
-};
+}
 
 export async function executeSSG({
   props,
@@ -221,11 +192,10 @@ export async function executeSSG({
     return {collectedData: {}};
   }
 
-  const createExecutor = props.siteConfig.future.faster.ssgWorkerThreads
-    ? createPooledSSGExecutor
-    : createSimpleSSGExecutor;
-
-  const executor = await createExecutor({params, pathnames: props.routesPaths});
+  const executor = await createSSGExecutor({
+    params,
+    pathnames: props.routesPaths,
+  });
   const result = await executor.run();
   await executor.destroy();
   return result;

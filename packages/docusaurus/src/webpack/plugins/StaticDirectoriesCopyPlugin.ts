@@ -21,7 +21,6 @@ export async function createStaticDirectoriesCopyPlugin({
   });
 
   const {
-    outDir,
     siteDir,
     siteConfig: {staticDirectories: staticDirectoriesOption},
   } = props;
@@ -49,11 +48,16 @@ export async function createStaticDirectoriesCopyPlugin({
     return undefined;
   }
 
+  // Webpack's built-in CopyPlugin lets the last pattern win, whereas Rspack
+  // and copy-webpack-plugin keep the first. Preserve the directory priority.
+  if (props.currentBundler.name === 'webpack') {
+    staticDirectories.reverse();
+  }
+
   return new CopyPlugin({
     patterns: staticDirectories.map((dir) => ({
       from: dir,
-      to: outDir,
-      toType: 'dir',
+      to: '.',
       info: {
         // Prevents Webpack from minimizing static files (js/css)
         // see https://github.com/facebook/docusaurus/pull/10658

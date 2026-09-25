@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {visit} from 'unist-util-visit';
 import type {Transformer, Plugin} from 'unified';
 import type {Root} from 'mdast';
 
@@ -16,9 +17,7 @@ import type {Root} from 'mdast';
 // To make theme-classic/src/theme/MDXComponents/Pre work
 // we need to fill two properties that mdx v2 doesn't provide anymore
 const plugin: Plugin<unknown[], Root> = function plugin(): Transformer<Root> {
-  return async (root) => {
-    const {visit} = await import('unist-util-visit');
-
+  return (root) => {
     visit(root, 'code', (node) => {
       node.data = node.data || {};
 

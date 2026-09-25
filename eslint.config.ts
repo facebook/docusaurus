@@ -10,6 +10,7 @@ import globals from 'globals';
 import js from '@eslint/js';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
+import reactYouMightNotNeedAnEffect from 'eslint-plugin-react-you-might-not-need-an-effect';
 // @ts-expect-error: no types provided
 import header from 'eslint-plugin-header';
 import importPlugin from 'eslint-plugin-import';
@@ -27,6 +28,7 @@ const plugins = defineConfig([
   tseslint.configs.recommended,
   react.configs.flat.recommended,
   reactHooks.configs.flat.recommended,
+  reactYouMightNotNeedAnEffect.configs.recommended,
   importPlugin.flatConfigs.recommended,
   vitest.configs.recommended,
   jsxA11y.flatConfigs.recommended,

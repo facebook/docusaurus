@@ -12,7 +12,6 @@ import {
   fileToPath,
   aliasedSitePath,
   getFolderContainingFile,
-  Globby,
   normalizeUrl,
   parseMarkdownFile,
   isUnlisted,
@@ -25,6 +24,7 @@ import {
   getLocaleConfig,
   type ContentPaths,
 } from '@docusaurus/utils';
+import {glob} from '@docusaurus/glob';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext} from '@docusaurus/types';
 import type {
@@ -69,7 +69,7 @@ export async function loadPagesContent(
 ): Promise<LoadedContent> {
   const {options} = params;
 
-  const pagesFiles = await Globby(params.options.include, {
+  const pagesFiles = await glob(params.options.include, {
     cwd: params.contentPaths.contentPath,
     ignore: options.exclude,
   });

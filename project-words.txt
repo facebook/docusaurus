@@ -12,6 +12,7 @@ apfs
 appinstalled
 Applanga
 applescript
+astring
 atrule
 autogenerating
 autohide
@@ -37,14 +38,13 @@ Clément
 Codegen
 codegen
 codesandbox
-commonmark
 contravariance
-cooldown
 cooldowns
 corejs
 Couriol
 creativecommons
 Csapo
+cstck
 Dabit
 dabit
 Dagre
@@ -203,6 +203,7 @@ playbtn
 Plushie
 plushie
 plushies
+Preapproved
 precached
 precaching
 prerendered
@@ -270,6 +271,7 @@ someexpression
 spâce
 stackblitz
 stackoverflow
+stck
 strikethroughs
 styl
 sublabel
@@ -313,6 +315,7 @@ Unlisteds
 unlisteds
 unlocalized
 unminified
+unreviewed
 unstub
 unswizzle
 upvotes

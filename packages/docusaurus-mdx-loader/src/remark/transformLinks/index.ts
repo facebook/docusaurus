@@ -7,6 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import {visit} from 'unist-util-visit';
 import {
   toMessageRelativeFilePath,
   posixPath,
@@ -86,7 +87,7 @@ Make sure it references a local Markdown file that exists within the current plu
 /**
  * Transforms the link node to a JSX `<a>` element with a `require()` call.
  */
-async function toAssetRequireNode(
+function toAssetRequireNode(
   [node]: Target,
   assetPath: string,
   context: Context,
@@ -241,7 +242,7 @@ async function processLinkNode(target: Target, context: Context) {
   );
 
   if (localFilePath) {
-    await toAssetRequireNode(target, localFilePath, context);
+    toAssetRequireNode(target, localFilePath, context);
   } else {
     // The @site alias is the only way to believe that the user wants an asset.
     if (hasSiteAlias) {
@@ -265,8 +266,6 @@ const plugin: Plugin<PluginOptions[], Root> = function plugin(
   const onBrokenMarkdownLinks = asFunction(options.onBrokenMarkdownLinks);
 
   return async (root, vfile) => {
-    const {visit} = await import('unist-util-visit');
-
     const fileLoaderUtils = getFileLoaderUtils(
       vfile.data.compilerName === 'server',
     );

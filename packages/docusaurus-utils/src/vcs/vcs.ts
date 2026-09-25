@@ -30,7 +30,7 @@ const VcsPresets: Record<VcsPreset, VcsConfig> = {
 
 export const VcsPresetNames = Object.keys(VcsPresets) as VcsPreset[];
 
-export function findVcsPreset(presetName: string): VcsConfig | undefined {
+function findVcsPreset(presetName: string): VcsConfig | undefined {
   return VcsPresets[presetName as VcsPreset];
 }
 

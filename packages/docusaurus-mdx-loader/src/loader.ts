@@ -12,22 +12,16 @@ import {
   getFileLoaderUtils,
   getWebpackLoaderCompilerName,
 } from '@docusaurus/utils';
-import stringifyObject from 'stringify-object';
 import {
   compileToJSX,
   createAssetsExportCode,
   extractContentTitleData,
 } from './utils';
+import {serializeJS} from './serializeJS';
 import type {WebpackCompilerName} from '@docusaurus/utils';
 import type {Options} from './options';
 import type {LoaderContext} from 'webpack';
-
-// TODO as of April 2023, no way to import/re-export this ESM type easily :/
-// This might change soon, likely after TS 5.2
-// See https://github.com/microsoft/TypeScript/issues/49721#issuecomment-1517839391
-type Pluggable = any; // TODO fix this asap
-
-export type MDXPlugin = Pluggable;
+export type {MDXPlugin} from './processor';
 
 async function loadMDX({
   fileContent,
@@ -93,8 +87,8 @@ ${JSON.stringify(frontMatter, null, 2)}`;
   // TODO use remark plugins to insert extra exports instead of string concat?
   // cf how the toc is exported
   const exportsCode = `
-export const frontMatter = ${stringifyObject(frontMatter)};
-export const contentTitle = ${stringifyObject(contentTitle)};
+export const frontMatter = ${serializeJS(frontMatter)};
+export const contentTitle = ${serializeJS(contentTitle)};
 ${
   metadataPath
     ? `export {default as metadata} from '${aliasedSitePath(

@@ -5,11 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
+import {createRequire} from 'module';
 import path from 'path';
-// TODO eval is archived / unmaintained: https://github.com/pierrec/node-eval
-//  We should internalize/modernize it
-import evaluate from 'eval';
+import {compileFunction} from 'vm';
+import fs from 'fs-extra';
 import pMap from 'p-map';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {getHtmlMinifier} from '@docusaurus/bundler';
@@ -20,7 +19,6 @@ import {
 } from './ssgTemplate';
 import {SSGConcurrency} from './ssgEnv';
 import {writeStaticFile} from './ssgUtils';
-import {createSSGRequire} from './ssgNodeRequire';
 import type {SSGParams} from './ssgParams';
 import type {
   AppRenderer,
@@ -49,60 +47,57 @@ export type SSGError = {
 
 export type SSGResult = SSGSuccess | SSGError;
 
+// Evaluates the server bundle as a CommonJS module, like Node.js would do
+// We don't use an isolated vm context on purpose: SSG runs in worker threads
+// that already isolate it from the main Docusaurus process
+// Running in the current context is faster and avoids reading all the globals
+function evaluateServerBundle({
+  source,
+  serverBundlePath,
+}: {
+  source: string;
+  serverBundlePath: string;
+}): {default?: AppRenderer['render']} {
+  const moduleFunction = compileFunction(
+    source,
+    ['exports', 'require', 'module', '__filename', '__dirname'],
+    {filename: serverBundlePath},
+  );
+  const module = {exports: {}};
+  moduleFunction.call(
+    module.exports,
+    module.exports,
+    createRequire(serverBundlePath),
+    module,
+    serverBundlePath,
+    path.dirname(serverBundlePath),
+  );
+  return module.exports;
+}
+
 async function loadAppRenderer({
   serverBundlePath,
 }: {
   serverBundlePath: string;
 }): Promise<AppRenderer> {
   const source = await PerfLogger.async(`Load server bundle`, () =>
-    fs.readFile(serverBundlePath),
+    fs.readFile(serverBundlePath, 'utf8'),
   );
 
-  const filename = path.basename(serverBundlePath);
-
-  const ssgRequire = createSSGRequire(serverBundlePath);
-
-  const globals = {
-    // When using "new URL('file.js', import.meta.url)", Webpack will emit
-    // __filename, and this plugin will throw. not sure the __filename value
-    // has any importance for this plugin, just using an empty string to
-    // avoid the error. See https://github.com/facebook/docusaurus/issues/4922
-    __filename: '',
-
-    // This uses module.createRequire() instead of very old "require-like" lib
-    // See also: https://github.com/pierrec/node-eval/issues/33
-    require: ssgRequire.require,
-  };
-
-  const serverEntry = await PerfLogger.async(
-    `Evaluate server bundle`,
-    () =>
-      evaluate(
-        source,
-        /* filename: */ filename,
-        /* scope: */ globals,
-        /* includeGlobals: */ true,
-      ) as {default?: AppRenderer},
+  const serverEntry = await PerfLogger.async(`Evaluate server bundle`, () =>
+    evaluateServerBundle({source, serverBundlePath}),
   );
 
   if (!serverEntry?.default || typeof serverEntry.default !== 'function') {
     throw new Error(
-      `Docusaurus Bug: server bundle export from "${filename}" must be a function that renders the Docusaurus React app, not ${typeof serverEntry?.default}`,
+      `Docusaurus Bug: server bundle export from "${serverBundlePath}" must be a function that renders the Docusaurus React app, not ${typeof serverEntry?.default}`,
     );
   }
 
-  async function shutdown() {
-    ssgRequire.cleanup();
-  }
-
-  return {
-    render: serverEntry.default,
-    shutdown,
-  };
+  return {render: serverEntry.default};
 }
 
 export type SSGRenderer = {
-  shutdown: () => Promise<void>;
   renderPathnames: (pathnames: string[]) => Promise<SSGResult[]>;
 };
 
@@ -141,9 +136,6 @@ export async function loadSSGRenderer({
           }),
         {concurrency: SSGConcurrency},
       );
-    },
-    shutdown: async () => {
-      await appRenderer.shutdown();
     },
   };
 }

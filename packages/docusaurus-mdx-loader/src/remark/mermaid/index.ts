@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {visit} from 'unist-util-visit';
 import {transformNode} from '../utils';
 
 import type {Transformer} from 'unified';
@@ -15,9 +16,7 @@ import type {Root} from 'mdast';
 // https://github.com/facebook/docusaurus/issues/6370), this should be provided
 // by theme-mermaid itself
 export default function plugin(): Transformer<Root> {
-  return async (root) => {
-    const {visit} = await import('unist-util-visit');
-
+  return (root) => {
     visit(root, 'code', (node) => {
       if (node.lang === 'mermaid') {
         // TODO migrate to mdxJsxFlowElement? cf admonitions

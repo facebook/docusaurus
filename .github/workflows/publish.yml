@@ -51,10 +51,12 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: lts/*
+          check-latest: true
           #  ⚠️ Do not use any cache on purpose
           # It increases the chance of a compromised release being publish
           # See https://github.com/actions/setup-node/issues/1445#issuecomment-4040130833
           # cache: pnpm
+          package-manager-cache: false
       - name: Prepare git
         run: |
           git config --global user.name "Docusaurus"
@@ -68,6 +70,7 @@ jobs:
           (github.event_name == 'workflow_dispatch' && github.event.inputs.npm_tag == 'canary')
         run: |
           pnpm canary:bumpVersion
+          pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
           pnpm canary:publish
 
       - name: Publish NPM release

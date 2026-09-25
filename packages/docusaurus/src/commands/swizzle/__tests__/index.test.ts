@@ -9,7 +9,8 @@ import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
 import fs from 'fs-extra';
 import {tree} from 'tree-node-cli';
-import {escapePath, Globby, posixPath} from '@docusaurus/utils';
+import {escapePath, posixPath} from '@docusaurus/utils';
+import {glob} from '@docusaurus/glob';
 import {ThemePath, createTempSiteDir, Components} from './testUtils';
 import {swizzle} from '../index';
 
@@ -72,7 +73,7 @@ async function createTestSite() {
     const siteThemePathPosix = posixPath(siteThemePath);
     expect(tree(siteThemePathPosix)).toMatchSnapshot('theme dir tree');
 
-    const files = await Globby('**/*', {cwd: siteThemePath});
+    const files = await glob('**/*', {cwd: siteThemePath});
 
     for (const file of files) {
       const fileContent = await fs.readFile(

@@ -17,10 +17,6 @@ export type AppRenderResult = {
 
 export type AppRenderer = {
   render: (params: {pathname: string}) => Promise<AppRenderResult>;
-
-  // It's important to shut down the app renderer
-  // Otherwise Node.js require cache leaks memory
-  shutdown: () => Promise<void>;
 };
 
 // Attributes we need internally, for the SSG html template
@@ -41,14 +37,7 @@ export type PageCollectedMetadata = {
 // This data structure must remain serializable!
 // See why: https://github.com/facebook/docusaurus/pull/10826
 export type PageCollectedMetadataInternal = PageCollectedMetadata & {
-  internal: {
-    htmlAttributes: string;
-    bodyAttributes: string;
-    title: string;
-    meta: string;
-    link: string;
-    script: string;
-  };
+  internal: RouteBuildMetadataInternal;
 };
 
 export type PageCollectedDataInternal = {

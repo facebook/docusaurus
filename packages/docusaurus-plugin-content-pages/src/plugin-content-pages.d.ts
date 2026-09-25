@@ -86,7 +86,7 @@ declare module '@docusaurus/plugin-content-pages' {
   export default function pluginContentPages(
     context: LoadContext,
     options: PluginOptions,
-  ): Promise<Plugin<LoadedContent | null>>;
+  ): Plugin<LoadedContent | null>;
 
   export function validateOptions(
     args: OptionValidationContext<Options | undefined, PluginOptions>,

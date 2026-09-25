@@ -15,7 +15,8 @@ import {
   RouteBasePathSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
-import {DEFAULT_PLUGIN_ID, GlobExcludeDefault} from '@docusaurus/utils';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import {GlobExcludeDefault} from '@docusaurus/glob';
 import type {
   PluginOptions,
   Options,

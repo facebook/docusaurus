@@ -53,7 +53,7 @@ export type OpenUrlContext = {
   }) => string;
 };
 
-export async function createOpenUrlContext({
+async function createOpenUrlContext({
   cliOptions,
 }: {
   cliOptions: StartCLIOptions;

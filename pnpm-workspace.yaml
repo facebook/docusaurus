@@ -27,8 +27,18 @@ minimumReleaseAge: 10080 # 7 days in minutes
 minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
 minimumReleaseAgeExclude:
+  - image-size@2.0.4
+  - webpack@5.111.0
+  - enhanced-resolve@5.25.0
+  - schema-utils@4.5.0
+  - react@19.3.0
+  - react-dom@19.3.0
+  - scheduler@0.28.0
+  - '@types/react@19.3.0'
+  - '@types/react-dom@19.3.0'
   - tar@7.5.16
   - pnpm
+  - typescript
   - '@rspack/*'
   - '@crowdin/*'
 

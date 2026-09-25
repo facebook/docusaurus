@@ -8,7 +8,7 @@
 import type {CodeTranslations, TranslationFile} from './i18n';
 import type {RuleSetRule, Configuration as WebpackConfiguration} from 'webpack';
 import type {CustomizeRuleString} from 'webpack-merge/dist/types';
-import type {CommanderStatic} from 'commander';
+import type {Command} from 'commander';
 import type Joi from 'joi';
 import type {ThemeConfig} from './config';
 import type {LoadContext, Props} from './context';
@@ -153,7 +153,7 @@ export type Plugin<Content = unknown> = {
   getTypeScriptThemePath?: () => string;
   getPathsToWatch?: () => string[];
   getClientModules?: () => string[];
-  extendCli?: (cli: CommanderStatic) => void;
+  extendCli?: (cli: Command) => void;
   injectHtmlTags?: (args: {content: Content}) => {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;

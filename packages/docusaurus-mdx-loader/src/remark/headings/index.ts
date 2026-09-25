@@ -7,6 +7,8 @@
 
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
+import {toString} from 'mdast-util-to-string';
+import {visit} from 'unist-util-visit';
 import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
 import type {Plugin, Transformer} from 'unified';
 import type {Heading, Root, Text} from 'mdast';
@@ -109,10 +111,7 @@ function extractClassicSyntaxHeadingId(heading: Heading, headingText: string) {
 const plugin: Plugin<PluginOptions[], Root> = function plugin({
   anchorsMaintainCase,
 }): Transformer<Root> {
-  return async (root) => {
-    const {toString} = await import('mdast-util-to-string');
-    const {visit} = await import('unist-util-visit');
-
+  return (root) => {
     function getHeadingText(heading: Heading) {
       const headingTextNodes = heading.children.filter(
         ({type}) => !['html', 'jsx'].includes(type),

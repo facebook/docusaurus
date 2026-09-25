@@ -6,13 +6,11 @@
  */
 
 import {describe, expect, it} from 'vitest';
+import {remark} from 'remark';
+import mdx from 'remark-mdx';
 import head from '..';
 
 async function process(content: string) {
-  const {remark} = await import('remark');
-
-  const {default: mdx} = await import('remark-mdx');
-
   const result = await remark().use(mdx).use(head).process(content);
 
   return result.value;

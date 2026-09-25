@@ -14,15 +14,20 @@ const HeavyComponentLazy = React.lazy(
   () => import('./_components/heavyComponent'),
 );
 
-export default function React18Tests(): ReactNode {
+export default function SuspenseTests(): ReactNode {
   return (
     <Layout>
       <main style={{padding: 30}}>
-        <Heading as="h1">React 18 tests</Heading>
+        <Heading as="h1">Suspense tests</Heading>
+        <p>
+          Lazy components should render on the server when possible, and display
+          the closest fallback while loading on the client.
+        </p>
 
         <hr />
 
         <Heading as="h2">{'Suspense > HeavyComponent'}</Heading>
+        <p>HeavyComponent should be server-side rendered.</p>
         <Suspense fallback="[Suspense fallback] - Suspense > HeavyComponent">
           <HeavyComponentLazy />
         </Suspense>
@@ -30,6 +35,10 @@ export default function React18Tests(): ReactNode {
         <hr />
 
         <Heading as="h2">{'BrowserOnly > Suspense > HeavyComponent'}</Heading>
+        <p>
+          HeavyComponent should only be rendered on the client, inside the
+          nested Suspense boundary.
+        </p>
         <BrowserOnly>
           {() => (
             <Suspense fallback="[Suspense fallback] - BrowserOnly > Suspense > HeavyComponent">
@@ -41,8 +50,14 @@ export default function React18Tests(): ReactNode {
         <hr />
 
         <Heading as="h2">{'Suspense > BrowserOnly > HeavyComponent'}</Heading>
+        <p>
+          BrowserOnly has its own Suspense boundary: the parent Suspense
+          fallback should never be displayed.
+        </p>
         <Suspense fallback="[Suspense fallback] - Suspense > BrowserOnly > HeavyComponent">
-          <BrowserOnly>{() => <HeavyComponentLazy />}</BrowserOnly>
+          <BrowserOnly fallback="[BrowserOnly fallback] - Suspense > BrowserOnly > HeavyComponent">
+            {() => <HeavyComponentLazy />}
+          </BrowserOnly>
         </Suspense>
       </main>
     </Layout>

@@ -504,7 +504,7 @@ It is currently **not possible to link to a specific file** in Crowdin.
 The **Docusaurus configuration file** is a good example of using versioning and multi-instance:
 
 ```mdx-code-block
-import CrowdinConfigV2 from '!!raw-loader!@site/../crowdin-v2.yaml';
+import CrowdinConfigV2 from '@site/../crowdin-v2.yaml' with {type: 'text'};
 import CodeBlock from '@theme/CodeBlock';
 
 <CodeBlock className="language-yaml" title="crowdin.yml">
