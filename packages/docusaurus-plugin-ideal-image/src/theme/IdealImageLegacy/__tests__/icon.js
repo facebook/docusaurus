@@ -1,10 +1,11 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
+import {describe, expect, it} from 'vitest';
 import React from 'react';
 import {render} from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import Download from '../components/Icon/Download';
 import Loading from '../components/Icon/Loading';
 import Offline from '../components/Icon/Offline';

@@ -1,7 +1,7 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
-import {fn} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import {guessMaxImageWidth, fallbackParams} from '../components/helpers';
 
 describe('guessMaxImageWidth', () => {
@@ -25,7 +25,7 @@ describe('FallbackParams', () => {
         format: 'png',
       },
     ],
-    getUrl: fn(),
+    getUrl: vi.fn(),
   };
 
   it('Should return an object when run in the node environment', () => {

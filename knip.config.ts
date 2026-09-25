@@ -117,10 +117,7 @@ const config: KnipConfig = {
     'packages/docusaurus-plugin-google-gtag': {
       entry: ['src/gtag.ts', 'src/vendor-gtag.ts'],
     },
-    'packages/docusaurus-plugin-ideal-image': themePackageConfig({
-      // Legacy code, forked from react-ideal-image
-      ignore: ['src/theme/IdealImageLegacy/**'],
-    }),
+    'packages/docusaurus-plugin-ideal-image': themePackageConfig(),
     'packages/docusaurus-plugin-pwa': themePackageConfig({
       entry: ['src/registerSw.ts', 'src/sw.ts'],
       ignoreDependencies: [
@@ -194,6 +191,8 @@ const config: KnipConfig = {
         '@docusaurus/theme-mermaid',
         // Netlify build plugin, see netlify.toml
         'netlify-plugin-cache',
+        // Used by theme components ejected in CI, see testSwizzleThemeClassic.mjs
+        '@docusaurus/utils-common',
         // Imported in ```mdx-code-block fences
         'react-medium-image-zoom',
         // Used by versioned docs through !!raw-loader! imports
