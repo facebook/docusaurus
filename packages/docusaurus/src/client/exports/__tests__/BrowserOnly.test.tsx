@@ -8,10 +8,10 @@
 
 import {afterAll, describe, expect, it, vi} from 'vitest';
 import React from 'react';
+import {renderToString} from 'react-dom/server';
 import {render} from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import BrowserOnly from '../BrowserOnly';
-import {Context} from '../../browserContext';
 
 describe('<BrowserOnly>', () => {
   afterAll(() => {
@@ -22,11 +22,9 @@ describe('<BrowserOnly>', () => {
     vi.stubEnv('NODE_ENV', 'development');
     expect(() =>
       render(
-        <Context.Provider value>
-          <BrowserOnly>
-            <span>{window.location.href}</span>
-          </BrowserOnly>
-        </Context.Provider>,
+        <BrowserOnly>
+          <span>{window.location.href}</span>
+        </BrowserOnly>,
       ),
     ).toThrowErrorMatchingInlineSnapshot(`
       [Error: Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
@@ -37,11 +35,7 @@ describe('<BrowserOnly>', () => {
   it('rejects string children', () => {
     vi.stubEnv('NODE_ENV', 'development');
     expect(() => {
-      render(
-        <Context.Provider value>
-          <BrowserOnly> </BrowserOnly>
-        </Context.Provider>,
-      );
+      render(<BrowserOnly> </BrowserOnly>);
     }).toThrowErrorMatchingInlineSnapshot(`
       [Error: Docusaurus error: The children of <BrowserOnly> must be a "render function", e.g. <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>.
       Current type: string]
@@ -50,11 +44,9 @@ describe('<BrowserOnly>', () => {
 
   it('accepts valid children', () => {
     const {container} = render(
-      <Context.Provider value>
-        <BrowserOnly fallback={<span>Loading</span>}>
-          {() => <span>{window.location.href}</span>}
-        </BrowserOnly>
-      </Context.Provider>,
+      <BrowserOnly fallback={<span>Loading</span>}>
+        {() => <span>{window.location.href}</span>}
+      </BrowserOnly>,
     );
     expect(container.firstElementChild).toMatchInlineSnapshot(`
       <span>
@@ -64,26 +56,20 @@ describe('<BrowserOnly>', () => {
   });
 
   it('returns fallback when not in browser', () => {
-    const {container} = render(
-      <Context.Provider value={false}>
+    expect(
+      renderToString(
         <BrowserOnly fallback={<span>Loading</span>}>
           {() => <span>{window.location.href}</span>}
-        </BrowserOnly>
-      </Context.Provider>,
-    );
-    expect(container.firstElementChild).toMatchInlineSnapshot(`
-      <span>
-        Loading
-      </span>
-    `);
+        </BrowserOnly>,
+      ),
+    ).toBe('<span>Loading</span>');
   });
 
   it('gracefully falls back', () => {
-    const {container} = render(
-      <Context.Provider value={false}>
-        <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>
-      </Context.Provider>,
-    );
-    expect(container.firstElementChild).toMatchInlineSnapshot(`null`);
+    expect(
+      renderToString(
+        <BrowserOnly>{() => <span>{window.location.href}</span>}</BrowserOnly>,
+      ),
+    ).toBe('');
   });
 });
