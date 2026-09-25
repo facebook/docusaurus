@@ -39,12 +39,9 @@ describe('serializeJS', () => {
       ['NaN', NaN],
       ['Infinity', Infinity],
       ['-Infinity', -Infinity],
+      ['-0', -0],
     ])('%s', (_label, value) => {
       expect(roundTrip(value)).toBe(value);
-    });
-
-    it('serializes -0 as 0', () => {
-      expect(roundTrip(-0)).toBe(0);
     });
   });
 
@@ -78,10 +75,9 @@ describe('serializeJS', () => {
       expect(roundTrip(value)).toBe(value);
     });
 
-    it('serializes on a single line', () => {
-      expect(serializeJS('line1\nline2\r\u2028\u2029')).not.toMatch(
-        /[\n\r\u2028\u2029]/,
-      );
+    it('escapes line terminators', () => {
+      // U+2028/U+2029 are valid in string literals since ES2019
+      expect(serializeJS('line1\nline2\r')).not.toMatch(/[\n\r]/);
     });
   });
 
@@ -185,12 +181,14 @@ describe('serializeJS', () => {
       expect(Object.keys(result)).toEqual(['title', 'description']);
     });
 
-    it('does not serialize __proto__ key', () => {
+    it('serializes __proto__ key as own property', () => {
       const value = JSON.parse('{"a": 1, "__proto__": {"polluted": true}}');
       expect(Object.hasOwn(value, '__proto__')).toBe(true);
       const result = roundTrip(value);
-      expect(result).toEqual({a: 1});
-      expect(Object.hasOwn(result, '__proto__')).toBe(false);
+      expect(Object.keys(result)).toEqual(['a', '__proto__']);
+      expect(
+        Object.getOwnPropertyDescriptor(result, '__proto__')?.value,
+      ).toEqual({polluted: true});
       expect(Object.getPrototypeOf(result)).toBe(Object.prototype);
       expect(result).not.toHaveProperty('polluted');
     });
@@ -227,6 +225,37 @@ describe('serializeJS', () => {
     });
   });
 
+  describe('other values', () => {
+    it.each([
+      ['bigint', 42n],
+      [
+        'Map',
+        new Map<unknown, unknown>([
+          ['a', 1],
+          [{b: 2}, [3]],
+        ]),
+      ],
+      ['Set', new Set([1, 'two', {three: 3}])],
+      ['RegExp', /^reg.?exp$/gi],
+      ['global symbol', Symbol.for('test')],
+    ])('serializes %s', (_label, value) => {
+      expect(roundTrip(value)).toEqual(value);
+    });
+
+    it.each([
+      ['function', () => {}],
+      ['local symbol', Symbol('test')],
+    ])('throws for %s', (_label, value) => {
+      expect(() => serializeJS({a: {b: [1, value]}})).toThrow();
+    });
+
+    it('throws for circular references', () => {
+      const value: {[key: string]: unknown} = {a: {b: [1]}};
+      (value.a as {b: unknown[]}).b.push(value);
+      expect(() => serializeJS(value)).toThrow('Found circular reference');
+    });
+  });
+
   describe('output format', () => {
     it('serializes front matter', () => {
       expect(
@@ -242,28 +271,25 @@ describe('serializeJS', () => {
         }),
       ).toMatchInlineSnapshot(`
         "{
-        	title: 'My Doc',
-        	description: 'A "great" doc',
-        	sidebar_position: 2,
-        	draft: false,
-        	pagination_next: null,
-        	tags: [
-        		'a',
-        		'b'
-        	],
-        	'custom-key': {
-        		nested: true
-        	},
-        	last_update: {
-        		date: new Date('2021-01-02T00:00:00.000Z')
-        	}
+          "title": "My Doc",
+          "description": "A \\"great\\" doc",
+          "sidebar_position": 2,
+          "draft": false,
+          "pagination_next": null,
+          "tags": ["a", "b"],
+          "custom-key": {
+            "nested": true
+          },
+          "last_update": {
+            "date": new Date(1609545600000)
+          }
         }"
       `);
     });
 
     it('serializes content title', () => {
       expect(serializeJS('Hello `world`')).toMatchInlineSnapshot(
-        `"'Hello \`world\`'"`,
+        `""Hello \`world\`""`,
       );
       expect(serializeJS(undefined)).toMatchInlineSnapshot(`"undefined"`);
     });
@@ -322,8 +348,10 @@ multiline: |
 
 # Content
 `);
-      const {__proto__: _proto, ...expected} = frontMatter;
-      expect(roundTrip(frontMatter)).toEqual(expected);
+      const result = roundTrip(frontMatter);
+      expect(result).toEqual(frontMatter);
+      expect(Object.keys(result)).toEqual(Object.keys(frontMatter));
+      expect(Object.getPrototypeOf(result)).toBe(Object.prototype);
     });
 
     it('round-trips JSON front matter', async () => {

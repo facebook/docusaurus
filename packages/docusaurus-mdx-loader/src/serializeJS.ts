@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import stringifyObject from 'stringify-object';
+import {generate} from 'astring';
+import {valueToEstree} from 'estree-util-value-to-estree';
 
 /**
  * Serializes a value to a JS expression string, that can be inlined in the
@@ -17,5 +18,5 @@ import stringifyObject from 'stringify-object';
  * `Infinity` or `Date` instances.
  */
 export function serializeJS(value: unknown): string {
-  return stringifyObject(value);
+  return generate(valueToEstree(value, {instanceAsObject: true}));
 }
