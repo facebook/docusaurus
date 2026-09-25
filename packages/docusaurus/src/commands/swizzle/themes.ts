@@ -12,7 +12,7 @@ import leven from 'leven';
 import {askThemeName} from './prompts';
 import {findStringIgnoringCase, type SwizzlePlugin} from './common';
 
-export function pluginToThemeName(plugin: SwizzlePlugin): string | undefined {
+function pluginToThemeName(plugin: SwizzlePlugin): string | undefined {
   if (plugin.instance.getThemePath) {
     return (
       (plugin.instance.version as {name?: string}).name ?? plugin.instance.name

@@ -45,7 +45,7 @@ export function findDefaultImportName(
   )?.local.name;
 }
 
-export function findNamedImportSpecifier(
+function findNamedImportSpecifier(
   importDeclaration: ImportDeclaration,
   localName: string,
 ): ImportSpecifier | undefined {

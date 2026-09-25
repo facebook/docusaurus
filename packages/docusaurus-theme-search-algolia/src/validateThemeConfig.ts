@@ -25,7 +25,7 @@ const FacetFiltersSchema = Joi.array().items(
   Joi.alternatives().try(Joi.string(), Joi.array().items(Joi.string())),
 );
 
-export const Schema = Joi.object<ThemeConfig>({
+const Schema = Joi.object<ThemeConfig>({
   algolia: Joi.object<ThemeConfigAlgolia>({
     // Docusaurus attributes
     contextualSearch: Joi.boolean().default(DEFAULT_CONFIG.contextualSearch),

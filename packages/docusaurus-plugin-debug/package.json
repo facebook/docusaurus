@@ -24,7 +24,6 @@
     "@docusaurus/module-type-aliases": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "@docusaurus/utils": "workspace:*",
-    "fs-extra": "^11.4.0",
     "react-json-view-lite": "^2.5.0",
     "tslib": "^2.8.1"
   },

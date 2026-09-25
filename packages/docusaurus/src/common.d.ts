@@ -41,14 +41,7 @@ export type PageCollectedMetadata = {
 // This data structure must remain serializable!
 // See why: https://github.com/facebook/docusaurus/pull/10826
 export type PageCollectedMetadataInternal = PageCollectedMetadata & {
-  internal: {
-    htmlAttributes: string;
-    bodyAttributes: string;
-    title: string;
-    meta: string;
-    link: string;
-    script: string;
-  };
+  internal: RouteBuildMetadataInternal;
 };
 
 export type PageCollectedDataInternal = {

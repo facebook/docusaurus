@@ -13,7 +13,7 @@ const SkipHtmlMinification = process.env.SKIP_HTML_MINIFICATION === 'true';
 
 export type HtmlMinifierType = 'swc' | 'terser';
 
-export type HtmlMinifierResult = {
+type HtmlMinifierResult = {
   code: string;
   warnings: string[];
 };

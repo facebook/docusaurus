@@ -27,6 +27,9 @@
     "tslib": "^2.8.1",
     "webpack": "^5.111.0"
   },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "workspace:*"
+  },
   "peerDependencies": {
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

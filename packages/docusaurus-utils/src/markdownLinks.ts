@@ -27,21 +27,6 @@ export type ContentPaths = {
   contentPathLocalized: string | undefined;
 };
 
-/** Data structure representing each broken Markdown link to be reported. */
-export type BrokenMarkdownLink<T extends ContentPaths> = {
-  /** Absolute path to the file containing this link. */
-  filePath: string;
-  /**
-   * This is generic because it may contain extra metadata like version name,
-   * which the reporter can provide for context.
-   */
-  contentPaths: T;
-  /**
-   * The content of the link, like `"./brokenFile.md"`
-   */
-  link: string;
-};
-
 export type SourceToPermalink = Map<
   string, // Aliased source path: "@site/docs/content.mdx"
   string // Permalink: "/docs/content"

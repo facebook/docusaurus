@@ -120,7 +120,7 @@ export async function readComponentNames(themePath: string): Promise<string[]> {
   return sortComponentNames(componentNames);
 }
 
-export function listComponentNames(themeComponents: ThemeComponents): string {
+function listComponentNames(themeComponents: ThemeComponents): string {
   if (themeComponents.all.length === 0) {
     return 'No component to swizzle.';
   }

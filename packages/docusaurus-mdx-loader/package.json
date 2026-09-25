@@ -25,7 +25,6 @@
     "@slorber/remark-comment": "^1.0.0",
     "escape-html": "^1.0.3",
     "estree-util-value-to-estree": "^3.5.0",
-    "file-loader": "^6.2.0",
     "fs-extra": "^11.4.0",
     "image-size": "^2.0.4",
     "mdast-util-mdx": "^3.0.0",
@@ -39,7 +38,6 @@
     "tslib": "^2.8.1",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
-    "url-loader": "^4.1.1",
     "vfile": "^6.0.3",
     "webpack": "^5.111.0"
   },
