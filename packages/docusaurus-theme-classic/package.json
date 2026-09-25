@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@docusaurus/core": "workspace:*",
-    "@docusaurus/logger": "workspace:*",
     "@docusaurus/mdx-loader": "workspace:*",
     "@docusaurus/module-type-aliases": "workspace:*",
     "@docusaurus/plugin-content-blog": "workspace:*",
@@ -50,8 +49,7 @@
   "devDependencies": {
     "@types/nprogress": "^0.2.3",
     "@types/prismjs": "^1.26.6",
-    "@types/rtlcss": "^3.5.4",
-    "fs-extra": "^11.4.0"
+    "@types/rtlcss": "^3.5.4"
   },
   "peerDependencies": {
     "react": "^19.3.0",

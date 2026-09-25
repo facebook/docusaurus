@@ -51,9 +51,7 @@ function parseAuthors(content: string): Author[] {
   return authors;
 }
 
-export function createAuthorsMap(
-  changelogEntries: ChangelogEntry[],
-): AuthorsMap {
+function createAuthorsMap(changelogEntries: ChangelogEntry[]): AuthorsMap {
   const allAuthors = changelogEntries.flatMap((entry) => entry.authors);
   const authorsMap: AuthorsMap = {};
   allAuthors?.forEach((author) => {

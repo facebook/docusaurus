@@ -24,11 +24,9 @@
   },
   "devDependencies": {
     "@docusaurus/babel": "workspace:*",
-    "@docusaurus/core": "workspace:*",
     "@docusaurus/glob": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/types": "workspace:*",
-    "@docusaurus/utils": "workspace:*",
     "lodash": "^4.18.1"
   },
   "engines": {

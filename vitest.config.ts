@@ -129,6 +129,12 @@ export default defineConfig({
     // Default 5s timeout often fails on Windows runners.
     // See https://github.com/facebook/docusaurus/pull/8259
     testTimeout: 25000,
+    include: [
+      // Vitest default
+      '**/*.{test,spec}.?(c|m)[jt]s?(x)',
+      // Legacy code, forked from react-ideal-image
+      'packages/docusaurus-plugin-ideal-image/src/theme/IdealImageLegacy/__tests__/*.js',
+    ],
     exclude: ignorePatterns,
     snapshotSerializers: [
       // TOP: applied last

@@ -36,7 +36,6 @@
     "@algolia/autocomplete-core": "^1.19.10",
     "@docsearch/react": "^4.7.0",
     "@docusaurus/core": "workspace:*",
-    "@docusaurus/logger": "workspace:*",
     "@docusaurus/plugin-content-docs": "workspace:*",
     "@docusaurus/theme-classic": "workspace:*",
     "@docusaurus/theme-common": "workspace:*",

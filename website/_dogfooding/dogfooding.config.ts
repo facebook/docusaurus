@@ -17,7 +17,7 @@ import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 // This makes localized sites build much slower on Netlify
 // See also https://github.com/facebook/docusaurus/issues/11208
 // TODO duplicated :/
-export const showLastUpdate = process.env.DOCUSAURUS_CURRENT_LOCALE === 'en';
+const showLastUpdate = process.env.DOCUSAURUS_CURRENT_LOCALE === 'en';
 
 export function dogfoodingTransformFrontMatter(frontMatter: {
   [key: string]: unknown;

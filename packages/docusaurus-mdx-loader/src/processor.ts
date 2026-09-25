@@ -120,7 +120,7 @@ function getRemarkMdxPlugins({
 
 // /!\ this method is synchronous on purpose
 // Using async code here can create cache entry race conditions!
-export function createProcessorUncached({
+function createProcessorUncached({
   options,
   format,
 }: {

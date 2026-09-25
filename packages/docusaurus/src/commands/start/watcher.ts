@@ -27,12 +27,7 @@ export function createPollingOptions(
   };
 }
 
-export type FileWatchEventName =
-  | 'add'
-  | 'addDir'
-  | 'change'
-  | 'unlink'
-  | 'unlinkDir';
+type FileWatchEventName = 'add' | 'addDir' | 'change' | 'unlink' | 'unlinkDir';
 
 export type FileWatchEvent = {
   name: FileWatchEventName;
@@ -48,7 +43,7 @@ type WatchParams = {
  * Watch file system paths for changes and emit events
  * Returns an async handle to stop watching
  */
-export function watchPaths(
+function watchPaths(
   params: WatchParams,
   callback: (event: FileWatchEvent) => void,
 ): () => Promise<void> {
@@ -65,7 +60,7 @@ export function watchPaths(
   return () => watcher.close();
 }
 
-export function getSitePathsToWatch({props}: {props: Props}): string[] {
+function getSitePathsToWatch({props}: {props: Props}): string[] {
   return [
     // TODO we should also watch all imported modules!
     //  Use https://github.com/vercel/nft ?
@@ -74,7 +69,7 @@ export function getSitePathsToWatch({props}: {props: Props}): string[] {
   ];
 }
 
-export function getPluginPathsToWatch({
+function getPluginPathsToWatch({
   siteDir,
   plugin,
 }: {

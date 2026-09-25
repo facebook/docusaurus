@@ -34,7 +34,7 @@ function SiteSlide({index, site}: {index: number; site: Site}) {
 }
 
 // Inspired by: https://community.appsmith.com/content/blog/ditch-bloat-building-swipeable-carousel-only-css
-export default function ShowcaseCarousel({
+function ShowcaseCarousel({
   sites,
   aspectRatio,
 }: {

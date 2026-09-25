@@ -120,19 +120,19 @@ export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   experimental_router: 'browser',
 };
 
-export const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
+const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
   onBrokenMarkdownLinks: 'warn',
   onBrokenMarkdownImages: 'throw',
   onUnusedMarkdownDirectives: 'warn',
 };
 
-export const DEFAULT_MARKDOWN_MDX1COMPAT: MDX1CompatOptions = {
+const DEFAULT_MARKDOWN_MDX1COMPAT: MDX1CompatOptions = {
   comments: true,
   admonitions: true,
   headingIds: true,
 };
 
-export const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
+const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   // TODO Docusaurus v5: change this to "detect"?
   //  we probably need stable CommonMark support first
   //  see https://github.com/facebook/docusaurus/issues/9092

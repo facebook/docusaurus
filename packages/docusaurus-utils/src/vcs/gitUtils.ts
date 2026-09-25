@@ -48,7 +48,7 @@ const hasGit =
 // TODO Docusaurus v4: remove this
 //  Exceptions are not made for control flow logic
 /** Custom error thrown when git is not found in `PATH`. */
-export class GitNotFoundError extends Error {}
+class GitNotFoundError extends Error {}
 
 // TODO Docusaurus v4: remove this, only kept for retro-compatibility
 //  Exceptions are not made for control flow logic

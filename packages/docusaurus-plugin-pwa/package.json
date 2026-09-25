@@ -35,14 +35,12 @@
     "core-js": "^3.50.0",
     "tslib": "^2.8.1",
     "webpack": "^5.111.0",
-    "webpack-merge": "^6.0.1",
     "workbox-build": "^7.4.1",
     "workbox-precaching": "^7.4.1",
     "workbox-window": "^7.4.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "workspace:*",
-    "fs-extra": "^11.4.0"
+    "@docusaurus/module-type-aliases": "workspace:*"
   },
   "peerDependencies": {
     "react": "^19.3.0",

@@ -243,7 +243,7 @@ export async function localizePluginTranslationFile({
   return translationFile;
 }
 
-export function mergeCodeTranslations(
+function mergeCodeTranslations(
   codeTranslations: CodeTranslations[],
 ): CodeTranslations {
   return codeTranslations.reduce(

@@ -15,7 +15,7 @@ import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 // TODO Docusaurus v4 breaking change - this is historical server template data
 //  that does not look super clean nor typesafe
 //  Note: changing it is a breaking change because template is configurable
-export type SSGTemplateData = {
+type SSGTemplateData = {
   appHtml: string;
   baseUrl: string;
   htmlAttributes: string;

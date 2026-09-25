@@ -56,9 +56,11 @@
     "webpack": "^5.111.0"
   },
   "devDependencies": {
+    "@total-typescript/shoehorn": "^0.1.2",
     "@types/picomatch": "^2.3.4",
     "commander": "^15.0.0",
-    "picomatch": "^2.3.2"
+    "picomatch": "^2.3.2",
+    "react-router-dom": "^5.3.4"
   },
   "peerDependencies": {
     "react": "^19.3.0",

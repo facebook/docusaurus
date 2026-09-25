@@ -97,10 +97,6 @@ export function StableVersion(): ReactNode {
   return <span>{currentVersion}</span>;
 }
 
-export function StableMajorVersion(): ReactNode {
-  return <span>{CurrentMajorVersionNumber}</span>;
-}
-
 function GitBranchLink({branch}: {branch: string}): ReactNode {
   return (
     <Link to={`https://github.com/facebook/docusaurus/tree/${branch}`}>
