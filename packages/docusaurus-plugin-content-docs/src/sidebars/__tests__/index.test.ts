@@ -7,6 +7,7 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import path from 'path';
+import fs from 'fs-extra';
 import {createSlugger} from '@docusaurus/utils';
 import {loadSidebars, DisabledSidebars} from '../index';
 import {DefaultSidebarItemsGenerator} from '../generator';
@@ -184,5 +185,34 @@ describe('loadSidebars', () => {
         /.*\[ERROR\].* The docs sidebar category metadata file .*foo\/_category_.json.* looks invalid!/,
       ),
     );
+  });
+
+  it('ignores category metadata files in node_modules and dist', async () => {
+    const tempDir = path.join(fixtureDir, 'temp-ignore-docs');
+    const nodeModulesCategory = path.join(
+      tempDir,
+      'node_modules',
+      'pkg',
+      '_category_.json',
+    );
+    const distCategory = path.join(tempDir, 'dist', '_category_.json');
+    await fs.ensureDir(path.dirname(nodeModulesCategory));
+    await fs.ensureDir(path.dirname(distCategory));
+    await fs.writeFile(nodeModulesCategory, 'invalid json content');
+    await fs.writeFile(distCategory, 'invalid json content');
+
+    try {
+      const sidebarPath = path.join(fixtureDir, 'sidebars.json');
+      const result = await loadSidebars(sidebarPath, {
+        ...params,
+        version: {
+          contentPath: tempDir,
+          contentPathLocalized: tempDir,
+        } as VersionMetadata,
+      });
+      expect(result).toBeDefined();
+    } finally {
+      await fs.remove(tempDir);
+    }
   });
 });
