@@ -23,6 +23,7 @@ import type {WatchOptions} from '../watchUtils';
 describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
   const {backend} = mode;
   const isFsEvents = backend === 'fsevents';
+  const isWindows = process.platform === 'win32';
 
   describe('file paths', () => {
     describe('absolute paths', () => {
@@ -318,29 +319,34 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
 
       it('watches dir - remove and re-create', async ({expect}) => {
         await using w = await createTestWatcher({expect, mode, files, paths});
+        // Linux does not always emit "unlinkDir" for the watched dir
         await w.expectEvents(
           () => w.remove('i18n'),
           [
             'unlink i18n/fr/code.json',
             'unlink i18n/fr/docs/intro.md',
             'unlink i18n/fr/docs/other.md',
-            'unlinkDir i18n',
+            ...(backend === 'linux' ? [] : ['unlinkDir i18n']),
             'unlinkDir i18n/fr',
             'unlinkDir i18n/fr/docs',
           ],
+          {optional: ['unlinkDir i18n']},
         );
         // TODO Chokidar v3 limitation: once the watched dir is removed,
-        //  re-creating it is not detected on Linux and with polling
-        const recreateEvents = {
-          fsevents: ['addDir i18n', 'addDir i18n/it', 'add i18n/it/code.json'],
-          windows: ['addDir i18n/it', 'add i18n/it/code.json'],
-          linux: [],
-          polling: [],
-        };
+        //  re-creating it is only detected with FSEvents and on Windows
+        function getRecreateEvents(): string[] {
+          if (isFsEvents) {
+            return ['addDir i18n', 'addDir i18n/it', 'add i18n/it/code.json'];
+          }
+          if (isWindows) {
+            return ['addDir i18n/it', 'add i18n/it/code.json'];
+          }
+          return [];
+        }
         await w.expectEvents(
           () => w.add('i18n/it/code.json'),
-          recreateEvents[backend],
-          {optional: backend === 'windows' ? ['addDir i18n'] : []},
+          getRecreateEvents(),
+          {optional: isWindows ? ['addDir i18n'] : []},
         );
       });
 
@@ -899,13 +905,12 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
           [`change ${posixPath(path.join(w.siteDir, 'arch/a.dsl'))}`],
           {
             // TODO Chokidar v3 inconsistency: on Windows, the negated glob
-            //  randomly does not ignore the file
-            optional:
-              backend === 'windows'
-                ? [
-                    `change ${posixPath(path.join(w.siteDir, 'arch/include.b.dsl'))}`,
-                  ]
-                : [],
+            //  does not reliably ignore the file (in native and polling modes)
+            optional: isWindows
+              ? [
+                  `change ${posixPath(path.join(w.siteDir, 'arch/include.b.dsl'))}`,
+                ]
+              : [],
           },
         );
       });

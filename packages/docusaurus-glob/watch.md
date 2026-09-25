@@ -106,9 +106,9 @@ Test names are relative to the `watch()` test suite, which runs each test in nat
 | Missing file created, missing parent dir | `blog/authors.yml` | ✅ | ❌ | ❌ | ❌ |  | `watches missing file in missing dir` |
 | File re-created after its parent dir is removed | `docs/tags.yml` | ✅ | ❌ | ❌ | ❌ | FSEvents does not always report the removal, and may report the re-creation as `change` | `watches file - remove parent dir` |
 | File re-created, watcher with multiple paths | `[docusaurus.config.js, i18n]`, `[sidebars.js, docs/**/*.md]` | ✅ | ❌ | ❌ | ❌ | Works with a single path, and for files matched by globs. Affects core site and docs plugin watchers | `watches site paths - re-create file`, `watches file and glob paths - re-create file` |
-| Directory: add, change, remove, rename, move | `/abs/site/i18n`, `api` | ✅ | ✅ | ✅ | ✅ | Watched recursively, emits `addDir`/`unlinkDir`. Linux and Windows may emit events for atomic change temp files | `directory paths` |
+| Directory: add, change, remove, rename, move | `/abs/site/i18n`, `api` | ✅ | ✅ | ✅ | ✅ | Watched recursively, emits `addDir`/`unlinkDir`. Linux may not emit `unlinkDir` for the removed watched dir. Linux and Windows may emit events for atomic change temp files | `directory paths` |
 | Missing directory created, existing parent dir | `/abs/site/i18n` | ✅ | ✅ | ✅ | ✅ |  | `watches missing dir` |
-| Directory re-created after being removed | `/abs/site/i18n` | ✅ | ❌ | ✅ | ❌ |  | `watches dir - remove and re-create` |
+| Directory re-created after being removed | `/abs/site/i18n` | ✅ | ❌ | ✅ | ❌ | Polling on Windows detects it | `watches dir - remove and re-create` |
 | Glob: add, change, atomic change, remove, rename files | `docs/**/*.{md,mdx}` | ✅ | ✅ | ✅ | ✅ | FSEvents does not emit `unlinkDir` | `glob patterns > relative globs` |
 | Glob syntaxes: `*`, braces, extglobs, char classes | `docs/*.md`, `docs/**/@(foo\|bar).md`, `docs/**/[0-9]*.md` | ✅ | ✅ | ✅ | ✅ |  | `watches docs/*.md`, `watches other "include" glob syntaxes` |
 | Glob matching dotfiles and `_` files | `docs/**/*.md` matches `docs/.dotfile.md`, `docs/_partial.md` | ✅ | ✅ | ✅ | ✅ |  | `watches docs/**/*.{md,mdx} - add` |
@@ -118,6 +118,6 @@ Test names are relative to the `watch()` test suite, which runs each test in nat
 | Absolute glob | `/abs/site/docs/**/*.{md,mdx}` | ✅ | ✅ | ✅ | ✅ |  | `glob patterns > absolute globs` |
 | Glob outside `siteDir` | `../docs/**/*.{md,mdx}` | ✅ | ✅ | ✅ | ✅ | Same as relative globs | `glob patterns > globs outside siteDir` |
 | Negated relative glob | `!docs/**/_*.md` | ✅ | ✅ | ✅ | ✅ | Matching files are ignored | `ignores negated relative globs` |
-| Negated absolute glob, without `cwd` | `!/abs/site/**/include.*.dsl` | ✅ | ✅ | ⚠️ | ✅ | Matching files are ignored. On Windows, not always | `ignores negated absolute globs without cwd` |
+| Negated absolute glob, without `cwd` | `!/abs/site/**/include.*.dsl` | ✅ | ✅ | ⚠️ | ✅ | Matching files are ignored. On Windows (also with polling), not always | `ignores negated absolute globs without cwd` |
 | Negated absolute glob, with `cwd` | `!/abs/site/**/include.*.dsl` | ❌ | ❌ | ❌ | ❌ | Has no effect: matching files still emit events. Chokidar resolves it against `cwd`, and core always passes `cwd` | `does not ignore negated absolute globs with cwd` |
 | Overlapping paths | `docs/**/*.md`, `docs/**/*.{md,mdx}`, `docs` | ✅ | ✅ | ✅ | ✅ |  | `watches overlapping paths` |
