@@ -10,7 +10,10 @@ import * as path from 'path';
 import {remark} from 'remark';
 import mdx from 'remark-mdx';
 import {read} from 'to-vfile';
+import {VFile} from 'vfile';
+import {visit} from 'unist-util-visit';
 import plugin, {type PluginOptions} from '../index';
+import type {MdxJsxTextElement} from 'mdast-util-mdx';
 
 const siteDir = path.join(__dirname, '__fixtures__');
 
@@ -65,6 +68,27 @@ describe('transformImage plugin', () => {
       `![img](pathname:///img/unchecked.png)`,
     );
     expect(result).toMatchSnapshot();
+  });
+
+  it('does not HTML-escape alt and title', async () => {
+    // Attribute values are escaped when the JSX is rendered, so escaping them
+    // here too would show entities such as &#39; in the rendered alt text.
+    const processor = getProcessor();
+    const file = new VFile({
+      value: `![It's a "quoted" & ampersand alt](/img.png (It's a "quoted" & <tagged> title))`,
+      path: path.posix.join(siteDir, 'docs', 'myFile.mdx'),
+    });
+    const tree = await processor.run(processor.parse(file), file);
+    const attributes: {[name: string]: unknown} = {};
+    visit(tree, 'mdxJsxTextElement', (node: MdxJsxTextElement) => {
+      node.attributes.forEach((attribute) => {
+        if (attribute.type === 'mdxJsxAttribute') {
+          attributes[attribute.name] = attribute.value;
+        }
+      });
+    });
+    expect(attributes.alt).toBe(`It's a "quoted" & ampersand alt`);
+    expect(attributes.title).toBe(`It's a "quoted" & <tagged> title`);
   });
 
   it('does not choke on invalid image', async () => {

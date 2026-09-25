@@ -10,8 +10,11 @@ import * as path from 'path';
 import {remark} from 'remark';
 import mdx from 'remark-mdx';
 import {read} from 'to-vfile';
+import {VFile} from 'vfile';
+import {visit} from 'unist-util-visit';
 import plugin, {type PluginOptions} from '..';
 import transformImage from '../../transformImage';
+import type {MdxJsxTextElement} from 'mdast-util-mdx';
 
 const siteDir = path.join(__dirname, `__fixtures__`);
 
@@ -68,6 +71,29 @@ describe('transformLinks plugin', () => {
   it('pathname protocol', async () => {
     const result = await processContent(`pathname:///unchecked.pdf)`);
     expect(result).toMatchInlineSnapshot(`"pathname:///unchecked.pdf)"`);
+  });
+
+  it('does not HTML-escape title', async () => {
+    // Attribute values are escaped when the JSX is rendered, so escaping them
+    // here too would show entities such as &#39; in the rendered title.
+    const processor = getProcessor();
+    const file = new VFile({
+      value: `[asset](/staticAsset.pdf (It's a "quoted" & <tagged> title))`,
+      path: path.posix.join(siteDir, 'docs', 'myFile.mdx'),
+    });
+    const tree = await processor.run(processor.parse(file), file);
+    const titles: unknown[] = [];
+    visit(tree, 'mdxJsxTextElement', (node: MdxJsxTextElement) => {
+      node.attributes.forEach((attribute) => {
+        if (
+          attribute.type === 'mdxJsxAttribute' &&
+          attribute.name === 'title'
+        ) {
+          titles.push(attribute.value);
+        }
+      });
+    });
+    expect(titles).toEqual([`It's a "quoted" & <tagged> title`]);
   });
 
   it('accepts absolute file that does not exist', async () => {
