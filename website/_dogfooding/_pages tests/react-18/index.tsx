@@ -41,8 +41,14 @@ export default function React18Tests(): ReactNode {
         <hr />
 
         <Heading as="h2">{'Suspense > BrowserOnly > HeavyComponent'}</Heading>
+        <p>
+          BrowserOnly has its own Suspense boundary: the parent Suspense
+          fallback should never be displayed.
+        </p>
         <Suspense fallback="[Suspense fallback] - Suspense > BrowserOnly > HeavyComponent">
-          <BrowserOnly>{() => <HeavyComponentLazy />}</BrowserOnly>
+          <BrowserOnly fallback="[BrowserOnly fallback] - Suspense > BrowserOnly > HeavyComponent">
+            {() => <HeavyComponentLazy />}
+          </BrowserOnly>
         </Suspense>
       </main>
     </Layout>
