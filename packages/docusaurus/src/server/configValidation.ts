@@ -81,7 +81,6 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   mdxCrossCompilerCache: false,
   rspackBundler: false,
   rspackPersistentCache: false,
-  ssgWorkerThreads: false,
   gitEagerVcs: false,
 };
 
@@ -94,7 +93,6 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   mdxCrossCompilerCache: true,
   rspackBundler: true,
   rspackPersistentCache: true,
-  ssgWorkerThreads: true,
   gitEagerVcs: true,
 };
 
@@ -300,7 +298,6 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
       mdxCrossCompilerCache: Joi.boolean(),
       rspackBundler: Joi.boolean(),
       rspackPersistentCache: Joi.boolean(),
-      ssgWorkerThreads: Joi.boolean(),
       gitEagerVcs: Joi.boolean(),
     }),
     Joi.boolean()
