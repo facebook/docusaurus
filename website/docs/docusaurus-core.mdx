@@ -193,7 +193,7 @@ Use it for integrating with code that can't run in Node.js, because the `window`
 #### Props {/* #browseronly-props */}
 
 - `children`: render function prop returning browser-only JSX. Will not be executed in Node.js
-- `fallback` (optional): JSX to render on the server (Node.js) and until React hydration completes.
+- `fallback` (optional): JSX to render on the server (Node.js) and until React hydration completes. It is also displayed while the `children` are suspended, because `<BrowserOnly>` renders its own `<Suspense>` boundary.
 
 #### Example with code {/* #browseronly-example-code */}
 

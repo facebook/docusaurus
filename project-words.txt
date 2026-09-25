@@ -43,6 +43,7 @@ corejs
 Couriol
 creativecommons
 Csapo
+cstck
 Dabit
 dabit
 Dagre
@@ -269,6 +270,7 @@ someexpression
 spâce
 stackblitz
 stackoverflow
+stck
 strikethroughs
 styl
 sublabel
