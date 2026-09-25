@@ -12,6 +12,7 @@ import {hydrateRoot} from 'react-dom/client';
 import {render} from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import BrowserOnly from '../BrowserOnly';
+import useIsBrowser from '../useIsBrowser';
 import {renderToHtml} from '../../renderToHtml';
 
 function htmlToElement(html: string): Element {
@@ -64,6 +65,16 @@ describe('<BrowserOnly>', () => {
           https://docusaurus.io/
         </span>
       `);
+    });
+
+    it('renders children with useIsBrowser() true', () => {
+      function IsBrowser() {
+        return <span>isBrowser={String(useIsBrowser())}</span>;
+      }
+      const {container} = render(
+        <BrowserOnly>{() => <IsBrowser />}</BrowserOnly>,
+      );
+      expect(container).toHaveTextContent(/^isBrowser=true$/);
     });
 
     it('renders fallback while children suspend', async () => {
