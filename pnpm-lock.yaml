@@ -2264,6 +2264,9 @@ importers:
       '@docusaurus/utils':
         specifier: workspace:*
         version: link:../packages/docusaurus-utils
+      '@docusaurus/utils-common':
+        specifier: workspace:*
+        version: link:../packages/docusaurus-utils-common
       '@docusaurus/utils-validation':
         specifier: workspace:*
         version: link:../packages/docusaurus-utils-validation

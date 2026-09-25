@@ -58,6 +58,7 @@
     "@docusaurus/theme-mermaid": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "@docusaurus/utils": "workspace:*",
+    "@docusaurus/utils-common": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
     "clsx": "^2.1.1",
     "color": "^4.2.3",
