@@ -56,7 +56,6 @@ export function watchPaths(
 
   const watcher = watch(pathsToWatch, {
     cwd: siteDir,
-    ignoreInitial: true,
     ...options,
   });
 

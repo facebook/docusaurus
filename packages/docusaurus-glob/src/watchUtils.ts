@@ -15,17 +15,23 @@ import * as Chokidar from 'chokidar';
  */
 export type WatchOptions = Pick<
   Chokidar.WatchOptions,
-  'cwd' | 'ignoreInitial' | 'usePolling' | 'interval'
+  'cwd' | 'usePolling' | 'interval'
 >;
 
 /** Our own file watcher handle, exposing only the APIs we actually use. */
 export type Watcher = Pick<Chokidar.FSWatcher, 'on' | 'close'>;
 
-/** Watches file system paths for changes. */
+/**
+ * Watches file system paths for changes.
+ * Only emits events for changes happening after the watcher is created.
+ */
 export function watch(
   paths: string | string[],
   options?: WatchOptions,
 ): Watcher {
-  // Other lib options are still forwarded at runtime for retro-compatibility
-  return Chokidar.watch(paths, {...options});
+  return Chokidar.watch(paths, {
+    // Other lib options are still forwarded at runtime for retro-compatibility
+    ...options,
+    ignoreInitial: true,
+  });
 }
