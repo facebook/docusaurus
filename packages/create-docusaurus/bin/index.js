@@ -32,7 +32,7 @@ program
   .arguments('[siteName] [template] [rootDir]')
   .option(
     '-p, --package-manager <manager>',
-    'The package manager used to install dependencies. One of yarn, npm, pnpm, and bun.',
+    'The package manager used to install dependencies. One of yarn, npm, pnpm, bun, and nub.',
   )
   .option(
     '-s, --skip-install',

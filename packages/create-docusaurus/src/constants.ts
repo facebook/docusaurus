@@ -15,6 +15,7 @@ export const LockfileNames = {
   yarn: 'yarn.lock',
   pnpm: 'pnpm-lock.yaml',
   bun: 'bun.lockb',
+  nub: 'nub.lock',
 };
 
 export type PackageManager = keyof typeof LockfileNames;
