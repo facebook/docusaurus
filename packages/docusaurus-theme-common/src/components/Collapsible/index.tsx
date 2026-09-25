@@ -73,9 +73,7 @@ https://github.com/mui-org/material-ui/blob/e724d98eba018e55e1a684236a2037e24bcf
  */
 function getAutoHeightDuration(height: number) {
   if (prefersReducedMotion()) {
-    // Not using 0 because it prevents onTransitionEnd to fire and bubble up :/
-    // See https://github.com/facebook/docusaurus/pull/8906
-    return 1;
+    return 0;
   }
   const constant = height / 36;
   return Math.round((4 + 15 * constant ** 0.25 + constant / 5) * 10);
@@ -90,15 +88,34 @@ function useCollapseAnimation({
   collapsibleRef,
   collapsed,
   animation,
+  onCollapseTransitionEnd,
 }: {
   collapsibleRef: RefObject<HTMLElement | null>;
   collapsed: boolean;
   animation?: CollapsibleAnimationConfig;
-}) {
+  onCollapseTransitionEnd?: (collapsed: boolean) => void;
+}): () => void {
   const mounted = useRef(false);
+
+  // Guards against double-finalizing when both the transitionend event and
+  // the fallback timer below end up firing for the same transition.
+  const finalizedRef = useRef(true);
+
+  const finalize = useCallback(() => {
+    if (finalizedRef.current) {
+      return;
+    }
+    finalizedRef.current = true;
+    const el = collapsibleRef.current;
+    if (el) {
+      applyCollapsedStyle(el, collapsed);
+    }
+    onCollapseTransitionEnd?.(collapsed);
+  }, [collapsibleRef, collapsed, onCollapseTransitionEnd]);
 
   useEffect(() => {
     const el = collapsibleRef.current!;
+    let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
 
     function getTransitionStyles() {
       const height = el.scrollHeight;
@@ -107,6 +124,7 @@ function useCollapseAnimation({
       return {
         transition: `height ${duration}ms ${easing}`,
         height: `${height}px`,
+        duration,
       };
     }
 
@@ -114,6 +132,12 @@ function useCollapseAnimation({
       const transitionStyles = getTransitionStyles();
       el.style.transition = transitionStyles.transition;
       el.style.height = transitionStyles.height;
+      // A transition with a duration of 0ms — whether from
+      // prefers-reduced-motion, a very small item, or a user CSS override
+      // (see https://github.com/facebook/docusaurus/issues/12043) — never
+      // fires `transitionend`. Schedule a fallback so the collapsed/expanded
+      // state still gets finalized in that case.
+      fallbackTimer = setTimeout(finalize, transitionStyles.duration);
     }
 
     // On mount, we just apply styles, no animated transition
@@ -124,6 +148,7 @@ function useCollapseAnimation({
     }
 
     el.style.willChange = 'height';
+    finalizedRef.current = false;
 
     function startAnimation() {
       const animationFrame = requestAnimationFrame(() => {
@@ -148,8 +173,15 @@ function useCollapseAnimation({
       return () => cancelAnimationFrame(animationFrame);
     }
 
-    return startAnimation();
-  }, [collapsibleRef, collapsed, animation]);
+    const cancelAnimation = startAnimation();
+
+    return () => {
+      cancelAnimation();
+      clearTimeout(fallbackTimer);
+    };
+  }, [collapsibleRef, collapsed, animation, finalize]);
+
+  return finalize;
 }
 
 type CollapsibleElementType = React.ElementType<
@@ -185,7 +217,12 @@ function CollapsibleBase({
 }: CollapsibleBaseProps) {
   const collapsibleRef = useRef<HTMLElement>(null);
 
-  useCollapseAnimation({collapsibleRef, collapsed, animation});
+  const finalize = useCollapseAnimation({
+    collapsibleRef,
+    collapsed,
+    animation,
+    onCollapseTransitionEnd,
+  });
 
   return (
     <As
@@ -196,9 +233,7 @@ function CollapsibleBase({
         if (e.propertyName !== 'height') {
           return;
         }
-
-        applyCollapsedStyle(collapsibleRef.current!, collapsed);
-        onCollapseTransitionEnd?.(collapsed);
+        finalize();
       }}
       className={className}>
       {children}
