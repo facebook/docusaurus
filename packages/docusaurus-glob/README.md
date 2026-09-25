@@ -3,3 +3,5 @@
 File globbing, glob matching and file watching utilities for Docusaurus packages.
 
 This package is mostly designed for internal usage and is undocumented. Its APIs should remain mostly retro-compatible within a major version.
+
+See [`watch.md`](./watch.md) for the path patterns passed to `watch()` by Docusaurus core and the ecosystem.
