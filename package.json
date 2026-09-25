@@ -39,7 +39,7 @@
     "argos:build": "cross-env DOCUSAURUS_ARGOS_BUILD=true pnpm build:website:fast --dev",
     "argos:screenshot": "pnpm --filter argos screenshot",
     "argos:build:text-snapshots": "cross-env DOCUSAURUS_ARGOS_BUILD=true SKIP_HTML_MINIFICATION=true pnpm build:website:fast --dev --no-minify",
-    "argos:format:text-snapshots": "pnpm format:website:build",
+    "argos:format:text-snapshots": "node argos/normalizeTextSnapshots.mjs && pnpm format:website:build",
     "argos:upload:text-snapshots": "pnpm --filter argos upload-text-snapshots",
     "canary": "pnpm canary:bumpVersion && pnpm canary:publish",
     "canary:getCoreVersion": "node -p \"require('./packages/docusaurus/package.json').version.split('-')[0]\"",

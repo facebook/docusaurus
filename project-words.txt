@@ -42,6 +42,7 @@ cooldowns
 corejs
 Couriol
 creativecommons
+cstck
 Csapo
 Dabit
 dabit
@@ -269,6 +270,7 @@ someexpression
 spâce
 stackblitz
 stackoverflow
+stck
 strikethroughs
 styl
 sublabel
