@@ -32,7 +32,6 @@ export type FasterConfig = {
   mdxCrossCompilerCache: boolean;
   rspackBundler: boolean;
   rspackPersistentCache: boolean;
-  ssgWorkerThreads: boolean;
   gitEagerVcs: boolean;
 };
 

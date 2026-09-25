@@ -22,6 +22,13 @@ if (!params) {
 
 const WorkerLogPrefix = `SSG Worker ${logger.name(workerId)}`;
 
+// The server bundle runs in the worker thread global context
+// Web Storage should not be available during SSG, like it was before Node 25
+// Reading it emits a warning on Node 25+ unless --localstorage-file is used
+// Deleting it only affects this worker thread, not the main thread
+Reflect.deleteProperty(globalThis, 'localStorage');
+Reflect.deleteProperty(globalThis, 'sessionStorage');
+
 // We only load once the SSG rendered (expensive), NOT once per worker task
 // TODO check potential memory leak?
 const appRendererPromise = PerfLogger.async(
@@ -48,10 +55,6 @@ export default async function executeSSGWorkerThreadTask(
     )} - Rendering ${logger.cyan(task.pathnames.length)} pathnames`,
     () => appRenderer.renderPathnames(task.pathnames),
   );
-
-  // Afaik it's not needed to shutdown here,
-  // The thread pool destroys worker thread and releases worker thread memory
-  // await appRenderer.shutdown();
 
   return ssgResults;
 }

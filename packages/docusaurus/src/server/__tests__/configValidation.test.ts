@@ -76,7 +76,6 @@ describe('normalizeConfig', () => {
           mdxCrossCompilerCache: true,
           rspackBundler: true,
           rspackPersistentCache: true,
-          ssgWorkerThreads: true,
           gitEagerVcs: true,
         },
         experimental_vcs: {
@@ -1414,7 +1413,6 @@ describe('future', () => {
         mdxCrossCompilerCache: true,
         rspackBundler: true,
         rspackPersistentCache: true,
-        ssgWorkerThreads: true,
         gitEagerVcs: true,
       },
       experimental_vcs: {
@@ -1752,7 +1750,6 @@ describe('future', () => {
         mdxCrossCompilerCache: true,
         rspackBundler: true,
         rspackPersistentCache: true,
-        ssgWorkerThreads: true,
         gitEagerVcs: true,
       };
       expect(
@@ -2346,106 +2343,6 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           [Error: "future.faster.rspackPersistentCache" must be a boolean
-          ]
-        `);
-      });
-    });
-
-    describe('ssgWorkerThreads', () => {
-      it('accepts - undefined', () => {
-        const faster: Partial<FasterConfig> = {
-          ssgWorkerThreads: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({ssgWorkerThreads: false}));
-      });
-
-      it('accepts - true (v4: true)', () => {
-        const faster: Partial<FasterConfig> = {
-          ssgWorkerThreads: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4: true,
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({ssgWorkerThreads: true}));
-      });
-
-      it('accepts - true (v4: false)', () => {
-        const faster: Partial<FasterConfig> = {
-          ssgWorkerThreads: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4: false,
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({ssgWorkerThreads: true}));
-      });
-
-      it('accepts - true (v4: undefined)', () => {
-        const faster: Partial<FasterConfig> = {
-          ssgWorkerThreads: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4: undefined,
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({ssgWorkerThreads: true}));
-      });
-
-      it('accepts - false', () => {
-        const faster: Partial<FasterConfig> = {
-          ssgWorkerThreads: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({ssgWorkerThreads: false}));
-      });
-
-      it('rejects - null', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {ssgWorkerThreads: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.ssgWorkerThreads" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {ssgWorkerThreads: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.ssgWorkerThreads" must be a boolean
           ]
         `);
       });

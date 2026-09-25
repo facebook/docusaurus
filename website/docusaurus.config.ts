@@ -191,7 +191,6 @@ export default async function createConfigAsync() {
             mdxCrossCompilerCache: true,
             rspackBundler: true,
             rspackPersistentCache: true,
-            ssgWorkerThreads: true,
             gitEagerVcs: true,
           },
       experimental_vcs: vcs,
