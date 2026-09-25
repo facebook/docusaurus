@@ -70,6 +70,8 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   sortPosts: 'descending',
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
+  showCreatedTime: false,
+  showCreatedBy: false,
   processBlogPosts: async () => undefined,
   tags: undefined,
   authorsBasePath: 'authors',
@@ -228,6 +230,8 @@ const PluginOptionSchema = Joi.object<PluginOptions>({
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
   ),
+  showCreatedTime: Joi.bool().default(DEFAULT_OPTIONS.showCreatedTime),
+  showCreatedBy: Joi.bool().default(DEFAULT_OPTIONS.showCreatedBy),
   processBlogPosts: Joi.function()
     .optional()
     .default(() => DEFAULT_OPTIONS.processBlogPosts),

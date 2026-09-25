@@ -9,6 +9,7 @@
 import {
   ContentVisibilitySchema,
   FrontMatterLastUpdateSchema,
+  FrontMatterCreationSchema,
   FrontMatterTOCHeadingLevels,
   FrontMatterTagsSchema,
   JoiFrontMatter as Joi, // Custom instance for front matter
@@ -76,6 +77,7 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
 
   ...FrontMatterTOCHeadingLevels,
   last_update: FrontMatterLastUpdateSchema,
+  created_at: FrontMatterCreationSchema,
 })
   .messages({
     'deprecate.error':
