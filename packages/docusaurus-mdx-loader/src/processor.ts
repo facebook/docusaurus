@@ -12,6 +12,7 @@ import gfm from 'remark-gfm';
 // TODO using fork until PR merged: https://github.com/leebyron/remark-comment/pull/3
 import remarkComment from '@slorber/remark-comment';
 import directive from 'remark-directive';
+import remarkMdx from 'remark-mdx';
 import {VFile} from 'vfile';
 import emoji from 'remark-emoji';
 import headings from './remark/headings';
@@ -36,6 +37,7 @@ import type {PluginOptions as TransformLinksOptions} from './remark/transformLin
 import type {PluginOptions as TransformImageOptions} from './remark/transformImage';
 import type {PluginOptions as UnusedDirectivesOptions} from './remark/unusedDirectives';
 import type {ProcessorOptions} from '@mdx-js/mdx';
+import type {Options as RemarkMdxOptions} from 'remark-mdx';
 import type {Pluggable} from 'unified';
 
 export type SimpleProcessorResult = {
@@ -58,6 +60,11 @@ export type SimpleProcessor = {
 };
 
 export type MDXPlugin = Pluggable;
+
+// MDX defaults to ES2024, we opt-in for ES2025 syntax (import attributes...)
+const DefaultRemarkMdxOptions: RemarkMdxOptions = {
+  acornOptions: {ecmaVersion: 2025, sourceType: 'module'},
+};
 
 export type MDXOptions = {
   admonitions: boolean | Partial<AdmonitionOptions>;
@@ -93,6 +100,24 @@ function getDefaultRemarkPlugins({options}: {options: Options}): MDXPlugin[] {
   ];
 }
 
+// MDX's createProcessor() registers remark-mdx without options
+// See https://github.com/mdx-js/mdx/issues/2628
+// unified dedupes plugins by reference: using remark-mdx again reconfigures
+// the existing attacher in place, at its original pipeline position
+// This only applies to the 'mdx' format: we must not add remark-mdx for 'md'
+function getRemarkMdxPlugins({
+  options,
+  format,
+}: {
+  options: Options;
+  format: 'md' | 'mdx';
+}): MDXPlugin[] {
+  if (format === 'md') {
+    return [];
+  }
+  return [[remarkMdx, options.remarkMdxOptions ?? DefaultRemarkMdxOptions]];
+}
+
 // /!\ this method is synchronous on purpose
 // Using async code here can create cache entry race conditions!
 function createProcessorUncached({
@@ -103,6 +128,7 @@ function createProcessorUncached({
   format: 'md' | 'mdx';
 }): SimpleProcessor {
   const remarkPlugins: MDXPlugin[] = [
+    ...getRemarkMdxPlugins({options, format}),
     ...(options.beforeDefaultRemarkPlugins ?? []),
     frontmatter,
     directive,

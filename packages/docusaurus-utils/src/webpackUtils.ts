@@ -109,6 +109,8 @@ function createFileLoaderUtils({
     }!`,
   };
 
+  const notTextImport: RuleSetRule['with'] = {type: {not: 'text'}};
+
   const rules: FileLoaderUtils['rules'] = {
     /**
      * Loads image assets, inlines images via a data URI if they are below
@@ -117,6 +119,7 @@ function createFileLoaderUtils({
     images: () => ({
       use: [loaders.url({folder: 'images'})],
       test: /\.(?:ico|jpe?g|png|gif|webp|avif)(?:\?.*)?$/i,
+      with: notTextImport,
     }),
 
     /**
@@ -126,11 +129,13 @@ function createFileLoaderUtils({
     svgs: () => ({
       use: [loaders.url({folder: 'images'})],
       test: /\.svg$/i,
+      with: notTextImport,
     }),
 
     fonts: () => ({
       use: [loaders.url({folder: 'fonts'})],
       test: /\.(?:woff2?|eot|ttf|otf)$/i,
+      with: notTextImport,
     }),
 
     /**
@@ -140,11 +145,13 @@ function createFileLoaderUtils({
     media: () => ({
       use: [loaders.url({folder: 'medias'})],
       test: /\.(?:mp4|avi|mov|mkv|mpg|mpeg|vob|wmv|m4v|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/i,
+      with: notTextImport,
     }),
 
     otherAssets: () => ({
       use: [loaders.file({folder: 'files'})],
       test: /\.(?:pdf|docx?|xlsx?|zip|rar)$/i,
+      with: notTextImport,
     }),
   };
 

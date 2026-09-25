@@ -64,10 +64,6 @@ const config: KnipConfig = {
         'playwright',
       ],
     },
-    argos: {
-      // Used as "pnpm exec -- argos"
-      ignoreDependencies: ['@argos-ci/cli'],
-    },
     'packages/create-docusaurus': {
       // Used to test the CLI package
       ignoreBinaries: ['create-docusaurus'],
@@ -200,6 +196,10 @@ const config: KnipConfig = {
         'netlify-plugin-cache',
         // Imported in ```mdx-code-block fences
         'react-medium-image-zoom',
+        // Used by versioned docs through !!raw-loader! imports
+        'raw-loader',
+        // Peer dependency of raw-loader
+        'webpack',
       ],
     },
   },

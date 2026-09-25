@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, type ReactNode, type ComponentProps} from 'react';
+import React, {useState, type ReactNode, type ComponentProps} from 'react';
 import clsx from 'clsx';
 import {
   isRegexpStringMatch,
@@ -80,11 +80,14 @@ function useItemCollapsible({active}: {active: boolean}) {
   });
 
   // Expand if any item active after a navigation
-  useEffect(() => {
+  // See https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes
+  const [wasActive, setWasActive] = useState(active);
+  if (active !== wasActive) {
+    setWasActive(active);
     if (active) {
       setCollapsed(false);
     }
-  }, [active, setCollapsed]);
+  }
 
   return {
     collapsed,

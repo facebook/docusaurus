@@ -120,6 +120,7 @@ export async function createMDXFallbackPlugin({
             {
               test: /\.mdx?$/i,
               exclude: getMDXFallbackExcludedPaths(),
+              with: {type: {not: 'text'}},
               use: [mdxLoaderItem],
             },
           ],

@@ -8,6 +8,7 @@
 import type {MDXOptions, SimpleProcessors} from './processor';
 import type {MarkdownConfig} from '@docusaurus/types';
 import type {ResolveMarkdownLink} from './remark/resolveMarkdownLinks';
+import type {Options as RemarkMdxOptions} from 'remark-mdx';
 
 export type Options = Partial<MDXOptions> & {
   dependencies?: string[];
@@ -24,6 +25,9 @@ export type Options = Partial<MDXOptions> & {
     frontMatter: {[key: string]: unknown};
   }) => {[key: string]: unknown};
   resolveMarkdownLink?: ResolveMarkdownLink;
+  // Options passed to remark-mdx (only for the 'mdx' format)
+  // Replaces our default {acornOptions: {ecmaVersion: 2025, sourceType: 'module'}}
+  remarkMdxOptions?: RemarkMdxOptions;
 
   // Will usually be created by "createMDXLoaderItem"
   processors?: SimpleProcessors;

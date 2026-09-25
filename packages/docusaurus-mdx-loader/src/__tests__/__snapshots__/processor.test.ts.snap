@@ -288,6 +288,64 @@ export default function MDXContent(props = {}) {
 "
 `;
 
+exports[`MDX processor > remarkMdxOptions > does not apply to the md format 1`] = `
+"import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
+import {useMDXComponents as _provideComponents} from "@mdx-js/react";
+export const toc = [];
+function _createMdxContent(props) {
+  const _components = {
+    p: "p",
+    ..._provideComponents(),
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.p, {
+      children: "import text from './file.txt' with {type: 'text'};"
+    }), "/n", _jsx(_components.p, {
+      children: "{text}"
+    })]
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = {
+    ..._provideComponents(),
+    ...props.components
+  };
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
+"
+`;
+
+exports[`MDX processor > remarkMdxOptions > parses import attributes by default (ES2025) 1`] = `
+"import {Fragment as _Fragment, jsx as _jsx} from "react/jsx-runtime";
+import {useMDXComponents as _provideComponents} from "@mdx-js/react";
+import text from './file.txt' with { type: 'text' };
+export const toc = [];
+function _createMdxContent(props) {
+  return _jsx(_Fragment, {
+    children: text
+  });
+}
+export default function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = {
+    ..._provideComponents(),
+    ...props.components
+  };
+  return MDXLayout ? _jsx(MDXLayout, {
+    ...props,
+    children: _jsx(_createMdxContent, {
+      ...props
+    })
+  }) : _createMdxContent(props);
+}
+"
+`;
+
 exports[`MDX processor > supports emoji=false 1`] = `
 "import {jsx as _jsx} from "react/jsx-runtime";
 import {useMDXComponents as _provideComponents} from "@mdx-js/react";

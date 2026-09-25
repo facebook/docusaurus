@@ -36,6 +36,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/core": "workspace:*",
+    "@docusaurus/glob": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/mdx-loader": "workspace:*",
     "@docusaurus/module-type-aliases": "workspace:*",

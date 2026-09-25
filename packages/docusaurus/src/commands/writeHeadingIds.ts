@@ -8,11 +8,11 @@
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {
-  safeGlobby,
   writeMarkdownHeadingId,
   type WriteHeadingIDOptions,
   type HeadingIdSyntax,
 } from '@docusaurus/utils';
+import {safeGlob} from '@docusaurus/glob';
 import {loadContext} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 
@@ -47,6 +47,11 @@ async function transformMarkdownFile(
     return filepath;
   }
   return undefined;
+}
+
+async function globMarkdownFiles(patterns: string[]): Promise<string[]> {
+  const files = await safeGlob(patterns);
+  return files.filter((file) => file.endsWith('.md') || file.endsWith('.mdx'));
 }
 
 /**
@@ -89,11 +94,7 @@ export async function writeHeadingIds(
 
   const patterns = files.length ? files : await getPathsToWatch(siteDir);
 
-  const markdownFiles = (
-    await safeGlobby(patterns, {
-      expandDirectories: true,
-    })
-  ).filter((file) => file.endsWith('.md') || file.endsWith('.mdx'));
+  const markdownFiles = await globMarkdownFiles(patterns);
 
   if (markdownFiles.length === 0) {
     logger.warn`No markdown files found in siteDir path=${siteDir} for patterns: ${patterns}`;
