@@ -38,7 +38,7 @@ export async function createStyleLoadersFactory({
             },
           ]
         : // Ignore regular CSS files
-          [{loader: require.resolve('null-loader')}];
+          [{loader: require.resolve('./nullLoader')}];
     }
 
     return [

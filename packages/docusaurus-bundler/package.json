@@ -30,7 +30,6 @@
     "cssnano": "^7.1.9",
     "html-minifier-terser": "^7.2.0",
     "mini-css-extract-plugin": "^2.10.2",
-    "null-loader": "^4.0.1",
     "postcss": "^8.5.28",
     "postcss-loader": "^8.2.1",
     "postcss-preset-env": "^11.5.2",
