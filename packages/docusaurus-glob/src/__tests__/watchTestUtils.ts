@@ -19,28 +19,43 @@ import {watch, type WatchOptions} from '../watchUtils';
 // Creating a file may randomly emit "add" + "change" (FSEvents, Windows...),
 // so we ignore "change" events of files that were added during the same step.
 
+/**
+ * The Chokidar v3 backend used, they don't behave exactly the same:
+ * - fsevents: macOS FSEvents, default on macOS (removed in Chokidar v4+)
+ * - linux: Node.js fs.watch() (inotify)
+ * - windows: Node.js fs.watch() (ReadDirectoryChangesW)
+ * - polling: Node.js fs.watchFile(), on all platforms with "--poll"
+ */
+export type WatchBackend = 'fsevents' | 'linux' | 'windows' | 'polling';
+
 export type WatchMode = {
   name: string;
   options: WatchOptions;
-  /**
-   * Chokidar v3 uses macOS FSEvents by default. It behaves differently from
-   * the Node.js fs.watch() and fs.watchFile() (polling) based implementations.
-   * Chokidar v4+ removed FSEvents support.
-   */
-  isFsEvents: boolean;
+  backend: WatchBackend;
 };
+
+function getNativeBackend(): WatchBackend {
+  switch (process.platform) {
+    case 'darwin':
+      return 'fsevents';
+    case 'win32':
+      return 'windows';
+    default:
+      return 'linux';
+  }
+}
 
 export const WatchModes: WatchMode[] = [
   {
     name: 'native',
     options: {},
-    isFsEvents: process.platform === 'darwin',
+    backend: getNativeBackend(),
   },
   {
     name: 'polling',
     // Same options as "docusaurus start --poll 50"
     options: {usePolling: true, interval: 50},
-    isFsEvents: false,
+    backend: 'polling',
   },
 ];
 
