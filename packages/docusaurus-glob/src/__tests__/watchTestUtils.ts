@@ -18,6 +18,8 @@ import {watch, type WatchOptions} from '../watchUtils';
 // is which file system changes trigger at least one event.
 // Creating a file may randomly emit "add" + "change" (FSEvents, Windows...),
 // so we ignore "change" events of files that were added during the same step.
+// Dir events ("addDir", "unlinkDir") are ignored: they are not consistently
+// emitted across platforms, and dir changes always come with file events.
 
 /**
  * The Chokidar v3 backend used, they don't behave exactly the same:
@@ -174,6 +176,7 @@ export async function createTestWatcher({
     }
     await sleep(QuietDelay);
     return [...new Set(events)]
+      .filter((event) => !/^(?:addDir|unlinkDir) /.test(event))
       .filter(
         (event) =>
           !event.startsWith('change ') ||

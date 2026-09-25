@@ -140,12 +140,11 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
 
       it('watches file - remove parent dir', async ({expect}) => {
         await using w = await createTestWatcher({expect, mode, files, paths});
-        // TODO Chokidar v3 inconsistency: FSEvents may not report it, and
-        //  "unlinkDir" is not always emitted
+        // TODO Chokidar v3 inconsistency: FSEvents may not report it
         await w.expectEvents(
           () => w.remove('docs'),
           isFsEvents ? [] : ['unlink docs/tags.yml'],
-          {optional: ['unlink docs/tags.yml', 'unlinkDir docs']},
+          {optional: ['unlink docs/tags.yml']},
         );
         // TODO Chokidar v3 limitation: once the parent dir is removed,
         //  re-creating the file is only detected with FSEvents
@@ -261,12 +260,7 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
         );
         await w.expectEvents(
           () => w.add('i18n/de/deep/code.json', 'i18n/x.md', 'x.md'),
-          [
-            'addDir i18n/de',
-            'addDir i18n/de/deep',
-            'add i18n/de/deep/code.json',
-            'add i18n/x.md',
-          ],
+          ['add i18n/de/deep/code.json', 'add i18n/x.md'],
         );
       });
 
@@ -278,11 +272,7 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
         );
         await w.expectEvents(
           () => w.remove('i18n/fr/docs'),
-          [
-            'unlink i18n/fr/docs/intro.md',
-            'unlink i18n/fr/docs/other.md',
-            'unlinkDir i18n/fr/docs',
-          ],
+          ['unlink i18n/fr/docs/intro.md', 'unlink i18n/fr/docs/other.md'],
         );
       });
 
@@ -297,56 +287,35 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
           [
             'unlink i18n/fr/docs/intro.md',
             'unlink i18n/fr/docs/other.md',
-            'unlinkDir i18n/fr/docs',
-            'addDir i18n/fr/docs2',
             'add i18n/fr/docs2/intro.md',
             'add i18n/fr/docs2/other.md',
           ],
         );
         await w.expectEvents(
           () => w.rename('i18n/fr/docs2', 'outside/docs2'),
-          [
-            'unlink i18n/fr/docs2/intro.md',
-            'unlink i18n/fr/docs2/other.md',
-            'unlinkDir i18n/fr/docs2',
-          ],
+          ['unlink i18n/fr/docs2/intro.md', 'unlink i18n/fr/docs2/other.md'],
         );
         await w.expectEvents(
           () => w.rename('outside/de', 'i18n/de'),
-          ['addDir i18n/de', 'add i18n/de/code.json'],
+          ['add i18n/de/code.json'],
         );
       });
 
       it('watches dir - remove and re-create', async ({expect}) => {
         await using w = await createTestWatcher({expect, mode, files, paths});
-        // Linux does not always emit "unlinkDir" for the watched dir
         await w.expectEvents(
           () => w.remove('i18n'),
           [
             'unlink i18n/fr/code.json',
             'unlink i18n/fr/docs/intro.md',
             'unlink i18n/fr/docs/other.md',
-            ...(backend === 'linux' ? [] : ['unlinkDir i18n']),
-            'unlinkDir i18n/fr',
-            'unlinkDir i18n/fr/docs',
           ],
-          {optional: ['unlinkDir i18n']},
         );
         // TODO Chokidar v3 limitation: once the watched dir is removed,
         //  re-creating it is only detected with FSEvents and on Windows
-        function getRecreateEvents(): string[] {
-          if (isFsEvents) {
-            return ['addDir i18n', 'addDir i18n/it', 'add i18n/it/code.json'];
-          }
-          if (isWindows) {
-            return ['addDir i18n/it', 'add i18n/it/code.json'];
-          }
-          return [];
-        }
         await w.expectEvents(
           () => w.add('i18n/it/code.json'),
-          getRecreateEvents(),
-          {optional: isWindows ? ['addDir i18n'] : []},
+          isFsEvents || isWindows ? ['add i18n/it/code.json'] : [],
         );
       });
 
@@ -355,7 +324,7 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
         await using w = await createTestWatcher({expect, mode, paths});
         await w.expectEvents(
           () => w.add('i18n/fr/code.json', 'other/code.json'),
-          ['addDir i18n', 'addDir i18n/fr', 'add i18n/fr/code.json'],
+          ['add i18n/fr/code.json'],
         );
       });
     });
@@ -372,7 +341,7 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
         );
         await w.expectEvents(
           () => w.add('api/v2/spec.yaml'),
-          ['addDir api/v2', 'add api/v2/spec.yaml'],
+          ['add api/v2/spec.yaml'],
         );
       });
 
@@ -380,12 +349,7 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
         await using w = await createTestWatcher({expect, mode, files, paths});
         await w.expectEvents(
           () => w.rename('api/v1', 'api/v2'),
-          [
-            'unlink api/v1/spec.yaml',
-            'unlinkDir api/v1',
-            'addDir api/v2',
-            'add api/v2/spec.yaml',
-          ],
+          ['unlink api/v1/spec.yaml', 'add api/v2/spec.yaml'],
         );
         await w.expectEvents(
           () => w.remove('api/spec.yaml', 'other/spec.yaml'),
@@ -468,11 +432,7 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
         );
         await w.expectEvents(
           () => w.remove('docs/sub'),
-          [
-            'unlink docs/sub/d.md',
-            // TODO Chokidar v3 inconsistency: unlinkDir not emitted by FSEvents
-            ...(isFsEvents ? [] : ['unlinkDir docs/sub']),
-          ],
+          ['unlink docs/sub/d.md'],
         );
       });
 
@@ -500,7 +460,7 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
         await using w = await createTestWatcher({expect, mode, files, paths});
         // TODO Chokidar v3 limitation: dir renames are not reported by FSEvents
         //  Linux and Windows don't reliably report files of the old dir
-        const oldDirEvents = ['unlink docs/sub/d.md', 'unlinkDir docs/sub'];
+        const oldDirEvents = ['unlink docs/sub/d.md'];
         const renameEvents = {
           fsevents: [],
           linux: ['add docs/sub2/d.md'],
@@ -524,8 +484,6 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
           'unlink docs/a.md',
           'unlink docs/b.mdx',
           'unlink docs/sub/d.md',
-          'unlinkDir docs',
-          'unlinkDir docs/sub',
         ];
         // TODO Chokidar v3 limitation: FSEvents may not report it
         await w.expectEvents(
@@ -811,10 +769,7 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
         });
         // TODO Chokidar v3 limitation: dir renames not reported by FSEvents
         //  Linux and Windows don't reliably report files of the old dir
-        const oldDirEvents = [
-          'unlink ../docs/sub/a.md',
-          'unlinkDir ../docs/sub',
-        ];
+        const oldDirEvents = ['unlink ../docs/sub/a.md'];
         await w.expectEvents(
           () => w.rename('../docs/sub', '../docs/sub2'),
           isFsEvents
@@ -983,7 +938,9 @@ describe.concurrent.each(WatchModes)('watch() - $name', {retry}, (mode) => {
         () => w.add('docusaurus.config.js'),
         // TODO Chokidar v3 bug: when watching multiple paths, re-creating a
         //  removed file path is only detected with FSEvents
+        //  Windows sometimes reports it as "change"
         isFsEvents ? ['add docusaurus.config.js'] : [],
+        {optional: isWindows ? ['change docusaurus.config.js'] : []},
       );
     });
 
