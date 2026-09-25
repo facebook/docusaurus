@@ -15,7 +15,6 @@ import Root from '@theme/Root';
 import ThemeProvider from '@theme/ThemeProvider';
 import SiteMetadata from '@theme/SiteMetadata';
 import normalizeLocation from './normalizeLocation';
-import {BrowserContextProvider} from './browserContext';
 import {DocusaurusContextProvider} from './docusaurusContext';
 import PendingNavigation from './PendingNavigation';
 import BaseUrlIssueBanner from './BaseUrlIssueBanner';
@@ -42,17 +41,15 @@ export default function App(): ReactNode {
   return (
     <ErrorBoundary>
       <DocusaurusContextProvider>
-        <BrowserContextProvider>
-          <Root>
-            <ThemeProvider>
-              <SiteMetadataDefaults />
-              <SiteMetadata />
-              <BaseUrlIssueBanner />
-              <AppNavigation />
-            </ThemeProvider>
-          </Root>
-          <HasHydratedDataAttribute />
-        </BrowserContextProvider>
+        <Root>
+          <ThemeProvider>
+            <SiteMetadataDefaults />
+            <SiteMetadata />
+            <BaseUrlIssueBanner />
+            <AppNavigation />
+          </ThemeProvider>
+        </Root>
+        <HasHydratedDataAttribute />
       </DocusaurusContextProvider>
     </ErrorBoundary>
   );
