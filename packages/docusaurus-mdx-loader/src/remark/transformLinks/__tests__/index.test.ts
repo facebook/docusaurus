@@ -70,6 +70,15 @@ describe('transformLinks plugin', () => {
     expect(result).toMatchInlineSnapshot(`"pathname:///unchecked.pdf)"`);
   });
 
+  it('does not double-escape special characters in link title', async () => {
+    const result = await processContent(
+      `[Download PDF](/staticAsset.pdf "Mascot & 'Logo'")`,
+    );
+    expect(result).toMatchInlineSnapshot(`
+      "<a target="_blank" data-noBrokenLinkCheck={true} href={require("!<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[contenthash].[ext]!./../static/staticAsset.pdf").default} title="Mascot & 'Logo'">Download PDF</a>"
+    `);
+  });
+
   it('accepts absolute file that does not exist', async () => {
     const result = await processContent(`[file](/dir/file.zip)`);
     expect(result).toMatchInlineSnapshot(`"[file](/dir/file.zip)"`);

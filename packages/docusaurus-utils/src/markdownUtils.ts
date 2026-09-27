@@ -30,7 +30,7 @@ const MDXEscapingUtils = (function () {
   );
 
   const MARKUP_CHARS_REGEX = new RegExp(
-    `[${RegExp.escape(MARKUP_CHARS.join(''))}]`,
+    `[${MARKUP_CHARS.map((c) => `\\${c}`).join('')}]`,
     'g',
   );
   const MARKUP_MARKERS_REGEX = /\u{FFFE}\d+\u{FFFF}/gu;

@@ -67,6 +67,16 @@ describe('transformImage plugin', () => {
     expect(result).toMatchSnapshot();
   });
 
+  it('does not double-escape special characters in alt text and title', async () => {
+    const result = await processContent(
+      `![The team's "logo" & mascot](/img.png "Mascot & 'Logo'")`,
+    );
+    expect(result).toMatchInlineSnapshot(`
+      "<img alt="The team's &#x22;logo&#x22; & mascot" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./../static/img.png").default} title="Mascot & 'Logo'" width="200" height="200" />
+      "
+    `);
+  });
+
   it('does not choke on invalid image', async () => {
     using warn = vi.spyOn(console, 'warn');
     const result = await processContent(`![invalid image](/invalid.png)`);
