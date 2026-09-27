@@ -685,6 +685,16 @@ describe('handleBrokenLinks', () => {
     `);
   });
 
+  it('accepts valid anchor with malformed percent-encoding', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page 1'}, {path: '/page 2'}],
+      collectedLinks: {
+        '/page 1': {links: ['/page 2#100%'], anchors: []},
+        '/page 2': {links: [], anchors: ['100%']},
+      },
+    });
+  });
+
   it('can ignore broken links and report broken anchors with malformed percent-encoding', async () => {
     await testBrokenLinks({
       onBrokenLinks: 'ignore',
@@ -693,6 +703,60 @@ describe('handleBrokenLinks', () => {
       collectedLinks: {
         '/page 1': {links: ['/page%', '/page 2#100%'], anchors: []},
         '/page 2': {links: [], anchors: []},
+      },
+    });
+  });
+
+  it('handles mix of valid percent-encoded and malformed links on same page', async () => {
+    await testBrokenLinks({
+      routes: [{path: '/page 1'}, {path: '/page%'}],
+      collectedLinks: {
+        '/page 1': {
+          links: ['/page%201', '/page%'],
+          anchors: [],
+        },
+        '/page%': {links: [], anchors: []},
+      },
+    });
+  });
+
+  it('warns for malformed broken link without crashing', async () => {
+    using warn = vi.spyOn(console, 'warn');
+
+    await testBrokenLinks({
+      onBrokenLinks: 'warn',
+      routes: [{path: '/page 1'}],
+      collectedLinks: {
+        '/page 1': {links: ['/page%'], anchors: []},
+      },
+    });
+
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls).toMatchInlineSnapshot(`
+      [
+        [
+          "[WARNING] Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page 1:
+         -> linking to /page%
+      ",
+        ],
+      ]
+    `);
+  });
+
+  it('matches route when link is double-encoded version of malformed route', async () => {
+    // '/page%' is deliberately not a collectedLinks key: this forces
+    // isPathBrokenLink() to prove the decoded pathname '/page%' matches the
+    // route array instead of short-circuiting on validPathnames.
+    await testBrokenLinks({
+      routes: [{path: '/page 1'}, {path: '/page%'}],
+      collectedLinks: {
+        '/page 1': {links: ['/page%25'], anchors: []},
       },
     });
   });
