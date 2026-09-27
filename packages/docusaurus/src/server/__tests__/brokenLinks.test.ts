@@ -380,6 +380,48 @@ describe('handleBrokenLinks', () => {
     `);
   });
 
+  it('rejects malformed percent-encoded broken link gracefully', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}],
+        collectedLinks: {
+          '/page1': {links: ['/page%'], anchors: []},
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      [Error: Docusaurus found broken links!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+      Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken links found:
+      - Broken link on source page path = /page1:
+         -> linking to /page%
+      ]
+    `);
+  });
+
+  it('rejects malformed percent-encoded broken anchor link gracefully', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}],
+        collectedLinks: {
+          '/page1': {links: ['/page1#100%'], anchors: []},
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      [Error: Docusaurus found broken anchors!
+
+      Please check the pages of your site in the list below, and make sure you don't reference any anchor that does not exist.
+      Note: it's possible to ignore broken anchors with the 'onBrokenAnchors' Docusaurus configuration, and let the build pass.
+
+      Exhaustive list of all broken anchors found:
+      - Broken anchor on source page path = /page1:
+         -> linking to /page1#100%
+      ]
+    `);
+  });
+
   it('rejects broken link due to strict matching', async () => {
     await expect(() =>
       testBrokenLinks({

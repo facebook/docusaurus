@@ -15,3 +15,7 @@ for (const ext of ['.png']) {
     module.exports = null;
   };
 }
+
+if (!RegExp.escape) {
+  RegExp.escape = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
