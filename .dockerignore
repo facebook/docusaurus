@@ -1,0 +1,15 @@
+# Docker build context
+.git
+.github
+node_modules
+**/node_modules
+.pnpm-store
+website/build
+website/.docusaurus
+**/.cache
+**/.turbo
+coverage
+playwright-report
+screenshots
+*.log
+.DS_Store

@@ -1,0 +1,9 @@
+services:
+  docusaurus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docusaurus:local
+    ports:
+      - "3000:80"
+    restart: unless-stopped
