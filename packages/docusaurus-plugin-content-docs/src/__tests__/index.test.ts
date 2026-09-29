@@ -34,6 +34,7 @@ import type {
   LoadedVersion,
   Options,
   PluginOptions,
+  PropSidebarItemCategory,
   PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs';
 import type {
@@ -734,6 +735,16 @@ describe('site with doc label', () => {
     expect(item.label).toBe('Hello 2 From Doc');
     expect(item.className).toBe('front-matter-class-name');
     expect(item.customProps).toStrictEqual({custom: 'from front matter'});
+  });
+
+  it('uses a linked doc description for a category without a description', async () => {
+    const {content} = await loadSite();
+    const loadedVersion = content.loadedVersions[0]!;
+    const sidebarProps = toSidebarsProp(loadedVersion);
+
+    const item = sidebarProps.docs![2] as PropSidebarItemCategory;
+
+    expect(item.description).toBe('Hello 1 description');
   });
 });
 

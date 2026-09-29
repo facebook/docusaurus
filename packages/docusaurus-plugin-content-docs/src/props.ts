@@ -107,11 +107,21 @@ Available document ids are:
     }
   }
 
+  function getCategoryLinkDescription(
+    link: SidebarItemCategoryLink | undefined,
+  ): string | undefined {
+    if (link?.type === 'doc') {
+      return getDocById(link.id).description;
+    }
+    return undefined;
+  }
+
   function convertCategory(item: SidebarItemCategory): PropSidebarItemCategory {
     const {link, ...rest} = item;
     const href = getCategoryLinkHref(link);
     const linkUnlisted = getCategoryLinkUnlisted(link);
     const customProps = item.customProps ?? getCategoryLinkCustomProps(link);
+    const description = item.description ?? getCategoryLinkDescription(link);
 
     return {
       ...rest,
@@ -119,6 +129,7 @@ Available document ids are:
       ...(href && {href}),
       ...(linkUnlisted && {linkUnlisted}),
       ...(customProps && {customProps}),
+      ...(description !== undefined && {description}),
     };
   }
 

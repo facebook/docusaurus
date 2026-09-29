@@ -11,6 +11,12 @@
       "label": "Hello Two",
       "className": "class-name-from-sidebars.json",
       "customProps": {"test": "from sidebars.json"}
+    },
+    {
+      "type": "category",
+      "label": "Category with a linked doc",
+      "link": {"type": "doc", "id": "hello-1"},
+      "items": []
     }
   ]
 }
