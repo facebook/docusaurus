@@ -212,7 +212,7 @@ async function processImageNode(target: Target, context: Context) {
   if (!localUrlPath) {
     // pathname:// is an escape hatch, in case the user does not want images to
     // be converted to require calls going through webpack loader
-    if (parseURLOrPath(node.url).protocol === 'pathname:') {
+    if (URL.parse(node.url)?.protocol === 'pathname:') {
       node.url = node.url.replace('pathname://', '');
     }
     return;

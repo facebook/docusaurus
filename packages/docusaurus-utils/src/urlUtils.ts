@@ -229,10 +229,13 @@ export function parseLocalURLPath(urlPath: string): URLPath | null {
   // Workaround because URL("") requires a protocol
   const unspecifiedProtocol = 'unspecified:';
 
-  const url = parseURLOrPath(urlPath, `${unspecifiedProtocol}//`);
+  const url = URL.parse(urlPath, `${unspecifiedProtocol}//`);
   // Ignore links with specified protocol / host
   // (usually fully qualified links starting with https://)
+  // Relative paths always resolve, so a URL that can't be parsed has an
+  // invalid protocol / host (e.g. a GFM autolink literal) and isn't local
   if (
+    !url ||
     url.protocol !== unspecifiedProtocol ||
     url.host !== '' ||
     url.username !== '' ||

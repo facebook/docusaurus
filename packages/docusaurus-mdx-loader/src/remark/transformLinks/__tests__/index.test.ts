@@ -70,6 +70,11 @@ describe('transformLinks plugin', () => {
     expect(result).toMatchInlineSnapshot(`"pathname:///unchecked.pdf)"`);
   });
 
+  it('ignores links with URLs that cannot be parsed', async () => {
+    const result = await processContent(`[link](http://www.example.com：)`);
+    expect(result).toMatchInlineSnapshot(`"[link](http://www.example.com：)"`);
+  });
+
   it('accepts absolute file that does not exist', async () => {
     const result = await processContent(`[file](/dir/file.zip)`);
     expect(result).toMatchInlineSnapshot(`"[file](/dir/file.zip)"`);

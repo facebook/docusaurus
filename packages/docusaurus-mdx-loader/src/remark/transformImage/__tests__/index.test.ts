@@ -74,6 +74,16 @@ describe('transformImage plugin', () => {
     expect(warn).toHaveBeenCalledTimes(1);
   });
 
+  it('ignores images with URLs that cannot be parsed', async () => {
+    const result = await processContent(
+      `![img](http://www.example.com：/img.png)`,
+    );
+    expect(result).toMatchInlineSnapshot(`
+      "![img](http://www.example.com：/img.png)
+      "
+    `);
+  });
+
   describe('onBrokenMarkdownImages', () => {
     const fixtures = {
       doesNotExistAbsolute: `![img](/img/doesNotExist.png)`,

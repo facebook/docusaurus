@@ -298,6 +298,13 @@ describe('parseLocalURLPath', () => {
     expect(parseLocalURLPath('https://u:p@example:80/xyz?qs#hash')).toBeNull();
   });
 
+  it('returns null for URLs that cannot be parsed', () => {
+    expect(parseLocalURLPath('http://www.example.com：')).toBeNull();
+    expect(
+      parseLocalURLPath('http://www.baidu.com下开启控制台，然后写入Cookie：'),
+    ).toBeNull();
+  });
+
   it('parses pathname', () => {
     expect(parseLocalURLPath('/pathname')).toEqual({
       pathname: '/pathname',
