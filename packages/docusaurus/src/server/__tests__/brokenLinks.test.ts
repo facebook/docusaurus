@@ -303,6 +303,17 @@ describe('handleBrokenLinks', () => {
     });
   });
 
+  it('reports a link with malformed URI encoding without crashing', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}],
+        collectedLinks: {
+          '/page1': {links: ['/page%'], anchors: []},
+        },
+      }),
+    ).rejects.toThrow('Docusaurus found broken links!');
+  });
+
   it('accepts valid link with anchor with spaces and encoding', async () => {
     await testBrokenLinks({
       routes: [{path: '/page 1'}, {path: '/page 2'}],
@@ -333,6 +344,18 @@ describe('handleBrokenLinks', () => {
         },
       },
     });
+  });
+
+  it('reports an anchor with malformed URI encoding without crashing', async () => {
+    await expect(() =>
+      testBrokenLinks({
+        routes: [{path: '/page1'}, {path: '/page2'}],
+        collectedLinks: {
+          '/page1': {links: ['/page2#anchor%'], anchors: []},
+          '/page2': {links: [], anchors: []},
+        },
+      }),
+    ).rejects.toThrow('Docusaurus found broken anchors!');
   });
 
   it('accepts valid link with empty anchor', async () => {
