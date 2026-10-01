@@ -242,7 +242,7 @@ export function ColorModeProvider({
   children: ReactNode;
 }): ReactNode {
   const value = useContextValue();
-  return <Context.Provider value={value}>{children}</Context.Provider>;
+  return <Context value={value}>{children}</Context>;
 }
 
 export function useColorMode(): ContextValue {

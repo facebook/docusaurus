@@ -530,7 +530,7 @@ describe('useSidebarBreadcrumbs', () => {
       renderHook(() => useSidebarBreadcrumbs(), {
         wrapper: ({children}) => (
           <StaticRouter location={location}>
-            <Context.Provider
+            <Context
               value={
                 {
                   globalData: {
@@ -543,7 +543,7 @@ describe('useSidebarBreadcrumbs', () => {
               <DocsSidebarProvider name="sidebarName" items={sidebar}>
                 {children}
               </DocsSidebarProvider>
-            </Context.Provider>
+            </Context>
           </StaticRouter>
         ),
       }).result.current;

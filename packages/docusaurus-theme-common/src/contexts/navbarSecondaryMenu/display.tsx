@@ -64,7 +64,7 @@ export function NavbarSecondaryMenuDisplayProvider({
   children: ReactNode;
 }): ReactNode {
   const value = useContextValue();
-  return <Context.Provider value={value}>{children}</Context.Provider>;
+  return <Context value={value}>{children}</Context>;
 }
 
 function renderElement(content: Content): ReactNode {
