@@ -901,6 +901,8 @@ export default async function createConfigAsync() {
           alt: 'Meta Open Source Logo',
           src: '/img/meta_opensource_logo_negative.svg',
           href: 'https://opensource.fb.com',
+          width: 480,
+          height: 103,
         },
         copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc. Built with Docusaurus.`,
       },
