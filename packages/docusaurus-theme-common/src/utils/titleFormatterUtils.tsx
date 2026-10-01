@@ -83,9 +83,7 @@ export function TitleFormatterProvider({
   formatter: TitleFormatterFnWithDefault;
 }): ReactNode {
   return (
-    <TitleFormatterContext.Provider value={formatter}>
-      {children}
-    </TitleFormatterContext.Provider>
+    <TitleFormatterContext value={formatter}>{children}</TitleFormatterContext>
   );
 }
 

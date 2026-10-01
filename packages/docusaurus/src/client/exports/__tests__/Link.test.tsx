@@ -61,7 +61,7 @@ function createLinkRenderer(defaultRendererOptions: Partial<Options> = {}) {
     const docusaurusContext = createDocusaurusContext(options);
     return renderRTL(
       <StaticRouter location={options.currentLocation} context={{}}>
-        <Context.Provider value={docusaurusContext}>{linkJsx}</Context.Provider>
+        <Context value={docusaurusContext}>{linkJsx}</Context>
       </StaticRouter>,
     );
   };
@@ -88,7 +88,7 @@ describe('<Link>', () => {
     function Wrapper({children}: {children: ReactNode}) {
       return (
         <MemoryRouter initialEntries={[defaultOptions.currentLocation]}>
-          <Context.Provider value={context}>{children}</Context.Provider>
+          <Context value={context}>{children}</Context>
         </MemoryRouter>
       );
     }

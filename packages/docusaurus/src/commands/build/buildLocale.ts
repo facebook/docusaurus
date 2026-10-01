@@ -214,7 +214,6 @@ async function getBuildClientConfig({
     minify: cliOptions.minify ?? true,
     faster: props.siteConfig.future.faster,
     configureWebpackUtils,
-    bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;
   config = executePluginsConfigureWebpack({

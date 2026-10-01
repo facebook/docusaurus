@@ -21,7 +21,7 @@ export function DocsVersionProvider({
   children: ReactNode;
   version: PropVersionMetadata | null;
 }): ReactNode {
-  return <Context.Provider value={version}>{children}</Context.Provider>;
+  return <Context value={version}>{children}</Context>;
 }
 
 /**

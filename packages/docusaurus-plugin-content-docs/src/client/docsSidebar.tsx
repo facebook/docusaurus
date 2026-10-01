@@ -35,7 +35,7 @@ export function DocsSidebarProvider({
     () => (name && items ? {name, items} : null),
     [name, items],
   );
-  return <Context.Provider value={stableValue}>{children}</Context.Provider>;
+  return <Context value={stableValue}>{children}</Context>;
 }
 
 /**

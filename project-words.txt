@@ -1,6 +1,7 @@
 # Project Words - DO NOT TOUCH - This is updated through CI
 abernathyca
 Adriaan
+aldridged
 alexbdebrie
 Alexey
 algoliasearch
@@ -9,6 +10,7 @@ Anshul
 anshul
 APFS
 apfs
+apify
 appinstalled
 Applanga
 applescript
@@ -28,6 +30,7 @@ bunx
 BYOLLM
 caabernathy
 Candillon
+cbnventures
 cdabcdab
 cdpath
 Cena
@@ -38,6 +41,7 @@ Clément
 Codegen
 codegen
 codesandbox
+Componnt
 contravariance
 cooldowns
 corejs
@@ -69,6 +73,7 @@ Dogfooding
 dogfooding
 Dyte
 dyte
+easyops
 Endi
 endi
 Endi's
@@ -79,6 +84,7 @@ ERRNAMETOOLONG
 externalwaiting
 failfast
 Fienny
+Foldr
 forwardable
 FOUC
 Français
@@ -161,6 +167,7 @@ mkdirs
 mkdn
 mkdocs
 mkdown
+moonwave
 Nabors
 Nakagawa
 nand
@@ -197,7 +204,6 @@ pathinfo
 paularmstrong
 pcss
 pftrace
-philpl
 Pipeable
 playbtn
 Plushie
@@ -273,6 +279,7 @@ stackblitz
 stackoverflow
 stck
 strikethroughs
+structurizr
 styl
 sublabel
 sublicensable
@@ -287,6 +294,7 @@ sunsetting
 Supabase
 supabase
 superproject
+supersuit
 swizzlable
 Sébastien
 Tagkey
@@ -320,6 +328,7 @@ unstub
 unswizzle
 upvotes
 Vannicatte
+vantagecompute
 vbnet
 Vetter
 vetter
@@ -344,6 +353,5 @@ yangshun
 yangshunz
 zedspencermilnes
 Zhou
-zoomable
 zpao
 ödingers
