@@ -5,17 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
-import path from 'path';
-import chokidar from 'chokidar';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const srcDir = path.join(process.cwd(), 'src');
 const libDir = path.join(process.cwd(), 'lib');
 
-const ignoredPattern = /(?:__tests__|\.tsx?$)/;
+const ignoredPattern = /__tests__|\.tsx?$/;
 
 async function copy() {
-  await fs.copy(srcDir, libDir, {
+  await fs.promises.cp(srcDir, libDir, {
+    recursive: true,
     filter(testedPath) {
       return !ignoredPattern.test(testedPath);
     },
@@ -23,14 +23,16 @@ async function copy() {
 }
 
 if (process.argv.includes('--watch')) {
-  const watcher = chokidar.watch(srcDir, {
-    ignored: ignoredPattern,
-    ignoreInitial: true,
-    persistent: true,
+  // A single file save can emit several events: coalesce them into one copy
+  let timeout;
+  fs.watch(srcDir, {recursive: true}, (eventType, filename) => {
+    // filename is relative to srcDir, and is not always provided
+    if (filename && ignoredPattern.test(path.join(srcDir, filename))) {
+      return;
+    }
+    clearTimeout(timeout);
+    timeout = setTimeout(copy, 100);
   });
-  ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
-    watcher.on(event, copy),
-  );
 } else {
   await copy();
 }
