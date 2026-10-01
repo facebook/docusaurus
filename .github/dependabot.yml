@@ -9,6 +9,11 @@ updates:
     open-pull-requests-limit: 99
     labels:
       - 'pr: dependencies'
+    groups:
+      # init/analyze are sub-actions of the same repo, upgrade them together
+      codeql-action:
+        patterns:
+          - 'github/codeql-action/*'
 
   ########################
   # NPM VERSION UPDATES
