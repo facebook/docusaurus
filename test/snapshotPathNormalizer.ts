@@ -138,6 +138,14 @@ function normalizeString(value: string): string {
     // Convert win32 backslash's to forward slashes, \ -> /;
     // ignore some that look like escape sequences.
     (val) => val.replace(/\\(?!")/g, '/'),
+
+    // Strip the pnpm virtual store dir (isolated nodeLinker)
+    // node_modules/.pnpm/react@19.3.0/node_modules/react -> node_modules/react
+    (val) =>
+      val.replace(
+        /node_modules\/\.pnpm\/[^/]+\/node_modules\//g,
+        'node_modules/',
+      ),
   ];
 
   let result = value as string;

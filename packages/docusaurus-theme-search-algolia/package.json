@@ -53,7 +53,8 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "workspace:*",
-    "@docusaurus/types": "workspace:*"
+    "@docusaurus/types": "workspace:*",
+    "@types/react-dom": "^19.3.0"
   },
   "peerDependencies": {
     "react": "^19.3.0",

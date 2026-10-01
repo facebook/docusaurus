@@ -23,7 +23,7 @@ const PluginName = 'docusaurus-plugin-pwa';
 
 function getSWBabelLoader() {
   return {
-    loader: 'babel-loader',
+    loader: require.resolve('babel-loader'),
     options: {
       babelrc: false,
       configFile: false,

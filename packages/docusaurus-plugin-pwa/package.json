@@ -40,7 +40,8 @@
     "workbox-window": "^7.4.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "workspace:*"
+    "@docusaurus/module-type-aliases": "workspace:*",
+    "@types/react-dom": "^19.3.0"
   },
   "peerDependencies": {
     "react": "^19.3.0",
