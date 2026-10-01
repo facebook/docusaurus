@@ -89,12 +89,46 @@ describe('transformLinks plugin', () => {
     );
   });
 
+  it('does not transform existing dotted directory links with trailing slash to asset requires', async () => {
+    const result = await processContent(
+      `[directory](../dotted-directory.whatever/)`,
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"[directory](../dotted-directory.whatever/)"`,
+    );
+  });
+
+  it('does not transform existing dotted directory links with query or hash to asset requires', async () => {
+    const resultWithQueryAndHash = await processContent(
+      `[directory](../dotted-directory.whatever/?qs=1#hash)`,
+    );
+    expect(resultWithQueryAndHash).toMatchInlineSnapshot(
+      `"[directory](../dotted-directory.whatever/?qs=1#hash)"`,
+    );
+
+    const resultWithHash = await processContent(
+      `[directory](../dotted-directory.whatever/#hash)`,
+    );
+    expect(resultWithHash).toMatchInlineSnapshot(
+      `"[directory](../dotted-directory.whatever/#hash)"`,
+    );
+  });
+
   it('does not transform absolute dotted directory links to asset requires', async () => {
     const result = await processContent(
       `[directory](/static-dotted-directory.test)`,
     );
     expect(result).toMatchInlineSnapshot(
       `"[directory](/static-dotted-directory.test)"`,
+    );
+  });
+
+  it('does not transform absolute dotted directory links with trailing slash to asset requires', async () => {
+    const result = await processContent(
+      `[directory](/static-dotted-directory.test/)`,
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"[directory](/static-dotted-directory.test/)"`,
     );
   });
 

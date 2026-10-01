@@ -132,4 +132,36 @@ describe('resolveMarkdownLinkPathname', () => {
       '/docs/dir-with-spaces/file',
     );
   });
+
+  it('resolves links to and within folders containing dots - Issue #9621', () => {
+    const context: Context = {
+      siteDir: '.',
+      sourceFilePath: 'docs/Meadow.Foundation/intro.md',
+      contentPaths: {
+        contentPath: 'docs',
+        contentPathLocalized: 'i18n/docs-localized',
+      },
+      sourceToPermalink: new Map(
+        Object.entries({
+          '@site/docs/intro.md': '/docs/intro',
+          '@site/docs/Meadow.Foundation/intro.md':
+            '/docs/Meadow.Foundation/intro',
+          '@site/docs/Meadow.Foundation/another.md':
+            '/docs/Meadow.Foundation/another',
+          '@site/docs/Meadow.OS/networking.md': '/docs/Meadow.OS/networking',
+        }),
+      ),
+    };
+
+    function test(linkPathname: string, expectedOutput: string | null) {
+      const output = resolveMarkdownLinkPathname(linkPathname, context);
+      expect(output).toEqual(expectedOutput);
+    }
+
+    test('./another.md', '/docs/Meadow.Foundation/another');
+    test('another.md', '/docs/Meadow.Foundation/another');
+    test('../intro.md', '/docs/intro');
+    test('../Meadow.OS/networking.md', '/docs/Meadow.OS/networking');
+    test('/Meadow.OS/networking.md', '/docs/Meadow.OS/networking');
+  });
 });
