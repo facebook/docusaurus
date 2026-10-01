@@ -51,7 +51,6 @@ function watchPaths(
 
   const watcher = watch(pathsToWatch, {
     cwd: siteDir,
-    ignoreInitial: true,
     ...options,
   });
 
@@ -69,7 +68,7 @@ function getSitePathsToWatch({props}: {props: Props}): string[] {
   ];
 }
 
-function getPluginPathsToWatch({
+export function getPluginPathsToWatch({
   siteDir,
   plugin,
 }: {
