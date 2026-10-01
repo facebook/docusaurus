@@ -1,0 +1,1 @@
+"use strict";(globalThis.rspackChunkwebsite||=[]).push([[85596],{37463(e,r,s){var c=s(7998);s(86088),s.d(r,{createArchitectureServices:()=>c.S})}}]);

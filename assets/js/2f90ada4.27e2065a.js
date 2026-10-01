@@ -1,0 +1,1 @@
+"use strict";(globalThis.rspackChunkwebsite||=[]).push([[5217],{49172(t){t.exports=JSON.parse('{"tag":{"label":"Some-tag","permalink":"/tests/docs/tags/some-tag","allTagsPath":"/tests/docs/tags","count":1,"items":[{"id":"more-test","title":"Another test page","description":"Test link","permalink":"/tests/docs/more-test"}],"unlisted":false}}')}}]);

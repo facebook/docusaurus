@@ -1,0 +1,1 @@
+"use strict";(globalThis.rspackChunkwebsite||=[]).push([[29197],{13287(t){t.exports=JSON.parse('{"metadata":{"permalink":"/tests/blog","page":1,"postsPerPage":3,"totalPages":7,"totalCount":19,"nextPage":"/tests/blog/page/2","blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
