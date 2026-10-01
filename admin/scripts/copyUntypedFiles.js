@@ -7,6 +7,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import _ from 'lodash';
 
 const srcDir = path.join(process.cwd(), 'src');
 const libDir = path.join(process.cwd(), 'lib');
@@ -23,16 +24,8 @@ async function copy() {
 }
 
 if (process.argv.includes('--watch')) {
-  // A single file save can emit several events: coalesce them into one copy
-  let timeout;
-  fs.watch(srcDir, {recursive: true}, (eventType, filename) => {
-    // filename is relative to srcDir, and is not always provided
-    if (filename && ignoredPattern.test(path.join(srcDir, filename))) {
-      return;
-    }
-    clearTimeout(timeout);
-    timeout = setTimeout(copy, 100);
-  });
+  // Coalesce bursts of events (e.g. one file save) into a single copy
+  fs.watch(srcDir, {recursive: true}, _.debounce(copy, 100));
 } else {
   await copy();
 }
