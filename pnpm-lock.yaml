@@ -279,9 +279,6 @@ importers:
       sharp:
         specifier: ^0.35.1
         version: 0.35.4(@types/node@26.6.1)
-      strip-ansi:
-        specifier: ^7.2.0
-        version: 7.2.0
       stylelint:
         specifier: ^17.15.0
         version: 17.15.0(@typescript/typescript6@6.0.2)(supports-color@7.2.0)
