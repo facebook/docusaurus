@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import path from 'node:path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {DEFAULT_PLUGIN_ID} from './constants';

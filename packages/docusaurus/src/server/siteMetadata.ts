@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import type {
   LoadedPlugin,

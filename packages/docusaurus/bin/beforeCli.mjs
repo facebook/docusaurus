@@ -8,8 +8,8 @@
 // @ts-check
 
 import fs from 'fs-extra';
-import path from 'path';
-import {createRequire} from 'module';
+import path from 'node:path';
+import {createRequire} from 'node:module';
 import {execa} from 'execa';
 import {logger} from '@docusaurus/logger';
 import semver from 'semver';

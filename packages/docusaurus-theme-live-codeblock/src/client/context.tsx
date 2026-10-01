@@ -20,11 +20,7 @@ export function PlaygroundProvider({
   value: PlaygroundContextValue;
   children: ReactNode;
 }): ReactNode {
-  return (
-    <PlaygroundContext.Provider value={value}>
-      {children}
-    </PlaygroundContext.Provider>
-  );
+  return <PlaygroundContext value={value}>{children}</PlaygroundContext>;
 }
 
 export function usePlayground(): PlaygroundContextValue {

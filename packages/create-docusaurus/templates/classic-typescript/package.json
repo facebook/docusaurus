@@ -32,18 +32,9 @@
     "@types/react": "^19.3.0",
     "typescript": "~7.0.2"
   },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 3 chrome version",
-      "last 3 firefox version",
-      "last 5 safari version"
-    ]
-  },
+  "browserslist": [
+    "baseline widely available"
+  ],
   "engines": {
     "node": ">=24.21"
   }

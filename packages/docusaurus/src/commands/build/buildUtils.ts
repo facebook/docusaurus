@@ -13,6 +13,8 @@ import type {BuildCLIOptions} from './build';
  * By default, this makes it easier to support multi-domain deployments
  * See https://docusaurus.io/docs/i18n/tutorial#multi-domain-deployment
  */
-export function isAutomaticBaseUrlLocalizationDisabled(cliOptions: BuildCLIOptions) {
+export function isAutomaticBaseUrlLocalizationDisabled(
+  cliOptions: BuildCLIOptions,
+): boolean {
   return cliOptions.locale?.length === 1;
 }

@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it, vi} from 'vitest';
-import * as path from 'path';
+import * as path from 'node:path';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {posixPath, getLocaleConfig, TEST_VCS} from '@docusaurus/utils';
 import {DEFAULT_FUTURE_CONFIG} from '@docusaurus/core/src/server/configValidation';

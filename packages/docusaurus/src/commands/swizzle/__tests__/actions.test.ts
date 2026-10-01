@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
 import {tree} from 'tree-node-cli';
 import {posixPath} from '@docusaurus/utils';

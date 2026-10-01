@@ -228,9 +228,7 @@ describe('useBaseUrl', () => {
   const createUseBaseUrlMock =
     (context: DocusaurusContext) => (url: string, options?: BaseUrlOptions) =>
       renderHook(() => useBaseUrl(url, options), {
-        wrapper: ({children}) => (
-          <Context.Provider value={context}>{children}</Context.Provider>
-        ),
+        wrapper: ({children}) => <Context value={context}>{children}</Context>,
       }).result.current;
   it('works with empty base URL', () => {
     const mockUseBaseUrl = createUseBaseUrlMock({
@@ -299,9 +297,7 @@ describe('useBaseUrl', () => {
 describe('useBaseUrlUtils().withBaseUrl()', () => {
   const mockUseBaseUrlUtils = (context: DocusaurusContext) =>
     renderHook(() => useBaseUrlUtils(), {
-      wrapper: ({children}) => (
-        <Context.Provider value={context}>{children}</Context.Provider>
-      ),
+      wrapper: ({children}) => <Context value={context}>{children}</Context>,
     }).result.current;
   it('empty base URL', () => {
     const {withBaseUrl} = mockUseBaseUrlUtils({

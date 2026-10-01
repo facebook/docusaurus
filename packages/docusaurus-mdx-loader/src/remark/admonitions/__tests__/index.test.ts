@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import {remark} from 'remark';
 import directives from 'remark-directive';
 import remark2rehype from 'remark-rehype';

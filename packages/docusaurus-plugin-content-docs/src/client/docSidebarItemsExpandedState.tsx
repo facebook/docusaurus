@@ -43,7 +43,7 @@ export function DocSidebarItemsExpandedStateProvider({
     [expandedItem],
   );
 
-  return <Context.Provider value={contextValue}>{children}</Context.Provider>;
+  return <Context value={contextValue}>{children}</Context>;
 }
 
 export function useDocSidebarItemsExpandedState(): ContextValue {

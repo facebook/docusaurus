@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
-import os from 'os';
+import os from 'node:os';
 import _ from 'lodash';
 import {execa, execaSync} from 'execa';
 import PQueue from 'p-queue';
@@ -143,7 +143,7 @@ export async function getFileCommitDate(
   // See why: https://github.com/facebook/docusaurus/pull/10022
   const resultFormat = includeAuthor ? 'RESULT:%ct,%an' : 'RESULT:%ct';
 
-  const result = (await GitCommandQueue.add(() => {
+  const result = await GitCommandQueue.add(() => {
     return execa(
       'git',
       [
@@ -162,7 +162,7 @@ export async function getFileCommitDate(
         cwd: path.dirname(file),
       },
     );
-  }))!;
+  });
 
   // We only parse the output line starting with our "RESULT:" prefix
   // See why https://github.com/facebook/docusaurus/pull/10022

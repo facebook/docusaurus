@@ -58,7 +58,9 @@ const ignores = globalIgnores([
   '.codex',
   '**/dist/**',
   '**/lib/**',
-  '**/build/**',
+  // Not '**/build/**', it would ignore packages/docusaurus/src/commands/build
+  'website/build',
+  'test-website*/build',
   '**/.docusaurus/**',
   '**/__fixtures__/**',
   '__mocks__',

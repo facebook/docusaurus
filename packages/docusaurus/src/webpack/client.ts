@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import path from 'node:path';
 import merge from 'webpack-merge';
-import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import {getProgressBarPlugin} from '@docusaurus/bundler';
 import {getLocaleConfig} from '@docusaurus/utils';
@@ -135,13 +134,11 @@ export async function createBuildClientConfig({
   minify,
   faster,
   configureWebpackUtils,
-  bundleAnalyzer,
 }: {
   props: Props;
   minify: boolean;
   faster: FasterConfig;
   configureWebpackUtils: ConfigureWebpackUtils;
-  bundleAnalyzer: boolean;
 }): Promise<{config: Configuration; clientManifestPath: string}> {
   // Apply user webpack config.
   const {generatedFilesDir, siteConfig} = props;
@@ -167,9 +164,6 @@ export async function createBuildClientConfig({
     {
       plugins: [
         new ForceTerminatePlugin(),
-        // Visualize size of webpack output files with an interactive zoomable
-        // tree map.
-        bundleAnalyzer && new BundleAnalyzerPlugin(),
         // Generate client manifests file that will be used for server bundle.
         new ReactLoadableSSRAddon({
           filename: clientManifestPath,

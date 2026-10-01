@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as path from 'path';
+import * as path from 'node:path';
 import {pathToFileURL} from 'node:url';
-import os from 'os';
+import os from 'node:os';
 import _ from 'lodash';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {createSSGParams} from './ssgParams';

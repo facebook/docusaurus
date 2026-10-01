@@ -65,17 +65,17 @@ jobs:
         run: pnpm --filter website typecheck
 
       - name: TypeCheck website - min version - v6.0
+        # We call the "typescript" package compiler explicitly, because the
+        # root "tsc" bin comes from "@typescript/native" (pinned TS 7)
         run: |
           pnpm add typescript@6.0 --save-exact -D -w --ignore-scripts
-          pnpm --filter website typecheck
+          node node_modules/typescript/bin/tsc --version
+          node node_modules/typescript/bin/tsc --project website/tsconfig.json
 
       - name: TypeCheck website - max version - Latest
         # For latest TS there are often lib check errors, so we disable it
         # Details: https://github.com/facebook/docusaurus/pull/10486
         run: |
           pnpm add typescript@latest --save-exact -D -w --ignore-scripts
-          pnpm --filter website typecheck --project tsconfig.skipLibCheck.json
-        env:
-          # Ignore "a linked package is out of date" pnpm errors
-          # that can happen after a fresh TS-related package publish.
-          pnpm_config_verify_deps_before_run: warn
+          node node_modules/typescript/bin/tsc --version
+          node node_modules/typescript/bin/tsc --project website/tsconfig.skipLibCheck.json

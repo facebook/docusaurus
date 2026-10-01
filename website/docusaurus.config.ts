@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import path from 'path';
+import path from 'node:path';
 
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 import remarkMath from 'remark-math';
@@ -901,6 +901,8 @@ export default async function createConfigAsync() {
           alt: 'Meta Open Source Logo',
           src: '/img/meta_opensource_logo_negative.svg',
           href: 'https://opensource.fb.com',
+          width: 480,
+          height: 103,
         },
         copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc. Built with Docusaurus.`,
       },

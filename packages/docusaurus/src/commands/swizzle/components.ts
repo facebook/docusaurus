@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {posixPath} from '@docusaurus/utils';
@@ -262,8 +262,8 @@ function handleInvalidComponentNameParam({
   const suggestion = findClosestValue(componentNameParam, themeComponents.all);
   if (suggestion) {
     logger.info`Did you mean name=${suggestion}? ${
-      themeComponents.hasAnySafeAction(suggestion)
-        ? `Note: this component is an unsafe internal component and can only be swizzled with code=${'--danger'} or explicit confirmation.`
+      !themeComponents.hasAnySafeAction(suggestion)
+        ? `Note: this component is an unsafe internal component and can only be swizzled with ${logger.code('--danger')} or explicit confirmation.`
         : ''
     }`;
   } else {

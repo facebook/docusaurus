@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import nodePath from 'path';
+import nodePath from 'node:path';
 import logger from '@docusaurus/logger';
 import {SRC_DIR_NAME} from '@docusaurus/utils';
 import {globTranslatableSourceFiles} from '@docusaurus/glob';

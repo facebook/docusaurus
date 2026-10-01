@@ -91,10 +91,6 @@ export async function createCLIProgram({
       'Builds the website in dev mode, including full React error messages.',
     )
     .option(
-      '--bundle-analyzer',
-      'visualize size of webpack output files with an interactive zoomable tree map (default: false)',
-    )
-    .option(
       '--out-dir <dir>',
       'the full path for the new output directory, relative to the current workspace (default: build)',
     )

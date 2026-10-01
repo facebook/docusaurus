@@ -7,15 +7,16 @@
 
 import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import {mkdtempDisposable, realpath} from 'node:fs/promises';
-import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import dedent from 'dedent';
 import {loadFreshModule} from '../moduleUtils';
 
 async function createTmpDir() {
-  return mkdtempDisposable(join(await realpath(tmpdir()), 'docusaurus-tmp-'));
+  return mkdtempDisposable(
+    path.join(await realpath(tmpdir()), 'docusaurus-tmp-'),
+  );
 }
 
 async function moduleGraphHelpers() {

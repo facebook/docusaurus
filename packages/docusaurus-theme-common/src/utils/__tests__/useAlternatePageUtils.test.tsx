@@ -20,9 +20,9 @@ describe('useAlternatePageUtils', () => {
       forLocation: (location: string) => {
         return renderHook(() => useAlternatePageUtils(), {
           wrapper: ({children}) => (
-            <Context.Provider value={context}>
+            <Context value={context}>
               <StaticRouter location={location}>{children}</StaticRouter>
-            </Context.Provider>
+            </Context>
           ),
         }).result.current;
       },

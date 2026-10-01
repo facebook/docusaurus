@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import path from 'node:path';
 import {watch} from '@docusaurus/glob';
 import {posixPath} from '@docusaurus/utils';
 import type {StartCLIOptions} from './start';
@@ -51,7 +51,6 @@ function watchPaths(
 
   const watcher = watch(pathsToWatch, {
     cwd: siteDir,
-    ignoreInitial: true,
     ...options,
   });
 
@@ -69,7 +68,7 @@ function getSitePathsToWatch({props}: {props: Props}): string[] {
   ];
 }
 
-function getPluginPathsToWatch({
+export function getPluginPathsToWatch({
   siteDir,
   plugin,
 }: {

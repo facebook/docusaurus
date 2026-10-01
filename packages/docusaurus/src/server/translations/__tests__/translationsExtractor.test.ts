@@ -6,17 +6,18 @@
  */
 
 import {describe, expect, it, vi} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
 import {mkdtempDisposable, realpath} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
-import {join} from 'node:path';
 import {SRC_DIR_NAME} from '@docusaurus/utils';
 import {extractSiteSourceCodeTranslations} from '../translationsExtractor';
 import type {InitializedPlugin, LoadedPlugin} from '@docusaurus/types';
 
 async function createTmpDir() {
-  return mkdtempDisposable(join(await realpath(tmpdir()), 'docusaurus-tmp-'));
+  return mkdtempDisposable(
+    path.join(await realpath(tmpdir()), 'docusaurus-tmp-'),
+  );
 }
 
 describe('extractSiteSourceCodeTranslations', () => {

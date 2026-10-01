@@ -8,6 +8,7 @@
 import React, {
   isValidElement,
   useCallback,
+  useLayoutEffect,
   useState,
   useMemo,
   createContext,
@@ -15,7 +16,6 @@ import React, {
   type ReactElement,
 } from 'react';
 import {useHistory} from '@docusaurus/router';
-import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
 import {useQueryStringValue} from '@docusaurus/theme-common/internal';
 import {duplicates, useStorageSlot} from '../index';
 
@@ -262,7 +262,7 @@ export function useTabsContextValue(props: TabsProps): TabsContextValue {
   })();
   // Sync in a layout/sync effect is important, for useScrollPositionBlocker
   // See https://github.com/facebook/docusaurus/issues/8625
-  useIsomorphicLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (valueToSync) {
       setSelectedValue(valueToSync);
     }
@@ -303,9 +303,5 @@ export function TabsProvider(props: {
   children: ReactNode;
   value: TabsContextValue;
 }): ReactNode {
-  return (
-    <TabsContext.Provider value={props.value}>
-      {props.children}
-    </TabsContext.Provider>
-  );
+  return <TabsContext value={props.value}>{props.children}</TabsContext>;
 }

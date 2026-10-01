@@ -482,11 +482,7 @@ export function CodeBlockContextProvider({
   const value: CodeBlockContextValue = useMemo(() => {
     return {metadata, wordWrap};
   }, [metadata, wordWrap]);
-  return (
-    <CodeBlockContext.Provider value={value}>
-      {children}
-    </CodeBlockContext.Provider>
-  );
+  return <CodeBlockContext value={value}>{children}</CodeBlockContext>;
 }
 
 export function useCodeBlockContext(): CodeBlockContextValue {
