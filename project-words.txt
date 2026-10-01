@@ -197,7 +197,6 @@ pathinfo
 paularmstrong
 pcss
 pftrace
-philpl
 Pipeable
 playbtn
 Plushie
