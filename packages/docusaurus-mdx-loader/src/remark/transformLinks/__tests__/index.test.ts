@@ -70,6 +70,15 @@ describe('transformLinks plugin', () => {
     expect(result).toMatchInlineSnapshot(`"pathname:///unchecked.pdf)"`);
   });
 
+  it('does not HTML-escape title', async () => {
+    const result = await processContent(
+      `[asset](/staticAsset.pdf "It's a 'quoted' & title")`,
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"<a target="_blank" data-noBrokenLinkCheck={true} href={require("!<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[contenthash].[ext]!./../static/staticAsset.pdf").default} title="It's a 'quoted' & title">asset</a>"`,
+    );
+  });
+
   it('accepts absolute file that does not exist', async () => {
     const result = await processContent(`[file](/dir/file.zip)`);
     expect(result).toMatchInlineSnapshot(`"[file](/dir/file.zip)"`);
