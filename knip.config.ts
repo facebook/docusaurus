@@ -93,8 +93,7 @@ const config: KnipConfig = {
     },
     'packages/docusaurus-bundler': {
       ignoreDependencies: [
-        // Used through CssMinimizerPlugin.cssnanoMinify/cleanCssMinify
-        'clean-css',
+        // Used through CssMinimizerPlugin.cssnanoMinify
         'cssnano',
         // Optional peer dependency, dynamically imported
         '@docusaurus/faster',
