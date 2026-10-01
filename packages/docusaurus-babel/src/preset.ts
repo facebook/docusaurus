@@ -68,10 +68,11 @@ function getTransformOptions(isServer: boolean): TransformOptions {
           absoluteRuntime: absoluteRuntimePath,
         },
       ],
-      // Adds syntax support for import()
-      isServer
-        ? require.resolve('babel-plugin-dynamic-import-node')
-        : require.resolve('@babel/plugin-syntax-dynamic-import'),
+      // Transforms import() to a deferred require() for the server bundle
+      // Client bundle: import() is parsed by default and left to the bundler
+      ...(isServer
+        ? [require.resolve('babel-plugin-dynamic-import-node')]
+        : []),
     ],
   };
 }
