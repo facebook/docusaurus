@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import logger from '@docusaurus/logger';
 import * as Yaml from 'js-yaml';
 import {findAsyncSequential} from './index';

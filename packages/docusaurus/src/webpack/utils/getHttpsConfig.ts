@@ -6,8 +6,8 @@
  */
 
 import fs from 'fs-extra';
-import path from 'path';
-import crypto from 'crypto';
+import path from 'node:path';
+import crypto from 'node:crypto';
 import logger from '@docusaurus/logger';
 
 // Ensure the certificate and key provided are valid and if not

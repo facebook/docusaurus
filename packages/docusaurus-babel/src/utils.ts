@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 import type {TransformOptions} from '@babel/core';
 

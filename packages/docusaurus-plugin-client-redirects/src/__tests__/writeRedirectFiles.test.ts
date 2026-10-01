@@ -7,7 +7,7 @@
 
 import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 
 import writeRedirectFiles, {
   toRedirectFiles,

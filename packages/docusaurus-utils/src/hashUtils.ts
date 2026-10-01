@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createHash} from 'crypto';
+import {createHash} from 'node:crypto';
 import _ from 'lodash';
 import {shortName, isNameTooLong} from './pathUtils';
 

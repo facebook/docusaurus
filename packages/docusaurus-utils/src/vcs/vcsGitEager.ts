@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {resolve, basename} from 'node:path';
+import path from 'node:path';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {
   getGitAllRepoRoots,
@@ -24,7 +24,7 @@ function resolveFileInfoMapPaths(
     entry: [string, GitFileInfo],
   ): [string, GitFileInfo] {
     // We just resolve the Git paths that are relative to the repo root
-    return [resolve(repoRoot, entry[0]), entry[1]];
+    return [path.resolve(repoRoot, entry[0]), entry[1]];
   }
 
   return new Map(Array.from(filesInfo.entries()).map(transformMapEntry));
@@ -42,7 +42,7 @@ async function loadAllGitFilesInfoMap(cwd: string): Promise<GitFileInfoMap> {
   const allMaps: GitFileInfoMap[] = await Promise.all(
     roots.map(async (root) => {
       const map = await PerfLogger.async(
-        `Reading Git history for repo ${logger.path(basename(root))}`,
+        `Reading Git history for repo ${logger.path(path.basename(root))}`,
         () => getGitRepositoryFilesInfo(root),
       );
       return resolveFileInfoMapPaths(root, map);
@@ -87,7 +87,7 @@ export function createVcsGitEagerConfig(): VcsConfig {
   async function getGitFileInfo(filePath: string): Promise<GitFileInfo | null> {
     const init = (await initPromise)!;
     if (init.type === 'success') {
-      const key = resolve(init.siteDir, filePath);
+      const key = path.resolve(init.siteDir, filePath);
       return init.filesMap.get(key) ?? null;
     } else if (init.reason === 'not-in-worktree') {
       throw new Error(

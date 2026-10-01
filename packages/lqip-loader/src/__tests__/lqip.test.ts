@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import {base64} from '../lqip';
 
 const imgPath = path.join(__dirname, '__fixtures__', 'endi.jpg');

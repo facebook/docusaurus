@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
-import {createHash} from 'crypto';
+import {createHash} from 'node:crypto';
 import {findAsyncSequential} from './jsUtils';
 
 const fileHash = new Map<string, string>();

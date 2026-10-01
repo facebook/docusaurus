@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import query from 'querystring';
-import path from 'path';
+import query from 'node:querystring';
+import path from 'node:path';
 import _ from 'lodash';
 import {docuHash, simpleHash, escapePath, generate} from '@docusaurus/utils';
 import type {

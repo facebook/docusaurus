@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import path from 'node:path';
 import merge from 'webpack-merge';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';

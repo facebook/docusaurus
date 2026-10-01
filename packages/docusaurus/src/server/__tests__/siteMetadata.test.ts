@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {loadPluginVersion, createSiteMetadata} from '../siteMetadata';
 import type {LoadedPlugin} from '@docusaurus/types';

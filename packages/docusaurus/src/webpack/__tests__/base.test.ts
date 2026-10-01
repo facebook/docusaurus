@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import _ from 'lodash';
 import webpack from 'webpack';
 import {posixPath} from '@docusaurus/utils';

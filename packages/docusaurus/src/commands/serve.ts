@@ -6,8 +6,8 @@
  */
 
 import fs from 'fs-extra';
-import http from 'http';
-import path from 'path';
+import http from 'node:http';
+import path from 'node:path';
 import logger from '@docusaurus/logger';
 import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
 import serveHandler from 'serve-handler';

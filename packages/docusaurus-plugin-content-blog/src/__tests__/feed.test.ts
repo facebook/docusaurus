@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it, vi} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
 import {DEFAULT_PARSE_FRONT_MATTER, TEST_VCS} from '@docusaurus/utils';
 import {fromPartial} from '@total-typescript/shoehorn';

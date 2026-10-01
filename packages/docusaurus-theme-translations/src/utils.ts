@@ -11,7 +11,7 @@
 // the untested update.mjs file (c) we can ergonomically import the util
 // functions in the Jest test without using `await import`
 
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
 import {globTranslatableSourceFiles} from '@docusaurus/glob';
 import {extractAllSourceCodeFileTranslations} from '@docusaurus/babel';
