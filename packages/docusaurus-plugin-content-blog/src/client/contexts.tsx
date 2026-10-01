@@ -76,7 +76,7 @@ export function BlogPostProvider({
   isBlogPostPage?: boolean;
 }): ReactNode {
   const contextValue = useContextValue({content, isBlogPostPage});
-  return <Context.Provider value={contextValue}>{children}</Context.Provider>;
+  return <Context value={contextValue}>{children}</Context>;
 }
 
 /**

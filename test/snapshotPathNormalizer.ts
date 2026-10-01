@@ -12,8 +12,8 @@ import type {SnapshotSerializer} from 'vitest';
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
+import {stripVTControlCharacters} from 'node:util';
 import _ from 'lodash';
-import stripAnsi from 'strip-ansi';
 import {version} from '../packages/docusaurus/package.json';
 import {posixPath} from '../packages/docusaurus-utils/src';
 
@@ -88,7 +88,7 @@ function normalizeString(value: string): string {
   const homeRelativeToTemp = path.relative(tempDir, homeDir);
 
   const runner: ((val: string) => string)[] = [
-    (val) => (val.includes('keepAnsi') ? val : stripAnsi(val)),
+    (val) => (val.includes('keepAnsi') ? val : stripVTControlCharacters(val)),
     // Replace process.cwd with <PROJECT_ROOT>
     (val) => val.split(cwd).join('<PROJECT_ROOT>'),
     (val) => val.split(posixPath(cwd)).join('<PROJECT_ROOT>'),

@@ -303,9 +303,5 @@ export function TabsProvider(props: {
   children: ReactNode;
   value: TabsContextValue;
 }): ReactNode {
-  return (
-    <TabsContext.Provider value={props.value}>
-      {props.children}
-    </TabsContext.Provider>
-  );
+  return <TabsContext value={props.value}>{props.children}</TabsContext>;
 }

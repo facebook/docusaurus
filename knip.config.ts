@@ -146,10 +146,7 @@ const config: KnipConfig = {
         '@docusaurus/mdx-loader',
       ],
     }),
-    'packages/docusaurus-theme-live-codeblock': themePackageConfig({
-      // Knip doesn't detect imports in "declare module" blocks
-      ignoreDependencies: ['@types/buble'],
-    }),
+    'packages/docusaurus-theme-live-codeblock': themePackageConfig(),
     'packages/docusaurus-theme-mermaid': themePackageConfig(),
     'packages/docusaurus-types': {
       // All types are public: this package has no exports field

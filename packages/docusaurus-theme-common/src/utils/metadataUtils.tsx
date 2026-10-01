@@ -109,12 +109,12 @@ export function HtmlClassNameProvider({
   const classNameContext = React.useContext(HtmlClassNameContext);
   const className = clsx(classNameContext, classNameProp);
   return (
-    <HtmlClassNameContext.Provider value={className}>
+    <HtmlClassNameContext value={className}>
       <Head>
         <html className={className} />
       </Head>
       {children}
-    </HtmlClassNameContext.Provider>
+    </HtmlClassNameContext>
   );
 }
 

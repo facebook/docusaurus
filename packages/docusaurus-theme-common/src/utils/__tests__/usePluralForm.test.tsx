@@ -15,9 +15,7 @@ import type {DocusaurusContext} from '@docusaurus/types';
 describe('usePluralForm', () => {
   const createUsePluralFormMock = (context: DocusaurusContext) => () =>
     renderHook(() => usePluralForm(), {
-      wrapper: ({children}) => (
-        <Context.Provider value={context}>{children}</Context.Provider>
-      ),
+      wrapper: ({children}) => <Context value={context}>{children}</Context>,
     }).result.current;
 
   it('returns the right plural', () => {

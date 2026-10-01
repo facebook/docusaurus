@@ -56,7 +56,7 @@ export function VersionsProvider({children}: {children: ReactNode}): ReactNode {
         },
       );
   }, []);
-  return <Context.Provider value={canaryVersion}>{children}</Context.Provider>;
+  return <Context value={canaryVersion}>{children}</Context>;
 }
 
 function useStableVersion(): string {

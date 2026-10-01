@@ -105,7 +105,7 @@ export function NavbarMobileSidebarProvider({
           />
         )
       }
-      <Context.Provider value={value}>{children}</Context.Provider>
+      <Context value={value}>{children}</Context>
     </>
   );
 }

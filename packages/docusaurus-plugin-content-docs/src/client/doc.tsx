@@ -52,7 +52,7 @@ export function DocProvider({
   content: PropDocContent;
 }): ReactNode {
   const contextValue = useContextValue(content);
-  return <Context.Provider value={contextValue}>{children}</Context.Provider>;
+  return <Context value={contextValue}>{children}</Context>;
 }
 
 /**

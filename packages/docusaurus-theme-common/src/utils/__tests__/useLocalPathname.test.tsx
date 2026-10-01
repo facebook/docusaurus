@@ -18,9 +18,9 @@ describe('useLocalPathname', () => {
     (context: DocusaurusContext) => (location: string) =>
       renderHook(() => useLocalPathname(), {
         wrapper: ({children}) => (
-          <Context.Provider value={context}>
+          <Context value={context}>
             <StaticRouter location={location}>{children}</StaticRouter>
-          </Context.Provider>
+          </Context>
         ),
       }).result.current;
   it('works for baseUrl: /', () => {
