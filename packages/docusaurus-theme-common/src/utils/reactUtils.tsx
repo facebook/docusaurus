@@ -7,12 +7,12 @@
 
 import React, {
   useCallback,
+  useLayoutEffect,
   useMemo,
   useRef,
   type ComponentType,
   type ReactNode,
 } from 'react';
-import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
 
 /**
  * Temporary userland implementation until an official hook is implemented
@@ -31,7 +31,7 @@ export function useEvent<T extends (...args: never[]) => unknown>(
 ): T {
   const ref = useRef<T>(callback);
 
-  useIsomorphicLayoutEffect(() => {
+  useLayoutEffect(() => {
     ref.current = callback;
   }, [callback]);
 
@@ -46,7 +46,7 @@ export function useEvent<T extends (...args: never[]) => unknown>(
 export function usePrevious<T>(value: T): T | undefined {
   const ref = useRef<T>(undefined);
 
-  useIsomorphicLayoutEffect(() => {
+  useLayoutEffect(() => {
     ref.current = value;
   });
 
