@@ -23,9 +23,11 @@ async function copy() {
   });
 }
 
+// Coalesce bursts of events (e.g. one file save) into a single copy
+const copyDebounced = _.debounce(copy, 100);
+
 if (process.argv.includes('--watch')) {
-  // Coalesce bursts of events (e.g. one file save) into a single copy
-  fs.watch(srcDir, {recursive: true}, _.debounce(copy, 100));
+  fs.watch(srcDir, {recursive: true}, copyDebounced);
 } else {
   await copy();
 }
