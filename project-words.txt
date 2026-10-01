@@ -38,6 +38,7 @@ Clément
 Codegen
 codegen
 codesandbox
+Componnt
 contravariance
 cooldowns
 corejs
@@ -79,6 +80,7 @@ ERRNAMETOOLONG
 externalwaiting
 failfast
 Fienny
+Foldr
 forwardable
 FOUC
 Français
