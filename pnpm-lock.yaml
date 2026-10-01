@@ -1847,9 +1847,6 @@ importers:
       '@docusaurus/utils-validation':
         specifier: workspace:*
         version: link:../docusaurus-utils-validation
-      '@philpl/buble':
-        specifier: ^0.19.7
-        version: 0.19.7
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1872,9 +1869,6 @@ importers:
       '@docusaurus/types':
         specifier: workspace:*
         version: link:../docusaurus-types
-      '@types/buble':
-        specifier: ^0.20.5
-        version: 0.20.5
 
   packages/docusaurus-theme-mermaid:
     dependencies:
@@ -5216,10 +5210,6 @@ packages:
     resolution: {integrity: sha512-C2Xj8FZ0uHWeCXXqX5B4/gVFQmtSkiuOolzAgutjTfseNOHT3pUjljDZsTSxXFGgio54bCzVFqmEOUrIVk8RDA==}
     engines: {node: '>=20.0.0'}
 
-  '@philpl/buble@0.19.7':
-    resolution: {integrity: sha512-wKTA2DxAGEW+QffRQvOhRQ0VBiYU2h2p8Yc1oBNlqSKws48/8faxqKNIuub0q4iuyTuLwtB8EkwiKwhlfV1PBA==}
-    hasBin: true
-
   '@playwright/test@1.63.0':
     resolution: {integrity: sha512-oxMK4vllB9RK5NQ2l1pq1IfOf2AvnEuj/vYGDj0H2nMtmtZpKtCwt/l00GEO6xjGfpBNAvjovvYdCm50dRQkpQ==}
     engines: {node: '>=20'}
@@ -6151,9 +6141,6 @@ packages:
   '@types/braces@3.0.5':
     resolution: {integrity: sha512-SQFof9H+LXeWNz8wDe7oN5zu7ket0qwMu5vZubW4GCJ8Kkeh6nBWUz87+KTz/G3Kqsrp0j/W253XJb3KMEeg3w==}
 
-  '@types/buble@0.20.5':
-    resolution: {integrity: sha512-CNpql2WPrZloamMweLkyM42nPsUVa10NDurkhTB5+tGu8SstDd568dothJi7tFSAsbqJK0rSb83W9ZwGt8My/A==}
-
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
 
@@ -6825,18 +6812,6 @@ packages:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
     engines: {node: '>= 0.6'}
 
-  acorn-class-fields@0.2.1:
-    resolution: {integrity: sha512-US/kqTe0H8M4LN9izoL+eykVAitE68YMuYZ3sHn3i1fjniqR7oQ3SPvuMK/VT1kjOQHrx5Q88b90TtOKgAv2hQ==}
-    engines: {node: '>=4.8.2'}
-    peerDependencies:
-      acorn: ^6.0.0
-
-  acorn-dynamic-import@4.0.0:
-    resolution: {integrity: sha512-d3OEjQV4ROpoflsnUA8HozoIR504TFxNivYEUi6uwz0IYhBkTDXGuWlNdMtybRt3nqVx/L6XqMt0FxkXuWKZhw==}
-    deprecated: This is probably built in to whatever tool you're using. If you still need it... idk
-    peerDependencies:
-      acorn: ^6.0.0
-
   acorn-import-attributes@1.9.5:
     resolution: {integrity: sha512-n02Vykv5uA3eHGM/Z2dQrcD56kL8TyDb2p1+0P83PClMnC/nc+anbQRhIOWnSq4Ke/KvDPrY3C9hDtC/A3eHnQ==}
     peerDependencies:
@@ -6850,11 +6825,6 @@ packages:
   acorn-walk@8.3.5:
     resolution: {integrity: sha512-HEHNfbars9v4pgpW6SO1KSPkfoS0xVOM/9UzkJltjlsHZmJasxg8aXkuZa7SMf8vKGIBhpUsPluQSqhJFCqebw==}
     engines: {node: '>=0.4.0'}
-
-  acorn@6.4.2:
-    resolution: {integrity: sha512-XtGIhXwF8YM8bJhGxG5kXgjkEuNGLTkoYqVE+KMR+aspr4KGYmKYg7yUe3KghyQ9yheNwLnjmzh/7+gfDBmHCQ==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
 
   acorn@8.18.0:
     resolution: {integrity: sha512-lGq+9yr1/GuAWaVYIHRjvvySG5/4VfKIvC8EWxStPdcDh/Ka7FG3twP6v4d5BkravUilhIAsG4Qj83t02LWUPQ==}
@@ -9625,10 +9595,6 @@ packages:
       canvas:
         optional: true
 
-  jsesc@0.5.0:
-    resolution: {integrity: sha512-uZz5UnB7u4T9LvwmFqXii7pZSouaRPorGs5who1Ip7VO0wxanFvBL7GkM6dTHlgX+jhBApRetaWpnDabOeTcnA==}
-    hasBin: true
-
   jsesc@3.1.0:
     resolution: {integrity: sha512-/sM3dO2FOzXjKQhJuo0Q173wf2KOo8t4I8vHy6lF9poUp7bKT0/NHE8fPX23PwfhnykfqnC2xRxOnVw5XuGIaA==}
     engines: {node: '>=6'}
@@ -9954,9 +9920,6 @@ packages:
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
     hasBin: true
-
-  magic-string@0.25.9:
-    resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
@@ -10658,10 +10621,6 @@ packages:
   ora@9.4.1:
     resolution: {integrity: sha512-6VlU9MLXbjVQD04AZCMX28hVtA5bUoadvUqO76MUCVA0ilwJbMiHsITRPfyVm6p/BC0Av/BXMujx39WCe1LEqw==}
     engines: {node: '>=20'}
-
-  os-homedir@1.0.2:
-    resolution: {integrity: sha512-B5JU3cabzk8c67mRRd3ECmROafjYMXbuzlwtqdM8IbS8ktlTix8aFGb2bAGKrSRIlnfKwovGUUr72JUPyOb6kQ==}
-    engines: {node: '>=0.10.0'}
 
   own-keys@1.0.2:
     resolution: {integrity: sha512-19YVAg7T+WTrxggPukVq7DjTv6+PJ867TmhCvBsYwmbFCsZd344rq2Ld1p0wo8f8Qrrhgp82c6FJRqdXWtSEhg==}
@@ -11636,10 +11595,6 @@ packages:
     resolution: {integrity: sha512-m03P+zhBeQd1RGnYxrGyDAPpWX/epKirLrp8e3qevZdVkKtnCrjjWczIbYc8+xd6vcTStVlqfycTx1KR4LOr0g==}
     engines: {node: '>=4'}
 
-  regenerate-unicode-properties@9.0.0:
-    resolution: {integrity: sha512-3E12UeNSPfjrgwjkR81m5J7Aw/T55Tu7nUyZVQYCKEOs+2dkxEY+DpPtZzO4YruuiPb7NkYLVcyJC4+zCbk5pA==}
-    engines: {node: '>=4'}
-
   regenerate@1.4.2:
     resolution: {integrity: sha512-zrceR/XhGYU/d/opr2EKO7aRHUeiBI8qjtfHqADTwZd6Szfy16la6kqD0MIUs5z5hx6AaKa+PixpPrR289+I0A==}
 
@@ -11650,10 +11605,6 @@ packages:
   regexp.prototype.flags@1.5.4:
     resolution: {integrity: sha512-dYqgNSZbDwkaJ2ceRd9ojCGjBq+mOm9LmtXnAnEGyHhN/5R7iDW2TRw3h+o/jCFxus3P2LfWIIiwowAjANm7IA==}
     engines: {node: '>= 0.4'}
-
-  regexpu-core@4.8.0:
-    resolution: {integrity: sha512-1F6bYsoYiz6is+oz70NWur2Vlh9KWtswuRuzJOfeYUrfPX2o8n74AnUVaOGDbUqVGO9fNHu48/pjJO4sNVwsOg==}
-    engines: {node: '>=4'}
 
   regexpu-core@6.4.0:
     resolution: {integrity: sha512-0ghuzq67LI9bLXpOX/ISfve/Mq33a4aFRzoQYhnnok1JOFpmE/A2TBGkNVenOGEeSBCjIiWcc6MVOG5HEQv0sA==}
@@ -11667,18 +11618,11 @@ packages:
     resolution: {integrity: sha512-+crtS5QjFRqFCoQmvGduwYWEBng99ZvmFvF+cUJkGYF1L1BfU8C6Zp9T7f5vPAwyLkUExpvK+ANVZmGU49qi4Q==}
     engines: {node: '>=12'}
 
-  regjsgen@0.5.2:
-    resolution: {integrity: sha512-OFFT3MfrH90xIW8OOSyUrk6QHD5E9JOTeGodiJeBS3J6IwlgzJMNE/1bZklWz5oTg+9dCMyEetclvCVXOPoN3A==}
-
   regjsgen@0.8.0:
     resolution: {integrity: sha512-RvwtGe3d7LvWiDQXeQw8p5asZUmfU1G/l6WbUXeHta7Y2PEIvBTwH6E2EfmYUK8pxcxEdEmaomqyp0vZZ7C+3Q==}
 
   regjsparser@0.13.2:
     resolution: {integrity: sha512-NgRBy2Nx/bE+9F27nVHnqcN5HjyLmecqsqx2PJHu3/IEtADD4WuxuXIVExD5PoSDFVrl78dOonfcOe5O+5nbzQ==}
-    hasBin: true
-
-  regjsparser@0.7.0:
-    resolution: {integrity: sha512-A4pcaORqmNMDVwUjWoTzuhwMGpP+NykpfqAsEgI1FSH/EzC7lrN5TMd+kN8YCovX+jMpu8eaqXgXPCa0g8FQNQ==}
     hasBin: true
 
   rehype-katex@7.0.1:
@@ -12120,10 +12064,6 @@ packages:
   source-map@0.8.0:
     resolution: {integrity: sha512-d8EqvL+k/SOXCreS/SUzg2ciyHqBBLcN/yuRjFsbvVhHTE2pgei7oAhmPM7kWFbkX6OSMQfUq4KbkF3au9lhYQ==}
     engines: {node: '>= 12'}
-
-  sourcemap-codec@1.4.8:
-    resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
-    deprecated: Please use @jridgewell/sourcemap-codec instead
 
   space-separated-tokens@2.0.2:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
@@ -16582,18 +16522,6 @@ snapshots:
       tslib: 2.8.1
       tsyringe: 4.10.0
 
-  '@philpl/buble@0.19.7':
-    dependencies:
-      acorn: 6.4.2
-      acorn-class-fields: 0.2.1(acorn@6.4.2)
-      acorn-dynamic-import: 4.0.0(acorn@6.4.2)
-      acorn-jsx: 5.3.2(acorn@6.4.2)
-      chalk: 2.4.2
-      magic-string: 0.25.9
-      minimist: 1.2.8
-      os-homedir: 1.0.2
-      regexpu-core: 4.8.0
-
   '@playwright/test@1.63.0':
     dependencies:
       playwright: 1.63.0
@@ -17421,10 +17349,6 @@ snapshots:
 
   '@types/braces@3.0.5': {}
 
-  '@types/buble@0.20.5':
-    dependencies:
-      magic-string: 0.25.9
-
   '@types/chai@5.2.3':
     dependencies:
       '@types/deep-eql': 4.0.2
@@ -18175,21 +18099,9 @@ snapshots:
       mime-types: 3.0.2
       negotiator: 1.1.0
 
-  acorn-class-fields@0.2.1(acorn@6.4.2):
-    dependencies:
-      acorn: 6.4.2
-
-  acorn-dynamic-import@4.0.0(acorn@6.4.2):
-    dependencies:
-      acorn: 6.4.2
-
   acorn-import-attributes@1.9.5(acorn@8.18.0):
     dependencies:
       acorn: 8.18.0
-
-  acorn-jsx@5.3.2(acorn@6.4.2):
-    dependencies:
-      acorn: 6.4.2
 
   acorn-jsx@5.3.2(acorn@8.18.0):
     dependencies:
@@ -18198,8 +18110,6 @@ snapshots:
   acorn-walk@8.3.5:
     dependencies:
       acorn: 8.18.0
-
-  acorn@6.4.2: {}
 
   acorn@8.18.0: {}
 
@@ -21515,8 +21425,6 @@ snapshots:
     transitivePeerDependencies:
       - '@noble/hashes'
 
-  jsesc@0.5.0: {}
-
   jsesc@3.1.0: {}
 
   json-buffer@3.0.1: {}
@@ -21869,10 +21777,6 @@ snapshots:
       yallist: 4.0.0
 
   lz-string@1.5.0: {}
-
-  magic-string@0.25.9:
-    dependencies:
-      sourcemap-codec: 1.4.8
 
   magic-string@0.30.21:
     dependencies:
@@ -23101,8 +23005,6 @@ snapshots:
       stdin-discarder: 0.3.2
       string-width: 8.2.2
 
-  os-homedir@1.0.2: {}
-
   own-keys@1.0.2:
     dependencies:
       call-bound: 1.0.4
@@ -24210,10 +24112,6 @@ snapshots:
     dependencies:
       regenerate: 1.4.2
 
-  regenerate-unicode-properties@9.0.0:
-    dependencies:
-      regenerate: 1.4.2
-
   regenerate@1.4.2: {}
 
   regexp-ast-analysis@0.7.1:
@@ -24229,15 +24127,6 @@ snapshots:
       get-proto: 1.0.1
       gopd: 1.2.0
       set-function-name: 2.0.2
-
-  regexpu-core@4.8.0:
-    dependencies:
-      regenerate: 1.4.2
-      regenerate-unicode-properties: 9.0.0
-      regjsgen: 0.5.2
-      regjsparser: 0.7.0
-      unicode-match-property-ecmascript: 2.0.0
-      unicode-match-property-value-ecmascript: 2.2.1
 
   regexpu-core@6.4.0:
     dependencies:
@@ -24256,17 +24145,11 @@ snapshots:
     dependencies:
       rc: 1.2.8
 
-  regjsgen@0.5.2: {}
-
   regjsgen@0.8.0: {}
 
   regjsparser@0.13.2:
     dependencies:
       jsesc: 3.1.0
-
-  regjsparser@0.7.0:
-    dependencies:
-      jsesc: 0.5.0
 
   rehype-katex@7.0.1:
     dependencies:
@@ -24901,8 +24784,6 @@ snapshots:
   source-map@0.7.6: {}
 
   source-map@0.8.0: {}
-
-  sourcemap-codec@1.4.8: {}
 
   space-separated-tokens@2.0.2: {}
 
