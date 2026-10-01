@@ -1,10 +1,6 @@
-# TODO change later to "isolated" ?
-nodeLinker: 'hoisted'
+nodeLinker: 'isolated'
 
-# Init templates use real @docusaurus/* versions instead of workspace:*
-# so that create-docusaurus can copy them as-is.
-# This links them (and test-website-in-workspace) to local packages.
-# See https://pnpm.io/workspaces#linkworkspacepackages
+# Link init templates (which can't use workspace:*) to local packages
 linkWorkspacePackages: true
 
 packages:
