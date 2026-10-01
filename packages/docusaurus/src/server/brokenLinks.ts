@@ -51,22 +51,22 @@ type BrokenLinksHelper = {
   isAnchorBrokenLink: (linkPath: URLPath) => boolean;
 };
 
-// decodeURI/decodeURIComponent throw URIError on incomplete sequences such as
-// "/page%" or "#100%". The checker should treat those links as broken instead
-// of aborting the whole build.
-function decodeURISafe(value: string): string | undefined {
+// decodeURI() and decodeURIComponent() throw on malformed percent-encoding
+// such as "/page%" or "#100%". We return the input unchanged instead, so that
+// the link gets reported as broken instead of crashing the build.
+function safeDecodeURI(value: string): string {
   try {
     return decodeURI(value);
   } catch {
-    return undefined;
+    return value;
   }
 }
 
-function decodeURIComponentSafe(value: string): string | undefined {
+function safeDecodeURIComponent(value: string): string {
   try {
     return decodeURIComponent(value);
   } catch {
-    return undefined;
+    return value;
   }
 }
 
@@ -121,11 +121,7 @@ function createBrokenLinksHelper({
   }
 
   function isPathBrokenLink(linkPath: URLPath) {
-    const decodedPathname = decodeURISafe(linkPath.pathname);
-    const pathnames = [linkPath.pathname];
-    if (decodedPathname !== undefined) {
-      pathnames.push(decodedPathname);
-    }
+    const pathnames = [linkPath.pathname, safeDecodeURI(linkPath.pathname)];
     if (pathnames.some((p) => validPathnames.has(p))) {
       return false;
     }
@@ -147,33 +143,25 @@ function createBrokenLinksHelper({
     if (hash === '') {
       return false;
     }
-    const decodedPathname = decodeURISafe(pathname);
     const targetPage =
       collectedLinks.get(pathname) ??
-      (decodedPathname !== undefined
-        ? collectedLinks.get(decodedPathname)
-        : undefined) ??
+      collectedLinks.get(safeDecodeURI(pathname)) ??
       // The broken link checker should not care about a trailing slash
       // Those are already covered by the broken pathname checker
       // See https://github.com/facebook/docusaurus/issues/10116
       collectedLinks.get(addTrailingSlash(pathname)) ??
-      (decodedPathname !== undefined
-        ? collectedLinks.get(addTrailingSlash(decodedPathname))
-        : undefined) ??
+      collectedLinks.get(addTrailingSlash(safeDecodeURI(pathname))) ??
       collectedLinks.get(removeTrailingSlash(pathname)) ??
-      (decodedPathname !== undefined
-        ? collectedLinks.get(removeTrailingSlash(decodedPathname))
-        : undefined);
+      collectedLinks.get(removeTrailingSlash(safeDecodeURI(pathname)));
     // link with anchor to a page that does not exist (or did not collect any
     // link/anchor) is considered as a broken anchor
     if (!targetPage) {
       return true;
     }
-    const decodedHash = decodeURIComponentSafe(hash);
     // it's a not broken anchor if the anchor exists on the target page
     if (
       targetPage.anchors.has(hash) ||
-      (decodedHash !== undefined && targetPage.anchors.has(decodedHash))
+      targetPage.anchors.has(safeDecodeURIComponent(hash))
     ) {
       return false;
     }
