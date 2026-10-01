@@ -10,10 +10,7 @@ import * as path from 'path';
 import {remark} from 'remark';
 import mdx from 'remark-mdx';
 import {read} from 'to-vfile';
-import {VFile} from 'vfile';
-import {visit} from 'unist-util-visit';
 import plugin, {type PluginOptions} from '../index';
-import type {MdxJsxTextElement} from 'mdast-util-mdx';
 
 const siteDir = path.join(__dirname, '__fixtures__');
 
@@ -71,24 +68,14 @@ describe('transformImage plugin', () => {
   });
 
   it('does not HTML-escape alt and title', async () => {
-    // Attribute values are escaped when the JSX is rendered, so escaping them
-    // here too would show entities such as &#39; in the rendered alt text.
-    const processor = getProcessor();
-    const file = new VFile({
-      value: `![It's a "quoted" & ampersand alt](/img.png (It's a "quoted" & <tagged> title))`,
-      path: path.posix.join(siteDir, 'docs', 'myFile.mdx'),
-    });
-    const tree = await processor.run(processor.parse(file), file);
-    const attributes: {[name: string]: unknown} = {};
-    visit(tree, 'mdxJsxTextElement', (node: MdxJsxTextElement) => {
-      node.attributes.forEach((attribute) => {
-        if (attribute.type === 'mdxJsxAttribute') {
-          attributes[attribute.name] = attribute.value;
-        }
-      });
-    });
-    expect(attributes.alt).toBe(`It's a "quoted" & ampersand alt`);
-    expect(attributes.title).toBe(`It's a "quoted" & <tagged> title`);
+    const result = await processContent(
+      `![It's a "quoted" & alt](/img.png "It's a 'quoted' & title")`,
+    );
+    // &#x22; is how remark-mdx serializes " in a double-quoted attribute
+    expect(result).toMatchInlineSnapshot(`
+      "<img alt="It's a &#x22;quoted&#x22; & alt" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./../static/img.png").default} title="It's a 'quoted' & title" width="200" height="200" />
+      "
+    `);
   });
 
   it('does not choke on invalid image', async () => {
