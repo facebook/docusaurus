@@ -51,9 +51,6 @@ type BrokenLinksHelper = {
   isAnchorBrokenLink: (linkPath: URLPath) => boolean;
 };
 
-// decodeURI() and decodeURIComponent() throw on malformed percent-encoding
-// such as "/page%" or "#100%". We return the input unchanged instead, so that
-// the link gets reported as broken instead of crashing the build.
 function safeDecodeURI(value: string): string {
   try {
     return decodeURI(value);
