@@ -164,6 +164,12 @@ export default defineConfig(
           message:
             'Default-import this, both for readability and interoperability with ESM',
         })),
+        {
+          selector:
+            "JSXOpeningElement > JSXMemberExpression[property.name='Provider']",
+          message:
+            'Since React 19, render the context directly as its provider: use <MyContext value={v}> instead of <MyContext.Provider value={v}>, which React plans to deprecate.',
+        },
       ],
       'no-template-curly-in-string': WARNING,
       'no-unused-expressions': OFF,

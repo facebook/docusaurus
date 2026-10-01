@@ -54,11 +54,7 @@ export function ScrollControllerProvider({
   children: ReactNode;
 }): ReactNode {
   const value = useScrollControllerContextValue();
-  return (
-    <ScrollMonitorContext.Provider value={value}>
-      {children}
-    </ScrollMonitorContext.Provider>
-  );
+  return <ScrollMonitorContext value={value}>{children}</ScrollMonitorContext>;
 }
 
 /**

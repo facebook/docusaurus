@@ -20,10 +20,10 @@ describe('useGlobalData', () => {
     expect(
       renderHook(() => useGlobalData(), {
         wrapper: ({children}) => (
-          <Context.Provider
+          <Context
             value={{globalData: {foo: 'bar'}} as unknown as DocusaurusContext}>
             {children}
-          </Context.Provider>
+          </Context>
         ),
       }).result.current,
     ).toEqual({foo: 'bar'});
@@ -35,14 +35,14 @@ describe('useAllPluginInstancesData', () => {
     expect(
       renderHook(() => useAllPluginInstancesData('foo'), {
         wrapper: ({children}) => (
-          <Context.Provider
+          <Context
             value={
               {
                 globalData: {foo: {default: 'default', bar: 'bar'}},
               } as unknown as DocusaurusContext
             }>
             {children}
-          </Context.Provider>
+          </Context>
         ),
       }).result.current,
     ).toEqual({default: 'default', bar: 'bar'});
@@ -53,14 +53,14 @@ describe('useAllPluginInstancesData', () => {
       () =>
         renderHook(() => useAllPluginInstancesData('bar', {failfast: true}), {
           wrapper: ({children}) => (
-            <Context.Provider
+            <Context
               value={
                 {
                   globalData: {foo: {default: 'default', bar: 'bar'}},
                 } as unknown as DocusaurusContext
               }>
               {children}
-            </Context.Provider>
+            </Context>
           ),
         }).result.current,
     ).toThrowErrorMatchingInlineSnapshot(
@@ -74,14 +74,14 @@ describe('usePluginData', () => {
     expect(
       renderHook(() => usePluginData('foo', 'bar'), {
         wrapper: ({children}) => (
-          <Context.Provider
+          <Context
             value={
               {
                 globalData: {foo: {default: 'default', bar: 'bar'}},
               } as unknown as DocusaurusContext
             }>
             {children}
-          </Context.Provider>
+          </Context>
         ),
       }).result.current,
     ).toBe('bar');
@@ -91,14 +91,14 @@ describe('usePluginData', () => {
     expect(
       renderHook(() => usePluginData('foo'), {
         wrapper: ({children}) => (
-          <Context.Provider
+          <Context
             value={
               {
                 globalData: {foo: {default: 'default', bar: 'bar'}},
               } as unknown as DocusaurusContext
             }>
             {children}
-          </Context.Provider>
+          </Context>
         ),
       }).result.current,
     ).toBe('default');
@@ -109,14 +109,14 @@ describe('usePluginData', () => {
       () =>
         renderHook(() => usePluginData('foo', 'baz', {failfast: true}), {
           wrapper: ({children}) => (
-            <Context.Provider
+            <Context
               value={
                 {
                   globalData: {foo: {default: 'default', bar: 'bar'}},
                 } as unknown as DocusaurusContext
               }>
               {children}
-            </Context.Provider>
+            </Context>
           ),
         }).result.current,
     ).toThrowErrorMatchingInlineSnapshot(

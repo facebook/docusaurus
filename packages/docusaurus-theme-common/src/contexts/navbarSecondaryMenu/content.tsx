@@ -47,7 +47,7 @@ export function NavbarSecondaryMenuContentProvider({
   const value = useState({component: null, props: null});
   return (
     // @ts-expect-error: this context is hard to type
-    <Context.Provider value={value}>{children}</Context.Provider>
+    <Context value={value}>{children}</Context>
   );
 }
 
