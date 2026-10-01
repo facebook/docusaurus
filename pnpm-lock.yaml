@@ -297,6 +297,9 @@ importers:
       typescript-eslint:
         specifier: ^8.70.0
         version: 8.70.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)
+      vite:
+        specifier: ^8.2.2
+        version: 8.2.2(@types/node@26.6.1)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0)
       vitest:
         specifier: ^5.0.0
         version: 5.0.0(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(jsdom@30.1.0)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0))
@@ -1436,6 +1439,9 @@ importers:
       '@docusaurus/module-type-aliases':
         specifier: workspace:*
         version: link:../docusaurus-module-type-aliases
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
 
   packages/docusaurus-plugin-rsdoctor:
     dependencies:
@@ -1963,6 +1969,9 @@ importers:
       '@docusaurus/types':
         specifier: workspace:*
         version: link:../docusaurus-types
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
 
   packages/docusaurus-theme-translations:
     dependencies:
