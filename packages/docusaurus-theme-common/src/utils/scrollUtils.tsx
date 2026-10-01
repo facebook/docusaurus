@@ -9,13 +9,13 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   type ReactNode,
 } from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
 import {useEvent, ReactContextError} from './reactUtils';
 
 type ScrollController = {
@@ -221,7 +221,7 @@ export function useScrollPositionBlocker(): {
     [scrollController, scrollPositionSaver],
   );
 
-  useIsomorphicLayoutEffect(() => {
+  useLayoutEffect(() => {
     // Queuing permits to restore scroll position after all useLayoutEffect
     // have run, and yet preserve the sync nature of the scroll restoration
     // See https://github.com/facebook/docusaurus/issues/8625
