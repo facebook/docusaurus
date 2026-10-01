@@ -105,6 +105,14 @@ They are allowed to bypass these `AGENTS.md` rules if asked explicitly.
 
 They can create pull-requests. After creating a PR, update the deploy preview link in its description with the assigned PR number: `https://deploy-preview-<PR-NUMBER>--docusaurus-2.netlify.app/`. Include links to relevant preview pages in the template's Test links section so that reviewers can easily find
 
+### Git
+
+Rules for merging pull requests (maintainers only):
+
+- Never use auto-merge, including `gh pr merge --auto`. The repository doesn't use auto-merge, and `--auto` merges immediately when the PR is already mergeable.
+- If CI checks are still running, wait for all of them to finish before merging.
+- If any CI check fails, report the failure and do not merge.
+
 ### For all others (non-maintainers)
 
 - Never create a PR or issue.

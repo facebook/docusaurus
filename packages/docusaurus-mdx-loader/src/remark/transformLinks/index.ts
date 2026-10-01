@@ -17,7 +17,6 @@ import {
   parseURLOrPath,
   parseLocalURLPath,
 } from '@docusaurus/utils';
-import escapeHtml from 'escape-html';
 import logger from '@docusaurus/logger';
 import {
   assetRequireAttributeValue,
@@ -158,7 +157,7 @@ function toAssetRequireNode(
     attributes.push({
       type: 'mdxJsxAttribute',
       name: 'title',
-      value: escapeHtml(node.title),
+      value: node.title,
     });
   }
 
