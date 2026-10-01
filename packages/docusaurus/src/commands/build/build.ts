@@ -15,7 +15,6 @@ import {loadSiteConfig} from '../../server/config';
 
 export type BuildCLIOptions = Pick<LoadContextParams, 'config' | 'outDir'> & {
   locale?: [string, ...string[]];
-  bundleAnalyzer?: boolean;
   minify?: boolean;
   dev?: boolean;
 };
