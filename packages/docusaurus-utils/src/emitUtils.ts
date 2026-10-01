@@ -7,13 +7,13 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {createHash} from 'crypto';
+import {hash} from 'crypto';
 import {findAsyncSequential} from './jsUtils';
 
 const fileHash = new Map<string, string>();
 
 const hashContent = (content: string): string => {
-  return createHash('md5').update(content).digest('hex');
+  return hash('md5', content);
 };
 
 /**
