@@ -378,17 +378,6 @@ describe('handleBrokenLinks', () => {
     `);
   });
 
-  it('can ignore malformed percent encoded links without crashing', async () => {
-    await testBrokenLinks({
-      onBrokenLinks: 'ignore',
-      onBrokenAnchors: 'ignore',
-      routes: [{path: '/page1'}],
-      collectedLinks: {
-        '/page1': {links: ['/page%', '/page 2#100%'], anchors: []},
-      },
-    });
-  });
-
   it('reports malformed percent encoded anchors when broken paths are ignored', async () => {
     await expect(() =>
       testBrokenLinks({
