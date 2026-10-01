@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import {compile} from '@mdx-js/mdx';
 import gfm from 'remark-gfm';
 import {read} from 'to-vfile';

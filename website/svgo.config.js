@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
+const path = require('node:path');
 
 module.exports = {
   plugins: [

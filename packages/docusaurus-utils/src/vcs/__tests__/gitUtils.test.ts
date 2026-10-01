@@ -7,8 +7,8 @@
 
 import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
-import path from 'path';
-import os from 'os';
+import path from 'node:path';
+import os from 'node:os';
 import {execa, type Options, type Result} from 'execa';
 
 import {

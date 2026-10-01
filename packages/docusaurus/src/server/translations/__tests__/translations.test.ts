@@ -7,9 +7,8 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import {mkdtempDisposable, realpath} from 'node:fs/promises';
-import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {
   writePluginTranslations,
@@ -28,7 +27,9 @@ import type {
 } from '@docusaurus/types';
 
 async function createTmpSiteDir() {
-  return mkdtempDisposable(join(await realpath(tmpdir()), 'docusaurus-tmp-'));
+  return mkdtempDisposable(
+    path.join(await realpath(tmpdir()), 'docusaurus-tmp-'),
+  );
 }
 
 async function createTmpTranslationFile(

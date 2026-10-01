@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ParsedUrlQueryInput} from 'querystring';
+import type {ParsedUrlQueryInput} from 'node:querystring';
 import type {PluginIdentifier} from './plugin';
 
 /**

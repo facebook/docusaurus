@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
 import pluginContentBlog from '@docusaurus/plugin-content-blog';
 import {aliasedSitePath, docuHash, normalizeUrl} from '@docusaurus/utils';

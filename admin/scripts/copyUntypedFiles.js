@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import chokidar from 'chokidar';
 
 const srcDir = path.join(process.cwd(), 'src');

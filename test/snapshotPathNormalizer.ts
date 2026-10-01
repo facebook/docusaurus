@@ -9,9 +9,9 @@
 // Added some project-specific handlers
 
 import type {SnapshotSerializer} from 'vitest';
-import os from 'os';
-import path from 'path';
-import fs from 'fs';
+import os from 'node:os';
+import path from 'node:path';
+import fs from 'node:fs';
 import {stripVTControlCharacters} from 'node:util';
 import _ from 'lodash';
 import {version} from '../packages/docusaurus/package.json';

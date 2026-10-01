@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it, vi} from 'vitest';
-import * as path from 'path';
+import * as path from 'node:path';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {readVersionsMetadata} from '../version';
 import {DEFAULT_OPTIONS} from '../../options';

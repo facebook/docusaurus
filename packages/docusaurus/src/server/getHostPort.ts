@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {execSync, type ExecSyncOptionsWithStringEncoding} from 'child_process';
+import {
+  execSync,
+  type ExecSyncOptionsWithStringEncoding,
+} from 'node:child_process';
 import logger from '@docusaurus/logger';
 import detect from 'detect-port';
 import {DEFAULT_PORT} from '@docusaurus/utils';
