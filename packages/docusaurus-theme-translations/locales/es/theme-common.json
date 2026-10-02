@@ -72,6 +72,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "Esta es la documentación sin publicar para {siteTitle}, versión {versionLabel}.",
   "theme.lastUpdated.atDate": " en {date}",
   "theme.lastUpdated.byUser": " por {user}",
+  "theme.lastUpdated.createdAtBy": "Created{atDate}{byUser}",
   "theme.lastUpdated.lastUpdatedAtBy": "Última actualización{atDate}{byUser}",
   "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": "Contraer el menú desplegable",
   "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": "Expandir el menú desplegable",

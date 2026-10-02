@@ -72,6 +72,7 @@
   "theme.docs.versions.unreleasedVersionLabel": "דוקומנטאציה שעדיין לא יצאה לאוויר ל {siteTitle} {versionLabel} גרסא.",
   "theme.lastUpdated.atDate": " בתאריך {date}",
   "theme.lastUpdated.byUser": " על ידי {user}",
+  "theme.lastUpdated.createdAtBy": "Created{atDate}{byUser}",
   "theme.lastUpdated.lastUpdatedAtBy": "עודכן{atDate}{byUser}",
   "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": "Collapse the dropdown",
   "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": "Expand the dropdown",

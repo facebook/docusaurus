@@ -46,6 +46,8 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   beforeDefaultRehypePlugins: [],
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
+  showCreatedTime: false,
+  showCreatedBy: false,
   admonitions: true,
   includeCurrentVersion: true,
   disableVersioning: false,
@@ -137,6 +139,8 @@ const OptionsSchema = Joi.object<PluginOptions>({
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
   ),
+  showCreatedTime: Joi.bool().default(DEFAULT_OPTIONS.showCreatedTime),
+  showCreatedBy: Joi.bool().default(DEFAULT_OPTIONS.showCreatedBy),
   includeCurrentVersion: Joi.bool().default(
     DEFAULT_OPTIONS.includeCurrentVersion,
   ),
