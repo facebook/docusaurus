@@ -7,7 +7,7 @@
   "scripts": {
     "screenshot": "playwright test",
     "upload": "pnpm exec -- argos upload ./screenshots/chromium",
-    "upload-text-snapshots": "pnpm exec -- argos upload \"../website/build\" --build-name text-snapshots --files styles.css --files \"docs/**/*.html\" --files \"blog/**/*.html\"",
+    "upload-text-snapshots": "pnpm exec -- argos upload \"../website/build\" --build-name text-snapshots --files styles.css --files \"docs/**/*.html\" --files \"blog/**/*.html\" --files \"**/rss.xml\" --files \"**/atom.xml\" --files \"**/feed.json\"",
     "report": "playwright show-report"
   },
   "dependencies": {
