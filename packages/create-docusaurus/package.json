@@ -27,12 +27,10 @@
     "cross-spawn": "^7.0.6",
     "prompts": "^2.4.2",
     "semver": "^7.8.5",
-    "supports-color": "^11.0.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@types/cross-spawn": "^6.0.6",
-    "@types/supports-color": "^10.0.0"
+    "@types/cross-spawn": "^6.0.6"
   },
   "engines": {
     "node": ">=24.21"

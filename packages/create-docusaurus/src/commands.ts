@@ -8,7 +8,6 @@
 // We use cross-spawn instead of spawn because of Windows compatibility issues.
 // For example, "yarn" doesn't work on Windows, it requires "yarn.cmd"
 import crossSpawn from 'cross-spawn';
-import supportsColor from 'supports-color';
 import {
   PackageManagers,
   type PackageManager,
@@ -72,21 +71,8 @@ export async function runPackageManagerInstallCommand(
   pkgManager: PackageManager,
 ): Promise<boolean> {
   const installCommand =
-    pkgManager === 'yarn'
-      ? 'yarn'
-      : pkgManager === 'bun'
-        ? 'bun install'
-        : `${pkgManager} install --color always`;
-
-  return (
-    (await runCommand(installCommand, [], {
-      env: {
-        ...process.env,
-        // Force coloring the output
-        ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
-      },
-    })) === 0
-  );
+    pkgManager === 'yarn' ? 'yarn' : `${pkgManager} install`;
+  return (await runCommand(installCommand)) === 0;
 }
 
 async function getGitCloneCommand(
