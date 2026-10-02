@@ -14,8 +14,10 @@ import fs from 'node:fs/promises';
 const filePath = 'lib/internal.js';
 const lineToRemove = "export * from './index';\n";
 
-await fs.access(filePath).catch(() => {
-  throw new Error(`internal entrypoint file not found at ${filePath}`);
+await fs.access(filePath).catch((err) => {
+  throw new Error(`internal entrypoint file not found at ${filePath}`, {
+    cause: err,
+  });
 });
 
 const fileContent = await fs.readFile(filePath, 'utf8');
