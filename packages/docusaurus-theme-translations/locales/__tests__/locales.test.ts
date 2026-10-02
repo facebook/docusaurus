@@ -7,8 +7,9 @@
 
 import {describe, expect, it} from 'vitest';
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import _ from 'lodash';
+import {readJSON} from '@docusaurus/utils';
 import {extractThemeCodeMessages} from '../../src/utils';
 
 describe('theme translations', () => {
@@ -20,7 +21,7 @@ describe('theme translations', () => {
         Promise.all(
           files.map(
             (baseMessagesFile) =>
-              fs.readJSON(
+              readJSON(
                 path.join(baseMessagesDirPath, baseMessagesFile),
               ) as Promise<{[key: string]: string}>,
           ),

@@ -507,9 +507,6 @@ importers:
       execa:
         specifier: ^10.0.1
         version: 10.0.1
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       html-tags:
         specifier: ^5.1.0
         version: 5.1.0
@@ -655,9 +652,6 @@ importers:
       babel-plugin-dynamic-import-node:
         specifier: ^2.3.3
         version: 2.3.3
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -848,9 +842,6 @@ importers:
       estree-util-value-to-estree:
         specifier: ^3.5.0
         version: 3.5.0
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       image-size:
         specifier: ^2.0.4
         version: 2.0.4
@@ -993,9 +984,6 @@ importers:
       eta:
         specifier: ^4.6.0
         version: 4.6.0
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -1054,9 +1042,6 @@ importers:
       feed:
         specifier: ^6.0.0
         version: 6.0.0
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -1145,9 +1130,6 @@ importers:
       combine-promises:
         specifier: ^1.2.0
         version: 1.2.0
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       js-yaml:
         specifier: ^5.4.1
         version: 5.4.1
@@ -1209,9 +1191,6 @@ importers:
       '@docusaurus/utils-validation':
         specifier: workspace:*
         version: link:../docusaurus-utils-validation
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       react:
         specifier: ^19.3.0
         version: 19.3.0
@@ -1491,9 +1470,6 @@ importers:
       '@docusaurus/utils-validation':
         specifier: workspace:*
         version: link:../docusaurus-utils-validation
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       react:
         specifier: ^19.3.0
         version: 19.3.0
@@ -1817,9 +1793,6 @@ importers:
       '@total-typescript/shoehorn':
         specifier: ^0.1.2
         version: 0.1.2
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -1938,9 +1911,6 @@ importers:
       eta:
         specifier: ^4.6.0
         version: 4.6.0
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -1969,9 +1939,9 @@ importers:
 
   packages/docusaurus-theme-translations:
     dependencies:
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
+      '@docusaurus/utils':
+        specifier: workspace:*
+        version: link:../docusaurus-utils
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2054,9 +2024,6 @@ importers:
       file-loader:
         specifier: ^6.2.0
         version: 6.2.0(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       github-slugger:
         specifier: ^2.0.0
         version: 2.0.0
@@ -2115,9 +2082,6 @@ importers:
       '@docusaurus/utils-common':
         specifier: workspace:*
         version: link:../docusaurus-utils-common
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       joi:
         specifier: ^18.2.8
         version: 18.2.8

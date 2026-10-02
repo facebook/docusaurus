@@ -8,7 +8,8 @@
 import {afterEach, describe, expect, it} from 'vitest';
 import os from 'node:os';
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
+import {outputFile} from '@docusaurus/utils';
 import {getCurrentBundler} from '@docusaurus/bundler';
 import {createStaticDirectoriesCopyPlugin} from '../StaticDirectoriesCopyPlugin';
 import type webpack from 'webpack';
@@ -34,7 +35,11 @@ describe.each(['webpack', 'rspack'] as const)(
   '%s static directories',
   (name) => {
     afterEach(async () => {
-      await Promise.all(tempDirs.splice(0).map((dir) => fs.remove(dir)));
+      await Promise.all(
+        tempDirs
+          .splice(0)
+          .map((dir) => fs.rm(dir, {recursive: true, force: true})),
+      );
     });
 
     it('copies nested files, dotfiles and unminified assets, keeping the first directory priority', async () => {
@@ -50,10 +55,10 @@ describe.each(['webpack', 'rspack'] as const)(
       };
       await Promise.all(
         Object.entries(files).map(([file, contents]) =>
-          fs.outputFile(path.join(props.siteDir, file), contents),
+          outputFile(path.join(props.siteDir, file), contents),
         ),
       );
-      await fs.ensureDir(path.join(props.siteDir, 'empty'));
+      await fs.mkdir(path.join(props.siteDir, 'empty'), {recursive: true});
       const plugin = await createStaticDirectoriesCopyPlugin({props});
       const compiler = props.currentBundler.instance({
         mode: 'production',
@@ -92,7 +97,7 @@ describe.each(['webpack', 'rspack'] as const)(
 
     it('ignores empty and missing directories', async () => {
       const props = await createProps(name);
-      await fs.ensureDir(path.join(props.siteDir, 'empty'));
+      await fs.mkdir(path.join(props.siteDir, 'empty'), {recursive: true});
       await expect(
         createStaticDirectoriesCopyPlugin({props}),
       ).resolves.toBeUndefined();

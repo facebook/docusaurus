@@ -6,7 +6,8 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
+import {pathExists} from '@docusaurus/utils';
 import {getCopyPlugin} from '@docusaurus/bundler';
 import type {Props} from '@docusaurus/types';
 import type {WebpackPluginInstance} from 'webpack';
@@ -34,7 +35,7 @@ export async function createStaticDirectoriesCopyPlugin({
       staticDirectoriesOption.map(async (dir) => {
         const staticDir = path.resolve(siteDir, dir);
         if (
-          (await fs.pathExists(staticDir)) &&
+          (await pathExists(staticDir)) &&
           (await fs.readdir(staticDir)).length > 0
         ) {
           return staticDir;

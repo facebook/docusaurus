@@ -7,8 +7,7 @@
 
 import {describe, expect, it} from 'vitest';
 import * as path from 'node:path';
-import * as fs from 'fs-extra';
-import {mkdtempDisposable, realpath} from 'node:fs/promises';
+import {mkdtempDisposable, realpath, writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import * as YAML from 'js-yaml';
 import {
@@ -299,7 +298,7 @@ describe('getTagsFile', () => {
     const contentPath = tmpDir.path;
     const finalFilePath = path.join(contentPath, filePath);
     const fileContent = YAML.dump(tagsFileInput);
-    await fs.writeFile(finalFilePath, fileContent);
+    await writeFile(finalFilePath, fileContent);
     return {
       dir: contentPath,
       [Symbol.asyncDispose]: tmpDir[Symbol.asyncDispose],

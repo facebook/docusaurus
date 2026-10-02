@@ -6,9 +6,9 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import {hash} from 'node:crypto';
-import {queueFileOperation} from './fsUtils';
+import {pathExists, outputFile, queueFileOperation} from './fsUtils';
 import {findAsyncSequential} from './jsUtils';
 
 const fileHash = new Map<string, string>();
@@ -49,7 +49,7 @@ async function doGenerate(
   const filepath = path.resolve(generatedFilesDir, file);
 
   if (skipCache) {
-    await fs.outputFile(filepath, content);
+    await outputFile(filepath, content);
     // Cache still needs to be reset, otherwise, writing "A", "B", and "A" where
     // "B" skips cache will cause the last "A" not be able to overwrite as the
     // first "A" remains in cache. But if the file never existed in cache, no
@@ -65,7 +65,7 @@ async function doGenerate(
   // If file already exists but it's not in runtime cache yet, we try to
   // calculate the content hash and then compare. This is to avoid unnecessary
   // overwriting and we can reuse old file.
-  if (!lastHash && (await fs.pathExists(filepath))) {
+  if (!lastHash && (await pathExists(filepath))) {
     const lastContent = await fs.readFile(filepath, 'utf8');
     lastHash = hashContent(lastContent);
     fileHash.set(filepath, lastHash);
@@ -74,7 +74,7 @@ async function doGenerate(
   const currentHash = hashContent(content);
 
   if (lastHash !== currentHash) {
-    await fs.outputFile(filepath, content);
+    await outputFile(filepath, content);
     fileHash.set(filepath, currentHash);
   }
 }
@@ -107,7 +107,7 @@ export async function readOutputHTMLFile(
     trailingSlash !== true && withoutTrailingSlashPath,
   ].filter((p): p is string => Boolean(p));
 
-  const HTMLPath = await findAsyncSequential(possibleHtmlPaths, fs.pathExists);
+  const HTMLPath = await findAsyncSequential(possibleHtmlPaths, pathExists);
 
   if (!HTMLPath) {
     throw new Error(

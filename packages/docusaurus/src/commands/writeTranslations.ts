@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import {globTranslatableSourceFiles} from '@docusaurus/glob';
+import {realpath} from '@docusaurus/utils';
 import {loadContext, type LoadContextParams} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 import {
@@ -81,7 +81,7 @@ export async function writeTranslations(
   siteDirParam: string = '.',
   options: Partial<WriteTranslationsCLIOptions> = {},
 ): Promise<void> {
-  const siteDir = await fs.realpath(siteDirParam);
+  const siteDir = await realpath(siteDirParam);
 
   const context = await loadContext({
     siteDir,

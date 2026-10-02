@@ -5,10 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import logger from '@docusaurus/logger';
-import {DEFAULT_PLUGIN_ID, getLocaleConfig} from '@docusaurus/utils';
+import {
+  DEFAULT_PLUGIN_ID,
+  getLocaleConfig,
+  pathExists,
+  outputFile,
+} from '@docusaurus/utils';
 import {
   getVersionsFilePath,
   getVersionDocsDirPath,
@@ -45,7 +50,7 @@ async function createVersionedSidebarFile({
   const shouldCreateVersionedSidebarFile = Object.keys(sidebars).length > 0;
 
   if (shouldCreateVersionedSidebarFile) {
-    await fs.outputFile(
+    await outputFile(
       getVersionSidebarsPath(siteDir, pluginId, version),
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
@@ -102,7 +107,7 @@ async function cliDocsVersionCommand(
             });
 
       if (
-        !(await fs.pathExists(docsDir)) ||
+        !(await pathExists(docsDir)) ||
         (await fs.readdir(docsDir)).length === 0
       ) {
         if (locale === i18n.defaultLocale) {
@@ -123,7 +128,11 @@ async function cliDocsVersionCommand(
               pluginId,
               versionName: version,
             });
-      await fs.copy(docsDir, newVersionDir);
+      // verbatimSymlinks: keep relative symlinks relative
+      await fs.cp(docsDir, newVersionDir, {
+        recursive: true,
+        verbatimSymlinks: true,
+      });
 
       // Copy version JSON translation file for this locale
       // i18n/<l>/docusaurus-plugin-content-docs/current.json => version-v1.json
@@ -135,8 +144,8 @@ async function cliDocsVersionCommand(
         });
         const sourceFile = path.join(dir, 'current.json');
         const dest = path.join(dir, `version-${version}.json`);
-        if (await fs.pathExists(sourceFile)) {
-          await fs.copy(sourceFile, dest);
+        if (await pathExists(sourceFile)) {
+          await fs.cp(sourceFile, dest, {verbatimSymlinks: true});
         } else {
           logger.warn`${pluginIdLogPrefix}: i18n translation file does not exist in path=${sourceFile}. Skipping.`;
         }
@@ -153,7 +162,7 @@ async function cliDocsVersionCommand(
 
   // Update versions.json file.
   versions.unshift(version);
-  await fs.outputFile(
+  await outputFile(
     getVersionsFilePath(siteDir, pluginId),
     `${JSON.stringify(versions, null, 2)}\n`,
   );

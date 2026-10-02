@@ -6,12 +6,13 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import os from 'node:os';
 import _ from 'lodash';
 import {execa, execaSync} from 'execa';
 import PQueue from 'p-queue';
 import logger from '@docusaurus/logger';
+import {pathExists} from '../fsUtils';
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915
@@ -133,7 +134,7 @@ export async function getFileCommitDate(
     );
   }
 
-  if (!(await fs.pathExists(file))) {
+  if (!(await pathExists(file))) {
     throw new Error(
       `Failed to retrieve git history for "${file}" because the file does not exist.`,
     );
@@ -284,7 +285,7 @@ The command executed throws an error: ${error.message}`,
     );
   });
 
-  return fs.realpath.native(result.stdout.trim());
+  return fs.realpath(result.stdout.trim());
 }
 
 // A Git "superproject" is a Git repository that contains submodules
@@ -315,7 +316,7 @@ The command executed throws an error: ${error.message}`,
   // this command only works when inside submodules
   // otherwise it doesn't return anything when we are inside the main repo
   if (output) {
-    return fs.realpath.native(output);
+    return fs.realpath(output);
   }
   return getGitRepoRoot(cwd);
 }
@@ -369,7 +370,7 @@ export async function getGitAllRepoRoots(cwd: string): Promise<string[]> {
     let submodulePaths = await getGitSubmodulePaths(superProjectRoot);
     submodulePaths = await Promise.all(
       submodulePaths.map((submodulePath) =>
-        fs.realpath.native(path.resolve(superProjectRoot, submodulePath)),
+        fs.realpath(path.resolve(superProjectRoot, submodulePath)),
       ),
     );
     return [superProjectRoot, ...submodulePaths];

@@ -7,7 +7,7 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import {readOutputHTMLFile, generate} from '../emitUtils';
 
 describe('readOutputHTMLFile', () => {
@@ -120,22 +120,24 @@ describe('readOutputHTMLFile', () => {
 });
 
 describe('generate', () => {
-  const writeMock = vi.spyOn(fs, 'outputFile').mockImplementation(() => {});
-  const existsMock = vi.spyOn(fs, 'pathExists');
+  const writeMock = vi.spyOn(fs, 'writeFile').mockResolvedValue(undefined);
+  // Used by pathExists()
+  const accessMock = vi.spyOn(fs, 'access');
   const readMock = vi.spyOn(fs, 'readFile');
 
   it('works with no file and no cache', async () => {
-    existsMock.mockImplementationOnce(() => false);
+    accessMock.mockRejectedValueOnce(new Error('ENOENT'));
     await generate(__dirname, 'foo', 'bar');
     expect(writeMock).toHaveBeenNthCalledWith(
       1,
       path.join(__dirname, 'foo'),
       'bar',
+      undefined,
     );
   });
 
   it('works with existing cache', async () => {
-    existsMock.mockImplementationOnce(() => false);
+    accessMock.mockRejectedValueOnce(new Error('ENOENT'));
     await generate(__dirname, 'cached', 'bar');
     writeMock.mockClear();
 
@@ -144,14 +146,14 @@ describe('generate', () => {
   });
 
   it('works with existing file but no cache', async () => {
-    existsMock.mockImplementationOnce(() => true);
+    accessMock.mockResolvedValueOnce(undefined);
     readMock.mockImplementationOnce(() => Promise.resolve('bar'));
     await generate(__dirname, 'baz', 'bar');
     expect(writeMock).not.toHaveBeenCalled();
   });
 
   it('works when force skipping cache', async () => {
-    existsMock.mockImplementationOnce(() => false);
+    accessMock.mockRejectedValueOnce(new Error('ENOENT'));
     await generate(__dirname, 'skip-cache', 'bar');
     writeMock.mockClear();
 
@@ -160,6 +162,7 @@ describe('generate', () => {
       1,
       path.join(__dirname, 'skip-cache'),
       'bar',
+      undefined,
     );
   });
 });

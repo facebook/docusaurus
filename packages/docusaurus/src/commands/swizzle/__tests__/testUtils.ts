@@ -7,7 +7,7 @@
 
 import path from 'node:path';
 import os from 'node:os';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 
 export const ThemePath = path.join(__dirname, '__fixtures__/theme');
 
