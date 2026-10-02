@@ -20,9 +20,10 @@ import {askForCustomGitCloneCommand} from './prompts.js';
 // cross-spawn directly to ensure direct compatibility.
 type SpawnOptions = NonNullable<Parameters<typeof crossSpawn>[2]>;
 
-type RunCommandOptions = SpawnOptions & {
-  // The command output is buffered, and only printed if the command fails
-  printOutputOnFailure?: boolean;
+type CommandResult = {
+  exitCode: number;
+  stdout: string;
+  stderr: string;
 };
 
 /**
@@ -30,13 +31,13 @@ type RunCommandOptions = SpawnOptions & {
  * @param command
  * @param args
  * @param options
- * @returns the command exit code
+ * @returns the command exit code and output
  */
 export async function runCommand(
   command: string,
   args: string[] = [],
-  {printOutputOnFailure = false, ...options}: RunCommandOptions = {},
-): Promise<number> {
+  options: SpawnOptions = {},
+): Promise<CommandResult> {
   // This does something similar to execa.command()
   // we split a string command (with optional args) into command+args
   // this way it's compatible with spawn()
@@ -46,39 +47,39 @@ export async function runCommand(
     throw new Error(`Invalid command: ${command}`);
   }
 
-  return new Promise<number>((resolve, reject) => {
+  return new Promise<CommandResult>((resolve, reject) => {
     const p = crossSpawn(realCommand, allArgs, {
-      stdio: printOutputOnFailure ? ['ignore', 'pipe', 'pipe'] : 'ignore',
+      stdio: ['ignore', 'pipe', 'pipe'],
       ...options,
     });
-
-    // Chunks are kept in order, to be replayed to their original stream
-    const output: [NodeJS.WriteStream, Buffer][] = [];
-    p.stdout?.on('data', (chunk: Buffer) =>
-      output.push([process.stdout, chunk]),
-    );
-    p.stderr?.on('data', (chunk: Buffer) =>
-      output.push([process.stderr, chunk]),
-    );
-
-    p.on('error', reject);
-    p.on('close', (exitCode) => {
-      if (exitCode !== 0) {
-        output.forEach(([stream, chunk]) => stream.write(chunk));
-      }
-      if (exitCode !== null) {
-        resolve(exitCode);
-      } else {
-        reject(new Error(`No exit code for command ${command}`));
-      }
+    let stdout = '';
+    let stderr = '';
+    p.stdout?.setEncoding('utf8').on('data', (chunk: string) => {
+      stdout += chunk;
     });
+    p.stderr?.setEncoding('utf8').on('data', (chunk: string) => {
+      stderr += chunk;
+    });
+    p.on('error', reject);
+    p.on('close', (exitCode) =>
+      exitCode !== null
+        ? resolve({exitCode, stdout, stderr})
+        : reject(new Error(`No exit code for command ${command}`)),
+    );
   });
+}
+
+// Gives the user a hint about why a command failed
+function printCommandOutput({stdout, stderr}: CommandResult): void {
+  process.stdout.write(stdout);
+  process.stderr.write(stderr);
 }
 
 async function hasPackageManager(
   packageManager: PackageManager,
 ): Promise<boolean> {
-  return (await runCommand(packageManager, ['--version'])) === 0;
+  const {exitCode} = await runCommand(packageManager, ['--version']);
+  return exitCode === 0;
 }
 
 export async function getAvailablePackageManagers(): Promise<PackageManager[]> {
@@ -104,12 +105,14 @@ export async function runPackageManagerInstallCommand(
   const colorArgs =
     forceColor && pkgManager === 'npm' ? ['--color=always'] : [];
 
-  return (
-    (await runCommand(installCommand, colorArgs, {
-      printOutputOnFailure: true,
-      env: {...process.env, ...(forceColor ? {FORCE_COLOR: '1'} : {})},
-    })) === 0
-  );
+  const result = await runCommand(installCommand, colorArgs, {
+    env: {...process.env, ...(forceColor ? {FORCE_COLOR: '1'} : {})},
+  });
+  // The install output is noisy: only print it on failure
+  if (result.exitCode !== 0) {
+    printCommandOutput(result);
+  }
+  return result.exitCode === 0;
 }
 
 async function getGitCloneCommand(
@@ -133,9 +136,9 @@ export async function runGitCloneCommand(
   dest: string,
 ): Promise<boolean> {
   const gitCommand = await getGitCloneCommand(source.strategy);
-  return (
-    (await runCommand(gitCommand, [source.url, dest], {
-      printOutputOnFailure: true,
-    })) === 0
-  );
+  const result = await runCommand(gitCommand, [source.url, dest]);
+  if (result.exitCode !== 0) {
+    printCommandOutput(result);
+  }
+  return result.exitCode === 0;
 }
