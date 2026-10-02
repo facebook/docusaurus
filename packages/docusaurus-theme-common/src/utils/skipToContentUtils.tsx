@@ -5,12 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  useCallback,
-  useRef,
-  type ComponentProps,
-  type ReactNode,
-} from 'react';
+import type React from 'react';
+import {useCallback, useRef, type ComponentProps, type ReactNode} from 'react';
 import {useHistory} from '@docusaurus/router';
 import {translate} from '@docusaurus/Translate';
 import {useLocationChange} from './useLocationChange';
