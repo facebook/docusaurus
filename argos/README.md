@@ -20,7 +20,7 @@ The workflow execute the 2 main steps below:
 ### Text snapshots
 
 - Rebuild - this time with HTML unminified/formatted.
-- Upload [HTML/CSS/JS files and blog feeds (RSS/Atom/JSON) to also diff them on Argos](https://argos-ci.com/docs/learn/how-to-guides/visual-coverage/compare-non-image-files) using `pnpm argos:upload:text-snapshots`
+- Upload [HTML/CSS/JS files, blog feeds (RSS/Atom/JSON) and the sitemap to also diff them on Argos](https://argos-ci.com/docs/learn/how-to-guides/visual-coverage/compare-non-image-files) using `pnpm argos:upload:text-snapshots`
 
 ## Run manually
 
