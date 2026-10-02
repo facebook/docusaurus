@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import type React from 'react';
 import Heading from '@theme/Heading';
 import TextImportTest from './_TextImportTest';
 
