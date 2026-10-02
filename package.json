@@ -35,7 +35,7 @@
     "crowdin:upload:website": "crowdin upload sources --config ./crowdin-v2.yaml",
     "crowdin:download": "crowdin download --config ./crowdin-v2.yaml",
     "crowdin:download:website": "pnpm crowdin:download --language fr --language ko --language pt-BR --language zh-CN --language ja",
-    "argos": "pnpm argos:build && pnpm argos:screenshot && argos:upload-text-snapshots",
+    "argos": "pnpm argos:build && pnpm argos:screenshot && pnpm argos:build:text-snapshots && pnpm argos:format:text-snapshots && pnpm argos:upload:text-snapshots",
     "argos:build": "cross-env DOCUSAURUS_ARGOS_BUILD=true pnpm build:website:fast --dev",
     "argos:screenshot": "pnpm --filter argos screenshot",
     "argos:build:text-snapshots": "cross-env DOCUSAURUS_ARGOS_BUILD=true SKIP_HTML_MINIFICATION=true pnpm build:website:fast --dev --no-minify",

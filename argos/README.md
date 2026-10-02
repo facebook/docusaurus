@@ -20,9 +20,15 @@ The workflow execute the 2 main steps below:
 ### Text snapshots
 
 - Rebuild - this time with HTML unminified/formatted.
-- Upload [HTML/CSS/JS files to also diff them on Argos](https://argos-ci.com/docs/learn/how-to-guides/visual-coverage/compare-non-image-files) using `pnpm argos:upload-text-snapshots`
+- Upload [HTML/CSS/JS files to also diff them on Argos](https://argos-ci.com/docs/learn/how-to-guides/visual-coverage/compare-non-image-files) using `pnpm argos:upload:text-snapshots`
 
 ## Run manually
+
+Install the Playwright browser once:
+
+```bash
+pnpm --filter argos exec playwright install chromium
+```
 
 To run the screenshot step manually:
 
