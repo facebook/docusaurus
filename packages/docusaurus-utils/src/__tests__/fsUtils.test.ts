@@ -92,20 +92,26 @@ describe('readJSON', () => {
     await expect(readJSON(filePath)).resolves.toEqual({a: 1});
   });
 
-  it('prefixes parsing errors with the file path', async () => {
+  it('throws an error with the relative path, caused by the parse error', async () => {
     await using dir = await createTmpDir();
     const filePath = path.join(dir.path, 'file.json');
     await fs.writeFile(filePath, '{"a": ');
-    const error = await readJSON(filePath).catch((err: unknown) => err);
-    expect(error).toBeInstanceOf(SyntaxError);
-    expect((error as Error).message.startsWith(`${filePath}: `)).toBe(true);
+    const error = (await readJSON(filePath).catch(
+      (err: unknown) => err,
+    )) as Error;
+    expect(error.message).toContain('Failed to read JSON file at ');
+    expect(error.message).toContain(path.relative(process.cwd(), filePath));
+    expect(error.cause).toBeInstanceOf(SyntaxError);
   });
 
-  it('rejects for missing files', async () => {
+  it('throws an error with the relative path, caused by the read error', async () => {
     await using dir = await createTmpDir();
-    await expect(
-      readJSON(path.join(dir.path, 'missing.json')),
-    ).rejects.toMatchObject({code: 'ENOENT'});
+    const filePath = path.join(dir.path, 'missing.json');
+    const error = (await readJSON(filePath).catch(
+      (err: unknown) => err,
+    )) as Error;
+    expect(error.message).toContain(path.relative(process.cwd(), filePath));
+    expect(error.cause).toMatchObject({code: 'ENOENT'});
   });
 });
 

@@ -14,6 +14,7 @@ import fs from 'node:fs/promises';
 import fsCallback from 'node:fs';
 import path from 'node:path';
 import {promisify} from 'node:util';
+import logger from '@docusaurus/logger';
 
 /**
  * Checks if a file or directory exists, without throwing.
@@ -39,18 +40,30 @@ export async function outputFile(
   await fs.writeFile(filePath, data, options);
 }
 
+// JSON.parse() rejects a leading UTF-8 BOM (U+FEFF) character, but some
+// editors (such as Windows Notepad) add one when saving files
+function stripUTF8BOM(content: string): string {
+  return content.startsWith('\uFEFF') ? content.slice(1) : content;
+}
+
 /**
- * Reads and parses a JSON file.
- * Same semantics as fs-extra `readJSON()`: a leading UTF-8 BOM is ignored, and
- * parsing errors are prefixed with the file path.
+ * Reads and parses a JSON file, ignoring a leading UTF-8 BOM (like fs-extra
+ * `readJSON()`).
+ * @throws Throws an error mentioning the relative file path, with the read or
+ * parse error as cause.
  */
 export async function readJSON(filePath: string): Promise<unknown> {
-  const content = await fs.readFile(filePath, 'utf8');
   try {
-    return JSON.parse(content.replace(/^\uFEFF/, ''));
+    const content = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(stripUTF8BOM(content));
   } catch (err) {
-    (err as Error).message = `${filePath}: ${(err as Error).message}`;
-    throw err;
+    throw new Error(
+      logger.interpolate`Failed to read JSON file at path=${path.relative(
+        process.cwd(),
+        filePath,
+      )}`,
+      {cause: err},
+    );
   }
 }
 
