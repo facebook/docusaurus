@@ -24,7 +24,13 @@ export {
   WEBPACK_URL_LOADER_LIMIT,
 } from './constants';
 export {generate, readOutputHTMLFile} from './emitUtils';
-export {pathExists, outputFile, readJSON, realpath} from './fsUtils';
+export {
+  pathExists,
+  outputFile,
+  readJSON,
+  realpath,
+  queueFileOperation,
+} from './fsUtils';
 export {
   mergeTranslations,
   updateTranslationFileMessages,

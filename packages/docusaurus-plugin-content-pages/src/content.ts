@@ -23,6 +23,7 @@ import {
   getContentPathList,
   getLocaleConfig,
   type ContentPaths,
+  queueFileOperation,
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
 import {validatePageFrontMatter} from './frontMatter';
@@ -123,7 +124,7 @@ async function processPageSourceFile(
     };
   }
 
-  const content = await fs.readFile(source, 'utf-8');
+  const content = await queueFileOperation(() => fs.readFile(source, 'utf-8'));
   const {
     frontMatter: unsafeFrontMatter,
     contentTitle,

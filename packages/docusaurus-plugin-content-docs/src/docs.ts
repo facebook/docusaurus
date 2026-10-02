@@ -20,6 +20,7 @@ import {
   isDraft,
   readLastUpdateData,
   normalizeTags,
+  queueFileOperation,
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
 import {validateDocFrontMatter} from './frontMatter';
@@ -55,7 +56,9 @@ export async function readDocFile(
 
   const filePath = path.join(contentPath, source);
 
-  const content = await fs.readFile(filePath, 'utf-8');
+  const content = await queueFileOperation(() =>
+    fs.readFile(filePath, 'utf-8'),
+  );
   return {source, content, contentPath, filePath};
 }
 

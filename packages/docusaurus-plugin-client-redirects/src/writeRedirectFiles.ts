@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'node:path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {normalizeUrl} from '@docusaurus/utils';
+import {normalizeUrl, queueFileOperation} from '@docusaurus/utils';
 
 import createRedirectPageContent from './createRedirectPageContent';
 
@@ -111,5 +111,9 @@ async function writeRedirectFile(file: RedirectFile): Promise<void> {
 export default async function writeRedirectFiles(
   redirectFiles: RedirectFile[],
 ): Promise<void> {
-  await Promise.all(redirectFiles.map(writeRedirectFile));
+  await Promise.all(
+    redirectFiles.map((file) =>
+      queueFileOperation(() => writeRedirectFile(file)),
+    ),
+  );
 }
