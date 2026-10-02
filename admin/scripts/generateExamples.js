@@ -9,6 +9,7 @@
 
 import fs from 'node:fs/promises';
 import {execa} from 'execa';
+import {readJSON} from '@docusaurus/utils';
 
 /**
  * Generate one example per init template
@@ -49,9 +50,7 @@ async function generateTemplateExample(template) {
 
     const templatePackageJson =
       await /** @type {Promise<import("../../packages/create-docusaurus/templates/classic/package.json") & { scripts: { [name: string]: string }; description: string }>} */ (
-        fs
-          .readFile(`examples/${template}/package.json`, 'utf8')
-          .then(JSON.parse)
+        readJSON(`examples/${template}/package.json`)
       );
 
     // Attach the dev script which would be used in code sandbox by default

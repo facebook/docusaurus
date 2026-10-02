@@ -6,8 +6,8 @@
  */
 
 import {describe, it} from 'vitest';
-import fs from 'node:fs/promises';
 import {glob} from '@docusaurus/glob';
+import {readJSON} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 
 type TsconfigFile = {
@@ -24,9 +24,9 @@ async function getTsconfigFiles(): Promise<TsconfigFile[]> {
   const files = await glob('packages/*/tsconfig.*');
   return Promise.all(
     files.map((file) =>
-      fs.readFile(file, 'utf8').then((content) => ({
+      readJSON(file).then((content) => ({
         file,
-        content: JSON.parse(content) as TsconfigFile['content'],
+        content: content as TsconfigFile['content'],
       })),
     ),
   );

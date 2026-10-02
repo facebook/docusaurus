@@ -82,6 +82,7 @@
     "@docusaurus/plugin-content-blog": "workspace:*",
     "@docusaurus/plugin-content-docs": "workspace:*",
     "@docusaurus/plugin-content-pages": "workspace:*",
+    "@docusaurus/utils": "workspace:*",
     "@eslint/js": "^10.0.1",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^7.0.1",
