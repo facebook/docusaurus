@@ -13,6 +13,7 @@
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import xmlFormat from 'xml-formatter';
 
 const buildDir = path.resolve(import.meta.dirname, '../website/build');
 
@@ -33,3 +34,9 @@ for await (const file of fs.glob('**/*.html', {cwd: buildDir})) {
 }
 
 console.log(`Normalized ${count} browser-only Suspense boundaries`);
+
+// The sitemap plugin emits sitemap.xml on a single line: format it in place
+// so that Argos diffs are reviewable
+const sitemapPath = path.join(buildDir, 'sitemap.xml');
+const sitemap = await fs.readFile(sitemapPath, 'utf8');
+await fs.writeFile(sitemapPath, xmlFormat(sitemap, {collapseContent: true}));
