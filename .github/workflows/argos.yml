@@ -51,8 +51,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 
+      # Playwright is a dependency of the argos workspace package
+      # With the pnpm isolated nodeLinker, its binary isn't available at the root
       - name: Install Playwright browsers
-        run: pnpm playwright install --with-deps chromium
+        run: pnpm --filter argos exec playwright install --with-deps chromium
 
       - name: Build website for screenshots
         run: pnpm argos:build
