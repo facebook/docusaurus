@@ -6,8 +6,9 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import path from 'node:path';
+import {outputFile} from '@docusaurus/utils';
 
 import writeRedirectFiles, {
   toRedirectFiles,
@@ -232,7 +233,7 @@ describe('writeRedirectFiles', () => {
       },
     ];
 
-    await fs.outputFile(
+    await outputFile(
       filesMetadata[0]!.fileAbsolutePath,
       'file already exists!',
     );

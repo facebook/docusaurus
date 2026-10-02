@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import {execa, type Options, type Result} from 'execa';
@@ -113,7 +113,9 @@ class Git {
       commitAuthor?: string;
     } = {},
   ): Promise<void> {
-    await fs.ensureDir(path.join(this.dir, path.dirname(filePath)));
+    await fs.mkdir(path.join(this.dir, path.dirname(filePath)), {
+      recursive: true,
+    });
     await fs.writeFile(
       path.join(this.dir, filePath),
       fileContent ?? `Content of ${filePath}`,
@@ -156,7 +158,7 @@ async function createTempDir(): Promise<string> {
     // See our ./test/snapshotPathNormalizer.ts
     path.join(os.tmpdir(), 'git-test-repo___MKDTEMP_DIR___'),
   );
-  repoDir = await fs.realpath.native(repoDir);
+  repoDir = await fs.realpath(repoDir);
   return repoDir;
 }
 
@@ -193,7 +195,7 @@ describe('commit info APIs', () => {
       'Robert <robert@example.com>',
     );
 
-    await fs.move(
+    await fs.rename(
       path.join(repoDir, 'moved.txt'),
       path.join(repoDir, 'dest.txt'),
     );

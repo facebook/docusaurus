@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import {
   aliasedSitePath,
@@ -13,6 +12,7 @@ import {
   addTrailingPathSeparator,
   getContentPathList,
   resolveMarkdownLinkPathname,
+  pathExists,
 } from '@docusaurus/utils';
 import {createAbsoluteFilePathMatcher} from '@docusaurus/glob';
 import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
@@ -109,7 +109,7 @@ export default function pluginContentPages(
     },
 
     async loadContent() {
-      if (!(await fs.pathExists(contentPaths.contentPath))) {
+      if (!(await pathExists(contentPaths.contentPath))) {
         return null;
       }
       return loadPagesContent({context, options, contentPaths});

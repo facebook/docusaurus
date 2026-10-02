@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import path from 'node:path';
-import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
+import {DOCUSAURUS_VERSION, pathExists, readJSON} from '@docusaurus/utils';
 import type {
   LoadedPlugin,
   PluginVersionInformation,
@@ -22,9 +22,9 @@ type PackageJson = {
 async function tryLoadPackageJson(
   packageJsonPath: string,
 ): Promise<PackageJson | undefined> {
-  if (await fs.pathExists(packageJsonPath)) {
+  if (await pathExists(packageJsonPath)) {
     try {
-      return (await fs.readJSON(packageJsonPath)) as PackageJson;
+      return (await readJSON(packageJsonPath)) as PackageJson;
     } catch (error) {
       throw new Error(`Couldn't load package.json file at ${packageJsonPath}`, {
         cause: error,
@@ -51,7 +51,7 @@ export async function loadPluginVersion(
       'package.json',
     );
     if (
-      (await fs.pathExists(packageJsonPath)) &&
+      (await pathExists(packageJsonPath)) &&
       (await fs.lstat(packageJsonPath)).isFile()
     ) {
       if (potentialPluginPackageJsonDirectory === siteDir) {

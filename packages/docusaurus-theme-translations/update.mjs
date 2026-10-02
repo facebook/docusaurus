@@ -9,7 +9,7 @@
 
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import _ from 'lodash';
 import {logger} from '@docusaurus/logger';
 import {getThemes, extractThemeCodeMessages} from './lib/utils.js';
@@ -19,6 +19,25 @@ const Themes = await getThemes();
 const AllThemesSrcDirs = Themes.flatMap((theme) => theme.src);
 
 logger.info`Will scan folders for code translations:path=${AllThemesSrcDirs}`;
+
+/**
+ * @param {string} filePath
+ */
+async function pathExists(filePath) {
+  return fs.access(filePath).then(
+    () => true,
+    () => false,
+  );
+}
+
+/**
+ * @param {string} filePath
+ * @param {string} content
+ */
+async function outputFile(filePath, content) {
+  await fs.mkdir(path.dirname(filePath), {recursive: true});
+  await fs.writeFile(filePath, content);
+}
 
 /**
  * @param {string} locale
@@ -51,11 +70,11 @@ function sortObjectKeys(obj) {
  * @returns {Promise<Record<string, string>>}
  */
 async function readMessagesFile(filePath) {
-  if (!(await fs.pathExists(filePath))) {
+  if (!(await pathExists(filePath))) {
     logger.info`File path=${filePath} not found. Creating new translation base file.`;
-    await fs.outputFile(filePath, '{}\n');
+    await outputFile(filePath, '{}\n');
   }
-  return fs.readJSON(filePath);
+  return JSON.parse(await fs.readFile(filePath, 'utf8'));
 }
 
 /**
@@ -66,7 +85,7 @@ async function writeMessagesFile(filePath, messages) {
   const sortedMessages = sortObjectKeys(messages);
 
   const content = `${JSON.stringify(sortedMessages, null, 2)}\n`; // \n makes prettier happy
-  await fs.outputFile(filePath, content);
+  await outputFile(filePath, content);
   logger.info`path=${path.basename(
     filePath,
   )} updated subdue=${logger.interpolate`(number=${
@@ -189,7 +208,7 @@ for (const theme of Themes) {
   if (newLocale) {
     const newLocalePath = getThemeLocalePath(newLocale, theme.name);
 
-    if (!(await fs.pathExists(newLocalePath))) {
+    if (!(await pathExists(newLocalePath))) {
       await writeMessagesFile(newLocalePath, baseFileMessages);
       logger.success`Locale file path=${path.basename(
         newLocalePath,

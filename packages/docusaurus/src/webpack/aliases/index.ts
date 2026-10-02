@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import _ from 'lodash';
 import {
@@ -13,6 +13,7 @@ import {
   fileToPath,
   posixPath,
   normalizeUrl,
+  pathExists,
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
 import type {LoadedPlugin} from '@docusaurus/types';
@@ -47,7 +48,7 @@ export async function createAliasesForTheme(
   themePath: string,
   addOriginalAlias: boolean,
 ): Promise<ThemeAliases> {
-  if (!(await fs.pathExists(themePath))) {
+  if (!(await pathExists(themePath))) {
     return {};
   }
 

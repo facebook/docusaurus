@@ -5,11 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import http from 'node:http';
 import path from 'node:path';
 import logger from '@docusaurus/logger';
-import {DEFAULT_BUILD_DIR_NAME} from '@docusaurus/utils';
+import {DEFAULT_BUILD_DIR_NAME, realpath} from '@docusaurus/utils';
 import serveHandler from 'serve-handler';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import openBrowser from './utils/openBrowser/openBrowser';
@@ -37,7 +36,7 @@ export async function serve(
   siteDirParam: string = '.',
   cliOptions: Partial<ServeCLIOptions> = {},
 ): Promise<void> {
-  const siteDir = await fs.realpath(siteDirParam);
+  const siteDir = await realpath(siteDirParam);
 
   const buildDir = cliOptions.dir ?? DEFAULT_BUILD_DIR_NAME;
   const outDir = path.resolve(siteDir, buildDir);
