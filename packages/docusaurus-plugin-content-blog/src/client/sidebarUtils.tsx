@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode, useMemo} from 'react';
+import {type ReactNode, useMemo} from 'react';
 import {useLocation} from '@docusaurus/router';
 import Link from '@docusaurus/Link';
 import {groupBy} from '@docusaurus/theme-common';

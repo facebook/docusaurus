@@ -7,7 +7,7 @@
 
 // Changed the text labels.
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import Translate, {translate} from '@docusaurus/Translate';
 import PaginatorNavLink from '@theme/PaginatorNavLink';
 import type {Props} from '@theme/BlogPostPaginator';

@@ -42,7 +42,6 @@ describe('webpack dev config', () => {
       faster: DEFAULT_FASTER_CONFIG,
       configureWebpackUtils: await createTestConfigureWebpackUtils(),
       minify: false,
-      bundleAnalyzer: false,
     });
     webpack.validate(config);
   });
@@ -66,7 +65,6 @@ describe('webpack dev config', () => {
       faster: DEFAULT_FASTER_CONFIG,
       configureWebpackUtils: await createTestConfigureWebpackUtils(),
       minify: false,
-      bundleAnalyzer: false,
     });
     webpack.validate(config);
   });

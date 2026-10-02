@@ -9,7 +9,7 @@ import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
 import {mkdtempDisposable, realpath} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
-import {join} from 'node:path';
+import path from 'node:path';
 import {getBabelOptions} from '../utils';
 import {extractSourceCodeFileTranslations} from '../babelTranslationsExtractor';
 
@@ -19,10 +19,10 @@ const TestBabelOptions = getBabelOptions({
 
 async function tmpFile(name: string) {
   const dir = await mkdtempDisposable(
-    join(await realpath(tmpdir()), 'docusaurus-tmp-'),
+    path.join(await realpath(tmpdir()), 'docusaurus-tmp-'),
   );
   return {
-    path: join(dir.path, name),
+    path: path.join(dir.path, name),
     [Symbol.asyncDispose]: dir[Symbol.asyncDispose],
   };
 }

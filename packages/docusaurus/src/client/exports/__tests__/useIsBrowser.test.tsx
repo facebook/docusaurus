@@ -6,7 +6,7 @@
  */
 // @vitest-environment jsdom
 import {describe, expect, it} from 'vitest';
-import React, {act} from 'react';
+import {act} from 'react';
 import {renderToString} from 'react-dom/server';
 import {hydrateRoot} from 'react-dom/client';
 import {renderHook} from '@testing-library/react';

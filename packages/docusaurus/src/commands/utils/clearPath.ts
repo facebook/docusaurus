@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
-import {rm} from 'fs/promises';
+import path from 'node:path';
+import {rm} from 'node:fs/promises';
 import {PerfLogger} from '@docusaurus/logger';
 
 /**

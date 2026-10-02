@@ -189,6 +189,11 @@ const config: KnipConfig = {
         'netlify-plugin-cache',
         // Used by theme components ejected in CI, see testSwizzleThemeClassic.mjs
         '@docusaurus/utils-common',
+        '@mdx-js/react',
+        '@types/prismjs',
+        'copy-text-to-clipboard',
+        'prismjs',
+        'utility-types',
         // Imported in ```mdx-code-block fences
         'react-medium-image-zoom',
         // Used by versioned docs through !!raw-loader! imports

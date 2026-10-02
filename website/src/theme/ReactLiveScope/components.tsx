@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ComponentProps, type ReactNode} from 'react';
+import type {ComponentProps, ReactNode} from 'react';
 
 export function ButtonExample(props: ComponentProps<'button'>): ReactNode {
   return (

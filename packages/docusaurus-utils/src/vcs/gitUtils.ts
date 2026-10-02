@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
-import os from 'os';
+import os from 'node:os';
 import _ from 'lodash';
 import {execa, execaSync} from 'execa';
 import PQueue from 'p-queue';

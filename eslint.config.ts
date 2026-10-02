@@ -58,7 +58,9 @@ const ignores = globalIgnores([
   '.codex',
   '**/dist/**',
   '**/lib/**',
-  '**/build/**',
+  // Not '**/build/**', it would ignore packages/docusaurus/src/commands/build
+  'website/build',
+  'test-website*/build',
   '**/.docusaurus/**',
   '**/__fixtures__/**',
   '__mocks__',
@@ -92,6 +94,9 @@ export default defineConfig(plugins, rules, ignores, {
     },
     parserOptions: {
       // projectService: true,
+      // JSX runtime is automatic: JSX doesn't use the in-scope "React" variable
+      // This lets @typescript-eslint/no-unused-vars report useless React imports
+      jsxPragma: null,
     },
   },
 

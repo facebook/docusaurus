@@ -7,8 +7,8 @@
 
 // @ts-check
 
-import path from 'path';
-import {fileURLToPath} from 'url';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import fs from 'fs-extra';
 import _ from 'lodash';
 import {logger} from '@docusaurus/logger';

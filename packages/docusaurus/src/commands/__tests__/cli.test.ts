@@ -6,7 +6,7 @@
  */
 
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import {Command} from 'commander';
 import {createCLIProgram} from '../cli';
 import * as buildCommand from '../build/build';

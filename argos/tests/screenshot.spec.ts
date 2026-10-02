@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import {test} from '@playwright/test';
 import {argosScreenshot} from '@argos-ci/playwright';
 import * as cheerio from 'cheerio';

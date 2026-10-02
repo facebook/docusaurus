@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, type ReactNode, type ComponentProps} from 'react';
+import {useState, type ReactNode, type ComponentProps} from 'react';
 import clsx from 'clsx';
 import {
   isRegexpStringMatch,

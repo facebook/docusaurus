@@ -70,8 +70,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Complex Slug]]></title>
-        <id>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</id>
-        <link href="https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô"/>
+        <id>https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4</id>
+        <link href="https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4"/>
         <updated>2020-08-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[complex url slug]]></summary>
         <content type="html"><![CDATA[<p>complex url slug</p>]]></content>
@@ -87,7 +87,7 @@
         <content type="html"><![CDATA[<p>simple url slug</p>]]></content>
         <author>
             <name>Sébastien Lorber</name>
-            <uri>https://sebastienlorber.com</uri>
+            <uri>https://sebastienlorber.com/</uri>
         </author>
     </entry>
     <entry>

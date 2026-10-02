@@ -7,13 +7,14 @@
   "scripts": {
     "screenshot": "playwright test",
     "upload": "pnpm exec -- argos upload ./screenshots/chromium",
-    "upload-text-snapshots": "pnpm exec -- argos upload \"../website/build\" --build-name text-snapshots --files styles.css --files \"docs/**/*.html\" --files \"blog/**/*.html\"",
+    "upload-text-snapshots": "pnpm exec -- argos upload \"../website/build\" --build-name text-snapshots --files styles.css --files \"docs/**/*.html\" --files \"blog/**/*.html\" --files \"**/rss.xml\" --files \"**/atom.xml\" --files \"**/feed.json\" --files sitemap.xml",
     "report": "playwright show-report"
   },
   "dependencies": {
     "@argos-ci/cli": "^6.9.2",
     "@argos-ci/playwright": "^7.5.0",
     "@playwright/test": "^1.63.0",
-    "cheerio": "^1.2.0"
+    "cheerio": "^1.2.0",
+    "xml-formatter": "^3.7.0"
   }
 }

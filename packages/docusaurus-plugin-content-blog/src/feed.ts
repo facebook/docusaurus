@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
 import {Feed, type Author as FeedAuthor} from 'feed';
 import {parseSrcset, stringifySrcset} from 'srcset';
@@ -87,7 +87,7 @@ async function generateBlogFeed({
     defaultCreateFeedItems,
   });
 
-  feedItems.forEach(feed.addItem);
+  feedItems.forEach((item) => feed.addItem(item));
 
   return feed;
 }
@@ -102,10 +102,6 @@ async function defaultCreateFeedItems({
   outDir: string;
 }): Promise<BlogFeedItem[]> {
   const {url: siteUrl, baseUrl, trailingSlash} = siteConfig;
-
-  function toFeedAuthor(author: Author): FeedAuthor {
-    return {name: author.name, link: author.url, email: author.email};
-  }
 
   return Promise.all(
     blogPosts.map(async (post) => {
@@ -174,6 +170,17 @@ async function defaultCreateFeedItems({
         category: tags.map((tag) => ({name: tag.label, term: tag.label})),
         content: $(`#${blogPostContainerID}`).html()!,
       };
+
+      // Author urls can be relative, but the feed lib throws on these
+      // Absolute urls are kept as is to preserve the existing feed output
+      const toFeedAuthor = (author: Author): FeedAuthor => ({
+        name: author.name,
+        link:
+          author.url && !URL.canParse(author.url)
+            ? toAbsoluteUrl(author.url)
+            : author.url,
+        email: author.email,
+      });
 
       // json1() method takes the first item of authors array
       // it causes an error when authors array is empty

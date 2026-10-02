@@ -8,7 +8,7 @@
 // Awkward to have translation code in this package, but it is consumed by both
 // @docusaurus/core and @docusaurus/theme-translations: this avoids duplication
 
-import path from 'path';
+import path from 'node:path';
 import {safeGlob} from './globUtils';
 
 export const isTranslatableSourceFile: (filePath: string) => boolean = (() => {

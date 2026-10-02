@@ -7,7 +7,7 @@
 
 // Tinyglobby/Micromatch are the 2 libs we use in Docusaurus consistently
 
-import path from 'path';
+import path from 'node:path';
 import Micromatch from 'micromatch';
 import * as Tinyglobby from 'tinyglobby';
 

@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import {posixPath} from '@docusaurus/utils';
 import {getPluginPathsToWatch} from '../watcher';
 import type {LoadedPlugin} from '@docusaurus/types';

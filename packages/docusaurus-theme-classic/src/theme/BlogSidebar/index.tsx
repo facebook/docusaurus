@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {useWindowSize} from '@docusaurus/theme-common';
 import BlogSidebarDesktop from '@theme/BlogSidebar/Desktop';
 import BlogSidebarMobile from '@theme/BlogSidebar/Mobile';

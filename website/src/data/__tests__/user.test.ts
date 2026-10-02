@@ -7,7 +7,7 @@
 
 import {describe, expect, it} from 'vitest';
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import _ from 'lodash';
 import {imageSizeFromFile} from 'image-size/fromFile';
 import {Joi} from '@docusaurus/utils-validation';
