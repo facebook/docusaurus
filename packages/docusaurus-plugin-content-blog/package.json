@@ -43,7 +43,7 @@
     "@docusaurus/utils-validation": "workspace:*",
     "cheerio": "^1.2.0",
     "combine-promises": "^1.2.0",
-    "feed": "^5.2.1",
+    "feed": "^6.0.0",
     "fs-extra": "^11.4.0",
     "lodash": "^4.18.1",
     "schema-dts": "^1.1.5",

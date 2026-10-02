@@ -229,8 +229,8 @@ exports[`atom > has custom xslt files for feed 1`] = `
     </entry>
     <entry>
         <title type="html"><![CDATA[Complex Slug]]></title>
-        <id>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</id>
-        <link href="https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô"/>
+        <id>https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4</id>
+        <link href="https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4"/>
         <updated>2020-08-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[complex url slug]]></summary>
         <content type="html"><![CDATA[<p>complex url slug</p>]]></content>
@@ -246,7 +246,7 @@ exports[`atom > has custom xslt files for feed 1`] = `
         <content type="html"><![CDATA[<p>simple url slug</p>]]></content>
         <author>
             <name>Sébastien Lorber</name>
-            <uri>https://sebastienlorber.com</uri>
+            <uri>https://sebastienlorber.com/</uri>
         </author>
     </entry>
     <entry>
@@ -360,8 +360,8 @@ exports[`atom > has feed item for each post - with trailing slash 1`] = `
     </entry>
     <entry>
         <title type="html"><![CDATA[Complex Slug]]></title>
-        <id>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô/</id>
-        <link href="https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô/"/>
+        <id>https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4/</id>
+        <link href="https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4/"/>
         <updated>2020-08-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[complex url slug]]></summary>
         <content type="html"><![CDATA[<p>complex url slug</p>]]></content>
@@ -377,7 +377,7 @@ exports[`atom > has feed item for each post - with trailing slash 1`] = `
         <content type="html"><![CDATA[<p>simple url slug</p>]]></content>
         <author>
             <name>Sébastien Lorber</name>
-            <uri>https://sebastienlorber.com</uri>
+            <uri>https://sebastienlorber.com/</uri>
         </author>
     </entry>
     <entry>
@@ -490,8 +490,8 @@ exports[`atom > has feed item for each post 1`] = `
     </entry>
     <entry>
         <title type="html"><![CDATA[Complex Slug]]></title>
-        <id>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</id>
-        <link href="https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô"/>
+        <id>https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4</id>
+        <link href="https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4"/>
         <updated>2020-08-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[complex url slug]]></summary>
         <content type="html"><![CDATA[<p>complex url slug</p>]]></content>
@@ -507,7 +507,7 @@ exports[`atom > has feed item for each post 1`] = `
         <content type="html"><![CDATA[<p>simple url slug</p>]]></content>
         <author>
             <name>Sébastien Lorber</name>
-            <uri>https://sebastienlorber.com</uri>
+            <uri>https://sebastienlorber.com/</uri>
         </author>
     </entry>
     <entry>
@@ -683,8 +683,8 @@ exports[`atom > has xslt files for feed 1`] = `
     </entry>
     <entry>
         <title type="html"><![CDATA[Complex Slug]]></title>
-        <id>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</id>
-        <link href="https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô"/>
+        <id>https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4</id>
+        <link href="https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4"/>
         <updated>2020-08-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[complex url slug]]></summary>
         <content type="html"><![CDATA[<p>complex url slug</p>]]></content>
@@ -700,7 +700,7 @@ exports[`atom > has xslt files for feed 1`] = `
         <content type="html"><![CDATA[<p>simple url slug</p>]]></content>
         <author>
             <name>Sébastien Lorber</name>
-            <uri>https://sebastienlorber.com</uri>
+            <uri>https://sebastienlorber.com/</uri>
         </author>
     </entry>
     <entry>
@@ -1560,7 +1560,7 @@ exports[`rss > has custom xslt files for feed 1`] = `
         </item>
         <item>
             <title><![CDATA[Complex Slug]]></title>
-            <link>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</link>
+            <link>https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4</link>
             <guid isPermaLink="false">https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</guid>
             <pubDate>Sun, 16 Aug 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[complex url slug]]></description>
@@ -1685,7 +1685,7 @@ exports[`rss > has feed item for each post - with trailing slash 1`] = `
         </item>
         <item>
             <title><![CDATA[Complex Slug]]></title>
-            <link>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô/</link>
+            <link>https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4/</link>
             <guid isPermaLink="false">https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô/</guid>
             <pubDate>Sun, 16 Aug 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[complex url slug]]></description>
@@ -1809,7 +1809,7 @@ exports[`rss > has feed item for each post 1`] = `
         </item>
         <item>
             <title><![CDATA[Complex Slug]]></title>
-            <link>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</link>
+            <link>https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4</link>
             <guid isPermaLink="false">https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</guid>
             <pubDate>Sun, 16 Aug 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[complex url slug]]></description>
@@ -1996,7 +1996,7 @@ exports[`rss > has xslt files for feed 1`] = `
         </item>
         <item>
             <title><![CDATA[Complex Slug]]></title>
-            <link>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</link>
+            <link>https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4</link>
             <guid isPermaLink="false">https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</guid>
             <pubDate>Sun, 16 Aug 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[complex url slug]]></description>

@@ -71,7 +71,7 @@
         </item>
         <item>
             <title><![CDATA[Complex Slug]]></title>
-            <link>https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</link>
+            <link>https://docusaurus.io/myBaseUrl/blog/hey/my%20super%20path/h%C3%A9ll%C3%B4</link>
             <guid isPermaLink="false">https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô</guid>
             <pubDate>Sun, 16 Aug 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[complex url slug]]></description>
