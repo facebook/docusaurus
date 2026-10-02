@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
 import {visit} from 'unist-util-visit';
 import {
@@ -17,7 +17,6 @@ import {
   parseURLOrPath,
   parseLocalURLPath,
 } from '@docusaurus/utils';
-import escapeHtml from 'escape-html';
 import logger from '@docusaurus/logger';
 import {
   assetRequireAttributeValue,
@@ -158,7 +157,7 @@ function toAssetRequireNode(
     attributes.push({
       type: 'mdxJsxAttribute',
       name: 'title',
-      value: escapeHtml(node.title),
+      value: node.title,
     });
   }
 

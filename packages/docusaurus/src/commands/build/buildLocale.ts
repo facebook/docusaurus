@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import _ from 'lodash';
 import {compile, registerBundlerTracing} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
@@ -214,7 +214,6 @@ async function getBuildClientConfig({
     minify: cliOptions.minify ?? true,
     faster: props.siteConfig.future.faster,
     configureWebpackUtils,
-    bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });
   let {config} = result;
   config = executePluginsConfigureWebpack({

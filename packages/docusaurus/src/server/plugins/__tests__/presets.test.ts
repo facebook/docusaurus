@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import {loadPresets} from '../presets';
 import type {LoadContext} from '@docusaurus/types';
 

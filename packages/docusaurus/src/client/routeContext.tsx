@@ -54,5 +54,5 @@ export function RouteContextProvider({
     [parent, value],
   );
 
-  return <Context.Provider value={mergedValue}>{children}</Context.Provider>;
+  return <Context value={mergedValue}>{children}</Context>;
 }

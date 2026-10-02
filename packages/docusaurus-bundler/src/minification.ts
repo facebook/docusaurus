@@ -13,7 +13,7 @@ import {
   importGetBrowserslistQueries,
 } from './importFaster';
 import {getCurrentBundlerAsRspack} from './currentBundler';
-import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
+import type {CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import type {WebpackPluginInstance} from 'webpack';
 import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
 
@@ -92,34 +92,11 @@ async function getCssNanoMinimizer(): Promise<WebpackPluginInstance> {
     return new CssMinimizerPlugin();
   }
 
-  // Using the array syntax to add 2 minimizers
-  // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
-  return new CssMinimizerPlugin<[CssNanoOptions, CustomOptions]>({
-    minimizerOptions: [
-      // CssNano options
-      {
-        preset: require.resolve('@docusaurus/cssnano-preset'),
-      },
-      // CleanCss options
-      {
-        inline: false,
-        level: {
-          1: {
-            all: false,
-            removeWhitespace: true,
-          },
-          2: {
-            all: true,
-            restructureRules: true,
-            removeUnusedAtRules: false,
-          },
-        },
-      },
-    ],
-    minify: [
-      CssMinimizerPlugin.cssnanoMinify,
-      CssMinimizerPlugin.cleanCssMinify,
-    ],
+  return new CssMinimizerPlugin<CssNanoOptions>({
+    minify: CssMinimizerPlugin.cssnanoMinify,
+    minimizerOptions: {
+      preset: require.resolve('@docusaurus/cssnano-preset'),
+    },
   });
 }
 
@@ -142,10 +119,7 @@ async function getRspackMinimizers({
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
   const rspack = getCurrentBundlerAsRspack({currentBundler});
   const getBrowserslistQueries = await importGetBrowserslistQueries();
-  const browserslistQueries = getBrowserslistQueries({
-    isServer: false,
-    bundlerName: 'rspack',
-  });
+  const browserslistQueries = getBrowserslistQueries();
   const swcJsMinimizerOptions = await importSwcJsMinimizerOptions();
 
   return [

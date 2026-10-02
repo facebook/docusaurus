@@ -21,7 +21,7 @@ import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 // We don't want default values to magically appear in doc metadata and props
 // While the user did not provide those values explicitly
 // We use default values in code instead
-export const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
+const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   id: Joi.string(),
   // See https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
   title: Joi.string().allow(''),

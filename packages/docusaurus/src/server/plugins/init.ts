@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createRequire} from 'module';
-import path from 'path';
+import {createRequire} from 'node:module';
+import path from 'node:path';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {
   normalizePluginOptions,

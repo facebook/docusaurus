@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it, vi} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import {loadI18n, getDefaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';

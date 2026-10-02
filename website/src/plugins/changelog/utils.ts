@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 
 /**
  * Multiple versions may be published on the same day, causing the order to be

@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ReactElement, ReactNode} from 'react';
+import {useLayoutEffect, type ReactElement, type ReactNode} from 'react';
 import clientModules from '@generated/client-modules';
-import useIsomorphicLayoutEffect from './exports/useIsomorphicLayoutEffect';
 import type {ClientModule} from '@docusaurus/types';
 import type {Location} from 'history';
 
@@ -67,7 +66,7 @@ function ClientLifecyclesDispatcher({
   location: Location;
   previousLocation: Location | null;
 }): ReactNode {
-  useIsomorphicLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (previousLocation !== location) {
       scrollAfterNavigation({location, previousLocation});
       dispatchLifecycleAction('onRouteDidUpdate', {previousLocation, location});

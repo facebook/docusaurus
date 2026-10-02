@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createHash} from 'crypto';
+import {hash} from 'node:crypto';
 import _ from 'lodash';
 import {shortName, isNameTooLong} from './pathUtils';
 
-/** Thin wrapper around `crypto.createHash("md5")`. */
+/** Thin wrapper around `crypto.hash("md5")`. */
 export function md5Hash(str: string): string {
-  return createHash('md5').update(str).digest('hex');
+  return hash('md5', str);
 }
 
 /** Creates an MD5 hash and truncates it to the given length. */

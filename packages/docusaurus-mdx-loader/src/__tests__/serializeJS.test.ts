@@ -8,7 +8,7 @@
 /* eslint-disable camelcase */
 
 import {describe, expect, it} from 'vitest';
-import vm from 'vm';
+import vm from 'node:vm';
 import {DEFAULT_PARSE_FRONT_MATTER} from '@docusaurus/utils';
 import {serializeJS} from '../serializeJS';
 

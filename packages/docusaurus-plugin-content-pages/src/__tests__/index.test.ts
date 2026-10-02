@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import {loadContext} from '@docusaurus/core/src/server/site';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 

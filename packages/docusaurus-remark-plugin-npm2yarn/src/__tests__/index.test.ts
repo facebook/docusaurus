@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import {remark} from 'remark';
 import mdx from 'remark-mdx';
 import {read} from 'to-vfile';

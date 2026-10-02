@@ -6,11 +6,10 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import * as path from 'path';
+import * as path from 'node:path';
 import * as fs from 'fs-extra';
 import {mkdtempDisposable, realpath} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
-import {join} from 'node:path';
 import * as YAML from 'js-yaml';
 import {
   ensureUniquePermalinks,
@@ -295,7 +294,7 @@ describe('getTagsFile', () => {
     tagsFileInput: TagsFileInput;
   }): Promise<{dir: string} & AsyncDisposable> {
     const tmpDir = await mkdtempDisposable(
-      join(await realpath(tmpdir()), 'docusaurus-tmp-'),
+      path.join(await realpath(tmpdir()), 'docusaurus-tmp-'),
     );
     const contentPath = tmpDir.path;
     const finalFilePath = path.join(contentPath, filePath);

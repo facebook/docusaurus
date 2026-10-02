@@ -159,11 +159,17 @@ export default defineConfig(
         // @   'ExportDefaultDeclaration > Identifier, ExportNamedDeclaration[source=null] > ExportSpecifier',
         //   message: 'Export in one statement'
         // },
-        ...['path', 'fs-extra', 'webpack', 'lodash'].map((m) => ({
-          selector: `ImportDeclaration[importKind=value]:has(Literal[value=${m}]) > ImportSpecifier[importKind=value]`,
+        ...['node:path', 'fs-extra', 'webpack', 'lodash'].map((m) => ({
+          selector: `ImportDeclaration[importKind=value]:has(Literal[value="${m}"]) > ImportSpecifier[importKind=value]`,
           message:
             'Default-import this, both for readability and interoperability with ESM',
         })),
+        {
+          selector:
+            "JSXOpeningElement > JSXMemberExpression[property.name='Provider']",
+          message:
+            'Since React 19, render the context directly as its provider: use <MyContext value={v}> instead of <MyContext.Provider value={v}>, which React plans to deprecate.',
+        },
       ],
       'no-template-curly-in-string': WARNING,
       'no-unused-expressions': OFF,
@@ -191,6 +197,7 @@ export default defineConfig(
 
        */
 
+      'import/enforce-node-protocol-usage': [ERROR, 'always'],
       'import/extensions': OFF,
       // This rule doesn't yet support resolving .js imports when the actual file
       // is .ts. Plus it's not all that useful when our code is fully TS-covered.
@@ -230,7 +237,6 @@ export default defineConfig(
             {pattern: 'react', group: 'builtin', position: 'before'},
             {pattern: 'react-dom', group: 'builtin', position: 'before'},
             {pattern: 'react-dom/**', group: 'builtin', position: 'before'},
-            {pattern: 'stream', group: 'builtin', position: 'before'},
             {pattern: 'fs-extra', group: 'builtin'},
             {pattern: 'lodash', group: 'external', position: 'before'},
             {pattern: 'clsx', group: 'external', position: 'before'},

@@ -47,58 +47,53 @@ Websites initialized with the default classic template has the following in `pac
 {
   "name": "docusaurus",
   // ...
-  // highlight-start
-  "browserslist": {
-    "production": [">0.5%", "not dead", "not op_mini all"],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
-  // highlight-end
+  // highlight-next-line
+  "browserslist": ["baseline widely available"]
   // ...
 }
 ```
 
-Explained in natural language, the browsers supported in production are those:
+Explained in natural language, the browsers supported are the versions of the core browsers (Chrome, Edge, Firefox and Safari, on desktop and mobile) that support all the [Baseline Widely available](https://web.dev/baseline) web platform features, i.e. features that have been available in all core browsers for at least 30 months.
 
-- With more than 0.5% of market share; _and_
-- Has official support or updates in the past 24 months (the opposite of "dead"); _and_
-- Is not Opera Mini.
+The same browser list is used in development and production, so that your site behaves the same with `docusaurus start` and `docusaurus build`.
 
-And browsers used in development are:
+:::tip
 
-- The latest version of Chrome _or_ Firefox _or_ Safari.
+It remains possible to use a different browser list for each environment with an object keyed by environment (`production`, `development`). Refer to the [browserslist configuration documentation](https://github.com/browserslist/browserslist#configuring-for-different-environments).
+
+:::
 
 You can "evaluate" any config with the `browserslist` CLI to obtain the actual list:
 
 ```bash
-npx browserslist --env="production"
+npx browserslist
 ```
 
-The output is all browsers supported in production. Below is the output in January 2022:
+The output is all browsers supported. Below is the output in September 2026:
 
 ```text
-and_chr 96
-and_uc 12.12
-chrome 96
-chrome 95
-chrome 94
-edge 96
-firefox 95
-firefox 94
-ie 11
-ios_saf 15.2
-ios_saf 15.0-15.1
-ios_saf 14.5-14.8
-ios_saf 14.0-14.4
-ios_saf 12.2-12.5
-opera 82
-opera 81
-safari 15.1
-safari 14.1
-safari 13.1
+and_chr 151
+and_ff 153
+chrome 151
+chrome 150
+...
+chrome 123
+edge 151
+edge 150
+...
+edge 123
+firefox 154
+firefox 153
+...
+firefox 124
+ios_saf 26.6
+ios_saf 26.5
+...
+ios_saf 17.4
+safari 26.6
+safari 26.5
+...
+safari 17.4
 ```
 
 ## Read more {/* #read-more */}

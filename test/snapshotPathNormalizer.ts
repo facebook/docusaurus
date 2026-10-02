@@ -9,11 +9,11 @@
 // Added some project-specific handlers
 
 import type {SnapshotSerializer} from 'vitest';
-import os from 'os';
-import path from 'path';
-import fs from 'fs';
+import os from 'node:os';
+import path from 'node:path';
+import fs from 'node:fs';
+import {stripVTControlCharacters} from 'node:util';
 import _ from 'lodash';
-import stripAnsi from 'strip-ansi';
 import {version} from '../packages/docusaurus/package.json';
 import {posixPath} from '../packages/docusaurus-utils/src';
 
@@ -88,7 +88,7 @@ function normalizeString(value: string): string {
   const homeRelativeToTemp = path.relative(tempDir, homeDir);
 
   const runner: ((val: string) => string)[] = [
-    (val) => (val.includes('keepAnsi') ? val : stripAnsi(val)),
+    (val) => (val.includes('keepAnsi') ? val : stripVTControlCharacters(val)),
     // Replace process.cwd with <PROJECT_ROOT>
     (val) => val.split(cwd).join('<PROJECT_ROOT>'),
     (val) => val.split(posixPath(cwd)).join('<PROJECT_ROOT>'),
@@ -138,6 +138,14 @@ function normalizeString(value: string): string {
     // Convert win32 backslash's to forward slashes, \ -> /;
     // ignore some that look like escape sequences.
     (val) => val.replace(/\\(?!")/g, '/'),
+
+    // Strip the pnpm virtual store dir (isolated nodeLinker)
+    // node_modules/.pnpm/react@19.3.0/node_modules/react -> node_modules/react
+    (val) =>
+      val.replace(
+        /node_modules\/\.pnpm\/[^/]+\/node_modules\//g,
+        'node_modules/',
+      ),
   ];
 
   let result = value as string;

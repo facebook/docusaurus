@@ -6,8 +6,8 @@
  */
 
 import fs from 'fs-extra';
-import path from 'path';
-import {fileURLToPath} from 'url';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {program} from 'commander';
 import {logger} from '@docusaurus/logger';
 import sharp from 'sharp';

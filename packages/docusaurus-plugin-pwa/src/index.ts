@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
+import path from 'node:path';
 import {type Configuration} from 'webpack';
 import {
   compile,
@@ -23,7 +23,7 @@ const PluginName = 'docusaurus-plugin-pwa';
 
 function getSWBabelLoader() {
   return {
-    loader: 'babel-loader',
+    loader: require.resolve('babel-loader'),
     options: {
       babelrc: false,
       configFile: false,

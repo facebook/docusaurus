@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it, vi} from 'vitest';
-import * as path from 'path';
+import * as path from 'node:path';
 import {remark} from 'remark';
 import mdx from 'remark-mdx';
 import {read} from 'to-vfile';
@@ -65,6 +65,17 @@ describe('transformImage plugin', () => {
       `![img](pathname:///img/unchecked.png)`,
     );
     expect(result).toMatchSnapshot();
+  });
+
+  it('does not HTML-escape alt and title', async () => {
+    const result = await processContent(
+      `![It's a "quoted" & alt](/img.png "It's a 'quoted' & title")`,
+    );
+    // &#x22; is how remark-mdx serializes " in a double-quoted attribute
+    expect(result).toMatchInlineSnapshot(`
+      "<img alt="It's a &#x22;quoted&#x22; & alt" src={require("!<PROJECT_ROOT>/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[contenthash].[ext]&fallback=<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js!./../static/img.png").default} title="It's a 'quoted' & title" width="200" height="200" />
+      "
+    `);
   });
 
   it('does not choke on invalid image', async () => {

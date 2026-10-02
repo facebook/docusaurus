@@ -93,8 +93,7 @@ const config: KnipConfig = {
     },
     'packages/docusaurus-bundler': {
       ignoreDependencies: [
-        // Used through CssMinimizerPlugin.cssnanoMinify/cleanCssMinify
-        'clean-css',
+        // Used through CssMinimizerPlugin.cssnanoMinify
         'cssnano',
         // Optional peer dependency, dynamically imported
         '@docusaurus/faster',
@@ -147,10 +146,7 @@ const config: KnipConfig = {
         '@docusaurus/mdx-loader',
       ],
     }),
-    'packages/docusaurus-theme-live-codeblock': themePackageConfig({
-      // Knip doesn't detect imports in "declare module" blocks
-      ignoreDependencies: ['@types/buble'],
-    }),
+    'packages/docusaurus-theme-live-codeblock': themePackageConfig(),
     'packages/docusaurus-theme-mermaid': themePackageConfig(),
     'packages/docusaurus-types': {
       // All types are public: this package has no exports field
@@ -193,6 +189,11 @@ const config: KnipConfig = {
         'netlify-plugin-cache',
         // Used by theme components ejected in CI, see testSwizzleThemeClassic.mjs
         '@docusaurus/utils-common',
+        '@mdx-js/react',
+        '@types/prismjs',
+        'copy-text-to-clipboard',
+        'prismjs',
+        'utility-types',
         // Imported in ```mdx-code-block fences
         'react-medium-image-zoom',
         // Used by versioned docs through !!raw-loader! imports
