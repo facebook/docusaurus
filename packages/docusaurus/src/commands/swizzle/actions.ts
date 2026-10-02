@@ -135,7 +135,7 @@ export async function wrap({
   const toPath = path.resolve(siteDir, THEME_PATH, wrapperFileName);
 
   const content = typescript
-    ? `import React, {type ReactNode} from 'react';
+    ? `import type {ReactNode} from 'react';
 import ${componentName} from '@theme-${importType}/${themeComponentName}';
 import type ${componentName}Type from '@theme/${themeComponentName}';
 import type {WrapperProps} from '@docusaurus/types';
@@ -150,8 +150,7 @@ export default function ${wrapperComponentName}(props: Props): ReactNode {
   );
 }
 `
-    : `import React from 'react';
-import ${componentName} from '@theme-${importType}/${themeComponentName}';
+    : `import ${componentName} from '@theme-${importType}/${themeComponentName}';
 
 export default function ${wrapperComponentName}(props) {
   return (

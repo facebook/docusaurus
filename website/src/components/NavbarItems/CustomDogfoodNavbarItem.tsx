@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {useLocation} from '@docusaurus/router';
 
 // used to dogfood custom navbar elements are possible

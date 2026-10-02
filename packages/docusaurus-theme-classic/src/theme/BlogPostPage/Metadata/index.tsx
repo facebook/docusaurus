@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {PageMetadata} from '@docusaurus/theme-common';
 import {useBlogPost} from '@docusaurus/plugin-content-blog/client';
 

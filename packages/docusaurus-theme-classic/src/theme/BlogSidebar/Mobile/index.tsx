@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {memo, type ReactNode} from 'react';
+import {memo, type ReactNode} from 'react';
 import {
   useVisibleBlogSidebarItems,
   BlogSidebarItemList,

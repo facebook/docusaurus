@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {LiveError, LivePreview} from 'react-live';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import {ErrorBoundaryErrorMessageFallback} from '@docusaurus/theme-common';

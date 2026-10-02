@@ -6,7 +6,6 @@
  */
 
 import type {ReactNode} from 'react';
-import React from 'react';
 import Head from '@docusaurus/Head';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 

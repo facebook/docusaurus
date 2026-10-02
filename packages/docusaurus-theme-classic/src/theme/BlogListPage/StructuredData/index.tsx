@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import Head from '@docusaurus/Head';
 import {useBlogListPageStructuredData} from '@docusaurus/plugin-content-blog/client';
 import type {Props} from '@theme/BlogListPage/StructuredData';

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ComponentType, type ReactNode} from 'react';
+import type {ComponentType, ReactNode} from 'react';
 import {processAdmonitionProps} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Admonition';
 import AdmonitionTypes from '@theme/Admonition/Types';

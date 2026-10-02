@@ -5,13 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
-} from 'react';
+import {useCallback, useMemo, useRef, useState, type ReactNode} from 'react';
 import {createPortal} from 'react-dom';
 import {DocSearchButton} from '@docsearch/react/button';
 import {useDocSearchKeyboardEvents} from '@docsearch/react/useDocSearchKeyboardEvents';

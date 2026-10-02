@@ -6,6 +6,7 @@
     "allowJs": true,
     "esModuleInterop": true,
     "jsx": "preserve",
+    "jsxImportSource": "react",
     "target": "ES2022",
     "lib": ["ES2022", "DOM"],
     "moduleResolution": "bundler",
