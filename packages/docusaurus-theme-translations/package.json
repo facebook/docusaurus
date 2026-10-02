@@ -19,6 +19,7 @@
     "update": "node ./update.mjs"
   },
   "dependencies": {
+    "@docusaurus/utils": "workspace:*",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

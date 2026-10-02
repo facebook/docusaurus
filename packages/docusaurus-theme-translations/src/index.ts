@@ -6,34 +6,8 @@
  */
 
 import path from 'node:path';
-import fs from 'node:fs/promises';
+import {pathExists, readJSON} from '@docusaurus/utils';
 import type {CodeTranslations} from '@docusaurus/types';
-
-// Inlined instead of depending on @docusaurus/utils, to keep this package tiny
-async function pathExists(filePath: string): Promise<boolean> {
-  return fs.access(filePath).then(
-    () => true,
-    () => false,
-  );
-}
-
-// JSON.parse() rejects a leading UTF-8 BOM (U+FEFF) character, but some
-// editors (such as Windows Notepad) add one when saving files
-function stripUTF8BOM(content: string): string {
-  return content.startsWith('\uFEFF') ? content.slice(1) : content;
-}
-
-async function readJSON(filePath: string): Promise<unknown> {
-  try {
-    const content = await fs.readFile(filePath, 'utf8');
-    return JSON.parse(stripUTF8BOM(content));
-  } catch (err) {
-    throw new Error(
-      `Failed to read JSON file at "${path.relative(process.cwd(), filePath)}"`,
-      {cause: err},
-    );
-  }
-}
 
 function getDefaultLocalesDirPath(): string {
   return path.join(__dirname, '../locales');

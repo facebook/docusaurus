@@ -7,7 +7,7 @@
 
 import {describe, expect, it} from 'vitest';
 import path from 'node:path';
-import fs from 'node:fs/promises';
+import {readJSON} from '@docusaurus/utils';
 import {
   codeTranslationLocalesToTry,
   readDefaultCodeTranslationMessages,
@@ -73,12 +73,7 @@ describe('readDefaultCodeTranslationMessages', () => {
   async function readAsJSON(locale: string, filename: string = name) {
     console.log(path.resolve(dirPath, locale, `${filename}.json`));
 
-    return JSON.parse(
-      await fs.readFile(
-        path.resolve(dirPath, locale, `${filename}.json`),
-        'utf8',
-      ),
-    ) as unknown;
+    return readJSON(path.resolve(dirPath, locale, `${filename}.json`));
   }
 
   it('for empty locale', async () => {

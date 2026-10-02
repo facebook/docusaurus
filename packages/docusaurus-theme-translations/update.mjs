@@ -12,6 +12,7 @@ import {fileURLToPath} from 'node:url';
 import fs from 'node:fs/promises';
 import _ from 'lodash';
 import {logger} from '@docusaurus/logger';
+import {pathExists, outputFile, readJSON} from '@docusaurus/utils';
 import {getThemes, extractThemeCodeMessages} from './lib/utils.js';
 
 const LocalesDirPath = fileURLToPath(new URL('locales', import.meta.url));
@@ -19,25 +20,6 @@ const Themes = await getThemes();
 const AllThemesSrcDirs = Themes.flatMap((theme) => theme.src);
 
 logger.info`Will scan folders for code translations:path=${AllThemesSrcDirs}`;
-
-/**
- * @param {string} filePath
- */
-async function pathExists(filePath) {
-  return fs.access(filePath).then(
-    () => true,
-    () => false,
-  );
-}
-
-/**
- * @param {string} filePath
- * @param {string} content
- */
-async function outputFile(filePath, content) {
-  await fs.mkdir(path.dirname(filePath), {recursive: true});
-  await fs.writeFile(filePath, content);
-}
 
 /**
  * @param {string} locale
@@ -74,7 +56,7 @@ async function readMessagesFile(filePath) {
     logger.info`File path=${filePath} not found. Creating new translation base file.`;
     await outputFile(filePath, '{}\n');
   }
-  return JSON.parse(await fs.readFile(filePath, 'utf8'));
+  return /** @type {Promise<Record<string, string>>} */ (readJSON(filePath));
 }
 
 /**

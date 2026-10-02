@@ -9,6 +9,7 @@ import {describe, expect, it} from 'vitest';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import _ from 'lodash';
+import {readJSON} from '@docusaurus/utils';
 import {extractThemeCodeMessages} from '../../src/utils';
 
 describe('theme translations', () => {
@@ -19,13 +20,10 @@ describe('theme translations', () => {
       .then((files) =>
         Promise.all(
           files.map(
-            async (baseMessagesFile) =>
-              JSON.parse(
-                await fs.readFile(
-                  path.join(baseMessagesDirPath, baseMessagesFile),
-                  'utf8',
-                ),
-              ) as {[key: string]: string},
+            (baseMessagesFile) =>
+              readJSON(
+                path.join(baseMessagesDirPath, baseMessagesFile),
+              ) as Promise<{[key: string]: string}>,
           ),
         ),
       )
