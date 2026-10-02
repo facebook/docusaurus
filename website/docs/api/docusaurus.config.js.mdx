@@ -679,8 +679,7 @@ type MarkdownHooks = {
   onBrokenMarkdownLinks: ReportingSeverity | OnBrokenMarkdownLinksFunction;
   onBrokenMarkdownImages: ReportingSeverity | OnBrokenMarkdownImagesFunction;
   onUnusedMarkdownDirectives:
-    | ReportingSeverity
-    | OnUnusedMarkdownDirectivesFunction;
+    ReportingSeverity | OnUnusedMarkdownDirectivesFunction;
 };
 
 type MarkdownConfig = {
