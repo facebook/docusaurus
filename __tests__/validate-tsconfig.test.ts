@@ -6,7 +6,7 @@
  */
 
 import {describe, it} from 'vitest';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import {glob} from '@docusaurus/glob';
 import {Joi} from '@docusaurus/utils-validation';
 
@@ -24,9 +24,10 @@ async function getTsconfigFiles(): Promise<TsconfigFile[]> {
   const files = await glob('packages/*/tsconfig.*');
   return Promise.all(
     files.map((file) =>
-      fs
-        .readJSON(file)
-        .then((content: TsconfigFile['content']) => ({file, content})),
+      fs.readFile(file, 'utf8').then((content) => ({
+        file,
+        content: JSON.parse(content) as TsconfigFile['content'],
+      })),
     ),
   );
 }

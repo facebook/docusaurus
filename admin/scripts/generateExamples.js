@@ -7,7 +7,7 @@
 
 // @ts-check
 
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import {execa} from 'execa';
 
 /**
@@ -49,7 +49,9 @@ async function generateTemplateExample(template) {
 
     const templatePackageJson =
       await /** @type {Promise<import("../../packages/create-docusaurus/templates/classic/package.json") & { scripts: { [name: string]: string }; description: string }>} */ (
-        fs.readJSON(`examples/${template}/package.json`)
+        fs
+          .readFile(`examples/${template}/package.json`, 'utf8')
+          .then(JSON.parse)
       );
 
     // Attach the dev script which would be used in code sandbox by default

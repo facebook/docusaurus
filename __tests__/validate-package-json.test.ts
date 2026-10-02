@@ -6,7 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import {glob} from '@docusaurus/glob';
 
 type PackageJsonFile = {
@@ -30,9 +30,10 @@ async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
   const files = await glob('packages/*/package.json');
   return Promise.all(
     files.map((file) =>
-      fs
-        .readJSON(file)
-        .then((content: PackageJsonFile['content']) => ({file, content})),
+      fs.readFile(file, 'utf8').then((content) => ({
+        file,
+        content: JSON.parse(content) as PackageJsonFile['content'],
+      })),
     ),
   );
 }

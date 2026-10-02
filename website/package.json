@@ -62,7 +62,6 @@
     "@docusaurus/utils-validation": "workspace:*",
     "clsx": "^2.1.1",
     "color": "^4.2.3",
-    "fs-extra": "^11.4.0",
     "netlify-plugin-cache": "^1.0.3",
     "prism-react-renderer": "^2.4.1",
     "raw-loader": "^4.0.2",
