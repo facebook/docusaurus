@@ -173,14 +173,7 @@ To use it, install the new [`@docusaurus/plugin-rsdoctor`](/docs/api/plugins/@do
 
 ```ts title="docusaurus.config.js"
 export default {
-  plugins: [
-    [
-      'rsdoctor',
-      {
-        /* options */
-      },
-    ],
-  ],
+  plugins: [['rsdoctor', {/* options */}]],
 };
 ```
 
@@ -190,14 +183,7 @@ Turn it on conditionally, based on an environment variable:
 
 ```ts title="docusaurus.config.js"
 export default {
-  plugins: [
-    process.env.RSDOCTOR === 'true' && [
-      'rsdoctor',
-      {
-        /* options */
-      },
-    ],
-  ],
+  plugins: [process.env.RSDOCTOR === 'true' && ['rsdoctor', {/* options */}]],
 };
 ```
 
