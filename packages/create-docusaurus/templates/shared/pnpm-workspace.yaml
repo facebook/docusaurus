@@ -1,0 +1,5 @@
+# pnpm settings, see https://pnpm.io/settings
+# Docusaurus doesn't need these dependency build scripts to run
+allowBuilds:
+  '@swc/core': false
+  core-js: false

@@ -15,6 +15,7 @@ import path from 'node:path';
 // TODO try to remove these third-party dependencies if possible
 import {logger} from '@docusaurus/logger';
 import prompts, {type Choice} from 'prompts';
+import semver from 'semver';
 import {
   LockfileNames,
   PackageManagers,
@@ -27,6 +28,7 @@ import {
 } from './constants.js';
 import {
   getAvailablePackageManagers,
+  getPackageManagerVersion,
   runGitCloneCommand,
   runPackageManagerInstallCommand,
 } from './commands.js';
@@ -34,6 +36,7 @@ import {
   siteNameToPackageName,
   updatePkg,
   pathExists,
+  isInsidePnpmWorkspace,
   printPackageManagerHelp,
 } from './utils.js';
 import {askPreferredLanguage} from './prompts.js';
@@ -129,6 +132,26 @@ async function getPackageManager(
     // This only happens if the user has a global installation in PATH
     (skipInstall ? DefaultPackageManager : await askForPackageManagerChoice())
   );
+}
+
+// Our templates ship a pnpm-workspace.yaml file to approve dependency build
+// scripts: pnpm 11+ fails the install on unapproved build scripts
+async function shouldKeepPnpmWorkspaceFile(
+  dest: string,
+  pkgManager: PackageManager,
+): Promise<boolean> {
+  if (pkgManager !== 'pnpm') {
+    return false;
+  }
+  // A nested pnpm-workspace.yaml file would detach the site from the parent
+  // workspace, with its own lockfile and node_modules
+  if (await isInsidePnpmWorkspace(dest)) {
+    return false;
+  }
+  // allowBuilds requires pnpm 10.26+, and older versions such as pnpm 9 fail
+  // to run at all with a pnpm-workspace.yaml file without "packages" field
+  const pnpmVersion = semver.valid(getPackageManagerVersion('pnpm', dest));
+  return pnpmVersion !== null && semver.gte(pnpmVersion, '10.26.0');
 }
 
 const recommendedTemplate = 'classic';
@@ -549,6 +572,14 @@ export default async function init(
   // Display the most elegant way to cd.
   const cdpath = path.relative('.', dest);
   const pkgManager = await getPackageManager(dest, cliOptions);
+
+  if (
+    source.type === 'template' &&
+    !(await shouldKeepPnpmWorkspaceFile(dest, pkgManager))
+  ) {
+    await fs.rm(path.join(dest, 'pnpm-workspace.yaml'));
+  }
+
   if (!cliOptions.skipInstall) {
     process.chdir(dest);
     logger.info`Installing dependencies with name=${pkgManager}...`;
