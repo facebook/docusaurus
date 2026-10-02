@@ -14,6 +14,7 @@ import {
   type NodePath,
   type TransformOptions,
 } from '@babel/core';
+import {queueFileOperation} from '@docusaurus/utils';
 import {logger} from '@docusaurus/logger';
 import type {TranslationFileContent} from '@docusaurus/types';
 
@@ -39,7 +40,9 @@ export async function extractSourceCodeFileTranslations(
   babelOptions: TransformOptions,
 ): Promise<SourceCodeFileTranslations> {
   try {
-    const code = await fs.readFile(sourceCodeFilePath, 'utf8');
+    const code = await queueFileOperation(() =>
+      fs.readFile(sourceCodeFilePath, 'utf8'),
+    );
 
     const ast = parse(code, {
       ...babelOptions,

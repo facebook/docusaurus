@@ -11,6 +11,7 @@ import {
   writeMarkdownHeadingId,
   type WriteHeadingIDOptions,
   type HeadingIdSyntax,
+  queueFileOperation,
 } from '@docusaurus/utils';
 import {safeGlob} from '@docusaurus/glob';
 import {loadContext} from '../server/site';
@@ -102,7 +103,9 @@ export async function writeHeadingIds(
   }
 
   const result = await Promise.all(
-    markdownFiles.map((p) => transformMarkdownFile(p, options)),
+    markdownFiles.map((p) =>
+      queueFileOperation(() => transformMarkdownFile(p, options)),
+    ),
   );
 
   const pathsModified = result.filter(Boolean) as string[];

@@ -9,7 +9,13 @@ import {describe, expect, it, vi} from 'vitest';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {tmpdir} from 'node:os';
-import {pathExists, outputFile, readJSON, realpath} from '../fsUtils';
+import {
+  pathExists,
+  outputFile,
+  readJSON,
+  realpath,
+  queueFileOperation,
+} from '../fsUtils';
 
 const isCaseInsensitiveFileSystem = await pathExists(__filename.toUpperCase());
 
@@ -144,5 +150,33 @@ describe('realpath', () => {
     await expect(
       realpath(path.join(dir.path, 'missing')),
     ).rejects.toMatchObject({code: 'ENOENT'});
+  });
+});
+
+describe('queueFileOperation', () => {
+  it('bounds the number of concurrent operations', async () => {
+    let running = 0;
+    let maxRunning = 0;
+    const results = await Promise.all(
+      Array.from({length: 500}, (_, i) =>
+        queueFileOperation(async () => {
+          running += 1;
+          maxRunning = Math.max(maxRunning, running);
+          await new Promise((resolve) => {
+            setTimeout(resolve, 1);
+          });
+          running -= 1;
+          return i;
+        }),
+      ),
+    );
+    expect(results).toEqual(Array.from({length: 500}, (_, i) => i));
+    expect(maxRunning).toBe(100);
+  });
+
+  it('propagates errors', async () => {
+    await expect(
+      queueFileOperation(() => Promise.reject(new Error('Some error'))),
+    ).rejects.toThrow('Some error');
   });
 });
