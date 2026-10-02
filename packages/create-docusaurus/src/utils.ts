@@ -48,6 +48,19 @@ export async function pathExists(filePath: string): Promise<boolean> {
     .catch(() => false);
 }
 
+// Like pnpm, which uses the closest parent pnpm-workspace.yaml file to find
+// the workspace root
+export async function isInsidePnpmWorkspace(dir: string): Promise<boolean> {
+  const parentDir = path.dirname(dir);
+  if (parentDir === dir) {
+    return false;
+  }
+  return (
+    (await pathExists(path.join(parentDir, 'pnpm-workspace.yaml'))) ||
+    isInsidePnpmWorkspace(parentDir)
+  );
+}
+
 export function printPackageManagerHelp({
   pkgManager,
   cdpath,
