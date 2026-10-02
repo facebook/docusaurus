@@ -49,7 +49,7 @@
     "@total-typescript/shoehorn": "^0.1.2",
     "fs-extra": "^11.4.0",
     "lodash": "^4.18.1",
-    "react-router-dom": "^5.3.4"
+    "react-router-dom": "^7.18.3"
   },
   "peerDependencies": {
     "react": "^19.3.0",
