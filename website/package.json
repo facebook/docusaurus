@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@crowdin/crowdin-api-client": "^1.57.0",
-    "@docsearch/react": "^4.7.0",
+    "@docsearch/react": "^5.0.4",
     "@docusaurus/core": "workspace:*",
     "@docusaurus/glob": "workspace:*",
     "@docusaurus/logger": "workspace:*",
