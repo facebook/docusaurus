@@ -36,9 +36,8 @@ const MDXEscapingUtils = (function () {
   const MARKUP_MARKERS_REGEX = /\u{FFFE}\d+\u{FFFF}/gu;
 
   function escapeMDX(str: string) {
-    return str.replace(
-      MARKUP_CHARS_REGEX,
-      (char) => MARKUP_CHARS_ESCAPE_MAP.get(char)!,
+    return str.replace(MARKUP_CHARS_REGEX, (char) =>
+      MARKUP_CHARS_ESCAPE_MAP.get(char)!,
     );
   }
 
