@@ -354,9 +354,6 @@ importers:
       semver:
         specifier: ^7.8.5
         version: 7.8.5
-      supports-color:
-        specifier: ^11.0.0
-        version: 11.0.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -364,9 +361,6 @@ importers:
       '@types/cross-spawn':
         specifier: ^6.0.6
         version: 6.0.6
-      '@types/supports-color':
-        specifier: ^10.0.0
-        version: 10.0.0
 
   packages/create-docusaurus/templates/classic:
     dependencies:
@@ -6416,10 +6410,6 @@ packages:
   '@types/source-list-map@0.1.6':
     resolution: {integrity: sha512-5JcVt1u5HDmlXkwOD2nslZVllBBc7HDuOICfiZah2Z0is8M8g+ddAEawbmd3VjedfDHBzxCaXLs07QEmb7y54g==}
 
-  '@types/supports-color@10.0.0':
-    resolution: {integrity: sha512-Kpp/hhA8/pcxqBBKmOCIgvwCOJAI5y6TWTHhhqnB6KmuYlKtixKgN/Z7VzhShdgONe2jYREnTQbsrb3E0nt/OQ==}
-    deprecated: This is a stub types definition. supports-color provides its own type definitions, so you do not need this installed.
-
   '@types/tapable@1.0.12':
     resolution: {integrity: sha512-bTHG8fcxEqv1M9+TD14P8ok8hjxoOCkfKc8XXLaaD05kI7ohpeI956jtDOD3XHKBQrlyPughUtzm1jtVhHpA5Q==}
 
@@ -12285,10 +12275,6 @@ packages:
     resolution: {integrity: sha512-SS+jx45GF1QjgEXQx4NJZV9ImqmO2NPz5FNsIHrsDjh2YsHnawpan7SNQ1o8NuhrbHZy9AZhIoCUiCeaW/C80g==}
     engines: {node: '>=18'}
 
-  supports-color@11.0.0:
-    resolution: {integrity: sha512-/zyImLdxhdygBIaVX0xTlQhKaCDLCrm665aqHk8xqK/Pa6k61fL6gwQGQq1k31yNyz6x55PppQgF2DMyPQa5xw==}
-    engines: {node: '>=22'}
-
   supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
     engines: {node: '>=4'}
@@ -17690,10 +17676,6 @@ snapshots:
       '@types/node': 26.6.1
 
   '@types/source-list-map@0.1.6': {}
-
-  '@types/supports-color@10.0.0':
-    dependencies:
-      supports-color: 11.0.0
 
   '@types/tapable@1.0.12': {}
 
@@ -25067,8 +25049,6 @@ snapshots:
       ts-interface-checker: 0.1.13
 
   supports-color@10.2.2: {}
-
-  supports-color@11.0.0: {}
 
   supports-color@5.5.0:
     dependencies:
