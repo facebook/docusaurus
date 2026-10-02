@@ -82,19 +82,7 @@ const ignores = globalIgnores([
   'packages/docusaurus-plugin-ideal-image/src/theme/IdealImageLegacy',
 ]);
 
-// JSX runtime is automatic: JSX doesn't use the in-scope "React" variable
-// This lets @typescript-eslint/no-unused-vars report useless React imports
-// TODO apply to the website too, once its useless React imports are removed
-const jsxRuntime = defineConfig({
-  files: ['packages/**'],
-  languageOptions: {
-    parserOptions: {
-      jsxPragma: null,
-    },
-  },
-});
-
-export default defineConfig(plugins, rules, ignores, jsxRuntime, {
+export default defineConfig(plugins, rules, ignores, {
   languageOptions: {
     ecmaVersion: 2022,
     sourceType: 'module',
@@ -106,6 +94,9 @@ export default defineConfig(plugins, rules, ignores, jsxRuntime, {
     },
     parserOptions: {
       // projectService: true,
+      // JSX runtime is automatic: JSX doesn't use the in-scope "React" variable
+      // This lets @typescript-eslint/no-unused-vars report useless React imports
+      jsxPragma: null,
     },
   },
 
