@@ -132,6 +132,9 @@ importers:
       '@docusaurus/plugin-content-pages':
         specifier: workspace:*
         version: link:packages/docusaurus-plugin-content-pages
+      '@docusaurus/utils':
+        specifier: workspace:*
+        version: link:packages/docusaurus-utils
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))
@@ -144,9 +147,6 @@ importers:
       '@testing-library/react':
         specifier: ^16.3.3
         version: 16.3.3(@testing-library/dom@10.4.1)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
       '@types/lodash':
         specifier: ^4.17.25
         version: 4.17.25
@@ -213,9 +213,6 @@ importers:
       execa:
         specifier: ^10.0.1
         version: 10.0.1
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       globals:
         specifier: ^17.12.0
         version: 17.12.0
@@ -2222,9 +2219,6 @@ importers:
       color:
         specifier: ^4.2.3
         version: 4.2.3
-      fs-extra:
-        specifier: ^11.4.0
-        version: 11.4.0
       netlify-plugin-cache:
         specifier: ^1.0.3
         version: 1.0.3
@@ -6255,9 +6249,6 @@ packages:
   '@types/file-loader@5.0.4':
     resolution: {integrity: sha512-aB4X92oi5D2nIGI8/kolnJ47btRM2MQjQS4eJgA/VnCD12x0+kP5v7b5beVQWKHLOcquwUXvv6aMt8PmMy9uug==}
 
-  '@types/fs-extra@11.0.4':
-    resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
-
   '@types/geojson@7946.0.16':
     resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
 
@@ -6287,9 +6278,6 @@ packages:
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
-
-  '@types/jsonfile@6.1.4':
-    resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
 
   '@types/katex@0.16.8':
     resolution: {integrity: sha512-trgaNyfU+Xh2Tc+ABIb44a5AYUpicB3uwirOioeOkNPPbmgRNtcWyDeeFRzjPZENO9Vq8gvVqfhaaXWLlevVwg==}
@@ -17522,11 +17510,6 @@ snapshots:
     dependencies:
       '@types/webpack': 4.41.40
 
-  '@types/fs-extra@11.0.4':
-    dependencies:
-      '@types/jsonfile': 6.1.4
-      '@types/node': 26.6.1
-
   '@types/geojson@7946.0.16': {}
 
   '@types/hast@3.0.5':
@@ -17552,10 +17535,6 @@ snapshots:
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
-
-  '@types/jsonfile@6.1.4':
-    dependencies:
-      '@types/node': 26.6.1
 
   '@types/katex@0.16.8': {}
 
