@@ -277,15 +277,7 @@ jobs:
       - name: Generate test-website project against main branch
         run: pnpm test:build:website -st
       - name: Install test-website project with pnpm
-        run: |
-          cat > pnpm-workspace.yaml <<'YAML'
-          strictDepBuilds: true
-          allowBuilds:
-            '@swc/core': true
-            core-js: true
-          YAML
-
-          pnpm install
+        run: pnpm install
         working-directory: ../test-website
         env:
           pnpm_config_registry: http://localhost:4873
