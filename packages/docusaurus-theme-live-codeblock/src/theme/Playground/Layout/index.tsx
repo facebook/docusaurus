@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import PlaygroundPreview from '@theme/Playground/Preview';
 import PlaygroundEditor from '@theme/Playground/Editor';

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useRef, type ReactNode} from 'react';
+import {useEffect, useRef, type ReactNode} from 'react';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import {ErrorBoundaryErrorMessageFallback} from '@docusaurus/theme-common';
 import {

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
 import AdmonitionTypeNote from '@theme/Admonition/Type/Note';
 import AdmonitionTypeTip from '@theme/Admonition/Type/Tip';
 import AdmonitionTypeInfo from '@theme/Admonition/Type/Info';

@@ -7,7 +7,7 @@
 // @vitest-environment jsdom
 
 import {describe, expect, it, vi} from 'vitest';
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {render as renderRTL} from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import {fromPartial} from '@total-typescript/shoehorn';

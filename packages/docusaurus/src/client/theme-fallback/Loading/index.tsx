@@ -8,7 +8,7 @@
 // Should we translate theme-fallback?
 /* eslint-disable @docusaurus/no-untranslated-text */
 
-import React, {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import type {LoadingComponentProps} from 'react-loadable';
 
 export default function Loading({
