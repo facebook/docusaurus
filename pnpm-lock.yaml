@@ -1897,7 +1897,7 @@ importers:
         specifier: ^1.19.10
         version: 1.19.12(@algolia/client-search@5.59.0)(algoliasearch@5.59.0)(search-insights@2.17.3)
       '@docsearch/react':
-        specifier: ^5.0.4
+        specifier: ^5.1.1
         version: 5.1.1(@algolia/client-search@5.59.0)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(search-insights@2.17.3)
       '@docusaurus/core':
         specifier: workspace:*
