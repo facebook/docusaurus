@@ -41,7 +41,7 @@
     "@docusaurus/theme-translations": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
     "clsx": "^2.1.1",
-    "react-live": "^4.1.8",
+    "react-live": "^5.0.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
