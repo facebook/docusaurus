@@ -147,7 +147,7 @@ catalogs:
       specifier: ^1.57.0
       version: 1.57.0
     '@docsearch/react':
-      specifier: ^5.0.4
+      specifier: ^5.1.1
       version: 5.1.2
     '@docusaurus/responsive-loader':
       specifier: ^1.7.1
