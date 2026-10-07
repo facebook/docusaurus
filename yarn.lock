@@ -17795,10 +17795,10 @@ tinyglobby@^0.2.12, tinyglobby@^0.2.9:
     fdir "^6.5.0"
     picomatch "^4.0.3"
 
-tinypool@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/tinypool/-/tinypool-1.0.2.tgz#706193cc532f4c100f66aa00b01c42173d9051b2"
-  integrity sha512-al6n+QEANGFOMf/dmUMsuS5/r9B06uwlyNjZZql/zv8J7ybHCgoihBNORZCY2mzUuAnomQa2JdhyHKzZxPCrFA==
+tinypool@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/tinypool/-/tinypool-2.1.2.tgz#fcb3df44405c2530259e4bef5928a90bf46134dd"
+  integrity sha512-9YodfrxS9g9IbFr/KOjE5bAeJ0p61n3bW6mqvy0jtoeKd1kTW1Cxm0oulm6KX2lyM9Gl6WIe8nEbY7LWv5ZJww==
 
 tldts-core@^6.1.86:
   version "6.1.86"
