@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import {visit} from 'unist-util-visit';
 import {
   toMessageRelativeFilePath,
@@ -19,6 +18,7 @@ import {
 } from '@docusaurus/utils';
 import {imageSizeFromFile} from 'image-size/fromFile';
 import logger from '@docusaurus/logger';
+import {pathExists} from '@docusaurus/fs';
 import {
   assetRequireAttributeValue,
   formatNodePositionExtraMessage,
@@ -167,7 +167,7 @@ async function getLocalImageAbsolutePath(
       siteDir,
       originalImagePath.replace('@site/', ''),
     );
-    if (!(await fs.pathExists(imageFilePath))) {
+    if (!(await pathExists(imageFilePath))) {
       return null;
     }
     return imageFilePath;
@@ -176,10 +176,7 @@ async function getLocalImageAbsolutePath(
     const possiblePaths = staticDirs.map((dir) =>
       path.join(dir, originalImagePath),
     );
-    const imageFilePath = await findAsyncSequential(
-      possiblePaths,
-      fs.pathExists,
-    );
+    const imageFilePath = await findAsyncSequential(possiblePaths, pathExists);
     if (!imageFilePath) {
       return null;
     }
@@ -187,7 +184,7 @@ async function getLocalImageAbsolutePath(
   } else {
     // relative paths are resolved against the source file's folder
     const imageFilePath = path.join(path.dirname(filePath), originalImagePath);
-    if (!(await fs.pathExists(imageFilePath))) {
+    if (!(await pathExists(imageFilePath))) {
       return null;
     }
     return imageFilePath;

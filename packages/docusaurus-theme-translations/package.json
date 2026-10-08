@@ -19,7 +19,7 @@
     "update": "node ./update.mjs"
   },
   "dependencies": {
-    "fs-extra": "^11.4.0",
+    "@docusaurus/fs": "workspace:*",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

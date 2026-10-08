@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
+import {pathExists} from '@docusaurus/fs';
 import type {TransformOptions} from '@babel/core';
 
 export async function getCustomBabelConfigFilePath(
@@ -17,7 +17,7 @@ export async function getCustomBabelConfigFilePath(
     siteDir,
     BABEL_CONFIG_FILE_NAME,
   );
-  return (await fs.pathExists(customBabelConfigurationPath))
+  return (await pathExists(customBabelConfigurationPath))
     ? customBabelConfigurationPath
     : undefined;
 }
