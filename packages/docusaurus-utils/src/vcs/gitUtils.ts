@@ -483,5 +483,12 @@ export async function getGitRepositoryFilesInfo(
     });
   }
 
+  // Explicitly await the subprocess promise so that a non-zero exit code
+  // from `git log` surfaces as a rejected promise (build failure),
+  // preserving the same "Git failure fails the build" behavior as before.
+  // Execa's return value is both an async iterable and a promise:
+  // https://github.com/sindresorhus/execa/blob/main/docs/api.md
+  await subprocess;
+
   return runningMap;
 }
