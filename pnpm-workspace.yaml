@@ -56,7 +56,6 @@ dangerouslyAllowAllBuilds: false
 allowBuilds:
   '@parcel/watcher': false
   '@swc/core': false
-  core-js: false
   fast-folder-size: false
   nx: false
   sharp: false

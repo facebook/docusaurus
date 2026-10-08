@@ -140,7 +140,7 @@ PNPM_CONFIG_MINIMUM_RELEASE_AGE_EXCLUDE='["create-docusaurus","@docusaurus/*"]' 
 cd my-canary-website
 
 pnpm config set --location=project --json minimumReleaseAgeExclude '["create-docusaurus","@docusaurus/*"]'
-pnpm config set --location=project --json allowBuilds '{"@swc/core":false,"core-js":false}'
+pnpm config set --location=project --json allowBuilds '{"@swc/core":false}'
 pnpm install
 
 pnpm build

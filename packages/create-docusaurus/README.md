@@ -74,7 +74,6 @@ cat > pnpm-workspace.yaml <<'YAML'
 strictDepBuilds: true
 allowBuilds:
   '@swc/core': false
-  core-js: false
 YAML
 
 pnpm_config_registry=http://localhost:4873 pnpm install

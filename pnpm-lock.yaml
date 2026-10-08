@@ -486,9 +486,6 @@ importers:
       commander:
         specifier: ^15.0.0
         version: 15.0.0
-      core-js:
-        specifier: ^3.50.0
-        version: 3.50.0
       detect-port:
         specifier: ^2.1.0
         version: 2.1.0
@@ -1399,9 +1396,6 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      core-js:
-        specifier: ^3.50.0
-        version: 3.50.0
       react:
         specifier: ^19.3.0
         version: 19.3.0
@@ -7585,9 +7579,6 @@ packages:
   core-js-compat@3.50.0:
     resolution: {integrity: sha512-XGpFGbMLHwSt74YLTKho7Ib242qi6O8MSX+sRokV4oz7iKXvQWGYZthjIhjRGMxjzVkAubBO512dKGYcefmX3Q==}
     engines: {node: '>=6.4.0'}
-
-  core-js@3.50.0:
-    resolution: {integrity: sha512-BRWgOLKkFeCgRudR6zrs8p9XJZcE14grzKMMssoYrk6krtuEZ7MTKPIY5RzOnqsEKIR9kst7wNzphttraT+Yqw==}
 
   cors@2.8.6:
     resolution: {integrity: sha512-tJtZBBHA6vjIAaF6EnIaq6laBBP9aq/Y3ouVJjEfoHbRBcHBAHYcMh/w8LDrk2PvIMMq8gmopa5D4V8RmbrxGw==}
@@ -18956,8 +18947,6 @@ snapshots:
   core-js-compat@3.50.0:
     dependencies:
       browserslist: 4.29.0
-
-  core-js@3.50.0: {}
 
   cors@2.8.6:
     dependencies:

@@ -83,8 +83,6 @@ const config: KnipConfig = {
         'src/**/*.d.ts',
       ],
       ignoreDependencies: [
-        // Polyfills for Babel preset-env "useBuiltIns: entry"
-        'core-js',
         // Resolved from the site dir, only when using a theme
         '@docusaurus/theme-common',
         // JSDoc type, provided by webpack-dev-server
@@ -122,8 +120,6 @@ const config: KnipConfig = {
       ignoreDependencies: [
         // Used as a webpack loader name
         'babel-loader',
-        // Polyfills for Babel preset-env "useBuiltIns: entry"
-        'core-js',
       ],
     }),
     'packages/docusaurus-plugin-svgr': {
