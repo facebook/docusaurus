@@ -25,6 +25,7 @@ import {
   type ContentPaths,
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
+import {queueFileOperation} from '@docusaurus/fs';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext} from '@docusaurus/types';
 import type {
@@ -123,7 +124,7 @@ async function processPageSourceFile(
     };
   }
 
-  const content = await fs.readFile(source, 'utf-8');
+  const content = await queueFileOperation(() => fs.readFile(source, 'utf-8'));
   const {
     frontMatter: unsafeFrontMatter,
     contentTitle,

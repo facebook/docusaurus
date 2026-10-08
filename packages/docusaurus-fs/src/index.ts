@@ -6,3 +6,4 @@
  */
 
 export {pathExists, outputFile, readJSON, realpath} from './fsUtils';
+export {queueFileOperation} from './queue';

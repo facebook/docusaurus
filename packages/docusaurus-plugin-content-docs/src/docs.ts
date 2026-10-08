@@ -22,6 +22,7 @@ import {
   normalizeTags,
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
+import {queueFileOperation} from '@docusaurus/fs';
 import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
@@ -55,7 +56,9 @@ export async function readDocFile(
 
   const filePath = path.join(contentPath, source);
 
-  const content = await fs.readFile(filePath, 'utf-8');
+  const content = await queueFileOperation(() =>
+    fs.readFile(filePath, 'utf-8'),
+  );
   return {source, content, contentPath, filePath};
 }
 

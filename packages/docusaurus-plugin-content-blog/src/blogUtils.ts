@@ -27,6 +27,7 @@ import {
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
 
+import {queueFileOperation} from '@docusaurus/fs';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {getBlogPostAuthors} from './authors';
 import {reportAuthorsProblems} from './authorsProblems';
@@ -233,7 +234,9 @@ async function parseBlogPostMarkdownFile({
   filePath: string;
   parseFrontMatter: ParseFrontMatter;
 }) {
-  const fileContent = await fs.readFile(filePath, 'utf-8');
+  const fileContent = await queueFileOperation(() =>
+    fs.readFile(filePath, 'utf-8'),
+  );
   try {
     const result = await parseMarkdownFile({
       filePath,

@@ -13,6 +13,7 @@ import {
   type HeadingIdSyntax,
 } from '@docusaurus/utils';
 import {safeGlob} from '@docusaurus/glob';
+import {queueFileOperation} from '@docusaurus/fs';
 import {loadContext} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 
@@ -102,7 +103,9 @@ export async function writeHeadingIds(
   }
 
   const result = await Promise.all(
-    markdownFiles.map((p) => transformMarkdownFile(p, options)),
+    markdownFiles.map((p) =>
+      queueFileOperation(() => transformMarkdownFile(p, options)),
+    ),
   );
 
   const pathsModified = result.filter(Boolean) as string[];
