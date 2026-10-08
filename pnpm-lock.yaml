@@ -298,11 +298,7 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(jsdom@30.1.0)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0))
 
-  admin/new.docusaurus.io:
-    dependencies:
-      '@netlify/functions':
-        specifier: ^1.6.0
-        version: 1.6.0
+  admin/new.docusaurus.io: {}
 
   admin/test-bad-package:
     dependencies:
@@ -4570,10 +4566,6 @@ packages:
     peerDependencies:
       '@emnapi/core': ^1.7.1 || ^2.0.0-alpha.4
       '@emnapi/runtime': ^1.7.1 || ^2.0.0-alpha.4
-
-  '@netlify/functions@1.6.0':
-    resolution: {integrity: sha512-6G92AlcpFrQG72XU8YH8pg94eDnq7+Q0YJhb8x4qNpdGsvuzvrfHWBmqFGp/Yshmv4wex9lpsTRZOocdrA2erQ==}
-    engines: {node: '>=14.0.0'}
 
   '@noble/hashes@1.4.0':
     resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
@@ -15963,10 +15955,6 @@ snapshots:
       '@emnapi/runtime': 1.11.3
       '@tybys/wasm-util': 0.10.3
     optional: true
-
-  '@netlify/functions@1.6.0':
-    dependencies:
-      is-promise: 4.0.0
 
   '@noble/hashes@1.4.0': {}
 
