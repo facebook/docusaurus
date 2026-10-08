@@ -29,9 +29,7 @@ function getTransformOptions(isServer: boolean): TransformOptions {
         : [
             require.resolve('@babel/preset-env'),
             {
-              useBuiltIns: 'entry',
               loose: true,
-              corejs: '3',
               // Do not transform modules to CJS
               modules: false,
               // Exclude transforms that make all code slower

@@ -282,7 +282,6 @@ jobs:
           strictDepBuilds: true
           allowBuilds:
             '@swc/core': true
-            core-js: true
           YAML
 
           pnpm install

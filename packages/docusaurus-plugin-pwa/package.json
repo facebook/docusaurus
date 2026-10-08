@@ -32,7 +32,6 @@
     "@docusaurus/utils-validation": "workspace:*",
     "babel-loader": "^10.1.1",
     "clsx": "^2.1.1",
-    "core-js": "^3.50.0",
     "tslib": "^2.8.1",
     "webpack": "^5.111.0",
     "workbox-build": "^7.4.1",
