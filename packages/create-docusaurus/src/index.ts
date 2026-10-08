@@ -150,7 +150,9 @@ async function shouldKeepPnpmWorkspaceFile(
   }
   // allowBuilds requires pnpm 10.26+, and older versions such as pnpm 9 fail
   // to run at all with a pnpm-workspace.yaml file without "packages" field
-  const pnpmVersion = semver.valid(getPackageManagerVersion('pnpm', dest));
+  const pnpmVersion = semver.valid(
+    await getPackageManagerVersion('pnpm', dest),
+  );
   return pnpmVersion !== null && semver.gte(pnpmVersion, '10.26.0');
 }
 

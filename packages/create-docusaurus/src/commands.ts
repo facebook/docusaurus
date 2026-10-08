@@ -94,15 +94,19 @@ export async function getAvailablePackageManagers(): Promise<PackageManager[]> {
 /**
  * @returns the package manager version, or undefined if it can't be read
  */
-export function getPackageManagerVersion(
+export async function getPackageManagerVersion(
   packageManager: PackageManager,
   cwd: string,
-): string | undefined {
-  const {status, stdout} = crossSpawn.sync(packageManager, ['--version'], {
-    cwd,
-    encoding: 'utf8',
-  });
-  return status === 0 ? stdout.trim() : undefined;
+): Promise<string | undefined> {
+  try {
+    const {exitCode, stdout} = await runCommand(packageManager, ['--version'], {
+      cwd,
+    });
+    return exitCode === 0 ? stdout.trim() : undefined;
+  } catch {
+    // The package manager is not installed
+    return undefined;
+  }
 }
 
 export async function runPackageManagerInstallCommand(
