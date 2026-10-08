@@ -43,6 +43,26 @@ import TabItem from '@theme/TabItem';
 </BrowserWindow>
 ```
 
+:::warning Markdown content inside TabItem
+
+When including Markdown block elements (such as lists or code blocks) inside `<TabItem>`, leave empty lines before and after the Markdown block:
+
+{/* prettier-ignore */}
+```jsx
+<Tabs>
+  <TabItem value="apple" label="Apple">
+
+  - First item
+  - Second item
+
+  </TabItem>
+</Tabs>
+```
+
+Omitting the empty line after a list causes the MDX compiler to treat `</TabItem>` as part of the list item, resulting in a compilation error (`Expected the closing tag </TabItem> either after the end of listItem...`). For details, see [Markdown and JSX interoperability](./markdown-features-react.mdx#markdown-and-jsx-interoperability).
+
+:::
+
 ---
 
 It is also possible to provide `values` and `defaultValue` props to `Tabs`:
