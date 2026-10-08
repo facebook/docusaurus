@@ -16,6 +16,7 @@ export default {
     'packages/*/package.json',
     'website/package.json',
     'argos/package.json',
+    'admin/scripts/package.json',
     'packages/create-docusaurus/templates/*/package.json',
   ],
 
