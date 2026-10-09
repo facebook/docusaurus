@@ -26,7 +26,6 @@ import type {
   FutureV4Config,
   I18nConfig,
   I18nLocaleConfig,
-  MDX1CompatOptions,
   MarkdownConfig,
   MarkdownHooks,
   StorageConfig,
@@ -94,7 +93,6 @@ export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
   useCssCascadeLayers: false,
   siteStorageNamespacing: false,
   fasterByDefault: false,
-  mdx1CompatDisabledByDefault: false,
 };
 
 // When using the "v4: true" shortcut
@@ -102,7 +100,6 @@ export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
   useCssCascadeLayers: true,
   siteStorageNamespacing: true,
   fasterByDefault: true,
-  mdx1CompatDisabledByDefault: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
@@ -118,12 +115,6 @@ const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
   onUnusedMarkdownDirectives: 'warn',
 };
 
-const DEFAULT_MARKDOWN_MDX1COMPAT: MDX1CompatOptions = {
-  comments: true,
-  admonitions: true,
-  headingIds: true,
-};
-
 const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   // TODO Docusaurus v5: change this to "detect"?
   //  we probably need stable CommonMark support first
@@ -133,7 +124,11 @@ const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   emoji: true,
   preprocessor: undefined,
   parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
-  mdx1Compat: DEFAULT_MARKDOWN_MDX1COMPAT,
+  mdx1Compat: {
+    comments: false,
+    admonitions: false,
+    headingIds: false,
+  },
   anchors: {
     maintainCase: false,
   },
@@ -319,9 +314,6 @@ const FUTURE_V4_SCHEMA = Joi.alternatives()
       ),
       fasterByDefault: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.fasterByDefault,
-      ),
-      mdx1CompatDisabledByDefault: Joi.boolean().default(
-        DEFAULT_FUTURE_V4_CONFIG.mdx1CompatDisabledByDefault,
       ),
     }),
     Joi.boolean()
@@ -518,14 +510,17 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       .arity(1)
       .optional()
       .default(() => DEFAULT_CONFIG.markdown.preprocessor),
-    // Individual boolean defaults are not set here on purpose
-    // They are resolved in postProcessDocusaurusConfig based on
-    // the future.v4.mdx1CompatDisabledByDefault flag
     mdx1Compat: Joi.object({
-      comments: Joi.boolean(),
-      admonitions: Joi.boolean(),
-      headingIds: Joi.boolean(),
-    }).default({}),
+      comments: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.comments,
+      ),
+      admonitions: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.admonitions,
+      ),
+      headingIds: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.headingIds,
+      ),
+    }).default(DEFAULT_CONFIG.markdown.mdx1Compat),
     remarkRehypeOptions:
       // add proper external options validation?
       // Not sure if it's a good idea, validation is likely to become stale
@@ -556,12 +551,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         )
         .default(DEFAULT_CONFIG.markdown.hooks.onUnusedMarkdownDirectives),
     }).default(DEFAULT_CONFIG.markdown.hooks),
-  }).default({
-    ...DEFAULT_CONFIG.markdown,
-    mdx1Compat: {
-      // erased on purpose, filled using postprocessing
-    },
-  }),
+  }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
@@ -589,16 +579,6 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
     if (config.future.faster[key] === undefined) {
       config.future.faster[key] = fasterDefault;
     }
-  }
-
-  // Resolve mdx1Compat config based on the v4.mdx1CompatDisabledByDefault flag
-  // undefined means "not explicitly set by user"
-  const mdx1CompatDefault = !config.future.v4.mdx1CompatDisabledByDefault;
-  const mdx1CompatKeys = Object.keys(
-    DEFAULT_MARKDOWN_MDX1COMPAT,
-  ) as (keyof MDX1CompatOptions)[];
-  for (const key of mdx1CompatKeys) {
-    config.markdown.mdx1Compat[key] ??= mdx1CompatDefault;
   }
 
   if (config.onBrokenMarkdownLinks) {
