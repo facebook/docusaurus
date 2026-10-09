@@ -148,6 +148,7 @@ The classic preset is shipped by default to new Docusaurus websites created with
 - [`@docusaurus/plugin-google-tag-manager`](./api/plugins/plugin-google-tag-manager.mdx)
 - [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.mdx)
 - [`@docusaurus/plugin-svgr`](./api/plugins/plugin-svgr.mdx)
+- [`@docusaurus/plugin-css-cascade-layers`](./api/plugins/plugin-css-cascade-layers.mdx)
 
 The classic preset will relay each option entry to the respective plugin/theme.
 
@@ -173,6 +174,8 @@ export default {
         sitemap: {},
         // Will be passed to @docusaurus/plugin-svgr (false to disable)
         svgr: {},
+        // Will be passed to @docusaurus/plugin-css-cascade-layers (false to disable)
+        cssCascadeLayers: {},
         // Will be passed to @docusaurus/plugin-google-gtag (only enabled when explicitly specified)
         gtag: {},
         // Will be passed to @docusaurus/plugin-google-tag-manager (only enabled when explicitly specified)

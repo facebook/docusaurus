@@ -72,14 +72,10 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
   namespace: true,
 };
 
-export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
-  useCssCascadeLayers: false,
-};
+export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {};
 
 // When using the "v4: true" shortcut
-export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
-  useCssCascadeLayers: true,
-};
+export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {};
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
@@ -253,11 +249,7 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
 
 const FUTURE_V4_SCHEMA = Joi.alternatives()
   .try(
-    Joi.object<FutureV4Config>({
-      useCssCascadeLayers: Joi.boolean().default(
-        DEFAULT_FUTURE_V4_CONFIG.useCssCascadeLayers,
-      ),
-    }),
+    Joi.object<FutureV4Config>({}),
     Joi.boolean()
       .required()
       .custom((bool) =>

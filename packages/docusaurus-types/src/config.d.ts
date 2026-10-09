@@ -35,9 +35,9 @@ export type WebpackConfig = {
   jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule);
 };
 
-export type FutureV4Config = {
-  useCssCascadeLayers: boolean;
-};
+// TODO Docusaurus v4: remove the future.v4 config entirely
+//  All the v4 future flags have been removed or turned on by default
+export type FutureV4Config = Record<string, never>;
 
 // VCS (Version Control System) info about a given change, e.g., a git commit.
 // The agnostic term "VCS" is used instead of "git" to acknowledge the existence

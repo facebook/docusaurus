@@ -64,9 +64,7 @@ describe('normalizeConfig', () => {
         getFileLastUpdateInfo: (_filePath) => null,
       },
       future: {
-        v4: {
-          useCssCascadeLayers: true,
-        },
+        v4: {},
         experimental_router: 'hash',
       },
       tagline: 'my awesome site',
@@ -1478,9 +1476,7 @@ describe('future', () => {
 
   it('accepts future - full', () => {
     const future: DocusaurusConfig['future'] = {
-      v4: {
-        useCssCascadeLayers: true,
-      },
+      v4: {},
       experimental_router: 'hash',
     };
     expect(
@@ -1626,19 +1622,6 @@ describe('future', () => {
       ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
     });
 
-    it('accepts v4 - full', () => {
-      const v4: FutureV4Config = {
-        useCssCascadeLayers: true,
-      };
-      expect(
-        normalizeConfig({
-          future: {
-            v4,
-          },
-        }),
-      ).toEqual(v4Containing(v4));
-    });
-
     it('accepts v4 - false', () => {
       expect(
         normalizeConfig({
@@ -1670,79 +1653,22 @@ describe('future', () => {
       `);
     });
 
-    describe('useCssCascadeLayers', () => {
-      it('accepts - undefined', () => {
-        const v4: Partial<FutureV4Config> = {
-          useCssCascadeLayers: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({useCssCascadeLayers: false}));
-      });
-
-      it('accepts - true', () => {
-        const v4: Partial<FutureV4Config> = {
-          useCssCascadeLayers: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({useCssCascadeLayers: true}));
-      });
-
-      it('accepts - false', () => {
-        const v4: Partial<FutureV4Config> = {
-          useCssCascadeLayers: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({useCssCascadeLayers: false}));
-      });
-
-      it('rejects - null', () => {
-        const v4: Partial<FutureV4Config> = {
-          // @ts-expect-error: invalid
-          useCssCascadeLayers: 42,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.v4.useCssCascadeLayers" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        const v4: Partial<FutureV4Config> = {
-          // @ts-expect-error: invalid
-          useCssCascadeLayers: 42,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.v4.useCssCascadeLayers" must be a boolean
-          ]
-        `);
-      });
+    it('rejects v4 - unknown key', () => {
+      const v4: Partial<FutureV4Config> = {
+        // @ts-expect-error: invalid
+        useCssCascadeLayers: true,
+      };
+      expect(() =>
+        normalizeConfig({
+          future: {
+            v4,
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: These field(s) ("future.v4.useCssCascadeLayers",) are not recognized in docusaurus.config.js.
+        If you still want these fields to be in your configuration, put them in the "customFields" field.
+        See https://docusaurus.io/docs/api/docusaurus-config/#customfields]
+      `);
     });
   });
 });

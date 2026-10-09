@@ -9,9 +9,7 @@ exports[`loadSiteConfig > website with .cjs siteConfig 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "v4": {
-        "useCssCascadeLayers": false,
-      },
+      "v4": {},
     },
     "headTags": [],
     "i18n": {
@@ -83,9 +81,7 @@ exports[`loadSiteConfig > website with ts + js config 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "v4": {
-        "useCssCascadeLayers": false,
-      },
+      "v4": {},
     },
     "headTags": [],
     "i18n": {
@@ -157,9 +153,7 @@ exports[`loadSiteConfig > website with valid JS CJS config 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "v4": {
-        "useCssCascadeLayers": false,
-      },
+      "v4": {},
     },
     "headTags": [],
     "i18n": {
@@ -231,9 +225,7 @@ exports[`loadSiteConfig > website with valid JS ESM config 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "v4": {
-        "useCssCascadeLayers": false,
-      },
+      "v4": {},
     },
     "headTags": [],
     "i18n": {
@@ -305,9 +297,7 @@ exports[`loadSiteConfig > website with valid TypeScript CJS config 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "v4": {
-        "useCssCascadeLayers": false,
-      },
+      "v4": {},
     },
     "headTags": [],
     "i18n": {
@@ -379,9 +369,7 @@ exports[`loadSiteConfig > website with valid TypeScript ESM config 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "v4": {
-        "useCssCascadeLayers": false,
-      },
+      "v4": {},
     },
     "headTags": [],
     "i18n": {
@@ -453,9 +441,7 @@ exports[`loadSiteConfig > website with valid async config 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "v4": {
-        "useCssCascadeLayers": false,
-      },
+      "v4": {},
     },
     "headTags": [],
     "i18n": {
@@ -529,9 +515,7 @@ exports[`loadSiteConfig > website with valid async config creator function 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "v4": {
-        "useCssCascadeLayers": false,
-      },
+      "v4": {},
     },
     "headTags": [],
     "i18n": {
@@ -605,9 +589,7 @@ exports[`loadSiteConfig > website with valid config creator function 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "v4": {
-        "useCssCascadeLayers": false,
-      },
+      "v4": {},
     },
     "headTags": [],
     "i18n": {
@@ -684,9 +666,7 @@ exports[`loadSiteConfig > website with valid siteConfig 1`] = `
     "favicon": "img/docusaurus.ico",
     "future": {
       "experimental_router": "browser",
-      "v4": {
-        "useCssCascadeLayers": false,
-      },
+      "v4": {},
     },
     "headTags": [],
     "i18n": {
