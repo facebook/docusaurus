@@ -126,6 +126,9 @@ importers:
       '@docusaurus/fs':
         specifier: workspace:*
         version: link:packages/docusaurus-fs
+      '@docusaurus/monorepo-scripts':
+        specifier: workspace:*
+        version: link:admin/scripts
       '@docusaurus/plugin-content-blog':
         specifier: workspace:*
         version: link:packages/docusaurus-plugin-content-blog
@@ -171,9 +174,6 @@ importers:
       '@vitest/eslint-plugin':
         specifier: ^1.6.27
         version: 1.6.27(@typescript-eslint/eslint-plugin@8.70.0(@typescript-eslint/parser@8.70.0(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0))(@typescript/typescript6@6.0.2)(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(vitest@5.0.0(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(jsdom@30.1.0)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0)))
-      commander:
-        specifier: ^15.0.0
-        version: 15.0.0
       cross-env:
         specifier: ^10.1.0
         version: 10.1.0
@@ -210,18 +210,12 @@ importers:
       eslint-plugin-regexp:
         specifier: ^3.3.0
         version: 3.3.0(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))
-      execa:
-        specifier: ^10.0.1
-        version: 10.0.1
       globals:
         specifier: ^17.12.0
         version: 17.12.0
       husky:
         specifier: ^9.1.7
         version: 9.1.7
-      image-size:
-        specifier: ^2.0.4
-        version: 2.0.4
       jest-serializer-ansi-escapes:
         specifier: ^5.0.0
         version: 5.0.0
@@ -270,9 +264,6 @@ importers:
       rimraf:
         specifier: ^6.1.3
         version: 6.1.3
-      sharp:
-        specifier: ^0.35.1
-        version: 0.35.4(@types/node@26.6.1)
       stylelint:
         specifier: ^17.15.0
         version: 17.15.0(@typescript/typescript6@6.0.2)(supports-color@7.2.0)
@@ -299,6 +290,30 @@ importers:
         version: 5.0.0(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(jsdom@30.1.0)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0))
 
   admin/new.docusaurus.io: {}
+
+  admin/scripts:
+    dependencies:
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../../packages/docusaurus-fs
+      '@docusaurus/logger':
+        specifier: workspace:*
+        version: link:../../packages/docusaurus-logger
+      commander:
+        specifier: ^15.0.0
+        version: 15.0.0
+      execa:
+        specifier: ^10.0.1
+        version: 10.0.1
+      image-size:
+        specifier: ^2.0.4
+        version: 2.0.4
+      lodash:
+        specifier: ^4.18.1
+        version: 4.18.1
+      sharp:
+        specifier: ^0.35.1
+        version: 0.35.4(@types/node@26.6.1)
 
   admin/test-bad-package:
     dependencies:
@@ -2321,6 +2336,9 @@ importers:
       cross-env:
         specifier: ^10.1.0
         version: 10.1.0
+      image-size:
+        specifier: ^2.0.4
+        version: 2.0.4
       lodash:
         specifier: ^4.18.1
         version: 4.18.1

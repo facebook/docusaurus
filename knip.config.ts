@@ -44,7 +44,6 @@ const config: KnipConfig = {
   workspaces: {
     '.': {
       entry: [
-        'admin/scripts/*.js',
         // Vitest alias for @generated/* modules
         'test/emptyModule.ts',
       ],
@@ -68,6 +67,10 @@ const config: KnipConfig = {
       // Knip enables this plugin from dependencies, but the site has none
       // The plugin reads functions entry points from netlify.toml
       netlify: true,
+    },
+    'admin/scripts': {
+      // Run directly with node, or through the package bin commands
+      entry: ['*.js'],
     },
     'packages/create-docusaurus': {
       // Used to test the CLI package
