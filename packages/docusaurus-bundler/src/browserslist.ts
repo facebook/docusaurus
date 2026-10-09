@@ -18,7 +18,7 @@ export function getBrowserslistQueries(): string[] {
   );
 }
 
-// LightningCSS doesn't expose any type for css-minimizer-webpack-plugin setup
+// LightningCSS doesn't expose any type for minimizer-webpack-plugin setup
 // So we derive it ourselves
 // see https://lightningcss.dev/docs.html#with-webpack
 type LightningCssMinimizerOptions = Omit<

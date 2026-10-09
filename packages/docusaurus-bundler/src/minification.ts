@@ -5,11 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'node:path';
 import {rspack} from './rspack';
 import {
   getBrowserslistQueries,
   getLightningCssMinimizerOptions,
 } from './browserslist';
+import type * as MinifyFunctions from './minifyFunctions';
 import type {JsMinifyOptions} from '@swc/core';
 import type {
   RspackPluginInstance,
@@ -44,36 +46,54 @@ const SwcJsMinimizerOptions = {
   },
 } as const satisfies RspackSwcJsMinimizerOptions;
 
-// See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
-function getTerserParallel() {
-  let terserParallel: boolean | number = true;
+// The env variable keeps its historical name (Terser is not used anymore)
+// See https://github.com/webpack/minimizer-webpack-plugin#parallel
+function getMinimizerParallel() {
+  let minimizerParallel: boolean | number = true;
   if (process.env.TERSER_PARALLEL === 'false') {
-    terserParallel = false;
+    minimizerParallel = false;
   } else if (
     process.env.TERSER_PARALLEL &&
     parseInt(process.env.TERSER_PARALLEL, 10) > 0
   ) {
-    terserParallel = parseInt(process.env.TERSER_PARALLEL, 10);
+    minimizerParallel = parseInt(process.env.TERSER_PARALLEL, 10);
   }
-  return terserParallel;
+  return minimizerParallel;
 }
 
-// Terser is not used: terser-webpack-plugin only runs the SWC minifier
+// Minify functions are referenced by module path, so that the plugin's
+// worker processes can require them
+// The extension is .ts when running tests on source files
+// See https://github.com/webpack/minimizer-webpack-plugin#minify
+function getMinifyFunction(name: keyof typeof MinifyFunctions) {
+  const extension = path.extname(__filename);
+  return {
+    path: path.join(__dirname, `minifyFunctions${extension}`),
+    export: name,
+  };
+}
+
 async function getJsMinimizer(): Promise<WebpackPluginInstance> {
-  const {default: TerserPlugin} = await import('terser-webpack-plugin');
-  return new TerserPlugin<JsMinifyOptions>({
-    parallel: getTerserParallel(),
-    minify: TerserPlugin.swcMinify,
-    terserOptions: {...SwcJsMinimizerOptions, safari10: true},
+  const {default: MinimizerPlugin} = await import('minimizer-webpack-plugin');
+  return new MinimizerPlugin<JsMinifyOptions>({
+    parallel: getMinimizerParallel(),
+    minify: {
+      implementation: getMinifyFunction('swcMinify'),
+      options: {...SwcJsMinimizerOptions, safari10: true},
+    },
   });
 }
 
 async function getCssMinimizer(): Promise<WebpackPluginInstance> {
-  const {default: CssMinimizerPlugin} =
-    await import('css-minimizer-webpack-plugin');
-  return new CssMinimizerPlugin({
-    minify: CssMinimizerPlugin.lightningCssMinify,
-    minimizerOptions: getLightningCssMinimizerOptions(),
+  const {default: MinimizerPlugin} = await import('minimizer-webpack-plugin');
+  return new MinimizerPlugin({
+    // The plugin's default test only matches JS files
+    test: /\.css(?:\?.*)?$/i,
+    parallel: getMinimizerParallel(),
+    minify: {
+      implementation: getMinifyFunction('lightningCssMinify'),
+      options: getLightningCssMinimizerOptions(),
+    },
   });
 }
 
