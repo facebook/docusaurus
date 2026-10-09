@@ -453,6 +453,9 @@ importers:
       '@docusaurus/faster':
         specifier: workspace:*
         version: link:../docusaurus-faster
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../docusaurus-fs
       '@docusaurus/glob':
         specifier: workspace:*
         version: link:../docusaurus-glob
@@ -634,6 +637,9 @@ importers:
       '@babel/traverse':
         specifier: ^7.29.8
         version: 7.29.8(supports-color@10.2.2)
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../docusaurus-fs
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger
@@ -790,6 +796,9 @@ importers:
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger
+      p-queue:
+        specifier: ^9.3.3
+        version: 9.3.3
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -978,6 +987,9 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../docusaurus-fs
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger
@@ -1018,6 +1030,9 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../docusaurus-fs
       '@docusaurus/glob':
         specifier: workspace:*
         version: link:../docusaurus-glob
@@ -1112,6 +1127,9 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../docusaurus-fs
       '@docusaurus/glob':
         specifier: workspace:*
         version: link:../docusaurus-glob
@@ -1194,6 +1212,9 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../docusaurus-fs
       '@docusaurus/glob':
         specifier: workspace:*
         version: link:../docusaurus-glob
@@ -2039,6 +2060,9 @@ importers:
       '@11ty/gray-matter':
         specifier: ^3.0.0
         version: 3.0.0
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../docusaurus-fs
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger

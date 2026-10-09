@@ -35,6 +35,7 @@
   "dependencies": {
     "@docusaurus/babel": "workspace:*",
     "@docusaurus/bundler": "workspace:*",
+    "@docusaurus/fs": "workspace:*",
     "@docusaurus/glob": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/mdx-loader": "workspace:*",

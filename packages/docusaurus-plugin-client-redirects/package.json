@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/core": "workspace:*",
+    "@docusaurus/fs": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/utils": "workspace:*",
     "@docusaurus/utils-common": "workspace:*",
