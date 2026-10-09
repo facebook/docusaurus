@@ -92,7 +92,8 @@ describe('createJsLoaderFactory', () => {
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
       [Error: You can't use siteConfig.webpack.jsLoader with siteConfig.future.faster.rspackBundler.
-      Rspack always uses its built-in SWC loader, please remove siteConfig.webpack.jsLoader.]
+      Rspack always uses its built-in SWC loader, please remove siteConfig.webpack.jsLoader.
+      If you need a custom JS loader, opt out of Rspack with siteConfig.future.faster.rspackBundler: false.]
     `);
   });
 

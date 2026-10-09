@@ -54,7 +54,8 @@ export async function createJsLoaderFactory({
     if (siteConfig.webpack?.jsLoader) {
       throw new Error(
         `You can't use siteConfig.webpack.jsLoader with siteConfig.future.faster.rspackBundler.
-Rspack always uses its built-in SWC loader, please remove siteConfig.webpack.jsLoader.`,
+Rspack always uses its built-in SWC loader, please remove siteConfig.webpack.jsLoader.
+If you need a custom JS loader, opt out of Rspack with siteConfig.future.faster.rspackBundler: false.`,
       );
     }
     return createRspackSwcJsLoaderFactory();

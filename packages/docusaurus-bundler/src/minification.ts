@@ -7,13 +7,16 @@
 
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import {getCurrentBundlerAsRspack} from './currentBundler';
+import {rspack} from './rspack';
 import {
   getBrowserslistQueries,
   getLightningCssMinimizerOptions,
 } from './browserslist';
 import type {JsMinifyOptions} from '@swc/core';
-import type {CustomOptions} from 'terser-webpack-plugin';
+import type {
+  RspackPluginInstance,
+  SwcJsMinimizerRspackPluginOptions,
+} from '@rspack/core';
 import type {WebpackPluginInstance} from 'webpack';
 import type {CurrentBundler} from '@docusaurus/types';
 
@@ -21,23 +24,27 @@ export type MinimizersConfig = {
   currentBundler: CurrentBundler;
 };
 
+type RspackSwcJsMinimizerOptions = NonNullable<
+  SwcJsMinimizerRspackPluginOptions['minimizerOptions']
+>;
+
+// Shared by Webpack and Rspack, compatible with both SWC and Rspack types
+// Rspack only accepts a subset of the SWC JS minifier options
 // See https://swc.rs/docs/configuration/minification
-function getSwcJsMinimizerOptions(): JsMinifyOptions {
-  return {
-    ecma: 2020,
-    compress: {
-      ecma: 5,
-    },
-    module: true,
-    mangle: true,
-    safari10: true,
-    format: {
-      ecma: 5,
-      comments: false,
-      ascii_only: true,
-    },
-  };
-}
+// See https://rspack.rs/plugins/rspack/swc-js-minimizer-rspack-plugin#minimizeroptions
+const SwcJsMinimizerOptions = {
+  ecma: 2020,
+  compress: {
+    ecma: 5,
+  },
+  module: true,
+  mangle: true,
+  format: {
+    ecma: 5,
+    comments: false,
+    ascii_only: true,
+  },
+} as const satisfies RspackSwcJsMinimizerOptions;
 
 // See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
 function getTerserParallel() {
@@ -58,7 +65,7 @@ function getJsMinimizer(): WebpackPluginInstance {
   return new TerserPlugin<JsMinifyOptions>({
     parallel: getTerserParallel(),
     minify: TerserPlugin.swcMinify,
-    terserOptions: getSwcJsMinimizerOptions(),
+    terserOptions: {...SwcJsMinimizerOptions, safari10: true},
   });
 }
 
@@ -73,20 +80,14 @@ function getWebpackMinimizers(): WebpackPluginInstance[] {
   return [getJsMinimizer(), getCssMinimizer()];
 }
 
-async function getRspackMinimizers({
-  currentBundler,
-}: MinimizersConfig): Promise<WebpackPluginInstance[]> {
-  const rspack = getCurrentBundlerAsRspack({currentBundler});
-  const swcJsMinimizerOptions: CustomOptions = getSwcJsMinimizerOptions();
-
+function getRspackMinimizers(): RspackPluginInstance[] {
   return [
     // See https://rspack.dev/plugins/rspack/swc-js-minimizer-rspack-plugin
     // See https://swc.rs/docs/configuration/minification
     new rspack.SwcJsMinimizerRspackPlugin({
       minimizerOptions: {
         minify: true,
-        ecma: swcJsMinimizerOptions.ecma,
-        ...swcJsMinimizerOptions,
+        ...SwcJsMinimizerOptions,
       },
     }),
     new rspack.LightningCssMinimizerRspackPlugin({
@@ -98,13 +99,14 @@ async function getRspackMinimizers({
         targets: getBrowserslistQueries(),
       },
     }),
-  ] as unknown as WebpackPluginInstance[];
+  ];
 }
 
 export async function getMinimizers(
   params: MinimizersConfig,
 ): Promise<WebpackPluginInstance[]> {
   return params.currentBundler.name === 'rspack'
-    ? getRspackMinimizers(params)
+    ? // Docusaurus bundler configs are typed with Webpack types
+      (getRspackMinimizers() as unknown as WebpackPluginInstance[])
     : getWebpackMinimizers();
 }
