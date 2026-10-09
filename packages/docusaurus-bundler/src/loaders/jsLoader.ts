@@ -8,6 +8,7 @@
 import {getBabelOptions} from '@docusaurus/babel';
 import {importSwcLoader, importGetSwcLoaderOptions} from '../importFaster';
 import {getCurrentBundler} from '../currentBundler';
+import {getBrowserslistQueries} from '../browserslist';
 import type {ConfigureWebpackUtils, DocusaurusConfig} from '@docusaurus/types';
 
 const BabelJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = ({
@@ -25,10 +26,15 @@ async function createSwcJsLoaderFactory(): Promise<
 > {
   const loader = await importSwcLoader();
   const getOptions = await importGetSwcLoaderOptions();
+  const clientBrowserslistQueries = getBrowserslistQueries();
   return ({isServer}) => {
     return {
       loader,
-      options: getOptions({isServer, bundlerName: 'webpack'}),
+      options: getOptions({
+        isServer,
+        bundlerName: 'webpack',
+        clientBrowserslistQueries,
+      }),
     };
   };
 }
@@ -39,10 +45,15 @@ async function createRspackSwcJsLoaderFactory(): Promise<
 > {
   const loader = 'builtin:swc-loader';
   const getOptions = await importGetSwcLoaderOptions();
+  const clientBrowserslistQueries = getBrowserslistQueries();
   return ({isServer}) => {
     return {
       loader,
-      options: getOptions({isServer, bundlerName: 'rspack'}),
+      options: getOptions({
+        isServer,
+        bundlerName: 'rspack',
+        clientBrowserslistQueries,
+      }),
     };
   };
 }

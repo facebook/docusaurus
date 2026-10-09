@@ -7,7 +7,6 @@
 
 import {rspack as Rspack} from '@rspack/core';
 import {RspackDevServer} from '@rspack/dev-server';
-import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
 import semver from 'semver';
 import type {JsMinifyOptions, Options as SwcOptions} from '@swc/core';
@@ -18,15 +17,17 @@ export const swcLoader = require.resolve('swc-loader');
 export const getSwcLoaderOptions = ({
   isServer,
   bundlerName,
+  clientBrowserslistQueries,
 }: {
   isServer: boolean;
   bundlerName: CurrentBundler['name'];
+  clientBrowserslistQueries: string[];
 }): SwcOptions => {
   return {
     env: {
       targets: isServer
         ? getServerBrowserslistQueries({bundlerName})
-        : getBrowserslistQueries(),
+        : clientBrowserslistQueries,
     },
     jsc: {
       parser: {
@@ -102,10 +103,6 @@ function getMinVersion(v1: string, v2: string): string {
   return semver.lt(v1, v2) ? v1 : v2;
 }
 
-// Used when the site doesn't provide its own Browserslist config
-// See https://web.dev/baseline
-const DefaultBrowserslistQueries = ['baseline widely available'];
-
 function getServerBrowserslistQueries({
   bundlerName,
 }: {
@@ -122,24 +119,4 @@ function getServerBrowserslistQueries({
     getLastBrowserslistKnownNodeVersion(bundlerName),
   );
   return [`node ${nodeTarget}`];
-}
-
-export function getBrowserslistQueries(): string[] {
-  return (
-    browserslist.loadConfig({path: process.cwd()}) ?? DefaultBrowserslistQueries
-  );
-}
-
-// LightningCSS doesn't expose any type for css-minimizer-webpack-plugin setup
-// So we derive it ourselves
-// see https://lightningcss.dev/docs.html#with-webpack
-type LightningCssMinimizerOptions = Omit<
-  lightningcss.TransformOptions<never>,
-  'filename' | 'code'
->;
-
-export function getLightningCssMinimizerOptions(): LightningCssMinimizerOptions {
-  const queries = getBrowserslistQueries();
-  const browsers = browserslist(queries);
-  return {targets: lightningcss.browserslistToTargets(browsers)};
 }

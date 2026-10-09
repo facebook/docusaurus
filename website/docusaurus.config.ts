@@ -187,7 +187,6 @@ export default async function createConfigAsync() {
             swcJsLoader: true,
             swcJsMinimizer: true,
             swcHtmlMinimizer: true,
-            lightningCssMinimizer: true,
             mdxCrossCompilerCache: true,
             rspackBundler: true,
             rspackPersistentCache: true,
