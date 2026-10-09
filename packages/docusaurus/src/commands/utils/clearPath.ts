@@ -6,8 +6,8 @@
  */
 
 import path from 'node:path';
-import {rm} from 'node:fs/promises';
 import {PerfLogger} from '@docusaurus/logger';
+import {fs} from '@docusaurus/fs';
 
 /**
  * @param pathToClear
@@ -16,7 +16,7 @@ export default async function clearPath(pathToClear: string): Promise<void> {
   return PerfLogger.async(
     `clearPath ${path.relative(process.cwd(), pathToClear)}`,
     async () => {
-      await rm(pathToClear, {recursive: true, force: true});
+      await fs.rm(pathToClear, {recursive: true, force: true});
     },
   );
 }

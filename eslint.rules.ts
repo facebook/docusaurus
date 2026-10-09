@@ -390,6 +390,35 @@ export default defineConfig(
     },
   },
 
+  // All our file system operations should go through @docusaurus/fs
+  // Declared before other no-restricted-imports configs, which override it
+  {
+    files: ['packages/*/src/**/*.{js,ts,tsx}', 'packages/*/bin/**/*.{js,mjs}'],
+    ignores: [
+      '**/*.test.{js,ts,tsx}',
+      '**/__tests__/**',
+      'packages/docusaurus-fs/**',
+    ],
+    rules: {
+      'no-restricted-imports': [
+        ERROR,
+        {
+          paths: [
+            'fs',
+            'node:fs',
+            'fs/promises',
+            'node:fs/promises',
+            'fs-extra',
+            'graceful-fs',
+          ].map((name) => ({
+            name,
+            message:
+              'Use @docusaurus/fs instead, so that all our file system operations go through it.',
+          })),
+        },
+      ],
+    },
+  },
   {
     files: ['packages/docusaurus/src/client/**/*.{js,ts,tsx}'],
     rules: {

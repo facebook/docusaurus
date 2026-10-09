@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import fs from 'node:fs/promises';
 import {Feed, type Author as FeedAuthor} from 'feed';
 import {parseSrcset, stringifySrcset} from 'srcset';
 import {
@@ -20,7 +19,7 @@ import {
 } from '@docusaurus/utils-common';
 import {load as cheerioLoad} from 'cheerio';
 import logger from '@docusaurus/logger';
-import {pathExists, outputFile} from '@docusaurus/fs';
+import {fs, pathExists, outputFile} from '@docusaurus/fs';
 import type {BlogContentPaths} from './types';
 import type {DocusaurusConfig, HtmlTags, LoadContext} from '@docusaurus/types';
 import type {

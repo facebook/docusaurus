@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import fs from 'node:fs/promises';
 import {visit} from 'unist-util-visit';
 import {
   toMessageRelativeFilePath,
@@ -18,6 +17,7 @@ import {
   parseLocalURLPath,
 } from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
+import {fs} from '@docusaurus/fs';
 import {
   assetRequireAttributeValue,
   formatNodePositionExtraMessage,

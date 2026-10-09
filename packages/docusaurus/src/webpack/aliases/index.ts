@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import _ from 'lodash';
 import {
@@ -15,7 +14,7 @@ import {
   normalizeUrl,
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
-import {pathExists} from '@docusaurus/fs';
+import {fs, pathExists} from '@docusaurus/fs';
 import type {LoadedPlugin} from '@docusaurus/types';
 
 /**

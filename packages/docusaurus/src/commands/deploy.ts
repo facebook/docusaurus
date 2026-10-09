@@ -5,13 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import logger from '@docusaurus/logger';
 import {execa} from 'execa';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
-import {realpath} from '@docusaurus/fs';
+import {fs, realpath} from '@docusaurus/fs';
 import {loadContext, type LoadContextParams} from '../server/site';
 import {build} from './build/build';
 

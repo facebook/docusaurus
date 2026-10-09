@@ -332,6 +332,9 @@ importers:
 
   packages/create-docusaurus:
     dependencies:
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../docusaurus-fs
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger
@@ -1898,6 +1901,9 @@ importers:
       '@docusaurus/core':
         specifier: workspace:*
         version: link:../docusaurus
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../docusaurus-fs
       '@docusaurus/plugin-content-docs':
         specifier: workspace:*
         version: link:../docusaurus-plugin-content-docs
@@ -2093,6 +2099,9 @@ importers:
 
   packages/docusaurus-utils-validation:
     dependencies:
+      '@docusaurus/fs':
+        specifier: workspace:*
+        version: link:../docusaurus-fs
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger

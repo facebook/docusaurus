@@ -6,10 +6,10 @@
  */
 
 import path from 'node:path';
-import fs from 'node:fs/promises';
 import _ from 'lodash';
 import {Eta} from 'eta';
 import {normalizeUrl} from '@docusaurus/utils';
+import {fs} from '@docusaurus/fs';
 import openSearchTemplate from './templates/opensearch';
 
 import type {HtmlTags, LoadContext} from '@docusaurus/types';

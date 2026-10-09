@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
+import {fs} from '@docusaurus/fs';
 import type {SSGParams} from './ssgParams';
 
 function pathnameToFilename({

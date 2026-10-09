@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import _ from 'lodash';
 import Joi from 'joi';
 import * as YAML from 'js-yaml';
 import {getContentPathList, getDataFilePath} from '@docusaurus/utils';
+import {fs} from '@docusaurus/fs';
 import type {
   ContentPaths,
   TagsFile,
