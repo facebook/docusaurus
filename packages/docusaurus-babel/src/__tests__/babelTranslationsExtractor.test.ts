@@ -6,8 +6,7 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import fs from 'fs-extra';
-import {mkdtempDisposable, realpath} from 'node:fs/promises';
+import {mkdtempDisposable, realpath, writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {getBabelOptions} from '../utils';
@@ -35,7 +34,7 @@ async function tmpSourceCodeFile({
   content: string;
 }) {
   const file = await tmpFile(`sourceCode.${extension}`);
-  await fs.writeFile(file.path, content);
+  await writeFile(file.path, content);
   return {
     path: file.path,
     [Symbol.asyncDispose]: file[Symbol.asyncDispose],

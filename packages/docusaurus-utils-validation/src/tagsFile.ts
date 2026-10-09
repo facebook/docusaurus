@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import _ from 'lodash';
 import Joi from 'joi';

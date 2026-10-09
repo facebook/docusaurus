@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
+import {realpath} from '@docusaurus/fs';
 import {loadContext} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 import type {Command} from 'commander';
@@ -19,7 +19,7 @@ export async function externalCommand({
   siteDir: string;
   config: string | undefined;
 }): Promise<void> {
-  const siteDir = await fs.realpath(siteDirInput);
+  const siteDir = await realpath(siteDirInput);
   const context = await loadContext({siteDir, config});
   const plugins = await initPlugins(context);
 

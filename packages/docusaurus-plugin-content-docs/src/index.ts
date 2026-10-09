@@ -6,7 +6,7 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import {
   normalizeUrl,
   docuHash,
@@ -74,7 +74,7 @@ async function createMdxLoaderDependencyFile({
     options,
     versionsMetadata,
   };
-  await fs.ensureDir(dataDir);
+  await fs.mkdir(dataDir, {recursive: true});
   await fs.writeFile(filePath, JSON.stringify(fileContent));
   return filePath;
 }

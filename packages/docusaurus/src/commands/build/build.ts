@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {mapAsyncSequential} from '@docusaurus/utils';
+import {realpath} from '@docusaurus/fs';
 import {type LoadContextParams} from '../../server/site';
 import {getLocaleList} from '../../server/i18n';
 import {buildLocale, type BuildLocaleParams} from './buildLocale';
@@ -31,7 +31,7 @@ export async function build(
     process.env.NODE_ENV = 'development';
   }
 
-  const siteDir = await fs.realpath(siteDirParam);
+  const siteDir = await realpath(siteDirParam);
 
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig, () => process.exit());

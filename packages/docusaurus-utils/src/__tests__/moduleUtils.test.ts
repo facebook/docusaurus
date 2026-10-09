@@ -6,11 +6,11 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import fs from 'fs-extra';
 import path from 'node:path';
 import {mkdtempDisposable, realpath} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import dedent from 'dedent';
+import {outputFile} from '@docusaurus/fs';
 import {loadFreshModule} from '../moduleUtils';
 
 async function createTmpDir() {
@@ -25,11 +25,11 @@ async function moduleGraphHelpers() {
   async function fileHelper(name: string, initialContent?: string) {
     const filePath = path.resolve(dir.path, name);
     if (initialContent) {
-      await fs.outputFile(filePath, initialContent);
+      await outputFile(filePath, initialContent);
     }
     return {
       filePath,
-      write: (content: string) => fs.outputFile(filePath, content),
+      write: (content: string) => outputFile(filePath, content),
       load: (withDefault: boolean) => loadModule(filePath, withDefault),
     };
   }

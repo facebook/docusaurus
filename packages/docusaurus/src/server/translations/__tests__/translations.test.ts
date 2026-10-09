@@ -6,10 +6,10 @@
  */
 
 import {describe, expect, it, vi} from 'vitest';
-import fs from 'fs-extra';
 import path from 'node:path';
 import {mkdtempDisposable, realpath} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
+import {outputFile, readJSON} from '@docusaurus/fs';
 import {
   writePluginTranslations,
   writeCodeTranslations,
@@ -40,13 +40,13 @@ async function createTmpTranslationFile(
 
   // null means we don't want a file, just a filename
   if (content !== null) {
-    await fs.outputFile(filePath, JSON.stringify(content, null, 2));
+    await outputFile(filePath, JSON.stringify(content, null, 2));
   }
 
   return {
     localizationDir: path.join(siteDir.path, 'i18n/en'),
     readFile() {
-      return fs.readJSON(filePath);
+      return readJSON(filePath);
     },
     [Symbol.asyncDispose]: siteDir[Symbol.asyncDispose],
   };
@@ -262,9 +262,9 @@ describe('writeCodeTranslations', () => {
 
     await writeCodeTranslations({localizationDir}, {}, {});
 
-    await expect(readFile()).rejects.toThrow(
-      /ENOENT: no such file or directory, open /,
-    );
+    await expect(readFile()).rejects.toMatchObject({
+      cause: {code: 'ENOENT'},
+    });
     expect(info).toHaveBeenCalledTimes(0);
   });
 
@@ -318,7 +318,7 @@ describe('writePluginTranslations', () => {
       } as LoadedPlugin,
     });
 
-    await expect(fs.readJSON(filePath)).resolves.toEqual({
+    await expect(readJSON(filePath)).resolves.toEqual({
       key1: {message: 'key1 message'},
       key2: {message: 'key2 message'},
       key3: {message: 'key3 message'},
@@ -362,7 +362,7 @@ describe('writePluginTranslations', () => {
       key2: {message: 'key2 message', description: 'key2 desc'},
       key3: {message: 'key3 message', description: 'key3 desc'},
     });
-    await expect(fs.readJSON(filePath)).resolves.toEqual({
+    await expect(readJSON(filePath)).resolves.toEqual({
       key1: {message: 'key1 message', description: 'key1 desc'},
       key2: {message: 'key2 message', description: 'key2 desc'},
       key3: {message: 'key3 message', description: 'key3 desc'},
@@ -375,7 +375,7 @@ describe('writePluginTranslations', () => {
       },
       {messagePrefix: 'PREFIX '},
     );
-    await expect(fs.readJSON(filePath)).resolves.toEqual({
+    await expect(readJSON(filePath)).resolves.toEqual({
       key1: {message: 'key1 message', description: 'key1 desc'},
       key2: {message: 'key2 message', description: 'key2 desc'},
       key3: {message: 'key3 message', description: undefined},
@@ -391,7 +391,7 @@ describe('writePluginTranslations', () => {
       },
       {messagePrefix: 'PREFIX ', override: true},
     );
-    await expect(fs.readJSON(filePath)).resolves.toEqual({
+    await expect(readJSON(filePath)).resolves.toEqual({
       key1: {message: 'PREFIX key1 message 3', description: 'key1 desc'},
       key2: {message: 'PREFIX key2 message 3', description: 'key2 desc'},
       key3: {message: 'PREFIX key3 message 3', description: 'key3 desc'},
@@ -456,12 +456,12 @@ describe('localizePluginTranslationFile', () => {
     await using tmpDir = await createTmpSiteDir();
     const localizationDir = tmpDir.path;
 
-    await fs.outputJSON(
+    await outputFile(
       path.join(localizationDir, 'my-plugin-name', 'my/translation/file.json'),
-      {
+      JSON.stringify({
         key2: {message: 'key2 message localized'},
         key4: {message: 'key4 message localized'},
-      },
+      }),
     );
 
     const translationFile: TranslationFile = {

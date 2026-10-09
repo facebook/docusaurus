@@ -48,7 +48,6 @@
     "@docusaurus/utils-validation": "workspace:*",
     "@types/react-router-config": "^5.0.11",
     "combine-promises": "^1.2.0",
-    "fs-extra": "^11.4.0",
     "js-yaml": "^5.4.1",
     "lodash": "^4.18.1",
     "schema-dts": "^1.1.5",

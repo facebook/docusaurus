@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
+import {realpath} from '@docusaurus/fs';
 import {
   getThemeName,
   getThemePath,
@@ -136,7 +136,7 @@ export async function swizzle(
   siteDirParam: string = '.',
   optionsParam: Partial<SwizzleCLIOptions> = {},
 ): Promise<void> {
-  const siteDir = await fs.realpath(siteDirParam);
+  const siteDir = await realpath(siteDirParam);
 
   const options = normalizeOptions(optionsParam);
   const {list, danger} = options;

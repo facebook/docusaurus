@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import {getCustomBabelConfigFilePath} from '@docusaurus/babel';
 import {
@@ -14,6 +13,7 @@ import {
   getMinimizers,
 } from '@docusaurus/bundler';
 import {getFileLoaderUtils, md5Hash} from '@docusaurus/utils';
+import {realpath} from '@docusaurus/fs';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
 import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
 import type {Configuration, RuleSetRule} from 'webpack';
@@ -204,7 +204,7 @@ export async function createBaseConfig({
       modules: [
         path.resolve(__dirname, '..', '..', 'node_modules'),
         'node_modules',
-        path.resolve(await fs.realpath(process.cwd()), 'node_modules'),
+        path.resolve(await realpath(process.cwd()), 'node_modules'),
       ],
     },
     resolveLoader: {

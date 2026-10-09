@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import logger from '@docusaurus/logger';
 import {execa} from 'execa';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
+import {realpath} from '@docusaurus/fs';
 import {loadContext, type LoadContextParams} from '../server/site';
 import {build} from './build/build';
 
@@ -74,7 +75,7 @@ export async function deploy(
   siteDirParam: string = '.',
   cliOptions: Partial<DeployCLIOptions> = {},
 ): Promise<void> {
-  const siteDir = await fs.realpath(siteDirParam);
+  const siteDir = await realpath(siteDirParam);
 
   const {outDir, siteConfig, siteConfigPath} = await loadContext({
     siteDir,
@@ -254,7 +255,11 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
 
     const targetPath = path.join(toPath, targetDirectory);
     try {
-      await fs.copy(fromPath, targetPath);
+      // verbatimSymlinks: keep relative symlinks relative
+      await fs.cp(fromPath, targetPath, {
+        recursive: true,
+        verbatimSymlinks: true,
+      });
     } catch (err) {
       throw new Error(
         `Failed to copy build assets from path=${fromPath} to path=${targetPath}.`,

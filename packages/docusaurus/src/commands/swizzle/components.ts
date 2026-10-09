@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {posixPath} from '@docusaurus/utils';
+import {pathExists} from '@docusaurus/fs';
 import {askComponentName} from './prompts';
 import {findClosestValue, findStringIgnoringCase} from './common';
 import {helpTables, themeComponentsTable} from './tables';
@@ -73,7 +74,7 @@ export async function readComponentNames(themePath: string): Promise<string[]> {
   type File = {file: string; fullPath: string; isDir: boolean};
   type ComponentFile = File & {componentName: string};
 
-  if (!(await fs.pathExists(themePath))) {
+  if (!(await pathExists(themePath))) {
     return [];
   }
 

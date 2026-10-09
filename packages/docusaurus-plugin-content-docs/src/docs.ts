@@ -6,7 +6,7 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import _ from 'lodash';
 import {
   aliasedSitePath,

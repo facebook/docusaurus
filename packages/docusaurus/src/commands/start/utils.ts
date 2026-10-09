@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import url from 'node:url';
 import _ from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
 import logger, {PerfLogger} from '@docusaurus/logger';
+import {realpath} from '@docusaurus/fs';
 import {getHostPort} from '../../server/getHostPort';
 import {
   loadSite,
@@ -85,7 +85,7 @@ async function createLoadSiteParams({
   siteDirParam,
   cliOptions,
 }: StartParams): Promise<LoadSiteParams> {
-  const siteDir = await fs.realpath(siteDirParam);
+  const siteDir = await realpath(siteDirParam);
   return {
     siteDir,
     config: cliOptions.config,
