@@ -803,7 +803,7 @@ describe('simple site', () => {
       `"Can't process doc metadata for doc at path path=some/fake/path in version name=current"`,
     );
     expect(error.cause).toBeDefined();
-    expect(error.cause!.message).toMatchInlineSnapshot(
+    expect((error.cause as Error).message).toMatchInlineSnapshot(
       `"Document id "Hello/world" cannot include slash."`,
     );
   });

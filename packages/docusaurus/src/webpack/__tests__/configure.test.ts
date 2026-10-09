@@ -32,7 +32,6 @@ describe('extending generated webpack config', () => {
       },
     };
 
-    // @ts-expect-error: Testing an edge-case that we did not write types for
     const configureWebpack: NonNullable<Plugin['configureWebpack']> = (
       generatedConfig,
       isServerParam,
@@ -425,8 +424,8 @@ describe('executePluginsConfigureWebpack', () => {
       ],
     });
 
-    expect(config.module.rules).toHaveLength(3);
-    expect(config.module.rules[0]).toMatchInlineSnapshot(`
+    expect(config.module!.rules!).toHaveLength(3);
+    expect(config.module!.rules![0]).toMatchInlineSnapshot(`
       {
         "options": {
           "postcssOptions": {
@@ -442,7 +441,7 @@ describe('executePluginsConfigureWebpack', () => {
         "use": "some-loader",
       }
     `);
-    expect(config.module.rules[1]).toMatchInlineSnapshot(`
+    expect(config.module!.rules![1]).toMatchInlineSnapshot(`
       {
         "test": /\\\\\\.module\\.scss\\$/,
         "use": [
@@ -462,7 +461,7 @@ describe('executePluginsConfigureWebpack', () => {
         ],
       }
     `);
-    expect(config.module.rules[2]).toMatchInlineSnapshot(`
+    expect(config.module!.rules![2]).toMatchInlineSnapshot(`
       {
         "oneOf": [
           {

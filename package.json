@@ -68,6 +68,7 @@
     "lint:knip:fix": "knip --fix",
     "lerna": "lerna",
     "test": "vitest run",
+    "typecheck:tests": "tsc -p tsconfig.tests.json",
     "test:build:website": "./admin/scripts/test-release.sh",
     "watch": "pnpm lerna run --parallel watch",
     "clear": "(pnpm --filter website clear || echo 'Failure while running docusaurus clear') && pnpm rimraf test-website && pnpm rimraf test-website-in-workspace && pnpm lerna exec --ignore docusaurus pnpm rimraf lib",

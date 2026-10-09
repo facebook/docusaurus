@@ -15,6 +15,7 @@ describe('TitleFormatterFnDefault', () => {
         title: 'a page',
         siteTitle: 'my site',
         titleDelimiter: '·',
+        plugin: {id: 'default', name: 'docusaurus-plugin-content-pages'},
       }),
     ).toBe('a page · my site');
   });
@@ -25,6 +26,7 @@ describe('TitleFormatterFnDefault', () => {
         title: '    ',
         siteTitle: 'my site',
         titleDelimiter: '·',
+        plugin: {id: 'default', name: 'docusaurus-plugin-content-pages'},
       }),
     ).toBe('my site');
   });
@@ -38,6 +40,7 @@ describe('TitleFormatterFnDefault', () => {
         title: 'my site',
         siteTitle: 'my site',
         titleDelimiter: '·',
+        plugin: {id: 'default', name: 'docusaurus-plugin-content-pages'},
       }),
     ).toBe('my site');
   });

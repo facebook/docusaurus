@@ -29,7 +29,7 @@ describe('resolveMarkdownLinkPathname', () => {
       ),
     };
 
-    function test(linkPathname: string, expectedOutput: string) {
+    function test(linkPathname: string, expectedOutput: string | null) {
       const output = resolveMarkdownLinkPathname(linkPathname, context);
       expect(output).toEqual(expectedOutput);
     }
@@ -62,7 +62,7 @@ describe('resolveMarkdownLinkPathname', () => {
       ),
     };
 
-    function test(linkPathname: string, expectedOutput: string) {
+    function test(linkPathname: string, expectedOutput: string | null) {
       const output = resolveMarkdownLinkPathname(linkPathname, context);
       expect(output).toEqual(expectedOutput);
     }
@@ -95,7 +95,7 @@ describe('resolveMarkdownLinkPathname', () => {
       ),
     };
 
-    function test(linkPathname: string, expectedOutput: string) {
+    function test(linkPathname: string, expectedOutput: string | null) {
       const output = resolveMarkdownLinkPathname(linkPathname, context);
       expect(output).toEqual(expectedOutput);
     }
@@ -120,7 +120,7 @@ describe('resolveMarkdownLinkPathname', () => {
       ),
     };
 
-    function test(linkPathname: string, expectedOutput: string) {
+    function test(linkPathname: string, expectedOutput: string | null) {
       const output = resolveMarkdownLinkPathname(linkPathname, context);
       expect(output).toEqual(expectedOutput);
     }

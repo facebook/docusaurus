@@ -58,7 +58,6 @@ describe('normalizeDocsPluginOptions', () => {
       docTagsListComponent: '@theme/DocTagsListPage',
       docCategoryGeneratedIndexComponent:
         '@theme/DocCategoryGeneratedIndexPage',
-      // @ts-expect-error: it seems to work in practice?
       remarkPlugins: [markdownPluginsObjectStub],
       rehypePlugins: [markdownPluginsFunctionStub],
       recmaPlugins: [markdownPluginsFunctionStub],
@@ -100,7 +99,6 @@ describe('normalizeDocsPluginOptions', () => {
       beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
       remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],
       rehypePlugins: [
-        // @ts-expect-error: it seems to work in practice
         markdownPluginsObjectStub,
         [markdownPluginsFunctionStub, {option1: '42'}],
       ],
@@ -176,7 +174,6 @@ describe('normalizeDocsPluginOptions', () => {
     expect(() =>
       testValidate({
         rehypePlugins: [
-          // @ts-expect-error: test
           [
             markdownPluginsFunctionStub,
             {option1: '42'},

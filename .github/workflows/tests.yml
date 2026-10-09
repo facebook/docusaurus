@@ -43,6 +43,8 @@ jobs:
         run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
       - name: Test
         run: pnpm test
+      - name: TypeCheck tests
+        run: pnpm typecheck:tests
       - name: Remove Theme Internal Re-export
         run: pnpm --filter @docusaurus/theme-common removeThemeInternalReexport
       - name: Docusaurus Build

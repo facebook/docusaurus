@@ -21,6 +21,7 @@ function testVersion(data?: Partial<PropVersionMetadata>): PropVersionMetadata {
     docsSidebars: {},
     isLast: false,
     pluginId: 'default',
+    noIndex: false,
     ...data,
   };
 }

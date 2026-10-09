@@ -33,6 +33,8 @@ function getI18n(
         calendar: 'calendar',
         htmlLang: locale,
         direction: 'rtl',
+        url: 'https://example.com',
+        baseUrl: '/',
         ...localeConfigOptions,
       },
     },

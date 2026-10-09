@@ -55,6 +55,7 @@ describe('normalization', () => {
     expect(() =>
       normalizeSidebars({
         sidebar: [
+          // @ts-expect-error: TS reports the invalid category below here
           'foo',
           {
             Category: {
@@ -72,6 +73,7 @@ describe('normalization', () => {
     expect(() =>
       normalizeSidebars({
         sidebar: [
+          // @ts-expect-error: TS reports the invalid category below here
           'foo',
           {
             // @ts-expect-error: test
