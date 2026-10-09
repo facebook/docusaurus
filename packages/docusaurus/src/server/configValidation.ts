@@ -22,7 +22,6 @@ import logger from '@docusaurus/logger';
 import type {
   DocusaurusConfig,
   FutureConfig,
-  FutureV4Config,
   I18nConfig,
   I18nLocaleConfig,
   MarkdownConfig,
@@ -72,13 +71,7 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
   namespace: true,
 };
 
-export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {};
-
-// When using the "v4: true" shortcut
-export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {};
-
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
-  v4: DEFAULT_FUTURE_V4_CONFIG,
   experimental_router: 'browser',
 };
 
@@ -247,18 +240,6 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
-const FUTURE_V4_SCHEMA = Joi.alternatives()
-  .try(
-    Joi.object<FutureV4Config>({}),
-    Joi.boolean()
-      .required()
-      .custom((bool) =>
-        bool ? DEFAULT_FUTURE_V4_CONFIG_TRUE : DEFAULT_FUTURE_V4_CONFIG,
-      ),
-  )
-  .optional()
-  .default(DEFAULT_FUTURE_V4_CONFIG);
-
 const STORAGE_CONFIG_SCHEMA = Joi.object({
   type: Joi.string()
     .equal('localStorage', 'sessionStorage')
@@ -303,7 +284,6 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<
     faster: never;
   }
 >({
-  v4: FUTURE_V4_SCHEMA,
   faster: Joi.any()
     .forbidden()
     .messages({
