@@ -18,10 +18,10 @@ describe('collectAllSiteMessages', () => {
   describe('uselessBabelConfigMessages', () => {
     async function getMessagesFor({
       siteDir,
-      swcJsLoader,
+      rspackBundler,
     }: {
       siteDir: string;
-      swcJsLoader: boolean;
+      rspackBundler: boolean;
     }) {
       return collectAllSiteMessages(
         fromPartial({
@@ -31,7 +31,7 @@ describe('collectAllSiteMessages', () => {
               siteConfig: {
                 future: {
                   faster: {
-                    swcJsLoader,
+                    rspackBundler,
                   },
                 },
               },
@@ -41,10 +41,10 @@ describe('collectAllSiteMessages', () => {
       );
     }
 
-    it('warns for useless babel config file when SWC enabled', async () => {
+    it('warns for useless babel config file when Rspack enabled', async () => {
       const messages = await getMessagesFor({
         siteDir: siteDirFixture('siteWithBabelConfigFile'),
-        swcJsLoader: true,
+        rspackBundler: true,
       });
       expect(messages).toMatchInlineSnapshot(`
               [
@@ -56,10 +56,10 @@ describe('collectAllSiteMessages', () => {
           `);
     });
 
-    it('does not warn for babel config file when SWC disabled', async () => {
+    it('does not warn for babel config file when Rspack disabled', async () => {
       const messages = await getMessagesFor({
         siteDir: siteDirFixture('siteWithBabelConfigFile'),
-        swcJsLoader: false,
+        rspackBundler: false,
       });
       expect(messages).toMatchInlineSnapshot(`[]`);
     });
