@@ -5,11 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import webpack from 'webpack';
-import WebpackBar from 'webpackbar';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {rspack} from './rspack';
+import type webpack from 'webpack';
+import type WebpackBar from 'webpackbar';
+import type MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import type {CurrentBundler, DocusaurusConfig} from '@docusaurus/types';
+
+// Webpack-only packages are imported lazily, only when Webpack is used
+// Rspack sites (the default) shouldn't pay their load cost
 
 type SiteConfigSlice = Pick<DocusaurusConfig, 'webpack'>;
 
@@ -32,7 +35,7 @@ export async function getCurrentBundler({
   }
   return {
     name: 'webpack',
-    instance: webpack,
+    instance: (await import('webpack')).default,
   };
 }
 
@@ -44,7 +47,7 @@ export async function getCSSExtractPlugin({
   if (currentBundler.name === 'rspack') {
     return rspack.CssExtractRspackPlugin as unknown as typeof MiniCssExtractPlugin;
   }
-  return MiniCssExtractPlugin;
+  return (await import('mini-css-extract-plugin')).default;
 }
 
 export async function getCopyPlugin({
@@ -78,7 +81,8 @@ export async function getProgressBarPlugin({
     return CustomRspackProgressPlugin as unknown as typeof WebpackBar;
   }
 
-  return WebpackBar;
+  // Dynamic import resolves the ESM types, while "import type" resolves CJS
+  return (await import('webpackbar')).default as unknown as typeof WebpackBar;
 }
 
 export async function registerBundlerTracing({
