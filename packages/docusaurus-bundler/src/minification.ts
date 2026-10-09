@@ -6,14 +6,13 @@
  */
 
 import TerserPlugin from 'terser-webpack-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import MinimizerPlugin from 'minimizer-webpack-plugin';
 import {
   importSwcJsMinimizerOptions,
   importLightningCssMinimizerOptions,
   importGetBrowserslistQueries,
 } from './importFaster';
 import {getCurrentBundlerAsRspack} from './currentBundler';
-import type {CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import type {WebpackPluginInstance} from 'webpack';
 import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
 
@@ -77,10 +76,17 @@ async function getJsMinimizer({
   });
 }
 
+// The minimizer plugin only targets JS files by default
+// See https://github.com/webpack/minimizer-webpack-plugin#css
+const CssFileTest = /\.css(?:\?.*)?$/i;
+
 async function getLightningCssMinimizer(): Promise<WebpackPluginInstance> {
-  return new CssMinimizerPlugin({
-    minify: CssMinimizerPlugin.lightningCssMinify,
-    minimizerOptions: await importLightningCssMinimizerOptions(),
+  return new MinimizerPlugin({
+    test: CssFileTest,
+    minify: {
+      implementation: MinimizerPlugin.lightningCssMinify,
+      options: await importLightningCssMinimizerOptions(),
+    },
   });
 }
 
@@ -89,13 +95,19 @@ async function getCssNanoMinimizer(): Promise<WebpackPluginInstance> {
   // Sometimes there's a bug in it and people are happy to disable it
   const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
   if (useSimpleCssMinifier) {
-    return new CssMinimizerPlugin();
+    return new MinimizerPlugin({
+      test: CssFileTest,
+      minify: MinimizerPlugin.cssnanoMinify,
+    });
   }
 
-  return new CssMinimizerPlugin<CssNanoOptions>({
-    minify: CssMinimizerPlugin.cssnanoMinify,
-    minimizerOptions: {
-      preset: require.resolve('@docusaurus/cssnano-preset'),
+  return new MinimizerPlugin({
+    test: CssFileTest,
+    minify: {
+      implementation: MinimizerPlugin.cssnanoMinify,
+      options: {
+        preset: require.resolve('@docusaurus/cssnano-preset'),
+      },
     },
   });
 }

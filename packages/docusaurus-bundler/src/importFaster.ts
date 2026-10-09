@@ -10,7 +10,7 @@ import type {
   MinimizerOptions as JsMinimizerOptions,
   CustomOptions,
 } from 'terser-webpack-plugin';
-import type {MinimizerOptions as CssMinimizerOptions} from 'css-minimizer-webpack-plugin';
+import type {MinimizerOptions as CssMinimizerOptions} from 'minimizer-webpack-plugin';
 
 export type FasterModule = Awaited<typeof import('@docusaurus/faster')>;
 
