@@ -288,18 +288,11 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
 // the future.v4.fasterByDefault flag
 const FASTER_CONFIG_SCHEMA = Joi.alternatives()
   .try(
-    Joi.object<FasterConfig & {mdxCrossCompilerCache: never}>({
+    Joi.object<FasterConfig>({
       swcJsLoader: Joi.boolean(),
       swcJsMinimizer: Joi.boolean(),
       swcHtmlMinimizer: Joi.boolean(),
       lightningCssMinimizer: Joi.boolean(),
-      mdxCrossCompilerCache: Joi.any()
-        .forbidden()
-        .messages({
-          'any.unknown': `The Docusaurus config ${logger.code(
-            'future.faster.mdxCrossCompilerCache',
-          )} has been removed: the MDX cross-compiler cache is now always enabled. Please remove it from your Docusaurus config.`,
-        }),
       rspackBundler: Joi.boolean(),
       rspackPersistentCache: Joi.boolean(),
       gitEagerVcs: Joi.boolean(),

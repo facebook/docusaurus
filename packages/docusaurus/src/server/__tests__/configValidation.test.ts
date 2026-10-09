@@ -2099,40 +2099,6 @@ describe('future', () => {
       });
     });
 
-    describe('mdxCrossCompilerCache', () => {
-      it('rejects - true', () => {
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster: {
-                // @ts-expect-error: removed option
-                mdxCrossCompilerCache: true,
-              },
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: The Docusaurus config \`future.faster.mdxCrossCompilerCache\` has been removed: the MDX cross-compiler cache is now always enabled. Please remove it from your Docusaurus config.
-          ]
-        `);
-      });
-
-      it('rejects - false', () => {
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster: {
-                // @ts-expect-error: removed option
-                mdxCrossCompilerCache: false,
-              },
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: The Docusaurus config \`future.faster.mdxCrossCompilerCache\` has been removed: the MDX cross-compiler cache is now always enabled. Please remove it from your Docusaurus config.
-          ]
-        `);
-      });
-    });
-
     describe('rspackBundler', () => {
       it('accepts - undefined', () => {
         const faster: Partial<FasterConfig> = {
