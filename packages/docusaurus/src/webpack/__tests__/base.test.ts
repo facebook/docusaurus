@@ -11,10 +11,7 @@ import _ from 'lodash';
 import webpack from 'webpack';
 import {posixPath} from '@docusaurus/utils';
 import {excludeJS, clientDir, createBaseConfig} from '../base';
-import {
-  DEFAULT_FASTER_CONFIG,
-  DEFAULT_FUTURE_CONFIG,
-} from '../../server/configValidation';
+import {DEFAULT_FUTURE_CONFIG} from '../../server/configValidation';
 import {createConfigureWebpackUtils} from '../configure';
 import type {Props} from '@docusaurus/types';
 
@@ -122,7 +119,6 @@ describe('base webpack config', () => {
       props,
       isServer: false,
       minify: true,
-      faster: DEFAULT_FASTER_CONFIG,
       configureWebpackUtils: await createTestConfigureWebpackUtils(),
     });
     const rules = config.module?.rules ?? [];
@@ -138,7 +134,6 @@ describe('base webpack config', () => {
         props,
         isServer: true,
         minify: true,
-        faster: DEFAULT_FASTER_CONFIG,
         configureWebpackUtils: await createTestConfigureWebpackUtils(),
       })
     ).resolve?.alias ?? {}) as {[alias: string]: string};

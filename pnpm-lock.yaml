@@ -691,9 +691,6 @@ importers:
       '@swc/html':
         specifier: ^1.16.2
         version: 1.16.2
-      '@types/html-minifier-terser':
-        specifier: ^7.0.2
-        version: 7.0.2
       babel-loader:
         specifier: ^10.1.1
         version: 10.1.1(@babel/core@7.29.7(supports-color@10.2.2))(@rspack/core@2.2.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
@@ -706,9 +703,6 @@ importers:
       css-minimizer-webpack-plugin:
         specifier: ^8.0.0
         version: 8.0.0(clean-css@5.3.3)(csso@5.0.5)(lightningcss@1.33.0)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
-      html-minifier-terser:
-        specifier: ^7.2.0
-        version: 7.2.0
       lightningcss:
         specifier: ^1.33.0
         version: 1.33.0
@@ -6254,9 +6248,6 @@ packages:
 
   '@types/history@4.7.11':
     resolution: {integrity: sha512-qjDJRrmvBMiTx+jyLxvLfJU7UznFuokDv4f3WRuriHKERccVpFU+8XMQUAbDzoiJCsmexxRExQeMwwCdamSKDA==}
-
-  '@types/html-minifier-terser@7.0.2':
-    resolution: {integrity: sha512-mm2HqV22l8lFQh4r2oSsOEVea+m0qqxEmwpc9kC1p/XzmjLWrReR9D/GRs8Pex2NX/imyEH9c5IU/7tMBQCHOA==}
 
   '@types/http-errors@2.0.5':
     resolution: {integrity: sha512-r8Tayk8HJnX0FztbZN7oVqGccWgw98T/0neJphO91KkmOzug1KkofZURD4UaD5uH8AqcFLfdPErnBod0u71/qg==}
@@ -17453,8 +17444,6 @@ snapshots:
 
   '@types/history@4.7.11': {}
 
-  '@types/html-minifier-terser@7.0.2': {}
-
   '@types/http-errors@2.0.5': {}
 
   '@types/istanbul-lib-coverage@2.0.6': {}
@@ -18511,6 +18500,7 @@ snapshots:
     dependencies:
       pascal-case: 3.1.2
       tslib: 2.8.1
+    optional: true
 
   camelcase@6.3.0: {}
 
@@ -18623,6 +18613,7 @@ snapshots:
   clean-css@5.3.3:
     dependencies:
       source-map: 0.6.1
+    optional: true
 
   clean-stack@2.2.0: {}
 
@@ -18724,7 +18715,8 @@ snapshots:
 
   comma-separated-tokens@2.0.3: {}
 
-  commander@10.0.1: {}
+  commander@10.0.1:
+    optional: true
 
   commander@11.1.0: {}
 
@@ -20731,6 +20723,7 @@ snapshots:
       param-case: 3.0.4
       relateurl: 0.2.7
       terser: 5.51.2
+    optional: true
 
   html-tags@5.1.0: {}
 
@@ -23070,6 +23063,7 @@ snapshots:
     dependencies:
       dot-case: 3.0.4
       tslib: 2.8.1
+    optional: true
 
   parent-module@1.0.1:
     dependencies:
@@ -23158,6 +23152,7 @@ snapshots:
     dependencies:
       no-case: 3.0.4
       tslib: 2.8.1
+    optional: true
 
   path-browserify@1.0.1: {}
 
@@ -24039,7 +24034,8 @@ snapshots:
       hast-util-to-html: 9.0.5
       unified: 11.0.5
 
-  relateurl@0.2.7: {}
+  relateurl@0.2.7:
+    optional: true
 
   remark-directive@4.0.0(supports-color@10.2.2):
     dependencies:

@@ -5,12 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {minify as terserHtmlMinifier} from 'html-minifier-terser';
-
 // Historical env variable
 const SkipHtmlMinification = process.env.SKIP_HTML_MINIFICATION === 'true';
-
-export type HtmlMinifierType = 'swc' | 'terser';
 
 type HtmlMinifierResult = {
   code: string;
@@ -25,47 +21,11 @@ const NoopMinifier: HtmlMinifier = {
   minify: async (html: string) => ({code: html, warnings: []}),
 };
 
-export async function getHtmlMinifier({
-  type,
-}: {
-  type: HtmlMinifierType;
-}): Promise<HtmlMinifier> {
+export async function getHtmlMinifier(): Promise<HtmlMinifier> {
   if (SkipHtmlMinification) {
     return NoopMinifier;
   }
-  if (type === 'swc') {
-    return getSwcMinifier();
-  } else {
-    return getTerserMinifier();
-  }
-}
-
-// Minify html with https://github.com/DanielRuf/html-minifier-terser
-async function getTerserMinifier(): Promise<HtmlMinifier> {
-  return {
-    minify: async function minifyHtmlWithTerser(html) {
-      try {
-        const code = await terserHtmlMinifier(html, {
-          // When enabled => React hydration errors
-          removeComments: false,
-          removeRedundantAttributes: false,
-          removeEmptyAttributes: false,
-          sortAttributes: false,
-          sortClassName: false,
-
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          useShortDoctype: true,
-          minifyJS: true,
-        });
-        return {code, warnings: []};
-      } catch (err) {
-        throw new Error(`HTML minification failed (Terser)`, {
-          cause: err,
-        });
-      }
-    },
-  };
+  return getSwcMinifier();
 }
 
 // Minify html with @swc/html

@@ -7,20 +7,37 @@
 
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import {getSwcJsMinimizerOptions} from './swc';
 import {getCurrentBundlerAsRspack} from './currentBundler';
 import {
   getBrowserslistQueries,
   getLightningCssMinimizerOptions,
 } from './browserslist';
+import type {JsMinifyOptions} from '@swc/core';
+import type {CustomOptions} from 'terser-webpack-plugin';
 import type {WebpackPluginInstance} from 'webpack';
-import type {MinimizerOptions, CustomOptions} from 'terser-webpack-plugin';
-import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
+import type {CurrentBundler} from '@docusaurus/types';
 
 export type MinimizersConfig = {
-  faster: Pick<FasterConfig, 'swcJsMinimizer'>;
   currentBundler: CurrentBundler;
 };
+
+// See https://swc.rs/docs/configuration/minification
+function getSwcJsMinimizerOptions(): JsMinifyOptions {
+  return {
+    ecma: 2020,
+    compress: {
+      ecma: 5,
+    },
+    module: true,
+    mangle: true,
+    safari10: true,
+    format: {
+      ecma: 5,
+      comments: false,
+      ascii_only: true,
+    },
+  };
+}
 
 // See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
 function getTerserParallel() {
@@ -36,48 +53,12 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-// SWC and Terser options types are not strictly compatible
-function getSwcJsMinimizerOptionsAsTerser(): MinimizerOptions<CustomOptions> {
-  return getSwcJsMinimizerOptions() as MinimizerOptions<CustomOptions>;
-}
-
-async function getJsMinimizer({
-  faster,
-}: MinimizersConfig): Promise<WebpackPluginInstance> {
-  if (faster.swcJsMinimizer) {
-    return new TerserPlugin({
-      parallel: getTerserParallel(),
-      minify: TerserPlugin.swcMinify,
-      terserOptions: getSwcJsMinimizerOptionsAsTerser(),
-    });
-  }
-
-  return new TerserPlugin({
+// Terser is not used: terser-webpack-plugin only runs the SWC minifier
+function getJsMinimizer(): WebpackPluginInstance {
+  return new TerserPlugin<JsMinifyOptions>({
     parallel: getTerserParallel(),
-    // See https://terser.org/docs/options/
-    terserOptions: {
-      parse: {
-        // We want uglify-js to parse ecma 8 code. However, we don't want it
-        // to apply any minification steps that turns valid ecma 5 code
-        // into invalid ecma 5 code. This is why the 'compress' and 'output'
-        // sections only apply transformations that are ecma 5 safe
-        // https://github.com/facebook/create-react-app/pull/4234
-        ecma: 2020,
-      },
-      compress: {
-        ecma: 5,
-      },
-      mangle: {
-        safari10: true,
-      },
-      output: {
-        ecma: 5,
-        comments: false,
-        // Turned on because emoji and regex is not minified properly using
-        // default. See https://github.com/facebook/create-react-app/issues/2488
-        ascii_only: true,
-      },
-    },
+    minify: TerserPlugin.swcMinify,
+    terserOptions: getSwcJsMinimizerOptions(),
   });
 }
 
@@ -88,17 +69,15 @@ function getCssMinimizer(): WebpackPluginInstance {
   });
 }
 
-async function getWebpackMinimizers(
-  params: MinimizersConfig,
-): Promise<WebpackPluginInstance[]> {
-  return [await getJsMinimizer(params), getCssMinimizer()];
+function getWebpackMinimizers(): WebpackPluginInstance[] {
+  return [getJsMinimizer(), getCssMinimizer()];
 }
 
 async function getRspackMinimizers({
   currentBundler,
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
   const rspack = getCurrentBundlerAsRspack({currentBundler});
-  const swcJsMinimizerOptions = getSwcJsMinimizerOptionsAsTerser();
+  const swcJsMinimizerOptions: CustomOptions = getSwcJsMinimizerOptions();
 
   return [
     // See https://rspack.dev/plugins/rspack/swc-js-minimizer-rspack-plugin
@@ -127,5 +106,5 @@ export async function getMinimizers(
 ): Promise<WebpackPluginInstance[]> {
   return params.currentBundler.name === 'rspack'
     ? getRspackMinimizers(params)
-    : getWebpackMinimizers(params);
+    : getWebpackMinimizers();
 }

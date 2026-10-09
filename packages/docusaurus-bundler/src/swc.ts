@@ -7,7 +7,7 @@
 
 import browserslist from 'browserslist';
 import semver from 'semver';
-import type {JsMinifyOptions, Options as SwcOptions} from '@swc/core';
+import type {Options as SwcOptions} from '@swc/core';
 import type {CurrentBundler} from '@docusaurus/types';
 
 export function getSwcLoaderOptions({
@@ -40,27 +40,6 @@ export function getSwcLoaderOptions({
         // https://rspack.rs/config/module-rules#ruleswith
         keepImportAttributes: true,
       },
-    },
-  };
-}
-
-// Note: these options are similar to the Terser options we use
-// They should rather be kept in sync for now to avoid any unexpected behavior
-// The SWC minifier goal is not to fine-tune options but only to be faster
-// See minification.ts
-export function getSwcJsMinimizerOptions(): JsMinifyOptions {
-  return {
-    ecma: 2020,
-    compress: {
-      ecma: 5,
-    },
-    module: true,
-    mangle: true,
-    safari10: true,
-    format: {
-      ecma: 5,
-      comments: false,
-      ascii_only: true,
     },
   };
 }

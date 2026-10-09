@@ -16,11 +16,7 @@ export {
 } from './currentBundler';
 
 export {getMinimizers} from './minification';
-export {
-  getHtmlMinifier,
-  type HtmlMinifier,
-  type HtmlMinifierType,
-} from './minifyHtml';
+export {getHtmlMinifier, type HtmlMinifier} from './minifyHtml';
 export {createJsLoaderFactory} from './loaders/jsLoader';
 export {createStyleLoadersFactory} from './loaders/styleLoader';
 export {importRspackDevServer} from './rspack';
