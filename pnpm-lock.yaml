@@ -479,6 +479,12 @@ importers:
       '@mdx-js/react':
         specifier: ^3.1.1
         version: 3.1.1(@types/react@19.3.0)(react@19.3.0)
+      '@rspack/core':
+        specifier: ^2.2.3
+        version: 2.2.3
+      '@rspack/dev-server':
+        specifier: ^2.2.1
+        version: 2.2.1(@rspack/core@2.2.3)(selfsigned@5.5.0)
       boxen:
         specifier: ^9.0.0
         version: 9.0.0

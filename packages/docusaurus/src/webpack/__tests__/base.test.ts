@@ -11,13 +11,19 @@ import _ from 'lodash';
 import webpack from 'webpack';
 import {posixPath} from '@docusaurus/utils';
 import {excludeJS, clientDir, createBaseConfig} from '../base';
-import {DEFAULT_FUTURE_CONFIG} from '../../server/configValidation';
+import {
+  DEFAULT_FASTER_CONFIG_FALSE,
+  DEFAULT_FUTURE_CONFIG,
+} from '../../server/configValidation';
 import {createConfigureWebpackUtils} from '../configure';
 import type {Props} from '@docusaurus/types';
 
 function createTestConfigureWebpackUtils() {
   return createConfigureWebpackUtils({
-    siteConfig: {webpack: {jsLoader: 'babel'}, future: DEFAULT_FUTURE_CONFIG},
+    siteConfig: {
+      webpack: {jsLoader: 'babel'},
+      future: {...DEFAULT_FUTURE_CONFIG, faster: DEFAULT_FASTER_CONFIG_FALSE},
+    },
   });
 }
 

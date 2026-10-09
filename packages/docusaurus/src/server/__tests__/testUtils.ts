@@ -6,6 +6,7 @@
  */
 
 import path from 'node:path';
+import webpack from 'webpack';
 import {loadSite, type LoadContextParams, type Site} from '../site';
 
 export async function loadSiteFixture(
@@ -16,4 +17,19 @@ export async function loadSiteFixture(
     siteDir: path.join(__dirname, '__fixtures__', name),
     ...options,
   });
+}
+
+// Rspack is the default bundler, but some tests need Webpack site props
+export async function loadWebpackSiteFixture(
+  name: string,
+  options?: Partial<LoadContextParams>,
+): Promise<Site> {
+  const site = await loadSiteFixture(name, options);
+  return {
+    ...site,
+    props: {
+      ...site.props,
+      currentBundler: {name: 'webpack', instance: webpack},
+    },
+  };
 }

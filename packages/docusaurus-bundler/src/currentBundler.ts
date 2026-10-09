@@ -8,8 +8,7 @@
 import webpack from 'webpack';
 import WebpackBar from 'webpackbar';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import {importRspack} from './rspack';
-import type {Rspack} from './rspack';
+import {rspack} from './rspack';
 import type {CurrentBundler, DocusaurusConfig} from '@docusaurus/types';
 
 // We inject a site config slice because the Rspack flag might change place
@@ -31,7 +30,8 @@ export async function getCurrentBundler({
   if (isRspack(siteConfig)) {
     return {
       name: 'rspack',
-      instance: (await importRspack()) as unknown as typeof webpack,
+      // CurrentBundler exposes Webpack types, see its type definition
+      instance: rspack as unknown as typeof webpack,
     };
   }
   return {
@@ -40,27 +40,13 @@ export async function getCurrentBundler({
   };
 }
 
-export function getCurrentBundlerAsRspack({
-  currentBundler,
-}: {
-  currentBundler: CurrentBundler;
-}): Rspack {
-  if (currentBundler.name !== 'rspack') {
-    throw new Error(
-      `Can't getCurrentBundlerAsRspack() because current bundler is ${currentBundler.name}`,
-    );
-  }
-  return currentBundler.instance as unknown as Rspack;
-}
-
 export async function getCSSExtractPlugin({
   currentBundler,
 }: {
   currentBundler: CurrentBundler;
 }): Promise<typeof MiniCssExtractPlugin> {
   if (currentBundler.name === 'rspack') {
-    // @ts-expect-error: this exists only in Rspack
-    return currentBundler.instance.CssExtractRspackPlugin;
+    return rspack.CssExtractRspackPlugin as unknown as typeof MiniCssExtractPlugin;
   }
   return MiniCssExtractPlugin;
 }
@@ -71,8 +57,7 @@ export async function getCopyPlugin({
   currentBundler: CurrentBundler;
 }): Promise<typeof webpack.CopyPlugin> {
   if (currentBundler.name === 'rspack') {
-    // @ts-expect-error: this exists only in Rspack
-    return currentBundler.instance.CopyRspackPlugin;
+    return rspack.CopyRspackPlugin as unknown as typeof webpack.CopyPlugin;
   }
   return currentBundler.instance.CopyPlugin;
 }
@@ -83,7 +68,6 @@ export async function getProgressBarPlugin({
   currentBundler: CurrentBundler;
 }): Promise<typeof WebpackBar> {
   if (currentBundler.name === 'rspack') {
-    const rspack = getCurrentBundlerAsRspack({currentBundler});
     class CustomRspackProgressPlugin extends rspack.ProgressPlugin {
       constructor({name, color = 'green'}: {name?: string; color?: string}) {
         // Unfortunately rspack.ProgressPlugin does not have name/color options
@@ -107,8 +91,6 @@ export async function registerBundlerTracing({
   currentBundler: CurrentBundler;
 }): Promise<() => Promise<void>> {
   if (currentBundler.name === 'rspack') {
-    const Rspack = await importRspack();
-
     // See https://rspack.dev/contribute/development/profiling
     // File can be opened with https://ui.perfetto.dev/
     if (process.env.DOCUSAURUS_RSPACK_TRACE) {
@@ -123,7 +105,7 @@ export async function registerBundlerTracing({
         filter = 'info';
       }
 
-      await Rspack.experiments.globalTrace.register(
+      await rspack.experiments.globalTrace.register(
         filter,
         'perfetto',
         './rspack-tracing.pftrace',
@@ -132,7 +114,7 @@ export async function registerBundlerTracing({
       console.info(`Rspack tracing registered, filter=${filter}`);
 
       return async () => {
-        await Rspack.experiments.globalTrace.cleanup();
+        await rspack.experiments.globalTrace.cleanup();
         console.log(`Rspack tracing cleaned up, filter=${filter}`);
       };
     }
