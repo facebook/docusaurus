@@ -29,7 +29,6 @@ export type FasterConfig = {
   swcHtmlMinimizer: boolean;
   rspackBundler: boolean;
   rspackPersistentCache: boolean;
-  gitEagerVcs: boolean;
 };
 
 export type FutureV4Config = {

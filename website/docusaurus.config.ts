@@ -188,7 +188,6 @@ export default async function createConfigAsync() {
             swcHtmlMinimizer: true,
             rspackBundler: true,
             rspackPersistentCache: true,
-            gitEagerVcs: true,
           },
       experimental_vcs: vcs,
       experimental_router: router,

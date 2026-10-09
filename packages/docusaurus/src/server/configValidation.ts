@@ -78,7 +78,6 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   swcHtmlMinimizer: false,
   rspackBundler: false,
   rspackPersistentCache: false,
-  gitEagerVcs: false,
 };
 
 // When using the "faster: true" shortcut
@@ -87,7 +86,6 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   swcHtmlMinimizer: true,
   rspackBundler: true,
   rspackPersistentCache: true,
-  gitEagerVcs: true,
 };
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
@@ -108,7 +106,7 @@ export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
   faster: DEFAULT_FASTER_CONFIG,
-  experimental_vcs: getVcsPreset('default-v1'),
+  experimental_vcs: getVcsPreset('default-v2'),
   experimental_router: 'browser',
 };
 
@@ -289,7 +287,6 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
       swcHtmlMinimizer: Joi.boolean(),
       rspackBundler: Joi.boolean(),
       rspackPersistentCache: Joi.boolean(),
-      gitEagerVcs: Joi.boolean(),
       swcJsLoader: Joi.any()
         .forbidden()
         .messages({
@@ -362,18 +359,14 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
     return getVcsPreset(presetName);
   }
   if (typeof input === 'boolean') {
-    // We return the boolean on purpose
-    // We'll normalize it to a real VcsConfig later
-    // This is annoying, but we have to read the future flag to switch to the
-    // new "default-v2" config (not easy to do it here)
-    return input;
+    return input ? getVcsPreset('default-v2') : getVcsPreset('disabled');
   }
   const {error, value} = VCS_CONFIG_OBJECT_SCHEMA.validate(input);
   if (error) {
     throw error;
   }
   return value;
-}).default(true);
+}).default(() => DEFAULT_FUTURE_CONFIG.experimental_vcs);
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<
   FutureConfig & {experimental_storage: never; experimental_faster: never}
@@ -608,17 +601,6 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
     config.markdown.hooks.onBrokenMarkdownLinks = config.onBrokenMarkdownLinks;
     // We erase the former one to ensure we don't use it anywhere
     config.onBrokenMarkdownLinks = undefined;
-  }
-
-  // We normalize the VCS config when using a boolean value
-  if (typeof config.future.experimental_vcs === 'boolean') {
-    const vcsConfig = config.future.experimental_vcs
-      ? config.future.faster.gitEagerVcs
-        ? getVcsPreset('default-v2')
-        : getVcsPreset('default-v1')
-      : getVcsPreset('disabled');
-
-    config.future.experimental_vcs = vcsConfig;
   }
 
   if (
