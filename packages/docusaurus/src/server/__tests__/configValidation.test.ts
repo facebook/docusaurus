@@ -11,7 +11,7 @@ import {
   ConfigSchema,
   DEFAULT_CONFIG,
   DEFAULT_FASTER_CONFIG,
-  DEFAULT_FASTER_CONFIG_TRUE,
+  DEFAULT_FASTER_CONFIG_FALSE,
   DEFAULT_FUTURE_CONFIG,
   DEFAULT_FUTURE_V4_CONFIG,
   DEFAULT_FUTURE_V4_CONFIG_TRUE,
@@ -70,7 +70,6 @@ describe('normalizeConfig', () => {
         v4: {
           useCssCascadeLayers: true,
           siteStorageNamespacing: true,
-          fasterByDefault: true,
         },
         faster: {
           rspackBundler: true,
@@ -1573,7 +1572,6 @@ describe('future', () => {
       v4: {
         useCssCascadeLayers: true,
         siteStorageNamespacing: true,
-        fasterByDefault: true,
       },
       faster: {
         rspackBundler: true,
@@ -1728,7 +1726,7 @@ describe('future', () => {
         normalizeConfig({
           future: {faster: false},
         }),
-      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_FALSE));
     });
 
     it('accepts faster - true (v4: true)', () => {
@@ -1739,7 +1737,7 @@ describe('future', () => {
             faster: true,
           },
         }),
-      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
     });
 
     it('accepts faster - true (v4: false)', () => {
@@ -1750,7 +1748,7 @@ describe('future', () => {
             faster: true,
           },
         }),
-      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
     });
 
     it('accepts faster - true (v4: undefined)', () => {
@@ -1761,7 +1759,7 @@ describe('future', () => {
             faster: true,
           },
         }),
-      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
+      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
     });
 
     it('rejects faster - number', () => {
@@ -1807,7 +1805,7 @@ describe('future', () => {
               faster,
             },
           }),
-        ).toEqual(fasterContaining({rspackBundler: false}));
+        ).toEqual(fasterContaining({rspackBundler: true}));
       });
 
       it('accepts - true', () => {
@@ -1866,47 +1864,6 @@ describe('future', () => {
         `);
       });
     });
-
-    it('v4.fasterByDefault defaults all faster flags to true', () => {
-      expect(
-        normalizeConfig({
-          future: {
-            v4: {
-              fasterByDefault: true,
-            },
-          },
-        }),
-      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG_TRUE));
-    });
-
-    it('v4.fasterByDefault with partial faster keeps overrides', () => {
-      expect(
-        normalizeConfig({
-          future: {
-            v4: {
-              fasterByDefault: true,
-            },
-            faster: {rspackBundler: false},
-          },
-        }),
-      ).toEqual(
-        fasterContaining({
-          ...DEFAULT_FASTER_CONFIG_TRUE,
-          rspackBundler: false,
-        }),
-      );
-    });
-
-    it('faster: false overrides fasterByDefault', () => {
-      expect(
-        normalizeConfig({
-          future: {
-            v4: {fasterByDefault: true},
-            faster: false,
-          },
-        }),
-      ).toEqual(fasterContaining(DEFAULT_FASTER_CONFIG));
-    });
   });
 
   describe('v4', () => {
@@ -1938,7 +1895,6 @@ describe('future', () => {
       const v4: FutureV4Config = {
         useCssCascadeLayers: true,
         siteStorageNamespacing: true,
-        fasterByDefault: true,
       };
       expect(
         normalizeConfig({
@@ -2124,81 +2080,6 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           [Error: "future.v4.siteStorageNamespacing" must be a boolean
-          ]
-        `);
-      });
-    });
-
-    describe('fasterByDefault', () => {
-      it('accepts - undefined', () => {
-        const v4: Partial<FutureV4Config> = {
-          fasterByDefault: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({fasterByDefault: false}));
-      });
-
-      it('accepts - true', () => {
-        const v4: Partial<FutureV4Config> = {
-          fasterByDefault: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({fasterByDefault: true}));
-      });
-
-      it('accepts - false', () => {
-        const v4: Partial<FutureV4Config> = {
-          fasterByDefault: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toEqual(v4Containing({fasterByDefault: false}));
-      });
-
-      it('rejects - null', () => {
-        const v4: Partial<FutureV4Config> = {
-          // @ts-expect-error: invalid
-          fasterByDefault: null,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.v4.fasterByDefault" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        const v4: Partial<FutureV4Config> = {
-          // @ts-expect-error: invalid
-          fasterByDefault: 42,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              v4,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.v4.fasterByDefault" must be a boolean
           ]
         `);
       });

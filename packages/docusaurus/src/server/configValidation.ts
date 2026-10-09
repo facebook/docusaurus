@@ -73,25 +73,23 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
 };
 
 export const DEFAULT_FASTER_CONFIG: FasterConfig = {
-  rspackBundler: false,
+  rspackBundler: true,
 };
 
-// When using the "faster: true" shortcut
-export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
-  rspackBundler: true,
+// When using the "faster: false" shortcut
+export const DEFAULT_FASTER_CONFIG_FALSE: FasterConfig = {
+  rspackBundler: false,
 };
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
   useCssCascadeLayers: false,
   siteStorageNamespacing: false,
-  fasterByDefault: false,
 };
 
 // When using the "v4: true" shortcut
 export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
   useCssCascadeLayers: true,
   siteStorageNamespacing: true,
-  fasterByDefault: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
@@ -267,13 +265,10 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
-// Individual boolean defaults are not set here on purpose
-// They are resolved in postProcessDocusaurusConfig based on
-// the future.v4.fasterByDefault flag
 const FASTER_CONFIG_SCHEMA = Joi.alternatives()
   .try(
     Joi.object<FasterConfig & {swcJsLoader: never}>({
-      rspackBundler: Joi.boolean(),
+      rspackBundler: Joi.boolean().default(DEFAULT_FASTER_CONFIG.rspackBundler),
       swcJsLoader: Joi.any()
         .forbidden()
         .messages({
@@ -287,10 +282,11 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
     Joi.boolean()
       .required()
       .custom((bool) =>
-        bool ? DEFAULT_FASTER_CONFIG_TRUE : DEFAULT_FASTER_CONFIG,
+        bool ? DEFAULT_FASTER_CONFIG : DEFAULT_FASTER_CONFIG_FALSE,
       ),
   )
-  .optional();
+  .optional()
+  .default(DEFAULT_FASTER_CONFIG);
 
 const FUTURE_V4_SCHEMA = Joi.alternatives()
   .try(
@@ -300,9 +296,6 @@ const FUTURE_V4_SCHEMA = Joi.alternatives()
       ),
       siteStorageNamespacing: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.siteStorageNamespacing,
-      ),
-      fasterByDefault: Joi.boolean().default(
-        DEFAULT_FUTURE_V4_CONFIG.fasterByDefault,
       ),
     }),
     Joi.boolean()
@@ -549,21 +542,6 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
   // undefined means "not explicitly set by user"
   if (config.storage.namespace === undefined) {
     config.storage.namespace = config.future.v4.siteStorageNamespacing;
-  }
-
-  // Resolve faster config based on the v4.fasterByDefault flag
-  // undefined means "not explicitly set by user"
-  if (config.future.faster === undefined) {
-    config.future.faster = {} as FasterConfig;
-  }
-  const fasterDefault = config.future.v4.fasterByDefault;
-  const fasterKeys = Object.keys(
-    DEFAULT_FASTER_CONFIG,
-  ) as (keyof FasterConfig)[];
-  for (const key of fasterKeys) {
-    if (config.future.faster[key] === undefined) {
-      config.future.faster[key] = fasterDefault;
-    }
   }
 
   if (config.onBrokenMarkdownLinks) {
