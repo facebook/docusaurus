@@ -91,6 +91,24 @@ export async function getAvailablePackageManagers(): Promise<PackageManager[]> {
   return list.filter((item) => item !== null);
 }
 
+/**
+ * @returns the package manager version, or undefined if it can't be read
+ */
+export async function getPackageManagerVersion(
+  packageManager: PackageManager,
+  cwd: string,
+): Promise<string | undefined> {
+  try {
+    const {exitCode, stdout} = await runCommand(packageManager, ['--version'], {
+      cwd,
+    });
+    return exitCode === 0 ? stdout.trim() : undefined;
+  } catch {
+    // The package manager is not installed
+    return undefined;
+  }
+}
+
 export async function runPackageManagerInstallCommand(
   pkgManager: PackageManager,
 ): Promise<boolean> {
