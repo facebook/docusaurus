@@ -1,0 +1,5 @@
+# Commits ignored by git blame, used automatically by GitHub
+# Local usage: git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# chore: reformat code with oxfmt v0.70
+87f07abe5dc3ac674db2d0f02d9ce8c06a704e9e
