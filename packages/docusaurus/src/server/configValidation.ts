@@ -76,7 +76,6 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
 export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   swcJsMinimizer: false,
   swcHtmlMinimizer: false,
-  lightningCssMinimizer: false,
   rspackBundler: false,
   rspackPersistentCache: false,
   gitEagerVcs: false,
@@ -86,7 +85,6 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
 export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   swcJsMinimizer: true,
   swcHtmlMinimizer: true,
-  lightningCssMinimizer: true,
   rspackBundler: true,
   rspackPersistentCache: true,
   gitEagerVcs: true,
@@ -289,7 +287,6 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
     Joi.object<FasterConfig & {swcJsLoader: never}>({
       swcJsMinimizer: Joi.boolean(),
       swcHtmlMinimizer: Joi.boolean(),
-      lightningCssMinimizer: Joi.boolean(),
       rspackBundler: Joi.boolean(),
       rspackPersistentCache: Joi.boolean(),
       gitEagerVcs: Joi.boolean(),
