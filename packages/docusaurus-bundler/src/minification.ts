@@ -7,18 +7,17 @@
 
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import {
-  importSwcJsMinimizerOptions,
-  importLightningCssMinimizerOptions,
-  importGetBrowserslistQueries,
-} from './importFaster';
+import {importSwcJsMinimizerOptions} from './importFaster';
 import {getCurrentBundlerAsRspack} from './currentBundler';
-import type {CssNanoOptions} from 'css-minimizer-webpack-plugin';
+import {
+  getBrowserslistQueries,
+  getLightningCssMinimizerOptions,
+} from './browserslist';
 import type {WebpackPluginInstance} from 'webpack';
 import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
 
 export type MinimizersConfig = {
-  faster: Pick<FasterConfig, 'swcJsMinimizer' | 'lightningCssMinimizer'>;
+  faster: Pick<FasterConfig, 'swcJsMinimizer'>;
   currentBundler: CurrentBundler;
 };
 
@@ -77,49 +76,23 @@ async function getJsMinimizer({
   });
 }
 
-async function getLightningCssMinimizer(): Promise<WebpackPluginInstance> {
+function getCssMinimizer(): WebpackPluginInstance {
   return new CssMinimizerPlugin({
     minify: CssMinimizerPlugin.lightningCssMinify,
-    minimizerOptions: await importLightningCssMinimizerOptions(),
+    minimizerOptions: getLightningCssMinimizerOptions(),
   });
-}
-
-async function getCssNanoMinimizer(): Promise<WebpackPluginInstance> {
-  // This is an historical env variable to opt-out of the advanced minimizer
-  // Sometimes there's a bug in it and people are happy to disable it
-  const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
-  if (useSimpleCssMinifier) {
-    return new CssMinimizerPlugin();
-  }
-
-  return new CssMinimizerPlugin<CssNanoOptions>({
-    minify: CssMinimizerPlugin.cssnanoMinify,
-    minimizerOptions: {
-      preset: require.resolve('@docusaurus/cssnano-preset'),
-    },
-  });
-}
-
-async function getCssMinimizer(
-  params: MinimizersConfig,
-): Promise<WebpackPluginInstance> {
-  return params.faster.lightningCssMinimizer
-    ? getLightningCssMinimizer()
-    : getCssNanoMinimizer();
 }
 
 async function getWebpackMinimizers(
   params: MinimizersConfig,
 ): Promise<WebpackPluginInstance[]> {
-  return Promise.all([getJsMinimizer(params), getCssMinimizer(params)]);
+  return [await getJsMinimizer(params), getCssMinimizer()];
 }
 
 async function getRspackMinimizers({
   currentBundler,
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
   const rspack = getCurrentBundlerAsRspack({currentBundler});
-  const getBrowserslistQueries = await importGetBrowserslistQueries();
-  const browserslistQueries = getBrowserslistQueries();
   const swcJsMinimizerOptions = await importSwcJsMinimizerOptions();
 
   return [
@@ -134,13 +107,11 @@ async function getRspackMinimizers({
     }),
     new rspack.LightningCssMinimizerRspackPlugin({
       minimizerOptions: {
-        ...(await importLightningCssMinimizerOptions()),
-        // Not sure why but Rspack takes browserslist queries directly
-        // While LightningCSS targets are normally not browserslist queries
-        // We have to override the option to avoid errors
+        // Rspack takes Browserslist queries directly
+        // While LightningCSS targets are normally not Browserslist queries
         // See https://rspack.dev/plugins/rspack/lightning-css-minimizer-rspack-plugin#minimizeroptions
         // See https://lightningcss.dev/transpilation.html
-        targets: browserslistQueries,
+        targets: getBrowserslistQueries(),
       },
     }),
   ] as unknown as WebpackPluginInstance[];

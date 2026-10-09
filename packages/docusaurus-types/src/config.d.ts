@@ -27,7 +27,6 @@ export type StorageConfig = {
 export type FasterConfig = {
   swcJsMinimizer: boolean;
   swcHtmlMinimizer: boolean;
-  lightningCssMinimizer: boolean;
   rspackBundler: boolean;
   rspackPersistentCache: boolean;
 };

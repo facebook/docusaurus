@@ -95,7 +95,6 @@ exports[`loadSite > custom-i18n-site > loads site 1`] = `
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
@@ -267,7 +266,6 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom config 1`] = 
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
@@ -431,7 +429,6 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom outDir 1`] = 
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
@@ -595,7 +592,6 @@ exports[`loadSite > simple-site-with-baseUrl > loads site 1`] = `
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
@@ -803,7 +799,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site -  locale fr + cu
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
@@ -1033,7 +1028,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - custom outDir 1
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
@@ -1263,7 +1257,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale de 1`] =
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
@@ -1493,7 +1486,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale en 1`] =
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
@@ -1723,7 +1715,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale es 1`] =
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
@@ -1953,7 +1944,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale fr 1`] =
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
@@ -2183,7 +2173,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale it 1`] =
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
@@ -2413,7 +2402,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site 1`] = `
         "initialize": [Function],
       },
       "faster": {
-        "lightningCssMinimizer": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
         "swcHtmlMinimizer": false,
