@@ -1987,13 +1987,13 @@ describe('future', () => {
             v4: {
               fasterByDefault: true,
             },
-            faster: {gitEagerVcs: false},
+            faster: {rspackPersistentCache: false},
           },
         }),
       ).toEqual(
         fasterContaining({
           ...DEFAULT_FASTER_CONFIG_TRUE,
-          gitEagerVcs: false,
+          rspackPersistentCache: false,
         }),
       );
     });
