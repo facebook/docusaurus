@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import fs from 'node:fs/promises';
 import _ from 'lodash';
 import {
   aliasedSitePath,
@@ -22,7 +21,7 @@ import {
   normalizeTags,
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
-import {queueFileOperation} from '@docusaurus/fs';
+import {fs} from '@docusaurus/fs';
 import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';
@@ -56,9 +55,7 @@ export async function readDocFile(
 
   const filePath = path.join(contentPath, source);
 
-  const content = await queueFileOperation(() =>
-    fs.readFile(filePath, 'utf-8'),
-  );
+  const content = await fs.readFile(filePath, 'utf-8');
   return {source, content, contentPath, filePath};
 }
 

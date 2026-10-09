@@ -10,7 +10,7 @@ import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {normalizeUrl} from '@docusaurus/utils';
 
-import {queueFileOperation, pathExists, outputFile} from '@docusaurus/fs';
+import {pathExists, outputFile} from '@docusaurus/fs';
 import createRedirectPageContent from './createRedirectPageContent';
 
 import type {PluginContext, RedirectItem} from './types';
@@ -111,9 +111,5 @@ async function writeRedirectFile(file: RedirectFile): Promise<void> {
 export default async function writeRedirectFiles(
   redirectFiles: RedirectFile[],
 ): Promise<void> {
-  await Promise.all(
-    redirectFiles.map((file) =>
-      queueFileOperation(() => writeRedirectFile(file)),
-    ),
-  );
+  await Promise.all(redirectFiles.map(writeRedirectFile));
 }

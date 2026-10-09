@@ -11,13 +11,24 @@ import PQueue from 'p-queue';
 // posts concurrently. We bound how many files we keep open at once to avoid
 // EMFILE errors ("too many open files"): node:fs doesn't queue and retry
 // operations failing with EMFILE like graceful-fs (used by fs-extra) does.
-const FileOperationQueue = new PQueue({concurrency: 100});
+const DefaultFileOperationConcurrency = 100;
+
+// Secret way to set the concurrency (see DOCUSAURUS_GIT_COMMAND_CONCURRENCY)
+export function getFileOperationConcurrency(
+  envValue: string | undefined = process.env.DOCUSAURUS_FS_CONCURRENCY,
+): number {
+  const concurrency = envValue ? parseInt(envValue, 10) : NaN;
+  return concurrency > 0 ? concurrency : DefaultFileOperationConcurrency;
+}
+
+const FileOperationQueue = new PQueue({
+  concurrency: getFileOperationConcurrency(),
+});
 
 /**
- * Runs a file system operation (that keeps a file open, like `readFile()` or
- * `writeFile()`) through a shared queue, bounding how many files are open at
- * the same time. Use it when processing many files concurrently.
- * Don't nest calls: the inner operation could wait for a free slot forever.
+ * Runs a file system operation through the shared queue.
+ * Only queue "leaf" operations: an operation waiting for another queued one
+ * could wait for a free slot forever.
  */
 export function queueFileOperation<T>(operation: () => Promise<T>): Promise<T> {
   return FileOperationQueue.add(operation);

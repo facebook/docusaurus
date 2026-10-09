@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
@@ -27,7 +26,7 @@ import {
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
 
-import {queueFileOperation, pathExists} from '@docusaurus/fs';
+import {fs, pathExists} from '@docusaurus/fs';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {getBlogPostAuthors} from './authors';
 import {reportAuthorsProblems} from './authorsProblems';
@@ -234,9 +233,7 @@ async function parseBlogPostMarkdownFile({
   filePath: string;
   parseFrontMatter: ParseFrontMatter;
 }) {
-  const fileContent = await queueFileOperation(() =>
-    fs.readFile(filePath, 'utf-8'),
-  );
+  const fileContent = await fs.readFile(filePath, 'utf-8');
   try {
     const result = await parseMarkdownFile({
       filePath,

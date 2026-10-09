@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import {
   encodePath,
@@ -25,7 +24,7 @@ import {
   type ContentPaths,
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
-import {queueFileOperation} from '@docusaurus/fs';
+import {fs} from '@docusaurus/fs';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext} from '@docusaurus/types';
 import type {
@@ -124,7 +123,7 @@ async function processPageSourceFile(
     };
   }
 
-  const content = await queueFileOperation(() => fs.readFile(source, 'utf-8'));
+  const content = await fs.readFile(source, 'utf-8');
   const {
     frontMatter: unsafeFrontMatter,
     contentTitle,
