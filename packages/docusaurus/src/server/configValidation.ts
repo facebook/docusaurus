@@ -74,7 +74,6 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
 };
 
 export const DEFAULT_FASTER_CONFIG: FasterConfig = {
-  swcJsLoader: false,
   swcJsMinimizer: false,
   swcHtmlMinimizer: false,
   rspackBundler: false,
@@ -84,7 +83,6 @@ export const DEFAULT_FASTER_CONFIG: FasterConfig = {
 
 // When using the "faster: true" shortcut
 export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
-  swcJsLoader: true,
   swcJsMinimizer: true,
   swcHtmlMinimizer: true,
   rspackBundler: true,
@@ -286,13 +284,21 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
 // the future.v4.fasterByDefault flag
 const FASTER_CONFIG_SCHEMA = Joi.alternatives()
   .try(
-    Joi.object<FasterConfig>({
-      swcJsLoader: Joi.boolean(),
+    Joi.object<FasterConfig & {swcJsLoader: never}>({
       swcJsMinimizer: Joi.boolean(),
       swcHtmlMinimizer: Joi.boolean(),
       rspackBundler: Joi.boolean(),
       rspackPersistentCache: Joi.boolean(),
       gitEagerVcs: Joi.boolean(),
+      swcJsLoader: Joi.any()
+        .forbidden()
+        .messages({
+          'any.unknown': `The Docusaurus config ${logger.code(
+            'future.faster.swcJsLoader',
+          )} has been removed. Rspack always uses its built-in SWC loader. Webpack uses Babel by default, and you can provide a custom JS loader with ${logger.code(
+            'siteConfig.webpack.jsLoader',
+          )}.`,
+        }),
     }),
     Joi.boolean()
       .required()

@@ -6,7 +6,7 @@
  */
 
 import {getBabelOptions} from '@docusaurus/babel';
-import {importSwcLoader, importGetSwcLoaderOptions} from '../importFaster';
+import {importGetSwcLoaderOptions} from '../importFaster';
 import {getCurrentBundler} from '../currentBundler';
 import {getBrowserslistQueries} from '../browserslist';
 import type {ConfigureWebpackUtils, DocusaurusConfig} from '@docusaurus/types';
@@ -21,25 +21,6 @@ const BabelJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = ({
   };
 };
 
-async function createSwcJsLoaderFactory(): Promise<
-  ConfigureWebpackUtils['getJSLoader']
-> {
-  const loader = await importSwcLoader();
-  const getOptions = await importGetSwcLoaderOptions();
-  const clientBrowserslistQueries = getBrowserslistQueries();
-  return ({isServer}) => {
-    return {
-      loader,
-      options: getOptions({
-        isServer,
-        bundlerName: 'webpack',
-        clientBrowserslistQueries,
-      }),
-    };
-  };
-}
-
-// Same as swcLoader, except we use the built-in SWC loader
 async function createRspackSwcJsLoaderFactory(): Promise<
   ConfigureWebpackUtils['getJSLoader']
 > {
@@ -72,19 +53,14 @@ export async function createJsLoaderFactory({
   };
 }): Promise<ConfigureWebpackUtils['getJSLoader']> {
   const currentBundler = await getCurrentBundler({siteConfig});
-  const isSWCLoader = siteConfig.future.faster.swcJsLoader;
-  if (isSWCLoader) {
+  if (currentBundler.name === 'rspack') {
     if (siteConfig.webpack?.jsLoader) {
       throw new Error(
-        `You can't use siteConfig.webpack.jsLoader and siteConfig.future.faster.swcJsLoader at the same time.
-To avoid any configuration ambiguity, you must make an explicit choice:
-- If you want to use Docusaurus Faster and SWC (recommended), remove siteConfig.webpack.jsLoader
-- If you want to use a custom JS loader, use siteConfig.future.faster.swcJsLoader: false`,
+        `You can't use siteConfig.webpack.jsLoader with siteConfig.future.faster.rspackBundler.
+Rspack always uses its built-in SWC loader, please remove siteConfig.webpack.jsLoader.`,
       );
     }
-    return currentBundler.name === 'rspack'
-      ? createRspackSwcJsLoaderFactory()
-      : createSwcJsLoaderFactory();
+    return createRspackSwcJsLoaderFactory();
   }
 
   const jsLoader = siteConfig.webpack?.jsLoader ?? 'babel';

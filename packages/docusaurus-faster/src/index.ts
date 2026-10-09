@@ -12,8 +12,6 @@ import semver from 'semver';
 import type {JsMinifyOptions, Options as SwcOptions} from '@swc/core';
 import type {CurrentBundler} from '@docusaurus/types';
 
-export const swcLoader = require.resolve('swc-loader');
-
 export const getSwcLoaderOptions = ({
   isServer,
   bundlerName,
