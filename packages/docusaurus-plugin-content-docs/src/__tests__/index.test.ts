@@ -21,7 +21,6 @@ import {sortRoutes} from '@docusaurus/core/src/server/plugins/routeConfig';
 import {getLocaleConfig, posixPath} from '@docusaurus/utils';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
-import {fromPartial} from '@total-typescript/shoehorn';
 import pluginContentDocs from '../index';
 import {toSidebarsProp} from '../props';
 import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
@@ -328,10 +327,7 @@ describe('simple website', () => {
       },
       isServer: false,
       configureWebpackUtils: await createConfigureWebpackUtils({
-        siteConfig: {
-          webpack: {jsLoader: 'babel'},
-          future: {faster: fromPartial({})},
-        },
+        siteConfig: {},
       }),
       content,
     });
