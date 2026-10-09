@@ -117,10 +117,6 @@ const config: KnipConfig = {
     'packages/docusaurus-plugin-ideal-image': themePackageConfig(),
     'packages/docusaurus-plugin-pwa': themePackageConfig({
       entry: ['src/registerSw.ts', 'src/sw.ts'],
-      ignoreDependencies: [
-        // Used as a webpack loader name
-        'babel-loader',
-      ],
     }),
     'packages/docusaurus-plugin-svgr': {
       // TODO: used for types, see options.ts
