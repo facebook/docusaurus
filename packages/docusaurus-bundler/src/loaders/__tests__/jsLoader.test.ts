@@ -6,7 +6,6 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {fromPartial, type PartialDeep} from '@total-typescript/shoehorn';
 import {createJsLoaderFactory} from '../jsLoader';
 
 import type {RuleSetRule} from 'webpack';
@@ -16,26 +15,20 @@ type SiteConfigSlice = Parameters<
 >[0]['siteConfig'];
 
 describe('createJsLoaderFactory', () => {
-  function testJsLoaderFactory(siteConfig?: {
-    webpack?: SiteConfigSlice['webpack'];
-    future?: PartialDeep<SiteConfigSlice['future']>;
-  }) {
+  function testJsLoaderFactory(siteConfig?: SiteConfigSlice) {
     return createJsLoaderFactory({
-      siteConfig: {
-        ...siteConfig,
-        webpack: siteConfig?.webpack,
-        future: fromPartial({
-          ...siteConfig?.future,
-          faster: fromPartial({
-            ...siteConfig?.future?.faster,
-          }),
-        }),
-      },
+      siteConfig: {webpack: siteConfig?.webpack},
     });
   }
 
-  it('createJsLoaderFactory defaults to babel loader', async () => {
+  it('createJsLoaderFactory defaults to built-in SWC loader with Rspack', async () => {
     const createJsLoader = await testJsLoaderFactory();
+    expect(createJsLoader({isServer: true}).loader).toBe('builtin:swc-loader');
+    expect(createJsLoader({isServer: false}).loader).toBe('builtin:swc-loader');
+  });
+
+  it('createJsLoaderFactory defaults to babel loader with Webpack', async () => {
+    const createJsLoader = await testJsLoaderFactory({webpack: {}});
     expect(createJsLoader({isServer: true}).loader).toBe(
       require.resolve('babel-loader'),
     );
@@ -66,35 +59,6 @@ describe('createJsLoaderFactory', () => {
     });
     expect(createJsLoader({isServer: true}).loader).toBe('my-loader-server');
     expect(createJsLoader({isServer: false}).loader).toBe('my-loader-client');
-  });
-
-  it('createJsLoaderFactory uses built-in SWC loader with Rspack', async () => {
-    const createJsLoader = await testJsLoaderFactory({
-      future: {faster: {rspackBundler: true}},
-    });
-    expect(createJsLoader({isServer: true}).loader).toBe('builtin:swc-loader');
-    expect(createJsLoader({isServer: false}).loader).toBe('builtin:swc-loader');
-  });
-
-  it('createJsLoaderFactory rejects custom loader when using Rspack', async () => {
-    await expect(() =>
-      testJsLoaderFactory({
-        future: {
-          faster: {
-            rspackBundler: true,
-          },
-        },
-        webpack: {
-          jsLoader: (isServer) => {
-            return {loader: `my-loader-${isServer ? 'server' : 'client'}`};
-          },
-        },
-      }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      [Error: You can't use siteConfig.webpack.jsLoader with siteConfig.future.faster.rspackBundler.
-      Rspack always uses its built-in SWC loader, please remove siteConfig.webpack.jsLoader.
-      If you need a custom JS loader, opt out of Rspack with siteConfig.future.faster.rspackBundler: false.]
-    `);
   });
 
   it('createJsLoaderFactory accepts loaders with preset', async () => {

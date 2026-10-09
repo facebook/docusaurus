@@ -179,14 +179,10 @@ export default async function createConfigAsync() {
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
     vcs,
+    // Deprecated: dogfood the Webpack/Babel opt-out for benchmarking
+    webpack: isSlower,
     future: {
       v4: !isSlower, // Not accurate, but good enough
-      faster: isSlower
-        ? false
-        : {
-            // Verbose object: easier to independently test single attributes
-            rspackBundler: true,
-          },
       experimental_router: router,
     },
     // Dogfood both settings:

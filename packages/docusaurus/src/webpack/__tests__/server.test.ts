@@ -11,17 +11,10 @@ import webpack from 'webpack';
 import createServerConfig from '../server';
 import {loadWebpackSiteFixture} from '../../server/__tests__/testUtils';
 import {createConfigureWebpackUtils} from '../configure';
-import {
-  DEFAULT_FASTER_CONFIG_FALSE,
-  DEFAULT_FUTURE_CONFIG,
-} from '../../server/configValidation';
 
 function createTestConfigureWebpackUtils() {
   return createConfigureWebpackUtils({
-    siteConfig: {
-      webpack: {jsLoader: 'babel'},
-      future: {...DEFAULT_FUTURE_CONFIG, faster: DEFAULT_FASTER_CONFIG_FALSE},
-    },
+    siteConfig: {webpack: {jsLoader: 'babel'}},
   });
 }
 

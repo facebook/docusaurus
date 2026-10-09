@@ -24,8 +24,15 @@ export type StorageConfig = {
   namespace: boolean | string;
 };
 
-export type FasterConfig = {
-  rspackBundler: boolean;
+export type WebpackConfig = {
+  /**
+   * Configuration for alternative JS loaders. "babel" will use the built-in
+   * Babel loader and preset; otherwise, you can provide your custom Webpack
+   * rule set.
+   */
+  // TODO Docusaurus v4
+  //  Use an object type ({isServer}) so that it conforms to jsLoaderFactory
+  jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule);
 };
 
 export type FutureV4Config = {
@@ -85,8 +92,6 @@ export type FutureConfig = {
    * Turns v4 future flags on
    */
   v4: FutureV4Config;
-
-  faster: FasterConfig;
 
   /**
    * Docusaurus can work with 2 router types.
@@ -378,18 +383,12 @@ export type DocusaurusConfig = {
    * @default true
    */
   baseUrlIssueBanner: boolean;
-  /** Webpack-related options. */
-  webpack?: {
-    /**
-     * Configuration for alternative JS loaders. "babel" will use the built-in
-     * Babel loader and preset; otherwise, you can provide your custom Webpack
-     * rule set.
-     */
-    // TODO Docusaurus v4
-    //  Use an object type ({isServer}) so that it conforms to jsLoaderFactory
-    //  Eventually deprecate this if swc loader becomes stable?
-    jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule);
-  };
+  /**
+   * Docusaurus uses Rspack by default.
+   * When provided, Docusaurus uses Webpack and Babel instead.
+   * @deprecated Webpack and Babel support will be removed in Docusaurus v5
+   */
+  webpack?: WebpackConfig;
   /** Markdown-related options. */
   markdown: MarkdownConfig;
 };
@@ -406,11 +405,16 @@ export type Config = Overwrite<
     url: DocusaurusConfig['url'];
     baseUrl: DocusaurusConfig['baseUrl'];
     vcs?: VcsPreset | VcsConfig | boolean;
+    /**
+     * Docusaurus uses Rspack by default.
+     * Use `true` or an object to use Webpack and Babel instead.
+     * @deprecated Webpack and Babel support will be removed in Docusaurus v5
+     */
+    webpack?: boolean | WebpackConfig;
     future?: Overwrite<
       DeepPartial<FutureConfig>,
       {
         v4?: boolean | Partial<FutureV4Config>;
-        faster?: boolean | Partial<FasterConfig>;
       }
     >;
   }

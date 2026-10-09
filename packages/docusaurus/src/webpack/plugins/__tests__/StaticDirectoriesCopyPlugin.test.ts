@@ -21,7 +21,7 @@ async function createProps(bundlerName: CurrentBundler['name']) {
   const siteDir = await fs.mkdtemp(path.join(os.tmpdir(), 'docusaurus-copy-'));
   tempDirs.push(siteDir);
   const currentBundler = await getCurrentBundler({
-    siteConfig: {future: {faster: {rspackBundler: bundlerName === 'rspack'}}},
+    siteConfig: {webpack: bundlerName === 'webpack' ? {} : undefined},
   });
   return {
     siteDir,

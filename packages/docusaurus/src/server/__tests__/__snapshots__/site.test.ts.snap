@@ -89,9 +89,6 @@ exports[`loadSite > custom-i18n-site > loads site 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -255,9 +252,6 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom config 1`] = 
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -413,9 +407,6 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom outDir 1`] = 
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -571,9 +562,6 @@ exports[`loadSite > simple-site-with-baseUrl > loads site 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -773,9 +761,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site -  locale fr + cu
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -997,9 +982,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - custom outDir 1
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -1221,9 +1203,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale de 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -1445,9 +1424,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale en 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -1669,9 +1645,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale es 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -1893,9 +1866,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale fr 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -2117,9 +2087,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale it 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
@@ -2341,9 +2308,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": true,
-      },
       "v4": {
         "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
