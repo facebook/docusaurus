@@ -75,7 +75,6 @@ describe('normalizeConfig', () => {
         },
         faster: {
           swcJsMinimizer: true,
-          swcHtmlMinimizer: true,
           rspackBundler: true,
           rspackPersistentCache: true,
         },
@@ -1574,7 +1573,6 @@ describe('future', () => {
       },
       faster: {
         swcJsMinimizer: true,
-        swcHtmlMinimizer: true,
         rspackBundler: true,
         rspackPersistentCache: true,
       },
@@ -1712,7 +1710,6 @@ describe('future', () => {
     it('accepts faster - full', () => {
       const faster: FasterConfig = {
         swcJsMinimizer: true,
-        swcHtmlMinimizer: true,
         rspackBundler: true,
         rspackPersistentCache: true,
       };
@@ -1865,77 +1862,6 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           [Error: "future.faster.swcJsMinimizer" must be a boolean
-          ]
-        `);
-      });
-    });
-
-    describe('swcHtmlMinimizer', () => {
-      it('accepts - undefined', () => {
-        const faster: Partial<FasterConfig> = {
-          swcHtmlMinimizer: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
-      });
-
-      it('accepts - true', () => {
-        const faster: Partial<FasterConfig> = {
-          swcHtmlMinimizer: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcHtmlMinimizer: true}));
-      });
-
-      it('accepts - false', () => {
-        const faster: Partial<FasterConfig> = {
-          swcHtmlMinimizer: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
-      });
-
-      it('rejects - null', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {swcHtmlMinimizer: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.swcHtmlMinimizer" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {swcHtmlMinimizer: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.swcHtmlMinimizer" must be a boolean
           ]
         `);
       });

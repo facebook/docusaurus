@@ -6,7 +6,6 @@
  */
 
 import {minify as terserHtmlMinifier} from 'html-minifier-terser';
-import {importSwcHtmlMinifier} from './importFaster';
 
 // Historical env variable
 const SkipHtmlMinification = process.env.SKIP_HTML_MINIFICATION === 'true';
@@ -73,7 +72,11 @@ async function getTerserMinifier(): Promise<HtmlMinifier> {
 // Not well-documented but fast!
 // See https://github.com/swc-project/swc/discussions/9616
 async function getSwcMinifier(): Promise<HtmlMinifier> {
-  const swcHtmlMinifier = await importSwcHtmlMinifier();
+  // Import it lazily: not need for the dev server, more performant
+  // This also temporarily fix our StackBlitz playground
+  // See https://github.com/facebook/docusaurus/issues/12008
+  // See https://github.com/swc-project/swc/issues/11833
+  const {minify: swcHtmlMinifier} = await import('@swc/html');
   return {
     minify: async function minifyHtmlWithSwc(html) {
       try {
