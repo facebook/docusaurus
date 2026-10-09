@@ -132,8 +132,6 @@ export default async function pluginContentDocs(
         dependencies: [mdxLoaderDependency].filter(
           (d): d is string => typeof d === 'string',
         ),
-
-        useCrossCompilerCache: siteConfig.future.faster.mdxCrossCompilerCache,
         admonitions: options.admonitions,
         remarkPlugins,
         rehypePlugins,
