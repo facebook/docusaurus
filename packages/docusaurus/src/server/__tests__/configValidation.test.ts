@@ -76,7 +76,6 @@ describe('normalizeConfig', () => {
           mdxCrossCompilerCache: true,
           rspackBundler: true,
           rspackPersistentCache: true,
-          gitEagerVcs: true,
         },
         experimental_vcs: {
           initialize: (_params) => {},
@@ -1413,7 +1412,6 @@ describe('future', () => {
         mdxCrossCompilerCache: true,
         rspackBundler: true,
         rspackPersistentCache: true,
-        gitEagerVcs: true,
       },
       experimental_vcs: {
         initialize: (_params) => {},
@@ -1544,7 +1542,7 @@ describe('future', () => {
         ).toEqual(
           futureContaining({
             ...DEFAULT_FUTURE_CONFIG,
-            experimental_vcs: getVcsPreset('default-v1'),
+            experimental_vcs: getVcsPreset('default-v2'),
           }),
         );
       });
@@ -1559,7 +1557,7 @@ describe('future', () => {
         ).toEqual(
           futureContaining({
             ...DEFAULT_FUTURE_CONFIG,
-            experimental_vcs: getVcsPreset('default-v1'),
+            experimental_vcs: getVcsPreset('default-v2'),
           }),
         );
       });
@@ -1594,6 +1592,28 @@ describe('future', () => {
 
       it('accepts git-eager', () => {
         const presetName: VcsPreset = 'git-eager';
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: presetName,
+            },
+          }),
+        ).toEqual(vcsContaining(getVcsPreset(presetName)));
+      });
+
+      it('accepts default-v1', () => {
+        const presetName: VcsPreset = 'default-v1';
+        expect(
+          normalizeConfig({
+            future: {
+              experimental_vcs: presetName,
+            },
+          }),
+        ).toEqual(vcsContaining(getVcsPreset(presetName)));
+      });
+
+      it('accepts default-v2', () => {
+        const presetName: VcsPreset = 'default-v2';
         expect(
           normalizeConfig({
             future: {
@@ -1750,7 +1770,6 @@ describe('future', () => {
         mdxCrossCompilerCache: true,
         rspackBundler: true,
         rspackPersistentCache: true,
-        gitEagerVcs: true,
       };
       expect(
         normalizeConfig({
@@ -2348,85 +2367,19 @@ describe('future', () => {
       });
     });
 
-    describe('gitEagerVcs', () => {
-      it('accepts - undefined', () => {
-        const faster: Partial<FasterConfig> = {
-          gitEagerVcs: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({gitEagerVcs: false}));
-      });
-
-      it('accepts - true', () => {
-        const faster: Partial<FasterConfig> = {
-          gitEagerVcs: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(
-          futureContaining({
-            faster: expect.objectContaining(faster),
-            experimental_vcs: getVcsPreset('default-v2'),
-          }),
-        );
-      });
-
-      it('accepts - false', () => {
-        const faster: Partial<FasterConfig> = {
-          gitEagerVcs: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(
-          futureContaining({
-            faster: expect.objectContaining(faster),
-            experimental_vcs: getVcsPreset('default-v1'),
-          }),
-        );
-      });
-
-      it('rejects - null', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {gitEagerVcs: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.gitEagerVcs" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {gitEagerVcs: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.gitEagerVcs" must be a boolean
-          ]
-        `);
-      });
+    it('rejects removed gitEagerVcs flag', () => {
+      expect(() =>
+        normalizeConfig({
+          future: {
+            // @ts-expect-error: removed flag
+            faster: {gitEagerVcs: true},
+          },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: These field(s) ("future.faster.gitEagerVcs",) are not recognized in docusaurus.config.js.
+        If you still want these fields to be in your configuration, put them in the "customFields" field.
+        See https://docusaurus.io/docs/api/docusaurus-config/#customfields]
+      `);
     });
 
     it('v4.fasterByDefault defaults all faster flags to true', () => {

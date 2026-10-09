@@ -32,7 +32,6 @@ export type FasterConfig = {
   mdxCrossCompilerCache: boolean;
   rspackBundler: boolean;
   rspackPersistentCache: boolean;
-  gitEagerVcs: boolean;
 };
 
 export type FutureV4Config = {
