@@ -71,7 +71,6 @@ describe('normalizeConfig', () => {
           useCssCascadeLayers: true,
           siteStorageNamespacing: true,
           fasterByDefault: true,
-          mdx1CompatDisabledByDefault: true,
         },
         faster: {
           rspackBundler: true,
@@ -530,6 +529,14 @@ describe('markdown', () => {
 
   it('accepts empty object', () => {
     expect(normalizeMarkdown({})).toEqual(DEFAULT_CONFIG.markdown);
+  });
+
+  it('disables all mdx1Compat options by default', () => {
+    expect(normalizeMarkdown({}).mdx1Compat).toEqual({
+      comments: false,
+      admonitions: false,
+      headingIds: false,
+    });
   });
 
   it('accepts valid markdown object', () => {
@@ -1568,7 +1575,6 @@ describe('future', () => {
         useCssCascadeLayers: true,
         siteStorageNamespacing: true,
         fasterByDefault: true,
-        mdx1CompatDisabledByDefault: true,
       },
       faster: {
         rspackBundler: true,
@@ -2040,7 +2046,6 @@ describe('future', () => {
         useCssCascadeLayers: true,
         siteStorageNamespacing: true,
         fasterByDefault: true,
-        mdx1CompatDisabledByDefault: true,
       };
       expect(
         normalizeConfig({
@@ -2303,65 +2308,6 @@ describe('future', () => {
           [Error: "future.v4.fasterByDefault" must be a boolean
           ]
         `);
-      });
-    });
-
-    describe('mdx1CompatDisabledByDefault', () => {
-      function mdx1CompatContaining(mdx1Compat: object) {
-        return expect.objectContaining({
-          markdown: expect.objectContaining({mdx1Compat}),
-        });
-      }
-
-      const MDX1_COMPAT_ALL_TRUE = {
-        comments: true,
-        admonitions: true,
-        headingIds: true,
-      };
-
-      const MDX1_COMPAT_ALL_FALSE = {
-        comments: false,
-        admonitions: false,
-        headingIds: false,
-      };
-
-      it('defaults mdx1Compat to all true when flag is off', () => {
-        expect(normalizeConfig({})).toEqual(
-          mdx1CompatContaining(MDX1_COMPAT_ALL_TRUE),
-        );
-      });
-
-      it('defaults mdx1Compat to all false when flag is on', () => {
-        expect(
-          normalizeConfig({
-            future: {v4: {mdx1CompatDisabledByDefault: true}},
-          }),
-        ).toEqual(mdx1CompatContaining(MDX1_COMPAT_ALL_FALSE));
-      });
-
-      it('defaults mdx1Compat to all false when v4: true', () => {
-        expect(
-          normalizeConfig({
-            future: {v4: true},
-          }),
-        ).toEqual(mdx1CompatContaining(MDX1_COMPAT_ALL_FALSE));
-      });
-
-      it('keeps explicit mdx1Compat overrides when flag is on', () => {
-        expect(
-          normalizeConfig({
-            future: {v4: {mdx1CompatDisabledByDefault: true}},
-            markdown: {
-              mdx1Compat: {admonitions: true},
-            },
-          }),
-        ).toEqual(
-          mdx1CompatContaining({
-            comments: false,
-            admonitions: true,
-            headingIds: false,
-          }),
-        );
       });
     });
   });
