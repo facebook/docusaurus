@@ -35,10 +35,6 @@ export type WebpackConfig = {
   jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule);
 };
 
-export type FutureV4Config = {
-  useCssCascadeLayers: boolean;
-};
-
 // VCS (Version Control System) info about a given change, e.g., a git commit.
 // The agnostic term "VCS" is used instead of "git" to acknowledge the existence
 // of other version control systems, and external systems like CMSs and i18n
@@ -87,11 +83,6 @@ export type VcsPreset =
   | 'default-v3';
 
 export type FutureConfig = {
-  /**
-   * Turns v4 future flags on
-   */
-  v4: FutureV4Config;
-
   /**
    * Docusaurus can work with 2 router types.
    *
@@ -410,11 +401,6 @@ export type Config = Overwrite<
      * @deprecated Webpack and Babel support will be removed in Docusaurus v5
      */
     webpack?: boolean | WebpackConfig;
-    future?: Overwrite<
-      DeepPartial<FutureConfig>,
-      {
-        v4?: boolean | Partial<FutureV4Config>;
-      }
-    >;
+    future?: DeepPartial<FutureConfig>;
   }
 >;

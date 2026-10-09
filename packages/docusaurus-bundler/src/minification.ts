@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import MinimizerPlugin from 'minimizer-webpack-plugin';
 import {rspack} from './rspack';
 import {
   getBrowserslistQueries,
@@ -74,7 +73,8 @@ function getMinifyFunction(name: keyof typeof MinifyFunctions) {
   };
 }
 
-function getJsMinimizer(): WebpackPluginInstance {
+async function getJsMinimizer(): Promise<WebpackPluginInstance> {
+  const {default: MinimizerPlugin} = await import('minimizer-webpack-plugin');
   return new MinimizerPlugin<JsMinifyOptions>({
     parallel: getMinimizerParallel(),
     minify: {
@@ -84,7 +84,8 @@ function getJsMinimizer(): WebpackPluginInstance {
   });
 }
 
-function getCssMinimizer(): WebpackPluginInstance {
+async function getCssMinimizer(): Promise<WebpackPluginInstance> {
+  const {default: MinimizerPlugin} = await import('minimizer-webpack-plugin');
   return new MinimizerPlugin({
     // The plugin's default test only matches JS files
     test: /\.css(?:\?.*)?$/i,
@@ -96,8 +97,9 @@ function getCssMinimizer(): WebpackPluginInstance {
   });
 }
 
-function getWebpackMinimizers(): WebpackPluginInstance[] {
-  return [getJsMinimizer(), getCssMinimizer()];
+// Webpack-only minimizers are imported lazily, only when Webpack is used
+async function getWebpackMinimizers(): Promise<WebpackPluginInstance[]> {
+  return Promise.all([getJsMinimizer(), getCssMinimizer()]);
 }
 
 function getRspackMinimizers(): RspackPluginInstance[] {

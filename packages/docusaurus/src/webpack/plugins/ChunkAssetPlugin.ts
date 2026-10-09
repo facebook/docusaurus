@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import webpack, {type Compiler} from 'webpack';
+import type webpack from 'webpack';
+import type {Compiler} from 'webpack';
 
 // Adds a custom Docusaurus Webpack runtime function `__webpack_require__.gca`
 // gca = Get Chunk Asset, it converts a chunkName to a JS asset URL
@@ -18,7 +19,13 @@ const DocusaurusGetChunkAssetFn = '__webpack_require__.gca';
 
 const PluginName = 'Docusaurus-ChunkAssetPlugin';
 
-function generateGetChunkAssetRuntimeCode(chunk: webpack.Chunk): string {
+function generateGetChunkAssetRuntimeCode({
+  chunk,
+  bundler,
+}: {
+  chunk: webpack.Chunk;
+  bundler: typeof webpack;
+}): string {
   const chunkIdToName = chunk.getChunkMaps(false).name;
   const chunkNameToId = Object.fromEntries(
     Object.entries(chunkIdToName).map(([chunkId, chunkName]) => [
@@ -37,14 +44,14 @@ function generateGetChunkAssetRuntimeCode(chunk: webpack.Chunk): string {
     // Example: getChunkScriptFilename("814f3328") = "814f3328.03fcc178.js"
     // https://github.com/webpack/webpack/blob/v5.94.0/lib/runtime/GetChunkFilenameRuntimeModule.js
     getChunkScriptFilename,
-  } = webpack.RuntimeGlobals;
+  } = bundler.RuntimeGlobals;
 
   const code = `// Docusaurus function to get chunk asset
 ${DocusaurusGetChunkAssetFn} = function(chunkId) { chunkId = ${JSON.stringify(
     chunkNameToId,
   )}[chunkId]||chunkId; return ${publicPath} + ${getChunkScriptFilename}(chunkId); };`;
 
-  return webpack.Template.asString(code);
+  return bundler.Template.asString(code);
 }
 
 /*
@@ -56,6 +63,11 @@ ${DocusaurusGetChunkAssetFn} = function(chunkId) { chunkId = ${JSON.stringify(
  */
 export default class ChunkAssetPlugin {
   apply(compiler: Compiler): void {
+    // Use the compiler's bundler instance (Webpack or Rspack)
+    // This avoids loading Webpack when using Rspack
+    const ChunkAssetRuntimeModule = createChunkAssetRuntimeModuleClass(
+      compiler.webpack,
+    );
     compiler.hooks.thisCompilation.tap(PluginName, (compilation) => {
       compilation.hooks.additionalTreeRuntimeRequirements.tap(
         PluginName,
@@ -70,12 +82,14 @@ export default class ChunkAssetPlugin {
 // Inspired by https://github.com/webpack/webpack/blob/v5.94.0/lib/runtime/CompatRuntimeModule.js
 // See also https://rspack.dev/api/javascript-api/compilation#addruntimemodule
 // See also https://rspack.dev/api/plugin-api/compilation-hooks#additionaltreeruntimerequirements
-class ChunkAssetRuntimeModule extends webpack.RuntimeModule {
-  constructor() {
-    super('ChunkAssetRuntimeModule', webpack.RuntimeModule.STAGE_ATTACH);
-    this.fullHash = true;
-  }
-  override generate() {
-    return generateGetChunkAssetRuntimeCode(this.chunk!);
-  }
+function createChunkAssetRuntimeModuleClass(bundler: typeof webpack) {
+  return class ChunkAssetRuntimeModule extends bundler.RuntimeModule {
+    constructor() {
+      super('ChunkAssetRuntimeModule', bundler.RuntimeModule.STAGE_ATTACH);
+      this.fullHash = true;
+    }
+    override generate() {
+      return generateGetChunkAssetRuntimeCode({chunk: this.chunk!, bundler});
+    }
+  };
 }
