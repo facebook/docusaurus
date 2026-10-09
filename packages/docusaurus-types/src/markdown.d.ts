@@ -107,7 +107,7 @@ export type MarkdownHooks = {
    * The behavior of Docusaurus when it detects any broken Markdown link.
    *
    * // TODO refactor doc links!
-   * @see https://docusaurus.io/docs/api/docusaurus-config#onBrokenMarkdownLinks
+   * @see https://docusaurus.io/docs/api/docusaurus-config#markdown
    * @default "warn"
    */
   onBrokenMarkdownLinks: ReportingSeverity | OnBrokenMarkdownLinksFunction;

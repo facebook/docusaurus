@@ -144,7 +144,6 @@ export const DEFAULT_CONFIG: Pick<
   | 'future'
   | 'onBrokenLinks'
   | 'onBrokenAnchors'
-  | 'onBrokenMarkdownLinks'
   | 'onDuplicateRoutes'
   | 'plugins'
   | 'themes'
@@ -168,7 +167,6 @@ export const DEFAULT_CONFIG: Pick<
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
-  onBrokenMarkdownLinks: undefined,
   onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
@@ -397,7 +395,9 @@ const FUTURE_CONFIG_SCHEMA = Joi.object<
   .default(DEFAULT_FUTURE_CONFIG);
 
 // TODO move to @docusaurus/utils-validation
-export const ConfigSchema = Joi.object<DocusaurusConfig>({
+export const ConfigSchema = Joi.object<
+  DocusaurusConfig & {onBrokenMarkdownLinks: never}
+>({
   url: SiteUrlSchema.required(),
   baseUrl: BaseUrlSchema.required(),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
@@ -414,9 +414,15 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   onBrokenAnchors: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onBrokenAnchors),
-  onBrokenMarkdownLinks: Joi.string()
-    .equal('ignore', 'log', 'warn', 'throw')
-    .default(() => DEFAULT_CONFIG.onBrokenMarkdownLinks),
+  onBrokenMarkdownLinks: Joi.any()
+    .forbidden()
+    .messages({
+      'any.unknown': `The Docusaurus config ${logger.code(
+        'siteConfig.onBrokenMarkdownLinks',
+      )} has been removed. Please move this option to ${logger.code(
+        'siteConfig.markdown.hooks.onBrokenMarkdownLinks',
+      )} instead.`,
+    }),
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
@@ -590,15 +596,6 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
   ) as (keyof MDX1CompatOptions)[];
   for (const key of mdx1CompatKeys) {
     config.markdown.mdx1Compat[key] ??= mdx1CompatDefault;
-  }
-
-  if (config.onBrokenMarkdownLinks) {
-    logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
-Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
-    // For v3 retro compatibility we use the old attribute over the new one
-    config.markdown.hooks.onBrokenMarkdownLinks = config.onBrokenMarkdownLinks;
-    // We erase the former one to ensure we don't use it anywhere
-    config.onBrokenMarkdownLinks = undefined;
   }
 
   if (
