@@ -15,7 +15,7 @@ import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
 
 const siteConfig: DocusaurusConfig = fromPartial({
   url: 'https://example.com',
-  future: {experimental_vcs: TEST_VCS},
+  vcs: TEST_VCS,
 });
 
 function test(params: {

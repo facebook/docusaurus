@@ -89,16 +89,9 @@ exports[`loadSite > custom-i18n-site > loads site 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -167,6 +160,11 @@ exports[`loadSite > custom-i18n-site > loads site 1`] = `
     "title": "Site",
     "titleDelimiter": "|",
     "url": "https://example.com",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site/docusaurus.config.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site",
@@ -261,16 +259,9 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom config 1`] = 
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -331,6 +322,11 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom config 1`] = 
     "title": "Hello 2",
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/docusaurus.config.custom.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl",
@@ -425,16 +421,9 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom outDir 1`] = 
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -495,6 +484,11 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom outDir 1`] = 
     "title": "Hello",
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/docusaurus.config.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl",
@@ -589,16 +583,9 @@ exports[`loadSite > simple-site-with-baseUrl > loads site 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -659,6 +646,11 @@ exports[`loadSite > simple-site-with-baseUrl > loads site 1`] = `
     "title": "Hello",
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/docusaurus.config.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl",
@@ -797,16 +789,9 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site -  locale fr + cu
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -889,6 +874,11 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site -  locale fr + cu
     "title": "Hello",
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/docusaurus.config.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n",
@@ -1027,16 +1017,9 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - custom outDir 1
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -1119,6 +1102,11 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - custom outDir 1
     "title": "Hello",
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/docusaurus.config.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n",
@@ -1257,16 +1245,9 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale de 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -1349,6 +1330,11 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale de 1`] =
     "title": "Hello",
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/docusaurus.config.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n",
@@ -1487,16 +1473,9 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale en 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -1579,6 +1558,11 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale en 1`] =
     "title": "Hello",
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/docusaurus.config.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n",
@@ -1717,16 +1701,9 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale es 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -1809,6 +1786,11 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale es 1`] =
     "title": "Hello",
     "titleDelimiter": "|",
     "url": "https://es.docusaurus.io",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/docusaurus.config.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n",
@@ -1947,16 +1929,9 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale fr 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -2039,6 +2014,11 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale fr 1`] =
     "title": "Hello",
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/docusaurus.config.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n",
@@ -2177,16 +2157,9 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale it 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -2269,6 +2242,11 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale it 1`] =
     "title": "Hello",
     "titleDelimiter": "|",
     "url": "https://it.docusaurus.io",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/docusaurus.config.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n",
@@ -2407,16 +2385,9 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "experimental_vcs": {
-        "getFileCreationInfo": [Function],
-        "getFileLastUpdateInfo": [Function],
-        "initialize": [Function],
-      },
       "faster": {
-        "gitEagerVcs": false,
         "rspackBundler": false,
         "rspackPersistentCache": false,
-        "swcHtmlMinimizer": false,
         "swcJsMinimizer": false,
       },
       "v4": {
@@ -2499,6 +2470,11 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site 1`] = `
     "title": "Hello",
     "titleDelimiter": "|",
     "url": "https://docusaurus.io",
+    "vcs": {
+      "getFileCreationInfo": [Function],
+      "getFileLastUpdateInfo": [Function],
+      "initialize": [Function],
+    },
   },
   "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/docusaurus.config.js",
   "siteDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n",

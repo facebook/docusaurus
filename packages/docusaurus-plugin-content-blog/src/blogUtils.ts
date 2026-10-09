@@ -266,7 +266,7 @@ async function processBlogSourceFile(
     siteConfig: {
       baseUrl,
       markdown: {parseFrontMatter},
-      future: {experimental_vcs: vcs},
+      vcs,
     },
     siteDir,
     i18n,

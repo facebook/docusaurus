@@ -65,17 +65,6 @@ export function getSwcJsMinimizerOptions(): JsMinifyOptions {
   };
 }
 
-type SwcHtmlMinifier = (typeof import('@swc/html'))['minify'];
-
-// Import it lazily: not need for the dev server, more performant
-// This also temporarily fix our StackBlitz playground
-// See https://github.com/facebook/docusaurus/issues/12008
-// See https://github.com/swc-project/swc/issues/11833
-export async function importSwcHtmlMinifier(): Promise<SwcHtmlMinifier> {
-  const {minify} = await import('@swc/html');
-  return minify;
-}
-
 // TODO this is not accurate
 //  for Rspack we should read from the built-in browserslist data
 //  see https://github.com/facebook/docusaurus/pull/11496

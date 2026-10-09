@@ -178,6 +178,7 @@ export default async function createConfigAsync() {
     baseUrl,
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
+    vcs,
     future: {
       v4: !isSlower, // Not accurate, but good enough
       faster: isSlower
@@ -185,12 +186,9 @@ export default async function createConfigAsync() {
         : {
             // Verbose object: easier to independently test single attributes
             swcJsMinimizer: true,
-            swcHtmlMinimizer: true,
             rspackBundler: true,
             rspackPersistentCache: true,
-            gitEagerVcs: true,
           },
-      experimental_vcs: vcs,
       experimental_router: router,
     },
     // Dogfood both settings:

@@ -61,6 +61,11 @@ describe('normalizeConfig', () => {
         type: 'sessionStorage',
         namespace: true,
       },
+      vcs: {
+        initialize: (_params) => {},
+        getFileCreationInfo: (_filePath) => null,
+        getFileLastUpdateInfo: (_filePath) => null,
+      },
       future: {
         v4: {
           useCssCascadeLayers: true,
@@ -70,15 +75,8 @@ describe('normalizeConfig', () => {
         },
         faster: {
           swcJsMinimizer: true,
-          swcHtmlMinimizer: true,
           rspackBundler: true,
           rspackPersistentCache: true,
-          gitEagerVcs: true,
-        },
-        experimental_vcs: {
-          initialize: (_params) => {},
-          getFileCreationInfo: (_filePath) => null,
-          getFileLastUpdateInfo: (_filePath) => null,
         },
         experimental_router: 'hash',
       },
@@ -1371,6 +1369,177 @@ describe('storage', () => {
   });
 });
 
+describe('vcs', () => {
+  function vcsContaining(vcs: Partial<VcsConfig>) {
+    return expect.objectContaining({
+      vcs: expect.objectContaining(vcs),
+    });
+  }
+
+  describe('base', () => {
+    it('accepts vcs - undefined', () => {
+      expect(
+        normalizeConfig({
+          vcs: undefined,
+        }),
+      ).toEqual(expect.objectContaining({vcs: getVcsPreset('default')}));
+    });
+
+    it('accepts vcs - true', () => {
+      expect(
+        normalizeConfig({
+          vcs: true,
+        }),
+      ).toEqual(expect.objectContaining({vcs: getVcsPreset('default')}));
+    });
+
+    it('accepts vcs - false', () => {
+      expect(
+        normalizeConfig({
+          vcs: false,
+        }),
+      ).toEqual(expect.objectContaining({vcs: getVcsPreset('disabled')}));
+    });
+  });
+
+  describe('presets', () => {
+    it('accepts git-ad-hoc', () => {
+      const presetName: VcsPreset = 'git-ad-hoc';
+      expect(
+        normalizeConfig({
+          vcs: presetName,
+        }),
+      ).toEqual(vcsContaining(getVcsPreset(presetName)));
+    });
+
+    it('accepts git-eager', () => {
+      const presetName: VcsPreset = 'git-eager';
+      expect(
+        normalizeConfig({
+          vcs: presetName,
+        }),
+      ).toEqual(vcsContaining(getVcsPreset(presetName)));
+    });
+
+    it('accepts default-v3', () => {
+      const presetName: VcsPreset = 'default-v3';
+      expect(
+        normalizeConfig({
+          vcs: presetName,
+        }),
+      ).toEqual(vcsContaining(getVcsPreset(presetName)));
+    });
+
+    it('accepts default', () => {
+      const presetName: VcsPreset = 'default';
+      expect(
+        normalizeConfig({
+          vcs: presetName,
+        }),
+      ).toEqual(vcsContaining(getVcsPreset(presetName)));
+    });
+
+    it('accepts hardcoded', () => {
+      const presetName: VcsPreset = 'hardcoded';
+      expect(
+        normalizeConfig({
+          vcs: presetName,
+        }),
+      ).toEqual(vcsContaining(getVcsPreset(presetName)));
+    });
+
+    it('rejects unknown preset name', () => {
+      // @ts-expect-error: invalid on purpose
+      const presetName: VcsPreset = 'unknown-preset-name';
+      expect(() =>
+        normalizeConfig({
+          vcs: presetName,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "vcs" failed custom validation because VCS config preset name 'unknown-preset-name' is not valid.
+        ]
+      `);
+    });
+  });
+
+  describe('object config', () => {
+    it('accepts vcs - full', () => {
+      const vcs: VcsConfig = {
+        initialize: (_params) => {},
+        getFileCreationInfo: (_filePath) => null,
+        getFileLastUpdateInfo: (_filePath) => null,
+      };
+      expect(
+        normalizeConfig({
+          vcs: vcs,
+        }),
+      ).toEqual(vcsContaining(vcs));
+    });
+
+    it('rejects vcs - empty', () => {
+      expect(() =>
+        normalizeConfig({
+          vcs: {},
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "vcs" failed custom validation because "initialize" is required
+        ]
+      `);
+    });
+
+    it('accepts vcs - bad initialize() arity', () => {
+      const vcs: VcsConfig = {
+        // @ts-expect-error: invalid arity
+        initialize: (_params, _extraParam) => {},
+        getFileCreationInfo: (_filePath) => null,
+        getFileLastUpdateInfo: (_filePath) => null,
+      };
+      expect(() =>
+        normalizeConfig({
+          vcs: vcs,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "vcs" failed custom validation because "initialize" must have an arity lesser or equal to 1
+        ]
+      `);
+    });
+
+    it('accepts vcs - bad getFileCreationInfo() arity', () => {
+      const vcs: VcsConfig = {
+        initialize: (_params) => {},
+        // @ts-expect-error: invalid arity
+        getFileCreationInfo: (_filePath, _extraParam) => null,
+        getFileLastUpdateInfo: (_filePath) => null,
+      };
+      expect(() =>
+        normalizeConfig({
+          vcs: vcs,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "vcs" failed custom validation because "getFileCreationInfo" must have an arity of 1
+        ]
+      `);
+    });
+
+    it('accepts vcs - bad getFileLastUpdateInfo() arity', () => {
+      const vcs: VcsConfig = {
+        initialize: (_params) => {},
+        getFileCreationInfo: (_filePath) => null,
+        // @ts-expect-error: invalid arity
+        getFileLastUpdateInfo: (_filePath, _extraParam) => null,
+      };
+      expect(() =>
+        normalizeConfig({
+          vcs: vcs,
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`
+        [Error: "vcs" failed custom validation because "getFileLastUpdateInfo" must have an arity of 1
+        ]
+      `);
+    });
+  });
+});
+
 describe('future', () => {
   function futureContaining(future: Partial<FutureConfig>) {
     return expect.objectContaining({
@@ -1404,15 +1573,8 @@ describe('future', () => {
       },
       faster: {
         swcJsMinimizer: true,
-        swcHtmlMinimizer: true,
         rspackBundler: true,
         rspackPersistentCache: true,
-        gitEagerVcs: true,
-      },
-      experimental_vcs: {
-        initialize: (_params) => {},
-        getFileCreationInfo: (_filePath) => null,
-        getFileLastUpdateInfo: (_filePath) => null,
       },
       experimental_router: 'hash',
     };
@@ -1520,196 +1682,6 @@ describe('future', () => {
     });
   });
 
-  describe('vcs', () => {
-    function vcsContaining(vcs: Partial<VcsConfig>) {
-      return futureContaining({
-        experimental_vcs: expect.objectContaining(vcs),
-      });
-    }
-
-    describe('base', () => {
-      it('accepts vcs - undefined', () => {
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_vcs: undefined,
-            },
-          }),
-        ).toEqual(
-          futureContaining({
-            ...DEFAULT_FUTURE_CONFIG,
-            experimental_vcs: getVcsPreset('default-v1'),
-          }),
-        );
-      });
-
-      it('accepts vcs - true', () => {
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_vcs: true,
-            },
-          }),
-        ).toEqual(
-          futureContaining({
-            ...DEFAULT_FUTURE_CONFIG,
-            experimental_vcs: getVcsPreset('default-v1'),
-          }),
-        );
-      });
-
-      it('accepts vcs - false', () => {
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_vcs: false,
-            },
-          }),
-        ).toEqual(
-          futureContaining({
-            ...DEFAULT_FUTURE_CONFIG,
-            experimental_vcs: getVcsPreset('disabled'),
-          }),
-        );
-      });
-    });
-
-    describe('presets', () => {
-      it('accepts git-ad-hoc', () => {
-        const presetName: VcsPreset = 'git-ad-hoc';
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_vcs: presetName,
-            },
-          }),
-        ).toEqual(vcsContaining(getVcsPreset(presetName)));
-      });
-
-      it('accepts git-eager', () => {
-        const presetName: VcsPreset = 'git-eager';
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_vcs: presetName,
-            },
-          }),
-        ).toEqual(vcsContaining(getVcsPreset(presetName)));
-      });
-
-      it('accepts hardcoded', () => {
-        const presetName: VcsPreset = 'hardcoded';
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_vcs: presetName,
-            },
-          }),
-        ).toEqual(vcsContaining(getVcsPreset(presetName)));
-      });
-
-      it('rejects unknown preset name', () => {
-        // @ts-expect-error: invalid on purpose
-        const presetName: VcsPreset = 'unknown-preset-name';
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_vcs: presetName,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.experimental_vcs" failed custom validation because VCS config preset name 'unknown-preset-name' is not valid.
-          ]
-        `);
-      });
-    });
-
-    describe('object config', () => {
-      it('accepts vcs - full', () => {
-        const vcs: VcsConfig = {
-          initialize: (_params) => {},
-          getFileCreationInfo: (_filePath) => null,
-          getFileLastUpdateInfo: (_filePath) => null,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              experimental_vcs: vcs,
-            },
-          }),
-        ).toEqual(vcsContaining(vcs));
-      });
-
-      it('rejects vcs - empty', () => {
-        expect(() =>
-          normalizeConfig({
-            future: {experimental_vcs: {}},
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.experimental_vcs" failed custom validation because "initialize" is required
-          ]
-        `);
-      });
-
-      it('accepts vcs - bad initialize() arity', () => {
-        const vcs: VcsConfig = {
-          // @ts-expect-error: invalid arity
-          initialize: (_params, _extraParam) => {},
-          getFileCreationInfo: (_filePath) => null,
-          getFileLastUpdateInfo: (_filePath) => null,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_vcs: vcs,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.experimental_vcs" failed custom validation because "initialize" must have an arity lesser or equal to 1
-          ]
-        `);
-      });
-
-      it('accepts vcs - bad getFileCreationInfo() arity', () => {
-        const vcs: VcsConfig = {
-          initialize: (_params) => {},
-          // @ts-expect-error: invalid arity
-          getFileCreationInfo: (_filePath, _extraParam) => null,
-          getFileLastUpdateInfo: (_filePath) => null,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_vcs: vcs,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.experimental_vcs" failed custom validation because "getFileCreationInfo" must have an arity of 1
-          ]
-        `);
-      });
-
-      it('accepts vcs - bad getFileLastUpdateInfo() arity', () => {
-        const vcs: VcsConfig = {
-          initialize: (_params) => {},
-          getFileCreationInfo: (_filePath) => null,
-          // @ts-expect-error: invalid arity
-          getFileLastUpdateInfo: (_filePath, _extraParam) => null,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              experimental_vcs: vcs,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.experimental_vcs" failed custom validation because "getFileLastUpdateInfo" must have an arity of 1
-          ]
-        `);
-      });
-    });
-  });
-
   describe('faster', () => {
     function fasterContaining(faster: Partial<FasterConfig>) {
       return futureContaining({
@@ -1738,10 +1710,8 @@ describe('future', () => {
     it('accepts faster - full', () => {
       const faster: FasterConfig = {
         swcJsMinimizer: true,
-        swcHtmlMinimizer: true,
         rspackBundler: true,
         rspackPersistentCache: true,
-        gitEagerVcs: true,
       };
       expect(
         normalizeConfig({
@@ -1892,77 +1862,6 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           [Error: "future.faster.swcJsMinimizer" must be a boolean
-          ]
-        `);
-      });
-    });
-
-    describe('swcHtmlMinimizer', () => {
-      it('accepts - undefined', () => {
-        const faster: Partial<FasterConfig> = {
-          swcHtmlMinimizer: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
-      });
-
-      it('accepts - true', () => {
-        const faster: Partial<FasterConfig> = {
-          swcHtmlMinimizer: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcHtmlMinimizer: true}));
-      });
-
-      it('accepts - false', () => {
-        const faster: Partial<FasterConfig> = {
-          swcHtmlMinimizer: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcHtmlMinimizer: false}));
-      });
-
-      it('rejects - null', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {swcHtmlMinimizer: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.swcHtmlMinimizer" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {swcHtmlMinimizer: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.swcHtmlMinimizer" must be a boolean
           ]
         `);
       });
@@ -2138,87 +2037,6 @@ describe('future', () => {
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
           [Error: "future.faster.rspackPersistentCache" must be a boolean
-          ]
-        `);
-      });
-    });
-
-    describe('gitEagerVcs', () => {
-      it('accepts - undefined', () => {
-        const faster: Partial<FasterConfig> = {
-          gitEagerVcs: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({gitEagerVcs: false}));
-      });
-
-      it('accepts - true', () => {
-        const faster: Partial<FasterConfig> = {
-          gitEagerVcs: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(
-          futureContaining({
-            faster: expect.objectContaining(faster),
-            experimental_vcs: getVcsPreset('default-v2'),
-          }),
-        );
-      });
-
-      it('accepts - false', () => {
-        const faster: Partial<FasterConfig> = {
-          gitEagerVcs: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(
-          futureContaining({
-            faster: expect.objectContaining(faster),
-            experimental_vcs: getVcsPreset('default-v1'),
-          }),
-        );
-      });
-
-      it('rejects - null', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {gitEagerVcs: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.gitEagerVcs" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {gitEagerVcs: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.gitEagerVcs" must be a boolean
           ]
         `);
       });
