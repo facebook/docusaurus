@@ -186,7 +186,6 @@ export default async function createConfigAsync() {
         : {
             // Verbose object: easier to independently test single attributes
             swcJsMinimizer: true,
-            swcHtmlMinimizer: true,
             rspackBundler: true,
             rspackPersistentCache: true,
           },

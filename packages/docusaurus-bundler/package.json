@@ -22,6 +22,7 @@
     "@docusaurus/babel": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/types": "workspace:*",
+    "@swc/html": "^1.16.2",
     "babel-loader": "^10.1.1",
     "browserslist": "^4.29.0",
     "css-loader": "^7.1.5",

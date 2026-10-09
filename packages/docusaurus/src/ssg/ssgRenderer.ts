@@ -113,9 +113,7 @@ export async function loadSSGRenderer({
       }),
     ),
     PerfLogger.async('Load HTML minifier', () =>
-      getHtmlMinifier({
-        type: params.htmlMinifierType,
-      }),
+      getHtmlMinifier({type: 'swc'}),
     ),
     PerfLogger.async('Compile SSG template', () =>
       compileSSGTemplate(params.ssgTemplateContent),

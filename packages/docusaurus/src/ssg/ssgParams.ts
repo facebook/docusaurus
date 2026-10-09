@@ -12,8 +12,6 @@ import DefaultSSGTemplate from './ssgTemplate.html';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {Props} from '@docusaurus/types';
 
-import type {HtmlMinifierType} from '@docusaurus/bundler';
-
 // Keep these params serializable
 // This makes it possible to use workers
 export type SSGParams = {
@@ -27,7 +25,6 @@ export type SSGParams = {
   noIndex: boolean;
   DOCUSAURUS_VERSION: string;
 
-  htmlMinifierType: HtmlMinifierType;
   serverBundlePath: string;
   ssgTemplateContent: string;
 };
@@ -58,9 +55,6 @@ export async function createSSGParams({
     noIndex: props.siteConfig.noIndex,
     DOCUSAURUS_VERSION,
     serverBundlePath,
-    htmlMinifierType: props.siteConfig.future.faster.swcHtmlMinimizer
-      ? 'swc'
-      : 'terser',
   };
 
   // Useless but ensures that SSG params remain serializable

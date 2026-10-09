@@ -691,6 +691,9 @@ importers:
       '@docusaurus/types':
         specifier: workspace:*
         version: link:../docusaurus-types
+      '@swc/html':
+        specifier: ^1.16.2
+        version: 1.16.2
       '@types/html-minifier-terser':
         specifier: ^7.0.2
         version: 7.0.2
@@ -753,9 +756,6 @@ importers:
         specifier: ^2.2.1
         version: 2.2.1(@rspack/core@2.2.3)(selfsigned@5.5.0)
       '@swc/core':
-        specifier: ^1.16.2
-        version: 1.16.2
-      '@swc/html':
         specifier: ^1.16.2
         version: 1.16.2
       browserslist:
