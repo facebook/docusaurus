@@ -39,9 +39,7 @@ async function siteFixture(fixture: string) {
       markdown: {
         parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
       },
-      future: {
-        experimental_vcs: TEST_VCS,
-      },
+      vcs: TEST_VCS,
     },
   });
 

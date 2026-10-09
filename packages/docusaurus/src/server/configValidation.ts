@@ -106,7 +106,6 @@ export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
   faster: DEFAULT_FASTER_CONFIG,
-  experimental_vcs: getVcsPreset('default-v2'),
   experimental_router: 'browser',
 };
 
@@ -143,6 +142,7 @@ export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'i18n'
   | 'storage'
+  | 'vcs'
   | 'future'
   | 'onBrokenLinks'
   | 'onBrokenAnchors'
@@ -166,6 +166,7 @@ export const DEFAULT_CONFIG: Pick<
 > = {
   i18n: DEFAULT_I18N_CONFIG,
   storage: DEFAULT_STORAGE_CONFIG,
+  vcs: getVcsPreset('default'),
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
@@ -359,21 +360,20 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
     return getVcsPreset(presetName);
   }
   if (typeof input === 'boolean') {
-    return input ? getVcsPreset('default-v2') : getVcsPreset('disabled');
+    return input ? getVcsPreset('default') : getVcsPreset('disabled');
   }
   const {error, value} = VCS_CONFIG_OBJECT_SCHEMA.validate(input);
   if (error) {
     throw error;
   }
   return value;
-}).default(() => DEFAULT_FUTURE_CONFIG.experimental_vcs);
+}).default(() => DEFAULT_CONFIG.vcs);
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<
   FutureConfig & {experimental_storage: never; experimental_faster: never}
 >({
   v4: FUTURE_V4_SCHEMA,
   faster: FASTER_CONFIG_SCHEMA,
-  experimental_vcs: VCS_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
     .default(DEFAULT_FUTURE_CONFIG.experimental_router),
@@ -409,6 +409,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   storage: STORAGE_CONFIG_SCHEMA,
+  vcs: VCS_CONFIG_SCHEMA,
   future: FUTURE_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')

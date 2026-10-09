@@ -178,6 +178,7 @@ export default async function createConfigAsync() {
     baseUrl,
     baseUrlIssueBanner: true,
     url: 'https://docusaurus.io',
+    vcs,
     future: {
       v4: !isSlower, // Not accurate, but good enough
       faster: isSlower
@@ -189,7 +190,6 @@ export default async function createConfigAsync() {
             rspackBundler: true,
             rspackPersistentCache: true,
           },
-      experimental_vcs: vcs,
       experimental_router: router,
     },
     // Dogfood both settings:

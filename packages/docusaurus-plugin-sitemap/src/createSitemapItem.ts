@@ -85,7 +85,7 @@ export async function createSitemapItem({
     lastmod: await getRouteLastmod({
       route,
       lastmod,
-      vcs: siteConfig.future.experimental_vcs,
+      vcs: siteConfig.vcs,
     }),
   };
 }

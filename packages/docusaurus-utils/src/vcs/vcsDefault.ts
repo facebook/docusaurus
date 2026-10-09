@@ -6,28 +6,28 @@
  */
 
 import {VcsHardcoded} from './vcsHardcoded';
-import {VcsGitAdHoc} from './vcsGitAdHoc';
+import {VscGitEager} from './vcsGitEager';
 import type {VcsConfig} from '@docusaurus/types';
 
-function getDynamicStrategy(): VcsConfig {
+function getStrategy(): VcsConfig {
   return process.env.NODE_ENV === 'development' ||
     process.env.NODE_ENV === 'test'
     ? VcsHardcoded
-    : VcsGitAdHoc;
+    : VscGitEager;
 }
 
 /**
- * This VCS implements the historical Git automatic strategy.
- * It is only enabled in production mode, using ad-hoc git log commands.
+ * This VCS implements the default eager Git automatic strategy.
+ * It is only enabled in production mode, reading the git repository eagerly.
  */
-export const VcsDefaultV1: VcsConfig = {
+export const VcsDefault: VcsConfig = {
   initialize: (...params) => {
-    return getDynamicStrategy().initialize(...params);
+    return getStrategy().initialize(...params);
   },
   getFileCreationInfo: (...params) => {
-    return getDynamicStrategy().getFileCreationInfo(...params);
+    return getStrategy().getFileCreationInfo(...params);
   },
   getFileLastUpdateInfo: (...params) => {
-    return getDynamicStrategy().getFileLastUpdateInfo(...params);
+    return getStrategy().getFileLastUpdateInfo(...params);
   },
 };
