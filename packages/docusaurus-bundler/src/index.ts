@@ -23,4 +23,4 @@ export {
 } from './minifyHtml';
 export {createJsLoaderFactory} from './loaders/jsLoader';
 export {createStyleLoadersFactory} from './loaders/styleLoader';
-export {importRspackDevServer} from './importFaster';
+export {importRspackDevServer} from './rspack';

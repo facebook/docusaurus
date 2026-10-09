@@ -61,26 +61,6 @@ export default {
     },
 
     {
-      label: 'Ignore * internal peerDependencies',
-      packages: [
-        '@docusaurus/core',
-        '@docusaurus/bundler',
-        '@docusaurus/faster',
-
-        // TODO Docusaurus v4: refactor, these peerDeps shouldn't be needed
-        '@docusaurus/plugin-content-blog',
-        '@docusaurus/theme-common',
-      ],
-      dependencyTypes: ['peer'],
-      dependencies: [
-        '@docusaurus/faster',
-        '@docusaurus/plugin-content-docs',
-        '@docusaurus/types',
-      ],
-      isIgnored: true,
-    },
-
-    {
       label: 'Ignore broad ESLint peerDep range in ESLint plugin',
       packages: ['@docusaurus/eslint-plugin'],
       dependencyTypes: ['peer'],

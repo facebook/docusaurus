@@ -22,6 +22,10 @@
     "@docusaurus/babel": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/types": "workspace:*",
+    "@rspack/core": "^2.2.3",
+    "@rspack/dev-server": "^2.2.1",
+    "@swc/core": "^1.16.2",
+    "@swc/html": "^1.16.2",
     "babel-loader": "^10.1.1",
     "browserslist": "^4.29.0",
     "css-loader": "^7.1.5",
@@ -32,19 +36,14 @@
     "postcss": "^8.5.28",
     "postcss-loader": "^8.2.1",
     "postcss-preset-env": "^11.5.2",
+    "semver": "^7.8.5",
     "terser-webpack-plugin": "^5.6.1",
     "tslib": "^2.8.1",
     "webpack": "^5.111.0",
     "webpackbar": "^7.0.0"
   },
   "peerDependencies": {
-    "@docusaurus/faster": "workspace:*",
     "@types/html-minifier-terser": "^7.0.2"
-  },
-  "peerDependenciesMeta": {
-    "@docusaurus/faster": {
-      "optional": true
-    }
   },
   "devDependencies": {
     "@total-typescript/shoehorn": "^0.1.2"

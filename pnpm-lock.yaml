@@ -378,9 +378,6 @@ importers:
       '@docusaurus/core':
         specifier: 4.0.0
         version: link:../../../docusaurus
-      '@docusaurus/faster':
-        specifier: 4.0.0
-        version: link:../../../docusaurus-faster
       '@docusaurus/preset-classic':
         specifier: 4.0.0
         version: link:../../../docusaurus-preset-classic
@@ -412,9 +409,6 @@ importers:
       '@docusaurus/core':
         specifier: 4.0.0
         version: link:../../../docusaurus
-      '@docusaurus/faster':
-        specifier: 4.0.0
-        version: link:../../../docusaurus-faster
       '@docusaurus/preset-classic':
         specifier: 4.0.0
         version: link:../../../docusaurus-preset-classic
@@ -461,9 +455,6 @@ importers:
       '@docusaurus/bundler':
         specifier: workspace:*
         version: link:../docusaurus-bundler
-      '@docusaurus/faster':
-        specifier: workspace:*
-        version: link:../docusaurus-faster
       '@docusaurus/fs':
         specifier: workspace:*
         version: link:../docusaurus-fs
@@ -682,15 +673,24 @@ importers:
       '@docusaurus/babel':
         specifier: workspace:*
         version: link:../docusaurus-babel
-      '@docusaurus/faster':
-        specifier: workspace:*
-        version: link:../docusaurus-faster
       '@docusaurus/logger':
         specifier: workspace:*
         version: link:../docusaurus-logger
       '@docusaurus/types':
         specifier: workspace:*
         version: link:../docusaurus-types
+      '@rspack/core':
+        specifier: ^2.2.3
+        version: 2.2.3
+      '@rspack/dev-server':
+        specifier: ^2.2.1
+        version: 2.2.1(@rspack/core@2.2.3)(selfsigned@5.5.0)
+      '@swc/core':
+        specifier: ^1.16.2
+        version: 1.16.2
+      '@swc/html':
+        specifier: ^1.16.2
+        version: 1.16.2
       '@types/html-minifier-terser':
         specifier: ^7.0.2
         version: 7.0.2
@@ -724,6 +724,9 @@ importers:
       postcss-preset-env:
         specifier: ^11.5.2
         version: 11.5.2(postcss@8.5.28)
+      semver:
+        specifier: ^7.8.5
+        version: 7.8.5
       terser-webpack-plugin:
         specifier: ^5.6.1
         version: 5.6.1(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(uglify-js@3.19.3)(webpack@5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3))
@@ -740,33 +743,6 @@ importers:
       '@total-typescript/shoehorn':
         specifier: ^0.1.2
         version: 0.1.2
-
-  packages/docusaurus-faster:
-    dependencies:
-      '@docusaurus/types':
-        specifier: workspace:*
-        version: link:../docusaurus-types
-      '@rspack/core':
-        specifier: ^2.2.3
-        version: 2.2.3
-      '@rspack/dev-server':
-        specifier: ^2.2.1
-        version: 2.2.1(@rspack/core@2.2.3)(selfsigned@5.5.0)
-      '@swc/core':
-        specifier: ^1.16.2
-        version: 1.16.2
-      '@swc/html':
-        specifier: ^1.16.2
-        version: 1.16.2
-      browserslist:
-        specifier: ^4.29.0
-        version: 4.29.0
-      semver:
-        specifier: ^7.8.5
-        version: 7.8.5
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
 
   packages/docusaurus-fs:
     dependencies:

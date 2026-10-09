@@ -7,13 +7,14 @@
 
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import {importSwcJsMinimizerOptions} from './importFaster';
+import {getSwcJsMinimizerOptions} from './swc';
 import {getCurrentBundlerAsRspack} from './currentBundler';
 import {
   getBrowserslistQueries,
   getLightningCssMinimizerOptions,
 } from './browserslist';
 import type {WebpackPluginInstance} from 'webpack';
+import type {MinimizerOptions, CustomOptions} from 'terser-webpack-plugin';
 import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
 
 export type MinimizersConfig = {
@@ -35,15 +36,19 @@ function getTerserParallel() {
   return terserParallel;
 }
 
+// SWC and Terser options types are not strictly compatible
+function getSwcJsMinimizerOptionsAsTerser(): MinimizerOptions<CustomOptions> {
+  return getSwcJsMinimizerOptions() as MinimizerOptions<CustomOptions>;
+}
+
 async function getJsMinimizer({
   faster,
 }: MinimizersConfig): Promise<WebpackPluginInstance> {
   if (faster.swcJsMinimizer) {
-    const terserOptions = await importSwcJsMinimizerOptions();
     return new TerserPlugin({
       parallel: getTerserParallel(),
       minify: TerserPlugin.swcMinify,
-      terserOptions,
+      terserOptions: getSwcJsMinimizerOptionsAsTerser(),
     });
   }
 
@@ -93,7 +98,7 @@ async function getRspackMinimizers({
   currentBundler,
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
   const rspack = getCurrentBundlerAsRspack({currentBundler});
-  const swcJsMinimizerOptions = await importSwcJsMinimizerOptions();
+  const swcJsMinimizerOptions = getSwcJsMinimizerOptionsAsTerser();
 
   return [
     // See https://rspack.dev/plugins/rspack/swc-js-minimizer-rspack-plugin

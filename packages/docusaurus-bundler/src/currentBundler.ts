@@ -8,8 +8,8 @@
 import webpack from 'webpack';
 import WebpackBar from 'webpackbar';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import {importRspack} from './importFaster';
-import type {FasterModule} from './importFaster';
+import {importRspack} from './rspack';
+import type {Rspack} from './rspack';
 import type {CurrentBundler, DocusaurusConfig} from '@docusaurus/types';
 
 // We inject a site config slice because the Rspack flag might change place
@@ -44,13 +44,13 @@ export function getCurrentBundlerAsRspack({
   currentBundler,
 }: {
   currentBundler: CurrentBundler;
-}): FasterModule['rspack'] {
+}): Rspack {
   if (currentBundler.name !== 'rspack') {
     throw new Error(
       `Can't getCurrentBundlerAsRspack() because current bundler is ${currentBundler.name}`,
     );
   }
-  return currentBundler.instance as unknown as FasterModule['rspack'];
+  return currentBundler.instance as unknown as Rspack;
 }
 
 export async function getCSSExtractPlugin({

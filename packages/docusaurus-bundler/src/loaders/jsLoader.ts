@@ -6,7 +6,7 @@
  */
 
 import {getBabelOptions} from '@docusaurus/babel';
-import {importGetSwcLoaderOptions} from '../importFaster';
+import {getSwcLoaderOptions} from '../swc';
 import {getCurrentBundler} from '../currentBundler';
 import {getBrowserslistQueries} from '../browserslist';
 import type {ConfigureWebpackUtils, DocusaurusConfig} from '@docusaurus/types';
@@ -21,16 +21,13 @@ const BabelJsLoaderFactory: ConfigureWebpackUtils['getJSLoader'] = ({
   };
 };
 
-async function createRspackSwcJsLoaderFactory(): Promise<
-  ConfigureWebpackUtils['getJSLoader']
-> {
+function createRspackSwcJsLoaderFactory(): ConfigureWebpackUtils['getJSLoader'] {
   const loader = 'builtin:swc-loader';
-  const getOptions = await importGetSwcLoaderOptions();
   const clientBrowserslistQueries = getBrowserslistQueries();
   return ({isServer}) => {
     return {
       loader,
-      options: getOptions({
+      options: getSwcLoaderOptions({
         isServer,
         bundlerName: 'rspack',
         clientBrowserslistQueries,

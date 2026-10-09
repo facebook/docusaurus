@@ -6,7 +6,7 @@
  */
 
 import {minify as terserHtmlMinifier} from 'html-minifier-terser';
-import {importSwcHtmlMinifier} from './importFaster';
+import {importSwcHtmlMinifier} from './swc';
 
 // Historical env variable
 const SkipHtmlMinification = process.env.SKIP_HTML_MINIFICATION === 'true';

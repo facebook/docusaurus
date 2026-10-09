@@ -5,14 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {rspack as Rspack} from '@rspack/core';
-import {RspackDevServer} from '@rspack/dev-server';
 import browserslist from 'browserslist';
 import semver from 'semver';
 import type {JsMinifyOptions, Options as SwcOptions} from '@swc/core';
 import type {CurrentBundler} from '@docusaurus/types';
 
-export const getSwcLoaderOptions = ({
+export function getSwcLoaderOptions({
   isServer,
   bundlerName,
   clientBrowserslistQueries,
@@ -20,7 +18,7 @@ export const getSwcLoaderOptions = ({
   isServer: boolean;
   bundlerName: CurrentBundler['name'];
   clientBrowserslistQueries: string[];
-}): SwcOptions => {
+}): SwcOptions {
   return {
     env: {
       targets: isServer
@@ -44,27 +42,12 @@ export const getSwcLoaderOptions = ({
       },
     },
   };
-};
-
-export const rspack = Rspack;
-
-export const rspackDevServer = RspackDevServer;
-
-type SwcHtmlMinifier = (typeof import('@swc/html'))['minify'];
-
-// Import it lazily: not need for the dev server, more performant
-// This also temporarily fix our StackBlitz playground
-// See https://github.com/facebook/docusaurus/issues/12008
-// See https://github.com/swc-project/swc/issues/11833
-export async function getSwcHtmlMinifier(): Promise<SwcHtmlMinifier> {
-  const {minify} = await import('@swc/html');
-  return minify;
 }
 
-// Note: these options are similar to what we use in core
+// Note: these options are similar to the Terser options we use
 // They should rather be kept in sync for now to avoid any unexpected behavior
-// The goal of faster minifier is not to fine-tune options but only to be faster
-// See core minification.ts
+// The SWC minifier goal is not to fine-tune options but only to be faster
+// See minification.ts
 export function getSwcJsMinimizerOptions(): JsMinifyOptions {
   return {
     ecma: 2020,
@@ -80,6 +63,17 @@ export function getSwcJsMinimizerOptions(): JsMinifyOptions {
       ascii_only: true,
     },
   };
+}
+
+type SwcHtmlMinifier = (typeof import('@swc/html'))['minify'];
+
+// Import it lazily: not need for the dev server, more performant
+// This also temporarily fix our StackBlitz playground
+// See https://github.com/facebook/docusaurus/issues/12008
+// See https://github.com/swc-project/swc/issues/11833
+export async function importSwcHtmlMinifier(): Promise<SwcHtmlMinifier> {
+  const {minify} = await import('@swc/html');
+  return minify;
 }
 
 // TODO this is not accurate
