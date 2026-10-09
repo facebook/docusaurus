@@ -67,9 +67,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   filename: 'sitemap.xml',
   ignorePatterns: [],
 
-  // TODO Docusaurus v4 breaking change
-  //  change default to "date" if no bug or perf issue reported
-  lastmod: null,
+  lastmod: 'date',
 
   // TODO Docusaurus v4 breaking change
   //  those options are useless and should be removed
