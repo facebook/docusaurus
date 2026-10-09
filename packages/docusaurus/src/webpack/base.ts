@@ -17,6 +17,7 @@ import {realpath} from '@docusaurus/fs';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
 import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
 import type {Configuration, RuleSetRule} from 'webpack';
+import type {Configuration as RspackConfiguration} from '@rspack/core';
 import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
 
 const CSS_REGEX = /\.css$/i;
@@ -124,14 +125,16 @@ export async function createBaseConfig({
       return disabledPersistentCacheValue;
     }
     if (props.currentBundler.name === 'rspack') {
-      return {
+      const rspackCache: RspackConfiguration['cache'] = {
         type: 'persistent',
         // Rspack doesn't have "cache.name" like Webpack
         // This is not ideal but work around is to merge name/version
         // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
         version: `${getCacheName()}-${getCacheVersion()}`,
         buildDependencies: getCacheBuildDependencies(),
-      } as unknown as Configuration['cache'];
+      };
+      // Docusaurus bundler configs are typed with Webpack types
+      return rspackCache as unknown as Configuration['cache'];
     }
 
     return {

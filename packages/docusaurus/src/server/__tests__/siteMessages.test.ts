@@ -9,42 +9,36 @@ import {describe, expect, it} from 'vitest';
 import path from 'node:path';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {collectAllSiteMessages} from '../siteMessages';
+import type {DocusaurusConfig} from '@docusaurus/types';
 
 function siteDirFixture(name: string) {
   return path.resolve(__dirname, '__fixtures__', 'siteMessages', name);
 }
 
 describe('collectAllSiteMessages', () => {
-  describe('uselessBabelConfigMessages', () => {
-    async function getMessagesFor({
-      siteDir,
-      rspackBundler,
-    }: {
-      siteDir: string;
-      rspackBundler: boolean;
-    }) {
-      return collectAllSiteMessages(
-        fromPartial({
-          site: {
-            props: {
-              siteDir,
-              siteConfig: {
-                future: {
-                  faster: {
-                    rspackBundler,
-                  },
-                },
-              },
-            },
+  async function getMessagesFor({
+    siteDir,
+    webpack,
+  }: {
+    siteDir: string;
+    webpack?: DocusaurusConfig['webpack'];
+  }) {
+    return collectAllSiteMessages(
+      fromPartial({
+        site: {
+          props: {
+            siteDir,
+            siteConfig: {webpack},
           },
-        }),
-      );
-    }
+        },
+      }),
+    );
+  }
 
-    it('warns for useless babel config file when Rspack enabled', async () => {
+  describe('uselessBabelConfigMessages', () => {
+    it('warns for useless babel config file when using Rspack', async () => {
       const messages = await getMessagesFor({
         siteDir: siteDirFixture('siteWithBabelConfigFile'),
-        rspackBundler: true,
       });
       expect(messages).toMatchInlineSnapshot(`
               [
@@ -56,12 +50,40 @@ describe('collectAllSiteMessages', () => {
           `);
     });
 
-    it('does not warn for babel config file when Rspack disabled', async () => {
+    it('does not warn for babel config file when using Webpack', async () => {
       const messages = await getMessagesFor({
         siteDir: siteDirFixture('siteWithBabelConfigFile'),
-        rspackBundler: false,
+        webpack: {},
       });
-      expect(messages).toMatchInlineSnapshot(`[]`);
+      expect(messages).not.toContainEqual(
+        expect.objectContaining({
+          message: expect.stringContaining('Babel config file'),
+        }),
+      );
+    });
+  });
+
+  describe('webpackDeprecationMessages', () => {
+    it('does not warn when using Rspack', async () => {
+      const messages = await getMessagesFor({
+        siteDir: siteDirFixture('siteWithoutBabelConfigFile'),
+      });
+      expect(messages).toEqual([]);
+    });
+
+    it('warns when using Webpack', async () => {
+      const messages = await getMessagesFor({
+        siteDir: siteDirFixture('siteWithoutBabelConfigFile'),
+        webpack: {jsLoader: 'babel'},
+      });
+      expect(messages).toMatchInlineSnapshot(`
+        [
+          {
+            "message": "Your site uses Webpack and Babel through \`siteConfig.webpack\`. This is deprecated: Docusaurus now uses Rspack by default, and Webpack/Babel support will be removed in Docusaurus v5. Please remove \`siteConfig.webpack\` to use Rspack.",
+            "type": "warning",
+          },
+        ]
+      `);
     });
   });
 });

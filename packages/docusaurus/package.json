@@ -42,6 +42,8 @@
     "@docusaurus/utils": "workspace:*",
     "@docusaurus/utils-common": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
+    "@rspack/core": "^2.2.3",
+    "@rspack/dev-server": "^2.2.1",
     "boxen": "^9.0.0",
     "cli-table3": "^0.6.5",
     "combine-promises": "^1.2.0",

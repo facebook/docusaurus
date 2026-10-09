@@ -19,4 +19,4 @@ export {getMinimizers} from './minification';
 export {getHtmlMinifier, type HtmlMinifier} from './minifyHtml';
 export {createJsLoaderFactory} from './loaders/jsLoader';
 export {createStyleLoadersFactory} from './loaders/styleLoader';
-export {importRspackDevServer} from './rspack';
+export {RspackDevServer} from './rspack';

@@ -339,10 +339,6 @@ export default {
   future: {
     v4: {
       useCssCascadeLayers: true,
-      fasterByDefault: true,
-    },
-    faster: {
-      rspackBundler: true,
     },
     experimental_router: 'hash',
   },
@@ -351,10 +347,33 @@ export default {
 
 - `v4`: Permits to opt-in for upcoming Docusaurus v4 breaking changes and features, to prepare your site in advance for this new version. Use `true` as a shorthand to enable all the flags.
   - [`useCssCascadeLayers`](https://github.com/facebook/docusaurus/pull/11142): This enables the [Docusaurus CSS Cascade Layers plugin](./plugins/plugin-css-cascade-layers.mdx) with pre-configured layers that we plan to apply by default for Docusaurus v4.
-  - [`fasterByDefault`](https://github.com/facebook/docusaurus/pull/11802): Defaults all `future.faster` flags to `true` instead of `false`. This enables [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) features by default. If you explicitly set individual `faster` flags, those explicit values take precedence.
-- `faster`: An object containing feature flags to make the Docusaurus build faster. Use `true` as a shorthand to enable all flags. Read more on the [Docusaurus Faster](https://github.com/facebook/docusaurus/issues/10556) issue. Available feature flags:
-  - [`rspackBundler`](https://github.com/facebook/docusaurus/pull/10402): Use [Rspack](https://rspack.dev/) to bundle your app (instead of [webpack](https://webpack.js.org/)). Rspack always uses its [built-in SWC loader](https://rspack.dev/guide/features/builtin-swc-loader) to transpile JS (instead of [Babel](https://babeljs.io/)). Rspack always uses its [persistent cache](https://rspack.dev/config/cache) to re-build your app faster on subsequent builds, which requires persisting `./node_modules/.cache` across rebuilds.
 - `experimental_router`: The router type to use. Possible values are `browser` and `hash`. Defaults to `browser`. The `hash` router is only useful for rare cases where you want to opt-out of static site generation, have a fully client-side app with a single `index.html` entrypoint file. This can be useful to distribute a Docusaurus site as a `.zip` archive that you can [browse locally without running a web server](https://github.com/facebook/docusaurus/issues/3825).
+
+### `webpack` {/* #webpack */}
+
+- Type: `boolean | { jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule) }`
+
+Docusaurus uses [Rspack](https://rspack.dev/) to bundle your site by default. Rspack transpiles your code with its [built-in SWC loader](https://rspack.dev/guide/features/builtin-swc-loader), and uses its [persistent cache](https://rspack.dev/config/cache) to re-build your site faster on subsequent builds, which requires persisting `./node_modules/.cache` across rebuilds.
+
+Use this option to opt out of Rspack and bundle your site with [webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/) instead:
+
+- `true` or `{}`: use webpack, and transpile your code with the built-in Babel loader.
+- `jsLoader`: the JS loader to use with webpack. `'babel'` (default) uses the built-in Babel loader and preset; otherwise, you can provide a function returning your own webpack rule.
+
+:::warning Deprecated
+
+Webpack and Babel support is deprecated and will be removed in Docusaurus v5. We recommend using the default Rspack bundler.
+
+:::
+
+Example:
+
+```js title="docusaurus.config.js"
+export default {
+  // Use webpack and Babel instead of Rspack
+  webpack: true,
+};
+```
 
 ### `noIndex` {/* #noIndex */}
 

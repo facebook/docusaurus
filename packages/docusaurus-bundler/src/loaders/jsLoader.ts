@@ -42,21 +42,10 @@ function createRspackSwcJsLoaderFactory(): ConfigureWebpackUtils['getJSLoader'] 
 export async function createJsLoaderFactory({
   siteConfig,
 }: {
-  siteConfig: {
-    webpack?: DocusaurusConfig['webpack'];
-    future: {
-      faster: DocusaurusConfig['future']['faster'];
-    };
-  };
+  siteConfig: Pick<DocusaurusConfig, 'webpack'>;
 }): Promise<ConfigureWebpackUtils['getJSLoader']> {
   const currentBundler = await getCurrentBundler({siteConfig});
   if (currentBundler.name === 'rspack') {
-    if (siteConfig.webpack?.jsLoader) {
-      throw new Error(
-        `You can't use siteConfig.webpack.jsLoader with siteConfig.future.faster.rspackBundler.
-Rspack always uses its built-in SWC loader, please remove siteConfig.webpack.jsLoader.`,
-      );
-    }
     return createRspackSwcJsLoaderFactory();
   }
 

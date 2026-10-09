@@ -6,7 +6,7 @@ exports[`loadSite > custom-i18n-site > loads site 1`] = `
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/custom-i18n-site/.docusaurus",
   "headTags": "",
@@ -89,11 +89,7 @@ exports[`loadSite > custom-i18n-site > loads site 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -183,7 +179,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom config 1`] = 
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/.docusaurus",
   "headTags": "",
@@ -255,11 +251,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom config 1`] = 
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -341,7 +333,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom outDir 1`] = 
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/.docusaurus",
   "headTags": "",
@@ -413,11 +405,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom outDir 1`] = 
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -499,7 +487,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site 1`] = `
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl/.docusaurus",
   "headTags": "",
@@ -571,11 +559,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -657,7 +641,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site -  locale fr + cu
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/.docusaurus",
   "headTags": "",
@@ -773,11 +757,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site -  locale fr + cu
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -881,7 +861,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - custom outDir 1
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/.docusaurus",
   "headTags": "",
@@ -997,11 +977,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - custom outDir 1
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -1105,7 +1081,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale de 1`] =
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/.docusaurus",
   "headTags": "",
@@ -1221,11 +1197,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale de 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -1329,7 +1301,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale en 1`] =
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/.docusaurus",
   "headTags": "",
@@ -1445,11 +1417,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale en 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -1553,7 +1521,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale es 1`] =
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/.docusaurus",
   "headTags": "",
@@ -1669,11 +1637,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale es 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -1777,7 +1741,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale fr 1`] =
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/.docusaurus",
   "headTags": "",
@@ -1893,11 +1857,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale fr 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -2001,7 +1961,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale it 1`] =
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/.docusaurus",
   "headTags": "",
@@ -2117,11 +2077,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale it 1`] =
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -2225,7 +2181,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site 1`] = `
   "codeTranslations": {},
   "currentBundler": {
     "instance": [Function],
-    "name": "webpack",
+    "name": "rspack",
   },
   "generatedFilesDir": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/loadSiteFixtures/simple-site-with-baseUrl-i18n/.docusaurus",
   "headTags": "",
@@ -2341,11 +2297,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site 1`] = `
     "customFields": {},
     "future": {
       "experimental_router": "browser",
-      "faster": {
-        "rspackBundler": false,
-      },
       "v4": {
-        "fasterByDefault": false,
         "useCssCascadeLayers": false,
       },
     },

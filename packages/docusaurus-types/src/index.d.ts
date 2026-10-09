@@ -11,7 +11,7 @@ export {
   DocusaurusConfig,
   FutureConfig,
   FutureV4Config,
-  FasterConfig,
+  WebpackConfig,
   StorageConfig,
   VcsConfig,
   VcsPreset,
