@@ -22,6 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@docusaurus/fs": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "commander": "^15.0.0",
     "cross-spawn": "^7.0.6",

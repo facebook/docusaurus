@@ -19,11 +19,11 @@
   "license": "MIT",
   "dependencies": {
     "@11ty/gray-matter": "^3.0.0",
+    "@docusaurus/fs": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "execa": "^10.0.1",
     "file-loader": "^6.2.0",
-    "fs-extra": "^11.4.0",
     "github-slugger": "^2.0.0",
     "jiti": "^2.7.0",
     "js-yaml": "^5.4.1",

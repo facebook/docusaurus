@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
@@ -27,6 +26,7 @@ import {
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
 
+import {fs, pathExists} from '@docusaurus/fs';
 import {validateBlogPostFrontMatter} from './frontMatter';
 import {getBlogPostAuthors} from './authors';
 import {reportAuthorsProblems} from './authorsProblems';
@@ -420,7 +420,7 @@ export async function generateBlogPosts(
 ): Promise<BlogPost[]> {
   const {include, exclude} = options;
 
-  if (!(await fs.pathExists(contentPaths.contentPath))) {
+  if (!(await pathExists(contentPaths.contentPath))) {
     return [];
   }
 

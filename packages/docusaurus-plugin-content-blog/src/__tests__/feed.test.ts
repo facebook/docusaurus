@@ -7,7 +7,7 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import {DEFAULT_PARSE_FRONT_MATTER, TEST_VCS} from '@docusaurus/utils';
 import {fromPartial} from '@total-typescript/shoehorn';
 import {
@@ -106,7 +106,7 @@ async function testGenerateFeeds(
 
 describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
   it('does not get generated without posts', async () => {
-    using fsMock = vi.spyOn(fs, 'outputFile');
+    using fsMock = vi.spyOn(fs, 'writeFile');
 
     const siteDir = __dirname;
     const siteConfig = {
@@ -148,7 +148,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
   });
 
   it('has feed item for each post', async () => {
-    using fsMock = vi.spyOn(fs, 'outputFile');
+    using fsMock = vi.spyOn(fs, 'writeFile');
 
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
@@ -195,7 +195,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
   });
 
   it('filters to the first two entries', async () => {
-    using fsMock = vi.spyOn(fs, 'outputFile');
+    using fsMock = vi.spyOn(fs, 'writeFile');
 
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
@@ -252,7 +252,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
   });
 
   it('filters to the first two entries using limit', async () => {
-    using fsMock = vi.spyOn(fs, 'outputFile');
+    using fsMock = vi.spyOn(fs, 'writeFile');
 
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
@@ -300,7 +300,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
   });
 
   it('has feed item for each post - with trailing slash', async () => {
-    using fsMock = vi.spyOn(fs, 'outputFile');
+    using fsMock = vi.spyOn(fs, 'writeFile');
 
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
@@ -348,7 +348,7 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
   });
 
   it('has xslt files for feed', async () => {
-    using fsMock = vi.spyOn(fs, 'outputFile');
+    using fsMock = vi.spyOn(fs, 'writeFile');
 
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
@@ -391,11 +391,13 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
 
     expect(tree(path.join(outDir, 'blog'))).toMatchSnapshot('blog tree');
 
-    expect(fsMock.mock.calls).toMatchSnapshot();
+    expect(
+      fsMock.mock.calls.map(([filePath, content]) => [filePath, content]),
+    ).toMatchSnapshot();
   });
 
   it('has custom xslt files for feed', async () => {
-    using fsMock = vi.spyOn(fs, 'outputFile');
+    using fsMock = vi.spyOn(fs, 'writeFile');
 
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
@@ -441,14 +443,16 @@ describe.each(['atom', 'rss', 'json'] as const)('%s', (feedType) => {
 
     expect(tree(path.join(outDir, 'blog'))).toMatchSnapshot('blog tree');
 
-    expect(fsMock.mock.calls).toMatchSnapshot();
+    expect(
+      fsMock.mock.calls.map(([filePath, content]) => [filePath, content]),
+    ).toMatchSnapshot();
   });
 });
 
 describe('feed authors', () => {
   it('resolves relative author urls', async () => {
     // Don't overwrite the fixture feeds with this partial output
-    using fsMock = vi.spyOn(fs, 'outputFile').mockResolvedValue(undefined);
+    using fsMock = vi.spyOn(fs, 'writeFile').mockResolvedValue(undefined);
 
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const outDir = path.join(siteDir, 'build-snap');
@@ -502,7 +506,13 @@ describe('feed authors', () => {
       },
     );
 
-    const [atom, json] = fsMock.mock.calls.map((call) => call[1] as string);
+    // Feeds are written concurrently: find them by file name, not call order
+    const getFeedContent = (fileName: string) =>
+      fsMock.mock.calls.find(([filePath]) =>
+        String(filePath).endsWith(fileName),
+      )?.[1] as string;
+    const atom = getFeedContent('atom.xml');
+    const json = getFeedContent('feed.json');
     expect(atom).toContain('<uri>https://docusaurus.io/team/root</uri>');
     expect(atom).toContain(
       '<uri>https://docusaurus.io/myBaseUrl/blog/team/sibling</uri>',

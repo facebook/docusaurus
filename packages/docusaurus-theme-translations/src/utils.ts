@@ -12,15 +12,15 @@
 // functions in the Jest test without using `await import`
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import {globTranslatableSourceFiles} from '@docusaurus/glob';
 import {extractAllSourceCodeFileTranslations} from '@docusaurus/babel';
+import {readJSON} from '@docusaurus/fs';
 import type {TranslationFileContent} from '@docusaurus/types';
 
 async function getPackageCodePath(packageName: string) {
   const packagePath = path.join(__dirname, '../..', packageName);
   const packageJsonPath = path.join(packagePath, 'package.json');
-  const {main} = (await fs.readJSON(packageJsonPath)) as {main: string};
+  const {main} = (await readJSON(packageJsonPath)) as {main: string};
   const packageSrcPath = path.join(packagePath, path.dirname(main));
   return packageSrcPath;
 }

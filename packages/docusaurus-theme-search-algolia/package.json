@@ -27,15 +27,16 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && oxfmt \"lib/theme/**/*.js\"",
+    "build": "tsc --build && copy-untyped-files && oxfmt \"lib/theme/**/*.js\"",
     "watch": "run-p -c copy:watch build:watch",
     "build:watch": "tsc --build --watch",
-    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
+    "copy:watch": "copy-untyped-files --watch"
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.19.10",
     "@docsearch/react": "^4.7.0",
     "@docusaurus/core": "workspace:*",
+    "@docusaurus/fs": "workspace:*",
     "@docusaurus/plugin-content-docs": "workspace:*",
     "@docusaurus/theme-classic": "workspace:*",
     "@docusaurus/theme-common": "workspace:*",
@@ -46,7 +47,6 @@
     "algoliasearch-helper": "^3.29.3",
     "clsx": "^2.1.1",
     "eta": "^4.6.0",
-    "fs-extra": "^11.4.0",
     "lodash": "^4.18.1",
     "tslib": "^2.8.1",
     "utility-types": "^3.11.0"

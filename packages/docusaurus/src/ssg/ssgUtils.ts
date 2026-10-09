@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
+import {fs} from '@docusaurus/fs';
 import type {SSGParams} from './ssgParams';
 
 function pathnameToFilename({
@@ -66,6 +66,6 @@ export async function writeStaticFile({
   });
 
   const filePath = path.join(params.outDir, filename);
-  await fs.ensureDir(path.dirname(filePath));
+  await fs.mkdir(path.dirname(filePath), {recursive: true});
   await fs.writeFile(filePath, content);
 }

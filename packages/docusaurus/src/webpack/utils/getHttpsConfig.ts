@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import logger from '@docusaurus/logger';
+import {fs, pathExists, realpath} from '@docusaurus/fs';
 
 // Ensure the certificate and key provided are valid and if not
 // throw an easy to debug error.
@@ -74,7 +74,7 @@ async function readCryptoFile(
   filepath: string,
   source: string,
 ): Promise<CryptoFile> {
-  if (!(await fs.pathExists(filepath))) {
+  if (!(await pathExists(filepath))) {
     throw new Error(
       logger.interpolate`You specified ${source}, but file at path path=${filepath} can't be found.`,
     );
@@ -162,7 +162,7 @@ You only provided a ${cert ? 'certificate' : 'key'} (with ${fileProvided.source}
 export default async function getHttpsConfig(
   options: Partial<HttpsConfigOptions> = {},
 ): Promise<boolean | {cert: Buffer; key: Buffer}> {
-  const cwd = await fs.realpath(process.cwd());
+  const cwd = await realpath(process.cwd());
 
   const [cert, key] = await Promise.all([
     getCert(options, cwd),

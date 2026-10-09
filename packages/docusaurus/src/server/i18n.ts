@@ -6,10 +6,10 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import combinePromises from 'combine-promises';
 import {normalizeUrl} from '@docusaurus/utils';
+import {pathExists} from '@docusaurus/fs';
 import type {
   I18n,
   DocusaurusConfig,
@@ -165,7 +165,7 @@ export async function loadI18n({
         i18nConfig.path,
         localeConfig.path,
       );
-      return fs.pathExists(localizationDir);
+      return pathExists(localizationDir);
     }
 
     function getInferredBaseUrl(): string {

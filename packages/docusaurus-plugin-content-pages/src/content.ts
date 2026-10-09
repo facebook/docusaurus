@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import {
   encodePath,
@@ -25,6 +24,7 @@ import {
   type ContentPaths,
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
+import {fs} from '@docusaurus/fs';
 import {validatePageFrontMatter} from './frontMatter';
 import type {LoadContext} from '@docusaurus/types';
 import type {

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import {
   writeMarkdownHeadingId,
@@ -13,6 +12,7 @@ import {
   type HeadingIdSyntax,
 } from '@docusaurus/utils';
 import {safeGlob} from '@docusaurus/glob';
+import {fs, realpath} from '@docusaurus/fs';
 import {loadContext} from '../server/site';
 import {initPlugins} from '../server/plugins/init';
 
@@ -90,7 +90,7 @@ export async function writeHeadingIds(
 ): Promise<void> {
   validateOptions(options);
 
-  const siteDir = await fs.realpath(siteDirParam);
+  const siteDir = await realpath(siteDirParam);
 
   const patterns = files.length ? files : await getPathsToWatch(siteDir);
 

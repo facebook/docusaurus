@@ -6,7 +6,7 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {logger} from '@docusaurus/logger';
 
@@ -51,7 +51,7 @@ console.log('Args', {
 });
 console.log('\n');
 
-await fs.remove(toPath);
+await fs.rm(toPath, {recursive: true, force: true});
 
 function filterComponentNames(componentNames) {
   // TODO temp workaround: non-comps should be forbidden to wrap

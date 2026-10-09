@@ -7,7 +7,7 @@
 
 import {describe, expect, it, vi} from 'vitest';
 import path from 'node:path';
-import fs from 'fs-extra';
+import fs from 'node:fs/promises';
 import _ from 'lodash';
 import {isMatch} from 'picomatch';
 import {Command} from 'commander';
@@ -185,7 +185,7 @@ describe('empty/no docs website', () => {
 
   it('no files in docs folder', async () => {
     const context = await loadContext({siteDir});
-    await fs.ensureDir(path.join(siteDir, 'docs'));
+    await fs.mkdir(path.join(siteDir, 'docs'), {recursive: true});
     const plugin = await pluginContentDocs(
       context,
       validateOptions({

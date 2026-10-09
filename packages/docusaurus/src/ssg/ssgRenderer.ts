@@ -8,10 +8,10 @@
 import {createRequire} from 'node:module';
 import path from 'node:path';
 import {compileFunction} from 'node:vm';
-import fs from 'fs-extra';
 import pMap from 'p-map';
 import logger, {PerfLogger} from '@docusaurus/logger';
 import {getHtmlMinifier} from '@docusaurus/bundler';
+import {fs} from '@docusaurus/fs';
 import {
   compileSSGTemplate,
   renderSSGTemplate,

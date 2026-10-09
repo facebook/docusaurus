@@ -6,7 +6,7 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
+import {pathExists, readJSON} from '@docusaurus/fs';
 import type {CodeTranslations} from '@docusaurus/types';
 
 function getDefaultLocalesDirPath(): string {
@@ -50,8 +50,8 @@ export async function readDefaultCodeTranslationMessages({
   for (const localeToTry of localesToTry) {
     const filePath = path.resolve(dirPath, localeToTry, `${name}.json`);
 
-    if (await fs.pathExists(filePath)) {
-      return fs.readJSON(filePath) as Promise<CodeTranslations>;
+    if (await pathExists(filePath)) {
+      return readJSON(filePath) as Promise<CodeTranslations>;
     }
   }
 

@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
 import {PerfLogger} from '@docusaurus/logger';
+import {readJSON} from '@docusaurus/fs';
 import DefaultSSGTemplate from './ssgTemplate.html';
 import type {Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import type {Props} from '@docusaurus/types';
@@ -43,7 +43,7 @@ export async function createSSGParams({
 }): Promise<SSGParams> {
   const manifest: Manifest = await PerfLogger.async(
     'Read client manifest',
-    () => fs.readJSON(clientManifestPath, 'utf-8'),
+    () => readJSON(clientManifestPath) as Promise<Manifest>,
   );
 
   const params: SSGParams = {

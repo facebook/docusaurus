@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import logger from '@docusaurus/logger';
 import * as Yaml from 'js-yaml';
+import {fs, pathExists} from '@docusaurus/fs';
 import {findAsyncSequential} from './index';
 import type {ContentPaths} from './markdownLinks';
 
@@ -90,7 +90,7 @@ export async function findFolderContainingFile(
   relativeFilePath: string,
 ): Promise<string | undefined> {
   return findAsyncSequential(folderPaths, (folderPath) =>
-    fs.pathExists(path.join(folderPath, relativeFilePath)),
+    pathExists(path.join(folderPath, relativeFilePath)),
   );
 }
 

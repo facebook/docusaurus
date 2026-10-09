@@ -6,12 +6,12 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import {
   getPluginI18nPath,
   getLocaleConfig,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
+import {pathExists, readJSON} from '@docusaurus/fs';
 import {
   VERSIONS_JSON_FILE,
   VERSIONED_DOCS_DIR,
@@ -110,8 +110,8 @@ export async function readVersionsFile(
   pluginId: string,
 ): Promise<string[] | null> {
   const versionsFilePath = getVersionsFilePath(siteDir, pluginId);
-  if (await fs.pathExists(versionsFilePath)) {
-    const content: unknown = await fs.readJSON(versionsFilePath);
+  if (await pathExists(versionsFilePath)) {
+    const content: unknown = await readJSON(versionsFilePath);
     validateVersionNames(content);
     return content;
   }
@@ -207,7 +207,7 @@ export async function getVersionMetadataPaths({
     ? options.sidebarPath
     : getVersionSidebarsPath(context.siteDir, options.id, versionName);
 
-  if (!(await fs.pathExists(contentPath))) {
+  if (!(await pathExists(contentPath))) {
     throw new Error(
       `The docs folder does not exist for version "${versionName}". A docs folder is expected to be found at ${path.relative(
         context.siteDir,
@@ -224,7 +224,7 @@ export async function getVersionMetadataPaths({
   if (
     versionName === CURRENT_VERSION_NAME &&
     typeof sidebarFilePath === 'string' &&
-    !(await fs.pathExists(sidebarFilePath))
+    !(await pathExists(sidebarFilePath))
   ) {
     throw new Error(`The path to the sidebar file does not exist at "${path.relative(
       context.siteDir,

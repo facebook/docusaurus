@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import fs from 'fs-extra';
 import _ from 'lodash';
 import {
   aliasedSitePath,
@@ -22,6 +21,7 @@ import {
   normalizeTags,
 } from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
+import {fs} from '@docusaurus/fs';
 import {validateDocFrontMatter} from './frontMatter';
 import getSlug from './slug';
 import {stripPathNumberPrefixes} from './numberPrefix';

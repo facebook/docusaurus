@@ -14,10 +14,10 @@
     "./Details": "./lib/components/Details/index.js"
   },
   "scripts": {
-    "build": "tsc && node ../../admin/scripts/copyUntypedFiles.js",
+    "build": "tsc && copy-untyped-files",
     "watch": "run-p -c copy:watch build:watch",
     "build:watch": "tsc --watch",
-    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch",
+    "copy:watch": "copy-untyped-files --watch",
     "removeThemeInternalReexport": "node removeThemeInternalReexport.mjs"
   },
   "publishConfig": {
@@ -47,7 +47,6 @@
     "@docusaurus/core": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "@total-typescript/shoehorn": "^0.1.2",
-    "fs-extra": "^11.4.0",
     "lodash": "^4.18.1",
     "react-router-dom": "^5.3.4"
   },

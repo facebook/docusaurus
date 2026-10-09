@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import traverse, {type Node} from '@babel/traverse';
 import generate from '@babel/generator';
 import {
@@ -15,6 +14,7 @@ import {
   type TransformOptions,
 } from '@babel/core';
 import {logger} from '@docusaurus/logger';
+import {fs} from '@docusaurus/fs';
 import type {TranslationFileContent} from '@docusaurus/types';
 
 export type SourceCodeFileTranslations = {

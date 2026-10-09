@@ -159,7 +159,7 @@ export default defineConfig(
         // @   'ExportDefaultDeclaration > Identifier, ExportNamedDeclaration[source=null] > ExportSpecifier',
         //   message: 'Export in one statement'
         // },
-        ...['node:path', 'fs-extra', 'webpack', 'lodash'].map((m) => ({
+        ...['node:path', 'webpack', 'lodash'].map((m) => ({
           selector: `ImportDeclaration[importKind=value]:has(Literal[value="${m}"]) > ImportSpecifier[importKind=value]`,
           message:
             'Default-import this, both for readability and interoperability with ESM',
@@ -237,7 +237,6 @@ export default defineConfig(
             {pattern: 'react', group: 'builtin', position: 'before'},
             {pattern: 'react-dom', group: 'builtin', position: 'before'},
             {pattern: 'react-dom/**', group: 'builtin', position: 'before'},
-            {pattern: 'fs-extra', group: 'builtin'},
             {pattern: 'lodash', group: 'external', position: 'before'},
             {pattern: 'clsx', group: 'external', position: 'before'},
             // 'Bit weird to not use the `import/internal-regex` option, but this
@@ -391,6 +390,35 @@ export default defineConfig(
     },
   },
 
+  // All our file system operations should go through @docusaurus/fs
+  // Declared before other no-restricted-imports configs, which override it
+  {
+    files: ['packages/*/src/**/*.{js,ts,tsx}', 'packages/*/bin/**/*.{js,mjs}'],
+    ignores: [
+      '**/*.test.{js,ts,tsx}',
+      '**/__tests__/**',
+      'packages/docusaurus-fs/**',
+    ],
+    rules: {
+      'no-restricted-imports': [
+        ERROR,
+        {
+          paths: [
+            'fs',
+            'node:fs',
+            'fs/promises',
+            'node:fs/promises',
+            'fs-extra',
+            'graceful-fs',
+          ].map((name) => ({
+            name,
+            message:
+              'Use @docusaurus/fs instead, so that all our file system operations go through it.',
+          })),
+        },
+      ],
+    },
+  },
   {
     files: ['packages/docusaurus/src/client/**/*.{js,ts,tsx}'],
     rules: {

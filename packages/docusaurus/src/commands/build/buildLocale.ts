@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'node:path';
 import _ from 'lodash';
 import {compile, registerBundlerTracing} from '@docusaurus/bundler';
 import logger, {PerfLogger} from '@docusaurus/logger';
+import {fs} from '@docusaurus/fs';
 import {loadSite} from '../../server/site';
 import {handleBrokenLinks} from '../../server/brokenLinks';
 import {createBuildClientConfig} from '../../webpack/client';

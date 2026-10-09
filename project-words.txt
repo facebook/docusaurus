@@ -163,6 +163,7 @@ microdata
 Milnes
 Mindmap
 mindmap
+mixedcase
 mkdirs
 mkdn
 mkdocs
