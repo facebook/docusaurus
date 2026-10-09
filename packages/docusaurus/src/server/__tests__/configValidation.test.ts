@@ -11,14 +11,11 @@ import {
   ConfigSchema,
   DEFAULT_CONFIG,
   DEFAULT_FUTURE_CONFIG,
-  DEFAULT_FUTURE_V4_CONFIG,
-  DEFAULT_FUTURE_V4_CONFIG_TRUE,
   DEFAULT_STORAGE_CONFIG,
   validateConfig,
 } from '../configValidation';
 import type {
   FutureConfig,
-  FutureV4Config,
   StorageConfig,
   MarkdownConfig,
   MarkdownHooks,
@@ -64,7 +61,6 @@ describe('normalizeConfig', () => {
         getFileLastUpdateInfo: (_filePath) => null,
       },
       future: {
-        v4: {},
         experimental_router: 'hash',
       },
       tagline: 'my awesome site',
@@ -1476,7 +1472,6 @@ describe('future', () => {
 
   it('accepts future - full', () => {
     const future: DocusaurusConfig['future'] = {
-      v4: {},
       experimental_router: 'hash',
     };
     expect(
@@ -1597,79 +1592,19 @@ describe('future', () => {
     `);
   });
 
-  describe('v4', () => {
-    function v4Containing(v4: Partial<FutureV4Config>) {
-      return futureContaining({
-        v4: expect.objectContaining(v4),
-      });
-    }
-
-    it('accepts v4 - undefined', () => {
-      expect(
-        normalizeConfig({
-          future: {
-            v4: undefined,
-          },
-        }),
-      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
-    });
-
-    it('accepts v4 - empty', () => {
-      expect(
-        normalizeConfig({
-          future: {v4: {}},
-        }),
-      ).toEqual(futureContaining(DEFAULT_FUTURE_CONFIG));
-    });
-
-    it('accepts v4 - false', () => {
-      expect(
-        normalizeConfig({
-          future: {v4: false},
-        }),
-      ).toEqual(v4Containing(DEFAULT_FUTURE_V4_CONFIG));
-    });
-
-    it('accepts v4 - true', () => {
-      expect(
-        normalizeConfig({
-          future: {v4: true},
-        }),
-      ).toEqual(v4Containing(DEFAULT_FUTURE_V4_CONFIG_TRUE));
-    });
-
-    it('rejects v4 - number', () => {
-      // @ts-expect-error: invalid
-      const v4: Partial<FutureV4Config> = 42;
-      expect(() =>
-        normalizeConfig({
-          future: {
-            v4,
-          },
-        }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        [Error: "future.v4" must be one of [object, boolean]
-        ]
-      `);
-    });
-
-    it('rejects v4 - unknown key', () => {
-      const v4: Partial<FutureV4Config> = {
-        // @ts-expect-error: invalid
-        useCssCascadeLayers: true,
-      };
-      expect(() =>
-        normalizeConfig({
-          future: {
-            v4,
-          },
-        }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        [Error: These field(s) ("future.v4.useCssCascadeLayers",) are not recognized in docusaurus.config.js.
-        If you still want these fields to be in your configuration, put them in the "customFields" field.
-        See https://docusaurus.io/docs/api/docusaurus-config/#customfields]
-      `);
-    });
+  it('rejects removed future.v4', () => {
+    expect(() =>
+      normalizeConfig({
+        future: {
+          // @ts-expect-error: testing removed config
+          v4: true,
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      [Error: These field(s) ("future.v4",) are not recognized in docusaurus.config.js.
+      If you still want these fields to be in your configuration, put them in the "customFields" field.
+      See https://docusaurus.io/docs/api/docusaurus-config/#customfields]
+    `);
   });
 });
 

@@ -182,7 +182,6 @@ export default async function createConfigAsync() {
     // Deprecated: dogfood the Webpack/Babel opt-out for benchmarking
     webpack: isSlower,
     future: {
-      v4: !isSlower, // Not accurate, but good enough
       experimental_router: router,
     },
     // Dogfood both settings:

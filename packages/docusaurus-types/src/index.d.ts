@@ -10,7 +10,6 @@ export {
   ThemeConfig,
   DocusaurusConfig,
   FutureConfig,
-  FutureV4Config,
   WebpackConfig,
   StorageConfig,
   VcsConfig,
