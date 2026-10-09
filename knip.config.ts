@@ -97,12 +97,6 @@ const config: KnipConfig = {
         'express',
       ],
     },
-    'packages/docusaurus-bundler': {
-      ignoreDependencies: [
-        // Optional peer dependency, dynamically imported
-        '@docusaurus/faster',
-      ],
-    },
     'packages/docusaurus-module-type-aliases': {
       // Knip doesn't detect imports in "declare module" blocks
       ignoreDependencies: [/.*/],

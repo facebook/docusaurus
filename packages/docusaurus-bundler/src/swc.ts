@@ -5,14 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {rspack as Rspack} from '@rspack/core';
-import {RspackDevServer} from '@rspack/dev-server';
 import browserslist from 'browserslist';
 import semver from 'semver';
 import type {Options as SwcOptions} from '@swc/core';
 import type {CurrentBundler} from '@docusaurus/types';
 
-export const getSwcLoaderOptions = ({
+export function getSwcLoaderOptions({
   isServer,
   bundlerName,
   clientBrowserslistQueries,
@@ -20,7 +18,7 @@ export const getSwcLoaderOptions = ({
   isServer: boolean;
   bundlerName: CurrentBundler['name'];
   clientBrowserslistQueries: string[];
-}): SwcOptions => {
+}): SwcOptions {
   return {
     env: {
       targets: isServer
@@ -44,11 +42,7 @@ export const getSwcLoaderOptions = ({
       },
     },
   };
-};
-
-export const rspack = Rspack;
-
-export const rspackDevServer = RspackDevServer;
+}
 
 // TODO this is not accurate
 //  for Rspack we should read from the built-in browserslist data
