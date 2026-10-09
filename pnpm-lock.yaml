@@ -785,6 +785,15 @@ importers:
         specifier: ^5.111.0
         version: 5.111.0(@swc/core@1.16.2)(@swc/html@1.16.2)(clean-css@5.3.3)(cssnano@7.1.9(postcss@8.5.28))(csso@5.0.5)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.28)(sharp@0.35.4(@types/node@26.6.1))(svgo@4.1.0)(uglify-js@3.19.3)
 
+  packages/docusaurus-fs:
+    dependencies:
+      '@docusaurus/logger':
+        specifier: workspace:*
+        version: link:../docusaurus-logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+
   packages/docusaurus-glob:
     dependencies:
       chokidar:
