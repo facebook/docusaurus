@@ -109,6 +109,8 @@ When tagging a new version, the document versioning mechanism will:
 - Create a versioned sidebars file based from your current [sidebar](./sidebar/index.mdx) configuration (if it exists) - saved as `versioned_sidebars/version-[versionName]-sidebars.json`.
 - Append the new version number to `versions.json`.
 
+If you configure the docs plugin [`versionedDocsPath`](../../api/plugins/plugin-content-docs.mdx#configuration) option, Docusaurus creates the `versioned_docs` and `versioned_sidebars` folders under that custom directory instead of the site directory.
+
 ### Creating new docs {/* #creating-new-docs */}
 
 1. Place the new file into the corresponding version folder.
