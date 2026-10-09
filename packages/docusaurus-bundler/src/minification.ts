@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import TerserPlugin from 'terser-webpack-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import {rspack} from './rspack';
 import {
   getBrowserslistQueries,
@@ -61,7 +59,8 @@ function getTerserParallel() {
 }
 
 // Terser is not used: terser-webpack-plugin only runs the SWC minifier
-function getJsMinimizer(): WebpackPluginInstance {
+async function getJsMinimizer(): Promise<WebpackPluginInstance> {
+  const {default: TerserPlugin} = await import('terser-webpack-plugin');
   return new TerserPlugin<JsMinifyOptions>({
     parallel: getTerserParallel(),
     minify: TerserPlugin.swcMinify,
@@ -69,15 +68,18 @@ function getJsMinimizer(): WebpackPluginInstance {
   });
 }
 
-function getCssMinimizer(): WebpackPluginInstance {
+async function getCssMinimizer(): Promise<WebpackPluginInstance> {
+  const {default: CssMinimizerPlugin} =
+    await import('css-minimizer-webpack-plugin');
   return new CssMinimizerPlugin({
     minify: CssMinimizerPlugin.lightningCssMinify,
     minimizerOptions: getLightningCssMinimizerOptions(),
   });
 }
 
-function getWebpackMinimizers(): WebpackPluginInstance[] {
-  return [getJsMinimizer(), getCssMinimizer()];
+// Webpack-only minimizers are imported lazily, only when Webpack is used
+async function getWebpackMinimizers(): Promise<WebpackPluginInstance[]> {
+  return Promise.all([getJsMinimizer(), getCssMinimizer()]);
 }
 
 function getRspackMinimizers(): RspackPluginInstance[] {

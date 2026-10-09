@@ -13,9 +13,6 @@ import {
   RspackDevServer,
 } from '@docusaurus/bundler';
 import logger from '@docusaurus/logger';
-import WebpackDevServer, {
-  type Configuration as DevServerConfig,
-} from 'webpack-dev-server';
 import evalSourceMapMiddleware from '../utils/legacy/evalSourceMapMiddleware';
 import {createPollingOptions} from './watcher';
 import getHttpsConfig from '../../webpack/utils/getHttpsConfig';
@@ -31,6 +28,8 @@ import type {
   Props,
 } from '@docusaurus/types';
 import type {Compiler} from 'webpack';
+import type WebpackDevServer from 'webpack-dev-server';
+import type {Configuration as DevServerConfig} from 'webpack-dev-server';
 import type {Compiler as RspackCompiler} from '@rspack/core';
 import type {Configuration as RspackDevServerConfig} from '@rspack/dev-server';
 import type {OpenUrlContext} from './utils';
@@ -214,6 +213,8 @@ async function createDevServer({
   currentBundler: CurrentBundler;
 }): Promise<WebpackDevServer | RspackDevServer> {
   if (currentBundler.name === 'webpack') {
+    // Imported lazily, only when Webpack is used
+    const {default: WebpackDevServer} = await import('webpack-dev-server');
     return new WebpackDevServer(devServerConfig, compiler);
   }
   // Docusaurus bundler configs are typed with Webpack types
