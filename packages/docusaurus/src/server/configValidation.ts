@@ -74,13 +74,11 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
 
 export const DEFAULT_FASTER_CONFIG: FasterConfig = {
   rspackBundler: false,
-  rspackPersistentCache: false,
 };
 
 // When using the "faster: true" shortcut
 export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
   rspackBundler: true,
-  rspackPersistentCache: true,
 };
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
@@ -276,7 +274,6 @@ const FASTER_CONFIG_SCHEMA = Joi.alternatives()
   .try(
     Joi.object<FasterConfig & {swcJsLoader: never}>({
       rspackBundler: Joi.boolean(),
-      rspackPersistentCache: Joi.boolean(),
       swcJsLoader: Joi.any()
         .forbidden()
         .messages({
@@ -576,19 +573,6 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
     config.markdown.hooks.onBrokenMarkdownLinks = config.onBrokenMarkdownLinks;
     // We erase the former one to ensure we don't use it anywhere
     config.onBrokenMarkdownLinks = undefined;
-  }
-
-  if (
-    config.future.faster.rspackPersistentCache &&
-    !config.future.faster.rspackBundler
-  ) {
-    throw new Error(
-      `Docusaurus config flag ${logger.code(
-        'future.faster.rspackPersistentCache',
-      )} requires the flag ${logger.code(
-        'future.faster.rspackBundler',
-      )} to be turned on.`,
-    );
   }
 }
 

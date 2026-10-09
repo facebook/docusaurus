@@ -74,7 +74,6 @@ describe('normalizeConfig', () => {
         },
         faster: {
           rspackBundler: true,
-          rspackPersistentCache: true,
         },
         experimental_router: 'hash',
       },
@@ -1578,7 +1577,6 @@ describe('future', () => {
       },
       faster: {
         rspackBundler: true,
-        rspackPersistentCache: true,
       },
       experimental_router: 'hash',
     };
@@ -1714,7 +1712,6 @@ describe('future', () => {
     it('accepts faster - full', () => {
       const faster: FasterConfig = {
         rspackBundler: true,
-        rspackPersistentCache: true,
       };
       expect(
         normalizeConfig({
@@ -1870,110 +1867,6 @@ describe('future', () => {
       });
     });
 
-    describe('rspackPersistentCache', () => {
-      it('accepts - undefined', () => {
-        const faster: Partial<FasterConfig> = {
-          rspackPersistentCache: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({rspackPersistentCache: false}));
-      });
-
-      it('accepts - true (rspackBundler: true)', () => {
-        const faster: Partial<FasterConfig> = {
-          rspackBundler: true,
-          rspackPersistentCache: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({rspackPersistentCache: true}));
-      });
-
-      it('rejects - true (rspackBundler: false)', () => {
-        const faster: Partial<FasterConfig> = {
-          rspackBundler: false,
-          rspackPersistentCache: true,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(
-          `[Error: Docusaurus config flag \`future.faster.rspackPersistentCache\` requires the flag \`future.faster.rspackBundler\` to be turned on.]`,
-        );
-      });
-
-      it('rejects - true (rspackBundler: undefined)', () => {
-        const faster: Partial<FasterConfig> = {
-          rspackBundler: false,
-          rspackPersistentCache: true,
-        };
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(
-          `[Error: Docusaurus config flag \`future.faster.rspackPersistentCache\` requires the flag \`future.faster.rspackBundler\` to be turned on.]`,
-        );
-      });
-
-      it('accepts - false', () => {
-        const faster: Partial<FasterConfig> = {
-          rspackPersistentCache: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({rspackPersistentCache: false}));
-      });
-
-      it('rejects - null', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {rspackPersistentCache: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.rspackPersistentCache" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {rspackPersistentCache: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.rspackPersistentCache" must be a boolean
-          ]
-        `);
-      });
-    });
-
     it('v4.fasterByDefault defaults all faster flags to true', () => {
       expect(
         normalizeConfig({
@@ -1993,13 +1886,13 @@ describe('future', () => {
             v4: {
               fasterByDefault: true,
             },
-            faster: {rspackPersistentCache: false},
+            faster: {rspackBundler: false},
           },
         }),
       ).toEqual(
         fasterContaining({
           ...DEFAULT_FASTER_CONFIG_TRUE,
-          rspackPersistentCache: false,
+          rspackBundler: false,
         }),
       );
     });

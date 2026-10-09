@@ -124,18 +124,14 @@ export async function createBaseConfig({
       return disabledPersistentCacheValue;
     }
     if (props.currentBundler.name === 'rspack') {
-      if (props.siteConfig.future.faster.rspackPersistentCache) {
-        return {
-          type: 'persistent',
-          // Rspack doesn't have "cache.name" like Webpack
-          // This is not ideal but work around is to merge name/version
-          // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
-          version: `${getCacheName()}-${getCacheVersion()}`,
-          buildDependencies: getCacheBuildDependencies(),
-        } as unknown as Configuration['cache'];
-      } else {
-        return disabledPersistentCacheValue;
-      }
+      return {
+        type: 'persistent',
+        // Rspack doesn't have "cache.name" like Webpack
+        // This is not ideal but work around is to merge name/version
+        // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
+        version: `${getCacheName()}-${getCacheVersion()}`,
+        buildDependencies: getCacheBuildDependencies(),
+      } as unknown as Configuration['cache'];
     }
 
     return {

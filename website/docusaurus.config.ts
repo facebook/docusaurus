@@ -186,7 +186,6 @@ export default async function createConfigAsync() {
         : {
             // Verbose object: easier to independently test single attributes
             rspackBundler: true,
-            rspackPersistentCache: true,
           },
       experimental_router: router,
     },
