@@ -54,10 +54,7 @@ jobs:
         uses: preactjs/compressed-size-action@f322c295dde06a1cb7ccaef105732dd8a726d1d9 # v2.10.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          # The base branch install is a no-op when the lockfile is unchanged:
-          # postinstall doesn't run, and the base site would use the PR packages
-          # Skip postinstall and always build packages explicitly instead
-          # bash -c is needed: the action doesn't run this script in a shell
+          # Always rebuild packages, including for the base branch
           install-script: bash -c "pnpm install --frozen-lockfile --ignore-scripts && pnpm build:packages"
           build-script: build:website:fast
           clean-script: clear:website # see https://github.com/facebook/docusaurus/pull/6838
