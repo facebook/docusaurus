@@ -90,7 +90,6 @@ exports[`loadSite > custom-i18n-site > loads site 1`] = `
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -143,7 +142,7 @@ exports[`loadSite > custom-i18n-site > loads site 1`] = `
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -167,7 +166,7 @@ exports[`loadSite > custom-i18n-site > loads site 1`] = `
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-182",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -253,7 +252,6 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom config 1`] = 
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -298,7 +296,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom config 1`] = 
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -322,7 +320,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom config 1`] = 
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-e70",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -408,7 +406,6 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom outDir 1`] = 
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -453,7 +450,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom outDir 1`] = 
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -477,7 +474,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site - custom outDir 1`] = 
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-249",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -563,7 +560,6 @@ exports[`loadSite > simple-site-with-baseUrl > loads site 1`] = `
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -608,7 +604,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site 1`] = `
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -632,7 +628,7 @@ exports[`loadSite > simple-site-with-baseUrl > loads site 1`] = `
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-249",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -762,7 +758,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site -  locale fr + cu
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -829,7 +824,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site -  locale fr + cu
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -853,7 +848,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site -  locale fr + cu
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-1e8",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -983,7 +978,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - custom outDir 1
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -1050,7 +1044,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - custom outDir 1
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -1074,7 +1068,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - custom outDir 1
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-249",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -1204,7 +1198,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale de 1`] =
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -1271,7 +1264,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale de 1`] =
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -1295,7 +1288,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale de 1`] =
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-887",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -1425,7 +1418,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale en 1`] =
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -1492,7 +1484,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale en 1`] =
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -1516,7 +1508,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale en 1`] =
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-249",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -1646,7 +1638,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale es 1`] =
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -1713,7 +1704,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale es 1`] =
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -1737,7 +1728,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale es 1`] =
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-694",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -1867,7 +1858,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale fr 1`] =
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -1934,7 +1924,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale fr 1`] =
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -1958,7 +1948,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale fr 1`] =
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-1e8",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -2088,7 +2078,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale it 1`] =
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -2155,7 +2144,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale it 1`] =
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -2179,7 +2168,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site - locale it 1`] =
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-f94",
     "type": "localStorage",
   },
   "siteVersion": undefined,
@@ -2309,7 +2298,6 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site 1`] = `
     "future": {
       "experimental_router": "browser",
       "v4": {
-        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -2376,7 +2364,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site 1`] = `
       "static",
     ],
     "storage": {
-      "namespace": false,
+      "namespace": true,
       "type": "localStorage",
     },
     "stylesheets": [],
@@ -2400,7 +2388,7 @@ exports[`loadSite > simple-site-with-baseUrl-i18n > loads site 1`] = `
     "siteVersion": undefined,
   },
   "siteStorage": {
-    "namespace": "",
+    "namespace": "-249",
     "type": "localStorage",
   },
   "siteVersion": undefined,

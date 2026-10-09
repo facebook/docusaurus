@@ -224,7 +224,7 @@ export default {
 ```
 
 - `type`: The browser storage theme authors should use. Possible values are `localStorage` and `sessionStorage`. Defaults to `localStorage`.
-- `namespace`: Whether to namespace the browser storage keys to avoid storage key conflicts when Docusaurus sites are hosted under the same domain, or on localhost. Possible values are `string | boolean`. The namespace is appended at the end of the storage keys `key-namespace`. Use `true` to automatically generate a random namespace from your site `url + baseUrl`. Defaults to `false` (no namespace, historical behavior). Use the [`future.v4.siteStorageNamespacing`](#future) flag to default this to `true`.
+- `namespace`: Whether to namespace the browser storage keys to avoid storage key conflicts when Docusaurus sites are hosted under the same domain, or on localhost. Possible values are `string | boolean`. The namespace is appended at the end of the storage keys `key-namespace`. Use `true` to automatically generate a random namespace from your site `url + baseUrl`. Defaults to `true`. Use `false` to restore the historical behavior (no namespace).
 
 ### `vcs` {/* #vcs */}
 
@@ -339,7 +339,6 @@ export default {
   future: {
     v4: {
       useCssCascadeLayers: true,
-      siteStorageNamespacing: true,
     },
     experimental_router: 'hash',
   },
@@ -348,7 +347,6 @@ export default {
 
 - `v4`: Permits to opt-in for upcoming Docusaurus v4 breaking changes and features, to prepare your site in advance for this new version. Use `true` as a shorthand to enable all the flags.
   - [`useCssCascadeLayers`](https://github.com/facebook/docusaurus/pull/11142): This enables the [Docusaurus CSS Cascade Layers plugin](./plugins/plugin-css-cascade-layers.mdx) with pre-configured layers that we plan to apply by default for Docusaurus v4.
-  - [`siteStorageNamespacing`](https://github.com/facebook/docusaurus/pull/11797): Defaults the [`storage.namespace`](#storage) config to `true` instead of `false`. This enables automatic browser storage key namespacing, which avoids storage key conflicts when multiple Docusaurus sites are hosted under the same domain, or on localhost.
 - `experimental_router`: The router type to use. Possible values are `browser` and `hash`. Defaults to `browser`. The `hash` router is only useful for rare cases where you want to opt-out of static site generation, have a fully client-side app with a single `index.html` entrypoint file. This can be useful to distribute a Docusaurus site as a `.zip` archive that you can [browse locally without running a web server](https://github.com/facebook/docusaurus/issues/3825).
 
 ### `webpack` {/* #webpack */}

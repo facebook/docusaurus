@@ -37,7 +37,6 @@ export type WebpackConfig = {
 
 export type FutureV4Config = {
   useCssCascadeLayers: boolean;
-  siteStorageNamespacing: boolean;
 };
 
 // VCS (Version Control System) info about a given change, e.g., a git commit.
