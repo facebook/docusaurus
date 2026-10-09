@@ -70,7 +70,7 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
 
 export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
   type: 'localStorage',
-  namespace: false,
+  namespace: true,
 };
 
 export const DEFAULT_FASTER_CONFIG: FasterConfig = {
@@ -92,7 +92,6 @@ export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
   useCssCascadeLayers: false,
-  siteStorageNamespacing: false,
   fasterByDefault: false,
   mdx1CompatDisabledByDefault: false,
 };
@@ -100,7 +99,6 @@ export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
 // When using the "v4: true" shortcut
 export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
   useCssCascadeLayers: true,
-  siteStorageNamespacing: true,
   fasterByDefault: true,
   mdx1CompatDisabledByDefault: true,
 };
@@ -314,9 +312,6 @@ const FUTURE_V4_SCHEMA = Joi.alternatives()
       useCssCascadeLayers: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.useCssCascadeLayers,
       ),
-      siteStorageNamespacing: Joi.boolean().default(
-        DEFAULT_FUTURE_V4_CONFIG.siteStorageNamespacing,
-      ),
       fasterByDefault: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.fasterByDefault,
       ),
@@ -337,13 +332,12 @@ const STORAGE_CONFIG_SCHEMA = Joi.object({
   type: Joi.string()
     .equal('localStorage', 'sessionStorage')
     .default(DEFAULT_STORAGE_CONFIG.type),
-  // namespace default is not set here on purpose
-  // It is resolved in postProcessDocusaurusConfig based on
-  // the future.v4.siteStorageNamespacing flag
-  namespace: Joi.alternatives().try(Joi.string(), Joi.boolean()),
+  namespace: Joi.alternatives()
+    .try(Joi.string(), Joi.boolean())
+    .default(DEFAULT_STORAGE_CONFIG.namespace),
 })
   .optional()
-  .default({type: DEFAULT_STORAGE_CONFIG.type});
+  .default(DEFAULT_STORAGE_CONFIG);
 
 const VCS_CONFIG_OBJECT_SCHEMA = Joi.object<VcsConfig>({
   // All the fields are required on purpose
@@ -570,12 +564,6 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
 // Expressing this kind of logic in Joi is a pain
 // We also want to decouple logic from Joi: easier to remove it later!
 function postProcessDocusaurusConfig(config: DocusaurusConfig) {
-  // Resolve storage.namespace based on the v4 future flag
-  // undefined means "not explicitly set by user"
-  if (config.storage.namespace === undefined) {
-    config.storage.namespace = config.future.v4.siteStorageNamespacing;
-  }
-
   // Resolve faster config based on the v4.fasterByDefault flag
   // undefined means "not explicitly set by user"
   if (config.future.faster === undefined) {

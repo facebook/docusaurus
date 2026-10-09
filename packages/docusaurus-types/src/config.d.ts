@@ -34,7 +34,6 @@ export type FasterConfig = {
 
 export type FutureV4Config = {
   useCssCascadeLayers: boolean;
-  siteStorageNamespacing: boolean;
   fasterByDefault: boolean;
   mdx1CompatDisabledByDefault: boolean;
 };
