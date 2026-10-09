@@ -26,7 +26,6 @@ export type StorageConfig = {
 
 export type FasterConfig = {
   rspackBundler: boolean;
-  rspackPersistentCache: boolean;
 };
 
 export type FutureV4Config = {
