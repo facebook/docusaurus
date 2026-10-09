@@ -156,7 +156,6 @@ export default function pluginPWA(
             ? []
             : await getMinimizers({
                 currentBundler: props.currentBundler,
-                jsMinimizerType: 'swc',
               }),
         },
         plugins: [

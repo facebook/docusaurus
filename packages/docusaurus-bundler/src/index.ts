@@ -15,12 +15,8 @@ export {
   registerBundlerTracing,
 } from './currentBundler';
 
-export {getMinimizers, type JsMinimizerType} from './minification';
-export {
-  getHtmlMinifier,
-  type HtmlMinifier,
-  type HtmlMinifierType,
-} from './minifyHtml';
+export {getMinimizers} from './minification';
+export {getHtmlMinifier, type HtmlMinifier} from './minifyHtml';
 export {createJsLoaderFactory} from './loaders/jsLoader';
 export {createStyleLoadersFactory} from './loaders/styleLoader';
 export {importRspackDevServer} from './importFaster';
