@@ -64,6 +64,11 @@ const config: KnipConfig = {
         'playwright',
       ],
     },
+    'admin/new.docusaurus.io': {
+      // Knip enables this plugin from dependencies, but the site has none
+      // The plugin reads functions entry points from netlify.toml
+      netlify: true,
+    },
     'packages/create-docusaurus': {
       // Used to test the CLI package
       ignoreBinaries: ['create-docusaurus'],
