@@ -12,7 +12,7 @@ import {
   getTagVisibility,
 } from '@docusaurus/utils';
 import {normalizeTag} from '../tags';
-import type {Tag, TagMetadata, FrontMatterTag, TagsFile} from '../tags';
+import type {TagMetadata, FrontMatterTag, TagsFile} from '../tags';
 
 describe('normalizeTag', () => {
   const tagsBaseRoutePath = '/all/tags';
@@ -95,8 +95,8 @@ describe('normalizeTag', () => {
       const input: FrontMatterTag = 'tag1';
       const expectedOutput: TagMetadata = {
         inline: false,
-        label: tagsFile.tag1.label,
-        description: tagsFile.tag1.description,
+        label: tagsFile.tag1!.label,
+        description: tagsFile.tag1!.description,
         permalink: `${tagsBaseRoutePath}/tag-1-permalink`,
       };
       expect(normalizeTag({tagsBaseRoutePath, tagsFile, tag: input})).toEqual(
@@ -108,8 +108,8 @@ describe('normalizeTag', () => {
       const input: FrontMatterTag = 'tag2';
       const expectedOutput: TagMetadata = {
         inline: false,
-        label: tagsFile.tag2.label,
-        description: tagsFile.tag2.description,
+        label: tagsFile.tag2!.label,
+        description: tagsFile.tag2!.description,
         permalink: `${tagsBaseRoutePath}/tag-2-permalink`,
       };
       expect(normalizeTag({tagsBaseRoutePath, tagsFile, tag: input})).toEqual(
@@ -292,7 +292,7 @@ describe('groupTaggedItems', () => {
   type SomeTaggedItem = {
     id: string;
     nested: {
-      tags: Tag[];
+      tags: TagMetadata[];
     };
   };
   function groupItems(items: SomeTaggedItem[]) {
@@ -307,19 +307,27 @@ describe('groupTaggedItems', () => {
       label: 'Guide',
       permalink: '/guide',
       description: undefined,
+      inline: false,
     };
     const tagTutorial = {
       label: 'Tutorial',
       permalink: '/tutorial',
       description: undefined,
+      inline: false,
     };
-    const tagAPI = {label: 'API', permalink: '/api', description: undefined};
+    const tagAPI = {
+      label: 'API',
+      permalink: '/api',
+      description: undefined,
+      inline: false,
+    };
 
     // This one will be grouped under same permalink and label is ignored
     const tagTutorialOtherLabel = {
       label: 'TutorialOtherLabel',
       permalink: '/tutorial',
       description: undefined,
+      inline: false,
     };
 
     const item1: SomeTaggedItem = {

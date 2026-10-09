@@ -47,6 +47,7 @@
     "@docusaurus/core": "workspace:*",
     "@docusaurus/types": "workspace:*",
     "@total-typescript/shoehorn": "^0.1.2",
+    "@types/react-router-dom": "^5.3.3",
     "lodash": "^4.18.1",
     "react-router-dom": "^5.3.4"
   },

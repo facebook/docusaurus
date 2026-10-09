@@ -165,9 +165,12 @@ describe('Tabs', () => {
       render(
         <TestProviders>
           <Tabs
+            // @ts-expect-error: test number values
             values={tabs.map((t, idx) => ({label: t, value: idx}))}
+            // @ts-expect-error: test number values
             defaultValue={0}>
             {tabs.map((t, idx) => (
+              // @ts-expect-error: test number values
               <TabItem key={idx} value={idx}>
                 {t}
               </TabItem>

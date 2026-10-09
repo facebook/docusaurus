@@ -20,9 +20,9 @@ type AlgoliaInput = UserThemeConfig['algolia'];
 
 function testValidateThemeConfig(algolia: AlgoliaInput) {
   function validate(
-    schema: Joi.ObjectSchema<{[key: string]: unknown}>,
-    cfg: {[key: string]: unknown},
-  ) {
+    schema: Joi.ObjectSchema<ThemeConfig>,
+    cfg: ThemeConfig,
+  ): ThemeConfig {
     const {value, error} = schema.validate(cfg, {
       convert: false,
     });

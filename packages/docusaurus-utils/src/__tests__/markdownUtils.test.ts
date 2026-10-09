@@ -817,7 +817,6 @@ describe('parseFileContentFrontMatter', () => {
 
     // A regression test, ensure we don't return gray-matter cached objects
     result.frontMatter.title = 'modified';
-    // @ts-expect-error: ok
     result.frontMatter.author.age = 53;
     expect(test(input)).toEqual(expectedResult);
   });
@@ -877,7 +876,7 @@ describe('parseFileContentFrontMatter', () => {
 describe('parseMarkdownFile', () => {
   async function test(
     fileContent: string,
-    options?: Partial<Parameters<typeof parseMarkdownFile>>[0],
+    options?: Partial<Parameters<typeof parseMarkdownFile>[0]>,
   ) {
     return parseMarkdownFile({
       fileContent,
@@ -917,7 +916,7 @@ describe('parseMarkdownFile', () => {
               ...result,
               frontMatter: {
                 ...result.frontMatter,
-                age: result.frontMatter.age * 2,
+                age: (result.frontMatter.age as number) * 2,
                 extra: 'value',
                 great: true,
               },

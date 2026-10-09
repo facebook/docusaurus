@@ -314,6 +314,7 @@ describe('validateSidebars', () => {
       sidebar1: [
         {
           type: 'html',
+          // @ts-expect-error: test missing value
           value: undefined,
         },
       ],

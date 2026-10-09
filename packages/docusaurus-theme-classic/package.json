@@ -49,6 +49,7 @@
   "devDependencies": {
     "@types/nprogress": "^0.2.3",
     "@types/prismjs": "^1.26.6",
+    "@types/react-router-dom": "^5.3.3",
     "@types/rtlcss": "^3.5.4"
   },
   "peerDependencies": {
