@@ -9,6 +9,7 @@ import path from 'node:path';
 import {type Configuration} from 'webpack';
 import {
   compile,
+  createJsLoaderFactory,
   getProgressBarPlugin,
   getMinimizers,
 } from '@docusaurus/bundler';
@@ -20,25 +21,6 @@ import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';
 
 const PluginName = 'docusaurus-plugin-pwa';
-
-function getSWBabelLoader() {
-  return {
-    loader: require.resolve('babel-loader'),
-    options: {
-      babelrc: false,
-      configFile: false,
-      presets: [
-        [
-          require.resolve('@babel/preset-env'),
-          {
-            // See https://x.com/jeffposnick/status/1280223070876315649
-            targets: 'chrome >= 56',
-          },
-        ],
-      ],
-    },
-  };
-}
 
 export default function pluginPWA(
   context: LoadContext,
@@ -138,6 +120,11 @@ export default function pluginPWA(
         currentBundler: props.currentBundler,
       });
 
+      // Rspack: builtin:swc-loader, Webpack (deprecated): babel-loader
+      const getJSLoader = await createJsLoaderFactory({
+        siteConfig: props.siteConfig,
+      });
+
       const swWebpackConfig: Configuration = {
         entry: require.resolve('./sw.js'),
         output: {
@@ -173,7 +160,7 @@ export default function pluginPWA(
             {
               test: swSourceFileTest,
               exclude: /node_modules/,
-              use: getSWBabelLoader(),
+              use: getJSLoader({isServer: false}),
             },
           ],
         },
