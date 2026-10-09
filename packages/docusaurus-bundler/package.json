@@ -22,11 +22,12 @@
     "@docusaurus/babel": "workspace:*",
     "@docusaurus/logger": "workspace:*",
     "@docusaurus/types": "workspace:*",
+    "@swc/core": "^1.16.2",
+    "@swc/html": "^1.16.2",
     "babel-loader": "^10.1.1",
     "browserslist": "^4.29.0",
     "css-loader": "^7.1.5",
     "css-minimizer-webpack-plugin": "^8.0.0",
-    "html-minifier-terser": "^7.2.0",
     "lightningcss": "^1.33.0",
     "mini-css-extract-plugin": "^2.10.2",
     "postcss": "^8.5.28",
@@ -38,8 +39,7 @@
     "webpackbar": "^7.0.0"
   },
   "peerDependencies": {
-    "@docusaurus/faster": "workspace:*",
-    "@types/html-minifier-terser": "^7.0.2"
+    "@docusaurus/faster": "workspace:*"
   },
   "peerDependenciesMeta": {
     "@docusaurus/faster": {

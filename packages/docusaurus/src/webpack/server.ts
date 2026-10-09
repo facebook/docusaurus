@@ -24,7 +24,6 @@ export default async function createServerConfig({
     props,
     isServer: true,
     minify: false,
-    faster: props.siteConfig.future.faster,
     configureWebpackUtils,
   });
 

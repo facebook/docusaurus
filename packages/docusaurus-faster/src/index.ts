@@ -9,7 +9,7 @@ import {rspack as Rspack} from '@rspack/core';
 import {RspackDevServer} from '@rspack/dev-server';
 import browserslist from 'browserslist';
 import semver from 'semver';
-import type {JsMinifyOptions, Options as SwcOptions} from '@swc/core';
+import type {Options as SwcOptions} from '@swc/core';
 import type {CurrentBundler} from '@docusaurus/types';
 
 export const getSwcLoaderOptions = ({
@@ -49,38 +49,6 @@ export const getSwcLoaderOptions = ({
 export const rspack = Rspack;
 
 export const rspackDevServer = RspackDevServer;
-
-type SwcHtmlMinifier = (typeof import('@swc/html'))['minify'];
-
-// Import it lazily: not need for the dev server, more performant
-// This also temporarily fix our StackBlitz playground
-// See https://github.com/facebook/docusaurus/issues/12008
-// See https://github.com/swc-project/swc/issues/11833
-export async function getSwcHtmlMinifier(): Promise<SwcHtmlMinifier> {
-  const {minify} = await import('@swc/html');
-  return minify;
-}
-
-// Note: these options are similar to what we use in core
-// They should rather be kept in sync for now to avoid any unexpected behavior
-// The goal of faster minifier is not to fine-tune options but only to be faster
-// See core minification.ts
-export function getSwcJsMinimizerOptions(): JsMinifyOptions {
-  return {
-    ecma: 2020,
-    compress: {
-      ecma: 5,
-    },
-    module: true,
-    mangle: true,
-    safari10: true,
-    format: {
-      ecma: 5,
-      comments: false,
-      ascii_only: true,
-    },
-  };
-}
 
 // TODO this is not accurate
 //  for Rspack we should read from the built-in browserslist data

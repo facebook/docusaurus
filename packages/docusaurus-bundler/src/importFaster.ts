@@ -6,10 +6,6 @@
  */
 
 import logger from '@docusaurus/logger';
-import type {
-  MinimizerOptions as JsMinimizerOptions,
-  CustomOptions,
-} from 'terser-webpack-plugin';
 
 export type FasterModule = Awaited<typeof import('@docusaurus/faster')>;
 
@@ -47,18 +43,4 @@ export async function importGetSwcLoaderOptions(): Promise<
 > {
   const faster = await ensureFaster();
   return faster.getSwcLoaderOptions;
-}
-
-export async function importSwcJsMinimizerOptions(): Promise<
-  JsMinimizerOptions<CustomOptions>
-> {
-  const faster = await ensureFaster();
-  return faster.getSwcJsMinimizerOptions() as JsMinimizerOptions<CustomOptions>;
-}
-
-export async function importSwcHtmlMinifier(): Promise<
-  ReturnType<FasterModule['getSwcHtmlMinifier']>
-> {
-  const faster = await ensureFaster();
-  return faster.getSwcHtmlMinifier();
 }

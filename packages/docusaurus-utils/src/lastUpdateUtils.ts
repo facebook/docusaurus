@@ -52,7 +52,7 @@ export async function readLastUpdateData(
   // This also ensures unit tests keep working without extra setup
   // We still want to ensure type safety by requiring the VCS param
   // TODO Docusaurus v4: refactor all these Git read APIs
-  const vcs = vcsParam ?? getVcsPreset('default-v1');
+  const vcs = vcsParam ?? getVcsPreset('default-v3');
 
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
 

@@ -112,11 +112,7 @@ export async function loadSSGRenderer({
         serverBundlePath: params.serverBundlePath,
       }),
     ),
-    PerfLogger.async('Load HTML minifier', () =>
-      getHtmlMinifier({
-        type: params.htmlMinifierType,
-      }),
-    ),
+    PerfLogger.async('Load HTML minifier', () => getHtmlMinifier()),
     PerfLogger.async('Compile SSG template', () =>
       compileSSGTemplate(params.ssgTemplateContent),
     ),

@@ -26,7 +26,6 @@ import type {
   FutureV4Config,
   I18nConfig,
   I18nLocaleConfig,
-  MDX1CompatOptions,
   MarkdownConfig,
   MarkdownHooks,
   StorageConfig,
@@ -74,39 +73,28 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
 };
 
 export const DEFAULT_FASTER_CONFIG: FasterConfig = {
-  swcJsMinimizer: false,
-  swcHtmlMinimizer: false,
   rspackBundler: false,
-  rspackPersistentCache: false,
-  gitEagerVcs: false,
 };
 
 // When using the "faster: true" shortcut
 export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
-  swcJsMinimizer: true,
-  swcHtmlMinimizer: true,
   rspackBundler: true,
-  rspackPersistentCache: true,
-  gitEagerVcs: true,
 };
 
 export const DEFAULT_FUTURE_V4_CONFIG: FutureV4Config = {
   useCssCascadeLayers: false,
   fasterByDefault: false,
-  mdx1CompatDisabledByDefault: false,
 };
 
 // When using the "v4: true" shortcut
 export const DEFAULT_FUTURE_V4_CONFIG_TRUE: FutureV4Config = {
   useCssCascadeLayers: true,
   fasterByDefault: true,
-  mdx1CompatDisabledByDefault: true,
 };
 
 export const DEFAULT_FUTURE_CONFIG: FutureConfig = {
   v4: DEFAULT_FUTURE_V4_CONFIG,
   faster: DEFAULT_FASTER_CONFIG,
-  experimental_vcs: getVcsPreset('default-v1'),
   experimental_router: 'browser',
 };
 
@@ -114,12 +102,6 @@ const DEFAULT_MARKDOWN_HOOKS: MarkdownHooks = {
   onBrokenMarkdownLinks: 'warn',
   onBrokenMarkdownImages: 'throw',
   onUnusedMarkdownDirectives: 'warn',
-};
-
-const DEFAULT_MARKDOWN_MDX1COMPAT: MDX1CompatOptions = {
-  comments: true,
-  admonitions: true,
-  headingIds: true,
 };
 
 const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
@@ -131,7 +113,11 @@ const DEFAULT_MARKDOWN_CONFIG: MarkdownConfig = {
   emoji: true,
   preprocessor: undefined,
   parseFrontMatter: DEFAULT_PARSE_FRONT_MATTER,
-  mdx1Compat: DEFAULT_MARKDOWN_MDX1COMPAT,
+  mdx1Compat: {
+    comments: false,
+    admonitions: false,
+    headingIds: false,
+  },
   anchors: {
     maintainCase: false,
   },
@@ -143,6 +129,7 @@ export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'i18n'
   | 'storage'
+  | 'vcs'
   | 'future'
   | 'onBrokenLinks'
   | 'onBrokenAnchors'
@@ -166,6 +153,7 @@ export const DEFAULT_CONFIG: Pick<
 > = {
   i18n: DEFAULT_I18N_CONFIG,
   storage: DEFAULT_STORAGE_CONFIG,
+  vcs: getVcsPreset('default'),
   future: DEFAULT_FUTURE_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenAnchors: 'warn', // TODO Docusaurus v4: change to throw
@@ -283,11 +271,7 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
 const FASTER_CONFIG_SCHEMA = Joi.alternatives()
   .try(
     Joi.object<FasterConfig & {swcJsLoader: never}>({
-      swcJsMinimizer: Joi.boolean(),
-      swcHtmlMinimizer: Joi.boolean(),
       rspackBundler: Joi.boolean(),
-      rspackPersistentCache: Joi.boolean(),
-      gitEagerVcs: Joi.boolean(),
       swcJsLoader: Joi.any()
         .forbidden()
         .messages({
@@ -314,9 +298,6 @@ const FUTURE_V4_SCHEMA = Joi.alternatives()
       ),
       fasterByDefault: Joi.boolean().default(
         DEFAULT_FUTURE_V4_CONFIG.fasterByDefault,
-      ),
-      mdx1CompatDisabledByDefault: Joi.boolean().default(
-        DEFAULT_FUTURE_V4_CONFIG.mdx1CompatDisabledByDefault,
       ),
     }),
     Joi.boolean()
@@ -356,25 +337,20 @@ const VCS_CONFIG_SCHEMA = Joi.custom((input) => {
     return getVcsPreset(presetName);
   }
   if (typeof input === 'boolean') {
-    // We return the boolean on purpose
-    // We'll normalize it to a real VcsConfig later
-    // This is annoying, but we have to read the future flag to switch to the
-    // new "default-v2" config (not easy to do it here)
-    return input;
+    return input ? getVcsPreset('default') : getVcsPreset('disabled');
   }
   const {error, value} = VCS_CONFIG_OBJECT_SCHEMA.validate(input);
   if (error) {
     throw error;
   }
   return value;
-}).default(true);
+}).default(() => DEFAULT_CONFIG.vcs);
 
 const FUTURE_CONFIG_SCHEMA = Joi.object<
   FutureConfig & {experimental_storage: never; experimental_faster: never}
 >({
   v4: FUTURE_V4_SCHEMA,
   faster: FASTER_CONFIG_SCHEMA,
-  experimental_vcs: VCS_CONFIG_SCHEMA,
   experimental_router: Joi.string()
     .equal('browser', 'hash')
     .default(DEFAULT_FUTURE_CONFIG.experimental_router),
@@ -410,6 +386,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
   i18n: I18N_CONFIG_SCHEMA,
   storage: STORAGE_CONFIG_SCHEMA,
+  vcs: VCS_CONFIG_SCHEMA,
   future: FUTURE_CONFIG_SCHEMA,
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
@@ -512,14 +489,17 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
       .arity(1)
       .optional()
       .default(() => DEFAULT_CONFIG.markdown.preprocessor),
-    // Individual boolean defaults are not set here on purpose
-    // They are resolved in postProcessDocusaurusConfig based on
-    // the future.v4.mdx1CompatDisabledByDefault flag
     mdx1Compat: Joi.object({
-      comments: Joi.boolean(),
-      admonitions: Joi.boolean(),
-      headingIds: Joi.boolean(),
-    }).default({}),
+      comments: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.comments,
+      ),
+      admonitions: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.admonitions,
+      ),
+      headingIds: Joi.boolean().default(
+        DEFAULT_CONFIG.markdown.mdx1Compat.headingIds,
+      ),
+    }).default(DEFAULT_CONFIG.markdown.mdx1Compat),
     remarkRehypeOptions:
       // add proper external options validation?
       // Not sure if it's a good idea, validation is likely to become stale
@@ -550,12 +530,7 @@ export const ConfigSchema = Joi.object<DocusaurusConfig>({
         )
         .default(DEFAULT_CONFIG.markdown.hooks.onUnusedMarkdownDirectives),
     }).default(DEFAULT_CONFIG.markdown.hooks),
-  }).default({
-    ...DEFAULT_CONFIG.markdown,
-    mdx1Compat: {
-      // erased on purpose, filled using postprocessing
-    },
-  }),
+  }).default(DEFAULT_CONFIG.markdown),
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',
@@ -579,16 +554,6 @@ function postProcessDocusaurusConfig(config: DocusaurusConfig) {
     }
   }
 
-  // Resolve mdx1Compat config based on the v4.mdx1CompatDisabledByDefault flag
-  // undefined means "not explicitly set by user"
-  const mdx1CompatDefault = !config.future.v4.mdx1CompatDisabledByDefault;
-  const mdx1CompatKeys = Object.keys(
-    DEFAULT_MARKDOWN_MDX1COMPAT,
-  ) as (keyof MDX1CompatOptions)[];
-  for (const key of mdx1CompatKeys) {
-    config.markdown.mdx1Compat[key] ??= mdx1CompatDefault;
-  }
-
   if (config.onBrokenMarkdownLinks) {
     logger.warn`The code=${'siteConfig.onBrokenMarkdownLinks'} config option is deprecated and will be removed in Docusaurus v4.
 Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBrokenMarkdownLinks'} instead.`;
@@ -596,30 +561,6 @@ Please migrate and move this option to code=${'siteConfig.markdown.hooks.onBroke
     config.markdown.hooks.onBrokenMarkdownLinks = config.onBrokenMarkdownLinks;
     // We erase the former one to ensure we don't use it anywhere
     config.onBrokenMarkdownLinks = undefined;
-  }
-
-  // We normalize the VCS config when using a boolean value
-  if (typeof config.future.experimental_vcs === 'boolean') {
-    const vcsConfig = config.future.experimental_vcs
-      ? config.future.faster.gitEagerVcs
-        ? getVcsPreset('default-v2')
-        : getVcsPreset('default-v1')
-      : getVcsPreset('disabled');
-
-    config.future.experimental_vcs = vcsConfig;
-  }
-
-  if (
-    config.future.faster.rspackPersistentCache &&
-    !config.future.faster.rspackBundler
-  ) {
-    throw new Error(
-      `Docusaurus config flag ${logger.code(
-        'future.faster.rspackPersistentCache',
-      )} requires the flag ${logger.code(
-        'future.faster.rspackBundler',
-      )} to be turned on.`,
-    );
   }
 }
 

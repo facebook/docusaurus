@@ -83,7 +83,7 @@ The `--syntax` option lets you choose which syntax you prefer:
 
 :::warning Avoid the classic `{#id}` syntax for MDX files
 
-For MDX files, the `{#id}` syntax should be avoided. Since Docusaurus v3 and MDX v2, it is **not valid MDX syntax anymore**. It can break external tools that support MDX (IDEs and linters). It is only supported in Docusaurus for backward compatibility, thanks to the `markdown.mdx1Compat.headingIds` config option. The comment-based syntax should be preferred for MDX documents.
+For MDX files, the `{#id}` syntax should be avoided. Since Docusaurus v3 and MDX v2, it is **not valid MDX syntax anymore**. It can break external tools that support MDX (IDEs and linters). It is only supported in Docusaurus for backward compatibility, if you opt in with the [`markdown.mdx1Compat.headingIds`](../../api/docusaurus.config.js.mdx#markdown) config option. The comment-based syntax should be preferred for MDX documents.
 
 :::
 

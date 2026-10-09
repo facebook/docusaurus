@@ -114,6 +114,7 @@ const getPlugin = async (
     baseUrl: '/',
     url: 'https://docusaurus.io',
     markdown,
+    vcs: TEST_VCS,
     future: DEFAULT_FUTURE_CONFIG,
     staticDirectories: ['static'],
   } as DocusaurusConfig;
