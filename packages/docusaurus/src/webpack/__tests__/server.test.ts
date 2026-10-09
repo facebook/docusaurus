@@ -6,34 +6,30 @@
  */
 
 import {describe, it} from 'vitest';
-import webpack from 'webpack';
-
 import createServerConfig from '../server';
-import {loadWebpackSiteFixture} from '../../server/__tests__/testUtils';
-import {createConfigureWebpackUtils} from '../configure';
+import {
+  BundlerNames,
+  createTestConfigureWebpackUtils,
+  loadBundlerSiteFixture,
+  validateBundlerConfig,
+} from './testUtils';
 
-function createTestConfigureWebpackUtils() {
-  return createConfigureWebpackUtils({
-    siteConfig: {webpack: {jsLoader: 'babel'}},
-  });
-}
-
-describe('webpack production config', () => {
+describe.each(BundlerNames)('%s server config', (bundlerName) => {
   it('simple', async () => {
-    const {props} = await loadWebpackSiteFixture('simple-site');
+    const props = await loadBundlerSiteFixture('simple-site', bundlerName);
     const {config} = await createServerConfig({
       props,
-      configureWebpackUtils: await createTestConfigureWebpackUtils(),
+      configureWebpackUtils: await createTestConfigureWebpackUtils(bundlerName),
     });
-    webpack.validate(config);
+    validateBundlerConfig(config, bundlerName);
   });
 
   it('custom', async () => {
-    const {props} = await loadWebpackSiteFixture('custom-site');
+    const props = await loadBundlerSiteFixture('custom-site', bundlerName);
     const {config} = await createServerConfig({
       props,
-      configureWebpackUtils: await createTestConfigureWebpackUtils(),
+      configureWebpackUtils: await createTestConfigureWebpackUtils(bundlerName),
     });
-    webpack.validate(config);
+    validateBundlerConfig(config, bundlerName);
   });
 });
