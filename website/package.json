@@ -90,6 +90,7 @@
     "@types/prismjs": "^1.26.6",
     "copy-text-to-clipboard": "^3.2.2",
     "cross-env": "^10.1.0",
+    "image-size": "^2.0.4",
     "lodash": "^4.18.1",
     "prismjs": "^1.30.0",
     "rimraf": "^6.1.3",

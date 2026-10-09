@@ -69,11 +69,9 @@ describe('normalizeConfig', () => {
           mdx1CompatDisabledByDefault: true,
         },
         faster: {
-          swcJsLoader: true,
           swcJsMinimizer: true,
           swcHtmlMinimizer: true,
           lightningCssMinimizer: true,
-          mdxCrossCompilerCache: true,
           rspackBundler: true,
           rspackPersistentCache: true,
         },
@@ -1405,11 +1403,9 @@ describe('future', () => {
         mdx1CompatDisabledByDefault: true,
       },
       faster: {
-        swcJsLoader: true,
         swcJsMinimizer: true,
         swcHtmlMinimizer: true,
         lightningCssMinimizer: true,
-        mdxCrossCompilerCache: true,
         rspackBundler: true,
         rspackPersistentCache: true,
       },
@@ -1763,11 +1759,9 @@ describe('future', () => {
 
     it('accepts faster - full', () => {
       const faster: FasterConfig = {
-        swcJsLoader: true,
         swcJsMinimizer: true,
         swcHtmlMinimizer: true,
         lightningCssMinimizer: true,
-        mdxCrossCompilerCache: true,
         rspackBundler: true,
         rspackPersistentCache: true,
       };
@@ -1838,48 +1832,9 @@ describe('future', () => {
     });
 
     describe('swcJsLoader', () => {
-      it('accepts - undefined', () => {
-        const faster: Partial<FasterConfig> = {
-          swcJsLoader: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcJsLoader: false}));
-      });
-
-      it('accepts - true', () => {
-        const faster: Partial<FasterConfig> = {
-          swcJsLoader: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcJsLoader: true}));
-      });
-
-      it('accepts - false', () => {
-        const faster: Partial<FasterConfig> = {
-          swcJsLoader: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcJsLoader: false}));
-      });
-
-      it('rejects - null', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {swcJsLoader: 42};
+      it('rejects - removed option', () => {
+        // @ts-expect-error: removed option
+        const faster: Partial<FasterConfig> = {swcJsLoader: true};
         expect(() =>
           normalizeConfig({
             future: {
@@ -1887,22 +1842,7 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.swcJsLoader" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {swcJsLoader: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.swcJsLoader" must be a boolean
+          [Error: The Docusaurus config \`future.faster.swcJsLoader\` has been removed. Rspack always uses its built-in SWC loader. Webpack uses Babel by default, and you can provide a custom JS loader with \`siteConfig.webpack.jsLoader\`.
           ]
         `);
       });
@@ -2121,77 +2061,6 @@ describe('future', () => {
       });
     });
 
-    describe('mdxCrossCompilerCache', () => {
-      it('accepts - undefined', () => {
-        const faster: Partial<FasterConfig> = {
-          mdxCrossCompilerCache: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
-      });
-
-      it('accepts - true', () => {
-        const faster: Partial<FasterConfig> = {
-          mdxCrossCompilerCache: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({mdxCrossCompilerCache: true}));
-      });
-
-      it('accepts - false', () => {
-        const faster: Partial<FasterConfig> = {
-          mdxCrossCompilerCache: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({mdxCrossCompilerCache: false}));
-      });
-
-      it('rejects - null', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {mdxCrossCompilerCache: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.mdxCrossCompilerCache" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {mdxCrossCompilerCache: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.mdxCrossCompilerCache" must be a boolean
-          ]
-        `);
-      });
-    });
-
     describe('rspackBundler', () => {
       it('accepts - undefined', () => {
         const faster: Partial<FasterConfig> = {
@@ -2367,19 +2236,21 @@ describe('future', () => {
       });
     });
 
-    it('rejects removed gitEagerVcs flag', () => {
-      expect(() =>
-        normalizeConfig({
-          future: {
-            // @ts-expect-error: removed flag
-            faster: {gitEagerVcs: true},
-          },
-        }),
-      ).toThrowErrorMatchingInlineSnapshot(`
-        [Error: These field(s) ("future.faster.gitEagerVcs",) are not recognized in docusaurus.config.js.
-        If you still want these fields to be in your configuration, put them in the "customFields" field.
-        See https://docusaurus.io/docs/api/docusaurus-config/#customfields]
-      `);
+    describe('gitEagerVcs', () => {
+      it('rejects - removed option', () => {
+        // @ts-expect-error: removed option
+        const faster: Partial<FasterConfig> = {gitEagerVcs: true};
+        expect(() =>
+          normalizeConfig({
+            future: {
+              faster,
+            },
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          [Error: The Docusaurus config \`future.faster.gitEagerVcs\` has been removed. The eager Git VCS strategy is now the default. You can restore the previous behavior with \`future.experimental_vcs: 'default-v1'\`.
+          ]
+        `);
+      });
     });
 
     it('v4.fasterByDefault defaults all faster flags to true', () => {
@@ -2401,13 +2272,13 @@ describe('future', () => {
             v4: {
               fasterByDefault: true,
             },
-            faster: {swcJsLoader: false},
+            faster: {swcJsMinimizer: false},
           },
         }),
       ).toEqual(
         fasterContaining({
           ...DEFAULT_FASTER_CONFIG_TRUE,
-          swcJsLoader: false,
+          swcJsMinimizer: false,
         }),
       );
     });

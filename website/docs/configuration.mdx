@@ -277,6 +277,12 @@ If you just want to use those fields on the client side, you could create your o
 
 Docusaurus transpiles your site's source code using Babel by default. If you want to customize the Babel configuration, you can do so by creating a `babel.config.js` file in your project root.
 
+:::note
+
+When using the [`rspackBundler`](./api/docusaurus.config.js.mdx#future) future flag, your site's source code is transpiled with the Rspack built-in SWC loader instead of Babel.
+
+:::
+
 To use the built-in preset as a base configuration, install the following package and use it
 
 ```bash npm2yarn

@@ -27,10 +27,10 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && oxfmt \"lib/theme/**/*.js\"",
+    "build": "tsc --build && copy-untyped-files && oxfmt \"lib/theme/**/*.js\"",
     "watch": "run-p -c copy:watch build:watch",
     "build:watch": "tsc --build --watch",
-    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
+    "copy:watch": "copy-untyped-files --watch"
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.19.10",

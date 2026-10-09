@@ -74,22 +74,18 @@ export const DEFAULT_STORAGE_CONFIG: StorageConfig = {
 };
 
 export const DEFAULT_FASTER_CONFIG: FasterConfig = {
-  swcJsLoader: false,
   swcJsMinimizer: false,
   swcHtmlMinimizer: false,
   lightningCssMinimizer: false,
-  mdxCrossCompilerCache: false,
   rspackBundler: false,
   rspackPersistentCache: false,
 };
 
 // When using the "faster: true" shortcut
 export const DEFAULT_FASTER_CONFIG_TRUE: FasterConfig = {
-  swcJsLoader: true,
   swcJsMinimizer: true,
   swcHtmlMinimizer: true,
   lightningCssMinimizer: true,
-  mdxCrossCompilerCache: true,
   rspackBundler: true,
   rspackPersistentCache: true,
 };
@@ -288,14 +284,30 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
 // the future.v4.fasterByDefault flag
 const FASTER_CONFIG_SCHEMA = Joi.alternatives()
   .try(
-    Joi.object<FasterConfig>({
-      swcJsLoader: Joi.boolean(),
+    Joi.object<FasterConfig & {swcJsLoader: never; gitEagerVcs: never}>({
       swcJsMinimizer: Joi.boolean(),
       swcHtmlMinimizer: Joi.boolean(),
       lightningCssMinimizer: Joi.boolean(),
-      mdxCrossCompilerCache: Joi.boolean(),
       rspackBundler: Joi.boolean(),
       rspackPersistentCache: Joi.boolean(),
+      swcJsLoader: Joi.any()
+        .forbidden()
+        .messages({
+          'any.unknown': `The Docusaurus config ${logger.code(
+            'future.faster.swcJsLoader',
+          )} has been removed. Rspack always uses its built-in SWC loader. Webpack uses Babel by default, and you can provide a custom JS loader with ${logger.code(
+            'siteConfig.webpack.jsLoader',
+          )}.`,
+        }),
+      gitEagerVcs: Joi.any()
+        .forbidden()
+        .messages({
+          'any.unknown': `The Docusaurus config ${logger.code(
+            'future.faster.gitEagerVcs',
+          )} has been removed. The eager Git VCS strategy is now the default. You can restore the previous behavior with ${logger.code(
+            "future.experimental_vcs: 'default-v1'",
+          )}.`,
+        }),
     }),
     Joi.boolean()
       .required()
