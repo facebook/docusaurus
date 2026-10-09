@@ -2162,23 +2162,6 @@ describe('future', () => {
       });
     });
 
-    describe('gitEagerVcs', () => {
-      it('rejects - removed option', () => {
-        // @ts-expect-error: removed option
-        const faster: Partial<FasterConfig> = {gitEagerVcs: true};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: The Docusaurus config \`future.faster.gitEagerVcs\` has been removed. The eager Git VCS strategy is now the default. You can restore the previous behavior with \`future.experimental_vcs: 'default-v1'\`.
-          ]
-        `);
-      });
-    });
-
     it('v4.fasterByDefault defaults all faster flags to true', () => {
       expect(
         normalizeConfig({
