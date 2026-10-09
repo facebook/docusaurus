@@ -19,7 +19,6 @@ import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
 import type {Configuration, RuleSetRule} from 'webpack';
 import type {
   ConfigureWebpackUtils,
-  FasterConfig,
   Props,
 } from '@docusaurus/types';
 
@@ -57,13 +56,11 @@ export async function createBaseConfig({
   props,
   isServer,
   minify,
-  faster,
   configureWebpackUtils,
 }: {
   props: Props;
   isServer: boolean;
   minify: boolean;
-  faster: FasterConfig;
   configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<Configuration> {
   const {
@@ -222,7 +219,10 @@ export async function createBaseConfig({
       // used for static site generation
       minimize: minimizeEnabled,
       minimizer: minimizeEnabled
-        ? await getMinimizers({faster, currentBundler: props.currentBundler})
+        ? await getMinimizers({
+            currentBundler: props.currentBundler,
+            jsMinimizerType: 'swc',
+          })
         : undefined,
       splitChunks: isServer
         ? false

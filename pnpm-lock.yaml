@@ -691,6 +691,9 @@ importers:
       '@docusaurus/types':
         specifier: workspace:*
         version: link:../docusaurus-types
+      '@swc/core':
+        specifier: ^1.16.2
+        version: 1.16.2
       '@swc/html':
         specifier: ^1.16.2
         version: 1.16.2
