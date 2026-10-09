@@ -64,13 +64,13 @@ describe('createSitemapItem', () => {
             route,
           }),
         ).resolves.toMatchInlineSnapshot(`
-              {
-                "changefreq": "weekly",
-                "lastmod": null,
-                "priority": 0.5,
-                "url": "https://example.com/routePath",
-              }
-          `);
+          {
+            "changefreq": "weekly",
+            "lastmod": "2024-01-01",
+            "priority": 0.5,
+            "url": "https://example.com/routePath",
+          }
+        `);
       });
 
       it('lastmod date option', async () => {
@@ -109,6 +109,17 @@ describe('createSitemapItem', () => {
               `);
       });
 
+      it('lastmod null option', async () => {
+        await expect(
+          test({
+            route,
+            options: {
+              lastmod: null,
+            },
+          }),
+        ).resolves.toMatchObject({lastmod: null});
+      });
+
       it('lastmod from epoch (0) timestamp is not dropped', async () => {
         await expect(
           test({
@@ -131,13 +142,13 @@ describe('createSitemapItem', () => {
             route,
           }),
         ).resolves.toMatchInlineSnapshot(`
-              {
-                "changefreq": "weekly",
-                "lastmod": null,
-                "priority": 0.5,
-                "url": "https://example.com/routePath",
-              }
-          `);
+          {
+            "changefreq": "weekly",
+            "lastmod": "2018-10-14",
+            "priority": 0.5,
+            "url": "https://example.com/routePath",
+          }
+        `);
       });
 
       it('lastmod date option', async () => {
@@ -192,13 +203,13 @@ describe('createSitemapItem', () => {
             route,
           }),
         ).resolves.toMatchInlineSnapshot(`
-              {
-                "changefreq": "weekly",
-                "lastmod": null,
-                "priority": 0.5,
-                "url": "https://example.com/routePath",
-              }
-          `);
+          {
+            "changefreq": "weekly",
+            "lastmod": "2024-01-01",
+            "priority": 0.5,
+            "url": "https://example.com/routePath",
+          }
+        `);
       });
 
       it('lastmod date option', async () => {

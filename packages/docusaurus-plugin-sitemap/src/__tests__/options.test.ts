@@ -51,6 +51,7 @@ describe('validateOptions', () => {
         lastmod: undefined,
       };
       expect(testValidate(userOptions)).toEqual(defaultOptions);
+      expect(testValidate(userOptions).lastmod).toBe('date');
     });
 
     it('accepts lastmod null', () => {
