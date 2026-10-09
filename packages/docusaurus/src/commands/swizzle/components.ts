@@ -5,12 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {posixPath} from '@docusaurus/utils';
-import {pathExists} from '@docusaurus/fs';
+import {fs, pathExists} from '@docusaurus/fs';
 import {askComponentName} from './prompts';
 import {findClosestValue, findStringIgnoringCase} from './common';
 import {helpTables, themeComponentsTable} from './tables';

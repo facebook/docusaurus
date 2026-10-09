@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import {logger} from '@docusaurus/logger';
+import {fs} from '@docusaurus/fs';
 import {type PackageManager} from './constants.js';
 
 /**
@@ -38,14 +38,6 @@ export async function updatePkg(
 
   await fs.mkdir(path.dirname(pkgPath), {recursive: true});
   await fs.writeFile(pkgPath, `${JSON.stringify(newPkg, null, 2)}\n`);
-}
-
-// No need for fs-extra dependency
-export async function pathExists(filePath: string): Promise<boolean> {
-  return fs
-    .access(filePath, fs.constants.F_OK)
-    .then(() => true)
-    .catch(() => false);
 }
 
 export function printPackageManagerHelp({

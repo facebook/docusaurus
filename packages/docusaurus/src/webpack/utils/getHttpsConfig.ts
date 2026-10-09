@@ -5,11 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import logger from '@docusaurus/logger';
-import {pathExists, realpath} from '@docusaurus/fs';
+import {fs, pathExists, realpath} from '@docusaurus/fs';
 
 // Ensure the certificate and key provided are valid and if not
 // throw an easy to debug error.

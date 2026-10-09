@@ -6,9 +6,8 @@
  */
 
 import path from 'node:path';
-import fs from 'node:fs/promises';
 import {getCopyPlugin} from '@docusaurus/bundler';
-import {pathExists} from '@docusaurus/fs';
+import {fs, pathExists} from '@docusaurus/fs';
 import type {Props} from '@docusaurus/types';
 import type {WebpackPluginInstance} from 'webpack';
 

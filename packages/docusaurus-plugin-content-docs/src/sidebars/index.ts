@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
@@ -13,7 +12,7 @@ import {loadFreshModule} from '@docusaurus/utils';
 import {glob} from '@docusaurus/glob';
 import * as Yaml from 'js-yaml';
 import combinePromises from 'combine-promises';
-import {pathExists} from '@docusaurus/fs';
+import {fs, pathExists} from '@docusaurus/fs';
 import {validateSidebars, validateCategoryMetadataFile} from './validation';
 import {normalizeSidebars} from './normalization';
 import {processSidebars} from './processor';

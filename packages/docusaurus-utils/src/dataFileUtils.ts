@@ -5,11 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import logger from '@docusaurus/logger';
 import * as Yaml from 'js-yaml';
-import {pathExists} from '@docusaurus/fs';
+import {fs, pathExists} from '@docusaurus/fs';
 import {findAsyncSequential} from './index';
 import type {ContentPaths} from './markdownLinks';
 

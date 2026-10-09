@@ -6,7 +6,6 @@
  */
 
 import path from 'node:path';
-import fs from 'node:fs/promises';
 import {
   normalizeUrl,
   docuHash,
@@ -20,6 +19,7 @@ import {
 import {createAbsoluteFilePathMatcher} from '@docusaurus/glob';
 import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
 import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
+import {fs} from '@docusaurus/fs';
 import {resolveSidebarPathOption} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {type DocEnv} from './docs';

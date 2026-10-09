@@ -6,13 +6,12 @@
  */
 
 import path from 'node:path';
-import fs from 'node:fs/promises';
 import os from 'node:os';
 import _ from 'lodash';
 import {execa, execaSync} from 'execa';
 import PQueue from 'p-queue';
 import logger from '@docusaurus/logger';
-import {pathExists} from '@docusaurus/fs';
+import {fs, pathExists} from '@docusaurus/fs';
 
 // Quite high/conservative concurrency value (it was previously "Infinity")
 // See https://github.com/facebook/docusaurus/pull/10915

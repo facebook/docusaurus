@@ -6,7 +6,7 @@
  */
 
 import inspector from 'node:inspector';
-import fs from 'node:fs/promises';
+import {fs} from '@docusaurus/fs';
 import type {Compiler} from 'webpack';
 
 // Bundle CPU profiling plugin, contributed by the Rspack team

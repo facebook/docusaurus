@@ -5,12 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import {posixPath, THEME_PATH} from '@docusaurus/utils';
-import {pathExists, outputFile} from '@docusaurus/fs';
+import {fs, pathExists, outputFile} from '@docusaurus/fs';
 import {glob} from '@docusaurus/glob';
 import {askSwizzleAction} from './prompts';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';

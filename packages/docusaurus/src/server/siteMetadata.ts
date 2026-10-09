@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import {DOCUSAURUS_VERSION} from '@docusaurus/utils';
-import {pathExists, readJSON} from '@docusaurus/fs';
+import {fs, pathExists, readJSON} from '@docusaurus/fs';
 import type {
   LoadedPlugin,
   PluginVersionInformation,

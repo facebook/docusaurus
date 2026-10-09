@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as fs from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 
@@ -15,6 +14,7 @@ import path from 'node:path';
 // TODO try to remove these third-party dependencies if possible
 import {logger} from '@docusaurus/logger';
 import prompts, {type Choice} from 'prompts';
+import {fs, pathExists} from '@docusaurus/fs';
 import {
   LockfileNames,
   PackageManagers,
@@ -33,7 +33,6 @@ import {
 import {
   siteNameToPackageName,
   updatePkg,
-  pathExists,
   printPackageManagerHelp,
 } from './utils.js';
 import {askPreferredLanguage} from './prompts.js';

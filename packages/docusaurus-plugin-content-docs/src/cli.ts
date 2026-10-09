@@ -5,11 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import logger from '@docusaurus/logger';
 import {DEFAULT_PLUGIN_ID, getLocaleConfig} from '@docusaurus/utils';
-import {pathExists, outputFile} from '@docusaurus/fs';
+import {fs, pathExists, outputFile} from '@docusaurus/fs';
 import {
   getVersionsFilePath,
   getVersionDocsDirPath,
