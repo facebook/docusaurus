@@ -16,10 +16,7 @@ import ForceTerminatePlugin from './plugins/ForceTerminatePlugin';
 import DevHtmlPlugin from './plugins/DevHtmlPlugin';
 import {createStaticDirectoriesCopyPlugin} from './plugins/StaticDirectoriesCopyPlugin';
 import {renderDevHtml} from './templates/dev.html.template';
-import type {
-  ConfigureWebpackUtils,
-  Props,
-} from '@docusaurus/types';
+import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 
 async function createBaseClientConfig({

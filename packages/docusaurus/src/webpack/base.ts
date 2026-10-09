@@ -17,10 +17,7 @@ import {realpath} from '@docusaurus/fs';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
 import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
 import type {Configuration, RuleSetRule} from 'webpack';
-import type {
-  ConfigureWebpackUtils,
-  Props,
-} from '@docusaurus/types';
+import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
 
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
