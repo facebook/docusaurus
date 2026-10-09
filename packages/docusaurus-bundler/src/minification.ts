@@ -7,19 +7,40 @@
 
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import {importSwcJsMinimizerOptions} from './importFaster';
 import {getCurrentBundlerAsRspack} from './currentBundler';
 import {
   getBrowserslistQueries,
   getLightningCssMinimizerOptions,
 } from './browserslist';
+import type {JsMinifyOptions} from '@swc/core';
+import type {CustomOptions} from 'terser-webpack-plugin';
 import type {WebpackPluginInstance} from 'webpack';
-import type {CurrentBundler, FasterConfig} from '@docusaurus/types';
+import type {CurrentBundler} from '@docusaurus/types';
+
+export type JsMinimizerType = 'swc' | 'terser';
 
 export type MinimizersConfig = {
-  faster: Pick<FasterConfig, 'swcJsMinimizer'>;
   currentBundler: CurrentBundler;
+  jsMinimizerType: JsMinimizerType;
 };
+
+// See https://swc.rs/docs/configuration/minification
+function getSwcJsMinimizerOptions(): JsMinifyOptions {
+  return {
+    ecma: 2020,
+    compress: {
+      ecma: 5,
+    },
+    module: true,
+    mangle: true,
+    safari10: true,
+    format: {
+      ecma: 5,
+      comments: false,
+      ascii_only: true,
+    },
+  };
+}
 
 // See https://github.com/webpack-contrib/terser-webpack-plugin#parallel
 function getTerserParallel() {
@@ -35,15 +56,14 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-async function getJsMinimizer({
-  faster,
-}: MinimizersConfig): Promise<WebpackPluginInstance> {
-  if (faster.swcJsMinimizer) {
-    const terserOptions = await importSwcJsMinimizerOptions();
-    return new TerserPlugin({
+function getJsMinimizer({
+  jsMinimizerType,
+}: MinimizersConfig): WebpackPluginInstance {
+  if (jsMinimizerType === 'swc') {
+    return new TerserPlugin<JsMinifyOptions>({
       parallel: getTerserParallel(),
       minify: TerserPlugin.swcMinify,
-      terserOptions,
+      terserOptions: getSwcJsMinimizerOptions(),
     });
   }
 
@@ -86,14 +106,14 @@ function getCssMinimizer(): WebpackPluginInstance {
 async function getWebpackMinimizers(
   params: MinimizersConfig,
 ): Promise<WebpackPluginInstance[]> {
-  return [await getJsMinimizer(params), getCssMinimizer()];
+  return [getJsMinimizer(params), getCssMinimizer()];
 }
 
 async function getRspackMinimizers({
   currentBundler,
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
   const rspack = getCurrentBundlerAsRspack({currentBundler});
-  const swcJsMinimizerOptions = await importSwcJsMinimizerOptions();
+  const swcJsMinimizerOptions: CustomOptions = getSwcJsMinimizerOptions();
 
   return [
     // See https://rspack.dev/plugins/rspack/swc-js-minimizer-rspack-plugin

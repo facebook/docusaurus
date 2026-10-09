@@ -11,10 +11,7 @@ import webpack from 'webpack';
 import {createBuildClientConfig, createStartClientConfig} from '../client';
 import {loadSiteFixture} from '../../server/__tests__/testUtils';
 import {createConfigureWebpackUtils} from '../configure';
-import {
-  DEFAULT_FASTER_CONFIG,
-  DEFAULT_FUTURE_CONFIG,
-} from '../../server/configValidation';
+import {DEFAULT_FUTURE_CONFIG} from '../../server/configValidation';
 
 function createTestConfigureWebpackUtils() {
   return createConfigureWebpackUtils({
@@ -27,7 +24,6 @@ describe('webpack dev config', () => {
     const {props} = await loadSiteFixture('simple-site');
     const {clientConfig} = await createStartClientConfig({
       props,
-      faster: DEFAULT_FASTER_CONFIG,
       configureWebpackUtils: await createTestConfigureWebpackUtils(),
       minify: false,
       poll: false,
@@ -39,7 +35,6 @@ describe('webpack dev config', () => {
     const {props} = await loadSiteFixture('simple-site');
     const {config} = await createBuildClientConfig({
       props,
-      faster: DEFAULT_FASTER_CONFIG,
       configureWebpackUtils: await createTestConfigureWebpackUtils(),
       minify: false,
     });
@@ -50,7 +45,6 @@ describe('webpack dev config', () => {
     const {props} = await loadSiteFixture('custom-site');
     const {clientConfig} = await createStartClientConfig({
       props,
-      faster: DEFAULT_FASTER_CONFIG,
       configureWebpackUtils: await createTestConfigureWebpackUtils(),
       minify: false,
       poll: false,
@@ -62,7 +56,6 @@ describe('webpack dev config', () => {
     const {props} = await loadSiteFixture('custom-site');
     const {config} = await createBuildClientConfig({
       props,
-      faster: DEFAULT_FASTER_CONFIG,
       configureWebpackUtils: await createTestConfigureWebpackUtils(),
       minify: false,
     });

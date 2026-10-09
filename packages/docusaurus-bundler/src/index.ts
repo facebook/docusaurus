@@ -15,7 +15,7 @@ export {
   registerBundlerTracing,
 } from './currentBundler';
 
-export {getMinimizers} from './minification';
+export {getMinimizers, type JsMinimizerType} from './minification';
 export {
   getHtmlMinifier,
   type HtmlMinifier,

@@ -17,11 +17,7 @@ import {realpath} from '@docusaurus/fs';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
 import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
 import type {Configuration, RuleSetRule} from 'webpack';
-import type {
-  ConfigureWebpackUtils,
-  FasterConfig,
-  Props,
-} from '@docusaurus/types';
+import type {ConfigureWebpackUtils, Props} from '@docusaurus/types';
 
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
@@ -57,13 +53,11 @@ export async function createBaseConfig({
   props,
   isServer,
   minify,
-  faster,
   configureWebpackUtils,
 }: {
   props: Props;
   isServer: boolean;
   minify: boolean;
-  faster: FasterConfig;
   configureWebpackUtils: ConfigureWebpackUtils;
 }): Promise<Configuration> {
   const {
@@ -222,7 +216,10 @@ export async function createBaseConfig({
       // used for static site generation
       minimize: minimizeEnabled,
       minimizer: minimizeEnabled
-        ? await getMinimizers({faster, currentBundler: props.currentBundler})
+        ? await getMinimizers({
+            currentBundler: props.currentBundler,
+            jsMinimizerType: 'swc',
+          })
         : undefined,
       splitChunks: isServer
         ? false
