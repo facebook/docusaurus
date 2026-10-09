@@ -216,10 +216,7 @@ export async function createBaseConfig({
       // used for static site generation
       minimize: minimizeEnabled,
       minimizer: minimizeEnabled
-        ? await getMinimizers({
-            currentBundler: props.currentBundler,
-            jsMinimizerType: 'swc',
-          })
+        ? await getMinimizers({currentBundler: props.currentBundler})
         : undefined,
       splitChunks: isServer
         ? false

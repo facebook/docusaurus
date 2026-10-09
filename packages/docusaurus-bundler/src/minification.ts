@@ -17,11 +17,8 @@ import type {CustomOptions} from 'terser-webpack-plugin';
 import type {WebpackPluginInstance} from 'webpack';
 import type {CurrentBundler} from '@docusaurus/types';
 
-export type JsMinimizerType = 'swc' | 'terser';
-
 export type MinimizersConfig = {
   currentBundler: CurrentBundler;
-  jsMinimizerType: JsMinimizerType;
 };
 
 // See https://swc.rs/docs/configuration/minification
@@ -56,43 +53,12 @@ function getTerserParallel() {
   return terserParallel;
 }
 
-function getJsMinimizer({
-  jsMinimizerType,
-}: MinimizersConfig): WebpackPluginInstance {
-  if (jsMinimizerType === 'swc') {
-    return new TerserPlugin<JsMinifyOptions>({
-      parallel: getTerserParallel(),
-      minify: TerserPlugin.swcMinify,
-      terserOptions: getSwcJsMinimizerOptions(),
-    });
-  }
-
-  return new TerserPlugin({
+// Terser is not used: terser-webpack-plugin only runs the SWC minifier
+function getJsMinimizer(): WebpackPluginInstance {
+  return new TerserPlugin<JsMinifyOptions>({
     parallel: getTerserParallel(),
-    // See https://terser.org/docs/options/
-    terserOptions: {
-      parse: {
-        // We want uglify-js to parse ecma 8 code. However, we don't want it
-        // to apply any minification steps that turns valid ecma 5 code
-        // into invalid ecma 5 code. This is why the 'compress' and 'output'
-        // sections only apply transformations that are ecma 5 safe
-        // https://github.com/facebook/create-react-app/pull/4234
-        ecma: 2020,
-      },
-      compress: {
-        ecma: 5,
-      },
-      mangle: {
-        safari10: true,
-      },
-      output: {
-        ecma: 5,
-        comments: false,
-        // Turned on because emoji and regex is not minified properly using
-        // default. See https://github.com/facebook/create-react-app/issues/2488
-        ascii_only: true,
-      },
-    },
+    minify: TerserPlugin.swcMinify,
+    terserOptions: getSwcJsMinimizerOptions(),
   });
 }
 
@@ -103,10 +69,8 @@ function getCssMinimizer(): WebpackPluginInstance {
   });
 }
 
-async function getWebpackMinimizers(
-  params: MinimizersConfig,
-): Promise<WebpackPluginInstance[]> {
-  return [getJsMinimizer(params), getCssMinimizer()];
+function getWebpackMinimizers(): WebpackPluginInstance[] {
+  return [getJsMinimizer(), getCssMinimizer()];
 }
 
 async function getRspackMinimizers({
@@ -142,5 +106,5 @@ export async function getMinimizers(
 ): Promise<WebpackPluginInstance[]> {
   return params.currentBundler.name === 'rspack'
     ? getRspackMinimizers(params)
-    : getWebpackMinimizers(params);
+    : getWebpackMinimizers();
 }
