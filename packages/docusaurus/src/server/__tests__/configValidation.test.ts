@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {describe, expect, it, vi} from 'vitest';
+import {describe, expect, it} from 'vitest';
 import {getVcsPreset} from '@docusaurus/utils';
 import {
   ConfigSchema,
@@ -734,64 +734,16 @@ describe('markdown', () => {
         `);
       });
 
-      describe('onBrokenMarkdownLinks migration', () => {
-        it('accepts migrated v3 config', () => {
-          using warn = vi.spyOn(console, 'warn');
-
-          expect(
-            normalizeConfig({
-              onBrokenMarkdownLinks: undefined,
-              markdown: {
-                hooks: {
-                  onBrokenMarkdownLinks: 'throw',
-                },
-              },
-            }),
-          ).toEqual(
-            expect.objectContaining({
-              onBrokenMarkdownLinks: undefined,
-              markdown: expect.objectContaining({
-                hooks: expect.objectContaining({
-                  onBrokenMarkdownLinks: 'throw',
-                }),
-              }),
-            }),
-          );
-
-          expect(warn).not.toHaveBeenCalled();
-        });
-
-        it('accepts deprecated v3 config with migration warning', () => {
-          using warn = vi.spyOn(console, 'warn');
-
-          expect(
-            normalizeConfig({
-              onBrokenMarkdownLinks: 'log',
-              markdown: {
-                hooks: {
-                  onBrokenMarkdownLinks: 'throw',
-                },
-              },
-            }),
-          ).toEqual(
-            expect.objectContaining({
-              onBrokenMarkdownLinks: undefined,
-              markdown: expect.objectContaining({
-                hooks: expect.objectContaining({
-                  onBrokenMarkdownLinks: 'log',
-                }),
-              }),
-            }),
-          );
-
-          expect(warn).toHaveBeenCalledTimes(1);
-          expect(warn.mock.calls[0]).toMatchInlineSnapshot(`
-            [
-              "[WARNING] The \`siteConfig.onBrokenMarkdownLinks\` config option is deprecated and will be removed in Docusaurus v4.
-            Please migrate and move this option to \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` instead.",
-            ]
-          `);
-        });
+      it('rejects legacy siteConfig.onBrokenMarkdownLinks', () => {
+        expect(() =>
+          normalizeConfig({
+            // @ts-expect-error: removed option
+            onBrokenMarkdownLinks: 'log',
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`
+          [Error: The Docusaurus config \`siteConfig.onBrokenMarkdownLinks\` has been removed. Please move this option to \`siteConfig.markdown.hooks.onBrokenMarkdownLinks\` instead.
+          ]
+        `);
       });
     });
 
