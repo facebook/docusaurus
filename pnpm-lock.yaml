@@ -520,7 +520,7 @@ importers:
         version: 4.18.1
       open:
         specifier: ^11.0.2
-        version: 11.0.2
+        version: 11.0.4
       p-map:
         specifier: ^7.0.8
         version: 7.0.8
@@ -10535,10 +10535,6 @@ packages:
   open@10.1.0:
     resolution: {integrity: sha512-mnkeQ1qP5Ue2wd+aivTD3NHd/lZ96Lu0jgf0pwktLPtx6cTZiH7tyeGRRHs0zX0rbrahXPnXlUnbeXyaBBuIaw==}
     engines: {node: '>=18'}
-
-  open@11.0.2:
-    resolution: {integrity: sha512-RWqF+pBSkqecEvCKOn8QYhaNdRMJDZRIrlS/7rTDdLHaPcfXGCZ/h8zb413NfvdeAV0MR7T1yJcA34/q+CSm1Q==}
-    engines: {node: '>=20'}
 
   open@11.0.4:
     resolution: {integrity: sha512-++Zlftm0kVLPmzC06t6epuWmcRMDbI4z5P3NNX979WA/k23+NtSOynEGzsVfZwguKw2mi5umVgnBlJQMwRz4Pg==}
@@ -22861,15 +22857,6 @@ snapshots:
       is-inside-container: 1.0.0
       is-wsl: 3.1.1
 
-  open@11.0.2:
-    dependencies:
-      default-browser: 5.5.1
-      define-lazy-prop: 3.0.0
-      is-in-ssh: 1.0.0
-      is-inside-container: 1.0.0
-      powershell-utils: 0.2.1
-      wsl-utils: 1.0.0
-
   open@11.0.4:
     dependencies:
       default-browser: 5.5.1
@@ -25587,7 +25574,7 @@ snapshots:
       http-proxy-middleware: 4.2.0(supports-color@10.2.2)
       ipaddr.js: 2.5.0
       launch-editor: 2.14.1
-      open: 11.0.2
+      open: 11.0.4
       p-retry: 8.0.1
       schema-utils: 4.5.0
       selfsigned: 5.5.0
