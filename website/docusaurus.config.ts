@@ -184,7 +184,6 @@ export default async function createConfigAsync() {
         ? false
         : {
             // Verbose object: easier to independently test single attributes
-            swcJsLoader: true,
             swcJsMinimizer: true,
             swcHtmlMinimizer: true,
             lightningCssMinimizer: true,

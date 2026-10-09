@@ -69,7 +69,6 @@ describe('normalizeConfig', () => {
           mdx1CompatDisabledByDefault: true,
         },
         faster: {
-          swcJsLoader: true,
           swcJsMinimizer: true,
           swcHtmlMinimizer: true,
           lightningCssMinimizer: true,
@@ -1405,7 +1404,6 @@ describe('future', () => {
         mdx1CompatDisabledByDefault: true,
       },
       faster: {
-        swcJsLoader: true,
         swcJsMinimizer: true,
         swcHtmlMinimizer: true,
         lightningCssMinimizer: true,
@@ -1741,7 +1739,6 @@ describe('future', () => {
 
     it('accepts faster - full', () => {
       const faster: FasterConfig = {
-        swcJsLoader: true,
         swcJsMinimizer: true,
         swcHtmlMinimizer: true,
         lightningCssMinimizer: true,
@@ -1816,48 +1813,9 @@ describe('future', () => {
     });
 
     describe('swcJsLoader', () => {
-      it('accepts - undefined', () => {
-        const faster: Partial<FasterConfig> = {
-          swcJsLoader: undefined,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcJsLoader: false}));
-      });
-
-      it('accepts - true', () => {
-        const faster: Partial<FasterConfig> = {
-          swcJsLoader: true,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcJsLoader: true}));
-      });
-
-      it('accepts - false', () => {
-        const faster: Partial<FasterConfig> = {
-          swcJsLoader: false,
-        };
-        expect(
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toEqual(fasterContaining({swcJsLoader: false}));
-      });
-
-      it('rejects - null', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {swcJsLoader: 42};
+      it('rejects - removed option', () => {
+        // @ts-expect-error: removed option
+        const faster: Partial<FasterConfig> = {swcJsLoader: true};
         expect(() =>
           normalizeConfig({
             future: {
@@ -1865,22 +1823,7 @@ describe('future', () => {
             },
           }),
         ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.swcJsLoader" must be a boolean
-          ]
-        `);
-      });
-
-      it('rejects - number', () => {
-        // @ts-expect-error: invalid
-        const faster: Partial<FasterConfig> = {swcJsLoader: 42};
-        expect(() =>
-          normalizeConfig({
-            future: {
-              faster,
-            },
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(`
-          [Error: "future.faster.swcJsLoader" must be a boolean
+          [Error: The Docusaurus config \`future.faster.swcJsLoader\` has been removed. Rspack always uses its built-in SWC loader. Webpack uses Babel by default, and you can provide a custom JS loader with \`siteConfig.webpack.jsLoader\`.
           ]
         `);
       });
@@ -2374,13 +2317,13 @@ describe('future', () => {
             v4: {
               fasterByDefault: true,
             },
-            faster: {swcJsLoader: false},
+            faster: {swcJsMinimizer: false},
           },
         }),
       ).toEqual(
         fasterContaining({
           ...DEFAULT_FASTER_CONFIG_TRUE,
-          swcJsLoader: false,
+          swcJsMinimizer: false,
         }),
       );
     });

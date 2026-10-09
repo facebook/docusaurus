@@ -68,12 +68,20 @@ describe('createJsLoaderFactory', () => {
     expect(createJsLoader({isServer: false}).loader).toBe('my-loader-client');
   });
 
-  it('createJsLoaderFactory rejects custom loader when using faster swc loader', async () => {
+  it('createJsLoaderFactory uses built-in SWC loader with Rspack', async () => {
+    const createJsLoader = await testJsLoaderFactory({
+      future: {faster: {rspackBundler: true}},
+    });
+    expect(createJsLoader({isServer: true}).loader).toBe('builtin:swc-loader');
+    expect(createJsLoader({isServer: false}).loader).toBe('builtin:swc-loader');
+  });
+
+  it('createJsLoaderFactory rejects custom loader when using Rspack', async () => {
     await expect(() =>
       testJsLoaderFactory({
         future: {
           faster: {
-            swcJsLoader: true,
+            rspackBundler: true,
           },
         },
         webpack: {
@@ -83,10 +91,8 @@ describe('createJsLoaderFactory', () => {
         },
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-      [Error: You can't use siteConfig.webpack.jsLoader and siteConfig.future.faster.swcJsLoader at the same time.
-      To avoid any configuration ambiguity, you must make an explicit choice:
-      - If you want to use Docusaurus Faster and SWC (recommended), remove siteConfig.webpack.jsLoader
-      - If you want to use a custom JS loader, use siteConfig.future.faster.swcJsLoader: false]
+      [Error: You can't use siteConfig.webpack.jsLoader with siteConfig.future.faster.rspackBundler.
+      Rspack always uses its built-in SWC loader, please remove siteConfig.webpack.jsLoader.]
     `);
   });
 
